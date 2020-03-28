@@ -2,60 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 712F619672A
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Mar 2020 16:46:53 +0100 (CET)
-Received: from localhost ([::1]:54246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35E6819671B
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Mar 2020 16:43:26 +0100 (CET)
+Received: from localhost ([::1]:54202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIDfg-0002Hb-H0
-	for lists+qemu-devel@lfdr.de; Sat, 28 Mar 2020 11:46:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41655)
+	id 1jIDcL-0007CS-0l
+	for lists+qemu-devel@lfdr.de; Sat, 28 Mar 2020 11:43:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41336)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jIDeT-00011D-Tt
- for qemu-devel@nongnu.org; Sat, 28 Mar 2020 11:45:39 -0400
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jIDaq-0006E1-PU
+ for qemu-devel@nongnu.org; Sat, 28 Mar 2020 11:41:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jIDeS-00038N-M7
- for qemu-devel@nongnu.org; Sat, 28 Mar 2020 11:45:37 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35958)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jIDeS-00037T-GO
- for qemu-devel@nongnu.org; Sat, 28 Mar 2020 11:45:36 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jIDeR-0001mr-0C
- for <qemu-devel@nongnu.org>; Sat, 28 Mar 2020 15:45:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B77802E80D0
- for <qemu-devel@nongnu.org>; Sat, 28 Mar 2020 15:45:34 +0000 (UTC)
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jIDao-0001Xr-RF
+ for qemu-devel@nongnu.org; Sat, 28 Mar 2020 11:41:51 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:51168)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jIDao-0001TG-Ad; Sat, 28 Mar 2020 11:41:50 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.08403444|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.257382-0.000169523-0.742449;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e02c03294; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=9; RT=9; SR=0; TI=SMTPD_---.H6jJR.l_1585410094; 
+Received: from 192.168.3.18(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.H6jJR.l_1585410094)
+ by smtp.aliyun-inc.com(10.147.41.199);
+ Sat, 28 Mar 2020 23:41:34 +0800
+Subject: Re: [PATCH v6 26/61] target/riscv: vector single-width fractional
+ multiply with rounding and saturation
+To: Richard Henderson <richard.henderson@linaro.org>, alistair23@gmail.com,
+ chihmin.chao@sifive.com, palmer@dabbelt.com
+References: <20200317150653.9008-1-zhiwei_liu@c-sky.com>
+ <20200317150653.9008-27-zhiwei_liu@c-sky.com>
+ <9f5fd1a3-f32f-9779-6d5c-abdedc10fd2d@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <02abbce7-b9c0-8708-ee29-117a5c437f31@c-sky.com>
+Date: Sat, 28 Mar 2020 23:41:33 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 28 Mar 2020 15:38:13 -0000
-From: Matt Wilbur <1869497@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mattwilbur
-X-Launchpad-Bug-Reporter: Matt Wilbur (mattwilbur)
-X-Launchpad-Bug-Modifier: Matt Wilbur (mattwilbur)
-Message-Id: <158540989331.24425.14224651637245896063.malonedeb@soybean.canonical.com>
-Subject: [Bug 1869497] [NEW] x86_cpu_gdb_read_register segfaults when gdb
- requests registers
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a296f04231dee355be5db73cc878b9e21689a253";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7394a06de9c01889ca289e63bf03ab377a54703e
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+In-Reply-To: <9f5fd1a3-f32f-9779-6d5c-abdedc10fd2d@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 121.197.200.217
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,70 +59,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1869497 <1869497@bugs.launchpad.net>
+Cc: guoren@linux.alibaba.com, wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, wxy194768@alibaba-inc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
 
-When attempting to attach to the gdbstub, a segfault occurs.
 
-I traced this down to a problem in a call to gdb_get_reg16 where the
-mem_buf was being treated like a uint8_t* instead of a GByteArray.  The
-buffer passed to gdb_get_reg16 ends up passing an invalid GByteArray
-pointer, which subsequentlycauses a segfault in memcpy.
+On 2020/3/28 9:08, Richard Henderson wrote:
+> On 3/17/20 8:06 AM, LIU Zhiwei wrote:
+>> +static int64_t vsmul64(CPURISCVState *env, int vxrm, int64_t a, int64_t b)
+>> +{
+>> +    uint8_t round;
+>> +    uint64_t hi_64, lo_64, Hi62;
+>> +    uint8_t hi62, hi63, lo63;
+>> +
+>> +    muls64(&lo_64, &hi_64, a, b);
+>> +    hi62 = extract64(hi_64, 62, 1);
+>> +    lo63 = extract64(lo_64, 63, 1);
+>> +    hi63 = extract64(hi_64, 63, 1);
+>> +    Hi62 = extract64(hi_64, 0, 62);
+> This seems like way more work than necessary.
+>
+>> +    if (hi62 != hi63) {
+>> +        env->vxsat = 0x1;
+>> +        return INT64_MAX;
+>> +    }
+> This can only happen for a == b == INT64_MIN.
+> Perhaps just test exactly that and move it above the multiply?
+>
+>> +    round = get_round(vxrm, lo_64, 63);
+>> +    if (round && (Hi62 == 0x3fffffff) && lo63) {
+>> +        env->vxsat = 0x1;
+>> +        return hi62 ? INT64_MIN : INT64_MAX;
+>> +    } else {
+>> +        if (lo63 && round) {
+>> +            return (hi_64 + 1) << 1;
+>> +        } else {
+>> +            return (hi_64 << 1) | lo63 | round;
+>> +        }
+>> +    }
+Yes, it's an error here. As INT64_MIN will never be  a right result.
+>    /* Cannot overflow, as there are always
+>       2 sign bits after multiply. */
+>    ret = (hi_64 << 1) | (lo_64 >> 63);
+>    if (round) {
+>        if (ret == INT64_MAX) {
+>            env->vxsat = 1;
+>        } else {
+>            ret += 1;
+>        }
+>    }
+>    return ret;
+>
+Thanks. I think it's  right and much clearer.
 
-I have a fix for this - just need to educate myself on how to submit a
-patch.
+Zhiwei.
+> r~
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Description changed:
-
-  When attempting to attach to the gdbstub, a segfault occurs.
-  =
-
-- I traced this down to a problem in a call to gdb_get_reg16 where the mem_=
-buf
-- was being treated like a uint8_t* instead of a GByteArray.  The buffer pa=
-ssed
-- to gdb_get_reg16 ends up passing an invalid GByteArray pointer, which sub=
-sequently
-- causes a segfault in memcpy.
-+ I traced this down to a problem in a call to gdb_get_reg16 where the
-+ mem_buf was being treated like a uint8_t* instead of a GByteArray.  The
-+ buffer passed to gdb_get_reg16 ends up passing an invalid GByteArray
-+ pointer, which subsequentlycauses a segfault in memcpy.
-  =
-
-  I have a fix for this - just need to educate myself on how to submit a
-  patch.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1869497
-
-Title:
-  x86_cpu_gdb_read_register segfaults when gdb requests registers
-
-Status in QEMU:
-  New
-
-Bug description:
-  When attempting to attach to the gdbstub, a segfault occurs.
-
-  I traced this down to a problem in a call to gdb_get_reg16 where the
-  mem_buf was being treated like a uint8_t* instead of a GByteArray.
-  The buffer passed to gdb_get_reg16 ends up passing an invalid
-  GByteArray pointer, which subsequentlycauses a segfault in memcpy.
-
-  I have a fix for this - just need to educate myself on how to submit a
-  patch.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1869497/+subscriptions
 
