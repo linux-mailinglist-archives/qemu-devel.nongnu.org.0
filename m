@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6D6A196359
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Mar 2020 04:24:23 +0100 (CET)
-Received: from localhost ([::1]:49728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24D4F19635C
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Mar 2020 04:36:55 +0100 (CET)
+Received: from localhost ([::1]:49790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jI258-0001B3-9N
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 23:24:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58194)
+	id 1jI2HF-00034n-UY
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 23:36:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59280)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jI24L-0000hf-4e
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 23:23:34 -0400
+ (envelope-from <jwsu1986@gmail.com>) id 1jI2GH-0002Wu-3N
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 23:35:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jI24K-0001kK-5j
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 23:23:33 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:41411)
+ (envelope-from <jwsu1986@gmail.com>) id 1jI2GF-0005GA-N7
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 23:35:53 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:39898)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jI24J-0001jm-OD
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 23:23:32 -0400
-Received: by mail-pl1-x644.google.com with SMTP id d24so390580pll.8
- for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 20:23:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xqS5xXKI/hCKceagn++9iVyTAvEWIV2FzcPrX6crXZo=;
- b=qMGJ3Cv4+l1ohNI0g+56NAffWvN+SZo7+8Jq3i2zmntS52fH80xXHD8gLY+OEdbwLi
- P6JwYNOyY+63C1yTJ/lhG0CLXaiilvpvkjkzqMEBS22Jwf9YIw1NAWpsNqPDspw/8ewA
- 4lBLgcU0+bxFQEc5ZJ0Jd2NI77fFNjMfm4mDZCRTCsaPANaA8TlJUXFZfM4XsxZiaJWY
- /EVODTuVFNPBXpePJ1/S53nJkZ/9Ti+CLUvY9OB5tO5GAulwM4+kfaoHV1GhoMH0PGck
- uCOxtdh54TJ46omrAAiEPXSYDxDrLPYsETCW6fI/ugJxYe7w9oL1yk+47fYdJdmYpcdE
- NgWw==
+ (Exim 4.71) (envelope-from <jwsu1986@gmail.com>) id 1jI2GF-0005Dp-IO
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 23:35:51 -0400
+Received: by mail-ot1-x342.google.com with SMTP id x11so12016051otp.6
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 20:35:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=CXd9oGZ5W/NS+O2j8p84K8g9YYGur/h+bbl+M8NcFhw=;
+ b=h1HpGqvnzIMSyGG0owm+X3Pp0G86BVV05KJcdSpFDEJCgOtQ09HSwROdzMfCIHy2Wn
+ VuxlOgye1vcB0gU/ffgMcz7ohI51WB+OOO9qEozsEBpmB8znBJoebgmN8yb2wFqb/Pdc
+ kkkJTf8iAcD6A5r9ytGr1CZd5rosd7TW7tkdGZCIrZnI7L8tTRpj3MMSAiiZh3h0kPGK
+ CVVERp4wvfxg3Q84fnTNIZyDMn+/F5Zvsuwamy+i29FJaD8S5pC9Cv4oQhbAFXcY9Oia
+ YMnx6N0RFkL+Fy8reiPhwBbaS5c3XMUxwaPtvPp28HDBPiPtt/EcZzlhU2Qjt5d/xBli
+ nQiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xqS5xXKI/hCKceagn++9iVyTAvEWIV2FzcPrX6crXZo=;
- b=E9jXRzxjInxTBLjpS3gISoen9eMrLAjHC3RXxk6xMZp31Iz9L2M/IQ5xLGONofob6c
- rng5jtp07x6ZZ8QSCbb89kRQuz/v2rrlnviT+XaG6HAbWUsveH35PzAU4pruSscbCs2e
- tvvA8GrKyE7vg8U9zkHC8wXAN1aPGggKI5hzoo74IITmGXe03XBVA2pQONGxLf2RBc9V
- EfWTjkVvygKf+QDqchPQRO60Jhe+grUjztP3mGWV5nKB31jYrF2I+OqsX5pPXT+jjtut
- y5Evd0h++hhW4nn7nIiOgy1kj6V7lLEqDZ/2CBZITiXyeXYY6bhRaNOKAx21LqOmNdMN
- wupw==
-X-Gm-Message-State: ANhLgQ3MTVrIO94IXpXJAt+HlWTCTHDfwaaxV6glEul2719Zv34A7o8A
- QhsQ31Hg0YTqYu/yXSPjT/z+7A==
-X-Google-Smtp-Source: ADFU+vsdIuiwW0hYzxehjnj8SEonUninEKuYDCkFn2VAMLAxJ/OcegFgWionZAu38qk44yrN2X0R4g==
-X-Received: by 2002:a17:90a:5205:: with SMTP id v5mr2840210pjh.0.1585365810319; 
- Fri, 27 Mar 2020 20:23:30 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-138-234.tukw.qwest.net. [174.21.138.234])
- by smtp.gmail.com with ESMTPSA id d26sm5174511pfo.37.2020.03.27.20.23.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Mar 2020 20:23:29 -0700 (PDT)
-Subject: Re: [PATCH v6 41/61] target/riscv: vector floating-point merge
- instructions
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, alistair23@gmail.com,
- chihmin.chao@sifive.com, palmer@dabbelt.com
-References: <20200317150653.9008-1-zhiwei_liu@c-sky.com>
- <20200317150653.9008-42-zhiwei_liu@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e0d4678b-1a24-3e90-768a-efd0f0311b68@linaro.org>
-Date: Fri, 27 Mar 2020 20:23:27 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CXd9oGZ5W/NS+O2j8p84K8g9YYGur/h+bbl+M8NcFhw=;
+ b=LG+vEf9CAKu3vtPAeficyWY+EsqFB4qnMzBsKVNDiQyk8D7dHxoF24xtPqg3NJn+Jc
+ jzM2oaqJzi4ITamDF88iM5IqFqo3DyPf9MFqcHqMITD3j/ST/A5EAJnwlB03JiZ3VH3C
+ TVzGeSUiadNsg84JNwLHQyN1bwsqtkqKKfNAy5HaPYheDmc7vSLD45mkDsf3HjKDRX9Z
+ OxajDdx47g9kKslb9h40PxnearT+T04WUZ4ryJA8Cvk0UI8L/xQ61Jbhml2EG6dJ0LtN
+ cId7jBxUJtsdT4+Hjsv0p+xVKNZ0SwiRmYzJwCd+iHJOCAHiHkLvt5bzU+fWXXDtPbtq
+ XPjQ==
+X-Gm-Message-State: ANhLgQ1KeInoYM7w87llpykk9I++dpLkZANU5UVOeeSU4Rp31/SeZjmn
+ VydvP9ZdkhojuUyPaiKPrrj8B1v0iGb8ZZt4a+Q=
+X-Google-Smtp-Source: ADFU+vtT+cuOngG1FvEdKukpcIZkfrmF83RAfeQOpuIITQa+a0g5wpoNxNTcQn2fRB9s7ZEOrw7b2dUsemuUTRbqNwI=
+X-Received: by 2002:a4a:a226:: with SMTP id m38mr2076235ool.94.1585366548841; 
+ Fri, 27 Mar 2020 20:35:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200317150653.9008-42-zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200325094354.19677-1-dereksu@qnap.com>
+ <20200325094354.19677-3-dereksu@qnap.com>
+ <20200327184549.3802f959@luklap>
+ <CAFKS8hUUC4LCDJDdRmiHXa2VHdhrcytJGyXFFxz85h4p1hiJRw@mail.gmail.com>
+ <20200327192807.121412ab@luklap>
+In-Reply-To: <20200327192807.121412ab@luklap>
+From: Derek Su <jwsu1986@gmail.com>
+Date: Sat, 28 Mar 2020 11:35:37 +0800
+Message-ID: <CAFKS8hW9Q=9vWz_2xSw+MSzVDWTdocDu9-B4Z7_qWSZ9DAW0ww@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] net/colo-compare.c: handling of the full primary
+ or secondary queue
+To: Lukas Straub <lukasstraub2@web.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,29 +77,185 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, wxy194768@alibaba-inc.com
+Cc: lizhijian@cn.fujitsu.com, chyang@qnap.com, Derek Su <dereksu@qnap.com>,
+ jasowang@redhat.com, qemu-devel@nongnu.org, ctcheng@qnap.com, "Zhang,
+ Chen" <chen.zhang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/17/20 8:06 AM, LIU Zhiwei wrote:
-> +    for (i = 0; i < vl; i++) {                            \
-> +        if (!vm && !vext_elem_mask(v0, mlen, i)) {        \
-> +            ETYPE s2 = *((ETYPE *)vs2 + H(i));            \
-> +            *((ETYPE *)vd + H1(i)) = s2;                  \
+Lukas Straub <lukasstraub2@web.de> =E6=96=BC 2020=E5=B9=B43=E6=9C=8828=E6=
+=97=A5 =E9=80=B1=E5=85=AD =E4=B8=8A=E5=8D=882:28=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> On Sat, 28 Mar 2020 02:20:21 +0800
+> Derek Su <jwsu1986@gmail.com> wrote:
+>
+> > Lukas Straub <lukasstraub2@web.de> =E6=96=BC 2020=E5=B9=B43=E6=9C=8828=
+=E6=97=A5 =E9=80=B1=E5=85=AD =E4=B8=8A=E5=8D=881:46=E5=AF=AB=E9=81=93=EF=BC=
+=9A
+> > >
+> > > On Wed, 25 Mar 2020 17:43:54 +0800
+> > > Derek Su <dereksu@qnap.com> wrote:
+> > >
+> > > > The pervious handling of the full primary or queue is only dropping
+> > > > the packet. If there are lots of clients to the guest VM,
+> > > > the "drop" will lead to the lost of the networking connection
+> > > > until next checkpoint.
+> > > >
+> > > > To address the issue, this patch drops the packet firstly.
+> > > > Then, send all queued primary packets, remove all queued secondary
+> > > > packets and do checkpoint.
+> > > >
+> > > > Signed-off-by: Derek Su <dereksu@qnap.com>
+> > > > ---
+> > > >  net/colo-compare.c | 41 ++++++++++++++++++++++++++++++-----------
+> > > >  1 file changed, 30 insertions(+), 11 deletions(-)
+> > > >
+> > > > diff --git a/net/colo-compare.c b/net/colo-compare.c
+> > > > index cdd87b2aa8..1a52f50fbe 100644
+> > > > --- a/net/colo-compare.c
+> > > > +++ b/net/colo-compare.c
+> > > > @@ -125,6 +125,12 @@ static const char *colo_mode[] =3D {
+> > > >      [SECONDARY_IN] =3D "secondary",
+> > > >  };
+> > > >
+> > > > +enum {
+> > > > +    QUEUE_INSERT_ERR =3D -1,
+> > > > +    QUEUE_INSERT_OK =3D 0,
+> > > > +    QUEUE_INSERT_FULL =3D 1,
+> > > > +};
+> > > > +
+> > > >  static int compare_chr_send(CompareState *s,
+> > > >                              const uint8_t *buf,
+> > > >                              uint32_t size,
+> > > > @@ -211,8 +217,10 @@ static int colo_insert_packet(GQueue *queue, P=
+acket *pkt, uint32_t *max_ack)
+> > > >  }
+> > > >
+> > > >  /*
+> > > > - * Return 0 on success, if return -1 means the pkt
+> > > > - * is unsupported(arp and ipv6) and will be sent later
+> > > > + * Return QUEUE_INSERT_OK on success.
+> > > > + * If return QUEUE_INSERT_FULL means list is full, and
+> > > > + * QUEUE_INSERT_ERR means the pkt is unsupported(arp and ipv6) and
+> > > > + * will be sent later
+> > > >   */
+> > > >  static int packet_enqueue(CompareState *s, int mode, Connection **=
+con)
+> > > >  {
+> > > > @@ -234,7 +242,7 @@ static int packet_enqueue(CompareState *s, int =
+mode, Connection **con)
+> > > >      if (parse_packet_early(pkt)) {
+> > > >          packet_destroy(pkt, NULL);
+> > > >          pkt =3D NULL;
+> > > > -        return -1;
+> > > > +        return QUEUE_INSERT_ERR;
+> > > >      }
+> > > >      fill_connection_key(pkt, &key);
+> > > >
+> > > > @@ -258,11 +266,12 @@ static int packet_enqueue(CompareState *s, in=
+t mode, Connection **con)
+> > > >                       "drop packet", colo_mode[mode]);
+> > > >          packet_destroy(pkt, NULL);
+> > > >          pkt =3D NULL;
+> > > > +        return QUEUE_INSERT_FULL;
+> > > >      }
+> > > >
+> > > >      *con =3D conn;
+> > > >
+> > > > -    return 0;
+> > > > +    return QUEUE_INSERT_OK;
+> > > >  }
+> > > >
+> > > >  static inline bool after(uint32_t seq1, uint32_t seq2)
+> > > > @@ -995,17 +1004,22 @@ static void compare_pri_rs_finalize(SocketRe=
+adState *pri_rs)
+> > > >  {
+> > > >      CompareState *s =3D container_of(pri_rs, CompareState, pri_rs)=
+;
+> > > >      Connection *conn =3D NULL;
+> > > > +    int ret;
+> > > >
+> > > > -    if (packet_enqueue(s, PRIMARY_IN, &conn)) {
+> > > > +    ret =3D packet_enqueue(s, PRIMARY_IN, &conn);
+> > > > +    if (ret =3D=3D QUEUE_INSERT_OK) {
+> > > > +        /* compare packet in the specified connection */
+> > > > +        colo_compare_connection(conn, s);
+> > > > +    } else if (ret =3D=3D QUEUE_INSERT_FULL) {
+> > > > +        g_queue_foreach(&s->conn_list, colo_flush_packets, s);
+> > > > +        colo_compare_inconsistency_notify(s);
+> > > > +    } else {
+> > > >          trace_colo_compare_main("primary: unsupported packet in");
+> > > >          compare_chr_send(s,
+> > > >                           pri_rs->buf,
+> > > >                           pri_rs->packet_len,
+> > > >                           pri_rs->vnet_hdr_len,
+> > > >                           false);
+> > > > -    } else {
+> > > > -        /* compare packet in the specified connection */
+> > > > -        colo_compare_connection(conn, s);
+> > > >      }
+> > > >  }
+> > > >
+> > > > @@ -1013,12 +1027,17 @@ static void compare_sec_rs_finalize(SocketR=
+eadState *sec_rs)
+> > > >  {
+> > > >      CompareState *s =3D container_of(sec_rs, CompareState, sec_rs)=
+;
+> > > >      Connection *conn =3D NULL;
+> > > > +    int ret;
+> > > >
+> > > > -    if (packet_enqueue(s, SECONDARY_IN, &conn)) {
+> > > > -        trace_colo_compare_main("secondary: unsupported packet in"=
+);
+> > > > -    } else {
+> > > > +    ret =3D packet_enqueue(s, SECONDARY_IN, &conn);
+> > > > +    if (ret =3D=3D QUEUE_INSERT_OK) {
+> > > >          /* compare packet in the specified connection */
+> > > >          colo_compare_connection(conn, s);
+> > > > +    } else if (ret =3D=3D QUEUE_INSERT_FULL) {
+> > > > +        g_queue_foreach(&s->conn_list, colo_flush_packets, s);
+> > > > +        colo_compare_inconsistency_notify(s);
+> > > > +    } else {
+> > > > +        trace_colo_compare_main("secondary: unsupported packet in"=
+);
+> > > >      }
+> > > >  }
+> > > >
+> > >
+> > > Hi,
+> > > I don't think we have to flush here because the (post-)checkpoint eve=
+nt will flush the packets for us.
+> > >
+> >
+> > Hi,
+> > Yes, the periodical checkpoint can flush the packets.
+> >
+> > But, if many clients send many packets to the vm,
+> > there is a high probability that packets are dropped because the
+> > primary/secondary queues are always full.
+> > It causes lots of re-transmission between clients and vm and
+> > deteriorate service response to clients.
+> >
+> > Sincerely,
+> > Derek Su
+>
+> I mean that we can still initiate a checkpoint here, but not do the flush=
+ing here.
+>
+> Regards,
+> Lukas Straub
 
-H1 should be H.
+Hi,
 
-> +        } else {                                          \
-> +            *((ETYPE *)vd + H(i)) = (ETYPE)s1;            \
-> +        }                                                 \
+Your're right.
+After checking the colo_do_checkpoint_transaction function,  the flush
+in the patch is redundant.
+It will be fixed in the next version.
+Thanks.
 
-You can also hoist the s2 dereference out of the IF, and let the assignment be
-unconditional.
-
-  *((ETYPE *)vd + H(i))
-    = (!vm && !vext_elem_mask(v0, mlen, i) ? s2 : s1);
-
-
-r~
+Derek Su
+>
+> > > Regards,
+> > > Lukas Straub
+>
 
