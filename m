@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70D13196A3F
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Mar 2020 01:20:11 +0100 (CET)
-Received: from localhost ([::1]:32852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35839196A42
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Mar 2020 01:21:40 +0100 (CET)
+Received: from localhost ([::1]:32892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jILgQ-0004Gh-Ez
-	for lists+qemu-devel@lfdr.de; Sat, 28 Mar 2020 20:20:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48053)
+	id 1jILhr-0007Ln-AZ
+	for lists+qemu-devel@lfdr.de; Sat, 28 Mar 2020 20:21:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48073)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pauldzim@gmail.com>) id 1jILev-0002dV-Nr
- for qemu-devel@nongnu.org; Sat, 28 Mar 2020 20:18:42 -0400
+ (envelope-from <pauldzim@gmail.com>) id 1jILf1-0002i2-Rz
+ for qemu-devel@nongnu.org; Sat, 28 Mar 2020 20:18:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pauldzim@gmail.com>) id 1jILeu-0007W0-Lc
- for qemu-devel@nongnu.org; Sat, 28 Mar 2020 20:18:37 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:34782)
+ (envelope-from <pauldzim@gmail.com>) id 1jILf0-0007YG-DB
+ for qemu-devel@nongnu.org; Sat, 28 Mar 2020 20:18:43 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:45087)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pauldzim@gmail.com>) id 1jILeu-0007Vm-Fu
- for qemu-devel@nongnu.org; Sat, 28 Mar 2020 20:18:36 -0400
-Received: by mail-pf1-x441.google.com with SMTP id 23so6649154pfj.1
- for <qemu-devel@nongnu.org>; Sat, 28 Mar 2020 17:18:36 -0700 (PDT)
+ (Exim 4.71) (envelope-from <pauldzim@gmail.com>) id 1jILf0-0007XY-7F
+ for qemu-devel@nongnu.org; Sat, 28 Mar 2020 20:18:42 -0400
+Received: by mail-pg1-x542.google.com with SMTP id o26so6737677pgc.12
+ for <qemu-devel@nongnu.org>; Sat, 28 Mar 2020 17:18:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=PXKXjtVVrrXV5MvzLqoNhi8atJWdX4WMW2e8oHa6A4c=;
- b=TLBC5Usic+nomSwCBKgZtQ4LawEwufKB1S8nlDotSITnd8EIO41ZlwWcYbdA1hX+lQ
- s6COhLH2pCK9WhABm3eiG/uyH065vFlDhJHOQOOwjk5eDcdvXbpzvWy6ANSZ8KFBZgBo
- bU2TwxWgjk7Nsyjjx+kNjYmilUzX0cS+K4UtAPtFajO3s70Wn2QlMoraWiHm6/2qkpKe
- c55mEJN2smEcVowLPpLg4ww+WsodYo0vTp5zTE5mEjPvSQD/wG0e+0YC8PxAYDxNna0D
- DbJgpPu/joZG/ypS8LdXpp2zPa65ytXXcT3HHLgLWx/4yLPiqwV49KUHM4I4kJyadLTe
- jA2Q==
+ bh=Vxb2BeSPk/Bmh9uLAezVoaXmCjxCb8Nm9qZIiQVVzXg=;
+ b=lvchd/CaLbLiYJ61sSXiQcwkegIwd68IvTFEfwpzTLafmh6Ydu1NbgTQb38NvB0VxX
+ oqxyzciMHDppTTnwBZZoJyulcMC6M9Z4odtAkPAtluI34UCkQXK2pTtFYbYuZeeXbpKL
+ b5t436u0liD7F4rZowhPvUdggBrmyOnZ1lQGkALG+z2zJO4SyZb1Z1f0E03L2vbA/0/q
+ BNyV01db/vVyMNn/O1LghOKjGcbhoQ0HwHJnFrTwGS3G503d5SMssIyGtky5i4fjxw9g
+ zb3tuBf4/lAVeOY618HsNT5lOjSIeBYk8jvDV6AfYrAlnrrShCUJCHwmiFjc8nXJf5mf
+ 6zoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=PXKXjtVVrrXV5MvzLqoNhi8atJWdX4WMW2e8oHa6A4c=;
- b=oKmRldifth4M7lltgEk8VwOsWBV+Dh5WKt1gCmgQiNMzGxpn/4bjDvC9PUBrL1fwoE
- QTSUXpR5cc1JMDsNRLRonpIqRn5RC6VaHqInGBDrQQd3SVnC2avMoeVxSianMljmewa0
- nXwxxVap6/TQ+nEqnL9MrfJQKCFhzWLpZu7O7TzBWVoYpauXzCJ6AT24xaHj3jyhXvym
- 9m0bNMpxUNjhntssuI1l5x4kIhOit+hZxGnIYmPTF2gLrrjIndB8rSUOEAD9bSGWIBFa
- AqkUDVvR/VvBfnEURANKOZ8Y1yOfJ4e5Zvr8AA4vsfvh+CBZmmsPH1J5QAuBMIoMt1df
- LWRA==
-X-Gm-Message-State: ANhLgQ3Qo6nSnWJ0b0UJ9awagk8UcHzW3rJwwcRVYaGSFiX/h45MCpPu
- w99wwrc++dGcDWQKFdRTirk=
-X-Google-Smtp-Source: ADFU+vsOmYYyuyw2qXw3t1p6BoV+UzvliB9Uu5RJJlxoKohwiYnJLPL6lGZL3vsbRoE0Ije3HTMf2w==
-X-Received: by 2002:a63:5f10:: with SMTP id t16mr6354306pgb.20.1585441115575; 
- Sat, 28 Mar 2020 17:18:35 -0700 (PDT)
+ bh=Vxb2BeSPk/Bmh9uLAezVoaXmCjxCb8Nm9qZIiQVVzXg=;
+ b=Z43LRJmb0NLJAaCtzfsZ2iANCF8Sg8xHEQm8ad7Br1AOTtMM9/NsTOk26s/MursRFq
+ WelJv1i6i5KgTGgRRpH5Mtm7EbiUObmiWna3yPqIdKd9oWQ/rh6WVNiWWm8wtnMlFxs0
+ SbGl0BKaE4PPWRcZ2FF/CPSyZULliN87t2zvDVICE7VMec28GjoVRJBAE3JenE0Jy11M
+ MbUmo6YdW6E8nTX5vWnfcZEZDo9tv0BHRONDxxD0HdmuZejWkGB5aYv3XLnhZdZGhOux
+ EESmMEnlJaUWBYdiDmwllGqt6CDVJ0rhqBJpy+aFKRu5HSSmtRhlZLuqTh0MaYzynf4f
+ nrPA==
+X-Gm-Message-State: ANhLgQ0NXRMz2TLI7U3JNGO6cVCK1l2Aq75vjxk4A9f7d47qMJRvwRjY
+ LZK42hsYuQ6tDCLFUNpft6E=
+X-Google-Smtp-Source: ADFU+vuEUFBBhozXQYI8pkmMbI8wJ3+AccG7hRlkIT3/yrIKFPIN9F/GtdJYR9ZsTNoiLqckfYLCQw==
+X-Received: by 2002:aa7:9844:: with SMTP id n4mr5979063pfq.98.1585441119630;
+ Sat, 28 Mar 2020 17:18:39 -0700 (PDT)
 Received: from paulz-G33T-M.Home ([75.167.220.149])
- by smtp.gmail.com with ESMTPSA id u14sm6626890pgg.67.2020.03.28.17.18.34
+ by smtp.gmail.com with ESMTPSA id u14sm6626890pgg.67.2020.03.28.17.18.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Mar 2020 17:18:35 -0700 (PDT)
+ Sat, 28 Mar 2020 17:18:39 -0700 (PDT)
 From: Paul Zimmerman <pauldzim@gmail.com>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2 5/6] Add short-packet handling to usb-storage driver
-Date: Sat, 28 Mar 2020 17:17:04 -0700
-Message-Id: <20200329001705.15966-6-pauldzim@gmail.com>
+Subject: [PATCH v2 6/6] Wire in the dwc-hsotg USB host controller emulation
+Date: Sat, 28 Mar 2020 17:17:05 -0700
+Message-Id: <20200329001705.15966-7-pauldzim@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200329001705.15966-1-pauldzim@gmail.com>
 References: <20200329001705.15966-1-pauldzim@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::441
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,72 +80,111 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The dwc-hsotg (dwc2) USB host depends on a short packet to
-indicate the end of an IN transfer. The usb-storage driver
-currently doesn't provide this, so fix it.
-
-I have tested this change rather extensively using a PC
-emulation with xhci, ehci, and uhci controllers, and have
-not observed any regressions.
+Wire the dwc-hsotg (dwc2) emulation into Qemu
 
 Signed-off-by: Paul Zimmerman <pauldzim@gmail.com>
 ---
- hw/usb/dev-storage.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ hw/arm/bcm2835_peripherals.c         | 21 ++++++++++++++++++++-
+ hw/usb/Kconfig                       |  5 +++++
+ hw/usb/Makefile.objs                 |  1 +
+ include/hw/arm/bcm2835_peripherals.h |  3 ++-
+ 4 files changed, 28 insertions(+), 2 deletions(-)
 
-diff --git a/hw/usb/dev-storage.c b/hw/usb/dev-storage.c
-index 5c4b57b06b..ae3c550042 100644
---- a/hw/usb/dev-storage.c
-+++ b/hw/usb/dev-storage.c
-@@ -229,6 +229,9 @@ static void usb_msd_copy_data(MSDState *s, USBPacket *p)
-     usb_packet_copy(p, scsi_req_get_buf(s->req) + s->scsi_off, len);
-     s->scsi_len -= len;
-     s->scsi_off += len;
-+    if (len > s->data_len) {
-+        len = s->data_len;
+diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+index dd7e6883cb..932d084a50 100644
+--- a/hw/arm/bcm2835_peripherals.c
++++ b/hw/arm/bcm2835_peripherals.c
+@@ -127,6 +127,13 @@ static void bcm2835_peripherals_init(Object *obj)
+     sysbus_init_child_obj(obj, "mphi", &s->mphi, sizeof(s->mphi),
+                           TYPE_BCM2835_MPHI);
+ 
++    /* DWC2 */
++    sysbus_init_child_obj(obj, "dwc2", &s->dwc2, sizeof(s->dwc2),
++                          TYPE_DWC2_USB);
++
++    object_property_add_const_link(OBJECT(&s->dwc2), "dma-mr",
++                                   OBJECT(&s->gpu_bus_mr), &error_abort);
++
+     object_property_add_const_link(OBJECT(&s->gpio), "sdbus-sdhci",
+                                    OBJECT(&s->sdhci.sdbus), &error_abort);
+     object_property_add_const_link(OBJECT(&s->gpio), "sdbus-sdhost",
+@@ -384,6 +391,19 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+         qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
+                                INTERRUPT_HOSTPORT));
+ 
++    /* DWC2 */
++    object_property_set_bool(OBJECT(&s->dwc2), true, "realized", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
 +    }
-     s->data_len -= len;
-     if (s->scsi_len == 0 || s->data_len == 0) {
-         scsi_req_continue(s->req);
-@@ -303,6 +306,9 @@ static void usb_msd_command_complete(SCSIRequest *req, uint32_t status, size_t r
-             if (s->data_len) {
-                 int len = (p->iov.size - p->actual_length);
-                 usb_packet_skip(p, len);
-+                if (len > s->data_len) {
-+                    len = s->data_len;
-+                }
-                 s->data_len -= len;
-             }
-             if (s->data_len == 0) {
-@@ -469,6 +475,9 @@ static void usb_msd_handle_data(USBDevice *dev, USBPacket *p)
-                 int len = p->iov.size - p->actual_length;
-                 if (len) {
-                     usb_packet_skip(p, len);
-+                    if (len > s->data_len) {
-+                        len = s->data_len;
-+                    }
-                     s->data_len -= len;
-                     if (s->data_len == 0) {
-                         s->mode = USB_MSDM_CSW;
-@@ -528,13 +537,17 @@ static void usb_msd_handle_data(USBDevice *dev, USBPacket *p)
-                 int len = p->iov.size - p->actual_length;
-                 if (len) {
-                     usb_packet_skip(p, len);
-+                    if (len > s->data_len) {
-+                        len = s->data_len;
-+                    }
-                     s->data_len -= len;
-                     if (s->data_len == 0) {
-                         s->mode = USB_MSDM_CSW;
-                     }
-                 }
-             }
--            if (p->actual_length < p->iov.size) {
-+            if (p->actual_length < p->iov.size && (p->short_not_ok ||
-+                    s->scsi_len >= p->ep->max_packet_size)) {
-                 DPRINTF("Deferring packet %p [wait data-in]\n", p);
-                 s->packet = p;
-                 p->status = USB_RET_ASYNC;
++
++    memory_region_add_subregion(&s->peri_mr, USB_OTG_OFFSET,
++                sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->dwc2), 0));
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->dwc2), 0,
++        qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
++                               INTERRUPT_USB));
++
+     create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET, 0x40);
+     create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x1000);
+     create_unimp(s, &s->a2w, "bcm2835-a2w", A2W_OFFSET, 0x1000);
+@@ -397,7 +417,6 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+     create_unimp(s, &s->otp, "bcm2835-otp", OTP_OFFSET, 0x80);
+     create_unimp(s, &s->dbus, "bcm2835-dbus", DBUS_OFFSET, 0x8000);
+     create_unimp(s, &s->ave0, "bcm2835-ave0", AVE0_OFFSET, 0x8000);
+-    create_unimp(s, &s->dwc2, "dwc-usb2", USB_OTG_OFFSET, 0x1000);
+     create_unimp(s, &s->sdramc, "bcm2835-sdramc", SDRAMC_OFFSET, 0x100);
+ }
+ 
+diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig
+index 464348ba14..d4d8c37c28 100644
+--- a/hw/usb/Kconfig
++++ b/hw/usb/Kconfig
+@@ -46,6 +46,11 @@ config USB_MUSB
+     bool
+     select USB
+ 
++config USB_DWC2
++    bool
++    default y
++    select USB
++
+ config TUSB6010
+     bool
+     select USB_MUSB
+diff --git a/hw/usb/Makefile.objs b/hw/usb/Makefile.objs
+index 66835e5bf7..fa5c3fa1b8 100644
+--- a/hw/usb/Makefile.objs
++++ b/hw/usb/Makefile.objs
+@@ -12,6 +12,7 @@ common-obj-$(CONFIG_USB_EHCI_SYSBUS) += hcd-ehci-sysbus.o
+ common-obj-$(CONFIG_USB_XHCI) += hcd-xhci.o
+ common-obj-$(CONFIG_USB_XHCI_NEC) += hcd-xhci-nec.o
+ common-obj-$(CONFIG_USB_MUSB) += hcd-musb.o
++common-obj-$(CONFIG_USB_DWC2) += hcd-dwc2.o
+ 
+ common-obj-$(CONFIG_TUSB6010) += tusb6010.o
+ common-obj-$(CONFIG_IMX)      += chipidea.o
+diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
+index 77958ca60e..0841d54614 100644
+--- a/include/hw/arm/bcm2835_peripherals.h
++++ b/include/hw/arm/bcm2835_peripherals.h
+@@ -26,6 +26,7 @@
+ #include "hw/sd/bcm2835_sdhost.h"
+ #include "hw/gpio/bcm2835_gpio.h"
+ #include "hw/timer/bcm2835_systmr.h"
++#include "hw/usb/hcd-dwc2.h"
+ #include "hw/misc/unimp.h"
+ 
+ #define TYPE_BCM2835_PERIPHERALS "bcm2835-peripherals"
+@@ -66,7 +67,7 @@ typedef struct BCM2835PeripheralState {
+     UnimplementedDeviceState ave0;
+     UnimplementedDeviceState bscsl;
+     UnimplementedDeviceState smi;
+-    UnimplementedDeviceState dwc2;
++    DWC2State dwc2;
+     UnimplementedDeviceState sdramc;
+ } BCM2835PeripheralState;
+ 
 -- 
 2.17.1
 
