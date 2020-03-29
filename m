@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEFA9196E1B
+	by mail.lfdr.de (Postfix) with ESMTPS id E7DD9196E1C
 	for <lists+qemu-devel@lfdr.de>; Sun, 29 Mar 2020 17:12:02 +0200 (CEST)
-Received: from localhost ([::1]:38508 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:38510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIZbV-000138-4p
+	id 1jIZbV-000174-Rq
 	for lists+qemu-devel@lfdr.de; Sun, 29 Mar 2020 11:12:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38413)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38423)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jIZZf-0007gb-NL
- for qemu-devel@nongnu.org; Sun, 29 Mar 2020 11:10:08 -0400
+ (envelope-from <yuri.benditovich@daynix.com>) id 1jIZZg-0007hk-Jz
+ for qemu-devel@nongnu.org; Sun, 29 Mar 2020 11:10:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jIZZe-0006iN-LW
- for qemu-devel@nongnu.org; Sun, 29 Mar 2020 11:10:07 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37102)
+ (envelope-from <yuri.benditovich@daynix.com>) id 1jIZZf-0006ik-HU
+ for qemu-devel@nongnu.org; Sun, 29 Mar 2020 11:10:08 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39821)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <yuri.benditovich@daynix.com>)
- id 1jIZZe-0006fT-AR
- for qemu-devel@nongnu.org; Sun, 29 Mar 2020 11:10:06 -0400
-Received: by mail-wm1-x342.google.com with SMTP id d1so18320366wmb.2
- for <qemu-devel@nongnu.org>; Sun, 29 Mar 2020 08:10:06 -0700 (PDT)
+ id 1jIZZf-0006iT-Bs
+ for qemu-devel@nongnu.org; Sun, 29 Mar 2020 11:10:07 -0400
+Received: by mail-wr1-x444.google.com with SMTP id p10so17868821wrt.6
+ for <qemu-devel@nongnu.org>; Sun, 29 Mar 2020 08:10:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id;
- bh=ETpaNK1dMjFrlh/JeskAdsl5YHHm6MmUrz9HfD8MZl0=;
- b=fN7nd1QPbfJNxaedqGcHWfxmNsT54PUtppPYXgzJGH0xPisIIjv2Jg/3a6qNW27bAm
- ZPiA+wx/68aOFIq/wGWrL0JOZoPOmJnt8t/HXUiIneJMNRxkWlsL3QUDHqOTY1gr1DUT
- gQVhqK1MToKAzap8QDqRrV2xnfj5O3TkNyNxkjm2p7GpPSJ0A1AQjYioPbPcP8UlKnpX
- 734Tma0jndpOb7XlSHIPaHz9HzpM0VG7K6H5t1Avx1OeJvwuwlRVW29O5cY4PWVxmwYa
- as16WSfsygWm4PR4H/Rbf4VVUINPgYPg+EtLZDQyPfYRRvCVYAbRR/NpS50uSuQsQx3H
- 8P3w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=O0gbhhNXKqovD8z2owZu41rSHwkPJ8sCWBwXndaIn/A=;
+ b=coKMMCyLiayixMsGIiKDBVR/3Y/gX40JNOYnknkXe4Wct0gSa7OemQwlmC6oSJyCsg
+ UwejKNMISwqLDbGsy8q+4f8+mg7uI/K1RM9uWPWz4WKhGYYyJiNN0TkujIdRapIXI/6r
+ J38bGsgZSPHrd8VwKNMwaMk5nT+gFQ9stRVEGBA3Z0EgC9a7tWomZ5ClqyEA5h6G9V+T
+ QzSBU8wPlJAcaaF3s+BVVyl0pykmz07/udBW9PpTvPEUzcOl7ZM/7if2Ehk85X53niju
+ 2jx6OF1aBs98OIbedABRoy3BTn+XuMgGG+iAnsG4Nc5TfGa/pXZr8iuGbMPTtD+zTPa7
+ x3Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=ETpaNK1dMjFrlh/JeskAdsl5YHHm6MmUrz9HfD8MZl0=;
- b=m7DNorxNhNu9cnYqnbbsvB3+A5TLQbrVHuZRZkC+GnBGk31HAfQJiF9D+4luOTZmLg
- /7luAltKdlcAIKzFX+CH2vyIJkVstb9WTgt2ib2TS/zkCE68V07Yt9ZtSsQ4TPJrjM6H
- vq5ImwIOZ4gspwcVk74wML7leZYw4q5o1RSJHT6qR3klHo9bV5/yRLv8A7sKOmfREX1/
- uPGQaY4esME/MYokbSfFYFw9L28MyIlBntrzC4Usg0YCvO+A9ro1MhuW2DDj03thK/Vq
- EuQYExiYlIEKBCEd1hSbaYsdGSDbqC/Su9e4fxPhTbyDITMPL4Dwri0Mztk7zz9OfYP6
- qAVA==
-X-Gm-Message-State: ANhLgQ12Iy3lU2r5FtfUyEPh1u/8tISqYyMeX/nYJXHW7Fv7jUFUK0SF
- BBWChyTQvLQYfbACYprpbRc7BdvDxfjy6A==
-X-Google-Smtp-Source: ADFU+vvfDAscy8xuESZx+J3TOXO7fEW5YB72moiP9V2c5CgcYPLU96Yl0FWVtR4XHcsGZJw0j/x0PA==
-X-Received: by 2002:a1c:23d6:: with SMTP id j205mr8724149wmj.22.1585494604875; 
- Sun, 29 Mar 2020 08:10:04 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=O0gbhhNXKqovD8z2owZu41rSHwkPJ8sCWBwXndaIn/A=;
+ b=B2ZCgDtU+DJ3eR+HPk9BhGO9TpJc7JWubJyi44hJk59kkbQ4n4DAqSg5msz3SQyyG2
+ JOx8ldBfVVm5Q7kOZ4NFTqMZnabCxXJs1qSvyJ6GhUT7verZYfvRj1jPDftvpkIcJ/yF
+ ZARemMD0wfyGzYGCUArmEHC8BNnmx5q9YNRtKuE8Hq1j7E4EZvOxlKEKe1eGJRezoajP
+ rDsEJLvmfFCncN+wFdUcZzl/7yiKyT4ix5ZIqOFgCPxPmGf50LPVMelUbIij3+gNIOdz
+ kd3kkvxDxay0kkNBX0ciOV5LvD5PrZRO5kg+IbhQhJ4Kq1bFwJnxWhO0nlg4Dvcr/R8K
+ 0yCg==
+X-Gm-Message-State: ANhLgQ0P3dS2U4E/vvoLSAeLfFkgCYiGBDWQPPOiYEY6AtpocydvAIDJ
+ B0VAKDhaJpv3qBvMOXNqqmXA6PuqxpT1Qw==
+X-Google-Smtp-Source: ADFU+vvModLcf/7y28bcWnXCZC+3CTilc6VaRlEzC7lS9xSiXL5ZIm4h6V2ck65w8/K3EKnXMzaGKA==
+X-Received: by 2002:adf:82c5:: with SMTP id 63mr10055848wrc.312.1585494606061; 
+ Sun, 29 Mar 2020 08:10:06 -0700 (PDT)
 Received: from f2.redhat.com (bzq-79-183-67-107.red.bezeqint.net.
  [79.183.67.107])
- by smtp.gmail.com with ESMTPSA id s2sm5477874wmh.37.2020.03.29.08.10.03
+ by smtp.gmail.com with ESMTPSA id s2sm5477874wmh.37.2020.03.29.08.10.04
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 29 Mar 2020 08:10:04 -0700 (PDT)
+ Sun, 29 Mar 2020 08:10:05 -0700 (PDT)
 From: Yuri Benditovich <yuri.benditovich@daynix.com>
 To: qemu-devel@nongnu.org,
 	mst@redhat.com,
 	jasowang@redhat.com
-Subject: [PATCH v7 0/7] reference implementation of RSS and hash report
-Date: Sun, 29 Mar 2020 18:09:46 +0300
-Message-Id: <20200329150953.23812-1-yuri.benditovich@daynix.com>
+Subject: [PATCH v7 1/7] virtio-net: introduce RSS and hash report features
+Date: Sun, 29 Mar 2020 18:09:47 +0300
+Message-Id: <20200329150953.23812-2-yuri.benditovich@daynix.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200329150953.23812-1-yuri.benditovich@daynix.com>
+References: <20200329150953.23812-1-yuri.benditovich@daynix.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,35 +82,87 @@ Cc: yan@daynix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Support for VIRTIO_NET_F_RSS and VIRTIO_NET_F_HASH_REPORT
-features in QEMU for reference purpose.
-Implements Toeplitz hash calculation for incoming
-packets according to configuration provided by driver.
-Uses calculated hash for decision on receive virtqueue
-and/or reports the hash in the virtio header
+Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
+---
+ hw/net/virtio-net.c | 65 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
 
-Changes from v6:
-Fixed a bug in patch 5 "reference implementation of hash report"
-that caused the ASAN test to fail
-was: n->rss_data.populate_hash = true;
-fixed: n->rss_data.populate_hash = !!hash_report;
-
-Yuri Benditovich (7):
-  virtio-net: introduce RSS and hash report features
-  virtio-net: implement RSS configuration command
-  virtio-net: implement RX RSS processing
-  tap: allow extended virtio header with hash info
-  virtio-net: reference implementation of hash report
-  vmstate.h: provide VMSTATE_VARRAY_UINT16_ALLOC macro
-  virtio-net: add migration support for RSS and hash report
-
- hw/net/trace-events            |   3 +
- hw/net/virtio-net.c            | 448 +++++++++++++++++++++++++++++++--
- include/hw/virtio/virtio-net.h |  16 ++
- include/migration/vmstate.h    |  10 +
- net/tap.c                      |  11 +-
- 5 files changed, 460 insertions(+), 28 deletions(-)
-
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 3627bb1717..90b01221e9 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -71,6 +71,71 @@
+ #define VIRTIO_NET_IP6_ADDR_SIZE   32      /* ipv6 saddr + daddr */
+ #define VIRTIO_NET_MAX_IP6_PAYLOAD VIRTIO_NET_MAX_TCP_PAYLOAD
+ 
++/* TODO: remove after virtio-net header update */
++#if !defined(VIRTIO_NET_RSS_HASH_TYPE_IPv4)
++#define VIRTIO_NET_F_HASH_REPORT    57  /* Supports hash report */
++#define VIRTIO_NET_F_RSS            60  /* Supports RSS RX steering */
++
++/* supported/enabled hash types */
++#define VIRTIO_NET_RSS_HASH_TYPE_IPv4          (1 << 0)
++#define VIRTIO_NET_RSS_HASH_TYPE_TCPv4         (1 << 1)
++#define VIRTIO_NET_RSS_HASH_TYPE_UDPv4         (1 << 2)
++#define VIRTIO_NET_RSS_HASH_TYPE_IPv6          (1 << 3)
++#define VIRTIO_NET_RSS_HASH_TYPE_TCPv6         (1 << 4)
++#define VIRTIO_NET_RSS_HASH_TYPE_UDPv6         (1 << 5)
++#define VIRTIO_NET_RSS_HASH_TYPE_IP_EX         (1 << 6)
++#define VIRTIO_NET_RSS_HASH_TYPE_TCP_EX        (1 << 7)
++#define VIRTIO_NET_RSS_HASH_TYPE_UDP_EX        (1 << 8)
++
++struct virtio_net_config_with_rss {
++    struct virtio_net_config cfg;
++    /* maximum size of RSS key */
++    uint8_t rss_max_key_size;
++    /* maximum number of indirection table entries */
++    uint16_t rss_max_indirection_table_length;
++    /* bitmask of supported VIRTIO_NET_RSS_HASH_ types */
++    uint32_t supported_hash_types;
++} QEMU_PACKED;
++
++struct virtio_net_hdr_v1_hash {
++    struct virtio_net_hdr_v1 hdr;
++    uint32_t hash_value;
++#define VIRTIO_NET_HASH_REPORT_NONE            0
++#define VIRTIO_NET_HASH_REPORT_IPv4            1
++#define VIRTIO_NET_HASH_REPORT_TCPv4           2
++#define VIRTIO_NET_HASH_REPORT_UDPv4           3
++#define VIRTIO_NET_HASH_REPORT_IPv6            4
++#define VIRTIO_NET_HASH_REPORT_TCPv6           5
++#define VIRTIO_NET_HASH_REPORT_UDPv6           6
++#define VIRTIO_NET_HASH_REPORT_IPv6_EX         7
++#define VIRTIO_NET_HASH_REPORT_TCPv6_EX        8
++#define VIRTIO_NET_HASH_REPORT_UDPv6_EX        9
++    uint16_t hash_report;
++    uint16_t padding;
++};
++
++/*
++ * The command VIRTIO_NET_CTRL_MQ_RSS_CONFIG has the same effect as
++ * VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET does and additionally configures
++ * the receive steering to use a hash calculated for incoming packet
++ * to decide on receive virtqueue to place the packet. The command
++ * also provides parameters to calculate a hash and receive virtqueue.
++ */
++struct virtio_net_rss_config {
++    uint32_t hash_types;
++    uint16_t indirection_table_mask;
++    uint16_t unclassified_queue;
++    uint16_t indirection_table[1/* + indirection_table_mask */];
++    uint16_t max_tx_vq;
++    uint8_t hash_key_length;
++    uint8_t hash_key_data[/* hash_key_length */];
++};
++
++#define VIRTIO_NET_CTRL_MQ_RSS_CONFIG          1
++#define VIRTIO_NET_CTRL_MQ_HASH_CONFIG         2
++
++#endif
++
+ /* Purge coalesced packets timer interval, This value affects the performance
+    a lot, and should be tuned carefully, '300000'(300us) is the recommended
+    value to pass the WHQL test, '50000' can gain 2x netperf throughput with
 -- 
 2.17.1
 
