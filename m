@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55A19196B6A
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Mar 2020 07:04:32 +0200 (CEST)
-Received: from localhost ([::1]:34320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2541E196B68
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Mar 2020 07:03:26 +0200 (CEST)
+Received: from localhost ([::1]:34308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIQ7b-0002Ld-Dd
-	for lists+qemu-devel@lfdr.de; Sun, 29 Mar 2020 01:04:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41669)
+	id 1jIQ6X-0000Vs-7C
+	for lists+qemu-devel@lfdr.de; Sun, 29 Mar 2020 01:03:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41680)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jIQ5N-00086P-JT
- for qemu-devel@nongnu.org; Sun, 29 Mar 2020 01:02:14 -0400
+ (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jIQ5P-00086Y-42
+ for qemu-devel@nongnu.org; Sun, 29 Mar 2020 01:02:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jIQ5M-0005Vz-Jx
- for qemu-devel@nongnu.org; Sun, 29 Mar 2020 01:02:13 -0400
-Received: from cmccmta1.chinamobile.com ([221.176.66.79]:7098)
+ (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jIQ5O-0005Ww-4K
+ for qemu-devel@nongnu.org; Sun, 29 Mar 2020 01:02:15 -0400
+Received: from cmccmta2.chinamobile.com ([221.176.66.80]:10348)
  by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jIQ5M-0005H9-1k
- for qemu-devel@nongnu.org; Sun, 29 Mar 2020 01:02:12 -0400
+ (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jIQ5N-000597-Gt
+ for qemu-devel@nongnu.org; Sun, 29 Mar 2020 01:02:14 -0400
 Received: from spf.mail.chinamobile.com (unknown[172.16.121.11]) by
- rmmx-syy-dmz-app04-12004 (RichMail) with SMTP id 2ee45e802bb9d22-f3ce7;
- Sun, 29 Mar 2020 13:01:46 +0800 (CST)
-X-RM-TRANSID: 2ee45e802bb9d22-f3ce7
+ rmmx-syy-dmz-app06-12006 (RichMail) with SMTP id 2ee65e802bb9ab4-f3939;
+ Sun, 29 Mar 2020 13:01:47 +0800 (CST)
+X-RM-TRANSID: 2ee65e802bb9ab4-f3939
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG: 00000000
 Received: from maozy-host.localdomain (unknown[117.136.46.37])
- by rmsmtp-syy-appsvr06-12006 (RichMail) with SMTP id 2ee65e802baee64-267ca;
+ by rmsmtp-syy-appsvr06-12006 (RichMail) with SMTP id 2ee65e802baee64-267d2;
  Sun, 29 Mar 2020 13:01:46 +0800 (CST)
-X-RM-TRANSID: 2ee65e802baee64-267ca
+X-RM-TRANSID: 2ee65e802baee64-267d2
 From: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] monitor/hmp-cmds: add hmp_handle_error() for
- hmp_migrate_set_speed()
-Date: Sun, 29 Mar 2020 13:01:30 +0800
-Message-Id: <20200329050131.26864-3-maozhongyi@cmss.chinamobile.com>
+Subject: [PATCH 3/3] migration: move the units of migrate parameters from
+ milliseconds to ms.
+Date: Sun, 29 Mar 2020 13:01:31 +0800
+Message-Id: <20200329050131.26864-4-maozhongyi@cmss.chinamobile.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200329050131.26864-1-maozhongyi@cmss.chinamobile.com>
 References: <20200329050131.26864-1-maozhongyi@cmss.chinamobile.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 221.176.66.79
+X-Received-From: 221.176.66.80
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,27 +58,52 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
+Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- monitor/hmp-cmds.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ migration/migration.c | 2 +-
+ monitor/hmp-cmds.c    | 8 ++++----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
+diff --git a/migration/migration.c b/migration/migration.c
+index e0223f3b15..d014da388a 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1212,7 +1212,7 @@ static bool migrate_params_check(MigrationParameters *params, Error **errp)
+         (params->downtime_limit > MAX_MIGRATE_DOWNTIME)) {
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
+                    "downtime_limit",
+-                   "an integer in the range of 0 to 2000000 milliseconds");
++                   "an integer in the range of 0 to 2000000 ms");
+         return false;
+     }
+ 
 diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 790fad3afe..63097ddcc8 100644
+index 63097ddcc8..c5de8af1ee 100644
 --- a/monitor/hmp-cmds.c
 +++ b/monitor/hmp-cmds.c
-@@ -1203,8 +1203,11 @@ void hmp_migrate_set_cache_size(Monitor *mon, const QDict *qdict)
- /* Kept for backwards compatibility */
- void hmp_migrate_set_speed(Monitor *mon, const QDict *qdict)
- {
-+    Error *err = NULL;
-+
-     int64_t value = qdict_get_int(qdict, "value");
--    qmp_migrate_set_speed(value, NULL);
-+    qmp_migrate_set_speed(value, &err);
-+    hmp_handle_error(mon, err);
- }
+@@ -231,18 +231,18 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
+             monitor_printf(mon, "\n");
+         }
  
- void hmp_migrate_set_capability(Monitor *mon, const QDict *qdict)
+-        monitor_printf(mon, "total time: %" PRIu64 " milliseconds\n",
++        monitor_printf(mon, "total time: %" PRIu64 " ms\n",
+                        info->total_time);
+         if (info->has_expected_downtime) {
+-            monitor_printf(mon, "expected downtime: %" PRIu64 " milliseconds\n",
++            monitor_printf(mon, "expected downtime: %" PRIu64 " ms\n",
+                            info->expected_downtime);
+         }
+         if (info->has_downtime) {
+-            monitor_printf(mon, "downtime: %" PRIu64 " milliseconds\n",
++            monitor_printf(mon, "downtime: %" PRIu64 " ms\n",
+                            info->downtime);
+         }
+         if (info->has_setup_time) {
+-            monitor_printf(mon, "setup: %" PRIu64 " milliseconds\n",
++            monitor_printf(mon, "setup: %" PRIu64 " ms\n",
+                            info->setup_time);
+         }
+     }
 -- 
 2.17.1
 
