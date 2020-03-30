@@ -2,66 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC68319826E
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 19:34:42 +0200 (CEST)
-Received: from localhost ([::1]:53936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23A8B198282
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 19:39:17 +0200 (CEST)
+Received: from localhost ([::1]:54044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIyJ7-0001K2-RB
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 13:34:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33544)
+	id 1jIyNY-0000Qv-6w
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 13:39:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33686)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jIyDv-0001eH-8u
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:29:20 -0400
+ (envelope-from <msuchanek@suse.de>) id 1jIyEb-0002t4-Uz
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:30:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jIyDt-00024v-NB
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:29:19 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45510)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jIyDt-00023L-GZ
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:29:17 -0400
-Received: by mail-wr1-x442.google.com with SMTP id t7so22669516wrw.12
- for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 10:29:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=PA5wTsMyZb5SO7CwWL/Rgj9qtHWzP1IqZcCrt3MWO60=;
- b=VbVmx5qbOr6TS9xWLLA9D4rAQl6SAvOM0b+hkheFDTUvBewXWj009FkoNh+orQVu/7
- 3jyq2OTBl6stLvyD05mCtW0BHuWbPnD91rsIF0crkff0iE43qP3Cb4Pvkay17kittVxZ
- a6tGjDg25gS7q0TXLQwtuWtFo9VD7PoMJ2vFs5WL+KAzogUIfbL7sj+n3JywvFZ/0fVZ
- Vtf6CPGqWpK/AMUhJVHAFUl/eV8gINhyl55QlzMK3EKPhHjjnamjNOG2EIePZ03dsPWY
- SAuGP6TQ8ij3mGp/QNyfKVGJZJkGuIKxG6vg4VHbTagiLkyeLVHC9W2RqYoyRr4vWWWE
- zPxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=PA5wTsMyZb5SO7CwWL/Rgj9qtHWzP1IqZcCrt3MWO60=;
- b=WKhtmXaRtyKtIwjb0GHJeHR21A1sD1h+XYVLoJzVVvud6F2Ie9BZV6t9TccUTdtLAp
- tX/3OYZG9HHz5AnlYoQ58JAZXc90gqpGg8UQpUj5f4uhebEw1FELiIj89eHKtkkSzGKQ
- RRZ6OvNA7MVs7VPW5gNDdAuNbLyxOu+jJoSy+fIwRiPbGBdnxardcpip17lQLmoXg76G
- 4cAebve2r9nCuTfv0ZFZAT+ptmO1PBwodVzZtlAKTCdrpBaPC2g6aQKu/1dVOPXkrmmn
- y7p+vJgdZyE/ofU3moabhb4OVo1qsuu4FXR+kUqkiGRNmsD2vUMngxOtr5l6eEoDNC/P
- 2rlA==
-X-Gm-Message-State: ANhLgQ1RR7qFw+GI0bG8wJOFNRFbPyobNDMWdYE0yGhjf/eXXX0njIzD
- UJzou/L/vUvd/Ak5w44uCbRn87GCJR3tixo3SU8=
-X-Google-Smtp-Source: ADFU+vuiahG8Io2cxm/zAOZtpPSYKj+B+BKC7I63A1EElTBrc7NCdWp5Ct0o0HMcss2ymTsotRZAoN+0I5lK1vY6Yj4=
-X-Received: by 2002:adf:e8c1:: with SMTP id k1mr15282533wrn.381.1585589356154; 
- Mon, 30 Mar 2020 10:29:16 -0700 (PDT)
+ (envelope-from <msuchanek@suse.de>) id 1jIyEa-0003cq-8J
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:30:01 -0400
+Received: from mx2.suse.de ([195.135.220.15]:43550)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <msuchanek@suse.de>) id 1jIyEZ-0003YQ-Us
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:30:00 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 19997AC53;
+ Mon, 30 Mar 2020 17:29:57 +0000 (UTC)
+Date: Mon, 30 Mar 2020 19:29:55 +0200
+From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: deprecation of in-tree builds
+Message-ID: <20200330172955.GQ25468@kitsune.suse.cz>
+References: <CAFEAcA8E6goDHb-7kKCTp=wSpBsuJcfjMmLP0EgymiEL348r4A@mail.gmail.com>
+ <87v9mmug73.fsf@dusky.pond.sub.org>
+ <CAFEAcA-9U=EAXAtPDh_AnO3eUbM_jcRBuf4x=0Rec0EC-v2mNA@mail.gmail.com>
+ <20200330134212.GO236854@redhat.com>
+ <20200330143759.GD6139@linux.fritz.box>
 MIME-Version: 1.0
-References: <20200330164712.198282-1-dgilbert@redhat.com>
-In-Reply-To: <20200330164712.198282-1-dgilbert@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 30 Mar 2020 19:29:04 +0200
-Message-ID: <CAJ+F1CKd9x3BQKCGFPF8ouW4Fzvw0R5z3ZRT_0XPNSepP5hMZQ@mail.gmail.com>
-Subject: Re: [PATCH] serial: Fix double migration data
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20200330143759.GD6139@linux.fritz.box>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic]
+X-Received-From: 195.135.220.15
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,126 +54,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On Mon, Mar 30, 2020 at 04:37:59PM +0200, Kevin Wolf wrote:
+> Am 30.03.2020 um 15:42 hat Daniel P. Berrang=E9 geschrieben:
+> > On Mon, Mar 30, 2020 at 02:31:52PM +0100, Peter Maydell wrote:
+> > > On Mon, 30 Mar 2020 at 14:26, Markus Armbruster <armbru@redhat.com>=
+ wrote:
+> > > >
+> > > > Peter Maydell <peter.maydell@linaro.org> writes:
+> > > >
+> > > > > AIUI from Paolo, the intention is to deprecate and eventually
+> > > > > stop supporting "in-tree" builds, so that the only option is
+> > > > > building in a separate build directory. I thought we should
+> > > > > probably mention that in the 5.0 changelog, so I wrote up some
+> > > > > text:
+> > > > >
+> > > > > https://wiki.qemu.org/ChangeLog/5.0#Build_Information
+> > > >
+> > > > Overdue.  Thanks for doing this!
+> > > >
+> > > > > Suggestions for changes/comments etc welcome.
+> > > >
+> > > > Looks fine to me.
+> > >=20
+> > > Consensus in the thread seemed to lean towards having
+> > > the 'configure/make' runes auto-create a build directory;
+> > > if we want to do that we should probably not say anything in
+> > > the release notes, because we'll cause people to change
+> > > unnecessarily. Or at least have them say "We recommend
+> > > out-of-tree builds. In future we might make the commands
+> > > that currently do an in-tree build automatically create
+> > > and use a build directory for you." rather than a blanket
+> > > "we're going to drop this and you should change what you
+> > > do now".
+> > >=20
+> > > Thoughts?
+> >=20
+> > When the time comes to switch to Meson, we'll be forcing a
+> > separate build directory & that will also potentially involve
+> > a change in build instructions for users.
+> >=20
+> > So if we expect Meson will arrive in QEMU soon (say before end
+> > of this year), then I'd try to keep changes related to make to
+> > the bare minimum, and have Meson switch as the "flag day" when
+> > developers are forced to adapt their build process.=20
+> >=20
+> > IOW, merely warn people that in-tree builds are deprecated and
+> > not tested by the project and enourage switching to out of tree
+> > builds. Dont try to magically create a separate build dir now.
+>=20
+> If manually dealing with separate build directories is inconvenient
+> today, it will still be inconvenient with Meson, so this would mean
+> introducing the automatic directly creation together with the other
+> changes to enable Meson. Which is fine by me, as long as it is really
+> done when the external directory becomes mandatory, so that people won'=
+t
+> have to switch back and forth between directories.
 
-On Mon, Mar 30, 2020 at 6:47 PM Dr. David Alan Gilbert (git)
-<dgilbert@redhat.com> wrote:
->
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->
-> After c9808d60281 we have both an object representing the serial-isa
-> device and a separate object representing the underlying common serial
-> uart.  Both of these have vmsd's associated with them and thus the
-> migration stream ends up with two copies of the migration data - the
-> serial-isa includes the vmstate of the core serial.   Besides
-> being wrong, it breaks backwards migration compatibility.
->
-> Fix this by removing the dc->vmsd from the core device, so it only
-> gets migrated by any parent devices including it.
-> Add a vmstate_serial_mm so that any device that uses serial_mm_init
-> rather than creating a device still gets migrated.
-> (That doesn't fix backwards migration for serial_mm_init users,
-> but does seem to work forwards for ppce500).
->
-> Fixes: c9808d60281 ('serial: realize the serial device')
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1869426
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  hw/char/serial.c | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/char/serial.c b/hw/char/serial.c
-> index 2ab8b69e03..c822a9ae6c 100644
-> --- a/hw/char/serial.c
-> +++ b/hw/char/serial.c
-> @@ -1043,7 +1043,6 @@ static void serial_class_init(ObjectClass *klass, v=
-oid* data)
->      dc->user_creatable =3D false;
->      dc->realize =3D serial_realize;
->      dc->unrealize =3D serial_unrealize;
-> -    dc->vmsd =3D &vmstate_serial;
->      device_class_set_props(dc, serial_properties);
->  }
->
-> @@ -1113,6 +1112,16 @@ static void serial_mm_realize(DeviceState *dev, Er=
-ror **errp)
->      sysbus_init_irq(SYS_BUS_DEVICE(smm), &smm->serial.irq);
->  }
->
-> +static const VMStateDescription vmstate_serial_mm =3D {
-> +    .name =3D "serial",
-> +    .version_id =3D 3,
-> +    .minimum_version_id =3D 2,
-> +    .fields =3D (VMStateField[]) {
-> +        VMSTATE_STRUCT(serial, SerialMM, 0, vmstate_serial, SerialState)=
-,
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
+From packaging point of view if something has auto* files the default is
+IIRC to do in-tree build with most package managers. You have to adjust
+manually for out-of-tree build. I am not sure what is state of Meson
+support in packaging scripts across distributions. Most likely it will
+not be picked automagically so you have to provide a custom build script
+anyway. Then it is the time to look up the canonical build instructions.
 
-Why do you make it a sub-state?
+In other words dealing with Meson is inconvenient either way. Building
+in-tree or out-of-tree becomes a non-issue whan you switch to exotic
+build system anyway.
 
-# qemu-system-ppc -M ppce500 -monitor stdio -serial pty
-in 4.2 and 5.0:
-    "serial (8)": {
-        "divider": "0x00d9",
-        "rbr": "0x00",
-        "ier": "0x00",
-        "iir": "0xc1",
-        "lcr": "0x03",
-        "mcr": "0x03",
-        "lsr": "0x60",
-        "msr": "0xb0",
-        "scr": "0x00",
-        "fcr_vmstate": "0x01"
-    },
+That's not to say that auto* tools are great. It's just the replacements
+have issues that are not well understood by average Joe Packager while
+the auto* tools have good old issues people know how to deal with.
 
-With this patch:
-    "serial (8)": {
-        "serial": {
-            "divider": "0x00d9",
-            "rbr": "0x00",
-            "ier": "0x00",
-            "iir": "0xc1",
-            "lcr": "0x03",
-            "mcr": "0x03",
-            "lsr": "0x60",
-            "msr": "0xb0",
-            "scr": "0x00",
-            "fcr_vmstate": "0x01"
-        }
-    },
+Thanks
 
->  SerialMM *serial_mm_init(MemoryRegion *address_space,
->                           hwaddr base, int regshift,
->                           qemu_irq irq, int baudbase,
-> @@ -1162,6 +1171,7 @@ static void serial_mm_class_init(ObjectClass *oc, v=
-oid *data)
->
->      device_class_set_props(dc, serial_mm_properties);
->      dc->realize =3D serial_mm_realize;
-> +    dc->vmsd =3D &vmstate_serial_mm;
->  }
->
->  static const TypeInfo serial_mm_info =3D {
-> --
-> 2.25.1
->
->
-
-I understand removing the serial state from SerialClass solves the
-double state issue for ISA. But at the same time, I think we should
-aim to migrate ISASerial state to SerialClass state. I can take a look
-if you want.
-
-
-
---=20
-Marc-Andr=C3=A9 Lureau
+Michal
 
