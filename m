@@ -2,83 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B68EB19811C
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 18:24:01 +0200 (CEST)
-Received: from localhost ([::1]:52482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03BF519812C
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 18:26:49 +0200 (CEST)
+Received: from localhost ([::1]:52536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIxCi-0004Ck-RB
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 12:24:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48443)
+	id 1jIxFQ-0007FI-2T
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 12:26:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49092)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jIxBa-0003GB-Cj
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:22:51 -0400
+ (envelope-from <berrange@redhat.com>) id 1jIxEA-00065Q-TX
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:25:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jIxBZ-0008KO-5w
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:22:50 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:22402)
+ (envelope-from <berrange@redhat.com>) id 1jIxE9-0002kO-FK
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:25:30 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:55053)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jIxBZ-0008JW-1z
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:22:49 -0400
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jIxE9-0002kA-An
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:25:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585585368;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1585585529;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5pBqpeKzq2ywabEjb9lKo2BkzSGZFe49tkKDRe5IeJQ=;
- b=Z/ojmwYoOzOpAYgAG7KrtL6UbazvyueziUZKOePVDF6v8zWh1LniCUvw4+MIZmwwJvTPpE
- xSULS5DToEnXUIrpwyHWP9QYG4nniHtm3Z9xEfZQ9XmK3FeJsGh+FE7UZVjRdtglvehq9c
- KA2psP+K+ma+WjYBmXywxuoF5EepwHw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-kWrqcXo9Mk-D94nT7_jtCQ-1; Mon, 30 Mar 2020 12:22:46 -0400
-X-MC-Unique: kWrqcXo9Mk-D94nT7_jtCQ-1
-Received: by mail-wm1-f71.google.com with SMTP id w8so2162560wmk.5
- for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 09:22:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=sW1FXFB42oMy9eotetjDDuXszctfAe/UkJB6bFgGQ2c=;
- b=I0s1P30ehZmpx4E3Sou/h2VNqa5oNwsRfGCSMbNYV0+J2AKqeWOsLJ87lNJAVgsTcb
- 4nYtP7EMQ3c0HHkrHh4umSjBzteqZ5LML/10Dt5YOIlVfSiIoNQhHfYmmfBzIXRlB/2D
- 34nQC4na94klQHPBH6O9CJhrSOtlezGML/Y5jct+LPUU+3dEkL3/FvoYXpAp2jQlF6+B
- nTZV1yx78LDuDfnWRjt1pHfVRFR4TnRSTS2UQ9jB+zx+GZVAtPZ2ht0BswRdD3DbyS1y
- zNji6zseEDGg9UNXaaZLdilKN+1f49Wc/6peignSZErWzf+7Z9JH0Z1JrFVTIcVrcSy/
- vIng==
-X-Gm-Message-State: ANhLgQ18HIrwnIvbIdKXCY2jZivbN2Ha7LJu4tTLdz8kHkjHoVuM7cUf
- 0fYJajyPP6Fz+Cry7S9YPQPY+frntaOTDQydnLCpVLISpc9uK+7m768ErW54cT2ejxywzF/Nfh1
- MVyac6PaZQDiserA=
-X-Received: by 2002:a1c:e109:: with SMTP id y9mr111140wmg.62.1585585365387;
- Mon, 30 Mar 2020 09:22:45 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuRlR5gmgMtdu6AM+uf/Sk5XYAnk0HghX29GWFh2dxqFH4RRO1YOyYZzPM8Bac2dRnNfMykvQ==
-X-Received: by 2002:a1c:e109:: with SMTP id y9mr111123wmg.62.1585585365060;
- Mon, 30 Mar 2020 09:22:45 -0700 (PDT)
-Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id n11sm87191wmi.10.2020.03.30.09.22.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Mar 2020 09:22:44 -0700 (PDT)
-Subject: Re: [PATCH for-5.0, v1] target/mips: Fix loongson multimedia
- condition instructions
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-References: <20200324122212.11156-1-jiaxun.yang@flygoat.com>
- <39c28108-5d85-d611-c2ea-abbbf913b981@redhat.com>
- <1B369970-E78B-4A05-A80E-D7AB527E3A4E@flygoat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <bbf10da2-76ee-a4c6-275d-fa1c8fc59e1e@redhat.com>
-Date: Mon, 30 Mar 2020 18:22:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ bh=VYCc39bvJPgwiYaAoHpsrecasJdUJg2PE7mHgSDENzs=;
+ b=RYseZT90VetQ+Xkj6Rl4I6DhiWzNUM6KSXir3K2h/xS2FosvZpimKhTOOe1yuT42cTOul8
+ 9gTLQ6EfZ+JlmsvWG2B2X3R4ofQ4bAxGv8M2I+EIzI+fU/pC+Q3m4FHdMvCfb5KUukFs2X
+ xlNsi45xUj6LqmNsL465xAAMxonomuI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-358-Fmz9TNGuMFC0-HtWKIJSmA-1; Mon, 30 Mar 2020 12:25:14 -0400
+X-MC-Unique: Fmz9TNGuMFC0-HtWKIJSmA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D617D1005509;
+ Mon, 30 Mar 2020 16:25:12 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 065D350C01;
+ Mon, 30 Mar 2020 16:25:07 +0000 (UTC)
+Date: Mon, 30 Mar 2020 17:25:05 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-5.0] qga-posix: Avoid crashing process when failing
+ to allocate memory
+Message-ID: <20200330162505.GP236854@redhat.com>
+References: <20200324194836.21539-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1B369970-E78B-4A05-A80E-D7AB527E3A4E@flygoat.com>
-Content-Language: en-US
+In-Reply-To: <20200324194836.21539-1-philmd@redhat.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,131 +73,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhc@lemote.com>, aleksandar.qemu.devel@gmail.com,
- richard.henderson@linaro.org, aleksandar.rikalo@rt-rk.com,
- aurelien@aurel32.net
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-trivial@nongnu.org,
+ qemu-stable@nongnu.org, Fakhri Zulkifli <mohdfakhrizulkifli@gmail.com>,
+ qemu-devel@nongnu.org, Sameeh Jubran <sjubran@redhat.com>,
+ Basil Salman <basil@daynix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/30/20 6:18 PM, Jiaxun Yang wrote:
+On Tue, Mar 24, 2020 at 08:48:36PM +0100, Philippe Mathieu-Daud=C3=A9 wrote=
+:
+> Similarly to commit 807e2b6fce0 for Windows, kindly return a
+> QMP error message instead of crashing the whole process.
 >=20
->=20
-> =E4=BA=8E 2020=E5=B9=B43=E6=9C=8830=E6=97=A5 GMT+08:00 =E4=B8=8B=E5=8D=88=
-11:39:44, "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com> =E5=86=99=E5=88=
-=B0:
->> Hi Jiaxun Yang,
->>
->> On 3/24/20 1:22 PM, Jiaxun Yang wrote:
->>> Loongson multimedia condition instructions were previously
->> implemented as
->>> write 0 to rd due to lack of documentation. So I just confirmed with
->> Loongson
->>> about their encoding and implemented them correctly.
->>
->> If you have a binary using loongson multimedia instructions, can you
->> add
->> a test? So this code won't bitrot.
->=20
-> I know ffmpeg uses it.
-> But I think that's too fat.
+> Cc: qemu-stable@nongnu.org
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1594054
 
-Looks perfect to me!
+I find that bug report pretty dubious
 
-It'll be simpler if you use a pre-build binary from a known distribution.
+   "The QEMU Guest Agent in QEMU is vulnerable to an integer=20
+    overflow in the qmp_guest_file_read(). An attacker could=20
+    exploit this by sending a crafted QMP command (including=20
+    guest-file-read with a large count value) to the agent via=20
+    the listening socket to trigger a g_malloc() call with a=20
+    large memory chunk resulting in a segmentation fault."
 
+"the attacker" in this case has to have access to the QEMU
+chardev associated with the guest agent. IOW, in any sensible
+configuration of the chardev, "the attacker" is the same person
+who launched QEMU in the first place.  There's no elevation of
+privilege here and any denial of service is inflicted against
+themselves. Finally it doesn't cause a segmentation fault,
+it causes an abort.
+
+This is *NOT* a security bug.
+
+In fact I'd call this NOTABUG entirely. It is just user error
+to set the "count" to such a huge value that it hits OOM.
+
+> Reported-by: Fakhri Zulkifli <mohdfakhrizulkifli@gmail.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  qga/commands-posix.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 >=20
->>
->> I'm in particular interested by a test covering the MAC2008
->> instructions. You can look at examples in the tests/tcg/mips/
->> directory,
->> Aleksandar added a lot of tests there.
->=20
-> I'm going to try that.
->=20
-> Thanks.
->=20
->>
->> Thanks,
->>
->> Phil.
->>
->>>
->>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->>> Acked-by: Huacai Chen <chenhc@lemote.com>
->>> ---
->>> v1: Use deposit opreations according to Richard's suggestion.
->>> ---
->>>    target/mips/translate.c | 35 +++++++++++++++++++++++++++++++----
->>>    1 file changed, 31 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/target/mips/translate.c b/target/mips/translate.c
->>> index d745bd2803..25b595a17d 100644
->>> --- a/target/mips/translate.c
->>> +++ b/target/mips/translate.c
->>> @@ -5529,6 +5529,7 @@ static void
->> gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
->>>    {
->>>        uint32_t opc, shift_max;
->>>        TCGv_i64 t0, t1;
->>> +    TCGCond cond;
->>>   =20
->>>        opc =3D MASK_LMI(ctx->opcode);
->>>        switch (opc) {
->>> @@ -5862,14 +5863,39 @@ static void
->> gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
->>>   =20
->>>        case OPC_SEQU_CP2:
->>>        case OPC_SEQ_CP2:
->>> +        cond =3D TCG_COND_EQ;
->>> +        goto do_cc_cond;
->>> +        break;
->>>        case OPC_SLTU_CP2:
->>> +        cond =3D TCG_COND_LTU;
->>> +        goto do_cc_cond;
->>> +        break;
->>>        case OPC_SLT_CP2:
->>> +        cond =3D TCG_COND_LT;
->>> +        goto do_cc_cond;
->>> +        break;
->>>        case OPC_SLEU_CP2:
->>> +        cond =3D TCG_COND_LEU;
->>> +        goto do_cc_cond;
->>> +        break;
->>>        case OPC_SLE_CP2:
->>> -        /*
->>> -         * ??? Document is unclear: Set FCC[CC].  Does that mean the
->>> -         * FD field is the CC field?
->>> -         */
->>> +        cond =3D TCG_COND_LE;
->>> +    do_cc_cond:
->>> +        {
->>> +            int cc =3D (ctx->opcode >> 8) & 0x7;
->>> +            TCGv_i64 t64 =3D tcg_temp_new_i64();
->>> +            TCGv_i32 t32 =3D tcg_temp_new_i32();
->>> +
->>> +            tcg_gen_setcond_i64(cond, t64, t0, t1);
->>> +            tcg_gen_extrl_i64_i32(t32, t64);
->>> +            tcg_gen_deposit_i32(fpu_fcr31, fpu_fcr31, t32,
->>> +                                get_fp_bit(cc), 1);
->>> +
->>> +            tcg_temp_free_i32(t32);
->>> +            tcg_temp_free_i64(t64);
->>> +        }
->>> +        goto no_rd;
->>> +        break;
->>>        default:
->>>            MIPS_INVAL("loongson_cp2");
->>>            generate_exception_end(ctx, EXCP_RI);
->>> @@ -5878,6 +5904,7 @@ static void
->> gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
->>>   =20
->>>        gen_store_fpr64(ctx, t0, rd);
->>>   =20
->>> +no_rd:
->>>        tcg_temp_free_i64(t0);
->>>        tcg_temp_free_i64(t1);
->>>    }
->>>
->=20
+> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+> index 93474ff770..8f127788e6 100644
+> --- a/qga/commands-posix.c
+> +++ b/qga/commands-posix.c
+> @@ -493,7 +493,13 @@ struct GuestFileRead *qmp_guest_file_read(int64_t ha=
+ndle, bool has_count,
+>          gfh->state =3D RW_STATE_NEW;
+>      }
+> =20
+> -    buf =3D g_malloc0(count+1);
+> +    buf =3D g_try_malloc0(count + 1);
+> +    if (!buf) {
+> +        error_setg(errp,
+> +                   "failed to allocate sufficient memory "
+> +                   "to complete the requested service");
+> +        return NULL;
+> +    }
+
+So you've prevented an OOM when we call fread() on the file.
+
+The contents of 'buf' now need to be turned into JSON which
+means the buffer need to be base64 encoded. This will consume
+even more memory than the original read.  So checking malloc
+here has achieved nothing AFAICT.
+
+>      read_count =3D fread(buf, 1, count, fh);
+>      if (ferror(fh)) {
+>          error_setg_errno(errp, errno, "failed to read file");
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
