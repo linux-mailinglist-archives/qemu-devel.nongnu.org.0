@@ -2,46 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DE99198135
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 18:28:45 +0200 (CEST)
-Received: from localhost ([::1]:52558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2621A19808A
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 18:09:38 +0200 (CEST)
+Received: from localhost ([::1]:52176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIxHI-0001Ez-3f
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 12:28:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49451)
+	id 1jIwym-0004We-UT
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 12:09:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45094)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jIxG2-0008Po-97
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:27:31 -0400
+ (envelope-from <david@redhat.com>) id 1jIwtd-0004qp-Fu
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:04:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jIxG0-0004zM-Ru
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:27:26 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:57461)
+ (envelope-from <david@redhat.com>) id 1jIwtb-0007in-GJ
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:04:16 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:58604)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jIxFz-0004t3-FU; Mon, 30 Mar 2020 12:27:24 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07439315|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_regular_dialog|0.0804893-0.000955938-0.918555;
- FP=0|0|0|0|0|-1|-1|-1; HT=e01a16384; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=10; RT=10; SR=0; TI=SMTPD_---.H7kdOZo_1585585634; 
-Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.H7kdOZo_1585585634) by smtp.aliyun-inc.com(10.147.40.2);
- Tue, 31 Mar 2020 00:27:15 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: richard.henderson@linaro.org, alistair23@gmail.com,
- chihmin.chao@sifive.com, palmer@dabbelt.com
-Subject: [PATCH v7 25/61] target/riscv: vector single-width averaging add and
- subtract
-Date: Mon, 30 Mar 2020 23:35:57 +0800
-Message-Id: <20200330153633.15298-26-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200330153633.15298-1-zhiwei_liu@c-sky.com>
-References: <20200330153633.15298-1-zhiwei_liu@c-sky.com>
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1jIwtb-0007iE-82
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:04:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585584254;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=tfVBjGck/Iijeko8GyJ2kcjaChtcw0JTDqjwVcjUGbE=;
+ b=LG5656/pbrmCNn/RcbWepRwrI017JcI/n0bgA2+mUbFJhLXyJsAqrCkQKCS+n/s/y/8Oye
+ Os1eNeJRa41yCVY19nAIHThzCvsTZmKrFeUrnUiGMHPZcFN95QgE77alTdysYmWowy2BKq
+ 7fEeeoSmpBZLzYgXar8f5zTJ5FTLGhA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-483-SgIi-qeTNfWtovFeKl1W2w-1; Mon, 30 Mar 2020 12:04:12 -0400
+X-MC-Unique: SgIi-qeTNfWtovFeKl1W2w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85F9686A063;
+ Mon, 30 Mar 2020 16:04:11 +0000 (UTC)
+Received: from [10.36.113.227] (ovpn-113-227.ams2.redhat.com [10.36.113.227])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 53F771001B2B;
+ Mon, 30 Mar 2020 16:04:10 +0000 (UTC)
+Subject: Re: [PATCH] s390x: kvm: Fix number of cpu reports for stsi 3.2.2
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20200330153828.8265-1-frankja@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <f6b26b2c-23c2-6622-2f58-1e74f335842e@redhat.com>
+Date: Mon, 30 Mar 2020 18:04:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 121.197.200.217
+In-Reply-To: <20200330153828.8265-1-frankja@linux.ibm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,185 +117,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- wxy194768@alibaba-inc.com, wenmeng_zhang@c-sky.com,
- LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
----
- target/riscv/helper.h                   |  17 ++++
- target/riscv/insn32.decode              |   5 ++
- target/riscv/insn_trans/trans_rvv.inc.c |   7 ++
- target/riscv/vector_helper.c            | 100 ++++++++++++++++++++++++
- 4 files changed, 129 insertions(+)
+On 30.03.20 17:38, Janosch Frank wrote:
+> The cpu number reporting is handled by KVM and QEMU only fills in the
+> VM name, uuid and other values.
+> 
+> Unfortuantely KVM doesn't report reserved cpus and doesn't even know
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 9416ebb090..32d549ce36 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -719,3 +719,20 @@ DEF_HELPER_6(vssub_vx_b, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vssub_vx_h, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vssub_vx_w, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vssub_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-+
-+DEF_HELPER_6(vaadd_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vaadd_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vaadd_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vaadd_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vasub_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vasub_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vasub_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vasub_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vaadd_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vaadd_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vaadd_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vaadd_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vasub_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vasub_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vasub_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vasub_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index c9a4050adc..e617d7bd60 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -417,6 +417,11 @@ vssubu_vv       100010 . ..... ..... 000 ..... 1010111 @r_vm
- vssubu_vx       100010 . ..... ..... 100 ..... 1010111 @r_vm
- vssub_vv        100011 . ..... ..... 000 ..... 1010111 @r_vm
- vssub_vx        100011 . ..... ..... 100 ..... 1010111 @r_vm
-+vaadd_vv        100100 . ..... ..... 000 ..... 1010111 @r_vm
-+vaadd_vx        100100 . ..... ..... 100 ..... 1010111 @r_vm
-+vaadd_vi        100100 . ..... ..... 011 ..... 1010111 @r_vm
-+vasub_vv        100110 . ..... ..... 000 ..... 1010111 @r_vm
-+vasub_vx        100110 . ..... ..... 100 ..... 1010111 @r_vm
- 
- vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
- vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
-diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 7f9ab4b8b7..a7cf4f4614 100644
---- a/target/riscv/insn_trans/trans_rvv.inc.c
-+++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -1771,3 +1771,10 @@ GEN_OPIVX_TRANS(vssubu_vx,  opivx_check)
- GEN_OPIVX_TRANS(vssub_vx,  opivx_check)
- GEN_OPIVI_TRANS(vsaddu_vi, 1, vsaddu_vx, opivx_check)
- GEN_OPIVI_TRANS(vsadd_vi, 0, vsadd_vx, opivx_check)
-+
-+/* Vector Single-Width Averaging Add and Subtract */
-+GEN_OPIVV_TRANS(vaadd_vv, opivv_check)
-+GEN_OPIVV_TRANS(vasub_vv, opivv_check)
-+GEN_OPIVX_TRANS(vaadd_vx,  opivx_check)
-+GEN_OPIVX_TRANS(vasub_vx,  opivx_check)
-+GEN_OPIVI_TRANS(vaadd_vi, 0, vaadd_vx, opivx_check)
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 7f34fcccce..784993b5f6 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -2496,3 +2496,103 @@ GEN_VEXT_VX_RM(vssub_vx_b, 1, 1, clearb)
- GEN_VEXT_VX_RM(vssub_vx_h, 2, 2, clearh)
- GEN_VEXT_VX_RM(vssub_vx_w, 4, 4, clearl)
- GEN_VEXT_VX_RM(vssub_vx_d, 8, 8, clearq)
-+
-+/* Vector Single-Width Averaging Add and Subtract */
-+static inline uint8_t get_round(int vxrm, uint64_t v, uint8_t shift)
-+{
-+    uint8_t d = extract64(v, shift, 1);
-+    uint8_t d1;
-+    uint64_t D1, D2;
-+
-+    if (shift == 0 || shift > 64) {
-+        return 0;
-+    }
-+
-+    d1 = extract64(v, shift - 1, 1);
-+    D1 = extract64(v, 0, shift);
-+    if (vxrm == 0) { /* round-to-nearest-up (add +0.5 LSB) */
-+        return d1;
-+    } else if (vxrm == 1) { /* round-to-nearest-even */
-+        if (shift > 1) {
-+            D2 = extract64(v, 0, shift - 1);
-+            return d1 & ((D2 != 0) | d);
-+        } else {
-+            return d1 & d;
-+        }
-+    } else if (vxrm == 3) { /* round-to-odd (OR bits into LSB, aka "jam") */
-+        return !d & (D1 != 0);
-+    }
-+    return 0; /* round-down (truncate) */
-+}
-+
-+static inline int32_t aadd32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
-+{
-+    int64_t res = (int64_t)a + b;
-+    uint8_t round = get_round(vxrm, res, 1);
-+
-+    return (res >> 1) + round;
-+}
-+
-+static inline int64_t aadd64(CPURISCVState *env, int vxrm, int64_t a, int64_t b)
-+{
-+    int64_t res = a + b;
-+    uint8_t round = get_round(vxrm, res, 1);
-+    int64_t over = (res ^ a) & (res ^ b) & INT64_MIN;
-+
-+    /* With signed overflow, bit 64 is inverse of bit 63. */
-+    return ((res >> 1) ^ over) + round;
-+}
-+
-+RVVCALL(OPIVV2_RM, vaadd_vv_b, OP_SSS_B, H1, H1, H1, aadd32)
-+RVVCALL(OPIVV2_RM, vaadd_vv_h, OP_SSS_H, H2, H2, H2, aadd32)
-+RVVCALL(OPIVV2_RM, vaadd_vv_w, OP_SSS_W, H4, H4, H4, aadd32)
-+RVVCALL(OPIVV2_RM, vaadd_vv_d, OP_SSS_D, H8, H8, H8, aadd64)
-+GEN_VEXT_VV_RM(vaadd_vv_b, 1, 1, clearb)
-+GEN_VEXT_VV_RM(vaadd_vv_h, 2, 2, clearh)
-+GEN_VEXT_VV_RM(vaadd_vv_w, 4, 4, clearl)
-+GEN_VEXT_VV_RM(vaadd_vv_d, 8, 8, clearq)
-+
-+RVVCALL(OPIVX2_RM, vaadd_vx_b, OP_SSS_B, H1, H1, aadd32)
-+RVVCALL(OPIVX2_RM, vaadd_vx_h, OP_SSS_H, H2, H2, aadd32)
-+RVVCALL(OPIVX2_RM, vaadd_vx_w, OP_SSS_W, H4, H4, aadd32)
-+RVVCALL(OPIVX2_RM, vaadd_vx_d, OP_SSS_D, H8, H8, aadd64)
-+GEN_VEXT_VX_RM(vaadd_vx_b, 1, 1, clearb)
-+GEN_VEXT_VX_RM(vaadd_vx_h, 2, 2, clearh)
-+GEN_VEXT_VX_RM(vaadd_vx_w, 4, 4, clearl)
-+GEN_VEXT_VX_RM(vaadd_vx_d, 8, 8, clearq)
-+
-+static inline int32_t asub32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
-+{
-+    int64_t res = (int64_t)a - b;
-+    uint8_t round = get_round(vxrm, res, 1);
-+
-+    return (res >> 1) + round;
-+}
-+
-+static inline int64_t asub64(CPURISCVState *env, int vxrm, int64_t a, int64_t b)
-+{
-+    int64_t res = (int64_t)a - b;
-+    uint8_t round = get_round(vxrm, res, 1);
-+    int64_t over = (res ^ a) & (a ^ b) & INT64_MIN;
-+
-+    /* With signed overflow, bit 64 is inverse of bit 63. */
-+    return ((res >> 1) ^ over) + round;
-+}
-+
-+RVVCALL(OPIVV2_RM, vasub_vv_b, OP_SSS_B, H1, H1, H1, asub32)
-+RVVCALL(OPIVV2_RM, vasub_vv_h, OP_SSS_H, H2, H2, H2, asub32)
-+RVVCALL(OPIVV2_RM, vasub_vv_w, OP_SSS_W, H4, H4, H4, asub32)
-+RVVCALL(OPIVV2_RM, vasub_vv_d, OP_SSS_D, H8, H8, H8, asub64)
-+GEN_VEXT_VV_RM(vasub_vv_b, 1, 1, clearb)
-+GEN_VEXT_VV_RM(vasub_vv_h, 2, 2, clearh)
-+GEN_VEXT_VV_RM(vasub_vv_w, 4, 4, clearl)
-+GEN_VEXT_VV_RM(vasub_vv_d, 8, 8, clearq)
-+
-+RVVCALL(OPIVX2_RM, vasub_vx_b, OP_SSS_B, H1, H1, asub32)
-+RVVCALL(OPIVX2_RM, vasub_vx_h, OP_SSS_H, H2, H2, asub32)
-+RVVCALL(OPIVX2_RM, vasub_vx_w, OP_SSS_W, H4, H4, asub32)
-+RVVCALL(OPIVX2_RM, vasub_vx_d, OP_SSS_D, H8, H8, asub64)
-+GEN_VEXT_VX_RM(vasub_vx_b, 1, 1, clearb)
-+GEN_VEXT_VX_RM(vasub_vx_h, 2, 2, clearh)
-+GEN_VEXT_VX_RM(vasub_vx_w, 4, 4, clearl)
-+GEN_VEXT_VX_RM(vasub_vx_d, 8, 8, clearq)
+s/Unfortuantely/Unfortunately/
+
+> they exist until the are created via the ioctl.
+> 
+> So let's fix up the cpu values after KVM has written its values to the
+> 3.2.2 sysib.
+
+Maybe mention "similar to TCG in target/s390x/misc_helper.c:HELPER(stsi)".
+
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> ---
+>  target/s390x/kvm.c | 18 +++++++++++++++++-
+>  1 file changed, 17 insertions(+), 1 deletion(-)
+> 
+> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+> index 3630c15f45a48864..a1c4890bdf0c65e4 100644
+> --- a/target/s390x/kvm.c
+> +++ b/target/s390x/kvm.c
+> @@ -1819,8 +1819,10 @@ static int handle_tsch(S390CPU *cpu)
+>  
+>  static void insert_stsi_3_2_2(S390CPU *cpu, __u64 addr, uint8_t ar)
+>  {
+> +    const MachineState *ms = MACHINE(qdev_get_machine());
+> +    uint16_t total_cpus = 0, conf_cpus = 0, reserved_cpus = 0;
+>      SysIB_322 sysib;
+> -    int del;
+> +    int del, i;
+>  
+>      if (s390_is_pv()) {
+>          s390_cpu_pv_mem_read(cpu, 0, &sysib, sizeof(sysib));
+> @@ -1842,6 +1844,20 @@ static void insert_stsi_3_2_2(S390CPU *cpu, __u64 addr, uint8_t ar)
+>          memset(sysib.ext_names[del], 0,
+>                 sizeof(sysib.ext_names[0]) * (sysib.count - del));
+>      }
+> +
+> +    /* count the cpus and split them into configured and reserved ones */
+> +    for (i = 0; i < ms->possible_cpus->len; i++) {
+> +        total_cpus++;
+> +        if (ms->possible_cpus->cpus[i].cpu) {
+> +            conf_cpus++;
+> +        } else {
+> +            reserved_cpus++;
+> +        }
+> +    }
+
+We could of course factor this calculation out :)
+
+(and one could shrink the variables from 3 to 2)
+
+> +    sysib.vm[0].total_cpus = total_cpus;
+> +    sysib.vm[0].conf_cpus = conf_cpus;
+> +    sysib.vm[0].reserved_cpus = reserved_cpus;
+> +
+>      /* Insert short machine name in EBCDIC, padded with blanks */
+>      if (qemu_name) {
+>          memset(sysib.vm[0].name, 0x40, sizeof(sysib.vm[0].name));
+> 
+
+Looks sane to me
+
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
 -- 
-2.23.0
+Thanks,
+
+David / dhildenb
 
 
