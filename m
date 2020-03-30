@@ -2,66 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C2E91980DA
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 18:21:17 +0200 (CEST)
-Received: from localhost ([::1]:52394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEC0319810A
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 18:23:41 +0200 (CEST)
+Received: from localhost ([::1]:52474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIxA4-0000nZ-Gz
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 12:21:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48078)
+	id 1jIxCO-0003gu-OS
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 12:23:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48273)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jIx8m-0008AL-FZ
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:19:57 -0400
+ (envelope-from <philmd@redhat.com>) id 1jIxA3-0001EV-JS
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:21:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jIx8k-0005RE-QC
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:19:55 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:58327)
+ (envelope-from <philmd@redhat.com>) id 1jIxA1-0006lg-Cy
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:21:15 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:43210)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jIx8k-0005QW-IJ
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:19:54 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jIxA1-0006lC-98
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:21:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585585194;
+ s=mimecast20190719; t=1585585272;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NHEAqRCYnJ/yCYLxc5/xSwCe24zmb5UFzAafIhc4Ztc=;
- b=POKiuXfRp3AM9QxdiIyCmfLGoYIhJ4lQyzbl30ery89UyXitL7H5eWRwH7kLvFGM+jXB+7
- xQQx4MD+KLI0REQ6AUdB0BZvk+ofqsHgComesRL1y0QLvCUOyi/XWVOAG4r010f0+NNGJd
- wvGMR88NWVMrMO+sVvu7qBxw66SgcM0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-VfsL5pJQOXCNA9h0V-K0ng-1; Mon, 30 Mar 2020 12:19:49 -0400
-X-MC-Unique: VfsL5pJQOXCNA9h0V-K0ng-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45AEE18C8C01;
- Mon, 30 Mar 2020 16:19:48 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-66.ams2.redhat.com [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B16E5C1B5;
- Mon, 30 Mar 2020 16:19:46 +0000 (UTC)
-Date: Mon, 30 Mar 2020 18:19:45 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v9 08/14] iotests: touch up log function signature
-Message-ID: <20200330161945.GG6139@linux.fritz.box>
-References: <20200324232103.4195-1-jsnow@redhat.com>
- <20200324232103.4195-9-jsnow@redhat.com>
+ bh=M+omyROmdHfnkTAOx9RIP7ynC/Ydzm/9FJPPDkBV2TI=;
+ b=YM08QKdIAHheI9Vi5FphYb18/EFz9cmDRt2pi6v1CyXLSiXJV8wTzps0brsTh8ALLNimqe
+ /FpEG0MSbFXHnTgjGfIhUU43kFodoXdkNDY2WcLKdWoR84UKc5JvChKnyPCfoEd0tjWSdO
+ vbFa1ieMRH0CzboTar+ge0ByiNq0HTg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-408-9o22zyl4Om2x33AYi5yq4A-1; Mon, 30 Mar 2020 12:21:03 -0400
+X-MC-Unique: 9o22zyl4Om2x33AYi5yq4A-1
+Received: by mail-wr1-f71.google.com with SMTP id e10so11641788wrm.2
+ for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 09:21:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1vwOwwMgEKNaU8XJpTGrUidaroBgwI0S525mFxGv9Hg=;
+ b=JWliQocXgTQ5OvH1NjuGL8of/JYyLp7UJ9dPFoQYhVM3/8zJqEEh6llyHUL5O7rCAk
+ AP3nKPfjCozLnUy5l4VkHi+9uGcw0ihca/YdujjBdzx0/2/zyJXRsjWfaMShJ0NJqLp0
+ ClYTQgPLdvTit0+tANsfE9U29ibd1uGckaorBxx8Gwy5PS1EOJYTEpfMHDZF1UM501Mg
+ ZasPCH9/fWsTzrECziynqJU+0dAXjDyWUZKZe8tEDDAmM92BFNE9I70hOuCEkJDjTOLf
+ XgduY8QYynfiouMRoSJMziO6oCrhvxqb/8lNA3PsC/j94W43wgQeBw/wdlj38iHfirJW
+ m/lw==
+X-Gm-Message-State: ANhLgQ16R+UdLRwTuOpe1aw+VZcjROh0+8GMIS8Zd/HmHlsWT0zpZE8W
+ tXumpmUkyqWMn/iUt5rQQkc97m9drGujwfCnOEbFm25vdPjUagYebD7NSzh4W7xAPWBz2ac6N3l
+ 0+TXJdkBbhLg0CUg=
+X-Received: by 2002:a1c:2d4b:: with SMTP id t72mr48406wmt.171.1585585262551;
+ Mon, 30 Mar 2020 09:21:02 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vsFkOfz38UtKS23BkuaLdvnukd9qLyQgNKm84fF9dhS6PAm5vbv/Pa5zaLMBVxwGRZAOh/fnQ==
+X-Received: by 2002:a1c:2d4b:: with SMTP id t72mr48384wmt.171.1585585262309;
+ Mon, 30 Mar 2020 09:21:02 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id u13sm22953962wru.88.2020.03.30.09.21.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Mar 2020 09:21:01 -0700 (PDT)
+Subject: Re: [PATCH-for-5.0] gdbstub: Use correct address space with
+ Qqemu.PhyMemMode packet
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20200330153016.2959-1-f4bug@amsat.org>
+ <CAFEAcA8i1W7ss2hQjaFbVHXzqhV81M8U4Fkaj_Te5JK8JO8+mg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <f1fd3384-8653-c2e2-7248-457ae873cc27@redhat.com>
+Date: Mon, 30 Mar 2020 18:21:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200324232103.4195-9-jsnow@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <CAFEAcA8i1W7ss2hQjaFbVHXzqhV81M8U4Fkaj_Te5JK8JO8+mg@mail.gmail.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,50 +92,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, qemu-block@nongnu.org, armbru@redhat.com,
- philmd@redhat.com, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
+ Jon Doron <arilou@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 25.03.2020 um 00:20 hat John Snow geschrieben:
-> Representing nested, recursive data structures in mypy is notoriously
-> difficult; the best we can reliably do right now is denote the atom
-> types as "Any" while describing the general shape of the data.
+On 3/30/20 6:08 PM, Peter Maydell wrote:
+> On Mon, 30 Mar 2020 at 16:30, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>>
+>> Since commit 3f940dc98, we added support for vAttach packet
+>> to select a particular thread/cpu/core. However when using
+>> the GDB physical memory mode, it is not clear which CPU
+>> address space is used.
+>> Since the CPU address space is stored in CPUState::as, use
+>> address_space_rw() instead of cpu_physical_memory_rw().
+>>
+>> Fixes: ab4752ec8d9
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>> ---
+>>   gdbstub.c | 7 ++-----
+>>   1 file changed, 2 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/gdbstub.c b/gdbstub.c
+>> index 013fb1ac0f..3baaef50e3 100644
+>> --- a/gdbstub.c
+>> +++ b/gdbstub.c
+>> @@ -69,11 +69,8 @@ static inline int target_memory_rw_debug(CPUState *cp=
+u, target_ulong addr,
+>>
+>>   #ifndef CONFIG_USER_ONLY
+>>       if (phy_memory_mode) {
+>> -        if (is_write) {
+>> -            cpu_physical_memory_write(addr, buf, len);
+>> -        } else {
+>> -            cpu_physical_memory_read(addr, buf, len);
+>> -        }
+>> +        address_space_rw(cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
+>> +                         buf, len, is_write);
+>>           return 0;
 >=20
-> Regardless, this fully annotates the log() function.
+> There's an argument here for using
+>     int asidx =3D cpu_asidx_from_attrs(cpu, MEMTXATTRS_UNSPECIFIED);
+>     AddressSpace *as =3D cpu_get_address_space(cpu, asidx);
 >=20
-> Typing notes:
->=20
-> TypeVar is a Type variable that can optionally be constrained by a
-> sequence of possible types. This variable is bound per-invocation such
-> that the signature for filter=3D() requires that its callables take e.g. =
-a
-> str and return a str.
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
+> though it will effectively boil down to the same thing in the end
+> as there's no way for the gdbstub to specify whether it wanted
+> eg the Arm secure or non-secure physical address space.
 
-I like it. Does your version of mypy accept this? I actually get a
-warning that doesn't make sense to me:
+https://static.docs.arm.com/ihi0074/a/debug_interface_v6_0_architecture_spe=
+cification_IHI0074A.pdf
 
-    iotests.py:392: error: Argument 1 to "info" of "Logger" has incompatibl=
-e type "Dict[str, Any]"; expected "str"
+* Configuration of hypervisor noninvasive debug.
 
-The code looks like this:
+This field can have one of the following values:
 
-    if isinstance(msg, (dict, list)):
-        # Don't sort if it's already sorted
-        do_sort =3D not isinstance(msg, OrderedDict)
-        test_logger.info(json.dumps(msg, sort_keys=3Ddo_sort, indent=3Dinde=
-nt))
-    else:
-        test_logger.info(msg)
+- 0b00
+Separate controls for hypervisor noninvasive debug are not implemented,=20
+or no hypervisor is implemented. For ARMv7 PEs that implement the=20
+Virtualization Extensions, and for ARMv8 PEs that implement EL2, if=20
+separate controls for hypervisor debug visibility are not implemented,=20
+the hypervisor debug visibility is indicated by the relevant Non-secure=20
+debug visibility fields NSNID and NSID.
 
-I have no idea why it would think it can still be Dict[str, Any] in the
-else branch. Even after adding an 'assert not instanceof(msg, dict), it
-still thinks so.
+OK so for ARM "noninvasive debug is not implemented" and we would use=20
+the core secure address space?
 
-Probably time to update for me...
-
-Kevin
+Instead of MEMTXATTRS_UNSPECIFIED I should use a crafted MemTxAttrs with=20
+.secure =3D 1, .unspecified =3D 1? The idea of this command is to use the=
+=20
+CPU AS but not the MMU/MPU, maybe it doesn't make sense...
 
 
