@@ -2,65 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91063197CFD
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 15:33:14 +0200 (CEST)
-Received: from localhost ([::1]:49956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6A7C197D17
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 15:38:34 +0200 (CEST)
+Received: from localhost ([::1]:50076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIuXR-0001vc-Ca
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 09:33:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48871)
+	id 1jIucb-00062A-R1
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 09:38:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49450)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jIuWN-0001DW-7W
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 09:32:09 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jIub0-0004Om-Sj
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 09:36:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jIuWL-0004vO-UD
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 09:32:06 -0400
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:39612)
+ (envelope-from <peter.maydell@linaro.org>) id 1jIuaz-00015a-PV
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 09:36:54 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:55505)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jIuWL-0004tO-LK
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 09:32:05 -0400
-Received: by mail-oi1-x232.google.com with SMTP id d63so15639296oig.6
- for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 06:32:05 -0700 (PDT)
+ id 1jIuaz-000124-Jk
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 09:36:53 -0400
+Received: by mail-wm1-x332.google.com with SMTP id r16so2131404wmg.5
+ for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 06:36:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=y1Xefw/bJnVUzey7CLXKisvMVTbbRtDR/ZP4vZBiY64=;
- b=GDDvGrJ98H7iqQuvRh4XAmi/PgVAjVsPIeAdzRBD+dV4SQiSXGtpTET7HHqjrMNBSz
- 99/UUwkvyQiRjRuNd2DgL0ZjA7hJxjR8oTLSK3dPAadt0sw7FAq939f6fnv7yUH21pSU
- qq/Bbb01qhMHq/mRfgV/coYy8Fn7/qxxuQVLQg48zHo69IKw2BZztvfT/xK17v2FZkAj
- xaR7/SNlKYPxyN7z5vLbTtxt2DgjC53kwfRkvHfWkwO9uQSBub3OSjbvGhtkgW10aiG6
- QesiVw6zfIRwaAEmInE9IyGrmof5UIwVil0//3dnWzaUmdxCR64h0VEPZM3K2XNw3yK8
- pJ9Q==
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PufYnFFWvOEHwXvQUfb/F/julwZceuJ2l9pvYd7Xy3Q=;
+ b=Q78pbU9YMNlGvhXOjwymFKsjKD4h066c24iqKyuDWpEgtPQpUZvR171LWMoMd1ADz9
+ OGpv+bJESLZIG1BlN8aNAXks8JX6modBO7bbp56FrNYAr1ZDs2Gf6U2P3tfxIh2vC/jB
+ UZDByl/OFZKXMuORKrRZ7qq76OTWGDMcgt7ywzD3g489QQEjCBLHiGyvYROkczWJJNkb
+ 8SFNSc2RZLWD1WTpPtFmdoZoYXBp9NkZOWHmuKmWa4cH6ol9CzXGZFuSlSHeIw0Yrq+B
+ kNXAjLbADJG0IDgTxsRc92ue7ZqT4VCqwMfymx7/Vf6zgemS3y8xYkeLHsxlV0+EAJht
+ 2ZWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=y1Xefw/bJnVUzey7CLXKisvMVTbbRtDR/ZP4vZBiY64=;
- b=M89enKmooQB75NJAiUsjGvIjeFcQzMWzOQAKws+nummy67ikeVll4IzP1aQ0N2q6gC
- GR7DZZIO6pTbDY6Q96X+qnZWW3P8Uu3PtPX1S4+J5v1PI0d8H7oVyWI96v//oDwM93xB
- E7Y48+SZ5AGhZkSf3TavVRToww6Bd/vYiNauAp4txRHm8tWenVE+k/uyXJvH16v8YcgU
- B4XaA7XH7m+eFc5mrZ73rfGfkKOfYMacLrrYWYoTcSPhNCbdnzRdWSlQMUCIpin78r4l
- Oilul4lHc7ablhcs+9rtKxqHaYBy4mtigjXd8VC+PciIuRAPojQe3A6eaenMJE5AmP+7
- Vrzg==
-X-Gm-Message-State: ANhLgQ3GjR0lgEEse4T4ZRaaTtU26zdYMryoxUV2MhIpgLM+iU3Hn5ir
- PvaS5zRl1T1CEyHM2j2LEauWQA+St31yJSdSUED5JA==
-X-Google-Smtp-Source: ADFU+vtoXvrEpg8DjRbqRpWEBvPYMYz7G+11OrclpuOQDC/4P73KJRzCdZ+kgJvuvQF6+dc90emVB4A6oJX2iQS9NVU=
-X-Received: by 2002:aca:c608:: with SMTP id w8mr7776841oif.163.1585575123554; 
- Mon, 30 Mar 2020 06:32:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAFEAcA8E6goDHb-7kKCTp=wSpBsuJcfjMmLP0EgymiEL348r4A@mail.gmail.com>
- <87v9mmug73.fsf@dusky.pond.sub.org>
-In-Reply-To: <87v9mmug73.fsf@dusky.pond.sub.org>
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PufYnFFWvOEHwXvQUfb/F/julwZceuJ2l9pvYd7Xy3Q=;
+ b=A+RXOn0xoInyLWaAt8Pr9oakvKYzRKs9jx/7BZNcZkZwRcA+Yq1uOQugp23gYCumCr
+ 0p/eH9aRVBW69G6r7nvHL7XVvJvvBX5w8cN3OOYYSgmZuxiZw6pPVh/7AGj0NN//tZka
+ 1b6Ibp9tOJXey+NWNgm10fCaJdJ/aTTW7giu3r7lDIvywELj3LdUBy9HOmU8Ex90bILs
+ otf8q+ajdQiwAo1moCwQjSoXWUP2xyfZouen8ztqYyzHZdhp7MbZeO3aJuTeh5uQxDqG
+ JU2nNioTyVO35qHG1NBzXo+2yZW8zmv2wk2mDK2hD5OnInmOx3g83/DmIOA5UG5LYxU2
+ O+QA==
+X-Gm-Message-State: ANhLgQ1BFlqdORM7TcADwkX4fQQ+5cYr0Lm+x0zf0ncwKyOghmO90tqV
+ 0WpWrKR/FYFqXYj/d48JdXO8hJs2rvohuA==
+X-Google-Smtp-Source: ADFU+vsyv/kA4+QoMn2wbFEhuqkfUsqDYv3YgOIP98INz0UpNrjXxtDT0dA4NFDEu47mstjeW1vWeQ==
+X-Received: by 2002:a1c:197:: with SMTP id 145mr12881447wmb.42.1585575410450; 
+ Mon, 30 Mar 2020 06:36:50 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id o14sm20756504wmh.22.2020.03.30.06.36.49
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Mar 2020 06:36:49 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 30 Mar 2020 14:31:52 +0100
-Message-ID: <CAFEAcA-9U=EAXAtPDh_AnO3eUbM_jcRBuf4x=0Rec0EC-v2mNA@mail.gmail.com>
-Subject: Re: deprecation of in-tree builds
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/6] target-arm queue
+Date: Mon, 30 Mar 2020 14:36:42 +0100
+Message-Id: <20200330133648.22297-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::232
+X-Received-From: 2a00:1450:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,42 +77,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 30 Mar 2020 at 14:26, Markus Armbruster <armbru@redhat.com> wrote:
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > AIUI from Paolo, the intention is to deprecate and eventually
-> > stop supporting "in-tree" builds, so that the only option is
-> > building in a separate build directory. I thought we should
-> > probably mention that in the 5.0 changelog, so I wrote up some
-> > text:
-> >
-> > https://wiki.qemu.org/ChangeLog/5.0#Build_Information
->
-> Overdue.  Thanks for doing this!
->
-> > Suggestions for changes/comments etc welcome.
->
-> Looks fine to me.
-
-Consensus in the thread seemed to lean towards having
-the 'configure/make' runes auto-create a build directory;
-if we want to do that we should probably not say anything in
-the release notes, because we'll cause people to change
-unnecessarily. Or at least have them say "We recommend
-out-of-tree builds. In future we might make the commands
-that currently do an in-tree build automatically create
-and use a build directory for you." rather than a blanket
-"we're going to drop this and you should change what you
-do now".
-
-Thoughts?
+A handful of bugfixes before rc1 tomorrow...
 
 thanks
 -- PMM
+
+The following changes since commit f9fe8450fa7cdc6268e05c93fa258f583f4514b7:
+
+  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.0-pull-request' into staging (2020-03-30 11:32:01 +0100)
+
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200330
+
+for you to fetch changes up to 88828bf133b64b7a860c166af3423ef1a47c5d3b:
+
+  target/arm: fix incorrect current EL bug in aarch32 exception emulation (2020-03-30 13:55:32 +0100)
+
+----------------------------------------------------------------
+target-arm queue:
+ * hw/arm/orangepi: check for potential NULL pointer when calling blk_is_available
+ * hw/misc/allwinner-h3-dramc: enforce 64-bit multiply when calculating row mirror address
+ * docs/conf.py: Raise ConfigError for bad Sphinx Python version
+ * hw/arm/xlnx-zynqmp.c: Avoid memory leak in error-return path
+ * hw/arm/xlnx-zynqmp.c: Add missing error-propagation code
+ * target/arm: fix incorrect current EL bug in aarch32 exception emulation
+
+----------------------------------------------------------------
+Changbin Du (1):
+      target/arm: fix incorrect current EL bug in aarch32 exception emulation
+
+Niek Linnenbank (2):
+      hw/arm/orangepi: check for potential NULL pointer when calling blk_is_available
+      hw/misc/allwinner-h3-dramc: enforce 64-bit multiply when calculating row mirror address
+
+Peter Maydell (3):
+      docs/conf.py: Raise ConfigError for bad Sphinx Python version
+      hw/arm/xlnx-zynqmp.c: Avoid memory leak in error-return path
+      hw/arm/xlnx-zynqmp.c: Add missing error-propagation code
+
+ hw/arm/orangepi.c            |  2 +-
+ hw/arm/xlnx-zynqmp.c         | 27 ++++++++++++++++++++++++++-
+ hw/misc/allwinner-h3-dramc.c |  4 ++--
+ target/arm/helper.c          |  5 ++++-
+ docs/conf.py                 |  9 +++++----
+ 5 files changed, 38 insertions(+), 9 deletions(-)
 
