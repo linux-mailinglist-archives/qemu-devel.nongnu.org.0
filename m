@@ -2,67 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53CFA1980A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 18:11:27 +0200 (CEST)
-Received: from localhost ([::1]:52226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 410251980E2
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 18:22:12 +0200 (CEST)
+Received: from localhost ([::1]:52412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIx0Y-00079S-BY
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 12:11:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46010)
+	id 1jIxAx-0001uE-9M
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 12:22:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48231)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jIwyC-000542-LB
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:09:02 -0400
+ (envelope-from <jiaxun.yang@flygoat.com>) id 1jIx9o-0000wx-3r
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:21:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jIwyB-0003Uz-Er
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:09:00 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:41559)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jIwyB-0003UG-9d
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:08:59 -0400
-Received: by mail-ot1-x343.google.com with SMTP id f52so18606327otf.8
- for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 09:08:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=/xGe4A7R67Wmz8kv/G0zPCGiuBF2poIsy43Iq3FnPoo=;
- b=xdJZ5sH/RstNuojf3Rd2wZTk1HJKMU4FxXZZ1Jzfdw/XYroV6LQyPnwXUZ1c5zJtAt
- aPH+EEsG34oHF4LTCiX/8H1pt06ej3hb04KANAgJNpLTEQ+BTjE5xhhBUycHh6bF7D35
- u75MhQ4ha66oBu/LxcCLQFpB9XHWrW2UaZ5c1weAl5DPfdShYMZD3xc83UaNZp0ADJOS
- WtjSySI/bDs7W6LGaX1Ae2PieqRVisbkAHZMIeszYgcPxXCO/WahPvSjzI5rRigh7lAn
- WCyemhVMWBxFJsjFheIdqr00pEPPnb8z4z0qspPp8RERlcKB6SH5uh8OPj9c3bInbatF
- ZUpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=/xGe4A7R67Wmz8kv/G0zPCGiuBF2poIsy43Iq3FnPoo=;
- b=CJw+lTvrbK5+lR/xAsbcr0iSDSCJghGmqGHO41mYN6NDslFqZrj72pd1vEgEuT+J0Q
- a8587DKPW1eJ83/OtLCN8QsCRwZ3o9NhZ8iG1a4aTvyR5EF7el9UbJSGPQV6FdTWXPG5
- GvMOSi7MI2Mgu3lgIuIV48hNUFSZZs0lN4mZHokQXABxnpz8/o++I/4Nsf9aYlVKm3kY
- no4IUDGjlMPUd7llxaqIuiIz6ihcavu4lQrhpPzdpCgc5LLp8JS8HffyKUhaXjqPD92k
- nYxmsxTU6WT9dS1w3QIieBwQJSxiv33N+07GtzwxD6wf/7mwmtit3F0aGh4qh1FaOUvY
- ZJDQ==
-X-Gm-Message-State: ANhLgQ3iojMcAtdZHDHsXmC339TNX3fb6ZwYukZLcZlFuNzwdmQ/iSos
- uAUeQoQOw709MNIlKem4GucGDZYWCPzstoixxMcQmw==
-X-Google-Smtp-Source: ADFU+vuCFx3IsJLKxIWpaW+VGn5T5uAQOKG+LQoRyo49HqLYyc7+gJoPMx/si7vXbN1Ql365UoQ6UnL+MQL5Vd6dwFE=
-X-Received: by 2002:a4a:2a09:: with SMTP id k9mr4907136oof.64.1585584536998;
- Mon, 30 Mar 2020 09:08:56 -0700 (PDT)
+ (envelope-from <jiaxun.yang@flygoat.com>) id 1jIx9l-0006Xa-H5
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:20:59 -0400
+Received: from sender3-op-o12.zoho.com.cn ([124.251.121.243]:17858)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1jIx9j-0006AN-Pa
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:20:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1585585123; 
+ s=mail; d=flygoat.com; i=jiaxun.yang@flygoat.com;
+ h=Date:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:To:CC:From:Message-ID;
+ bh=NrPlIDA19h9Nln8bk9yxmkBDOzQK3Y2SsHhr904ZkCY=;
+ b=BoFtf3tXkc6DVSKn4H2blf64X6bL/scnIizqXkmBL6grFSAMyuOFCaYqHzPtlXTV
+ /7J8+S35DiBtnbZ7em4MqbQPBcSM/xqtl1zKbPp4GxMoIsedvgOp/dg9DYqyumTYjzi
+ vo3ZWezKc9CpjlDQnnoRD0oLb4uIbpWM53APDW5E=
+Received: from [10.233.233.252] (183.156.33.130 [183.156.33.130]) by
+ mx.zoho.com.cn with SMTPS id 1585585121863731.322921744283;
+ Tue, 31 Mar 2020 00:18:41 +0800 (CST)
+Date: Tue, 31 Mar 2020 00:18:34 +0800
+User-Agent: K-9 Mail for Android
+In-Reply-To: <39c28108-5d85-d611-c2ea-abbbf913b981@redhat.com>
+References: <20200324122212.11156-1-jiaxun.yang@flygoat.com>
+ <39c28108-5d85-d611-c2ea-abbbf913b981@redhat.com>
 MIME-Version: 1.0
-References: <20200330153016.2959-1-f4bug@amsat.org>
-In-Reply-To: <20200330153016.2959-1-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 30 Mar 2020 17:08:45 +0100
-Message-ID: <CAFEAcA8i1W7ss2hQjaFbVHXzqhV81M8U4Fkaj_Te5JK8JO8+mg@mail.gmail.com>
-Subject: Re: [PATCH-for-5.0] gdbstub: Use correct address space with
- Qqemu.PhyMemMode packet
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [PATCH for-5.0,
+ v1] target/mips: Fix loongson multimedia condition instructions
+To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Message-ID: <1B369970-E78B-4A05-A80E-D7AB527E3A4E@flygoat.com>
+X-ZohoCNMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 124.251.121.243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,58 +61,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Jon Doron <arilou@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Luc Michel <luc.michel@greensocs.com>
+Cc: Huacai Chen <chenhc@lemote.com>, aleksandar.qemu.devel@gmail.com,
+ richard.henderson@linaro.org, aleksandar.rikalo@rt-rk.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 30 Mar 2020 at 16:30, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> Since commit 3f940dc98, we added support for vAttach packet
-> to select a particular thread/cpu/core. However when using
-> the GDB physical memory mode, it is not clear which CPU
-> address space is used.
-> Since the CPU address space is stored in CPUState::as, use
-> address_space_rw() instead of cpu_physical_memory_rw().
->
-> Fixes: ab4752ec8d9
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  gdbstub.c | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
->
-> diff --git a/gdbstub.c b/gdbstub.c
-> index 013fb1ac0f..3baaef50e3 100644
-> --- a/gdbstub.c
-> +++ b/gdbstub.c
-> @@ -69,11 +69,8 @@ static inline int target_memory_rw_debug(CPUState *cpu=
-, target_ulong addr,
->
->  #ifndef CONFIG_USER_ONLY
->      if (phy_memory_mode) {
-> -        if (is_write) {
-> -            cpu_physical_memory_write(addr, buf, len);
-> -        } else {
-> -            cpu_physical_memory_read(addr, buf, len);
-> -        }
-> +        address_space_rw(cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
-> +                         buf, len, is_write);
->          return 0;
 
-There's an argument here for using
-   int asidx =3D cpu_asidx_from_attrs(cpu, MEMTXATTRS_UNSPECIFIED);
-   AddressSpace *as =3D cpu_get_address_space(cpu, asidx);
 
-though it will effectively boil down to the same thing in the end
-as there's no way for the gdbstub to specify whether it wanted
-eg the Arm secure or non-secure physical address space.
+=E4=BA=8E 2020=E5=B9=B43=E6=9C=8830=E6=97=A5 GMT+08:00 =E4=B8=8B=E5=8D=881=
+1:39:44, "Philippe Mathieu-Daud=C3=A9" <philmd@redhat=2Ecom> =E5=86=99=E5=
+=88=B0:
+>Hi Jiaxun Yang,
+>
+>On 3/24/20 1:22 PM, Jiaxun Yang wrote:
+>> Loongson multimedia condition instructions were previously
+>implemented as
+>> write 0 to rd due to lack of documentation=2E So I just confirmed with
+>Loongson
+>> about their encoding and implemented them correctly=2E
+>
+>If you have a binary using loongson multimedia instructions, can you
+>add=20
+>a test? So this code won't bitrot=2E
 
-thanks
--- PMM
+I know ffmpeg uses it=2E
+But I think that's too fat=2E
+
+>
+>I'm in particular interested by a test covering the MAC2008=20
+>instructions=2E You can look at examples in the tests/tcg/mips/
+>directory,=20
+>Aleksandar added a lot of tests there=2E
+
+I'm going to try that=2E
+
+Thanks=2E
+
+>
+>Thanks,
+>
+>Phil=2E
+>
+>>=20
+>> Signed-off-by: Jiaxun Yang <jiaxun=2Eyang@flygoat=2Ecom>
+>> Acked-by: Huacai Chen <chenhc@lemote=2Ecom>
+>> ---
+>> v1: Use deposit opreations according to Richard's suggestion=2E
+>> ---
+>>   target/mips/translate=2Ec | 35 +++++++++++++++++++++++++++++++----
+>>   1 file changed, 31 insertions(+), 4 deletions(-)
+>>=20
+>> diff --git a/target/mips/translate=2Ec b/target/mips/translate=2Ec
+>> index d745bd2803=2E=2E25b595a17d 100644
+>> --- a/target/mips/translate=2Ec
+>> +++ b/target/mips/translate=2Ec
+>> @@ -5529,6 +5529,7 @@ static void
+>gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
+>>   {
+>>       uint32_t opc, shift_max;
+>>       TCGv_i64 t0, t1;
+>> +    TCGCond cond;
+>>  =20
+>>       opc =3D MASK_LMI(ctx->opcode);
+>>       switch (opc) {
+>> @@ -5862,14 +5863,39 @@ static void
+>gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
+>>  =20
+>>       case OPC_SEQU_CP2:
+>>       case OPC_SEQ_CP2:
+>> +        cond =3D TCG_COND_EQ;
+>> +        goto do_cc_cond;
+>> +        break;
+>>       case OPC_SLTU_CP2:
+>> +        cond =3D TCG_COND_LTU;
+>> +        goto do_cc_cond;
+>> +        break;
+>>       case OPC_SLT_CP2:
+>> +        cond =3D TCG_COND_LT;
+>> +        goto do_cc_cond;
+>> +        break;
+>>       case OPC_SLEU_CP2:
+>> +        cond =3D TCG_COND_LEU;
+>> +        goto do_cc_cond;
+>> +        break;
+>>       case OPC_SLE_CP2:
+>> -        /*
+>> -         * ??? Document is unclear: Set FCC[CC]=2E  Does that mean the
+>> -         * FD field is the CC field?
+>> -         */
+>> +        cond =3D TCG_COND_LE;
+>> +    do_cc_cond:
+>> +        {
+>> +            int cc =3D (ctx->opcode >> 8) & 0x7;
+>> +            TCGv_i64 t64 =3D tcg_temp_new_i64();
+>> +            TCGv_i32 t32 =3D tcg_temp_new_i32();
+>> +
+>> +            tcg_gen_setcond_i64(cond, t64, t0, t1);
+>> +            tcg_gen_extrl_i64_i32(t32, t64);
+>> +            tcg_gen_deposit_i32(fpu_fcr31, fpu_fcr31, t32,
+>> +                                get_fp_bit(cc), 1);
+>> +
+>> +            tcg_temp_free_i32(t32);
+>> +            tcg_temp_free_i64(t64);
+>> +        }
+>> +        goto no_rd;
+>> +        break;
+>>       default:
+>>           MIPS_INVAL("loongson_cp2");
+>>           generate_exception_end(ctx, EXCP_RI);
+>> @@ -5878,6 +5904,7 @@ static void
+>gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
+>>  =20
+>>       gen_store_fpr64(ctx, t0, rd);
+>>  =20
+>> +no_rd:
+>>       tcg_temp_free_i64(t0);
+>>       tcg_temp_free_i64(t1);
+>>   }
+>>=20
+
+--=20
+Jiaxun Yang
 
