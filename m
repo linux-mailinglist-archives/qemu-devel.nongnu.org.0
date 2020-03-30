@@ -2,87 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5EE1981B8
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 18:54:19 +0200 (CEST)
-Received: from localhost ([::1]:53010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF13F1981C2
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 18:56:43 +0200 (CEST)
+Received: from localhost ([::1]:53078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIxg2-0006lE-Jz
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 12:54:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54223)
+	id 1jIxiM-0002h2-Vb
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 12:56:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54688)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anthony.perard@citrix.com>) id 1jIxej-0005Dm-1p
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:52:57 -0400
+ (envelope-from <kbusch@kernel.org>) id 1jIxhD-0000rc-Bl
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:55:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1jIxei-00077O-0a
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:52:56 -0400
-Received: from esa5.hc3370-68.iphmx.com ([216.71.155.168]:29728)
+ (envelope-from <kbusch@kernel.org>) id 1jIxhC-0000Ax-C9
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:55:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51698)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1jIxeh-00074C-M5
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:52:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1585587175;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=AXeXsNTJMmSF+e5xX73xlrc4D7iLGMTcVw8qDrghgG8=;
- b=bSiesSCiH8oGL2mo3G1u58m1RuSYi/Aeq/7QHwUNvDPEWYG77WuI6sy+
- v1YpYH+GB9x+wKwKjADpigHjgS+fdM64qaKae4fAb6C4H4KrN8Nd+ztUh
- 7YvyHK3BR3ZKTuVqI3Z8FMDEWElzQjarIgUdMw1cTUY6Pvxqj7qlJEZ41 0=;
-Authentication-Results: esa5.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none;
- spf=None smtp.pra=anthony.perard@citrix.com;
- spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
- spf=None smtp.helo=postmaster@mail.citrix.com
-Received-SPF: None (esa5.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- anthony.perard@citrix.com) identity=pra;
- client-ip=162.221.158.21; receiver=esa5.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="anthony.perard@citrix.com";
- x-conformance=sidf_compatible
-Received-SPF: Pass (esa5.hc3370-68.iphmx.com: domain of
- anthony.perard@citrix.com designates 162.221.158.21 as
- permitted sender) identity=mailfrom;
- client-ip=162.221.158.21; receiver=esa5.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="anthony.perard@citrix.com";
- x-conformance=sidf_compatible; x-record-type="v=spf1";
- x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
- ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
- ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
- ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83
- ip4:168.245.78.127 ~all"
-Received-SPF: None (esa5.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- postmaster@mail.citrix.com) identity=helo;
- client-ip=162.221.158.21; receiver=esa5.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="postmaster@mail.citrix.com";
- x-conformance=sidf_compatible
-IronPort-SDR: alVgjttp/oTsW9TdYs19l7wdvB+3cs1GznlA+oYXnaT5Q/owL4ou6u0BslnelCDbS3pqC8TXF3
- hFO/H34OuO/D5zY0ZQjGbgYLItqYvDXKpZLUjIR4H933aoyCUVDB3SRzv+aCWcIU3PwLYHV9J/
- vXFA7CLxnemE99TBh2I7yFyK4nEEOtw0vNZ4G0Z8cufyMM3GXcS7DVBNk8EPqdQMViz8Ja1MGj
- cc49yqFxEimdMMBzApz3pHIGjOfQgG5ynMjsSfENeIWZXDnS+EAsXHrnjb9SVaR282h7JOIcXP
- UwA=
-X-SBRS: 2.7
-X-MesageID: 15201099
-X-Ironport-Server: esa5.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.72,325,1580792400"; d="scan'208";a="15201099"
-Date: Mon, 30 Mar 2020 17:52:48 +0100
-From: Anthony PERARD <anthony.perard@citrix.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH for-5.0] xen: fixup RAM memory region initialization
-Message-ID: <20200330165248.GR4088@perard.uk.xensource.com>
-References: <20200327104828.12647-1-imammedo@redhat.com>
+ (Exim 4.71) (envelope-from <kbusch@kernel.org>)
+ id 1jIxhA-00009B-5z; Mon, 30 Mar 2020 12:55:28 -0400
+Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id F036C2073B;
+ Mon, 30 Mar 2020 16:55:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1585587325;
+ bh=udl1qLljsSDOr5Hbvoeaeun9iY6pf9r8iv5Z/Wr7tCk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HutlO0y5g7ZTMn/qwESzAbN2kAMGZFyxj1O23aK4iUdvIwF2H7xvSiV7PjGFUx2CM
+ k0kwL3BtjZPWr6e2DY8RvWq5gCtLC+agX+QQbTpRGJFkJRnwHJSZBJJaHX4VOrFIGr
+ GtflLve1TNK3h1W1LlcMXNgDln4D/yq5lRHKOu/o=
+Date: Tue, 31 Mar 2020 01:55:18 +0900
+From: Keith Busch <kbusch@kernel.org>
+To: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+Subject: Re: [PATCH RESEND v4] nvme: introduce PMR support from NVMe 1.4 spec
+Message-ID: <20200330165518.GA8234@redsun51.ssa.fujisawa.hgst.com>
+References: <20200330164656.9348-1-andrzej.jakowski@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200327104828.12647-1-imammedo@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 216.71.155.168
+In-Reply-To: <20200330164656.9348-1-andrzej.jakowski@linux.intel.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 198.145.29.99
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,40 +56,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
- ehabkost@redhat.com, rth@twiddle.net
+Cc: kwolf@redhat.com, haozhong.zhang@intel.com, qemu-block@nongnu.org,
+ stefanha@gmail.com, dgilbert@redhat.com, qemu-devel@nongnu.org,
+ yi.z.zhang@linux.intel.com, junyan.he@intel.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 27, 2020 at 06:48:28AM -0400, Igor Mammedov wrote:
-> Since bd457782b3b0 ("x86/pc: use memdev for RAM") Xen
-> machine fails to start with:
->    qemu-system-i386: xen: failed to populate ram at 0
-> 
-> The reason is that xen_ram_alloc() which is called by
-> memory_region_init_ram(), compares memory region with
-> statically allocated 'global' ram_memory memory region
-> that it uses for RAM, and does nothing in case it matches.
-> 
-> While it's possible feed machine->ram to xen_ram_alloc()
-> in the same manner to keep that hack working, I'd prefer
-> not to keep that circular dependency and try to untangle that.
-> 
-> However it doesn't look trivial to fix, so as temporary
-> fixup opt out Xen machine from memdev based RAM allocation,
-> and let xen_ram_alloc() do its trick for now.
-> 
-> Reported-by: Anthony PERARD <anthony.perard@citrix.com>
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+On Mon, Mar 30, 2020 at 09:46:56AM -0700, Andrzej Jakowski wrote:
+> This patch introduces support for PMR that has been defined as part of NVMe 1.4
+> spec. User can now specify a pmrdev option that should point to HostMemoryBackend.
+> pmrdev memory region will subsequently be exposed as PCI BAR 2 in emulated NVMe
+> device. Guest OS can perform mmio read and writes to the PMR region that will stay
+> persistent across system reboot.
 
-Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
+Looks pretty good to me.
 
-That should work on most configs. But we also sometime use the "pc"
-machine with accel=xen, to run without the "xen-platform" pci device,
-but that would be less common.
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
-Thanks,
-
--- 
-Anthony PERARD
+For a possible future extention, it could be interesting to select the
+BAR for PMR dynamically, so that you could have CMB and PMR enabled on
+the same device.
 
