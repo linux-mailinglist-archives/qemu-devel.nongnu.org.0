@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B940197328
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 06:24:36 +0200 (CEST)
-Received: from localhost ([::1]:44686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79779197365
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 06:27:04 +0200 (CEST)
+Received: from localhost ([::1]:44740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIlyV-0001H4-Gi
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 00:24:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37900)
+	id 1jIm0t-0006HA-GJ
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 00:27:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37937)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yi.l.liu@intel.com>) id 1jIltd-0001FK-TS
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 00:19:35 -0400
+ (envelope-from <yi.l.liu@intel.com>) id 1jIlto-0001eK-7E
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 00:19:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yi.l.liu@intel.com>) id 1jIltc-00080g-E0
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 00:19:33 -0400
-Received: from mga07.intel.com ([134.134.136.100]:12573)
+ (envelope-from <yi.l.liu@intel.com>) id 1jIltm-0008A1-IS
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 00:19:44 -0400
+Received: from mga07.intel.com ([134.134.136.100]:12574)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1jIltc-0007o2-5n
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 00:19:32 -0400
-IronPort-SDR: wcZpse9GLkXlngo5afC5DJl0IQgK0U+7Pgb3R8XlIS3aGXAc0OMJwX6Fzp3/RXejCPFC8tJP8M
- zTaGjJTHfU9A==
+ (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1jIltm-0007ph-6q
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 00:19:42 -0400
+IronPort-SDR: 6mPZk9vo915ScVXfKOGzYBg4vLGsIFihdXSeOprtHEbw2DnyJ+p86RHzpGlsInd7dirpLCB+FO
+ mer9M0RnjjQA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  29 Mar 2020 21:19:16 -0700
-IronPort-SDR: LtkkblB0r6THgcsyHMv1gPxEJeZRwAQkWucJcGrEzgpI3Yzp5P2cR3qDC+up5PkANWAnf6Ara5
- nYqcsciPnJ0g==
+IronPort-SDR: GbJrcBr/HNsaPw+ZZqLIV7AQfQvuokwoD+cJyMjbMC2nNjlXE5nLJ2ChG87se9OwxSkje+PgSN
+ CUKpYsfRYwsg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,322,1580803200"; d="scan'208";a="327632045"
+X-IronPort-AV: E=Sophos;i="5.72,322,1580803200"; d="scan'208";a="327632054"
 Received: from jacob-builder.jf.intel.com ([10.7.199.155])
- by orsmga001.jf.intel.com with ESMTP; 29 Mar 2020 21:19:15 -0700
+ by orsmga001.jf.intel.com with ESMTP; 29 Mar 2020 21:19:16 -0700
 From: Liu Yi L <yi.l.liu@intel.com>
 To: qemu-devel@nongnu.org,
 	alex.williamson@redhat.com,
 	peterx@redhat.com
-Subject: [PATCH v2 12/22] intel_iommu: process PASID cache invalidation
-Date: Sun, 29 Mar 2020 21:24:51 -0700
-Message-Id: <1585542301-84087-13-git-send-email-yi.l.liu@intel.com>
+Subject: [PATCH v2 14/22] vfio: add bind stage-1 page table support
+Date: Sun, 29 Mar 2020 21:24:53 -0700
+Message-Id: <1585542301-84087-15-git-send-email-yi.l.liu@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1585542301-84087-1-git-send-email-yi.l.liu@intel.com>
 References: <1585542301-84087-1-git-send-email-yi.l.liu@intel.com>
@@ -57,135 +57,242 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: jean-philippe@linaro.org, kevin.tian@intel.com, yi.l.liu@intel.com,
- Yi Sun <yi.y.sun@linux.intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, mst@redhat.com, jun.j.tian@intel.com,
- eric.auger@redhat.com, yi.y.sun@intel.com,
+ Yi Sun <yi.y.sun@linux.intel.com>, kvm@vger.kernel.org, mst@redhat.com,
+ jun.j.tian@intel.com, eric.auger@redhat.com, yi.y.sun@intel.com,
  Jacob Pan <jacob.jun.pan@linux.intel.com>, pbonzini@redhat.com,
- hao.wu@intel.com, Richard Henderson <rth@twiddle.net>,
- david@gibson.dropbear.id.au
+ hao.wu@intel.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds PASID cache invalidation handling. When guest enabled
-PASID usages (e.g. SVA), guest software should issue a proper PASID
-cache invalidation when caching-mode is exposed. This patch only adds
-the draft handling of pasid cache invalidation. Detailed handling will
-be added in subsequent patches.
-
-v1 -> v2: remove vtd_pasid_cache_gsi(), vtd_pasid_cache_psi() and
-          vtd_pasid_cache_dsi()
+This patch adds bind_stage1_pgtbl() definition in HostIOMMUContextClass,
+also adds corresponding implementation in VFIO. This is to expose a way
+for vIOMMU to setup dual stage DMA translation for passthru devices on
+hardware.
 
 Cc: Kevin Tian <kevin.tian@intel.com>
 Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
 Cc: Peter Xu <peterx@redhat.com>
+Cc: Eric Auger <eric.auger@redhat.com>
 Cc: Yi Sun <yi.y.sun@linux.intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Cc: David Gibson <david@gibson.dropbear.id.au>
+Cc: Alex Williamson <alex.williamson@redhat.com>
 Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
 ---
- hw/i386/intel_iommu.c          | 40 +++++++++++++++++++++++++++++++++++-----
- hw/i386/intel_iommu_internal.h | 12 ++++++++++++
- hw/i386/trace-events           |  3 +++
- 3 files changed, 50 insertions(+), 5 deletions(-)
+ hw/iommu/host_iommu_context.c         | 47 +++++++++++++++++++++++++++++-
+ hw/vfio/common.c                      | 55 ++++++++++++++++++++++++++++++++++-
+ include/hw/iommu/host_iommu_context.h | 26 ++++++++++++++++-
+ 3 files changed, 125 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 6c3159f..2eb60c3 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -2395,6 +2395,37 @@ static bool vtd_process_iotlb_desc(IntelIOMMUState *s, VTDInvDesc *inv_desc)
-     return true;
+diff --git a/hw/iommu/host_iommu_context.c b/hw/iommu/host_iommu_context.c
+index 5fb2223..8ae20fe 100644
+--- a/hw/iommu/host_iommu_context.c
++++ b/hw/iommu/host_iommu_context.c
+@@ -69,15 +69,60 @@ int host_iommu_ctx_pasid_free(HostIOMMUContext *iommu_ctx, uint32_t pasid)
+     return hicxc->pasid_free(iommu_ctx, pasid);
  }
  
-+static bool vtd_process_pasid_desc(IntelIOMMUState *s,
-+                                   VTDInvDesc *inv_desc)
++int host_iommu_ctx_bind_stage1_pgtbl(HostIOMMUContext *iommu_ctx,
++                                     DualIOMMUStage1BindData *data)
 +{
-+    if ((inv_desc->val[0] & VTD_INV_DESC_PASIDC_RSVD_VAL0) ||
-+        (inv_desc->val[1] & VTD_INV_DESC_PASIDC_RSVD_VAL1) ||
-+        (inv_desc->val[2] & VTD_INV_DESC_PASIDC_RSVD_VAL2) ||
-+        (inv_desc->val[3] & VTD_INV_DESC_PASIDC_RSVD_VAL3)) {
-+        error_report_once("non-zero-field-in-pc_inv_desc hi: 0x%" PRIx64
-+                  " lo: 0x%" PRIx64, inv_desc->val[1], inv_desc->val[0]);
-+        return false;
++    HostIOMMUContextClass *hicxc;
++
++    if (!iommu_ctx) {
++        return -EINVAL;
 +    }
 +
-+    switch (inv_desc->val[0] & VTD_INV_DESC_PASIDC_G) {
-+    case VTD_INV_DESC_PASIDC_DSI:
-+        break;
-+
-+    case VTD_INV_DESC_PASIDC_PASID_SI:
-+        break;
-+
-+    case VTD_INV_DESC_PASIDC_GLOBAL:
-+        break;
-+
-+    default:
-+        error_report_once("invalid-inv-granu-in-pc_inv_desc hi: 0x%" PRIx64
-+                  " lo: 0x%" PRIx64, inv_desc->val[1], inv_desc->val[0]);
-+        return false;
++    hicxc = HOST_IOMMU_CONTEXT_GET_CLASS(iommu_ctx);
++    if (!hicxc) {
++        return -EINVAL;
 +    }
 +
-+    return true;
++    if (!(iommu_ctx->flags & HOST_IOMMU_NESTING) ||
++        !hicxc->bind_stage1_pgtbl) {
++        return -EINVAL;
++    }
++
++    return hicxc->bind_stage1_pgtbl(iommu_ctx, data);
 +}
 +
- static bool vtd_process_inv_iec_desc(IntelIOMMUState *s,
-                                      VTDInvDesc *inv_desc)
++int host_iommu_ctx_unbind_stage1_pgtbl(HostIOMMUContext *iommu_ctx,
++                                       DualIOMMUStage1BindData *data)
++{
++    HostIOMMUContextClass *hicxc;
++
++    if (!iommu_ctx) {
++        return -EINVAL;
++    }
++
++    hicxc = HOST_IOMMU_CONTEXT_GET_CLASS(iommu_ctx);
++    if (!hicxc) {
++        return -EINVAL;
++    }
++
++    if (!(iommu_ctx->flags & HOST_IOMMU_NESTING) ||
++        !hicxc->unbind_stage1_pgtbl) {
++        return -EINVAL;
++    }
++
++    return hicxc->unbind_stage1_pgtbl(iommu_ctx, data);
++}
++
+ void host_iommu_ctx_init(void *_iommu_ctx, size_t instance_size,
+                          const char *mrtypename,
+-                         uint64_t flags)
++                         uint64_t flags, uint32_t formats)
  {
-@@ -2501,12 +2532,11 @@ static bool vtd_process_inv_desc(IntelIOMMUState *s)
-         }
-         break;
+     HostIOMMUContext *iommu_ctx;
  
--    /*
--     * TODO: the entity of below two cases will be implemented in future series.
--     * To make guest (which integrates scalable mode support patch set in
--     * iommu driver) work, just return true is enough so far.
--     */
-     case VTD_INV_DESC_PC:
-+        trace_vtd_inv_desc("pasid-cache", inv_desc.val[1], inv_desc.val[0]);
-+        if (!vtd_process_pasid_desc(s, &inv_desc)) {
-+            return false;
-+        }
-         break;
+     object_initialize(_iommu_ctx, instance_size, mrtypename);
+     iommu_ctx = HOST_IOMMU_CONTEXT(_iommu_ctx);
+     iommu_ctx->flags = flags;
++    iommu_ctx->stage1_formats = formats;
+     iommu_ctx->initialized = true;
+ }
  
-     case VTD_INV_DESC_PIOTLB:
-diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-index 3fc83f1..9a76f20 100644
---- a/hw/i386/intel_iommu_internal.h
-+++ b/hw/i386/intel_iommu_internal.h
-@@ -444,6 +444,18 @@ typedef union VTDInvDesc VTDInvDesc;
-         (0x3ffff800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM | VTD_SL_TM)) : \
-         (0x3ffff800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM))
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 44b142c..465e4d8 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -1226,6 +1226,54 @@ static int vfio_host_iommu_ctx_pasid_free(HostIOMMUContext *iommu_ctx,
+     return 0;
+ }
  
-+#define VTD_INV_DESC_PASIDC_G          (3ULL << 4)
-+#define VTD_INV_DESC_PASIDC_PASID(val) (((val) >> 32) & 0xfffffULL)
-+#define VTD_INV_DESC_PASIDC_DID(val)   (((val) >> 16) & VTD_DOMAIN_ID_MASK)
-+#define VTD_INV_DESC_PASIDC_RSVD_VAL0  0xfff000000000ffc0ULL
-+#define VTD_INV_DESC_PASIDC_RSVD_VAL1  0xffffffffffffffffULL
-+#define VTD_INV_DESC_PASIDC_RSVD_VAL2  0xffffffffffffffffULL
-+#define VTD_INV_DESC_PASIDC_RSVD_VAL3  0xffffffffffffffffULL
++static int vfio_host_iommu_ctx_bind_stage1_pgtbl(HostIOMMUContext *iommu_ctx,
++                                          DualIOMMUStage1BindData *bind_data)
++{
++    VFIOContainer *container = container_of(iommu_ctx,
++                                            VFIOContainer, iommu_ctx);
++    struct vfio_iommu_type1_bind *bind;
++    unsigned long argsz;
++    int ret = 0;
 +
-+#define VTD_INV_DESC_PASIDC_DSI        (0ULL << 4)
-+#define VTD_INV_DESC_PASIDC_PASID_SI   (1ULL << 4)
-+#define VTD_INV_DESC_PASIDC_GLOBAL     (3ULL << 4)
++    argsz = sizeof(*bind) + sizeof(bind_data->bind_data);
++    bind = g_malloc0(argsz);
++    bind->argsz = argsz;
++    bind->flags = VFIO_IOMMU_BIND_GUEST_PGTBL;
++    memcpy(&bind->data, &bind_data->bind_data, sizeof(bind_data->bind_data));
 +
- /* Information about page-selective IOTLB invalidate */
- struct VTDIOTLBPageInvInfo {
-     uint16_t domain_id;
-diff --git a/hw/i386/trace-events b/hw/i386/trace-events
-index 71536a7..f7cd4e5 100644
---- a/hw/i386/trace-events
-+++ b/hw/i386/trace-events
-@@ -22,6 +22,9 @@ vtd_inv_qi_head(uint16_t head) "read head %d"
- vtd_inv_qi_tail(uint16_t head) "write tail %d"
- vtd_inv_qi_fetch(void) ""
- vtd_context_cache_reset(void) ""
-+vtd_pasid_cache_gsi(void) ""
-+vtd_pasid_cache_dsi(uint16_t domain) "Domian slective PC invalidation domain 0x%"PRIx16
-+vtd_pasid_cache_psi(uint16_t domain, uint32_t pasid) "PASID slective PC invalidation domain 0x%"PRIx16" pasid 0x%"PRIx32
- vtd_re_not_present(uint8_t bus) "Root entry bus %"PRIu8" not present"
- vtd_ce_not_present(uint8_t bus, uint8_t devfn) "Context entry bus %"PRIu8" devfn %"PRIu8" not present"
- vtd_iotlb_page_hit(uint16_t sid, uint64_t addr, uint64_t slpte, uint16_t domain) "IOTLB page hit sid 0x%"PRIx16" iova 0x%"PRIx64" slpte 0x%"PRIx64" domain 0x%"PRIx16
++    if (ioctl(container->fd, VFIO_IOMMU_BIND, bind)) {
++        ret = -errno;
++        error_report("%s: pasid (%u) bind failed: %d",
++                      __func__, bind_data->pasid, ret);
++    }
++    g_free(bind);
++    return ret;
++}
++
++static int vfio_host_iommu_ctx_unbind_stage1_pgtbl(HostIOMMUContext *iommu_ctx,
++                                            DualIOMMUStage1BindData *bind_data)
++{
++    VFIOContainer *container = container_of(iommu_ctx,
++                                            VFIOContainer, iommu_ctx);
++    struct vfio_iommu_type1_bind *bind;
++    unsigned long argsz;
++    int ret = 0;
++
++    argsz = sizeof(*bind) + sizeof(bind_data->bind_data);
++    bind = g_malloc0(argsz);
++    bind->argsz = argsz;
++    bind->flags = VFIO_IOMMU_UNBIND_GUEST_PGTBL;
++    memcpy(&bind->data, &bind_data->bind_data, sizeof(bind_data->bind_data));
++
++    if (ioctl(container->fd, VFIO_IOMMU_BIND, bind)) {
++        ret = -errno;
++        error_report("%s: pasid (%u) unbind failed: %d",
++                      __func__, bind_data->pasid, ret);
++    }
++    g_free(bind);
++    return ret;
++}
++
+ /**
+  * Get iommu info from host. Caller of this funcion should free
+  * the memory pointed by the returned pointer stored in @info
+@@ -1350,10 +1398,13 @@ static int vfio_init_container(VFIOContainer *container, int group_fd,
+ 
+         flags |= (nesting.nesting_capabilities & VFIO_IOMMU_PASID_REQS) ?
+                  HOST_IOMMU_PASID_REQUEST : 0;
++        flags |= HOST_IOMMU_NESTING;
++
+         host_iommu_ctx_init(&container->iommu_ctx,
+                             sizeof(container->iommu_ctx),
+                             TYPE_VFIO_HOST_IOMMU_CONTEXT,
+-                            flags);
++                            flags,
++                            nesting.stage1_formats);
+     }
+ 
+     container->iommu_type = iommu_type;
+@@ -1945,6 +1996,8 @@ static void vfio_host_iommu_context_class_init(ObjectClass *klass,
+ 
+     hicxc->pasid_alloc = vfio_host_iommu_ctx_pasid_alloc;
+     hicxc->pasid_free = vfio_host_iommu_ctx_pasid_free;
++    hicxc->bind_stage1_pgtbl = vfio_host_iommu_ctx_bind_stage1_pgtbl;
++    hicxc->unbind_stage1_pgtbl = vfio_host_iommu_ctx_unbind_stage1_pgtbl;
+ }
+ 
+ static const TypeInfo vfio_host_iommu_context_info = {
+diff --git a/include/hw/iommu/host_iommu_context.h b/include/hw/iommu/host_iommu_context.h
+index 227c433..44daca9 100644
+--- a/include/hw/iommu/host_iommu_context.h
++++ b/include/hw/iommu/host_iommu_context.h
+@@ -41,6 +41,7 @@
+                          TYPE_HOST_IOMMU_CONTEXT)
+ 
+ typedef struct HostIOMMUContext HostIOMMUContext;
++typedef struct DualIOMMUStage1BindData DualIOMMUStage1BindData;
+ 
+ typedef struct HostIOMMUContextClass {
+     /* private */
+@@ -54,6 +55,16 @@ typedef struct HostIOMMUContextClass {
+     /* Reclaim pasid from HostIOMMUContext (a.k.a. host software) */
+     int (*pasid_free)(HostIOMMUContext *iommu_ctx,
+                       uint32_t pasid);
++    /*
++     * Bind stage-1 page table to a hostIOMMU w/ dual stage
++     * DMA translation capability.
++     * @bind_data specifies the bind configurations.
++     */
++    int (*bind_stage1_pgtbl)(HostIOMMUContext *iommu_ctx,
++                             DualIOMMUStage1BindData *bind_data);
++    /* Undo a previous bind. @bind_data specifies the unbind info. */
++    int (*unbind_stage1_pgtbl)(HostIOMMUContext *iommu_ctx,
++                               DualIOMMUStage1BindData *bind_data);
+ } HostIOMMUContextClass;
+ 
+ /*
+@@ -62,17 +73,30 @@ typedef struct HostIOMMUContextClass {
+ struct HostIOMMUContext {
+     Object parent_obj;
+ #define HOST_IOMMU_PASID_REQUEST (1ULL << 0)
++#define HOST_IOMMU_NESTING       (1ULL << 1)
+     uint64_t flags;
++    uint32_t stage1_formats;
+     bool initialized;
+ };
+ 
++struct DualIOMMUStage1BindData {
++    uint32_t pasid;
++    union {
++        struct iommu_gpasid_bind_data gpasid_bind;
++    } bind_data;
++};
++
+ int host_iommu_ctx_pasid_alloc(HostIOMMUContext *iommu_ctx, uint32_t min,
+                                uint32_t max, uint32_t *pasid);
+ int host_iommu_ctx_pasid_free(HostIOMMUContext *iommu_ctx, uint32_t pasid);
++int host_iommu_ctx_bind_stage1_pgtbl(HostIOMMUContext *iommu_ctx,
++                                     DualIOMMUStage1BindData *data);
++int host_iommu_ctx_unbind_stage1_pgtbl(HostIOMMUContext *iommu_ctx,
++                                       DualIOMMUStage1BindData *data);
+ 
+ void host_iommu_ctx_init(void *_iommu_ctx, size_t instance_size,
+                          const char *mrtypename,
+-                         uint64_t flags);
++                         uint64_t flags, uint32_t formats);
+ void host_iommu_ctx_destroy(HostIOMMUContext *iommu_ctx);
+ 
+ #endif
 -- 
 2.7.4
 
