@@ -2,87 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8072C1986C0
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 23:45:45 +0200 (CEST)
-Received: from localhost ([::1]:57282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 429351986DD
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 23:56:18 +0200 (CEST)
+Received: from localhost ([::1]:57374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJ2E4-00064X-4A
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 17:45:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45786)
+	id 1jJ2OG-00017q-Sc
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 17:56:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46931)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty@apple.com>) id 1jJ2DB-0005Yt-3B
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 17:44:50 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jJ2NN-0000Ds-Gp
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 17:55:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty@apple.com>) id 1jJ2D9-0003X6-QA
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 17:44:48 -0400
-Received: from ma1-aaemail-dr-lapp03.apple.com ([17.171.2.72]:52946)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dirty@apple.com>) id 1jJ2D9-0003Wo-LF
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 17:44:47 -0400
-Received: from pps.filterd (ma1-aaemail-dr-lapp03.apple.com [127.0.0.1])
- by ma1-aaemail-dr-lapp03.apple.com (8.16.0.27/8.16.0.27) with SMTP id
- 02ULgECk035325; Mon, 30 Mar 2020 14:44:46 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com;
- h=sender : from : to :
- cc : subject : date : message-id : mime-version :
- content-transfer-encoding; s=20180706;
- bh=Gsp06c4mD6b5oTAqW1wepv8IV05AmTx4NZrRvKJf03c=;
- b=pR2xB0DAznbXfWMVjKk2vkjluqwQA48v3lhlRkSTtEIK5daZ+DMgXE7N+hynveTjEZy+
- viv9/VekQKgCgo9igUKD3pgC3/ldEMhjz2eBJ+UHlsgi5NR52rvhYVTTaAS/CcAEoVqi
- Kz+VLJJy5wrjv1T7rmWuSV7q6x1qxPLXEgJiZfWclsBYWNTuViSq18OHESF+OZ6x6t6H
- c5YVOFAcv2XxLDgc2cYl+rRujJagFxmCM7MR1tFxG+dFyFuak0Ba7pPknNPpnYtZ0Yj+
- +Ma2FfrMe7etIHObqFD1wSe2CQssskTuIBShVEFnRVtpLfIllb3+gQxs7kyhsCoj5wl4 nA== 
-Received: from rn-mailsvcp-mta-lapp02.rno.apple.com
- (rn-mailsvcp-mta-lapp02.rno.apple.com [10.225.203.150])
- by ma1-aaemail-dr-lapp03.apple.com with ESMTP id 3025juw248-2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
- Mon, 30 Mar 2020 14:44:46 -0700
-Received: from rn-mailsvcp-mmp-lapp03.rno.apple.com
- (rn-mailsvcp-mmp-lapp03.rno.apple.com [17.179.253.16])
- by rn-mailsvcp-mta-lapp02.rno.apple.com
- (Oracle Communications Messaging Server 8.1.0.5.20200312 64bit (built Mar 12
- 2020)) with ESMTPS id <0Q8100PIN0ELDV40@rn-mailsvcp-mta-lapp02.rno.apple.com>; 
- Mon, 30 Mar 2020 14:44:45 -0700 (PDT)
-Received: from process_milters-daemon.rn-mailsvcp-mmp-lapp03.rno.apple.com by
- rn-mailsvcp-mmp-lapp03.rno.apple.com
- (Oracle Communications Messaging Server 8.1.0.5.20200312 64bit (built Mar 12
- 2020)) id <0Q8100Q0007YC000@rn-mailsvcp-mmp-lapp03.rno.apple.com>; Mon,
- 30 Mar 2020 14:44:45 -0700 (PDT)
-X-Va-A: 
-X-Va-T-CD: c56cc4374afe9162bf6a337f3d661529
-X-Va-E-CD: 012147316b17cd0b285d1cc34c4be8ae
-X-Va-R-CD: bf920fc5652119c28bf18cc33ff3acf3
-X-Va-CD: 0
-X-Va-ID: 4f137540-a52b-45e3-8d46-4819406bafc4
-X-V-A: 
-X-V-T-CD: c56cc4374afe9162bf6a337f3d661529
-X-V-E-CD: 012147316b17cd0b285d1cc34c4be8ae
-X-V-R-CD: bf920fc5652119c28bf18cc33ff3acf3
-X-V-CD: 0
-X-V-ID: 553cb964-9b43-4d8a-b0a9-17a92d8cd0f3
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-03-30_07:2020-03-30,
- 2020-03-30 signatures=0
-Received: from pontoon.com (unknown [17.234.84.168])
- by rn-mailsvcp-mmp-lapp03.rno.apple.com
- (Oracle Communications Messaging Server 8.1.0.5.20200312 64bit (built Mar 12
- 2020))
- with ESMTPSA id <0Q8100A2L0ELVA50@rn-mailsvcp-mmp-lapp03.rno.apple.com>; Mon,
- 30 Mar 2020 14:44:45 -0700 (PDT)
-To: qemu-devel@nongnu.org
-Cc: kraxel@redhat.com
-Subject: [PATCH v1] usb: Add read support for HCIVERSION register to XHCI
-Date: Mon, 30 Mar 2020 14:44:44 -0700
-Message-id: <20200330214444.43494-1-dirty@apple.com>
-X-Mailer: git-send-email 2.24.0
-MIME-version: 1.0
-Content-transfer-encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-03-30_07:2020-03-30,
- 2020-03-30 signatures=0
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 17.171.2.72
+ (envelope-from <alex.bennee@linaro.org>) id 1jJ2NM-0000HU-CB
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 17:55:21 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35136)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jJ2NL-0000H8-UU
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 17:55:20 -0400
+Received: by mail-wm1-x342.google.com with SMTP id i19so500476wmb.0
+ for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 14:55:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=aGMNm0JtWP3AxZQlXFns7pxLjat3ku2JNZsQzgAjdwk=;
+ b=dkx7V9rElthmwetJKvNYtjWRQp7llsoReNx4huhPXSmKXXh0uYC7ynM3qttrs92YDG
+ 93Gybn/9xIsFvf3FwtP4xdwegTVOs9kpiSxZCIQNMu3MIJE7X6SqFwfAyV8Mih0HaCVO
+ hEHsEdfXu0vKp0snXJ6bXewZ0Vnbyk69zo31cn1HwVwC2U8/CGP4Mj8XFLVyFjdrnTaa
+ Lv9qAbvsrH+JXaxJwIsuXbigRasrt5h/WJOFxWU05eb7aL8oyJjsxj3pg56TBRWDi7Hx
+ QznvVxxYpXIaah0cpzaPteHPto89nw4lFmxQf6IUYTT+WZCE8zaSHru6dp3CsmX119MW
+ YQ2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=aGMNm0JtWP3AxZQlXFns7pxLjat3ku2JNZsQzgAjdwk=;
+ b=NJY4siY7PFwc8Rr0TfH7Wl0F4LdCWESmG48GKaZP9v/cGZ4qxFgyO/2xIpV8IjLmlm
+ PfirKmkxArszCnYeXs4g8U4f7Y8aulwM6oNN/emN2jJ/1c4wxqQnjq/4Mz/0U5TZhNo1
+ pwuvGPIA3snwnzi6WWr3VVanbCSL2MZ4eYYmXPIkpDCkZr6Ee2m5GkR1ZQv3kNBJzfyV
+ INGw4nzmS3dC5X6C81pcPI0+KWazqsnAfvXN+xFyklzjAmIIbo2zcyTgt48p/vxRc2WM
+ +l8aGcOjFXsAeKqgub+LiELZJ4FGfDBQRJoWF6GIOxfkYe0BjzoCb10LbCOFkZGdc8lk
+ gAUQ==
+X-Gm-Message-State: ANhLgQ3iMYRIaWMd/gaOV1IaDudFzLuPwtC4hT0wCYxRdVvkJjoPPVZK
+ 16KK4zX1NRdSuvlgyYNeHSPuVQ==
+X-Google-Smtp-Source: ADFU+vsAUXEXf5PQPQHhw1bj9hkU7mFQGLwGkxSJCxSzlEJzanOTJCGscXBJVg7wwdV7dvf13gNitA==
+X-Received: by 2002:a05:600c:2101:: with SMTP id
+ u1mr137062wml.177.1585605318672; 
+ Mon, 30 Mar 2020 14:55:18 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a16sm1017958wmm.20.2020.03.30.14.55.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Mar 2020 14:55:17 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AB1B81FF7E;
+ Mon, 30 Mar 2020 22:55:16 +0100 (BST)
+References: <20200318062057.224953-1-scw@google.com>
+User-agent: mu4e 1.3.10; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Shu-Chun Weng <scw@google.com>
+Subject: Re: [PATCH] Makes softmmu compile with clang at HEAD
+In-reply-to: <20200318062057.224953-1-scw@google.com>
+Date: Mon, 30 Mar 2020 22:55:16 +0100
+Message-ID: <87r1x9fqyj.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,34 +82,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Cameron Esfahani <dirty@apple.com>
-From: Cameron Esfahani via <qemu-devel@nongnu.org>
 
-macOS will read HCIVERSION separate from CAPLENGTH.  Add a distinct
-handler for that register.
 
-Signed-off-by: Cameron Esfahani <dirty@apple.com>
----
- hw/usb/hcd-xhci.c | 3 +++
- 1 file changed, 3 insertions(+)
+Shu-Chun Weng <scw@google.com> writes:
 
-diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
-index b330e36fe6..061f8438de 100644
---- a/hw/usb/hcd-xhci.c
-+++ b/hw/usb/hcd-xhci.c
-@@ -2739,6 +2739,9 @@ static uint64_t xhci_cap_read(void *ptr, hwaddr reg, unsigned size)
-     case 0x00: /* HCIVERSION, CAPLENGTH */
-         ret = 0x01000000 | LEN_CAP;
-         break;
-+    case 0x02: /* HCIVERSION */
-+        ret = 0x0100;
-+        break;
-     case 0x04: /* HCSPARAMS 1 */
-         ret = ((xhci->numports_2+xhci->numports_3)<<24)
-             | (xhci->numintrs<<8) | xhci->numslots;
--- 
-2.24.0
+> With clang at HEAD, linking fails with "undefined symbol:
+> qemu_build_not_reached". It's because `store_helper` and
+> `helper_ret_stb_mmu` are mutually recursive and clang inlined latter
+> inside the former, making `store_helper` a recursive function and no
+> longer fully inlineable preventing constant propogation.
+>
+> Signed-off-by: Shu-Chun Weng <scw@google.com>
+> ---
+>  accel/tcg/cputlb.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index e3b5750c3b..a7c812ed72 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -2050,6 +2050,7 @@ store_helper(CPUArchState *env, target_ulong addr, =
+uint64_t val,
+>      store_memop(haddr, val, op);
+>  }
+>=20=20
+> +__attribute__((noinline))
+>  void helper_ret_stb_mmu(CPUArchState *env, target_ulong addr, uint8_t va=
+l,
+>                          TCGMemOpIdx oi, uintptr_t retaddr)
 
+Hmm I wonder if the correct fix is for store_helper to callL
+
+  store_memop(addr + i, val8, MO_UB);
+
+direct in the fallback case - although the page crossing may be tricky
+to get right. Perhaps we should out of line all the unaligned stuff?
+
+
+--=20
+Alex Benn=C3=A9e
 
