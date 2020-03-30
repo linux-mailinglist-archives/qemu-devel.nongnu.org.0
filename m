@@ -2,39 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66E9D19A3E5
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 05:12:24 +0200 (CEST)
-Received: from localhost ([::1]:46394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CBA91985F6
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 23:03:45 +0200 (CEST)
+Received: from localhost ([::1]:56768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJTnj-0002eG-9o
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 23:12:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54293)
+	id 1jJ1ZQ-0005kk-8e
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 17:03:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53094)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <raphael.norwitz@nutanix.com>) id 1jJTmp-00022W-Dj
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 23:11:28 -0400
+ (envelope-from <Brice.Goglin@inria.fr>) id 1jIzrX-0004jo-Gf
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 15:14:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <raphael.norwitz@nutanix.com>) id 1jJTmn-00029m-La
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 23:11:26 -0400
-Received: from [192.146.154.243] (port=34750 helo=mcp01.nutanix.com)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <raphael.norwitz@nutanix.com>) id 1jJTmn-00027Y-GQ
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 23:11:25 -0400
-Received: from localhost.localdomain.com (unknown [10.40.48.82])
- by mcp01.nutanix.com (Postfix) with ESMTP id 8DEC7100ABF8;
- Wed,  1 Apr 2020 03:11:23 +0000 (UTC)
-From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-To: qemu-devel@nongnu.org,
-	mst@redhat.com
-Subject: [PATCH] MAINTAINERS: Add myself as vhost-user-blk maintainer
-Date: Thu, 26 Mar 2020 04:57:27 -0400
-Message-Id: <1585213047-20089-1-git-send-email-raphael.norwitz@nutanix.com>
-X-Mailer: git-send-email 1.8.3.1
+ (envelope-from <Brice.Goglin@inria.fr>) id 1jIzrV-0001xH-UG
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 15:14:19 -0400
+Received: from mail2-relais-roc.national.inria.fr ([192.134.164.83]:53642)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <Brice.Goglin@inria.fr>)
+ id 1jIzrV-0001tS-K5
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 15:14:17 -0400
+X-IronPort-AV: E=Sophos;i="5.72,325,1580770800"; 
+ d="scan'208,217";a="443047320"
+Received: from 91-160-5-165.subs.proxad.net (HELO [192.168.44.23])
+ ([91.160.5.165])
+ by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-SHA;
+ 30 Mar 2020 21:07:02 +0200
+To: qemu-devel@nongnu.org
+From: Brice Goglin <Brice.Goglin@inria.fr>
+Subject: linux-user: keep the name-ending parenthesis in /proc/self/stat
+Autocrypt: addr=Brice.Goglin@inria.fr; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <f7720d36-a5ea-ae13-220a-2e436e6a22a4@inria.fr>
+Date: Mon, 30 Mar 2020 21:07:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 192.146.154.243
+Content-Type: multipart/alternative;
+ boundary="------------01321153CE236AF9D680AC74"
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.134.164.83
+X-Mailman-Approved-At: Mon, 30 Mar 2020 17:01:57 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,45 +95,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, raphael.s.norwitz@gmail.com,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As suggested by Michael, let's add me as a maintainer of
-vhost-user-blk and vhost-user-scsi.
+This is a multi-part message in MIME format.
+--------------01321153CE236AF9D680AC74
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-CC: Michael S. Tsirkin <mst@redhat.com>
-CC Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
----
- MAINTAINERS | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+When the program name is very long, qemu-user may truncate it in
+/proc/self/stat. However the truncation must keep the ending ") "
+to conform to the proc manpage which says:
+    (2) comm  %s
+           The  filename of the executable, in parentheses.  This
+           is visible whether or not the  executable  is  swapped
+           out.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e580276..239ecc1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1845,6 +1845,18 @@ F: hw/display/virtio-gpu*
- F: hw/display/virtio-vga.*
- F: include/hw/virtio/virtio-gpu.h
-=20
-+vhost-user-blk
-+M: Raphael Norwitz <raphael.norwitz@nutanix.com>
-+S: Maintained
-+F: contrib/vhost-user-blk/
-+F: contrib/vhost-user-scsi/
-+F: hw/block/vhost-user-blk.c
-+F: hw/scsi/vhost-user-scsi.c
-+F: hw/virtio/vhost-user-blk-pci.c
-+F: hw/virtio/vhost-user-scsi-pci.c
-+F: include/hw/virtio/vhost-user-blk.h
-+F: include/hw/virtio/vhost-user-scsi.h
-+
- vhost-user-gpu
- M: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
- M: Gerd Hoffmann <kraxel@redhat.com>
---=20
-1.8.3.1
+To reproduce:
+$ ln -s /bin/cat <filenamewithmorethan128chars>
+$ qemu-x86_64 ./<filenamewithmorethan128chars> /proc/self/stat
 
+Before the patch, you get:
+1134631 (<filenametruncated>0 0 0 0 0 0 0 0 ...
+After the patch:
+1134631 (<filenametruncat>) 0 0 0 0 0 0 0 0 ...
+
+This fixes an issue with hwloc failing to parse /proc/self/stat
+when Ludovic Courtes was testing it in guix over qemu-aarch64.
+
+Signed-off-by: Brice Goglin <Brice.Goglin@inria.fr>
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 5af55fca78..a1126dcf5b 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -7305,7 +7305,10 @@ static int open_self_stat(void *cpu_env, int fd)
+         snprintf(buf, sizeof(buf), "%"PRId64 " ", val);
+       } else if (i == 1) {
+         /* app name */
+-        snprintf(buf, sizeof(buf), "(%s) ", ts->bprm->argv[0]);
++        len = snprintf(buf, sizeof(buf), "(%s) ", ts->bprm->argv[0]);
++        if (len >= sizeof(buf))
++          /* bring back the ending ") " that was truncated */
++          strcpy(buf+sizeof(buf)-3, ") ");
+       } else if (i == 27) {
+         /* stack bottom */
+         val = start_stack;
+
+
+--------------01321153CE236AF9D680AC74
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <pre>When the program name is very long, qemu-user may truncate it in
+/proc/self/stat. However the truncation must keep the ending ") "
+to conform to the proc manpage which says:
+    (2) comm  %s
+           The  filename of the executable, in parentheses.  This
+           is visible whether or not the  executable  is  swapped
+           out.
+
+To reproduce:
+$ ln -s /bin/cat &lt;filenamewithmorethan128chars&gt;
+$ qemu-x86_64 ./&lt;filenamewithmorethan128chars&gt; /proc/self/stat
+
+Before the patch, you get:
+1134631 (&lt;filenametruncated&gt;0 0 0 0 0 0 0 0 ...
+After the patch:
+1134631 (&lt;filenametruncat&gt;) 0 0 0 0 0 0 0 0 ...
+
+This fixes an issue with hwloc failing to parse /proc/self/stat
+when Ludovic Courtes was testing it in guix over qemu-aarch64.
+
+Signed-off-by: Brice Goglin <a class="moz-txt-link-rfc2396E" href="mailto:Brice.Goglin@inria.fr">&lt;Brice.Goglin@inria.fr&gt;</a>
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 5af55fca78..a1126dcf5b 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -7305,7 +7305,10 @@ static int open_self_stat(void *cpu_env, int fd)
+         snprintf(buf, sizeof(buf), "%"PRId64 " ", val);
+       } else if (i == 1) {
+         /* app name */
+-        snprintf(buf, sizeof(buf), "(%s) ", ts-&gt;bprm-&gt;argv[0]);
++        len = snprintf(buf, sizeof(buf), "(%s) ", ts-&gt;bprm-&gt;argv[0]);
++        if (len &gt;= sizeof(buf))
++          /* bring back the ending ") " that was truncated */
++          strcpy(buf+sizeof(buf)-3, ") ");
+       } else if (i == 27) {
+         /* stack bottom */
+         val = start_stack;
+
+</pre>
+  </body>
+</html>
+
+--------------01321153CE236AF9D680AC74--
 
