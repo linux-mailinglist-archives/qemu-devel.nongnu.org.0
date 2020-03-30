@@ -2,76 +2,141 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A523D1984A2
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 21:38:40 +0200 (CEST)
-Received: from localhost ([::1]:55538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 599271984D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 21:49:52 +0200 (CEST)
+Received: from localhost ([::1]:55702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJ0F5-00024R-Hr
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 15:38:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56620)
+	id 1jJ0Pv-0002AH-3H
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 15:49:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57658)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jJ0E7-0001FF-Pa
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 15:37:41 -0400
+ (envelope-from <jsnow@redhat.com>) id 1jJ0Hx-0004jj-U2
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 15:41:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jJ0E5-0005Ql-WF
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 15:37:39 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:34804)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jJ0E5-0005Pf-KV
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 15:37:37 -0400
-Received: by mail-wm1-x343.google.com with SMTP id 26so379506wmk.1
- for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 12:37:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=gZOldwHLnIB+1kjUriZ+cS7+MrenkoEssoMj1VlIBa8=;
- b=sYAVeNrWZw1HjFtX7b8rvLC0fXwiqy3oGBOi4uiP8uah4ql6QKCA5NrMwTgWE63qx6
- zQfVHGfxrrAeao0RA7IfXNHsjMxsz7pksgg2vfEtfh43Wf6M3ru5LQFhnLAumVSB1k1i
- 8MCN0eh7Ajy+UpUkEyuuD8rqwaooMOcxggq/kwFM9n9Nuct6SjTeui8W5X2hCjnUGzwA
- BXiE706ujMoUIpj4vIQ0QSzMf3q9BzoLJMUdTZ+r4JhD3mWlb7w4P/nAoGJ/cbi9tq3D
- bYjGAe59g8be8mxtLyQ3ssH/yOMHX6VQrLxi12VbPjZulu7kFEBQqmjEDSHfdSk8LfiS
- SA5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=gZOldwHLnIB+1kjUriZ+cS7+MrenkoEssoMj1VlIBa8=;
- b=cICul10bodjZtrofXmOJ0rjN3lmA4MrW4Kf9XfI8MazZEto53adaTDc7EkseaPOtCu
- BDa+3vP41UKNcv5ZzbwDXV/Ebmxf9WUICzgAr+5TC7qfT7bW9oxhpKcj8bDt66KnGXeB
- DxTveKsuT+jVNBPLbm1+IbgJ5wGnHstfhQ+4CoS8M3cRCqpX010jV6H/TDev0DbMokef
- Z+0f/tK9NJY0UMgKXDfEw+7jAyl6xF8RIcE6nXBAq/TTp7ZpnGwtwr59UEjWBu9LtHEf
- BypkA6wwiWr4XuZaEj9PgHlLq12sibHE+1dQ5B/ryeNT4vcUgAjpzXA6cKwKsyDmt489
- 4d7g==
-X-Gm-Message-State: ANhLgQ2llmU8e+KDEXDY9JACry00T07b5w/lZ1chxXJpUXaLPYJzWsuv
- vUBoF080ow0jxWGmuE1jlLaJ/Q==
-X-Google-Smtp-Source: ADFU+vtdJad/xV/MNGXeL+1k4LGUbLgFe+zCAtyw/Nln6LuNwZPnFI8JhKf9voIFOiDFz8FLQaDIoQ==
-X-Received: by 2002:a1c:de87:: with SMTP id v129mr876463wmg.68.1585597056297; 
- Mon, 30 Mar 2020 12:37:36 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w9sm25557193wrk.18.2020.03.30.12.37.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Mar 2020 12:37:34 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3EF521FF7E;
- Mon, 30 Mar 2020 20:37:34 +0100 (BST)
-References: <CAOragkw8XgbEOiaE9n=wKzPAMkzdOcqA5VA5ihN80v-g7V8TRw@mail.gmail.com>
- <20200329111311.272958fe@luklap> <878sjhho0s.fsf@linaro.org>
- <CAOragkwcnAYYdGOjaHWc1F7-hRnB9CHbgoUqEcc40A7muV+06Q@mail.gmail.com>
-User-agent: mu4e 1.3.10; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Benjamin <benjamin@thatjames.org>
-Subject: Re: Qemu TCG Plugins - how to access guest registers?
-In-reply-to: <CAOragkwcnAYYdGOjaHWc1F7-hRnB9CHbgoUqEcc40A7muV+06Q@mail.gmail.com>
-Date: Mon, 30 Mar 2020 20:37:34 +0100
-Message-ID: <87wo71fxc1.fsf@linaro.org>
+ (envelope-from <jsnow@redhat.com>) id 1jJ0Hw-0000Sy-EF
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 15:41:37 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:29213)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jJ0Hw-0000SV-8o
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 15:41:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585597295;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=tMDnd+jQX6y2EjIenwVCau8lQgmdj0oW+7MiX6AD4hE=;
+ b=GkdmkOcHzjEAHa47rObeQvQ3lUzIkXxoAcClBrbt4EHK+OIHi+hOcLMzXqIoDUh2BKRSrs
+ KzR1voy8GEQmhBjvvHivIQ6AS5veMuU/+2nvOVxoETRkmfvc1qcvEF9lY4arIxS/M66RAW
+ Oe+EYyWaYxa1XoI9XC1F2rWFppBwHjM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-189-L9gJFLuyNl678NokJoVp8Q-1; Mon, 30 Mar 2020 15:41:33 -0400
+X-MC-Unique: L9gJFLuyNl678NokJoVp8Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFC7A8014C0;
+ Mon, 30 Mar 2020 19:41:32 +0000 (UTC)
+Received: from [10.10.113.210] (ovpn-113-210.rdu2.redhat.com [10.10.113.210])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5CA74D7677;
+ Mon, 30 Mar 2020 19:41:31 +0000 (UTC)
+Subject: Re: [PATCH v9 00/14] iotests: use python logging
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+References: <20200324232103.4195-1-jsnow@redhat.com>
+ <65362106-b101-8421-c184-01f85d46f9ab@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <f60c2223-b192-cdf1-84f4-cd0ea8416cea@redhat.com>
+Date: Mon, 30 Mar 2020 15:41:30 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <65362106-b101-8421-c184-01f85d46f9ab@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,148 +148,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>, "Emilio G . Cota" <cota@braap.org>,
- qemu-devel@nongnu.org, qemu-discuss@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, ehabkost@redhat.com, qemu-block@nongnu.org,
+ armbru@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Benjamin <benjamin@thatjames.org> writes:
 
-> Thanks for your quick response.
->
-> On Mon, Mar 30, 2020 at 9:15 AM Alex Benn=C3=A9e <alex.bennee@linaro.org>=
- wrote:
->
+On 3/30/20 9:00 AM, Max Reitz wrote:
+> On 25.03.20 00:20, John Snow wrote:
+>> This series uses python logging to enable output conditionally on
+>> iotests.log(). We unify an initialization call (which also enables
+>> debugging output for those tests with -d) and then make the switch
+>> inside of iotests.
 >>
->> Lukas Straub <lukasstraub2@web.de> writes:
+>> It will help alleviate the need to create logged/unlogged versions
+>> of all the various helpers we have made.
 >>
->> >> My question is, how do I access the guest memory and registers from t=
-he
->> >> plugin callback function? The API seems to indicate that it is possib=
-le,
->> >> since the callback registering requires you to say if you will access
->> them,
->> >> and if it's RW or just read.
->>
->> Currently we document what plugins can do in docs/devel/tcg-plugins.rst:
->>
->>   TCG plugins are unable to change the system state only monitor it
->>   passively. However they can do this down to an individual instruction
->>   granularity including potentially subscribing to all load and store
->>   operations.
->>
->> This was a conscious decision to avoid plugins being used as an end-run
->> around the GPL to implement proprietary out-of-tree extensions.
->>
->> That is not to say we might relax the rules in the future - it was a
->> topic of discussion at the maintainers summit and we wanted to document
->> some guidelines around interfacing with QEMU so people didn't get the
->> wrong idea about what these APIs provide (c.f. multi-process qemu and
->> vhost-user which could also be abused in similar ways).
->>
->
-> I understand restricting the API so that the system state cannot be
-> changed, only inspected.  I should have been more specific in my question.
-> I am attempting to create a plugin that tracks all memory accesses, so I
-> can emulate cache behavior.
+>> Also, I got lost and accidentally delinted iotests while I was here.
+>> Sorry about that. By version 9, it's now the overwhelming focus of
+>> this series. No good deed, etc.
+> 
+> Generally, test patches are fair game for the freeze period.  However,
+> this series is quite extensive, so I might prefer block-next here.
+> OTOH, if I do take it to block-next, patch 11 might grow stale.
+> 
+> Do you have a strong opinion either way?
+> 
+> Max
+> 
 
-Emulate or measure? By the way there is a GSoC project proposal to add
-this:
+Not really, no.
 
-  https://wiki.qemu.org/Internships/ProjectIdeas/CacheModelling
+Might be nice to see it tossed into the RC while everyone is doing
+testing to see if it causes problems. On the other hand, it probably
+WILL cause problems with various untested version combinations and so forth.
 
-> The reason I would like to read the registers,
-> is because many load/store instructions depend on register values, which I
-> can only be sure of at run-time.
+Either or.
 
-You don't need the registers at that point because at run time QEMU will
-have already resolved the address and will pass it via the
-qemu_plugin_register_vcpu_mem_cb. The hotpages and mem plugin examples
-demonstrate the use of the API.
+--js
 
-
-> Some of the concepts you mentioned I am not very familiar with; I am simp=
-ly
-> emulating an ARM A9 processor in bare-metal mode, to give you a point of
-> reference of my use case.
->
->
->> Indeed Emilio's original tree did contain these more invasive hooks and
->> while we deliberate upstream it will hopefully not be as hard to
->> maintain a light out-of-tree fork should you need such functionality now.
->>
->
-> Could you please point me towards this tree?  I haven't run across it yet
-> in my investigating of all of this.
-
-His tree is at:
-
-  https://github.com/cota/qemu
-
-But I'm not sure what his latest branch is. I've CC'd him.
-
->
->
->> >> Are there any examples of using this part of the API? I realize this =
-is
->> a
->> >> very new part of Qemu functionality.
->>
->> So far the examples represent the totality of the API that has been
->> exercised and I'm keen we add more as new extensions to the API are
->> added. As to the specific question about accessing register values that
->> is exactly down to the newness of the API.
->>
->> Register access is a tricky problem because of the fact that QEMU
->> supports so many guest architectures. I wasn't keen on slapping in a
->> functional but ugly API that hard-coded values like gdb register ids so
->> I left it out for the time being. I'd happily accept patches to add that
->> functionality assuming it meets the projects quality and taste
->> guidelines.
->>
->> Some approaches we could take include:
->>
->>   - hook into tcg_global_*_new and allow plugin to introspect registers
->>   - hook into gdbstub in some way
->>
->> The first approach elides over the fact that a lot of registers aren't
->> actually known to the TCG - pretty much all vector registers tend to be
->> loaded into anonymous TCG temps as we go. Maybe this could just be fixed
->> by just providing a few more registrations functions at the start even
->> if the TCG itself wouldn't use that knowledge.
->>
->> The gdbstub provides a lot more visibility of register state and for
->> some architectures this can be quite comprehensive - for example in
->> system mode you can access pretty much every ARM co-processor register.
->> However the gdb interface is a little clunky as there are a lot of magic
->> register id numbers and the canonical way to enumerate this is to chew
->> through a bunch of XML that each target generates (see
->> gdb_register_coprocessor). I'm not keen on exposing that pile of XML via
->> the register interface. Maybe there is scope to improve our internal
->> APIs so the enumeration of registers can be handled by helpers that
->> record mappings and ids and generate the XML for the gdbstub centrally?
->>
->> There may be other approaches we could take and I'm open to suggestions.
->>
->
-> I'd be happy to look into ways to implement this functionality.  However,=
- I
-> just started using Qemu this year, so these things sound like they would
-> have a steep learning curve for me.
-> The gdbstub approach seems like it would provide the most introspection
-> ability.  What would you suggest as a starting point for looking into thi=
-s?
-> All of this being said, if you think my project is too complicated, to
-> implement a cache emulator with TCG plugins, then I could always try just
-> hacking together some custom helper functions.
-
-As I said above I don't think you need register values to do cache
-emulation as you have the addresses. You will need to decode some of the
-cache management instructions though. Fortunately you can do that at
-translation time and only instrument the ones you need. See howvec for
-examples.
-
---=20
-Alex Benn=C3=A9e
 
