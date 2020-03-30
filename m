@@ -2,110 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2621A19808A
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 18:09:38 +0200 (CEST)
-Received: from localhost ([::1]:52176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B34D19807A
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 18:07:29 +0200 (CEST)
+Received: from localhost ([::1]:52140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIwym-0004We-UT
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 12:09:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45094)
+	id 1jIwwi-0000b0-9Z
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 12:07:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45255)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1jIwtd-0004qp-Fu
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:04:18 -0400
+ (envelope-from <philmd@redhat.com>) id 1jIwuW-00067L-AC
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:05:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1jIwtb-0007in-GJ
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:04:16 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:58604)
+ (envelope-from <philmd@redhat.com>) id 1jIwuU-0008N4-Dp
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:05:12 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:57085)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1jIwtb-0007iE-82
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:04:15 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jIwuU-0008Ll-AI
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:05:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585584254;
+ s=mimecast20190719; t=1585584308;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=tfVBjGck/Iijeko8GyJ2kcjaChtcw0JTDqjwVcjUGbE=;
- b=LG5656/pbrmCNn/RcbWepRwrI017JcI/n0bgA2+mUbFJhLXyJsAqrCkQKCS+n/s/y/8Oye
- Os1eNeJRa41yCVY19nAIHThzCvsTZmKrFeUrnUiGMHPZcFN95QgE77alTdysYmWowy2BKq
- 7fEeeoSmpBZLzYgXar8f5zTJ5FTLGhA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483-SgIi-qeTNfWtovFeKl1W2w-1; Mon, 30 Mar 2020 12:04:12 -0400
-X-MC-Unique: SgIi-qeTNfWtovFeKl1W2w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85F9686A063;
- Mon, 30 Mar 2020 16:04:11 +0000 (UTC)
-Received: from [10.36.113.227] (ovpn-113-227.ams2.redhat.com [10.36.113.227])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 53F771001B2B;
- Mon, 30 Mar 2020 16:04:10 +0000 (UTC)
-Subject: Re: [PATCH] s390x: kvm: Fix number of cpu reports for stsi 3.2.2
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20200330153828.8265-1-frankja@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- mQINBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABtCREYXZpZCBIaWxk
- ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT6JAlgEEwEIAEICGwMFCQlmAYAGCwkIBwMCBhUI
- AgkKCwQWAgMBAh4BAheAFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl3pImkCGQEACgkQTd4Q
- 9wD/g1o+VA//SFvIHUAvul05u6wKv/pIR6aICPdpF9EIgEU448g+7FfDgQwcEny1pbEzAmiw
- zAXIQ9H0NZh96lcq+yDLtONnXk/bEYWHHUA014A1wqcYNRY8RvY1+eVHb0uu0KYQoXkzvu+s
- Dncuguk470XPnscL27hs8PgOP6QjG4jt75K2LfZ0eAqTOUCZTJxA8A7E9+XTYuU0hs7QVrWJ
- jQdFxQbRMrYz7uP8KmTK9/Cnvqehgl4EzyRaZppshruKMeyheBgvgJd5On1wWq4ZUV5PFM4x
- II3QbD3EJfWbaJMR55jI9dMFa+vK7MFz3rhWOkEx/QR959lfdRSTXdxs8V3zDvChcmRVGN8U
- Vo93d1YNtWnA9w6oCW1dnDZ4kgQZZSBIjp6iHcA08apzh7DPi08jL7M9UQByeYGr8KuR4i6e
- RZI6xhlZerUScVzn35ONwOC91VdYiQgjemiVLq1WDDZ3B7DIzUZ4RQTOaIWdtXBWb8zWakt/
- ztGhsx0e39Gvt3391O1PgcA7ilhvqrBPemJrlb9xSPPRbaNAW39P8ws/UJnzSJqnHMVxbRZC
- Am4add/SM+OCP0w3xYss1jy9T+XdZa0lhUvJfLy7tNcjVG/sxkBXOaSC24MFPuwnoC9WvCVQ
- ZBxouph3kqc4Dt5X1EeXVLeba+466P1fe1rC8MbcwDkoUo65Ag0EVcufkQEQAOfX3n0g0fZz
- Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
- T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
- 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
- CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
- NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
- 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
- 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
- lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
- AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
- N7eop7uh+6bezi+rugUI+w6DABEBAAGJAiUEGAECAA8FAlXLn5ECGwwFCQlmAYAACgkQTd4Q
- 9wD/g1qA6w/+M+ggFv+JdVsz5+ZIc6MSyGUozASX+bmIuPeIecc9UsFRatc91LuJCKMkD9Uv
- GOcWSeFpLrSGRQ1Z7EMzFVU//qVs6uzhsNk0RYMyS0B6oloW3FpyQ+zOVylFWQCzoyyf227y
- GW8HnXunJSC+4PtlL2AY4yZjAVAPLK2l6mhgClVXTQ/S7cBoTQKP+jvVJOoYkpnFxWE9pn4t
- H5QIFk7Ip8TKr5k3fXVWk4lnUi9MTF/5L/mWqdyIO1s7cjharQCstfWCzWrVeVctpVoDfJWp
- 4LwTuQ5yEM2KcPeElLg5fR7WB2zH97oI6/Ko2DlovmfQqXh9xWozQt0iGy5tWzh6I0JrlcxJ
- ileZWLccC4XKD1037Hy2FLAjzfoWgwBLA6ULu0exOOdIa58H4PsXtkFPrUF980EEibUp0zFz
- GotRVekFAceUaRvAj7dh76cToeZkfsjAvBVb4COXuhgX6N4pofgNkW2AtgYu1nUsPAo+NftU
- CxrhjHtLn4QEBpkbErnXQyMjHpIatlYGutVMS91XTQXYydCh5crMPs7hYVsvnmGHIaB9ZMfB
- njnuI31KBiLUks+paRkHQlFcgS2N3gkRBzH7xSZ+t7Re3jvXdXEzKBbQ+dC3lpJB0wPnyMcX
- FOTT3aZT7IgePkt5iC/BKBk3hqKteTnJFeVIT7EC+a6YUFg=
-Organization: Red Hat GmbH
-Message-ID: <f6b26b2c-23c2-6622-2f58-1e74f335842e@redhat.com>
-Date: Mon, 30 Mar 2020 18:04:09 +0200
+ in-reply-to:in-reply-to:references:references;
+ bh=xb+aPsiv2uaWbWXaN12OZGlbPQ4K+SmUQv6l5jUfU90=;
+ b=bh+xGmNC0s8eSZgMY51BqBjxWchgc6pJfVjRKuiUwgeAKg7pRUpdqYmMqlJ8PHUUw4RHDg
+ mbucYfkP/BEFEjQn0DNRIeT5AwMFtnqatCVzzK0R+9T22s7fEPSrUKeAzxherpQY5lWCW1
+ HscgiH01dcelL3gqTVBAa6vfLo6nxX4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-22-UT4L_97vM1KmT72flKySGg-1; Mon, 30 Mar 2020 12:04:53 -0400
+X-MC-Unique: UT4L_97vM1KmT72flKySGg-1
+Received: by mail-wr1-f72.google.com with SMTP id j12so11484696wrr.18
+ for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 09:04:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=eL3QibjcvLjwB2MqyrJIvS7OIKsHSFRia/T4h9f/mGM=;
+ b=IfYFg8ahsv9rKbbXGFOiM53C0M5JDx9q1XnbqV7GeMDbBZXE7Qc26SXz8AXL/j0kam
+ mzPk89V3vMRX+4D2B1bmbQmmmY6kBYY2rf3wrh0A4B4/LfiCfcExZo3HLT6KcpPb30E3
+ YzIxJ9awXl8hBWT1lO3gi+G6rNA+buQ1JFZNObswihxhGwV5E8GXskofieCIETkeh74k
+ 1GX3KKraci0vpq6dcrvzh9n+CIWSxCIZOh14qBVomIxiGZ/QmLmK2YtUE70xN+xKioXS
+ 2WUSsZtuK8aTDwmjh68YKB44ylFw4FBHwWt7fu5AaXB8/zZTX+4eqcEMZl87FK7YJudQ
+ oOIA==
+X-Gm-Message-State: ANhLgQ1Qwf4NNshOOAP+Eyfo8VLlU2rhr/GUfSCTWjvm1GrubePRFts9
+ jfvS8a+fgTpsIO98llvctaEpjkQChxFvDgwHBSydnDj94dCGbMOhjRx8TKwYZZAfO8q5G+kjUmE
+ R+vIBWpCXUJIWNu8=
+X-Received: by 2002:a5d:4fce:: with SMTP id h14mr14798027wrw.243.1585584292189; 
+ Mon, 30 Mar 2020 09:04:52 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vuC3wS/vwwMxbzG5VcGI9s6qkxVIyadz2J/+fNSAOaU1mTdjsdsn68BQJ5QZBn5zuQRPcFPFQ==
+X-Received: by 2002:a5d:4fce:: with SMTP id h14mr14798007wrw.243.1585584291877; 
+ Mon, 30 Mar 2020 09:04:51 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id b82sm21589523wmb.46.2020.03.30.09.04.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Mar 2020 09:04:51 -0700 (PDT)
+Subject: Re: [PATCH-for-5.0] qga-posix: Avoid crashing process when failing to
+ allocate memory
+To: Markus Armbruster <armbru@redhat.com>
+References: <20200324194836.21539-1-philmd@redhat.com>
+ <1242083041.1.1585117162620@webmail.proxmox.com>
+ <6be54d1f-e5fc-5b34-ba4d-fa050029f26b@redhat.com>
+ <87mu7yue35.fsf@dusky.pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <81317f7f-7de9-f616-27dc-c389f06792c3@redhat.com>
+Date: Mon, 30 Mar 2020 18:04:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200330153828.8265-1-frankja@linux.ibm.com>
+In-Reply-To: <87mu7yue35.fsf@dusky.pond.sub.org>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -117,82 +93,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com
+Cc: "Daniel P . Berrange" <berrange@redhat.com>, qemu-trivial@nongnu.org,
+ qemu-stable@nongnu.org, Fakhri Zulkifli <mohdfakhrizulkifli@gmail.com>,
+ qemu-devel@nongnu.org,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Sameeh Jubran <sjubran@redhat.com>, Basil Salman <basil@daynix.com>,
+ Dietmar Maurer <dietmar@proxmox.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30.03.20 17:38, Janosch Frank wrote:
-> The cpu number reporting is handled by KVM and QEMU only fills in the
-> VM name, uuid and other values.
-> 
-> Unfortuantely KVM doesn't report reserved cpus and doesn't even know
+Cc'ing the ppl who responded the thread you quoted.
 
-s/Unfortuantely/Unfortunately/
+On 3/30/20 4:11 PM, Markus Armbruster wrote:
+> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+ > ---
+ >   qga/commands-posix.c | 8 +++++++-
+ >   1 file changed, 7 insertions(+), 1 deletion(-)
+ >
+ > diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+ > index 93474ff770..8f127788e6 100644
+ > --- a/qga/commands-posix.c
+ > +++ b/qga/commands-posix.c
+ > @@ -493,7 +493,13 @@ struct GuestFileRead=20
+*qmp_guest_file_read(int64_t handle, bool has_count,
+ >           gfh->state =3D RW_STATE_NEW;
+ >       }
+ >
+ > -    buf =3D g_malloc0(count+1);
+ > +    buf =3D g_try_malloc0(count + 1);
+ > +    if (!buf) {
+ > +        error_setg(errp,
+ > +                   "failed to allocate sufficient memory "
+ > +                   "to complete the requested service");
+ > +        return NULL;
+ > +    }
+ >       read_count =3D fread(buf, 1, count, fh);
+ >       if (ferror(fh)) {
+ >           error_setg_errno(errp, errno, "failed to read file");
+ >
 
-> they exist until the are created via the ioctl.
-> 
-> So let's fix up the cpu values after KVM has written its values to the
-> 3.2.2 sysib.
+>> On 3/25/20 7:19 AM, Dietmar Maurer wrote:
+>>> but error_setg() also calls malloc, so this does not help at all?
+>>
+>> IIUC the problem, you can send a QMP command to ask to read let's say
+>> 3GB of a file, and QEMU crashes. But this doesn't mean there the .heap
+>> is empty, there is probably few bytes still available, enough to
+>> respond with an error message.
+>=20
+> We've discussed how to handle out-of-memory conditions many times.
+> Here's one instance:
+>=20
+>      Subject: When it's okay to treat OOM as fatal?
+>      Message-ID: <87efcqniza.fsf@dusky.pond.sub.org>
+>      https://lists.nongnu.org/archive/html/qemu-devel/2018-10/msg03212.ht=
+ml
+>=20
+> No improvement since then; there's no guidance on when to check for OOM.
+> Actual code tends to check only "large" allocations (for subjective
+> values of "large").
+>=20
+> I reiterate my opinion that whatever OOM handling we have is too
+> unreliable to be worth much, since it can only help when (1) allocations
+> actually fail (they generally don't[*]), and (2) the allocation that
+> fails is actually handled (they generally aren't), and (3) the handling
+> actually works (we don't test OOM, so it generally doesn't).
+>=20
+>=20
+> [*] Linux overcommits memory, which means malloc() pretty much always
+> succeeds, but when you try to use "too much" of the memory you
+> supposedly allocated, a lethal signal is coming your way.  Reasd the
+> thread I quoted for examples.
 
-Maybe mention "similar to TCG in target/s390x/misc_helper.c:HELPER(stsi)".
+So this patch takes Stefan reasoning:
+https://lists.nongnu.org/archive/html/qemu-devel/2018-10/msg03525.html
 
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> ---
->  target/s390x/kvm.c | 18 +++++++++++++++++-
->  1 file changed, 17 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-> index 3630c15f45a48864..a1c4890bdf0c65e4 100644
-> --- a/target/s390x/kvm.c
-> +++ b/target/s390x/kvm.c
-> @@ -1819,8 +1819,10 @@ static int handle_tsch(S390CPU *cpu)
->  
->  static void insert_stsi_3_2_2(S390CPU *cpu, __u64 addr, uint8_t ar)
->  {
-> +    const MachineState *ms = MACHINE(qdev_get_machine());
-> +    uint16_t total_cpus = 0, conf_cpus = 0, reserved_cpus = 0;
->      SysIB_322 sysib;
-> -    int del;
-> +    int del, i;
->  
->      if (s390_is_pv()) {
->          s390_cpu_pv_mem_read(cpu, 0, &sysib, sizeof(sysib));
-> @@ -1842,6 +1844,20 @@ static void insert_stsi_3_2_2(S390CPU *cpu, __u64 addr, uint8_t ar)
->          memset(sysib.ext_names[del], 0,
->                 sizeof(sysib.ext_names[0]) * (sysib.count - del));
->      }
-> +
-> +    /* count the cpus and split them into configured and reserved ones */
-> +    for (i = 0; i < ms->possible_cpus->len; i++) {
-> +        total_cpus++;
-> +        if (ms->possible_cpus->cpus[i].cpu) {
-> +            conf_cpus++;
-> +        } else {
-> +            reserved_cpus++;
-> +        }
-> +    }
+   My thinking has been to use g_new() for small QEMU-internal structures
+   and g_try_new() for large amounts of memory allocated in response to
+   untrusted inputs.  (Untrusted inputs must never be used for unbounded
+   allocation sizes but those bounded sizes can still be large.)
 
-We could of course factor this calculation out :)
+In any cases (malloc/malloc_try) we have a denial of service=20
+(https://www.openwall.com/lists/oss-security/2018/10/17/4) and the=20
+service is restarted.
 
-(and one could shrink the variables from 3 to 2)
+Daniel suggests such behavior should be catched by external firewall=20
+guard (either on the process or on the network). This seems out of scope=20
+of QEMU and hard to fix.
 
-> +    sysib.vm[0].total_cpus = total_cpus;
-> +    sysib.vm[0].conf_cpus = conf_cpus;
-> +    sysib.vm[0].reserved_cpus = reserved_cpus;
-> +
->      /* Insert short machine name in EBCDIC, padded with blanks */
->      if (qemu_name) {
->          memset(sysib.vm[0].name, 0x40, sizeof(sysib.vm[0].name));
-> 
-
-Looks sane to me
-
-Reviewed-by: David Hildenbrand <david@redhat.com>
-
--- 
-Thanks,
-
-David / dhildenb
+So, can we improve something? Or should we let this code as it?
 
 
