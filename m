@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECB60198267
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 19:32:46 +0200 (CEST)
-Received: from localhost ([::1]:53896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C72198272
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 19:34:50 +0200 (CEST)
+Received: from localhost ([::1]:53944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIyHF-0005d7-M7
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 13:32:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33880)
+	id 1jIyJF-0001Yo-Qv
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 13:34:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34397)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1jIyFR-0004CB-B6
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:30:54 -0400
+ (envelope-from <yuanzi@google.com>) id 1jIyHj-0008B8-EB
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:33:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1jIyFP-0005Em-RO
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:30:53 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:59262)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1jIyFP-0005E0-Mp
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:30:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585589451;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IV/RlnuWDyVAq/CY6VloTUUQJCsYYqNTqzlcq2lSUms=;
- b=eT9IF9g1Fk3ojHSP5vhUIlbHqdDIwOdO3gaA9k3gV9JJHuoB0D1AJhXHRzYT/6ICDKoM9Q
- 4kkcocbvRAgKEMySspRKJG0eiQulkHki2EUmdyTKKbVnOEONptsNnn/1uM1awANKQWuesp
- IvnYkL7xEsB6yX5Ih2lXBBZ8UbLKrXI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-BF3CDHVkMCuqbqSNNoh2sA-1; Mon, 30 Mar 2020 13:30:49 -0400
-X-MC-Unique: BF3CDHVkMCuqbqSNNoh2sA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7246A1005516;
- Mon, 30 Mar 2020 17:30:47 +0000 (UTC)
-Received: from [10.36.112.58] (ovpn-112-58.ams2.redhat.com [10.36.112.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6387D5D9E2;
- Mon, 30 Mar 2020 17:30:31 +0000 (UTC)
-Subject: Re: [PATCH v2 06/22] hw/pci: introduce
- pci_device_set/unset_iommu_context()
-To: Liu Yi L <yi.l.liu@intel.com>, qemu-devel@nongnu.org,
- alex.williamson@redhat.com, peterx@redhat.com
-References: <1585542301-84087-1-git-send-email-yi.l.liu@intel.com>
- <1585542301-84087-7-git-send-email-yi.l.liu@intel.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <01381db5-6f5f-8022-6891-e1a8dd7c3e65@redhat.com>
-Date: Mon, 30 Mar 2020 19:30:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (envelope-from <yuanzi@google.com>) id 1jIyHh-00085t-2k
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:33:14 -0400
+Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:42638)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <yuanzi@google.com>) id 1jIyHf-00080D-BF
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:33:11 -0400
+Received: by mail-oi1-x231.google.com with SMTP id e4so16381563oig.9
+ for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 10:33:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gqxBq/nEf1Zn8QD7HizVLTOpgS188n/mpya/oA3fjIM=;
+ b=prMzBZaOTjKs/TusD724WPSPBl0XX88YPOblRqomyjvbh5Uh22sA+N6kWH/Kpz1vH6
+ D5p86BCrDc3apFUocQBiFECFe/aPdE/RShcztdrCjLpCCsAKe1sz1AVUiWktK6GshQQA
+ lIi9DudNYz1qLUT6YTkrT3E4LIIN5EWRS9VFn+0EfIxh788coNo8OjoADGAMpVJnidzz
+ ci8ti5kv7iAfAGZXD/is4ZuUOsovVgtKwFtTln2/VvEEXpwbXClE3eTnXVpDWuWLyOml
+ EdKAcHkr8xoF6Nnv720x0e1zCbIvSApBSTW04TUcPyceZlrUZVLEwEWjQ5nPEJM5kG31
+ 2+aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gqxBq/nEf1Zn8QD7HizVLTOpgS188n/mpya/oA3fjIM=;
+ b=HMvZ+SD6YpsGY33P1EsOL1F2pBO7B7k/OWIQOI0CVOP7meurW9t3NA8VkNSC05WfNp
+ tZ/ArvywCLPgZ2aHxKHqYqRggVGFIcsHSNj0z+A4WB+H52mR/bDt6cqkd4la9OdNrpAV
+ rsmvWM80lK22X1eI5+VpYiCVOlodmX4YXbWkiN+w9sITYrbDQp5p2kmyUfOihGmUF3sV
+ DF00DynoLc+Rgci46kIGCxlMpsH0jrmObf0BYoIBB6hSR+3UmU6B16ANaAbLO5OAtvp2
+ /rKp7p7b1onNa8JM5sz0uFkMLSIm5qHhDezJSwyCwPiZ6i4GTNWpqwXdYi/QKm48beY3
+ sjBQ==
+X-Gm-Message-State: ANhLgQ3JBmYEviEoXGWk4nJPwaf+33XpVUur4RfXlLjkyHtYOV/A0CJs
+ Y0jJKEapMe6hI0NIphamypXQRW40Ji/OaFhdwtlm0A==
+X-Google-Smtp-Source: ADFU+vsY0YGc8EakBF9v0PQ2orAtNrUvEdMs2DRYkjoYxpFfJf1h7EasSR+0Q/ub1sASD3d+diCXWJRNUS4Tq5vH0zw=
+X-Received: by 2002:a05:6808:8:: with SMTP id u8mr298945oic.37.1585589587670; 
+ Mon, 30 Mar 2020 10:33:07 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1585542301-84087-7-git-send-email-yi.l.liu@intel.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+References: <20200307010051.97022-1-yuanzi@google.com>
+ <CADjx4CKDPY9J7Zr1YTLv78Ku6mQS6zrMu7oX7-ujU3PGxvHA4w@mail.gmail.com>
+ <87imizidwc.fsf@linaro.org>
+ <CADjx4CJJdQep+K3ibfhjin7Eo6uCEFGQ6R6yVC0OcNo8MsfvJw@mail.gmail.com>
+ <87d095u804.fsf@linaro.org>
+In-Reply-To: <87d095u804.fsf@linaro.org>
+From: Lirong Yuan <yuanzi@google.com>
+Date: Mon, 30 Mar 2020 10:32:55 -0700
+Message-ID: <CADjx4CKhoikcZanqYCs11ubGY+6tOeNjToiCgjnp8V_rzZcDHw@mail.gmail.com>
+Subject: Re: [PATCH] gdbstub: add support to Xfer:auxv:read: packet
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>, 
+ Shu-Chun Weng <scw@google.com>, Josh Kunz <jkz@google.com>
+Content-Type: multipart/alternative; boundary="000000000000226dfa05a215d8d7"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::231
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,145 +77,210 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jean-philippe@linaro.org, kevin.tian@intel.com,
- Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
- kvm@vger.kernel.org, mst@redhat.com, jun.j.tian@intel.com, yi.y.sun@intel.com,
- pbonzini@redhat.com, hao.wu@intel.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yi,
-On 3/30/20 6:24 AM, Liu Yi L wrote:
-> This patch adds pci_device_set/unset_iommu_context() to set/unset
-> host_iommu_context for a given device. New callback is added in
-> PCIIOMMUOps. As such, vIOMMU could make use of host IOMMU capability.
-> e.g setup nested translation.
+--000000000000226dfa05a215d8d7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I think you need to explain what this practically is supposed to do.
-such as: by attaching such context to a PCI device (for example VFIO
-assigned?), you tell the host that this PCIe device is protected by a FL
-stage controlled by the guest or something like that - if this is
-correct understanding (?) -
-> 
-> Cc: Kevin Tian <kevin.tian@intel.com>
-> Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Eric Auger <eric.auger@redhat.com>
-> Cc: Yi Sun <yi.y.sun@linux.intel.com>
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Reviewed-by: Peter Xu <peterx@redhat.com>
-> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-> ---
->  hw/pci/pci.c         | 49 ++++++++++++++++++++++++++++++++++++++++++++-----
->  include/hw/pci/pci.h | 10 ++++++++++
->  2 files changed, 54 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> index aa9025c..af3c1a1 100644
-> --- a/hw/pci/pci.c
-> +++ b/hw/pci/pci.c
-> @@ -2638,7 +2638,8 @@ static void pci_device_class_base_init(ObjectClass *klass, void *data)
->      }
->  }
->  
-> -AddressSpace *pci_device_iommu_address_space(PCIDevice *dev)
-> +static void pci_device_get_iommu_bus_devfn(PCIDevice *dev,
-> +                              PCIBus **pbus, uint8_t *pdevfn)
->  {
->      PCIBus *bus = pci_get_bus(dev);
->      PCIBus *iommu_bus = bus;
-> @@ -2683,14 +2684,52 @@ AddressSpace *pci_device_iommu_address_space(PCIDevice *dev)
->  
->          iommu_bus = parent_bus;
->      }
-> -    if (iommu_bus && iommu_bus->iommu_ops &&
-> -                     iommu_bus->iommu_ops->get_address_space) {
-> -        return iommu_bus->iommu_ops->get_address_space(bus,
-> -                                 iommu_bus->iommu_opaque, devfn);
-> +    *pbus = iommu_bus;
-> +    *pdevfn = devfn;
-> +}
-> +
-> +AddressSpace *pci_device_iommu_address_space(PCIDevice *dev)
-> +{
-> +    PCIBus *bus;
-> +    uint8_t devfn;
-> +
-> +    pci_device_get_iommu_bus_devfn(dev, &bus, &devfn);
-> +    if (bus && bus->iommu_ops &&
-> +        bus->iommu_ops->get_address_space) {
-> +        return bus->iommu_ops->get_address_space(bus,
-> +                                bus->iommu_opaque, devfn);
->      }
->      return &address_space_memory;
->  }
->  
-> +int pci_device_set_iommu_context(PCIDevice *dev,
-> +                                 HostIOMMUContext *iommu_ctx)
-> +{
-> +    PCIBus *bus;
-> +    uint8_t devfn;
-> +
-> +    pci_device_get_iommu_bus_devfn(dev, &bus, &devfn);
-> +    if (bus && bus->iommu_ops &&
-> +        bus->iommu_ops->set_iommu_context) {
-> +        return bus->iommu_ops->set_iommu_context(bus,
-> +                              bus->iommu_opaque, devfn, iommu_ctx);
-> +    }
-> +    return -ENOENT;
-> +}
-> +
-> +void pci_device_unset_iommu_context(PCIDevice *dev)
-> +{
-> +    PCIBus *bus;
-> +    uint8_t devfn;
-> +
-> +    pci_device_get_iommu_bus_devfn(dev, &bus, &devfn);
-> +    if (bus && bus->iommu_ops &&
-> +        bus->iommu_ops->unset_iommu_context) {
-> +        bus->iommu_ops->unset_iommu_context(bus,
-> +                                 bus->iommu_opaque, devfn);
-> +    }
-> +}
-> +
->  void pci_setup_iommu(PCIBus *bus, const PCIIOMMUOps *ops, void *opaque)
->  {
->      bus->iommu_ops = ops;
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index ffe192d..0ec5680 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -9,6 +9,8 @@
->  
->  #include "hw/pci/pcie.h"
->  
-> +#include "hw/iommu/host_iommu_context.h"
-> +
->  extern bool pci_available;
->  
->  /* PCI bus */
-> @@ -489,9 +491,17 @@ typedef struct PCIIOMMUOps PCIIOMMUOps;
->  struct PCIIOMMUOps {
->      AddressSpace * (*get_address_space)(PCIBus *bus,
->                                  void *opaque, int32_t devfn);
-> +    int (*set_iommu_context)(PCIBus *bus, void *opaque,
-> +                             int32_t devfn,
-> +                             HostIOMMUContext *iommu_ctx);
-> +    void (*unset_iommu_context)(PCIBus *bus, void *opaque,
-> +                                int32_t devfn);
->  };
->  
->  AddressSpace *pci_device_iommu_address_space(PCIDevice *dev);
-> +int pci_device_set_iommu_context(PCIDevice *dev,
-> +                                 HostIOMMUContext *iommu_ctx);
-> +void pci_device_unset_iommu_context(PCIDevice *dev);
->  void pci_setup_iommu(PCIBus *bus, const PCIIOMMUOps *iommu_ops, void *opaque);
->  
->  static inline void
-> 
-Thanks
+On Sat, Mar 21, 2020 at 6:56 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
 
-Eric
+>
+> Lirong Yuan <yuanzi@google.com> writes:
+>
+> > On Fri, Mar 20, 2020 at 2:17 AM Alex Benn=C3=A9e <alex.bennee@linaro.or=
+g>
+> wrote:
+> <snip>
+> >>
+> >> Sorry I missed this on my radar. There was a minor re-factor of gdbstu=
+b
+> >> that was just merged which will mean this patch needs a re-base to use
+> >> g_string_* functions to expand stings.
+> >>
+> >> Also we have some simple gdbstub tests now - could we come up with a
+> >> multiarch gdbstub test to verify this is working properly?
+> >>
+> <snip>
+> > For sure, I will re-base this patch to use g_string_* functions.
+> >
+> > Currently we are using qemu aarch64. I am not sure how to do this yet,
+> but
+> > I could try to add something to
+> > https://github.com/qemu/qemu/tree/master/tests/tcg/aarch64/gdbstub
+>
+> If the auxv support is appropriate to all linux-user targets you can
+> plumb it into the multiarch tests - you can even use the existing
+> binaries.
+>
+> So you need:
+>
+>   - a stanza in the makefiles to launch the test (see
+>     tests/tcg/aarch64/Makefile.target)
+>
+>   - a .py test script that manipulates gdbstub to check things are workin=
+g
+>
+> So something like:
+>
+> .PHONY: gdbstub-foo-binary
+> run-gdbstub-foo-binary: foo-binary
+>         $(call run-test, $@, $(GDB_SCRIPT) \
+>                 --gdb $(HAVE_GDB_BIN) \
+>                 --qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
+>                 --bin $< --test $(MULTIARCH_SRC)/gdbstub/test-foo.py, \
+>         "basic gdbstub FOO support")
+>
+>
+> >
+> > Does this sound good?
+>
+> Hope that helps.
+>
+> >
+> > Thanks!
+> > Lirong
+>
+>
+> --
+> Alex Benn=C3=A9e
+>
 
+Hi Alex,
+
+Thanks for the instructions, very helpful!
+
+I rebased this patch to use g_string_* functions, and the link to patchwork
+is:
+http://patchwork.ozlabs.org/patch/1264125/
+Could you help take another look?
+
+Regarding testing, I looked at some instructions for running tests, e.g.
+https://github.com/qemu/qemu/blob/master/docs/devel/testing.rst
+https://wiki.qemu.org/Testing
+However I still could not get the tests for aarch64 to run. Do you know how
+to run the aarch64 or multi-arch tests?
+
+Also there aren't any existing gdb stub tests that try to read
+uninterpreted bytes from the target=E2=80=99s special data area identified =
+by a
+keyword:
+https://sourceware.org/gdb/current/onlinedocs/gdb/General-Query-Packets.htm=
+l#qXfer-auxiliary-vector-read
+I looked at some other gdb stub tests, but they did not seem to send any
+queries:
+https://github.com/qemu/qemu/tree/master/tests/tcg/aarch64/gdbstub
+So I am not sure how to set up one for "Xfer:auxv:read:" packets...
+Are there plans to add more tests for other packets like
+"Xfer:features:read:"?
+I'd be happy to add a test if there is an example of how to do it. :)
+
+Thanks,
+Lirong
+
+--000000000000226dfa05a215d8d7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Sat, Mar 21, 2020 at 6:56 AM Alex Benn=
+=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org" target=3D"_blank">ale=
+x.bennee@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex"><br>
+Lirong Yuan &lt;<a href=3D"mailto:yuanzi@google.com" target=3D"_blank">yuan=
+zi@google.com</a>&gt; writes:<br>
+<br>
+&gt; On Fri, Mar 20, 2020 at 2:17 AM Alex Benn=C3=A9e &lt;<a href=3D"mailto=
+:alex.bennee@linaro.org" target=3D"_blank">alex.bennee@linaro.org</a>&gt; w=
+rote:<br>
+&lt;snip&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Sorry I missed this on my radar. There was a minor re-factor of gd=
+bstub<br>
+&gt;&gt; that was just merged which will mean this patch needs a re-base to=
+ use<br>
+&gt;&gt; g_string_* functions to expand stings.<br>
+&gt;&gt;<br>
+&gt;&gt; Also we have some simple gdbstub tests now - could we come up with=
+ a<br>
+&gt;&gt; multiarch gdbstub test to verify this is working properly?<br>
+&gt;&gt;<br>
+&lt;snip&gt;<br>
+&gt; For sure, I will re-base this patch to use g_string_* functions.<br>
+&gt;<br>
+&gt; Currently we are using qemu aarch64. I am not sure how to do this yet,=
+ but<br>
+&gt; I could try to add something to<br>
+&gt; <a href=3D"https://github.com/qemu/qemu/tree/master/tests/tcg/aarch64/=
+gdbstub" rel=3D"noreferrer" target=3D"_blank">https://github.com/qemu/qemu/=
+tree/master/tests/tcg/aarch64/gdbstub</a><br>
+<br>
+If the auxv support is appropriate to all linux-user targets you can<br>
+plumb it into the multiarch tests - you can even use the existing<br>
+binaries.<br>
+<br>
+So you need:<br>
+<br>
+=C2=A0 - a stanza in the makefiles to launch the test (see<br>
+=C2=A0 =C2=A0 tests/tcg/aarch64/Makefile.target)<br>
+<br>
+=C2=A0 - a .py test script that manipulates gdbstub to check things are wor=
+king<br>
+<br>
+So something like:<br>
+<br>
+.PHONY: gdbstub-foo-binary<br>
+run-gdbstub-foo-binary: foo-binary<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 $(call run-test, $@, $(GDB_SCRIPT) \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --gdb $(HAVE_GDB_BI=
+N) \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --qemu $(QEMU) --qa=
+rgs &quot;$(QEMU_OPTS)&quot; \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --bin $&lt; --test =
+$(MULTIARCH_SRC)/gdbstub/test-foo.py, \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;basic gdbstub FOO support&quot;)<br>
+<br>
+<br>
+&gt;<br>
+&gt; Does this sound good?<br>
+<br>
+Hope that helps.<br>
+<br>
+&gt;<br>
+&gt; Thanks!<br>
+&gt; Lirong<br>
+<br>
+<br>
+-- <br>
+Alex Benn=C3=A9e<br></blockquote><div><br></div><div>Hi Alex,</div><div><br=
+></div><div>Thanks for the instructions, very helpful!</div><div><br></div>=
+<div><div>I=C2=A0rebased this patch to use g_string_* functions, and the li=
+nk to patchwork is:</div><div><a href=3D"http://patchwork.ozlabs.org/patch/=
+1264125/">http://patchwork.ozlabs.org/patch/1264125/</a></div><div>Could yo=
+u help take another look?</div></div><div><br></div><div>Regarding testing,=
+ I looked at some instructions for running tests, e.g.=C2=A0</div><div><a h=
+ref=3D"https://github.com/qemu/qemu/blob/master/docs/devel/testing.rst" tar=
+get=3D"_blank">https://github.com/qemu/qemu/blob/master/docs/devel/testing.=
+rst</a></div><div><a href=3D"https://wiki.qemu.org/Testing" target=3D"_blan=
+k">https://wiki.qemu.org/Testing</a></div><div>However I still could not ge=
+t the tests for aarch64 to run. Do you know how to run the aarch64 or multi=
+-arch tests?</div><div><br></div><div>Also there aren&#39;t any existing gd=
+b stub tests that try to read uninterpreted bytes from the target=E2=80=99s=
+ special data area identified by a keyword:</div><div><a href=3D"https://so=
+urceware.org/gdb/current/onlinedocs/gdb/General-Query-Packets.html#qXfer-au=
+xiliary-vector-read">https://sourceware.org/gdb/current/onlinedocs/gdb/Gene=
+ral-Query-Packets.html#qXfer-auxiliary-vector-read</a><br></div><div>I look=
+ed at some other gdb stub tests, but they did not seem to send any queries:=
+</div><div><a href=3D"https://github.com/qemu/qemu/tree/master/tests/tcg/aa=
+rch64/gdbstub">https://github.com/qemu/qemu/tree/master/tests/tcg/aarch64/g=
+dbstub</a><br></div><div>So I am not sure how to set up one for &quot;Xfer:=
+auxv:read:&quot; packets...</div><div>Are there plans to add more tests for=
+ other packets like &quot;Xfer:features:read:&quot;?</div><div>I&#39;d be h=
+appy to add a test if there is an example of how to do it. :)</div><div><br=
+></div><div>Thanks,</div><div>Lirong</div></div></div>
+
+--000000000000226dfa05a215d8d7--
 
