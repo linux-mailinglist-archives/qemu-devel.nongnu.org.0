@@ -2,64 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D18E198159
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 18:36:15 +0200 (CEST)
-Received: from localhost ([::1]:52676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF0EB198152
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 18:34:44 +0200 (CEST)
+Received: from localhost ([::1]:52654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIxOY-00028z-A1
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 12:36:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50469)
+	id 1jIxN5-0008Sp-N5
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 12:34:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50053)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jIxME-00083H-Qc
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:33:51 -0400
+ (envelope-from <jiaxun.yang@flygoat.com>) id 1jIxKO-0005PB-Av
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:31:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1jIxMD-0003q0-Of
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:33:50 -0400
-Received: from mail-vs1-xe44.google.com ([2607:f8b0:4864:20::e44]:44313)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1jIxMB-0003mQ-1K; Mon, 30 Mar 2020 12:33:47 -0400
-Received: by mail-vs1-xe44.google.com with SMTP id e138so11395671vsc.11;
- Mon, 30 Mar 2020 09:33:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rDH/q2GpPZxjL8l3Amg8ZAoZYm6+vI648wqMKokJJFg=;
- b=r/q7JgTQmNyPD06a384M5qxfFGk2tt9KzDvtC1YSWWtzR4XQev6ayWeO6e0p1oT4MO
- nREmp7J3/r+GYGwVAgv715sNwMAxp4+RO7X5OocKFHw/fEzFjrLgptOIz/BrddFIqXPe
- myz0Zf1MrOPG5EfM8vNdjhaywaJPQVqxA0aCTuVtiKz43SARQ4DedxfkhUiEtj32HNW8
- A6n3jIpCDpSrrIDC+hQZriPX2Ic9JKz+9Bbr8AN5DN1s7LrFsfPIuY+4vJJ4au0Yvom4
- 99Ws1HIRDZyqhkHvoHNVn0V4s9QboPyrzaQjIbFq1Oofjs6ynoK851dF9rWlg88mkbLv
- Oe3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rDH/q2GpPZxjL8l3Amg8ZAoZYm6+vI648wqMKokJJFg=;
- b=jFMNlTMJtLe8vG/84pdejQNbSfwP2aEoPeadgOpczW6vDBWFvJU9/Y95n0pQALUnHL
- aaO/xdGKD58OALTgivY8lJxPh1JhiU1QW+tIuLsosPPsW8DzLxxuaWlkPNO1e/cd08II
- u6JPhetzjruqXaXiiM0y1jp2ub8JnoKuC0N9GG16AFxv0Zs4MkQGagQm2dcObdCGu5Sz
- DEIyXdeoeTGxEiiBfKf6W2npfOYvXc3xLens4wny2VgDOIvsu8BaaLvujZvnHPakG31g
- vzUhGLvpTD4yrT3dHudvGNd6X0h9skOwfHLO9+oQNOueOJVrIhqmSsitxXgfKCSPFr9/
- qrgA==
-X-Gm-Message-State: AGi0PuY8SoS/x80JMPT9G11OAs6RYUcR22tfwZuAlLkwffLQB9uwZa9I
- dFybPPYlBhzCKC0T/zQU4dZB9hQ7E4h7/FSVmU0=
-X-Google-Smtp-Source: APiQypLiIa5AVHmRz+e8Dme7+u8bT0kZDsMioNK0dq3p281EOcak8sWZGhT2CTUqHv1craNa+Fs1OINKLU+9lp7MYR4=
-X-Received: by 2002:a05:6102:730:: with SMTP id
- u16mr1893152vsg.70.1585586026088; 
- Mon, 30 Mar 2020 09:33:46 -0700 (PDT)
+ (envelope-from <jiaxun.yang@flygoat.com>) id 1jIxKM-0001CV-AR
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:31:55 -0400
+Received: from sender3-op-o12.zoho.com.cn ([124.251.121.243]:17867)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1jIxKL-0000th-8X
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:31:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1585585854; 
+ s=mail; d=flygoat.com; i=jiaxun.yang@flygoat.com;
+ h=Date:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:To:CC:From:Message-ID;
+ bh=TlasSoKUoqSWYZFLw6ma8/n8Bg3fgJBCcdj3cEqlk68=;
+ b=F29GGMvyILlwTv6ReCy6J+bHoDJqDldTyD6iRcGjaL/+dqOKayrTVHDUex/ZGjNV
+ /8SsaYD3yA/7Q3p9eWt6gxlvGIe0vdxvEV5elI+kU1DXrKBCXSvQmlPaSoS+TBDv4ez
+ 3jqYB+CmDrTuiya1ubGoSLTQknqWTI7Pz7/od+9Q=
+Received: from [10.233.233.252] (183.156.33.130 [183.156.33.130]) by
+ mx.zoho.com.cn with SMTPS id 1585585851933120.86645972402823;
+ Tue, 31 Mar 2020 00:30:51 +0800 (CST)
+Date: Tue, 31 Mar 2020 00:30:48 +0800
+User-Agent: K-9 Mail for Android
+In-Reply-To: <bbf10da2-76ee-a4c6-275d-fa1c8fc59e1e@redhat.com>
+References: <20200324122212.11156-1-jiaxun.yang@flygoat.com>
+ <39c28108-5d85-d611-c2ea-abbbf913b981@redhat.com>
+ <1B369970-E78B-4A05-A80E-D7AB527E3A4E@flygoat.com>
+ <bbf10da2-76ee-a4c6-275d-fa1c8fc59e1e@redhat.com>
 MIME-Version: 1.0
-References: <20200330082724.120444-1-anup.patel@wdc.com>
-In-Reply-To: <20200330082724.120444-1-anup.patel@wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 30 Mar 2020 09:25:38 -0700
-Message-ID: <CAKmqyKMwso5-O3kZVt2oBA9y1BAGNYttzKqWkoU2V5VXi63uHg@mail.gmail.com>
-Subject: Re: [PATCH] riscv: Fix Stage2 SV32 page table walk
-To: Anup Patel <anup.patel@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::e44
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH for-5.0,
+ v1] target/mips: Fix loongson multimedia condition instructions
+To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Message-ID: <80698310-CBFC-4D65-826D-3F7AA038B126@flygoat.com>
+X-ZohoCNMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 124.251.121.243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,64 +63,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Huacai Chen <chenhc@lemote.com>, aleksandar.qemu.devel@gmail.com,
+ richard.henderson@linaro.org, aleksandar.rikalo@rt-rk.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 30, 2020 at 1:28 AM Anup Patel <anup.patel@wdc.com> wrote:
->
-> As-per RISC-V H-Extension v0.5 draft, the Stage2 SV32 page table has
-> 12bits of VPN[1] and 10bits of VPN[0]. The additional 2bits in VPN[1]
-> is required to handle the 34bit intermediate physical address coming
-> from Stage1 SV32 page table. The 12bits of VPN[1] implies that Stage2
-> SV32 level-0 page table will be 16KB in size with total 4096 enteries
-> where each entry maps 4MB of memory (same as Stage1 SV32 page table).
->
-> The get_physical_address() function is broken for Stage2 SV32 level-0
-> page table because it incorrectly computes output physical address for
-> Stage2 SV32 level-0 page table entry.
->
-> The root cause of the issue is that get_physical_address() uses the
-> "widened" variable to compute level-0 physical address mapping which
-> changes level-0 mapping size (instead of 4MB). We should use the
-> "widened" variable only for computing index of Stage2 SV32 level-0
-> page table.
->
-> Signed-off-by: Anup Patel <anup.patel@wdc.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Alistair
+=E4=BA=8E 2020=E5=B9=B43=E6=9C=8831=E6=97=A5 GMT+08:00 =E4=B8=8A=E5=8D=881=
+2:22:43, "Philippe Mathieu-Daud=C3=A9" <philmd@redhat=2Ecom> =E5=86=99=E5=
+=88=B0:
+>On 3/30/20 6:18 PM, Jiaxun Yang wrote:
+>>=20
+>>=20
+>> =E4=BA=8E 2020=E5=B9=B43=E6=9C=8830=E6=97=A5 GMT+08:00 =E4=B8=8B=E5=8D=
+=8811:39:44, "Philippe Mathieu-Daud=C3=A9"
+><philmd@redhat=2Ecom> =E5=86=99=E5=88=B0:
+>>> Hi Jiaxun Yang,
+>>>
+>>> On 3/24/20 1:22 PM, Jiaxun Yang wrote:
+>>>> Loongson multimedia condition instructions were previously
+>>> implemented as
+>>>> write 0 to rd due to lack of documentation=2E So I just confirmed
+>with
+>>> Loongson
+>>>> about their encoding and implemented them correctly=2E
+>>>
+>>> If you have a binary using loongson multimedia instructions, can you
+>>> add
+>>> a test? So this code won't bitrot=2E
+>>=20
+>> I know ffmpeg uses it=2E
+>> But I think that's too fat=2E
+>
+>Looks perfect to me!
+>
+>It'll be simpler if you use a pre-build binary from a known
+>distribution=2E
 
-> ---
->  target/riscv/cpu_helper.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
->
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 50e13a064f..bc80aa87cf 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -559,12 +559,7 @@ restart:
->              /* for superpage mappings, make a fake leaf PTE for the TLB's
->                 benefit. */
->              target_ulong vpn = addr >> PGSHIFT;
-> -            if (i == 0) {
-> -                *physical = (ppn | (vpn & ((1L << (ptshift + widened)) - 1))) <<
-> -                             PGSHIFT;
-> -            } else {
-> -                *physical = (ppn | (vpn & ((1L << ptshift) - 1))) << PGSHIFT;
-> -            }
-> +            *physical = (ppn | (vpn & ((1L << ptshift) - 1))) << PGSHIFT;
->
->              /* set permissions on the TLB entry */
->              if ((pte & PTE_R) || ((pte & PTE_X) && mxr)) {
-> --
-> 2.17.1
->
->
+Unfortunately none of the distribution built ffmpeg with loongson insns en=
+abled,
+as it can't be enabled at runtime=2E
+
+I'll try that after fulfill Loongson Extensions in  QEMU=2E
+
+FFmpeg do use some other Loongson insns despite mmi=2E=20
+
+There are still 15+ instructions for me to work=2E
+
+Thanks
+--=20
+Jiaxun Yang
 
