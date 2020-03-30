@@ -2,50 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D1F197320
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 06:23:08 +0200 (CEST)
-Received: from localhost ([::1]:44662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0A5F197377
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 06:33:49 +0200 (CEST)
+Received: from localhost ([::1]:44838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIlx5-0006Dk-3b
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 00:23:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37797)
+	id 1jIm7R-0005rH-2O
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 00:33:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38238)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yi.l.liu@intel.com>) id 1jIltS-0000qe-LA
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 00:19:24 -0400
+ (envelope-from <anup@brainfault.org>) id 1jIlxh-0000PP-K8
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 00:23:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yi.l.liu@intel.com>) id 1jIltP-0007oO-H8
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 00:19:22 -0400
-Received: from mga01.intel.com ([192.55.52.88]:18787)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1jIltP-0007mU-8Z
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 00:19:19 -0400
-IronPort-SDR: xzsKzNd4p8erqmFAP9yfrR/CqY9D4j4r3Lxmto8j27CmrUUSWQhmqb2FcxbWgBxwlt3heRAShe
- LfI/FINmNDIw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2020 21:19:16 -0700
-IronPort-SDR: 8AuPz3n5vDxx5X0yJbnIPoxzxD7YdloS1wPUiSu0nxnOO50u347KzvfslERG6rieMjzVAodbk9
- 7Rquhbd4Cjpg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,322,1580803200"; d="scan'208";a="327632077"
-Received: from jacob-builder.jf.intel.com ([10.7.199.155])
- by orsmga001.jf.intel.com with ESMTP; 29 Mar 2020 21:19:16 -0700
-From: Liu Yi L <yi.l.liu@intel.com>
-To: qemu-devel@nongnu.org,
-	alex.williamson@redhat.com,
-	peterx@redhat.com
-Subject: [PATCH v2 22/22] intel_iommu: modify x-scalable-mode to be string
- option
-Date: Sun, 29 Mar 2020 21:25:01 -0700
-Message-Id: <1585542301-84087-23-git-send-email-yi.l.liu@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1585542301-84087-1-git-send-email-yi.l.liu@intel.com>
-References: <1585542301-84087-1-git-send-email-yi.l.liu@intel.com>
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 192.55.52.88
+ (envelope-from <anup@brainfault.org>) id 1jIlxg-0003oV-KC
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 00:23:45 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34592)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <anup@brainfault.org>) id 1jIlxg-0003mR-A6
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 00:23:44 -0400
+Received: by mail-wr1-x443.google.com with SMTP id 65so19850870wrl.1
+ for <qemu-devel@nongnu.org>; Sun, 29 Mar 2020 21:23:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HzG7oyXt/nsBgTi6zmit0T++IzWCAHZ7qmuGbPyQKFo=;
+ b=Oaz6u8lJqj2lr0brqtHiA/sBxIkaIKveNonoyhGZWwOBo1q0ZSntJE/7YX7uxL8D0p
+ TkccxD5+PflOPfefCd0T76a5e3kfoLxQdr6FI2T+zfYVrACB21rhDyi/pQFAV/XCZyou
+ ONwPZwZ5c+dM8OW9GqAgXa6URTx/sAQtG9s82QkSn0aCqH0Wz/EQL8ePv12yp+TdK8tj
+ hwcumrjQI71pSyEUnmIUpIA1EL6reJi2XE0A4zJmncQBLS+CtOn8aQpZmOqDvwVbbT6v
+ h+EfBl7zpLfBvWlBmW86Eo5eVVNcUBiQl14nPnjeMFvtoKIH0RbgW7rtb3J2dFXLeYXM
+ jNRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HzG7oyXt/nsBgTi6zmit0T++IzWCAHZ7qmuGbPyQKFo=;
+ b=DG0OtOfumlyEQMsJ13Rr7M2Xt+hefn77rulOxg5BCrcMjWUiKz4k98cOZwVxBvK0ND
+ t9u14ITxVa4QlUrZimpkrelvh7+ibq2O3f0sUCCrjaZQ3fTRqirb0wfGgcguK8pQfi4Z
+ 6+GCz4k6LqGUC6jPof6f6uB1ctaTcoEuQnr/mxVBEsx8sk0498MGXdx/L19qK9+4xO+X
+ X28HuIy9Ybtio7v5wQH8ee4rByV88h8C/QScq5LXm7IhSNyWT4C6hOu/Q1ua/GizLrlZ
+ PP0SsA7sgJyt4N6e9r+S0kTUotLaGE7w3jQmegxX6/iZBcclraO8WJFf/vX3F3xaD27Z
+ lmLg==
+X-Gm-Message-State: ANhLgQ3PwwgrkNP84qmeuwQu55VXx6rVPwQOp3gSbK/OEuQd60yusN3/
+ Bv67c+hKQJ8Pp6SxZFYlH3tYjlmRE0h87zucUMJstg==
+X-Google-Smtp-Source: ADFU+vshWyqLWpOrJ9xdCfB6ck/+0gAWWbuyILfFoD+Z2kMBSFsFceasLZxT529BjjoapKRl6E/1UmsBmrDgBmgHztI=
+X-Received: by 2002:adf:8187:: with SMTP id 7mr13325645wra.358.1585542222325; 
+ Sun, 29 Mar 2020 21:23:42 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1585262586.git.alistair.francis@wdc.com>
+ <mhng-f7361188-1bb2-4ea3-bc25-3076f877aa64@palmerdabbelt-glaptop1>
+In-Reply-To: <mhng-f7361188-1bb2-4ea3-bc25-3076f877aa64@palmerdabbelt-glaptop1>
+From: Anup Patel <anup@brainfault.org>
+Date: Mon, 30 Mar 2020 09:53:30 +0530
+Message-ID: <CAAhSdy2PNi-XE94kzSVRZLc_iJOKkBvwB6eo8qu=byBOUH9DDw@mail.gmail.com>
+Subject: Re: [PATCH for 5.0 v1 0/2] RISC-V: Fix Hypervisor guest user space
+To: Palmer Dabbelt <palmer@dabbelt.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,135 +72,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jean-philippe@linaro.org, kevin.tian@intel.com, yi.l.liu@intel.com,
- Yi Sun <yi.y.sun@linux.intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, mst@redhat.com, jun.j.tian@intel.com,
- eric.auger@redhat.com, yi.y.sun@intel.com,
- Jacob Pan <jacob.jun.pan@linux.intel.com>, pbonzini@redhat.com,
- hao.wu@intel.com, Richard Henderson <rth@twiddle.net>,
- david@gibson.dropbear.id.au
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Intel VT-d 3.0 introduces scalable mode, and it has a bunch of capabilities
-related to scalable mode translation, thus there are multiple combinations.
-While this vIOMMU implementation wants simplify it for user by providing
-typical combinations. User could config it by "x-scalable-mode" option. The
-usage is as below:
+Hi Palmer,
 
-"-device intel-iommu,x-scalable-mode=["legacy"|"modern"|"off"]"
+On Fri, Mar 27, 2020 at 5:30 AM Palmer Dabbelt <palmer@dabbelt.com> wrote:
+>
+> On Thu, 26 Mar 2020 15:44:04 PDT (-0700), Alistair Francis wrote:
+> > This series fixes two bugs in the RISC-V two stage lookup
+> > implementation. This fixes the Hypervisor userspace failing to start.
+> >
+> > Alistair Francis (2):
+> >   riscv: Don't use stage-2 PTE lookup protection flags
+> >   riscv: AND stage-1 and stage-2 protection flags
+> >
+> >  target/riscv/cpu_helper.c | 11 +++++++----
+> >  1 file changed, 7 insertions(+), 4 deletions(-)
+>
+> Thanks, these are in the queue.
+>
 
- - "legacy": gives support for SL page table
- - "modern": gives support for FL page table, pasid, virtual command
- - "off": no scalable mode support
- -  if not configured, means no scalable mode support, if not proper
-    configured, will throw error
+I have tested this patch series on latest QEMU master without
+"target/riscv: Don't set write permissions on dirty PTEs" workaround
+patch. It works fine now.
 
-Note: this patch is supposed to be merged when  the whole vSVA patch series
-were merged.
+Tested-by: Anup Patel <anup@brainfault.org>
 
-Cc: Kevin Tian <kevin.tian@intel.com>
-Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Yi Sun <yi.y.sun@linux.intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
----
- hw/i386/intel_iommu.c          | 30 ++++++++++++++++++++++++++++--
- hw/i386/intel_iommu_internal.h |  4 ++++
- include/hw/i386/intel_iommu.h  |  2 ++
- 3 files changed, 34 insertions(+), 2 deletions(-)
+Please drop the work-around patch  "target/riscv: Don't set write
+permissions on dirty PTEs" from your for-next.
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index e8877d4..2e745e8 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -4056,7 +4056,7 @@ static Property vtd_properties[] = {
-     DEFINE_PROP_UINT8("aw-bits", IntelIOMMUState, aw_bits,
-                       VTD_HOST_ADDRESS_WIDTH),
-     DEFINE_PROP_BOOL("caching-mode", IntelIOMMUState, caching_mode, FALSE),
--    DEFINE_PROP_BOOL("x-scalable-mode", IntelIOMMUState, scalable_mode, FALSE),
-+    DEFINE_PROP_STRING("x-scalable-mode", IntelIOMMUState, scalable_mode_str),
-     DEFINE_PROP_BOOL("dma-drain", IntelIOMMUState, dma_drain, true),
-     DEFINE_PROP_END_OF_LIST(),
- };
-@@ -4688,8 +4688,12 @@ static void vtd_init(IntelIOMMUState *s)
-     }
- 
-     /* TODO: read cap/ecap from host to decide which cap to be exposed. */
--    if (s->scalable_mode) {
-+    if (s->scalable_mode && !s->scalable_modern) {
-         s->ecap |= VTD_ECAP_SMTS | VTD_ECAP_SRS | VTD_ECAP_SLTS;
-+    } else if (s->scalable_mode && s->scalable_modern) {
-+        s->ecap |= VTD_ECAP_SMTS | VTD_ECAP_SRS | VTD_ECAP_PASID
-+                   | VTD_ECAP_FLTS | VTD_ECAP_PSS | VTD_ECAP_VCS;
-+        s->vccap |= VTD_VCCAP_PAS;
-     }
- 
-     vtd_reset_caches(s);
-@@ -4821,6 +4825,28 @@ static bool vtd_decide_config(IntelIOMMUState *s, Error **errp)
-         return false;
-     }
- 
-+    if (s->scalable_mode_str &&
-+        (strcmp(s->scalable_mode_str, "off") &&
-+         strcmp(s->scalable_mode_str, "modern") &&
-+         strcmp(s->scalable_mode_str, "legacy"))) {
-+        error_setg(errp, "Invalid x-scalable-mode config,"
-+                         "Please use \"modern\", \"legacy\" or \"off\"");
-+        return false;
-+    }
-+
-+    if (s->scalable_mode_str &&
-+        !strcmp(s->scalable_mode_str, "legacy")) {
-+        s->scalable_mode = true;
-+        s->scalable_modern = false;
-+    } else if (s->scalable_mode_str &&
-+        !strcmp(s->scalable_mode_str, "modern")) {
-+        s->scalable_mode = true;
-+        s->scalable_modern = true;
-+    } else {
-+        s->scalable_mode = false;
-+        s->scalable_modern = false;
-+    }
-+
-     return true;
- }
- 
-diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-index 4910e63..e0719bc 100644
---- a/hw/i386/intel_iommu_internal.h
-+++ b/hw/i386/intel_iommu_internal.h
-@@ -196,8 +196,12 @@
- #define VTD_ECAP_PT                 (1ULL << 6)
- #define VTD_ECAP_MHMV               (15ULL << 20)
- #define VTD_ECAP_SRS                (1ULL << 31)
-+#define VTD_ECAP_PSS                (19ULL << 35)
-+#define VTD_ECAP_PASID              (1ULL << 40)
- #define VTD_ECAP_SMTS               (1ULL << 43)
-+#define VTD_ECAP_VCS                (1ULL << 44)
- #define VTD_ECAP_SLTS               (1ULL << 46)
-+#define VTD_ECAP_FLTS               (1ULL << 47)
- 
- /* CAP_REG */
- /* (offset >> 4) << 24 */
-diff --git a/include/hw/i386/intel_iommu.h b/include/hw/i386/intel_iommu.h
-index 626c1cd..3831ba7 100644
---- a/include/hw/i386/intel_iommu.h
-+++ b/include/hw/i386/intel_iommu.h
-@@ -263,6 +263,8 @@ struct IntelIOMMUState {
- 
-     bool caching_mode;              /* RO - is cap CM enabled? */
-     bool scalable_mode;             /* RO - is Scalable Mode supported? */
-+    char *scalable_mode_str;        /* RO - admin's Scalable Mode config */
-+    bool scalable_modern;           /* RO - is modern SM supported? */
- 
-     dma_addr_t root;                /* Current root table pointer */
-     bool root_scalable;             /* Type of root table (scalable or not) */
--- 
-2.7.4
-
+Regards,
+Anup
 
