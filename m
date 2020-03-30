@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF7A5197F3F
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 17:07:12 +0200 (CEST)
-Received: from localhost ([::1]:51116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C60A197F41
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 17:07:55 +0200 (CEST)
+Received: from localhost ([::1]:51142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIw0N-0001v8-W8
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 11:07:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35139)
+	id 1jIw14-0002vq-86
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 11:07:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35316)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jIvzG-0001Mw-8M
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:06:03 -0400
+ (envelope-from <armbru@redhat.com>) id 1jIvzr-0001ua-GE
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:06:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jIvzE-0000e3-QA
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:06:01 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:44274)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jIvzE-0000cy-CZ
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:06:00 -0400
-Received: by mail-oi1-x241.google.com with SMTP id v134so15906951oie.11
- for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 08:06:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=GCMVfMqJHzqzkP2b8N1LosC+C1vgFqYzpfpgZLqC1v8=;
- b=xcAR/4VeZVX1xFt+F2hz0sWSZcKDmizuzYMs8b4JaUSuPgOIw6AODIizjdgGHcaGIa
- KUZcneXcKzrB8kUuIAftqb4XLfI7/6PQ4NPLISL3nFTO8nE9UEILyFpJnRrJRzC+QoBg
- 9VMqyxuZLJmaRete/KcZL8fEJyeMBub7kvR+l2Ix57ovg74+s4XeJYKJFEZcvLoPUdcV
- 8fdvJQ0YAim6YtJjgKxe9CsEw/BoPe9Vd/8OJ7b49lmNUJJPA/Kw0PsJHal/Mik5Dj2c
- 8CgdU0/+u06YwHADXcFhGIucspnyRtFi7KWTQMx+mYeqUL+8+cJHMeBXpI+2FtMKUj2L
- 4gkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=GCMVfMqJHzqzkP2b8N1LosC+C1vgFqYzpfpgZLqC1v8=;
- b=JhOEYd8MqTL+bc0TuH/8lJ0kx1l30WRlvlbkQuGuM0o7DiGpwMEFwHJRUolY1XywHE
- XsIBH5OnIRHuoTKOACcznZ1PYfJGBex45hvmcmVm4AxIvqHrTnaxfJXPPuPzBtxyHqjf
- 0tsC5/oQ8dKM9ad/94+E2kXf1mJzTw71nfo7rQmqTATfw9qaL7cOL0URft6FmKvdtQXo
- rXVbw02PydJklsLDfYP0Rf9gXI6SVh/IzJSxvhCik9rjr8nj3JvWL3gctIKXN+QSjDwS
- bTejcqiJeCYS6gZOHnYJaqkz2ZnT4ALADAFtkv57uujASh/S8c+XPWUM6EzWVavPWUq8
- 4Dnw==
-X-Gm-Message-State: ANhLgQ0GVY72eJjEhV118KOyljp2zFXHluAHsomUjmubNE2wfR63IoTY
- /IYsMDbxcLkSVP60MvExGeOGPGTK+e1fSAlYxx6Ezs0sAa8=
-X-Google-Smtp-Source: ADFU+vuUhxCu5yGz9mftfuhD6yy8FlURrSrDtBoh/5si1LG5OXvUeYGK+U5V7/J/g1EYYXEBvdx78Dkj95rx8Wo/+B8=
-X-Received: by 2002:a05:6808:64c:: with SMTP id
- z12mr7585368oih.146.1585580758935; 
- Mon, 30 Mar 2020 08:05:58 -0700 (PDT)
+ (envelope-from <armbru@redhat.com>) id 1jIvzp-0001TC-S9
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:06:38 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:38355)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jIvzp-0001Ry-Ko
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:06:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585580797;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=l20BNSDxCZM9aTXBRnhjQjhapWSLJ0wNI/x7m+lVJj8=;
+ b=CmKN30W0j6p/oECA1qM8TLB4xGE6fzDCdksWpgBXdYxwNpvy8wntl0stGK7lBWCoatc/5v
+ uo+qY+Ne0bF/cFHUooaF2YMN2HRDIKgWRcaGtmgq8YTvUvYWFN3WPp+db/bNjSIi/u4oOQ
+ nqwHgvqF47iphIuzDHm04qY6p7IqFDQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-203-qZI2txV_PGG1haaIkvob-w-1; Mon, 30 Mar 2020 11:06:34 -0400
+X-MC-Unique: qZI2txV_PGG1haaIkvob-w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4674018C35C8;
+ Mon, 30 Mar 2020 15:06:33 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-69.ams2.redhat.com
+ [10.36.112.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D0BDF5C1A2;
+ Mon, 30 Mar 2020 15:06:31 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6FAC111385E2; Mon, 30 Mar 2020 17:06:30 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Subject: Re: [PATCH v9 1/4] qcow2: introduce compression type feature
+References: <20200323142558.15473-1-dplotnikov@virtuozzo.com>
+ <20200323142558.15473-2-dplotnikov@virtuozzo.com>
+Date: Mon, 30 Mar 2020 17:06:30 +0200
+In-Reply-To: <20200323142558.15473-2-dplotnikov@virtuozzo.com> (Denis
+ Plotnikov's message of "Mon, 23 Mar 2020 17:25:55 +0300")
+Message-ID: <87imilubk9.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-References: <20200330133648.22297-1-peter.maydell@linaro.org>
-In-Reply-To: <20200330133648.22297-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 30 Mar 2020 16:05:47 +0100
-Message-ID: <CAFEAcA_K77eCncRWFhoO0bwNrz=KR=5VZy15CpCVW+nv=wAUsg@mail.gmail.com>
-Subject: Re: [PULL 0/6] target-arm queue
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,43 +76,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+ den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 30 Mar 2020 at 14:36, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> A handful of bugfixes before rc1 tomorrow...
->
-> thanks
-> -- PMM
->
-> The following changes since commit f9fe8450fa7cdc6268e05c93fa258f583f4514b7:
->
->   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.0-pull-request' into staging (2020-03-30 11:32:01 +0100)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200330
->
-> for you to fetch changes up to 88828bf133b64b7a860c166af3423ef1a47c5d3b:
->
->   target/arm: fix incorrect current EL bug in aarch32 exception emulation (2020-03-30 13:55:32 +0100)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * hw/arm/orangepi: check for potential NULL pointer when calling blk_is_available
->  * hw/misc/allwinner-h3-dramc: enforce 64-bit multiply when calculating row mirror address
->  * docs/conf.py: Raise ConfigError for bad Sphinx Python version
->  * hw/arm/xlnx-zynqmp.c: Avoid memory leak in error-return path
->  * hw/arm/xlnx-zynqmp.c: Add missing error-propagation code
->  * target/arm: fix incorrect current EL bug in aarch32 exception emulation
->
+Denis Plotnikov <dplotnikov@virtuozzo.com> writes:
 
+> The patch adds some preparation parts for incompatible compression type
+> feature to qcow2 allowing the use different compression methods for
+> image clusters (de)compressing.
+>
+> It is implied that the compression type is set on the image creation and
+> can be changed only later by image conversion, thus compression type
+> defines the only compression algorithm used for the image, and thus,
+> for all image clusters.
+>
+> The goal of the feature is to add support of other compression methods
+> to qcow2. For example, ZSTD which is more effective on compression than Z=
+LIB.
+>
+> The default compression is ZLIB. Images created with ZLIB compression typ=
+e
+> are backward compatible with older qemu versions.
+>
+> Adding of the compression type breaks a number of tests because now the
+> compression type is reported on image creation and there are some changes
+> in the qcow2 header in size and offsets.
+>
+> The tests are fixed in the following ways:
+>     * filter out compression_type for many tests
+>     * fix header size, feature table size and backing file offset
+>       affected tests: 031, 036, 061, 080
+>       header_size +=3D8: 1 byte compression type
+>                        7 bytes padding
+>       feature_table +=3D 48: incompatible feature compression type
+>       backing_file_offset +=3D 56 (8 + 48 -> header_change + feature_tabl=
+e_change)
+>     * add "compression type" for test output matching when it isn't filte=
+red
+>       affected tests: 049, 060, 061, 065, 144, 182, 242, 255
+>
+> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
 
-Applied, thanks.
+Hmm, haven't I've seen this before?  ...  Yes, I provided my QAPI part:
+Acked-by for v5, and the QAPI part hasn't changed since.  You can save
+me a bit of labor by carrying my Acked-by forward.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
+Once again, QAPI part:
+Acked-by: Markus Armbruster <armbru@redhat.com>
 
--- PMM
 
