@@ -2,75 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E526197FA5
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 17:31:43 +0200 (CEST)
-Received: from localhost ([::1]:51366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F20BD197FBE
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 17:36:43 +0200 (CEST)
+Received: from localhost ([::1]:51446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIwO6-0002vY-2v
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 11:31:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38779)
+	id 1jIwSw-00067t-Ug
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 11:36:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39777)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jIwMn-000210-QY
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:30:22 -0400
+ (envelope-from <clg@kaod.org>) id 1jIwRX-0005AO-2I
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:35:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jIwMm-0002Jx-PJ
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:30:21 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44204)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jIwMm-0002H0-Gu
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:30:20 -0400
-Received: by mail-wr1-x444.google.com with SMTP id m17so22147924wrw.11
- for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 08:30:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wlkjtKPyWMqQrbfa2vdwgZkigUemJrYf+pOUdA57Mms=;
- b=F5Yw85YvezFOBGlXOPcLstYiVSY0ywC0+clKJiI1IDmd4azg5CiivOizL9BW2NgcsO
- YjUAFt7jIEBrs7fYZJNPXsN8QCh5eqz80LObfLY0giNVYcXF9lMykdQMzZD2DtSrsZZW
- Th+uJmhYSGvWn6njBhG5m8TGVVj6S7cu+YhxtnV7BMGLWwJYpt3l2/QWF11elhGa/Cwr
- OGF+owRrk8wFgkmFwyCKLH6V/pVzdys6cAj7sE9OxXqHDDuj4wWGkx9IodBCHyuBT9G0
- rQXiAqHD2/vKPOotxKvhnCOkQ6EGfb1g4b5UM/VyM+shr44QmASaIlCxQ8KWHJjkkwXq
- uxRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=wlkjtKPyWMqQrbfa2vdwgZkigUemJrYf+pOUdA57Mms=;
- b=dnwy+htycOPyCj4AlxO9VqtRnh4BPHRdlgAIWOGviDaMovMN0JmNo3d3bzhrBDDQZT
- +jRXCsnT+Yr4brKirrLl/T6mfbOQjWOFmBNl2j6p1kpSCfRhP6WtKWUNm461IiQXqcOH
- Y5d8cAoUeA6jIspHSFH0+Fec1fEIW3gg1uGbYvR4LYzQfQ2RIw27OM+Y57c+cjISAwaG
- yZpTQZN7dFPiDmYFnXsySTVtpaz3fWnMniwFw5Vcl8aDEKrDmZPzpTLx8MzWRwxG5tNQ
- 0oihfZDvXwtRA7179kNW5ltMKn47Bb8hxY5dvI9N1EPwMszzp5xcHfPUz1wL2e64Jauv
- XWow==
-X-Gm-Message-State: ANhLgQ3C7Pi9A7XnoEezZupDP2TxUJJ1sbmUAmiX1yng877SDm2I126k
- AbvVi/K7+3A9hvcrO7z9nncFCIoZHiM=
-X-Google-Smtp-Source: ADFU+vs2RIlyYEqRrY9H6DN7hzGjv+xvOUolEim08yy8K+ZRfnNLLuUV94mQ7+5tMS0PTy+yCJ5pcw==
-X-Received: by 2002:a05:6000:1251:: with SMTP id
- j17mr15592161wrx.228.1585582218768; 
- Mon, 30 Mar 2020 08:30:18 -0700 (PDT)
-Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id l185sm12185971wml.44.2020.03.30.08.30.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Mar 2020 08:30:17 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0] gdbstub: Use correct address space with
- Qqemu.PhyMemMode packet
-Date: Mon, 30 Mar 2020 17:30:16 +0200
-Message-Id: <20200330153016.2959-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.1
+ (envelope-from <clg@kaod.org>) id 1jIwRV-0007CW-5i
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:35:14 -0400
+Received: from 2.mo177.mail-out.ovh.net ([178.33.109.80]:47147)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jIwRU-00073v-9g
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:35:12 -0400
+Received: from player761.ha.ovh.net (unknown [10.108.35.103])
+ by mo177.mail-out.ovh.net (Postfix) with ESMTP id 6406712B603
+ for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 17:35:08 +0200 (CEST)
+Received: from kaod.org (unknown [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player761.ha.ovh.net (Postfix) with ESMTPSA id 1D06010EF9DFA;
+ Mon, 30 Mar 2020 15:34:57 +0000 (UTC)
+Subject: Re: [PATCH 4/7] target/ppc: Introduce ppc_radix64_xlate() for Radix
+ tree translation
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+To: Greg Kurz <groug@kaod.org>
+References: <20200330094946.24678-1-clg@kaod.org>
+ <20200330094946.24678-5-clg@kaod.org> <20200330161848.27226542@bahia.lan>
+ <99dd89d6-f385-7cc1-d688-c104708092c2@kaod.org>
+Message-ID: <88580970-a739-b32f-528f-26c6aa81b598@kaod.org>
+Date: Mon, 30 Mar 2020 17:34:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+In-Reply-To: <99dd89d6-f385-7cc1-d688-c104708092c2@kaod.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 1272548371958172568
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudeihedgkeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffhvfhfkffffgggjggtgfesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejiedurdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 178.33.109.80
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,48 +60,243 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>, Jon Doron <arilou@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Luc Michel <luc.michel@greensocs.com>
+Cc: Suraj Jitindar Singh <sjitindarsingh@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Nicholas Piggin <npiggin@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit 3f940dc98, we added support for vAttach packet
-to select a particular thread/cpu/core. However when using
-the GDB physical memory mode, it is not clear which CPU
-address space is used.
-Since the CPU address space is stored in CPUState::as, use
-address_space_rw() instead of cpu_physical_memory_rw().
+>>> +        /* No valid pte or access denied due to protection */
+>>> +        if (cause_excp) {
+>>> +            ppc_radix64_raise_si(cpu, rwx, eaddr, fault_cause);
+>>> +        }
+>>> +        return 1;
+>>> +    }
+>>> +
+>>> +    ppc_radix64_set_rc(cpu, rwx, pte, pte_addr, g_prot);
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +
+>>> +static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, int rwx,
+>>> +                             uint64_t lpid, uint64_t pid, bool relocation,
+>>> +                             hwaddr *raddr, int *psizep, int *protp,
+>>> +                             bool cause_excp)
+>>> +{
+>>> +    ppc_v3_pate_t pate;
+>>> +    int psize, prot;
+>>> +    hwaddr g_raddr;
+>>> +
+>>> +    *psizep = INT_MAX;
+>>> +    *protp = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+>>> +
+>>> +    /* Get Process Table */
+>>> +    if (cpu->vhyp && lpid == 0) {
+>>
+>> Current code doesn't check lpid == 0. Not sure to see what it's for...
+> 
+> cpu->vhyp means a pseries machine, lpid == 0 means accessing quadrant3, 
+> so it's the kernel.
 
-Fixes: ab4752ec8d9
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- gdbstub.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+Sorry. I misread that. It would pid == 0 for the kernel. 
 
-diff --git a/gdbstub.c b/gdbstub.c
-index 013fb1ac0f..3baaef50e3 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -69,11 +69,8 @@ static inline int target_memory_rw_debug(CPUState *cpu, target_ulong addr,
- 
- #ifndef CONFIG_USER_ONLY
-     if (phy_memory_mode) {
--        if (is_write) {
--            cpu_physical_memory_write(addr, buf, len);
--        } else {
--            cpu_physical_memory_read(addr, buf, len);
--        }
-+        address_space_rw(cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
-+                         buf, len, is_write);
-         return 0;
-     }
- #endif
--- 
-2.21.1
+So yes, the test cpu->vhyp && lpid == 0 might be a bit overkill, given 
+that lpid is always 0 when running under a QEMU pseries machine.
+
+
+C.
+
+> 
+>> especially env->spr[SPR_LPIDR] is always 0 with pseries machine types
+>> AFAICT... is it even possible to have lpid != 0 here ?
+> 
+> When under PowerNV, SPR_LPIDR can be set, but not under pseries.
+> 
+> C.
+> 
+>>
+>>
+>> Rest LGTM.
+>>
+>>> +        PPCVirtualHypervisorClass *vhc;
+>>> +        vhc = PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
+>>> +        vhc->get_pate(cpu->vhyp, &pate);
+>>> +    } else {
+>>> +        if (!ppc64_v3_get_pate(cpu, lpid, &pate)) {
+>>> +            if (cause_excp) {
+>>> +                ppc_radix64_raise_si(cpu, rwx, eaddr, DSISR_NOPTE);
+>>> +            }
+>>> +            return 1;
+>>> +        }
+>>> +        if (!validate_pate(cpu, lpid, &pate)) {
+>>> +            if (cause_excp) {
+>>> +                ppc_radix64_raise_si(cpu, rwx, eaddr, DSISR_R_BADCONFIG);
+>>> +            }
+>>> +            return 1;
+>>> +        }
+>>> +        /* We don't support guest mode yet */
+>>> +        if (lpid != 0) {
+>>> +            error_report("PowerNV guest support Unimplemented");
+>>> +            exit(1);
+>>> +        }
+>>> +    }
+>>> +
+>>> +    /*
+>>> +     * Perform process-scoped translation if relocation enabled.
+>>> +     *
+>>> +     * - Translates an effective address to a host real address in
+>>> +     *   quadrants 0 and 3 when HV=1.
+>>> +     */
+>>> +    if (relocation) {
+>>> +        int ret = ppc_radix64_process_scoped_xlate(cpu, rwx, eaddr, lpid, pid,
+>>> +                                                   pate, &g_raddr, &prot,
+>>> +                                                   &psize, cause_excp);
+>>> +        if (ret) {
+>>> +            return ret;
+>>> +        }
+>>> +        *psizep = MIN(*psizep, psize);
+>>> +        *protp &= prot;
+>>> +    } else {
+>>> +        g_raddr = eaddr & R_EADDR_MASK;
+>>> +    }
+>>> +
+>>> +    *raddr = g_raddr;
+>>> +    return 0;
+>>> +}
+>>> +
+>>>  int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
+>>>                                   int mmu_idx)
+>>>  {
+>>>      CPUState *cs = CPU(cpu);
+>>>      CPUPPCState *env = &cpu->env;
+>>> -    PPCVirtualHypervisorClass *vhc;
+>>> -    hwaddr raddr, pte_addr;
+>>> -    uint64_t lpid = 0, pid = 0, offset, size, prtbe0, pte;
+>>> -    int page_size, prot, fault_cause = 0;
+>>> -    ppc_v3_pate_t pate;
+>>> +    uint64_t lpid = 0, pid = 0;
+>>> +    int page_size, prot;
+>>>      bool relocation;
+>>> +    hwaddr raddr;
+>>>  
+>>>      assert(!(msr_hv && cpu->vhyp));
+>>>      assert((rwx == 0) || (rwx == 1) || (rwx == 2));
+>>> @@ -268,48 +370,11 @@ int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
+>>>          return 1;
+>>>      }
+>>>  
+>>> -    /* Get Process Table */
+>>> -    if (cpu->vhyp) {
+>>> -        vhc = PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
+>>> -        vhc->get_pate(cpu->vhyp, &pate);
+>>> -    } else {
+>>> -        if (!ppc64_v3_get_pate(cpu, lpid, &pate)) {
+>>> -            ppc_radix64_raise_si(cpu, rwx, eaddr, DSISR_NOPTE);
+>>> -            return 1;
+>>> -        }
+>>> -        if (!validate_pate(cpu, lpid, &pate)) {
+>>> -            ppc_radix64_raise_si(cpu, rwx, eaddr, DSISR_R_BADCONFIG);
+>>> -        }
+>>> -        /* We don't support guest mode yet */
+>>> -        if (lpid != 0) {
+>>> -            error_report("PowerNV guest support Unimplemented");
+>>> -            exit(1);
+>>> -       }
+>>> -    }
+>>> -
+>>> -    /* Index Process Table by PID to Find Corresponding Process Table Entry */
+>>> -    offset = pid * sizeof(struct prtb_entry);
+>>> -    size = 1ULL << ((pate.dw1 & PATE1_R_PRTS) + 12);
+>>> -    if (offset >= size) {
+>>> -        /* offset exceeds size of the process table */
+>>> -        ppc_radix64_raise_si(cpu, rwx, eaddr, DSISR_NOPTE);
+>>> +    /* Translate eaddr to raddr (where raddr is addr qemu needs for access) */
+>>> +    if (ppc_radix64_xlate(cpu, eaddr, rwx, lpid, pid, relocation, &raddr,
+>>> +                          &page_size, &prot, 1)) {
+>>>          return 1;
+>>>      }
+>>> -    prtbe0 = ldq_phys(cs->as, (pate.dw1 & PATE1_R_PRTB) + offset);
+>>> -
+>>> -    /* Walk Radix Tree from Process Table Entry to Convert EA to RA */
+>>> -    page_size = PRTBE_R_GET_RTS(prtbe0);
+>>> -    pte = ppc_radix64_walk_tree(cpu, eaddr & R_EADDR_MASK,
+>>> -                                prtbe0 & PRTBE_R_RPDB, prtbe0 & PRTBE_R_RPDS,
+>>> -                                &raddr, &page_size, &fault_cause, &pte_addr);
+>>> -    if (!pte || ppc_radix64_check_prot(cpu, rwx, pte, &fault_cause, &prot)) {
+>>> -        /* Couldn't get pte or access denied due to protection */
+>>> -        ppc_radix64_raise_si(cpu, rwx, eaddr, fault_cause);
+>>> -        return 1;
+>>> -    }
+>>> -
+>>> -    /* Update Reference and Change Bits */
+>>> -    ppc_radix64_set_rc(cpu, rwx, pte, pte_addr, &prot);
+>>>  
+>>>      tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_MASK,
+>>>                   prot, mmu_idx, 1UL << page_size);
+>>> @@ -318,16 +383,13 @@ int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
+>>>  
+>>>  hwaddr ppc_radix64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong eaddr)
+>>>  {
+>>> -    CPUState *cs = CPU(cpu);
+>>>      CPUPPCState *env = &cpu->env;
+>>> -    PPCVirtualHypervisorClass *vhc;
+>>> -    hwaddr raddr, pte_addr;
+>>> -    uint64_t lpid = 0, pid = 0, offset, size, prtbe0, pte;
+>>> -    int page_size, fault_cause = 0;
+>>> -    ppc_v3_pate_t pate;
+>>> +    uint64_t lpid = 0, pid = 0;
+>>> +    int psize, prot;
+>>> +    hwaddr raddr;
+>>>  
+>>>      /* Handle Real Mode */
+>>> -    if (msr_dr == 0) {
+>>> +    if ((msr_dr == 0) && (msr_hv || (cpu->vhyp && lpid == 0))) {
+>>>          /* In real mode top 4 effective addr bits (mostly) ignored */
+>>>          return eaddr & 0x0FFFFFFFFFFFFFFFULL;
+>>>      }
+>>> @@ -337,39 +399,8 @@ hwaddr ppc_radix64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong eaddr)
+>>>          return -1;
+>>>      }
+>>>  
+>>> -    /* Get Process Table */
+>>> -    if (cpu->vhyp) {
+>>> -        vhc = PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
+>>> -        vhc->get_pate(cpu->vhyp, &pate);
+>>> -    } else {
+>>> -        if (!ppc64_v3_get_pate(cpu, lpid, &pate)) {
+>>> -            return -1;
+>>> -        }
+>>> -        if (!validate_pate(cpu, lpid, &pate)) {
+>>> -            return -1;
+>>> -        }
+>>> -        /* We don't support guest mode yet */
+>>> -        if (lpid != 0) {
+>>> -            error_report("PowerNV guest support Unimplemented");
+>>> -            exit(1);
+>>> -       }
+>>> -    }
+>>> -
+>>> -    /* Index Process Table by PID to Find Corresponding Process Table Entry */
+>>> -    offset = pid * sizeof(struct prtb_entry);
+>>> -    size = 1ULL << ((pate.dw1 & PATE1_R_PRTS) + 12);
+>>> -    if (offset >= size) {
+>>> -        /* offset exceeds size of the process table */
+>>> -        return -1;
+>>> -    }
+>>> -    prtbe0 = ldq_phys(cs->as, (pate.dw1 & PATE1_R_PRTB) + offset);
+>>> -
+>>> -    /* Walk Radix Tree from Process Table Entry to Convert EA to RA */
+>>> -    page_size = PRTBE_R_GET_RTS(prtbe0);
+>>> -    pte = ppc_radix64_walk_tree(cpu, eaddr & R_EADDR_MASK,
+>>> -                                prtbe0 & PRTBE_R_RPDB, prtbe0 & PRTBE_R_RPDS,
+>>> -                                &raddr, &page_size, &fault_cause, &pte_addr);
+>>> -    if (!pte) {
+>>> +    if (ppc_radix64_xlate(cpu, eaddr, 0, lpid, pid, msr_dr, &raddr, &psize,
+>>> +                          &prot, 0)) {
+>>>          return -1;
+>>>      }
+>>>  
+>>
+> 
 
 
