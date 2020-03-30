@@ -2,63 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEC26198747
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 00:20:03 +0200 (CEST)
-Received: from localhost ([::1]:57600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FCC21986F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 00:06:38 +0200 (CEST)
+Received: from localhost ([::1]:57432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJ2lG-00081h-Gv
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 18:20:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47629)
+	id 1jJ2YH-0003Dv-1M
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 18:06:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48017)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex@corp.zubrcom.net>) id 1jJ2To-0002Jx-Gu
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 18:02:01 -0400
+ (envelope-from <philmd@redhat.com>) id 1jJ2XS-0002oS-08
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 18:05:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex@corp.zubrcom.net>) id 1jJ2Tn-0003wN-I6
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 18:02:00 -0400
-Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234]:35715)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex@corp.zubrcom.net>)
- id 1jJ2Tn-0003vk-5S
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 18:01:59 -0400
-Received: by mail-lj1-x234.google.com with SMTP id k21so19894457ljh.2
- for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 15:01:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=corp-zubrcom-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:from:date:message-id:subject:to;
- bh=7TmK0qeIjAXyqRG/tCr/XXErnN5DXokZjtcg9k9/E8M=;
- b=AGIXpndykFHoP2vZVXe/sEzuTzO5P+UQXq4OTemE2mvKlfVUFYtPCxdy/awP/slc2e
- JvNfh4EXJM9rIk+OOsbWsNNSa8j2O3b042X05vBjEDFzjaVRbSoG+wMX4GP9gc65gXlN
- 5DDOloo6lCk5+/xEzJRZfwoMA9/4oO2JKV51YUnjfkS8QeUJRvIi9eAJRLIq9Z+qPuoO
- kuM6+6z7lgcvwFn56an/Gwn+tPmHTTqKsBnMtYgfRXzYxSRptpyY6vjebsBwOBxPyXTg
- yZTtLNHU8ugMCBwii5axUpOWDRjPK0vDc4o56lqTBmwcW88oXS8aKOTddCGQ/6y/uf7o
- tfKg==
+ (envelope-from <philmd@redhat.com>) id 1jJ2XP-0006Xu-9X
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 18:05:44 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:35729)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jJ2XN-0006Ud-Vx
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 18:05:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585605939;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2sVmu3XG6lUbj/FSulAWU1kll/8q8UjGkhbcYLj1m7s=;
+ b=eVn+STioPrUbkiBfOpxeykMhwB7TIyV6RfdzPgnWlbmkLCyYxvq6I/MlnRCZz/RRKIMgr2
+ NIctH992orLG6bNeUD4FzljUrHhFFWVaj1yUWC4C7rOG3+2RV43DSONm9WViXZBma4W/QP
+ qzbtEUrzT8X3yElj9oMi5iDu5RwLPTE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-58-4kHED2VgNXGo2SuaWlxtqA-1; Mon, 30 Mar 2020 18:05:37 -0400
+X-MC-Unique: 4kHED2VgNXGo2SuaWlxtqA-1
+Received: by mail-wm1-f70.google.com with SMTP id v8so187760wml.8
+ for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 15:05:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=7TmK0qeIjAXyqRG/tCr/XXErnN5DXokZjtcg9k9/E8M=;
- b=PaoOALaW29X1vjx0lV1C+ehXNh+/TBlUrR4OH9HbgfdkFwXJU0KxYRXQEPbG6GehLE
- 1E9awe7ws3B9Ta+zPYwRMYbzdMJSrmAsvQw7HtgoWlmWqOkfIFha5fcYjl8XZdw29kRb
- VrBpEzhL/dGhupFbbPJVU/4XIcN1+gJ1HbXRA9yqqNEiM8nZwgYfBTUQkpcKKTe16LXm
- AzUKSdbDaIoLHOtd+3XWHaPnDDi2eldQai8A3kSvvWMaDnv+0WrO3kQGJETNGgKwY4Pe
- iD2pkXtZ7LrqyZICDXxZY0zAUBypYI1ffaPc8i9P0uV4V6MSg1Z71RYFSt3/Mpn6jidW
- DrnQ==
-X-Gm-Message-State: AGi0PuZjN3uSVS0mQ6yZBeaVAN1nfGn0FpjoaS8w6Zk758gcAA6sTnyL
- GnoId1ADrCJrVDAurk/AjFsA1HrDXRuf+Dk2Zdr3O5d6
-X-Google-Smtp-Source: APiQypIoU77f+Qgwt4ZgAsIiwqrzOcwUOH1Lo7ipqJJGe1INMNNP+yb8HJLfDnK5/QU+IBVQOslbC8tixivuPSt6HGE=
-X-Received: by 2002:a2e:a584:: with SMTP id m4mr8413771ljp.194.1585605717032; 
- Mon, 30 Mar 2020 15:01:57 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2sVmu3XG6lUbj/FSulAWU1kll/8q8UjGkhbcYLj1m7s=;
+ b=DohHImkvKGHHq7u/ZV4OH0JTrRjIZZKb3h+Cd+iqPecbzZqyPS2zK8+1Mt9WECkZSm
+ f6EBpebOkYRWbYOqGToSO86wv+KuH3H+ra2MOEwQhn34Q6BkffBi4Vf0sJSZmFfB/kPC
+ nHKUwrfFMDnMuN0K328Bwx4AZ1huXQCZ99qmY10MlNwcygJX4Jj/uuBq/GQv5xRVTjkL
+ biL2yBD5F27LExuJuh2v4XEGupfLtvJnjjvpHwtl4xqZ+mAFjbtlDURjZev46dAN/sFO
+ HkR43erGNQ77APFgBpZMxgcF9soWC3KNn6BNc52GrZ0QccdjFH9wwbouSHIKCOZWRuWD
+ E1wg==
+X-Gm-Message-State: ANhLgQ1vgKfECxk+EsVETl4vJZApEfPe+BgL34Kd4SiMvSVnavI2raCW
+ aPAxNVhp9UilMdbENuOvWOTTn995uS9yob9Tt0lW6ZwmWfGZhDg5pEcLBoAyrzhF8zFLXoqNbk/
+ m1z41wNbse6+H6c8=
+X-Received: by 2002:a1c:2404:: with SMTP id k4mr180606wmk.87.1585605936404;
+ Mon, 30 Mar 2020 15:05:36 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vvHIKSrCM7oMo1orwC0LWKAAPU5IjpTs2I8fAl69jTNcYc/w4+j7oXjzy+Yh1sKVLzczZTuaQ==
+X-Received: by 2002:a1c:2404:: with SMTP id k4mr180588wmk.87.1585605936179;
+ Mon, 30 Mar 2020 15:05:36 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id s11sm24745439wrw.58.2020.03.30.15.05.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Mar 2020 15:05:35 -0700 (PDT)
+Subject: Re: linux-user: keep the name-ending parenthesis in /proc/self/stat
+To: Brice Goglin <Brice.Goglin@inria.fr>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>
+References: <f7720d36-a5ea-ae13-220a-2e436e6a22a4@inria.fr>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <3f2cb9a1-00aa-cc59-d685-2c88e6f986c7@redhat.com>
+Date: Tue, 31 Mar 2020 00:05:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-From: Alexander Yuriev <alex@corp.zubrcom.net>
-Date: Mon, 30 Mar 2020 18:02:33 -0400
-Message-ID: <CAJRb792WE-mhTDOCdEtP3kQJK8ie7v3LRJ3y28F2DMSabvfyMg@mail.gmail.com>
-Subject: Massive memory leak in 4.2.0
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="00000000000084b75405a2199931"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::234
-X-Mailman-Approved-At: Mon, 30 Mar 2020 18:18:49 -0400
+In-Reply-To: <f7720d36-a5ea-ae13-220a-2e436e6a22a4@inria.fr>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,38 +93,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000084b75405a2199931
-Content-Type: text/plain; charset="UTF-8"
+On 3/30/20 9:07 PM, Brice Goglin wrote:
+> When the program name is very long, qemu-user may truncate it in
+> /proc/self/stat. However the truncation must keep the ending ") "
+> to conform to the proc manpage which says:
+>      (2) comm  %s
+>             The  filename of the executable, in parentheses.  This
+>             is visible whether or not the  executable  is  swapped
+>             out.
+> 
+> To reproduce:
+> $ ln -s /bin/cat <filenamewithmorethan128chars>
+> $ qemu-x86_64 ./<filenamewithmorethan128chars> /proc/self/stat
+> 
+> Before the patch, you get:
+> 1134631 (<filenametruncated>0 0 0 0 0 0 0 0 ...
+> After the patch:
+> 1134631 (<filenametruncat>) 0 0 0 0 0 0 0 0 ...
+> 
+> This fixes an issue with hwloc failing to parse /proc/self/stat
+> when Ludovic Courtes was testing it in guix over qemu-aarch64.
+> 
+> Signed-off-by: Brice Goglin<Brice.Goglin@inria.fr>
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 5af55fca78..a1126dcf5b 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -7305,7 +7305,10 @@ static int open_self_stat(void *cpu_env, int fd)
+>           snprintf(buf, sizeof(buf), "%"PRId64 " ", val);
+>         } else if (i == 1) {
+>           /* app name */
+> -        snprintf(buf, sizeof(buf), "(%s) ", ts->bprm->argv[0]);
+> +        len = snprintf(buf, sizeof(buf), "(%s) ", ts->bprm->argv[0]);
+> +        if (len >= sizeof(buf))
+> +          /* bring back the ending ") " that was truncated */
+> +          strcpy(buf+sizeof(buf)-3, ") ");
 
-Hello,
+Maybe we can avoid the sprintf() call:
 
-I was wondering if there is any interest in getting detailed reports/having
-a tester for a reproducible massive memory leak in qemu 4.2.0 running a
-guest with X11 via virgl-0.8.1 acceleration to host using sdl.
+-- >8 --
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -7305,7 +7305,11 @@ static int open_self_stat(void *cpu_env, int fd)
+          snprintf(buf, sizeof(buf), "%"PRId64 " ", val);
+        } else if (i == 1) {
+          /* app name */
+-        snprintf(buf, sizeof(buf), "(%s) ", ts->bprm->argv[0]);
++        char *ptr = buf;
++
++        *ptr++ = '(';
++        ptr = stpncpy(ptr, ts->bprm->argv[0], sizeof(buf) - 3);
++        strcpy(ptr, ") ");
+        } else if (i == 27) {
+          /* stack bottom */
+          val = start_stack;
+---
 
-Guest limited to 2Gb has qemu RES grow to over 10Gb with while running
-Chrome within hours ( single gmail.tab + qemu archive page over last 20
-minutes expanded qemu res from 1.9gb to 2.6 gb).
+>         } else if (i == 27) {
+>           /* stack bottom */
+>           val = start_stack;
+> 
 
-Both host and guest are amd64 debian 10. Qemu is built from source.
-
-Thanks,
-Alex
-
---00000000000084b75405a2199931
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Hello,<div dir=3D"auto"><br></div><div dir=3D"auto">I was=
- wondering if there is any interest in getting detailed reports/having a te=
-ster for a reproducible massive memory leak in qemu 4.2.0 running a guest w=
-ith X11 via virgl-0.8.1 acceleration to host using sdl.</div><div dir=3D"au=
-to"><br></div><div dir=3D"auto">Guest limited to 2Gb has qemu RES grow to o=
-ver 10Gb with while running Chrome within hours ( single gmail.tab + qemu a=
-rchive page over last 20 minutes expanded qemu res from 1.9gb to 2.6 gb).</=
-div><div dir=3D"auto"><br></div><div dir=3D"auto">Both host and guest are a=
-md64 debian 10. Qemu is built from source.</div><div dir=3D"auto"><br></div=
-><div dir=3D"auto">Thanks,</div><div dir=3D"auto">Alex</div></div>
-
---00000000000084b75405a2199931--
 
