@@ -2,66 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 755BA197F2D
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 17:00:29 +0200 (CEST)
-Received: from localhost ([::1]:50988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41FAF197F45
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 17:09:24 +0200 (CEST)
+Received: from localhost ([::1]:51158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIvts-0004pz-EC
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 11:00:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34057)
+	id 1jIw2V-0004dr-BC
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 11:09:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35688)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.williamson@redhat.com>) id 1jIvsy-0004JU-TF
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 10:59:34 -0400
+ (envelope-from <liq3ea@163.com>) id 1jIw1W-00048i-OL
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:08:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.williamson@redhat.com>) id 1jIvsw-0008LB-Ld
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 10:59:31 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:29125)
+ (envelope-from <liq3ea@163.com>) id 1jIw1R-0003eT-2m
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:08:18 -0400
+Received: from m12-15.163.com ([220.181.12.15]:51624)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
- id 1jIvsw-0008He-FT
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 10:59:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585580369;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xmc0ht/zMr23SG+JZ6qOT+kIE9PrlxH0iwvHDfUIQUo=;
- b=PZckyIrgxMlfflvqNG60IpnomeChIjm2ZKiRk9tp8VqcpKFb1nmrV0luXvFB+mNWqPE+6R
- b+bApofLo4XOtDHyLn0UFKydCgIq6uTIrt4lRFtG0CpTD9Hx9TbnFE06kAbSGIY6DaKk9h
- qV+REJs1oN9qd9KRO1KOkOQrXx0VjlM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314-_kBmUKUMPW6pUPtEwHaKDg-1; Mon, 30 Mar 2020 10:59:25 -0400
-X-MC-Unique: _kBmUKUMPW6pUPtEwHaKDg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6EFC41084426;
- Mon, 30 Mar 2020 14:59:24 +0000 (UTC)
-Received: from w520.home (ovpn-112-162.phx2.redhat.com [10.3.112.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1950110027A4;
- Mon, 30 Mar 2020 14:59:24 +0000 (UTC)
-Date: Mon, 30 Mar 2020 08:59:23 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Yan Zhao <yan.y.zhao@intel.com>
-Subject: Re: [PATCH] hw/vfio: let readonly flag take effect for mmaped regions
-Message-ID: <20200330085923.19d7345f@w520.home>
-In-Reply-To: <20200330063402.GE30683@joy-OptiPlex-7040>
-References: <20200327111934.71066-1-yan.y.zhao@intel.com>
- <20200327112537.2efd65ac@w520.home>
- <20200330013527.GA30683@joy-OptiPlex-7040>
- <20200330063402.GE30683@joy-OptiPlex-7040>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ (Exim 4.71) (envelope-from <liq3ea@163.com>) id 1jIw1O-0003TK-RA
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:08:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id; bh=stO3J/KMOFYfQQJVoI
+ sdSLk7ULyKnQE/lroD5QxL4sg=; b=A5v7+2UeDsKibyfF2u2TKb/vd+8a/xoLhC
+ pleyrbkrrQjhkHPMefFAF9keCYeFyF5Vj7U1M7ekwTcMEf2v1QKk1sgfZV+jxRoq
+ W9D/kQIpW31LCVpZsHpr4/8HC5lU2qVrJWD1njfo4VP9NO/iNbS7x0hBz5i2xOJy
+ YF4UMrDy4=
+Received: from localhost.localdomain (unknown [183.159.74.161])
+ by smtp11 (Coremail) with SMTP id D8CowAAnbmqUB4JefFAUBw--.32567S4;
+ Mon, 30 Mar 2020 22:52:05 +0800 (CST)
+From: Li Qiang <liq3ea@163.com>
+To: thuth@redhat.com, lvivier@redhat.com, pbonzini@redhat.com,
+ jasowang@redhat.com
+Subject: [PATCH v2] qtest: add tulip test case
+Date: Mon, 30 Mar 2020 07:52:01 -0700
+Message-Id: <20200330145201.32534-1-liq3ea@163.com>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: D8CowAAnbmqUB4JefFAUBw--.32567S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW3WF15CrWDZrW7uF1fCrWxWFg_yoW7tF1DpF
+ yDA3ZI9r48JF13Xrn7C3W2yF15Ga9a93W7CFW7uF18urZxX3srKan7Kr9FvFsY9FWkXr15
+ Cw18tFn3GF1DtF7anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UCJmUUUUUU=
+X-Originating-IP: [183.159.74.161]
+X-CM-SenderInfo: 5oltjvrd6rljoofrz/xtbBoRb2bVQHJQ6w6gAAsO
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 220.181.12.15
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,98 +56,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "Zeng,
- Xin" <xin.zeng@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Li Qiang <liq3ea@163.com>, liq3ea@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 30 Mar 2020 02:34:02 -0400
-Yan Zhao <yan.y.zhao@intel.com> wrote:
+The tulip networking card emulation has an OOB issue in
+'tulip_copy_tx_buffers' when the guest provide malformed descriptor.
+This test will trigger a ASAN heap overflow crash. To trigger this
+issue we can construct the data as following:
 
-> On Mon, Mar 30, 2020 at 09:35:27AM +0800, Yan Zhao wrote:
-> > On Sat, Mar 28, 2020 at 01:25:37AM +0800, Alex Williamson wrote:  
-> > > On Fri, 27 Mar 2020 11:19:34 +0000
-> > > yan.y.zhao@intel.com wrote:
-> > >   
-> > > > From: Yan Zhao <yan.y.zhao@intel.com>
-> > > > 
-> > > > currently, vfio regions without VFIO_REGION_INFO_FLAG_WRITE are only
-> > > > read-only when VFIO_REGION_INFO_FLAG_MMAP is not set.
-> > > > 
-> > > > regions with flag VFIO_REGION_INFO_FLAG_READ | VFIO_REGION_INFO_FLAG_MMAP
-> > > > are only read-only in host page table for qemu.
-> > > > 
-> > > > This patch sets corresponding ept page entries read-only for regions
-> > > > with flag VFIO_REGION_INFO_FLAG_READ | VFIO_REGION_INFO_FLAG_MMAP.
-> > > > 
-> > > > accordingly, it ignores guest write when guest writes to the read-only
-> > > > regions are trapped.
-> > > > 
-> > > > Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
-> > > > Signed-off-by: Xin Zeng <xin.zeng@intel.com>
-> > > > ---  
-> > > 
-> > > Currently we set the r/w protection on the mmap, do I understand
-> > > correctly that the change in the vfio code below results in KVM exiting
-> > > to QEMU to handle a write to a read-only region and therefore we need
-> > > the memory.c change to drop the write?  This prevents a SIGBUS or
-> > > similar?  
-> > yes, correct. the change in memory.c is to prevent a SIGSEGV in host as
-> > it's mmaped to read-only. we think it's better to just drop the writes
-> > from guest rather than corrupt the qemu.
-> >   
-> > > 
-> > > Meanwhile vfio_region_setup() uses the same vfio_region_ops for all
-> > > regions and vfio_region_write() would still allow writes, so if the
-> > > device were using x-no-mmap=on, I think we'd still get a write to this
-> > > region and expect the vfio device to drop it.  Should we prevent that
-> > > write in QEMU as well?  
-> > yes, it expects vfio device to drop it right now.
-> > As the driver sets the flag without VFIO_REGION_INFO_FLAG_WRITE, it should
-> > handle it properly.
-> > both dropping in qemu and dropping in vfio device are fine to us.
-> > we wonder which one is your preference :)
+1. construct a 'tulip_descriptor'. Its control is set to
+'0x7ff | 0x7ff << 11', this will make the 'tulip_copy_tx_buffers's
+'len1' and 'len2' to 0x7ff(2047). So 'len1+len2' will overflow
+'TULIPState's 'tx_frame' field. This descriptor's 'buf_addr1' and
+'buf_addr2' should set to a guest address.
 
-The kernel and device should always do the right thing, we cannot rely
-on the user to honor the mapping, but it's also a reasonable response
-from the kernel to kill the process with a SIGSEGV if the user ignores
-the protections.  So I don't think it's an either/or, the kernel needs
-to do the right thing for itself and in this case QEMU should do the
-right thing for itself, which is to drop writes for regions that don't
-support it.  So in general, I agree with your patch.
- 
-> > > Can you also identify what device and region requires this so that we
-> > > can decide whether this is QEMU 5.0 or 5.1 material?  PCI BARs are of
-> > > course always R/W and the ROM uses different ops and doesn't support
-> > > mmap, so this is a device specific region of some sort.  Thanks,
-> > >   
-> > It's a virtual mdev device for which we want to emulate a virtual
-> > read-only MMIO BAR.
-> > Is there any consideration that PCI BARs have to be R/W ?
-> > we didn't find it out in PCI specification.
+2. write this descriptor to tulip device's CSR4 register. This will
+set the 'TULIPState's 'current_tx_desc' field.
 
-What the device chooses to do with writes to a BAR is its own business,
-the PCI spec shouldn't try to define that.  There's also no PCI spec
-mechanism to declare the access protections for an entire BAR, that's
-device specific behavior.  The current QEMU vfio-pci behavior is
-therefore somewhat implicit in knowing this for a directly assigned
-device.  We can mmap the device and we expect writes to unwritable
-registers within that mapping to be dropped.
+3. write 'CSR6_ST' to tulip device's CSR6 register. This will trigger
+'tulip_xmit_list_update' and finally calls 'tulip_copy_tx_buffers'.
 
-For an mdev device, we can't rely on the user honoring the access
-protections, ie. the user shouldn't be able to exploit the kernel or
-device by doing so, but I also agree that QEMU, as a friendly vfio
-user, should avoid unsupported operations and protect itself from how
-the kernel may handle the fault.
+Following shows the backtrack of crash:
 
-Since this mdev device doesn't exist yet, I'm thinking this is QEMU
-v5.1 material though.
+==31781==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x628000007cd0 at pc 0x7fe03c5a077a bp 0x7fff05b46770 sp 0x7fff05b45f18
+WRITE of size 2047 at 0x628000007cd0 thread T0
+    #0 0x7fe03c5a0779  (/usr/lib/x86_64-linux-gnu/libasan.so.4+0x79779)
+    #1 0x5575fb6daa6a in flatview_read_continue /home/test/qemu/exec.c:3194
+    #2 0x5575fb6daccb in flatview_read /home/test/qemu/exec.c:3227
+    #3 0x5575fb6dae66 in address_space_read_full /home/test/qemu/exec.c:3240
+    #4 0x5575fb6db0cb in address_space_rw /home/test/qemu/exec.c:3268
+    #5 0x5575fbdfd460 in dma_memory_rw_relaxed /home/test/qemu/include/sysemu/dma.h:87
+    #6 0x5575fbdfd4b5 in dma_memory_rw /home/test/qemu/include/sysemu/dma.h:110
+    #7 0x5575fbdfd866 in pci_dma_rw /home/test/qemu/include/hw/pci/pci.h:787
+    #8 0x5575fbdfd8a3 in pci_dma_read /home/test/qemu/include/hw/pci/pci.h:794
+    #9 0x5575fbe02761 in tulip_copy_tx_buffers hw/net/tulip.c:585
+    #10 0x5575fbe0366b in tulip_xmit_list_update hw/net/tulip.c:678
+    #11 0x5575fbe04073 in tulip_write hw/net/tulip.c:783
 
-> looks MMIO regions in vfio platform are also possible to be read-only and
-> mmaped.
+Signed-off-by: Li Qiang <liq3ea@163.com>
+---
+Change since v1:
 
-Yes.  Thanks,
+Add detail descriptor construction to trigger the crash.
+Use CSR6_ST to replace the magic value.
 
-Alex
+ tests/qtest/Makefile.include |  1 +
+ tests/qtest/tulip-test.c     | 91 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 92 insertions(+)
+ create mode 100644 tests/qtest/tulip-test.c
+
+diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
+index 10a28de8a3..9e5a51d033 100644
+--- a/tests/qtest/Makefile.include
++++ b/tests/qtest/Makefile.include
+@@ -217,6 +217,7 @@ qos-test-obj-y += tests/qtest/es1370-test.o
+ qos-test-obj-y += tests/qtest/ipoctal232-test.o
+ qos-test-obj-y += tests/qtest/megasas-test.o
+ qos-test-obj-y += tests/qtest/ne2000-test.o
++qos-test-obj-y += tests/qtest/tulip-test.o
+ qos-test-obj-y += tests/qtest/nvme-test.o
+ qos-test-obj-y += tests/qtest/pca9552-test.o
+ qos-test-obj-y += tests/qtest/pci-test.o
+diff --git a/tests/qtest/tulip-test.c b/tests/qtest/tulip-test.c
+new file mode 100644
+index 0000000000..2fb6c4d5a7
+--- /dev/null
++++ b/tests/qtest/tulip-test.c
+@@ -0,0 +1,91 @@
++/*
++ * QTest testcase for DEC/Intel Tulip 21143
++ *
++ * Copyright (c) 2020 Li Qiang <liq3ea@gmail.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "libqtest.h"
++#include "qemu/module.h"
++#include "libqos/qgraph.h"
++#include "libqos/pci.h"
++#include "qemu/bitops.h"
++#include "hw/net/tulip.h"
++
++typedef struct QTulip_pci QTulip_pci;
++
++struct QTulip_pci {
++    QOSGraphObject obj;
++    QPCIDevice dev;
++};
++
++static void *tulip_pci_get_driver(void *obj, const char *interface)
++{
++    QTulip_pci *tulip_pci = obj;
++
++    if (!g_strcmp0(interface, "pci-device")) {
++        return &tulip_pci->dev;
++    }
++
++    fprintf(stderr, "%s not present in tulip_pci\n", interface);
++    g_assert_not_reached();
++}
++
++static void *tulip_pci_create(void *pci_bus, QGuestAllocator *alloc, void *addr)
++{
++    QTulip_pci *tulip_pci = g_new0(QTulip_pci, 1);
++    QPCIBus *bus = pci_bus;
++
++    qpci_device_init(&tulip_pci->dev, bus, addr);
++    tulip_pci->obj.get_driver = tulip_pci_get_driver;
++
++    return &tulip_pci->obj;
++}
++
++static void tulip_large_tx(void *obj, void *data, QGuestAllocator *alloc)
++{
++    QTulip_pci *tulip_pci = obj;
++    QPCIDevice *dev = &tulip_pci->dev;
++    QPCIBar bar;
++    struct tulip_descriptor context;
++    char guest_data[4096];
++    uint64_t context_pa;
++    uint64_t guest_pa;
++
++    qpci_device_enable(dev);
++    bar = qpci_iomap(dev, 0, NULL);
++    context_pa = guest_alloc(alloc, sizeof(context));
++    guest_pa = guest_alloc(alloc, 4096);
++    memset(guest_data, 'A', sizeof(guest_data));
++    context.status = TDES0_OWN;
++    context.control = TDES1_BUF2_SIZE_MASK << TDES1_BUF2_SIZE_SHIFT |
++                      TDES1_BUF1_SIZE_MASK << TDES1_BUF1_SIZE_SHIFT;
++    context.buf_addr2 = guest_pa;
++    context.buf_addr1 = guest_pa;
++
++    qtest_memwrite(dev->bus->qts, context_pa, &context, sizeof(context));
++    qtest_memwrite(dev->bus->qts, guest_pa, guest_data, sizeof(guest_data));
++    qpci_io_writel(dev, bar, 0x20, context_pa);
++    qpci_io_writel(dev, bar, 0x30, CSR6_ST);
++    guest_free(alloc, context_pa);
++    guest_free(alloc, guest_pa);
++}
++
++static void tulip_register_nodes(void)
++{
++    QOSGraphEdgeOptions opts = {
++        .extra_device_opts = "addr=04.0",
++    };
++    add_qpci_address(&opts, &(QPCIAddress) { .devfn = QPCI_DEVFN(4, 0) });
++
++    qos_node_create_driver("tulip", tulip_pci_create);
++    qos_node_consumes("tulip", "pci-bus", &opts);
++    qos_node_produces("tulip", "pci-device");
++
++    qos_add_test("tulip_large_tx", "tulip", tulip_large_tx, NULL);
++}
++
++libqos_init(tulip_register_nodes);
+-- 
+2.17.1
+
 
 
