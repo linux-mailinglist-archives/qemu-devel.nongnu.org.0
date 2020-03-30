@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A57B198036
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 17:52:08 +0200 (CEST)
-Received: from localhost ([::1]:51702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0DC198042
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 17:56:03 +0200 (CEST)
+Received: from localhost ([::1]:51758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIwhr-00073E-GR
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 11:52:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42043)
+	id 1jIwle-0003Iy-TP
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 11:56:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43254)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jIwfg-0004gc-Be
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:49:53 -0400
+ (envelope-from <armbru@redhat.com>) id 1jIwkl-0002bv-9y
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:55:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jIwfe-00084A-PJ
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:49:51 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:50422)
+ (envelope-from <armbru@redhat.com>) id 1jIwkj-00073X-UK
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:55:06 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:36190)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jIwfe-00082x-K6
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:49:50 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jIwkj-00071x-Od
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:55:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585583389;
+ s=mimecast20190719; t=1585583704;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Nl3rvreKZ3ibQy4KkFIG6RhjLc6X2haJmssVoGcPPjU=;
- b=No+fWyJFeXxSoNzz+wPeLMBc5fIaSSPX600gE1KDBpFiO20R6sKPEQDfZqTqZ1JLgMrflr
- 2Se5+NZAVt5M1sYam1S0zoiL1eE2CYyBa8HrU3LJ22NZHgnMAV2FFnCwxe+LM3WOYFI/52
- C6cVIF25nxLUyW7RU7hqVv8kzyWZoio=
+ bh=tQnHApp8lPqiIFMMF7akc29th5wLj7UAm0TLX0/dEOw=;
+ b=Y5BN2izAWsGTT/B8SnNv/ke4slbiEsa5NLM8PFnoNcWgK9xawmG0DggMexgsOjrtjREZs/
+ 7AXjFCnapm6taM9MSZO7qiG/lU5geYRUTmqdZnwEHuUmVNmIaZf2dH1ty7jupRccRBcawH
+ uRBQyLDoiFVBpKSF5TLh0IDZ36vnXuw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-zk6g-NzYMMOeOU8jSH9mWQ-1; Mon, 30 Mar 2020 11:49:46 -0400
-X-MC-Unique: zk6g-NzYMMOeOU8jSH9mWQ-1
+ us-mta-346-kmqVlNF8NiCA1eFDVjKmkA-1; Mon, 30 Mar 2020 11:55:03 -0400
+X-MC-Unique: kmqVlNF8NiCA1eFDVjKmkA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49D9F18CA240;
- Mon, 30 Mar 2020 15:49:45 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-66.ams2.redhat.com [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A146660BE1;
- Mon, 30 Mar 2020 15:49:43 +0000 (UTC)
-Date: Mon, 30 Mar 2020 17:49:42 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v9 05/14] iotests: add pylintrc file
-Message-ID: <20200330154942.GF6139@linux.fritz.box>
-References: <20200324232103.4195-1-jsnow@redhat.com>
- <20200324232103.4195-6-jsnow@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D75E0190A7A2;
+ Mon, 30 Mar 2020 15:55:01 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-69.ams2.redhat.com
+ [10.36.112.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A6C4360BE1;
+ Mon, 30 Mar 2020 15:54:56 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id DD40A11385E2; Mon, 30 Mar 2020 17:54:54 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 3/6] dump/win_dump: fix use after free of err
+References: <20200324153630.11882-1-vsementsov@virtuozzo.com>
+ <20200324153630.11882-4-vsementsov@virtuozzo.com>
+Date: Mon, 30 Mar 2020 17:54:54 +0200
+In-Reply-To: <20200324153630.11882-4-vsementsov@virtuozzo.com> (Vladimir
+ Sementsov-Ogievskiy's message of "Tue, 24 Mar 2020 18:36:27 +0300")
+Message-ID: <871rp9u9bl.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200324232103.4195-6-jsnow@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,23 +75,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, qemu-block@nongnu.org, armbru@redhat.com,
- philmd@redhat.com, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: kwolf@redhat.com, zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org,
+ quintela@redhat.com, dgilbert@redhat.com, qemu-devel@nongnu.org,
+ marcandre.lureau@redhat.com, den@openvz.org, mreitz@redhat.com,
+ jsnow@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 25.03.2020 um 00:20 hat John Snow geschrieben:
-> This allows others to get repeatable results with pylint. If you run
-> `pylint iotests.py`, you should see a 100% pass.
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> Reviewed-by: Max Reitz <mreitz@redhat.com>
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 
-I see you said "should" and not "will", but I still get two warnings:
+> It's possible that we'll try to set err twice (or more). It's bad, it
+> will crash.
 
-iotests.py:405:22: W0613: Unused argument 'signum' (unused-argument)
-iotests.py:405:30: W0613: Unused argument 'frame' (unused-argument)
+True.
 
-Kevin
+> Instead, use warn_report().
+
+Improvement even without the potential crash enabled by the loop.
+
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  dump/win_dump.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/dump/win_dump.c b/dump/win_dump.c
+> index eda2a48974..652c7bad99 100644
+> --- a/dump/win_dump.c
+> +++ b/dump/win_dump.c
+> @@ -304,13 +304,11 @@ static void restore_context(WinDumpHeader64 *h,
+>                              struct saved_context *saved_ctx)
+>  {
+>      int i;
+> -    Error *err =3D NULL;
+> =20
+>      for (i =3D 0; i < h->NumberProcessors; i++) {
+>          if (cpu_memory_rw_debug(first_cpu, saved_ctx[i].addr,
+>                  (uint8_t *)&saved_ctx[i].ctx, sizeof(WinContext), 1)) {
+> -            error_setg(&err, "win-dump: failed to restore CPU #%d contex=
+t", i);
+> -            warn_report_err(err);
+> +            warn_report("win-dump: failed to restore CPU #%d context", i=
+);
+>          }
+>      }
+>  }
+
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
