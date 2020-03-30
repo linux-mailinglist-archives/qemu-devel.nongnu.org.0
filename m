@@ -2,70 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7C72198272
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 19:34:50 +0200 (CEST)
-Received: from localhost ([::1]:53944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2936F198279
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 19:37:05 +0200 (CEST)
+Received: from localhost ([::1]:54016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIyJF-0001Yo-Qv
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 13:34:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34397)
+	id 1jIyLQ-0005wu-7r
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 13:37:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34878)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuanzi@google.com>) id 1jIyHj-0008B8-EB
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:33:16 -0400
+ (envelope-from <jsnow@redhat.com>) id 1jIyJx-0003nT-Ec
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:35:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuanzi@google.com>) id 1jIyHh-00085t-2k
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:33:14 -0400
-Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:42638)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <yuanzi@google.com>) id 1jIyHf-00080D-BF
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:33:11 -0400
-Received: by mail-oi1-x231.google.com with SMTP id e4so16381563oig.9
- for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 10:33:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gqxBq/nEf1Zn8QD7HizVLTOpgS188n/mpya/oA3fjIM=;
- b=prMzBZaOTjKs/TusD724WPSPBl0XX88YPOblRqomyjvbh5Uh22sA+N6kWH/Kpz1vH6
- D5p86BCrDc3apFUocQBiFECFe/aPdE/RShcztdrCjLpCCsAKe1sz1AVUiWktK6GshQQA
- lIi9DudNYz1qLUT6YTkrT3E4LIIN5EWRS9VFn+0EfIxh788coNo8OjoADGAMpVJnidzz
- ci8ti5kv7iAfAGZXD/is4ZuUOsovVgtKwFtTln2/VvEEXpwbXClE3eTnXVpDWuWLyOml
- EdKAcHkr8xoF6Nnv720x0e1zCbIvSApBSTW04TUcPyceZlrUZVLEwEWjQ5nPEJM5kG31
- 2+aQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gqxBq/nEf1Zn8QD7HizVLTOpgS188n/mpya/oA3fjIM=;
- b=HMvZ+SD6YpsGY33P1EsOL1F2pBO7B7k/OWIQOI0CVOP7meurW9t3NA8VkNSC05WfNp
- tZ/ArvywCLPgZ2aHxKHqYqRggVGFIcsHSNj0z+A4WB+H52mR/bDt6cqkd4la9OdNrpAV
- rsmvWM80lK22X1eI5+VpYiCVOlodmX4YXbWkiN+w9sITYrbDQp5p2kmyUfOihGmUF3sV
- DF00DynoLc+Rgci46kIGCxlMpsH0jrmObf0BYoIBB6hSR+3UmU6B16ANaAbLO5OAtvp2
- /rKp7p7b1onNa8JM5sz0uFkMLSIm5qHhDezJSwyCwPiZ6i4GTNWpqwXdYi/QKm48beY3
- sjBQ==
-X-Gm-Message-State: ANhLgQ3JBmYEviEoXGWk4nJPwaf+33XpVUur4RfXlLjkyHtYOV/A0CJs
- Y0jJKEapMe6hI0NIphamypXQRW40Ji/OaFhdwtlm0A==
-X-Google-Smtp-Source: ADFU+vsY0YGc8EakBF9v0PQ2orAtNrUvEdMs2DRYkjoYxpFfJf1h7EasSR+0Q/ub1sASD3d+diCXWJRNUS4Tq5vH0zw=
-X-Received: by 2002:a05:6808:8:: with SMTP id u8mr298945oic.37.1585589587670; 
- Mon, 30 Mar 2020 10:33:07 -0700 (PDT)
+ (envelope-from <jsnow@redhat.com>) id 1jIyJv-0002eM-Fy
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:35:32 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:48085)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jIyJv-0002cD-9A
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:35:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585589730;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=tGJaTM7gm+mqIsD44WLp9EL1xbsNu2MbGbFFUCwSO2E=;
+ b=EJkcYeAjmXAU7WHvAHcHItICgRzeh33DfoFKXzCK4FE0DByKAflHwUgn4Yzz81WJCgU80E
+ C8if3VCwyoRxLM2mbDZ2mxxGAJ9xBw2U+w19WjN/FNmKzcUJDc9i+zRZVgMjr7EErWxv7M
+ x5yGOmbBBCaG6VhF1WdSvp7AUl6mKys=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-480-biVFckBMPDqLZ7o1irjNaA-1; Mon, 30 Mar 2020 13:35:27 -0400
+X-MC-Unique: biVFckBMPDqLZ7o1irjNaA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68D20801E53;
+ Mon, 30 Mar 2020 17:35:26 +0000 (UTC)
+Received: from [10.10.113.210] (ovpn-113-210.rdu2.redhat.com [10.10.113.210])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 588D4D767B;
+ Mon, 30 Mar 2020 17:35:25 +0000 (UTC)
+Subject: Re: [PATCH v9 05/14] iotests: add pylintrc file
+To: Markus Armbruster <armbru@redhat.com>
+References: <20200324232103.4195-1-jsnow@redhat.com>
+ <20200324232103.4195-6-jsnow@redhat.com> <874ku5vr3s.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <9ff96688-0835-3044-e74b-463146ad1e2b@redhat.com>
+Date: Mon, 30 Mar 2020 13:35:24 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200307010051.97022-1-yuanzi@google.com>
- <CADjx4CKDPY9J7Zr1YTLv78Ku6mQS6zrMu7oX7-ujU3PGxvHA4w@mail.gmail.com>
- <87imizidwc.fsf@linaro.org>
- <CADjx4CJJdQep+K3ibfhjin7Eo6uCEFGQ6R6yVC0OcNo8MsfvJw@mail.gmail.com>
- <87d095u804.fsf@linaro.org>
-In-Reply-To: <87d095u804.fsf@linaro.org>
-From: Lirong Yuan <yuanzi@google.com>
-Date: Mon, 30 Mar 2020 10:32:55 -0700
-Message-ID: <CADjx4CKhoikcZanqYCs11ubGY+6tOeNjToiCgjnp8V_rzZcDHw@mail.gmail.com>
-Subject: Re: [PATCH] gdbstub: add support to Xfer:auxv:read: packet
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>, 
- Shu-Chun Weng <scw@google.com>, Josh Kunz <jkz@google.com>
-Content-Type: multipart/alternative; boundary="000000000000226dfa05a215d8d7"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::231
+In-Reply-To: <874ku5vr3s.fsf@dusky.pond.sub.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,210 +147,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, ehabkost@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000226dfa05a215d8d7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Mar 21, 2020 at 6:56 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
 
->
-> Lirong Yuan <yuanzi@google.com> writes:
->
-> > On Fri, Mar 20, 2020 at 2:17 AM Alex Benn=C3=A9e <alex.bennee@linaro.or=
-g>
-> wrote:
-> <snip>
-> >>
-> >> Sorry I missed this on my radar. There was a minor re-factor of gdbstu=
-b
-> >> that was just merged which will mean this patch needs a re-base to use
-> >> g_string_* functions to expand stings.
-> >>
-> >> Also we have some simple gdbstub tests now - could we come up with a
-> >> multiarch gdbstub test to verify this is working properly?
-> >>
-> <snip>
-> > For sure, I will re-base this patch to use g_string_* functions.
-> >
-> > Currently we are using qemu aarch64. I am not sure how to do this yet,
-> but
-> > I could try to add something to
-> > https://github.com/qemu/qemu/tree/master/tests/tcg/aarch64/gdbstub
->
-> If the auxv support is appropriate to all linux-user targets you can
-> plumb it into the multiarch tests - you can even use the existing
-> binaries.
->
-> So you need:
->
->   - a stanza in the makefiles to launch the test (see
->     tests/tcg/aarch64/Makefile.target)
->
->   - a .py test script that manipulates gdbstub to check things are workin=
-g
->
-> So something like:
->
-> .PHONY: gdbstub-foo-binary
-> run-gdbstub-foo-binary: foo-binary
->         $(call run-test, $@, $(GDB_SCRIPT) \
->                 --gdb $(HAVE_GDB_BIN) \
->                 --qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
->                 --bin $< --test $(MULTIARCH_SRC)/gdbstub/test-foo.py, \
->         "basic gdbstub FOO support")
->
->
-> >
-> > Does this sound good?
->
-> Hope that helps.
->
-> >
-> > Thanks!
-> > Lirong
->
->
-> --
-> Alex Benn=C3=A9e
->
+On 3/30/20 10:45 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> This allows others to get repeatable results with pylint. If you run
+>> `pylint iotests.py`, you should see a 100% pass.
+> 
+> Nice.
+> 
+>>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> Reviewed-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>>  tests/qemu-iotests/pylintrc | 22 ++++++++++++++++++++++
+>>  1 file changed, 22 insertions(+)
+>>  create mode 100644 tests/qemu-iotests/pylintrc
+>>
+>> diff --git a/tests/qemu-iotests/pylintrc b/tests/qemu-iotests/pylintrc
+>> new file mode 100644
+>> index 0000000000..8720b6a0de
+>> --- /dev/null
+>> +++ b/tests/qemu-iotests/pylintrc
+>> @@ -0,0 +1,22 @@
+>> +[MESSAGES CONTROL]
+>> +
+>> +# Disable the message, report, category or checker with the given id(s). You
+>> +# can either give multiple identifiers separated by comma (,) or put this
+>> +# option multiple times (only on the command line, not in the configuration
+>> +# file where it should appear only once). You can also use "--disable=all" to
+>> +# disable everything first and then reenable specific checks. For example, if
+>> +# you want to run only the similarities checker, you can use "--disable=all
+>> +# --enable=similarities". If you want to run only the classes checker, but have
+>> +# no Warning level messages displayed, use "--disable=all --enable=classes
+>> +# --disable=W".
+>> +disable=invalid-name,
+>> +        no-else-return,
+>> +        too-many-lines,
+>> +        too-few-public-methods,
+>> +        too-many-arguments,
+>> +        too-many-locals,
+>> +        too-many-branches,
+>> +        too-many-public-methods,
+> 
+> Keep sorted?
+> 
 
-Hi Alex,
+OK, (glances at email) if there's a good reason to respin. So far Kevin
+asked me to change the word "atom" to "item" which I would consider a
+"Maintainer, take mercy on me and just fix this up, would you?" fix, but
+let's see how the rest of my email session goes today.
 
-Thanks for the instructions, very helpful!
+>> +        # These are temporary, and should be removed:
+>> +        missing-docstring,
+>> +        line-too-long,
+> 
+> For what it's worth, I also disable these for checking QAPI code, except
+> for no-else-return.  My true reason for keeping no-else-return is of
+> course that I agree with pylint these elses are ugly.  But I pretend to
+> simply go with the flow ;)
+> 
 
-I rebased this patch to use g_string_* functions, and the link to patchwork
-is:
-http://patchwork.ozlabs.org/patch/1264125/
-Could you help take another look?
+You probably also have a few more of the "too-many" warnings disabled,
+too. I was working on refactoring the parser recently and found quite a
+few more there that were just not worth fixing.
 
-Regarding testing, I looked at some instructions for running tests, e.g.
-https://github.com/qemu/qemu/blob/master/docs/devel/testing.rst
-https://wiki.qemu.org/Testing
-However I still could not get the tests for aarch64 to run. Do you know how
-to run the aarch64 or multi-arch tests?
+As for the no-else-return ... I think this is direly legitimate:
 
-Also there aren't any existing gdb stub tests that try to read
-uninterpreted bytes from the target=E2=80=99s special data area identified =
-by a
-keyword:
-https://sourceware.org/gdb/current/onlinedocs/gdb/General-Query-Packets.htm=
-l#qXfer-auxiliary-vector-read
-I looked at some other gdb stub tests, but they did not seem to send any
-queries:
-https://github.com/qemu/qemu/tree/master/tests/tcg/aarch64/gdbstub
-So I am not sure how to set up one for "Xfer:auxv:read:" packets...
-Are there plans to add more tests for other packets like
-"Xfer:features:read:"?
-I'd be happy to add a test if there is an example of how to do it. :)
+if cond_a:
+    statement_1
+    statement_2
+    return statement_3
+elif cond_b:
+    statement_4
+    statement_5
+    return statement_6
+else:
+    statement_7
+    statement_8
+    return statement_9
 
-Thanks,
-Lirong
+When you've got at least three choices and neither one is particularly
+"canonical", it can be nice to see them chunked out where they are
+visually weighted equally.
 
---000000000000226dfa05a215d8d7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+That said, for this stuff:
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">On Sat, Mar 21, 2020 at 6:56 AM Alex Benn=
-=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org" target=3D"_blank">ale=
-x.bennee@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex"><br>
-Lirong Yuan &lt;<a href=3D"mailto:yuanzi@google.com" target=3D"_blank">yuan=
-zi@google.com</a>&gt; writes:<br>
-<br>
-&gt; On Fri, Mar 20, 2020 at 2:17 AM Alex Benn=C3=A9e &lt;<a href=3D"mailto=
-:alex.bennee@linaro.org" target=3D"_blank">alex.bennee@linaro.org</a>&gt; w=
-rote:<br>
-&lt;snip&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Sorry I missed this on my radar. There was a minor re-factor of gd=
-bstub<br>
-&gt;&gt; that was just merged which will mean this patch needs a re-base to=
- use<br>
-&gt;&gt; g_string_* functions to expand stings.<br>
-&gt;&gt;<br>
-&gt;&gt; Also we have some simple gdbstub tests now - could we come up with=
- a<br>
-&gt;&gt; multiarch gdbstub test to verify this is working properly?<br>
-&gt;&gt;<br>
-&lt;snip&gt;<br>
-&gt; For sure, I will re-base this patch to use g_string_* functions.<br>
-&gt;<br>
-&gt; Currently we are using qemu aarch64. I am not sure how to do this yet,=
- but<br>
-&gt; I could try to add something to<br>
-&gt; <a href=3D"https://github.com/qemu/qemu/tree/master/tests/tcg/aarch64/=
-gdbstub" rel=3D"noreferrer" target=3D"_blank">https://github.com/qemu/qemu/=
-tree/master/tests/tcg/aarch64/gdbstub</a><br>
-<br>
-If the auxv support is appropriate to all linux-user targets you can<br>
-plumb it into the multiarch tests - you can even use the existing<br>
-binaries.<br>
-<br>
-So you need:<br>
-<br>
-=C2=A0 - a stanza in the makefiles to launch the test (see<br>
-=C2=A0 =C2=A0 tests/tcg/aarch64/Makefile.target)<br>
-<br>
-=C2=A0 - a .py test script that manipulates gdbstub to check things are wor=
-king<br>
-<br>
-So something like:<br>
-<br>
-.PHONY: gdbstub-foo-binary<br>
-run-gdbstub-foo-binary: foo-binary<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 $(call run-test, $@, $(GDB_SCRIPT) \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --gdb $(HAVE_GDB_BI=
-N) \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --qemu $(QEMU) --qa=
-rgs &quot;$(QEMU_OPTS)&quot; \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --bin $&lt; --test =
-$(MULTIARCH_SRC)/gdbstub/test-foo.py, \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;basic gdbstub FOO support&quot;)<br>
-<br>
-<br>
-&gt;<br>
-&gt; Does this sound good?<br>
-<br>
-Hope that helps.<br>
-<br>
-&gt;<br>
-&gt; Thanks!<br>
-&gt; Lirong<br>
-<br>
-<br>
--- <br>
-Alex Benn=C3=A9e<br></blockquote><div><br></div><div>Hi Alex,</div><div><br=
-></div><div>Thanks for the instructions, very helpful!</div><div><br></div>=
-<div><div>I=C2=A0rebased this patch to use g_string_* functions, and the li=
-nk to patchwork is:</div><div><a href=3D"http://patchwork.ozlabs.org/patch/=
-1264125/">http://patchwork.ozlabs.org/patch/1264125/</a></div><div>Could yo=
-u help take another look?</div></div><div><br></div><div>Regarding testing,=
- I looked at some instructions for running tests, e.g.=C2=A0</div><div><a h=
-ref=3D"https://github.com/qemu/qemu/blob/master/docs/devel/testing.rst" tar=
-get=3D"_blank">https://github.com/qemu/qemu/blob/master/docs/devel/testing.=
-rst</a></div><div><a href=3D"https://wiki.qemu.org/Testing" target=3D"_blan=
-k">https://wiki.qemu.org/Testing</a></div><div>However I still could not ge=
-t the tests for aarch64 to run. Do you know how to run the aarch64 or multi=
--arch tests?</div><div><br></div><div>Also there aren&#39;t any existing gd=
-b stub tests that try to read uninterpreted bytes from the target=E2=80=99s=
- special data area identified by a keyword:</div><div><a href=3D"https://so=
-urceware.org/gdb/current/onlinedocs/gdb/General-Query-Packets.html#qXfer-au=
-xiliary-vector-read">https://sourceware.org/gdb/current/onlinedocs/gdb/Gene=
-ral-Query-Packets.html#qXfer-auxiliary-vector-read</a><br></div><div>I look=
-ed at some other gdb stub tests, but they did not seem to send any queries:=
-</div><div><a href=3D"https://github.com/qemu/qemu/tree/master/tests/tcg/aa=
-rch64/gdbstub">https://github.com/qemu/qemu/tree/master/tests/tcg/aarch64/g=
-dbstub</a><br></div><div>So I am not sure how to set up one for &quot;Xfer:=
-auxv:read:&quot; packets...</div><div>Are there plans to add more tests for=
- other packets like &quot;Xfer:features:read:&quot;?</div><div>I&#39;d be h=
-appy to add a test if there is an example of how to do it. :)</div><div><br=
-></div><div>Thanks,</div><div>Lirong</div></div></div>
+if error_cond:
+    return -1
+else:
+    return 0
 
---000000000000226dfa05a215d8d7--
+Should probably be avoided, although ... it's fine.
+
+I think no-else-return is just going to be an intense matter of style
+and taste and cannot be left to the linter, so I think I agree with
+leaving it on the disabled list.
+
+--js
+
 
