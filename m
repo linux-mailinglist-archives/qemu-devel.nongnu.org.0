@@ -2,49 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41FAF197F45
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 17:09:24 +0200 (CEST)
-Received: from localhost ([::1]:51158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24736197F30
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 17:01:36 +0200 (CEST)
+Received: from localhost ([::1]:51022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIw2V-0004dr-BC
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 11:09:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35688)
+	id 1jIvux-0005yM-6h
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 11:01:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34150)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liq3ea@163.com>) id 1jIw1W-00048i-OL
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:08:25 -0400
+ (envelope-from <armbru@redhat.com>) id 1jIvtb-00055L-Rg
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:00:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liq3ea@163.com>) id 1jIw1R-0003eT-2m
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:08:18 -0400
-Received: from m12-15.163.com ([220.181.12.15]:51624)
+ (envelope-from <armbru@redhat.com>) id 1jIvta-0001MH-Gv
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:00:11 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:54525)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <liq3ea@163.com>) id 1jIw1O-0003TK-RA
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:08:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id; bh=stO3J/KMOFYfQQJVoI
- sdSLk7ULyKnQE/lroD5QxL4sg=; b=A5v7+2UeDsKibyfF2u2TKb/vd+8a/xoLhC
- pleyrbkrrQjhkHPMefFAF9keCYeFyF5Vj7U1M7ekwTcMEf2v1QKk1sgfZV+jxRoq
- W9D/kQIpW31LCVpZsHpr4/8HC5lU2qVrJWD1njfo4VP9NO/iNbS7x0hBz5i2xOJy
- YF4UMrDy4=
-Received: from localhost.localdomain (unknown [183.159.74.161])
- by smtp11 (Coremail) with SMTP id D8CowAAnbmqUB4JefFAUBw--.32567S4;
- Mon, 30 Mar 2020 22:52:05 +0800 (CST)
-From: Li Qiang <liq3ea@163.com>
-To: thuth@redhat.com, lvivier@redhat.com, pbonzini@redhat.com,
- jasowang@redhat.com
-Subject: [PATCH v2] qtest: add tulip test case
-Date: Mon, 30 Mar 2020 07:52:01 -0700
-Message-Id: <20200330145201.32534-1-liq3ea@163.com>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: D8CowAAnbmqUB4JefFAUBw--.32567S4
-X-Coremail-Antispam: 1Uf129KBjvJXoW3WF15CrWDZrW7uF1fCrWxWFg_yoW7tF1DpF
- yDA3ZI9r48JF13Xrn7C3W2yF15Ga9a93W7CFW7uF18urZxX3srKan7Kr9FvFsY9FWkXr15
- Cw18tFn3GF1DtF7anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UCJmUUUUUU=
-X-Originating-IP: [183.159.74.161]
-X-CM-SenderInfo: 5oltjvrd6rljoofrz/xtbBoRb2bVQHJQ6w6gAAsO
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 220.181.12.15
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jIvta-0001Lf-DA
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:00:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585580409;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RAOXFkl9ffxDrsBd90hMDNWafxydI4lsMUC8/U+IgFM=;
+ b=bDvT/MFCQGkzpjGEHU0ahTjp0P+RcJphh/YxiBvIr3MWgbvVgckLskW0Pjc0T3gtOV/gMN
+ OEhud3oa5GyNyID1sgzauxkbcTxibgfri9ron7ps1r/Q2MDtYr3u/ys/7dnbRvYbwI6oLw
+ qSxSfQDMaKckfBCf9jEkDpfFsTkLJ9Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-27-YxAwhhHoMNKoLf46qYBWOg-1; Mon, 30 Mar 2020 11:00:07 -0400
+X-MC-Unique: YxAwhhHoMNKoLf46qYBWOg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 153D11922022;
+ Mon, 30 Mar 2020 15:00:06 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-69.ams2.redhat.com
+ [10.36.112.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9156A5DA83;
+ Mon, 30 Mar 2020 14:59:58 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2351211385E2; Mon, 30 Mar 2020 16:59:57 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH for-5.0 2/3] qmp: fix leak on callbacks that return both
+ value and error
+References: <20200325184723.2029630-1-marcandre.lureau@redhat.com>
+ <20200325184723.2029630-3-marcandre.lureau@redhat.com>
+Date: Mon, 30 Mar 2020 16:59:57 +0200
+In-Reply-To: <20200325184723.2029630-3-marcandre.lureau@redhat.com>
+ (=?utf-8?Q?=22Marc-Andr=C3=A9?= Lureau"'s message of "Wed, 25 Mar 2020
+ 19:47:22 +0100")
+Message-ID: <87pnctubv6.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,167 +78,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Qiang <liq3ea@163.com>, liq3ea@gmail.com, qemu-devel@nongnu.org
+Cc: "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The tulip networking card emulation has an OOB issue in
-'tulip_copy_tx_buffers' when the guest provide malformed descriptor.
-This test will trigger a ASAN heap overflow crash. To trigger this
-issue we can construct the data as following:
+Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> writes:
 
-1. construct a 'tulip_descriptor'. Its control is set to
-'0x7ff | 0x7ff << 11', this will make the 'tulip_copy_tx_buffers's
-'len1' and 'len2' to 0x7ff(2047). So 'len1+len2' will overflow
-'TULIPState's 'tx_frame' field. This descriptor's 'buf_addr1' and
-'buf_addr2' should set to a guest address.
+> Direct leak of 4120 byte(s) in 1 object(s) allocated from:
+>     #0 0x7fa114931887 in __interceptor_calloc (/lib64/libasan.so.6+0xb088=
+7)
+>     #1 0x7fa1144ad8f0 in g_malloc0 (/lib64/libglib-2.0.so.0+0x588f0)
+>     #2 0x561e3c9c8897 in qmp_object_add /home/elmarco/src/qemu/qom/qom-qm=
+p-cmds.c:291
+>     #3 0x561e3cf48736 in qmp_dispatch /home/elmarco/src/qemu/qapi/qmp-dis=
+patch.c:155
+>     #4 0x561e3c8efb36 in monitor_qmp_dispatch /home/elmarco/src/qemu/moni=
+tor/qmp.c:145
+>     #5 0x561e3c8f09ed in monitor_qmp_bh_dispatcher /home/elmarco/src/qemu=
+/monitor/qmp.c:234
+>     #6 0x561e3d08c993 in aio_bh_call /home/elmarco/src/qemu/util/async.c:=
+136
+>     #7 0x561e3d08d0a5 in aio_bh_poll /home/elmarco/src/qemu/util/async.c:=
+164
+>     #8 0x561e3d0a535a in aio_dispatch /home/elmarco/src/qemu/util/aio-pos=
+ix.c:380
+>     #9 0x561e3d08e3ca in aio_ctx_dispatch /home/elmarco/src/qemu/util/asy=
+nc.c:298
+>     #10 0x7fa1144a776e in g_main_context_dispatch (/lib64/libglib-2.0.so.=
+0+0x5276e)
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  qapi/qmp-dispatch.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+> index c30c7ff9e1..79347e0864 100644
+> --- a/qapi/qmp-dispatch.c
+> +++ b/qapi/qmp-dispatch.c
+> @@ -155,6 +155,8 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObje=
+ct *request,
+>      cmd->fn(args, &ret, &err);
+>      qobject_unref(args);
+>      if (err) {
+> +        /* or assert(!ret) after reviewing all handlers: */
+> +        qobject_unref(ret);
+>          goto out;
+>      }
 
-2. write this descriptor to tulip device's CSR4 register. This will
-set the 'TULIPState's 'current_tx_desc' field.
+Returning both a value and an error is wrong.  We should assert to flush
+out these errors.  Doing that close to the release would be imprudent,
+though.
 
-3. write 'CSR6_ST' to tulip device's CSR6 register. This will trigger
-'tulip_xmit_list_update' and finally calls 'tulip_copy_tx_buffers'.
+The next patch fixes the one known instance of this error pattern.  If
+we want to guard against leaks for unknown instances in 5.0, then this
+patch is okay.  I wouldn't bother myself.
 
-Following shows the backtrack of crash:
-
-==31781==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x628000007cd0 at pc 0x7fe03c5a077a bp 0x7fff05b46770 sp 0x7fff05b45f18
-WRITE of size 2047 at 0x628000007cd0 thread T0
-    #0 0x7fe03c5a0779  (/usr/lib/x86_64-linux-gnu/libasan.so.4+0x79779)
-    #1 0x5575fb6daa6a in flatview_read_continue /home/test/qemu/exec.c:3194
-    #2 0x5575fb6daccb in flatview_read /home/test/qemu/exec.c:3227
-    #3 0x5575fb6dae66 in address_space_read_full /home/test/qemu/exec.c:3240
-    #4 0x5575fb6db0cb in address_space_rw /home/test/qemu/exec.c:3268
-    #5 0x5575fbdfd460 in dma_memory_rw_relaxed /home/test/qemu/include/sysemu/dma.h:87
-    #6 0x5575fbdfd4b5 in dma_memory_rw /home/test/qemu/include/sysemu/dma.h:110
-    #7 0x5575fbdfd866 in pci_dma_rw /home/test/qemu/include/hw/pci/pci.h:787
-    #8 0x5575fbdfd8a3 in pci_dma_read /home/test/qemu/include/hw/pci/pci.h:794
-    #9 0x5575fbe02761 in tulip_copy_tx_buffers hw/net/tulip.c:585
-    #10 0x5575fbe0366b in tulip_xmit_list_update hw/net/tulip.c:678
-    #11 0x5575fbe04073 in tulip_write hw/net/tulip.c:783
-
-Signed-off-by: Li Qiang <liq3ea@163.com>
----
-Change since v1:
-
-Add detail descriptor construction to trigger the crash.
-Use CSR6_ST to replace the magic value.
-
- tests/qtest/Makefile.include |  1 +
- tests/qtest/tulip-test.c     | 91 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 92 insertions(+)
- create mode 100644 tests/qtest/tulip-test.c
-
-diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
-index 10a28de8a3..9e5a51d033 100644
---- a/tests/qtest/Makefile.include
-+++ b/tests/qtest/Makefile.include
-@@ -217,6 +217,7 @@ qos-test-obj-y += tests/qtest/es1370-test.o
- qos-test-obj-y += tests/qtest/ipoctal232-test.o
- qos-test-obj-y += tests/qtest/megasas-test.o
- qos-test-obj-y += tests/qtest/ne2000-test.o
-+qos-test-obj-y += tests/qtest/tulip-test.o
- qos-test-obj-y += tests/qtest/nvme-test.o
- qos-test-obj-y += tests/qtest/pca9552-test.o
- qos-test-obj-y += tests/qtest/pci-test.o
-diff --git a/tests/qtest/tulip-test.c b/tests/qtest/tulip-test.c
-new file mode 100644
-index 0000000000..2fb6c4d5a7
---- /dev/null
-+++ b/tests/qtest/tulip-test.c
-@@ -0,0 +1,91 @@
-+/*
-+ * QTest testcase for DEC/Intel Tulip 21143
-+ *
-+ * Copyright (c) 2020 Li Qiang <liq3ea@gmail.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "libqtest.h"
-+#include "qemu/module.h"
-+#include "libqos/qgraph.h"
-+#include "libqos/pci.h"
-+#include "qemu/bitops.h"
-+#include "hw/net/tulip.h"
-+
-+typedef struct QTulip_pci QTulip_pci;
-+
-+struct QTulip_pci {
-+    QOSGraphObject obj;
-+    QPCIDevice dev;
-+};
-+
-+static void *tulip_pci_get_driver(void *obj, const char *interface)
-+{
-+    QTulip_pci *tulip_pci = obj;
-+
-+    if (!g_strcmp0(interface, "pci-device")) {
-+        return &tulip_pci->dev;
-+    }
-+
-+    fprintf(stderr, "%s not present in tulip_pci\n", interface);
-+    g_assert_not_reached();
-+}
-+
-+static void *tulip_pci_create(void *pci_bus, QGuestAllocator *alloc, void *addr)
-+{
-+    QTulip_pci *tulip_pci = g_new0(QTulip_pci, 1);
-+    QPCIBus *bus = pci_bus;
-+
-+    qpci_device_init(&tulip_pci->dev, bus, addr);
-+    tulip_pci->obj.get_driver = tulip_pci_get_driver;
-+
-+    return &tulip_pci->obj;
-+}
-+
-+static void tulip_large_tx(void *obj, void *data, QGuestAllocator *alloc)
-+{
-+    QTulip_pci *tulip_pci = obj;
-+    QPCIDevice *dev = &tulip_pci->dev;
-+    QPCIBar bar;
-+    struct tulip_descriptor context;
-+    char guest_data[4096];
-+    uint64_t context_pa;
-+    uint64_t guest_pa;
-+
-+    qpci_device_enable(dev);
-+    bar = qpci_iomap(dev, 0, NULL);
-+    context_pa = guest_alloc(alloc, sizeof(context));
-+    guest_pa = guest_alloc(alloc, 4096);
-+    memset(guest_data, 'A', sizeof(guest_data));
-+    context.status = TDES0_OWN;
-+    context.control = TDES1_BUF2_SIZE_MASK << TDES1_BUF2_SIZE_SHIFT |
-+                      TDES1_BUF1_SIZE_MASK << TDES1_BUF1_SIZE_SHIFT;
-+    context.buf_addr2 = guest_pa;
-+    context.buf_addr1 = guest_pa;
-+
-+    qtest_memwrite(dev->bus->qts, context_pa, &context, sizeof(context));
-+    qtest_memwrite(dev->bus->qts, guest_pa, guest_data, sizeof(guest_data));
-+    qpci_io_writel(dev, bar, 0x20, context_pa);
-+    qpci_io_writel(dev, bar, 0x30, CSR6_ST);
-+    guest_free(alloc, context_pa);
-+    guest_free(alloc, guest_pa);
-+}
-+
-+static void tulip_register_nodes(void)
-+{
-+    QOSGraphEdgeOptions opts = {
-+        .extra_device_opts = "addr=04.0",
-+    };
-+    add_qpci_address(&opts, &(QPCIAddress) { .devfn = QPCI_DEVFN(4, 0) });
-+
-+    qos_node_create_driver("tulip", tulip_pci_create);
-+    qos_node_consumes("tulip", "pci-bus", &opts);
-+    qos_node_produces("tulip", "pci-device");
-+
-+    qos_add_test("tulip_large_tx", "tulip", tulip_large_tx, NULL);
-+}
-+
-+libqos_init(tulip_register_nodes);
--- 
-2.17.1
-
+If we keep this patch, its new comment should say TODO.  Paolo, perhaps
+you can still fix that up.
 
 
