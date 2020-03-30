@@ -2,101 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F55198218
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 19:19:06 +0200 (CEST)
-Received: from localhost ([::1]:53542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEFC819823F
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 19:24:50 +0200 (CEST)
+Received: from localhost ([::1]:53634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIy41-0001zY-2U
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 13:19:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58807)
+	id 1jIy9Z-0008Kb-Kx
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 13:24:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60408)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <rth7680@gmail.com>) id 1jIxzZ-0004um-9m
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:14:30 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1jIy8F-0007JL-Ey
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:23:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rth7680@gmail.com>) id 1jIxzY-0001dt-87
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:14:29 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:36713)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <rth7680@gmail.com>) id 1jIxzY-0001cz-2C
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:14:28 -0400
-Received: by mail-pl1-x633.google.com with SMTP id g2so6984726plo.3
- for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 10:14:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=70bzJN1qO5RDpjuxTBn0QpGQ8ANhtCNC3t8UJuvFBgA=;
- b=gLPOecBP/zsGUt9U+YBkUQhA6wKUkS8SetIV6FD4O6UFY5uUJGHTEIqzE8bkMaF5f0
- 0uGfeCNn7XqDz52Lxv580IcUJ/K6H3O0IygPoCXjpdHdaZdWMbKjb2y3AkLhZbmgXZmy
- yzvbI2dp5edPXaCNNoe0pMv/6j3Ykl/YFgkKNLQPZ+x/eL4hkkSoCgiXycI83jzAufhZ
- wDdZWjE4yif3qqxGy+JMk3yWKkAHYtIl0vjdF6utm4XdoKxOUKUmUWzZvIG8qvQ56xkw
- 5QY8DG5aOcOpYSpDknaoOaO0FDOoY3kWeTFHMajKapghCYt/kwM5bViJvO0xgGZXDyip
- Lx9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=70bzJN1qO5RDpjuxTBn0QpGQ8ANhtCNC3t8UJuvFBgA=;
- b=NNZidktIvNnxTo51I7Am0Wmr/kAZIVTL6eTtFJIhzPRFQj8Zp7uIKP6eIrfSewsl8j
- 74Z8M94se9gEm66zheH3YLsDU4nQsxqKnI9c3ylICWFUKtxzSBUNPCcEHnbFiGQpLuMh
- a71v9BLGpHyB1LuWHCSE07+WMchQy+qGc0zlaubJDPBJ4Eoh3rQNJwaaAASwt/4jUwmr
- TWPE6Ea+nDoxCMfJYnyGXMNtgNt573efFQfIoBcalLvBqFgivayPmkHje1As1H60IfxF
- BFwcB+UPvfI8rOZfd3ea9Y6UlLwLCfF7kmPFUvle826tPVat75ZTv2Ss9MY+vu8XbYza
- OIdA==
-X-Gm-Message-State: ANhLgQ3DWeaJr7YPRVSCG3W2oBKnNsxkxBmmcv1Nzt3eEHT0FaaKU7M0
- cH50Vc+WegSv24hVACmZsxRRfXb2
-X-Google-Smtp-Source: ADFU+vtMbI78GjYk3TijKNN0XU8zgeui8iHMSi8pZwezNbJ3YHF0Y2kMTEf9eFrS0aYDGkYCtQ05Yg==
-X-Received: by 2002:a17:902:a603:: with SMTP id
- u3mr13770774plq.105.1585588466649; 
- Mon, 30 Mar 2020 10:14:26 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.googlemail.com with ESMTPSA id s12sm10062734pgi.38.2020.03.30.10.14.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Mar 2020 10:14:25 -0700 (PDT)
-Subject: Re: [PATCH-for-5.0?] decodetree: Use Python3 floor division operator
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200330121345.14665-1-f4bug@amsat.org>
-From: Richard Henderson <rth@twiddle.net>
-Autocrypt: addr=rth@twiddle.net; prefer-encrypt=mutual; keydata=
- mQENBFGuLC8BCADcAoWcnW9lTsDMzbO3MBU+KbiGaj5JPatEUscRDkQYM2fyNjJp2tIWDK5a
- n4yngeXB3eX61WbYR3QraRK8mlYLGxyAdHMEQfPipbqf3TmN043fssT2bc82ApJcs1zvLYgI
- rhMht7Dck7A0wNC1jo+ZjVVFig5gDTN7gOzaAdBtV8tVNUddwkLzzaGpfihhSD6U46NdqKOG
- Wlnn6TrkMy0QGdQ5NaXHkRlUjnnUTSW/nKfoxD+EI+A9V4sYOd8mc/TL4aJh/i/AiU57eLbo
- n17uQI6/VTWDUWl8USiz4x9c8vmqlywLx00tAFxxoRWqk4KVJlj+Sh0up/D/sJ+vPpgBABEB
- AAG0I1JpY2hhcmQgSGVuZGVyc29uIDxydGhAdHdpZGRsZS5uZXQ+iQFYBBMBAgBCAhsDBgsJ
- CAcDAgYVCAIJCgsEFgIDAQIeAQIXgAIZARYhBJyxjdr46EmtKvwWpK0ScMxN0CebBQJdweUY
- BQkP1h/pAAoJEK0ScMxN0CebqDsH/0YyfnXk+Dc++H37VCEKgRet2i1ATFzxRnifkvmdxha0
- V+PVptQ2fwSe+w3KxoFecD8W75nysmUjrU/FicW9yU5YRlGONPZjruG02/KzmhA5PzWJdYO3
- i/t0qRayvWIcX2qA/flsXEbmb/BbAFM05LQIdcOu74eiBFe5CBCOWBDJeneE1urIE0hSYxoh
- nCcG60ULrNj13ohZ4zAEluoY32qIo7/OPWmtR88cPrEbZT8k+RqgZbsotzaPT1/RlL74fL8k
- ofYfTgKAFH7eEy6fF2nzDp2GThVn+3sA62xtpSXUf/X1m75B40KOcq1EQbHypNTmBc1wt13e
- ibhPNEVX2am5AQ0EUa4sLwEIALITHfH3gciRNfQIe7awDTDvn6H3C6gDyCAnv5LiuLTLZiyK
- NZp3lNO3rPowyKrGT2RIDlumlqPgdeHzqEEX91YK0yk2vdFvwU04rJ4D+qRgdUPoeICLD1zo
- PwOv2FaY6Tf8dKYas1RHF5QU5yQNey8j7IYYoE2yGPn2PtBmvtmK4iLataUEvx0U385Zr+jf
- HscqwTiToryeDC8Io/9BsMvAssE5Yf5URS2nJ7LFOvc4njsQJPF1i9egBXaIloqv7p2hVCKJ
- Hl5UWIxitQ9QQIl6iU4LCpz8mVYTXwv48IAVpbUf7+ak9V9Kk3jCeQnlxCJBUHjUhoIzinbS
- JHPHtkkAEQEAAYkBPAQYAQIAJgIbDBYhBJyxjdr46EmtKvwWpK0ScMxN0CebBQJdweVIBQkP
- 1iAZAAoJEK0ScMxN0CebGHUH/RtouOlWl6To97tQsTJUq/2YwmRpFOsvV0/zCX4fKBGAbeZi
- VaELSt2+3UEErA+n8HwbQmjJ6IrdhA9GustOpOyCcbLVSMwql/OlAwBtDzCcC8dTU4zcuY2a
- rGG2A8i5krU85G9r1wowVcWZBsdmW7/dKiNoadLQiig4bHNiSaV4ograas5efyEjqTxiY+yG
- hzPw5DK2kbp2co8iDF1vW0LWPeLFBinCgItcI9LvgHWaB3rwjOfvNpMn5m64SoQYHB8wbnid
- erAjOzkBzmqnfS1tAUr8mtESStEwrEmNv0ZoA6S0Wt+c9pyTr+BpG4OFlhj7ZI+Eh7zOrr33
- q9OBIdA=
-Message-ID: <ed9ac5c8-0654-3c74-3e35-5d7b02a548b6@twiddle.net>
-Date: Mon, 30 Mar 2020 10:14:23 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <eric.auger@redhat.com>) id 1jIy8B-0001iR-NV
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:23:26 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:39593)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1jIy8A-0001gR-DK
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:23:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585589001;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rB1pQC3uSGZ4qXuUsV5aLn5yKifRsd8KJhhsQsqB01g=;
+ b=hywucy5d3+sm0NQSHG9IkQ38MjlniE1+8g/v6CfbWxU1RV5q2UY1B/L3CIoZqqOKfAmrqV
+ cBE3qjp/OzEObET4CdpZA5DtXiy2uHqvo3JRW6HzFyo6/dgZnjTFz0o6aJv3sk6xc5Et7H
+ hAXomT/aIxatNUtqMvtSqB4KDcSDm8k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-377-PpyKBZCnM5O_bg2jqBXAGQ-1; Mon, 30 Mar 2020 13:22:58 -0400
+X-MC-Unique: PpyKBZCnM5O_bg2jqBXAGQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36B2A8017CC;
+ Mon, 30 Mar 2020 17:22:56 +0000 (UTC)
+Received: from [10.36.112.58] (ovpn-112-58.ams2.redhat.com [10.36.112.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CB8A5D7664;
+ Mon, 30 Mar 2020 17:22:40 +0000 (UTC)
+Subject: Re: [PATCH v2 04/22] hw/iommu: introduce HostIOMMUContext
+To: Liu Yi L <yi.l.liu@intel.com>, qemu-devel@nongnu.org,
+ alex.williamson@redhat.com, peterx@redhat.com
+References: <1585542301-84087-1-git-send-email-yi.l.liu@intel.com>
+ <1585542301-84087-5-git-send-email-yi.l.liu@intel.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <aa1bfbd5-e6de-6475-809e-a6ca46089aaa@redhat.com>
+Date: Mon, 30 Mar 2020 19:22:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <20200330121345.14665-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <1585542301-84087-5-git-send-email-yi.l.liu@intel.com>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::633
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,33 +74,308 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Cleber Rosa <crosa@redhat.com>
+Cc: jean-philippe@linaro.org, kevin.tian@intel.com,
+ Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
+ kvm@vger.kernel.org, mst@redhat.com, jun.j.tian@intel.com, yi.y.sun@intel.com,
+ pbonzini@redhat.com, hao.wu@intel.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/30/20 5:13 AM, Philippe Mathieu-Daudé wrote:
-> This script started using Python2, where the 'classic' division
-> operator returns the floor result. In commit 3d004a371 we started
-> to use Python3, where the division operator returns the float
-> result ('true division').
-> To keep the same behavior, use the 'floor division' operator "//"
-> which returns the floor result.
+Yi,
+
+On 3/30/20 6:24 AM, Liu Yi L wrote:
+> Currently, many platform vendors provide the capability of dual stage
+> DMA address translation in hardware. For example, nested translation
+> on Intel VT-d scalable mode, nested stage translation on ARM SMMUv3,
+> and etc. In dual stage DMA address translation, there are two stages
+> address translation, stage-1 (a.k.a first-level) and stage-2 (a.k.a
+> second-level) translation structures. Stage-1 translation results are
+> also subjected to stage-2 translation structures. Take vSVA (Virtual
+> Shared Virtual Addressing) as an example, guest IOMMU driver owns
+> stage-1 translation structures (covers GVA->GPA translation), and host
+> IOMMU driver owns stage-2 translation structures (covers GPA->HPA
+> translation). VMM is responsible to bind stage-1 translation structures
+> to host, thus hardware could achieve GVA->GPA and then GPA->HPA
+> translation. For more background on SVA, refer the below links.
+>  - https://www.youtube.com/watch?v=Kq_nfGK5MwQ
+>  - https://events19.lfasiallc.com/wp-content/uploads/2017/11/\
+> Shared-Virtual-Memory-in-KVM_Yi-Liu.pdf
 > 
-> Fixes: 3d004a371
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> We didn't notice it because only the RX port (which uses the
-> --varinsnwidth option, and got merged very recently) triggers
-> these problems.
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  scripts/decodetree.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> In QEMU, vIOMMU emulators expose IOMMUs to VM per their own spec (e.g.
+> Intel VT-d spec). Devices are pass-through to guest via device pass-
+> through components like VFIO. VFIO is a userspace driver framework
+> which exposes host IOMMU programming capability to userspace in a
+> secure manner. e.g. IOVA MAP/UNMAP requests. Thus the major connection
+> between VFIO and vIOMMU are MAP/UNMAP. However, with the dual stage
+> DMA translation support, there are more interactions between vIOMMU and
+> VFIO as below:
+
+I think it is key to justify at some point why the IOMMU MR notifiers
+are not usable for that purpose. If I remember correctly this is due to
+the fact MR notifiers are not active on x86 in that use xase, which is
+not the case on ARM dual stage enablement.
+
+maybe: "Information, different from map/unmap notifications need to be
+passed from QEMU vIOMMU device to/from the host IOMMU driver through the
+VFIO/IOMMU layer: ..."
+
+>  1) PASID allocation (allow host to intercept in PASID allocation)
+>  2) bind stage-1 translation structures to host
+>  3) propagate stage-1 cache invalidation to host
+>  4) DMA address translation fault (I/O page fault) servicing etc.
+
 > 
+> With the above new interactions in QEMU, it requires an abstract layer
+> to facilitate the above operations and expose to vIOMMU emulators as an
+> explicit way for vIOMMU emulators call into VFIO. This patch introduces
+> HostIOMMUContext to stand for hardware IOMMU w/ dual stage DMA address
+> translation capability. And introduces HostIOMMUContextClass to provide
+> methods for vIOMMU emulators to propagate dual-stage translation related
+> requests to host. As a beginning, PASID allocation/free are defined to
+> propagate PASID allocation/free requests to host which is helpful for the
+> vendors who manage PASID in system-wide. In future, there will be more
+> operations like bind_stage1_pgtbl, flush_stage1_cache and etc.
+> 
+> Cc: Kevin Tian <kevin.tian@intel.com>
+> Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Eric Auger <eric.auger@redhat.com>
+> Cc: Yi Sun <yi.y.sun@linux.intel.com>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+> ---
+>  hw/Makefile.objs                      |  1 +
+>  hw/iommu/Makefile.objs                |  1 +
+>  hw/iommu/host_iommu_context.c         | 97 +++++++++++++++++++++++++++++++++++
+>  include/hw/iommu/host_iommu_context.h | 75 +++++++++++++++++++++++++++
+>  4 files changed, 174 insertions(+)
+>  create mode 100644 hw/iommu/Makefile.objs
+>  create mode 100644 hw/iommu/host_iommu_context.c
+>  create mode 100644 include/hw/iommu/host_iommu_context.h
+> 
+> diff --git a/hw/Makefile.objs b/hw/Makefile.objs
+> index 660e2b4..cab83fe 100644
+> --- a/hw/Makefile.objs
+> +++ b/hw/Makefile.objs
+> @@ -40,6 +40,7 @@ devices-dirs-$(CONFIG_MEM_DEVICE) += mem/
+>  devices-dirs-$(CONFIG_NUBUS) += nubus/
+>  devices-dirs-y += semihosting/
+>  devices-dirs-y += smbios/
+> +devices-dirs-y += iommu/
+>  endif
+>  
+>  common-obj-y += $(devices-dirs-y)
+> diff --git a/hw/iommu/Makefile.objs b/hw/iommu/Makefile.objs
+> new file mode 100644
+> index 0000000..e6eed4e
+> --- /dev/null
+> +++ b/hw/iommu/Makefile.objs
+> @@ -0,0 +1 @@
+> +obj-y += host_iommu_context.o
+> diff --git a/hw/iommu/host_iommu_context.c b/hw/iommu/host_iommu_context.c
+> new file mode 100644
+> index 0000000..5fb2223
+> --- /dev/null
+> +++ b/hw/iommu/host_iommu_context.c
+> @@ -0,0 +1,97 @@
+> +/*
+> + * QEMU abstract of Host IOMMU
+> + *
+> + * Copyright (C) 2020 Intel Corporation.
+> + *
+> + * Authors: Liu Yi L <yi.l.liu@intel.com>
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License as published by
+> + * the Free Software Foundation; either version 2 of the License, or
+> + * (at your option) any later version.
+> +
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + * GNU General Public License for more details.
+> +
+> + * You should have received a copy of the GNU General Public License along
+> + * with this program; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "qom/object.h"
+> +#include "qapi/visitor.h"
+> +#include "hw/iommu/host_iommu_context.h"
+> +
+> +int host_iommu_ctx_pasid_alloc(HostIOMMUContext *iommu_ctx, uint32_t min,
+> +                               uint32_t max, uint32_t *pasid)
+> +{
+> +    HostIOMMUContextClass *hicxc;
+> +
+> +    if (!iommu_ctx) {
+> +        return -EINVAL;
+> +    }
+> +
+> +    hicxc = HOST_IOMMU_CONTEXT_GET_CLASS(iommu_ctx);
+> +
+> +    if (!hicxc) {
+> +        return -EINVAL;
+> +    }
+> +
+> +    if (!(iommu_ctx->flags & HOST_IOMMU_PASID_REQUEST) ||
+> +        !hicxc->pasid_alloc) {
+At this point of the reading, I fail to understand why we need the flag.
+Why isn't it sufficient to test whether the ops is set?
+> +        return -EINVAL;
+> +    }
+> +
+> +    return hicxc->pasid_alloc(iommu_ctx, min, max, pasid);
+> +}
+> +
+> +int host_iommu_ctx_pasid_free(HostIOMMUContext *iommu_ctx, uint32_t pasid)
+> +{
+> +    HostIOMMUContextClass *hicxc;
+> +
+> +    if (!iommu_ctx) {
+> +        return -EINVAL;
+> +    }
+> +
+> +    hicxc = HOST_IOMMU_CONTEXT_GET_CLASS(iommu_ctx);
+> +    if (!hicxc) {
+> +        return -EINVAL;
+> +    }
+> +
+> +    if (!(iommu_ctx->flags & HOST_IOMMU_PASID_REQUEST) ||
+> +        !hicxc->pasid_free) {
+> +        return -EINVAL;
+> +    }
+> +
+> +    return hicxc->pasid_free(iommu_ctx, pasid);
+> +}
+> +
+> +void host_iommu_ctx_init(void *_iommu_ctx, size_t instance_size,
+> +                         const char *mrtypename,
+> +                         uint64_t flags)
+> +{
+> +    HostIOMMUContext *iommu_ctx;
+> +
+> +    object_initialize(_iommu_ctx, instance_size, mrtypename);
+> +    iommu_ctx = HOST_IOMMU_CONTEXT(_iommu_ctx);
+> +    iommu_ctx->flags = flags;
+> +    iommu_ctx->initialized = true;
+> +}
+> +
+> +static const TypeInfo host_iommu_context_info = {
+> +    .parent             = TYPE_OBJECT,
+> +    .name               = TYPE_HOST_IOMMU_CONTEXT,
+> +    .class_size         = sizeof(HostIOMMUContextClass),
+> +    .instance_size      = sizeof(HostIOMMUContext),
+> +    .abstract           = true,
+Can't we use the usual .instance_init and .instance_finalize?
+> +};
+> +
+> +static void host_iommu_ctx_register_types(void)
+> +{
+> +    type_register_static(&host_iommu_context_info);
+> +}
+> +
+> +type_init(host_iommu_ctx_register_types)
+> diff --git a/include/hw/iommu/host_iommu_context.h b/include/hw/iommu/host_iommu_context.h
+> new file mode 100644
+> index 0000000..35c4861
+> --- /dev/null
+> +++ b/include/hw/iommu/host_iommu_context.h
+> @@ -0,0 +1,75 @@
+> +/*
+> + * QEMU abstraction of Host IOMMU
+> + *
+> + * Copyright (C) 2020 Intel Corporation.
+> + *
+> + * Authors: Liu Yi L <yi.l.liu@intel.com>
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License as published by
+> + * the Free Software Foundation; either version 2 of the License, or
+> + * (at your option) any later version.
+> +
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + * GNU General Public License for more details.
+> +
+> + * You should have received a copy of the GNU General Public License along
+> + * with this program; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#ifndef HW_IOMMU_CONTEXT_H
+> +#define HW_IOMMU_CONTEXT_H
+> +
+> +#include "qemu/queue.h"
+> +#include "qemu/thread.h"
+> +#include "qom/object.h"
+> +#include <linux/iommu.h>
+> +#ifndef CONFIG_USER_ONLY
+> +#include "exec/hwaddr.h"
+> +#endif
+> +
+> +#define TYPE_HOST_IOMMU_CONTEXT "qemu:host-iommu-context"
+> +#define HOST_IOMMU_CONTEXT(obj) \
+> +        OBJECT_CHECK(HostIOMMUContext, (obj), TYPE_HOST_IOMMU_CONTEXT)
+> +#define HOST_IOMMU_CONTEXT_GET_CLASS(obj) \
+> +        OBJECT_GET_CLASS(HostIOMMUContextClass, (obj), \
+> +                         TYPE_HOST_IOMMU_CONTEXT)
+> +
+> +typedef struct HostIOMMUContext HostIOMMUContext;
+> +
+> +typedef struct HostIOMMUContextClass {
+> +    /* private */
+> +    ObjectClass parent_class;
+> +
+> +    /* Allocate pasid from HostIOMMUContext (a.k.a. host software) */
+Request the host to allocate a PASID?
+"from HostIOMMUContext (a.k.a. host software)" is a bit cryptic to me.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Actually at this stage I do not understand what this HostIOMMUContext
+abstracts. Is it an object associated to one guest FL context entry
+(attached to one PASID). Meaning for just vIOMMU/VFIO using nested
+paging (single PASID) I would use a single of such context per IOMMU MR?
 
+I think David also felt difficult to understand the abstraction behind
+this object.
 
-r~
+> +    int (*pasid_alloc)(HostIOMMUContext *iommu_ctx,
+> +                       uint32_t min,
+> +                       uint32_t max,
+> +                       uint32_t *pasid);
+> +    /* Reclaim pasid from HostIOMMUContext (a.k.a. host software) */
+> +    int (*pasid_free)(HostIOMMUContext *iommu_ctx,
+> +                      uint32_t pasid);
+> +} HostIOMMUContextClass;
+> +
+> +/*
+> + * This is an abstraction of host IOMMU with dual-stage capability
+> + */
+> +struct HostIOMMUContext {
+> +    Object parent_obj;
+> +#define HOST_IOMMU_PASID_REQUEST (1ULL << 0)
+> +    uint64_t flags;
+> +    bool initialized;
+what's the purpose of the initialized flag?
+> +};
+> +
+> +int host_iommu_ctx_pasid_alloc(HostIOMMUContext *iommu_ctx, uint32_t min,
+> +                               uint32_t max, uint32_t *pasid);
+> +int host_iommu_ctx_pasid_free(HostIOMMUContext *iommu_ctx, uint32_t pasid);
+> +
+> +void host_iommu_ctx_init(void *_iommu_ctx, size_t instance_size,
+> +                         const char *mrtypename,
+> +                         uint64_t flags);
+> +void host_iommu_ctx_destroy(HostIOMMUContext *iommu_ctx);
+leftover from V1?
+> +
+> +#endif
+> 
+Thanks
+
+Eric
+
 
