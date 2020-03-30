@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54968198132
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 18:28:22 +0200 (CEST)
-Received: from localhost ([::1]:52554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34EC5198139
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 18:29:53 +0200 (CEST)
+Received: from localhost ([::1]:52578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIxGv-0000aW-CW
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 12:28:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49269)
+	id 1jIxIO-0002lz-7v
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 12:29:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49488)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jIxFQ-0007u7-7X
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:26:49 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jIxG8-0008Tw-Pn
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:27:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jIxFP-00045q-5G
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:26:48 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38402)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jIxFO-00041u-Up
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:26:47 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id s1so22429260wrv.5
- for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 09:26:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hipaFijxDpWnJJLB9FttQE4iVLVI5yEayDwAAUiqp4I=;
- b=S2VLl+V0mmVhHXyvO0/cWUBmRuXsiV51ycvbpAicA39UiwF5wigSTQ9RoEvQ/iJqBY
- iyR/sqEGZdgah/zehloAWXbMo9aQ0S2XWfBmcOeXl1wLDUBJg3DJJpmouYPYrG2t4uZ3
- f6qUu7zl77d6ZIE/Gd8Le1GwHMURK7I1/VxKmECnpEKr/mbXoooP0jvVemqkBsbBkCtv
- NzULaCi8Mv/WeVU4rNw0vNhPL7hzyQe99jC+y68RWmK0tjjGlyFDasZctCUMu000CN/M
- +zSwHeQzNSpcPjRx9r4IrWu92Q8fMYBSgKCqbokbpF376BY7S9xQaadsz8zY32H/JrWj
- uNgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hipaFijxDpWnJJLB9FttQE4iVLVI5yEayDwAAUiqp4I=;
- b=lHndlXRSt1eUrev2/84IOh1JkotH2e7lDwyX1ullHggTKVSQQNOEI8FvwMRExUDZ+O
- /SUb2zh+NlfiT5Bdg8QJP8J83rfksJjL6eqXy0CVHny1RtDOp1Idiv2H75MjfcXg9yQi
- 7ljc+9eLAH0GCTST1Fc4E6zN7xjhn0ae7DPXLnJpC5ngWK34hF0EqbD/oPP4nuXIs+r5
- jgTNKa5Mnw7KWZ1pLVSylJk4bSgQ85sUSevtYgGthJmP+2+KgGwz67ILvPX5cynKquwG
- lMLBxvO0aDkjKsahtm1MqX/8+P7PKwHKK5ecE0AXwBvhsTU1gwi+dLsPL2BMdMq5gBDf
- /d2w==
-X-Gm-Message-State: ANhLgQ0rI15pWqsS+7OCD+DeGKzwh8CrH/jZd38sn6MwgamCvuJwZjaT
- 08/zzuuvHn8MelpqoA+iJiVRhfEi1RTmUTqqNT8=
-X-Google-Smtp-Source: ADFU+vtDmegPXC5OLEOmrU2juJJCeDMeHEGvryDBTFYAqjuwOBZiCXbcaBxhji6ASlmVLdBYotMBkjB1EjAmIgHQmd8=
-X-Received: by 2002:adf:e282:: with SMTP id v2mr15651301wri.329.1585585602073; 
- Mon, 30 Mar 2020 09:26:42 -0700 (PDT)
+ (envelope-from <kwolf@redhat.com>) id 1jIxG7-000549-H8
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:27:32 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:27530)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jIxG7-00053B-D0
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:27:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585585651;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9rMpOUraWkxMhkhCUHL/Gm625UVwcDWCyeVTKmouIHY=;
+ b=DwIy9Uvkd9yuxBnR4ysqMGSzGIU02ytgGzj0PGgZqyyckhrbV6Bg1YYEhZisls1fUnlvfb
+ nyvVjrvYUH4aNmPG6aCjsjMQsOAh/xu55i2JqkBoZlRRLEu6xkyidkNy0iZ80LnFvW5Ikp
+ LFcP7vHDKHIRGtlGneY48jTdUH977SY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-154-vEVIMPoSMDyJ_fPv95Bgvw-1; Mon, 30 Mar 2020 12:27:27 -0400
+X-MC-Unique: vEVIMPoSMDyJ_fPv95Bgvw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 500FD107ACC4;
+ Mon, 30 Mar 2020 16:27:26 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-66.ams2.redhat.com [10.36.114.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AEC2096B79;
+ Mon, 30 Mar 2020 16:27:24 +0000 (UTC)
+Date: Mon, 30 Mar 2020 18:27:23 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v9 10/14] iotests: add hmp helper with logging
+Message-ID: <20200330162723.GH6139@linux.fritz.box>
+References: <20200324232103.4195-1-jsnow@redhat.com>
+ <20200324232103.4195-11-jsnow@redhat.com>
 MIME-Version: 1.0
-References: <CAFEAcA8E6goDHb-7kKCTp=wSpBsuJcfjMmLP0EgymiEL348r4A@mail.gmail.com>
- <87v9mmug73.fsf@dusky.pond.sub.org>
- <CAFEAcA-9U=EAXAtPDh_AnO3eUbM_jcRBuf4x=0Rec0EC-v2mNA@mail.gmail.com>
-In-Reply-To: <CAFEAcA-9U=EAXAtPDh_AnO3eUbM_jcRBuf4x=0Rec0EC-v2mNA@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Mon, 30 Mar 2020 18:25:27 +0200
-Message-ID: <CAHiYmc7ga5Kaxg_Wi6TMu+E-HErUHZE94naynkMoFRDirFVP0g@mail.gmail.com>
-Subject: Re: deprecation of in-tree builds
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000092990405a214ea5f"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+In-Reply-To: <20200324232103.4195-11-jsnow@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,91 +72,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: ehabkost@redhat.com, qemu-block@nongnu.org, armbru@redhat.com,
+ philmd@redhat.com, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000092990405a214ea5f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Am 25.03.2020 um 00:20 hat John Snow geschrieben:
+> Just a mild cleanup while I was here.
+>=20
+> Although we now have universal qmp logging on or off, many existing
+> callers to hmp functions don't expect that output to be logged, which
+> causes quite a few changes in the test output.
+>=20
+> For now, just offer a use_log parameter.
+>=20
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  tests/qemu-iotests/iotests.py | 30 +++++++++++++++++-------------
+>  1 file changed, 17 insertions(+), 13 deletions(-)
+>=20
+> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
+y
+> index e12d6e533e..4faee06f14 100644
+> --- a/tests/qemu-iotests/iotests.py
+> +++ b/tests/qemu-iotests/iotests.py
+> @@ -540,25 +540,29 @@ def add_incoming(self, addr):
+>          self._args.append(addr)
+>          return self
+> =20
+> -    def pause_drive(self, drive, event=3DNone):
+> -        '''Pause drive r/w operations'''
+> +    def hmp(self, command_line: str, use_log: bool =3D False):
 
-15:32 Pon, 30.03.2020. Peter Maydell <peter.maydell@linaro.org> =D1=98=D0=
-=B5
-=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
->
-> Consensus in the thread seemed to lean towards having
-> the 'configure/make' runes auto-create a build directory;
-> if we want to do that we should probably not say anything in
-> the release notes, because we'll cause people to change
-> unnecessarily. Or at least have them say "We recommend
-> out-of-tree builds. In future we might make the commands
-> that currently do an in-tree build automatically create
-> and use a build directory for you." rather than a blanket
-> "we're going to drop this and you should change what you
-> do now".
->
+Missing return type. Should probably be Dict[str, Any]?
 
-My vote is for the former, rather than for the latter. I fact, if I may
-suggest, I would use some longer and stronger wording, just for the simple
-reason that the warning is less likely to be ignored (as Zoltan, I think
-rightfully, noted to potentially be quite frequent case in reality):
+> +        cmd =3D 'human-monitor-command'
+> +        kwargs =3D {'command-line': command_line}
+> +        if use_log:
+> +            return self.qmp_log(cmd, **kwargs)
+> +        else:
+> +            return self.qmp(cmd, **kwargs)
+> +
+> +    def pause_drive(self, drive: str, event: Optional[str] =3D None) -> =
+None:
+> +        """Pause drive r/w operations"""
+>          if not event:
+>              self.pause_drive(drive, "read_aio")
+>              self.pause_drive(drive, "write_aio")
+>              return
+> -        self.qmp('human-monitor-command',
+> -                 command_line=3D'qemu-io %s "break %s bp_%s"'
+> -                 % (drive, event, drive))
+> +        self.hmp(f'qemu-io {drive} "break {event} bp_{drive}"')
+> =20
+> -    def resume_drive(self, drive):
+> -        self.qmp('human-monitor-command',
+> -                 command_line=3D'qemu-io %s "remove_break bp_%s"'
+> -                 % (drive, drive))
+> +    def resume_drive(self, drive: str) -> None:
+> +        """Resume drive r/w operations"""
+> +        self.hmp(f'qemu-io {drive} "remove_break bp_{drive}"')
+> =20
+> -    def hmp_qemu_io(self, drive, cmd):
+> -        '''Write to a given drive using an HMP command'''
+> -        return self.qmp('human-monitor-command',
+> -                        command_line=3D'qemu-io %s "%s"' % (drive, cmd))
+> +    def hmp_qemu_io(self, drive: str, cmd: str, use_log: bool =3D False)=
+ -> None:
+> +        """Write to a given drive using an HMP command"""
+> +        return self.hmp(f'qemu-io {drive} "{cmd}"', use_log=3Duse_log)
 
-"We strongly recommend
-out-of-tree builds. In future we might make the commands that currently do
-an in-tree build automatically create and use a separate build directory
-for you. Still, our recommentation is that you change all your build
-procedures to use only out-of-tree builds as soon as it is possible for
-you."
+Once you have a non-Any return type for hmp(), this would report that
+you return something for a function declared to return None.
 
-Regards,
-Aleksandar
+Kevin
 
-> Thoughts?
->
-> thanks
-> -- PMM
->
-
---00000000000092990405a214ea5f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<p dir=3D"ltr"></p>
-<p dir=3D"ltr">15:32 Pon, 30.03.2020. Peter Maydell &lt;<a href=3D"mailto:p=
-eter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; =D1=98=D0=B5 =D0=
-=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
-&gt;<br>
-&gt; Consensus in the thread seemed to lean towards having<br>
-&gt; the &#39;configure/make&#39; runes auto-create a build directory;<br>
-&gt; if we want to do that we should probably not say anything in<br>
-&gt; the release notes, because we&#39;ll cause people to change<br>
-&gt; unnecessarily. Or at least have them say &quot;We recommend<br>
-&gt; out-of-tree builds. In future we might make the commands<br>
-&gt; that currently do an in-tree build automatically create<br>
-&gt; and use a build directory for you.&quot; rather than a blanket<br>
-&gt; &quot;we&#39;re going to drop this and you should change what you<br>
-&gt; do now&quot;.<br>
-&gt;</p>
-<p dir=3D"ltr">My vote is for the former, rather than for the latter. I fac=
-t, if I may suggest, I would use some longer and stronger wording, just for=
- the simple reason that the warning is less likely to be ignored (as Zoltan=
-, I think rightfully, noted to potentially be quite frequent case in realit=
-y):</p>
-<p dir=3D"ltr">&quot;We strongly recommend<br>
-out-of-tree builds. In future we might make the commands that currently do =
-an in-tree build automatically create and use a separate build directory fo=
-r you. Still, our recommentation is that you change all your build procedur=
-es to use only out-of-tree builds as soon as it is possible for you.&quot; =
-</p>
-<p dir=3D"ltr">Regards,<br>
-Aleksandar<br></p>
-<p dir=3D"ltr">&gt; Thoughts?<br>
-&gt;<br>
-&gt; thanks<br>
-&gt; -- PMM<br>
-&gt;<br>
-</p>
-
---00000000000092990405a214ea5f--
 
