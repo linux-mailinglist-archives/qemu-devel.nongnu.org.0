@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF87A198004
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 17:43:25 +0200 (CEST)
-Received: from localhost ([::1]:51554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A57B198036
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 17:52:08 +0200 (CEST)
+Received: from localhost ([::1]:51702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIwZR-00072B-2f
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 11:43:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40943)
+	id 1jIwhr-00073E-GR
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 11:52:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42043)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jIwXu-0005QG-Ny
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:41:51 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jIwfg-0004gc-Be
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:49:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jIwXr-0006YH-Mp
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:41:49 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:39310)
+ (envelope-from <kwolf@redhat.com>) id 1jIwfe-00084A-PJ
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:49:51 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:50422)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jIwXr-0006Ut-EZ
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:41:47 -0400
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jIwfe-00082x-K6
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:49:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585582906;
+ s=mimecast20190719; t=1585583389;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3uidjaBkqtj4/4grd9VI6Un3UwGaxGlgtGagN+4fy2c=;
- b=gTMj9InS9nGlhbA72ME9U2Gn9RGT+S2MQfmgCovEM6JSTy8cTW6yQSFFx9dwz3k/MxeMCA
- 69UJuvcfjagdDaT3oY7dsXPpyd3Dk8Kjk8dykbz61Lsl+cnwOkoscI5K1zJANFeDeGLTEc
- jwi4VieEijTD5jj76yIMgsjCflU9M4o=
+ bh=Nl3rvreKZ3ibQy4KkFIG6RhjLc6X2haJmssVoGcPPjU=;
+ b=No+fWyJFeXxSoNzz+wPeLMBc5fIaSSPX600gE1KDBpFiO20R6sKPEQDfZqTqZ1JLgMrflr
+ 2Se5+NZAVt5M1sYam1S0zoiL1eE2CYyBa8HrU3LJ22NZHgnMAV2FFnCwxe+LM3WOYFI/52
+ C6cVIF25nxLUyW7RU7hqVv8kzyWZoio=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-oAfz0UbGONS4LQpN-Ifz0Q-1; Mon, 30 Mar 2020 11:41:41 -0400
-X-MC-Unique: oAfz0UbGONS4LQpN-Ifz0Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-269-zk6g-NzYMMOeOU8jSH9mWQ-1; Mon, 30 Mar 2020 11:49:46 -0400
+X-MC-Unique: zk6g-NzYMMOeOU8jSH9mWQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53A78149D5;
- Mon, 30 Mar 2020 15:41:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49D9F18CA240;
+ Mon, 30 Mar 2020 15:49:45 +0000 (UTC)
 Received: from linux.fritz.box (ovpn-114-66.ams2.redhat.com [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AFF2819925;
- Mon, 30 Mar 2020 15:41:38 +0000 (UTC)
-Date: Mon, 30 Mar 2020 17:41:37 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A146660BE1;
+ Mon, 30 Mar 2020 15:49:43 +0000 (UTC)
+Date: Mon, 30 Mar 2020 17:49:42 +0200
 From: Kevin Wolf <kwolf@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v9 01/14] iotests: do a light delinting
-Message-ID: <20200330154137.GE6139@linux.fritz.box>
+Subject: Re: [PATCH v9 05/14] iotests: add pylintrc file
+Message-ID: <20200330154942.GF6139@linux.fritz.box>
 References: <20200324232103.4195-1-jsnow@redhat.com>
- <20200324232103.4195-2-jsnow@redhat.com>
+ <20200324232103.4195-6-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200324232103.4195-2-jsnow@redhat.com>
+In-Reply-To: <20200324232103.4195-6-jsnow@redhat.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,32 +79,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Am 25.03.2020 um 00:20 hat John Snow geschrieben:
-> This doesn't fix everything in here, but it does help clean up the
-> pylint report considerably.
->=20
-> This should be 100% style changes only; the intent is to make pylint
-> more useful by working on establishing a baseline for iotests that we
-> can gate against in the future.
+> This allows others to get repeatable results with pylint. If you run
+> `pylint iotests.py`, you should see a 100% pass.
 >=20
 > Signed-off-by: John Snow <jsnow@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 > Reviewed-by: Max Reitz <mreitz@redhat.com>
 
-> @@ -550,8 +546,8 @@ def flatten_qmp_object(self, obj, output=3DNone, base=
-str=3D''):
->          if output is None:
->              output =3D dict()
->          if isinstance(obj, list):
-> -            for i in range(len(obj)):
-> -                self.flatten_qmp_object(obj[i], output, basestr + str(i)=
- + '.')
-> +            for i, atom in enumerate(obj):
-> +                self.flatten_qmp_object(atom, output, basestr + str(i) +=
- '.')
+I see you said "should" and not "will", but I still get two warnings:
 
-I think atom isn't strictly the right word because we expect nested data
-structures (as shown by the recursive call). If I understand correctly,
-what Python calls things in lists is "items".
+iotests.py:405:22: W0613: Unused argument 'signum' (unused-argument)
+iotests.py:405:30: W0613: Unused argument 'frame' (unused-argument)
 
 Kevin
 
