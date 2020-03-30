@@ -2,50 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A4E01981F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 19:10:18 +0200 (CEST)
-Received: from localhost ([::1]:53354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33F32198201
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 19:15:22 +0200 (CEST)
+Received: from localhost ([::1]:53472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIxvV-0006Jq-4r
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 13:10:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57385)
- by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1jIxuB-0004hN-Em
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:08:56 -0400
+	id 1jIy0P-0005al-8g
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 13:15:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58464)
+ by lists.gnu.org with esmtp (Exim 4.90_1) (envelope-from
+ <3pCiCXgYKCvcxtZmyhfnnfkd.bnlpdlt-cdudkmnmfmt.nqf@flex--yuanzi.bounces.google.com>)
+ id 1jIxyK-0003CD-Cv
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:13:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1jIxuA-0004et-Bx
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:08:55 -0400
-Received: from 7.mo5.mail-out.ovh.net ([178.32.124.100]:36084)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1jIxuA-0004dp-70
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:08:54 -0400
-Received: from player773.ha.ovh.net (unknown [10.108.42.170])
- by mo5.mail-out.ovh.net (Postfix) with ESMTP id D48542776D9
- for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 19:08:51 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player773.ha.ovh.net (Postfix) with ESMTPSA id 1608D1103A866;
- Mon, 30 Mar 2020 17:08:45 +0000 (UTC)
-Date: Mon, 30 Mar 2020 19:08:44 +0200
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 6/7] target/ppc: Extend ppc_radix64_check_prot() with a
- 'partition_scoped' bool
-Message-ID: <20200330190844.06a2db11@bahia.lan>
-In-Reply-To: <20200330094946.24678-7-clg@kaod.org>
-References: <20200330094946.24678-1-clg@kaod.org>
- <20200330094946.24678-7-clg@kaod.org>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+ (envelope-from
+ <3pCiCXgYKCvcxtZmyhfnnfkd.bnlpdlt-cdudkmnmfmt.nqf@flex--yuanzi.bounces.google.com>)
+ id 1jIxyJ-0000BK-65
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:13:12 -0400
+Received: from mail-pl1-x64a.google.com ([2607:f8b0:4864:20::64a]:39300)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from
+ <3pCiCXgYKCvcxtZmyhfnnfkd.bnlpdlt-cdudkmnmfmt.nqf@flex--yuanzi.bounces.google.com>)
+ id 1jIxyI-000074-U2
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:13:11 -0400
+Received: by mail-pl1-x64a.google.com with SMTP id d11so13445754pll.6
+ for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 10:13:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc
+ :content-transfer-encoding;
+ bh=V2/yr/VBBSMjsJvpyuugUBT+oN88BgSB7L0XM+2U0UY=;
+ b=aq5QaIARv5Yyi0jPYXtoM1OtUv0J4rBLvjVohBxRcKqKy4dVlPYtpplxIxGt28prf7
+ KMjfmZPo1IxahMyQ1YMlqxCn55fp1K0q6rNxy1U/TSAfDS9w2d+R1qXHfGqiy6vDUtfG
+ 1e1LGg1c4mmBiTEUX0nT95pVPdvaRFgSxlU31lPuLVUMJZFn+6bmj/O0IEKP5CdXgEhI
+ qHE9I2J0fWpdMjxEuxK9VdZo+nd+EXMQ+jx8NhCMmgPy2yZ4ThlLMPw4jgUx/zCyAFHf
+ 7geql4WIhQ7ayP2s5BLy+Fa+dZfIAAwASc32dJ51lRvMnO6mvXzbPsF1pRgoIHulUZQB
+ yTlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+ :content-transfer-encoding;
+ bh=V2/yr/VBBSMjsJvpyuugUBT+oN88BgSB7L0XM+2U0UY=;
+ b=bImhV7AEP52De2cHedEYgxMrZeEpEsZlkMM7d5gEqsnH9hIDJe8E1qCm1gJaMf+tVf
+ 8itEYTGu2JO/gqX7eLcEjBa58dTApRa4AlL38kPKzHfMi+mkhUUbOc3n5jaJ1AsyHN8l
+ hjvnxymLAIjWfA1TLyBzONu6ppC/QGcc85SyGR9JTEDv5tHzD7UJd0kRL6+6k4rVORJ+
+ b9xDUVkw9GeG5IDQ7IcLAvEBXvHO4t13BohlqEclqYCEzj1/50rVE92vqRgR9LFQ6+i2
+ IAPvIHMmhvOv6QVDQ5P2gl7QWwYP3Ra6sy4fW7Ib6oO77ElorcFL6WqFrmzDvOtQf5Oh
+ I+IA==
+X-Gm-Message-State: AGi0PuaOOZKhamg7+FYjKg2vxWBnvwcbfqbiYAZ9sTwbgVtmOcv0G0Ko
+ wdtqA2bFlnt21UfCe2R9AnHWOd+Ts3/4a4JHN5LDHS1Pbm2pLtb7Uj7smZPKf9ZGBVRcEe6F629
+ AIPyTaNiiT6VIiJVKuQZB1PPVvV31rNsvM9NWktmA0o7ayvkmzSx0hp9/JcsP
+X-Google-Smtp-Source: APiQypJTSUXcxSr57qAhMq1a5XW5qIrIQDmdOVzh/ndFvg8yesJQRAgILLvzPPbm8SeK8K68HcNlRJfAhbE=
+X-Received: by 2002:a17:90a:cb0e:: with SMTP id
+ z14mr376555pjt.156.1585588388226; 
+ Mon, 30 Mar 2020 10:13:08 -0700 (PDT)
+Date: Mon, 30 Mar 2020 13:13:03 -0400
+Message-Id: <20200330171303.107131-1-yuanzi@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.26.0.rc2.310.g2932bb562d-goog
+Subject: [PATCH] gdbstub: add support to Xfer:auxv:read: packet
+From: Lirong Yuan <yuanzi@google.com>
+To: qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, philmd@redhat.com, scw@google.com, jkz@google.com, 
+ Lirong Yuan <yuanzi@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 2856126591366109579
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudeihedguddtlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeejfedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.32.124.100
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::64a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,74 +80,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Suraj Jitindar Singh <sjitindarsingh@gmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Nicholas Piggin <npiggin@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 30 Mar 2020 11:49:45 +0200
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+This allows gdb to access the target=E2=80=99s auxiliary vector,
+which can be helpful for telling system libraries important details
+about the hardware, operating system, and process.
 
-> This prepares ground for partition-scoped Radix translation.
->=20
-> Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> ---
->  target/ppc/mmu-radix64.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
->=20
-> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-> index 136498111f60..3ae29ed90d49 100644
-> --- a/target/ppc/mmu-radix64.c
-> +++ b/target/ppc/mmu-radix64.c
-> @@ -105,7 +105,8 @@ static void ppc_radix64_raise_si(PowerPCCPU *cpu, int=
- rwx, vaddr eaddr,
-> =20
-> =20
->  static bool ppc_radix64_check_prot(PowerPCCPU *cpu, int rwx, uint64_t pt=
-e,
-> -                                   int *fault_cause, int *prot)
-> +                                   int *fault_cause, int *prot,
-> +                                   bool partition_scoped)
->  {
->      CPUPPCState *env =3D &cpu->env;
->      const int need_prot[] =3D { PAGE_READ, PAGE_WRITE, PAGE_EXEC };
-> @@ -121,11 +122,11 @@ static bool ppc_radix64_check_prot(PowerPCCPU *cpu,=
- int rwx, uint64_t pte,
->      }
-> =20
->      /* Determine permissions allowed by Encoded Access Authority */
-> -    if ((pte & R_PTE_EAA_PRIV) && msr_pr) { /* Insufficient Privilege */
-> +    if (!partition_scoped && (pte & R_PTE_EAA_PRIV) && msr_pr) {
->          *prot =3D 0;
-> -    } else if (msr_pr || (pte & R_PTE_EAA_PRIV)) {
-> +    } else if (msr_pr || (pte & R_PTE_EAA_PRIV) || partition_scoped) {
->          *prot =3D ppc_radix64_get_prot_eaa(pte);
-> -    } else { /* !msr_pr && !(pte & R_PTE_EAA_PRIV) */
-> +    } else { /* !msr_pr && !(pte & R_PTE_EAA_PRIV) && !partition_scoped =
-*/
->          *prot =3D ppc_radix64_get_prot_eaa(pte);
->          *prot &=3D ppc_radix64_get_prot_amr(cpu); /* Least combined perm=
-issions */
->      }
-> @@ -266,7 +267,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCP=
-U *cpu, int rwx,
->                                  g_raddr, g_page_size, &fault_cause, &pte=
-_addr);
-> =20
->      if (!(pte & R_PTE_VALID) ||
-> -        ppc_radix64_check_prot(cpu, rwx, pte, &fault_cause, g_prot)) {
-> +        ppc_radix64_check_prot(cpu, rwx, pte, &fault_cause, g_prot, 0)) {
+Signed-off-by: Lirong Yuan <yuanzi@google.com>
+---
+ gdbstub.c | 56 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 56 insertions(+)
 
-Maybe pass false instead of 0 ?
-
-Anyway,
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
->          /* No valid pte or access denied due to protection */
->          if (cause_excp) {
->              ppc_radix64_raise_si(cpu, rwx, eaddr, fault_cause);
+diff --git a/gdbstub.c b/gdbstub.c
+index 013fb1ac0f..f7a08263c6 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -2125,6 +2125,12 @@ static void handle_query_supported(GdbCmdContext *gd=
+b_ctx, void *user_ctx)
+         g_string_append(gdbserver_state.str_buf, ";qXfer:features:read+");
+     }
+=20
++#ifdef CONFIG_USER_ONLY
++    if (gdbserver_state.c_cpu->opaque) {
++        g_string_append(gdbserver_state.str_buf, ";qXfer:auxv:read+");
++    }
++#endif
++
+     if (gdb_ctx->num_params &&
+         strstr(gdb_ctx->params[0].data, "multiprocess+")) {
+         gdbserver_state.multiprocess =3D true;
+@@ -2186,6 +2192,48 @@ static void handle_query_xfer_features(GdbCmdContext=
+ *gdb_ctx, void *user_ctx)
+                       gdbserver_state.str_buf->len, true);
+ }
+=20
++#ifdef CONFIG_USER_ONLY
++static void handle_query_xfer_auxv(GdbCmdContext *gdb_ctx, void *user_ctx)
++{
++    TaskState *ts;
++    unsigned long offset, len, saved_auxv, auxv_len;
++    const char *mem;
++
++    if (gdb_ctx->num_params < 2) {
++        put_packet("E22");
++        return;
++    }
++
++    offset =3D gdb_ctx->params[0].val_ul;
++    len =3D gdb_ctx->params[1].val_ul;
++
++    ts =3D gdbserver_state.c_cpu->opaque;
++    saved_auxv =3D ts->info->saved_auxv;
++    auxv_len =3D ts->info->auxv_len;
++    mem =3D (const char *)(saved_auxv + offset);
++
++    if (offset >=3D auxv_len) {
++        put_packet("E22");
++        return;
++    }
++
++    if (len > (MAX_PACKET_LENGTH - 5) / 2) {
++        len =3D (MAX_PACKET_LENGTH - 5) / 2;
++    }
++
++    if (len < auxv_len - offset) {
++        g_string_assign(gdbserver_state.str_buf, "m");
++        memtox(gdbserver_state.str_buf, mem, len);
++    } else {
++        g_string_assign(gdbserver_state.str_buf, "l");
++        memtox(gdbserver_state.str_buf, mem, auxv_len - offset);
++    }
++
++    put_packet_binary(gdbserver_state.str_buf->str,
++                      gdbserver_state.str_buf->len, true);
++}
++#endif
++
+ static void handle_query_attached(GdbCmdContext *gdb_ctx, void *user_ctx)
+ {
+     put_packet(GDB_ATTACHED);
+@@ -2291,6 +2339,14 @@ static GdbCmdParseEntry gdb_gen_query_table[] =3D {
+         .cmd_startswith =3D 1,
+         .schema =3D "s:l,l0"
+     },
++#ifdef CONFIG_USER_ONLY
++    {
++        .handler =3D handle_query_xfer_auxv,
++        .cmd =3D "Xfer:auxv:read:",
++        .cmd_startswith =3D 1,
++        .schema =3D "l,l0"
++    },
++#endif
+     {
+         .handler =3D handle_query_attached,
+         .cmd =3D "Attached:",
+--=20
+2.26.0.rc2.310.g2932bb562d-goog
 
 
