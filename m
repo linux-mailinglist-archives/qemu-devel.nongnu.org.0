@@ -2,138 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2936F198279
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 19:37:05 +0200 (CEST)
-Received: from localhost ([::1]:54016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD90198292
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 19:41:44 +0200 (CEST)
+Received: from localhost ([::1]:54106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIyLQ-0005wu-7r
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 13:37:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34878)
+	id 1jIyPu-0003PZ-Fv
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 13:41:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35126)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jIyJx-0003nT-Ec
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:35:35 -0400
+ (envelope-from <berrange@redhat.com>) id 1jIyKs-0005rk-Pl
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:36:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jIyJv-0002eM-Fy
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:35:32 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:48085)
+ (envelope-from <berrange@redhat.com>) id 1jIyKr-0005NH-BW
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:36:30 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:54152)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jIyJv-0002cD-9A
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:35:31 -0400
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jIyKr-0005Kx-6P
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:36:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585589730;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1585589788;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=tGJaTM7gm+mqIsD44WLp9EL1xbsNu2MbGbFFUCwSO2E=;
- b=EJkcYeAjmXAU7WHvAHcHItICgRzeh33DfoFKXzCK4FE0DByKAflHwUgn4Yzz81WJCgU80E
- C8if3VCwyoRxLM2mbDZ2mxxGAJ9xBw2U+w19WjN/FNmKzcUJDc9i+zRZVgMjr7EErWxv7M
- x5yGOmbBBCaG6VhF1WdSvp7AUl6mKys=
+ in-reply-to:in-reply-to:references:references;
+ bh=uEh8nTech1DbIs3CNP81d8RCDrSjhYU860QFo41l7EE=;
+ b=Do2sh3TOruYxRUmydpSCgmhzstLx0rZRbRdR5HzlngBlU56NaJpT5SYsN/SgMsqogDzY0X
+ 4VenU6c8xdhHCBGaaYTubWzTLX517CJgDVJ+TJAeyZWYvm066rSfPJXhuxjj/gbOpxgrk8
+ XaL48XmkT+YvyLo49b1W66gfB/Eadcw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-biVFckBMPDqLZ7o1irjNaA-1; Mon, 30 Mar 2020 13:35:27 -0400
-X-MC-Unique: biVFckBMPDqLZ7o1irjNaA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-378-_QILv7ReOtSiRaKmYi3kzA-1; Mon, 30 Mar 2020 13:36:24 -0400
+X-MC-Unique: _QILv7ReOtSiRaKmYi3kzA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68D20801E53;
- Mon, 30 Mar 2020 17:35:26 +0000 (UTC)
-Received: from [10.10.113.210] (ovpn-113-210.rdu2.redhat.com [10.10.113.210])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 588D4D767B;
- Mon, 30 Mar 2020 17:35:25 +0000 (UTC)
-Subject: Re: [PATCH v9 05/14] iotests: add pylintrc file
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200324232103.4195-1-jsnow@redhat.com>
- <20200324232103.4195-6-jsnow@redhat.com> <874ku5vr3s.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <9ff96688-0835-3044-e74b-463146ad1e2b@redhat.com>
-Date: Mon, 30 Mar 2020 13:35:24 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F40E18AB2C0;
+ Mon, 30 Mar 2020 17:36:23 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 762706EF9A;
+ Mon, 30 Mar 2020 17:36:20 +0000 (UTC)
+Date: Mon, 30 Mar 2020 18:36:17 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Michal =?utf-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>
+Subject: Re: deprecation of in-tree builds
+Message-ID: <20200330173617.GV236854@redhat.com>
+References: <CAFEAcA8E6goDHb-7kKCTp=wSpBsuJcfjMmLP0EgymiEL348r4A@mail.gmail.com>
+ <87v9mmug73.fsf@dusky.pond.sub.org>
+ <CAFEAcA-9U=EAXAtPDh_AnO3eUbM_jcRBuf4x=0Rec0EC-v2mNA@mail.gmail.com>
+ <20200330134212.GO236854@redhat.com>
+ <20200330143759.GD6139@linux.fritz.box>
+ <20200330172955.GQ25468@kitsune.suse.cz>
 MIME-Version: 1.0
-In-Reply-To: <874ku5vr3s.fsf@dusky.pond.sub.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20200330172955.GQ25468@kitsune.suse.cz>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
@@ -147,109 +77,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, ehabkost@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>, philmd@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Mar 30, 2020 at 07:29:55PM +0200, Michal Such=C3=A1nek wrote:
+> On Mon, Mar 30, 2020 at 04:37:59PM +0200, Kevin Wolf wrote:
+> > Am 30.03.2020 um 15:42 hat Daniel P. Berrang=C3=A9 geschrieben:
+> > > On Mon, Mar 30, 2020 at 02:31:52PM +0100, Peter Maydell wrote:
+> > > > On Mon, 30 Mar 2020 at 14:26, Markus Armbruster <armbru@redhat.com>=
+ wrote:
+> > > > >
+> > > > > Peter Maydell <peter.maydell@linaro.org> writes:
+> > > > >
+> > > > > > AIUI from Paolo, the intention is to deprecate and eventually
+> > > > > > stop supporting "in-tree" builds, so that the only option is
+> > > > > > building in a separate build directory. I thought we should
+> > > > > > probably mention that in the 5.0 changelog, so I wrote up some
+> > > > > > text:
+> > > > > >
+> > > > > > https://wiki.qemu.org/ChangeLog/5.0#Build_Information
+> > > > >
+> > > > > Overdue.  Thanks for doing this!
+> > > > >
+> > > > > > Suggestions for changes/comments etc welcome.
+> > > > >
+> > > > > Looks fine to me.
+> > > >=20
+> > > > Consensus in the thread seemed to lean towards having
+> > > > the 'configure/make' runes auto-create a build directory;
+> > > > if we want to do that we should probably not say anything in
+> > > > the release notes, because we'll cause people to change
+> > > > unnecessarily. Or at least have them say "We recommend
+> > > > out-of-tree builds. In future we might make the commands
+> > > > that currently do an in-tree build automatically create
+> > > > and use a build directory for you." rather than a blanket
+> > > > "we're going to drop this and you should change what you
+> > > > do now".
+> > > >=20
+> > > > Thoughts?
+> > >=20
+> > > When the time comes to switch to Meson, we'll be forcing a
+> > > separate build directory & that will also potentially involve
+> > > a change in build instructions for users.
+> > >=20
+> > > So if we expect Meson will arrive in QEMU soon (say before end
+> > > of this year), then I'd try to keep changes related to make to
+> > > the bare minimum, and have Meson switch as the "flag day" when
+> > > developers are forced to adapt their build process.=20
+> > >=20
+> > > IOW, merely warn people that in-tree builds are deprecated and
+> > > not tested by the project and enourage switching to out of tree
+> > > builds. Dont try to magically create a separate build dir now.
+> >=20
+> > If manually dealing with separate build directories is inconvenient
+> > today, it will still be inconvenient with Meson, so this would mean
+> > introducing the automatic directly creation together with the other
+> > changes to enable Meson. Which is fine by me, as long as it is really
+> > done when the external directory becomes mandatory, so that people won'=
+t
+> > have to switch back and forth between directories.
+>=20
+> From packaging point of view if something has auto* files the default is
+> IIRC to do in-tree build with most package managers. You have to adjust
+> manually for out-of-tree build. I am not sure what is state of Meson
+> support in packaging scripts across distributions. Most likely it will
+> not be picked automagically so you have to provide a custom build script
+> anyway. Then it is the time to look up the canonical build instructions.
 
+Many big projects already use Meson, including SystemD and GNOME for
+example. So I'd expect all modern distros would have standard
+"best practices" defined for building projects using Meson by now.
 
-On 3/30/20 10:45 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
->> This allows others to get repeatable results with pylint. If you run
->> `pylint iotests.py`, you should see a 100% pass.
-> 
-> Nice.
-> 
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> Reviewed-by: Max Reitz <mreitz@redhat.com>
->> ---
->>  tests/qemu-iotests/pylintrc | 22 ++++++++++++++++++++++
->>  1 file changed, 22 insertions(+)
->>  create mode 100644 tests/qemu-iotests/pylintrc
->>
->> diff --git a/tests/qemu-iotests/pylintrc b/tests/qemu-iotests/pylintrc
->> new file mode 100644
->> index 0000000000..8720b6a0de
->> --- /dev/null
->> +++ b/tests/qemu-iotests/pylintrc
->> @@ -0,0 +1,22 @@
->> +[MESSAGES CONTROL]
->> +
->> +# Disable the message, report, category or checker with the given id(s). You
->> +# can either give multiple identifiers separated by comma (,) or put this
->> +# option multiple times (only on the command line, not in the configuration
->> +# file where it should appear only once). You can also use "--disable=all" to
->> +# disable everything first and then reenable specific checks. For example, if
->> +# you want to run only the similarities checker, you can use "--disable=all
->> +# --enable=similarities". If you want to run only the classes checker, but have
->> +# no Warning level messages displayed, use "--disable=all --enable=classes
->> +# --disable=W".
->> +disable=invalid-name,
->> +        no-else-return,
->> +        too-many-lines,
->> +        too-few-public-methods,
->> +        too-many-arguments,
->> +        too-many-locals,
->> +        too-many-branches,
->> +        too-many-public-methods,
-> 
-> Keep sorted?
-> 
+Doing an out of tree build for autotools based projects doesn't take
+much adaption by distros either from what we got in terms of feedback
+when libvirt made the switch to force out-of-tree.
 
-OK, (glances at email) if there's a good reason to respin. So far Kevin
-asked me to change the word "atom" to "item" which I would consider a
-"Maintainer, take mercy on me and just fix this up, would you?" fix, but
-let's see how the rest of my email session goes today.
-
->> +        # These are temporary, and should be removed:
->> +        missing-docstring,
->> +        line-too-long,
-> 
-> For what it's worth, I also disable these for checking QAPI code, except
-> for no-else-return.  My true reason for keeping no-else-return is of
-> course that I agree with pylint these elses are ugly.  But I pretend to
-> simply go with the flow ;)
-> 
-
-You probably also have a few more of the "too-many" warnings disabled,
-too. I was working on refactoring the parser recently and found quite a
-few more there that were just not worth fixing.
-
-As for the no-else-return ... I think this is direly legitimate:
-
-if cond_a:
-    statement_1
-    statement_2
-    return statement_3
-elif cond_b:
-    statement_4
-    statement_5
-    return statement_6
-else:
-    statement_7
-    statement_8
-    return statement_9
-
-When you've got at least three choices and neither one is particularly
-"canonical", it can be nice to see them chunked out where they are
-visually weighted equally.
-
-That said, for this stuff:
-
-if error_cond:
-    return -1
-else:
-    return 0
-
-Should probably be avoided, although ... it's fine.
-
-I think no-else-return is just going to be an intense matter of style
-and taste and cannot be left to the linter, so I think I agree with
-leaving it on the disabled list.
-
---js
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
