@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86EC0197FDB
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 17:39:47 +0200 (CEST)
-Received: from localhost ([::1]:51492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 514CA197FF1
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 17:41:15 +0200 (CEST)
+Received: from localhost ([::1]:51514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIwVu-0002Fa-L0
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 11:39:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40395)
+	id 1jIwXK-0003gc-AV
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 11:41:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40684)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1jIwUo-0001p0-R4
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:38:39 -0400
+ (envelope-from <philmd@redhat.com>) id 1jIwW1-0002jV-0J
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:39:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1jIwUn-0006di-Jz
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:38:38 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:17752
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1jIwUn-0006bN-Fa
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:38:37 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02UFYMOB038588
- for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 11:38:36 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0b-001b2d01.pphosted.com with ESMTP id 301ygv1x0q-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 11:38:36 -0400
-Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Mon, 30 Mar 2020 16:38:21 +0100
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Mon, 30 Mar 2020 16:38:19 +0100
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 02UFbSMm34013636
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 30 Mar 2020 15:37:28 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 580CCA4054;
- Mon, 30 Mar 2020 15:38:31 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 326BFA4068;
- Mon, 30 Mar 2020 15:38:30 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.145.43.209])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 30 Mar 2020 15:38:29 +0000 (GMT)
-From: Janosch Frank <frankja@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] s390x: kvm: Fix number of cpu reports for stsi 3.2.2
-Date: Mon, 30 Mar 2020 11:38:28 -0400
-X-Mailer: git-send-email 2.25.1
+ (envelope-from <philmd@redhat.com>) id 1jIwVz-0001Ce-CQ
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:39:52 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:24392)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jIwVz-00019y-51
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:39:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585582790;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=imvPM6bWUnn1mDnSwC1ZUhdPVrwZp267rM1NSx6Gnpc=;
+ b=VvIA6I1GeGBpyTDF/NB6kWsHgZLSKdYbFTfovDrCx9tF9S82Oq+Of2NcLV8n9m4S9PCk45
+ TVzyIkxrBUlPLP/uHmazUcQNJ0KERJKEeyNl15JR5IZp4JO4msMMliaV2ELsryFSRw8x5J
+ PQvadeKJdC1fV8yThjMC69+UNDqW8QE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-338-uMiFzNTCNnKb4C1fLDqqJw-1; Mon, 30 Mar 2020 11:39:48 -0400
+X-MC-Unique: uMiFzNTCNnKb4C1fLDqqJw-1
+Received: by mail-wm1-f69.google.com with SMTP id f9so7266949wme.7
+ for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 08:39:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=imvPM6bWUnn1mDnSwC1ZUhdPVrwZp267rM1NSx6Gnpc=;
+ b=VP5G7znkn3mMkpDgsJX/v3/9vhvq9IFB66rl4YnrVgpkTkNKnKwrzCJRYb3cNV3JtF
+ 6kBLu4zVs2Vf9AUGPWKb81n3XrrBRNwHPUr4g00yMv43Ph0OesZn37Nf7u6O+zuQokTd
+ VoLRWMU+XIhDuqovbq0WYrInGSzKE3LxmHeWTIlA4gDxsJQzXj938PFcTJ/Va/SiEE8U
+ 7TtxqjtGMMbUEqMy9Snm78ea3xUuxJGRjfocXqPMHEfdPJsdGTmMo27PzJlLoOYXlwV9
+ eqMj34xBM2R82f3LnBUc6Y00GNVF/XYtGpwqxqzfUXEybtDYi9eUIu+7j3EbLcLBoMa1
+ AM1w==
+X-Gm-Message-State: ANhLgQ3hOR2Xh2E/YNTZL4KOIUv3ghjtnk2i2UYEBNpuC2aniiWR9EP4
+ k2NSri+qPxOQXDmt3vOny2kkxQnWxpgYmo6VBRnj53rzvkuwGtzCJ5cR740vgRShqhVuZIUd5Ee
+ Ryns3nJWfPZ4OppM=
+X-Received: by 2002:a7b:c8cd:: with SMTP id f13mr13953025wml.181.1585582787333; 
+ Mon, 30 Mar 2020 08:39:47 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vuBctEJGbBFglrSY38NK55WNAXrPzFpbdGeq/LqrpdxRDe1oZOl3g1+pJDkLhTt5fP/A9MnHg==
+X-Received: by 2002:a7b:c8cd:: with SMTP id f13mr13953004wml.181.1585582787061; 
+ Mon, 30 Mar 2020 08:39:47 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id 19sm8942658wmi.32.2020.03.30.08.39.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Mar 2020 08:39:46 -0700 (PDT)
+Subject: Re: [PATCH for-5.0, v1] target/mips: Fix loongson multimedia
+ condition instructions
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
+References: <20200324122212.11156-1-jiaxun.yang@flygoat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <39c28108-5d85-d611-c2ea-abbbf913b981@redhat.com>
+Date: Mon, 30 Mar 2020 17:39:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 20033015-0020-0000-0000-000003BE572D
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20033015-0021-0000-0000-00002216F38D
-Message-Id: <20200330153828.8265-1-frankja@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-03-30_06:2020-03-30,
- 2020-03-30 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 phishscore=0
- spamscore=0 lowpriorityscore=0 suspectscore=1 clxscore=1015
- priorityscore=1501 impostorscore=0 adultscore=0 bulkscore=0
- mlxlogscore=999 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2003020000 definitions=main-2003300142
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+In-Reply-To: <20200324122212.11156-1-jiaxun.yang@flygoat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,63 +90,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
- david@redhat.com
+Cc: Huacai Chen <chenhc@lemote.com>, aleksandar.qemu.devel@gmail.com,
+ richard.henderson@linaro.org, aleksandar.rikalo@rt-rk.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The cpu number reporting is handled by KVM and QEMU only fills in the
-VM name, uuid and other values.
+Hi Jiaxun Yang,
 
-Unfortuantely KVM doesn't report reserved cpus and doesn't even know
-they exist until the are created via the ioctl.
+On 3/24/20 1:22 PM, Jiaxun Yang wrote:
+> Loongson multimedia condition instructions were previously implemented as
+> write 0 to rd due to lack of documentation. So I just confirmed with Loongson
+> about their encoding and implemented them correctly.
 
-So let's fix up the cpu values after KVM has written its values to the
-3.2.2 sysib.
+If you have a binary using loongson multimedia instructions, can you add 
+a test? So this code won't bitrot.
 
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
----
- target/s390x/kvm.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+I'm in particular interested by a test covering the MAC2008 
+instructions. You can look at examples in the tests/tcg/mips/ directory, 
+Aleksandar added a lot of tests there.
 
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index 3630c15f45a48864..a1c4890bdf0c65e4 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -1819,8 +1819,10 @@ static int handle_tsch(S390CPU *cpu)
- 
- static void insert_stsi_3_2_2(S390CPU *cpu, __u64 addr, uint8_t ar)
- {
-+    const MachineState *ms = MACHINE(qdev_get_machine());
-+    uint16_t total_cpus = 0, conf_cpus = 0, reserved_cpus = 0;
-     SysIB_322 sysib;
--    int del;
-+    int del, i;
- 
-     if (s390_is_pv()) {
-         s390_cpu_pv_mem_read(cpu, 0, &sysib, sizeof(sysib));
-@@ -1842,6 +1844,20 @@ static void insert_stsi_3_2_2(S390CPU *cpu, __u64 addr, uint8_t ar)
-         memset(sysib.ext_names[del], 0,
-                sizeof(sysib.ext_names[0]) * (sysib.count - del));
-     }
-+
-+    /* count the cpus and split them into configured and reserved ones */
-+    for (i = 0; i < ms->possible_cpus->len; i++) {
-+        total_cpus++;
-+        if (ms->possible_cpus->cpus[i].cpu) {
-+            conf_cpus++;
-+        } else {
-+            reserved_cpus++;
-+        }
-+    }
-+    sysib.vm[0].total_cpus = total_cpus;
-+    sysib.vm[0].conf_cpus = conf_cpus;
-+    sysib.vm[0].reserved_cpus = reserved_cpus;
-+
-     /* Insert short machine name in EBCDIC, padded with blanks */
-     if (qemu_name) {
-         memset(sysib.vm[0].name, 0x40, sizeof(sysib.vm[0].name));
--- 
-2.25.1
+Thanks,
+
+Phil.
+
+> 
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> Acked-by: Huacai Chen <chenhc@lemote.com>
+> ---
+> v1: Use deposit opreations according to Richard's suggestion.
+> ---
+>   target/mips/translate.c | 35 +++++++++++++++++++++++++++++++----
+>   1 file changed, 31 insertions(+), 4 deletions(-)
+> 
+> diff --git a/target/mips/translate.c b/target/mips/translate.c
+> index d745bd2803..25b595a17d 100644
+> --- a/target/mips/translate.c
+> +++ b/target/mips/translate.c
+> @@ -5529,6 +5529,7 @@ static void gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
+>   {
+>       uint32_t opc, shift_max;
+>       TCGv_i64 t0, t1;
+> +    TCGCond cond;
+>   
+>       opc = MASK_LMI(ctx->opcode);
+>       switch (opc) {
+> @@ -5862,14 +5863,39 @@ static void gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
+>   
+>       case OPC_SEQU_CP2:
+>       case OPC_SEQ_CP2:
+> +        cond = TCG_COND_EQ;
+> +        goto do_cc_cond;
+> +        break;
+>       case OPC_SLTU_CP2:
+> +        cond = TCG_COND_LTU;
+> +        goto do_cc_cond;
+> +        break;
+>       case OPC_SLT_CP2:
+> +        cond = TCG_COND_LT;
+> +        goto do_cc_cond;
+> +        break;
+>       case OPC_SLEU_CP2:
+> +        cond = TCG_COND_LEU;
+> +        goto do_cc_cond;
+> +        break;
+>       case OPC_SLE_CP2:
+> -        /*
+> -         * ??? Document is unclear: Set FCC[CC].  Does that mean the
+> -         * FD field is the CC field?
+> -         */
+> +        cond = TCG_COND_LE;
+> +    do_cc_cond:
+> +        {
+> +            int cc = (ctx->opcode >> 8) & 0x7;
+> +            TCGv_i64 t64 = tcg_temp_new_i64();
+> +            TCGv_i32 t32 = tcg_temp_new_i32();
+> +
+> +            tcg_gen_setcond_i64(cond, t64, t0, t1);
+> +            tcg_gen_extrl_i64_i32(t32, t64);
+> +            tcg_gen_deposit_i32(fpu_fcr31, fpu_fcr31, t32,
+> +                                get_fp_bit(cc), 1);
+> +
+> +            tcg_temp_free_i32(t32);
+> +            tcg_temp_free_i64(t64);
+> +        }
+> +        goto no_rd;
+> +        break;
+>       default:
+>           MIPS_INVAL("loongson_cp2");
+>           generate_exception_end(ctx, EXCP_RI);
+> @@ -5878,6 +5904,7 @@ static void gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
+>   
+>       gen_store_fpr64(ctx, t0, rd);
+>   
+> +no_rd:
+>       tcg_temp_free_i64(t0);
+>       tcg_temp_free_i64(t1);
+>   }
+> 
 
 
