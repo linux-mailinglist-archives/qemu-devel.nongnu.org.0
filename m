@@ -2,75 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 429351986DD
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 23:56:18 +0200 (CEST)
-Received: from localhost ([::1]:57374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEC26198747
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 00:20:03 +0200 (CEST)
+Received: from localhost ([::1]:57600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJ2OG-00017q-Sc
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 17:56:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46931)
+	id 1jJ2lG-00081h-Gv
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 18:20:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47629)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jJ2NN-0000Ds-Gp
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 17:55:22 -0400
+ (envelope-from <alex@corp.zubrcom.net>) id 1jJ2To-0002Jx-Gu
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 18:02:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jJ2NM-0000HU-CB
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 17:55:21 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35136)
+ (envelope-from <alex@corp.zubrcom.net>) id 1jJ2Tn-0003wN-I6
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 18:02:00 -0400
+Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234]:35715)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jJ2NL-0000H8-UU
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 17:55:20 -0400
-Received: by mail-wm1-x342.google.com with SMTP id i19so500476wmb.0
- for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 14:55:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=aGMNm0JtWP3AxZQlXFns7pxLjat3ku2JNZsQzgAjdwk=;
- b=dkx7V9rElthmwetJKvNYtjWRQp7llsoReNx4huhPXSmKXXh0uYC7ynM3qttrs92YDG
- 93Gybn/9xIsFvf3FwtP4xdwegTVOs9kpiSxZCIQNMu3MIJE7X6SqFwfAyV8Mih0HaCVO
- hEHsEdfXu0vKp0snXJ6bXewZ0Vnbyk69zo31cn1HwVwC2U8/CGP4Mj8XFLVyFjdrnTaa
- Lv9qAbvsrH+JXaxJwIsuXbigRasrt5h/WJOFxWU05eb7aL8oyJjsxj3pg56TBRWDi7Hx
- QznvVxxYpXIaah0cpzaPteHPto89nw4lFmxQf6IUYTT+WZCE8zaSHru6dp3CsmX119MW
- YQ2A==
+ (Exim 4.71) (envelope-from <alex@corp.zubrcom.net>)
+ id 1jJ2Tn-0003vk-5S
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 18:01:59 -0400
+Received: by mail-lj1-x234.google.com with SMTP id k21so19894457ljh.2
+ for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 15:01:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=corp-zubrcom-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=7TmK0qeIjAXyqRG/tCr/XXErnN5DXokZjtcg9k9/E8M=;
+ b=AGIXpndykFHoP2vZVXe/sEzuTzO5P+UQXq4OTemE2mvKlfVUFYtPCxdy/awP/slc2e
+ JvNfh4EXJM9rIk+OOsbWsNNSa8j2O3b042X05vBjEDFzjaVRbSoG+wMX4GP9gc65gXlN
+ 5DDOloo6lCk5+/xEzJRZfwoMA9/4oO2JKV51YUnjfkS8QeUJRvIi9eAJRLIq9Z+qPuoO
+ kuM6+6z7lgcvwFn56an/Gwn+tPmHTTqKsBnMtYgfRXzYxSRptpyY6vjebsBwOBxPyXTg
+ yZTtLNHU8ugMCBwii5axUpOWDRjPK0vDc4o56lqTBmwcW88oXS8aKOTddCGQ/6y/uf7o
+ tfKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=aGMNm0JtWP3AxZQlXFns7pxLjat3ku2JNZsQzgAjdwk=;
- b=NJY4siY7PFwc8Rr0TfH7Wl0F4LdCWESmG48GKaZP9v/cGZ4qxFgyO/2xIpV8IjLmlm
- PfirKmkxArszCnYeXs4g8U4f7Y8aulwM6oNN/emN2jJ/1c4wxqQnjq/4Mz/0U5TZhNo1
- pwuvGPIA3snwnzi6WWr3VVanbCSL2MZ4eYYmXPIkpDCkZr6Ee2m5GkR1ZQv3kNBJzfyV
- INGw4nzmS3dC5X6C81pcPI0+KWazqsnAfvXN+xFyklzjAmIIbo2zcyTgt48p/vxRc2WM
- +l8aGcOjFXsAeKqgub+LiELZJ4FGfDBQRJoWF6GIOxfkYe0BjzoCb10LbCOFkZGdc8lk
- gAUQ==
-X-Gm-Message-State: ANhLgQ3iMYRIaWMd/gaOV1IaDudFzLuPwtC4hT0wCYxRdVvkJjoPPVZK
- 16KK4zX1NRdSuvlgyYNeHSPuVQ==
-X-Google-Smtp-Source: ADFU+vsAUXEXf5PQPQHhw1bj9hkU7mFQGLwGkxSJCxSzlEJzanOTJCGscXBJVg7wwdV7dvf13gNitA==
-X-Received: by 2002:a05:600c:2101:: with SMTP id
- u1mr137062wml.177.1585605318672; 
- Mon, 30 Mar 2020 14:55:18 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a16sm1017958wmm.20.2020.03.30.14.55.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Mar 2020 14:55:17 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AB1B81FF7E;
- Mon, 30 Mar 2020 22:55:16 +0100 (BST)
-References: <20200318062057.224953-1-scw@google.com>
-User-agent: mu4e 1.3.10; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Shu-Chun Weng <scw@google.com>
-Subject: Re: [PATCH] Makes softmmu compile with clang at HEAD
-In-reply-to: <20200318062057.224953-1-scw@google.com>
-Date: Mon, 30 Mar 2020 22:55:16 +0100
-Message-ID: <87r1x9fqyj.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=7TmK0qeIjAXyqRG/tCr/XXErnN5DXokZjtcg9k9/E8M=;
+ b=PaoOALaW29X1vjx0lV1C+ehXNh+/TBlUrR4OH9HbgfdkFwXJU0KxYRXQEPbG6GehLE
+ 1E9awe7ws3B9Ta+zPYwRMYbzdMJSrmAsvQw7HtgoWlmWqOkfIFha5fcYjl8XZdw29kRb
+ VrBpEzhL/dGhupFbbPJVU/4XIcN1+gJ1HbXRA9yqqNEiM8nZwgYfBTUQkpcKKTe16LXm
+ AzUKSdbDaIoLHOtd+3XWHaPnDDi2eldQai8A3kSvvWMaDnv+0WrO3kQGJETNGgKwY4Pe
+ iD2pkXtZ7LrqyZICDXxZY0zAUBypYI1ffaPc8i9P0uV4V6MSg1Z71RYFSt3/Mpn6jidW
+ DrnQ==
+X-Gm-Message-State: AGi0PuZjN3uSVS0mQ6yZBeaVAN1nfGn0FpjoaS8w6Zk758gcAA6sTnyL
+ GnoId1ADrCJrVDAurk/AjFsA1HrDXRuf+Dk2Zdr3O5d6
+X-Google-Smtp-Source: APiQypIoU77f+Qgwt4ZgAsIiwqrzOcwUOH1Lo7ipqJJGe1INMNNP+yb8HJLfDnK5/QU+IBVQOslbC8tixivuPSt6HGE=
+X-Received: by 2002:a2e:a584:: with SMTP id m4mr8413771ljp.194.1585605717032; 
+ Mon, 30 Mar 2020 15:01:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+From: Alexander Yuriev <alex@corp.zubrcom.net>
+Date: Mon, 30 Mar 2020 18:02:33 -0400
+Message-ID: <CAJRb792WE-mhTDOCdEtP3kQJK8ie7v3LRJ3y28F2DMSabvfyMg@mail.gmail.com>
+Subject: Massive memory leak in 4.2.0
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="00000000000084b75405a2199931"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::234
+X-Mailman-Approved-At: Mon, 30 Mar 2020 18:18:49 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,47 +70,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--00000000000084b75405a2199931
+Content-Type: text/plain; charset="UTF-8"
 
-Shu-Chun Weng <scw@google.com> writes:
+Hello,
 
-> With clang at HEAD, linking fails with "undefined symbol:
-> qemu_build_not_reached". It's because `store_helper` and
-> `helper_ret_stb_mmu` are mutually recursive and clang inlined latter
-> inside the former, making `store_helper` a recursive function and no
-> longer fully inlineable preventing constant propogation.
->
-> Signed-off-by: Shu-Chun Weng <scw@google.com>
-> ---
->  accel/tcg/cputlb.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-> index e3b5750c3b..a7c812ed72 100644
-> --- a/accel/tcg/cputlb.c
-> +++ b/accel/tcg/cputlb.c
-> @@ -2050,6 +2050,7 @@ store_helper(CPUArchState *env, target_ulong addr, =
-uint64_t val,
->      store_memop(haddr, val, op);
->  }
->=20=20
-> +__attribute__((noinline))
->  void helper_ret_stb_mmu(CPUArchState *env, target_ulong addr, uint8_t va=
-l,
->                          TCGMemOpIdx oi, uintptr_t retaddr)
+I was wondering if there is any interest in getting detailed reports/having
+a tester for a reproducible massive memory leak in qemu 4.2.0 running a
+guest with X11 via virgl-0.8.1 acceleration to host using sdl.
 
-Hmm I wonder if the correct fix is for store_helper to callL
+Guest limited to 2Gb has qemu RES grow to over 10Gb with while running
+Chrome within hours ( single gmail.tab + qemu archive page over last 20
+minutes expanded qemu res from 1.9gb to 2.6 gb).
 
-  store_memop(addr + i, val8, MO_UB);
+Both host and guest are amd64 debian 10. Qemu is built from source.
 
-direct in the fallback case - although the page crossing may be tricky
-to get right. Perhaps we should out of line all the unaligned stuff?
+Thanks,
+Alex
 
+--00000000000084b75405a2199931
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---=20
-Alex Benn=C3=A9e
+<div dir=3D"auto">Hello,<div dir=3D"auto"><br></div><div dir=3D"auto">I was=
+ wondering if there is any interest in getting detailed reports/having a te=
+ster for a reproducible massive memory leak in qemu 4.2.0 running a guest w=
+ith X11 via virgl-0.8.1 acceleration to host using sdl.</div><div dir=3D"au=
+to"><br></div><div dir=3D"auto">Guest limited to 2Gb has qemu RES grow to o=
+ver 10Gb with while running Chrome within hours ( single gmail.tab + qemu a=
+rchive page over last 20 minutes expanded qemu res from 1.9gb to 2.6 gb).</=
+div><div dir=3D"auto"><br></div><div dir=3D"auto">Both host and guest are a=
+md64 debian 10. Qemu is built from source.</div><div dir=3D"auto"><br></div=
+><div dir=3D"auto">Thanks,</div><div dir=3D"auto">Alex</div></div>
+
+--00000000000084b75405a2199931--
 
