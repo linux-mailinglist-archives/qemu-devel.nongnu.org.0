@@ -2,70 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FD90198292
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 19:41:44 +0200 (CEST)
-Received: from localhost ([::1]:54106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0476C1982D4
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 19:55:33 +0200 (CEST)
+Received: from localhost ([::1]:54372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIyPu-0003PZ-Fv
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 13:41:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35126)
+	id 1jIydH-0003Eg-O2
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 13:55:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36246)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jIyKs-0005rk-Pl
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:36:32 -0400
+ (envelope-from <benjamin@thatjames.org>) id 1jIyPe-0003pF-Ol
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:41:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1jIyKr-0005NH-BW
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:36:30 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:54152)
+ (envelope-from <benjamin@thatjames.org>) id 1jIyPb-0004hR-V5
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:41:26 -0400
+Received: from gateway30.websitewelcome.com ([192.185.149.4]:45638)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jIyKr-0005Kx-6P
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:36:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585589788;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uEh8nTech1DbIs3CNP81d8RCDrSjhYU860QFo41l7EE=;
- b=Do2sh3TOruYxRUmydpSCgmhzstLx0rZRbRdR5HzlngBlU56NaJpT5SYsN/SgMsqogDzY0X
- 4VenU6c8xdhHCBGaaYTubWzTLX517CJgDVJ+TJAeyZWYvm066rSfPJXhuxjj/gbOpxgrk8
- XaL48XmkT+YvyLo49b1W66gfB/Eadcw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-_QILv7ReOtSiRaKmYi3kzA-1; Mon, 30 Mar 2020 13:36:24 -0400
-X-MC-Unique: _QILv7ReOtSiRaKmYi3kzA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F40E18AB2C0;
- Mon, 30 Mar 2020 17:36:23 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.57])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 762706EF9A;
- Mon, 30 Mar 2020 17:36:20 +0000 (UTC)
-Date: Mon, 30 Mar 2020 18:36:17 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Michal =?utf-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>
-Subject: Re: deprecation of in-tree builds
-Message-ID: <20200330173617.GV236854@redhat.com>
-References: <CAFEAcA8E6goDHb-7kKCTp=wSpBsuJcfjMmLP0EgymiEL348r4A@mail.gmail.com>
- <87v9mmug73.fsf@dusky.pond.sub.org>
- <CAFEAcA-9U=EAXAtPDh_AnO3eUbM_jcRBuf4x=0Rec0EC-v2mNA@mail.gmail.com>
- <20200330134212.GO236854@redhat.com>
- <20200330143759.GD6139@linux.fritz.box>
- <20200330172955.GQ25468@kitsune.suse.cz>
+ (Exim 4.71) (envelope-from <benjamin@thatjames.org>)
+ id 1jIyPa-0004PI-Qo
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:41:23 -0400
+Received: from cm16.websitewelcome.com (cm16.websitewelcome.com [100.42.49.19])
+ by gateway30.websitewelcome.com (Postfix) with ESMTP id 59CC5D6FCA
+ for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 12:41:10 -0500 (CDT)
+Received: from box5531.bluehost.com ([162.241.218.31]) by cmsmtp with SMTP
+ id IyPOjOu0I8vkBIyPOjE222; Mon, 30 Mar 2020 12:41:10 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=thatjames.org; s=default; h=Content-Type:Cc:To:Subject:Message-ID:Date:From
+ :In-Reply-To:References:MIME-Version:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=OVmb57nRK1un8qE1g7nKwaAtiQsj8X/4LgHPqL0HXXU=; b=pz1H/SkW50HM9wry6DmAmysLi
+ hMBR/3dI/IoY1opyxctwuM7RJlyiqDaO/gogZ1u6DLzoaXcPMHoglaNIRYBJfku4+dQ31kYGv9OQF
+ kXJkUFzQeqP4PG/otDusLX9qBI8S+0RGsQRpKGbWqSG4Pyf4oSmNMMZqCQd0NR074JJb+yeHo7WdU
+ h43/aLqKYyt4heUnFvRH/Wf29Ar/tsmHL8y0nxglsMvZYcoqy8nwlOSTGPhY0s8ATHLASR/9nVgqV
+ ibasqfp+04ChiSoWM43/pvPRB+QYcpCwgjGRv8qZP5GeJ2aCZOZvyTvc1veIYiwpr+WUosnkDOTAF
+ 9byvlcAsg==;
+Received: from mail-lf1-f54.google.com ([209.85.167.54]:41657)
+ by box5531.bluehost.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+ (Exim 4.92) (envelope-from <benjamin@thatjames.org>)
+ id 1jIyPN-0016ef-Ty; Mon, 30 Mar 2020 11:41:10 -0600
+Received: by mail-lf1-f54.google.com with SMTP id z23so14968425lfh.8;
+ Mon, 30 Mar 2020 10:41:09 -0700 (PDT)
+X-Gm-Message-State: AGi0PubzjBrTv5UNVJfiDwJasmsjaVZFO+ExioUjO0onmxY8qP9AIssW
+ I4aJdqcR63ss4zO2aLA0GV4p7ZSNLnWzLLJpjqc=
+X-Google-Smtp-Source: APiQypIM8U259fBRcApwJAVH+xGb8vI7f1VfsHITvUcYbs+7YFb7HwkojfCl24XPZ3N+LiTZl0P/fwIMuhgVeiIJ2Wo=
+X-Received: by 2002:a05:6512:202d:: with SMTP id
+ s13mr8689189lfs.19.1585590068820; 
+ Mon, 30 Mar 2020 10:41:08 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200330172955.GQ25468@kitsune.suse.cz>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+References: <CAOragkw8XgbEOiaE9n=wKzPAMkzdOcqA5VA5ihN80v-g7V8TRw@mail.gmail.com>
+ <20200329111311.272958fe@luklap> <878sjhho0s.fsf@linaro.org>
+In-Reply-To: <878sjhho0s.fsf@linaro.org>
+From: Benjamin <benjamin@thatjames.org>
+Date: Mon, 30 Mar 2020 11:40:57 -0600
+X-Gmail-Original-Message-ID: <CAOragkwcnAYYdGOjaHWc1F7-hRnB9CHbgoUqEcc40A7muV+06Q@mail.gmail.com>
+Message-ID: <CAOragkwcnAYYdGOjaHWc1F7-hRnB9CHbgoUqEcc40A7muV+06Q@mail.gmail.com>
+Subject: Re: Qemu TCG Plugins - how to access guest registers?
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000cfc14805a215f45b"
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - box5531.bluehost.com
+X-AntiAbuse: Original Domain - nongnu.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - thatjames.org
+X-BWhitelist: no
+X-Source-IP: 209.85.167.54
+X-Source-L: No
+X-Exim-ID: 1jIyPN-0016ef-Ty
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: mail-lf1-f54.google.com [209.85.167.54]:41657
+X-Source-Auth: benjamin@thatjames.org
+X-Email-Count: 2
+X-Source-Cap: dGhhdGphbWU7dGhhdGphbWU7Ym94NTUzMS5ibHVlaG9zdC5jb20=
+X-Local-Domain: yes
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+X-Received-From: 192.185.149.4
+X-Mailman-Approved-At: Mon, 30 Mar 2020 13:54:13 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,93 +94,245 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Lukas Straub <lukasstraub2@web.de>, qemu-devel@nongnu.org,
+ qemu-discuss@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 30, 2020 at 07:29:55PM +0200, Michal Such=C3=A1nek wrote:
-> On Mon, Mar 30, 2020 at 04:37:59PM +0200, Kevin Wolf wrote:
-> > Am 30.03.2020 um 15:42 hat Daniel P. Berrang=C3=A9 geschrieben:
-> > > On Mon, Mar 30, 2020 at 02:31:52PM +0100, Peter Maydell wrote:
-> > > > On Mon, 30 Mar 2020 at 14:26, Markus Armbruster <armbru@redhat.com>=
- wrote:
-> > > > >
-> > > > > Peter Maydell <peter.maydell@linaro.org> writes:
-> > > > >
-> > > > > > AIUI from Paolo, the intention is to deprecate and eventually
-> > > > > > stop supporting "in-tree" builds, so that the only option is
-> > > > > > building in a separate build directory. I thought we should
-> > > > > > probably mention that in the 5.0 changelog, so I wrote up some
-> > > > > > text:
-> > > > > >
-> > > > > > https://wiki.qemu.org/ChangeLog/5.0#Build_Information
-> > > > >
-> > > > > Overdue.  Thanks for doing this!
-> > > > >
-> > > > > > Suggestions for changes/comments etc welcome.
-> > > > >
-> > > > > Looks fine to me.
-> > > >=20
-> > > > Consensus in the thread seemed to lean towards having
-> > > > the 'configure/make' runes auto-create a build directory;
-> > > > if we want to do that we should probably not say anything in
-> > > > the release notes, because we'll cause people to change
-> > > > unnecessarily. Or at least have them say "We recommend
-> > > > out-of-tree builds. In future we might make the commands
-> > > > that currently do an in-tree build automatically create
-> > > > and use a build directory for you." rather than a blanket
-> > > > "we're going to drop this and you should change what you
-> > > > do now".
-> > > >=20
-> > > > Thoughts?
-> > >=20
-> > > When the time comes to switch to Meson, we'll be forcing a
-> > > separate build directory & that will also potentially involve
-> > > a change in build instructions for users.
-> > >=20
-> > > So if we expect Meson will arrive in QEMU soon (say before end
-> > > of this year), then I'd try to keep changes related to make to
-> > > the bare minimum, and have Meson switch as the "flag day" when
-> > > developers are forced to adapt their build process.=20
-> > >=20
-> > > IOW, merely warn people that in-tree builds are deprecated and
-> > > not tested by the project and enourage switching to out of tree
-> > > builds. Dont try to magically create a separate build dir now.
-> >=20
-> > If manually dealing with separate build directories is inconvenient
-> > today, it will still be inconvenient with Meson, so this would mean
-> > introducing the automatic directly creation together with the other
-> > changes to enable Meson. Which is fine by me, as long as it is really
-> > done when the external directory becomes mandatory, so that people won'=
-t
-> > have to switch back and forth between directories.
->=20
-> From packaging point of view if something has auto* files the default is
-> IIRC to do in-tree build with most package managers. You have to adjust
-> manually for out-of-tree build. I am not sure what is state of Meson
-> support in packaging scripts across distributions. Most likely it will
-> not be picked automagically so you have to provide a custom build script
-> anyway. Then it is the time to look up the canonical build instructions.
+--000000000000cfc14805a215f45b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Many big projects already use Meson, including SystemD and GNOME for
-example. So I'd expect all modern distros would have standard
-"best practices" defined for building projects using Meson by now.
+Thanks for your quick response.
 
-Doing an out of tree build for autotools based projects doesn't take
-much adaption by distros either from what we got in terms of feedback
-when libvirt made the switch to force out-of-tree.
+On Mon, Mar 30, 2020 at 9:15 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+>
+> Lukas Straub <lukasstraub2@web.de> writes:
+>
+> >> My question is, how do I access the guest memory and registers from th=
+e
+> >> plugin callback function? The API seems to indicate that it is possibl=
+e,
+> >> since the callback registering requires you to say if you will access
+> them,
+> >> and if it's RW or just read.
+>
+> Currently we document what plugins can do in docs/devel/tcg-plugins.rst:
+>
+>   TCG plugins are unable to change the system state only monitor it
+>   passively. However they can do this down to an individual instruction
+>   granularity including potentially subscribing to all load and store
+>   operations.
+>
+> This was a conscious decision to avoid plugins being used as an end-run
+> around the GPL to implement proprietary out-of-tree extensions.
+>
+> That is not to say we might relax the rules in the future - it was a
+> topic of discussion at the maintainers summit and we wanted to document
+> some guidelines around interfacing with QEMU so people didn't get the
+> wrong idea about what these APIs provide (c.f. multi-process qemu and
+> vhost-user which could also be abused in similar ways).
+>
 
+I understand restricting the API so that the system state cannot be
+changed, only inspected.  I should have been more specific in my question.
+I am attempting to create a plugin that tracks all memory accesses, so I
+can emulate cache behavior.  The reason I would like to read the registers,
+is because many load/store instructions depend on register values, which I
+can only be sure of at run-time.
+Some of the concepts you mentioned I am not very familiar with; I am simply
+emulating an ARM A9 processor in bare-metal mode, to give you a point of
+reference of my use case.
+
+
+> Indeed Emilio's original tree did contain these more invasive hooks and
+> while we deliberate upstream it will hopefully not be as hard to
+> maintain a light out-of-tree fork should you need such functionality now.
+>
+
+Could you please point me towards this tree?  I haven't run across it yet
+in my investigating of all of this.
+
+
+> >> Are there any examples of using this part of the API? I realize this i=
+s
+> a
+> >> very new part of Qemu functionality.
+>
+> So far the examples represent the totality of the API that has been
+> exercised and I'm keen we add more as new extensions to the API are
+> added. As to the specific question about accessing register values that
+> is exactly down to the newness of the API.
+>
+> Register access is a tricky problem because of the fact that QEMU
+> supports so many guest architectures. I wasn't keen on slapping in a
+> functional but ugly API that hard-coded values like gdb register ids so
+> I left it out for the time being. I'd happily accept patches to add that
+> functionality assuming it meets the projects quality and taste
+> guidelines.
+>
+> Some approaches we could take include:
+>
+>   - hook into tcg_global_*_new and allow plugin to introspect registers
+>   - hook into gdbstub in some way
+>
+> The first approach elides over the fact that a lot of registers aren't
+> actually known to the TCG - pretty much all vector registers tend to be
+> loaded into anonymous TCG temps as we go. Maybe this could just be fixed
+> by just providing a few more registrations functions at the start even
+> if the TCG itself wouldn't use that knowledge.
+>
+> The gdbstub provides a lot more visibility of register state and for
+> some architectures this can be quite comprehensive - for example in
+> system mode you can access pretty much every ARM co-processor register.
+> However the gdb interface is a little clunky as there are a lot of magic
+> register id numbers and the canonical way to enumerate this is to chew
+> through a bunch of XML that each target generates (see
+> gdb_register_coprocessor). I'm not keen on exposing that pile of XML via
+> the register interface. Maybe there is scope to improve our internal
+> APIs so the enumeration of registers can be handled by helpers that
+> record mappings and ids and generate the XML for the gdbstub centrally?
+>
+> There may be other approaches we could take and I'm open to suggestions.
+>
+
+I'd be happy to look into ways to implement this functionality.  However, I
+just started using Qemu this year, so these things sound like they would
+have a steep learning curve for me.
+The gdbstub approach seems like it would provide the most introspection
+ability.  What would you suggest as a starting point for looking into this?
+All of this being said, if you think my project is too complicated, to
+implement a cache emulator with TCG plugins, then I could always try just
+hacking together some custom helper functions.
+
+
+> --
+> Alex Benn=C3=A9e
+>
+
+Thanks
+
+--000000000000cfc14805a215f45b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Thanks for your quick response.</div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Mar 30, 2020=
+ at 9:15 AM Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org">=
+alex.bennee@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex"><br>
+Lukas Straub &lt;<a href=3D"mailto:lukasstraub2@web.de" target=3D"_blank">l=
+ukasstraub2@web.de</a>&gt; writes:<br>
+<br>&gt;&gt; My question is, how do I access the guest memory and registers=
+ from the<br>
+&gt;&gt; plugin callback function? The API seems to indicate that it is pos=
+sible,<br>
+&gt;&gt; since the callback registering requires you to say if you will acc=
+ess them,<br>
+&gt;&gt; and if it&#39;s RW or just read.<br>
+<br>
+Currently we document what plugins can do in docs/devel/tcg-plugins.rst:<br=
+>
+<br>
+=C2=A0 TCG plugins are unable to change the system state only monitor it<br=
+>
+=C2=A0 passively. However they can do this down to an individual instructio=
+n<br>
+=C2=A0 granularity including potentially subscribing to all load and store<=
+br>
+=C2=A0 operations.<br>
+<br>
+This was a conscious decision to avoid plugins being used as an end-run<br>
+around the GPL to implement proprietary out-of-tree extensions.<br>
+<br>
+That is not to say we might relax the rules in the future - it was a<br>
+topic of discussion at the maintainers summit and we wanted to document<br>
+some guidelines around interfacing with QEMU so people didn&#39;t get the<b=
+r>
+wrong idea about what these APIs provide (c.f. multi-process qemu and<br>
+vhost-user which could also be abused in similar ways).<br></blockquote><di=
+v><br></div><div>I understand restricting the API so that the system state =
+cannot be changed, only inspected.=C2=A0 I should have been more specific i=
+n my question.</div><div>I am attempting to create a plugin that tracks all=
+ memory accesses, so I can emulate cache behavior.=C2=A0 The reason I would=
+ like to read the registers, is because many load/store instructions depend=
+ on register values, which I can only be sure of at run-time.</div><div>Som=
+e of the concepts you mentioned I am not very familiar with; I am simply em=
+ulating an ARM A9 processor in bare-metal mode, to give you a point of refe=
+rence of my use case.</div><div>=C2=A0</div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex">
+Indeed Emilio&#39;s original tree did contain these more invasive hooks and=
+<br>
+while we deliberate upstream it will hopefully not be as hard to<br>
+maintain a light out-of-tree fork should you need such functionality now.<b=
+r></blockquote><div>=C2=A0</div><div>Could you please point me towards this=
+ tree?=C2=A0 I haven&#39;t run across it yet in my investigating of all of =
+this.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">
+&gt;&gt; Are there any examples of using this part of the API? I realize th=
+is is a<br>
+&gt;&gt; very new part of Qemu functionality.<br>
+<br>
+So far the examples represent the totality of the API that has been<br>
+exercised and I&#39;m keen we add more as new extensions to the API are<br>
+added. As to the specific question about accessing register values that<br>
+is exactly down to the newness of the API.<br>
+<br>
+Register access is a tricky problem because of the fact that QEMU<br>
+supports so many guest architectures. I wasn&#39;t keen on slapping in a<br=
+>
+functional but ugly API that hard-coded values like gdb register ids so<br>
+I left it out for the time being. I&#39;d happily accept patches to add tha=
+t<br>
+functionality assuming it meets the projects quality and taste<br>
+guidelines.<br>
+<br>
+Some approaches we could take include:<br>
+<br>
+=C2=A0 - hook into tcg_global_*_new and allow plugin to introspect register=
+s<br>
+=C2=A0 - hook into gdbstub in some way<br>
+<br>
+The first approach elides over the fact that a lot of registers aren&#39;t<=
+br>
+actually known to the TCG - pretty much all vector registers tend to be<br>
+loaded into anonymous TCG temps as we go. Maybe this could just be fixed<br=
+>
+by just providing a few more registrations functions at the start even<br>
+if the TCG itself wouldn&#39;t use that knowledge.<br>
+<br>
+The gdbstub provides a lot more visibility of register state and for<br>
+some architectures this can be quite comprehensive - for example in<br>
+system mode you can access pretty much every ARM co-processor register.<br>
+However the gdb interface is a little clunky as there are a lot of magic<br=
+>
+register id numbers and the canonical way to enumerate this is to chew<br>
+through a bunch of XML that each target generates (see<br>
+gdb_register_coprocessor). I&#39;m not keen on exposing that pile of XML vi=
+a<br>
+the register interface. Maybe there is scope to improve our internal<br>
+APIs so the enumeration of registers can be handled by helpers that<br>
+record mappings and ids and generate the XML for the gdbstub centrally?<br>
+<br>
+There may be other approaches we could take and I&#39;m open to suggestions=
+.<br></blockquote><div>=C2=A0</div><div>I&#39;d be happy to look into ways =
+to implement this functionality.=C2=A0 However, I just started using Qemu t=
+his year, so these things sound like they would have a steep learning curve=
+ for me.</div><div>The gdbstub approach seems like it would provide the mos=
+t introspection ability.=C2=A0 What would you suggest as a starting point f=
+or looking into this?</div><div>All of this being said, if you think my pro=
+ject is too complicated, to implement a cache emulator with TCG plugins, th=
+en I could always try just hacking together some custom helper functions.</=
+div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+-- <br>
+Alex Benn=C3=A9e<br></blockquote><div>=C2=A0</div><div>Thanks<br></div></di=
+v></div>
+
+--000000000000cfc14805a215f45b--
 
