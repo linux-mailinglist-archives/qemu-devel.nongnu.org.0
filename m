@@ -2,91 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4078A197B98
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 14:13:15 +0200 (CEST)
-Received: from localhost ([::1]:48788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66BA3197BA1
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 14:14:56 +0200 (CEST)
+Received: from localhost ([::1]:48808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jItI2-0007Gp-2B
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 08:13:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36997)
+	id 1jItJf-0000hs-FS
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 08:14:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37211)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jItHB-0006fo-Hs
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 08:12:22 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jItIc-0008I0-8C
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 08:13:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jItHA-0000Bv-5z
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 08:12:21 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:38206)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jItHA-0000BI-1S
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 08:12:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585570339;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=b4Ib0f7H/LLKwpGldntdEyrh78ix2u0AhRVbHonUwTM=;
- b=BhpMBdoSKUKM9V/pwcv4uJkivcPg6pr33k3VTKIQSWhp8Ic9splNwfk6arJhALbeoe2Ys2
- sKrqnA2xvcx3vzc570huWV5gOvfXkGkgi26CiYsX1Z7ClZMaFcHJB9f8yHad768x8L/Vly
- GBU4sW3DtzOvJOuXZGeKWkmmggJpwKQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-z_0wcTkjMLets6daMVqCMA-1; Mon, 30 Mar 2020 08:12:17 -0400
-X-MC-Unique: z_0wcTkjMLets6daMVqCMA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C15B1DB20;
- Mon, 30 Mar 2020 12:12:16 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-93.ams2.redhat.com
- [10.36.113.93])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7961365F40;
- Mon, 30 Mar 2020 12:12:08 +0000 (UTC)
-Subject: Re: [PATCH v9 07/14] iotests: drop pre-Python 3.4 compatibility code
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20200324232103.4195-1-jsnow@redhat.com>
- <20200324232103.4195-8-jsnow@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <bb263d17-3623-9ce9-3d37-7b8fb4b90f9e@redhat.com>
-Date: Mon, 30 Mar 2020 14:12:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jItIb-0001VE-25
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 08:13:50 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:40935)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jItIa-0001SJ-Q1
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 08:13:49 -0400
+Received: by mail-wr1-x431.google.com with SMTP id u10so21307695wro.7
+ for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 05:13:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=i+My85ICmy0qF0DEe3a9VMg2W1L8PvAxyzPBdac6GnA=;
+ b=A0rw3WYKOrdFyuEoCSDmXH/9kTkR4geTJc5CSCX0hRJ403uvPk41pzVC7lFLhpK+dj
+ eylInfM7snt2gafEUNIoVB/sGqWPFV6cQVcH3VXt1R4NR29de2katk6qZMte9rAZGFj3
+ 8UvVVy7sfycGD48yHS5P0FEgy9sMgXkYRLneH8Pp/AZ8yOdeN5hcfU0G5ww8+cf4KO+J
+ fQkqi4ZzPKKEEqUFj7j8vifdmAAUkvZPY2dTQyzE+4f4KDzXWaC4GSkN0lLbbDBkMQpE
+ wwRd33fP3gHPE0GeRm2TfvbbEsZuPNqxDhbMmdDe7OwrI39aEP/CcjSbaEFFthi2zHtV
+ lYYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=i+My85ICmy0qF0DEe3a9VMg2W1L8PvAxyzPBdac6GnA=;
+ b=iHwk0Jazwr1rmwBP5fpHMwn6OM47ypc+Lilhb0hcnlSrAh0jhcW56+dtgxyxKW1ieG
+ lXsu8v4r1e2l8oCijXSsfFo4E0z4wBglj1QYOUUZICKIXGbgtimm/u1zjPKvLNcfkoJH
+ fYmBV677WsoxWDN9ITm8Q0F5BE9UQ7OuWQwpqacI1XgF0cvpdNfJr6bOlz9xzgLFHRBG
+ t/FdwjjVOXB7EypF+NIbciI6+VOIsmPmblFGepQo2Sp5YwOJK7nlsVt7UTsTCyJtN3eE
+ QREbv8n0jVs1vGekwcPdQp59u7Xq0jN6yaYzbZzjeLj8g47qSkc+TTPHom6O4fEaBlxi
+ UmIg==
+X-Gm-Message-State: ANhLgQ3iHxfOR6tpeTrxHAC9WeisaoSyeTHRURtL3Xa5wC0Pw5cYZ7Lv
+ VNyQAZbxcFaZ+MUBpm0FaJMEHVOrST4=
+X-Google-Smtp-Source: ADFU+vsgd08iSXkkGxjrRHGV9E83sYcBQgvij2oPHVIsjdiUIgOgE3kvIDlwnp80AC8thC1AQfg8gQ==
+X-Received: by 2002:adf:9b9d:: with SMTP id d29mr14567087wrc.294.1585570427055; 
+ Mon, 30 Mar 2020 05:13:47 -0700 (PDT)
+Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id k3sm22748384wrw.61.2020.03.30.05.13.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Mar 2020 05:13:46 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-5.0?] decodetree: Use Python3 floor division operator
+Date: Mon, 30 Mar 2020 14:13:45 +0200
+Message-Id: <20200330121345.14665-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-In-Reply-To: <20200324232103.4195-8-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="WzBtxKLEsa5KkvW2iGtbhgEBH0Wx6nLgo"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,54 +80,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, ehabkost@redhat.com, qemu-block@nongnu.org,
- armbru@redhat.com, philmd@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---WzBtxKLEsa5KkvW2iGtbhgEBH0Wx6nLgo
-Content-Type: multipart/mixed; boundary="La0dxDfJcDLAEvPZpGobbpmtzE6Xy7fZT"
+This script started using Python2, where the 'classic' division
+operator returns the floor result. In commit 3d004a371 we started
+to use Python3, where the division operator returns the float
+result ('true division').
+To keep the same behavior, use the 'floor division' operator "//"
+which returns the floor result.
 
---La0dxDfJcDLAEvPZpGobbpmtzE6Xy7fZT
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Fixes: 3d004a371
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+We didn't notice it because only the RX port (which uses the
+--varinsnwidth option, and got merged very recently) triggers
+these problems.
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ scripts/decodetree.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On 25.03.20 00:20, John Snow wrote:
-> We no longer need to accommodate 3.4, drop this code.
-> (The lines were > 79 chars and it stood out.)
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  tests/qemu-iotests/iotests.py | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
-I did say I wouldn=E2=80=99t complain about the unrelated change!
-
-*shrug*
-
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-
-
---La0dxDfJcDLAEvPZpGobbpmtzE6Xy7fZT--
-
---WzBtxKLEsa5KkvW2iGtbhgEBH0Wx6nLgo
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6B4hYACgkQ9AfbAGHV
-z0B+0gf/ZLYbImD+DDV4H9Ia5Zx/LcITu+iNqvdoYoYxJmEgO8Ve5I480IzEa1Ls
-TeVcYCOjLxDNQ3Zc15hx/VzGXQcE1yzNAtmFoAdCyvgI7E1DBnpV4S865MqIXn4M
-+DWXUDB5COZ4csqKERJTVBYkTmCiKTmFXfK36X79FL5yvbckU7dbXz8CtSv1+BJB
-uKqUOBZz+zSRPuA90XyAzSUfIzECWEfLdkAfCA/VxC/bc5Xcwl4ZUDwRc/0f7u4Y
-Vxg0w7qQSS7ZyoZrpFfFNeIDAaG6+g66YyhQ3iC9fVEUlZjdfEdXpY46rRjzW01J
-Xw24t9diuW5vYaUDWVcWU1uh8kwoiw==
-=cwTf
------END PGP SIGNATURE-----
-
---WzBtxKLEsa5KkvW2iGtbhgEBH0Wx6nLgo--
+diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+index 2a8f2b6e06..46ab917807 100755
+--- a/scripts/decodetree.py
++++ b/scripts/decodetree.py
+@@ -1025,7 +1025,7 @@ def output_code(self, i, extracted, outerbits, outermask):
+         if extracted < self.width:
+             output(ind, 'insn = ', decode_function,
+                    '_load_bytes(ctx, insn, {0}, {1});\n'
+-                   .format(extracted / 8, self.width / 8));
++                   .format(extracted // 8, self.width // 8));
+             extracted = self.width
+ 
+         # Attempt to aid the compiler in producing compact switch statements.
+@@ -1079,7 +1079,7 @@ def output_code(self, i, extracted, outerbits, outermask):
+         if extracted < self.width:
+             output(ind, 'insn = ', decode_function,
+                    '_load_bytes(ctx, insn, {0}, {1});\n'
+-                   .format(extracted / 8, self.width / 8));
++                   .format(extracted // 8, self.width // 8));
+             extracted = self.width
+         output(ind, 'return insn;\n')
+ # end SizeLeaf
+-- 
+2.21.1
 
 
