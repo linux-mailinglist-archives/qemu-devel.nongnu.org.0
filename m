@@ -2,140 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97BC719825F
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 19:30:08 +0200 (CEST)
-Received: from localhost ([::1]:53838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14FD7198268
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 19:32:52 +0200 (CEST)
+Received: from localhost ([::1]:53902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIyEh-00027d-KR
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 13:30:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33282)
+	id 1jIyHL-0005z5-0k
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 13:32:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32800)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jIyCn-0007yy-Ks
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:28:10 -0400
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jIyAV-0003oP-2h
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:25:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jIyCm-00082X-Am
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:28:09 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:31570)
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jIyAT-0003qy-N4
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:25:46 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:52699)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jIyCm-00081D-6M
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 13:28:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585589287;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=nH7c3MdxmpChr0v9819sI35h8AP1+/pxELOHtHafuDo=;
- b=i+XJ5VBoDufjtxeK81xE39pK0qcf8m3wOD+LZg8d+rvXXd2s0dFkZBXVYiQnatGumnEO8W
- OioDa5CdJCf5k0+f57OBoIqfrdSTsUrJM08E5OPIjq3L3N2FuAZW0Eol/r92wdDxd84mRd
- eSDQjRJZW0WqqUpwOuF0BL9fCenmt4E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-nmgYLekWNHyKNHGYei0GsA-1; Mon, 30 Mar 2020 13:28:06 -0400
-X-MC-Unique: nmgYLekWNHyKNHGYei0GsA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CA55800D5B;
- Mon, 30 Mar 2020 17:28:05 +0000 (UTC)
-Received: from [10.10.113.210] (ovpn-113-210.rdu2.redhat.com [10.10.113.210])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BDF73D7664;
- Mon, 30 Mar 2020 17:28:02 +0000 (UTC)
-Subject: Re: [PATCH v9 01/14] iotests: do a light delinting
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200324232103.4195-1-jsnow@redhat.com>
- <20200324232103.4195-2-jsnow@redhat.com> <87d08tvree.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <c8e770ea-f4de-71ae-c893-2910127a8887@redhat.com>
-Date: Mon, 30 Mar 2020 13:28:01 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jIyAT-0003dV-8f; Mon, 30 Mar 2020 13:25:45 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07679904|-1; CH=blue; DM=|OVERLOAD|false|;
+ DS=CONTINUE|ham_system_inform|0.643886-0.000311504-0.355802;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e01a16384; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=10; RT=10; SR=0; TI=SMTPD_---.H7ljhv._1585589137; 
+Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.H7ljhv._1585589137)
+ by smtp.aliyun-inc.com(10.147.42.22); Tue, 31 Mar 2020 01:25:37 +0800
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+To: richard.henderson@linaro.org, alistair23@gmail.com,
+ chihmin.chao@sifive.com, palmer@dabbelt.com
+Subject: [PATCH v7 54/61] target/riscv: vector element index instruction
+Date: Mon, 30 Mar 2020 23:36:26 +0800
+Message-Id: <20200330153633.15298-55-zhiwei_liu@c-sky.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20200330153633.15298-1-zhiwei_liu@c-sky.com>
+References: <20200330153633.15298-1-zhiwei_liu@c-sky.com>
 MIME-Version: 1.0
-In-Reply-To: <87d08tvree.fsf@dusky.pond.sub.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 121.197.200.217
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -147,66 +51,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, ehabkost@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>, philmd@redhat.com
+Cc: guoren@linux.alibaba.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ wxy194768@alibaba-inc.com, wenmeng_zhang@c-sky.com,
+ LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/riscv/helper.h                   |  5 +++++
+ target/riscv/insn32.decode              |  2 ++
+ target/riscv/insn_trans/trans_rvv.inc.c | 25 +++++++++++++++++++++++++
+ target/riscv/vector_helper.c            | 24 ++++++++++++++++++++++++
+ 4 files changed, 56 insertions(+)
 
-
-On 3/30/20 10:39 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
->=20
->> This doesn't fix everything in here, but it does help clean up the
->> pylint report considerably.
->>
->> This should be 100% style changes only; the intent is to make pylint
->> more useful by working on establishing a baseline for iotests that we
->> can gate against in the future.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> Reviewed-by: Max Reitz <mreitz@redhat.com>
->> ---
->>  tests/qemu-iotests/iotests.py | 83 ++++++++++++++++++-----------------
->>  1 file changed, 43 insertions(+), 40 deletions(-)
->>
->> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.=
-py
->> index 7bc4934cd2..886ae962ae 100644
->> --- a/tests/qemu-iotests/iotests.py
->> +++ b/tests/qemu-iotests/iotests.py
-> [...]
->> @@ -1062,6 +1063,7 @@ def func_wrapper(test_case: QMPTestCase, *args, **=
-kwargs):
->>              if usf_list:
->>                  test_case.case_skip('{}: formats {} are not whitelisted=
-'.format(
->>                      test_case, usf_list))
->> +                return None
->>              else:
->>                  return func(test_case, *args, **kwargs)
->>          return func_wrapper
->> @@ -1073,6 +1075,7 @@ def skip_if_user_is_root(func):
->>      def func_wrapper(*args, **kwargs):
->>          if os.getuid() =3D=3D 0:
->>              case_notrun('{}: cannot be run as root'.format(args[0]))
->> +            return None
->>          else:
->>              return func(*args, **kwargs)
->>      return func_wrapper
->=20
-> Observation, not demand: this trades one kind of pylint report for
-> another: inconsistent-return-statements for no-else-return.  PATCH 05
-> suppresses no-else-return.
->=20
-
-Hm, yeah. I think there was some light consensus that "no-else-return"
-was perfectly fine, so this patch builds towards that specific pylintrc.
-
-It isn't, in my opinion, a regression or lateral movement as there isn't
-a pylintrc baseline yet.
-
---js
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index 90e6d31d78..9e80e4ca23 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -1108,3 +1108,8 @@ DEF_HELPER_5(viota_m_b, void, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_5(viota_m_h, void, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_5(viota_m_w, void, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_5(viota_m_d, void, ptr, ptr, ptr, env, i32)
++
++DEF_HELPER_4(vid_v_b, void, ptr, ptr, env, i32)
++DEF_HELPER_4(vid_v_h, void, ptr, ptr, env, i32)
++DEF_HELPER_4(vid_v_w, void, ptr, ptr, env, i32)
++DEF_HELPER_4(vid_v_d, void, ptr, ptr, env, i32)
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index 37756fa76d..1231628cb2 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -70,6 +70,7 @@
+ @r2      .......   ..... ..... ... ..... ....... %rs1 %rd
+ @r2_nfvm ... ... vm:1 ..... ..... ... ..... ....... &r2nfvm %nf %rs1 %rd
+ @r2_vm   ...... vm:1 ..... ..... ... ..... ....... &rmr %rs2 %rd
++@r1_vm   ...... vm:1 ..... ..... ... ..... ....... %rd
+ @r_nfvm  ... ... vm:1 ..... ..... ... ..... ....... &rnfvm %nf %rs2 %rs1 %rd
+ @r_vm    ...... vm:1 ..... ..... ... ..... ....... &rmrr %rs2 %rs1 %rd
+ @r_vm_1  ...... . ..... ..... ... ..... .......    &rmrr vm=1 %rs2 %rs1 %rd
+@@ -559,6 +560,7 @@ vmsbf_m         010110 . ..... 00001 010 ..... 1010111 @r2_vm
+ vmsif_m         010110 . ..... 00011 010 ..... 1010111 @r2_vm
+ vmsof_m         010110 . ..... 00010 010 ..... 1010111 @r2_vm
+ viota_m         010110 . ..... 10000 010 ..... 1010111 @r2_vm
++vid_v           010110 . 00000 10001 010 ..... 1010111 @r1_vm
+ 
+ vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
+ vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
+diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
+index 21d286bcb1..3dac7ae8e7 100644
+--- a/target/riscv/insn_trans/trans_rvv.inc.c
++++ b/target/riscv/insn_trans/trans_rvv.inc.c
+@@ -2523,3 +2523,28 @@ static bool trans_viota_m(DisasContext *s, arg_viota_m *a)
+     }
+     return false;
+ }
++
++/* Vector Element Index Instruction */
++static bool trans_vid_v(DisasContext *s, arg_vid_v *a)
++{
++    if (vext_check_isa_ill(s) &&
++        vext_check_reg(s, a->rd, false) &&
++        vext_check_overlap_mask(s, a->rd, a->vm, false)) {
++        uint32_t data = 0;
++        TCGLabel *over = gen_new_label();
++        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
++
++        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
++        data = FIELD_DP32(data, VDATA, VM, a->vm);
++        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
++        static gen_helper_gvec_2_ptr * const fns[4] = {
++            gen_helper_vid_v_b, gen_helper_vid_v_h,
++            gen_helper_vid_v_w, gen_helper_vid_v_d,
++        };
++        tcg_gen_gvec_2_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
++                           cpu_env, 0, s->vlen / 8, data, fns[s->sew]);
++        gen_set_label(over);
++        return true;
++    }
++    return false;
++}
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index 004d04c7d8..3e1f286b50 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -4672,3 +4672,27 @@ GEN_VEXT_VIOTA_M(viota_m_b, uint8_t, H1, clearb)
+ GEN_VEXT_VIOTA_M(viota_m_h, uint16_t, H2, clearh)
+ GEN_VEXT_VIOTA_M(viota_m_w, uint32_t, H4, clearl)
+ GEN_VEXT_VIOTA_M(viota_m_d, uint64_t, H8, clearq)
++
++/* Vector Element Index Instruction */
++#define GEN_VEXT_VID_V(NAME, ETYPE, H, CLEAR_FN)                          \
++void HELPER(NAME)(void *vd, void *v0, CPURISCVState *env, uint32_t desc)  \
++{                                                                         \
++    uint32_t mlen = vext_mlen(desc);                                      \
++    uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;                   \
++    uint32_t vm = vext_vm(desc);                                          \
++    uint32_t vl = env->vl;                                                \
++    int i;                                                                \
++                                                                          \
++    for (i = 0; i < vl; i++) {                                            \
++        if (!vm && !vext_elem_mask(v0, mlen, i)) {                        \
++            continue;                                                     \
++        }                                                                 \
++        *((ETYPE *)vd + H(i)) = i;                                        \
++    }                                                                     \
++    CLEAR_FN(vd, vl, vl * sizeof(ETYPE), vlmax * sizeof(ETYPE));          \
++}
++
++GEN_VEXT_VID_V(vid_v_b, uint8_t, H1, clearb)
++GEN_VEXT_VID_V(vid_v_h, uint16_t, H2, clearh)
++GEN_VEXT_VID_V(vid_v_w, uint32_t, H4, clearl)
++GEN_VEXT_VID_V(vid_v_d, uint64_t, H8, clearq)
+-- 
+2.23.0
 
 
