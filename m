@@ -2,52 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F70197CBB
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 15:19:31 +0200 (CEST)
-Received: from localhost ([::1]:49718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AE4A197CE6
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 15:29:03 +0200 (CEST)
+Received: from localhost ([::1]:49894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIuKA-0002E3-6w
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 09:19:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46282)
+	id 1jIuTO-0008WV-D1
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 09:29:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47484)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuzenghui@huawei.com>) id 1jIuIq-00018Q-C1
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 09:18:09 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jIuPP-0005R6-Ka
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 09:24:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuzenghui@huawei.com>) id 1jIuIp-0006SU-9U
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 09:18:08 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3731 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yuzenghui@huawei.com>)
- id 1jIuIi-0006Dn-V3; Mon, 30 Mar 2020 09:18:01 -0400
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 6D6481EB6A23AB42A64A;
- Mon, 30 Mar 2020 21:17:54 +0800 (CST)
-Received: from [127.0.0.1] (10.173.222.27) by DGGEMS411-HUB.china.huawei.com
- (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0; Mon, 30 Mar 2020
- 21:17:48 +0800
-Subject: Re: [kvm-unit-tests PATCH v7 13/13] arm/arm64: ITS: pending table
- migration test
-To: Auger Eric <eric.auger@redhat.com>
-References: <20200320092428.20880-1-eric.auger@redhat.com>
- <20200320092428.20880-14-eric.auger@redhat.com>
- <296c574b-810c-9c90-a613-df732a9ac193@huawei.com>
- <ea74559c-2ab4-752c-e587-2bf40eab14b0@redhat.com>
-From: Zenghui Yu <yuzenghui@huawei.com>
-Message-ID: <0e73fd13-ca18-2d17-2267-fd5d852e3ac8@huawei.com>
-Date: Mon, 30 Mar 2020 21:17:47 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (envelope-from <peter.maydell@linaro.org>) id 1jIuPO-0005Gq-6n
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 09:24:55 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:39379)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jIuPN-0005GB-V9
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 09:24:54 -0400
+Received: by mail-ot1-x342.google.com with SMTP id x11so17973307otp.6
+ for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 06:24:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=X+qqckzSyBfB8qpfsDQW+k74OkzwkU/rTpX8h4O0/oA=;
+ b=X7UDRFm7DbucO3BIKsiTNIZpq/U0jMtzgkLKz/N4GlEZMVGbkBJPQJptOtvfpUXWyA
+ Cp5PiSRlMs88msYfejItJF+jH2/XaVi6D8D73161uQZGQeW+meg3aNBXtFt8+oBiO2t8
+ dvX0LrGkKpQN1tOt/G1SXifgPRkM1qwkKn039vwxGTu81aWHJIPGh9b2VEyTAFcLPwgJ
+ J6CS58Cvcp4Q7UiwjplrWtRu7jK/D/cwdggaLTMe5wkHC2KpBk0AcXOrkpsX4r3DxkAA
+ 0kQtCX+voq1PxPChOOc3H0uknMoghI96pdRlBKCJMp4Gcs+EwB+2LL11DskeyFuV5GxK
+ yqXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=X+qqckzSyBfB8qpfsDQW+k74OkzwkU/rTpX8h4O0/oA=;
+ b=oKKTVRkyt7XlsGbcRx8UBSVStBkgT2PFAm4hN9gi5mMRD08ZcrDrjyxbQQJAHclQ/P
+ FW0RBt3ce7X14Wp8BpA7A2GbixJGvknFdtjUC0P24sKUz3SWvtxnOaieqg5N2hPQ5XEP
+ wWTfdLTQyNyxI+8mkRZSXkooumrEtRkgFu1jb3kbm6xUeiuzhkMZGAzT4/mU6dzVGswW
+ 1A+/E/ZtEEiXbqKET146z8zQLnRVGGOfgVEC+np+P5oFeYk29DWLj6zEqYwFT0LaUnvi
+ WxPx/9d+43YxhQ79p9TKPrxzR4Xgv8g0JQ7dMCmBbJ9g7MZtUQzY0d3SUWIBCxFoPz7C
+ JeNA==
+X-Gm-Message-State: ANhLgQ2PHDQFSRgd2KatXlqBIIMZt+19PVBMZstE7ZDMw6oVPtO8jn0g
+ HEsYRTeBLYxtlV3fEJJHyt/iSr52youLF30+3hkGBA==
+X-Google-Smtp-Source: ADFU+vu8TGWgK5Zzn43Lr1eAc49rthxRJtNSAZXx7GZnhukFTmj7AYl7cEzYgCFDvsOMdQCVipWvIA2WLFSab8DP86k=
+X-Received: by 2002:a05:6830:18f4:: with SMTP id
+ d20mr9257506otf.91.1585574692918; 
+ Mon, 30 Mar 2020 06:24:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <ea74559c-2ab4-752c-e587-2bf40eab14b0@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-X-Originating-IP: [10.173.222.27]
-X-CFilter-Loop: Reflected
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.191
+References: <20200330125228.24994-1-peter.maydell@linaro.org>
+ <alpine.BSF.2.22.395.2003301454060.10279@zero.eik.bme.hu>
+In-Reply-To: <alpine.BSF.2.22.395.2003301454060.10279@zero.eik.bme.hu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 30 Mar 2020 14:24:41 +0100
+Message-ID: <CAFEAcA9rPrcub183BOBYb0LEprgyh3G8M7ToFU7jwbhh2s9R=A@mail.gmail.com>
+Subject: Re: [PATCH for-5.0] hw/ppc/ppc440_uc.c: Remove incorrect iothread
+ locking from dcr_write_pcie()
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,51 +74,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, kvm@vger.kernel.org,
- maz@kernel.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- andre.przywara@arm.com, thuth@redhat.com, alexandru.elisei@arm.com,
- kvmarm@lists.cs.columbia.edu, eric.auger.pro@gmail.com
+Cc: qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020/3/30 20:38, Auger Eric wrote:
-> Hi Zenghui,
+On Mon, 30 Mar 2020 at 14:17, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>
+> On Mon, 30 Mar 2020, Peter Maydell wrote:
+> > In dcr_write_pcie() we take the iothread lock around a call to
+> > pcie_host_mmcfg_udpate().  This is an incorrect attempt to deal with
+> > the bug fixed in commit 235352ee6e73d7716, where we were not taking
+> > the iothread lock before calling device dcr read/write functions.
+> > (It's not sufficient locking, because although the other cases in the
+> > switch statement won't assert, there is no locking which prevents
+> > multiple guest CPUs from trying to access the PPC460EXPCIEState
+> > struct at the same time and corrupting data.)
+>
+> Even though there's only a single CPU on sam460ex and PCIe is mostly
+> unused, with this patch I could no more reproduce a problem that we had
+> before with some programs crashing within guest under AmigaOS for unknown
+> reason. That problem happened randomly (although I could reproduce it
+> before) so I'm not sure if this fixed it or something else (more likely
+> commit 235352ee6e) or will just resurface later but at least this seems to
+> work so
+>
+> Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
+>
+> Thanks for fixing it.
 
-[...]
+Thanks for the testing. I'm not sure why a single-cpu setup
+would have problems but I guess some device has a bottom-half or
+timer callback that will run in the iothread context, in which
+case it could race with the vcpu thread doing a dcr access. As
+you say, probably 235352ee6e rather than this change that's fixed it,
+assuming we really have fixed it.
 
->>> +
->>> +=C2=A0=C2=A0=C2=A0 ptr =3D gicv3_data.redist_base[pe0] + GICR_PENDBA=
-SER;
->>> +=C2=A0=C2=A0=C2=A0 pendbaser =3D readq(ptr);
->>> +=C2=A0=C2=A0=C2=A0 writeq(pendbaser & ~GICR_PENDBASER_PTZ, ptr);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 ptr =3D gicv3_data.redist_base[pe1] + GICR_PENDBA=
-SER;
->>> +=C2=A0=C2=A0=C2=A0 pendbaser =3D readq(ptr);
->>> +=C2=A0=C2=A0=C2=A0 writeq(pendbaser & ~GICR_PENDBASER_PTZ, ptr);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 gicv3_lpi_rdist_enable(pe0);
->>> +=C2=A0=C2=A0=C2=A0 gicv3_lpi_rdist_enable(pe1);
->>
->> I don't know how the migration gets implemented in kvm-unit-tests.
->> But is there any guarantee that the LPIs will only be triggered on the
->> destination side? As once the EnableLPIs bit becomes 1, VGIC will star=
-t
->> reading the pending bit in guest memory and potentially injecting LPIs
->> into the target vcpu (in the source side).
->=20
-> I expect some LPIs to hit on source and some others to hit on the
-> destination. To me, this does not really matter as long as the handlers
-> gets called and accumulate the stats. Given the number of LPIs, we will
-> at least test the migration of some of the pending bits and especially
-> adjacent ones. It does work as it allows to test your fix:
->=20
-> ca185b260951  KVM: arm/arm64: vgic: Don't rely on the wrong pending tab=
-le
+> > Unfortunately with commit 235352ee6e73d7716 we are now trying
+> > to recursively take the iothread lock, which will assert:
+> >
+> >  $ qemu-system-ppc -M sam460ex --display none
+> >  **
+> >  ERROR:/home/petmay01/linaro/qemu-from-laptop/qemu/cpus.c:1830:qemu_mutex_lock_iothread_impl: assertion failed: (!qemu_mutex_iothread_locked())
+> >  Aborted (core dumped)
+> >
+> > Remove the locking within dcr_write_pcie().
+> >
+> > Fixes: 235352ee6e73d7716
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > ---
+> > I did a grep of hw/ppc and didn't see anything else that was doing
+> > its own locking inside a dcr read/write fn.
+>
+> I think we needed to add locking here because it asserted otherwise but I
+> don't remember the details now.
 
-Fair enough. Thanks for your explanation!
+Yeah, the memory-region adjustment done under the pcie_host_mmcfg_update()
+function will assert that the iothread lock is held. The locking just
+needs to be one level further up in the callstack.
 
-
-Zenghui
-
+thanks
+-- PMM
 
