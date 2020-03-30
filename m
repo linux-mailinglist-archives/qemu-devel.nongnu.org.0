@@ -2,46 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD8D91981C5
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 18:59:16 +0200 (CEST)
-Received: from localhost ([::1]:53112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D18E198159
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 18:36:15 +0200 (CEST)
+Received: from localhost ([::1]:52676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIxkp-0006Hg-Ta
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 12:59:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55144)
+	id 1jIxOY-00028z-A1
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 12:36:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50469)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jIxjF-00050O-Vz
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:57:39 -0400
+ (envelope-from <alistair23@gmail.com>) id 1jIxME-00083H-Qc
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:33:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jIxjE-0001W6-4f
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:57:37 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:56585)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jIxjD-0001T8-9e; Mon, 30 Mar 2020 12:57:36 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436284|-1; CH=blue; DM=|OVERLOAD|false|;
- DS=CONTINUE|ham_system_inform|0.087669-0.00119931-0.911132;
- FP=0|0|0|0|0|-1|-1|-1; HT=e01l07381; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=10; RT=10; SR=0; TI=SMTPD_---.H7l.Zh2_1585587446; 
-Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.H7l.Zh2_1585587446)
- by smtp.aliyun-inc.com(10.147.44.118);
- Tue, 31 Mar 2020 00:57:26 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: richard.henderson@linaro.org, alistair23@gmail.com,
- chihmin.chao@sifive.com, palmer@dabbelt.com
-Subject: [PATCH v7 40/61] target/riscv: vector floating-point classify
- instructions
-Date: Mon, 30 Mar 2020 23:36:12 +0800
-Message-Id: <20200330153633.15298-41-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200330153633.15298-1-zhiwei_liu@c-sky.com>
-References: <20200330153633.15298-1-zhiwei_liu@c-sky.com>
+ (envelope-from <alistair23@gmail.com>) id 1jIxMD-0003q0-Of
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 12:33:50 -0400
+Received: from mail-vs1-xe44.google.com ([2607:f8b0:4864:20::e44]:44313)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1jIxMB-0003mQ-1K; Mon, 30 Mar 2020 12:33:47 -0400
+Received: by mail-vs1-xe44.google.com with SMTP id e138so11395671vsc.11;
+ Mon, 30 Mar 2020 09:33:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rDH/q2GpPZxjL8l3Amg8ZAoZYm6+vI648wqMKokJJFg=;
+ b=r/q7JgTQmNyPD06a384M5qxfFGk2tt9KzDvtC1YSWWtzR4XQev6ayWeO6e0p1oT4MO
+ nREmp7J3/r+GYGwVAgv715sNwMAxp4+RO7X5OocKFHw/fEzFjrLgptOIz/BrddFIqXPe
+ myz0Zf1MrOPG5EfM8vNdjhaywaJPQVqxA0aCTuVtiKz43SARQ4DedxfkhUiEtj32HNW8
+ A6n3jIpCDpSrrIDC+hQZriPX2Ic9JKz+9Bbr8AN5DN1s7LrFsfPIuY+4vJJ4au0Yvom4
+ 99Ws1HIRDZyqhkHvoHNVn0V4s9QboPyrzaQjIbFq1Oofjs6ynoK851dF9rWlg88mkbLv
+ Oe3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rDH/q2GpPZxjL8l3Amg8ZAoZYm6+vI648wqMKokJJFg=;
+ b=jFMNlTMJtLe8vG/84pdejQNbSfwP2aEoPeadgOpczW6vDBWFvJU9/Y95n0pQALUnHL
+ aaO/xdGKD58OALTgivY8lJxPh1JhiU1QW+tIuLsosPPsW8DzLxxuaWlkPNO1e/cd08II
+ u6JPhetzjruqXaXiiM0y1jp2ub8JnoKuC0N9GG16AFxv0Zs4MkQGagQm2dcObdCGu5Sz
+ DEIyXdeoeTGxEiiBfKf6W2npfOYvXc3xLens4wny2VgDOIvsu8BaaLvujZvnHPakG31g
+ vzUhGLvpTD4yrT3dHudvGNd6X0h9skOwfHLO9+oQNOueOJVrIhqmSsitxXgfKCSPFr9/
+ qrgA==
+X-Gm-Message-State: AGi0PuY8SoS/x80JMPT9G11OAs6RYUcR22tfwZuAlLkwffLQB9uwZa9I
+ dFybPPYlBhzCKC0T/zQU4dZB9hQ7E4h7/FSVmU0=
+X-Google-Smtp-Source: APiQypLiIa5AVHmRz+e8Dme7+u8bT0kZDsMioNK0dq3p281EOcak8sWZGhT2CTUqHv1craNa+Fs1OINKLU+9lp7MYR4=
+X-Received: by 2002:a05:6102:730:: with SMTP id
+ u16mr1893152vsg.70.1585586026088; 
+ Mon, 30 Mar 2020 09:33:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 121.197.200.217
+References: <20200330082724.120444-1-anup.patel@wdc.com>
+In-Reply-To: <20200330082724.120444-1-anup.patel@wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 30 Mar 2020 09:25:38 -0700
+Message-ID: <CAKmqyKMwso5-O3kZVt2oBA9y1BAGNYttzKqWkoU2V5VXi63uHg@mail.gmail.com>
+Subject: Re: [PATCH] riscv: Fix Stage2 SV32 page table walk
+To: Anup Patel <anup.patel@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::e44
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,228 +71,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- wxy194768@alibaba-inc.com, wenmeng_zhang@c-sky.com,
- LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/fpu_helper.c               | 33 +--------
- target/riscv/helper.h                   |  4 ++
- target/riscv/insn32.decode              |  1 +
- target/riscv/insn_trans/trans_rvv.inc.c |  3 +
- target/riscv/internals.h                |  5 ++
- target/riscv/vector_helper.c            | 91 +++++++++++++++++++++++++
- 6 files changed, 107 insertions(+), 30 deletions(-)
+On Mon, Mar 30, 2020 at 1:28 AM Anup Patel <anup.patel@wdc.com> wrote:
+>
+> As-per RISC-V H-Extension v0.5 draft, the Stage2 SV32 page table has
+> 12bits of VPN[1] and 10bits of VPN[0]. The additional 2bits in VPN[1]
+> is required to handle the 34bit intermediate physical address coming
+> from Stage1 SV32 page table. The 12bits of VPN[1] implies that Stage2
+> SV32 level-0 page table will be 16KB in size with total 4096 enteries
+> where each entry maps 4MB of memory (same as Stage1 SV32 page table).
+>
+> The get_physical_address() function is broken for Stage2 SV32 level-0
+> page table because it incorrectly computes output physical address for
+> Stage2 SV32 level-0 page table entry.
+>
+> The root cause of the issue is that get_physical_address() uses the
+> "widened" variable to compute level-0 physical address mapping which
+> changes level-0 mapping size (instead of 4MB). We should use the
+> "widened" variable only for computing index of Stage2 SV32 level-0
+> page table.
+>
+> Signed-off-by: Anup Patel <anup.patel@wdc.com>
 
-diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
-index 0b79562a69..4379756dc4 100644
---- a/target/riscv/fpu_helper.c
-+++ b/target/riscv/fpu_helper.c
-@@ -22,6 +22,7 @@
- #include "exec/exec-all.h"
- #include "exec/helper-proto.h"
- #include "fpu/softfloat.h"
-+#include "internals.h"
- 
- target_ulong riscv_cpu_get_fflags(CPURISCVState *env)
- {
-@@ -230,21 +231,7 @@ uint64_t helper_fcvt_s_lu(CPURISCVState *env, uint64_t rs1)
- 
- target_ulong helper_fclass_s(uint64_t frs1)
- {
--    float32 f = frs1;
--    bool sign = float32_is_neg(f);
--
--    if (float32_is_infinity(f)) {
--        return sign ? 1 << 0 : 1 << 7;
--    } else if (float32_is_zero(f)) {
--        return sign ? 1 << 3 : 1 << 4;
--    } else if (float32_is_zero_or_denormal(f)) {
--        return sign ? 1 << 2 : 1 << 5;
--    } else if (float32_is_any_nan(f)) {
--        float_status s = { }; /* for snan_bit_is_one */
--        return float32_is_quiet_nan(f, &s) ? 1 << 9 : 1 << 8;
--    } else {
--        return sign ? 1 << 1 : 1 << 6;
--    }
-+    return fclass_s(frs1);
- }
- 
- uint64_t helper_fadd_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
-@@ -353,19 +340,5 @@ uint64_t helper_fcvt_d_lu(CPURISCVState *env, uint64_t rs1)
- 
- target_ulong helper_fclass_d(uint64_t frs1)
- {
--    float64 f = frs1;
--    bool sign = float64_is_neg(f);
--
--    if (float64_is_infinity(f)) {
--        return sign ? 1 << 0 : 1 << 7;
--    } else if (float64_is_zero(f)) {
--        return sign ? 1 << 3 : 1 << 4;
--    } else if (float64_is_zero_or_denormal(f)) {
--        return sign ? 1 << 2 : 1 << 5;
--    } else if (float64_is_any_nan(f)) {
--        float_status s = { }; /* for snan_bit_is_one */
--        return float64_is_quiet_nan(f, &s) ? 1 << 9 : 1 << 8;
--    } else {
--        return sign ? 1 << 1 : 1 << 6;
--    }
-+    return fclass_d(frs1);
- }
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index bedd4d0114..23b268df90 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -990,3 +990,7 @@ DEF_HELPER_6(vmford_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vmford_vf_h, void, ptr, ptr, i64, ptr, env, i32)
- DEF_HELPER_6(vmford_vf_w, void, ptr, ptr, i64, ptr, env, i32)
- DEF_HELPER_6(vmford_vf_d, void, ptr, ptr, i64, ptr, env, i32)
-+
-+DEF_HELPER_5(vfclass_v_h, void, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_5(vfclass_v_w, void, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_5(vfclass_v_d, void, ptr, ptr, ptr, env, i32)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index b0f1c54d53..23e80fe954 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -512,6 +512,7 @@ vmfgt_vf        011101 . ..... ..... 101 ..... 1010111 @r_vm
- vmfge_vf        011111 . ..... ..... 101 ..... 1010111 @r_vm
- vmford_vv       011010 . ..... ..... 001 ..... 1010111 @r_vm
- vmford_vf       011010 . ..... ..... 101 ..... 1010111 @r_vm
-+vfclass_v       100011 . ..... 10000 001 ..... 1010111 @r2_vm
- 
- vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
- vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
-diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 9d13bb4c79..5284660c69 100644
---- a/target/riscv/insn_trans/trans_rvv.inc.c
-+++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -2198,3 +2198,6 @@ GEN_OPFVF_TRANS(vmfle_vf, opfvf_cmp_check)
- GEN_OPFVF_TRANS(vmfgt_vf, opfvf_cmp_check)
- GEN_OPFVF_TRANS(vmfge_vf, opfvf_cmp_check)
- GEN_OPFVF_TRANS(vmford_vf, opfvf_cmp_check)
-+
-+/* Vector Floating-Point Classify Instruction */
-+GEN_OPFV_TRANS(vfclass_v, opfv_check)
-diff --git a/target/riscv/internals.h b/target/riscv/internals.h
-index f699d80c41..e7412b0167 100644
---- a/target/riscv/internals.h
-+++ b/target/riscv/internals.h
-@@ -27,4 +27,9 @@ FIELD(VDATA, VM, 8, 1)
- FIELD(VDATA, LMUL, 9, 2)
- FIELD(VDATA, NF, 11, 4)
- FIELD(VDATA, WD, 11, 1)
-+
-+/* float point classify helpers */
-+target_ulong fclass_h(uint64_t frs1);
-+target_ulong fclass_s(uint64_t frs1);
-+target_ulong fclass_d(uint64_t frs1);
- #endif
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 92227228b7..63d8873c0a 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -4102,3 +4102,94 @@ GEN_VEXT_CMP_VV_ENV(vmford_vv_d, uint64_t, H8, !float64_unordered_quiet)
- GEN_VEXT_CMP_VF(vmford_vf_h, uint16_t, H2, !float16_unordered_quiet)
- GEN_VEXT_CMP_VF(vmford_vf_w, uint32_t, H4, !float32_unordered_quiet)
- GEN_VEXT_CMP_VF(vmford_vf_d, uint64_t, H8, !float64_unordered_quiet)
-+
-+/* Vector Floating-Point Classify Instruction */
-+#define OPIVV1(NAME, TD, T2, TX2, HD, HS2, OP)         \
-+static void do_##NAME(void *vd, void *vs2, int i)      \
-+{                                                      \
-+    TX2 s2 = *((T2 *)vs2 + HS2(i));                    \
-+    *((TD *)vd + HD(i)) = OP(s2);                      \
-+}
-+
-+#define GEN_VEXT_V(NAME, ESZ, DSZ, CLEAR_FN)           \
-+void HELPER(NAME)(void *vd, void *v0, void *vs2,       \
-+                  CPURISCVState *env, uint32_t desc)   \
-+{                                                      \
-+    uint32_t vlmax = vext_maxsz(desc) / ESZ;           \
-+    uint32_t mlen = vext_mlen(desc);                   \
-+    uint32_t vm = vext_vm(desc);                       \
-+    uint32_t vl = env->vl;                             \
-+    uint32_t i;                                        \
-+                                                       \
-+    for (i = 0; i < vl; i++) {                         \
-+        if (!vm && !vext_elem_mask(v0, mlen, i)) {     \
-+            continue;                                  \
-+        }                                              \
-+        do_##NAME(vd, vs2, i);                         \
-+    }                                                  \
-+    CLEAR_FN(vd, vl, vl * DSZ,  vlmax * DSZ);          \
-+}
-+
-+target_ulong fclass_h(uint64_t frs1)
-+{
-+    float16 f = frs1;
-+    bool sign = float16_is_neg(f);
-+
-+    if (float16_is_infinity(f)) {
-+        return sign ? 1 << 0 : 1 << 7;
-+    } else if (float16_is_zero(f)) {
-+        return sign ? 1 << 3 : 1 << 4;
-+    } else if (float16_is_zero_or_denormal(f)) {
-+        return sign ? 1 << 2 : 1 << 5;
-+    } else if (float16_is_any_nan(f)) {
-+        float_status s = { }; /* for snan_bit_is_one */
-+        return float16_is_quiet_nan(f, &s) ? 1 << 9 : 1 << 8;
-+    } else {
-+        return sign ? 1 << 1 : 1 << 6;
-+    }
-+}
-+
-+target_ulong fclass_s(uint64_t frs1)
-+{
-+    float32 f = frs1;
-+    bool sign = float32_is_neg(f);
-+
-+    if (float32_is_infinity(f)) {
-+        return sign ? 1 << 0 : 1 << 7;
-+    } else if (float32_is_zero(f)) {
-+        return sign ? 1 << 3 : 1 << 4;
-+    } else if (float32_is_zero_or_denormal(f)) {
-+        return sign ? 1 << 2 : 1 << 5;
-+    } else if (float32_is_any_nan(f)) {
-+        float_status s = { }; /* for snan_bit_is_one */
-+        return float32_is_quiet_nan(f, &s) ? 1 << 9 : 1 << 8;
-+    } else {
-+        return sign ? 1 << 1 : 1 << 6;
-+    }
-+}
-+
-+target_ulong fclass_d(uint64_t frs1)
-+{
-+    float64 f = frs1;
-+    bool sign = float64_is_neg(f);
-+
-+    if (float64_is_infinity(f)) {
-+        return sign ? 1 << 0 : 1 << 7;
-+    } else if (float64_is_zero(f)) {
-+        return sign ? 1 << 3 : 1 << 4;
-+    } else if (float64_is_zero_or_denormal(f)) {
-+        return sign ? 1 << 2 : 1 << 5;
-+    } else if (float64_is_any_nan(f)) {
-+        float_status s = { }; /* for snan_bit_is_one */
-+        return float64_is_quiet_nan(f, &s) ? 1 << 9 : 1 << 8;
-+    } else {
-+        return sign ? 1 << 1 : 1 << 6;
-+    }
-+}
-+
-+RVVCALL(OPIVV1, vfclass_v_h, OP_UU_H, H2, H2, fclass_h)
-+RVVCALL(OPIVV1, vfclass_v_w, OP_UU_W, H4, H4, fclass_s)
-+RVVCALL(OPIVV1, vfclass_v_d, OP_UU_D, H8, H8, fclass_d)
-+GEN_VEXT_V(vfclass_v_h, 2, 2, clearh)
-+GEN_VEXT_V(vfclass_v_w, 4, 4, clearl)
-+GEN_VEXT_V(vfclass_v_d, 8, 8, clearq)
--- 
-2.23.0
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
+Alistair
+
+> ---
+>  target/riscv/cpu_helper.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+>
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 50e13a064f..bc80aa87cf 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -559,12 +559,7 @@ restart:
+>              /* for superpage mappings, make a fake leaf PTE for the TLB's
+>                 benefit. */
+>              target_ulong vpn = addr >> PGSHIFT;
+> -            if (i == 0) {
+> -                *physical = (ppn | (vpn & ((1L << (ptshift + widened)) - 1))) <<
+> -                             PGSHIFT;
+> -            } else {
+> -                *physical = (ppn | (vpn & ((1L << ptshift) - 1))) << PGSHIFT;
+> -            }
+> +            *physical = (ppn | (vpn & ((1L << ptshift) - 1))) << PGSHIFT;
+>
+>              /* set permissions on the TLB entry */
+>              if ((pte & PTE_R) || ((pte & PTE_X) && mxr)) {
+> --
+> 2.17.1
+>
+>
 
