@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9A8197CE3
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 15:28:21 +0200 (CEST)
-Received: from localhost ([::1]:49892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91063197CFD
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 15:33:14 +0200 (CEST)
+Received: from localhost ([::1]:49956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIuSi-0007PR-D8
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 09:28:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47874)
+	id 1jIuXR-0001vc-Ca
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 09:33:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48871)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jIuR2-0006R7-5e
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 09:26:37 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jIuWN-0001DW-7W
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 09:32:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jIuR0-0006nq-2F
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 09:26:35 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:47316)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jIuQz-0006kk-T8
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 09:26:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585574793;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7gJlPOL1Z+hxa4i8A/fTq6lrhFzYdyDRoYnXLJtaQ24=;
- b=YaP5p7uBUpY3VJmjeb6UWwbLRR3Dnek2xX9raQZRpuFzTi4bdGsSqAa4eDW1AYTH8fyaWJ
- nSIloV/l3pid2KcVCQ4Cn91ZFmO5jc6Clc/Obs8DirInkANjCa8er6wU5kRMfoziC7F7zm
- lkbV5ZU5HvbzhpCF0c0zQlC7uBT5StA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-290-Rh7LK2uyNxiHOhr3mwMtyw-1; Mon, 30 Mar 2020 09:26:28 -0400
-X-MC-Unique: Rh7LK2uyNxiHOhr3mwMtyw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0B801005509;
- Mon, 30 Mar 2020 13:26:26 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-69.ams2.redhat.com
- [10.36.112.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 53E4F60BE2;
- Mon, 30 Mar 2020 13:26:26 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D7CA411385E2; Mon, 30 Mar 2020 15:26:24 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: deprecation of in-tree builds
-References: <CAFEAcA8E6goDHb-7kKCTp=wSpBsuJcfjMmLP0EgymiEL348r4A@mail.gmail.com>
-Date: Mon, 30 Mar 2020 15:26:24 +0200
-In-Reply-To: <CAFEAcA8E6goDHb-7kKCTp=wSpBsuJcfjMmLP0EgymiEL348r4A@mail.gmail.com>
- (Peter Maydell's message of "Sat, 21 Mar 2020 20:50:34 +0000")
-Message-ID: <87v9mmug73.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (envelope-from <peter.maydell@linaro.org>) id 1jIuWL-0004vO-UD
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 09:32:06 -0400
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:39612)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jIuWL-0004tO-LK
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 09:32:05 -0400
+Received: by mail-oi1-x232.google.com with SMTP id d63so15639296oig.6
+ for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 06:32:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=y1Xefw/bJnVUzey7CLXKisvMVTbbRtDR/ZP4vZBiY64=;
+ b=GDDvGrJ98H7iqQuvRh4XAmi/PgVAjVsPIeAdzRBD+dV4SQiSXGtpTET7HHqjrMNBSz
+ 99/UUwkvyQiRjRuNd2DgL0ZjA7hJxjR8oTLSK3dPAadt0sw7FAq939f6fnv7yUH21pSU
+ qq/Bbb01qhMHq/mRfgV/coYy8Fn7/qxxuQVLQg48zHo69IKw2BZztvfT/xK17v2FZkAj
+ xaR7/SNlKYPxyN7z5vLbTtxt2DgjC53kwfRkvHfWkwO9uQSBub3OSjbvGhtkgW10aiG6
+ QesiVw6zfIRwaAEmInE9IyGrmof5UIwVil0//3dnWzaUmdxCR64h0VEPZM3K2XNw3yK8
+ pJ9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=y1Xefw/bJnVUzey7CLXKisvMVTbbRtDR/ZP4vZBiY64=;
+ b=M89enKmooQB75NJAiUsjGvIjeFcQzMWzOQAKws+nummy67ikeVll4IzP1aQ0N2q6gC
+ GR7DZZIO6pTbDY6Q96X+qnZWW3P8Uu3PtPX1S4+J5v1PI0d8H7oVyWI96v//oDwM93xB
+ E7Y48+SZ5AGhZkSf3TavVRToww6Bd/vYiNauAp4txRHm8tWenVE+k/uyXJvH16v8YcgU
+ B4XaA7XH7m+eFc5mrZ73rfGfkKOfYMacLrrYWYoTcSPhNCbdnzRdWSlQMUCIpin78r4l
+ Oilul4lHc7ablhcs+9rtKxqHaYBy4mtigjXd8VC+PciIuRAPojQe3A6eaenMJE5AmP+7
+ Vrzg==
+X-Gm-Message-State: ANhLgQ3GjR0lgEEse4T4ZRaaTtU26zdYMryoxUV2MhIpgLM+iU3Hn5ir
+ PvaS5zRl1T1CEyHM2j2LEauWQA+St31yJSdSUED5JA==
+X-Google-Smtp-Source: ADFU+vtoXvrEpg8DjRbqRpWEBvPYMYz7G+11OrclpuOQDC/4P73KJRzCdZ+kgJvuvQF6+dc90emVB4A6oJX2iQS9NVU=
+X-Received: by 2002:aca:c608:: with SMTP id w8mr7776841oif.163.1585575123554; 
+ Mon, 30 Mar 2020 06:32:03 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+References: <CAFEAcA8E6goDHb-7kKCTp=wSpBsuJcfjMmLP0EgymiEL348r4A@mail.gmail.com>
+ <87v9mmug73.fsf@dusky.pond.sub.org>
+In-Reply-To: <87v9mmug73.fsf@dusky.pond.sub.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 30 Mar 2020 14:31:52 +0100
+Message-ID: <CAFEAcA-9U=EAXAtPDh_AnO3eUbM_jcRBuf4x=0Rec0EC-v2mNA@mail.gmail.com>
+Subject: Re: deprecation of in-tree builds
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::232
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,32 +77,37 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> AIUI from Paolo, the intention is to deprecate and eventually
-> stop supporting "in-tree" builds, so that the only option is
-> building in a separate build directory. I thought we should
-> probably mention that in the 5.0 changelog, so I wrote up some
-> text:
+On Mon, 30 Mar 2020 at 14:26, Markus Armbruster <armbru@redhat.com> wrote:
 >
-> https://wiki.qemu.org/ChangeLog/5.0#Build_Information
-
-Overdue.  Thanks for doing this!
-
-> Suggestions for changes/comments etc welcome.
-
-Looks fine to me.
-
-> (One thing we will need to fix before we can do separate build
-> tree is the Coverity Scan build process, which (a) does an
-> in-tree build (b) can't be easily switched to a builddir because
-> all the source paths get baked into the scan results and moving
-> to a builddir changes them all...)
+> Peter Maydell <peter.maydell@linaro.org> writes:
 >
-> We could also make configure actively warn if used in
-> the source tree.
+> > AIUI from Paolo, the intention is to deprecate and eventually
+> > stop supporting "in-tree" builds, so that the only option is
+> > building in a separate build directory. I thought we should
+> > probably mention that in the 5.0 changelog, so I wrote up some
+> > text:
+> >
+> > https://wiki.qemu.org/ChangeLog/5.0#Build_Information
+>
+> Overdue.  Thanks for doing this!
+>
+> > Suggestions for changes/comments etc welcome.
+>
+> Looks fine to me.
 
-Unless we commit to automatically creating a default out-of-tree build
-directory for this usage.  I wouldn't bother myself.
+Consensus in the thread seemed to lean towards having
+the 'configure/make' runes auto-create a build directory;
+if we want to do that we should probably not say anything in
+the release notes, because we'll cause people to change
+unnecessarily. Or at least have them say "We recommend
+out-of-tree builds. In future we might make the commands
+that currently do an in-tree build automatically create
+and use a build directory for you." rather than a blanket
+"we're going to drop this and you should change what you
+do now".
 
+Thoughts?
+
+thanks
+-- PMM
 
