@@ -2,38 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD779197FC9
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 17:38:21 +0200 (CEST)
-Received: from localhost ([::1]:51464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25389197FEF
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 17:41:06 +0200 (CEST)
+Received: from localhost ([::1]:51512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIwUW-0000af-St
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 11:38:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40075)
+	id 1jIwXB-0003dd-7E
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 11:41:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40516)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jIwTE-0007VO-RE
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:37:02 -0400
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jIwVP-0002E8-Nu
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:39:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jIwTC-0002ts-Uj
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:37:00 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:54216)
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jIwVN-00082n-Vw
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 11:39:15 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:50883)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jIwTB-0002R2-9K; Mon, 30 Mar 2020 11:36:58 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.0744774|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.0142975-0.000550361-0.985152;
- FP=0|0|0|0|0|-1|-1|-1; HT=e01a16367; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=10; RT=10; SR=0; TI=SMTPD_---.H7jSF7y_1585582604; 
+ id 1jIwVN-0007cj-FX; Mon, 30 Mar 2020 11:39:13 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07854487|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.00410776-0.00307122-0.992821;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e02c03267; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=11; RT=11; SR=0; TI=SMTPD_---.H7jiUNJ_1585582735; 
 Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.H7jSF7y_1585582604)
- by smtp.aliyun-inc.com(10.147.42.22); Mon, 30 Mar 2020 23:36:45 +0800
+ fp:SMTPD_---.H7jiUNJ_1585582735)
+ by smtp.aliyun-inc.com(10.147.41.137);
+ Mon, 30 Mar 2020 23:38:55 +0800
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 To: richard.henderson@linaro.org, alistair23@gmail.com,
  chihmin.chao@sifive.com, palmer@dabbelt.com
-Subject: [PATCH v7 00/61] target/riscv: support vector extension v0.7.1
-Date: Mon, 30 Mar 2020 23:35:32 +0800
-Message-Id: <20200330153633.15298-1-zhiwei_liu@c-sky.com>
+Subject: [PATCH v7 01/61] target/riscv: add vector extension field in
+ CPURISCVState
+Date: Mon, 30 Mar 2020 23:35:33 +0800
+Message-Id: <20200330153633.15298-2-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20200330153633.15298-1-zhiwei_liu@c-sky.com>
+References: <20200330153633.15298-1-zhiwei_liu@c-sky.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
@@ -51,160 +56,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: guoren@linux.alibaba.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
  wxy194768@alibaba-inc.com, wenmeng_zhang@c-sky.com,
- LIU Zhiwei <zhiwei_liu@c-sky.com>
+ Alistair Francis <alistair.francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset implements the vector extension for RISC-V on QEMU.
+The 32 vector registers will be viewed as a continuous memory block.
+It avoids the convension between element index and (regno, offset).
+Thus elements can be directly accessed by offset from the first vector
+base address.
 
-You can also find the patchset and all *test cases* in
-my repo(https://github.com/romanheros/qemu.git branch:vector-upstream-v3).
-All the test cases are in the directory qemu/tests/riscv/vector/. They are
-riscv64 linux user mode programs.
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/riscv/cpu.h       | 12 ++++++++++++
+ target/riscv/translate.c |  3 ++-
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
-You can test the patchset by the script qemu/tests/riscv/vector/runcase.sh.
-
-Features:
-  * support specification riscv-v-spec-0.7.1.(https://github.com/riscv/riscv-v-spec/releases/tag/0.7.1/)
-  * support basic vector extension.
-  * support Zvlsseg.
-  * support Zvamo.
-  * not support Zvediv as it is changing.
-  * SLEN always equals VLEN.
-  * element width support 8bit, 16bit, 32bit, 64bit.
-
-Changelog:
-v7
-  * move vl == 0 check to translation time by add a global cpu_vl.
-  * implement vector element inline load and store function by TCG IR.
-  * based on vec_element_load(store), implement some permutation instructions.
-  * implement rsubs GVEC IR.
-  * fixup vsmul, vmfne, vfmerge, vslidedown.
-  * some other small bugs and indentation errors.
-
-v6
-  * use gvec_dup Gvec IR to accellerate move and merge.
-  * a better way to implement fixed point instructions.
-  * a global check when vl == 0.
-  * limit some macros to only one inline function call.
-  * fixup sew error when use Gvec IR.
-  * fixup bugs for corner cases.
-
-v5
-  * fixup a bug in tb flags.
-
-v4
-  * no change
-
-v3
-  * move check code from execution-time to translation-time
-  * use a continous memory block for vector register description.
-  * vector registers as direct fields in RISCVCPUState.
-  * support VLEN configure from qemu command line.
-  * support ELEN configure from qemu command line.
-  * support vector specification version configure from qemu command line.
-  * probe pages before real load or store access.
-  * use probe_page_check for no-fault operations in linux user mode.
-  * generation atomic exit exception when in parallel environment.
-  * fixup a lot of concrete bugs.
-
-V2
-  * use float16_compare{_quiet}
-  * only use GETPC() in outer most helper
-  * add ctx.ext_v Property
-
-
-
-LIU Zhiwei (61):
-  target/riscv: add vector extension field in CPURISCVState
-  target/riscv: implementation-defined constant parameters
-  target/riscv: support vector extension csr
-  target/riscv: add vector configure instruction
-  target/riscv: add an internals.h header
-  target/riscv: add vector stride load and store instructions
-  target/riscv: add vector index load and store instructions
-  target/riscv: add fault-only-first unit stride load
-  target/riscv: add vector amo operations
-  target/riscv: vector single-width integer add and subtract
-  target/riscv: vector widening integer add and subtract
-  target/riscv: vector integer add-with-carry / subtract-with-borrow
-    instructions
-  target/riscv: vector bitwise logical instructions
-  target/riscv: vector single-width bit shift instructions
-  target/riscv: vector narrowing integer right shift instructions
-  target/riscv: vector integer comparison instructions
-  target/riscv: vector integer min/max instructions
-  target/riscv: vector single-width integer multiply instructions
-  target/riscv: vector integer divide instructions
-  target/riscv: vector widening integer multiply instructions
-  target/riscv: vector single-width integer multiply-add instructions
-  target/riscv: vector widening integer multiply-add instructions
-  target/riscv: vector integer merge and move instructions
-  target/riscv: vector single-width saturating add and subtract
-  target/riscv: vector single-width averaging add and subtract
-  target/riscv: vector single-width fractional multiply with rounding
-    and saturation
-  target/riscv: vector widening saturating scaled multiply-add
-  target/riscv: vector single-width scaling shift instructions
-  target/riscv: vector narrowing fixed-point clip instructions
-  target/riscv: vector single-width floating-point add/subtract
-    instructions
-  target/riscv: vector widening floating-point add/subtract instructions
-  target/riscv: vector single-width floating-point multiply/divide
-    instructions
-  target/riscv: vector widening floating-point multiply
-  target/riscv: vector single-width floating-point fused multiply-add
-    instructions
-  target/riscv: vector widening floating-point fused multiply-add
-    instructions
-  target/riscv: vector floating-point square-root instruction
-  target/riscv: vector floating-point min/max instructions
-  target/riscv: vector floating-point sign-injection instructions
-  target/riscv: vector floating-point compare instructions
-  target/riscv: vector floating-point classify instructions
-  target/riscv: vector floating-point merge instructions
-  target/riscv: vector floating-point/integer type-convert instructions
-  target/riscv: widening floating-point/integer type-convert
-    instructions
-  target/riscv: narrowing floating-point/integer type-convert
-    instructions
-  target/riscv: vector single-width integer reduction instructions
-  target/riscv: vector wideing integer reduction instructions
-  target/riscv: vector single-width floating-point reduction
-    instructions
-  target/riscv: vector widening floating-point reduction instructions
-  target/riscv: vector mask-register logical instructions
-  target/riscv: vector mask population count vmpopc
-  target/riscv: vmfirst find-first-set mask bit
-  target/riscv: set-X-first mask bit
-  target/riscv: vector iota instruction
-  target/riscv: vector element index instruction
-  target/riscv: integer extract instruction
-  target/riscv: integer scalar move instruction
-  target/riscv: floating-point scalar move instructions
-  target/riscv: vector slide instructions
-  target/riscv: vector register gather instruction
-  target/riscv: vector compress instruction
-  target/riscv: configure and turn on vector extension from command line
-
- target/riscv/Makefile.objs              |    2 +-
- target/riscv/cpu.c                      |   49 +
- target/riscv/cpu.h                      |   82 +-
- target/riscv/cpu_bits.h                 |   15 +
- target/riscv/csr.c                      |   75 +-
- target/riscv/fpu_helper.c               |   33 +-
- target/riscv/helper.h                   | 1068 +++++
- target/riscv/insn32-64.decode           |   11 +
- target/riscv/insn32.decode              |  372 ++
- target/riscv/insn_trans/trans_rvv.inc.c | 2907 ++++++++++++++
- target/riscv/internals.h                |   35 +
- target/riscv/translate.c                |   27 +-
- target/riscv/vector_helper.c            | 4898 +++++++++++++++++++++++
- 13 files changed, 9530 insertions(+), 44 deletions(-)
- create mode 100644 target/riscv/insn_trans/trans_rvv.inc.c
- create mode 100644 target/riscv/internals.h
- create mode 100644 target/riscv/vector_helper.c
-
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 7d21addbab..6663ee8b8c 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -64,6 +64,7 @@
+ #define RVA RV('A')
+ #define RVF RV('F')
+ #define RVD RV('D')
++#define RVV RV('V')
+ #define RVC RV('C')
+ #define RVS RV('S')
+ #define RVU RV('U')
+@@ -94,9 +95,20 @@ typedef struct CPURISCVState CPURISCVState;
+ 
+ #include "pmp.h"
+ 
++#define RV_VLEN_MAX 512
++
+ struct CPURISCVState {
+     target_ulong gpr[32];
+     uint64_t fpr[32]; /* assume both F and D extensions */
++
++    /* vector coprocessor state. */
++    uint64_t vreg[32 * RV_VLEN_MAX / 64] QEMU_ALIGNED(16);
++    target_ulong vxrm;
++    target_ulong vxsat;
++    target_ulong vl;
++    target_ulong vstart;
++    target_ulong vtype;
++
+     target_ulong pc;
+     target_ulong load_res;
+     target_ulong load_val;
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 43bf7e39a6..b71b7e4bc2 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -32,7 +32,7 @@
+ #include "instmap.h"
+ 
+ /* global register indices */
+-static TCGv cpu_gpr[32], cpu_pc;
++static TCGv cpu_gpr[32], cpu_pc, cpu_vl;
+ static TCGv_i64 cpu_fpr[32]; /* assume F and D extensions */
+ static TCGv load_res;
+ static TCGv load_val;
+@@ -886,6 +886,7 @@ void riscv_translate_init(void)
+     }
+ 
+     cpu_pc = tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, pc), "pc");
++    cpu_vl = tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, vl), "vl");
+     load_res = tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, load_res),
+                              "load_res");
+     load_val = tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, load_val),
 -- 
 2.23.0
 
