@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 070E1198BE5
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 07:45:45 +0200 (CEST)
-Received: from localhost ([::1]:60686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CAEF198BD5
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 07:43:54 +0200 (CEST)
+Received: from localhost ([::1]:60658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJ9ia-00034i-1R
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 01:45:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41371)
+	id 1jJ9gn-0000mE-2f
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 01:43:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41399)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jJ9eu-0006hL-Lz
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 01:41:57 -0400
+ (envelope-from <its@irrelevant.dk>) id 1jJ9f3-000768-QH
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 01:42:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jJ9et-0003HX-Dr
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 01:41:56 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:48012)
+ (envelope-from <its@irrelevant.dk>) id 1jJ9f2-0003Ni-Jn
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 01:42:05 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:48026)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jJ9en-0003ES-IQ; Tue, 31 Mar 2020 01:41:49 -0400
+ id 1jJ9f0-0003MD-CO; Tue, 31 Mar 2020 01:42:02 -0400
 Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 82726BF48F;
- Tue, 31 Mar 2020 05:41:48 +0000 (UTC)
-Date: Tue, 31 Mar 2020 07:41:45 +0200
+ by charlie.dont.surf (Postfix) with ESMTPSA id 07B5ABF48F;
+ Tue, 31 Mar 2020 05:42:01 +0000 (UTC)
+Date: Tue, 31 Mar 2020 07:41:57 +0200
 From: Klaus Birkelund Jensen <its@irrelevant.dk>
 To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH v6 14/42] nvme: add missing mandatory features
-Message-ID: <20200331054145.wh6olabpkzuw4iwb@apples.localdomain>
+Subject: Re: [PATCH v6 19/42] nvme: enforce valid queue creation sequence
+Message-ID: <20200331054157.p42lqssgc2c5uurl@apples.localdomain>
 References: <20200316142928.153431-1-its@irrelevant.dk>
- <20200316142928.153431-15-its@irrelevant.dk>
- <e589c8897067d387cae4b03dece27c60fa33041c.camel@redhat.com>
+ <20200316142928.153431-20-its@irrelevant.dk>
+ <250f6a203ee6db8f8f6b7232e555758a0a4be3a4.camel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e589c8897067d387cae4b03dece27c60fa33041c.camel@redhat.com>
+In-Reply-To: <250f6a203ee6db8f8f6b7232e555758a0a4be3a4.camel@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 128.199.63.193
@@ -56,83 +56,41 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mar 25 12:41, Maxim Levitsky wrote:
+On Mar 25 12:43, Maxim Levitsky wrote:
 > On Mon, 2020-03-16 at 07:29 -0700, Klaus Jensen wrote:
 > > From: Klaus Jensen <k.jensen@samsung.com>
 > > 
-> > Add support for returning a resonable response to Get/Set Features of
-> > mandatory features.
+> > Support returning Command Sequence Error if Set Features on Number of
+> > Queues is called after queues have been created.
 > > 
-> > Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
-> > Acked-by: Keith Busch <kbusch@kernel.org>
+> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 > > ---
-> >  hw/block/nvme.c       | 60 ++++++++++++++++++++++++++++++++++++++++++-
-> >  hw/block/trace-events |  2 ++
-> >  include/block/nvme.h  |  6 ++++-
-> >  3 files changed, 66 insertions(+), 2 deletions(-)
+> >  hw/block/nvme.c | 7 +++++++
+> >  hw/block/nvme.h | 1 +
+> >  2 files changed, 8 insertions(+)
 > > 
 > > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> > index ff8975cd6667..eb9c722df968 100644
+> > index 007f8817f101..b40d27cddc46 100644
 > > --- a/hw/block/nvme.c
 > > +++ b/hw/block/nvme.c
-> > @@ -1058,6 +1069,19 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-> >          break;
-> >      case NVME_TIMESTAMP:
-> >          return nvme_get_feature_timestamp(n, cmd);
-> > +    case NVME_INTERRUPT_COALESCING:
-> > +        result = cpu_to_le32(n->features.int_coalescing);
-> > +        break;
-> > +    case NVME_INTERRUPT_VECTOR_CONF:
-> > +        if ((dw11 & 0xffff) > n->params.max_ioqpairs + 1) {
-> > +            return NVME_INVALID_FIELD | NVME_DNR;
-> > +        }
-> I still think that this should be >= since the interrupt vector is not zero based.
-> So if we have for example 3 IO queues, then we have 4 queues in total
-> which translates to irq numbers 0..3.
-> 
-
-Yes you are right. The device will support max_ioqpairs + 1 IVs, so
-trying to access that would actually go 1 beyond the array.
-
-Fixed.
-
-> BTW the user of the device doesn't have to have 1:1 mapping between qid and msi interrupt index,
-> in fact when MSI is not used, all the queues will map to the same vector, which will be interrupt 0
-> from point of view of the device IMHO.
-> So it kind of makes sense IMHO to have num_irqs or something, even if it technically equals to number of queues.
-> 
-
-Yeah, but the device will still *support* the N IVs, so they can still
-be configured even though they will not be used. So I don't think we
-need to introduce an additional parameter?
-
-> > @@ -1120,6 +1146,10 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-> >  
-> >          break;
-> >      case NVME_VOLATILE_WRITE_CACHE:
-> > +        if (blk_enable_write_cache(n->conf.blk)) {
-> > +            blk_flush(n->conf.blk);
-> > +        }
-> 
-> (not your fault) but the blk_enable_write_cache function name is highly misleading,
-> since it doesn't enable anything but just gets the flag if the write cache is enabled.
-> It really should be called blk_get_enable_write_cache.
-> 
-
-Agreed :)
-
-> > @@ -1804,6 +1860,7 @@ static void nvme_init_ctrl(NvmeCtrl *n)
-> >      id->cqes = (0x4 << 4) | 0x4;
-> >      id->nn = cpu_to_le32(n->num_namespaces);
-> >      id->oncs = cpu_to_le16(NVME_ONCS_WRITE_ZEROS | NVME_ONCS_TIMESTAMP);
+> > @@ -881,6 +881,8 @@ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeCmd *cmd)
+> >      cq = g_malloc0(sizeof(*cq));
+> >      nvme_init_cq(cq, n, prp1, cqid, vector, qsize + 1,
+> >          NVME_CQ_FLAGS_IEN(qflags));
 > > +
-> Unrelated whitespace change
+> > +    n->qs_created = true;
+> Very minor nitpick, maybe it is worth mentioning in a comment,
+> why this is only needed in CQ creation, as you explained to me.
+> 
 
-Fixed.
+Added.
 
+> 
+> Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 > 
 > Best regards,
 > 	Maxim Levitsky
+> 
 > 
 > 
 > 
