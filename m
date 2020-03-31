@@ -2,78 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C5ED198890
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 01:54:04 +0200 (CEST)
-Received: from localhost ([::1]:58224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0619519889D
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 02:03:16 +0200 (CEST)
+Received: from localhost ([::1]:58368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJ4EF-0000h0-23
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 19:54:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34293)
+	id 1jJ4N9-0005Xf-0A
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 20:03:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35099)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jJ4DL-0000Fa-Ku
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 19:53:08 -0400
+ (envelope-from <jsnow@redhat.com>) id 1jJ4KT-0003fk-35
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 20:00:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jJ4DK-0002gR-EK
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 19:53:07 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:39903)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jJ4DK-0002Z9-7z
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 19:53:06 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id z3so300349pjr.4
- for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 16:53:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Rof29j0W7L5k6ApfHM9/QQwHRYygQeX/2q0/CcvN//c=;
- b=F9mSIZPZ6FdqM4OS/GTUo1TtbSDL7GzFpcx7CWnn4WXXJlHTRkdDbnNHsyzzHrX5bZ
- 4tab1bE7xKy19P2NnNtZHEaN08ZVw40vCSAX5U2w9gnZLj9P5q09roGJ50gPbckVsdnz
- aHeRiQv4j6sfOTxcJSbUirgVzBNkbSH/e19KiUjeU7na8VrVzeFg2giAM/HHJ3j2sK8P
- G0oZALZgoSSl59EYk1/g7XWlNSbgKwtjgOuK59K4epLB11BTmGQjF0kyMcVXyL1bfT49
- MmlTf3AxM5tLwz1WBk0p8RRrfDAhAscLt/iW1PD2amX15L7Xt9lM1eTm0XZR0Aoaohh4
- ULpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Rof29j0W7L5k6ApfHM9/QQwHRYygQeX/2q0/CcvN//c=;
- b=LWt609f2Rqv/pkWRpAm88Cr4cYSfNyL8dLtcFytmOW7nbpyTULtLSMQjguCDZdiXHA
- k1LlHXaqh6eUlWFbN6MvGFGSJsPCGIc8oLtSevcTq7KGoZ9TjAIXuYm7upon9zEniMnp
- em9YCAmoTkBe5vGR0XwlLlJCCEJ8cPmZD3gzmbTUZO0mPGo4B8YRsdZ6LFiXRCmsNt6+
- 1IgpWSYnQbSChlV/aRnrD9D2f04egp+zOXZZsZbOkLdkxoxmytct8GUbDtn6DND4j8p9
- kF1owZTXPlV2Kog1TNP9m6onY92Co66QH50NKxk4ZR2a6G0WtcYgOo31aHnlxll3F1na
- s2qw==
-X-Gm-Message-State: AGi0PubGHTz+roHUmLSmqwS0TdtlbetaK4W8JEF3iAH4e5q8RMvsqhJ6
- gV2v1IR8Y5/iIoWiYuIReWn4gQ==
-X-Google-Smtp-Source: APiQypIVbSfH0mIn2L0+d0w+Hiu0UK3Nkv7i3CYCaI9StHcK9aA/W/SewBWXt50tMrzxpa7x9k6GjA==
-X-Received: by 2002:a17:90a:304:: with SMTP id 4mr714293pje.28.1585612383829; 
- Mon, 30 Mar 2020 16:53:03 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id y29sm10307077pge.22.2020.03.30.16.53.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Mar 2020 16:53:03 -0700 (PDT)
-Subject: Re: [PATCH-for-5.0?] decodetree: Use Python3 floor division operator
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Richard Henderson <rth@twiddle.net>
-References: <20200330121345.14665-1-f4bug@amsat.org>
- <ed9ac5c8-0654-3c74-3e35-5d7b02a548b6@twiddle.net>
- <18ac6d57-049e-4b45-0c9e-27190d832b50@twiddle.net>
- <CAHiYmc5xTGEw6b0gVXmbHhNO_WH30hK8+mAErmL0S6rB9Oa=Jg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9e8c757f-3d1e-4e97-755f-14fef618417d@linaro.org>
-Date: Mon, 30 Mar 2020 16:53:01 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <jsnow@redhat.com>) id 1jJ4KP-0007aV-P1
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 20:00:27 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:56968)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jJ4KP-0007XG-II
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 20:00:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585612824;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=H0GJb1U2fGtmXLiD6C8AA5Jjix18YPn3wzzDa8O4KXA=;
+ b=Yo5sGg1dHT+fAZ8d5ws+pwNd/K3WyOwd8hmTw0rcLzHkWUEJp51gheomC/nsuYBEG/CGIe
+ gh7mwq4D4BOV/wgst8SbZDM/cEs79/LwM5ryPFYKOlEZKUfMmSqakf4yV5MrXP7rU2dEAV
+ dmJaocL9V6WU1lIvftcu3/kRfzrvl4A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-394-th27StulMgWRGaBilKLsHw-1; Mon, 30 Mar 2020 20:00:22 -0400
+X-MC-Unique: th27StulMgWRGaBilKLsHw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E99D7DB65;
+ Tue, 31 Mar 2020 00:00:21 +0000 (UTC)
+Received: from probe.redhat.com (ovpn-113-210.rdu2.redhat.com [10.10.113.210])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B2AA51001B2D;
+ Tue, 31 Mar 2020 00:00:19 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v10 00/14] iotests: use python logging
+Date: Mon, 30 Mar 2020 20:00:00 -0400
+Message-Id: <20200331000014.11581-1-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHiYmc5xTGEw6b0gVXmbHhNO_WH30hK8+mAErmL0S6rB9Oa=Jg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::102b
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,19 +66,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, ehabkost@redhat.com, qemu-block@nongnu.org,
+ armbru@redhat.com, Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/30/20 4:28 PM, Aleksandar Markovic wrote:
-> Richard, great, could you please pick up the LMI patch from the other day
-> together with this patch in your tcg-5.0 queue?
+This series uses python logging to enable output conditionally on
+iotests.log(). We unify an initialization call (which also enables
+debugging output for those tests with -d) and then make the switch
+inside of iotests.
 
-Yes, I've got it.
+It will help alleviate the need to create logged/unlogged versions
+of all the various helpers we have made.
 
-r~
+Also, I got lost and accidentally delinted iotests while I was here.
+Sorry about that. By version 9, it's now the overwhelming focus of
+this series. No good deed, etc.
+
+V10:
+
+001/14:[0004] [FC] 'iotests: do a light delinting'
+002/14:[----] [--] 'iotests: don't use 'format' for drive_add'
+003/14:[----] [--] 'iotests: ignore import warnings from pylint'
+004/14:[----] [--] 'iotests: replace mutable list default args'
+005/14:[0006] [FC] 'iotests: add pylintrc file'
+006/14:[----] [--] 'iotests: alphabetize standard imports'
+007/14:[----] [--] 'iotests: drop pre-Python 3.4 compatibility code'
+008/14:[----] [--] 'iotests: touch up log function signature'
+009/14:[----] [-C] 'iotests: limit line length to 79 chars'
+010/14:[0009] [FC] 'iotests: add hmp helper with logging'
+011/14:[0019] [FC] 'iotests: add script_initialize'
+012/14:[----] [--] 'iotest 258: use script_main'
+013/14:[0013] [FC] 'iotests: Mark verify functions as private'
+014/14:[0001] [FC] 'iotests: use python logging for iotests.log()'
+
+001: replace "atom" name with "item". Kept RBs.
+005: Alphabetized excluded warnings list. Kept RBs.
+     Kevin's comments addressed by using pylint >=3D 2.2.0
+009: Added Max's RB.
+     Updated commit message based on Max's response
+     Kevin's comments addressed by mypy >=3D 0.620
+010: Fixed type hints (Kevin)
+011: Replace 'Collection' with 'Sequence' to work around pylint/python 3.6
+013: Update type signatures of _verify functions (Kevin)
+014: Minor whitespace changes as the fault handler gets shuffled around.
+
+V9:
+006: New.
+007: Split from old patch.
+008: Split from old patch; enhanced a little to justify its own patch.
+010: New, pulled in from bitmap-populate series. Helps line length.
+011: Reflow columns for long `typing` import list. (Kept RB.)
+014: New blank line. (Kept RB.)
+
+V8:
+- Split out the little drop of Python 3.4 code. (Phil)
+- Change line continuation styles (QEMU Memorial Choir)
+- Rebase changes; remove use_log from more places, adjust test output.
+
+V7:
+- All delinting patches are now entirely front-loaded.
+- Redid delinting to avoid "correcting" no-else-return statements.
+- Moved more mutable list corrections into patch 4, to make it standalone.
+- Moved pylintrc up to patch 5. Disabled no-else-return.
+- Added patch 6 to require line length checks.
+  (Some python 3.4 compatibility code is removed as a consequence.)
+- Patch 7 changes slightly as a result of patch 4 changes.
+- Added some logging explainer into patch 10.
+  (Patch changes slightly because of patch 6.)
+
+V6:
+ - It's been so long since V5, let's just look at it anew.
+
+John Snow (14):
+  iotests: do a light delinting
+  iotests: don't use 'format' for drive_add
+  iotests: ignore import warnings from pylint
+  iotests: replace mutable list default args
+  iotests: add pylintrc file
+  iotests: alphabetize standard imports
+  iotests: drop pre-Python 3.4 compatibility code
+  iotests: touch up log function signature
+  iotests: limit line length to 79 chars
+  iotests: add hmp helper with logging
+  iotests: add script_initialize
+  iotest 258: use script_main
+  iotests: Mark verify functions as private
+  iotests: use python logging for iotests.log()
+
+ tests/qemu-iotests/030        |   4 +-
+ tests/qemu-iotests/055        |   3 +-
+ tests/qemu-iotests/149        |   3 +-
+ tests/qemu-iotests/155        |   2 +-
+ tests/qemu-iotests/194        |   4 +-
+ tests/qemu-iotests/202        |   4 +-
+ tests/qemu-iotests/203        |   4 +-
+ tests/qemu-iotests/206        |   2 +-
+ tests/qemu-iotests/207        |   6 +-
+ tests/qemu-iotests/208        |   2 +-
+ tests/qemu-iotests/209        |   2 +-
+ tests/qemu-iotests/210        |   6 +-
+ tests/qemu-iotests/211        |   6 +-
+ tests/qemu-iotests/212        |   6 +-
+ tests/qemu-iotests/213        |   6 +-
+ tests/qemu-iotests/216        |   4 +-
+ tests/qemu-iotests/218        |   2 +-
+ tests/qemu-iotests/219        |   2 +-
+ tests/qemu-iotests/222        |   7 +-
+ tests/qemu-iotests/224        |   4 +-
+ tests/qemu-iotests/228        |   6 +-
+ tests/qemu-iotests/234        |   4 +-
+ tests/qemu-iotests/235        |   4 +-
+ tests/qemu-iotests/236        |   2 +-
+ tests/qemu-iotests/237        |   2 +-
+ tests/qemu-iotests/238        |   2 +
+ tests/qemu-iotests/242        |   2 +-
+ tests/qemu-iotests/245        |   1 +
+ tests/qemu-iotests/245.out    |  24 +--
+ tests/qemu-iotests/246        |   2 +-
+ tests/qemu-iotests/248        |   2 +-
+ tests/qemu-iotests/254        |   2 +-
+ tests/qemu-iotests/255        |   2 +-
+ tests/qemu-iotests/256        |   2 +-
+ tests/qemu-iotests/258        |  10 +-
+ tests/qemu-iotests/260        |   4 +-
+ tests/qemu-iotests/262        |   4 +-
+ tests/qemu-iotests/264        |   4 +-
+ tests/qemu-iotests/277        |   2 +
+ tests/qemu-iotests/280        |   8 +-
+ tests/qemu-iotests/283        |   4 +-
+ tests/qemu-iotests/iotests.py | 366 ++++++++++++++++++++--------------
+ tests/qemu-iotests/pylintrc   |  26 +++
+ 43 files changed, 343 insertions(+), 221 deletions(-)
+ create mode 100644 tests/qemu-iotests/pylintrc
+
+--=20
+2.21.1
+
 
