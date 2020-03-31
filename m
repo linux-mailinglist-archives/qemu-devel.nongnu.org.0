@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A472E198ABB
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 05:58:12 +0200 (CEST)
-Received: from localhost ([::1]:60032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBD2B198ABD
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 05:58:30 +0200 (CEST)
+Received: from localhost ([::1]:60042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJ82V-0001Ui-Mt
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 23:58:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60801)
+	id 1jJ82n-0001uI-Uy
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 23:58:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60824)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jJ7zU-0004YV-0v
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 23:55:04 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jJ7zV-0004Yz-BN
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 23:55:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jJ7zS-00089v-T9
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 23:55:03 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:43363)
+ (envelope-from <richard.henderson@linaro.org>) id 1jJ7zU-0008Dd-7Z
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 23:55:05 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:45380)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jJ7zS-00089O-OA
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 23:55:02 -0400
-Received: by mail-pf1-x443.google.com with SMTP id f206so9675129pfa.10
- for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 20:55:02 -0700 (PDT)
+ id 1jJ7zU-0008Bu-2E
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 23:55:04 -0400
+Received: by mail-pg1-x541.google.com with SMTP id o26so9721610pgc.12
+ for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 20:55:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1qFoEnRP59bn9KPnaesHADAuwvvkoBPpPEfqGhyETA0=;
- b=OlafZaellGbT6BelHaaY7Hnksc3El3TlCFFzxF7iGQz9ebDUUEo1MWlkoNOqChbqyq
- XWIZJvRbaJheVdDhJic9kyq2gH91jdty9V8/HiI9JnGIM6E7LhRet/UwlpV9o+0AsEJK
- YG4xmEykGTgVcbB5qv9A6RIroJv48pswz9QQ/S29NGjrfry9l65xyWAQ4JMFr72wW2fd
- qOQlhKzu8dhCcHLRVxb3swEepr45bkra5/gdtXtg6RXXgccadjsTTWNqTv6Mz3GNaxMg
- /6ngmXnXawcm/er9p52NPtMXmkTC1qWvgi3O2kU71D4XIUXHbmtAmwjBzJauti0VjdWf
- oOMA==
+ bh=AVWo3TkNC8dRck4gxr30FMdUL1YEqwhhQceYuT351jQ=;
+ b=bFf0kUgR2GoEiqNITsPTFpdjOaZesDn+wYad7Gh0iG49tzG5u2a2oEJQNnNhcTGX5B
+ RyTqpddoBt4K2NCnDDl8Bnpvau+enrW5R2sP6RPrXFIH1kxVicUqy9nfeMZehHJHqMiW
+ QB8RT4OJeJK5Nk8DLzvHNlOeomqP/Qg/TkxyZIQH+bMEu0Z1RH19ZQCgkKHN6BnSzs0k
+ o0wcYBeW8qDwKlSL52l7aK+5p/46Zx+aHi3OgRyN2azTSdSmgT3LoJewLhg3b+E+K3gH
+ 1KhKt2CRUG8ghS9/P/GshRIb0tuR3lvd/Ju+f3feq1oCznGP7bDTAOXyeBSFOsquczAx
+ /3kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1qFoEnRP59bn9KPnaesHADAuwvvkoBPpPEfqGhyETA0=;
- b=UzXkn/ElV3ulEZsSiwo9KgP8iyvqLq9rtplPRWScNfDlEgsL0O1KtwZvp1HWmPYh8n
- Y/9sJtyWPpEbshHFkAR8Vb64EX7A15LKGjhR8UrsmerQLPLlYvLpo4KgQL4E3uuCEQcI
- 8IDMKNzwT+DDEJ7EDv8ZuYax0jSqryjFIH/MzNAuc30/s6RivTBtIg+lAb+K9PHogRwR
- xSNNkg8+XtG2leB+JVb4UVPsfcDOaxn7aoxX2fqvvpaMe5l82zlG25PkgtbK07ELULNw
- WdRTUkAwbikFhhtKBX1nrBozoe1214jLlnu6iyvePpDbjZ7I9ipxMPuW8ZwgRTuS9iqD
- 4vZQ==
-X-Gm-Message-State: ANhLgQ3slD706KuqqZoGvWP0G+QS9gaLm8CT9TviaILsDdtm7ozEp4Pf
- 5zQbIoZEBpiLMzLeC1j+ofFPktxxgbE=
-X-Google-Smtp-Source: ADFU+vtrc/7fZbVtSnH0fPwg24JWIbvyBeQhAA/NZiU8HqeVfKvnZ6jfWYqXhlehVKB5edw1BNp/9w==
-X-Received: by 2002:a63:3083:: with SMTP id
- w125mr16400144pgw.282.1585626901433; 
- Mon, 30 Mar 2020 20:55:01 -0700 (PDT)
+ bh=AVWo3TkNC8dRck4gxr30FMdUL1YEqwhhQceYuT351jQ=;
+ b=ZrQU5/0m2NqhzHs9tEmCzB3CswxDyrlxocu0gwGQliW0KMZbo3+FwAjzTfawMzg0Az
+ sVIU2JVKjlLDFItEEtRP3vqP7b8qvirXsurtd9a5oYEI6UcGCXof2phoU+CwWK0ECIWe
+ KsSX9Q8Jsr76hu9HLugWqmKULRC+gzF489dcxE8LDN14/dmstkC6uB3GEadmAIMlk61f
+ vaV6SstssYXRDMuOuTeadZFInCgE/Cykesp5UJsqe+WCnN+heMyPkP9tDXTGfDqn6Cx1
+ 6vSsHxLr3nVliRu+2YkSq32Hr8NK6ZA+ECOvOaGJpZIx6E+yBXIaikjnj7VD4SfO3FxE
+ 44Rg==
+X-Gm-Message-State: ANhLgQ3ZtJdlZx8gc7Z1JWWpj4cwRhaGtLv6y7sPsPCLgalvXe0lIkn9
+ feSvUAjP1soSdcF8yxzE+DUIR3wNgy8=
+X-Google-Smtp-Source: ADFU+vunisiQ6ksAXwjczdamELpiWmiqQ+wlbalDvNLDpYI70g4P6Jg/1pCNAfkpoh1rpDq7tDy5Sw==
+X-Received: by 2002:a62:7dd0:: with SMTP id
+ y199mr15872936pfc.267.1585626902674; 
+ Mon, 30 Mar 2020 20:55:02 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id h11sm11386174pfq.56.2020.03.30.20.55.00
+ by smtp.gmail.com with ESMTPSA id h11sm11386174pfq.56.2020.03.30.20.55.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Mar 2020 20:55:00 -0700 (PDT)
+ Mon, 30 Mar 2020 20:55:02 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.0] tcg/i386: Fix INDEX_op_dup2_vec
-Date: Mon, 30 Mar 2020 20:54:47 -0700
-Message-Id: <20200331035456.6494-3-richard.henderson@linaro.org>
+Subject: [PULL for-5.0 02/10] tcg: Remove softmmu code_gen_buffer fixed address
+Date: Mon, 30 Mar 2020 20:54:48 -0700
+Message-Id: <20200331035456.6494-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200331035456.6494-1-richard.henderson@linaro.org>
 References: <20200331035456.6494-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+X-Received-From: 2607:f8b0:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,47 +80,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-stable@nongnu.org
+Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We were only constructing the 64-bit element, and not
-replicating the 64-bit element across the rest of the vector.
+The commentary talks about "in concert with the addresses
+assigned in the relevant linker script", except there is no
+linker script for softmmu, nor has there been for some time.
 
-Cc: qemu-stable@nongnu.org
+(Do not confuse the user-only linker script editing that was
+removed in the previous patch, because user-only does not
+use this code_gen_buffer allocation method.)
+
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
+ accel/tcg/translate-all.c | 37 +++++--------------------------------
+ 1 file changed, 5 insertions(+), 32 deletions(-)
 
-This bug is visible running RISU for aarch64 on x86_32.
-
-
-r~
-
----
- tcg/i386/tcg-target.inc.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
-index 223dba9c8c..7f61eeedd0 100644
---- a/tcg/i386/tcg-target.inc.c
-+++ b/tcg/i386/tcg-target.inc.c
-@@ -2855,9 +2855,13 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-         goto gen_simd;
- #if TCG_TARGET_REG_BITS == 32
-     case INDEX_op_dup2_vec:
--        /* Constraints have already placed both 32-bit inputs in xmm regs.  */
--        insn = OPC_PUNPCKLDQ;
--        goto gen_simd;
-+        /* First merge the two 32-bit inputs to a single 64-bit element. */
-+        tcg_out_vex_modrm(s, OPC_PUNPCKLDQ, a0, a1, a2);
-+        /* Then replicate the 64-bit elements across the rest of the vector. */
-+        if (type != TCG_TYPE_V64) {
-+            tcg_out_dup_vec(s, type, MO_64, a0, a0);
-+        }
-+        break;
- #endif
-     case INDEX_op_abs_vec:
-         insn = abs_insn[vece];
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 78914154bf..9924e66d1f 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1043,47 +1043,20 @@ static inline void *alloc_code_gen_buffer(void)
+ {
+     int prot = PROT_WRITE | PROT_READ | PROT_EXEC;
+     int flags = MAP_PRIVATE | MAP_ANONYMOUS;
+-    uintptr_t start = 0;
+     size_t size = tcg_ctx->code_gen_buffer_size;
+     void *buf;
+ 
+-    /* Constrain the position of the buffer based on the host cpu.
+-       Note that these addresses are chosen in concert with the
+-       addresses assigned in the relevant linker script file.  */
+-# if defined(__PIE__) || defined(__PIC__)
+-    /* Don't bother setting a preferred location if we're building
+-       a position-independent executable.  We're more likely to get
+-       an address near the main executable if we let the kernel
+-       choose the address.  */
+-# elif defined(__x86_64__) && defined(MAP_32BIT)
+-    /* Force the memory down into low memory with the executable.
+-       Leave the choice of exact location with the kernel.  */
+-    flags |= MAP_32BIT;
+-    /* Cannot expect to map more than 800MB in low memory.  */
+-    if (size > 800u * 1024 * 1024) {
+-        tcg_ctx->code_gen_buffer_size = size = 800u * 1024 * 1024;
+-    }
+-# elif defined(__sparc__)
+-    start = 0x40000000ul;
+-# elif defined(__s390x__)
+-    start = 0x90000000ul;
+-# elif defined(__mips__)
+-#  if _MIPS_SIM == _ABI64
+-    start = 0x128000000ul;
+-#  else
+-    start = 0x08000000ul;
+-#  endif
+-# endif
+-
+-    buf = mmap((void *)start, size, prot, flags, -1, 0);
++    buf = mmap(NULL, size, prot, flags, -1, 0);
+     if (buf == MAP_FAILED) {
+         return NULL;
+     }
+ 
+ #ifdef __mips__
+     if (cross_256mb(buf, size)) {
+-        /* Try again, with the original still mapped, to avoid re-acquiring
+-           that 256mb crossing.  This time don't specify an address.  */
++        /*
++         * Try again, with the original still mapped, to avoid re-acquiring
++         * the same 256mb crossing.
++         */
+         size_t size2;
+         void *buf2 = mmap(NULL, size, prot, flags, -1, 0);
+         switch ((int)(buf2 != MAP_FAILED)) {
 -- 
 2.20.1
 
