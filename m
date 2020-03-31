@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9235F1990D3
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 11:15:06 +0200 (CEST)
-Received: from localhost ([::1]:34412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0080419914F
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 11:19:13 +0200 (CEST)
+Received: from localhost ([::1]:34456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJCzB-0003WP-LW
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 05:15:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35167)
+	id 1jJD3A-0005TX-1r
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 05:19:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35718)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anup@brainfault.org>) id 1jJCy3-000348-Cj
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 05:13:56 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1jJD1w-0004ZF-3K
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 05:17:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anup@brainfault.org>) id 1jJCy1-0005ME-GV
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 05:13:55 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41228)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <anup@brainfault.org>) id 1jJCxz-0005Jh-Nu
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 05:13:52 -0400
-Received: by mail-wr1-x441.google.com with SMTP id h9so24904344wrc.8
- for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 02:13:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3tq/6HeYUoF8j3n70MM+g+9+/xFe3z7G+cZK/eJ2q5g=;
- b=J09CSdcGSNl7cbS7uQxXgXgSJaxn23v2zoFmJzpEugAfNeviwpYjs8ZjappRbk/Lke
- tfa+Mbq/VAy2HRxIuAL+gge0D4x/HnkAlYlA4pCNa63LgrOViAUgMtPGn7OR5Y3wDCHk
- Ur7Ojcy0FTVcFJHOedTXJOBQFe3isJEjFu8JMn3SeIn5zfvuUgUS+RnAoSSn9cZJ+DnD
- NLC97szwXDCs90As/zojzDMEcKwWZLckxM36haxXlYAkWqJkwViddzdr0l2dd7tuVZEp
- 7fXxCVx0xradVBaApRtFm2FJ7Q08LaSLXgYxHtSnjGf+aguawNLrazDhJTLK/pWiKWO3
- DuBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3tq/6HeYUoF8j3n70MM+g+9+/xFe3z7G+cZK/eJ2q5g=;
- b=WZl3DngEo2J8gYqDmWGwfU720V8zh684T7wuXYmb4hHZwtcOkgETcmWaJfYmtKfphK
- KwwcMb24PlMm6g9DVBhT9lnhDi7RLWreoq97a7QAGCxK8iD+H31jhuOi88ObOV8EFUHP
- +vxBTRuP3eD+6CHxwhqa6o/sKZjt9mh1mP0lbhl/E10VJN5iExhXhb+dJ/kHemYM5eIY
- kszTcSXn/5BQUvewCvwv4ATLsoTp/s7oOD9H9faKsJtoglPNuyCEiGBCTNlnRSgqlVu6
- wvJUZVZBp2ONkWRE6XX+aeR/2dQSUcGjDg4VU4gyfYBespfCjGJldAJ27VjncU11s64W
- F7Og==
-X-Gm-Message-State: ANhLgQ2y/qLfPULAMpD5bc6uCIQv2anDovEVoTqGgghlSK0HBaL1cyyr
- 1ikwoGeywUiziTUYBKqkKLFDaN/MITVKsgz3Cz/REg==
-X-Google-Smtp-Source: ADFU+vsxoSCtYI4z+f08EL/kUMqgiURTQebAI+G2f2MWF/iqLlYJy50TunhMefcjvO2kieLjtKbLd5/rDrnmmKmViSg=
-X-Received: by 2002:a5d:4acd:: with SMTP id y13mr19367932wrs.61.1585646028592; 
- Tue, 31 Mar 2020 02:13:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200313034949.3028-1-jiangyifei@huawei.com>
- <20200313034949.3028-3-jiangyifei@huawei.com>
-In-Reply-To: <20200313034949.3028-3-jiangyifei@huawei.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Tue, 31 Mar 2020 14:43:36 +0530
-Message-ID: <CAAhSdy3_BO7pRwvLiS9qd3NLXUCj_MnsxT8JtD0833AnY1DOZQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 2/9] target/riscv: Add target/riscv/kvm.c to place the
- public kvm interface
-To: Yifei Jiang <jiangyifei@huawei.com>
+ (envelope-from <mlevitsk@redhat.com>) id 1jJD1u-0007bg-S5
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 05:17:56 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:28577
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jJD1u-0007bH-Oh
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 05:17:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585646274;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jU3eA659KfVA33b/a9M9aZeb3RW0pf5TLw2lDm+IpUc=;
+ b=aGeX54oJglWP2R6KGikqXfFmWpaP8bWgcCAEhVxHT7eSzFShFr0NNBDIMscCmk+quA48qI
+ XgiKtmwk1zpadun1/M2IuMeCemuGWWeTShGSYAKElVg3samKcDUnVtDn2T4+R+8RH/ra1U
+ fSIn2UCcKxJpRl+kBvEDy26UBwVKTMc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-204-XEJ2NDCiOmGP31uvj5pnbQ-1; Tue, 31 Mar 2020 05:17:50 -0400
+X-MC-Unique: XEJ2NDCiOmGP31uvj5pnbQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09D748017DF;
+ Tue, 31 Mar 2020 09:17:49 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B5AC1001B07;
+ Tue, 31 Mar 2020 09:17:45 +0000 (UTC)
+Message-ID: <60fb7b53420e17f9680d78a250c1045c17ee4a35.camel@redhat.com>
+Subject: Re: [PATCH v6 31/42] nvme: add check for prinfo
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Klaus Birkelund Jensen <its@irrelevant.dk>
+Date: Tue, 31 Mar 2020 12:17:45 +0300
+In-Reply-To: <20200331054541.55rakuvpl7zaeezo@apples.localdomain>
+References: <20200316142928.153431-1-its@irrelevant.dk>
+ <20200316142928.153431-32-its@irrelevant.dk>
+ <9d3bad95342559566c391635d9d96e4b56dd08c7.camel@redhat.com>
+ <20200331054541.55rakuvpl7zaeezo@apples.localdomain>
+Mime-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,198 +73,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: victor.zhangxiaofeng@huawei.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- zhang.zhanghailiang@huawei.com, Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Anup Patel <anup.patel@wdc.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, yinyipeng1@huawei.com,
- Palmer Dabbelt <palmer@dabbelt.com>, dengkai1@huawei.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 13, 2020 at 9:23 AM Yifei Jiang <jiangyifei@huawei.com> wrote:
->
-> Add target/riscv/kvm.c to place kvm_arch_* function needed by kvm/kvm-all.c.
-> Meanwhile, add riscv64 kvm support to configure.
+On Tue, 2020-03-31 at 07:45 +0200, Klaus Birkelund Jensen wrote:
+> On Mar 25 12:57, Maxim Levitsky wrote:
+> > On Mon, 2020-03-16 at 07:29 -0700, Klaus Jensen wrote:
+> > > From: Klaus Jensen <k.jensen@samsung.com>
+> > > 
+> > > Check the validity of the PRINFO field.
+> > > 
+> > > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> > > ---
+> > >  hw/block/nvme.c       | 50 ++++++++++++++++++++++++++++++++++++-------
+> > >  hw/block/trace-events |  1 +
+> > >  include/block/nvme.h  |  1 +
+> > >  3 files changed, 44 insertions(+), 8 deletions(-)
+> > > 
+> > > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> > > index 7d5340c272c6..0d2b5b45b0c5 100644
+> > > --- a/hw/block/nvme.c
+> > > +++ b/hw/block/nvme.c
+> > > @@ -505,6 +505,17 @@ static inline uint16_t nvme_check_mdts(NvmeCtrl *n, size_t len,
+> > >      return NVME_SUCCESS;
+> > >  }
+> > >  
+> > > +static inline uint16_t nvme_check_prinfo(NvmeCtrl *n, NvmeNamespace *ns,
+> > > +                                         uint16_t ctrl, NvmeRequest *req)
+> > > +{
+> > > +    if ((ctrl & NVME_RW_PRINFO_PRACT) && !(ns->id_ns.dps & DPS_TYPE_MASK)) {
+> > > +        trace_nvme_dev_err_prinfo(nvme_cid(req), ctrl);
+> > > +        return NVME_INVALID_FIELD | NVME_DNR;
+> > > +    }
+> > 
+> > I refreshed my (still very limited) knowelege on the metadata
+> > and the protection info, and this is what I found:
+> > 
+> > I think that this is very far from complete, because we also have:
+> > 
+> > 1. PRCHECK. According to the spec it is independent of PRACT
+> >    And when some of it is set, 
+> >    together with enabled protection (the DPS field in namespace),
+> >    Then the 8 bytes of the protection info is checked (optionally using the
+> >    the EILBRT and ELBAT/ELBATM fields in the command and CRC of the data for the guard field)
+> > 
+> >    So this field should also be checked to be zero when protection is disabled
+> >    (I don't see an explicit requirement for that in the spec, but neither I see
+> >    such requirement for PRACT)
+> > 
+> > 2. The protection values to be written / checked ((E)ILBRT/(E)LBATM/(E)LBAT)
+> >    Same here, but also these should not be set when PRCHECK is not set for reads,
+> >    plus some are protection type specific.
+> > 
+> > 
+> > The spec does mention the 'Invalid Protection Information' error code which
+> > refers to invalid values in the PRINFO field.
+> > So this error code I think should be returned instead of the 'Invalid field'
+> > 
+> > Another thing to optionaly check is that the metadata pointer for separate metadata.
+> >  Is zero as long as we don't support metadata
+> > (again I don't see an explicit requirement for this in the spec, but it mentions:
+> > 
+> > "This field is valid only if the command has metadata that is not interleaved with
+> > the logical block data, as specified in the Format NVM command"
+> > 
+> > )
+> > 
+> 
+> I'm kinda inclined to just drop this patch. The spec actually says that
+> the PRACT and PRCHK fields are used only if the namespace is formatted
+> to use end-to-end protection information. Since we do not support that,
+> I don't think we even need to check it.
+> 
+> Any opinion on this?
+Yep. I also think so.
 
-This should be for both riscv64 and riscv32. The KVMTOOL compiles perfectly
-fine for riscv32 (although not tested much) so there is no harm is supporting
-both riscv64 and riscv32 from start itself.
-
-Regards,
-Anup
+I did add as much as possible checks on all the reserved fields in nvme-mdev,
+checks for all all the unused fields like that, to make it as defensive as possible and to reduce
+the attack surface to the minimum.
+This can be done later when all the dust settles, its not a high priority for sure.
 
 
->
-> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
-> Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
-> ---
->  configure                  |   1 +
->  target/riscv/Makefile.objs |   1 +
->  target/riscv/kvm.c         | 128 +++++++++++++++++++++++++++++++++++++
->  3 files changed, 130 insertions(+)
->  create mode 100644 target/riscv/kvm.c
->
-> diff --git a/configure b/configure
-> index 3c7470096f..30024a8aef 100755
-> --- a/configure
-> +++ b/configure
-> @@ -200,6 +200,7 @@ supported_kvm_target() {
->          x86_64:i386 | x86_64:x86_64 | x86_64:x32 | \
->          mips:mips | mipsel:mips | \
->          ppc:ppc | ppc64:ppc | ppc:ppc64 | ppc64:ppc64 | ppc64:ppc64le | \
-> +        riscv64:riscv64 | \
->          s390x:s390x)
->              return 0
->          ;;
-> diff --git a/target/riscv/Makefile.objs b/target/riscv/Makefile.objs
-> index ff651f69f6..7ea8f4c3da 100644
-> --- a/target/riscv/Makefile.objs
-> +++ b/target/riscv/Makefile.objs
-> @@ -1,5 +1,6 @@
->  obj-y += translate.o op_helper.o cpu_helper.o cpu.o csr.o fpu_helper.o gdbstub.o
->  obj-$(CONFIG_SOFTMMU) += pmp.o
-> +obj-$(CONFIG_KVM) += kvm.o
->
->  ifeq ($(CONFIG_SOFTMMU),y)
->  obj-y += monitor.o
-> diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
-> new file mode 100644
-> index 0000000000..8c386d9acf
-> --- /dev/null
-> +++ b/target/riscv/kvm.c
-> @@ -0,0 +1,128 @@
-> +/*
-> + * RISC-V implementation of KVM hooks
-> + *
-> + * Copyright (c) 2020 Huawei Technologies Co., Ltd
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License along with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include <sys/ioctl.h>
-> +
-> +#include <linux/kvm.h>
-> +
-> +#include "qemu-common.h"
-> +#include "qemu/timer.h"
-> +#include "qemu/error-report.h"
-> +#include "qemu/main-loop.h"
-> +#include "sysemu/sysemu.h"
-> +#include "sysemu/kvm.h"
-> +#include "sysemu/kvm_int.h"
-> +#include "cpu.h"
-> +#include "trace.h"
-> +#include "hw/pci/pci.h"
-> +#include "exec/memattrs.h"
-> +#include "exec/address-spaces.h"
-> +#include "hw/boards.h"
-> +#include "hw/irq.h"
-> +#include "qemu/log.h"
-> +#include "hw/loader.h"
-> +
-> +const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
-> +    KVM_CAP_LAST_INFO
-> +};
-> +
-> +int kvm_arch_get_registers(CPUState *cs)
-> +{
-> +    return 0;
-> +}
-> +
-> +int kvm_arch_put_registers(CPUState *cs, int level)
-> +{
-> +    return 0;
-> +}
-> +
-> +int kvm_arch_release_virq_post(int virq)
-> +{
-> +    return 0;
-> +}
-> +
-> +int kvm_arch_fixup_msi_route(struct kvm_irq_routing_entry *route,
-> +                             uint64_t address, uint32_t data, PCIDevice *dev)
-> +{
-> +    return 0;
-> +}
-> +
-> +int kvm_arch_destroy_vcpu(CPUState *cs)
-> +{
-> +    return 0;
-> +}
-> +
-> +unsigned long kvm_arch_vcpu_id(CPUState *cpu)
-> +{
-> +    return cpu->cpu_index;
-> +}
-> +
-> +void kvm_arch_init_irq_routing(KVMState *s)
-> +{
-> +}
-> +
-> +int kvm_arch_init_vcpu(CPUState *cs)
-> +{
-> +    return 0;
-> +}
-> +
-> +int kvm_arch_msi_data_to_gsi(uint32_t data)
-> +{
-> +    abort();
-> +}
-> +
-> +int kvm_arch_add_msi_route_post(struct kvm_irq_routing_entry *route,
-> +                                int vector, PCIDevice *dev)
-> +{
-> +    return 0;
-> +}
-> +
-> +int kvm_arch_init(MachineState *ms, KVMState *s)
-> +{
-> +    return 0;
-> +}
-> +
-> +int kvm_arch_irqchip_create(KVMState *s)
-> +{
-> +    return 0;
-> +}
-> +
-> +int kvm_arch_process_async_events(CPUState *cs)
-> +{
-> +    return 0;
-> +}
-> +
-> +void kvm_arch_pre_run(CPUState *cs, struct kvm_run *run)
-> +{
-> +}
-> +
-> +MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
-> +{
-> +    return MEMTXATTRS_UNSPECIFIED;
-> +}
-> +
-> +bool kvm_arch_stop_on_emulation_error(CPUState *cs)
-> +{
-> +    return true;
-> +}
-> +
-> +int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
-> +{
-> +    return 0;
-> +}
-> --
-> 2.19.1
->
->
->
+Best regard,
+	Maxim Levitsky
+
+
+> 
+
+
 
