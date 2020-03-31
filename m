@@ -2,61 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4CAE198DF7
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 10:07:53 +0200 (CEST)
-Received: from localhost ([::1]:33650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34CC2198D79
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 09:53:02 +0200 (CEST)
+Received: from localhost ([::1]:33416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJBw8-00022H-Vq
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 04:07:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54566)
+	id 1jJBhl-0000yB-8z
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 03:53:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52938)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jJBu8-0000km-BH
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 04:05:49 -0400
+ (envelope-from <philmd@redhat.com>) id 1jJBgv-0000XY-3w
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 03:52:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jJBu7-0005qW-3M
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 04:05:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43532)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jJBu6-0005pi-TO
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 04:05:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jJBu5-0006ev-Jw
- for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 08:05:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 834492E8058
- for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 08:05:45 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1jJBgt-0007ZF-Sw
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 03:52:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52172
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jJBgt-0007Xb-Op
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 03:52:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585641127;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZTnh6Sdl5OxEC/lg+y3pRCJ78pEV+Tne95Vbe6nU4zU=;
+ b=U8aEFDf3SCo4nSn9UrW1a3lPBenpteJuy8Je29v4CslXdjIIxJFD12dcqYvzJFGtyiet8e
+ vvkTdabB++SQ+kx9IeccLLMHq659gaeVC2owMeBoawE0I3LhN7TkS/anQzovJpQ/uQqAvA
+ VQGefRNejCae5D6FB3USwwNEKrmT7E4=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-462-oJxo8Gq7MQ2rg0k2bIZWhw-1; Tue, 31 Mar 2020 03:52:03 -0400
+X-MC-Unique: oJxo8Gq7MQ2rg0k2bIZWhw-1
+Received: by mail-ed1-f71.google.com with SMTP id w6so18054814edq.3
+ for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 00:52:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZTnh6Sdl5OxEC/lg+y3pRCJ78pEV+Tne95Vbe6nU4zU=;
+ b=JwH9+dEVjiEi4dZs91f174WvczZ4/dT6KvGeWPYCxn3ltDe1Q7/6S5gOWbUZYU8GbR
+ MoeSJMqk8DKTIn5DqF2MivtLACY4C0ulv3e1T0VjoF6pbR0f6LcohKvMeBipiGznDSFf
+ xHit8Pe9FofelyaXDlUYc08Ax1lU2HKCj10XirMsj62bmjsZ29GfRjJmU8jVrKnFHZ3y
+ rW6jTapBvVi9kRsFuTOKt5rQ5pSDcPnwCtHvRHwNQHvrz64jLKx721ytwIXL4pl2bDpS
+ JNWXppUiWBScE3kdH/ElMSyYZbnd4Xs48KkD9zTICN79Q4uD/ATKofsNxkg2/zp/yXw1
+ D+Ig==
+X-Gm-Message-State: ANhLgQ0Qc/mefLI/7sqqlX09cSWK1XbZCkDKugtLu6RVV7b+yyV7i0+K
+ VKN9BNvxST+FHEKnfiZoNqS5evOoOFMKmlCC7xGzGliXswJE/MLDmhUgCyM5gszZUS6XexAikHl
+ 8QlEGbyx8NJ/gHJs=
+X-Received: by 2002:a17:906:bcc7:: with SMTP id
+ lw7mr14001485ejb.91.1585641122375; 
+ Tue, 31 Mar 2020 00:52:02 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vs4yJUhPFfPakmbmz7YCQGq/4HsLxzkb8yjS7ASRbvCrCa7IHwkjPKSvvjv6wJueWKCqRoQIA==
+X-Received: by 2002:a17:906:bcc7:: with SMTP id
+ lw7mr14001470ejb.91.1585641122037; 
+ Tue, 31 Mar 2020 00:52:02 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id l62sm2171616edl.89.2020.03.31.00.52.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 31 Mar 2020 00:52:01 -0700 (PDT)
+Subject: Re: [PATCH v1] usb: Add read support for HCIVERSION register to XHCI
+To: Cameron Esfahani <dirty@apple.com>, qemu-devel@nongnu.org
+References: <20200330214444.43494-1-dirty@apple.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <71ec6105-b2f7-4805-c235-645c25a0b201@redhat.com>
+Date: Tue, 31 Mar 2020 09:52:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 31 Mar 2020 07:51:07 -0000
-From: Laurent Vivier <Laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: ppc
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: carlosedp laurent-vivier
-X-Launchpad-Bug-Reporter: carlosedp (carlosedp)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <158445595923.20060.16174990100496488911.malonedeb@wampee.canonical.com>
-Message-Id: <158564106763.20741.3498122495982885775.malone@gac.canonical.com>
-Subject: [Bug 1867786] Re: Qemu PPC64 freezes with multi-core CPU
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a296f04231dee355be5db73cc878b9e21689a253";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 9ab656fcfba1a7bda48eb2a19910a861782e4b93
+In-Reply-To: <20200330214444.43494-1-dirty@apple.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,64 +92,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1867786 <1867786@bugs.launchpad.net>
+Cc: Robert Mustacchi <rm@fingolfin.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ kraxel@redhat.com, Paul Menzel <pmenzel@molgen.mpg.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Could you try to change the network card, with something like "-device
-e1000e,netdev=3Dnetwork01" or "-device virtio-net-pci,netdev=3Dnetwork01" or
-"-device spapr-vlan,netdev=3Dnetwork01"?
+On 3/30/20 11:44 PM, Cameron Esfahani via wrote:
+> macOS will read HCIVERSION separate from CAPLENGTH.  Add a distinct
+> handler for that register.
 
--- =
+Apparently a fix for https://bugs.launchpad.net/qemu/+bug/1693050.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1867786
+> 
+> Signed-off-by: Cameron Esfahani <dirty@apple.com>
+> ---
+>   hw/usb/hcd-xhci.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
+> index b330e36fe6..061f8438de 100644
+> --- a/hw/usb/hcd-xhci.c
+> +++ b/hw/usb/hcd-xhci.c
+> @@ -2739,6 +2739,9 @@ static uint64_t xhci_cap_read(void *ptr, hwaddr reg, unsigned size)
+>       case 0x00: /* HCIVERSION, CAPLENGTH */
+>           ret = 0x01000000 | LEN_CAP;
+>           break;
+> +    case 0x02: /* HCIVERSION */
+> +        ret = 0x0100;
+> +        break;
 
-Title:
-  Qemu PPC64 freezes with multi-core CPU
+But we have:
 
-Status in QEMU:
-  New
+static const MemoryRegionOps xhci_cap_ops = {
+     .read = xhci_cap_read,
+     .write = xhci_cap_write,
+     .valid.min_access_size = 1,
+     .valid.max_access_size = 4,
+     .impl.min_access_size = 4,
+     .impl.max_access_size = 4,
+     .endianness = DEVICE_LITTLE_ENDIAN,
+};
 
-Bug description:
-  I installed Debian 10 on a Qemu PPC64 VM running with the following
-  flags:
+IIUC ".impl.min_access_size = 4" means the case 'reg == 2' can not 
+happen. It seems we have a bug in memory.c elsewhere.
 
-  qemu-system-ppc64 \
-       -nographic -nodefaults -monitor pty -serial stdio \
-       -M pseries -cpu POWER9 -smp cores=3D4,threads=3D1 -m 4G \
-       -drive file=3Ddebian-ppc64el-qemu.qcow2,format=3Dqcow2,if=3Dvirtio \
-       -netdev user,id=3Dnetwork01,$ports -device rtl8139,netdev=3Dnetwork0=
-1 \
+How can we reproduce?
 
-  =
+If not easy, can you share the backtrace of:
 
-  Within a couple minutes on any operation (could be a Go application or si=
-mply changing the hostname with hostnamectl, the VM freezes and prints this=
- on the console:
+-- >8 --
+diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
+index b330e36fe6..d021129f3f 100644
+--- a/hw/usb/hcd-xhci.c
++++ b/hw/usb/hcd-xhci.c
+@@ -2735,6 +2735,7 @@ static uint64_t xhci_cap_read(void *ptr, hwaddr 
+reg, unsigned size)
+      XHCIState *xhci = ptr;
+      uint32_t ret;
 
-  ```
-  root@debian:~# [  950.428255] rcu: INFO: rcu_sched self-detected stall on=
- CPU
-  [  950.428453] rcu:     3-....: (5318 ticks this GP) idle=3D8e2/1/0x40000=
-00000000004 softirq=3D5957/5960 fqs=3D2544
-  [  976.244481] watchdog: BUG: soft lockup - CPU#3 stuck for 23s! [zsh:462]
++    assert(reg != 2);
+      switch (reg) {
+      case 0x00: /* HCIVERSION, CAPLENGTH */
+          ret = 0x01000000 | LEN_CAP;
+---
 
-  Message from syslogd@debian at Mar 17 11:35:24 ...
-   kernel:[  976.244481] watchdog: BUG: soft lockup - CPU#3 stuck for 23s! =
-[zsh:462]
-  [  980.110018] rcu: INFO: rcu_sched detected expedited stalls on CPUs/tas=
-ks: { 3-... } 5276 jiffies s: 93 root: 0x8/.
-  [  980.111177] rcu: blocking rcu_node structures:
-  [ 1013.442268] rcu: INFO: rcu_sched self-detected stall on CPU
-  [ 1013.442365] rcu:     3-....: (21071 ticks this GP) idle=3D8e2/1/0x4000=
-000000000004 softirq=3D5957/5960 fqs=3D9342
-  ```
+>       case 0x04: /* HCSPARAMS 1 */
+>           ret = ((xhci->numports_2+xhci->numports_3)<<24)
+>               | (xhci->numintrs<<8) | xhci->numslots;
+> 
 
-  If I change to 1 core on the command line, I haven't seen these
-  freezes.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1867786/+subscriptions
 
