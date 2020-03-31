@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44167199926
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 17:03:31 +0200 (CEST)
-Received: from localhost ([::1]:39700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6F9B199913
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 16:59:16 +0200 (CEST)
+Received: from localhost ([::1]:39596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJIQM-0000Wi-7q
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 11:03:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56442)
+	id 1jJIMF-0002Ni-Sf
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 10:59:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56471)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jJIKS-00005d-F7
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:57:25 -0400
+ (envelope-from <mst@redhat.com>) id 1jJIKU-0000By-Mi
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:57:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1jJIKR-0005ED-Ef
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:57:24 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27229
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1jJIKT-0005G4-K7
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:57:26 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23365
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jJIKR-0005Df-AU
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:57:23 -0400
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jJIKT-0005Fj-FR
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:57:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585666642;
+ s=mimecast20190719; t=1585666645;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oFBT6Saz02hT5NP2gKNT3/lC8x4Qhc9zDb0zWjI7XDA=;
- b=O3Jul1SuPMTxlXhT6sphlhEKg54m+yLQPm59uFX17tKH+k7jUprYHZHDFnqSiqBzelpbDI
- uK0QsA9aSz408zCWtMU1IKUjGZyREkHpkFfBL0nobjRR9XjsGt8P4ZF2coP7KjGjxjY8hr
- MHkogkwrr51qoqeABvMrtWx8HaLLoDg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-9xFCsXWSNBOI9nHZa11udA-1; Tue, 31 Mar 2020 10:57:20 -0400
-X-MC-Unique: 9xFCsXWSNBOI9nHZa11udA-1
-Received: by mail-wr1-f69.google.com with SMTP id c8so11201319wru.20
- for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 07:57:20 -0700 (PDT)
+ bh=3H/VwsSTTvhtpNg2QmTT6j5ZuTBdZBFJCOku4RulJDk=;
+ b=cziBRy+uqQHgTbEl1vZ1oD0CcDACXQNLgOpzegKU/ejqJVXuWVJ2ZztA8K/LJpuG/wdWO8
+ EvGLHIEBezLpqAS2p5jEXWzeVdhGYc60OIJG0BHjueX8b8UNhpqgoS1hSjvPIRB7QbBfEM
+ h1s2WMzJcgsGuI7Mw/SEAz89KVRNc2Q=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-290-B_AKgg2nPpyJNTrOcIntFQ-1; Tue, 31 Mar 2020 10:57:23 -0400
+X-MC-Unique: B_AKgg2nPpyJNTrOcIntFQ-1
+Received: by mail-wm1-f71.google.com with SMTP id f9so796422wme.7
+ for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 07:57:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=0zH6PKQ4PTkqUI6BTEFD7QJzk8gWk/DfG7PE6omZvKA=;
- b=QhXdfvRtWieBKabqKULsaweVC96Xwd9Mq/UZdSl8h4+hShoK2mJ1hG7WrFpUOLYRZn
- aRbHFbVsrB5n3FhukUkTgahzeTFD0LjtMBbGw+ivxpI9NZc+cE5WD91doxNIs/BiGKwF
- Yr/xoEJq6HT8Ztx6KV5NJCKiJ95X614WWvlRg5wblSrJg4uj1pdpDUuaggGXcixCpC8M
- Ayws5Un3WXBv6mxpO0ctg2yeWbjqI6Sl9eguer5QMBrKzpD0ssPpGK/TVeuGu7qmTQpa
- rQtiy7L3uSgiUD0aIN/i4Tb+JdUf+U9QAA5VrgMdBQB3zuf3J5VJCxYfeJuPw+Gjo+qh
- RLoQ==
-X-Gm-Message-State: ANhLgQ0YFtP6+RAJPwUtVOmeIVdu/SUq0V/cn8YDnTIIVB+d72Jhfpw3
- TUKFFuem8zgJV9OPSr3OwyCWsVmm1suhW5VdP4Nh2fIMlAHZjVCpXQ6aoBL6XOTC37XCQhqfvlW
- kBJwZ1EzIScdo1O8=
-X-Received: by 2002:a1c:2489:: with SMTP id k131mr3985351wmk.86.1585666636571; 
- Tue, 31 Mar 2020 07:57:16 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtoQzxKeA+Ao4d+OJv0fwjKHt/r6I9lJc6AR6YgqbJJ+6narmsmO6PGQnE4osYk3hCEks9jnQ==
-X-Received: by 2002:a1c:2489:: with SMTP id k131mr3985333wmk.86.1585666636361; 
- Tue, 31 Mar 2020 07:57:16 -0700 (PDT)
+ bh=x+B8mYBE9cPql6HF4nADxpZb0302JvKpESQBouHDOpE=;
+ b=NoZDlS/LCntetufih4v95kytRnVRCKgK9BRaBYbd4chcW9DwxfyL408RQGTpAXmJg+
+ /PsNEgV1cbC8xfeUVwWLV3pB6+z4OntkkX6WjW0zvcnyJmI31mkDiqj4+MJ7d+BZ1hew
+ r5UQ/CbjXuXxa/XKKViB3lse1itJOZrGECit+4L6FQBY3+sQOtw2yUl/NfGpZQlpMhOX
+ YRd0f+NoSt3F2Lxx5Flih0039Ob6bQYUw2NDQtWIPEyS//lzTeS8yPIZ2DZ0s3vp/Wqg
+ 0704KD9V5MXyuDw9YX/qiKo1Gl4X9o7scveXuWM74RK5cicE7IBXJJ7bXcUtk6DL9Lac
+ gD/Q==
+X-Gm-Message-State: ANhLgQ1vUMLa8NnPQrQn6FMKJkvbpAvMT43bXuCo+rfVMqx92ApbSCFt
+ bhrs2Wv9/s21rwdoCMNzZNixR2do20nJBZ2+VNCDEwgiqpiZUCKbgwNbAh/G2LQsrLMMdPP3519
+ mo1jworN6EFFIvew=
+X-Received: by 2002:a1c:80d3:: with SMTP id b202mr3849892wmd.8.1585666638938; 
+ Tue, 31 Mar 2020 07:57:18 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vvVoH4R9vtDDuaLznvDxX/poSm1H3whYVjMA2qNC0MpWjmDebAWhqr97YCe6yT4gD9Y0EKRKg==
+X-Received: by 2002:a1c:80d3:: with SMTP id b202mr3849882wmd.8.1585666638768; 
+ Tue, 31 Mar 2020 07:57:18 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-51-222.red.bezeqint.net. [79.176.51.222])
- by smtp.gmail.com with ESMTPSA id i21sm4392794wmb.23.2020.03.31.07.57.15
+ by smtp.gmail.com with ESMTPSA id b7sm25930878wrn.67.2020.03.31.07.57.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Mar 2020 07:57:15 -0700 (PDT)
-Date: Tue, 31 Mar 2020 10:57:14 -0400
+ Tue, 31 Mar 2020 07:57:18 -0700 (PDT)
+Date: Tue, 31 Mar 2020 10:57:16 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/10] virtio-iommu: avoid memleak in the unrealize
-Message-ID: <20200331145631.135630-7-mst@redhat.com>
+Subject: [PULL 07/10] hw/i386/amd_iommu.c: Fix corruption of log events
+ passed to guest
+Message-ID: <20200331145631.135630-8-mst@redhat.com>
 References: <20200331145631.135630-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200331145631.135630-1-mst@redhat.com>
@@ -76,8 +77,7 @@ Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,42 +90,47 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Pan Nengyuan <pannengyuan@huawei.com>, Eric Auger <eric.auger@redhat.com>
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-stable@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pan Nengyuan <pannengyuan@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
 
-req_vq/event_vq forgot to free in unrealize. Fix that.
-And also do clean 's->as_by_busptr' hash table in unrealize to fix another =
-leak.
+In the function amdvi_log_event(), we write an event log buffer
+entry into guest ram, whose contents are passed to the function
+via the "uint64_t *evt" argument. Unfortunately, a spurious
+'&' in the call to dma_memory_write() meant that instead of
+writing the event to the guest we would write the literal value
+of the pointer, plus whatever was in the following 8 bytes
+on the stack. This error was spotted by Coverity.
 
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Acked-by: Eric Auger <eric.auger@redhat.com>
-Message-Id: <20200328005705.29898-3-pannengyuan@huawei.com>
+Fix the bug by removing the '&'.
+
+Fixes: CID 1421945
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20200326105349.24588-1-peter.maydell@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-iommu.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/i386/amd_iommu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 4cee8083bc..22ba8848c2 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -693,9 +693,12 @@ static void virtio_iommu_device_unrealize(DeviceState =
-*dev, Error **errp)
-     VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
-     VirtIOIOMMU *s =3D VIRTIO_IOMMU(dev);
+diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
+index b1175e52c7..fd75cae024 100644
+--- a/hw/i386/amd_iommu.c
++++ b/hw/i386/amd_iommu.c
+@@ -181,7 +181,7 @@ static void amdvi_log_event(AMDVIState *s, uint64_t *ev=
+t)
+     }
 =20
-+    g_hash_table_destroy(s->as_by_busptr);
-     g_tree_destroy(s->domains);
-     g_tree_destroy(s->endpoints);
-=20
-+    virtio_delete_queue(s->req_vq);
-+    virtio_delete_queue(s->event_vq);
-     virtio_cleanup(vdev);
- }
+     if (dma_memory_write(&address_space_memory, s->evtlog + s->evtlog_tail=
+,
+-        &evt, AMDVI_EVENT_LEN)) {
++                         evt, AMDVI_EVENT_LEN)) {
+         trace_amdvi_evntlog_fail(s->evtlog, s->evtlog_tail);
+     }
 =20
 --=20
 MST
