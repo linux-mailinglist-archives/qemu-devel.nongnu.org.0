@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4EA6199766
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 15:27:35 +0200 (CEST)
-Received: from localhost ([::1]:38018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AAB5199769
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 15:28:28 +0200 (CEST)
+Received: from localhost ([::1]:38032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJGvW-0000UB-W4
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 09:27:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41975)
+	id 1jJGwN-0001s4-8j
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 09:28:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41993)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1jJGqF-0000I8-2J
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:22:08 -0400
+ (envelope-from <jasowang@redhat.com>) id 1jJGqG-0000KQ-55
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:22:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1jJGqD-0005lE-KX
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:22:06 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44367
+ (envelope-from <jasowang@redhat.com>) id 1jJGqF-0005mA-1h
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:22:08 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24236
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1jJGqD-0005kc-H9
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:22:05 -0400
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1jJGqE-0005lY-Ag
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:22:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585660924;
+ s=mimecast20190719; t=1585660926;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n8HmSTm9WnCU4dZKskIiwKW5MV+WGIgJj9Ow7s72VtQ=;
- b=Z7JcdjQHIGcwtQ/GJRKlkp2YpxPmSxY5/eXsKvXXzKAK8H8eUhEgI+xOV+/0ds0pGsF6d8
- 8xsINY/mPGN/zrKjzDSiHszyPAKskIUJtL2/WoJLKS7ncVvRLXNsWPcTRHeS4DDtVd43oR
- UJZRPf5KUaYbjoP/ebZ+rRByxvlBg3Y=
+ bh=Vr+3UYJLFSKZG8ktFtie/vjm4Z4gRJhmEP9NL974v7c=;
+ b=Jh+rhCaVHTsOCbfYiBo3eNbwpj6DqeMaV/TjNL5P7odqLret2Gmuu1RRkmzyyUtiPg0V4x
+ nJe5fuhQRBahyoCe90+jHFlywhY+XbA2JzVLbsmESEqiqGtvGyhwgTWNFq4MXcJ7nZYFIo
+ okflmnUtZK7AnZ9QTAF8CsyrAe0lsHY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-9hi62n6oOYGbecItYSsOqg-1; Tue, 31 Mar 2020 09:22:01 -0400
-X-MC-Unique: 9hi62n6oOYGbecItYSsOqg-1
+ us-mta-100-lj0_-5pLPJuguTByGOWBaA-1; Tue, 31 Mar 2020 09:22:04 -0400
+X-MC-Unique: lj0_-5pLPJuguTByGOWBaA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10E7C1052BA7;
- Tue, 31 Mar 2020 13:22:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F353801E74;
+ Tue, 31 Mar 2020 13:22:03 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-118.pek2.redhat.com
  [10.72.12.118])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 650C91036D00;
- Tue, 31 Mar 2020 13:21:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8FBE210002B5;
+ Tue, 31 Mar 2020 13:22:01 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL V2 05/14] hw/net/smc91c111: Let smc91c111_can_receive() return
- a boolean
-Date: Tue, 31 Mar 2020 21:21:30 +0800
-Message-Id: <1585660899-11228-6-git-send-email-jasowang@redhat.com>
+Subject: [PULL V2 06/14] hw/net/rtl8139: Simplify if/else statement
+Date: Tue, 31 Mar 2020 21:21:31 +0800
+Message-Id: <1585660899-11228-7-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1585660899-11228-1-git-send-email-jasowang@redhat.com>
 References: <1585660899-11228-1-git-send-email-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -80,41 +79,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-The smc91c111_can_receive() function simply returns a boolean value.
+Rewrite:
+
+      if (E) {
+          return A;
+      } else {
+          return B;
+      }
+      /* EOF */
+  }
+
+as:
+
+      if (E) {
+          return A;
+      }
+      return B;
+  }
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/smc91c111.c | 8 ++++----
+ hw/net/rtl8139.c | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/net/smc91c111.c b/hw/net/smc91c111.c
-index e9eb6f6..02be60c 100644
---- a/hw/net/smc91c111.c
-+++ b/hw/net/smc91c111.c
-@@ -130,16 +130,16 @@ static void smc91c111_update(smc91c111_state *s)
-     qemu_set_irq(s->irq, level);
+diff --git a/hw/net/rtl8139.c b/hw/net/rtl8139.c
+index ae4739b..ef32115 100644
+--- a/hw/net/rtl8139.c
++++ b/hw/net/rtl8139.c
+@@ -808,11 +808,11 @@ static int rtl8139_can_receive(NetClientState *nc)
+         /* ??? Flow control not implemented in c+ mode.
+            This is a hack to work around slirp deficiencies anyway.  */
+         return 1;
+-    } else {
+-        avail =3D MOD2(s->RxBufferSize + s->RxBufPtr - s->RxBufAddr,
+-                     s->RxBufferSize);
+-        return (avail =3D=3D 0 || avail >=3D 1514 || (s->IntrMask & RxOver=
+flow));
+     }
++
++    avail =3D MOD2(s->RxBufferSize + s->RxBufPtr - s->RxBufAddr,
++                 s->RxBufferSize);
++    return avail =3D=3D 0 || avail >=3D 1514 || (s->IntrMask & RxOverflow)=
+;
  }
 =20
--static int smc91c111_can_receive(smc91c111_state *s)
-+static bool smc91c111_can_receive(smc91c111_state *s)
- {
-     if ((s->rcr & RCR_RXEN) =3D=3D 0 || (s->rcr & RCR_SOFT_RST)) {
--        return 1;
-+        return true;
-     }
-     if (s->allocated =3D=3D (1 << NUM_PACKETS) - 1 ||
-         s->rx_fifo_len =3D=3D NUM_PACKETS) {
--        return 0;
-+        return false;
-     }
--    return 1;
-+    return true;
- }
-=20
- static inline void smc91c111_flush_queued_packets(smc91c111_state *s)
+ static ssize_t rtl8139_do_receive(NetClientState *nc, const uint8_t *buf, =
+size_t size_, int do_interrupt)
 --=20
 2.5.0
 
