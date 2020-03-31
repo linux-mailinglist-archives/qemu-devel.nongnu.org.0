@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB457198AB4
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 05:56:26 +0200 (CEST)
-Received: from localhost ([::1]:59988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF029198AC2
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 06:00:00 +0200 (CEST)
+Received: from localhost ([::1]:60078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJ80n-0006Lx-Un
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 23:56:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60834)
+	id 1jJ84F-0004lU-S6
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 23:59:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60847)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jJ7zW-0004af-9K
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 23:55:07 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jJ7zX-0004dh-SA
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 23:55:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jJ7zV-0008EA-AG
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 23:55:06 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:37313)
+ (envelope-from <richard.henderson@linaro.org>) id 1jJ7zW-0008Eu-PQ
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 23:55:07 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:43908)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jJ7zV-0008Dr-4v
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 23:55:05 -0400
-Received: by mail-pl1-x642.google.com with SMTP id x1so7614334plm.4
- for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 20:55:05 -0700 (PDT)
+ id 1jJ7zW-0008Ea-K3
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 23:55:06 -0400
+Received: by mail-pl1-x642.google.com with SMTP id v23so7599875ply.10
+ for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 20:55:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cw+WZzzhEd4mjQWPUsr/UQXcmfdkOCsgB8L/Xuk7inw=;
- b=qxZpcVJaFb1jtv+OAw3oDhzmEtPCwR4/gKbgDx7xi1xRIeD6z9WjvPmUr6uXGzMYz9
- e+g2o0qFsV7PviiombDQ7ArypNeYJQMjnupFh9eGoK40O7NP0a6njiNFGbZTcyBlMYR3
- yocl2XrXtB6Fl52lAkAAg8/2OmM+KYSzmxjB4OSaMxB4risW2w7/894uapn62ISzyd81
- sFsS3cukM9GwQrpdd36Zin1r7R/TXqmPT+9chMdvY7dNy0N9HbN8DQo8x+/Re/Mc8Xe9
- GgOpxviQFQju7LRmkEboWoRK0zMhLMm7XlebJGPAU4YHVckiAfEhapa3DtTP91+pCQBY
- m84Q==
+ bh=nFUQTfUSKaEvMkBYs+/kSP9YEBdIr8bGAjyzPCvPYkQ=;
+ b=Ek8AHqbCycWVJDm79edQGPIqhsWrWcw4RfwumJ/TYaZfgZohPLYtoTYKfuqpQjiEfV
+ iZqLRmQJLJnk49e0ekks+hTN5kLFD6PiQDw3E2BzQ0AQ4oG+XjdZXJztfI07Uppb/scj
+ zzSZnDcYDM4tE91f2gEhB5gpVxt123mrVjxpVVDas2hLc9+znaz54yQcindUZidwq06d
+ nGvj4paMQX99mzBUfdfaIWUIkct5QHyLzg3hZrpKa4VXVOMMkBfJ0VfJw3o8CBF7dDbl
+ 2ghI41ZqNE/yVfPxBmJe07q4SbrRd3qkZ/51Lmu2Lri0Hsu1uZ5AHg5HzDsGEjOFxSB3
+ dMbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cw+WZzzhEd4mjQWPUsr/UQXcmfdkOCsgB8L/Xuk7inw=;
- b=e+HJ2cuCMo7u2TRly2oqc2G6wKiJ/xAiLPlV2GltOsO8907TPvWF67Xxgf7ENsIIX+
- H9YXt9IOcd7hrdrD4L1HM/ZMuf2yTXdy1PZzxRlvaagGfQytLNIwfyMn6NPp+oSnzUUg
- F7iCLqsRDkfh+40+6fmKXwerZ4jjXcfsiwzshBiZX8+k88qxCDyWZfaHsvGP44mevXSM
- 0hWvMYei9KzTFF1X0LjWBu7GYDbHSFJd3VNUsw2riUQI5ViUmGTQxBIjtpaX2k02yle2
- iZ5rUCXAxPycdpGq7OVgyVObyfsNC1mM37gWwAD5yhzGXaJ1QzJTqZD093KwJeLW3SbN
- l6ig==
-X-Gm-Message-State: ANhLgQ2HkfRoUB5ViFef0K4l7kNewuvGXztgQ4t0bDZkMQAuZuWLfmqG
- /XkoDDVbyBB1nE9yNbj4GKAIb2nTfsA=
-X-Google-Smtp-Source: ADFU+vsInyVfA4EpyfMh+1f8/1lVKHbYyC0qb0QHQb0ciDj6BCQhMWjV5ZETmtcHyi44z3GxOA8cmQ==
-X-Received: by 2002:a17:902:a517:: with SMTP id
- s23mr16150017plq.125.1585626903844; 
- Mon, 30 Mar 2020 20:55:03 -0700 (PDT)
+ bh=nFUQTfUSKaEvMkBYs+/kSP9YEBdIr8bGAjyzPCvPYkQ=;
+ b=AOfdtDoRESHHE6O3S50xSjKNKqfrqxhuNF0qk4sgriiAhbWaafSJ1wxVo/tAUU2E6x
+ nRkgzhg8lszmbdgP+hYtZft+OpoTYzIWzWB+1NapXXokhu0nznOLpb2Y2C0ahpD7HnBL
+ 8qdFrPcSOQk7XudB+ru4uaCwH7LQnNpsRaLYjF7dfAIUs+KuirKHmSvB7wy2x1W+518j
+ U4x5FefW5q14ec0vYBQOfHX+iw6WXXup1Vsd07YCTFJIdpaAqLS9Qmvf6sZcmd/Udhcs
+ hu0IcH1mu7HY38xwMrIKI5MCWsYFP8hMLL9xG6ZhAnryd686BC6kD4dReJynCcAJCQ46
+ u7Fw==
+X-Gm-Message-State: AGi0Pubwe5JKrwzWbjHYzOtVqrB/zdGgk9SOqa4+Ov47/kS0wuYcW/2J
+ osAASfpbUBP5x/63kN+FR4JqAH7G28M=
+X-Google-Smtp-Source: APiQypJVh29T/nGzjdjCzKTzwzuvG+MWq0YGLNrjs/g85wzWcUjfpX/Y34jWH5j2TPzRVCg2VllSAA==
+X-Received: by 2002:a17:90a:a484:: with SMTP id
+ z4mr1556857pjp.77.1585626905312; 
+ Mon, 30 Mar 2020 20:55:05 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id h11sm11386174pfq.56.2020.03.30.20.55.02
+ by smtp.gmail.com with ESMTPSA id h11sm11386174pfq.56.2020.03.30.20.55.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Mar 2020 20:55:03 -0700 (PDT)
+ Mon, 30 Mar 2020 20:55:04 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL for-5.0 03/10] configure: Do not force pie=no for non-x86
-Date: Mon, 30 Mar 2020 20:54:49 -0700
-Message-Id: <20200331035456.6494-5-richard.henderson@linaro.org>
+Subject: [PULL for-5.0 04/10] configure: Always detect -no-pie toolchain
+ support
+Date: Mon, 30 Mar 2020 20:54:50 -0700
+Message-Id: <20200331035456.6494-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200331035456.6494-1-richard.henderson@linaro.org>
 References: <20200331035456.6494-1-richard.henderson@linaro.org>
@@ -80,55 +81,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PIE is supported on many other hosts besides x86.
+The CFLAGS_NOPIE and LDFLAGS_NOPIE variables are used
+in pc-bios/optionrom/Makefile, which has nothing to do
+with the PIE setting of the main qemu executables.
 
-The default for non-x86 is now the same as x86: pie is used
-if supported, and may be forced via --enable/--disable-pie.
+This overrides any operating system default to build
+all executables as PIE, which is important for ROMs.
 
-The original commit (40d6444e91c) said:
-
-  "Non-x86 are not changed, as they require TCG changes"
-
-but I think that's wrong -- there's nothing about PIE that
-affects TCG one way or another.
-
-Tested on aarch64 (bionic) and ppc64le (centos 7) hosts.
-
-Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- configure | 10 ----------
- 1 file changed, 10 deletions(-)
+ configure | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
 diff --git a/configure b/configure
-index e3ccb8daf0..d4c2c7a563 100755
+index d4c2c7a563..1cdc439a57 100755
 --- a/configure
 +++ b/configure
-@@ -2107,16 +2107,6 @@ if ! compile_prog "-Werror" "" ; then
+@@ -2107,26 +2107,24 @@ if ! compile_prog "-Werror" "" ; then
  	"Thread-Local Storage (TLS). Please upgrade to a version that does."
  fi
  
--if test "$pie" = ""; then
--  case "$cpu-$targetos" in
--    i386-Linux|x86_64-Linux|x32-Linux|i386-OpenBSD|x86_64-OpenBSD)
--      ;;
--    *)
--      pie="no"
--      ;;
--  esac
--fi
--
- if test "$pie" != "no" ; then
-   cat > $TMPC << EOF
+-if test "$pie" != "no" ; then
+-  cat > $TMPC << EOF
++cat > $TMPC << EOF
  
+ #ifdef __linux__
+ #  define THREAD __thread
+ #else
+ #  define THREAD
+ #endif
+-
+ static THREAD int tls_var;
+-
+ int main(void) { return tls_var; }
+-
+ EOF
+-  # check we support --no-pie first...
+-  if compile_prog "-Werror -fno-pie" "-no-pie"; then
+-    CFLAGS_NOPIE="-fno-pie"
+-    LDFLAGS_NOPIE="-nopie"
+-  fi
+ 
++# Check we support --no-pie first; we will need this for building ROMs.
++if compile_prog "-Werror -fno-pie" "-no-pie"; then
++  CFLAGS_NOPIE="-fno-pie"
++  LDFLAGS_NOPIE="-no-pie"
++fi
++
++if test "$pie" != "no" ; then
+   if compile_prog "-fPIE -DPIE" "-pie"; then
+     QEMU_CFLAGS="-fPIE -DPIE $QEMU_CFLAGS"
+     QEMU_LDFLAGS="-pie $QEMU_LDFLAGS"
 -- 
 2.20.1
 
