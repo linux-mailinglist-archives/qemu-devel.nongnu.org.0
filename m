@@ -2,113 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0F9C1997A8
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 15:38:21 +0200 (CEST)
-Received: from localhost ([::1]:38246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD62199796
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 15:34:49 +0200 (CEST)
+Received: from localhost ([::1]:38158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJH5w-00007Q-J1
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 09:38:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43439)
+	id 1jJH2W-0002mX-Pd
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 09:34:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43567)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1jJH0B-0000cj-Jx
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:32:26 -0400
+ (envelope-from <philmd@redhat.com>) id 1jJH0w-0001R1-8q
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:33:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1jJH09-0002Mz-24
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:32:22 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57062
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jJH0u-0002gX-KG
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:33:10 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26920
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1jJH08-0002MH-TB
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:32:21 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jJH0u-0002gF-Fx
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:33:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585661539;
+ s=mimecast20190719; t=1585661588;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=sZeZGCdB0KUQHp66rbXcn3YhI5XBj4jlJKWVhIKJZDY=;
- b=XrF/XffZ+3I/pf4LSVT2sPINM4jXVWbKfL6TDoLtOXBVFGFriBLwiTV3Rm50RQ8LvTPYzw
- LZbGaeIDTGJf0/Rdn9UYXl62toB7mRwM1ROj4Sq7fqAICvmDkkqc57eIjkdOU85ZdGdOfE
- gRotdAAgS0DqzNFtcwnTaYpnsGelD6Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-458-4CwtnLt1N7i7eOuybhwy0g-1; Tue, 31 Mar 2020 09:32:16 -0400
-X-MC-Unique: 4CwtnLt1N7i7eOuybhwy0g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38FD4190A7AC;
- Tue, 31 Mar 2020 13:32:14 +0000 (UTC)
-Received: from [10.36.114.0] (ovpn-114-0.ams2.redhat.com [10.36.114.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E94031001B28;
- Tue, 31 Mar 2020 13:32:05 +0000 (UTC)
-Subject: Re: [RFC for Linux] virtio_balloon: Add VIRTIO_BALLOON_F_THP_ORDER to
- handle THP spilt issue
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20200326031817-mutt-send-email-mst@kernel.org>
- <C4C6BAF7-C040-403D-997C-48C7AB5A7D6B@redhat.com>
- <20200326054554-mutt-send-email-mst@kernel.org>
- <f26dc94a-7296-90c9-56cd-4586b78bc03d@redhat.com>
- <20200331091718-mutt-send-email-mst@kernel.org>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat GmbH
-Message-ID: <02a393ce-c4b4-ede9-7671-76fa4c19097a@redhat.com>
-Date: Tue, 31 Mar 2020 15:32:05 +0200
+ in-reply-to:in-reply-to:references:references;
+ bh=PZW8BELpErbfIZ5vqbKU/q+KDqhcpowe4mJlkPn/sBQ=;
+ b=dglB892XoqIiMoow1e0XY70oo88GDA1sQFrTke6PVC5qtXGeRtgFxLO3Z+6rdMM58YjPcF
+ CThXiaTrrb6yxIeJPKFoAt3HXPRDhL1RWq0wtiMxzFgfjgKqkrfEFw5aAtIdVqdmK8o+2c
+ R8UbF6NmTRg32kCHjGx03o6PDg+on3Y=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-484-VGeBtjPvMruOTFYT2QdcUQ-1; Tue, 31 Mar 2020 09:33:03 -0400
+X-MC-Unique: VGeBtjPvMruOTFYT2QdcUQ-1
+Received: by mail-ed1-f71.google.com with SMTP id a32so18658316edf.17
+ for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 06:33:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UPjHZGzsjhZ8Es1AfL+yP2KJXoUcvMQJc6VPweBlQcs=;
+ b=EJ4uNRkWX4rP7Md34OR+KtYipo9GEN7BaQVp3GcnPeOfJW0nGMb8DWLW9hjsz9du1U
+ gAzDirLA2ciOKPTIkol7W4z5cUl5fyDsGlYLBk+xddBCkbewCRQgRSAZOjoYHfiKnxSV
+ +J8ETApwBvAXdlbSdei2kF3v08Qc2rauOwxkgJFXcS3aWFUtMX4KJ7NFWkaxppLVOvj3
+ 9o4HEpP6KeRESgd5yI4GueVqgzQSlILRVmZEY5uuTxiHm/Z1IO1sRS7IEBdR5kY9P5e1
+ raGFMrszFLiSn2l36U5JTfpKrYbRok5IG4Wv0/FBjcRfPbMyHGOlX0YTEYtHrLa4vv6m
+ DuEg==
+X-Gm-Message-State: ANhLgQ149zzmrP3J8eC61EpRTpAtfEutj+mbu7CWO8eb/pUQhnuW8P4b
+ Vpqvr3U1N6dlhqcFKnSEHaekzwWtoIl+bGHmzvqX8/PiOg95sQIFsq6tu4T24+dIQtdoC4iM2OP
+ NPSV897PrhXiSpe0=
+X-Received: by 2002:a17:906:398:: with SMTP id
+ b24mr13911973eja.243.1585661582603; 
+ Tue, 31 Mar 2020 06:33:02 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtCz9rIO2bMnbNuHQHqwNvdBft3wKq1hvSVfTWA/GV+njJkpsm6en+oKoA06EF7CRiyTO3FNw==
+X-Received: by 2002:a17:906:398:: with SMTP id
+ b24mr13911920eja.243.1585661582174; 
+ Tue, 31 Mar 2020 06:33:02 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id x26sm1895061edr.44.2020.03.31.06.33.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 31 Mar 2020 06:33:01 -0700 (PDT)
+Subject: Re: [PATCH-for-5.0] qga-posix: Avoid crashing process when failing to
+ allocate memory
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20200324194836.21539-1-philmd@redhat.com>
+ <1242083041.1.1585117162620@webmail.proxmox.com>
+ <6be54d1f-e5fc-5b34-ba4d-fa050029f26b@redhat.com>
+ <87mu7yue35.fsf@dusky.pond.sub.org>
+ <81317f7f-7de9-f616-27dc-c389f06792c3@redhat.com>
+ <20200330170613.GT236854@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <3b584afe-9570-f453-5f28-13656030eccb@redhat.com>
+Date: Tue, 31 Mar 2020 15:32:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200331091718-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200330170613.GT236854@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -120,335 +98,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pagupta@redhat.com, Alexander Duyck <alexander.h.duyck@linux.intel.com>,
- qemu-devel@nongnu.org, mojha@codeaurora.org, linux-kernel@vger.kernel.org,
- virtualization@lists.linux-foundation.org, namit@vmware.com,
- Hui Zhu <teawaterz@linux.alibaba.com>, akpm@linux-foundation.org,
- jasowang@redhat.com, Hui Zhu <teawater@gmail.com>
+Cc: qemu-trivial@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Fakhri Zulkifli <mohdfakhrizulkifli@gmail.com>,
+ qemu-stable@nongnu.org,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Sameeh Jubran <sjubran@redhat.com>, Basil Salman <basil@daynix.com>,
+ Dietmar Maurer <dietmar@proxmox.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31.03.20 15:24, Michael S. Tsirkin wrote:
-> On Tue, Mar 31, 2020 at 12:35:24PM +0200, David Hildenbrand wrote:
->> On 26.03.20 10:49, Michael S. Tsirkin wrote:
->>> On Thu, Mar 26, 2020 at 08:54:04AM +0100, David Hildenbrand wrote:
->>>>
->>>>
->>>>> Am 26.03.2020 um 08:21 schrieb Michael S. Tsirkin <mst@redhat.com>:
->>>>>
->>>>> =EF=BB=BFOn Thu, Mar 12, 2020 at 09:51:25AM +0100, David Hildenbran=
-d wrote:
->>>>>>> On 12.03.20 09:47, Michael S. Tsirkin wrote:
->>>>>>> On Thu, Mar 12, 2020 at 09:37:32AM +0100, David Hildenbrand wrote=
-:
->>>>>>>> 2. You are essentially stealing THPs in the guest. So the fastes=
-t
->>>>>>>> mapping (THP in guest and host) is gone. The guest won't be able=
- to make
->>>>>>>> use of THP where it previously was able to. I can imagine this i=
-mplies a
->>>>>>>> performance degradation for some workloads. This needs a proper
->>>>>>>> performance evaluation.
->>>>>>>
->>>>>>> I think the problem is more with the alloc_pages API.
->>>>>>> That gives you exactly the given order, and if there's
->>>>>>> a larger chunk available, it will split it up.
->>>>>>>
->>>>>>> But for balloon - I suspect lots of other users,
->>>>>>> we do not want to stress the system but if a large
->>>>>>> chunk is available anyway, then we could handle
->>>>>>> that more optimally by getting it all in one go.
->>>>>>>
->>>>>>>
->>>>>>> So if we want to address this, IMHO this calls for a new API.
->>>>>>> Along the lines of
->>>>>>>
->>>>>>>    struct page *alloc_page_range(gfp_t gfp, unsigned int min_orde=
-r,
->>>>>>>                    unsigned int max_order, unsigned int *order)
->>>>>>>
->>>>>>> the idea would then be to return at a number of pages in the give=
-n
->>>>>>> range.
->>>>>>>
->>>>>>> What do you think? Want to try implementing that?
->>>>>>
->>>>>> You can just start with the highest order and decrement the order =
-until
->>>>>> your allocation succeeds using alloc_pages(), which would be enoug=
-h for
->>>>>> a first version. At least I don't see the immediate need for a new
->>>>>> kernel API.
->>>>>
->>>>> OK I remember now.  The problem is with reclaim. Unless reclaim is
->>>>> completely disabled, any of these calls can sleep. After it wakes u=
-p,
->>>>> we would like to get the larger order that has become available
->>>>> meanwhile.
->>>>>
->>>>
->>>> Yes, but that=E2=80=98s a pure optimization IMHO.
->>>> So I think we should do a trivial implementation first and then see =
-what we gain from a new allocator API. Then we might also be able to just=
-ify it using real numbers.
->>>>
+On 3/30/20 7:06 PM, Daniel P. Berrang=C3=A9 wrote:
+> On Mon, Mar 30, 2020 at 06:04:49PM +0200, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+>> Cc'ing the ppl who responded the thread you quoted.
+>>
+>> On 3/30/20 4:11 PM, Markus Armbruster wrote:
+>>> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+>>> ---
+>>>    qga/commands-posix.c | 8 +++++++-
+>>>    1 file changed, 7 insertions(+), 1 deletion(-)
 >>>
->>> Well how do you propose implement the necessary semantics?
->>> I think we are both agreed that alloc_page_range is more or
->>> less what's necessary anyway - so how would you approximate it
->>> on top of existing APIs?
+>>> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+>>> index 93474ff770..8f127788e6 100644
+>>> --- a/qga/commands-posix.c
+>>> +++ b/qga/commands-posix.c
+>>> @@ -493,7 +493,13 @@ struct GuestFileRead *qmp_guest_file_read(int64_t
+>> handle, bool has_count,
+>>>            gfh->state =3D RW_STATE_NEW;
+>>>        }
+>>>
+>>> -    buf =3D g_malloc0(count+1);
+>>> +    buf =3D g_try_malloc0(count + 1);
+>>> +    if (!buf) {
+>>> +        error_setg(errp,
+>>> +                   "failed to allocate sufficient memory "
+>>> +                   "to complete the requested service");
+>>> +        return NULL;
+>>> +    }
+>>>        read_count =3D fread(buf, 1, count, fh);
+>>>        if (ferror(fh)) {
+>>>            error_setg_errno(errp, errno, "failed to read file");
+>>>
 >>
->> Looking at drivers/misc/vmw_balloon.c:vmballoon_inflate(), it first
->> tries to allocate huge pages using
+>>>> On 3/25/20 7:19 AM, Dietmar Maurer wrote:
+>>>>> but error_setg() also calls malloc, so this does not help at all?
+>>>>
+>>>> IIUC the problem, you can send a QMP command to ask to read let's say
+>>>> 3GB of a file, and QEMU crashes. But this doesn't mean there the .heap
+>>>> is empty, there is probably few bytes still available, enough to
+>>>> respond with an error message.
+>>>
+>>> We've discussed how to handle out-of-memory conditions many times.
+>>> Here's one instance:
+>>>
+>>>       Subject: When it's okay to treat OOM as fatal?
+>>>       Message-ID: <87efcqniza.fsf@dusky.pond.sub.org>
+>>>       https://lists.nongnu.org/archive/html/qemu-devel/2018-10/msg03212=
+.html
+>>>
+>>> No improvement since then; there's no guidance on when to check for OOM=
+.
+>>> Actual code tends to check only "large" allocations (for subjective
+>>> values of "large").
+>>>
+>>> I reiterate my opinion that whatever OOM handling we have is too
+>>> unreliable to be worth much, since it can only help when (1) allocation=
+s
+>>> actually fail (they generally don't[*]), and (2) the allocation that
+>>> fails is actually handled (they generally aren't), and (3) the handling
+>>> actually works (we don't test OOM, so it generally doesn't).
+>>>
+>>>
+>>> [*] Linux overcommits memory, which means malloc() pretty much always
+>>> succeeds, but when you try to use "too much" of the memory you
+>>> supposedly allocated, a lethal signal is coming your way.  Reasd the
+>>> thread I quoted for examples.
 >>
->> 	alloc_pages(__GFP_HIGHMEM|__GFP_NOWARN| __GFP_NOMEMALLOC,=20
->>                     VMW_BALLOON_2M_ORDER)
+>> So this patch takes Stefan reasoning:
+>> https://lists.nongnu.org/archive/html/qemu-devel/2018-10/msg03525.html
 >>
->> And then falls back to 4k allocations (balloon_page_alloc()) in case
->> allocation fails.
+>>    My thinking has been to use g_new() for small QEMU-internal structure=
+s
+>>    and g_try_new() for large amounts of memory allocated in response to
+>>    untrusted inputs.  (Untrusted inputs must never be used for unbounded
+>>    allocation sizes but those bounded sizes can still be large.)
 >>
->> I'm roughly thinking of something like the following, but with an
->> optimized reporting interface/bigger pfn array so we can report >
->> 1MB at a time. Also, it might make sense to remember the order that
->> succeeded across some fill_balloon() calls.
+>> In any cases (malloc/malloc_try) we have a denial of service
+>> (https://www.openwall.com/lists/oss-security/2018/10/17/4) and the servi=
+ce
+>> is restarted.
 >>
->> Don't even expect it to compile ...
->>
->>
->>
->> >From 4305f989672ccca4be9293e6d4167e929f3e299b Mon Sep 17 00:00:00 200=
-1
->> From: David Hildenbrand <david@redhat.com>
->> Date: Tue, 31 Mar 2020 12:28:07 +0200
->> Subject: [PATCH RFC] tmp
->>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>  drivers/virtio/virtio_balloon.c    | 38 ++++++++++++++++++--------
->>  include/linux/balloon_compaction.h |  7 ++++-
->>  mm/balloon_compaction.c            | 43 +++++++++++++++++++++++------=
--
->>  3 files changed, 67 insertions(+), 21 deletions(-)
->>
->> diff --git a/drivers/virtio/virtio_balloon.c b/drivers/virtio/virtio_b=
-alloon.c
->> index 8511d258dbb4..0660b1b988f0 100644
->> --- a/drivers/virtio/virtio_balloon.c
->> +++ b/drivers/virtio/virtio_balloon.c
->> @@ -187,7 +187,7 @@ int virtballoon_free_page_report(struct page_repor=
-ting_dev_info *pr_dev_info,
->>  }
->> =20
->>  static void set_page_pfns(struct virtio_balloon *vb,
->> -			  __virtio32 pfns[], struct page *page)
->> +			  __virtio32 pfns[], struct page *page, int order)
->>  {
->>  	unsigned int i;
->> =20
->> @@ -197,7 +197,7 @@ static void set_page_pfns(struct virtio_balloon *v=
-b,
->>  	 * Set balloon pfns pointing at this page.
->>  	 * Note that the first pfn points at start of the page.
->>  	 */
->> -	for (i =3D 0; i < VIRTIO_BALLOON_PAGES_PER_PAGE; i++)
->> +	for (i =3D 0; i < VIRTIO_BALLOON_PAGES_PER_PAGE * (1 << order); i++)
->>  		pfns[i] =3D cpu_to_virtio32(vb->vdev,
->>  					  page_to_balloon_pfn(page) + i);
->>  }
->> @@ -205,6 +205,7 @@ static void set_page_pfns(struct virtio_balloon *v=
-b,
->>  static unsigned fill_balloon(struct virtio_balloon *vb, size_t num)
->>  {
->>  	unsigned num_allocated_pages;
->> +	int order =3D MAX_ORDER - 1;
->>  	unsigned num_pfns;
->>  	struct page *page;
->>  	LIST_HEAD(pages);
->> @@ -212,9 +213,20 @@ static unsigned fill_balloon(struct virtio_balloo=
-n *vb, size_t num)
->>  	/* We can only do one array worth at a time. */
->>  	num =3D min(num, ARRAY_SIZE(vb->pfns));
->> =20
->> +	/*
->> +	 * Note: we will currently never allocate more than 1MB due to the
->> +	 * pfn array size, so we will not allocate MAX_ORDER - 1 ...
->> +	 */
->> +
->>  	for (num_pfns =3D 0; num_pfns < num;
->> -	     num_pfns +=3D VIRTIO_BALLOON_PAGES_PER_PAGE) {
->> -		struct page *page =3D balloon_page_alloc();
->> +	     num_pfns +=3D VIRTIO_BALLOON_PAGES_PER_PAGE * (1 << order)) {
->> +		const unsigned long remaining =3D num - num_pfns;
->> +
->> +		order =3D MIN(order,
->> +			    get_order(remaining << VIRTIO_BALLOON_PFN_SHIFT));
->> +		if ((1 << order) * VIRTIO_BALLOON_PAGES_PER_PAGE > remaining)
->> +			order--;
->> +		page =3D balloon_pages_alloc(order);
->> =20
->>  		if (!page) {
->>  			dev_info_ratelimited(&vb->vdev->dev,
->> @@ -225,6 +237,8 @@ static unsigned fill_balloon(struct virtio_balloon=
- *vb, size_t num)
->>  			break;
->>  		}
->> =20
->> +		/* Continue with the actual order that succeeded. */
->> +		order =3D page_private(page);
->>  		balloon_page_push(&pages, page);
->>  	}
->> =20
->> @@ -233,14 +247,16 @@ static unsigned fill_balloon(struct virtio_ballo=
-on *vb, size_t num)
->>  	vb->num_pfns =3D 0;
->> =20
->>  	while ((page =3D balloon_page_pop(&pages))) {
->> +		order =3D page_order(page);
->> +		/* enqueuing will split the page and clear the order */
->>  		balloon_page_enqueue(&vb->vb_dev_info, page);
->> =20
->> -		set_page_pfns(vb, vb->pfns + vb->num_pfns, page);
->> -		vb->num_pages +=3D VIRTIO_BALLOON_PAGES_PER_PAGE;
->> +		set_page_pfns(vb, vb->pfns + vb->num_pfns, page, order);
->> +		vb->num_pages +=3D VIRTIO_BALLOON_PAGES_PER_PAGE * (1 << order);
->>  		if (!virtio_has_feature(vb->vdev,
->>  					VIRTIO_BALLOON_F_DEFLATE_ON_OOM))
->> -			adjust_managed_page_count(page, -1);
->> -		vb->num_pfns +=3D VIRTIO_BALLOON_PAGES_PER_PAGE;
->> +			adjust_managed_page_count(page, -1 * (1 << order));
->> +		vb->num_pfns +=3D VIRTIO_BALLOON_PAGES_PER_PAGE * (1 << order);
->>  	}
->> =20
->>  	num_allocated_pages =3D vb->num_pfns;
->> @@ -284,7 +300,7 @@ static unsigned leak_balloon(struct virtio_balloon=
- *vb, size_t num)
->>  		page =3D balloon_page_dequeue(vb_dev_info);
->>  		if (!page)
->>  			break;
->> -		set_page_pfns(vb, vb->pfns + vb->num_pfns, page);
->> +		set_page_pfns(vb, vb->pfns + vb->num_pfns, page, 0);
->>  		list_add(&page->lru, &pages);
->>  		vb->num_pages -=3D VIRTIO_BALLOON_PAGES_PER_PAGE;
->>  	}
->> @@ -786,7 +802,7 @@ static int virtballoon_migratepage(struct balloon_=
-dev_info *vb_dev_info,
->>  	__count_vm_event(BALLOON_MIGRATE);
->>  	spin_unlock_irqrestore(&vb_dev_info->pages_lock, flags);
->>  	vb->num_pfns =3D VIRTIO_BALLOON_PAGES_PER_PAGE;
->> -	set_page_pfns(vb, vb->pfns, newpage);
->> +	set_page_pfns(vb, vb->pfns, newpage, 0);
->>  	tell_host(vb, vb->inflate_vq);
->> =20
->>  	/* balloon's page migration 2nd step -- deflate "page" */
->> @@ -794,7 +810,7 @@ static int virtballoon_migratepage(struct balloon_=
-dev_info *vb_dev_info,
->>  	balloon_page_delete(page);
->>  	spin_unlock_irqrestore(&vb_dev_info->pages_lock, flags);
->>  	vb->num_pfns =3D VIRTIO_BALLOON_PAGES_PER_PAGE;
->> -	set_page_pfns(vb, vb->pfns, page);
->> +	set_page_pfns(vb, vb->pfns, page, 0);
->>  	tell_host(vb, vb->deflate_vq);
->> =20
->>  	mutex_unlock(&vb->balloon_lock);
->> diff --git a/include/linux/balloon_compaction.h b/include/linux/balloo=
-n_compaction.h
->> index 338aa27e4773..ed93fe5704d1 100644
->> --- a/include/linux/balloon_compaction.h
->> +++ b/include/linux/balloon_compaction.h
->> @@ -60,7 +60,7 @@ struct balloon_dev_info {
->>  	struct inode *inode;
->>  };
->> =20
->> -extern struct page *balloon_page_alloc(void);
->> +extern struct page *balloon_pages_alloc(int order);
->>  extern void balloon_page_enqueue(struct balloon_dev_info *b_dev_info,
->>  				 struct page *page);
->>  extern struct page *balloon_page_dequeue(struct balloon_dev_info *b_d=
-ev_info);
->> @@ -78,6 +78,11 @@ static inline void balloon_devinfo_init(struct ball=
-oon_dev_info *balloon)
->>  	balloon->inode =3D NULL;
->>  }
->> =20
->> +static inline struct page *balloon_page_alloc(void)
->> +{
->> +	return balloon_pages_alloc(0);
->> +}
->> +
->>  #ifdef CONFIG_BALLOON_COMPACTION
->>  extern const struct address_space_operations balloon_aops;
->>  extern bool balloon_page_isolate(struct page *page,
->> diff --git a/mm/balloon_compaction.c b/mm/balloon_compaction.c
->> index 26de020aae7b..067810b32813 100644
->> --- a/mm/balloon_compaction.c
->> +++ b/mm/balloon_compaction.c
->> @@ -112,23 +112,35 @@ size_t balloon_page_list_dequeue(struct balloon_=
-dev_info *b_dev_info,
->>  EXPORT_SYMBOL_GPL(balloon_page_list_dequeue);
->> =20
->>  /*
->> - * balloon_page_alloc - allocates a new page for insertion into the b=
-alloon
->> - *			page list.
->> + * balloon_pages_alloc - allocates a new page (of at most the given o=
-rder)
->> + * 			 for insertion into the balloon page list.
->>   *
->>   * Driver must call this function to properly allocate a new balloon =
-page.
->>   * Driver must call balloon_page_enqueue before definitively removing=
- the page
->>   * from the guest system.
->>   *
->> + * Will fall back to smaller orders if allocation fails. The order of=
- the
->> + * allocated page is stored in page->private.
->> + *
->>   * Return: struct page for the allocated page or NULL on allocation f=
-ailure.
->>   */
->> -struct page *balloon_page_alloc(void)
->> +struct page *balloon_pages_alloc(int order)
->>  {
->> -	struct page *page =3D alloc_page(balloon_mapping_gfp_mask() |
->> -				       __GFP_NOMEMALLOC | __GFP_NORETRY |
->> -				       __GFP_NOWARN);
->> -	return page;
->> +	struct page *page;
->> +
->> +	while (order >=3D 0) {
->> +		page =3D alloc_pages(balloon_mapping_gfp_mask() |
->> +				   __GFP_NOMEMALLOC | __GFP_NORETRY |
->> +				   __GFP_NOWARN, order);
->> +		if (page) {
->> +			set_page_private(page, order);
->> +			return page;
->> +		}
->> +		order--;
->> +	}
->> +	return NULL;
->>  }
->> -EXPORT_SYMBOL_GPL(balloon_page_alloc);
->> +EXPORT_SYMBOL_GPL(balloon_pages_alloc);
->> =20
->>  /*
->>   * balloon_page_enqueue - inserts a new page into the balloon page li=
-st.
+>> Daniel suggests such behavior should be catched by external firewall gua=
+rd
+>> (either on the process or on the network). This seems out of scope of QE=
+MU
+>> and hard to fix.
+>=20
+> Did I ?
+>=20
+> IMHO if the guest agent is connected to a chardev that allows access to
+> a user that isn't the one running QEMU, that is serious mis-configuration=
+.
+> IOW, it is user error, not a QEMU guest agent bug.  Firewalls are not
+> required  - QEMU should be reconfigured to not make it accessible over TC=
+P.
+> This is the same situation documented in 4f24430821c568936aeda417bbb00e98=
+9a9e1984
+> when it was claimed that QEMU had a security flaw because the QMP monitor
+> could be exposed over TCP.
+>=20
+> The guest agent is a privileged interface to interact with a guest OS, an=
+d
+> as such it should only be made available to users who are trustworthy on
+> the host.
+>=20
+>> So, can we improve something? Or should we let this code as it?
+>=20
+> Personally I would have just put a low, hard limit on "count" in the
+> guest agent spec & impl. eg don't allow count to be larger than 10 MB
+> and document that this command is just for limited, ad-hoc debugging,
+> such as log file access. In extremis we could make the hard limit be
+> a configuration parameter for the guest agent.
+
+This is clearly a smarter/cleaner fix, thanks!
+
+> The QEMU guest agent protocol is not sensible way to access huge files
+> inside the guest. It requires the inefficient process of reading the
+> entire data into memory than duplicating it again in base64 format, and
+> then copying it again in the JSON serializer / monitor code.
+>=20
+> For arbitrary general purpose file access, especially for large files,
+> use a real file transfer program or use a network block device, not the
+> QEMU guest agent.
 >=20
 >=20
-> I think this will try to invoke direct reclaim from the first iteration
-> to free up the max order.
-
-%__GFP_NORETRY: The VM implementation will try only very lightweight
-memory direct reclaim to get some memory under memory pressure (thus it
-can sleep). It will avoid disruptive actions like OOM killer.
-
-Certainly good enough for a first version I would say, no? Looking at
-the vmware balloon, they don't even set __GFP_NORETRY.
-
---=20
-Thanks,
-
-David / dhildenb
+> Regards,
+> Daniel
+>=20
 
 
