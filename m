@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F44E1988C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 02:18:17 +0200 (CEST)
-Received: from localhost ([::1]:58594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 414FF1988C3
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 02:18:14 +0200 (CEST)
+Received: from localhost ([::1]:58586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJ4bg-0006l2-8K
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 20:18:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37140)
+	id 1jJ4bc-0006f7-Vd
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 20:18:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37107)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty@apple.com>) id 1jJ4Zg-0005S6-91
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 20:16:13 -0400
+ (envelope-from <dirty@apple.com>) id 1jJ4Ze-0005Ry-JL
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 20:16:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty@apple.com>) id 1jJ4Ze-000069-Rw
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 20:16:12 -0400
-Received: from ma1-aaemail-dr-lapp01.apple.com ([17.171.2.60]:56920)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dirty@apple.com>) id 1jJ4Ze-00005F-MU
+ (envelope-from <dirty@apple.com>) id 1jJ4Zd-0008Um-Ih
  for qemu-devel@nongnu.org; Mon, 30 Mar 2020 20:16:10 -0400
-Received: from pps.filterd (ma1-aaemail-dr-lapp01.apple.com [127.0.0.1])
- by ma1-aaemail-dr-lapp01.apple.com (8.16.0.27/8.16.0.27) with SMTP id
- 02V02CVN005237; Mon, 30 Mar 2020 17:16:10 -0700
+Received: from nwk-aaemail-lapp02.apple.com ([17.151.62.67]:57186)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dirty@apple.com>) id 1jJ4Zd-0008Sg-BT
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 20:16:09 -0400
+Received: from pps.filterd (nwk-aaemail-lapp02.apple.com [127.0.0.1])
+ by nwk-aaemail-lapp02.apple.com (8.16.0.27/8.16.0.27) with SMTP id
+ 02V01uWv063745; Mon, 30 Mar 2020 17:16:07 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com;
  h=sender : from : to :
  cc : subject : date : message-id : in-reply-to : references : mime-version
  : content-transfer-encoding; s=20180706;
- bh=PJLsleVhxwtS9kIQ+Ps4ao+b8dxNpL5IwveVR/bSPEM=;
- b=OXAMDx8AHw4xEb+bYmy67B6Lj7XKwPaASWAtBmLtvfVm4tMzLJNbHidBI5tFhGrGHqLM
- mf3T4ET1HQoDbyO0RUkdwqd0L/rXQneOgsOW9fd0jYMr67awVjviRBaIi7IGKR7+SFbJ
- XBK9lUBQYiMlkxZvnj79BZ3hFF485/R/jTBSSZtNOQcnSg2bZ4D4cuUqbwe8MiBixaLR
- QXuE9hYxgT3XMEYIjzGQPoUkunF2YYa3KkmulEF30rZwKnso2TeH9n8BoE2jNAL/g7aH
- 5BMAS5MU7czcTsbWHDQ5awI/COIpceJrR2t1MIGJcc5QyfjHXDcGa8V7oCe6Vybh5GBl fQ== 
-Received: from rn-mailsvcp-mta-lapp02.rno.apple.com
- (rn-mailsvcp-mta-lapp02.rno.apple.com [10.225.203.150])
- by ma1-aaemail-dr-lapp01.apple.com with ESMTP id 302582hkve-4
+ bh=i0UWfbqTTJaqXS5ypihnho6aF0K/Ven9FgjltMu0xhg=;
+ b=dAIL7JGPtfIqr5+g8674UZFoTX5do2CNok275sT6ac/uTFu0RllNlA1fLXlFi+RH0f9T
+ MYwJkeQ2bI2uMUX6wZZ4DbFLlFg1DT31J/MdSJJ2JEXf0LCRS1ZzQDKPYSBTR0YK89xY
+ uUrOA5zN+oVX55ZAbVDLV5wCTM5/a6Sa6Ojw+QiEK2VvcdFab+fYJHr/I00U+JWI1dHa
+ TFHq5ZO5q3MBJdA8EDni1H4Pi09soUKFLCCP+BTIiC+tP/EcNKkDDE7tMBOkdlgtqJHi
+ wLdKndmAUV6cn/AWEG/CgRXSFz70mOeBBU5FqcBN4yjkcH7W1BlnLe1G0SHoFw5dZdw9 gg== 
+Received: from rn-mailsvcp-mta-lapp03.rno.apple.com
+ (rn-mailsvcp-mta-lapp03.rno.apple.com [10.225.203.151])
+ by nwk-aaemail-lapp02.apple.com with ESMTP id 30235h8qa2-12
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
- Mon, 30 Mar 2020 17:16:10 -0700
+ Mon, 30 Mar 2020 17:16:07 -0700
 Received: from rn-mailsvcp-mmp-lapp01.rno.apple.com
  (rn-mailsvcp-mmp-lapp01.rno.apple.com [17.179.253.14])
- by rn-mailsvcp-mta-lapp02.rno.apple.com
+ by rn-mailsvcp-mta-lapp03.rno.apple.com
  (Oracle Communications Messaging Server 8.1.0.5.20200312 64bit (built Mar 12
- 2020)) with ESMTPS id <0Q810023A7EV7V90@rn-mailsvcp-mta-lapp02.rno.apple.com>; 
+ 2020)) with ESMTPS id <0Q8100BQ07EVOJ80@rn-mailsvcp-mta-lapp03.rno.apple.com>; 
  Mon, 30 Mar 2020 17:16:07 -0700 (PDT)
 Received: from process_milters-daemon.rn-mailsvcp-mmp-lapp01.rno.apple.com by
  rn-mailsvcp-mmp-lapp01.rno.apple.com
@@ -51,16 +51,16 @@ Received: from process_milters-daemon.rn-mailsvcp-mmp-lapp01.rno.apple.com by
  30 Mar 2020 17:16:07 -0700 (PDT)
 X-Va-A: 
 X-Va-T-CD: c56cc4374afe9162bf6a337f3d661529
-X-Va-E-CD: 1ed0441e77fb65cef016f0727c15f2a5
-X-Va-R-CD: ee73c95a311b25968dbf85572862976f
+X-Va-E-CD: c0a3b6d4fb4e4a6ada9709224be578eb
+X-Va-R-CD: 5f6f252ea7428529f3fa7d2c07b9b447
 X-Va-CD: 0
-X-Va-ID: 74c24f8c-9583-4704-898a-b9c38bdfae44
+X-Va-ID: a062693a-a3c6-4e5b-a663-aa46cff46929
 X-V-A: 
 X-V-T-CD: c56cc4374afe9162bf6a337f3d661529
-X-V-E-CD: 1ed0441e77fb65cef016f0727c15f2a5
-X-V-R-CD: ee73c95a311b25968dbf85572862976f
+X-V-E-CD: c0a3b6d4fb4e4a6ada9709224be578eb
+X-V-R-CD: 5f6f252ea7428529f3fa7d2c07b9b447
 X-V-CD: 0
-X-V-ID: cd9f5c04-78b8-4ce9-b92b-a5213a52f48f
+X-V-ID: bf4f28c4-8ec9-4862-96a2-14581ac3e80a
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
  definitions=2020-03-30_07:2020-03-30,
  2020-03-30 signatures=0
@@ -72,9 +72,9 @@ Received: from pontoon.com (unknown [17.234.84.168])
  30 Mar 2020 17:16:07 -0700 (PDT)
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com, r.bolshakov@yadro.com
-Subject: [PATCH v1 1/3] hvf: use standard CR0 and CR4 register definitions
-Date: Mon, 30 Mar 2020 17:16:04 -0700
-Message-id: <9ba0495405a1cd1e6c272a1e67d54dfda09494e1.1585607927.git.dirty@apple.com>
+Subject: [PATCH v1 2/3] hvf: Make long mode enter and exit code clearer.
+Date: Mon, 30 Mar 2020 17:16:05 -0700
+Message-id: <17777cc82122d29903bad7268b4c33e83b27d9a6.1585607927.git.dirty@apple.com>
 X-Mailer: git-send-email 2.24.0
 In-reply-to: <cover.1585607927.git.dirty@apple.com>
 References: <cover.1585607927.git.dirty@apple.com>
@@ -84,7 +84,7 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
  definitions=2020-03-30_07:2020-03-30,
  2020-03-30 signatures=0
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 17.171.2.60
+X-Received-From: 17.151.62.67
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -103,188 +103,38 @@ From: Cameron Esfahani via <qemu-devel@nongnu.org>
 
 Signed-off-by: Cameron Esfahani <dirty@apple.com>
 ---
- target/i386/cpu.h          |  2 ++
- target/i386/hvf/hvf.c      |  1 +
- target/i386/hvf/vmx.h      | 15 ++++++++-------
- target/i386/hvf/x86.c      |  6 +++---
- target/i386/hvf/x86.h      | 34 ----------------------------------
- target/i386/hvf/x86_mmu.c  |  2 +-
- target/i386/hvf/x86_task.c |  3 ++-
- 7 files changed, 17 insertions(+), 46 deletions(-)
+ target/i386/hvf/vmx.h | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 60d797d594..1286ec6e7a 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -225,6 +225,8 @@ typedef enum X86Seg {
- #define CR0_NE_MASK  (1U << 5)
- #define CR0_WP_MASK  (1U << 16)
- #define CR0_AM_MASK  (1U << 18)
-+#define CR0_NW_MASK  (1U << 29)
-+#define CR0_CD_MASK  (1U << 30)
- #define CR0_PG_MASK  (1U << 31)
- 
- #define CR4_VME_MASK  (1U << 0)
-diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-index d72543dc31..fef1ee7d70 100644
---- a/target/i386/hvf/hvf.c
-+++ b/target/i386/hvf/hvf.c
-@@ -455,6 +455,7 @@ void hvf_reset_vcpu(CPUState *cpu) {
-         wvmcs(cpu->hvf_fd, VMCS_GUEST_PDPTE0 + i * 2, pdpte[i]);
-     }
- 
-+    macvm_set_cr0(cpu->hvf_fd, CR0_CD_MASK | CR0_NW_MASK | CR0_ET_MASK);
-     macvm_set_cr0(cpu->hvf_fd, 0x60000010);
- 
-     wvmcs(cpu->hvf_fd, VMCS_CR4_MASK, CR4_VMXE_MASK);
 diff --git a/target/i386/hvf/vmx.h b/target/i386/hvf/vmx.h
-index 03d2c79b9c..8ec2e6414e 100644
+index 8ec2e6414e..1a1b150c97 100644
 --- a/target/i386/hvf/vmx.h
 +++ b/target/i386/hvf/vmx.h
-@@ -121,9 +121,10 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
+@@ -121,6 +121,7 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
      uint64_t pdpte[4] = {0, 0, 0, 0};
      uint64_t efer = rvmcs(vcpu, VMCS_GUEST_IA32_EFER);
      uint64_t old_cr0 = rvmcs(vcpu, VMCS_GUEST_CR0);
--    uint64_t mask = CR0_PG | CR0_CD | CR0_NW | CR0_NE | CR0_ET;
-+    uint64_t mask = CR0_PG_MASK | CR0_CD_MASK | CR0_NW_MASK |
-+                    CR0_NE_MASK | CR0_ET_MASK;
++    uint64_t changed_cr0 = old_cr0 ^ cr0;
+     uint64_t mask = CR0_PG_MASK | CR0_CD_MASK | CR0_NW_MASK |
+                     CR0_NE_MASK | CR0_ET_MASK;
  
--    if ((cr0 & CR0_PG) && (rvmcs(vcpu, VMCS_GUEST_CR4) & CR4_PAE) &&
-+    if ((cr0 & CR0_PG_MASK) && (rvmcs(vcpu, VMCS_GUEST_CR4) & CR4_PAE_MASK) &&
-         !(efer & MSR_EFER_LME)) {
-         address_space_read(&address_space_memory,
-                            rvmcs(vcpu, VMCS_GUEST_CR3) & ~0x1f,
-@@ -138,17 +139,17 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
+@@ -139,11 +140,12 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
      wvmcs(vcpu, VMCS_CR0_SHADOW, cr0);
  
      if (efer & MSR_EFER_LME) {
--        if (!(old_cr0 & CR0_PG) && (cr0 & CR0_PG)) {
-+        if (!(old_cr0 & CR0_PG_MASK) && (cr0 & CR0_PG_MASK)) {
-             enter_long_mode(vcpu, cr0, efer);
-         }
--        if (/*(old_cr0 & CR0_PG) &&*/ !(cr0 & CR0_PG)) {
-+        if (!(cr0 & CR0_PG_MASK)) {
-             exit_long_mode(vcpu, cr0, efer);
+-        if (!(old_cr0 & CR0_PG_MASK) && (cr0 & CR0_PG_MASK)) {
+-            enter_long_mode(vcpu, cr0, efer);
+-        }
+-        if (!(cr0 & CR0_PG_MASK)) {
+-            exit_long_mode(vcpu, cr0, efer);
++        if (changed_cr0 & CR0_PG_MASK) {
++            if (cr0 & CR0_PG_MASK) {
++                enter_long_mode(vcpu, cr0, efer);
++            } else {
++                exit_long_mode(vcpu, cr0, efer);
++            }
          }
      }
- 
-     /* Filter new CR0 after we are finished examining it above. */
--    cr0 = (cr0 & ~(mask & ~CR0_PG));
--    wvmcs(vcpu, VMCS_GUEST_CR0, cr0 | CR0_NE | CR0_ET);
-+    cr0 = (cr0 & ~(mask & ~CR0_PG_MASK));
-+    wvmcs(vcpu, VMCS_GUEST_CR0, cr0 | CR0_NE_MASK | CR0_ET_MASK);
- 
-     hv_vcpu_invalidate_tlb(vcpu);
-     hv_vcpu_flush(vcpu);
-@@ -156,7 +157,7 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
- 
- static inline void macvm_set_cr4(hv_vcpuid_t vcpu, uint64_t cr4)
- {
--    uint64_t guest_cr4 = cr4 | CR4_VMXE;
-+    uint64_t guest_cr4 = cr4 | CR4_VMXE_MASK;
- 
-     wvmcs(vcpu, VMCS_GUEST_CR4, guest_cr4);
-     wvmcs(vcpu, VMCS_CR4_SHADOW, cr4);
-diff --git a/target/i386/hvf/x86.c b/target/i386/hvf/x86.c
-index 3afcedc7fc..668c02de6e 100644
---- a/target/i386/hvf/x86.c
-+++ b/target/i386/hvf/x86.c
-@@ -119,7 +119,7 @@ bool x86_read_call_gate(struct CPUState *cpu, struct x86_call_gate *idt_desc,
- bool x86_is_protected(struct CPUState *cpu)
- {
-     uint64_t cr0 = rvmcs(cpu->hvf_fd, VMCS_GUEST_CR0);
--    return cr0 & CR0_PE;
-+    return cr0 & CR0_PE_MASK;
- }
- 
- bool x86_is_real(struct CPUState *cpu)
-@@ -150,13 +150,13 @@ bool x86_is_long64_mode(struct CPUState *cpu)
- bool x86_is_paging_mode(struct CPUState *cpu)
- {
-     uint64_t cr0 = rvmcs(cpu->hvf_fd, VMCS_GUEST_CR0);
--    return cr0 & CR0_PG;
-+    return cr0 & CR0_PG_MASK;
- }
- 
- bool x86_is_pae_enabled(struct CPUState *cpu)
- {
-     uint64_t cr4 = rvmcs(cpu->hvf_fd, VMCS_GUEST_CR4);
--    return cr4 & CR4_PAE;
-+    return cr4 & CR4_PAE_MASK;
- }
- 
- target_ulong linear_addr(struct CPUState *cpu, target_ulong addr, X86Seg seg)
-diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
-index c95d5b2116..bc0170b2a8 100644
---- a/target/i386/hvf/x86.h
-+++ b/target/i386/hvf/x86.h
-@@ -100,40 +100,6 @@ typedef struct x86_reg_flags {
-     };
- } __attribute__ ((__packed__)) x86_reg_flags;
- 
--typedef enum x86_reg_cr0 {
--    CR0_PE =            (1L << 0),
--    CR0_MP =            (1L << 1),
--    CR0_EM =            (1L << 2),
--    CR0_TS =            (1L << 3),
--    CR0_ET =            (1L << 4),
--    CR0_NE =            (1L << 5),
--    CR0_WP =            (1L << 16),
--    CR0_AM =            (1L << 18),
--    CR0_NW =            (1L << 29),
--    CR0_CD =            (1L << 30),
--    CR0_PG =            (1L << 31),
--} x86_reg_cr0;
--
--typedef enum x86_reg_cr4 {
--    CR4_VME =            (1L << 0),
--    CR4_PVI =            (1L << 1),
--    CR4_TSD =            (1L << 2),
--    CR4_DE  =            (1L << 3),
--    CR4_PSE =            (1L << 4),
--    CR4_PAE =            (1L << 5),
--    CR4_MSE =            (1L << 6),
--    CR4_PGE =            (1L << 7),
--    CR4_PCE =            (1L << 8),
--    CR4_OSFXSR =         (1L << 9),
--    CR4_OSXMMEXCPT =     (1L << 10),
--    CR4_VMXE =           (1L << 13),
--    CR4_SMXE =           (1L << 14),
--    CR4_FSGSBASE =       (1L << 16),
--    CR4_PCIDE =          (1L << 17),
--    CR4_OSXSAVE =        (1L << 18),
--    CR4_SMEP =           (1L << 20),
--} x86_reg_cr4;
--
- /* 16 bit Task State Segment */
- typedef struct x86_tss_segment16 {
-     uint16_t link;
-diff --git a/target/i386/hvf/x86_mmu.c b/target/i386/hvf/x86_mmu.c
-index 65d4603dbf..8f38eccffc 100644
---- a/target/i386/hvf/x86_mmu.c
-+++ b/target/i386/hvf/x86_mmu.c
-@@ -130,7 +130,7 @@ static bool test_pt_entry(struct CPUState *cpu, struct gpt_translation *pt,
- 
-     uint32_t cr0 = rvmcs(cpu->hvf_fd, VMCS_GUEST_CR0);
-     /* check protection */
--    if (cr0 & CR0_WP) {
-+    if (cr0 & CR0_WP_MASK) {
-         if (pt->write_access && !pte_write_access(pte)) {
-             return false;
-         }
-diff --git a/target/i386/hvf/x86_task.c b/target/i386/hvf/x86_task.c
-index 1daac6cc2b..5e41d09b89 100644
---- a/target/i386/hvf/x86_task.c
-+++ b/target/i386/hvf/x86_task.c
-@@ -174,7 +174,8 @@ void vmx_handle_task_switch(CPUState *cpu, x68_segment_selector tss_sel, int rea
-         //ret = task_switch_16(cpu, tss_sel, old_tss_sel, old_tss_base, &next_tss_desc);
-         VM_PANIC("task_switch_16");
- 
--    macvm_set_cr0(cpu->hvf_fd, rvmcs(cpu->hvf_fd, VMCS_GUEST_CR0) | CR0_TS);
-+    macvm_set_cr0(cpu->hvf_fd,
-+                  rvmcs(cpu->hvf_fd, VMCS_GUEST_CR0) | CR0_TS_MASK);
-     x86_segment_descriptor_to_vmx(cpu, tss_sel, &next_tss_desc, &vmx_seg);
-     vmx_write_segment_descriptor(cpu, &vmx_seg, R_TR);
  
 -- 
 2.24.0
