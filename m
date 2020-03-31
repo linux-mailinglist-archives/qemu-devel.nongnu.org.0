@@ -2,38 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCBEC199741
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 15:20:27 +0200 (CEST)
-Received: from localhost ([::1]:37826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDBAD199760
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 15:25:25 +0200 (CEST)
+Received: from localhost ([::1]:37978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJGoc-0005oh-R7
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 09:20:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41236)
+	id 1jJGtR-00051D-0u
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 09:25:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41888)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jJGmG-00030n-Vx
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:18:02 -0400
+ (envelope-from <jasowang@redhat.com>) id 1jJGq6-0000DI-7L
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:21:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jJGmE-0002bN-Tm
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:18:00 -0400
-Received: from relay.sw.ru ([185.231.240.75]:46540)
+ (envelope-from <jasowang@redhat.com>) id 1jJGq4-0005en-II
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:21:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39841
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jJGmE-0002ZV-Mr; Tue, 31 Mar 2020 09:17:58 -0400
-Received: from dptest2.qa.sw.ru ([10.94.4.71])
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jJGm7-0002Aa-1i; Tue, 31 Mar 2020 16:17:51 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v13 4/4] iotests: 287: add qcow2 compression type test
-Date: Tue, 31 Mar 2020 16:17:43 +0300
-Message-Id: <20200331131743.17448-5-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20200331131743.17448-1-dplotnikov@virtuozzo.com>
-References: <20200331131743.17448-1-dplotnikov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1jJGq4-0005eC-Ed
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:21:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585660915;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LFcA+Na0wO9Ia4W+pPHQiZMfXmxEQRyTDwSkU5ySfY8=;
+ b=IJICn5PJXbyZPuqpjuAuQBpEFEeWIoMf4J376BokMTew+4vZFL3xp8x/hKi/SqwYmIIj06
+ lzOQ7QtarGyGnCb9R6fjvy/sPFic8xmBMek2gu0Gsm9npTnZwzxbIvrBOTJxHKMk94To6y
+ 2dGom7QU/wjxxm+36RxssvYx1I0oJTQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-30-0EZ4k7XMMj-Dc1elBcS-3g-1; Tue, 31 Mar 2020 09:21:51 -0400
+X-MC-Unique: 0EZ4k7XMMj-Dc1elBcS-3g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60E04801FA1;
+ Tue, 31 Mar 2020 13:21:50 +0000 (UTC)
+Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-118.pek2.redhat.com
+ [10.72.12.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 017A21036D00;
+ Tue, 31 Mar 2020 13:21:48 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Subject: [PULL V2 00/14] Net patches
+Date: Tue, 31 Mar 2020 21:21:25 +0800
+Message-Id: <1585660899-11228-1-git-send-email-jasowang@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,219 +69,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
- qemu-block@nongnu.org, armbru@redhat.com, mreitz@redhat.com, den@openvz.org
+Cc: Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test checks fulfilling qcow2 requiriements for the compression
-type feature and zstd compression type operability.
+The following changes since commit 2a95551e8b1456aa53ce54fac573df18809340a6=
+:
 
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/287     | 128 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/287.out |  43 +++++++++++++
- tests/qemu-iotests/group   |   1 +
- 3 files changed, 172 insertions(+)
- create mode 100755 tests/qemu-iotests/287
- create mode 100644 tests/qemu-iotests/287.out
+  Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20200330' into st=
+aging (2020-03-31 11:20:21 +0100)
 
-diff --git a/tests/qemu-iotests/287 b/tests/qemu-iotests/287
-new file mode 100755
-index 0000000000..49d15b3d43
---- /dev/null
-+++ b/tests/qemu-iotests/287
-@@ -0,0 +1,128 @@
-+#!/usr/bin/env bash
-+#
-+# Test case for an image using zstd compression
-+#
-+# Copyright (c) 2020 Virtuozzo International GmbH
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=dplotnikov@virtuozzo.com
-+
-+seq="$(basename $0)"
-+echo "QA output created by $seq"
-+
-+status=1	# failure is the default!
-+
-+_cleanup()
-+{
-+	_cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# standard environment
-+. ./common.rc
-+. ./common.filter
-+
-+# This tests qocw2-specific low-level functionality
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+
-+# for all the cases
-+CLUSTER_SIZE=65536
-+
-+# Check if we can run this test.
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M | grep "Invalid parameter 'zstd'" 2>&1 1>/dev/null
-+
-+ZSTD_SUPPORTED=$?
-+
-+if (($ZSTD_SUPPORTED==0)); then
-+    _notrun "ZSTD is disabled"
-+fi
-+
-+# Test: when compression is zlib the incompatible bit is unset
-+echo
-+echo "=== Testing compression type incompatible bit setting for zlib ==="
-+echo
-+
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+# Test: when compression differs from zlib the incompatible bit is set
-+echo
-+echo "=== Testing compression type incompatible bit setting for zstd ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+# Test: an image can't be openned if compression type is zlib and
-+#       incompatible feature compression type is set
-+echo
-+echo "=== Testing zlib with incompatible bit set  ==="
-+echo
-+
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-feature-bit incompatible 3
-+# to make sure the bit was actually set
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+$QEMU_IMG info "$TEST_IMG" 2>1 1>/dev/null
-+if (($?==0)); then
-+    echo "Error: The image openned successfully. The image must not be openned"
-+fi
-+
-+# Test: an image can't be openned if compression type is NOT zlib and
-+#       incompatible feature compression type is UNSET
-+echo
-+echo "=== Testing zstd with incompatible bit unset  ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-header incompatible_features 0
-+# to make sure the bit was actually unset
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+$QEMU_IMG info "$TEST_IMG" 2>1 1>/dev/null
-+if (($?==0)); then
-+    echo "Error: The image openned successfully. The image must not be openned"
-+fi
-+# Test: check compression type values
-+echo
-+echo "=== Testing compression type values  ==="
-+echo
-+# zlib=0
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+od -j104 -N1 -An -vtu1 "$TEST_IMG"
-+
-+# zstd=1
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+od -j104 -N1 -An -vtu1 "$TEST_IMG"
-+
-+# Test: using zstd compression, write to and read from an image
-+echo
-+echo "=== Testing reading and writing with zstd ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$QEMU_IO -c "write -c -P 0xAC 65536 64k " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAC 65536 65536 " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -v 131070 8 " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -v 65534 8" "$TEST_IMG" | _filter_qemu_io
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/287.out b/tests/qemu-iotests/287.out
-new file mode 100644
-index 0000000000..8e51c3078d
---- /dev/null
-+++ b/tests/qemu-iotests/287.out
-@@ -0,0 +1,43 @@
-+QA output created by 287
-+
-+=== Testing compression type incompatible bit setting for zlib ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type incompatible bit setting for zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zlib with incompatible bit set  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zstd with incompatible bit unset  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type values  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   0
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   1
-+
-+=== Testing reading and writing with zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+wrote 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0001fffe:  ac ac 00 00 00 00 00 00  ........
-+read 8/8 bytes at offset 131070
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0000fffe:  00 00 ac ac ac ac ac ac  ........
-+read 8/8 bytes at offset 65534
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 79c6dfc85d..dacbcfc12d 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -294,5 +294,6 @@
- 283 auto quick
- 284 rw
- 286 rw quick
-+287 auto quick
- 288 quick
- 289 rw quick
--- 
-2.17.0
+are available in the git repository at:
+
+  https://github.com/jasowang/qemu.git tags/net-pull-request
+
+for you to fetch changes up to 1153cf9f5b67fad41ca6f8571e9a26e2c7c70759:
+
+  qtest: add tulip test case (2020-03-31 21:14:35 +0800)
+
+----------------------------------------------------------------
+
+Changes from V1:
+
+- fix the compiling error
+- include qtest for tulip OOB
+
+----------------------------------------------------------------
+Andrew Melnychenko (1):
+      Fixed integer overflow in e1000e
+
+Li Qiang (1):
+      qtest: add tulip test case
+
+Peter Maydell (2):
+      hw/net/i82596.c: Avoid reading off end of buffer in i82596_receive()
+      hw/net/allwinner-sun8i-emac.c: Fix REG_ADDR_HIGH/LOW reads
+
+Philippe Mathieu-Daud=C3=A9 (7):
+      hw/net/i82596: Correct command bitmask (CID 1419392)
+      hw/net/e1000e_core: Let e1000e_can_receive() return a boolean
+      hw/net/smc91c111: Let smc91c111_can_receive() return a boolean
+      hw/net/rtl8139: Simplify if/else statement
+      hw/net/rtl8139: Update coding style to make checkpatch.pl happy
+      hw/net: Make NetCanReceive() return a boolean
+      hw/net/can: Make CanBusClientInfo::can_receive() return a boolean
+
+Prasad J Pandit (1):
+      net: tulip: check frame size and r/w data length
+
+Zhang Chen (2):
+      net/colo-compare.c: Expose "compare_timeout" to users
+      net/colo-compare.c: Expose "expired_scan_cycle" to users
+
+ hw/net/allwinner-sun8i-emac.c | 14 +++----
+ hw/net/allwinner_emac.c       |  2 +-
+ hw/net/cadence_gem.c          |  8 ++--
+ hw/net/can/can_sja1000.c      |  8 ++--
+ hw/net/can/can_sja1000.h      |  2 +-
+ hw/net/dp8393x.c              |  8 ++--
+ hw/net/e1000.c                |  2 +-
+ hw/net/e1000e.c               |  4 +-
+ hw/net/e1000e_core.c          |  2 +-
+ hw/net/e1000e_core.h          |  2 +-
+ hw/net/ftgmac100.c            |  6 +--
+ hw/net/i82596.c               | 66 ++++++++++++++++++++----------
+ hw/net/i82596.h               |  2 +-
+ hw/net/imx_fec.c              |  2 +-
+ hw/net/opencores_eth.c        |  5 +--
+ hw/net/rtl8139.c              | 22 +++++-----
+ hw/net/smc91c111.c            | 10 ++---
+ hw/net/spapr_llan.c           |  4 +-
+ hw/net/sungem.c               |  6 +--
+ hw/net/sunhme.c               |  4 +-
+ hw/net/tulip.c                | 36 ++++++++++++----
+ hw/net/virtio-net.c           | 10 ++---
+ hw/net/xilinx_ethlite.c       |  2 +-
+ include/net/can_emu.h         |  2 +-
+ include/net/net.h             |  2 +-
+ net/can/can_socketcan.c       |  4 +-
+ net/colo-compare.c            | 95 +++++++++++++++++++++++++++++++++++++++=
++---
+ net/filter-buffer.c           |  2 +-
+ net/hub.c                     |  6 +--
+ qemu-options.hx               | 10 +++--
+ tests/qtest/Makefile.include  |  1 +
+ tests/qtest/tulip-test.c      | 91 +++++++++++++++++++++++++++++++++++++++=
+++
+ 32 files changed, 328 insertions(+), 112 deletions(-)
+ create mode 100644 tests/qtest/tulip-test.c
 
 
