@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 985A619961F
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 14:17:12 +0200 (CEST)
-Received: from localhost ([::1]:36986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1E2219963C
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 14:19:17 +0200 (CEST)
+Received: from localhost ([::1]:37016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJFpP-0002Q7-ME
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 08:17:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33510)
+	id 1jJFrR-0004pD-2v
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 08:19:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33623)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jJFnd-0000fL-WC
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 08:15:23 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jJFoM-0001rf-5T
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 08:16:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jJFnc-0004qR-OH
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 08:15:21 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39255
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1jJFoL-0005QC-4o
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 08:16:06 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21287
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jJFnc-0004q1-KN
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 08:15:20 -0400
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jJFoL-0005Pg-0y
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 08:16:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585656920;
+ s=mimecast20190719; t=1585656964;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Uy5+UlzuL4o4hq6Hdifmq5GfP6QnsvMSV+EWFw8ZuIs=;
- b=Im8OBFhnKJ5XUpPJ1/p/H9kT6O8MUhk/usKJlESRMso6dUgu2Ic5MMbxemb3KHaLFBQfjd
- kmpginNCh8p8BZygYOF0tRSXW93zgYyXX7NOTgo2e78MarQBbdi2sA1Ym/+Sek6Th1H3jQ
- Bp1xGDoVy6hg6LpozjSZhCK04PI7hIQ=
+ bh=TsDt1u/fOm7dEybCkmrKecK6CJsSohkllFOz0Ms3j8A=;
+ b=CA1OYwac32NPZz3uLSxdv00F+Q5/QQLrzOgsL083qS3JjwiCJMWg+/Q1p+WYkbvqazMDVh
+ xC+t29OVikOJoJnTHk/GLyRHTJRUJYKMH7Blsufif1cUjcEaRFgfoP3EecQRqvL5lDzbIx
+ zKzOYrLux5FWvRREH9OZHrqFJTbsYXU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-29LPcGf3NAGHTcqI71-LHw-1; Tue, 31 Mar 2020 08:15:16 -0400
-X-MC-Unique: 29LPcGf3NAGHTcqI71-LHw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-475-0Y4575_2MbOhO4SbT861kw-1; Tue, 31 Mar 2020 08:16:01 -0400
+X-MC-Unique: 0Y4575_2MbOhO4SbT861kw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91993DBA6;
- Tue, 31 Mar 2020 12:15:15 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-236.ams2.redhat.com [10.36.114.236])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DA4435D9CA;
- Tue, 31 Mar 2020 12:15:13 +0000 (UTC)
-Date: Tue, 31 Mar 2020 14:15:12 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v9 00/14] iotests: use python logging
-Message-ID: <20200331121512.GC7030@linux.fritz.box>
-References: <20200324232103.4195-1-jsnow@redhat.com>
- <9e1cf69f-5aa1-eee2-d550-85dd85b7049f@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48A2E18A6EC1;
+ Tue, 31 Mar 2020 12:15:59 +0000 (UTC)
+Received: from gondolin (ovpn-112-229.ams2.redhat.com [10.36.112.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 64BD85C1C5;
+ Tue, 31 Mar 2020 12:15:54 +0000 (UTC)
+Date: Tue, 31 Mar 2020 14:15:51 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: Re: [PATCH/RFC] vl/s390: fixup ram sizes for compat machines
+Message-ID: <20200331141551.59c3dc0e.cohuck@redhat.com>
+In-Reply-To: <20200331120238.15786-1-borntraeger@de.ibm.com>
+References: <20200331120238.15786-1-borntraeger@de.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <9e1cf69f-5aa1-eee2-d550-85dd85b7049f@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,54 +72,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, qemu-block@nongnu.org, armbru@redhat.com,
- philmd@redhat.com, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: =?UTF-8?B?THVr?= =?UTF-8?B?w6HFoQ==?= Doktor <ldoktor@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>, qemu-s390x <qemu-s390x@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 30.03.2020 um 21:03 hat John Snow geschrieben:
->=20
->=20
-> On 3/24/20 7:20 PM, John Snow wrote:
-> > This series uses python logging to enable output conditionally on
-> > iotests.log(). We unify an initialization call (which also enables
-> > debugging output for those tests with -d) and then make the switch
-> > inside of iotests.
-> >=20
-> > It will help alleviate the need to create logged/unlogged versions
-> > of all the various helpers we have made.
-> >=20
-> > Also, I got lost and accidentally delinted iotests while I was here.
-> > Sorry about that. By version 9, it's now the overwhelming focus of
-> > this series. No good deed, etc.
->=20
->=20
-> Version requirements, as discovered by Kevin's Python Museum:
->=20
-> mypy >=3D 0.620
-> pylint >=3D 2.2.0
-> astroid =3D=3D 2.1.0 (or >=3D 2.2.0 if using pylint >=3D 2.3.0)
->=20
->=20
-> Hm, though ... pylint does not like 'Collection' very much:
->=20
-> iotests.py:1139:41: E1136: Value 'Collection' is unsubscriptable
-> (unsubscriptable-object)
->=20
-> It works OK for the same pylint versions under 3.7, but it's busted a
-> bit under 3.6. See https://github.com/PyCQA/pylint/issues/2377
->=20
-> Well. Collection is indeed the actual type we want (we need Iterable and
-> Container properties; i.e. supports 'for' and 'in'). There's no reason
-> to require a Sequence (adds Reversible and some notion of a fixed
-> ordering) -- but it will fix the typing problems in 3.6, so I'm going to
-> do that.
+On Tue, 31 Mar 2020 08:02:38 -0400
+Christian Borntraeger <borntraeger@de.ibm.com> wrote:
 
-I wouldn't actually worry about Python museums much as far as pylint and
-mypy are concerned. 3.6 compatibility is important for actually running
-the code, but if older mypy/pylint versions get false positives, I would
-consider that acceptable.
+> compat machines did fixup the ram size to match what can be reported via
+> sclp. We need to mimic those for machines 4.2 and older to not fail on
+> inbound migration.
+>=20
+> Fixes: 3a12fc61af5c ("390x/s390-virtio-ccw: use memdev for RAM")
+> Reported-by: Luk=C3=A1=C5=A1 Doktor <ldoktor@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> ---
+>  hw/s390x/s390-virtio-ccw.c | 12 ++++++++++++
+>  hw/s390x/sclp.c            | 10 ----------
+>  include/hw/boards.h        |  1 +
+>  softmmu/vl.c               |  3 +++
+>  4 files changed, 16 insertions(+), 10 deletions(-)
 
-Kevin
+(...)
+
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index 236d239c19..e3574f4b5f 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -218,6 +218,7 @@ struct MachineClass {
+>                                                           unsigned cpu_in=
+dex);
+>      const CPUArchIdList *(*possible_cpu_arch_ids)(MachineState *machine)=
+;
+>      int64_t (*get_default_cpu_node_id)(const MachineState *ms, int idx);
+> +    ram_addr_t (*machine_align_ram)(ram_addr_t size);
+
+Maybe add a comment:
+
+/* For compat machine usage only. Don't use this in new machines. */
+
+?
+
+>  };
+> =20
+>  /**
+
+(...)
+
+(Didn't really read the patch yet.)
 
 
