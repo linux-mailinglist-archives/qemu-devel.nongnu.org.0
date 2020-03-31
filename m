@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2072198952
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 03:02:14 +0200 (CEST)
-Received: from localhost ([::1]:58900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 604AC198954
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 03:02:18 +0200 (CEST)
+Received: from localhost ([::1]:58904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJ5ID-0006zt-Jx
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 21:02:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42499)
+	id 1jJ5IH-000759-D6
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 21:02:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42498)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jJ5Fn-0005Ct-57
+ (envelope-from <dgibson@ozlabs.org>) id 1jJ5Fn-0005Cs-57
  for qemu-devel@nongnu.org; Mon, 30 Mar 2020 20:59:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jJ5Fm-0002mh-1V
+ (envelope-from <dgibson@ozlabs.org>) id 1jJ5Fm-0002mZ-06
  for qemu-devel@nongnu.org; Mon, 30 Mar 2020 20:59:43 -0400
-Received: from ozlabs.org ([203.11.71.1]:55459)
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:50595 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jJ5Fl-0002k8-KY; Mon, 30 Mar 2020 20:59:41 -0400
+ id 1jJ5Fl-0002kA-2j; Mon, 30 Mar 2020 20:59:41 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48rrZc4b3Mz9sSL; Tue, 31 Mar 2020 11:59:36 +1100 (AEDT)
+ id 48rrZc607Wz9sPF; Tue, 31 Mar 2020 11:59:36 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1585616376;
- bh=6SBeMpIUcoEUFG1loMqInWstKYLcCQ4kn9dRsltn5nQ=;
+ bh=q31xvCFOKPbpPGRLDs7OK80eHHOyLWM3hQzkERkRadc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RNERFHIJxOzVsC3XPkd4D4jAOypOTtzVsnyXRz/wx34KEh0BchfDMrQPuHGiJR1I2
- kpe5nMYfY4Uv1qjdUZQpSV8QPnQZJ170pJ/IENeHKWi2A0+8rgEch98z0ikY6W80zf
- K3lWZ1g+LoUfrTlBjZlf8uoDW730aztXqWb3AWZg=
-Date: Tue, 31 Mar 2020 11:57:38 +1100
+ b=G/ZthzknFXonJkT/cg7wb9CgfSob0t+I7+y+ql/hvWZyU14ysoLm4DWoYHW87MJkz
+ WrYbSp4VZiaAnVhDlbed1JJAN56RObhYuDKrkCZJK05gyZds/QyQWCnHL4xScf2lUn
+ CSjpAdWWuKVsRCOGvyKeVOvAYeFflBf1Pnv+7kwA=
+Date: Tue, 31 Mar 2020 11:58:39 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 1/7] target/ppc: Enforce that the root page directory
- size must be at least 5
-Message-ID: <20200331005738.GD47772@umbus.fritz.box>
+Subject: Re: [PATCH 2/7] target/ppc: Introduce a relocation bool in
+ ppc_radix64_handle_mmu_fault()
+Message-ID: <20200331005839.GE47772@umbus.fritz.box>
 References: <20200330094946.24678-1-clg@kaod.org>
- <20200330094946.24678-2-clg@kaod.org>
+ <20200330094946.24678-3-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EP0wieDxd4TSJjHq"
+ protocol="application/pgp-signature"; boundary="T6xhMxlHU34Bk0ad"
 Content-Disposition: inline
-In-Reply-To: <20200330094946.24678-2-clg@kaod.org>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+In-Reply-To: <20200330094946.24678-3-clg@kaod.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,45 +63,47 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---EP0wieDxd4TSJjHq
+--T6xhMxlHU34Bk0ad
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 30, 2020 at 11:49:40AM +0200, C=E9dric Le Goater wrote:
-> From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
->=20
-> According to the ISA the root page directory size of a radix tree for
-> either process- or partition-scoped translation must be >=3D 5.
->=20
-> Thus add this to the list of conditions checked when validating the
-> partition table entry in validate_pate();
+On Mon, Mar 30, 2020 at 11:49:41AM +0200, C=E9dric Le Goater wrote:
+> It will ease the introduction of new routines for partition-scoped
+> Radix translation.
 >=20
 > Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
 Applied to ppc-for-5.1.
 
 > ---
->  target/ppc/mmu-radix64.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  target/ppc/mmu-radix64.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 >=20
 > diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-> index 224e646c5094..99678570581b 100644
+> index 99678570581b..f6007e956569 100644
 > --- a/target/ppc/mmu-radix64.c
 > +++ b/target/ppc/mmu-radix64.c
-> @@ -212,6 +212,9 @@ static bool validate_pate(PowerPCCPU *cpu, uint64_t l=
-pid, ppc_v3_pate_t *pate)
->      if (lpid =3D=3D 0 && !msr_hv) {
->          return false;
->      }
-> +    if ((pate->dw0 & PATE1_R_PRTS) < 5) {
-> +        return false;
-> +    }
->      /* More checks ... */
->      return true;
->  }
+> @@ -229,12 +229,13 @@ int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, v=
+addr eaddr, int rwx,
+>      uint64_t lpid =3D 0, pid =3D 0, offset, size, prtbe0, pte;
+>      int page_size, prot, fault_cause =3D 0;
+>      ppc_v3_pate_t pate;
+> +    bool relocation;
+> =20
+>      assert((rwx =3D=3D 0) || (rwx =3D=3D 1) || (rwx =3D=3D 2));
+> =20
+> +    relocation =3D ((rwx =3D=3D 2) && (msr_ir =3D=3D 1)) || ((rwx !=3D 2=
+) && (msr_dr =3D=3D 1));
+>      /* HV or virtual hypervisor Real Mode Access */
+> -    if ((msr_hv || cpu->vhyp) &&
+> -        (((rwx =3D=3D 2) && (msr_ir =3D=3D 0)) || ((rwx !=3D 2) && (msr_=
+dr =3D=3D 0)))) {
+> +    if (!relocation && (msr_hv || cpu->vhyp)) {
+>          /* In real mode top 4 effective addr bits (mostly) ignored */
+>          raddr =3D eaddr & 0x0FFFFFFFFFFFFFFFULL;
+> =20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -109,25 +111,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---EP0wieDxd4TSJjHq
+--T6xhMxlHU34Bk0ad
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6ClX8ACgkQbDjKyiDZ
-s5K2JRAA0S5OvMaNJ/EUVjzcdqHxeBG2xSQ8pXvzNNJ8ZNc+Dm9SZxN0o70IUwzv
-bpmratSjAYFi2kLsA2xo3KQqbo56IsJNiqnAfK8oJPYQds9SUDzdCnvlfDfyMQVg
-WjITngMW6/kwWGpXfD1O7Qh0VLbDazTzTfifVrFn6Hzpx31ewQm/OKh8KEfZTGKb
-gZUohEkjiPjEdTPdEOdF8q4yrwGrnk8Ibm2kirS2F726rYPwst40z5E0FmMXh6i+
-t6ozCuyFLJo74W2mWWTRk6vxXaPRdaMJMf4QIQjsXVsre+cRc+OyKLj36yQnKILg
-YTrxAi4fZMYcpdeUeY/Mlf/Hw5pUrvF9YR6IHC2F13ZQVaYROg04UbZTvOHyljBs
-O2e4i7r0On/2AxNWB3pYfrS+roQT5FMK61A06wjdYqEngAdypHB5KJoaeyq10IWh
-vyWbnxmXQjZa1SJaCagwRHM6ZeeLOFite18txMNADD6CRMLenFpC+ibyJirSiUky
-vgOOKiiwKEBkyPrRNztRYUBaGSuLHM/YD5jyrnYosvXPv5jnQQCwDQHEpG2g5cet
-K56ccOZcwQ+6CIr8rnPKFiyr7uZCvUSsZHNl73E7JdlJDNzKWRxNq/d7wtaCVpkP
-dvxTWDLAseTPXy9wEY5yCelLqkIEu6kxRDEo6GEI3lK+nkD+Fjg=
-=+z6m
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6Clb8ACgkQbDjKyiDZ
+s5LAYRAAgQJ/c7FApusZN45fuv5VrYs1P7+ZZ8Y/uNlnGTfmaPGWK5iwvyPeDR1h
+uf+Wh20lEJo8vUjGXbbTqvMcIptT7hcPkHHvqAoUPCzsiUK/b9DwwdLU9tXU8yT5
+GGs3AQPAk+JCGj+C3VYUYDsFJNADF+zSMvJhj3pTwEg1LrwSUnu/twQWg/CCeDl0
+kZ7oS2ush+mSwueBNCdCS2rsEG2d55Ak4uxSOEHROimOuRx7HoYSiebzP+eI0HCn
+fOQzNGWruKdY/0f3ji1PitR+KR/q6dbglq9NyZWAl+S6OoX75okwDFc0MVBSosHT
+ufjtURk+/lImdM08WGHUE67menabi/Pm8FttH1dgPMcrZ4SK8ANq+ArjJd87+uHe
+t2AvnnCokRQ37HEofYLP9U2rNvWQoX+d9hk7k2NOBlMMnxABVcDRNnfyvzop5WGL
+2I5Vy7+w9xejmHZG/W6CRWGumTbBvbHlp9pT382kVEc2W92m4kfNeRgTNu3Rq7FC
+NbmpuhQFggneXSXzeEP+doaPfndDA236DYo2jA6lHydOMbtvNreQIm1guVKUKkV6
+daz5EoBdRSVVwgLIHbNcNmq+cDPfjwPfOGls5uiLIgvQxJ3/Db9I1pxnH9THUMJ9
+hDYR186b95JNpFj90jnho38n1WbiY7YZVxXaJaPQ906sNAms0RE=
+=W03G
 -----END PGP SIGNATURE-----
 
---EP0wieDxd4TSJjHq--
+--T6xhMxlHU34Bk0ad--
 
