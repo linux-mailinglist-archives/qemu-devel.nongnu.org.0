@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A4F19987E
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 16:30:17 +0200 (CEST)
-Received: from localhost ([::1]:38942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46970199893
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 16:31:33 +0200 (CEST)
+Received: from localhost ([::1]:38990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJHuC-00015G-Nq
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 10:30:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51026)
+	id 1jJHvQ-0002fM-0b
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 10:31:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51189)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jJHtE-0000Cq-F5
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:29:17 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1jJHuU-00028Z-RT
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:30:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jJHtD-0006Jc-D9
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:29:16 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:34517)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jJHtD-0006Ix-6d
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:29:15 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id a23so8190135plm.1
- for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 07:29:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=I6mGhiM8t6lCGgoRpN+0eQykgvIVJkPGS20hfbwKfxg=;
- b=LV2mEmQP6ADDBtKbzk3PzSa3bHCpcrKwBhVHzLLdVY9unb6dbCR/HEkIbaYlbaHutW
- HKdjqQ+uEJkQruJl0Bj1e7TJa/QXWHZh5ht3GTf+nmeQIKQ+D3FKDh4zFeLtjCLihoq9
- yiPqt8dYY75sjWsuLBWdWGLN3/jnO44tXG/2Fthad6HGj1DqC4FjzzePzlJuCJOlwbKI
- JGxhj7So66D61xhdXaVbxkq0awPFrovdX/xw9G+1XsLXojT4E7XQAUHl71hDe8w5vpl1
- ydw/nu0sYpc620RwZX5MVqPmiiOHTGQ0QLyd0duWDfAAuWRXAgyQvYtYJ5j5/wH7dDRF
- xZpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=I6mGhiM8t6lCGgoRpN+0eQykgvIVJkPGS20hfbwKfxg=;
- b=eFeVrw1ayolG+Xi0low9vD2mjFWxUzxMV2lvtI5NAZGsUQ0Lr8Oy8fL6lLtUgxO0cP
- VgH26SxPXK6TQ5BeMi4FVst9b2P9Rbqqb8WDFAdu9yqMv2arnzqepeIgXxSXSHqOx0Wn
- 3yN3wFsOlfu2pIoaEuiQ5J68l0DONUOAdWmUbNp2N5vJdjJVTPub5aTn4m/ONGLHLB0b
- oBf59ClOwXKy9HEGedjaBVltmz5h4OGE8ayAulIArViWexhpY4zH5SCfFlL1Jht9r75l
- dQb5Zlw8ttdCNpy/fl3jykc7bmPrkhjvIkrHHXuRO2uJBT9VeM7HVxQvIN4+rDrw4u0L
- H79Q==
-X-Gm-Message-State: AGi0PubdU4ZmpCk5k2E7Sc+bDomYbl8aYtJVPL+e/CPlILdKWNnNuRFc
- kUEReJSjpua1khX1Zz60Jw/NBQ==
-X-Google-Smtp-Source: APiQypLcFaFfGhVO78oVlKADJBWGwmor4lQx56JJauiqtQ99CRN9EDa67VOBU6PU1cF/FxHQJJeHPw==
-X-Received: by 2002:a17:90a:36c7:: with SMTP id
- t65mr4232026pjb.182.1585664953724; 
- Tue, 31 Mar 2020 07:29:13 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id m7sm2081166pjb.7.2020.03.31.07.29.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Mar 2020 07:29:13 -0700 (PDT)
-Subject: Re: [PULL for-5.0 07/10] configure: Support -static-pie if requested
-To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
-References: <20200331035456.6494-1-richard.henderson@linaro.org>
- <20200331035456.6494-9-richard.henderson@linaro.org>
- <a36effc1-cf0b-411d-2a2a-97dd2932e95f@redhat.com>
- <7818b819-10b5-b1ed-6f96-4f27e4369222@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c4f57f5e-d17d-f677-f64f-1467283324f4@linaro.org>
-Date: Tue, 31 Mar 2020 07:29:11 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <eric.auger@redhat.com>) id 1jJHuT-0006wv-MN
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:30:34 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32571
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1jJHuT-0006wU-HW
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:30:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585665032;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Y3JQzDu41M8o39GXgIAVsohawRfa23jPDPNH2E+Xc14=;
+ b=Lb5bEyr9R56OcTrLxQsZjBi9gHvlD1pVSbv0vYU8G1qf04fpPOCxcBdRXChi9fgvbbF8tB
+ 9xSFCx7y8bd2YpBGwqeEJKRWqYeeSnspBpgZLlX9zuW7DZT3h7vhlYyamw54GMquS5F6nS
+ 4BKmU1/uhx+DxLOAH3Sp5TH62LV5ruE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-241-JEk-THX6NiWcPUo3QNy1vQ-1; Tue, 31 Mar 2020 10:30:29 -0400
+X-MC-Unique: JEk-THX6NiWcPUo3QNy1vQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C51191084433;
+ Tue, 31 Mar 2020 14:30:26 +0000 (UTC)
+Received: from [10.36.112.58] (ovpn-112-58.ams2.redhat.com [10.36.112.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CC9B100EBD4;
+ Tue, 31 Mar 2020 14:30:07 +0000 (UTC)
+From: Auger Eric <eric.auger@redhat.com>
+Subject: Re: [PATCH v2 10/22] vfio/pci: set host iommu context to vIOMMU
+To: Liu Yi L <yi.l.liu@intel.com>, qemu-devel@nongnu.org,
+ alex.williamson@redhat.com, peterx@redhat.com
+References: <1585542301-84087-1-git-send-email-yi.l.liu@intel.com>
+ <1585542301-84087-11-git-send-email-yi.l.liu@intel.com>
+Message-ID: <564d1a55-04df-a3bd-5241-e30f958a4e89@redhat.com>
+Date: Tue, 31 Mar 2020 16:30:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <7818b819-10b5-b1ed-6f96-4f27e4369222@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <1585542301-84087-11-git-send-email-yi.l.liu@intel.com>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::62a
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,27 +75,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: jean-philippe@linaro.org, kevin.tian@intel.com,
+ Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
+ kvm@vger.kernel.org, mst@redhat.com, jun.j.tian@intel.com, yi.y.sun@intel.com,
+ pbonzini@redhat.com, hao.wu@intel.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/31/20 6:44 AM, Laurent Vivier wrote:
->> QEMU_LDFLAGS       -Wl,--warn-common -Wl,-z,relro -Wl,-z,now -static-pie
->> -m64  -fstack-protector-strong
-...
->> $ file m68k-linux-user/qemu-m68k
->> m68k-linux-user/qemu-m68k: ELF 64-bit LSB pie executable, x86-64,
->> version 1 (GNU/Linux), dynamically linked,
->> BuildID[sha1]=363ee31697e874085ec53c2af454a070c62647e1, for GNU/Linux
->> 3.2.0, with debug_info, not stripped, too many notes (256)
-...
-> In fact, the binary works well in a chroot, so it should be  a bug in
-> "file" command.
+Yi,
 
-I hadn't noticed that before, but yes, it appears that file needs an update for
--static-pie.
+On 3/30/20 6:24 AM, Liu Yi L wrote:
+> For vfio-pci devices, it could use pci_device_set/unset_iommu() to
+> expose host iommu context to vIOMMU emulators. vIOMMU emulators
+> could make use the methods provided by host iommu context. e.g.
+> propagate requests to host iommu.
+I think I would squash this patch into the previous one.
 
+> 
+> Cc: Kevin Tian <kevin.tian@intel.com>
+> Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Eric Auger <eric.auger@redhat.com>
+> Cc: Yi Sun <yi.y.sun@linux.intel.com>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Cc: Alex Williamson <alex.williamson@redhat.com>
+> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+> ---
+>  hw/vfio/pci.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+> 
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index 5e75a95..c140c88 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -2717,6 +2717,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+>      VFIOPCIDevice *vdev = PCI_VFIO(pdev);
+>      VFIODevice *vbasedev_iter;
+>      VFIOGroup *group;
+> +    VFIOContainer *container;
+>      char *tmp, *subsys, group_path[PATH_MAX], *group_name;
+>      Error *err = NULL;
+>      ssize_t len;
+> @@ -3028,6 +3029,11 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+>      vfio_register_req_notifier(vdev);
+>      vfio_setup_resetfn_quirk(vdev);
+>  
+> +    container = vdev->vbasedev.group->container;
+> +    if (container->iommu_ctx.initialized) {
+Sin't it possible to dynamically allocate the iommu_ctx so that you can
+simply check container->iommu_ctx and discard the initialized field?
+> +        pci_device_set_iommu_context(pdev, &container->iommu_ctx);
+> +    }
+> +
+>      return;
+>  
+>  out_deregister:
+> @@ -3072,9 +3078,16 @@ static void vfio_instance_finalize(Object *obj)
+>  static void vfio_exitfn(PCIDevice *pdev)
+>  {
+>      VFIOPCIDevice *vdev = PCI_VFIO(pdev);
+> +    VFIOContainer *container;
+>  
+>      vfio_unregister_req_notifier(vdev);
+>      vfio_unregister_err_notifier(vdev);
+> +
+> +    container = vdev->vbasedev.group->container;
+> +    if (container->iommu_ctx.initialized) {
+> +        pci_device_unset_iommu_context(pdev);
+> +    }
+> +
+>      pci_device_set_intx_routing_notifier(&vdev->pdev, NULL);
+>      if (vdev->irqchip_change_notifier.notify) {
+>          kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_notifier);
+> 
+Thanks
 
-r~
+Eric
+
 
