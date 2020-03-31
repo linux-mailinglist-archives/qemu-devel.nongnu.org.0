@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 899B3198BEE
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 07:49:22 +0200 (CEST)
-Received: from localhost ([::1]:60740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42611198BE8
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 07:47:23 +0200 (CEST)
+Received: from localhost ([::1]:60716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJ9m5-0008Vo-AP
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 01:49:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41805)
+	id 1jJ9kA-00055H-99
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 01:47:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41911)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jJ9i0-0002yv-Lk
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 01:45:09 -0400
+ (envelope-from <its@irrelevant.dk>) id 1jJ9ig-0003ww-5Y
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 01:45:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jJ9hz-00057n-Hz
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 01:45:08 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:48058)
+ (envelope-from <its@irrelevant.dk>) id 1jJ9ie-0005bm-Vx
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 01:45:50 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:48070)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jJ9hs-00054M-Qd; Tue, 31 Mar 2020 01:45:00 -0400
+ id 1jJ9ic-0005ZN-9f; Tue, 31 Mar 2020 01:45:46 -0400
 Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 8A924BF48F;
- Tue, 31 Mar 2020 05:44:59 +0000 (UTC)
-Date: Tue, 31 Mar 2020 07:44:56 +0200
+ by charlie.dont.surf (Postfix) with ESMTPSA id 1ADA9BF48F;
+ Tue, 31 Mar 2020 05:45:45 +0000 (UTC)
+Date: Tue, 31 Mar 2020 07:45:41 +0200
 From: Klaus Birkelund Jensen <its@irrelevant.dk>
 To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH v6 29/42] nvme: refactor request bounds checking
-Message-ID: <20200331054456.wl4jayuropl7tku2@apples.localdomain>
+Subject: Re: [PATCH v6 31/42] nvme: add check for prinfo
+Message-ID: <20200331054541.55rakuvpl7zaeezo@apples.localdomain>
 References: <20200316142928.153431-1-its@irrelevant.dk>
- <20200316142928.153431-30-its@irrelevant.dk>
- <27ff4b99b076e90ee7536a9c9063f10201a66096.camel@redhat.com>
+ <20200316142928.153431-32-its@irrelevant.dk>
+ <9d3bad95342559566c391635d9d96e4b56dd08c7.camel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <27ff4b99b076e90ee7536a9c9063f10201a66096.camel@redhat.com>
+In-Reply-To: <9d3bad95342559566c391635d9d96e4b56dd08c7.camel@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 128.199.63.193
@@ -56,46 +56,73 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mar 25 12:56, Maxim Levitsky wrote:
+On Mar 25 12:57, Maxim Levitsky wrote:
 > On Mon, 2020-03-16 at 07:29 -0700, Klaus Jensen wrote:
 > > From: Klaus Jensen <k.jensen@samsung.com>
 > > 
+> > Check the validity of the PRINFO field.
+> > 
 > > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 > > ---
-> >  hw/block/nvme.c | 28 ++++++++++++++++++++++------
-> >  1 file changed, 22 insertions(+), 6 deletions(-)
+> >  hw/block/nvme.c       | 50 ++++++++++++++++++++++++++++++++++++-------
+> >  hw/block/trace-events |  1 +
+> >  include/block/nvme.h  |  1 +
+> >  3 files changed, 44 insertions(+), 8 deletions(-)
 > > 
 > > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> > index eecfad694bf8..ba520c76bae5 100644
+> > index 7d5340c272c6..0d2b5b45b0c5 100644
 > > --- a/hw/block/nvme.c
 > > +++ b/hw/block/nvme.c
-> > @@ -562,13 +577,14 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
-> >      uint64_t data_offset = slba << data_shift;
-> >      int is_write = rw->opcode == NVME_CMD_WRITE ? 1 : 0;
-> >      enum BlockAcctType acct = is_write ? BLOCK_ACCT_WRITE : BLOCK_ACCT_READ;
-> > +    uint16_t status;
+> > @@ -505,6 +505,17 @@ static inline uint16_t nvme_check_mdts(NvmeCtrl *n, size_t len,
+> >      return NVME_SUCCESS;
+> >  }
 > >  
-> >      trace_nvme_dev_rw(is_write ? "write" : "read", nlb, data_size, slba);
-> >  
-> > -    if (unlikely((slba + nlb) > ns->id_ns.nsze)) {
-> > +    status = nvme_check_bounds(n, ns, slba, nlb, req);
-> > +    if (status) {
-> >          block_acct_invalid(blk_get_stats(n->conf.blk), acct);
-> > -        trace_nvme_dev_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
-> > -        return NVME_LBA_RANGE | NVME_DNR;
-> > +        return status;
-> >      }
-> >  
-> >      if (nvme_map(n, cmd, &req->qsg, &req->iov, data_size, req)) {
-> Looks good as well, once we get support for discard, it will
-> use this as well, but for now indeed only write zeros and read/write
-> need bounds checking on the IO path.
+> > +static inline uint16_t nvme_check_prinfo(NvmeCtrl *n, NvmeNamespace *ns,
+> > +                                         uint16_t ctrl, NvmeRequest *req)
+> > +{
+> > +    if ((ctrl & NVME_RW_PRINFO_PRACT) && !(ns->id_ns.dps & DPS_TYPE_MASK)) {
+> > +        trace_nvme_dev_err_prinfo(nvme_cid(req), ctrl);
+> > +        return NVME_INVALID_FIELD | NVME_DNR;
+> > +    }
+> 
+> I refreshed my (still very limited) knowelege on the metadata
+> and the protection info, and this is what I found:
+> 
+> I think that this is very far from complete, because we also have:
+> 
+> 1. PRCHECK. According to the spec it is independent of PRACT
+>    And when some of it is set, 
+>    together with enabled protection (the DPS field in namespace),
+>    Then the 8 bytes of the protection info is checked (optionally using the
+>    the EILBRT and ELBAT/ELBATM fields in the command and CRC of the data for the guard field)
+> 
+>    So this field should also be checked to be zero when protection is disabled
+>    (I don't see an explicit requirement for that in the spec, but neither I see
+>    such requirement for PRACT)
+> 
+> 2. The protection values to be written / checked ((E)ILBRT/(E)LBATM/(E)LBAT)
+>    Same here, but also these should not be set when PRCHECK is not set for reads,
+>    plus some are protection type specific.
+> 
+> 
+> The spec does mention the 'Invalid Protection Information' error code which
+> refers to invalid values in the PRINFO field.
+> So this error code I think should be returned instead of the 'Invalid field'
+> 
+> Another thing to optionaly check is that the metadata pointer for separate metadata.
+>  Is zero as long as we don't support metadata
+> (again I don't see an explicit requirement for this in the spec, but it mentions:
+> 
+> "This field is valid only if the command has metadata that is not interleaved with
+> the logical block data, as specified in the Format NVM command"
+> 
+> )
 > 
 
-I have that patch in the submission queue and the check is factored out
-there ;)
+I'm kinda inclined to just drop this patch. The spec actually says that
+the PRACT and PRCHK fields are used only if the namespace is formatted
+to use end-to-end protection information. Since we do not support that,
+I don't think we even need to check it.
 
-> Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-> 
-
+Any opinion on this?
 
