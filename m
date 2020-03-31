@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C47E819921C
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 11:24:01 +0200 (CEST)
-Received: from localhost ([::1]:34506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBFFE199235
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 11:26:49 +0200 (CEST)
+Received: from localhost ([::1]:34530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJD7o-0001Gu-Sq
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 05:24:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36776)
+	id 1jJDAW-0002wQ-VW
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 05:26:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36988)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1jJD73-0000iN-W0
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 05:23:15 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1jJD9g-0002TY-75
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 05:25:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1jJD72-0003ip-NG
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 05:23:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23677
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mlevitsk@redhat.com>) id 1jJD9f-0004vh-8T
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 05:25:56 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21103
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jJD72-0003i2-JO
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 05:23:12 -0400
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jJD9f-0004vK-5I
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 05:25:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585646591;
+ s=mimecast20190719; t=1585646754;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x3eGzpse8rETKxH/68ThWsj3qdaQ5P2CD03wXWnGQwg=;
- b=hjFYDwpXnVMsl5PaBuhxy7zDQk2KejNmB8qxxKAf/z4STmMqTyrg+IREli+o1WhIU8wrQW
- dY3tkmlSgj33SGA5+MphPFm2WAmq+Vf0p6lON/L+jiwgnP1fae5N62/bPzXv0oh23BE3R6
- qfH4FwbdRHDYbwjycmzVkmu/nDR0d+c=
+ bh=vqY4Mr0VWfU3ucNkSC2VSLErgYwJwr8CQYmGPDvvZmg=;
+ b=QUERzJiKJ53T4SjtEgroVnZ7o5Cg+mXRjQ7zS9pLu8yPWz9QwKSm5KSpepwqhnyvgcE8fB
+ KyDWFbB6CnhvLVje8PMT1O3QDRX4tnycZZ8IztC5XU1Q1dYqi4qcYyfy9+/DAVHZMVDF2G
+ 3pqvi0RPTQXaHCtTT37QoFDNTKps/SY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-x3ngkyeZPIiEpps90Ay2rA-1; Tue, 31 Mar 2020 05:23:08 -0400
-X-MC-Unique: x3ngkyeZPIiEpps90Ay2rA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-83-Jzr0m6nFMTyZYXY3YaRUBQ-1; Tue, 31 Mar 2020 05:25:52 -0400
+X-MC-Unique: Jzr0m6nFMTyZYXY3YaRUBQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A742B1937FC0;
- Tue, 31 Mar 2020 09:23:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 462ED8010F3;
+ Tue, 31 Mar 2020 09:25:51 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.223])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1792560BE0;
- Tue, 31 Mar 2020 09:23:03 +0000 (UTC)
-Message-ID: <56c10b9fa23d725e6e0182c1aeb6c12917bf2882.camel@redhat.com>
-Subject: Re: [PATCH v6 29/42] nvme: refactor request bounds checking
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 20AA9953D6;
+ Tue, 31 Mar 2020 09:25:48 +0000 (UTC)
+Message-ID: <58e70eadbae304751255e6f65c6b3c5cde2bed8b.camel@redhat.com>
+Subject: Re: [PATCH v6 24/42] nvme: remove redundant has_sg member
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: Klaus Birkelund Jensen <its@irrelevant.dk>
-Date: Tue, 31 Mar 2020 12:23:02 +0300
-In-Reply-To: <20200331054456.wl4jayuropl7tku2@apples.localdomain>
+Date: Tue, 31 Mar 2020 12:25:48 +0300
+In-Reply-To: <20200331054443.pua4yej3mmj5amqd@apples.localdomain>
 References: <20200316142928.153431-1-its@irrelevant.dk>
- <20200316142928.153431-30-its@irrelevant.dk>
- <27ff4b99b076e90ee7536a9c9063f10201a66096.camel@redhat.com>
- <20200331054456.wl4jayuropl7tku2@apples.localdomain>
+ <20200316142928.153431-25-its@irrelevant.dk>
+ <8001a1b07bce413961ff6e3569988ab118542f5d.camel@redhat.com>
+ <20200331054443.pua4yej3mmj5amqd@apples.localdomain>
 Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,48 +81,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Tue, 2020-03-31 at 07:44 +0200, Klaus Birkelund Jensen wrote:
-> On Mar 25 12:56, Maxim Levitsky wrote:
+> On Mar 25 12:45, Maxim Levitsky wrote:
 > > On Mon, 2020-03-16 at 07:29 -0700, Klaus Jensen wrote:
 > > > From: Klaus Jensen <k.jensen@samsung.com>
 > > > 
-> > > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> > > ---
-> > >  hw/block/nvme.c | 28 ++++++++++++++++++++++------
-> > >  1 file changed, 22 insertions(+), 6 deletions(-)
-> > > 
-> > > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> > > index eecfad694bf8..ba520c76bae5 100644
-> > > --- a/hw/block/nvme.c
-> > > +++ b/hw/block/nvme.c
-> > > @@ -562,13 +577,14 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
-> > >      uint64_t data_offset = slba << data_shift;
-> > >      int is_write = rw->opcode == NVME_CMD_WRITE ? 1 : 0;
-> > >      enum BlockAcctType acct = is_write ? BLOCK_ACCT_WRITE : BLOCK_ACCT_READ;
-> > > +    uint16_t status;
-> > >  
-> > >      trace_nvme_dev_rw(is_write ? "write" : "read", nlb, data_size, slba);
-> > >  
-> > > -    if (unlikely((slba + nlb) > ns->id_ns.nsze)) {
-> > > +    status = nvme_check_bounds(n, ns, slba, nlb, req);
-> > > +    if (status) {
-> > >          block_acct_invalid(blk_get_stats(n->conf.blk), acct);
-> > > -        trace_nvme_dev_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
-> > > -        return NVME_LBA_RANGE | NVME_DNR;
-> > > +        return status;
-> > >      }
-> > >  
-> > >      if (nvme_map(n, cmd, &req->qsg, &req->iov, data_size, req)) {
+> > > Remove the has_sg member from NvmeRequest since it's redundant.
 > > 
-> > Looks good as well, once we get support for discard, it will
-> > use this as well, but for now indeed only write zeros and read/write
-> > need bounds checking on the IO path.
+> > To be honest this patch also replaces the dma_acct_start with block_acct_start
+> > which looks right to me, and IMHO its OK to have both in the same patch,
+> > but that should be mentioned in the commit message
 > > 
 > 
-> I have that patch in the submission queue and the check is factored out
-> there ;)
-Perfect!
+> I pulled it to a separate patch :)
+
+Cool. Thanks
 
 > 
+> > With this fixed,
 > > Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 > > 
 > 
@@ -129,5 +105,6 @@ Perfect!
 
 Best regards,
 	Maxim Levitsky
+
 
 
