@@ -2,121 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6DF919979A
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 15:35:52 +0200 (CEST)
-Received: from localhost ([::1]:38180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E44651997B5
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 15:41:59 +0200 (CEST)
+Received: from localhost ([::1]:38292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJH3X-0004Vs-KL
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 09:35:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43720)
+	id 1jJH9T-00033V-0J
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 09:41:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44213)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lvivier@redhat.com>) id 1jJH2F-0003Ec-Vv
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:34:33 -0400
+ (envelope-from <linus.walleij@linaro.org>) id 1jJH5T-000069-Cw
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:37:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lvivier@redhat.com>) id 1jJH2E-0003EK-Jf
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:34:31 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20348
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1jJH2E-0003E3-GC
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:34:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585661670;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=lh+idsj6c0mf5B1K7KgjM9dlp//PTjU0j7LrGx9r1rQ=;
- b=ZCUX2Rol7ljUwqfWovg04yvOUx+CKZwl1HfdViI4bZj3DFsIHOC4mP6r6e7DSEzamtzYYM
- zGZ1SDniqQDLLnMB5dSZBS10nhDQ+aI2GNezyuqnYXoao8p7BR0YzUYZni8I6Taxzjfksl
- IvQZwWDlPviygkNd5esmr4sjB9N2W8U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-186-3GIphR_bOESDzS1T03xBdw-1; Tue, 31 Mar 2020 09:34:25 -0400
-X-MC-Unique: 3GIphR_bOESDzS1T03xBdw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D6FD1005509;
- Tue, 31 Mar 2020 13:34:24 +0000 (UTC)
-Received: from [10.36.113.198] (ovpn-113-198.ams2.redhat.com [10.36.113.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B4F460BE1;
- Tue, 31 Mar 2020 13:34:21 +0000 (UTC)
-Subject: Re: [PULL for-5.0 07/10] configure: Support -static-pie if requested
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200331035456.6494-1-richard.henderson@linaro.org>
- <20200331035456.6494-9-richard.henderson@linaro.org>
-From: Laurent Vivier <lvivier@redhat.com>
-Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
- mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
- WoeuLWDmXE7A3oJoIsRecD6BXHTb0OYS20lS608anr3B0xn5g0BX7es9Mw+hV/pL+63EOCVm
- SUVTEQwbGQN62guOKnJJJfphbbv82glIC/Ei4Ky8BwZkUuXd7d5NFJKC9/GDrbWdj75cDNQx
- UZ9XXbXEKY9MHX83Uy7JFoiFDMOVHn55HnncflUncO0zDzY7CxFeQFwYRbsCXOUL9yBtqLer
- Ky8/yjBskIlNrp0uQSt9LMoMsdSjYLYhvk1StsNPg74+s4u0Q6z45+l8RAsgLw5OLtTa+ePM
- JyS7OIGNYxAX6eZk1+91a6tnqfyPcMbduxyBaYXn94HUG162BeuyBkbNoIDkB7pCByed1A7q
- q9/FbuTDwgVGVLYthYSfTtN0Y60OgNkWCMtFwKxRaXt1WFA5ceqinN/XkgA+vf2Ch72zBkJL
- RBIhfOPFv5f2Hkkj0MvsUXpOWaOjatiu0fpPo6Hw14UEpywke1zN4NKubApQOlNKZZC4hu6/
- 8pv2t4HRi7s0K88jQYBRPObjrN5+owtI51xMaYzvPitHQ2053LmgsOdN9EKOqZeHAYG2SmRW
- LOxYWKX14YkZI5j/TXfKlTpwSMvXho+efN4kgFvFmP6WT+tPnwARAQABtCNMYXVyZW50IFZp
- dmllciA8bHZpdmllckByZWRoYXQuY29tPokCOAQTAQIAIgUCVgVQgAIbAwYLCQgHAwIGFQgC
- CQoLBBYCAwECHgECF4AACgkQ8ww4vT8vvjwpgg//fSGy0Rs/t8cPFuzoY1cex4limJQfReLr
- SJXCANg9NOWy/bFK5wunj+h/RCFxIFhZcyXveurkBwYikDPUrBoBRoOJY/BHK0iZo7/WQkur
- 6H5losVZtrotmKOGnP/lJYZ3H6OWvXzdz8LL5hb3TvGOP68K8Bn8UsIaZJoeiKhaNR0sOJyI
- YYbgFQPWMHfVwHD/U+/gqRhD7apVysxv5by/pKDln1I5v0cRRH6hd8M8oXgKhF2+rAOL7gvh
- jEHSSWKUlMjC7YwwjSZmUkL+TQyE18e2XBk85X8Da3FznrLiHZFHQ/NzETYxRjnOzD7/kOVy
- gKD/o7asyWQVU65mh/ECrtjfhtCBSYmIIVkopoLaVJ/kEbVJQegT2P6NgERC/31kmTF69vn8
- uQyW11Hk8tyubicByL3/XVBrq4jZdJW3cePNJbTNaT0d/bjMg5zCWHbMErUib2Nellnbg6bc
- 2HLDe0NLVPuRZhHUHM9hO/JNnHfvgiRQDh6loNOUnm9Iw2YiVgZNnT4soUehMZ7au8PwSl4I
- KYE4ulJ8RRiydN7fES3IZWmOPlyskp1QMQBD/w16o+lEtY6HSFEzsK3o0vuBRBVp2WKnssVH
- qeeV01ZHw0bvWKjxVNOksP98eJfWLfV9l9e7s6TaAeySKRRubtJ+21PRuYAxKsaueBfUE7ZT
- 7ze0LUxhdXJlbnQgVml2aWVyIChSZWQgSGF0KSA8bHZpdmllckByZWRoYXQuY29tPokCOAQT
- AQIAIgUCVgUmGQIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQ8ww4vT8vvjxtNBAA
- o2xGmbXl9vJQALkj7MVlsMlgewQ1rdoZl+bZ6ythTSBsqwwtl1BUTQGA1GF2LAchRVYca5bJ
- lw4ai5OdZ/rc5dco2XgrRFtj1np703BzNEhGU1EFxtms/Y9YOobq/GZpck5rK8jV4osEb8oc
- 3xEgCm/xFwI/2DOe0/s2cHKzRkvdmKWEDhT1M+7UhtSCnloX776zCsrofYiHP2kasFyMa/5R
- 9J1Rt9Ax/jEAX5vFJ8+NPf68497nBfrAtLM3Xp03YJSr/LDxer44Mevhz8dFw7IMRLhnuSfr
- 8jP93lr6Wa8zOe3pGmFXZWpNdkV/L0HaeKwTyDKKdUDH4U7SBnE1gcDfe9x08G+oDfVhqED8
- qStKCxPYxRUKIdUjGPF3f5oj7N56Q5zZaZkfxeLNTQ13LDt3wGbVHyZxzFc81B+qT8mkm74y
- RbeVSuviPTYjbBQ66GsUgiZZpDUyJ6s54fWqQdJf4VFwd7M/mS8WEejbSjglGHMxMGiBeRik
- Y0+ur5KAF7z0D1KfW1kHO9ImQ0FbEbMbTMf9u2+QOCrSWOz/rj23EwPrCQ2TSRI2fWakMJZ+
- zQZvy+ei3D7lZ09I9BT/GfFkTIONgtNfDxwyMc4v4XyP0IvvZs/YZqt7j3atyTZM0S2HSaZ9
- rXmQYkBt1/u691cZfvy+Tr2xZaDpFcjPkci5Ag0EVgUmGQEQALxSQRbl/QOnmssVDxWhHM5T
- Gxl7oLNJms2zmBpcmlrIsn8nNz0rRyxT460k2niaTwowSRK8KWVDeAW6ZAaWiYjLlTunoKwv
- F8vP3JyWpBz0diTxL5o+xpvy/Q6YU3BNefdq8Vy3rFsxgW7mMSrI/CxJ667y8ot5DVugeS2N
- yHfmZlPGE0Nsy7hlebS4liisXOrN3jFzasKyUws3VXek4V65lHwB23BVzsnFMn/bw/rPliqX
- Gcwl8CoJu8dSyrCcd1Ibs0/Inq9S9+t0VmWiQWfQkz4rvEeTQkp/VfgZ6z98JRW7S6l6eoph
- oWs0/ZyRfOm+QVSqRfFZdxdP2PlGeIFMC3fXJgygXJkFPyWkVElr76JTbtSHsGWbt6xUlYHK
- XWo+xf9WgtLeby3cfSkEchACrxDrQpj+Jt/JFP+q997dybkyZ5IoHWuPkn7uZGBrKIHmBunT
- co1+cKSuRiSCYpBIXZMHCzPgVDjk4viPbrV9NwRkmaOxVvye0vctJeWvJ6KA7NoAURplIGCq
- kCRwg0MmLrfoZnK/gRqVJ/f6adhU1oo6z4p2/z3PemA0C0ANatgHgBb90cd16AUxpdEQmOCm
- dNnNJF/3Zt3inzF+NFzHoM5Vwq6rc1JPjfC3oqRLJzqAEHBDjQFlqNR3IFCIAo4SYQRBdAHB
- CzkM4rWyRhuVABEBAAGJAh8EGAECAAkFAlYFJhkCGwwACgkQ8ww4vT8vvjwg9w//VQrcnVg3
- TsjEybxDEUBm8dBmnKqcnTBFmxN5FFtIWlEuY8+YMiWRykd8Ln9RJ/98/ghABHz9TN8TRo2b
- 6WimV64FmlVn17Ri6FgFU3xNt9TTEChqAcNg88eYryKsYpFwegGpwUlaUaaGh1m9OrTzcQy+
- klVfZWaVJ9Nw0keoGRGb8j4XjVpL8+2xOhXKrM1fzzb8JtAuSbuzZSQPDwQEI5CKKxp7zf76
- J21YeRrEW4WDznPyVcDTa+tz++q2S/BpP4W98bXCBIuQgs2m+OflERv5c3Ojldp04/S4NEjX
- EYRWdiCxN7ca5iPml5gLtuvhJMSy36glU6IW9kn30IWuSoBpTkgV7rLUEhh9Ms82VWW/h2Tx
- L8enfx40PrfbDtWwqRID3WY8jLrjKfTdR3LW8BnUDNkG+c4FzvvGUs8AvuqxxyHbXAfDx9o/
- jXfPHVRmJVhSmd+hC3mcQ+4iX5bBPBPMoDqSoLt5w9GoQQ6gDVP2ZjTWqwSRMLzNr37rJjZ1
- pt0DCMMTbiYIUcrhX8eveCJtY7NGWNyxFCRkhxRuGcpwPmRVDwOl39MB3iTsRighiMnijkbL
- XiKoJ5CDVvX5yicNqYJPKh5MFXN1bvsBkmYiStMRbrD0HoY1kx5/VozBtc70OU0EB8Wrv9hZ
- D+Ofp0T3KOr1RUHvCZoLURfFhSQ=
-Message-ID: <a36effc1-cf0b-411d-2a2a-97dd2932e95f@redhat.com>
-Date: Tue, 31 Mar 2020 15:34:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <linus.walleij@linaro.org>) id 1jJH5R-0004pI-KS
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:37:51 -0400
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:45899)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <linus.walleij@linaro.org>)
+ id 1jJH5R-0004oR-2E
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:37:49 -0400
+Received: by mail-lf1-x141.google.com with SMTP id v4so17286650lfo.12
+ for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 06:37:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aU5iLCuWaH4zxyOLw8e9l2ANSFZT9vUFLRpaEbsCIeI=;
+ b=M2bf+eVpkauwEFyb4CxmjaPvpl1N7Yad7zfCQI7ftWmBLkeJPC0XXouWV2QI8hxZp0
+ SWvodVcZIL6Bb/b/rJIkQwkInHpjgZ5o+LFL4a9Pq3M4CqV+zv5VdnUEa/Y9J4upA+Im
+ 9Jw34jRSN6kWPZ+k5VsdGo8jY+lJaogNfFrBKMbUo/M+wp9QThZUUdUXu+DGnXp8u5k2
+ KPhTqiN5HAQpCWvh1il9cj1mhxWhSyWq/d4wVo+nmE3Zy9I/KddzW5kBlWk/4bQIKCOR
+ Av5ZU2ntiH08RXx7Vy7fMOQlQY1fz06o4VosndadGp4GHJG5h/oOYOtMMvQhx/Kp3hXh
+ clpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aU5iLCuWaH4zxyOLw8e9l2ANSFZT9vUFLRpaEbsCIeI=;
+ b=jIJFAM8AlLDjxIJeDkM9R7cHknAC8hnwf06rDKTi2JOqlq9jmHPDVpBxXVDSqhvMx6
+ 2TlXcMEr6oiAsLOPtlwhaWWpA5vNS1hwPASSYH/IVu/HkDCoOs1haZ3NRFlI5dVRWTsC
+ gWXncBLW/0vfF2ixyjCttx0tP1q3luX0hiwkOKbN2kmtJJMa5T76IlGK66ALC3C3lN+M
+ /lUAGFbWWFPCP7bHnQGDH3BNi/e47O13aJj1YY4fc2V31NYVLNhkxiLJltOri7MnkClr
+ bfg2DoYwogM86g6I7N/ygzwU0djmIckGe/MwKpAM+qsfg8iAtQd3TwzVQ7iLYsAejJpr
+ NJLA==
+X-Gm-Message-State: AGi0Pub2yAVbCS45HS+kEF20Dd+QGOX7v/cAoIGMQWixpuJr3zqYI1qP
+ ng20h9p7J3n2Lj4yIvMlMfLG/g==
+X-Google-Smtp-Source: APiQypKT2+uqdUkMNinUZ7US4h3EuWA+Qnq8u+r/x9eYKAF8W37lj90IU1/6iLzyAQ3J8dNMc7hMJw==
+X-Received: by 2002:a19:ad43:: with SMTP id s3mr11555874lfd.63.1585661866597; 
+ Tue, 31 Mar 2020 06:37:46 -0700 (PDT)
+Received: from localhost.localdomain
+ (c-f3d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.243])
+ by smtp.gmail.com with ESMTPSA id x128sm9837994lff.67.2020.03.31.06.37.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Mar 2020 06:37:45 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>
+Subject: [PATCH] fcntl: Add 32bit filesystem mode
+Date: Tue, 31 Mar 2020 15:35:36 +0200
+Message-Id: <20200331133536.3328-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200331035456.6494-9-richard.henderson@linaro.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::141
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -128,78 +77,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, linux-api@vger.kernel.org,
+ Linus Walleij <linus.walleij@linaro.org>, qemu-devel@nongnu.org,
+ Florian Weimer <fw@deneb.enyo.de>, Andy Lutomirski <luto@kernel.org>,
+ linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/03/2020 05:54, Richard Henderson wrote:
-> Recent toolchains support static and pie at the same time.
->=20
-> As with normal dynamic builds, allow --static to default to PIE
-> if supported by the toolchain.  Allow --enable/--disable-pie to
-> override the default.
->=20
-> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-> v2: Fix --disable-pie --static
-> v3: Update for QEMU_LDFLAGS.
-> ---
->  configure | 19 ++++++++++++-------
->  1 file changed, 12 insertions(+), 7 deletions(-)
+It was brought to my attention that this bug from 2018 was
+still unresolved: 32 bit emulators like QEMU were given
+64 bit hashes when running 32 bit emulation on 64 bit systems.
 
-'configure --static" always produces a dynamically linked binary for me
+This adds a fcntl() operation to set the underlying filesystem
+into 32bit mode even if the file hanle was opened using 64bit
+mode without the compat syscalls.
 
-.../configure' '--disable-system' '--enable-user' '--disable-tools'
-'--static'
-...
-CFLAGS            -O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -g
-QEMU_CFLAGS         -Werror  -pthread -I/usr/include/glib-2.0
--I/usr/lib64/glib-2.0/include  -fPIE -DPIE -m64 -mcx16 -D_GNU_SOURCE
--D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wstrict-prototypes
--Wredundant-decls -Wall -Wundef -Wwrite-strings -Wmissing-prototypes
--fno-strict-aliasing -fno-common -fwrapv -std=3Dgnu99
--Wexpansion-to-defined -Wendif-labels -Wno-shift-negative-value
--Wno-missing-include-dirs -Wempty-body -Wnested-externs
--Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers
--Wold-style-declaration -Wold-style-definition -Wtype-limits
--fstack-protector-strong  -I/usr/include/libdrm
--I$(SRC_PATH)/capstone/include
-QEMU_LDFLAGS       -Wl,--warn-common -Wl,-z,relro -Wl,-z,now -static-pie
--m64  -fstack-protector-strong
-...
-static build      yes
-...
-PIE               yes
+Programs that need the 32 bit file system behavior need to
+issue a fcntl() system call such as in this example:
 
-make -j 8 m68k-linux-user/clean
-make -j 8 m68k-linux-user/all
+  #define F_SET_FILE_32BIT_FS (1024 + 15)
 
-$ file m68k-linux-user/qemu-m68k
-m68k-linux-user/qemu-m68k: ELF 64-bit LSB pie executable, x86-64,
-version 1 (GNU/Linux), dynamically linked,
-BuildID[sha1]=3D363ee31697e874085ec53c2af454a070c62647e1, for GNU/Linux
-3.2.0, with debug_info, not stripped, too many notes (256)
+  int main(int argc, char** argv) {
+    DIR* dir;
+    int err;
+    int fd;
 
-$ gdb --version
-GNU gdb (GDB) Fedora 8.3.50.20190824-30.fc31
-Copyright (C) 2019 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later
-<http://gnu.org/licenses/gpl.html>
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
- ld --version
-GNU ld version 2.32-31.fc31
-Copyright (C) 2019 Free Software Foundation, Inc.
-This program is free software; you may redistribute it under the terms of
-the GNU General Public License version 3 or (at your option) a later
-version.
-This program has absolutely no warranty.
+    dir = opendir("/boot");
+    fd = dirfd(dir);
+    err = fcntl(fd, F_SET_FILE_32BIT_FS);
+    if (err) {
+      printf("fcntl() failed! err=%d\n", err);
+      return 1;
+    }
+    printf("dir=%p\n", dir);
+    printf("readdir(dir)=%p\n", readdir(dir));
+    printf("errno=%d: %s\n", errno, strerror(errno));
+    return 0;
+  }
 
-Any idea of what happens?
+This can be pretty hard to test since C libraries and linux
+userspace security extensions aggressively filter the parameters
+that are passed down and allowed to commit into actual system
+calls.
 
-Thanks,
-Laurent
+Cc: Florian Weimer <fw@deneb.enyo.de>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Andy Lutomirski <luto@kernel.org>
+Suggested-by: Theodore Ts'o <tytso@mit.edu>
+Link: https://bugs.launchpad.net/qemu/+bug/1805913
+Link: https://lore.kernel.org/lkml/87bm56vqg4.fsf@mid.deneb.enyo.de/
+Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=205957
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ fs/fcntl.c                       | 4 ++++
+ include/uapi/linux/fcntl.h       | 9 +++++++++
+ tools/include/uapi/linux/fcntl.h | 9 +++++++++
+ tools/perf/trace/beauty/fcntl.c  | 3 ++-
+ 4 files changed, 24 insertions(+), 1 deletion(-)
+
+diff --git a/fs/fcntl.c b/fs/fcntl.c
+index 2e4c0fa2074b..d194b1265bd4 100644
+--- a/fs/fcntl.c
++++ b/fs/fcntl.c
+@@ -426,6 +426,10 @@ static long do_fcntl(int fd, unsigned int cmd, unsigned long arg,
+ 	case F_SET_FILE_RW_HINT:
+ 		err = fcntl_rw_hint(filp, cmd, arg);
+ 		break;
++	case F_SET_FILE_32BIT_FS:
++		filp->f_mode |= FMODE_32BITHASH;
++		err = 0;
++		break;
+ 	default:
+ 		break;
+ 	}
+diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+index ca88b7bce553..b9ad934147e8 100644
+--- a/include/uapi/linux/fcntl.h
++++ b/include/uapi/linux/fcntl.h
+@@ -73,6 +73,15 @@
+  */
+ #define RWF_WRITE_LIFE_NOT_SET	RWH_WRITE_LIFE_NOT_SET
+ 
++/*
++ * This instructs the kernel to provide 32bit semantics (such as hashes) from
++ * the file system layer, when running a userland that depend on 32bit
++ * semantics on a kernel that supports 64bit userland, but does not use the
++ * compat ioctl() for e.g. open(), so that the kernel would otherwise assume
++ * that the userland process is capable of dealing with 64bit semantics.
++ */
++#define F_SET_FILE_32BIT_FS	(F_LINUX_SPECIFIC_BASE + 15)
++
+ /*
+  * Types of directory notifications that may be requested.
+  */
+diff --git a/tools/include/uapi/linux/fcntl.h b/tools/include/uapi/linux/fcntl.h
+index ca88b7bce553..b9ad934147e8 100644
+--- a/tools/include/uapi/linux/fcntl.h
++++ b/tools/include/uapi/linux/fcntl.h
+@@ -73,6 +73,15 @@
+  */
+ #define RWF_WRITE_LIFE_NOT_SET	RWH_WRITE_LIFE_NOT_SET
+ 
++/*
++ * This instructs the kernel to provide 32bit semantics (such as hashes) from
++ * the file system layer, when running a userland that depend on 32bit
++ * semantics on a kernel that supports 64bit userland, but does not use the
++ * compat ioctl() for e.g. open(), so that the kernel would otherwise assume
++ * that the userland process is capable of dealing with 64bit semantics.
++ */
++#define F_SET_FILE_32BIT_FS	(F_LINUX_SPECIFIC_BASE + 15)
++
+ /*
+  * Types of directory notifications that may be requested.
+  */
+diff --git a/tools/perf/trace/beauty/fcntl.c b/tools/perf/trace/beauty/fcntl.c
+index 56ef83b3d130..da80264678cb 100644
+--- a/tools/perf/trace/beauty/fcntl.c
++++ b/tools/perf/trace/beauty/fcntl.c
+@@ -94,7 +94,8 @@ size_t syscall_arg__scnprintf_fcntl_arg(char *bf, size_t size, struct syscall_ar
+ 	    cmd == F_OFD_SETLK || cmd == F_OFD_SETLKW || cmd == F_OFD_GETLK ||
+ 	    cmd == F_GETOWN_EX || cmd == F_SETOWN_EX ||
+ 	    cmd == F_GET_RW_HINT || cmd == F_SET_RW_HINT ||
+-	    cmd == F_GET_FILE_RW_HINT || cmd == F_SET_FILE_RW_HINT)
++	    cmd == F_GET_FILE_RW_HINT || cmd == F_SET_FILE_RW_HINT ||
++	    cmd == F_SET_FILE_32BIT_FS)
+ 		return syscall_arg__scnprintf_hex(bf, size, arg);
+ 
+ 	return syscall_arg__scnprintf_long(bf, size, arg);
+-- 
+2.25.1
 
 
