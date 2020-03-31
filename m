@@ -2,70 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44651997B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 15:41:59 +0200 (CEST)
-Received: from localhost ([::1]:38292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E42FB1997A9
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 15:38:44 +0200 (CEST)
+Received: from localhost ([::1]:38250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJH9T-00033V-0J
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 09:41:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44213)
+	id 1jJH6J-0000k7-Vi
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 09:38:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44151)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <linus.walleij@linaro.org>) id 1jJH5T-000069-Cw
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:37:53 -0400
+ (envelope-from <mst@redhat.com>) id 1jJH58-0007zj-GE
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:37:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <linus.walleij@linaro.org>) id 1jJH5R-0004pI-KS
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:37:51 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:45899)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <linus.walleij@linaro.org>)
- id 1jJH5R-0004oR-2E
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:37:49 -0400
-Received: by mail-lf1-x141.google.com with SMTP id v4so17286650lfo.12
- for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 06:37:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aU5iLCuWaH4zxyOLw8e9l2ANSFZT9vUFLRpaEbsCIeI=;
- b=M2bf+eVpkauwEFyb4CxmjaPvpl1N7Yad7zfCQI7ftWmBLkeJPC0XXouWV2QI8hxZp0
- SWvodVcZIL6Bb/b/rJIkQwkInHpjgZ5o+LFL4a9Pq3M4CqV+zv5VdnUEa/Y9J4upA+Im
- 9Jw34jRSN6kWPZ+k5VsdGo8jY+lJaogNfFrBKMbUo/M+wp9QThZUUdUXu+DGnXp8u5k2
- KPhTqiN5HAQpCWvh1il9cj1mhxWhSyWq/d4wVo+nmE3Zy9I/KddzW5kBlWk/4bQIKCOR
- Av5ZU2ntiH08RXx7Vy7fMOQlQY1fz06o4VosndadGp4GHJG5h/oOYOtMMvQhx/Kp3hXh
- clpg==
+ (envelope-from <mst@redhat.com>) id 1jJH56-0004gJ-Qt
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:37:30 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53615
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jJH56-0004fv-M6
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:37:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585661847;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=b7/lBvfZUgrMsHjskBGxb1fKghdPgh2bnzJ5nqKo5FE=;
+ b=I5/mnofrIeoc531hx9FMLMTDSboMTSqccvjM+2M4NsFVOPs3Q7O9+e+ilY7VyYp8KYkykl
+ v6SbLNgsERJC+vsHM5yaEuChfu0lN35BaUmQxbujkQscGjyk9JLxDKaTmZByts+O9EkCMa
+ A64FxBv2UZC9E0IiZtnFnhYMXc5fLZQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-415-85t6oCvRNuKWLOpr8-FudA-1; Tue, 31 Mar 2020 09:37:24 -0400
+X-MC-Unique: 85t6oCvRNuKWLOpr8-FudA-1
+Received: by mail-wr1-f70.google.com with SMTP id u16so10017326wrp.14
+ for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 06:37:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aU5iLCuWaH4zxyOLw8e9l2ANSFZT9vUFLRpaEbsCIeI=;
- b=jIJFAM8AlLDjxIJeDkM9R7cHknAC8hnwf06rDKTi2JOqlq9jmHPDVpBxXVDSqhvMx6
- 2TlXcMEr6oiAsLOPtlwhaWWpA5vNS1hwPASSYH/IVu/HkDCoOs1haZ3NRFlI5dVRWTsC
- gWXncBLW/0vfF2ixyjCttx0tP1q3luX0hiwkOKbN2kmtJJMa5T76IlGK66ALC3C3lN+M
- /lUAGFbWWFPCP7bHnQGDH3BNi/e47O13aJj1YY4fc2V31NYVLNhkxiLJltOri7MnkClr
- bfg2DoYwogM86g6I7N/ygzwU0djmIckGe/MwKpAM+qsfg8iAtQd3TwzVQ7iLYsAejJpr
- NJLA==
-X-Gm-Message-State: AGi0Pub2yAVbCS45HS+kEF20Dd+QGOX7v/cAoIGMQWixpuJr3zqYI1qP
- ng20h9p7J3n2Lj4yIvMlMfLG/g==
-X-Google-Smtp-Source: APiQypKT2+uqdUkMNinUZ7US4h3EuWA+Qnq8u+r/x9eYKAF8W37lj90IU1/6iLzyAQ3J8dNMc7hMJw==
-X-Received: by 2002:a19:ad43:: with SMTP id s3mr11555874lfd.63.1585661866597; 
- Tue, 31 Mar 2020 06:37:46 -0700 (PDT)
-Received: from localhost.localdomain
- (c-f3d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.243])
- by smtp.gmail.com with ESMTPSA id x128sm9837994lff.67.2020.03.31.06.37.45
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=14WjY7npFb95dfs4u91xTUnm/drEuiMIwCcYb9+aV0E=;
+ b=XNMfczoJ3wjOGkWpE1sColZpdbkZmcuT0nyhlOAukJxzuDxz+UCmR65VsJ/Iw7AOak
+ zKvJ3RyeR+vqs1tr0Wm7HVFhvjBSDLCIdgR5n9684MyN2bUCjVyOEz03GyRi1H6HESO+
+ T6BwIJGz3uP7yWhh0S6nbKG1dKF+wG1t3qKc9jHxVxxhG4+MQsYj8JjU5KvNRo/MeZos
+ r7w5DghrUWobnim/QHSrL2e1m+leu8gis5d2evpdCG6/TpbYh+1wDWyhaXjaMimb/b1G
+ iNv38uGSjC6eLBvFGyWv/3zC47xFIuHHABk5gazFCgUH6PSGV8Qg7sJmY3/ZI5J6lT5e
+ MAUg==
+X-Gm-Message-State: AGi0PubnvNxpCl8rnfj6OOSY+UErwKpzVk4Qqf1IFfdQ7x0zURwgfVJP
+ 9dBF2NzZBWVrsqfhfFkOixDzjpdC2J992tEsZiOHrMA4dEe43sIOZtn22y67w5mg73emkdbv6I+
+ +HOnYzbHw7G+I0LQ=
+X-Received: by 2002:a05:600c:294d:: with SMTP id
+ n13mr338177wmd.155.1585661843028; 
+ Tue, 31 Mar 2020 06:37:23 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLHOVQZvcKj5qnhJ3T+XcRb/jgIhPeq4jvZUSNB0Q2o5aF7+L0uVNJTtAjoRsYEjD9/meV5Hg==
+X-Received: by 2002:a05:600c:294d:: with SMTP id
+ n13mr338144wmd.155.1585661842712; 
+ Tue, 31 Mar 2020 06:37:22 -0700 (PDT)
+Received: from redhat.com (bzq-79-176-51-222.red.bezeqint.net. [79.176.51.222])
+ by smtp.gmail.com with ESMTPSA id n2sm28124947wro.25.2020.03.31.06.37.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Mar 2020 06:37:45 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: Theodore Ts'o <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>
-Subject: [PATCH] fcntl: Add 32bit filesystem mode
-Date: Tue, 31 Mar 2020 15:35:36 +0200
-Message-Id: <20200331133536.3328-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ Tue, 31 Mar 2020 06:37:22 -0700 (PDT)
+Date: Tue, 31 Mar 2020 09:37:18 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [RFC for Linux] virtio_balloon: Add VIRTIO_BALLOON_F_THP_ORDER
+ to handle THP spilt issue
+Message-ID: <20200331093300-mutt-send-email-mst@kernel.org>
+References: <20200326031817-mutt-send-email-mst@kernel.org>
+ <C4C6BAF7-C040-403D-997C-48C7AB5A7D6B@redhat.com>
+ <20200326054554-mutt-send-email-mst@kernel.org>
+ <f26dc94a-7296-90c9-56cd-4586b78bc03d@redhat.com>
+ <20200331091718-mutt-send-email-mst@kernel.org>
+ <02a393ce-c4b4-ede9-7671-76fa4c19097a@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::141
+In-Reply-To: <02a393ce-c4b4-ede9-7671-76fa4c19097a@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,134 +96,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, linux-api@vger.kernel.org,
- Linus Walleij <linus.walleij@linaro.org>, qemu-devel@nongnu.org,
- Florian Weimer <fw@deneb.enyo.de>, Andy Lutomirski <luto@kernel.org>,
- linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org
+Cc: pagupta@redhat.com, Alexander Duyck <alexander.h.duyck@linux.intel.com>,
+ qemu-devel@nongnu.org, mojha@codeaurora.org, linux-kernel@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, namit@vmware.com,
+ Hui Zhu <teawaterz@linux.alibaba.com>, akpm@linux-foundation.org,
+ jasowang@redhat.com, Hui Zhu <teawater@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It was brought to my attention that this bug from 2018 was
-still unresolved: 32 bit emulators like QEMU were given
-64 bit hashes when running 32 bit emulation on 64 bit systems.
+On Tue, Mar 31, 2020 at 03:32:05PM +0200, David Hildenbrand wrote:
+> On 31.03.20 15:24, Michael S. Tsirkin wrote:
+> > On Tue, Mar 31, 2020 at 12:35:24PM +0200, David Hildenbrand wrote:
+> >> On 26.03.20 10:49, Michael S. Tsirkin wrote:
+> >>> On Thu, Mar 26, 2020 at 08:54:04AM +0100, David Hildenbrand wrote:
+> >>>>
+> >>>>
+> >>>>> Am 26.03.2020 um 08:21 schrieb Michael S. Tsirkin <mst@redhat.com>:
+> >>>>>
+> >>>>> =EF=BB=BFOn Thu, Mar 12, 2020 at 09:51:25AM +0100, David Hildenbran=
+d wrote:
+> >>>>>>> On 12.03.20 09:47, Michael S. Tsirkin wrote:
+> >>>>>>> On Thu, Mar 12, 2020 at 09:37:32AM +0100, David Hildenbrand wrote=
+:
+> >>>>>>>> 2. You are essentially stealing THPs in the guest. So the fastes=
+t
+> >>>>>>>> mapping (THP in guest and host) is gone. The guest won't be able=
+ to make
+> >>>>>>>> use of THP where it previously was able to. I can imagine this i=
+mplies a
+> >>>>>>>> performance degradation for some workloads. This needs a proper
+> >>>>>>>> performance evaluation.
+> >>>>>>>
+> >>>>>>> I think the problem is more with the alloc_pages API.
+> >>>>>>> That gives you exactly the given order, and if there's
+> >>>>>>> a larger chunk available, it will split it up.
+> >>>>>>>
+> >>>>>>> But for balloon - I suspect lots of other users,
+> >>>>>>> we do not want to stress the system but if a large
+> >>>>>>> chunk is available anyway, then we could handle
+> >>>>>>> that more optimally by getting it all in one go.
+> >>>>>>>
+> >>>>>>>
+> >>>>>>> So if we want to address this, IMHO this calls for a new API.
+> >>>>>>> Along the lines of
+> >>>>>>>
+> >>>>>>>    struct page *alloc_page_range(gfp_t gfp, unsigned int min_orde=
+r,
+> >>>>>>>                    unsigned int max_order, unsigned int *order)
+> >>>>>>>
+> >>>>>>> the idea would then be to return at a number of pages in the give=
+n
+> >>>>>>> range.
+> >>>>>>>
+> >>>>>>> What do you think? Want to try implementing that?
+> >>>>>>
+> >>>>>> You can just start with the highest order and decrement the order =
+until
+> >>>>>> your allocation succeeds using alloc_pages(), which would be enoug=
+h for
+> >>>>>> a first version. At least I don't see the immediate need for a new
+> >>>>>> kernel API.
+> >>>>>
+> >>>>> OK I remember now.  The problem is with reclaim. Unless reclaim is
+> >>>>> completely disabled, any of these calls can sleep. After it wakes u=
+p,
+> >>>>> we would like to get the larger order that has become available
+> >>>>> meanwhile.
+> >>>>>
+> >>>>
+> >>>> Yes, but that=E2=80=98s a pure optimization IMHO.
+> >>>> So I think we should do a trivial implementation first and then see =
+what we gain from a new allocator API. Then we might also be able to justif=
+y it using real numbers.
+> >>>>
+> >>>
+> >>> Well how do you propose implement the necessary semantics?
+> >>> I think we are both agreed that alloc_page_range is more or
+> >>> less what's necessary anyway - so how would you approximate it
+> >>> on top of existing APIs?
+> >> diff --git a/include/linux/balloon_compaction.h b/include/linux/balloo=
+n_compaction.h
 
-This adds a fcntl() operation to set the underlying filesystem
-into 32bit mode even if the file hanle was opened using 64bit
-mode without the compat syscalls.
+.....
 
-Programs that need the 32 bit file system behavior need to
-issue a fcntl() system call such as in this example:
 
-  #define F_SET_FILE_32BIT_FS (1024 + 15)
+> >> diff --git a/mm/balloon_compaction.c b/mm/balloon_compaction.c
+> >> index 26de020aae7b..067810b32813 100644
+> >> --- a/mm/balloon_compaction.c
+> >> +++ b/mm/balloon_compaction.c
+> >> @@ -112,23 +112,35 @@ size_t balloon_page_list_dequeue(struct balloon_=
+dev_info *b_dev_info,
+> >>  EXPORT_SYMBOL_GPL(balloon_page_list_dequeue);
+> >> =20
+> >>  /*
+> >> - * balloon_page_alloc - allocates a new page for insertion into the b=
+alloon
+> >> - *=09=09=09page list.
+> >> + * balloon_pages_alloc - allocates a new page (of at most the given o=
+rder)
+> >> + * =09=09=09 for insertion into the balloon page list.
+> >>   *
+> >>   * Driver must call this function to properly allocate a new balloon =
+page.
+> >>   * Driver must call balloon_page_enqueue before definitively removing=
+ the page
+> >>   * from the guest system.
+> >>   *
+> >> + * Will fall back to smaller orders if allocation fails. The order of=
+ the
+> >> + * allocated page is stored in page->private.
+> >> + *
+> >>   * Return: struct page for the allocated page or NULL on allocation f=
+ailure.
+> >>   */
+> >> -struct page *balloon_page_alloc(void)
+> >> +struct page *balloon_pages_alloc(int order)
+> >>  {
+> >> -=09struct page *page =3D alloc_page(balloon_mapping_gfp_mask() |
+> >> -=09=09=09=09       __GFP_NOMEMALLOC | __GFP_NORETRY |
+> >> -=09=09=09=09       __GFP_NOWARN);
+> >> -=09return page;
+> >> +=09struct page *page;
+> >> +
+> >> +=09while (order >=3D 0) {
+> >> +=09=09page =3D alloc_pages(balloon_mapping_gfp_mask() |
+> >> +=09=09=09=09   __GFP_NOMEMALLOC | __GFP_NORETRY |
+> >> +=09=09=09=09   __GFP_NOWARN, order);
+> >> +=09=09if (page) {
+> >> +=09=09=09set_page_private(page, order);
+> >> +=09=09=09return page;
+> >> +=09=09}
+> >> +=09=09order--;
+> >> +=09}
+> >> +=09return NULL;
+> >>  }
+> >> -EXPORT_SYMBOL_GPL(balloon_page_alloc);
+> >> +EXPORT_SYMBOL_GPL(balloon_pages_alloc);
+> >> =20
+> >>  /*
+> >>   * balloon_page_enqueue - inserts a new page into the balloon page li=
+st.
+> >=20
+> >=20
+> > I think this will try to invoke direct reclaim from the first iteration
+> > to free up the max order.
+>=20
+> %__GFP_NORETRY: The VM implementation will try only very lightweight
+> memory direct reclaim to get some memory under memory pressure (thus it
+> can sleep). It will avoid disruptive actions like OOM killer.
+>=20
+> Certainly good enough for a first version I would say, no?
 
-  int main(int argc, char** argv) {
-    DIR* dir;
-    int err;
-    int fd;
+Frankly how well that behaves would depend a lot on the workload.
+Can regress just as well.
 
-    dir = opendir("/boot");
-    fd = dirfd(dir);
-    err = fcntl(fd, F_SET_FILE_32BIT_FS);
-    if (err) {
-      printf("fcntl() failed! err=%d\n", err);
-      return 1;
-    }
-    printf("dir=%p\n", dir);
-    printf("readdir(dir)=%p\n", readdir(dir));
-    printf("errno=%d: %s\n", errno, strerror(errno));
-    return 0;
-  }
+For the 1st version I'd prefer something that is the least disruptive,
+and that IMHO means we only trigger reclaim at all in the same configuratio=
+n
+as now - when we can't satisfy the lowest order allocation.
 
-This can be pretty hard to test since C libraries and linux
-userspace security extensions aggressively filter the parameters
-that are passed down and allowed to commit into actual system
-calls.
+Anything else would be a huge amount of testing with all kind of
+workloads.
 
-Cc: Florian Weimer <fw@deneb.enyo.de>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Andy Lutomirski <luto@kernel.org>
-Suggested-by: Theodore Ts'o <tytso@mit.edu>
-Link: https://bugs.launchpad.net/qemu/+bug/1805913
-Link: https://lore.kernel.org/lkml/87bm56vqg4.fsf@mid.deneb.enyo.de/
-Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=205957
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- fs/fcntl.c                       | 4 ++++
- include/uapi/linux/fcntl.h       | 9 +++++++++
- tools/include/uapi/linux/fcntl.h | 9 +++++++++
- tools/perf/trace/beauty/fcntl.c  | 3 ++-
- 4 files changed, 24 insertions(+), 1 deletion(-)
-
-diff --git a/fs/fcntl.c b/fs/fcntl.c
-index 2e4c0fa2074b..d194b1265bd4 100644
---- a/fs/fcntl.c
-+++ b/fs/fcntl.c
-@@ -426,6 +426,10 @@ static long do_fcntl(int fd, unsigned int cmd, unsigned long arg,
- 	case F_SET_FILE_RW_HINT:
- 		err = fcntl_rw_hint(filp, cmd, arg);
- 		break;
-+	case F_SET_FILE_32BIT_FS:
-+		filp->f_mode |= FMODE_32BITHASH;
-+		err = 0;
-+		break;
- 	default:
- 		break;
- 	}
-diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
-index ca88b7bce553..b9ad934147e8 100644
---- a/include/uapi/linux/fcntl.h
-+++ b/include/uapi/linux/fcntl.h
-@@ -73,6 +73,15 @@
-  */
- #define RWF_WRITE_LIFE_NOT_SET	RWH_WRITE_LIFE_NOT_SET
- 
-+/*
-+ * This instructs the kernel to provide 32bit semantics (such as hashes) from
-+ * the file system layer, when running a userland that depend on 32bit
-+ * semantics on a kernel that supports 64bit userland, but does not use the
-+ * compat ioctl() for e.g. open(), so that the kernel would otherwise assume
-+ * that the userland process is capable of dealing with 64bit semantics.
-+ */
-+#define F_SET_FILE_32BIT_FS	(F_LINUX_SPECIFIC_BASE + 15)
-+
- /*
-  * Types of directory notifications that may be requested.
-  */
-diff --git a/tools/include/uapi/linux/fcntl.h b/tools/include/uapi/linux/fcntl.h
-index ca88b7bce553..b9ad934147e8 100644
---- a/tools/include/uapi/linux/fcntl.h
-+++ b/tools/include/uapi/linux/fcntl.h
-@@ -73,6 +73,15 @@
-  */
- #define RWF_WRITE_LIFE_NOT_SET	RWH_WRITE_LIFE_NOT_SET
- 
-+/*
-+ * This instructs the kernel to provide 32bit semantics (such as hashes) from
-+ * the file system layer, when running a userland that depend on 32bit
-+ * semantics on a kernel that supports 64bit userland, but does not use the
-+ * compat ioctl() for e.g. open(), so that the kernel would otherwise assume
-+ * that the userland process is capable of dealing with 64bit semantics.
-+ */
-+#define F_SET_FILE_32BIT_FS	(F_LINUX_SPECIFIC_BASE + 15)
-+
- /*
-  * Types of directory notifications that may be requested.
-  */
-diff --git a/tools/perf/trace/beauty/fcntl.c b/tools/perf/trace/beauty/fcntl.c
-index 56ef83b3d130..da80264678cb 100644
---- a/tools/perf/trace/beauty/fcntl.c
-+++ b/tools/perf/trace/beauty/fcntl.c
-@@ -94,7 +94,8 @@ size_t syscall_arg__scnprintf_fcntl_arg(char *bf, size_t size, struct syscall_ar
- 	    cmd == F_OFD_SETLK || cmd == F_OFD_SETLKW || cmd == F_OFD_GETLK ||
- 	    cmd == F_GETOWN_EX || cmd == F_SETOWN_EX ||
- 	    cmd == F_GET_RW_HINT || cmd == F_SET_RW_HINT ||
--	    cmd == F_GET_FILE_RW_HINT || cmd == F_SET_FILE_RW_HINT)
-+	    cmd == F_GET_FILE_RW_HINT || cmd == F_SET_FILE_RW_HINT ||
-+	    cmd == F_SET_FILE_32BIT_FS)
- 		return syscall_arg__scnprintf_hex(bf, size, arg);
- 
- 	return syscall_arg__scnprintf_long(bf, size, arg);
--- 
-2.25.1
+--=20
+MST
 
 
