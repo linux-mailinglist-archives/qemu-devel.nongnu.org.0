@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF4719942D
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 12:54:37 +0200 (CEST)
-Received: from localhost ([::1]:35870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B7A19941C
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 12:53:06 +0200 (CEST)
+Received: from localhost ([::1]:35856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJEXU-0006NM-P9
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 06:54:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52941)
+	id 1jJEW1-00049J-Lm
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 06:53:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52953)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jJEU0-0002MB-CD
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:51:01 -0400
+ id 1jJEU1-0002OA-U2
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:51:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jJETy-0006GR-Nt
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:51:00 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37271)
+ id 1jJEU0-0006I1-Or
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:51:01 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40476)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jJETy-0006FM-IA
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:50:58 -0400
-Received: by mail-wr1-x442.google.com with SMTP id w10so25375569wrm.4
- for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 03:50:58 -0700 (PDT)
+ id 1jJEU0-0006HD-Ih
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:51:00 -0400
+Received: by mail-wm1-x343.google.com with SMTP id a81so2023465wmf.5
+ for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 03:51:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ONe6r8GpThcKL7DODhjdJnCo+VHtig9T6C7dDsrvCOM=;
- b=OxFqDsHQFo3JUXB5y90BJtB/QXKJXAIFlqHWWbCVELj3X9bv6KvERbZrry5SVe0rnM
- QOVhPcTtAWSrvAro+SpRc7IcN31oJS4TMlXKCdniQ1GT72VeOy7F0qBvzeoufxwR9zp3
- zubg9QXFIige3U0fe/dLcNOxdIxK8Aq+87Q1F5RtWOijwOmsqYRuwmDbQ1UXXXmj9b/g
- J7Jy34PtMbAeGAthKuOUoLswoGIWOxFY7JGpxVNhAE5fmf84OBlLN15FbaD0dwluhyPG
- i6RqcYdJlZ8jeeevxa6BSS9NCkLu0XQrYI5LlT4mjYEj7wh+0/+e99ok3jV7J6XRdWRs
- UXaQ==
+ bh=NTEVMDbO4wtPzpWjDeuq384PlojGr8aCfjPexjiQfbw=;
+ b=gyepPOW6Hg+OHkFgwwNud5yofv8/3l8kv1+v59ajcufK2uFMCXl8ENXu3Y46SVaxGG
+ v/Oun7ncY4HuqVNFPN6lj7hZSLiz8i+DUPridgNa7vb+JD5XN3x3MdDzu74ZisAO0kcF
+ 27a8nD8xBgXY3Id3d7Bvy8BmRwMHULU4AgX4u7mWs4JbQCK2SjUihPEOM0CupEM9VVF0
+ Tc6GHkEyV0Km0F318LybAt/ACE+kmIzP7VSCFhdtqltn0qnsvLbAuOx7x0Lc7yeglTUu
+ 8Kr4cecnNAiWQiRgf6CXXNNPHpWjlvxynjG6icsQoJ4F3qeyeyTS2PbJDWRuiZsXaima
+ S99A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ONe6r8GpThcKL7DODhjdJnCo+VHtig9T6C7dDsrvCOM=;
- b=mGrFnQwYVrosa00u0c67COdXNb7iKdSlFijyTFqVhT/Vvbyz1mgPRCnhLdXwqRd1JG
- v0Q4rzIeY3h5amF8wI3v82qSkqlktIwa0jnrv4uIdp6PaDB3Z2ncFmkm6Fx0M86VCrNu
- TCw3Bgm1PIgiRj8xUnoTyvjS3LLOdo2MQZOSu9m+wW9cDREB04sWxAzIS9zttbqRWwkT
- yuZpWjS/64SbYL3CMSS5wiDoCG0w2tRZDfQcX7OX5PoFdV/5TNuqa7pHtqI/0tvZ7ka3
- iAZn3ArrznSsuRhT4N2DiQMU5p+J/XKNVm9eA+/lvJIfAgwqUub7Sut+wY+FlFyPwGJA
- liAQ==
-X-Gm-Message-State: ANhLgQ1O1HXzXNfVVQ9DSULzsCZCiD261EcegHGrK7RLafYVL0siMdoC
- vvreeSvZE+VD+9t6A1YtewJ5cgkscG8=
-X-Google-Smtp-Source: ADFU+vvL6zgzSFx3/4B8OAiH9o7ME8WiuL8p9yLzLEH0mS1E2Nj5pPCVyIZi0t17Ll5+I4lbyhvA9g==
-X-Received: by 2002:adf:fa51:: with SMTP id y17mr20619972wrr.280.1585651856624; 
- Tue, 31 Mar 2020 03:50:56 -0700 (PDT)
+ bh=NTEVMDbO4wtPzpWjDeuq384PlojGr8aCfjPexjiQfbw=;
+ b=I2lXzP4lWfx/b7PxL6uj4SusDhj4rrB8rHrcQdxLWOI8lzVMZ8gnlJxxZv+86KUFnQ
+ CQCa0WPdiq267hOMuaHXedgEoa9Li5e7fCnr2r5HmO7a2rLBAILHxgWND0Jd5ux/KWld
+ vmGHHv7JnRUe1enitegYC6OldSYPN7rP/UUk8mYH9cosbvaNQOdGRogspgCvNhWPwnjR
+ oP9q05/uXgoq3gawqH6XPa8tDr0awb2STICUAaLl15CrPsJytvG0JvyqVi1RZwxTY3AE
+ N1p4rdjdmaIimsAR1E3P+vz7DOIOMdLIl5rLs3No9xmqaBVzZVobgUOsz2rBypiAC/xF
+ PSWw==
+X-Gm-Message-State: ANhLgQ3y8dze577852UIOUpK8w0MJS9wCnk8uLvhKyYHwCJWmjOkslee
+ 1eWMz8hKmitn2O2axfWsr/qFDCaiNbc=
+X-Google-Smtp-Source: ADFU+vvNTqEIj0dE/ch21tINs+V7stnqZ8Q4J/YxzejW1IUiTyBHm1hi5RwHBDC5n27BUAhENpb3ug==
+X-Received: by 2002:a1c:4c1a:: with SMTP id z26mr2785273wmf.94.1585651859326; 
+ Tue, 31 Mar 2020 03:50:59 -0700 (PDT)
 Received: from localhost.localdomain (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id w3sm26042830wrn.31.2020.03.31.03.50.54
+ by smtp.gmail.com with ESMTPSA id w3sm26042830wrn.31.2020.03.31.03.50.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Mar 2020 03:50:55 -0700 (PDT)
+ Tue, 31 Mar 2020 03:50:58 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0 1/7] tests/acceptance/machine_sparc_leon3: Disable
- HelenOS test
-Date: Tue, 31 Mar 2020 12:50:42 +0200
-Message-Id: <20200331105048.27989-2-f4bug@amsat.org>
+Subject: [PATCH-for-5.0 2/7] hw/misc/grlib_ahb_apb_pnp: Avoid crash when
+ writing to AHB PnP registers
+Date: Tue, 31 Mar 2020 12:50:43 +0200
+Message-Id: <20200331105048.27989-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200331105048.27989-1-f4bug@amsat.org>
 References: <20200331105048.27989-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,79 +90,56 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test was written/tested around beginning of 2019, but was
-extracted from a bigger series and posted end of June 2019 [*].
-Unfortunately I did not notice commit 162abf1a8 was merged by
-then, which implements the AHB and APB plug and play devices.
+Similarly to commit 158b659451 with the APB PnP registers, guests
+can crash QEMU when writting to the AHB PnP registers:
 
-HelenOS 0.6 is expecting the PnP registers to be not implemented
-by QEMU, then forces the discovered AMBA devices (see [2]).
+  $ echo 'writeb 0xfffff042 69' | qemu-system-sparc -M leon3_generic -S -bios /etc/magic -qtest stdio
+  [I 1571938309.932255] OPENED
+  [R +0.063474] writeb 0xfffff042 69
+  Segmentation fault (core dumped)
 
-Before 162abf1a8, the console was displaying:
+  (gdb) bt
+  #0  0x0000000000000000 in  ()
+  #1  0x0000562999110df4 in memory_region_write_with_attrs_accessor
+      (mr=mr@entry=0x56299aa28ea0, addr=66, value=value@entry=0x7fff6abe13b8, size=size@entry=1, shift=<optimized out>, mask=mask@entry=255, attrs=...) at memory.c:503
+  #2  0x000056299911095e in access_with_adjusted_size
+      (addr=addr@entry=66, value=value@entry=0x7fff6abe13b8, size=size@entry=1, access_size_min=<optimized out>, access_size_max=<optimized out>, access_fn=access_fn@entry=
+      0x562999110d70 <memory_region_write_with_attrs_accessor>, mr=0x56299aa28ea0, attrs=...) at memory.c:539
+  #3  0x0000562999114fba in memory_region_dispatch_write (mr=mr@entry=0x56299aa28ea0, addr=66, data=<optimized out>, op=<optimized out>, attrs=attrs@entry=...) at memory.c:1482
+  #4  0x00005629990c0860 in flatview_write_continue
+      (fv=fv@entry=0x56299aa7d8a0, addr=addr@entry=4294963266, attrs=..., ptr=ptr@entry=0x7fff6abe1540, len=len@entry=1, addr1=<optimized out>, l=<optimized out>, mr=0x56299aa28ea0)
+      at include/qemu/host-utils.h:164
+  #5  0x00005629990c0a76 in flatview_write (fv=0x56299aa7d8a0, addr=4294963266, attrs=..., buf=0x7fff6abe1540, len=1) at exec.c:3165
+  #6  0x00005629990c4c1b in address_space_write (as=<optimized out>, addr=<optimized out>, attrs=..., attrs@entry=..., buf=buf@entry=0x7fff6abe1540, len=len@entry=1) at exec.c:3256
+  #7  0x000056299910f807 in qtest_process_command (chr=chr@entry=0x5629995ee920 <qtest_chr>, words=words@entry=0x56299acfcfa0) at qtest.c:437
 
-  HelenOS bootloader, release 0.6.0 (Elastic Horse)
-  Built on 2014-12-21 20:17:42 for sparc32
-  Copyright (c) 2001-2014 HelenOS project
-   0x4000bf20|0x4000bf20: kernel image (496640/128466 bytes)
-   0x4002b4f2|0x4002b4f2: ns image (154195/66444 bytes)
-   0x4003b87e|0x4003b87e: loader image (153182/66437 bytes)
-   0x4004bc03|0x4004bc03: init image (155339/66834 bytes)
-   0x4005c115|0x4005c115: locsrv image (162063/70267 bytes)
-   0x4006d390|0x4006d390: rd image (152678/65889 bytes)
-   0x4007d4f1|0x4007d4f1: vfs image (168480/73394 bytes)
-   0x4008f3a3|0x4008f3a3: logger image (158034/68368 bytes)
-   0x4009feb3|0x4009feb3: ext4fs image (234510/100301 bytes)
-   0x400b8680|0x400b8680: initrd image (8388608/1668901 bytes)
-  ABMA devices:
-  <1:00c> at 0x80000100 irq 3
-  <1:00d> at 0x80000200
-  <1:011> at 0x80000300 irq 8
-  Memory size: 64 MB
-
-As of this commit, it is now confused:
-
-  ABMA devices:
-  <1:3000> at 0x00000000 irq 0
-  <1:3000> at 0x00000000 irq 0
-  <1:3000> at 0x00000000 irq 0
-  <1:3000> at 0x00000000 irq 0
-  <1:3000> at 0x00000000 irq 0
-  <1:3000> at 0x00000000 irq 0
-  <1:3000> at 0x00000000 irq 0
-  ...
-
-As this test is not working as expected, simply disable it (by
-skipping it) for now.
-
-[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg627094.html
-[2] https://github.com/HelenOS/helenos/blob/0.6.0/boot/arch/sparc32/src/ambapp.c#L75
+Instead of crashing, log the access as unimplemented.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/acceptance/machine_sparc_leon3.py | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/misc/grlib_ahb_apb_pnp.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/tests/acceptance/machine_sparc_leon3.py b/tests/acceptance/machine_sparc_leon3.py
-index f77e210ccb..2405cd7a0d 100644
---- a/tests/acceptance/machine_sparc_leon3.py
-+++ b/tests/acceptance/machine_sparc_leon3.py
-@@ -7,12 +7,16 @@
+diff --git a/hw/misc/grlib_ahb_apb_pnp.c b/hw/misc/grlib_ahb_apb_pnp.c
+index e230e25363..72a8764776 100644
+--- a/hw/misc/grlib_ahb_apb_pnp.c
++++ b/hw/misc/grlib_ahb_apb_pnp.c
+@@ -136,8 +136,15 @@ static uint64_t grlib_ahb_pnp_read(void *opaque, hwaddr offset, unsigned size)
+     return ahb_pnp->regs[offset >> 2];
+ }
  
- from avocado_qemu import Test
- from avocado_qemu import wait_for_console_pattern
-+from avocado import skip
++static void grlib_ahb_pnp_write(void *opaque, hwaddr addr,
++                                uint64_t val, unsigned size)
++{
++    qemu_log_mask(LOG_UNIMP, "%s not implemented\n", __func__);
++}
++
+ static const MemoryRegionOps grlib_ahb_pnp_ops = {
+     .read       = grlib_ahb_pnp_read,
++    .write      = grlib_ahb_pnp_write,
+     .endianness = DEVICE_BIG_ENDIAN,
+ };
  
- 
- class Leon3Machine(Test):
- 
-     timeout = 60
- 
-+    @skip("Test currently broken")
-+    # A Window Underflow exception occurs before booting the kernel,
-+    # and QEMU exit calling cpu_abort(), which makes this test to fail.
-     def test_leon3_helenos_uimage(self):
-         """
-         :avocado: tags=arch:sparc
 -- 
 2.21.1
 
