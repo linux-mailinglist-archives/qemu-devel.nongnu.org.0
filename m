@@ -2,38 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EAA2199D34
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 19:48:47 +0200 (CEST)
-Received: from localhost ([::1]:42438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB79E199DB4
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 20:06:55 +0200 (CEST)
+Received: from localhost ([::1]:42638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJL0I-0005Hq-JP
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 13:48:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52885)
+	id 1jJLHq-0001R9-4h
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 14:06:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57492)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jJKws-0001kk-Lg
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 13:45:16 -0400
+ (envelope-from <eblake@redhat.com>) id 1jJLGY-0000x8-PU
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 14:05:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jJKwq-0006AH-Rd
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 13:45:14 -0400
-Received: from relay.sw.ru ([185.231.240.75]:57848)
+ (envelope-from <eblake@redhat.com>) id 1jJLGX-0001gO-J5
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 14:05:34 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53835
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jJKwq-00067k-KT; Tue, 31 Mar 2020 13:45:12 -0400
-Received: from dptest2.qa.sw.ru ([10.94.4.71])
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jJKwh-000560-NW; Tue, 31 Mar 2020 20:45:03 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v14 4/4] iotests: 287: add qcow2 compression type test
-Date: Tue, 31 Mar 2020 20:44:55 +0300
-Message-Id: <20200331174455.31792-5-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20200331174455.31792-1-dplotnikov@virtuozzo.com>
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jJLGX-0001g8-G8
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 14:05:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585677933;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VCLiDhwn0dtZ4oqBTHoPy/ENU76ZZhY4NK2e6BpRJvo=;
+ b=ZIIKeSjax7sJGEX3k7sDhuzN3esPmKGGR3gFfjSe2qTZyqU1BTovlvV/dewE6wBxG/Ethe
+ vC/gc03FXDtigEsyIacyn4ZNIx8no+VGLqW3GoNgM+mFKXZAKuGwMTCy62YBStCyFHrPSM
+ m1ESLXLZlZT9ORGQsqLYaUT77EbKdBQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-287-alTmArDdO3inK3HVh5rHyA-1; Tue, 31 Mar 2020 14:05:27 -0400
+X-MC-Unique: alTmArDdO3inK3HVh5rHyA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF537801A24;
+ Tue, 31 Mar 2020 18:05:25 +0000 (UTC)
+Received: from [10.3.113.246] (ovpn-113-246.phx2.redhat.com [10.3.113.246])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 567535DA82;
+ Tue, 31 Mar 2020 18:05:23 +0000 (UTC)
+Subject: Re: [PATCH v14 1/4] qcow2: introduce compression type feature
+To: Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org
 References: <20200331174455.31792-1-dplotnikov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ <20200331174455.31792-2-dplotnikov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <4edd95c8-8b92-444d-db34-6cf9097bbd37@redhat.com>
+Date: Tue, 31 Mar 2020 13:05:22 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+MIME-Version: 1.0
+In-Reply-To: <20200331174455.31792-2-dplotnikov@virtuozzo.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,219 +76,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
- qemu-block@nongnu.org, armbru@redhat.com, mreitz@redhat.com, den@openvz.org
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
+ armbru@redhat.com, mreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test checks fulfilling qcow2 requiriements for the compression
-type feature and zstd compression type operability.
+On 3/31/20 12:44 PM, Denis Plotnikov wrote:
+> The patch adds some preparation parts for incompatible compression type
+> feature to qcow2 allowing the use different compression methods for
+> image clusters (de)compressing.
+> 
+> It is implied that the compression type is set on the image creation and
+> can be changed only later by image conversion, thus compression type
+> defines the only compression algorithm used for the image, and thus,
+> for all image clusters.
+> 
+> The goal of the feature is to add support of other compression methods
+> to qcow2. For example, ZSTD which is more effective on compression than ZLIB.
+> 
+> The default compression is ZLIB. Images created with ZLIB compression type
+> are backward compatible with older qemu versions.
+> 
+> Adding of the compression type breaks a number of tests because now the
+> compression type is reported on image creation and there are some changes
+> in the qcow2 header in size and offsets.
+> 
+> The tests are fixed in the following ways:
+>      * filter out compression_type for many tests
+>      * fix header size, feature table size and backing file offset
+>        affected tests: 031, 036, 061, 080
+>        header_size +=8: 1 byte compression type
+>                         7 bytes padding
+>        feature_table += 48: incompatible feature compression type
+>        backing_file_offset += 56 (8 + 48 -> header_change + feature_table_change)
+>      * add "compression type" for test output matching when it isn't filtered
+>        affected tests: 049, 060, 061, 065, 144, 182, 242, 255
+> 
+> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> QAPI part:
+> Acked-by: Markus Armbruster <armbru@redhat.com>
+> ---
 
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/287     | 128 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/287.out |  43 +++++++++++++
- tests/qemu-iotests/group   |   1 +
- 3 files changed, 172 insertions(+)
- create mode 100755 tests/qemu-iotests/287
- create mode 100644 tests/qemu-iotests/287.out
+> +++ b/qapi/block-core.json
+> @@ -78,6 +78,8 @@
+>   #
+>   # @bitmaps: A list of qcow2 bitmap details (since 4.0)
+>   #
+> +# @compression-type: the image cluster compression method (since 5.0)
 
-diff --git a/tests/qemu-iotests/287 b/tests/qemu-iotests/287
-new file mode 100755
-index 0000000000..49d15b3d43
---- /dev/null
-+++ b/tests/qemu-iotests/287
-@@ -0,0 +1,128 @@
-+#!/usr/bin/env bash
-+#
-+# Test case for an image using zstd compression
-+#
-+# Copyright (c) 2020 Virtuozzo International GmbH
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=dplotnikov@virtuozzo.com
-+
-+seq="$(basename $0)"
-+echo "QA output created by $seq"
-+
-+status=1	# failure is the default!
-+
-+_cleanup()
-+{
-+	_cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# standard environment
-+. ./common.rc
-+. ./common.filter
-+
-+# This tests qocw2-specific low-level functionality
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+
-+# for all the cases
-+CLUSTER_SIZE=65536
-+
-+# Check if we can run this test.
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M | grep "Invalid parameter 'zstd'" 2>&1 1>/dev/null
-+
-+ZSTD_SUPPORTED=$?
-+
-+if (($ZSTD_SUPPORTED==0)); then
-+    _notrun "ZSTD is disabled"
-+fi
-+
-+# Test: when compression is zlib the incompatible bit is unset
-+echo
-+echo "=== Testing compression type incompatible bit setting for zlib ==="
-+echo
-+
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+# Test: when compression differs from zlib the incompatible bit is set
-+echo
-+echo "=== Testing compression type incompatible bit setting for zstd ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+# Test: an image can't be openned if compression type is zlib and
-+#       incompatible feature compression type is set
-+echo
-+echo "=== Testing zlib with incompatible bit set  ==="
-+echo
-+
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-feature-bit incompatible 3
-+# to make sure the bit was actually set
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+$QEMU_IMG info "$TEST_IMG" 2>1 1>/dev/null
-+if (($?==0)); then
-+    echo "Error: The image openned successfully. The image must not be openned"
-+fi
-+
-+# Test: an image can't be openned if compression type is NOT zlib and
-+#       incompatible feature compression type is UNSET
-+echo
-+echo "=== Testing zstd with incompatible bit unset  ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-header incompatible_features 0
-+# to make sure the bit was actually unset
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+$QEMU_IMG info "$TEST_IMG" 2>1 1>/dev/null
-+if (($?==0)); then
-+    echo "Error: The image openned successfully. The image must not be openned"
-+fi
-+# Test: check compression type values
-+echo
-+echo "=== Testing compression type values  ==="
-+echo
-+# zlib=0
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+od -j104 -N1 -An -vtu1 "$TEST_IMG"
-+
-+# zstd=1
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+od -j104 -N1 -An -vtu1 "$TEST_IMG"
-+
-+# Test: using zstd compression, write to and read from an image
-+echo
-+echo "=== Testing reading and writing with zstd ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$QEMU_IO -c "write -c -P 0xAC 65536 64k " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAC 65536 65536 " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -v 131070 8 " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -v 65534 8" "$TEST_IMG" | _filter_qemu_io
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/287.out b/tests/qemu-iotests/287.out
-new file mode 100644
-index 0000000000..8e51c3078d
---- /dev/null
-+++ b/tests/qemu-iotests/287.out
-@@ -0,0 +1,43 @@
-+QA output created by 287
-+
-+=== Testing compression type incompatible bit setting for zlib ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type incompatible bit setting for zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zlib with incompatible bit set  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zstd with incompatible bit unset  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type values  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   0
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   1
-+
-+=== Testing reading and writing with zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+wrote 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0001fffe:  ac ac 00 00 00 00 00 00  ........
-+read 8/8 bytes at offset 131070
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0000fffe:  00 00 ac ac ac ac ac ac  ........
-+read 8/8 bytes at offset 65534
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 79c6dfc85d..dacbcfc12d 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -294,5 +294,6 @@
- 283 auto quick
- 284 rw
- 286 rw quick
-+287 auto quick
- 288 quick
- 289 rw quick
+At this point (-rc1 is due today), I'm thinking that this is going to 
+land in 5.1 rather than 5.0.  That will have some ripple effects on the 
+patch.
+
+Otherwise,
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
 -- 
-2.17.0
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
