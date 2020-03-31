@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38A0C198C63
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 08:35:49 +0200 (CEST)
-Received: from localhost ([::1]:32846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BEA1198D09
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 09:37:52 +0200 (CEST)
+Received: from localhost ([::1]:33308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJAV2-0003ul-3W
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 02:35:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46606)
+	id 1jJBT4-0003TS-TN
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 03:37:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47283)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yi.l.liu@intel.com>) id 1jJAUE-0003Nt-OK
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 02:34:59 -0400
+ (envelope-from <zhangfei.gao@linaro.org>) id 1jJAbZ-0005RJ-Nj
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 02:42:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yi.l.liu@intel.com>) id 1jJAUC-00059x-UO
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 02:34:58 -0400
-Received: from mga03.intel.com ([134.134.136.65]:58702)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yi.l.liu@intel.com>)
- id 1jJAUC-00056n-N5; Tue, 31 Mar 2020 02:34:56 -0400
-IronPort-SDR: J1dGsHU307ViwV6HFf+yj67v87+Pd508GIxMt00+zqvvRLq6RaIQZ2fpjM021WyalFtLCgLxzd
- WoZhtAjFw+Rg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2020 23:34:52 -0700
-IronPort-SDR: T8BVdaiCpI80rxSWdUpaNaD2gb5xZvhpuIIUY5ylnn7730BWU21UP8A6lKlY/m/J0WPSJA+tjh
- QI1iUCdXjU+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,327,1580803200"; d="scan'208";a="395390940"
-Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
- by orsmga004.jf.intel.com with ESMTP; 30 Mar 2020 23:34:52 -0700
-Received: from fmsmsx162.amr.corp.intel.com (10.18.125.71) by
- fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 30 Mar 2020 23:34:35 -0700
-Received: from shsmsx102.ccr.corp.intel.com (10.239.4.154) by
- fmsmsx162.amr.corp.intel.com (10.18.125.71) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 30 Mar 2020 23:34:35 -0700
-Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.225]) by
- shsmsx102.ccr.corp.intel.com ([169.254.2.138]) with mapi id 14.03.0439.000;
- Tue, 31 Mar 2020 14:34:33 +0800
-From: "Liu, Yi L" <yi.l.liu@intel.com>
-To: Eric Auger <eric.auger@redhat.com>, "eric.auger.pro@gmail.com"
- <eric.auger.pro@gmail.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "peter.maydell@linaro.org"
- <peter.maydell@linaro.org>, "mst@redhat.com" <mst@redhat.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "jacob.jun.pan@linux.intel.com" <jacob.jun.pan@linux.intel.com>
-Subject: RE: [RFC v6 09/24] vfio: Force nested if iommu requires it
-Thread-Topic: [RFC v6 09/24] vfio: Force nested if iommu requires it
-Thread-Index: AQHV/tkoyufwzZuw+kOQFrVm2InyoqhiSCKw
-Date: Tue, 31 Mar 2020 06:34:32 +0000
-Message-ID: <A2975661238FB949B60364EF0F2C25743A21A69E@SHSMSX104.ccr.corp.intel.com>
+ (envelope-from <zhangfei.gao@linaro.org>) id 1jJAbX-00026O-Ln
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 02:42:33 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:36380)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <zhangfei.gao@linaro.org>)
+ id 1jJAbX-00023D-A5
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 02:42:31 -0400
+Received: by mail-pf1-x444.google.com with SMTP id i13so9884920pfe.3
+ for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 23:42:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=HWKo00iz8fvROFUAHZ5wh/5hjLTRWUP788xE8iR+dm0=;
+ b=ne0LxTmXheyqWvplQua1gZp1Jj8sfmo3Iq5BVA2ncwOCl/Muu7H3VjyGs6rXpAeWXf
+ 1yrriluz6hVMviDugkkiRNuBhw1Tk8seAOqdlFgq9dZpv3OMT8IH478whrHXziN/54S9
+ pilEljZBufxp50r/KFh1tMtzO/JStpVROUrPF8CF54Iz9Gt0/aaJU7mGm7iqn4eGoY6P
+ o5xho3Af7F6ATfWmJcg5hCVTug/RLZYl8+YJU65bkaVmD94PCjeLfkfvybNOf+k81Au+
+ 7O55Jiq6dwD4zFh0yozIu7TlpUSi7pdYoYUSeySu8O/M2z5Um15m4tJY+MV9oQbcNCto
+ vFKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=HWKo00iz8fvROFUAHZ5wh/5hjLTRWUP788xE8iR+dm0=;
+ b=iPV3rGHjGrduVqkGO9F+rYJVeatBnj9WPGNhbjrffBSxkjgS98qvOJ6vy3s8u5daHT
+ hHBTcQOtwr9kLS2hIudGnue1dP+9LVU57/Q9jzVrs+imHmrpV9NmSNIGSEwYAVulEiI9
+ FnOwWBi3bHO7QEA7ENiQ8sFQ6lj9ic1V4K64u4dMIpRSOfB+3vBbb38dVvmjX4zDH3qu
+ lsg3JXXW2lZjwomo823HrTGNEOXloy5sv2ks1dsYPpiKjgwXilYkGbOUjgKbp5qDSfLk
+ uqDRGIkSvEZn77d4KxZx9AGFbdZmi6DN+zj/nyEzB5vtz36VdVhKBUVahtrfhwAPscMF
+ 9GGA==
+X-Gm-Message-State: ANhLgQ3Ms1Y2+ITaFjNCNYfbMcy4Gm5o1NcCXQX5VgBuAR1zU6TwfxC9
+ MLsVQtBO6K/Jua1JDCdIboIksQ==
+X-Google-Smtp-Source: ADFU+vthuTu06kNRa5uYCsc8qlFnwqJm10MbvAx7J+r8BNYBVw+Ji3UV9o7tLUUaVbe754SlYTBnpw==
+X-Received: by 2002:a63:bf4e:: with SMTP id i14mr16015360pgo.41.1585636944877; 
+ Mon, 30 Mar 2020 23:42:24 -0700 (PDT)
+Received: from [10.27.0.210] ([45.135.186.113])
+ by smtp.gmail.com with ESMTPSA id h4sm1928170pgg.67.2020.03.30.23.42.15
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 30 Mar 2020 23:42:24 -0700 (PDT)
+Subject: Re: [RFC v6 00/24] vSMMUv3/pSMMUv3 2 stage VFIO integration
+To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org,
+ mst@redhat.com, alex.williamson@redhat.com, jacob.jun.pan@linux.intel.com,
+ yi.l.liu@intel.com
 References: <20200320165840.30057-1-eric.auger@redhat.com>
- <20200320165840.30057-10-eric.auger@redhat.com>
-In-Reply-To: <20200320165840.30057-10-eric.auger@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.40]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+From: Zhangfei Gao <zhangfei.gao@linaro.org>
+Message-ID: <73b1c3e1-a418-f57c-d949-261250d6a79b@linaro.org>
+Date: Tue, 31 Mar 2020 14:42:06 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 134.134.136.65
+In-Reply-To: <20200320165840.30057-1-eric.auger@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::444
+X-Mailman-Approved-At: Tue, 31 Mar 2020 03:36:52 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,121 +85,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
- "tnowicki@marvell.com" <tnowicki@marvell.com>,
- "maz@kernel.org" <maz@kernel.org>,
- "zhangfei.gao@foxmail.com" <zhangfei.gao@foxmail.com>,
- "peterx@redhat.com" <peterx@redhat.com>,
- "shameerali.kolothum.thodi@huawei.com" <shameerali.kolothum.thodi@huawei.com>,
- "zhangfei.gao@linaro.org" <zhangfei.gao@linaro.org>,
- "bbhushan2@marvell.com" <bbhushan2@marvell.com>,
- "will@kernel.org" <will@kernel.org>
+Cc: jean-philippe@linaro.org, tnowicki@marvell.com, maz@kernel.org,
+ peterx@redhat.com, shameerali.kolothum.thodi@huawei.com,
+ zhangfei.gao@linaro.org, bbhushan2@marvell.com, will@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
+Hi, Eric
 
-> From: Eric Auger <eric.auger@redhat.com>
-> Sent: Saturday, March 21, 2020 12:58 AM
-> To: eric.auger.pro@gmail.com; eric.auger@redhat.com; qemu-devel@nongnu.or=
-g;
-> Subject: [RFC v6 09/24] vfio: Force nested if iommu requires it
->=20
-> In case we detect the address space is translated by
-> a virtual IOMMU which requires HW nested paging to
-> integrate with VFIO, let's set up the container with
-> the VFIO_TYPE1_NESTING_IOMMU iommu_type.
->=20
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->=20
-> ---
->=20
-> v4 -> v5:
-> - fail immediatly if nested is wanted but not supported
->=20
-> v2 -> v3:
-> - add "nested only is selected if requested by @force_nested"
->   comment in this patch
-> ---
->  hw/vfio/common.c | 36 ++++++++++++++++++++++++++++--------
->  1 file changed, 28 insertions(+), 8 deletions(-)
->=20
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 0b3593b3c0..ac417b5dbd 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -1155,27 +1155,38 @@ static void vfio_put_address_space(VFIOAddressSpa=
-ce
-> *space)
->   * vfio_get_iommu_type - selects the richest iommu_type (v2 first)
->   */
->  static int vfio_get_iommu_type(VFIOContainer *container,
-> +                               bool want_nested,
->                                 Error **errp)
->  {
-> -    int iommu_types[] =3D { VFIO_TYPE1v2_IOMMU, VFIO_TYPE1_IOMMU,
-> +    int iommu_types[] =3D { VFIO_TYPE1_NESTING_IOMMU,
-> +                          VFIO_TYPE1v2_IOMMU, VFIO_TYPE1_IOMMU,
->                            VFIO_SPAPR_TCE_v2_IOMMU, VFIO_SPAPR_TCE_IOMMU =
-};
-> -    int i;
-> +    int i, ret =3D -EINVAL;
->=20
->      for (i =3D 0; i < ARRAY_SIZE(iommu_types); i++) {
->          if (ioctl(container->fd, VFIO_CHECK_EXTENSION, iommu_types[i])) =
-{
-> -            return iommu_types[i];
-> +            if (iommu_types[i] =3D=3D VFIO_TYPE1_NESTING_IOMMU && !want_=
-nested) {
-> +                continue;
-> +            }
-> +            ret =3D iommu_types[i];
-> +            break;
->          }
->      }
-> -    error_setg(errp, "No available IOMMU models");
-> -    return -EINVAL;
-> +    if (ret < 0) {
-> +        error_setg(errp, "No available IOMMU models");
-> +    } else if (want_nested && ret !=3D VFIO_TYPE1_NESTING_IOMMU) {
-> +        error_setg(errp, "Nested mode requested but not supported");
-> +        ret =3D -EINVAL;
-> +    }
-> +    return ret;
->  }
->=20
->  static int vfio_init_container(VFIOContainer *container, int group_fd,
-> -                               Error **errp)
-> +                               bool want_nested, Error **errp)
->  {
->      int iommu_type, ret;
->=20
-> -    iommu_type =3D vfio_get_iommu_type(container, errp);
-> +    iommu_type =3D vfio_get_iommu_type(container, want_nested, errp);
->      if (iommu_type < 0) {
->          return iommu_type;
->      }
-> @@ -1211,6 +1222,14 @@ static int vfio_connect_container(VFIOGroup *group=
-,
-> AddressSpace *as,
->      VFIOContainer *container;
->      int ret, fd;
->      VFIOAddressSpace *space;
-> +    IOMMUMemoryRegion *iommu_mr;
-> +    bool nested =3D false;
-> +
-> +    if (as !=3D &address_space_memory && memory_region_is_iommu(as->root=
-)) {
+On 2020/3/21 上午12:58, Eric Auger wrote:
+> Up to now vSMMUv3 has not been integrated with VFIO. VFIO
+> integration requires to program the physical IOMMU consistently
+> with the guest mappings. However, as opposed to VTD, SMMUv3 has
+> no "Caching Mode" which allows easy trapping of guest mappings.
+> This means the vSMMUV3 cannot use the same VFIO integration as VTD.
+>
+> However SMMUv3 has 2 translation stages. This was devised with
+> virtualization use case in mind where stage 1 is "owned" by the
+> guest whereas the host uses stage 2 for VM isolation.
+>
+> This series sets up this nested translation stage. It only works
+> if there is one physical SMMUv3 used along with QEMU vSMMUv3 (in
+> other words, it does not work if there is a physical SMMUv2).
+>
+> - We force the host to use stage 2 instead of stage 1, when we
+>    detect a vSMMUV3 is behind a VFIO device. For a VFIO device
+>    without any virtual IOMMU, we still use stage 1 as many existing
+>    SMMUs expect this behavior.
+> - We use PCIPASIDOps to propage guest stage1 config changes on
+>    STE (Stream Table Entry) changes.
+> - We implement a specific UNMAP notifier that conveys guest
+>    IOTLB invalidations to the host
+> - We register MSI IOVA/GPA bindings to the host so that this latter
+>    can build a nested stage translation
+> - As the legacy MAP notifier is not called anymore, we must make
+>    sure stage 2 mappings are set. This is achieved through another
+>    prereg memory listener.
+> - Physical SMMU stage 1 related faults are reported to the guest
+>    via en eventfd mechanism and exposed trhough a dedicated VFIO-PCI
+>    region. Then they are reinjected into the guest.
+>
+> Best Regards
+>
+> Eric
+>
+> This series can be found at:
+> https://github.com/eauger/qemu/tree/v4.2.0-2stage-rfcv6
+>
+> Kernel Dependencies:
+> [1] [PATCH v10 00/11] SMMUv3 Nested Stage Setup (VFIO part)
+> [2] [PATCH v10 00/13] SMMUv3 Nested Stage Setup (IOMMU part)
+> branch at: https://github.com/eauger/linux/tree/will-arm-smmu-updates-2stage-v10
+Really appreciated that you re-start this work.
 
-I tried on my side. For virtual VT-d, it doesn't work as in intel_iommu,
-we have a dynamic switch mechanism. Thus that, the
-memory_region_is_iommu(as->root) won't return true as expected. I'm afraid
-it doesn't work for virtual VT-d.  So firstly, I'm wondering if
-as !=3D &address_space_memory is enough. Secondly, I'm considering if it is
-good to let vfio_get_group() caller to provide a hint whether vIOMMU is
-exposed. e.g. vfio_realize() in vfio/pci.c could figure out whether vIOMMU
-is set easily. Thoughts?
+I tested your branch and some update.
 
-Regards,
-Yi Liu
+Guest: https://github.com/Linaro/linux-kernel-warpdrive/tree/sva-devel 
+<https://github.com/Linaro/linux-kernel-warpdrive/tree/sva-devel>
+Host: 
+https://github.com/eauger/linux/tree/will-arm-smmu-updates-2stage-v10 
+<https://github.com/eauger/linux/tree/will-arm-smmu-updates-2stage-v10>
+qemu: https://github.com/eauger/qemu/tree/v4.2.0-2stage-rfcv6 
+<https://github.com/eauger/qemu/tree/v4.2.0-2stage-rfcv6>
+
+The guest I am using is contains Jean's sva patches.
+Since currently they are many patch conflict, so use two different tree.
+
+Result
+No-sva mode works.
+This mode, guest directly get physical address via ioctl.
+
+While vSVA can not work, there are still much work to do.
+I am trying to SVA mode, and it fails, so choose no-sva instead.
+iommu_dev_enable_feature(parent, IOMMU_DEV_FEAT_SVA)
+
+I am in debugging how to enable this.
+
+Thanks
+
 
