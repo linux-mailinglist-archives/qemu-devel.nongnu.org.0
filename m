@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7619199982
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 17:24:35 +0200 (CEST)
-Received: from localhost ([::1]:40208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B075199998
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 17:26:24 +0200 (CEST)
+Received: from localhost ([::1]:40240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJIkk-0003dR-Rt
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 11:24:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32964)
+	id 1jJImV-0006qa-DQ
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 11:26:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32995)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jJIjd-0002ea-NJ
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:23:26 -0400
+ (envelope-from <berrange@redhat.com>) id 1jJIjp-0002ys-Ap
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:23:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1jJIjb-0000Bh-OM
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:23:25 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59797
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <berrange@redhat.com>) id 1jJIjn-0000Ha-O1
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:23:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23846
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1jJIjb-0000B5-Ju
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:23:23 -0400
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jJIjn-0000HC-JJ
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:23:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585668202;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1585668214;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r6KkuFVggGh74cOrfYuyy0XgRvciTyofjvQ2oBTqC6U=;
- b=AZ5AE9SqknijNn3k9yA4SaVdRafAo/LJ5rtXes0QYabPwJBxSCv30orCw1m11OxDPJu2Gb
- Hh6VQPGzJD4WcH4/lQgr5fcrG1bRvwGhmVYawYeKBBK5574I3ByZBeHH9WlywLjxay/HAy
- ysONm4+PH62L8BwBlYY/BvmWYQELNiQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-yWgf-DFCPiarqUiriW7enQ-1; Tue, 31 Mar 2020 11:23:20 -0400
-X-MC-Unique: yWgf-DFCPiarqUiriW7enQ-1
-Received: by mail-wm1-f69.google.com with SMTP id s9so1211186wmh.2
- for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 08:23:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=OiCytAjuCBhc9NoZl/3YB/55X8RSjEY27GT8Kdum3UA=;
- b=R+GV6iXLw3MMnktrCnKcSLwpyzxOfs4VjM0fgJ8SPW25i4L0T3E5zaz7Tte9KTFTP+
- Syj9d2KP33FVLrgnO6gEg2fD3UtOjczxilOO4I4hof+0xxjhvMGmCW6CiJCq1bEoChgG
- 1D/nmo9TBeevmdKZyR4aMcGRwY8WTeYiVfk9xQfbfi6Pfgtsm6yB6H58T5CRVo5TjyK/
- 5MdDp8vD4sZjifgwJtw9Jn4z4ZcgYbEFqrZOIJXpMqT0V0ZM2Z1Pv+hp0k259aEKjVoL
- DBVgjAe38lrIjD95rT77gFstIFnrTXOzX0E708PWyBqjG+XlBgiOy7d9W92x6aXEwBDQ
- vHeA==
-X-Gm-Message-State: ANhLgQ0Dkzsvhgtz5A9dyF2xJ2FBgUydsIsiL2DF9LKRyxatyskFH6p6
- Pnp7fZyyGVrfGAznptpirkIs36dl+/pKo7x36DsZ8XwBcT04KohNudolmFZV8jRm0gfzUKs5WHU
- UJqPKAlsqDqS8Rck=
-X-Received: by 2002:a1c:80d3:: with SMTP id b202mr3965723wmd.8.1585668198609; 
- Tue, 31 Mar 2020 08:23:18 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvzhvYV+hH2q7XVwSkJf9WG9joF5Xx0v13KOlLprgtDPnUfXxzGJgF5hsXFf44L3ICvfupDwA==
-X-Received: by 2002:a1c:80d3:: with SMTP id b202mr3965696wmd.8.1585668198291; 
- Tue, 31 Mar 2020 08:23:18 -0700 (PDT)
-Received: from xz-x1 ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id y4sm16075441wrl.40.2020.03.31.08.23.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Mar 2020 08:23:17 -0700 (PDT)
-Date: Tue, 31 Mar 2020 11:23:14 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Devel Mailing List <qemu-devel@nongnu.org>
-Subject: Re: Question on dirty sync before kvm memslot removal
-Message-ID: <20200331152314.GG522868@xz-x1>
-References: <20200327150425.GJ422390@xz-x1>
- <c90a6ffd-0cab-186d-b9c8-8e379921783f@redhat.com>
+ bh=VglqoRtGPR0weetMfVtNTnlZvDLhaBfnL0EacWzlFcE=;
+ b=Ea/WlqNDBzjlhB6vl2vWOg0U2dDtfb8fG1vJcYaAvSiSytA/fpLPfdsV4OIRIZMD+YCUY6
+ BM7zXSb3SppwQRGC/ACUTWk0sSCwufyVlUrWl2WQ+BVGoJh7Vrn/eqacQRBg093y8Juqbc
+ neFbm4Aa8e3g5Dtq9fVVVQIobiINW+4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-336-DuObAZinNDax4JcWBlyY5Q-1; Tue, 31 Mar 2020 11:23:23 -0400
+X-MC-Unique: DuObAZinNDax4JcWBlyY5Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7403013F7;
+ Tue, 31 Mar 2020 15:23:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B33593534;
+ Tue, 31 Mar 2020 15:23:20 +0000 (UTC)
+Date: Tue, 31 Mar 2020 16:23:17 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: deprecation of in-tree builds
+Message-ID: <20200331152317.GL353752@redhat.com>
+References: <CAFEAcA8E6goDHb-7kKCTp=wSpBsuJcfjMmLP0EgymiEL348r4A@mail.gmail.com>
+ <87v9mmug73.fsf@dusky.pond.sub.org>
+ <CAFEAcA-9U=EAXAtPDh_AnO3eUbM_jcRBuf4x=0Rec0EC-v2mNA@mail.gmail.com>
+ <875zel5722.fsf@dusky.pond.sub.org>
+ <alpine.BSF.2.22.395.2003311417190.73689@zero.eik.bme.hu>
+ <20200331125030.GG353752@redhat.com>
+ <alpine.BSF.2.22.395.2003311632270.73689@zero.eik.bme.hu>
 MIME-Version: 1.0
-In-Reply-To: <c90a6ffd-0cab-186d-b9c8-8e379921783f@redhat.com>
+In-Reply-To: <alpine.BSF.2.22.395.2003311632270.73689@zero.eik.bme.hu>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,81 +79,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 30, 2020 at 03:11:53PM +0200, Paolo Bonzini wrote:
-> On 27/03/20 16:04, Peter Xu wrote:
-> > That makes perfect sense to me, however... What if the vcpu generates
-> > dirty bits _after_ we do KVM_GET_DIRTY_LOG but _before_ we send
-> > KVM_SET_USER_MEMORY_REGION to remove the memslot?  If the vcpu is in
-> > the userspace I think it's fine because BQL is needed so it won't be
-> > able to, however the vcpus running inside KVM should not be restricted
-> > to that.  I think those dirty bits will still get lost, but it should
-> > be extremely hard to trigger.
->=20
-> Yes, you've found a bug.
->=20
-> > I'm not sure whether I missed something above, but if I'm correct, I
-> > think the solution should be a flag for KVM_SET_USER_MEMORY_REGION to
-> > set the memslot as invalid (KVM_MEM_INVALID), then when removing the
-> > memslot which has KVM_MEM_LOG_DIRTY_PAGES enabled, we should:
+On Tue, Mar 31, 2020 at 05:04:16PM +0200, BALATON Zoltan wrote:
+> On Tue, 31 Mar 2020, Daniel P. Berrang=C3=A9 wrote:
+> > On Tue, Mar 31, 2020 at 02:33:46PM +0200, BALATON Zoltan wrote:
+> > > > We will have to ask developers to change habits anyway when we swit=
+ch to
+> > > > Meson.  I agree with Daniel's recommendation to delay changes requi=
+ring
+> > > > habit-changes until then.  However, telling people to stay clear of=
+ the
+> > > > unloved and brittle in-tree build is simply good advice we should n=
+ot
+> > > > withhold.
+> > >=20
+> > > Can someone please explain why is it brittle and cannot be supported?=
+ It has
+> > > worked well so far apart from some breakage due to being untested whi=
+ch is
+> > > also not a techincal necessity just a decision by some maintiners to =
+not
+> > > test it. Adding a CI job to keep it working would also not be difficu=
+lt or
+> > > much complexity.
 > >=20
-> >   - send KVM_SET_USER_MEMORY_REGION with KVM_MEM_INVALID to invalidate
-> >     the memslot, but keep the slot and bitmap in KVM
+> > Writing make rules to correctly handle both src-dir and build-dir scena=
+rios
+> > is a non-negligible maint burden. If you look back through QEMU's histo=
+ry
+> > we have a steady stream of patches which have broken one or the other
+> > build scenarios.
+>=20
+> That's probably becuase there are no clear rules (such as always prefix
+> files in source dir with $(SRC_PATH), generated files with some BUILDDIR,
+> etc.) and these are not documented so every time someone touches it has t=
+o
+> explore and debug it again. This could be avoided if these were written d=
+own
+> once but instead of trying to document and clean up the build system the
+> chosen direction is to just throw it out and replace it with something mo=
+re
+> complex and with more dependencies (Meson) and then to save "additional
+> complexity" it also breaks people's workflow and demand them to adapt
+> themselves. I'm not saying there should be no changes but if there's a wa=
+y
+> to make them less painful it could be considered if it's not much extra w=
+ork
+> and in this case it does not seem to be.
+
+I did indeed write the docs on QEMU's build system found in
+docs/devel/build-system.txt  but it is not enough to eliminate
+the maint burden of supporting both. QEMU's makefiles are just
+too complex and full of unexpected effects to make it easy to
+support both srcdir & builddir IMHO.
+
+> > Developers will often not test both scenarios, just the one they prefer
+> > to use. This results in a maint burden on the subsystem maintainers who
+> > merge patches and then find they break & have to back them out. Sometim=
+es
+> > even the subsystem maintainer gets it wrong and burden falls on Peter t=
+o
+> > find & reject it.
 > >=20
-> >   - send KVM_GET_DIRTY_LOG to fetch the bitmap for the slot
+> > Even if we have CI to test both, it is still a burden on developers to
+> > debug failures reported by the CI and figure out what needs fixing. Wit=
+h
+> > the number of builds we do & the time for a single CI cycle it gets ver=
+y
+> > time consuming. I've personally wasted many many hours debugging src-di=
+r
+> > vs build-dir problems in QEMU's makefiles - probably more than an entir=
+e
+> > day was lost when I did the patches to split the trace.h header file.
 > >=20
-> >   - send KVM_SET_USER_MEMORY_REGION with size=3D=3D0 to remove the slot
+> > This all serves to divert time away from useful work on QEMU. If there
+> > was some critically important functional thing that src-dir builds offe=
+r
+> > that can't be achieved by build-dir builds, then the extra maint work
+> > could be justified. I don't think that's the case though.
 >=20
-> Or KVM_MEM_READONLY.
+> OK, so then only supporting out-of-tree builds but adding convenience
+> function and Makefile to still allow people to run configure; make from
+> source dir would solve this without also needing people to change what th=
+ey
+> always did so why is that solution not acceptable?
 
-Yeah, I used a new flag because I thought READONLY was a bit tricky to
-be used directly here.  The thing is IIUC if guest writes to a
-READONLY slot then KVM should either ignore the write or trigger an
-error which I didn't check, however here what we want to do is to let
-the write to fallback to the userspace so it's neither dropped (we
-still want the written data to land gracefully on RAM), nor triggering
-an error (because the slot is actually writable).
+There's several scenarios discussed. Currently we don't do anything to
+prevent src-dir builds, so there's no need to extra make magic described
+I proposed a patch to add a warning, but it still allows src-dir builds,
+so nothing functional has changed.
 
->=20
-> > However I don't know whether that'll worth it.
->=20
-> Yes, especially in the light of the dirty ring issue below.
->=20
-> > (Side question which is irrelevant to this: for kvm dirty ring we now
-> >  need to do similar thing to flush dirty bits before removing a
-> >  memslot, however that's even trickier because flushing dirty ring
-> >  needs to kick all vcpu out, currently the RFC series is using
-> >  run_on_cpu() which will release the BQL and wait for all vcpus to
-> >  quit into userspace, however that cannot be done inside
-> >  kvm_set_phys_mem because it needs the BQL.  I'm still thinking about
-> >  a good way to fix this, but any idea is greatly welcomed :)
->=20
-> The problem here is also that the GFN is not an unique identifier of the
-> QEMU ram_addr_t.  However you don't really need to kick all vCPUs out,
-> do you?  You can protect the dirty ring with its own per-vCPU mutex and
-> harvest the pages from the main thread.
+We could forbid src-dir builds now and add the magic to redirct to a
+build-dir. That would work, but I don't think we should block src-dir
+builds in make, assuming we have a switch to meson arriving in the
+near-ish future.
 
-I'm not sure I get the point, but just to mention that currently the
-dirty GFNs are collected in a standalone thread (in the QEMU series
-it's called the reaper thread) rather than in the per vcpu thread
-because the KVM_RESET_DIRTY_RINGS is per-vm after all.  One major
-reason to kick the vcpus is to make sure the hardware cached dirty
-GFNs (i.e. PML) are flushed synchronously.
+Once we switch to Meson there will inevitably be some disruption in
+build system ussage as it is a completely new tool. That makes it a
+good flag day for forbidding src-dir builds. Given that it is a flag
+day, I don't think there's any need to create makefile magic at that
+time.
 
-I think the whole kick operation is indeed too heavy for this when
-with the run_on_cpu() trick, because the thing we want to know (pml
-flushing) is actually per-vcpu and no BQL interaction. Do we have/need
-a lightweight way to kick one vcpu in synchronous way?  I was
-wondering maybe something like responding a "sync kick" request in the
-vcpu thread right after KVM_RUN ends (when we don't have BQL yet).
-Would that make sense?
 
-Thanks,
+IMHO we shouldn't be so afraid of change that we need to try to preserve
+every precise way of working we've had in the past. In the long term this
+frame of mind holds back the project and promotes a negative impression
+of QEMU as an old, outdated project resistant to any kind of change.
 
+Regards,
+Daniel
 --=20
-Peter Xu
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
