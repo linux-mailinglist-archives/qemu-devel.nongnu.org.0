@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66377199763
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 15:26:04 +0200 (CEST)
-Received: from localhost ([::1]:37998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4EA6199766
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 15:27:35 +0200 (CEST)
+Received: from localhost ([::1]:38018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJGu3-0006Jr-G9
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 09:26:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41955)
+	id 1jJGvW-0000UB-W4
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 09:27:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41975)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1jJGqD-0000I1-7T
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:22:07 -0400
+ (envelope-from <jasowang@redhat.com>) id 1jJGqF-0000I8-2J
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:22:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1jJGqA-0005jf-43
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:22:04 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51271
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <jasowang@redhat.com>) id 1jJGqD-0005lE-KX
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:22:06 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44367
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1jJGq9-0005jG-Ve
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:22:02 -0400
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1jJGqD-0005kc-H9
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:22:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585660921;
+ s=mimecast20190719; t=1585660924;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UFzfJ32hrPYJEd61wip0J7pOl2Rd8tBOdRTwul4UXXQ=;
- b=HwyjC+g1w49TsKVxUAHzr8Wf73zgWS1Ptf3QgQAgxwEGiOeGwFLpyYUJJtF+Zf7violnih
- ERvfGb5rr3ZERHYVDQH0OvbaU2aki8RJZsCTdGtntDUNlOV0IP8gXHpRuA0mw98BWu8CEF
- tG3FLaUiaiAfw247HFMxVSd+nrA32Ao=
+ bh=n8HmSTm9WnCU4dZKskIiwKW5MV+WGIgJj9Ow7s72VtQ=;
+ b=Z7JcdjQHIGcwtQ/GJRKlkp2YpxPmSxY5/eXsKvXXzKAK8H8eUhEgI+xOV+/0ds0pGsF6d8
+ 8xsINY/mPGN/zrKjzDSiHszyPAKskIUJtL2/WoJLKS7ncVvRLXNsWPcTRHeS4DDtVd43oR
+ UJZRPf5KUaYbjoP/ebZ+rRByxvlBg3Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259--RUOYE2dN7SMVad5l9s_rg-1; Tue, 31 Mar 2020 09:21:59 -0400
-X-MC-Unique: -RUOYE2dN7SMVad5l9s_rg-1
+ us-mta-64-9hi62n6oOYGbecItYSsOqg-1; Tue, 31 Mar 2020 09:22:01 -0400
+X-MC-Unique: 9hi62n6oOYGbecItYSsOqg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA4E58017CC;
- Tue, 31 Mar 2020 13:21:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10E7C1052BA7;
+ Tue, 31 Mar 2020 13:22:01 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-118.pek2.redhat.com
  [10.72.12.118])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B06C1036D00;
- Tue, 31 Mar 2020 13:21:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 650C91036D00;
+ Tue, 31 Mar 2020 13:21:59 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL V2 04/14] hw/net/e1000e_core: Let e1000e_can_receive() return a
- boolean
-Date: Tue, 31 Mar 2020 21:21:29 +0800
-Message-Id: <1585660899-11228-5-git-send-email-jasowang@redhat.com>
+Subject: [PULL V2 05/14] hw/net/smc91c111: Let smc91c111_can_receive() return
+ a boolean
+Date: Tue, 31 Mar 2020 21:21:30 +0800
+Message-Id: <1585660899-11228-6-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1585660899-11228-1-git-send-email-jasowang@redhat.com>
 References: <1585660899-11228-1-git-send-email-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -61,8 +61,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,43 +80,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-The e1000e_can_receive() function simply returns a boolean value.
+The smc91c111_can_receive() function simply returns a boolean value.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/e1000e_core.c | 2 +-
- hw/net/e1000e_core.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/net/smc91c111.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index df957e0..d567687 100644
---- a/hw/net/e1000e_core.c
-+++ b/hw/net/e1000e_core.c
-@@ -967,7 +967,7 @@ e1000e_start_recv(E1000ECore *core)
-     }
+diff --git a/hw/net/smc91c111.c b/hw/net/smc91c111.c
+index e9eb6f6..02be60c 100644
+--- a/hw/net/smc91c111.c
++++ b/hw/net/smc91c111.c
+@@ -130,16 +130,16 @@ static void smc91c111_update(smc91c111_state *s)
+     qemu_set_irq(s->irq, level);
  }
 =20
--int
-+bool
- e1000e_can_receive(E1000ECore *core)
+-static int smc91c111_can_receive(smc91c111_state *s)
++static bool smc91c111_can_receive(smc91c111_state *s)
  {
-     int i;
-diff --git a/hw/net/e1000e_core.h b/hw/net/e1000e_core.h
-index 49abb13..aee32f7 100644
---- a/hw/net/e1000e_core.h
-+++ b/hw/net/e1000e_core.h
-@@ -143,7 +143,7 @@ e1000e_core_set_link_status(E1000ECore *core);
- void
- e1000e_core_pci_uninit(E1000ECore *core);
+     if ((s->rcr & RCR_RXEN) =3D=3D 0 || (s->rcr & RCR_SOFT_RST)) {
+-        return 1;
++        return true;
+     }
+     if (s->allocated =3D=3D (1 << NUM_PACKETS) - 1 ||
+         s->rx_fifo_len =3D=3D NUM_PACKETS) {
+-        return 0;
++        return false;
+     }
+-    return 1;
++    return true;
+ }
 =20
--int
-+bool
- e1000e_can_receive(E1000ECore *core);
-=20
- ssize_t
+ static inline void smc91c111_flush_queued_packets(smc91c111_state *s)
 --=20
 2.5.0
 
