@@ -2,41 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB22F19965B
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 14:23:19 +0200 (CEST)
-Received: from localhost ([::1]:37086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DB6F199667
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 14:25:38 +0200 (CEST)
+Received: from localhost ([::1]:37134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJFvK-0000nG-Q8
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 08:23:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34400)
+	id 1jJFxZ-0004uC-DI
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 08:25:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35057)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <s.reiter@proxmox.com>) id 1jJFt5-0006hg-SB
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 08:21:00 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jJFwc-0003rs-LJ
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 08:24:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <s.reiter@proxmox.com>) id 1jJFt4-00085x-Uf
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 08:20:59 -0400
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:53973)
+ (envelope-from <kwolf@redhat.com>) id 1jJFwa-0002If-Gv
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 08:24:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36473
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <s.reiter@proxmox.com>)
- id 1jJFt2-00081T-Be; Tue, 31 Mar 2020 08:20:56 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 371EA442B4;
- Tue, 31 Mar 2020 14:20:52 +0200 (CEST)
-From: Stefan Reiter <s.reiter@proxmox.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Subject: [PATCH v3 3/3] backup: don't acquire aio_context in backup_clean
-Date: Tue, 31 Mar 2020 14:20:45 +0200
-Message-Id: <20200331122045.164356-4-s.reiter@proxmox.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200331122045.164356-1-s.reiter@proxmox.com>
-References: <20200331122045.164356-1-s.reiter@proxmox.com>
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jJFwZ-0002Fz-6T
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 08:24:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585657473;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qns4HGR/d6XW4WCB/3wHbPhCk7MBnRIK91j3WGKWE+I=;
+ b=MwS+rkZoTS5QUGbfRH3yERcirqdNhzGyUkZdNIDKURdmUwA8f50dI+UFFIObS/IgbeQkmt
+ 6K40daFxCa79uS8QKUTBMP+y+UmuxSRVr2I56wtPyrAD3nGvuVSykmqEYtlgtWHZEWlMBE
+ GqXsvvzeaFWRzniXafQeLNe8uI1R4/M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-11-bH-I0RoWPGycuSBhyk-gUA-1; Tue, 31 Mar 2020 08:24:31 -0400
+X-MC-Unique: bH-I0RoWPGycuSBhyk-gUA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF7438010C8;
+ Tue, 31 Mar 2020 12:24:30 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-236.ams2.redhat.com [10.36.114.236])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C91C5D9CA;
+ Tue, 31 Mar 2020 12:24:29 +0000 (UTC)
+Date: Tue, 31 Mar 2020 14:24:28 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: deprecation of in-tree builds
+Message-ID: <20200331122428.GD7030@linux.fritz.box>
+References: <CAFEAcA8E6goDHb-7kKCTp=wSpBsuJcfjMmLP0EgymiEL348r4A@mail.gmail.com>
+ <87v9mmug73.fsf@dusky.pond.sub.org>
+ <CAFEAcA-9U=EAXAtPDh_AnO3eUbM_jcRBuf4x=0Rec0EC-v2mNA@mail.gmail.com>
+ <20200330134212.GO236854@redhat.com>
+ <20200330143759.GD6139@linux.fritz.box>
+ <c0a1dc94-c3f2-696e-743f-aa15ef995094@redhat.com>
+ <20200331120220.GA7030@linux.fritz.box>
+ <CAFEAcA_p1T4--Re5=-x=q=cCX-8YDAk_keS72NURe3T23j89sA@mail.gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <CAFEAcA_p1T4--Re5=-x=q=cCX-8YDAk_keS72NURe3T23j89sA@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.186.127.180
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,51 +80,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, slp@redhat.com,
- mreitz@redhat.com, stefanha@redhat.com, jsnow@redhat.com, dietmar@proxmox.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All code-paths leading to backup_clean (via job_clean) have the job's
-context already acquired. The job's context is guaranteed to be the same
-as the one used by backup_top via backup_job_create.
+Am 31.03.2020 um 14:05 hat Peter Maydell geschrieben:
+> On Tue, 31 Mar 2020 at 13:02, Kevin Wolf <kwolf@redhat.com> wrote:
+> > Mainly because it allows me to start everything (most importantly: my
+> > editor, git and make) from the same directory.
+>=20
+> You can use 'make -C build/whatever' to avoid having to change directory.
 
-Since the previous logic effectively acquired the lock twice, this
-broke cleanup of backups for disks using IO threads, since the BDRV_POLL_=
-WHILE
-in bdrv_backup_top_drop -> bdrv_do_drained_begin would only release the l=
-ock
-once, thus deadlocking with the IO thread.
+Which is about five times as long as 'make'.
 
-This is a partial revert of 0abf2581717a19.
+I'm not sure what the problem would be with a Makefile in the source
+tree that just calls make in the build directory? It's convenient and
+doesn't hurt anyone who prefers to work directly in the build directory.
 
-Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
----
+> The odd one out here is configure, where you have to say
+>  (cd build/whatever && ../../configure ...)
+> I have occasionally wondered if we should add an equivalent to
+> make's -C option to configure, but AFAIX autoconf-configures don't
+> have it, so it would be an odd non-standardism.
 
-With the two previous patches applied, the commit message should now hold=
- true.
+Well, not allowing in-tree builds is an odd non-standardism, too, so I
+think some more non-standardisms to make it more bearable wouldn't be
+too bad.
 
- block/backup.c | 4 ----
- 1 file changed, 4 deletions(-)
-
-diff --git a/block/backup.c b/block/backup.c
-index 7430ca5883..a7a7dcaf4c 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -126,11 +126,7 @@ static void backup_abort(Job *job)
- static void backup_clean(Job *job)
- {
-     BackupBlockJob *s =3D container_of(job, BackupBlockJob, common.job);
--    AioContext *aio_context =3D bdrv_get_aio_context(s->backup_top);
--
--    aio_context_acquire(aio_context);
-     bdrv_backup_top_drop(s->backup_top);
--    aio_context_release(aio_context);
- }
-=20
- void backup_do_checkpoint(BlockJob *job, Error **errp)
---=20
-2.26.0
-
+Kevin
 
 
