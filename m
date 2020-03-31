@@ -2,45 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D69F1998A4
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 16:34:18 +0200 (CEST)
-Received: from localhost ([::1]:39036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 311F71998AE
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 16:36:56 +0200 (CEST)
+Received: from localhost ([::1]:39096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJHy5-0005yS-NS
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 10:34:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51678)
+	id 1jJI0d-0000ko-8T
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 10:36:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51883)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dietmar@proxmox.com>) id 1jJHwb-0004xR-PO
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:32:47 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jJHy0-0006Fo-VT
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:34:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dietmar@proxmox.com>) id 1jJHwa-00083d-21
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:32:45 -0400
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:49635)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dietmar@proxmox.com>)
- id 1jJHwV-0007yX-35; Tue, 31 Mar 2020 10:32:39 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id E4447457CC;
- Tue, 31 Mar 2020 16:32:34 +0200 (CEST)
-Date: Tue, 31 Mar 2020 16:32:32 +0200 (CEST)
-From: Dietmar Maurer <dietmar@proxmox.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Message-ID: <303038276.59.1585665152860@webmail.proxmox.com>
-In-Reply-To: <20200331125804.GE7030@linux.fritz.box>
-References: <658260883.24.1585644382441@webmail.proxmox.com>
- <20200331125804.GE7030@linux.fritz.box>
-Subject: Re: bdrv_drained_begin deadlock with io-threads
+ (envelope-from <peter.maydell@linaro.org>) id 1jJHxz-0008Vt-P2
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:34:12 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36268)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jJHxz-0008VP-Gg
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:34:11 -0400
+Received: by mail-wr1-x436.google.com with SMTP id 31so26255692wrs.3
+ for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 07:34:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=I8acRX+3Ax0e+6wpNxKGO9kRpEiLoBvALCJRagPszfg=;
+ b=GqZdBxmsUuWE4nrTaxGY8OIZUcimR9abzaMy1wp1FZ76KwBcDmh3iaihwAJUfRIbom
+ HkpJJOap09mnGxl+d/tPgXZ9fbpOvt7Ij+NT0FZVObMDg4c/fFz5/8H6kwIszWgPCMjf
+ ZrZFuXgunOx+gzHNrzQfteKJk0fo3nt7RPeopYRV40pGl4dQQKD8ZO/0I2SEUVT0j1lT
+ Ff8MK/7JjLpJfme7zTb1wUwKD3XEKZwY9MiKOJyjS95emt3E2d26VuiwABhrEc/adwra
+ nDPDyPWNKs5IxrQLsvZ0i/r1ulvGsVBdUDNFSbFGg0JHZrwjAqeacOnv9Y1YXUjoZ6rW
+ QiqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=I8acRX+3Ax0e+6wpNxKGO9kRpEiLoBvALCJRagPszfg=;
+ b=DQBK6R3WYAagWp9Znjd+UplxLVAmdjst+mtYcXHc3YK8hpAQkGurICaJ0tOxPDYzWt
+ yzSgkEDRMaXWSQh/dMRKMJrceaCs6svll0Lv/FlOcuuUH6JScrPEQN3P/Mvmc4qsqbsE
+ 7RAImp/Fqt7gOj5EUxzlXxhLUqYQWTBp1wpmSq5nbvRt+kbKeWGMd+NDuRK7DNEWMECw
+ AAVa1AWp5hbxw4ubO0xI33dGURKyZesv5+1lYcowRcv6h/s8hr2XdO2OvYWdHY4/SIuy
+ k8dpBlaW7b8Y4PF/miskgEUa80UvdAlMRgzTRU1agvKG2AOjh3DCUW06A3ESdpiepnLL
+ nPqQ==
+X-Gm-Message-State: ANhLgQ2LeZ8/0g3O5Xp9lPneUI+WgeJ57ezo+QvKUsLjk8AlskZ5fQ2j
+ LabJqS9+K/JoxZfc4wHdI+tXjw==
+X-Google-Smtp-Source: ADFU+vvpM1+h8G+V2PsrzJ0z2kcPGTwhiRHzE0ETQiHOZpHgZzNlCVLlm9mY5bIP3h5DVTBw90UtQw==
+X-Received: by 2002:a5d:54cb:: with SMTP id x11mr22055554wrv.179.1585665250142; 
+ Tue, 31 Mar 2020 07:34:10 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id b26sm3899189wmj.21.2020.03.31.07.34.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Mar 2020 07:34:09 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH] target/arm: Remove obsolete TODO note from
+ get_phys_addr_lpae()
+Date: Tue, 31 Mar 2020 15:34:07 +0100
+Message-Id: <20200331143407.3186-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.2-Rev23
-X-Originating-Client: open-xchange-appsuite
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 212.186.127.180
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::436
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,119 +77,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Dietmar Maurer <dietmar@proxmox.com>
-Cc: "vsementsov@virtuozzo.com" <vsementsov@virtuozzo.com>,
- Sergio Lopez <slp@redhat.com>, qemu-block@nongnu.org,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, "jsnow@redhat.com" <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> > After a few iteration the VM freeze inside bdrv_drained_begin():
-> > 
-> > Thread 1 (Thread 0x7fffe9291080 (LWP 30949)):
-> > #0  0x00007ffff5cb3916 in __GI_ppoll (fds=0x7fff63d30c40, nfds=2, timeout=<optimized out>, timeout@entry=0x0, sigmask=sigmask@entry=0x0) at ../sysdeps/unix/sysv/linux/ppoll.c:39
-> > #1  0x0000555555c60419 in ppoll (__ss=0x0, __timeout=0x0, __nfds=<optimized out>, __fds=<optimized out>) at /usr/include/x86_64-linux-gnu/bits/poll2.h:77
-> > #2  0x0000555555c60419 in qemu_poll_ns (fds=<optimized out>, nfds=<optimized out>, timeout=timeout@entry=-1) at util/qemu-timer.c:335
-> > #3  0x0000555555c62c01 in fdmon_poll_wait (ctx=0x7fffe8905e80, ready_list=0x7fffffffd3a8, timeout=-1) at util/fdmon-poll.c:79
-> > #4  0x0000555555c621e7 in aio_poll (ctx=0x7fffe8905e80, blocking=blocking@entry=true) at util/aio-posix.c:589
-> > #5  0x0000555555bc2565 in bdrv_do_drained_begin (poll=<optimized out>, ignore_bds_parents=false, parent=0x0, recursive=false, bs=0x7fff67240b80) at block/io.c:430
-> > #6  0x0000555555bc2565 in bdrv_do_drained_begin (bs=0x7fff67240b80, recursive=<optimized out>, parent=0x0, ignore_bds_parents=<optimized out>, poll=<optimized out>) at block/io.c:395
-> > #7  0x0000555555bde252 in bdrv_backup_top_drop (bs=0x7fff67240b80) at block/backup-top.c:273
-> > #8  0x0000555555bd995c in backup_clean (job=0x7fffe5609200) at block/backup.c:114
-> > #9  0x0000555555b6e08d in job_clean (job=0x7fffe5609200) at job.c:657
-> > #10 0x0000555555b6e08d in job_finalize_single (job=0x7fffe5609200) at job.c:673
-> > #11 0x0000555555b6e08d in job_finalize_single (job=0x7fffe5609200) at job.c:661
-> > #12 0x0000555555b6ea3a in job_completed_txn_abort (job=<optimized out>) at job.c:749
-> > #13 0x0000555555b6ec42 in job_completed (job=0x7fffe5609200) at job.c:843
-> > #14 0x0000555555b6ec42 in job_completed (job=0x7fffe5609200) at job.c:836
-> > #15 0x0000555555b6edf0 in job_exit (opaque=0x7fffe5609200) at job.c:864
-> > #16 0x0000555555c5e975 in aio_bh_call (bh=0x7fffe721a2d0) at util/async.c:164
-> > #17 0x0000555555c5e975 in aio_bh_poll (ctx=ctx@entry=0x7fffe8905e80) at util/async.c:164
-> > #18 0x0000555555c6202e in aio_dispatch (ctx=0x7fffe8905e80) at util/aio-posix.c:380
-> > #19 0x0000555555c5e85e in aio_ctx_dispatch (source=<optimized out>, callback=<optimized out>, user_data=<optimized out>) at util/async.c:298
-> > #20 0x00007ffff7c7ef2e in g_main_context_dispatch () at /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-> > #21 0x0000555555c61298 in glib_pollfds_poll () at util/main-loop.c:219
-> > #22 0x0000555555c61298 in os_host_main_loop_wait (timeout=<optimized out>) at util/main-loop.c:242
-> > #23 0x0000555555c61298 in main_loop_wait (nonblocking=nonblocking@entry=0) at util/main-loop.c:518
-> > #24 0x00005555558fc5a9 in qemu_main_loop () at /home/dietmar/pve5-devel/mirror_qemu/softmmu/vl.c:1665
-> > #25 0x0000555555800c3e in main (argc=<optimized out>, argv=<optimized out>, envp=<optimized out>) at /home/dietmar/pve5-devel/mirror_qemu/softmmu/main.c:49
-> 
-> The thing that we need to figure out is probably what operation we are
-> (or were) waiting for and why it doesn't complete.
-> 
-> A typical cause of a hang like this is that the operation we're waiting
-> for actually did already complete in a different thread, but forgot to
-> call aio_wait_kick().
+An old comment in get_phys_addr_lpae() claims that the code does not
+support the different format TCR for VTCR_EL2.  This used to be true
+but it is not true now (in particular the aa64_va_parameters() and
+aa32_va_parameters() functions correctly handle the different
+register format by checking whether the mmu_idx is Stage2).
+Remove the out of date parts of the comment.
 
-no, that is not the case.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+Randomly noticed this out of date comment while I was stepping
+through the code this afternoon...
 
-> To confirm, if you have gdb attached to a hanging process, you could
-> manually call bdrv_drain_poll_top_level(bs, 0, 0) and check its result.
-> If it returns false, 
+ target/arm/helper.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-it return true, because there are about 30 in_flight request (block_backend). But poll does not
-get any events ...
-
-> then a kick is missing somewhere. If it returns
-> true, some request is still waiting for completion somewhere and can be
-> inspected in gdb.
-
-How can I see/debug those waiting request? 
-
-> > Thread 1 locks the BQL, while thread7 wants to aquire it to complete the read in prepare_mmio_access():
-> > 
-> > (gdb) source ./scripts/qemu-gdb.py 
-> > (gdb) qemu tcg-lock-status 
-> > Thread, BQL (iothread_mutex), Replay, Blocked?
-> > 10/31149, false, false, not blocked
-> > 8/30998, false, false, __lll_lock_wait waiting on 0x555556142e60 <qemu_global_mutex> from 30949
-> > 7/30997, false, false, __lll_lock_wait waiting on 0x555556142e60 <qemu_global_mutex> from 30949
-> > 6/30996, false, false, not blocked
-> > 4/30955, false, false, not blocked
-> > 3/30954, false, false, __lll_lock_wait waiting on 0x7fffe89151e0 from 30949
-> > 2/30953, false, false, not blocked
-> > 1/30949, true, false, not blocked
-> > 
-> > 
-> > (gdb) thread apply 7 bt
-> > Thread 7 (Thread 0x7fff669ff700 (LWP 30997)):
-> > #0  0x00007ffff5d9729c in __lll_lock_wait () at ../sysdeps/unix/sysv/linux/x86_64/lowlevellock.S:103
-> > #1  0x00007ffff5d90714 in __GI___pthread_mutex_lock (mutex=mutex@entry=0x555556142e60 <qemu_global_mutex>) at ../nptl/pthread_mutex_lock.c:80
-> > #2  0x0000555555c65013 in qemu_mutex_lock_impl (mutex=0x555556142e60 <qemu_global_mutex>, file=0x555555c94008 "/home/dietmar/pve5-devel/mirror_qemu/exec.c", line=3089) at util/qemu-thread-posix.c:78
-> > #3  0x00005555558480ee in qemu_mutex_lock_iothread_impl (file=file@entry=0x555555c94008 "/home/dietmar/pve5-devel/mirror_qemu/exec.c", line=line@entry=3089)
-> >     at /home/dietmar/pve5-devel/mirror_qemu/cpus.c:1831
-> > #4  0x0000555555802425 in prepare_mmio_access (mr=<optimized out>, mr=<optimized out>) at /home/dietmar/pve5-devel/mirror_qemu/exec.c:3089
-> > #5  0x000055555580759f in flatview_read_continue
-> >     (fv=fv@entry=0x7fff5f9baf00, addr=addr@entry=375, attrs=..., ptr=ptr@entry=0x7ffff7fbe000, len=len@entry=1, addr1=<optimized out>, l=<optimized out>, mr=0x7fffe8e66e80)
-> >     at /home/dietmar/pve5-devel/mirror_qemu/exec.c:3188
-> > #6  0x0000555555807803 in flatview_read (fv=0x7fff5f9baf00, addr=375, attrs=..., buf=0x7ffff7fbe000, len=1) at /home/dietmar/pve5-devel/mirror_qemu/exec.c:3229
-> > #7  0x000055555580791b in address_space_read_full (as=<optimized out>, addr=<optimized out>, attrs=..., buf=<optimized out>, len=<optimized out>) at /home/dietmar/pve5-devel/mirror_qemu/exec.c:3242
-> > #8  0x0000555555807a25 in address_space_rw (as=<optimized out>, addr=addr@entry=375, attrs=..., attrs@entry=..., buf=<optimized out>, len=len@entry=1, is_write=is_write@entry=false)
-> >     at /home/dietmar/pve5-devel/mirror_qemu/exec.c:3270
-> > #9  0x0000555555865024 in kvm_handle_io (count=1, size=1, direction=<optimized out>, data=<optimized out>, attrs=..., port=375) at /home/dietmar/pve5-devel/mirror_qemu/accel/kvm/kvm-all.c:2140
-> > #10 0x0000555555865024 in kvm_cpu_exec (cpu=cpu@entry=0x7fffe89efb00) at /home/dietmar/pve5-devel/mirror_qemu/accel/kvm/kvm-all.c:2386
-> > #11 0x000055555584835e in qemu_kvm_cpu_thread_fn (arg=0x7fffe89efb00) at /home/dietmar/pve5-devel/mirror_qemu/cpus.c:1246
-> > #12 0x000055555584835e in qemu_kvm_cpu_thread_fn (arg=arg@entry=0x7fffe89efb00) at /home/dietmar/pve5-devel/mirror_qemu/cpus.c:1218
-> > #13 0x0000555555c64e1a in qemu_thread_start (args=<optimized out>) at util/qemu-thread-posix.c:519
-> > #14 0x00007ffff5d8dfa3 in start_thread (arg=<optimized out>) at pthread_create.c:486
-> > #15 0x00007ffff5cbe4cf in clone () at ../sysdeps/unix/sysv/linux/x86_64/clone.S:95
-> > [...]
-> 
-> > So the pattern is:
-> > 
-> > 1.) Main thread has the BQL
-> > 2.) Main thread calls bdrv_drained_begin(bs);
-> > 3.) CPU thread want to complete read prepare_mmio_access(), but needs BQL
-> > 4.) deadlock
-> > 
-> > Any ideas how to prevent that?
-> 
-> What's going on in the vcpu thread (thread 7) is probably not part of
-> the problem. It does have to wait for the main thread, but it would only
-> really be part of the deadlock if the main thread would also wait for
-> the vcpu thread, which I don't think it does.
-
-Yes, I guess you are right. This read is triggered by the guest (not by bdrv_drained_begin).
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index cba8ac57983..27059045842 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -10714,12 +10714,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, target_ulong address,
+     bool aarch64 = arm_el_is_aa64(env, el);
+     bool guarded = false;
+ 
+-    /* TODO:
+-     * This code does not handle the different format TCR for VTCR_EL2.
+-     * This code also does not support shareability levels.
+-     * Attribute and permission bit handling should also be checked when adding
+-     * support for those page table walks.
+-     */
++    /* TODO: This code does not support shareability levels. */
+     if (aarch64) {
+         param = aa64_va_parameters(env, address, mmu_idx,
+                                    access_type != MMU_INST_FETCH);
+-- 
+2.20.1
 
 
