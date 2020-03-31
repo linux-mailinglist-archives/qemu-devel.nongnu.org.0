@@ -2,60 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67510199CB0
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 19:17:30 +0200 (CEST)
-Received: from localhost ([::1]:42058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB6D1199CC1
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 19:24:36 +0200 (CEST)
+Received: from localhost ([::1]:42146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJKW1-0001zz-G3
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 13:17:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48927)
+	id 1jJKct-000339-Vi
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 13:24:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49912)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jJKUq-0000eo-PI
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 13:16:17 -0400
+ (envelope-from <eblake@redhat.com>) id 1jJKa3-0008P8-VK
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 13:21:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1jJKUp-0005lQ-IL
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 13:16:16 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44454
+ (envelope-from <eblake@redhat.com>) id 1jJKa2-0000zc-JG
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 13:21:39 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21971
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jJKUp-0005kv-F2
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 13:16:15 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jJKa2-0000yZ-EM
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 13:21:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585674974;
+ s=mimecast20190719; t=1585675297;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=zluSe7sWi+EQ03Ku1XnFDdBAnxU8/t9URFObDnnQIeE=;
- b=IkuWEEhsb9vJhvsxcfwPXgUYLqgzBWNnXYkqxtoQY1ienV7tBF0a7Gg0OfHnZh2UicnSRU
- DGEjKZVW4YIm+lp7/3q20rXpIF43DOTP1J7M5HcAPq3twIZrparagK5potYJYUeMRodLAh
- AOTL5KAaoV8vai3PoHRLJ5qsUGUB3kw=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=U3kAB3k2l5VvR/jpr6gULdceQfe7TVqQ8zWeRMxvkM4=;
+ b=QkfKvjQ0ac1e4acVDWVmHVml+dxUc8CGAS99jAmCR2wA9oXJVmBeJc2YmxCZ/vLri7R4Lp
+ fX5l5/VRdgIkFkyG1TrfvR6jV8ZNuJgqORNaA36JoSzU0/yKeb7JDSNVS8utwQTKgsSrI8
+ u+bCyaknZmdxclwvxbS74UOMLsSn6ew=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-236-3Jjx5Z81M32M7ZGEN7SraQ-1; Tue, 31 Mar 2020 13:16:13 -0400
-X-MC-Unique: 3Jjx5Z81M32M7ZGEN7SraQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-143-yrLdie8iNyGtYFl_Lod5TQ-1; Tue, 31 Mar 2020 13:21:35 -0400
+X-MC-Unique: yrLdie8iNyGtYFl_Lod5TQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B65F08017CC;
- Tue, 31 Mar 2020 17:16:11 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.36.110.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2629160BFE;
- Tue, 31 Mar 2020 17:16:07 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3] configure: warn if not using a separate build directory
-Date: Tue, 31 Mar 2020 18:16:06 +0100
-Message-Id: <20200331171606.386801-1-berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AB2D8010EE;
+ Tue, 31 Mar 2020 17:21:34 +0000 (UTC)
+Received: from [10.3.113.246] (ovpn-113-246.phx2.redhat.com [10.3.113.246])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 718381001938;
+ Tue, 31 Mar 2020 17:21:33 +0000 (UTC)
+Subject: Re: [PATCH v3] configure: warn if not using a separate build directory
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200331171606.386801-1-berrange@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <32d8b69d-1641-f200-e86e-062de6c93caf@redhat.com>
+Date: Tue, 31 Mar 2020 12:21:32 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200331171606.386801-1-berrange@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,77 +77,45 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Liviu Ionescu <ilg@livius.net>,
- Stefan Hajnoczi <stefanha@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Michal=20Such=C3=A1nek?= <msuchanek@suse.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ Liviu Ionescu <ilg@livius.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Running configure directly from the source directory is a build
-configuration that will go away in future. It is also not currently
-covered by any automated testing. Display a deprecation warning if
-the user attempts to use an in-srcdir build setup, so that they are
-aware that they're building QEMU in an undesirable manner.
+On 3/31/20 12:16 PM, Daniel P. Berrang=C3=A9 wrote:
+> Running configure directly from the source directory is a build
+> configuration that will go away in future. It is also not currently
+> covered by any automated testing. Display a deprecation warning if
+> the user attempts to use an in-srcdir build setup, so that they are
+> aware that they're building QEMU in an undesirable manner.
+>=20
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>=20
 
-Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
----
+> +if test "$in_srcdir" =3D "yes"; then
+> +    echo
+> +    echo "WARNING: SUPPORT FOR IN SOURCE DIR BUILDS IS DEPRECATED"
+> +    echo
+> +    echo "Support for running the 'configure' script directly from the"
+> +    echo "source directory is deprecated. In source dir builds are not"
+> +    echo "covered by automated testing and thus may not correctly build"
+> +    echo "QEMU. Users are recommended to use a separate build directory:=
+"
 
-Changed in v3:
-  - Don't try to predict the future so much, just recommend
-    a separate build dir
+Our mails crossed. I still think this reads a bit awkwardly; maybe:
 
- configure | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+s/IN SOURCE DIR BUILDS/BUILDING IN THE SOURCE DIR/
+s/In source dir builds/In-tree builds/
 
-diff --git a/configure b/configure
-index e225a1e3ff..b4d1b01689 100755
---- a/configure
-+++ b/configure
-@@ -285,6 +285,16 @@ then
-   error_exit "main directory cannot contain spaces nor colons"
- fi
-=20
-+canon_build_path=3D$(realpath -- "$PWD")
-+canon_source_path=3D$(realpath -- "$source_path")
-+
-+in_srcdir=3Dno
-+if [ "$canon_build_path" =3D "$canon_source_path" ]
-+then
-+    in_srcdir=3Dyes
-+fi
-+
-+
- # default parameters
- cpu=3D""
- iasl=3D"iasl"
-@@ -6799,6 +6809,22 @@ if test "$supported_os" =3D "no"; then
-     echo "us upstream at qemu-devel@nongnu.org."
- fi
-=20
-+if test "$in_srcdir" =3D "yes"; then
-+    echo
-+    echo "WARNING: SUPPORT FOR IN SOURCE DIR BUILDS IS DEPRECATED"
-+    echo
-+    echo "Support for running the 'configure' script directly from the"
-+    echo "source directory is deprecated. In source dir builds are not"
-+    echo "covered by automated testing and thus may not correctly build"
-+    echo "QEMU. Users are recommended to use a separate build directory:"
-+    echo
-+    echo "  $ mkdir build"
-+    echo "  $ cd build"
-+    echo "  $ ../configure"
-+    echo "  $ make"
-+    echo
-+fi
-+
- config_host_mak=3D"config-host.mak"
-=20
- echo "# Automatically generated by configure - do not modify" >config-all-=
-disas.mak
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
 --=20
-2.24.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
