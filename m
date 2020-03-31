@@ -2,78 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DA641995A3
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 13:48:00 +0200 (CEST)
-Received: from localhost ([::1]:36512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A391995E9
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 14:02:13 +0200 (CEST)
+Received: from localhost ([::1]:36808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJFN9-0004Rk-IB
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 07:47:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58858)
+	id 1jJFat-00015J-JZ
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 08:02:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60132)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ilg@livius.net>) id 1jJFLu-0003ZA-2d
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 07:46:43 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jJFZx-0000dQ-Qz
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 08:01:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ilg@livius.net>) id 1jJFLt-0006NZ-5k
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 07:46:42 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:40471)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <ilg@livius.net>) id 1jJFLs-0006MF-PT
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 07:46:41 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id u10so25507223wro.7
- for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 04:46:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=livius-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=ID3OF0D7ksoHqFgY29umU/92ptoRUrooX986nqcNHRo=;
- b=WItcqqZdIN+yYDqqclnmcJKbMvaCj0g0V3aqQnQ72vSixPX1G9vYNOM2JpkW7/C/ha
- 9Jz2dMWe7C9Sm97qVqbhVIHG42WG/vsFh64qh+3O09WExcMgnI49suZZhVoPDFrMYlAc
- niUtcBSqUpT8A56KdFzr1/hajIu/w52Cu8FYWZ0l8wFRnqm+sqv54z+p4nqOzw/ubPSk
- xue4e1yaAWkXkffstOXaoDmXZ9W8iVp+R/42/QGsIGOO3qB5IjyZccLJXJFOV8l+KIds
- RedZhIj/sIh20fmOHg4AIhc468uNMnjP88ZkKJBlUbd+/W5V08S+npEOPSehhqN9XOGP
- nnPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=ID3OF0D7ksoHqFgY29umU/92ptoRUrooX986nqcNHRo=;
- b=GsSswsjNUaHetgJbhgwBWqHmU2LlHssXyuw/KLWGHBzcvmkGz/J9Ymvqd+lwARJN1S
- vaiEGCqKc1WRUFvdpXeH5KEa7re2fXHU34uq/eK8fiQN+YhsjGCxscK2fCHaNwQGPzYw
- //VACGoI2m8UK2ylUbpOIf/dHtvURnLR2XVjmKL90RG23/Jnnqbk9us417wX2swE7lJu
- kKM+nUguNTYiEgDeRpkyjWdOyK4vvEdqC34A8I8aNQW1UtJ8rqoZaQhLzy+lNyJyhh3w
- bRjJPTLDSJ94bwmFEteG/qGTYdLl04QaaPA6M0LEJ6rfVwuaIBpxMOsix32S4BiXgj8w
- xYZg==
-X-Gm-Message-State: ANhLgQ0q17gjKE3lYGBL0Gl7vbCz/dXnh430ArmODNmHmOEBFSj3RDL0
- n2MElvie+q78qMGXGv4G9Sj9Tg==
-X-Google-Smtp-Source: ADFU+vuye+wfO7Nei+k0bwJFhn4WaKMm1ONm2e5AU2T6rr9OAYIQgOrXH/Q6V7zXU8u8DsltyauFwA==
-X-Received: by 2002:a5d:510d:: with SMTP id s13mr19724307wrt.110.1585655199422; 
- Tue, 31 Mar 2020 04:46:39 -0700 (PDT)
-Received: from wks.local (5-12-53-142.residential.rdsnet.ro. [5.12.53.142])
- by smtp.gmail.com with ESMTPSA id a13sm18940699wrt.64.2020.03.31.04.46.38
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 31 Mar 2020 04:46:38 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
-Subject: Re: deprecation of in-tree builds
-From: Liviu Ionescu <ilg@livius.net>
-In-Reply-To: <CAFEAcA-KKd0bjE17MPPFv45=S+x3jUj9uA6_UQmb7ts-yu5Ong@mail.gmail.com>
-Date: Tue, 31 Mar 2020 14:46:37 +0300
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <C0360478-EBDE-419B-9917-2EFAC580BEF3@livius.net>
-References: <CAFEAcA8E6goDHb-7kKCTp=wSpBsuJcfjMmLP0EgymiEL348r4A@mail.gmail.com>
- <87v9mmug73.fsf@dusky.pond.sub.org>
- <CAFEAcA-9U=EAXAtPDh_AnO3eUbM_jcRBuf4x=0Rec0EC-v2mNA@mail.gmail.com>
- <20200330134212.GO236854@redhat.com> <20200330143759.GD6139@linux.fritz.box>
- <c0a1dc94-c3f2-696e-743f-aa15ef995094@redhat.com>
- <2D490715-F32F-4A34-A31F-5709B28FB6CA@livius.net>
- <CAFEAcA-KKd0bjE17MPPFv45=S+x3jUj9uA6_UQmb7ts-yu5Ong@mail.gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-X-Mailer: Apple Mail (2.3608.80.23.2.2)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::42f
+ (envelope-from <cohuck@redhat.com>) id 1jJFZv-0002Bo-SY
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 08:01:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59829
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jJFZv-0002BF-PI
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 08:01:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585656071;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=++inZy/usoSfkedC1OxG6X4hFfgNOcRjN23s2NSFVmk=;
+ b=Q6eSUjpnW6QuJTPiTPPSWhHtP1RfL3vuJe9x0MWS0A1Wj3t7iL3hr04TqfiEwj0T6ZBhfO
+ 9l3R5Nz8+0xR5INJH6jFPl4hYmzI3TauISOrQR8s50wX1rW7WyuzP5Jk48rQmpc9E6gbFs
+ a7/B2bMOwDxMndyMsdhZ+Jl93NLHvsE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-99-AT6gVHCFOkmKmNDh97zSMw-1; Tue, 31 Mar 2020 08:01:09 -0400
+X-MC-Unique: AT6gVHCFOkmKmNDh97zSMw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74F721005F76;
+ Tue, 31 Mar 2020 12:01:08 +0000 (UTC)
+Received: from gondolin (ovpn-112-229.ams2.redhat.com [10.36.112.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 014F25C1BB;
+ Tue, 31 Mar 2020 12:01:06 +0000 (UTC)
+Date: Tue, 31 Mar 2020 14:01:04 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH v2] s390x: kvm: Fix number of cpu reports for stsi 3.2.2
+Message-ID: <20200331140104.179fed21.cohuck@redhat.com>
+In-Reply-To: <20200331110123.3774-1-frankja@linux.ibm.com>
+References: <f6b26b2c-23c2-6622-2f58-1e74f335842e@redhat.com>
+ <20200331110123.3774-1-frankja@linux.ibm.com>
+Organization: Red Hat GmbH
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,36 +73,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 31 Mar 2020 07:01:23 -0400
+Janosch Frank <frankja@linux.ibm.com> wrote:
 
+> The cpu number reporting is handled by KVM and QEMU only fills in the
+> VM name, uuid and other values.
+> 
+> Unfortunately KVM doesn't report reserved cpus and doesn't even know
+> they exist until the are created via the ioctl.
+> 
+> So let's fix up the cpu values after KVM has written its values to the
+> 3.2.2 sysib. To be consistent We use the same code to retrieve the cpu
 
-> On 31 Mar 2020, at 13:19, Peter Maydell <peter.maydell@linaro.org> =
-wrote:
->=20
->=20
-> ... the behaviour
-> if they're run from some other (manually created) build directory
-> would remain as it is today.
+"...consistent, we..." (fixed up while applying)
 
-Great!
+> numbers as the STSI TCG code in target/s390x/misc_helper.c:HELPER(stsi).
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+> ---
+> 
+> * Fixed commit message and add rev-by
+> * Calculating total_cpus from configured + reserved
+> 
+> ---
+>  target/s390x/kvm.c | 17 ++++++++++++++++-
+>  1 file changed, 16 insertions(+), 1 deletion(-)
+> 
+> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+> index 3630c15f45a48864..69881a0da0b31f72 100644
+> --- a/target/s390x/kvm.c
+> +++ b/target/s390x/kvm.c
+> @@ -1819,8 +1819,10 @@ static int handle_tsch(S390CPU *cpu)
+>  
+>  static void insert_stsi_3_2_2(S390CPU *cpu, __u64 addr, uint8_t ar)
+>  {
+> +    const MachineState *ms = MACHINE(qdev_get_machine());
+> +    uint16_t conf_cpus = 0, reserved_cpus = 0;
+>      SysIB_322 sysib;
+> -    int del;
+> +    int del, i;
+>  
+>      if (s390_is_pv()) {
+>          s390_cpu_pv_mem_read(cpu, 0, &sysib, sizeof(sysib));
 
-Then for now a strongly worded warning displayed at the end of the build =
-(to be clearly visible) should do it, and after a while a possible =
-change to meson or any other solution that uses a separate build folder =
-would not surprise anyone.
+This is against s390-next; rebased and applied to s390-fixes (please
+double check).
 
-The latest version of the xPack Build Box (v3.1) includes Python 3, =
-meson, ninja, cmake, gcc 9, and generally all modern tools, so I guess =
-building an updated QEMU would not be a problem.
-
-
-Regards,
-
-Liviu
+[I'm holding off rebasing s390-next on top of s390-fixes resp. master;
+I'll rather do that once after all pieces including the headers update
+are in place.]
 
 
