@@ -2,55 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 009F7198E22
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 10:16:44 +0200 (CEST)
-Received: from localhost ([::1]:33764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5726198E2B
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 10:18:09 +0200 (CEST)
+Received: from localhost ([::1]:33780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJC4h-0000fQ-33
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 04:16:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55693)
+	id 1jJC64-0002Mb-SV
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 04:18:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55801)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jJC3C-0006x9-39
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 04:15:11 -0400
+ (envelope-from <chengang@emindsoft.com.cn>) id 1jJC3Y-0007UA-UU
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 04:15:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1jJC3A-0002xb-Gc
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 04:15:09 -0400
-Resent-Date: Tue, 31 Mar 2020 04:15:09 -0400
-Resent-Message-Id: <E1jJC3A-0002xb-Gc@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21181)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1jJC3A-0002vS-8u; Tue, 31 Mar 2020 04:15:08 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1585642499; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=LEipwQAF1HtlXIv5NSLK/IZB+lw3u9CRtm/vdr3opNy4Y5lRd2bwKWhk9fEDyOXa13+Vvo69Mx2TcRwBgQE5zj2hqfxPiHVoqj0ORhKJmstXTm7qUkfCtYWT3JbK/X+eho/WTzfGYZVy45OwfVDgr7/2GWHwrQ6BWUyy6Yxtt+Y=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1585642499;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=hVqiA7Zq6QQE5hrtAt9PCEeCFnfjDIy1iCE1jXLHGl4=; 
- b=AtyJCbfI+kTBwokfYfhLHW/g910KQSlaCAi1GeSgXJmBhe7aLS4Pw1aHjUxoUzAt12oCV8hufYSuBSNbEIHz71SdhXtpEigbMaUXrmuvdrl49PJMbHp4dXZ+TIdNcTLw0XfIbXK1LPjRiKSjeQD/dkxNzb3l8BB0HrqsS2/hamk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1585642498938882.971416998907;
- Tue, 31 Mar 2020 01:14:58 -0700 (PDT)
-In-Reply-To: <20200331035456.6494-3-richard.henderson@linaro.org>
-Subject: Re: [PATCH for-5.0] tcg/i386: Fix INDEX_op_dup2_vec
-Message-ID: <158564249764.16271.9295994622086895356@39012742ff91>
+ (envelope-from <chengang@emindsoft.com.cn>) id 1jJC3X-0003Os-27
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 04:15:32 -0400
+Received: from lucky1.263xmail.com ([211.157.147.133]:45638)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <chengang@emindsoft.com.cn>)
+ id 1jJC3W-0003EO-NE
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 04:15:31 -0400
+Received: from localhost (unknown [192.168.167.172])
+ by lucky1.263xmail.com (Postfix) with ESMTP id 977CDAB4BD;
+ Tue, 31 Mar 2020 16:15:14 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ADDR-CHECKED4: 1
+X-ANTISPAM-LEVEL: 2
+X-ABS-CHECKED: 0
+Received: from localhost.localdomain (unknown [223.72.79.229])
+ by smtp.263.net (postfix) whith ESMTP id
+ P18336T140718232278784S1585642507954077_; 
+ Tue, 31 Mar 2020 16:15:14 +0800 (CST)
+X-UNIQUE-TAG: <0aa00fb0e1ca73e2d1a6cbcec3b9f006>
+X-RL-SENDER: chengang@emindsoft.com.cn
+X-SENDER: chengang@emindsoft.com.cn
+X-LOGIN-NAME: chengang@emindsoft.com.cn
+X-FST-TO: riku.voipio@iki.fi
+X-SENDER-IP: 223.72.79.229
+X-ATTACHMENT-NUM: 0
+X-DNS-TYPE: 0
+X-System-Flag: 0
+From: chengang@emindsoft.com.cn
+To: riku.voipio@iki.fi,
+	laurent@vivier.eu
+Subject: [PATCH] linux-user: main: Let each env have its own gdt table
+Date: Tue, 31 Mar 2020 16:15:06 +0800
+Message-Id: <20200331081506.29037-1-chengang@emindsoft.com.cn>
+X-Mailer: git-send-email 2.24.0.308.g228f53135a
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Tue, 31 Mar 2020 01:14:58 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.51
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 211.157.147.133
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,53 +65,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, qemu-stable@nongnu.org
+Cc: chengang@emindsoft.com.cn, qemu-devel@nongnu.org, gang.chen.5i5j@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDMzMTAzNTQ1Ni42NDk0
-LTMtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWls
-ZWQgdGhlIGRvY2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0
-ZXN0aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tl
-ciBpbnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0g
-VEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRv
-czcgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9X
-X0VOVj0xIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgotLi4uLi4uLi4u
-Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
-Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLgorLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
-Li4uLi4uLi4uLkUuLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
-Li4uLi4uLi4uLgorPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PQorRVJST1I6IHRlc3RfcGF1c2UgKF9fbWFpbl9fLlRl
-c3RTaW5nbGVCbG9ja2RldikKKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KK1RyYWNlYmFjayAobW9zdCByZWNlbnQg
-Y2FsbCBsYXN0KToKKyAgRmlsZSAiMDQxIiwgbGluZSAxMDgsIGluIHRlc3RfcGF1c2UKLS0tCiBS
-YW4gOTQgdGVzdHMKIAotT0sKK0ZBSUxFRCAoZXJyb3JzPTEpCiAgVEVTVCAgICBpb3Rlc3QtcWNv
-dzI6IDA0MgpxZW11LXN5c3RlbS1hYXJjaDY0OiAtYWNjZWwga3ZtOiBpbnZhbGlkIGFjY2VsZXJh
-dG9yIGt2bQpxZW11LXN5c3RlbS1hYXJjaDY0OiBmYWxsaW5nIGJhY2sgdG8gdGNnCi0tLQpOb3Qg
-cnVuOiAyNTkKRmFpbHVyZXM6IDA0MQpGYWlsZWQgMSBvZiAxMTYgaW90ZXN0cwptYWtlOiAqKiog
-W2NoZWNrLXRlc3RzL2NoZWNrLWJsb2NrLnNoXSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0aW5nIGZv
-ciB1bmZpbmlzaGVkIGpvYnMuLi4uCiAgVEVTVCAgICBjaGVjay1xdGVzdC1hYXJjaDY0OiB0ZXN0
-cy9xdGVzdC9xb3MtdGVzdApUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6Ci0tLQog
-ICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxs
-ZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3VkbycsICctbicsICdkb2NrZXInLCAncnVuJywg
-Jy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVpZD1kMDRmOWZiZDZkNzg0MTIyYTFlOTZl
-OTJmMmM5ZjIyNicsICctdScsICcxMDAxJywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5j
-b25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9MSVNUPScsICctZScsICdFWFRSQV9DT05G
-SUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAnSj0xNCcsICctZScsICdERUJVRz0nLCAn
-LWUnLCAnU0hPV19FTlY9MScsICctZScsICdDQ0FDSEVfRElSPS92YXIvdG1wL2NjYWNoZScsICct
-dicsICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90bXAvY2Nh
-Y2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTdnamU2eDdrL3NyYy9k
-b2NrZXItc3JjLjIwMjAtMDMtMzEtMDQuMDAuMzEuNDczOi92YXIvdG1wL3FlbXU6eixybycsICdx
-ZW11OmNlbnRvczcnLCAnL3Zhci90bXAvcWVtdS9ydW4nLCAndGVzdC1xdWljayddJyByZXR1cm5l
-ZCBub24temVybyBleGl0IHN0YXR1cyAyLgpmaWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUu
-aW5zdGFuY2UudXVpZD1kMDRmOWZiZDZkNzg0MTIyYTFlOTZlOTJmMmM5ZjIyNgptYWtlWzFdOiAq
-KiogW2RvY2tlci1ydW5dIEVycm9yIDEKbWFrZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92YXIv
-dG1wL3BhdGNoZXctdGVzdGVyLXRtcC03Z2plNng3ay9zcmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1
-bi10ZXN0LXF1aWNrQGNlbnRvczddIEVycm9yIDIKCnJlYWwgICAgMTRtMjcuMTAwcwp1c2VyICAg
-IDBtOS4wNjVzCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5v
-cmcvbG9ncy8yMDIwMDMzMTAzNTQ1Ni42NDk0LTMtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9y
-Zy90ZXN0aW5nLmRvY2tlci1xdWlja0BjZW50b3M3Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBn
-ZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10u
-ClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+From: Chen Gang <chengang@emindsoft.com.cn>
+
+It is a temporary fix for thread LTS which need switch the ldt related
+index in gdt table for stable-4.1 branch.
+
+Welcome anyone providing the complete fix.
+
+Signed-off-by: Chen Gang <chengang@emindsoft.com.cn>
+---
+ linux-user/main.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 8ffc525195..cad261fc7b 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -194,12 +194,17 @@ CPUArchState *cpu_copy(CPUArchState *env)
+     CPUArchState *new_env =3D new_cpu->env_ptr;
+     CPUBreakpoint *bp;
+     CPUWatchpoint *wp;
++    int size =3D sizeof(uint64_t) * TARGET_GDT_ENTRIES;
+=20
+     /* Reset non arch specific state */
+     cpu_reset(new_cpu);
+=20
+     memcpy(new_env, env, sizeof(CPUArchState));
+=20
++    new_env->gdt.base =3D target_mmap(0, size, PROT_READ | PROT_WRITE,
++                                     MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)=
+;
++    memcpy(g2h(new_env->gdt.base), g2h(env->gdt.base), size);
++
+     /* Clone all break/watchpoints.
+        Note: Once we support ptrace with hw-debug register access, make =
+sure
+        BP_CPU break/watchpoints are handled correctly on clone. */
+--=20
+2.24.0.308.g228f53135a
+
+
+
 
