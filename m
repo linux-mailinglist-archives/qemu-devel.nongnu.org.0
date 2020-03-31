@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42611198BE8
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 07:47:23 +0200 (CEST)
-Received: from localhost ([::1]:60716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AF77198BEB
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 07:48:29 +0200 (CEST)
+Received: from localhost ([::1]:60732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJ9kA-00055H-99
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 01:47:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41911)
+	id 1jJ9lE-00073d-LE
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 01:48:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42012)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jJ9ig-0003ww-5Y
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 01:45:51 -0400
+ (envelope-from <its@irrelevant.dk>) id 1jJ9jz-0005T6-Vh
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 01:47:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jJ9ie-0005bm-Vx
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 01:45:50 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:48070)
+ (envelope-from <its@irrelevant.dk>) id 1jJ9jy-0006K6-Hi
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 01:47:11 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:48078)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jJ9ic-0005ZN-9f; Tue, 31 Mar 2020 01:45:46 -0400
+ id 1jJ9ju-0006Gv-Bc; Tue, 31 Mar 2020 01:47:06 -0400
 Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 1ADA9BF48F;
- Tue, 31 Mar 2020 05:45:45 +0000 (UTC)
-Date: Tue, 31 Mar 2020 07:45:41 +0200
+ by charlie.dont.surf (Postfix) with ESMTPSA id 47C44BF48F;
+ Tue, 31 Mar 2020 05:47:05 +0000 (UTC)
+Date: Tue, 31 Mar 2020 07:47:02 +0200
 From: Klaus Birkelund Jensen <its@irrelevant.dk>
 To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH v6 31/42] nvme: add check for prinfo
-Message-ID: <20200331054541.55rakuvpl7zaeezo@apples.localdomain>
+Subject: Re: [PATCH v6 32/42] nvme: allow multiple aios per command
+Message-ID: <20200331054647.pvcjrsnz2xbar3zf@apples.localdomain>
 References: <20200316142928.153431-1-its@irrelevant.dk>
- <20200316142928.153431-32-its@irrelevant.dk>
- <9d3bad95342559566c391635d9d96e4b56dd08c7.camel@redhat.com>
+ <20200316142928.153431-33-its@irrelevant.dk>
+ <d7ed3bb2e27814d414bcba2ace23e633ebe5df9f.camel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <9d3bad95342559566c391635d9d96e4b56dd08c7.camel@redhat.com>
+In-Reply-To: <d7ed3bb2e27814d414bcba2ace23e633ebe5df9f.camel@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 128.199.63.193
@@ -60,69 +60,155 @@ On Mar 25 12:57, Maxim Levitsky wrote:
 > On Mon, 2020-03-16 at 07:29 -0700, Klaus Jensen wrote:
 > > From: Klaus Jensen <k.jensen@samsung.com>
 > > 
-> > Check the validity of the PRINFO field.
+> > This refactors how the device issues asynchronous block backend
+> > requests. The NvmeRequest now holds a queue of NvmeAIOs that are
+> > associated with the command. This allows multiple aios to be issued for
+> > a command. Only when all requests have been completed will the device
+> > post a completion queue entry.
 > > 
+> > Because the device is currently guaranteed to only issue a single aio
+> > request per command, the benefit is not immediately obvious. But this
+> > functionality is required to support metadata, the dataset management
+> > command and other features.
+> > 
+> > Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
 > > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> > Acked-by: Keith Busch <kbusch@kernel.org>
 > > ---
-> >  hw/block/nvme.c       | 50 ++++++++++++++++++++++++++++++++++++-------
-> >  hw/block/trace-events |  1 +
-> >  include/block/nvme.h  |  1 +
-> >  3 files changed, 44 insertions(+), 8 deletions(-)
+> >  hw/block/nvme.c       | 377 +++++++++++++++++++++++++++++++-----------
+> >  hw/block/nvme.h       | 129 +++++++++++++--
+> >  hw/block/trace-events |   6 +
+> >  3 files changed, 407 insertions(+), 105 deletions(-)
 > > 
 > > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> > index 7d5340c272c6..0d2b5b45b0c5 100644
+> > index 0d2b5b45b0c5..817384e3b1a9 100644
 > > --- a/hw/block/nvme.c
 > > +++ b/hw/block/nvme.c
-> > @@ -505,6 +505,17 @@ static inline uint16_t nvme_check_mdts(NvmeCtrl *n, size_t len,
+> > @@ -373,6 +374,99 @@ static uint16_t nvme_map(NvmeCtrl *n, NvmeCmd *cmd, QEMUSGList *qsg,
+> >      return nvme_map_prp(n, qsg, iov, prp1, prp2, len, req);
+> >  }
+> >  
+> > +static void nvme_aio_destroy(NvmeAIO *aio)
+> > +{
+> > +    g_free(aio);
+> > +}
+> > +
+> > +static inline void nvme_req_register_aio(NvmeRequest *req, NvmeAIO *aio,
+> I guess I'll call this nvme_req_add_aio,
+> or nvme_add_aio_to_reg.
+> Thoughts?
+> Also you can leave this as is, but add a comment on top explaining this
+> 
+
+nvme_req_add_aio it is :) And comment added.
+
+> > +                                         NvmeAIOOp opc)
+> > +{
+> > +    aio->opc = opc;
+> > +
+> > +    trace_nvme_dev_req_register_aio(nvme_cid(req), aio, blk_name(aio->blk),
+> > +                                    aio->offset, aio->len,
+> > +                                    nvme_aio_opc_str(aio), req);
+> > +
+> > +    if (req) {
+> > +        QTAILQ_INSERT_TAIL(&req->aio_tailq, aio, tailq_entry);
+> > +    }
+> > +}
+> > +
+> > +static void nvme_submit_aio(NvmeAIO *aio)
+> OK, this name makes sense
+> Also please add a comment on top.
+
+Done.
+
+> > @@ -505,9 +600,11 @@ static inline uint16_t nvme_check_mdts(NvmeCtrl *n, size_t len,
 > >      return NVME_SUCCESS;
 > >  }
 > >  
-> > +static inline uint16_t nvme_check_prinfo(NvmeCtrl *n, NvmeNamespace *ns,
-> > +                                         uint16_t ctrl, NvmeRequest *req)
+> > -static inline uint16_t nvme_check_prinfo(NvmeCtrl *n, NvmeNamespace *ns,
+> > -                                         uint16_t ctrl, NvmeRequest *req)
+> > +static inline uint16_t nvme_check_prinfo(NvmeCtrl *n, uint16_t ctrl,
+> > +                                         NvmeRequest *req)
+> >  {
+> > +    NvmeNamespace *ns = req->ns;
+> > +
+> This should go to the patch that added nvme_check_prinfo
+> 
+
+Probably killing that patch.
+
+> > @@ -516,10 +613,10 @@ static inline uint16_t nvme_check_prinfo(NvmeCtrl *n, NvmeNamespace *ns,
+> >      return NVME_SUCCESS;
+> >  }
+> >  
+> > -static inline uint16_t nvme_check_bounds(NvmeCtrl *n, NvmeNamespace *ns,
+> > -                                         uint64_t slba, uint32_t nlb,
+> > -                                         NvmeRequest *req)
+> > +static inline uint16_t nvme_check_bounds(NvmeCtrl *n, uint64_t slba,
+> > +                                         uint32_t nlb, NvmeRequest *req)
+> >  {
+> > +    NvmeNamespace *ns = req->ns;
+> >      uint64_t nsze = le64_to_cpu(ns->id_ns.nsze);
+> This should go to the patch that added nvme_check_bounds as well
+> 
+
+We can't really, because the NvmeRequest does not hold a reference to
+the namespace as a struct member at that point. This is also an issue
+with the nvme_check_prinfo function above.
+
+> >  
+> >      if (unlikely(UINT64_MAX - slba < nlb || slba + nlb > nsze)) {
+> > @@ -530,55 +627,154 @@ static inline uint16_t nvme_check_bounds(NvmeCtrl *n, NvmeNamespace *ns,
+> >      return NVME_SUCCESS;
+> >  }
+> >  
+> > -static void nvme_rw_cb(void *opaque, int ret)
+> > +static uint16_t nvme_check_rw(NvmeCtrl *n, NvmeRequest *req)
 > > +{
-> > +    if ((ctrl & NVME_RW_PRINFO_PRACT) && !(ns->id_ns.dps & DPS_TYPE_MASK)) {
-> > +        trace_nvme_dev_err_prinfo(nvme_cid(req), ctrl);
-> > +        return NVME_INVALID_FIELD | NVME_DNR;
+> > +    NvmeNamespace *ns = req->ns;
+> > +    NvmeRwCmd *rw = (NvmeRwCmd *) &req->cmd;
+> > +    uint16_t ctrl = le16_to_cpu(rw->control);
+> > +    size_t len = req->nlb << nvme_ns_lbads(ns);
+> > +    uint16_t status;
+> > +
+> > +    status = nvme_check_mdts(n, len, req);
+> > +    if (status) {
+> > +        return status;
 > > +    }
+> > +
+> > +    status = nvme_check_prinfo(n, ctrl, req);
+> > +    if (status) {
+> > +        return status;
+> > +    }
+> > +
+> > +    status = nvme_check_bounds(n, req->slba, req->nlb, req);
+> > +    if (status) {
+> > +        return status;
+> > +    }
+> > +
+> > +    return NVME_SUCCESS;
+> > +}
 > 
-> I refreshed my (still very limited) knowelege on the metadata
-> and the protection info, and this is what I found:
-> 
-> I think that this is very far from complete, because we also have:
-> 
-> 1. PRCHECK. According to the spec it is independent of PRACT
->    And when some of it is set, 
->    together with enabled protection (the DPS field in namespace),
->    Then the 8 bytes of the protection info is checked (optionally using the
->    the EILBRT and ELBAT/ELBATM fields in the command and CRC of the data for the guard field)
-> 
->    So this field should also be checked to be zero when protection is disabled
->    (I don't see an explicit requirement for that in the spec, but neither I see
->    such requirement for PRACT)
-> 
-> 2. The protection values to be written / checked ((E)ILBRT/(E)LBATM/(E)LBAT)
->    Same here, but also these should not be set when PRCHECK is not set for reads,
->    plus some are protection type specific.
-> 
-> 
-> The spec does mention the 'Invalid Protection Information' error code which
-> refers to invalid values in the PRINFO field.
-> So this error code I think should be returned instead of the 'Invalid field'
-> 
-> Another thing to optionaly check is that the metadata pointer for separate metadata.
->  Is zero as long as we don't support metadata
-> (again I don't see an explicit requirement for this in the spec, but it mentions:
-> 
-> "This field is valid only if the command has metadata that is not interleaved with
-> the logical block data, as specified in the Format NVM command"
-> 
-> )
+> Nitpick: I hate to say it but nvme_check_rw should be in a separate patch as well.
+> It will also make diff more readable (when adding a funtion and changing a function
+> at the same time, you get a diff between two unrelated things)
 > 
 
-I'm kinda inclined to just drop this patch. The spec actually says that
-the PRACT and PRCHK fields are used only if the namespace is formatted
-to use end-to-end protection information. Since we do not support that,
-I don't think we even need to check it.
+Done, but had to do it as a follow up patch.
 
-Any opinion on this?
+> >  
+> > -static uint16_t nvme_write_zeros(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
+> > -    NvmeRequest *req)
+> > +static uint16_t nvme_write_zeroes(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+> Very small nitpick about zeros/zeroes: This should move to some refactoring patch to be honest. 
+> 
+
+Done ;)
+
+> 
+> The patch is still too large IMHO to review properly and few things can be split from it.
+> I tried my best to review it but I might have missed something.
+> 
+
+Yeah, I know, but thanks for trying!
 
