@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0C25198AB5
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 05:56:31 +0200 (CEST)
-Received: from localhost ([::1]:59992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EED9B198ABF
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 05:59:50 +0200 (CEST)
+Received: from localhost ([::1]:60070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJ80s-0006fq-Rz
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 23:56:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60897)
+	id 1jJ846-0004Rb-1T
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 23:59:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60917)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jJ7zb-0004lp-Mp
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 23:55:12 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jJ7zd-0004oi-04
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 23:55:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jJ7za-0008GY-GE
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 23:55:11 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:34967)
+ (envelope-from <richard.henderson@linaro.org>) id 1jJ7zb-0008H9-Nr
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 23:55:12 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:43560)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jJ7za-0008GE-9p
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 23:55:10 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id g9so520988pjp.0
- for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 20:55:10 -0700 (PDT)
+ id 1jJ7zb-0008Gm-I5
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 23:55:11 -0400
+Received: by mail-pl1-x635.google.com with SMTP id v23so7599934ply.10
+ for <qemu-devel@nongnu.org>; Mon, 30 Mar 2020 20:55:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UgUHjWUCMpFSJAz+Az/IeJleYSOaGK+TNCsM8YWgUmI=;
- b=IZt6qDGz2zABDbH/Cvh2zniiofyquCkU6n66Y8Jz8qQPrbWBFUDwwXjhRZGmJUEOPk
- xB89NLsO9HkksXtD0CF2tMRny6VOV6K0HVv5c8BksAFG4e8MYdD5g44oOT70fm1aFihK
- NThfwPKm0JwnHffLsKFij8+vy11l3xRhVBLiE9QmH3ooExsbvKWCpSHk39p3j9fgERcg
- hp3D/Y62lp6u6CzBtNEiab8a0c4gRMM+D7RxogJxVKs9hUzn12Nxd1NMktTiX2dZHz+y
- n263VDZHHjlg28Sfz+3/D5EWotkbcgQAuiODxbjqEN4sNbU3xSLawWd52lVAfcLP40J0
- yrtg==
+ bh=sVWQh9CNUJ7u635QOP+H3s5ThKzTlbDf/81J3QrEWMc=;
+ b=abAIrGDBGlAjvpm2YYOvX3gKhR8abmRXTe5lzZVK1+hVb36wpznzeeQc+D/nenODF8
+ ukNo/c5+Cd8SALKDryLq2RwVE+MIhgQKViSnx1okcLhLE4eWGM1xCjZ434oz/RCc0qWy
+ UZeEIdDYabKA8jfaLhltxG3lUKskCFqHnI7BXM7LMrsy/kSvv7Ipuhs60+r4pEltl0bV
+ BK7cpzlN4YeB5+a/Ulhneb15ccTLITNV5EI1Ju4DWnp8UQSEFrNI0VFPN/kF031udfCa
+ EXC7Pd3nQklulbetaZcqO3sApCddrGv+Bz81ZiAQ8k77Ai2XZ9UZ0Z8AShX+cIpkuAtQ
+ jbwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UgUHjWUCMpFSJAz+Az/IeJleYSOaGK+TNCsM8YWgUmI=;
- b=NX3YFA8iLijtPwirSoq4XpRFq01uSMnvxQ/s2M5rJJhf9vJTnKbj95Y3GbIalSm0Nh
- fJkENjygO0d36nOTrLoXdf+fMzBKGd1LCc0hGmoUlMLaUn09TA9iSb1NwD3TNO2kAMYY
- AHiCiq9FogDObTEMyHLxt7jEgkyuIg2WCA1gmusLknstW5rliG8rgaudz4FOeREj4ft2
- 4XHzc+vw4BV2LuQpTGN+FOAdo85x4Ft4Anq4OzYElF+KABbqJ9Roe+mblLdp+jovnXF+
- nVKji9ce6XbLcItsyGtm1MNVyRXUnQGOmdimSSfR56k8DE1hicfi3Bw71c50av5mYVNK
- Si3Q==
-X-Gm-Message-State: AGi0Puan8TgK/Tqoi7TZiAHvTbNGhuKWdWHwMeO0aF2Oc8gDIgQKBEYH
- Tpnv1NbJ66jV5GEfo+8OUgsDHaqrt6U=
-X-Google-Smtp-Source: APiQypK9AFq2jONhp5MRi7Ps+AYvCDTM1tcIXtytTndwN+V49XPyTcjFKJsiQn7ELNRfrYoEmYj8hg==
-X-Received: by 2002:a17:90b:1b05:: with SMTP id
- nu5mr1557197pjb.110.1585626908932; 
- Mon, 30 Mar 2020 20:55:08 -0700 (PDT)
+ bh=sVWQh9CNUJ7u635QOP+H3s5ThKzTlbDf/81J3QrEWMc=;
+ b=r+F4PtObjMXNOcaryYh3yyxaSlXiYxHjE270HQCtAzI8oZqtu1HCclZ3U2v5B/41Rj
+ p4muet5fsszQNf1mDdJT/mZ3fjjxgkHcQc3fS+nfGAvDfBr7W4qHAEUO7vHlI5CIBwTe
+ jLH4ZvwQRfCdzU8xDM8AepotllDDWLDWWzdGGiZ5qTvoVowAvaxfgwo1Zl5zXGNRlqZG
+ 8MPnvoTFk2myD7EEUI2c8zgigYe9jM4sT+Wv/QStzp+D5kE97fIICPI9iOLe+D1IrtPY
+ uHBWuYDw/Ln5a7JRchT05TUDmPHa47zJ+pmv65OlBf6kyafODKXnfyHf18Jd2+SdEFr6
+ NgEQ==
+X-Gm-Message-State: AGi0PuZkGnc1Ad3g9AlzA5DCfzUald9kSCNoLSXrpJSk/n6Ga/rvf+A7
+ nCyO4fK3WSCh2ysiLt5winpTUGBKRws=
+X-Google-Smtp-Source: APiQypI1/Fb8KG7jUfmSKwf4wsqkSAxL4ltHg/Y1X3/mgpk69xi7FN3ImeKVu5gsYHrLcb+VMNdFXQ==
+X-Received: by 2002:a17:90a:2801:: with SMTP id
+ e1mr1592143pjd.78.1585626910274; 
+ Mon, 30 Mar 2020 20:55:10 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id h11sm11386174pfq.56.2020.03.30.20.55.07
+ by smtp.gmail.com with ESMTPSA id h11sm11386174pfq.56.2020.03.30.20.55.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Mar 2020 20:55:08 -0700 (PDT)
+ Mon, 30 Mar 2020 20:55:09 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL for-5.0 07/10] configure: Support -static-pie if requested
-Date: Mon, 30 Mar 2020 20:54:53 -0700
-Message-Id: <20200331035456.6494-9-richard.henderson@linaro.org>
+Subject: [PULL for-5.0 08/10] target/mips: Fix loongson multimedia condition
+ instructions
+Date: Mon, 30 Mar 2020 20:54:54 -0700
+Message-Id: <20200331035456.6494-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200331035456.6494-1-richard.henderson@linaro.org>
 References: <20200331035456.6494-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::102a
+X-Received-From: 2607:f8b0:4864:20::635
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,69 +81,91 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Huacai Chen <chenhc@lemote.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recent toolchains support static and pie at the same time.
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 
-As with normal dynamic builds, allow --static to default to PIE
-if supported by the toolchain.  Allow --enable/--disable-pie to
-override the default.
+Loongson multimedia condition instructions were previously implemented as
+write 0 to rd due to lack of documentation. So I just confirmed with Loongson
+about their encoding and implemented them correctly.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Acked-by: Huacai Chen <chenhc@lemote.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Message-Id: <20200324122212.11156-1-jiaxun.yang@flygoat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Fix --disable-pie --static
-v3: Update for QEMU_LDFLAGS.
----
- configure | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+ target/mips/translate.c | 35 +++++++++++++++++++++++++++++++----
+ 1 file changed, 31 insertions(+), 4 deletions(-)
 
-diff --git a/configure b/configure
-index 481d5077f7..22870f3867 100755
---- a/configure
-+++ b/configure
-@@ -1067,7 +1067,6 @@ for opt do
-   ;;
-   --static)
-     static="yes"
--    QEMU_LDFLAGS="-static $QEMU_LDFLAGS"
-     QEMU_PKG_CONFIG_FLAGS="--static $QEMU_PKG_CONFIG_FLAGS"
-   ;;
-   --mandir=*) mandir="$optarg"
-@@ -2089,11 +2088,6 @@ if test "$static" = "yes" ; then
-   if test "$modules" = "yes" ; then
-     error_exit "static and modules are mutually incompatible"
-   fi
--  if test "$pie" = "yes" ; then
--    error_exit "static and pie are mutually incompatible"
--  else
--    pie="no"
--  fi
- fi
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index d745bd2803..25b595a17d 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -5529,6 +5529,7 @@ static void gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
+ {
+     uint32_t opc, shift_max;
+     TCGv_i64 t0, t1;
++    TCGCond cond;
  
- # Unconditional check for compiler __thread support
-@@ -2124,7 +2118,18 @@ if compile_prog "-Werror -fno-pie" "-no-pie"; then
-   LDFLAGS_NOPIE="-no-pie"
- fi
+     opc = MASK_LMI(ctx->opcode);
+     switch (opc) {
+@@ -5862,14 +5863,39 @@ static void gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
  
--if test "$pie" = "no"; then
-+if test "$static" = "yes"; then
-+  if test "$pie" != "no" && compile_prog "-fPIE -DPIE" "-static-pie"; then
-+    QEMU_CFLAGS="-fPIE -DPIE $QEMU_CFLAGS"
-+    QEMU_LDFLAGS="-static-pie $QEMU_LDFLAGS"
-+    pie="yes"
-+  elif test "$pie" = "yes"; then
-+    error_exit "-static-pie not available due to missing toolchain support"
-+  else
-+    QEMU_LDFLAGS="-static $QEMU_LDFLAGS"
-+    pie="no"
-+  fi
-+elif test "$pie" = "no"; then
-   QEMU_CFLAGS="$CFLAGS_NOPIE $QEMU_CFLAGS"
-   QEMU_LDFLAGS="$LDFLAGS_NOPIE $QEMU_LDFLAGS"
- elif compile_prog "-fPIE -DPIE" "-pie"; then
+     case OPC_SEQU_CP2:
+     case OPC_SEQ_CP2:
++        cond = TCG_COND_EQ;
++        goto do_cc_cond;
++        break;
+     case OPC_SLTU_CP2:
++        cond = TCG_COND_LTU;
++        goto do_cc_cond;
++        break;
+     case OPC_SLT_CP2:
++        cond = TCG_COND_LT;
++        goto do_cc_cond;
++        break;
+     case OPC_SLEU_CP2:
++        cond = TCG_COND_LEU;
++        goto do_cc_cond;
++        break;
+     case OPC_SLE_CP2:
+-        /*
+-         * ??? Document is unclear: Set FCC[CC].  Does that mean the
+-         * FD field is the CC field?
+-         */
++        cond = TCG_COND_LE;
++    do_cc_cond:
++        {
++            int cc = (ctx->opcode >> 8) & 0x7;
++            TCGv_i64 t64 = tcg_temp_new_i64();
++            TCGv_i32 t32 = tcg_temp_new_i32();
++
++            tcg_gen_setcond_i64(cond, t64, t0, t1);
++            tcg_gen_extrl_i64_i32(t32, t64);
++            tcg_gen_deposit_i32(fpu_fcr31, fpu_fcr31, t32,
++                                get_fp_bit(cc), 1);
++
++            tcg_temp_free_i32(t32);
++            tcg_temp_free_i64(t64);
++        }
++        goto no_rd;
++        break;
+     default:
+         MIPS_INVAL("loongson_cp2");
+         generate_exception_end(ctx, EXCP_RI);
+@@ -5878,6 +5904,7 @@ static void gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
+ 
+     gen_store_fpr64(ctx, t0, rd);
+ 
++no_rd:
+     tcg_temp_free_i64(t0);
+     tcg_temp_free_i64(t1);
+ }
 -- 
 2.20.1
 
