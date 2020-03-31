@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E38D1988AF
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 02:10:29 +0200 (CEST)
-Received: from localhost ([::1]:58472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69BE41988A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 02:03:55 +0200 (CEST)
+Received: from localhost ([::1]:58376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJ4U8-0007rr-G1
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 20:10:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35391)
+	id 1jJ4Nm-0006XG-Bs
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 20:03:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35407)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jJ4Kt-00045X-Ag
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 20:00:56 -0400
+ (envelope-from <jsnow@redhat.com>) id 1jJ4Kv-000462-48
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 20:00:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jJ4Ks-0000Ze-3e
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 20:00:55 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:41605)
+ (envelope-from <jsnow@redhat.com>) id 1jJ4Ks-0000aV-AJ
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 20:00:56 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:22472)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jJ4Kr-0000YP-VO
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jJ4Ks-0000Z6-5y
  for qemu-devel@nongnu.org; Mon, 30 Mar 2020 20:00:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1585612853;
@@ -26,39 +26,38 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Xv6o6f8b1Q4FefHhXsxFTjQdb4skVJt1N5hqGDVXzJE=;
- b=ap1nwBxrB7pWf7/QnO04FUyitUPCSefyv7xuB1Qs3v3LKoUeG2XCaTZHhhmMijxRgLIne6
- 4+UgBRv/iU5ZkmCZh1kAxbm2vWAG3wo6goQiz8cmvzCUAFJShC7iyv7pQHj9ljMZ/J+I6I
- t+ZpI4ReUNdeyldjAzt6mjQuDXti+Qw=
+ bh=sHVRo+5quKttKHISufrwtZ6W2tw4qXG/UlwoexJS/lA=;
+ b=DdAOJEI85XkwMf7tRkbv+/QY2MYmTzuN8wZg5bKM9OwhrgSTfBArUj4g9NZYGqhjSbfa7i
+ FblHDwSkM96eT5lkdQ8SHXtwch6EG9cnG65Gv0jHmjjldW7cTt1LyTFF4wYyqFi6T8XmBs
+ 2mFD/+DjlNQDTnRScb5Z3wGnjmwH58g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-387-tDY3U3rfPBuBndipP1vtsA-1; Mon, 30 Mar 2020 20:00:50 -0400
-X-MC-Unique: tDY3U3rfPBuBndipP1vtsA-1
+ us-mta-34-RVqs6zoONHSnwzFeZ3lopg-1; Mon, 30 Mar 2020 20:00:52 -0400
+X-MC-Unique: RVqs6zoONHSnwzFeZ3lopg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E4D11005509;
- Tue, 31 Mar 2020 00:00:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5DDC318A5502;
+ Tue, 31 Mar 2020 00:00:51 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-113-210.rdu2.redhat.com [10.10.113.210])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 46ED61001B2D;
- Tue, 31 Mar 2020 00:00:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 650D5100EBB6;
+ Tue, 31 Mar 2020 00:00:49 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 12/14] iotest 258: use script_main
-Date: Mon, 30 Mar 2020 20:00:12 -0400
-Message-Id: <20200331000014.11581-13-jsnow@redhat.com>
+Subject: [PATCH v10 13/14] iotests: Mark verify functions as private
+Date: Mon, 30 Mar 2020 20:00:13 -0400
+Message-Id: <20200331000014.11581-14-jsnow@redhat.com>
 In-Reply-To: <20200331000014.11581-1-jsnow@redhat.com>
 References: <20200331000014.11581-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,42 +75,87 @@ Cc: Kevin Wolf <kwolf@redhat.com>, ehabkost@redhat.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since this one is nicely factored to use a single entry point,
-use script_main to run the tests.
+Mark the verify functions as "private" with a leading underscore, to
+discourage their use. Update type signatures while we're here.
+
+(Also, make pending patches not yet using the new entry points fail in a
+very obvious way.)
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/258 | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ tests/qemu-iotests/iotests.py | 23 +++++++++++++----------
+ 1 file changed, 13 insertions(+), 10 deletions(-)
 
-diff --git a/tests/qemu-iotests/258 b/tests/qemu-iotests/258
-index a65151dda6..e305a1502f 100755
---- a/tests/qemu-iotests/258
-+++ b/tests/qemu-iotests/258
-@@ -23,12 +23,6 @@ import iotests
- from iotests import log, qemu_img, qemu_io_silent, \
-         filter_qmp_testfiles, filter_qmp_imgfmt
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 21f96b35e4..fd8cb36622 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -1005,7 +1005,8 @@ def case_notrun(reason):
+     open('%s/%s.casenotrun' % (output_dir, seq), 'a').write(
+         '    [case not run] ' + reason + '\n')
 =20
--# Need backing file and change-backing-file support
--iotests.script_initialize(
--    supported_fmts=3D['qcow2', 'qed'],
--    supported_platforms=3D['linux'],
--)
--
- # Returns a node for blockdev-add
- def node(node_name, path, backing=3DNone, fmt=3DNone, throttle=3DNone):
-     if fmt is None:
-@@ -161,4 +155,7 @@ def main():
-     test_concurrent_finish(False)
+-def verify_image_format(supported_fmts=3D(), unsupported_fmts=3D()):
++def _verify_image_format(supported_fmts: Sequence[str] =3D (),
++                         unsupported_fmts: Sequence[str] =3D ()) -> None:
+     assert not (supported_fmts and unsupported_fmts)
 =20
- if __name__ =3D=3D '__main__':
--    main()
-+    # Need backing file and change-backing-file support
-+    iotests.script_main(main,
-+                        supported_fmts=3D['qcow2', 'qed'],
-+                        supported_platforms=3D['linux'])
+     if 'generic' in supported_fmts and \
+@@ -1019,7 +1020,8 @@ def verify_image_format(supported_fmts=3D(), unsuppor=
+ted_fmts=3D()):
+     if not_sup or (imgfmt in unsupported_fmts):
+         notrun('not suitable for this image format: %s' % imgfmt)
+=20
+-def verify_protocol(supported=3D(), unsupported=3D()):
++def _verify_protocol(supported: Sequence[str] =3D (),
++                     unsupported: Sequence[str] =3D ()) -> None:
+     assert not (supported and unsupported)
+=20
+     if 'generic' in supported:
+@@ -1029,7 +1031,8 @@ def verify_protocol(supported=3D(), unsupported=3D())=
+:
+     if not_sup or (imgproto in unsupported):
+         notrun('not suitable for this protocol: %s' % imgproto)
+=20
+-def verify_platform(supported=3D(), unsupported=3D()):
++def _verify_platform(supported: Sequence[str] =3D (),
++                     unsupported: Sequence[str] =3D ()) -> None:
+     if any((sys.platform.startswith(x) for x in unsupported)):
+         notrun('not suitable for this OS: %s' % sys.platform)
+=20
+@@ -1037,11 +1040,11 @@ def verify_platform(supported=3D(), unsupported=3D(=
+)):
+         if not any((sys.platform.startswith(x) for x in supported)):
+             notrun('not suitable for this OS: %s' % sys.platform)
+=20
+-def verify_cache_mode(supported_cache_modes=3D()):
++def _verify_cache_mode(supported_cache_modes: Sequence[str] =3D ()) -> Non=
+e:
+     if supported_cache_modes and (cachemode not in supported_cache_modes):
+         notrun('not suitable for this cache mode: %s' % cachemode)
+=20
+-def verify_aio_mode(supported_aio_modes=3D()):
++def _verify_aio_mode(supported_aio_modes: Sequence[str] =3D ()):
+     if supported_aio_modes and (aiomode not in supported_aio_modes):
+         notrun('not suitable for this aio mode: %s' % aiomode)
+=20
+@@ -1169,11 +1172,11 @@ def execute_setup_common(supported_fmts: Sequence[s=
+tr] =3D (),
+         sys.stderr.write('Please run this test via the "check" script\n')
+         sys.exit(os.EX_USAGE)
+=20
+-    verify_image_format(supported_fmts, unsupported_fmts)
+-    verify_protocol(supported_protocols, unsupported_protocols)
+-    verify_platform(supported=3Dsupported_platforms)
+-    verify_cache_mode(supported_cache_modes)
+-    verify_aio_mode(supported_aio_modes)
++    _verify_image_format(supported_fmts, unsupported_fmts)
++    _verify_protocol(supported_protocols, unsupported_protocols)
++    _verify_platform(supported=3Dsupported_platforms)
++    _verify_cache_mode(supported_cache_modes)
++    _verify_aio_mode(supported_aio_modes)
+=20
+     debug =3D '-d' in sys.argv
+     if debug:
 --=20
 2.21.1
 
