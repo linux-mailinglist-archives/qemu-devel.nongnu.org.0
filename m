@@ -2,61 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E9FB199399
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 12:39:14 +0200 (CEST)
-Received: from localhost ([::1]:35634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7888119939F
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 12:40:35 +0200 (CEST)
+Received: from localhost ([::1]:35650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJEIb-0006s8-6s
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 06:39:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50902)
+	id 1jJEJu-0000WF-HK
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 06:40:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50925)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jJEHa-0006Q6-KD
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:38:11 -0400
+ (envelope-from <david@redhat.com>) id 1jJEHj-0006XH-RR
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:38:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1jJEHZ-0005EA-KI
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:38:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42039
+ (envelope-from <david@redhat.com>) id 1jJEHh-0005IE-AU
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:38:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57765
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jJEHZ-0005Dn-H0
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:38:09 -0400
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1jJEHh-0005Hw-68
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:38:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585651088;
+ s=mimecast20190719; t=1585651096;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=/PXJdTRRANQj75wsPD9WT+3tlz+4Azw2OA3jRBkC6l8=;
- b=Gsk0ADN9rC8UcwkGiCozZ/qMAnOpAwbx0abGITCXMMX7+SM9RtaPvJ+T+fQeLV7NUO6n3a
- 7GSKNt1JUPtGsjXOimgRpBq9TU9J7HpQ5nIA1n9fE8FbTuVLfPBnC3vXigtQpLy6nUQqMW
- L2blc/4rMBt65BB1nCrqM5xlgvkpizY=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=WDAFs1mogsWhlnDzyCJ7bLpXxFMUOASXSQUUtiLBPLo=;
+ b=Z32wLiDsDvz4VBF7shAcmecedhCctcojlO5kThH3s9TwBwO7U3GLQQF/4IlD0Gm5FChbG8
+ NcwTrdvISA2v3R10Lfn1Po6pGIjKdbLgXtRaui/axtHHw3jVMFxqbzdktd/YMyLBJMw6Bd
+ PHy92DfAmxrW2vUWwCZl/PqNuDJQYx0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-gG-2o7HSM0O9AUg-9mF16g-1; Tue, 31 Mar 2020 06:38:05 -0400
-X-MC-Unique: gG-2o7HSM0O9AUg-9mF16g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-36-WkM7p_EdMTydqvT4wdZ6mg-1; Tue, 31 Mar 2020 06:38:13 -0400
+X-MC-Unique: WkM7p_EdMTydqvT4wdZ6mg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2E5D8018A1;
- Tue, 31 Mar 2020 10:38:03 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.36.110.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1CC1396B6C;
- Tue, 31 Mar 2020 10:37:59 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] configure: warn if not using a separate build directory
-Date: Tue, 31 Mar 2020 11:37:58 +0100
-Message-Id: <20200331103758.370644-1-berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0FAAE1005513;
+ Tue, 31 Mar 2020 10:38:12 +0000 (UTC)
+Received: from [10.36.114.0] (ovpn-114-0.ams2.redhat.com [10.36.114.0])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C9A1A5DA76;
+ Tue, 31 Mar 2020 10:38:10 +0000 (UTC)
+Subject: Re: [PATCH] s390x: kvm: Fix number of cpu reports for stsi 3.2.2
+To: Cornelia Huck <cohuck@redhat.com>
+References: <20200330153828.8265-1-frankja@linux.ibm.com>
+ <f6b26b2c-23c2-6622-2f58-1e74f335842e@redhat.com>
+ <20200331121129.3f752286.cohuck@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <ee414bea-60e4-18c3-6130-1ea5758618c0@redhat.com>
+Date: Tue, 31 Mar 2020 12:38:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200331121129.3f752286.cohuck@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,76 +119,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Liviu Ionescu <ilg@livius.net>, Markus Armbruster <armbru@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Michal=20Such=C3=A1nek?= <msuchanek@suse.de>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Running configure directly from the source directory is a build
-configuration that will go away in future. It is also not currently
-covered by any automated testing. Display a deprecation warning if
-the user attempts to use an in-srcdir build setup, so that they are
-aware that they're building QEMU in an undesirable manner.
+On 31.03.20 12:11, Cornelia Huck wrote:
+> On Mon, 30 Mar 2020 18:04:09 +0200
+> David Hildenbrand <david@redhat.com> wrote:
+> 
+>> On 30.03.20 17:38, Janosch Frank wrote:
+>>> The cpu number reporting is handled by KVM and QEMU only fills in the
+>>> VM name, uuid and other values.
+>>>
+>>> Unfortuantely KVM doesn't report reserved cpus and doesn't even know  
+>>
+>> s/Unfortuantely/Unfortunately/
+>>
+>>> they exist until the are created via the ioctl.
+>>>
+>>> So let's fix up the cpu values after KVM has written its values to the
+>>> 3.2.2 sysib.  
+>>
+>> Maybe mention "similar to TCG in target/s390x/misc_helper.c:HELPER(stsi)".
+>>
+>>>
+>>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+>>> ---
+>>>  target/s390x/kvm.c | 18 +++++++++++++++++-
+>>>  1 file changed, 17 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+>>> index 3630c15f45a48864..a1c4890bdf0c65e4 100644
+>>> --- a/target/s390x/kvm.c
+>>> +++ b/target/s390x/kvm.c
+>>> @@ -1819,8 +1819,10 @@ static int handle_tsch(S390CPU *cpu)
+>>>  
+>>>  static void insert_stsi_3_2_2(S390CPU *cpu, __u64 addr, uint8_t ar)
+>>>  {
+>>> +    const MachineState *ms = MACHINE(qdev_get_machine());
+>>> +    uint16_t total_cpus = 0, conf_cpus = 0, reserved_cpus = 0;
+>>>      SysIB_322 sysib;
+>>> -    int del;
+>>> +    int del, i;
+>>>  
+>>>      if (s390_is_pv()) {
+>>>          s390_cpu_pv_mem_read(cpu, 0, &sysib, sizeof(sysib));
+>>> @@ -1842,6 +1844,20 @@ static void insert_stsi_3_2_2(S390CPU *cpu, __u64 addr, uint8_t ar)
+>>>          memset(sysib.ext_names[del], 0,
+>>>                 sizeof(sysib.ext_names[0]) * (sysib.count - del));
+>>>      }
+>>> +
+>>> +    /* count the cpus and split them into configured and reserved ones */
+>>> +    for (i = 0; i < ms->possible_cpus->len; i++) {
+>>> +        total_cpus++;
+>>> +        if (ms->possible_cpus->cpus[i].cpu) {
+>>> +            conf_cpus++;
+>>> +        } else {
+>>> +            reserved_cpus++;
+>>> +        }
+>>> +    }  
+>>
+>> We could of course factor this calculation out :)
+>>
+>> (and one could shrink the variables from 3 to 2)
+> 
+> I'd vote for queuing this one on s390-fixes now (with the patch
+> description tweaks) and doing any cleanup on top for the next release.
+> Ok?
 
-Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
----
- configure | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+Fine with me.
 
-diff --git a/configure b/configure
-index e225a1e3ff..1ab7492ab5 100755
---- a/configure
-+++ b/configure
-@@ -3,6 +3,19 @@
- # qemu configure script (c) 2003 Fabrice Bellard
- #
-=20
-+BUILDDIR=3D$(pwd)
-+SRCDIR=3D$(dirname "$0")
-+
-+ABS_BUILDDIR=3D$(realpath $BUILDDIR)
-+ABS_SRCDIR=3D$(realpath $SRCDIR)
-+
-+in_srcdir=3Dno
-+if [ "$ABS_SRCDIR" =3D=3D "$ABS_BUILDDIR" ]
-+then
-+    in_srcdir=3Dyes
-+fi
-+
-+
- # Unset some variables known to interfere with behavior of common tools,
- # just as autoconf does.
- CLICOLOR_FORCE=3D GREP_OPTIONS=3D
-@@ -6799,6 +6812,23 @@ if test "$supported_os" =3D "no"; then
-     echo "us upstream at qemu-devel@nongnu.org."
- fi
-=20
-+if test "$in_srcdir" =3D "yes"; then
-+    echo
-+    echo "WARNING: SUPPORT FOR IN SOURCE DIR BUILDS IS DEPRECATED"
-+    echo
-+    echo "Support for running the 'configure' script directly from the"
-+    echo "source directory is deprecated and will go away in a future"
-+    echo "release. In source dir builds are not covered by automated"
-+    echo "testing and are liable to break without warning. Users are"
-+    echo "strongly recommended to switch to a separate build directory:"
-+    echo
-+    echo "  $ mkdir build"
-+    echo "  $ cd build"
-+    echo "  $ ../configure"
-+    echo "  $ make"
-+    echo
-+fi
-+
- config_host_mak=3D"config-host.mak"
-=20
- echo "# Automatically generated by configure - do not modify" >config-all-=
-disas.mak
---=20
-2.24.1
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
