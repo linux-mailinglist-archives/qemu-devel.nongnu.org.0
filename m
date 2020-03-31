@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F5D8199911
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 16:58:40 +0200 (CEST)
-Received: from localhost ([::1]:39588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC53219991B
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 17:01:11 +0200 (CEST)
+Received: from localhost ([::1]:39632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJILe-0001Ro-TF
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 10:58:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56380)
+	id 1jJIO6-0004ry-SM
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 11:01:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56393)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jJIKF-00085S-47
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:57:12 -0400
+ (envelope-from <mst@redhat.com>) id 1jJIKH-0008BE-Td
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:57:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1jJIKD-000535-Sh
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:57:11 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59689
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1jJIKG-00056J-O3
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:57:13 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53255
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jJIKD-00052q-OJ
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:57:09 -0400
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jJIKG-000551-J5
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:57:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585666629;
+ s=mimecast20190719; t=1585666632;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y3JDDCxeHsu0uxBdU3hqYhD9IDIpl6gR6DiqYZM/Jw0=;
- b=W+CsjTzFiTgh0ruyYntWxCsqeA51dRXEz6mQ1MojsU4K/n3QYncr+qipN2sq+RdVvLSksv
- 97vLqj5WI0BbWzuuAJ07Juw3uE/oehnqSJnuC2d3kWRNgjoxATYT7Fz+i2jOR+Gr0lT1eb
- GZmo1G7fKkGOiWibhuISywGJ3q4Vkk8=
+ bh=DnDNbYeUvmpDorhgokm/1iNeL5qLJps3iYBTT93GLig=;
+ b=WoHIVVjj93phhO1A0q5uQqcsiDZerWRrkcbxkDUwh93LF2Xyf5NLTLoJfuKVZgXVp11i/3
+ 17b/fzPsxOuXRiV2gAC4KJ7xfyhORoMu0zTeL7nRe/ufvzVk/3MZ8cdg6Zq3BM50cCideF
+ dASu7eokz0j9s6w28TeGNi3glXohEFg=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-IRJ2DvtTP0aK9WxFsFMU3w-1; Tue, 31 Mar 2020 10:57:07 -0400
-X-MC-Unique: IRJ2DvtTP0aK9WxFsFMU3w-1
-Received: by mail-wr1-f70.google.com with SMTP id d1so13066545wru.15
- for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 07:57:06 -0700 (PDT)
+ us-mta-254-ScQylzUfM1ih5NAbtI1Xlw-1; Tue, 31 Mar 2020 10:57:10 -0400
+X-MC-Unique: ScQylzUfM1ih5NAbtI1Xlw-1
+Received: by mail-wr1-f70.google.com with SMTP id b2so12615775wrq.8
+ for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 07:57:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=0MtgQcn82XAWmRqhItN4weyN5S4MhXPLIRVwnSTTFuQ=;
- b=BD0KZCah4atoLcXwnWsTN/oeANjS9UATOfL12/Y5jbHR3WP/CGbzLQ4uSb+hO8xJO8
- V44XwYDGkwlEOZo6ipIMmdhhmhD9H7QZt59jzaJn4obhxGd3UYhTY6HrxsE30ROCHoUK
- UyoeF5OkaYLgbpAfLQ2djyLt9yw428jV76LG8LZcL2XSmWDe8Dvg1TmxR9eVSpBNHZ0x
- y+6VCaprHtWc6Ku3ibuye8xyz1aILhDlYe9Rj8+lIcXuRqiTVo4skuu0hMzIg/CxDAYo
- +x03UpvNkBVzZqs0nRwAsqykRN5rWaAoxrB+45QVUpL4Gw5W45HG2tvKkvMe1Dwe0Z1Z
- Tn9g==
-X-Gm-Message-State: ANhLgQ1zmPQfBGLpvX12LL3r+y6m10tkFBfY/AOPNSn0uJB4q4HQYfUk
- ufn27bY39WKLcXX9fGQrSN6651pWVRG0uKE21qIDXI5ed8iu9AcVeXURJc+BWoA2eRnLGyAt3fB
- U36afm7NU4Exl6SU=
-X-Received: by 2002:a1c:4d7:: with SMTP id 206mr3754950wme.5.1585666625678;
- Tue, 31 Mar 2020 07:57:05 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vt20bX8cLcjWZW8/qj5zisx4hb73rI+EShQcVb6YRqVRIUYWc/KtesLFJgkX1UcRObq10FVvw==
-X-Received: by 2002:a1c:4d7:: with SMTP id 206mr3754931wme.5.1585666625473;
- Tue, 31 Mar 2020 07:57:05 -0700 (PDT)
+ bh=X/uo4ffLJZzLWVp0KxSsnKk6uH/r18lUhk47tb/+9jM=;
+ b=Fq9Uc75S4X7sfGDZp6hS865nhA5+zoz7yx7OHa6FiZ2iY3XDQV6C0mZXd8CNwyphjm
+ 6WHHR1FeeJeoUfEZQDGAzbyAj10A9//qZeGeKuwmdlcYhWZJ+wKA8FVwFwyBmMst+eW+
+ IGCkFRbkEDfBo7R4u0gIjuNyKFgsgLrnTOQ87HG8ZE6FmSwPgIn+4bilDxNtsKdWiYqt
+ rK2UkLtp5dSVeh9rs28kgGgZqauTF2DNCf72A5MVGo/9d5aM4tJEmh10939yEGcLIe3R
+ 19mvIPzYdbP+xkYz9LcCa1tDkX2q+PhqkmNV6tnWu6Y3WYDDlhlxd+2Fj+EhAXhiJwuj
+ pTNA==
+X-Gm-Message-State: ANhLgQ1qyVG12ituFssfEaFNRlWrVQW+Oh+VUMMolEUzHtHqMG9jiLab
+ Og5YsO6p4G953VI7uDP5tZstUrcQFDKh0Vv5I5rRtPzn37dFuV6JbVhzPSwWiDHJfhvEstgoB2C
+ BNYcadIX0q2Rm8ps=
+X-Received: by 2002:a05:600c:214a:: with SMTP id
+ v10mr3770216wml.71.1585666628369; 
+ Tue, 31 Mar 2020 07:57:08 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vuuDqCqN3lZmsXFPEvI8nPGtdCcxPYSXyacNae6nHkhz14vPjvmtDSGFjllINaww41O1BvaBg==
+X-Received: by 2002:a05:600c:214a:: with SMTP id
+ v10mr3770198wml.71.1585666628170; 
+ Tue, 31 Mar 2020 07:57:08 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-51-222.red.bezeqint.net. [79.176.51.222])
- by smtp.gmail.com with ESMTPSA id f187sm4240956wme.9.2020.03.31.07.57.03
+ by smtp.gmail.com with ESMTPSA id b15sm26679526wru.70.2020.03.31.07.57.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Mar 2020 07:57:04 -0700 (PDT)
-Date: Tue, 31 Mar 2020 10:57:03 -0400
+ Tue, 31 Mar 2020 07:57:07 -0700 (PDT)
+Date: Tue, 31 Mar 2020 10:57:05 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/10] MAINTAINERS: Add myself as virtio-balloon co-maintainer
-Message-ID: <20200331145631.135630-3-mst@redhat.com>
+Subject: [PULL 03/10] virtio-serial-bus: Plug memory leak on realize() error
+ paths
+Message-ID: <20200331145631.135630-4-mst@redhat.com>
 References: <20200331145631.135630-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200331145631.135630-1-mst@redhat.com>
@@ -76,7 +79,7 @@ Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,50 +91,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Markus Armbruster <armbru@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Amit Shah <amit@kernel.org>,
+ Pan Nengyuan <pannengyuan@huawei.com>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Euler Robot <euler.robot@huawei.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+From: Pan Nengyuan <pannengyuan@huawei.com>
 
-As suggested by Michael, let's add me as co-maintainer of virtio-balloon.
-While at it, also add "balloon.c" and "include/sysemu/balloon.h" to the
-file list.
+We neglect to free port->bh on the error paths.  Fix that.
+Reproducer:
+    {'execute': 'device_add', 'arguments': {'id': 'virtio_serial_pci0', 'dr=
+iver': 'virtio-serial-pci', 'bus': 'pci.0', 'addr': '0x5'}, 'id': 'yVkZcGgV=
+'}
+    {'execute': 'device_add', 'arguments': {'id': 'port1', 'driver': 'virts=
+erialport', 'name': 'port1', 'chardev': 'channel1', 'bus': 'virtio_serial_p=
+ci0.0', 'nr': 1}, 'id': '3dXdUgJA'}
+    {'execute': 'device_add', 'arguments': {'id': 'port2', 'driver': 'virts=
+erialport', 'name': 'port2', 'chardev': 'channel2', 'bus': 'virtio_serial_p=
+ci0.0', 'nr': 1}, 'id': 'qLzcCkob'}
+    {'execute': 'device_add', 'arguments': {'id': 'port2', 'driver': 'virts=
+erialport', 'name': 'port2', 'chardev': 'channel2', 'bus': 'virtio_serial_p=
+ci0.0', 'nr': 2}, 'id': 'qLzcCkob'}
 
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20200312133725.8192-1-david@redhat.com>
+The leak stack:
+Direct leak of 40 byte(s) in 1 object(s) allocated from:
+    #0 0x7f04a8008ae8 in __interceptor_malloc (/lib64/libasan.so.5+0xefae8)
+    #1 0x7f04a73cf1d5 in g_malloc (/lib64/libglib-2.0.so.0+0x531d5)
+    #2 0x56273eaee484 in aio_bh_new /mnt/sdb/backup/qemu/util/async.c:125
+    #3 0x56273eafe9a8 in qemu_bh_new /mnt/sdb/backup/qemu/util/main-loop.c:=
+532
+    #4 0x56273d52e62e in virtser_port_device_realize /mnt/sdb/backup/qemu/h=
+w/char/virtio-serial-bus.c:946
+    #5 0x56273dcc5040 in device_set_realized /mnt/sdb/backup/qemu/hw/core/q=
+dev.c:891
+    #6 0x56273e5ebbce in property_set_bool /mnt/sdb/backup/qemu/qom/object.=
+c:2238
+    #7 0x56273e5e5a9c in object_property_set /mnt/sdb/backup/qemu/qom/objec=
+t.c:1324
+    #8 0x56273e5ef5f8 in object_property_set_qobject /mnt/sdb/backup/qemu/q=
+om/qom-qobject.c:26
+    #9 0x56273e5e5e6a in object_property_set_bool /mnt/sdb/backup/qemu/qom/=
+object.c:1390
+    #10 0x56273daa40de in qdev_device_add /mnt/sdb/backup/qemu/qdev-monitor=
+.c:680
+    #11 0x56273daa53e9 in qmp_device_add /mnt/sdb/backup/qemu/qdev-monitor.=
+c:805
+
+Fixes: 199646d81522509ac2dba6d28c31e8c7d807bc93
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Amit Shah <amit@kernel.org>
+Message-Id: <20200309021738.30072-1-pannengyuan@huawei.com>
+Reviewed-by: Laurent Vivier <lvivier@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ hw/char/virtio-serial-bus.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b5c86ec494..e580276603 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1634,6 +1634,15 @@ F: hw/virtio/trace-events
- F: net/vhost-user.c
- F: include/hw/virtio/
+diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
+index 941ed5aca9..99a65bab7f 100644
+--- a/hw/char/virtio-serial-bus.c
++++ b/hw/char/virtio-serial-bus.c
+@@ -943,7 +943,6 @@ static void virtser_port_device_realize(DeviceState *de=
+v, Error **errp)
+     Error *err =3D NULL;
 =20
-+virtio-balloon
-+M: Michael S. Tsirkin <mst@redhat.com>
-+M: David Hildenbrand <david@redhat.com>
-+S: Maintained
-+F: hw/virtio/virtio-balloon*.c
-+F: include/hw/virtio/virtio-balloon.h
-+F: balloon.c
-+F: include/sysemu/balloon.h
-+
- virtio-9p
- M: Greg Kurz <groug@kaod.org>
- R: Christian Schoenebeck <qemu_oss@crudebyte.com>
+     port->vser =3D bus->vser;
+-    port->bh =3D qemu_bh_new(flush_queued_data_bh, port);
+=20
+     assert(vsc->have_data);
+=20
+@@ -992,6 +991,7 @@ static void virtser_port_device_realize(DeviceState *de=
+v, Error **errp)
+         return;
+     }
+=20
++    port->bh =3D qemu_bh_new(flush_queued_data_bh, port);
+     port->elem =3D NULL;
+ }
+=20
 --=20
 MST
 
