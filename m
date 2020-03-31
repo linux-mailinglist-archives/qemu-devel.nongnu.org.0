@@ -2,87 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9DB1199993
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 17:25:55 +0200 (CEST)
-Received: from localhost ([::1]:40232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4527619999D
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 17:27:58 +0200 (CEST)
+Received: from localhost ([::1]:40256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJIm2-0006AP-S0
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 11:25:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33043)
+	id 1jJIo1-00018x-Ad
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 11:27:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33199)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jJIk3-0003PO-S7
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:23:52 -0400
+ (envelope-from <dietmar@proxmox.com>) id 1jJIki-0004ZN-E2
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:24:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jJIk3-0000Rz-0F
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:23:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25102
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dietmar@proxmox.com>) id 1jJIkh-0000uo-58
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:24:32 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:3621)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jJIk2-0000RO-S6
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:23:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585668230;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=369J1UXoJF3a7bjFJOWp93ZqaJFMh6PY6DnisP3F0IY=;
- b=NOpbGz+2sNsTcdJB8xJxly1ObOY7WK6aQ2zZn00h2+sPzCdJTvUQz6oMqZxrX5dspSwslj
- iX+QQQ/iGgXl+13rbTNdRiAfI0FQU23GGzaURi4ZtOUgx3Q8JDKM7CwgUjiuvKJ2MUjJeR
- XF+dbUhmxGULNh2SzSqYD5BZkvRTrF4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-4FomtiiqO1-vO2m1xblbIA-1; Tue, 31 Mar 2020 11:23:48 -0400
-X-MC-Unique: 4FomtiiqO1-vO2m1xblbIA-1
-Received: by mail-wm1-f71.google.com with SMTP id f9so829383wme.7
- for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 08:23:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=M61tZc1fBjEbffVvMcZZtGhS2S/zfDSMILKJt9cHfwA=;
- b=ZdQGnZ/TZE4rU86tef8H0kKGdgHa78ksmMhCRW5nvQsozTOowIkvZUZSua9Tns2Ysp
- bfEUkS/t3b2HckEgUYPoCfJCpiwoWT/nqlnw5jzOw8SRu3UabeFGL1IqNhJEHXUd9mj1
- 24BDz9KJFDhGbKQ53SYMFfltpQjxzvHofTPyhXif8KmdNjgegovMbzqUGziPb9lmQnMN
- Bw9pAQ5CfqGdhhN+vbE+XRzwfnoJmkz2l4mmfyLLSpn36Fd9WiAX6l+crBF9EsyAC+Rk
- veLV37J6qrFY+gYqJIyXmJkuz82xoLq4NZHQejnE/L7Hu0k0RmAZBtdAstw76xQotwf4
- gMsA==
-X-Gm-Message-State: ANhLgQ2P6rImsFN61/61Ikkcm3e0JXgzc3uVAiQEQ2aiAvds94KhBML6
- r3ATHzq/32D7UM01HMjP8vHT4TyHUOXL0+MXsWmeqzx8adeJnQOqNkKepZ9FFa2Ivk3Ky61/D+q
- Smy76scNqyXEb/tQ=
-X-Received: by 2002:adf:9384:: with SMTP id 4mr20765023wrp.214.1585668227398; 
- Tue, 31 Mar 2020 08:23:47 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vt2/JWCGMnYm+FKxJLXFNNqn7AshlaXMNexUtsK29gOLPUvd6bzGe+JtY0xMQBEQ7nqcrcuUw==
-X-Received: by 2002:adf:9384:: with SMTP id 4mr20765005wrp.214.1585668227177; 
- Tue, 31 Mar 2020 08:23:47 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:b55d:5ed2:8a41:41ea?
- ([2001:b07:6468:f312:b55d:5ed2:8a41:41ea])
- by smtp.gmail.com with ESMTPSA id y189sm4402922wmb.26.2020.03.31.08.23.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Mar 2020 08:23:46 -0700 (PDT)
-Subject: Re: [PATCH] serial: Fix double migration data
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20200330164712.198282-1-dgilbert@redhat.com>
- <CAJ+F1CKd9x3BQKCGFPF8ouW4Fzvw0R5z3ZRT_0XPNSepP5hMZQ@mail.gmail.com>
- <20200330174116.GC2843@work-vm>
- <CAJ+F1CJzdso1xNj+XyiriByHzYekz74+JRCCQ4a6ygWLrCGMvA@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <6b30270b-207f-4b5d-bc4c-323827868f60@redhat.com>
-Date: Tue, 31 Mar 2020 17:23:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.71) (envelope-from <dietmar@proxmox.com>)
+ id 1jJIkd-0000t6-5z; Tue, 31 Mar 2020 11:24:27 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id A485F456DF;
+ Tue, 31 Mar 2020 17:24:24 +0200 (CEST)
+Date: Tue, 31 Mar 2020 17:24:22 +0200 (CEST)
+From: Dietmar Maurer <dietmar@proxmox.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Kevin Wolf <kwolf@redhat.com>
+Message-ID: <713436887.61.1585668262838@webmail.proxmox.com>
+In-Reply-To: <787d7517-bf56-72c7-d197-2313a864e05f@virtuozzo.com>
+References: <658260883.24.1585644382441@webmail.proxmox.com>
+ <20200331125804.GE7030@linux.fritz.box>
+ <303038276.59.1585665152860@webmail.proxmox.com>
+ <787d7517-bf56-72c7-d197-2313a864e05f@virtuozzo.com>
+Subject: Re: bdrv_drained_begin deadlock with io-threads
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CJzdso1xNj+XyiriByHzYekz74+JRCCQ4a6ygWLrCGMvA@mail.gmail.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
+X-Mailer: Open-Xchange Mailer v7.10.2-Rev23
+X-Originating-Client: open-xchange-appsuite
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 212.186.127.180
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,19 +55,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
+Reply-To: Dietmar Maurer <dietmar@proxmox.com>
+Cc: Sergio Lopez <slp@redhat.com>, qemu-block@nongnu.org,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "jsnow@redhat.com" <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/03/20 19:56, Marc-Andr=C3=A9 Lureau wrote:
->>> Why do you make it a sub-state?
->> Because it's consistent with serial-isa and it's simple.
-> ok, lgtm then
->=20
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-Queued, thanks.
+> > How can I see/debug those waiting request?
+> 
+> Examine bs->tracked_requests list.
+> 
+> BdrvTrackedRequest has "Coroutine *co" field. It's a pointer of coroutine of this request. You may use qemu-gdb script to print request's coroutine back-trace:
 
-Paolo
+I would, but there are no tracked request at all.
+
+print bs->tracked_requests
+$2 = {lh_first = 0x0}
+
+
+> gdb> source qemu_source/scripts/qemu-gdb.py
+> 
+> gdb> qemu coroutine CO_POINTER
+> 
+> - this will show, what exactly the request is doing now/waiting for.
+
+(gdb) up
+#1  0x0000555555c60489 in ppoll (__ss=0x0, __timeout=0x0, __nfds=<optimized out>, __fds=<optimized out>) at /usr/include/x86_64-linux-gnu/bits/poll2.h:77
+77	  return __ppoll_alias (__fds, __nfds, __timeout, __ss);
+(gdb) up
+#2  qemu_poll_ns (fds=<optimized out>, nfds=<optimized out>, timeout=timeout@entry=-1) at util/qemu-timer.c:335
+335	        return ppoll((struct pollfd *)fds, nfds, NULL, NULL);
+(gdb) up
+#3  0x0000555555c62c71 in fdmon_poll_wait (ctx=0x7fffe8905e80, ready_list=0x7fffffffdce8, timeout=-1) at util/fdmon-poll.c:79
+79	    ret = qemu_poll_ns(pollfds, npfd, timeout);
+(gdb) up
+#4  0x0000555555c62257 in aio_poll (ctx=0x7fffe8905e80, blocking=blocking@entry=true) at util/aio-posix.c:589
+589	        ret = ctx->fdmon_ops->wait(ctx, &ready_list, timeout);
+(gdb) up
+#5  0x0000555555bc25e5 in bdrv_do_drained_begin (poll=<optimized out>, ignore_bds_parents=false, parent=0x0, recursive=false, bs=0x7fffe8954bc0)
+    at block/io.c:430
+430	        BDRV_POLL_WHILE(bs, bdrv_drain_poll_top_level(bs, recursive, parent));
+
+(gdb) print *bs
+$1 = {open_flags = 139426, read_only = false, encrypted = false, sg = false, probed = false, force_share = false, implicit = false, 
+  drv = 0x555556115080 <bdrv_raw>, opaque = 0x7fffe8918400, aio_context = 0x7fffe8915180, aio_notifiers = {lh_first = 0x0}, walking_aio_notifiers = false, 
+  filename = "/dev/pve/vm-101-disk-0", '\000' <repeats 4073 times>, backing_file = '\000' <repeats 4095 times>, 
+  auto_backing_file = '\000' <repeats 4095 times>, backing_format = '\000' <repeats 15 times>, full_open_options = 0x7fffe562c000, 
+  exact_filename = "/dev/pve/vm-101-disk-0", '\000' <repeats 4073 times>, backing = 0x0, file = 0x7fffe88e9b60, bl = {request_alignment = 1, 
+    max_pdiscard = 0, pdiscard_alignment = 0, max_pwrite_zeroes = 0, pwrite_zeroes_alignment = 0, opt_transfer = 0, max_transfer = 0, 
+    min_mem_alignment = 512, opt_mem_alignment = 4096, max_iov = 1024}, supported_write_flags = 64, supported_zero_flags = 324, 
+  node_name = "#block163", '\000' <repeats 22 times>, node_list = {tqe_next = 0x7fffe8975180, tqe_circ = {tql_next = 0x7fffe8975180, 
+      tql_prev = 0x7fffe8963540}}, bs_list = {tqe_next = 0x7fffe895f480, tqe_circ = {tql_next = 0x7fffe895f480, 
+      tql_prev = 0x555556114f10 <all_bdrv_states>}}, monitor_list = {tqe_next = 0x0, tqe_circ = {tql_next = 0x0, tql_prev = 0x0}}, refcnt = 2, op_blockers = {
+    {lh_first = 0x0} <repeats 16 times>}, inherits_from = 0x0, children = {lh_first = 0x7fffe88e9b60}, parents = {lh_first = 0x7fffe88ea180}, 
+  options = 0x7fffe8933400, explicit_options = 0x7fffe8934800, detect_zeroes = BLOCKDEV_DETECT_ZEROES_OPTIONS_ON, backing_blocker = 0x0, 
+  total_sectors = 67108864, before_write_notifiers = {notifiers = {lh_first = 0x0}}, write_threshold_offset = 0, write_threshold_notifier = {notify = 0x0, 
+    node = {le_next = 0x0, le_prev = 0x0}}, dirty_bitmap_mutex = {lock = pthread_mutex_t = {Type = Normal, Status = Not acquired, Robust = No, Shared = No, 
+      Protocol = None}, initialized = true}, dirty_bitmaps = {lh_first = 0x0}, wr_highest_offset = {value = 28049412096}, copy_on_read = 0, in_flight = 0, 
+  serialising_in_flight = 0, io_plugged = 0, enable_write_cache = 0, quiesce_counter = 1, recursive_quiesce_counter = 0, write_gen = 113581, reqs_lock = {
+    locked = 0, ctx = 0x0, from_push = {slh_first = 0x0}, to_pop = {slh_first = 0x0}, handoff = 0, sequence = 0, holder = 0x0}, tracked_requests = {
+    lh_first = 0x0}, flush_queue = {entries = {sqh_first = 0x0, sqh_last = 0x7fffe8958e38}}, active_flush_req = false, flushed_gen = 112020, 
+  never_freeze = false}
+
+
+Looks bdrv_parent_drained_poll_single() calls  blk_root_drained_poll(), which return true in my case (in_flight > 5). Looks like I am loosing poll events somewhere?
 
 
