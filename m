@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3601719976A
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 15:28:31 +0200 (CEST)
-Received: from localhost ([::1]:38034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B68199799
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 15:35:47 +0200 (CEST)
+Received: from localhost ([::1]:38178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJGwQ-0002Gi-7j
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 09:28:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42087)
+	id 1jJH3S-0004Nq-SW
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 09:35:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42111)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1jJGqW-0000d3-VG
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:22:26 -0400
+ (envelope-from <jasowang@redhat.com>) id 1jJGqZ-0000hD-6Y
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:22:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1jJGqT-0005uu-Fe
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:22:24 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30921
+ (envelope-from <jasowang@redhat.com>) id 1jJGqY-0005yG-47
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:22:27 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23412
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1jJGqT-0005ud-AH
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:22:21 -0400
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1jJGqX-0005xU-WC
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:22:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585660941;
+ s=mimecast20190719; t=1585660945;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gwuzM2jNqoM564i9vFKMIxyP47Rn9FTVs3Xjz/vfwQI=;
- b=G7rM3XcQhK7YZPsuAHrneUSE/0tBSPEhmh4/BE2Nm/T09WoA4dQ2l+9QyKL3v1c+8KiFrY
- CNXhhqIbdk/RQePyNE8MLPltcFKGax0RJhw32Su3lB8AcnFgG4cvYYtXnSIYoIYYfRmBdy
- Gr9vJ2yg0P33AsT2dRvzNKT353Z4vWw=
+ bh=e2MtJXqXrK00L/Pg7ncr4ONHm/ufHOeDphL4A31MD7k=;
+ b=XK4II3KmupQ9QldskIz3TequTmVzdJELICFdFO0eZlP/F98KehM4qA+SBoVrT84VPoJ5o6
+ LtL8l/JLJOvsja9xUPfRd4zxUgS3tVTeR9MFNyA2JIKuJYiUJ8DC1rajDD8f0ZlVGpg7Qk
+ V7UV4ACuoXbYTCUgqpfeAoY6Sp5HYlg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-yYt2IVyPNQCGgPxvnJ3fJA-1; Tue, 31 Mar 2020 09:22:18 -0400
-X-MC-Unique: yYt2IVyPNQCGgPxvnJ3fJA-1
+ us-mta-135-8kQxrIl1O6CN6riw5Hu-sg-1; Tue, 31 Mar 2020 09:22:20 -0400
+X-MC-Unique: 8kQxrIl1O6CN6riw5Hu-sg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5880B18FF663;
- Tue, 31 Mar 2020 13:22:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FD45107B267;
+ Tue, 31 Mar 2020 13:22:19 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-118.pek2.redhat.com
  [10.72.12.118])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AA21E1001B28;
- Tue, 31 Mar 2020 13:22:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D72801001B28;
+ Tue, 31 Mar 2020 13:22:17 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL V2 12/14] net: tulip: check frame size and r/w data length
-Date: Tue, 31 Mar 2020 21:21:37 +0800
-Message-Id: <1585660899-11228-13-git-send-email-jasowang@redhat.com>
+Subject: [PULL V2 13/14] hw/net/allwinner-sun8i-emac.c: Fix REG_ADDR_HIGH/LOW
+ reads
+Date: Tue, 31 Mar 2020 21:21:38 +0800
+Message-Id: <1585660899-11228-14-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1585660899-11228-1-git-send-email-jasowang@redhat.com>
 References: <1585660899-11228-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
@@ -72,158 +73,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Prasad J Pandit <pjp@fedoraproject.org>
+Cc: Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Prasad J Pandit <pjp@fedoraproject.org>
+From: Peter Maydell <peter.maydell@linaro.org>
 
-Tulip network driver while copying tx/rx buffers does not check
-frame size against r/w data length. This may lead to OOB buffer
-access. Add check to avoid it.
+Coverity points out (CID 1421926) that the read code for
+REG_ADDR_HIGH reads off the end of the buffer, because it does a
+32-bit read from byte 4 of a 6-byte buffer.
 
-Limit iterations over descriptors to avoid potential infinite
-loop issue in tulip_xmit_list_update.
+The code also has an endianness issue for both REG_ADDR_HIGH and
+REG_ADDR_LOW, because it will do the wrong thing on a big-endian
+host.
 
-Reported-by: Li Qiang <pangpei.lq@antfin.com>
-Reported-by: Ziming Zhang <ezrakiez@gmail.com>
-Reported-by: Jason Wang <jasowang@redhat.com>
-Tested-by: Li Qiang <liq3ea@gmail.com>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+Rewrite the read code to use ldl_le_p() and lduw_le_p() to fix this;
+the write code is not incorrect, but for consistency we make it use
+stl_le_p() and stw_le_p().
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/tulip.c | 36 +++++++++++++++++++++++++++---------
- 1 file changed, 27 insertions(+), 9 deletions(-)
+ hw/net/allwinner-sun8i-emac.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/hw/net/tulip.c b/hw/net/tulip.c
-index cfac271..1295f51 100644
---- a/hw/net/tulip.c
-+++ b/hw/net/tulip.c
-@@ -170,6 +170,10 @@ static void tulip_copy_rx_bytes(TULIPState *s, struct =
-tulip_descriptor *desc)
-         } else {
-             len =3D s->rx_frame_len;
-         }
-+
-+        if (s->rx_frame_len + len > sizeof(s->rx_frame)) {
-+            return;
-+        }
-         pci_dma_write(&s->dev, desc->buf_addr1, s->rx_frame +
-             (s->rx_frame_size - s->rx_frame_len), len);
-         s->rx_frame_len -=3D len;
-@@ -181,6 +185,10 @@ static void tulip_copy_rx_bytes(TULIPState *s, struct =
-tulip_descriptor *desc)
-         } else {
-             len =3D s->rx_frame_len;
-         }
-+
-+        if (s->rx_frame_len + len > sizeof(s->rx_frame)) {
-+            return;
-+        }
-         pci_dma_write(&s->dev, desc->buf_addr2, s->rx_frame +
-             (s->rx_frame_size - s->rx_frame_len), len);
-         s->rx_frame_len -=3D len;
-@@ -227,7 +235,8 @@ static ssize_t tulip_receive(TULIPState *s, const uint8=
-_t *buf, size_t size)
-=20
-     trace_tulip_receive(buf, size);
-=20
--    if (size < 14 || size > 2048 || s->rx_frame_len || tulip_rx_stopped(s)=
-) {
-+    if (size < 14 || size > sizeof(s->rx_frame) - 4
-+        || s->rx_frame_len || tulip_rx_stopped(s)) {
-         return 0;
-     }
-=20
-@@ -275,7 +284,6 @@ static ssize_t tulip_receive_nc(NetClientState *nc,
-     return tulip_receive(qemu_get_nic_opaque(nc), buf, size);
- }
-=20
--
- static NetClientInfo net_tulip_info =3D {
-     .type =3D NET_CLIENT_DRIVER_NIC,
-     .size =3D sizeof(NICState),
-@@ -558,7 +566,7 @@ static void tulip_tx(TULIPState *s, struct tulip_descri=
-ptor *desc)
-         if ((s->csr[6] >> CSR6_OM_SHIFT) & CSR6_OM_MASK) {
-             /* Internal or external Loopback */
-             tulip_receive(s, s->tx_frame, s->tx_frame_len);
--        } else {
-+        } else if (s->tx_frame_len <=3D sizeof(s->tx_frame)) {
-             qemu_send_packet(qemu_get_queue(s->nic),
-                 s->tx_frame, s->tx_frame_len);
-         }
-@@ -570,23 +578,31 @@ static void tulip_tx(TULIPState *s, struct tulip_desc=
-riptor *desc)
-     }
- }
-=20
--static void tulip_copy_tx_buffers(TULIPState *s, struct tulip_descriptor *=
-desc)
-+static int tulip_copy_tx_buffers(TULIPState *s, struct tulip_descriptor *d=
-esc)
- {
-     int len1 =3D (desc->control >> TDES1_BUF1_SIZE_SHIFT) & TDES1_BUF1_SIZ=
-E_MASK;
-     int len2 =3D (desc->control >> TDES1_BUF2_SIZE_SHIFT) & TDES1_BUF2_SIZ=
-E_MASK;
-=20
-+    if (s->tx_frame_len + len1 > sizeof(s->tx_frame)) {
-+        return -1;
-+    }
-     if (len1) {
-         pci_dma_read(&s->dev, desc->buf_addr1,
-             s->tx_frame + s->tx_frame_len, len1);
-         s->tx_frame_len +=3D len1;
-     }
-=20
-+    if (s->tx_frame_len + len2 > sizeof(s->tx_frame)) {
-+        return -1;
-+    }
-     if (len2) {
-         pci_dma_read(&s->dev, desc->buf_addr2,
-             s->tx_frame + s->tx_frame_len, len2);
-         s->tx_frame_len +=3D len2;
-     }
-     desc->status =3D (len1 + len2) ? 0 : 0x7fffffff;
-+
-+    return 0;
- }
-=20
- static void tulip_setup_filter_addr(TULIPState *s, uint8_t *buf, int n)
-@@ -651,13 +667,15 @@ static uint32_t tulip_ts(TULIPState *s)
-=20
- static void tulip_xmit_list_update(TULIPState *s)
- {
-+#define TULIP_DESC_MAX 128
-+    uint8_t i =3D 0;
-     struct tulip_descriptor desc;
-=20
-     if (tulip_ts(s) !=3D CSR5_TS_SUSPENDED) {
-         return;
-     }
-=20
--    for (;;) {
-+    for (i =3D 0; i < TULIP_DESC_MAX; i++) {
-         tulip_desc_read(s, s->current_tx_desc, &desc);
-         tulip_dump_tx_descriptor(s, &desc);
-=20
-@@ -675,10 +693,10 @@ static void tulip_xmit_list_update(TULIPState *s)
-                 s->tx_frame_len =3D 0;
-             }
-=20
--            tulip_copy_tx_buffers(s, &desc);
--
--            if (desc.control & TDES1_LS) {
--                tulip_tx(s, &desc);
-+            if (!tulip_copy_tx_buffers(s, &desc)) {
-+                if (desc.control & TDES1_LS) {
-+                    tulip_tx(s, &desc);
-+                }
-             }
-         }
-         tulip_desc_write(s, s->current_tx_desc, &desc);
+diff --git a/hw/net/allwinner-sun8i-emac.c b/hw/net/allwinner-sun8i-emac.c
+index 033eaa8..28637ff 100644
+--- a/hw/net/allwinner-sun8i-emac.c
++++ b/hw/net/allwinner-sun8i-emac.c
+@@ -611,10 +611,10 @@ static uint64_t allwinner_sun8i_emac_read(void *opaqu=
+e, hwaddr offset,
+         value =3D s->mii_data;
+         break;
+     case REG_ADDR_HIGH:         /* MAC Address High */
+-        value =3D *(((uint32_t *) (s->conf.macaddr.a)) + 1);
++        value =3D lduw_le_p(s->conf.macaddr.a + 4);
+         break;
+     case REG_ADDR_LOW:          /* MAC Address Low */
+-        value =3D *(uint32_t *) (s->conf.macaddr.a);
++        value =3D ldl_le_p(s->conf.macaddr.a);
+         break;
+     case REG_TX_DMA_STA:        /* Transmit DMA Status */
+         break;
+@@ -728,14 +728,10 @@ static void allwinner_sun8i_emac_write(void *opaque, =
+hwaddr offset,
+         s->mii_data =3D value;
+         break;
+     case REG_ADDR_HIGH:         /* MAC Address High */
+-        s->conf.macaddr.a[4] =3D (value & 0xff);
+-        s->conf.macaddr.a[5] =3D (value & 0xff00) >> 8;
++        stw_le_p(s->conf.macaddr.a + 4, value);
+         break;
+     case REG_ADDR_LOW:          /* MAC Address Low */
+-        s->conf.macaddr.a[0] =3D (value & 0xff);
+-        s->conf.macaddr.a[1] =3D (value & 0xff00) >> 8;
+-        s->conf.macaddr.a[2] =3D (value & 0xff0000) >> 16;
+-        s->conf.macaddr.a[3] =3D (value & 0xff000000) >> 24;
++        stl_le_p(s->conf.macaddr.a, value);
+         break;
+     case REG_TX_DMA_STA:        /* Transmit DMA Status */
+     case REG_TX_CUR_DESC:       /* Transmit Current Descriptor */
 --=20
 2.5.0
 
