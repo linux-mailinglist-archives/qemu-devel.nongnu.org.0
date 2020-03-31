@@ -2,43 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957D3198BF1
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 07:50:17 +0200 (CEST)
-Received: from localhost ([::1]:60754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2765C198C18
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 08:09:53 +0200 (CEST)
+Received: from localhost ([::1]:60914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJ9my-0001f0-J8
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 01:50:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42160)
+	id 1jJA5v-000692-QL
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 02:09:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44145)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jJ9lO-0008SN-8E
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 01:48:39 -0400
+ (envelope-from <yi.l.liu@intel.com>) id 1jJA4y-0005Dg-Vr
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 02:08:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jJ9lM-0006yl-VF
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 01:48:38 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:48112)
+ (envelope-from <yi.l.liu@intel.com>) id 1jJA4x-00050t-1A
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 02:08:52 -0400
+Received: from mga17.intel.com ([192.55.52.151]:58629)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jJ9lK-0006vs-5g; Tue, 31 Mar 2020 01:48:34 -0400
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 0D32BBF48F;
- Tue, 31 Mar 2020 05:48:33 +0000 (UTC)
-Date: Tue, 31 Mar 2020 07:48:29 +0200
-From: Klaus Birkelund Jensen <its@irrelevant.dk>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH v6 38/42] nvme: support multiple namespaces
-Message-ID: <20200331054829.nhxmcfhc5k5y4fzw@apples.localdomain>
-References: <20200316142928.153431-1-its@irrelevant.dk>
- <20200316142928.153431-39-its@irrelevant.dk>
- <1f37eb79998c7db5f4f83b19fd5004d357bfd392.camel@redhat.com>
+ (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1jJA4w-0004yT-Pb
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 02:08:50 -0400
+IronPort-SDR: j0Dy9K2ho9TGHQHq/VHyxom238SiHcNhrdumIACw7fTav3CBUH7Js/s6+QQEm0RNn3+YmU4rD6
+ lKqZtGZPWlcw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2020 23:08:46 -0700
+IronPort-SDR: 3m8kJMNvedZ6Jhi9W+XpPrxLHsh7+68nleUU/7ne7N6TlQK88j7csJq1qWpx4jn8t7dhv2c6PX
+ GodFGh/cDelA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,327,1580803200"; d="scan'208";a="448548189"
+Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
+ by fmsmga005.fm.intel.com with ESMTP; 30 Mar 2020 23:08:46 -0700
+Received: from fmsmsx124.amr.corp.intel.com (10.18.125.39) by
+ fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Mon, 30 Mar 2020 23:08:46 -0700
+Received: from shsmsx105.ccr.corp.intel.com (10.239.4.158) by
+ fmsmsx124.amr.corp.intel.com (10.18.125.39) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Mon, 30 Mar 2020 23:08:46 -0700
+Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.225]) by
+ SHSMSX105.ccr.corp.intel.com ([169.254.11.213]) with mapi id 14.03.0439.000;
+ Tue, 31 Mar 2020 14:08:43 +0800
+From: "Liu, Yi L" <yi.l.liu@intel.com>
+To: Auger Eric <eric.auger@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "alex.williamson@redhat.com"
+ <alex.williamson@redhat.com>, "peterx@redhat.com" <peterx@redhat.com>
+Subject: RE: [PATCH v2 03/22] vfio: check VFIO_TYPE1_NESTING_IOMMU support
+Thread-Topic: [PATCH v2 03/22] vfio: check VFIO_TYPE1_NESTING_IOMMU support
+Thread-Index: AQHWBkpiF+OzDttw/0mCFTO45dt2yKhgWqOAgAHPSbA=
+Date: Tue, 31 Mar 2020 06:08:42 +0000
+Message-ID: <A2975661238FB949B60364EF0F2C25743A21A63C@SHSMSX104.ccr.corp.intel.com>
+References: <1585542301-84087-1-git-send-email-yi.l.liu@intel.com>
+ <1585542301-84087-4-git-send-email-yi.l.liu@intel.com>
+ <2c65e531-1cc8-dc01-4b06-e7baff58addd@redhat.com>
+In-Reply-To: <2c65e531-1cc8-dc01-4b06-e7baff58addd@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.40]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1f37eb79998c7db5f4f83b19fd5004d357bfd392.camel@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 128.199.63.193
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 192.55.52.151
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,115 +79,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>
+Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Tian,
+ Kevin" <kevin.tian@intel.com>, Jacob Pan <jacob.jun.pan@linux.intel.com>,
+ Yi Sun <yi.y.sun@linux.intel.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "mst@redhat.com" <mst@redhat.com>, "Tian, 
+ Jun J" <jun.j.tian@intel.com>, "Sun, Yi Y" <yi.y.sun@intel.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "Wu, Hao" <hao.wu@intel.com>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mar 25 12:59, Maxim Levitsky wrote:
-> On Mon, 2020-03-16 at 07:29 -0700, Klaus Jensen wrote:
-> > From: Klaus Jensen <k.jensen@samsung.com>
-> > 
-> > This adds support for multiple namespaces by introducing a new 'nvme-ns'
-> > device model. The nvme device creates a bus named from the device name
-> > ('id'). The nvme-ns devices then connect to this and registers
-> > themselves with the nvme device.
-> > 
-> > This changes how an nvme device is created. Example with two namespaces:
-> > 
-> >   -drive file=nvme0n1.img,if=none,id=disk1
-> >   -drive file=nvme0n2.img,if=none,id=disk2
-> >   -device nvme,serial=deadbeef,id=nvme0
-> >   -device nvme-ns,drive=disk1,bus=nvme0,nsid=1
-> >   -device nvme-ns,drive=disk2,bus=nvme0,nsid=2
-> > 
-> > The drive property is kept on the nvme device to keep the change
-> > backward compatible, but the property is now optional. Specifying a
-> > drive for the nvme device will always create the namespace with nsid 1.
-> > 
-> > Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
-> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> > Reviewed-by: Keith Busch <kbusch@kernel.org>
+Eric,
+
+> From: Auger Eric <eric.auger@redhat.com>
+> Sent: Monday, March 30, 2020 5:36 PM
+> To: Liu, Yi L <yi.l.liu@intel.com>; qemu-devel@nongnu.org;
+> Subject: Re: [PATCH v2 03/22] vfio: check VFIO_TYPE1_NESTING_IOMMU suppor=
+t
+>=20
+> Yi,
+>=20
+> On 3/30/20 6:24 AM, Liu Yi L wrote:
+> > VFIO needs to check VFIO_TYPE1_NESTING_IOMMU support with Kernel before
+> > further using it. e.g. requires to check IOMMU UAPI version.
+> >
+> > Cc: Kevin Tian <kevin.tian@intel.com>
+> > Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> > Cc: Peter Xu <peterx@redhat.com>
+> > Cc: Eric Auger <eric.auger@redhat.com>
+> > Cc: Yi Sun <yi.y.sun@linux.intel.com>
+> > Cc: David Gibson <david@gibson.dropbear.id.au>
+> > Cc: Alex Williamson <alex.williamson@redhat.com>
+> > Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+> > Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
 > > ---
-> >  hw/block/Makefile.objs |   2 +-
-> >  hw/block/nvme-ns.c     | 157 +++++++++++++++++++++++++++
-> >  hw/block/nvme-ns.h     |  60 +++++++++++
-> >  hw/block/nvme.c        | 233 ++++++++++++++++++++++++++---------------
-> >  hw/block/nvme.h        |  47 ++++-----
-> >  hw/block/trace-events  |   4 +-
-> >  6 files changed, 389 insertions(+), 114 deletions(-)
-> >  create mode 100644 hw/block/nvme-ns.c
-> >  create mode 100644 hw/block/nvme-ns.h
-> > 
-> > diff --git a/hw/block/Makefile.objs b/hw/block/Makefile.objs
-> > index 4b4a2b338dc4..d9141d6a4b9b 100644
-> > --- a/hw/block/Makefile.objs
-> > +++ b/hw/block/Makefile.objs
-
-> > @@ -2518,9 +2561,6 @@ static void nvme_init_ctrl(NvmeCtrl *n)
-> >      id->psd[0].mp = cpu_to_le16(0x9c4);
-> >      id->psd[0].enlat = cpu_to_le32(0x10);
-> >      id->psd[0].exlat = cpu_to_le32(0x4);
-> > -    if (blk_enable_write_cache(n->conf.blk)) {
-> > -        id->vwc = 1;
-> > -    }
-> Shouldn't that be kept? Assuming that user used the legacy 'drive' option,
-> and it had no write cache enabled.
-> 
-
-When using the drive option we still end up calling the same code that
-handles the "new style" namespaces and that code will handle the write
-cache similary.
-
-> >  
-> >      n->bar.cap = 0;
-> >      NVME_CAP_SET_MQES(n->bar.cap, 0x7ff);
-> > @@ -2533,25 +2573,34 @@ static void nvme_init_ctrl(NvmeCtrl *n)
-> >      n->bar.intmc = n->bar.intms = 0;
-> >  }
-> >  
-> > -static int nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
-> > +int nvme_register_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+> >  hw/vfio/common.c | 14 ++++++++++++--
+> >  1 file changed, 12 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> > index 0b3593b..c276732 100644
+> > --- a/hw/vfio/common.c
+> > +++ b/hw/vfio/common.c
+> > @@ -1157,12 +1157,21 @@ static void
+> vfio_put_address_space(VFIOAddressSpace *space)
+> >  static int vfio_get_iommu_type(VFIOContainer *container,
+> >                                 Error **errp)
 > >  {
-> > -    int64_t bs_size;
-> > -    NvmeIdNs *id_ns = &ns->id_ns;
-> > +    uint32_t nsid = nvme_nsid(ns);
-> >  
-> > -    bs_size = blk_getlength(n->conf.blk);
-> > -    if (bs_size < 0) {
-> > -        error_setg_errno(errp, -bs_size, "blk_getlength");
-> > +    if (nsid > NVME_MAX_NAMESPACES) {
-> > +        error_setg(errp, "invalid nsid (must be between 0 and %d)",
-> > +                   NVME_MAX_NAMESPACES);
-> >          return -1;
-> >      }
-> >  
-> > -    id_ns->lbaf[0].ds = BDRV_SECTOR_BITS;
-> > -    n->ns_size = bs_size;
-> > +    if (!nsid) {
-> > +        for (int i = 1; i <= n->num_namespaces; i++) {
-> > +            NvmeNamespace *ns = nvme_ns(n, i);
-> > +            if (!ns) {
-> > +                nsid = i;
-> > +                break;
+> > -    int iommu_types[] =3D { VFIO_TYPE1v2_IOMMU, VFIO_TYPE1_IOMMU,
+> > +    int iommu_types[] =3D { VFIO_TYPE1_NESTING_IOMMU,
+> > +                          VFIO_TYPE1v2_IOMMU, VFIO_TYPE1_IOMMU,
+> >                            VFIO_SPAPR_TCE_v2_IOMMU, VFIO_SPAPR_TCE_IOMM=
+U };
+> > -    int i;
+> > +    int i, version;
+> >
+> >      for (i =3D 0; i < ARRAY_SIZE(iommu_types); i++) {
+> >          if (ioctl(container->fd, VFIO_CHECK_EXTENSION, iommu_types[i])=
+) {
+> > +            if (iommu_types[i] =3D=3D VFIO_TYPE1_NESTING_IOMMU) {
+> > +                version =3D ioctl(container->fd, VFIO_CHECK_EXTENSION,
+> > +                                VFIO_NESTING_IOMMU_UAPI);
+> > +                if (version < IOMMU_UAPI_VERSION) {
+> > +                    info_report("IOMMU UAPI incompatible for nesting")=
+;
+> > +                    continue;
+> > +                }
 > > +            }
-> > +        }
-> This misses an edge error case, where all the namespaces are allocated.
-> Yes, it would be insane to allocate all 256 namespaces but still.
-> 
+> This means that by default VFIO_TYPE1_NESTING_IOMMU wwould be chosen. I
+> don't think this what we want. On ARM this would mean that for a
+> standard VFIO assignment without vIOMMU, SL will be used instead of FL.
+> This may not be harmless.
+>=20
+> For instance, in "[RFC v6 09/24] vfio: Force nested if iommu requires
+> it", I use nested only if I detect we have a vSMMU. Otherwise I keep the
+> legacy VFIO_TYPE1v2_IOMMU.
+>=20
+Good point. I also replied in your patch.
 
-Impressive catch! Fixed!
-
-> 
-> > +    } else {
-> > +        if (n->namespaces[nsid - 1]) {
-> > +            error_setg(errp, "nsid must be unique");
-> 
-> I''l would change that error message to something like 
-> "namespace id %d is already in use" or something like that.
-> 
-
-Done.
-
+Regards,
+Yi Liu
 
