@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7FB1998DE
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 16:47:40 +0200 (CEST)
-Received: from localhost ([::1]:39278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AB0C1998EF
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 16:49:37 +0200 (CEST)
+Received: from localhost ([::1]:39308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJIB0-00008i-VH
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 10:47:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53492)
+	id 1jJICu-0002c2-2s
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 10:49:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53820)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1jJI8j-0007Bo-Nq
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:45:18 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1jJIAJ-0000Ca-IX
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:46:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1jJI8i-00050G-Mz
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:45:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56739
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mlevitsk@redhat.com>) id 1jJIAI-0005zo-9X
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:46:55 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43479
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1jJI8i-0004yO-II
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:45:16 -0400
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jJIAI-0005yx-6R
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:46:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585665915;
+ s=mimecast20190719; t=1585666012;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OJErqcJ9brW6YPyurZ8Y+VLvgy6LGeSJ6a76T1MRCVE=;
- b=NxHKEc4Imvy0Y2IJJ0uD9VNW0DHrXZj06GsNIbtPyjjEiLqXzPDtsQkeeLQkc/WG8/6iRR
- nptXdFaat1uIwSw48el5sfBlX9bxuwssdLAf7QcpCmd3BfOMbufP1pHBTXE9qcgndIy9v7
- 80rS45jvV1gXpnc5nb+qSC+aq/mvlC8=
+ bh=aR6cvnWLu05ULYQ/Ai/AaZ1JX2lXZruVvGEPtpVVXrM=;
+ b=asJVKsbP3Xvmdgc6ESObiMn+Sw29K9MXsYtXcl143sD3YqTRge9zoHCr9I8K5TMCfVrY0x
+ vWvmV4QfUFgP0AUcDgZ4TPwH3SHqyeP2bv0eOUlmzhJ4Gxy27NENK0ERlYEMSsqvJmZIpR
+ jL75r8kAdWbtq2tgz0HgnzqDpMk5b4o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-364-Y2jhqy7lO66cpfJLReV1hw-1; Tue, 31 Mar 2020 10:45:13 -0400
-X-MC-Unique: Y2jhqy7lO66cpfJLReV1hw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-178-s1Efpet4NfqTGy1fGW0S0Q-1; Tue, 31 Mar 2020 10:46:48 -0400
+X-MC-Unique: s1Efpet4NfqTGy1fGW0S0Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F36F801A01
- for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 14:45:12 +0000 (UTC)
-Received: from localhost (ovpn-114-248.ams2.redhat.com [10.36.114.248])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4E30E5C3FA;
- Tue, 31 Mar 2020 14:45:09 +0000 (UTC)
-Date: Tue, 31 Mar 2020 15:45:07 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: [PATCH] vhost-vsock: fix double close() in the realize() error
- path
-Message-ID: <20200331144507.GB119071@stefanha-x1.localdomain>
-References: <20200331075910.42529-1-sgarzare@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <20200331075910.42529-1-sgarzare@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57E8B800D5B;
+ Tue, 31 Mar 2020 14:46:47 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B6D760BEC;
+ Tue, 31 Mar 2020 14:46:44 +0000 (UTC)
+Message-ID: <75f5b9944628f08554afa40d7762f91ef8f06716.camel@redhat.com>
+Subject: Re: [PATCH v6 07/42] nvme: refactor nvme_addr_read
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Klaus Birkelund Jensen <its@irrelevant.dk>
+Date: Tue, 31 Mar 2020 17:46:43 +0300
+In-Reply-To: <20200331124847.wbax7webzl4grv6f@apples.localdomain>
+References: <20200316142928.153431-1-its@irrelevant.dk>
+ <20200316142928.153431-8-its@irrelevant.dk>
+ <1fb18481dfcfa17c2395f3bcded0aef787badfc7.camel@redhat.com>
+ <20200331053948.ompv75njpyhlti7i@apples.localdomain>
+ <b46394ffa1e522bc7e0d3dcc5ab4762dfe16866c.camel@redhat.com>
+ <20200331124847.wbax7webzl4grv6f@apples.localdomain>
+Mime-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="hQiwHBbRI9kgIhsi"
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,42 +75,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---hQiwHBbRI9kgIhsi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2020-03-31 at 14:48 +0200, Klaus Birkelund Jensen wrote:
+> On Mar 31 13:41, Maxim Levitsky wrote:
+> > On Tue, 2020-03-31 at 07:39 +0200, Klaus Birkelund Jensen wrote:
+> > > On Mar 25 12:38, Maxim Levitsky wrote:
+> > > > Note that this patch still contains a bug that it removes the check against the accessed
+> > > > size, which you fix in later patch.
+> > > > I prefer to not add a bug in first place
+> > > > However if you have a reason for this, I won't mind.
+> > > > 
+> > > 
+> > > So yeah. The resons is that there is actually no bug at this point
+> > > because the controller only supports PRPs. I actually thought there was
+> > > a bug as well and reported it to qemu-security some months ago as a
+> > > potential out of bounds access. I was then schooled by Keith on how PRPs
+> > > work ;) Below is a paraphrased version of Keiths analysis.
+> > > 
+> > > The PRPs does not cross page boundaries:
+> > 
+> > True
+> > 
+> > > 
+> > >     trans_len = n->page_size - (prp1 % n->page_size);
+> > > 
+> > > The PRPs are always verified to be page aligned:
+> > 
+> > True
+> > > 
+> > >     if (unlikely(!prp_ent || prp_ent & (n->page_size - 1))) {
+> > > 
+> > > and the transfer length wont go above page size. So, since the beginning
+> > > of the address is within the CMB and considering that the CMB is of an
+> > > MB aligned and sized granularity, then we can never cross outside it
+> > > with PRPs.
+> > 
+> > I understand now, however the reason I am arguing about this is
+> > that this patch actually _removes_ the size bound check
+> > 
+> > It was before the patch:
+> > 
+> > n->cmbsz && addr >= n->ctrl_mem.addr &&
+> >       addr < (n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size)
+> > 
+> 
+> I don't think it does - the check is just moved to nvme_addr_is_cmb:
+> 
+>     static inline bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr)
+>     {
+>         hwaddr low = n->ctrl_mem.addr;
+>         hwaddr hi  = n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size);
+> 
+>         return addr >= low && addr < hi;
+>     }
+> 
+> We check that `addr` is less than `hi`. Maybe the name is unfortunate...
+> 
+> 
+Oh, I am just blind! sorry about that.
+You are 100% right.
 
-On Tue, Mar 31, 2020 at 09:59:10AM +0200, Stefano Garzarella wrote:
-> vhost_dev_cleanup() closes the vhostfd parameter passed to
-> vhost_dev_init(), so this patch avoids closing it twice in
-> the vhost_vsock_device_realize() error path.
->=20
-> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-> ---
->  hw/virtio/vhost-vsock.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---hQiwHBbRI9kgIhsi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6DV3MACgkQnKSrs4Gr
-c8i3tQgAvdwmtSa58Eh4LsoVBTqCLgyp0J4o3Mq5PZubmk/7QeBJEKUOD4u1Mmog
-ADVpd5GLw/jyOpicqhI9Q41j9Xc/LCFQtMTOb9zOkIJ3d4QPIPWvMwNs3IvvtT1d
-buWbeyk/DC/34P039z2ngT0NRCM0KOX4Sqa11bh1wcPbOqIZ5+GkojAhXRBN6dEi
-dl0klSlUnFepIS3g4hztsoJhytxkEJMOkW3k7ZESeSh2xTSbjwjegcdQg2SWwGgI
-6hnISluVP+WUAg9Oo8KeXDVgSgp6gjpeEUEemFOCM0CpLhlBVFIERrlDCetqxsT3
-2R6dAV9OGyHMPJK0QG2mPwt6+ZHHOA==
-=d00o
------END PGP SIGNATURE-----
-
---hQiwHBbRI9kgIhsi--
+Best regards,
+	Maxim Levitsky
 
 
