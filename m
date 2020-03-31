@@ -2,51 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B1B519994E
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 17:11:51 +0200 (CEST)
-Received: from localhost ([::1]:39884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BF9A19996B
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 17:17:13 +0200 (CEST)
+Received: from localhost ([::1]:40028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJIYQ-0004lX-6l
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 11:11:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58610)
+	id 1jJIdc-0005AS-1G
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 11:17:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59879)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jJIX2-0003D4-Qv
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:10:26 -0400
+ (envelope-from <bounces@canonical.com>) id 1jJIcW-0004N5-Ud
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:16:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jJIX1-0001CU-14
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:10:24 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:61729)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1jJIWz-0001Bk-U5
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:10:22 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id E5D75747E0F;
- Tue, 31 Mar 2020 17:10:19 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A51F97475F6; Tue, 31 Mar 2020 17:10:19 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id A371574638A;
- Tue, 31 Mar 2020 17:10:19 +0200 (CEST)
-Date: Tue, 31 Mar 2020 17:10:19 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH] configure: warn if not using a separate build
- directory
-In-Reply-To: <042a22e2-5be5-ba57-1c35-8f210d9718fd@redhat.com>
-Message-ID: <alpine.BSF.2.22.395.2003311707100.73689@zero.eik.bme.hu>
-References: <20200331103758.370644-1-berrange@redhat.com>
- <042a22e2-5be5-ba57-1c35-8f210d9718fd@redhat.com>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+ (envelope-from <bounces@canonical.com>) id 1jJIcV-0004SD-IJ
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:16:04 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36776)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jJIcV-0004R5-Cl
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:16:03 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jJIcR-0008Rm-Rx
+ for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 15:15:59 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 338192E80D2
+ for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 15:15:59 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- BOUNDARY="3866299591-1014521963-1585667234=:73689"
-Content-ID: <alpine.BSF.2.22.395.2003311707180.73689@zero.eik.bme.hu>
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 152.66.115.2
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 31 Mar 2020 15:10:34 -0000
+From: carlosedp <carlosedp@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: ppc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: carlosedp laurent-vivier
+X-Launchpad-Bug-Reporter: carlosedp (carlosedp)
+X-Launchpad-Bug-Modifier: carlosedp (carlosedp)
+References: <158445595923.20060.16174990100496488911.malonedeb@wampee.canonical.com>
+Message-Id: <158566743431.24030.9186298318794643830.malone@soybean.canonical.com>
+Subject: [Bug 1867786] Re: Qemu PPC64 freezes with multi-core CPU
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a296f04231dee355be5db73cc878b9e21689a253";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 76f26eb0621368e6ac9af7afde0b3f44e883440c
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -55,151 +65,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>,
- Liviu Ionescu <ilg@livius.net>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?ISO-8859-15?Q?Michal_Such=E1nek?= <msuchanek@suse.de>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Reply-To: Bug 1867786 <1867786@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi Laurent, confirm that after changing the network adapter to the
+e1000e it worked flawlessly for hours with 4 cores on Macbook Pro.
 
---3866299591-1014521963-1585667234=:73689
-Content-Type: text/plain; CHARSET=ISO-8859-15; format=flowed
-Content-ID: <alpine.BSF.2.22.395.2003311707181.73689@zero.eik.bme.hu>
-Content-Transfer-Encoding: quoted-printable
+Thanks!
 
-On Tue, 31 Mar 2020, Eric Blake wrote:
-> On 3/31/20 5:37 AM, Daniel P. Berrang=E9 wrote:
->> Running configure directly from the source directory is a build
->> configuration that will go away in future. It is also not currently
->> covered by any automated testing. Display a deprecation warning if
->> the user attempts to use an in-srcdir build setup, so that they are
->> aware that they're building QEMU in an undesirable manner.
->>=20
->> Signed-off-by: Daniel P. Berrang=E9 <berrange@redhat.com>
->> ---
->>   configure | 30 ++++++++++++++++++++++++++++++
->>   1 file changed, 30 insertions(+)
->>=20
->
-> It sounds like you already have a v2 coming up to address Phillipe's=20
-> comments, but I'd be happy to see this concept make it into v5.0.
->
->> diff --git a/configure b/configure
->> index e225a1e3ff..1ab7492ab5 100755
->> --- a/configure
->> +++ b/configure
->> @@ -3,6 +3,19 @@
->>   # qemu configure script (c) 2003 Fabrice Bellard
->>   #
->>   +BUILDDIR=3D$(pwd)
->
-> Why fork out to 'pwd', when we can rely on $PWD for the same answer? No=
-te=20
-> that both $(pwd) and $PWD $BUILDDIR always give an absolute (but no=20
-> necessarily canonical) path, which means...
->
->> +SRCDIR=3D$(dirname "$0")
->> +
->> +ABS_BUILDDIR=3D$(realpath $BUILDDIR)
->
-> ...calling this ABS_BUILDDIR is a misnomer (it was already absolute). W=
-hat it=20
-> is really doing is chasing through symlinks to result in a canonical na=
-me,=20
-> particularly since unless you have absolute names, using only string=20
-> comparison to see if two filenames are equivalent will have false negat=
-ives=20
-> (/tmp vs. /tmp/., for example).
->
->> +ABS_SRCDIR=3D$(realpath $SRCDIR)
->
-> Not robust if there are spaces in the directory names.  Safer would be
-> ABS_BUILDDIR=3D$(realpath -- "$BUILDDIR")
-> and similarly for ABS_SRCDIR.
->
->> +
->> +in_srcdir=3Dno
->> +if [ "$ABS_SRCDIR" =3D=3D "$ABS_BUILDDIR" ]
->
-> Bashism. You MUST spell this '=3D', not '=3D=3D', since configure is ru=
-n under=20
-> /bin/sh which might be dash which does not understand =3D=3D.
->
->> +then
->> +    in_srcdir=3Dyes
->> +fi
->> +
->> +
->>   # Unset some variables known to interfere with behavior of common to=
-ols,
->>   # just as autoconf does.
->>   CLICOLOR_FORCE=3D GREP_OPTIONS=3D
->> @@ -6799,6 +6812,23 @@ if test "$supported_os" =3D "no"; then
->>       echo "us upstream at qemu-devel@nongnu.org."
->>   fi
->>   +if test "$in_srcdir" =3D "yes"; then
->> +    echo
->> +    echo "WARNING: SUPPORT FOR IN SOURCE DIR BUILDS IS DEPRECATED"
->> +    echo
->> +    echo "Support for running the 'configure' script directly from th=
-e"
->> +    echo "source directory is deprecated and will go away in a future=
-"
->> +    echo "release. In source dir builds are not covered by automated"
->> +    echo "testing and are liable to break without warning. Users are"
->> +    echo "strongly recommended to switch to a separate build director=
-y:"
->> +    echo
->> +    echo "  $ mkdir build"
->> +    echo "  $ cd build"
->> +    echo "  $ ../configure"
->> +    echo "  $ make"
->> +    echo
->> +fi
->
-> You know, it WOULD be possible to further enhance this to actually crea=
-te=20
-> 'build' as well as a shim GNUmakefile that would auto-forward on to bui=
-lding=20
-> directly in build, so that you maintain the illusion of an in-place bui=
-ld=20
-> (other than all the build artifacts now living in a different location)=
-, and=20
-> muscle memory for in-tree 'make' still works; I've posted elsewhere and=
- will=20
-> repeat here the contents of my GNUmakefile:
->
-> # Hack for redirecting while reminding myself to use distinct builddir
-> ifeq ($(MAKECMDGOALS),)
-> recurse: all
-> endif
-> %: force
-> 	@echo 'changing directory to build...'
-> 	@sleep 2
+-- =
 
-Right, just drop all the 14 line warning above, this one line here should=
-=20
-be enough to remind people (maybe reworded to say that build results are=20
-found there and move it after the $(MAKE) so it's printed last and drop=20
-the sleep 2 and this should work.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1867786
 
-Regards,
-BALATON Zoltan
+Title:
+  Qemu PPC64 freezes with multi-core CPU
 
-> 	@$(MAKE) -C build -f Makefile $(MAKECMDGOALS)
-> force: ;
-> .PHONY: force
-> GNUmakefile: ;
->
->
-> But we could do that as a patch on top of yours.
->
->
---3866299591-1014521963-1585667234=:73689--
+Status in QEMU:
+  New
+
+Bug description:
+  I installed Debian 10 on a Qemu PPC64 VM running with the following
+  flags:
+
+  qemu-system-ppc64 \
+       -nographic -nodefaults -monitor pty -serial stdio \
+       -M pseries -cpu POWER9 -smp cores=3D4,threads=3D1 -m 4G \
+       -drive file=3Ddebian-ppc64el-qemu.qcow2,format=3Dqcow2,if=3Dvirtio \
+       -netdev user,id=3Dnetwork01,$ports -device rtl8139,netdev=3Dnetwork0=
+1 \
+
+  =
+
+  Within a couple minutes on any operation (could be a Go application or si=
+mply changing the hostname with hostnamectl, the VM freezes and prints this=
+ on the console:
+
+  ```
+  root@debian:~# [  950.428255] rcu: INFO: rcu_sched self-detected stall on=
+ CPU
+  [  950.428453] rcu:     3-....: (5318 ticks this GP) idle=3D8e2/1/0x40000=
+00000000004 softirq=3D5957/5960 fqs=3D2544
+  [  976.244481] watchdog: BUG: soft lockup - CPU#3 stuck for 23s! [zsh:462]
+
+  Message from syslogd@debian at Mar 17 11:35:24 ...
+   kernel:[  976.244481] watchdog: BUG: soft lockup - CPU#3 stuck for 23s! =
+[zsh:462]
+  [  980.110018] rcu: INFO: rcu_sched detected expedited stalls on CPUs/tas=
+ks: { 3-... } 5276 jiffies s: 93 root: 0x8/.
+  [  980.111177] rcu: blocking rcu_node structures:
+  [ 1013.442268] rcu: INFO: rcu_sched self-detected stall on CPU
+  [ 1013.442365] rcu:     3-....: (21071 ticks this GP) idle=3D8e2/1/0x4000=
+000000000004 softirq=3D5957/5960 fqs=3D9342
+  ```
+
+  If I change to 1 core on the command line, I haven't seen these
+  freezes.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1867786/+subscriptions
 
