@@ -2,49 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7722319994F
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 17:11:51 +0200 (CEST)
-Received: from localhost ([::1]:39882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA5B199950
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 17:12:49 +0200 (CEST)
+Received: from localhost ([::1]:39910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJIYQ-0004l8-Cp
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 11:11:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57685)
+	id 1jJIZM-0006oK-CY
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 11:12:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58233)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jJIRJ-0003Nv-4n
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:04:30 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jJIUk-0008OC-HT
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:08:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jJIRH-0003ve-80
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:04:28 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:61602)
+ (envelope-from <kwolf@redhat.com>) id 1jJIUj-0008Oi-7Z
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:08:02 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39621
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1jJIRF-0003Xt-Ve
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:04:27 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 56E64745953;
- Tue, 31 Mar 2020 17:04:17 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id CD293747EA2; Tue, 31 Mar 2020 17:04:16 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id CC08B747EA7;
- Tue, 31 Mar 2020 17:04:16 +0200 (CEST)
-Date: Tue, 31 Mar 2020 17:04:16 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: deprecation of in-tree builds
-In-Reply-To: <20200331125030.GG353752@redhat.com>
-Message-ID: <alpine.BSF.2.22.395.2003311632270.73689@zero.eik.bme.hu>
-References: <CAFEAcA8E6goDHb-7kKCTp=wSpBsuJcfjMmLP0EgymiEL348r4A@mail.gmail.com>
- <87v9mmug73.fsf@dusky.pond.sub.org>
- <CAFEAcA-9U=EAXAtPDh_AnO3eUbM_jcRBuf4x=0Rec0EC-v2mNA@mail.gmail.com>
- <875zel5722.fsf@dusky.pond.sub.org>
- <alpine.BSF.2.22.395.2003311417190.73689@zero.eik.bme.hu>
- <20200331125030.GG353752@redhat.com>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jJIUj-0008OI-42
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 11:08:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585667280;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kZI6ZWDlyXnpjwUIr7sBRa5x+lgCmRA0UTkCASxf4tA=;
+ b=S5q/1Opz7SWp93s9jwhqrwMZfLhUTtKVXY+0cVCnybaeKAq5esX4aXou0BOn68zHekMbaS
+ MqKnwPWkdIn1rhZ7M4QY+Rgc7Zl+BGlTnh2U0GfD4pGKBWASCHo9ADFqvN7D4wQ2QKB1uJ
+ P0UV9H4hz/Bd2vuIVnPQDyxZ1I8/yEA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-271-vh_pEtfEOym-P9hOoa5dSg-1; Tue, 31 Mar 2020 11:07:58 -0400
+X-MC-Unique: vh_pEtfEOym-P9hOoa5dSg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D9AC18C43C0;
+ Tue, 31 Mar 2020 15:07:57 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-236.ams2.redhat.com [10.36.114.236])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 733FC60BFE;
+ Tue, 31 Mar 2020 15:07:55 +0000 (UTC)
+Date: Tue, 31 Mar 2020 17:07:53 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v10 00/14] iotests: use python logging
+Message-ID: <20200331150753.GH7030@linux.fritz.box>
+References: <20200331000014.11581-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="3866299591-84508624-1585667056=:73689"
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 152.66.115.2
+In-Reply-To: <20200331000014.11581-1-jsnow@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,95 +73,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: ehabkost@redhat.com, qemu-block@nongnu.org, armbru@redhat.com,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Am 31.03.2020 um 02:00 hat John Snow geschrieben:
+> This series uses python logging to enable output conditionally on
+> iotests.log(). We unify an initialization call (which also enables
+> debugging output for those tests with -d) and then make the switch
+> inside of iotests.
+>=20
+> It will help alleviate the need to create logged/unlogged versions
+> of all the various helpers we have made.
+>=20
+> Also, I got lost and accidentally delinted iotests while I was here.
+> Sorry about that. By version 9, it's now the overwhelming focus of
+> this series. No good deed, etc.
 
---3866299591-84508624-1585667056=:73689
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 
-On Tue, 31 Mar 2020, Daniel P. Berrang=C3=A9 wrote:
-> On Tue, Mar 31, 2020 at 02:33:46PM +0200, BALATON Zoltan wrote:
->>> We will have to ask developers to change habits anyway when we switch=
- to
->>> Meson.  I agree with Daniel's recommendation to delay changes requiri=
-ng
->>> habit-changes until then.  However, telling people to stay clear of t=
-he
->>> unloved and brittle in-tree build is simply good advice we should not
->>> withhold.
->>
->> Can someone please explain why is it brittle and cannot be supported? =
-It has
->> worked well so far apart from some breakage due to being untested whic=
-h is
->> also not a techincal necessity just a decision by some maintiners to n=
-ot
->> test it. Adding a CI job to keep it working would also not be difficul=
-t or
->> much complexity.
->
-> Writing make rules to correctly handle both src-dir and build-dir scena=
-rios
-> is a non-negligible maint burden. If you look back through QEMU's histo=
-ry
-> we have a steady stream of patches which have broken one or the other
-> build scenarios.
-
-That's probably becuase there are no clear rules (such as always prefix=20
-files in source dir with $(SRC_PATH), generated files with some BUILDDIR,=
-=20
-etc.) and these are not documented so every time someone touches it has t=
-o=20
-explore and debug it again. This could be avoided if these were written=20
-down once but instead of trying to document and clean up the build system=
-=20
-the chosen direction is to just throw it out and replace it with somethin=
-g=20
-more complex and with more dependencies (Meson) and then to save=20
-"additional complexity" it also breaks people's workflow and demand them=20
-to adapt themselves. I'm not saying there should be no changes but if=20
-there's a way to make them less painful it could be considered if it's no=
-t=20
-much extra work and in this case it does not seem to be.
-
-> Developers will often not test both scenarios, just the one they prefer
-> to use. This results in a maint burden on the subsystem maintainers who
-> merge patches and then find they break & have to back them out. Sometim=
-es
-> even the subsystem maintainer gets it wrong and burden falls on Peter t=
-o
-> find & reject it.
->
-> Even if we have CI to test both, it is still a burden on developers to
-> debug failures reported by the CI and figure out what needs fixing. Wit=
-h
-> the number of builds we do & the time for a single CI cycle it gets ver=
-y
-> time consuming. I've personally wasted many many hours debugging src-di=
-r
-> vs build-dir problems in QEMU's makefiles - probably more than an entir=
-e
-> day was lost when I did the patches to split the trace.h header file.
->
-> This all serves to divert time away from useful work on QEMU. If there
-> was some critically important functional thing that src-dir builds offe=
-r
-> that can't be achieved by build-dir builds, then the extra maint work
-> could be justified. I don't think that's the case though.
-
-OK, so then only supporting out-of-tree builds but adding convenience=20
-function and Makefile to still allow people to run configure; make from=20
-source dir would solve this without also needing people to change what=20
-they always did so why is that solution not acceptable?
-
-Regards,
-BALATON Zoltan
---3866299591-84508624-1585667056=:73689--
 
