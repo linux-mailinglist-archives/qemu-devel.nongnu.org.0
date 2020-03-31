@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9227C19984D
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 16:20:36 +0200 (CEST)
-Received: from localhost ([::1]:38840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A7C419986A
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 16:27:46 +0200 (CEST)
+Received: from localhost ([::1]:38912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJHkp-00021D-DT
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 10:20:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49848)
+	id 1jJHrl-0007PF-Bn
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 10:27:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50782)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jJHij-0000Py-Vk
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:18:26 -0400
+ (envelope-from <mst@redhat.com>) id 1jJHqx-0006zR-A2
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:26:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1jJHii-0007NN-Us
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:18:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58550
+ (envelope-from <mst@redhat.com>) id 1jJHqv-0004Mv-Ek
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:26:54 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38457
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jJHii-0007N9-QE
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:18:24 -0400
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jJHqv-0004Lt-6Y
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:26:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585664304;
+ s=mimecast20190719; t=1585664812;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VTlOsDpYk9K4CCyKC/PHiJOVkImHO3u7FyPoS+CwZL4=;
- b=adEBqPfSFkUOVo51T5hlXLA9kSMnnmM6arLLORsOYKmvXpNDMFcr/gBEvokHY+Li4JPT4J
- MtolCHC4uOmRFFPWcpWIRcpt2ynG694/JwNzw5mKnHd60pruHPBgrxBBBj9HmLgE8sZtNc
- GyI1P8RhlAE52Qfb3sk38uCSUSRVS7s=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-130-fSLTNaa2O4qpzjiQGT-S6g-1; Tue, 31 Mar 2020 10:18:22 -0400
-X-MC-Unique: fSLTNaa2O4qpzjiQGT-S6g-1
-Received: by mail-wr1-f69.google.com with SMTP id q14so3445369wro.7
- for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 07:18:22 -0700 (PDT)
+ bh=aDLLs1FAqa7cGKm9O7cJiKWtcO9K2NnEaRF2AX/UQkM=;
+ b=PaUN9Lbn8ajxWAzudsIfg6ZSFZUb8Oqv8DcPiRTQvwkgIdv+yEP9Q/LaH6zn4yzykpEtIb
+ bHjHll6Tz8RjgVkKxUtY/fgSHYvP4tuugVh1kNJP8dDnvJrTFxNzLOvU2K9dflN8sdnjBQ
+ jly1FwEwVUpCPG9yLtW3gi/qXi/0oNU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-222-Nn0N8u-BOSW-Gg2_RU3csw-1; Tue, 31 Mar 2020 10:26:50 -0400
+X-MC-Unique: Nn0N8u-BOSW-Gg2_RU3csw-1
+Received: by mail-wr1-f72.google.com with SMTP id k11so68107wrm.19
+ for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 07:26:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=utmX18W31kXsBfpUq9t9FaLAztm0XHtfHqqaTLE/HnI=;
- b=cZlmAQWzqAroQfpnWB70pZ4b2IqVgn1zK7Rx6YamIQRR2eQOoU7mI1Oi+JxiSpeeK5
- vUErjqzPqcBufh4LlRbbg5TvsuoyIUriugEmRbybQyxf7Jv6wdlOsoRSQnYsdccHJEbn
- KWxZ/7ocg/sN0kU6c5Q+40WLx1xwH/lWm71q4GrVLr9OMiTOzeM4zADMt+h6HKJCj0YN
- 6INRqSUymHGgRJTS4l3grXMmn4Mp+vj0wli7AFt0WZawT/ltTEO6hm+/igZKzUMaGvsY
- wyk8A85HpAtF1vwBzqGCoGxZ3QnkjH97Qd8+Xa8No486252rgXtbUH2c4Esygd8VDr4G
- uryw==
-X-Gm-Message-State: ANhLgQ2c7cCNVmRJZg4/DxosoqXVKF8R9Xlx9zH3tDfzW+bGrWHzqnLj
- zD7VmkbKuns9vJIBCt1WTI6Q/T0REuoa8TCCWvThZu445hWWAAGnPpel3E3XjwBI3EyNPEy0TnG
- QLUhKgYlVjb7l4PI=
-X-Received: by 2002:adf:904a:: with SMTP id h68mr19456926wrh.291.1585664301564; 
- Tue, 31 Mar 2020 07:18:21 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtmKByeMbL7IF4Va4byN+91sp3eGql6iIZ+hxW44PDFMJBJ+l8uaRXS9tqFA+dHHnZNvwqR7w==
-X-Received: by 2002:adf:904a:: with SMTP id h68mr19456901wrh.291.1585664301366; 
- Tue, 31 Mar 2020 07:18:21 -0700 (PDT)
+ bh=9zSpGatOU+1AB/kcox36rwjVoWt88+VVoPODi2Zh1/g=;
+ b=rrlenQVSK23iyRxKG3QRLDgZQw/m6OrHikaf1h5zg+hQA85XfPzRqJ56YXBWPyWN6c
+ johOyTiM8YHiTD6I9R/PYm51sXVn2MQx3CRW0xtIwpzRNT4jvA6NYyekcOts+0g18boV
+ rRl+vtzqn0FvAL0I49TTEDcoDQdXnqknCcUfOUL8r9oXEX1teEno0UcN1U86EhbL2+EZ
+ /I9mznS8wIzEflsEScN+B7W0pCzH9k3h0vEWJ62SwiQInZbHtUO6cSFs0gL3LHYcaW1i
+ DuSe82NEU2Fr5R7clhceQTuP4otKXzQ3iGtgzGyugmwAZ3IhUH/RORj5BjR5dUIZ9kFJ
+ urXQ==
+X-Gm-Message-State: ANhLgQ2oeJGpGdrNPstsVo/GVKgP21Zlu6zXqABelGc12QTO4ZB01gwL
+ sLdvbIHJJUmSKS/hbH7FXotjIlSb4BBk8qW2KdRqYb6t8Peodfd/ddyVKlS7vXwAv84CmccTodq
+ m5iZfjPVzlH6qiIQ=
+X-Received: by 2002:adf:f38a:: with SMTP id m10mr20974848wro.168.1585664809332; 
+ Tue, 31 Mar 2020 07:26:49 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vvytDrEYCkckrpNGjAAUWgGdZM42YiEvrBkYxRp8wTMEhrekqZZQWsL5fs5uiqi5of/x2EO6g==
+X-Received: by 2002:adf:f38a:: with SMTP id m10mr20974830wro.168.1585664809122; 
+ Tue, 31 Mar 2020 07:26:49 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-51-222.red.bezeqint.net. [79.176.51.222])
- by smtp.gmail.com with ESMTPSA id z19sm28466709wrg.28.2020.03.31.07.18.19
+ by smtp.gmail.com with ESMTPSA id f3sm2287637wmj.24.2020.03.31.07.26.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Mar 2020 07:18:20 -0700 (PDT)
-Date: Tue, 31 Mar 2020 10:18:17 -0400
+ Tue, 31 Mar 2020 07:26:48 -0700 (PDT)
+Date: Tue, 31 Mar 2020 10:26:46 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [RFC for Linux] virtio_balloon: Add VIRTIO_BALLOON_F_THP_ORDER
- to handle THP spilt issue
-Message-ID: <20200331101117-mutt-send-email-mst@kernel.org>
-References: <20200326031817-mutt-send-email-mst@kernel.org>
- <C4C6BAF7-C040-403D-997C-48C7AB5A7D6B@redhat.com>
- <20200326054554-mutt-send-email-mst@kernel.org>
- <f26dc94a-7296-90c9-56cd-4586b78bc03d@redhat.com>
- <20200331091718-mutt-send-email-mst@kernel.org>
- <02a393ce-c4b4-ede9-7671-76fa4c19097a@redhat.com>
- <20200331093300-mutt-send-email-mst@kernel.org>
- <b69796e0-fa41-a219-c3e5-a11e9f5f18bf@redhat.com>
- <20200331100359-mutt-send-email-mst@kernel.org>
- <85f699d4-459a-a319-0a8f-96c87d345c49@redhat.com>
+To: Yuri Benditovich <yuri.benditovich@daynix.com>
+Subject: Re: [PATCH v7 0/7] reference implementation of RSS and hash report
+Message-ID: <20200331102004-mutt-send-email-mst@kernel.org>
+References: <20200329150953.23812-1-yuri.benditovich@daynix.com>
 MIME-Version: 1.0
-In-Reply-To: <85f699d4-459a-a319-0a8f-96c87d345c49@redhat.com>
+In-Reply-To: <20200329150953.23812-1-yuri.benditovich@daynix.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
@@ -96,50 +86,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pagupta@redhat.com, Alexander Duyck <alexander.h.duyck@linux.intel.com>,
- qemu-devel@nongnu.org, mojha@codeaurora.org, linux-kernel@vger.kernel.org,
- virtualization@lists.linux-foundation.org, namit@vmware.com,
- Hui Zhu <teawaterz@linux.alibaba.com>, akpm@linux-foundation.org,
- jasowang@redhat.com, Hui Zhu <teawater@gmail.com>
+Cc: yan@daynix.com, jasowang@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 31, 2020 at 04:09:59PM +0200, David Hildenbrand wrote:
+On Sun, Mar 29, 2020 at 06:09:46PM +0300, Yuri Benditovich wrote:
+> Support for VIRTIO_NET_F_RSS and VIRTIO_NET_F_HASH_REPORT
+> features in QEMU for reference purpose.
+> Implements Toeplitz hash calculation for incoming
+> packets according to configuration provided by driver.
+> Uses calculated hash for decision on receive virtqueue
+> and/or reports the hash in the virtio header
 
-...
 
-> >>>>>>>>>>> So if we want to address this, IMHO this calls for a new API.
-> >>>>>>>>>>> Along the lines of
-> >>>>>>>>>>>
-> >>>>>>>>>>>    struct page *alloc_page_range(gfp_t gfp, unsigned int min_=
-order,
-> >>>>>>>>>>>                    unsigned int max_order, unsigned int *orde=
-r)
-> >>>>>>>>>>>
-> >>>>>>>>>>> the idea would then be to return at a number of pages in the =
-given
-> >>>>>>>>>>> range.
-> >>>>>>>>>>>
-> >>>>>>>>>>> What do you think? Want to try implementing that?
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
-..
+Probably post 5.0 material.
 
-> I expect the whole "steal huge pages from your guest" to be problematic,
-> as I already mentioned to Alex. This needs a performance evaluation.
+> Changes from v6:
+> Fixed a bug in patch 5 "reference implementation of hash report"
+> that caused the ASAN test to fail
+> was: n->rss_data.populate_hash =3D true;
+> fixed: n->rss_data.populate_hash =3D !!hash_report;
 >=20
-> This all smells like a lot of workload dependent fine-tuning. :)
-
-
-So that's why I proposed the API above.
-
-The idea is that *if we are allocating a huge page anyway*,
-rather than break it up let's send it whole to the device.
-If we have smaller pages, return smaller pages.
-
-That seems like it would always be an improvement, whatever the
-workload.
-
---=20
-MST
+> Yuri Benditovich (7):
+>   virtio-net: introduce RSS and hash report features
+>   virtio-net: implement RSS configuration command
+>   virtio-net: implement RX RSS processing
+>   tap: allow extended virtio header with hash info
+>   virtio-net: reference implementation of hash report
+>   vmstate.h: provide VMSTATE_VARRAY_UINT16_ALLOC macro
+>   virtio-net: add migration support for RSS and hash report
+>=20
+>  hw/net/trace-events            |   3 +
+>  hw/net/virtio-net.c            | 448 +++++++++++++++++++++++++++++++--
+>  include/hw/virtio/virtio-net.h |  16 ++
+>  include/migration/vmstate.h    |  10 +
+>  net/tap.c                      |  11 +-
+>  5 files changed, 460 insertions(+), 28 deletions(-)
+>=20
+> --=20
+> 2.17.1
 
 
