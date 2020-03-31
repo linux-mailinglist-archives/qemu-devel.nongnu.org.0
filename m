@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99B7A19941C
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 12:53:06 +0200 (CEST)
-Received: from localhost ([::1]:35856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32D6819942E
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 12:54:48 +0200 (CEST)
+Received: from localhost ([::1]:35874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJEW1-00049J-Lm
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 06:53:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52953)
+	id 1jJEXf-0006f8-8g
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 06:54:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52968)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jJEU1-0002OA-U2
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:51:03 -0400
+ id 1jJEU3-0002Q7-Lv
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:51:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jJEU0-0006I1-Or
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:51:01 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40476)
+ id 1jJEU2-0006JF-If
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:51:03 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33150)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jJEU0-0006HD-Ih
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:51:00 -0400
-Received: by mail-wm1-x343.google.com with SMTP id a81so2023465wmf.5
- for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 03:51:00 -0700 (PDT)
+ id 1jJEU2-0006Il-D0
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:51:02 -0400
+Received: by mail-wr1-x444.google.com with SMTP id a25so25350203wrd.0
+ for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 03:51:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NTEVMDbO4wtPzpWjDeuq384PlojGr8aCfjPexjiQfbw=;
- b=gyepPOW6Hg+OHkFgwwNud5yofv8/3l8kv1+v59ajcufK2uFMCXl8ENXu3Y46SVaxGG
- v/Oun7ncY4HuqVNFPN6lj7hZSLiz8i+DUPridgNa7vb+JD5XN3x3MdDzu74ZisAO0kcF
- 27a8nD8xBgXY3Id3d7Bvy8BmRwMHULU4AgX4u7mWs4JbQCK2SjUihPEOM0CupEM9VVF0
- Tc6GHkEyV0Km0F318LybAt/ACE+kmIzP7VSCFhdtqltn0qnsvLbAuOx7x0Lc7yeglTUu
- 8Kr4cecnNAiWQiRgf6CXXNNPHpWjlvxynjG6icsQoJ4F3qeyeyTS2PbJDWRuiZsXaima
- S99A==
+ bh=DF8+zMwnTWpvkhxGJn3XQCWqhl7knakcPY4RQn/CDdU=;
+ b=nJd40LozPdurEkzqGIMbNv9ByRGsAYjG175eDxp4BshF7wxW9MXR3XEJy+tG7rfxXy
+ KkIDoHrYCww+0f1udT5fFf4PBXFBuRsQqjIe4+in/SGJLCQzbmSnYYPrPaPFJIFpGaFj
+ pDxwoSwBSzig2VyvOzmkhpsK46bVnkhCqRiN8F7y0vSvcYQtBJy0r1UgMzU3C+2zqM2E
+ 95HkIRsNznRyYdJR8nEKDMo4n3fhp7JGWssFE9iKZunfxscIvRAUXaYI5FYaOJzE4iGb
+ jUbD1gVb77Pt6eH9AnWD2Y/GaBuP6Efp1m747ZctX7SsdT3iyHyeD+u2Y7GSVn5WmOTX
+ wpEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=NTEVMDbO4wtPzpWjDeuq384PlojGr8aCfjPexjiQfbw=;
- b=I2lXzP4lWfx/b7PxL6uj4SusDhj4rrB8rHrcQdxLWOI8lzVMZ8gnlJxxZv+86KUFnQ
- CQCa0WPdiq267hOMuaHXedgEoa9Li5e7fCnr2r5HmO7a2rLBAILHxgWND0Jd5ux/KWld
- vmGHHv7JnRUe1enitegYC6OldSYPN7rP/UUk8mYH9cosbvaNQOdGRogspgCvNhWPwnjR
- oP9q05/uXgoq3gawqH6XPa8tDr0awb2STICUAaLl15CrPsJytvG0JvyqVi1RZwxTY3AE
- N1p4rdjdmaIimsAR1E3P+vz7DOIOMdLIl5rLs3No9xmqaBVzZVobgUOsz2rBypiAC/xF
- PSWw==
-X-Gm-Message-State: ANhLgQ3y8dze577852UIOUpK8w0MJS9wCnk8uLvhKyYHwCJWmjOkslee
- 1eWMz8hKmitn2O2axfWsr/qFDCaiNbc=
-X-Google-Smtp-Source: ADFU+vvNTqEIj0dE/ch21tINs+V7stnqZ8Q4J/YxzejW1IUiTyBHm1hi5RwHBDC5n27BUAhENpb3ug==
-X-Received: by 2002:a1c:4c1a:: with SMTP id z26mr2785273wmf.94.1585651859326; 
- Tue, 31 Mar 2020 03:50:59 -0700 (PDT)
+ bh=DF8+zMwnTWpvkhxGJn3XQCWqhl7knakcPY4RQn/CDdU=;
+ b=qL+6ZU48TVUE2zNysLWoT30AVCQA+5xWKN40OZj5VhUKxG21DyQa4ecB0G5e5+UAGp
+ piiPuukCqVvSqfwSykd2FqAEEVCEttjS5+HdrCbT356RD/NXhKIPvTOhd2CjNjn4I7Bu
+ Wheb3PJWCWnIOZd+23LprICWj7Zz/zFf5nxcCIZu4gjmHz3kzBW9ZKUx+gWONQhOR30B
+ xDG29N+DBqjaC/BzRfHZ2Ezu5gdVPZ80oZk7T5RkMqAnt8nb71v7PehTu4u6CZq2q24o
+ 0EyLsl6FFhnIEHquNAXz8/mgOilLrhT2l4yyoni/Lkqln2kLln40o6OdcSp3EmdZpigf
+ VAQA==
+X-Gm-Message-State: ANhLgQ3N6YTSvclLJf9Tcac73YQtuIsRP5R8Xct53eFAAb+tGC+qZ6Ew
+ BTD1NSjTBilqtS5YP3xudwCyoh+Pus8=
+X-Google-Smtp-Source: ADFU+vvLJG1OUdVDpwQwmuN/aB8lLj9Y2rK62Wcx1Y17tVS5NHJ5RKMuF3oINxiPZvKa+wIGuTDzxQ==
+X-Received: by 2002:a5d:6182:: with SMTP id j2mr19338959wru.131.1585651860923; 
+ Tue, 31 Mar 2020 03:51:00 -0700 (PDT)
 Received: from localhost.localdomain (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id w3sm26042830wrn.31.2020.03.31.03.50.57
+ by smtp.gmail.com with ESMTPSA id w3sm26042830wrn.31.2020.03.31.03.50.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Mar 2020 03:50:58 -0700 (PDT)
+ Tue, 31 Mar 2020 03:51:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0 2/7] hw/misc/grlib_ahb_apb_pnp: Avoid crash when
- writing to AHB PnP registers
-Date: Tue, 31 Mar 2020 12:50:43 +0200
-Message-Id: <20200331105048.27989-3-f4bug@amsat.org>
+Subject: [PATCH-for-5.0 3/7] hw/misc/grlib_ahb_apb_pnp: Fix AHB PnP 8-bit
+ accesses
+Date: Tue, 31 Mar 2020 12:50:44 +0200
+Message-Id: <20200331105048.27989-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200331105048.27989-1-f4bug@amsat.org>
 References: <20200331105048.27989-1-f4bug@amsat.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,56 +91,42 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similarly to commit 158b659451 with the APB PnP registers, guests
-can crash QEMU when writting to the AHB PnP registers:
+The Plug & Play region of the AHB/APB bridge can be accessed
+by various word size, however the implementation is clearly
+restricted to 32-bit:
 
-  $ echo 'writeb 0xfffff042 69' | qemu-system-sparc -M leon3_generic -S -bios /etc/magic -qtest stdio
-  [I 1571938309.932255] OPENED
-  [R +0.063474] writeb 0xfffff042 69
-  Segmentation fault (core dumped)
+  static uint64_t grlib_ahb_pnp_read(void *opaque, hwaddr offset, unsigned size)
+  {
+      AHBPnp *ahb_pnp = GRLIB_AHB_PNP(opaque);
 
-  (gdb) bt
-  #0  0x0000000000000000 in  ()
-  #1  0x0000562999110df4 in memory_region_write_with_attrs_accessor
-      (mr=mr@entry=0x56299aa28ea0, addr=66, value=value@entry=0x7fff6abe13b8, size=size@entry=1, shift=<optimized out>, mask=mask@entry=255, attrs=...) at memory.c:503
-  #2  0x000056299911095e in access_with_adjusted_size
-      (addr=addr@entry=66, value=value@entry=0x7fff6abe13b8, size=size@entry=1, access_size_min=<optimized out>, access_size_max=<optimized out>, access_fn=access_fn@entry=
-      0x562999110d70 <memory_region_write_with_attrs_accessor>, mr=0x56299aa28ea0, attrs=...) at memory.c:539
-  #3  0x0000562999114fba in memory_region_dispatch_write (mr=mr@entry=0x56299aa28ea0, addr=66, data=<optimized out>, op=<optimized out>, attrs=attrs@entry=...) at memory.c:1482
-  #4  0x00005629990c0860 in flatview_write_continue
-      (fv=fv@entry=0x56299aa7d8a0, addr=addr@entry=4294963266, attrs=..., ptr=ptr@entry=0x7fff6abe1540, len=len@entry=1, addr1=<optimized out>, l=<optimized out>, mr=0x56299aa28ea0)
-      at include/qemu/host-utils.h:164
-  #5  0x00005629990c0a76 in flatview_write (fv=0x56299aa7d8a0, addr=4294963266, attrs=..., buf=0x7fff6abe1540, len=1) at exec.c:3165
-  #6  0x00005629990c4c1b in address_space_write (as=<optimized out>, addr=<optimized out>, attrs=..., attrs@entry=..., buf=buf@entry=0x7fff6abe1540, len=len@entry=1) at exec.c:3256
-  #7  0x000056299910f807 in qtest_process_command (chr=chr@entry=0x5629995ee920 <qtest_chr>, words=words@entry=0x56299acfcfa0) at qtest.c:437
+      return ahb_pnp->regs[offset >> 2];
+  }
 
-Instead of crashing, log the access as unimplemented.
+Similarly to commit 0fbe394a64 with the APB PnP registers,
+set the MemoryRegionOps::impl min/max fields to 32-bit, so
+memory.c::access_with_adjusted_size() can adjust when the
+access is not 32-bit.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/misc/grlib_ahb_apb_pnp.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ hw/misc/grlib_ahb_apb_pnp.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/hw/misc/grlib_ahb_apb_pnp.c b/hw/misc/grlib_ahb_apb_pnp.c
-index e230e25363..72a8764776 100644
+index 72a8764776..d22ed00206 100644
 --- a/hw/misc/grlib_ahb_apb_pnp.c
 +++ b/hw/misc/grlib_ahb_apb_pnp.c
-@@ -136,8 +136,15 @@ static uint64_t grlib_ahb_pnp_read(void *opaque, hwaddr offset, unsigned size)
-     return ahb_pnp->regs[offset >> 2];
- }
- 
-+static void grlib_ahb_pnp_write(void *opaque, hwaddr addr,
-+                                uint64_t val, unsigned size)
-+{
-+    qemu_log_mask(LOG_UNIMP, "%s not implemented\n", __func__);
-+}
-+
- static const MemoryRegionOps grlib_ahb_pnp_ops = {
+@@ -146,6 +146,10 @@ static const MemoryRegionOps grlib_ahb_pnp_ops = {
      .read       = grlib_ahb_pnp_read,
-+    .write      = grlib_ahb_pnp_write,
+     .write      = grlib_ahb_pnp_write,
      .endianness = DEVICE_BIG_ENDIAN,
++    .impl = {
++        .min_access_size = 4,
++        .max_access_size = 4,
++    },
  };
  
+ static void grlib_ahb_pnp_realize(DeviceState *dev, Error **errp)
 -- 
 2.21.1
 
