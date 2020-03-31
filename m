@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7FF199416
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 12:52:57 +0200 (CEST)
-Received: from localhost ([::1]:35852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF4719942D
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 12:54:37 +0200 (CEST)
+Received: from localhost ([::1]:35870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJEVs-0003pA-6h
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 06:52:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52930)
+	id 1jJEXU-0006NM-P9
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 06:54:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52941)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jJETx-0002Ll-Jc
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:50:58 -0400
+ id 1jJEU0-0002MB-CD
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:51:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jJETw-0006EQ-Cf
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:50:57 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44225)
+ id 1jJETy-0006GR-Nt
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:51:00 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37271)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jJETw-0006DK-4l
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:50:56 -0400
-Received: by mail-wr1-x443.google.com with SMTP id m17so25252076wrw.11
- for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 03:50:56 -0700 (PDT)
+ id 1jJETy-0006FM-IA
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 06:50:58 -0400
+Received: by mail-wr1-x442.google.com with SMTP id w10so25375569wrm.4
+ for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 03:50:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lJqcVg1nkmfnugvWLqOmYqnLVrllS1d2tf91/cbFWCE=;
- b=GpP+ysRLnV0s20kXUN2ZO6HKsIUTEw5CxqtRUfeR/8y6i5onRLgRDtQRWkBrRiCBa6
- XTeyTUyZCeiaVTezQSQi1Nqe1a6PeD2Ya+9tQxypKfOudWBVOaQ+94WZ6q0Rm9vHWga5
- KbnC3QtCAn8mEiJKvjknuC+WfXB6gNtScySRF+R7yH0pPWDX5xTeBr5RqN2Vgfy4u/P2
- V4e+Q3t+9IQwtmWdfDrSMzGGISc4tSEKxVGAZ2M9JekVDP9JnH4fueX85UOOi1Y6eeXh
- rmC4bxpm6+Px0u4SyFmDqn7yyZtZMxdvxCfqc7rb44KN41RxHJ4/TTRA8Wunol9B8LpK
- h6kg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ONe6r8GpThcKL7DODhjdJnCo+VHtig9T6C7dDsrvCOM=;
+ b=OxFqDsHQFo3JUXB5y90BJtB/QXKJXAIFlqHWWbCVELj3X9bv6KvERbZrry5SVe0rnM
+ QOVhPcTtAWSrvAro+SpRc7IcN31oJS4TMlXKCdniQ1GT72VeOy7F0qBvzeoufxwR9zp3
+ zubg9QXFIige3U0fe/dLcNOxdIxK8Aq+87Q1F5RtWOijwOmsqYRuwmDbQ1UXXXmj9b/g
+ J7Jy34PtMbAeGAthKuOUoLswoGIWOxFY7JGpxVNhAE5fmf84OBlLN15FbaD0dwluhyPG
+ i6RqcYdJlZ8jeeevxa6BSS9NCkLu0XQrYI5LlT4mjYEj7wh+0/+e99ok3jV7J6XRdWRs
+ UXaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=lJqcVg1nkmfnugvWLqOmYqnLVrllS1d2tf91/cbFWCE=;
- b=iK8h7aqKtJOvfXgvVxtCsjFW4A+o3wAnyQ/fHkyPI1e41BJAVOEhN+lZrXoX3L8UuL
- I8/CMXH27MInUC9QHltrV53S5oO69Y9rms0MU4du5iyPzIvIqzUwuD6LvAzEVibxAi9u
- YdaGByIxbjHiY0+a38QK3+Idk5lwWzzy9unv1F8gHAw17EDTJTZrZ93NoYkJiRm18P/L
- RA2je/xmJtVpEorNDdogZSV9bnp50oZ34dpLtP/U+yuiFr9eMQTuxak+o9aihobbW1A6
- 6wkFn1irdkx2QTWSlX1gSPmy5QiUxdIn7B2NUKsf4JtNzJxvRWu2cTDgvZ4lrTn/5Du6
- VJeg==
-X-Gm-Message-State: ANhLgQ3PKPPKTbRSdzDXbKgHXtJB48/bmWtwAnlybZxiB77jzqapt+tG
- fvV7GyBUG89rw7hih/6TXQRVeuSBpDs=
-X-Google-Smtp-Source: ADFU+vtY6FRQLuswX7yS1SdXSGoJVm9WM66ygBROrJo8kbkNtDb3EpT+xvRisA4pPKbkN/VVZunzqQ==
-X-Received: by 2002:a05:6000:1205:: with SMTP id
- e5mr21104439wrx.73.1585651854684; 
- Tue, 31 Mar 2020 03:50:54 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=ONe6r8GpThcKL7DODhjdJnCo+VHtig9T6C7dDsrvCOM=;
+ b=mGrFnQwYVrosa00u0c67COdXNb7iKdSlFijyTFqVhT/Vvbyz1mgPRCnhLdXwqRd1JG
+ v0Q4rzIeY3h5amF8wI3v82qSkqlktIwa0jnrv4uIdp6PaDB3Z2ncFmkm6Fx0M86VCrNu
+ TCw3Bgm1PIgiRj8xUnoTyvjS3LLOdo2MQZOSu9m+wW9cDREB04sWxAzIS9zttbqRWwkT
+ yuZpWjS/64SbYL3CMSS5wiDoCG0w2tRZDfQcX7OX5PoFdV/5TNuqa7pHtqI/0tvZ7ka3
+ iAZn3ArrznSsuRhT4N2DiQMU5p+J/XKNVm9eA+/lvJIfAgwqUub7Sut+wY+FlFyPwGJA
+ liAQ==
+X-Gm-Message-State: ANhLgQ1O1HXzXNfVVQ9DSULzsCZCiD261EcegHGrK7RLafYVL0siMdoC
+ vvreeSvZE+VD+9t6A1YtewJ5cgkscG8=
+X-Google-Smtp-Source: ADFU+vvL6zgzSFx3/4B8OAiH9o7ME8WiuL8p9yLzLEH0mS1E2Nj5pPCVyIZi0t17Ll5+I4lbyhvA9g==
+X-Received: by 2002:adf:fa51:: with SMTP id y17mr20619972wrr.280.1585651856624; 
+ Tue, 31 Mar 2020 03:50:56 -0700 (PDT)
 Received: from localhost.localdomain (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id w3sm26042830wrn.31.2020.03.31.03.50.53
+ by smtp.gmail.com with ESMTPSA id w3sm26042830wrn.31.2020.03.31.03.50.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Mar 2020 03:50:53 -0700 (PDT)
+ Tue, 31 Mar 2020 03:50:55 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/7] hw/sparc/leon3: Few fixes and disable HelenOS test
-Date: Tue, 31 Mar 2020 12:50:41 +0200
-Message-Id: <20200331105048.27989-1-f4bug@amsat.org>
+Subject: [PATCH-for-5.0 1/7] tests/acceptance/machine_sparc_leon3: Disable
+ HelenOS test
+Date: Tue, 31 Mar 2020 12:50:42 +0200
+Message-Id: <20200331105048.27989-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200331105048.27989-1-f4bug@amsat.org>
+References: <20200331105048.27989-1-f4bug@amsat.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,28 +91,79 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Leon3Machine.test_leon3_helenos_uimage has been running
-erratically since some time now. Time to disable it (at least
-until we make it reliable).
-Few other patches added while tracking the issue.
+This test was written/tested around beginning of 2019, but was
+extracted from a bigger series and posted end of June 2019 [*].
+Unfortunately I did not notice commit 162abf1a8 was merged by
+then, which implements the AHB and APB plug and play devices.
 
-Philippe Mathieu-Daudé (7):
-  tests/acceptance/machine_sparc_leon3: Disable HelenOS test
-  hw/misc/grlib_ahb_apb_pnp: Avoid crash when writing to AHB PnP
-    registers
-  hw/misc/grlib_ahb_apb_pnp: Fix AHB PnP 8-bit accesses
-  hw/misc/grlib_ahb_apb_pnp: Add trace events on read accesses
-  hw/timer/grlib_gptimer: Display frequency in decimal
-  target/sparc/int32_helper: Remove DEBUG_PCALL definition
-  target/sparc/int32_helper: Extract and use excp_name_str()
+HelenOS 0.6 is expecting the PnP registers to be not implemented
+by QEMU, then forces the discovered AMBA devices (see [2]).
 
- hw/misc/grlib_ahb_apb_pnp.c             | 24 ++++++++++++++++++++++--
- target/sparc/int32_helper.c             | 23 ++++++++++++-----------
- hw/misc/trace-events                    |  4 ++++
- hw/timer/trace-events                   |  2 +-
- tests/acceptance/machine_sparc_leon3.py |  4 ++++
- 5 files changed, 43 insertions(+), 14 deletions(-)
+Before 162abf1a8, the console was displaying:
 
+  HelenOS bootloader, release 0.6.0 (Elastic Horse)
+  Built on 2014-12-21 20:17:42 for sparc32
+  Copyright (c) 2001-2014 HelenOS project
+   0x4000bf20|0x4000bf20: kernel image (496640/128466 bytes)
+   0x4002b4f2|0x4002b4f2: ns image (154195/66444 bytes)
+   0x4003b87e|0x4003b87e: loader image (153182/66437 bytes)
+   0x4004bc03|0x4004bc03: init image (155339/66834 bytes)
+   0x4005c115|0x4005c115: locsrv image (162063/70267 bytes)
+   0x4006d390|0x4006d390: rd image (152678/65889 bytes)
+   0x4007d4f1|0x4007d4f1: vfs image (168480/73394 bytes)
+   0x4008f3a3|0x4008f3a3: logger image (158034/68368 bytes)
+   0x4009feb3|0x4009feb3: ext4fs image (234510/100301 bytes)
+   0x400b8680|0x400b8680: initrd image (8388608/1668901 bytes)
+  ABMA devices:
+  <1:00c> at 0x80000100 irq 3
+  <1:00d> at 0x80000200
+  <1:011> at 0x80000300 irq 8
+  Memory size: 64 MB
+
+As of this commit, it is now confused:
+
+  ABMA devices:
+  <1:3000> at 0x00000000 irq 0
+  <1:3000> at 0x00000000 irq 0
+  <1:3000> at 0x00000000 irq 0
+  <1:3000> at 0x00000000 irq 0
+  <1:3000> at 0x00000000 irq 0
+  <1:3000> at 0x00000000 irq 0
+  <1:3000> at 0x00000000 irq 0
+  ...
+
+As this test is not working as expected, simply disable it (by
+skipping it) for now.
+
+[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg627094.html
+[2] https://github.com/HelenOS/helenos/blob/0.6.0/boot/arch/sparc32/src/ambapp.c#L75
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ tests/acceptance/machine_sparc_leon3.py | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/tests/acceptance/machine_sparc_leon3.py b/tests/acceptance/machine_sparc_leon3.py
+index f77e210ccb..2405cd7a0d 100644
+--- a/tests/acceptance/machine_sparc_leon3.py
++++ b/tests/acceptance/machine_sparc_leon3.py
+@@ -7,12 +7,16 @@
+ 
+ from avocado_qemu import Test
+ from avocado_qemu import wait_for_console_pattern
++from avocado import skip
+ 
+ 
+ class Leon3Machine(Test):
+ 
+     timeout = 60
+ 
++    @skip("Test currently broken")
++    # A Window Underflow exception occurs before booting the kernel,
++    # and QEMU exit calling cpu_abort(), which makes this test to fail.
+     def test_leon3_helenos_uimage(self):
+         """
+         :avocado: tags=arch:sparc
 -- 
 2.21.1
 
