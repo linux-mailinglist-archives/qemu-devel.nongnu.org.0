@@ -2,55 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9FA1198E26
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 10:16:52 +0200 (CEST)
-Received: from localhost ([::1]:33770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E9B9198E37
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 10:23:45 +0200 (CEST)
+Received: from localhost ([::1]:33818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJC4p-0000pO-TZ
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 04:16:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55761)
+	id 1jJCBU-0003le-7O
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 04:23:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56402)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1jJC3N-0007Dx-5L
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 04:15:26 -0400
+ (envelope-from <clg@kaod.org>) id 1jJCA2-0003I4-8E
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 04:22:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1jJC3L-0003Hx-Ul
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 04:15:20 -0400
-Received: from 12.mo6.mail-out.ovh.net ([178.32.125.228]:60901)
+ (envelope-from <clg@kaod.org>) id 1jJCA1-0000vv-6Y
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 04:22:14 -0400
+Received: from 16.mo1.mail-out.ovh.net ([178.33.104.224]:56227)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jJC3L-0003GF-Ob
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 04:15:19 -0400
-Received: from player711.ha.ovh.net (unknown [10.110.103.132])
- by mo6.mail-out.ovh.net (Postfix) with ESMTP id 30A29209681
- for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 10:15:16 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jJCA1-0000uv-19
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 04:22:13 -0400
+Received: from player778.ha.ovh.net (unknown [10.110.171.40])
+ by mo1.mail-out.ovh.net (Postfix) with ESMTP id F24FC1B97DA
+ for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 10:22:10 +0200 (CEST)
 Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
  (Authenticated sender: clg@kaod.org)
- by player711.ha.ovh.net (Postfix) with ESMTPSA id E874410CFE185;
- Tue, 31 Mar 2020 08:15:10 +0000 (UTC)
-Subject: Re: [PATCH 4/7] target/ppc: Introduce ppc_radix64_xlate() for Radix
- tree translation
-To: David Gibson <david@gibson.dropbear.id.au>
+ by player778.ha.ovh.net (Postfix) with ESMTPSA id 5BA4710F811C8;
+ Tue, 31 Mar 2020 08:22:04 +0000 (UTC)
+Subject: Re: [PATCH 6/7] target/ppc: Extend ppc_radix64_check_prot() with a
+ 'partition_scoped' bool
+To: Greg Kurz <groug@kaod.org>
 References: <20200330094946.24678-1-clg@kaod.org>
- <20200330094946.24678-5-clg@kaod.org> <20200330161848.27226542@bahia.lan>
- <99dd89d6-f385-7cc1-d688-c104708092c2@kaod.org>
- <88580970-a739-b32f-528f-26c6aa81b598@kaod.org>
- <20200331011310.GG47772@umbus.fritz.box>
+ <20200330094946.24678-7-clg@kaod.org> <20200330190149.784a8e11@bahia.lan>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <15a0034a-fa2c-7852-52b8-df2b76bd0aff@kaod.org>
-Date: Tue, 31 Mar 2020 10:15:09 +0200
+Message-ID: <96009e21-d750-1f4a-2662-584381545f8f@kaod.org>
+Date: Tue, 31 Mar 2020 10:22:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200331011310.GG47772@umbus.fritz.box>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <20200330190149.784a8e11@bahia.lan>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Ovh-Tracer-Id: 18164143199434804120
+X-Ovh-Tracer-Id: 18280673838476856216
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudeijedgtddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefheenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejuddurdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudeijedgtdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejjeekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.32.125.228
+X-Received-From: 178.33.104.224
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,65 +60,80 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Suraj Jitindar Singh <sjitindarsingh@gmail.com>, qemu-ppc@nongnu.org,
- Greg Kurz <groug@kaod.org>, Nicholas Piggin <npiggin@gmail.com>,
- qemu-devel@nongnu.org
+ qemu-devel@nongnu.org, Nicholas Piggin <npiggin@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/31/20 3:13 AM, David Gibson wrote:
-> On Mon, Mar 30, 2020 at 05:34:40PM +0200, C=E9dric Le Goater wrote:
->>>>> +        /* No valid pte or access denied due to protection */
->>>>> +        if (cause_excp) {
->>>>> +            ppc_radix64_raise_si(cpu, rwx, eaddr, fault_cause);
->>>>> +        }
->>>>> +        return 1;
->>>>> +    }
->>>>> +
->>>>> +    ppc_radix64_set_rc(cpu, rwx, pte, pte_addr, g_prot);
->>>>> +
->>>>> +    return 0;
->>>>> +}
->>>>> +
->>>>> +static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, int rwx=
-,
->>>>> +                             uint64_t lpid, uint64_t pid, bool rel=
-ocation,
->>>>> +                             hwaddr *raddr, int *psizep, int *prot=
-p,
->>>>> +                             bool cause_excp)
->>>>> +{
->>>>> +    ppc_v3_pate_t pate;
->>>>> +    int psize, prot;
->>>>> +    hwaddr g_raddr;
->>>>> +
->>>>> +    *psizep =3D INT_MAX;
->>>>> +    *protp =3D PAGE_READ | PAGE_WRITE | PAGE_EXEC;
->>>>> +
->>>>> +    /* Get Process Table */
->>>>> +    if (cpu->vhyp && lpid =3D=3D 0) {
->>>>
->>>> Current code doesn't check lpid =3D=3D 0. Not sure to see what it's =
-for...
->>>
->>> cpu->vhyp means a pseries machine, lpid =3D=3D 0 means accessing quad=
-rant3,=20
->>> so it's the kernel.
->>
->> Sorry. I misread that. It would pid =3D=3D 0 for the kernel.=20
->>
->> So yes, the test cpu->vhyp && lpid =3D=3D 0 might be a bit overkill, g=
-iven=20
->> that lpid is always 0 when running under a QEMU pseries machine.
+On 3/30/20 7:01 PM, Greg Kurz wrote:
+> On Mon, 30 Mar 2020 11:49:45 +0200
+> C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >=20
-> Overkill and conceptually incorrect.  When in vhyp mode we're not
-> modelling the hypervisor part of the CPU, which means that really the
-> LPID doesn't exist, so we shouldn't be looking at it (though it will
-> always be 0 in practice).
+>> This prepares ground for partition-scoped Radix translation.
+>>
+>> Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+>> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+>> ---
+>>  target/ppc/mmu-radix64.c | 11 ++++++-----
+>>  1 file changed, 6 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+>> index 136498111f60..3ae29ed90d49 100644
+>> --- a/target/ppc/mmu-radix64.c
+>> +++ b/target/ppc/mmu-radix64.c
+>> @@ -105,7 +105,8 @@ static void ppc_radix64_raise_si(PowerPCCPU *cpu, =
+int rwx, vaddr eaddr,
+>> =20
+>> =20
+>>  static bool ppc_radix64_check_prot(PowerPCCPU *cpu, int rwx, uint64_t=
+ pte,
+>> -                                   int *fault_cause, int *prot)
+>> +                                   int *fault_cause, int *prot,
+>> +                                   bool partition_scoped)
+>>  {
+>>      CPUPPCState *env =3D &cpu->env;
+>>      const int need_prot[] =3D { PAGE_READ, PAGE_WRITE, PAGE_EXEC };
+>> @@ -121,11 +122,11 @@ static bool ppc_radix64_check_prot(PowerPCCPU *c=
+pu, int rwx, uint64_t pte,
+>>      }
+>> =20
+>>      /* Determine permissions allowed by Encoded Access Authority */
+>> -    if ((pte & R_PTE_EAA_PRIV) && msr_pr) { /* Insufficient Privilege=
+ */
+>> +    if (!partition_scoped && (pte & R_PTE_EAA_PRIV) && msr_pr) {
+>>          *prot =3D 0;
+>> -    } else if (msr_pr || (pte & R_PTE_EAA_PRIV)) {
+>> +    } else if (msr_pr || (pte & R_PTE_EAA_PRIV) || partition_scoped) =
+{
+>>          *prot =3D ppc_radix64_get_prot_eaa(pte);
+>> -    } else { /* !msr_pr && !(pte & R_PTE_EAA_PRIV) */
+>> +    } else { /* !msr_pr && !(pte & R_PTE_EAA_PRIV) && !partition_scop=
+ed */
+>>          *prot =3D ppc_radix64_get_prot_eaa(pte);
+>>          *prot &=3D ppc_radix64_get_prot_amr(cpu); /* Least combined p=
+ermissions */
+>>      }
+>> @@ -266,7 +267,7 @@ static int ppc_radix64_process_scoped_xlate(PowerP=
+CCPU *cpu, int rwx,
+>>                                  g_raddr, g_page_size, &fault_cause, &=
+pte_addr);
+>> =20
+>>      if (!(pte & R_PTE_VALID) ||
+>> -        ppc_radix64_check_prot(cpu, rwx, pte, &fault_cause, g_prot)) =
+{
+>> +        ppc_radix64_check_prot(cpu, rwx, pte, &fault_cause, g_prot, 0=
+)) {
+>=20
+> Maybe pass false since ppc_radix64_check_prot() expects a bool ?
 
-I will remove the extra check. This has the nice effect of cleaning up=20
-a couple of weird changes in patch 7.
+Sure,
+
+> Apart from that,
+>=20
+> Reviewed-by: Greg Kurz <groug@kaod.org>
 
 Thanks,
 
 C.
+
 
