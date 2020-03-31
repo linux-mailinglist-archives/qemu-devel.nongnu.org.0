@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F17B9198BD0
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 07:42:20 +0200 (CEST)
-Received: from localhost ([::1]:60628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EBEB198BD7
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 07:44:10 +0200 (CEST)
+Received: from localhost ([::1]:60662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJ9fI-00064F-18
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 01:42:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41235)
+	id 1jJ9h3-0001DG-8e
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 01:44:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41285)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jJ9dq-0004Nx-8P
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 01:40:51 -0400
+ (envelope-from <its@irrelevant.dk>) id 1jJ9eI-0005Ve-36
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 01:41:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jJ9dp-0002cv-6H
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 01:40:50 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:47988)
+ (envelope-from <its@irrelevant.dk>) id 1jJ9eG-0002vQ-To
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 01:41:17 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:48000)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jJ9dm-0002bS-SN; Tue, 31 Mar 2020 01:40:47 -0400
+ id 1jJ9eE-0002tZ-8l; Tue, 31 Mar 2020 01:41:14 -0400
 Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id C813FBF48F;
- Tue, 31 Mar 2020 05:40:45 +0000 (UTC)
-Date: Tue, 31 Mar 2020 07:40:42 +0200
+ by charlie.dont.surf (Postfix) with ESMTPSA id 23B30BF48F;
+ Tue, 31 Mar 2020 05:41:13 +0000 (UTC)
+Date: Tue, 31 Mar 2020 07:41:09 +0200
 From: Klaus Birkelund Jensen <its@irrelevant.dk>
 To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH v6 11/42] nvme: add temperature threshold feature
-Message-ID: <20200331054042.rf4nzrtocqzkw4if@apples.localdomain>
+Subject: Re: [PATCH v6 12/42] nvme: add support for the get log page command
+Message-ID: <20200331054109.zq6yluixcnpdbust@apples.localdomain>
 References: <20200316142928.153431-1-its@irrelevant.dk>
- <20200316142928.153431-12-its@irrelevant.dk>
- <47ef3ec5800b5f74017df60e599f16ba905daab6.camel@redhat.com>
+ <20200316142928.153431-13-its@irrelevant.dk>
+ <a7c92a47957a8185a9bd8d7d8b919072d757ff3a.camel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <47ef3ec5800b5f74017df60e599f16ba905daab6.camel@redhat.com>
+In-Reply-To: <a7c92a47957a8185a9bd8d7d8b919072d757ff3a.camel@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 128.199.63.193
@@ -60,36 +60,60 @@ On Mar 25 12:40, Maxim Levitsky wrote:
 > On Mon, 2020-03-16 at 07:28 -0700, Klaus Jensen wrote:
 > > From: Klaus Jensen <k.jensen@samsung.com>
 > > 
-> > It might seem wierd to implement this feature for an emulated device,
-> > but it is mandatory to support and the feature is useful for testing
-> > asynchronous event request support, which will be added in a later
-> > patch.
+> > Add support for the Get Log Page command and basic implementations of
+> > the mandatory Error Information, SMART / Health Information and Firmware
+> > Slot Information log pages.
 > > 
-> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> > In violation of the specification, the SMART / Health Information log
+> > page does not persist information over the lifetime of the controller
+> > because the device has no place to store such persistent state.
+> > 
+> > Note that the LPA field in the Identify Controller data structure
+> > intentionally has bit 0 cleared because there is no namespace specific
+> > information in the SMART / Health information log page.
+> > 
+> > Required for compliance with NVMe revision 1.2.1. See NVM Express 1.2.1,
+> > Section 5.10 ("Get Log Page command").
+> > 
+> > Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
 > > Acked-by: Keith Busch <kbusch@kernel.org>
 > > ---
-> >  hw/block/nvme.c      | 48 ++++++++++++++++++++++++++++++++++++++++++++
-> >  hw/block/nvme.h      |  2 ++
-> >  include/block/nvme.h |  8 +++++++-
-> >  3 files changed, 57 insertions(+), 1 deletion(-)
+> >  hw/block/nvme.c       | 138 +++++++++++++++++++++++++++++++++++++++++-
+> >  hw/block/nvme.h       |  10 +++
+> >  hw/block/trace-events |   2 +
+> >  3 files changed, 149 insertions(+), 1 deletion(-)
 > > 
-> > diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-> > index b7c465560eea..8cda5f02c622 100644
-> > --- a/hw/block/nvme.h
-> > +++ b/hw/block/nvme.h
-> > @@ -108,6 +108,7 @@ typedef struct NvmeCtrl {
-> >      uint64_t    irq_status;
-> >      uint64_t    host_timestamp;                 /* Timestamp sent by the host */
-> >      uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
-> > +    uint16_t    temperature;
-> You forgot to move this too.
+> > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> > index 64c42101df5c..83ff3fbfb463 100644
+> >
+> > +static uint16_t nvme_error_info(NvmeCtrl *n, NvmeCmd *cmd, uint32_t buf_len,
+> > +                                uint64_t off, NvmeRequest *req)
+> > +{
+> > +    uint32_t trans_len;
+> > +    uint64_t prp1 = le64_to_cpu(cmd->dptr.prp1);
+> > +    uint64_t prp2 = le64_to_cpu(cmd->dptr.prp2);
+> > +    uint8_t errlog[64];
+> I'll would replace this with sizeof(NvmeErrorLogEntry)
+> (and add NvmeErrorLogEntry to the nvme.h), just for the sake of consistency,
+> and in case we end up reporting some errors to the log in the future.
 > 
 
-Fixed!
+NvmeErrorLog is already in nvme.h; Fixed to actually use it.
+
 > 
-> With 'temperature' field removed from the header:
+> > +
+> > +    if (off > sizeof(errlog)) {
+> > +        return NVME_INVALID_FIELD | NVME_DNR;
+> > +    }
+> > +
+> > +    memset(errlog, 0x0, sizeof(errlog));
+> > +
+> > +    trans_len = MIN(sizeof(errlog) - off, buf_len);
+> > +
+> > +    return nvme_dma_read_prp(n, errlog, trans_len, prp1, prp2);
+> > +}
+> Besides this, looks good now.
 > 
-> Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 > 
 > Best regards,
 > 	Maxim Levitsky
