@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41485199839
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 16:13:42 +0200 (CEST)
-Received: from localhost ([::1]:38720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1CD919983F
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 16:17:16 +0200 (CEST)
+Received: from localhost ([::1]:38776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJHe9-0004ii-BI
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 10:13:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48989)
+	id 1jJHhb-00073f-QU
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 10:17:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49508)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jJHd4-0003nV-OD
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:12:35 -0400
+ (envelope-from <berrange@redhat.com>) id 1jJHgK-00068b-KY
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:15:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1jJHd3-0003KV-9a
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:12:34 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27776
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <berrange@redhat.com>) id 1jJHgJ-0005q6-DT
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:15:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49891
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jJHd3-0003Jh-5j
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:12:33 -0400
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jJHgH-0005oo-VH
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:15:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585663952;
+ s=mimecast20190719; t=1585664153;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oufbEk1H6j3OE6EP5HvuQlhQOcnlItPwArlIgcuQCS4=;
- b=Ilc9eR4qUCU3EAcb5B5Xzvw6lnYssG5dP8d845XUhBSHVLz3czc9U4yOl2RyHwnrcxLSk2
- beEcpytFrymL0n5/2lMorCJXwdyVSSOVTUxAghZxiP9vdriNI0Z5omVfnOQ9b/8Yfsst39
- 6Y/8kXIgxfM0iRsEfsRLFbvzfVmlHGw=
+ bh=HhXUZVQdQg/xIMlWqFy5lAph2sWi88lhRGg8VR6locQ=;
+ b=bikb/OU8QD0z+QTlH5k2KIWGT5y2fQoDPLqzBpnYoTQsyDNB55zEU4bkAJVi1XbNdwEQEu
+ T0M7BtNoku4KAuWdjKNSOpujRX4WDJcOuyUSW2NrxW4VXIpaT++3Xc3pu6QZq3rNQymqSp
+ EuUlItATQX5CULCZTSb+cobz4KWjtSU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-bMr3PTcTPFC8dZzBxk13Tw-1; Tue, 31 Mar 2020 10:12:18 -0400
-X-MC-Unique: bMr3PTcTPFC8dZzBxk13Tw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-272-gwOIpEjnMYq1o63HzWTy5g-1; Tue, 31 Mar 2020 10:15:49 -0400
+X-MC-Unique: gwOIpEjnMYq1o63HzWTy5g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC133881295;
- Tue, 31 Mar 2020 14:12:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3730107ACC9;
+ Tue, 31 Mar 2020 14:15:47 +0000 (UTC)
 Received: from redhat.com (unknown [10.36.110.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DAA86608E7;
- Tue, 31 Mar 2020 14:12:08 +0000 (UTC)
-Date: Tue, 31 Mar 2020 15:12:05 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8ABB95D9E2;
+ Tue, 31 Mar 2020 14:15:42 +0000 (UTC)
+Date: Tue, 31 Mar 2020 15:15:39 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH-for-5.0 v2 1/4] Revert "prevent crash when executing
- guest-file-read with large count"
-Message-ID: <20200331141205.GI353752@redhat.com>
+Subject: Re: [PATCH-for-5.0 v2 4/4] qga: Restrict guest-file-read count to 10
+ MB to avoid crashes
+Message-ID: <20200331141539.GJ353752@redhat.com>
 References: <20200331140638.16464-1-philmd@redhat.com>
- <20200331140638.16464-2-philmd@redhat.com>
+ <20200331140638.16464-5-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200331140638.16464-2-philmd@redhat.com>
+In-Reply-To: <20200331140638.16464-5-philmd@redhat.com>
 User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,72 +84,75 @@ Cc: qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 31, 2020 at 04:06:35PM +0200, Philippe Mathieu-Daud=C3=A9 wrote=
+On Tue, Mar 31, 2020 at 04:06:38PM +0200, Philippe Mathieu-Daud=C3=A9 wrote=
 :
-> By using g_try_malloc() instead of g_malloc() the qemu-guest-agent
-> Denial-of-Service attack referred in commit 807e2b6fce is reduced,
-> but still triggerable:
-
-As explained previously, I believe there is *no* denial of service
-attack here. The described scenario is just a user hurting themselves
-by intentionally telling QEMU not to limit the amount of data returned.
-
+> On https://www.mail-archive.com/qemu-devel@nongnu.org/msg693176.html
+> Daniel Berrang=C3=A9 commented:
 >=20
->   - bisect file size S until g_try_malloc(S) fails,
->   - use S - 1:
->     g_try_malloc(S - 1) succeeds, but g_new0() few lines later will
->     fail.
+>   The QEMU guest agent protocol is not sensible way to access huge
+>   files inside the guest. It requires the inefficient process of
+>   reading the entire data into memory than duplicating it again in
+>   base64 format, and then copying it again in the JSON serializer /
+>   monitor code.
 >=20
->  346     buf =3D g_try_malloc0(count + 1);
->  347     if (!buf) {
->  348         error_setg(errp,
->  349                    "failed to allocate sufficient memory "
->  350                    "to complete the requested service");
->  351         return NULL;
->  352     }
->  353     is_ok =3D ReadFile(fh, buf, count, &read_count, NULL);
->  354     if (!is_ok) {
->  355         error_setg_win32(errp, GetLastError(), "failed to read file"=
-);
->  356         slog("guest-file-read failed, handle %" PRId64, handle);
->  357     } else {
->  358         buf[read_count] =3D 0;
->  359         read_data =3D g_new0(GuestFileRead, 1);
->                          ^^^^^^
+>   For arbitrary general purpose file access, especially for large
+>   files, use a real file transfer program or use a network block
+>   device, not the QEMU guest agent.
 >=20
-> Instead we are going to put a low hard limit on 'count' in the next
-> commits.
-> This reverts commit 807e2b6fce022707418bc8f61c069d91c613b3d2.
+> To avoid bug reports as BZ#1594054, follow his suggestion to put a
+> low, hard limit on "count" in the guest agent QAPI schema, and don't
+> allow count to be larger than 10 MB.
 >=20
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1594054
+> Reported-by: Fakhri Zulkifli <mohdfakhrizulkifli@gmail.com>
 > Suggested-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  qga/commands-win32.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
+>  qga/qapi-schema.json | 6 ++++--
+>  qga/commands.c       | 6 +++++-
+>  2 files changed, 9 insertions(+), 3 deletions(-)
 >=20
-> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-> index b49920e201..46cea7d1d9 100644
-> --- a/qga/commands-win32.c
-> +++ b/qga/commands-win32.c
-> @@ -343,13 +343,7 @@ GuestFileRead *qmp_guest_file_read(int64_t handle, b=
-ool has_count,
->      }
+> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+> index f6fcb59f34..7758d9daf8 100644
+> --- a/qga/qapi-schema.json
+> +++ b/qga/qapi-schema.json
+> @@ -266,11 +266,13 @@
+>  ##
+>  # @guest-file-read:
+>  #
+> -# Read from an open file in the guest. Data will be base64-encoded
+> +# Read from an open file in the guest. Data will be base64-encoded.
+> +# As this command is just for limited, ad-hoc debugging, such as log
+> +# file access, the number of bytes to read is limited to 10 MB.
+>  #
+>  # @handle: filehandle returned by guest-file-open
+>  #
+> -# @count: maximum number of bytes to read (default is 4KB)
+> +# @count: maximum number of bytes to read (default is 4KB, maximum is 10=
+MB)
+>  #
+>  # Returns: @GuestFileRead on success.
+>  #
+> diff --git a/qga/commands.c b/qga/commands.c
+> index 8ee1244ebb..c130d1b0f5 100644
+> --- a/qga/commands.c
+> +++ b/qga/commands.c
+> @@ -11,6 +11,7 @@
+>   */
 > =20
->      fh =3D gfh->fh;
-> -    buf =3D g_try_malloc0(count + 1);
-> -    if (!buf) {
-> -        error_setg(errp,
-> -                   "failed to allocate sufficient memory "
-> -                   "to complete the requested service");
-> -        return NULL;
-> -    }
-> +    buf =3D g_malloc0(count + 1);
->      is_ok =3D ReadFile(fh, buf, count, &read_count, NULL);
->      if (!is_ok) {
->          error_setg_win32(errp, GetLastError(), "failed to read file");
-> --=20
-> 2.21.1
->=20
+>  #include "qemu/osdep.h"
+> +#include "qemu/units.h"
+>  #include "guest-agent-core.h"
+>  #include "qga-qapi-commands.h"
+>  #include "qapi/error.h"
+> @@ -18,11 +19,14 @@
+>  #include "qemu/base64.h"
+>  #include "qemu/cutils.h"
+>  #include "qemu/atomic.h"
+> +#include "commands-common.h"
+
+This needs to be in the previous patch AFAICT.
+
 
 Regards,
 Daniel
