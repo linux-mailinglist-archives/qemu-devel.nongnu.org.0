@@ -2,70 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E156199771
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 15:30:10 +0200 (CEST)
-Received: from localhost ([::1]:38058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30C27199858
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 16:22:55 +0200 (CEST)
+Received: from localhost ([::1]:38864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJGy1-000555-Jy
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 09:30:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42325)
+	id 1jJHn4-0003nJ-90
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 10:22:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50229)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jJGro-0002I5-7I
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:23:45 -0400
+ (envelope-from <208f1fceffce2feaf7c900b29e326b967dce7762@lizzy.crudebyte.com>)
+ id 1jJHmG-0003EV-Vm
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:22:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jJGrn-0006nc-2I
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:23:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47147
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jJGrm-0006nF-UX
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 09:23:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585661022;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Q9AV3zmhXly1oADjwZuu9kxsW2xfs8rViy6qV1bZpxU=;
- b=K5DMzEBDQXrLNNyS1HnV/RDQv0fUV7ABzYJtSKcnSkSQVnoRX2VVYErDvz7RmL9rR3+Qw1
- B5NyVOiVUfOfBHH51xv/Kl3C18mrUbpvJ7K1TyDuTug6ZfCOep/8h/Jm80N8a4NMRZcTnI
- XLZ00xsVXqo92MMwka9uBDzrwmjbEso=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-WSZlPJq2NmafmNw_DWvElw-1; Tue, 31 Mar 2020 09:23:36 -0400
-X-MC-Unique: WSZlPJq2NmafmNw_DWvElw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29FD6DBB1;
- Tue, 31 Mar 2020 13:23:31 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-69.ams2.redhat.com
- [10.36.112.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E2A335C21B;
- Tue, 31 Mar 2020 13:23:24 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4EE0A11385E2; Tue, 31 Mar 2020 15:23:23 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH-for-5.0 00/12] hw: Add missing error-propagation code
-References: <20200325191830.16553-1-f4bug@amsat.org>
-Date: Tue, 31 Mar 2020 15:23:23 +0200
-In-Reply-To: <20200325191830.16553-1-f4bug@amsat.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Wed, 25 Mar 2020 20:18:18
- +0100")
-Message-ID: <87r1x8vet0.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <208f1fceffce2feaf7c900b29e326b967dce7762@lizzy.crudebyte.com>)
+ id 1jJHmE-0001wq-RD
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:22:04 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:52117)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71)
+ (envelope-from <208f1fceffce2feaf7c900b29e326b967dce7762@lizzy.crudebyte.com>)
+ id 1jJHmE-0001Q5-GC
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 10:22:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=kM38n4RhNzBA9bLRY0BJSg4Z1nUcKUBMBr0bGse8mAM=; b=N/JNU
+ hFr30y/3UHvgzp703rtnNZRGKVFQsE9h8j7N9+2skaHuzP/farsdV0bq4nUA4O9cHbi9Uc7I5Xa4f
+ KkvBJIS0kqmESV06ibb415JSfC33so+BX+BXSrijFaJrvJKpVO6WcOqfUNihW0NgNa1dg8luIbWHp
+ 4PEjcwGSu2+faEzhp7iYDMBvymJNVRpSAJPAeaFqbvC1P3CZiwAs8tbp7ldrDJeXDHp2axhPEaFoJ
+ RKFEsIgTyDhPZqhNs07SOeHuoWWAtOh3C24jQxTNP+v2+n3pV/c7xVC0kKnNEY8sF+Ov/zY+GPGbl
+ PSI/ajZNzjs4Tk2P9yoonQ2+vV11w==;
+Message-Id: <208f1fceffce2feaf7c900b29e326b967dce7762.1585661532.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Tue, 31 Mar 2020 15:23:38 +0200
+Subject: [PATCH] qemu-options.hx: 9p: clarify -virtfs vs. -fsdev
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 91.194.90.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,48 +52,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Burton <pburton@wavecomp.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, qemu-ppc@nongnu.org,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Richard Henderson <rth@twiddle.net>,
- Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+The docs are ambiguous about the difference (or actually their
+equality) between options '-virtfs' vs. '-fsdev'. So clarify that
+'-virtfs' is actually just a convenience shortcut for its
+generalized form '-fsdev' in conjunction with '-device virtio-9p-pci'.
 
-> This series is inspired of Peter fix:
-> "hw/arm/xlnx-zynqmp.c: fix some error-handling code"
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg691636.html
->
-> Add a cocci script to fix the other places.
->
-> Based-on: <20200324134947.15384-1-peter.maydell@linaro.org>
+And as we're at it, also be a bit more descriptive what 9pfs is
+actually used for.
 
-I skimmed the code patches [PATCH 02-12/12], and they look like bug
-fixes.  Other reviewers raised a few issues.
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ qemu-options.hx | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-I also skimmed the Coccinelle script [PATCH 01].  Peter pointed out a
-few things it apparently missed (e.g. in review of PATCH 06+11).
-Moreover, the bug pattern applies beyond object_property_set() &
-friends.  Perhaps the script can be generalized.  No reason to hold
-fixes.  We may want to add suitable notes to the scipt, though.
-
-Can you address the reviews in a v2, so we can get the fixes into -rc1,
-due today?
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 962a5ebaa6..fd3830c6cd 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -1542,9 +1542,17 @@ SRST
+ ``-virtfs proxy,sock_fd=sock_fd,mount_tag=mount_tag [,writeout=writeout][,readonly]``
+   \
+ ``-virtfs synth,mount_tag=mount_tag``
+-    Define a new filesystem device and expose it to the guest using a
+-    virtio-9p-device. The general form of a Virtual File system
+-    pass-through options are:
++    Define a new virtual filesystem device and expose it to the guest using
++    a virtio-9p-device (a.k.a. 9pfs), which essentially means that a certain
++    directory on host is made directly accessible by guest as a pass-through
++    file system by using the 9P network protocol for communication between
++    host and guests, if desired even accessible, shared by several guests
++    simultaniously.
++
++    Note that ``-virtfs`` is actually just a convenience shortcut for its
++    generalized form ``-fsdev -device virtio-9p-pci``.
++
++    The general form of pass-through file system options are:
+ 
+     ``local``
+         Accesses to the filesystem are done by QEMU.
+-- 
+2.20.1
 
 
