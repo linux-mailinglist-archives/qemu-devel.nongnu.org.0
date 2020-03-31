@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF7F198988
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 03:31:47 +0200 (CEST)
-Received: from localhost ([::1]:59114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C56C1989D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Mar 2020 04:10:32 +0200 (CEST)
+Received: from localhost ([::1]:59320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJ5ko-0003gP-Mo
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 21:31:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46730)
+	id 1jJ6MJ-0002yA-Mq
+	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 22:10:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51938)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jJ5k0-0003Hk-S8
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 21:30:58 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1jJ6LD-0002Y4-6s
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 22:09:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jJ5jz-0006NB-H6
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 21:30:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41562)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jJ5jx-0006LP-Qp
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 21:30:53 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jJ5jv-0002o9-M8
- for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 01:30:51 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A54F52E80C0
- for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 01:30:51 +0000 (UTC)
+ (envelope-from <yan.y.zhao@intel.com>) id 1jJ6LA-0002e8-TR
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 22:09:22 -0400
+Received: from mga17.intel.com ([192.55.52.151]:44666)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jJ6LA-0002ZU-J8
+ for qemu-devel@nongnu.org; Mon, 30 Mar 2020 22:09:20 -0400
+IronPort-SDR: MGk+vndv5ZpthB5FhDR40B8nnGfcgPXzQDcu1FalF8PJtQYsPuCzqr1Do4LhZCDuGH63AijcAS
+ TaINMxF3QniA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2020 19:09:16 -0700
+IronPort-SDR: SfD6hkA9creN0GAcIMNk+WRmik3MOlYOH/73Uw0PEqy6H8gUjFCtEILsV5h7ZDxJmiyyHZTMWt
+ K7TKAYlHGFSw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,326,1580803200"; d="scan'208";a="272581793"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.16])
+ by fmsmga004.fm.intel.com with ESMTP; 30 Mar 2020 19:09:14 -0700
+Date: Mon, 30 Mar 2020 21:59:41 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH] hw/vfio: let readonly flag take effect for mmaped regions
+Message-ID: <20200331015941.GD6631@joy-OptiPlex-7040>
+References: <20200327111934.71066-1-yan.y.zhao@intel.com>
+ <20200327112537.2efd65ac@w520.home>
+ <20200330013527.GA30683@joy-OptiPlex-7040>
+ <20200330063402.GE30683@joy-OptiPlex-7040>
+ <20200330085923.19d7345f@w520.home>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 31 Mar 2020 01:16:53 -0000
-From: Bug Watch Updater <1868116@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Triaged; importance=High; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=vte2.91; component=main;
- status=Fix Released; importance=Critical;
- assignee=ubuntu-desktop@lists.ubuntu.com; 
-X-Launchpad-Bug: distribution=debian; sourcepackage=qemu; component=main;
- status=New; importance=Unknown; assignee=None; 
-X-Launchpad-Bug-Tags: amd64 apport-bug champagne focal rls-ee-incoming
- server-next
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dgilbert-h egmont-gmail janitor leozinho29-eu
- paelzer seb128
-X-Launchpad-Bug-Reporter: =?utf-8?q?Leonardo_M=C3=BCller_=28leozinho29-eu?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: Bug Watch Updater (bug-watch-updater)
-References: <158463145822.18899.10972607578883935283.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158561741443.24258.12940243739186218328.launchpad@loganberry.canonical.com>
-Subject: [Bug 1868116] Re: QEMU monitor no longer works
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a296f04231dee355be5db73cc878b9e21689a253";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 05fbbd4ca5c8d0c685203a5ea8492e59ffa60f5b
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200330085923.19d7345f@w520.home>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 192.55.52.151
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,128 +63,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1868116 <1868116@bugs.launchpad.net>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "Zeng,
+ Xin" <xin.zeng@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu (Debian)
-       Status: Unknown =3D> New
+On Mon, Mar 30, 2020 at 10:59:23PM +0800, Alex Williamson wrote:
+> On Mon, 30 Mar 2020 02:34:02 -0400
+> Yan Zhao <yan.y.zhao@intel.com> wrote:
+> 
+> > On Mon, Mar 30, 2020 at 09:35:27AM +0800, Yan Zhao wrote:
+> > > On Sat, Mar 28, 2020 at 01:25:37AM +0800, Alex Williamson wrote:  
+> > > > On Fri, 27 Mar 2020 11:19:34 +0000
+> > > > yan.y.zhao@intel.com wrote:
+> > > >   
+> > > > > From: Yan Zhao <yan.y.zhao@intel.com>
+> > > > > 
+> > > > > currently, vfio regions without VFIO_REGION_INFO_FLAG_WRITE are only
+> > > > > read-only when VFIO_REGION_INFO_FLAG_MMAP is not set.
+> > > > > 
+> > > > > regions with flag VFIO_REGION_INFO_FLAG_READ | VFIO_REGION_INFO_FLAG_MMAP
+> > > > > are only read-only in host page table for qemu.
+> > > > > 
+> > > > > This patch sets corresponding ept page entries read-only for regions
+> > > > > with flag VFIO_REGION_INFO_FLAG_READ | VFIO_REGION_INFO_FLAG_MMAP.
+> > > > > 
+> > > > > accordingly, it ignores guest write when guest writes to the read-only
+> > > > > regions are trapped.
+> > > > > 
+> > > > > Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
+> > > > > Signed-off-by: Xin Zeng <xin.zeng@intel.com>
+> > > > > ---  
+> > > > 
+> > > > Currently we set the r/w protection on the mmap, do I understand
+> > > > correctly that the change in the vfio code below results in KVM exiting
+> > > > to QEMU to handle a write to a read-only region and therefore we need
+> > > > the memory.c change to drop the write?  This prevents a SIGBUS or
+> > > > similar?  
+> > > yes, correct. the change in memory.c is to prevent a SIGSEGV in host as
+> > > it's mmaped to read-only. we think it's better to just drop the writes
+> > > from guest rather than corrupt the qemu.
+> > >   
+> > > > 
+> > > > Meanwhile vfio_region_setup() uses the same vfio_region_ops for all
+> > > > regions and vfio_region_write() would still allow writes, so if the
+> > > > device were using x-no-mmap=on, I think we'd still get a write to this
+> > > > region and expect the vfio device to drop it.  Should we prevent that
+> > > > write in QEMU as well?  
+> > > yes, it expects vfio device to drop it right now.
+> > > As the driver sets the flag without VFIO_REGION_INFO_FLAG_WRITE, it should
+> > > handle it properly.
+> > > both dropping in qemu and dropping in vfio device are fine to us.
+> > > we wonder which one is your preference :)
+> 
+> The kernel and device should always do the right thing, we cannot rely
+> on the user to honor the mapping, but it's also a reasonable response
+> from the kernel to kill the process with a SIGSEGV if the user ignores
+> the protections.  So I don't think it's an either/or, the kernel needs
+> to do the right thing for itself and in this case QEMU should do the
+> right thing for itself, which is to drop writes for regions that don't
+> support it.  So in general, I agree with your patch.
+>
+hi Alex
+so is there anything I need to do? do I need to add a write dropping in
+vfio_region_write() too? if yes, do I need to keep the
+trace_vfio_region_write() before dropping ?
 
--- =
+Thanks
+Yan
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1868116
-
-Title:
-  QEMU monitor no longer works
-
-Status in QEMU:
-  New
-Status in qemu package in Ubuntu:
-  Triaged
-Status in vte2.91 package in Ubuntu:
-  Fix Released
-Status in qemu package in Debian:
-  New
-
-Bug description:
-  Repro:
-  VTE
-  $ meson _build && ninja -C _build && ninja -C _build install
-
-  qemu:
-  $ ../configure --python=3D/usr/bin/python3 --disable-werror --disable-use=
-r --disable-linux-user --disable-docs --disable-guest-agent --disable-sdl -=
--enable-gtk --disable-vnc --disable-xen --disable-brlapi --disable-fdt --di=
-sable-hax --disable-vde --disable-netmap --disable-rbd --disable-libiscsi -=
--disable-libnfs --disable-smartcard --disable-libusb --disable-usb-redir --=
-disable-seccomp --disable-glusterfs --disable-tpm --disable-numa --disable-=
-opengl --disable-virglrenderer --disable-xfsctl --disable-vxhs --disable-sl=
-irp --disable-blobs --target-list=3Dx86_64-softmmu --disable-rdma --disable=
--pvrdma --disable-attr --disable-vhost-net --disable-vhost-vsock --disable-=
-vhost-scsi --disable-vhost-crypto --disable-vhost-user --disable-spice --di=
-sable-qom-cast-debug --disable-vxhs --disable-bochs --disable-cloop --disab=
-le-dmg --disable-qcow1 --disable-vdi --disable-vvfat --disable-qed --disabl=
-e-parallels --disable-sheepdog --disable-avx2 --disable-nettle --disable-gn=
-utls --disable-capstone --disable-tools --disable-libpmem --disable-iconv -=
--disable-cap-ng
-  $ make
-
-  Test:
-  $ LD_LIBRARY_PATH=3D/usr/local/lib/x86_64-linux-gnu/:$LD_LIBRARY_PATH ./b=
-uild/x86_64-softmmu/qemu-system-x86_64 -enable-kvm --drive media=3Dcdrom,fi=
-le=3Dhttp://archive.ubuntu.com/ubuntu/dists/bionic/main/installer-amd64/cur=
-rent/images/netboot/mini.iso
-  - switch to monitor with CTRL+ALT+2
-  - try to enter something
-
-  Affects head of both usptream git repos.
-
-  =
-
-  --- original bug ---
-
-  It was observed that the QEMU console (normally accessible using
-  Ctrl+Alt+2) accepts no input, so it can't be used. This is being
-  problematic because there are cases where it's required to send
-  commands to the guest, or key combinations that the host would grab
-  (as Ctrl-Alt-F1 or Alt-F4).
-
-  ProblemType: Bug
-  DistroRelease: Ubuntu 20.04
-  Package: qemu 1:4.2-3ubuntu2
-  Uname: Linux 5.6.0-rc6+ x86_64
-  ApportVersion: 2.20.11-0ubuntu20
-  Architecture: amd64
-  CurrentDesktop: XFCE
-  Date: Thu Mar 19 12:16:31 2020
-  Dependencies:
-
-  InstallationDate: Installed on 2017-06-13 (1009 days ago)
-  InstallationMedia: Xubuntu 17.04 "Zesty Zapus" - Release amd64 (20170412)
-  KvmCmdLine:
-  =C2=A0COMMAND         STAT  EUID  RUID     PID    PPID %CPU COMMAND
-  =C2=A0qemu-system-x86 Sl+   1000  1000   34275   25235 29.2 qemu-system-x=
-86_64 -m 4G -cpu Skylake-Client -device virtio-vga,virgl=3Dtrue,xres=3D1280=
-,yres=3D720 -accel kvm -device nec-usb-xhci -serial vc -serial stdio -hda /=
-home/usuario/Sistemas/androidx86.img -display gtk,gl=3Don -device usb-audio
-  =C2=A0kvm-nx-lpage-re S        0     0   34284       2  0.0 [kvm-nx-lpage=
--re]
-  =C2=A0kvm-pit/34275   S        0     0   34286       2  0.0 [kvm-pit/3427=
-5]
-  MachineType: LENOVO 80UG
-  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-5.6.0-rc6+ root=3DUUID=3D6b=
-4ae5c0-c78c-49a6-a1ba-029192618a7a ro quiet ro kvm.ignore_msrs=3D1 kvm.repo=
-rt_ignored_msrs=3D0 kvm.halt_poll_ns=3D0 kvm.halt_poll_ns_grow=3D0 i915.ena=
-ble_gvt=3D1 i915.fastboot=3D1 cgroup_enable=3Dmemory swapaccount=3D1 zswap.=
-enabled=3D1 zswap.zpool=3Dz3fold resume=3DUUID=3Da82e38a0-8d20-49dd-9cbd-de=
-7216b589fc log_buf_len=3D16M usbhid.quirks=3D0x0079:0x0006:0x100000 config_=
-scsi_mq_default=3Dy scsi_mod.use_blk_mq=3D1 mtrr_gran_size=3D64M mtrr_chunk=
-_size=3D64M nbd.nbds_max=3D2 nbd.max_part=3D63
-  SourcePackage: qemu
-  UpgradeStatus: Upgraded to focal on 2019-12-22 (87 days ago)
-  dmi.bios.date: 08/09/2018
-  dmi.bios.vendor: LENOVO
-  dmi.bios.version: 0XCN45WW
-  dmi.board.asset.tag: NO Asset Tag
-  dmi.board.name: Toronto 4A2
-  dmi.board.vendor: LENOVO
-  dmi.board.version: SDK0J40679 WIN
-  dmi.chassis.asset.tag: NO Asset Tag
-  dmi.chassis.type: 10
-  dmi.chassis.vendor: LENOVO
-  dmi.chassis.version: Lenovo ideapad 310-14ISK
-  dmi.modalias: dmi:bvnLENOVO:bvr0XCN45WW:bd08/09/2018:svnLENOVO:pn80UG:pvr=
-Lenovoideapad310-14ISK:rvnLENOVO:rnToronto4A2:rvrSDK0J40679WIN:cvnLENOVO:ct=
-10:cvrLenovoideapad310-14ISK:
-  dmi.product.family: IDEAPAD
-  dmi.product.name: 80UG
-  dmi.product.sku: LENOVO_MT_80UG_BU_idea_FM_Lenovo ideapad 310-14ISK
-  dmi.product.version: Lenovo ideapad 310-14ISK
-  dmi.sys.vendor: LENOVO
-  mtime.conffile..etc.apport.crashdb.conf: 2019-08-29T08:39:36.787240
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1868116/+subscriptions
+> > > > Can you also identify what device and region requires this so that we
+> > > > can decide whether this is QEMU 5.0 or 5.1 material?  PCI BARs are of
+> > > > course always R/W and the ROM uses different ops and doesn't support
+> > > > mmap, so this is a device specific region of some sort.  Thanks,
+> > > >   
+> > > It's a virtual mdev device for which we want to emulate a virtual
+> > > read-only MMIO BAR.
+> > > Is there any consideration that PCI BARs have to be R/W ?
+> > > we didn't find it out in PCI specification.
+> 
+> What the device chooses to do with writes to a BAR is its own business,
+> the PCI spec shouldn't try to define that.  There's also no PCI spec
+> mechanism to declare the access protections for an entire BAR, that's
+> device specific behavior.  The current QEMU vfio-pci behavior is
+> therefore somewhat implicit in knowing this for a directly assigned
+> device.  We can mmap the device and we expect writes to unwritable
+> registers within that mapping to be dropped.
+> 
+> For an mdev device, we can't rely on the user honoring the access
+> protections, ie. the user shouldn't be able to exploit the kernel or
+> device by doing so, but I also agree that QEMU, as a friendly vfio
+> user, should avoid unsupported operations and protect itself from how
+> the kernel may handle the fault.
+> 
+> Since this mdev device doesn't exist yet, I'm thinking this is QEMU
+> v5.1 material though.
+> 
+> > looks MMIO regions in vfio platform are also possible to be read-only and
+> > mmaped.
+> 
+> Yes.  Thanks,
+> 
+> Alex
+> 
 
