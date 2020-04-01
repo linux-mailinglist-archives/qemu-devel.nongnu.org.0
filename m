@@ -2,52 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890D419B5D3
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 20:42:36 +0200 (CEST)
-Received: from localhost ([::1]:35890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F3D119B5DF
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 20:46:09 +0200 (CEST)
+Received: from localhost ([::1]:35926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJiJv-000075-BF
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 14:42:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55277)
+	id 1jJiNL-0001lH-T5
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 14:46:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55750)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jJiJ9-000857-Du
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 14:41:48 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jJiM2-0001AR-Mi
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 14:44:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jJiJ8-0004Be-BA
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 14:41:47 -0400
-Received: from mga06.intel.com ([134.134.136.31]:41020)
+ (envelope-from <kwolf@redhat.com>) id 1jJiM1-0005Ra-B9
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 14:44:46 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36894
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jJiJ8-00045a-3z; Wed, 01 Apr 2020 14:41:46 -0400
-IronPort-SDR: Xh/Sb8/XtERS8ugcg7UdlqOgESQK1c1OszWK+lQoS1ahTjzKIdf1JR4whFzZierzjTVeiv/fb9
- mGfKO4klSU3Q==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2020 11:41:37 -0700
-IronPort-SDR: xvyFNyhD1Xz8ISKGBcbGPD9bNwDL4zCSEzadfFRYgvgmHWgPiuQXRsXBJRAM+k+0++bKLXmtO9
- GMwtDab5xTKg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,332,1580803200"; d="scan'208";a="359943800"
-Received: from unknown (HELO localhost.ch.intel.com) ([10.2.28.117])
- by fmsmga001.fm.intel.com with ESMTP; 01 Apr 2020 11:41:36 -0700
-From: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
-To: kbusch@kernel.org,
-	kwolf@redhat.com,
-	mreitz@redhat.com
-Subject: [PATCH v1] nvme: indicate CMB support through controller capabilities
- register
-Date: Wed,  1 Apr 2020 11:42:19 -0700
-Message-Id: <20200401184219.14911-1-andrzej.jakowski@linux.intel.com>
-X-Mailer: git-send-email 2.21.1
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jJiM1-0005Qy-7r
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 14:44:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585766684;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=btjZ0OXf1e8hvKS6cRYKWBRWdxyI6vTC/ydt44F5EGw=;
+ b=Hz+Ak/FGgLYUqIFeiwxfCLMiYlgf8XCwMGeVtIVOjP+9Xz6vThZOzMcloZvhTMZ+kAxbP0
+ oxNWNlUYuFzje3xJtyMkPeV2fEl38S5whiQWiYmIRdlyMnwBc4/VBlDo2HqUUSRJmmKDqe
+ k9QUqrhVMd2SHqlFFNFfwrQLYRg2hNY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-358-Y4S21g6hPLKK8sYPFgv29w-1; Wed, 01 Apr 2020 14:44:40 -0400
+X-MC-Unique: Y4S21g6hPLKK8sYPFgv29w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F80918FF661;
+ Wed,  1 Apr 2020 18:44:39 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-172.ams2.redhat.com [10.36.114.172])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A74F95D9CD;
+ Wed,  1 Apr 2020 18:44:32 +0000 (UTC)
+Date: Wed, 1 Apr 2020 20:44:31 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Dietmar Maurer <dietmar@proxmox.com>
+Subject: Re: bdrv_drained_begin deadlock with io-threads
+Message-ID: <20200401184431.GD27663@linux.fritz.box>
+References: <20200331125804.GE7030@linux.fritz.box>
+ <303038276.59.1585665152860@webmail.proxmox.com>
+ <787d7517-bf56-72c7-d197-2313a864e05f@virtuozzo.com>
+ <713436887.61.1585668262838@webmail.proxmox.com>
+ <20200331153719.GI7030@linux.fritz.box>
+ <518198448.62.1585671498399@webmail.proxmox.com>
+ <20200401103748.GA4680@linux.fritz.box>
+ <997901084.0.1585755465486@webmail.proxmox.com>
+ <20200401181256.GB27663@linux.fritz.box>
+ <1403939459.52.1585765681569@webmail.proxmox.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 134.134.136.31
+In-Reply-To: <1403939459.52.1585765681569@webmail.proxmox.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,64 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org, Sergio Lopez <slp@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "jsnow@redhat.com" <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch sets CMBS bit in controller capabilities register when user
-configures NVMe driver with CMB support, so capabilites are correctly reported
-to guest OS.
+Am 01.04.2020 um 20:28 hat Dietmar Maurer geschrieben:
+> > That's a pretty big change, and I'm not sure how it's related to
+> > completed requests hanging in the thread pool instead of reentering the
+> > file-posix coroutine. But I also tested it enough that I'm confident
+> > it's really the first bad commit.
+> >=20
+> > Maybe you want to try if your problem starts at the same commit?
+>=20
+> Stefan already found that by bisecting last week:
+>=20
+> See: https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg07629.html
+>=20
+> But, IMHO the commit is not the reason for (my) bug - It just makes
+> it easier to trigger... I can see (my) bug sometimes with 4.1.1, although
+> I have no easy way to reproduce it reliable.
+>=20
+> Also, Stefan sent some patches to the list to fix some of the problems.
+>=20
+> https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg00022.html
+>=20
+> Does that fix your problem?
 
-Signed-off-by: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
----
- hw/block/nvme.c      | 2 ++
- include/block/nvme.h | 4 ++++
- 2 files changed, 6 insertions(+)
+It seems to fix it, yes. Now I don't get any hangs any more. (Also, I
+guess this means that this day was essentially wasted because I worked
+on a problem that already has a fix... *sigh*)
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index d28335cbf3..986803398f 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1393,6 +1393,8 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-     n->bar.intmc = n->bar.intms = 0;
- 
-     if (n->cmb_size_mb) {
-+        /* Contoller capabilities */
-+        NVME_CAP_SET_CMBS(n->bar.cap, 1);
- 
-         NVME_CMBLOC_SET_BIR(n->bar.cmbloc, 2);
-         NVME_CMBLOC_SET_OFST(n->bar.cmbloc, 0);
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 8fb941c653..561891b140 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -27,6 +27,7 @@ enum NvmeCapShift {
-     CAP_CSS_SHIFT      = 37,
-     CAP_MPSMIN_SHIFT   = 48,
-     CAP_MPSMAX_SHIFT   = 52,
-+    CAP_CMB_SHIFT      = 57,
- };
- 
- enum NvmeCapMask {
-@@ -39,6 +40,7 @@ enum NvmeCapMask {
-     CAP_CSS_MASK       = 0xff,
-     CAP_MPSMIN_MASK    = 0xf,
-     CAP_MPSMAX_MASK    = 0xf,
-+    CAP_CMB_MASK       = 0x1,
- };
- 
- #define NVME_CAP_MQES(cap)  (((cap) >> CAP_MQES_SHIFT)   & CAP_MQES_MASK)
-@@ -69,6 +71,8 @@ enum NvmeCapMask {
-                                                            << CAP_MPSMIN_SHIFT)
- #define NVME_CAP_SET_MPSMAX(cap, val) (cap |= (uint64_t)(val & CAP_MPSMAX_MASK)\
-                                                             << CAP_MPSMAX_SHIFT)
-+#define NVME_CAP_SET_CMBS(cap, val) (cap |= (uint64_t)(val & CAP_CMB_MASK)\
-+                                                            << CAP_CMB_SHIFT)
- 
- enum NvmeCcShift {
-     CC_EN_SHIFT     = 0,
--- 
-2.21.1
+Kevin
 
 
