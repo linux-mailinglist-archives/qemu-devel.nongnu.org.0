@@ -2,56 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78E2619B61D
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 20:59:12 +0200 (CEST)
-Received: from localhost ([::1]:36040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A911919B624
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 21:01:04 +0200 (CEST)
+Received: from localhost ([::1]:36080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJiZz-00067O-0Y
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 14:59:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58114)
+	id 1jJibn-0008Sh-MO
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 15:01:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58229)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jJiYh-0005Rx-Tm
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 14:57:55 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1jJiZm-0006iy-JP
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 14:59:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1jJiYf-0008Q5-Q0
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 14:57:51 -0400
-Resent-Date: Wed, 01 Apr 2020 14:57:51 -0400
-Resent-Message-Id: <E1jJiYf-0008Q5-Q0@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21127)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1jJiYf-0008ML-Dp
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 14:57:49 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1585767459; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=bww6XKZSHxiYOCpMGG9/SfITPNoXVh+4aoz/f7LAi/5xHMzrROz4wsTAHO7bsrCyi0vmiAth05wtcgQr5GSG2NtMfObQCIP5sjEbemIjMlD6Zer0jC1NkwLdExUsccssRb/xw4f406dz3sQrEa3x4nJYOMbNrKC30O+vN/99mSw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1585767459;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=8IWn1p2z4FGjx/V8STmdpEQqouaTxkuRYM+Qve43m28=; 
- b=BwrBMQaeU2i0bMk4bSF+XNUPahQosECTLOrZyczm7TbQ86dFWdjTeiU/JEi7ZoKVCYz+FG1YaDILvldkYcwwV0XC2P/ZJrm0Un8MmXRzondqw0SSeOTodTaHZHJrhPwX+i11WWm6UZvC9yHpatEw449ZEM2s5cfwh+dMVP5xDMY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1585767454838797.4085111117812;
- Wed, 1 Apr 2020 11:57:34 -0700 (PDT)
-In-Reply-To: <20200401162023.GA15912@simran-Inspiron-5558>
-Subject: Re: [PATCH] lockable: Replace locks with lock guard macros
-Message-ID: <158576745359.20436.14792001046810935798@39012742ff91>
+ (envelope-from <dgilbert@redhat.com>) id 1jJiZj-0000e0-K8
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 14:58:57 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60520
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jJiZj-0000dM-C5
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 14:58:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585767534;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Jx2AyuAs3C0kLf7h9pnqGR+Kk9+Ny2Oc+tVSAXIgXLg=;
+ b=UJ92XaL+CWz6nzzP/fSK9dBuUv3Ex0LxpdJVnXAX+zydKBIee8TGX8GOx08OF4vK75erpH
+ Bbu4kyT9pBUYHX7ZyChUBrXuIHduDfrXzfAQ2B2NxyQHVGTblZaLc7CGZxe4Mpgac7w/Rz
+ r0o8tEUsxUAI2pFwzVFi8w5J5KNWGog=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-28-yrZZmz-cPKCaLTztSv6UKw-1; Wed, 01 Apr 2020 14:58:48 -0400
+X-MC-Unique: yrZZmz-cPKCaLTztSv6UKw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF0DC18B5F7D;
+ Wed,  1 Apr 2020 18:58:45 +0000 (UTC)
+Received: from work-vm (ovpn-115-201.ams2.redhat.com [10.36.115.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A56574DA24;
+ Wed,  1 Apr 2020 18:58:31 +0000 (UTC)
+Date: Wed, 1 Apr 2020 19:58:29 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH v16 QEMU 10/16] vfio: Add load state functions to
+ SaveVMHandlers
+Message-ID: <20200401185829.GH52559@work-vm>
+References: <1585084154-29461-1-git-send-email-kwankhede@nvidia.com>
+ <1585084154-29461-11-git-send-email-kwankhede@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: singhalsimran0@gmail.com
-Date: Wed, 1 Apr 2020 11:57:34 -0700 (PDT)
-X-ZohoMailClient: External
+In-Reply-To: <1585084154-29461-11-git-send-email-kwankhede@nvidia.com>
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.51
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,85 +74,291 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: stefanha@gmail.com, jusual@mail.ru, qemu-devel@nongnu.org,
- yuval.shaia.ml@gmail.com
+Cc: Zhengxiao.zx@alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, eskultet@redhat.com, ziye.yang@intel.com, cohuck@redhat.com,
+ shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, zhi.a.wang@intel.com,
+ mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
+ alex.williamson@redhat.com, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
+ Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDQwMTE2MjAyMy5HQTE1
-OTEyQHNpbXJhbi1JbnNwaXJvbi01NTU4LwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUg
-YXNhbiBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBjb21tYW5kcyBhbmQKdGhl
-aXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFsbGVkLCB5b3UgY2FuIHBy
-b2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQoj
-IS9iaW4vYmFzaApleHBvcnQgQVJDSD14ODZfNjQKbWFrZSBkb2NrZXItaW1hZ2UtZmVkb3JhIFY9
-MSBORVRXT1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LWRlYnVnQGZlZG9yYSBUQVJHRVRfTElT
-VD14ODZfNjQtc29mdG1tdSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoK
-ICBDQyAgICAgIHg4Nl82NC1zb2Z0bW11L2h3L2kzODYveDg2Lm8KICBDQyAgICAgIHg4Nl82NC1z
-b2Z0bW11L2h3L2kzODYvcGMubwogIENDICAgICAgeDg2XzY0LXNvZnRtbXUvaHcvaTM4Ni9wY19z
-eXNmdy5vCi90bXAvcWVtdS10ZXN0L3NyYy9ody9yZG1hL3JkbWFfdXRpbHMuYzo3NDo1OiBlcnJv
-cjogdW51c2VkIHZhcmlhYmxlICdxZW11X2xvY2thYmxlX2F1dG9fX0NPVU5URVJfXycgWy1XZXJy
-b3IsLVd1bnVzZWQtdmFyaWFibGVdCiAgICBRRU1VX0xPQ0tfR1VBUkQoJmxpc3QtPmxvY2spOwog
-ICAgXgovdG1wL3FlbXUtdGVzdC9zcmMvaW5jbHVkZS9xZW11L2xvY2thYmxlLmg6MTczOjI5OiBu
-b3RlOiBleHBhbmRlZCBmcm9tIG1hY3JvICdRRU1VX0xPQ0tfR1VBUkQnCi0tLQo8c2NyYXRjaCBz
-cGFjZT46MTk0OjE6IG5vdGU6IGV4cGFuZGVkIGZyb20gaGVyZQpxZW11X2xvY2thYmxlX2F1dG9f
-X0NPVU5URVJfXwpeCi90bXAvcWVtdS10ZXN0L3NyYy9ody9yZG1hL3JkbWFfdXRpbHMuYzoxMDk6
-NTogZXJyb3I6IHVudXNlZCB2YXJpYWJsZSAncWVtdV9sb2NrYWJsZV9hdXRvX19DT1VOVEVSX18n
-IFstV2Vycm9yLC1XdW51c2VkLXZhcmlhYmxlXQogICAgUUVNVV9MT0NLX0dVQVJEKCZsaXN0LT5s
-b2NrKTsKICAgIF4KL3RtcC9xZW11LXRlc3Qvc3JjL2luY2x1ZGUvcWVtdS9sb2NrYWJsZS5oOjE3
-MzoyOTogbm90ZTogZXhwYW5kZWQgZnJvbSBtYWNybyAnUUVNVV9MT0NLX0dVQVJEJwotLS0KPHNj
-cmF0Y2ggc3BhY2U+OjIwNzoxOiBub3RlOiBleHBhbmRlZCBmcm9tIGhlcmUKcWVtdV9sb2NrYWJs
-ZV9hdXRvX19DT1VOVEVSX18KXgovdG1wL3FlbXUtdGVzdC9zcmMvaHcvcmRtYS9yZG1hX3V0aWxz
-LmM6MTE2OjU6IGVycm9yOiB1bnVzZWQgdmFyaWFibGUgJ3FlbXVfbG9ja2FibGVfYXV0b19fQ09V
-TlRFUl9fJyBbLVdlcnJvciwtV3VudXNlZC12YXJpYWJsZV0KICAgIFFFTVVfTE9DS19HVUFSRCgm
-bGlzdC0+bG9jayk7CiAgICBeCi90bXAvcWVtdS10ZXN0L3NyYy9pbmNsdWRlL3FlbXUvbG9ja2Fi
-bGUuaDoxNzM6Mjk6IG5vdGU6IGV4cGFuZGVkIGZyb20gbWFjcm8gJ1FFTVVfTE9DS19HVUFSRCcK
-LS0tCnFlbXVfbG9ja2FibGVfYXV0b19fQ09VTlRFUl9fCl4KMyBlcnJvcnMgZ2VuZXJhdGVkLgpt
-YWtlWzFdOiAqKiogWy90bXAvcWVtdS10ZXN0L3NyYy9ydWxlcy5tYWs6Njk6IGh3L3JkbWEvcmRt
-YV91dGlscy5vXSBFcnJvciAxCm1ha2VbMV06ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpv
-YnMuLi4uCiAgQ0MgICAgICB4ODZfNjQtc29mdG1tdS9ody9pMzg2L3BjX3BpaXgubwovdG1wL3Fl
-bXUtdGVzdC9zcmMvaHcvaHlwZXJ2L2h5cGVydi5jOjQ5NTo1OiBlcnJvcjogdW51c2VkIHZhcmlh
-YmxlICdxZW11X2xvY2thYmxlX2F1dG9fX0NPVU5URVJfXycgWy1XZXJyb3IsLVd1bnVzZWQtdmFy
-aWFibGVdCiAgICBRRU1VX0xPQ0tfR1VBUkQoJmhhbmRsZXJzX211dGV4KTsKICAgIF4KL3RtcC9x
-ZW11LXRlc3Qvc3JjL2luY2x1ZGUvcWVtdS9sb2NrYWJsZS5oOjE3MzoyOTogbm90ZTogZXhwYW5k
-ZWQgZnJvbSBtYWNybyAnUUVNVV9MT0NLX0dVQVJEJwotLS0KPHNjcmF0Y2ggc3BhY2U+OjI0OjE6
-IG5vdGU6IGV4cGFuZGVkIGZyb20gaGVyZQpxZW11X2xvY2thYmxlX2F1dG9fX0NPVU5URVJfXwpe
-Ci90bXAvcWVtdS10ZXN0L3NyYy9ody9oeXBlcnYvaHlwZXJ2LmM6NTY4OjU6IGVycm9yOiB1bnVz
-ZWQgdmFyaWFibGUgJ3FlbXVfbG9ja2FibGVfYXV0b19fQ09VTlRFUl9fJyBbLVdlcnJvciwtV3Vu
-dXNlZC12YXJpYWJsZV0KICAgIFFFTVVfTE9DS19HVUFSRCgmaGFuZGxlcnNfbXV0ZXgpOwogICAg
-XgovdG1wL3FlbXUtdGVzdC9zcmMvaW5jbHVkZS9xZW11L2xvY2thYmxlLmg6MTczOjI5OiBub3Rl
-OiBleHBhbmRlZCBmcm9tIG1hY3JvICdRRU1VX0xPQ0tfR1VBUkQnCi0tLQpxZW11X2xvY2thYmxl
-X2F1dG9fX0NPVU5URVJfXwpeCjIgZXJyb3JzIGdlbmVyYXRlZC4KbWFrZVsxXTogKioqIFsvdG1w
-L3FlbXUtdGVzdC9zcmMvcnVsZXMubWFrOjY5OiBody9oeXBlcnYvaHlwZXJ2Lm9dIEVycm9yIDEK
-L3RtcC9xZW11LXRlc3Qvc3JjL2h3L3JkbWEvcmRtYV9ybS5jOjE1MDo1OiBlcnJvcjogdW51c2Vk
-IHZhcmlhYmxlICdxZW11X2xvY2thYmxlX2F1dG9fX0NPVU5URVJfXycgWy1XZXJyb3IsLVd1bnVz
-ZWQtdmFyaWFibGVdCiAgICBRRU1VX0xPQ0tfR1VBUkQoJnRibC0+bG9jayk7CiAgICBeCi90bXAv
-cWVtdS10ZXN0L3NyYy9pbmNsdWRlL3FlbXUvbG9ja2FibGUuaDoxNzM6Mjk6IG5vdGU6IGV4cGFu
-ZGVkIGZyb20gbWFjcm8gJ1FFTVVfTE9DS19HVUFSRCcKLS0tCnFlbXVfbG9ja2FibGVfYXV0b19f
-Q09VTlRFUl9fCl4KMSBlcnJvciBnZW5lcmF0ZWQuCm1ha2VbMV06ICoqKiBbL3RtcC9xZW11LXRl
-c3Qvc3JjL3J1bGVzLm1hazo2OTogaHcvcmRtYS9yZG1hX3JtLm9dIEVycm9yIDEKbWFrZTogKioq
-IFtNYWtlZmlsZTo1Mjc6IHg4Nl82NC1zb2Z0bW11L2FsbF0gRXJyb3IgMgpUcmFjZWJhY2sgKG1v
-c3QgcmVjZW50IGNhbGwgbGFzdCk6CiAgRmlsZSAiLi90ZXN0cy9kb2NrZXIvZG9ja2VyLnB5Iiwg
-bGluZSA2NjQsIGluIDxtb2R1bGU+CiAgICBzeXMuZXhpdChtYWluKCkpCi0tLQogICAgcmFpc2Ug
-Q2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNz
-RXJyb3I6IENvbW1hbmQgJ1snc3VkbycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwn
-LCAnY29tLnFlbXUuaW5zdGFuY2UudXVpZD1kOTMwNjc2MDMwOTM0YzFmYmI1ZTQ1ZmNmZDM0Nzk0
-OScsICctdScsICcxMDAxJywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcs
-ICctLXJtJywgJy1lJywgJ1RBUkdFVF9MSVNUPXg4Nl82NC1zb2Z0bW11JywgJy1lJywgJ0VYVFJB
-X0NPTkZJR1VSRV9PUFRTPScsICctZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVH
-PScsICctZScsICdTSE9XX0VOVj0nLCAnLWUnLCAnQ0NBQ0hFX0RJUj0vdmFyL3RtcC9jY2FjaGUn
-LCAnLXYnLCAnL2hvbWUvcGF0Y2hldy8uY2FjaGUvcWVtdS1kb2NrZXItY2NhY2hlOi92YXIvdG1w
-L2NjYWNoZTp6JywgJy12JywgJy92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC1pZTlfZ24xZy9z
-cmMvZG9ja2VyLXNyYy4yMDIwLTA0LTAxLTE0LjUzLjI3LjIzODc2Oi92YXIvdG1wL3FlbXU6eixy
-bycsICdxZW11OmZlZG9yYScsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LWRlYnVnJ10nIHJl
-dHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20u
-cWVtdS5pbnN0YW5jZS51dWlkPWQ5MzA2NzYwMzA5MzRjMWZiYjVlNDVmY2ZkMzQ3OTQ5Cm1ha2Vb
-MV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBg
-L3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLWllOV9nbjFnL3NyYycKbWFrZTogKioqIFtkb2Nr
-ZXItcnVuLXRlc3QtZGVidWdAZmVkb3JhXSBFcnJvciAyCgpyZWFsICAgIDRtNy40MTVzCnVzZXIg
-ICAgMG04LjQzN3MKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3
-Lm9yZy9sb2dzLzIwMjAwNDAxMTYyMDIzLkdBMTU5MTJAc2ltcmFuLUluc3Bpcm9uLTU1NTgvdGVz
-dGluZy5hc2FuLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxs
-eSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVl
-ZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+* Kirti Wankhede (kwankhede@nvidia.com) wrote:
+> Sequence  during _RESUMING device state:
+> While data for this device is available, repeat below steps:
+> a. read data_offset from where user application should write data.
+> b. write data of data_size to migration region from data_offset.
+> c. write data_size which indicates vendor driver that data is written in
+>    staging buffer.
+>=20
+> For user, data is opaque. User should write data in the same order as
+> received.
+>=20
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> ---
+>  hw/vfio/migration.c  | 179 +++++++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  hw/vfio/trace-events |   3 +
+>  2 files changed, 182 insertions(+)
+>=20
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index ecbeed5182c2..ab295d25620e 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -269,6 +269,33 @@ static int vfio_save_device_config_state(QEMUFile *f=
+, void *opaque)
+>      return qemu_file_get_error(f);
+>  }
+> =20
+> +static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
+> +{
+> +    VFIODevice *vbasedev =3D opaque;
+> +    uint64_t data;
+> +
+> +    if (vbasedev->ops && vbasedev->ops->vfio_load_config) {
+> +        int ret;
+> +
+> +        ret =3D vbasedev->ops->vfio_load_config(vbasedev, f);
+> +        if (ret) {
+> +            error_report("%s: Failed to load device config space",
+> +                         vbasedev->name);
+> +            return ret;
+> +        }
+> +    }
+> +
+> +    data =3D qemu_get_be64(f);
+> +    if (data !=3D VFIO_MIG_FLAG_END_OF_STATE) {
+> +        error_report("%s: Failed loading device config space, "
+> +                     "end flag incorrect 0x%"PRIx64, vbasedev->name, dat=
+a);
+> +        return -EINVAL;
+> +    }
+> +
+> +    trace_vfio_load_device_config_state(vbasedev->name);
+> +    return qemu_file_get_error(f);
+> +}
+> +
+>  /* ---------------------------------------------------------------------=
+- */
+> =20
+>  static int vfio_save_setup(QEMUFile *f, void *opaque)
+> @@ -434,12 +461,164 @@ static int vfio_save_complete_precopy(QEMUFile *f,=
+ void *opaque)
+>      return ret;
+>  }
+> =20
+> +static int vfio_load_setup(QEMUFile *f, void *opaque)
+> +{
+> +    VFIODevice *vbasedev =3D opaque;
+> +    VFIOMigration *migration =3D vbasedev->migration;
+> +    int ret =3D 0;
+> +
+> +    if (migration->region.mmaps) {
+> +        ret =3D vfio_region_mmap(&migration->region);
+> +        if (ret) {
+> +            error_report("%s: Failed to mmap VFIO migration region %d: %=
+s",
+> +                         vbasedev->name, migration->region.nr,
+> +                         strerror(-ret));
+> +            return ret;
+> +        }
+> +    }
+> +
+> +    ret =3D vfio_migration_set_state(vbasedev, ~0, VFIO_DEVICE_STATE_RES=
+UMING);
+> +    if (ret) {
+> +        error_report("%s: Failed to set state RESUMING", vbasedev->name)=
+;
+> +    }
+> +    return ret;
+> +}
+> +
+> +static int vfio_load_cleanup(void *opaque)
+> +{
+> +    vfio_save_cleanup(opaque);
+> +    return 0;
+> +}
+> +
+> +static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
+> +{
+> +    VFIODevice *vbasedev =3D opaque;
+> +    VFIOMigration *migration =3D vbasedev->migration;
+> +    int ret =3D 0;
+> +    uint64_t data, data_size;
+> +
+> +    data =3D qemu_get_be64(f);
+> +    while (data !=3D VFIO_MIG_FLAG_END_OF_STATE) {
+> +
+> +        trace_vfio_load_state(vbasedev->name, data);
+> +
+> +        switch (data) {
+> +        case VFIO_MIG_FLAG_DEV_CONFIG_STATE:
+> +        {
+> +            ret =3D vfio_load_device_config_state(f, opaque);
+> +            if (ret) {
+> +                return ret;
+> +            }
+> +            break;
+> +        }
+> +        case VFIO_MIG_FLAG_DEV_SETUP_STATE:
+> +        {
+> +            uint64_t region_size =3D qemu_get_be64(f);
+> +
+> +            if (migration->region.size < region_size) {
+> +                error_report("%s: SETUP STATE: migration region too smal=
+l, "
+> +                             "0x%"PRIx64 " < 0x%"PRIx64, vbasedev->name,
+> +                             migration->region.size, region_size);
+> +                return -EINVAL;
+> +            }
+> +
+> +            data =3D qemu_get_be64(f);
+> +            if (data =3D=3D VFIO_MIG_FLAG_END_OF_STATE) {
+
+Can you explain why you're reading this here rather than letting it drop
+through to the read at the end of the loop?
+
+> +                return ret;
+> +            } else {
+> +                error_report("%s: SETUP STATE: EOS not found 0x%"PRIx64,
+> +                             vbasedev->name, data);
+> +                return -EINVAL;
+> +            }
+> +            break;
+> +        }
+> +        case VFIO_MIG_FLAG_DEV_DATA_STATE:
+> +        {
+> +            VFIORegion *region =3D &migration->region;
+> +            void *buf =3D NULL;
+> +            bool buffer_mmaped =3D false;
+> +            uint64_t data_offset =3D 0;
+> +
+> +            data_size =3D qemu_get_be64(f);
+> +            if (data_size =3D=3D 0) {
+> +                break;
+> +            }
+> +
+> +            ret =3D pread(vbasedev->fd, &data_offset, sizeof(data_offset=
+),
+> +                        region->fd_offset +
+> +                        offsetof(struct vfio_device_migration_info,
+> +                        data_offset));
+> +            if (ret !=3D sizeof(data_offset)) {
+> +                error_report("%s:Failed to get migration buffer data off=
+set %d",
+> +                             vbasedev->name, ret);
+> +                return -EINVAL;
+> +            }
+> +
+> +            if (region->mmaps) {
+> +                buf =3D find_data_region(region, data_offset, data_size)=
+;
+> +            }
+> +
+> +            buffer_mmaped =3D (buf !=3D NULL) ? true : false;
+> +
+> +            if (!buffer_mmaped) {
+> +                buf =3D g_try_malloc0(data_size);
+
+data_size has been read off the wire at this point; can we sanity check
+it?
+
+> +                if (!buf) {
+> +                    error_report("%s: Error allocating buffer ", __func_=
+_);
+> +                    return -ENOMEM;
+> +                }
+> +            }
+> +
+> +            qemu_get_buffer(f, buf, data_size);
+> +
+> +            if (!buffer_mmaped) {
+> +                ret =3D pwrite(vbasedev->fd, buf, data_size,
+> +                             region->fd_offset + data_offset);
+> +                g_free(buf);
+> +
+> +                if (ret !=3D data_size) {
+> +                    error_report("%s: Failed to set migration buffer %d"=
+,
+> +                                 vbasedev->name, ret);
+> +                    return -EINVAL;
+> +                }
+> +            }
+> +
+> +            ret =3D pwrite(vbasedev->fd, &data_size, sizeof(data_size),
+> +                         region->fd_offset +
+> +                       offsetof(struct vfio_device_migration_info, data_=
+size));
+> +            if (ret !=3D sizeof(data_size)) {
+> +                error_report("%s: Failed to set migration buffer data si=
+ze %d",
+> +                             vbasedev->name, ret);
+> +                if (!buffer_mmaped) {
+> +                    g_free(buf);
+> +                }
+> +                return -EINVAL;
+> +            }
+> +
+> +            trace_vfio_load_state_device_data(vbasedev->name, data_offse=
+t,
+> +                                              data_size);
+> +            break;
+> +        }
+
+I'd add here a default:  that complains about an unknown tag.
+
+> +        }
+> +
+> +        ret =3D qemu_file_get_error(f);
+> +        if (ret) {
+> +            return ret;
+> +        }
+> +        data =3D qemu_get_be64(f);
+
+I'd also check file_get_error again at this point; if you're unlucky you
+get junk in 'data' and things get more confusing.
+
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+>  static SaveVMHandlers savevm_vfio_handlers =3D {
+>      .save_setup =3D vfio_save_setup,
+>      .save_cleanup =3D vfio_save_cleanup,
+>      .save_live_pending =3D vfio_save_pending,
+>      .save_live_iterate =3D vfio_save_iterate,
+>      .save_live_complete_precopy =3D vfio_save_complete_precopy,
+> +    .load_setup =3D vfio_load_setup,
+> +    .load_cleanup =3D vfio_load_cleanup,
+> +    .load_state =3D vfio_load_state,
+>  };
+> =20
+>  /* ---------------------------------------------------------------------=
+- */
+> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> index bdf40ba368c7..ac065b559f4e 100644
+> --- a/hw/vfio/trace-events
+> +++ b/hw/vfio/trace-events
+> @@ -157,3 +157,6 @@ vfio_save_device_config_state(char *name) " (%s)"
+>  vfio_save_pending(char *name, uint64_t precopy, uint64_t postcopy, uint6=
+4_t compatible) " (%s) precopy 0x%"PRIx64" postcopy 0x%"PRIx64" compatible =
+0x%"PRIx64
+>  vfio_save_iterate(char *name, int data_size) " (%s) data_size %d"
+>  vfio_save_complete_precopy(char *name) " (%s)"
+> +vfio_load_device_config_state(char *name) " (%s)"
+> +vfio_load_state(char *name, uint64_t data) " (%s) data 0x%"PRIx64
+
+Please use const char*'s in traces.
+
+> +vfio_load_state_device_data(char *name, uint64_t data_offset, uint64_t d=
+ata_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
+> --=20
+> 2.7.0
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
