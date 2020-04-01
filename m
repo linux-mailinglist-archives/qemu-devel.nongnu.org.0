@@ -2,115 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6050B19AF1C
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 17:52:51 +0200 (CEST)
-Received: from localhost ([::1]:33842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AEE119AF56
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 18:06:17 +0200 (CEST)
+Received: from localhost ([::1]:34018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJffe-0007t8-8m
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 11:52:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53252)
+	id 1jJfsd-0006pa-UI
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 12:06:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55429)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thanos.makatos@nutanix.com>) id 1jJfcw-0004cj-3J
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:50:03 -0400
+ (envelope-from <dietmar@proxmox.com>) id 1jJfmq-00037r-U6
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:00:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thanos.makatos@nutanix.com>) id 1jJfct-00011a-9L
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:50:00 -0400
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:44978)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thanos.makatos@nutanix.com>)
- id 1jJfct-0000yJ-45
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:49:59 -0400
-Received: from pps.filterd (m0127841.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 031FnlDP014375; Wed, 1 Apr 2020 08:49:51 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=proofpoint20171006;
- bh=WEcmV9OcijZma6uhtByiR7uuaTBflmRrpy98RnlfYf4=;
- b=uItSI/14SpHyI5Si7FeWfz40/2ZgVw/WpkxOPGwSgTFJpI5yAQM6n2NChqW6Objqzfgt
- X6iE65NUf32EaR0Hmt2XJBlWcLPE8BFUCQAi2xud40sfcSLZRO2yrGPMQh8fbYcPM8UI
- Ux25J2L7nrsOJFYbNKWUOGa1z5SgQQ+z3Mze0YCEJ4pou9QnCdHNM7XeqSLvnY4SpIEf
- cCDhR4mBPUQ+U1SmJGIJw1IqA8Sd2BUwXDQLRHDlpN235oM61J1h/ZYbDuFS5VPvLd43
- +iouAHbO6UZbeVAHqkzh4nwPh1vh73hYrV2donWG5Q1lRGFXYcYduBgvgzEVl9m31QAs YQ== 
-Received: from nam10-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam10lp2108.outbound.protection.outlook.com [104.47.58.108])
- by mx0b-002c1b01.pphosted.com with ESMTP id 30244a8nwv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Apr 2020 08:49:51 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RFFK1ttja+qC2CJoGDc103lKNh6L356k+2FG93YzoZaRdgSTj70wgorxS27a8GlzMjBsYomB1JxOkOnSY1ioH4nA7GI1fy/1n8se6EPVdNq/I6iG8LqdMFaK4LyFJ7rUlZkW4wEnzZgTjRoaK5OCH0WgOOQla+iJ2q1+SzsJtvqr1A8wxe/nPMTnSiK/MkqQ+OaX7vcEw0CDAelaX8OV+02UNCaq/V3Tuvgn6wEp+YVAMHyidgaN7gMllyQaZeBqoO5YAJvaDUc3xfA6k1mHjWT/WAzUTftiRaeAPXVS31ljQxd2HCt52s1WyMRyC8J2v4gqz0zx3l6x8FLAm1BZDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WEcmV9OcijZma6uhtByiR7uuaTBflmRrpy98RnlfYf4=;
- b=JiQr4FkAWqi24r+qB5f0jpKauFiu73Wu6VRYiurwx8ZDdglM3fICVRTarTr8+n5e0cNpK6cPAdj3acGZQtZaP5Oh1s1u3510J+J+4dOQacEQz5XdBa/E+NFPWgvwt6wcBVDX/U/lTq4gmHcE6aTpg3vvfhgLUAGi9sh2QrVnNGcY6K06RJm/0pSHPWGR/Sl7OOdYi6c6VERf94+B+R37Xy8w/pYgEqF5JnDm2KfU4iZqBxs28mVGlxnPvUSGy3EawAlLCbrxg8W2DxR72wyf1Gz6yiSaDwOXvSwZH5HqohUMWPIzl6cnIJJAjVDQMvqF9H410A1yC4IHQWpSGRTL6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from MN2PR02MB6205.namprd02.prod.outlook.com (2603:10b6:208:1bf::17)
- by MN2PR02MB5981.namprd02.prod.outlook.com (2603:10b6:208:11e::25)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2856.20; Wed, 1 Apr
- 2020 15:49:49 +0000
-Received: from MN2PR02MB6205.namprd02.prod.outlook.com
- ([fe80::b05b:f3e9:4d12:f4a9]) by MN2PR02MB6205.namprd02.prod.outlook.com
- ([fe80::b05b:f3e9:4d12:f4a9%5]) with mapi id 15.20.2856.019; Wed, 1 Apr 2020
- 15:49:49 +0000
-From: Thanos Makatos <thanos.makatos@nutanix.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: RE: RFC: use VFIO over a UNIX domain socket to implement device
- offloading
-Thread-Topic: RFC: use VFIO over a UNIX domain socket to implement device
- offloading
-Thread-Index: AdYDU20BI9Of/G6jR7ONy5zZTB1T9QEsuagAAA2ct3A=
-Date: Wed, 1 Apr 2020 15:49:49 +0000
-Message-ID: <MN2PR02MB620500A5010B71F1C0D8695E8BC90@MN2PR02MB6205.namprd02.prod.outlook.com>
-References: <MN2PR02MB62052E54C752229C115EAD898BCF0@MN2PR02MB6205.namprd02.prod.outlook.com>
- <20200401091712.GA221892@stefanha-x1.localdomain>
-In-Reply-To: <20200401091712.GA221892@stefanha-x1.localdomain>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [92.29.225.29]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e95abfd9-f3ac-4909-baed-08d7d6544f9a
-x-ms-traffictypediagnostic: MN2PR02MB5981:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR02MB59813527E5265799FBBB7ACB8BC90@MN2PR02MB5981.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 03607C04F0
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR02MB6205.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10019020)(396003)(39860400002)(366004)(136003)(346002)(376002)(86362001)(966005)(26005)(186003)(76116006)(66556008)(66946007)(478600001)(9686003)(4326008)(64756008)(66476007)(66446008)(44832011)(6916009)(81166006)(54906003)(5660300002)(71200400001)(81156014)(7696005)(33656002)(7416002)(52536014)(2906002)(8936002)(8676002)(6506007)(55016002)(316002);
- DIR:OUT; SFP:1102; 
-received-spf: None (protection.outlook.com: nutanix.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: bVX3u0JX/94FzOsVXimCVlEar4k8LK7p3cKVYg8w2wJnAezsP2ZQWKP6mGNwvSw/adHosVOxEST8l64Oy/C20Exoyp1hCPih2O6iT/DY5zn10HQ93Ccuyw/vGnHcirEnutm217rndLd2pbNSmQ0UgU/UHT51yjg1spisTSssCzoesdfRTYDBkrPiApqyc0YQWSuTWxxcKS/59YvvgH0wV+IO2qer0Vl2+Ob5J9120+qCnL+g7ZuSMm9kzxwOUFP9K3KPcusx6Kxle4xrQAQbRbJE0MOFKnhXlNwN2XJn5ZYCrh5Q6Qu+p8xpM4Q9Chwkq8zwuPu3WRvkdH5Xu8aMv5LgeNmLvnu1f9MDF+tM1OVVSRGjalM8qqhaM2RdioAED9qSqVvLZ7GXWMAG6Rpyu+o18/d35s9E3pcbIWE3S0072rAxlza0b+FKmaSD+13ObMldzfjatF+hN/tlgLwvckP1YOBv9dG96ExS4NvN2X5LnO+qf35q+3fb8FhkqQKIkq/8QpSR/0vjOfXVLK6W0w==
-x-ms-exchange-antispam-messagedata: rFz8LOuzkm4Q9bsuDSsVY/ReVCAQ0aOsi/YqPB0r4SjFJv13ISsoGiUIIokQfZXN9wN5sBglGtxILVS8BEz6H0T6HFM+ItdIsAyBT+wrMDcwkE/lOjYs8aGWg2pDZ97VNj+Pmy5KuWnGIdKwTI/mxA==
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <dietmar@proxmox.com>) id 1jJfmp-00067M-Cf
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:00:16 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:25575)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dietmar@proxmox.com>)
+ id 1jJfml-0005cx-UG; Wed, 01 Apr 2020 12:00:12 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 54A3A4277B;
+ Wed,  1 Apr 2020 17:59:59 +0200 (CEST)
+Date: Wed, 1 Apr 2020 17:50:30 +0200 (CEST)
+From: Dietmar Maurer <dietmar@proxmox.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Message-ID: <1854680630.1.1585756230142@webmail.proxmox.com>
+In-Reply-To: <997901084.0.1585755465486@webmail.proxmox.com>
+References: <658260883.24.1585644382441@webmail.proxmox.com>
+ <20200331125804.GE7030@linux.fritz.box>
+ <303038276.59.1585665152860@webmail.proxmox.com>
+ <787d7517-bf56-72c7-d197-2313a864e05f@virtuozzo.com>
+ <713436887.61.1585668262838@webmail.proxmox.com>
+ <20200331153719.GI7030@linux.fritz.box>
+ <518198448.62.1585671498399@webmail.proxmox.com>
+ <20200401103748.GA4680@linux.fritz.box>
+ <997901084.0.1585755465486@webmail.proxmox.com>
+Subject: Re: bdrv_drained_begin deadlock with io-threads
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e95abfd9-f3ac-4909-baed-08d7d6544f9a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Apr 2020 15:49:49.5003 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: K+P3ZbpYML+vRGcGUsI3+ygVJOE12HC1RlBcIc2LWNapcZR+rn8Q+mQoAgtoBfSdLJVzMGa61QCoEG2GwNcd1Bq34ckhA/P6/0vJ93p+rCg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB5981
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-04-01_01:2020-03-31,
- 2020-03-31 signatures=0
-X-Proofpoint-Spam-Reason: safe
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.155.12
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
+X-Mailer: Open-Xchange Mailer v7.10.2-Rev23
+X-Originating-Client: open-xchange-appsuite
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 212.186.127.180
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -122,93 +59,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Walker, Benjamin" <benjamin.walker@intel.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- "john.g.johnson@oracle.com" <john.g.johnson@oracle.com>,
- Jag Raman <jag.raman@oracle.com>, "Harris, 
- James R" <james.r.harris@intel.com>, Swapnil Ingle <swapnil.ingle@nutanix.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Kirti Wankhede <kwankhede@nvidia.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Kanth Ghatraju <Kanth.Ghatraju@oracle.com>,
- Felipe Franciosi <felipe@nutanix.com>,
- =?iso-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>, "Zhang,
- Tina" <tina.zhang@intel.com>, "Liu, Changpeng" <changpeng.liu@intel.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>
+Reply-To: Dietmar Maurer <dietmar@proxmox.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org, Sergio Lopez <slp@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "jsnow@redhat.com" <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> On Thu, Mar 26, 2020 at 09:47:38AM +0000, Thanos Makatos wrote:
-> > Build MUSER with vfio-over-socket:
-> >
-> >         git clone --single-branch --branch vfio-over-socket
-> git@github.com:tmakatos/muser.git
-> >         cd muser/
-> >         git submodule update --init
-> >         make
-> >
-> > Run device emulation, e.g.
-> >
-> >         ./build/dbg/samples/gpio-pci-idio-16 -s <N>
-> >
-> > Where <N> is an available IOMMU group, essentially the device ID, which
-> must not
-> > previously exist in /dev/vfio/.
-> >
-> > Run QEMU using the vfio wrapper library and specifying the MUSER device=
-:
-> >
-> >         LD_PRELOAD=3Dmuser/build/dbg/libvfio/libvfio.so qemu-system-x86=
-_64
-> \
-> >                 ... \
-> >                 -device vfio-pci,sysfsdev=3D/dev/vfio/<N> \
-> >                 -object memory-backend-file,id=3Dram-node0,prealloc=3Dy=
-es,mem-
-> path=3Dmem,share=3Dyes,size=3D1073741824 \
-> >                 -numa node,nodeid=3D0,cpus=3D0,memdev=3Dram-node0
-> >
-> > Bear in mind that since this is just a PoC lots of things can break, e.=
-g. some
-> > system call not intercepted etc.
->=20
-> Cool, I had a quick look at libvfio and how the transport integrates
-> into libmuser.  The integration on the libmuser side is nice and small.
->=20
-> It seems likely that there will be several different implementations of
-> the vfio-over-socket device side (server):
-> 1. libmuser
-> 2. A Rust equivalent to libmuser
-> 3. Maybe a native QEMU implementation for multi-process QEMU (I think JJ
->    has been investigating this?)
->=20
-> In order to interoperate we'll need to maintain a protocol
-> specification.  Mayb You and JJ could put that together and CC the vfio,
-> rust-vmm, and QEMU communities for discussion?
 
-Sure, I can start by drafting a design doc and share it.
+> On April 1, 2020 5:37 PM Dietmar Maurer <dietmar@proxmox.com> wrote:
+> 
+>  
+> > > I really nobody else able to reproduce this (somebody already tried to reproduce)?
+> > 
+> > I can get hangs, but that's for job_completed(), not for starting the
+> > job. Also, my hangs have a non-empty bs->tracked_requests, so it looks
+> > like a different case to me.
+> 
+> Please can you post the command line args of your VM? I use something like
+> 
+> ./x86_64-softmmu/qemu-system-x86_64 -chardev 'socket,id=qmp,path=/var/run/qemu-server/101.qmp,server,nowait' -mon 'chardev=qmp,mode=control' -pidfile /var/run/qemu-server/101.pid  -m 1024 -object 'iothread,id=iothread-virtioscsi0' -device 'virtio-scsi-pci,id=virtioscsi0,iothread=iothread-virtioscsi0' -drive 'file=/backup/disk3/debian-buster.raw,if=none,id=drive-scsi0,format=raw,cache=none,aio=native,detect-zeroes=on' -device 'scsi-hd,bus=virtioscsi0.0,channel=0,scsi-id=0,lun=0,drive=drive-scsi0,id=scsi0' -machine "type=pc,accel=kvm"
 
-> It should cover the UNIX domain socket connection semantics (does a
-> listen socket only accept 1 connection at a time?  What happens when the
-> client disconnects?  What happens when the server disconnects?), how
-> VFIO structs are exchanged, any vfio-over-socket specific protocol
-> messages, etc.  Basically everything needed to write an implementation
-> (although it's not necessary to copy the VFIO struct definitions from
-> the kernel headers into the spec or even document their semantics if
-> they are identical to kernel VFIO).
->=20
-> The next step beyond the LD_PRELOAD library is a native vfio-over-socket
-> client implementation in QEMU.  There is a prototype here:
-> https://github.com/elmarco/qemu/blob/wip/vfio-user/hw/vfio/libvfio-
-> user.c
->=20
-> If there are any volunteers for working on that then this would be a
-> good time to discuss it.
->=20
-> Finally, has anyone looked at CrosVM's out-of-process device model?  I
-> wonder if it has any features we should consider...
->=20
-> Looks like a great start to vfio-over-socket!
+BTW, I get a segfault if I start above VM without "accel=kvm", 
+
+gdb --args ./x86_64-softmmu/qemu-system-x86_64 -chardev 'socket,id=qmp,path=/var/run/qemu-server/101.qmp,server,nowait' -mon 'chardev=qmp,mode=control' -pidfile /var/run/qemu-server/101.pid  -m 1024 -object 'iothread,id=iothread-virtioscsi0' -device 'virtio-scsi-pci,id=virtioscsi0,iothread=iothread-virtioscsi0' -drive 'file=/backup/disk3/debian-buster.raw,if=none,id=drive-scsi0,format=raw,cache=none,aio=native,detect-zeroes=on' -device 'scsi-hd,bus=virtioscsi0.0,channel=0,scsi-id=0,lun=0,drive=drive-scsi0,id=scsi0' -machine "type=pc"
+
+after a few seconds:
+
+Thread 3 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
+[Switching to Thread 0x7fffe857e700 (LWP 22257)]
+0x000055555587c130 in do_tb_phys_invalidate (tb=tb@entry=0x7fffa7b40500 <code_gen_buffer+3409107>, 
+    rm_from_page_list=rm_from_page_list@entry=true)
+    at /home/dietmar/pve5-devel/mirror_qemu/accel/tcg/translate-all.c:1483
+1483	    atomic_set(&tcg_ctx->tb_phys_invalidate_count,
+(gdb) bt
+#0  0x000055555587c130 in do_tb_phys_invalidate
+    (tb=tb@entry=0x7fffa7b40500 <code_gen_buffer+3409107>, rm_from_page_list=rm_from_page_list@entry=true)
+    at /home/dietmar/pve5-devel/mirror_qemu/accel/tcg/translate-all.c:1483
+#1  0x000055555587c53b in tb_phys_invalidate__locked (tb=0x7fffa7b40500 <code_gen_buffer+3409107>)
+    at /home/dietmar/pve5-devel/mirror_qemu/accel/tcg/translate-all.c:1960
+#2  0x000055555587c53b in tb_invalidate_phys_page_range__locked
+    (pages=pages@entry=0x7fffe780d400, p=0x7fff651066a0, start=start@entry=1072709632, end=end@entry=1072713728, retaddr=retaddr@entry=0) at /home/dietmar/pve5-devel/mirror_qemu/accel/tcg/translate-all.c:1960
+#3  0x000055555587dad1 in tb_invalidate_phys_range (start=1072709632, end=1072771072)
+    at /home/dietmar/pve5-devel/mirror_qemu/accel/tcg/translate-all.c:2036
+#4  0x0000555555801c12 in invalidate_and_set_dirty
+    (mr=<optimized out>, addr=<optimized out>, length=<optimized out>)
+    at /home/dietmar/pve5-devel/mirror_qemu/exec.c:3036
+#5  0x00005555558072df in address_space_unmap
+    (as=<optimized out>, buffer=<optimized out>, len=<optimized out>, is_write=<optimized out>, access_len=65536)
+    at /home/dietmar/pve5-devel/mirror_qemu/exec.c:3571
+#6  0x0000555555967ff6 in dma_memory_unmap
+    (access_len=<optimized out>, dir=<optimized out>, len=<optimized out>, buffer=<optimized out>, as=<optimized out>) at /home/dietmar/pve5-devel/mirror_qemu/include/sysemu/dma.h:145
+#7  0x0000555555967ff6 in dma_blk_unmap (dbs=dbs@entry=0x7fffe7839220) at dma-helpers.c:104
+#8  0x0000555555968394 in dma_complete (ret=0, dbs=0x7fffe7839220) at dma-helpers.c:116
+#9  0x0000555555968394 in dma_blk_cb (opaque=0x7fffe7839220, ret=0) at dma-helpers.c:136
+#10 0x0000555555bac78e in blk_aio_complete (acb=0x7fffe783da00) at block/block-backend.c:1339
+#11 0x0000555555c7280b in coroutine_trampoline (i0=<optimized out>, i1=<optimized out>)
+    at util/coroutine-ucontext.c:115
+#12 0x00007ffff6176b50 in __correctly_grouped_prefixwc
+    (begin=0x7fffa7b40240 <code_gen_buffer+3408403> L"\x3ff0497b", end=0x12 <error: Cannot access memory at address 0x12>, thousands=0 L'\000', grouping=0x7fffa7b40590 <code_gen_buffer+3409251> "\001") at grouping.c:171
+#13 0x0000000000000000 in  ()
+
+
+It runs fine without iothreads.
+
+But I guess this is a totally different problem?
+
 
