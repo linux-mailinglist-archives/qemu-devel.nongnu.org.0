@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5858D19ACE0
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 15:29:08 +0200 (CEST)
-Received: from localhost ([::1]:60362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2678919AD28
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 15:52:33 +0200 (CEST)
+Received: from localhost ([::1]:60574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJdQY-0004Ww-UT
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 09:29:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38541)
+	id 1jJdnD-0004qZ-Ng
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 09:52:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44896)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jJdPM-0003Pm-1W
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 09:27:53 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jJdmL-0004Gu-Um
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 09:51:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1jJdPK-0003po-6n
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 09:27:51 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27504
+ (envelope-from <kwolf@redhat.com>) id 1jJdmK-0001yK-7U
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 09:51:37 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:45566
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jJdPK-0003pN-33
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 09:27:50 -0400
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jJdmJ-0001y9-UC
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 09:51:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585747669;
+ s=mimecast20190719; t=1585749094;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ni71YiFDJuPenSfHSGoeA9VeWWMym47rH7T1ZZ2OrWM=;
- b=iaAD5aFxaIvVI602ROaK9n2J6M/vtBXH+dntGfvD9v8kDrlei9ySgYs62ezdzzVzhU4ye5
- 2FkYa8AtCkPu0N8pNqR0kFRUYgehKGuzuOfEWh6MQ1fP1PgaRkAoQM2KKzYDvJybyWL9H6
- ePxazVUrkbuWaV/gCmfftKe9iCalOws=
+ bh=5ihu7wuea/BZTRKQHmpqVZH23PSAULOBnt2fe+aCOBs=;
+ b=LaijjQ/hiHEEerp0dF3oi7SRXrz6BHAkqx6rOR8lTU0qmaalJIdkR1XXsxC4UffQA4XepU
+ pEbcSstX7+zT1Ltj74TzFQtTfiGZWrJOE0zoEqey9Esnno0z6cLst9B87dO/Frj74eeh3w
+ dGb969dHFWxgxONAjxwT5/EoS34cHm0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-6NnEcXrrPROj0cLjB2gthg-1; Wed, 01 Apr 2020 09:27:45 -0400
-X-MC-Unique: 6NnEcXrrPROj0cLjB2gthg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-44-u-eJ8r2mNsKDXlnDMlKSyg-1; Wed, 01 Apr 2020 09:51:32 -0400
+X-MC-Unique: u-eJ8r2mNsKDXlnDMlKSyg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F28F813F6;
- Wed,  1 Apr 2020 13:27:43 +0000 (UTC)
-Received: from work-vm (ovpn-115-201.ams2.redhat.com [10.36.115.201])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 03EF1DA101;
- Wed,  1 Apr 2020 13:27:37 +0000 (UTC)
-Date: Wed, 1 Apr 2020 14:27:35 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Simran Singhal <singhalsimran0@gmail.com>
-Subject: Re: [PATCH] Compress lines for immediate return
-Message-ID: <20200401132735.GC52559@work-vm>
-References: <20200401121101.GA26994@simran-Inspiron-5558>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 877081005509;
+ Wed,  1 Apr 2020 13:51:31 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-172.ams2.redhat.com [10.36.114.172])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 65DCA5D9CA;
+ Wed,  1 Apr 2020 13:51:27 +0000 (UTC)
+Date: Wed, 1 Apr 2020 15:51:26 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH v10 10/14] iotests: add hmp helper with logging
+Message-ID: <20200401135126.GA27663@linux.fritz.box>
+References: <20200331000014.11581-1-jsnow@redhat.com>
+ <20200331000014.11581-11-jsnow@redhat.com>
+ <88146808-4acc-247e-d34b-5dd16baad0b4@redhat.com>
+ <20200331140057.GG7030@linux.fritz.box>
+ <19eedbae-0660-5a28-e20b-ddf82a36fe73@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200401121101.GA26994@simran-Inspiron-5558>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <19eedbae-0660-5a28-e20b-ddf82a36fe73@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="/9DWx/yDrRhgMJTb"
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.61
@@ -72,234 +75,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Jeff Cody <codyprime@gmail.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Julia Suvorova <jusual@mail.ru>
+Cc: ehabkost@redhat.com, qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, armbru@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Simran Singhal (singhalsimran0@gmail.com) wrote:
-> Compress two lines into a single line if immediate return statement is fo=
-und.
->=20
-> It also remove variables progress, val, data, ret and sock
-> as they are no longer needed.
->=20
-> Remove space between function "mixer_load" and '(' to fix the
-> checkpatch.pl error:-
-> ERROR: space prohibited between function name and open parenthesis '('
->=20
-> Signed-off-by: Simran Singhal <singhalsimran0@gmail.com>
-> ---
->  block/file-posix.c      | 3 +--
->  block/nfs.c             | 3 +--
->  block/nvme.c            | 4 +---
->  block/vhdx.c            | 3 +--
->  hw/audio/ac97.c         | 4 +---
->  hw/audio/adlib.c        | 5 +----
->  hw/display/cirrus_vga.c | 4 +---
->  migration/ram.c         | 4 +---
->  ui/gtk.c                | 3 +--
->  util/qemu-sockets.c     | 5 +----
->  10 files changed, 10 insertions(+), 28 deletions(-)
->=20
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index 7e19bbff5f..dc01f0d4d3 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -1627,8 +1627,7 @@ static int handle_aiocb_write_zeroes_unmap(void *op=
-aque)
-> =20
->      /* If we couldn't manage to unmap while guaranteed that the area rea=
-ds as
->       * all-zero afterwards, just write zeroes without unmapping */
-> -    ret =3D handle_aiocb_write_zeroes(aiocb);
-> -    return ret;
-> +    return handle_aiocb_write_zeroes(aiocb);
->  }
-> =20
->  #ifndef HAVE_COPY_FILE_RANGE
-> diff --git a/block/nfs.c b/block/nfs.c
-> index cc2413d5ab..100f15bd1f 100644
-> --- a/block/nfs.c
-> +++ b/block/nfs.c
-> @@ -623,8 +623,7 @@ static int nfs_file_open(BlockDriverState *bs, QDict =
-*options, int flags,
->      }
-> =20
->      bs->total_sectors =3D ret;
-> -    ret =3D 0;
-> -    return ret;
-> +    return 0;
->  }
-> =20
->  static QemuOptsList nfs_create_opts =3D {
-> diff --git a/block/nvme.c b/block/nvme.c
-> index 7b7c0cc5d6..eb2f54dd9d 100644
-> --- a/block/nvme.c
-> +++ b/block/nvme.c
-> @@ -575,11 +575,9 @@ static bool nvme_poll_cb(void *opaque)
->  {
->      EventNotifier *e =3D opaque;
->      BDRVNVMeState *s =3D container_of(e, BDRVNVMeState, irq_notifier);
-> -    bool progress =3D false;
-> =20
->      trace_nvme_poll_cb(s);
-> -    progress =3D nvme_poll_queues(s);
-> -    return progress;
-> +    return nvme_poll_queues(s);
->  }
-> =20
->  static int nvme_init(BlockDriverState *bs, const char *device, int names=
-pace,
-> diff --git a/block/vhdx.c b/block/vhdx.c
-> index 33e57cd656..2c0e7ee44d 100644
-> --- a/block/vhdx.c
-> +++ b/block/vhdx.c
-> @@ -411,8 +411,7 @@ int vhdx_update_headers(BlockDriverState *bs, BDRVVHD=
-XState *s,
->      if (ret < 0) {
->          return ret;
->      }
-> -    ret =3D vhdx_update_header(bs, s, generate_data_write_guid, log_guid=
-);
-> -    return ret;
-> +    return vhdx_update_header(bs, s, generate_data_write_guid, log_guid)=
-;
->  }
-> =20
->  /* opens the specified header block from the VHDX file header section */
-> diff --git a/hw/audio/ac97.c b/hw/audio/ac97.c
-> index 1ec87feec0..8a9b9924c4 100644
-> --- a/hw/audio/ac97.c
-> +++ b/hw/audio/ac97.c
-> @@ -573,11 +573,9 @@ static uint32_t nam_readb (void *opaque, uint32_t ad=
-dr)
->  static uint32_t nam_readw (void *opaque, uint32_t addr)
->  {
->      AC97LinkState *s =3D opaque;
-> -    uint32_t val =3D ~0U;
->      uint32_t index =3D addr;
->      s->cas =3D 0;
-> -    val =3D mixer_load (s, index);
-> -    return val;
-> +    return mixer_load(s, index);
->  }
-> =20
->  static uint32_t nam_readl (void *opaque, uint32_t addr)
-> diff --git a/hw/audio/adlib.c b/hw/audio/adlib.c
-> index d6c1fb0586..7c3b67dcfb 100644
-> --- a/hw/audio/adlib.c
-> +++ b/hw/audio/adlib.c
-> @@ -120,13 +120,10 @@ static void adlib_write(void *opaque, uint32_t npor=
-t, uint32_t val)
->  static uint32_t adlib_read(void *opaque, uint32_t nport)
->  {
->      AdlibState *s =3D opaque;
-> -    uint8_t data;
->      int a =3D nport & 3;
-> =20
->      adlib_kill_timers (s);
-> -    data =3D OPLRead (s->opl, a);
-> -
-> -    return data;
-> +    return OPLRead (s->opl, a);
->  }
-> =20
->  static void timer_handler (void *opaque, int c, double interval_Sec)
-> diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
-> index 0d391e1300..1f29731ffe 100644
-> --- a/hw/display/cirrus_vga.c
-> +++ b/hw/display/cirrus_vga.c
-> @@ -2411,12 +2411,10 @@ static uint64_t cirrus_linear_bitblt_read(void *o=
-paque,
->                                            unsigned size)
->  {
->      CirrusVGAState *s =3D opaque;
-> -    uint32_t ret;
-> =20
->      /* XXX handle bitblt */
->      (void)s;
-> -    ret =3D 0xff;
-> -    return ret;
-> +    return 0xff;
->  }
-> =20
->  static void cirrus_linear_bitblt_write(void *opaque,
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 04f13feb2e..06cba88632 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -2135,9 +2135,7 @@ int ram_postcopy_send_discard_bitmap(MigrationState=
- *ms)
->      }
->      trace_ram_postcopy_send_discard_bitmap();
-> =20
-> -    ret =3D postcopy_each_ram_send_discard(ms);
-> -
-> -    return ret;
-> +    return postcopy_each_ram_send_discard(ms);
->  }
-> =20
+--/9DWx/yDrRhgMJTb
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-For migration
-
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-(If you rework this patch for another reason you could move the 'int ret' d=
-own into the
-loop as int ret =3D ....   but it's not important)
-
-
-
->  /**
-> diff --git a/ui/gtk.c b/ui/gtk.c
-> index 030b251c61..83f2f5d49b 100644
-> --- a/ui/gtk.c
-> +++ b/ui/gtk.c
-> @@ -1650,8 +1650,7 @@ static GSList *gd_vc_menu_init(GtkDisplayState *s, =
-VirtualConsole *vc,
->                       G_CALLBACK(gd_menu_switch_vc), s);
->      gtk_menu_shell_append(GTK_MENU_SHELL(view_menu), vc->menu_item);
-> =20
-> -    group =3D gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(vc->menu=
-_item));
-> -    return group;
-> +    return gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(vc->menu_it=
-em));
->  }
-> =20
->  #if defined(CONFIG_VTE)
-> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-> index bcc06d0e01..86c48b9fa5 100644
-> --- a/util/qemu-sockets.c
-> +++ b/util/qemu-sockets.c
-> @@ -765,15 +765,12 @@ static int vsock_connect_addr(const struct sockaddr=
-_vm *svm, Error **errp)
->  static int vsock_connect_saddr(VsockSocketAddress *vaddr, Error **errp)
->  {
->      struct sockaddr_vm svm;
-> -    int sock =3D -1;
-> =20
->      if (!vsock_parse_vaddr_to_sockaddr(vaddr, &svm, errp)) {
->          return -1;
->      }
-> =20
-> -    sock =3D vsock_connect_addr(&svm, errp);
-> -
-> -    return sock;
-> +    return vsock_connect_addr(&svm, errp);
->  }
-> =20
->  static int vsock_listen_saddr(VsockSocketAddress *vaddr,
-> --=20
-> 2.17.1
->=20
+Am 01.04.2020 um 14:28 hat Max Reitz geschrieben:
+> On 31.03.20 16:00, Kevin Wolf wrote:
+> > Am 31.03.2020 um 12:21 hat Max Reitz geschrieben:
+> >> On 31.03.20 02:00, John Snow wrote:
+> >>> Minor cleanup for HMP functions; helps with line length and consolida=
+tes
+> >>> HMP helpers through one implementation function.
+> >>>
+> >>> Although we are adding a universal toggle to turn QMP logging on or o=
+ff,
+> >>> many existing callers to hmp functions don't expect that output to be
+> >>> logged, which causes quite a few changes in the test output.
+> >>>
+> >>> For now, offer a use_log parameter.
+> >>>
+> >>>
+> >>> Typing notes:
+> >>>
+> >>> QMPResponse is just an alias for Dict[str, Any]. It holds no special
+> >>> meanings and it is not a formal subtype of Dict[str, Any]. It is best
+> >>> thought of as a lexical synonym.
+> >>>
+> >>> We may well wish to add stricter subtypes in the future for certain
+> >>> shapes of data that are not formalized as Python objects, at which po=
+int
+> >>> we can simply retire the alias and allow mypy to more strictly check
+> >>> usages of the name.
+> >>>
+> >>> Signed-off-by: John Snow <jsnow@redhat.com>
+> >>> ---
+> >>>  tests/qemu-iotests/iotests.py | 35 ++++++++++++++++++++++-----------=
 --
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> >>>  1 file changed, 22 insertions(+), 13 deletions(-)
+> >>
+> >> Reviewed-by: Max Reitz <mreitz@redhat.com>
+> >>
+> >>> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotes=
+ts.py
+> >>> index b08bcb87e1..dfc753c319 100644
+> >>> --- a/tests/qemu-iotests/iotests.py
+> >>> +++ b/tests/qemu-iotests/iotests.py
+> >>> @@ -37,6 +37,10 @@
+> >>> =20
+> >>>  assert sys.version_info >=3D (3, 6)
+> >>> =20
+> >>> +# Type Aliases
+> >>> +QMPResponse =3D Dict[str, Any]
+> >>> +
+> >>> +
+> >>>  faulthandler.enable()
+> >>> =20
+> >>>  # This will not work if arguments contain spaces but is necessary if=
+ we
+> >>> @@ -540,25 +544,30 @@ def add_incoming(self, addr):
+> >>>          self._args.append(addr)
+> >>>          return self
+> >>> =20
+> >>> -    def pause_drive(self, drive, event=3DNone):
+> >>> -        '''Pause drive r/w operations'''
+> >>> +    def hmp(self, command_line: str, use_log: bool =3D False) -> QMP=
+Response:
+> >>> +        cmd =3D 'human-monitor-command'
+> >>> +        kwargs =3D {'command-line': command_line}
+> >>> +        if use_log:
+> >>> +            return self.qmp_log(cmd, **kwargs)
+> >>> +        else:
+> >>> +            return self.qmp(cmd, **kwargs)
+> >>
+> >> Hm.  I suppose I should take this chance to understand something about
+> >> mypy.  QEMUMachine.qmp() isn=E2=80=99t typed, so mypy can=E2=80=99t ch=
+eck that this
+> >> really returns QMPResponse.  Is there some flag to make it?  Like
+> >> --actually-check-types?
+> >=20
+> > There is --check-untyped-defs, but I'm not sure if that actually change=
+s
+> > the return type of untyped functions from Any to an inferred type. I
+> > kind of doubt it.
+>=20
+> Well, but Any doesn=E2=80=99t fit into QMPResponse, so there should be an=
+ error
+> reported somewhere.
+
+Any is the void* of Python typing. It's compatible with everything else,
+in both directions.
+
+> >> (--strict seems, well, overly strict?  Like not allowing generics, I
+> >> don=E2=80=99t see why.  Or I suppose for the time being we want to all=
+ow untyped
+> >> definitions, as long as they don=E2=80=99t break type assertions such =
+as it kind
+> >> of does here...?)
+> >=20
+> > At least, --strict does actually complain about this one because Any
+> > isn't good enough any more (it includes --warn-return-any):
+>=20
+> Hm, yes, but we=E2=80=99re not at a point where it=E2=80=99s really feasi=
+ble to enable
+> --strict...
+
+We're not yet, but I think it's a reasonable goal.
+
+Kevin
+
+--/9DWx/yDrRhgMJTb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIcBAEBAgAGBQJehJxdAAoJEH8JsnLIjy/W8b0P/18IP4YDLcEd4QghrlLA9dCb
+jyWxJavBpI1zxgtsxFXJRawR9AmJTuF6m89ey26K5Wgr67bZDp6ljPLgkLUnPJcM
+FbGsoxNZptM/4Abzn26zI0aPdTNRnfxPo7OqQM7UhTkK9CiDY0w47DEQy6my95uP
+oc8M11+blKchgsyE60TuztJ1EAYTbxMsFKpF9Ddb9enTj9zS5Zav6anRIOie2T+T
+MKExDVN2j0SC69yubEhkhhF1CExoKzrUrzQojL/YpJOyWIBovkEBVfjyvAKQ28ac
+0pzLWkyTwnTIrRfj9QmxOBFplFE5xriPybyAYSnKNRhBjsZzq7+94LIneI4+svsd
+GIwNQQUfLHGyW6EasBkgbDdcNx+tNGBkxkYzUBL6CdTVlXmMWKfig0i+BDG+RPpY
+0XzuknyPYe6AGv47E47+64l/CLUZjC1B7TN+7OCiAwTcHyUdd1uGCtDAbBrdHpZ3
+uDzv5IOGbsjBDKu4Jx1CSyxDLfjYyHtER91fuugNcF/dp5z6eIuJohsBap9n+AOk
+y4BPSf3kajkn2m1mxhLV2G+AQJrp6KODjGGbDa8hWlhqUd+RrT1pQ7iTddB2xiM2
+R3lCbNIoRKFxzRxZF6HVKbW0YJG2xmkTKXPWvVt4+CdK7pld3vjZhAG6BOrMAFtG
+/hJubVUIggSbhSlKLBgM
+=xekf
+-----END PGP SIGNATURE-----
+
+--/9DWx/yDrRhgMJTb--
 
 
