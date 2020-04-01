@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3CD019AB67
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 14:12:31 +0200 (CEST)
-Received: from localhost ([::1]:58800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DAF319AB91
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 14:21:46 +0200 (CEST)
+Received: from localhost ([::1]:58904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJcEQ-0002Eo-Se
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 08:12:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45363)
+	id 1jJcNN-0006ox-5r
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 08:21:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46884)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <singhalsimran0@gmail.com>) id 1jJcDE-0001Qj-Fe
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 08:11:17 -0400
+ (envelope-from <bounces@canonical.com>) id 1jJcMQ-0006PD-8Q
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 08:20:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <singhalsimran0@gmail.com>) id 1jJcDC-0000YB-0z
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 08:11:16 -0400
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:53744)
+ (envelope-from <bounces@canonical.com>) id 1jJcMO-0003EI-O7
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 08:20:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55968)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <singhalsimran0@gmail.com>)
- id 1jJcDB-0000Wu-Gm; Wed, 01 Apr 2020 08:11:13 -0400
-Received: by mail-pj1-x1041.google.com with SMTP id l36so2622865pjb.3;
- Wed, 01 Apr 2020 05:11:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition
- :user-agent; bh=FuDRYvHnYYf+dkIWyJIZR4ZnrXq3DkjWg4dJWTRrxfk=;
- b=cYhsGRKfQVPzEnZ3IuNwocMjEAwpFHSyWzsI9if/3g9LecyGOpEesPoZRYBV+pMOq8
- SJGgmnoX4T24oSMP34Qp8hSApLhzqnTRdEcqoT2puOhloTsWHSBSDSffVg/FOuQSC2hx
- rtjR/uA+NLKpcQOYQMynmnLrGFNLPsZTWdEj5QxSikK5q5v4oUCvLgFnNaU9Sad/JXHW
- hqkQlxrd9as18QkNewmI8zvAOiKMnZcq9K3sMNiwHEq8VCTkNNLfkjtaqtSXV0CM9HMK
- iIapnhgifJDeAxjvVGJ/xEdOdUNFVFDS4RbKU/78i33+gYX4mU9hITC0CYCL+Qgod8Nh
- cNXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:user-agent;
- bh=FuDRYvHnYYf+dkIWyJIZR4ZnrXq3DkjWg4dJWTRrxfk=;
- b=VcK8ZJYfnig3JBMUf/PMxopse6DX+yKkgNt/dbjXsW18tYHpzznlm/zkrgidbA5OAX
- xeRMNOdc536hfTG/AxVhBl5q9tpV/ki4Hy/5RgIakZh7Tydmyr+Fek49R/OopLSYt7p1
- NUFUCkLmKrSrtHAkErgc5hUWVPv17VAN2gqXgSvC5Lg4xoNA4jitDLsrHuNSl6z2iLLV
- 6mkNTykay2AeCXYsdEs2GIGqXLqmmcluEXZEb4Nf7Sugu4yw5Vz+6FNa8RgivcgMDnNr
- k0qV9jrxoqjrc0dBAIJufHQw7jkkIizMpSuAJ3V6KRWsmOZacnkJNhjG7+HqhkeN32ef
- 8FWg==
-X-Gm-Message-State: ANhLgQ1v2A/EEr3sT5cYWRwPBk7CayHvFhRsN9P1hhR9Q/47nYoKuj6l
- mExnXkl27Nh2l51sggqYTck=
-X-Google-Smtp-Source: ADFU+vte9SY08DvNk+IWoFROuHwWWinWoDejNLP6G2XVm5TMilIQIuI18EqkuqgXcVBguEa6qpRkDg==
-X-Received: by 2002:a17:902:a411:: with SMTP id
- p17mr22440205plq.157.1585743071808; 
- Wed, 01 Apr 2020 05:11:11 -0700 (PDT)
-Received: from simran-Inspiron-5558 ([2409:4052:200f:7af7:f5db:ec54:4b36:5338])
- by smtp.gmail.com with ESMTPSA id x75sm1494167pfc.161.2020.04.01.05.11.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Apr 2020 05:11:10 -0700 (PDT)
-Date: Wed, 1 Apr 2020 17:41:01 +0530
-From: Simran Singhal <singhalsimran0@gmail.com>
-To: qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH] Compress lines for immediate return
-Message-ID: <20200401121101.GA26994@simran-Inspiron-5558>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jJcMO-0003Ds-IJ
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 08:20:44 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jJcMN-0001aK-LZ
+ for <qemu-devel@nongnu.org>; Wed, 01 Apr 2020 12:20:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 90C4F2E8107
+ for <qemu-devel@nongnu.org>; Wed,  1 Apr 2020 12:20:43 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::1041
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 01 Apr 2020 12:11:41 -0000
+From: Andrew Randrianasulu <1847525@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: andrew-randrianasulu
+X-Launchpad-Bug-Reporter: Andrew Randrianasulu (andrew-randrianasulu)
+X-Launchpad-Bug-Modifier: Andrew Randrianasulu (andrew-randrianasulu)
+References: <157065019192.22617.14242881910317034171.malonedeb@gac.canonical.com>
+Message-Id: <158574310113.20881.5244999669362509189.malone@gac.canonical.com>
+Subject: [Bug 1847525] Re: qemu-system-i386 eats a lot of cpu after just few
+ hours, with sdl, gl=on
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a296f04231dee355be5db73cc878b9e21689a253";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 517a7db1dbde68ead4f9a533c2d0da772614e23e
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,202 +65,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Jeff Cody <codyprime@gmail.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Peter Lieven <pl@kamp.de>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Julia Suvorova <jusual@mail.ru>
+Reply-To: Bug 1847525 <1847525@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Compress two lines into a single line if immediate return statement is found.
+this one still with me.
 
-It also remove variables progress, val, data, ret and sock
-as they are no longer needed.
+qemu-system-x86_64 --version
+QEMU emulator version 4.2.91 (v5.0.0-rc1-dirty)
 
-Remove space between function "mixer_load" and '(' to fix the
-checkpatch.pl error:-
-ERROR: space prohibited between function name and open parenthesis '('
+on 32-bit host (Slackware, but with 64-bit kernel) compiled with gcc
+5.5.0
 
-Signed-off-by: Simran Singhal <singhalsimran0@gmail.com>
----
- block/file-posix.c      | 3 +--
- block/nfs.c             | 3 +--
- block/nvme.c            | 4 +---
- block/vhdx.c            | 3 +--
- hw/audio/ac97.c         | 4 +---
- hw/audio/adlib.c        | 5 +----
- hw/display/cirrus_vga.c | 4 +---
- migration/ram.c         | 4 +---
- ui/gtk.c                | 3 +--
- util/qemu-sockets.c     | 5 +----
- 10 files changed, 10 insertions(+), 28 deletions(-)
+-- =
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 7e19bbff5f..dc01f0d4d3 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1627,8 +1627,7 @@ static int handle_aiocb_write_zeroes_unmap(void *opaque)
- 
-     /* If we couldn't manage to unmap while guaranteed that the area reads as
-      * all-zero afterwards, just write zeroes without unmapping */
--    ret = handle_aiocb_write_zeroes(aiocb);
--    return ret;
-+    return handle_aiocb_write_zeroes(aiocb);
- }
- 
- #ifndef HAVE_COPY_FILE_RANGE
-diff --git a/block/nfs.c b/block/nfs.c
-index cc2413d5ab..100f15bd1f 100644
---- a/block/nfs.c
-+++ b/block/nfs.c
-@@ -623,8 +623,7 @@ static int nfs_file_open(BlockDriverState *bs, QDict *options, int flags,
-     }
- 
-     bs->total_sectors = ret;
--    ret = 0;
--    return ret;
-+    return 0;
- }
- 
- static QemuOptsList nfs_create_opts = {
-diff --git a/block/nvme.c b/block/nvme.c
-index 7b7c0cc5d6..eb2f54dd9d 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -575,11 +575,9 @@ static bool nvme_poll_cb(void *opaque)
- {
-     EventNotifier *e = opaque;
-     BDRVNVMeState *s = container_of(e, BDRVNVMeState, irq_notifier);
--    bool progress = false;
- 
-     trace_nvme_poll_cb(s);
--    progress = nvme_poll_queues(s);
--    return progress;
-+    return nvme_poll_queues(s);
- }
- 
- static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-diff --git a/block/vhdx.c b/block/vhdx.c
-index 33e57cd656..2c0e7ee44d 100644
---- a/block/vhdx.c
-+++ b/block/vhdx.c
-@@ -411,8 +411,7 @@ int vhdx_update_headers(BlockDriverState *bs, BDRVVHDXState *s,
-     if (ret < 0) {
-         return ret;
-     }
--    ret = vhdx_update_header(bs, s, generate_data_write_guid, log_guid);
--    return ret;
-+    return vhdx_update_header(bs, s, generate_data_write_guid, log_guid);
- }
- 
- /* opens the specified header block from the VHDX file header section */
-diff --git a/hw/audio/ac97.c b/hw/audio/ac97.c
-index 1ec87feec0..8a9b9924c4 100644
---- a/hw/audio/ac97.c
-+++ b/hw/audio/ac97.c
-@@ -573,11 +573,9 @@ static uint32_t nam_readb (void *opaque, uint32_t addr)
- static uint32_t nam_readw (void *opaque, uint32_t addr)
- {
-     AC97LinkState *s = opaque;
--    uint32_t val = ~0U;
-     uint32_t index = addr;
-     s->cas = 0;
--    val = mixer_load (s, index);
--    return val;
-+    return mixer_load(s, index);
- }
- 
- static uint32_t nam_readl (void *opaque, uint32_t addr)
-diff --git a/hw/audio/adlib.c b/hw/audio/adlib.c
-index d6c1fb0586..7c3b67dcfb 100644
---- a/hw/audio/adlib.c
-+++ b/hw/audio/adlib.c
-@@ -120,13 +120,10 @@ static void adlib_write(void *opaque, uint32_t nport, uint32_t val)
- static uint32_t adlib_read(void *opaque, uint32_t nport)
- {
-     AdlibState *s = opaque;
--    uint8_t data;
-     int a = nport & 3;
- 
-     adlib_kill_timers (s);
--    data = OPLRead (s->opl, a);
--
--    return data;
-+    return OPLRead (s->opl, a);
- }
- 
- static void timer_handler (void *opaque, int c, double interval_Sec)
-diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
-index 0d391e1300..1f29731ffe 100644
---- a/hw/display/cirrus_vga.c
-+++ b/hw/display/cirrus_vga.c
-@@ -2411,12 +2411,10 @@ static uint64_t cirrus_linear_bitblt_read(void *opaque,
-                                           unsigned size)
- {
-     CirrusVGAState *s = opaque;
--    uint32_t ret;
- 
-     /* XXX handle bitblt */
-     (void)s;
--    ret = 0xff;
--    return ret;
-+    return 0xff;
- }
- 
- static void cirrus_linear_bitblt_write(void *opaque,
-diff --git a/migration/ram.c b/migration/ram.c
-index 04f13feb2e..06cba88632 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -2135,9 +2135,7 @@ int ram_postcopy_send_discard_bitmap(MigrationState *ms)
-     }
-     trace_ram_postcopy_send_discard_bitmap();
- 
--    ret = postcopy_each_ram_send_discard(ms);
--
--    return ret;
-+    return postcopy_each_ram_send_discard(ms);
- }
- 
- /**
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 030b251c61..83f2f5d49b 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -1650,8 +1650,7 @@ static GSList *gd_vc_menu_init(GtkDisplayState *s, VirtualConsole *vc,
-                      G_CALLBACK(gd_menu_switch_vc), s);
-     gtk_menu_shell_append(GTK_MENU_SHELL(view_menu), vc->menu_item);
- 
--    group = gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(vc->menu_item));
--    return group;
-+    return gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(vc->menu_item));
- }
- 
- #if defined(CONFIG_VTE)
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index bcc06d0e01..86c48b9fa5 100644
---- a/util/qemu-sockets.c
-+++ b/util/qemu-sockets.c
-@@ -765,15 +765,12 @@ static int vsock_connect_addr(const struct sockaddr_vm *svm, Error **errp)
- static int vsock_connect_saddr(VsockSocketAddress *vaddr, Error **errp)
- {
-     struct sockaddr_vm svm;
--    int sock = -1;
- 
-     if (!vsock_parse_vaddr_to_sockaddr(vaddr, &svm, errp)) {
-         return -1;
-     }
- 
--    sock = vsock_connect_addr(&svm, errp);
--
--    return sock;
-+    return vsock_connect_addr(&svm, errp);
- }
- 
- static int vsock_listen_saddr(VsockSocketAddress *vaddr,
--- 
-2.17.1
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1847525
 
+Title:
+  qemu-system-i386 eats a lot of cpu after just few hours,  with
+  sdl,gl=3Don
+
+Status in QEMU:
+  New
+
+Bug description:
+  I already send this email to qemu-discuss@nongnu.org , but I can't see
+  it arriving in archives, so here  is copy.
+
+  Hello, all!
+
+  I use qemu-system-i386/qemu-system_x86_64 for rebuilding Slax-like live c=
+d/dvd.
+  Usually guests (with various self-compiled kernels and X stack with kde3 =
+on top of them)
+  boot up normally, but if I left them to run in GUI mode for few hours - q=
+emu process on host
+  started to eat more and more cpu for itself - more notiecable if I set ho=
+st cpu to lowest possible
+  frequency via trayfreq applet (1400Mhz in my case).
+
+  Boot line a bit complicated, but I really prefer to have sound and usb in=
+side VM.
+  qemu-system-i386 -cdrom /dev/shm/CDROM-4.4.194_5.iso -m 1.9G -enable-kvm =
+-soundhw es1370 -smp 2 -display sdl,gl=3Don -usb -cpu host -rtc clock=3Dvm
+
+  rtc clock=3Dvm was taken from https://bugs.launchpad.net/qemu/+bug/117465=
+4 but apparently not helping.
+  After just 3 hours of uptime (copied line from 'top' on host)
+
+  31943 guest     20   0 2412m 791m  38m R   51  6.7  66:36.51 qemu-
+  system-i38
+
+  I use Xorg 1.19.7 on host, with mesa git/nouveau as GL driver. But my car=
+d has not very big amount of VRAM - only 384Mb.
+  May be this limitation is playing some role .. but 'end-user' result was =
+after 1-2 day of guest uptime I run into completely frozen guest =
+
+  (may be when qemu was hitting 100 one core usage on host some internal ti=
+mer just made guest kernel too upset/froze?
+   I was sleeping or doing other things on host  for all this time, with VM=
+ just supposedly running at another virtual desktop - =
+
+  in KDE3 + built-in compositor ....)
+
+  I wonder if more mainstream desktop users (on GNOME, Xfce, etc) and/or us=
+ers of other distros (I use self-re-compiled Slackware)
+  actually can see same problem?
+
+  qemu-system-i386 --version
+  QEMU emulator version 4.1.50 (v4.1.0-1188-gc6f5012ba5-dirty)
+  but I saw same behavior for quite some time .. just never reported it in =
+hope it will go away.
+
+  cat /proc/cpuinfo
+  processor       : 0
+  vendor_id       : AuthenticAMD
+  cpu family      : 21
+  model           : 2
+  model name      : AMD FX(tm)-4300 Quad-Core Processor
+  stepping        : 0
+  microcode       : 0x6000852
+  cpu MHz         : 1399.977
+  cache size      : 2048 KB
+  physical id     : 0
+  siblings        : 4
+  core id         : 0
+  cpu cores       : 2
+  apicid          : 16
+  initial apicid  : 0
+  fpu             : yes
+  fpu_exception   : yes
+  cpuid level     : 13
+  wp              : yes
+  flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mc=
+a cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pd=
+pe1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc cpuid extd_apicid ap=
+erfmperf pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 popcnt aes xsav=
+e avx f16c lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse =
+3dnowprefetch osvw ibs xop skinit wdt lwp fma4 tce nodeid_msr tbm topoext p=
+erfctr_core perfctr_nb cpb hw_pstate ssbd vmmcall bmi1 arat npt lbrv svm_lo=
+ck nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pft=
+hreshold
+  bugs            : fxsave_leak sysret_ss_attrs null_seg spectre_v1 spectre=
+_v2 spec_store_bypass
+  bogomips        : 7600.06
+  TLB size        : 1536 4K pages
+  clflush size    : 64
+  cache_alignment : 64
+  address sizes   : 48 bits physical, 48 bits virtual
+  power management: ts ttp tm 100mhzsteps hwpstate cpb eff_freq_ro
+
+  [and 3x more of the same, for 3 remaining cores]
+
+  Gcc is Slackware 14.2's gcc 5.5.0, but I saw this with 4.9.2 too.
+  This might be 32-bit host problem. But may be just no-one tried to run qe=
+mu with GUI guest for literaly days?
+
+  Host kernel is
+   uname -a
+  Linux slax 5.1.12-x64 #1 SMP PREEMPT Wed Jun 19 12:31:05 MSK 2019 x86_64 =
+AMD FX(tm)-4300 Quad-Core Processor AuthenticAMD GNU/Linux
+
+  I was trying newish 5.3.2 but my compilation was not as stable as this on=
+e =
+
+  (I tend to change few things, like max cpu count, preemption mode, numa s=
+upport .... =
+
+  for more distribution-like, yet most stable  and performant for me kernel)
+
+  Kernel world is moving fast, so I'll try to recompile new 5.3.x too
+  ....
+
+  =
+
+  I guess I  should provide perf/profiler output, but for  this I need to r=
+ecompile qemu. =
+
+  I'll try to come back with more details soon.
+
+  Thanks for your attention and possible feedback!
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1847525/+subscriptions
 
