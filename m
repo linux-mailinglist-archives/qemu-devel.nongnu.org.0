@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794CB19AE6D
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 17:03:47 +0200 (CEST)
-Received: from localhost ([::1]:33338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34AE719AE76
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 17:05:37 +0200 (CEST)
+Received: from localhost ([::1]:33364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJeuA-0008Qz-GV
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 11:03:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38932)
+	id 1jJevw-0002fQ-8z
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 11:05:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38968)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jJes2-0006MI-Ss
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:01:36 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jJes4-0006R6-Sz
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:01:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jJes1-0004Ci-Hr
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:01:34 -0400
-Received: from mail-eopbgr10093.outbound.protection.outlook.com
- ([40.107.1.93]:29790 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jJes3-0004EG-ON
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:01:36 -0400
+Received: from mail-eopbgr70115.outbound.protection.outlook.com
+ ([40.107.7.115]:27679 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jJery-000494-Nv; Wed, 01 Apr 2020 11:01:30 -0400
+ id 1jJes0-0004BA-Mm; Wed, 01 Apr 2020 11:01:32 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nuW8+ng/Gv1Y48MGlm7bnUv+yjS9FS39senbg7AnqtKFl1H5G3GIyyHAkDZrnUiyknTuiH5PPo+Oakw2JrTjVvG1JNrxiNCHuxM4NMd2kBKzvUaWE47aENQ09YmWd742gZkmeRlL76y17i7nZ4Ha3CvADs0wDwLrh2ip/JhSH/nG/87auXdPYjbP++Cgczee3WdVhRj1qmKPNvsnNpY1yewSbzY91JXNOF5yjosETrSomNAFIWWi58J8EZm2hALDzzStl9mZFghbFCQ6fKcX1X/KnpQh88Ea0AkrIaLOQeiKOmlr86Z1LoDIUllbiakohPHRzIC88dYYhNpjvUcorw==
+ b=S3iyAaV+d00aknbvJ227mUbuK2/mjHhqdWTEE4kdYoXaEd0Yopq7zz180DNyWdQDuoiI9casLjbLlN2SI8Qa5MHtXdQEfaWll1omRBE5P9BDqfx9P7/9f7c5BXaXcxKsR5PKA3tlJi8zUkL0nIzdP+joKTvx6fGfAaA0UegzmnMfNUjVhPMNJVsoYtRLQGBHQKzE1epxEbFspHEk6Z8MMWKfk/zwU8vogrze3736H3VSHr2i5xv16gnPaZq9jtPUucHYUcfsWRh3t7tRt2C9zsvTzsPBTrZ1TsdmetPpkELXCF9hD0lI5+jnC3d/tga5nFjJMbaWIAWCMopztsnc4w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=O0xrQeysTFjb+GCyru1t/kK/l7QxTARdCZVDvohnjes=;
- b=IFTWHeXWdm8rP1BZBqxpmCIFIcrtfHn+QW+f4P/WjAZWHbAWJSebOWONxURn+oVcYwuuTh12NB6hO0SRE3xiZ4iN6g6NA+gBSfoxFhfYBQ13k8kkFNfeB7UbxZm2Qi13/rrfeZtdC8Bqw7igo28Io9oPI+3EyiB640Qt8ef8YiiztRR//t2KpQANCkaL/RYtrsvGr28HXoiRLxIzq6BT+ps+c2g/43+t9SLE8nFiF8UsyU7SYY/VghBYcZ5+hxX+RDlys2F2ocqLLp2H295eaauV9XGXXte4sEpXl8OnlEVrl9qxpWuypXBao5BCe6/nZzryezeJ816p6LnoXQIDUg==
+ bh=oI8YcHYTFbOh/wdeoiu6XxoyqQlvAWJAPWDyr2+uGwo=;
+ b=V5qc+n+vSSCMwJdJTTh8IEJHFeWoPtQISwotO3yGfgxLoylGgon6NcFztoEbv+aSGvArbV2dg+ScppCSThJuqAdorLDGiAeaIFIpOn6PJbIayB/2MfbX200SsE1kT1WrwNB+Ri4KrN2O5OiakgGL/IaozYxsOKrG3quKWk9Jg4ePbSwZ6d9uwF++qMSqGqggS7FrjUbrpniPyd8eXlhXOMi1T7V0vCD21Jd+N/TfVrl1zDpVsrdaqt/aK65tyfd3UhRCP+Uhi7W0tsx/aa3djpFA6hTsISb8YIVigCKIO5jZJjIDhqfk3AziEzHu+Xw2b+A12lzIDNKm1djrDtxXgg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=O0xrQeysTFjb+GCyru1t/kK/l7QxTARdCZVDvohnjes=;
- b=Y3mjdVlsw7mLoFddnw+0Cwb7mb3IggHKYXs5xi6gVvxWDrCkEz6zhO8DEpnuHvzukNFxxxRdYePRkCvU9CQMkoCoVnfGSmzFfCMAxtrYFXVX9lxe2o19TVJh4RPqqpa/NSqduDkdV5Za81AqwfoKqxtaoMIyjq6DyhFfeoKK1sU=
+ bh=oI8YcHYTFbOh/wdeoiu6XxoyqQlvAWJAPWDyr2+uGwo=;
+ b=JHpoP/LXeq4hAuUBPwGtjAY9ord/XLiSDxLnaCs984t/HZx0uV5vXxM0jmwgFvHz+f+h1tR/lZx8S+77bSM5Lw867QMObVID4Ew1tsi6xMZOuxge2tMO/oHY8/LfBgjh0+NJHsZxdN54QeeaaMSIy3ekY99d9wRyDm33/oKWsl8=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=vsementsov@virtuozzo.com; 
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (10.141.175.15) by
- AM7PR08MB5494.eurprd08.prod.outlook.com (10.141.175.15) with Microsoft SMTP
+ AM7PR08MB5397.eurprd08.prod.outlook.com (10.141.175.81) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2878.15; Wed, 1 Apr 2020 15:01:29 +0000
+ 15.20.2856.18; Wed, 1 Apr 2020 15:01:30 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::3944:477e:1562:cfcf]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::3944:477e:1562:cfcf%8]) with mapi id 15.20.2878.014; Wed, 1 Apr 2020
- 15:01:29 +0000
+ 15:01:30 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 4/6] block/nbd: define new max_write_zero_fast limit
-Date: Wed,  1 Apr 2020 18:01:10 +0300
-Message-ID: <20200401150112.9557-5-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 5/6] block/io: refactor bdrv_co_do_pwrite_zeroes head
+ calculation
+Date: Wed,  1 Apr 2020 18:01:11 +0300
+Message-ID: <20200401150112.9557-6-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200401150112.9557-1-vsementsov@virtuozzo.com>
 References: <20200401150112.9557-1-vsementsov@virtuozzo.com>
@@ -64,38 +65,37 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.23) by
  AM4P190CA0012.EURP190.PROD.OUTLOOK.COM (2603:10a6:200:56::22) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2856.20 via Frontend Transport; Wed, 1 Apr 2020 15:01:28 +0000
+ 15.20.2856.20 via Frontend Transport; Wed, 1 Apr 2020 15:01:29 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.23]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bddc4564-0071-4096-0fd9-08d7d64d8ea5
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5494:
+X-MS-Office365-Filtering-Correlation-Id: eb5bc4cd-c6a1-4508-d5e2-08d7d64d8f1d
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5397:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5494AB133310B44302294983C1C90@AM7PR08MB5494.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:206;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB539715E62435C2315A5B6BD2C1C90@AM7PR08MB5397.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-Forefront-PRVS: 03607C04F0
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(10019020)(4636009)(376002)(136003)(346002)(396003)(39840400004)(366004)(66946007)(66556008)(52116002)(6486002)(86362001)(186003)(107886003)(478600001)(6506007)(4326008)(2906002)(6916009)(16526019)(26005)(5660300002)(6666004)(316002)(66476007)(1076003)(81166006)(36756003)(4744005)(2616005)(81156014)(8676002)(8936002)(956004)(6512007);
+ SFS:(10019020)(4636009)(396003)(366004)(136003)(39840400004)(346002)(376002)(956004)(2616005)(81156014)(6916009)(6666004)(478600001)(5660300002)(86362001)(66946007)(186003)(4326008)(6512007)(16526019)(6486002)(66556008)(6506007)(81166006)(26005)(36756003)(52116002)(66476007)(2906002)(8676002)(8936002)(1076003)(107886003)(316002);
  DIR:OUT; SFP:1102; 
 Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WkpQqhxqehoUuFyXWhX57k+MfQ3gMgVqywnmeyZmbi231jGSRv4slJ2lpdmkcpG231up9SswujaD9wURzVN4Vgojnm2qkJBT5Jh70zcwJKzsXLcLc7X70qLNeD0IYb1tEu9yEj3Ql2JUrg0wnTmzYKPUHD2ueZSQo7UNi5UQf782S4qN4xJj7Y8VuSQt4R0wf8pHzO5vwc03iXN9kVPthYWq4SyOhChfTLPRpL/oakAyrbuK7PYaYRoSq1WJqifoFLdiAAdG1x/bbqYDb21b2ssz1Eo08nd7foDZnV5JhcHZRebIlzZi1d5foz0dQFYA195+a7RiWYoTXVpK8XH5x5PaI0TSqBcp45C69EbH3eqqOWsQUUNrFFAteJUMgGrZzwYJgNyfmRwzSf/DX7jvfu3m51njk4nEtA24z6YXJyQXbO5t1QkhrQ8KTjoZuV33
-X-MS-Exchange-AntiSpam-MessageData: N1Yqaq7ZOGKxvx8QpAS5trW14cmN7bS0fcrTWBakn+6cMl2fA1kEA+LdjgoCasDeyb/Ezhw0pKiqFZqcdeT6qZPFVllf5INIT+ZD2P7Fkh6e5z53upWrVFAQIejeXT6k7CMxS1VZeEvBu+kNIagFZg==
+X-Microsoft-Antispam-Message-Info: FtnNMc+UKyz0q/NtFgLs1SwCuQmM/HaO7YaHiYq2tIe076lury+/8UwFA1Lt5YD2BGz9l7OANHD+CW1aveBv3dtPhXd35XDbJER/Qqg9pLaI5gyu9Rw5nx0EuS/fOrN4GZJ1QjLCfVofb5Ey7W3fy70Znf9G8n40m7LtvDGFBqhYYWLEVtLSw2foi9MG6AyN2FA57Ojwk8QyW6yJrK6Xmqu9/i06AWTBNQA1vPzGZBfvOvDEQ7gPY46IaJ9R/TxDppnngs36lu4WliLzePA0KCVJxdL1voOXHo0ys0WPpBx15Adn3qfYbyMiYQpPt+EA2UeS8DG09C/x1rjjAsweViulpAfHzm0yxdJj+OY6SpM81oNzTBNB+6Jj4qpZIiPcWxTqfq7oVwQPya81th6BI2VD1k+7/OFujJgL4PulSIkwVlMp9yThXoL7rDEddRzb
+X-MS-Exchange-AntiSpam-MessageData: AsgShFutaPdff6rokjz3LDY8xOnIAu1k9KtXA0hJrK05PIOWevs1SotnYrt1odBocHuslF+gzwNWjcds4Z9IOyctZI1knJetnNGFurDAlVeS1+IzE0+T4pcePVrvQXDOq6Lx6/++Iq+Dz/0X6sRBAA==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bddc4564-0071-4096-0fd9-08d7d64d8ea5
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2020 15:01:29.2213 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb5bc4cd-c6a1-4508-d5e2-08d7d64d8f1d
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2020 15:01:29.9949 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: F52dtSPNthMWW+Ph3DLuPiIb8ckZAdjTAjpeMyPx8GLSL8RZyRhTDmq573gYMZezgnCnW+bYkCM6P+P0zEzDBBeoRjcllPTniO0W6l5isyY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5494
-X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
- [fuzzy]
-X-Received-From: 40.107.1.93
+X-MS-Exchange-CrossTenant-UserPrincipalName: GQnoih7ctVH72aUtuYqUwYA4/qYH1SWr9JzzDW85ljbCttbxapc+4VGqc/67XkSXLyqrEWhzzH9VQjwInNv3/QjpzjzObJIJH8yHT4Daydg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5397
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.7.115
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,32 +112,42 @@ Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The NBD spec was recently updated to clarify that max_block doesn't
-relate to NBD_CMD_WRITE_ZEROES with NBD_CMD_FLAG_FAST_ZERO (which
-mirrors Qemu flag BDRV_REQ_NO_FALLBACK).
+It's wrong to update head using num in this place, as num may be
+reduced during the iteration (seems it doesn't, but it's not obvious),
+and we'll have wrong head value on next iteration.
 
-bs->bl.max_write_zero_fast is zero by default which means using
-max_pwrite_zeroes. Update nbd driver to allow larger requests with
-BDRV_REQ_NO_FALLBACK.
+Instead update head at iteration end.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- block/nbd.c | 1 +
- 1 file changed, 1 insertion(+)
+ block/io.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/block/nbd.c b/block/nbd.c
-index 4ac23c8f62..b0584cf68d 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -1956,6 +1956,7 @@ static void nbd_refresh_limits(BlockDriverState *bs, =
-Error **errp)
+diff --git a/block/io.c b/block/io.c
+index 07270524a9..f8335e7212 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -1790,7 +1790,6 @@ static int coroutine_fn bdrv_co_do_pwrite_zeroes(Bloc=
+kDriverState *bs,
+              * convenience, limit this request to max_transfer even if
+              * we don't need to fall back to writes.  */
+             num =3D MIN(MIN(bytes, max_transfer), alignment - head);
+-            head =3D (head + num) % alignment;
+             assert(num < max_write_zeroes);
+         } else if (tail && num > alignment) {
+             /* Shorten the request to the last aligned sector.  */
+@@ -1849,6 +1848,9 @@ static int coroutine_fn bdrv_co_do_pwrite_zeroes(Bloc=
+kDriverState *bs,
 =20
-     bs->bl.request_alignment =3D min;
-     bs->bl.max_pdiscard =3D QEMU_ALIGN_DOWN(INT_MAX, min);
-+    bs->bl.max_pwrite_zeroes_fast =3D bs->bl.max_pdiscard;
-     bs->bl.max_pwrite_zeroes =3D max;
-     bs->bl.max_transfer =3D max;
+         offset +=3D num;
+         bytes -=3D num;
++        if (head) {
++            head =3D offset % alignment;
++        }
+     }
 =20
+ fail:
 --=20
 2.21.0
 
