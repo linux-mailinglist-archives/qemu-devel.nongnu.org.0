@@ -2,46 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 335B819A3ED
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 05:19:38 +0200 (CEST)
-Received: from localhost ([::1]:46468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F0519A349
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 03:28:37 +0200 (CEST)
+Received: from localhost ([::1]:45786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJTuj-0005iR-9V
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 23:19:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39769)
+	id 1jJSBI-00063v-D4
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 21:28:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34245)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wangxinxin.wang@huawei.com>) id 1jJRsb-0001xP-Q0
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 21:09:18 -0400
+ (envelope-from <zhukeqian1@huawei.com>) id 1jJSAJ-0005Uc-Ui
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 21:27:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wangxinxin.wang@huawei.com>) id 1jJRsa-0007Rl-CF
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 21:09:17 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:59218 helo=huawei.com)
+ (envelope-from <zhukeqian1@huawei.com>) id 1jJSAI-0000Tr-Qb
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 21:27:35 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3221 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wangxinxin.wang@huawei.com>)
- id 1jJRsa-0006qZ-0c
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 21:09:16 -0400
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 6636A36059DBB26BE6A4;
- Wed,  1 Apr 2020 09:09:08 +0800 (CST)
-Received: from localhost (10.173.228.84) by DGGEMS405-HUB.china.huawei.com
- (10.3.19.205) with Microsoft SMTP Server id 14.3.487.0; Wed, 1 Apr 2020
- 09:09:00 +0800
-From: Wang Xin <wangxinxin.wang@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH] migration/throttle: use the xfer pages as threshold
-Date: Wed, 1 Apr 2020 09:08:58 +0800
-Message-ID: <20200401010858.799-1-wangxinxin.wang@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
+ (Exim 4.71) (envelope-from <zhukeqian1@huawei.com>)
+ id 1jJSAF-0008Km-QM; Tue, 31 Mar 2020 21:27:32 -0400
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 1F72338BC5638744CD24;
+ Wed,  1 Apr 2020 09:27:26 +0800 (CST)
+Received: from [127.0.0.1] (10.173.221.230) by DGGEMS411-HUB.china.huawei.com
+ (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0;
+ Wed, 1 Apr 2020 09:27:17 +0800
+Subject: Re: [PATCH v2] migration/throttle: Add cpu-throttle-tailslow
+ migration parameter
+To: Eric Blake <eblake@redhat.com>, <qemu-devel@nongnu.org>
+References: <20200316042935.28306-1-zhukeqian1@huawei.com>
+ <144483ff-e10d-e1b5-0c60-609b4da9c217@redhat.com>
+From: zhukeqian <zhukeqian1@huawei.com>
+Message-ID: <21b7be8f-fd42-e585-2955-fc810c39aaee@huawei.com>
+Date: Wed, 1 Apr 2020 09:27:17 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.173.228.84]
+In-Reply-To: <144483ff-e10d-e1b5-0c60-609b4da9c217@redhat.com>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.173.221.230]
 X-CFilter-Loop: Reflected
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.32
-X-Mailman-Approved-At: Tue, 31 Mar 2020 23:18:42 -0400
+X-Received-From: 45.249.212.190
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,71 +56,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wang Xin <wangxinxin.wang@huawei.com>, dgilbert@redhat.com,
- quintela@redhat.com
+Cc: wanghaibin.wang@huawei.com, qemu-arm@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If VM migration with lots of zero page or enable data compress, the peroi=
-d
-tansfer bytes may be much less than the available bandwidth, which trigge=
-r
-unnecessary guest throttle down. Use the raw transfer pages as the
-threshold instead.
+Hi Eric,
 
-Signed-off-by: Wang Xin <wangxinxin.wang@huawei.com>
+On 2020/3/31 23:03, Eric Blake wrote:
+> On 3/15/20 11:29 PM, Keqian Zhu wrote:
+>> At the tail stage of throttling, the Guest is very sensitive to
+>> CPU percentage while the @cpu-throttle-increment is excessive
+>> usually at tail stage.
+>>
+>> If this parameter is true, we will compute the ideal CPU percentage
+>> used by the Guest, which may exactly makes dirty rate to be dirty
+>> rate threshold. Then we will choose a smaller throttle increment
+>> between the one specified by @cpu-throttle-increment and the one
+>> generated by ideal CPU percentage.
+>>
+>> Therefore, it is compatible to traditional throttling, meanwhile
+>> the throttle increment won't be excessive at tail stage. This may
+>> make migration time longer, and is disabled by default.
+>>
+>> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+>> ---
+>> Cc: Juan Quintela <quintela@redhat.com>
+>> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>> Cc: Eric Blake <eblake@redhat.com>
+>> Cc: Markus Armbruster <armbru@redhat.com>
+>> ---
+> 
+>> +++ b/qapi/migration.json
+>> @@ -552,6 +552,21 @@
+>>   #                          auto-converge detects that migration is not making
+>>   #                          progress. The default value is 10. (Since 2.7)
+>>   #
+>> +# @cpu-throttle-tailslow: Make CPU throttling slower at tail stage
+>> +#                         At the tail stage of throttling, the Guest is very
+>> +#                         sensitive to CPU percentage while the @cpu-throttle
+>> +#                         -increment is excessive usually at tail stage.
+>> +#                         If this parameter is true, we will compute the ideal
+>> +#                         CPU percentage used by the Guest, which may exactly
+>> +#                         makes dirty rate to be dirty rate threshold. Then we
+> 
+> Grammar is off here, but I don't know if you meant "which may exactly make the dirty rate match the dirty rate threshold" or something else.
+> 
+yep, this is what I want to express. I will correct it in v3. Thanks.
+>> +#                         will choose a smaller throttle increment between the
+>> +#                         one specified by @cpu-throttle-increment and the one
+>> +#                         generated by ideal CPU percentage.
+>> +#                         Therefore, it is compatible to traditional throttling,
+>> +#                         meanwhile the throttle increment won't be excessive
+>> +#                         at tail stage.
+>> +#                         The default value is false. (Since 5.0)
+> 
+> Is this a bug-fix that must make it into 5.0?  It seems more like a feature addition, at which point listing it for 5.1 is probably a better idea.
+> 
+Thanks for figuring it out.
+This patch is sent out when v5.0 is not released.
+I will correct it in v3.
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 04f13feb2e..e53333bc6a 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -323,6 +323,8 @@ struct RAMState {
-     int64_t time_last_bitmap_sync;
-     /* bytes transferred at start_time */
-     uint64_t bytes_xfer_prev;
-+    /* pages transferred at start_time */
-+    uint64_t pages_xfer_prev;
-     /* number of dirty pages since start_time */
-     uint64_t num_dirty_pages_period;
-     /* xbzrle misses since the beginning of the period */
-@@ -901,9 +903,9 @@ static void migration_trigger_throttle(RAMState *rs)
-     MigrationState *s =3D migrate_get_current();
-     uint64_t threshold =3D s->parameters.throttle_trigger_threshold;
-=20
--    uint64_t bytes_xfer_period =3D ram_counters.transferred - rs->bytes_=
-xfer_prev;
--    uint64_t bytes_dirty_period =3D rs->num_dirty_pages_period * TARGET_=
-PAGE_SIZE;
--    uint64_t bytes_dirty_threshold =3D bytes_xfer_period * threshold / 1=
-00;
-+    uint64_t pages_xfer_period =3D ram_get_total_transferred_pages() -
-+                                 rs->pages_xfer_prev;
-+    uint64_t pages_dirty_threshold =3D pages_xfer_period * threshold / 1=
-00;
-=20
-     /* During block migration the auto-converge logic incorrectly detect=
-s
-      * that ram migration makes no progress. Avoid this by disabling the
-@@ -915,7 +917,7 @@ static void migration_trigger_throttle(RAMState *rs)
-            we were in this routine reaches the threshold. If that happen=
-s
-            twice, start or increase throttling. */
-=20
--        if ((bytes_dirty_period > bytes_dirty_threshold) &&
-+        if ((rs->num_dirty_pages_period > pages_dirty_threshold) &&
-             (++rs->dirty_rate_high_cnt >=3D 2)) {
-             trace_migration_throttle();
-             rs->dirty_rate_high_cnt =3D 0;
-@@ -964,6 +966,7 @@ static void migration_bitmap_sync(RAMState *rs)
-         rs->time_last_bitmap_sync =3D end_time;
-         rs->num_dirty_pages_period =3D 0;
-         rs->bytes_xfer_prev =3D ram_counters.transferred;
-+        rs->pages_xfer_prev =3D ram_get_total_transferred_pages();
-     }
-     if (migrate_use_events()) {
-         qapi_event_send_migration_pass(ram_counters.dirty_sync_count);
---=20
-2.26.0.windows.1
-
+Thanks,
+Keqian
 
 
