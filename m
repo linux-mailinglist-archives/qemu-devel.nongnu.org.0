@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F0419AE8D
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 17:08:15 +0200 (CEST)
-Received: from localhost ([::1]:33406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8397619AE95
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 17:10:44 +0200 (CEST)
+Received: from localhost ([::1]:33454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJeyU-0006Xp-BP
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 11:08:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39520)
+	id 1jJf0t-0000DU-JG
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 11:10:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40236)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jJew7-0003ce-9d
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:05:48 -0400
+ (envelope-from <stefanha@gmail.com>) id 1jJf03-000890-EI
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:09:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jJew5-0006iG-QR
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:05:46 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:38620
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jJew5-0006hu-LQ
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:05:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585753544;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BBsosd2Zvd02VxZcfRxJhGJvgKkzLaL+E7NaAVSQMw4=;
- b=A2sdyZftwu4zEBvgXRLyxwvlvrI9YGBvmzw8IIleJGxD9+0EK5CrqZCvoS5d7lzvmY1+md
- exrPJRrK4QOSjsG4dwcfK36BjWgzoW0ugl/JZoLxpD04pINYiUvCuEo8+BAhzGneeAqIz+
- eDlkmVJENLLFxXLhmVgn8sLN2xPineY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-189-pkbzW9eANYOyhsqcQS7-Jw-1; Wed, 01 Apr 2020 11:05:43 -0400
-X-MC-Unique: pkbzW9eANYOyhsqcQS7-Jw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BCAB107ACC9;
- Wed,  1 Apr 2020 15:05:42 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-69.ams2.redhat.com
- [10.36.112.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CE81C5D9CD;
- Wed,  1 Apr 2020 15:05:41 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 52E4611385E2; Wed,  1 Apr 2020 17:05:40 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: Questionable aspects of QEMU Error's design
-References: <87o8sblgto.fsf@dusky.pond.sub.org>
- <e980477d-3951-2a2b-fa38-dee8e1895019@virtuozzo.com>
-Date: Wed, 01 Apr 2020 17:05:40 +0200
-In-Reply-To: <e980477d-3951-2a2b-fa38-dee8e1895019@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Wed, 1 Apr 2020 15:10:05 +0300")
-Message-ID: <87h7y3fdq3.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (envelope-from <stefanha@gmail.com>) id 1jJf01-0000nU-Py
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:09:51 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44375)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1jJf01-0000lt-JK
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:09:49 -0400
+Received: by mail-wr1-x431.google.com with SMTP id m17so420411wrw.11
+ for <qemu-devel@nongnu.org>; Wed, 01 Apr 2020 08:09:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=cLluM/9K0G98s84ODKjhGtGlfBsm5BDtxcKk/LW00l4=;
+ b=gb7M43yqdId3PMG1kzP3ikMw03Z0fwjyhRRDEr244pD05wry7LPcSnRH9XTSyY+lcO
+ R8Re1mVaNifeknXQFYDg7IFYMj5QuCCQBda1UQXsiRAhmVpwC0CnBvJn2FuZx16fivF/
+ jTOtJ5CTtcW3nRMHuRhWOVYyJSgBEKwmXRl8eDcZKQRkNbQy9Z8qcdEL1pm8Qvd0p93q
+ K3tCpOIpExzwDKmxqpyq9bsVRVo4DXfjryF6ls0vXkJV1421qnq2eIUj8DHYdonqGdHw
+ fgMXNNQrWjymg8gogQhogwbAjxgO6lBkirqQjDFoZu1UH7EQkPNL0xpnTEQL4u0qC4eW
+ iZiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=cLluM/9K0G98s84ODKjhGtGlfBsm5BDtxcKk/LW00l4=;
+ b=bxInOelywgu4whIyVDp2gzl8+8cRqtesnX2jmiMAQSSFvHWDxCdq/omoynvliyV3ZE
+ bEsa2zxIgqKcZTIPUU/cxKQh4M4AeMSjnrk2LaxlCgYh/WUi1lLQFeqzHtqPyIh+a+RM
+ ymdKYzyV/iDiObCXG5N6IXKhjRCRT4ZsGSfXD8ZUWRMJjFMK/qeMyWEMhz86CkhryDYf
+ PtiNpf0OnNs4aAbhJhuECNlsN4h/a7q85QpNVSL6ZYOJodtKhQxBPawlWFfF1dtsXRHh
+ PPT+LCi0NvpXEaX5ckI4Ewp5VETekJP2/CDTvC2PFn0LkLzadm2L/0YziBFFXvLrrW8e
+ 0RvA==
+X-Gm-Message-State: AGi0PuYsmk9y2O3oRaoDkFe22J8KjK0V4bxdI3NklehS4gyWsyGgomvI
+ jfbdmkSH9w0w8DjU3jTk9rw=
+X-Google-Smtp-Source: APiQypIfQyYv2stS+tB+RUdvacqdhzDV3x/nOisNm1hdPIfm3c+XwvJmzlN3MPgnB61jHJ3Oz3mPUQ==
+X-Received: by 2002:a5d:4cc7:: with SMTP id c7mr5344596wrt.375.1585753787836; 
+ Wed, 01 Apr 2020 08:09:47 -0700 (PDT)
+Received: from localhost (114.9.90.146.dyn.plus.net. [146.90.9.114])
+ by smtp.gmail.com with ESMTPSA id v186sm2994121wme.24.2020.04.01.08.09.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Apr 2020 08:09:46 -0700 (PDT)
+Date: Wed, 1 Apr 2020 16:09:44 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: Question about scsi device hotplug (e.g scsi-hd)
+Message-ID: <20200401150944.GA4500@stefanha-x1.localdomain>
+References: <7302c0b9f2327b9b61b4adb465f166e339e46ac1.camel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="0F1p//8PRICkK4MW"
+Content-Disposition: inline
+In-Reply-To: <7302c0b9f2327b9b61b4adb465f166e339e46ac1.camel@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,61 +77,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 
-> Side question:
->
-> Can we somehow implement a possibility to reliably identify file and line=
- number
-> where error is set by error message?
->
-> It's where debug of error-bugs always starts: try to imagine which parts =
-of the error
-> message are "%s", and how to grep for it in the code, keeping in mind als=
-o,
-> that error massage may be split into several lines..
->
-> Put file:line into each error? Seems too noisy for users.. A lot of error=
-s are not
-> bugs: use do something wrong and see the error, and understands what he i=
-s doing
-> wrong.. It's not usual practice to print file:line into each message for =
-user.
->
->
-> But what if we do some kind of mapping file:line <-> error code, so user =
-will see
-> something like:
->
->
->    Error 12345: Device drive-scsi0-0-0-0 is not found
->
-> ....
->
-> Hmm, maybe, just add one more argument to error_setg:
->
-> error_setg(errp, 12345, "Device %s is not found", device_name);
->
-> - it's enough grep-able.
+--0F1p//8PRICkK4MW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-error_setg() already records source file and line number in the Error
-object, so that error_handle_fatal(&error_abort, err) can report them.
+On Tue, Mar 31, 2020 at 07:16:23PM +0300, Maxim Levitsky wrote:
+> Hi!
+>=20
+> I recently investigated an interesting issue related to repeated scsi-hd =
+hotplug/hotunplug.
+> The bugzilla for it is here:
+> https://bugzilla.redhat.com/show_bug.cgi?id=3D1812399
+>=20
+> In nutshell the issue that I think that I found and I would like to ask y=
+our opinion on it,
+> since I don't have enough experience to be 100% sure that I didn't miss s=
+omething  is this:
+>=20
+> When a new device is hotplugged via monitor, the qdev_device_add first pu=
+ts the device on
+> the bus where the user requested it to be, and then calls the device's .r=
+ealize.
+>=20
+> However for scsi bus, each time a new request is sent from the guest, the=
+ scsi adapter drivers
+> (e.g virtio-scsi) call scsi_device_find to find the LUN's driver to dispa=
+tch the request to,
+> and scsi_device_find will return the added device as soon as it is placed=
+ on the bus.
+>=20
+> Thus between the point when the new device is placed on the bus and until=
+ the end of the .realize,
+> the device can be accessed by the guest when it is not yet realized or pa=
+rtially realized as
+> happens in the bugreport.
+>=20
+> What do you think about it?
 
-Making the programmer pick and pass an error ID at every call site is
-onerous.  More so when the error ID should be globally unique.
+Maybe aio_disable_external() is needed to postpone device emulation
+until after realize has finished?
 
-With GLib's domain, code, the code needs only be unique within the
-domain, but you still have to define globally unique domains.
-Differently onerous.
+Virtqueue kick ioeventfds are marked "external" and won't be processed
+while external events are disabled.  See also
+virtio_queue_aio_set_host_notifier_handler() ->
+aio_set_event_notifier().
 
-We could have -msg,debug=3Don make error_report_err() report the Error
-object's source file and line number.  Doesn't help for the many direct
-uses of error_report().  To cover those, we'd have to turn
-error_report() into a macro, similar to how error_setg() works.
+Stefan
 
+--0F1p//8PRICkK4MW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6ErrgACgkQnKSrs4Gr
+c8jb2Af9FXO6LpiY7KoNp7ln5dscYzHwtT/6UQXgDmr547hXu4SdpzGALtFsL5dN
+KoNIH+v6w7l9j8F1xoB5GfBWwZgDb0r/jEr/2QTWJEarnBVzQl+v52Y27Rc8hsZy
+DP6h1T+ltia6fMwyqkQqAKm1sNg8gsEwD3KKeapcSrxdldn9zDZx2YM/HdPSOY9r
+lpjIWCb04YXlZEGy1wqV3EoFZEUoQFPq/jy0YkbCL/TEcB3MH/Pr2mbypAJudyyD
+MX5UDLtMN1t9LFUoaQNuta6IlQK9YnpzhXAT4deg1h3QY7iMXGDJpQUJ+QQ28pHI
+UwjNZmWxl1jgfT00CDveaczZZ48fVA==
+=UJsu
+-----END PGP SIGNATURE-----
+
+--0F1p//8PRICkK4MW--
 
