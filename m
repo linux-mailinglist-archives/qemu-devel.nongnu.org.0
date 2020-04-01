@@ -2,38 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2573419B510
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 20:06:27 +0200 (CEST)
-Received: from localhost ([::1]:35500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16CD019B51C
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 20:08:26 +0200 (CEST)
+Received: from localhost ([::1]:35536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJhkw-0003Cj-0n
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 14:06:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49970)
+	id 1jJhmr-0007BX-0h
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 14:08:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50095)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jJhio-0001Kd-Tm
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 14:04:16 -0400
+ (envelope-from <kwankhede@nvidia.com>) id 1jJhj8-0001nL-6B
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 14:04:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jJhim-0004bn-SK
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 14:04:14 -0400
-Received: from relay.sw.ru ([185.231.240.75]:51540)
+ (envelope-from <kwankhede@nvidia.com>) id 1jJhj5-0004s6-R7
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 14:04:33 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:11222)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jJhil-0004aD-HO; Wed, 01 Apr 2020 14:04:12 -0400
-Received: from dptest2.qa.sw.ru ([10.94.4.71])
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jJhia-0006M4-NX; Wed, 01 Apr 2020 21:04:00 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v17 4/4] iotests: 287: add qcow2 compression type test
-Date: Wed,  1 Apr 2020 21:03:52 +0300
-Message-Id: <20200401180352.13066-5-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20200401180352.13066-1-dplotnikov@virtuozzo.com>
-References: <20200401180352.13066-1-dplotnikov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
+ id 1jJhj5-0004ml-8x
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 14:04:31 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5e84d77b0000>; Wed, 01 Apr 2020 11:03:40 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Wed, 01 Apr 2020 11:04:29 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Wed, 01 Apr 2020 11:04:29 -0700
+Received: from [10.40.163.116] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 1 Apr
+ 2020 18:04:20 +0000
+Subject: Re: [PATCH v16 Kernel 5/7] vfio iommu: Update UNMAP_DMA ioctl to get
+ dirty bitmap before unmap
+To: Yan Zhao <yan.y.zhao@intel.com>
+References: <1585078359-20124-1-git-send-email-kwankhede@nvidia.com>
+ <1585078359-20124-6-git-send-email-kwankhede@nvidia.com>
+ <20200325021800.GC20109@joy-OptiPlex-7040>
+ <3cabb357-b9c5-f8b3-5d57-1178ec0dde5a@nvidia.com>
+ <20200327000426.GA26419@joy-OptiPlex-7040>
+ <b6524b4a-e6a0-7328-5003-7286f2fd61a8@nvidia.com>
+ <20200330021506.GC30683@joy-OptiPlex-7040>
+X-Nvconfidentiality: public
+From: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <ba44bbd6-aefa-9060-8153-b91b4cfd1404@nvidia.com>
+Date: Wed, 1 Apr 2020 23:34:16 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+MIME-Version: 1.0
+In-Reply-To: <20200330021506.GC30683@joy-OptiPlex-7040>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1585764220; bh=MOnuluRkkIp2V7pG78z5TXRgfKzjDonC+wFs8RG+qvg=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=UmExCIHCWboYryVvMIkf8GSstxBWZtIMIoMRT6RBTwvlVh2GXBKeCOcN/IXfHU06j
+ byWUI18ueJgJD7LEVWQP/pf5DCNGfZ+ncfB+EwBlY0DQnSyUm/GuZ0XHlQab+1Lw1B
+ cGFP0fi4FL/Tl0GMils3+NNi46ZiyZ6De28DLA7ZopWiPeeEsPeDrWS+YtCBuThb8i
+ 08kp4XaYO83dEP/Uw1k9cDoBY32n3I6U9zrkBukPsqG/eCg0+K2i/5uQhQiUQxyFT4
+ lyvtUkbVhwh/Onrgb8tmrbKntAqOTlFQBzAdM9STe2YKxL8Zl7CdysrJzttzgZn0an
+ gevKtL9GZPa+A==
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 216.228.121.64
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,280 +81,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
- qemu-block@nongnu.org, armbru@redhat.com, mreitz@redhat.com, den@openvz.org
+Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "cjia@nvidia.com" <cjia@nvidia.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang, 
+ Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "eauger@redhat.com" <eauger@redhat.com>,
+ "felipe@nutanix.com" <felipe@nutanix.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
+ Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test checks fulfilling qcow2 requiriements for the compression
-type feature and zstd compression type operability.
 
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/287     | 162 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/287.out |  70 ++++++++++++++++
- tests/qemu-iotests/group   |   1 +
- 3 files changed, 233 insertions(+)
- create mode 100755 tests/qemu-iotests/287
- create mode 100644 tests/qemu-iotests/287.out
 
-diff --git a/tests/qemu-iotests/287 b/tests/qemu-iotests/287
-new file mode 100755
-index 0000000000..ff59c9c154
---- /dev/null
-+++ b/tests/qemu-iotests/287
-@@ -0,0 +1,162 @@
-+#!/usr/bin/env bash
-+#
-+# Test case for an image using zstd compression
-+#
-+# Copyright (c) 2020 Virtuozzo International GmbH
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=dplotnikov@virtuozzo.com
-+
-+seq="$(basename $0)"
-+echo "QA output created by $seq"
-+
-+status=1	# failure is the default!
-+
-+# standard environment
-+. ./common.rc
-+. ./common.filter
-+
-+# This tests qocw2-specific low-level functionality
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+
-+COMPR_IMG="$TEST_IMG.compressed"
-+RAND_FILE="$TEST_DIR/rand_data"
-+
-+_cleanup()
-+{
-+	_cleanup_test_img
-+	rm -f $COMPR_IMG
-+	rm -f $RAND_FILE
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# for all the cases
-+CLUSTER_SIZE=65536
-+
-+# Check if we can run this test.
-+if IMGOPTS='compression_type=zstd' _make_test_img 64M |
-+    grep "Invalid parameter 'zstd'"; then
-+    _notrun "ZSTD is disabled"
-+fi
-+
-+# Test: when compression is zlib the incompatible bit is unset
-+echo
-+echo "=== Testing compression type incompatible bit setting for zlib ==="
-+echo
-+
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+# Test: when compression differs from zlib the incompatible bit is set
-+echo
-+echo "=== Testing compression type incompatible bit setting for zstd ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+# Test: an image can't be opened if compression type is zlib and
-+#       incompatible feature compression type is set
-+echo
-+echo "=== Testing zlib with incompatible bit set ==="
-+echo
-+
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-feature-bit incompatible 3
-+# to make sure the bit was actually set
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+$QEMU_IMG info "$TEST_IMG" 2>1 1>/dev/null
-+if (($?==0)); then
-+    echo "Error: The image opened successfully. The image must not be opened"
-+fi
-+
-+# Test: an image can't be opened if compression type is NOT zlib and
-+#       incompatible feature compression type is UNSET
-+echo
-+echo "=== Testing zstd with incompatible bit unset ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-header incompatible_features 0
-+# to make sure the bit was actually unset
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+$QEMU_IMG info "$TEST_IMG" 2>1 1>/dev/null
-+if (($?==0)); then
-+    echo "Error: The image opened successfully. The image must not be opened"
-+fi
-+# Test: check compression type values
-+echo
-+echo "=== Testing compression type values ==="
-+echo
-+# zlib=0
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+od -j104 -N1 -An -vtu1 "$TEST_IMG"
-+
-+# zstd=1
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+od -j104 -N1 -An -vtu1 "$TEST_IMG"
-+
-+# Test: using zstd compression, write to and read from an image
-+echo
-+echo "=== Testing simple reading and writing with zstd ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$QEMU_IO -c "write -c -P 0xAC 64K 64K " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAC 64K 64K " "$TEST_IMG" | _filter_qemu_io
-+# read on the cluster boundaries
-+$QEMU_IO -c "read -v 131070 8 " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -v 65534 8" "$TEST_IMG" | _filter_qemu_io
-+
-+# Test: using zstd compression, write and verify three adjacent
-+#       compressed clusters
-+echo
-+echo "=== Testing adjacent clusters reading and writing with zstd ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$QEMU_IO -c "write -c -P 0xAB 0 64K " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "write -c -P 0xAC 64K 64K " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "write -c -P 0xAD 128K 64K " "$TEST_IMG" | _filter_qemu_io
-+
-+$QEMU_IO -c "read -P 0xAB 0 64k " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAC 64K 64k " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAD 128K 64k " "$TEST_IMG" | _filter_qemu_io
-+
-+# Test: create an image, write 1M likely uncompressible data from urandom,
-+#       write 1M of compressible data, convert the image with zstd
-+#       and compare these two images - their data should be identical
-+echo
-+echo "=== Testing incompressible cluster processing with zstd ==="
-+echo
-+
-+dd if=/dev/urandom of=$RAND_FILE bs=1M count=1
-+
-+_make_test_img 64M
-+# fill the image with likely incompressible and compressible clusters
-+$QEMU_IO -c "write -c -s $RAND_FILE 0 1M " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "write -c -P 0xFA 1M 1M " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IMG convert -O $IMGFMT -c -o compression_type=zstd \
-+                  "$TEST_IMG" "$COMPR_IMG"
-+$QEMU_IMG compare "$TEST_IMG" "$COMPR_IMG"
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/287.out b/tests/qemu-iotests/287.out
-new file mode 100644
-index 0000000000..3f47528b20
---- /dev/null
-+++ b/tests/qemu-iotests/287.out
-@@ -0,0 +1,70 @@
-+QA output created by 287
-+
-+=== Testing compression type incompatible bit setting for zlib ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type incompatible bit setting for zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zlib with incompatible bit set  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zstd with incompatible bit unset  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type values  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   0
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   1
-+
-+=== Testing simple reading and writing with zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+wrote 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0001fffe:  ac ac 00 00 00 00 00 00  ........
-+read 8/8 bytes at offset 131070
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0000fffe:  00 00 ac ac ac ac ac ac  ........
-+read 8/8 bytes at offset 65534
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=== Testing adjacent clusters reading and writing with zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+wrote 65536/65536 bytes at offset 0
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 65536/65536 bytes at offset 131072
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 0
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 131072
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=== Testing incompressible cluster processing with zstd ===
-+
-+1+0 records in
-+1+0 records out
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+wrote 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 1048576/1048576 bytes at offset 1048576
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+Images are identical.
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 79c6dfc85d..dacbcfc12d 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -294,5 +294,6 @@
- 283 auto quick
- 284 rw
- 286 rw quick
-+287 auto quick
- 288 quick
- 289 rw quick
--- 
-2.17.0
+On 3/30/2020 7:45 AM, Yan Zhao wrote:
+> On Fri, Mar 27, 2020 at 12:42:43PM +0800, Kirti Wankhede wrote:
+>>
+>>
+>> On 3/27/2020 5:34 AM, Yan Zhao wrote:
+>>> On Fri, Mar 27, 2020 at 05:39:44AM +0800, Kirti Wankhede wrote:
+>>>>
+>>>>
+>>>> On 3/25/2020 7:48 AM, Yan Zhao wrote:
+>>>>> On Wed, Mar 25, 2020 at 03:32:37AM +0800, Kirti Wankhede wrote:
+>>>>>> DMA mapped pages, including those pinned by mdev vendor drivers, might
+>>>>>> get unpinned and unmapped while migration is active and device is still
+>>>>>> running. For example, in pre-copy phase while guest driver could access
+>>>>>> those pages, host device or vendor driver can dirty these mapped pages.
+>>>>>> Such pages should be marked dirty so as to maintain memory consistency
+>>>>>> for a user making use of dirty page tracking.
+>>>>>>
+>>>>>> To get bitmap during unmap, user should allocate memory for bitmap, set
+>>>>>> size of allocated memory, set page size to be considered for bitmap and
+>>>>>> set flag VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP.
+>>>>>>
+>>>>>> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+>>>>>> Reviewed-by: Neo Jia <cjia@nvidia.com>
+>>>>>> ---
+>>>>>>     drivers/vfio/vfio_iommu_type1.c | 54 ++++++++++++++++++++++++++++++++++++++---
+>>>>>>     include/uapi/linux/vfio.h       | 10 ++++++++
+>>>>>>     2 files changed, 60 insertions(+), 4 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
+>>>>>> index 27ed069c5053..b98a8d79e13a 100644
+>>>>>> --- a/drivers/vfio/vfio_iommu_type1.c
+>>>>>> +++ b/drivers/vfio/vfio_iommu_type1.c
+>>>>>> @@ -982,7 +982,8 @@ static int verify_bitmap_size(uint64_t npages, uint64_t bitmap_size)
+>>>>>>     }
+>>>>>>     
+>>>>>>     static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
+>>>>>> -			     struct vfio_iommu_type1_dma_unmap *unmap)
+>>>>>> +			     struct vfio_iommu_type1_dma_unmap *unmap,
+>>>>>> +			     struct vfio_bitmap *bitmap)
+>>>>>>     {
+>>>>>>     	uint64_t mask;
+>>>>>>     	struct vfio_dma *dma, *dma_last = NULL;
+>>>>>> @@ -1033,6 +1034,10 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
+>>>>>>     	 * will be returned if these conditions are not met.  The v2 interface
+>>>>>>     	 * will only return success and a size of zero if there were no
+>>>>>>     	 * mappings within the range.
+>>>>>> +	 *
+>>>>>> +	 * When VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP flag is set, unmap request
+>>>>>> +	 * must be for single mapping. Multiple mappings with this flag set is
+>>>>>> +	 * not supported.
+>>>>>>     	 */
+>>>>>>     	if (iommu->v2) {
+>>>>>>     		dma = vfio_find_dma(iommu, unmap->iova, 1);
+>>>>>> @@ -1040,6 +1045,13 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
+>>>>>>     			ret = -EINVAL;
+>>>>>>     			goto unlock;
+>>>>>>     		}
+>>>>>> +
+>>>>>> +		if ((unmap->flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP) &&
+>>>>>> +		    (dma->iova != unmap->iova || dma->size != unmap->size)) {
+>>>>> potential NULL pointer!
+>>>>>
+>>>>> And could you address the comments in v14?
+>>>>> How to handle DSI unmaps in vIOMMU
+>>>>> (https://lore.kernel.org/kvm/20200323011041.GB5456@joy-OptiPlex-7040/)
+>>>>>
+>>>>
+>>>> Sorry, I drafted reply to it, but I missed to send, it remained in my drafts
+>>>>
+>>>>    >
+>>>>    > it happens in vIOMMU Domain level invalidation of IOTLB
+>>>>    > (domain-selective invalidation, see vtd_iotlb_domain_invalidate() in
+>>>> qemu).
+>>>>    > common in VTD lazy mode, and NOT just happening once at boot time.
+>>>>    > rather than invalidate page by page, it batches the page invalidation.
+>>>>    > so, when this invalidation takes place, even higher level page tables
+>>>>    > have been invalid and therefore it has to invalidate a bigger
+>>>> combined range.
+>>>>    > That's why we see IOVAs are mapped in 4k pages, but are unmapped in 2M
+>>>>    > pages.
+>>>>    >
+>>>>    > I think those UNMAPs should also have GET_DIRTY_BIMTAP flag on, right?
+>>>>
+>>>>
+>>>> vtd_iotlb_domain_invalidate()
+>>>>      vtd_sync_shadow_page_table()
+>>>>        vtd_sync_shadow_page_table_range(vtd_as, &ce, 0, UINT64_MAX)
+>>>>          vtd_page_walk()
+>>>>            vtd_page_walk_level() - walk over specific level for IOVA range
+>>>>              vtd_page_walk_one()
+>>>>                memory_region_notify_iommu()
+>>>>                ...
+>>>>                  vfio_iommu_map_notify()
+>>>>
+>>>> In the above trace, isn't page walk will take care of creating proper
+>>>> IOTLB entry which should be same as created during mapping for that
+>>>> IOTLB entry?
+>>>>
+>>> No. It does walk the page table, but as it's dsi (delay & batched unmap),
+>>> pages table entry for a whole 2M (the higher level, not last level for 4K)
+>>> range is invalid, so the iotlb->addr_mask what vfio_iommu_map_notify()
+>>> receives is (2M - 1), not the same as the size for map.
+>>>
+>>
+>> When do this happen? during my testing I never hit this case. How can I
+>> hit this case?
+> 
+> Just common settings to enable vIOMMU:
+> Qemu: -device intel-iommu,caching-mode=true
+> guest kernel parameter: intel_iommu=on
+> 
+> (intel_iommu=on turns on lazy mode by default)
+> 
+> In lazy mode, guest notifies DMA MAP on page level, but notifies DMA UNMAPs
+> in batch.
+> with a pass-through NVMe, there are 89 DSI unmaps in 1 second for a typical fio.
+> With a pass-through GPU, there 22 DSI unmaps in total for benchmark openArena
+> (lasting around 55 secs)
+>>
+>> In this case, will adjacent whole vfio_dmas will be clubbed together or
+>> will there be any intersection of vfio_dmas?
+>>
+> clubbed together.
+> 
 
+Even if support for clubbing bitmap together is added, still there will 
+be limitation that clubbed vfio_dmas size shouldn't exceed INT_MAX pages.
+
+Thanks,
+Kirti
 
