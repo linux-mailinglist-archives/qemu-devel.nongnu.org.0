@@ -2,48 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 620B419B30E
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 18:49:05 +0200 (CEST)
-Received: from localhost ([::1]:34804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF5719B3C7
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 18:53:52 +0200 (CEST)
+Received: from localhost ([::1]:34860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJgY4-00008p-Cr
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 12:49:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37215)
+	id 1jJgch-0004Q1-10
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 12:53:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38189)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1jJgWK-0006fZ-21
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:47:17 -0400
+ (envelope-from <no-reply@patchew.org>) id 1jJgbZ-0003wc-5i
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:52:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1jJgWI-0007Hd-Cg
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:47:15 -0400
-Received: from 4.mo68.mail-out.ovh.net ([46.105.59.63]:54692)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jJgWH-0007Gw-4t
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:47:14 -0400
-Received: from player772.ha.ovh.net (unknown [10.108.57.23])
- by mo68.mail-out.ovh.net (Postfix) with ESMTP id C82F0161A82
- for <qemu-devel@nongnu.org>; Wed,  1 Apr 2020 18:47:11 +0200 (CEST)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player772.ha.ovh.net (Postfix) with ESMTPSA id 738B81112C0C8;
- Wed,  1 Apr 2020 16:47:06 +0000 (UTC)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH v2 2/2] ppc/xive: Add support for PQ state bits offload
-Date: Wed,  1 Apr 2020 18:46:53 +0200
-Message-Id: <20200401164653.28231-3-clg@kaod.org>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200401164653.28231-1-clg@kaod.org>
-References: <20200401164653.28231-1-clg@kaod.org>
+ (envelope-from <no-reply@patchew.org>) id 1jJgbX-0003JB-UN
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:52:41 -0400
+Resent-Date: Wed, 01 Apr 2020 12:52:41 -0400
+Resent-Message-Id: <E1jJgbX-0003JB-UN@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21105)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1jJgbU-000380-Uy; Wed, 01 Apr 2020 12:52:37 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1585759934; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=AwRZizh/8nOHjjv1ipZI36/xuy6zIdu+yef4STxX0ppShh78820wMI5Q5NGcEho3qeiAHHT9L06TeyuUAADWyT+xrUgsyTgCQq75jDU38sP8VP5s6DIeS8wXEk/qz0YUwTpz5yGJw2+z1jLB2F/vHjTxZji/bbHtCVXaYfcQCBM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1585759934;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=SIUjVtc4UjOTTL2OZ7sCvDwQPMo8UgkL5l2pICGwvaY=; 
+ b=TFKhtWtZYOKf5revZSnJywfvcco49FYW1d14zVoor9y1c7iLgQAYm85r9BfGtm3/aHja6cUlZUm9rcgnzB77hIjbNIcJmTGuoQRu1EaMeFkjR1Jvr5m8/9nOeFHKhCAiqdDH+Jep/TFW4EyifdmL+757V+CmZf2JxMi7TteLPYw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1585759929135764.7914619434102;
+ Wed, 1 Apr 2020 09:52:09 -0700 (PDT)
+In-Reply-To: <20200401150112.9557-1-vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v2 0/6] nbd: reduce max_block restrictions
+Message-ID: <158575992796.20436.13965435168851617205@39012742ff91>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 14235596948535806950
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrtddvgddutdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejjedvrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: vsementsov@virtuozzo.com
+Date: Wed, 1 Apr 2020 09:52:09 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.59.63
+ [fuzzy]
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,295 +62,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+ stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The trigger message coming from a HW source contains a special bit
-informing the XIVE interrupt controller that the PQ bits have been
-checked at the source or not. Depending on the value, the IC can
-perform the check and the state transition locally using its own PQ
-state bits.
-
-The following changes add new accessors to the XiveRouter required to
-query and update the PQ state bits. This is only applies to the
-PowerNV machine, sPAPR is not concerned by such complex configuration.
-
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- include/hw/ppc/xive.h  |  8 +++++--
- hw/intc/pnv_xive.c     | 37 +++++++++++++++++++++++++++++---
- hw/intc/xive.c         | 48 ++++++++++++++++++++++++++++++++++++------
- hw/pci-host/pnv_phb4.c |  9 ++++++--
- hw/ppc/pnv_psi.c       |  8 +++++--
- 5 files changed, 94 insertions(+), 16 deletions(-)
-
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 112fb6fb6dbe..050e49c14fd9 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -160,7 +160,7 @@ typedef struct XiveNotifier XiveNotifier;
-=20
- typedef struct XiveNotifierClass {
-     InterfaceClass parent;
--    void (*notify)(XiveNotifier *xn, uint32_t lisn);
-+    void (*notify)(XiveNotifier *xn, uint32_t lisn, bool pq_checked);
- } XiveNotifierClass;
-=20
- /*
-@@ -354,6 +354,10 @@ typedef struct XiveRouterClass {
-     /* XIVE table accessors */
-     int (*get_eas)(XiveRouter *xrtr, uint8_t eas_blk, uint32_t eas_idx,
-                    XiveEAS *eas);
-+    int (*get_pq)(XiveRouter *xrtr, uint8_t eas_blk, uint32_t eas_idx,
-+                  uint8_t *pq);
-+    int (*set_pq)(XiveRouter *xrtr, uint8_t eas_blk, uint32_t eas_idx,
-+                  uint8_t *pq);
-     int (*get_end)(XiveRouter *xrtr, uint8_t end_blk, uint32_t end_idx,
-                    XiveEND *end);
-     int (*write_end)(XiveRouter *xrtr, uint8_t end_blk, uint32_t end_idx=
-,
-@@ -375,7 +379,7 @@ int xive_router_get_nvt(XiveRouter *xrtr, uint8_t nvt=
-_blk, uint32_t nvt_idx,
-                         XiveNVT *nvt);
- int xive_router_write_nvt(XiveRouter *xrtr, uint8_t nvt_blk, uint32_t nv=
-t_idx,
-                           XiveNVT *nvt, uint8_t word_number);
--void xive_router_notify(XiveNotifier *xn, uint32_t lisn);
-+void xive_router_notify(XiveNotifier *xn, uint32_t lisn, bool pq_checked=
-);
-=20
- /*
-  * XIVE Presenter
-diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index 77cacdd6c623..bcfe9dc54e3b 100644
---- a/hw/intc/pnv_xive.c
-+++ b/hw/intc/pnv_xive.c
-@@ -373,6 +373,34 @@ static int pnv_xive_get_eas(XiveRouter *xrtr, uint8_=
-t blk, uint32_t idx,
-     return pnv_xive_vst_read(xive, VST_TSEL_IVT, blk, idx, eas);
- }
-=20
-+static int pnv_xive_get_pq(XiveRouter *xrtr, uint8_t blk, uint32_t idx,
-+                           uint8_t *pq)
-+{
-+    PnvXive *xive =3D PNV_XIVE(xrtr);
-+
-+    if (pnv_xive_block_id(xive) !=3D blk) {
-+        xive_error(xive, "VST: EAS %x is remote !?", XIVE_EAS(blk, idx))=
-;
-+        return -1;
-+    }
-+
-+    *pq =3D xive_source_esb_get(&xive->ipi_source, idx);
-+    return 0;
-+}
-+
-+static int pnv_xive_set_pq(XiveRouter *xrtr, uint8_t blk, uint32_t idx,
-+                           uint8_t *pq)
-+{
-+    PnvXive *xive =3D PNV_XIVE(xrtr);
-+
-+    if (pnv_xive_block_id(xive) !=3D blk) {
-+        xive_error(xive, "VST: EAS %x is remote !?", XIVE_EAS(blk, idx))=
-;
-+        return -1;
-+    }
-+
-+    *pq =3D xive_source_esb_set(&xive->ipi_source, idx, *pq);
-+    return 0;
-+}
-+
- /*
-  * One bit per thread id. The first register PC_THREAD_EN_REG0 covers
-  * the first cores 0-15 (normal) of the chip or 0-7 (fused). The
-@@ -469,12 +497,12 @@ static PnvXive *pnv_xive_tm_get_xive(PowerPCCPU *cp=
-u)
-  * event notification to the Router. This is required on a multichip
-  * system.
-  */
--static void pnv_xive_notify(XiveNotifier *xn, uint32_t srcno)
-+static void pnv_xive_notify(XiveNotifier *xn, uint32_t srcno, bool pq_ch=
-ecked)
- {
-     PnvXive *xive =3D PNV_XIVE(xn);
-     uint8_t blk =3D pnv_xive_block_id(xive);
-=20
--    xive_router_notify(xn, XIVE_EAS(blk, srcno));
-+    xive_router_notify(xn, XIVE_EAS(blk, srcno), pq_checked);
- }
-=20
- /*
-@@ -1316,7 +1344,8 @@ static void pnv_xive_ic_hw_trigger(PnvXive *xive, h=
-waddr addr, uint64_t val)
-     blk =3D XIVE_EAS_BLOCK(val);
-     idx =3D XIVE_EAS_INDEX(val);
-=20
--    xive_router_notify(XIVE_NOTIFIER(xive), XIVE_EAS(blk, idx));
-+    xive_router_notify(XIVE_NOTIFIER(xive), XIVE_EAS(blk, idx),
-+                       !!(val & XIVE_TRIGGER_PQ));
- }
-=20
- static void pnv_xive_ic_notify_write(void *opaque, hwaddr addr, uint64_t=
- val,
-@@ -1944,6 +1973,8 @@ static void pnv_xive_class_init(ObjectClass *klass,=
- void *data)
-     device_class_set_props(dc, pnv_xive_properties);
-=20
-     xrc->get_eas =3D pnv_xive_get_eas;
-+    xrc->get_pq =3D pnv_xive_get_pq;
-+    xrc->set_pq =3D pnv_xive_set_pq;
-     xrc->get_end =3D pnv_xive_get_end;
-     xrc->write_end =3D pnv_xive_write_end;
-     xrc->get_nvt =3D pnv_xive_get_nvt;
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index b8825577f719..894be4b49ba4 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -927,7 +927,7 @@ static void xive_source_notify(XiveSource *xsrc, int =
-srcno)
-     XiveNotifierClass *xnc =3D XIVE_NOTIFIER_GET_CLASS(xsrc->xive);
-=20
-     if (xnc->notify) {
--        xnc->notify(xsrc->xive, srcno);
-+        xnc->notify(xsrc->xive, srcno, true);
-     }
- }
-=20
-@@ -1343,6 +1343,24 @@ int xive_router_get_eas(XiveRouter *xrtr, uint8_t =
-eas_blk, uint32_t eas_idx,
-     return xrc->get_eas(xrtr, eas_blk, eas_idx, eas);
- }
-=20
-+static
-+int xive_router_get_pq(XiveRouter *xrtr, uint8_t eas_blk, uint32_t eas_i=
-dx,
-+                       uint8_t *pq)
-+{
-+    XiveRouterClass *xrc =3D XIVE_ROUTER_GET_CLASS(xrtr);
-+
-+    return xrc->get_pq(xrtr, eas_blk, eas_idx, pq);
-+}
-+
-+static
-+int xive_router_set_pq(XiveRouter *xrtr, uint8_t eas_blk, uint32_t eas_i=
-dx,
-+                       uint8_t *pq)
-+{
-+    XiveRouterClass *xrc =3D XIVE_ROUTER_GET_CLASS(xrtr);
-+
-+    return xrc->set_pq(xrtr, eas_blk, eas_idx, pq);
-+}
-+
- int xive_router_get_end(XiveRouter *xrtr, uint8_t end_blk, uint32_t end_=
-idx,
-                         XiveEND *end)
- {
-@@ -1686,7 +1704,7 @@ do_escalation:
-                            xive_get_field32(END_W5_ESC_END_DATA,  end.w5=
-));
- }
-=20
--void xive_router_notify(XiveNotifier *xn, uint32_t lisn)
-+void xive_router_notify(XiveNotifier *xn, uint32_t lisn, bool pq_checked=
-)
- {
-     XiveRouter *xrtr =3D XIVE_ROUTER(xn);
-     uint8_t eas_blk =3D XIVE_EAS_BLOCK(lisn);
-@@ -1699,11 +1717,27 @@ void xive_router_notify(XiveNotifier *xn, uint32_=
-t lisn)
-         return;
-     }
-=20
--    /*
--     * The IVRE checks the State Bit Cache at this point. We skip the
--     * SBC lookup because the state bits of the sources are modeled
--     * internally in QEMU.
--     */
-+    if (!pq_checked) {
-+        bool notify;
-+        uint8_t pq;
-+
-+        /* PQ cache lookup */
-+        if (xive_router_get_pq(xrtr, eas_blk, eas_idx, &pq)) {
-+            /* Set FIR */
-+            g_assert_not_reached();
-+        }
-+
-+        notify =3D xive_esb_trigger(&pq);
-+
-+        if (xive_router_set_pq(xrtr, eas_blk, eas_idx, &pq)) {
-+            /* Set FIR */
-+            g_assert_not_reached();
-+        }
-+
-+        if (!notify) {
-+            return;
-+        }
-+    }
-=20
-     if (!xive_eas_is_valid(&eas)) {
-         qemu_log_mask(LOG_GUEST_ERROR, "XIVE: invalid LISN %x\n", lisn);
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index ac824f877cf1..c451819bfd52 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -1241,14 +1241,19 @@ static const char *pnv_phb4_root_bus_path(PCIHost=
-State *host_bridge,
-     return phb->bus_path;
- }
-=20
--static void pnv_phb4_xive_notify(XiveNotifier *xf, uint32_t srcno)
-+static void pnv_phb4_xive_notify(XiveNotifier *xf, uint32_t srcno,
-+                                 bool pq_checked)
- {
-     PnvPHB4 *phb =3D PNV_PHB4(xf);
-     uint64_t notif_port =3D phb->regs[PHB_INT_NOTIFY_ADDR >> 3];
-     uint32_t offset =3D phb->regs[PHB_INT_NOTIFY_INDEX >> 3];
--    uint64_t data =3D XIVE_TRIGGER_PQ | offset | srcno;
-+    uint64_t data =3D offset | srcno;
-     MemTxResult result;
-=20
-+    if (pq_checked) {
-+        data |=3D XIVE_TRIGGER_PQ;
-+    }
-+
-     address_space_stq_be(&address_space_memory, notif_port, data,
-                          MEMTXATTRS_UNSPECIFIED, &result);
-     if (result !=3D MEMTX_OK) {
-diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
-index c34a49b000f2..63804f28f45e 100644
---- a/hw/ppc/pnv_psi.c
-+++ b/hw/ppc/pnv_psi.c
-@@ -652,7 +652,7 @@ static const TypeInfo pnv_psi_power8_info =3D {
- #define   PSIHB9_IRQ_STAT_DIO           PPC_BIT(12)
- #define   PSIHB9_IRQ_STAT_PSU           PPC_BIT(13)
-=20
--static void pnv_psi_notify(XiveNotifier *xf, uint32_t srcno)
-+static void pnv_psi_notify(XiveNotifier *xf, uint32_t srcno, bool pq_che=
-cked)
- {
-     PnvPsi *psi =3D PNV_PSI(xf);
-     uint64_t notif_port =3D psi->regs[PSIHB_REG(PSIHB9_ESB_NOTIF_ADDR)];
-@@ -661,9 +661,13 @@ static void pnv_psi_notify(XiveNotifier *xf, uint32_=
-t srcno)
-=20
-     uint32_t offset =3D
-         (psi->regs[PSIHB_REG(PSIHB9_IVT_OFFSET)] >> PSIHB9_IVT_OFF_SHIFT=
-);
--    uint64_t data =3D XIVE_TRIGGER_PQ | offset | srcno;
-+    uint64_t data =3D offset | srcno;
-     MemTxResult result;
-=20
-+    if (pq_checked) {
-+        data |=3D XIVE_TRIGGER_PQ;
-+    }
-+
-     if (!valid) {
-         return;
-     }
---=20
-2.21.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDQwMTE1MDExMi45NTU3
+LTEtdnNlbWVudHNvdkB2aXJ0dW96em8uY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0
+aGUgZG9ja2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3Rp
+bmcgY29tbWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGlu
+c3RhbGxlZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNU
+IFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBW
+PTEgTkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5W
+PTEgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCi0tLSAvdG1wL3FlbXUt
+dGVzdC9zcmMvdGVzdHMvcWVtdS1pb3Rlc3RzLzI1MS5vdXQgICAgICAgMjAyMC0wNC0wMSAxNTow
+MToxOS4wMDAwMDAwMDAgKzAwMDAKKysrIC90bXAvcWVtdS10ZXN0L2J1aWxkL3Rlc3RzL3FlbXUt
+aW90ZXN0cy8yNTEub3V0LmJhZCAyMDIwLTA0LTAxIDE2OjQ5OjM2LjU0MjA5NzUzNCArMDAwMApA
+QCAtMTgsMjYgKzE4LDE2IEBACiBxZW11LWltZzogd2FybmluZzogZXJyb3Igd2hpbGUgcmVhZGlu
+ZyBvZmZzZXQgcmVhZF9mYWlsX29mZnNldF84OiBJbnB1dC9vdXRwdXQgZXJyb3IKIHFlbXUtaW1n
+OiB3YXJuaW5nOiBlcnJvciB3aGlsZSByZWFkaW5nIG9mZnNldCByZWFkX2ZhaWxfb2Zmc2V0Xzk6
+IElucHV0L291dHB1dCBlcnJvcgogCi13cm90ZSA1MTIvNTEyIGJ5dGVzIGF0IG9mZnNldCByZWFk
+X2ZhaWxfb2Zmc2V0XzAKLTUxMiBieXRlcywgWCBvcHM7IFhYOlhYOlhYLlggKFhYWCBZWVkvc2Vj
+IGFuZCBYWFggb3BzL3NlYykKLS0tCk5vdCBydW46IDI1OQpGYWlsdXJlczogMDMzIDAzNCAxNTQg
+MTc3IDI1MQpGYWlsZWQgNSBvZiAxMTYgaW90ZXN0cwptYWtlOiAqKiogW2NoZWNrLXRlc3RzL2No
+ZWNrLWJsb2NrLnNoXSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpv
+YnMuLi4uCiAgVEVTVCAgICBjaGVjay1xdGVzdC1hYXJjaDY0OiB0ZXN0cy9xdGVzdC90ZXN0LWht
+cAogIFRFU1QgICAgY2hlY2stcXRlc3QtYWFyY2g2NDogdGVzdHMvcXRlc3QvcW9zLXRlc3QKLS0t
+CiAgICByYWlzZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNh
+bGxlZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4n
+LCAnLS1sYWJlbCcsICdjb20ucWVtdS5pbnN0YW5jZS51dWlkPTA2N2E4YzFkMWQwMDQwM2JhODQ0
+NzMxNTA5NWQ2Mzg4JywgJy11JywgJzEwMDMnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11
+bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VYVFJBX0NP
+TkZJR1VSRV9PUFRTPScsICctZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScs
+ICctZScsICdTSE9XX0VOVj0xJywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAvY2NhY2hlJywg
+Jy12JywgJy9ob21lL3BhdGNoZXcyLy5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90bXAv
+Y2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTdyZ3kyeWZfL3Ny
+Yy9kb2NrZXItc3JjLjIwMjAtMDQtMDEtMTIuMzcuMTguMjg0OTA6L3Zhci90bXAvcWVtdTp6LHJv
+JywgJ3FlbXU6Y2VudG9zNycsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LXF1aWNrJ10nIHJl
+dHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20u
+cWVtdS5pbnN0YW5jZS51dWlkPTA2N2E4YzFkMWQwMDQwM2JhODQ0NzMxNTA5NWQ2Mzg4Cm1ha2Vb
+MV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBg
+L3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTdyZ3kyeWZfL3NyYycKbWFrZTogKioqIFtkb2Nr
+ZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3IgMgoKcmVhbCAgICAxNG00OS4zMjhzCnVz
+ZXIgICAgMG03Ljg5OXMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRj
+aGV3Lm9yZy9sb2dzLzIwMjAwNDAxMTUwMTEyLjk1NTctMS12c2VtZW50c292QHZpcnR1b3p6by5j
+b20vdGVzdGluZy5kb2NrZXItcXVpY2tAY2VudG9zNy8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwg
+Z2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9d
+LgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
