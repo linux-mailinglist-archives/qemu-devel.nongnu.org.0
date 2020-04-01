@@ -2,65 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3814719A87B
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 11:18:54 +0200 (CEST)
-Received: from localhost ([::1]:56738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D908E19A8DB
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 11:49:22 +0200 (CEST)
+Received: from localhost ([::1]:57210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJZWO-0006iF-Pz
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 05:18:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54762)
+	id 1jJZzt-0005op-ST
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 05:49:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38386)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1jJZV4-0006E1-Tg
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 05:17:32 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jJZyf-0004BI-Ah
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 05:48:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1jJZV3-0006HR-12
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 05:17:30 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32569
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1jJZV2-0006Fc-Qs
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 05:17:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585732647;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MbitAU16/e4WUpcuLx8UZVBb0xJZjcws0JbUk4zrVEQ=;
- b=ie4YLohrMLgQ0jJCApVnx0U1wxmL7Ca0ifh7XaRGw45pgJdiaVvBEFX5wyLiXmyMFmFBhO
- xJhOa4o6tJlFKDPq7+Jf5UFWtr7ZsaQckYoi1NL8VxqVueRfSCsRvns/e1rX0hlnkq79/n
- POruaXXqK4Dn8A4LHR3qHFALviZvWZM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-381-7lkfZ3NbPY2WSwgcdOQkyg-1; Wed, 01 Apr 2020 05:17:24 -0400
-X-MC-Unique: 7lkfZ3NbPY2WSwgcdOQkyg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD0F5100550D;
- Wed,  1 Apr 2020 09:17:22 +0000 (UTC)
-Received: from localhost (ovpn-114-230.ams2.redhat.com [10.36.114.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 991591001B07;
- Wed,  1 Apr 2020 09:17:13 +0000 (UTC)
-Date: Wed, 1 Apr 2020 10:17:12 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Thanos Makatos <thanos.makatos@nutanix.com>
-Subject: Re: RFC: use VFIO over a UNIX domain socket to implement device
- offloading
-Message-ID: <20200401091712.GA221892@stefanha-x1.localdomain>
-References: <MN2PR02MB62052E54C752229C115EAD898BCF0@MN2PR02MB6205.namprd02.prod.outlook.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1jJZyd-00028o-TC
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 05:48:05 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37549)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jJZyd-00027m-JC
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 05:48:03 -0400
+Received: by mail-wr1-x431.google.com with SMTP id w10so29836201wrm.4
+ for <qemu-devel@nongnu.org>; Wed, 01 Apr 2020 02:48:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YOymoiYKg8zfvksmzTC/HgGcGdDABmXsN+Kp7tifL6w=;
+ b=FtOVOPBLifclokzug9eZWlA7I8vUXEu0GO/6wq1Wkzsj0LnB0LkXklXipGXvYHGigB
+ bgtFtpOH6nzPogVGPniygEBhqLE1jacUMLARDf+0LgNHbDvYRiZ4eOhNVpn6j1KkBcPw
+ VU0rIzN4oyHqbXFAhm9uWFxTrMTMQGzkgl7BzlkghK4OsidcZImE3LOgp4oaoXi0zaWP
+ LxNv1GCajZJjvRhBlt53VbiI90TUmI9o7r3CCVrMZHf8ws24yBaJt5UZY7gePGxIajR2
+ K5ilSJQFuTtpaNSAS4sP9dh+YP0jZBsdnoMajD2esUkBjUsJUHTiJtOvWMVw3CR5cN0+
+ CSRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YOymoiYKg8zfvksmzTC/HgGcGdDABmXsN+Kp7tifL6w=;
+ b=eMrfa45DTktEn85bzbHsSzb14RT1mRSLJtYvQJt4M05+59zc3yZmT63da0RA0kqKyA
+ kIOCG2LyRQ3zmgTEGCoetIdTo2VTU82JRDoDuHL62NH4LZdyMwSDfwTbv7MXd6fVTLij
+ vJCsHMOHuMbuTTgN5hvUUiRSyI5ANTCjMN39iSl0+KpLqMYKbqLCw48pMEWfeYX+T16y
+ I1gkPgclCBHXTK40KD6wpBZaR87qmbgSBA9xdLFj9wMEESXXcA/4PDWkNxDLrZea2T24
+ /FtJZbYMiYJG4Io55dDx/pBgWg+zFsso4brP0yKqDKNYRgO4KEeOhvVfcL25TZiMLW0X
+ 7CYw==
+X-Gm-Message-State: ANhLgQ1bwuo4waiq3/epuHQyTA23x615oICTysXyJ8E1m+qASnvtPg33
+ BejOASCgQ5pcjn1yvndQgGhX0A==
+X-Google-Smtp-Source: ADFU+vszlWhIczifDKlQDKLfNkPIWMtIjl13zaA9Adw0lgIsc6YA1D8e+cAzjFlIBQKW6H8t7YDooQ==
+X-Received: by 2002:adf:e942:: with SMTP id m2mr24772950wrn.364.1585734481991; 
+ Wed, 01 Apr 2020 02:48:01 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z129sm1973940wmb.7.2020.04.01.02.48.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Apr 2020 02:48:00 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B1FC61FF7E;
+ Wed,  1 Apr 2020 10:47:59 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for 5.0 v2 00/10] A selection of sanitiser fixes
+Date: Wed,  1 Apr 2020 10:47:49 +0100
+Message-Id: <20200401094759.5835-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <MN2PR02MB62052E54C752229C115EAD898BCF0@MN2PR02MB6205.namprd02.prod.outlook.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="3V7upXqbjpZ4EhLz"
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,111 +79,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Walker, Benjamin" <benjamin.walker@intel.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>, john.g.johnson@oracle.com,
- Jag Raman <jag.raman@oracle.com>, "Harris, James R" <james.r.harris@intel.com>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Kirti Wankhede <kwankhede@nvidia.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Kanth Ghatraju <Kanth.Ghatraju@oracle.com>,
- Felipe Franciosi <felipe@nutanix.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>, "Zhang,
- Tina" <tina.zhang@intel.com>, "Liu, Changpeng" <changpeng.liu@intel.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---3V7upXqbjpZ4EhLz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Thu, Mar 26, 2020 at 09:47:38AM +0000, Thanos Makatos wrote:
-> Build MUSER with vfio-over-socket:
->=20
->         git clone --single-branch --branch vfio-over-socket git@github.co=
-m:tmakatos/muser.git
->         cd muser/
->         git submodule update --init
->         make
->=20
-> Run device emulation, e.g.
->=20
->         ./build/dbg/samples/gpio-pci-idio-16 -s <N>
->=20
-> Where <N> is an available IOMMU group, essentially the device ID, which m=
-ust not
-> previously exist in /dev/vfio/.
->=20
-> Run QEMU using the vfio wrapper library and specifying the MUSER device:
->=20
->         LD_PRELOAD=3Dmuser/build/dbg/libvfio/libvfio.so qemu-system-x86_6=
-4 \
->                 ... \
->                 -device vfio-pci,sysfsdev=3D/dev/vfio/<N> \
->                 -object memory-backend-file,id=3Dram-node0,prealloc=3Dyes=
-,mem-path=3Dmem,share=3Dyes,size=3D1073741824 \
->                 -numa node,nodeid=3D0,cpus=3D0,memdev=3Dram-node0
->=20
-> Bear in mind that since this is just a PoC lots of things can break, e.g.=
- some
-> system call not intercepted etc.
+Here is version 2 of my random fixes series. I've swapped out my fix
+to softfloat for Richard's better targeted fix. I also did a re-factor
+to init_guest_space so we can use the sanitizer builds on more of the
+guests. Initial testing is showing up a few more issues but I didn't
+want to hold up review of the changes to date so I can put them in a
+PR this week.
 
-Cool, I had a quick look at libvfio and how the transport integrates
-into libmuser.  The integration on the libmuser side is nice and small.
+The following need review:
 
-It seems likely that there will be several different implementations of
-the vfio-over-socket device side (server):
-1. libmuser
-2. A Rust equivalent to libmuser
-3. Maybe a native QEMU implementation for multi-process QEMU (I think JJ
-   has been investigating this?)
+ - linux-user: completely re-write init_guest_space
+ - linux-user: clean-up padding on /proc/self/maps
+ - linux-user: factor out reading of /proc/self/maps
+ - target/xtensa: add FIXME for translation memory leak
 
-In order to interoperate we'll need to maintain a protocol
-specification.  Mayb You and JJ could put that together and CC the vfio,
-rust-vmm, and QEMU communities for discussion?
+Alex Bennée (8):
+  elf-ops: bail out if we have no function symbols
+  linux-user: protect fcntl64 with an #ifdef
+  tests/tcg: remove extraneous pasting macros
+  linux-user: more debug for init_guest_space
+  target/xtensa: add FIXME for translation memory leak
+  linux-user: factor out reading of /proc/self/maps
+  linux-user: clean-up padding on /proc/self/maps
+  linux-user: completely re-write init_guest_space
 
-It should cover the UNIX domain socket connection semantics (does a
-listen socket only accept 1 connection at a time?  What happens when the
-client disconnects?  What happens when the server disconnects?), how
-VFIO structs are exchanged, any vfio-over-socket specific protocol
-messages, etc.  Basically everything needed to write an implementation
-(although it's not necessary to copy the VFIO struct definitions from
-the kernel headers into the spec or even document their semantics if
-they are identical to kernel VFIO).
+Denis Plotnikov (1):
+  gdbstub: fix compiler complaining
 
-The next step beyond the LD_PRELOAD library is a native vfio-over-socket
-client implementation in QEMU.  There is a prototype here:
-https://github.com/elmarco/qemu/blob/wip/vfio-user/hw/vfio/libvfio-user.c
+Richard Henderson (1):
+  softfloat: Fix BAD_SHIFT from normalizeFloatx80Subnormal
 
-If there are any volunteers for working on that then this would be a
-good time to discuss it.
+ include/hw/elf_ops.h           |   7 +-
+ include/qemu/selfmap.h         |  44 ++++++
+ fpu/softfloat.c                |   3 +
+ gdbstub.c                      |   4 +-
+ linux-user/elfload.c           | 273 +++++++++++++++------------------
+ linux-user/syscall.c           |  80 +++++-----
+ target/xtensa/translate.c      |   5 +
+ util/selfmap.c                 |  74 +++++++++
+ tests/tcg/x86_64/system/boot.S |   5 +-
+ util/Makefile.objs             |   1 +
+ 10 files changed, 303 insertions(+), 193 deletions(-)
+ create mode 100644 include/qemu/selfmap.h
+ create mode 100644 util/selfmap.c
 
-Finally, has anyone looked at CrosVM's out-of-process device model?  I
-wonder if it has any features we should consider...
-
-Looks like a great start to vfio-over-socket!
-
-Stefan
-
---3V7upXqbjpZ4EhLz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6EXBgACgkQnKSrs4Gr
-c8hs6gf+N20c7mjNKJWMsG8wa+DiExCWtvp0CS1kzbjLyRViH0CvCw7+mXE5py4r
-TP/tpK3SH8isMw1h/PPRmxsxEjhNhQlzArAAwnn4XV+bgzooBx4iI3R6y14EFJGX
-fL66EYM1L1ACCyo/vzEpE9sZ5pO2fL/9jwsar1D68B/r3IeqeimOM9jBjp81s+Vh
-lA2Bpwt8oOj6lx8gbBfJ+ycMFrB/6gn2Bwp4jJ3/GePgW7ms6zwfQC7a7pF6jj+w
-+IS6/li15RGVMxXU/1U/ILK06d06SU7o8FVOTQGV8EKR2YOzJQgvD0Uv8mJ4fC+8
-BcwguP1MNl1ZbBYz/txFcwXKQ8SQjQ==
-=txJN
------END PGP SIGNATURE-----
-
---3V7upXqbjpZ4EhLz--
+-- 
+2.20.1
 
 
