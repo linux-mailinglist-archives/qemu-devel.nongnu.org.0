@@ -2,90 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C611519B2D9
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 18:48:08 +0200 (CEST)
-Received: from localhost ([::1]:34794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E89B519B30F
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 18:49:50 +0200 (CEST)
+Received: from localhost ([::1]:34812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJgX9-0006Zk-NU
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 12:48:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37015)
+	id 1jJgYn-0001k3-W5
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 12:49:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37149)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jJgVG-0005GB-6O
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:46:10 -0400
+ (envelope-from <clg@kaod.org>) id 1jJgW7-0006TH-Hy
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:47:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jJgVE-0006Ld-Tc
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:46:09 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27229
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1jJgW6-0007BV-Kn
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:47:03 -0400
+Received: from 10.mo5.mail-out.ovh.net ([46.105.52.148]:60613)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jJgVE-0006L4-P9
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:46:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585759567;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HkhII9tNKFDfsz5Qtq1hjfgPrJXhcYUSWPyUqpxsBGM=;
- b=ggklT40Htfd6t1XIWGIDlZ/6FsLewImJ1hau615UthweLNwCPk9LqE+oyb0J3oCts+/OFs
- sC/061XmaMEYomlt7Pr5+9NQmnM/ZoqMQV8S0oeak8Cu7weWZ3xTRV8U2oOWBuEyYcKI4D
- jtbgcAJTbgLcAvLP9m8K5VPiDOzZqlM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-479-4h1msyHqO-K8pfqsB8bUeQ-1; Wed, 01 Apr 2020 12:46:06 -0400
-X-MC-Unique: 4h1msyHqO-K8pfqsB8bUeQ-1
-Received: by mail-wr1-f70.google.com with SMTP id c8so97650wru.20
- for <qemu-devel@nongnu.org>; Wed, 01 Apr 2020 09:46:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=odRhbTKrDc2m+vbCKmDnpGdfBHEWXOh2VX1ULBxZ80w=;
- b=OqvLHoB2XS+l9mTaBtNS/z8Yh6Z2p5tO/mSVZ0VDvnrbXvRSOmaf9Ngh9ULAxAq8Aj
- WlXgxYpuOGcShno1Kwu1jYXNeHb+w+7g2Tzca0NRV2F/uuxZFWlfPQlg761vovLzs3kS
- By7Imr4Qns4ZZI9D67fGpPIjcvXPyVkxsBjew9eRjxUpKAsqAfJ/zLsJCCW/4wODeJX8
- xNv+hIgKQbZec1umRYznQ84l3I5gbI3YkDk5wbap+H4LxdBJWejzZc1PSFcmhfJ2tlHp
- iC3LMWqG2yCs3CdkgU57CYM7PmU/gqfG3pL6US/nSyhTd7ahIqb2o7FfrK42qy175d8f
- pDmw==
-X-Gm-Message-State: ANhLgQ1zAQm+EkXp7CGwRMw7MAVRJ8yNXqDOlvXksxw0PKTA9qvik4fY
- F6YScfnaQWgozRhOywgNCLERT1OKGjQ7N61uNqozxJOObU2uIfljVGQUwM5AqBPLxptI1Rk1xuA
- 70/n6f+wUqF6lEc4=
-X-Received: by 2002:adf:f74f:: with SMTP id z15mr26540906wrp.354.1585759564961; 
- Wed, 01 Apr 2020 09:46:04 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvznq4gfeLWe5D3z5pmlWhVG/sGvVeoKtXnHY8WpuMabJoAAO5GZ6KZKIRpQmt9cWKcrTiqIw==
-X-Received: by 2002:adf:f74f:: with SMTP id z15mr26540886wrp.354.1585759564675; 
- Wed, 01 Apr 2020 09:46:04 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:b83b:7ec7:7b6d:d969?
- ([2001:b07:6468:f312:b83b:7ec7:7b6d:d969])
- by smtp.gmail.com with ESMTPSA id c6sm894593wrm.85.2020.04.01.09.46.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Apr 2020 09:46:04 -0700 (PDT)
-Subject: Re: QEMU participation to Google Season of Docs
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- John Snow <jsnow@redhat.com>, Stefan Weil <sw@weilnetz.de>
-References: <de92e66d-c474-dd1b-ddab-194b2f92d1dd@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <36614289-5498-7a78-5f8e-1b4da84261ad@redhat.com>
-Date: Wed, 1 Apr 2020 18:46:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jJgW6-0007Ak-FD
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:47:02 -0400
+Received: from player772.ha.ovh.net (unknown [10.110.103.202])
+ by mo5.mail-out.ovh.net (Postfix) with ESMTP id E490A27466F
+ for <qemu-devel@nongnu.org>; Wed,  1 Apr 2020 18:47:00 +0200 (CEST)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player772.ha.ovh.net (Postfix) with ESMTPSA id 42DEA1112C053;
+ Wed,  1 Apr 2020 16:46:55 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: [PATCH v2 0/2] ppc/xive: Add support for PQ state bits offload
+Date: Wed,  1 Apr 2020 18:46:51 +0200
+Message-Id: <20200401164653.28231-1-clg@kaod.org>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-In-Reply-To: <de92e66d-c474-dd1b-ddab-194b2f92d1dd@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
+X-Ovh-Tracer-Id: 14232500726500133862
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrtddvgddutdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffogggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejjedvrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 46.105.52.148
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,24 +53,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- qemu-discuss@nongnu.org
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/04/20 18:37, Philippe Mathieu-Daud=C3=A9 wrote:
->=20
-> * Refactor the open source project's existing documentation to
-> =C2=A0 provide an improved user experience or a more accessible
-> =C2=A0 information architecture.
+Hello,
 
-This kind of project would be indeed very suitable to QEMU.  Stefan,
-perhaps you could help by providing the text for our Summer of Code
-submission?
+When the XIVE router unit receives a trigger message coming from a HW
+source, it contains a special bit informing the XIVE interrupt
+controller that the PQ bits have been checked at the source or
+not. Depending on the value, the IC can perform the check and the
+state transition locally using its own PQ state bits.
+
+The following changes add new accessors to the XiveRouter required to
+query and update the PQ state bits. This is only applies to the
+PowerNV machine, sPAPR is not concerned by such complex configuration.
+We will use it for upcoming features offloading event coalescing on
+the interrupt controller.
 
 Thanks,
 
-Paolo
+C.
+
+C=C3=A9dric Le Goater (2):
+  ppc/xive: export PQ routines
+  ppc/xive: Add support for PQ state bits offload
+
+ include/hw/ppc/xive.h    | 12 +++++++--
+ hw/intc/pnv_xive.c       | 37 ++++++++++++++++++++++++---
+ hw/intc/spapr_xive_kvm.c |  8 +++---
+ hw/intc/xive.c           | 54 ++++++++++++++++++++++++++++++++--------
+ hw/pci-host/pnv_phb4.c   |  9 +++++--
+ hw/ppc/pnv_psi.c         |  8 ++++--
+ 6 files changed, 105 insertions(+), 23 deletions(-)
+
+--=20
+2.21.1
 
 
