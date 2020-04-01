@@ -2,62 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 221F419AE96
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 17:13:21 +0200 (CEST)
-Received: from localhost ([::1]:33490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE44819AE65
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 17:00:25 +0200 (CEST)
+Received: from localhost ([::1]:33254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJf3P-0002i8-UU
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 11:13:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40626)
+	id 1jJequ-0005Qi-Pk
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 11:00:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38479)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jJf1e-0001BP-S6
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:11:32 -0400
+ (envelope-from <kbusch@kernel.org>) id 1jJepw-0004eE-B9
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 10:59:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jJf1c-000208-RT
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:11:30 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33526)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jJf1c-0001yf-I9
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:11:28 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jJf1a-0005Hi-OO
- for <qemu-devel@nongnu.org>; Wed, 01 Apr 2020 15:11:26 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B4AD12E8104
- for <qemu-devel@nongnu.org>; Wed,  1 Apr 2020 15:11:26 +0000 (UTC)
+ (envelope-from <kbusch@kernel.org>) id 1jJepv-0002do-9m
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 10:59:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60306)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kbusch@kernel.org>)
+ id 1jJeps-0002Uz-O1; Wed, 01 Apr 2020 10:59:21 -0400
+Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 12312206F5;
+ Wed,  1 Apr 2020 14:59:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1585753158;
+ bh=1XKO8iCLVx4LoWJGZNcFfMEw1ZUH8Pl9r+vip/nsK48=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=j9Ly6XalNQAuL14IJ91S/xYGXqiJL8qmJrdl8PpgUgzFK8jHJTR9Y4K+sKzOhTVqK
+ Zwv4tHn6qA4tpcGjV4YncKKQRcvFdbvHv8eUQfnbBCRLyRfVB4YxDRWPu0E27D/uC/
+ mqFc/D5oWwT+pjBcZUgDXx9IrQYTuyLnywaMcuts=
+Date: Wed, 1 Apr 2020 07:59:16 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: [PATCH v4] block/nvme: introduce PMR support from NVMe 1.4 spec
+Message-ID: <20200401145916.GA1144965@dhcp-10-100-145-180.wdl.wdc.com>
+References: <20200320215029.32727-1-andrzej.jakowski@linux.intel.com>
+ <20200323132829.GJ261260@stefanha-x1.localdomain>
+ <ce4e1dd3-1053-d487-0bc4-539174583b13@linux.intel.com>
+ <20200401145005.GA4122@stefanha-x1.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 01 Apr 2020 14:56:31 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: kvm
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: andrew-randrianasulu
-X-Launchpad-Bug-Reporter: Andrew Randrianasulu (andrew-randrianasulu)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <157065019192.22617.14242881910317034171.malonedeb@gac.canonical.com>
-Message-Id: <158575299191.22570.9229707993178597782.launchpad@wampee.canonical.com>
-Subject: [Bug 1847525] Re: qemu-system-i386 eats a lot of cpu after just few
- hours, with sdl, gl=on
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a296f04231dee355be5db73cc878b9e21689a253";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 1fc4c43629794be8342477c498bf714839d9ae07
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200401145005.GA4122@stefanha-x1.localdomain>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 198.145.29.99
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,146 +58,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1847525 <1847525@bugs.launchpad.net>
+Cc: kwolf@redhat.com, haozhong.zhang@intel.com, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, dgilbert@redhat.com,
+ qemu-devel@nongnu.org, yi.z.zhang@linux.intel.com,
+ Andrzej Jakowski <andrzej.jakowski@linux.intel.com>, mreitz@redhat.com,
+ junyan.he@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: tcg
+On Wed, Apr 01, 2020 at 03:50:05PM +0100, Stefan Hajnoczi wrote:
+> On Tue, Mar 24, 2020 at 10:05:26AM -0700, Andrzej Jakowski wrote:
+> > On 3/23/20 6:28 AM, Stefan Hajnoczi wrote:
+> > > Excellent, thank you!
+> > > 
+> > > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > 
+> > Awesome, thx! Not sure about process...
+> > Is this patch now staged for inclusion in QEMU?
+> 
+> Kevin or Max would normally merge it.
+> 
+> A review or ack from Keith Busch would be great, too.
+> 
+> Stefan
 
-** Tags removed: tcg
-** Tags added: kvm
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1847525
-
-Title:
-  qemu-system-i386 eats a lot of cpu after just few hours,  with
-  sdl,gl=3Don
-
-Status in QEMU:
-  New
-
-Bug description:
-  I already send this email to qemu-discuss@nongnu.org , but I can't see
-  it arriving in archives, so here  is copy.
-
-  Hello, all!
-
-  I use qemu-system-i386/qemu-system_x86_64 for rebuilding Slax-like live c=
-d/dvd.
-  Usually guests (with various self-compiled kernels and X stack with kde3 =
-on top of them)
-  boot up normally, but if I left them to run in GUI mode for few hours - q=
-emu process on host
-  started to eat more and more cpu for itself - more notiecable if I set ho=
-st cpu to lowest possible
-  frequency via trayfreq applet (1400Mhz in my case).
-
-  Boot line a bit complicated, but I really prefer to have sound and usb in=
-side VM.
-  qemu-system-i386 -cdrom /dev/shm/CDROM-4.4.194_5.iso -m 1.9G -enable-kvm =
--soundhw es1370 -smp 2 -display sdl,gl=3Don -usb -cpu host -rtc clock=3Dvm
-
-  rtc clock=3Dvm was taken from https://bugs.launchpad.net/qemu/+bug/117465=
-4 but apparently not helping.
-  After just 3 hours of uptime (copied line from 'top' on host)
-
-  31943 guest     20   0 2412m 791m  38m R   51  6.7  66:36.51 qemu-
-  system-i38
-
-  I use Xorg 1.19.7 on host, with mesa git/nouveau as GL driver. But my car=
-d has not very big amount of VRAM - only 384Mb.
-  May be this limitation is playing some role .. but 'end-user' result was =
-after 1-2 day of guest uptime I run into completely frozen guest =
-
-  (may be when qemu was hitting 100 one core usage on host some internal ti=
-mer just made guest kernel too upset/froze?
-   I was sleeping or doing other things on host  for all this time, with VM=
- just supposedly running at another virtual desktop - =
-
-  in KDE3 + built-in compositor ....)
-
-  I wonder if more mainstream desktop users (on GNOME, Xfce, etc) and/or us=
-ers of other distros (I use self-re-compiled Slackware)
-  actually can see same problem?
-
-  qemu-system-i386 --version
-  QEMU emulator version 4.1.50 (v4.1.0-1188-gc6f5012ba5-dirty)
-  but I saw same behavior for quite some time .. just never reported it in =
-hope it will go away.
-
-  cat /proc/cpuinfo
-  processor       : 0
-  vendor_id       : AuthenticAMD
-  cpu family      : 21
-  model           : 2
-  model name      : AMD FX(tm)-4300 Quad-Core Processor
-  stepping        : 0
-  microcode       : 0x6000852
-  cpu MHz         : 1399.977
-  cache size      : 2048 KB
-  physical id     : 0
-  siblings        : 4
-  core id         : 0
-  cpu cores       : 2
-  apicid          : 16
-  initial apicid  : 0
-  fpu             : yes
-  fpu_exception   : yes
-  cpuid level     : 13
-  wp              : yes
-  flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mc=
-a cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pd=
-pe1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc cpuid extd_apicid ap=
-erfmperf pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 popcnt aes xsav=
-e avx f16c lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse =
-3dnowprefetch osvw ibs xop skinit wdt lwp fma4 tce nodeid_msr tbm topoext p=
-erfctr_core perfctr_nb cpb hw_pstate ssbd vmmcall bmi1 arat npt lbrv svm_lo=
-ck nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pft=
-hreshold
-  bugs            : fxsave_leak sysret_ss_attrs null_seg spectre_v1 spectre=
-_v2 spec_store_bypass
-  bogomips        : 7600.06
-  TLB size        : 1536 4K pages
-  clflush size    : 64
-  cache_alignment : 64
-  address sizes   : 48 bits physical, 48 bits virtual
-  power management: ts ttp tm 100mhzsteps hwpstate cpb eff_freq_ro
-
-  [and 3x more of the same, for 3 remaining cores]
-
-  Gcc is Slackware 14.2's gcc 5.5.0, but I saw this with 4.9.2 too.
-  This might be 32-bit host problem. But may be just no-one tried to run qe=
-mu with GUI guest for literaly days?
-
-  Host kernel is
-   uname -a
-  Linux slax 5.1.12-x64 #1 SMP PREEMPT Wed Jun 19 12:31:05 MSK 2019 x86_64 =
-AMD FX(tm)-4300 Quad-Core Processor AuthenticAMD GNU/Linux
-
-  I was trying newish 5.3.2 but my compilation was not as stable as this on=
-e =
-
-  (I tend to change few things, like max cpu count, preemption mode, numa s=
-upport .... =
-
-  for more distribution-like, yet most stable  and performant for me kernel)
-
-  Kernel world is moving fast, so I'll try to recompile new 5.3.x too
-  ....
-
-  =
-
-  I guess I  should provide perf/profiler output, but for  this I need to r=
-ecompile qemu. =
-
-  I'll try to come back with more details soon.
-
-  Thanks for your attention and possible feedback!
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1847525/+subscriptions
+Yes, I reviewed this patch on this thread, and looks good to me:
+https://lists.nongnu.org/archive/html/qemu-devel/2020-03/msg08816.html
 
