@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B2E419A6F4
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 10:16:33 +0200 (CEST)
-Received: from localhost ([::1]:48810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3AF519A6F5
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 10:16:38 +0200 (CEST)
+Received: from localhost ([::1]:48812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJYY3-0003Gx-Rd
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 04:16:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35272)
+	id 1jJYY9-0003U0-PJ
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 04:16:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35281)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <s.reiter@proxmox.com>) id 1jJYWs-0001rT-0w
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 04:15:18 -0400
+ (envelope-from <s.reiter@proxmox.com>) id 1jJYWs-0001rj-Fv
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 04:15:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <s.reiter@proxmox.com>) id 1jJYWr-00070d-2L
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 04:15:17 -0400
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:34521)
+ (envelope-from <s.reiter@proxmox.com>) id 1jJYWr-000723-BO
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 04:15:18 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:16169)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <s.reiter@proxmox.com>)
- id 1jJYWo-0006hw-L2; Wed, 01 Apr 2020 04:15:14 -0400
+ id 1jJYWo-0006f0-PN; Wed, 01 Apr 2020 04:15:14 -0400
 Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id A66F845930;
- Wed,  1 Apr 2020 10:15:10 +0200 (CEST)
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 017DD457F0;
+ Wed,  1 Apr 2020 10:15:11 +0200 (CEST)
 From: Stefan Reiter <s.reiter@proxmox.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Subject: [PATCH v4 2/3] replication: acquire aio context before calling
- job_cancel_sync
-Date: Wed,  1 Apr 2020 10:15:03 +0200
-Message-Id: <20200401081504.200017-3-s.reiter@proxmox.com>
+Subject: [PATCH v4 3/3] backup: don't acquire aio_context in backup_clean
+Date: Wed,  1 Apr 2020 10:15:04 +0200
+Message-Id: <20200401081504.200017-4-s.reiter@proxmox.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200401081504.200017-1-s.reiter@proxmox.com>
 References: <20200401081504.200017-1-s.reiter@proxmox.com>
@@ -54,39 +53,44 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, slp@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-job_cancel_sync requires the job's lock to be held, all other callers
-already do this (replication_stop, drive_backup_abort,
-blockdev_backup_abort, job_cancel_sync_all, cancel_common).
+All code-paths leading to backup_clean (via job_clean) have the job's
+context already acquired. The job's context is guaranteed to be the same
+as the one used by backup_top via backup_job_create.
+
+Since the previous logic effectively acquired the lock twice, this
+broke cleanup of backups for disks using IO threads, since the BDRV_POLL_=
+WHILE
+in bdrv_backup_top_drop -> bdrv_do_drained_begin would only release the l=
+ock
+once, thus deadlocking with the IO thread.
+
+This is a partial revert of 0abf2581717a19.
 
 Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
 ---
- block/replication.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/block/replication.c b/block/replication.c
-index 413d95407d..17ddc31569 100644
---- a/block/replication.c
-+++ b/block/replication.c
-@@ -144,12 +144,18 @@ fail:
- static void replication_close(BlockDriverState *bs)
+With the two previous patches applied, the commit message should now hold=
+ true.
+
+ block/backup.c | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/block/backup.c b/block/backup.c
+index 7430ca5883..a7a7dcaf4c 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -126,11 +126,7 @@ static void backup_abort(Job *job)
+ static void backup_clean(Job *job)
  {
-     BDRVReplicationState *s =3D bs->opaque;
-+    Job *commit_job;
-+    AioContext *commit_ctx;
+     BackupBlockJob *s =3D container_of(job, BackupBlockJob, common.job);
+-    AioContext *aio_context =3D bdrv_get_aio_context(s->backup_top);
+-
+-    aio_context_acquire(aio_context);
+     bdrv_backup_top_drop(s->backup_top);
+-    aio_context_release(aio_context);
+ }
 =20
-     if (s->stage =3D=3D BLOCK_REPLICATION_RUNNING) {
-         replication_stop(s->rs, false, NULL);
-     }
-     if (s->stage =3D=3D BLOCK_REPLICATION_FAILOVER) {
--        job_cancel_sync(&s->commit_job->job);
-+        commit_job =3D &s->commit_job->job;
-+        commit_ctx =3D commit_job->aio_context;
-+        aio_context_acquire(commit_ctx);
-+        job_cancel_sync(commit_job);
-+        aio_context_release(commit_ctx);
-     }
-=20
-     if (s->mode =3D=3D REPLICATION_MODE_SECONDARY) {
+ void backup_do_checkpoint(BlockJob *job, Error **errp)
 --=20
 2.26.0
 
