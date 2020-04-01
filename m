@@ -2,46 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E89B519B30F
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 18:49:50 +0200 (CEST)
-Received: from localhost ([::1]:34812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E38D619B30D
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 18:49:03 +0200 (CEST)
+Received: from localhost ([::1]:34802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJgYn-0001k3-W5
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 12:49:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37149)
+	id 1jJgY2-0008T3-V9
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 12:49:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37188)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1jJgW7-0006TH-Hy
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:47:04 -0400
+ (envelope-from <clg@kaod.org>) id 1jJgWE-0006c3-3M
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:47:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1jJgW6-0007BV-Kn
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:47:03 -0400
-Received: from 10.mo5.mail-out.ovh.net ([46.105.52.148]:60613)
+ (envelope-from <clg@kaod.org>) id 1jJgWD-0007FB-0Y
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:47:10 -0400
+Received: from 2.mo68.mail-out.ovh.net ([46.105.52.162]:45933)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jJgW6-0007Ak-FD
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:47:02 -0400
-Received: from player772.ha.ovh.net (unknown [10.110.103.202])
- by mo5.mail-out.ovh.net (Postfix) with ESMTP id E490A27466F
- for <qemu-devel@nongnu.org>; Wed,  1 Apr 2020 18:47:00 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jJgWC-0007Eg-Rq
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:47:08 -0400
+Received: from player772.ha.ovh.net (unknown [10.108.54.59])
+ by mo68.mail-out.ovh.net (Postfix) with ESMTP id 9AC97161A82
+ for <qemu-devel@nongnu.org>; Wed,  1 Apr 2020 18:47:06 +0200 (CEST)
 Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
  (Authenticated sender: clg@kaod.org)
- by player772.ha.ovh.net (Postfix) with ESMTPSA id 42DEA1112C053;
- Wed,  1 Apr 2020 16:46:55 +0000 (UTC)
+ by player772.ha.ovh.net (Postfix) with ESMTPSA id AEC9E1112C097;
+ Wed,  1 Apr 2020 16:47:00 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH v2 0/2] ppc/xive: Add support for PQ state bits offload
-Date: Wed,  1 Apr 2020 18:46:51 +0200
-Message-Id: <20200401164653.28231-1-clg@kaod.org>
+Subject: [PATCH v2 1/2] ppc/xive: export PQ routines
+Date: Wed,  1 Apr 2020 18:46:52 +0200
+Message-Id: <20200401164653.28231-2-clg@kaod.org>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200401164653.28231-1-clg@kaod.org>
+References: <20200401164653.28231-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 14232500726500133862
+X-Ovh-Tracer-Id: 14234189573486709734
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrtddvgddutdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffogggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejjedvrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrtddvgddutdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejjedvrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.52.148
+X-Received-From: 46.105.52.162
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,36 +60,108 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+---
+ include/hw/ppc/xive.h    | 4 ++++
+ hw/intc/spapr_xive_kvm.c | 8 ++++----
+ hw/intc/xive.c           | 6 +++---
+ 3 files changed, 11 insertions(+), 7 deletions(-)
 
-When the XIVE router unit receives a trigger message coming from a HW
-source, it contains a special bit informing the XIVE interrupt
-controller that the PQ bits have been checked at the source or
-not. Depending on the value, the IC can perform the check and the
-state transition locally using its own PQ state bits.
-
-The following changes add new accessors to the XiveRouter required to
-query and update the PQ state bits. This is only applies to the
-PowerNV machine, sPAPR is not concerned by such complex configuration.
-We will use it for upcoming features offloading event coalescing on
-the interrupt controller.
-
-Thanks,
-
-C.
-
-C=C3=A9dric Le Goater (2):
-  ppc/xive: export PQ routines
-  ppc/xive: Add support for PQ state bits offload
-
- include/hw/ppc/xive.h    | 12 +++++++--
- hw/intc/pnv_xive.c       | 37 ++++++++++++++++++++++++---
- hw/intc/spapr_xive_kvm.c |  8 +++---
- hw/intc/xive.c           | 54 ++++++++++++++++++++++++++++++++--------
- hw/pci-host/pnv_phb4.c   |  9 +++++--
- hw/ppc/pnv_psi.c         |  8 ++++--
- 6 files changed, 105 insertions(+), 23 deletions(-)
-
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index 705cf48176fc..112fb6fb6dbe 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -255,6 +255,10 @@ static inline hwaddr xive_source_esb_mgmt(XiveSource=
+ *xsrc, int srcno)
+ #define XIVE_ESB_QUEUED       (XIVE_ESB_VAL_P | XIVE_ESB_VAL_Q)
+ #define XIVE_ESB_OFF          XIVE_ESB_VAL_Q
+=20
++bool xive_esb_trigger(uint8_t *pq);
++bool xive_esb_eoi(uint8_t *pq);
++uint8_t xive_esb_set(uint8_t *pq, uint8_t value);
++
+ /*
+  * "magic" Event State Buffer (ESB) MMIO offsets.
+  *
+diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+index edb7ee0e74f1..43f4d56b958c 100644
+--- a/hw/intc/spapr_xive_kvm.c
++++ b/hw/intc/spapr_xive_kvm.c
+@@ -308,7 +308,7 @@ static uint8_t xive_esb_read(XiveSource *xsrc, int sr=
+cno, uint32_t offset)
+     return xive_esb_rw(xsrc, srcno, offset, 0, 0) & 0x3;
+ }
+=20
+-static void xive_esb_trigger(XiveSource *xsrc, int srcno)
++static void kvmppc_xive_esb_trigger(XiveSource *xsrc, int srcno)
+ {
+     uint64_t *addr =3D xsrc->esb_mmap + xive_source_esb_page(xsrc, srcno=
+);
+=20
+@@ -331,7 +331,7 @@ uint64_t kvmppc_xive_esb_rw(XiveSource *xsrc, int src=
+no, uint32_t offset,
+         offset =3D=3D XIVE_ESB_LOAD_EOI) {
+         xive_esb_read(xsrc, srcno, XIVE_ESB_SET_PQ_00);
+         if (xsrc->status[srcno] & XIVE_STATUS_ASSERTED) {
+-            xive_esb_trigger(xsrc, srcno);
++            kvmppc_xive_esb_trigger(xsrc, srcno);
+         }
+         return 0;
+     } else {
+@@ -375,7 +375,7 @@ void kvmppc_xive_source_set_irq(void *opaque, int src=
+no, int val)
+         }
+     }
+=20
+-    xive_esb_trigger(xsrc, srcno);
++    kvmppc_xive_esb_trigger(xsrc, srcno);
+ }
+=20
+ /*
+@@ -544,7 +544,7 @@ static void kvmppc_xive_change_state_handler(void *op=
+aque, int running,
+              * generate a trigger.
+              */
+             if (pq =3D=3D XIVE_ESB_RESET && old_pq =3D=3D XIVE_ESB_QUEUE=
+D) {
+-                xive_esb_trigger(xsrc, i);
++                kvmppc_xive_esb_trigger(xsrc, i);
+             }
+         }
+=20
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index d6183f8ae40a..b8825577f719 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -789,7 +789,7 @@ void xive_tctx_destroy(XiveTCTX *tctx)
+  * XIVE ESB helpers
+  */
+=20
+-static uint8_t xive_esb_set(uint8_t *pq, uint8_t value)
++uint8_t xive_esb_set(uint8_t *pq, uint8_t value)
+ {
+     uint8_t old_pq =3D *pq & 0x3;
+=20
+@@ -799,7 +799,7 @@ static uint8_t xive_esb_set(uint8_t *pq, uint8_t valu=
+e)
+     return old_pq;
+ }
+=20
+-static bool xive_esb_trigger(uint8_t *pq)
++bool xive_esb_trigger(uint8_t *pq)
+ {
+     uint8_t old_pq =3D *pq & 0x3;
+=20
+@@ -819,7 +819,7 @@ static bool xive_esb_trigger(uint8_t *pq)
+     }
+ }
+=20
+-static bool xive_esb_eoi(uint8_t *pq)
++bool xive_esb_eoi(uint8_t *pq)
+ {
+     uint8_t old_pq =3D *pq & 0x3;
+=20
 --=20
 2.21.1
 
