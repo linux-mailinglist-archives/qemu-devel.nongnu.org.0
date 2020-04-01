@@ -2,99 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5854119AE54
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 16:54:36 +0200 (CEST)
-Received: from localhost ([::1]:33162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A7219AE68
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 17:03:06 +0200 (CEST)
+Received: from localhost ([::1]:33334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJelH-0000E6-4w
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 10:54:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36880)
+	id 1jJetV-0007tk-9H
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 11:03:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38815)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jJekR-0008Bk-D0
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 10:53:44 -0400
+ (envelope-from <bounces@canonical.com>) id 1jJerv-0006Fp-Jb
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:01:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jJekP-000561-Mh
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 10:53:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56351
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jJekP-00053B-EQ
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 10:53:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585752820;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=h/JjFraXVgKHdvTOtIEVKTLoXxu8hgxaiGGyC379HdE=;
- b=IW/PIQh/DjpNi5W/sECdI05zt8CJFDAJYdzT9yDMNq5nEzD0hfKpVHh5pQdgOVwOWAv4Pw
- htCn7KXeHUWNRJJCXFOx7VSGaXFXwq2bzMz+n+KfOqTCBI/yr1D/F1FPNYy2/WW3zbTKH4
- V++fJBwKsoMGJtfs6fII2/t447Cwno8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-101-jM6A3iKhMYGT6m81AQ2FoA-1; Wed, 01 Apr 2020 10:53:37 -0400
-X-MC-Unique: jM6A3iKhMYGT6m81AQ2FoA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34A9F1005509;
- Wed,  1 Apr 2020 14:53:36 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-115-160.ams2.redhat.com
- [10.36.115.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 760A319C69;
- Wed,  1 Apr 2020 14:53:33 +0000 (UTC)
-Subject: Re: [PATCH v10 10/14] iotests: add hmp helper with logging
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20200331000014.11581-1-jsnow@redhat.com>
- <20200331000014.11581-11-jsnow@redhat.com>
- <88146808-4acc-247e-d34b-5dd16baad0b4@redhat.com>
- <20200331140057.GG7030@linux.fritz.box>
- <19eedbae-0660-5a28-e20b-ddf82a36fe73@redhat.com>
- <20200401135126.GA27663@linux.fritz.box>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <4d7b4106-7c11-9412-dfd4-86477e35780d@redhat.com>
-Date: Wed, 1 Apr 2020 16:53:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <bounces@canonical.com>) id 1jJert-00047A-If
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:01:27 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59192)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jJers-00045m-9O
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:01:25 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jJerq-0003ko-FV
+ for <qemu-devel@nongnu.org>; Wed, 01 Apr 2020 15:01:22 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 72DF62E8104
+ for <qemu-devel@nongnu.org>; Wed,  1 Apr 2020 15:01:22 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200401135126.GA27663@linux.fritz.box>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="swXVf5mCuDY9pDEdQR4rD28GIoQIRqKPr"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 01 Apr 2020 14:54:17 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: ppc tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee andrew-randrianasulu rth
+X-Launchpad-Bug-Reporter: Andrew Randrianasulu (andrew-randrianasulu)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <156345756915.8493.13426435768891424211.malonedeb@chaenomeles.canonical.com>
+ <158574286655.23367.10331497924809979875.malone@wampee.canonical.com>
+Message-Id: <87sghndzom.fsf@linaro.org>
+Subject: Re: [Bug 1837049] Re: qemu-system-ppc segfaults with -display sdl
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a296f04231dee355be5db73cc878b9e21689a253";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 7529d6c9bbcb66fbf7b8d01532d417a243e4e0f5
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -103,131 +66,204 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, armbru@redhat.com, philmd@redhat.com
+Reply-To: Bug 1837049 <1837049@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---swXVf5mCuDY9pDEdQR4rD28GIoQIRqKPr
-Content-Type: multipart/mixed; boundary="YdmdpPitwlZ9oZiP7c2HiyqlTEEL53Yag"
+Andrew Randrianasulu <1837049@bugs.launchpad.net> writes:
 
---YdmdpPitwlZ9oZiP7c2HiyqlTEEL53Yag
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> I think this one is fixed, I can boot Lubuntu to desktop like this:
+>
+> qemu-system-ppc -cdrom /dev/shm/lubuntu-16.04-desktop-powerpc.iso -boot
+> d -display sdl,gl=3Don -g 1024x768x32 -M mac99,via=3Dpmu -cpu G4 -device
+> ES1370 -m 2047 -accel tcg,tb-size=3D384 -device usb-mouse
+>
+> without any crash, tried few times.
+>
+> Note, tb-size seems to be important on 32-bit host now, near qemu 5.0.
 
-On 01.04.20 15:51, Kevin Wolf wrote:
-> Am 01.04.2020 um 14:28 hat Max Reitz geschrieben:
->> On 31.03.20 16:00, Kevin Wolf wrote:
->>> Am 31.03.2020 um 12:21 hat Max Reitz geschrieben:
->>>> On 31.03.20 02:00, John Snow wrote:
->>>>> Minor cleanup for HMP functions; helps with line length and consolida=
-tes
->>>>> HMP helpers through one implementation function.
->>>>>
->>>>> Although we are adding a universal toggle to turn QMP logging on or o=
-ff,
->>>>> many existing callers to hmp functions don't expect that output to be
->>>>> logged, which causes quite a few changes in the test output.
->>>>>
->>>>> For now, offer a use_log parameter.
->>>>>
->>>>>
->>>>> Typing notes:
->>>>>
->>>>> QMPResponse is just an alias for Dict[str, Any]. It holds no special
->>>>> meanings and it is not a formal subtype of Dict[str, Any]. It is best
->>>>> thought of as a lexical synonym.
->>>>>
->>>>> We may well wish to add stricter subtypes in the future for certain
->>>>> shapes of data that are not formalized as Python objects, at which po=
-int
->>>>> we can simply retire the alias and allow mypy to more strictly check
->>>>> usages of the name.
->>>>>
->>>>> Signed-off-by: John Snow <jsnow@redhat.com>
->>>>> ---
->>>>>  tests/qemu-iotests/iotests.py | 35 ++++++++++++++++++++++-----------=
---
->>>>>  1 file changed, 22 insertions(+), 13 deletions(-)
->>>>
->>>> Reviewed-by: Max Reitz <mreitz@redhat.com>
->>>>
->>>>> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotes=
-ts.py
->>>>> index b08bcb87e1..dfc753c319 100644
->>>>> --- a/tests/qemu-iotests/iotests.py
->>>>> +++ b/tests/qemu-iotests/iotests.py
->>>>> @@ -37,6 +37,10 @@
->>>>> =20
->>>>>  assert sys.version_info >=3D (3, 6)
->>>>> =20
->>>>> +# Type Aliases
->>>>> +QMPResponse =3D Dict[str, Any]
->>>>> +
->>>>> +
->>>>>  faulthandler.enable()
->>>>> =20
->>>>>  # This will not work if arguments contain spaces but is necessary if=
- we
->>>>> @@ -540,25 +544,30 @@ def add_incoming(self, addr):
->>>>>          self._args.append(addr)
->>>>>          return self
->>>>> =20
->>>>> -    def pause_drive(self, drive, event=3DNone):
->>>>> -        '''Pause drive r/w operations'''
->>>>> +    def hmp(self, command_line: str, use_log: bool =3D False) -> QMP=
-Response:
->>>>> +        cmd =3D 'human-monitor-command'
->>>>> +        kwargs =3D {'command-line': command_line}
->>>>> +        if use_log:
->>>>> +            return self.qmp_log(cmd, **kwargs)
->>>>> +        else:
->>>>> +            return self.qmp(cmd, **kwargs)
->>>>
->>>> Hm.  I suppose I should take this chance to understand something about
->>>> mypy.  QEMUMachine.qmp() isn=E2=80=99t typed, so mypy can=E2=80=99t ch=
-eck that this
->>>> really returns QMPResponse.  Is there some flag to make it?  Like
->>>> --actually-check-types?
->>>
->>> There is --check-untyped-defs, but I'm not sure if that actually change=
-s
->>> the return type of untyped functions from Any to an inferred type. I
->>> kind of doubt it.
->>
->> Well, but Any doesn=E2=80=99t fit into QMPResponse, so there should be a=
-n error
->> reported somewhere.
->=20
-> Any is the void* of Python typing. It's compatible with everything else,
-> in both directions.
+There were changes this cycle to remove the TB size heuristic based on
+guest RAM size. System emulation of 64 bit hosts gets a generous 1gb per
+system by default where-as 32 bit hosts make do with a smaller code
+buffer (which is statically allocated for user-mode).
 
-void* is handled differently by C and by C++.
+See the commits around 600e17b2615 (pull-tcg-20200228)
 
-Max
+>
+> qemu-system-ppc --version
+> QEMU emulator version 4.2.91 (v5.0.0-rc1-dirty)
+> Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+>
+> -dirty probably because I reinstalled SDL2 (2.0.9- > 2.0.12 during
+> compilation of qemu). I also have different glibc this time (2.30
+> instead of 2.23)
 
 
---YdmdpPitwlZ9oZiP7c2HiyqlTEEL53Yag--
+-- =
 
---swXVf5mCuDY9pDEdQR4rD28GIoQIRqKPr
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Alex Benn=C3=A9e
 
------BEGIN PGP SIGNATURE-----
+-- =
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6EqusACgkQ9AfbAGHV
-z0BSTgf+L8lQAZBgGQiZ2baNXL4FKpkOUzjSFi/uz78ANHH3g5QWHSqamw88t4LC
-3kbgsnXL4bNLOMm4qVlTLbRc8C3ztLhO0zTnT957V/qwdePeQwt2PsH1XMh48+qD
-xr5U4Y36ssPhqG8YGU06qv38S48RuY/a8A+LLnxY132bM5ET9NG+DNwewDH+uLCh
-mYdP0ROxFoVbBr27JJBuR8d5DGj5IWwTF+IVyUuG7E7XMadUA9Ud/kUEVor3pBzg
-nSafeSrALVuq/6wazhUVokQLMZLK1DCkkxcvwzjFvNLu4okmQpbIIlPilD2Vrdg+
-3Pi1iloMTW+WGQtwxLRareXp+UDXJw==
-=NkXv
------END PGP SIGNATURE-----
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1837049
 
---swXVf5mCuDY9pDEdQR4rD28GIoQIRqKPr--
+Title:
+  qemu-system-ppc segfaults with -display sdl
 
+Status in QEMU:
+  New
+
+Bug description:
+  Hello.
+
+  I was trying to debug this segfault:
+  https://lists.nongnu.org/archive/html/qemu-ppc/2019-07/msg00186.html
+
+  I recompiled latest qemu from git (commit 0b18cfb8f1828c905139b54c8644b0d=
+8f4aad879 ), using this configure line:
+  ./configure --target-list=3Di386-softmmu,x86_64-softmmu,ppc-softmmu --aud=
+io-drv-list=3Dalsa --disable-werror --extra-cflags=3D"-Og" --enable-debug-t=
+cg
+
+  after this I tried original line under gdb, it was still segfaulting:
+
+  --------------copy-----------------
+  gdb ./ppc-softmmu/qemu-system-ppc
+  GNU gdb (GDB) 7.11.1
+  Copyright (C) 2016 Free Software Foundation, Inc.
+  License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.h=
+tml>
+  This is free software: you are free to change and redistribute it.
+  There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+  and "show warranty" for details.
+  This GDB was configured as "i586-slackware-linux".
+  Type "show configuration" for configuration details.
+  For bug reporting instructions, please see:
+  <http://www.gnu.org/software/gdb/bugs/>.
+  Find the GDB manual and other documentation resources online at:
+  <http://www.gnu.org/software/gdb/documentation/>.
+  For help, type "help".
+  Type "apropos word" to search for commands related to "word"...
+  Reading symbols from ./ppc-softmmu/qemu-system-ppc...done.
+  warning: File "/dev/shm/qemu/.gdbinit" auto-loading has been declined by =
+your `auto-load safe-path' set to "$debugdir:$datadir/auto-load".
+  To enable execution of this file add
+          add-auto-load-safe-path /dev/shm/qemu/.gdbinit
+  line to your configuration file "/home/guest/.gdbinit".
+  To completely disable this security protection add
+          set auto-load safe-path /
+  line to your configuration file "/home/guest/.gdbinit".
+  For more information about this security protection see the
+  "Auto-loading safe path" section in the GDB manual.  E.g., run from the s=
+hell:
+          info "(gdb)Auto-loading safe path"
+  (gdb) run  -M mac99,via=3Dpmu -L ../queue-vga/pc-bios -cdrom /mnt/sdb1/PP=
+C-img/lubuntu-16.04-desktop-powerpc.iso -m 512 -display sdl,gl=3Don -vga st=
+d -d guest_errors,unimp -boot d -cpu G4 -g 1024x768x24 -device ES1370
+  Starting program: /dev/shm/qemu/ppc-softmmu/qemu-system-ppc -M mac99,via=
+=3Dpmu -L ../queue-vga/pc-bios -cdrom /mnt/sdb1/PPC-img/lubuntu-16.04-deskt=
+op-powerpc.iso -m 512 -display sdl,gl=3Don -vga std -d guest_errors,unimp -=
+boot d -cpu G4 -g 1024x768x24 -device ES1370
+  [Thread debugging using libthread_db enabled]
+  Using host libthread_db library "/lib/libthread_db.so.1".
+  [New Thread 0xf560cb40 (LWP 8100)]
+  [New Thread 0xf4c1ab40 (LWP 8101)]
+  [New Thread 0xec1b7b40 (LWP 8102)]
+  [New Thread 0xc5821b40 (LWP 8104)]
+  [Thread 0xf4c1ab40 (LWP 8101) exited]
+  [New Thread 0xf4c1ab40 (LWP 8119)]
+
+  Thread 4 "qemu-system-ppc" received signal SIGSEGV, Segmentation fault.
+  [Switching to Thread 0xec1b7b40 (LWP 8102)]
+  0xf26c2e44 in code_gen_buffer ()
+  (gdb) bt full
+  #0  0xffffffff in code_gen_buffer ()
+  #1  0x56710cf6 in cpu_exec (itb=3D<optimized out>, cpu=3D<optimized out>)=
+ at /dev/shm/qemu/accel/tcg/cpu-exec.c:173
+          env =3D <optimized out>
+          ret =3D <optimized out>
+          last_tb =3D <optimized out>
+          tb_exit =3D <optimized out>
+          tb_ptr =3D 0xf26c2cc0 <code_gen_buffer+103976094> "=E2=80=B9]=D1=
+=88=E2=80=A6=D0=AB\017=D0=8A=D0=91\020"
+          ret =3D 0
+          insns_left =3D <optimized out>
+          cflags =3D <optimized out>
+          tb =3D 0x5722fe58
+          last_tb =3D <optimized out>
+          tb_exit =3D <optimized out>
+          cc =3D <optimized out>
+          __func__ =3D "cpu_exec"
+          ret =3D <optimized out>
+          sc =3D <optimized out>
+  #2  0x56710cf6 in cpu_exec (tb_exit=3D<synthetic pointer>, last_tb=3D<syn=
+thetic pointer>, tb=3D<optimized out>, cpu=3D<optimized out>) at /dev/shm/q=
+emu/accel/tcg/cpu-exec.c:621
+          ret =3D 0
+          insns_left =3D <optimized out>
+          cflags =3D <optimized out>
+          tb =3D 0x5722fe58
+          last_tb =3D <optimized out>
+          tb_exit =3D <optimized out>
+          cc =3D <optimized out>
+          __func__ =3D "cpu_exec"
+          ret =3D <optimized out>
+          sc =3D <optimized out>
+  #3  0x56710cf6 in cpu_exec (cpu=3D0x573db8f8) at /dev/shm/qemu/accel/tcg/=
+cpu-exec.c:732
+          cflags =3D <optimized out>
+          tb =3D 0x5722fe58
+          last_tb =3D <optimized out>
+          tb_exit =3D <optimized out>
+          cc =3D <optimized out>
+          __func__ =3D "cpu_exec"
+          ret =3D <optimized out>
+          sc =3D <optimized out>
+  #4  0x566cfade in tcg_cpu_exec (cpu=3D0x573db8f8) at /dev/shm/qemu/cpus.c=
+:1435
+          ret =3D <optimized out>
+  #5  0x566d1e6d in qemu_tcg_rr_cpu_thread_fn (arg=3D0x573db8f8) at /dev/sh=
+m/qemu/cpus.c:1537
+          r =3D <optimized out>
+          cpu =3D 0x573db8f8
+          __PRETTY_FUNCTION__ =3D "qemu_tcg_rr_cpu_thread_fn"
+  #6  0x56b56fe0 in qemu_thread_start (args=3D0x57400668) at util/qemu-thre=
+ad-posix.c:502
+          __cancel_buf =3D {__cancel_jmp_buf =3D {{__cancel_jmp_buf =3D {14=
+61911128, 1463813736, 1461911128, -333745816, 247778263, 1392237730}, __mas=
+k_was_saved =3D 0}}, __pad =3D {0xec1b70d0, 0x0, 0x0, 0x0}}
+          __cancel_routine =3D 0x56b57040 <qemu_thread_atexit_notify>
+          __not_first_call =3D <optimized out>
+          qemu_thread_args =3D 0x57400668
+          start_routine =3D 0x566d1a30 <qemu_tcg_rr_cpu_thread_fn>
+          arg =3D 0x573db8f8
+          r =3D <optimized out>
+  #7  0xffffffff in start_thread () at /lib/libpthread.so.0
+  #8  0xffffffff in clone () at /lib/libc.so.6
+  (gdb) quit
+  A debugging session is active.
+
+          Inferior 1 [process 8096] will be killed.
+
+  Quit anyway? (y or n) y
+  --------------copy end----------
+
+  But when I take away -display sdl, or replace it with -display gtk -
+  same line was booting to desktop!
+
+  Changing cpu to G3 also allowed boot:
+
+  ./ppc-softmmu/qemu-system-ppc -M mac99,via=3Dpmu -L ../queue-vga/pc-bios
+  -cdrom /mnt/sdb1/PPC-img/lubuntu-16.04-desktop-powerpc.iso -m 512
+  -display sdl -vga std -d guest_errors,unimp -boot d -cpu G3 -g
+  1024x768x24 -device ES1370
+
+  This is 32-bit qemu complied with Slackware's gcc 5.5.0. =
+
+  64-bit qemu works fine.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1837049/+subscriptions
 
