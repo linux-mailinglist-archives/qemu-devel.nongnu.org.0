@@ -2,60 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545BF19A936
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 12:11:56 +0200 (CEST)
-Received: from localhost ([::1]:57484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E3E919A938
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 12:14:06 +0200 (CEST)
+Received: from localhost ([::1]:57518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJaLi-000420-T5
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 06:11:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45288)
+	id 1jJaNp-0006AK-JG
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 06:14:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45800)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jJaL0-0003bg-2p
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 06:11:11 -0400
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1jJaMh-0004bN-2T
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 06:12:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jJaKy-0004Ph-Tn
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 06:11:09 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60950)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jJaKy-0004PJ-OV
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 06:11:08 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jJaKx-0004Hk-G4
- for <qemu-devel@nongnu.org>; Wed, 01 Apr 2020 10:11:07 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 73FCC2E8030
- for <qemu-devel@nongnu.org>; Wed,  1 Apr 2020 10:11:07 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 01 Apr 2020 10:04:10 -0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1jJaMf-0006BI-7t
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 06:12:54 -0400
+Received: from relay.sw.ru ([185.231.240.75]:36512)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1jJaMe-000685-W9; Wed, 01 Apr 2020 06:12:53 -0400
+Received: from dptest2.qa.sw.ru ([10.94.4.71])
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1jJaMW-0003qA-L5; Wed, 01 Apr 2020 13:12:44 +0300
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dgilbert-h marcandre-lureau
-X-Launchpad-Bug-Reporter: Dr. David Alan Gilbert (dgilbert-h)
-X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
-References: <158533956244.22377.11770713570863953031.malonedeb@wampee.canonical.com>
-Message-Id: <158573545037.21356.5280387511281341265.malone@gac.canonical.com>
-Subject: [Bug 1869426] Re: 5.0rc0->4.2 serial migraiton
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a296f04231dee355be5db73cc878b9e21689a253";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: a448b9ff1e27039b4dd5e122c409b3d4b4160aa7
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+Subject: [PATCH v15 0/4] qcow2: Implement zstd cluster compression method
+Date: Wed,  1 Apr 2020 13:12:09 +0300
+Message-Id: <20200401101213.24505-1-dplotnikov@virtuozzo.com>
+X-Mailer: git-send-email 2.17.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,60 +43,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1869426 <1869426@bugs.launchpad.net>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
+ qemu-block@nongnu.org, armbru@redhat.com, mreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix posted:
-https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg08803.html
+v15:
+   * 01: aiming qemu 5.1 [Eric]
+   * 03: change zstd_res definition place [Vladimir]
+   * 04: add two new test cases [Eric]
+         1. test adjacent cluster compression with zstd
+         2. test incompressible cluster processing
+   * 03, 04: many rewording and gramma fixing [Eric]
 
--- =
+v14:
+   * fix bug on compression - looping until compress == 0 [Me]
+   * apply reworked Vladimir's suggestions:
+      1. not mixing ssize_t with size_t
+      2. safe check for ENOMEM in compression part - avoid overflow
+      3. tolerate sanity check allow zstd to make progress only
+         on one of the buffers
+v13:
+   * 03: add progress sanity check to decompression loop [Vladimir]
+     03: add successful decompression check [Me]
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1869426
+v12:
+   * 03: again, rework compression and decompression loops
+         to make them more correct [Vladimir]
+     03: move assert in compression to more appropriate place
+             [Vladimir]
+v11:
+   * 03: the loops don't need "do{}while" form anymore and
+         the they were buggy (missed "do" in the beginning)
+         replace them with usual "while(){}" loops [Vladimir]
+v10:
+   * 03: fix zstd (de)compressed loops for multi-frame
+         cases [Vladimir]
+v9:
+   * 01: fix error checking and reporting in qcow2_amend compression type part [Vladimir]
+   * 03: replace asserts with -EIO in qcow2_zstd_decompression [Vladimir, Alberto]
+   * 03: reword/amend/add comments, fix typos [Vladimir]
 
-Title:
-  5.0rc0->4.2 serial migraiton
+v8:
+   * 03: switch zstd API from simple to stream [Eric]
+         No need to state a special cluster layout for zstd
+         compressed clusters.
+v7:
+   * use qapi_enum_parse instead of the open-coding [Eric]
+   * fix wording, typos and spelling [Eric]
 
-Status in QEMU:
-  New
+v6:
+   * "block/qcow2-threads: fix qcow2_decompress" is removed from the series
+      since it has been accepted by Max already
+   * add compile time checking for Qcow2Header to be a multiple of 8 [Max, Alberto]
+   * report error on qcow2 amending when the compression type is actually chnged [Max]
+   * remove the extra space and the extra new line [Max]
+   * re-arrange acks and signed-off-s [Vladimir]
 
-Bug description:
-  Migrating from 5.0rc0->4.2 with pc-q35-4.2 we get an error:
+v5:
+   * replace -ENOTSUP with abort in qcow2_co_decompress [Vladimir]
+   * set cluster size for all test cases in the beginning of the 287 test
 
-  Unknown savevm section or instance 'serial' 1
+v4:
+   * the series is rebased on top of 01 "block/qcow2-threads: fix qcow2_decompress"
+   * 01 is just a no-change resend to avoid extra dependencies. Still, it may be merged in separate
 
-  dumping the migration streams it looks like 5.0 is duplicating the
-  serial migration data:
+v3:
+   * remove redundant max compression type value check [Vladimir, Eric]
+     (the switch below checks everything)
+   * prevent compression type changing on "qemu-img amend" [Vladimir]
+   * remove zstd config setting, since it has been added already by
+     "migration" patches [Vladimir]
+   * change the compression type error message [Vladimir] 
+   * fix alignment and 80-chars exceeding [Vladimir]
 
-      "serial (26)": {
-          "divider": "0x000c",
-          "rbr": "0x00",
-          "ier": "0x00",
-          "iir": "0x01",
-          "lcr": "0x00",
-          "mcr": "0x00",
-          "lsr": "0x60",
-          "msr": "0xb0",
-          "scr": "0x00",
-          "fcr_vmstate": "0x00"
-      },
-      "serial (27)": {
-          "state": {
-              "divider": "0x000c",
-              "rbr": "0x00",
-              "ier": "0x00",
-              "iir": "0x01",
-              "lcr": "0x00",
-              "mcr": "0x00",
-              "lsr": "0x60",
-              "msr": "0xb0",
-              "scr": "0x00",
-              "fcr_vmstate": "0x00"
-          }
-      },
+v2:
+   * rework compression type setting [Vladimir]
+   * squash iotest changes to the compression type introduction patch [Vladimir, Eric]
+   * fix zstd availability checking in zstd iotest [Vladimir]
+   * remove unnecessry casting [Eric]
+   * remove rudundant checks [Eric]
+   * fix compressed cluster layout in qcow2 spec [Vladimir]
+   * fix wording [Eric, Vladimir]
+   * fix compression type filtering in iotests [Eric]
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1869426/+subscriptions
+v1:
+   the initial series
+
+
+Denis Plotnikov (4):
+  qcow2: introduce compression type feature
+  qcow2: rework the cluster compression routine
+  qcow2: add zstd cluster compression
+  iotests: 287: add qcow2 compression type test
+
+ docs/interop/qcow2.txt           |   1 +
+ configure                        |   2 +-
+ qapi/block-core.json             |  23 ++-
+ block/qcow2.h                    |  20 ++-
+ include/block/block_int.h        |   1 +
+ block/qcow2-threads.c            | 233 +++++++++++++++++++++++++++++--
+ block/qcow2.c                    | 120 ++++++++++++++++
+ tests/qemu-iotests/031.out       |  14 +-
+ tests/qemu-iotests/036.out       |   4 +-
+ tests/qemu-iotests/049.out       | 102 +++++++-------
+ tests/qemu-iotests/060.out       |   1 +
+ tests/qemu-iotests/061.out       |  34 +++--
+ tests/qemu-iotests/065           |  28 ++--
+ tests/qemu-iotests/080           |   2 +-
+ tests/qemu-iotests/144.out       |   4 +-
+ tests/qemu-iotests/182.out       |   2 +-
+ tests/qemu-iotests/242.out       |   5 +
+ tests/qemu-iotests/255.out       |   8 +-
+ tests/qemu-iotests/287           | 159 +++++++++++++++++++++
+ tests/qemu-iotests/287.out       |  70 ++++++++++
+ tests/qemu-iotests/common.filter |   3 +-
+ tests/qemu-iotests/group         |   1 +
+ 22 files changed, 729 insertions(+), 108 deletions(-)
+ create mode 100755 tests/qemu-iotests/287
+ create mode 100644 tests/qemu-iotests/287.out
+
+-- 
+2.17.0
+
 
