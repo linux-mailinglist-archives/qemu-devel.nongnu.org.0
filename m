@@ -2,61 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DAF319AB91
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 14:21:46 +0200 (CEST)
-Received: from localhost ([::1]:58904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A84D19AB74
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 14:15:52 +0200 (CEST)
+Received: from localhost ([::1]:58816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJcNN-0006ox-5r
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 08:21:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46884)
+	id 1jJcHf-0003Pg-CV
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 08:15:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46075)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jJcMQ-0006PD-8Q
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 08:20:47 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jJcG9-0002xh-4N
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 08:14:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jJcMO-0003EI-O7
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 08:20:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55968)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jJcMO-0003Ds-IJ
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 08:20:44 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jJcMN-0001aK-LZ
- for <qemu-devel@nongnu.org>; Wed, 01 Apr 2020 12:20:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 90C4F2E8107
- for <qemu-devel@nongnu.org>; Wed,  1 Apr 2020 12:20:43 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jJcG7-0005Ak-NV
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 08:14:17 -0400
+Received: from mail-eopbgr150132.outbound.protection.outlook.com
+ ([40.107.15.132]:10307 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jJcG7-00059e-GV
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 08:14:15 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fTXiHh6rjRYUiEUOSNsFMNp7meDLWlZ+76WBmxzXZSSoBBb1TiSdcF3eDUBYF8n7xF+w099fLTRbkCCEyjllmyksKKxrFUo0SCFxNdJZbVqPaOnAOq8gYugeiqBxeQ/aiU7g2gPTr2yNrf9DNyc8tygoviXZ8WurD9/E2QXFK1wiRn8RI+YmT6ldfomc5IeIUkt8BEhOto/92eOIo/cev6NuK0G9OEf4zP0fBFDrbsKT5zvHCHzT/E5G0T8q4YSMFMgWZiabLxAtMJYoZg7mA5wR+jbq7WdyDpgE7kVo6B3J5qyHAz6VDQO/y/noQ/Y7AEYJaBoSN5KsUzmELP6bxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Dw/onZ5Z8WN8Nr1Tcs9y5+1THcWErytesir0hCAFjzU=;
+ b=YS43aSRmLR91x6wxicF00sWBw0tHOMzuA4k3ffaxfnxjqh3T6m+eAXG+V19SFIp9mOC3mFYRXJ9ZQ6z2SDpnKJvf2GND/fh4wfKzh3Q1xFcndEhpwvaEEM31AzmqS93YGt72zT3L7BnBM5U9iuAvPcWDGb9Fd0ua540XzZYC0HX7xx98xLdu2e+XkhyMt/We73Wxt1YcLgXzNe219NXSB+Qf2jlBFPwvksQ7VoQ8ERCWr4PbBN4fh+RREC+w11ohXFcj3fDGebqUkOrpTrS8hro32pce81MIsBBrlshuOe2gRbQ/OSEbDVIDV+PARpTQKykyVkCYO80ql/wnoo8l0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Dw/onZ5Z8WN8Nr1Tcs9y5+1THcWErytesir0hCAFjzU=;
+ b=gxhffePH5s6jK08oZHfxicqYX3u9MasRTt0Wb1Ji9VsIgZ2MoKzvHiZ5jaKGDECZ2BJjtUmoX1ypH66XZ8z6nzoOZeMZVZYghq7M+F9K8fMWMkIlojWYn3PW4ULqbHEfhvW1W38vWESffE054a6BjkMnk4hV9mUPP5+mzYK7nhY=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (10.141.175.15) by
+ AM7PR08MB5527.eurprd08.prod.outlook.com (10.141.175.146) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2856.20; Wed, 1 Apr 2020 12:14:13 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::3944:477e:1562:cfcf]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::3944:477e:1562:cfcf%8]) with mapi id 15.20.2878.014; Wed, 1 Apr 2020
+ 12:14:13 +0000
+Subject: Re: Questionable aspects of QEMU Error's design
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <87o8sblgto.fsf@dusky.pond.sub.org>
+ <e980477d-3951-2a2b-fa38-dee8e1895019@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200401151412180
+Message-ID: <b7f46fa1-e89e-161a-b4d9-c7b6fd3b13be@virtuozzo.com>
+Date: Wed, 1 Apr 2020 15:14:12 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <e980477d-3951-2a2b-fa38-dee8e1895019@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 01 Apr 2020 12:11:41 -0000
-From: Andrew Randrianasulu <1847525@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: andrew-randrianasulu
-X-Launchpad-Bug-Reporter: Andrew Randrianasulu (andrew-randrianasulu)
-X-Launchpad-Bug-Modifier: Andrew Randrianasulu (andrew-randrianasulu)
-References: <157065019192.22617.14242881910317034171.malonedeb@gac.canonical.com>
-Message-Id: <158574310113.20881.5244999669362509189.malone@gac.canonical.com>
-Subject: [Bug 1847525] Re: qemu-system-i386 eats a lot of cpu after just few
- hours, with sdl, gl=on
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a296f04231dee355be5db73cc878b9e21689a253";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 517a7db1dbde68ead4f9a533c2d0da772614e23e
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-ClientProxiedBy: AM3PR07CA0138.eurprd07.prod.outlook.com
+ (2603:10a6:207:8::24) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.23) by
+ AM3PR07CA0138.eurprd07.prod.outlook.com (2603:10a6:207:8::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2878.9 via Frontend Transport; Wed, 1 Apr 2020 12:14:13 +0000
+X-Tagtoolbar-Keys: D20200401151412180
+X-Originating-IP: [185.215.60.23]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 57bdacdb-de21-4013-e837-08d7d6363101
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5527:
+X-Microsoft-Antispam-PRVS: <AM7PR08MB55278CFA5FB75EC6C4F290AAC1C90@AM7PR08MB5527.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-Forefront-PRVS: 03607C04F0
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(10019020)(4636009)(39840400004)(136003)(396003)(366004)(376002)(346002)(316002)(36756003)(5660300002)(478600001)(86362001)(66946007)(186003)(66476007)(31696002)(956004)(2616005)(26005)(16526019)(66556008)(31686004)(8676002)(16576012)(2906002)(8936002)(81166006)(81156014)(6486002)(52116002)(4326008);
+ DIR:OUT; SFP:1102; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5AxaJVUff8bFGbjX32uXQxR8RIh/Gv/Qq9mvibrDUEYw2nsIEjf8fGUzcYWiDn7kpWwHHtHh8ACcLfy3bes5vmqn2nnZPnY2d8oryymfsXkwQ7rGZ19uhB08+YEk5c3ti0yKwfRu8Tn3XmQh08boLB//VUuPYCOWA28o/6WgRvSEFgxDpCaGJChj5VdIsgq2dzDjxzRgU91RT7dDU+M6tMNy/0QKe76mCbXg8IonuRAiWhAaxQGK+zQClhlS/fen1m1hIFuOs83vH5dbk7t+ME+DuvGgZbYAio9cU7DHixgbq0mPfxUVNx71r9H1ltjxG0sxBP8VujGBmxPq9CQok3c4zInRzfEs9uqUYZFKk3jtJtV4jviu2Dx1voIejs2b5n3tM9ip++ptN9vWsmweqF+Nzjy4EkF917C6ZZGhI4HjKhWhIBEIsAPF7EH0eicJ
+X-MS-Exchange-AntiSpam-MessageData: QMfi7K2YLNdewNLgGdBFi3XFsfLWi/N18Utoi7h6Qoo3vp4tDt7rHFhoLrUiOUr8C5INUZZtBDcKxBsJHD4TAk/W1uMlMG6PFoOFs9J923yFitrABgS0n7jSNfbU4JjejX67qkW9VQsLqa5wHEgzCA==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57bdacdb-de21-4013-e837-08d7d6363101
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2020 12:14:13.6345 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FmAU/7WLNCLK+1VsrA/AN7b+XDbpRgrdv+fkmhRJ6OynGT4e05EDfxvBvd17Cr+OBEsENSKXxoPHGnYqhsYfFm3XFK1KGTnggtpiWKDzelQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5527
+X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
+ [fuzzy]
+X-Received-From: 40.107.15.132
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,149 +111,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1847525 <1847525@bugs.launchpad.net>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-this one still with me.
+01.04.2020 15:10, Vladimir Sementsov-Ogievskiy wrote:
+> 01.04.2020 12:02, Markus Armbruster wrote:
+>> QEMU's Error was patterned after GLib's GError.=C2=A0 Differences includ=
+e:
+>>
+>> * &error_fatal, &error_abort for convenience
+>>
+>> * Error can optionally store hints
+>>
+>> * Pointlessly different names: error_prepend() vs. g_error_prefix() and
+>> =C2=A0=C2=A0 so forth *shrug*
+>>
+>> * Propagating errors
+>>
+>> =C2=A0=C2=A0 Thanks to Vladimir, we'll soon have "auto propagation", whi=
+ch is less
+>> =C2=A0=C2=A0 verbose and less error-prone.
+>>
+>> * Accumulating errors
+>>
+>> =C2=A0=C2=A0 error_propagate() permits it, g_propagate_error() does not[=
+*].
+>>
+>> =C2=A0=C2=A0 I believe this feature is used rarely.=C2=A0 Perhaps we'd b=
+e better off
+>> =C2=A0=C2=A0 without it.=C2=A0 The problem is identifying its uses.=C2=
+=A0 If I remember
+>> =C2=A0=C2=A0 correctly, Vladimir struggled with that for his "auto propa=
+gation"
+>> =C2=A0=C2=A0 work.
+>>
+>> =C2=A0=C2=A0 Perhaps "auto propagation" will reduce the number of manual
+>> =C2=A0=C2=A0 error_propagate() to the point where we can identify accumu=
+lations.
+>> =C2=A0=C2=A0 Removing the feature would become feasible then.
+>>
+>> * Distinguishing different errors
+>>
+>> =C2=A0=C2=A0 Where Error has ErrorClass, GError has Gquark domain, gint =
+code.=C2=A0 Use
+>> =C2=A0=C2=A0 of ErrorClass other than ERROR_CLASS_GENERIC_ERROR is stron=
+gly
+>> =C2=A0=C2=A0 discouraged.=C2=A0 When we need callers to distinguish erro=
+rs, we return
+>> =C2=A0=C2=A0 suitable error codes separately.
+>>
+>> * Return value conventions
+>>
+>> =C2=A0=C2=A0 Common: non-void functions return a distinct error value on=
+ failure
+>> =C2=A0=C2=A0 when such a value can be defined.=C2=A0 Patterns:
+>>
+>> =C2=A0=C2=A0 - Functions returning non-null pointers on success return n=
+ull pointer
+>> =C2=A0=C2=A0=C2=A0=C2=A0 on failure.
+>>
+>> =C2=A0=C2=A0 - Functions returning non-negative integers on success retu=
+rn a
+>> =C2=A0=C2=A0=C2=A0=C2=A0 negative error code on failure.
+>>
+>> =C2=A0=C2=A0 Different: GLib discourages void functions, because these l=
+ead to
+>> =C2=A0=C2=A0 awkward error checking code.=C2=A0 We have tons of them, an=
+d tons of
+>> =C2=A0=C2=A0 awkward error checking code:
+>>
+>> =C2=A0=C2=A0=C2=A0=C2=A0 Error *err =3D NULL;
+>> =C2=A0=C2=A0=C2=A0=C2=A0 frobnicate(arg, &err);
+>> =C2=A0=C2=A0=C2=A0=C2=A0 if (err) {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ... recover ...
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_propagate(errp, e=
+rr);
+>> =C2=A0=C2=A0=C2=A0=C2=A0 }
+>>
+>> =C2=A0=C2=A0 instead of
+>>
+>> =C2=A0=C2=A0=C2=A0=C2=A0 if (!frobnicate(arg, errp))
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ... recover ...
+>> =C2=A0=C2=A0=C2=A0=C2=A0 }
+>>
+>> =C2=A0=C2=A0 Can also lead to pointless creation of Error objects.
+>>
+>> =C2=A0=C2=A0 I consider this a design mistake.=C2=A0 Can we still fix it=
+?=C2=A0 We have more
+>> =C2=A0=C2=A0 than 2000 void functions taking an Error ** parameter...
+>>
+>> =C2=A0=C2=A0 Transforming code that receives and checks for errors with =
+Coccinelle
+>> =C2=A0=C2=A0 shouldn't be hard.=C2=A0 Transforming code that returns err=
+ors seems more
+>> =C2=A0=C2=A0 difficult.=C2=A0 We need to transform explicit and implicit=
+ return to
+>> =C2=A0=C2=A0 either return true or return false, depending on what we di=
+d to the
+>> =C2=A0=C2=A0 @errp parameter on the way to the return.=C2=A0 Hmm.
+>>
+>>
+>> [*] According to documentation; the code merely calls g_warning() then,
+>> in typical GLib fashion.
+>>
+>=20
+>=20
+> Side question:
+>=20
+> Can we somehow implement a possibility to reliably identify file and line=
+ number
+> where error is set by error message?
+>=20
+> It's where debug of error-bugs always starts: try to imagine which parts =
+of the error
+> message are "%s", and how to grep for it in the code, keeping in mind als=
+o,
+> that error massage may be split into several lines..
+>=20
+> Put file:line into each error? Seems too noisy for users.. A lot of error=
+s are not
+> bugs: use do something wrong and see the error, and understands what he i=
+s doing
+> wrong.. It's not usual practice to print file:line into each message for =
+user.
+>=20
+>=20
+> But what if we do some kind of mapping file:line <-> error code, so user =
+will see
+> something like:
+>=20
+>=20
+>  =C2=A0=C2=A0 Error 12345: Device drive-scsi0-0-0-0 is not found
+>=20
+> ....
+>=20
+> Hmm, maybe, just add one more argument to error_setg:
+>=20
+> error_setg(errp, 12345, "Device %s is not found", device_name);
+>=20
+> - it's enough grep-able.
+>=20
 
-qemu-system-x86_64 --version
-QEMU emulator version 4.2.91 (v5.0.0-rc1-dirty)
 
-on 32-bit host (Slackware, but with 64-bit kernel) compiled with gcc
-5.5.0
+Or, maybe, go the hard way, add a script, which smartly search for error me=
+ssage in code-base,
+correctly handling "%s" and multi-line messages.. And add to checkpatch a c=
+heck
+that new added error messages doesn't match to any of existing.
 
--- =
+Hmm. I think, I'll try to do something like this.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1847525
 
-Title:
-  qemu-system-i386 eats a lot of cpu after just few hours,  with
-  sdl,gl=3Don
 
-Status in QEMU:
-  New
-
-Bug description:
-  I already send this email to qemu-discuss@nongnu.org , but I can't see
-  it arriving in archives, so here  is copy.
-
-  Hello, all!
-
-  I use qemu-system-i386/qemu-system_x86_64 for rebuilding Slax-like live c=
-d/dvd.
-  Usually guests (with various self-compiled kernels and X stack with kde3 =
-on top of them)
-  boot up normally, but if I left them to run in GUI mode for few hours - q=
-emu process on host
-  started to eat more and more cpu for itself - more notiecable if I set ho=
-st cpu to lowest possible
-  frequency via trayfreq applet (1400Mhz in my case).
-
-  Boot line a bit complicated, but I really prefer to have sound and usb in=
-side VM.
-  qemu-system-i386 -cdrom /dev/shm/CDROM-4.4.194_5.iso -m 1.9G -enable-kvm =
--soundhw es1370 -smp 2 -display sdl,gl=3Don -usb -cpu host -rtc clock=3Dvm
-
-  rtc clock=3Dvm was taken from https://bugs.launchpad.net/qemu/+bug/117465=
-4 but apparently not helping.
-  After just 3 hours of uptime (copied line from 'top' on host)
-
-  31943 guest     20   0 2412m 791m  38m R   51  6.7  66:36.51 qemu-
-  system-i38
-
-  I use Xorg 1.19.7 on host, with mesa git/nouveau as GL driver. But my car=
-d has not very big amount of VRAM - only 384Mb.
-  May be this limitation is playing some role .. but 'end-user' result was =
-after 1-2 day of guest uptime I run into completely frozen guest =
-
-  (may be when qemu was hitting 100 one core usage on host some internal ti=
-mer just made guest kernel too upset/froze?
-   I was sleeping or doing other things on host  for all this time, with VM=
- just supposedly running at another virtual desktop - =
-
-  in KDE3 + built-in compositor ....)
-
-  I wonder if more mainstream desktop users (on GNOME, Xfce, etc) and/or us=
-ers of other distros (I use self-re-compiled Slackware)
-  actually can see same problem?
-
-  qemu-system-i386 --version
-  QEMU emulator version 4.1.50 (v4.1.0-1188-gc6f5012ba5-dirty)
-  but I saw same behavior for quite some time .. just never reported it in =
-hope it will go away.
-
-  cat /proc/cpuinfo
-  processor       : 0
-  vendor_id       : AuthenticAMD
-  cpu family      : 21
-  model           : 2
-  model name      : AMD FX(tm)-4300 Quad-Core Processor
-  stepping        : 0
-  microcode       : 0x6000852
-  cpu MHz         : 1399.977
-  cache size      : 2048 KB
-  physical id     : 0
-  siblings        : 4
-  core id         : 0
-  cpu cores       : 2
-  apicid          : 16
-  initial apicid  : 0
-  fpu             : yes
-  fpu_exception   : yes
-  cpuid level     : 13
-  wp              : yes
-  flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mc=
-a cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pd=
-pe1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc cpuid extd_apicid ap=
-erfmperf pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 popcnt aes xsav=
-e avx f16c lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse =
-3dnowprefetch osvw ibs xop skinit wdt lwp fma4 tce nodeid_msr tbm topoext p=
-erfctr_core perfctr_nb cpb hw_pstate ssbd vmmcall bmi1 arat npt lbrv svm_lo=
-ck nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pft=
-hreshold
-  bugs            : fxsave_leak sysret_ss_attrs null_seg spectre_v1 spectre=
-_v2 spec_store_bypass
-  bogomips        : 7600.06
-  TLB size        : 1536 4K pages
-  clflush size    : 64
-  cache_alignment : 64
-  address sizes   : 48 bits physical, 48 bits virtual
-  power management: ts ttp tm 100mhzsteps hwpstate cpb eff_freq_ro
-
-  [and 3x more of the same, for 3 remaining cores]
-
-  Gcc is Slackware 14.2's gcc 5.5.0, but I saw this with 4.9.2 too.
-  This might be 32-bit host problem. But may be just no-one tried to run qe=
-mu with GUI guest for literaly days?
-
-  Host kernel is
-   uname -a
-  Linux slax 5.1.12-x64 #1 SMP PREEMPT Wed Jun 19 12:31:05 MSK 2019 x86_64 =
-AMD FX(tm)-4300 Quad-Core Processor AuthenticAMD GNU/Linux
-
-  I was trying newish 5.3.2 but my compilation was not as stable as this on=
-e =
-
-  (I tend to change few things, like max cpu count, preemption mode, numa s=
-upport .... =
-
-  for more distribution-like, yet most stable  and performant for me kernel)
-
-  Kernel world is moving fast, so I'll try to recompile new 5.3.x too
-  ....
-
-  =
-
-  I guess I  should provide perf/profiler output, but for  this I need to r=
-ecompile qemu. =
-
-  I'll try to come back with more details soon.
-
-  Thanks for your attention and possible feedback!
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1847525/+subscriptions
+--=20
+Best regards,
+Vladimir
 
