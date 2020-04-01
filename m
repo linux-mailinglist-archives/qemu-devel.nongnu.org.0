@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8640319B62F
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 21:05:16 +0200 (CEST)
-Received: from localhost ([::1]:36150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B848219B628
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 21:02:24 +0200 (CEST)
+Received: from localhost ([::1]:36116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJifr-0004cn-IZ
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 15:05:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58566)
+	id 1jJid5-0002Ak-PF
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 15:02:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58579)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <volker.ruemelin@t-online.de>) id 1jJibA-0000T4-Fm
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 15:00:25 -0400
+ (envelope-from <volker.ruemelin@t-online.de>) id 1jJibC-0000VI-B9
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 15:00:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <volker.ruemelin@t-online.de>) id 1jJib9-0002Rm-1K
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 15:00:24 -0400
-Received: from mailout09.t-online.de ([194.25.134.84]:45750)
+ (envelope-from <volker.ruemelin@t-online.de>) id 1jJibB-0002Su-Ai
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 15:00:26 -0400
+Received: from mailout05.t-online.de ([194.25.134.82]:45920)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <volker.ruemelin@t-online.de>)
- id 1jJib8-0002R2-PN
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 15:00:22 -0400
-Received: from fwd18.aul.t-online.de (fwd18.aul.t-online.de [172.20.26.244])
- by mailout09.t-online.de (Postfix) with SMTP id 3CAF942D6891;
- Wed,  1 Apr 2020 21:00:21 +0200 (CEST)
+ id 1jJibB-0002S9-3g
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 15:00:25 -0400
+Received: from fwd24.aul.t-online.de (fwd24.aul.t-online.de [172.20.26.129])
+ by mailout05.t-online.de (Postfix) with SMTP id AB4E54204FD2;
+ Wed,  1 Apr 2020 21:00:23 +0200 (CEST)
 Received: from linpower.localnet
- (SgGN78ZYghq0L+ncI2t2vYTLp2j7LeBhONEwkPaRSgrPBB+UYmA+s1hGD4VQXnpgD3@[93.236.147.242])
- by fwd18.t-online.de
+ (S34u6qZerhlO6FMPJtsDHXL87lBI2i71ZdMmE3iDMAAMz2+EcWnhWJlBOMO7ls1QPS@[93.236.147.242])
+ by fwd24.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1jJib6-06E4fI0; Wed, 1 Apr 2020 21:00:20 +0200
+ esmtp id 1jJib9-12XGeO0; Wed, 1 Apr 2020 21:00:23 +0200
 Received: by linpower.localnet (Postfix, from userid 1000)
- id 5A5B620062A; Wed,  1 Apr 2020 21:00:17 +0200 (CEST)
+ id 5B4C5200F43; Wed,  1 Apr 2020 21:00:17 +0200 (CEST)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 2/3] dsoundaudio: fix "Could not lock capture buffer" warning
-Date: Wed,  1 Apr 2020 21:00:16 +0200
-Message-Id: <20200401190017.5081-2-vr_qemu@t-online.de>
+Subject: [PATCH 3/3] dsoundaudio: dsound_get_buffer_in should honor *size
+Date: Wed,  1 Apr 2020 21:00:17 +0200
+Message-Id: <20200401190017.5081-3-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <19cd6a5a-97b7-b684-f026-11d82e34dab9@t-online.de>
 References: <19cd6a5a-97b7-b684-f026-11d82e34dab9@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-ID: SgGN78ZYghq0L+ncI2t2vYTLp2j7LeBhONEwkPaRSgrPBB+UYmA+s1hGD4VQXnpgD3
-X-TOI-MSGID: c567f1f0-1cd0-4719-b0e6-bf99b2daab19
+X-ID: S34u6qZerhlO6FMPJtsDHXL87lBI2i71ZdMmE3iDMAAMz2+EcWnhWJlBOMO7ls1QPS
+X-TOI-MSGID: 20c42069-0717-44d3-85bc-edd298cc8e74
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 194.25.134.84
+X-Received-From: 194.25.134.82
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,37 +63,60 @@ Cc: QEMU <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-IDirectSoundCaptureBuffer_Lock() fails on Windows when called
-with len =3D 0. Return early from dsound_get_buffer_in() in this
-case.
-
-To reproduce the warning start a linux guest. In the guest
-start Audacity and you will see a lot of "Could not lock
-capture buffer" warnings.
+This patch prevents an underflow of variable samples in function
+audio_pcm_hw_run_in(). See commit 599eac4e5a "audio:
+audio_generic_get_buffer_in should honor *size". This time the
+while loop in audio_pcm_hw_run_in() will terminate nevertheless,
+because it seems the recording stream in Windows is always rate
+limited.
 
 Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 ---
- audio/dsoundaudio.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ audio/audio.c       | 12 +++++-------
+ audio/dsoundaudio.c |  2 +-
+ 2 files changed, 6 insertions(+), 8 deletions(-)
 
+diff --git a/audio/audio.c b/audio/audio.c
+index 9ac9a20c41..7a9e680355 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -1491,15 +1491,13 @@ size_t audio_generic_write(HWVoiceOut *hw, void *=
+buf, size_t size)
+=20
+ size_t audio_generic_read(HWVoiceIn *hw, void *buf, size_t size)
+ {
+-    size_t src_size, copy_size;
+-    void *src =3D hw->pcm_ops->get_buffer_in(hw, &src_size);
+-    copy_size =3D MIN(size, src_size);
++    void *src =3D hw->pcm_ops->get_buffer_in(hw, &size);
+=20
+-    memcpy(buf, src, copy_size);
+-    hw->pcm_ops->put_buffer_in(hw, src, copy_size);
+-    return copy_size;
+-}
++    memcpy(buf, src, size);
++    hw->pcm_ops->put_buffer_in(hw, src, size);
+=20
++    return size;
++}
+=20
+ static int audio_driver_init(AudioState *s, struct audio_driver *drv,
+                              bool msg, Audiodev *dev)
 diff --git a/audio/dsoundaudio.c b/audio/dsoundaudio.c
-index af70dd128e..ea1595dcd1 100644
+index ea1595dcd1..d3522f0e00 100644
 --- a/audio/dsoundaudio.c
 +++ b/audio/dsoundaudio.c
-@@ -544,6 +544,11 @@ static void *dsound_get_buffer_in(HWVoiceIn *hw, siz=
-e_t *size)
-     req_size =3D audio_ring_dist(cpos, hw->pos_emul, hw->size_emul);
-     req_size =3D MIN(req_size, hw->size_emul - hw->pos_emul);
+@@ -542,7 +542,7 @@ static void *dsound_get_buffer_in(HWVoiceIn *hw, size=
+_t *size)
+     }
 =20
-+    if (req_size =3D=3D 0) {
-+        *size =3D 0;
-+        return NULL;
-+    }
-+
-     err =3D dsound_lock_in(dscb, &hw->info, hw->pos_emul, req_size, &ret=
-, NULL,
-                          &act_size, NULL, false, ds->s);
-     if (err) {
+     req_size =3D audio_ring_dist(cpos, hw->pos_emul, hw->size_emul);
+-    req_size =3D MIN(req_size, hw->size_emul - hw->pos_emul);
++    req_size =3D MIN(*size, MIN(req_size, hw->size_emul - hw->pos_emul))=
+;
+=20
+     if (req_size =3D=3D 0) {
+         *size =3D 0;
 --=20
 2.16.4
 
