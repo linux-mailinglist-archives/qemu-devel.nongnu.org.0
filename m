@@ -2,103 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E72F419A4F1
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 07:50:36 +0200 (CEST)
-Received: from localhost ([::1]:47288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2609019A508
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 08:00:52 +0200 (CEST)
+Received: from localhost ([::1]:47370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJWGn-0003V4-OD
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 01:50:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42956)
+	id 1jJWQl-0006UD-7q
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 02:00:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54734)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jJWFp-00030e-DG
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 01:49:34 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1jJWPp-0005qe-Gh
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 01:59:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jJWFn-0006DT-VQ
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 01:49:33 -0400
-Received: from mail-eopbgr60095.outbound.protection.outlook.com
- ([40.107.6.95]:21235 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jJWFi-0005vc-HI; Wed, 01 Apr 2020 01:49:27 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Zdu6Exvqrh32O6+39FzQw0yWDHTNFJ7cVWuUksoyAkwk3+TkHCdS/WUp/WgZ4DmTRh6bgD27fP7A4/HP+grn1p7zxjVlGx+jZBCyn22WxCd538vq8fJ65hHmVlPTk5LGojzagPDYoARr8cUaPBZTYyfEnj1p6RNVvPWWe/L9WEg7YLMAe33+o7Y3uG+UFZvwUe5JxWOAnQP72H6jKZcuL8FktExnGmrxCNmVudyfhxt0RpUp+XwfC18lG968l9PV6oEi99dSzOlcPFOGd+G9JwLwImqEoQc5MAmalXYZm0eScZmrueQjxbW+62CxkXMoUAhKNAphfNEGlS5fAbGFFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5KDBx925ldtk3dvq0HwEmpOiRT9iVYZElPaGKmiSD8k=;
- b=EgPlH7hcjYEUCttIPCVN/3CrXRIkALOFpU5plm2S1yFAnwn5fRxWRxaWdrDMmBl7fMBumTCwscB7j5/f5+I1jg6/Thj3eD5fTvPnnGWc21c1du4WdwxWBN36jTIzYn8uXB0Qsd7apNnSyiJDMouPG33PCfSa8gzyKJew5goCGRzuqEoDFxDU6iOkypKv6xQYbFBWxq8B47SbrgmrRLsXE38q7WLZ47/vrOcKUj2R55rIrcDsUiq6UX9jvaMTC6y+47LsNfC7FCAr3Hzvg1AWh9flyJNJJUXd4RZCTR/DQK/PnDSuYOp8ebnFHepnS5JoQJ1ZwQvCaI7HBG7TMEd9Ug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5KDBx925ldtk3dvq0HwEmpOiRT9iVYZElPaGKmiSD8k=;
- b=OX7D9/zO1WJLGBuuPJ7/IyuJIwiMayk7w/iXwmzXRjdm0EMFiRbEM3Xkf4ySI0DBwVEw7ATCPetUB4Jav2pB89yCdiUFGT3gQX2X9sGpHnaBw9L6oNWGrJhxQFCdBOWYpbVHdBm4UpDvayrzd05oO0HOfFTD02RDfOk48rEP1I8=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (10.141.175.15) by
- AM7PR08MB5528.eurprd08.prod.outlook.com (10.141.175.83) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2856.20; Wed, 1 Apr 2020 05:49:23 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::3944:477e:1562:cfcf]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::3944:477e:1562:cfcf%9]) with mapi id 15.20.2856.019; Wed, 1 Apr 2020
- 05:49:23 +0000
-Subject: Re: [PATCH v14 3/4] qcow2: add zstd cluster compression
-To: Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org
-References: <20200331174455.31792-1-dplotnikov@virtuozzo.com>
- <20200331174455.31792-4-dplotnikov@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200401084921757
-Message-ID: <434f359a-998f-1c60-ecad-fa6cb25e9374@virtuozzo.com>
-Date: Wed, 1 Apr 2020 08:49:21 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <20200331174455.31792-4-dplotnikov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR06CA0013.eurprd06.prod.outlook.com
- (2603:10a6:208:ab::26) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (envelope-from <yan.y.zhao@intel.com>) id 1jJWPm-00044p-V9
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 01:59:52 -0400
+Received: from mga03.intel.com ([134.134.136.65]:17413)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jJWPm-0003XC-LA
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 01:59:50 -0400
+IronPort-SDR: 7mHqbSHWNZ72XZ/yMvfJQzqun+uLx72KoIuCbywzGKn3QU1OoY1xqWY1GHtdOgrA34Ba1hD79k
+ dq21sVPhV72g==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2020 22:59:42 -0700
+IronPort-SDR: 2Rd7JIJDb7fnS8ERS1JIbM2woNJV+Db2Vr86FUIriXedDbcYodvIm64ulVH+onllvyEdoWJhDL
+ 4hlBZWAz4E2g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,330,1580803200"; d="scan'208";a="448973739"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.16])
+ by fmsmga005.fm.intel.com with ESMTP; 31 Mar 2020 22:59:37 -0700
+Date: Wed, 1 Apr 2020 01:50:04 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH v16 QEMU 14/16] vfio: Add vfio_listener_log_sync to mark
+ dirty pages
+Message-ID: <20200401055004.GE6631@joy-OptiPlex-7040>
+References: <1585084154-29461-1-git-send-email-kwankhede@nvidia.com>
+ <1585084154-29461-15-git-send-email-kwankhede@nvidia.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.23) by
- AM0PR06CA0013.eurprd06.prod.outlook.com (2603:10a6:208:ab::26) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2878.15 via Frontend Transport; Wed, 1 Apr 2020 05:49:22 +0000
-X-Tagtoolbar-Keys: D20200401084921757
-X-Originating-IP: [185.215.60.23]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 411c4369-48cb-4501-87ac-08d7d6006e29
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5528:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5528748EA7FDB38CE513DB09C1C90@AM7PR08MB5528.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 03607C04F0
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10019020)(4636009)(346002)(376002)(396003)(39850400004)(366004)(136003)(66556008)(316002)(4326008)(31696002)(2906002)(66476007)(478600001)(8936002)(66946007)(52116002)(86362001)(81156014)(2616005)(956004)(81166006)(186003)(6486002)(36756003)(8676002)(16576012)(31686004)(16526019)(5660300002)(26005);
- DIR:OUT; SFP:1102; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8y8EVj9xlcuvcS0ZqdFvrHpu1+KDi19VvzG947mkzCoEDxzhN0WB7E9Yav+AFooSfWteY3z1ZNpqazJn08O2jmpGlDBSkxUVH2GhHUN4OmWms2TPhH6dUAPp7YaRhWujPujbpIKF0IeHpmmLL0ZEwKOceIYeuPA1EZ6yCMh2W3Ct6bW+sxxWk7P8uAwWgjuFwhn2Tib276cSBWkiaj6NA6zNXidqqQ7vq1HGIMIF+Db2+XtnDliIFEmrPDM+i7tLYsd8Gq4oEkdU6ZBAh2E/F4HfyeO9kQpkERckFtgFZcvxlwl/GkOlav9RKvJEvXpJ5ClWDVyoD2+HbowpO/MfzstYYL3RZgGs/Hq+X9GhL82Gq7zLfgVXb06wiBOo4XiQ3Ic5oSXtzG9F8ci0BfqqG5VyzWCE2vyGQas3rH4V+1y/YUbPYqU5NbmgqX1Ry4Wn
-X-MS-Exchange-AntiSpam-MessageData: /YbGQ2SG9Mdnmee0YW7tgmLzvwWXYu2iLGNtVasDKLWAaubs6KEb33svh0nJ2Skx0OlzO3FC3GL3YiXPUmTPQ0PrBXWIWg0KtN3QbYCxru3ZIdbJEXRJKqyLZmq27XTfAyGQs9oEO9tLfiWMDvrDVA==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 411c4369-48cb-4501-87ac-08d7d6006e29
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2020 05:49:23.3998 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jAescqUU24Ughz4IQd6C29SLPDni8KYb8TXP9IXNaCwIlP95dkoqLFwGTOwsKqJ08fhMJffJL6pNEue0PkLck5PaZdIFKR/EgMG8JL8eYjg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5528
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.6.95
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1585084154-29461-15-git-send-email-kwankhede@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 134.134.136.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,199 +61,320 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berto@igalia.com, qemu-block@nongnu.org,
- armbru@redhat.com, mreitz@redhat.com, den@openvz.org
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "cjia@nvidia.com" <cjia@nvidia.com>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "eauger@redhat.com" <eauger@redhat.com>,
+ "felipe@nutanix.com" <felipe@nutanix.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
+ Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-31.03.2020 20:44, Denis Plotnikov wrote:
-> zstd significantly reduces cluster compression time.
-> It provides better compression performance maintaining
-> the same level of the compression ratio in comparison with
-> zlib, which, at the moment, is the only compression
-> method available.
+On Wed, Mar 25, 2020 at 05:09:12AM +0800, Kirti Wankhede wrote:
+> vfio_listener_log_sync gets list of dirty pages from container using
+> VFIO_IOMMU_GET_DIRTY_BITMAP ioctl and mark those pages dirty when all
+> devices are stopped and saving state.
+> Return early for the RAM block section of mapped MMIO region.
 > 
-> The performance test results:
-> Test compresses and decompresses qemu qcow2 image with just
-> installed rhel-7.6 guest.
-> Image cluster size: 64K. Image on disk size: 2.2G
-> 
-> The test was conducted with brd disk to reduce the influence
-> of disk subsystem to the test results.
-> The results is given in seconds.
-> 
-> compress cmd:
->    time ./qemu-img convert -O qcow2 -c -o compression_type=[zlib|zstd]
->                    src.img [zlib|zstd]_compressed.img
-> decompress cmd
->    time ./qemu-img convert -O qcow2
->                    [zlib|zstd]_compressed.img uncompressed.img
-> 
->             compression               decompression
->           zlib       zstd           zlib         zstd
-> ------------------------------------------------------------
-> real     65.5       16.3 (-75 %)    1.9          1.6 (-16 %)
-> user     65.0       15.8            5.3          2.5
-> sys       3.3        0.2            2.0          2.0
-> 
-> Both ZLIB and ZSTD gave the same compression ratio: 1.57
-> compressed image size in both cases: 1.4G
-> 
-> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
-> QAPI part:
-> Acked-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
 > ---
-
-
-[..]
-
-> +static ssize_t qcow2_zstd_compress(void *dest, size_t dest_size,
-> +                                   const void *src, size_t src_size)
+>  hw/vfio/common.c     | 200 +++++++++++++++++++++++++++++++++++++++++++++++++--
+>  hw/vfio/trace-events |   1 +
+>  2 files changed, 196 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 4a2f0d6a2233..6d41e1ac5c2f 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -29,6 +29,7 @@
+>  #include "hw/vfio/vfio.h"
+>  #include "exec/address-spaces.h"
+>  #include "exec/memory.h"
+> +#include "exec/ram_addr.h"
+>  #include "hw/hw.h"
+>  #include "qemu/error-report.h"
+>  #include "qemu/main-loop.h"
+> @@ -38,6 +39,7 @@
+>  #include "sysemu/reset.h"
+>  #include "trace.h"
+>  #include "qapi/error.h"
+> +#include "migration/migration.h"
+>  
+>  VFIOGroupList vfio_group_list =
+>      QLIST_HEAD_INITIALIZER(vfio_group_list);
+> @@ -288,6 +290,28 @@ const MemoryRegionOps vfio_region_ops = {
+>  };
+>  
+>  /*
+> + * Device state interfaces
+> + */
+> +
+> +static bool vfio_devices_are_stopped_and_saving(void)
 > +{
-> +    ssize_t ret;
-> +    size_t zstd_ret = 0;
-> +    ZSTD_outBuffer output = { dest, dest_size, 0 };
-> +    ZSTD_inBuffer input = { src, src_size, 0 };
-> +    ZSTD_CCtx *cctx = ZSTD_createCCtx();
+> +    VFIOGroup *group;
+> +    VFIODevice *vbasedev;
 > +
-> +    if (!cctx) {
-> +        return -EIO;
-> +    }
-> +    /*
-> +     * We want to use zstd streamed interface on decompression,
-> +     * as we won't know the exact size of the compressed data.
-> +     *
-> +     * In the loop, we try to compress all the data into one zstd frame.
-> +     * ZSTD_compressStream2 potentially can finish a frame earlier
-> +     * than the full input data is consumed. That's why we are looping
-> +     * until all the input data is consumed.
-> +     */
-> +    while (input.pos < input.size) {
-
-zstd_ret may be defined here.
-
-> +        /*
-> +         * ZSTD spec: "You must continue calling ZSTD_compressStream2()
-> +         * with ZSTD_e_end until it returns 0, at which point you are
-> +         * free to start a new frame". We assume that "start a new frame"
-> +         * means call ZSTD_compressStream2 in the very beginning or when
-> +         * ZSTD_compressStream2 has returned with 0.
-> +         */
-> +        do {
-
-Hmm. Why did you decide to use nested loop?  Ok, it works too.
-
-> +            zstd_ret = ZSTD_compressStream2(cctx, &output, &input, ZSTD_e_end);
-> +
-> +            if (ZSTD_isError(zstd_ret)) {
-> +                ret = -EIO;
-> +                goto out;
+> +    QLIST_FOREACH(group, &vfio_group_list, next) {
+> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
+> +            if ((vbasedev->device_state & VFIO_DEVICE_STATE_SAVING) &&
+> +                !(vbasedev->device_state & VFIO_DEVICE_STATE_RUNNING)) {
+> +                continue;
+> +            } else {
+> +                return false;
 > +            }
-> +            /* Dest buffer isn't big enough to store compressed content */
-> +            if (zstd_ret > output.size - output.pos) {
-> +                ret = -ENOMEM;
-> +                goto out;
-> +            }
-> +        } while (zstd_ret);
+> +        }
 > +    }
-> +    /* make sure we can safely return compressed buffer size with ssize_t */
-> +    assert(output.pos <= SSIZE_MAX);
-> +    ret = output.pos;
-> +out:
-> +    ZSTD_freeCCtx(cctx);
-> +    return ret;
+> +    return true;
 > +}
 > +
 > +/*
-> + * qcow2_zstd_decompress()
-> + *
-> + * Decompress some data (not more than @src_size bytes) to produce exactly
-> + * @dest_size bytes using zstd compression method
-> + *
-> + * @dest - destination buffer, @dest_size bytes
-> + * @src - source buffer, @src_size bytes
-> + *
-> + * Returns: 0 on success
-> + *          -EIO on any error
-> + */
-> +static ssize_t qcow2_zstd_decompress(void *dest, size_t dest_size,
-> +                                     const void *src, size_t src_size)
+>   * DMA - Mapping and unmapping for the "type1" IOMMU interface used on x86
+>   */
+>  static int vfio_dma_unmap(VFIOContainer *container,
+> @@ -408,8 +432,8 @@ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
+>  }
+>  
+>  /* Called with rcu_read_lock held.  */
+> -static bool vfio_get_vaddr(IOMMUTLBEntry *iotlb, void **vaddr,
+> -                           bool *read_only)
+> +static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
+> +                               ram_addr_t *ram_addr, bool *read_only)
+>  {
+>      MemoryRegion *mr;
+>      hwaddr xlat;
+> @@ -440,9 +464,17 @@ static bool vfio_get_vaddr(IOMMUTLBEntry *iotlb, void **vaddr,
+>          return false;
+>      }
+>  
+> -    *vaddr = memory_region_get_ram_ptr(mr) + xlat;
+> -    *read_only = !writable || mr->readonly;
+> +    if (vaddr) {
+> +        *vaddr = memory_region_get_ram_ptr(mr) + xlat;
+> +    }
+>  
+> +    if (ram_addr) {
+> +        *ram_addr = memory_region_get_ram_addr(mr) + xlat;
+> +    }
+> +
+> +    if (read_only) {
+> +        *read_only = !writable || mr->readonly;
+> +    }
+>      return true;
+>  }
+>  
+> @@ -467,7 +499,7 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+>      rcu_read_lock();
+>  
+>      if ((iotlb->perm & IOMMU_RW) != IOMMU_NONE) {
+> -        if (!vfio_get_vaddr(iotlb, &vaddr, &read_only)) {
+> +        if (!vfio_get_xlat_addr(iotlb, &vaddr, NULL, &read_only)) {
+>              goto out;
+>          }
+>          /*
+> @@ -813,9 +845,167 @@ static void vfio_listener_region_del(MemoryListener *listener,
+>      }
+>  }
+>  
+> +static int vfio_get_dirty_bitmap(MemoryListener *listener,
+> +                                 MemoryRegionSection *section)
 > +{
-> +    size_t ret = 0;
-
-You forget to fix ret here. ret of the function should be ssize_t and for
-ZSTD - size_t.
-
-> +    ZSTD_outBuffer output = { dest, dest_size, 0 };
-> +    ZSTD_inBuffer input = { src, src_size, 0 };
-> +    ZSTD_DCtx *dctx = ZSTD_createDCtx();
+> +    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
+> +    VFIOGuestIOMMU *giommu;
+> +    IOMMUTLBEntry iotlb;
+> +    hwaddr granularity, address_limit, iova;
+> +    int ret;
 > +
-> +    if (!dctx) {
-> +        return -EIO;
+> +    if (memory_region_is_iommu(section->mr)) {
+> +        QLIST_FOREACH(giommu, &container->giommu_list, giommu_next) {
+> +            if (MEMORY_REGION(giommu->iommu) == section->mr &&
+> +                giommu->n.start == section->offset_within_region) {
+> +                break;
+> +            }
+> +        }
+> +
+> +        if (!giommu) {
+> +            return -EINVAL;
+> +        }
 > +    }
 > +
-> +    /*
-> +     * The compressed stream from input buffer may consist from more
-> +     * than one zstd frames. So we iterate until we get a fully
-> +     * uncompressed cluster.
-> +     * from zstd docs related to ZSTD_decompressStream:
-> +     * "return : 0 when a frame is completely decoded and fully flushed"
-> +     * We suppose that this means: each time ZSTD_decompressStream reads
-> +     * only ONE full frame and return 0 if and only if that frame
-> +     * is completely decoded and flushed. Only after returning 0,
-> +     * ZSTD_decompressStream reads another ONE full frame.
-> +     */
-> +    while (output.pos < output.size) {
-> +        size_t last_in_pos = input.pos;
-> +        size_t last_out_pos = output.pos;
-> +        ret = ZSTD_decompressStream(dctx, &output, &input);
+> +    if (memory_region_is_iommu(section->mr)) {
+> +        granularity = memory_region_iommu_get_min_page_size(giommu->iommu);
+> +
+> +        address_limit = MIN(int128_get64(section->size),
+> +                            memory_region_iommu_get_address_limit(giommu->iommu,
+> +                                                 int128_get64(section->size)));
+> +    } else {
+> +        granularity = memory_region_size(section->mr);
+> +        address_limit = int128_get64(section->size);
+> +    }
+> +
+> +    iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
+> +
+> +    RCU_READ_LOCK_GUARD();
+> +
+
+the requirement of iova < address_limit is not right. reason as blow:
+when vIOMMU is NOT on,
+iova is section->offset_within_address_space,
+address_limit is section->size,
+but iova has not reason to be less than address_limit.
+
+for example, when vm memory size is large than 3G (e.g.4G)
+for memory region section of range (0x100000000-0x13fffffff),
+its iova is 0x100000000, address_limit is 0x40000000,
+then as iova is not less than address_limit, dirty pages query for memory
+3G-4G will be skipped.
+Therefore dirty pages in 3G-4G will be lost.
+
+
+> +    while (iova < address_limit) {
+> +        struct vfio_iommu_type1_dirty_bitmap *dbitmap;
+> +        struct vfio_iommu_type1_dirty_bitmap_get *range;
+> +        ram_addr_t start, pages;
+> +        uint64_t iova_xlat, size;
+> +
+> +        if (memory_region_is_iommu(section->mr)) {
+> +            iotlb = address_space_get_iotlb_entry(container->space->as, iova,
+> +                                                 true, MEMTXATTRS_UNSPECIFIED);
+> +            if ((iotlb.target_as == NULL) || (iotlb.addr_mask == 0)) {
+> +                if ((iova + granularity) < iova) {
+> +                    break;
+> +                }
+> +                iova += granularity;
+> +                continue;
+> +            }
+> +            iova_xlat = iotlb.iova + giommu->iommu_offset;
+> +            size = iotlb.addr_mask + 1;
+> +        } else {
+> +            iova_xlat = iova;
+> +            size = address_limit;
+> +        }
+> +
+> +        dbitmap = g_malloc0(sizeof(*dbitmap) + sizeof(*range));
+> +        if (!dbitmap) {
+> +            return -ENOMEM;
+> +        }
+> +
+> +        dbitmap->argsz = sizeof(*dbitmap) + sizeof(*range);
+> +        dbitmap->flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP;
+> +        range = (struct vfio_iommu_type1_dirty_bitmap_get *)&dbitmap->data;
+> +        range->iova = iova_xlat;
+> +        range->size = size;
+> +
 > +        /*
-> +         * zstd manual doesn't explicitly states what happens,
-> +         * if ZSTD_decompressStream reads the frame partially.
-> +         * But, based on our tests, if we don't fully populate
-> +         * the output and have read all the frames from the input,
-> +         * we end up with error here.
+> +         * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
+> +         * TARGET_PAGE_SIZE to mark those dirty. Hence set bitmap's pgsize to
+> +         * TARGET_PAGE_SIZE.
 > +         */
-> +        if (ZSTD_isError(ret)) {
-> +            ret = -EIO;
+> +        range->bitmap.pgsize = TARGET_PAGE_SIZE;
+> +
+> +        /*
+> +         * Comment from kvm_physical_sync_dirty_bitmap() since same applies here
+> +         * XXX bad kernel interface alert
+> +         * For dirty bitmap, kernel allocates array of size aligned to
+> +         * bits-per-long.  But for case when the kernel is 64bits and
+> +         * the userspace is 32bits, userspace can't align to the same
+> +         * bits-per-long, since sizeof(long) is different between kernel
+> +         * and user space.  This way, userspace will provide buffer which
+> +         * may be 4 bytes less than the kernel will use, resulting in
+> +         * userspace memory corruption (which is not detectable by valgrind
+> +         * too, in most cases).
+> +         * So for now, let's align to 64 instead of HOST_LONG_BITS here, in
+> +         * a hope that sizeof(long) won't become >8 any time soon.
+> +         */
+> +
+> +        pages = TARGET_PAGE_ALIGN(range->size) >> TARGET_PAGE_BITS;
+> +        range->bitmap.size = ROUND_UP(pages, 64) / 8;
+> +        range->bitmap.data = g_malloc0(range->bitmap.size);
+> +        if (range->bitmap.data == NULL) {
+> +            error_report("Error allocating bitmap of size 0x%llx",
+> +                         range->bitmap.size);
+> +            ret = -ENOMEM;
+> +            goto err_out;
+> +        }
+> +
+> +        ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, dbitmap);
+> +        if (ret) {
+> +            error_report("Failed to get dirty bitmap for iova: 0x%llx "
+> +                         "size: 0x%llx err: %d",
+> +                         range->iova, range->size, errno);
+> +            goto err_out;
+> +        }
+> +
+> +        if (memory_region_is_iommu(section->mr)) {
+> +            if (!vfio_get_xlat_addr(&iotlb, NULL, &start, NULL)) {
+> +                ret = -EINVAL;
+> +                goto err_out;
+> +            }
+> +        } else {
+> +            start = memory_region_get_ram_addr(section->mr) +
+> +                    section->offset_within_region + iova -
+> +                    TARGET_PAGE_ALIGN(section->offset_within_address_space);
+> +        }
+> +
+> +        cpu_physical_memory_set_dirty_lebitmap((uint64_t *)range->bitmap.data,
+> +                                               start, pages);
+> +
+> +        trace_vfio_get_dirty_bitmap(container->fd, range->iova, range->size,
+> +                                    range->bitmap.size, start);
+> +err_out:
+> +        g_free(range->bitmap.data);
+> +        g_free(dbitmap);
+> +
+> +        if (ret) {
+> +            return ret;
+> +        }
+> +
+> +        if ((iova + size) < iova) {
 > +            break;
 > +        }
 > +
-> +        /*
-> +         * As ZSTD manual is vague about what to do if it
-> +         * reads the buffer partially, we afraid of case
-> +         * when we stuck in the infinite loop, because
-> +         * output isn't full and input has read partially, so
-> +         * ZSTD_decompressStream returns > 0 waiting for
-> +         * another input chunk. So, we add a paranoid check
-> +         * that on each step the loop makes some progress.
-> +         */
-> +        if (last_in_pos >= input.pos &&
-> +            last_out_pos >= output.pos) {
-> +            ret = -EIO;
-> +            break;
-> +        }
-> +    }
-> +    /*
-> +     * Make sure that we have the frame fully flushed here
-> +     * if not, we somehow managed to get uncompressed cluster
-> +     * greater then the cluster size, possibly because of its
-> +     * damage.
-> +     */
-> +    if (ret > 0) {
-> +        ret = -EIO;
+> +        iova += size;
 > +    }
 > +
-> +    ZSTD_freeDCtx(dctx);
-> +    assert(ret == 0 || ret == -EIO);
-> +    return ret;
+> +    return 0;
 > +}
-
-
-[..]
-
-
--- 
-Best regards,
-Vladimir
+> +
+> +static void vfio_listerner_log_sync(MemoryListener *listener,
+> +        MemoryRegionSection *section)
+> +{
+> +    if (vfio_listener_skipped_section(section)) {
+> +        return;
+> +    }
+> +
+> +    if (vfio_devices_are_stopped_and_saving()) {
+> +        vfio_get_dirty_bitmap(listener, section);
+> +    }
+> +}
+> +
+>  static const MemoryListener vfio_memory_listener = {
+>      .region_add = vfio_listener_region_add,
+>      .region_del = vfio_listener_region_del,
+> +    .log_sync = vfio_listerner_log_sync,
+>  };
+>  
+>  static void vfio_listener_release(VFIOContainer *container)
+> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> index ac065b559f4e..bc8f35ee9356 100644
+> --- a/hw/vfio/trace-events
+> +++ b/hw/vfio/trace-events
+> @@ -160,3 +160,4 @@ vfio_save_complete_precopy(char *name) " (%s)"
+>  vfio_load_device_config_state(char *name) " (%s)"
+>  vfio_load_state(char *name, uint64_t data) " (%s) data 0x%"PRIx64
+>  vfio_load_state_device_data(char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
+> +vfio_get_dirty_bitmap(int fd, uint64_t iova, uint64_t size, uint64_t bitmap_size, uint64_t start) "container fd=%d, iova=0x%"PRIx64" size= 0x%"PRIx64" bitmap_size=0x%"PRIx64" start=0x%"PRIx64
+> -- 
+> 2.7.0
+> 
 
