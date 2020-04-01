@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27C0519B1B6
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 18:38:25 +0200 (CEST)
-Received: from localhost ([::1]:34682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17E6219B1D9
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 18:39:12 +0200 (CEST)
+Received: from localhost ([::1]:34694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJgNk-0000hM-85
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 12:38:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35175)
+	id 1jJgOV-0001yQ-4s
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 12:39:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35376)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jJgMJ-0007wf-0i
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:36:55 -0400
+ (envelope-from <philmd@redhat.com>) id 1jJgNB-0000es-4q
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:37:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jJgMI-0008MR-2h
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:36:54 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35355
+ (envelope-from <philmd@redhat.com>) id 1jJgN9-0000NC-Tv
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:37:49 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43966
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jJgMH-0008LA-Uz
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:36:54 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jJgN8-0000Mj-F4
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:37:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585759013;
+ s=mimecast20190719; t=1585759066;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Im73kI7kPbUsUdGTNn7/Q62xkcO7MaqecscvF5H6F3Y=;
- b=fqPpuiK89ia5Clafdin8S9pVCMULbQP/Sfh2r60YhwUoEJaDSukhr0yH9XfEd+n2vi6L9v
- Y96WER+l35ujVDhWwlioel2brw9p0jhAU6F8BOqr2F602+TxGs99fSLXwQwl73TsLIf0JR
- EHbUL+qNTXD/Yl3ikZxmrEcGts6iYOY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-Y5N5r5tOP46QIBRYO9pJhQ-1; Wed, 01 Apr 2020 12:36:49 -0400
-X-MC-Unique: Y5N5r5tOP46QIBRYO9pJhQ-1
-Received: by mail-wr1-f70.google.com with SMTP id w12so80950wrl.23
- for <qemu-devel@nongnu.org>; Wed, 01 Apr 2020 09:36:49 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9y5fU18jjRcB3Fd/Wvtqk6LcZv3Qmj6cJUUbwE7nMs4=;
+ b=GxLiahx+JhVu77NAQMJ0Y84SK8EPRBQoULX1nrYq2cTTSuYGaQhwTm00zmSCtlwqH0UaJQ
+ QIx3JQ37IIPpd3iiqcFkdgaSKPlG7JnuCrehv7WoO+yP6Dd04GiIsgEHJmrJF1POtqfwj8
+ hGhiMhAvD4+HMyFTdCQ7qUbIFDjCpDo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-153-Ro8ZIo5hOrWbGiShdoZByQ-1; Wed, 01 Apr 2020 12:37:43 -0400
+X-MC-Unique: Ro8ZIo5hOrWbGiShdoZByQ-1
+Received: by mail-wm1-f72.google.com with SMTP id l13so187332wme.7
+ for <qemu-devel@nongnu.org>; Wed, 01 Apr 2020 09:37:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to;
- bh=Im73kI7kPbUsUdGTNn7/Q62xkcO7MaqecscvF5H6F3Y=;
- b=mTjt+iKfwKGxsxjjGZpu4pRkDrxxOqpmyVoVfipiFg6DZxs6eATh5xOshswGPxT4UN
- IM/22JM/eZ8M2Sf8JauIq3krvbDZlIX2aqeUu5525RYt/wBVqdyKa0Q/4M+qW+DCymI0
- 2hQmArRaFUeXCpfgNY4R0xOK24juZUI44dwUO55IK1oYEwNGjR4J6OowCHQoS2QIhVkE
- 0pgAAN0fNMXb/obhsgGAz5vzGmS0dg5INwE0sjaC5BrZwPMW87QRnJd+as6yxYju+cTa
- BBVU9S3s8FMTDXMY9/JQyOqKK51FE5RiRNkbUAHSsD0+Bq74kwr6/aKiocx6LCx41h2v
- qaFw==
-X-Gm-Message-State: AGi0PuYXyOR8BJ7wD/l5mT4kN0FDw7jIqA4QuUKJ+X3ha8HUz9TVQng4
- 5VArPoK5t8quioa9/5GD90mT9BI9/3Y62bwOD5Q/xZUE8ogc6AKrbQBA68bZB/zzFSLywYsUGe3
- dh+2a3cIEPglNkKM=
-X-Received: by 2002:a7b:c144:: with SMTP id z4mr2716088wmi.128.1585759008150; 
- Wed, 01 Apr 2020 09:36:48 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKGMynmKcsozJ5m4y78UJpiUnXKYFHaZ+UigiS9h7RXJEEGo5i9cGOzPz/tdbjeNjsR42Z8QQ==
-X-Received: by 2002:a7b:c144:: with SMTP id z4mr2716071wmi.128.1585759007909; 
- Wed, 01 Apr 2020 09:36:47 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:1868:42dd:216c:2c09?
- ([2001:b07:6468:f312:1868:42dd:216c:2c09])
- by smtp.gmail.com with ESMTPSA id t12sm3717887wrm.0.2020.04.01.09.36.47
+ h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+ :mime-version:content-language:content-transfer-encoding;
+ bh=rMon53WdUivr+a0D6UX19RNKmQdbToiKDDpZ+Ttukrg=;
+ b=DzsTTfAQeSjDFi6agSgXenxshJQy2qMUZFvEvZhPYpYODyhOntZuVh2utjzr5ulHzw
+ Pd6HqSRiPpP+CiuYsWx6yrtKNEjjNkbST3/lWipjG+IBHA18++LoH7AqsS5hFVwuaE2k
+ Whu3xIXZMv1wdhGhtdyIa5mufVDM0Vx4v3UsuTnDJNMuLPydL4bDbWgYuIc0W3ekbvxV
+ TSJlgYxMZJ0xBDTwDISe/5QZiYzdbUo+cyjjeTyw146hHIsGFQt7tjKUAK1wYfn9awrN
+ YZIZC2pZWP9rBeAsKw7S+ubahcAdBrtarRZorTGiIpdy/n1rK5FEGCfV18PCfhd9Qh3v
+ 0cXw==
+X-Gm-Message-State: ANhLgQ1ErRP9fa+jrE0F9bmUInSvBX0xwmt/jpem47UNYJBYrMU10YVc
+ Wm6C9ifvjy229ZoQunmM1Ld8UOwZ9cJM8mMbCa5q2OLsjfbFlZ8z0X5UzRPSajw3xwLhMTed1hf
+ /H5nskz31h204U4I=
+X-Received: by 2002:adf:f042:: with SMTP id t2mr28137732wro.255.1585759061118; 
+ Wed, 01 Apr 2020 09:37:41 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtw3iN7HNAHdEHFTXqkju2qPY92KCQnDZxibJqqG/7hOJK3SuHJvHslD74ti1Q2K+9egW/M5Q==
+X-Received: by 2002:adf:f042:: with SMTP id t2mr28137698wro.255.1585759060737; 
+ Wed, 01 Apr 2020 09:37:40 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id w67sm3305121wmb.41.2020.04.01.09.37.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Apr 2020 09:36:47 -0700 (PDT)
-Subject: Re: Question about scsi device hotplug (e.g scsi-hd)
-To: Stefan Hajnoczi <stefanha@gmail.com>, Maxim Levitsky <mlevitsk@redhat.com>
-References: <7302c0b9f2327b9b61b4adb465f166e339e46ac1.camel@redhat.com>
- <20200401150944.GA4500@stefanha-x1.localdomain>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4bc42bf2-939f-f6c4-ea45-0d08eb42fc2b@redhat.com>
-Date: Wed, 1 Apr 2020 18:36:46 +0200
+ Wed, 01 Apr 2020 09:37:40 -0700 (PDT)
+To: Markus Armbruster <armbru@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ John Snow <jsnow@redhat.com>, Stefan Weil <sw@weilnetz.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Subject: QEMU participation to Google Season of Docs
+Message-ID: <de92e66d-c474-dd1b-ddab-194b2f92d1dd@redhat.com>
+Date: Wed, 1 Apr 2020 18:37:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200401150944.GA4500@stefanha-x1.localdomain>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="UcfgEs0VPjkQkY8BBKbA1OjyVC8mwByVM"
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -90,54 +92,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ qemu-discuss@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---UcfgEs0VPjkQkY8BBKbA1OjyVC8mwByVM
-Content-Type: multipart/mixed; boundary="YwSUJQaqmEjFH8dUoH8jlhMDWoqxctMd7"
+Hi,
 
---YwSUJQaqmEjFH8dUoH8jlhMDWoqxctMd7
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Google recently announced their 'Season of Docs' project:
+https://developers.google.com/season-of-docs
 
-On 01/04/20 17:09, Stefan Hajnoczi wrote:
->> What do you think about it?
->
-> Maybe aio_disable_external() is needed to postpone device emulation
-> until after realize has finished?
->=20
-> Virtqueue kick ioeventfds are marked "external" and won't be processed
-> while external events are disabled.  See also
-> virtio_queue_aio_set_host_notifier_handler() ->
-> aio_set_event_notifier().
+QEMU project seems to fit all the requirements.
 
-Yes, I think Stefan is right.
+Who is interested in [co-]mentoring?
 
-Paolo
+Relevant links:
+https://developers.google.com/season-of-docs/docs/admin-guide
+https://developers.google.com/season-of-docs/docs/timeline
 
+[Following is extracted from the previous links:]
 
---YwSUJQaqmEjFH8dUoH8jlhMDWoqxctMd7--
+Example projects:
 
---UcfgEs0VPjkQkY8BBKbA1OjyVC8mwByVM
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+* Build a documentation site on a platform to be decided
+   by the technical writer and open source mentor, and publish
+   an initial set of basic documents on the site. Examples of
+   platforms include:
 
------BEGIN PGP SIGNATURE-----
+   - A static site generator such as Hugo, Jekyll, Sphinx, ...
 
-iQEzBAEBCAAdFiEE8TM4V0tmI4mGbHaCv/vSX3jHroMFAl6Ewx4ACgkQv/vSX3jH
-roM8pAgAm1tShPusIagqcjgw8/a2r7G6QgCNvhkXoLskJyI1Q8R78axIvmZEMPcZ
-xwI1lP7RwC8MiPtIwWGy1E1IvSrEDphMmYzkIH6khKss/cSByZmG1JufbW2D3RfI
-+V6NOB6sJLnzKXXspg/ZMYKDhQnhYEDz4PDAVzT+CVmcBBGityprX7mInmPrRHxd
-kl73z+VB8coz7Gbu4KzdC22pXyLvSNDcCuu2uGrLL5pJrnYnBRWXgsVmRfIXBT+u
-WDyb3fFlznEFNDclW86vG69wEsYxLW4PVH2+VJaM+15ovWoIUHZbZf8s5yCL43lR
-IGZE7+vbrVcDTYEwthsqgtyICKO+nA==
-=8REo
------END PGP SIGNATURE-----
+* Refactor the open source project's existing documentation to
+   provide an improved user experience or a more accessible
+   information architecture.
 
---UcfgEs0VPjkQkY8BBKbA1OjyVC8mwByVM--
+* Write a conceptual overview of, or introduction to, a product
+   or feature. Often a team creates their technical documentation
+   from the bottom up, with the result that there's a lot of
+   detail but it's hard to understand the product as a whole. A
+   technical writer can fix this.
+
+* Create a tutorial for a high-profile use case.
+
+* Create a set of focused how-to guides for specific tasks.
+
+* Create a contributor=E2=80=99s guide that includes basic information
+   about getting started as a contributor to the open source
+   project, as well as any rules around licence agreements,
+   processes for pull requests and reviews, building the project,
+   and so on.
+
+Previous experience with similar programs, such as Google Summer
+of Code or others: If you or any of your mentors have taken part
+in Google Summer of Code or a similar program, mention this in
+your application. Describe your achievements in that program.
+Explain how this experience may influence the way you work in
+Season of Docs.
+
+The 2020 season of Season of Docs is limited to a maximum of
+50 technical writing projects in total.
+As a guideline, we expect to accept a maximum of 2 projects
+per organization, so that we don't end up with too many
+accepted projects. However, if the free selection process
+doesn't fill all the slots, the Google program administrators
+may allocate additional slots to some organizations.
 
 
