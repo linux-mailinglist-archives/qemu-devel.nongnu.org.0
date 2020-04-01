@@ -2,51 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F366419AF89
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 18:16:56 +0200 (CEST)
-Received: from localhost ([::1]:34390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBF6B19AF05
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 17:49:07 +0200 (CEST)
+Received: from localhost ([::1]:33780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJg2y-0001p9-2n
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 12:16:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59352)
+	id 1jJfc3-0002vl-0E
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 11:49:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52186)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dietmar@proxmox.com>) id 1jJg1C-0000M7-UP
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:15:07 -0400
+ (envelope-from <eblake@redhat.com>) id 1jJfYQ-0008Gd-8L
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:45:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dietmar@proxmox.com>) id 1jJg1B-0000pP-SJ
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 12:15:06 -0400
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:20985)
+ (envelope-from <eblake@redhat.com>) id 1jJfYM-00042H-FA
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:45:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24636
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dietmar@proxmox.com>)
- id 1jJg19-0000m0-Kd; Wed, 01 Apr 2020 12:15:03 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id A17E94594E;
- Wed,  1 Apr 2020 18:14:59 +0200 (CEST)
-Date: Wed, 1 Apr 2020 17:37:45 +0200 (CEST)
-From: Dietmar Maurer <dietmar@proxmox.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Message-ID: <997901084.0.1585755465486@webmail.proxmox.com>
-In-Reply-To: <20200401103748.GA4680@linux.fritz.box>
-References: <658260883.24.1585644382441@webmail.proxmox.com>
- <20200331125804.GE7030@linux.fritz.box>
- <303038276.59.1585665152860@webmail.proxmox.com>
- <787d7517-bf56-72c7-d197-2313a864e05f@virtuozzo.com>
- <713436887.61.1585668262838@webmail.proxmox.com>
- <20200331153719.GI7030@linux.fritz.box>
- <518198448.62.1585671498399@webmail.proxmox.com>
- <20200401103748.GA4680@linux.fritz.box>
-Subject: Re: bdrv_drained_begin deadlock with io-threads
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jJfYK-0003zi-74
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 11:45:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585755913;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dpK27Uk3DCWMsHFVPmHAapf2CLyJNYmb6GHTFo93/sk=;
+ b=eUa0jKYpuBtYAIuNNQZVIGMnOuvrkYQbYkFL/UdKEb2vFAOGMTvCWK1NMrdxGj3n2FSlOd
+ Kw8R86vhXqsj/2aZmvNh3w1Nv3jNsRXlRPHgclJSCYFbdWHjrPl2yYy/qsUVLMRCX4w1aQ
+ AbIcO55vvgPe2T86N8BOqmDMvc6RT88=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-347-SwbNc7e5PqiyDUFwc_RGeg-1; Wed, 01 Apr 2020 11:45:09 -0400
+X-MC-Unique: SwbNc7e5PqiyDUFwc_RGeg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FBFF107ACCD;
+ Wed,  1 Apr 2020 15:45:07 +0000 (UTC)
+Received: from [10.3.113.246] (ovpn-113-246.phx2.redhat.com [10.3.113.246])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F4A35D9CA;
+ Wed,  1 Apr 2020 15:45:02 +0000 (UTC)
+Subject: Re: [PATCH] Compress lines for immediate return
+To: Simran Singhal <singhalsimran0@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20200401121101.GA26994@simran-Inspiron-5558>
+ <d93af7ef-59d3-ceda-6847-1f5c92eaea2b@redhat.com>
+ <CALrZqyNpvKeH6E2KCLQoCt1H1qphktWuX8i-cwoMOH6_g0Qu4g@mail.gmail.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <33d40ebc-00d1-28d2-f278-2419ab636b45@redhat.com>
+Date: Wed, 1 Apr 2020 10:45:01 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.2-Rev23
-X-Originating-Client: open-xchange-appsuite
+In-Reply-To: <CALrZqyNpvKeH6E2KCLQoCt1H1qphktWuX8i-cwoMOH6_g0Qu4g@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.186.127.180
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,24 +78,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Dietmar Maurer <dietmar@proxmox.com>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, Sergio Lopez <slp@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, "jsnow@redhat.com" <jsnow@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Julia Suvorova <jusual@mail.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> > I really nobody else able to reproduce this (somebody already tried to reproduce)?
-> 
-> I can get hangs, but that's for job_completed(), not for starting the
-> job. Also, my hangs have a non-empty bs->tracked_requests, so it looks
-> like a different case to me.
+On 4/1/20 9:49 AM, Simran Singhal wrote:
+> Hello Philippe
+>=20
+> On Wed, Apr 1, 2020 at 7:26 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
+.com>
+> wrote:
+>=20
+>> Hi Simran,
+>>
+>> On 4/1/20 2:11 PM, Simran Singhal wrote:
+>>> Compress two lines into a single line if immediate return statement is
+>> found.
+>>
+>> How did you find these changes? Manual audit, some tool?
+>>
+>=20
+> I wrote coccinelle script to do these changes.
+>=20
 
-Please can you post the command line args of your VM? I use something like
+Then is it worth checking in your script to scripts/coccinelle/ to let=20
+it be something we can repeatedly rerun in the future to catch more=20
+instances?  Even if you don't go that far, mentioning the exact rune you=20
+used makes it easier to reproduce the patch, or even backport its=20
+effects to a different branch.
 
-./x86_64-softmmu/qemu-system-x86_64 -chardev 'socket,id=qmp,path=/var/run/qemu-server/101.qmp,server,nowait' -mon 'chardev=qmp,mode=control' -pidfile /var/run/qemu-server/101.pid  -m 1024 -object 'iothread,id=iothread-virtioscsi0' -device 'virtio-scsi-pci,id=virtioscsi0,iothread=iothread-virtioscsi0' -drive 'file=/backup/disk3/debian-buster.raw,if=none,id=drive-scsi0,format=raw,cache=none,aio=native,detect-zeroes=on' -device 'scsi-hd,bus=virtioscsi0.0,channel=0,scsi-id=0,lun=0,drive=drive-scsi0,id=scsi0' -machine "type=pc,accel=kvm"
-
-Do you also run "stress-ng -d 5" indied the VM?
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
