@@ -2,81 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B69DE19A6C1
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 10:01:31 +0200 (CEST)
-Received: from localhost ([::1]:48648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A77EF19A70B
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 10:19:27 +0200 (CEST)
+Received: from localhost ([::1]:48838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJYJW-0007Ls-Fc
-	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 04:01:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58148)
+	id 1jJYas-00077S-Ol
+	for lists+qemu-devel@lfdr.de; Wed, 01 Apr 2020 04:19:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35633)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jJYIL-0006Qc-EU
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 04:00:22 -0400
+ (envelope-from <bounces@canonical.com>) id 1jJYY1-0004DQ-F1
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 04:16:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jJYIJ-000872-Eg
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 04:00:17 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41809)
+ (envelope-from <bounces@canonical.com>) id 1jJYY0-0000bO-A7
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 04:16:29 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33812)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jJYIJ-00083H-6q
- for qemu-devel@nongnu.org; Wed, 01 Apr 2020 04:00:15 -0400
-Received: by mail-wr1-x443.google.com with SMTP id h9so29328348wrc.8
- for <qemu-devel@nongnu.org>; Wed, 01 Apr 2020 01:00:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=jvwlc/tvnqFow4+TMZIH3jKKO4FgC11h+zZtn07QCng=;
- b=RozonFfC2wQ1yEDXk5T4ZDxqtJ24hUFYjL+Nv8cXtT2ODj1lKpGYguPjkT9FJW7I8w
- 0nX/0/0ziq3iIgWpFq67SPoq+2YyrTQB3K9P6+Sn1RfganPxg457nJiZGeRxbB9zNqgC
- FUSpby2ksRh4xkXBPvw3YrzGXxGCukMLqfg6g1ISC1nyPjnk9yvhk6uNlQIDKV5Ci6az
- jZosZw1wvJ6WuwTNZuEfatGJj0rkwfvzEl9kTPsf9Fe2vq2y6UaR4kgi4sNRYIs3hWh5
- PMlfE0JAOBId1wyIA5GiC+DNaouJ8iDk7KBK/GoeKGO237ifwLVrF1yVGJ/hVS0XwE6k
- 8F5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=jvwlc/tvnqFow4+TMZIH3jKKO4FgC11h+zZtn07QCng=;
- b=THBOyUuSudt38WdlMdC8o3fu9nzV3K3mGmaFggoxogIMuVvvwqt1V8WrzCEaxsvdja
- Nkr4pakiErrLJtIxdSHAdnBZnjD//6vupvWsd6sRxkWK5ufMt9OU5wIdVWgdLDDvjA+S
- o7WtAHQsp/bnbKkVDAcTshx6xOt4iJIVGb4sZ8NP7A7/YdAOAfibX64HQ8I/KAND6Cth
- nhxa0vJF9ovAJJLdUJIVPEAY56bV65gQwFhKK4UuKJCYncEkbcA/DaWXrxHhlYZpoIY1
- IT6dkToW+JjkHe/uW8wMZQ1xs6R/4fVeMBS8o+fhTYV8RGsDH6xponakyNjcosfQi8DT
- zvIg==
-X-Gm-Message-State: ANhLgQ0yQRfYTBGC1fEHQam0+fpa1PadS8cmEdceqOHMnItdSmWzw+Gt
- i29Yc3sWzD6PVAl2MP35XOdIog==
-X-Google-Smtp-Source: ADFU+vvwxYHzl2OWoelMzkF9kVX2aL0GY6VfwCE9PPo4BenqredsjfolK9MiogDqxgidDVTvGGx2qQ==
-X-Received: by 2002:a5d:468c:: with SMTP id u12mr26232689wrq.394.1585728013811; 
- Wed, 01 Apr 2020 01:00:13 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s9sm7173311wmc.2.2020.04.01.01.00.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Apr 2020 01:00:12 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 551CF1FF7E;
- Wed,  1 Apr 2020 09:00:11 +0100 (BST)
-References: <CAOragkw8XgbEOiaE9n=wKzPAMkzdOcqA5VA5ihN80v-g7V8TRw@mail.gmail.com>
- <20200329111311.272958fe@luklap> <878sjhho0s.fsf@linaro.org>
- <CAOragkwcnAYYdGOjaHWc1F7-hRnB9CHbgoUqEcc40A7muV+06Q@mail.gmail.com>
- <87wo71fxc1.fsf@linaro.org>
- <CAOragkwi-s7PvDEMB-OKF1s-N3D7caASOjWKJsQFmCu2bTvCaA@mail.gmail.com>
-User-agent: mu4e 1.3.10; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Benjamin <benjamin@thatjames.org>
-Subject: Re: Qemu TCG Plugins - how to access guest registers?
-In-reply-to: <CAOragkwi-s7PvDEMB-OKF1s-N3D7caASOjWKJsQFmCu2bTvCaA@mail.gmail.com>
-Date: Wed, 01 Apr 2020 09:00:11 +0100
-Message-ID: <871rp7fxf8.fsf@linaro.org>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jJYY0-0000b8-3r
+ for qemu-devel@nongnu.org; Wed, 01 Apr 2020 04:16:28 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jJYXz-0005VP-EH
+ for <qemu-devel@nongnu.org>; Wed, 01 Apr 2020 08:16:27 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 69FEE2E80E7
+ for <qemu-devel@nongnu.org>; Wed,  1 Apr 2020 08:16:27 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+Date: Wed, 01 Apr 2020 08:01:29 -0000
+From: =?utf-8?q?=C5=BDilvinas_=C5=BDaltiena?= <1811533@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h djdatte h-sieger vkuznets zaltysz
+X-Launchpad-Bug-Reporter: =?utf-8?q?=C5=BDilvinas_=C5=BDaltiena_=28zaltysz?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?=C5=BDilvinas_=C5=BDaltiena_=28zaltysz?=
+ =?utf-8?q?=29?=
+References: <154731859474.20612.3794172498936114295.malonedeb@soybean.canonical.com>
+Message-Id: <158572808942.24705.4421836734889558887.malone@soybean.canonical.com>
+Subject: [Bug 1811533] Re: Unstable Win10 guest with qemu 3.1 + huge pages +
+ hv_stimer
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a296f04231dee355be5db73cc878b9e21689a253";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 630fc161935b31780f7446bb9ba0e66610f673ed
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,71 +68,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>, "Emilio G . Cota" <cota@braap.org>,
- qemu-devel@nongnu.org, qemu-discuss@nongnu.org
+Reply-To: Bug 1811533 <1811533@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I have been using this patch
+https://patchwork.kernel.org/patch/11346881/ on qemu 4.2 as a fix since
+January without any ill effects. It is already included into qemu 5.0
+rc0 and rc1, so it seems qemu 5.0 will be free from this bug.
 
-Benjamin <benjamin@thatjames.org> writes:
+-- =
 
-<snip>
->>
->> You don't need the registers at that point because at run time QEMU will
->> have already resolved the address and will pass it via the
->> qemu_plugin_register_vcpu_mem_cb. The hotpages and mem plugin examples
->> demonstrate the use of the API.
->>
->
-> The way you explained this, although it might seem simple, really helped =
-me
-> understand better the level at which the TCG plugins operate.
-> I went and changed my code to be more based on the code in hotpages.c, and
-> it is much simpler now.
-> I'm going to go look at that Dinero Cache Simulator you linked to see if I
-> can get any ideas on how to improve my cache code.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1811533
 
-Glad it was of help ;-)
->> > All of this being said, if you think my project is too complicated, to
->> > implement a cache emulator with TCG plugins, then I could always try j=
-ust
->> > hacking together some custom helper functions.
->>
->> As I said above I don't think you need register values to do cache
->> emulation as you have the addresses. You will need to decode some of the
->> cache management instructions though. Fortunately you can do that at
->> translation time and only instrument the ones you need. See howvec for
->> examples.
->>
->
-> I'm not familiar with cache management instructions.  What exactly do you
-> mean by that?  It sounds like something that would be dependent on the
-> guest architecture.
-> Or maybe it's things like pre-fetching hints?  Then the plugin would need
-> to take into account cache latencies, something my code doesn't deal with
-> right now.
+Title:
+  Unstable Win10 guest with qemu 3.1 + huge pages + hv_stimer
 
-There are architecture dependent instructions that do things like flush
-d and icaches. As QEMU doesn't expose those semantics to the plugin
-(behaviour is very specific to each guest architecture) then the plugin
-would have to deal with it itself. You would do this by checking each
-translated instruction and inserting a call back in front of those that
-do cache operations to make whatever internal changes you need to do
-inside of the plugin.
+Status in QEMU:
+  Confirmed
 
-> I would be glad to share my implementation once it's in a better working
-> state.
-> Where can I find guidelines on the coding standard expected of QEMU
-> software?
-> Thanks
+Bug description:
+  Host:
+  Gentoo linux x86_64, kernel 4.20.1
+  Qemu 3.1.0 =
 
-CODING_STYLE.rst in the top level of the source tree is the canonical
-document. Also "make check-tcg" will include a plugin test for each
-plugin in the tree for each test (assuming you have compilers available
-for each guest architecture - see docs/devel/testing.rst).
+  CPU: Intel i7 6850K
+  Chipset: X99
 
-Good luck!
+  Guest:
+  Windows 10 Pro 64bit (1809)
+  Machine type: pc-q35_3.1
+  Hyper-V enlightenments: hv_stimer,hv_reenlightenment,hv_frequencies,hv_va=
+pic,hv_reset,hv_synic,hv_runtime,hv_vpindex,hv_time,hv_relaxed,hv_spinlocks=
+=3D0x1fff
+  Memory: 16GB backed by 2MB huge pages
 
---=20
-Alex Benn=C3=A9e
+  Issue:
+  Once guest is started, log gets flooded with:
+
+  qemu-system-x86_64: vhost_region_add_section: Overlapping but not
+  coherent sections at 103000
+
+  or
+
+  qemu-system-x86_64: vhost_region_add_section:Section rounded to 0
+  prior to previous 1f000
+
+  (line endings change)
+
+  and as time goes guest loses network access (virtio-net-pci) and
+  general performance diminishes to extent of freezing applications.
+
+  Observations:
+  1) problem disappears when hv_stimer is removed
+  2) problem disappears when memory backing with huge pages is disabled
+  3) problem disappears when machine type is downgraded to pc-q35_3.0
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1811533/+subscriptions
 
