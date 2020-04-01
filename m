@@ -2,63 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C62519A3BF
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 05:05:36 +0200 (CEST)
-Received: from localhost ([::1]:46336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31BB819A3EC
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 05:18:59 +0200 (CEST)
+Received: from localhost ([::1]:46458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJTh9-00008y-0s
-	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 23:05:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42607)
+	id 1jJTu5-0004jI-Us
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 23:18:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36471)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <carenas@gmail.com>) id 1jJTgD-0008BT-26
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 23:04:38 -0400
+ (envelope-from <jingqi.liu@intel.com>) id 1jJTsz-00040K-Q8
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 23:17:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <carenas@gmail.com>) id 1jJTg7-0000pZ-Bn
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 23:04:36 -0400
-Received: from mail-vs1-xe30.google.com ([2607:f8b0:4864:20::e30]:41270)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <carenas@gmail.com>) id 1jJTg6-0000fN-Iq
- for qemu-devel@nongnu.org; Tue, 31 Mar 2020 23:04:30 -0400
-Received: by mail-vs1-xe30.google.com with SMTP id a63so14933964vsa.8
- for <qemu-devel@nongnu.org>; Tue, 31 Mar 2020 20:04:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=juhyjxDRcYlvQErJ1mGGdiwrgHaBacs6wM7C3Ifo/Ck=;
- b=K9B2cZ8j2hAQc9maijkxGu99LNzt4vXD3dYcGyR85gGRUx3nEG/MvBTbZVtLQpV3S5
- 0RP1bOG8R27Sip7aiWsB+WENmm8njyDr5B5JADCqiabaVoDCoRfcBxXX9ycE/y0JlJCb
- rRfjB8LKkzftZDQEos9aGPr8rODZEewtpdKR8YWbH1TwX9NYruHEkq16EXHwHtCuYEve
- wkBFzGPogGKo+3vOxmrv7GH2d17nmsyLD4JJZn+kIbODZMeRtB+zydN974OIdrJ7roMS
- xJJgfS/wzJWFojEHVkpyTGH0qdxGBzBY+xCjEhLO6Mz2VWLkt+M4zZe3kWvfXSMY1Num
- 40Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=juhyjxDRcYlvQErJ1mGGdiwrgHaBacs6wM7C3Ifo/Ck=;
- b=XQbFfBcu1EIv7zelegFQzKg2swo8i7OGxcovIRWoBgYM/V45hD4+uFFqG+mMaGtb+R
- tbjc9bKAW1ZFjto/4Bf2dNfttTn9h6d8H2kkSXoNNhbuVc3hknoA1nyRZUWdvaFhNF1J
- oKgFJZ1y+ZVo5+4OVmN/+7BG5//fwkqhFTsidkUwf1UwFDiJPvZMDUANX32dw6lHfvtJ
- yui2y8ktT/I/sGGPghWm9LrLC4tgfgmW5wta4FMkWIA9en8Rkl72BCw3i7a7TplZ7BLY
- Xc7qXRabz+BmDAIm6aCOX+X6fH5cLwOGGDOKSY+DOz4kdKDtUCBosUevfywS1kg1z+Iq
- ykoA==
-X-Gm-Message-State: AGi0PuZlOVa7yXusHSkO5jCs7rVl6MtDbBay8nLzP5NTFtva3DJS3Iz1
- GNrtUqN+7GvrLKiN+AQ2bF+2+3g787GCKnx8txY=
-X-Google-Smtp-Source: APiQypI7wcH9vVmd9wUbfH72DwZJrR5lELUUCuigcxQ9jGHzQe0lHW1+bdFRooJdpW/yOFdpWtz75Wx7jzjdq53igqw=
-X-Received: by 2002:a67:f404:: with SMTP id p4mr2347711vsn.87.1585710249884;
- Tue, 31 Mar 2020 20:04:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200331103758.370644-1-berrange@redhat.com>
-In-Reply-To: <20200331103758.370644-1-berrange@redhat.com>
-From: Carlo Arenas <carenas@gmail.com>
-Date: Tue, 31 Mar 2020 20:03:58 -0700
-Message-ID: <CAPUEspgRLAyM21h3XaGurncJq9oDCGPAQ8S6zJTwdA31a3fFrg@mail.gmail.com>
-Subject: Re: [PATCH] configure: warn if not using a separate build directory
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000029425805a231f0dc"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::e30
+ (envelope-from <jingqi.liu@intel.com>) id 1jJTsy-0000Jf-2s
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 23:17:49 -0400
+Received: from mga06.intel.com ([134.134.136.31]:50506)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jingqi.liu@intel.com>)
+ id 1jJTsx-0008Ne-Qe
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 23:17:48 -0400
+IronPort-SDR: i8VvI+NbUy4CaUMq6wZU5Glanqnk1IMbKFOpGK4fC7/HAGfdDrsCLY8oivid7lf+PwoZB7m/Ce
+ i4fFXXfikyKg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2020 20:17:42 -0700
+IronPort-SDR: +oaTlhXYm2c1Ekhk104vd7EENYZ9C5YNd3ixfDIjjDl07qKb88kMr8ti4bosBrGJf39WwCUZYp
+ AnfS/+gYXh6Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,330,1580803200"; d="scan'208";a="395798143"
+Received: from dazhang1-mobile.sh.intel.com ([10.239.48.70])
+ by orsmga004.jf.intel.com with ESMTP; 31 Mar 2020 20:17:39 -0700
+From: Jingqi Liu <jingqi.liu@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+	Richard Henderson <rth@twiddle.net>
+Subject: [PATCH] exec: fetch the alignment of Linux devdax pmem character
+ device nodes
+Date: Wed,  1 Apr 2020 11:13:14 +0800
+Message-Id: <20200401031314.11592-1-jingqi.liu@intel.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 134.134.136.31
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,44 +55,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Liviu Ionescu <ilg@livius.net>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: Jingqi Liu <jingqi.liu@intel.com>, Dan Williams <dan.j.williams@intel.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000029425805a231f0dc
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+If the backend file is devdax pmem character device, the alignment
+specified by the option 'align=NUM' in the '-object memory-backend-file'
+needs to match the alignment requirement of the devdax pmem character device.
 
-On Tue, Mar 31, 2020 at 3:38 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m>
-wrote:
+This patch fetches the devdax pmem file 'align', so that we can compare
+it with the NUM of 'align=NUM'.
+The NUM needs to be larger than or equal to the devdax pmem file 'align'.
 
-> Running configure directly from the source directory is a build
-> configuration that will go away in future. It is also not currently
->
+It also fixes the problem that mmap() returns failure in qemu_ram_mmap()
+when the NUM of 'align=NUM' is less than the devdax pmem file 'align'.
 
-s/in future/in the future/g
+Cc: Dan Williams <dan.j.williams@intel.com>
+Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
+---
+ exec.c | 46 +++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 45 insertions(+), 1 deletion(-)
 
-Carlo
+diff --git a/exec.c b/exec.c
+index de9d949902..8221abffec 100644
+--- a/exec.c
++++ b/exec.c
+@@ -1736,6 +1736,42 @@ static int64_t get_file_size(int fd)
+     return size;
+ }
+ 
++static int64_t get_file_align(int fd)
++{
++    int64_t align = -1;
++#if defined(__linux__)
++    struct stat st;
++
++    if (fstat(fd, &st) < 0) {
++        return -errno;
++    }
++
++    /* Special handling for devdax character devices */
++    if (S_ISCHR(st.st_mode)) {
++        g_autofree char *subsystem_path = NULL;
++        g_autofree char *subsystem = NULL;
++
++        subsystem_path = g_strdup_printf("/sys/dev/char/%d:%d/subsystem",
++                                         major(st.st_rdev), minor(st.st_rdev));
++        subsystem = g_file_read_link(subsystem_path, NULL);
++
++        if (subsystem && g_str_has_suffix(subsystem, "/dax")) {
++            g_autofree char *align_path = NULL;
++            g_autofree char *align_str = NULL;
++
++            align_path = g_strdup_printf("/sys/dev/char/%d:%d/device/align",
++                                    major(st.st_rdev), minor(st.st_rdev));
++
++            if (g_file_get_contents(align_path, &align_str, NULL, NULL)) {
++                return g_ascii_strtoll(align_str, NULL, 0);
++            }
++        }
++    }
++#endif /* defined(__linux__) */
++
++    return align;
++}
++
+ static int file_ram_open(const char *path,
+                          const char *region_name,
+                          bool *created,
+@@ -2275,7 +2311,7 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+ {
+     RAMBlock *new_block;
+     Error *local_err = NULL;
+-    int64_t file_size;
++    int64_t file_size, file_align;
+ 
+     /* Just support these ram flags by now. */
+     assert((ram_flags & ~(RAM_SHARED | RAM_PMEM)) == 0);
+@@ -2311,6 +2347,14 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+         return NULL;
+     }
+ 
++    file_align = get_file_align(fd);
++    if (file_align > 0 && mr && file_align > mr->align) {
++        error_setg(errp, "backing store align 0x%" PRIx64
++                   " is larger than 'align' option 0x" RAM_ADDR_FMT,
++                   file_align, mr->align);
++        return NULL;
++    }
++
+     new_block = g_malloc0(sizeof(*new_block));
+     new_block->mr = mr;
+     new_block->used_length = size;
+-- 
+2.17.1
 
---00000000000029425805a231f0dc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, Mar 31, 2020 at 3:38 AM Daniel P.=
- Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat.c=
-om</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">Running configure directly from the source dir=
-ectory is a build<br>
-configuration that will go away in future. It is also not currently<br></bl=
-ockquote><div><br></div><div>s/in future/in the future/g</div><div>=C2=A0</=
-div><div>Carlo</div></div></div>
-
---00000000000029425805a231f0dc--
 
