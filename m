@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5373019C2E9
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 15:45:38 +0200 (CEST)
-Received: from localhost ([::1]:40244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF3AA19C2FD
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 15:48:16 +0200 (CEST)
+Received: from localhost ([::1]:40282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK0A5-0005UP-EK
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 09:45:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50463)
+	id 1jK0Cd-00086a-R8
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 09:48:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50682)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jK09H-00054T-Kh
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 09:44:48 -0400
+ (envelope-from <peterx@redhat.com>) id 1jK0Ai-0006OH-7T
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 09:46:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1jK09G-0007YZ-AP
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 09:44:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59768
+ (envelope-from <peterx@redhat.com>) id 1jK0Ad-0001kf-Ce
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 09:46:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50492
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1jK09G-0007Xa-5f
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 09:44:46 -0400
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1jK0Ad-0001jC-8t
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 09:46:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585835085;
+ s=mimecast20190719; t=1585835170;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cLXVzBqh9zhhwh/CVXGrcgRs/dfHXfqYNtY+tAoSi+Y=;
- b=W5O4Oi/1Q8yhSCscqpBHHn1oTM2zGnD/6sNGEhNoTp1kDLkyzblO0IW17jHQfsluog1hia
- B++fUpT4YsrxNg/ZRHa2CZ0M8Sh59l8AgkUNpC3zV6a1bUp1PH1kuHaYepo8JQ0iD9jBfd
- lBy3jbsD3wuqaqHro3se/gj68pwVw34=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-X0FmSxGBO82IxbgrbgCM8g-1; Thu, 02 Apr 2020 09:44:44 -0400
-X-MC-Unique: X0FmSxGBO82IxbgrbgCM8g-1
-Received: by mail-wr1-f70.google.com with SMTP id b2so1496424wrq.8
- for <qemu-devel@nongnu.org>; Thu, 02 Apr 2020 06:44:44 -0700 (PDT)
+ bh=ehgim0Fowz99h2ukYDS2n0Cup+my0nsHsQEH1be0qlw=;
+ b=dL0dRF6vElZeXXgGYj3nECukzD/LHDexBRvBp6nK7VTMQDnFlyqI9n0fJVYKraMEkW7NYH
+ IcL5wFI4sbf3fPgD6mOnfCIqvjQ9tOr6/40s2nvEsIRl9jPhE9C7T3oysF14sgAcuhNsa6
+ Y+c6hMK2EK3+hvU6qt5sm2pdiQ8bDUk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-463-UCLTZHU9MTOctu2g7njRfA-1; Thu, 02 Apr 2020 09:46:07 -0400
+X-MC-Unique: UCLTZHU9MTOctu2g7njRfA-1
+Received: by mail-wr1-f69.google.com with SMTP id f15so1514420wrt.4
+ for <qemu-devel@nongnu.org>; Thu, 02 Apr 2020 06:46:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=gvQ2R8y99CBBi8RZRazk2nffx/pgU8Suz+ahqIPXbdM=;
- b=NJx2Q9b7/PTYGO0GYFW6Ju+XEhRMkx3tQLWTu2Oq6aOY37aXwWXjX72m8e+SUdzLH2
- SWTSDlBanSnVnu4GzV2tman+PV6npsh0g/wJpeTruVZ7hzErI1z8oc/wwvXdkF65xMFf
- oBAq3BA35U5m1HJ7/GT9mdthrisR/YtWQi6AEyF6/KdFoPiXrCMjjyz5pm1yqyFy3YLr
- U5NSbtNKAGlbEzKNUotxJBzp0JuwjVPYJYjG3/Qp3lw2+XoVIMD/51fG3X0O+gIncNW1
- tQrau6llyjiUSXJva6ToEGAG1ciKSjUjLf1JXBA3IN7h25AUJ8+/521bGOIt+kbyfiDI
- rlxQ==
-X-Gm-Message-State: AGi0PuZnOKY3HHZIwK8nkFpOJQN14+iqUd9eT8/BWEEca2o/OjeIkDLB
- A+bBk67FKCEGHy7zpoVb6HB9PJqLMnJeUNhcTsHqkAcqohcx6JmwAg9YAZTQHrQf3P5Ikl0yeMf
- b//qRBuE8xejOJJI=
-X-Received: by 2002:a7b:c148:: with SMTP id z8mr3475053wmi.31.1585835082983;
- Thu, 02 Apr 2020 06:44:42 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLx20559FBmzYn1zSgVJF/1OJmxG/m/FZix8ZKxUksypGr3hxHYdG87RbmNwxVxHM8SPltmSw==
-X-Received: by 2002:a7b:c148:: with SMTP id z8mr3475005wmi.31.1585835082622;
- Thu, 02 Apr 2020 06:44:42 -0700 (PDT)
+ bh=9A3CnEsiXSDPqkUmIOaIkmymme/2Og0VecqbFgiZyxU=;
+ b=HahJbMt9XupWdHpZFzsRP5QdvoS1dSyfHI9ghVcKYnZ8L3L1DA9uTReHgYQfzIdwzY
+ 79P279jmH7hcC3BIRWrwM9eJhLTvnl8dHfSk8o52oTv/hi9idSFpVhPHchivZ3/DFxvJ
+ V2j+1/t51+hvcLaq9vZJ090RobcfphaJo6CJOVtF7R7kCNGY8R/OoP+hQlkdAQEaDJfz
+ W3N6jtHg8MjarT1GZFeXPn/oSt2qs7D1JFKIHM82y4obrMZIY5ddVH3CeLmLqIxpHe7o
+ 1HIeL5d61bKSbczVYG3Bk1CkfyZDFbLLThE5qq3/iBRgNfgU43y+691r/HPj5CgsyWPx
+ BjVQ==
+X-Gm-Message-State: AGi0PubnolX69PKsGSmRTx9lY1jznPUvtpLDFJAYAcb6dGKA6xkdCYHs
+ VFtmD+DGBPxb0p6bZoTC/tUz4FOphLbGZD3dZ39d1KXNrbGe1wslanIJOuQ4zwfYN83beAB71K7
+ B/LXpqtDC2EiuvI0=
+X-Received: by 2002:adf:ea83:: with SMTP id s3mr3918077wrm.25.1585835166200;
+ Thu, 02 Apr 2020 06:46:06 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJZChRwPcgHJam48Q8buWnfLkcBSM2myx23vHYz3rJj5PGDm/NVXjc+sk4Us05VYvFGWrOXZw==
+X-Received: by 2002:adf:ea83:: with SMTP id s3mr3918048wrm.25.1585835165988;
+ Thu, 02 Apr 2020 06:46:05 -0700 (PDT)
 Received: from xz-x1 ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id z129sm7277739wmb.7.2020.04.02.06.44.38
+ by smtp.gmail.com with ESMTPSA id a82sm9404955wmh.0.2020.04.02.06.46.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Apr 2020 06:44:41 -0700 (PDT)
-Date: Thu, 2 Apr 2020 09:44:36 -0400
+ Thu, 02 Apr 2020 06:46:05 -0700 (PDT)
+Date: Thu, 2 Apr 2020 09:46:01 -0400
 From: Peter Xu <peterx@redhat.com>
-To: "Liu, Yi L" <yi.l.liu@intel.com>
-Subject: Re: [PATCH v2 13/22] intel_iommu: add PASID cache management
- infrastructure
-Message-ID: <20200402134436.GI7174@xz-x1>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH v2 00/22] intel_iommu: expose Shared Virtual Addressing
+ to VMs
+Message-ID: <20200402134601.GJ7174@xz-x1>
 References: <1585542301-84087-1-git-send-email-yi.l.liu@intel.com>
- <1585542301-84087-14-git-send-email-yi.l.liu@intel.com>
- <20200402000225.GC7174@xz-x1>
- <A2975661238FB949B60364EF0F2C25743A21EAAD@SHSMSX104.ccr.corp.intel.com>
+ <984e6f47-2717-44fb-7ff2-95ca61d1858f@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <A2975661238FB949B60364EF0F2C25743A21EAAD@SHSMSX104.ccr.corp.intel.com>
+In-Reply-To: <984e6f47-2717-44fb-7ff2-95ca61d1858f@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,144 +89,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Tian,
- Kevin" <kevin.tian@intel.com>, Jacob Pan <jacob.jun.pan@linux.intel.com>,
- Yi Sun <yi.y.sun@linux.intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "mst@redhat.com" <mst@redhat.com>,
- "Tian, Jun J" <jun.j.tian@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "Wu, Hao" <hao.wu@intel.com>,
- "Sun, Yi Y" <yi.y.sun@intel.com>, Richard Henderson <rth@twiddle.net>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+Cc: jean-philippe@linaro.org, kevin.tian@intel.com,
+ Liu Yi L <yi.l.liu@intel.com>, kvm@vger.kernel.org, mst@redhat.com,
+ jun.j.tian@intel.com, qemu-devel@nongnu.org, eric.auger@redhat.com,
+ alex.williamson@redhat.com, pbonzini@redhat.com, david@gibson.dropbear.id.au,
+ yi.y.sun@intel.com, hao.wu@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 02, 2020 at 06:46:11AM +0000, Liu, Yi L wrote:
-
-[...]
-
-> > > +/**
-> > > + * This function replay the guest pasid bindings to hots by
-> > > + * walking the guest PASID table. This ensures host will have
-> > > + * latest guest pasid bindings. Caller should hold iommu_lock.
-> > > + */
-> > > +static void vtd_replay_guest_pasid_bindings(IntelIOMMUState *s,
-> > > +                                            VTDPASIDCacheInfo
-> > > +*pc_info) {
-> > > +    VTDHostIOMMUContext *vtd_dev_icx;
-> > > +    int start =3D 0, end =3D VTD_HPASID_MAX;
-> > > +    vtd_pasid_table_walk_info walk_info =3D {.flags =3D 0};
-> >=20
-> > So vtd_pasid_table_walk_info is still used.  I thought we had reached a=
- consensus
-> > that this can be dropped?
+On Thu, Apr 02, 2020 at 04:33:02PM +0800, Jason Wang wrote:
+> > The complete QEMU set can be found in below link:
+> > https://github.com/luxis1999/qemu.git: sva_vtd_v10_v2
 >=20
-> yeah, I did have considered your suggestion and plan to do it. But when
-> I started coding, it looks a little bit weird to me:
-> For one, there is an input VTDPASIDCacheInfo in this function. It may be
-> nature to think about passing the parameter to further calling
-> (vtd_replay_pasid_bind_for_dev()). But, we can't do that. The vtd_bus/dev=
-fn
-> fields should be filled when looping the assigned devices, not the one
-> passed by vtd_replay_guest_pasid_bindings() caller.
-
-Hacky way is we can directly modify VTDPASIDCacheInfo* with bus/devfn
-for the loop.  Otherwise we can duplicate the object when looping, so
-that we can avoid introducing a new struct which seems to contain
-mostly the same information.
-
-> For two, reusing the VTDPASIDCacheInfo for passing walk info may require
-> the final user do the same thing as what the vtd_replay_guest_pasid_bindi=
-ngs()
-> has done here.
-
-I don't see it happen, could you explain?
-
 >=20
-> So kept the vtd_pasid_table_walk_info.
-
-[...]
-
-> > > +/**
-> > > + * This function syncs the pasid bindings between guest and host.
-> > > + * It includes updating the pasid cache in vIOMMU and updating the
-> > > + * pasid bindings per guest's latest pasid entry presence.
-> > > + */
-> > > +static void vtd_pasid_cache_sync(IntelIOMMUState *s,
-> > > +                                 VTDPASIDCacheInfo *pc_info) {
-> > > +    /*
-> > > +     * Regards to a pasid cache invalidation, e.g. a PSI.
-> > > +     * it could be either cases of below:
-> > > +     * a) a present pasid entry moved to non-present
-> > > +     * b) a present pasid entry to be a present entry
-> > > +     * c) a non-present pasid entry moved to present
-> > > +     *
-> > > +     * Different invalidation granularity may affect different devic=
-e
-> > > +     * scope and pasid scope. But for each invalidation granularity,
-> > > +     * it needs to do two steps to sync host and guest pasid binding=
-.
-> > > +     *
-> > > +     * Here is the handling of a PSI:
-> > > +     * 1) loop all the existing vtd_pasid_as instances to update the=
-m
-> > > +     *    according to the latest guest pasid entry in pasid table.
-> > > +     *    this will make sure affected existing vtd_pasid_as instanc=
-es
-> > > +     *    cached the latest pasid entries. Also, during the loop, th=
-e
-> > > +     *    host should be notified if needed. e.g. pasid unbind or pa=
-sid
-> > > +     *    update. Should be able to cover case a) and case b).
-> > > +     *
-> > > +     * 2) loop all devices to cover case c)
-> > > +     *    - For devices which have HostIOMMUContext instances,
-> > > +     *      we loop them and check if guest pasid entry exists. If y=
-es,
-> > > +     *      it is case c), we update the pasid cache and also notify
-> > > +     *      host.
-> > > +     *    - For devices which have no HostIOMMUContext, it is not
-> > > +     *      necessary to create pasid cache at this phase since it
-> > > +     *      could be created when vIOMMU does DMA address translatio=
-n.
-> > > +     *      This is not yet implemented since there is no emulated
-> > > +     *      pasid-capable devices today. If we have such devices in
-> > > +     *      future, the pasid cache shall be created there.
-> > > +     * Other granularity follow the same steps, just with different =
-scope
-> > > +     *
-> > > +     */
-> > > +
-> > > +    vtd_iommu_lock(s);
-> > > +    /* Step 1: loop all the exisitng vtd_pasid_as instances */
-> > > +    g_hash_table_foreach_remove(s->vtd_pasid_as,
-> > > +                                vtd_flush_pasid, pc_info);
-> >=20
-> > OK the series is evolving along with our discussions, and /me too on un=
-derstanding
-> > your series... Now I'm not very sure whether this operation is still us=
-eful...
-> >=20
-> > The major point is you'll need to do pasid table walk for all the regis=
-tered
-> > devices
-> > below.  So IIUC vtd_replay_guest_pasid_bindings() will be able to also =
-detect
-> > addition, removal or modification of pasid address spaces.  Am I right?
+> Hi Yi:
 >=20
-> It's true if there is only assigned pasid-capable devices. If there is
-> emualted pasid-capable device, it would be a problem as emualted devices
-> won't register HostIOMMUContext. Somehow, the pasid cahce invalidation
-> for emualted device would be missed. So I chose to make the step 1 cover
-> the "real" cache invalidation(a.k.a. removal), while step 2 to cover
-> addition and modification.
+> I could not find the branch there.
 
-OK.  Btw, I think modification should still belongs to step 1 then (I
-think you're doing that, though).
+Jason,
 
-Thanks,
+He typed wrong... It's actually (I found it myself):
+
+https://github.com/luxis1999/qemu/tree/sva_vtd_v10_qemu_v2
 
 --=20
 Peter Xu
