@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD61719C985
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 21:12:21 +0200 (CEST)
-Received: from localhost ([::1]:46376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A22819C99E
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 21:13:29 +0200 (CEST)
+Received: from localhost ([::1]:46400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK5GG-0002kR-UE
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 15:12:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33826)
+	id 1jK5HM-0004il-Co
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 15:13:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33864)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jK5Az-0002R9-22
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:53 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jK5B1-0002UU-9m
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jK5Ay-0000Kr-22
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57074
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1jK5Az-0000Lq-7X
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:55 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60319
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jK5Ax-0000Kd-UY
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:52 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jK5Ay-0000Kj-3T
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1585854411;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1G5bVnPSpqOFZhuC7mRGX6s1v8ile8pX/juVa9Lw3ZA=;
- b=RjUYJQeIJXCZkSQ0PY4WNLrkrZ4IMQghupDaAg4FSKdOuZi5MYOq2V6Fion2Ib/4xceqP5
- aq47wUJzNLdglaiQ34BXK6HhXAyC3O01xoQ1u4A72Hj/ve4dpro3zf3u4xyl+0ZbasVN5G
- UhwlM3DcJadsb9lqfguKl73VoVmeC5Q=
+ bh=kQbtW20VeBRzAfEmdwTdAX4X14E+HlJSxEi4k04fnyQ=;
+ b=BU5sGPkJ2TDK40sQdcb8IbQvWuVcp0cHzyZlE+vyNGcB1tZ46qmeSjgxGifXKmosQxgZyX
+ hb/h4yD+mcKOAAvABQR9jUrnrHrnBO9y9ifCbxrLKRXWTyCfIum1MRKSGBECDZXSOdkj4f
+ GR5uHLvOndnf6rreUDYGBShDw+R10Bw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361-sg6b8JHCOmimJr0BexzOjg-1; Thu, 02 Apr 2020 15:06:49 -0400
-X-MC-Unique: sg6b8JHCOmimJr0BexzOjg-1
+ us-mta-405-g7J99xCQMyCpt8a7Csgreg-1; Thu, 02 Apr 2020 15:06:49 -0400
+X-MC-Unique: g7J99xCQMyCpt8a7Csgreg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33838107ACC9;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3A3A107ACC4;
  Thu,  2 Apr 2020 19:06:48 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C6030DA0F2;
- Thu,  2 Apr 2020 19:06:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 58F9E50BEE;
+ Thu,  2 Apr 2020 19:06:48 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/15] util/bufferiszero: assign length_to_accel value for each
- accelerator case
-Date: Thu,  2 Apr 2020 15:06:31 -0400
-Message-Id: <20200402190640.1693-7-pbonzini@redhat.com>
+Subject: [PULL 07/15] util/bufferiszero: improve avx2 accelerator
+Date: Thu,  2 Apr 2020 15:06:32 -0400
+Message-Id: <20200402190640.1693-8-pbonzini@redhat.com>
 In-Reply-To: <20200402190640.1693-1-pbonzini@redhat.com>
 References: <20200402190640.1693-1-pbonzini@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
@@ -60,7 +59,7 @@ Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,34 +77,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Robert Hoo <robert.hu@linux.intel.com>
 
-Because in unit test, init_accel() will be called several times, each with
-different accelerator type.
+By increasing avx2 length_to_accel to 128, we can simplify its logic and re=
+duce a
+branch.
 
+The authorship of this patch actually belongs to Richard Henderson
+<richard.henderson@linaro.org>, I just fixed a boundary case on his
+original patch.
+
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
-Message-Id: <1585119021-46593-1-git-send-email-robert.hu@linux.intel.com>
+Message-Id: <1585119021-46593-2-git-send-email-robert.hu@linux.intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/bufferiszero.c | 3 +++
- 1 file changed, 3 insertions(+)
+ util/bufferiszero.c | 26 +++++++++-----------------
+ 1 file changed, 9 insertions(+), 17 deletions(-)
 
 diff --git a/util/bufferiszero.c b/util/bufferiszero.c
-index 663903553a..b8012532e4 100644
+index b8012532e4..695bb4ce28 100644
 --- a/util/bufferiszero.c
 +++ b/util/bufferiszero.c
-@@ -254,13 +254,16 @@ static void init_accel(unsigned cache)
-     bool (*fn)(const void *, size_t) =3D buffer_zero_int;
-     if (cache & CACHE_SSE2) {
-         fn =3D buffer_zero_sse2;
-+        length_to_accel =3D 64;
-     }
- #ifdef CONFIG_AVX2_OPT
-     if (cache & CACHE_SSE4) {
-         fn =3D buffer_zero_sse4;
-+        length_to_accel =3D 64;
+@@ -158,27 +158,19 @@ buffer_zero_avx2(const void *buf, size_t len)
+     __m256i *p =3D (__m256i *)(((uintptr_t)buf + 5 * 32) & -32);
+     __m256i *e =3D (__m256i *)(((uintptr_t)buf + len) & -32);
+=20
+-    if (likely(p <=3D e)) {
+-        /* Loop over 32-byte aligned blocks of 128.  */
+-        do {
+-            __builtin_prefetch(p);
+-            if (unlikely(!_mm256_testz_si256(t, t))) {
+-                return false;
+-            }
+-            t =3D p[-4] | p[-3] | p[-2] | p[-1];
+-            p +=3D 4;
+-        } while (p <=3D e);
+-    } else {
+-        t |=3D _mm256_loadu_si256(buf + 32);
+-        if (len <=3D 128) {
+-            goto last2;
++    /* Loop over 32-byte aligned blocks of 128.  */
++    while (p <=3D e) {
++        __builtin_prefetch(p);
++        if (unlikely(!_mm256_testz_si256(t, t))) {
++            return false;
+         }
+-    }
++        t =3D p[-4] | p[-3] | p[-2] | p[-1];
++        p +=3D 4;
++    } ;
+=20
+     /* Finish the last block of 128 unaligned.  */
+     t |=3D _mm256_loadu_si256(buf + len - 4 * 32);
+     t |=3D _mm256_loadu_si256(buf + len - 3 * 32);
+- last2:
+     t |=3D _mm256_loadu_si256(buf + len - 2 * 32);
+     t |=3D _mm256_loadu_si256(buf + len - 1 * 32);
+=20
+@@ -263,7 +255,7 @@ static void init_accel(unsigned cache)
      }
      if (cache & CACHE_AVX2) {
          fn =3D buffer_zero_avx2;
-+        length_to_accel =3D 64;
+-        length_to_accel =3D 64;
++        length_to_accel =3D 128;
      }
  #endif
  #ifdef CONFIG_AVX512F_OPT
