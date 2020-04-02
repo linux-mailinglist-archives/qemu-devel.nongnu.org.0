@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E617119C309
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 15:49:33 +0200 (CEST)
-Received: from localhost ([::1]:40310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64CF919C2FF
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 15:48:17 +0200 (CEST)
+Received: from localhost ([::1]:40284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK0Ds-0002ZN-W8
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 09:49:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50685)
+	id 1jK0Ce-00088v-Bs
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 09:48:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50711)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jK0Ai-0006OY-FR
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 09:46:17 -0400
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jK0Aj-0006Pq-IY
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 09:46:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jK0Ah-0001sD-Bx
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 09:46:16 -0400
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:39278)
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jK0Ai-0001w1-GH
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 09:46:17 -0400
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:43517)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jK0Ah-0001oj-4e; Thu, 02 Apr 2020 09:46:15 -0400
-Received: by mail-lf1-x142.google.com with SMTP id h6so2765409lfp.6;
- Thu, 02 Apr 2020 06:46:15 -0700 (PDT)
+ id 1jK0Ai-0001sT-8t; Thu, 02 Apr 2020 09:46:16 -0400
+Received: by mail-lj1-x244.google.com with SMTP id g27so3245295ljn.10;
+ Thu, 02 Apr 2020 06:46:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=h4Q7MSpHXVMJ49cK44wbGbgCP5J9MGmDVmW1uuYRWUs=;
- b=Qm+SzTwPSelbgQGrPXZ0eRecqfbd6cMSBxsf+s198QHT+gl8uK1hQQlDnIfTa/OyOY
- yOx6T2K49fZbybzn1i0iDKyxwfaEq4J6/n93gtIO+PerrYZrhvRQaNP4D/Q/tD9MchZ3
- +UO6r94GyrcM0AXr8PHLdeuSldt9NI2bUZ8Y6IBC/EIrSDhRYaKar8EHbAON4zkvQKIB
- VfRpqkMsW11mpwxJ8dZU5B7i6TkbSCPn4CqZ71QGSBO5n4z0Atd/Po2j4XuSeEy8Ixl0
- 6NxV3SrMtzoXJaAVahYnp8zTpMyOKnIYkJugOPZJRnmwGRmt+i5kuGHcKvnuJftVd4ma
- ou7w==
+ bh=Mv581YRzXI92+CyIbMqqG1wv/ClfMBsDNk55giNrpKw=;
+ b=WjCme0091l9eipzU1azBJUlULpVLxN0T8Wwtf/gbFRx29p7sqLQDK8s9lh4m7YLeYA
+ ElwBUaxaAinUDhd2OaKxmvhLqXygTd4Ky6mTdBx7sw5nX5NKXrvrI9KuuM7vDeZG88uH
+ 3cUIFm1AWeX0ssqOGN4Ftl7cAKikWYyZYXwXGpghcPe+dZZm1Cfj3z8maHf8VDCtUeKn
+ hqcjLRHlfoz9YkHvxHrHa6S/wCNBBFDanVkCWKSMKfhFRP2zSCSY4tQ6iBb1bbsSXv1J
+ efRbjSL0ruloKiBfqkIzStHk2uJOR/EdNlDkdkTNaIHX9QrigIuctJQUHUMnoAuoDM0d
+ w0zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=h4Q7MSpHXVMJ49cK44wbGbgCP5J9MGmDVmW1uuYRWUs=;
- b=gSEkghOm7G+wwSl6GEA+8Fs0JOBo3WzB0zLrGhwNUmCMif+1JemLKGWTNNLiNSaJKM
- U86B/4sYqJ3fLt/L5c1a7Z9vwcUdBCPwUs+Z7uLAnRYx8XL4zGZZB4YAIixiXUzCpic6
- 2EjG2AnzVO2+h62t7YhuYO708loqI0z3IKGkKko4WWLrKS443wlpB9EmtRNFPRXVuhNY
- Pdltd/FYH9yhlXTvtLuvLvWPFuwVNQkZXDeh35WASDAMZHq7JLY1dz1VPqFRr1ZE3ua1
- qnLHDkBDz1K7k6GVzV2t9UnkvXhGTqUGcxRiVLv0ohBZ+2cQVG03ImEaTdG1B0W1BJFA
- R7wg==
-X-Gm-Message-State: AGi0PubE3J/cBo8mGPI9kbS0KrPGw2ouqOB1FD3m5A0wDDwS1K9utacT
- Fh7MW0GmeatOF1ZZfP8M8LdyYoJPHhMuSw==
-X-Google-Smtp-Source: APiQypJkOFn70kEGDneFetAwp5e+JQMjtiQRNcEuBF0dQhYCga23iQI1oVdZBOdNOyBcWjzAhck2Dg==
-X-Received: by 2002:a19:5519:: with SMTP id n25mr2280129lfe.198.1585835173457; 
- Thu, 02 Apr 2020 06:46:13 -0700 (PDT)
+ bh=Mv581YRzXI92+CyIbMqqG1wv/ClfMBsDNk55giNrpKw=;
+ b=IuDbB3DHtaBaea6w2IOC0ybRzbai5lqSJ6/hQAiPLR5c/K2QvVJlOQOPmForQFfSDS
+ 30Lsg6wmVZ/GockO9kzoWDSBf5QIIg651Tx5jDvq/XRWPeWQ4TyfWm7tMjRzTxt9/vAJ
+ Gkh6a5+ngS4aFnDcFGDyR01BTvSJthqnYGQxGNde1uwVBRRhd8bvRtKqGedOGAQP03G1
+ WwXsAslLuG02FEYFH5mooIhL5xCqtC3DwvqXaPDhSUnC4SZkJ9l6IPhSaTT444ENL29a
+ 259XSjQadNnUDvnKugbCWAjO+5P7/dM4JBhhANWr6ZSK7fRqLd8xnvP8wCwZq9+qHcS7
+ RK/g==
+X-Gm-Message-State: AGi0PuY5jiIXsveOYJTxksvOvph6TPL+FUzP+gv6qIHrp5ak5cU9392c
+ ozij/Z5wgryjTImIhbdgh08AOEIVJ6vkAQ==
+X-Google-Smtp-Source: APiQypJfcXUQUmntVUMz9u11hXHyIIRzlXMGPjmHRCHfNZVYTw2Lj6cLu/BkV5UQFPWhEx4prGCBuA==
+X-Received: by 2002:a2e:6e0f:: with SMTP id j15mr1932963ljc.230.1585835174651; 
+ Thu, 02 Apr 2020 06:46:14 -0700 (PDT)
 Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id e1sm3202774ljo.16.2020.04.02.06.46.12
+ by smtp.gmail.com with ESMTPSA id g12sm3612416lfb.66.2020.04.02.06.46.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Apr 2020 06:46:12 -0700 (PDT)
+ Thu, 02 Apr 2020 06:46:14 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 1/5] dma/xlnx-zdma: Remove comment
-Date: Thu,  2 Apr 2020 15:47:17 +0200
-Message-Id: <20200402134721.27863-2-edgar.iglesias@gmail.com>
+Subject: [PATCH v1 2/5] dma/xlnx-zdma: Populate DBG0.CMN_BUF_FREE
+Date: Thu,  2 Apr 2020 15:47:18 +0200
+Message-Id: <20200402134721.27863-3-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200402134721.27863-1-edgar.iglesias@gmail.com>
 References: <20200402134721.27863-1-edgar.iglesias@gmail.com>
@@ -64,7 +64,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::142
+X-Received-From: 2a00:1450:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,25 +86,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Remove comment.
+Populate DBG0.CMN_BUF_FREE so that SW can see some free space.
 
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- hw/dma/xlnx-zdma.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/dma/xlnx-zdma.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/hw/dma/xlnx-zdma.c b/hw/dma/xlnx-zdma.c
-index 2d9c0a0d5e..a6c5b2304a 100644
+index a6c5b2304a..6a4699757a 100644
 --- a/hw/dma/xlnx-zdma.c
 +++ b/hw/dma/xlnx-zdma.c
-@@ -511,7 +511,6 @@ static void zdma_process_descr(XlnxZDMA *s)
-         zdma_src_done(s);
-     }
- 
--    /* Load next descriptor.  */
-     if (ptype == PT_REG || src_cmd == CMD_STOP) {
-         ARRAY_FIELD_DP32(s->regs, ZDMA_CH_CTRL2, EN, 0);
-         zdma_set_state(s, DISABLED);
+@@ -680,6 +680,12 @@ static RegisterAccessInfo zdma_regs_info[] = {
+     },{ .name = "ZDMA_CH_DBG0",  .addr = A_ZDMA_CH_DBG0,
+         .rsvd = 0xfffffe00,
+         .ro = 0x1ff,
++
++        /*
++         * There's SW out there that will check the debug regs for free space.
++         * Claim that we always have 0x100 free.
++         */
++        .reset = 0x100
+     },{ .name = "ZDMA_CH_DBG1",  .addr = A_ZDMA_CH_DBG1,
+         .rsvd = 0xfffffe00,
+         .ro = 0x1ff,
 -- 
 2.20.1
 
