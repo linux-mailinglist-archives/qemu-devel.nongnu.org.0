@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC89119C9AD
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 21:15:41 +0200 (CEST)
-Received: from localhost ([::1]:46426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FE0919C987
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 21:12:23 +0200 (CEST)
+Received: from localhost ([::1]:46380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK5JU-0006ke-Uv
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 15:15:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33895)
+	id 1jK5GI-0002od-I9
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 15:12:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33922)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jK5B2-0002Ug-4t
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:57 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jK5B3-0002Xh-7A
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jK5B1-0000Qk-3w
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:56 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23211
+ (envelope-from <pbonzini@redhat.com>) id 1jK5B2-0000Su-3R
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22021
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jK5B1-0000QI-0J
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:55 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jK5B1-0000S9-Vz
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585854414;
+ s=mimecast20190719; t=1585854415;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NPcScmOeOhS1CNjgYDmco4c2KEYNfVkIUVRESJAays8=;
- b=S9p25/vCxD5GXSH7AzOq/wvyM3cgs0n8nPM8Q8YNOgBDKRRdbYTAcVwtawiljxOvLqZHjH
- E7Bfb2Wx1x/zRV8fPTDc+nhgUgMwFkT9YWG5jICjJGx5jM/287tELumQI4vzFAPneAkNT2
- D7SgoRg7ET2VNHDLZfO1TL21g46QPQM=
+ bh=cgUCuiQImsO71G7idTK9arqrOSPOAEA79IR0k9B/Lbo=;
+ b=X8ibEDN0T9BUfGnvIzruq8ImgjviqE3CETv5YuMI3+auHMf/Ex7+3Hp8wxs2MJFRmNsr+/
+ nPyMxYdrdXJ1vKvOJhH2VehCXfkhPej2LIvfnTWDCHKpGEsygrN+m5EBr85SDnaAWN01od
+ qHBesv46NDdmPk6/Bd7Y1Oq2IOvb7Ew=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-tj_EBB23PheOCByAjId5pA-1; Thu, 02 Apr 2020 15:06:52 -0400
-X-MC-Unique: tj_EBB23PheOCByAjId5pA-1
+ us-mta-27-8jS2BQlkMKyzO7HfZlNJXg-1; Thu, 02 Apr 2020 15:06:53 -0400
+X-MC-Unique: 8jS2BQlkMKyzO7HfZlNJXg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0797A1050940
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71628108442D
  for <qemu-devel@nongnu.org>; Thu,  2 Apr 2020 19:06:52 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9E7EADA0F2;
- Thu,  2 Apr 2020 19:06:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2D53750BEE
+ for <qemu-devel@nongnu.org>; Thu,  2 Apr 2020 19:06:52 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/15] qmp: fix leak on callbacks that return both value and
- error
-Date: Thu,  2 Apr 2020 15:06:38 -0400
-Message-Id: <20200402190640.1693-14-pbonzini@redhat.com>
+Subject: [PULL 14/15] object-add: don't create return value if failed
+Date: Thu,  2 Apr 2020 15:06:39 -0400
+Message-Id: <20200402190640.1693-15-pbonzini@redhat.com>
 In-Reply-To: <20200402190640.1693-1-pbonzini@redhat.com>
 References: <20200402190640.1693-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -73,56 +72,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+No need to return an empty value from object-add (it would also leak
+if the command failed).  While at it, remove the "if" around object_unref
+since object_unref handles NULL arguments just fine.
 
-Direct leak of 4120 byte(s) in 1 object(s) allocated from:
-    #0 0x7fa114931887 in __interceptor_calloc (/lib64/libasan.so.6+0xb0887)
-    #1 0x7fa1144ad8f0 in g_malloc0 (/lib64/libglib-2.0.so.0+0x588f0)
-    #2 0x561e3c9c8897 in qmp_object_add /home/elmarco/src/qemu/qom/qom-qmp-=
-cmds.c:291
-    #3 0x561e3cf48736 in qmp_dispatch /home/elmarco/src/qemu/qapi/qmp-dispa=
-tch.c:155
-    #4 0x561e3c8efb36 in monitor_qmp_dispatch /home/elmarco/src/qemu/monito=
-r/qmp.c:145
-    #5 0x561e3c8f09ed in monitor_qmp_bh_dispatcher /home/elmarco/src/qemu/m=
-onitor/qmp.c:234
-    #6 0x561e3d08c993 in aio_bh_call /home/elmarco/src/qemu/util/async.c:13=
-6
-    #7 0x561e3d08d0a5 in aio_bh_poll /home/elmarco/src/qemu/util/async.c:16=
-4
-    #8 0x561e3d0a535a in aio_dispatch /home/elmarco/src/qemu/util/aio-posix=
-.c:380
-    #9 0x561e3d08e3ca in aio_ctx_dispatch /home/elmarco/src/qemu/util/async=
-.c:298
-    #10 0x7fa1144a776e in g_main_context_dispatch (/lib64/libglib-2.0.so.0+=
-0x5276e)
-
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20200325184723.2029630-3-marcandre.lureau@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reported-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20200325184723.2029630-4-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qapi/qmp-dispatch.c | 2 ++
- 1 file changed, 2 insertions(+)
+ qom/qom-qmp-cmds.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-index c30c7ff9e1..79347e0864 100644
---- a/qapi/qmp-dispatch.c
-+++ b/qapi/qmp-dispatch.c
-@@ -155,6 +155,8 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject=
- *request,
-     cmd->fn(args, &ret, &err);
-     qobject_unref(args);
-     if (err) {
-+        /* or assert(!ret) after reviewing all handlers: */
-+        qobject_unref(ret);
-         goto out;
-     }
+diff --git a/qom/qom-qmp-cmds.c b/qom/qom-qmp-cmds.c
+index 435193b036..e47ebe8ed1 100644
+--- a/qom/qom-qmp-cmds.c
++++ b/qom/qom-qmp-cmds.c
+@@ -285,10 +285,7 @@ void qmp_object_add(QDict *qdict, QObject **ret_data, =
+Error **errp)
+     v =3D qobject_input_visitor_new(QOBJECT(qdict));
+     obj =3D user_creatable_add_type(type, id, qdict, v, errp);
+     visit_free(v);
+-    if (obj) {
+-        object_unref(obj);
+-    }
+-    *ret_data =3D QOBJECT(qdict_new());
++    object_unref(obj);
+ }
 =20
+ void qmp_object_del(const char *id, Error **errp)
 --=20
 2.18.2
 
