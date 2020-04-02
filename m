@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B27619C7CC
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 19:20:29 +0200 (CEST)
-Received: from localhost ([::1]:45082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F94F19C7DE
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 19:23:03 +0200 (CEST)
+Received: from localhost ([::1]:45126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK3W0-0002Km-LR
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 13:20:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45064)
+	id 1jK3YU-0005JA-Dq
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 13:23:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45522)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jK3Ta-0000PY-Dt
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 13:17:59 -0400
+ (envelope-from <singhalsimran0@gmail.com>) id 1jK3VN-00029g-Bz
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 13:19:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jK3TZ-0007Ip-7p
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 13:17:58 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:32911)
+ (envelope-from <singhalsimran0@gmail.com>) id 1jK3VM-0002ZU-3P
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 13:19:49 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:43233)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jK3TY-0007HJ-PQ
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 13:17:57 -0400
-Received: by mail-pl1-x642.google.com with SMTP id ay1so1591771plb.0
- for <qemu-devel@nongnu.org>; Thu, 02 Apr 2020 10:17:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=qNMuSy6myQERHMzlzFwavqf8HUhcKDEUQ/y2TeKt/W8=;
- b=Q48eN1qIgfBSGB008QFETon0+zBn6G9va49ZXitU7SxtMMMRvrgNFxbImGvgaeXuam
- 6uvEBGM/PJaaxa9Tl5s4RixZJ7/DX4uNyJRHl/0SuxyP/NkUpPoyqdr4H+zVMEJAxoFF
- qJ7VzTdhqNeIok6CSOa71kXrkFLBqw0Ln/i5dX0xrmlBl4Woic9dsWZoLTwcFtz914CL
- WId8Jr+n7qM50K1VWHHDIfDwdO1M1fBdKTNAA7fsJyHncVbd2WjpJBmCsUrf1XKEU14m
- XJWvmE6QICPXfR7gC3Gz6FXezz6H8SvSZVxRJh5jpCUGT4yXL1Y8VgFFJvbx/IR6SDW4
- Mwfg==
+ (Exim 4.71) (envelope-from <singhalsimran0@gmail.com>)
+ id 1jK3VL-0002WW-Tk
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 13:19:48 -0400
+Received: by mail-pf1-x444.google.com with SMTP id f206so2044603pfa.10
+ for <qemu-devel@nongnu.org>; Thu, 02 Apr 2020 10:19:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+ :user-agent; bh=Sd4HKvpMJXeiLcbFDPVmWsncn84n6qzrDO2U7j/YgLc=;
+ b=KMK00R9RJUPzJkf2PTYQky+05tYAy6ZaM3dacWovz7xxxLgyz7t/bn/2x+wAwPbuzj
+ 08kc46aCq7/UaCjsO3n3jre82vJevNRkbAVhy8oCyIvkXQFh5/TNgPKqFjY7D1wpu7i1
+ x5Om/l0ywhXPLoLZMOi6ASG7fYdCEB1KTslgLSWgCKDF8Bn9OUrXF+9xRZbKDBV3oxVA
+ o6S5vpZfUqwl1t8wGorZMNYAk6uEt8jLMEBOKj0ul1dR2OkR8hAfA7TIMG3i+rCjZmPL
+ WL97fyEC2OjLIHeFKmUXKxvAVxy7LW7aHGysBtVDMvzMRT211rTI4GJ8ijVl9djDu+Ts
+ doaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qNMuSy6myQERHMzlzFwavqf8HUhcKDEUQ/y2TeKt/W8=;
- b=b07Judcd3ljnqdBF2hxBmAy/Q49Va7O+34rytRFShlIAnnN3ck6TuhSdplq847/78b
- kEi6An5rtoy+qIfFuaj7scuWNq4pLH+cnbK47GubxQ4MItAtzBUrcZ7DKbJlQMsiTx00
- iB3DJymy4LebzCybbsXp87e3HUILkslq+hBXtWYTPj11z0wBpbnZuysvg/206Y0pyE7v
- cenFN63NOsLlHcRY4WqshrixvMyXiV6+PYIZje4BMkR54sVQ9S9ChWROUe4aqJKDbLl8
- ZSgTO2yFpVvkR74/QzVXNOxwSQ0DrhwUdPC0+/ucWYzaqa/lodli3ewmtJlKyEP/WKtW
- QgxA==
-X-Gm-Message-State: AGi0PuZffuM+XZ+RCDfkAOM8oA9x8oATMH3ZejX/jd8xcpXzK1Ea/r2Q
- KpCIplq98FUWB+OEdzv4q/M8aA==
-X-Google-Smtp-Source: APiQypIsfrFFHbcxytlP/1obJ17DVib2VGdCFwq7Rl//gsK9WvUTmh2+cNLxdWp26tIk8M2ugY2P5Q==
-X-Received: by 2002:a17:902:7d8f:: with SMTP id
- a15mr3771722plm.265.1585847875560; 
- Thu, 02 Apr 2020 10:17:55 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id h198sm4104607pfe.76.2020.04.02.10.17.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Apr 2020 10:17:54 -0700 (PDT)
-Subject: Re: [PATCH] target/arm: don't expose "ieee_half" via gdbstub
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20200402143913.24005-1-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e6b3a94f-b7db-942c-2611-c9881c2da5d6@linaro.org>
-Date: Thu, 2 Apr 2020 10:17:52 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=Sd4HKvpMJXeiLcbFDPVmWsncn84n6qzrDO2U7j/YgLc=;
+ b=eyT+cfFVqyDe22uo6a/iEcSWwwhYUukpsoyVAoN+lNCJoHT+uByygIEviTHGPMkFLw
+ ltn3pdlFMvMrujxuLbevjQO8u6D3Q1BgUG82coCMxvRMXaDDT7StK1nkQj+Hun7Bx2qx
+ tLTV7Jv7yAOYQBKP0LHs3oqgPmMTx1KTOJ9pQGl0HEcyYKpwdK5w/JhbKtFQZGKPURdw
+ L4VTPJJW4/yGizBaYLsAQx1SiG8fpG21QleOWC4uY0PtEteX95QOhPVT+XfwO5/uv2Xk
+ fC+QY1ZpWhkbsIAG4MbezxZliKJ/bgJe7WpIfJ5WKxpRvf/cLHt1YzNSKzZJB3d74n9e
+ Rnmw==
+X-Gm-Message-State: AGi0PuY2n9RgebP3VSBB/YcrNoxbAxrCESZx3Old9zzuPxuT6rOiLTUB
+ DadFEZ2c5G/7wT1aAeHjB5w=
+X-Google-Smtp-Source: APiQypL9zA3kYaaZfErh7gG9f2O45YJP6hVd1c5a3bbviOU+dzL6Sf425h0oNRAFC68ZPb1LcamJ/w==
+X-Received: by 2002:a65:6101:: with SMTP id z1mr3713424pgu.224.1585847986566; 
+ Thu, 02 Apr 2020 10:19:46 -0700 (PDT)
+Received: from simran-Inspiron-5558 ([2405:205:1380:eac:4926:6e0b:60ca:635c])
+ by smtp.gmail.com with ESMTPSA id
+ i124sm4118296pfg.14.2020.04.02.10.19.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Apr 2020 10:19:45 -0700 (PDT)
+Date: Thu, 2 Apr 2020 22:49:40 +0530
+From: Simran Singhal <singhalsimran0@gmail.com>
+To: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Subject: [PATCH v2] qobject: json-streamer: Change bracket_count to brace_count
+Message-ID: <20200402171940.GA21781@simran-Inspiron-5558>
 MIME-Version: 1.0
-In-Reply-To: <20200402143913.24005-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::642
+X-Received-From: 2607:f8b0:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,24 +76,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, Julia Suvorova <jusual@mail.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/2/20 7:39 AM, Alex Bennée wrote:
-> While support for parsing ieee_half in the XML description was added
-> to gdb in 2019 (a6d0f249) there is no easy way for the gdbstub to know
-> if the gdb end will understand it. Disable it for now and allow older
-> gdbs to successfully connect to the default -cpu max SVE enabled
-> QEMUs.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  target/arm/gdbstub.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+Change the "parser->bracket_count >= 0" to "parser->brace_count >= 0"
+to fix the typo.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Simran Singhal <singhalsimran0@gmail.com>
+---
+Changes in v2:
+        -No need to remove the duplicate occurence of "parser->bracket_count >= 0"
+	but actually it is a typo and one occurence should be "parser->brace_count >= 0".
 
-r~
+ qobject/json-streamer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/qobject/json-streamer.c b/qobject/json-streamer.c
+index 47dd7ea576..b93d97b995 100644
+--- a/qobject/json-streamer.c
++++ b/qobject/json-streamer.c
+@@ -85,7 +85,7 @@ void json_message_process_token(JSONLexer *lexer, GString *input,
+     g_queue_push_tail(&parser->tokens, token);
+ 
+     if ((parser->brace_count > 0 || parser->bracket_count > 0)
+-        && parser->bracket_count >= 0 && parser->bracket_count >= 0) {
++        && parser->brace_count >= 0 && parser->bracket_count >= 0) {
+         return;
+     }
+ 
+-- 
+2.17.1
 
 
