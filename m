@@ -2,61 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D03019C0B7
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 14:11:57 +0200 (CEST)
-Received: from localhost ([::1]:37760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA6319C0AC
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 14:06:40 +0200 (CEST)
+Received: from localhost ([::1]:37680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJyhQ-0001U3-AK
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 08:11:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56527)
+	id 1jJycI-0005jE-Qc
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 08:06:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55543)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jJygb-0000wt-CV
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 08:11:06 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jJybY-0005JE-1y
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 08:05:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jJyga-0005W7-2v
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 08:11:05 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49486)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jJygZ-0005VZ-Tj
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 08:11:04 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jJygY-0002rA-Gb
- for <qemu-devel@nongnu.org>; Thu, 02 Apr 2020 12:11:02 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7B3B02E8104
- for <qemu-devel@nongnu.org>; Thu,  2 Apr 2020 12:11:02 +0000 (UTC)
+ (envelope-from <imammedo@redhat.com>) id 1jJybX-0002Y2-3o
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 08:05:51 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56980
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jJybX-0002Xl-0z
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 08:05:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585829150;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RX1EbGT+3j5RwG+yQvfnFDndaPpuqo9yu+PLsw4+35s=;
+ b=fDxosWrEDrEmndhAbj6iOwJ1bRFMGJg/VbqByeT4pNEtEOU8Pp24TWqw8UL4Og1xu+LAF8
+ H8U+GfIKOoim7YRMR4ojLJGR98roU+6dC4WEcfvfEiw3cwjchvGSHCMIvqM4PI/cqWfibC
+ hclgvY7bGXNhe35AyA3IP9p3vNLaDW0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-423-Ts3wV5rjPuicYRJjLGT4gg-1; Thu, 02 Apr 2020 08:05:47 -0400
+X-MC-Unique: Ts3wV5rjPuicYRJjLGT4gg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF57B18A8C80;
+ Thu,  2 Apr 2020 12:05:45 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DD7F55D9CA;
+ Thu,  2 Apr 2020 12:05:38 +0000 (UTC)
+Date: Thu, 2 Apr 2020 14:05:36 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: Re: [PATCH v3 1/1] vl/s390x: fixup ram sizes for compat machines
+Message-ID: <20200402140536.1b9e7c41@redhat.com>
+In-Reply-To: <e3dfecd4-2905-dc8b-92e7-2194a52ea9ea@de.ibm.com>
+References: <20200401123754.109602-1-borntraeger@de.ibm.com>
+ <20200401183456.09ba3540@redhat.com>
+ <20200402112735.6961297d.cohuck@redhat.com>
+ <20200402133958.72fabf45@redhat.com>
+ <e3dfecd4-2905-dc8b-92e7-2194a52ea9ea@de.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 02 Apr 2020 12:02:28 -0000
-From: Kevin Wolf <1870098@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kwolf-redhat twitek
-X-Launchpad-Bug-Reporter: Tobias Witek (twitek)
-X-Launchpad-Bug-Modifier: Kevin Wolf (kwolf-redhat)
-References: <158573492237.25129.5161164490189934653.malonedeb@soybean.canonical.com>
-Message-Id: <158582894863.11709.9459968930002204279.malone@chaenomeles.canonical.com>
-Subject: [Bug 1870098] Re: [block/vpc] dynamic disk header: off-by-one error
- for "num_bat_entries"
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a296f04231dee355be5db73cc878b9e21689a253";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: c0ae73307548699d0ca6c1cde6354bdb68b99b5f
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,49 +75,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1870098 <1870098@bugs.launchpad.net>
+Cc: =?UTF-8?B?THVrw6HFoQ==?= Doktor <ldoktor@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>, qemu-s390x <qemu-s390x@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As I don't have your email address, I could not CC you on the patch
-email. Can you please verify if the following patch on the mailing list
-fixes your problem?
+On Thu, 2 Apr 2020 13:42:22 +0200
+Christian Borntraeger <borntraeger@de.ibm.com> wrote:
 
-https://lists.gnu.org/archive/html/qemu-block/2020-04/msg00086.html
+> On 02.04.20 13:39, Igor Mammedov wrote:
+> [...]
+> >>>     
+> >>>> +                    "MB to match machine restrictions. Consider updating "
+> >>>> +                    "the guest definition.i\n", sz / MiB, newsz / MiB);      
+> >>>
+> >>> also it might be better to use size_to_str() to format numbers    
+> >>
+> >> The text explicitly talks about 'MB'... not sure if it would be
+> >> confusing if the user specified MB and ended up with GB or so in this
+> >> message.  
+> > 
+> > MB can be dropped, since it still might not match what user specified with -m
+> > it could be specified in b/kb/mb/gb over there
+> > 
+> > so I'd drop MB and print value size_to_str() returns
+> > (it will add appropriate suffix if I'm not mistaken)
+> >   
+> 
+> The return value of size_to_str must be freed. Arent we going overboard for such
+> a message?
 
--- =
+yep, one can use g_autofree for it.
+on upside one doesn't have to bother with picking proper format string
+which is far from trivial in case type mutates depending on host.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1870098
+> 
 
-Title:
-  [block/vpc] dynamic disk header: off-by-one error for
-  "num_bat_entries"
-
-Status in QEMU:
-  New
-
-Bug description:
-  In current qemu versions (observed in 5.0.0-rc1 as well as
-  2833ad487cfff7dc33703e4731b75facde1c561e), disk headers for dynamic
-  VPCs are written with an incorrect "block allocation table entries"
-  value.
-
-  https://www.microsoft.com/en-us/download/details.aspx?id=3D23850 (the
-  corresponding spec) states that:
-
-  "Max Table Entries
-  This field holds the maximum entries present in the BAT. This should be e=
-qual to the number of blocks in the disk (that is, the disk size divided by=
- the block size)."
-
-  Inside the qemu code, the value is "disk size divided by the block
-  size *plus one*".
-
-  Calculating "num_bat_entries" as "total_sectors/(block_size / 512)"
-  *should* fix the issue.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1870098/+subscriptions
 
