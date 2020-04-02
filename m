@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F94F19C7DE
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 19:23:03 +0200 (CEST)
-Received: from localhost ([::1]:45126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CADAE19C80D
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 19:33:04 +0200 (CEST)
+Received: from localhost ([::1]:45262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK3YU-0005JA-Dq
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 13:23:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45522)
+	id 1jK3iB-0004E2-PJ
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 13:33:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47607)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <singhalsimran0@gmail.com>) id 1jK3VN-00029g-Bz
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 13:19:50 -0400
+ (envelope-from <alistair23@gmail.com>) id 1jK3gb-000377-Ce
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 13:31:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <singhalsimran0@gmail.com>) id 1jK3VM-0002ZU-3P
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 13:19:49 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:43233)
+ (envelope-from <alistair23@gmail.com>) id 1jK3gZ-00074e-MU
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 13:31:25 -0400
+Received: from mail-ua1-x943.google.com ([2607:f8b0:4864:20::943]:43822)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <singhalsimran0@gmail.com>)
- id 1jK3VL-0002WW-Tk
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 13:19:48 -0400
-Received: by mail-pf1-x444.google.com with SMTP id f206so2044603pfa.10
- for <qemu-devel@nongnu.org>; Thu, 02 Apr 2020 10:19:47 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1jK3gZ-00073q-Hr; Thu, 02 Apr 2020 13:31:23 -0400
+Received: by mail-ua1-x943.google.com with SMTP id g24so1540827uan.10;
+ Thu, 02 Apr 2020 10:31:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition
- :user-agent; bh=Sd4HKvpMJXeiLcbFDPVmWsncn84n6qzrDO2U7j/YgLc=;
- b=KMK00R9RJUPzJkf2PTYQky+05tYAy6ZaM3dacWovz7xxxLgyz7t/bn/2x+wAwPbuzj
- 08kc46aCq7/UaCjsO3n3jre82vJevNRkbAVhy8oCyIvkXQFh5/TNgPKqFjY7D1wpu7i1
- x5Om/l0ywhXPLoLZMOi6ASG7fYdCEB1KTslgLSWgCKDF8Bn9OUrXF+9xRZbKDBV3oxVA
- o6S5vpZfUqwl1t8wGorZMNYAk6uEt8jLMEBOKj0ul1dR2OkR8hAfA7TIMG3i+rCjZmPL
- WL97fyEC2OjLIHeFKmUXKxvAVxy7LW7aHGysBtVDMvzMRT211rTI4GJ8ijVl9djDu+Ts
- doaw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=d6sNGOf7zhVwXJm9O9+zOAPhluGA9ST7ObWtc87JvDY=;
+ b=HoGgElfk9GxKehfs8tpVwXHgFcT3lbRz4h38BxOT58q6FK05hbyQXyKaH7vqn4tvvQ
+ TkYhuMf/utJUWyIyrlR1QK6QDPwa5zZprzpkL7Y92rhSiuQPx+aLG+7q2OHv/o1rtSLL
+ 3b4F/E4nozTZ/jujwlqX0ViPWxT/9H/iuw3XtMSgxQ0kfvJRYpABQwlABzZmu+5txjOV
+ flr3lFJbHybEVS3dCJrXCRAKviogp7wU0ernVLWJj7m594kFTuLq5AU9jqUVAT2pbuLA
+ sH26B+H8Ffs4+1z/Z4qKZL3WYgpoaho7cBVUwXN6LRDus+NB7kG1tE2sqGiGAIWL+sWb
+ XCMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:user-agent;
- bh=Sd4HKvpMJXeiLcbFDPVmWsncn84n6qzrDO2U7j/YgLc=;
- b=eyT+cfFVqyDe22uo6a/iEcSWwwhYUukpsoyVAoN+lNCJoHT+uByygIEviTHGPMkFLw
- ltn3pdlFMvMrujxuLbevjQO8u6D3Q1BgUG82coCMxvRMXaDDT7StK1nkQj+Hun7Bx2qx
- tLTV7Jv7yAOYQBKP0LHs3oqgPmMTx1KTOJ9pQGl0HEcyYKpwdK5w/JhbKtFQZGKPURdw
- L4VTPJJW4/yGizBaYLsAQx1SiG8fpG21QleOWC4uY0PtEteX95QOhPVT+XfwO5/uv2Xk
- fC+QY1ZpWhkbsIAG4MbezxZliKJ/bgJe7WpIfJ5WKxpRvf/cLHt1YzNSKzZJB3d74n9e
- Rnmw==
-X-Gm-Message-State: AGi0PuY2n9RgebP3VSBB/YcrNoxbAxrCESZx3Old9zzuPxuT6rOiLTUB
- DadFEZ2c5G/7wT1aAeHjB5w=
-X-Google-Smtp-Source: APiQypL9zA3kYaaZfErh7gG9f2O45YJP6hVd1c5a3bbviOU+dzL6Sf425h0oNRAFC68ZPb1LcamJ/w==
-X-Received: by 2002:a65:6101:: with SMTP id z1mr3713424pgu.224.1585847986566; 
- Thu, 02 Apr 2020 10:19:46 -0700 (PDT)
-Received: from simran-Inspiron-5558 ([2405:205:1380:eac:4926:6e0b:60ca:635c])
- by smtp.gmail.com with ESMTPSA id
- i124sm4118296pfg.14.2020.04.02.10.19.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Apr 2020 10:19:45 -0700 (PDT)
-Date: Thu, 2 Apr 2020 22:49:40 +0530
-From: Simran Singhal <singhalsimran0@gmail.com>
-To: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v2] qobject: json-streamer: Change bracket_count to brace_count
-Message-ID: <20200402171940.GA21781@simran-Inspiron-5558>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=d6sNGOf7zhVwXJm9O9+zOAPhluGA9ST7ObWtc87JvDY=;
+ b=LujRC4Tc8BYuPNzINS+cnA5/MQAxlqFRxtqTvsEKEoodkcTj8f8leusKq0g9a3Y5ud
+ wSgDFQtPckmCQraIPQAOa/x02PqdBRdiJCh+eLCPbLWqWBoxQKI+9B8+8cD8JKvjUGAz
+ 8TTiHaOWCoG1uebAlVFG6bS8jUF9XRn5/5CBs/0iTjgktNxSeADMeZpgF3/D3O99wyWo
+ G4L7jeRoULuH3Uf2Wz0Cs9Ket4KTpXth+Wg6g3VD++xBhUDL3jW0gdq8PKLrGFMgBko1
+ ks/bbetY+n1uKRfb44Vsd4NEm850CGWq3+n/VlSW7kbrCyzpRS1UAV87wJ013xQVr4eV
+ N+1A==
+X-Gm-Message-State: AGi0PuZRq14Qqxvspontr1GK++fjgwxTKdbESfy0wLLOmH33/lcT7EZA
+ Zs186PtPVO430c8OXoNInX2D1Psvi8AM4Duucyo=
+X-Google-Smtp-Source: APiQypJLPkJ2xcVo7EqSeDWGuW2jc8UVg9zEa4RjkpZnmVcIow3uGxNi8ZEuj1m4uU6ymeGChfb7sKT6xL5drcFSWFE=
+X-Received: by 2002:a9f:21b8:: with SMTP id 53mr3648552uac.8.1585848681871;
+ Thu, 02 Apr 2020 10:31:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20200330153633.15298-1-zhiwei_liu@c-sky.com>
+ <20200330153633.15298-26-zhiwei_liu@c-sky.com>
+In-Reply-To: <20200330153633.15298-26-zhiwei_liu@c-sky.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 2 Apr 2020 10:23:09 -0700
+Message-ID: <CAKmqyKNdjP1wFgTtskjdzkjBOyZNw4MwQwahuy4E5c87P21eBw@mail.gmail.com>
+Subject: Re: [PATCH v7 25/61] target/riscv: vector single-width averaging add
+ and subtract
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::444
+X-Received-From: 2607:f8b0:4864:20::943
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,36 +72,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, Julia Suvorova <jusual@mail.ru>
+Cc: guoren@linux.alibaba.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wxy194768@alibaba-inc.com, Chih-Min Chao <chihmin.chao@sifive.com>,
+ wenmeng_zhang@c-sky.com, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Change the "parser->bracket_count >= 0" to "parser->brace_count >= 0"
-to fix the typo.
+On Mon, Mar 30, 2020 at 9:27 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-Signed-off-by: Simran Singhal <singhalsimran0@gmail.com>
----
-Changes in v2:
-        -No need to remove the duplicate occurence of "parser->bracket_count >= 0"
-	but actually it is a typo and one occurence should be "parser->brace_count >= 0".
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
- qobject/json-streamer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Alistair
 
-diff --git a/qobject/json-streamer.c b/qobject/json-streamer.c
-index 47dd7ea576..b93d97b995 100644
---- a/qobject/json-streamer.c
-+++ b/qobject/json-streamer.c
-@@ -85,7 +85,7 @@ void json_message_process_token(JSONLexer *lexer, GString *input,
-     g_queue_push_tail(&parser->tokens, token);
- 
-     if ((parser->brace_count > 0 || parser->bracket_count > 0)
--        && parser->bracket_count >= 0 && parser->bracket_count >= 0) {
-+        && parser->brace_count >= 0 && parser->bracket_count >= 0) {
-         return;
-     }
- 
--- 
-2.17.1
-
+> ---
+>  target/riscv/helper.h                   |  17 ++++
+>  target/riscv/insn32.decode              |   5 ++
+>  target/riscv/insn_trans/trans_rvv.inc.c |   7 ++
+>  target/riscv/vector_helper.c            | 100 ++++++++++++++++++++++++
+>  4 files changed, 129 insertions(+)
+>
+> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+> index 9416ebb090..32d549ce36 100644
+> --- a/target/riscv/helper.h
+> +++ b/target/riscv/helper.h
+> @@ -719,3 +719,20 @@ DEF_HELPER_6(vssub_vx_b, void, ptr, ptr, tl, ptr, env, i32)
+>  DEF_HELPER_6(vssub_vx_h, void, ptr, ptr, tl, ptr, env, i32)
+>  DEF_HELPER_6(vssub_vx_w, void, ptr, ptr, tl, ptr, env, i32)
+>  DEF_HELPER_6(vssub_vx_d, void, ptr, ptr, tl, ptr, env, i32)
+> +
+> +DEF_HELPER_6(vaadd_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vaadd_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vaadd_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vaadd_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vasub_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vasub_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vasub_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vasub_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vaadd_vx_b, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vaadd_vx_h, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vaadd_vx_w, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vaadd_vx_d, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vasub_vx_b, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vasub_vx_h, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vasub_vx_w, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vasub_vx_d, void, ptr, ptr, tl, ptr, env, i32)
+> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+> index c9a4050adc..e617d7bd60 100644
+> --- a/target/riscv/insn32.decode
+> +++ b/target/riscv/insn32.decode
+> @@ -417,6 +417,11 @@ vssubu_vv       100010 . ..... ..... 000 ..... 1010111 @r_vm
+>  vssubu_vx       100010 . ..... ..... 100 ..... 1010111 @r_vm
+>  vssub_vv        100011 . ..... ..... 000 ..... 1010111 @r_vm
+>  vssub_vx        100011 . ..... ..... 100 ..... 1010111 @r_vm
+> +vaadd_vv        100100 . ..... ..... 000 ..... 1010111 @r_vm
+> +vaadd_vx        100100 . ..... ..... 100 ..... 1010111 @r_vm
+> +vaadd_vi        100100 . ..... ..... 011 ..... 1010111 @r_vm
+> +vasub_vv        100110 . ..... ..... 000 ..... 1010111 @r_vm
+> +vasub_vx        100110 . ..... ..... 100 ..... 1010111 @r_vm
+>
+>  vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
+>  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
+> diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
+> index 7f9ab4b8b7..a7cf4f4614 100644
+> --- a/target/riscv/insn_trans/trans_rvv.inc.c
+> +++ b/target/riscv/insn_trans/trans_rvv.inc.c
+> @@ -1771,3 +1771,10 @@ GEN_OPIVX_TRANS(vssubu_vx,  opivx_check)
+>  GEN_OPIVX_TRANS(vssub_vx,  opivx_check)
+>  GEN_OPIVI_TRANS(vsaddu_vi, 1, vsaddu_vx, opivx_check)
+>  GEN_OPIVI_TRANS(vsadd_vi, 0, vsadd_vx, opivx_check)
+> +
+> +/* Vector Single-Width Averaging Add and Subtract */
+> +GEN_OPIVV_TRANS(vaadd_vv, opivv_check)
+> +GEN_OPIVV_TRANS(vasub_vv, opivv_check)
+> +GEN_OPIVX_TRANS(vaadd_vx,  opivx_check)
+> +GEN_OPIVX_TRANS(vasub_vx,  opivx_check)
+> +GEN_OPIVI_TRANS(vaadd_vi, 0, vaadd_vx, opivx_check)
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index 7f34fcccce..784993b5f6 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -2496,3 +2496,103 @@ GEN_VEXT_VX_RM(vssub_vx_b, 1, 1, clearb)
+>  GEN_VEXT_VX_RM(vssub_vx_h, 2, 2, clearh)
+>  GEN_VEXT_VX_RM(vssub_vx_w, 4, 4, clearl)
+>  GEN_VEXT_VX_RM(vssub_vx_d, 8, 8, clearq)
+> +
+> +/* Vector Single-Width Averaging Add and Subtract */
+> +static inline uint8_t get_round(int vxrm, uint64_t v, uint8_t shift)
+> +{
+> +    uint8_t d = extract64(v, shift, 1);
+> +    uint8_t d1;
+> +    uint64_t D1, D2;
+> +
+> +    if (shift == 0 || shift > 64) {
+> +        return 0;
+> +    }
+> +
+> +    d1 = extract64(v, shift - 1, 1);
+> +    D1 = extract64(v, 0, shift);
+> +    if (vxrm == 0) { /* round-to-nearest-up (add +0.5 LSB) */
+> +        return d1;
+> +    } else if (vxrm == 1) { /* round-to-nearest-even */
+> +        if (shift > 1) {
+> +            D2 = extract64(v, 0, shift - 1);
+> +            return d1 & ((D2 != 0) | d);
+> +        } else {
+> +            return d1 & d;
+> +        }
+> +    } else if (vxrm == 3) { /* round-to-odd (OR bits into LSB, aka "jam") */
+> +        return !d & (D1 != 0);
+> +    }
+> +    return 0; /* round-down (truncate) */
+> +}
+> +
+> +static inline int32_t aadd32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
+> +{
+> +    int64_t res = (int64_t)a + b;
+> +    uint8_t round = get_round(vxrm, res, 1);
+> +
+> +    return (res >> 1) + round;
+> +}
+> +
+> +static inline int64_t aadd64(CPURISCVState *env, int vxrm, int64_t a, int64_t b)
+> +{
+> +    int64_t res = a + b;
+> +    uint8_t round = get_round(vxrm, res, 1);
+> +    int64_t over = (res ^ a) & (res ^ b) & INT64_MIN;
+> +
+> +    /* With signed overflow, bit 64 is inverse of bit 63. */
+> +    return ((res >> 1) ^ over) + round;
+> +}
+> +
+> +RVVCALL(OPIVV2_RM, vaadd_vv_b, OP_SSS_B, H1, H1, H1, aadd32)
+> +RVVCALL(OPIVV2_RM, vaadd_vv_h, OP_SSS_H, H2, H2, H2, aadd32)
+> +RVVCALL(OPIVV2_RM, vaadd_vv_w, OP_SSS_W, H4, H4, H4, aadd32)
+> +RVVCALL(OPIVV2_RM, vaadd_vv_d, OP_SSS_D, H8, H8, H8, aadd64)
+> +GEN_VEXT_VV_RM(vaadd_vv_b, 1, 1, clearb)
+> +GEN_VEXT_VV_RM(vaadd_vv_h, 2, 2, clearh)
+> +GEN_VEXT_VV_RM(vaadd_vv_w, 4, 4, clearl)
+> +GEN_VEXT_VV_RM(vaadd_vv_d, 8, 8, clearq)
+> +
+> +RVVCALL(OPIVX2_RM, vaadd_vx_b, OP_SSS_B, H1, H1, aadd32)
+> +RVVCALL(OPIVX2_RM, vaadd_vx_h, OP_SSS_H, H2, H2, aadd32)
+> +RVVCALL(OPIVX2_RM, vaadd_vx_w, OP_SSS_W, H4, H4, aadd32)
+> +RVVCALL(OPIVX2_RM, vaadd_vx_d, OP_SSS_D, H8, H8, aadd64)
+> +GEN_VEXT_VX_RM(vaadd_vx_b, 1, 1, clearb)
+> +GEN_VEXT_VX_RM(vaadd_vx_h, 2, 2, clearh)
+> +GEN_VEXT_VX_RM(vaadd_vx_w, 4, 4, clearl)
+> +GEN_VEXT_VX_RM(vaadd_vx_d, 8, 8, clearq)
+> +
+> +static inline int32_t asub32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
+> +{
+> +    int64_t res = (int64_t)a - b;
+> +    uint8_t round = get_round(vxrm, res, 1);
+> +
+> +    return (res >> 1) + round;
+> +}
+> +
+> +static inline int64_t asub64(CPURISCVState *env, int vxrm, int64_t a, int64_t b)
+> +{
+> +    int64_t res = (int64_t)a - b;
+> +    uint8_t round = get_round(vxrm, res, 1);
+> +    int64_t over = (res ^ a) & (a ^ b) & INT64_MIN;
+> +
+> +    /* With signed overflow, bit 64 is inverse of bit 63. */
+> +    return ((res >> 1) ^ over) + round;
+> +}
+> +
+> +RVVCALL(OPIVV2_RM, vasub_vv_b, OP_SSS_B, H1, H1, H1, asub32)
+> +RVVCALL(OPIVV2_RM, vasub_vv_h, OP_SSS_H, H2, H2, H2, asub32)
+> +RVVCALL(OPIVV2_RM, vasub_vv_w, OP_SSS_W, H4, H4, H4, asub32)
+> +RVVCALL(OPIVV2_RM, vasub_vv_d, OP_SSS_D, H8, H8, H8, asub64)
+> +GEN_VEXT_VV_RM(vasub_vv_b, 1, 1, clearb)
+> +GEN_VEXT_VV_RM(vasub_vv_h, 2, 2, clearh)
+> +GEN_VEXT_VV_RM(vasub_vv_w, 4, 4, clearl)
+> +GEN_VEXT_VV_RM(vasub_vv_d, 8, 8, clearq)
+> +
+> +RVVCALL(OPIVX2_RM, vasub_vx_b, OP_SSS_B, H1, H1, asub32)
+> +RVVCALL(OPIVX2_RM, vasub_vx_h, OP_SSS_H, H2, H2, asub32)
+> +RVVCALL(OPIVX2_RM, vasub_vx_w, OP_SSS_W, H4, H4, asub32)
+> +RVVCALL(OPIVX2_RM, vasub_vx_d, OP_SSS_D, H8, H8, asub64)
+> +GEN_VEXT_VX_RM(vasub_vx_b, 1, 1, clearb)
+> +GEN_VEXT_VX_RM(vasub_vx_h, 2, 2, clearh)
+> +GEN_VEXT_VX_RM(vasub_vx_w, 4, 4, clearl)
+> +GEN_VEXT_VX_RM(vasub_vx_d, 8, 8, clearq)
+> --
+> 2.23.0
+>
 
