@@ -2,89 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 120E519C7B3
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 19:12:46 +0200 (CEST)
-Received: from localhost ([::1]:44972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46BA019C7DB
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 19:22:45 +0200 (CEST)
+Received: from localhost ([::1]:45124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK3OX-0005Cl-4a
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 13:12:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43802)
+	id 1jK3YC-0004k6-Ap
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 13:22:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45989)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <leonardo@linux.ibm.com>) id 1jK3NJ-0004Lc-O6
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 13:11:35 -0400
+ (envelope-from <alistair23@gmail.com>) id 1jK3X3-0003lp-JX
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 13:21:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <leonardo@linux.ibm.com>) id 1jK3NI-0001eM-EM
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 13:11:29 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:28690
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <leonardo@linux.ibm.com>)
- id 1jK3NI-0001dv-9J; Thu, 02 Apr 2020 13:11:28 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 032GYCNF109118; Thu, 2 Apr 2020 13:11:22 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 305khm95cd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Apr 2020 13:11:22 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 032GYMtZ110059;
- Thu, 2 Apr 2020 13:11:22 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0b-001b2d01.pphosted.com with ESMTP id 305khm95c9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Apr 2020 13:11:22 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 032H9k4V013787;
- Thu, 2 Apr 2020 17:11:21 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma04wdc.us.ibm.com with ESMTP id 301x772frg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Apr 2020 17:11:21 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 032HBLSD51839324
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 2 Apr 2020 17:11:21 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4CF44AE05C;
- Thu,  2 Apr 2020 17:11:21 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C6AF6AE05F;
- Thu,  2 Apr 2020 17:11:16 +0000 (GMT)
-Received: from LeoBras (unknown [9.85.174.86])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Thu,  2 Apr 2020 17:11:16 +0000 (GMT)
-Message-ID: <e9caef7692520a63aad60d418a20f2d7cf58fcdc.camel@linux.ibm.com>
-Subject: Re: [RFC PATCH 1/1] ppc/spapr: Add hotplugged flag on DIMM LMBs on
- drmem_v2
-From: Leonardo Bras <leonardo@linux.ibm.com>
-To: Bharata B Rao <bharata.rao@gmail.com>, David Gibson
- <david@gibson.dropbear.id.au>
-Date: Thu, 02 Apr 2020 14:11:12 -0300
-In-Reply-To: <CAGZKiBpO4HxrE06dT39sj95_qcTvQK_g5Ev5TKC5T9wimphM_Q@mail.gmail.com>
-References: <20200306002202.176732-1-leonardo@linux.ibm.com>
- <20200310023943.GH660117@umbus.fritz.box>
- <CAGZKiBpO4HxrE06dT39sj95_qcTvQK_g5Ev5TKC5T9wimphM_Q@mail.gmail.com>
-Content-Type: multipart/signed; micalg="pgp-sha256";
- protocol="application/pgp-signature"; boundary="=-qWbytmRUWCMrXi+u3r9y"
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+ (envelope-from <alistair23@gmail.com>) id 1jK3X2-000715-Kb
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 13:21:33 -0400
+Received: from mail-vs1-xe43.google.com ([2607:f8b0:4864:20::e43]:45940)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1jK3X2-00070q-Gi; Thu, 02 Apr 2020 13:21:32 -0400
+Received: by mail-vs1-xe43.google.com with SMTP id x82so2866573vsc.12;
+ Thu, 02 Apr 2020 10:21:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=oekO7Iey/J+A25klZ5udo88BsGYzcw759MzkmKCIw7I=;
+ b=Yyjw5OUUGqmZDd+hbAZZJr3vBaJH10dqL/IeHbbmJ15NIXnzKSSEw4V/Y6J3Wadzht
+ AJp52TwXMZiG7+7IcHqpMIoB086/sPq+iZfwk1NnLNT1Zpsm1hxpHfHy9oZjo0dRYAOT
+ qT6zvjqfPSEfSMZ3AREJfTBGib75ZmWfxm+wvwYOQ0Jx8hEGcEptj6d1343fIdEd7/LC
+ YGMFYOcO9ylPETm3aqwXlFCFse9wjOwF3FIGv6L91GW8NNakm9bxpYv3vqKioerHh8fl
+ qhyfMxF7A0ZfQIZIJ8zHFjc0qJq7Z40GK41fgFptWvUcdTxpE/moV4Xq3blfKnG/wWTb
+ nA+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oekO7Iey/J+A25klZ5udo88BsGYzcw759MzkmKCIw7I=;
+ b=onxIgQUJC03WEgzMVMEwA8z2z5NvuIWV4Am351zkjbbH1Y+Jc9NOOA6pWhIczleIyp
+ YboTCXjnLlR7tfCmBb/S0ZWnmGqvcqt8QE7bZLPjz0Pe6pRl8kN4VKzKFhVuUcGJWpp0
+ mHcuz+EWsHXF9QS6EsvP4CUszyysFouYygKs0/EDuEw0FQL4Ja3iVEi9WF22JzQ6GylU
+ Lf8oO2rSmIYnxYuI2qiqVyXLuHhtqKY0cbu9c3cg4wHp+qalu2tnieIrJkvJUDsYS1fd
+ 8Gvyq0LI0M+BAnT1fc3HPdR1YV2XrGh9lkHPNcSe/5ePbDH/ynYBXliXHAqBvjzOU89f
+ xdRg==
+X-Gm-Message-State: AGi0PuZvx7wFjGroN3JdImPCu5r+FhjRVRzEl6xP0EJ0Gzlmcw97fY6p
+ 9/SNJglVXmvupCMMbvn+J5YvgSg5fqkNQJ7XSDI=
+X-Google-Smtp-Source: APiQypLjpBvwjPcUGDckkK+JIFI7+N1j/u9APL6KxTZ2vsPmPjH8NErMxZs49o49DsLvfz3AQT/31/i0bqcm7kN+AU0=
+X-Received: by 2002:a67:26c2:: with SMTP id m185mr3304616vsm.180.1585848091833; 
+ Thu, 02 Apr 2020 10:21:31 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-04-02_06:2020-04-02,
- 2020-04-02 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0
- clxscore=1011 adultscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0
- malwarescore=0 priorityscore=1501 mlxlogscore=999 bulkscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004020131
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+References: <20200402134721.27863-1-edgar.iglesias@gmail.com>
+ <20200402134721.27863-3-edgar.iglesias@gmail.com>
+In-Reply-To: <20200402134721.27863-3-edgar.iglesias@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 2 Apr 2020 10:13:19 -0700
+Message-ID: <CAKmqyKNY0qv8iwJCheC0x7EQgdUgLsMtJzwkyS6CpcRzOiJLZw@mail.gmail.com>
+Subject: Re: [PATCH v1 2/5] dma/xlnx-zdma: Populate DBG0.CMN_BUF_FREE
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::e43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,86 +71,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bharata B Rao <bharata.rao@in.ibm.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: figlesia@xilinx.com, Peter Maydell <peter.maydell@linaro.org>,
+ Edgar Iglesias <edgar.iglesias@xilinx.com>,
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
+ Francisco Iglesias <frasse.iglesias@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Apr 2, 2020 at 6:46 AM Edgar E. Iglesias
+<edgar.iglesias@gmail.com> wrote:
+>
+> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+>
+> Populate DBG0.CMN_BUF_FREE so that SW can see some free space.
+>
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
---=-qWbytmRUWCMrXi+u3r9y
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Hello Bharata, thank you for reviewing and testing!
+Alistair
 
-During review of this new flag, it was suggested to change it's name to
-a better one (on platform's viewpoint).=20
-
-So I will have to change the flag name from SPAPR_LMB_FLAGS_HOTPLUGGED
-to SPAPR_LMB_FLAGS_HOTREMOVABLE.
-
-Everything should work the same as today.
-
-Best regards,
-Leonardo
-
-
-
-On Thu, 2020-04-02 at 14:46 +0530, Bharata B Rao wrote:
-> On Tue, Mar 10, 2020 at 8:24 AM David Gibson
-> <david@gibson.dropbear.id.au> wrote:
-> > On Thu, Mar 05, 2020 at 09:22:02PM -0300, Leonardo Bras wrote:
-> > > On reboot, all memory that was previously added using object_add and
-> > > device_add is placed in this DIMM area.
-> > >=20
-> > > The new SPAPR_LMB_FLAGS_HOTPLUGGED flag helps Linux to put this memor=
-y in
-> > > the correct memory zone, so no unmovable allocations are made there,
-> > > allowing the object to be easily hot-removed by device_del and
-> > > object_del.
-> > >=20
-> > > Signed-off-by: Leonardo Bras <leonardo@linux.ibm.com>
-> > >=20
-> > > ---
-> > > The new flag was already proposed on Power Architecture documentation=
-,
-> > > and it's waiting for approval.
-> > >=20
-> > > I would like to get your comments on this change, but it's still not
-> > > ready for being merged.
-> >=20
-> > This looks reasonable to me - at the very least it doesn't look like
-> > it could do much harm.
->=20
-> Looks good to me, also tested with PowerKVM guests.
->=20
-> Reviewed-by: Bharata B Rao <bharata@linux.ibm.com>
->=20
-> Regards,
-> Bharata.
-
---=-qWbytmRUWCMrXi+u3r9y
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEMdeUgIzgjf6YmUyOlQYWtz9SttQFAl6GHLAACgkQlQYWtz9S
-ttRsihAA5HJfNqF69sgy8rWwW2maRAl0b08e5Ub8o/dQ4dvL3bXmdzGVgc5QMgjB
-weRI67HlEM8aVjJTa+Qzem/mf90Oi3uJCtfSVFuLtt9SCr4FD45n6Xaltmy0YDlq
-Z5t/eHMcUjzOWkyBnoL0dckhqkUj5cB9jL5dxpxgzjSllOIcnB8crMRqgAjc9Taf
-00hnn8E3lF3UhSgN2FXvTEKofv18WQ0IKnLcULzHUMZkPgFhWmbMn0EZXojcEOoN
-y2e5KMM7XobUwiJCupZ7TQDQfSiz4SFQbLKDhn+yqqBmo2OMTqvZE5PM3DZkgDxF
-3KqQ/YX5cEgKKxMxrbES/KhnoRocGie499r+8JMmwaJEFuFBVLFbRxDK88HCM/Tw
-OhqlXQ5q48x2pZkKa/n53+XcrGjGUBPWkZCM2WLfvWrZEqUho/aPLMSroaERgvHU
-UAHlPluNT7C6FSsBxpk2SaWHJsf2X6pTp/vS8HrsgH0k8Ij+jEWknMSVqHwELwTL
-K9WfQRobDvuOxpHCgDfVm+HuIQlIkiAZL5TY3KTZPRTN6+YqDoEaK8Vm+/3ZFvna
-Es8n4nbQLg1jP1W/wFSy/fM6dH/nuwXWOp9yZWebB7Zr16+X66i9ylNukr/pu8MG
-tB0yJFqSpARgHGHIaU0paXbS107Ujpp13CuAksGz3AT2ynE/sTw=
-=cNYZ
------END PGP SIGNATURE-----
-
---=-qWbytmRUWCMrXi+u3r9y--
-
+> ---
+>  hw/dma/xlnx-zdma.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/hw/dma/xlnx-zdma.c b/hw/dma/xlnx-zdma.c
+> index a6c5b2304a..6a4699757a 100644
+> --- a/hw/dma/xlnx-zdma.c
+> +++ b/hw/dma/xlnx-zdma.c
+> @@ -680,6 +680,12 @@ static RegisterAccessInfo zdma_regs_info[] = {
+>      },{ .name = "ZDMA_CH_DBG0",  .addr = A_ZDMA_CH_DBG0,
+>          .rsvd = 0xfffffe00,
+>          .ro = 0x1ff,
+> +
+> +        /*
+> +         * There's SW out there that will check the debug regs for free space.
+> +         * Claim that we always have 0x100 free.
+> +         */
+> +        .reset = 0x100
+>      },{ .name = "ZDMA_CH_DBG1",  .addr = A_ZDMA_CH_DBG1,
+>          .rsvd = 0xfffffe00,
+>          .ro = 0x1ff,
+> --
+> 2.20.1
+>
+>
 
