@@ -2,67 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC8DC19BED1
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 11:44:48 +0200 (CEST)
-Received: from localhost ([::1]:36148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 905F819C33F
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 15:54:29 +0200 (CEST)
+Received: from localhost ([::1]:40396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJwP1-0003lX-MR
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 05:44:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57116)
+	id 1jK0Ie-0000IX-Kw
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 09:54:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58415)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jJwOF-0003Mo-UY
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 05:44:00 -0400
+ (envelope-from <xadimgnik@gmail.com>) id 1jJwU0-0005rh-0F
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 05:49:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1jJwOE-000712-OH
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 05:43:59 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30474
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jJwOE-00070T-FI
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 05:43:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585820637;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bjCfm+PwiwVHgjtGke5LL7Zx0vpI0NeRCviYVf/EkAE=;
- b=QvuFTBt08NXYne00jPB6g9cYz0yW3FFE+SP6CUe4piYMQByEgndH+y5sXdAu8+0ylX49ob
- gH1aTsBqAOZNBzUIHcYWld9JCWsX13dP33E6bzHkoG8oHKyMvICD1l2L5W7/24yzdZraX7
- FgfGUdAhcWhGlfpiRwZxCBjfICGfybk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-QePq2gKbN2ik5iWuaMkoWQ-1; Thu, 02 Apr 2020 05:43:55 -0400
-X-MC-Unique: QePq2gKbN2ik5iWuaMkoWQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14D87800D50;
- Thu,  2 Apr 2020 09:43:53 +0000 (UTC)
-Received: from gondolin (ovpn-113-176.ams2.redhat.com [10.36.113.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 52D806EF97;
- Thu,  2 Apr 2020 09:43:48 +0000 (UTC)
-Date: Thu, 2 Apr 2020 11:43:45 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Christian Borntraeger <borntraeger@de.ibm.com>
-Subject: Re: [PATCH v3 1/1] vl/s390x: fixup ram sizes for compat machines
-Message-ID: <20200402114345.457fe4f1.cohuck@redhat.com>
-In-Reply-To: <861e54aa-fb64-78c4-f3e6-6b0bfd7366ab@de.ibm.com>
-References: <20200401123754.109602-1-borntraeger@de.ibm.com>
- <20200401183456.09ba3540@redhat.com>
- <20200402112735.6961297d.cohuck@redhat.com>
- <861e54aa-fb64-78c4-f3e6-6b0bfd7366ab@de.ibm.com>
-Organization: Red Hat GmbH
+ (envelope-from <xadimgnik@gmail.com>) id 1jJwTy-0000yF-Jv
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 05:49:55 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:35355)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <xadimgnik@gmail.com>) id 1jJwTy-0000xd-D5
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 05:49:54 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id a20so3369757edj.2
+ for <qemu-devel@nongnu.org>; Thu, 02 Apr 2020 02:49:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:reply-to:to:cc:references:in-reply-to:subject:date:message-id
+ :mime-version:content-transfer-encoding:thread-index
+ :content-language;
+ bh=8BXW3HQ9jIN1PK8/Ynmi2J5s9ajXZ+eaVpPcKxTAcNk=;
+ b=nBZH0rn0E81F+R2nez36gvWmYGOU2otGb3GoyXWSHIiUIaFomyPmCPd7IIMzZOfpHZ
+ lgZaO63OsuspTtdBhmUMgtUZgdDvAYpNTIYlOp8+WR8dz6UTljWpIqNkM/5CJNbP5SXR
+ DEUTwy4kcc00Alfysne0FyLXDreE8pQZ+UCRC0OWv6XwBmeb/ypzoVyrqbQApuDtuDYT
+ oHWFNrsUBDciPvrAn1/Mq46L0QTsWISeau508A9XP8g1RX0BFqqxiyOrml6iMYkWCxzf
+ /2ubLC4SWwprYT+UJE0c0PrGiM3trIwA3+DkSS1u3uPHQz2v94+uysInvjXaZqX49Flc
+ 6X6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:reply-to:to:cc:references:in-reply-to
+ :subject:date:message-id:mime-version:content-transfer-encoding
+ :thread-index:content-language;
+ bh=8BXW3HQ9jIN1PK8/Ynmi2J5s9ajXZ+eaVpPcKxTAcNk=;
+ b=hGNzM4hhYB4pqcus8wj4dnKBjJO6CDle5fFDqcQJ5raA/y9XstJVwaORrvmq5OHg5O
+ RoxSYgQh9uERLTFFiP5xt7JvKKUZuJHl+A8CWyaXXlbU4Q2cdM1H4fmpdR2szkQ1G4d4
+ mSGGlk36nS0Dm7J6awvdlwy5n7AOHQg95cG9s0ouo5KqfzQtg7xUD97+1LRLdCisRbR6
+ 19AXsjf7zM1UNuvbK8owG+la5jFWweNO+7a85N1ZF95upUZRvNRDVp7OXL9NGNTKwKQM
+ L4nN3QMkUKeJh6F4YsAothKaf9M1e20FYK2U1oW5aSPinWrdxkjkXY4t53Pjq96+97ud
+ tjAQ==
+X-Gm-Message-State: AGi0PuZLuoc2Ud2GOPVsk8kJCN9ThOaraxvC2xZACzRW+9J6a1u1+hox
+ y7A2WUqq10ilT6gsqUu2AZM=
+X-Google-Smtp-Source: APiQypJOhfeBLGylZMLkCkD7FprWLkParhrlxdKSMnXiT455KLlyVMHvvgdKy8q5UQl8VbbnorBYig==
+X-Received: by 2002:aa7:c413:: with SMTP id j19mr2074824edq.100.1585820993093; 
+ Thu, 02 Apr 2020 02:49:53 -0700 (PDT)
+Received: from CBGR90WXYV0 ([54.239.6.186])
+ by smtp.gmail.com with ESMTPSA id d20sm851821edn.12.2020.04.02.02.49.51
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 02 Apr 2020 02:49:52 -0700 (PDT)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: "Paul Durrant" <paul@xen.org>
+To: =?utf-8?Q?'Philippe_Mathieu-Daud=C3=A9'?= <philmd@redhat.com>,
+ "'Anthony PERARD'" <anthony.perard@citrix.com>, <qemu-devel@nongnu.org>
+References: <20190114135154.16826-1-anthony.perard@citrix.com>
+ <20190114135154.16826-7-anthony.perard@citrix.com>
+ <772fab5a-59ab-050f-9fef-f3b050cfc5cd@redhat.com>
+In-Reply-To: <772fab5a-59ab-050f-9fef-f3b050cfc5cd@redhat.com>
+Subject: RE: [Qemu-devel] [PULL 06/25] xen: create xenstore areas for
+ XenDevice-s
+Date: Thu, 2 Apr 2020 10:49:50 +0100
+Message-ID: <001001d608d4$0e7b9f40$2b72ddc0$@xen.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQLkG+zb+BC6iV9CP7Z29unUmtxq1wLn4V7uAn6DrKimHjyY8A==
+Content-Language: en-gb
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::52f
+X-Mailman-Approved-At: Thu, 02 Apr 2020 09:52:34 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,66 +88,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?THVrw6HFoQ==?= Doktor <ldoktor@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>, qemu-s390x <qemu-s390x@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
+Reply-To: paul@xen.org
+Cc: xen-devel@lists.xenproject.org, 'Markus Armbruster' <armbru@redhat.com>,
+ 'Peter Maydell' <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2 Apr 2020 11:39:11 +0200
-Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+> -----Original Message-----
+> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Sent: 01 April 2020 17:14
+> To: Anthony PERARD <anthony.perard@citrix.com>; qemu-devel@nongnu.org
+> Cc: xen-devel@lists.xenproject.org; Peter Maydell =
+<peter.maydell@linaro.org>; Paul Durrant
+> <paul@xen.org>; Markus Armbruster <armbru@redhat.com>
+> Subject: Re: [Qemu-devel] [PULL 06/25] xen: create xenstore areas for =
+XenDevice-s
+>=20
+> Hi Anthony, Paul.
+>=20
+> Cc'ing Markus too.
+>=20
+> On 1/14/19 2:51 PM, Anthony PERARD wrote:
+> > From: Paul Durrant <paul.durrant@citrix.com>
+> >
+> > This patch adds a new source module, xen-bus-helper.c, which builds =
+on
+> > basic libxenstore primitives to provide functions to create (setting
+> > permissions appropriately) and destroy xenstore areas, and functions =
+to
+> > 'printf' and 'scanf' nodes therein. The main xen-bus code then uses
+> > these primitives [1] to initialize and destroy the frontend and =
+backend
+> > areas for a XenDevice during realize and unrealize respectively.
+> >
+> > The 'xen-block' implementation is extended with a 'get_name' method =
+that
+> > returns the VBD number. This number is required to 'name' the =
+xenstore
+> > areas.
+> >
+> > NOTE: An exit handler is also added to make sure the xenstore areas =
+are
+> >        cleaned up if QEMU terminates without devices being =
+unrealized.
+> >
+> > [1] The 'scanf' functions are actually not yet needed, but they will =
+be
+> >      needed by code delivered in subsequent patches.
+> >
+> > Signed-off-by: Paul Durrant <paul.durrant@citrix.com>
+> > Reviewed-by: Anthony Perard <anthony.perard@citrix.com>
+> > Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+> > ---
+> >   hw/block/xen-block.c            |   9 +
+> >   hw/xen/Makefile.objs            |   2 +-
+> >   hw/xen/trace-events             |  12 +-
+> >   hw/xen/xen-bus-helper.c         | 150 +++++++++++++++
+> >   hw/xen/xen-bus.c                | 321 =
++++++++++++++++++++++++++++++++-
+> >   include/hw/xen/xen-bus-helper.h |  39 ++++
+> >   include/hw/xen/xen-bus.h        |  12 ++
+> >   7 files changed, 540 insertions(+), 5 deletions(-)
+> >   create mode 100644 hw/xen/xen-bus-helper.c
+> >   create mode 100644 include/hw/xen/xen-bus-helper.h
+> >
+> [...]
+> > +static void xen_device_exit(Notifier *n, void *data)
+> > +{
+> > +    XenDevice *xendev =3D container_of(n, XenDevice, exit);
+> > +
+> > +    xen_device_unrealize(DEVICE(xendev), &error_abort);
+> >   }
+> >
+> >   static void xen_device_realize(DeviceState *dev, Error **errp)
+> >   {
+> >       XenDevice *xendev =3D XEN_DEVICE(dev);
+> >       XenDeviceClass *xendev_class =3D XEN_DEVICE_GET_CLASS(xendev);
+> > +    XenBus *xenbus =3D =
+XEN_BUS(qdev_get_parent_bus(DEVICE(xendev)));
+> >       const char *type =3D object_get_typename(OBJECT(xendev));
+> >       Error *local_err =3D NULL;
+> >
+> > -    trace_xen_device_realize(type);
+> > +    if (xendev->frontend_id =3D=3D DOMID_INVALID) {
+> > +        xendev->frontend_id =3D xen_domid;
+> > +    }
+> > +
+> > +    if (xendev->frontend_id >=3D DOMID_FIRST_RESERVED) {
+> > +        error_setg(errp, "invalid frontend-id");
+> > +        goto unrealize;
+> > +    }
+> > +
+> > +    if (!xendev_class->get_name) {
+> > +        error_setg(errp, "get_name method not implemented");
+> > +        goto unrealize;
+> > +    }
+> > +
+> > +    xendev->name =3D xendev_class->get_name(xendev, &local_err);
+> > +    if (local_err) {
+> > +        error_propagate_prepend(errp, local_err,
+> > +                                "failed to get device name: ");
+> > +        goto unrealize;
+> > +    }
+> > +
+> > +    trace_xen_device_realize(type, xendev->name);
+> > +
+> > +    xen_device_backend_create(xendev, &local_err);
+> > +    if (local_err) {
+> > +        error_propagate(errp, local_err);
+> > +        goto unrealize;
+> > +    }
+> > +
+> > +    xen_device_frontend_create(xendev, &local_err);
+> > +    if (local_err) {
+> > +        error_propagate(errp, local_err);
+> > +        goto unrealize;
+> > +    }
+> >
+> >       if (xendev_class->realize) {
+> >           xendev_class->realize(xendev, &local_err);
+> > @@ -72,18 +364,43 @@ static void xen_device_realize(DeviceState =
+*dev, Error **errp)
+> >           }
+> >       }
+> >
+> > +    xen_device_backend_printf(xendev, "frontend", "%s",
+> > +                              xendev->frontend_path);
+> > +    xen_device_backend_printf(xendev, "frontend-id", "%u",
+> > +                              xendev->frontend_id);
+> > +    xen_device_backend_printf(xendev, "online", "%u", 1);
+> > +    xen_device_backend_printf(xendev, "hotplug-status", =
+"connected");
+> > +
+> > +    xen_device_backend_set_state(xendev, XenbusStateInitWait);
+> > +
+> > +    xen_device_frontend_printf(xendev, "backend", "%s",
+> > +                               xendev->backend_path);
+> > +    xen_device_frontend_printf(xendev, "backend-id", "%u",
+> > +                               xenbus->backend_id);
+> > +
+> > +    xen_device_frontend_set_state(xendev, XenbusStateInitialising);
+> > +
+> > +    xendev->exit.notify =3D xen_device_exit;
+> > +    qemu_add_exit_notifier(&xendev->exit);
+> >       return;
+> >
+> >   unrealize:
+> >       xen_device_unrealize(dev, &error_abort);
+>=20
+> It seems if unrealize() fails, the error stored in &local_err is never
+> reported. Not sure if this can be improved although.
 
-> On 02.04.20 11:27, Cornelia Huck wrote:
-> > On Wed, 1 Apr 2020 18:34:56 +0200
-> > Igor Mammedov <imammedo@redhat.com> wrote:
-> >   
-> >> On Wed,  1 Apr 2020 08:37:54 -0400
-> >> Christian Borntraeger <borntraeger@de.ibm.com> wrote:  
-> >   
-> >>> +static ram_addr_t s390_fixup_ram_size(ram_addr_t sz)
-> >>> +{
-> >>> +    /* same logic as in sclp.c */
-> >>> +    int increment_size = 20;
-> >>> +    ram_addr_t newsz;
-> >>> +
-> >>> +    while ((sz >> increment_size) > MAX_STORAGE_INCREMENTS) {
-> >>> +        increment_size++;
-> >>> +    }
-> >>> +    newsz = sz >> increment_size << increment_size;
-> >>> +
-> >>> +    if (sz != newsz) {
-> >>> +        qemu_printf("Ram size %" PRIu64 "MB was fixed up to %" PRIu64    
-> >>                                                    ^^^^^^^^
-> >>
-> >> for unaware  user it could be confusing as it could be read as 'value was increased'
-> >> s/fixed up/amended/ might be better  
-> > 
-> > "rounded", perhaps?
-> >   
-> >>  
-> >>> +                    "MB to match machine restrictions. Consider updating "
-> >>> +                    "the guest definition.i\n", sz / MiB, newsz / MiB);    
-> >>
-> >> also it might be better to use size_to_str() to format numbers  
-> > 
-> > The text explicitly talks about 'MB'... not sure if it would be
-> > confusing if the user specified MB and ended up with GB or so in this
-> > message.
-> >   
-> >>  
-> >>> +    }
-> >>> +    return newsz;
-> >>> +}
-> >>> +  
-> > 
-> > (If we can agree upon message and format, I'll happily fix that up when
-> > applying.)  
-> 
-> Is the the only thing that blocks this? I would rather try to get this fixed before rc2.
+In this case that's essentially a "don't care". We want to know why the =
+realize failed but if the unrealize fails something is probably pretty =
+seriously screwed (hence the error_abort).
 
-Yes. I plan to send a pull request as soon as I have applied this.
+  Paul
 
 
