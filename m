@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A5A19BEAA
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 11:29:55 +0200 (CEST)
-Received: from localhost ([::1]:35966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BA3A19BEB6
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 11:33:31 +0200 (CEST)
+Received: from localhost ([::1]:36036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJwAc-0002Qi-EO
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 05:29:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54381)
+	id 1jJwE6-0004yH-9i
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 05:33:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55196)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <hsp.cat7@gmail.com>) id 1jJw9V-0001nr-2J
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 05:28:46 -0400
+ (envelope-from <stefanha@redhat.com>) id 1jJwD6-0003xT-Jj
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 05:32:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <hsp.cat7@gmail.com>) id 1jJw9T-0004or-Nq
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 05:28:44 -0400
-Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:39444)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <hsp.cat7@gmail.com>)
- id 1jJw9T-0004n7-JE; Thu, 02 Apr 2020 05:28:43 -0400
-Received: by mail-io1-xd34.google.com with SMTP id c16so2877178iod.6;
- Thu, 02 Apr 2020 02:28:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=HuAPEc3xHBmUPSy9L5bzFQV9J2w+XtzLiuPsjegJNVM=;
- b=i4BULBBAmKbfUoo0BwphTqJQvNA7aivRdMt6tCw4knX97dlsQe8IR7A98i8HbNxbk7
- zdxAuoQvRcbkP6ILcMeIdZjHZo3Sg1gIOoYZKUJx0C0CRWseAL0XvZ423VjzGlQpnDwz
- Y6ThAwfKZDSwBejtiWiBK5MBv+n1InXz0D0R1ZeHq+yQpOIel1ZNqsbEm4iD32wWzMPc
- aey3wH9c6B9HC1+FcDkMUkPg802VXGt5/kX4XY36ND4UeD20xXMqEUUIsKGTZsyljVni
- Z6aRyMVXwOyArGLbvcEG8e5ruJeusmmaVfEPz+deoQq/jnZ7HF3lGGCYS/B9mtv8PS0M
- Bq5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=HuAPEc3xHBmUPSy9L5bzFQV9J2w+XtzLiuPsjegJNVM=;
- b=t8fFf8d5FVX+vjljIFzXqqsdsTMqECIaey1uQR1LhKLc/FRiXk8EaPVGgnKaFAcAk4
- M/Pqd0ktGjeLVBanHLFFTXTvCo9fnv1+iQvRj7Sj89jgCvN4Q+R3msS5URQGfBcQHBOn
- ZV3mwYBh7GPkbu2QVXmT4Qj8ocQWiISYanewHNTSklQiM0CdIh9NwkhtMfB6ef4isPyN
- oPRUr6SXYuQ1ufQUC/U3WqStJEmWfrP8dTegYhoQyJdYgoDppvBsK8W15/PTlNzL2w2x
- V+bsp90q/60OmeXwWI95y1dUNBTuLaZXKCUkpnzIw0k6FouygyVSvbZzMEtyj0fz6H6L
- M1/w==
-X-Gm-Message-State: AGi0Pubeq8MTyWt89ab6ZTetLnnHX9/QvtiikrRK3W+5hVQ0EZm+VQZy
- 2rqyNfVxBo8rI8Gc8yu3CTiP7GtH29PnqQlerRSK4owg
-X-Google-Smtp-Source: APiQypIs2jQqT53Kv1kjUpHcbAyQ3IudHqaTWQ89MqElRL1ZkRxkHV+W/HZOKAKbUk6YDV4Xraiv7PaDNH9wlQVtzZ8=
-X-Received: by 2002:a5d:8b57:: with SMTP id c23mr1898056iot.161.1585819722042; 
- Thu, 02 Apr 2020 02:28:42 -0700 (PDT)
+ (envelope-from <stefanha@redhat.com>) id 1jJwD4-0007b2-V8
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 05:32:28 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52607
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1jJwD4-0007Yv-QU
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 05:32:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585819946;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=X+KOdGcGEw2gSawHhNqh1nXXjrQa7I35RsICu1UaYPM=;
+ b=XbRIVSieiDRdwsWsF7BOkurT4CemPm0RrdZhlTwaFo4IhhlNi4uWSgCm9Y15bxfDqYnmsf
+ UwKZ0Z5CfA9huIQj9UDAb91ct+Vm+4heogGBcGGm+PDiVCef47y2XFmgfpjwF/5Q/gxLun
+ HbYMVcItEru68VEhi3/L4xaxXavabuQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-448-a7oFSUDONxyxI6iWkCv5MQ-1; Thu, 02 Apr 2020 05:32:24 -0400
+X-MC-Unique: a7oFSUDONxyxI6iWkCv5MQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C19A013F7;
+ Thu,  2 Apr 2020 09:32:22 +0000 (UTC)
+Received: from localhost (ovpn-113-134.ams2.redhat.com [10.36.113.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 54E9F5D9CA;
+ Thu,  2 Apr 2020 09:32:22 +0000 (UTC)
+Date: Thu, 2 Apr 2020 10:32:21 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2] util/async: Add memory barrier to aio_ctx_prepare
+Message-ID: <20200402093221.GD28280@stefanha-x1.localdomain>
+References: <20200402024431.1629-1-fangying1@huawei.com>
 MIME-Version: 1.0
-From: Howard Spoelstra <hsp.cat7@gmail.com>
-Date: Thu, 2 Apr 2020 11:28:30 +0200
-Message-ID: <CABLmASEaKJKzDdvKGv+iWfp=0vdr9bupM76zvLZZ6sZFAPkuRg@mail.gmail.com>
-Subject: qemu-system-ppc 5.0 rc1 crashing on Windows
-To: qemu-devel qemu-devel <qemu-devel@nongnu.org>,
- qemu-ppc <qemu-ppc@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000035cfd305a24b6def"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::d34
+In-Reply-To: <20200402024431.1629-1-fangying1@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="XvKFcGCOAo53UbWW"
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,100 +70,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: fam@euphon.net, zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
+ qemu-stable@nongnu.org, qemu-arm@nongnu.org, Ying Fang <fangying1@huawei.com>,
+ pbonzini@redhat.com, wu.wubin@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000035cfd305a24b6def
-Content-Type: text/plain; charset="UTF-8"
+--XvKFcGCOAo53UbWW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Thu, Apr 02, 2020 at 10:44:31AM +0800, Ying Fang wrote:
+> Qemu main thread is found to hang up in the mainloop when doing
+> image format convert on aarch64 platform and it is highly
+> reproduceable by executing test using:
+>=20
+> qemu-img convert -f qcow2 -O qcow2 origin.qcow2 converted.qcow2
+>=20
+> This mysterious hang can be explained by a race condition between
+> the main thread and an io worker thread. There can be a chance that
+> the last worker thread has called aio_bh_schedule_oneshot and it is
+> checking against notify_me to deliver a notfiy event. At the same
+> time, the main thread is calling aio_ctx_prepare however it first
+> calls qemu_timeout_ns_to_ms, thus the worker thread did not see
+> notify_me as true and did not send a notify event. The time line
+> can be shown in the following way:
+>=20
+>  Main Thread
+>  ------------------------------------------------
+>  aio_ctx_prepare
+>     atomic_or(&ctx->notify_me, 1);
+>     /* out of order execution goes here */
+>     *timeout =3D qemu_timeout_ns_to_ms(aio_compute_timeout(ctx));
+>=20
+>  Worker Thread
+>  -----------------------------------------------
+>  aio_bh_schedule_oneshot -> aio_bh_enqueue
+>     aio_notify
+> =09smp_mb();
+> =09if (ctx->notify_me) {   /* worker thread checks notify_me here */
+> =09    event_notifier_set(&ctx->notifier);
+> =09    atomic_mb_set(&ctx->notified, true);
+> =09}
 
-I just compiled qemu-system-ppc for Windows, using native msys2 on Windows
-10 64 bit and the 64 bit mingw cross compiler on Fedora 31. Both create
-executables that crash:
+Paolo, I'm not sure how to interpret this case according to
+docs/devel/atomics.txt.  Maybe you can clarify.
 
-qemu-system-ppc.exe -L pc-bios -boot c -m 512 -M mac99,via=3Dpmu -h
-da C:\Mac-disks\9.2.img
-Exception code=3D0xc0000005 flags=3D0x0 at 0x00007FFB2A602078. Access viola=
-tion
-- attempting to write data at address 0x00000000034C76EC
+atomic_or() is sequentially consistent and I therefore expected it to
+act as a barrier.  Or does sequential consistency only cover the memory
+accessed via the sequentially consistent atomics APIs and everything
+else (like aio_compute_timeout()) can be reordered?
 
-I bisected this down to:
+>=20
+> Normal VM runtime is not affected by this hang since there is always some
+> timer timeout or subsequent io worker come and notify the main thead.
+> To fix this problem, a memory barrier is added to aio_ctx_prepare and
+> it is proved to have the hang fixed in our test.
+>=20
+> This hang is not observed on the x86 platform however it can be easily
+> reproduced on the aarch64 platform, thus it is architecture related.
+> Not sure if this is revelant to Commit eabc977973103527bbb8fed69c91cfaa66=
+91f8ab
+>=20
+> Signed-off-by: Ying Fang <fangying1@huawei.com>
+> Signed-off-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+>=20
+> ---
+> =09v2: add comments before the barrier
+>=20
+> ---
+>  util/async.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/util/async.c b/util/async.c
+> index b94518b..89a4f3e 100644
+> --- a/util/async.c
+> +++ b/util/async.c
+> @@ -250,7 +250,8 @@ aio_ctx_prepare(GSource *source, gint    *timeout)
+>      AioContext *ctx =3D (AioContext *) source;
+> =20
+>      atomic_or(&ctx->notify_me, 1);
+> -
+> +    /* Make sure notify_me is set before aio_compute_timeout */
+> +    smp_mb();
+>      /* We assume there is no timeout already supplied */
+>      *timeout =3D qemu_timeout_ns_to_ms(aio_compute_timeout(ctx));
+> =20
+> --=20
+> 1.8.3.1
+>=20
+>=20
 
-d2cd29e30736afd4a1e8cac3cf4da360bbc65978 is the first bad commit
-commit d2cd29e30736afd4a1e8cac3cf4da360bbc65978
-Author: Richard Henderson <richard.henderson@linaro.org>
-Date:   Tue Dec 17 13:47:37 2019 -1000
+--XvKFcGCOAo53UbWW
+Content-Type: application/pgp-signature; name="signature.asc"
 
-    configure: Do not force pie=3Dno for non-x86
+-----BEGIN PGP SIGNATURE-----
 
-    PIE is supported on many other hosts besides x86.
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6FsSUACgkQnKSrs4Gr
+c8jxmwf/WbDZ3sZ09kVAjfwMqMWFjjIgEoekyuEL7nfvi/1ZmG9JHqH6SW66rUrw
+ZPtSHKJew8ex87lEZWwoHrIRkUBWrQal8zq3j0vzismRTMTXC/YyG9uLzG7GuIKB
+bkZUJCPD67G66gG+rGmkM+QD1aAAUGML8mHRG3uPp9B9mpA+REtl+w+LDXPechTx
+mlNqaD4Q/NiSovjzM9zbaNkH2icTNBBjseTs0ooahjMzUrBAOI9q3E8PnRJCNxq9
+Y3ItDnFG82N/o0U7+eUmh0jj5lF1kIiUy3yUkdsfpuARbP+5MTEBsoPWw8FOetSk
+sEoTR4RAp/R4ZYtCEqtAVjAG34Simw==
+=o9TH
+-----END PGP SIGNATURE-----
 
-    The default for non-x86 is now the same as x86: pie is used
-    if supported, and may be forced via --enable/--disable-pie.
+--XvKFcGCOAo53UbWW--
 
-    The original commit (40d6444e91c) said:
-
-      "Non-x86 are not changed, as they require TCG changes"
-
-    but I think that's wrong -- there's nothing about PIE that
-    affects TCG one way or another.
-
-    Tested on aarch64 (bionic) and ppc64le (centos 7) hosts.
-
-    Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-    Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-    Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-    Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Please note that I tried again after applying patch
-https://patchwork.ozlabs.org/patch/1265368/ However, this has not solved my
-issue.
-
-Best,
-Howard
-
---00000000000035cfd305a24b6def
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi,<br></div><div><br></div><div>I just compiled qemu=
--system-ppc for Windows, using native msys2 on Windows 10 64 bit and the 64=
- bit mingw cross compiler on Fedora 31. Both create executables that crash:=
-</div><div><br></div><div>
-qemu-system-ppc.exe -L pc-bios -boot c -m 512 -M mac99,via=3Dpmu -h<br>da C=
-:\Mac-disks\9.2.img<br>Exception
- code=3D0xc0000005 flags=3D0x0 at 0x00007FFB2A602078. Access violation -=20
-attempting to write data at address 0x00000000034C76EC <br></div><div><br><=
-/div><div>I bisected this down to: <br></div><div><br></div><div>d2cd29e307=
-36afd4a1e8cac3cf4da360bbc65978 is the first bad commit</div>commit d2cd29e3=
-0736afd4a1e8cac3cf4da360bbc65978<br>Author: Richard Henderson &lt;<a href=
-=3D"mailto:richard.henderson@linaro.org" target=3D"_blank">richard.henderso=
-n@linaro.org</a>&gt;<br>Date: =C2=A0 Tue Dec 17 13:47:37 2019 -1000<br><br>=
-=C2=A0 =C2=A0 configure: Do not force pie=3Dno for non-x86<br>=C2=A0 =C2=A0=
- <br>=C2=A0 =C2=A0 PIE is supported on many other hosts besides x86.<br>=C2=
-=A0 =C2=A0 <br>=C2=A0 =C2=A0 The default for non-x86 is now the same as x86=
-: pie is used<br>=C2=A0 =C2=A0 if supported, and may be forced via --enable=
-/--disable-pie.<br>=C2=A0 =C2=A0 <br>=C2=A0 =C2=A0 The original commit (40d=
-6444e91c) said:<br>=C2=A0 =C2=A0 <br>=C2=A0 =C2=A0 =C2=A0 &quot;Non-x86 are=
- not changed, as they require TCG changes&quot;<br>=C2=A0 =C2=A0 <br>=C2=A0=
- =C2=A0 but I think that&#39;s wrong -- there&#39;s nothing about PIE that<=
-br>=C2=A0 =C2=A0 affects TCG one way or another.<br>=C2=A0 =C2=A0 <br>=C2=
-=A0 =C2=A0 Tested on aarch64 (bionic) and ppc64le (centos 7) hosts.<br>=C2=
-=A0 =C2=A0 <br>=C2=A0 =C2=A0 Tested-by: Alex Benn=C3=A9e &lt;<a href=3D"mai=
-lto:alex.bennee@linaro.org" target=3D"_blank">alex.bennee@linaro.org</a>&gt=
-;<br>=C2=A0 =C2=A0 Reviewed-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex=
-.bennee@linaro.org" target=3D"_blank">alex.bennee@linaro.org</a>&gt;<br>=C2=
-=A0 =C2=A0 Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:p=
-hilmd@redhat.com" target=3D"_blank">philmd@redhat.com</a>&gt;<br><div>=C2=
-=A0 =C2=A0 Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.h=
-enderson@linaro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;=
-</div><div><br></div><div>Please note that I tried again after applying pat=
-ch <a href=3D"https://patchwork.ozlabs.org/patch/1265368/" target=3D"_blank=
-">https://patchwork.ozlabs.org/patch/1265368/</a> However, this has not sol=
-ved my issue.</div><div><br></div><div>Best,</div><div>Howard<br></div><div=
-><br></div><div><br></div></div>
-
---00000000000035cfd305a24b6def--
 
