@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58B8C19C986
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 21:12:22 +0200 (CEST)
-Received: from localhost ([::1]:46378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E42D619C9AA
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 21:14:36 +0200 (CEST)
+Received: from localhost ([::1]:46412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK5GH-0002ly-DD
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 15:12:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33863)
+	id 1jK5IR-0005in-FH
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 15:14:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33884)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jK5B1-0002UT-9p
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:56 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jK5B1-0002Ue-VS
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jK5B0-0000Pn-1G
+ (envelope-from <pbonzini@redhat.com>) id 1jK5B0-0000QU-Tm
  for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35926
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44421
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jK5Az-0000NA-Pf
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:53 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jK5B0-0000QA-PN
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585854413;
+ s=mimecast20190719; t=1585854414;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fyIXqJR9CGNVjmUsY7ssf4pvHmvsyrpi0UXASetzHqY=;
- b=SmV6VPC1caxvQexMLP44rUZ1QIohv8AQjBkMjxYRDqAL8olD63opvTovLRDzalzTLM4Cs7
- DJtXV9o/6K8cs7ngQ+jy3MagOc7r+2mkCOJZCgbYwKG5qX79T3YmNUymTWa7GJpRfTpAVa
- yeXj7sE7K2nP8AKv7mO9odrpd0JeATI=
+ bh=hAHg1jLQ/+hiDQf0/HvgOsrR0/PB04onhEW2w2UkMdw=;
+ b=MoVqnkF92RyvpYD7cVWZ3IobtnqSWoIy69jC5PMRivi/rb4u+IINZjSy4RlvXeAepZ9yCX
+ 0/9tFnpnLbjSNefjEthwC7JBYWFGQpGXqDil/WBaGcVEyFCCgm+ERs3AJCCxHn3Xk0P+Xo
+ oLrNDZO4R9NM80ZZxmOP0e3lHLND89g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-280-pbkzwwDtMymCfL4SaJkWFg-1; Thu, 02 Apr 2020 15:06:51 -0400
-X-MC-Unique: pbkzwwDtMymCfL4SaJkWFg-1
+ us-mta-41-zvC6ni4wNgil-SYfJG3PEg-1; Thu, 02 Apr 2020 15:06:52 -0400
+X-MC-Unique: zvC6ni4wNgil-SYfJG3PEg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB74A8017CE
- for <qemu-devel@nongnu.org>; Thu,  2 Apr 2020 19:06:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B0E3100551A
+ for <qemu-devel@nongnu.org>; Thu,  2 Apr 2020 19:06:51 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8EBEE50BEE;
- Thu,  2 Apr 2020 19:06:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1D0B550BEE;
+ Thu,  2 Apr 2020 19:06:51 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/15] target/i386: do not set unsupported VMX secondary
- execution controls
-Date: Thu,  2 Apr 2020 15:06:36 -0400
-Message-Id: <20200402190640.1693-12-pbonzini@redhat.com>
+Subject: [PULL 12/15] migration: fix cleanup_bh leak on resume
+Date: Thu,  2 Apr 2020 15:06:37 -0400
+Message-Id: <20200402190640.1693-13-pbonzini@redhat.com>
 In-Reply-To: <20200402190640.1693-1-pbonzini@redhat.com>
 References: <20200402190640.1693-1-pbonzini@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,117 +72,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
+From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-Commit 048c95163b4 ("target/i386: work around KVM_GET_MSRS bug for
-secondary execution controls") added a workaround for KVM pre-dating
-commit 6defc591846d ("KVM: nVMX: include conditional controls in /dev/kvm
-KVM_GET_MSRS") which wasn't setting certain available controls. The
-workaround uses generic CPUID feature bits to set missing VMX controls.
+Since commit 8c6b0356b53977bcfdea5299db07884915425b0c ("util/async:
+make bh_aio_poll() O(1)"), migration-test reveals a leak:
 
-It was found that in some cases it is possible to observe hosts which
-have certain CPUID features but lack the corresponding VMX control.
+QTEST_QEMU_BINARY=3Dx86_64-softmmu/qemu-system-x86_64
+tests/qtest/migration-test  -p /x86_64/migration/postcopy/recovery
+tests/qtest/libqtest.c:140: kill_qemu() tried to terminate QEMU
+process but encountered exit status 1 (expected 0)
 
-In particular, it was reported that Azure VMs have RDSEED but lack
-VMX_SECONDARY_EXEC_RDSEED_EXITING; attempts to enable this feature
-bit result in QEMU abort.
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=3D=3D2082571=3D=3DERROR: LeakSanitizer: detected memory leaks
 
-Resolve the issue but not applying the workaround when we don't have
-to. As there is no good way to find out if KVM has the fix itself, use
-95c5c7c77c ("KVM: nVMX: list VMX MSRs in KVM_GET_MSR_INDEX_LIST") instead
-as these [are supposed to] come together.
+Direct leak of 40 byte(s) in 1 object(s) allocated from:
+    #0 0x7f25971dfc58 in __interceptor_malloc (/lib64/libasan.so.5+0x10dc58=
+)
+    #1 0x7f2596d08358 in g_malloc (/lib64/libglib-2.0.so.0+0x57358)
+    #2 0x560970d006f8 in qemu_bh_new /home/elmarco/src/qemu/util/main-loop.=
+c:532
+    #3 0x5609704afa02 in migrate_fd_connect
+/home/elmarco/src/qemu/migration/migration.c:3407
+    #4 0x5609704b6b6f in migration_channel_connect
+/home/elmarco/src/qemu/migration/channel.c:92
+    #5 0x5609704b2bfb in socket_outgoing_migration
+/home/elmarco/src/qemu/migration/socket.c:108
+    #6 0x560970b9bd6c in qio_task_complete /home/elmarco/src/qemu/io/task.c=
+:196
+    #7 0x560970b9aa97 in qio_task_thread_result
+/home/elmarco/src/qemu/io/task.c:111
+    #8 0x7f2596cfee3a  (/lib64/libglib-2.0.so.0+0x4de3a)
 
-Fixes: 048c95163b4 ("target/i386: work around KVM_GET_MSRS bug for secondar=
-y execution controls")
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-Message-Id: <20200331162752.1209928-1-vkuznets@redhat.com>
+Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20200325184723.2029630-2-marcandre.lureau@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/kvm.c | 41 ++++++++++++++++++++++++++---------------
- 1 file changed, 26 insertions(+), 15 deletions(-)
+ migration/migration.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 69eb43d796..4901c6dd74 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -106,6 +106,7 @@ static bool has_msr_arch_capabs;
- static bool has_msr_core_capabs;
- static bool has_msr_vmx_vmfunc;
- static bool has_msr_ucode_rev;
-+static bool has_msr_vmx_procbased_ctls2;
+diff --git a/migration/migration.c b/migration/migration.c
+index c4c9aee15e..187ac0410c 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3478,7 +3478,12 @@ void migrate_fd_connect(MigrationState *s, Error *er=
+ror_in)
+     bool resume =3D s->state =3D=3D MIGRATION_STATUS_POSTCOPY_PAUSED;
 =20
- static uint32_t has_architectural_pmu_version;
- static uint32_t num_architectural_pmu_gp_counters;
-@@ -490,21 +491,28 @@ uint64_t kvm_arch_get_supported_msr_feature(KVMState =
-*s, uint32_t index)
-     value =3D msr_data.entries[0].data;
-     switch (index) {
-     case MSR_IA32_VMX_PROCBASED_CTLS2:
--        /* KVM forgot to add these bits for some time, do this ourselves. =
- */
--        if (kvm_arch_get_supported_cpuid(s, 0xD, 1, R_ECX) & CPUID_XSAVE_X=
-SAVES) {
--            value |=3D (uint64_t)VMX_SECONDARY_EXEC_XSAVES << 32;
--        }
--        if (kvm_arch_get_supported_cpuid(s, 1, 0, R_ECX) & CPUID_EXT_RDRAN=
-D) {
--            value |=3D (uint64_t)VMX_SECONDARY_EXEC_RDRAND_EXITING << 32;
--        }
--        if (kvm_arch_get_supported_cpuid(s, 7, 0, R_EBX) & CPUID_7_0_EBX_I=
-NVPCID) {
--            value |=3D (uint64_t)VMX_SECONDARY_EXEC_ENABLE_INVPCID << 32;
--        }
--        if (kvm_arch_get_supported_cpuid(s, 7, 0, R_EBX) & CPUID_7_0_EBX_R=
-DSEED) {
--            value |=3D (uint64_t)VMX_SECONDARY_EXEC_RDSEED_EXITING << 32;
--        }
--        if (kvm_arch_get_supported_cpuid(s, 0x80000001, 0, R_EDX) & CPUID_=
-EXT2_RDTSCP) {
--            value |=3D (uint64_t)VMX_SECONDARY_EXEC_RDTSCP << 32;
-+        if (!has_msr_vmx_procbased_ctls2) {
-+            /* KVM forgot to add these bits for some time, do this ourselv=
-es. */
-+            if (kvm_arch_get_supported_cpuid(s, 0xD, 1, R_ECX) &
-+                CPUID_XSAVE_XSAVES) {
-+                value |=3D (uint64_t)VMX_SECONDARY_EXEC_XSAVES << 32;
-+            }
-+            if (kvm_arch_get_supported_cpuid(s, 1, 0, R_ECX) &
-+                CPUID_EXT_RDRAND) {
-+                value |=3D (uint64_t)VMX_SECONDARY_EXEC_RDRAND_EXITING << =
-32;
-+            }
-+            if (kvm_arch_get_supported_cpuid(s, 7, 0, R_EBX) &
-+                CPUID_7_0_EBX_INVPCID) {
-+                value |=3D (uint64_t)VMX_SECONDARY_EXEC_ENABLE_INVPCID << =
-32;
-+            }
-+            if (kvm_arch_get_supported_cpuid(s, 7, 0, R_EBX) &
-+                CPUID_7_0_EBX_RDSEED) {
-+                value |=3D (uint64_t)VMX_SECONDARY_EXEC_RDSEED_EXITING << =
-32;
-+            }
-+            if (kvm_arch_get_supported_cpuid(s, 0x80000001, 0, R_EDX) &
-+                CPUID_EXT2_RDTSCP) {
-+                value |=3D (uint64_t)VMX_SECONDARY_EXEC_RDTSCP << 32;
-+            }
-         }
-         /* fall through */
-     case MSR_IA32_VMX_TRUE_PINBASED_CTLS:
-@@ -2060,6 +2068,9 @@ static int kvm_get_supported_msrs(KVMState *s)
-             case MSR_IA32_UCODE_REV:
-                 has_msr_ucode_rev =3D true;
-                 break;
-+            case MSR_IA32_VMX_PROCBASED_CTLS2:
-+                has_msr_vmx_procbased_ctls2 =3D true;
-+                break;
-             }
-         }
-     }
+     s->expected_downtime =3D s->parameters.downtime_limit;
+-    s->cleanup_bh =3D qemu_bh_new(migrate_fd_cleanup_bh, s);
++    if (resume) {
++        assert(s->cleanup_bh);
++    } else {
++        assert(!s->cleanup_bh);
++        s->cleanup_bh =3D qemu_bh_new(migrate_fd_cleanup_bh, s);
++    }
+     if (error_in) {
+         migrate_fd_error(s, error_in);
+         migrate_fd_cleanup(s);
 --=20
 2.18.2
 
