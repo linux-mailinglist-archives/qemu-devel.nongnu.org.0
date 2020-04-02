@@ -2,64 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76F8619CD2C
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 00:57:01 +0200 (CEST)
-Received: from localhost ([::1]:48112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA1B19CD28
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 00:53:56 +0200 (CEST)
+Received: from localhost ([::1]:48082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK8lg-00013c-Io
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 18:57:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38887)
+	id 1jK8ig-00078W-M7
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 18:53:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38489)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jK8kt-0000VJ-LZ
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 18:56:12 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jK8hf-0006Zl-6y
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 18:52:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1jK8ks-0007TC-Iz
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 18:56:11 -0400
-Received: from mail-ua1-x942.google.com ([2607:f8b0:4864:20::942]:37718)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1jK8ks-0007SN-FG; Thu, 02 Apr 2020 18:56:10 -0400
-Received: by mail-ua1-x942.google.com with SMTP id l18so2028758uak.4;
- Thu, 02 Apr 2020 15:56:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1nkyQA9MCDPk2sT0OluSIvutSIHYXPNrx24fVKKyB8c=;
- b=l3WFS0ShdCI70o02BEnsIH4nHqW2TGTkgUgDct73lz4Ceo93NMgHKTfajiUSkltsKV
- 0zyA2hKCi2izp/L/dj22tiIV7SYIlqaz6UWF8s8Ju1Cy8Xe7X+qHsCicc/GJXRf27SyP
- H0XNiUmuE8oBkQVCgzaLC6KJm36dbSSEQmO5Z9EAN/QvA820je9C69HXoyqT5/R8IG/k
- ByzjA0kiAwLIOmumFv6plIc5bs/YI7my6o5yTz6E0MxarGC52MuSR9JxVFXCRCDdlb5A
- DUlLn5bAejwlQtBQH7us9mTBMr7/a9XToRmflQl3oR6d4+nwhfOMYiN114a7ZBqK3YNX
- TWfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1nkyQA9MCDPk2sT0OluSIvutSIHYXPNrx24fVKKyB8c=;
- b=LDNErjQH6+O+4c/1pfuvDRxrYDZ4F2+vFUbrYEP2xL4mJTVMCB0CD7WsvdsOEtdVeL
- 62et4OUNrpg+W9BDrASuvzapblyuaHbpD5YdrRFHUA0L0g9hE2+VreKvGkeUyOUvOo0p
- eify9tviaFOLnGrslXrE7MsknMSp7lRbsxCbnmvh/Y+3XYg8hrVjLgWUD6fU0JnWF87H
- GE2H8/4CQ2fPqFDjddbswdL0zkuwUW06kbLG9Cjdic/jfQwX+tl3HCgIuy+t9SC6t1K/
- JNqFWkOt/LhoSjEBLOY0B3nq6IAG0NVAbBt7/GxEOaJvBizyT3CH++ogI6LZTD/QeOy9
- DXUA==
-X-Gm-Message-State: AGi0PuYq9mGWx8MED6JtUGf8r5SDl0t7uDT0DjgpzMVlRnLC7ZmMAkoY
- I7r5ushU/pZAkhlexIG3/WHh1RFuag4MkPJOLv4=
-X-Google-Smtp-Source: APiQypKx//hFud6VhFzgjiKTRsoAeJUPL2Zzmei88OVUzlOeyj3aGVFOlA3htj+Gwzv3EXJji6GNQG0Ttn69/kVGpbI=
-X-Received: by 2002:a9f:2964:: with SMTP id t91mr4481268uat.21.1585868168528; 
- Thu, 02 Apr 2020 15:56:08 -0700 (PDT)
+ (envelope-from <dgibson@ozlabs.org>) id 1jK8hd-0003C0-KP
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 18:52:50 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:46561 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1jK8hb-0002vg-9v; Thu, 02 Apr 2020 18:52:49 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48tdcp5b0hz9sSJ; Fri,  3 Apr 2020 09:52:42 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1585867962;
+ bh=D/pIqfMYJZ9PtLyp+peMCTOb4nURRi0jaXcgzAviOuM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=S7PWwVsa0mQPuBut9RqFVYB73oZiVE8St8V9kZNZdn8J9w1FQ0Pg5F/chUT7rAow8
+ FX8lfB8iqirnVZ2ARAX81yPLTj52Dj28QZgLB5F4R8x2jYa0/2o0lShKryW9BIAHnJ
+ QleH+sgST16aKncpIEjtc+OiJLktpRi/QUbrPix8=
+Date: Fri, 3 Apr 2020 09:49:25 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Leonardo Bras <leonardo@linux.ibm.com>
+Subject: Re: [PATCH v3 1/1] ppc/spapr: Add hotremovable flag on DIMM LMBs on
+ drmem_v2
+Message-ID: <20200402224925.GN47772@umbus.fritz.box>
+References: <20200402172339.622720-1-leonardo@linux.ibm.com>
 MIME-Version: 1.0
-References: <20200402134721.27863-1-edgar.iglesias@gmail.com>
- <20200402134721.27863-6-edgar.iglesias@gmail.com>
-In-Reply-To: <20200402134721.27863-6-edgar.iglesias@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 2 Apr 2020 15:47:56 -0700
-Message-ID: <CAKmqyKPjF8KQBEAkBJRTj02OuT3RutNHmA1BkZgbJ8tsztQ2EA@mail.gmail.com>
-Subject: Re: [PATCH v1 5/5] dma/xlnx-zdma: Reorg to fix CUR_DSCR
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::942
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="hNG1vEeyG8BCaHbQ"
+Content-Disposition: inline
+In-Reply-To: <20200402172339.622720-1-leonardo@linux.ibm.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,117 +55,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: figlesia@xilinx.com, Peter Maydell <peter.maydell@linaro.org>,
- Edgar Iglesias <edgar.iglesias@xilinx.com>,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
- Francisco Iglesias <frasse.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Stefano Stabellini <sstabellini@kernel.org>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Luc Michel <luc.michel@greensocs.com>
+Cc: Bharata B Rao <bharata.rao@in.ibm.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Bharata B Rao <bharata@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 2, 2020 at 6:50 AM Edgar E. Iglesias
-<edgar.iglesias@gmail.com> wrote:
->
-> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
->
-> Reorganize the descriptor handling so that CUR_DSCR always
-> points to the next descriptor to be processed.
->
-> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+--hNG1vEeyG8BCaHbQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Alistair
+On Thu, Apr 02, 2020 at 02:23:40PM -0300, Leonardo Bras wrote:
+> On reboot, all memory that was previously added using object_add and
+> device_add is placed in this DIMM area.
+>=20
+> The new SPAPR_LMB_FLAGS_HOTREMOVABLE flag helps Linux to put this memory =
+in
+> the correct memory zone, so no unmovable allocations are made there,
+> allowing the object to be easily hot-removed by device_del and
+> object_del.
+>=20
+> This new flag was accepted in Power Architecture documentation.
+>=20
+> Signed-off-by: Leonardo Bras <leonardo@linux.ibm.com>
+> Reviewed-by: Bharata B Rao <bharata@linux.ibm.com>
+
+The change looks reasonable.  Is there a PAPR RFC I can see describing
+the new bit, though?
 
 > ---
->  hw/dma/xlnx-zdma.c | 47 ++++++++++++++++++++++------------------------
->  1 file changed, 22 insertions(+), 25 deletions(-)
->
-> diff --git a/hw/dma/xlnx-zdma.c b/hw/dma/xlnx-zdma.c
-> index e856d233f2..1c45367f3c 100644
-> --- a/hw/dma/xlnx-zdma.c
-> +++ b/hw/dma/xlnx-zdma.c
-> @@ -333,10 +333,28 @@ static void zdma_load_src_descriptor(XlnxZDMA *s)
->      }
->  }
->
-> +static void zdma_update_descr_addr(XlnxZDMA *s, bool type,
-> +                                   unsigned int basereg)
-> +{
-> +    uint64_t addr, next;
-> +
-> +    if (type == DTYPE_LINEAR) {
-> +        addr = zdma_get_regaddr64(s, basereg);
-> +        next = addr + sizeof(s->dsc_dst);
-> +    } else {
-> +        addr = zdma_get_regaddr64(s, basereg);
-> +        addr += sizeof(s->dsc_dst);
-> +        address_space_read(s->dma_as, addr, s->attr, (void *) &next, 8);
-> +    }
-> +
-> +    zdma_put_regaddr64(s, basereg, next);
-> +}
-> +
->  static void zdma_load_dst_descriptor(XlnxZDMA *s)
->  {
->      uint64_t dst_addr;
->      unsigned int ptype = ARRAY_FIELD_EX32(s->regs, ZDMA_CH_CTRL0, POINT_TYPE);
-> +    bool dst_type;
->
->      if (ptype == PT_REG) {
->          memcpy(&s->dsc_dst, &s->regs[R_ZDMA_CH_DST_DSCR_WORD0],
-> @@ -349,24 +367,10 @@ static void zdma_load_dst_descriptor(XlnxZDMA *s)
->      if (!zdma_load_descriptor(s, dst_addr, &s->dsc_dst)) {
->          ARRAY_FIELD_DP32(s->regs, ZDMA_CH_ISR, AXI_RD_DST_DSCR, true);
->      }
-> -}
-> -
-> -static uint64_t zdma_update_descr_addr(XlnxZDMA *s, bool type,
-> -                                       unsigned int basereg)
-> -{
-> -    uint64_t addr, next;
->
-> -    if (type == DTYPE_LINEAR) {
-> -        next = zdma_get_regaddr64(s, basereg);
-> -        next += sizeof(s->dsc_dst);
-> -        zdma_put_regaddr64(s, basereg, next);
-> -    } else {
-> -        addr = zdma_get_regaddr64(s, basereg);
-> -        addr += sizeof(s->dsc_dst);
-> -        address_space_read(s->dma_as, addr, s->attr, &next, 8);
-> -        zdma_put_regaddr64(s, basereg, next);
-> -    }
-> -    return next;
-> +    /* Advance the descriptor pointer.  */
-> +    dst_type = FIELD_EX32(s->dsc_dst.words[3], ZDMA_CH_DST_DSCR_WORD3, TYPE);
-> +    zdma_update_descr_addr(s, dst_type, R_ZDMA_CH_DST_CUR_DSCR_LSB);
->  }
->
->  static void zdma_write_dst(XlnxZDMA *s, uint8_t *buf, uint32_t len)
-> @@ -387,14 +391,7 @@ static void zdma_write_dst(XlnxZDMA *s, uint8_t *buf, uint32_t len)
->          dst_size = FIELD_EX32(s->dsc_dst.words[2], ZDMA_CH_DST_DSCR_WORD2,
->                                SIZE);
->          if (dst_size == 0 && ptype == PT_MEM) {
-> -            uint64_t next;
-> -            bool dst_type = FIELD_EX32(s->dsc_dst.words[3],
-> -                                       ZDMA_CH_DST_DSCR_WORD3,
-> -                                       TYPE);
-> -
-> -            next = zdma_update_descr_addr(s, dst_type,
-> -                                          R_ZDMA_CH_DST_CUR_DSCR_LSB);
-> -            zdma_load_descriptor(s, next, &s->dsc_dst);
-> +            zdma_load_dst_descriptor(s);
->              dst_size = FIELD_EX32(s->dsc_dst.words[2], ZDMA_CH_DST_DSCR_WORD2,
->                                    SIZE);
->          }
-> --
-> 2.20.1
->
->
+> Changes since v1:
+> - Flag name changed from SPAPR_LMB_FLAGS_HOTPLUGGED to
+> 	SPAPR_LMB_FLAGS_HOTREMOVABLE
+> ---
+>  hw/ppc/spapr.c         | 3 ++-
+>  include/hw/ppc/spapr.h | 1 +
+>  2 files changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 9a2bd501aa..fe662e297e 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -446,7 +446,8 @@ static int spapr_dt_dynamic_memory_v2(SpaprMachineSta=
+te *spapr, void *fdt,
+>          g_assert(drc);
+>          elem =3D spapr_get_drconf_cell(size / lmb_size, addr,
+>                                       spapr_drc_index(drc), node,
+> -                                     SPAPR_LMB_FLAGS_ASSIGNED);
+> +                                     (SPAPR_LMB_FLAGS_ASSIGNED |
+> +                                      SPAPR_LMB_FLAGS_HOTREMOVABLE);
+>          QSIMPLEQ_INSERT_TAIL(&drconf_queue, elem, entry);
+>          nr_entries++;
+>          cur_addr =3D addr + size;
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 42d64a0368..93e0d43051 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -880,6 +880,7 @@ int spapr_rtc_import_offset(SpaprRtcState *rtc, int64=
+_t legacy_offset);
+>  #define SPAPR_LMB_FLAGS_ASSIGNED 0x00000008
+>  #define SPAPR_LMB_FLAGS_DRC_INVALID 0x00000020
+>  #define SPAPR_LMB_FLAGS_RESERVED 0x00000080
+> +#define SPAPR_LMB_FLAGS_HOTREMOVABLE 0x00000100
+> =20
+>  void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg);
+> =20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--hNG1vEeyG8BCaHbQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6Ga/IACgkQbDjKyiDZ
+s5I9ug/+JxNTTMdw/Qpir47eKNDf/QmJPiqBKtGufk/xw+x1w63doYnpYIZpohj3
+Y1G6E2eUWP0lHuUWmSvLwrP6Qh7e95F3vrKNlZA0xfMU4j2xp2oLM+n3usFNaKfd
+7rRfXA+G4fBN7wZBeRQjF5m0klHsgLgzg2hI/L90diMcuz4DYZWoxBFLWJ1ky9Uy
+48DoQ2POZJqBy/5nHA1ebvluQpeBvjnjOH2ICzDvAnNWoTNDXx9B3xxdxm0sEgB3
+zis8WVA1PQdiKn6gG/wyKvnhlL4sScdpqOWlmQxsOG/SYvm2II4Yef4MVzs8ke/l
+KKq+ZBoaIntgtl2NaA4hXp9eDL97DxLijVcyUAyH6uJrhJdGWwSNfvaIWGMA7dTz
+Xk88kJiY2UtloWwvpHux9bbsYGTUtDYFR/qh1UXP0QJNfyQq50fkD4Kf5JSZylqG
+QePtgu/edC/NITMp2mgDGeshGLXR+bir4LpEA/BVJEilv6ttTNngwbt1vX8o8BVM
+QDvY+YExs2PxIYVfVcreStcclhTB/QDFomop/brqvqHpvxeD/7tvEiUlg7Tvx7kA
+U08WqNAwOSahu63qTiz+OPVmrgkonT9uhjqgqQZHbWeq63qG1KkzXfa9iJxkviQ7
+G3zHhI01zqh+cBrEjXzLp3vuMtR0IEmfuQxOsQTzG2qov0bfW1k=
+=flO2
+-----END PGP SIGNATURE-----
+
+--hNG1vEeyG8BCaHbQ--
 
