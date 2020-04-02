@@ -2,85 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9F8419CCEC
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 00:34:09 +0200 (CEST)
-Received: from localhost ([::1]:47988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C83A19CD29
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 00:54:25 +0200 (CEST)
+Received: from localhost ([::1]:48084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK8PY-0003o3-Kw
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 18:34:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36849)
+	id 1jK8jA-0007tk-4p
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 18:54:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38637)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jK8Ob-0003Lm-SG
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 18:33:11 -0400
+ (envelope-from <alistair23@gmail.com>) id 1jK8iC-00072r-TN
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 18:53:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1jK8OZ-0000pj-Rm
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 18:33:09 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29623
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1jK8OZ-0000p8-Il
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 18:33:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585866786;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Jgw1wziQTJ/Y5YKkrx5Zwlk1XyKN+xqUoQqSyHolRAk=;
- b=eMuGyGucaG6fgj9hOg9eaEW/5xQUIiaeCpLR6uGBibKN2y46oE2qG506jGbROePy5C8wn0
- 02KGrniju9X8/jvhKLfW+qh+T76X+nOTsX+XLTJql58nqUk0eyAKIYan86BIMq58Fws1xw
- Pacn9G2TKpxxhYCvuePsK2SZseQ4Zok=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-450-3fSL2oyXNh-xvk9C2KzHbw-1; Thu, 02 Apr 2020 18:33:05 -0400
-X-MC-Unique: 3fSL2oyXNh-xvk9C2KzHbw-1
-Received: by mail-wm1-f71.google.com with SMTP id l13so1959650wme.7
- for <qemu-devel@nongnu.org>; Thu, 02 Apr 2020 15:33:04 -0700 (PDT)
+ (envelope-from <alistair23@gmail.com>) id 1jK8iB-0004jy-Mi
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 18:53:24 -0400
+Received: from mail-vs1-xe41.google.com ([2607:f8b0:4864:20::e41]:40832)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1jK8iB-0004hk-Gj
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 18:53:23 -0400
+Received: by mail-vs1-xe41.google.com with SMTP id w14so3743396vsf.7
+ for <qemu-devel@nongnu.org>; Thu, 02 Apr 2020 15:53:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DyaHOBqcyLyHNDo2qYUchooJ7RL3/VvYZYFexnWAhN8=;
+ b=dGNGhERqUNByk7SGLAiFadrh3fxy/lvOHy9FJt3qpxiQa0a3gse1X6MyDjlBGGqIDN
+ +qLLSSoe3XY0DI5F4a10IDzWdYgRMTe35XF6E7RlHiOJ+MAvuTaVD3SLM2cKwV80O7qs
+ tkWPNfT9mqdJbZ+IhH+leqVFP3pVO32iQjVtlno9o6dnJmU8JWH6Fqy6UQh/QkFUgTGf
+ f9GMdNnSOCTGj9l1+yExOV3MK+FtT5ITfQJ4LAAryXhjwixKFJzFHJvYq/quYBNYyFQ0
+ 6TCWW1DfaoxJACbkH6IEQlK26uIQ2XrCaNN4TfRW6yIJYl0JGENfhAgbpCL3TuhozPOt
+ mqnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Qyhkos/nJeNiiUzpQUyRUl3fVbYSAc4+dJAO/XC0RuA=;
- b=ksjzF0HT+auNlp4s8vKPd+/ABxXaU6Vg2H6MeUAqluboDXSSW5P2taCeSOxFWMIVHM
- 1cKfaWnIDL54qidC2+vg/0V4FI7UlB8O+Rz6YC8h0HUt6mx4PFOcJd5HLkeB4u8ZoOkO
- /84fv2ZHtCLBzQVEw5oDraKXwFBbfAikDSfKQikR7mf97yKCVJPh5A6ND3xacVis2XAn
- JYNpRpLccy87Ely1M4R8FgbvM7SkqAxZlLnrehV5kmxQmImGzCQVz8ePT7tQZAJFLRXi
- /TgPxtEcfVOWRRumlFOzolAnec1VYfQgQ5ZbLj+Ffy9k/tLUSsT2HNKZOMgp8r14WGVk
- dWOA==
-X-Gm-Message-State: AGi0PuakZtbawbgz7NOC652HEwopNfxi+yqnHDcCOwh9Ntz7SU/6oQQO
- eIOgmrlrwG2iYs4c1wHAx+SLU/6q3rO+BLpM47T9e7vtGUTvHNSQMg6Ca33xP2hrC8H5eTWoGsB
- bYOBm8yaoNmTrL8g=
-X-Received: by 2002:adf:e948:: with SMTP id m8mr5568364wrn.193.1585866783879; 
- Thu, 02 Apr 2020 15:33:03 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIyF9k6dETrmkh+pAh6M5xrrKnoLjwl1KassPiSEtS1Mz3o90Fc4kZU+RTWEDJXeZJrX+WLIw==
-X-Received: by 2002:adf:e948:: with SMTP id m8mr5567344wrn.193.1585866765118; 
- Thu, 02 Apr 2020 15:32:45 -0700 (PDT)
-Received: from xz-x1 ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id h132sm9555668wmf.18.2020.04.02.15.32.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Apr 2020 15:32:44 -0700 (PDT)
-Date: Thu, 2 Apr 2020 18:32:40 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: Question on dirty sync before kvm memslot removal
-Message-ID: <20200402223240.GG103677@xz-x1>
-References: <20200327150425.GJ422390@xz-x1>
- <c90a6ffd-0cab-186d-b9c8-8e379921783f@redhat.com>
- <20200331152314.GG522868@xz-x1>
- <62aa8314-954f-7397-8bf4-d81d926c4f0b@redhat.com>
- <20200331165133.GI522868@xz-x1>
- <2eebbb76-0a12-87f4-812c-27d3e3f16a7c@redhat.com>
- <20200401230928.GG648829@xz-x1> <20200402204758.GF103677@xz-x1>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DyaHOBqcyLyHNDo2qYUchooJ7RL3/VvYZYFexnWAhN8=;
+ b=DPvfWyzLOCsb+ysBxBP4U8mLaPZ2rtHFG/p/04MIt+CbYjiwziIA3fNRZlO9bhrUII
+ gqj5cW0MeraT0YhyGKvgmFr8GQ5SNnDILKcxYnL4OCwgUWYN+TnFVAMNG5KO4ha7AHJe
+ Hm5vP8JLeFQP5JqIOqrUeeNJWO4LpvrIO4RSALOrvUML5UOiv9ZOIeU6q6XO5WVLmb5E
+ f2ugOdXg+A0+N+U4edt4JxPkHb+N/BFrsDHrx50j6SuCFFiRlRg1x0tNsgfeaBHu/HvK
+ kgMc4GzXwysNcrkcYoG6/UrvWadSHLXz1PKPDr5IOoOIQ52sbWKiU4X5iyPmFWPFzt4R
+ long==
+X-Gm-Message-State: AGi0PuZ6/Lh+eoKw0WZ9Wf7qmGTijAQ4/0eWxPUNGwC7YZVaTKWFPsrj
+ CWbIuCUUvWjSXVSo2sJXNiGlBmw6TirIuGfYPvE=
+X-Google-Smtp-Source: APiQypJmWurAV4wUR4URR9eT9AHp/N0w/ZTKnZzatogGRW9XEPD1Hni7qJd+g/08Hqhx1b4C4wiyzNQIZ+v12de6E1Q=
+X-Received: by 2002:a67:1b81:: with SMTP id b123mr4278597vsb.172.1585868002655; 
+ Thu, 02 Apr 2020 15:53:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200402204758.GF103677@xz-x1>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+References: <20200402162839.76636-1-me@xcancerberox.com.ar>
+In-Reply-To: <20200402162839.76636-1-me@xcancerberox.com.ar>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 2 Apr 2020 15:45:10 -0700
+Message-ID: <CAKmqyKMrH=4X-ryFYBgSenaM4H4+HZ-uWbCf2hx8oYiHovFbng@mail.gmail.com>
+Subject: Re: [PATCH-for-5.1 v2] hw/core/register: Add register_init_block8
+ helper.
+To: Joaquin de Andres <me@xcancerberox.com.ar>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::e41
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,202 +72,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Devel Mailing List <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 02, 2020 at 04:47:58PM -0400, Peter Xu wrote:
-> On Wed, Apr 01, 2020 at 07:09:28PM -0400, Peter Xu wrote:
-> > On Wed, Apr 01, 2020 at 01:12:04AM +0200, Paolo Bonzini wrote:
-> > > On 31/03/20 18:51, Peter Xu wrote:
-> > > > On Tue, Mar 31, 2020 at 05:34:43PM +0200, Paolo Bonzini wrote:
-> > > >> On 31/03/20 17:23, Peter Xu wrote:
-> > > >>>> Or KVM_MEM_READONLY.
-> > > >>> Yeah, I used a new flag because I thought READONLY was a bit tric=
-ky to
-> > > >>> be used directly here.  The thing is IIUC if guest writes to a
-> > > >>> READONLY slot then KVM should either ignore the write or trigger =
-an
-> > > >>> error which I didn't check, however here what we want to do is to=
- let
-> > > >>> the write to fallback to the userspace so it's neither dropped (w=
-e
-> > > >>> still want the written data to land gracefully on RAM), nor trigg=
-ering
-> > > >>> an error (because the slot is actually writable).
-> > > >>
-> > > >> No, writes fall back to userspace with KVM_MEM_READONLY.
-> > > >=20
-> > > > I read that __kvm_write_guest_page() will return -EFAULT when writt=
-ing
-> > > > to the read-only memslot, and e.g. kvm_write_guest_virt_helper() wi=
-ll
-> > > > return with X86EMUL_IO_NEEDED, which will be translated into a
-> > > > EMULATION_OK in x86_emulate_insn().  Then in x86_emulate_instructio=
-n()
-> > > > it seems to get a "1" returned (note that I think it does not set
-> > > > either vcpu->arch.pio.count or vcpu->mmio_needed).  Does that mean
-> > > > it'll retry the write forever instead of quit into the userspace?  =
-I
-> > > > may possibly have misread somewhere, though..
-> > >=20
-> > > We are definitely relying on KVM_MEM_READONLY to exit to userspace, i=
-n
-> > > order to emulate flash memory.
-> > >=20
-> > > > However... I think I might find another race with this:
-> > > >=20
-> > > >           main thread                       vcpu thread
-> > > >           -----------                       -----------
-> > > >                                             dirty GFN1, cached in P=
-ML
-> > > >                                             ...
-> > > >           remove memslot1 of GFN1
-> > > >             set slot READONLY (whatever, or INVALID)
-> > > >             sync log (NOTE: no GFN1 yet)
-> > > >                                             vmexit, flush PML with =
-RCU
-> > > >                                             (will flush to old bitm=
-ap) <------- [1]
-> > > >             delete memslot1 (old bitmap freed)                     =
-    <------- [2]
-> > > >           add memslot2 of GFN1 (memslot2 could be smaller)
-> > > >             add memslot2
-> > > >=20
-> > > > I'm not 100% sure, but I think GFN1's dirty bit will be lost though
-> > > > it's correctly applied at [1] but quickly freed at [2].
-> > >=20
-> > > Yes, we probably need to do a mass vCPU kick when a slot is made
-> > > READONLY, before KVM_SET_USER_MEMORY_REGION returns (and after releas=
-ing
-> > > slots_lock).  It makes sense to guarantee that you can't get any more
-> > > dirtying after KVM_SET_USER_MEMORY_REGION returns.
-> >=20
-> > Sounds doable.  Though we still need a synchronous way to kick vcpus
-> > in KVM to make sure the PML is flushed before KVM_SET_MEMORY_REGION
-> > returns, am I right?  Is there an existing good way to do this?
->=20
-> Paolo,
->=20
-> I'm not sure whether it's anything close to acceptable, but this is
-> something I was thinking about below (pesudo code).  Do you think it
-> makes any sense?  Thanks,
->=20
-> 8<-------------------------------------------
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 1b6d9ac9533c..437d669dde42 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -8161,6 +8161,22 @@ void __kvm_request_immediate_exit(struct kvm_vcpu =
-*vcpu)
+On Thu, Apr 2, 2020 at 9:29 AM Joaquin de Andres <me@xcancerberox.com.ar> wrote:
+>
+> There was no support for 8 bits block registers. Changed
+> register_init_block32 to be generic and static, adding register
+> size in bits as parameter. Created one helper for each size.
+>
+> Signed-off-by: Joaquin de Andres <me@xcancerberox.com.ar>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+> ---
+> This patch is small and I could see that there is not much movement with
+> the release, so, I let my self send this. Also this is my first patch :)
+> Reviews are welcome.
+> ---
+>  hw/core/register.c    | 46 +++++++++++++++++++++++++++++++++----------
+>  include/hw/register.h |  8 ++++++++
+>  2 files changed, 44 insertions(+), 10 deletions(-)
+>
+> diff --git a/hw/core/register.c b/hw/core/register.c
+> index 3c77396587..ddf91eb445 100644
+> --- a/hw/core/register.c
+> +++ b/hw/core/register.c
+> @@ -246,16 +246,18 @@ uint64_t register_read_memory(void *opaque, hwaddr addr,
+>      return extract64(read_val, 0, size * 8);
 >  }
->  EXPORT_SYMBOL_GPL(__kvm_request_immediate_exit);
->=20
-> +void kvm_vcpu_sync(struct kvm_vcpu *vcpu)
-> +{
-> +       DECLARE_WAITQUEUE(wait, current);
-> +
-> +       add_wait_queue(&vcpu->sync_wq, &wait);
-> +       set_current_state(TASK_UNINTERRUPTIBLE);
-> +       kvm_make_request(KVM_REQ_SYNC_VCPU, vcpu);
-> +       schedule();
-> +       remove_wait_queue(&vcpu->sync_wq, &wait);
-> +}
-> +
-> +void kvm_vcpu_sync_ack(struct kvm_vcpu *vcpu)
-> +{
-> +       wake_up(&vcpu->sync_wq);
-> +}
-> +
->  /*
->   * Returns 1 to let vcpu_run() continue the guest execution loop without
->   * exiting to the userspace.  Otherwise, the value will be returned to t=
-he
-> @@ -8274,6 +8290,8 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
->                         kvm_hv_process_stimers(vcpu);
->                 if (kvm_check_request(KVM_REQ_APICV_UPDATE, vcpu))
->                         kvm_vcpu_update_apicv(vcpu);
-> +               if (kvm_check_request(KVM_REQ_SYNC_VCPU, vcpu))
-> +                       kvm_vcpu_sync_ack(vcpu);
->         }
->=20
->         if (kvm_check_request(KVM_REQ_EVENT, vcpu) || req_int_win) {
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index f6a1905da9bf..e825d2e0a221 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -146,6 +146,7 @@ static inline bool is_error_page(struct page *page)
->  #define KVM_REQ_MMU_RELOAD        (1 | KVM_REQUEST_WAIT | KVM_REQUEST_NO=
-_WAKEUP)
->  #define KVM_REQ_PENDING_TIMER     2
->  #define KVM_REQ_UNHALT            3
-> +#define KVM_REQ_SYNC_VCPU         4
->  #define KVM_REQUEST_ARCH_BASE     8
->=20
->  #define KVM_ARCH_REQ_FLAGS(nr, flags) ({ \
-> @@ -278,6 +279,7 @@ struct kvm_vcpu {
->         struct kvm_run *run;
->=20
->         struct swait_queue_head wq;
-> +       struct wait_queue_head sync_wq;
->         struct pid __rcu *pid;
->         int sigset_active;
->         sigset_t sigset;
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index f744bc603c53..35216aeb0365 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -342,6 +342,7 @@ static void kvm_vcpu_init(struct kvm_vcpu *vcpu, stru=
-ct kvm *kvm, unsigned id)
->         vcpu->vcpu_id =3D id;
->         vcpu->pid =3D NULL;
->         init_swait_queue_head(&vcpu->wq);
-> +       init_wait_queue_head(&vcpu->sync_wq);
->         kvm_async_pf_vcpu_init(vcpu);
->=20
->         vcpu->pre_pcpu =3D -1;
-> @@ -1316,9 +1317,20 @@ int kvm_set_memory_region(struct kvm *kvm,
->                           const struct kvm_userspace_memory_region *mem)
+>
+> -RegisterInfoArray *register_init_block32(DeviceState *owner,
+> -                                         const RegisterAccessInfo *rae,
+> -                                         int num, RegisterInfo *ri,
+> -                                         uint32_t *data,
+> -                                         const MemoryRegionOps *ops,
+> -                                         bool debug_enabled,
+> -                                         uint64_t memory_size)
+> +static RegisterInfoArray *register_init_block(DeviceState *owner,
+> +                                              const RegisterAccessInfo *rae,
+> +                                              int num, RegisterInfo *ri,
+> +                                              void *data,
+> +                                              const MemoryRegionOps *ops,
+> +                                              bool debug_enabled,
+> +                                              uint64_t memory_size,
+> +                                              size_t data_size_bits)
 >  {
->         int r;
-> +       unsigned int i;
-> +       struct kvm_vcpu *vcpu;
->=20
->         mutex_lock(&kvm->slots_lock);
-> +
->         r =3D __kvm_set_memory_region(kvm, mem);
-> +
-> +       /* TBD: use arch-specific hooks; this won't compile on non-x86 */
-> +       if ((mem->flags & KVM_MEM_LOG_DIRTY_PAGES) &&
-> +           (mem->flags & KVM_MEM_READONLY)) {
-> +               kvm_for_each_vcpu(i, vcpu, kvm)
-> +                   kvm_vcpu_sync(vcpu);
-> +       }
-> +
-
-Oops, this block should definitely be after the unlock as you
-suggested...
-
->         mutex_unlock(&kvm->slots_lock);
->         return r;
+>      const char *device_prefix = object_get_typename(OBJECT(owner));
+>      RegisterInfoArray *r_array = g_new0(RegisterInfoArray, 1);
+> +    int data_size = data_size_bits >> 3;
+>      int i;
+>
+>      r_array->r = g_new0(RegisterInfo *, num);
+> @@ -264,12 +266,12 @@ RegisterInfoArray *register_init_block32(DeviceState *owner,
+>      r_array->prefix = device_prefix;
+>
+>      for (i = 0; i < num; i++) {
+> -        int index = rae[i].addr / 4;
+> +        int index = rae[i].addr / data_size;
+>          RegisterInfo *r = &ri[index];
+>
+>          *r = (RegisterInfo) {
+> -            .data = &data[index],
+> -            .data_size = sizeof(uint32_t),
+> +            .data = data + data_size * index,
+> +            .data_size = data_size,
+>              .access = &rae[i],
+>              .opaque = owner,
+>          };
+> @@ -284,6 +286,30 @@ RegisterInfoArray *register_init_block32(DeviceState *owner,
+>      return r_array;
 >  }
-> @@ -2658,6 +2670,8 @@ static int kvm_vcpu_check_block(struct kvm_vcpu *vc=
-pu)
->                 goto out;
->         if (signal_pending(current))
->                 goto out;
-> +       if (kvm_check_request(KVM_REQ_SYNC_VCPU, vcpu))
-> +               goto out;
->=20
->         ret =3D 0;
->  out:
-> 8<-------------------------------------------
->=20
-> --=20
-> Peter Xu
-
---=20
-Peter Xu
-
+>
+> +RegisterInfoArray *register_init_block8(DeviceState *owner,
+> +                                        const RegisterAccessInfo *rae,
+> +                                        int num, RegisterInfo *ri,
+> +                                        uint8_t *data,
+> +                                        const MemoryRegionOps *ops,
+> +                                        bool debug_enabled,
+> +                                        uint64_t memory_size)
+> +{
+> +    return register_init_block(owner, rae, num, ri, (void *)
+> +                               data, ops, debug_enabled, memory_size, 8);
+> +}
+> +
+> +RegisterInfoArray *register_init_block32(DeviceState *owner,
+> +                                         const RegisterAccessInfo *rae,
+> +                                         int num, RegisterInfo *ri,
+> +                                         uint32_t *data,
+> +                                         const MemoryRegionOps *ops,
+> +                                         bool debug_enabled,
+> +                                         uint64_t memory_size)
+> +{
+> +    return register_init_block(owner, rae, num, ri, (void *)
+> +                               data, ops, debug_enabled, memory_size, 32);
+> +}
+> +
+>  void register_finalize_block(RegisterInfoArray *r_array)
+>  {
+>      object_unparent(OBJECT(&r_array->mem));
+> diff --git a/include/hw/register.h b/include/hw/register.h
+> index 5796584588..5d2c565ae0 100644
+> --- a/include/hw/register.h
+> +++ b/include/hw/register.h
+> @@ -185,6 +185,14 @@ uint64_t register_read_memory(void *opaque, hwaddr addr, unsigned size);
+>   *          memory region (r_array->mem) the caller should add to a container.
+>   */
+>
+> +RegisterInfoArray *register_init_block8(DeviceState *owner,
+> +                                        const RegisterAccessInfo *rae,
+> +                                        int num, RegisterInfo *ri,
+> +                                        uint8_t *data,
+> +                                        const MemoryRegionOps *ops,
+> +                                        bool debug_enabled,
+> +                                        uint64_t memory_size);
+> +
+>  RegisterInfoArray *register_init_block32(DeviceState *owner,
+>                                           const RegisterAccessInfo *rae,
+>                                           int num, RegisterInfo *ri,
+> --
+> 2.26.0
+>
+>
 
