@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 905F819C33F
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 15:54:29 +0200 (CEST)
-Received: from localhost ([::1]:40396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A8519BF03
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 12:00:09 +0200 (CEST)
+Received: from localhost ([::1]:36298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK0Ie-0000IX-Kw
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 09:54:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58415)
+	id 1jJwdr-0008D6-Mu
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 06:00:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60981)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <xadimgnik@gmail.com>) id 1jJwU0-0005rh-0F
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 05:49:57 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jJwd1-0007Z1-JT
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 05:59:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <xadimgnik@gmail.com>) id 1jJwTy-0000yF-Jv
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 05:49:55 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:35355)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <xadimgnik@gmail.com>) id 1jJwTy-0000xd-D5
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 05:49:54 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id a20so3369757edj.2
- for <qemu-devel@nongnu.org>; Thu, 02 Apr 2020 02:49:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:reply-to:to:cc:references:in-reply-to:subject:date:message-id
- :mime-version:content-transfer-encoding:thread-index
- :content-language;
- bh=8BXW3HQ9jIN1PK8/Ynmi2J5s9ajXZ+eaVpPcKxTAcNk=;
- b=nBZH0rn0E81F+R2nez36gvWmYGOU2otGb3GoyXWSHIiUIaFomyPmCPd7IIMzZOfpHZ
- lgZaO63OsuspTtdBhmUMgtUZgdDvAYpNTIYlOp8+WR8dz6UTljWpIqNkM/5CJNbP5SXR
- DEUTwy4kcc00Alfysne0FyLXDreE8pQZ+UCRC0OWv6XwBmeb/ypzoVyrqbQApuDtuDYT
- oHWFNrsUBDciPvrAn1/Mq46L0QTsWISeau508A9XP8g1RX0BFqqxiyOrml6iMYkWCxzf
- /2ubLC4SWwprYT+UJE0c0PrGiM3trIwA3+DkSS1u3uPHQz2v94+uysInvjXaZqX49Flc
- 6X6A==
+ (envelope-from <pbonzini@redhat.com>) id 1jJwd0-00063v-EE
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 05:59:15 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51359
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jJwd0-00063S-At
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 05:59:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585821553;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bYJz8UBRrNj3MPpag7qiVmHNTPTcSrtNZp7+exnqYA8=;
+ b=VY8enEoCxxANlFBDaWveceq7O9Noe2WvfKEHbe0OsZyyd1nd1TflDn7k+GA8WLjuTF8IEu
+ KwefT9fWzXlXMHBsoGhwRsx92Bd9Ddpx/3nKLnY8Qm8DzDKJwwnBfgHqu/alE/wiQgkOMB
+ mbMuNGUW3MnCt3kmv9Jumpkz6ic+wyc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-312-F_FuS2RJO_Oy_Tl6EpMUKw-1; Thu, 02 Apr 2020 05:59:10 -0400
+X-MC-Unique: F_FuS2RJO_Oy_Tl6EpMUKw-1
+Received: by mail-wm1-f70.google.com with SMTP id c21so845913wmb.3
+ for <qemu-devel@nongnu.org>; Thu, 02 Apr 2020 02:59:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:reply-to:to:cc:references:in-reply-to
- :subject:date:message-id:mime-version:content-transfer-encoding
- :thread-index:content-language;
- bh=8BXW3HQ9jIN1PK8/Ynmi2J5s9ajXZ+eaVpPcKxTAcNk=;
- b=hGNzM4hhYB4pqcus8wj4dnKBjJO6CDle5fFDqcQJ5raA/y9XstJVwaORrvmq5OHg5O
- RoxSYgQh9uERLTFFiP5xt7JvKKUZuJHl+A8CWyaXXlbU4Q2cdM1H4fmpdR2szkQ1G4d4
- mSGGlk36nS0Dm7J6awvdlwy5n7AOHQg95cG9s0ouo5KqfzQtg7xUD97+1LRLdCisRbR6
- 19AXsjf7zM1UNuvbK8owG+la5jFWweNO+7a85N1ZF95upUZRvNRDVp7OXL9NGNTKwKQM
- L4nN3QMkUKeJh6F4YsAothKaf9M1e20FYK2U1oW5aSPinWrdxkjkXY4t53Pjq96+97ud
- tjAQ==
-X-Gm-Message-State: AGi0PuZLuoc2Ud2GOPVsk8kJCN9ThOaraxvC2xZACzRW+9J6a1u1+hox
- y7A2WUqq10ilT6gsqUu2AZM=
-X-Google-Smtp-Source: APiQypJOhfeBLGylZMLkCkD7FprWLkParhrlxdKSMnXiT455KLlyVMHvvgdKy8q5UQl8VbbnorBYig==
-X-Received: by 2002:aa7:c413:: with SMTP id j19mr2074824edq.100.1585820993093; 
- Thu, 02 Apr 2020 02:49:53 -0700 (PDT)
-Received: from CBGR90WXYV0 ([54.239.6.186])
- by smtp.gmail.com with ESMTPSA id d20sm851821edn.12.2020.04.02.02.49.51
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 02 Apr 2020 02:49:52 -0700 (PDT)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: "Paul Durrant" <paul@xen.org>
-To: =?utf-8?Q?'Philippe_Mathieu-Daud=C3=A9'?= <philmd@redhat.com>,
- "'Anthony PERARD'" <anthony.perard@citrix.com>, <qemu-devel@nongnu.org>
-References: <20190114135154.16826-1-anthony.perard@citrix.com>
- <20190114135154.16826-7-anthony.perard@citrix.com>
- <772fab5a-59ab-050f-9fef-f3b050cfc5cd@redhat.com>
-In-Reply-To: <772fab5a-59ab-050f-9fef-f3b050cfc5cd@redhat.com>
-Subject: RE: [Qemu-devel] [PULL 06/25] xen: create xenstore areas for
- XenDevice-s
-Date: Thu, 2 Apr 2020 10:49:50 +0100
-Message-ID: <001001d608d4$0e7b9f40$2b72ddc0$@xen.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to;
+ bh=kcM+lIQaFPCujnSX/yJSGlUbqRxnq+GCz6SpXdNKbLU=;
+ b=o+GXPqQQ9NiP3NHKe7ykIxQXEA+6WmXZ3IAtSrFj66E+WwPgTDnzkHutXe8hr3rNlL
+ +AmCM6NjOkMxPPpo+k1r/4hJD9gtY/Bga3eUSlCAPsN1NMEdXmd7TruuC85kzF+3gFdW
+ TvyMGBoillwVRHV9Tupcv7VrrtVzXMrdBPQ8Dl+4iIDNSL0WIC6PgAvPMu8vkKjbNq4P
+ Q6LQJYFuIskrB6+EdoUD7El9PusJD2sOl1dcuRQVNctfKRwvgGv849vQTKT9TeMvlywQ
+ 4mHZ5S61fm0SoMWoelWlNoM5i24diNAaAQzntt2bcPNuTvHR2X/DUDUVACUeWah+/OPp
+ tl2A==
+X-Gm-Message-State: AGi0PubFBA32wUTiAV4vUEw/ZlyuN/HSE8ejA9fdwXvJMFcKCq2LTrFN
+ oDn6EF+Zrg8YDd0lkGTvv5x754KAVDxvKU2n2jXtDG8X//ShpS5u69/8CPEct+X+J4DTA2FKK3f
+ HrNpAOvnQ+9RoOMQ=
+X-Received: by 2002:a1c:f315:: with SMTP id q21mr2640261wmq.169.1585821548720; 
+ Thu, 02 Apr 2020 02:59:08 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJKvesvk4MEiJaQwj1KlrmIwFAj6ww+JwcmKoiGzWFwdKrZtauDfOOupZAwB8lon75RXuLs5g==
+X-Received: by 2002:a1c:f315:: with SMTP id q21mr2640243wmq.169.1585821548459; 
+ Thu, 02 Apr 2020 02:59:08 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:1868:42dd:216c:2c09?
+ ([2001:b07:6468:f312:1868:42dd:216c:2c09])
+ by smtp.gmail.com with ESMTPSA id t6sm6250937wma.30.2020.04.02.02.59.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Apr 2020 02:59:07 -0700 (PDT)
+Subject: Re: [PATCH v2] util/async: Add memory barrier to aio_ctx_prepare
+To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <20200402024431.1629-1-fangying1@huawei.com>
+ <20200402093221.GD28280@stefanha-x1.localdomain>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <7de4d886-d861-5c80-f669-098b730906c8@redhat.com>
+Date: Thu, 2 Apr 2020 11:59:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQLkG+zb+BC6iV9CP7Z29unUmtxq1wLn4V7uAn6DrKimHjyY8A==
-Content-Language: en-gb
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::52f
-X-Mailman-Approved-At: Thu, 02 Apr 2020 09:52:34 -0400
+In-Reply-To: <20200402093221.GD28280@stefanha-x1.localdomain>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="7fYZeEc37bDDNzeSKpHMy6djmskiuXbhL"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,161 +89,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
-Cc: xen-devel@lists.xenproject.org, 'Markus Armbruster' <armbru@redhat.com>,
- 'Peter Maydell' <peter.maydell@linaro.org>
+Cc: fam@euphon.net, zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
+ qemu-stable@nongnu.org, qemu-arm@nongnu.org, Ying Fang <fangying1@huawei.com>,
+ wu.wubin@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> -----Original Message-----
-> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Sent: 01 April 2020 17:14
-> To: Anthony PERARD <anthony.perard@citrix.com>; qemu-devel@nongnu.org
-> Cc: xen-devel@lists.xenproject.org; Peter Maydell =
-<peter.maydell@linaro.org>; Paul Durrant
-> <paul@xen.org>; Markus Armbruster <armbru@redhat.com>
-> Subject: Re: [Qemu-devel] [PULL 06/25] xen: create xenstore areas for =
-XenDevice-s
->=20
-> Hi Anthony, Paul.
->=20
-> Cc'ing Markus too.
->=20
-> On 1/14/19 2:51 PM, Anthony PERARD wrote:
-> > From: Paul Durrant <paul.durrant@citrix.com>
-> >
-> > This patch adds a new source module, xen-bus-helper.c, which builds =
-on
-> > basic libxenstore primitives to provide functions to create (setting
-> > permissions appropriately) and destroy xenstore areas, and functions =
-to
-> > 'printf' and 'scanf' nodes therein. The main xen-bus code then uses
-> > these primitives [1] to initialize and destroy the frontend and =
-backend
-> > areas for a XenDevice during realize and unrealize respectively.
-> >
-> > The 'xen-block' implementation is extended with a 'get_name' method =
-that
-> > returns the VBD number. This number is required to 'name' the =
-xenstore
-> > areas.
-> >
-> > NOTE: An exit handler is also added to make sure the xenstore areas =
-are
-> >        cleaned up if QEMU terminates without devices being =
-unrealized.
-> >
-> > [1] The 'scanf' functions are actually not yet needed, but they will =
-be
-> >      needed by code delivered in subsequent patches.
-> >
-> > Signed-off-by: Paul Durrant <paul.durrant@citrix.com>
-> > Reviewed-by: Anthony Perard <anthony.perard@citrix.com>
-> > Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
-> > ---
-> >   hw/block/xen-block.c            |   9 +
-> >   hw/xen/Makefile.objs            |   2 +-
-> >   hw/xen/trace-events             |  12 +-
-> >   hw/xen/xen-bus-helper.c         | 150 +++++++++++++++
-> >   hw/xen/xen-bus.c                | 321 =
-+++++++++++++++++++++++++++++++-
-> >   include/hw/xen/xen-bus-helper.h |  39 ++++
-> >   include/hw/xen/xen-bus.h        |  12 ++
-> >   7 files changed, 540 insertions(+), 5 deletions(-)
-> >   create mode 100644 hw/xen/xen-bus-helper.c
-> >   create mode 100644 include/hw/xen/xen-bus-helper.h
-> >
-> [...]
-> > +static void xen_device_exit(Notifier *n, void *data)
-> > +{
-> > +    XenDevice *xendev =3D container_of(n, XenDevice, exit);
-> > +
-> > +    xen_device_unrealize(DEVICE(xendev), &error_abort);
-> >   }
-> >
-> >   static void xen_device_realize(DeviceState *dev, Error **errp)
-> >   {
-> >       XenDevice *xendev =3D XEN_DEVICE(dev);
-> >       XenDeviceClass *xendev_class =3D XEN_DEVICE_GET_CLASS(xendev);
-> > +    XenBus *xenbus =3D =
-XEN_BUS(qdev_get_parent_bus(DEVICE(xendev)));
-> >       const char *type =3D object_get_typename(OBJECT(xendev));
-> >       Error *local_err =3D NULL;
-> >
-> > -    trace_xen_device_realize(type);
-> > +    if (xendev->frontend_id =3D=3D DOMID_INVALID) {
-> > +        xendev->frontend_id =3D xen_domid;
-> > +    }
-> > +
-> > +    if (xendev->frontend_id >=3D DOMID_FIRST_RESERVED) {
-> > +        error_setg(errp, "invalid frontend-id");
-> > +        goto unrealize;
-> > +    }
-> > +
-> > +    if (!xendev_class->get_name) {
-> > +        error_setg(errp, "get_name method not implemented");
-> > +        goto unrealize;
-> > +    }
-> > +
-> > +    xendev->name =3D xendev_class->get_name(xendev, &local_err);
-> > +    if (local_err) {
-> > +        error_propagate_prepend(errp, local_err,
-> > +                                "failed to get device name: ");
-> > +        goto unrealize;
-> > +    }
-> > +
-> > +    trace_xen_device_realize(type, xendev->name);
-> > +
-> > +    xen_device_backend_create(xendev, &local_err);
-> > +    if (local_err) {
-> > +        error_propagate(errp, local_err);
-> > +        goto unrealize;
-> > +    }
-> > +
-> > +    xen_device_frontend_create(xendev, &local_err);
-> > +    if (local_err) {
-> > +        error_propagate(errp, local_err);
-> > +        goto unrealize;
-> > +    }
-> >
-> >       if (xendev_class->realize) {
-> >           xendev_class->realize(xendev, &local_err);
-> > @@ -72,18 +364,43 @@ static void xen_device_realize(DeviceState =
-*dev, Error **errp)
-> >           }
-> >       }
-> >
-> > +    xen_device_backend_printf(xendev, "frontend", "%s",
-> > +                              xendev->frontend_path);
-> > +    xen_device_backend_printf(xendev, "frontend-id", "%u",
-> > +                              xendev->frontend_id);
-> > +    xen_device_backend_printf(xendev, "online", "%u", 1);
-> > +    xen_device_backend_printf(xendev, "hotplug-status", =
-"connected");
-> > +
-> > +    xen_device_backend_set_state(xendev, XenbusStateInitWait);
-> > +
-> > +    xen_device_frontend_printf(xendev, "backend", "%s",
-> > +                               xendev->backend_path);
-> > +    xen_device_frontend_printf(xendev, "backend-id", "%u",
-> > +                               xenbus->backend_id);
-> > +
-> > +    xen_device_frontend_set_state(xendev, XenbusStateInitialising);
-> > +
-> > +    xendev->exit.notify =3D xen_device_exit;
-> > +    qemu_add_exit_notifier(&xendev->exit);
-> >       return;
-> >
-> >   unrealize:
-> >       xen_device_unrealize(dev, &error_abort);
->=20
-> It seems if unrealize() fails, the error stored in &local_err is never
-> reported. Not sure if this can be improved although.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--7fYZeEc37bDDNzeSKpHMy6djmskiuXbhL
+Content-Type: multipart/mixed; boundary="ARsgMU4D6t2OXgPmm6TrvkE6RHKAjBl9w"
 
-In this case that's essentially a "don't care". We want to know why the =
-realize failed but if the unrealize fails something is probably pretty =
-seriously screwed (hence the error_abort).
+--ARsgMU4D6t2OXgPmm6TrvkE6RHKAjBl9w
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-  Paul
+On 02/04/20 11:32, Stefan Hajnoczi wrote:
+> Paolo, I'm not sure how to interpret this case according to
+> docs/devel/atomics.txt.  Maybe you can clarify.
+>=20
+> atomic_or() is sequentially consistent and I therefore expected it to
+> act as a barrier.  Or does sequential consistency only cover the memory
+> accessed via the sequentially consistent atomics APIs and everything
+> else (like aio_compute_timeout()) can be reordered?
+
+Yes, that's what I expected too when I wrote that code. :(  But Torvald
+Riegel explained a while ago that seq-cst accesses are actually weaker
+than e.g. the Linux kernel atomics[1].
+
+The difference basically only matters if you are writing the relatively
+common synchronization pattern
+
+=09write A=09=09=09=09write B
+=09smp_mb()=09=09=09smp_mb()
+=09read B=09=09=09=09read A
+=09if not B then sleep=09=09if A then wake up the other side
+=09do something
+
+because you must either use memory barriers as above, or use seq-cst
+writes *and* reads.  You cannot rely on having a memory barrier implicit
+in the writes.
+
+Paolo
+
+[1] https://lists.gnu.org/archive/html/qemu-arm/2019-10/msg00051.html
+
+
+--ARsgMU4D6t2OXgPmm6TrvkE6RHKAjBl9w--
+
+--7fYZeEc37bDDNzeSKpHMy6djmskiuXbhL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEE8TM4V0tmI4mGbHaCv/vSX3jHroMFAl6Ft2oACgkQv/vSX3jH
+roMn6gf9G8iYNeFAnctSRlfxhtoLOahjINkoihuLe14ZwXCPJXugXey7TUiY7y6t
+H30E1NGCfcgqxtMZhFVDl18AyptkE3kMXAJiI083YUcm6gZVYji8YWKq16EROk58
+N1Y2YbSj9PXchZboZLXMfhho0fRCOA5kP+bXpEOOHOlcxMmgLXg9SYNVXIGy/hsK
++oUIF3WHn+AJyu1B7l3DLl+7HRGcR9VL5qp+Ka418KbtFs3m3TWpfNVVFOkWe9Kx
+oVJmmR8GM1Ow1sWaYAtaNSKVUVgr5sjzroLleC2Y+52gUehV9jEKkMxKjCerNwiD
+BvTYzBOxxuE374YmXGXlHxHtL1rhww==
+=+IeU
+-----END PGP SIGNATURE-----
+
+--7fYZeEc37bDDNzeSKpHMy6djmskiuXbhL--
 
 
