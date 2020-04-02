@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A67619C0E9
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 14:14:26 +0200 (CEST)
-Received: from localhost ([::1]:37766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DAFC19C0EA
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 14:15:07 +0200 (CEST)
+Received: from localhost ([::1]:37780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJyjp-0002QE-9n
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 08:14:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56872)
+	id 1jJykU-0003NM-LV
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 08:15:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57098)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <singhalsimran0@gmail.com>) id 1jJyio-0001zN-VM
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 08:13:23 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jJyjh-0002dA-JS
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 08:14:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <singhalsimran0@gmail.com>) id 1jJyin-000071-Uu
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 08:13:22 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:55987)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <singhalsimran0@gmail.com>)
- id 1jJyin-00006X-PP
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 08:13:21 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id fh8so1449698pjb.5
- for <qemu-devel@nongnu.org>; Thu, 02 Apr 2020 05:13:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition
- :user-agent; bh=nKCkeZrC8oFdq0zgwOe4LzwhiZdVsuP3A47EovsJSZo=;
- b=ObmSfAgP4dXfxcI4AkJkDuDR4Sg8OyXMLO3Qz90Ny/+lqI+OnUvOy3I7xHuSOlvrSR
- wmATmCBCGcDsYSPh+/G2PFo4gbf4+IA7kQqSOVVPrwChvnGt3LSne8Qg1e3lm3/6zHw/
- hlRy4SY+gvTrRF5fhILeDrz6W1dSfyr82otMDv4xh5Utx1SZq6s2YxZpQsg6K3qFwp7Y
- 2qOK8yDIZlsiVQB+NEVQb0bhwfKbHNn/8EJMDNJeCmN1KwBmi6PPiNLAmIrspIIR3bPs
- kI4gQKx7y97z1H1xCTpE/ZIa/2xgRZDBw+VLGrvWy+a2Hq68XJvVyaA2ydiTLKM5Vc81
- m8Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:user-agent;
- bh=nKCkeZrC8oFdq0zgwOe4LzwhiZdVsuP3A47EovsJSZo=;
- b=crtpGe+q7BnMzTlUqocbufTjriJqGWbIS0a3L/LpcBvrWEsy5yxghNmJ6G5Sdx8X51
- 8n3Varp3dFvvCb8BCBZoacCIJkVEnH9GHxtVUu9X58UqncqDJqso3q4sGoNdT7EzHV4F
- 4uJvQfJs7UwyVRcttdu+01OkfavBYYp8ON+cdYump+cb2Kwo6fPkhZ2RqvSO2OmqBuQD
- Oqnjio2SBlJr0YWrreFW3+956q0SYo70D/HuEEecR5dpbfHCAEsjjwkd0MGGJzMlaYfV
- V9BJmxPAMvc+PRi2Yqosr2nY7GeE0bhRwjUft7NQ1SyOfypOjYjpZtduwyODzq5YbzfU
- wjGw==
-X-Gm-Message-State: AGi0PuYCAF9NVDYSA76jXOK9EmfdxaE+gctnhA/yGB9SctR2Z2SyyUQH
- nxik+VhAA2P9Ez9mhFL2zUc=
-X-Google-Smtp-Source: APiQypLEJzIdsU3efKXGQ+xciHDpM3HWDt/Snqe8N6ddBk9DzD7kG7gLyi6ugBzcclMrbVGBdSd5Xw==
-X-Received: by 2002:a17:902:7603:: with SMTP id
- k3mr2758929pll.100.1585829600136; 
- Thu, 02 Apr 2020 05:13:20 -0700 (PDT)
-Received: from simran-Inspiron-5558 ([2409:4052:99d:cf8:4926:6e0b:60ca:635c])
- by smtp.gmail.com with ESMTPSA id
- kb18sm3989420pjb.14.2020.04.02.05.13.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Apr 2020 05:13:19 -0700 (PDT)
-Date: Thu, 2 Apr 2020 17:43:13 +0530
-From: Simran Singhal <singhalsimran0@gmail.com>
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Subject: [PATCH] qobject: json-streamer: Remove double test
-Message-ID: <20200402121313.GA5563@simran-Inspiron-5558>
+ (envelope-from <kwolf@redhat.com>) id 1jJyjg-0000vm-9E
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 08:14:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20187
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jJyjg-0000u4-4y
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 08:14:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585829655;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ULhth1Sb5jjgPQOkYttVjSCRZ2WjwnA5sbu1d+YqJdg=;
+ b=eatydHKBPTQZhWhew5OeEgK63tb8K5gKmv/Oj4pjZ1QR/i17rYYD70/BDoB3C428xqKL0F
+ SbBAEwKEJZsKwwxu4TE2ni82VCatdTnPa3u1akeYL8syR8M8rH1sgBgpxARTkxh210yHj+
+ 9W71eFoCvE48WTgQMRpSO1gSugZcmsA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-511-xKUz4pKnN5OH0k6__7p0IA-1; Thu, 02 Apr 2020 08:14:13 -0400
+X-MC-Unique: xKUz4pKnN5OH0k6__7p0IA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A043E8017F3;
+ Thu,  2 Apr 2020 12:14:12 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-227.ams2.redhat.com [10.36.114.227])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AFF5B5E000;
+ Thu,  2 Apr 2020 12:14:05 +0000 (UTC)
+Date: Thu, 2 Apr 2020 14:14:04 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Dietmar Maurer <dietmar@proxmox.com>
+Subject: Re: bdrv_drained_begin deadlock with io-threads
+Message-ID: <20200402121403.GB4006@linux.fritz.box>
+References: <787d7517-bf56-72c7-d197-2313a864e05f@virtuozzo.com>
+ <713436887.61.1585668262838@webmail.proxmox.com>
+ <20200331153719.GI7030@linux.fritz.box>
+ <518198448.62.1585671498399@webmail.proxmox.com>
+ <20200401103748.GA4680@linux.fritz.box>
+ <997901084.0.1585755465486@webmail.proxmox.com>
+ <20200401181256.GB27663@linux.fritz.box>
+ <1403939459.52.1585765681569@webmail.proxmox.com>
+ <20200401184431.GD27663@linux.fritz.box>
+ <903538836.29.1585818619688@webmail.proxmox.com>
 MIME-Version: 1.0
+In-Reply-To: <903538836.29.1585818619688@webmail.proxmox.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::1043
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,31 +82,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, Julia Suvorova <jusual@mail.ru>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org, Sergio Lopez <slp@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "jsnow@redhat.com" <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the duplicate test "parser->bracket_count >= 0".
+Am 02.04.2020 um 11:10 hat Dietmar Maurer geschrieben:
+> > It seems to fix it, yes. Now I don't get any hangs any more.=20
+>=20
+> I just tested using your configuration, and a recent centos8 image
+> running dd loop inside it:
+>=20
+> # while dd if=3D/dev/urandom of=3Dtestfile.raw bs=3D1M count=3D100; do sy=
+nc; done
+>=20
+> With that, I am unable to trigger the bug.
+>=20
+> Would you mind running the test using a Debian Buster image running "stre=
+ss-ng -d 5" inside?
+> I (and to other people here) can trigger the bug quite reliable with that=
+.
+>=20
+> On Debian, you can easily install stress-ng using apt:
+>=20
+> # apt update
+> # apt install stress-ng
+>=20
+> Seems stress-ng uses a different write pattern which can trigger the bug=
+=20
+> more reliable.
 
-Signed-off-by: Simran Singhal <singhalsimran0@gmail.com>
----
- qobject/json-streamer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I was going to, just give me some time...
 
-diff --git a/qobject/json-streamer.c b/qobject/json-streamer.c
-index 47dd7ea576..ef48185283 100644
---- a/qobject/json-streamer.c
-+++ b/qobject/json-streamer.c
-@@ -85,7 +85,7 @@ void json_message_process_token(JSONLexer *lexer, GString *input,
-     g_queue_push_tail(&parser->tokens, token);
- 
-     if ((parser->brace_count > 0 || parser->bracket_count > 0)
--        && parser->bracket_count >= 0 && parser->bracket_count >= 0) {
-+        && parser->bracket_count >= 0) {
-         return;
-     }
- 
--- 
-2.17.1
+Kevin
 
 
