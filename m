@@ -2,48 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA1B19CD28
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 00:53:56 +0200 (CEST)
-Received: from localhost ([::1]:48082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E0B219CD4B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 01:04:15 +0200 (CEST)
+Received: from localhost ([::1]:48172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK8ig-00078W-M7
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 18:53:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38489)
+	id 1jK8sg-0004kZ-6A
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 19:04:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39303)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jK8hf-0006Zl-6y
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 18:52:52 -0400
+ (envelope-from <alistair23@gmail.com>) id 1jK8pu-0002r3-Eq
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 19:01:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jK8hd-0003C0-KP
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 18:52:50 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:46561 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jK8hb-0002vg-9v; Thu, 02 Apr 2020 18:52:49 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48tdcp5b0hz9sSJ; Fri,  3 Apr 2020 09:52:42 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1585867962;
- bh=D/pIqfMYJZ9PtLyp+peMCTOb4nURRi0jaXcgzAviOuM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=S7PWwVsa0mQPuBut9RqFVYB73oZiVE8St8V9kZNZdn8J9w1FQ0Pg5F/chUT7rAow8
- FX8lfB8iqirnVZ2ARAX81yPLTj52Dj28QZgLB5F4R8x2jYa0/2o0lShKryW9BIAHnJ
- QleH+sgST16aKncpIEjtc+OiJLktpRi/QUbrPix8=
-Date: Fri, 3 Apr 2020 09:49:25 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Leonardo Bras <leonardo@linux.ibm.com>
-Subject: Re: [PATCH v3 1/1] ppc/spapr: Add hotremovable flag on DIMM LMBs on
- drmem_v2
-Message-ID: <20200402224925.GN47772@umbus.fritz.box>
-References: <20200402172339.622720-1-leonardo@linux.ibm.com>
+ (envelope-from <alistair23@gmail.com>) id 1jK8ps-0001J2-HQ
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 19:01:22 -0400
+Received: from mail-vk1-xa42.google.com ([2607:f8b0:4864:20::a42]:41008)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1jK8ps-0001IJ-DE; Thu, 02 Apr 2020 19:01:20 -0400
+Received: by mail-vk1-xa42.google.com with SMTP id q8so1494184vka.8;
+ Thu, 02 Apr 2020 16:01:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+EhoIUMr6AIYNXNpc4UuEHnod2ccJjZ0XpV8EXgn8NE=;
+ b=n4ONsqvsoUIA+hsRVliFM7kL3b9Tao6zVrQJaEUB//NVr/4JAOPODfQYAsEfl4oCp5
+ +obPXQ36xWg3pa/Y4VhTrkCT9wdFA3pu2Fe79zta+Cp2XWrUnKpQTxOU41XOVv43l2FC
+ g97BFDS9Y1lzLR6tAD067lGsyLOjdXgCGsFdClUrf43Ph6GlLga/l8ABtwlaIWn269xF
+ Ng3CXQ+6x9uOsfM/9VI9lvG2qc91CPLMj0gNUYTo9gLN0oyx/JHLF0ZX55TT4tuUklPX
+ YkDqKKjLhTB+IXn48G01TDhJErF/4dIKqVxBdCCvM/YfZunG0+HNWFxbOVkBRExToEj5
+ uNzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+EhoIUMr6AIYNXNpc4UuEHnod2ccJjZ0XpV8EXgn8NE=;
+ b=WkpYbTimdhiKQ58Y+7qvtPMryeTE4RpSH95DqVpPDS+EIZ6kzGc6kcvoTKxA/NHUIv
+ VRYipuUxLYvy38Ga4ITb1CHfXoF1PhWhJDvpgUQbGAwDzrVmcn4Tu8jEa8fiMh8ijJeg
+ c7BFud1g4qIsTYir2ZKgdXRkVr+2DS/22f19NsbPFkhuP5pUL70tB2jh87wKd/y+SY8y
+ v/iKv59lusHk29r/Pz2j2mQJANYg2cviFKrs7vit9jBaAEIOoC8g3px0W3Z2cGQ+8JkX
+ ObZLQKI1hlJnVTrdcbGVE/ohWKKGRsh46sEAu2f/Vwg/12SsZyVumfZ6pMVrypbbssBb
+ CYAw==
+X-Gm-Message-State: AGi0Puakhfm2btEAOKxooMqsd4PnJEqXmR92iq4T5eSSIXH0fnVQ6ITr
+ iukCBzcUcJqXSD7BOXfJ5obQg5mt7MymCLqJNH8=
+X-Google-Smtp-Source: APiQypLZlVeiJNtizpwn/YUVS1jYPvoyLpJSBssPfvNbkm1U4hO9uzHlMo6wZkfgAjDeQOp+i02jfOj6jt0BwA92DHc=
+X-Received: by 2002:ac5:c4cd:: with SMTP id a13mr4327325vkl.22.1585868479555; 
+ Thu, 02 Apr 2020 16:01:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="hNG1vEeyG8BCaHbQ"
-Content-Disposition: inline
-In-Reply-To: <20200402172339.622720-1-leonardo@linux.ibm.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+References: <20200330153633.15298-1-zhiwei_liu@c-sky.com>
+ <20200330153633.15298-28-zhiwei_liu@c-sky.com>
+In-Reply-To: <20200330153633.15298-28-zhiwei_liu@c-sky.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 2 Apr 2020 15:53:07 -0700
+Message-ID: <CAKmqyKP-oQE9pGMydne9aQ522puo1FbaL898VCU5LN=6OWueKw@mail.gmail.com>
+Subject: Re: [PATCH v7 27/61] target/riscv: vector widening saturating scaled
+ multiply-add
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::a42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,98 +72,309 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bharata B Rao <bharata.rao@in.ibm.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Bharata B Rao <bharata@linux.ibm.com>
+Cc: guoren@linux.alibaba.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wxy194768@alibaba-inc.com, Chih-Min Chao <chihmin.chao@sifive.com>,
+ wenmeng_zhang@c-sky.com, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Mar 30, 2020 at 9:31 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
---hNG1vEeyG8BCaHbQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-On Thu, Apr 02, 2020 at 02:23:40PM -0300, Leonardo Bras wrote:
-> On reboot, all memory that was previously added using object_add and
-> device_add is placed in this DIMM area.
->=20
-> The new SPAPR_LMB_FLAGS_HOTREMOVABLE flag helps Linux to put this memory =
-in
-> the correct memory zone, so no unmovable allocations are made there,
-> allowing the object to be easily hot-removed by device_del and
-> object_del.
->=20
-> This new flag was accepted in Power Architecture documentation.
->=20
-> Signed-off-by: Leonardo Bras <leonardo@linux.ibm.com>
-> Reviewed-by: Bharata B Rao <bharata@linux.ibm.com>
-
-The change looks reasonable.  Is there a PAPR RFC I can see describing
-the new bit, though?
+Alistair
 
 > ---
-> Changes since v1:
-> - Flag name changed from SPAPR_LMB_FLAGS_HOTPLUGGED to
-> 	SPAPR_LMB_FLAGS_HOTREMOVABLE
-> ---
->  hw/ppc/spapr.c         | 3 ++-
->  include/hw/ppc/spapr.h | 1 +
->  2 files changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 9a2bd501aa..fe662e297e 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -446,7 +446,8 @@ static int spapr_dt_dynamic_memory_v2(SpaprMachineSta=
-te *spapr, void *fdt,
->          g_assert(drc);
->          elem =3D spapr_get_drconf_cell(size / lmb_size, addr,
->                                       spapr_drc_index(drc), node,
-> -                                     SPAPR_LMB_FLAGS_ASSIGNED);
-> +                                     (SPAPR_LMB_FLAGS_ASSIGNED |
-> +                                      SPAPR_LMB_FLAGS_HOTREMOVABLE);
->          QSIMPLEQ_INSERT_TAIL(&drconf_queue, elem, entry);
->          nr_entries++;
->          cur_addr =3D addr + size;
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 42d64a0368..93e0d43051 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -880,6 +880,7 @@ int spapr_rtc_import_offset(SpaprRtcState *rtc, int64=
-_t legacy_offset);
->  #define SPAPR_LMB_FLAGS_ASSIGNED 0x00000008
->  #define SPAPR_LMB_FLAGS_DRC_INVALID 0x00000020
->  #define SPAPR_LMB_FLAGS_RESERVED 0x00000080
-> +#define SPAPR_LMB_FLAGS_HOTREMOVABLE 0x00000100
-> =20
->  void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg);
-> =20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---hNG1vEeyG8BCaHbQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6Ga/IACgkQbDjKyiDZ
-s5I9ug/+JxNTTMdw/Qpir47eKNDf/QmJPiqBKtGufk/xw+x1w63doYnpYIZpohj3
-Y1G6E2eUWP0lHuUWmSvLwrP6Qh7e95F3vrKNlZA0xfMU4j2xp2oLM+n3usFNaKfd
-7rRfXA+G4fBN7wZBeRQjF5m0klHsgLgzg2hI/L90diMcuz4DYZWoxBFLWJ1ky9Uy
-48DoQ2POZJqBy/5nHA1ebvluQpeBvjnjOH2ICzDvAnNWoTNDXx9B3xxdxm0sEgB3
-zis8WVA1PQdiKn6gG/wyKvnhlL4sScdpqOWlmQxsOG/SYvm2II4Yef4MVzs8ke/l
-KKq+ZBoaIntgtl2NaA4hXp9eDL97DxLijVcyUAyH6uJrhJdGWwSNfvaIWGMA7dTz
-Xk88kJiY2UtloWwvpHux9bbsYGTUtDYFR/qh1UXP0QJNfyQq50fkD4Kf5JSZylqG
-QePtgu/edC/NITMp2mgDGeshGLXR+bir4LpEA/BVJEilv6ttTNngwbt1vX8o8BVM
-QDvY+YExs2PxIYVfVcreStcclhTB/QDFomop/brqvqHpvxeD/7tvEiUlg7Tvx7kA
-U08WqNAwOSahu63qTiz+OPVmrgkonT9uhjqgqQZHbWeq63qG1KkzXfa9iJxkviQ7
-G3zHhI01zqh+cBrEjXzLp3vuMtR0IEmfuQxOsQTzG2qov0bfW1k=
-=flO2
------END PGP SIGNATURE-----
-
---hNG1vEeyG8BCaHbQ--
+>  target/riscv/helper.h                   |  22 +++
+>  target/riscv/insn32.decode              |   7 +
+>  target/riscv/insn_trans/trans_rvv.inc.c |   9 ++
+>  target/riscv/vector_helper.c            | 205 ++++++++++++++++++++++++
+>  4 files changed, 243 insertions(+)
+>
+> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+> index e6cae1b59c..eb383787a2 100644
+> --- a/target/riscv/helper.h
+> +++ b/target/riscv/helper.h
+> @@ -745,3 +745,25 @@ DEF_HELPER_6(vsmul_vx_b, void, ptr, ptr, tl, ptr, env, i32)
+>  DEF_HELPER_6(vsmul_vx_h, void, ptr, ptr, tl, ptr, env, i32)
+>  DEF_HELPER_6(vsmul_vx_w, void, ptr, ptr, tl, ptr, env, i32)
+>  DEF_HELPER_6(vsmul_vx_d, void, ptr, ptr, tl, ptr, env, i32)
+> +
+> +DEF_HELPER_6(vwsmaccu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vwsmaccu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vwsmaccu_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vwsmacc_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vwsmacc_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vwsmacc_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vwsmaccsu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vwsmaccsu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vwsmaccsu_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vwsmaccu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vwsmaccu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vwsmaccu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vwsmacc_vx_b, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vwsmacc_vx_h, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vwsmacc_vx_w, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vwsmaccsu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vwsmaccsu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vwsmaccsu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vwsmaccus_vx_b, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vwsmaccus_vx_h, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vwsmaccus_vx_w, void, ptr, ptr, tl, ptr, env, i32)
+> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+> index 633f782fbf..2e0e66bdfa 100644
+> --- a/target/riscv/insn32.decode
+> +++ b/target/riscv/insn32.decode
+> @@ -424,6 +424,13 @@ vasub_vv        100110 . ..... ..... 000 ..... 1010111 @r_vm
+>  vasub_vx        100110 . ..... ..... 100 ..... 1010111 @r_vm
+>  vsmul_vv        100111 . ..... ..... 000 ..... 1010111 @r_vm
+>  vsmul_vx        100111 . ..... ..... 100 ..... 1010111 @r_vm
+> +vwsmaccu_vv     111100 . ..... ..... 000 ..... 1010111 @r_vm
+> +vwsmaccu_vx     111100 . ..... ..... 100 ..... 1010111 @r_vm
+> +vwsmacc_vv      111101 . ..... ..... 000 ..... 1010111 @r_vm
+> +vwsmacc_vx      111101 . ..... ..... 100 ..... 1010111 @r_vm
+> +vwsmaccsu_vv    111110 . ..... ..... 000 ..... 1010111 @r_vm
+> +vwsmaccsu_vx    111110 . ..... ..... 100 ..... 1010111 @r_vm
+> +vwsmaccus_vx    111111 . ..... ..... 100 ..... 1010111 @r_vm
+>
+>  vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
+>  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
+> diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
+> index 08a8444b46..c67faba23c 100644
+> --- a/target/riscv/insn_trans/trans_rvv.inc.c
+> +++ b/target/riscv/insn_trans/trans_rvv.inc.c
+> @@ -1782,3 +1782,12 @@ GEN_OPIVI_TRANS(vaadd_vi, 0, vaadd_vx, opivx_check)
+>  /* Vector Single-Width Fractional Multiply with Rounding and Saturation */
+>  GEN_OPIVV_TRANS(vsmul_vv, opivv_check)
+>  GEN_OPIVX_TRANS(vsmul_vx,  opivx_check)
+> +
+> +/* Vector Widening Saturating Scaled Multiply-Add */
+> +GEN_OPIVV_WIDEN_TRANS(vwsmaccu_vv, opivv_widen_check)
+> +GEN_OPIVV_WIDEN_TRANS(vwsmacc_vv, opivv_widen_check)
+> +GEN_OPIVV_WIDEN_TRANS(vwsmaccsu_vv, opivv_widen_check)
+> +GEN_OPIVX_WIDEN_TRANS(vwsmaccu_vx)
+> +GEN_OPIVX_WIDEN_TRANS(vwsmacc_vx)
+> +GEN_OPIVX_WIDEN_TRANS(vwsmaccsu_vx)
+> +GEN_OPIVX_WIDEN_TRANS(vwsmaccus_vx)
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index 23868fb1b2..b9c1cf5237 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -2703,3 +2703,208 @@ GEN_VEXT_VX_RM(vsmul_vx_b, 1, 1, clearb)
+>  GEN_VEXT_VX_RM(vsmul_vx_h, 2, 2, clearh)
+>  GEN_VEXT_VX_RM(vsmul_vx_w, 4, 4, clearl)
+>  GEN_VEXT_VX_RM(vsmul_vx_d, 8, 8, clearq)
+> +
+> +/* Vector Widening Saturating Scaled Multiply-Add */
+> +static inline uint16_t
+> +vwsmaccu8(CPURISCVState *env, int vxrm, uint8_t a, uint8_t b,
+> +          uint16_t c)
+> +{
+> +    uint8_t round;
+> +    uint16_t res = (uint16_t)a * b;
+> +
+> +    round = get_round(vxrm, res, 4);
+> +    res   = (res >> 4) + round;
+> +    return saddu16(env, vxrm, c, res);
+> +}
+> +
+> +static inline uint32_t
+> +vwsmaccu16(CPURISCVState *env, int vxrm, uint16_t a, uint16_t b,
+> +           uint32_t c)
+> +{
+> +    uint8_t round;
+> +    uint32_t res = (uint32_t)a * b;
+> +
+> +    round = get_round(vxrm, res, 8);
+> +    res   = (res >> 8) + round;
+> +    return saddu32(env, vxrm, c, res);
+> +}
+> +
+> +static inline uint64_t
+> +vwsmaccu32(CPURISCVState *env, int vxrm, uint32_t a, uint32_t b,
+> +           uint64_t c)
+> +{
+> +    uint8_t round;
+> +    uint64_t res = (uint64_t)a * b;
+> +
+> +    round = get_round(vxrm, res, 16);
+> +    res   = (res >> 16) + round;
+> +    return saddu64(env, vxrm, c, res);
+> +}
+> +
+> +#define OPIVV3_RM(NAME, TD, T1, T2, TX1, TX2, HD, HS1, HS2, OP)    \
+> +static inline void                                                 \
+> +do_##NAME(void *vd, void *vs1, void *vs2, int i,                   \
+> +          CPURISCVState *env, int vxrm)                            \
+> +{                                                                  \
+> +    TX1 s1 = *((T1 *)vs1 + HS1(i));                                \
+> +    TX2 s2 = *((T2 *)vs2 + HS2(i));                                \
+> +    TD d = *((TD *)vd + HD(i));                                    \
+> +    *((TD *)vd + HD(i)) = OP(env, vxrm, s2, s1, d);                \
+> +}
+> +
+> +RVVCALL(OPIVV3_RM, vwsmaccu_vv_b, WOP_UUU_B, H2, H1, H1, vwsmaccu8)
+> +RVVCALL(OPIVV3_RM, vwsmaccu_vv_h, WOP_UUU_H, H4, H2, H2, vwsmaccu16)
+> +RVVCALL(OPIVV3_RM, vwsmaccu_vv_w, WOP_UUU_W, H8, H4, H4, vwsmaccu32)
+> +GEN_VEXT_VV_RM(vwsmaccu_vv_b, 1, 2, clearh)
+> +GEN_VEXT_VV_RM(vwsmaccu_vv_h, 2, 4, clearl)
+> +GEN_VEXT_VV_RM(vwsmaccu_vv_w, 4, 8, clearq)
+> +
+> +#define OPIVX3_RM(NAME, TD, T1, T2, TX1, TX2, HD, HS2, OP)         \
+> +static inline void                                                 \
+> +do_##NAME(void *vd, target_long s1, void *vs2, int i,              \
+> +          CPURISCVState *env, int vxrm)                            \
+> +{                                                                  \
+> +    TX2 s2 = *((T2 *)vs2 + HS2(i));                                \
+> +    TD d = *((TD *)vd + HD(i));                                    \
+> +    *((TD *)vd + HD(i)) = OP(env, vxrm, s2, (TX1)(T1)s1, d);       \
+> +}
+> +
+> +RVVCALL(OPIVX3_RM, vwsmaccu_vx_b, WOP_UUU_B, H2, H1, vwsmaccu8)
+> +RVVCALL(OPIVX3_RM, vwsmaccu_vx_h, WOP_UUU_H, H4, H2, vwsmaccu16)
+> +RVVCALL(OPIVX3_RM, vwsmaccu_vx_w, WOP_UUU_W, H8, H4, vwsmaccu32)
+> +GEN_VEXT_VX_RM(vwsmaccu_vx_b, 1, 2, clearh)
+> +GEN_VEXT_VX_RM(vwsmaccu_vx_h, 2, 4, clearl)
+> +GEN_VEXT_VX_RM(vwsmaccu_vx_w, 4, 8, clearq)
+> +
+> +static inline int16_t
+> +vwsmacc8(CPURISCVState *env, int vxrm, int8_t a, int8_t b, int16_t c)
+> +{
+> +    uint8_t round;
+> +    int16_t res = (int16_t)a * b;
+> +
+> +    round = get_round(vxrm, res, 4);
+> +    res   = (res >> 4) + round;
+> +    return sadd16(env, vxrm, c, res);
+> +}
+> +
+> +static inline int32_t
+> +vwsmacc16(CPURISCVState *env, int vxrm, int16_t a, int16_t b, int32_t c)
+> +{
+> +    uint8_t round;
+> +    int32_t res = (int32_t)a * b;
+> +
+> +    round = get_round(vxrm, res, 8);
+> +    res   = (res >> 8) + round;
+> +    return sadd32(env, vxrm, c, res);
+> +
+> +}
+> +
+> +static inline int64_t
+> +vwsmacc32(CPURISCVState *env, int vxrm, int32_t a, int32_t b, int64_t c)
+> +{
+> +    uint8_t round;
+> +    int64_t res = (int64_t)a * b;
+> +
+> +    round = get_round(vxrm, res, 16);
+> +    res   = (res >> 16) + round;
+> +    return sadd64(env, vxrm, c, res);
+> +}
+> +
+> +RVVCALL(OPIVV3_RM, vwsmacc_vv_b, WOP_SSS_B, H2, H1, H1, vwsmacc8)
+> +RVVCALL(OPIVV3_RM, vwsmacc_vv_h, WOP_SSS_H, H4, H2, H2, vwsmacc16)
+> +RVVCALL(OPIVV3_RM, vwsmacc_vv_w, WOP_SSS_W, H8, H4, H4, vwsmacc32)
+> +GEN_VEXT_VV_RM(vwsmacc_vv_b, 1, 2, clearh)
+> +GEN_VEXT_VV_RM(vwsmacc_vv_h, 2, 4, clearl)
+> +GEN_VEXT_VV_RM(vwsmacc_vv_w, 4, 8, clearq)
+> +RVVCALL(OPIVX3_RM, vwsmacc_vx_b, WOP_SSS_B, H2, H1, vwsmacc8)
+> +RVVCALL(OPIVX3_RM, vwsmacc_vx_h, WOP_SSS_H, H4, H2, vwsmacc16)
+> +RVVCALL(OPIVX3_RM, vwsmacc_vx_w, WOP_SSS_W, H8, H4, vwsmacc32)
+> +GEN_VEXT_VX_RM(vwsmacc_vx_b, 1, 2, clearh)
+> +GEN_VEXT_VX_RM(vwsmacc_vx_h, 2, 4, clearl)
+> +GEN_VEXT_VX_RM(vwsmacc_vx_w, 4, 8, clearq)
+> +
+> +static inline int16_t
+> +vwsmaccsu8(CPURISCVState *env, int vxrm, uint8_t a, int8_t b, int16_t c)
+> +{
+> +    uint8_t round;
+> +    int16_t res = a * (int16_t)b;
+> +
+> +    round = get_round(vxrm, res, 4);
+> +    res   = (res >> 4) + round;
+> +    return ssub16(env, vxrm, c, res);
+> +}
+> +
+> +static inline int32_t
+> +vwsmaccsu16(CPURISCVState *env, int vxrm, uint16_t a, int16_t b, uint32_t c)
+> +{
+> +    uint8_t round;
+> +    int32_t res = a * (int32_t)b;
+> +
+> +    round = get_round(vxrm, res, 8);
+> +    res   = (res >> 8) + round;
+> +    return ssub32(env, vxrm, c, res);
+> +}
+> +
+> +static inline int64_t
+> +vwsmaccsu32(CPURISCVState *env, int vxrm, uint32_t a, int32_t b, int64_t c)
+> +{
+> +    uint8_t round;
+> +    int64_t res = a * (int64_t)b;
+> +
+> +    round = get_round(vxrm, res, 16);
+> +    res   = (res >> 16) + round;
+> +    return ssub64(env, vxrm, c, res);
+> +}
+> +
+> +RVVCALL(OPIVV3_RM, vwsmaccsu_vv_b, WOP_SSU_B, H2, H1, H1, vwsmaccsu8)
+> +RVVCALL(OPIVV3_RM, vwsmaccsu_vv_h, WOP_SSU_H, H4, H2, H2, vwsmaccsu16)
+> +RVVCALL(OPIVV3_RM, vwsmaccsu_vv_w, WOP_SSU_W, H8, H4, H4, vwsmaccsu32)
+> +GEN_VEXT_VV_RM(vwsmaccsu_vv_b, 1, 2, clearh)
+> +GEN_VEXT_VV_RM(vwsmaccsu_vv_h, 2, 4, clearl)
+> +GEN_VEXT_VV_RM(vwsmaccsu_vv_w, 4, 8, clearq)
+> +RVVCALL(OPIVX3_RM, vwsmaccsu_vx_b, WOP_SSU_B, H2, H1, vwsmaccsu8)
+> +RVVCALL(OPIVX3_RM, vwsmaccsu_vx_h, WOP_SSU_H, H4, H2, vwsmaccsu16)
+> +RVVCALL(OPIVX3_RM, vwsmaccsu_vx_w, WOP_SSU_W, H8, H4, vwsmaccsu32)
+> +GEN_VEXT_VX_RM(vwsmaccsu_vx_b, 1, 2, clearh)
+> +GEN_VEXT_VX_RM(vwsmaccsu_vx_h, 2, 4, clearl)
+> +GEN_VEXT_VX_RM(vwsmaccsu_vx_w, 4, 8, clearq)
+> +
+> +static inline int16_t
+> +vwsmaccus8(CPURISCVState *env, int vxrm, int8_t a, uint8_t b, int16_t c)
+> +{
+> +    uint8_t round;
+> +    int16_t res = (int16_t)a * b;
+> +
+> +    round = get_round(vxrm, res, 4);
+> +    res   = (res >> 4) + round;
+> +    return ssub16(env, vxrm, c, res);
+> +}
+> +
+> +static inline int32_t
+> +vwsmaccus16(CPURISCVState *env, int vxrm, int16_t a, uint16_t b, int32_t c)
+> +{
+> +    uint8_t round;
+> +    int32_t res = (int32_t)a * b;
+> +
+> +    round = get_round(vxrm, res, 8);
+> +    res   = (res >> 8) + round;
+> +    return ssub32(env, vxrm, c, res);
+> +}
+> +
+> +static inline int64_t
+> +vwsmaccus32(CPURISCVState *env, int vxrm, int32_t a, uint32_t b, int64_t c)
+> +{
+> +    uint8_t round;
+> +    int64_t res = (int64_t)a * b;
+> +
+> +    round = get_round(vxrm, res, 16);
+> +    res   = (res >> 16) + round;
+> +    return ssub64(env, vxrm, c, res);
+> +}
+> +
+> +RVVCALL(OPIVX3_RM, vwsmaccus_vx_b, WOP_SUS_B, H2, H1, vwsmaccus8)
+> +RVVCALL(OPIVX3_RM, vwsmaccus_vx_h, WOP_SUS_H, H4, H2, vwsmaccus16)
+> +RVVCALL(OPIVX3_RM, vwsmaccus_vx_w, WOP_SUS_W, H8, H4, vwsmaccus32)
+> +GEN_VEXT_VX_RM(vwsmaccus_vx_b, 1, 2, clearh)
+> +GEN_VEXT_VX_RM(vwsmaccus_vx_h, 2, 4, clearl)
+> +GEN_VEXT_VX_RM(vwsmaccus_vx_w, 4, 8, clearq)
+> --
+> 2.23.0
+>
 
