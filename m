@@ -2,60 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AAD119C339
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 15:53:26 +0200 (CEST)
-Received: from localhost ([::1]:40382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0FC19C04E
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 13:41:33 +0200 (CEST)
+Received: from localhost ([::1]:37232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK0Hd-0007QD-F3
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 09:53:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51786)
+	id 1jJyE0-0007cd-Ii
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 07:41:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51603)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jJyDR-0007jQ-Gv
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 07:40:58 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jJyCm-00070P-MI
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 07:40:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jJyDP-0007rP-OI
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 07:40:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44560)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jJyDP-0007q6-I4
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 07:40:55 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jJyDN-00085C-LJ
- for <qemu-devel@nongnu.org>; Thu, 02 Apr 2020 11:40:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7AFBC2E810F
- for <qemu-devel@nongnu.org>; Thu,  2 Apr 2020 11:40:53 +0000 (UTC)
+ (envelope-from <imammedo@redhat.com>) id 1jJyCl-0007PW-NS
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 07:40:16 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53850
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jJyCl-0007PC-Kh
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 07:40:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585827615;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XRlISlhM6Y84l31Vxz3zpGEybbLy97qZDlRomqRO758=;
+ b=VPfDspBDOjh9SXNRZ9ZYJ7U5LxMqGYgdoOMM0FPlVYQuEUQBrogrnbGgHemlZKBAEVGwKg
+ V7duUegFVizQCBTUXcaZ8U93TruhBIEnBVidRCTdOWmQlHnzu3cBtku0sAYoCdCz2Qtnpv
+ LAPCNe8FIC+nnvVKY+TA5tlMklLqXzE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-226-iFEKrpzFOR-kyg6etYGt8Q-1; Thu, 02 Apr 2020 07:40:11 -0400
+X-MC-Unique: iFEKrpzFOR-kyg6etYGt8Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52E3810CE786;
+ Thu,  2 Apr 2020 11:40:10 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DD17538D;
+ Thu,  2 Apr 2020 11:40:00 +0000 (UTC)
+Date: Thu, 2 Apr 2020 13:39:58 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [PATCH v3 1/1] vl/s390x: fixup ram sizes for compat machines
+Message-ID: <20200402133958.72fabf45@redhat.com>
+In-Reply-To: <20200402112735.6961297d.cohuck@redhat.com>
+References: <20200401123754.109602-1-borntraeger@de.ibm.com>
+ <20200401183456.09ba3540@redhat.com>
+ <20200402112735.6961297d.cohuck@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 02 Apr 2020 11:35:01 -0000
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: r-volkmer
-X-Launchpad-Bug-Reporter: Ruben (r-volkmer)
-X-Launchpad-Bug-Modifier: Ruben (r-volkmer)
-Message-Id: <158582730148.12209.12098183760358013098.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1870331] [NEW] default nic device created even though supplied
- by configfile
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a296f04231dee355be5db73cc878b9e21689a253";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7e05b36bb5618e4b5691041324133b735dc43817
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-X-Mailman-Approved-At: Thu, 02 Apr 2020 09:52:34 -0400
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,134 +72,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?B?THVrw6HFoQ==?= Doktor <ldoktor@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ "Dr .
+ David Alan Gilbert" <dgilbert@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Bug 1870331 <1870331@bugs.launchpad.net>, Ruben <R.Volkmer@ITB-Solutions.de>
-From: Ruben via <qemu-devel@nongnu.org>
 
-Public bug reported:
+On Thu, 2 Apr 2020 11:27:35 +0200
+Cornelia Huck <cohuck@redhat.com> wrote:
 
-QEMU emulator version 4.1.94
+> On Wed, 1 Apr 2020 18:34:56 +0200
+> Igor Mammedov <imammedo@redhat.com> wrote:
+> 
+> > On Wed,  1 Apr 2020 08:37:54 -0400
+> > Christian Borntraeger <borntraeger@de.ibm.com> wrote:  
+> 
+> > > +static ram_addr_t s390_fixup_ram_size(ram_addr_t sz)
+> > > +{
+> > > +    /* same logic as in sclp.c */
+> > > +    int increment_size = 20;
+> > > +    ram_addr_t newsz;
+> > > +
+> > > +    while ((sz >> increment_size) > MAX_STORAGE_INCREMENTS) {
+> > > +        increment_size++;
+> > > +    }
+> > > +    newsz = sz >> increment_size << increment_size;
+> > > +
+> > > +    if (sz != newsz) {
+> > > +        qemu_printf("Ram size %" PRIu64 "MB was fixed up to %" PRIu64    
+> >                                                    ^^^^^^^^
+> > 
+> > for unaware  user it could be confusing as it could be read as 'value was increased'
+> > s/fixed up/amended/ might be better  
+> 
+> "rounded", perhaps?
+> 
+> >   
+> > > +                    "MB to match machine restrictions. Consider updating "
+> > > +                    "the guest definition.i\n", sz / MiB, newsz / MiB);    
+> > 
+> > also it might be better to use size_to_str() to format numbers  
+> 
+> The text explicitly talks about 'MB'... not sure if it would be
+> confusing if the user specified MB and ended up with GB or so in this
+> message.
 
-Documentation states that qemu will create a default nic as long as not
-explicitly forbidden (-nic none) or defined ( e.g. -nic <options>).
+MB can be dropped, since it still might not match what user specified with -m
+it could be specified in b/kb/mb/gb over there
 
-Observation:
-Even though qemu-system-ppc is started with "-readconfig" (which defines a =
-nic), another nic gets created. When additionally suppling "-nic none", onl=
-y the nic of the config file is created.
-As matter of fact, if all items that are defined in config file are supplie=
-d as command line arguments, no further nic is created. =
-
-
-Expectation:
-When a nic is defined in config file, the default guest-nic should not get =
-created.
-That would match behavior when all items, defined in config file are suppli=
-ed as command line arguments.
-
-
-Attached config file.
-
-(qemu) info pci
- Bus 0, device 0, function 0:
- Host bridge: PCI device 1057:0002
- PCI subsystem 1af4:1100
- id ""
- Bus 0, device 1, function 0:
- VGA controller: PCI device 1234:1111
- PCI subsystem 1af4:1100
- BAR0: 32 bit prefetchable memory at 0x80000000 [0x80ffffff].
- BAR2: 32 bit memory at 0x81000000 [0x81000fff].
- BAR6: 32 bit memory at 0xffffffffffffffff [0x0000fffe].
- id ""
- Bus 0, device 2, function 0:
- Ethernet controller: PCI device 10ec:8029
- PCI subsystem 1af4:1100
- IRQ 23.
- BAR0: I/O at 0x1000 [0x10ff].
- BAR6: 32 bit memory at 0xffffffffffffffff [0x0007fffe].
- id ""
- Bus 0, device 3, function 0:
- Ethernet controller: PCI device 10ec:8029
- PCI subsystem 1af4:1100
- IRQ 24.
- BAR0: I/O at 0x1100 [0x11ff].
- BAR6: 32 bit memory at 0xffffffffffffffff [0x0007fffe].
- id ""
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Attachment added: "readconfig file"
-   https://bugs.launchpad.net/bugs/1870331/+attachment/5344765/+files/qemu.=
-config
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1870331
-
-Title:
-  default nic device created even though supplied by configfile
-
-Status in QEMU:
-  New
-
-Bug description:
-  QEMU emulator version 4.1.94
-
-  Documentation states that qemu will create a default nic as long as
-  not explicitly forbidden (-nic none) or defined ( e.g. -nic
-  <options>).
-
-  Observation:
-  Even though qemu-system-ppc is started with "-readconfig" (which defines =
-a nic), another nic gets created. When additionally suppling "-nic none", o=
-nly the nic of the config file is created.
-  As matter of fact, if all items that are defined in config file are suppl=
-ied as command line arguments, no further nic is created. =
+so I'd drop MB and print value size_to_str() returns
+(it will add appropriate suffix if I'm not mistaken)
 
 
-  Expectation:
-  When a nic is defined in config file, the default guest-nic should not ge=
-t created.
-  That would match behavior when all items, defined in config file are supp=
-lied as command line arguments.
+> >   
+> > > +    }
+> > > +    return newsz;
+> > > +}
+> > > +  
+> 
+> (If we can agree upon message and format, I'll happily fix that up when
+> applying.)
+> 
+> 
 
-  =
-
-  Attached config file.
-
-  (qemu) info pci
-   Bus 0, device 0, function 0:
-   Host bridge: PCI device 1057:0002
-   PCI subsystem 1af4:1100
-   id ""
-   Bus 0, device 1, function 0:
-   VGA controller: PCI device 1234:1111
-   PCI subsystem 1af4:1100
-   BAR0: 32 bit prefetchable memory at 0x80000000 [0x80ffffff].
-   BAR2: 32 bit memory at 0x81000000 [0x81000fff].
-   BAR6: 32 bit memory at 0xffffffffffffffff [0x0000fffe].
-   id ""
-   Bus 0, device 2, function 0:
-   Ethernet controller: PCI device 10ec:8029
-   PCI subsystem 1af4:1100
-   IRQ 23.
-   BAR0: I/O at 0x1000 [0x10ff].
-   BAR6: 32 bit memory at 0xffffffffffffffff [0x0007fffe].
-   id ""
-   Bus 0, device 3, function 0:
-   Ethernet controller: PCI device 10ec:8029
-   PCI subsystem 1af4:1100
-   IRQ 24.
-   BAR0: I/O at 0x1100 [0x11ff].
-   BAR6: 32 bit memory at 0xffffffffffffffff [0x0007fffe].
-   id ""
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1870331/+subscriptions
 
