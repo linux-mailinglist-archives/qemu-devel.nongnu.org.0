@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A22819C99E
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 21:13:29 +0200 (CEST)
-Received: from localhost ([::1]:46400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A62A19C96F
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 21:10:33 +0200 (CEST)
+Received: from localhost ([::1]:46334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK5HM-0004il-Co
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 15:13:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33864)
+	id 1jK5EW-0007hC-Ce
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 15:10:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33845)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jK5B1-0002UU-9m
+ (envelope-from <pbonzini@redhat.com>) id 1jK5B0-0002Tc-EL
  for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jK5Az-0000Lq-7X
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:55 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60319
+ (envelope-from <pbonzini@redhat.com>) id 1jK5Az-0000Mm-E2
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:54 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60464
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jK5Ay-0000Kj-3T
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jK5Az-0000Kn-9l
  for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1585854411;
@@ -27,29 +27,29 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kQbtW20VeBRzAfEmdwTdAX4X14E+HlJSxEi4k04fnyQ=;
- b=BU5sGPkJ2TDK40sQdcb8IbQvWuVcp0cHzyZlE+vyNGcB1tZ46qmeSjgxGifXKmosQxgZyX
- hb/h4yD+mcKOAAvABQR9jUrnrHrnBO9y9ifCbxrLKRXWTyCfIum1MRKSGBECDZXSOdkj4f
- GR5uHLvOndnf6rreUDYGBShDw+R10Bw=
+ bh=FNt1Kfzuq9YitXxQvYRACSU9+bXSxIfVQgQnwMvCeoo=;
+ b=MD1xfAjGklFkRrRViRpqDazgCG6Tq6hfGI7cjCFlWTlUpGDhq/QP3mNuZQVQn1QvTW3wRv
+ mTjBYcamoPNb8MJVAi3hRj3g0BFb17HUBu+fqGI7Jm73uNT++qgLxws9Lr+yn0xBZcvEUR
+ msWcqljxGg6I0HLaQpD01zfTd9o4f78=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-g7J99xCQMyCpt8a7Csgreg-1; Thu, 02 Apr 2020 15:06:49 -0400
-X-MC-Unique: g7J99xCQMyCpt8a7Csgreg-1
+ us-mta-126-s0q8258vN-CVXAmsIA3Rpg-1; Thu, 02 Apr 2020 15:06:50 -0400
+X-MC-Unique: s0q8258vN-CVXAmsIA3Rpg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3A3A107ACC4;
- Thu,  2 Apr 2020 19:06:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44C2D13F6
+ for <qemu-devel@nongnu.org>; Thu,  2 Apr 2020 19:06:49 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 58F9E50BEE;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DA22B89F0A;
  Thu,  2 Apr 2020 19:06:48 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/15] util/bufferiszero: improve avx2 accelerator
-Date: Thu,  2 Apr 2020 15:06:32 -0400
-Message-Id: <20200402190640.1693-8-pbonzini@redhat.com>
+Subject: [PULL 08/15] vl: fix broken IPA range for ARM -M virt with KVM enabled
+Date: Thu,  2 Apr 2020 15:06:33 -0400
+Message-Id: <20200402190640.1693-9-pbonzini@redhat.com>
 In-Reply-To: <20200402190640.1693-1-pbonzini@redhat.com>
 References: <20200402190640.1693-1-pbonzini@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
@@ -58,8 +58,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,77 +70,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Robert Hoo <robert.hu@linux.intel.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Robert Hoo <robert.hu@linux.intel.com>
+From: Igor Mammedov <imammedo@redhat.com>
 
-By increasing avx2 length_to_accel to 128, we can simplify its logic and re=
-duce a
-branch.
+Commit a1b18df9a4848, broke virt_kvm_type() logic, which depends on
+maxram_size, ram_size, ram_slots being parsed/set on machine instance
+at the time accelerator (KVM) is initialized.
 
-The authorship of this patch actually belongs to Richard Henderson
-<richard.henderson@linaro.org>, I just fixed a boundary case on his
-original patch.
+set_memory_options() part was already reverted by commit 2a7b18a3205b,
+so revert remaining initialization of above machine fields to make
+virt_kvm_type() work as it used to.
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
-Message-Id: <1585119021-46593-2-git-send-email-robert.hu@linux.intel.com>
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reported-by: Auger Eric <eric.auger@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Tested-by: Eric Auger <eric.auger@redhat.com>
+Message-Id: <20200326112829.19989-1-imammedo@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/bufferiszero.c | 26 +++++++++-----------------
- 1 file changed, 9 insertions(+), 17 deletions(-)
+ softmmu/vl.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/util/bufferiszero.c b/util/bufferiszero.c
-index b8012532e4..695bb4ce28 100644
---- a/util/bufferiszero.c
-+++ b/util/bufferiszero.c
-@@ -158,27 +158,19 @@ buffer_zero_avx2(const void *buf, size_t len)
-     __m256i *p =3D (__m256i *)(((uintptr_t)buf + 5 * 32) & -32);
-     __m256i *e =3D (__m256i *)(((uintptr_t)buf + len) & -32);
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 796a77e234..4f71ac10fd 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -4137,6 +4137,9 @@ void qemu_init(int argc, char **argv, char **envp)
+     machine_opts =3D qemu_get_machine_opts();
+     qemu_opt_foreach(machine_opts, machine_set_property, current_machine,
+                      &error_fatal);
++    current_machine->ram_size =3D ram_size;
++    current_machine->maxram_size =3D maxram_size;
++    current_machine->ram_slots =3D ram_slots;
 =20
--    if (likely(p <=3D e)) {
--        /* Loop over 32-byte aligned blocks of 128.  */
--        do {
--            __builtin_prefetch(p);
--            if (unlikely(!_mm256_testz_si256(t, t))) {
--                return false;
--            }
--            t =3D p[-4] | p[-3] | p[-2] | p[-1];
--            p +=3D 4;
--        } while (p <=3D e);
--    } else {
--        t |=3D _mm256_loadu_si256(buf + 32);
--        if (len <=3D 128) {
--            goto last2;
-+    /* Loop over 32-byte aligned blocks of 128.  */
-+    while (p <=3D e) {
-+        __builtin_prefetch(p);
-+        if (unlikely(!_mm256_testz_si256(t, t))) {
-+            return false;
+     /*
+      * Note: uses machine properties such as kernel-irqchip, must run
+@@ -4320,10 +4323,6 @@ void qemu_init(int argc, char **argv, char **envp)
          }
--    }
-+        t =3D p[-4] | p[-3] | p[-2] | p[-1];
-+        p +=3D 4;
-+    } ;
-=20
-     /* Finish the last block of 128 unaligned.  */
-     t |=3D _mm256_loadu_si256(buf + len - 4 * 32);
-     t |=3D _mm256_loadu_si256(buf + len - 3 * 32);
-- last2:
-     t |=3D _mm256_loadu_si256(buf + len - 2 * 32);
-     t |=3D _mm256_loadu_si256(buf + len - 1 * 32);
-=20
-@@ -263,7 +255,7 @@ static void init_accel(unsigned cache)
      }
-     if (cache & CACHE_AVX2) {
-         fn =3D buffer_zero_avx2;
--        length_to_accel =3D 64;
-+        length_to_accel =3D 128;
-     }
- #endif
- #ifdef CONFIG_AVX512F_OPT
+=20
+-    current_machine->ram_size =3D ram_size;
+-    current_machine->maxram_size =3D maxram_size;
+-    current_machine->ram_slots =3D ram_slots;
+-
+     parse_numa_opts(current_machine);
+=20
+     if (machine_class->default_ram_id && current_machine->ram_size &&
 --=20
 2.18.2
 
