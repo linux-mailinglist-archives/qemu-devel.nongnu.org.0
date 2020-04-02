@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27ACA19C625
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 17:42:06 +0200 (CEST)
-Received: from localhost ([::1]:43490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D2F519C63D
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 17:45:42 +0200 (CEST)
+Received: from localhost ([::1]:43524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK1ym-0002ps-Mr
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 11:42:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53592)
+	id 1jK22H-0004tP-4F
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 11:45:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54131)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dietmar@proxmox.com>) id 1jK1xj-0002CT-Fh
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 11:41:00 -0400
+ (envelope-from <dietmar@proxmox.com>) id 1jK21L-0004HM-Sk
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 11:44:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dietmar@proxmox.com>) id 1jK1xi-0000S4-H6
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 11:40:59 -0400
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:32260)
+ (envelope-from <dietmar@proxmox.com>) id 1jK21K-0003WQ-Rp
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 11:44:43 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:28861)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dietmar@proxmox.com>)
- id 1jK1xf-0000Lw-Sv; Thu, 02 Apr 2020 11:40:56 -0400
+ id 1jK21H-0003Uz-W4; Thu, 02 Apr 2020 11:44:40 -0400
 Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 9BA5B45979;
- Thu,  2 Apr 2020 17:40:51 +0200 (CEST)
-Date: Thu, 2 Apr 2020 17:40:50 +0200 (CEST)
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id EC0E445977;
+ Thu,  2 Apr 2020 17:44:38 +0200 (CEST)
+Date: Thu, 2 Apr 2020 17:44:37 +0200 (CEST)
 From: Dietmar Maurer <dietmar@proxmox.com>
 To: Kevin Wolf <kwolf@redhat.com>
-Message-ID: <1043934808.59.1585842050330@webmail.proxmox.com>
+Message-ID: <1734893624.60.1585842277722@webmail.proxmox.com>
 In-Reply-To: <20200402142524.GD4006@linux.fritz.box>
 References: <713436887.61.1585668262838@webmail.proxmox.com>
  <20200331153719.GI7030@linux.fritz.box>
@@ -69,20 +69,16 @@ Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Can you reproduce the problem with my script, but pointing it to your
-> Debian image and running stress-ng instead of dd? 
+> It does looks more like your case because I now have bs.in_flight == 0
+> and the BlockBackend of the scsi-hd device has in_flight == 8. 
 
-yes
+yes, this looks very familiar.
 
-> If so, how long does
-> it take to reproduce for you?
+> Of course, this still doesn't answer why it happens, and I'm not sure if we
+> can tell without adding some debug code.
+> 
+> I'm testing on my current block branch with Stefan's fixes on top.
 
-I sometimes need up to 130 iterations ...
-
-Worse, I thought several times the bug is gone, but then it triggered again (sigh).
-
-But most times below 30 iteration (if you run "stress-ng -d 5").
-
-Also note that it can happen at different places, but always inside a drained section ...
+Note: I can trigger it with and without Stefans patches on top
 
 
