@@ -2,137 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C58419C03E
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 13:33:19 +0200 (CEST)
-Received: from localhost ([::1]:37182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AAD119C339
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 15:53:26 +0200 (CEST)
+Received: from localhost ([::1]:40382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJy62-0005pB-Bo
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 07:33:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50725)
+	id 1jK0Hd-0007QD-F3
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 09:53:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51786)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <borntraeger@de.ibm.com>) id 1jJy57-0005N4-87
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 07:32:22 -0400
+ (envelope-from <bounces@canonical.com>) id 1jJyDR-0007jQ-Gv
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 07:40:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <borntraeger@de.ibm.com>) id 1jJy55-0002Mk-Ug
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 07:32:21 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:41120
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
- id 1jJy55-0002Mc-OS
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 07:32:19 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 032BWI3W055019
- for <qemu-devel@nongnu.org>; Thu, 2 Apr 2020 07:32:18 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
- by mx0b-001b2d01.pphosted.com with ESMTP id 304gsta4jd-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 02 Apr 2020 07:32:18 -0400
-Received: from localhost
- by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
- Thu, 2 Apr 2020 12:31:56 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
- by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 2 Apr 2020 12:31:52 +0100
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 032BW7vU15663146
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 2 Apr 2020 11:32:07 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2A58B4C044;
- Thu,  2 Apr 2020 11:32:07 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9932C4C050;
- Thu,  2 Apr 2020 11:32:06 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.145.6.23])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu,  2 Apr 2020 11:32:06 +0000 (GMT)
-Subject: Re: [PATCH v3 1/1] vl/s390x: fixup ram sizes for compat machines
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20200401123754.109602-1-borntraeger@de.ibm.com>
- <20200401183456.09ba3540@redhat.com>
- <20200402112735.6961297d.cohuck@redhat.com>
- <861e54aa-fb64-78c4-f3e6-6b0bfd7366ab@de.ibm.com>
- <20200402132538.0c23d04f.cohuck@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
- 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
- nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
-Date: Thu, 2 Apr 2020 13:32:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <bounces@canonical.com>) id 1jJyDP-0007rP-OI
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 07:40:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44560)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jJyDP-0007q6-I4
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 07:40:55 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jJyDN-00085C-LJ
+ for <qemu-devel@nongnu.org>; Thu, 02 Apr 2020 11:40:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7AFBC2E810F
+ for <qemu-devel@nongnu.org>; Thu,  2 Apr 2020 11:40:53 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200402132538.0c23d04f.cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 20040211-0016-0000-0000-000002FCE852
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20040211-0017-0000-0000-00003360B1B2
-Message-Id: <fd2519df-fcff-09b9-3f61-e77a7fe4ac48@de.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-04-02_01:2020-03-31,
- 2020-04-02 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0
- malwarescore=0 suspectscore=0 priorityscore=1501 lowpriorityscore=0
- phishscore=0 clxscore=1015 mlxlogscore=810 mlxscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004020101
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 02 Apr 2020 11:35:01 -0000
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: r-volkmer
+X-Launchpad-Bug-Reporter: Ruben (r-volkmer)
+X-Launchpad-Bug-Modifier: Ruben (r-volkmer)
+Message-Id: <158582730148.12209.12098183760358013098.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1870331] [NEW] default nic device created even though supplied
+ by configfile
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a296f04231dee355be5db73cc878b9e21689a253";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 7e05b36bb5618e4b5691041324133b735dc43817
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Thu, 02 Apr 2020 09:52:34 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -141,34 +64,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>, qemu-s390x <qemu-s390x@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Bug 1870331 <1870331@bugs.launchpad.net>, Ruben <R.Volkmer@ITB-Solutions.de>
+From: Ruben via <qemu-devel@nongnu.org>
+
+Public bug reported:
+
+QEMU emulator version 4.1.94
+
+Documentation states that qemu will create a default nic as long as not
+explicitly forbidden (-nic none) or defined ( e.g. -nic <options>).
+
+Observation:
+Even though qemu-system-ppc is started with "-readconfig" (which defines a =
+nic), another nic gets created. When additionally suppling "-nic none", onl=
+y the nic of the config file is created.
+As matter of fact, if all items that are defined in config file are supplie=
+d as command line arguments, no further nic is created. =
 
 
+Expectation:
+When a nic is defined in config file, the default guest-nic should not get =
+created.
+That would match behavior when all items, defined in config file are suppli=
+ed as command line arguments.
 
-On 02.04.20 13:25, Cornelia Huck wrote:
 
->>
->> Is the the only thing that blocks this? I would rather try to get this fixed before rc2.
->>
-> 
-> I now have
-> 
->     if (sz != newsz) {                                                          
->         qemu_printf("Ram size %" PRIu64 "MB was fixed up to %" PRIu64           
->                     "MB to match machine restrictions. Consider updating "      
->                     "the guest definition.\n", (uint64_t) (sz / MiB),           
->                     (uint64_t) (newsz / MiB));                                  
->     }
-> 
-> Opinions?
+Attached config file.
 
-Looks good to me.
+(qemu) info pci
+ Bus 0, device 0, function 0:
+ Host bridge: PCI device 1057:0002
+ PCI subsystem 1af4:1100
+ id ""
+ Bus 0, device 1, function 0:
+ VGA controller: PCI device 1234:1111
+ PCI subsystem 1af4:1100
+ BAR0: 32 bit prefetchable memory at 0x80000000 [0x80ffffff].
+ BAR2: 32 bit memory at 0x81000000 [0x81000fff].
+ BAR6: 32 bit memory at 0xffffffffffffffff [0x0000fffe].
+ id ""
+ Bus 0, device 2, function 0:
+ Ethernet controller: PCI device 10ec:8029
+ PCI subsystem 1af4:1100
+ IRQ 23.
+ BAR0: I/O at 0x1000 [0x10ff].
+ BAR6: 32 bit memory at 0xffffffffffffffff [0x0007fffe].
+ id ""
+ Bus 0, device 3, function 0:
+ Ethernet controller: PCI device 10ec:8029
+ PCI subsystem 1af4:1100
+ IRQ 24.
+ BAR0: I/O at 0x1100 [0x11ff].
+ BAR6: 32 bit memory at 0xffffffffffffffff [0x0007fffe].
+ id ""
 
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Attachment added: "readconfig file"
+   https://bugs.launchpad.net/bugs/1870331/+attachment/5344765/+files/qemu.=
+config
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1870331
+
+Title:
+  default nic device created even though supplied by configfile
+
+Status in QEMU:
+  New
+
+Bug description:
+  QEMU emulator version 4.1.94
+
+  Documentation states that qemu will create a default nic as long as
+  not explicitly forbidden (-nic none) or defined ( e.g. -nic
+  <options>).
+
+  Observation:
+  Even though qemu-system-ppc is started with "-readconfig" (which defines =
+a nic), another nic gets created. When additionally suppling "-nic none", o=
+nly the nic of the config file is created.
+  As matter of fact, if all items that are defined in config file are suppl=
+ied as command line arguments, no further nic is created. =
+
+
+  Expectation:
+  When a nic is defined in config file, the default guest-nic should not ge=
+t created.
+  That would match behavior when all items, defined in config file are supp=
+lied as command line arguments.
+
+  =
+
+  Attached config file.
+
+  (qemu) info pci
+   Bus 0, device 0, function 0:
+   Host bridge: PCI device 1057:0002
+   PCI subsystem 1af4:1100
+   id ""
+   Bus 0, device 1, function 0:
+   VGA controller: PCI device 1234:1111
+   PCI subsystem 1af4:1100
+   BAR0: 32 bit prefetchable memory at 0x80000000 [0x80ffffff].
+   BAR2: 32 bit memory at 0x81000000 [0x81000fff].
+   BAR6: 32 bit memory at 0xffffffffffffffff [0x0000fffe].
+   id ""
+   Bus 0, device 2, function 0:
+   Ethernet controller: PCI device 10ec:8029
+   PCI subsystem 1af4:1100
+   IRQ 23.
+   BAR0: I/O at 0x1000 [0x10ff].
+   BAR6: 32 bit memory at 0xffffffffffffffff [0x0007fffe].
+   id ""
+   Bus 0, device 3, function 0:
+   Ethernet controller: PCI device 10ec:8029
+   PCI subsystem 1af4:1100
+   IRQ 24.
+   BAR0: I/O at 0x1100 [0x11ff].
+   BAR6: 32 bit memory at 0xffffffffffffffff [0x0007fffe].
+   id ""
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1870331/+subscriptions
 
