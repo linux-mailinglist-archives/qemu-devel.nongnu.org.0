@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF3AA19C2FD
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 15:48:16 +0200 (CEST)
-Received: from localhost ([::1]:40282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DAF719C333
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 15:52:42 +0200 (CEST)
+Received: from localhost ([::1]:40368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK0Cd-00086a-R8
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 09:48:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50682)
+	id 1jK0Gv-0005wE-Mh
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 09:52:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50977)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jK0Ai-0006OH-7T
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 09:46:17 -0400
+ (envelope-from <armbru@redhat.com>) id 1jK0Bw-000801-41
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 09:47:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1jK0Ad-0001kf-Ce
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 09:46:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50492
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1jK0Bu-0004HZ-ET
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 09:47:32 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41891
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1jK0Ad-0001jC-8t
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 09:46:11 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jK0Bu-0004GQ-AA
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 09:47:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585835170;
+ s=mimecast20190719; t=1585835249;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ehgim0Fowz99h2ukYDS2n0Cup+my0nsHsQEH1be0qlw=;
- b=dL0dRF6vElZeXXgGYj3nECukzD/LHDexBRvBp6nK7VTMQDnFlyqI9n0fJVYKraMEkW7NYH
- IcL5wFI4sbf3fPgD6mOnfCIqvjQ9tOr6/40s2nvEsIRl9jPhE9C7T3oysF14sgAcuhNsa6
- Y+c6hMK2EK3+hvU6qt5sm2pdiQ8bDUk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-463-UCLTZHU9MTOctu2g7njRfA-1; Thu, 02 Apr 2020 09:46:07 -0400
-X-MC-Unique: UCLTZHU9MTOctu2g7njRfA-1
-Received: by mail-wr1-f69.google.com with SMTP id f15so1514420wrt.4
- for <qemu-devel@nongnu.org>; Thu, 02 Apr 2020 06:46:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=9A3CnEsiXSDPqkUmIOaIkmymme/2Og0VecqbFgiZyxU=;
- b=HahJbMt9XupWdHpZFzsRP5QdvoS1dSyfHI9ghVcKYnZ8L3L1DA9uTReHgYQfzIdwzY
- 79P279jmH7hcC3BIRWrwM9eJhLTvnl8dHfSk8o52oTv/hi9idSFpVhPHchivZ3/DFxvJ
- V2j+1/t51+hvcLaq9vZJ090RobcfphaJo6CJOVtF7R7kCNGY8R/OoP+hQlkdAQEaDJfz
- W3N6jtHg8MjarT1GZFeXPn/oSt2qs7D1JFKIHM82y4obrMZIY5ddVH3CeLmLqIxpHe7o
- 1HIeL5d61bKSbczVYG3Bk1CkfyZDFbLLThE5qq3/iBRgNfgU43y+691r/HPj5CgsyWPx
- BjVQ==
-X-Gm-Message-State: AGi0PubnolX69PKsGSmRTx9lY1jznPUvtpLDFJAYAcb6dGKA6xkdCYHs
- VFtmD+DGBPxb0p6bZoTC/tUz4FOphLbGZD3dZ39d1KXNrbGe1wslanIJOuQ4zwfYN83beAB71K7
- B/LXpqtDC2EiuvI0=
-X-Received: by 2002:adf:ea83:: with SMTP id s3mr3918077wrm.25.1585835166200;
- Thu, 02 Apr 2020 06:46:06 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJZChRwPcgHJam48Q8buWnfLkcBSM2myx23vHYz3rJj5PGDm/NVXjc+sk4Us05VYvFGWrOXZw==
-X-Received: by 2002:adf:ea83:: with SMTP id s3mr3918048wrm.25.1585835165988;
- Thu, 02 Apr 2020 06:46:05 -0700 (PDT)
-Received: from xz-x1 ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id a82sm9404955wmh.0.2020.04.02.06.46.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Apr 2020 06:46:05 -0700 (PDT)
-Date: Thu, 2 Apr 2020 09:46:01 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH v2 00/22] intel_iommu: expose Shared Virtual Addressing
- to VMs
-Message-ID: <20200402134601.GJ7174@xz-x1>
-References: <1585542301-84087-1-git-send-email-yi.l.liu@intel.com>
- <984e6f47-2717-44fb-7ff2-95ca61d1858f@redhat.com>
+ bh=pWD7O1HxTYjNj1puh1fmFI6Lsj+CFiJCyC/FAin4oTI=;
+ b=YgSKFV1nwz5YubnlOY9C0CFLwu4DeABAEI7z5c0SZvWaaDjpHj+YcrVWJEe2VhQArSVcM4
+ U+HUiqDkkwSBJZrN2adCxajD9gBRrtr8pFSzCKj3GiTlOvQGgX1Om74eKuZQuh5BXZcd1H
+ qQEANjyL5c8ZFo9GLEWt8cNIFbGLYRg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-36-_hpKKDiBMeGSe3RGsJhZBA-1; Thu, 02 Apr 2020 09:47:16 -0400
+X-MC-Unique: _hpKKDiBMeGSe3RGsJhZBA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77DA6101FC6E;
+ Thu,  2 Apr 2020 13:47:15 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-69.ams2.redhat.com
+ [10.36.112.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 614F15ED3F;
+ Thu,  2 Apr 2020 13:47:14 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C40BC11385E2; Thu,  2 Apr 2020 15:47:12 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: Function-like macro with the same name as a typedef confuses
+ Coccinelle
+References: <87k12y5by1.fsf@dusky.pond.sub.org>
+ <31eed279-5ef9-4d11-62de-51c0eeaff589@redhat.com>
+Date: Thu, 02 Apr 2020 15:47:12 +0200
+In-Reply-To: <31eed279-5ef9-4d11-62de-51c0eeaff589@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 2 Apr 2020 14:29:58
+ +0200")
+Message-ID: <871rp63spr.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <984e6f47-2717-44fb-7ff2-95ca61d1858f@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,30 +78,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jean-philippe@linaro.org, kevin.tian@intel.com,
- Liu Yi L <yi.l.liu@intel.com>, kvm@vger.kernel.org, mst@redhat.com,
- jun.j.tian@intel.com, qemu-devel@nongnu.org, eric.auger@redhat.com,
- alex.williamson@redhat.com, pbonzini@redhat.com, david@gibson.dropbear.id.au,
- yi.y.sun@intel.com, hao.wu@intel.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 02, 2020 at 04:33:02PM +0800, Jason Wang wrote:
-> > The complete QEMU set can be found in below link:
-> > https://github.com/luxis1999/qemu.git: sva_vtd_v10_v2
->=20
->=20
-> Hi Yi:
->=20
-> I could not find the branch there.
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-Jason,
+> On 4/2/20 2:06 PM, Markus Armbruster wrote:
+>> I discovered that Vladimir's auto-propagated-errp.cocci leaves
+>> hw/arm/armsse.c unchanged, even though it clearly should change it.
+>> Running spatch with --debug prints (among lots of other things)
+>>
+>>      let's go
+>>      -------------------------------------------------------------------=
+----
+>>      -------------------------------------------------------------------=
+----
+>>      parse error
+>>       =3D error in hw/arm/armsse.c; set verbose_parsing for more info
+>>      badcount: 7
+>>      bad: }
+>>      bad:
+>>      bad: static void nsccfg_handler(void *opaque, int n, int level)
+>>      bad: {
+>>      BAD:!!!!!     ARMSSE *s =3D ARMSSE(opaque);
+>>      bad:
+>>      bad:     s->nsccfg =3D level;
+>>      bad: }
+>>      parse error
+>>
+>> Alright, what's wrong with this?  ARMSSE is both a function-like macro
+>> and a typedef:
+>>
+>>      #define ARMSSE(obj) OBJECT_CHECK(ARMSSE, (obj), TYPE_ARMSSE)
+>>
+>>      typedef struct ARMSSE {
+>>          ...
+>>      } ARMSSE;
+>>
+>> This appears to spook Coccinelle badly enough to skip code using ARMSSE.
+>>
+>> If I rename the macro to ARMSSE_() just for testing, it produces the
+>> transformation I'd expect.
+>>
+>> Grepping for typedef names is bothersome, so I used ctags -x to build a
+>> cross reference table, and searched that for function-like macros
+>> clashing with typedefs.  Result:
+>>
+>> include/hw/arm/armsse.h:#define ARMSSE(obj) OBJECT_CHECK(ARMSSE, (obj), =
+TYPE_ARMSSE)
+>> include/hw/arm/armsse.h:} ARMSSE;
+>> include/hw/block/swim.h:#define SWIM(obj) OBJECT_CHECK(SWIM, (obj), TYPE=
+_SWIM)
+>> include/hw/block/swim.h:} SWIM;
+>> target/rx/cpu-qom.h:#define RXCPU(obj) \
+>> target/rx/cpu.h:typedef struct RXCPU RXCPU;
+>> target/s390x/translate.c:#define BD(N, BB, BD) { BB,  4, 0, FLD_C_b##N, =
+FLD_O_b##N }, \
+>> hw/audio/ac97.c:} BD;
+>>
+>> The last one is a name clash in unrelated files; should not bother
+>> Coccinelle.
+>>
+>> The first three are due to QOM.  By convention, the name of the
+>> function-like macro to convert to the QOM type is the QOM type in
+>> ALL_CAPS.  Clash when the QOM type is ALL_CAPS already.
+>
+> To add to this list, another problem I'm having is with QOM interfaces.
+>
+> For example this line:
+>
+>   isa_bus_dma(bus, ISADMA(isa1), ISADMA(isa2));
+>
+> The definitions are:
+>
+> #define ISADMA(obj) INTERFACE_CHECK(IsaDma, (obj), TYPE_ISADMA)
+> typedef struct IsaDma IsaDma;
+>
+> This is used as opaque pointer, so it compiles fine, but coccinelle is
+> confused because the actual 'struct IsaDma' is never defined.
 
-He typed wrong... It's actually (I found it myself):
+Can you give me an example where Coccinelle gets confused by it?
 
-https://github.com/luxis1999/qemu/tree/sva_vtd_v10_qemu_v2
+> The only 'documentation' I found about this is commit 00ed3da9b5 which
+> describes this as 'common practice'.
 
---=20
-Peter Xu
+We discussed this in the thread
+
+    Subject: Issues around TYPE_INTERFACE
+    To: qemu-devel@nongnu.org
+    Date: Tue, 12 Mar 2019 11:50:54 +0100
+    Message-ID: <87h8c82woh.fsf@dusky.pond.sub.org>
+
+Perhaps start with Paolo's reply:
+
+    Message-ID: <fdaa779c-ed79-647b-6038-3df2353fe502@redhat.com>
+    https://lists.nongnu.org/archive/html/qemu-devel/2019-04/msg00749.html
+
+I just suggested to have a future docs/devel/qom.rst cover the topic:
+
+    Subject: Re: [PATCH v4 2/3] mac_via: fix incorrect creation of mos6522 =
+device in mac_via
+    Message-ID: <87369m3t18.fsf@dusky.pond.sub.org>
 
 
