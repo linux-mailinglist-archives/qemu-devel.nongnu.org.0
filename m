@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DA8619C550
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 17:02:13 +0200 (CEST)
-Received: from localhost ([::1]:42100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52D6719C539
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 17:00:12 +0200 (CEST)
+Received: from localhost ([::1]:42006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK1MC-0007yk-6z
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 11:02:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40470)
+	id 1jK1KF-0005KI-9O
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 11:00:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40562)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1jK1EC-0003x7-Rb
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 10:53:58 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1jK1EK-00048d-T8
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 10:54:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1jK1EB-00010Q-8B
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 10:53:56 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56152
+ (envelope-from <eric.auger@redhat.com>) id 1jK1EJ-00014X-Bw
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 10:54:04 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20583
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1jK1EB-0000zr-0Q
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 10:53:55 -0400
+ id 1jK1EJ-00013A-6j
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 10:54:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585839234;
+ s=mimecast20190719; t=1585839240;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CnmHcvAzlYerfEhzxJ/5Dt9qcTxe4wP+0MOD1yMQ9wI=;
- b=RsJADy3XXQJGSrDw9XbV13p1cDhz5NXgmfMss9g9eDKzsEzrfrEqgfxQThvxotVoQ5EQfG
- wYk8UMPWLFegIE7sgkuoGwpB5CTxh97Gty5WKwrcdGwg0g6Dmynn0nfKQwVb/wvAXk7PWz
- Va7uBCAGbZB3+gm4kESB6Vg+b5KkNtA=
+ bh=J4DOH8XWli/HMNH/+OslqOJNq8kw0A9oWrDd1ayDlhY=;
+ b=i7dOatTTmLn5RPwxOJk5OPhQZRzZv1FmaC84AINojGH/pH0R58CFy/b8s/Fk0MUUl1EH/w
+ FaCY2phfjP11+JDRBkNw6lAKBNYF2h3vj6A39/E4nn1Hvillv4CCAehh58IDqK+DJgmqxp
+ 3nZ4mTuaQFuMCMtyjJGEDkfdaINrtn4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-2zWo83tSNwCnwjJQLM56Jw-1; Thu, 02 Apr 2020 10:53:53 -0400
-X-MC-Unique: 2zWo83tSNwCnwjJQLM56Jw-1
+ us-mta-39-bdL7AMF_NKWBZ_kweFWuBA-1; Thu, 02 Apr 2020 10:53:56 -0400
+X-MC-Unique: bdL7AMF_NKWBZ_kweFWuBA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 516598017CE;
- Thu,  2 Apr 2020 14:53:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A56D1107B267;
+ Thu,  2 Apr 2020 14:53:54 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-112-58.ams2.redhat.com [10.36.112.58])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE0135D9C9;
- Thu,  2 Apr 2020 14:53:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AB5E45D9C9;
+ Thu,  2 Apr 2020 14:53:51 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, maz@kernel.org,
  kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org
-Subject: [kvm-unit-tests PATCH v8 11/13] arm/run: Allow Migration tests
-Date: Thu,  2 Apr 2020 16:52:25 +0200
-Message-Id: <20200402145227.20109-12-eric.auger@redhat.com>
+Subject: [kvm-unit-tests PATCH v8 12/13] arm/arm64: ITS: migration tests
+Date: Thu,  2 Apr 2020 16:52:26 +0200
+Message-Id: <20200402145227.20109-13-eric.auger@redhat.com>
 In-Reply-To: <20200402145227.20109-1-eric.auger@redhat.com>
 References: <20200402145227.20109-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -76,104 +76,211 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com, andre.przywara@arm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's link getchar.o to use puts and getchar from the
-tests.
-
-Then allow tests belonging to the migration group to
-trigger the migration from the test code by putting
-"migrate" into the uart. Then the code can wait for the
-migration completion by using getchar().
-
-The __getchar implement is minimalist as it just reads the
-data register. It is just meant to read the single character
-emitted at the end of the migration by the runner script.
-
-It is not meant to read more data (FIFOs are not enabled).
+This test maps LPIs (populates the device table, the collection table,
+interrupt translation tables, configuration table), migrates and make
+sure the translation is correct on the destination.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Zenghui Yu <yuzenghui@huawei.com>
 
 ---
+
+v7 -> v8:
+- typo: s/en PE #3/on PE #3/
+- added Zenghui's R-b
+
+v4 -> v5:
+- move stub from header to arm/gic.c
 
 v3 -> v4:
-- remove space around Elvis operator
-- rename ___getchar into do_getchar
-
-v2 -> v3:
-- take the lock
-- assert if more than 16 chars
-- removed Thomas' R-b
+- assert in its_get_device/collection if the id is not found
 ---
- arm/Makefile.common |  2 +-
- arm/run             |  2 +-
- lib/arm/io.c        | 28 ++++++++++++++++++++++++++++
- 3 files changed, 30 insertions(+), 2 deletions(-)
+ arm/gic.c                  | 58 ++++++++++++++++++++++++++++++++++----
+ arm/unittests.cfg          |  8 ++++++
+ lib/arm64/asm/gic-v3-its.h |  3 ++
+ lib/arm64/gic-v3-its.c     | 22 +++++++++++++++
+ 4 files changed, 85 insertions(+), 6 deletions(-)
 
-diff --git a/arm/Makefile.common b/arm/Makefile.common
-index b8988f2..a123e85 100644
---- a/arm/Makefile.common
-+++ b/arm/Makefile.common
-@@ -32,7 +32,7 @@ CFLAGS +=3D -I $(SRCDIR)/lib -I $(SRCDIR)/lib/libfdt -I=
- lib
- asm-offsets =3D lib/$(ARCH)/asm-offsets.h
- include $(SRCDIR)/scripts/asm-offsets.mak
+diff --git a/arm/gic.c b/arm/gic.c
+index 54ae83d..6ae5515 100644
+--- a/arm/gic.c
++++ b/arm/gic.c
+@@ -592,6 +592,7 @@ static void gic_test_mmio(void)
 =20
--cflatobjs +=3D lib/util.o
-+cflatobjs +=3D lib/util.o lib/getchar.o
- cflatobjs +=3D lib/alloc_phys.o
- cflatobjs +=3D lib/alloc_page.o
- cflatobjs +=3D lib/vmalloc.o
-diff --git a/arm/run b/arm/run
-index 277db9b..a390ca5 100755
---- a/arm/run
-+++ b/arm/run
-@@ -61,6 +61,6 @@ fi
- M+=3D",accel=3D$ACCEL"
- command=3D"$qemu -nodefaults $M -cpu $processor $chr_testdev $pci_testde=
-v"
- command+=3D" -display none -serial stdio -kernel"
--command=3D"$(timeout_cmd) $command"
-+command=3D"$(migration_cmd) $(timeout_cmd) $command"
+ static void test_its_introspection(void) {}
+ static void test_its_trigger(void) {}
++static void test_its_migration(void) {}
 =20
- run_qemu $command "$@"
-diff --git a/lib/arm/io.c b/lib/arm/io.c
-index 99fd315..343e108 100644
---- a/lib/arm/io.c
-+++ b/lib/arm/io.c
-@@ -87,6 +87,34 @@ void puts(const char *s)
- 	spin_unlock(&uart_lock);
+ #else /* __aarch64__ */
+=20
+@@ -660,13 +661,19 @@ static int its_prerequisites(int nb_cpus)
+ 	return 0;
  }
 =20
-+static int do_getchar(void)
-+{
-+	int c;
-+
-+	spin_lock(&uart_lock);
-+	c =3D readb(uart0_base);
-+	spin_unlock(&uart_lock);
-+
-+	return c ?: -1;
-+}
-+
+-static void test_its_trigger(void)
 +/*
-+ * Minimalist implementation for migration completion detection.
-+ * Without FIFOs enabled on the QEMU UART device we just read
-+ * the data register: we cannot read more than 16 characters.
++ * Setup the configuration for those mappings:
++ * dev_id=3D2 event=3D20 -> vcpu 3, intid=3D8195
++ * dev_id=3D7 event=3D255 -> vcpu 2, intid=3D8196
++ * LPIs ready to hit
 + */
-+int __getchar(void)
-+{
-+	int c =3D do_getchar();
-+	static int count;
-+
-+	if (c !=3D -1)
-+		++count;
-+
-+	assert(count < 16);
-+
-+	return c;
-+}
++static int its_setup1(void)
+ {
+ 	struct its_collection *col3, *col2;
+ 	struct its_device *dev2, *dev7;
 =20
- /*
-  * Defining halt to take 'code' as an argument guarantees that it will
+ 	if (its_prerequisites(4))
+-		return;
++		return -1;
+=20
+ 	dev2 =3D its_create_device(2 /* dev id */, 8 /* nb_ites */);
+ 	dev7 =3D its_create_device(7 /* dev id */, 8 /* nb_ites */);
+@@ -677,14 +684,10 @@ static void test_its_trigger(void)
+ 	gicv3_lpi_set_config(8195, LPI_PROP_DEFAULT);
+ 	gicv3_lpi_set_config(8196, LPI_PROP_DEFAULT);
+=20
+-	report_prefix_push("int");
+ 	/*
+ 	 * dev=3D2, eventid=3D20  -> lpi=3D 8195, col=3D3
+ 	 * dev=3D7, eventid=3D255 -> lpi=3D 8196, col=3D2
+-	 * Trigger dev2, eventid=3D20 and dev7, eventid=3D255
+-	 * Check both LPIs hit
+ 	 */
+-
+ 	its_send_mapd(dev2, true);
+ 	its_send_mapd(dev7, true);
+=20
+@@ -696,6 +699,22 @@ static void test_its_trigger(void)
+=20
+ 	its_send_mapti(dev2, 8195 /* lpi id */, 20 /* event id */, col3);
+ 	its_send_mapti(dev7, 8196 /* lpi id */, 255 /* event id */, col2);
++	return 0;
++}
++
++static void test_its_trigger(void)
++{
++	struct its_collection *col3;
++	struct its_device *dev2, *dev7;
++
++	if (its_setup1())
++		return;
++
++	col3 =3D its_get_collection(3);
++	dev2 =3D its_get_device(2);
++	dev7 =3D its_get_device(7);
++
++	report_prefix_push("int");
+=20
+ 	lpi_stats_expect(3, 8195);
+ 	its_send_int(dev2, 20);
+@@ -750,6 +769,29 @@ static void test_its_trigger(void)
+ 	check_lpi_stats("no LPI after device unmap");
+ 	report_prefix_pop();
+ }
++
++static void test_its_migration(void)
++{
++	struct its_device *dev2, *dev7;
++
++	if (its_setup1())
++		return;
++
++	dev2 =3D its_get_device(2);
++	dev7 =3D its_get_device(7);
++
++	puts("Now migrate the VM, then press a key to continue...\n");
++	(void)getchar();
++	report_info("Migration complete");
++
++	lpi_stats_expect(3, 8195);
++	its_send_int(dev2, 20);
++	check_lpi_stats("dev2/eventid=3D20 triggers LPI 8195 on PE #3 after mig=
+ration");
++
++	lpi_stats_expect(2, 8196);
++	its_send_int(dev7, 255);
++	check_lpi_stats("dev7/eventid=3D255 triggers LPI 8196 on PE #2 after mi=
+gration");
++}
+ #endif
+=20
+ int main(int argc, char **argv)
+@@ -787,6 +829,10 @@ int main(int argc, char **argv)
+ 		report_prefix_push(argv[1]);
+ 		test_its_trigger();
+ 		report_prefix_pop();
++	} else if (!strcmp(argv[1], "its-migration")) {
++		report_prefix_push(argv[1]);
++		test_its_migration();
++		report_prefix_pop();
+ 	} else if (strcmp(argv[1], "its-introspection") =3D=3D 0) {
+ 		report_prefix_push(argv[1]);
+ 		test_its_introspection();
+diff --git a/arm/unittests.cfg b/arm/unittests.cfg
+index b9a7a2c..480adec 100644
+--- a/arm/unittests.cfg
++++ b/arm/unittests.cfg
+@@ -136,6 +136,14 @@ extra_params =3D -machine gic-version=3D3 -append 'i=
+ts-trigger'
+ groups =3D its
+ arch =3D arm64
+=20
++[its-migration]
++file =3D gic.flat
++smp =3D $MAX_SMP
++accel =3D kvm
++extra_params =3D -machine gic-version=3D3 -append 'its-migration'
++groups =3D its migration
++arch =3D arm64
++
+ # Test PSCI emulation
+ [psci]
+ file =3D psci.flat
+diff --git a/lib/arm64/asm/gic-v3-its.h b/lib/arm64/asm/gic-v3-its.h
+index c203293..0258daa 100644
+--- a/lib/arm64/asm/gic-v3-its.h
++++ b/lib/arm64/asm/gic-v3-its.h
+@@ -168,4 +168,7 @@ extern void __its_send_sync(struct its_collection *co=
+l, bool verbose);
+ #define its_send_movi_nv(dev, col, id)			__its_send_movi(dev, col, id, f=
+alse)
+ #define its_send_sync_nv(col)				__its_send_sync(col, false)
+=20
++extern struct its_device *its_get_device(u32 id);
++extern struct its_collection *its_get_collection(u32 id);
++
+ #endif /* _ASMARM64_GIC_V3_ITS_H_ */
+diff --git a/lib/arm64/gic-v3-its.c b/lib/arm64/gic-v3-its.c
+index ca91c3d..c22bda3 100644
+--- a/lib/arm64/gic-v3-its.c
++++ b/lib/arm64/gic-v3-its.c
+@@ -147,3 +147,25 @@ struct its_collection *its_create_collection(u16 col=
+_id, u32 pe)
+ 	its_data.nr_collections++;
+ 	return new;
+ }
++
++struct its_device *its_get_device(u32 id)
++{
++	int i;
++
++	for (i =3D 0; i < GITS_MAX_DEVICES; i++) {
++		if (its_data.devices[i].device_id =3D=3D id)
++			return &its_data.devices[i];
++	}
++	assert(0);
++}
++
++struct its_collection *its_get_collection(u32 id)
++{
++	int i;
++
++	for (i =3D 0; i < GITS_MAX_COLLECTIONS; i++) {
++		if (its_data.collections[i].col_id =3D=3D id)
++			return &its_data.collections[i];
++	}
++	assert(0);
++}
 --=20
 2.20.1
 
