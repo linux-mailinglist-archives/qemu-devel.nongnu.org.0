@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C7F19C304
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 15:48:41 +0200 (CEST)
-Received: from localhost ([::1]:40286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD59319C319
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 15:51:37 +0200 (CEST)
+Received: from localhost ([::1]:40350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK0D2-0000IB-P7
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 09:48:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50771)
+	id 1jK0Fs-0004js-Q3
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 09:51:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50794)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jK0Am-0006Xm-TT
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 09:46:21 -0400
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jK0Ao-0006Zx-Fv
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 09:46:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jK0Am-00023C-1Q
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 09:46:20 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:35582)
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jK0Am-00023r-BW
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 09:46:22 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:40081)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jK0Al-00020w-Q7; Thu, 02 Apr 2020 09:46:19 -0400
-Received: by mail-lj1-x243.google.com with SMTP id k21so3325356ljh.2;
- Thu, 02 Apr 2020 06:46:19 -0700 (PDT)
+ id 1jK0Am-00021z-3i; Thu, 02 Apr 2020 09:46:20 -0400
+Received: by mail-lj1-x242.google.com with SMTP id 19so3265853ljj.7;
+ Thu, 02 Apr 2020 06:46:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+8YyPg1A/CL32UVNeLjMOcghy1faoRoeDPxjhkZR1lM=;
- b=YpkEbU6mz/HHVLXjiZh/5b9VswChu+B4iNYIXIOaXzzB+LXAZBFeoVc2OaB9Bv3Dx8
- 7RC8P0USB6f73+ZLWRQK3UQ2zypqXwbNMIovEhJFPMXCibepwPf+sM6PAodyUPgKwYVe
- AGEkUtrVKuKELHpOO9+GrU46HS0US1WeEidy7172nn0ZrR8kfuyFHr+6Ygyh3EFN96q2
- bNqVIUIZngZ0lyOE9Ev/1Z+AQE6Z8D62L+nLK224RXQBLUzclL35BKmUhb76uXE1yBjk
- z4YOCd9UWJ5h+nu1Leq4L2+i9uW/LsRFEC3ufEzixN4TIJIvgANpfCZqO2mh79frfydf
- dbDg==
+ bh=TLzE2qyREnbaDqlCoLajdWkY9S6FLWSn1nRwtU02lS4=;
+ b=cWf4kD0tqff1FpoKtDsdz4F13D6TjBFJCPrBpb9VYbAme1/R22JtubShlbYm1T1E90
+ VcOr61DgvfL1dUNH8Zer0wFTvazpz2Bd3Ga2YpENcjDtiuPXmR9qesMiWBB/DaAY4251
+ UsbMQLb1v/ARH0fmmDjiLpWwf1AAdILrwaJUphF8vZQeEhlfIBsYsuWt5BEOiQcd9+s9
+ o7M10bVknTttz2fT8kxztLG3kG+GOPQ+NCAW9LFVxGOnYldYdzuqRUgjVm27dRze7noU
+ vgH/kndj1+J88hyW1n27o3r8tD+y1quAiK9UppG0pGk4jTBtMfL8gVpqrIRJpFTfM78o
+ S+Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+8YyPg1A/CL32UVNeLjMOcghy1faoRoeDPxjhkZR1lM=;
- b=HSICFy3uW3gvEbWDp4w4pX2LpHlDEOfPB1KpujapJhAHb2lhzgOzwqluf2Rkp+eL8/
- xqG/iRoTJKP68CA0emx0ROlT3CaLj+CytIbA90/c34IWaYUNQztRENH88POcra/YsvvE
- FVcWvrWIA7tfq4xzVr0PnA726c/TTOVG6cACh3+6FKnjc2FHudX0repbLtU2rdeqh3rq
- RJkPQE3Z2vfwodM+xiEF3yQB9oQS3mHCS5AtdD7qq1f3Ri9Vlxds3vXVwwlFJWRWv4qD
- VTEAQGOuAEeBiztFyro7v63/pFrY/0t1XQ62TF9s4mYD61407j1i429Z+RhekDAebVej
- 8zJw==
-X-Gm-Message-State: AGi0PuZ05C1tHCLJUE9ixbKlAqW25MhDS5YRwUdFUpAaZWP0W18l1PMs
- 3LkCNzOMQbgjLc9hizAmX0E9AmjI2pMtVg==
-X-Google-Smtp-Source: APiQypKzVOauBGw1Pch4tcjOsIPAZIrTpCnDyhjftzE4gj1XecMlChisHJNVkio+lPWIGTgv6RMvng==
-X-Received: by 2002:a2e:4942:: with SMTP id b2mr2145000ljd.135.1585835177363; 
- Thu, 02 Apr 2020 06:46:17 -0700 (PDT)
+ bh=TLzE2qyREnbaDqlCoLajdWkY9S6FLWSn1nRwtU02lS4=;
+ b=s3JhNkFMpp3W4ROoXWHHIKPGC16NT/7x9N0UcEOXlQmXIVIbZVRKMxjAfTzOvAJxuV
+ mYpsOdY4SoV/0Z2tTYji+i4zOYJvtCSnSWYD0ZaNBYJmb3UJzouJfH0mkasZ47lsWeZj
+ KwJw8m+LqSZWt88V1217VSu6HGs1zrlyLiezVWOCRVyPqP9e8d/aoXFNJfown23TuuzL
+ F4yJcPPSKu0JGPX9RSpLN+BYxEpHgdtf3BbebXr0K/FrRnH9a5w+pCl9ci64W6g85/nu
+ myab3sR3RuCu0OmReJNZGTVjTe0B5XyjF5avbjVf2g7YVytdcTgfEltj5VviVvJ/Pcvm
+ K+aA==
+X-Gm-Message-State: AGi0PuZzBrT6mtlyqYT+P7cvCL5Z6rtPqh55eKHrZsuLT2EQUiy2UreQ
+ Pka6YR2wkuuvcNHdTMwmdf7jnC4oMrP6LA==
+X-Google-Smtp-Source: APiQypIy6V97Eet4AkjNxuBYYWtbQ3d1Ukzl4J6cEj9tOz8gz3eeL2gaQ6Vk8RnFvnqj4itThdjQAA==
+X-Received: by 2002:a05:651c:22e:: with SMTP id
+ z14mr2017486ljn.64.1585835178613; 
+ Thu, 02 Apr 2020 06:46:18 -0700 (PDT)
 Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id t13sm3846647lfc.68.2020.04.02.06.46.16
+ by smtp.gmail.com with ESMTPSA id b16sm3939517lfq.34.2020.04.02.06.46.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Apr 2020 06:46:16 -0700 (PDT)
+ Thu, 02 Apr 2020 06:46:18 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 4/5] dma/xlnx-zdma: Advance the descriptor address when
- stopping
-Date: Thu,  2 Apr 2020 15:47:20 +0200
-Message-Id: <20200402134721.27863-5-edgar.iglesias@gmail.com>
+Subject: [PATCH v1 5/5] dma/xlnx-zdma: Reorg to fix CUR_DSCR
+Date: Thu,  2 Apr 2020 15:47:21 +0200
+Message-Id: <20200402134721.27863-6-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200402134721.27863-1-edgar.iglesias@gmail.com>
 References: <20200402134721.27863-1-edgar.iglesias@gmail.com>
@@ -65,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::243
+X-Received-From: 2a00:1450:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,25 +87,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Advance the descriptor address when stopping the channel.
+Reorganize the descriptor handling so that CUR_DSCR always
+points to the next descriptor to be processed.
 
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- hw/dma/xlnx-zdma.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/dma/xlnx-zdma.c | 47 ++++++++++++++++++++++------------------------
+ 1 file changed, 22 insertions(+), 25 deletions(-)
 
 diff --git a/hw/dma/xlnx-zdma.c b/hw/dma/xlnx-zdma.c
-index dd893bc420..e856d233f2 100644
+index e856d233f2..1c45367f3c 100644
 --- a/hw/dma/xlnx-zdma.c
 +++ b/hw/dma/xlnx-zdma.c
-@@ -514,7 +514,6 @@ static void zdma_process_descr(XlnxZDMA *s)
-     if (ptype == PT_REG || src_cmd == CMD_STOP) {
-         ARRAY_FIELD_DP32(s->regs, ZDMA_CH_CTRL2, EN, 0);
-         zdma_set_state(s, DISABLED);
--        return;
+@@ -333,10 +333,28 @@ static void zdma_load_src_descriptor(XlnxZDMA *s)
      }
+ }
  
-     if (src_cmd == CMD_HALT) {
++static void zdma_update_descr_addr(XlnxZDMA *s, bool type,
++                                   unsigned int basereg)
++{
++    uint64_t addr, next;
++
++    if (type == DTYPE_LINEAR) {
++        addr = zdma_get_regaddr64(s, basereg);
++        next = addr + sizeof(s->dsc_dst);
++    } else {
++        addr = zdma_get_regaddr64(s, basereg);
++        addr += sizeof(s->dsc_dst);
++        address_space_read(s->dma_as, addr, s->attr, (void *) &next, 8);
++    }
++
++    zdma_put_regaddr64(s, basereg, next);
++}
++
+ static void zdma_load_dst_descriptor(XlnxZDMA *s)
+ {
+     uint64_t dst_addr;
+     unsigned int ptype = ARRAY_FIELD_EX32(s->regs, ZDMA_CH_CTRL0, POINT_TYPE);
++    bool dst_type;
+ 
+     if (ptype == PT_REG) {
+         memcpy(&s->dsc_dst, &s->regs[R_ZDMA_CH_DST_DSCR_WORD0],
+@@ -349,24 +367,10 @@ static void zdma_load_dst_descriptor(XlnxZDMA *s)
+     if (!zdma_load_descriptor(s, dst_addr, &s->dsc_dst)) {
+         ARRAY_FIELD_DP32(s->regs, ZDMA_CH_ISR, AXI_RD_DST_DSCR, true);
+     }
+-}
+-
+-static uint64_t zdma_update_descr_addr(XlnxZDMA *s, bool type,
+-                                       unsigned int basereg)
+-{
+-    uint64_t addr, next;
+ 
+-    if (type == DTYPE_LINEAR) {
+-        next = zdma_get_regaddr64(s, basereg);
+-        next += sizeof(s->dsc_dst);
+-        zdma_put_regaddr64(s, basereg, next);
+-    } else {
+-        addr = zdma_get_regaddr64(s, basereg);
+-        addr += sizeof(s->dsc_dst);
+-        address_space_read(s->dma_as, addr, s->attr, &next, 8);
+-        zdma_put_regaddr64(s, basereg, next);
+-    }
+-    return next;
++    /* Advance the descriptor pointer.  */
++    dst_type = FIELD_EX32(s->dsc_dst.words[3], ZDMA_CH_DST_DSCR_WORD3, TYPE);
++    zdma_update_descr_addr(s, dst_type, R_ZDMA_CH_DST_CUR_DSCR_LSB);
+ }
+ 
+ static void zdma_write_dst(XlnxZDMA *s, uint8_t *buf, uint32_t len)
+@@ -387,14 +391,7 @@ static void zdma_write_dst(XlnxZDMA *s, uint8_t *buf, uint32_t len)
+         dst_size = FIELD_EX32(s->dsc_dst.words[2], ZDMA_CH_DST_DSCR_WORD2,
+                               SIZE);
+         if (dst_size == 0 && ptype == PT_MEM) {
+-            uint64_t next;
+-            bool dst_type = FIELD_EX32(s->dsc_dst.words[3],
+-                                       ZDMA_CH_DST_DSCR_WORD3,
+-                                       TYPE);
+-
+-            next = zdma_update_descr_addr(s, dst_type,
+-                                          R_ZDMA_CH_DST_CUR_DSCR_LSB);
+-            zdma_load_descriptor(s, next, &s->dsc_dst);
++            zdma_load_dst_descriptor(s);
+             dst_size = FIELD_EX32(s->dsc_dst.words[2], ZDMA_CH_DST_DSCR_WORD2,
+                                   SIZE);
+         }
 -- 
 2.20.1
 
