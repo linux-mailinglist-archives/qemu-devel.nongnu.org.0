@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C031219CCCA
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 00:24:14 +0200 (CEST)
-Received: from localhost ([::1]:47898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04ADE19CCD0
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 00:25:19 +0200 (CEST)
+Received: from localhost ([::1]:47914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK8Fx-0006YU-Qc
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 18:24:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34551)
+	id 1jK8H0-0000H6-3J
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 18:25:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34570)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1jK8DS-0002Dk-MI
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 18:21:39 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1jK8DW-0002LI-5e
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 18:21:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1jK8DR-0007ap-GA
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 18:21:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42966
+ (envelope-from <ehabkost@redhat.com>) id 1jK8DV-0007cc-1d
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 18:21:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49454
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1jK8DR-0007ah-Cd
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 18:21:37 -0400
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1jK8DU-0007c9-UG
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 18:21:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585866097;
+ s=mimecast20190719; t=1585866100;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Bk5VqIK038e7G5IPRCsE90+B2JrEtJOic+qVj7wHDQU=;
- b=iUxYGkdtLtuH06csAcf6gUM/e703p4DVX+CwIQSgTTcUkDog2sxj3T7gH2+TTsnOzPBp2+
- zmxoATjU4oNO7O1472FvVrAhz1Sj2BzBts+HJV+KBl7dv1G8gxb7ZLXN1KAHmnPLm/MnSF
- nheSA6t+nsPFn3UDvaRAEuT8qRz7v3A=
+ bh=yQ3U51HON3TXLJT8Q2aD4tlT/7B2ruyUCI5f++GmHKA=;
+ b=LkQ7E8iEuRD5izGncSYwANeNeT75kk3jsbJ+zxdeBi5M+18pwJIfKfoTSC3fUKIgh45ZMN
+ m0If0ckc1t8kRq94iykqPc1UgkgIce76Bo8sBQPWact/WbsUKlIttZAmJmhh7mc5/5P6/K
+ Hkn8fSF7W2k9RNR77LEs50m3ftzzu0M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-DERb047rPj-5PIbnUN7pPw-1; Thu, 02 Apr 2020 18:21:34 -0400
-X-MC-Unique: DERb047rPj-5PIbnUN7pPw-1
+ us-mta-174-qK1Dk4QSM8KQHtm1aAO3iA-1; Thu, 02 Apr 2020 18:21:38 -0400
+X-MC-Unique: qK1Dk4QSM8KQHtm1aAO3iA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84A5F18A6EC0;
- Thu,  2 Apr 2020 22:21:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6589C18A6EC0;
+ Thu,  2 Apr 2020 22:21:37 +0000 (UTC)
 Received: from localhost (ovpn-116-71.gru2.redhat.com [10.97.116.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3221089F0A;
- Thu,  2 Apr 2020 22:21:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 86D5489F0A;
+ Thu,  2 Apr 2020 22:21:36 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 7/9] i386: Fix pkg_id offset for EPYC cpu models
-Date: Thu,  2 Apr 2020 19:20:49 -0300
-Message-Id: <20200402222051.523093-8-ehabkost@redhat.com>
+Subject: [PULL 8/9] target/i386: set the CPUID level to 0x14 on old
+ machine-type
+Date: Thu,  2 Apr 2020 19:20:50 -0300
+Message-Id: <20200402222051.523093-9-ehabkost@redhat.com>
 In-Reply-To: <20200402222051.523093-1-ehabkost@redhat.com>
 References: <20200402222051.523093-1-ehabkost@redhat.com>
 MIME-Version: 1.0
@@ -59,8 +60,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,79 +72,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Babu Moger <babu.moger@amd.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Luwei Kang <luwei.kang@intel.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Babu Moger <babu.moger@amd.com>
+From: Luwei Kang <luwei.kang@intel.com>
 
-If the system is numa configured the pkg_offset needs
-to be adjusted for EPYC cpu models. Fix it calling the
-model specific handler.
+The CPUID level need to be set to 0x14 manually on old
+machine-type if Intel PT is enabled in guest. E.g. the
+CPUID[0].EAX(level)=3D7 and CPUID[7].EBX[25](intel-pt)=3D1 when the
+Qemu with "-machine pc-i440fx-3.1 -cpu qemu64,+intel-pt" parameter.
 
-Signed-off-by: Babu Moger <babu.moger@amd.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <158396725589.58170.16424607815207074485.stgit@naples-babu.amd.=
-com>
+Some Intel PT capabilities are exposed by leaf 0x14 and the
+missing capabilities will cause some MSRs access failed.
+This patch add a warning message to inform the user to extend
+the CPUID level.
+
+Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+Signed-off-by: Luwei Kang <luwei.kang@intel.com>
+Message-Id: <1584031686-16444-1-git-send-email-luwei.kang@intel.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/i386/pc.c      | 1 +
- target/i386/cpu.c | 4 ++--
- target/i386/cpu.h | 1 +
- 3 files changed, 4 insertions(+), 2 deletions(-)
+ target/i386/cpu.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index b58925d063..5143c51653 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1526,6 +1526,7 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_d=
-ev,
-=20
-     env->nr_dies =3D x86ms->smp_dies;
-     env->nr_nodes =3D topo_info.nodes_per_pkg;
-+    env->pkg_offset =3D x86ms->apicid_pkg_offset(&topo_info);
-=20
-     /*
-      * If APIC ID is not set,
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 468e03a153..6ad24774c5 100644
+index 6ad24774c5..f3b25c7301 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -5610,7 +5610,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, =
-uint32_t count,
-             *ecx |=3D CPUID_TOPOLOGY_LEVEL_SMT;
-             break;
-         case 1:
--            *eax =3D apicid_pkg_offset(&topo_info);
-+            *eax =3D env->pkg_offset;
-             *ebx =3D cs->nr_cores * cs->nr_threads;
-             *ecx |=3D CPUID_TOPOLOGY_LEVEL_CORE;
-             break;
-@@ -5644,7 +5644,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, =
-uint32_t count,
-             *ecx |=3D CPUID_TOPOLOGY_LEVEL_CORE;
-             break;
-         case 2:
--            *eax =3D apicid_pkg_offset(&topo_info);
-+            *eax =3D env->pkg_offset;
-             *ebx =3D env->nr_dies * cs->nr_cores * cs->nr_threads;
-             *ecx |=3D CPUID_TOPOLOGY_LEVEL_DIE;
-             break;
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 8227479c94..e818fc712a 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1610,6 +1610,7 @@ typedef struct CPUX86State {
+@@ -6356,9 +6356,14 @@ static void x86_cpu_expand_features(X86CPU *cpu, Err=
+or **errp)
+         x86_cpu_adjust_feat_level(cpu, FEAT_XSAVE);
 =20
-     unsigned nr_dies;
-     unsigned nr_nodes;
-+    unsigned pkg_offset;
- } CPUX86State;
+         /* Intel Processor Trace requires CPUID[0x14] */
+-        if ((env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_INTEL_PT) &&
+-             kvm_enabled() && cpu->intel_pt_auto_level) {
+-            x86_cpu_adjust_level(cpu, &cpu->env.cpuid_min_level, 0x14);
++        if ((env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_INTEL_PT)) {
++            if (cpu->intel_pt_auto_level) {
++                x86_cpu_adjust_level(cpu, &cpu->env.cpuid_min_level, 0x14)=
+;
++            } else if (cpu->env.cpuid_min_level < 0x14) {
++                mark_unavailable_features(cpu, FEAT_7_0_EBX,
++                    CPUID_7_0_EBX_INTEL_PT,
++                    "Intel PT need CPUID leaf 0x14, please set by \"-cpu .=
+..,+intel-pt,level=3D0x14\"");
++            }
+         }
 =20
- struct kvm_msrs;
+         /* CPU topology with multi-dies support requires CPUID[0x1F] */
 --=20
 2.24.1
 
