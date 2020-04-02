@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18A5219C96B
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 21:08:32 +0200 (CEST)
-Received: from localhost ([::1]:46304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B190A19C96D
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 21:08:39 +0200 (CEST)
+Received: from localhost ([::1]:46310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK5CY-00042W-GV
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 15:08:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33765)
+	id 1jK5Cg-0004C4-MT
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 15:08:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33775)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jK5At-0002OT-H5
+ (envelope-from <pbonzini@redhat.com>) id 1jK5At-0002OV-LF
  for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jK5As-00009d-6E
+ (envelope-from <pbonzini@redhat.com>) id 1jK5As-0000Aj-JX
  for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45780
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23245
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jK5As-00006p-2k
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jK5As-00009B-Fd
  for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585854404;
+ s=mimecast20190719; t=1585854405;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=IDZFlDrNrmcbhjI7o8eIbQ/9N5xBzcJuGAS0NyZhRws=;
- b=dWTjBrMxd+zaLcUksrehwwwG/9d8+Wm+enU7xOl1KFA/jSbll0SQ0v9bkbgpGRMZ8eFYkj
- hgx65IYkyi/qqNehrPx1Tnd7bxaFdBxi6zAcNdllPA3P45C3SRr2+i3HOF6FFUkTydUoKm
- 4kHHPNueUtiszHMop2jQh8ENBUhoVZE=
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sewDymgizkxqPJPRT3hku2hWbDlQTKfdk8fI/f5dunM=;
+ b=AArqcsaltbFxIohBCirFam3Ic5sTtkxceDpDK0wyQOlE9ckQ294NY+/qWE9/CP2xf5OkEe
+ XfN1Lz/ZYCSyvIW5WW+WyHhLUEyvG5I8ZLBCuJQ9Cri61qg++LC+jg8LjEm2oXjkX9AiDV
+ wAj40nk45X86TE8VIeoVUudQEa39PXY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-137-oWo5Buj6NVOuA7UQhV2YLA-1; Thu, 02 Apr 2020 15:06:42 -0400
-X-MC-Unique: oWo5Buj6NVOuA7UQhV2YLA-1
+ us-mta-157-AXgxyE0QNEOmQC29Dw-v8g-1; Thu, 02 Apr 2020 15:06:43 -0400
+X-MC-Unique: AXgxyE0QNEOmQC29Dw-v8g-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B185013FD
- for <qemu-devel@nongnu.org>; Thu,  2 Apr 2020 19:06:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58EC88018A7;
+ Thu,  2 Apr 2020 19:06:42 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6ADAB50BEE
- for <qemu-devel@nongnu.org>; Thu,  2 Apr 2020 19:06:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D746650BEE;
+ Thu,  2 Apr 2020 19:06:41 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/15] Misc patches for 5.0-rc2
-Date: Thu,  2 Apr 2020 15:06:25 -0400
-Message-Id: <20200402190640.1693-1-pbonzini@redhat.com>
-MIME-Version: 1.0
+Subject: [PULL 01/15] hw/scsi/vmw_pvscsi: Remove assertion for kick after reset
+Date: Thu,  2 Apr 2020 15:06:26 -0400
+Message-Id: <20200402190640.1693-2-pbonzini@redhat.com>
+In-Reply-To: <20200402190640.1693-1-pbonzini@redhat.com>
+References: <20200402190640.1693-1-pbonzini@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,77 +71,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Elazar Leibovich <elazar.leibovich@oracle.com>,
+ Liran Alon <liran.alon@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 2833ad487cfff7dc33703e4731b75facde1c561e=
-:
+From: Elazar Leibovich <elazar.leibovich@oracle.com>
 
-  Update version for v5.0.0-rc1 release (2020-03-31 18:02:47 +0100)
+When running Ubuntu 3.13.0-65-generic guest, QEMU sometimes crashes
+during guest ACPI reset. It crashes on assert(s->rings_info_valid)
+in pvscsi_process_io().
 
-are available in the Git repository at:
+Analyzing the crash revealed that it happens when userspace issues
+a sync during a reboot syscall.
 
-  git://github.com/bonzini/qemu.git tags/for-upstream
+Below are backtraces we gathered from the guests.
 
-for you to fetch changes up to 0dc0389fa5455bb264866701892ed06bc3eb06e4:
+Guest backtrace when issuing PVSCSI_CMD_ADAPTER_RESET:
+    pci_device_shutdown
+    device_shutdown
+    init_pid_ns
+    init_pid_ns
+    kernel_power_off
+    SYSC_reboot
 
-  xen: fixup RAM memory region initialization (2020-04-02 14:56:29 -0400)
+Guest backtrace when issuing PVSCSI_REG_OFFSET_KICK_RW_IO:
+    scsi_done
+    scsi_dispatch_cmd
+    blk_add_timer
+    scsi_request_fn
+    elv_rb_add
+    __blk_run_queue
+    queue_unplugged
+    blk_flush_plug_list
+    blk_finish_plug
+    ext4_writepages
+    set_next_entity
+    do_writepages
+    __filemap_fdatawrite_range
+    filemap_write_and_wait_range
+    ext4_sync_file
+    ext4_sync_file
+    do_fsync
+    sys_fsync
 
-----------------------------------------------------------------
-Bugfixes for 5.0-rc2.
+Since QEMU pvscsi should imitate VMware pvscsi device emulation,
+we decided to imitate VMware's behavior in this case.
 
-----------------------------------------------------------------
-Dr. David Alan Gilbert (1):
-      serial: Fix double migration data
+To check VMware behavior, we wrote a kernel module that issues
+a reset to the pvscsi device and then issues a kick. We ran it on
+VMware ESXi 6.5 and it seems that it simply ignores the kick.
+Hence, we decided to ignore the kick as well.
 
-Elazar Leibovich (1):
-      hw/scsi/vmw_pvscsi: Remove assertion for kick after reset
+Signed-off-by: Elazar Leibovich <elazar.leibovich@oracle.com>
+Signed-off-by: Liran Alon <liran.alon@oracle.com>
+Message-Id: <20200315132634.113632-1-liran.alon@oracle.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/scsi/vmw_pvscsi.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Igor Mammedov (2):
-      vl: fix broken IPA range for ARM -M virt with KVM enabled
-      xen: fixup RAM memory region initialization
-
-Marc-Andr=C3=A9 Lureau (3):
-      softmmu: fix crash with invalid -M memory-backend=3D
-      migration: fix cleanup_bh leak on resume
-      qmp: fix leak on callbacks that return both value and error
-
-Paolo Bonzini (2):
-      virtio-iommu: depend on PCI
-      object-add: don't create return value if failed
-
-Philippe Mathieu-Daud=C3=A9 (1):
-      hw/isa/superio: Correct the license text
-
-Robert Hoo (2):
-      util/bufferiszero: assign length_to_accel value for each accelerator =
-case
-      util/bufferiszero: improve avx2 accelerator
-
-Roman Bolshakov (2):
-      MAINTAINERS: Add an entry for the HVF accelerator
-      i386: hvf: Reset IRQ inhibition after moving RIP
-
-Vitaly Kuznetsov (1):
-      target/i386: do not set unsupported VMX secondary execution controls
-
- MAINTAINERS                |  7 +++++++
- hw/char/serial.c           | 12 +++++++++++-
- hw/isa/isa-superio.c       |  2 +-
- hw/isa/smc37c669-superio.c |  2 +-
- hw/scsi/vmw_pvscsi.c       |  5 ++++-
- hw/virtio/Kconfig          |  2 +-
- hw/xen/xen-common.c        |  7 +++++++
- include/hw/isa/superio.h   |  2 +-
- migration/migration.c      |  7 ++++++-
- qapi/qmp-dispatch.c        |  2 ++
- qom/qom-qmp-cmds.c         |  5 +----
- softmmu/vl.c               | 12 ++++++++----
- target/i386/hvf/vmx.h      |  3 +++
- target/i386/kvm.c          | 41 ++++++++++++++++++++++++++---------------
- util/bufferiszero.c        | 27 +++++++++++----------------
- 15 files changed, 90 insertions(+), 46 deletions(-)
+diff --git a/hw/scsi/vmw_pvscsi.c b/hw/scsi/vmw_pvscsi.c
+index c91352cf46..ec5bf9ea34 100644
+--- a/hw/scsi/vmw_pvscsi.c
++++ b/hw/scsi/vmw_pvscsi.c
+@@ -719,7 +719,10 @@ pvscsi_process_io(PVSCSIState *s)
+     PVSCSIRingReqDesc descr;
+     hwaddr next_descr_pa;
+=20
+-    assert(s->rings_info_valid);
++    if (!s->rings_info_valid) {
++        return;
++    }
++
+     while ((next_descr_pa =3D pvscsi_ring_pop_req_descr(&s->rings)) !=3D 0=
+) {
+=20
+         /* Only read after production index verification */
 --=20
 2.18.2
+
 
 
