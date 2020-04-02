@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8A119C9AE
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 21:16:52 +0200 (CEST)
-Received: from localhost ([::1]:46462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FDFE19C973
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 21:11:16 +0200 (CEST)
+Received: from localhost ([::1]:46346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK5Kd-0008F2-CG
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 15:16:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33902)
+	id 1jK5FD-0000OI-JX
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 15:11:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33940)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jK5B2-0002V3-Dn
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:57 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jK5B4-0002b0-BF
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jK5B1-0000Rb-Er
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:56 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26966
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1jK5B2-0000Ud-Vk
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:58 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41368
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jK5B1-0000Qf-BB
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:55 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jK5B2-0000RD-Ra
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1585854415;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5nHVcHcfWe51+/F45Sy6N9CFUeM4/arakR0i0s8GPLo=;
- b=MLk1pIlvCRo9Ti5x9gPTeRWoxe0A6tdVAQErka2M6Hf+Ki9Gmh3XKLZXKQ1Rnb/CFQiuRU
- zdO1NY7UkKbnfj7p22wFxXJN3GXJAQLH3O/2gU2kmHBDzW7vsn5GY0UWyJc8FcTH+bXMAe
- NdAvnPkfwC8kgxyJiqcBSShIL98QQSc=
+ bh=UayyH5L3cRZEe5aAN8X8vb46906NYlR3VbPuC43zOEs=;
+ b=aq6rg2K3vqBTi9SthiyY2KM9tgonnyH3mSwxTMPRJuihSERAFaaygQWipyLP9ACnkfAwE6
+ agHSyGSlxGjU6vYg9/oqMKvlNSi0IIlh6u/Q5EZYyLdRjDRJ1Qa1fa3kdKxH3z8hXQgR2d
+ z8qEsu8QwZ7GvnXZjUVHUW4k9AErf2c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-tRmVu9sEPqSjiFsQbK0i2Q-1; Thu, 02 Apr 2020 15:06:51 -0400
-X-MC-Unique: tRmVu9sEPqSjiFsQbK0i2Q-1
+ us-mta-507-qwJMkc0FOAWN9nWfuiXXCw-1; Thu, 02 Apr 2020 15:06:51 -0400
+X-MC-Unique: qwJMkc0FOAWN9nWfuiXXCw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB1ED107ACCA;
- Thu,  2 Apr 2020 19:06:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A6F5100550D
+ for <qemu-devel@nongnu.org>; Thu,  2 Apr 2020 19:06:50 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6899CDA0F2;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D07750BEE;
  Thu,  2 Apr 2020 19:06:49 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/15] i386: hvf: Reset IRQ inhibition after moving RIP
-Date: Thu,  2 Apr 2020 15:06:34 -0400
-Message-Id: <20200402190640.1693-10-pbonzini@redhat.com>
+Subject: [PULL 10/15] serial: Fix double migration data
+Date: Thu,  2 Apr 2020 15:06:35 -0400
+Message-Id: <20200402190640.1693-11-pbonzini@redhat.com>
 In-Reply-To: <20200402190640.1693-1-pbonzini@redhat.com>
 References: <20200402190640.1693-1-pbonzini@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,55 +72,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Roman Bolshakov <r.bolshakov@yadro.com>, Cameron Esfahani <dirty@apple.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Roman Bolshakov <r.bolshakov@yadro.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-The sequence of instructions exposes an issue:
-  sti
-  hlt
+After c9808d60281 we have both an object representing the serial-isa
+device and a separate object representing the underlying common serial
+uart.  Both of these have vmsd's associated with them and thus the
+migration stream ends up with two copies of the migration data - the
+serial-isa includes the vmstate of the core serial.   Besides
+being wrong, it breaks backwards migration compatibility.
 
-Interrupts cannot be delivered to hvf after hlt instruction cpu because
-HF_INHIBIT_IRQ_MASK is set just before hlt is handled and never reset
-after moving instruction pointer beyond hlt.
+Fix this by removing the dc->vmsd from the core device, so it only
+gets migrated by any parent devices including it.
+Add a vmstate_serial_mm so that any device that uses serial_mm_init
+rather than creating a device still gets migrated.
+(That doesn't fix backwards migration for serial_mm_init users,
+but does seem to work forwards for ppce500).
 
-So, after hvf_vcpu_exec() returns, CPU thread gets locked up forever in
-qemu_wait_io_event() (cpu_thread_is_idle() evaluates inhibition
-flag and considers the CPU idle if the flag is set).
-
-Cc: Cameron Esfahani <dirty@apple.com>
-Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-Message-Id: <20200328174411.51491-1-r.bolshakov@yadro.com>
+Fixes: c9808d60281 ('serial: realize the serial device')
+Buglink: https://bugs.launchpad.net/qemu/+bug/1869426
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20200330164712.198282-1-dgilbert@redhat.com>
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/hvf/vmx.h | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/char/serial.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/target/i386/hvf/vmx.h b/target/i386/hvf/vmx.h
-index 03d2c79b9c..ce2a1532d5 100644
---- a/target/i386/hvf/vmx.h
-+++ b/target/i386/hvf/vmx.h
-@@ -167,6 +167,8 @@ static inline void macvm_set_cr4(hv_vcpuid_t vcpu, uint=
-64_t cr4)
+diff --git a/hw/char/serial.c b/hw/char/serial.c
+index 2ab8b69e03..c822a9ae6c 100644
+--- a/hw/char/serial.c
++++ b/hw/char/serial.c
+@@ -1043,7 +1043,6 @@ static void serial_class_init(ObjectClass *klass, voi=
+d* data)
+     dc->user_creatable =3D false;
+     dc->realize =3D serial_realize;
+     dc->unrealize =3D serial_unrealize;
+-    dc->vmsd =3D &vmstate_serial;
+     device_class_set_props(dc, serial_properties);
+ }
 =20
- static inline void macvm_set_rip(CPUState *cpu, uint64_t rip)
- {
-+    X86CPU *x86_cpu =3D X86_CPU(cpu);
-+    CPUX86State *env =3D &x86_cpu->env;
-     uint64_t val;
+@@ -1113,6 +1112,16 @@ static void serial_mm_realize(DeviceState *dev, Erro=
+r **errp)
+     sysbus_init_irq(SYS_BUS_DEVICE(smm), &smm->serial.irq);
+ }
 =20
-     /* BUG, should take considering overlap.. */
-@@ -176,6 +178,7 @@ static inline void macvm_set_rip(CPUState *cpu, uint64_=
-t rip)
-    val =3D rvmcs(cpu->hvf_fd, VMCS_GUEST_INTERRUPTIBILITY);
-    if (val & (VMCS_INTERRUPTIBILITY_STI_BLOCKING |
-                VMCS_INTERRUPTIBILITY_MOVSS_BLOCKING)) {
-+        env->hflags &=3D ~HF_INHIBIT_IRQ_MASK;
-         wvmcs(cpu->hvf_fd, VMCS_GUEST_INTERRUPTIBILITY,
-                val & ~(VMCS_INTERRUPTIBILITY_STI_BLOCKING |
-                VMCS_INTERRUPTIBILITY_MOVSS_BLOCKING));
++static const VMStateDescription vmstate_serial_mm =3D {
++    .name =3D "serial",
++    .version_id =3D 3,
++    .minimum_version_id =3D 2,
++    .fields =3D (VMStateField[]) {
++        VMSTATE_STRUCT(serial, SerialMM, 0, vmstate_serial, SerialState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ SerialMM *serial_mm_init(MemoryRegion *address_space,
+                          hwaddr base, int regshift,
+                          qemu_irq irq, int baudbase,
+@@ -1162,6 +1171,7 @@ static void serial_mm_class_init(ObjectClass *oc, voi=
+d *data)
+=20
+     device_class_set_props(dc, serial_mm_properties);
+     dc->realize =3D serial_mm_realize;
++    dc->vmsd =3D &vmstate_serial_mm;
+ }
+=20
+ static const TypeInfo serial_mm_info =3D {
 --=20
 2.18.2
 
