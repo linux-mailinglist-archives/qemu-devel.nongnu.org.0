@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE0919C987
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 21:12:23 +0200 (CEST)
-Received: from localhost ([::1]:46380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F37BC19C9CA
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Apr 2020 21:17:55 +0200 (CEST)
+Received: from localhost ([::1]:46474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jK5GI-0002od-I9
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 15:12:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33922)
+	id 1jK5Lf-0000nv-2C
+	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 15:17:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33929)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jK5B3-0002Xh-7A
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:58 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jK5B3-0002Ym-H1
+ for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jK5B2-0000Su-3R
+ (envelope-from <pbonzini@redhat.com>) id 1jK5B2-0000TF-Bl
  for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22021
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59942
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jK5B1-0000S9-Vz
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jK5B2-0000Rj-7j
  for qemu-devel@nongnu.org; Thu, 02 Apr 2020 15:06:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1585854415;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cgUCuiQImsO71G7idTK9arqrOSPOAEA79IR0k9B/Lbo=;
- b=X8ibEDN0T9BUfGnvIzruq8ImgjviqE3CETv5YuMI3+auHMf/Ex7+3Hp8wxs2MJFRmNsr+/
- nPyMxYdrdXJ1vKvOJhH2VehCXfkhPej2LIvfnTWDCHKpGEsygrN+m5EBr85SDnaAWN01od
- qHBesv46NDdmPk6/Bd7Y1Oq2IOvb7Ew=
+ bh=zv8TTUduTZlk08NL96V82mVLPiq6S4mbqrii21algvw=;
+ b=dj9NnzU39+hZ5v00hwh4BPPefloXoeHtkxdDp3yJpPOjEfJHrnZomKvpQcBGtaxKgGE2r2
+ 71FgOXHgIIWiLcVFpNCT1t2FbcRz7lOtt3+JHpUnSzQ10NDCNMNmVmhRUZ+klHgFghJY6e
+ DkJVkhS3vVNqsUGAf5HBAbnPXiEjfD0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-8jS2BQlkMKyzO7HfZlNJXg-1; Thu, 02 Apr 2020 15:06:53 -0400
-X-MC-Unique: 8jS2BQlkMKyzO7HfZlNJXg-1
+ us-mta-8-mL_1fTygOniWNvDSlg7XWQ-1; Thu, 02 Apr 2020 15:06:53 -0400
+X-MC-Unique: mL_1fTygOniWNvDSlg7XWQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71628108442D
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2DF410509A0
  for <qemu-devel@nongnu.org>; Thu,  2 Apr 2020 19:06:52 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2D53750BEE
- for <qemu-devel@nongnu.org>; Thu,  2 Apr 2020 19:06:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9890D50BEE;
+ Thu,  2 Apr 2020 19:06:52 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/15] object-add: don't create return value if failed
-Date: Thu,  2 Apr 2020 15:06:39 -0400
-Message-Id: <20200402190640.1693-15-pbonzini@redhat.com>
+Subject: [PULL 15/15] xen: fixup RAM memory region initialization
+Date: Thu,  2 Apr 2020 15:06:40 -0400
+Message-Id: <20200402190640.1693-16-pbonzini@redhat.com>
 In-Reply-To: <20200402190640.1693-1-pbonzini@redhat.com>
 References: <20200402190640.1693-1-pbonzini@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,39 +70,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No need to return an empty value from object-add (it would also leak
-if the command failed).  While at it, remove the "if" around object_unref
-since object_unref handles NULL arguments just fine.
+From: Igor Mammedov <imammedo@redhat.com>
 
-Reported-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20200325184723.2029630-4-marcandre.lureau@redhat.com>
+Since bd457782b3b0 ("x86/pc: use memdev for RAM") Xen
+machine fails to start with:
+   qemu-system-i386: xen: failed to populate ram at 0
+
+The reason is that xen_ram_alloc() which is called by
+memory_region_init_ram(), compares memory region with
+statically allocated 'global' ram_memory memory region
+that it uses for RAM, and does nothing in case it matches.
+
+While it's possible feed machine->ram to xen_ram_alloc()
+in the same manner to keep that hack working, I'd prefer
+not to keep that circular dependency and try to untangle that.
+
+However it doesn't look trivial to fix, so as temporary
+fixup opt out Xen machine from memdev based RAM allocation,
+and let xen_ram_alloc() do its trick for now.
+
+Reported-by: Anthony PERARD <anthony.perard@citrix.com>
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20200402145418.5139-1-imammedo@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qom/qom-qmp-cmds.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ hw/xen/xen-common.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/qom/qom-qmp-cmds.c b/qom/qom-qmp-cmds.c
-index 435193b036..e47ebe8ed1 100644
---- a/qom/qom-qmp-cmds.c
-+++ b/qom/qom-qmp-cmds.c
-@@ -285,10 +285,7 @@ void qmp_object_add(QDict *qdict, QObject **ret_data, =
-Error **errp)
-     v =3D qobject_input_visitor_new(QOBJECT(qdict));
-     obj =3D user_creatable_add_type(type, id, qdict, v, errp);
-     visit_free(v);
--    if (obj) {
--        object_unref(obj);
--    }
--    *ret_data =3D QOBJECT(qdict_new());
-+    object_unref(obj);
+diff --git a/hw/xen/xen-common.c b/hw/xen/xen-common.c
+index 15650d7f6a..a15070f7f6 100644
+--- a/hw/xen/xen-common.c
++++ b/hw/xen/xen-common.c
+@@ -19,6 +19,7 @@
+ #include "sysemu/runstate.h"
+ #include "migration/misc.h"
+ #include "migration/global_state.h"
++#include "hw/boards.h"
+=20
+ //#define DEBUG_XEN
+=20
+@@ -151,6 +152,8 @@ static void xen_setup_post(MachineState *ms, AccelState=
+ *accel)
+=20
+ static int xen_init(MachineState *ms)
+ {
++    MachineClass *mc =3D MACHINE_GET_CLASS(ms);
++
+     xen_xc =3D xc_interface_open(0, 0, 0);
+     if (xen_xc =3D=3D NULL) {
+         xen_pv_printf(NULL, 0, "can't open xen interface\n");
+@@ -170,6 +173,10 @@ static int xen_init(MachineState *ms)
+         return -1;
+     }
+     qemu_add_vm_change_state_handler(xen_change_state_handler, NULL);
++    /*
++     * opt out of system RAM being allocated by generic code
++     */
++    mc->default_ram_id =3D NULL;
+     return 0;
  }
 =20
- void qmp_object_del(const char *id, Error **errp)
 --=20
 2.18.2
-
 
 
