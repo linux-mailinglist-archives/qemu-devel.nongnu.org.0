@@ -2,75 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E044D19D0D5
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 09:10:28 +0200 (CEST)
-Received: from localhost ([::1]:51062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7338119D0FA
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 09:15:24 +0200 (CEST)
+Received: from localhost ([::1]:51158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKGTD-0002I9-W8
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 03:10:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36563)
+	id 1jKGXz-0005NB-Di
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 03:15:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36894)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jKGSN-0001rT-UA
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 03:09:37 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1jKGWN-0003dN-7R
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 03:13:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jKGSM-0007LI-5L
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 03:09:35 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54046
+ (envelope-from <eric.auger@redhat.com>) id 1jKGWL-0003xK-UQ
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 03:13:43 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:43390
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jKGSL-0007Ia-Vq
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 03:09:34 -0400
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1jKGWL-0003x2-RN
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 03:13:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585897772;
+ s=mimecast20190719; t=1585898021;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jhtCOwt5am9z+PHZtAPPvk/K/7tKyqoyZeiFIAO1V5w=;
- b=Gz/0S2OxE0eV3uZoYOSLYL4mQbVWBdIsJBIIAUgJUmoNxT+4JBaimOPGDsMGqsp2B/cUjH
- Ul/hooMv9Of0580pp0MPmvH7wuWq8MPM241vDgiOBwUOnxUUsE9bG5tYW3ohX1HuQkOwYk
- DpQA1z+8bQ6Y5y/e8qnGdCSsSnaK9ZA=
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ozI3eRo5MHiGvv1ljzippiG2WaPze3ybClTx3Rcz8Hg=;
+ b=gucKaM+Evw1VCrklP5gh2n9N8BqJbQmPOi5pwoknz0WvydlLR5uVc4MUt1BNgROOD18wnn
+ AvK107NLQ3bAw2/v7vgeFRdJdhkRSrWF1Wn3FqwhNU7uiMNvRgCKgfo94e0TUR4PTwd9sN
+ Xaoq0WeQ2GWxQamFoVvJPCbS5m69GWU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-IJuazVP6N1-rJUAJYkHK9A-1; Fri, 03 Apr 2020 03:09:31 -0400
-X-MC-Unique: IJuazVP6N1-rJUAJYkHK9A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-378-2Z4fimH_O9u0RX99QlL5cg-1; Fri, 03 Apr 2020 03:13:37 -0400
+X-MC-Unique: 2Z4fimH_O9u0RX99QlL5cg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB61613F6;
- Fri,  3 Apr 2020 07:09:29 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-69.ams2.redhat.com
- [10.36.112.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 86F8494960;
- Fri,  3 Apr 2020 07:09:29 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E234611385E2; Fri,  3 Apr 2020 09:09:27 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: Questionable aspects of QEMU Error's design
-References: <87o8sblgto.fsf@dusky.pond.sub.org>
- <CAFEAcA_b1gZ-B4NaEdQS2zffdvobW=FUx4ysEgXVAz+=cZ+R3Q@mail.gmail.com>
- <a3ca8c60-dd83-ea7b-c268-0c94e441bb52@virtuozzo.com>
- <alpine.BSF.2.22.395.2004021132270.75834@zero.eik.bme.hu>
- <53df0069-8a7a-9de8-29cb-21362d88bb4e@virtuozzo.com>
- <87pncq0xdt.fsf@dusky.pond.sub.org>
- <alpine.BSF.2.22.395.2004021716130.78264@zero.eik.bme.hu>
-Date: Fri, 03 Apr 2020 09:09:27 +0200
-In-Reply-To: <alpine.BSF.2.22.395.2004021716130.78264@zero.eik.bme.hu>
- (BALATON Zoltan's message of "Thu, 2 Apr 2020 17:28:15 +0200 (CEST)")
-Message-ID: <875zeht594.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B85568017F3;
+ Fri,  3 Apr 2020 07:13:35 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-112-58.ams2.redhat.com [10.36.112.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2716948;
+ Fri,  3 Apr 2020 07:13:29 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, maz@kernel.org,
+ kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+Subject: [kvm-unit-tests PATCH v4 00/12] KVM: arm64: PMUv3 Event Counter Tests
+Date: Fri,  3 Apr 2020 09:13:14 +0200
+Message-Id: <20200403071326.29932-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,120 +67,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, andrew.murray@arm.com, drjones@redhat.com,
+ alexandru.elisei@arm.com, andre.przywara@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-BALATON Zoltan <balaton@eik.bme.hu> writes:
+This series implements tests exercising the PMUv3 event counters.
+It tests both the 32-bit and 64-bit versions. Overflow interrupts
+also are checked. Those tests only are written for arm64.
 
-> On Thu, 2 Apr 2020, Markus Armbruster wrote:
->> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
->>> 02.04.2020 12:36, BALATON Zoltan wrote:
-[...]
->>>> Not much better. Could it be something like:
-[...]
->>>>  =C2=A0=C2=A0=C2=A0 ERRP_RET(object_property_set_link(cpuobj, OBJECT(&=
-s->cpu_container[i]),
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 "memory", errp));
->>>>  =C2=A0=C2=A0=C2=A0 ERRP_RET(object_property_set_link(cpuobj, OBJECT(s=
-), "idau", errp));
->>>>  =C2=A0=C2=A0=C2=A0 ERRP_RET(object_property_set_bool(cpuobj, true, "r=
-ealized", errp));
->>>>
->>>
->>> and turn all
->>>
->>> ret =3D func(...);
->>> if (ret < 0) {
->>>     return ret;
->>> }
->>>
->>> into
->>>
->>> FAIL_RET(func(...))
->>>
->>> ?
->>>
->>> Not a problem to make such macro.. But I think it's a bad idea to turn =
-all the code
->>> into sequence of macro invocations. It's hard to debug and follow.
->>
->> Yes.  Hiding control flow in macros is almost always too much magic.
->> There are exceptions, but this doesn't look like one.
->
-> I did't like this idea of mine too much either so I agree but I see no
-> other easy way to simplify this. If you propose changing function
-> return values maybe these should return errp instead of passing it as
-> a func parameter? Could that result in simpler code and less macro
-> magic needed?
+It allowed to reveal some issues related to SW_INCR implementation
+(esp. related to 64-bit implementation), some problems related to
+32-bit <-> 64-bit transitions and consistency of enabled states
+of odd and event counters. Fixes now are upstream.
 
-I don't think so.  Let's compare a few error handling patterns from
-error.h.
+Drew kindly provided "arm64: Provide read/write_sysreg_s".
 
- * Call a function and receive an error from it:
- *     Error *err =3D NULL;
- *     foo(arg, &err);
- *     if (err) {
- *         handle the error...
- *     }
+All PMU tests can be launched with:
+./run_tests.sh -g pmu
+Tests also can be launched individually. For example:
+./arm-run arm/pmu.flat -append 'pmu-chained-sw-incr'
 
-Making foo() return the error object instead of void looks like an
-obvious win:
+With KVM:
+- On TX2, I have some random failures due to MEM_ACCESS event
+  measured with a great disparity. This is not observed on
+  other machines I have access to.
 
-       if (foo(arg)) {
-           handle the error...
-       }
+The series can be found at:
+https://github.com/eauger/kut/tree/pmu_event_counters_v4
 
-Except it does not work, because surely a use of @err is hiding in
-"handle the error" (or else we'd leak it).  So you actually need
+History:
+v3 -> v4:
+- Drew reported that some report messages were repeated.
+  This version makes sure all messages are different.
 
-       err =3D foo(arg)
-       if (err) {
-           handle the error...
-       }
+v2 -> v3:
+- Took into account numerous comments from Drew
+- Applied Andre's R-b when code has not changed too much
+- Don't check PMCR.IMP anymore
+- better handling of version
+- put simple SW_INCR tests for easier TCG testing
 
-All this saves you is initializing @err.
+v1 -> v2:
+- Took into account Andre's comments except I did not
+  use cnbz in the mem_access_loop() and I did not use
+  @loop directly. Those changes had side effects I
+  cannot explain on the tests. Anyway I think this can
+  be improved later on.
+- removed [kvm-unit-tests PATCH 09/10] arm/arm64: gic:
+  Introduce setup_irq() helper
 
-You can save a bit more
+RFC -> v1:
+- Use new report() proto
+- Style cleanup
+- do not warn about ARM spec recommendations
+- add a comment about PMCEID0/1 splits
 
-       if ((err =3D foo(arg))) {
-           handle the error...
-       }
+Andrew Jones (1):
+  arm64: Provide read/write_sysreg_s
 
-We generally frown upon assignemnts within if controlling expressions.
+Eric Auger (11):
+  arm: pmu: Let pmu tests take a sub-test parameter
+  arm: pmu: Don't check PMCR.IMP anymore
+  arm: pmu: Add a pmu struct
+  arm: pmu: Introduce defines for PMU versions
+  arm: pmu: Check Required Event Support
+  arm: pmu: Basic event counter Tests
+  arm: pmu: Test SW_INCR event count
+  arm: pmu: Test chained counters
+  arm: pmu: test 32-bit <-> 64-bit transitions
+  arm: gic: Introduce gic_irq_set_clr_enable() helper
+  arm: pmu: Test overflow interrupts
 
-Next:
+ arm/pmu.c              | 838 +++++++++++++++++++++++++++++++++++++++--
+ arm/unittests.cfg      |  61 ++-
+ lib/arm/asm/gic.h      |   4 +
+ lib/arm/gic.c          |  31 ++
+ lib/arm64/asm/sysreg.h |  17 +
+ lib/bitops.h           |   3 +
+ 6 files changed, 917 insertions(+), 37 deletions(-)
 
- * Receive an error and pass it on to the caller:
- [...]
- * But when all you do with the error is pass it on, please use
- *     foo(arg, errp);
- * for readability.
-
-The obvious conversion
-
-       *errp =3D foo(arg);
-
-is wrong for !errp, errp =3D=3D &error_fatal, and errp =3D=3D &error_abort.
-You'd need
-
-       err =3D foo(arg);
-       error_propagate(errp, err);
-
-or, if you're so inclined
-
-       error_propagate(errp, foo(arg));
-
-Less legible, and it creates and destroys error objects where the
-current method doesn't.
-
-Returning the error object is even less attractive for functions that
-now return values.
+--=20
+2.20.1
 
 
