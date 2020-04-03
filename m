@@ -2,80 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BA6B19DC2E
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 18:55:22 +0200 (CEST)
-Received: from localhost ([::1]:58382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C965A19D1E7
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 10:14:11 +0200 (CEST)
+Received: from localhost ([::1]:51856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKPbF-00040q-L7
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 12:55:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41389)
+	id 1jKHSs-0008L5-SI
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 04:14:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42781)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jKPaR-0003Yh-E2
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 12:54:32 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1jKHLX-0003f6-OZ
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:06:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jKPaQ-0005M3-0R
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 12:54:31 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50560
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <yan.y.zhao@intel.com>) id 1jKHLW-00025V-3B
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:06:35 -0400
+Received: from mga01.intel.com ([192.55.52.88]:20879)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jKPaP-0005LN-Rn
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 12:54:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585932868;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=o1XD0Qodnbges3d/qyEnRtQpf1zDSXoUMfhIfOe0AOQ=;
- b=bfzZt9qrfpwPKPAXFklKdLSPDxKCWYjqdajR8vmTWWzIFXcnBX+/TTJwyqPTZjN8MxGv3F
- gRU5+fiuR3k7cMhAShfHLXE6nfhfuYqvm9Uh4dVpKKfXnv0OuM5cue4Xa2QS6ev/3u4EaB
- pTsUnp3vR720jh4lUeUXk1sm8vu2J6o=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-451-a_ggHFCmN56V7ZsJ1oK2Rg-1; Fri, 03 Apr 2020 12:54:26 -0400
-X-MC-Unique: a_ggHFCmN56V7ZsJ1oK2Rg-1
-Received: by mail-wm1-f70.google.com with SMTP id w8so3030292wmk.5
- for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 09:54:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZymZDW6hnWGsTglc2odogyoM9NQtmfDEskQEt3SBLUM=;
- b=mJfSDl6XeqG/l4Dh1HQuO58sApI+SbKsaOBfmZBHJBta/TCpAwoF62vs5ri2l8msZt
- GUSlDqr8yxg5jJwuL2oS5XRA1AzUYYLIWeHSBhUroDyD3+8mVTOtOOCrhr5gRTOP7KKC
- 2+TjumikAWTrAQxmyEoAPpiRd0mLkPY8qUX6VEN0Qscb+IHzIIUVr/jD65Rt/oqBcEvW
- aQzIMDWqLqE8WerjDF4NhAANBwI7dWoEO9n7pbjDdt6gd2gOc5Uj711hsprIYUJCSRuu
- 7c++jp0qSB6VqRRI1vgvyEXr5Z3PIJueaz5SnrpfT0ku5D3LTayURhwhPR48LKhuXDlt
- mnhg==
-X-Gm-Message-State: AGi0PuY/SgC7eB2FhtBXOSM/oit4RUd0APCWggJRYEqguknS9t89MPTz
- LTMLxJR+xn4R4Dtw75apQUo9dSBL30ZOn88epVyCgp/Jcp8v81a2G0hO36sigUZETR+gKznP8Tt
- P10OkoTw28flX0AA=
-X-Received: by 2002:a5d:6a4e:: with SMTP id t14mr10346881wrw.101.1585932865358; 
- Fri, 03 Apr 2020 09:54:25 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIZzvGHnIBFgWKNJMjMmTW6do5oNqimaOYH6s/cNQD6fC3XZYNWYg4orRWfImPCtsU0SzuifQ==
-X-Received: by 2002:a5d:6a4e:: with SMTP id t14mr10346868wrw.101.1585932865140; 
- Fri, 03 Apr 2020 09:54:25 -0700 (PDT)
-Received: from localhost.localdomain (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id a13sm12568593wrh.80.2020.04.03.09.54.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Apr 2020 09:54:24 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH-for-5.0?] configure: Do not leave sphinx in-tree artifacts
-Date: Fri,  3 Apr 2020 18:54:22 +0200
-Message-Id: <20200403165422.21714-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jKHLV-000210-QX
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:06:34 -0400
+IronPort-SDR: q0QoLRdJP6apxulI68mfBondVJm/3UJ5PJzkhPQnxxzhi+DxotkMAhUPC5kQh5eW5OPzT/nHO5
+ f/fv8vKCluoQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Apr 2020 01:06:23 -0700
+IronPort-SDR: NISk3zbcXuFDbGuX/wE17VrJQMqChUvarIaDscMcItoXfGWfyfSjIAhcvJ8navQcHs+aS4iHoI
+ GkJADR3OEfMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,339,1580803200"; d="scan'208";a="273862777"
+Received: from dpdk-zhirun.sh.intel.com ([10.67.119.121])
+ by fmsmga004.fm.intel.com with ESMTP; 03 Apr 2020 01:06:21 -0700
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/3] drop writes to read-only ram device & vfio regions
+Date: Fri,  3 Apr 2020 16:56:57 +0000
+Message-Id: <20200403165657.20566-1-yan.y.zhao@intel.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 192.55.52.88
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,39 +53,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Yan Zhao <yan.y.zhao@intel.com>, pbonzini@redhat.com,
+ alex.williamson@redhat.com, philmd@redhat.com, xin.zeng@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When ./configure checks the sphinx version is new enough, it leaves
-the docs/sphinx/__pycache__/ directory. Avoid this by using the '-B'
-option (don't write .py[co] files on import) via the
-PYTHONDONTWRITEBYTECODE environment variable.
+patch 1 modifies handler of ram device memory regions to drop guest writes
+to read-only ram device memory regions
 
-Reported-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+patch 2 modifies handler of non-mmap'd read-only vfio regions to drop guest
+writes to those regions 
 
-diff --git a/configure b/configure
-index 22870f3867..ed524399c7 100755
---- a/configure
-+++ b/configure
-@@ -4936,7 +4936,7 @@ has_sphinx_build() {
-     # sphinx-build doesn't exist at all or if it is too old.
-     mkdir -p "$TMPDIR1/sphinx"
-     touch "$TMPDIR1/sphinx/index.rst"
--    "$sphinx_build" -c "$source_path/docs" -b html "$TMPDIR1/sphinx" "$TMP=
-DIR1/sphinx/out" >/dev/null 2>&1
-+    PYTHONDONTWRITEBYTECODE=3Dyes "$sphinx_build" -c "$source_path/docs" -=
-b html "$TMPDIR1/sphinx" "$TMPDIR1/sphinx/out" >/dev/null 2>&1
- }
-=20
- # Check if tools are available to build documentation.
---=20
-2.21.1
+patch 3 let mmap'd read-only vfio regions be able to generate vmexit for
+guest write. so, without patch 1, host qemu would crash on guest write to
+this read-only region. with patch 1, host qemu would drop the writes.
+
+Yan Zhao (3):
+  memory: drop guest writes to read-only ram device regions
+  hw/vfio: drop guest writes to ro regions
+  hw/vfio: let read-only flag take effect for mmap'd regions
+
+ hw/vfio/common.c     | 12 +++++++++++-
+ hw/vfio/trace-events |  2 +-
+ memory.c             |  6 +++++-
+ trace-events         |  2 +-
+ 4 files changed, 18 insertions(+), 4 deletions(-)
+
+-- 
+2.17.1
 
 
