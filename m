@@ -2,61 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C7ED19D881
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 16:02:14 +0200 (CEST)
-Received: from localhost ([::1]:55878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFDB319D88C
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 16:04:31 +0200 (CEST)
+Received: from localhost ([::1]:55910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKMtg-0006oO-RF
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 10:02:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37916)
+	id 1jKMvu-0001Sf-Vt
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 10:04:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37966)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1jKMsH-0005xo-CS
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:00:46 -0400
+ (envelope-from <clg@kaod.org>) id 1jKMsk-0006Ly-3E
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:01:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1jKMsG-0007Mp-1E
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:00:45 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60479
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1jKMsd-0007Zn-TF
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:01:13 -0400
+Received: from 4.mo177.mail-out.ovh.net ([46.105.37.72]:35852)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jKMsF-0007M8-Tz
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:00:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585922443;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=e/TOG1QFNaeICKnZrHUMIJhWhyfF+jKlfP1Oz7UKTn0=;
- b=UBr49M5JJa7dw/DeC+WExj/c10y/xYbhBsFKTW1s4KaGgOu0c+giTaojF2wKOzB3iaUovg
- wp0YTsO9mjk8QDY1plOY1mpsbXXsmAlYzPCR6duXS6qWHzhRBThiCaT72yx7vqXTjcmTM7
- eIXG2mkvBAUYxT//jouRdz7csTGU4Ts=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-5DwB3m9vMHWj2hldrlY5SA-1; Fri, 03 Apr 2020 10:00:26 -0400
-X-MC-Unique: 5DwB3m9vMHWj2hldrlY5SA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 888E718B5FA0;
- Fri,  3 Apr 2020 14:00:24 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 245425E000;
- Fri,  3 Apr 2020 14:00:21 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] nvdimm-utils: clean up headers and add license comment
-Date: Fri,  3 Apr 2020 10:00:18 -0400
-Message-Id: <20200403140018.13531-1-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jKMsd-0007WB-Me
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:01:07 -0400
+Received: from player697.ha.ovh.net (unknown [10.108.54.209])
+ by mo177.mail-out.ovh.net (Postfix) with ESMTP id 895AF12C8AA
+ for <qemu-devel@nongnu.org>; Fri,  3 Apr 2020 16:01:05 +0200 (CEST)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player697.ha.ovh.net (Postfix) with ESMTPSA id 52D82111A006A;
+ Fri,  3 Apr 2020 14:00:57 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: [PATCH v4 0/4] target/ppc: Add support for Radix partition-scoped
+ translation
+Date: Fri,  3 Apr 2020 16:00:52 +0200
+Message-Id: <20200403140056.59465-1-clg@kaod.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Ovh-Tracer-Id: 4729061086727932902
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrtdeigdejudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieeljedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 46.105.37.72
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,72 +54,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, peter.maydell@linaro.org, sbhat@linux.ibm.com,
- aik@ozlabs.ru, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
- david@gibson.dropbear.id.au
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes: 3f350f6bb36233be50fc2bc18dc78b6a948a5dbe
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
- include/qemu/nvdimm-utils.h |  2 --
- util/nvdimm-utils.c         | 29 +++++++++++++++++++++++++++++
- 2 files changed, 29 insertions(+), 2 deletions(-)
+Hello,
 
-diff --git a/include/qemu/nvdimm-utils.h b/include/qemu/nvdimm-utils.h
-index 4b8b198ba7..1f1dae477f 100644
---- a/include/qemu/nvdimm-utils.h
-+++ b/include/qemu/nvdimm-utils.h
-@@ -1,7 +1,5 @@
- #ifndef NVDIMM_UTILS_H
- #define NVDIMM_UTILS_H
+The Radix tree translation model currently supports process-scoped
+translation for the PowerNV machine (Hypervisor mode) and for the
+pSeries machine (Guest mode). Guests running under an emulated
+Hypervisor (PowerNV machine) require a new type of Radix translation,
+called partition-scoped, which is missing today.
+
+The Radix tree translation is a 2 steps process. The first step,
+process-scoped translation, converts an effective Address to a guest
+real address, and the second step, partition-scoped translation,
+converts a guest real address to a host real address.
+
+There are difference cases to covers :=20
+
+* Hypervisor real mode access: no Radix translation.
+
+* Hypervisor or host application access (quadrant 0 and 3) with
+  relocation on: process-scoped translation.
+
+* Guest OS real mode access: only partition-scoped translation.
+
+* Guest OS real or guest application access (quadrant 0 and 3) with
+  relocation on: both process-scoped translation and partition-scoped
+  translations.
+
+* Hypervisor access in quadrant 1 and 2 with relocation on: both
+  process-scoped translation and partition-scoped translations.
+
+The radix tree partition-scoped translation is performed using tables
+pointed to by the first double-word of the Partition Table Entries and
+process-scoped translation uses tables pointed to by the Process Table
+Entries (second double-word of the Partition Table Entries).
+
+Both partition-scoped and process-scoped translations process are
+identical and thus the radix tree traversing code is largely reused.
+However, errors in partition-scoped translations generate hypervisor
+exceptions.
+
+Based on work from Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+
+Thanks,
+
+C.
+
+Changes since v3:
+
+ - changed ppc_radix64_walk_tree() and ppc_radix64_next_level() to
+   return an error code instead of a PTE. It clarifies error handling
+   in the callers (Greg's contribution)
 =20
--#include "qemu/osdep.h"
--
- GSList *nvdimm_get_device_list(void);
- #endif
-diff --git a/util/nvdimm-utils.c b/util/nvdimm-utils.c
-index 5cc768ca47..ca41d39af5 100644
---- a/util/nvdimm-utils.c
-+++ b/util/nvdimm-utils.c
-@@ -1,3 +1,32 @@
-+/*
-+ * NVDIMM utilities
-+ *
-+ * Copyright(C) 2015 Intel Corporation.
-+ *
-+ * Author:
-+ *  Xiao Guangrong <guangrong.xiao@linux.intel.com>
-+ *
-+ * NFIT is defined in ACPI 6.0: 5.2.25 NVDIMM Firmware Interface Table (NF=
-IT)
-+ * and the DSM specification can be found at:
-+ *       http://pmem.io/documents/NVDIMM_DSM_Interface_Example.pdf
-+ *
-+ * Currently, it only supports PMEM Virtualization.
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licens=
-es/>
-+ */
-+
-+#include "qemu/osdep.h"
- #include "qemu/nvdimm-utils.h"
- #include "hw/mem/nvdimm.h"
+Changes since v2:
+
+ - removed the changes on the routines raising the exceptions to take
+   a 'cause_excp' bool.
+
+Changes since v1:
+
+ - removed checks (cpu->vhyp && lpid =3D=3D 0)
+ - changed ppc_radix64_walk_tree() and ppc_radix64_next_level() to use
+   an 'AddressSpace *'
+ - moved call to ppc_radix64_get_fully_qualified_addr() under
+   ppc_radix64_xlate()
+ - reworked the prototype of the routines raising the exceptions to
+   take a 'cause_excp' bool.
+ - re-introduced an extra test on nls in ppc_radix64_walk_tree()
 =20
+C=C3=A9dric Le Goater (4):
+  target/ppc: Introduce ppc_radix64_xlate() for Radix tree translation
+  target/ppc: Extend ppc_radix64_check_prot() with a 'partition_scoped'
+    bool
+  target/ppc: Rework ppc_radix64_walk_tree() for partition-scoped
+    translation
+  target/ppc: Add support for Radix partition-scoped translation
+
+ target/ppc/cpu.h         |   3 +
+ target/ppc/excp_helper.c |   3 +-
+ target/ppc/mmu-radix64.c | 453 ++++++++++++++++++++++++++++-----------
+ 3 files changed, 334 insertions(+), 125 deletions(-)
+
 --=20
-2.18.1
+2.25.1
 
 
