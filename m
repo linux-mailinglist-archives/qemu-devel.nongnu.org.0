@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB4E819D1E1
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 10:12:23 +0200 (CEST)
-Received: from localhost ([::1]:51820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE48B19D1D6
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 10:10:15 +0200 (CEST)
+Received: from localhost ([::1]:51772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKHR8-0004ia-PQ
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 04:12:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42450)
+	id 1jKHP4-0000lp-U6
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 04:10:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42319)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jKHKQ-0001A1-95
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:05:27 -0400
+ (envelope-from <kraxel@redhat.com>) id 1jKHKK-0000zj-7C
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:05:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1jKHKO-00080S-U3
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:05:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46101
+ (envelope-from <kraxel@redhat.com>) id 1jKHKI-0007lL-SV
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:05:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35034
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jKHKO-0007yP-Np
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:05:24 -0400
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jKHKI-0007kY-N0
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:05:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585901124;
+ s=mimecast20190719; t=1585901118;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=nyV04BkZ5GWpUICeK2RstEi8CwJgjc3tCQagpD7m34s=;
- b=SR4m6xsTYnjz5aNZEIwfUUiP+0wVnfd1aB/mOWucJ+Nwrc71GEqGGjn1ntoaxVKWkr+tx/
- OL8+RzOic1ylTMfpABPA54elkoi3Xvh0xVGnsrijKfHvm4ehUJQnQ55kIRfVqPMKZKvNgs
- fJdjpKOsrzPysoF1K6IZu6AfINCxSgQ=
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CSzAcZu7s7k/1ZKI/Bbx93vZqsuGlf7y/K31ABysumc=;
+ b=PSTg12J3It/ExnR3TN3ZaYolFBy7sG+yWpilmk2kYbmmscY4NEDYoiKajq/HdEnMBs8Jad
+ /x5UrPRe/UTd3dBl4vwvSonKYf1JUnvDfCuj2kRM5rLxSBdPLuH0z9ercfAcxfbJ5DUgni
+ Tw4bmF9/mkzuqlawbEWIurxBhj+iX/g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-96-zZIktSAvOn2irMykSCgMzw-1; Fri, 03 Apr 2020 04:05:14 -0400
-X-MC-Unique: zZIktSAvOn2irMykSCgMzw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-459-hqlF-L_lOqeNq0U0-Xi_eA-1; Fri, 03 Apr 2020 04:05:13 -0400
+X-MC-Unique: hqlF-L_lOqeNq0U0-Xi_eA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E47F9801F74;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6837100551A;
  Fri,  3 Apr 2020 08:05:12 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-60.ams2.redhat.com
  [10.36.113.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EB8D3B19A4;
- Fri,  3 Apr 2020 08:05:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 067241147DA;
+ Fri,  3 Apr 2020 08:05:04 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D87A21747F; Fri,  3 Apr 2020 10:05:02 +0200 (CEST)
+ id E1AAB17502; Fri,  3 Apr 2020 10:05:02 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/12] acpi: i386 tweaks
-Date: Fri,  3 Apr 2020 10:04:50 +0200
-Message-Id: <20200403080502.8154-1-kraxel@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Subject: [PATCH v2 01/12] move 'typedef Aml' to qemu/types.h
+Date: Fri,  3 Apr 2020 10:04:51 +0200
+Message-Id: <20200403080502.8154-2-kraxel@redhat.com>
+In-Reply-To: <20200403080502.8154-1-kraxel@redhat.com>
+References: <20200403080502.8154-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,57 +83,36 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-First batch of microvm patches, some generic acpi stuff.
-Split the acpi-build.c monster, specifically split the
-pc and q35 and pci bits into a separate file which we
-can skip building at some point in the future.
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ include/hw/acpi/aml-build.h | 1 -
+ include/qemu/typedefs.h     | 1 +
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
-v2 changes: leave acpi-build.c largely as-is, move useful
-bits to other places to allow them being reused, specifically:
-
- * move isa device generator functions to individual isa devices.
- * move fw_cfg generator function to fw_cfg.c
-
-Sneak preview: full microvm series at
-    https://git.kraxel.org/cgit/qemu/log/?h=3Dsirius/microvm
-
-take care,
-  Gerd
-
-Gerd Hoffmann (12):
-  move 'typedef Aml' to qemu/types.h
-  acpi: add aml builder stubs
-  acpi: drop pointless _STA method
-  acpi: serial: don't use _STA method
-  acpi: parallel: don't use _STA method
-  acpi: add ISADeviceClass->build_aml()
-  acpi: move aml builder code for rtc device
-  acpi: move aml builder code for serial device
-  acpi: move aml builder code for parallel device
-  acpi: move aml builder code for floppy device
-  acpi: move aml builder code for i8042 (kbd+mouse) device
-  acpi: factor out fw_cfg_add_acpi_dsdt()
-
- hw/i386/fw_cfg.h            |   1 +
- include/hw/acpi/aml-build.h |   1 -
- include/hw/isa/isa.h        |   2 +
- include/qemu/typedefs.h     |   1 +
- hw/acpi/aml-build-stub.c    |  79 +++++++++++
- hw/block/fdc.c              |  83 ++++++++++++
- hw/char/parallel.c          |  25 ++++
- hw/char/serial-isa.c        |  32 +++++
- hw/i386/acpi-build.c        | 258 +-----------------------------------
- hw/i386/fw_cfg.c            |  28 ++++
- hw/input/pckbd.c            |  31 +++++
- hw/isa/isa-bus.c            |  15 +++
- hw/rtc/mc146818rtc.c        |  20 +++
- stubs/cmos.c                |   7 +
- hw/acpi/Makefile.objs       |   4 +-
- stubs/Makefile.objs         |   1 +
- 16 files changed, 330 insertions(+), 258 deletions(-)
- create mode 100644 hw/acpi/aml-build-stub.c
- create mode 100644 stubs/cmos.c
-
+diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
+index de4a4065682c..1bfe5844e984 100644
+--- a/include/hw/acpi/aml-build.h
++++ b/include/hw/acpi/aml-build.h
+@@ -32,7 +32,6 @@ struct Aml {
+     uint8_t op;
+     AmlBlockFlags block_flags;
+ };
+-typedef struct Aml Aml;
+=20
+ typedef enum {
+     AML_COMPATIBILITY =3D 0,
+diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
+index 375770a80f06..ecf3cde26c3c 100644
+--- a/include/qemu/typedefs.h
++++ b/include/qemu/typedefs.h
+@@ -24,6 +24,7 @@
+ typedef struct AdapterInfo AdapterInfo;
+ typedef struct AddressSpace AddressSpace;
+ typedef struct AioContext AioContext;
++typedef struct Aml Aml;
+ typedef struct AnnounceTimer AnnounceTimer;
+ typedef struct BdrvDirtyBitmap BdrvDirtyBitmap;
+ typedef struct BdrvDirtyBitmapIter BdrvDirtyBitmapIter;
 --=20
 2.18.2
 
