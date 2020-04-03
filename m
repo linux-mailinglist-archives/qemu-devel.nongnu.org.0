@@ -2,65 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20BE19DE38
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 20:54:48 +0200 (CEST)
-Received: from localhost ([::1]:59806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C41119DE3D
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 20:56:52 +0200 (CEST)
+Received: from localhost ([::1]:59850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKRSp-0002bC-E2
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 14:54:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53100)
+	id 1jKRUp-0005D0-Af
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 14:56:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58133)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jKRRj-0001vj-JQ
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 14:53:40 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jKRTr-0004V8-C0
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 14:55:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jKRRi-0008Qh-9g
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 14:53:39 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:43726)
+ (envelope-from <alex.bennee@linaro.org>) id 1jKRTq-0003yK-7l
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 14:55:51 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33911)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jKRRh-0008OY-Tz
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 14:53:38 -0400
-Received: by mail-ot1-x342.google.com with SMTP id a6so8352812otb.10
- for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 11:53:37 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jKRTq-0003vW-1A
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 14:55:50 -0400
+Received: by mail-wr1-x442.google.com with SMTP id 65so9778516wrl.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 11:55:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7q3kAl2Xo3H6Gpuy+vZk/Wwly58KQYgVlWD+BzRC/Io=;
- b=PKgI69lRuJKeL96iXoglFGVRioB3OYSA32daM9cUrNwj6eyRcxcNIF1UV67g0WEYBj
- q/X6qzADeVKC4d1V3nJbyYAQF8sscNNUtT1v7Gql3k+kAcWT72dUy3xMjxIBtbfYrB7P
- a481i2LukH4skO6TSg3JxTP9UA9LZFTyg1AvzYg5cwyW5pj5UJYDwIQCU3oKVndDJ5hB
- Io2b8Z6+FxpS++aaYTsptg3gODa+WQlBa0Wa6BjYSHO2rLXyQsA8oHd51g5Tah06KqPN
- stuwl49L7eDGc0/eothnLA5M72MJnrJKYQA/pi99vVg4z3TUgvQKPRTYm3GsCliZGl3h
- Fmiw==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=YrZuv/fP4V8o8BXw8fOp44l+E8zVpeCMnhla5F9/jck=;
+ b=QhU2Hbq3qxamAw6UA7T5K7IE2MzVywc0oDY3JY2F0wGACTrB1psxEKnPS8PH2+jNzD
+ FjAlw4KQ1z2Rum5fDgRSrY9csniqxRAkmpMlRi+m6EiKy8IH8cF6uihDnKX1O6CFgj6k
+ oKQt+UUDHis2CsWTdU3BaeUBu/4bUDseSJ4veXLcUFEbh1mdt90G6huNbs3r4/U11Xk3
+ cJTdap05nFKf9i9CSVp82GFTkieX/Ox2YRXwlqL4fXxcGnvhjF0GRLua553MLRHE/Axq
+ dJeqUzsHY+SsRxbKpwNcBpJrrWECvViVUGoUO2gWr79z06HggBCdaUc2ZzZqZQ9ypI4I
+ 3FtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7q3kAl2Xo3H6Gpuy+vZk/Wwly58KQYgVlWD+BzRC/Io=;
- b=DhG/WwwVcW3sYzfdckeEeYDOY6Yb2UvlCifWD9aRd4iLIvuqsnnRFqqxE6OLSGGX+j
- fyz8G+Cfgz8y6jb6q0uAToN1rUNXerXnGGoqHDTyufZ+UlJm6Hp9cGmaQx6jZY+acbOg
- E/MX+R9HoCM4fBqpIlb0zl1Djv4M0WqY6ZsyugrgBW9SRsZqWCWxVT9sGX0oXG7y8CLv
- Bg722vr3I4hgkMIGxDq93pQ2HgotCPGZUNzqGNc4ZBPeXGrLSML0m11+kLmM+g6Dp6wH
- 3DLfv3+Q4xrgbOvIQn4A3SXuvRnMAJRTF8oefdd3mTMRMfGhy2212TtQsD5z0dfA7+Sb
- 5d2Q==
-X-Gm-Message-State: AGi0PuasTNuYGXjRLmSHPZvCS/DONm/bLC0J/EIWp6ftEwIBoEWPCLwH
- cVvcu4qTSgOJvQtQj7MQNZUaynuMvuV3gOxY+RIv4w==
-X-Google-Smtp-Source: APiQypJMJMOYsKqzDqjXqvntvphwGQT92i1mT16yIzjaPcoXgl57mmMcv4QOrCmqZp5GgorO595A27HXu9tO4/pmcvQ=
-X-Received: by 2002:a05:6830:1f39:: with SMTP id
- e25mr7814855oth.135.1585940016843; 
- Fri, 03 Apr 2020 11:53:36 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=YrZuv/fP4V8o8BXw8fOp44l+E8zVpeCMnhla5F9/jck=;
+ b=ixryS6AGdE4Z93gycnyTosrSh9saDF9NnCCnkD/osRDTzIL9WonbJQOMv1rrAsKCGN
+ xgYngXMeRN4kxXrxqN0+DEdHIHE6KHnhxTvktXx4jC0htDxREfpaA1P1r5AjNcgGLgBc
+ w74C2LLAwpnciiyOOAq18q+F8NfTJB+HN69/Qz7rAiDPqA0C1iQj0a1xLoytHBvm7J7+
+ wBSdz8JVe7QaJ3pW+SXdghTZ7WZQnFXQQVPEzb7E5ygK7nEVwiR5UGPAkui6H2V5pnjq
+ Nb0XK6oi0porVqoTyk0N4gMvaHXMxBEPIdI7SK+o0mq2eTbMXQy3cugHv/l4Lv/1PG2P
+ qlcw==
+X-Gm-Message-State: AGi0PuYR6UVofP1ycOQObNHKW+VwZRdFTc7TeBXU6triRE1dB61sd+jk
+ KJFovXZjUcjo4k/UzoIwQxw6Tw==
+X-Google-Smtp-Source: APiQypIfj0C5T289KgkFzhIEzjXzh1Xo10RJXfpHlAgMXg5rdpKgR+Z4vSkgnXbIuVscJiVJxbhKCA==
+X-Received: by 2002:adf:cf09:: with SMTP id o9mr10169805wrj.74.1585940148324; 
+ Fri, 03 Apr 2020 11:55:48 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g127sm12664072wmf.10.2020.04.03.11.55.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Apr 2020 11:55:47 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4CFF31FF7E;
+ Fri,  3 Apr 2020 19:55:46 +0100 (BST)
+References: <BL0PR2101MB1026AF0CA590021284C39D1BD60C0@BL0PR2101MB1026.namprd21.prod.outlook.com>
+User-agent: mu4e 1.3.10; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Robert Henry <robhenry@microsoft.com>
+Subject: Re: plugin interface function qemu_plugin_mem_size_shift
+In-reply-to: <BL0PR2101MB1026AF0CA590021284C39D1BD60C0@BL0PR2101MB1026.namprd21.prod.outlook.com>
+Date: Fri, 03 Apr 2020 19:55:46 +0100
+Message-ID: <875zege6vh.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20200402134721.27863-1-edgar.iglesias@gmail.com>
-In-Reply-To: <20200402134721.27863-1-edgar.iglesias@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Apr 2020 19:53:24 +0100
-Message-ID: <CAFEAcA_E9VQSZRoV5rk-QOgj-F_-w-jhBBVb4p8vUx-VY9_-CQ@mail.gmail.com>
-Subject: Re: [PATCH v1 0/5] dma/xlnx-zdma: Bug fixes
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,32 +81,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: figlesia@xilinx.com, Edgar Iglesias <edgar.iglesias@xilinx.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
- Francisco Iglesias <frasse.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- KONRAD Frederic <frederic.konrad@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Luc Michel <luc.michel@greensocs.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2 Apr 2020 at 14:46, Edgar E. Iglesias <edgar.iglesias@gmail.com> wrote:
->
-> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
->
-> Hi,
->
-> This series fixes a couple of bugs we've ran into with some
-> proprietary test code and drivers using the Xilinx zDMA.
 
-Thanks; as these are bugfixes I've applied them to target-arm.next
-for 5.0. I'd appreciate it if you could take a look at the
-endianness bugs I mention in a reply to patch 5 (probably
-that is 5.1 work).
+Robert Henry <robhenry@microsoft.com> writes:
 
--- PMM
+> I don't understand what
+>   unsigned int qemu_plugin_mem_size_shift(qemu_plugin_meminfo_t info);
+> does.   The documentation in qemu-plugin.h is silent on this matter.
+>   It appears to expose more of the guts of qemu that I don't yet know.
+
+It's the size as a power of 2, so:
+
+0 =3D byte
+1 =3D 16 bit
+2 =3D 32 bit
+3 =3D 64 bit
+4 =3D 128 bit
+
+and so on. Currently I think our largest memory accesses are around 256
+bytes but we can go larger is required.
+
+How about:
+
+--8<---------------cut here---------------start------------->8---
+plugins: document the meaning of size_shift
+
+We describe memory accesses in powers of 2.
+
+Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+1 file changed, 3 insertions(+)
+include/qemu/qemu-plugin.h | 3 +++
+
+modified   include/qemu/qemu-plugin.h
+@@ -301,6 +301,9 @@ void *qemu_plugin_insn_haddr(const struct qemu_plugin_i=
+nsn *insn);
+  * The anonymous qemu_plugin_meminfo_t and qemu_plugin_hwaddr types
+  * can be used in queries to QEMU to get more information about a
+  * given memory access.
++ *
++ * The size_shift is the scale of access, e.g. << 3 is a 64 bit wide
++ * access.
+  */
+ typedef uint32_t qemu_plugin_meminfo_t;
+ struct qemu_plugin_hwaddr;
+--8<---------------cut here---------------end--------------->8---
+
+
+--=20
+Alex Benn=C3=A9e
 
