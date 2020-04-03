@@ -2,69 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C45A19D21A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 10:25:02 +0200 (CEST)
-Received: from localhost ([::1]:51998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 422AC19D21C
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 10:27:21 +0200 (CEST)
+Received: from localhost ([::1]:52039 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKHdN-0002cX-KH
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 04:25:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45355)
+	id 1jKHfc-0004pM-BU
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 04:27:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45740)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1jKHcQ-00025Z-51
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:24:03 -0400
+ (envelope-from <dietmar@proxmox.com>) id 1jKHeo-0004Jw-Ef
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:26:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1jKHcO-0006wT-S8
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:24:01 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:30900
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dietmar@proxmox.com>) id 1jKHen-0000vS-EB
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:26:30 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:65240)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1jKHcO-0006vq-OS
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:24:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585902239;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NTncJUoNdeKHAO92tzeCBJ8GvfQ7t10bHlzh4JiTrfM=;
- b=Vqiw/iFewuoDzv5J5SjgNqxPlp0mSf4WUtSCVdZZg3WacQz4ol+rFbTZekx9zjdVNy3TY9
- N1WO/GObPrFb5ubKkDmKWP6QqRRxA4V60mYkkVKjh1Ml3udbAjGC5fRZLGg1T+tALWmIin
- xQVEI6osV/2QhH5x9XsEx7pG6S809Gs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-152-o0skrVGVN0GWSitMPoWZCA-1; Fri, 03 Apr 2020 04:23:55 -0400
-X-MC-Unique: o0skrVGVN0GWSitMPoWZCA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A5DD8017CE;
- Fri,  3 Apr 2020 08:23:54 +0000 (UTC)
-Received: from [10.36.112.58] (ovpn-112-58.ams2.redhat.com [10.36.112.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E75C05C1D6;
- Fri,  3 Apr 2020 08:23:50 +0000 (UTC)
-Subject: Re: [PATCH kvm-unit-tests] fixup! arm/arm64: ITS: pending table
- migration test
-To: Andrew Jones <drjones@redhat.com>
-References: <20200402145227.20109-1-eric.auger@redhat.com>
- <20200402180148.490026-1-drjones@redhat.com>
- <a13e00e8-b699-103a-af6c-7807b67f8c70@redhat.com>
- <20200403073754.6q6njhh25s2zutic@kamzik.brq.redhat.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <84973989-d751-2f33-8de5-c83b0f71065d@redhat.com>
-Date: Fri, 3 Apr 2020 10:23:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (Exim 4.71) (envelope-from <dietmar@proxmox.com>)
+ id 1jKHel-0000px-77; Fri, 03 Apr 2020 04:26:27 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 725DC429BB;
+ Fri,  3 Apr 2020 10:26:21 +0200 (CEST)
+Date: Fri, 3 Apr 2020 10:26:19 +0200 (CEST)
+From: Dietmar Maurer <dietmar@proxmox.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Message-ID: <2091214547.43.1585902379938@webmail.proxmox.com>
+In-Reply-To: <20200402171007.GF4006@linux.fritz.box>
+References: <20200401103748.GA4680@linux.fritz.box>
+ <997901084.0.1585755465486@webmail.proxmox.com>
+ <20200401181256.GB27663@linux.fritz.box>
+ <1403939459.52.1585765681569@webmail.proxmox.com>
+ <20200401184431.GD27663@linux.fritz.box>
+ <903538836.29.1585818619688@webmail.proxmox.com>
+ <20200402121403.GB4006@linux.fritz.box>
+ <20200402142524.GD4006@linux.fritz.box>
+ <1043934808.59.1585842050330@webmail.proxmox.com>
+ <20200402164744.GE4006@linux.fritz.box>
+ <20200402171007.GF4006@linux.fritz.box>
+Subject: Re: bdrv_drained_begin deadlock with io-threads
 MIME-Version: 1.0
-In-Reply-To: <20200403073754.6q6njhh25s2zutic@kamzik.brq.redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Priority: 3
+Importance: Normal
+X-Mailer: Open-Xchange Mailer v7.10.2-Rev23
+X-Originating-Client: open-xchange-appsuite
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 212.186.127.180
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,121 +61,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, kvm@vger.kernel.org,
- maz@kernel.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- andre.przywara@arm.com, yuzenghui@huawei.com, alexandru.elisei@arm.com,
- kvmarm@lists.cs.columbia.edu, eric.auger.pro@gmail.com
+Reply-To: Dietmar Maurer <dietmar@proxmox.com>
+Cc: qemu-block@nongnu.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Drew,
-On 4/3/20 9:37 AM, Andrew Jones wrote:
-> On Fri, Apr 03, 2020 at 07:07:10AM +0200, Auger Eric wrote:
->> Hi Drew,
->>
->> On 4/2/20 8:01 PM, Andrew Jones wrote:
->>> [ Without the fix this test would hang, as timeouts don't work with
->>>   the migration scripts (yet). Use errata to skip instead of hang. ]
->>> Signed-off-by: Andrew Jones <drjones@redhat.com>
->>> ---
->>>  arm/gic.c  | 18 ++++++++++++++++--
->>>  errata.txt |  1 +
->>>  2 files changed, 17 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/arm/gic.c b/arm/gic.c
->>> index ddf0f9d09b14..c0781f8c2c80 100644
->>> --- a/arm/gic.c
->>> +++ b/arm/gic.c
->>> @@ -12,6 +12,7 @@
->>>   * This work is licensed under the terms of the GNU LGPL, version 2.
->>>   */
->>>  #include <libcflat.h>
->>> +#include <errata.h>
->>>  #include <asm/setup.h>
->>>  #include <asm/processor.h>
->>>  #include <asm/delay.h>
->>> @@ -812,13 +813,23 @@ static void test_its_migration(void)
->>>  	check_lpi_stats("dev7/eventid=255 triggers LPI 8196 on PE #2 after migration");
->>>  }
->>>  
->>> +#define ERRATA_UNMAPPED_COLLECTIONS "ERRATA_8c58be34494b"
->>> +
->>>  static void test_migrate_unmapped_collection(void)
->>>  {
->>> -	struct its_collection *col;
->>> -	struct its_device *dev2, *dev7;
->>> +	struct its_collection *col = NULL;
->>> +	struct its_device *dev2 = NULL, *dev7 = NULL;
->>> +	bool test_skipped = false;
->>>  	int pe0 = 0;
->>>  	u8 config;
->>>  
->>> +	if (!errata(ERRATA_UNMAPPED_COLLECTIONS)) {
->>> +		report_skip("Skipping test, as this test hangs without the fix. "
->>> +			    "Set %s=y to enable.", ERRATA_UNMAPPED_COLLECTIONS);
->>> +		test_skipped = true;
->>> +		goto do_migrate;
->> out of curiosity why do you still do the migration and not directly return.
-> 
-> That won't work for the same reason the migration failure doesn't work.
-> The problem is with the migration scripts not completing when a migration
-> test doesn't successfully migrate. I plan to fix that when I get a bit of
-> time, and when I do, I'll post a patch removing this errata as well, as
-> it will no longer be needed to avoid test hangs. Anybody testing on a
-> kernel without the kernel fix after the migration scripts are fixed will
-> just get an appropriate FAIL instead.
+> With the following patch, it seems to survive for now. I'll give it some
+> more testing tomorrow (also qemu-iotests to check that I didn't
+> accidentally break something else.)
 
-OK Got it
+Wow, that was fast! Seems your patch fixes the bug!
 
-Thanks
+I wonder what commit introduced that problem, maybe:
 
-Eric
-> 
-> Thanks,
-> drew
-> 
->>
->> Besides, what caused the migration to fail without 8c58be34494b is
->> bypassed so:
->>
->> Reviewed-by: Eric Auger <eric.auger@redhat.com>
->> Tested-by: Eric Auger <eric.auger@redhat.com>
->>
->> Thank you for the fixup
->>
->> Eric
->>
->>> +	}
->>> +
->>>  	if (its_setup1())
->>>  		return;
->>>  
->>> @@ -830,9 +841,12 @@ static void test_migrate_unmapped_collection(void)
->>>  	its_send_mapti(dev2, 8192, 0, col);
->>>  	gicv3_lpi_set_config(8192, LPI_PROP_DEFAULT);
->>>  
->>> +do_migrate:
->>>  	puts("Now migrate the VM, then press a key to continue...\n");
->>>  	(void)getchar();
->>>  	report_info("Migration complete");
->>> +	if (test_skipped)
->>> +		return;
->>>  
->>>  	/* on the destination, map the collection */
->>>  	its_send_mapc(col, true);
->>> diff --git a/errata.txt b/errata.txt
->>> index 7d6abc2a7bf6..b66afaa9c079 100644
->>> --- a/errata.txt
->>> +++ b/errata.txt
->>> @@ -5,4 +5,5 @@
->>>  9e3f7a296940    : 4.9                           : arm64: KVM: pmu: Fix AArch32 cycle counter access
->>>  7b6b46311a85    : 4.11                          : KVM: arm/arm64: Emulate the EL1 phys timer registers
->>>  6c7a5dce22b3    : 4.12                          : KVM: arm/arm64: fix races in kvm_psci_vcpu_on
->>> +8c58be34494b    : 5.6                           : KVM: arm/arm64: vgic-its: Fix restoration of unmapped collections
->>>  #---------------:-------------------------------:---------------------------------------------------
->>>
->>
->>
-> 
+https://github.com/qemu/qemu/commit/cf3129323f900ef5ddbccbe86e4fa801e88c566e#diff-7cb66df56045598b75a219eebc27efb6
+
+If so, version 4.1.X in not affected by this bug, but 4.2.0 and later?
 
 
