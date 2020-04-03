@@ -2,32 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04DC019D2B5
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 10:51:07 +0200 (CEST)
-Received: from localhost ([::1]:52276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4207C19D2AC
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 10:49:40 +0200 (CEST)
+Received: from localhost ([::1]:52252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKI2c-0000w6-3A
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 04:51:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48477)
+	id 1jKI1C-0007jr-WA
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 04:49:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48515)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jKHzt-0006j0-P8
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:48:19 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jKI0A-0006rw-MY
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:48:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jKHzs-00042E-6J
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:48:17 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:48861)
+ (envelope-from <laurent@vivier.eu>) id 1jKI09-0004Ks-I6
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:48:34 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:54787)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jKHzo-0003uS-Ls; Fri, 03 Apr 2020 04:48:12 -0400
+ id 1jKI09-0004JO-9A; Fri, 03 Apr 2020 04:48:33 -0400
 Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MxUjv-1j9KoH3CNl-00xtob; Fri, 03 Apr 2020 10:47:56 +0200
-Subject: Re: [PATCH 3/3] crypto: Redundant type conversion for AES_KEY pointer
-To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-References: <20200325092137.24020-1-kuhn.chenqun@huawei.com>
- <20200325092137.24020-4-kuhn.chenqun@huawei.com>
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1McYP5-1imKIF3r3N-00cuXa; Fri, 03 Apr 2020 10:48:23 +0200
+Subject: Re: [PATCH v5 0/3] redundant code: Fix warnings reported by Clang
+ static code analyzer
+To: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
+References: <20200325025919.21316-1-kuhn.chenqun@huawei.com>
+ <7412CDE03601674DA8197E2EBD8937E83B6D495C@dggemm511-mbx.china.huawei.com>
+ <b273c5c9-18cc-691f-bd1f-df056f448ade@vivier.eu>
+ <7412CDE03601674DA8197E2EBD8937E83B6D4A27@dggemm511-mbx.china.huawei.com>
+ <f2601173-f46d-ac93-c012-f715a52400ba@vivier.eu>
+ <d002a05d-d028-92e6-80e7-4f2ae91a67a6@vivier.eu>
+ <7412CDE03601674DA8197E2EBD8937E83B6D4B32@dggemm511-mbx.china.huawei.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -71,34 +78,34 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <4b614cd4-ad35-94b1-a7b6-6950fa08617c@vivier.eu>
-Date: Fri, 3 Apr 2020 10:47:55 +0200
+Message-ID: <914fdc3c-c7a4-0aac-bed4-9df6acd78295@vivier.eu>
+Date: Fri, 3 Apr 2020 10:48:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200325092137.24020-4-kuhn.chenqun@huawei.com>
+In-Reply-To: <7412CDE03601674DA8197E2EBD8937E83B6D4B32@dggemm511-mbx.china.huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:uktO8gj0OT/HiEG2wKWdfZ495ohaivZv0O9Ybmz+Jw+zgOflZHl
- MW5kh3LfRJmQ6+Ybh3VpcjFuRt9y0MZ/ATtuVOtRDJee4yh5J1aWURF/FqbYfMZIFpQhwgw
- 5kkHqo3aDk314HaYX9oz1uaUn1CsfaxxSJBJCCuoAW+JQejQTbIW8a3MvX08jTPKwfjhdE6
- 6GnP93QuZaEypoDCyZCjQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:s0VWlWlK9J0=:3WR3hnrFGbK/SmOslzCt3o
- TXyCujopkGGRVC2vZQLqQtwIEojVSh9QMruS+QZq6a4mc4lTVmdLkqVHeBzoPnwcyqvKECKRo
- sQNK83yRDrfy5z/4zcf7kNi+l0bo2/H9TrAzcfzAQ2QA+HjtGYV7L2LvEDBQ/DKVMo5a2Dad/
- jlU052q2bl8n9zKG5pmn5QGkW/+TLR3xJnkUtGSmdtzIMxWoBeGGDDzaHAhXXwnL++N7eTwPE
- ebpjUnxvH5s+eOijpgBTtXYjdTrVXtAZBjrpfYXwY7udMVimutqY+lnCtvcxFa640dJjYQ4L5
- c0hymsom9PqQ98RVwxz+aBg9AdJCv14rEc5CRcBdc2+Gf5vm2UkLiI+nkDT6TP9doPLSFkqqk
- SadJayEaJF6pm/ogj20pVeHlqxkHg0XUiaEmhhdTn44lde3JcgfGanscKNeZaCfeH/bxbBaVb
- P02MM0AlEQyCuK5jozjHUTqpZmYRQ6KOWYjFtbcZS/ssVA9hBzjTWkEX4rbp8l+iPyX+2bRV/
- hS4GjXLdl0Pnxq2827WYdj9kIXnL+w4PmCgvoW6KG3+fwMcA+uIa5M+8rqP2mUjink4QKA6Du
- YsJFs6qJ4I3WIJuXg10O4mq/UjL5LzYYS8CZF34nq5LdW845sk8gn2V5DGYlWDxhsVhFTAeF6
- aFORGzj5x2mwfUgNBHe3P5iqr4/nT/aleBDpy0bUqLmID20o31z1xLn0uUQPRTQuY7L1mi9jN
- ft4YQlshWSp13i6rYmbtcfbA02g2Te97KdRGHYrQbpHuz1toI5qNSlKg9Jquw1H4i0Pm3DIQV
- 6AnAv1mEP50hZB8SsedkbnMLi/PXAmo8BJDqJkmIQ9L9vQVxBFYDK4tdVgViLL9eMdxXn+w
+X-Provags-ID: V03:K1:TloK6O0tUy5tHtNT6LX5Vzpd15s+focAssA2tBK52FJAUIkjgks
+ uhLk+vMAlGBHOUw5z+D82YiIyNfGJn++iAs5UNaLoQeJPtNB2ERcj+8Ldp9VaivgvuH6nqs
+ szCytGnvjyDVEdtKAScG0u7hYsIKd41xCGax2iVXrWckVPENuSuh/C3E57rRH8T1a6nBIyM
+ e0l++jku2tcqIES9DW5ow==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:btXgDJoq4zg=:adCW+kFXYXr+ZldNdX/uOh
+ 0FADiLHgGOeytWqg+xQ2B2BWXjUuErNWIDBIYqYODAvhp5e+PmwB1525aV8LmA2delLbTgvTv
+ NJZKFaO58rB/mYhouAbqpyyoJJ/Rs/n6ZPGv+LkQ3NY0IlgEYp71EJtW6tIXFI7UE1R/Y8MLW
+ GwRnxCd+I1m27p8gMsbz8dTeOkbEnlkXVMt1DhJF4IIJRKg0KdhbQbWNAFFgQQPJhZSznrQKm
+ 41JcFgKW0UWZKaB0IZjdIdMIpPBB+N6l8okAtFE/0WLXbje3QwVuabSVTOEKw6bpTHzc5hc+O
+ JWyJLmbkV38YX1cuxrP/x3W40NiqlKoRXpL4cEFYPPgCzWvvVecIN5Nqx6RjXhOyLrjDjMTkc
+ BOkAhSRV+E41Fl/C0k3oM48dpt6Oz6NyrerOj4wedB1yFs4KfRPxJYemhSxUUw/Oj87DcIHe5
+ cEV/83jdFC+BdUn6grZ+y4GB8L9eIyVgIq6aWKmbqqI5DGwJHo7qNK2zEtixD4mXVx1Mk7CUk
+ vT+NEw3AKPHBrg7OivJ2vXG5JrdeCk392O/43oRQwpi6UQ5SY1xtDUvnXx96J0pvzIMuLf1yK
+ MNcdgCbi9nIuWfwhjyXv1zr9npXfaDUEA89OYUP0P6YhPYRT701uMQ18Ev6hRVr43SbTI+d8t
+ S2S25AmvCH/zsMdEUIY4GMRAXIvFvduzYrbCmHw02SFAQ6fZYIXHw4jolSOxFpYNFbB72T+Eh
+ ViIsKFxFOgQ7oXJrSBOzh9OYTUmDO0PofhqHMuRfY54namBO9cD2hDtm9q29vVIOhFB53G/cu
+ A9wWkgagIQUCX8HZ1TU/73tbO5JKEZu0AWTbiY3OzEMKF2Unil9NCLoSk5k2o9jxlPUwrfX
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.75
+X-Received-From: 212.227.17.24
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,49 +117,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- zhang.zhanghailiang@huawei.com, Euler Robot <euler.robot@huawei.com>
+Cc: "philmd@redhat.com" <philmd@redhat.com>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 25/03/2020 à 10:21, Chen Qun a écrit :
-> Fix: eaec903c5b8
-> 
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> ---
-> Cc: "Daniel P. Berrangé" <berrange@redhat.com>
-> ---
->  crypto/cipher-builtin.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/crypto/cipher-builtin.c b/crypto/cipher-builtin.c
-> index bf8413e71a..99d6280a16 100644
-> --- a/crypto/cipher-builtin.c
-> +++ b/crypto/cipher-builtin.c
-> @@ -133,8 +133,7 @@ static void qcrypto_cipher_aes_xts_encrypt(const void *ctx,
->  {
->      const QCryptoCipherBuiltinAESContext *aesctx = ctx;
->  
-> -    qcrypto_cipher_aes_ecb_encrypt((AES_KEY *)&aesctx->enc,
-> -                                   src, dst, length);
-> +    qcrypto_cipher_aes_ecb_encrypt(&aesctx->enc, src, dst, length);
->  }
->  
->  
-> @@ -145,8 +144,7 @@ static void qcrypto_cipher_aes_xts_decrypt(const void *ctx,
->  {
->      const QCryptoCipherBuiltinAESContext *aesctx = ctx;
->  
-> -    qcrypto_cipher_aes_ecb_decrypt((AES_KEY *)&aesctx->dec,
-> -                                   src, dst, length);
-> +    qcrypto_cipher_aes_ecb_decrypt(&aesctx->dec, src, dst, length);
->  }
->  
->  
-> 
+Le 03/04/2020 à 10:41, Chenqun (kuhn) a écrit :
+>> -----Original Message-----
+>> From: Laurent Vivier [mailto:laurent@vivier.eu]
+>> Sent: Friday, April 3, 2020 4:28 PM
+>> To: Chenqun (kuhn) <kuhn.chenqun@huawei.com>; qemu-devel@nongnu.org;
+>> qemu-trivial@nongnu.org
+>> Cc: Zhanghailiang <zhang.zhanghailiang@huawei.com>; philmd@redhat.com
+>> Subject: Re: [PATCH v5 0/3] redundant code: Fix warnings reported by Clang
+>> static code analyzer
+>>
+>> Le 03/04/2020 à 10:22, Laurent Vivier a écrit :
+>>> Le 03/04/2020 à 10:10, Chenqun (kuhn) a écrit :
+>>>>> -----Original Message-----
+>>>>> From: Laurent Vivier [mailto:laurent@vivier.eu]
+>>>>> Sent: Friday, April 3, 2020 4:04 PM
+>>>>> To: Chenqun (kuhn) <kuhn.chenqun@huawei.com>; qemu-
+>> devel@nongnu.org;
+>>>>> qemu-trivial@nongnu.org
+>>>>> Cc: Zhanghailiang <zhang.zhanghailiang@huawei.com>;
+>>>>> philmd@redhat.com
+>>>>> Subject: Re: [PATCH v5 0/3] redundant code: Fix warnings reported by
+>>>>> Clang static code analyzer
+>>>>>
+>>>>> Le 03/04/2020 à 09:51, Chenqun (kuhn) a écrit :
+>>>>>> Ping!
+>>>>>>
+>>>>>> This series has been reviewed.  Could someone please pick this up
+>>>>>> (e.g. qemu-
+>>>>> trivial?)?
+>>>>>
+>>>>> As we are in hard feature freeze now and this is not critical bug
+>>>>> fixes I'm going to queue them for 5.1 except if you have good arguments to
+>> have them in 5.0.
+>>>>>
+>>>> OK,  I get it.
+>>>> It is important to ensure a stable version!
+>>>
+>>> Queued to my linux-user-for-5.1 queue.
+>>
+>> I meant trivial-patches-for-5.1
+>>
+> Thanks. Could you add another trivial patch to the queue by the way?
+> https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg07534.html
 
-Applied to my trivial-patches-for-5.1 branch.
+Yes, done.
 
 Thanks,
 Laurent
