@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7057A19D915
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 16:26:14 +0200 (CEST)
-Received: from localhost ([::1]:56184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEAB719D922
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 16:30:58 +0200 (CEST)
+Received: from localhost ([::1]:56280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKNGv-00020P-G1
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 10:26:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41123)
+	id 1jKNLV-0005Ln-ON
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 10:30:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41757)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <arilou@gmail.com>) id 1jKNEL-0006MS-2u
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:23:34 -0400
+ (envelope-from <yi.l.liu@intel.com>) id 1jKNKR-0004fJ-IJ
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:29:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <arilou@gmail.com>) id 1jKNEK-0008H9-05
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:23:32 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53791)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <arilou@gmail.com>) id 1jKNEJ-0008CK-Pw
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:23:31 -0400
-Received: by mail-wm1-x341.google.com with SMTP id d77so7352482wmd.3
- for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 07:23:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=pUolEYbY8XbrgT/4XGlHpmye2+orYYv6X2aq+U3yuRI=;
- b=fHwwG302DTBYoT8VtGfEOXJxy5QjPXzAq2IfaF6QrwgILJwDDsBC4BKHesWGyTIkgi
- LT3+L80/gL+HLYg3GQuQkwLLE6u99O22zXXPpmHBTHPcvrQgGxHc2wU5vq4l4rF6hBMR
- i3hb71kLufagdDgulxB2YHXg5e3Ff4kCwqATnzoen8cN0brbC8A33agoFL/ctqSizO4W
- GQlK8W3z4M2n5g9gBP7LjxtGKmbxwxyFWJKzgYhzCXw51wCWypr2+U3bnyKgKgSgOb8o
- H1Pa9MsCC3WyXcUI0ImsnUp4/3iaLLItK6+4zSSy3gvWYQh05lc6KA8r6aaDc6Ynulei
- 6Z0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=pUolEYbY8XbrgT/4XGlHpmye2+orYYv6X2aq+U3yuRI=;
- b=ssU/cjnx9AHfjLTBf2QrzBKWN7f/BA6yP54DEK/oM+0WY4tp0CkZtyIrymoxgBbUma
- 4ZnrvfnDwf8CSXJLD3coU2xgjGmqGPjHhTo8jjV8YhtP8P7TfPFFr8NELoI5h76J1ZyE
- YmLCBthKb0bAfmA42/NjQI0PVxdKwsfWkiw7pGZ+71siAzEHr5a9wtE4YH531Wk5ktTS
- AG9p6KG1Iyza27F6SatYeBNdHTXKEpik9K7xBAdGNChVETR/exf6GA22ExAX5NYw5db1
- j5FFxmWbnop4LBWV2oFQrOhlI9QOJDZK/5NVRjW45mZDRhL+23KEpi8wfA/1ppKw5ZRH
- MTiQ==
-X-Gm-Message-State: AGi0PuY3XMzdKKW6z4GUywE26gkT8i79ArUKZ2dN58nST/S60yMBz2cA
- womXI5u8AzBk+foeqTQhLOxUOXqoJW0IBQ==
-X-Google-Smtp-Source: APiQypK18WYEsG+wCvjYX7HNDF5n6s7BKXq5pN+51+bcyK1p+kebPRY27CjJv+Gpn9FUnIu96nRT/Q==
-X-Received: by 2002:a1c:3b89:: with SMTP id i131mr8956511wma.35.1585923810659; 
- Fri, 03 Apr 2020 07:23:30 -0700 (PDT)
-Received: from jondnuc.lan (IGLD-84-229-154-167.inter.net.il. [84.229.154.167])
- by smtp.gmail.com with ESMTPSA id i2sm12218646wrx.22.2020.04.03.07.23.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Apr 2020 07:23:30 -0700 (PDT)
-From: Jon Doron <arilou@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 5/5] i386: Hyper-V VMBus ACPI DSDT entry
-Date: Fri,  3 Apr 2020 17:23:08 +0300
-Message-Id: <20200403142308.82990-6-arilou@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200403142308.82990-1-arilou@gmail.com>
-References: <20200403142308.82990-1-arilou@gmail.com>
+ (envelope-from <yi.l.liu@intel.com>) id 1jKNKP-0007t0-MN
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:29:50 -0400
+Received: from mga04.intel.com ([192.55.52.120]:1867)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1jKNKP-0007pF-CU
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:29:49 -0400
+IronPort-SDR: wZBESKR5pB/2dSMlyBfW+ORcJ9jfTlqEui3cocIijeOxmgL4W0Oi4x6cTkyeV4Sh+U2MKw2o8N
+ 2DFR2y6CeUIw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Apr 2020 07:29:45 -0700
+IronPort-SDR: OMgZC6PTstbqz4oW7leK+A6kOGnGt9CtuIg3gW/itn1kSN4CEhbzAw8SFNRQ/fES//hZ8XWK7l
+ X/5AmojS/cJQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,340,1580803200"; d="scan'208";a="329180601"
+Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
+ by orsmga001.jf.intel.com with ESMTP; 03 Apr 2020 07:29:44 -0700
+Received: from FMSMSX110.amr.corp.intel.com (10.18.116.10) by
+ FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Fri, 3 Apr 2020 07:29:44 -0700
+Received: from shsmsx102.ccr.corp.intel.com (10.239.4.154) by
+ fmsmsx110.amr.corp.intel.com (10.18.116.10) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Fri, 3 Apr 2020 07:29:44 -0700
+Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.225]) by
+ shsmsx102.ccr.corp.intel.com ([169.254.2.138]) with mapi id 14.03.0439.000;
+ Fri, 3 Apr 2020 22:29:40 +0800
+From: "Liu, Yi L" <yi.l.liu@intel.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: RE: [PATCH v2 15/22] intel_iommu: bind/unbind guest page table to host
+Thread-Topic: [PATCH v2 15/22] intel_iommu: bind/unbind guest page table to
+ host
+Thread-Index: AQHWBkplKGJEo59YsUeJrUOkrr1+EKhloPgAgAHaffA=
+Date: Fri, 3 Apr 2020 14:29:39 +0000
+Message-ID: <A2975661238FB949B60364EF0F2C25743A220D4A@SHSMSX104.ccr.corp.intel.com>
+References: <1585542301-84087-1-git-send-email-yi.l.liu@intel.com>
+ <1585542301-84087-16-git-send-email-yi.l.liu@intel.com>
+ <20200402180920.GD103677@xz-x1>
+In-Reply-To: <20200402180920.GD103677@xz-x1>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.40]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 192.55.52.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,97 +78,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Evgeny Yakovlev <eyakovlev@virtuozzo.com>, ehabkost@redhat.com,
- Roman Kagan <rkagan@virtuozzo.com>, pbonzini@redhat.com, vkuznets@redhat.com,
- Jon Doron <arilou@gmail.com>
+Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Tian,
+ Kevin" <kevin.tian@intel.com>, Jacob Pan <jacob.jun.pan@linux.intel.com>,
+ Yi Sun <yi.y.sun@linux.intel.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "mst@redhat.com" <mst@redhat.com>, "Tian, Jun J" <jun.j.tian@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "Wu, Hao" <hao.wu@intel.com>,
+ "Sun, Yi Y" <yi.y.sun@intel.com>, Richard Henderson <rth@twiddle.net>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Guest OS uses ACPI to discover vmbus presence.  Add a corresponding
-entry to DSDT in case vmbus has been enabled.
-
-Experimentally Windows guests were found to require this entry to
-include two IRQ resources, so this patch adds two semi-arbitrarily
-chosen ones (7 and 13).  This results, in particular, in parallel port
-conflicting with vmbus.
-
-TODO: discover and use spare IRQs to avoid conflicts.
-
-Signed-off-by: Evgeny Yakovlev <eyakovlev@virtuozzo.com>
-Signed-off-by: Roman Kagan <rkagan@virtuozzo.com>
-Signed-off-by: Jon Doron <arilou@gmail.com>
----
- hw/i386/acpi-build.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
-
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 2a7e55bae7..6d7fdbbe9b 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -43,6 +43,7 @@
- #include "hw/acpi/tpm.h"
- #include "hw/acpi/vmgenid.h"
- #include "hw/boards.h"
-+#include "hw/vmbus/vmbus.h"
- #include "sysemu/tpm_backend.h"
- #include "hw/rtc/mc146818rtc_regs.h"
- #include "migration/vmstate.h"
-@@ -1270,6 +1271,43 @@ static Aml *build_com_device_aml(uint8_t uid)
-     return dev;
- }
- 
-+static Aml *build_vmbus_device_aml(void)
-+{
-+    Aml *dev;
-+    Aml *method;
-+    Aml *crs;
-+
-+    dev = aml_device("VMBS");
-+    aml_append(dev, aml_name_decl("STA", aml_int(0xF)));
-+    aml_append(dev, aml_name_decl("_HID", aml_string("VMBus")));
-+    aml_append(dev, aml_name_decl("_UID", aml_int(0x0)));
-+    aml_append(dev, aml_name_decl("_DDN", aml_string("VMBUS")));
-+
-+    method = aml_method("_DIS", 0, AML_NOTSERIALIZED);
-+    aml_append(method, aml_store(aml_and(aml_name("STA"), aml_int(0xD), NULL),
-+                                     aml_name("STA")));
-+    aml_append(dev, method);
-+
-+    method = aml_method("_PS0", 0, AML_NOTSERIALIZED);
-+    aml_append(method, aml_store(aml_or(aml_name("STA"), aml_int(0xF), NULL),
-+                                     aml_name("STA")));
-+    aml_append(dev, method);
-+
-+    method = aml_method("_STA", 0, AML_NOTSERIALIZED);
-+    aml_append(method, aml_store(aml_name("STA"), aml_local(0)));
-+    aml_append(method, aml_return(aml_local(0)));
-+    aml_append(dev, method);
-+
-+    aml_append(dev, aml_name_decl("_PS3", aml_int(0x0)));
-+
-+    crs = aml_resource_template();
-+    aml_append(crs, aml_irq_no_flags(7));
-+    aml_append(crs, aml_irq_no_flags(13));
-+    aml_append(dev, aml_name_decl("_CRS", crs));
-+
-+    return dev;
-+}
-+
- static void build_isa_devices_aml(Aml *table)
- {
-     ISADevice *fdc = pc_find_fdc0();
-@@ -1296,6 +1334,10 @@ static void build_isa_devices_aml(Aml *table)
-         build_acpi_ipmi_devices(scope, BUS(obj), "\\_SB.PCI0.ISA");
-     }
- 
-+    if (vmbus_exists()) {
-+        aml_append(scope, build_vmbus_device_aml());
-+    }
-+
-     aml_append(table, scope);
- }
- 
--- 
-2.24.1
-
+PiBGcm9tOiBQZXRlciBYdSA8cGV0ZXJ4QHJlZGhhdC5jb20+DQo+IFNlbnQ6IEZyaWRheSwgQXBy
+aWwgMywgMjAyMCAyOjA5IEFNDQo+IFRvOiBMaXUsIFlpIEwgPHlpLmwubGl1QGludGVsLmNvbT4N
+Cj4gU3ViamVjdDogUmU6IFtQQVRDSCB2MiAxNS8yMl0gaW50ZWxfaW9tbXU6IGJpbmQvdW5iaW5k
+IGd1ZXN0IHBhZ2UgdGFibGUgdG8gaG9zdA0KPiANCj4gT24gU3VuLCBNYXIgMjksIDIwMjAgYXQg
+MDk6MjQ6NTRQTSAtMDcwMCwgTGl1IFlpIEwgd3JvdGU6DQo+ID4gK3N0YXRpYyBpbnQgdnRkX2Jp
+bmRfZ3Vlc3RfcGFzaWQoSW50ZWxJT01NVVN0YXRlICpzLCBWVERCdXMgKnZ0ZF9idXMsDQo+ID4g
+KyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50IGRldmZuLCBpbnQgcGFzaWQsIFZU
+RFBBU0lERW50cnkgKnBlLA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFZU
+RFBBU0lET3Agb3ApIHsNCj4gPiArICAgIFZUREhvc3RJT01NVUNvbnRleHQgKnZ0ZF9kZXZfaWN4
+Ow0KPiA+ICsgICAgSG9zdElPTU1VQ29udGV4dCAqaW9tbXVfY3R4Ow0KPiA+ICsgICAgRHVhbElP
+TU1VU3RhZ2UxQmluZERhdGEgKmJpbmRfZGF0YTsNCj4gPiArICAgIHN0cnVjdCBpb21tdV9ncGFz
+aWRfYmluZF9kYXRhICpnX2JpbmRfZGF0YTsNCj4gPiArICAgIGludCByZXQgPSAtMTsNCj4gPiAr
+DQo+ID4gKyAgICB2dGRfZGV2X2ljeCA9IHZ0ZF9idXMtPmRldl9pY3hbZGV2Zm5dOw0KPiA+ICsg
+ICAgaWYgKCF2dGRfZGV2X2ljeCkgew0KPiA+ICsgICAgICAgIC8qIG1lYW5zIG5vIG5lZWQgdG8g
+Z28gZnVydGhlciwgZS5nLiBmb3IgZW11bGF0ZWQgZGV2aWNlcyAqLw0KPiA+ICsgICAgICAgIHJl
+dHVybiAwOw0KPiA+ICsgICAgfQ0KPiA+ICsNCj4gPiArICAgIGlvbW11X2N0eCA9IHZ0ZF9kZXZf
+aWN4LT5pb21tdV9jdHg7DQo+ID4gKyAgICBpZiAoIWlvbW11X2N0eCkgew0KPiA+ICsgICAgICAg
+IHJldHVybiAtRUlOVkFMOw0KPiA+ICsgICAgfQ0KPiA+ICsNCj4gPiArICAgIGlmICghKGlvbW11
+X2N0eC0+c3RhZ2UxX2Zvcm1hdHMNCj4gPiArICAgICAgICAgICAgICYgSU9NTVVfUEFTSURfRk9S
+TUFUX0lOVEVMX1ZURCkpIHsNCj4gPiArICAgICAgICBlcnJvcl9yZXBvcnRfb25jZSgiSU9NTVUg
+U3RhZ2UgMSBmb3JtYXQgaXMgbm90IGNvbXBhdGlibGUhXG4iKTsNCj4gPiArICAgICAgICByZXR1
+cm4gLUVJTlZBTDsNCj4gPiArICAgIH0NCj4gPiArDQo+ID4gKyAgICBiaW5kX2RhdGEgPSBnX21h
+bGxvYzAoc2l6ZW9mKCpiaW5kX2RhdGEpKTsNCj4gPiArICAgIGJpbmRfZGF0YS0+cGFzaWQgPSBw
+YXNpZDsNCj4gPiArICAgIGdfYmluZF9kYXRhID0gJmJpbmRfZGF0YS0+YmluZF9kYXRhLmdwYXNp
+ZF9iaW5kOw0KPiA+ICsNCj4gPiArICAgIGdfYmluZF9kYXRhLT5mbGFncyA9IDA7DQo+ID4gKyAg
+ICBnX2JpbmRfZGF0YS0+dnRkLmZsYWdzID0gMDsNCj4gPiArICAgIHN3aXRjaCAob3ApIHsNCj4g
+PiArICAgIGNhc2UgVlREX1BBU0lEX0JJTkQ6DQo+ID4gKyAgICAgICAgZ19iaW5kX2RhdGEtPnZl
+cnNpb24gPSBJT01NVV9VQVBJX1ZFUlNJT047DQo+ID4gKyAgICAgICAgZ19iaW5kX2RhdGEtPmZv
+cm1hdCA9IElPTU1VX1BBU0lEX0ZPUk1BVF9JTlRFTF9WVEQ7DQo+ID4gKyAgICAgICAgZ19iaW5k
+X2RhdGEtPmdwZ2QgPSB2dGRfcGVfZ2V0X2ZscHRfYmFzZShwZSk7DQo+ID4gKyAgICAgICAgZ19i
+aW5kX2RhdGEtPmFkZHJfd2lkdGggPSB2dGRfcGVfZ2V0X2ZsX2F3KHBlKTsNCj4gPiArICAgICAg
+ICBnX2JpbmRfZGF0YS0+aHBhc2lkID0gcGFzaWQ7DQo+ID4gKyAgICAgICAgZ19iaW5kX2RhdGEt
+PmdwYXNpZCA9IHBhc2lkOw0KPiA+ICsgICAgICAgIGdfYmluZF9kYXRhLT5mbGFncyB8PSBJT01N
+VV9TVkFfR1BBU0lEX1ZBTDsNCj4gPiArICAgICAgICBnX2JpbmRfZGF0YS0+dnRkLmZsYWdzID0N
+Cj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAoVlREX1NNX1BBU0lEX0VOVFJZX1NS
+RV9CSVQocGUtPnZhbFsyXSkNCj4gPiArID8gMSA6IDApDQo+IA0KPiBUaGlzIGV2YWx1YXRlcyB0
+byAxIGlmIFZURF9TTV9QQVNJRF9FTlRSWV9TUkVfQklUKHBlLT52YWxbMl0pLCBvciAwLg0KPiBE
+byB5b3Ugd2FudCB0byB1c2UgSU9NTVVfU1ZBX1ZURF9HUEFTSURfU1JFIGluc3RlYWQgb2YgMT8g
+IFNhbWUgcXVlc3Rpb24gdG8NCj4gYWxsIHRoZSByZXN0Lg0KDQpvb3BzLCB5ZXMgaXQgaXMuIHlv
+dSBhcmUgcmlnaHQuIHRoYW5rcyBmb3IgY2F0Y2hpbmcgaXQuIER1cmluZyB2ZXJpZmljYXRpb24s
+IG9ubHkNCnRoZSBTUkUgYml0IGlzIHVzZWQsIHNvIGl0J3Mgbm90IHNwb3R0ZWQgaW4gdGVzdGlu
+Zy4NCg0KUmVnYXJkcywNCllpIExpdQ0K
 
