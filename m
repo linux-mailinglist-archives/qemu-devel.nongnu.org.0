@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C89D19D4F5
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 12:21:39 +0200 (CEST)
-Received: from localhost ([::1]:53258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 036DB19D4F2
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 12:21:26 +0200 (CEST)
+Received: from localhost ([::1]:53252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKJSE-0005cB-K6
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 06:21:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35874)
+	id 1jKJS1-0004vr-0F
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 06:21:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35877)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1jKJQT-0003NG-Pu
+ id 1jKJQT-0003NQ-Uy
  for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:19:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1jKJQS-0001sO-Q6
+ id 1jKJQS-0001rw-MN
  for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:19:49 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:50348 helo=huawei.com)
+Received: from szxga06-in.huawei.com ([45.249.212.32]:50350 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1jKJQQ-0001kE-7H; Fri, 03 Apr 2020 06:19:46 -0400
+ id 1jKJQQ-0001kF-7I; Fri, 03 Apr 2020 06:19:46 -0400
 Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 5DAAF1C7CDC4ED513491;
+ by Forcepoint Email with ESMTP id 5692B4E3BDC0BABAAD09;
  Fri,  3 Apr 2020 18:19:39 +0800 (CST)
 Received: from S00345302A-PC.china.huawei.com (10.47.24.31) by
  DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 3 Apr 2020 18:19:28 +0800
+ 14.3.487.0; Fri, 3 Apr 2020 18:19:32 +0800
 From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
  <imammedo@redhat.com>
-Subject: [PATCH for-5.0 v2 0/3] acpi: Fixes for inconsistency in ACPI MR size
- during migration
-Date: Fri, 3 Apr 2020 11:18:24 +0100
-Message-ID: <20200403101827.30664-1-shameerali.kolothum.thodi@huawei.com>
+Subject: [PATCH for-5.0 v2 1/3] acpi: Use macro for table-loader file name
+Date: Fri, 3 Apr 2020 11:18:25 +0100
+Message-ID: <20200403101827.30664-2-shameerali.kolothum.thodi@huawei.com>
 X-Mailer: git-send-email 2.12.0.windows.1
+In-Reply-To: <20200403101827.30664-1-shameerali.kolothum.thodi@huawei.com>
+References: <20200403101827.30664-1-shameerali.kolothum.thodi@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.47.24.31]
@@ -60,37 +61,55 @@ Cc: peter.maydell@linaro.org, xiaoguangrong.eric@gmail.com, david@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is to fix few issues discovered while adding NVDIMM hot-add
-support to arm/virt. These were previously part of [1] and since
-the fixes are generic in nature and might be an issue in x86 as
-well, they are being treated separately now.
+Use macro for "etc/table-loader" and move it to the header
+file similar to ACPI_BUILD_TABLE_FILE/ACPI_BUILD_RSDP_FILE etc.
 
-1. https://patchwork.kernel.org/patch/11432371/
+Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+---
+ hw/arm/virt-acpi-build.c    | 2 +-
+ hw/i386/acpi-build.c        | 2 +-
+ include/hw/acpi/aml-build.h | 1 +
+ 3 files changed, 3 insertions(+), 2 deletions(-)
 
-v1 --> V2
- - patch #2, Addressed comments from Dave and MST
-
-Updates from [1]:
- -Added R-by and A-by tags.
- -Edited commit log for patch#2
- -Updated patch#3 as per David's comment
-
-David Hildenbrand (1):
-  exec: Fix for qemu_ram_resize() callback
-
-Shameer Kolothum (2):
-  acpi: Use macro for table-loader file name
-  fw_cfg: Migrate ACPI table mr sizes separately
-
- exec.c                      | 16 ++++++-
- hw/arm/virt-acpi-build.c    |  2 +-
- hw/core/machine.c           |  1 +
- hw/i386/acpi-build.c        |  2 +-
- hw/nvram/fw_cfg.c           | 91 ++++++++++++++++++++++++++++++++++++-
- include/hw/acpi/aml-build.h |  1 +
- include/hw/nvram/fw_cfg.h   |  6 +++
- 7 files changed, 114 insertions(+), 5 deletions(-)
-
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 7ef0733d71..81d41a3990 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -929,7 +929,7 @@ void virt_acpi_setup(VirtMachineState *vms)
+ 
+     build_state->linker_mr =
+         acpi_add_rom_blob(virt_acpi_build_update, build_state,
+-                          tables.linker->cmd_blob, "etc/table-loader", 0);
++                          tables.linker->cmd_blob, ACPI_BUILD_LOADER_FILE, 0);
+ 
+     fw_cfg_add_file(vms->fw_cfg, ACPI_BUILD_TPMLOG_FILE, tables.tcpalog->data,
+                     acpi_data_len(tables.tcpalog));
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 2a7e55bae7..23c77eeb95 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -3043,7 +3043,7 @@ void acpi_setup(void)
+ 
+     build_state->linker_mr =
+         acpi_add_rom_blob(acpi_build_update, build_state,
+-                          tables.linker->cmd_blob, "etc/table-loader", 0);
++                          tables.linker->cmd_blob, ACPI_BUILD_LOADER_FILE, 0);
+ 
+     fw_cfg_add_file(x86ms->fw_cfg, ACPI_BUILD_TPMLOG_FILE,
+                     tables.tcpalog->data, acpi_data_len(tables.tcpalog));
+diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
+index de4a406568..0f4ed53d7f 100644
+--- a/include/hw/acpi/aml-build.h
++++ b/include/hw/acpi/aml-build.h
+@@ -13,6 +13,7 @@
+ #define ACPI_BUILD_TABLE_FILE "etc/acpi/tables"
+ #define ACPI_BUILD_RSDP_FILE "etc/acpi/rsdp"
+ #define ACPI_BUILD_TPMLOG_FILE "etc/tpm/log"
++#define ACPI_BUILD_LOADER_FILE "etc/table-loader"
+ 
+ #define AML_NOTIFY_METHOD "NTFY"
+ 
 -- 
 2.17.1
 
