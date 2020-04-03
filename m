@@ -2,48 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9A1219D202
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 10:19:25 +0200 (CEST)
-Received: from localhost ([::1]:51928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D61F619DC90
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 19:19:37 +0200 (CEST)
+Received: from localhost ([::1]:58612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKHXw-0005Z1-UF
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 04:19:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44647)
+	id 1jKPyi-0004NV-Fc
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 13:19:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44359)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yan.y.zhao@intel.com>) id 1jKHWm-0004fy-LZ
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:18:13 -0400
+ (envelope-from <mail@maciej.szmigiero.name>) id 1jKPxg-0003wH-1G
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 13:18:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yan.y.zhao@intel.com>) id 1jKHWl-00034R-57
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:18:11 -0400
-Received: from mga11.intel.com ([192.55.52.93]:20699)
+ (envelope-from <mail@maciej.szmigiero.name>) id 1jKPxe-0006Ey-KK
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 13:18:31 -0400
+Received: from vps-vb.mhejs.net ([37.28.154.113]:45752)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
- id 1jKHWk-00032T-Rl
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:18:11 -0400
-IronPort-SDR: rsrRwkCKOnMEbZpNFGovM/Lo58nCNr+/PeVig9df0Syn3S5Z55sT3Wk0e2R19eKCjGBkff4DBv
- UCUNTzvouRYg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Apr 2020 01:18:07 -0700
-IronPort-SDR: ixtjqHt/D/lv59RO0OJcjWwf9NtwD3qhyOgjb31+YcdnP+r5yQ5njZroeL7IdrTqBEyEPPRC+t
- r541wBouk7zA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,339,1580803200"; d="scan'208";a="449947158"
-Received: from dpdk-zhirun.sh.intel.com ([10.67.119.121])
- by fmsmga005.fm.intel.com with ESMTP; 03 Apr 2020 01:18:05 -0700
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] drop writes to read-only ram device & vfio regions
-Date: Fri,  3 Apr 2020 17:08:23 +0000
-Message-Id: <20200403170823.20805-1-yan.y.zhao@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200403165657.20566-1-yan.y.zhao@intel.com>
-References: <20200403165657.20566-1-yan.y.zhao@intel.com>
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 192.55.52.93
+ (Exim 4.71) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1jKPxe-0006Di-Cu
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 13:18:30 -0400
+Received: from MUA
+ by vps-vb.mhejs.net with esmtps (TLS1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+ (Exim 4.93.0.4) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1jKPxU-0001hh-6N; Fri, 03 Apr 2020 19:18:20 +0200
+Subject: Re: [PATCH v1 5/5] i386: Hyper-V VMBus ACPI DSDT entry
+To: Jon Doron <arilou@gmail.com>
+References: <20200403142308.82990-1-arilou@gmail.com>
+ <20200403142308.82990-6-arilou@gmail.com>
+ <76017793-735b-4bb5-0e69-ecded78af54d@maciej.szmigiero.name>
+ <CAP7QCog_EmLJ=O8Xi9Tc4Jst1=z62DXim9ScCyoPv7WugrSyOw@mail.gmail.com>
+ <CAP7QCogMdUis-=KsC--0ar2Zt2Vwcpn4HS+qCxPn5khtDTu+mA@mail.gmail.com>
+From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Autocrypt: addr=mail@maciej.szmigiero.name; prefer-encrypt=mutual; keydata=
+ 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 sg==
+Message-ID: <9b9c42d3-af9e-25e9-210e-c58ee5975941@maciej.szmigiero.name>
+Date: Fri, 3 Apr 2020 19:18:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+MIME-Version: 1.0
+In-Reply-To: <CAP7QCogMdUis-=KsC--0ar2Zt2Vwcpn4HS+qCxPn5khtDTu+mA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 37.28.154.113
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,40 +122,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Zhao <yan.y.zhao@intel.com>, pbonzini@redhat.com,
- alex.williamson@redhat.com, philmd@redhat.com, xin.zeng@intel.com
+Cc: Evgeny Yakovlev <eyakovlev@virtuozzo.com>, ehabkost@redhat.com,
+ QEMU <qemu-devel@nongnu.org>, Liran Alon <liran.alon@oracle.com>,
+ Roman Kagan <rkagan@virtuozzo.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-patch 1 modifies handler of ram device memory regions to drop guest writes
-to read-only ram device memory regions
+Hi Jon,
 
-patch 2 modifies handler of non-mmap'd read-only vfio regions to drop guest
-writes to those regions 
+The patches are available here:
+https://github.com/maciejsszmigiero/qemu.git in "vmbus-patches" branch.
 
-patch 3 let mmap'd read-only vfio regions be able to generate vmexit for
-guest write. so, without patch 1, host qemu would crash on guest write to
-this read-only region. with patch 1, host qemu would drop the writes.
+Please note that these patches don't have Roman's "Signed-off-by:" tags,
+so I haven't applied mine, either.
 
-Changelog:
-v2:
--split one big patches into smaller ones (Philippe)
--modify existing trace to record guest writes to read-only memory (Alex)
--modify vfio_region_write() to drop guest writes to non-mmap'd read-only
- region (Alex)
+If you are able to establish a proper SoB chain then please also add:
+"Signed-off-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>".
 
-Yan Zhao (3):
-  memory: drop guest writes to read-only ram device regions
-  hw/vfio: drop guest writes to ro regions
-  hw/vfio: let read-only flag take effect for mmap'd regions
+Thanks for the effort,
+Maciej
 
- hw/vfio/common.c     | 12 +++++++++++-
- hw/vfio/trace-events |  2 +-
- memory.c             |  6 +++++-
- trace-events         |  2 +-
- 4 files changed, 18 insertions(+), 4 deletions(-)
-
--- 
-2.17.1
+On 03.04.2020 17:30, Jon Doron wrote:
+>  Thank you Maciej it seems like your version is really ahead I'll do
+> the required work and merge it so i can submit a v2 with the latest
+> patchset from Roman
+> 
+> On Fri, Apr 3, 2020 at 6:06 PM Jon Doron <arilou@gmail.com> wrote:
+>>
+>> Thank you Maciej, I based it on top of what Denis (den@openvz.org) gave me
+>> which was this:
+>> https://ftp.openvz.org/virtuozzo/releases/openvz-7.0.12-288/source/SRPMS/q/qemu-kvm-vz-2.12.0-33.vz7.14.4.src.rpm
+>>
+>> Do you think you have a more recent version I dont mind diffing and
+>> resubmitting a new version of the patchset?
+>>
+>> Thanks,
+>> -- Jon.
+>>
+>> On Fri, Apr 3, 2020 at 5:56 PM Maciej S. Szmigiero
+>> <mail@maciej.szmigiero.name> wrote:
+>>>
+>>> Hi Jon,
+>>>
+>>> On 03.04.2020 16:23, Jon Doron wrote:
+>>>> Guest OS uses ACPI to discover vmbus presence.  Add a corresponding
+>>>> entry to DSDT in case vmbus has been enabled.
+>>>>
+>>>> Experimentally Windows guests were found to require this entry to
+>>>> include two IRQ resources, so this patch adds two semi-arbitrarily
+>>>> chosen ones (7 and 13).  This results, in particular, in parallel port
+>>>> conflicting with vmbus.
+>>>>
+>>>> TODO: discover and use spare IRQs to avoid conflicts.
+>>>>
+>>>> Signed-off-by: Evgeny Yakovlev <eyakovlev@virtuozzo.com>
+>>>> Signed-off-by: Roman Kagan <rkagan@virtuozzo.com>
+>>>> Signed-off-by: Jon Doron <arilou@gmail.com>
+>>>
+>>> Nice work, thanks!
+>>>
+>>> However, it seems to be based on the code version that was posted in
+>>> February 2018, and not the latest version in OpenVZ qemu repository
+>>> dated October 2019:
+>>> https://src.openvz.org/projects/UP/repos/qemu/commits?until=refs%2Fheads%2Fvmbus
+>>>
+>>> This newer version has slightly different API here and there.
+>>> Any particular reason for selecting that older version for porting?
+>>>
+>>> I have actually rebased this latest version on the top of the current
+>>> QEMU master, and it basically seems to work fine.
+>>> However, I haven't done extensive tests whether there isn't a memory leak
+>>> somewhere or so on.
+>>>
+>>> Maciej
 
 
