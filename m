@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270A919DE6D
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 21:13:54 +0200 (CEST)
-Received: from localhost ([::1]:60122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC9D019DE6F
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 21:14:01 +0200 (CEST)
+Received: from localhost ([::1]:60131 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKRlJ-0004yA-3W
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 15:13:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40233)
+	id 1jKRlP-0005DG-Ri
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 15:14:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40411)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jKRjQ-0003FP-DZ
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:11:57 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jKRjT-0003GB-5y
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:12:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jKRjP-000200-1X
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:11:56 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40096)
+ (envelope-from <alex.bennee@linaro.org>) id 1jKRjS-000284-59
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:11:59 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39787)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jKRjO-0001xC-LH
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:11:54 -0400
-Received: by mail-wr1-x443.google.com with SMTP id s8so7674625wrt.7
- for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 12:11:54 -0700 (PDT)
+ id 1jKRjR-00022w-UO
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:11:58 -0400
+Received: by mail-wm1-x342.google.com with SMTP id e9so8904410wme.4
+ for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 12:11:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+bAv2HPSumCjz45QTmpT65MHVnN93v/+fTRM89VHFyg=;
- b=yK80QjmIo8e7BiILucvoVLSRw1slFmjM0ixIcZ1APs/uqRY1aqhiIjg1U8HKCBlk7a
- 2SIfRuEu55FGF5MgvxJdWuuLJ7U8mdmhVf+SJgcHlCLwNbiJQKusN1oKNZozSEFpm7OA
- tojXMZHU1vFnykDXF4MsGdJ/spSGRTUNAJJo7YaXf3JIFOdXDx6VMFdy7jq5rG+rqqyv
- GAwNglWd16vbNHK/Hsbn72X/+fC4611gFwfZC+9ifN2OzQLX1Tco8ChwoO6LTe5FlWat
- /Ukg+bnbKvUKSOA/XowjHPyhLyU0ErtjiCXwNgg5AsEBtnKUMwOelX54exmmrrmCsorU
- QkMw==
+ bh=9yYReGEoMkqsfZWblGMzvHlMGSzTNisl1Y211B1bnEY=;
+ b=K5NNnLA8kQ8cHlQxExClBCwKnhdlLhBVE/KiPCZLBWC7OV0Ye9YRL4HMB0BNPgkHOk
+ AB+OFaWl6BtYt9R7R9o/ykTr7SU8tykYfVrwo1NebcRsrl3UTeXItTsWo2LlRB6suiR2
+ 8N2hy/ICndn/3hLTMMSkXrm/SeFnMbDWYlotLSrl3V0ccOxbLqJPp6Tlc05gw9i+ijW3
+ s1aq//oJ1IDWdfjjBftYFlf1bFVA8ixQyRtsdX+wz0o5ZjuAOq/08C5umO15A+UAifec
+ sgADKKoDVtbe6y5XqGlopGhguRyYP62/6Ho6mFIND5iylHj4Kp7Y0YGj4XtmGPT4JqtM
+ 1bww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+bAv2HPSumCjz45QTmpT65MHVnN93v/+fTRM89VHFyg=;
- b=XG/9lN/z+LMxCfP0FrGXiUdr3HrvdZjyiiH9F13PYQ4QQO8QznfwKb3yVg/gw1+oRC
- LY6DvyoKwAKX1dAopmxPphyLs559bDkUCmFqvanWbuPylfG6Td4ACalAH1yuXgFmvFO4
- w7jBFlm+AlCz9XLJjgawWIwEEKkN4Uty+i3zxDmTa367H/QmEP2UH7yK32J8KOFJxhtv
- Y2ipsg9uPgPeWtW54chLZFiKy4R2yIgbXcn9qHQoMuejQ+c2KrZxhInsEUPlWyyopsTB
- QpFT1JlXbrhCvwlk8pG9Nl0+64ugWRFEGsyNKtAkli4I9UjIx/h/imdt35tSZuC5zA7I
- TYiA==
-X-Gm-Message-State: AGi0PuZ3upSxrZvULtcbQ6TYojMjjSeEGVx9Nt4blmuxZW6vVqJWQD6E
- yI08xAM2hRYXeBFvO3tIoyBa/w==
-X-Google-Smtp-Source: APiQypJYjV20SZh9EMjLxEqPuCNt7HlmEncehjl71E+cn4bsKm5PrVAjGU2YcKF8Szt6pXqYtj/XCQ==
-X-Received: by 2002:adf:e90b:: with SMTP id f11mr10454150wrm.65.1585941113556; 
- Fri, 03 Apr 2020 12:11:53 -0700 (PDT)
+ bh=9yYReGEoMkqsfZWblGMzvHlMGSzTNisl1Y211B1bnEY=;
+ b=UuNB7ar7mlv64jOdhjiiY5t0e75LdK6zx4mezRve+ng/ZIfWWxIsHtS7YclEZpt+WF
+ XGa0x5se2i56wEq/o6wIN3rtMnvWub6J9cAVarIw3h55jK9sGf99LpnkASX+qKGWDMAI
+ xrsBTYVygMNQW7FAG8KVuRYlp0kZzy644BYH4aW/L0qHlTiG4DGG/0bSnPrfBYg2unyD
+ CFpA9M/apLPEP3YDAi4c2gdV39/fJt5z1tCqfwTfiVo/NK+uJmsZBfGDP99YcQwmtVWr
+ pvjgcAcQNCiXGWGoNa/SJsjshFW9AC72jGTgf6iIzcDtJzaOuGrjHQ7cg6aCRxjWTHSJ
+ 116Q==
+X-Gm-Message-State: AGi0PuYo1EPKV2kysy3nOjB+hY2NInkOwq0GDnsc61FhBLIiSEdkPI+B
+ h3W/EFOk8EtboWAPZb+lnv0ZKA==
+X-Google-Smtp-Source: APiQypKbM8zHCiBvPk7890MlBrTiuB25FciqWLJe8Xw/gZUPyllw8r+X1ESdySjGpOHYtzHc0OOzhw==
+X-Received: by 2002:a7b:c2a1:: with SMTP id c1mr9774878wmk.138.1585941115898; 
+ Fri, 03 Apr 2020 12:11:55 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r5sm12481552wmr.15.2020.04.03.12.11.51
+ by smtp.gmail.com with ESMTPSA id w15sm2587012wra.25.2020.04.03.12.11.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 03 Apr 2020 12:11:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AE1E41FF87;
+ by zen.linaroharston (Postfix) with ESMTP id C29BC1FF8C;
  Fri,  3 Apr 2020 20:11:50 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 01/12] elf-ops: bail out if we have no function symbols
-Date: Fri,  3 Apr 2020 20:11:39 +0100
-Message-Id: <20200403191150.863-2-alex.bennee@linaro.org>
+Subject: [PATCH  v3 02/12] linux-user: protect fcntl64 with an #ifdef
+Date: Fri,  3 Apr 2020 20:11:40 +0100
+Message-Id: <20200403191150.863-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200403191150.863-1-alex.bennee@linaro.org>
 References: <20200403191150.863-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,130 +81,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Riku Voipio <riku.voipio@iki.fi>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's perfectly possible to have no function symbols in your elf file
-and if we do the undefined behaviour sanitizer rightly complains about
-us passing NULL to qsort. Check nsyms before we go ahead.
-
-While we are at it lets drop the unchecked return value and cleanup
-the fail leg by use of g_autoptr.
-
-Another fix was proposed 101 weeks ago in:
-Message-Id: 20180421232120.22208-1-f4bug@amsat.org
+Checking TARGET_ABI_BITS is sketchy - we should check for the presence
+of the define to be sure. Also clean up the white space while we are
+there.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/elf_ops.h | 48 +++++++++++++++++++++++---------------------
- 1 file changed, 25 insertions(+), 23 deletions(-)
+ linux-user/syscall.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
-index a1411bfcab6..e0bb47bb678 100644
---- a/include/hw/elf_ops.h
-+++ b/include/hw/elf_ops.h
-@@ -104,19 +104,21 @@ static int glue(symcmp, SZ)(const void *s0, const void *s1)
-         : ((sym0->st_value > sym1->st_value) ? 1 : 0);
- }
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 5af55fca781..b679bc6b136 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -11331,11 +11331,11 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+            This is a hint, so ignoring and returning success is ok.  */
+         return 0;
+ #endif
+-#if TARGET_ABI_BITS == 32
++#ifdef TARGET_NR_fcntl64
+     case TARGET_NR_fcntl64:
+     {
+-	int cmd;
+-	struct flock64 fl;
++        int cmd;
++        struct flock64 fl;
+         from_flock64_fn *copyfrom = copy_from_user_flock64;
+         to_flock64_fn *copyto = copy_to_user_flock64;
  
--static int glue(load_symbols, SZ)(struct elfhdr *ehdr, int fd, int must_swab,
--                                  int clear_lsb, symbol_fn_t sym_cb)
-+static void glue(load_symbols, SZ)(struct elfhdr *ehdr, int fd, int must_swab,
-+                                   int clear_lsb, symbol_fn_t sym_cb)
- {
--    struct elf_shdr *symtab, *strtab, *shdr_table = NULL;
--    struct elf_sym *syms = NULL;
-+    struct elf_shdr *symtab, *strtab;
-+    g_autofree struct elf_shdr *shdr_table = NULL;
-+    g_autofree struct elf_sym *syms = NULL;
-+    g_autofree char *str = NULL;
-     struct syminfo *s;
-     int nsyms, i;
--    char *str = NULL;
- 
-     shdr_table = load_at(fd, ehdr->e_shoff,
-                          sizeof(struct elf_shdr) * ehdr->e_shnum);
--    if (!shdr_table)
--        return -1;
-+    if (!shdr_table) {
-+        return ;
-+    }
- 
-     if (must_swab) {
-         for (i = 0; i < ehdr->e_shnum; i++) {
-@@ -125,23 +127,25 @@ static int glue(load_symbols, SZ)(struct elfhdr *ehdr, int fd, int must_swab,
-     }
- 
-     symtab = glue(find_section, SZ)(shdr_table, ehdr->e_shnum, SHT_SYMTAB);
--    if (!symtab)
--        goto fail;
-+    if (!symtab) {
-+        return;
-+    }
-     syms = load_at(fd, symtab->sh_offset, symtab->sh_size);
--    if (!syms)
--        goto fail;
-+    if (!syms) {
-+        return;
-+    }
- 
-     nsyms = symtab->sh_size / sizeof(struct elf_sym);
- 
-     /* String table */
-     if (symtab->sh_link >= ehdr->e_shnum) {
--        goto fail;
-+        return;
-     }
-     strtab = &shdr_table[symtab->sh_link];
- 
-     str = load_at(fd, strtab->sh_offset, strtab->sh_size);
-     if (!str) {
--        goto fail;
-+        return;
-     }
- 
-     i = 0;
-@@ -170,8 +174,13 @@ static int glue(load_symbols, SZ)(struct elfhdr *ehdr, int fd, int must_swab,
+@@ -11346,7 +11346,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
          }
-         i++;
-     }
--    syms = g_realloc(syms, nsyms * sizeof(*syms));
+ #endif
  
-+    /* check we have symbols left */
-+    if (nsyms == 0) {
-+        return;
-+    }
-+
-+    syms = g_realloc(syms, nsyms * sizeof(*syms));
-     qsort(syms, nsyms, sizeof(*syms), glue(symcmp, SZ));
-     for (i = 0; i < nsyms - 1; i++) {
-         if (syms[i].st_size == 0) {
-@@ -182,18 +191,11 @@ static int glue(load_symbols, SZ)(struct elfhdr *ehdr, int fd, int must_swab,
-     /* Commit */
-     s = g_malloc0(sizeof(*s));
-     s->lookup_symbol = glue(lookup_symbol, SZ);
--    glue(s->disas_symtab.elf, SZ) = syms;
-+    glue(s->disas_symtab.elf, SZ) = g_steal_pointer(&syms);
-     s->disas_num_syms = nsyms;
--    s->disas_strtab = str;
-+    s->disas_strtab = g_steal_pointer(&str);
-     s->next = syminfos;
-     syminfos = s;
--    g_free(shdr_table);
--    return 0;
-- fail:
--    g_free(syms);
--    g_free(str);
--    g_free(shdr_table);
--    return -1;
- }
- 
- static int glue(elf_reloc, SZ)(struct elfhdr *ehdr, int fd, int must_swab,
+-	cmd = target_to_host_fcntl_cmd(arg2);
++        cmd = target_to_host_fcntl_cmd(arg2);
+         if (cmd == -TARGET_EINVAL) {
+             return cmd;
+         }
 -- 
 2.20.1
 
