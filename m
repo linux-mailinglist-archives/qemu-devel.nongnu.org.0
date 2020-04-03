@@ -2,54 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB3519DBBE
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 18:32:38 +0200 (CEST)
-Received: from localhost ([::1]:58160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8589819DBE9
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 18:42:52 +0200 (CEST)
+Received: from localhost ([::1]:58240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKPFE-0002bf-ER
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 12:32:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38199)
+	id 1jKPP9-0007Uh-BZ
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 12:42:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39981)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dietmar@proxmox.com>) id 1jKPEP-00026f-3Y
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 12:31:46 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jKPOE-00073w-TQ
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 12:41:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dietmar@proxmox.com>) id 1jKPEO-0002GM-2H
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 12:31:45 -0400
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:51303)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dietmar@proxmox.com>)
- id 1jKPEK-00020n-Eu; Fri, 03 Apr 2020 12:31:41 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 8B4464297A;
- Fri,  3 Apr 2020 18:31:37 +0200 (CEST)
-Date: Fri, 3 Apr 2020 18:31:35 +0200 (CEST)
-From: Dietmar Maurer <dietmar@proxmox.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Message-ID: <1466731307.175.1585931495885@webmail.proxmox.com>
-In-Reply-To: <20200403084729.GB5336@linux.fritz.box>
-References: <20200401181256.GB27663@linux.fritz.box>
- <1403939459.52.1585765681569@webmail.proxmox.com>
- <20200401184431.GD27663@linux.fritz.box>
- <903538836.29.1585818619688@webmail.proxmox.com>
- <20200402121403.GB4006@linux.fritz.box>
- <20200402142524.GD4006@linux.fritz.box>
- <1043934808.59.1585842050330@webmail.proxmox.com>
- <20200402164744.GE4006@linux.fritz.box>
- <20200402171007.GF4006@linux.fritz.box>
- <2091214547.43.1585902379938@webmail.proxmox.com>
- <20200403084729.GB5336@linux.fritz.box>
-Subject: Re: bdrv_drained_begin deadlock with io-threads
+ (envelope-from <peter.maydell@linaro.org>) id 1jKPOD-00087R-Ao
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 12:41:54 -0400
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:33410)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jKPOC-00086u-TV
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 12:41:53 -0400
+Received: by mail-ot1-x332.google.com with SMTP id 22so7970232otf.0
+ for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 09:41:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=RcOjAfcVergWCiWxhHnDkoJAu3Ubwt1fQDAJzV58IeA=;
+ b=xFo13IoFR4UKYmCRpM0iYI7DW3WWKEDPb257ILbmfMa9VjB89svIMnSI3IV08LGyQb
+ cZ6Wv62RPb1nEDaH04zHjh9um0b+4QEQpH5D+4YAmA+/Cbz5Nu9eZXSOdQk2CYD9Yt4P
+ MFjjQpPmqKhKO3o+C2oU5CjtuFNoM35GzlYapS3m0FItdL/fEso+dXcvqr37P0jY2JhT
+ NwST4lJvgIyLSbQpXtegH6WMqjQvdb2ZyXuwdu+nMVy1luHTNt1v4QWCtXfsrZ4RH2+1
+ UKcls01/L0b9cLyXnG4xz8lGktB3Z3UrD8+JYopGg8yF0TcTSpMYCvo6VdSc9Wyoea86
+ nENw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=RcOjAfcVergWCiWxhHnDkoJAu3Ubwt1fQDAJzV58IeA=;
+ b=ZVlsZfeqUKr2jqh+7ovp7XU7pwImwe0Om52fIiJbXXj5yAeagVejPF1X1/aNH6Y/qp
+ 96+UtErBW+g6qElxhgZTYcx7zNX0M66My6sglT2TGH7TGBObvGGFfqQxriasCFElX3yq
+ 7qNuZDZ5vUPaTDegHHkpFGVA3PL/5gN1I0ka+MSJjqjl59Ek+BE6fyCxT+s/TasTtSEF
+ JbzoMvm0pVK186jhnzuDtQNNRju9R8yzzVdINdBZ2nO9Og/UfxTNVid//1uqEpfBKukG
+ JVhtz5MjkDck1xoynczToYNnSqrXCeYgcV/6hnRXIeT1vEvwAVizIJH7rvj7dZAhPOG3
+ KyIQ==
+X-Gm-Message-State: AGi0PubsOQrng4qDL8h9l5eKFxUWFh9xvbO4BD/A4rgbD1LnqyDYh52m
+ T01hVi5/HQgmmJrtQuF3EIFa6FUoNLNcxhe6X3zhYw==
+X-Google-Smtp-Source: APiQypLxR58Putt8PG0iosKDLb7HQUsm3QgssASSenikGKQkySlZE+lH/AJPnts4fUiZA+X0W6wNDnd96TfZncWz9j8=
+X-Received: by 2002:a4a:2a09:: with SMTP id k9mr7383152oof.64.1585932111697;
+ Fri, 03 Apr 2020 09:41:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.2-Rev23
-X-Originating-Client: open-xchange-appsuite
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 212.186.127.180
+References: <20200317163616.30027-1-f4bug@amsat.org>
+ <20200317163616.30027-4-f4bug@amsat.org>
+In-Reply-To: <20200317163616.30027-4-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 3 Apr 2020 17:41:39 +0100
+Message-ID: <CAFEAcA_zu+TXPyGiv9aeszY2s4uhxb=9HisKD1TipM4yj=e_Sw@mail.gmail.com>
+Subject: Re: [PULL 03/13] target/rx: TCG translation
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,48 +74,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Dietmar Maurer <dietmar@proxmox.com>
-Cc: qemu-block@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 17 Mar 2020 at 16:52, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> From: Yoshinori Sato <ysato@users.sourceforge.jp>
+>
+> This part only supported RXv1 instructions.
+>
+> Instruction manual:
+>   https://www.renesas.com/us/en/doc/products/mpumcu/doc/rx_family/r01us00=
+32ej0120_rxsm.pdf
 
-> On April 3, 2020 10:47 AM Kevin Wolf <kwolf@redhat.com> wrote:
-> 
->  
-> Am 03.04.2020 um 10:26 hat Dietmar Maurer geschrieben:
-> > > With the following patch, it seems to survive for now. I'll give it some
-> > > more testing tomorrow (also qemu-iotests to check that I didn't
-> > > accidentally break something else.)
-> > 
-> > Wow, that was fast! Seems your patch fixes the bug!
-> > 
-> > I wonder what commit introduced that problem, maybe:
-> > 
-> > https://github.com/qemu/qemu/commit/cf3129323f900ef5ddbccbe86e4fa801e88c566e#diff-7cb66df56045598b75a219eebc27efb6
-> > 
-> > If so, version 4.1.X in not affected by this bug, but 4.2.0 and later?
-> 
-> Yes, I'm pretty sure that's the one.
+Hi; Coverity points out a possible missing 'break' here
+(CID 1422222):
 
-I also wonder if we can loose an aio_wait_kick() by directly accessing blk->in_flight.
-I thought this should use atomic_mb_read()?
+> +static void rx_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+> +{
+> +    DisasContext *ctx =3D container_of(dcbase, DisasContext, base);
+> +
+> +    switch (ctx->base.is_jmp) {
+> +    case DISAS_NEXT:
+> +    case DISAS_TOO_MANY:
+> +        gen_goto_tb(ctx, 0, dcbase->pc_next);
+> +        break;
+> +    case DISAS_JUMP:
+> +        if (ctx->base.singlestep_enabled) {
+> +            gen_helper_debug(cpu_env);
+> +        } else {
+> +            tcg_gen_lookup_and_goto_ptr();
+> +        }
+> +        break;
+> +    case DISAS_UPDATE:
+> +        tcg_gen_movi_i32(cpu_pc, ctx->base.pc_next);
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 8b8f2a80a0..48f3721505 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -2275,7 +2275,7 @@ static bool blk_root_drained_poll(BdrvChild *child)
- {
-     BlockBackend *blk = child->opaque;
-     assert(blk->quiesce_counter);
--    return !!blk->in_flight;
-+    return !!atomic_mb_read(&blk->in_flight);
- }
- 
- static void blk_root_drained_end(BdrvChild *child, int *drained_end_counter)
+Should this have a "break" or a "/* fall through */" comment ?
 
+> +    case DISAS_EXIT:
+> +        tcg_gen_exit_tb(NULL, 0);
+> +        break;
+> +    case DISAS_NORETURN:
+> +        break;
+> +    default:
+> +        g_assert_not_reached();
+> +    }
+> +}
+
+thanks
+-- PMM
 
