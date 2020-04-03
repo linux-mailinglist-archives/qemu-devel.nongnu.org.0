@@ -2,83 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4088B19D4F6
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 12:21:49 +0200 (CEST)
-Received: from localhost ([::1]:53260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A779119D532
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 12:45:37 +0200 (CEST)
+Received: from localhost ([::1]:53460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKJSO-0005vy-81
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 06:21:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35964)
+	id 1jKJpQ-0004vI-AV
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 06:45:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39532)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jKJQs-00041B-Sl
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:20:17 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jKJoO-0003xL-9X
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:44:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jKJQr-0002EH-KP
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:20:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44903
+ (envelope-from <kwolf@redhat.com>) id 1jKJoN-0006RQ-0k
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:44:31 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:25693
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jKJQr-0002Du-H1
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:20:13 -0400
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jKJoM-0006Qc-QL
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:44:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585909213;
+ s=mimecast20190719; t=1585910669;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=k1C/Oz5nFfDIWUwD12oZxAovwYDQ6/lqqhQBrwjZhTM=;
- b=SWkkk5u12NxQVU1MKVqAeNp6spxUwJSew4+zT8U8LSw38Kq1OPDUuERh6Cyo/TfUeJodYD
- XwqNJM4IDo4/ib+zxMPyfeDAoLiisHZMt6Py0+JWKEpyhcCjKtHgeHfMsuq4JUoENxK430
- knEc1hNW7RBvnJNl6JS2k+yvuHQTHG4=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-296-HLgcMXazNEuT0CMltB9TFQ-1; Fri, 03 Apr 2020 06:20:11 -0400
-X-MC-Unique: HLgcMXazNEuT0CMltB9TFQ-1
-Received: by mail-ed1-f72.google.com with SMTP id h12so3699295edv.11
- for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 03:20:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gN15SiEGk8vOxam/s3H6x2+AdX1TQhcDdLC2kH6KgbE=;
- b=TfkaysJbyDaDGBJkpSLjsBYRGDf5SdhgiF1APqIiaNI60ctj12zfaLyhiUuoVi0uze
- X8zZ/sinkOY6QquVk2OXG9Wop8lV36jKp9ZvDDmgFC4k1m+E+3HIb6BMkyNqDDphygWT
- U5PjUn95IJdEuvZYEhy0ttbKU22RVdkXMXbhsEIVoUK8En2wVdDI5Vp5qv6M0S3L9foy
- rAJ1BZ5eypOTsbzZ62pkHS59WVhNoThTilItKdOfL7BhGm8QaC7VDh5GANch6cJOVVrv
- M4QsuMmBs+i2FPSyDWI+++1YJXwaQgeXnY4doUtyooS+qR+yIMVJ70HY5H+2LDTecK9T
- InLQ==
-X-Gm-Message-State: AGi0PuZQl1SDBAGo/dEr7loScFl8PryBczAnpPSn0cJhd+FCQVMYDSs4
- WsZLYruhUP5oKy/Yw1KrMh9zLV9er1zCIFMtY4w7lc5EVyj0589lSXMghvKl+M73ZTGalPzw+ML
- KPW/t350U0VepYiI=
-X-Received: by 2002:a50:ab1e:: with SMTP id s30mr7074291edc.336.1585909209949; 
- Fri, 03 Apr 2020 03:20:09 -0700 (PDT)
-X-Google-Smtp-Source: APiQypK+vgnXP926zsjWAY8V4KSfHEnA5BAbzLfgso45uw/r0+axtb3d9I8U+BTfzFs59+6eJwfY/A==
-X-Received: by 2002:a50:ab1e:: with SMTP id s30mr7074280edc.336.1585909209731; 
- Fri, 03 Apr 2020 03:20:09 -0700 (PDT)
-Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id fx19sm1583486ejb.6.2020.04.03.03.20.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Apr 2020 03:20:09 -0700 (PDT)
-Subject: Re: [PATCH] iotests/common.pattern: Quote echos
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200403101134.805871-1-mreitz@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <6be375b0-55af-a692-64c9-b7cb745992c2@redhat.com>
-Date: Fri, 3 Apr 2020 12:20:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xDXAfKM3DHuG2CkfDq4VvfiF/EUxbwFMnuQDv6Z0Svg=;
+ b=R8xVYuzNUCAJezGuLmXUgb/zpBojG4/RL/StrfkWnk6cEWfbcYnLcBzbhbx8vP14Nj7/+3
+ jKm/qKfL3eMJW7oXSMVpDQEW7byf4iIEe/IcUvYqKN8HWRNEm8EkXwXSMrQvkKyurDFtUz
+ 5jnG+w0dmXJ4p8UkPL1nPtnN0OGuYyo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-13-BDBFaz02OmWyct4-WcfCqg-1; Fri, 03 Apr 2020 06:44:28 -0400
+X-MC-Unique: BDBFaz02OmWyct4-WcfCqg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A596CDB22;
+ Fri,  3 Apr 2020 10:44:26 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-113-132.ams2.redhat.com
+ [10.36.113.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DDF2A8EA1A;
+ Fri,  3 Apr 2020 10:44:21 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH for-5.0 0/2] block: Fix blk->in_flight during
+ blk_wait_while_drained()
+Date: Fri,  3 Apr 2020 12:44:13 +0200
+Message-Id: <20200403104415.20963-1-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200403101134.805871-1-mreitz@redhat.com>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,104 +70,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, s.reiter@proxmox.com,
+ qemu-devel@nongnu.org, dietmar@proxmox.com, stefanha@redhat.com,
+ mreitz@redhat.com, t.lamprecht@proxmox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/3/20 12:11 PM, Max Reitz wrote:
->  From time to time, my shell decides to repace the bracketed numbers here
-> by the numbers inside (i.e., "=3D=3D=3D Clusters to be compressed [1]" is
-> printed as "=3D=3D=3D Clusters to be compressed 1").  That makes tests th=
-at
-> use common.pattern fail.  Prevent that from happening by quoting the
-> arguments to all echos in common.pattern.
->=20
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
+This fixes deadlocks when draining a BlockBackend in an iothread that
+receives new requests at the same time.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Kevin Wolf (2):
+  block: Don't blk_wait_while_drained() in blk_co_preadv/pwritev
+  block: Fix blk->in_flight during blk_wait_while_drained()
 
-> ---
->   tests/qemu-iotests/common.pattern | 22 +++++++++++-----------
->   1 file changed, 11 insertions(+), 11 deletions(-)
->=20
-> diff --git a/tests/qemu-iotests/common.pattern b/tests/qemu-iotests/commo=
-n.pattern
-> index 4f5e5bcea0..4caa5de187 100644
-> --- a/tests/qemu-iotests/common.pattern
-> +++ b/tests/qemu-iotests/common.pattern
-> @@ -23,7 +23,7 @@ do_is_allocated() {
->       local count=3D$4
->  =20
->       for ((i=3D1;i<=3D$count;i++)); do
-> -        echo alloc $(( start + (i - 1) * step )) $size
-> +        echo "alloc $(( start + (i - 1) * step )) $size"
->       done
->   }
->  =20
-> @@ -39,9 +39,9 @@ do_io() {
->       local count=3D$5
->       local pattern=3D$6
->  =20
-> -    echo =3D=3D=3D IO: pattern $pattern >&2
-> +    echo "=3D=3D=3D IO: pattern $pattern" >&2
->       for ((i=3D1;i<=3D$count;i++)); do
-> -        echo $op -P $pattern $(( start + (i - 1) * step )) $size
-> +        echo "$op -P $pattern $(( start + (i - 1) * step )) $size"
->       done
->   }
->  =20
-> @@ -110,31 +110,31 @@ io_test2() {
->       #        free - free - compressed
->  =20
->       # Write the clusters to be compressed
-> -    echo =3D=3D=3D Clusters to be compressed [1]
-> +    echo '=3D=3D=3D Clusters to be compressed [1]'
->       io_pattern writev $((offset + 4 * $cluster_size)) $cluster_size $((=
-9 * $cluster_size)) $num 165
-> -    echo =3D=3D=3D Clusters to be compressed [2]
-> +    echo '=3D=3D=3D Clusters to be compressed [2]'
->       io_pattern writev $((offset + 5 * $cluster_size)) $cluster_size $((=
-9 * $cluster_size)) $num 165
-> -    echo =3D=3D=3D Clusters to be compressed [3]
-> +    echo '=3D=3D=3D Clusters to be compressed [3]'
->       io_pattern writev $((offset + 8 * $cluster_size)) $cluster_size $((=
-9 * $cluster_size)) $num 165
->  =20
->       mv "$TEST_IMG" "$TEST_IMG.orig"
->       $QEMU_IMG convert -f $IMGFMT -O $IMGFMT -c "$TEST_IMG.orig" "$TEST_=
-IMG"
->  =20
->       # Write the used clusters
-> -    echo =3D=3D=3D Used clusters [1]
-> +    echo '=3D=3D=3D Used clusters [1]'
->       io_pattern writev $((offset + 0 * $cluster_size)) $cluster_size $((=
-9 * $cluster_size)) $num 165
-> -    echo =3D=3D=3D Used clusters [2]
-> +    echo '=3D=3D=3D Used clusters [2]'
->       io_pattern writev $((offset + 1 * $cluster_size)) $cluster_size $((=
-9 * $cluster_size)) $num 165
-> -    echo =3D=3D=3D Used clusters [3]
-> +    echo '=3D=3D=3D Used clusters [3]'
->       io_pattern writev $((offset + 3 * $cluster_size)) $cluster_size $((=
-9 * $cluster_size)) $num 165
->  =20
->       # Read them
-> -    echo =3D=3D=3D Read used/compressed clusters
-> +    echo '=3D=3D=3D Read used/compressed clusters'
->       io_pattern readv $((offset + 0 * $cluster_size)) $((2 * $cluster_si=
-ze)) $((9 * $cluster_size)) $num 165
->       io_pattern readv $((offset + 3 * $cluster_size)) $((3 * $cluster_si=
-ze)) $((9 * $cluster_size)) $num 165
->       io_pattern readv $((offset + 8 * $cluster_size)) $((1 * $cluster_si=
-ze)) $((9 * $cluster_size)) $num 165
->  =20
-> -    echo =3D=3D=3D Read zeros
-> +    echo '=3D=3D=3D Read zeros'
->       io_zero readv $((offset + 2 * $cluster_size)) $((1 * $cluster_size)=
-) $((9 * $cluster_size)) $num
->       io_zero readv $((offset + 6 * $cluster_size)) $((2 * $cluster_size)=
-) $((9 * $cluster_size)) $num
->   }
->=20
+ block/block-backend.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
+
+--=20
+2.20.1
 
 
