@@ -2,66 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E495A19D9BF
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 17:07:17 +0200 (CEST)
-Received: from localhost ([::1]:56758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55FAF19D9D5
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 17:12:49 +0200 (CEST)
+Received: from localhost ([::1]:56856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKNuf-0002j6-0A
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 11:07:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48018)
+	id 1jKNzz-0007eV-TZ
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 11:12:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49484)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <arilou@gmail.com>) id 1jKNth-0001ny-WD
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 11:06:19 -0400
+ (envelope-from <groug@kaod.org>) id 1jKNyx-0006up-Tg
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 11:11:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <arilou@gmail.com>) id 1jKNtg-00043u-Mz
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 11:06:17 -0400
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:34386)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <arilou@gmail.com>) id 1jKNtg-00043Q-Gy
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 11:06:16 -0400
-Received: by mail-ed1-x542.google.com with SMTP id o1so9667441edv.1
- for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 08:06:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BkST96XtZTTQC/2lA5f1DYJuPhhEIbPyH1zpEms64XQ=;
- b=b2K5Y+mHauhdowJ7abUHjmiQXILGiVZoyczCrm5pGL+Thh01LDuvP1cZchiWebByWw
- IjXCc2w2XAsOnW5QajPiDyr2pF6w4lYuoPjhZ+/JpuuHo7a7pOV8nP9KGAapLpDJROv/
- wjiYggAtcmIPuQlSrXwFl1LxYUmJMs/XM5aiui1Fgs5fPACriri/rdz8ZdH+uJL4zChW
- XaHA3RBv+7WdrD25fZqZsZCn+qiovhidVYDPdAWzp2sOqOYcwNoA9olT/4k24ZfysRDQ
- aT6W6R8hcaHlY2JKRAw3XYI9ugDD05jiMoShbpSbxO1SVA/7c6K0Y12tyzu+HSzyya6K
- tQ/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BkST96XtZTTQC/2lA5f1DYJuPhhEIbPyH1zpEms64XQ=;
- b=ofKTclhKMdqzxny+wIX/i+NoBRUQ5y+oJbPs9ieFKWzNL7QpqJjKLbQT8iGXl+DV5C
- i2PaTBgt03uSemnu95CM6E57R+bO1fNfKuffLD/+CygyiqsYeIrW3gUCT+M/Rvrm2lQm
- BOOV0od3WQSZMsQ6noprH/eXVAcAt9lbfl4NvdnE5execfl0k7tYoqxWBmTqs4N7x9Ww
- 30/mox8AQzxZBY9rvgoojvMzlVqc7KKI0Xz9NB4mfMKfe649Srs9KSNdXGu15wU+CoGZ
- MyoNMKeKcwum1WYh5ge9kJKjz5pUDyxuVq0qywCSAY5LCW7q1ngpZBW+M1aWvNRwSlub
- e+JA==
-X-Gm-Message-State: AGi0PuZCHcQc3n0FJzVEYDgenFZA/b34+gl84HvjXD/wLHXrVHTW0NU4
- 7Wx7tKuBwZ9y5o7IcaQtSV7VhIpN9pdqa0hEeOEfMw2gBnXREQ==
-X-Google-Smtp-Source: APiQypJRRjCoa7a7Ae1OINx1tuPz9WoIBQSkzpbfll+pcnUt93dw5YtrObexoIleJul1YpzV/ZtVQZG5s+WI71LJvdo=
-X-Received: by 2002:a17:906:f249:: with SMTP id
- gy9mr9196859ejb.24.1585926375352; 
- Fri, 03 Apr 2020 08:06:15 -0700 (PDT)
+ (envelope-from <groug@kaod.org>) id 1jKNyv-0006zD-GT
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 11:11:43 -0400
+Received: from 1.mo179.mail-out.ovh.net ([178.33.111.220]:44423)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1jKNyv-0006xB-65
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 11:11:41 -0400
+Received: from player158.ha.ovh.net (unknown [10.110.208.168])
+ by mo179.mail-out.ovh.net (Postfix) with ESMTP id E5EA8162F10
+ for <qemu-devel@nongnu.org>; Fri,  3 Apr 2020 17:11:37 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player158.ha.ovh.net (Postfix) with ESMTPSA id E4B2411120368;
+ Fri,  3 Apr 2020 15:11:30 +0000 (UTC)
+Date: Fri, 3 Apr 2020 17:11:29 +0200
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v4 4/4] target/ppc: Add support for Radix
+ partition-scoped translation
+Message-ID: <20200403171129.71c86479@bahia.lan>
+In-Reply-To: <20200403140056.59465-5-clg@kaod.org>
+References: <20200403140056.59465-1-clg@kaod.org>
+ <20200403140056.59465-5-clg@kaod.org>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200403142308.82990-1-arilou@gmail.com>
- <20200403142308.82990-6-arilou@gmail.com>
- <76017793-735b-4bb5-0e69-ecded78af54d@maciej.szmigiero.name>
-In-Reply-To: <76017793-735b-4bb5-0e69-ecded78af54d@maciej.szmigiero.name>
-From: Jon Doron <arilou@gmail.com>
-Date: Fri, 3 Apr 2020 18:06:04 +0300
-Message-ID: <CAP7QCog_EmLJ=O8Xi9Tc4Jst1=z62DXim9ScCyoPv7WugrSyOw@mail.gmail.com>
-Subject: Re: [PATCH v1 5/5] i386: Hyper-V VMBus ACPI DSDT entry
-To: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::542
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 5920263186733308299
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrtdeigdekgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrudehkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 178.33.111.220
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,56 +57,462 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Evgeny Yakovlev <eyakovlev@virtuozzo.com>, ehabkost@redhat.com,
- QEMU <qemu-devel@nongnu.org>, Roman Kagan <rkagan@virtuozzo.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Suraj Jitindar Singh <sjitindarsingh@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thank you Maciej, I based it on top of what Denis (den@openvz.org) gave me
-which was this:
-https://ftp.openvz.org/virtuozzo/releases/openvz-7.0.12-288/source/SRPMS/q/qemu-kvm-vz-2.12.0-33.vz7.14.4.src.rpm
+On Fri,  3 Apr 2020 16:00:56 +0200
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-Do you think you have a more recent version I dont mind diffing and
-resubmitting a new version of the patchset?
+> The Radix tree translation model currently supports process-scoped
+> translation for the PowerNV machine (Hypervisor mode) and for the
+> pSeries machine (Guest mode). Guests running under an emulated
+> Hypervisor (PowerNV machine) require a new type of Radix translation,
+> called partition-scoped, which is missing today.
+>=20
+> The Radix tree translation is a 2 steps process. The first step,
+> process-scoped translation, converts an effective Address to a guest
+> real address, and the second step, partition-scoped translation,
+> converts a guest real address to a host real address.
+>=20
+> There are difference cases to covers :
+>=20
+> * Hypervisor real mode access: no Radix translation.
+>=20
+> * Hypervisor or host application access (quadrant 0 and 3) with
+>   relocation on: process-scoped translation.
+>=20
+> * Guest OS real mode access: only partition-scoped translation.
+>=20
+> * Guest OS real or guest application access (quadrant 0 and 3) with
+>   relocation on: both process-scoped translation and partition-scoped
+>   translations.
+>=20
+> * Hypervisor access in quadrant 1 and 2 with relocation on: both
+>   process-scoped translation and partition-scoped translations.
+>=20
+> The radix tree partition-scoped translation is performed using tables
+> pointed to by the first double-word of the Partition Table Entries and
+> process-scoped translation uses tables pointed to by the Process Table
+> Entries (second double-word of the Partition Table Entries).
+>=20
+> Both partition-scoped and process-scoped translations process are
+> identical and thus the radix tree traversing code is largely reused.
+> However, errors in partition-scoped translations generate hypervisor
+> exceptions.
+>=20
+> Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
+>  target/ppc/cpu.h         |   3 +
+>  target/ppc/excp_helper.c |   3 +-
+>  target/ppc/mmu-radix64.c | 188 +++++++++++++++++++++++++++++++++++----
+>  3 files changed, 175 insertions(+), 19 deletions(-)
+>=20
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index f4a5304d4356..6b6dd7e483f1 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -463,6 +463,9 @@ typedef struct ppc_v3_pate_t {
+>  #define DSISR_AMR                0x00200000
+>  /* Unsupported Radix Tree Configuration */
+>  #define DSISR_R_BADCONFIG        0x00080000
+> +#define DSISR_ATOMIC_RC          0x00040000
+> +/* Unable to translate address of (guest) pde or process/page table entr=
+y */
+> +#define DSISR_PRTABLE_FAULT      0x00020000
+> =20
+>  /* SRR1 error code fields */
+> =20
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index 1acc3786de0e..f05297966472 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -506,9 +506,10 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int=
+ excp_model, int excp)
+>      case POWERPC_EXCP_ISEG:      /* Instruction segment exception       =
+     */
+>      case POWERPC_EXCP_TRACE:     /* Trace exception                     =
+     */
+>          break;
+> +    case POWERPC_EXCP_HISI:      /* Hypervisor instruction storage excep=
+tion */
+> +        msr |=3D env->error_code;
+>      case POWERPC_EXCP_HDECR:     /* Hypervisor decrementer exception    =
+     */
+>      case POWERPC_EXCP_HDSI:      /* Hypervisor data storage exception   =
+     */
+> -    case POWERPC_EXCP_HISI:      /* Hypervisor instruction storage excep=
+tion */
+>      case POWERPC_EXCP_HDSEG:     /* Hypervisor data segment exception   =
+     */
+>      case POWERPC_EXCP_HISEG:     /* Hypervisor instruction segment excep=
+tion */
+>      case POWERPC_EXCP_SDOOR_HV:  /* Hypervisor Doorbell interrupt       =
+     */
+> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+> index 2400da41e06c..d473dc742e11 100644
+> --- a/target/ppc/mmu-radix64.c
+> +++ b/target/ppc/mmu-radix64.c
+> @@ -103,6 +103,27 @@ static void ppc_radix64_raise_si(PowerPCCPU *cpu, in=
+t rwx, vaddr eaddr,
+>      }
+>  }
+> =20
+> +static void ppc_radix64_raise_hsi(PowerPCCPU *cpu, int rwx, vaddr eaddr,
+> +                                  hwaddr g_raddr, uint32_t cause)
+> +{
+> +    CPUState *cs =3D CPU(cpu);
+> +    CPUPPCState *env =3D &cpu->env;
+> +
+> +    if (rwx =3D=3D 2) { /* H Instruction Storage Interrupt */
+> +        cs->exception_index =3D POWERPC_EXCP_HISI;
+> +        env->spr[SPR_ASDR] =3D g_raddr;
+> +        env->error_code =3D cause;
+> +    } else { /* H Data Storage Interrupt */
+> +        cs->exception_index =3D POWERPC_EXCP_HDSI;
+> +        if (rwx =3D=3D 1) { /* Write -> Store */
+> +            cause |=3D DSISR_ISSTORE;
+> +        }
+> +        env->spr[SPR_HDSISR] =3D cause;
+> +        env->spr[SPR_HDAR] =3D eaddr;
+> +        env->spr[SPR_ASDR] =3D g_raddr;
+> +        env->error_code =3D 0;
+> +    }
+> +}
+> =20
+>  static bool ppc_radix64_check_prot(PowerPCCPU *cpu, int rwx, uint64_t pt=
+e,
+>                                     int *fault_cause, int *prot,
+> @@ -243,6 +264,37 @@ static bool validate_pate(PowerPCCPU *cpu, uint64_t =
+lpid, ppc_v3_pate_t *pate)
+>      return true;
+>  }
+> =20
+> +static int ppc_radix64_partition_scoped_xlate(PowerPCCPU *cpu, int rwx,
+> +                                              vaddr eaddr, hwaddr g_radd=
+r,
+> +                                              ppc_v3_pate_t pate,
+> +                                              hwaddr *h_raddr, int *h_pr=
+ot,
+> +                                              int *h_page_size, bool pde=
+_addr,
+> +                                              bool cause_excp)
+> +{
+> +    int fault_cause =3D 0;
+> +    hwaddr pte_addr;
+> +    uint64_t pte;
+> +
+> +    *h_page_size =3D PRTBE_R_GET_RTS(pate.dw0);
+> +    /* No valid pte or access denied due to protection */
+> +    if (ppc_radix64_walk_tree(CPU(cpu)->as, g_raddr, pate.dw0 & PRTBE_R_=
+RPDB,
+> +                              pate.dw0 & PRTBE_R_RPDS, h_raddr, h_page_s=
+ize,
+> +                              &pte, &fault_cause, &pte_addr) ||
+> +        ppc_radix64_check_prot(cpu, rwx, pte, &fault_cause, h_prot, true=
+)) {
+> +        if (pde_addr) /* address being translated was that of a guest pd=
+e */
+> +            fault_cause |=3D DSISR_PRTABLE_FAULT;
+> +        if (cause_excp) {
+> +            ppc_radix64_raise_hsi(cpu, rwx, eaddr, g_raddr, fault_cause);
+> +        }
+> +        return 1;
+> +    }
+> +
+> +    /* Update Reference and Change Bits */
+> +    ppc_radix64_set_rc(cpu, rwx, pte, pte_addr, h_prot);
+> +
+> +    return 0;
+> +}
+> +
+>  static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu, int rwx,
+>                                              vaddr eaddr, uint64_t pid,
+>                                              ppc_v3_pate_t pate, hwaddr *=
+g_raddr,
+> @@ -250,9 +302,10 @@ static int ppc_radix64_process_scoped_xlate(PowerPCC=
+PU *cpu, int rwx,
+>                                              bool cause_excp)
+>  {
+>      CPUState *cs =3D CPU(cpu);
+> -    uint64_t offset, size, prtbe_addr, prtbe0, pte;
+> -    int fault_cause =3D 0;
+> -    hwaddr pte_addr;
+> +    CPUPPCState *env =3D &cpu->env;
+> +    uint64_t offset, size, prtbe_addr, prtbe0, base_addr, nls, index, pt=
+e;
+> +    int fault_cause =3D 0, h_page_size, h_prot;
+> +    hwaddr h_raddr, pte_addr;
+>      int ret;
+> =20
+>      /* Index Process Table by PID to Find Corresponding Process Table En=
+try */
+> @@ -266,18 +319,85 @@ static int ppc_radix64_process_scoped_xlate(PowerPC=
+CPU *cpu, int rwx,
+>          return 1;
+>      }
+>      prtbe_addr =3D (pate.dw1 & PATE1_R_PRTB) + offset;
+> -    prtbe0 =3D ldq_phys(cs->as, prtbe_addr);
+> +
+> +    if (cpu->vhyp) {
+> +        prtbe0 =3D ldq_phys(cs->as, prtbe_addr);
+> +    } else {
+> +        /*
+> +         * Process table addresses are subject to partition-scoped
+> +         * translation
+> +         *
+> +         * On a Radix host, the partition-scoped page table for LPID=3D0
+> +         * is only used to translate the effective addresses of the
+> +         * process table entries.
+> +         */
+> +        ret =3D ppc_radix64_partition_scoped_xlate(cpu, 0, eaddr, prtbe_=
+addr,
+> +                                                 pate, &h_raddr, &h_prot,
+> +                                                 &h_page_size, 1, 1);
+> +        if (ret) {
+> +            return ret;
+> +        }
+> +        prtbe0 =3D ldq_phys(cs->as, h_raddr);
+> +    }
+> =20
+>      /* Walk Radix Tree from Process Table Entry to Convert EA to RA */
+>      *g_page_size =3D PRTBE_R_GET_RTS(prtbe0);
+> -    ret =3D ppc_radix64_walk_tree(cs->as, eaddr & R_EADDR_MASK,
+> -                                prtbe0 & PRTBE_R_RPDB, prtbe0 & PRTBE_R_=
+RPDS,
+> -                                g_raddr, g_page_size, &pte, &fault_cause,
+> -                                &pte_addr);
+> -
+> -    if (ret ||
+> -        ppc_radix64_check_prot(cpu, rwx, pte, &fault_cause, g_prot, fals=
+e)) {
+> -        /* No valid pte or access denied due to protection */
+> +    base_addr =3D prtbe0 & PRTBE_R_RPDB;
+> +    nls =3D prtbe0 & PRTBE_R_RPDS;
+> +    if (msr_hv || cpu->vhyp) {
+> +        /*
+> +         * Can treat process table addresses as real addresses
+> +         */
+> +        ret =3D ppc_radix64_walk_tree(cs->as, eaddr & R_EADDR_MASK, base=
+_addr,
+> +                                    nls, g_raddr, g_page_size, &pte,
+> +                                    &fault_cause, &pte_addr);
+> +        if (ret) {
+> +            /* No valid PTE */
+> +            if (cause_excp) {
+> +                ppc_radix64_raise_si(cpu, rwx, eaddr, fault_cause);
+> +            }
+> +            return ret;
+> +        }
+> +    } else {
+> +        uint64_t rpn, mask;
+> +
+> +        index =3D (eaddr & R_EADDR_MASK) >> (*g_page_size - nls); /* Shi=
+ft */
+> +        index &=3D ((1UL << nls) - 1);                            /* Mas=
+k */
+> +        pte_addr =3D base_addr + (index * sizeof(pte));
+> +
+> +        /*
+> +         * Each process table address is subject to a partition-scoped
+> +         * translation
+> +         */
+> +        do {
+> +            ret =3D ppc_radix64_partition_scoped_xlate(cpu, 0, eaddr, pt=
+e_addr,
+> +                                                     pate, &h_raddr, &h_=
+prot,
+> +                                                     &h_page_size, 1, 1);
+> +            if (ret) {
+> +                return ret;
+> +            }
+> +
+> +            ret =3D ppc_radix64_next_level(cs->as, eaddr & R_EADDR_MASK,=
+ &h_raddr,
+> +                                         &nls, g_page_size, &pte, &fault=
+_cause);
+> +            if (ret) {
+> +                /* No valid pte */
+> +                if (cause_excp) {
+> +                    ppc_radix64_raise_si(cpu, rwx, eaddr, fault_cause);
+> +                }
+> +                return ret;
+> +            }
+> +            pte_addr =3D h_raddr;
+> +        } while (!(pte & R_PTE_LEAF));
+> +
+> +        rpn =3D pte & R_PTE_RPN;
+> +        mask =3D (1UL << *g_page_size) - 1;
+> +
+> +        /* Or high bits of rpn and low bits to ea to form whole real add=
+r */
+> +        *g_raddr =3D (rpn & ~mask) | (eaddr & mask);
+> +    }
+> +
+> +    if (ppc_radix64_check_prot(cpu, rwx, pte, &fault_cause, g_prot, fals=
+e)) {
+> +        /* Access denied due to protection */
+>          if (cause_excp) {
+>              ppc_radix64_raise_si(cpu, rwx, eaddr, fault_cause);
+>          }
+> @@ -289,11 +409,29 @@ static int ppc_radix64_process_scoped_xlate(PowerPC=
+CPU *cpu, int rwx,
+>      return 0;
+>  }
+> =20
+> +/*
+> + * Radix tree translation is a 2 steps translation process:
+> + *
+> + * 1. Process-scoped translation:   Guest Eff Addr  -> Guest Real Addr
+> + * 2. Partition-scoped translation: Guest Real Addr -> Host Real Addr
+> + *
+> + *                                  MSR[HV]
+> + *              +-------------+----------------+---------------+
+> + *              |             |     HV =3D 0     |     HV =3D 1    |
+> + *              +-------------+----------------+---------------+
+> + *              | Relocation  |    Partition   |      No       |
+> + *              | =3D Off       |     Scoped     |  Translation  |
+> + *  Relocation  +-------------+----------------+---------------+
+> + *              | Relocation  |   Partition &  |    Process    |
+> + *              | =3D On        | Process Scoped |    Scoped     |
+> + *              +-------------+----------------+---------------+
+> + */
+>  static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, int rwx,
+>                               bool relocation,
+>                               hwaddr *raddr, int *psizep, int *protp,
+>                               bool cause_excp)
+>  {
+> +    CPUPPCState *env =3D &cpu->env;
+>      uint64_t lpid =3D 0, pid =3D 0;
+>      ppc_v3_pate_t pate;
+>      int psize, prot;
+> @@ -325,11 +463,6 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr =
+eaddr, int rwx,
+>              }
+>              return 1;
+>          }
+> -        /* We don't support guest mode yet */
+> -        if (lpid !=3D 0) {
+> -            error_report("PowerNV guest support Unimplemented");
+> -            exit(1);
+> -        }
+>      }
+> =20
+>      *psizep =3D INT_MAX;
+> @@ -340,6 +473,8 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr e=
+addr, int rwx,
+>       *
+>       * - Translates an effective address to a host real address in
+>       *   quadrants 0 and 3 when HV=3D1.
+> +     *
+> +     * - Translates an effective address to a guest real address.
+>       */
+>      if (relocation) {
+>          int ret =3D ppc_radix64_process_scoped_xlate(cpu, rwx, eaddr, pi=
+d,
+> @@ -354,7 +489,24 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr =
+eaddr, int rwx,
+>          g_raddr =3D eaddr & R_EADDR_MASK;
+>      }
+> =20
+> -    *raddr =3D g_raddr;
+> +    /*
+> +     * Perform partition-scoped translation if !HV or HV access to
+> +     * quadrants 1 or 2. Translates a guest real address to a host
+> +     * real address.
+> +     */
+> +    if ((lpid !=3D 0) || (!cpu->vhyp && !msr_hv)) {
 
-Thanks,
--- Jon.
+This check is too complex for my taste. Also it doesn't seem right
+to look at lpid if the machine is pseries, even if it would happen
+to work because pseries cannot have lpid !=3D 0. I think we should
+have distinct paths for powernv and pseries.
 
-On Fri, Apr 3, 2020 at 5:56 PM Maciej S. Szmigiero
-<mail@maciej.szmigiero.name> wrote:
->
-> Hi Jon,
->
-> On 03.04.2020 16:23, Jon Doron wrote:
-> > Guest OS uses ACPI to discover vmbus presence.  Add a corresponding
-> > entry to DSDT in case vmbus has been enabled.
-> >
-> > Experimentally Windows guests were found to require this entry to
-> > include two IRQ resources, so this patch adds two semi-arbitrarily
-> > chosen ones (7 and 13).  This results, in particular, in parallel port
-> > conflicting with vmbus.
-> >
-> > TODO: discover and use spare IRQs to avoid conflicts.
-> >
-> > Signed-off-by: Evgeny Yakovlev <eyakovlev@virtuozzo.com>
-> > Signed-off-by: Roman Kagan <rkagan@virtuozzo.com>
-> > Signed-off-by: Jon Doron <arilou@gmail.com>
->
-> Nice work, thanks!
->
-> However, it seems to be based on the code version that was posted in
-> February 2018, and not the latest version in OpenVZ qemu repository
-> dated October 2019:
-> https://src.openvz.org/projects/UP/repos/qemu/commits?until=refs%2Fheads%2Fvmbus
->
-> This newer version has slightly different API here and there.
-> Any particular reason for selecting that older version for porting?
->
-> I have actually rebased this latest version on the top of the current
-> QEMU master, and it basically seems to work fine.
-> However, I haven't done extensive tests whether there isn't a memory leak
-> somewhere or so on.
->
-> Maciej
+A bit like with the following squashed in:
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+--- a/target/ppc/mmu-radix64.c
++++ b/target/ppc/mmu-radix64.c
+@@ -489,22 +489,28 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr e=
+addr, int rwx,
+         g_raddr =3D eaddr & R_EADDR_MASK;
+     }
+=20
+-    /*
+-     * Perform partition-scoped translation if !HV or HV access to
+-     * quadrants 1 or 2. Translates a guest real address to a host
+-     * real address.
+-     */
+-    if ((lpid !=3D 0) || (!cpu->vhyp && !msr_hv)) {
+-        int ret =3D ppc_radix64_partition_scoped_xlate(cpu, rwx, eaddr, g_=
+raddr,
++    if (cpu->vhyp) {
++        *raddr =3D g_raddr;
++    } else {
++        /*
++         * Perform partition-scoped translation if !HV or HV access to
++         * quadrants 1 or 2. Translates a guest real address to a host
++         * real address.
++         */
++        if (lpid || !msr_hv) {
++            int ret;
++
++            ret =3D ppc_radix64_partition_scoped_xlate(cpu, rwx, eaddr, g_=
+raddr,
+                                                      pate, raddr, &prot, &=
+psize,
+                                                      0, cause_excp);
+-        if (ret) {
+-            return ret;
++            if (ret) {
++                return ret;
++            }
++            *psizep =3D MIN(*psizep, psize);
++            *protp &=3D prot;
++        } else {
++            *raddr =3D g_raddr;
+         }
+-        *psizep =3D MIN(*psizep, psize);
+-        *protp &=3D prot;
+-    } else {
+-        *raddr =3D g_raddr;
+     }
+=20
+     return 0;
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+David,
+
+If my comment makes sense to you, can you squash the above fix into
+Cedric's patch ?
+
+Cheers,
+
+--
+Greg
+
+> +        int ret =3D ppc_radix64_partition_scoped_xlate(cpu, rwx, eaddr, =
+g_raddr,
+> +                                                     pate, raddr, &prot,=
+ &psize,
+> +                                                     0, cause_excp);
+> +        if (ret) {
+> +            return ret;
+> +        }
+> +        *psizep =3D MIN(*psizep, psize);
+> +        *protp &=3D prot;
+> +    } else {
+> +        *raddr =3D g_raddr;
+> +    }
+> +
+>      return 0;
+>  }
+> =20
+
 
