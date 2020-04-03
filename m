@@ -2,116 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 963CB19DBD1
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 18:37:14 +0200 (CEST)
-Received: from localhost ([::1]:58200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8DE619DACD
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 18:05:54 +0200 (CEST)
+Received: from localhost ([::1]:57818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKPJh-00050A-J4
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 12:37:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58728)
+	id 1jKOpN-0001MG-5s
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 12:05:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60253)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mail@maciej.szmigiero.name>) id 1jKOaz-00025R-OS
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 11:51:03 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1jKOlA-0006IW-UJ
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 12:01:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mail@maciej.szmigiero.name>) id 1jKOay-00049P-Ao
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 11:51:01 -0400
-Received: from vps-vb.mhejs.net ([37.28.154.113]:55924)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mail@maciej.szmigiero.name>)
- id 1jKOay-00045s-35
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 11:51:00 -0400
-Received: from MUA
- by vps-vb.mhejs.net with esmtps (TLS1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
- (Exim 4.93.0.4) (envelope-from <mail@maciej.szmigiero.name>)
- id 1jKOar-0001Lo-IX; Fri, 03 Apr 2020 17:50:53 +0200
-Subject: Re: [PATCH v1 5/5] i386: Hyper-V VMBus ACPI DSDT entry
-To: Jon Doron <arilou@gmail.com>
-References: <20200403142308.82990-1-arilou@gmail.com>
- <20200403142308.82990-6-arilou@gmail.com>
- <76017793-735b-4bb5-0e69-ecded78af54d@maciej.szmigiero.name>
- <CAP7QCog_EmLJ=O8Xi9Tc4Jst1=z62DXim9ScCyoPv7WugrSyOw@mail.gmail.com>
- <CAP7QCogMdUis-=KsC--0ar2Zt2Vwcpn4HS+qCxPn5khtDTu+mA@mail.gmail.com>
-From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-Autocrypt: addr=mail@maciej.szmigiero.name; prefer-encrypt=mutual; keydata=
- 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 sg==
-Message-ID: <e2e4a72e-0bb7-f343-951b-2e3639416245@maciej.szmigiero.name>
-Date: Fri, 3 Apr 2020 17:50:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
-MIME-Version: 1.0
-In-Reply-To: <CAP7QCogMdUis-=KsC--0ar2Zt2Vwcpn4HS+qCxPn5khtDTu+mA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 37.28.154.113
-X-Mailman-Approved-At: Fri, 03 Apr 2020 12:36:15 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1jKOl9-0008AN-6X
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 12:01:32 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:44749)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1jKOl8-00087b-OK
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 12:01:31 -0400
+Received: by mail-pg1-x541.google.com with SMTP id 142so3679725pgf.11
+ for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 09:01:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+ h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LqvGyD+24JMyraAKv5uQyvYhkRjE/KxXflK+dGY7DZA=;
+ b=R8RgZzVoo84RO58LZjGvRhyZYqLw42B9YFVqL2d3UQYMauLNA3UCw3swzjZIKrXLiV
+ 1x0QoKbRreo9zhRo8g+4jzDdSwgWzTmLEAtPvuLNTVKq/Svfc5GyCoAVb3daMhGEZVRL
+ d2r1zaPU9cUVe4N8nbSY6BuPuTwIyE2vC3H7OJ5V/UI4BDBmLxDCGcWlZe8ExyjPDETx
+ TiJb6moEcqmT/GghWyZ6pQ+w1MjM4glBsZjL+MSJMupq8Noz4rPJ8WWoqiMCgQyAnm2D
+ 5Z+ogLJUU0xaQ24yYcw1sk5AgAdvjEWAKK51DQ42kFwrsNJAzEoy6ppwMnOSRnp4XP9P
+ dJfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=LqvGyD+24JMyraAKv5uQyvYhkRjE/KxXflK+dGY7DZA=;
+ b=K0FbLa960awUlKyRc1RIcUuN042U+xj2KdBwyAKYEGjbB2WroJ/vd+NCKNgQIeLt6Y
+ Ttb2RcuGjWszDMn0npfvSyI9ydv0PM1CccTrJQfpv+t7hpY+DK2DSzL7oMXIDPI6ghWp
+ CPtoNL/I1VungbWreHCZ6pX1EFG2KUMqh9AfUR/zxCPDGR/wj1uq3SBrsWDoIuxBXMix
+ 78+G6URSaBInGs0SU8+4yyLo8tkJX1AJnSb4syeHONJIfIKsPDaTdbChSX5UmEtjNYFn
+ BjNuBQuNsOjgkrGj1edJs98UdC1XPQ8l6HFk4tnSvvFtznMHo2SdL2vP68rNYMu1b6Tb
+ mU8g==
+X-Gm-Message-State: AGi0PuZ3Iw5Zoq3aWGWxg4op5R1ZUlxCeK1PK+ceVKm5VvmRzpXST5Nl
+ 4KeGB1prM+BNC+XbqvOjD5KdCw==
+X-Google-Smtp-Source: APiQypL1rtTVuxpMyaupyr+Fh5McQhP7xb2ZdvsVvTvgcyo1a64T+ChJsE17lqg4ssuNqA4ZdfLRSA==
+X-Received: by 2002:a65:578d:: with SMTP id b13mr2693946pgr.122.1585929688134; 
+ Fri, 03 Apr 2020 09:01:28 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
+ [76.210.143.223])
+ by smtp.gmail.com with ESMTPSA id c128sm5995798pfa.11.2020.04.03.09.01.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Apr 2020 09:01:27 -0700 (PDT)
+Date: Fri, 03 Apr 2020 09:01:27 -0700 (PDT)
+X-Google-Original-Date: Fri, 03 Apr 2020 09:01:13 PDT (-0700)
+Subject: Re: [PATCH v3 0/3] hw/riscv: Add a serial property to sifive_u
+In-Reply-To: <CAEUhbmUHNLYoJutr3dg0hpEPehuzRD4r6eux1EStZxCknMst0w@mail.gmail.com>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: bmeng.cn@gmail.com
+Message-ID: <mhng-c816dc59-981b-4410-a6c1-240a8cf35ca2@palmerdabbelt-glaptop1>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -123,70 +78,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Evgeny Yakovlev <eyakovlev@virtuozzo.com>, ehabkost@redhat.com,
- QEMU <qemu-devel@nongnu.org>, Roman Kagan <rkagan@virtuozzo.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: qemu-riscv@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
+ qemu-devel@nongnu.org, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks Jon,
-
-I will push out to what I have in a moment.
-
-Maciej
-
-On 03.04.2020 17:30, Jon Doron wrote:
->  Thank you Maciej it seems like your version is really ahead I'll do
-> the required work and merge it so i can submit a v2 with the latest
-> patchset from Roman
-> 
-> On Fri, Apr 3, 2020 at 6:06 PM Jon Doron <arilou@gmail.com> wrote:
+On Mon, 23 Mar 2020 19:08:19 PDT (-0700), bmeng.cn@gmail.com wrote:
+> Hi Palmer,
+>
+> On Sat, Mar 7, 2020 at 5:45 AM Alistair Francis
+> <alistair.francis@wdc.com> wrote:
 >>
->> Thank you Maciej, I based it on top of what Denis (den@openvz.org) gave me
->> which was this:
->> https://ftp.openvz.org/virtuozzo/releases/openvz-7.0.12-288/source/SRPMS/q/qemu-kvm-vz-2.12.0-33.vz7.14.4.src.rpm
+>> At present the board serial number is hard-coded to 1, and passed
+>> to OTP model during initialization. Firmware (FSBL, U-Boot) uses
+>> the serial number to generate a unique MAC address for the on-chip
+>> ethernet controller. When multiple QEMU 'sifive_u' instances are
+>> created and connected to the same subnet, they all have the same
+>> MAC address hence it creates a unusable network.
 >>
->> Do you think you have a more recent version I dont mind diffing and
->> resubmitting a new version of the patchset?
+>> A new "serial" property is introduced to specify the board serial
+>> number. When not given, the default serial number 1 is used.
 >>
->> Thanks,
->> -- Jon.
->>
->> On Fri, Apr 3, 2020 at 5:56 PM Maciej S. Szmigiero
->> <mail@maciej.szmigiero.name> wrote:
->>>
->>> Hi Jon,
->>>
->>> On 03.04.2020 16:23, Jon Doron wrote:
->>>> Guest OS uses ACPI to discover vmbus presence.  Add a corresponding
->>>> entry to DSDT in case vmbus has been enabled.
->>>>
->>>> Experimentally Windows guests were found to require this entry to
->>>> include two IRQ resources, so this patch adds two semi-arbitrarily
->>>> chosen ones (7 and 13).  This results, in particular, in parallel port
->>>> conflicting with vmbus.
->>>>
->>>> TODO: discover and use spare IRQs to avoid conflicts.
->>>>
->>>> Signed-off-by: Evgeny Yakovlev <eyakovlev@virtuozzo.com>
->>>> Signed-off-by: Roman Kagan <rkagan@virtuozzo.com>
->>>> Signed-off-by: Jon Doron <arilou@gmail.com>
->>>
->>> Nice work, thanks!
->>>
->>> However, it seems to be based on the code version that was posted in
->>> February 2018, and not the latest version in OpenVZ qemu repository
->>> dated October 2019:
->>> https://src.openvz.org/projects/UP/repos/qemu/commits?until=refs%2Fheads%2Fvmbus
->>>
->>> This newer version has slightly different API here and there.
->>> Any particular reason for selecting that older version for porting?
->>>
->>> I have actually rebased this latest version on the top of the current
->>> QEMU master, and it basically seems to work fine.
->>> However, I haven't done extensive tests whether there isn't a memory leak
->>> somewhere or so on.
->>>
->>> Maciej
+>
+> Could you please take this for v5.0.0?
 
+It's in the queue, sorry I missed them.
 
