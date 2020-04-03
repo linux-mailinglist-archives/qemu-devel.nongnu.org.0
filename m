@@ -2,70 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 402D019CE3A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 03:39:25 +0200 (CEST)
-Received: from localhost ([::1]:49176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B62919CFB3
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 07:17:06 +0200 (CEST)
+Received: from localhost ([::1]:50274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKBIp-0006WN-RI
-	for lists+qemu-devel@lfdr.de; Thu, 02 Apr 2020 21:39:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57468)
+	id 1jKEhV-0000tD-6e
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 01:17:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54259)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1jKBI4-000657-TA
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 21:38:37 -0400
+ (envelope-from <bounces@canonical.com>) id 1jKEgB-0000RZ-HZ
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 01:15:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1jKBI1-0005wS-0j
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 21:38:33 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36363
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1jKBI0-0005vm-Nl
- for qemu-devel@nongnu.org; Thu, 02 Apr 2020 21:38:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585877911;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sxKKBZOSjS4SdoY0/0z3b/PmUuVXiHXvMP0+Tr+BScs=;
- b=b39jap70qI69lNa9rEFB9cQXC2mYmULAhQnSw3knntpcLy411xzrk2elgWT+Cn9JSea+zA
- Hh+E1q29+QLtiT4tqZQoWq2BMUFhG7y70U5MseFueeqaFUTjcgaJ8M0eXKJadRJ5LrzPql
- bnga8MnSW555S/42i/BmD/TdfUaqKw4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-a4PVFsVwOPqZ0ekjeyc6JQ-1; Thu, 02 Apr 2020 21:38:28 -0400
-X-MC-Unique: a4PVFsVwOPqZ0ekjeyc6JQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 901EE477;
- Fri,  3 Apr 2020 01:38:26 +0000 (UTC)
-Received: from [10.72.13.110] (ovpn-13-110.pek2.redhat.com [10.72.13.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BDFA160BF1;
- Fri,  3 Apr 2020 01:38:06 +0000 (UTC)
-Subject: Re: [PATCH v2 00/22] intel_iommu: expose Shared Virtual Addressing to
- VMs
-To: Peter Xu <peterx@redhat.com>
-References: <1585542301-84087-1-git-send-email-yi.l.liu@intel.com>
- <984e6f47-2717-44fb-7ff2-95ca61d1858f@redhat.com>
- <20200402134601.GJ7174@xz-x1>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <02544abd-17d8-e5e1-788c-b4a5ddd3a382@redhat.com>
-Date: Fri, 3 Apr 2020 09:38:05 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <bounces@canonical.com>) id 1jKEgA-00014N-BA
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 01:15:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49282)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jKEgA-0000zL-5E
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 01:15:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jKEg8-00083l-KC
+ for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 05:15:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9000A2E8105
+ for <qemu-devel@nongnu.org>; Fri,  3 Apr 2020 05:15:40 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200402134601.GJ7174@xz-x1>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Fri, 03 Apr 2020 05:03:20 -0000
+From: Donghun Kwak <1870477@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: kionias
+X-Launchpad-Bug-Reporter: Donghun Kwak (kionias)
+X-Launchpad-Bug-Modifier: Donghun Kwak (kionias)
+Message-Id: <158589020097.22925.10247032490435356173.malonedeb@wampee.canonical.com>
+Subject: [Bug 1870477] [NEW] qemu-arm hangs when golang running test
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a296f04231dee355be5db73cc878b9e21689a253";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 15f9e748721adb176294bbce6d83ea71362886aa
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,35 +63,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jean-philippe@linaro.org, kevin.tian@intel.com,
- Liu Yi L <yi.l.liu@intel.com>, kvm@vger.kernel.org, mst@redhat.com,
- jun.j.tian@intel.com, qemu-devel@nongnu.org, eric.auger@redhat.com,
- alex.williamson@redhat.com, pbonzini@redhat.com, hao.wu@intel.com,
- yi.y.sun@intel.com, david@gibson.dropbear.id.au
+Reply-To: Bug 1870477 <1870477@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2020/4/2 =E4=B8=8B=E5=8D=889:46, Peter Xu wrote:
-> On Thu, Apr 02, 2020 at 04:33:02PM +0800, Jason Wang wrote:
->>> The complete QEMU set can be found in below link:
->>> https://github.com/luxis1999/qemu.git: sva_vtd_v10_v2
->>
->> Hi Yi:
->>
->> I could not find the branch there.
-> Jason,
->
-> He typed wrong... It's actually (I found it myself):
->
-> https://github.com/luxis1999/qemu/tree/sva_vtd_v10_qemu_v2
+Public bug reported:
 
 
-Aha, I see.
+1. Environment:
+Ubuntu 16.04.5 X86_64
+qemu-arm version 4.2.0
+go version go 1.14.1 linux/arm
 
-Thanks
+2. Summary:
+Sometimes "go run test.go" command hang
 
 
->
+3. Reproduction Method (Attempts: 500 Occurred: 1 ): Frequency: 1/500
 
+
+test.go
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+package main
+import "fmt"
+func main(){
+        for i:=3D0; i<1000; i++ {
+                fmt.Printf("[%d] Hello world\n", i)
+        }
+}
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+i tested "go run test.go" command called  500 times at qemu arm env.
+qemu hangs about 200~300.
+
+attached strace log.
+
+please check.
+thanks
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Attachment added: "qemu_hang_problem.log"
+   https://bugs.launchpad.net/bugs/1870477/+attachment/5345418/+files/qemu_=
+hang_problem.log
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1870477
+
+Title:
+  qemu-arm hangs when golang running test
+
+Status in QEMU:
+  New
+
+Bug description:
+  =
+
+  1. Environment:
+  Ubuntu 16.04.5 X86_64
+  qemu-arm version 4.2.0
+  go version go 1.14.1 linux/arm
+
+  2. Summary:
+  Sometimes "go run test.go" command hang
+
+  =
+
+  3. Reproduction Method (Attempts: 500 Occurred: 1 ): Frequency: 1/500
+
+  =
+
+  test.go
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  package main
+  import "fmt"
+  func main(){
+          for i:=3D0; i<1000; i++ {
+                  fmt.Printf("[%d] Hello world\n", i)
+          }
+  }
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+  i tested "go run test.go" command called  500 times at qemu arm env.
+  qemu hangs about 200~300.
+
+  attached strace log.
+
+  please check.
+  thanks
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1870477/+subscriptions
 
