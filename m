@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAE7A19D4DE
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 12:14:01 +0200 (CEST)
-Received: from localhost ([::1]:53164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 007C419D4E2
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 12:17:16 +0200 (CEST)
+Received: from localhost ([::1]:53200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKJKq-0001DG-Vn
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 06:14:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35243)
+	id 1jKJNy-0002aj-OJ
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 06:17:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35525)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1jKJJP-0008Na-L4
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:12:32 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jKJN5-0002A5-U0
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:16:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1jKJJO-0004t4-Ds
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:12:31 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44295
+ (envelope-from <imammedo@redhat.com>) id 1jKJN4-0007g5-Tk
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:16:19 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28069
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jKJJO-0004sl-AI
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:12:30 -0400
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jKJN4-0007fR-NF
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:16:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585908750;
+ s=mimecast20190719; t=1585908977;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t0YYhjaAK8hEfqLUNGNiJrJbAza2xy65+XUQfLZoZTM=;
- b=eNGpCRCb/hLHlrLYZau6FLFV/1L69eo1O/17RKXq/Y8Y7ghe/s8O85J7HawEiNfaAtkuQN
- DH9E+i5vrQnyC7FTmGNzJBOxPWImg44lMFCOXNMK+W8eHO1HmbciChiLKDyuAlpklAFAs0
- wS01CXXHwpNg002aNGvnb7hiN/CIIpU=
+ bh=DAQqHLgwb31Jo+apnFzfKE2uGBKbKWX1M7C38S3wHkM=;
+ b=EA6PoBOkZQ5b0CJWLI5KVFQZFZOOKnKGt58I9of0z3dbwgFWhE8wp+tUcFKNvwYuTV6qEN
+ cPly70lS3Ml2N/CVcXSA1HguTQYS5//4N7ud0oVPt5oV99VMsKfahyPY5OK/28JJOiKVHh
+ eiFBIxcaOZlcbvjYryr5xK3YZOS1BJs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-294-psO0wLVBPF29Jzm6h4e5gA-1; Fri, 03 Apr 2020 06:12:26 -0400
-X-MC-Unique: psO0wLVBPF29Jzm6h4e5gA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-483-Gpp9P32dOiiuipVtIIJjew-1; Fri, 03 Apr 2020 06:16:16 -0400
+X-MC-Unique: Gpp9P32dOiiuipVtIIJjew-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2462A477;
- Fri,  3 Apr 2020 10:12:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54C5F1005516;
+ Fri,  3 Apr 2020 10:16:15 +0000 (UTC)
 Received: from localhost (unknown [10.40.208.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6846D60BF1;
- Fri,  3 Apr 2020 10:12:12 +0000 (UTC)
-Date: Fri, 3 Apr 2020 12:12:10 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B02FE10372C2;
+ Fri,  3 Apr 2020 10:16:03 +0000 (UTC)
+Date: Fri, 3 Apr 2020 12:16:01 +0200
 From: Igor Mammedov <imammedo@redhat.com>
 To: Gerd Hoffmann <kraxel@redhat.com>
 Subject: Re: [PATCH v2 09/12] acpi: move aml builder code for parallel device
-Message-ID: <20200403121210.30a010cb@redhat.com>
-In-Reply-To: <20200403080502.8154-10-kraxel@redhat.com>
+Message-ID: <20200403121601.35099bf5@redhat.com>
+In-Reply-To: <20200403121210.30a010cb@redhat.com>
 References: <20200403080502.8154-1-kraxel@redhat.com>
  <20200403080502.8154-10-kraxel@redhat.com>
+ <20200403121210.30a010cb@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,116 +76,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
  qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
  qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFy?= =?UTF-8?B?Yy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri,  3 Apr 2020 10:04:59 +0200
-Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Fri, 3 Apr 2020 12:12:10 +0200
+Igor Mammedov <imammedo@redhat.com> wrote:
 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  hw/char/parallel.c   | 25 +++++++++++++++++++++++++
->  hw/i386/acpi-build.c | 23 -----------------------
->  2 files changed, 25 insertions(+), 23 deletions(-)
+> On Fri,  3 Apr 2020 10:04:59 +0200
+> Gerd Hoffmann <kraxel@redhat.com> wrote:
 > 
-> diff --git a/hw/char/parallel.c b/hw/char/parallel.c
-> index 8dd67d13759b..2bff1f17fda7 100644
-> --- a/hw/char/parallel.c
-> +++ b/hw/char/parallel.c
-> @@ -28,6 +28,7 @@
->  #include "qemu/module.h"
->  #include "chardev/char-parallel.h"
->  #include "chardev/char-fe.h"
-> +#include "hw/acpi/aml-build.h"
->  #include "hw/irq.h"
->  #include "hw/isa/isa.h"
->  #include "hw/qdev-properties.h"
-> @@ -568,6 +569,28 @@ static void parallel_isa_realizefn(DeviceState *dev, Error **errp)
->                               s, "parallel");
->  }
->  
-> +static void parallel_isa_build_aml(ISADevice *isadev, Aml *scope)
-> +{
-> +    ISAParallelState *isa = ISA_PARALLEL(isadev);
-> +    Aml *dev;
-> +    Aml *crs;
-> +
-> +    if (isa->iobase != 0x0378) {
-> +        return;
-> +    }
-> +
-> +    crs = aml_resource_template();
-> +    aml_append(crs, aml_io(AML_DECODE16, 0x0378, 0x0378, 0x08, 0x08));
-> +    aml_append(crs, aml_irq_no_flags(7));
-> +
-> +    dev = aml_device("LPT");
-> +    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0400")));
-> +    aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
-> +    aml_append(dev, aml_name_decl("_CRS", crs));
-> +
-> +    aml_append(scope, dev);
-> +}
-> +
->  /* Memory mapped interface */
->  static uint64_t parallel_mm_readfn(void *opaque, hwaddr addr, unsigned size)
->  {
-> @@ -624,9 +647,11 @@ static Property parallel_isa_properties[] = {
->  static void parallel_isa_class_initfn(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
-> +    ISADeviceClass *isa = ISA_DEVICE_CLASS(klass);
->  
->      dc->realize = parallel_isa_realizefn;
->      dc->vmsd = &vmstate_parallel_isa;
-> +    isa->build_aml = parallel_isa_build_aml;
->      device_class_set_props(dc, parallel_isa_properties);
->      set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
->  }
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 81805bf85f8d..0539620ddff5 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1167,28 +1167,6 @@ static Aml *build_mouse_device_aml(void)
->      return dev;
->  }
->  
-> -static void build_lpt_device_aml(Aml *scope)
-> -{
-> -    Aml *dev;
-> -    Aml *crs;
-> -
-> -    if (!memory_region_present(get_system_io(), 0x0378)) {
-> -        return;
-> -    }
-> -
-> -    dev = aml_device("LPT");
-> -    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0400")));
-> -
-> -    aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
-> -
-> -    crs = aml_resource_template();
-> -    aml_append(crs, aml_io(AML_DECODE16, 0x0378, 0x0378, 0x08, 0x08));
-> -    aml_append(crs, aml_irq_no_flags(7));
-perhaps fetch values from device instead of hard-coding them
+[...]
+> > +static void parallel_isa_build_aml(ISADevice *isadev, Aml *scope)
+> > +{
+> > +    ISAParallelState *isa = ISA_PARALLEL(isadev);
+> > +    Aml *dev;
+> > +    Aml *crs;
+> > +
+> > +    if (isa->iobase != 0x0378) {
+> > +        return;
+> > +    }
+if device is present why should we skip adding it to DSDT?
 
-> -    aml_append(dev, aml_name_decl("_CRS", crs));
-> -
-> -    aml_append(scope, dev);
-> -}
-> -
->  static void build_isa_devices_aml(Aml *table)
->  {
->      ISADevice *fdc = pc_find_fdc0();
-> @@ -1202,7 +1180,6 @@ static void build_isa_devices_aml(Aml *table)
->      if (fdc) {
->          aml_append(scope, build_fdc_device_aml(fdc));
->      }
-> -    build_lpt_device_aml(scope);
->  
->      if (ambiguous) {
->          error_report("Multiple ISA busses, unable to define IPMI ACPI data");
+[..]
 
 
