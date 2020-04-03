@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E65519DDDD
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 20:23:17 +0200 (CEST)
-Received: from localhost ([::1]:59478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C0419DDEB
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 20:28:21 +0200 (CEST)
+Received: from localhost ([::1]:59530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKQyJ-0001gJ-Uq
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 14:23:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46824)
+	id 1jKR3E-0003aZ-MR
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 14:28:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57569)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jKQwY-0000iN-Aq
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 14:21:27 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jKR1f-0002pW-24
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 14:26:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jKQwX-0004K3-4L
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 14:21:25 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:42017)
+ (envelope-from <peter.maydell@linaro.org>) id 1jKR1d-0005Bn-Qr
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 14:26:42 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:44674)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jKQwW-0004G4-0H
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 14:21:24 -0400
-Received: by mail-oi1-x243.google.com with SMTP id e4so6917107oig.9
- for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 11:21:23 -0700 (PDT)
+ id 1jKR1d-000598-D8
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 14:26:41 -0400
+Received: by mail-oi1-x244.google.com with SMTP id v134so6922269oie.11
+ for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 11:26:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=vLKZheo+falulKlRLT42MgwKmcgpnY7d/Pc4nfpmDwA=;
- b=pUV9AdwShAwVdqMEZqxP+ABC/F13Xx4BPA2BIfm6ZQzMPPsK+yRsSzvmTNExIFFJ/n
- 7xq8AOEM0ea6F/OIaiPM8aFwAeu9Nzd0so0FMrdTMITApuxLwWQMnf+F6AJa77/pz4NE
- t35MnQHUI0+8qh513b0CwxFef7E2cdEtomgtpAFpI4/lyfB9qNyIzVXyvNxaPOq38V5M
- obN877/wuI2XnQ+vKAJDXZ/08C+gRuD7u4kBJB1L7Dp/VMXbArwGdT9cU9rgpFoExPQC
- 1Y3UwpVqq8N5NnoaPWrT3SVFTcsrzF1VslK+zkJRgnw5liUgH/NIyZ3RsMd8b5sGLgoa
- I5pQ==
+ bh=7/wH69qQJfAKMJ58ojW2R3zh87fecjEXP745WaRkag4=;
+ b=jQtEqn5MwxriTJkZBzwDLW1Mnmb9IsgKnUZ8ORRZ6axORe2+hQpDXeOmOhF5msImTc
+ 5lE0oDg16xJxRNwJr0bIGQKq88QoowYyOfX6HAppqtjbpwF4JjbPoUDAGS88M+XcTKSU
+ ZPIo1damz3ZxqrSviiBVPaoIl0lucNHwV5GRqLfK+NhGt0fJrP2jUn/NtK+ljnzk6VW2
+ s5GNRkbBaBd9yG2bObN3FQ/DJ6FqN4ZbIytLeFeskJw3pkMo7ZgG6WBZlJFZrFbdWsyi
+ neV3N/xXQ9Wr9/tjR1qgNuYvln5Vm0mdO96HldGKHmgEU/jgWtgLT42zZ2ThqJCF2gLR
+ hyjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=vLKZheo+falulKlRLT42MgwKmcgpnY7d/Pc4nfpmDwA=;
- b=AvKqBKMtCuFQGGNcI6Jfy1ZLQ/cFTN+9JfkC6GZcsuGjwA6oqE0HYV7kpM+jGGF4YN
- JFsjDTjw+X8gUGw3TfncMZ+9KaVexj30+AWsEqZtY9NnVbhLIav5VlEzYlHpaAQdedvW
- jagU8PvVoDBeKA9G8r09YZJmSS8pgcy1EC0Mcn7aXcfzCuEaCl9B1dqew/Nlj9mLN6jY
- p0BysFqsMbxU7dTuvZzr1q9JotoyUqxU8lO2iI/v5tgL2c7uZhy/7mi2dyH3i4DCbhow
- RqDyEWQfT1QTiyQ7NmNsWUv2RBibBPFIRFBi5Y63ByPMIvlV9dbWEBMN8RqrXcSG25N9
- 1R1w==
-X-Gm-Message-State: AGi0PuYMa3tR7/8j3vmBEkJrbsKVh+RdN5BLSrJLr6yuuLXy1arqkdkg
- o04NaRgRsirAbnMZ4zgJj45141k7uOJv0nZL2ecxWw==
-X-Google-Smtp-Source: APiQypLyQw/2tJEt/8xBo04I3bvvfux/6I3Fd9A1BiSS3Ca8jwdvvHPqBRDEA8gssM375AdOcMbs1wgno9iy7+OPDP4=
+ bh=7/wH69qQJfAKMJ58ojW2R3zh87fecjEXP745WaRkag4=;
+ b=g+6JCsGiN4OEGvTBA2bDBWGDrFBquBcIzBhzqSZKfJhOBwsrZJPHXA3sULzoo3BCWz
+ Z0G2GvEz+00LvcsUT6tuX6Egza7FlbD4b6td2Gv9tqWdLqTsAp4ejIHZxz0jKH9+ycMN
+ /cIKmKv1OdAwcC7jzda/PrByXwMYRl4LNz2wB8Fn0fCfUPZKY6cQOSQXvRCF1XU9LZ50
+ slq3vpa2U9oxOIfhNnitcdVPWl1Li9qFhgvm5AGuSdGpjPRg/C1PBmjSYK57A3X9K0yW
+ e8oVASvOQYZyJEYnNjkNPDT1HaVhyd+SqIxmnIRV2yWXXjltA0jF3Jk4SIPVKlV7Ia10
+ dXQA==
+X-Gm-Message-State: AGi0PuYk8u4XmMa7Y3laEoCvHochPQuO3vwBvIQa8Fr56WjubbyhHY0g
+ MgW4EizfpbyAzED0Uty+tIghF6Sxef9BHJXY86q14Q==
+X-Google-Smtp-Source: APiQypJDTxObPCeQoFH4IgQLu9oT8ope4e9I6+fV/xUF+3vr2aYvKE1zYQrvUWkSUMUML9GdxjWCcFHcZn9xMNAu8VM=
 X-Received: by 2002:a05:6808:8cb:: with SMTP id
- k11mr3876593oij.48.1585938082922; 
- Fri, 03 Apr 2020 11:21:22 -0700 (PDT)
+ k11mr3894122oij.48.1585938400218; 
+ Fri, 03 Apr 2020 11:26:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200402143913.24005-1-alex.bennee@linaro.org>
-In-Reply-To: <20200402143913.24005-1-alex.bennee@linaro.org>
+References: <20200324173630.12221-1-peter.maydell@linaro.org>
+ <CAMxuvawMhTCHkx1CA7XG6watFre8SzHn7eHVQR7sYSXMmXiGBA@mail.gmail.com>
+In-Reply-To: <CAMxuvawMhTCHkx1CA7XG6watFre8SzHn7eHVQR7sYSXMmXiGBA@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Apr 2020 19:21:11 +0100
-Message-ID: <CAFEAcA-pw+xJnsxhG6N2ibWH0K2McqGQnJ_b5qAzWBa+TV8z4Q@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: don't expose "ieee_half" via gdbstub
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Date: Fri, 3 Apr 2020 19:26:28 +0100
+Message-ID: <CAFEAcA_4A7KEhVLFYVzgN-_hUb1asERBLoCKW+-xCe5BV3mkbg@mail.gmail.com>
+Subject: Re: [PATCH for-5.0] dump: Fix writing of ELF section
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,25 +75,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2 Apr 2020 at 15:39, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
+On Tue, 24 Mar 2020 at 17:49, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@redhat.com> wrote:
 >
-> While support for parsing ieee_half in the XML description was added
-> to gdb in 2019 (a6d0f249) there is no easy way for the gdbstub to know
-> if the gdb end will understand it. Disable it for now and allow older
-> gdbs to successfully connect to the default -cpu max SVE enabled
-> QEMUs.
+> Hi
 >
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
+> On Tue, Mar 24, 2020 at 6:36 PM Peter Maydell <peter.maydell@linaro.org> =
+wrote:
+> >
+> > In write_elf_section() we set the 'shdr' pointer to point to local
+> > structures shdr32 or shdr64, which we fill in to be written out to
+> > the ELF dump.  Unfortunately the address we pass to fd_write_vmcore()
+> > has a spurious '&' operator, so instead of writing out the section
+> > header we write out the literal pointer value followed by whatever is
+> > on the stack after the 'shdr' local variable.
+> >
+> > Pass the correct address into fd_write_vmcore().
+> >
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-
-
-Applied to target-arm.next for 5.0, thanks.
+Thanks for the review; since nobody else has picked the patch
+up I'll put it in via target-arm.next just for convenience.
 
 -- PMM
 
