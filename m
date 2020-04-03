@@ -2,59 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B62919CFB3
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 07:17:06 +0200 (CEST)
-Received: from localhost ([::1]:50274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5083819CFA4
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 07:08:17 +0200 (CEST)
+Received: from localhost ([::1]:50198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKEhV-0000tD-6e
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 01:17:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54259)
+	id 1jKEYx-0005gj-Pi
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 01:08:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53567)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jKEgB-0000RZ-HZ
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 01:15:44 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1jKEY6-0005AX-Nl
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 01:07:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jKEgA-00014N-BA
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 01:15:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49282)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jKEgA-0000zL-5E
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 01:15:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jKEg8-00083l-KC
- for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 05:15:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9000A2E8105
- for <qemu-devel@nongnu.org>; Fri,  3 Apr 2020 05:15:40 +0000 (UTC)
+ (envelope-from <eric.auger@redhat.com>) id 1jKEY5-0002XN-Hp
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 01:07:22 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58574
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1jKEY5-0002WP-EQ
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 01:07:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585890441;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ar69q/Vn4EWZU6G/sHx/rFDNM5LxG2zfTZ7Eo/xK9Gs=;
+ b=VCZ9BIUjZzJdXVSLGrHzFmVnSzZJ6c0E9J13ZrSfYsUD4ptp434XMU0NBu+d99YoyI5ufk
+ V2pLG5sRDiwzofB/DwA9ii2wXSqH7cbe2imDIK3Zy9sjp0x+i7KHybxHMAo1BY1kAI9V50
+ 4KlsCjnwdhl3QhGTxpTC1hKwKU0MImY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-442-T9MNBPQxPVuifpDmWI4fEA-1; Fri, 03 Apr 2020 01:07:17 -0400
+X-MC-Unique: T9MNBPQxPVuifpDmWI4fEA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5209C8017F3;
+ Fri,  3 Apr 2020 05:07:15 +0000 (UTC)
+Received: from [10.36.112.58] (ovpn-112-58.ams2.redhat.com [10.36.112.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 359F110016E8;
+ Fri,  3 Apr 2020 05:07:11 +0000 (UTC)
+Subject: Re: [PATCH kvm-unit-tests] fixup! arm/arm64: ITS: pending table
+ migration test
+To: Andrew Jones <drjones@redhat.com>, eric.auger.pro@gmail.com,
+ maz@kernel.org, kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20200402145227.20109-1-eric.auger@redhat.com>
+ <20200402180148.490026-1-drjones@redhat.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <a13e00e8-b699-103a-af6c-7807b67f8c70@redhat.com>
+Date: Fri, 3 Apr 2020 07:07:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 03 Apr 2020 05:03:20 -0000
-From: Donghun Kwak <1870477@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kionias
-X-Launchpad-Bug-Reporter: Donghun Kwak (kionias)
-X-Launchpad-Bug-Modifier: Donghun Kwak (kionias)
-Message-Id: <158589020097.22925.10247032490435356173.malonedeb@wampee.canonical.com>
-Subject: [Bug 1870477] [NEW] qemu-arm hangs when golang running test
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a296f04231dee355be5db73cc878b9e21689a253";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 15f9e748721adb176294bbce6d83ea71362886aa
+In-Reply-To: <20200402180148.490026-1-drjones@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,104 +76,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1870477 <1870477@bugs.launchpad.net>
+Cc: yuzenghui@huawei.com, peter.maydell@linaro.org, thuth@redhat.com,
+ alexandru.elisei@arm.com, andre.przywara@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Hi Drew,
 
+On 4/2/20 8:01 PM, Andrew Jones wrote:
+> [ Without the fix this test would hang, as timeouts don't work with
+>   the migration scripts (yet). Use errata to skip instead of hang. ]
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> ---
+>  arm/gic.c  | 18 ++++++++++++++++--
+>  errata.txt |  1 +
+>  2 files changed, 17 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arm/gic.c b/arm/gic.c
+> index ddf0f9d09b14..c0781f8c2c80 100644
+> --- a/arm/gic.c
+> +++ b/arm/gic.c
+> @@ -12,6 +12,7 @@
+>   * This work is licensed under the terms of the GNU LGPL, version 2.
+>   */
+>  #include <libcflat.h>
+> +#include <errata.h>
+>  #include <asm/setup.h>
+>  #include <asm/processor.h>
+>  #include <asm/delay.h>
+> @@ -812,13 +813,23 @@ static void test_its_migration(void)
+>  	check_lpi_stats("dev7/eventid=255 triggers LPI 8196 on PE #2 after migration");
+>  }
+>  
+> +#define ERRATA_UNMAPPED_COLLECTIONS "ERRATA_8c58be34494b"
+> +
+>  static void test_migrate_unmapped_collection(void)
+>  {
+> -	struct its_collection *col;
+> -	struct its_device *dev2, *dev7;
+> +	struct its_collection *col = NULL;
+> +	struct its_device *dev2 = NULL, *dev7 = NULL;
+> +	bool test_skipped = false;
+>  	int pe0 = 0;
+>  	u8 config;
+>  
+> +	if (!errata(ERRATA_UNMAPPED_COLLECTIONS)) {
+> +		report_skip("Skipping test, as this test hangs without the fix. "
+> +			    "Set %s=y to enable.", ERRATA_UNMAPPED_COLLECTIONS);
+> +		test_skipped = true;
+> +		goto do_migrate;
+out of curiosity why do you still do the migration and not directly return.
 
-1. Environment:
-Ubuntu 16.04.5 X86_64
-qemu-arm version 4.2.0
-go version go 1.14.1 linux/arm
+Besides, what caused the migration to fail without 8c58be34494b is
+bypassed so:
 
-2. Summary:
-Sometimes "go run test.go" command hang
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Tested-by: Eric Auger <eric.auger@redhat.com>
 
+Thank you for the fixup
 
-3. Reproduction Method (Attempts: 500 Occurred: 1 ): Frequency: 1/500
+Eric
 
+> +	}
+> +
+>  	if (its_setup1())
+>  		return;
+>  
+> @@ -830,9 +841,12 @@ static void test_migrate_unmapped_collection(void)
+>  	its_send_mapti(dev2, 8192, 0, col);
+>  	gicv3_lpi_set_config(8192, LPI_PROP_DEFAULT);
+>  
+> +do_migrate:
+>  	puts("Now migrate the VM, then press a key to continue...\n");
+>  	(void)getchar();
+>  	report_info("Migration complete");
+> +	if (test_skipped)
+> +		return;
+>  
+>  	/* on the destination, map the collection */
+>  	its_send_mapc(col, true);
+> diff --git a/errata.txt b/errata.txt
+> index 7d6abc2a7bf6..b66afaa9c079 100644
+> --- a/errata.txt
+> +++ b/errata.txt
+> @@ -5,4 +5,5 @@
+>  9e3f7a296940    : 4.9                           : arm64: KVM: pmu: Fix AArch32 cycle counter access
+>  7b6b46311a85    : 4.11                          : KVM: arm/arm64: Emulate the EL1 phys timer registers
+>  6c7a5dce22b3    : 4.12                          : KVM: arm/arm64: fix races in kvm_psci_vcpu_on
+> +8c58be34494b    : 5.6                           : KVM: arm/arm64: vgic-its: Fix restoration of unmapped collections
+>  #---------------:-------------------------------:---------------------------------------------------
+> 
 
-test.go
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-package main
-import "fmt"
-func main(){
-        for i:=3D0; i<1000; i++ {
-                fmt.Printf("[%d] Hello world\n", i)
-        }
-}
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-i tested "go run test.go" command called  500 times at qemu arm env.
-qemu hangs about 200~300.
-
-attached strace log.
-
-please check.
-thanks
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Attachment added: "qemu_hang_problem.log"
-   https://bugs.launchpad.net/bugs/1870477/+attachment/5345418/+files/qemu_=
-hang_problem.log
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1870477
-
-Title:
-  qemu-arm hangs when golang running test
-
-Status in QEMU:
-  New
-
-Bug description:
-  =
-
-  1. Environment:
-  Ubuntu 16.04.5 X86_64
-  qemu-arm version 4.2.0
-  go version go 1.14.1 linux/arm
-
-  2. Summary:
-  Sometimes "go run test.go" command hang
-
-  =
-
-  3. Reproduction Method (Attempts: 500 Occurred: 1 ): Frequency: 1/500
-
-  =
-
-  test.go
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  package main
-  import "fmt"
-  func main(){
-          for i:=3D0; i<1000; i++ {
-                  fmt.Printf("[%d] Hello world\n", i)
-          }
-  }
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-  i tested "go run test.go" command called  500 times at qemu arm env.
-  qemu hangs about 200~300.
-
-  attached strace log.
-
-  please check.
-  thanks
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1870477/+subscriptions
 
