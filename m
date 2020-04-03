@@ -2,113 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288A919DBD0
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 18:37:13 +0200 (CEST)
-Received: from localhost ([::1]:58198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA23B19D9B3
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 17:04:16 +0200 (CEST)
+Received: from localhost ([::1]:56712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKPJf-0004xg-VV
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 12:37:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45799)
+	id 1jKNri-0008Ur-Sd
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 11:04:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47034)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mail@maciej.szmigiero.name>) id 1jKNkd-0004p7-2y
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:56:56 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1jKNq6-0007tp-N4
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 11:02:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mail@maciej.szmigiero.name>) id 1jKNkb-00061N-Qh
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:56:54 -0400
-Received: from vps-vb.mhejs.net ([37.28.154.113]:45014)
+ (envelope-from <balaton@eik.bme.hu>) id 1jKNq3-0001aw-Vy
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 11:02:33 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:32640)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mail@maciej.szmigiero.name>)
- id 1jKNkb-0005we-Hx
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:56:53 -0400
-Received: from MUA
- by vps-vb.mhejs.net with esmtps (TLS1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
- (Exim 4.93.0.4) (envelope-from <mail@maciej.szmigiero.name>)
- id 1jKNkK-00038G-LM; Fri, 03 Apr 2020 16:56:36 +0200
-Subject: Re: [PATCH v1 5/5] i386: Hyper-V VMBus ACPI DSDT entry
-To: Jon Doron <arilou@gmail.com>
-References: <20200403142308.82990-1-arilou@gmail.com>
- <20200403142308.82990-6-arilou@gmail.com>
-From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-Autocrypt: addr=mail@maciej.szmigiero.name; prefer-encrypt=mutual; keydata=
- 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 sg==
-Message-ID: <76017793-735b-4bb5-0e69-ecded78af54d@maciej.szmigiero.name>
-Date: Fri, 3 Apr 2020 16:56:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1jKNq2-0001Qb-QF
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 11:02:31 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id CAA1D74637E;
+ Fri,  3 Apr 2020 17:02:19 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id A2FAA7461AE; Fri,  3 Apr 2020 17:02:19 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id A134E745953;
+ Fri,  3 Apr 2020 17:02:19 +0200 (CEST)
+Date: Fri, 3 Apr 2020 17:02:19 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v4 for-5.0] configure: warn if not using a separate build
+ directory
+In-Reply-To: <93fbf486-d1c3-ec03-ea8d-163bb2374260@redhat.com>
+Message-ID: <alpine.BSF.2.22.395.2004031657250.61599@zero.eik.bme.hu>
+References: <20200403135306.665493-1-berrange@redhat.com>
+ <93fbf486-d1c3-ec03-ea8d-163bb2374260@redhat.com>
+User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
 MIME-Version: 1.0
-In-Reply-To: <20200403142308.82990-6-arilou@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 37.28.154.113
-X-Mailman-Approved-At: Fri, 03 Apr 2020 12:36:15 -0400
+Content-Type: multipart/mixed;
+ boundary="3866299591-1115009642-1585926139=:61599"
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 152.66.115.2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -120,43 +54,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Evgeny Yakovlev <eyakovlev@virtuozzo.com>, ehabkost@redhat.com,
- qemu-devel@nongnu.org, Roman Kagan <rkagan@virtuozzo.com>, pbonzini@redhat.com,
- vkuznets@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Liviu Ionescu <ilg@livius.net>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?ISO-8859-15?Q?Michal_Such=E1nek?= <msuchanek@suse.de>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Jon,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On 03.04.2020 16:23, Jon Doron wrote:
-> Guest OS uses ACPI to discover vmbus presence.  Add a corresponding
-> entry to DSDT in case vmbus has been enabled.
-> 
-> Experimentally Windows guests were found to require this entry to
-> include two IRQ resources, so this patch adds two semi-arbitrarily
-> chosen ones (7 and 13).  This results, in particular, in parallel port
-> conflicting with vmbus.
-> 
-> TODO: discover and use spare IRQs to avoid conflicts.
-> 
-> Signed-off-by: Evgeny Yakovlev <eyakovlev@virtuozzo.com>
-> Signed-off-by: Roman Kagan <rkagan@virtuozzo.com>
-> Signed-off-by: Jon Doron <arilou@gmail.com>
+--3866299591-1115009642-1585926139=:61599
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Nice work, thanks!
+On Fri, 3 Apr 2020, Eric Blake wrote:
+> On 4/3/20 8:53 AM, Daniel P. Berrang=C3=A9 wrote:
+>> Running configure directly from the source directory is a build
+>> configuration that will go away in future. It is also not currently
+>> covered by any automated testing. Display a deprecation warning if
+>> the user attempts to use an in-srcdir build setup, so that they are
+>> aware that they're building QEMU in an undesirable manner.
+>>=20
+>> Reviewed-by: Eric Blake <eblake@redhat.com>
+>> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>> ---
+>>=20
+>> Changed in v4:
+>>    - Adopted Eric's suggested wording
+>
+>> +if test "$in_srcdir" =3D "yes"; then
+>> +    echo
+>> +    echo "WARNING: SUPPORT FOR BUILDING IN THE SOURCE DIR IS DEPRECAT=
+ED"
+>> +    echo
+>> +    echo "Support for running the 'configure' script directly from th=
+e"
+>> +    echo "source directory is deprecated. In-tree builds are not cove=
+red"
+>> +    echo "by automated testing and thus may not correctly build QEMU.=
+"
+>> +    echo "Users are recommended to use a separate build directory:"
+>> +    echo
+>> +    echo "  $ mkdir build"
+>> +    echo "  $ cd build"
+>> +    echo "  $ ../configure"
+>> +    echo "  $ make"
+>
+> Late question, but:
+>
+> Since this is just a warning, we still manage to complete the ./configu=
+re=20
+> run, including whatever generated files it leaves in-tree. Is there any=
+=20
+> additional step we need to recommend prior to 'mkdir build' that will c=
+lean=20
+> up the in-tree artifacts, so that the user then attempting the VPATH bu=
+ild=20
+> won't still have a broken build due to the leftovers from the in-tree=20
+> attempt?  'make distclean', perhaps?
+>
+> /me starts testing; I'll reply back once it finishes...
 
-However, it seems to be based on the code version that was posted in 
-February 2018, and not the latest version in OpenVZ qemu repository
-dated October 2019:
-https://src.openvz.org/projects/UP/repos/qemu/commits?until=refs%2Fheads%2Fvmbus
+You proabably also need make distclean before going to use build dir.=20
+Since in-tree build continues to work as before and hopefully even after=20
+it won't some convenience functions will take care of it without the user=
+=20
+having to do it by hand I wonder if such a long warning is really needed=20
+in configure now. Other than uselessly annoying users, what does this=20
+patch achieve? The recommended way to build may change again when build=20
+system is replaced and I won't change my usual way until it works and=20
+going to just ignore this warning and I guess others who like in-tree=20
+builds will do the same. But I've already said that so probably won't=20
+mention it again.
 
-This newer version has slightly different API here and there.
-Any particular reason for selecting that older version for porting?
-
-I have actually rebased this latest version on the top of the current
-QEMU master, and it basically seems to work fine.
-However, I haven't done extensive tests whether there isn't a memory leak
-somewhere or so on.
-
-Maciej
+Regards,
+BALATON Zoltan
+--3866299591-1115009642-1585926139=:61599--
 
