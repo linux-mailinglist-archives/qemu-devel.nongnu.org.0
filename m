@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE86C19DA06
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 17:24:11 +0200 (CEST)
-Received: from localhost ([::1]:57076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC1D19DA33
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 17:31:52 +0200 (CEST)
+Received: from localhost ([::1]:57174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKOB0-0007O0-Rj
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 11:24:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53364)
+	id 1jKOIQ-0002b8-6U
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 11:31:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55921)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jKO9n-00060t-AD
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 11:22:56 -0400
+ (envelope-from <arilou@gmail.com>) id 1jKOH5-00025D-Th
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 11:30:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1jKO9l-0006FI-NG
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 11:22:54 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21110
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jKO9l-0006DN-GS
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 11:22:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585927372;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QnWAbwa8XEaymStXjhwBmATjZJusMvdc8NFvxpM4gQM=;
- b=a4iUl4th+27cInyxlu50DYr8zcr/N6OZDg0OKFAIGco01+/QdagEWFSRyV75wUJ+gG9Shn
- K3F2RihqeyM3Hv7Qd+xbUEiImLkcK5iMnNEhR8cfFMrYekY23Wv+nDHcizLN+nBMlOZLfn
- clMTnh0NknIRWoXV3DQMzPCvznV2xzM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-piA_tmi5PGeB1MdszZjFmg-1; Fri, 03 Apr 2020 11:22:49 -0400
-X-MC-Unique: piA_tmi5PGeB1MdszZjFmg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EF67477;
- Fri,  3 Apr 2020 15:22:47 +0000 (UTC)
-Received: from gondolin (ovpn-113-80.ams2.redhat.com [10.36.113.80])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C82A01147D7;
- Fri,  3 Apr 2020 15:22:41 +0000 (UTC)
-Date: Fri, 3 Apr 2020 17:22:39 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Christian Borntraeger <borntraeger@de.ibm.com>
-Subject: Re: [PATCH v2] s390x/pv: Retry ioctls on -EINTR
-Message-ID: <20200403172239.4985c7ae.cohuck@redhat.com>
-In-Reply-To: <20200327124616.34866-1-borntraeger@de.ibm.com>
-References: <20200327124616.34866-1-borntraeger@de.ibm.com>
-Organization: Red Hat GmbH
+ (envelope-from <arilou@gmail.com>) id 1jKOH4-0007i1-LX
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 11:30:27 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:46866)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <arilou@gmail.com>) id 1jKOH4-0007gc-F6
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 11:30:26 -0400
+Received: by mail-ed1-x542.google.com with SMTP id cf14so9668628edb.13
+ for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 08:30:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=97xWYNAzVV5k15uDzWP+QgC30Q1BfCbuzMmp9qsUuzg=;
+ b=bq1km/rdQVlPG6ybUGiIzKdSwVKNj22qqNwUhjC0l84+ARhv+64eZDPVskaMBuHNtS
+ TbK3S34AWNyV6ob8ygHLVTk8+nIxxKGQIW2T19YvnpunS/9CU+gOyMNN5GFU6DGhFIfs
+ NAqmzBxPmUVyrWKMPkkcY48FhT0E4Pvbch339Fixs9D9f/Do5+BVHWYpqhKyu5xNO92g
+ TQVG3/xLToB0vBzHp3JfPpW1LnBronj3SJYS94/EeL71J9i2eIqvbUlglQ18ThJVs1Sx
+ yZBYs811edODI3veYSu0PrBRN8CHvu6Oq+ymUBJhPaWjai+zP0OGfomI875Ed7ClyTOQ
+ 1Acw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=97xWYNAzVV5k15uDzWP+QgC30Q1BfCbuzMmp9qsUuzg=;
+ b=SPtL9lNOduBZaVyAXZV7iVA1Zt2eFV5Mi/UGQUl2ubwAomgLy4N/78goc2rOvbQWoX
+ P7p/e2ad0rgFA+R685HzVXMJ9qjV3ZRv3hRWp5XTfUvihFEN0ilTHJPILwHVSOWjqVcD
+ m9x87wGfGmGF8k3qML8VFXqOwsxGeYhuMQTF0tBrUwFWWZRpjXCUuiWnPgVk0TvNswqE
+ zsyjgyOaOGK5qkW4hDgQvZ9NqHmxkyysWhAxGNaP9Rliki/ZPHYICXBmwIBnaTZxvFZA
+ DYVH0I9bv/m9WKPBSOfzcQTxzc8UQX8xiS5C5o71ZKsX6TRO2FnqEK21jnIwigj2eUIx
+ O62g==
+X-Gm-Message-State: AGi0PuYmLApNrzrAKJET2mDYUb71IpXxsaiMXWL+Kci7yaS4TkjmTgif
+ w+aNzntzZi8upzYZI4iMd29BN1L3aujkZDawR/g=
+X-Google-Smtp-Source: APiQypICXozj9/oSzpm0JDxoPP9vpsGKuiqxX6s05IskMtszq9gt1FjpA8hsc359+B6upSlqJU84XnSOa0zf4IvOnJ4=
+X-Received: by 2002:a50:ec08:: with SMTP id g8mr8136781edr.321.1585927824934; 
+ Fri, 03 Apr 2020 08:30:24 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+References: <20200403142308.82990-1-arilou@gmail.com>
+ <20200403142308.82990-6-arilou@gmail.com>
+ <76017793-735b-4bb5-0e69-ecded78af54d@maciej.szmigiero.name>
+ <CAP7QCog_EmLJ=O8Xi9Tc4Jst1=z62DXim9ScCyoPv7WugrSyOw@mail.gmail.com>
+In-Reply-To: <CAP7QCog_EmLJ=O8Xi9Tc4Jst1=z62DXim9ScCyoPv7WugrSyOw@mail.gmail.com>
+From: Jon Doron <arilou@gmail.com>
+Date: Fri, 3 Apr 2020 18:30:13 +0300
+Message-ID: <CAP7QCogMdUis-=KsC--0ar2Zt2Vwcpn4HS+qCxPn5khtDTu+mA@mail.gmail.com>
+Subject: Re: [PATCH v1 5/5] i386: Hyper-V VMBus ACPI DSDT entry
+To: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,33 +73,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Janosch Frank <frankja@linux.vnet.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, Marc Hartmayer <mhartmay@linux.ibm.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Evgeny Yakovlev <eyakovlev@virtuozzo.com>, ehabkost@redhat.com,
+ QEMU <qemu-devel@nongnu.org>, Roman Kagan <rkagan@virtuozzo.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 Mar 2020 08:46:16 -0400
-Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+ Thank you Maciej it seems like your version is really ahead I'll do
+the required work and merge it so i can submit a v2 with the latest
+patchset from Roman
 
-> PV_ENABLE (and maybe others) might return -EINTR when a signal is
-> pending. See the Linux kernel patch "s390/gmap: return proper error code
-> on ksm unsharing" for details. Let us retry the ioctl in that case.
-> 
-> Fixes: 4d226deafc44 ("s390x: protvirt: Support unpack facility")
-
-I'll update that when the commit ids are stable.
-
-> Reported-by: Marc Hartmayer <mhartmay@linux.ibm.com>
-> Acked-by: Janosch Frank <frankja@linux.vnet.ibm.com>
-> Tested-by: Marc Hartmayer <mhartmay@linux.ibm.com>
-> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> ---
->  hw/s390x/pv.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-
-Thanks, queued to s390-next.
-
+On Fri, Apr 3, 2020 at 6:06 PM Jon Doron <arilou@gmail.com> wrote:
+>
+> Thank you Maciej, I based it on top of what Denis (den@openvz.org) gave me
+> which was this:
+> https://ftp.openvz.org/virtuozzo/releases/openvz-7.0.12-288/source/SRPMS/q/qemu-kvm-vz-2.12.0-33.vz7.14.4.src.rpm
+>
+> Do you think you have a more recent version I dont mind diffing and
+> resubmitting a new version of the patchset?
+>
+> Thanks,
+> -- Jon.
+>
+> On Fri, Apr 3, 2020 at 5:56 PM Maciej S. Szmigiero
+> <mail@maciej.szmigiero.name> wrote:
+> >
+> > Hi Jon,
+> >
+> > On 03.04.2020 16:23, Jon Doron wrote:
+> > > Guest OS uses ACPI to discover vmbus presence.  Add a corresponding
+> > > entry to DSDT in case vmbus has been enabled.
+> > >
+> > > Experimentally Windows guests were found to require this entry to
+> > > include two IRQ resources, so this patch adds two semi-arbitrarily
+> > > chosen ones (7 and 13).  This results, in particular, in parallel port
+> > > conflicting with vmbus.
+> > >
+> > > TODO: discover and use spare IRQs to avoid conflicts.
+> > >
+> > > Signed-off-by: Evgeny Yakovlev <eyakovlev@virtuozzo.com>
+> > > Signed-off-by: Roman Kagan <rkagan@virtuozzo.com>
+> > > Signed-off-by: Jon Doron <arilou@gmail.com>
+> >
+> > Nice work, thanks!
+> >
+> > However, it seems to be based on the code version that was posted in
+> > February 2018, and not the latest version in OpenVZ qemu repository
+> > dated October 2019:
+> > https://src.openvz.org/projects/UP/repos/qemu/commits?until=refs%2Fheads%2Fvmbus
+> >
+> > This newer version has slightly different API here and there.
+> > Any particular reason for selecting that older version for porting?
+> >
+> > I have actually rebased this latest version on the top of the current
+> > QEMU master, and it basically seems to work fine.
+> > However, I haven't done extensive tests whether there isn't a memory leak
+> > somewhere or so on.
+> >
+> > Maciej
 
