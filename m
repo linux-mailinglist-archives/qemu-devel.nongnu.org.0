@@ -2,59 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C5519D207
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 10:20:52 +0200 (CEST)
-Received: from localhost ([::1]:51954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D48119D21B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 10:25:58 +0200 (CEST)
+Received: from localhost ([::1]:52012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKHZL-0007cv-WD
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 04:20:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43588)
+	id 1jKHeC-0003ZF-DF
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 04:25:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45453)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1jKHQ0-00046C-PM
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:11:14 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1jKHdK-0002uB-S2
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:24:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1jKHPz-0000e5-7a
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:11:12 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2461 helo=huawei.com)
+ (envelope-from <yan.y.zhao@intel.com>) id 1jKHdJ-0007jZ-IR
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:24:58 -0400
+Received: from mga04.intel.com ([192.55.52.120]:46380)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1jKHPy-0000bS-RC; Fri, 03 Apr 2020 04:11:11 -0400
-Received: from DGGEMM405-HUB.china.huawei.com (unknown [172.30.72.56])
- by Forcepoint Email with ESMTP id D9457B41218082944830;
- Fri,  3 Apr 2020 16:11:05 +0800 (CST)
-Received: from DGGEMM422-HUB.china.huawei.com (10.1.198.39) by
- DGGEMM405-HUB.china.huawei.com (10.3.20.213) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Fri, 3 Apr 2020 16:11:05 +0800
-Received: from DGGEMM511-MBX.china.huawei.com ([169.254.1.202]) by
- dggemm422-hub.china.huawei.com ([10.1.198.39]) with mapi id 14.03.0487.000;
- Fri, 3 Apr 2020 16:10:59 +0800
-From: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
-To: Laurent Vivier <laurent@vivier.eu>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
-Subject: RE: [PATCH v5 0/3] redundant code: Fix warnings reported by Clang
- static code analyzer
-Thread-Topic: [PATCH v5 0/3] redundant code: Fix warnings reported by Clang
- static code analyzer
-Thread-Index: AQHWAlFsKsb+eliWpkW9mt34oeYMj6hnE0Bw//9+5QCAAIafkA==
-Date: Fri, 3 Apr 2020 08:10:58 +0000
-Message-ID: <7412CDE03601674DA8197E2EBD8937E83B6D4A27@dggemm511-mbx.china.huawei.com>
-References: <20200325025919.21316-1-kuhn.chenqun@huawei.com>
- <7412CDE03601674DA8197E2EBD8937E83B6D495C@dggemm511-mbx.china.huawei.com>
- <b273c5c9-18cc-691f-bd1f-df056f448ade@vivier.eu>
-In-Reply-To: <b273c5c9-18cc-691f-bd1f-df056f448ade@vivier.eu>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.133.205.93]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jKHdJ-0007iM-9l
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 04:24:57 -0400
+IronPort-SDR: lP/4bFlTHw4TMOOZWEZqdXGv3G8tO62a0QpNQ3/COGCWlgcjdMjxVW+LKeimIHdPOsZ/v4cFXN
+ epkc8s1YFOlA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Apr 2020 01:24:55 -0700
+IronPort-SDR: kVGBvT13BcLzlgElSuESf8JzJmRVuonZONg6Lk0vEUdCeGV6lwyY/JLmN2ms/6R3J0dJrZBd18
+ xN2Ng0MQQHHw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,339,1580803200"; d="scan'208";a="423452394"
+Received: from unknown (HELO joy-OptiPlex-7040) ([10.239.13.16])
+ by orsmga005.jf.intel.com with ESMTP; 03 Apr 2020 01:24:53 -0700
+Date: Fri, 3 Apr 2020 04:15:19 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v2 0/3] drop writes to read-only ram device & vfio regions
+Message-ID: <20200403081519.GA31607@joy-OptiPlex-7040>
+References: <20200403165657.20566-1-yan.y.zhao@intel.com>
+ <20200403170823.20805-1-yan.y.zhao@intel.com>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.187
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200403170823.20805-1-yan.y.zhao@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 192.55.52.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,59 +59,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "philmd@redhat.com" <philmd@redhat.com>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "philmd@redhat.com" <philmd@redhat.com>, "Zeng, Xin" <xin.zeng@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogTGF1cmVudCBWaXZpZXIgW21haWx0
-bzpsYXVyZW50QHZpdmllci5ldV0NCj5TZW50OiBGcmlkYXksIEFwcmlsIDMsIDIwMjAgNDowNCBQ
-TQ0KPlRvOiBDaGVucXVuIChrdWhuKSA8a3Vobi5jaGVucXVuQGh1YXdlaS5jb20+OyBxZW11LWRl
-dmVsQG5vbmdudS5vcmc7DQo+cWVtdS10cml2aWFsQG5vbmdudS5vcmcNCj5DYzogWmhhbmdoYWls
-aWFuZyA8emhhbmcuemhhbmdoYWlsaWFuZ0BodWF3ZWkuY29tPjsgcGhpbG1kQHJlZGhhdC5jb20N
-Cj5TdWJqZWN0OiBSZTogW1BBVENIIHY1IDAvM10gcmVkdW5kYW50IGNvZGU6IEZpeCB3YXJuaW5n
-cyByZXBvcnRlZCBieSBDbGFuZw0KPnN0YXRpYyBjb2RlIGFuYWx5emVyDQo+DQo+TGUgMDMvMDQv
-MjAyMCDDoCAwOTo1MSwgQ2hlbnF1biAoa3VobikgYSDDqWNyaXTCoDoNCj4+IFBpbmchDQo+Pg0K
-Pj4gVGhpcyBzZXJpZXMgaGFzIGJlZW4gcmV2aWV3ZWQuICBDb3VsZCBzb21lb25lIHBsZWFzZSBw
-aWNrIHRoaXMgdXAgKGUuZy4gcWVtdS0NCj50cml2aWFsPyk/DQo+DQo+QXMgd2UgYXJlIGluIGhh
-cmQgZmVhdHVyZSBmcmVlemUgbm93IGFuZCB0aGlzIGlzIG5vdCBjcml0aWNhbCBidWcgZml4ZXMg
-SSdtIGdvaW5nDQo+dG8gcXVldWUgdGhlbSBmb3IgNS4xIGV4Y2VwdCBpZiB5b3UgaGF2ZSBnb29k
-IGFyZ3VtZW50cyB0byBoYXZlIHRoZW0gaW4gNS4wLg0KPg0KT0ssICBJIGdldCBpdC4gDQpJdCBp
-cyBpbXBvcnRhbnQgdG8gZW5zdXJlIGEgc3RhYmxlIHZlcnNpb24hDQoNClRoYW5rcy4NCj4+PiAt
-LS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPj4+IEZyb206IENoZW5xdW4gKGt1aG4pDQo+Pj4g
-U2VudDogV2VkbmVzZGF5LCBNYXJjaCAyNSwgMjAyMCAxMDo1OSBBTQ0KPj4+IFRvOiBxZW11LWRl
-dmVsQG5vbmdudS5vcmc7IHFlbXUtdHJpdmlhbEBub25nbnUub3JnDQo+Pj4gQ2M6IFpoYW5naGFp
-bGlhbmcgPHpoYW5nLnpoYW5naGFpbGlhbmdAaHVhd2VpLmNvbT47DQo+Pj4gbGF1cmVudEB2aXZp
-ZXIuZXU7IHBoaWxtZEByZWRoYXQuY29tOyBDaGVucXVuIChrdWhuKQ0KPj4+IDxrdWhuLmNoZW5x
-dW5AaHVhd2VpLmNvbT4NCj4+PiBTdWJqZWN0OiBbUEFUQ0ggdjUgMC8zXSByZWR1bmRhbnQgY29k
-ZTogRml4IHdhcm5pbmdzIHJlcG9ydGVkIGJ5DQo+Pj4gQ2xhbmcgc3RhdGljIGNvZGUgYW5hbHl6
-ZXINCj4+Pg0KPj4+IHYxLT52MjoNCj4+PiAtIFBhdGNoMTogQWRkIEpvaG4gU25vdyByZXZpZXcg
-Y29tbWVudC4NCj4+PiAtIFBhdGNoOTogTW92ZSB0aGUgJ2RzdF90eXBlJyBkZWNsYXJhdGlvbiB0
-byB3aGlsZSgpIHN0YXRlbWVudC4NCj4+PiAtIFBhdGNoMTI6IEFkZCBQaGlsaXBwZSBNYXRoaWV1
-LURhdWTojIUgcmV2aWV3IGNvbW1lbnQuDQo+Pj4gLSBQYXRjaDEzOiBNb3ZlIHRoZSAnc2V0JyBk
-ZWNsYXJhdGlvbiB0byB0aGUgZm9yKCkgc3RhdGVtZW50Lg0KPj4+DQo+Pj4gdjItPnYzOg0KPj4+
-IC0gUGF0Y2gxOiBBZGQgS2V2aW4gV29sZiByZXZpZXcgY29tbWVudC4NCj4+PiAtIFBhdGNoMjog
-S2VlcCB0aGUgJ2ZsYWdzJyB0aGVuIHVzZSBpdChCYXNlIG9uIEtldmluJ3MgY29tbWVudHMpLg0K
-Pj4+IC0gUGF0Y2gzOiBBZGQgS2V2aW4gV29sZiByZXZpZXcgY29tbWVudC4NCj4+PiAtIFBhdGNo
-OTogQWRkIEZyYW5jaXNjbyBJZ2xlc2lhcyBhbmQgQWxpc3RhaXIgRnJhbmNpcyByZXZpZXcgY29t
-bWVudC4NCj4+PiAtIFBhdGNoMTA6IEp1YW4gUXVpbnRlbGEgaGFzIGFkZGVkIGl0IHRvIHRoZSBx
-dWV1ZSBhbmQgZGVsZXRlIGl0Lg0KPj4+IC0gUGF0Y2gxMi0+UGF0Y2gxMTogQWRkIFBoaWxpcHBl
-IE1hdGhpZXUtRGF1ZOiMhSByZXZpZXcgY29tbWVudC4NCj4+PiAtIFBhdGNoMTMtPlBhdGNoMTI6
-IEFkZCBQaGlsaXBwZSBNYXRoaWV1LURhdWTojIUgcmV2aWV3IGNvbW1lbnQuDQo+Pj4NCj4+PiB2
-My0+djQ6DQo+Pj4gLSBEZWxldGVkIHRoZSBwYXRjaGVzIHRoYXQgaGF2ZSBiZWVuIG1lcmdlZCBp
-biB0aGUgdjMuDQo+Pj4gLSBNb2RpZnkgInNjc2kvZXNwLXBjaSIgUGF0Y2gsIHVzZSBnX2Fzc2Vy
-dCB3aXRoIHZhcmlhYmxlIHNpemUuDQo+Pj4NCj4+PiB2NC0+djU6DQo+Pj4gLSBQYXRjaDE6IEFk
-ZCBMYXVyZW50IFZpdmllciByZXZpZXcgY29tbWVudCBhbmQgY2hhbmdlIHRoZSBzdWJqZWN0Lg0K
-Pj4+IC0gUGF0Y2gyOiBVc2UgZXh0cmFjdDE2KCkgaW5zdGVhZCBvZiBkZWxldGUgYml0IG9wZXJh
-dGlvbiBzdGF0ZW1lbnQuDQo+Pj4gLSBQYXRjaDM6IEFkZCBMYXVyZW50IFZpdmllciByZXZpZXcg
-Y29tbWVudC4NCj4+Pg0KPj4+IENoZW4gUXVuICgzKToNCj4+PiAgc2NzaS9lc3AtcGNpOiBhZGQg
-Z19hc3NlcnQoKSBmb3IgZml4IGNsYW5nIGFuYWx5emVyIHdhcm5pbmcgaW4NCj4+PiAgICBlc3Bf
-cGNpX2lvX3dyaXRlKCkNCj4+PiAgZGlzcGxheS9ibGl6emFyZDogdXNlIGV4dHJhY3QxNigpIGZv
-ciBmaXggY2xhbmcgYW5hbHl6ZXIgd2FybmluZyBpbg0KPj4+ICAgIGJsaXp6YXJkX2RyYXdfbGlu
-ZTE2XzMyKCkNCj4+PiAgdGltZXIvZXh5bm9zNDIxMF9tY3Q6IFJlbW92ZSByZWR1bmRhbnQgc3Rh
-dGVtZW50IGluDQo+Pj4gICAgZXh5bm9zNDIxMF9tY3Rfd3JpdGUoKQ0KPj4+DQo+Pj4gaHcvZGlz
-cGxheS9ibGl6emFyZC5jICAgICB8IDEwICsrKystLS0tLS0NCj4+PiBody9zY3NpL2VzcC1wY2ku
-YyAgICAgICAgIHwgIDEgKw0KPj4+IGh3L3RpbWVyL2V4eW5vczQyMTBfbWN0LmMgfCAgNCAtLS0t
-DQo+Pj4gMyBmaWxlcyBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDEwIGRlbGV0aW9ucygtKQ0K
-Pj4+DQo+Pj4gLS0NCj4+PiAyLjIzLjANCj4+Pg0KPj4NCg0K
+Forgot the changelog, so sent this patch 0/3 again.
+sorry about that.
+
+On Sat, Apr 04, 2020 at 01:08:23AM +0800, Zhao, Yan Y wrote:
+> patch 1 modifies handler of ram device memory regions to drop guest writes
+> to read-only ram device memory regions
+> 
+> patch 2 modifies handler of non-mmap'd read-only vfio regions to drop guest
+> writes to those regions 
+> 
+> patch 3 let mmap'd read-only vfio regions be able to generate vmexit for
+> guest write. so, without patch 1, host qemu would crash on guest write to
+> this read-only region. with patch 1, host qemu would drop the writes.
+> 
+> Changelog:
+> v2:
+> -split one big patches into smaller ones (Philippe)
+> -modify existing trace to record guest writes to read-only memory (Alex)
+> -modify vfio_region_write() to drop guest writes to non-mmap'd read-only
+>  region (Alex)
+> 
+> Yan Zhao (3):
+>   memory: drop guest writes to read-only ram device regions
+>   hw/vfio: drop guest writes to ro regions
+>   hw/vfio: let read-only flag take effect for mmap'd regions
+> 
+>  hw/vfio/common.c     | 12 +++++++++++-
+>  hw/vfio/trace-events |  2 +-
+>  memory.c             |  6 +++++-
+>  trace-events         |  2 +-
+>  4 files changed, 18 insertions(+), 4 deletions(-)
+> 
+> -- 
+> 2.17.1
+> 
 
