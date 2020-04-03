@@ -2,48 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C7F19D4F4
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 12:21:38 +0200 (CEST)
-Received: from localhost ([::1]:53256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4088B19D4F6
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 12:21:49 +0200 (CEST)
+Received: from localhost ([::1]:53260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKJSD-0005XO-Ky
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 06:21:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35922)
+	id 1jKJSO-0005vy-81
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 06:21:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35964)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1jKJQd-0003W2-24
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:20:00 -0400
+ (envelope-from <philmd@redhat.com>) id 1jKJQs-00041B-Sl
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:20:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1jKJQb-0001yY-Sy
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:19:59 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:50482 helo=huawei.com)
+ (envelope-from <philmd@redhat.com>) id 1jKJQr-0002EH-KP
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:20:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44903
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1jKJQV-0001tp-Ei; Fri, 03 Apr 2020 06:19:51 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 761F4107A88BBB4C1FF1;
- Fri,  3 Apr 2020 18:19:49 +0800 (CST)
-Received: from S00345302A-PC.china.huawei.com (10.47.24.31) by
- DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 3 Apr 2020 18:19:41 +0800
-From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
- <imammedo@redhat.com>
-Subject: [PATCH for-5.0 v2 3/3] exec: Fix for qemu_ram_resize() callback
-Date: Fri, 3 Apr 2020 11:18:27 +0100
-Message-ID: <20200403101827.30664-4-shameerali.kolothum.thodi@huawei.com>
-X-Mailer: git-send-email 2.12.0.windows.1
-In-Reply-To: <20200403101827.30664-1-shameerali.kolothum.thodi@huawei.com>
-References: <20200403101827.30664-1-shameerali.kolothum.thodi@huawei.com>
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jKJQr-0002Du-H1
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:20:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585909213;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=k1C/Oz5nFfDIWUwD12oZxAovwYDQ6/lqqhQBrwjZhTM=;
+ b=SWkkk5u12NxQVU1MKVqAeNp6spxUwJSew4+zT8U8LSw38Kq1OPDUuERh6Cyo/TfUeJodYD
+ XwqNJM4IDo4/ib+zxMPyfeDAoLiisHZMt6Py0+JWKEpyhcCjKtHgeHfMsuq4JUoENxK430
+ knEc1hNW7RBvnJNl6JS2k+yvuHQTHG4=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-296-HLgcMXazNEuT0CMltB9TFQ-1; Fri, 03 Apr 2020 06:20:11 -0400
+X-MC-Unique: HLgcMXazNEuT0CMltB9TFQ-1
+Received: by mail-ed1-f72.google.com with SMTP id h12so3699295edv.11
+ for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 03:20:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gN15SiEGk8vOxam/s3H6x2+AdX1TQhcDdLC2kH6KgbE=;
+ b=TfkaysJbyDaDGBJkpSLjsBYRGDf5SdhgiF1APqIiaNI60ctj12zfaLyhiUuoVi0uze
+ X8zZ/sinkOY6QquVk2OXG9Wop8lV36jKp9ZvDDmgFC4k1m+E+3HIb6BMkyNqDDphygWT
+ U5PjUn95IJdEuvZYEhy0ttbKU22RVdkXMXbhsEIVoUK8En2wVdDI5Vp5qv6M0S3L9foy
+ rAJ1BZ5eypOTsbzZ62pkHS59WVhNoThTilItKdOfL7BhGm8QaC7VDh5GANch6cJOVVrv
+ M4QsuMmBs+i2FPSyDWI+++1YJXwaQgeXnY4doUtyooS+qR+yIMVJ70HY5H+2LDTecK9T
+ InLQ==
+X-Gm-Message-State: AGi0PuZQl1SDBAGo/dEr7loScFl8PryBczAnpPSn0cJhd+FCQVMYDSs4
+ WsZLYruhUP5oKy/Yw1KrMh9zLV9er1zCIFMtY4w7lc5EVyj0589lSXMghvKl+M73ZTGalPzw+ML
+ KPW/t350U0VepYiI=
+X-Received: by 2002:a50:ab1e:: with SMTP id s30mr7074291edc.336.1585909209949; 
+ Fri, 03 Apr 2020 03:20:09 -0700 (PDT)
+X-Google-Smtp-Source: APiQypK+vgnXP926zsjWAY8V4KSfHEnA5BAbzLfgso45uw/r0+axtb3d9I8U+BTfzFs59+6eJwfY/A==
+X-Received: by 2002:a50:ab1e:: with SMTP id s30mr7074280edc.336.1585909209731; 
+ Fri, 03 Apr 2020 03:20:09 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id fx19sm1583486ejb.6.2020.04.03.03.20.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Apr 2020 03:20:09 -0700 (PDT)
+Subject: Re: [PATCH] iotests/common.pattern: Quote echos
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200403101134.805871-1-mreitz@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <6be375b0-55af-a692-64c9-b7cb745992c2@redhat.com>
+Date: Fri, 3 Apr 2020 12:20:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.47.24.31]
-X-CFilter-Loop: Reflected
+In-Reply-To: <20200403101134.805871-1-mreitz@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.32
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,84 +90,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, xiaoguangrong.eric@gmail.com, david@redhat.com,
- mst@redhat.com, dgilbert@redhat.com, xuwei5@hisilicon.com, linuxarm@huawei.com,
- shannon.zhaosl@gmail.com, lersek@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+On 4/3/20 12:11 PM, Max Reitz wrote:
+>  From time to time, my shell decides to repace the bracketed numbers here
+> by the numbers inside (i.e., "=3D=3D=3D Clusters to be compressed [1]" is
+> printed as "=3D=3D=3D Clusters to be compressed 1").  That makes tests th=
+at
+> use common.pattern fail.  Prevent that from happening by quoting the
+> arguments to all echos in common.pattern.
+>=20
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
 
-Summarizing the issue:
-1. Memory regions contain ram blocks with a different size,  if the
-   size is  not properly aligned. While memory regions can have an
-   unaligned size, ram blocks can't. This is true when creating
-   resizable memory region with  an unaligned size.
-2. When resizing a ram block/memory region, the size of the memory
-   region  is set to the aligned size. The callback is called with
-   the aligned size. The unaligned piece is lost.
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Because of the above, if ACPI blob length modifications happens
-after the initial virt_acpi_build() call, and the changed blob
-length is within the PAGE size boundary, then the revised size
-is not seen by the firmware on Guest reboot.
-
-Hence make sure callback is called if memory region size is changed,
-irrespective of aligned or not.
-
-Signed-off-by: David Hildenbrand <david@redhat.com>
-[Shameer: added commit log]
-Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
----
-Please find previous discussion here,
-https://patchwork.kernel.org/patch/11432375/#23216751
----
- exec.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
-
-diff --git a/exec.c b/exec.c
-index de9d949902..2874bb5088 100644
---- a/exec.c
-+++ b/exec.c
-@@ -2074,11 +2074,23 @@ static int memory_try_enable_merging(void *addr, size_t len)
-  */
- int qemu_ram_resize(RAMBlock *block, ram_addr_t newsize, Error **errp)
- {
-+    const ram_addr_t unaligned_size = newsize;
-+
-     assert(block);
- 
-     newsize = HOST_PAGE_ALIGN(newsize);
- 
-     if (block->used_length == newsize) {
-+        /*
-+         * We don't have to resize the ram block (which only knows aligned
-+         * sizes), however, we have to notify if the unaligned size changed.
-+         */
-+        if (unaligned_size != memory_region_size(block->mr)) {
-+            memory_region_set_size(block->mr, unaligned_size);
-+            if (block->resized) {
-+                block->resized(block->idstr, unaligned_size, block->host);
-+            }
-+        }
-         return 0;
-     }
- 
-@@ -2102,9 +2114,9 @@ int qemu_ram_resize(RAMBlock *block, ram_addr_t newsize, Error **errp)
-     block->used_length = newsize;
-     cpu_physical_memory_set_dirty_range(block->offset, block->used_length,
-                                         DIRTY_CLIENTS_ALL);
--    memory_region_set_size(block->mr, newsize);
-+    memory_region_set_size(block->mr, unaligned_size);
-     if (block->resized) {
--        block->resized(block->idstr, newsize, block->host);
-+        block->resized(block->idstr, unaligned_size, block->host);
-     }
-     return 0;
- }
--- 
-2.17.1
-
+> ---
+>   tests/qemu-iotests/common.pattern | 22 +++++++++++-----------
+>   1 file changed, 11 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/tests/qemu-iotests/common.pattern b/tests/qemu-iotests/commo=
+n.pattern
+> index 4f5e5bcea0..4caa5de187 100644
+> --- a/tests/qemu-iotests/common.pattern
+> +++ b/tests/qemu-iotests/common.pattern
+> @@ -23,7 +23,7 @@ do_is_allocated() {
+>       local count=3D$4
+>  =20
+>       for ((i=3D1;i<=3D$count;i++)); do
+> -        echo alloc $(( start + (i - 1) * step )) $size
+> +        echo "alloc $(( start + (i - 1) * step )) $size"
+>       done
+>   }
+>  =20
+> @@ -39,9 +39,9 @@ do_io() {
+>       local count=3D$5
+>       local pattern=3D$6
+>  =20
+> -    echo =3D=3D=3D IO: pattern $pattern >&2
+> +    echo "=3D=3D=3D IO: pattern $pattern" >&2
+>       for ((i=3D1;i<=3D$count;i++)); do
+> -        echo $op -P $pattern $(( start + (i - 1) * step )) $size
+> +        echo "$op -P $pattern $(( start + (i - 1) * step )) $size"
+>       done
+>   }
+>  =20
+> @@ -110,31 +110,31 @@ io_test2() {
+>       #        free - free - compressed
+>  =20
+>       # Write the clusters to be compressed
+> -    echo =3D=3D=3D Clusters to be compressed [1]
+> +    echo '=3D=3D=3D Clusters to be compressed [1]'
+>       io_pattern writev $((offset + 4 * $cluster_size)) $cluster_size $((=
+9 * $cluster_size)) $num 165
+> -    echo =3D=3D=3D Clusters to be compressed [2]
+> +    echo '=3D=3D=3D Clusters to be compressed [2]'
+>       io_pattern writev $((offset + 5 * $cluster_size)) $cluster_size $((=
+9 * $cluster_size)) $num 165
+> -    echo =3D=3D=3D Clusters to be compressed [3]
+> +    echo '=3D=3D=3D Clusters to be compressed [3]'
+>       io_pattern writev $((offset + 8 * $cluster_size)) $cluster_size $((=
+9 * $cluster_size)) $num 165
+>  =20
+>       mv "$TEST_IMG" "$TEST_IMG.orig"
+>       $QEMU_IMG convert -f $IMGFMT -O $IMGFMT -c "$TEST_IMG.orig" "$TEST_=
+IMG"
+>  =20
+>       # Write the used clusters
+> -    echo =3D=3D=3D Used clusters [1]
+> +    echo '=3D=3D=3D Used clusters [1]'
+>       io_pattern writev $((offset + 0 * $cluster_size)) $cluster_size $((=
+9 * $cluster_size)) $num 165
+> -    echo =3D=3D=3D Used clusters [2]
+> +    echo '=3D=3D=3D Used clusters [2]'
+>       io_pattern writev $((offset + 1 * $cluster_size)) $cluster_size $((=
+9 * $cluster_size)) $num 165
+> -    echo =3D=3D=3D Used clusters [3]
+> +    echo '=3D=3D=3D Used clusters [3]'
+>       io_pattern writev $((offset + 3 * $cluster_size)) $cluster_size $((=
+9 * $cluster_size)) $num 165
+>  =20
+>       # Read them
+> -    echo =3D=3D=3D Read used/compressed clusters
+> +    echo '=3D=3D=3D Read used/compressed clusters'
+>       io_pattern readv $((offset + 0 * $cluster_size)) $((2 * $cluster_si=
+ze)) $((9 * $cluster_size)) $num 165
+>       io_pattern readv $((offset + 3 * $cluster_size)) $((3 * $cluster_si=
+ze)) $((9 * $cluster_size)) $num 165
+>       io_pattern readv $((offset + 8 * $cluster_size)) $((1 * $cluster_si=
+ze)) $((9 * $cluster_size)) $num 165
+>  =20
+> -    echo =3D=3D=3D Read zeros
+> +    echo '=3D=3D=3D Read zeros'
+>       io_zero readv $((offset + 2 * $cluster_size)) $((1 * $cluster_size)=
+) $((9 * $cluster_size)) $num
+>       io_zero readv $((offset + 6 * $cluster_size)) $((2 * $cluster_size)=
+) $((9 * $cluster_size)) $num
+>   }
+>=20
 
 
