@@ -2,66 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 007C419D4E2
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 12:17:16 +0200 (CEST)
-Received: from localhost ([::1]:53200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C89D19D4F5
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 12:21:39 +0200 (CEST)
+Received: from localhost ([::1]:53258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKJNy-0002aj-OJ
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 06:17:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35525)
+	id 1jKJSE-0005cB-K6
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 06:21:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35874)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1jKJN5-0002A5-U0
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:16:20 -0400
+ (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1jKJQT-0003NG-Pu
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:19:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1jKJN4-0007g5-Tk
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:16:19 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28069
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1jKJQS-0001sO-Q6
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:19:49 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:50348 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jKJN4-0007fR-NF
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 06:16:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585908977;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DAQqHLgwb31Jo+apnFzfKE2uGBKbKWX1M7C38S3wHkM=;
- b=EA6PoBOkZQ5b0CJWLI5KVFQZFZOOKnKGt58I9of0z3dbwgFWhE8wp+tUcFKNvwYuTV6qEN
- cPly70lS3Ml2N/CVcXSA1HguTQYS5//4N7ud0oVPt5oV99VMsKfahyPY5OK/28JJOiKVHh
- eiFBIxcaOZlcbvjYryr5xK3YZOS1BJs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483-Gpp9P32dOiiuipVtIIJjew-1; Fri, 03 Apr 2020 06:16:16 -0400
-X-MC-Unique: Gpp9P32dOiiuipVtIIJjew-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54C5F1005516;
- Fri,  3 Apr 2020 10:16:15 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B02FE10372C2;
- Fri,  3 Apr 2020 10:16:03 +0000 (UTC)
-Date: Fri, 3 Apr 2020 12:16:01 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2 09/12] acpi: move aml builder code for parallel device
-Message-ID: <20200403121601.35099bf5@redhat.com>
-In-Reply-To: <20200403121210.30a010cb@redhat.com>
-References: <20200403080502.8154-1-kraxel@redhat.com>
- <20200403080502.8154-10-kraxel@redhat.com>
- <20200403121210.30a010cb@redhat.com>
+ (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1jKJQQ-0001kE-7H; Fri, 03 Apr 2020 06:19:46 -0400
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 5DAAF1C7CDC4ED513491;
+ Fri,  3 Apr 2020 18:19:39 +0800 (CST)
+Received: from S00345302A-PC.china.huawei.com (10.47.24.31) by
+ DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 3 Apr 2020 18:19:28 +0800
+From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
+ <imammedo@redhat.com>
+Subject: [PATCH for-5.0 v2 0/3] acpi: Fixes for inconsistency in ACPI MR size
+ during migration
+Date: Fri, 3 Apr 2020 11:18:24 +0100
+Message-ID: <20200403101827.30664-1-shameerali.kolothum.thodi@huawei.com>
+X-Mailer: git-send-email 2.12.0.windows.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.47.24.31]
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 45.249.212.32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,33 +54,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: peter.maydell@linaro.org, xiaoguangrong.eric@gmail.com, david@redhat.com,
+ mst@redhat.com, dgilbert@redhat.com, xuwei5@hisilicon.com, linuxarm@huawei.com,
+ shannon.zhaosl@gmail.com, lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 3 Apr 2020 12:12:10 +0200
-Igor Mammedov <imammedo@redhat.com> wrote:
+This is to fix few issues discovered while adding NVDIMM hot-add
+support to arm/virt. These were previously part of [1] and since
+the fixes are generic in nature and might be an issue in x86 as
+well, they are being treated separately now.
 
-> On Fri,  3 Apr 2020 10:04:59 +0200
-> Gerd Hoffmann <kraxel@redhat.com> wrote:
-> 
-[...]
-> > +static void parallel_isa_build_aml(ISADevice *isadev, Aml *scope)
-> > +{
-> > +    ISAParallelState *isa = ISA_PARALLEL(isadev);
-> > +    Aml *dev;
-> > +    Aml *crs;
-> > +
-> > +    if (isa->iobase != 0x0378) {
-> > +        return;
-> > +    }
-if device is present why should we skip adding it to DSDT?
+1. https://patchwork.kernel.org/patch/11432371/
 
-[..]
+v1 --> V2
+ - patch #2, Addressed comments from Dave and MST
+
+Updates from [1]:
+ -Added R-by and A-by tags.
+ -Edited commit log for patch#2
+ -Updated patch#3 as per David's comment
+
+David Hildenbrand (1):
+  exec: Fix for qemu_ram_resize() callback
+
+Shameer Kolothum (2):
+  acpi: Use macro for table-loader file name
+  fw_cfg: Migrate ACPI table mr sizes separately
+
+ exec.c                      | 16 ++++++-
+ hw/arm/virt-acpi-build.c    |  2 +-
+ hw/core/machine.c           |  1 +
+ hw/i386/acpi-build.c        |  2 +-
+ hw/nvram/fw_cfg.c           | 91 ++++++++++++++++++++++++++++++++++++-
+ include/hw/acpi/aml-build.h |  1 +
+ include/hw/nvram/fw_cfg.h   |  6 +++
+ 7 files changed, 114 insertions(+), 5 deletions(-)
+
+-- 
+2.17.1
+
 
 
