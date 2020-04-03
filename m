@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC9819DE76
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 21:16:29 +0200 (CEST)
-Received: from localhost ([::1]:60184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 470C019DE85
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 21:22:08 +0200 (CEST)
+Received: from localhost ([::1]:60308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKRno-0000FT-IG
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 15:16:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40910)
+	id 1jKRtH-0007OL-B4
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 15:22:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41006)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jKRjb-0003Vb-HP
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:12:08 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jKRjd-0003Yd-3j
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:12:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jKRja-0002V3-8F
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:12:07 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39792)
+ (envelope-from <alex.bennee@linaro.org>) id 1jKRjb-0002XD-2f
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:12:08 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:50578)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jKRjZ-0002Ql-Vs
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:12:06 -0400
-Received: by mail-wm1-x343.google.com with SMTP id e9so8904963wme.4
- for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 12:12:05 -0700 (PDT)
+ id 1jKRja-0002VC-Rw
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:12:07 -0400
+Received: by mail-wm1-x342.google.com with SMTP id t128so8281919wma.0
+ for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 12:12:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DgcsVRLcv58otFdRsNxFND+i/4AlyINLiQErQsSUPtE=;
- b=b62VDQt7B3YmV/5dG6ywTOUYfm7P42bQuEiI5fRJ/Rp08d14EXw/AF5k8JNgFlUhEQ
- L+Dhj398lyB7K90oUGcCwxuUPK6lo7rb7YrGdrBdNgjNaHnq4o8GldLgPhS1RqtY3n1P
- cV1JY8SNT81dEHX+FU8jLozLPtpZJUiz69Oh7GqZCqaL3felghuRrKzGYbCXNe0/WAWJ
- Lf/+1sU3tMA4/SZTImDcWVYU4A/uR4o9K2iNk8yzlmYX9YHeU6CHvCrAopH3eHRZ7J23
- URFR/bWFZ0OncpMuHr0Uxz2NgITCv9HSRojONMLWCwmfESYaUtGKfhb/nGpkXhmZ4PQO
- t6Yg==
+ bh=DyeIxRwQ3r5TyVkIrZoIov4F8W7a9xfnJ4qmjPwmv54=;
+ b=HE2pRBeHMSc4igIjt0XF95cKDtlhZawGnFUFuy+PmxcRSm6ybcvG6AndgkNiyUQLsQ
+ pZTAd05urN571KW0zz+iPJDEc11dy2G7GRzBUc8W+Kd9rSg29IX6yKVIecL49VKH+t3V
+ TPLSY2jOQeTxuxWQ0svd2j+62X7jTB+ivEGGBIFu8ItzWMqVqQ1bFOIz+3HJL8fpaTug
+ 4JtYCLJ6nPDBGUQ9EA5r7PJq3qoPyk2da71tNy0kmQ0v4Ei9gdTZQqaaHqBVBiMQ4APA
+ CG6QvsnJ1ERR1XOEEzKO65bSWPPwCJGwTHABZmQrtTD9GUfKCFUcEyT1jZJs9lNVKsgG
+ 7oJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DgcsVRLcv58otFdRsNxFND+i/4AlyINLiQErQsSUPtE=;
- b=TMW6RvAqcepjaAqrPma27eskEL9A/Z1f+c53Knr0bAzOPHwDjgGqn/SZYwXxL1t9vf
- DIfEHEznq603UkYdIaIKJhfBzk3H1gZ4jx23jGF7aN2o3GkD7H0W1MSxRk69BfwiV4XS
- H2wV00fAFtVxV40Two8CAllSLjuTJiHq7I9+zzwVUF2o9UYxmCPSKhZuZ1RiyxWt0E+y
- cxPiwu+HBlWT/Jh6P44ymk0MQEexi4RM9Z6JBRlzH/50b0dfpUOTyJHW/gZu0K92UIQy
- eFhMfzIu55NAYRiWLu3yjBgmdRItIFR+3xA1wy8XCxP+goUtJg7F7Shb7hHGLY3DCxS0
- Q88A==
-X-Gm-Message-State: AGi0PuasbEcLTLpOZLqKSOkQ+RJWVHLkgtkrpqq1fjr8oUec1y9wfzT6
- nwXKhloAS9Kickb81CWm9ien/w==
-X-Google-Smtp-Source: APiQypLAqJtUiO70v5QjRA6gD5NDJFlIWIItByivUmZ1H6tC12vNUCfYKfTuLd+KyNx8H9FGC+UvMQ==
-X-Received: by 2002:a1c:9c47:: with SMTP id f68mr9851632wme.148.1585941124945; 
- Fri, 03 Apr 2020 12:12:04 -0700 (PDT)
+ bh=DyeIxRwQ3r5TyVkIrZoIov4F8W7a9xfnJ4qmjPwmv54=;
+ b=CTgu84Zhs4AxIc+RwHJSRKNuXAikXfSSmY2Da141KwR4xGZWhG75wPFUWxEaBZ/LQp
+ p6IfmXe6+CJEwCDlaZgux+W+Plc/GrFfl6TPSzzIDEfbJJavTIbe7CeonjzwBVbSsLJF
+ qMo98xMpK/uYNfMefq6+8/uALbJiicvVW1VeGBWyFQtH5lwMN2MsV+YieIausCMppFUE
+ mafzbp3XWZN+8XuZW2QmIn0mTXPBzfXLhCLw8cMdbrsmej5/p73rBrUL0WBg7hLzVyfQ
+ 4xo8MKUE8TNYKPpSbPba38UA+BmzXKbc0+JJG4DFNfTOBdn1J/c8P0piyYvD6bxrO0oN
+ h88A==
+X-Gm-Message-State: AGi0PubS9en2YmAr+dgO/lu1WphXgBMHyjfbHRxMOOcueIUCsuh4BFDl
+ ePU1iMT8aZ8enIia+B7hkuYe6A==
+X-Google-Smtp-Source: APiQypIvw1puQJJjnCsbKKByRZbDMqtpqRGxztr0Fz8+nT5pVnISdCFDraYGA0IRhHOw9Ax0ppM2OQ==
+X-Received: by 2002:a1c:41d6:: with SMTP id o205mr9971548wma.122.1585941125880; 
+ Fri, 03 Apr 2020 12:12:05 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c6sm10161053wrm.85.2020.04.03.12.11.56
+ by smtp.gmail.com with ESMTPSA id 138sm12521183wmb.21.2020.04.03.12.11.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 03 Apr 2020 12:11:59 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AD5241FF9A;
+ by zen.linaroharston (Postfix) with ESMTP id C200B1FF9B;
  Fri,  3 Apr 2020 20:11:51 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 11/12] hw/core: properly terminate loading .hex on EOF
- record
-Date: Fri,  3 Apr 2020 20:11:49 +0100
-Message-Id: <20200403191150.863-12-alex.bennee@linaro.org>
+Subject: [PATCH  v3 12/12] configure: Add -Werror to PIE probe
+Date: Fri,  3 Apr 2020 20:11:50 +0100
+Message-Id: <20200403191150.863-13-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200403191150.863-1-alex.bennee@linaro.org>
 References: <20200403191150.863-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,63 +81,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The https://makecode.microbit.org/#editor generates slightly weird
-.hex files which work fine on a real microbit but causes QEMU to
-choke. The reason is extraneous data after the EOF record which causes
-the loader to attempt to write a bigger file than it should to the
-"rom". According to the HEX file spec an EOF really should be the last
-thing we process so lets do that.
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Reported-by: Ursula Bennée <alex.bennee@linaro.org>
+Without -Werror, the probe may succeed, but then compilation fails
+later when -Werror is added for other reasons.  Shows up on windows,
+where the compiler complains about -fPIC.
+
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200401214756.6559-1-richard.henderson@linaro.org>
 ---
- hw/core/loader.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ configure | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/core/loader.c b/hw/core/loader.c
-index eeef6da9a1b..8bbb1797a4c 100644
---- a/hw/core/loader.c
-+++ b/hw/core/loader.c
-@@ -1447,6 +1447,7 @@ typedef struct {
-     uint32_t current_rom_index;
-     uint32_t rom_start_address;
-     AddressSpace *as;
-+    bool complete;
- } HexParser;
+diff --git a/configure b/configure
+index 22870f38672..233c671aaa9 100755
+--- a/configure
++++ b/configure
+@@ -2119,7 +2119,7 @@ if compile_prog "-Werror -fno-pie" "-no-pie"; then
+ fi
  
- /* return size or -1 if error */
-@@ -1484,6 +1485,7 @@ static int handle_record_type(HexParser *parser)
-                                   parser->current_rom_index,
-                                   parser->rom_start_address, parser->as);
-         }
-+        parser->complete = true;
-         return parser->total_size;
-     case EXT_SEG_ADDR_RECORD:
-     case EXT_LINEAR_ADDR_RECORD:
-@@ -1548,11 +1550,12 @@ static int parse_hex_blob(const char *filename, hwaddr *addr, uint8_t *hex_blob,
-         .bin_buf = g_malloc(hex_blob_size),
-         .start_addr = addr,
-         .as = as,
-+        .complete = false
-     };
- 
-     rom_transaction_begin();
- 
--    for (; hex_blob < end; ++hex_blob) {
-+    for (; hex_blob < end && !parser.complete; ++hex_blob) {
-         switch (*hex_blob) {
-         case '\r':
-         case '\n':
+ if test "$static" = "yes"; then
+-  if test "$pie" != "no" && compile_prog "-fPIE -DPIE" "-static-pie"; then
++  if test "$pie" != "no" && compile_prog "-Werror -fPIE -DPIE" "-static-pie"; then
+     QEMU_CFLAGS="-fPIE -DPIE $QEMU_CFLAGS"
+     QEMU_LDFLAGS="-static-pie $QEMU_LDFLAGS"
+     pie="yes"
+@@ -2132,7 +2132,7 @@ if test "$static" = "yes"; then
+ elif test "$pie" = "no"; then
+   QEMU_CFLAGS="$CFLAGS_NOPIE $QEMU_CFLAGS"
+   QEMU_LDFLAGS="$LDFLAGS_NOPIE $QEMU_LDFLAGS"
+-elif compile_prog "-fPIE -DPIE" "-pie"; then
++elif compile_prog "-Werror -fPIE -DPIE" "-pie"; then
+   QEMU_CFLAGS="-fPIE -DPIE $QEMU_CFLAGS"
+   QEMU_LDFLAGS="-pie $QEMU_LDFLAGS"
+   pie="yes"
 -- 
 2.20.1
 
