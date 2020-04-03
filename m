@@ -2,70 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D535419D8A8
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 16:06:48 +0200 (CEST)
-Received: from localhost ([::1]:55956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6104219D8AA
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 16:07:35 +0200 (CEST)
+Received: from localhost ([::1]:55984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKMy7-00047s-SO
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 10:06:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38325)
+	id 1jKMys-0005cp-Dz
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 10:07:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38824)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jKMuK-0000BK-HM
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:02:53 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jKMxr-0004QO-2K
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:06:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jKMuJ-0001Vc-BY
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:02:52 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33844
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jKMuJ-0001VL-7c
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:02:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585922570;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fzkLCBkkInwp5RE8uz1vR988oWchn1IS/j5wKF+yNqA=;
- b=HsqQqiV7CW6OROiW8jOs06+GabZ6DFRsBC0eAIFLjTVdtyHwaac/+LnzBWwp5MK24cJmwg
- 9WIKZLjH6Hjc7wfSTccULwfJtBVnjUV/aAWTTQr3mAV92F/OiY1dfGOWSpbBR/Ock9cV+p
- uMgqqLAL86X/DJf88ggPNp0x0Khc0Mg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-503-USyVHWcdMKuxy1HfHRFeGw-1; Fri, 03 Apr 2020 10:02:49 -0400
-X-MC-Unique: USyVHWcdMKuxy1HfHRFeGw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B431B18A8C83;
- Fri,  3 Apr 2020 14:02:47 +0000 (UTC)
-Received: from [10.3.113.246] (ovpn-113-246.phx2.redhat.com [10.3.113.246])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AD2D85E000;
- Fri,  3 Apr 2020 14:02:46 +0000 (UTC)
-Subject: Re: [PATCH v4 for-5.0] configure: warn if not using a separate build
- directory
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200403135306.665493-1-berrange@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <93fbf486-d1c3-ec03-ea8d-163bb2374260@redhat.com>
-Date: Fri, 3 Apr 2020 09:02:46 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <peter.maydell@linaro.org>) id 1jKMxo-0003pf-H9
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:06:30 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:39899)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jKMxo-0003pB-6i
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:06:28 -0400
+Received: by mail-ot1-x344.google.com with SMTP id x11so7343028otp.6
+ for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 07:06:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bk5wp0lHQALw4uwxKLLIqPkZJ0tw2SNSYsidXYkaNUE=;
+ b=h+XnnZjOz/T7t4SP1SYbiEXF5VjFSX0HpcAjidOAFZRMSFDx9NPSRvQEDmelJulzez
+ OwBklwSCFpfJUCnYISEs1nLOAGObgxThevJ1UnYCx/T8R7RCoXxDIgXIArLJ7VELul45
+ Yvghf4lyMywc2zMzue9ElzfRPFXGsxNjPbFuf0NmG0kIceTuX0P0ybKmaOWFxSic2qeW
+ kRixy6vOMokSel36GtYhwqPBq/DBjMhBLSD2xiwj+JenSf2kEHLWO2qkbmhhZB96FdXe
+ Jeb1lgKVHnBB0Vp8GTS1IJegDzuT3Lj3JZSnlK9fx6GkPZ8tAgV5VFW9imAzVZtSxUjd
+ qFWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bk5wp0lHQALw4uwxKLLIqPkZJ0tw2SNSYsidXYkaNUE=;
+ b=FCNrG5LBxUSdKsS8jndzXPBgrEndlj6Ku9C4hg4uQ5Y4QKjohBxvCT2PUkXJLVonV2
+ LeuKXl8xei9W/xIXxDgbRCFj+0VmWRnY9yj7flTNijKVuwz4xINNbBsem7ygpJ3bqVdE
+ YLXK2flN2NAz9s/5ey+EWlR5JPWj9oucLDp8hKiSsx+ZDdA+8UvNsoKWwwvZq5+lg3W1
+ 7WwZV0yPM01oxMuoeMY5rKrmPira8ATtSg9imcGGZaHtghM8ujsSo4b5pc9okjc9xiZc
+ MOrc9qvqF1tC9MfYuNMfDEnF2W0+JWUFmjtOcIRZm3PN9u6hjg4qlqe9HCLQQkBAVaTw
+ gwxg==
+X-Gm-Message-State: AGi0PuZl5v272IQvbrhrc9iIN7o6Z/t1FHaiU0viI49GMXAxin+zyvrr
+ 8DCYEUz+oRXtlcsnl51gRNOazvgf9zcxLeRwwQFtgw==
+X-Google-Smtp-Source: APiQypJKEPQnJCs3bUfO44OperDhUW8imUnjcIirM8EUfqXmgQHTBGa62DEYd1NzjPLbKB6jzIvDu7gU+Qgxd12T6Ro=
+X-Received: by 2002:a9d:1920:: with SMTP id j32mr6156212ota.221.1585922785949; 
+ Fri, 03 Apr 2020 07:06:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200403135306.665493-1-berrange@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+References: <20200403140018.13531-1-imammedo@redhat.com>
+In-Reply-To: <20200403140018.13531-1-imammedo@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 3 Apr 2020 15:06:14 +0100
+Message-ID: <CAFEAcA_cyK+1+BjYqVB+nu70jiShx861NM=W0ezp_8g5eV6qcw@mail.gmail.com>
+Subject: Re: [PATCH] nvdimm-utils: clean up headers and add license comment
+To: Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,61 +71,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Liviu Ionescu <ilg@livius.net>, Markus Armbruster <armbru@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Shivaprasad G Bhat <sbhat@linux.ibm.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Greg Kurz <groug@kaod.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/3/20 8:53 AM, Daniel P. Berrang=C3=A9 wrote:
-> Running configure directly from the source directory is a build
-> configuration that will go away in future. It is also not currently
-> covered by any automated testing. Display a deprecation warning if
-> the user attempts to use an in-srcdir build setup, so that they are
-> aware that they're building QEMU in an undesirable manner.
->=20
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+On Fri, 3 Apr 2020 at 15:00, Igor Mammedov <imammedo@redhat.com> wrote:
+>
+> Fixes: 3f350f6bb36233be50fc2bc18dc78b6a948a5dbe
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 > ---
->=20
-> Changed in v4:
->    - Adopted Eric's suggested wording
+>  include/qemu/nvdimm-utils.h |  2 --
+>  util/nvdimm-utils.c         | 29 +++++++++++++++++++++++++++++
+>  2 files changed, 29 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/qemu/nvdimm-utils.h b/include/qemu/nvdimm-utils.h
+> index 4b8b198ba7..1f1dae477f 100644
+> --- a/include/qemu/nvdimm-utils.h
+> +++ b/include/qemu/nvdimm-utils.h
+> @@ -1,7 +1,5 @@
+>  #ifndef NVDIMM_UTILS_H
+>  #define NVDIMM_UTILS_H
+>
 
-> +if test "$in_srcdir" =3D "yes"; then
-> +    echo
-> +    echo "WARNING: SUPPORT FOR BUILDING IN THE SOURCE DIR IS DEPRECATED"
-> +    echo
-> +    echo "Support for running the 'configure' script directly from the"
-> +    echo "source directory is deprecated. In-tree builds are not covered=
-"
-> +    echo "by automated testing and thus may not correctly build QEMU."
-> +    echo "Users are recommended to use a separate build directory:"
-> +    echo
-> +    echo "  $ mkdir build"
-> +    echo "  $ cd build"
-> +    echo "  $ ../configure"
-> +    echo "  $ make"
+.h file still missing the copyright-n-license comment ?
 
-Late question, but:
+> -#include "qemu/osdep.h"
+> -
+>  GSList *nvdimm_get_device_list(void);
+>  #endif
+> diff --git a/util/nvdimm-utils.c b/util/nvdimm-utils.c
+> index 5cc768ca47..ca41d39af5 100644
+> --- a/util/nvdimm-utils.c
+> +++ b/util/nvdimm-utils.c
+> @@ -1,3 +1,32 @@
+> +/*
+> + * NVDIMM utilities
+> + *
+> + * Copyright(C) 2015 Intel Corporation.
+> + *
+> + * Author:
+> + *  Xiao Guangrong <guangrong.xiao@linux.intel.com>
+> + *
+> + * NFIT is defined in ACPI 6.0: 5.2.25 NVDIMM Firmware Interface Table (NFIT)
+> + * and the DSM specification can be found at:
+> + *       http://pmem.io/documents/NVDIMM_DSM_Interface_Example.pdf
+> + *
+> + * Currently, it only supports PMEM Virtualization.
+> + *
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2 of the License, or (at your option) any later version.
 
-Since this is just a warning, we still manage to complete the=20
-./configure run, including whatever generated files it leaves in-tree.=20
-Is there any additional step we need to recommend prior to 'mkdir build'=20
-that will clean up the in-tree artifacts, so that the user then=20
-attempting the VPATH build won't still have a broken build due to the=20
-leftovers from the in-tree attempt?  'make distclean', perhaps?
+I guess you copied this from somewhere else, but commit b7cbb8741b40b7c
+suggests that "Lesser General Public License version 2" is
+wrong and it should either be "Library General Public License
+version 2" or "Lesser General Public License version 2.1"...we
+might as well get it right when we're adding a new file, so
+I would suggest you want 2.1 here.
 
-/me starts testing; I'll reply back once it finishes...
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see <http://www.gnu.org/licenses/>
+> + */
+> +
+> +#include "qemu/osdep.h"
+>  #include "qemu/nvdimm-utils.h"
+>  #include "hw/mem/nvdimm.h"
+>
+> --
+> 2.18.1
+>
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
 
+thanks
+-- PMM
 
