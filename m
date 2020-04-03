@@ -2,63 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7588719D8FF
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 16:23:18 +0200 (CEST)
-Received: from localhost ([::1]:56140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 823F019D909
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 16:24:46 +0200 (CEST)
+Received: from localhost ([::1]:56156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKNE5-0005vX-Hg
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 10:23:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40973)
+	id 1jKNFV-0007ki-J8
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 10:24:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41082)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jKNDJ-0005Vc-1p
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:22:30 -0400
+ (envelope-from <arilou@gmail.com>) id 1jKNEG-0006JI-JZ
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:23:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1jKNDG-0005tf-UE
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:22:28 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53238
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jKNDG-0005tC-KR
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:22:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585923745;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type: content-transfer-encoding:content-transfer-encoding;
- bh=Cesu/Rqb5ccaX21wPu/Qze+09c9Gd3ipVv7CD44dpAY=;
- b=VNsRkKBxWzQY8ii3i+TlBow+wHsMGIisj4POIVLUXHwdidqlIqNGo8HJvAoxIVktYiqdOm
- pt8HuNY9WYB8TCZ2HSlGZG1WnTuRrHnOdBs1oyH7TPcFEP3VFxJgdan1ZL/iXLD3DI5eel
- 3wTRwQOPOihIyssxs5Jj4qcOra50YDM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-3lydG17HON-oSvni7ERhBw-1; Fri, 03 Apr 2020 10:22:19 -0400
-X-MC-Unique: 3lydG17HON-oSvni7ERhBw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 853DE13F6
- for <qemu-devel@nongnu.org>; Fri,  3 Apr 2020 14:22:18 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AD751101D480
- for <qemu-devel@nongnu.org>; Fri,  3 Apr 2020 14:22:17 +0000 (UTC)
-Date: Fri, 3 Apr 2020 15:22:13 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+ (envelope-from <arilou@gmail.com>) id 1jKNEF-00080L-LR
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:23:28 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40559)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <arilou@gmail.com>) id 1jKNEF-0007ti-Fp
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 10:23:27 -0400
+Received: by mail-wr1-x430.google.com with SMTP id s8so6618951wrt.7
+ for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 07:23:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=L8sCkq4ekfkohDaPAcnhgbzeFwXLhPDoN24GtgfbGCM=;
+ b=hTpaWRjB3ObzYYIedFnKf67+klsMgxz1TBZNLzp4FxJF+1FrjlQejbTYsn9Zqxc4Ka
+ RXirh6G07syeBayWknvVBhz/8iUY5GyJw+LMRVuf6uV6JW3fWb85aTD/W3GB2jlvTK/H
+ CwuztlKnZ73Dg5fHCFHFKhiXrLBfI1Q+/BffqvUTfRPJuNOV6Srs5sX5K41fO9ZxoTzJ
+ 1dqiFBlwKzXperLrLIm+/Lco2txFuh7JV5uAVOhPdmUe7Gg1K9/7/w+wD1b7vPXFZCox
+ 2uigYOPRsZAO6MniaXQNIC2Moa/6L3Op7+WDvdNEFdz4noLh0WuSWYHg0+kum8uyDU2S
+ tE7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=L8sCkq4ekfkohDaPAcnhgbzeFwXLhPDoN24GtgfbGCM=;
+ b=RC1ApAiAxZZ940nDC5QNnBOYxLtuLjBQmU0ITRwf19vth8o3ZDanWo607UP0N4deyL
+ kloqri8QAI5/NdS/B5hOS2IKInRrYBBz9fLndh/GAAPzm0Tzi7Zh94x9Yk28O6uu+8JR
+ Od+3Os5gs6XlUISAVDRcvt3O1JePBTvFxhE6RESHQkrTQWyTzyF+iGi+aGCQZHCITsLb
+ JpR9UDPDw7lD32NdEq4HwFfea/rENuto3HVFak900aSsnPZae2jpWe1gPYWmdDOqliSV
+ E9VF2DQiHejGFowGrkphP96s6GmmL6zm3Y9YWfI7u/ppJmgoBlHadIxrOD+yGOKwxBU2
+ e3tg==
+X-Gm-Message-State: AGi0PuYXpVTjlkE62nFlxy1sPJDfWuvyl23QBbddoEnvRxops158dv9z
+ 3X70ydIuMideiQbm5ToCkPHWw6DAqAc=
+X-Google-Smtp-Source: APiQypK92MaI6axdhwGMYJbzXu4qg3yRyXdQIg6YwYX3kqANr6Hln2p9wzviPg1QyHibztcR6QJr6w==
+X-Received: by 2002:a05:6000:10e:: with SMTP id
+ o14mr8983072wrx.231.1585923804411; 
+ Fri, 03 Apr 2020 07:23:24 -0700 (PDT)
+Received: from jondnuc.lan (IGLD-84-229-154-167.inter.net.il. [84.229.154.167])
+ by smtp.gmail.com with ESMTPSA id i2sm12218646wrx.22.2020.04.03.07.23.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Apr 2020 07:23:23 -0700 (PDT)
+From: Jon Doron <arilou@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: FYI GitHub pull request / issue tracker lockdown bot
-Message-ID: <20200403142213.GO559148@redhat.com>
+Subject: [PATCH v1 0/5] hyperv: VMBus implementation
+Date: Fri,  3 Apr 2020 17:23:03 +0300
+Message-Id: <20200403142308.82990-1-arilou@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::430
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,58 +75,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: pbonzini@redhat.com, vkuznets@redhat.com, ehabkost@redhat.com,
+ Jon Doron <arilou@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU, like libvirt, has a github.com project which contains automated
-read-only mirrors of QEMU repositories.
+This is a rebase of the old patchset from Roman for HyperV VMBus
+implementation.
 
-  https://github.com/qemu/
+How to use:
+-device vmbus-bridge
 
-An unfortunate side effect of this is that some users will try to open
-pull requests against these mirrors. These get ignored until eventually
-someone notices and closes the request. QEMU has had about 90 prs opened
-over the years.
+Later on new paravirtualized devices can be implemented on top of it
+(Network/SCSI/etc.)
 
-  https://github.com/qemu/qemu/pulls
+Jon Doron (5):
+  hyperv: expose API to determine if synic is enabled
+  hyperv: SControl is optional to enable SynIc
+  vmbus: add vmbus protocol definitions
+  vmbus: vmbus implementation
+  i386: Hyper-V VMBus ACPI DSDT entry
 
-The same applies to the issue tracker, but fortunately github lets
-projects disable this feature, which QEMU has done.
+ Makefile.objs                  |    1 +
+ hw/Kconfig                     |    1 +
+ hw/Makefile.objs               |    1 +
+ hw/hyperv/hyperv.c             |  250 ++--
+ hw/i386/Kconfig                |    1 +
+ hw/i386/acpi-build.c           |   42 +
+ hw/i386/pc_q35.c               |    2 +
+ hw/vmbus/Kconfig               |    3 +
+ hw/vmbus/Makefile.objs         |    1 +
+ hw/vmbus/trace-events          |    8 +
+ hw/vmbus/vmbus.c               | 2422 ++++++++++++++++++++++++++++++++
+ include/hw/hyperv/hyperv.h     |    3 +
+ include/hw/vmbus/vmbus-proto.h |  222 +++
+ include/hw/vmbus/vmbus.h       |  109 ++
+ target/i386/hyperv.c           |    2 +
+ 15 files changed, 2986 insertions(+), 82 deletions(-)
+ create mode 100644 hw/vmbus/Kconfig
+ create mode 100644 hw/vmbus/Makefile.objs
+ create mode 100644 hw/vmbus/trace-events
+ create mode 100644 hw/vmbus/vmbus.c
+ create mode 100644 include/hw/vmbus/vmbus-proto.h
+ create mode 100644 include/hw/vmbus/vmbus.h
 
-I have recently discovered that there is a nice 3rd party bot for github
-which can autorespond to pull requests with a friendly comment, close the
-request, and then lock it to prevent further comments.
-
-  https://github.com/apps/repo-lockdown
-
-I'm setting this up for libvirt and it was suggested QEMU can probably
-benefit from it too as an example see:
-
-  https://github.com/libvirt/test/issues/2
-  https://github.com/libvirt/test/pull/3
-
-
-Configuration just requires creation of a ".github/lockdown.yml" file
-which provides the friendly message to add to the merge requests. This
-can be either done per-repository, or a special repo can be created
-called ".github" and this will apply to all repos within the project.
-
-Ideally each repo would have a CONTRIBUTING.md file created too, since
-both GitHub and GitLab will direct users to this file for guidelines
-on how to contribute.
-
-I don't have time right now to do this for QEMU, so consider this email
-a friendly suggestion for some other interested person to do for QEMU...
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+-- 
+2.24.1
 
 
