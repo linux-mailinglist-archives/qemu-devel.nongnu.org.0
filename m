@@ -2,52 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D16719D039
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 08:26:57 +0200 (CEST)
-Received: from localhost ([::1]:50784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FAD019CFB6
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 07:18:15 +0200 (CEST)
+Received: from localhost ([::1]:50284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKFn5-0002bG-U4
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 02:26:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60063)
+	id 1jKEic-0001tf-DW
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 01:18:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54487)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jKFm7-00024Q-SL
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 02:25:57 -0400
+ (envelope-from <Aijaz.Baig@protonmail.com>) id 1jKEhY-0001I6-F7
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 01:17:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jKFm6-0002sP-25
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 02:25:55 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:58317 helo=ozlabs.org)
+ (envelope-from <Aijaz.Baig@protonmail.com>) id 1jKEhW-0002o3-H1
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 01:17:07 -0400
+Received: from mail2.protonmail.ch ([185.70.40.22]:57931)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jKFm4-0002ov-TE; Fri, 03 Apr 2020 02:25:54 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48tqgY1pd2z9sRY; Fri,  3 Apr 2020 17:25:45 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1585895145;
- bh=BqHNU4ipXF1bbA6x+sGMAi8JA4hIeHk4JCILiMxb0fQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Bwq5X2F7kaZ98bjiJuUNqgHc8aIJIDyd4t4aZSTr02iSalJfLejKGHzfk3+wMB40C
- GdJylL7HNFMWaYlgbEo84nHuONbjgHym9W+xHcUbwOMriBOoKEBVOyrbtEMf/nRIus
- FnOstqRvrcMl7sAZIxE5lgnqduasJXzZpb15fHA8=
-Date: Fri, 3 Apr 2020 16:12:40 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH] ppc/pnv: Introduce common PNV_SETFIELD() and
- PNV_GETFIELD() macros
-Message-ID: <20200403051240.GV47772@umbus.fritz.box>
-References: <20200401152633.1375-1-clg@kaod.org>
- <20200402003118.GJ47772@umbus.fritz.box>
- <b7663796-c9ad-c91e-104a-dcf78e467607@kaod.org>
- <20200402065027.GM47772@umbus.fritz.box>
- <d58b2e61-8245-ecbb-6f0a-31b2ea64835f@kaod.org>
+ (Exim 4.71) (envelope-from <Aijaz.Baig@protonmail.com>)
+ id 1jKEhV-0002lr-Sn
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 01:17:06 -0400
+Date: Fri, 03 Apr 2020 05:16:58 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+ s=default; t=1585891022;
+ bh=yjQW6jlR6NIowKgPB38LI36ubmbRrOFXaUlTRha2rF8=;
+ h=Date:To:From:Reply-To:Subject:From;
+ b=odSZDbr2tBsCou+oaIit1wUjccTuhD0Y65o9zFQ4QZfQy0UxGF11qPGDf1Ho1YZFb
+ AjlOrX6HNg1xsHCTEqR6vfElHGKRumZrXjN1ccdrIlcgnu+RMVNISSEj2CWbuIeN/P
+ H6O9yXvWs/+dbF+tLwYHDFJWT2WeuaURP/X8xEdw=
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+From: "Aijaz.Baig" <Aijaz.Baig@protonmail.com>
+Subject: Qemu doesn't detect hard drive
+Message-ID: <XSF-9CLAGYMG1ivdwoihQBZm3XT2vWdKVqHtMLExgA1LJwkSeISDoKKVEJ3E3qhZaNvki44j2CdXdQ81ljytvtS0MGmXL3gFhO2kQmWA2Kk=@protonmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="i13qRg9tmWEwo36p"
-Content-Disposition: inline
-In-Reply-To: <d58b2e61-8245-ecbb-6f0a-31b2ea64835f@kaod.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+Content-Type: multipart/alternative;
+ boundary="b1_0a6e74d445d619ee118d2c4da3278270"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 185.70.40.22
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,83 +50,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Reply-To: "Aijaz.Baig" <Aijaz.Baig@protonmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is a multi-part message in MIME format.
 
---i13qRg9tmWEwo36p
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--b1_0a6e74d445d619ee118d2c4da3278270
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-On Thu, Apr 02, 2020 at 09:18:09AM +0200, C=E9dric Le Goater wrote:
-> On 4/2/20 8:50 AM, David Gibson wrote:
-> > On Thu, Apr 02, 2020 at 08:41:24AM +0200, C=E9dric Le Goater wrote:
-> >> On 4/2/20 2:31 AM, David Gibson wrote:
-> >>> On Wed, Apr 01, 2020 at 05:26:33PM +0200, C=E9dric Le Goater wrote:
-> >>>> Most of QEMU definitions of the register fields of the PowerNV machi=
-ne
-> >>>> come from skiboot and the models duplicate a set of macros for this
-> >>>> purpose. Make them common under the pnv_utils.h file.
-> >>>>
-> >>>> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> >>>
-> >>> Hrm.  If we're touching these, would it make sense to rewrite them in
-> >>> terms of the cross-qemu generic extract64() and deposit64()?
-> >>
-> >> I won't do that because we will loose compatibility with skiboot.
-> >=20
-> > Uh.. how so?
->=20
-> What would be very nice is to use the QEMU FIELD() from "hw/registerfield=
-s.h".
->=20
-> But that's a complete different approach from what skiboot does and it wo=
-uld
-> mean rewriting all the register definitions we include in QEMU for the po=
-wernv=20
-> models and the code using the fields. It is a major change and I would ra=
-ther=20
-> have the same files on both side (without tabs on the QEMU side). I think
-> it is safer.
->=20
-> Using extract64() and deposit64() raises the same kind of problem AFAICT.=
-=20
-> If we find a clean way to keep the register definition files the same, I =
-am
-> OK with any changes.
+SGkKCkkgaGF2ZSBhIHdvcmtpbmcgUUVNVSBpbWFnZSBlbXVsYXRpbmcgYW4gQVJNIHZleHByZXNz
+LWE5IGFuZCBJIHJ1biBpdCBsaWtlIHNvOgoKYHN1ZG8gcWVtdS1zeXN0ZW0tYXJtIC1tIDUxMk0g
+LU0gdmV4cHJlc3MtYTkgLUQgcWVtdS5sb2cgLWQgdW5pbXAgLWtlcm5lbCBidWlsZHJvb3QtMjAx
+OS4wMi41L291dHB1dC9pbWFnZXMvekltYWdlIC1kdGIgYnVpbGRyb290LTIwMTkuMDIuNS9vdXRw
+dXQvaW1hZ2VzL3ZleHByZXNzLXYycC1jYTkuZHRiIC1hcHBlbmQgImNvbnNvbGU9dHR5QU1BMCwx
+MTUyMDAga2dkYm9jPWtiZCx0dHlBTUEwLDExNTIwMCBpcD1kaGNwIG5va2FzbHIiIC1pbml0cmQg
+YnVpbGRyb290LTIwMTkuMDIuNS9vdXRwdXQvaW1hZ2VzL3Jvb3Rmcy5jcGlvIC1ub2dyYXBoaWMg
+LW5ldCBuaWMgLW5ldCBicmlkZ2UsYnI9bXlicmlkZ2UgLXNgCgpJIHdvdWxkIG5vdyBsaWtlIHRv
+IGFkZCBhIGhhcmQgZGlzayBmb3IgcGVyc2lzdGVudCBzdG9yYWdlIGFuZCB0aGVuIHRyYW5zZmVy
+IGNvbnRyb2wgZnJvbSBidXN5Ym94IGluaXRyZCBiYXNlZCByb290ZnMgb3ZlciB0byB0aGUgZnVs
+bCBmbGVkZ2VkIHZlcnNpb24gb2ZmZXJlZCB3aXRoIExpbnV4LiBTbyBJIGFkZCBpdCB0byB0aGUg
+Y29tbWFuZCBsaW5lCgpgc3VkbyBxZW11LXN5c3RlbS1hcm0gLW0gMTAyNE0gLU0gdmV4cHJlc3Mt
+YTkgLUQgcWVtdS5sb2cgLWRyaXZlIGlmPW5vbmUsZm9ybWF0PXJhdyxmaWxlPWRpc2suaW1nIC1r
+ZXJuZWwgYnVpbGRyb290LTIwMTkuMDIuNS9vdXRwdXQvaW1hZ2VzL3pJbWFnZSAtZHRiIGJ1aWxk
+cm9vdC0yMDE5LjAyLjUvb3V0cHV0L2ltYWdlcy92ZXhwcmVzcy12MnAtY2E5LmR0YiAtYXBwZW5k
+ICJjb25zb2xlPXR0eUFNQTAsMTE1MjAwIGtnZGJvYz1rYmQsdHR5QU1BMCwxMTUyMDAgaXA9ZGhj
+cCBub2thc2xyIiAtaW5pdHJkIGJ1aWxkcm9vdC0yMDE5LjAyLjUvb3V0cHV0L2ltYWdlcy9yb290
+ZnMuY3BpbyAtbm9ncmFwaGljIC1uZXQgbmljIC1uZXQgYnJpZGdlLGJyPW15YnJpZGdlIC1zCmAK
+Cm9mIGNvdXJzZSBJIGZpcnN0IGNyZWF0ZSBhIGRpc2sgaW1hZ2UgYW5kIGZvcm1hdCBpdCBhcyBl
+eHQyOgpgcWVtdS1pbWcgY3JlYXRlIGRpc2suaW1nIDEwRyAmJiBta2ZzLmV4dDIgLUYgZGlzay5p
+bWdgCgpGcm9tIHRoZSBsb2cgbWVzc2FnZXMgSSBzZWUgdGhhdCBpdCBoYXMgbm90IGJlZW4gYWJs
+ZSB0byBkZXRlY3QgdGhpcyBhdCBhbGwuIENhbiBzb21lb25lIHBsZWFzZSBzdW1tYXJpemUgaG93
+IGJsb2NrIGRldmljZXMgd29yayB3aXRoIFFlbXUuIEkga25vdyB0aGUgb2xkZXIgYC1oZGFgIGhh
+cyBiZWVuIGNoYW5nZWQgdG8gYSBuZXdlciBgLWRyaXZlYCBvcHRpb24gY2FuIGNvbWJpbmVzIHRo
+ZSBjdW1iZXJzb21lIHNwZWNpZmljYXRpb24gb2YgdGhlIGZyb250IGFuZCBiYWNrIGVuZHMgc2Vw
+YXJhdGVseS4gQnV0IEkgZG9uJ3Qga25vdyB0aGUgYmFzaWNzIGFuZCB3aHkgSSBhbSBnZXR0aW5n
+IHRoaXMgcHJvYmxlbS4KCkkgYW0gYmFzaWNhbGx5IGxvb2tpbmcgdG8gYHN3aXRjaF9yb290YCBm
+cm9tIGluaXRyZCB0byB0aGUgZnVsbCBmbGVkZ2VkIExpbnV4IHJvb3RmcyBidXQgdGhpcyBpcyBv
+bmx5IHRoZSBmaXJzdCBzdGVwLgoKU2VudCB3aXRoIFtQcm90b25NYWlsXShodHRwczovL3Byb3Rv
+bm1haWwuY29tKSBTZWN1cmUgRW1haWwu
 
-So, I wasn't suggesting changing all the users to use
-extract64()/deposit64()/FIELD().  I was suggesting making the skiboot
-like versions a wrapper than translates the arguments into the right
-form for FIELD() or whatever.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+--b1_0a6e74d445d619ee118d2c4da3278270
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: base64
 
---i13qRg9tmWEwo36p
-Content-Type: application/pgp-signature; name="signature.asc"
+PGRpdj5IaTxicj48YnI+SSBoYXZlIGEgd29ya2luZyBRRU1VIGltYWdlIGVtdWxhdGluZyBhbiBB
+Uk0gdmV4cHJlc3MtYTkgYW5kIEkgcnVuIGl0IGxpa2Ugc286PGJyPjwvZGl2PjxkaXY+PGJyPjwv
+ZGl2PjxkaXY+YHN1ZG8gcWVtdS1zeXN0ZW0tYXJtIC1tIDUxMk0gLU0gdmV4cHJlc3MtYTkgLUQg
+cWVtdS5sb2cgLWQgdW5pbXAgLWtlcm5lbCBidWlsZHJvb3QtMjAxOS4wMi41L291dHB1dC9pbWFn
+ZXMvekltYWdlIC1kdGIgYnVpbGRyb290LTIwMTkuMDIuNS9vdXRwdXQvaW1hZ2VzL3ZleHByZXNz
+LXYycC1jYTkuZHRiIC1hcHBlbmQgImNvbnNvbGU9dHR5QU1BMCwxMTUyMDAga2dkYm9jPWtiZCx0
+dHlBTUEwLDExNTIwMCBpcD1kaGNwIG5va2FzbHIiIC1pbml0cmQgYnVpbGRyb290LTIwMTkuMDIu
+NS9vdXRwdXQvaW1hZ2VzL3Jvb3Rmcy5jcGlvIC1ub2dyYXBoaWMgLW5ldCBuaWMgLW5ldCBicmlk
+Z2UsYnI9bXlicmlkZ2UgLXNgPGJyPjwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+SSB3b3VsZCBu
+b3cgbGlrZSB0byBhZGQgYSBoYXJkIGRpc2sgZm9yIHBlcnNpc3RlbnQgc3RvcmFnZSBhbmQgdGhl
+biB0cmFuc2ZlciBjb250cm9sIGZyb20gYnVzeWJveCBpbml0cmQgYmFzZWQgcm9vdGZzIG92ZXIg
+dG8gdGhlIGZ1bGwgZmxlZGdlZCB2ZXJzaW9uIG9mZmVyZWQgd2l0aCBMaW51eC4gU28gSSBhZGQg
+aXQgdG8gdGhlIGNvbW1hbmQgbGluZTxicj48L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2PmBzdWRv
+IHFlbXUtc3lzdGVtLWFybSAtbSAxMDI0TSAtTSB2ZXhwcmVzcy1hOSAtRCBxZW11LmxvZyAtZHJp
+dmUgaWY9bm9uZSxmb3JtYXQ9cmF3LGZpbGU9ZGlzay5pbWcgLWtlcm5lbCBidWlsZHJvb3QtMjAx
+OS4wMi41L291dHB1dC9pbWFnZXMvekltYWdlIC1kdGIgYnVpbGRyb290LTIwMTkuMDIuNS9vdXRw
+dXQvaW1hZ2VzL3ZleHByZXNzLXYycC1jYTkuZHRiIC1hcHBlbmQgImNvbnNvbGU9dHR5QU1BMCwx
+MTUyMDAga2dkYm9jPWtiZCx0dHlBTUEwLDExNTIwMCBpcD1kaGNwIG5va2FzbHIiIC1pbml0cmQg
+YnVpbGRyb290LTIwMTkuMDIuNS9vdXRwdXQvaW1hZ2VzL3Jvb3Rmcy5jcGlvIC1ub2dyYXBoaWMg
+LW5ldCBuaWMgLW5ldCBicmlkZ2UsYnI9bXlicmlkZ2UgLXM8YnI+PC9kaXY+PGRpdj5gPGJyPjwv
+ZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+b2YgY291cnNlIEkgZmlyc3QgY3JlYXRlIGEgZGlzayBp
+bWFnZSBhbmQgZm9ybWF0IGl0IGFzIGV4dDI6PGJyPjwvZGl2PjxkaXY+YHFlbXUtaW1nIGNyZWF0
+ZSBkaXNrLmltZyAxMEcgJmFtcDsmYW1wOyBta2ZzLmV4dDIgLUYgZGlzay5pbWdgPGJyPjwvZGl2
+PjxkaXY+PGJyPjwvZGl2PjxkaXY+RnJvbSB0aGUgbG9nIG1lc3NhZ2VzIEkgc2VlIHRoYXQgaXQg
+aGFzIG5vdCBiZWVuIGFibGUgdG8gZGV0ZWN0IHRoaXMgYXQgYWxsLiBDYW4gc29tZW9uZSBwbGVh
+c2Ugc3VtbWFyaXplIGhvdyBibG9jayBkZXZpY2VzIHdvcmsgd2l0aCBRZW11LiBJIGtub3cgdGhl
+IG9sZGVyIGAtaGRhYCBoYXMgYmVlbiBjaGFuZ2VkIHRvIGEgbmV3ZXIgYC1kcml2ZWAgb3B0aW9u
+IGNhbiBjb21iaW5lcyB0aGUgY3VtYmVyc29tZSBzcGVjaWZpY2F0aW9uIG9mIHRoZSBmcm9udCBh
+bmQgYmFjayBlbmRzIHNlcGFyYXRlbHkuIEJ1dCBJIGRvbid0IGtub3cgdGhlIGJhc2ljcyBhbmQg
+d2h5IEkgYW0gZ2V0dGluZyB0aGlzIHByb2JsZW0uPGJyPjwvZGl2PjxkaXY+PGJyPjwvZGl2Pjxk
+aXY+SSBhbSBiYXNpY2FsbHkgbG9va2luZyB0byBgc3dpdGNoX3Jvb3RgIGZyb20gaW5pdHJkIHRv
+IHRoZSBmdWxsIGZsZWRnZWQgTGludXggcm9vdGZzIGJ1dCB0aGlzIGlzIG9ubHkgdGhlIGZpcnN0
+IHN0ZXAuPGJyPjwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXYgY2xhc3M9InByb3Rvbm1haWxfc2ln
+bmF0dXJlX2Jsb2NrIj48ZGl2IGNsYXNzPSJwcm90b25tYWlsX3NpZ25hdHVyZV9ibG9jay11c2Vy
+IHByb3Rvbm1haWxfc2lnbmF0dXJlX2Jsb2NrLWVtcHR5Ij48YnI+PC9kaXY+PGRpdiBjbGFzcz0i
+cHJvdG9ubWFpbF9zaWduYXR1cmVfYmxvY2stcHJvdG9uIj5TZW50IHdpdGggPGEgaHJlZj0iaHR0
+cHM6Ly9wcm90b25tYWlsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPlByb3Rvbk1haWw8L2E+IFNlY3Vy
+ZSBFbWFpbC48YnI+PC9kaXY+PC9kaXY+PGRpdj48YnI+PC9kaXY+
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6GxcgACgkQbDjKyiDZ
-s5JALRAA5Uj21DnfjrRUCg4vsdTRIx927yMADSrBcCAxzpTrWoqOpm7Nh+0+DLSu
-51rM6XbEo1kbfA7bR/6gPYM6KbBl6R4a56yiEFoByMu2+y2lZrlxBJ1mm6sdcsjs
-vRNcWYd1zjpMULq7GcZXbeRASeqgvyKvB1RunWGVp8EJyuCEeAmVzDFQnLD4myXO
-Lm/LLkeov1YTZOfIFDEG7FKEzEoNs8owgjnUEsTGYNSMS2Lljlo1CJqn+Sh1AAZE
-amm5Pq0Yo8EABCbg3v0OHbuJ8RFFs3eFetAZJUGHkdTuN3dOaeghKKB0b/dcVz26
-IJtPr+r0QWega8kUKdiSUjGKFdCHUDckHobnCvKrvFlLIpgxoEwgOItTCCEZ2a5z
-k0rw2J2Mx9FniLVLQXTJGNfgvBSvdhQ2EfiLrQJEIa2nYyNCWLMOAIUtYq5rE48G
-6jJQNh8FB5/ei007WIQ4XU+u8Au9U78NfUuvullsgWgF5R6oULM9rQldnbGoVtOK
-W2rD3XmHAt+yDJhSJP16hxYbDp84UTR3L5fk6o60d6bqXwpfnLZJibIqvohKu1ey
-UvytcGNfeST7dERpAkgaPSgYQunIZpkcS93Bub1jIPzTO8x9domehQHBtQ7ZW5bk
-UredoO5jS5LHW8LxcIlJazriz8e7U/4zx2amdq2GTkno7VXPdS8=
-=CFwY
------END PGP SIGNATURE-----
 
---i13qRg9tmWEwo36p--
+--b1_0a6e74d445d619ee118d2c4da3278270--
+
 
