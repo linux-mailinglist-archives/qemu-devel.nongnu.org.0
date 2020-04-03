@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D62F819DDB1
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 20:13:54 +0200 (CEST)
-Received: from localhost ([::1]:59382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1312C19DD71
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 20:05:11 +0200 (CEST)
+Received: from localhost ([::1]:59274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKQpF-0003PO-La
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 14:13:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42594)
+	id 1jKQgo-0004MG-2b
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 14:05:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39676)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jKQd4-0001gF-Iw
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 14:01:22 -0400
+ (envelope-from <eblake@redhat.com>) id 1jKQbd-0008PE-OS
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 13:59:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jKQd1-000356-9o
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 14:01:17 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26714
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1jKQbb-0007yO-60
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 13:59:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46436
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jKQd1-00034C-5R
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 14:01:15 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jKQbb-0007x1-1S
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 13:59:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585936874;
+ s=mimecast20190719; t=1585936786;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JX307DexrUn6mYwuzBi9o7YTKJJ0mrLJp76wJTg/uAc=;
- b=EpDiuSlxkzSivf08E/tRvgIWihUwNi0rYsIPC5NJKcEQjUGeIauNtQQj2/GMimMrdFjr+b
- dzka3CQyIgbG7dQpEgT+o+eZ7wejFUI0T3ErA0XdqevDX80xc11vulIQhMfKAjB2A3Ru0W
- iuLriXfUfkTAhqeVahBMMwK8sT3VZLI=
+ bh=aXXbhTJ04BHDkLhSvH2dHYZHx+76EFj1L65Y+WcAT7k=;
+ b=g6kpu0saKQaYW8ANHOTxno24XMDrDNo3BP0wD8+oLs9Q8uOepot0//nYUzGJugxiv/Tucr
+ goa1m0PYhnwoQjuJGUDrSELP+TpF6rhMCaNHXWz0QRS8pmW3zjCQiSOtjz52QkGJJAVwfw
+ f9+WteD2a/4hFaI2n/JuUBMC2wPMGjE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-oM0UB_DPNe6th-je52JLYg-1; Fri, 03 Apr 2020 13:59:43 -0400
-X-MC-Unique: oM0UB_DPNe6th-je52JLYg-1
+ us-mta-330-cjoPQRc0OcWaIvVoKet6AA-1; Fri, 03 Apr 2020 13:59:44 -0400
+X-MC-Unique: cjoPQRc0OcWaIvVoKet6AA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 441CB13FF;
- Fri,  3 Apr 2020 17:59:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23D438018A6;
+ Fri,  3 Apr 2020 17:59:43 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-246.phx2.redhat.com [10.3.113.246])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 740225C1B0;
- Fri,  3 Apr 2020 17:59:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 792CD5C1B0;
+ Fri,  3 Apr 2020 17:59:42 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 3/7] qcow: Tolerate backing_fmt=,
- but warn on backing_fmt=raw
-Date: Fri,  3 Apr 2020 12:58:55 -0500
-Message-Id: <20200403175859.863248-4-eblake@redhat.com>
+Subject: [PATCH v5 4/7] qcow2: Deprecate use of qemu-img amend to change
+ backing file
+Date: Fri,  3 Apr 2020 12:58:56 -0500
+Message-Id: <20200403175859.863248-5-eblake@redhat.com>
 In-Reply-To: <20200403175859.863248-1-eblake@redhat.com>
 References: <20200403175859.863248-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,232 +76,130 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qcow has no space in the metadata to store a backing format, and there
-are existing qcow images backed both by raw or by other formats
-(usually qcow) images, reliant on probing to tell the difference.
-While we don't recommend the creation of new qcow images (as qcow2 is
-hands-down better), we can at least insist that if the user does
-request a specific format without using -u, then it must be non-raw
-(as a raw backing file that gets inadvertently edited into some other
-format can form a security hole); if the user does not request a
-specific format or lies when using -u, then the status quo of probing
-for the backing format remains intact (although an upcoming patch will
-warn when omitting a format request).  Thus, when this series is
-complete, the only way to use a backing file for qcow without
-triggering a warning is when using -F if the backing file is non-raw
-to begin with.  Note that this is only for QemuOpts usage; there is no
-change to the QAPI to allow a format through -blockdev.
+The use of 'qemu-img amend' to change qcow2 backing files is not
+tested very well.  In particular, our implementation has a bug where
+if a new backing file is provided without a format, then the prior
+format is blindly reused, even if this results in data corruption, but
+this is not caught by iotests.
 
-Add a new iotest 290 just for qcow, to demonstrate the new warning.
+There are also situations where amending other options needs access to
+the original backing file (for example, on a downgrade to a v2 image,
+knowing whether a v3 zero cluster must be allocated or may be left
+unallocated depends on knowing whether the backing file already reads
+as zero), but the command line does not have a nice way to tell us
+both the backing file to use for opening the image as well as the
+backing file to install after the operation is complete.
+
+Even if we do allow changing the backing file, it is redundant with
+the existing ability to change backing files via 'qemu-img rebase -u'.
+It is time to deprecate this support (leaving the existing behavior
+intact, even if it is buggy), and at a point in the future, require
+the use of only 'qemu-img rebase' for adjusting backing chain
+relations, saving 'qemu-img amend' for changes unrelated to the
+backing chain.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- block/qcow.c               | 16 ++++++++-
- tests/qemu-iotests/290     | 72 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/290.out | 42 ++++++++++++++++++++++
- tests/qemu-iotests/group   |  1 +
- 4 files changed, 130 insertions(+), 1 deletion(-)
- create mode 100755 tests/qemu-iotests/290
- create mode 100644 tests/qemu-iotests/290.out
+ docs/system/deprecated.rst | 12 ++++++++++++
+ docs/tools/qemu-img.rst    |  4 ++++
+ block/qcow2.c              |  5 +++++
+ tests/qemu-iotests/061.out |  1 +
+ tests/qemu-iotests/082.out |  2 ++
+ 5 files changed, 24 insertions(+)
 
-diff --git a/block/qcow.c b/block/qcow.c
-index 8973e4e565a1..bbe48b7db4d7 100644
---- a/block/qcow.c
-+++ b/block/qcow.c
-@@ -940,11 +940,12 @@ static int coroutine_fn qcow_co_create_opts(BlockDriv=
-er *drv,
- {
-     BlockdevCreateOptions *create_options =3D NULL;
-     BlockDriverState *bs =3D NULL;
--    QDict *qdict;
-+    QDict *qdict =3D NULL;
-     Visitor *v;
-     const char *val;
-     Error *local_err =3D NULL;
-     int ret;
-+    char *backing_fmt;
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index c633fe2beffd..aac6be58917a 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -417,6 +417,18 @@ The above, converted to the current supported format::
+ Related binaries
+ ----------------
 
-     static const QDictRenames opt_renames[] =3D {
-         { BLOCK_OPT_BACKING_FILE,       "backing-file" },
-@@ -953,6 +954,13 @@ static int coroutine_fn qcow_co_create_opts(BlockDrive=
-r *drv,
-     };
++qemu-img amend to adjust backing file (since 5.0.0)
++'''''''''''''''''''''''''''''''''''''''''''''''''''
++
++The use of ``qemu-img amend`` to modify the name or format of a qcow2
++backing image is deprecated; this functionality was never fully
++documented or tested, and interferes with other amend operations that
++need access to the original backing image (such as deciding whether a
++v3 zero cluster may be left unallocated when converting to a v2
++image).  Rather, any changes to the backing chain should be performed
++with ``qemu-img rebase -u`` either before or after the remaining
++changes being performed by amend, as appropriate.
++
+ ``qemu-img convert -n -o`` (since 4.2.0)
+ ''''''''''''''''''''''''''''''''''''''''
 
-     /* Parse options and convert legacy syntax */
-+    backing_fmt =3D qemu_opt_get_del(opts, BLOCK_OPT_BACKING_FMT);
-+    if (backing_fmt && !strcmp(backing_fmt, "raw")) {
-+        error_setg(errp, "qcow cannot store backing format; an explicit "
-+                   "backing format of raw is unsafe");
-+        ret =3D -EINVAL;
-+        goto fail;
-+    }
-     qdict =3D qemu_opts_to_qdict_filtered(opts, NULL, &qcow_create_opts, t=
-rue);
+diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
+index 0080f83a76c9..83d57586be96 100644
+--- a/docs/tools/qemu-img.rst
++++ b/docs/tools/qemu-img.rst
+@@ -254,6 +254,10 @@ Command description:
+   Amends the image format specific *OPTIONS* for the image file
+   *FILENAME*. Not all file formats support this operation.
 
-     val =3D qdict_get_try_str(qdict, BLOCK_OPT_ENCRYPT);
-@@ -1018,6 +1026,7 @@ static int coroutine_fn qcow_co_create_opts(BlockDriv=
-er *drv,
++  The set of options that can be amended are dependent on the image
++  format, but note that amending the backing chain relationship should
++  instead be performed with ``qemu-img rebase``.
++
+ .. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=3DFLUSH=
+_INTERVAL] [-i AIO] [-n] [--no-drain] [-o OFFSET] [--pattern=3DPATTERN] [-q=
+] [-s BUFFER_SIZE] [-S STEP_SIZE] [-t CACHE] [-w] [-U] FILENAME
 
-     ret =3D 0;
- fail:
-+    g_free(backing_fmt);
-     qobject_unref(qdict);
-     bdrv_unref(bs);
-     qapi_free_BlockdevCreateOptions(create_options);
-@@ -1152,6 +1161,11 @@ static QemuOptsList qcow_create_opts =3D {
-             .type =3D QEMU_OPT_STRING,
-             .help =3D "File name of a base image"
-         },
-+        {
-+            .name =3D BLOCK_OPT_BACKING_FMT,
-+            .type =3D QEMU_OPT_STRING,
-+            .help =3D "Format of the backing image (caution: raw backing i=
-s unsafe)",
-+        },
-         {
-             .name =3D BLOCK_OPT_ENCRYPT,
-             .type =3D QEMU_OPT_BOOL,
-diff --git a/tests/qemu-iotests/290 b/tests/qemu-iotests/290
-new file mode 100755
-index 000000000000..8482de58cb4b
---- /dev/null
-+++ b/tests/qemu-iotests/290
-@@ -0,0 +1,72 @@
-+#!/usr/bin/env bash
-+#
-+# Test qcow backing file warnings
-+#
-+# Copyright (C) 2020 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+seq=3D`basename $0`
-+echo "QA output created by $seq"
-+
-+status=3D1=09# failure is the default!
-+
-+_cleanup()
-+{
-+=09_cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+
-+_supported_fmt qcow
-+_supported_proto file
-+_supported_os Linux
-+
-+size=3D128M
-+
-+echo
-+echo "=3D=3D qcow backed by qcow =3D=3D"
-+
-+TEST_IMG=3D"$TEST_IMG.base" _make_test_img $size
-+_make_test_img -b "$TEST_IMG.base"
-+_img_info
-+_make_test_img -b "$TEST_IMG.base" -F $IMGFMT
-+_img_info
-+
-+echo
-+echo "=3D=3D mismatched command line detection =3D=3D"
-+
-+_make_test_img -b "$TEST_IMG.base" -F vmdk
-+# Use of -u bypasses the backing format sanity check
-+_make_test_img -u -b "$TEST_IMG.base" -F vmdk $size
-+_img_info
-+
-+echo
-+echo "=3D=3D qcow backed by raw =3D=3D"
-+
-+rm "$TEST_IMG.base"
-+truncate --size=3D$size "$TEST_IMG.base"
-+_make_test_img -b "$TEST_IMG.base"
-+_img_info
-+_make_test_img -b "$TEST_IMG.base" -F raw
-+_img_info
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=3D0
-diff --git a/tests/qemu-iotests/290.out b/tests/qemu-iotests/290.out
-new file mode 100644
-index 000000000000..5b4ae3196d04
---- /dev/null
-+++ b/tests/qemu-iotests/290.out
-@@ -0,0 +1,42 @@
-+QA output created by 290
-+
-+=3D=3D qcow backed by qcow =3D=3D
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=3DIMGFMT size=3D134217728
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728 backing_file=
-=3DTEST_DIR/t.IMGFMT.base
-+image: TEST_DIR/t.IMGFMT
-+file format: IMGFMT
-+virtual size: 128 MiB (134217728 bytes)
-+cluster_size: 512
-+backing file: TEST_DIR/t.IMGFMT.base
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728 backing_file=
-=3DTEST_DIR/t.IMGFMT.base backing_fmt=3DIMGFMT
-+image: TEST_DIR/t.IMGFMT
-+file format: IMGFMT
-+virtual size: 128 MiB (134217728 bytes)
-+cluster_size: 512
-+backing file: TEST_DIR/t.IMGFMT.base
-+
-+=3D=3D mismatched command line detection =3D=3D
-+qemu-img: TEST_DIR/t.IMGFMT: invalid VMDK image descriptor
-+Could not open backing image to determine size.
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728 backing_file=
-=3DTEST_DIR/t.IMGFMT.base backing_fmt=3Dvmdk
-+image: TEST_DIR/t.IMGFMT
-+file format: IMGFMT
-+virtual size: 128 MiB (134217728 bytes)
-+cluster_size: 512
-+backing file: TEST_DIR/t.IMGFMT.base
-+
-+=3D=3D qcow backed by raw =3D=3D
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728 backing_file=
-=3DTEST_DIR/t.IMGFMT.base
-+image: TEST_DIR/t.IMGFMT
-+file format: IMGFMT
-+virtual size: 128 MiB (134217728 bytes)
-+cluster_size: 512
-+backing file: TEST_DIR/t.IMGFMT.base
-+qemu-img: TEST_DIR/t.IMGFMT: IMGFMT cannot store backing format; an explic=
-it backing format of raw is unsafe
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728 backing_file=
-=3DTEST_DIR/t.IMGFMT.base backing_fmt=3Draw
-+image: TEST_DIR/t.IMGFMT
-+file format: IMGFMT
-+virtual size: 128 MiB (134217728 bytes)
-+cluster_size: 512
-+backing file: TEST_DIR/t.IMGFMT.base
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 79c6dfc85d1b..c4dc86a9cf73 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -296,3 +296,4 @@
- 286 rw quick
- 288 quick
- 289 rw quick
-+290 backing quick
+   Run a simple sequential I/O benchmark on the specified image. If ``-w`` =
+is
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 2bb536b01494..e4b772726010 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -5303,6 +5303,11 @@ static int qcow2_amend_options(BlockDriverState *bs,=
+ QemuOpts *opts,
+     }
+
+     if (backing_file || backing_format) {
++        if (g_strcmp0(backing_file, s->image_backing_file) ||
++            g_strcmp0(backing_format, s->image_backing_format)) {
++            warn_report("Deprecated use of amend to alter the backing file=
+; "
++                        "use qemu-img rebase instead");
++        }
+         ret =3D qcow2_change_backing_file(bs,
+                     backing_file ?: s->image_backing_file,
+                     backing_format ?: s->image_backing_format);
+diff --git a/tests/qemu-iotests/061.out b/tests/qemu-iotests/061.out
+index 413cc4e0f4ab..048248c121cb 100644
+--- a/tests/qemu-iotests/061.out
++++ b/tests/qemu-iotests/061.out
+@@ -342,6 +342,7 @@ wrote 131072/131072 bytes at offset 0
+ 128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ read 131072/131072 bytes at offset 0
+ 128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++qemu-img: warning: Deprecated use of amend to alter the backing file; use =
+qemu-img rebase instead
+ read 131072/131072 bytes at offset 0
+ 128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ No errors were found on the image.
+diff --git a/tests/qemu-iotests/082.out b/tests/qemu-iotests/082.out
+index 9d4ed4dc9d61..94ea990a2754 100644
+--- a/tests/qemu-iotests/082.out
++++ b/tests/qemu-iotests/082.out
+@@ -806,10 +806,12 @@ Creation options for 'qcow2':
+ Note that not all of these options may be amendable.
+
+ Testing: amend -f qcow2 -o backing_file=3DTEST_DIR/t.qcow2,,help TEST_DIR/=
+t.qcow2
++qemu-img: warning: Deprecated use of amend to alter the backing file; use =
+qemu-img rebase instead
+
+ Testing: rebase -u -b  -f qcow2 TEST_DIR/t.qcow2
+
+ Testing: amend -f qcow2 -o backing_file=3DTEST_DIR/t.qcow2,,? TEST_DIR/t.q=
+cow2
++qemu-img: warning: Deprecated use of amend to alter the backing file; use =
+qemu-img rebase instead
+
+ Testing: rebase -u -b  -f qcow2 TEST_DIR/t.qcow2
+
 --=20
 2.26.0.rc2
 
