@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3574119DE7E
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 21:20:18 +0200 (CEST)
-Received: from localhost ([::1]:60262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DC9819DE76
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 21:16:29 +0200 (CEST)
+Received: from localhost ([::1]:60184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKRrV-0005Bz-93
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 15:20:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40828)
+	id 1jKRno-0000FT-IG
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 15:16:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40910)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jKRja-0003Sj-8N
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:12:07 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jKRjb-0003Vb-HP
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:12:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jKRjZ-0002QU-8s
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:12:06 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:50577)
+ (envelope-from <alex.bennee@linaro.org>) id 1jKRja-0002V3-8F
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:12:07 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39792)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jKRjZ-0002Pa-1g
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:12:05 -0400
-Received: by mail-wm1-x341.google.com with SMTP id t128so8281811wma.0
- for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 12:12:04 -0700 (PDT)
+ id 1jKRjZ-0002Ql-Vs
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:12:06 -0400
+Received: by mail-wm1-x343.google.com with SMTP id e9so8904963wme.4
+ for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 12:12:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BnraU9e2QlfXAnwDnsquPq2nPEANf8Vm3M5lpPbQw3c=;
- b=mnN0kuMJWeH2jNmYRvBwWcMWl9zT59HHmZ0M9fZBR3G4+3+vM5nUyBpmtYrbb2oxLd
- HsRLIU+P0k5W7bH3PX9QwtBqo6PQHjBQKm9imnkIlVI/fDvi/5VyDJ8UahZOVxSUj81I
- ZEapBaVrfvVZSwTjRCq+8AWAer+VHULRUjdPpO2FwPzbR2OCg4hViVK6z+BPCS68kHiY
- IIDSKzkx3qXTsLRm7GL3TUzpC6ZlXp+Qie23Y+XCX8q1UuXMsYwjW5M7KinrHmf1vVRe
- DcOe7BKOUmVrTyC9lQWEr0fntyeSSq5kSb7rclEDoP4dSW/NJuhMueod7ger7YvjGrkQ
- zJBg==
+ bh=DgcsVRLcv58otFdRsNxFND+i/4AlyINLiQErQsSUPtE=;
+ b=b62VDQt7B3YmV/5dG6ywTOUYfm7P42bQuEiI5fRJ/Rp08d14EXw/AF5k8JNgFlUhEQ
+ L+Dhj398lyB7K90oUGcCwxuUPK6lo7rb7YrGdrBdNgjNaHnq4o8GldLgPhS1RqtY3n1P
+ cV1JY8SNT81dEHX+FU8jLozLPtpZJUiz69Oh7GqZCqaL3felghuRrKzGYbCXNe0/WAWJ
+ Lf/+1sU3tMA4/SZTImDcWVYU4A/uR4o9K2iNk8yzlmYX9YHeU6CHvCrAopH3eHRZ7J23
+ URFR/bWFZ0OncpMuHr0Uxz2NgITCv9HSRojONMLWCwmfESYaUtGKfhb/nGpkXhmZ4PQO
+ t6Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BnraU9e2QlfXAnwDnsquPq2nPEANf8Vm3M5lpPbQw3c=;
- b=Y30hlB5cS2s5TeEQSYVVboN22S8f98DAJZsH9KDqyu5ikhDGUsDIjz5KM1W8JvEu9v
- caqKTaJZi4ZmLQ/hlsCiHLpRBekK4s4ySSjzxp6rT93T8TFeWy+x2IQNTO1FERhPmEa7
- pRz6OcqA99hoaEciqddWBsA9Lr9V8RXuwWCoOOlxproml9id8Uutw9l9pFVptSJ8DU5a
- KlS2uQseWIHB0/6Z0tmod+4/wTeJwQZlHBAtnuZIngE+UMVbTmeVhr2lvOf5krwZefSx
- etT3HD4TZnhsi2alkjNBVYR7Pd+V2xHWNZp9Wtm5gCd11sIYQQrnTPutN5v/yQuBliXY
- jIyg==
-X-Gm-Message-State: AGi0PuaQm1/B4uIfiq7GUsVqbDQGE7/zdn7oV6SLMklBKnT7GMXUeVwW
- LCUkp5zuFcSRscebDCH53529LA==
-X-Google-Smtp-Source: APiQypL1H+tX9Q6efzFWQ5HFlYboOz2mWWgstd2kz6XQyRYFVpI6PdoSDDLq3bkGHzQhg15js3iBUw==
-X-Received: by 2002:a1c:e055:: with SMTP id x82mr9953081wmg.20.1585941124055; 
+ bh=DgcsVRLcv58otFdRsNxFND+i/4AlyINLiQErQsSUPtE=;
+ b=TMW6RvAqcepjaAqrPma27eskEL9A/Z1f+c53Knr0bAzOPHwDjgGqn/SZYwXxL1t9vf
+ DIfEHEznq603UkYdIaIKJhfBzk3H1gZ4jx23jGF7aN2o3GkD7H0W1MSxRk69BfwiV4XS
+ H2wV00fAFtVxV40Two8CAllSLjuTJiHq7I9+zzwVUF2o9UYxmCPSKhZuZ1RiyxWt0E+y
+ cxPiwu+HBlWT/Jh6P44ymk0MQEexi4RM9Z6JBRlzH/50b0dfpUOTyJHW/gZu0K92UIQy
+ eFhMfzIu55NAYRiWLu3yjBgmdRItIFR+3xA1wy8XCxP+goUtJg7F7Shb7hHGLY3DCxS0
+ Q88A==
+X-Gm-Message-State: AGi0PuasbEcLTLpOZLqKSOkQ+RJWVHLkgtkrpqq1fjr8oUec1y9wfzT6
+ nwXKhloAS9Kickb81CWm9ien/w==
+X-Google-Smtp-Source: APiQypLAqJtUiO70v5QjRA6gD5NDJFlIWIItByivUmZ1H6tC12vNUCfYKfTuLd+KyNx8H9FGC+UvMQ==
+X-Received: by 2002:a1c:9c47:: with SMTP id f68mr9851632wme.148.1585941124945; 
  Fri, 03 Apr 2020 12:12:04 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b187sm13626896wmc.14.2020.04.03.12.11.55
+ by smtp.gmail.com with ESMTPSA id c6sm10161053wrm.85.2020.04.03.12.11.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Apr 2020 12:11:57 -0700 (PDT)
+ Fri, 03 Apr 2020 12:11:59 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 94EF91FF99;
+ by zen.linaroharston (Postfix) with ESMTP id AD5241FF9A;
  Fri,  3 Apr 2020 20:11:51 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 10/12] target/arm: don't expose "ieee_half" via gdbstub
-Date: Fri,  3 Apr 2020 20:11:48 +0100
-Message-Id: <20200403191150.863-11-alex.bennee@linaro.org>
+Subject: [PATCH v3 11/12] hw/core: properly terminate loading .hex on EOF
+ record
+Date: Fri,  3 Apr 2020 20:11:49 +0100
+Message-Id: <20200403191150.863-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200403191150.863-1-alex.bennee@linaro.org>
 References: <20200403191150.863-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,42 +83,62 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While support for parsing ieee_half in the XML description was added
-to gdb in 2019 (a6d0f249) there is no easy way for the gdbstub to know
-if the gdb end will understand it. Disable it for now and allow older
-gdbs to successfully connect to the default -cpu max SVE enabled
-QEMUs.
+The https://makecode.microbit.org/#editor generates slightly weird
+.hex files which work fine on a real microbit but causes QEMU to
+choke. The reason is extraneous data after the EOF record which causes
+the loader to attempt to write a bigger file than it should to the
+"rom". According to the HEX file spec an EOF really should be the last
+thing we process so lets do that.
 
+Reported-by: Ursula Bennée <alex.bennee@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- target/arm/gdbstub.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ hw/core/loader.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
-index d9ef7d2187c..8efc535f2a0 100644
---- a/target/arm/gdbstub.c
-+++ b/target/arm/gdbstub.c
-@@ -192,7 +192,12 @@ static const struct TypeSize vec_lanes[] = {
-     /* 16 bit */
-     { "uint16", 16, 'h', 'u' },
-     { "int16", 16, 'h', 's' },
--    { "ieee_half", 16, 'h', 'f' },
-+    /*
-+     * TODO: currently there is no reliable way of telling
-+     * if the remote gdb actually understands ieee_half so
-+     * we don't expose it in the target description for now.
-+     * { "ieee_half", 16, 'h', 'f' },
-+     */
-     /* bytes */
-     { "uint8", 8, 'b', 'u' },
-     { "int8", 8, 'b', 's' },
+diff --git a/hw/core/loader.c b/hw/core/loader.c
+index eeef6da9a1b..8bbb1797a4c 100644
+--- a/hw/core/loader.c
++++ b/hw/core/loader.c
+@@ -1447,6 +1447,7 @@ typedef struct {
+     uint32_t current_rom_index;
+     uint32_t rom_start_address;
+     AddressSpace *as;
++    bool complete;
+ } HexParser;
+ 
+ /* return size or -1 if error */
+@@ -1484,6 +1485,7 @@ static int handle_record_type(HexParser *parser)
+                                   parser->current_rom_index,
+                                   parser->rom_start_address, parser->as);
+         }
++        parser->complete = true;
+         return parser->total_size;
+     case EXT_SEG_ADDR_RECORD:
+     case EXT_LINEAR_ADDR_RECORD:
+@@ -1548,11 +1550,12 @@ static int parse_hex_blob(const char *filename, hwaddr *addr, uint8_t *hex_blob,
+         .bin_buf = g_malloc(hex_blob_size),
+         .start_addr = addr,
+         .as = as,
++        .complete = false
+     };
+ 
+     rom_transaction_begin();
+ 
+-    for (; hex_blob < end; ++hex_blob) {
++    for (; hex_blob < end && !parser.complete; ++hex_blob) {
+         switch (*hex_blob) {
+         case '\r':
+         case '\n':
 -- 
 2.20.1
 
