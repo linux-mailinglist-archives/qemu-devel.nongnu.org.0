@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ED3A19DE7B
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 21:18:32 +0200 (CEST)
-Received: from localhost ([::1]:60237 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE20319DE73
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 21:16:13 +0200 (CEST)
+Received: from localhost ([::1]:60172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKRpn-0003Lf-BY
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 15:18:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40578)
+	id 1jKRnY-0008OS-Pv
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 15:16:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40648)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jKRjV-0003Jp-Mx
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:12:02 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jKRjW-0003KN-RV
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:12:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jKRjT-0002CF-H9
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:12:01 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:38124)
+ (envelope-from <alex.bennee@linaro.org>) id 1jKRjV-0002Ig-TK
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:12:02 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39789)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jKRjT-00029U-AA
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:11:59 -0400
-Received: by mail-wm1-x329.google.com with SMTP id f6so8896975wmj.3
- for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 12:11:59 -0700 (PDT)
+ id 1jKRjV-0002Ft-Lm
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 15:12:01 -0400
+Received: by mail-wm1-x344.google.com with SMTP id e9so8904731wme.4
+ for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 12:12:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IiHiPfqSf5RxTYVWG0ZPN64iJbsFrXxtKKLhTgnCXm4=;
- b=vNCHrUh14ftnala+hX/PRVKkCzQAHERXu+tCmyveg8c0F7d0dGozNsXPo6JHZz2CJO
- LQyMmzrwElE8jJthxbUrDD2FpUJ/e46imTp+nQxzxPaPuqJUMvHrgnBu6vWnIYJ7Sp0J
- y63xaCmLCrd902cr4slNIll7r6PprV76R2BXW7X/AA58aRKBDb9QDB5WfEeoYiSvWwsa
- g14noLR3rwfvn1uahOsr6bE3KT9t506Vzc8jzJOyQsMJQusq2MAcFHMAf3uxtGOEn8O8
- 72j1M3++YAY1qINpwWFOsIgnQFoR12ycrqwylW+zURJ0iqDEV8LELcWA8CWRZXxMw1At
- Tsrw==
+ bh=g9xr3EL2jz3uIXqebGO8vaQXLJoFQmUrqrOGsA7SE/w=;
+ b=GFsnxyynZgCjj4EsqktcZg00qrQza5SzQnhyq35gTpDDp9JcA/qzzP/vF18KaaWtMz
+ BawuEpgGWs3FpP9bqoFqrwV+8LbHvhXEoVLAMBmmTNQbPajmknXUrZKkqW1jTw71KhuO
+ dye6UMd7V68jHP9snRtylzp8TqtUU5z4cBt3ZavcrWnEC6+XSviEwyF38TmWJv18BrDp
+ +S3Oa0YaGTtzutFl3RhiBqQ+AY6kpDLJP8vT1O5BpDK9L1CNWQvJhF5SxgRaeH7L/ac0
+ kDs9yH5ZH8ceh9eGCQTGZVB4p629NbOFWbNPe8xuUbfRFo8xtl6wVPZI1v06XsW+rnKS
+ f5ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IiHiPfqSf5RxTYVWG0ZPN64iJbsFrXxtKKLhTgnCXm4=;
- b=cA9VqL+QYWbdFpsfDJZ6UooJ2263svFwMAuwxGN+wvPKJ+PlKL0V24jxvgjFu74h0t
- XV71u6Nz40GQFEvnv8D9lhPS1hx8MCyJHTgQ3a17NIAmA8YT+4auQ/HXVao3DDyoKxbR
- FfOewYXFfKRXDwMj+DRNXf3+EiJzGiKVR/0OLvtUaA4I9iSQbjvAvh8d5j/CYEokvhMx
- qDLF2d1h6470B6sK8B8yK4n+f8HusHTvj019gr6/YbeDzM78gUX29U81zPTZI7nDbuP2
- N8bD+yctL5NVYDn5l/NiQkxwaK4l+M0+B1Zq+RsfoZqDAoC73XoaeVJJnGtIx0GeBaiN
- Se/g==
-X-Gm-Message-State: AGi0PubmZSlGQZWSS3Ym+Tb9jVOXDzLtG/gS6PyoJteqP+NagI9LxYj8
- +hurQOKIij/zd0/tGAARFKUwfQ==
-X-Google-Smtp-Source: APiQypI0KEM7HYM5R5g6a9WQq5H1bAAZec2aLY9N5dlDUT0KCnfw2J2dim+KkT0J0wsfhArXU/lzPw==
-X-Received: by 2002:a05:600c:218d:: with SMTP id
- e13mr10084372wme.148.1585941118248; 
- Fri, 03 Apr 2020 12:11:58 -0700 (PDT)
+ bh=g9xr3EL2jz3uIXqebGO8vaQXLJoFQmUrqrOGsA7SE/w=;
+ b=XRxk0tygvnh6yB0Xrp1J2A5fNne+UbBWygnwttw+HdH4986biaY4FQ0uVSR5HFeR1x
+ Av97vrL9gI69e7BBJ+qAGM5FyHp9J2Ne5LD3Txk8GsfYTiQpoWpnYmo2pPYARfkB4Qsh
+ OOzPU8hQ6wgcUxTa8lHtjFIFuWDENwa++WTm4OLPTNYZj29vr0+qJtVto0diLw//cA+0
+ 0R6+Qzm70rzqRJqNBsTNSLF+FrFkxZZTF/nCdAHgE2xk2KlXQlJ76wfo2YjKUcqvlzOV
+ J1/Y0xruf2k8NVr24MkNb2u7mQLelRJQZRuPYvEbIu0oQqCm8hg5aGHfKJFTYGqwbmHr
+ ehCA==
+X-Gm-Message-State: AGi0PuZUjzyTD4N/DKrjzLxNlCYzKeiSu8TV8973yViJSZYRlDAqJEW+
+ pvY/56dyCp6h/CMc81cqbZcm6Q==
+X-Google-Smtp-Source: APiQypKiOgdyxzQsVnNUPGRwNgRvvmGJrMuX2lCCwpBvEqGG5rvMQTFc6+q+N2B4MlCxWKfl0TekVA==
+X-Received: by 2002:a1c:4e11:: with SMTP id g17mr10422549wmh.80.1585941120598; 
+ Fri, 03 Apr 2020 12:12:00 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t11sm12997902wru.69.2020.04.03.12.11.53
+ by smtp.gmail.com with ESMTPSA id a13sm598120wrn.27.2020.04.03.12.11.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Apr 2020 12:11:55 -0700 (PDT)
+ Fri, 03 Apr 2020 12:11:57 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 31BAA1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id 4886D1FF93;
  Fri,  3 Apr 2020 20:11:51 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 06/12] gdbstub: fix compiler complaining
-Date: Fri,  3 Apr 2020 20:11:44 +0100
-Message-Id: <20200403191150.863-7-alex.bennee@linaro.org>
+Subject: [PATCH v3 07/12] softfloat: Fix BAD_SHIFT from
+ normalizeFloatx80Subnormal
+Date: Fri,  3 Apr 2020 20:11:45 +0100
+Message-Id: <20200403191150.863-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200403191150.863-1-alex.bennee@linaro.org>
 References: <20200403191150.863-1-alex.bennee@linaro.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::329
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,53 +82,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- Denis Plotnikov <dplotnikov@virtuozzo.com>,
- Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-    ./gdbstub.c: In function ‘handle_query_thread_extra’:
-        /usr/include/glib-2.0/glib/glib-autocleanups.h:28:10:
-    error: ‘cpu_name’ may be used uninitialized in this function
-    [-Werror=maybe-uninitialized]
-        g_free (*pp);
-               ^
-    ./gdbstub.c:2063:26: note: ‘cpu_name’ was declared here
-        g_autofree char *cpu_name;
-                         ^
-    cc1: all warnings being treated as errors
+All other calls to normalize*Subnormal detect zero input before
+the call -- this is the only outlier.  This case can happen with
++0.0 + +0.0 = +0.0 or -0.0 + -0.0 = -0.0, so return a zero of
+the correct sign.
 
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Message-Id: <20200326151407.25046-1-dplotnikov@virtuozzo.com>
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Reported-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reported-by: Coverity (CID 1421991)
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200327232042.10008-1-richard.henderson@linaro.org>
 ---
- gdbstub.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ fpu/softfloat.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/gdbstub.c b/gdbstub.c
-index 013fb1ac0f1..171e1509509 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -2060,8 +2060,8 @@ static void handle_query_thread_extra(GdbCmdContext *gdb_ctx, void *user_ctx)
-         /* Print the CPU model and name in multiprocess mode */
-         ObjectClass *oc = object_get_class(OBJECT(cpu));
-         const char *cpu_model = object_class_get_name(oc);
--        g_autofree char *cpu_name;
--        cpu_name  = object_get_canonical_path_component(OBJECT(cpu));
-+        g_autofree char *cpu_name =
-+            object_get_canonical_path_component(OBJECT(cpu));
-         g_string_printf(rs, "%s %s [%s]", cpu_model, cpu_name,
-                         cpu->halted ? "halted " : "running");
-     } else {
+diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+index 301ce3b537b..ae6ba718540 100644
+--- a/fpu/softfloat.c
++++ b/fpu/softfloat.c
+@@ -5856,6 +5856,9 @@ static floatx80 addFloatx80Sigs(floatx80 a, floatx80 b, flag zSign,
+         zSig1 = 0;
+         zSig0 = aSig + bSig;
+         if ( aExp == 0 ) {
++            if (zSig0 == 0) {
++                return packFloatx80(zSign, 0, 0);
++            }
+             normalizeFloatx80Subnormal( zSig0, &zExp, &zSig0 );
+             goto roundAndPack;
+         }
 -- 
 2.20.1
 
