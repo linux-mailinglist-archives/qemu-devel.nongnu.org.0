@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC27519DCD5
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 19:34:21 +0200 (CEST)
-Received: from localhost ([::1]:58798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E941A19DCCB
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 19:32:18 +0200 (CEST)
+Received: from localhost ([::1]:58768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKQCy-0004Wv-QY
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 13:34:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50477)
+	id 1jKQB0-0001hg-1U
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 13:32:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50725)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jKQ8c-00082E-Mh
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 13:29:51 -0400
+ (envelope-from <philmd@redhat.com>) id 1jKQ8j-0008Dd-DK
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 13:29:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jKQ8b-0006ly-Eu
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 13:29:50 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26166
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jKQ8h-0006tZ-VU
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 13:29:57 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34879
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jKQ8b-0006kv-Au
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 13:29:49 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jKQ8h-0006sz-RU
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 13:29:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585934988;
+ s=mimecast20190719; t=1585934995;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YDB2WNsWANTDRkq7tYOkdNI9gLX9QwIhSalUqrb4gxI=;
- b=ge1eEFm1MZa+pQMdNjlaRcf4FQQyJDy076g5CTptozyZqa0UePcO390gTF0lbVXwcnnJOF
- sRBxbE6aNfNd+CjsiZDH4cIVvXBkXdNeW+4dlPl9Ny2mdRQ3qDTVTL642XcMzGQZvAqPsQ
- mtbLCwkrzoPBsQEPpC8tBuPoPUR6/Sw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-v5v6iM4tNia-1h1VA9YPfw-1; Fri, 03 Apr 2020 13:29:46 -0400
-X-MC-Unique: v5v6iM4tNia-1h1VA9YPfw-1
-Received: by mail-wr1-f69.google.com with SMTP id o18so3448918wrx.9
- for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 10:29:45 -0700 (PDT)
+ bh=7zxFWSnwEr7wQyiJn7le/YzMjxHi5h5bPrTAJxUsH48=;
+ b=P+AsQ5gh0BrBNlsxlUxQBH1PLdJc26Wmw0buIigHYeNvZcN8Br850j9Kgx6ta8ikRCDYJI
+ JQSwGNCjG2+AtrILCyllCjepvxposBkQIdlKWeyEflvheEiZM2lbzkbDuTsXldH4xy9UYl
+ JwL2ecUgtoBh0VeRRkmlDo1XlF0fNOU=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-499-nMDsObwwMQuGJmS41vk0Vg-1; Fri, 03 Apr 2020 13:29:50 -0400
+X-MC-Unique: nMDsObwwMQuGJmS41vk0Vg-1
+Received: by mail-ed1-f69.google.com with SMTP id f19so6091097edt.5
+ for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 10:29:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ddsOHjcFHZR+L9zNnBH3RB34rYLwZIBOYR9uJqMi8h8=;
- b=FFY4xext6bpXtJnFizwd91eYzRt1Fg7k1rdW2QUO/zRProczLAp+WCBPxH16QB7ngt
- zt13lSYhSSq2Vq7ZPRqllcF9u1StJj5czQzNZAq1hm8SKGdNW//MSpqt9xI8ceoC5ynT
- f7dM6jWsmU9XT391QojdUl2W4OuwU9gBPwRAlD1VQt5Cg81Jzp177GNB26y7qs7OPo+o
- OP0hX5Owhy06yN0DKeh734r9IpuVzgVEH4oYK4EHjwjps0StFg5A1lCdqUD+RcSCRjPn
- iCX39R1rJy+nrNVI5oTkvhc4S5zM3PNUzfp8c/EeyZc+zM44Ufuf+IPmziXzbKVYkMbb
- fx5g==
-X-Gm-Message-State: AGi0PuYwZhnAU2hwZj4Eta5ae1ERxr4ATGMWm8swZBxREmlccPdZZjox
- nw7fEOB/I8q1IRlhyxsS6+Zxon9tQ+JT+ZUuzbhUH0R1nQarnVPXlO57HBoizPt7t6osMlYpxYs
- kf6/oBLhNg9uBhAE=
-X-Received: by 2002:a1c:6505:: with SMTP id z5mr5369493wmb.28.1585934983301;
- Fri, 03 Apr 2020 10:29:43 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKh9nHuWxLI8I0yMd+JJ71w2/5VEo04NvkpS0S0+m0S9OkHNdy60dBi+dl8a9cW0NufTvv91Q==
-X-Received: by 2002:a1c:6505:: with SMTP id z5mr5369474wmb.28.1585934983074;
- Fri, 03 Apr 2020 10:29:43 -0700 (PDT)
+ bh=haUYeeLGAxNBF8H7XOXC1rR3I734Y2RfSUCB+A+SRMc=;
+ b=k1/AarvLZEDPySgX5n1A2fA66l+aSyUbR3NXKFdKK+lTJKQB/5t2CX9TT6OG6EBF0F
+ s8BAxuCLVD3NjzOjwnkWxkt4A8PsMTrHwJb47IW+j4s3uzrj0NtPuw2wBDDOmzHNhGWF
+ VRTrkCeT/NfGlzwXnn11tZnHsVwjux5bIQ2+3b9Mb5ydmgZ2qAuS6hW1nhxkufZsLgiz
+ RnRDvJUWIr1y8ennnmHDklfEtMVVLrljmTLvWyI66rygy/2M8ZTXqdQr6yDzpI8CptLf
+ 2jN8eDbbLMVMCejItd/UZuBZhkutvnWk2N4kl4el0Ha7/wAtax9j4D8H7YRhOGZQC9R4
+ d9+A==
+X-Gm-Message-State: AGi0PuYoVHAePDDUGqfJhrR6eqgaVAAann8kSuhDRXBTYffmunHY1b1V
+ ScTayDbb01F9qVP+ly5relbGeAcBYj0Zg113osmRq6jPabNAsQIOPnJaj5V7hjLOY9Nz/H7MdIn
+ OQx+UHPCRUkiY7Wk=
+X-Received: by 2002:a17:906:7694:: with SMTP id
+ o20mr9499382ejm.253.1585934989109; 
+ Fri, 03 Apr 2020 10:29:49 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLjc+KGkyt13eeSs9fySD3mnrhWzyX+ZoYtNVWkHigVGQG1AP2F03AWz32VUzyfdHhFPvuPyA==
+X-Received: by 2002:a17:906:7694:: with SMTP id
+ o20mr9499362ejm.253.1585934988827; 
+ Fri, 03 Apr 2020 10:29:48 -0700 (PDT)
 Received: from localhost.localdomain (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id q19sm8440234wra.38.2020.04.03.10.29.40
+ by smtp.gmail.com with ESMTPSA id y27sm1768387ejr.37.2020.04.03.10.29.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Apr 2020 10:29:42 -0700 (PDT)
+ Fri, 03 Apr 2020 10:29:48 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0 3/8] tests/acceptance/ppc_prep_40p: Use mirror for
- ftp.software.ibm.com
-Date: Fri,  3 Apr 2020 19:29:14 +0200
-Message-Id: <20200403172919.24621-4-philmd@redhat.com>
+Subject: [PATCH-for-5.0 4/8] tests/acceptance/machine_sparc_leon3: Disable
+ HelenOS test
+Date: Fri,  3 Apr 2020 19:29:15 +0200
+Message-Id: <20200403172919.24621-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200403172919.24621-1-philmd@redhat.com>
 References: <20200403172919.24621-1-philmd@redhat.com>
@@ -78,7 +80,8 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,8 +94,11 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  KONRAD Frederic <frederic.konrad@adacore.com>,
- Fabien Chouteau <chouteau@adacore.com>, Kamil Rytarowski <kamil@netbsd.org>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Kamil Rytarowski <kamil@netbsd.org>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  qemu-ppc@nongnu.org,
@@ -100,29 +106,87 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To avoid regular failures on Travis-CI with ftp.software.ibm.com,
-use a mirror.
+From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
+This test was written/tested around beginning of 2019, but was
+extracted from a bigger series and posted end of June 2019 [*].
+Unfortunately I did not notice commit 162abf1a8 was merged by
+then, which implements the AHB and APB plug and play devices.
+
+HelenOS 0.6 is expecting the PnP registers to be not implemented
+by QEMU, then forces the discovered AMBA devices (see [2]).
+
+Before 162abf1a8, the console was displaying:
+
+  HelenOS bootloader, release 0.6.0 (Elastic Horse)
+  Built on 2014-12-21 20:17:42 for sparc32
+  Copyright (c) 2001-2014 HelenOS project
+   0x4000bf20|0x4000bf20: kernel image (496640/128466 bytes)
+   0x4002b4f2|0x4002b4f2: ns image (154195/66444 bytes)
+   0x4003b87e|0x4003b87e: loader image (153182/66437 bytes)
+   0x4004bc03|0x4004bc03: init image (155339/66834 bytes)
+   0x4005c115|0x4005c115: locsrv image (162063/70267 bytes)
+   0x4006d390|0x4006d390: rd image (152678/65889 bytes)
+   0x4007d4f1|0x4007d4f1: vfs image (168480/73394 bytes)
+   0x4008f3a3|0x4008f3a3: logger image (158034/68368 bytes)
+   0x4009feb3|0x4009feb3: ext4fs image (234510/100301 bytes)
+   0x400b8680|0x400b8680: initrd image (8388608/1668901 bytes)
+  ABMA devices:
+  <1:00c> at 0x80000100 irq 3
+  <1:00d> at 0x80000200
+  <1:011> at 0x80000300 irq 8
+  Memory size: 64 MB
+
+As of this commit, it is now confused:
+
+  ABMA devices:
+  <1:3000> at 0x00000000 irq 0
+  <1:3000> at 0x00000000 irq 0
+  <1:3000> at 0x00000000 irq 0
+  <1:3000> at 0x00000000 irq 0
+  <1:3000> at 0x00000000 irq 0
+  <1:3000> at 0x00000000 irq 0
+  <1:3000> at 0x00000000 irq 0
+  ...
+
+As this test is not working as expected, simply disable it (by
+skipping it) for now.
+
+[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg627094.html
+[2] https://github.com/HelenOS/helenos/blob/0.6.0/boot/arch/sparc32/src/amb=
+app.c#L75
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Tested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Message-Id: <20200331105048.27989-2-f4bug@amsat.org>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- tests/acceptance/ppc_prep_40p.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ tests/acceptance/machine_sparc_leon3.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_prep_4=
-0p.py
-index 138064285a..1515561249 100644
---- a/tests/acceptance/ppc_prep_40p.py
-+++ b/tests/acceptance/ppc_prep_40p.py
-@@ -30,7 +30,8 @@ def test_factory_firmware_and_netbsd(self):
-         :avocado: tags=3Dmachine:40p
-         :avocado: tags=3Dslowness:high
+diff --git a/tests/acceptance/machine_sparc_leon3.py b/tests/acceptance/mac=
+hine_sparc_leon3.py
+index f77e210ccb..2405cd7a0d 100644
+--- a/tests/acceptance/machine_sparc_leon3.py
++++ b/tests/acceptance/machine_sparc_leon3.py
+@@ -7,12 +7,16 @@
+=20
+ from avocado_qemu import Test
+ from avocado_qemu import wait_for_console_pattern
++from avocado import skip
+=20
+=20
+ class Leon3Machine(Test):
+=20
+     timeout =3D 60
+=20
++    @skip("Test currently broken")
++    # A Window Underflow exception occurs before booting the kernel,
++    # and QEMU exit calling cpu_abort(), which makes this test to fail.
+     def test_leon3_helenos_uimage(self):
          """
--        bios_url =3D ('ftp://ftp.boulder.ibm.com/rs6000/firmware/'
-+        bios_url =3D ('http://ftpmirror.your.org/pub/misc/'
-+                    'ftp.software.ibm.com/rs6000/firmware/'
-                     '7020-40p/P12H0456.IMG')
-         bios_hash =3D '1775face4e6dc27f3a6ed955ef6eb331bf817f03'
-         bios_path =3D self.fetch_asset(bios_url, asset_hash=3Dbios_hash)
+         :avocado: tags=3Darch:sparc
 --=20
 2.21.1
 
