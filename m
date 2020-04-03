@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC36919DCCA
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 19:32:05 +0200 (CEST)
-Received: from localhost ([::1]:58764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7662D19DCD4
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Apr 2020 19:34:01 +0200 (CEST)
+Received: from localhost ([::1]:58792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKQAm-0001Ad-ER
-	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 13:32:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50132)
+	id 1jKQCe-0003vs-Es
+	for lists+qemu-devel@lfdr.de; Fri, 03 Apr 2020 13:34:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50164)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jKQ8K-0007ql-PZ
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 13:29:36 -0400
+ (envelope-from <philmd@redhat.com>) id 1jKQ8S-0007sl-2r
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 13:29:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jKQ8J-0006Yo-0O
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 13:29:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40842
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jKQ8O-0006aT-Fk
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 13:29:37 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31500
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jKQ8H-0006XM-CX
- for qemu-devel@nongnu.org; Fri, 03 Apr 2020 13:29:29 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jKQ8N-0006Zu-VM
+ for qemu-devel@nongnu.org; Fri, 03 Apr 2020 13:29:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585934967;
+ s=mimecast20190719; t=1585934974;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=R3GkLnBVrlygAh564ijQ2XeDEBB+bc8f6Pu1+Pf2bBI=;
- b=NhVSvNfeC/Fd2usg1wiwbySnsPRX1w/UzDvJvHpQNpHM20zKIG8v7ur+2d/s7CYabhAqpV
- ds/vhZOqbthWOYB2YGcmxp6VRRQXgNDTFupSkg0JgvJ4dwMUFO9auIy/Ib25nPzsw7CXNh
- DmHFJwLRfVXE/1YNYdCagVb+yzIzvmk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-iZHomVdsNDu2yDBEI4NcCQ-1; Fri, 03 Apr 2020 13:29:24 -0400
-X-MC-Unique: iZHomVdsNDu2yDBEI4NcCQ-1
-Received: by mail-wr1-f69.google.com with SMTP id 88so763626wrq.4
- for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 10:29:23 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IySQfSoliK7L1y64dc2+4knq4GDTJOqI5a2WNZld2yk=;
+ b=JxY59y0ehk+Hp1vKqaJXitohfs67op3PAzW+JUTMkVbhRidRZWf+4TPlB9E0lLwRrkFUwf
+ UJ9BGUkGnrl+XPVU2LE8INYHAfy91NqHRDA71IZ46eZUHbOf1zl3tS/gUwaXPeCNZTW0A+
+ opzQD1HsvMYY6oret0fxkpRad1jyKdc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-116-bCNv9Z1CO8mRVG3Uhgb9nQ-1; Fri, 03 Apr 2020 13:29:32 -0400
+X-MC-Unique: bCNv9Z1CO8mRVG3Uhgb9nQ-1
+Received: by mail-wm1-f70.google.com with SMTP id j18so2360618wmi.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Apr 2020 10:29:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GpI5xzk/jCg0uIJw2Hn3RlhyjeM4huSMz4ugb5HgNa0=;
- b=TbnmsoaPqqnmco1QvFme+SbZAQqM0PyGM2C/STxwrmHSoN3fp7UidUyj5LkHbRXZ9A
- c1R81SI9j7XMHTWTs6ctYvquYoCg0I2PCoE/ejISUgxqaGpCJdTqAH1S2aeegyDUkAd1
- Cf9lcv6vA4RFuHmPcR39NvYqww4dyUrYyXdAvTDUwZhl8TugQ0lkQNZTdKc6GeDs3sg0
- sxCxdh/Pgb3Z+zuH72VPwXWgtGU6Itpyzgq760zz/k4Tx4Eo1Vx5Awi2XQXMnaLPPeZy
- Z970p+e/oDtz0QQFxodgqr3Hs2tMAqaRcUDEfW7BAmw2kNkgK1yHrowXyIeKDz4qj/SH
- zeSA==
-X-Gm-Message-State: AGi0Pubq+jCtgHEzFlNbs1hcRLSstzwXu0PWk+fsDYBN3W5DJo5W4f7j
- h1C2vp7n1m2Wa4dzlOGOAI2S+WnwlalpGuLlvj8GeCRyjXqMtvFFoyOaTKDJo81hjoao1LACv++
- Q/8lQqq5jcY2tbEo=
-X-Received: by 2002:a1c:3b89:: with SMTP id i131mr9698540wma.35.1585934962960; 
- Fri, 03 Apr 2020 10:29:22 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLtmjZw7w0GY+KaNNR8UBc1AJk3+nny6WQpgnahAwRjky7F8NOee4gz1H/tcY9Zn2n5kG+u1Q==
-X-Received: by 2002:a1c:3b89:: with SMTP id i131mr9698523wma.35.1585934962724; 
- Fri, 03 Apr 2020 10:29:22 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=efxzJklfdbLE5xyXDAw4RE+zYk98wFqYdSDot6mi/b0=;
+ b=iCSphorLLsz/1KEFuAi++ygC8MZHYXXSJcWH02yj0uypJCphmmngL454Je0Uwj1KuR
+ qOSrhinNExhAENaAbqRHiHyFLt6I0AJ6WR4HqQHeO5GYumP/gzXsd2iarEFTXn0ooEiA
+ 9Uyi2vjcmdHqAu9hmF78p1MkyDBsSt6/gIRi3+AKD9PXY0I/eSs5YmvejJ1iUUzP6BWW
+ cdkyhO+75cioT9+HTgcfsTeBKL07eJ3XgPfBtIdMN2krjjgaETdkN3erDQVO3xA71m1j
+ Q942V2JchPLQ75xETiO6PSF5wcfmD/f2kP59xH29KlK2KmF3ZZrImXdkU+VVul6kbmBx
+ Uq8A==
+X-Gm-Message-State: AGi0PubdJUcHKZX1h11V048osBFtwut00A/ug3oZiYlnUSzH+BlXrm5b
+ D6qlAhRmdNZZOD1c7wIkKnXQRvGX6KNT1odLOlvhcVcdmeuznq6wAH9fy7WJRTPKOWnz2aFOUzW
+ Lb3xHv7gVptUR8nM=
+X-Received: by 2002:a1c:a754:: with SMTP id q81mr9735527wme.124.1585934970657; 
+ Fri, 03 Apr 2020 10:29:30 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKjOuNAIL3bzMQXzYoa+mCNMjVeKsr3+FK5ZDCy4b8LRgJ1pqLYkDLxTCgV2kPDAE0NBE4kJQ==
+X-Received: by 2002:a1c:a754:: with SMTP id q81mr9735506wme.124.1585934970471; 
+ Fri, 03 Apr 2020 10:29:30 -0700 (PDT)
 Received: from localhost.localdomain (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id a7sm11740330wmm.34.2020.04.03.10.29.20
+ by smtp.gmail.com with ESMTPSA id i8sm13795512wrb.41.2020.04.03.10.29.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Apr 2020 10:29:21 -0700 (PDT)
+ Fri, 03 Apr 2020 10:29:29 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0 0/8] Acceptance tests queue
-Date: Fri,  3 Apr 2020 19:29:11 +0200
-Message-Id: <20200403172919.24621-1-philmd@redhat.com>
+Subject: [PATCH-for-5.0 1/8] Acceptance test: Fix to EXEC migration
+Date: Fri,  3 Apr 2020 19:29:12 +0200
+Message-Id: <20200403172919.24621-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200403172919.24621-1-philmd@redhat.com>
+References: <20200403172919.24621-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,50 +90,51 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Oksana Vohchana <ovoshcha@redhat.com>,
  KONRAD Frederic <frederic.konrad@adacore.com>,
  Fabien Chouteau <chouteau@adacore.com>, Kamil Rytarowski <kamil@netbsd.org>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  qemu-ppc@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm planning to send the first 5 patches as
-This series contains acceptance test fixes, and Travis-CI
-improvements. I plan to send a pull request with the first
-6 patches for v5.0-rc2. The last 3 patches helped debugging
-painfully the Travis failures, but can not be used because
-Avocado 78.0 is not released yet.
+From: Oksana Vohchana <ovoshcha@redhat.com>
 
-Patches 3 and 5 are not reviewed.
+The exec migration test isn't run a whole test scenario.
+This patch fixes it
 
-Up-to-patch 5 job:
-https://travis-ci.org/github/philmd/qemu/jobs/670645531
+Fixes: 2e768cb682bf
+Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-Id: <20200325113138.20337-1-ovoshcha@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ tests/acceptance/migration.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-All patches job:
-https://travis-ci.org/github/philmd/qemu/jobs/670645611
-
-Oksana Vohchana (1):
-  Acceptance test: Fix to EXEC migration
-
-Philippe Mathieu-Daud=C3=A9 (7):
-  tests/acceptance/ppc_prep_40p: Use cdn.netbsd.org hostname
-  tests/acceptance/ppc_prep_40p: Use mirror for ftp.software.ibm.com
-  tests/acceptance/machine_sparc_leon3: Disable HelenOS test
-  .travis.yml: Cache acceptance-test assets
-  tests/Makefile: Add fetch-acceptance-assets rule
-  .travis.yml: Run fetch-acceptance-assets before check-acceptance
-  NOTFORMERGE Kludge for Avocado issue #3661
-
- .travis.yml                             | 4 +++-
- tests/Makefile.include                  | 7 +++++++
- tests/acceptance/machine_sparc_leon3.py | 4 ++++
- tests/acceptance/migration.py           | 6 +++---
- tests/acceptance/ppc_prep_40p.py        | 7 ++++---
- tests/requirements.txt                  | 2 +-
- 6 files changed, 22 insertions(+), 8 deletions(-)
-
+diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
+index a8367ca023..0365289cda 100644
+--- a/tests/acceptance/migration.py
++++ b/tests/acceptance/migration.py
+@@ -70,8 +70,8 @@ def test_migration_with_unix(self):
+=20
+     @skipUnless(find_command('nc', default=3DFalse), "'nc' command not fou=
+nd")
+     def test_migration_with_exec(self):
+-        """
+-        The test works for both netcat-traditional and netcat-openbsd pack=
+ages
+-        """
++        """The test works for both netcat-traditional and netcat-openbsd p=
+ackages."""
+         free_port =3D self._get_free_port()
+         dest_uri =3D 'exec:nc -l localhost %u' % free_port
++        src_uri =3D 'exec:nc localhost %u' % free_port
++        self.do_migrate(dest_uri, src_uri)
 --=20
 2.21.1
 
