@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D46719E49A
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Apr 2020 12:43:37 +0200 (CEST)
-Received: from localhost ([::1]:37366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC97419E361
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Apr 2020 10:00:39 +0200 (CEST)
+Received: from localhost ([::1]:36378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKgH1-00066p-Ux
-	for lists+qemu-devel@lfdr.de; Sat, 04 Apr 2020 06:43:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39980)
+	id 1jKdjK-0008Gj-HI
+	for lists+qemu-devel@lfdr.de; Sat, 04 Apr 2020 04:00:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44470)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <natechancellor@gmail.com>) id 1jKd3L-0008Ma-GF
- for qemu-devel@nongnu.org; Sat, 04 Apr 2020 03:17:16 -0400
+ (envelope-from <armbru@redhat.com>) id 1jKdiQ-0007ps-UB
+ for qemu-devel@nongnu.org; Sat, 04 Apr 2020 03:59:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <natechancellor@gmail.com>) id 1jKd3K-0001ug-7Q
- for qemu-devel@nongnu.org; Sat, 04 Apr 2020 03:17:15 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:45190)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <natechancellor@gmail.com>)
- id 1jKd3H-0001rt-D1; Sat, 04 Apr 2020 03:17:11 -0400
-Received: by mail-ot1-x342.google.com with SMTP id c9so9778454otl.12;
- Sat, 04 Apr 2020 00:17:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=ocAQZbJHFdTGhkYtuoMJ19OnRrOVnmlc/UOXXoN4tBU=;
- b=HTuB8au7If018Dci+O5VzlEo6SY6vsuB8aVDK2ldLdyDfhDWZ/mG3LzcQrmfE8vuR/
- 7xPNMiELC5QYFBOfMkhWJ6pUvJiIy6ZNBb8n2eYqVjY2nIsImN8+JSOQWOEOus5k6auu
- EwhR3HjDf457g7JB8xWhO1XSIe647vWo7Jo8REAsbvrRu5CiznqCCvVMecoxmCp7080/
- rQfvZLHGCdxDF1o1s0lpU9h24pBtNrAHjBpvhLsATImhighpOq52C2VxafJMcZccA4Ey
- ZvygnpPGo1BDL3ocoVgsHd0oKIPb6DpxPLICkesg5z7s5UMPzysLYodttL8Z+ci66Nyd
- ANZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=ocAQZbJHFdTGhkYtuoMJ19OnRrOVnmlc/UOXXoN4tBU=;
- b=WZpw2eZp58lAZ9ZhbmmVOT1t/lUfnU+Z9d+eZyv9YT8IMYsAmR6rrgDpvUORtVaa2l
- iff49INfqRK1MjnO/Y9SVMxEvLDuyOmQho2F37zFg371MrxwwPvCFOg2rPChJlYpmJNf
- k+GR2L9EkgYtGMaDSEC8IssmS6q6OUNsKqVLF/Miu3BqClbVkMrbFFZfAe0fmBIf/YOx
- HdFKaZWNTHiejgnKEQ/FDllDJIjuVlvDq/XyV4lSjNgqPa+8uLGkvtAPOIjSXdRPKV8O
- 2xj3Qr7UDtQg9XuMz/FXkUUijWiweWWeOnDHgd5ao6L/baDQZSDIHun7nNENnKSKXkq6
- /SyA==
-X-Gm-Message-State: AGi0PubRlZxwIID017QA9pLXWWgBJVl73PXqAE58aZZ4Ic0qbFHMH5FC
- l2IvPvYwD6BxNc5MDYlWSmg=
-X-Google-Smtp-Source: APiQypIsymx+7axl0/snwvyifsrA9bHiRy/1v3qk1IyysmnIP5osGcqqbXPtnbwQ77oqLwlOzzXfOg==
-X-Received: by 2002:a05:6830:2428:: with SMTP id
- k8mr9833678ots.345.1585984629914; 
- Sat, 04 Apr 2020 00:17:09 -0700 (PDT)
-Received: from ubuntu-m2-xlarge-x86 ([2604:1380:4111:8b00::1])
- by smtp.gmail.com with ESMTPSA id g72sm2729480otg.79.2020.04.04.00.17.08
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Sat, 04 Apr 2020 00:17:09 -0700 (PDT)
-Date: Sat, 4 Apr 2020 00:17:07 -0700
-From: Nathan Chancellor <natechancellor@gmail.com>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v2] ppc/pnv: Create BMC devices at machine init
-Message-ID: <20200404071707.GA24708@ubuntu-m2-xlarge-x86>
-References: <20191121162340.11049-1-clg@kaod.org>
+ (envelope-from <armbru@redhat.com>) id 1jKdiP-00074e-CE
+ for qemu-devel@nongnu.org; Sat, 04 Apr 2020 03:59:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45680
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jKdiP-00073y-41
+ for qemu-devel@nongnu.org; Sat, 04 Apr 2020 03:59:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585987180;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Try7PogN7De/GDH59S6kIaV4GBlN5mN0mJ3dWirpUUY=;
+ b=Aj7Ph9jamUTuRxuV9zFRLuK4LK3vJuovr3sUCLoAqFUwlJu218P0YuWfNTaZM6i4OLubGo
+ 8dH188OYCDbAbK06gkIL+qtVT4LJGWs5OFMM7qFUYax/FjSJgVTZZr/9Q1+3oM7cS8e+hd
+ dlkzlUZNdnUWK06XDZwsp0n77Aad0ts=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-405-eRktZbxvNJGOa6bqgfxV6w-1; Sat, 04 Apr 2020 03:59:38 -0400
+X-MC-Unique: eRktZbxvNJGOa6bqgfxV6w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53CD21005509;
+ Sat,  4 Apr 2020 07:59:37 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-152.ams2.redhat.com
+ [10.36.112.152])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C67225C1B0;
+ Sat,  4 Apr 2020 07:59:36 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 485581138610; Sat,  4 Apr 2020 09:59:35 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: Questionable aspects of QEMU Error's design
+References: <87o8sblgto.fsf@dusky.pond.sub.org>
+Date: Sat, 04 Apr 2020 09:59:35 +0200
+In-Reply-To: <87o8sblgto.fsf@dusky.pond.sub.org> (Markus Armbruster's message
+ of "Wed, 01 Apr 2020 11:02:11 +0200")
+Message-ID: <87blo7heag.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191121162340.11049-1-clg@kaod.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-X-Mailman-Approved-At: Sat, 04 Apr 2020 06:42:18 -0400
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,70 +76,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, Oliver O'Halloran <oohall@gmail.com>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Cédric,
+Markus Armbruster <armbru@redhat.com> writes:
 
-On Thu, Nov 21, 2019 at 05:23:40PM +0100, Cédric Le Goater wrote:
-> The BMC of the OpenPOWER systems monitors the machine state using
-> sensors, controls the power and controls the access to the PNOR flash
-> device containing the firmware image required to boot the host.
-> 
-> QEMU models the power cycle process, access to the sensors and access
-> to the PNOR device. But, for these features to be available, the QEMU
-> PowerNV machine needs two extras devices on the command line, an IPMI
-> BT device for communication and a BMC backend device:
-> 
->   -device ipmi-bmc-sim,id=bmc0 -device isa-ipmi-bt,bmc=bmc0,irq=10
-> 
-> The BMC properties are then defined accordingly in the device tree and
-> OPAL self adapts. If a BMC device and an IPMI BT device are not
-> available, OPAL does not try to communicate with the BMC in any
-> manner. This is not how real systems behave.
-> 
-> To be closer to the default behavior, create an IPMI BMC simulator
-> device and an IPMI BT device at machine initialization time. We loose
-> the ability to define an external BMC device but there are benefits:
-> 
->   - a better match with real systems,
->   - a better test coverage of the OPAL code,
->   - system powerdown and reset commands that work,
->   - a QEMU device tree compliant with the specifications (*).
-> 
-> (*) Still needs a MBOX device.
-> 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> QEMU's Error was patterned after GLib's GError.  Differences include:
+[...]
+> * Return value conventions
+>
+>   Common: non-void functions return a distinct error value on failure
+>   when such a value can be defined.  Patterns:
+>
+>   - Functions returning non-null pointers on success return null pointer
+>     on failure.
+>
+>   - Functions returning non-negative integers on success return a
+>     negative error code on failure.
+>
+>   Different: GLib discourages void functions, because these lead to
+>   awkward error checking code.  We have tons of them, and tons of
+>   awkward error checking code:
+>
+>     Error *err =3D NULL;
+>     frobnicate(arg, &err);
+>     if (err) {
+>         ... recover ...
+>         error_propagate(errp, err);
+>     }
+>
+>   instead of
+>
+>     if (!frobnicate(arg, errp))
+>         ... recover ...
+>     }
+>
+>   Can also lead to pointless creation of Error objects.
+>
+>   I consider this a design mistake.  Can we still fix it?  We have more
+>   than 2000 void functions taking an Error ** parameter...
+>
+>   Transforming code that receives and checks for errors with Coccinelle
+>   shouldn't be hard.  Transforming code that returns errors seems more
+>   difficult.  We need to transform explicit and implicit return to
+>   either return true or return false, depending on what we did to the
+>   @errp parameter on the way to the return.  Hmm.
+[...]
 
-I just started testing QEMU v5.0.0-rc1 against the little Linux booting
-framework that I helped set up for ClangBuiltLinux and this commit has
-caused some problems because we specify the exact same devices as you
-note in the commit message:
+To figure out what functions with an Error ** parameter return, I used
+Coccinelle to find such function definitions and print the return types.
+Summary of results:
 
-https://github.com/ClangBuiltLinux/boot-utils/blob/5d9d3f626940a6a176c080717a367c1599f63680/boot-qemu.sh#L154-L155
+   2155 void
+    873 signed integer
+    494 pointer
+    153 bool
+     33 unsigned integer
+      6 enum
+   ---------------------
+   3714 total
 
-$ timeout 3m unbuffer qemu-system-ppc64 -device ipmi-bmc-sim,id=bmc0 \
-                                        -device isa-ipmi-bt,bmc=bmc0,irq=10 \
-                                        -L images/ppc64le/ \
-                                        -bios skiboot.lid \
-                                        -machine powernv \
-                                        -display none \
-                                        -initrd images/ppc64le/rootfs.cpio \
-                                        -kernel zImage.epapr \
-                                        -m 2G \
-                                        -serial mon:stdio
-qemu-system-ppc64: error creating device tree: node: FDT_ERR_EXISTS
+I then used Coccinelle to find checked calls of void functions (passing
+&error_fatal or &error_abort is not considered "checking" here).  These
+calls become simpler if we make the functions return a useful value.  I
+found a bit under 600 direct calls, and some 50 indirect calls.
 
-It seems to me like if the machine is silently creating these devices,
-it should just warn that the user is trying to create a device that
-already exists? If not, then I assume I will just need to hack up a
-check for QEMU 5.0.0+ and just not add those devices? We use that script
-with QEMU 3.1.0 in our CI and I use it locally with QEMU 4.2.0 so
-universally getting rid of them doesn't seem logical.
+Most frequent direct calls:
 
-Curious for your thoughts on what to do and cheers,
-Nathan
+    127 object_property_set_bool
+     27 qemu_opts_absorb_qdict
+     16 visit_type_str
+     14 visit_type_int
+     10 visit_type_uint32
+
+Let's have a closer look at object_property_set() & friends.  Out of
+almost 1000 calls, some 150 are checked.  While I'm sure many of the
+unchecked calls can't actually fail, I am concerned some unchecked calls
+can.
+
+If we adopt the convention to return a value that indicates success /
+failure, we should consider converting object.h to it sooner rather than
+later.
+
+Please understand these are rough numbers from quick & dirty scripts.
+
 
