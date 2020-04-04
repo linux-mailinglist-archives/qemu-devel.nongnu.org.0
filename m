@@ -2,71 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F08BB19E2BC
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Apr 2020 06:22:35 +0200 (CEST)
-Received: from localhost ([::1]:35200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B91B19E499
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Apr 2020 12:43:37 +0200 (CEST)
+Received: from localhost ([::1]:37368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKaKI-0007aL-Uz
-	for lists+qemu-devel@lfdr.de; Sat, 04 Apr 2020 00:22:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49499)
+	id 1jKgH1-000675-Um
+	for lists+qemu-devel@lfdr.de; Sat, 04 Apr 2020 06:43:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42722)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dnbrdsky@gmail.com>) id 1jKaJ9-0006Dn-5M
- for qemu-devel@nongnu.org; Sat, 04 Apr 2020 00:21:25 -0400
+ (envelope-from <ruben@mrbrklyn.com>) id 1jKdMT-000344-En
+ for qemu-devel@nongnu.org; Sat, 04 Apr 2020 03:37:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dnbrdsky@gmail.com>) id 1jKaJ5-0005Fl-Gw
- for qemu-devel@nongnu.org; Sat, 04 Apr 2020 00:21:23 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:42490)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <dnbrdsky@gmail.com>)
- id 1jKaJ5-0005EI-89; Sat, 04 Apr 2020 00:21:19 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id g6so2655632pgs.9;
- Fri, 03 Apr 2020 21:21:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=MBmy+FXN7CaNxw35X1CtGT/afHHeLXQ4upAzSmtA39U=;
- b=cDE47sxGVvogsM3lKhZxXEywBZ9rhB8CYBqH+8LMIs3iMI06b8bM3LACgH0VfTNDt2
- qC7JCNJvJvQaNghepFWrulqEfUkWTSHFmiOYojUQCoTVNwn5/XpvbaT84hvdtOT6bur6
- X+o/LOFgsjhPi47uzN4E2HeEu9OUCYa6WhsRcsZp4PSsbcpZHNqjljQA4IqK4FsFbagZ
- 0UzLQ81Ek6zW5FZJeDT24Bdh89FQtbsRiTcboqEXye+u8mgUTEJRhCux1NfMumyP6hf+
- 3JB5mVQmDWU8uvmuritYCv3VXjlOQ8fdpKlWsSWLMdFEudUn7ovK9LdRvTiVLO3NSQ5V
- I/Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=MBmy+FXN7CaNxw35X1CtGT/afHHeLXQ4upAzSmtA39U=;
- b=FaGZENkHZXfmSyzNSRNCoo+Zatd1II1T7ya4WGTcrL4UrBqWPJID9CFNbI+ZX/qdsS
- mbRdIt6ZzDr0bqVEqG/nL7UC9jJ5Vi26lIw78RMK69+za2EFJqQ89AMuC8kQl8EfJqKk
- 5UJYUX4QIyJz0FWKgV9L1EHRYisT5Oh6RUtnQCHm0zncgF9jzzXJj4LdSob54qTEs0ww
- nji6u9zqOVaC1VM3UHbuXmPIlIXRtGbgJ+r3z+PfedsoPduuGRQpZGq9SwJPGzrarkbS
- aU1RDfgTxZd2vgjNXqrXys/cs4CZOFQ2dlF2X7/PAXsRzsfk8Zmb+GLOB4Aao5aTtCIh
- bU4Q==
-X-Gm-Message-State: AGi0PuY+ZeC4VfF/H86XtD2T7l13Mh0A04S860V2rMj79z1eqlJr69Op
- epCj4UqWesiPJj/Ihsqprv8=
-X-Google-Smtp-Source: APiQypKWYu9Gu/xdc35mCi9T5Hp2t3+CslTQqKH64R5qvwz9I99ELREiJzItQwdcq3AC0fuiLTPymw==
-X-Received: by 2002:a62:2c8c:: with SMTP id
- s134mr11914584pfs.253.1585974077997; 
- Fri, 03 Apr 2020 21:21:17 -0700 (PDT)
-Received: from esc.telus (d216-232-186-112.bchsia.telus.net. [216.232.186.112])
- by smtp.gmail.com with ESMTPSA id 189sm6746048pfg.170.2020.04.03.21.21.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Apr 2020 21:21:17 -0700 (PDT)
-From: dnbrdsky@gmail.com
-To: dnbrdsky@gmail.com
-Subject: [PATCH v5 2/2] lockable: replaced locks with lock guard macros where
- appropriate
-Date: Fri,  3 Apr 2020 21:21:08 -0700
-Message-Id: <20200404042108.389635-3-dnbrdsky@gmail.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200404042108.389635-1-dnbrdsky@gmail.com>
-References: <20200404042108.389635-1-dnbrdsky@gmail.com>
+ (envelope-from <ruben@mrbrklyn.com>) id 1jKdMR-0004WW-Mm
+ for qemu-devel@nongnu.org; Sat, 04 Apr 2020 03:37:01 -0400
+Received: from www2.mrbrklyn.com ([96.57.23.82]:42699 helo=mrbrklyn.com)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <ruben@mrbrklyn.com>)
+ id 1jKdMR-0004UN-HL; Sat, 04 Apr 2020 03:36:59 -0400
+Received: from stat37.mrbrklyn.com (www.mrbrklyn.com [96.57.23.83])
+ by mrbrklyn.com (Postfix) with ESMTP id 46ED6163FA2;
+ Sat,  4 Apr 2020 03:36:58 -0400 (EDT)
+Date: Sat, 04 Apr 2020 00:37:53 -0400
+User-Agent: K-9 Mail for Android
+In-Reply-To: <de4b6733-859b-eebe-32ab-c0eb0fcb6311@redhat.com>
+References: <de92e66d-c474-dd1b-ddab-194b2f92d1dd@redhat.com>
+ <de4b6733-859b-eebe-32ab-c0eb0fcb6311@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::52d
+Content-Type: multipart/alternative;
+ boundary="----PAWDPBAK5OCFZ4YLF5Z1RM678HM6N6"
+Content-Transfer-Encoding: 7bit
+Subject: Re: QEMU participation to Google Season of Docs
+To: qemu-discuss@nongnu.org, John Snow <jsnow@redhat.com>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?ISO-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Stefan Weil <sw@weilnetz.de>
+From: Ruben <ruben@mrbrklyn.com>
+Message-ID: <834E48D0-E9DE-41DC-8E40-3657FB69698C@mrbrklyn.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 96.57.23.82
+X-Mailman-Approved-At: Sat, 04 Apr 2020 06:42:18 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,633 +57,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- "open list:iSCSI" <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- stefanha@gmail.com, Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Brodsky <dnbrdsky@gmail.com>
+------PAWDPBAK5OCFZ4YLF5Z1RM678HM6N6
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-- ran regexp "qemu_mutex_lock\(.*\).*\n.*if" to find targets
-- replaced result with QEMU_LOCK_GUARD if all unlocks at function end
-- replaced result with WITH_QEMU_LOCK_GUARD if unlock not at end
+Its ingoogle=2E=2E=2E We don't do google=2E
 
-Signed-off-by: Daniel Brodsky <dnbrdsky@gmail.com>
----
- block/iscsi.c         |  7 ++----
- block/nfs.c           | 51 ++++++++++++++++++++-----------------------
- cpus-common.c         | 14 +++++-------
- hw/display/qxl.c      | 43 +++++++++++++++++-------------------
- hw/vfio/platform.c    |  5 ++---
- migration/migration.c |  3 +--
- migration/multifd.c   |  8 +++----
- migration/ram.c       |  3 +--
- monitor/misc.c        |  4 +---
- ui/spice-display.c    | 14 ++++++------
- util/log.c            |  4 ++--
- util/qemu-timer.c     | 17 +++++++--------
- util/rcu.c            |  8 +++----
- util/thread-pool.c    |  3 +--
- util/vfio-helpers.c   |  5 ++---
- 15 files changed, 83 insertions(+), 106 deletions(-)
 
-diff --git a/block/iscsi.c b/block/iscsi.c
-index 682abd8e09..f86a53c096 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -1395,20 +1395,17 @@ static void iscsi_nop_timed_event(void *opaque)
- {
-     IscsiLun *iscsilun = opaque;
- 
--    qemu_mutex_lock(&iscsilun->mutex);
-+    QEMU_LOCK_GUARD(&iscsilun->mutex);
-     if (iscsi_get_nops_in_flight(iscsilun->iscsi) >= MAX_NOP_FAILURES) {
-         error_report("iSCSI: NOP timeout. Reconnecting...");
-         iscsilun->request_timed_out = true;
-     } else if (iscsi_nop_out_async(iscsilun->iscsi, NULL, NULL, 0, NULL) != 0) {
-         error_report("iSCSI: failed to sent NOP-Out. Disabling NOP messages.");
--        goto out;
-+        return;
-     }
- 
-     timer_mod(iscsilun->nop_timer, qemu_clock_get_ms(QEMU_CLOCK_REALTIME) + NOP_INTERVAL);
-     iscsi_set_events(iscsilun);
--
--out:
--    qemu_mutex_unlock(&iscsilun->mutex);
- }
- 
- static void iscsi_readcapacity_sync(IscsiLun *iscsilun, Error **errp)
-diff --git a/block/nfs.c b/block/nfs.c
-index 9a6311e270..09a78aede8 100644
---- a/block/nfs.c
-+++ b/block/nfs.c
-@@ -273,15 +273,14 @@ static int coroutine_fn nfs_co_preadv(BlockDriverState *bs, uint64_t offset,
-     nfs_co_init_task(bs, &task);
-     task.iov = iov;
- 
--    qemu_mutex_lock(&client->mutex);
--    if (nfs_pread_async(client->context, client->fh,
--                        offset, bytes, nfs_co_generic_cb, &task) != 0) {
--        qemu_mutex_unlock(&client->mutex);
--        return -ENOMEM;
--    }
-+    WITH_QEMU_LOCK_GUARD(&client->mutex) {
-+        if (nfs_pread_async(client->context, client->fh,
-+                            offset, bytes, nfs_co_generic_cb, &task) != 0) {
-+            return -ENOMEM;
-+        }
- 
--    nfs_set_events(client);
--    qemu_mutex_unlock(&client->mutex);
-+        nfs_set_events(client);
-+    }
-     while (!task.complete) {
-         qemu_coroutine_yield();
-     }
-@@ -320,19 +319,18 @@ static int coroutine_fn nfs_co_pwritev(BlockDriverState *bs, uint64_t offset,
-         buf = iov->iov[0].iov_base;
-     }
- 
--    qemu_mutex_lock(&client->mutex);
--    if (nfs_pwrite_async(client->context, client->fh,
--                         offset, bytes, buf,
--                         nfs_co_generic_cb, &task) != 0) {
--        qemu_mutex_unlock(&client->mutex);
--        if (my_buffer) {
--            g_free(buf);
-+    WITH_QEMU_LOCK_GUARD(&client->mutex) {
-+        if (nfs_pwrite_async(client->context, client->fh,
-+                             offset, bytes, buf,
-+                             nfs_co_generic_cb, &task) != 0) {
-+            if (my_buffer) {
-+                g_free(buf);
-+            }
-+            return -ENOMEM;
-         }
--        return -ENOMEM;
--    }
- 
--    nfs_set_events(client);
--    qemu_mutex_unlock(&client->mutex);
-+        nfs_set_events(client);
-+    }
-     while (!task.complete) {
-         qemu_coroutine_yield();
-     }
-@@ -355,15 +353,14 @@ static int coroutine_fn nfs_co_flush(BlockDriverState *bs)
- 
-     nfs_co_init_task(bs, &task);
- 
--    qemu_mutex_lock(&client->mutex);
--    if (nfs_fsync_async(client->context, client->fh, nfs_co_generic_cb,
--                        &task) != 0) {
--        qemu_mutex_unlock(&client->mutex);
--        return -ENOMEM;
--    }
-+    WITH_QEMU_LOCK_GUARD(&client->mutex) {
-+        if (nfs_fsync_async(client->context, client->fh, nfs_co_generic_cb,
-+                            &task) != 0) {
-+            return -ENOMEM;
-+        }
- 
--    nfs_set_events(client);
--    qemu_mutex_unlock(&client->mutex);
-+        nfs_set_events(client);
-+    }
-     while (!task.complete) {
-         qemu_coroutine_yield();
-     }
-diff --git a/cpus-common.c b/cpus-common.c
-index eaf590cb38..55d5df8923 100644
---- a/cpus-common.c
-+++ b/cpus-common.c
-@@ -22,6 +22,7 @@
- #include "exec/cpu-common.h"
- #include "hw/core/cpu.h"
- #include "sysemu/cpus.h"
-+#include "qemu/lockable.h"
- 
- static QemuMutex qemu_cpu_list_lock;
- static QemuCond exclusive_cond;
-@@ -71,7 +72,7 @@ static int cpu_get_free_index(void)
- 
- void cpu_list_add(CPUState *cpu)
- {
--    qemu_mutex_lock(&qemu_cpu_list_lock);
-+    QEMU_LOCK_GUARD(&qemu_cpu_list_lock);
-     if (cpu->cpu_index == UNASSIGNED_CPU_INDEX) {
-         cpu->cpu_index = cpu_get_free_index();
-         assert(cpu->cpu_index != UNASSIGNED_CPU_INDEX);
-@@ -79,15 +80,13 @@ void cpu_list_add(CPUState *cpu)
-         assert(!cpu_index_auto_assigned);
-     }
-     QTAILQ_INSERT_TAIL_RCU(&cpus, cpu, node);
--    qemu_mutex_unlock(&qemu_cpu_list_lock);
- }
- 
- void cpu_list_remove(CPUState *cpu)
- {
--    qemu_mutex_lock(&qemu_cpu_list_lock);
-+    QEMU_LOCK_GUARD(&qemu_cpu_list_lock);
-     if (!QTAILQ_IN_USE(cpu, node)) {
-         /* there is nothing to undo since cpu_exec_init() hasn't been called */
--        qemu_mutex_unlock(&qemu_cpu_list_lock);
-         return;
-     }
- 
-@@ -95,7 +94,6 @@ void cpu_list_remove(CPUState *cpu)
- 
-     QTAILQ_REMOVE_RCU(&cpus, cpu, node);
-     cpu->cpu_index = UNASSIGNED_CPU_INDEX;
--    qemu_mutex_unlock(&qemu_cpu_list_lock);
- }
- 
- struct qemu_work_item {
-@@ -237,7 +235,7 @@ void cpu_exec_start(CPUState *cpu)
-      * see cpu->running == true, and it will kick the CPU.
-      */
-     if (unlikely(atomic_read(&pending_cpus))) {
--        qemu_mutex_lock(&qemu_cpu_list_lock);
-+        QEMU_LOCK_GUARD(&qemu_cpu_list_lock);
-         if (!cpu->has_waiter) {
-             /* Not counted in pending_cpus, let the exclusive item
-              * run.  Since we have the lock, just set cpu->running to true
-@@ -252,7 +250,6 @@ void cpu_exec_start(CPUState *cpu)
-              * waiter at cpu_exec_end.
-              */
-         }
--        qemu_mutex_unlock(&qemu_cpu_list_lock);
-     }
- }
- 
-@@ -280,7 +277,7 @@ void cpu_exec_end(CPUState *cpu)
-      * next cpu_exec_start.
-      */
-     if (unlikely(atomic_read(&pending_cpus))) {
--        qemu_mutex_lock(&qemu_cpu_list_lock);
-+        QEMU_LOCK_GUARD(&qemu_cpu_list_lock);
-         if (cpu->has_waiter) {
-             cpu->has_waiter = false;
-             atomic_set(&pending_cpus, pending_cpus - 1);
-@@ -288,7 +285,6 @@ void cpu_exec_end(CPUState *cpu)
-                 qemu_cond_signal(&exclusive_cond);
-             }
-         }
--        qemu_mutex_unlock(&qemu_cpu_list_lock);
-     }
- }
- 
-diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-index 227da69a50..d5627119ec 100644
---- a/hw/display/qxl.c
-+++ b/hw/display/qxl.c
-@@ -478,18 +478,19 @@ static int qxl_track_command(PCIQXLDevice *qxl, struct QXLCommandExt *ext)
-                               cmd->u.surface_create.stride);
-             return 1;
-         }
--        qemu_mutex_lock(&qxl->track_lock);
--        if (cmd->type == QXL_SURFACE_CMD_CREATE) {
--            qxl->guest_surfaces.cmds[id] = ext->cmd.data;
--            qxl->guest_surfaces.count++;
--            if (qxl->guest_surfaces.max < qxl->guest_surfaces.count)
--                qxl->guest_surfaces.max = qxl->guest_surfaces.count;
-+        WITH_QEMU_LOCK_GUARD(&qxl->track_lock) {
-+            if (cmd->type == QXL_SURFACE_CMD_CREATE) {
-+                qxl->guest_surfaces.cmds[id] = ext->cmd.data;
-+                qxl->guest_surfaces.count++;
-+                if (qxl->guest_surfaces.max < qxl->guest_surfaces.count) {
-+                    qxl->guest_surfaces.max = qxl->guest_surfaces.count;
-+                }
-+            }
-+            if (cmd->type == QXL_SURFACE_CMD_DESTROY) {
-+                qxl->guest_surfaces.cmds[id] = 0;
-+                qxl->guest_surfaces.count--;
-+            }
-         }
--        if (cmd->type == QXL_SURFACE_CMD_DESTROY) {
--            qxl->guest_surfaces.cmds[id] = 0;
--            qxl->guest_surfaces.count--;
--        }
--        qemu_mutex_unlock(&qxl->track_lock);
-         break;
-     }
-     case QXL_CMD_CURSOR:
-@@ -958,10 +959,9 @@ static void interface_update_area_complete(QXLInstance *sin,
-     int i;
-     int qxl_i;
- 
--    qemu_mutex_lock(&qxl->ssd.lock);
-+    QEMU_LOCK_GUARD(&qxl->ssd.lock);
-     if (surface_id != 0 || !num_updated_rects ||
-         !qxl->render_update_cookie_num) {
--        qemu_mutex_unlock(&qxl->ssd.lock);
-         return;
-     }
-     trace_qxl_interface_update_area_complete(qxl->id, surface_id, dirty->left,
-@@ -980,7 +980,6 @@ static void interface_update_area_complete(QXLInstance *sin,
-          * Don't bother copying or scheduling the bh since we will flip
-          * the whole area anyway on completion of the update_area async call
-          */
--        qemu_mutex_unlock(&qxl->ssd.lock);
-         return;
-     }
-     qxl_i = qxl->num_dirty_rects;
-@@ -991,7 +990,6 @@ static void interface_update_area_complete(QXLInstance *sin,
-     trace_qxl_interface_update_area_complete_schedule_bh(qxl->id,
-                                                          qxl->num_dirty_rects);
-     qemu_bh_schedule(qxl->update_area_bh);
--    qemu_mutex_unlock(&qxl->ssd.lock);
- }
- 
- /* called from spice server thread context only */
-@@ -1694,15 +1692,14 @@ static void ioport_write(void *opaque, hwaddr addr,
-     case QXL_IO_MONITORS_CONFIG_ASYNC:
- async_common:
-         async = QXL_ASYNC;
--        qemu_mutex_lock(&d->async_lock);
--        if (d->current_async != QXL_UNDEFINED_IO) {
--            qxl_set_guest_bug(d, "%d async started before last (%d) complete",
--                io_port, d->current_async);
--            qemu_mutex_unlock(&d->async_lock);
--            return;
-+        WITH_QEMU_LOCK_GUARD(&d->async_lock) {
-+            if (d->current_async != QXL_UNDEFINED_IO) {
-+                qxl_set_guest_bug(d, "%d async started before last (%d) complete",
-+                    io_port, d->current_async);
-+                return;
-+            }
-+            d->current_async = orig_io_port;
-         }
--        d->current_async = orig_io_port;
--        qemu_mutex_unlock(&d->async_lock);
-         break;
-     default:
-         break;
-diff --git a/hw/vfio/platform.c b/hw/vfio/platform.c
-index 6b2952c034..ac2cefc9b1 100644
---- a/hw/vfio/platform.c
-+++ b/hw/vfio/platform.c
-@@ -22,6 +22,7 @@
- #include "hw/vfio/vfio-platform.h"
- #include "migration/vmstate.h"
- #include "qemu/error-report.h"
-+#include "qemu/lockable.h"
- #include "qemu/main-loop.h"
- #include "qemu/module.h"
- #include "qemu/range.h"
-@@ -216,7 +217,7 @@ static void vfio_intp_interrupt(VFIOINTp *intp)
-     VFIOPlatformDevice *vdev = intp->vdev;
-     bool delay_handling = false;
- 
--    qemu_mutex_lock(&vdev->intp_mutex);
-+    QEMU_LOCK_GUARD(&vdev->intp_mutex);
-     if (intp->state == VFIO_IRQ_INACTIVE) {
-         QLIST_FOREACH(tmp, &vdev->intp_list, next) {
-             if (tmp->state == VFIO_IRQ_ACTIVE ||
-@@ -236,7 +237,6 @@ static void vfio_intp_interrupt(VFIOINTp *intp)
-         QSIMPLEQ_INSERT_TAIL(&vdev->pending_intp_queue,
-                              intp, pqnext);
-         ret = event_notifier_test_and_clear(intp->interrupt);
--        qemu_mutex_unlock(&vdev->intp_mutex);
-         return;
-     }
- 
-@@ -266,7 +266,6 @@ static void vfio_intp_interrupt(VFIOINTp *intp)
-                   qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
-                       vdev->mmap_timeout);
-     }
--    qemu_mutex_unlock(&vdev->intp_mutex);
- }
- 
- /**
-diff --git a/migration/migration.c b/migration/migration.c
-index c1d88ace7f..2f0bd6d8b4 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1652,11 +1652,10 @@ static void migrate_fd_cleanup_bh(void *opaque)
- 
- void migrate_set_error(MigrationState *s, const Error *error)
- {
--    qemu_mutex_lock(&s->error_mutex);
-+    QEMU_LOCK_GUARD(&s->error_mutex);
-     if (!s->error) {
-         s->error = error_copy(error);
-     }
--    qemu_mutex_unlock(&s->error_mutex);
- }
- 
- void migrate_fd_error(MigrationState *s, const Error *error)
-diff --git a/migration/multifd.c b/migration/multifd.c
-index cb6a4a3ab8..9123c111a3 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -894,11 +894,11 @@ void multifd_recv_sync_main(void)
-     for (i = 0; i < migrate_multifd_channels(); i++) {
-         MultiFDRecvParams *p = &multifd_recv_state->params[i];
- 
--        qemu_mutex_lock(&p->mutex);
--        if (multifd_recv_state->packet_num < p->packet_num) {
--            multifd_recv_state->packet_num = p->packet_num;
-+        WITH_QEMU_LOCK_GUARD(&p->mutex) {
-+            if (multifd_recv_state->packet_num < p->packet_num) {
-+                multifd_recv_state->packet_num = p->packet_num;
-+            }
-         }
--        qemu_mutex_unlock(&p->mutex);
-         trace_multifd_recv_sync_main_signal(p->id);
-         qemu_sem_post(&p->sem_sync);
-     }
-diff --git a/migration/ram.c b/migration/ram.c
-index c12cfdbe26..87a670cfbf 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1368,7 +1368,7 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
-         return NULL;
-     }
- 
--    qemu_mutex_lock(&rs->src_page_req_mutex);
-+    QEMU_LOCK_GUARD(&rs->src_page_req_mutex);
-     if (!QSIMPLEQ_EMPTY(&rs->src_page_requests)) {
-         struct RAMSrcPageRequest *entry =
-                                 QSIMPLEQ_FIRST(&rs->src_page_requests);
-@@ -1385,7 +1385,6 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
-             migration_consume_urgent_request();
-         }
-     }
--    qemu_mutex_unlock(&rs->src_page_req_mutex);
- 
-     return block;
- }
-diff --git a/monitor/misc.c b/monitor/misc.c
-index 6c45fa490f..9723b466cd 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -1473,7 +1473,7 @@ AddfdInfo *monitor_fdset_add_fd(int fd, bool has_fdset_id, int64_t fdset_id,
-     MonFdsetFd *mon_fdset_fd;
-     AddfdInfo *fdinfo;
- 
--    qemu_mutex_lock(&mon_fdsets_lock);
-+    QEMU_LOCK_GUARD(&mon_fdsets_lock);
-     if (has_fdset_id) {
-         QLIST_FOREACH(mon_fdset, &mon_fdsets, next) {
-             /* Break if match found or match impossible due to ordering by ID */
-@@ -1494,7 +1494,6 @@ AddfdInfo *monitor_fdset_add_fd(int fd, bool has_fdset_id, int64_t fdset_id,
-             if (fdset_id < 0) {
-                 error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "fdset-id",
-                            "a non-negative value");
--                qemu_mutex_unlock(&mon_fdsets_lock);
-                 return NULL;
-             }
-             /* Use specified fdset ID */
-@@ -1545,7 +1544,6 @@ AddfdInfo *monitor_fdset_add_fd(int fd, bool has_fdset_id, int64_t fdset_id,
-     fdinfo->fdset_id = mon_fdset->id;
-     fdinfo->fd = mon_fdset_fd->fd;
- 
--    qemu_mutex_unlock(&mon_fdsets_lock);
-     return fdinfo;
- }
- 
-diff --git a/ui/spice-display.c b/ui/spice-display.c
-index 6babe24909..19632fdf6c 100644
---- a/ui/spice-display.c
-+++ b/ui/spice-display.c
-@@ -18,6 +18,7 @@
- #include "qemu/osdep.h"
- #include "ui/qemu-spice.h"
- #include "qemu/timer.h"
-+#include "qemu/lockable.h"
- #include "qemu/main-loop.h"
- #include "qemu/option.h"
- #include "qemu/queue.h"
-@@ -483,12 +484,12 @@ void qemu_spice_display_refresh(SimpleSpiceDisplay *ssd)
- {
-     graphic_hw_update(ssd->dcl.con);
- 
--    qemu_mutex_lock(&ssd->lock);
--    if (QTAILQ_EMPTY(&ssd->updates) && ssd->ds) {
--        qemu_spice_create_update(ssd);
--        ssd->notify++;
-+    WITH_QEMU_LOCK_GUARD(&ssd->lock) {
-+        if (QTAILQ_EMPTY(&ssd->updates) && ssd->ds) {
-+            qemu_spice_create_update(ssd);
-+            ssd->notify++;
-+        }
-     }
--    qemu_mutex_unlock(&ssd->lock);
- 
-     trace_qemu_spice_display_refresh(ssd->qxl.id, ssd->notify);
-     if (ssd->notify) {
-@@ -580,7 +581,7 @@ static int interface_get_cursor_command(QXLInstance *sin, QXLCommandExt *ext)
-     SimpleSpiceDisplay *ssd = container_of(sin, SimpleSpiceDisplay, qxl);
-     int ret;
- 
--    qemu_mutex_lock(&ssd->lock);
-+    QEMU_LOCK_GUARD(&ssd->lock);
-     if (ssd->ptr_define) {
-         *ext = ssd->ptr_define->ext;
-         ssd->ptr_define = NULL;
-@@ -592,7 +593,6 @@ static int interface_get_cursor_command(QXLInstance *sin, QXLCommandExt *ext)
-     } else {
-         ret = false;
-     }
--    qemu_mutex_unlock(&ssd->lock);
-     return ret;
- }
- 
-diff --git a/util/log.c b/util/log.c
-index 2da6cb31dc..bdb3d712e8 100644
---- a/util/log.c
-+++ b/util/log.c
-@@ -25,6 +25,7 @@
- #include "qemu/cutils.h"
- #include "trace/control.h"
- #include "qemu/thread.h"
-+#include "qemu/lockable.h"
- 
- static char *logfilename;
- static QemuMutex qemu_logfile_mutex;
-@@ -94,7 +95,7 @@ void qemu_set_log(int log_flags)
-     if (qemu_loglevel && (!is_daemonized() || logfilename)) {
-         need_to_open_file = true;
-     }
--    qemu_mutex_lock(&qemu_logfile_mutex);
-+    QEMU_LOCK_GUARD(&qemu_logfile_mutex);
-     if (qemu_logfile && !need_to_open_file) {
-         logfile = qemu_logfile;
-         atomic_rcu_set(&qemu_logfile, NULL);
-@@ -136,7 +137,6 @@ void qemu_set_log(int log_flags)
-         }
-         atomic_rcu_set(&qemu_logfile, logfile);
-     }
--    qemu_mutex_unlock(&qemu_logfile_mutex);
- }
- 
- void qemu_log_needs_buffers(void)
-diff --git a/util/qemu-timer.c b/util/qemu-timer.c
-index d548d3c1ad..b6575a2cd5 100644
---- a/util/qemu-timer.c
-+++ b/util/qemu-timer.c
-@@ -459,17 +459,16 @@ void timer_mod_anticipate_ns(QEMUTimer *ts, int64_t expire_time)
-     QEMUTimerList *timer_list = ts->timer_list;
-     bool rearm;
- 
--    qemu_mutex_lock(&timer_list->active_timers_lock);
--    if (ts->expire_time == -1 || ts->expire_time > expire_time) {
--        if (ts->expire_time != -1) {
--            timer_del_locked(timer_list, ts);
-+    WITH_QEMU_LOCK_GUARD(&timer_list->active_timers_lock) {
-+        if (ts->expire_time == -1 || ts->expire_time > expire_time) {
-+            if (ts->expire_time != -1) {
-+                timer_del_locked(timer_list, ts);
-+            }
-+            rearm = timer_mod_ns_locked(timer_list, ts, expire_time);
-+        } else {
-+            rearm = false;
-         }
--        rearm = timer_mod_ns_locked(timer_list, ts, expire_time);
--    } else {
--        rearm = false;
-     }
--    qemu_mutex_unlock(&timer_list->active_timers_lock);
--
-     if (rearm) {
-         timerlist_rearm(timer_list);
-     }
-diff --git a/util/rcu.c b/util/rcu.c
-index 177a675619..60a37f72c3 100644
---- a/util/rcu.c
-+++ b/util/rcu.c
-@@ -31,6 +31,7 @@
- #include "qemu/atomic.h"
- #include "qemu/thread.h"
- #include "qemu/main-loop.h"
-+#include "qemu/lockable.h"
- #if defined(CONFIG_MALLOC_TRIM)
- #include <malloc.h>
- #endif
-@@ -141,14 +142,14 @@ static void wait_for_readers(void)
- 
- void synchronize_rcu(void)
- {
--    qemu_mutex_lock(&rcu_sync_lock);
-+    QEMU_LOCK_GUARD(&rcu_sync_lock);
- 
-     /* Write RCU-protected pointers before reading p_rcu_reader->ctr.
-      * Pairs with smp_mb_placeholder() in rcu_read_lock().
-      */
-     smp_mb_global();
- 
--    qemu_mutex_lock(&rcu_registry_lock);
-+    QEMU_LOCK_GUARD(&rcu_registry_lock);
-     if (!QLIST_EMPTY(&registry)) {
-         /* In either case, the atomic_mb_set below blocks stores that free
-          * old RCU-protected pointers.
-@@ -169,9 +170,6 @@ void synchronize_rcu(void)
- 
-         wait_for_readers();
-     }
--
--    qemu_mutex_unlock(&rcu_registry_lock);
--    qemu_mutex_unlock(&rcu_sync_lock);
- }
- 
- 
-diff --git a/util/thread-pool.c b/util/thread-pool.c
-index 4ed9b89ab2..d763cea505 100644
---- a/util/thread-pool.c
-+++ b/util/thread-pool.c
-@@ -210,7 +210,7 @@ static void thread_pool_cancel(BlockAIOCB *acb)
- 
-     trace_thread_pool_cancel(elem, elem->common.opaque);
- 
--    qemu_mutex_lock(&pool->lock);
-+    QEMU_LOCK_GUARD(&pool->lock);
-     if (elem->state == THREAD_QUEUED &&
-         /* No thread has yet started working on elem. we can try to "steal"
-          * the item from the worker if we can get a signal from the
-@@ -225,7 +225,6 @@ static void thread_pool_cancel(BlockAIOCB *acb)
-         elem->ret = -ECANCELED;
-     }
- 
--    qemu_mutex_unlock(&pool->lock);
- }
- 
- static AioContext *thread_pool_get_aio_context(BlockAIOCB *acb)
-diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-index ddd9a96e76..e399e330e2 100644
---- a/util/vfio-helpers.c
-+++ b/util/vfio-helpers.c
-@@ -21,6 +21,7 @@
- #include "standard-headers/linux/pci_regs.h"
- #include "qemu/event_notifier.h"
- #include "qemu/vfio-helpers.h"
-+#include "qemu/lockable.h"
- #include "trace.h"
- 
- #define QEMU_VFIO_DEBUG 0
-@@ -667,14 +668,12 @@ int qemu_vfio_dma_reset_temporary(QEMUVFIOState *s)
-         .size = QEMU_VFIO_IOVA_MAX - s->high_water_mark,
-     };
-     trace_qemu_vfio_dma_reset_temporary(s);
--    qemu_mutex_lock(&s->lock);
-+    QEMU_LOCK_GUARD(&s->lock);
-     if (ioctl(s->container, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
-         error_report("VFIO_UNMAP_DMA failed: %s", strerror(errno));
--        qemu_mutex_unlock(&s->lock);
-         return -errno;
-     }
-     s->high_water_mark = QEMU_VFIO_IOVA_MAX;
--    qemu_mutex_unlock(&s->lock);
-     return 0;
- }
- 
--- 
-2.26.0
 
+On April 3, 2020 9:37:09 PM EDT, John Snow <jsnow@redhat=2Ecom> wrote:
+>
+>
+>On 4/1/20 12:37 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+>> Hi,
+>>=20
+>> Google recently announced their 'Season of Docs' project:
+>> https://developers=2Egoogle=2Ecom/season-of-docs
+>>=20
+>> QEMU project seems to fit all the requirements=2E
+>>=20
+>> Who is interested in [co-]mentoring?
+>>=20
+>> Relevant links:
+>> https://developers=2Egoogle=2Ecom/season-of-docs/docs/admin-guide
+>> https://developers=2Egoogle=2Ecom/season-of-docs/docs/timeline
+>>=20
+>> [Following is extracted from the previous links:]
+>>=20
+>> Example projects:
+>>=20
+>> * Build a documentation site on a platform to be decided
+>> =C2=A0 by the technical writer and open source mentor, and publish
+>> =C2=A0 an initial set of basic documents on the site=2E Examples of
+>> =C2=A0 platforms include:
+>>=20
+>> =C2=A0 - A static site generator such as Hugo, Jekyll, Sphinx, =2E=2E=
+=2E
+>>=20
+>> * Refactor the open source project's existing documentation to
+>> =C2=A0 provide an improved user experience or a more accessible
+>> =C2=A0 information architecture=2E
+>>=20
+>> * Write a conceptual overview of, or introduction to, a product
+>> =C2=A0 or feature=2E Often a team creates their technical documentation
+>> =C2=A0 from the bottom up, with the result that there's a lot of
+>> =C2=A0 detail but it's hard to understand the product as a whole=2E A
+>> =C2=A0 technical writer can fix this=2E
+>>=20
+>> * Create a tutorial for a high-profile use case=2E
+>>=20
+>> * Create a set of focused how-to guides for specific tasks=2E
+>>=20
+>> * Create a contributor=E2=80=99s guide that includes basic information
+>> =C2=A0 about getting started as a contributor to the open source
+>> =C2=A0 project, as well as any rules around licence agreements,
+>> =C2=A0 processes for pull requests and reviews, building the project,
+>> =C2=A0 and so on=2E
+>>=20
+>> Previous experience with similar programs, such as Google Summer
+>> of Code or others: If you or any of your mentors have taken part
+>> in Google Summer of Code or a similar program, mention this in
+>> your application=2E Describe your achievements in that program=2E
+>> Explain how this experience may influence the way you work in
+>> Season of Docs=2E
+>>=20
+>> The 2020 season of Season of Docs is limited to a maximum of
+>> 50 technical writing projects in total=2E
+>> As a guideline, we expect to accept a maximum of 2 projects
+>> per organization, so that we don't end up with too many
+>> accepted projects=2E However, if the free selection process
+>> doesn't fill all the slots, the Google program administrators
+>> may allocate additional slots to some organizations=2E
+>>=20
+>
+>This looks like it could be very good for us=2E
+>
+>My only concern is that the scope and breadth of QEMU is huge and it
+>may
+>be a lot for a newcomer to tackle appropriately for top-level docs, so
+>I
+>feel like it requires a mentor who has a good understanding of the
+>broad
+>picture of QEMU=2E
+>
+>Like the description says, we often write things bottom-up in areas of
+>very specific focus=2E The broad picture is sometimes harder to conjure
+>accurately=2E
+>
+>I have a lot of opinions and thoughts on python and how docs should be
+>laid out, but I'm afraid I'm not so good at understanding all of the
+>options and "use cases" of QEMU to confidently lay out a top-level TOC=2E
+>Maybe if we collaborated on a TOC we could give a clear project
+>guideline to a GSoC/GSoD contributor=2E
+>
+>(Or maybe I'm overthinking it=2E)
+>
+>--js
+
+--=20
+Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
+------PAWDPBAK5OCFZ4YLF5Z1RM678HM6N6
+Content-Type: text/html;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><head></head><body>Its ingoogle=2E=2E=2E We don't do google=2E<br><br=
+><br><br><div class=3D"gmail_quote">On April 3, 2020 9:37:09 PM EDT, John S=
+now &lt;jsnow@redhat=2Ecom&gt; wrote:<blockquote class=3D"gmail_quote" styl=
+e=3D"margin: 0pt 0pt 0pt 0=2E8ex; border-left: 1px solid rgb(204, 204, 204)=
+; padding-left: 1ex;">
+<pre class=3D"k9mail"><br><br>On 4/1/20 12:37 PM, Philippe Mathieu-Daud=C3=
+=A9 wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin: 0pt 0pt 1e=
+x 0=2E8ex; border-left: 1px solid #729fcf; padding-left: 1ex;">Hi,<br><br>G=
+oogle recently announced their 'Season of Docs' project:<br><a href=3D"http=
+s://developers=2Egoogle=2Ecom/season-of-docs">https://developers=2Egoogle=
+=2Ecom/season-of-docs</a><br><br>QEMU project seems to fit all the requirem=
+ents=2E<br><br>Who is interested in [co-]mentoring?<br><br>Relevant links:<=
+br><a href=3D"https://developers=2Egoogle=2Ecom/season-of-docs/docs/admin-g=
+uide">https://developers=2Egoogle=2Ecom/season-of-docs/docs/admin-guide</a>=
+<br><a href=3D"https://developers=2Egoogle=2Ecom/season-of-docs/docs/timeli=
+ne">https://developers=2Egoogle=2Ecom/season-of-docs/docs/timeline</a><br><=
+br>[Following is extracted from the previous links:]<br><br>Example project=
+s:<br><br>* Build a documentation site on a platform to be decided<br>&nbsp=
+; by the technical writer and open source mentor, and publish<br>&nbsp; an =
+initial set of basic documents on the site=2E Examples of<br>&nbsp; platfor=
+ms include:<br><br>&nbsp; - A static site generator such as Hugo, Jekyll, S=
+phinx, =2E=2E=2E<br><br>* Refactor the open source project's existing docum=
+entation to<br>&nbsp; provide an improved user experience or a more accessi=
+ble<br>&nbsp; information architecture=2E<br><br>* Write a conceptual overv=
+iew of, or introduction to, a product<br>&nbsp; or feature=2E Often a team =
+creates their technical documentation<br>&nbsp; from the bottom up, with th=
+e result that there's a lot of<br>&nbsp; detail but it's hard to understand=
+ the product as a whole=2E A<br>&nbsp; technical writer can fix this=2E<br>=
+<br>* Create a tutorial for a high-profile use case=2E<br><br>* Create a se=
+t of focused how-to guides for specific tasks=2E<br><br>* Create a contribu=
+tor=E2=80=99s guide that includes basic information<br>&nbsp; about getting=
+ started as a contributor to the open source<br>&nbsp; project, as well as =
+any rules around licence agreements,<br>&nbsp; processes for pull requests =
+and reviews, building the project,<br>&nbsp; and so on=2E<br><br>Previous e=
+xperience with similar programs, such as Google Summer<br>of Code or others=
+: If you or any of your mentors have taken part<br>in Google Summer of Code=
+ or a similar program, mention this in<br>your application=2E Describe your=
+ achievements in that program=2E<br>Explain how this experience may influen=
+ce the way you work in<br>Season of Docs=2E<br><br>The 2020 season of Seaso=
+n of Docs is limited to a maximum of<br>50 technical writing projects in to=
+tal=2E<br>As a guideline, we expect to accept a maximum of 2 projects<br>pe=
+r organization, so that we don't end up with too many<br>accepted projects=
+=2E However, if the free selection process<br>doesn't fill all the slots, t=
+he Google program administrators<br>may allocate additional slots to some o=
+rganizations=2E<br><br></blockquote><br>This looks like it could be very go=
+od for us=2E<br><br>My only concern is that the scope and breadth of QEMU i=
+s huge and it may<br>be a lot for a newcomer to tackle appropriately for to=
+p-level docs, so I<br>feel like it requires a mentor who has a good underst=
+anding of the broad<br>picture of QEMU=2E<br><br>Like the description says,=
+ we often write things bottom-up in areas of<br>very specific focus=2E The =
+broad picture is sometimes harder to conjure<br>accurately=2E<br><br>I have=
+ a lot of opinions and thoughts on python and how docs should be<br>laid ou=
+t, but I'm afraid I'm not so good at understanding all of the<br>options an=
+d "use cases" of QEMU to confidently lay out a top-level TOC=2E<br>Maybe if=
+ we collaborated on a TOC we could give a clear project<br>guideline to a G=
+SoC/GSoD contributor=2E<br><br>(Or maybe I'm overthinking it=2E)<br><br>--j=
+s<br><br></pre></blockquote></div><br>-- <br>Sent from my Android device wi=
+th K-9 Mail=2E Please excuse my brevity=2E</body></html>
+------PAWDPBAK5OCFZ4YLF5Z1RM678HM6N6--
 
