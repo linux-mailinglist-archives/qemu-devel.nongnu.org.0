@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6164719E4E5
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Apr 2020 14:27:44 +0200 (CEST)
-Received: from localhost ([::1]:38436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC28119E4E3
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Apr 2020 14:25:55 +0200 (CEST)
+Received: from localhost ([::1]:38406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKhtn-00067m-BB
-	for lists+qemu-devel@lfdr.de; Sat, 04 Apr 2020 08:27:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54351)
+	id 1jKhs2-0003P8-V4
+	for lists+qemu-devel@lfdr.de; Sat, 04 Apr 2020 08:25:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54320)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jKhqb-00025G-SM
- for qemu-devel@nongnu.org; Sat, 04 Apr 2020 08:24:27 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jKhqa-00037V-CF
- for qemu-devel@nongnu.org; Sat, 04 Apr 2020 08:24:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52289
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jKhqa-00034H-81
+ (envelope-from <armbru@redhat.com>) id 1jKhqZ-00024o-H8
  for qemu-devel@nongnu.org; Sat, 04 Apr 2020 08:24:24 -0400
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <armbru@redhat.com>) id 1jKhqY-00032e-Ak
+ for qemu-devel@nongnu.org; Sat, 04 Apr 2020 08:24:23 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:33805
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jKhqY-00031p-46
+ for qemu-devel@nongnu.org; Sat, 04 Apr 2020 08:24:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586003063;
+ s=mimecast20190719; t=1586003061;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yaUQGMTUul9I2XZ/qHlJVTWpznqCJBLPf50RX7914W0=;
- b=SXp0jE+560+hLdLQrgtooFNlfRejYO9bppMqVa+x2ogVrVhl1/tGYCXdo0u8F8OFxEtWRJ
- T5ncuX5LgBc1kq4JOMwhHqwNol+7zZSJxEPtk/VU/MeNTxFLVS0bQuaAIL9DD7VgKakA3b
- CMZ5CqCD5RkZjXWaeJQ9LvQ66qkgOlk=
+ bh=eb23JDY2ph7uUo2FAF/JWbKPJXBxBkM6ynhU6yd5bws=;
+ b=F810NgXwj+CKA5+rkOH1YZF7kAkOp39wQjn5htUvZENE/An5dg4p3XaZrrKMbbOVS0R5Vl
+ eKy9Zzkx5d6+e7r5gJwmKJqMiGe9LnbHBHBewHyGKwMjJ2KRebMSH8qtRYHPfW3wjWJoZ+
+ V/qHxjsEfhDjem57R2Ek7mklpJcRl44=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-229-LiE7BIKrPT6udWT9FWDomQ-1; Sat, 04 Apr 2020 08:24:19 -0400
-X-MC-Unique: LiE7BIKrPT6udWT9FWDomQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-242-4-kmmRRdMXWzon6wn58yIg-1; Sat, 04 Apr 2020 08:24:19 -0400
+X-MC-Unique: 4-kmmRRdMXWzon6wn58yIg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2AC778017CE;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25D59800D4E;
  Sat,  4 Apr 2020 12:24:18 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-152.ams2.redhat.com
  [10.36.112.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D6C3B19C4F;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D94CE1000322;
  Sat,  4 Apr 2020 12:24:17 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5C18511385C8; Sat,  4 Apr 2020 14:24:16 +0200 (CEST)
+ id 5F56C11384A9; Sat,  4 Apr 2020 14:24:16 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/3] scripts/coccinelle: add error-use-after-free.cocci
-Date: Sat,  4 Apr 2020 14:24:14 +0200
-Message-Id: <20200404122416.1837-2-armbru@redhat.com>
+Subject: [PULL 2/3] dump/win_dump: fix use after free of err
+Date: Sat,  4 Apr 2020 14:24:15 +0200
+Message-Id: <20200404122416.1837-3-armbru@redhat.com>
 In-Reply-To: <20200404122416.1837-1-armbru@redhat.com>
 References: <20200404122416.1837-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,100 +80,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Add script to find and fix trivial use-after-free of Error objects.
-How to use:
-spatch --sp-file scripts/coccinelle/error-use-after-free.cocci \
- --macro-file scripts/cocci-macro-file.h --in-place \
- --no-show-diff ( FILES... | --use-gitgrep . )
+It's possible that we'll try to set err twice (or more). It's bad, it
+will crash.
+
+Instead, use warn_report().
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20200324153630.11882-2-vsementsov@virtuozzo.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200324153630.11882-4-vsementsov@virtuozzo.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-[Pastos in commit message and comment fixed, globbing in MAINTAINERS
-expanded]
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/coccinelle/error-use-after-free.cocci | 52 +++++++++++++++++++
- MAINTAINERS                                   |  5 ++
- 2 files changed, 57 insertions(+)
- create mode 100644 scripts/coccinelle/error-use-after-free.cocci
+ dump/win_dump.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/scripts/coccinelle/error-use-after-free.cocci b/scripts/coccin=
-elle/error-use-after-free.cocci
-new file mode 100644
-index 0000000000..72ae9fdebf
---- /dev/null
-+++ b/scripts/coccinelle/error-use-after-free.cocci
-@@ -0,0 +1,52 @@
-+// Find and fix trivial use-after-free of Error objects
-+//
-+// Copyright (c) 2020 Virtuozzo International GmbH.
-+//
-+// This program is free software; you can redistribute it and/or
-+// modify it under the terms of the GNU General Public License as
-+// published by the Free Software Foundation; either version 2 of the
-+// License, or (at your option) any later version.
-+//
-+// This program is distributed in the hope that it will be useful,
-+// but WITHOUT ANY WARRANTY; without even the implied warranty of
-+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+// GNU General Public License for more details.
-+//
-+// You should have received a copy of the GNU General Public License
-+// along with this program.  If not, see
-+// <http://www.gnu.org/licenses/>.
-+//
-+// How to use:
-+// spatch --sp-file scripts/coccinelle/error-use-after-free.cocci \
-+//  --macro-file scripts/cocci-macro-file.h --in-place \
-+//  --no-show-diff ( FILES... | --use-gitgrep . )
-+
-+@ exists@
-+identifier fn, fn2;
-+expression err;
-+@@
-+
-+ fn(...)
-+ {
-+     <...
-+(
-+     error_free(err);
-++    err =3D NULL;
-+|
-+     error_report_err(err);
-++    err =3D NULL;
-+|
-+     error_reportf_err(err, ...);
-++    err =3D NULL;
-+|
-+     warn_report_err(err);
-++    err =3D NULL;
-+|
-+     warn_reportf_err(err, ...);
-++    err =3D NULL;
-+)
-+     ... when !=3D err =3D NULL
-+         when !=3D exit(...)
-+     fn2(..., err, ...)
-+     ...>
-+ }
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7cb53ec138..9d156d73b3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2053,6 +2053,11 @@ F: include/qemu/error-report.h
- F: qapi/error.json
- F: util/error.c
- F: util/qemu-error.c
-+F: scripts/coccinelle/err-bad-newline.cocci
-+F: scripts/coccinelle/error-use-after-free.cocci
-+F: scripts/coccinelle/error_propagate_null.cocci
-+F: scripts/coccinelle/remove_local_err.cocci
-+F: scripts/coccinelle/use-error_fatal.cocci
+diff --git a/dump/win_dump.c b/dump/win_dump.c
+index eda2a48974..652c7bad99 100644
+--- a/dump/win_dump.c
++++ b/dump/win_dump.c
+@@ -304,13 +304,11 @@ static void restore_context(WinDumpHeader64 *h,
+                             struct saved_context *saved_ctx)
+ {
+     int i;
+-    Error *err =3D NULL;
 =20
- GDB stub
- M: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+     for (i =3D 0; i < h->NumberProcessors; i++) {
+         if (cpu_memory_rw_debug(first_cpu, saved_ctx[i].addr,
+                 (uint8_t *)&saved_ctx[i].ctx, sizeof(WinContext), 1)) {
+-            error_setg(&err, "win-dump: failed to restore CPU #%d context"=
+, i);
+-            warn_report_err(err);
++            warn_report("win-dump: failed to restore CPU #%d context", i);
+         }
+     }
+ }
 --=20
 2.21.1
 
