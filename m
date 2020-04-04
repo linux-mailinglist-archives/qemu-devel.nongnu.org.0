@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30C8119E406
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Apr 2020 11:16:00 +0200 (CEST)
-Received: from localhost ([::1]:36858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14E5C19E4A2
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Apr 2020 13:00:47 +0200 (CEST)
+Received: from localhost ([::1]:37502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKeuE-00022P-VR
-	for lists+qemu-devel@lfdr.de; Sat, 04 Apr 2020 05:15:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52784)
+	id 1jKgXd-0003SH-Mw
+	for lists+qemu-devel@lfdr.de; Sat, 04 Apr 2020 07:00:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43043)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jKet8-0001ZT-JJ
- for qemu-devel@nongnu.org; Sat, 04 Apr 2020 05:14:51 -0400
+ (envelope-from <armbru@redhat.com>) id 1jKgWV-0002rI-4G
+ for qemu-devel@nongnu.org; Sat, 04 Apr 2020 06:59:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jKet7-0002xy-Bz
- for qemu-devel@nongnu.org; Sat, 04 Apr 2020 05:14:50 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:41117)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jKet7-0002xP-0B
- for qemu-devel@nongnu.org; Sat, 04 Apr 2020 05:14:49 -0400
-Received: by mail-ot1-x343.google.com with SMTP id f52so9949901otf.8
- for <qemu-devel@nongnu.org>; Sat, 04 Apr 2020 02:14:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=LuYE5lMDxbnkDvEV2hniTaIbXEIF++rxnVHKu/0Cs/8=;
- b=dA0ca4tVXWi5+dhF/IOkpPu3ummFlUPJ7fSeuIrPbQ4c3yQkNDxkqC60yzhlQbuQpy
- JyREdhwD1NWvZ+AqEtgochVc9VuHoqhzObuL2Q/VXOmmuJZJI6KLkDe81t/Rq9z0auV1
- 6lvS9MDYGdzGW9TuFugHeMuFnN6h+mh9X41GFRNeF4+muyo8P25Lx4lZcKlFq9082TSl
- TaNlx1U0MMqK4POkr2E8xDcSv62/0iSJzJ1fiRMN+OOJhqQS2h68SN3/5tNa31B/pnqx
- CvBSZwMnjy+PNDfN4XrznGHK9tMXrALdSEJ4YKHLoxWDsKE5eUjf8f+fRWinxwkp4x1b
- VEIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=LuYE5lMDxbnkDvEV2hniTaIbXEIF++rxnVHKu/0Cs/8=;
- b=Mb4oA9FYk73pbjxAS4sgKMj7XSwMRjo/Txuob5xGVNyQxcR+lPvSaASc9jX/8Gvz7q
- 166ZrWBiiEtYfXzS48i3Dtj/Hc+Ba1rKRhNxM1N2r2exc5LiCcxvrCr9gJnFcUYL6W1x
- UfUJXmpgYJgIGmf+q3b+ZQT8EgQEkd2uUXVVyRc0+UCyNh4sYmlXSpC6qHC7oeE3cTge
- jL6WUjl5qceWVK/Sry029jBOdMmbt94YbmYk9dbJpX8htxNb04iun2KOhCvlxZJM/ZD0
- 2I6GipbuS3wAOrg2zxxFDcWMdqxAtTMpVw+N9YfCT6k01+POVSLl34BP5XX9cX4445ZQ
- JZlQ==
-X-Gm-Message-State: AGi0PuZMX6DIxyUIttC71PyTi7cuziMvmSgzf8+/jqytZYRdlviLMbkW
- A39TrxRMMNJhJJrwwLbtry3pMOBTfHm4OuBB5TEQSQ==
-X-Google-Smtp-Source: APiQypLtAx73VE6huS95RnhOfK/C+gGAkRxnuOaHUVYWPkck3CSQRheQQbbsihZDi2Il7u3kKqbQEP3zDIMR8KmNDkA=
-X-Received: by 2002:a4a:d1a5:: with SMTP id z5mr10058280oor.63.1585991687800; 
- Sat, 04 Apr 2020 02:14:47 -0700 (PDT)
+ (envelope-from <armbru@redhat.com>) id 1jKgWT-00078I-34
+ for qemu-devel@nongnu.org; Sat, 04 Apr 2020 06:59:34 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42162
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jKgWS-00077W-Su
+ for qemu-devel@nongnu.org; Sat, 04 Apr 2020 06:59:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585997971;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XxBVjsGz7aZHo7XaZUUImpN4YNnqVmFw4Lz7sDBYcKo=;
+ b=N7UXEcua5KwMGOwp+qgZr6LPWUBz2jQ8VCkPQ3B1XgEoAmOTzY8F4/j7t8ZdPbvYHopRuz
+ +eono68XVNhqIwDV3jB8kkLLjJUFCAe1Ed9ZL78EXuzoyPtAiMXpi9hmBej6gkt+KFoZEn
+ 5dQEaOQE/qqs+ZY2KAbtg/56TkcPd7g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-185-4cCJFAR-PmGqbmZayrQdUQ-1; Sat, 04 Apr 2020 06:59:30 -0400
+X-MC-Unique: 4cCJFAR-PmGqbmZayrQdUQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 271711005509;
+ Sat,  4 Apr 2020 10:59:29 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-152.ams2.redhat.com
+ [10.36.112.152])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 986DA5DA76;
+ Sat,  4 Apr 2020 10:59:28 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 17A171138610; Sat,  4 Apr 2020 12:59:27 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: Questionable aspects of QEMU Error's design
+References: <87o8sblgto.fsf@dusky.pond.sub.org>
+ <87blo7heag.fsf@dusky.pond.sub.org>
+Date: Sat, 04 Apr 2020 12:59:27 +0200
+In-Reply-To: <87blo7heag.fsf@dusky.pond.sub.org> (Markus Armbruster's message
+ of "Sat, 04 Apr 2020 09:59:35 +0200")
+Message-ID: <87sghjfre8.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-References: <20200403135306.665493-1-berrange@redhat.com>
- <93fbf486-d1c3-ec03-ea8d-163bb2374260@redhat.com>
- <813a6453-0cc1-2ee7-20fb-3ba624aad57a@redhat.com>
- <CAHiYmc4Sb0c3pqbOfD=tJf9xvC6rJcOH4kxB=1KZ64Cp-ty58g@mail.gmail.com>
-In-Reply-To: <CAHiYmc4Sb0c3pqbOfD=tJf9xvC6rJcOH4kxB=1KZ64Cp-ty58g@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 4 Apr 2020 10:14:36 +0100
-Message-ID: <CAFEAcA8Othn-Tp3+EKu0HcyszHxUyVukX+NfAKc997+o5ZY7mw@mail.gmail.com>
-Subject: Re: [PATCH v4 for-5.0] configure: warn if not using a separate build
- directory
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,52 +77,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Liviu Ionescu <ilg@livius.net>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 3 Apr 2020 at 23:35, Aleksandar Markovic
-<aleksandar.qemu.devel@gmail.com> wrote:
-> But, Eric, while, to some extent I understand your motivation and the ide=
-a, there are still features working in in-tree builds only (some coccinele =
-scenarios, and some gcov-related scenarios - and perhaps others that nobody=
- seems to care to try to find out at all), and not in out-of tree builds. A=
-nd, now, if I understand well your proposal, and supposing that I use gcov =
-in-tree build (since I have to), this will stop me from doing out-of-tree b=
-uilds in this QEMU directory, since my in-tree gcov build will be destroyed=
-.
+Markus Armbruster <armbru@redhat.com> writes:
 
-To repeat from the last thread: we are *not going* to remove in-tree
-builds before we fix whatever we need to to allow people to
-use out-of-tree for whatever they are currently doing with in-tree
-builds. The reason for putting in deprecation warnings etc now
-is timescales: releases are every four months or so, so if we
-want to warn users about something we need to put in that warning
-well in advance. Bug fixes on the other hand can go into the tree
-very quickly, so we can without any problems have a timeline that
-goes deprecation-notice --- fix bugs with out-of-tree builds -- remove
-or convert in-tree builds to automatically out-of-tree.
+> Markus Armbruster <armbru@redhat.com> writes:
+>
+>> QEMU's Error was patterned after GLib's GError.  Differences include:
+> [...]
+>> * Return value conventions
+>>
+>>   Common: non-void functions return a distinct error value on failure
+>>   when such a value can be defined.  Patterns:
+>>
+>>   - Functions returning non-null pointers on success return null pointer
+>>     on failure.
+>>
+>>   - Functions returning non-negative integers on success return a
+>>     negative error code on failure.
+>>
+>>   Different: GLib discourages void functions, because these lead to
+>>   awkward error checking code.  We have tons of them, and tons of
+>>   awkward error checking code:
+>>
+>>     Error *err =3D NULL;
+>>     frobnicate(arg, &err);
+>>     if (err) {
+>>         ... recover ...
+>>         error_propagate(errp, err);
+>>     }
+>>
+>>   instead of
+>>
+>>     if (!frobnicate(arg, errp))
+>>         ... recover ...
+>>     }
+>>
+>>   Can also lead to pointless creation of Error objects.
+>>
+>>   I consider this a design mistake.  Can we still fix it?  We have more
+>>   than 2000 void functions taking an Error ** parameter...
+>>
+>>   Transforming code that receives and checks for errors with Coccinelle
+>>   shouldn't be hard.  Transforming code that returns errors seems more
+>>   difficult.  We need to transform explicit and implicit return to
+>>   either return true or return false, depending on what we did to the
+>>   @errp parameter on the way to the return.  Hmm.
+> [...]
+>
+> To figure out what functions with an Error ** parameter return, I used
+> Coccinelle to find such function definitions and print the return types.
+> Summary of results:
+>
+>    2155 void
+>     873 signed integer
+>     494 pointer
+>     153 bool
+>      33 unsigned integer
+>       6 enum
+>    ---------------------
+>    3714 total
+>
+> I then used Coccinelle to find checked calls of void functions (passing
+> &error_fatal or &error_abort is not considered "checking" here).  These
+> calls become simpler if we make the functions return a useful value.  I
+> found a bit under 600 direct calls, and some 50 indirect calls.
+>
+> Most frequent direct calls:
+>
+>     127 object_property_set_bool
+>      27 qemu_opts_absorb_qdict
+>      16 visit_type_str
+>      14 visit_type_int
+>      10 visit_type_uint32
+>
+> Let's have a closer look at object_property_set() & friends.  Out of
+> almost 1000 calls, some 150 are checked.  While I'm sure many of the
+> unchecked calls can't actually fail, I am concerned some unchecked calls
+> can.
+>
+> If we adopt the convention to return a value that indicates success /
+> failure, we should consider converting object.h to it sooner rather than
+> later.
+>
+> Please understand these are rough numbers from quick & dirty scripts.
 
-Plus the only way we find out about problems we're going to need
-to fix is if we tell people "in-tree is going away" and they then tell
-us "er, XYZ doesn't seem to work out-of-tree".
+Paolo, Daniel, Eduardo,
 
-The reason people are currently focusing on the warning bit
-is that we have about one week to do that if we want to get
-it into this release. After that we have months to investigate
-and fix the problems with out-of-tree builds.
+Please pick one for QOM:
 
-Can you provide repro instructions for your gcov issue?
+* Do nothing.  Looks like
 
-What is the "coccinelle scenario" you mention?
+     object_property_set_bool(..., &err);
+     if (err) {
+         error_propagate(errp, err);
+         return;
+     }
 
-thanks
--- PMM
+* Return true on success, false on error.  Looks like
+
+     if (!object_property_set_bool(..., errp)) {
+         return;
+     }
+
+* Return 0 on success, -1 on error.  Looks like
+
+     if (object_property_set_bool(..., errp) < 0) {
+         return;
+     }
+
+  This is slightly more likely to require line wrapping than the
+  previous one.
+
 
