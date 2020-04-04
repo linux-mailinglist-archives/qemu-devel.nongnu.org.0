@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D33A519E4E2
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Apr 2020 14:25:55 +0200 (CEST)
-Received: from localhost ([::1]:38404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BDD219E4E6
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Apr 2020 14:27:47 +0200 (CEST)
+Received: from localhost ([::1]:38442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKhs2-0003P2-KK
-	for lists+qemu-devel@lfdr.de; Sat, 04 Apr 2020 08:25:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54317)
+	id 1jKhtq-0006F3-EX
+	for lists+qemu-devel@lfdr.de; Sat, 04 Apr 2020 08:27:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54578)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jKhqZ-00024n-CO
- for qemu-devel@nongnu.org; Sat, 04 Apr 2020 08:24:24 -0400
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jKhsJ-0004xV-RL
+ for qemu-devel@nongnu.org; Sat, 04 Apr 2020 08:26:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jKhqY-00032W-9f
- for qemu-devel@nongnu.org; Sat, 04 Apr 2020 08:24:23 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52403
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jKhqY-00031s-44
- for qemu-devel@nongnu.org; Sat, 04 Apr 2020 08:24:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586003061;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=B7wjwW4kktbArsvMvX1086jM6kTZmn7Iq2jjE58VOA4=;
- b=a5PsSbyYnw6JDCcBIv2HaIJYpd6g1QuAdS1YV25Lz8c3l3q6Qm/HYYTi6yIJkOQAFLl5HR
- uQImNtN3Dz7bRRwKZPMNX1FW/gDTOP+ecltuMK1Ik5wPoU8fxMPlpSV74mKi/PzNeCpKaz
- //HeBmny4kuS39tCA1ayaqOMb0+Wykc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-TkGJ7AS1NduzlbHmanlxCA-1; Sat, 04 Apr 2020 08:24:19 -0400
-X-MC-Unique: TkGJ7AS1NduzlbHmanlxCA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C4E61005513;
- Sat,  4 Apr 2020 12:24:18 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-152.ams2.redhat.com
- [10.36.112.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D942E96B7B;
- Sat,  4 Apr 2020 12:24:17 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 628A811358AF; Sat,  4 Apr 2020 14:24:16 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jKhsI-00073n-PT
+ for qemu-devel@nongnu.org; Sat, 04 Apr 2020 08:26:11 -0400
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:45954)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1jKhsI-00072z-Hu; Sat, 04 Apr 2020 08:26:10 -0400
+Received: by mail-lf1-x144.google.com with SMTP id f8so6658681lfe.12;
+ Sat, 04 Apr 2020 05:26:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8zHSVDhG2VqQJYu54V1syJCEbfw+DP1r4lsTcrXvAfg=;
+ b=jk6xQx45H2adb8koM7GjVxSRextpy3F96p99hEEPrFQ19fqFHIqr1YL09JWjuK08Ic
+ Rui89rmFp4rccQMxrgAPBZxfxGA2ueKRkj2trCYYX7LSPFH8l6pEPGldHeRUpp8xlNYj
+ o0DzTKLji9jXrZFHcZNuAhEDRdHyNFk70xuRlApEzqxDXRHBz8HUPbhChDWrn9wtZ09a
+ /sO1FqnLjZHezgg3r2GWiFwW2/dnrWPxLGaYHI6mWc9LWANciil7nQtXsCkZWhnb8gcy
+ 588gyuFMYSk1w5t/vQeS1qbBzwwc1etb6lDPOgAVXQa9w5zvx+m0yhFUcSJkJzuO0NWT
+ onFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8zHSVDhG2VqQJYu54V1syJCEbfw+DP1r4lsTcrXvAfg=;
+ b=gjKF/Yj38tLzSVZqQVK2jItuKK4D6j6JuEY/Oy/M1ue5bgXussdBANJZc+t953dhie
+ Fywoa7qyiif0ESpp52p/4Ghgi1B9zKBvIYaVhyo9jMg80oz8i091110R2A3WlWyhXkLY
+ j7r/E9gX15qnJDYR+ZJ9KWgEVP2ZoxWJ31Q8vojdaL6vo5atlY+QY1Fv666nI85kEfjl
+ rK7EXCAysLNw04S6GyefACl8gJzfB5Z9PQKQvxGpNP0T7LxmzlHsXg3ZepcrkR62R6kZ
+ tYVrXBq53SE/XennnANxYyFHOjSVXii2gFcnqSkUMtctoJzn/ry4j7bStB8M6LxqFNO4
+ M05A==
+X-Gm-Message-State: AGi0PualDFE6FjC7aXuRXMykfLbdeY7lj9NeHqoNsZd2WjNWFkNlXpj1
+ XyMA3vuJCRBdtEDSvB9I5scjWIAjatkfRw==
+X-Google-Smtp-Source: APiQypJzTdBXZwzm7hMYRp4ianVs2NNwVb+TqSGWrt/Nghh8R3P/IV3HIWdfV846W5JoteFablohTg==
+X-Received: by 2002:a19:ac41:: with SMTP id r1mr8220395lfc.113.1586003168752; 
+ Sat, 04 Apr 2020 05:26:08 -0700 (PDT)
+Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id n23sm6515545lji.59.2020.04.04.05.26.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 04 Apr 2020 05:26:07 -0700 (PDT)
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/3] qga/commands-posix: fix use after free of local_err
-Date: Sat,  4 Apr 2020 14:24:16 +0200
-Message-Id: <20200404122416.1837-4-armbru@redhat.com>
-In-Reply-To: <20200404122416.1837-1-armbru@redhat.com>
-References: <20200404122416.1837-1-armbru@redhat.com>
+Subject: [PATCH v1 0/2] dma/xlnx-zdma: Fix descriptor loading wrt host
+ endianness
+Date: Sat,  4 Apr 2020 14:27:16 +0200
+Message-Id: <20200404122718.25111-1-edgar.iglesias@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,58 +75,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
+ edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
+ frasse.iglesias@gmail.com, alistair@alistair23.me,
+ richard.henderson@linaro.org, frederic.konrad@adacore.com, qemu-arm@nongnu.org,
+ philmd@redhat.com, luc.michel@greensocs.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-local_err is used several times in guest_suspend(). Setting non-NULL
-local_err will crash, so let's zero it after freeing. Also fix possible
-leak of local_err in final if().
+Hi,
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20200324153630.11882-7-vsementsov@virtuozzo.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- qga/commands-posix.c | 3 +++
- 1 file changed, 3 insertions(+)
+This fixes the endinannes related bugs with descriptor loading
+that Peter pointed out.
 
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 93474ff770..cc69b82704 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -1773,6 +1773,7 @@ static void guest_suspend(SuspendMode mode, Error **e=
-rrp)
-     }
-=20
-     error_free(local_err);
-+    local_err =3D NULL;
-=20
-     if (pmutils_supports_mode(mode, &local_err)) {
-         mode_supported =3D true;
-@@ -1784,6 +1785,7 @@ static void guest_suspend(SuspendMode mode, Error **e=
-rrp)
-     }
-=20
-     error_free(local_err);
-+    local_err =3D NULL;
-=20
-     if (linux_sys_state_supports_mode(mode, &local_err)) {
-         mode_supported =3D true;
-@@ -1791,6 +1793,7 @@ static void guest_suspend(SuspendMode mode, Error **e=
-rrp)
-     }
-=20
-     if (!mode_supported) {
-+        error_free(local_err);
-         error_setg(errp,
-                    "the requested suspend mode is not supported by the gue=
-st");
-     } else {
---=20
-2.21.1
+Cheers,
+Edgar
+
+Edgar E. Iglesias (2):
+  dma/xlnx-zdma: Fix descriptor loading (MEM) wrt endianness
+  dma/xlnx-zdma: Fix descriptor loading (REG) wrt endianness
+
+ hw/dma/xlnx-zdma.c | 25 +++++++++++++++++--------
+ 1 file changed, 17 insertions(+), 8 deletions(-)
+
+-- 
+2.20.1
 
 
