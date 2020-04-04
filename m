@@ -2,69 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 005EF19E4DE
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Apr 2020 14:19:46 +0200 (CEST)
-Received: from localhost ([::1]:38304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79FCB19E4E4
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Apr 2020 14:25:56 +0200 (CEST)
+Received: from localhost ([::1]:38408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jKhm5-0007Pt-Hj
-	for lists+qemu-devel@lfdr.de; Sat, 04 Apr 2020 08:19:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53638)
+	id 1jKhs3-0003Ru-HV
+	for lists+qemu-devel@lfdr.de; Sat, 04 Apr 2020 08:25:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54321)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jKhl4-0006va-5L
- for qemu-devel@nongnu.org; Sat, 04 Apr 2020 08:18:43 -0400
+ (envelope-from <armbru@redhat.com>) id 1jKhqZ-00024p-HN
+ for qemu-devel@nongnu.org; Sat, 04 Apr 2020 08:24:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jKhl2-0002WY-7G
- for qemu-devel@nongnu.org; Sat, 04 Apr 2020 08:18:41 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:58188
+ (envelope-from <armbru@redhat.com>) id 1jKhqY-00032j-B1
+ for qemu-devel@nongnu.org; Sat, 04 Apr 2020 08:24:23 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53663
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jKhl2-0002VR-1Y
- for qemu-devel@nongnu.org; Sat, 04 Apr 2020 08:18:40 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jKhqY-00031g-46
+ for qemu-devel@nongnu.org; Sat, 04 Apr 2020 08:24:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586002718;
+ s=mimecast20190719; t=1586003061;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Moo3HU/4u/WEfDh9wKFzVWD/Qqq1GluNhxYXgW4QkRA=;
- b=FWPXcQeBtCIEjKUMd9yuzibG5cq6KfJbk95GTts7UxZBYq7r8tUH9TRtSr+V/z/y9IRB91
- wBPixYo+EtQWhw0jzzFy+E8UIi36F7NjnMNkO/fUigQJ0UmT3IetGHkI+dKOiT6QZNV+8q
- URhavne4w7aBU0uzRl+wHBNyLBmsAzY=
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=CstDN7UD5mVUe6ztScl6ZUiL72gXbxOkziUsVF398ZU=;
+ b=epxry9IJU3tndcM2+/7O97ssh3cm+DRaXJHimCjZSd3qqgl/75sFEHKJ4bbpNgpzo4/mU9
+ LJlkOaoLjPRXrsPB+OIiOFwgfu8M4sXRjaFM/Vt/SGwccEFUEcFjaIP1xhmdN9Zy1bSDUB
+ twsT3P1hOGDxZqGj4LoNdxcIOE0S50Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-j7kHl0KkMyGDIOuX6mdQ_w-1; Sat, 04 Apr 2020 08:18:36 -0400
-X-MC-Unique: j7kHl0KkMyGDIOuX6mdQ_w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-412-RdUL1NboMjWJ1onOCi5lAw-1; Sat, 04 Apr 2020 08:24:19 -0400
+X-MC-Unique: RdUL1NboMjWJ1onOCi5lAw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51EC98018A3;
- Sat,  4 Apr 2020 12:18:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 279E918A8C80
+ for <qemu-devel@nongnu.org>; Sat,  4 Apr 2020 12:24:18 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-152.ams2.redhat.com
  [10.36.112.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E534A1001B3F;
- Sat,  4 Apr 2020 12:18:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EAF9760BF3
+ for <qemu-devel@nongnu.org>; Sat,  4 Apr 2020 12:24:17 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2ADDD1138610; Sat,  4 Apr 2020 14:18:01 +0200 (CEST)
+ id 5A0301138610; Sat,  4 Apr 2020 14:24:16 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH for-5.0 0/6] Several error use-after-free
-References: <20200324153630.11882-1-vsementsov@virtuozzo.com>
-Date: Sat, 04 Apr 2020 14:18:01 +0200
-In-Reply-To: <20200324153630.11882-1-vsementsov@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Tue, 24 Mar 2020 18:36:24 +0300")
-Message-ID: <87o8s7fnra.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/3] Error reporting patches for 2020-04-04
+Date: Sat,  4 Apr 2020 14:24:13 +0200
+Message-Id: <20200404122416.1837-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,29 +70,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org,
- quintela@redhat.com, dgilbert@redhat.com, qemu-devel@nongnu.org,
- marcandre.lureau@redhat.com, den@openvz.org, mreitz@redhat.com,
- jsnow@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+The following changes since commit 146aa0f104bb3bf88e43c4082a0bfc4bbda4fbd8=
+:
 
-> Hi all!
->
-> I accidentally found use-after-free of local_err in mirror, and decided
-> to search for similar cases with help of small coccinelle script
-> (patch 01). Happily, there no many cases.
->
-> Better to fix zero Error* pointer after each freeing everywhere, but
-> this is too much for 5.0 and most of these cases will be covered by
-> error-auto-propagation series.
->
-> Note also, that there are still a lot of use-after-free cases possible
-> when error is not local variable but field of some structure, shared by
-> several functions.
+  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' i=
+nto staging (2020-04-03 15:30:11 +0100)
 
-I queued the part that hasn't been merged.  Thanks!
+are available in the Git repository at:
+
+  git://repo.or.cz/qemu/armbru.git tags/pull-error-2020-04-04
+
+for you to fetch changes up to 6a4a38530e70f3917a58d71d4d08e28bd8146015:
+
+  qga/commands-posix: fix use after free of local_err (2020-04-04 14:15:24 =
++0200)
+
+----------------------------------------------------------------
+Error reporting patches for 2020-04-04
+
+----------------------------------------------------------------
+Vladimir Sementsov-Ogievskiy (3):
+      scripts/coccinelle: add error-use-after-free.cocci
+      dump/win_dump: fix use after free of err
+      qga/commands-posix: fix use after free of local_err
+
+ scripts/coccinelle/error-use-after-free.cocci | 52 +++++++++++++++++++++++=
+++++
+ dump/win_dump.c                               |  4 +--
+ qga/commands-posix.c                          |  3 ++
+ MAINTAINERS                                   |  5 +++
+ 4 files changed, 61 insertions(+), 3 deletions(-)
+ create mode 100644 scripts/coccinelle/error-use-after-free.cocci
+
+--=20
+2.21.1
 
 
