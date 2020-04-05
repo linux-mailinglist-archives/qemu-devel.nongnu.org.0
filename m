@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5893419ED71
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Apr 2020 20:52:14 +0200 (CEST)
-Received: from localhost ([::1]:50884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDD3F19ED77
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Apr 2020 20:54:31 +0200 (CEST)
+Received: from localhost ([::1]:50896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLANR-00057I-0T
-	for lists+qemu-devel@lfdr.de; Sun, 05 Apr 2020 14:52:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35694)
+	id 1jLAPf-0006w7-2N
+	for lists+qemu-devel@lfdr.de; Sun, 05 Apr 2020 14:54:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35949)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrew@daynix.com>) id 1jLAMW-0004Ju-8x
- for qemu-devel@nongnu.org; Sun, 05 Apr 2020 14:51:17 -0400
+ (envelope-from <andrew@daynix.com>) id 1jLANw-0005m4-DN
+ for qemu-devel@nongnu.org; Sun, 05 Apr 2020 14:52:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrew@daynix.com>) id 1jLAMV-0005TP-1s
- for qemu-devel@nongnu.org; Sun, 05 Apr 2020 14:51:16 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:42548)
+ (envelope-from <andrew@daynix.com>) id 1jLANv-0006SM-6o
+ for qemu-devel@nongnu.org; Sun, 05 Apr 2020 14:52:44 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:45784)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <andrew@daynix.com>) id 1jLAMU-0005S1-M6
- for qemu-devel@nongnu.org; Sun, 05 Apr 2020 14:51:15 -0400
-Received: by mail-lj1-x241.google.com with SMTP id q19so12246458ljp.9
- for <qemu-devel@nongnu.org>; Sun, 05 Apr 2020 11:51:14 -0700 (PDT)
+ (Exim 4.71) (envelope-from <andrew@daynix.com>) id 1jLANv-0006Qv-0M
+ for qemu-devel@nongnu.org; Sun, 05 Apr 2020 14:52:43 -0400
+Received: by mail-lj1-x243.google.com with SMTP id t17so12287572ljc.12
+ for <qemu-devel@nongnu.org>; Sun, 05 Apr 2020 11:52:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=3sA8pH7seALF2QzJV8GVxLt5pHkKdiNBdLQFXUpSj3k=;
- b=A1pQTC6cUMFc5AC7ii9O+kKgzqIxUGWxTH8s+3V+2F9mj3F/4aPN7uHBkz6g/gpZsK
- 9AcUT/kwe4KSwjOlJzhh8SmQ3bH/J0+48IJBaIjC0SXj/1PFRut/262GZikAT/Ddm8z3
- KLRS6RCrnonC7px77NKRnnkB3PSOF1Zn7VH3Z/IKunPgsuB5L6ZD6xtqEwkMNZGRtS//
- BcpxqbyQvElFJ/4Twqjodr6RS3bIYbwaG7PYVBXFTZLZslH2Hsl1oya7fubThHZ7yWbX
- GTgX+OVbs/HUML+Kcz+LRYGGTH9c4Mm23XnyNXAoYiZQd/hRli/jVxktshLKiL6v5XYN
- XWsQ==
+ b=Hg8IcxJ2MIxnIkWg3HhKy3PcilnLSXVmV4xPk9fzzJ1pxletmybu5nDOHvVLAVuyAR
+ YkJFmSXxrQ9/kChCpK96XUhoPVWQBrbQpji0OYwSN43+Wyaj8zShr0FvwGrExOvA82Es
+ HXHtgptxlrS0O46UrUlXG+qAxf/l1vzVmhoHUKcA7ZxJO61M58Xw06BHj/x6qdftq9XM
+ JYDYzEnB8Op8+B+WggTZErXCqIRaQF/sdI1XHajAl9IJh0HvvhZXDC2fRgCtDzi5IWXC
+ wQnkCREc5IMYSUt26bFJegVIOH5joNxkC72ojmDbBdyN1J15rmNc/BfginFgW6hhfGqP
+ IoHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=3sA8pH7seALF2QzJV8GVxLt5pHkKdiNBdLQFXUpSj3k=;
- b=tjj2yYr/OGYKVI3+SId/0oyV8Iz5KqdjsvSLkvfFpw8j/dYvVXWrjEpAuN9NpN0gFK
- MrcVIu57dkVwwRljHRr1Plu1S2AZ704ZLOhdNlyVxaH0FmDeQGtNevxbzrXroaDcSyMC
- zemxZk8tqzUDjVq9L6vOdSsyGLlBAGUZyXLIk+5VAtITh4lQHgHk/b0DKIePMHVl73up
- 12yHB1aYUjeECRnL88lWhlS9jX4K2YgcFecKK/J1/1D6DTK2K2r8H9fgTm2xvEYC1m6m
- IbMnUInG2WU8d2qEn9G//lgTGBAg2b5sfqt8TOVTZ723ApHX53o4zRnQuWePcKiqjU6t
- bJdA==
-X-Gm-Message-State: AGi0PuZmcId4pmeIlQH3MgOBboVL2Mj7SmnYGzYOgPj48DuXTuEszrIF
- bPCyjYRMTcziOWDHH5MUCc1N7nP+2SE=
-X-Google-Smtp-Source: APiQypJq4eL2VdAFEmbXJ3GuO1k22Cf7FwjlUSfFWzHhVzcNtQnFEPjAnCyJMpeb8tx7se2+NjNO5w==
-X-Received: by 2002:a2e:81cc:: with SMTP id s12mr10321055ljg.90.1586112672449; 
- Sun, 05 Apr 2020 11:51:12 -0700 (PDT)
+ b=Z1jLJzdehoLe7mTCN3Dy1IuFc1TnSNcyj4lY4+uspn3rqugONwQ83iO3OtWiIlkT0K
+ qX5jJXY7A17SfQ+kC7Q8d1SeZ9ZdWOh9O6SjjR2jWbD/ZYefBG1+R8urjt1LwZEODgKl
+ KONJ9klcgr5sqgJ5OEUajELD4mQvSgJaGwXSqjt9QCsJiPDZcePzmhRTUaYvjAcEj8ey
+ hJP2wFKAUCsNVqU3WhxXpkPsJu4jsHBk0tWsV7lUp8wScRtwC7smUzwoavzS2ZalI3v3
+ zKV/c3PSbaixjooFYNRlhaJfOKfccYCF7IOGwaX2OK3G64ZsBGhvAlg6uUT7v2piXFt7
+ iKBQ==
+X-Gm-Message-State: AGi0PubVsUpeSSZox5uzsCylMD+Gs2jxlqkx4ZVFpOYoyA1H9Y2gvct2
+ oLaILH6gaOuzNlS0UZSoxQUY+2NGCfs=
+X-Google-Smtp-Source: APiQypLt1mMoKHvuiGaLkfnGSXKBfWxzn8cvEesKEcem7B0cqpQEH/6nHBgY2KQJ+EoBfA6X0vOwKA==
+X-Received: by 2002:a2e:b5bc:: with SMTP id f28mr10503744ljn.191.1586112761307; 
+ Sun, 05 Apr 2020 11:52:41 -0700 (PDT)
 Received: from navi.cosmonova.net.ua ([95.67.24.131])
- by smtp.gmail.com with ESMTPSA id w24sm7689873lfe.58.2020.04.05.11.51.11
+ by smtp.gmail.com with ESMTPSA id m7sm12182060lfh.54.2020.04.05.11.52.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Apr 2020 11:51:11 -0700 (PDT)
+ Sun, 05 Apr 2020 11:52:40 -0700 (PDT)
 From: andrew@daynix.com
 To: qemu-devel@nongnu.org
 Subject: [PATCH] Fixed IPv6 payload lenght without jumbo option
-Date: Sun,  5 Apr 2020 22:18:10 +0300
-Message-Id: <20200405191810.864017-1-andrew@daynix.com>
+Date: Sun,  5 Apr 2020 22:19:40 +0300
+Message-Id: <20200405191940.866972-1-andrew@daynix.com>
 X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::241
+X-Received-From: 2a00:1450:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
