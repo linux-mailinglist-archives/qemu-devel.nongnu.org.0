@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30A7F19EB72
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Apr 2020 15:29:50 +0200 (CEST)
-Received: from localhost ([::1]:47934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84B4C19EC0E
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Apr 2020 16:39:46 +0200 (CEST)
+Received: from localhost ([::1]:48470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jL5LQ-0005Az-Lq
-	for lists+qemu-devel@lfdr.de; Sun, 05 Apr 2020 09:29:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55439)
+	id 1jL6R7-000593-4S
+	for lists+qemu-devel@lfdr.de; Sun, 05 Apr 2020 10:39:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33897)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1jL5K7-0004NQ-Tz
- for qemu-devel@nongnu.org; Sun, 05 Apr 2020 09:28:28 -0400
+ (envelope-from <hsp.cat7@gmail.com>) id 1jL6QF-0004eE-I2
+ for qemu-devel@nongnu.org; Sun, 05 Apr 2020 10:38:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1jL5K7-0003B3-48
- for qemu-devel@nongnu.org; Sun, 05 Apr 2020 09:28:27 -0400
-Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:45711)
+ (envelope-from <hsp.cat7@gmail.com>) id 1jL6QE-0006Bk-8r
+ for qemu-devel@nongnu.org; Sun, 05 Apr 2020 10:38:51 -0400
+Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135]:38639)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1jL5K7-0003AC-0o; Sun, 05 Apr 2020 09:28:27 -0400
-Received: by mail-yb1-xb41.google.com with SMTP id g6so7186149ybh.12;
- Sun, 05 Apr 2020 06:28:25 -0700 (PDT)
+ (Exim 4.71) (envelope-from <hsp.cat7@gmail.com>) id 1jL6QE-0006B6-45
+ for qemu-devel@nongnu.org; Sun, 05 Apr 2020 10:38:50 -0400
+Received: by mail-il1-x135.google.com with SMTP id n13so12209265ilm.5
+ for <qemu-devel@nongnu.org>; Sun, 05 Apr 2020 07:38:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PwrT+6SQswYhhhEhIMm1owyMKlltlTcdgDGebqx19z0=;
- b=Ffl4gJmo5fCLTXWmHAMuyA1Y9iu5K9ebq5HYcIn1CrVQMY9WW72leXCs8u3pATmMRm
- 3IdahiLH+LsFoT8w7jGMsCPT681FLdqsM8tXTOCVgXP9UMNIe/CsHmXfQ15f1dU1pkZF
- n6sha3cc4IbOBdgMxXe9HwgoJFJgTPWg8Mbuzpap+5HJ4GygxBVyMX/0XvwaXjHnQrcy
- 6N9hOH7jmmArLNhBsuYx8sWEt/90zvjZjp9mc1CdNwOxWl3IyhTQZ/2CShcuhORQIdb8
- EhZ5nci/F3maMKs8tVIZTzIbJBoeFlo7CShhNRb1cZzaGfN+SvJOaSEXdHG+hDjCNrOk
- LoOA==
+ :cc; bh=+94n6V9SmBDeFDd1ecVRlVaCBFknXJ4Ik/iao6SnOxg=;
+ b=c0xNY3mW/miUzazZ8NeJvLpOuq81tzmOlfCvG+c2/A5lBZH98SgyFuHprxc+o5hnaQ
+ 9HAZ1Wb997uH6+Fsv4L1TBgwWn7On1bfwP5StI7uxj+9JxPCnii3MpG79Yndx8A4/sdC
+ C1zFxVXQ02MwMDducuHFeqRxDhIvDRd1+X9vunkv7oa2Rt0dD0rrlMKHWsMSmO26nSEE
+ 2HzIaiYkzCJpo3Qev/AOA7Fq/lpFyrVmsRIM5cV6wsuEZPZbK3XyWHGfPTrnjjdH2T4u
+ khY+e8PMd4d3B5096ivBRcNe+3CnuM3c5O72ngvrhYnKEERoRuu/UaEWHjICQ9xH2eFD
+ SHOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=PwrT+6SQswYhhhEhIMm1owyMKlltlTcdgDGebqx19z0=;
- b=iXMRzt4+kzLABENn7jD9Bd6l/fm7W67gFjjL5F2jg/JsJYRQ+jixB+2IXI3sdqDcn5
- l7FJWNgdwvrldTz4mNs5OzT/CXOIqZ+UDvQJKvUCTlly7R+otvPTf7GGQSdeQAV4RcwS
- 8Fc7XVEcXnZ08c7BItMaWm+bvEZdKd8pLTBtbVDHCIrDqhYLc0buvoqJz5Id+GwMlCJd
- GwgfT/XEbsgXmVTvrY0WbAiBcbMtyaKQoAHZIcjqNXlNeH7Xpy97D9xbkOImC5L8M4WB
- jB15UROaPWb2RA2apwLfzayIdOyao1+mK1O7diE5OMNe/E2XwHm18Lzlt40QBbWqwcgT
- 2Vvg==
-X-Gm-Message-State: AGi0PuaZvdmg0D4Q1brpdEj04hsI6n2USd4+SSUrIrhRhaKRO9MJo2I3
- EPPQYfOPIPyMwtlgOfR0heRruiOk4woKDeaOxfc=
-X-Google-Smtp-Source: APiQypLuzWynkdC5itnLxnqcstt8DXo7Csg0mzc8oHtdTMVv1Jfvg8oBnJPBGP2KcG4FxFobRRP2srm88Pk6bkTs5Kc=
-X-Received: by 2002:a25:d646:: with SMTP id n67mr26034326ybg.65.1586093305131; 
- Sun, 05 Apr 2020 06:28:25 -0700 (PDT)
+ bh=+94n6V9SmBDeFDd1ecVRlVaCBFknXJ4Ik/iao6SnOxg=;
+ b=hpEmE6hXHXLn6fA9n0+c5XmKQW/uhty2meZURznRyI7mpOs2/LmHcKODNyEimwcsPA
+ nLv2Dlg5xSIuxmxJ7n5t4eKwkKt5inh/XF+Ebjah77iIQS82mvD79dTceJn8vRbNFL71
+ n6ddug2vWwE3M98fnMXa+IOja1a8PY93S4q2/uMpVe79mcqqTIiqTXdHIW8RZx5bAM7e
+ iCdNZxo94/LYD9XNz3BuS6Ew+03bMBHVFNxQ4N30rDhXjx0IuRZXKBnS5q5E0n1GNY2a
+ 6hGGAGYQIkfTKLSBt4VgOX5xsCl/JN8CMmtiJysI5sFxn0FhxVz8aS9GKTaE4CsQF9Ms
+ SXpQ==
+X-Gm-Message-State: AGi0PuagL13MINkKXlm81RuwXC8FV7wYS42JpbTyVRaUyvsNIVTzzY04
+ hY3fDK4cwijbpuab4fux09+KKNj4N0yZWHclAqg=
+X-Google-Smtp-Source: APiQypJWr5/TQukD1Hsr/LS/KEdvSsy4U0S3xEYjuHaWy3YPgyG/s0k21djr8rAS7uk6Tg97QyO4swQ55Yk9QQtSS80=
+X-Received: by 2002:a92:c00e:: with SMTP id q14mr16148356ild.124.1586097528510; 
+ Sun, 05 Apr 2020 07:38:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <1583585319-26603-1-git-send-email-bmeng.cn@gmail.com>
- <CAKmqyKPEptmsw222Tt1T1qvoSvfhgMMznypEM+wr8hWYkcW0qg@mail.gmail.com>
-In-Reply-To: <CAKmqyKPEptmsw222Tt1T1qvoSvfhgMMznypEM+wr8hWYkcW0qg@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 5 Apr 2020 21:28:13 +0800
-Message-ID: <CAEUhbmU+w___MiNS7kCd-b9C4rKz_OMUCMFFeroo9ew5bayYrw@mail.gmail.com>
-Subject: Re: [PATCH] hw/riscv: Generate correct "mmu-type" for 32-bit machines
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <158608933730.23414.9673600050118912834.malonedeb@wampee.canonical.com>
+In-Reply-To: <158608933730.23414.9673600050118912834.malonedeb@wampee.canonical.com>
+From: Howard Spoelstra <hsp.cat7@gmail.com>
+Date: Sun, 5 Apr 2020 16:38:36 +0200
+Message-ID: <CABLmASFNTz937CcuYgN_6OrioVw2Lmj72WSpi7x_ZdNVksNt7A@mail.gmail.com>
+Subject: Re: [Bug 1870911] [NEW] QEMU Crashes on Launch, Windows
+To: Bug 1870911 <1870911@bugs.launchpad.net>
+Content-Type: multipart/alternative; boundary="000000000000c41dcb05a28c1b0f"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::b41
+X-Received-From: 2607:f8b0:4864:20::135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,30 +70,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: qemu-devel qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Palmer,
+--000000000000c41dcb05a28c1b0f
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Mar 10, 2020 at 1:22 AM Alistair Francis <alistair23@gmail.com> wrote:
+On Sun, Apr 5, 2020 at 3:38 PM Russell Morris <ubuntu@rkmorris.us> wrote:
+
+> Public bug reported:
 >
-> On Sat, Mar 7, 2020 at 4:49 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > 32-bit machine should have its CPU's "mmu-type" set to "riscv,sv32".
-> >
-> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+> Hi,
 >
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> I an having no issues up to (and including) v5.0.0-rc0, but when I move
+> to rc1 ... it won't even execute in Windows. If I just try to, for
+> example, run
+>
+> qemu-system-x86_64.exe --version
+>
+> No output, it just exits. This seems to be new with this version.
+>
+> Thanks!
+>
+> ** Affects: qemu
+>      Importance: Undecided
+>          Status: New
+>
+> --
+> You received this bug notification because you are a member of qemu-
+> devel-ml, which is subscribed to QEMU.
+> https://bugs.launchpad.net/bugs/1870911
+>
+> Title:
+>   QEMU Crashes on Launch, Windows
+>
+> Status in QEMU:
+>   New
+>
+> Bug description:
+>   Hi,
+>
+>   I an having no issues up to (and including) v5.0.0-rc0, but when I
+>   move to rc1 ... it won't even execute in Windows. If I just try to,
+>   for example, run
+>
+>   qemu-system-x86_64.exe --version
+>
+>   No output, it just exits. This seems to be new with this version.
+>
+>   Thanks!
+>
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1870911/+subscriptions
+>
 >
 
-Ping? Could you please take this for v5.0.0?
+Happens to me too with qemu-system-ppc. Earlier thread is here:
+https://lists.nongnu.org/archive/html/qemu-ppc/2020-04/msg00027.html
 
-Regards,
-Bin
+For now compiling with --disable-pie will produce a running executable.
+
+Best,
+Howard
+
+--000000000000c41dcb05a28c1b0f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Apr 5, 2020 at 3:38 PM Russel=
+l Morris &lt;<a href=3D"mailto:ubuntu@rkmorris.us">ubuntu@rkmorris.us</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Public=
+ bug reported:<br>
+<br>
+Hi,<br>
+<br>
+I an having no issues up to (and including) v5.0.0-rc0, but when I move<br>
+to rc1 ... it won&#39;t even execute in Windows. If I just try to, for<br>
+example, run<br>
+<br>
+qemu-system-x86_64.exe --version<br>
+<br>
+No output, it just exits. This seems to be new with this version.<br>
+<br>
+Thanks!<br>
+<br>
+** Affects: qemu<br>
+=C2=A0 =C2=A0 =C2=A0Importance: Undecided<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Status: New<br>
+<br>
+-- <br>
+You received this bug notification because you are a member of qemu-<br>
+devel-ml, which is subscribed to QEMU.<br>
+<a href=3D"https://bugs.launchpad.net/bugs/1870911" rel=3D"noreferrer" targ=
+et=3D"_blank">https://bugs.launchpad.net/bugs/1870911</a><br>
+<br>
+Title:<br>
+=C2=A0 QEMU Crashes on Launch, Windows<br>
+<br>
+Status in QEMU:<br>
+=C2=A0 New<br>
+<br>
+Bug description:<br>
+=C2=A0 Hi,<br>
+<br>
+=C2=A0 I an having no issues up to (and including) v5.0.0-rc0, but when I<b=
+r>
+=C2=A0 move to rc1 ... it won&#39;t even execute in Windows. If I just try =
+to,<br>
+=C2=A0 for example, run<br>
+<br>
+=C2=A0 qemu-system-x86_64.exe --version<br>
+<br>
+=C2=A0 No output, it just exits. This seems to be new with this version.<br=
+>
+<br>
+=C2=A0 Thanks!<br>
+<br>
+To manage notifications about this bug go to:<br>
+<a href=3D"https://bugs.launchpad.net/qemu/+bug/1870911/+subscriptions" rel=
+=3D"noreferrer" target=3D"_blank">https://bugs.launchpad.net/qemu/+bug/1870=
+911/+subscriptions</a><br>
+<br></blockquote><div><br></div><div><br></div><div>Happens to me too with =
+qemu-system-ppc. Earlier thread is here:</div><div><a href=3D"https://lists=
+.nongnu.org/archive/html/qemu-ppc/2020-04/msg00027.html">https://lists.nong=
+nu.org/archive/html/qemu-ppc/2020-04/msg00027.html</a></div><div><br></div>=
+<div>For now compiling with --disable-pie will produce a running executable=
+.<br></div><div>=C2=A0</div><div>Best,</div><div>Howard<br></div></div></di=
+v>
+
+--000000000000c41dcb05a28c1b0f--
 
