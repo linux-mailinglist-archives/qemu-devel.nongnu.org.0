@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F83C19FE12
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 21:28:35 +0200 (CEST)
-Received: from localhost ([::1]:37452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94B5D19FE70
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 21:50:17 +0200 (CEST)
+Received: from localhost ([::1]:37594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLXQ9-0001fn-SO
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 15:28:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54068)
+	id 1jLXlA-0000aR-2r
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 15:50:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56200)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jLXPE-00018V-RB
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 15:27:38 -0400
+ (envelope-from <peterx@redhat.com>) id 1jLXkG-0008C1-Uc
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 15:49:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jLXPD-0004Bg-5z
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 15:27:36 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52383
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <peterx@redhat.com>) id 1jLXkE-0004xf-UU
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 15:49:20 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43624)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jLXPD-0004Al-2W
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 15:27:35 -0400
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1jLXkE-0004xA-Po
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 15:49:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586201254;
+ s=mimecast20190719; t=1586202557;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a9hw2r3XuMhxu2ceFMlh/GIizVndXsI7JRHHEnB3mAA=;
- b=e3AuocZegbS6Ox3tVMA8duTdkApnSnFjjC2SZDU1zhIh4e4CAbBTHlQKDtF6+8YfWfi14/
- qO7HJeSrinCPcxh+hX/lIhVAwpdSI3XIdLV2HBtipvKHJQ/NMxO8H9jCcRgPX1YxvfGFh/
- 0B8q2zztumduTyopvepIKsEk29vGQRY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-131--PzYOG5GPG62tFLMU_C6jw-1; Mon, 06 Apr 2020 15:27:32 -0400
-X-MC-Unique: -PzYOG5GPG62tFLMU_C6jw-1
-Received: by mail-wr1-f72.google.com with SMTP id w12so315050wrl.23
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 12:27:32 -0700 (PDT)
+ bh=QjNAoiJoQ0ywe3nRBwydYpgtpSZN6534yCfTO4GDpUo=;
+ b=ETuvV05v7RoLORJcIJ21W+nByiRskFdmmnLB3UXmMdRybSkupYrxiDNCLJ9w8LRIu7AOM5
+ he+8aoNHxSnpTE9nW5UczOwxoz/E1YTUnAz69kX+BgxBrA/9TwzpmFQzpsjx+mhHkRDCgr
+ xDLzMfXXahQ3Qufn7r7abJ5uu5/9AGQ=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-17-ZUVyqtoqM1STlBtej14c7Q-1; Mon, 06 Apr 2020 15:49:15 -0400
+X-MC-Unique: ZUVyqtoqM1STlBtej14c7Q-1
+Received: by mail-qk1-f197.google.com with SMTP id d18so945651qkj.8
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 12:49:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vH4S252xlwVt7yZRZ9TyCpmMOxuJpaiKL9uzvrcOkCE=;
- b=S4bf4igxmzynsaht5vwPTqTG0MzH33u9WDdJO6eBsyjGoHZecqKhqchhf56P/5mIBh
- 27dzksqXGTrBaY0Pg43I/n0Ma7EnMF4le4ZieJjUeWig7PFWQsz1TjzfTEETKR5XjvkG
- hsTBafHs0crYUU4CJc75izEfNlGdBJXF0I815Ifr+VX4n4lAX6kw3HJ42ynLnXK0+PfD
- yC5v+9ihbPuem4eGeLmhs0Ezo5IbDV/cHFxVR3JV9YVjTNKGu8yRuekFOw7N1Oy0pPRC
- fVlgqx9wRBnSBOhXNHvI2Orr1P0SW6bKidiVkYvTANda3R2KuimZCPjxBFtDxA+PyK6A
- FUfw==
-X-Gm-Message-State: AGi0PuZgxj8ReInQgnZg5XYdtTU+W2tFIVUL7wf32Eg4zkcFwG4gKP3z
- /mGuZPa61vrnFIH8VJdL/ZL0NA+Kf1JgnqbTYP6FzloHwyy+a7bqL/ziz3YlGpUjMzvP2m86gIE
- s8iuLH33BLuPiNr0=
-X-Received: by 2002:a7b:cd8c:: with SMTP id y12mr981223wmj.106.1586201251660; 
- Mon, 06 Apr 2020 12:27:31 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKWELSVNY6vBl86FOR9guhtYNl3YGicNR4fu8QaQ7NWyM7d3YQ19TwMqSRkrioG0iKggLuSyg==
-X-Received: by 2002:a7b:cd8c:: with SMTP id y12mr981200wmj.106.1586201251417; 
- Mon, 06 Apr 2020 12:27:31 -0700 (PDT)
-Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id s6sm675188wmh.17.2020.04.06.12.27.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Apr 2020 12:27:30 -0700 (PDT)
-Subject: Re: [PATCH-for-5.1 v2 53/54] hw/mips/mips_malta: Add missing
- error-propagation code
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-References: <20200406174743.16956-1-f4bug@amsat.org>
- <20200406174743.16956-54-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <4772e76b-04ea-50f5-8df5-50e930e0eb80@redhat.com>
-Date: Mon, 6 Apr 2020 21:27:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=3SAc7/INURO0fUmTRoJHT56cMjNB24w7zVKVwcxLIzw=;
+ b=EGugT3JAcwa5r84A9qJaHemoqjQJRoMs5IY24fVcYJLAOQ68SZdKLBq0ibXAOekHkM
+ asuwxbm4DY6rUC9tjrIbsIaUL+mkCFVa1ypJ+Szn1vsxrbgudH4EzL9M9ffskqNhiuIS
+ bfo30J0UY2JgUi6LZIynwJMWDb3UYcwNolVDbATZOFw2/B8otyTJvIXw1CrA9t1U/opz
+ HqDy+h30ooH9wkklTcS+ByPg26m/Q4i4kAvskj20qjJIfhlJ2gSgLxW6h5KWeBfzRrOg
+ crOt1iHhTrvNPRdDJcEnVZQL9/5+/7M7euAF6cGeYd4Ay/QUmEW8rJLdv/DTH9NDsBKJ
+ H3Ww==
+X-Gm-Message-State: AGi0PubdnEA5anI61czlDj8kiggKsXXxXMjeEr2IJ+0L6zhn0I9egSx5
+ 05EJzuonVP7kZM7F4Oj1+5jMMRRVkcHTF5RFgr2DF3E8fdOzNVh2DYGquevh+5OjvXaitk+Mg90
+ US3WVhp0Bqn+4vCc=
+X-Received: by 2002:ac8:8d0:: with SMTP id y16mr1270776qth.340.1586202555447; 
+ Mon, 06 Apr 2020 12:49:15 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIsQ+naX+Z38cNb4BpPpyftxPdr6Pz+MXwVkluFeAVGofZZPwR4AZcFrqU7Egyx3/QvySVzMQ==
+X-Received: by 2002:ac8:8d0:: with SMTP id y16mr1270746qth.340.1586202555194; 
+ Mon, 06 Apr 2020 12:49:15 -0700 (PDT)
+Received: from xz-x1 ([2607:9880:19c0:32::3])
+ by smtp.gmail.com with ESMTPSA id f138sm2635656qke.105.2020.04.06.12.49.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Apr 2020 12:49:14 -0700 (PDT)
+Date: Mon, 6 Apr 2020 15:48:40 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Liu, Yi L" <yi.l.liu@intel.com>
+Subject: Re: [PATCH v2 16/22] intel_iommu: replay pasid binds after context
+ cache invalidation
+Message-ID: <20200406194840.GS103677@xz-x1>
+References: <1585542301-84087-1-git-send-email-yi.l.liu@intel.com>
+ <1585542301-84087-17-git-send-email-yi.l.liu@intel.com>
+ <20200403144548.GK103677@xz-x1>
+ <A2975661238FB949B60364EF0F2C25743A220E44@SHSMSX104.ccr.corp.intel.com>
+ <20200403161120.GN103677@xz-x1>
+ <A2975661238FB949B60364EF0F2C25743A221BD4@SHSMSX104.ccr.corp.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200406174743.16956-54-f4bug@amsat.org>
-Content-Language: en-US
+In-Reply-To: <A2975661238FB949B60364EF0F2C25743A221BD4@SHSMSX104.ccr.corp.intel.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -94,110 +92,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Tian,
+ Kevin" <kevin.tian@intel.com>, Jacob Pan <jacob.jun.pan@linux.intel.com>,
+ Yi Sun <yi.y.sun@linux.intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "mst@redhat.com" <mst@redhat.com>,
+ "Tian, Jun J" <jun.j.tian@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "Wu, Hao" <hao.wu@intel.com>,
+ "Sun, Yi Y" <yi.y.sun@intel.com>, Richard Henderson <rth@twiddle.net>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/6/20 7:47 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> Running the coccinelle script produced:
+On Sat, Apr 04, 2020 at 12:00:12PM +0000, Liu, Yi L wrote:
+> Hi Peter,
 >=20
->    $ spatch \
->      --macro-file scripts/cocci-macro-file.h --include-headers \
->      --sp-file scripts/coccinelle/find-missing-error_propagate.cocci \
->      --keep-comments --smpl-spacing --dir .
->    HANDLING: ./hw/mips/mips_malta.c
->    [[manual check required: error_propagate() might be missing in object_=
-property_set_int() ./hw/mips/mips_malta.c:1193:4]]
->    [[manual check required: error_propagate() might be missing in object_=
-property_set_str() ./hw/mips/mips_malta.c:1192:4]]
+> > From: Peter Xu <peterx@redhat.com>
+> > Sent: Saturday, April 4, 2020 12:11 AM
+> > To: Liu, Yi L <yi.l.liu@intel.com>
+> > Subject: Re: [PATCH v2 16/22] intel_iommu: replay pasid binds after con=
+text cache
+> > invalidation
+> >=20
+> > On Fri, Apr 03, 2020 at 03:21:10PM +0000, Liu, Yi L wrote:
+> > > > From: Peter Xu <peterx@redhat.com>
+> > > > Sent: Friday, April 3, 2020 10:46 PM
+> > > > To: Liu, Yi L <yi.l.liu@intel.com>
+> > > > Subject: Re: [PATCH v2 16/22] intel_iommu: replay pasid binds after=
+ context
+> > cache
+> > > > invalidation
+> > > >
+> > > > On Sun, Mar 29, 2020 at 09:24:55PM -0700, Liu Yi L wrote:
+> > > > > This patch replays guest pasid bindings after context cache
+> > > > > invalidation. This is a behavior to ensure safety. Actually,
+> > > > > programmer should issue pasid cache invalidation with proper
+> > > > > granularity after issuing a context cache invalidation.
+> > > > >
+> > > > > Cc: Kevin Tian <kevin.tian@intel.com>
+> > > > > Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> > > > > Cc: Peter Xu <peterx@redhat.com>
+> > > > > Cc: Yi Sun <yi.y.sun@linux.intel.com>
+> > > > > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > > > > Cc: Richard Henderson <rth@twiddle.net>
+> > > > > Cc: Eduardo Habkost <ehabkost@redhat.com>
+> > > > > Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+> > > > > ---
+> > > > >  hw/i386/intel_iommu.c          | 51
+> > > > ++++++++++++++++++++++++++++++++++++++++++
+> > > > >  hw/i386/intel_iommu_internal.h |  6 ++++-
+> > > > >  hw/i386/trace-events           |  1 +
+> > > > >  3 files changed, 57 insertions(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> > > > > index d87f608..883aeac 100644
+> > > > > --- a/hw/i386/intel_iommu.c
+> > > > > +++ b/hw/i386/intel_iommu.c
+> > > > > @@ -68,6 +68,10 @@ static void
+> > > > vtd_address_space_refresh_all(IntelIOMMUState *s);
+> > > > >  static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNo=
+tifier
+> > *n);
+> > > > >
+> > > > >  static void vtd_pasid_cache_reset(IntelIOMMUState *s);
+> > > > > +static void vtd_pasid_cache_sync(IntelIOMMUState *s,
+> > > > > +                                 VTDPASIDCacheInfo *pc_info);
+> > > > > +static void vtd_pasid_cache_devsi(IntelIOMMUState *s,
+> > > > > +                                  VTDBus *vtd_bus, uint16_t devf=
+n);
+> > > > >
+> > > > >  static void vtd_panic_require_caching_mode(void)
+> > > > >  {
+> > > > > @@ -1853,7 +1857,10 @@ static void
+> > vtd_iommu_replay_all(IntelIOMMUState
+> > > > *s)
+> > > > >
+> > > > >  static void vtd_context_global_invalidate(IntelIOMMUState *s)
+> > > > >  {
+> > > > > +    VTDPASIDCacheInfo pc_info;
+> > > > > +
+> > > > >      trace_vtd_inv_desc_cc_global();
+> > > > > +
+> > > > >      /* Protects context cache */
+> > > > >      vtd_iommu_lock(s);
+> > > > >      s->context_cache_gen++;
+> > > > > @@ -1870,6 +1877,9 @@ static void
+> > > > vtd_context_global_invalidate(IntelIOMMUState *s)
+> > > > >       * VT-d emulation codes.
+> > > > >       */
+> > > > >      vtd_iommu_replay_all(s);
+> > > > > +
+> > > > > +    pc_info.flags =3D VTD_PASID_CACHE_GLOBAL;
+> > > > > +    vtd_pasid_cache_sync(s, &pc_info);
+> > > > >  }
+> > > > >
+> > > > >  /**
+> > > > > @@ -2005,6 +2015,22 @@ static void
+> > > > vtd_context_device_invalidate(IntelIOMMUState *s,
+> > > > >                   * happened.
+> > > > >                   */
+> > > > >                  vtd_sync_shadow_page_table(vtd_as);
+> > > > > +                /*
+> > > > > +                 * Per spec, context flush should also
+> > > > > followed with PASID
+> > > > > +                 * cache and iotlb flush. Regards to
+> > > > > a device selective
+> > > > > +                 * context cache invalidation:
+> > > >
+> > > > If context entry flush should also follow another pasid cache flush=
+,
+> > > > then this is still needed?  Shouldn't the pasid flush do the same
+> > > > thing again?
+> > >
+> > > yes, but how about guest software failed to follow it? It will do
+> > > the same thing when pasid cache flush comes. But this only happens
+> > > for the rid2pasid case (the IOVA page table).
+> >=20
+> > Do you mean it will not happen when nested page table is used (so it's
+> > required for nested tables)?
 >=20
-> Add the missing error_propagate() after review by adding
-> a Error* parameter to create_cps().
+> no, by the IOVA page table case, I just want to confirm the duplicate
+> replay is true. But it is not "only" case. :-) my bad. any scalable mode
+> context entry modification will result in duplicate replay as this patch
+> enforces a pasid replay after context cache invalidation. But for normal
+> guest SVM usage, it won't have such duplicate work as it only modifies
+> pasid entry.
 >=20
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->   hw/mips/mips_malta.c | 19 ++++++++++++++-----
->   1 file changed, 14 insertions(+), 5 deletions(-)
+> > Yeah we can keep them for safe no matter what; at least I'm fine with
+> > it (I believe most of the code we're discussing is not fast path).
+> > Just want to be sure of it since if it's definitely duplicated then we
+> > can instead drop it.
 >=20
-> diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-> index e4c4de1b4e..8d43cfd41b 100644
-> --- a/hw/mips/mips_malta.c
-> +++ b/hw/mips/mips_malta.c
-> @@ -1183,18 +1183,27 @@ static void create_cpu_without_cps(MachineState *=
-ms,
->   }
->  =20
->   static void create_cps(MachineState *ms, MaltaState *s,
-> -                       qemu_irq *cbus_irq, qemu_irq *i8259_irq)
-> +                       qemu_irq *cbus_irq, qemu_irq *i8259_irq,
-> +                       Error **errp)
->   {
->       Error *err =3D NULL;
->  =20
->       sysbus_init_child_obj(OBJECT(s), "cps", OBJECT(&s->cps), sizeof(s->=
-cps),
->                             TYPE_MIPS_CPS);
->       object_property_set_str(OBJECT(&s->cps), ms->cpu_type, "cpu-type", =
-&err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    }
->       object_property_set_int(OBJECT(&s->cps), ms->smp.cpus, "num-vp", &e=
-rr);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    }
->       object_property_set_bool(OBJECT(&s->cps), true, "realized", &err);
-> -    if (err !=3D NULL) {
-> -        error_report("%s", error_get_pretty(err));
-> -        exit(1);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
->       }
->  =20
->       sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->cps), 0, 0, 1);
-> @@ -1207,7 +1216,7 @@ static void mips_create_cpu(MachineState *ms, Malta=
-State *s,
->                               qemu_irq *cbus_irq, qemu_irq *i8259_irq)
->   {
->       if ((ms->smp.cpus > 1) && cpu_supports_cps_smp(ms->cpu_type)) {
-> -        create_cps(ms, s, cbus_irq, i8259_irq);
-> +        create_cps(ms, s, cbus_irq, i8259_irq, &error_fatal);
->       } else {
->           create_cpu_without_cps(ms, cbus_irq, i8259_irq);
->       }
->=20
+> yes, it is not fast path. BTW. I guess the iova shadow sync applies
+> the same notion. right?
 
-This patch also requires:
+Yes I rem we have similar things, but the same to that - if we can
+confirm that it'll be duplicated then I think we should remove that
+too.  But feel free to ignore this question for now and keep it.  The
+comment explaining that would be helpful, as you already did.  Thanks,
 
--- >8 --
-@@ -1241,7 +1241,7 @@ void mips_malta_init(MachineState *machine)
-      int64_t kernel_entry, bootloader_run_addr;
-      PCIBus *pci_bus;
-      ISABus *isa_bus;
--    qemu_irq cbus_irq, i8259_irq;
-+    qemu_irq cbus_irq, i8259_irq =3D NULL;
-      I2CBus *smbus;
-      DriveInfo *dinfo;
-      int fl_idx =3D 0;
----
-
-else it fails building with gcc -O3:
-
-hw/mips/mips_malta.c: In function =E2=80=98mips_malta_init=E2=80=99:
-hw/mips/mips_malta.c:1419:5: warning: =E2=80=98i8259_irq=E2=80=99 may be us=
-ed=20
-uninitialized in this function [-Wmaybe-uninitialized]
-      1419 |     qdev_connect_gpio_out_named(dev, "intr", 0, i8259_irq);
-           |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--=20
+Peter Xu
 
 
