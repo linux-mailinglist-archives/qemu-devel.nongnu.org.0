@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7594419FD04
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:23:28 +0200 (CEST)
-Received: from localhost ([::1]:36612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4DC819FD5A
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:42:31 +0200 (CEST)
+Received: from localhost ([::1]:37060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLWP9-00034C-HD
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:23:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44191)
+	id 1jLWha-0004LZ-Fz
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:42:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47431)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jLWNw-0001Zb-AW
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:22:14 -0400
+ (envelope-from <wrampazz@redhat.com>) id 1jLWem-0000wE-H6
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:39:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jLWNu-0002uw-Kg
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:22:12 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35868)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jLWNs-0002sO-NJ
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:22:10 -0400
-Received: by mail-wm1-x341.google.com with SMTP id d202so449327wmd.1
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 11:22:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=JtOUmlddJfiiuQ89uisdNRcm83fl7vqOjpFFcB74WbM=;
- b=WqH60DfMS9DnPYEuIwdioBViI7+GV6fUG3idD1y7gV7OYNW7hXarmJc4Tbww4pzbQk
- ++qG8P77RutdO0nLEBuimQoHa5BTqQLNZ8h+EHmDzXEz6nJuiJs9sWo8/5s/D3NKMS8e
- TbaTHcba+IhTDoulH8ypzrMUkMoMzoGdHnnFMxMYyS54qj2revwOYVAbca/E5/lideDX
- RxnW6AorYx38AwpFoWCquuGFVLbZ4wKbk5u3+H8i29i1+ikYVPcrbxATBnrW7GN455v1
- wXOy2Nq0nq0rOyHT3aYwjhNlc/oanOrB6r98eDLZm2BFOsUjP9yzjlnxG6nAtf3c7Ugu
- jaig==
+ (envelope-from <wrampazz@redhat.com>) id 1jLWel-0007hh-C1
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:39:36 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52381
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <wrampazz@redhat.com>) id 1jLWel-0007hN-9H
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:39:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586198375;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DeAWlO5vJfr2ThBmMfaoNKVM9ILwy+uFoNIbMctgBhw=;
+ b=iWuazGS8qRrVRtxFSfRs1p6bcrcQeVvGO2E2/a5nrWp5pnASbLmOzicf0tG51V2K/Xrgh9
+ rRUJ/e/F0pXnxyc/wSv/9wBIQTvBr9rQosEsBv9fvuehhj+xH1FIleMI4lnYEsFqGOUAX5
+ o/npLkZctSPa0kIonsfc5HPxfAbzwmc=
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
+ [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-269-9tzWeHD6Pv-GSFUA4MW5_A-1; Mon, 06 Apr 2020 14:39:31 -0400
+X-MC-Unique: 9tzWeHD6Pv-GSFUA4MW5_A-1
+Received: by mail-vk1-f199.google.com with SMTP id v203so247073vkd.13
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 11:39:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=JtOUmlddJfiiuQ89uisdNRcm83fl7vqOjpFFcB74WbM=;
- b=UEjbSav4rTY/bNSACUZH4qw9Z1Q/T4grsnAeJMUesB3uOy2pEkHQ/Dptf5qF/Q3P3L
- tEqSiGquwlNAl2fHvx8+ZaUtkRj2WiAqN6Sh1t0Wcj5anlOxKLHjoR5r+S4VrsggWVyN
- e1DAWwKJhDS9jkAG5wM1igX8pQNP3NG+z+W7ll0BoNvySmJGYCoCmQojMfXTkiY286H3
- IeiaXUNH3GTFaXKPL8Cpi8htj0qkAzsCeP9huusiOq8qTNUCF1qQdsL+V+r0o6F81LXp
- AgzJz/TzaxOaBed3bUwr5iQtomoHotZaGsh1y7yGOpsgEA0KXog71jAgCqp0Cq/ufrDh
- GleQ==
-X-Gm-Message-State: AGi0PuYOgzlLxcsoGZwKGzBOFA4ZSVyd/1MPzTKkkJ8IX29s5Ehbtcxq
- 1K2iRmuTHrNUcnvrg8qMeR0Cfw==
-X-Google-Smtp-Source: APiQypIEAi/vjNIzbt8CBqVxV3Qugyan5DvcjkbiRhJ9aCFL+ZqUwqiP7ghAOaw1r68YiZkfgSC45g==
-X-Received: by 2002:a1c:e407:: with SMTP id b7mr351661wmh.32.1586197326659;
- Mon, 06 Apr 2020 11:22:06 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a67sm473564wmc.30.2020.04.06.11.22.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 11:22:05 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EF63F1FF7E;
- Mon,  6 Apr 2020 19:22:04 +0100 (BST)
-References: <20200403172919.24621-1-philmd@redhat.com>
- <20200403172919.24621-7-philmd@redhat.com> <87zhboaaf5.fsf@linaro.org>
- <CAKJDGDbXMknOLw-xGGR3HJriCQB_-+1A5+eqf0DMb_hd6u99HA@mail.gmail.com>
-User-agent: mu4e 1.3.10; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Willian Rampazzo <wrampazz@redhat.com>
-Subject: Re: [PATCH-for-5.1 6/8] tests/Makefile: Add fetch-acceptance-assets
- rule
-In-reply-to: <CAKJDGDbXMknOLw-xGGR3HJriCQB_-+1A5+eqf0DMb_hd6u99HA@mail.gmail.com>
-Date: Mon, 06 Apr 2020 19:22:04 +0100
-Message-ID: <87o8s4a303.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=DeAWlO5vJfr2ThBmMfaoNKVM9ILwy+uFoNIbMctgBhw=;
+ b=F9E4JZ4lp6/NCfiP6afhle2wo0oh9SGNWQzZs7PHmvo/u8CxYx+bRIMoguE85SbSkw
+ K4Vs4rzmHmAo//zqW6R5S5eUV2KhYE8GUZBFnL72+SWR6kCZ2mbMcHuJQ6aSiBNzN7B/
+ rYu8WgMx8cZlGWI9fzXV9AdBQNqow8kkJU4Wj5ISiLtwhFZn8rXou70RE4CAtagstdgw
+ UwmUVfr3wUQRynN8KZLF/99S8rQ+/d+Ollg67lhrASY+pQGCbxBG9jky+UQ2ydPqpEM+
+ VqLQhFYPvQYw7rwSWAUfCwdb1kY0ryz5wBC5Z1Wq7gyHNnvred7tKdUSnmuiTS5UX/c8
+ HXGQ==
+X-Gm-Message-State: AGi0PuaYPIsooxk+hSfChzFHYrhpVIo/OzrJYyPXb6IYFElZMBXvEG9F
+ y/gIMIjJdCua+w6FjhJV0UXjuHMmqWS4SYIlSDwyt01/MwyW6VV9W0tOrgQhzN8JehZ7DAcuE3q
+ rhkd/N6DaFsPmnJoGFeITmTSK/ZMJ7f4=
+X-Received: by 2002:a67:fd16:: with SMTP id f22mr981312vsr.48.1586198370985;
+ Mon, 06 Apr 2020 11:39:30 -0700 (PDT)
+X-Google-Smtp-Source: APiQypK3tJd/LgVCk8qoxg3FgWcI+fvEXlHiYTiL02jxwVat4WKH2mn1hdr7x/GR7yv06Mnj5DdVRJToPx6QQW61NUU=
+X-Received: by 2002:a67:fd16:: with SMTP id f22mr981287vsr.48.1586198370671;
+ Mon, 06 Apr 2020 11:39:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20200403172919.24621-1-philmd@redhat.com>
+ <20200403172919.24621-8-philmd@redhat.com>
+ <87369gbpgq.fsf@linaro.org> <4b9c706f-b9b0-35c6-457f-e03f746c9287@redhat.com>
+ <CAKJDGDZePOW6Hg9P5WMoP93U2kGEO1=CGF0W7X-G-E7bid_8kQ@mail.gmail.com>
+ <87r1x0a31t.fsf@linaro.org>
+In-Reply-To: <87r1x0a31t.fsf@linaro.org>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Mon, 6 Apr 2020 15:39:19 -0300
+Message-ID: <CAKJDGDaGf2gaMUf_7d0LQbUd8f8tUVWQcggdUGAa=Nz9yoewDQ@mail.gmail.com>
+Subject: Re: [PATCH-for-5.1 7/8] .travis.yml: Run fetch-acceptance-assets
+ before check-acceptance
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,69 +92,102 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
  qemu-devel <qemu-devel@nongnu.org>, Fabien Chouteau <chouteau@adacore.com>,
  Kamil Rytarowski <kamil@netbsd.org>, qemu-ppc@nongnu.org,
  Cleber Rosa <crosa@redhat.com>,
- =?utf-8?Q?Her?= =?utf-8?Q?v=C3=A9?= Poussineau <hpoussin@reactos.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Willian Rampazzo <wrampazz@redhat.com> writes:
-
-> On Mon, Apr 6, 2020 at 12:41 PM Alex Benn=C3=A9e <alex.bennee@linaro.org>=
- wrote:
->>
->>
->> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
->>
->> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> > ---
->> >  tests/Makefile.include | 7 +++++++
->> >  1 file changed, 7 insertions(+)
->> >
->> > diff --git a/tests/Makefile.include b/tests/Makefile.include
->> > index 51de676298..90f457593c 100644
->> > --- a/tests/Makefile.include
->> > +++ b/tests/Makefile.include
->> > @@ -906,6 +906,13 @@ get-vm-image-fedora-31-%: check-venv
->> >  # download all vm images, according to defined targets
->> >  get-vm-images: check-venv $(patsubst %,get-vm-image-fedora-31-%, $(FE=
-DORA_31_DOWNLOAD))
->> >
->> > +fetch-acceptance-assets: check-venv
->> > +     $(call quiet-command, \
->> > +            $(TESTS_VENV_DIR)/bin/python -m avocado \
->> > +            --show=3D$(if $(DEBUG),avocado.test,$(AVOCADO_SHOW)) asse=
-ts fetch \
->> > +            tests/acceptance/*py, \
->> > +            "AVOCADO", "tests/acceptance")
->> > +
->>
->> I'm wondering if we could expand this to a rule per-test group and
->> therefor allow parallel fetching of groups of assets?
+On Mon, Apr 6, 2020 at 3:21 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
 >
-> This is a valid idea! Additionally, my suggestion is to organize the
-> tests by subdirectories under `tests/acceptance/`. Doing so makes it
-> easy to handle the target rule, adding the subdirectory to the assets
-> fetch command instead of listing specific tests for each group. Making
-> a list of tests for each group requires extra editing to the makefile
-> target when a new test is added. This can lead to new tests being
-> missed in their groups by mistake.
+>
+> Willian Rampazzo <wrampazz@redhat.com> writes:
+>
+> > On Mon, Apr 6, 2020 at 12:39 PM Philippe Mathieu-Daud=C3=A9
+> > <philmd@redhat.com> wrote:
+> >>
+> >> On 4/6/20 5:31 PM, Alex Benn=C3=A9e wrote:
+> >> >
+> >> > Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+> >> >
+> >> >> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> >> >> ---
+> >> >>   .travis.yml | 2 +-
+> >> >>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >> >>
+> >> >> diff --git a/.travis.yml b/.travis.yml
+> >> >> index 2fd63eceaa..c6b32da447 100644
+> >> >> --- a/.travis.yml
+> >> >> +++ b/.travis.yml
+> >> >> @@ -317,7 +317,7 @@ jobs:
+> >> >>         dist: bionic
+> >> >>         env:
+> >> >>           - CONFIG=3D"--enable-tools --target-list=3Daarch64-softmm=
+u,alpha-softmmu,arm-softmmu,m68k-softmmu,microblaze-softmmu,mips-softmmu,mi=
+ps64el-softmmu,nios2-softmmu,or1k-softmmu,ppc-softmmu,ppc64-softmmu,s390x-s=
+oftmmu,sparc-softmmu,x86_64-softmmu,xtensa-softmmu"
+> >> >> -        - TEST_CMD=3D"make check-acceptance"
+> >> >> +        - TEST_CMD=3D"travis_retry make -j1 fetch-acceptance-asset=
+s
+> >> >> check-acceptance DEBUG=3D1"
+> >> >
+> >> > You could use TEST_BUILD_CMD for the fetching of acceptance tests - =
+can
+> >> > that be done in parallel?
+> >
+> > If by `parallel` you mean running it with other targets, the
+> > fetch-acceptance-assets target can run at any time before the
+> > check-acceptance runs, concurrently with different targets. Now, if by
+> > `parallel` you mean fetch more than one asset at a time, right now it
+> > is not supported by Avocado, assets are fetched one by one, but it is
+> > an excellent idea. I have added it to my list.
+>
+> See the comment I made about the make file. We could expand the
+> fetch-acceptance-assets target to have one dependency per python file so
+> you could invoke avocado in parallel to fetch the assets for each test
+> group in parallel. Of course this works best if the assets mentioned in
+> each file are unique otherwise avocado might race with itself.
 
-I'd use wildcards to build up the groups so the Makefile doesn't need to
-be messed with again.
+I see what you mean. About the unique asset definitions, this should
+not be a big problem as Avocado downloads the asset on a temporary
+file first and then copy it to the target file. In the worst case,
+multiple instances of Avocado will download the same asset at the same
+time, but just one will make it the target asset. The other instances
+will fail, but as one already succeeded, the downside is the time and
+bandwidth spent by the other instances.
 
 >
->>
->> >  check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
->> >       $(call quiet-command, \
->> >              $(TESTS_VENV_DIR)/bin/python -m avocado \
->>
->>
->> --
->> Alex Benn=C3=A9e
->>
+> >> I'd say calling fetch-acceptance-assets parallelized is what seems to
+> >> break this Travis job (which is why I enforced -j1), but I'll refer to
+> >> Willian here.
+> >>
+> >
+> > As I mentioned above, no problem with running it in parallel to other
+> > targets. The errors we saw when you were testing are not related to
+> > the parallel run. It should be fixed in the next release of Avocado.
+> >
+> >> >
+> >> > Also no point in -j1 here - it's implied.
+> >>
+> >> You are right, I wanted to be sure this still work even if the globlal
+> >> script running the tests is updated. But the correct fix is probably t=
+o
+> >> use .NOTPARALLEL in the fetch-acceptance-assets rule in the previous p=
+atch.
+> >>
+> >> >
+> >> >>           - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-acceptance"
+> >> >>         after_script:
+> >> >>           - python3 -c 'import json; r =3D json.load(open("tests/re=
+sults/latest/results.json")); [print(t["logfile"]) for t in r["tests"] if t=
+["status"] not in ("PASS", "SKIP")]' | xargs cat
+> >> >
+> >> >
+> >>
+>
+>
+> --
+> Alex Benn=C3=A9e
+>
 
-
---=20
-Alex Benn=C3=A9e
 
