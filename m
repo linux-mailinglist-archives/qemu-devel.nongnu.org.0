@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57A0019FC86
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:09:09 +0200 (CEST)
-Received: from localhost ([::1]:36274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A758D19FC6B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:04:53 +0200 (CEST)
+Received: from localhost ([::1]:36184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLWBG-0005AB-Ti
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:09:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36656)
+	id 1jLW7A-00050e-OB
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:04:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36696)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrV-0002eA-TW
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:42 -0400
+ id 1jLVrX-0002hb-Dm
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrU-0003Qt-O7
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:41 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40884)
+ id 1jLVrW-0003SJ-7E
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:43 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:52260)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrU-0003Pv-HP; Mon, 06 Apr 2020 13:48:40 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id s8so488453wrt.7;
- Mon, 06 Apr 2020 10:48:40 -0700 (PDT)
+ id 1jLVrW-0003RB-1D; Mon, 06 Apr 2020 13:48:42 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id t203so297339wmt.2;
+ Mon, 06 Apr 2020 10:48:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FDBdESrURRPicePACLX6D+U/FCdcNfiH/tBCs4PTlwk=;
- b=P/CmFvSVQzsQft3uyJjkRaW/eLuDkTyzXBCgHKyPqAPYe3Bn8uj2wmbUpHOB6bgYXg
- 3Y2cBzAFgYPfvySz+M2OfZyA4NAuG2qcXBe9fpXLGLq5Cg+LaT8IY0v7in78HBwBEzvd
- fuSko43evhKUnILP9E8YfupkQ71/I7kVRQJAGC0VhZmHI5XXCHXtO/9yFV+FfWJojVvI
- u6y/wiv53eUCT/iuKhA6vKDtb5F0DooiQ7bPEU/T36LZK4RKQBtXOQyLNsUQ7AkPJocc
- eIaK1Uwr74m3GCjFdQiiwtP4D8Mg4o4/eE+7sE6ALvkdOBg8B+LRRw56Tcn9q6D7Jgc0
- 7RsQ==
+ bh=7nYHyoCJMlnQy3DVHwC5v3e8R1Ia13oWI3bOWgCiP+E=;
+ b=S80ufqKNxYsOM37GU0HwCQZ2Hv7rbwYyLWzpwXqZo1/iG/IBrLHVBkMivBmjHCcnrb
+ RdcyQIu8R31xk52mKCQjoJQU9OwduNfomP0M7YF96oWPA6wwO8wkjMg6tqA001jI7C9x
+ lPJlA2m4cjKK2ZwxDINMHvZK4GYcTkFYQT+GiCoMBoz9Htxj8RkEUeADW7QAunK1UYx1
+ ZGqyq+klezNQEFwHJSjVPvr8QrYOJFGQWtNfI7XlddyS/nDl/HLMX6kZrOu8nd186WnS
+ 1Aobj0J5aonnwIa7tCyVP/ud3eVlYs35T7D5grlnb59PMinWM/J/elsoqU0fXoz/ehYi
+ MBOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=FDBdESrURRPicePACLX6D+U/FCdcNfiH/tBCs4PTlwk=;
- b=nwctdz+GlZRNP7nw6uXKgAyz35r0QZAI45M8kar/96jsYoVtPAi8uJkpkCxrC5rPE0
- 8BDm4Fll6GT6oJMOetl/5jkt8GpPoQMeW+v1h/EpYHCEirJnEmJ0MusVn+eGHHcW7l9E
- iCWNrJi8B55fPFh0sL5+oNWfD6P5DoueYc6ZCMkyiDTrqEvOG7hFvOKnrheEcAaJCqrk
- 34yZb49roeZrSf1YCffTROnzGiQ8pDGqfTj3VLIyCUHnRFNW6Y4X3Q56JhsO72WTzoi4
- LIqjHGCdW8hn8EcgBmI1WsRUW1BQz//R3/ts07nK+3cL5NXAvYgYigpriTtqsmFpG4T6
- uz5A==
-X-Gm-Message-State: AGi0Pubw4Oe+H8rN81To3xDWuYt1lO2LEzu9FTovdHzMOyuwWhb6nr+a
- GkxT82YAoDtyS3n0FWSCGcSYQ+7LwtQ=
-X-Google-Smtp-Source: APiQypKeuEhl5xNMVushH86yDeOsELEGkR4FFfTT08X1aA5vzhpdcZKtsgLIu5ANPvBIvBuDVlIZBw==
-X-Received: by 2002:adf:a347:: with SMTP id d7mr352144wrb.21.1586195319419;
- Mon, 06 Apr 2020 10:48:39 -0700 (PDT)
+ bh=7nYHyoCJMlnQy3DVHwC5v3e8R1Ia13oWI3bOWgCiP+E=;
+ b=mcAs58sbS7+OJYZcFzXZxETYkVEWE5kF033zBvQGAmmatLRixrNMjK5y/FDU8Z2OBR
+ 0wM6K9fYLwp/l/sUQ25njuC9n8hsWZU+HV1b+J7C9s9Ma9zt8P3I236Ufhak0UF/Fr2M
+ FImo0QOikg8lF9uOFXwfEZ/CPjeumnNjkoOXo0Vx+5SwEldjMByOozPBgva8Sc4+hV2l
+ f4Yw4saWqzuBGjF3GuzLoHYzmUNgZoTVktmuSsGnFZWi7gtnWmUb8gYUlDdjFQk87uNb
+ uFN5zlAgNB0hEIENrNUvGOi0wC8A7bM9LkjyTJWSOqWZLS76cvsPBe3zXmSAx/hiY/o/
+ scjA==
+X-Gm-Message-State: AGi0PuZrKbUZ25TEDu7iaapGmc1tYiHtut7oXpFbLpeOoY/t5VL4MSXy
+ HVtKbquD7qEaiEDiKje8yYeDwxlwlW4=
+X-Google-Smtp-Source: APiQypILTiqajSq9uDraEKNyusqNZCcyzJgUbpxVRfw/NO4Uaj7/mrvAo6i7fyGgYgfD98Fk16dfkg==
+X-Received: by 2002:a1c:f315:: with SMTP id q21mr459404wmq.169.1586195320705; 
+ Mon, 06 Apr 2020 10:48:40 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.48.38
+ by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.48.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 10:48:38 -0700 (PDT)
+ Mon, 06 Apr 2020 10:48:40 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH-for-5.1 v2 39/54] hw/arm/fsl-imx: Add missing
+Subject: [PATCH-for-5.1 v2 40/54] hw/arm/stm32fx05_soc: Add missing
  error-propagation code
-Date: Mon,  6 Apr 2020 19:47:28 +0200
-Message-Id: <20200406174743.16956-40-f4bug@amsat.org>
+Date: Mon,  6 Apr 2020 19:47:29 +0200
+Message-Id: <20200406174743.16956-41-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200406174743.16956-1-f4bug@amsat.org>
 References: <20200406174743.16956-1-f4bug@amsat.org>
@@ -71,7 +71,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
+X-Received-From: 2a00:1450:4864:20::32d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,9 +85,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Alistair Francis <alistair@alistair23.me>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "open list:i.MX25 PDK" <qemu-arm@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>
+ "open list:STM32F205" <qemu-arm@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -98,55 +99,44 @@ Patch created mechanically by running:
     --sp-file scripts/coccinelle/object_property_missing_error_propagate.cocci \
     --keep-comments --smpl-spacing --in-place --dir hw
 
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/fsl-imx25.c | 8 ++++++++
- hw/arm/fsl-imx6.c  | 8 ++++++++
- 2 files changed, 16 insertions(+)
+ hw/arm/stm32f205_soc.c | 4 ++++
+ hw/arm/stm32f405_soc.c | 4 ++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/hw/arm/fsl-imx25.c b/hw/arm/fsl-imx25.c
-index 3d87fe867e..69d8645dcd 100644
---- a/hw/arm/fsl-imx25.c
-+++ b/hw/arm/fsl-imx25.c
-@@ -271,8 +271,16 @@ static void fsl_imx25_realize(DeviceState *dev, Error **errp)
- 
-         object_property_set_uint(OBJECT(&s->esdhc[i]), 2, "sd-spec-version",
-                                  &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-         object_property_set_uint(OBJECT(&s->esdhc[i]), IMX25_ESDHC_CAPABILITIES,
-                                  "capareg", &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-         object_property_set_bool(OBJECT(&s->esdhc[i]), true, "realized", &err);
-         if (err) {
-             error_propagate(errp, err);
-diff --git a/hw/arm/fsl-imx6.c b/hw/arm/fsl-imx6.c
-index b3cef5bb57..c254294a70 100644
---- a/hw/arm/fsl-imx6.c
-+++ b/hw/arm/fsl-imx6.c
-@@ -343,8 +343,16 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
-         /* UHS-I SDIO3.0 SDR104 1.8V ADMA */
-         object_property_set_uint(OBJECT(&s->esdhc[i]), 3, "sd-spec-version",
-                                  &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-         object_property_set_uint(OBJECT(&s->esdhc[i]), IMX6_ESDHC_CAPABILITIES,
-                                  "capareg", &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-         object_property_set_bool(OBJECT(&s->esdhc[i]), true, "realized", &err);
-         if (err) {
-             error_propagate(errp, err);
+diff --git a/hw/arm/stm32f205_soc.c b/hw/arm/stm32f205_soc.c
+index b1be4fde40..fba18bc204 100644
+--- a/hw/arm/stm32f205_soc.c
++++ b/hw/arm/stm32f205_soc.c
+@@ -159,6 +159,10 @@ static void stm32f205_soc_realize(DeviceState *dev_soc, Error **errp)
+     /* ADC 1 to 3 */
+     object_property_set_int(OBJECT(s->adc_irqs), STM_NUM_ADCS,
+                             "num-lines", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
+     object_property_set_bool(OBJECT(s->adc_irqs), true, "realized", &err);
+     if (err != NULL) {
+         error_propagate(errp, err);
+diff --git a/hw/arm/stm32f405_soc.c b/hw/arm/stm32f405_soc.c
+index 2b8a84a695..6db77d296b 100644
+--- a/hw/arm/stm32f405_soc.c
++++ b/hw/arm/stm32f405_soc.c
+@@ -181,6 +181,10 @@ static void stm32f405_soc_realize(DeviceState *dev_soc, Error **errp)
+     }
+     object_property_set_int(OBJECT(&s->adc_irqs), STM_NUM_ADCS,
+                             "num-lines", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
+     object_property_set_bool(OBJECT(&s->adc_irqs), true, "realized", &err);
+     if (err != NULL) {
+         error_propagate(errp, err);
 -- 
 2.21.1
 
