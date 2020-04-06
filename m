@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 011AC19F365
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:17:57 +0200 (CEST)
-Received: from localhost ([::1]:58128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1F8419F35B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:15:58 +0200 (CEST)
+Received: from localhost ([::1]:58072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLOpI-00079v-1E
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:17:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50160)
+	id 1jLOnN-0003TC-TT
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:15:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50161)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jLOjs-0006o9-IR
+ (envelope-from <peter.maydell@linaro.org>) id 1jLOjs-0006oB-Jd
  for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jLOji-0002fy-FC
+ (envelope-from <peter.maydell@linaro.org>) id 1jLOji-0002g5-Fv
  for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:20 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34756)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42401)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jLOji-0002e0-8b
+ id 1jLOji-0002fD-9V
  for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:10 -0400
-Received: by mail-wr1-x434.google.com with SMTP id 65so16735239wrl.1
+Received: by mail-wr1-x441.google.com with SMTP id h15so16686682wrx.9
  for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 03:12:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=23FVCxWRdzytJIfFsLBs2sn5kGjGfAHscUs7FUshwno=;
- b=CKdHypObjrV9wfTfeDD2hmraXvw5waw+EL3CPbN/9oYhnvi1dK5xq7Iml49o1XzYHq
- R0zhfX2/n+JD5aiaKrSe+O40P1r0Mf3OdFHZN3Wvfzag6kQ+yiPT3vOTqgpbep94f+Ar
- EoaLKuTxEv5xUgxTm5URn1Av5I+fDL7tqlVefKBd/MCdJgS7qV00r0cOrZcSOTaDcaaM
- IDo6O4CPvUCZFj19+1MX4FGy4ouif5lxPFOoIMkccroymJUfWeZkJa4Y7lNBxnuKyqO+
- h+i3WLod+Nso65uajr0pbZGZq+IqH/OC1m7ANKHVtCVCF2a6vhECTCDvnztTbpUtY919
- TW3w==
+ bh=c6ExD2X3dcz39DGT8m+VPmBHG2joiEfEyC25pZS66FA=;
+ b=DOTaqpwIB1CAM2f39AnxbIyj6+33v2qPR0V28uC1RWqtslsOqYr5Tc/zAr2wqVI3Lf
+ BL1Fb6Df+K15erLciRgvG/D8+H2qZEeO1jQKPwNxo5wPCl0REp2lgifZMeMHBTq/S2s0
+ +7KjxYZ//X4xDFUAnYCxaSdycFFkJprmtnCx6IizP52V5C3qoDs5UJToAArIsQz4ZJ/e
+ nlp4ZGz+TpxM29WG338qGT7nQU2YkzJ/0LGQcbqJkSmoEj5Mkg1ufRv3HNrhT1VuAJfM
+ Cgf6BhKZ9Wl858P/vEovCrYUmaRQw76qja/JHG0DZZJayL685r/usuc4PPxo9b0kjJPa
+ BMMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=23FVCxWRdzytJIfFsLBs2sn5kGjGfAHscUs7FUshwno=;
- b=cuOryT/9DaW1wbJcBVTwkiycenoTQ7GRG1ZZ4Mg5lSgES+9P6IpONUSFCwoRFwiJh4
- sNJZTp1FIRiEo/nZeyqA03HMn7hMFu1BkgBsDNX7l5ZJf+GVyWBHpUZzIAVBS6Jmjg5A
- ItfhOBt5KnWYDFjv41pL4Awiv0rowJW7S0tj7OMxW1lYrRm2M3B0QRDL8H5kWvAg/lHI
- Pd7WlFnmeZmvzNOTeW/SebfKJMDfsNMuob3AFHS1g5PRm2PXxOobu/bzLfH73/i+Zh5t
- p6VsAKQAs68PCiizVt9JuHi8kR0BAMFR8/XAq8eKLKzXyANvdglnMadRMRKGGyM/5ATP
- QvLQ==
-X-Gm-Message-State: AGi0Pua5wUvZCMfz0h3TrT/csQ61gx+5Z+BKJl5jdkSMMgJFRovD/vZ1
- 4gsxSjF4BVy4PnKHtwW8EYwtYeYs2m7k5w==
-X-Google-Smtp-Source: APiQypKKU3Si+8T9cgOflFdkufU9OHnl25/51JN/n/ffu5Bkw5HliXezEQH93foh2LeYIIzVH6fH/A==
-X-Received: by 2002:adf:fc4c:: with SMTP id e12mr23225776wrs.265.1586167927931; 
- Mon, 06 Apr 2020 03:12:07 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=c6ExD2X3dcz39DGT8m+VPmBHG2joiEfEyC25pZS66FA=;
+ b=DLh31y4yJbAVmX/d64sG9eyARY0OhnD/0mUKax48ouKeLRQn4/2LRXSPKZSB4xuxd0
+ LeyJQ3dezkC3wsE49JzDvGHlcesCuid0O97X4ypG5XXqi4yiKMeY4X5JZyk00AmVMA06
+ oHG6Ttl+dCJ0gBydAFLzzimaEXNMi/o6j9bvQudjP2Mj3yiOr2TU5ayyYgnaURZSNXvS
+ tJCm395OHxGq3rOCN0t9vC1ZMFIPCYfublFaBw6EsYRRNPJ69VBCrXC2vKmYSa92L1Je
+ XP61bN6Y5i5qWSW4qZ7L1AJewSasTGzDY6C2tjloy54uFk6mRuN759GIsVKmNwruvqkP
+ 7xGQ==
+X-Gm-Message-State: AGi0PuYUbwuvw8qgt4sp3hIn1U9nmR5dkI5tSfl+P6vwzwoCZwdJ1aAp
+ tkgbD4m+Oehv2nX5R7EvrB3V9DFnMLZULQ==
+X-Google-Smtp-Source: APiQypI3bY8gXArc+U8L7W4dCEZVpbrUxwuCbR7Q74lBCRCsue1hNEjJtaKz568lfvcsXANrIaJ81g==
+X-Received: by 2002:a5d:5707:: with SMTP id a7mr19360994wrv.108.1586167928812; 
+ Mon, 06 Apr 2020 03:12:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f187sm25163765wme.9.2020.04.06.03.12.07
+ by smtp.gmail.com with ESMTPSA id f187sm25163765wme.9.2020.04.06.03.12.08
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 03:12:07 -0700 (PDT)
+ Mon, 06 Apr 2020 03:12:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/11] target-arm queue
-Date: Mon,  6 Apr 2020 11:11:54 +0100
-Message-Id: <20200406101205.23027-1-peter.maydell@linaro.org>
+Subject: [PULL 01/11] target/arm: don't expose "ieee_half" via gdbstub
+Date: Mon,  6 Apr 2020 11:11:55 +0100
+Message-Id: <20200406101205.23027-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200406101205.23027-1-peter.maydell@linaro.org>
+References: <20200406101205.23027-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,55 +82,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A collection of bug fixes for rc2...
+From: Alex Bennée <alex.bennee@linaro.org>
 
-The following changes since commit 146aa0f104bb3bf88e43c4082a0bfc4bbda4fbd8:
+While support for parsing ieee_half in the XML description was added
+to gdb in 2019 (a6d0f249) there is no easy way for the gdbstub to know
+if the gdb end will understand it. Disable it for now and allow older
+gdbs to successfully connect to the default -cpu max SVE enabled
+QEMUs.
 
-  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2020-04-03 15:30:11 +0100)
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200402143913.24005-1-alex.bennee@linaro.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/gdbstub.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-are available in the Git repository at:
+diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
+index d9ef7d2187c..8efc535f2a0 100644
+--- a/target/arm/gdbstub.c
++++ b/target/arm/gdbstub.c
+@@ -192,7 +192,12 @@ static const struct TypeSize vec_lanes[] = {
+     /* 16 bit */
+     { "uint16", 16, 'h', 'u' },
+     { "int16", 16, 'h', 's' },
+-    { "ieee_half", 16, 'h', 'f' },
++    /*
++     * TODO: currently there is no reliable way of telling
++     * if the remote gdb actually understands ieee_half so
++     * we don't expose it in the target description for now.
++     * { "ieee_half", 16, 'h', 'f' },
++     */
+     /* bytes */
+     { "uint8", 8, 'b', 'u' },
+     { "int8", 8, 'b', 's' },
+-- 
+2.20.1
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200406
-
-for you to fetch changes up to 8893790966d9c964557ad01be4a68ef50696ace8:
-
-  dma/xlnx-zdma: Reorg to fix CUR_DSCR (2020-04-06 10:59:56 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * don't expose "ieee_half" via gdbstub (prevents gdb crashes or errors
-   with older GDB versions)
- * hw/arm/collie: Put StrongARMState* into a CollieMachineState struct
- * PSTATE.PAN should not clear exec bits
- * hw/gpio/aspeed_gpio.c: Don't directly include assert.h
-   (fixes compilation on some Windows build scenarios)
- * dump: Fix writing of ELF section
- * dma/xlnx-zdma: various bug fixes
- * target/arm/helperc. delete obsolete TODO comment
-
-----------------------------------------------------------------
-Alex Bennée (1):
-      target/arm: don't expose "ieee_half" via gdbstub
-
-Edgar E. Iglesias (5):
-      dma/xlnx-zdma: Remove comment
-      dma/xlnx-zdma: Populate DBG0.CMN_BUF_FREE
-      dma/xlnx-zdma: Clear DMA_DONE when halting
-      dma/xlnx-zdma: Advance the descriptor address when stopping
-      dma/xlnx-zdma: Reorg to fix CUR_DSCR
-
-Peter Maydell (5):
-      hw/arm/collie: Put StrongARMState* into a CollieMachineState struct
-      target/arm: PSTATE.PAN should not clear exec bits
-      target/arm: Remove obsolete TODO note from get_phys_addr_lpae()
-      hw/gpio/aspeed_gpio.c: Don't directly include assert.h
-      dump: Fix writing of ELF section
-
- dump/dump.c           |  2 +-
- hw/arm/collie.c       | 33 +++++++++++++++++++++++++-----
- hw/dma/xlnx-zdma.c    | 56 ++++++++++++++++++++++++++-------------------------
- hw/gpio/aspeed_gpio.c |  2 --
- target/arm/gdbstub.c  |  7 ++++++-
- target/arm/helper.c   | 13 +++++-------
- 6 files changed, 69 insertions(+), 44 deletions(-)
 
