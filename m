@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D064919FCD2
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:15:45 +0200 (CEST)
-Received: from localhost ([::1]:36426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D072919FC8F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:09:27 +0200 (CEST)
+Received: from localhost ([::1]:36276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLWHg-00013J-Ti
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:15:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36808)
+	id 1jLWBa-0005VM-TL
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:09:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36837)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrf-0002tl-MK
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:52 -0400
+ id 1jLVrh-0002x7-AK
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:49:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVre-0003Xn-Jf
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:51 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:34537)
+ id 1jLVrg-0003Yn-7C
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:53 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43459)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVre-0003Wk-DE; Mon, 06 Apr 2020 13:48:50 -0400
-Received: by mail-wm1-x333.google.com with SMTP id c195so140971wme.1;
- Mon, 06 Apr 2020 10:48:49 -0700 (PDT)
+ id 1jLVrg-0003YJ-0s; Mon, 06 Apr 2020 13:48:52 -0400
+Received: by mail-wr1-x444.google.com with SMTP id w15so467980wrv.10;
+ Mon, 06 Apr 2020 10:48:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mm7jSNJYavXwShirpz8lvWCMuX2O3KFlVxqJX30Lcf4=;
- b=r89KObgF91dUfddq+QxBROOTtATdLWm2Oc9daU3GVz4jwkgYpQNqeA4Q88mY4YM9V+
- OsN5UPL9fb8IE9iqJxJPM410q5OmOmXJcj/627TVa6V4P17Ao80pM4pwMXzNCWuZKIQj
- Z5V25edX9PrwU6mhDY/fQB3YynTMdDWVmJ43GkYOl2ND6haLD2WgtkdH0RNRDeWBehNa
- aubuhtFyVmwPUMq55F76AdmhnfAIv10CSCb/rXISb0kS1HVHTgdIby+yn20fNygGHheB
- 624S4TE9VV76BORUsQBZ+51JQrr5bsNPYy8Kk6FnIbtaGQZddJukRMkyG8acblBSJKW+
- QSUA==
+ bh=Vz5Q0dw9UVVsHWJSWDpAMdysuLCt157lLdcHJoqyiRY=;
+ b=DgZX+/ThOXO9FlaiLSsA2n361HyQEVVBt0lsXR4efUjz3HcIebZ5eNHDiu7e78EatS
+ iuxI1rRpIrqddiXsZtUgQ1KohI5XQx7wF+4tp2prFv9PBfXX4uxtJC5/zza13mNPsASd
+ dBlaoLFiDwoBBKEZQl4D/rvDjMOdpJW0P+S6hyfZeFbAeWOMQgfMEaDjvmnpkn1mLiPo
+ P9Y7J14+pwHJIkkkspaQkBRwdw1CE9SPz0f+MaTlP9enWzwjHUkWQxr0p/Urx6wixhdi
+ uXQ0CRuWx45bNj97FbFJA6xFM4q5KEZWEr1E/Kr9ahpxOj11jllNxH/ENCEHGYRs6Lnu
+ iWGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=mm7jSNJYavXwShirpz8lvWCMuX2O3KFlVxqJX30Lcf4=;
- b=LnjWaRtJLcK3FC1jn37ZGSKFzDJVkQN/oDGokLYAw5dRpdXvQHSwUA0OIRqMx981Y+
- sbGJ2YWQUlf4C2E7pf6ojQWStux7DkSvAyHDg3cq6Gt97SFPQj9iwvZvje/nRqkaQtMz
- 8QuTWUmTK98fXF7DFSudKwOVsq293ZbJewGz0vtpM0sMn+tJ8J0vi8ARUpLSpgcrcgwn
- eRjATPrciu0r6mBJ5Cnsia4btyPa0GwUgQMvc+jJhpptkcUyI/bKdHBkNFQ3M4g4jeg2
- dBFOBoN0DmNUcKu6viU+5lEPGIhjSxU1fZOj0ew4pWSXEAAP/k3ZpDeslcoyMGJDoCLS
- ySsA==
-X-Gm-Message-State: AGi0PuYo4Nw3eeiU4bFAENL7qUvk/U0EIHey6IqTos5JRNJrc4XedQhk
- 1RIyURhYXbCdYxAzBDi/ihsHqgMu30M=
-X-Google-Smtp-Source: APiQypKdOTW6Xx2hPMGBVycsB/B2TsQSxecWbRdYy33VYXS2XqH6z4cKaDBE+7RJr8ytWDwn8UBkoQ==
-X-Received: by 2002:a7b:c3da:: with SMTP id t26mr167006wmj.3.1586195328223;
- Mon, 06 Apr 2020 10:48:48 -0700 (PDT)
+ bh=Vz5Q0dw9UVVsHWJSWDpAMdysuLCt157lLdcHJoqyiRY=;
+ b=deeRAvJj0kFS7Lar/XyVCY4e10U2xL7puZgF/tqPEoQmIfOOyiKQCDLU06rPdTysfi
+ H8NKgFZPpHBULkykY8Atk1J6S0r2hTD/g88DAcO4zeaKlgvkYsZH8ElYNNyLI0Gfdr7L
+ uKcgxNmUBxAPGJ2Zyf3/3gOTs1qi7ilxwnOBVn4NkjjWRCyJdsW00EdGXckEniuiKEXo
+ BMnSMoDXfdelnW3gtXfEGt05KfJDr06vqN2uVVBGe6+uigpq2p0XCvC0KsCaPoZzKcwH
+ Y63b7r2rrMf+weTfU1nqqc5yU7IL4vHkl6atbRfmCf/3K3QjQcIj21NO+TBlgm4pUVuB
+ uyZA==
+X-Gm-Message-State: AGi0PuYEs70MhPjAzGS8YUNqbzI3Cr/z2wYqslerIQG3M+mETocFwz7N
+ pt3w1BgMGAjtBxS2U7xAa+yLe79Hc9o=
+X-Google-Smtp-Source: APiQypKDdcuC/712qqt9E3in2fE4Fna2G1qgHK2bcaWi+wSy+PQg0cVc21el6h/Qp9vWVISmlQqy2g==
+X-Received: by 2002:adf:dc92:: with SMTP id r18mr387225wrj.76.1586195330875;
+ Mon, 06 Apr 2020 10:48:50 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.48.46
+ by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.48.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 10:48:47 -0700 (PDT)
+ Mon, 06 Apr 2020 10:48:49 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH-for-5.1 v2 44/54] hw/misc/macio/macio: Add missing
+Subject: [PATCH-for-5.1 v2 45/54] hw/net/xilinx_axienet: Add missing
  error-propagation code
-Date: Mon,  6 Apr 2020 19:47:33 +0200
-Message-Id: <20200406174743.16956-45-f4bug@amsat.org>
+Date: Mon,  6 Apr 2020 19:47:34 +0200
+Message-Id: <20200406174743.16956-46-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200406174743.16956-1-f4bug@amsat.org>
 References: <20200406174743.16956-1-f4bug@amsat.org>
@@ -71,7 +71,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::333
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,10 +85,11 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Jason Wang <jasowang@redhat.com>, Alistair Francis <alistair@alistair23.me>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "open list:Old World g3beige" <qemu-ppc@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+ "open list:Xilinx Zynq" <qemu-arm@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -99,29 +100,43 @@ Patch created mechanically by running:
     --sp-file scripts/coccinelle/object_property_missing_error_propagate.cocci \
     --keep-comments --smpl-spacing --dir hw
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Then review showed this file has a 'xilinx_enet_realize_fail'
+label that calls error_propagate(). Updated the patch to use
+the label.
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/misc/macio/macio.c | 4 ++++
- 1 file changed, 4 insertions(+)
+v2: New cocci patch generated both transformations
+    (Peter noticed v1 only catched one)
+---
+ hw/net/xilinx_axienet.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-index 79222192e8..fffb64a7d5 100644
---- a/hw/misc/macio/macio.c
-+++ b/hw/misc/macio/macio.c
-@@ -348,6 +348,10 @@ static void macio_newworld_realize(PCIDevice *d, Error **errp)
-         memory_region_add_subregion(&s->bar, 0x50,
-                                     sysbus_mmio_get_region(sysbus_dev, 0));
-         object_property_set_bool(OBJECT(&ns->gpio), true, "realized", &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
- 
-         /* PMU */
-         object_initialize_child(OBJECT(s), "pmu", &s->pmu, sizeof(s->pmu),
+diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
+index 704788811a..db2c675b16 100644
+--- a/hw/net/xilinx_axienet.c
++++ b/hw/net/xilinx_axienet.c
+@@ -958,6 +958,9 @@ static void xilinx_enet_realize(DeviceState *dev, Error **errp)
+                              object_property_allow_set_link,
+                              OBJ_PROP_LINK_STRONG,
+                              &local_err);
++    if (local_err) {
++        goto xilinx_enet_realize_fail;
++    }
+     object_property_add_link(OBJECT(cs), "enet", "xlnx.axi-ethernet",
+                              (Object **) &cs->enet,
+                              object_property_allow_set_link,
+@@ -967,6 +970,9 @@ static void xilinx_enet_realize(DeviceState *dev, Error **errp)
+         goto xilinx_enet_realize_fail;
+     }
+     object_property_set_link(OBJECT(ds), OBJECT(s), "enet", &local_err);
++    if (local_err) {
++        goto xilinx_enet_realize_fail;
++    }
+     object_property_set_link(OBJECT(cs), OBJECT(s), "enet", &local_err);
+     if (local_err) {
+         goto xilinx_enet_realize_fail;
 -- 
 2.21.1
 
