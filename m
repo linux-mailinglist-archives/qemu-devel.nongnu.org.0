@@ -2,66 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 956EC19F2DF
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 11:47:24 +0200 (CEST)
-Received: from localhost ([::1]:57334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2069419F2D7
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 11:45:20 +0200 (CEST)
+Received: from localhost ([::1]:57254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLOLj-0001ct-Js
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 05:47:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44024)
+	id 1jLOJj-0006lM-29
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 05:45:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44100)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jLOGP-0001Pm-B3
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:41:54 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jLOGW-0001TW-RZ
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:42:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1jLOGN-00020y-G9
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:41:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38291
+ (envelope-from <mreitz@redhat.com>) id 1jLOGV-00026d-0S
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:42:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23997
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jLOGM-0001zm-6r
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:41:50 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jLOGU-000267-SZ
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:41:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586166109;
+ s=mimecast20190719; t=1586166118;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZBrAFIa3Ym7Ygcf7VeY5ZqN9lSy1hwAZJqT+m4UuBc8=;
- b=DIcGVSsXcu6ANwPhyVBOCYZb5PAb5BzqysP/Bcy2d99+g3dcgBX+fMibfOi2hHHvkAGYKS
- TexSshnezC/X3vJEGI/BcvZWLBTRwO7WM/8MUJcQeyPXu5rS2zq2d+7MdJcWiwoB8d05HA
- D/fmgVhAoulrJOE8hlisuukZ8WXf05E=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=y3suTsH1bbq3JZgfq8zijBQI8w0ebNIfdnaWy1uPVnw=;
+ b=iWY1koqFzDbKfKeXj0Ftof3eDnYqtXPv/BjX6wTClzJ925MjIBnJzmnCB4R87j7zw0Ohl3
+ LFv9hLr7JNsLPehYcbwRLsGGy8vEnftpxHt5wRseWQoG/sN5aJVNGdmyTIsO19qhjbtItp
+ 2cAOskzI/6TcKiNkNqhwyNe0JrXREdk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-136-EwosemdQOrKFrIAEiLrkjQ-1; Mon, 06 Apr 2020 05:41:47 -0400
-X-MC-Unique: EwosemdQOrKFrIAEiLrkjQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-20-ReYXmZ4yM8GdiFj3KvfFWA-1; Mon, 06 Apr 2020 05:41:54 -0400
+X-MC-Unique: ReYXmZ4yM8GdiFj3KvfFWA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7790C8017F4;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1DBC8017F3;
+ Mon,  6 Apr 2020 09:41:52 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-161.ams2.redhat.com
+ [10.36.114.161])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F66B60BF1;
  Mon,  6 Apr 2020 09:41:46 +0000 (UTC)
-Received: from gondolin (ovpn-113-129.ams2.redhat.com [10.36.113.129])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DCD05B19CB;
- Mon,  6 Apr 2020 09:41:41 +0000 (UTC)
-Date: Mon, 6 Apr 2020 11:41:39 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Christian Borntraeger <borntraeger@de.ibm.com>
-Subject: Re: [PATCH 1/1] s390x/s390-virtio-ccw: Fix build on systems without
- KVM
-Message-ID: <20200406114139.78b60cd5.cohuck@redhat.com>
-In-Reply-To: <90760b85-ed98-3106-0cc4-900f55607479@de.ibm.com>
-References: <20200406075931.26232-1-borntraeger@de.ibm.com>
- <20200406075931.26232-2-borntraeger@de.ibm.com>
- <20200406110447.5ad97f62.cohuck@redhat.com>
- <90760b85-ed98-3106-0cc4-900f55607479@de.ibm.com>
-Organization: Red Hat GmbH
+Subject: Re: [PATCH for-5.0 2/2] block: Fix blk->in_flight during
+ blk_wait_while_drained()
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20200403104415.20963-1-kwolf@redhat.com>
+ <20200403104415.20963-3-kwolf@redhat.com>
+ <30e7194e-afbc-2822-f086-9891539c0e3a@redhat.com>
+ <20200403145017.GE5336@linux.fritz.box>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <e1af671f-ed90-29ab-429f-5d9dedbf5024@redhat.com>
+Date: Mon, 6 Apr 2020 11:41:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200403145017.GE5336@linux.fritz.box>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="dYM7hB2V3zWaoNennahEXioKnxcSJe8Vn"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,63 +101,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Bruce Rogers <brogers@suse.com>, Halil Pasic <pasic@linux.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, Richard Henderson <rth@twiddle.net>
+Cc: vsementsov@virtuozzo.com, qemu-block@nongnu.org, s.reiter@proxmox.com,
+ qemu-devel@nongnu.org, t.lamprecht@proxmox.com, stefanha@redhat.com,
+ dietmar@proxmox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 6 Apr 2020 11:27:13 +0200
-Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--dYM7hB2V3zWaoNennahEXioKnxcSJe8Vn
+Content-Type: multipart/mixed; boundary="UsfEIQFv8nM5szviunKqL2i1ciccVStmJ"
 
-> On 06.04.20 11:04, Cornelia Huck wrote:
-> > On Mon,  6 Apr 2020 03:59:31 -0400
-> > Christian Borntraeger <borntraeger@de.ibm.com> wrote:
-> >   
-> >> linux/kvm.h is not available on all platforms. Let us move
-> >> s390_machine_inject_pv_error into pv.c as it uses KVM structures.
-> >>
-> >> Fixes: 49fc3220175e ("s390x: protvirt: Support unpack facility")
-> >> Reported-by: Bruce Rogers <brogers@suse.com>
-> >> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> >> ---
-> >>  hw/s390x/ipl.h             |  1 +
-> >>  hw/s390x/pv.c              | 11 +++++++++++
-> >>  hw/s390x/s390-virtio-ccw.c | 10 ----------
-> >>  include/hw/s390x/pv.h      |  3 +++
-> >>  4 files changed, 15 insertions(+), 10 deletions(-)
-> >>
-> >> diff --git a/hw/s390x/ipl.h b/hw/s390x/ipl.h
-> >> index 89b3044d7a..53cc9eb5ac 100644
-> >> --- a/hw/s390x/ipl.h
-> >> +++ b/hw/s390x/ipl.h
-> >> @@ -14,6 +14,7 @@
-> >>  #define HW_S390_IPL_H
-> >>  
-> >>  #include "cpu.h"
-> >> +#include "exec/address-spaces.h"  
-> > 
-> > Hm, what is now requiring including this? (No objection, but I don't
-> > see it.)  
-> 
-> ipl.h has
-> 
-> static inline bool ipl_valid_pv_header(IplParameterBlock *iplb)
-> {
-> [..]
->         if (!address_space_access_valid(&address_space_memory,
-> 
-> and if included alone this fails to build without the include. 
-> 
+--UsfEIQFv8nM5szviunKqL2i1ciccVStmJ
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Ah, makes sense.
+On 03.04.20 16:50, Kevin Wolf wrote:
+> Am 03.04.2020 um 14:42 hat Max Reitz geschrieben:
+>> On 03.04.20 12:44, Kevin Wolf wrote:
+>>> Calling blk_wait_while_drained() while blk->in_flight is increased for
+>>> the current request is wrong because it will cause the drain operation
+>>> to deadlock.
+>>>
+>>> Many callers of blk_wait_while_drained() have already increased
+>>> blk->in_flight when called in a blk_aio_*() path, but can also be calle=
+d
+>>> in synchonous code paths where blk->in_flight isn't increased. This
+>>> means that these calls of blk_wait_while_drained() are wrong at least i=
+n
+>>> some cases.
+>>>
+>>> In order to fix this, increase blk->in_flight even for synchronous
+>>> operations and temporarily decrease the counter again in
+>>> blk_wait_while_drained().
+>>>
+>>> Fixes: cf3129323f900ef5ddbccbe86e4fa801e88c566e
+>>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+>>> ---
+>>>  block/block-backend.c | 8 ++++----
+>>>  1 file changed, 4 insertions(+), 4 deletions(-)
+>>
+>> blk_co_pdiscard() and blk_co_flush() are called from outside of
+>> block-backend.c (namely from mirror.c and nbd/server.c).  Is that OK?
+>=20
+> Hm... I think you're right that the NBD server has a problem now because
+> we might now decrease blk->in_flight without having increased it.
+> (Mirror should be fine anyway because it sets disable_request_queuing.)
+>=20
+> At first I was going to suggest that we could do the opposite of this
+> patch and just move the dec/wait/inc sequence (which this patch removes
+> for read/write) to all coroutine entry functions, so direct calls
+> wouldn't incorrectly decrease the counter.
+>=20
+> But this is not what we want either, we do want to queue requests for
+> drained BlockBackends even in the blk_co_*() API.
+>=20
+> Do you have another idea or do we have to turn blk_co_*() into wrappers
+> around the existing functions, which would gain an additional bool
+> parameter that tells whether we need to dec/inc or not?
 
-> 
-> >   
-> >>  #include "hw/qdev-core.h"
-> >>  
-> >>  struct IPLBlockPVComp {  
-> > 
+So that whenever blk_co_* is called from outside of block-backend.c, we
+don=92t dec/inc?
+
+Sounds reasonable to me.
+
+The only alternative I see would be ensuring we call
+blk_wait_while_drained() only outside of in_flight sections (without
+having to dec/inc around it).  But we can=92t call it in synchronous
+sections.  And for those synchronous calls, we also have to wrap the
+in_flight section around the whole asynchronous boilerplate, so there is
+no place where they can call bdrv_wait_while_drained() without dec/inc
+around it.
+
+So I can=92t think of another way either.
+
+Max
+
+
+--UsfEIQFv8nM5szviunKqL2i1ciccVStmJ--
+
+--dYM7hB2V3zWaoNennahEXioKnxcSJe8Vn
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6K+VgACgkQ9AfbAGHV
+z0CC0Qf+O3sceGqqQSatwkDHWs0f68tR5jHSXnUumlGaPdFvrI7bhjWfSBMlQrbo
+PwpxBh1EtcaqOj4WPaFCKcJpWxz1k3YEedzknJgV2OlGGoQ/tudsgSfUfEWEFIqQ
+90WTPIASVn3L2Qs3iwjiYyRe/3TWrCM5URCRhsdkgE8ca8fSFzGBmVs0RoO89TyU
+gWuxsOD2wFN5MNlURI2Pi7BZhiO2MhD9x1S8L9+J+MK58tjob3Tbw1FYPivYGxCM
+dfUxIwWn9Bcmnps8gLkFWvwY4JF4q7zAcjNtFf2a6MykEDR95aP/GwDEci50ivtM
+cAwHUviDQwkMYJAeya1YM/EkTm5cZw==
+=De8H
+-----END PGP SIGNATURE-----
+
+--dYM7hB2V3zWaoNennahEXioKnxcSJe8Vn--
 
 
