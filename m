@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5856B19F7A0
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 16:09:08 +0200 (CEST)
-Received: from localhost ([::1]:60716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D8419F7AD
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 16:11:26 +0200 (CEST)
+Received: from localhost ([::1]:60768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLSR1-0001Qc-Ch
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 10:09:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56475)
+	id 1jLSTF-0004E1-Jn
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 10:11:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56957)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wrampazz@redhat.com>) id 1jLSPz-0000OT-5H
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 10:08:04 -0400
+ (envelope-from <berrange@redhat.com>) id 1jLSSR-0003cd-Cf
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 10:10:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wrampazz@redhat.com>) id 1jLSPy-0000ir-1o
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 10:08:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59967
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <berrange@redhat.com>) id 1jLSSM-0001eP-6X
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 10:10:35 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34408
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wrampazz@redhat.com>) id 1jLSPx-0000iP-Uw
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 10:08:02 -0400
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jLSSM-0001eG-2q
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 10:10:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586182081;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1586182229;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q0qRjobDL3VQNo5o/7V9/uUsk0yh+H9OWm1Ix/Wb63k=;
- b=OuKwj4+gsFXDICURBnoGTGLIItBqi57uaJT+J4Z7dPc6STncAMFNcVJDHoAfgmAFkbuZBZ
- NpplOh99GR6RyF7eCOpEn8AIADxy/y39Ff1zt+GE87QFtVfMHYmCF08X4aHDszCxSwVdfd
- kKW22R5n7eFgd15R4VgyMrOfsZxCCrg=
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-eE1_NT_7PnSLkmfvMG0Tvw-1; Mon, 06 Apr 2020 10:08:00 -0400
-X-MC-Unique: eE1_NT_7PnSLkmfvMG0Tvw-1
-Received: by mail-vk1-f197.google.com with SMTP id r201so5724239vkf.5
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 07:08:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Q0qRjobDL3VQNo5o/7V9/uUsk0yh+H9OWm1Ix/Wb63k=;
- b=C6uH44ik9jWyq9zCeZL4UBXJWxq9N5oqGXKl/O1CbnXt8xNTFEmkvdr656jcD3Isuk
- ZO2EO2+NGgoc8Ph4QGV2W4dwWQ1Ynr5yGl1gSiMXJEwZhvxASbBVlqKhu7+ad4x+yiT1
- IOFDKTZbgDta/7obZMNgE23KDSb3r66xPrNYYU7WZlezPHNc7jouG+LYqKkKuSZegJcT
- Qoq8nEY5sBXkr2erQNh3zNYrigDO8eMXlXI0zSuI7sHTCu+QJBPDEUA8k7akc+JapNWO
- FugUUtZ/Im83QROsvblSN7zLhLbC4pM8LUT+e10JMo86QLHbhiGaUtCnZJbBxm97mUBA
- yPiA==
-X-Gm-Message-State: AGi0PuZzQE77UeoW2fbH0iASKIe8yH2/GybRA2k/t1sDYClm09w5pXOk
- Fz0KzH+aAT0ro8jmeoA18uejER1z1dSQHDQXCuoWCLmNc897PvTTOu7FNA86Xcxrn5GFxaZ7GEG
- hySyzHHjE6aWugdJ3MTgxTUre468q4nU=
-X-Received: by 2002:a67:1947:: with SMTP id 68mr9416025vsz.145.1586182078158; 
- Mon, 06 Apr 2020 07:07:58 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKAreje+Dy5akOrdx8LPZbU7Tyn+/fLbnFLDExMSgAprhX6xF5m9MZK6LQ5Nq7ojMPOvaOtyY/RCqYL9nMDi9Q=
-X-Received: by 2002:a67:1947:: with SMTP id 68mr9415992vsz.145.1586182077765; 
- Mon, 06 Apr 2020 07:07:57 -0700 (PDT)
+ bh=p7AQ3vB2nkar6sre7AESSQQR5rDepPyZcpMhSIsdY6E=;
+ b=WZnI0OcVT49dm97l7w856BoH14NWSXQuNo2pmBoDGPrxMVB6NcY7VIt2ma17TM6k9MVlf/
+ XEbj9M+6RvvTrnZrXujzP3b1uk3pnMRoIhWPqiZoHX9oZ/cXloCzJs+NeDivicnGtVkGzo
+ HYmRYajQzO8I6yrbgC9oeVFHuwKm5JM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-348-v4Kwrj7cO6ObkxHtbEnMDA-1; Mon, 06 Apr 2020 10:10:27 -0400
+X-MC-Unique: v4Kwrj7cO6ObkxHtbEnMDA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBB4B8017FC;
+ Mon,  6 Apr 2020 14:10:26 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E0E644DA25;
+ Mon,  6 Apr 2020 14:10:23 +0000 (UTC)
+Date: Mon, 6 Apr 2020 15:10:19 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: Questionable aspects of QEMU Error's design
+Message-ID: <20200406141019.GQ794362@redhat.com>
+References: <87o8sblgto.fsf@dusky.pond.sub.org>
+ <87blo7heag.fsf@dusky.pond.sub.org>
+ <87sghjfre8.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-References: <20200403172919.24621-1-philmd@redhat.com>
- <20200403172919.24621-4-philmd@redhat.com>
- <8c5017c2-d242-8437-60e3-3e28e2116d42@redhat.com>
-In-Reply-To: <8c5017c2-d242-8437-60e3-3e28e2116d42@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 6 Apr 2020 11:07:47 -0300
-Message-ID: <CAKJDGDb1EwZb_whT_+eFSbXzTt3hJuZ_JdWo7XSSfrmfWs8vwQ@mail.gmail.com>
-Subject: Re: [PATCH-for-5.0 3/8] tests/acceptance/ppc_prep_40p: Use mirror for
- ftp.software.ibm.com
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
+In-Reply-To: <87sghjfre8.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,62 +75,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kamil Rytarowski <kamil@netbsd.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Fabien Chouteau <chouteau@adacore.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Cleber Rosa <crosa@redhat.com>, qemu-ppc@nongnu.org,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 6, 2020 at 10:55 AM Wainer dos Santos Moschetta
-<wainersm@redhat.com> wrote:
->
->
-> On 4/3/20 2:29 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > To avoid regular failures on Travis-CI with ftp.software.ibm.com,
-> > use a mirror.
-> >
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > ---
-> >   tests/acceptance/ppc_prep_40p.py | 3 ++-
-> >   1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_pr=
-ep_40p.py
-> > index 138064285a..1515561249 100644
-> > --- a/tests/acceptance/ppc_prep_40p.py
-> > +++ b/tests/acceptance/ppc_prep_40p.py
-> > @@ -30,7 +30,8 @@ def test_factory_firmware_and_netbsd(self):
-> >           :avocado: tags=3Dmachine:40p
-> >           :avocado: tags=3Dslowness:high
-> >           """
-> > -        bios_url =3D ('ftp://ftp.boulder.ibm.com/rs6000/firmware/'
-> > +        bios_url =3D ('http://ftpmirror.your.org/pub/misc/'
-> > +                    'ftp.software.ibm.com/rs6000/firmware/'
-> >                       '7020-40p/P12H0456.IMG')
->
-> I checked the bios file can be downloaded from the mirror. I cannot
-> judge the mirror is more reliable than ftp.boulder.ibm.com or not, though=
-.
->
+On Sat, Apr 04, 2020 at 12:59:27PM +0200, Markus Armbruster wrote:
+> Paolo, Daniel, Eduardo,
+>=20
+> Please pick one for QOM:
 
-During the tests I did to debug Avocado I constantly got a timeout on
-FTP. The HTTP URL seems to be more reliable. So far,
+> * Return true on success, false on error.  Looks like
+>=20
+>      if (!object_property_set_bool(..., errp)) {
+>          return;
+>      }
 
-Tested-by: Willian Rampazzo <willianr@gmail.com>
-Reviewed-by: Willian Rampazzo <willianr@gmail.com>
+My preference is this one, since it aligns with GLib recommendations
+for error reporting & is simple & concise.
 
-> Code-wise, looks good. So:
->
-> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
->
-> >           bios_hash =3D '1775face4e6dc27f3a6ed955ef6eb331bf817f03'
-> >           bios_path =3D self.fetch_asset(bios_url, asset_hash=3Dbios_ha=
-sh)
->
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
