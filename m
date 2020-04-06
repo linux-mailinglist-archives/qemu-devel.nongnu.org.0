@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA7B419F355
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:13:57 +0200 (CEST)
-Received: from localhost ([::1]:58004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44C5E19F36D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:20:38 +0200 (CEST)
+Received: from localhost ([::1]:58202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLOlQ-00082Z-Pi
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:13:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50065)
+	id 1jLOrt-000449-7T
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:20:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50075)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jLOjk-0006g4-Jf
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:13 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jLOjl-0006gf-Ax
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jLOjj-0002hN-CW
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:12 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50423)
+ (envelope-from <peter.maydell@linaro.org>) id 1jLOjk-0002i1-57
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:13 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37830)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jLOjj-0002g6-6J
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:11 -0400
-Received: by mail-wm1-x343.google.com with SMTP id x25so2982198wmc.0
+ id 1jLOjj-0002hK-Vb
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:12 -0400
+Received: by mail-wr1-x431.google.com with SMTP id w10so16771017wrm.4
  for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 03:12:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=PK57Fc2V7JwfxoVRwYEuCtw0T1ACQONhmzqVf5av14o=;
- b=bw8u93gqMEmsEMXERPMeveWm1C06rE1kir4ArkHbjlKr+CEbLY5LnrMgoUYg3YBuuD
- DBAJKdaa7lYROzSoIl48WmY8LsnODvW9oE7W7I6p5PbK/DhGngGlqxhe/83dMwEiiuZb
- mR2xF5WOILfuCzDolwkyBOziboonJK9zWFr3FkwBV1tb7A8h5GQfCdUZOiGmNB8eJRA2
- 4BE1ZrG8gwNzvrqVf3fEhLrpVmS7DTpbchujMdQqijh6DZOfDXewQXo5szjhkEPXAiV3
- wByoHpABLkFr2Y7uLDBSqazGMuv1JFGz9h2pAIXaG3mMOYBRRzebgOcxyvfnEb7pEw9T
- PjmA==
+ bh=XHntAqqIp1yfMbfyBLD5YWm//CZBIX/1MEhVYEjrpFs=;
+ b=Vcxb52GkSpRKJAWaiDHF/Bd+fmqJVXzGbyy4dxsyA2b7kvNfnXsi2yYcb+a3Trycus
+ Y7wye9MkQzSGe6io6uTQOpslQaP0W6CkgZIdKw8uGXBWNgcNCkEedRtl9djXBh06Ci0G
+ RBjUqTpxzHbU2xUO43PxDzTejKC7qBBmnU5w/EGlX4/TamY39XnIMObN41o8miarqwDp
+ E8AsH1uie6cZ+xL1ZrXfqs968Y1T+fV4hiO+xV7HvMwfSwM6PGhpjwA4pA4gwD6/OMGj
+ 3l9FPdR44PbMtH2NeitXmS+v9F88gD6151ENOegK3HMvlxOi8ph9T8nulxGKhqjXcLhu
+ 7mQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PK57Fc2V7JwfxoVRwYEuCtw0T1ACQONhmzqVf5av14o=;
- b=HyrCyvIzpp/EbGNdco/Df3/4MoBblzRW8niui4TwZIU+/67eibDFFLKMdQVKja1pRJ
- BZ/PN5cdTinLM/jj2xbBkStpk0NtHzVt5oK9Fny8/xBTZvFDTVFOSVaeWV/+tqHQRSF5
- 7RngyWzUzZ+DGUrtIMVq3UDsfhYA6lKQv/0Suy0687QqeZOijC3opxsf1xCbwfBaRioJ
- SqiPBvwUIUM+rDFCGsacVXopKbmPwQcpx5zbcxxim0qK+iy32uFnKiGhmJtSZy9luIYt
- 6g57BNHJ/nn+nfKbdbks78jb/H1C8FDNIg/L+iTKxewSbSUoJtVurhsOaVaiYKuvRdef
- aQxw==
-X-Gm-Message-State: AGi0PubHLJh6qOwtaoFriLTfZNFCFbwRFl/BQIGU/QZ+8ppKSuUMslrV
- 4rpqtbkVNqleN5997o1pQMOiLW2IUR+GDw==
-X-Google-Smtp-Source: APiQypIoECAN+jFdnVcEaoBKwcgQ4d3SJPeX188M1PM9G0Lql4BmUk4hd1LYv5A5KjaVpW0OR6qzuQ==
-X-Received: by 2002:a1c:9aca:: with SMTP id c193mr21176800wme.38.1586167929814; 
- Mon, 06 Apr 2020 03:12:09 -0700 (PDT)
+ bh=XHntAqqIp1yfMbfyBLD5YWm//CZBIX/1MEhVYEjrpFs=;
+ b=KWCyPUoy0scpu7bzVRghqB+U6unG09D6qiXfNbG3N2izODVQQg4n27JrQlQKiWcKyi
+ rGAFMqewuiQiIFNDgnkzlbIXdfr6ZSx/kTmC9dD6kxgcV6ugOIXDO3USbXx1wEI1KW42
+ 6I4PV/2e3yWDDEmXAifaiO01PBldX77VpbceSDEbn2P5BCMUjunVW5RRXwOL27g3JT6G
+ AJlTdGe2qwfuAO067FDVSf2R2V/YAjpttkJ08cE/VSTkFUeIvXy4R48/SWwr0SFsIiL1
+ DOHWahYiBEBN+Tji/QGWVvSm63IYy3U1I4baIsiAHFgigO88jY0q9ZlQXhnEWOExf8gv
+ IE9A==
+X-Gm-Message-State: AGi0PuZT1CwOmN3nok4pWMVyx00XJ0qSMes+THUgx+XmP2Cfu8CAvhhA
+ k1GkbmZ0UGBIWnJU61jfgY5tqdltv59rEA==
+X-Google-Smtp-Source: APiQypJEbgcdvqTYjrRfS6/cN73CIWnVKpVhNpbKylDZo2eeArZhS7I7ZiZ7xrpHqzhu6eV0kYGGJg==
+X-Received: by 2002:a5d:4ad1:: with SMTP id y17mr22302128wrs.13.1586167930689; 
+ Mon, 06 Apr 2020 03:12:10 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f187sm25163765wme.9.2020.04.06.03.12.08
+ by smtp.gmail.com with ESMTPSA id f187sm25163765wme.9.2020.04.06.03.12.09
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 03:12:09 -0700 (PDT)
+ Mon, 06 Apr 2020 03:12:10 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/11] hw/arm/collie: Put StrongARMState* into a
- CollieMachineState struct
-Date: Mon,  6 Apr 2020 11:11:56 +0100
-Message-Id: <20200406101205.23027-3-peter.maydell@linaro.org>
+Subject: [PULL 03/11] target/arm: PSTATE.PAN should not clear exec bits
+Date: Mon,  6 Apr 2020 11:11:57 +0100
+Message-Id: <20200406101205.23027-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200406101205.23027-1-peter.maydell@linaro.org>
 References: <20200406101205.23027-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,100 +81,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity complains that the collie_init() function leaks the memory
-allocated in sa1110_init().  This is true but not significant since
-the function is called only once on machine init and the memory must
-remain in existence until QEMU exits anyway.
+Our implementation of the PSTATE.PAN bit incorrectly cleared all
+access permission bits for privileged access to memory which is
+user-accessible.  It should only affect the privileged read and write
+permissions; execute permission is dealt with via XN/PXN instead.
 
-Still, we can avoid the technical memory leak by keeping the pointer
-to the StrongARMState inside the machine state struct.  Switch from
-the simple DEFINE_MACHINE() style to defining a subclass of
-TYPE_MACHINE which extends the MachineState struct, and keep the
-pointer there.
-
-Fixes: CID 1421921
+Fixes: 81636b70c226dc27d7ebc8d
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20200326204919.22006-1-peter.maydell@linaro.org
+Message-id: 20200330170651.20901-1-peter.maydell@linaro.org
 ---
- hw/arm/collie.c | 33 ++++++++++++++++++++++++++++-----
- 1 file changed, 28 insertions(+), 5 deletions(-)
+ target/arm/helper.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/collie.c b/hw/arm/collie.c
-index 4992084a3f6..4b35ef4bed6 100644
---- a/hw/arm/collie.c
-+++ b/hw/arm/collie.c
-@@ -19,6 +19,16 @@
- #include "exec/address-spaces.h"
- #include "cpu.h"
- 
-+typedef struct {
-+    MachineState parent;
-+
-+    StrongARMState *sa1110;
-+} CollieMachineState;
-+
-+#define TYPE_COLLIE_MACHINE MACHINE_TYPE_NAME("collie")
-+#define COLLIE_MACHINE(obj) \
-+    OBJECT_CHECK(CollieMachineState, obj, TYPE_COLLIE_MACHINE)
-+
- static struct arm_boot_info collie_binfo = {
-     .loader_start = SA_SDCS0,
-     .ram_size = 0x20000000,
-@@ -26,9 +36,9 @@ static struct arm_boot_info collie_binfo = {
- 
- static void collie_init(MachineState *machine)
- {
--    StrongARMState *s;
-     DriveInfo *dinfo;
-     MachineClass *mc = MACHINE_GET_CLASS(machine);
-+    CollieMachineState *cms = COLLIE_MACHINE(machine);
- 
-     if (machine->ram_size != mc->default_ram_size) {
-         char *sz = size_to_str(mc->default_ram_size);
-@@ -37,7 +47,7 @@ static void collie_init(MachineState *machine)
-         exit(EXIT_FAILURE);
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 163c91a1ccd..ed7eb8ab54e 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -10025,9 +10025,11 @@ static int get_S1prot(CPUARMState *env, ARMMMUIdx mmu_idx, bool is_aa64,
+         prot_rw = user_rw;
+     } else {
+         if (user_rw && regime_is_pan(env, mmu_idx)) {
+-            return 0;
++            /* PAN forbids data accesses but doesn't affect insn fetch */
++            prot_rw = 0;
++        } else {
++            prot_rw = simple_ap_to_rw_prot_is_user(ap, false);
+         }
+-        prot_rw = simple_ap_to_rw_prot_is_user(ap, false);
      }
  
--    s = sa1110_init(machine->cpu_type);
-+    cms->sa1110 = sa1110_init(machine->cpu_type);
- 
-     memory_region_add_subregion(get_system_memory(), SA_SDCS0, machine->ram);
- 
-@@ -54,11 +64,13 @@ static void collie_init(MachineState *machine)
-     sysbus_create_simple("scoop", 0x40800000, NULL);
- 
-     collie_binfo.board_id = 0x208;
--    arm_load_kernel(s->cpu, machine, &collie_binfo);
-+    arm_load_kernel(cms->sa1110->cpu, machine, &collie_binfo);
- }
- 
--static void collie_machine_init(MachineClass *mc)
-+static void collie_machine_class_init(ObjectClass *oc, void *data)
- {
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+
-     mc->desc = "Sharp SL-5500 (Collie) PDA (SA-1110)";
-     mc->init = collie_init;
-     mc->ignore_memory_transaction_failures = true;
-@@ -67,4 +79,15 @@ static void collie_machine_init(MachineClass *mc)
-     mc->default_ram_id = "strongarm.sdram";
- }
- 
--DEFINE_MACHINE("collie", collie_machine_init)
-+static const TypeInfo collie_machine_typeinfo = {
-+    .name = TYPE_COLLIE_MACHINE,
-+    .parent = TYPE_MACHINE,
-+    .class_init = collie_machine_class_init,
-+    .instance_size = sizeof(CollieMachineState),
-+};
-+
-+static void collie_machine_register_types(void)
-+{
-+    type_register_static(&collie_machine_typeinfo);
-+}
-+type_init(collie_machine_register_types);
+     if (ns && arm_is_secure(env) && (env->cp15.scr_el3 & SCR_SIF)) {
 -- 
 2.20.1
 
