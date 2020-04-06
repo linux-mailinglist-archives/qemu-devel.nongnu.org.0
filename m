@@ -2,40 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0F5619FB9B
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 19:30:48 +0200 (CEST)
-Received: from localhost ([::1]:35610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA37519F8E1
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 17:31:00 +0200 (CEST)
+Received: from localhost ([::1]:33804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLVaB-000235-7W
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 13:30:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60265)
+	id 1jLTiE-0004Hg-FY
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 11:30:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42523)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <schwab@suse.de>) id 1jLVYw-0001P8-DU
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:29:31 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jLTgz-0003it-Fx
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 11:29:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <schwab@suse.de>) id 1jLVYv-0008Dr-1x
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:29:30 -0400
-Received: from mx2.suse.de ([195.135.220.15]:58750)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <schwab@suse.de>) id 1jLVYu-00084q-RS
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:29:29 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 660EFB1D7B
- for <qemu-devel@nongnu.org>; Mon,  6 Apr 2020 17:29:10 +0000 (UTC)
-From: Andreas Schwab <schwab@suse.de>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] linux-user: Use getcwd syscall directly
-X-Yow: Are you still SEXUALLY ACTIVE?  Did you BRING th' REINFORCEMENTS?
-Date: Mon, 06 Apr 2020 17:18:19 +0200
-Message-ID: <mvmftdg8wxw.fsf@suse.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.0.90 (gnu/linux)
+ (envelope-from <alex.bennee@linaro.org>) id 1jLTgx-0005FI-8W
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 11:29:41 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36378)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jLTgw-0005EK-UT
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 11:29:39 -0400
+Received: by mail-wm1-x342.google.com with SMTP id d202so23479wmd.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 08:29:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=zEXPJn9Z+E+1fFGkHkJLSxByfoV1JZFvooIup7043EY=;
+ b=tW2GVbQJDo7cw8gwuU1A6fQNS+R5DJOVm8T/cfH3PWxX7kw2eaB75Lgs1BMRhSn+PC
+ 2Jq/eGxf5eT1DjE8jpdnMnYvd3t3qXzwqpSh4ixctr4leKwwoUg6I56ixnKFGTgTVAe1
+ 7qRVhkNl7Q7rc57ukX2k4ZRD0CDuE+D7YIFEgITUs1xybl5TkUYyYqxXuRXmJJPxYRW4
+ I4Wa8P6AD+rCgg5EMT3hMb3qQSf7Fii5uVWPtLeM6/R6rPdc2FyxZmXlyU4X4oET4S1n
+ bG41ktC7x4Z4nsWBxzYzUWv9XqWr2VYtEmVMRGV48D6VNn20MTiCC5Sgv72b3avRF6O7
+ sboQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=zEXPJn9Z+E+1fFGkHkJLSxByfoV1JZFvooIup7043EY=;
+ b=oFovxrg70EZsEMoVCpDvQMc29CUPZ21GmGyOMqL5X61nwjfxq3gPkOeYVezmjMA8Qn
+ 8MmqoMATuSzsxgb2CJNkSw6gSKmqdizkoqZ/UCjKF/AM7HsFEOqXvHvFNhJdFCnQBY7t
+ tzzUCuN+G/J26Vmp89Ghgprq40ny9ERVrxDiN7l1Hj7LGM9/ju2/MABinAMnd0J+dc9E
+ uPRqq2d8l3lkSHqzjfJsPasI8QyFnXReYwIOZ+pOi4FUhVsbS3EuYm1o630zjE5x1pOB
+ 3DukbSI5fzu68NIaiWFsMcPrjI9fAVWwX0B1erFgDvuP1GohRecHdUjt35uTEZmvmJ3T
+ NdrA==
+X-Gm-Message-State: AGi0Puaqnck7tEmSZFGEgOYDP9Fn22ETRgQ4CUTLmulxf0DtVAZPTbMj
+ EeLaPoRJm7/7LfPu9R1lz6PucA==
+X-Google-Smtp-Source: APiQypKve3DvhSk+LKFqGvd++tmJZN2McZ+CiMwx386pBo1oNXkDa7fmRN6M2SyMgd8Y+ZcZgQmHbA==
+X-Received: by 2002:a7b:c205:: with SMTP id x5mr209491wmi.189.1586186977846;
+ Mon, 06 Apr 2020 08:29:37 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q14sm25198752wrx.57.2020.04.06.08.29.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Apr 2020 08:29:35 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E90951FF7E;
+ Mon,  6 Apr 2020 16:29:34 +0100 (BST)
+References: <20200403172919.24621-1-philmd@redhat.com>
+ <20200403172919.24621-6-philmd@redhat.com>
+User-agent: mu4e 1.3.10; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-5.0 5/8] .travis.yml: Cache acceptance-test assets
+In-reply-to: <20200403172919.24621-6-philmd@redhat.com>
+Date: Mon, 06 Apr 2020 16:29:34 +0100
+Message-ID: <875zecbpk1.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic]
-X-Received-From: 195.135.220.15
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,44 +82,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>, qemu-devel@nongnu.org,
+ Fabien Chouteau <chouteau@adacore.com>, Kamil Rytarowski <kamil@netbsd.org>,
+ =?utf-8?Q?Her?= =?utf-8?Q?v=C3=A9?= Poussineau <hpoussin@reactos.org>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The glibc getcwd function returns different errors than the getcwd
-syscall, which triggers an assertion failure in the glibc getcwd function
-when running under the emulation.
 
-Signed-off-by: Andreas Schwab <schwab@suse.de>
----
- linux-user/syscall.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 83c2891169..90c5433fec 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -375,14 +375,7 @@ static bitmask_transtbl fcntl_flags_tbl[] = {
-   { 0, 0, 0, 0 }
- };
- 
--static int sys_getcwd1(char *buf, size_t size)
--{
--  if (getcwd(buf, size) == NULL) {
--      /* getcwd() sets errno */
--      return (-1);
--  }
--  return strlen(buf)+1;
--}
-+_syscall2(int, sys_getcwd1, char *, buf, size_t, size)
- 
- #ifdef TARGET_NR_utimensat
- #if defined(__NR_utimensat)
--- 
-2.26.0
+> Keep all acceptance-test assets in the same cache bucket.
+>
+> As of v5.0.0-rc1, the cache is 2610.11MB:
+> https://travis-ci.org/github/philmd/qemu/jobs/670558103
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  .travis.yml | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/.travis.yml b/.travis.yml
+> index e0c72210b7..2fd63eceaa 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -318,8 +318,10 @@ jobs:
+>        env:
+>          - CONFIG=3D"--enable-tools --target-list=3Daarch64-softmmu,alpha=
+-softmmu,arm-softmmu,m68k-softmmu,microblaze-softmmu,mips-softmmu,mips64el-=
+softmmu,nios2-softmmu,or1k-softmmu,ppc-softmmu,ppc64-softmmu,s390x-softmmu,=
+sparc-softmmu,x86_64-softmmu,xtensa-softmmu"
+>          - TEST_CMD=3D"make check-acceptance"
+> +        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-acceptance"
+>        after_script:
+>          - python3 -c 'import json; r =3D json.load(open("tests/results/l=
+atest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["statu=
+s"] not in ("PASS", "SKIP")]' | xargs cat
+> +        - du -chs $HOME/avocado/data/cache
+>        addons:
+>          apt:
+>            packages:
 
 
--- 
-Andreas Schwab, SUSE Labs, schwab@suse.de
-GPG Key fingerprint = 0196 BAD8 1CE9 1970 F4BE  1748 E4D4 88E3 0EEA B9D7
-"And now for something completely different."
+--=20
+Alex Benn=C3=A9e
 
