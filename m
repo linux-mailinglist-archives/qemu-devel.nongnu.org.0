@@ -2,91 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D063319FD43
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:35:18 +0200 (CEST)
-Received: from localhost ([::1]:36864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7594419FD04
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:23:28 +0200 (CEST)
+Received: from localhost ([::1]:36612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLWab-0002OH-TH
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:35:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44002)
+	id 1jLWP9-00034C-HD
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:23:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44191)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <farman@linux.ibm.com>) id 1jLWNA-0000PG-2r
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:21:28 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jLWNw-0001Zb-AW
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:22:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <farman@linux.ibm.com>) id 1jLWN8-0002FU-BE
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:21:23 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53154)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <farman@linux.ibm.com>)
- id 1jLWN8-0002EG-1B; Mon, 06 Apr 2020 14:21:22 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 036I4gta040987; Mon, 6 Apr 2020 14:21:20 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3082hfx6uy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Apr 2020 14:21:20 -0400
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 036I4hJ9041108;
- Mon, 6 Apr 2020 14:21:20 -0400
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3082hfx6um-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Apr 2020 14:21:20 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 036IKnCn003732;
- Mon, 6 Apr 2020 18:21:19 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma02dal.us.ibm.com with ESMTP id 306hv6pjqq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Apr 2020 18:21:19 +0000
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
- [9.57.199.107])
- by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 036ILI5W45744608
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 6 Apr 2020 18:21:18 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7F9A312405E;
- Mon,  6 Apr 2020 18:21:18 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E1F87124054;
- Mon,  6 Apr 2020 18:21:17 +0000 (GMT)
-Received: from [9.160.17.120] (unknown [9.160.17.120])
- by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon,  6 Apr 2020 18:21:17 +0000 (GMT)
-Subject: Re: [RFC PATCH v2 1/7] vfio-ccw: Return IOINST_CC_NOT_OPERATIONAL for
- EIO
-To: Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>
-References: <20200206214509.16434-1-farman@linux.ibm.com>
- <20200206214509.16434-2-farman@linux.ibm.com>
- <20200324180430.3597ca94.cohuck@redhat.com>
- <20200325032428.11dd27a2.pasic@linux.ibm.com>
- <20200401105258.3e885efb.cohuck@redhat.com>
-From: Eric Farman <farman@linux.ibm.com>
-Message-ID: <06a9fc5c-be2d-f152-de61-e815d7454692@linux.ibm.com>
-Date: Mon, 6 Apr 2020 14:21:17 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <alex.bennee@linaro.org>) id 1jLWNu-0002uw-Kg
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:22:12 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35868)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jLWNs-0002sO-NJ
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:22:10 -0400
+Received: by mail-wm1-x341.google.com with SMTP id d202so449327wmd.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 11:22:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=JtOUmlddJfiiuQ89uisdNRcm83fl7vqOjpFFcB74WbM=;
+ b=WqH60DfMS9DnPYEuIwdioBViI7+GV6fUG3idD1y7gV7OYNW7hXarmJc4Tbww4pzbQk
+ ++qG8P77RutdO0nLEBuimQoHa5BTqQLNZ8h+EHmDzXEz6nJuiJs9sWo8/5s/D3NKMS8e
+ TbaTHcba+IhTDoulH8ypzrMUkMoMzoGdHnnFMxMYyS54qj2revwOYVAbca/E5/lideDX
+ RxnW6AorYx38AwpFoWCquuGFVLbZ4wKbk5u3+H8i29i1+ikYVPcrbxATBnrW7GN455v1
+ wXOy2Nq0nq0rOyHT3aYwjhNlc/oanOrB6r98eDLZm2BFOsUjP9yzjlnxG6nAtf3c7Ugu
+ jaig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=JtOUmlddJfiiuQ89uisdNRcm83fl7vqOjpFFcB74WbM=;
+ b=UEjbSav4rTY/bNSACUZH4qw9Z1Q/T4grsnAeJMUesB3uOy2pEkHQ/Dptf5qF/Q3P3L
+ tEqSiGquwlNAl2fHvx8+ZaUtkRj2WiAqN6Sh1t0Wcj5anlOxKLHjoR5r+S4VrsggWVyN
+ e1DAWwKJhDS9jkAG5wM1igX8pQNP3NG+z+W7ll0BoNvySmJGYCoCmQojMfXTkiY286H3
+ IeiaXUNH3GTFaXKPL8Cpi8htj0qkAzsCeP9huusiOq8qTNUCF1qQdsL+V+r0o6F81LXp
+ AgzJz/TzaxOaBed3bUwr5iQtomoHotZaGsh1y7yGOpsgEA0KXog71jAgCqp0Cq/ufrDh
+ GleQ==
+X-Gm-Message-State: AGi0PuYOgzlLxcsoGZwKGzBOFA4ZSVyd/1MPzTKkkJ8IX29s5Ehbtcxq
+ 1K2iRmuTHrNUcnvrg8qMeR0Cfw==
+X-Google-Smtp-Source: APiQypIEAi/vjNIzbt8CBqVxV3Qugyan5DvcjkbiRhJ9aCFL+ZqUwqiP7ghAOaw1r68YiZkfgSC45g==
+X-Received: by 2002:a1c:e407:: with SMTP id b7mr351661wmh.32.1586197326659;
+ Mon, 06 Apr 2020 11:22:06 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a67sm473564wmc.30.2020.04.06.11.22.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Apr 2020 11:22:05 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id EF63F1FF7E;
+ Mon,  6 Apr 2020 19:22:04 +0100 (BST)
+References: <20200403172919.24621-1-philmd@redhat.com>
+ <20200403172919.24621-7-philmd@redhat.com> <87zhboaaf5.fsf@linaro.org>
+ <CAKJDGDbXMknOLw-xGGR3HJriCQB_-+1A5+eqf0DMb_hd6u99HA@mail.gmail.com>
+User-agent: mu4e 1.3.10; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Willian Rampazzo <wrampazz@redhat.com>
+Subject: Re: [PATCH-for-5.1 6/8] tests/Makefile: Add fetch-acceptance-assets
+ rule
+In-reply-to: <CAKJDGDbXMknOLw-xGGR3HJriCQB_-+1A5+eqf0DMb_hd6u99HA@mail.gmail.com>
+Date: Mon, 06 Apr 2020 19:22:04 +0100
+Message-ID: <87o8s4a303.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200401105258.3e885efb.cohuck@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-04-06_08:2020-04-06,
- 2020-04-06 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0
- mlxlogscore=999 spamscore=0 clxscore=1011 malwarescore=0 impostorscore=0
- lowpriorityscore=0 suspectscore=0 mlxscore=0 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004060143
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,201 +84,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Herne <jjherne@linux.ibm.com>, qemu-s390x@nongnu.org,
- Jared Rossi <jrossi@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Fabien Chouteau <chouteau@adacore.com>,
+ Kamil Rytarowski <kamil@netbsd.org>, qemu-ppc@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>,
+ =?utf-8?Q?Her?= =?utf-8?Q?v=C3=A9?= Poussineau <hpoussin@reactos.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+Willian Rampazzo <wrampazz@redhat.com> writes:
 
-On 4/1/20 4:52 AM, Cornelia Huck wrote:
-> On Wed, 25 Mar 2020 03:24:28 +0100
-> Halil Pasic <pasic@linux.ibm.com> wrote:
-> 
->> On Tue, 24 Mar 2020 18:04:30 +0100
->> Cornelia Huck <cohuck@redhat.com> wrote:
+> On Mon, Apr 6, 2020 at 12:41 PM Alex Benn=C3=A9e <alex.bennee@linaro.org>=
+ wrote:
 >>
->>> On Thu,  6 Feb 2020 22:45:03 +0100
->>> Eric Farman <farman@linux.ibm.com> wrote:
->>>   
->>>> From: Farhan Ali <alifm@linux.ibm.com>
->>>>
->>>> EIO is returned by vfio-ccw mediated device when the backing
->>>> host subchannel is not operational anymore. So return cc=3
->>>> back to the guest, rather than returning a unit check.
->>>> This way the guest can take appropriate action such as
->>>> issue an 'stsch'.  
 >>
->> I believe this is not the only situation when vfio-ccw returns
->> EIO, or?
+>> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 >>
->>>>
->>>> Signed-off-by: Farhan Ali <alifm@linux.ibm.com>
->>>> Signed-off-by: Eric Farman <farman@linux.ibm.com>
->>>> ---
->>>>
->>>> Notes:
->>>>     v1->v2: [EF]
->>>>      - Add s-o-b
->>>>      - [Seems the discussion on v1 centered on the return code
->>>>        set in the kernel, rather than anything that needs to
->>>>        change here, unless I've missed something.]  
+>> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> > ---
+>> >  tests/Makefile.include | 7 +++++++
+>> >  1 file changed, 7 insertions(+)
+>> >
+>> > diff --git a/tests/Makefile.include b/tests/Makefile.include
+>> > index 51de676298..90f457593c 100644
+>> > --- a/tests/Makefile.include
+>> > +++ b/tests/Makefile.include
+>> > @@ -906,6 +906,13 @@ get-vm-image-fedora-31-%: check-venv
+>> >  # download all vm images, according to defined targets
+>> >  get-vm-images: check-venv $(patsubst %,get-vm-image-fedora-31-%, $(FE=
+DORA_31_DOWNLOAD))
+>> >
+>> > +fetch-acceptance-assets: check-venv
+>> > +     $(call quiet-command, \
+>> > +            $(TESTS_VENV_DIR)/bin/python -m avocado \
+>> > +            --show=3D$(if $(DEBUG),avocado.test,$(AVOCADO_SHOW)) asse=
+ts fetch \
+>> > +            tests/acceptance/*py, \
+>> > +            "AVOCADO", "tests/acceptance")
+>> > +
 >>
->> Does this need to change here? If the kernel is supposed to return ENODEV
->> then this does not need to change.
->>
->>>
->>> I've stared at this and at the kernel code for some time again; and I'm
->>> not sure if "return -EIO == not operational" is even true. That said,
->>> I'm not sure a unit check is the right response, either. The only thing
->>> I'm sure about is that the kernel code needs some review of return
->>> codes and some documentation...  
->>
->> I could not agree more, this is semantically uapi and needs to be
->> properly documented.
->>
->> With regards to "linux error codes: vs "ionist cc's" an where
->> the mapping is different example:
->>
->> """
->> /**                                                                             
->>  * cio_cancel_halt_clear - Cancel running I/O by performing cancel, halt        
->>  * and clear ordinally if subchannel is valid.                                  
->>  * @sch: subchannel on which to perform the cancel_halt_clear operation         
->>  * @iretry: the number of the times remained to retry the next operation        
->>  *                                                                              
->>  * This should be called repeatedly since halt/clear are asynchronous           
->>  * operations. We do one try with cio_cancel, three tries with cio_halt,        
->>  * 255 tries with cio_clear. The caller should initialize @iretry with          
->>  * the value 255 for its first call to this, and keep using the same            
->>  * @iretry in the subsequent calls until it gets a non -EBUSY return.           
->>  *                                                                              
->>  * Returns 0 if device now idle, -ENODEV for device not operational,            
->>  * -EBUSY if an interrupt is expected (either from halt/clear or from a         
->>  * status pending), and -EIO if out of retries.                                 
->>  */                                                                             
->> int cio_cancel_halt_clear(struct subchannel *sch, int *iretry)   
->>
->> """
->> Here -ENODEV is not operational.
-> 
-> Ok, I went through the kernel code and checked which error may be
-> returned in which case (hope I caught all of them). Here's what I
-> currently have:
+>> I'm wondering if we could expand this to a rule per-test group and
+>> therefor allow parallel fetching of groups of assets?
+>
+> This is a valid idea! Additionally, my suggestion is to organize the
+> tests by subdirectories under `tests/acceptance/`. Doing so makes it
+> easy to handle the target rule, adding the subdirectory to the assets
+> fetch command instead of listing specific tests for each group. Making
+> a list of tests for each group requires extra editing to the makefile
+> target when a new test is added. This can lead to new tests being
+> missed in their groups by mistake.
 
-Thanks for doing all this mapping!
+I'd use wildcards to build up the groups so the Makefile doesn't need to
+be messed with again.
 
-> 
-> diff --git a/Documentation/s390/vfio-ccw.rst b/Documentation/s390/vfio-ccw.rst
-> index fca9c4f5bd9c..43f375a03cce 100644
-> --- a/Documentation/s390/vfio-ccw.rst
-> +++ b/Documentation/s390/vfio-ccw.rst
-> @@ -210,7 +210,36 @@ Subchannel.
->  
->  irb_area stores the I/O result.
->  
-> -ret_code stores a return code for each access of the region.
-> +ret_code stores a return code for each access of the region. The following
-> +values may occur:
-> +
-> +0
-> +  The operation was successful.
-> +
-> +-EOPNOTSUPP
-> +  The orb specified transport mode or an unidentified IDAW format, did not
-> +  specify prefetch mode, or the scsw specified a function other than the
-> +  start function.
-> +
-> +-EIO
-> +  A request was issued while the device was not in a state ready to accept
-> +  requests, or an internal error occurred.
-> +
-> +-EBUSY
-> +  The subchannel was status pending or busy, or a request is already active.
-> +
-> +-EAGAIN
-> +  A request was being processed, and the caller should retry.
-> +
-> +-EACCES
-> +  The channel path(s) used for the I/O were found to be not operational.
-> +
-> +-ENODEV
-> +  The device was found to be not operational.
-> +
-> +-EINVAL
-> +  The orb specified a chain longer than 255 ccws, or an internal error
-> +  occurred.
->  
->  This region is always available.
->  
-> @@ -231,6 +260,29 @@ This region is exposed via region type VFIO_REGION_SUBTYPE_CCW_ASYNC_CMD.
->  
->  Currently, CLEAR SUBCHANNEL and HALT SUBCHANNEL use this region.
->  
-> +command specifies the command to be issued; ret_code stores a return code
-> +for each access of the region. The following values may occur:
-> +
-> +0
-> +  The operation was successful.
-> +
-> +-ENODEV
-> +  The device was found to be not operational.
-> +
-> +-EINVAL
-> +  A command other than halt or clear was specified.
-> +
-> +-EIO
-> +  A request was issued while the device was not in a state ready to accept
-> +  requests.
-> +
-> +-EAGAIN
-> +  A request was being processed, and the caller should retry.
-> +
-> +-EBUSY
-> +  The subchannel was status pending or busy while processing a halt request.
-> +
-> +
->  vfio-ccw operation details
->  --------------------------
->  
-> Unless we interpret "device in wrong state" as "not operational",
-> mapping -EIO to cc 3 is probably not the right thing to do; but
-> generating a unit exception probably isn't either. Honestly, I'm unsure
-> what the right thing to do here would be...
+>
+>>
+>> >  check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+>> >       $(call quiet-command, \
+>> >              $(TESTS_VENV_DIR)/bin/python -m avocado \
+>>
+>>
+>> --
+>> Alex Benn=C3=A9e
+>>
 
-Me neither. I grepped my qemu logs for the past, ugh, too long for the
-error report that would precede these failures ("vfio-ccw: [wirte/write]
-I/O region failed with errno=%d"). Excluding the ones that were
-obviously the result of half-baked code, all instances were either
--EBUSY or -ENODEV.  Could I trigger one?  Maybe.  Is it likely?  Doesn't
-seem to be.
 
-It seems that getting -EIO would indicate we got ourselves out of sync,
-and started buttoning up the device again (or never having opened it in
-the first place), so a unit exception might be valid as a "hey
-something's screwy here" ?
-
-> 
-> Another problem is that -EIO might signal "something went wrong in the
-> kernel code" - should not happen, but would certainly not be the
-> caller's fault, and they can't do anything about it. That "internal
-> error" thing might also be signaled by -EINVAL (which is odd), but
-> -EINVAL could also mean "the ccw chain is too long", for which
-> -EOPNOTSUPP would probably be a better return code, as it's a
-> limitation in the code, not the architecture, IIRC. Not sure if we can
-> still change that, though (and QEMU handles both in the same way,
-> anyway.)
-> 
-> The other return codes look sane, and the return codes for the async
-> region also seem sane (but have the same issue with -EIO == "device in
-> wrong state").
-> 
-> Looking at the QEMU handling, I think the -EIO handling is a bit
-> questionable (without an obvious solution), while mapping -EBUSY to cc
-> 2 is the only reasonable thing to do given that the interface does not
-> differentiate between "busy" and "status pending". The rest seems sane.
-> 
-
-So maybe with all this data, and absent a better solution, it's best to
-just drop this patch from v3?
+--=20
+Alex Benn=C3=A9e
 
