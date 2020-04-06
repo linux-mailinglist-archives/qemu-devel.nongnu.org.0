@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB22919FCD4
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:16:03 +0200 (CEST)
-Received: from localhost ([::1]:36440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B4219FC91
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:10:03 +0200 (CEST)
+Received: from localhost ([::1]:36280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLWHz-0001Q4-1J
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:16:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36507)
+	id 1jLWCA-0006eR-To
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:10:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36543)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrM-0002Pb-Ju
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:34 -0400
+ id 1jLVrO-0002SV-Lx
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrL-0003Kh-Jl
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:32 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:43407)
+ id 1jLVrM-0003LU-NA
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:34 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38813)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrL-0003K0-Dq; Mon, 06 Apr 2020 13:48:31 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id w15so466654wrv.10;
- Mon, 06 Apr 2020 10:48:31 -0700 (PDT)
+ id 1jLVrM-0003Kv-H5; Mon, 06 Apr 2020 13:48:32 -0400
+Received: by mail-wr1-x442.google.com with SMTP id 31so507523wre.5;
+ Mon, 06 Apr 2020 10:48:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=m8ZDXiD3nFiP7GdGwQTV0ex2VskQyj/RhxvXu9V538w=;
- b=TvxZBwwefg4HHk3RUrVE3aZGsrIn1V1rTbJ7ColaRUt8eLxVII90ZDOLWUwkFFOjxI
- 5jYM5csNiGm2Ao9A+Q6LgkrOfFMt7v1g0irsmFIXHo+sVFinIQJ9PaNvrYfCh3nWwVee
- SIAa6tGLCOc+XMZS8bnOH5RzHk8j8Zt670rSjDZ2ZEkPdwOyIY8KaJrK1jJdFpVoCAjL
- MjpRZ6QKuuPmBEG5yY7N7zNe52uv5/6Hd80jvqLGw3KQ/rtGoAyuh1t3Te7LSh4K8lNP
- pTLaS2is9oV8HyHgxQZPMhKfGTL2Gp9Bri7IAfiVlnbfBB0YXtINjYipEZl4BSDZt0R3
- rW0A==
+ bh=+O8FSNw/XveJvWULa4+Jfl3G5r6TBg2LXwiWGWDolCA=;
+ b=c8xkEx5253ZlB+tHpoFgXdeE6lpIRb05XoVmVIrsvgGN7C/XgCsb1tHBxhbhmpJeqX
+ Yfj7RP84XVticQ5WoWAkf3g96ghqBAxHqc1rSJXm32uFY+KwPKQj4RpgHYK/B7E77M/i
+ Dbndx73PkhXjIP0Bb0n6TvOQR5TCjiTF+/cU/aQ2ntvKX1iYzrgVA3Q0GaCS8bo19bAX
+ r6LQtnznge9/pGOhSvs4WqcLeFOKVjHOzl0Okpeka/IoHFWrueYZuPfrroVWKwFfV0XP
+ Z5v121RLVkegmcC9nfeRUw/aSv61rF4dXUiDkZrFAiN8C1qvHropKCc2UxuZATBdk8nn
+ rN4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=m8ZDXiD3nFiP7GdGwQTV0ex2VskQyj/RhxvXu9V538w=;
- b=UcqYI5BwIGInFfhGEvRredSszalwtaAQLmB5M3qZccqp7z88wOyIj0unGeEH0pjkFz
- jZGQZcOqvPaw0X6S42w2pWcgg4UJZ44K0wYEoTcUhnPjpZ2iaS5Gu8rQXflyDkEBPI2Q
- IIVqoyLeFssWgt9aAmBXl1TD8OZmwsaUs0dKkPI+pHDSEnsyvWfS8wNRcU63+itAw1G5
- Ap4tJmjzLcmdJc3vffxTZgMggJq/mIS3BiZ1QxUlnYn2Hu/QBkD3iboUOkYSAf960rYN
- Ag2t4Ma+VPFuU/XhHWf9X00wbCMrk+vS0RLsr6OEW5fPxkMbAVQqkyVyGRrJ3rpK2R/C
- e3FA==
-X-Gm-Message-State: AGi0PubgIVgpiDi+AQIVSQdMtKVNVVC0JVIJ62ulZUrVVlppNVCmwWoH
- 7DU8XO3QfhJDcHdV3keYRCZ5ZWzMM9U=
-X-Google-Smtp-Source: APiQypKrlsbkyyw56rXAOLnvPlix75IGv4pAIt3YVq5AkS3tCM6lCk3KoxFNni7VjyT0RCTwg+/IUQ==
-X-Received: by 2002:a5d:6104:: with SMTP id v4mr359734wrt.213.1586195310312;
- Mon, 06 Apr 2020 10:48:30 -0700 (PDT)
+ bh=+O8FSNw/XveJvWULa4+Jfl3G5r6TBg2LXwiWGWDolCA=;
+ b=aLDUIbGbRmHZ6a3Ff3SI/T7FRNQ+7BJCxKXn42eTaW6PH4DLFzIHeIUIqo7o7QG83H
+ nXSjWBfpP4PBIVC9ccJ5TG26b3+U3W2PFIYegE2vBcXjsIVeFuGC8TZVUnAXQ+xGGHCR
+ 2UkfxLlzGAszUtlDqMdUrxXJ4dudrUPn51d/G/I+b57IlwzxGsBgbhdOvU2SUaHHWV+z
+ HUmalE/aUMkACxkBhisW/V9bhKWTbWlTqv1KzrK6GOw1pDkKelmbbbgnFMni0EGXy+dw
+ kGxh/C0dYLkYs0wanbL6hNhUxZb4cdti/0/+zi17TvYHBmPMultA6PX9b7POBLRZXyYQ
+ HpnQ==
+X-Gm-Message-State: AGi0PubS8I95C3nFJz1g+wAV1zFv+X7ZhuEBsQB7odfdlcLukSvMxbra
+ Ql+iPDEPyJjin3nm7u4hWCRlUeTbXQ8=
+X-Google-Smtp-Source: APiQypKkX0vnL4MDsxAOGu63ql2Q1nV98knENmX2pZypRz7cVNiIbMk/Xu/11dcJB+1V3n1wbXEvdQ==
+X-Received: by 2002:adf:90ea:: with SMTP id i97mr339112wri.123.1586195311425; 
+ Mon, 06 Apr 2020 10:48:31 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.48.28
+ by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.48.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 10:48:29 -0700 (PDT)
+ Mon, 06 Apr 2020 10:48:30 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH-for-5.1 v2 32/54] hw/arm/armv7m: Add missing error-propagation
- code
-Date: Mon,  6 Apr 2020 19:47:21 +0200
-Message-Id: <20200406174743.16956-33-f4bug@amsat.org>
+Subject: [PATCH-for-5.1 v2 33/54] hw/intc/arm_gicv3_its_kvm: Add missing
+ error-propagation code
+Date: Mon,  6 Apr 2020 19:47:22 +0200
+Message-Id: <20200406174743.16956-34-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200406174743.16956-1-f4bug@amsat.org>
 References: <20200406174743.16956-1-f4bug@amsat.org>
@@ -71,7 +71,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,7 +86,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
+ "open list:ARM cores" <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -99,39 +99,26 @@ Patch created mechanically by running:
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/armv7m.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ hw/intc/arm_gicv3_its_kvm.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-index 7531b97ccd..249a7605f6 100644
---- a/hw/arm/armv7m.c
-+++ b/hw/arm/armv7m.c
-@@ -168,7 +168,11 @@ static void armv7m_realize(DeviceState *dev, Error **errp)
-     }
+diff --git a/hw/intc/arm_gicv3_its_kvm.c b/hw/intc/arm_gicv3_its_kvm.c
+index ad0ebabc87..3d2c4e22f5 100644
+--- a/hw/intc/arm_gicv3_its_kvm.c
++++ b/hw/intc/arm_gicv3_its_kvm.c
+@@ -101,7 +101,11 @@ static void kvm_arm_its_realize(DeviceState *dev, Error **errp)
  
-     object_property_set_link(OBJECT(s->cpu), OBJECT(&s->container), "memory",
--                             &error_abort);
-+                             &err);
-+    if (err) {
-+        error_propagate(errp, err);
+     /* explicit init of the ITS */
+     kvm_device_access(s->dev_fd, KVM_DEV_ARM_VGIC_GRP_CTRL,
+-                      KVM_DEV_ARM_VGIC_CTRL_INIT, NULL, true, &error_abort);
++                      KVM_DEV_ARM_VGIC_CTRL_INIT, NULL, true, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
 +        return;
 +    }
-     if (object_property_find(OBJECT(s->cpu), "idau", NULL)) {
-         object_property_set_link(OBJECT(s->cpu), s->idau, "idau", &err);
-         if (err != NULL) {
-@@ -256,7 +260,11 @@ static void armv7m_realize(DeviceState *dev, Error **errp)
-                 return;
-             }
-             object_property_set_link(obj, OBJECT(s->board_memory),
--                                     "source-memory", &error_abort);
-+                                     "source-memory", &err);
-+            if (err) {
-+                error_propagate(errp, err);
-+                return;
-+            }
-             object_property_set_bool(obj, true, "realized", &err);
-             if (err != NULL) {
-                 error_propagate(errp, err);
+ 
+     /* register the base address */
+     kvm_arm_register_device(&s->iomem_its_cntrl, -1, KVM_DEV_ARM_VGIC_GRP_ADDR,
 -- 
 2.21.1
 
