@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E56BB19FD24
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:27:26 +0200 (CEST)
-Received: from localhost ([::1]:36712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D064919FCD2
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:15:45 +0200 (CEST)
+Received: from localhost ([::1]:36426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLWT0-00010x-0E
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:27:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36838)
+	id 1jLWHg-00013J-Ti
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:15:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36808)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrh-0002xG-9Q
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:49:03 -0400
+ id 1jLVrf-0002tl-MK
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrc-0003WQ-D9
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:53 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36755)
+ id 1jLVre-0003Xn-Jf
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:51 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:34537)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrc-0003W8-74
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:48 -0400
-Received: by mail-wm1-x333.google.com with SMTP id d202so328157wmd.1
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:48:48 -0700 (PDT)
+ id 1jLVre-0003Wk-DE; Mon, 06 Apr 2020 13:48:50 -0400
+Received: by mail-wm1-x333.google.com with SMTP id c195so140971wme.1;
+ Mon, 06 Apr 2020 10:48:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PEHTVvrf5Pm+Jom3wPMXvD0+JJqVe46WaOi392HQB5U=;
- b=YDE3vpKxS1ahS6WZQYGQ5BsbWpk/jT6NYHZajiT55etah2+eqvbEwZPEpBKC597ynI
- BRXH4eSKfiMD1xwJwhvG7wc/xDVFIFpy/LYXt2SFRH5i9wbNFooEA0BAL4XsZbiol5sv
- PN2+xMNKX+u8uuDePIKN2d8taA2+cxXIgSAlX1RZszCIZaReHSnAMoQGf0c+z9ESWGRm
- 8klfG4CpUeoux7/+RXBscbYCNDj9Wp0HbG9A5OSeqQ51IWriNbIZxfu7dzK1RQ5/HTRo
- A9H9Eb7nLhIOIP3GNybzWApI6mFLFX3IK8evK8Wd3SCgM4qMlTDeiOccYDSfd3d5EGiQ
- ktqw==
+ bh=mm7jSNJYavXwShirpz8lvWCMuX2O3KFlVxqJX30Lcf4=;
+ b=r89KObgF91dUfddq+QxBROOTtATdLWm2Oc9daU3GVz4jwkgYpQNqeA4Q88mY4YM9V+
+ OsN5UPL9fb8IE9iqJxJPM410q5OmOmXJcj/627TVa6V4P17Ao80pM4pwMXzNCWuZKIQj
+ Z5V25edX9PrwU6mhDY/fQB3YynTMdDWVmJ43GkYOl2ND6haLD2WgtkdH0RNRDeWBehNa
+ aubuhtFyVmwPUMq55F76AdmhnfAIv10CSCb/rXISb0kS1HVHTgdIby+yn20fNygGHheB
+ 624S4TE9VV76BORUsQBZ+51JQrr5bsNPYy8Kk6FnIbtaGQZddJukRMkyG8acblBSJKW+
+ QSUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=PEHTVvrf5Pm+Jom3wPMXvD0+JJqVe46WaOi392HQB5U=;
- b=V9/Y9e13/C/txVR4+8RQn7PtkRY2V8EQHDXwqZj1LtwUS3Pa0b2cLImlNQ6HBI19L2
- fpxqLirl+6npFmvFPgBPuoiihzfmjexyzqpDbXmoEYDoAuC/dpcgS93yWZnSl8z9YyWD
- PnKX5DwtHCTlWK3stQger/9whgL4SIKfR7kmC4RNc0wUO+dBTO9ZsTMlOR4GZUpDptcO
- +UxoMDKd3WF7HZpbZC8hKSXF8uuZyv0VnDO55+rNjcBZXM0PyBERZTHDEIWMHfwKQ0j3
- 8axY1X5uK1W/ewDnocCgrjj/JT3aH5Mj9Tfv07dcNwARUxurefxfQRsQy81m50j7FBMA
- WxHQ==
-X-Gm-Message-State: AGi0PuZPafucs+Fr334isEAF5g8Wja+UV/QUwmuy5KNFSONysGOsv/7b
- zeqOtm8lvp8OTisKgDru5xPxBppXgjQ=
-X-Google-Smtp-Source: APiQypJDVOA05tidm3PgFhJNZMnKiQoCASE2z/ozeyeGOArqYGwv1eqTooLnfg7fJsZQZckhholW2Q==
-X-Received: by 2002:a1c:c302:: with SMTP id t2mr160254wmf.85.1586195326597;
- Mon, 06 Apr 2020 10:48:46 -0700 (PDT)
+ bh=mm7jSNJYavXwShirpz8lvWCMuX2O3KFlVxqJX30Lcf4=;
+ b=LnjWaRtJLcK3FC1jn37ZGSKFzDJVkQN/oDGokLYAw5dRpdXvQHSwUA0OIRqMx981Y+
+ sbGJ2YWQUlf4C2E7pf6ojQWStux7DkSvAyHDg3cq6Gt97SFPQj9iwvZvje/nRqkaQtMz
+ 8QuTWUmTK98fXF7DFSudKwOVsq293ZbJewGz0vtpM0sMn+tJ8J0vi8ARUpLSpgcrcgwn
+ eRjATPrciu0r6mBJ5Cnsia4btyPa0GwUgQMvc+jJhpptkcUyI/bKdHBkNFQ3M4g4jeg2
+ dBFOBoN0DmNUcKu6viU+5lEPGIhjSxU1fZOj0ew4pWSXEAAP/k3ZpDeslcoyMGJDoCLS
+ ySsA==
+X-Gm-Message-State: AGi0PuYo4Nw3eeiU4bFAENL7qUvk/U0EIHey6IqTos5JRNJrc4XedQhk
+ 1RIyURhYXbCdYxAzBDi/ihsHqgMu30M=
+X-Google-Smtp-Source: APiQypKdOTW6Xx2hPMGBVycsB/B2TsQSxecWbRdYy33VYXS2XqH6z4cKaDBE+7RJr8ytWDwn8UBkoQ==
+X-Received: by 2002:a7b:c3da:: with SMTP id t26mr167006wmj.3.1586195328223;
+ Mon, 06 Apr 2020 10:48:48 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.48.45
+ by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.48.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 10:48:45 -0700 (PDT)
+ Mon, 06 Apr 2020 10:48:47 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH-for-5.1 v2 43/54] hw/mips/cps: Add missing error-propagation
- code
-Date: Mon,  6 Apr 2020 19:47:32 +0200
-Message-Id: <20200406174743.16956-44-f4bug@amsat.org>
+Subject: [PATCH-for-5.1 v2 44/54] hw/misc/macio/macio: Add missing
+ error-propagation code
+Date: Mon,  6 Apr 2020 19:47:33 +0200
+Message-Id: <20200406174743.16956-45-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200406174743.16956-1-f4bug@amsat.org>
 References: <20200406174743.16956-1-f4bug@amsat.org>
@@ -86,10 +85,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+ "open list:Old World g3beige" <qemu-ppc@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -98,107 +97,31 @@ Patch created mechanically by running:
   $ spatch \
     --macro-file scripts/cocci-macro-file.h --include-headers \
     --sp-file scripts/coccinelle/object_property_missing_error_propagate.cocci \
-    --keep-comments --smpl-spacing --in-place --dir hw
+    --keep-comments --smpl-spacing --dir hw
 
-Unfortunately the cocci script doesn't properly patch trailing
-error_propagate() block and emitted duplicate if() block statements.
-These 3 blocks were manually removed.
-
-Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/cps.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
+ hw/misc/macio/macio.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/hw/mips/cps.c b/hw/mips/cps.c
-index 92b9b1a5f6..18943b64e0 100644
---- a/hw/mips/cps.c
-+++ b/hw/mips/cps.c
-@@ -102,9 +102,21 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
-         sysbus_init_child_obj(OBJECT(dev), "itu", &s->itu, sizeof(s->itu),
-                               TYPE_MIPS_ITU);
-         object_property_set_int(OBJECT(&s->itu), 16, "num-fifo", &err);
+diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
+index 79222192e8..fffb64a7d5 100644
+--- a/hw/misc/macio/macio.c
++++ b/hw/misc/macio/macio.c
+@@ -348,6 +348,10 @@ static void macio_newworld_realize(PCIDevice *d, Error **errp)
+         memory_region_add_subregion(&s->bar, 0x50,
+                                     sysbus_mmio_get_region(sysbus_dev, 0));
+         object_property_set_bool(OBJECT(&ns->gpio), true, "realized", &err);
 +        if (err) {
 +            error_propagate(errp, err);
 +            return;
 +        }
-         object_property_set_int(OBJECT(&s->itu), 16, "num-semaphores", &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-         object_property_set_bool(OBJECT(&s->itu), saar_present, "saar-present",
-                                  &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-         if (saar_present) {
-             s->itu.saar = &env->CP0_SAAR;
-         }
-@@ -122,7 +134,15 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
-     sysbus_init_child_obj(OBJECT(dev), "cpc", &s->cpc, sizeof(s->cpc),
-                           TYPE_MIPS_CPC);
-     object_property_set_int(OBJECT(&s->cpc), s->num_vp, "num-vp", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-     object_property_set_int(OBJECT(&s->cpc), 1, "vp-start-running", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-     object_property_set_bool(OBJECT(&s->cpc), true, "realized", &err);
-     if (err != NULL) {
-         error_propagate(errp, err);
-@@ -136,7 +156,15 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
-     sysbus_init_child_obj(OBJECT(dev), "gic", &s->gic, sizeof(s->gic),
-                           TYPE_MIPS_GIC);
-     object_property_set_int(OBJECT(&s->gic), s->num_vp, "num-vp", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-     object_property_set_int(OBJECT(&s->gic), 128, "num-irq", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-     object_property_set_bool(OBJECT(&s->gic), true, "realized", &err);
-     if (err != NULL) {
-         error_propagate(errp, err);
-@@ -152,10 +180,30 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
-     sysbus_init_child_obj(OBJECT(dev), "gcr", &s->gcr, sizeof(s->gcr),
-                           TYPE_MIPS_GCR);
-     object_property_set_int(OBJECT(&s->gcr), s->num_vp, "num-vp", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-     object_property_set_int(OBJECT(&s->gcr), 0x800, "gcr-rev", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-     object_property_set_int(OBJECT(&s->gcr), gcr_base, "gcr-base", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-     object_property_set_link(OBJECT(&s->gcr), OBJECT(&s->gic.mr), "gic", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-     object_property_set_link(OBJECT(&s->gcr), OBJECT(&s->cpc.mr), "cpc", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-     object_property_set_bool(OBJECT(&s->gcr), true, "realized", &err);
-     if (err != NULL) {
-         error_propagate(errp, err);
+ 
+         /* PMU */
+         object_initialize_child(OBJECT(s), "pmu", &s->pmu, sizeof(s->pmu),
 -- 
 2.21.1
 
