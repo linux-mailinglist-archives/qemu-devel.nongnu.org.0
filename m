@@ -2,69 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E7AB19F923
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 17:47:00 +0200 (CEST)
-Received: from localhost ([::1]:34146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13EFB19F92F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 17:53:13 +0200 (CEST)
+Received: from localhost ([::1]:34226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLTxj-0007U8-Bh
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 11:46:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45441)
+	id 1jLU3j-0001Hu-Ve
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 11:53:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46160)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jLTwr-000749-QF
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 11:46:07 -0400
+ (envelope-from <ruben@mrbrklyn.com>) id 1jLU2z-0000jJ-Uy
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 11:52:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1jLTwq-0007tu-8i
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 11:46:05 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45284
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jLTwq-0007qu-4r
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 11:46:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586187963;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+Rh0SbBem7u7FqErpwsqnMH3QshZTZg6uS5Ejl0HMLk=;
- b=C37XJgyxf8mQPzKbH2Nn7DpnaY5sLWpa595egzwyDv5YAWAwlZ77EcpvpfzdBGJnFU0/WG
- OR9GFl391M08j8QLULsxa+4HNieg3CApCX+0RlgYNt/amT+ZpZ4z/CslPSXyYoTrlz8dSh
- afkqGP51u0xgQT33d1HOMEbMSDQgXSs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-PXQGU_x2Pa6_5pEtpIfkdg-1; Mon, 06 Apr 2020 11:45:44 -0400
-X-MC-Unique: PXQGU_x2Pa6_5pEtpIfkdg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C13F18B9FCC;
- Mon,  6 Apr 2020 15:45:43 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AEF99DD60;
- Mon,  6 Apr 2020 15:45:38 +0000 (UTC)
-Date: Mon, 6 Apr 2020 16:45:36 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v5 for-5.0] configure: warn if not using a separate build
- directory
-Message-ID: <20200406154536.GU794362@redhat.com>
-References: <20200406153326.806024-1-berrange@redhat.com>
- <72daed8e-020f-c5b0-4ef8-6f9d3f105434@redhat.com>
+ (envelope-from <ruben@mrbrklyn.com>) id 1jLU2y-0004k5-8t
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 11:52:25 -0400
+Received: from www2.mrbrklyn.com ([96.57.23.82]:50942 helo=mrbrklyn.com)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <ruben@mrbrklyn.com>)
+ id 1jLU2y-0004iI-4x; Mon, 06 Apr 2020 11:52:24 -0400
+Received: by mrbrklyn.com (Postfix, from userid 1000)
+ id 915C0163FB0; Mon,  6 Apr 2020 11:52:22 -0400 (EDT)
+Date: Mon, 6 Apr 2020 11:52:22 -0400
+From: Ruben Safir <ruben@mrbrklyn.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: QEMU participation to Google Season of Docs
+Message-ID: <20200406155222.GA13914@www2.mrbrklyn.com>
+References: <de92e66d-c474-dd1b-ddab-194b2f92d1dd@redhat.com>
+ <de4b6733-859b-eebe-32ab-c0eb0fcb6311@redhat.com>
+ <f20f5784-d810-54d7-a25e-5394b2b75abd@redhat.com>
+ <CAFEAcA8cS+7K1Wrguc0PyvRfZgaNpTNA4tSUsn13dxCcWz0ASw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <72daed8e-020f-c5b0-4ef8-6f9d3f105434@redhat.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <CAFEAcA8cS+7K1Wrguc0PyvRfZgaNpTNA4tSUsn13dxCcWz0ASw@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 96.57.23.82
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,89 +49,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Liviu Ionescu <ilg@livius.net>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Michal =?utf-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+ Stefan Hajnoczi <stefanha@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-discuss <qemu-discuss@nongnu.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 06, 2020 at 10:38:45AM -0500, Eric Blake wrote:
-> On 4/6/20 10:33 AM, Daniel P. Berrang=C3=A9 wrote:
-> > Running configure directly from the source directory is a build
-> > configuration that will go away in future. It is also not currently
-> > covered by any automated testing. Display a deprecation warning if
->=20
-> Calling it a deprecation warning may be overkill now that we've toned dow=
-n
-> the language.
->=20
-> > the user attempts to use an in-srcdir build setup, so that they are
-> > aware that they're building QEMU in an undesirable manner.
-> >=20
-> > Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> > Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> > ---
-> >=20
->=20
-> > +if test "$in_srcdir" =3D "yes"; then
-> > +    echo
-> > +    echo "NOTE: we recommend against building in the source directory"
-> > +    echo
-> > +    echo "You've run the 'configure' script directly from the source"
-> > +    echo "directory. This will work, but we recommend using a separate=
-"
-> > +    echo "build directory, especially if you plan to work with the QEM=
-U"
-> > +    echo "sources rather than just building it once. You can switch to=
-"
-> > +    echo "a separate build directory like this:"
-> > +    echo
-> > +    echo "  $ mkdir build"
->=20
-> As I pointed out on v4, this is missing a step.  Since this is just a
-> warning and not fatal, './configure' completed and polluted the in-tree
-> directories to the point that following these instructions will fail unle=
-ss
-> they start with 'make distclean' prior to the other steps.
+never use google docs
 
-Hmm, I was thinking this wasn't needed because we would assume this  was
-a fresh checkout, but I had forgot that this very run of configure will
-have polluted it.
 
->=20
-> > +    echo "  $ cd build"
-> > +    echo "  $ ../configure"
-> > +    echo "  $ make"
-> > +    echo
-> > +fi
-> > +
-> >   config_host_mak=3D"config-host.mak"
-> >   echo "# Automatically generated by configure - do not modify" >config=
--all-disas.mak
-> >=20
->=20
-> --=20
-> Eric Blake, Principal Software Engineer
-> Red Hat, Inc.           +1-919-301-3226
-> Virtualization:  qemu.org | libvirt.org
->=20
->=20
+On Mon, Apr 06, 2020 at 11:57:11AM +0100, Peter Maydell wrote:
+> On Mon, 6 Apr 2020 at 11:35, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> > On 04/04/20 03:37, John Snow wrote:
+> > > I have a lot of opinions and thoughts on python and how docs should be
+> > > laid out, but I'm afraid I'm not so good at understanding all of the
+> > > options and "use cases" of QEMU to confidently lay out a top-level TOC.
+> > > Maybe if we collaborated on a TOC we could give a clear project
+> > > guideline to a GSoC/GSoD contributor.
+> >
+> > That's actually how a good technical writer can help us!  The main
+> > problem we have with our docs is the disconnect between docs/system
+> > (formerly qemu-doc) and the .txt files in docs/.  We know the material,
+> > but it's hard to reorganize docs/system to make room for everything else.
+> >
+> > Reorganizing the TOC to fit all the material in both categories would be
+> > the best outcome of our participation in GSoD.
+> 
+> Yep, and unlike last year we've actually (almost) completed
+> the transition to Sphinx so we have a workable structure/tooling
+> for a tech writer to work with.
+> 
+> thanks
+> -- PMM
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+-- 
+So many immigrant groups have swept through our town
+that Brooklyn, like Atlantis, reaches mythological
+proportions in the mind of the world - RI Safir 1998
+http://www.mrbrklyn.com 
+
+DRM is THEFT - We are the STAKEHOLDERS - RI Safir 2002
+http://www.nylxs.com - Leadership Development in Free Software
+http://www2.mrbrklyn.com/resources - Unpublished Archive 
+http://www.coinhangout.com - coins!
+http://www.brooklyn-living.com 
+
+Being so tracked is for FARM ANIMALS and extermination camps, 
+but incompatible with living as a free human being. -RI Safir 2013
 
 
