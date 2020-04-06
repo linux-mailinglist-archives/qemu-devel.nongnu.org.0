@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C720119FC0F
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 19:53:12 +0200 (CEST)
-Received: from localhost ([::1]:35928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 309A419FC1D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 19:56:45 +0200 (CEST)
+Received: from localhost ([::1]:36022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLVvr-0001gQ-LQ
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 13:53:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35878)
+	id 1jLVzI-0000EI-6k
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 13:56:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35905)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVqr-0001c4-CN
+ id 1jLVqs-0001ds-Uz
  for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVqp-0001ib-9N
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:01 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:34486)
+ id 1jLVqr-0001rT-QH
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:02 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42903)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVqp-0001eG-2n; Mon, 06 Apr 2020 13:47:59 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id 65so540387wrl.1;
- Mon, 06 Apr 2020 10:47:59 -0700 (PDT)
+ id 1jLVqr-0001mQ-KH; Mon, 06 Apr 2020 13:48:01 -0400
+Received: by mail-wr1-x443.google.com with SMTP id h15so476352wrx.9;
+ Mon, 06 Apr 2020 10:48:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8naS2wy7z7r5ZHMslOR/F6A89KH9g2Da3djfcOFUQbw=;
- b=IdbN0w1DfyFRmQULHoZhV0M1iy18Px58Xe4QSa0+fV5j/PXebmm4iK0aPGHkG7QhHt
- 75WYS/AlPf9ngiydKa/rTdmkMFYPcVlSzH1fWv7gD9LQnEH6aC6bHjcTdrG76n3QqtCO
- S2u8cmvqj5Kj2GsWsmTDWKIgAPfJCAoMmjHSO83NsBEY4J+6GJ5riYheTxeLop8pdnH8
- Her01QU6fJVAJmCa7n4Hwmv5RhVaFQYKcGFpc0ceNNQykLbvLNIJ+ovQJJ/TBan7xOvz
- 2xB6baViv8MUF2K2wAFaXctRTt+RhKRAKBv75omLW3kPGDlhECyK2MYylMHL/i7CycHP
- JdsA==
+ bh=6j0bhZZ4DXOIthIvcH8V/7teI/2Tb9x+JKEVdKazvPI=;
+ b=X1KU2tXNDH5oKLXhUCQy2lQVeBbPbs/TJMa7hxWN5ICWvCYNdAPpAd/DFf0xuMWQG6
+ cwqzS1t6QC0JzX5vZ2/jT0sx3PT0WCZPz7/5FwWIbo46IoHrZlvJjnHOyS0FMMmmirpZ
+ NaiYD78By1i2Dwa7U1ZuiWG5kF5dq19RWVIIvi5DwjGZQi87skGeSzKmAn6FsQXYXqvb
+ Gt0YsY+Ugn+KgpbPqiaQqLrqZo0trPsylmt3W18y6H+Y2UmEZZLResC0IGTxMhw5BS0A
+ IHyTK7PSeYtPRlpZSk4N3q7jqwWeOYYCCGoaRBU0hUuKl52jRK0XBJkB98lUr70kI+cR
+ 69BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=8naS2wy7z7r5ZHMslOR/F6A89KH9g2Da3djfcOFUQbw=;
- b=ClYKBfo9iKIctdKAaI6mnPIYsk998QmgkUb2iZkAVwimHgEotLZm2JiRfTgRbZSfjD
- PGtYXu8FJwTxe7lRAn6r2sfm3AmMxafmzn2ttCEAi4kdT/pW5fv1Vd7FDvYm+o2tyAns
- qqyWXC7UFLlMVA2gB/m8NHEfUhg1743HMQcT8BxAudpBUoB1uPWmhLx6vgphcF+qLCe/
- SAeGT4L7X79nzQ/ORrYlAlN9SVbCkDg/y/mcciPD+RI4rhXn3zdnsUoOABDZNdqyyIBb
- UylXsO7enS59a1MuWuDANNVxANdHuD1wL8hq+4EUUn6VYOkNjyW4gHxxIg/85OegrELp
- AOGA==
-X-Gm-Message-State: AGi0PuZ9esMufHiZB38FSuxnk48nCVyBHBO+YM/MgryM7CI26NDUbmdS
- ktyNbi0hLcvr1SoRk6/bYwMKEm7tkCo=
-X-Google-Smtp-Source: APiQypLNVrNm3Y+tFshWdpmT7DwkfYpIh/cW8Dg+nNwb3DRU5oyXaYPC8HreEA9mSZphwgh2Sb9mBw==
-X-Received: by 2002:adf:a308:: with SMTP id c8mr390720wrb.302.1586195277554;
- Mon, 06 Apr 2020 10:47:57 -0700 (PDT)
+ bh=6j0bhZZ4DXOIthIvcH8V/7teI/2Tb9x+JKEVdKazvPI=;
+ b=kTxjAJmuJH9jQJ6Sx19HZu8LjkdwF/g46txSK1ZOvOhXmEj9Fv8WVWn+3wrGcGyX8c
+ GYR3bt0/QRqOR+Xte1sojLQRmNLtAdGX2WK+NynIRSN1XfEqsrIbZajAwideNl17c8E+
+ oc+1gkGqGdej/0gLGKkVMLl40G+DgOUHqwwE6N+wBzsrBW8zqk1JBYehwa0vqC6CDwYc
+ ZeXHIs25aE+SbAHsH7THA/5NL1R/4AAaowaZd/rc+nhXBJtEzIz17cpIvKj+KbQTScn8
+ emLgo5k2klMeYEdiKtm/XQRXvTaF+AU8uIjbFaImXTuUde/SFe7+WKGhkJhq3KYTxC6a
+ JNXg==
+X-Gm-Message-State: AGi0PuYDuBI/LthNS7hTzzxk5ow+322o0TQWI3H97Zhfw/+i+b/OmCU0
+ MBPoaVmKkjxoGlc/JNzvgh4+mhPOPi8=
+X-Google-Smtp-Source: APiQypLW/IYxXY+iRtT8LTwmBcdFXl7kw3iK4ji/0rTZf/nuBrGEucZybsqGwrOBwcACWlfU9qHrng==
+X-Received: by 2002:a5d:6104:: with SMTP id v4mr357482wrt.213.1586195278992;
+ Mon, 06 Apr 2020 10:47:58 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.47.56
+ by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.47.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 10:47:56 -0700 (PDT)
+ Mon, 06 Apr 2020 10:47:58 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH-for-5.1 v2 08/54] hw/arm/fsl-imx6: Simplify checks on
- 'smp_cpus' count
-Date: Mon,  6 Apr 2020 19:46:57 +0200
-Message-Id: <20200406174743.16956-9-f4bug@amsat.org>
+Subject: [PATCH-for-5.1 v2 09/54] hw/arm/fsl-imx6: Move some code from
+ realize() to init()
+Date: Mon,  6 Apr 2020 19:46:58 +0200
+Message-Id: <20200406174743.16956-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200406174743.16956-1-f4bug@amsat.org>
 References: <20200406174743.16956-1-f4bug@amsat.org>
@@ -71,7 +71,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,52 +98,107 @@ Coccinelle failed at processing this file:
   HANDLING: ./hw/arm/fsl-imx6.c
   Fatal error: exception Coccinelle_modules.Common.Timeout
 
-While reviewing we notice the smp_cpus count is already limited
-by MachineClass::max_cpus:
-
-  static void sabrelite_machine_init(MachineClass *mc)
-  {
-      mc->max_cpus = FSL_IMX6_NUM_CPUS;
-      ...
-  }
-
-So remove the check in realize(), but still assert in init().
+While reviewing we noticed some functions can be called at
+init() time, reducing the need to add extra Error checks at
+realize() time. Move them. The coccinelle script succeeds
+after this.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/fsl-imx6.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ hw/arm/fsl-imx6.c | 47 +++++++++++++++++++++++------------------------
+ 1 file changed, 23 insertions(+), 24 deletions(-)
 
 diff --git a/hw/arm/fsl-imx6.c b/hw/arm/fsl-imx6.c
-index 13f1bf23a6..3d37352b08 100644
+index 3d37352b08..6bf8aa0404 100644
 --- a/hw/arm/fsl-imx6.c
 +++ b/hw/arm/fsl-imx6.c
-@@ -37,10 +37,12 @@
- static void fsl_imx6_init(Object *obj)
- {
-     MachineState *ms = MACHINE(qdev_get_machine());
-+    unsigned int smp_cpus = ms->smp.cpus;
-     FslIMX6State *s = FSL_IMX6(obj);
-     char name[NAME_SIZE];
-     int i;
- 
-+    assert(smp_cpus <= FSL_IMX6_NUM_CPUS);
-     for (i = 0; i < MIN(ms->smp.cpus, FSL_IMX6_NUM_CPUS); i++) {
-         snprintf(name, NAME_SIZE, "cpu%d", i);
+@@ -48,11 +48,30 @@ static void fsl_imx6_init(Object *obj)
          object_initialize_child(obj, name, &s->cpu[i], sizeof(s->cpu[i]),
-@@ -121,12 +123,6 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
-     Error *err = NULL;
+                                 ARM_CPU_TYPE_NAME("cortex-a9"),
+                                 &error_abort, NULL);
++
++        /* On uniprocessor, the CBAR is set to 0 */
++        if (smp_cpus > 1) {
++            object_property_set_int(OBJECT(&s->cpu[i]), FSL_IMX6_A9MPCORE_ADDR,
++                                    "reset-cbar", &error_abort);
++        }
++
++        /* All CPU but CPU 0 start in power off mode */
++        if (i) {
++            object_property_set_bool(OBJECT(&s->cpu[i]), true,
++                                     "start-powered-off", &error_abort);
++        }
+     }
+ 
+     sysbus_init_child_obj(obj, "a9mpcore", &s->a9mpcore, sizeof(s->a9mpcore),
+                           TYPE_A9MPCORE_PRIV);
+ 
++    object_property_set_int(OBJECT(&s->a9mpcore), smp_cpus, "num-cpu",
++                            &error_abort);
++
++    object_property_set_int(OBJECT(&s->a9mpcore),
++                            FSL_IMX6_MAX_IRQ + GIC_INTERNAL, "num-irq",
++                            &error_abort);
++
+     sysbus_init_child_obj(obj, "ccm", &s->ccm, sizeof(s->ccm), TYPE_IMX6_CCM);
+ 
+     sysbus_init_child_obj(obj, "src", &s->src, sizeof(s->src), TYPE_IMX6_SRC);
+@@ -81,6 +100,10 @@ static void fsl_imx6_init(Object *obj)
+         snprintf(name, NAME_SIZE, "gpio%d", i + 1);
+         sysbus_init_child_obj(obj, name, &s->gpio[i], sizeof(s->gpio[i]),
+                               TYPE_IMX_GPIO);
++        object_property_set_bool(OBJECT(&s->gpio[i]), true, "has-edge-sel",
++                                 &error_abort);
++        object_property_set_bool(OBJECT(&s->gpio[i]), true, "has-upper-pin-irq",
++                                 &error_abort);
+     }
+ 
+     for (i = 0; i < FSL_IMX6_NUM_ESDHCS; i++) {
+@@ -124,19 +147,6 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
      unsigned int smp_cpus = ms->smp.cpus;
  
--    if (smp_cpus > FSL_IMX6_NUM_CPUS) {
--        error_setg(errp, "%s: Only %d CPUs are supported (%d requested)",
--                   TYPE_FSL_IMX6, FSL_IMX6_NUM_CPUS, smp_cpus);
--        return;
--    }
--
      for (i = 0; i < smp_cpus; i++) {
+-
+-        /* On uniprocessor, the CBAR is set to 0 */
+-        if (smp_cpus > 1) {
+-            object_property_set_int(OBJECT(&s->cpu[i]), FSL_IMX6_A9MPCORE_ADDR,
+-                                    "reset-cbar", &error_abort);
+-        }
+-
+-        /* All CPU but CPU 0 start in power off mode */
+-        if (i) {
+-            object_property_set_bool(OBJECT(&s->cpu[i]), true,
+-                                     "start-powered-off", &error_abort);
+-        }
+-
+         object_property_set_bool(OBJECT(&s->cpu[i]), true, "realized", &err);
+         if (err) {
+             error_propagate(errp, err);
+@@ -144,13 +154,6 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
+         }
+     }
  
-         /* On uniprocessor, the CBAR is set to 0 */
+-    object_property_set_int(OBJECT(&s->a9mpcore), smp_cpus, "num-cpu",
+-                            &error_abort);
+-
+-    object_property_set_int(OBJECT(&s->a9mpcore),
+-                            FSL_IMX6_MAX_IRQ + GIC_INTERNAL, "num-irq",
+-                            &error_abort);
+-
+     object_property_set_bool(OBJECT(&s->a9mpcore), true, "realized", &err);
+     if (err) {
+         error_propagate(errp, err);
+@@ -310,10 +313,6 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
+             },
+         };
+ 
+-        object_property_set_bool(OBJECT(&s->gpio[i]), true, "has-edge-sel",
+-                                 &error_abort);
+-        object_property_set_bool(OBJECT(&s->gpio[i]), true, "has-upper-pin-irq",
+-                                 &error_abort);
+         object_property_set_bool(OBJECT(&s->gpio[i]), true, "realized", &err);
+         if (err) {
+             error_propagate(errp, err);
 -- 
 2.21.1
 
