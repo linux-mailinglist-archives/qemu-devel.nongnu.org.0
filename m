@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A73BF19F312
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 11:57:53 +0200 (CEST)
-Received: from localhost ([::1]:57628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B0919F343
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:07:31 +0200 (CEST)
+Received: from localhost ([::1]:57894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLOVs-0004Ft-NB
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 05:57:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46957)
+	id 1jLOfB-0002zH-Bm
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:07:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48256)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frasse.iglesias@gmail.com>) id 1jLORL-0006AD-Ry
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:53:12 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jLOYG-0001Np-RO
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:00:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frasse.iglesias@gmail.com>) id 1jLORK-0003kO-Kd
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:53:11 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:38176)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <frasse.iglesias@gmail.com>)
- id 1jLORK-0003j2-BC; Mon, 06 Apr 2020 05:53:10 -0400
-Received: by mail-lj1-x241.google.com with SMTP id v16so13974956ljg.5;
- Mon, 06 Apr 2020 02:53:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=zZu81AvTz7XnpfPxkUx7W0nVmjRXqKzPOgYt9ht6Xbg=;
- b=N+B8rn2khK41TbDt3qFaha7FQvtALO0YNnbJS6fRlmK8jipn4fhO6Bl30ZbyxlyWeR
- 517UL+gEZAHMhVE/iNSerYY11iJEDxP5LSmzWo2KxYyZk+qJzAMfIcBQ830N0UqChatX
- 9WSj0IoGDq1YfodSaOxDR6qdtpJQUbqhLm1w28HHhDM9oZnp8v/xc20cZ4o7Rb7Zo1f5
- i8tiib+8U1m7y8Iw6XKD6J2etCIhnBqJx0ZOZ8/ShHvT88gppeO5oVBjeFN3QH4ODt5j
- LxrklU+EWzPMwifuLNKmeXf2YMgDNSKYlGeOnvNIjy77C0VHU7+rWmHboSta/kLGkTfZ
- ToNg==
+ (envelope-from <pbonzini@redhat.com>) id 1jLOYF-0000kz-H8
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:00:20 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:50785
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jLOYF-0000jx-8P
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:00:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586167218;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lvZGsl+mfC1vIV6x/TThSRiCchmIwWwO4IGLtbW1u9c=;
+ b=VPt89h1vd57Jj3HPqxDVkDkrTPhyx0xA1/P+VDtxa6dz9j5uf36kb4xPvpkjRQYi8wZPtY
+ 4xYZDlYsSpgkxbk5WXuZW5lufQaiipWNmDjubs2xU2izOnHbZR6825TDuQ044meGJPFOZJ
+ UUT/6mOHDOvf9SdCncVnV7tXFoaVKj0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-452-1gpv6-u7OMC3tU0vstTiYA-1; Mon, 06 Apr 2020 06:00:17 -0400
+X-MC-Unique: 1gpv6-u7OMC3tU0vstTiYA-1
+Received: by mail-wr1-f69.google.com with SMTP id 88so5454020wrq.4
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 03:00:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=zZu81AvTz7XnpfPxkUx7W0nVmjRXqKzPOgYt9ht6Xbg=;
- b=rmsXbV7D59Yh5uE46yKusKlREQs7ABY6MrBXpBYSQIcGFKmWbOYiK3kdVztyvgYxW+
- bn30hEcqHOrjtRZjkl/hAmyfln5f6OQuve+WKmpSrQUoP/4GRoLo3DnKShbupFSEJH8b
- w1299ITRmBFpTQ1pP8yj9wjGmXUqPiTIqCuoGSPj1eKP3XNWZQ27KpgQtTJMR5OXeZr1
- NUaV71zOcCbxKioGKR78QiIoytL/86bgZZZBq7yUWv4APNC1cK1T6JfKBl4HUdfAbyxA
- mwL1AIyC/GGpc3hlvp98tDoBogiPoxdQZMIiJqT/GPXxKSOQuTMwa2Yw9cC6OUvEdzwm
- HFjw==
-X-Gm-Message-State: AGi0PuZdmrksReGcVnO6v56nrYem2g+zTscczBmZeJCY4IE7YBrSpmo0
- VLsh8dsTkjdJwQnEC6mg6t4=
-X-Google-Smtp-Source: APiQypKcgtIshjJvSBFpX7tF8KydMkJZdec/rZ9lLTyX/Eu+B3+TJ46OiWN87CiqUrEYk8yjlwIW0w==
-X-Received: by 2002:a2e:9d85:: with SMTP id c5mr11466060ljj.168.1586166788978; 
- Mon, 06 Apr 2020 02:53:08 -0700 (PDT)
-Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
- by smtp.gmail.com with ESMTPSA id
- e12sm12070373ljl.36.2020.04.06.02.53.07
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 06 Apr 2020 02:53:08 -0700 (PDT)
-Date: Mon, 6 Apr 2020 11:53:06 +0200
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Subject: Re: [PATCH v1 2/2] dma/xlnx-zdma: Fix descriptor loading (REG) wrt
- endianness
-Message-ID: <20200406095305.n542oyamddwh4uj7@fralle-msi>
-References: <20200404122718.25111-1-edgar.iglesias@gmail.com>
- <20200404122718.25111-3-edgar.iglesias@gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lvZGsl+mfC1vIV6x/TThSRiCchmIwWwO4IGLtbW1u9c=;
+ b=Dd5sU4OGNU+DoHu0NX9mmh2R2OQNQTD2mMXFmL1cZQcKumwQ6+78ipNRZkcJV2Oqg+
+ 8Sv0VdLVZAfmUAJkrxnLabproPswTLabU5nhzkkKkExk/HTLQ/9t0qLjDfkBeCuRsjFN
+ 7xl7iBvcp6ClhkG+VLPoMXYSqB8EqtPdvXTZX6IdQdT5kUp1/PChh7FlvU6yV+VoVquT
+ uGqUtjA7vDr9hlkbczWXczViluJ/mn6FgftJB2WKJwM3YzZnDXp8H965DpomU3L66mzD
+ FIuwuqUVX0k2RT6cbY6YAvxJCo2lZIkUpQ4N5PVisYsx0vkcGDwGyHYo3aJ1UD4NnWA+
+ 6gQQ==
+X-Gm-Message-State: AGi0PuZKiQLSfxeaty7yKOi9RwuE5RUwJrWdorxjB4HTE1N0KFHjM6ha
+ nIP7f0QyN3shtNbLPYeoYa/uuPTdzxt/J4JNTimKbY8Qi6c0udN9PdR9mgBowvx0BOfajGutX5I
+ 1nmnUpkY5Crq6sck=
+X-Received: by 2002:a5d:4988:: with SMTP id r8mr3888181wrq.248.1586167215612; 
+ Mon, 06 Apr 2020 03:00:15 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKayENzJE7tRful42VTyax8Gs4EKSQcIgxcjYCeQjJKVT0YS+/27QY5Racjd1dkct4flzcBgA==
+X-Received: by 2002:a5d:4988:: with SMTP id r8mr3888157wrq.248.1586167215325; 
+ Mon, 06 Apr 2020 03:00:15 -0700 (PDT)
+Received: from [192.168.10.150] ([93.56.170.5])
+ by smtp.gmail.com with ESMTPSA id k9sm8085997wrn.89.2020.04.06.03.00.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Apr 2020 03:00:14 -0700 (PDT)
+Subject: Re: [PATCH v1 3/3] hvf: Support AVX512 guests on capable hardware
+To: Cameron Esfahani <dirty@apple.com>, qemu-devel@nongnu.org
+References: <cover.1585607927.git.dirty@apple.com>
+ <1da0fc0a4f119e951ae11b29ff26ee587f4748aa.1585607927.git.dirty@apple.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <b9d908a5-c0ee-fba6-4763-e1542a114637@redhat.com>
+Date: Mon, 6 Apr 2020 12:00:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200404122718.25111-3-edgar.iglesias@gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::241
+In-Reply-To: <1da0fc0a4f119e951ae11b29ff26ee587f4748aa.1585607927.git.dirty@apple.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,68 +90,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
- edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com, alistair@alistair23.me,
- richard.henderson@linaro.org, qemu-devel@nongnu.org,
- frederic.konrad@adacore.com, qemu-arm@nongnu.org, philmd@redhat.com,
- luc.michel@greensocs.com
+Cc: r.bolshakov@yadro.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On [2020 Apr 04] Sat 14:27:18, Edgar E. Iglesias wrote:
-> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-> 
-> Fix descriptor loading from registers wrt host endianness.
-> 
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-
-Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-
-> ---
->  hw/dma/xlnx-zdma.c | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/dma/xlnx-zdma.c b/hw/dma/xlnx-zdma.c
-> index 5f4775f663..4121a1b489 100644
-> --- a/hw/dma/xlnx-zdma.c
-> +++ b/hw/dma/xlnx-zdma.c
-> @@ -299,6 +299,14 @@ static void zdma_put_regaddr64(XlnxZDMA *s, unsigned int basereg, uint64_t addr)
->      s->regs[basereg + 1] = addr >> 32;
+On 31/03/20 02:16, Cameron Esfahani wrote:
+> @@ -458,7 +459,7 @@ void hvf_reset_vcpu(CPUState *cpu) {
+>      macvm_set_cr0(cpu->hvf_fd, CR0_CD_MASK | CR0_NW_MASK | CR0_ET_MASK);
+>      macvm_set_cr0(cpu->hvf_fd, 0x60000010);
+>  
+> -    wvmcs(cpu->hvf_fd, VMCS_CR4_MASK, CR4_VMXE_MASK);
+> +    wvmcs(cpu->hvf_fd, VMCS_CR4_MASK, CR4_VMXE_MASK | CR4_OSXSAVE_MASK);
+>      wvmcs(cpu->hvf_fd, VMCS_CR4_SHADOW, 0x0);
+>      wvmcs(cpu->hvf_fd, VMCS_GUEST_CR4, CR4_VMXE_MASK);
+>  
+> diff --git a/target/i386/hvf/vmx.h b/target/i386/hvf/vmx.h
+> index 1a1b150c97..dccd5ceb0f 100644
+> --- a/target/i386/hvf/vmx.h
+> +++ b/target/i386/hvf/vmx.h
+> @@ -157,13 +157,20 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
+>      hv_vcpu_flush(vcpu);
 >  }
 >  
-> +static void zdma_load_descriptor_reg(XlnxZDMA *s, unsigned int reg,
-> +                                     XlnxZDMADescr *descr)
-> +{
-> +    descr->addr = zdma_get_regaddr64(s, reg);
-> +    descr->size = s->regs[reg + 2];
-> +    descr->attr = s->regs[reg + 3];
-> +}
-> +
->  static bool zdma_load_descriptor(XlnxZDMA *s, uint64_t addr,
->                                   XlnxZDMADescr *descr)
+> -static inline void macvm_set_cr4(hv_vcpuid_t vcpu, uint64_t cr4)
+> +static inline void macvm_set_cr4(CPUX86State *env, hv_vcpuid_t vcpu,
+> +                                 uint64_t cr4)
 >  {
-> @@ -324,8 +332,7 @@ static void zdma_load_src_descriptor(XlnxZDMA *s)
->      unsigned int ptype = ARRAY_FIELD_EX32(s->regs, ZDMA_CH_CTRL0, POINT_TYPE);
+>      uint64_t guest_cr4 = cr4 | CR4_VMXE_MASK;
+
+I think you need to add the host CR4.OSXSAVE bit here too?  (You can
+read it from CPUID).
+
+>      wvmcs(vcpu, VMCS_GUEST_CR4, guest_cr4);
+>      wvmcs(vcpu, VMCS_CR4_SHADOW, cr4);
 >  
->      if (ptype == PT_REG) {
-> -        memcpy(&s->dsc_src, &s->regs[R_ZDMA_CH_SRC_DSCR_WORD0],
-> -               sizeof(s->dsc_src));
-> +        zdma_load_descriptor_reg(s, R_ZDMA_CH_SRC_DSCR_WORD0, &s->dsc_src);
->          return;
->      }
->  
-> @@ -360,8 +367,7 @@ static void zdma_load_dst_descriptor(XlnxZDMA *s)
->      bool dst_type;
->  
->      if (ptype == PT_REG) {
-> -        memcpy(&s->dsc_dst, &s->regs[R_ZDMA_CH_DST_DSCR_WORD0],
-> -               sizeof(s->dsc_dst));
-> +        zdma_load_descriptor_reg(s, R_ZDMA_CH_DST_DSCR_WORD0, &s->dsc_dst);
->          return;
->      }
->  
-> -- 
-> 2.20.1
-> 
+> +    /*
+> +     * Track whether OSXSAVE is enabled so we can properly return it
+> +     * for CPUID 1.
+> +     */
+> +    env->osxsave_enabled = ((cr4 & CR4_OSXSAVE_MASK) != 0);
+
+This new variable doesn't seem necessary.  Instead you can just set
+env->cr[4] here, and everything should work fine.
+
+Paolo
+
 
