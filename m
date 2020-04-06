@@ -2,114 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0683319F260
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 11:21:47 +0200 (CEST)
-Received: from localhost ([::1]:56662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFD5B19F2A6
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 11:30:12 +0200 (CEST)
+Received: from localhost ([::1]:56734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLNwu-0005vS-He
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 05:21:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40136)
+	id 1jLO54-0001wI-T5
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 05:30:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40327)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1jLNj1-0001FQ-84
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:07:25 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jLNl7-0002SB-DF
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:09:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1jLNiy-00024C-91
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:07:22 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53725
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1jLNiy-00023q-3s
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:07:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586164039;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=rwjMGHKXIcO486cnw0DC5Boatgfbypm7c6uZW1wcwRg=;
- b=PwdcXfIkY2h2rTlkvTvvuDEMymnGpWyrQav5NJnDNwLo0hHsv3jwFy1lEgHgAGZ/3sYTYt
- mtEWx3RBYXt8hcHOqUg/wReB5VFZsQj3zvjgGOFgq5/Bzz6lhzlRW4Dyr37tDp7C3U+vTW
- 9JYbwEI5R7HywmrV2ViG1LQDWAQB71g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-eNQF3tZbOi2IskTxDcnAUQ-1; Mon, 06 Apr 2020 05:07:15 -0400
-X-MC-Unique: eNQF3tZbOi2IskTxDcnAUQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DDB2800D5C;
- Mon,  6 Apr 2020 09:07:14 +0000 (UTC)
-Received: from [10.36.114.88] (ovpn-114-88.ams2.redhat.com [10.36.114.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 39FBFB19DD;
- Mon,  6 Apr 2020 09:07:12 +0000 (UTC)
-Subject: Re: [PATCH 1/1] s390x/s390-virtio-ccw: Fix build on systems without
- KVM
-To: Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-devel <qemu-devel@nongnu.org>, Cornelia Huck <cohuck@redhat.com>
-References: <20200406075931.26232-1-borntraeger@de.ibm.com>
- <20200406075931.26232-2-borntraeger@de.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat GmbH
-Message-ID: <27304f4e-3801-3200-c5ba-9fb5ac0f8715@redhat.com>
-Date: Mon, 6 Apr 2020 11:07:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <alex.bennee@linaro.org>) id 1jLNkz-0002mT-Pp
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:09:32 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38101)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jLNky-0002l5-Vh
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:09:25 -0400
+Received: by mail-wm1-x343.google.com with SMTP id f20so5902795wmh.3
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 02:09:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=ODvrgbntrYR+c5NW+GPbnJ8NbTUzTBdQLQq9ToxxXOk=;
+ b=EmgHkCpSec60COah1Ba5e14TVQw/mMPaHiMYm3KslhkuVNn2cfcN7f7ZMyaqHK8SI8
+ HGGAGwYd4k4B4nUY1MI2kAtwKAkfk27MKxP+jew4qeCZKmb3jmM0nItWlacjZ0Rwt9WF
+ ydrWdDaiuDOMVJmIIMn9p+3dwVwviOlqdi3k0I47VqtyY/8XJBvrGnaygaNU+A9xT5Zm
+ R0busLrgftgxBqUTHgnoW41TLm95+HBgxAnzUvuCK8dBbWoxKNwpV1oWcPOzBTXoqoKa
+ IG1u5MmhhsdqpgexYLfFQJDCz7V80PokDjvPtFsUElsqoZlPHNWQLJFte8GJDzq0WdtT
+ Fu1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=ODvrgbntrYR+c5NW+GPbnJ8NbTUzTBdQLQq9ToxxXOk=;
+ b=mNKfHhi59Cyf2Xb22LV79ggAzEGDREUR4Stk7IU0e84XD5vEheiKWf0GYxy+m8BMxZ
+ k2mJeCbAOts8gdZqn2VjMFGAp6UaGsqi2ipvLdPQYonsnKI7gFoO10RQ8B0YwMn6h5ds
+ ndQjDLpjVCk0i0dC1/oaWKHhTUJYkQ4tAnsGU6BOONR/T2h1QVNgRIFCNc/ZEc6UB1hD
+ b4KNBlUxmIH+ZB++nAWDh+csNyATaXjA08ONYh/jfrAuAc1ysgJLXeKn6QIPsKbTv/Ss
+ vxjtvLTjDLiWlGvbAAILakk/7wFkVV0Tc531dONzhOWUIR7Y2ELnuKZpCR5Z3HZrzHED
+ MsPw==
+X-Gm-Message-State: AGi0PubWEyPU1c8ZB69rSBtlOuvwuVjznzLc/jHanpttKHPPxIHgZjgW
+ yNhxmibBNYrqiJkhoNPb2ILuGA==
+X-Google-Smtp-Source: APiQypK9QK/so2dXmEFZinsp1+8nptUh4gRV4nq5J6GA0PX8WCY4hq7SKbKA9c9CP2FLqAq80324ag==
+X-Received: by 2002:a1c:b005:: with SMTP id z5mr20759541wme.145.1586164162384; 
+ Mon, 06 Apr 2020 02:09:22 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id p5sm26812329wrg.49.2020.04.06.02.09.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Apr 2020 02:09:21 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7B3511FF7E;
+ Mon,  6 Apr 2020 10:09:20 +0100 (BST)
+References: <20200403191150.863-1-alex.bennee@linaro.org>
+ <20200403191150.863-9-alex.bennee@linaro.org>
+ <830061f9-91cd-145c-4388-f2bfe9a3d7a6@linaro.org>
+User-agent: mu4e 1.3.10; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 08/12] linux-user: factor out reading of /proc/self/maps
+In-reply-to: <830061f9-91cd-145c-4388-f2bfe9a3d7a6@linaro.org>
+Date: Mon, 06 Apr 2020 10:09:19 +0100
+Message-ID: <87pnclaslc.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200406075931.26232-2-borntraeger@de.ibm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -121,33 +83,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- Bruce Rogers <brogers@suse.com>, Halil Pasic <pasic@linux.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, Richard Henderson <rth@twiddle.net>
+Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
->  static inline bool s390_is_pv(void)
-> @@ -41,6 +42,7 @@ int s390_pv_unpack(uint64_t addr, uint64_t size, uint64_t tweak);
->  void s390_pv_perf_clear_reset(void);
->  int s390_pv_verify(void);
->  void s390_pv_unshare(void);
-> +void s390_machine_inject_pv_error(CPUState *cs);
->  #else /* CONFIG_KVM */
->  static inline bool s390_is_pv(void) { return false; }
->  static inline int s390_pv_vm_enable(void) { return 0; }
-> @@ -50,6 +52,7 @@ static inline int s390_pv_unpack(uint64_t addr, uint64_t size, uint64_t tweak) {
->  static inline void s390_pv_perf_clear_reset(void) {}
->  static inline int s390_pv_verify(void) { return 0; }
->  static inline void s390_pv_unshare(void) {}
-> +static inline void s390_machine_inject_pv_error(CPUState *cs) {};
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-I'd suggest renaming that to s390_pv_inject_error() or similar right away.
+> On 4/3/20 12:11 PM, Alex Benn=C3=A9e wrote:
+>> +                e->is_read  =3D fields[1][0] =3D=3D 'r' ? true : false;
+>> +                e->is_write =3D fields[1][1] =3D=3D 'w' ? true : false;
+>> +                e->is_exec  =3D fields[1][2] =3D=3D 'x' ? true : false;
+>> +                e->is_priv  =3D fields[1][3] =3D=3D 'p' ? true : false;
+>
+> Drop the redundant ? true : false.  That is of course the result of the b=
+oolean
+> operation.
 
--- 
-Thanks,
+doh! Fortunately the compiler was smart enough to see through my idiocy...
 
-David / dhildenb
+>
+>> +                errors +=3D qemu_strtoi(fields[4], NULL, 10, &e->inode);
+>
+> The root of the typedef chain for ino_t is
+>
+> /usr/include/asm-generic/posix_types.h:typedef __kernel_ulong_t __kernel_=
+ino_t;
+>
+> so I think you should just go ahead and use unsigned long here too.  Or m=
+aybe
+> even uint64_t, because 32-bit has ino64_t, and could in fact have a Large
+> Number here.
 
+Will fix.
+
+>
+>
+> r~
+
+
+--=20
+Alex Benn=C3=A9e
 
