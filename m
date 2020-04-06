@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A93419F388
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:31:53 +0200 (CEST)
-Received: from localhost ([::1]:58422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9ABA19F394
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:32:56 +0200 (CEST)
+Received: from localhost ([::1]:58448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLP2m-0008Rg-HN
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:31:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52409)
+	id 1jLP3n-0001Lr-T5
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:32:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53005)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jLOy9-000481-7F
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:27:07 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1jLP2E-0008V7-Ee
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:31:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1jLOy8-0002q6-0g
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:27:04 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:40826
+ (envelope-from <eric.auger@redhat.com>) id 1jLP2C-000697-OL
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:31:18 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24489
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jLOy7-0002pQ-St
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:27:03 -0400
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1jLP2C-00068l-Jp
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:31:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586168822;
+ s=mimecast20190719; t=1586169076;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Uu+Bu7gwvfzeaCxPlFA6AVJgjPs2S8B3Fg9PjM8iziI=;
- b=jBQR1LE/ruhy5IwvcmWa4MWEGuQ0Noz9NU65g9pKsNakFM6IiIHzQrbylxq5JXv803Su24
- SdLPIwPQQUv/esHOS12DXyBJAyZJr36zSz3XdFdFZDZz1p7eIgAmfjTXbXFeTj8ob8apv3
- WI0ub770PNIQ4sEEOU6i6WFnbl17haU=
+ bh=Frr3U9FewSH3rwJWC1POGOuw/i/P/MIPEW7fR+tNJOo=;
+ b=GH3hLUN4TKSBvip+/e1JNUdi0NrrkdR8q7jQCbb2OlzptpLfeDAxl8Ln9l8y5BYuxejg7X
+ m2e8GDnCQ0byDknanlyJISjdtNVMa5WaqWIvlH9f9h3y9ykYrHghZq+3LDEzhjJpGJXypF
+ QXYpBcK53J7yliGFTJmbG0TOEv6za0Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-249--zIb2D7TPzaBBVfJsQ5yNQ-1; Mon, 06 Apr 2020 06:27:00 -0400
-X-MC-Unique: -zIb2D7TPzaBBVfJsQ5yNQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-293-p-t34X7RPyeNPqCCGcDabQ-1; Mon, 06 Apr 2020 06:30:47 -0400
+X-MC-Unique: p-t34X7RPyeNPqCCGcDabQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B20B18C43DE;
- Mon,  6 Apr 2020 10:26:59 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-60.ams2.redhat.com
- [10.36.113.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 81AA05C541;
- Mon,  6 Apr 2020 10:26:53 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B9BAC16E2C; Mon,  6 Apr 2020 12:26:52 +0200 (CEST)
-Date: Mon, 6 Apr 2020 12:26:52 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v2 09/12] acpi: move aml builder code for parallel device
-Message-ID: <20200406102652.lf2yq4wkm2lylgzf@sirius.home.kraxel.org>
-References: <20200403080502.8154-1-kraxel@redhat.com>
- <20200403080502.8154-10-kraxel@redhat.com>
- <20200403121210.30a010cb@redhat.com>
- <20200403121601.35099bf5@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE647113784E;
+ Mon,  6 Apr 2020 10:30:45 +0000 (UTC)
+Received: from [10.36.112.58] (ovpn-112-58.ams2.redhat.com [10.36.112.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B5D8A60BF1;
+ Mon,  6 Apr 2020 10:30:41 +0000 (UTC)
+Subject: Re: [PATCH v2 04/22] hw/iommu: introduce HostIOMMUContext
+To: "Liu, Yi L" <yi.l.liu@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "peterx@redhat.com" <peterx@redhat.com>
+References: <1585542301-84087-1-git-send-email-yi.l.liu@intel.com>
+ <1585542301-84087-5-git-send-email-yi.l.liu@intel.com>
+ <aa1bfbd5-e6de-6475-809e-a6ca46089aaa@redhat.com>
+ <A2975661238FB949B60364EF0F2C25743A2230B3@SHSMSX104.ccr.corp.intel.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <338937be-9b1e-163f-90ef-2cf0c437c3e8@redhat.com>
+Date: Mon, 6 Apr 2020 12:30:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <20200403121601.35099bf5@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+In-Reply-To: <A2975661238FB949B60364EF0F2C25743A2230B3@SHSMSX104.ccr.corp.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -78,92 +79,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Tian,
+ Kevin" <kevin.tian@intel.com>, Jacob Pan <jacob.jun.pan@linux.intel.com>,
+ Yi Sun <yi.y.sun@linux.intel.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "mst@redhat.com" <mst@redhat.com>, "Tian, Jun J" <jun.j.tian@intel.com>, "Sun,
+ Yi Y" <yi.y.sun@intel.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>, "Wu,
+ Hao" <hao.wu@intel.com>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 03, 2020 at 12:16:01PM +0200, Igor Mammedov wrote:
-> On Fri, 3 Apr 2020 12:12:10 +0200
-> Igor Mammedov <imammedo@redhat.com> wrote:
->=20
-> > On Fri,  3 Apr 2020 10:04:59 +0200
-> > Gerd Hoffmann <kraxel@redhat.com> wrote:
-> >=20
+Hi Yi,
+
+On 4/6/20 10:04 AM, Liu, Yi L wrote:
+> Hi Eric,
+> 
+>> From: Auger Eric < eric.auger@redhat.com>
+>> Sent: Tuesday, March 31, 2020 1:23 AM
+>> To: Liu, Yi L <yi.l.liu@intel.com>; qemu-devel@nongnu.org;
+>> Subject: Re: [PATCH v2 04/22] hw/iommu: introduce HostIOMMUContext
+>>
+>> Yi,
+>>
+>> On 3/30/20 6:24 AM, Liu Yi L wrote:
+>>> Currently, many platform vendors provide the capability of dual stage
+>>> DMA address translation in hardware. For example, nested translation
+>>> on Intel VT-d scalable mode, nested stage translation on ARM SMMUv3,
+>>> and etc. In dual stage DMA address translation, there are two stages
+>>> address translation, stage-1 (a.k.a first-level) and stage-2 (a.k.a
+>>> second-level) translation structures. Stage-1 translation results are
+>>> also subjected to stage-2 translation structures. Take vSVA (Virtual
+>>> Shared Virtual Addressing) as an example, guest IOMMU driver owns
+>>> stage-1 translation structures (covers GVA->GPA translation), and host
+>>> IOMMU driver owns stage-2 translation structures (covers GPA->HPA
+>>> translation). VMM is responsible to bind stage-1 translation structures
+>>> to host, thus hardware could achieve GVA->GPA and then GPA->HPA
+>>> translation. For more background on SVA, refer the below links.
+>>>  - https://www.youtube.com/watch?v=Kq_nfGK5MwQ
+>>>  - https://events19.lfasiallc.com/wp-content/uploads/2017/11/\
+>>> Shared-Virtual-Memory-in-KVM_Yi-Liu.pdf
+>>>
 > [...]
-> > > +static void parallel_isa_build_aml(ISADevice *isadev, Aml *scope)
-> > > +{
-> > > +    ISAParallelState *isa =3D ISA_PARALLEL(isadev);
-> > > +    Aml *dev;
-> > > +    Aml *crs;
-> > > +
-> > > +    if (isa->iobase !=3D 0x0378) {
-> > > +        return;
-> > > +    }
-> if device is present why should we skip adding it to DSDT?
+>>> +void host_iommu_ctx_init(void *_iommu_ctx, size_t instance_size,
+>>> +                         const char *mrtypename,
+>>> +                         uint64_t flags)
+>>> +{
+>>> +    HostIOMMUContext *iommu_ctx;
+>>> +
+>>> +    object_initialize(_iommu_ctx, instance_size, mrtypename);
+>>> +    iommu_ctx = HOST_IOMMU_CONTEXT(_iommu_ctx);
+>>> +    iommu_ctx->flags = flags;
+>>> +    iommu_ctx->initialized = true;
+>>> +}
+>>> +
+>>> +static const TypeInfo host_iommu_context_info = {
+>>> +    .parent             = TYPE_OBJECT,
+>>> +    .name               = TYPE_HOST_IOMMU_CONTEXT,
+>>> +    .class_size         = sizeof(HostIOMMUContextClass),
+>>> +    .instance_size      = sizeof(HostIOMMUContext),
+>>> +    .abstract           = true,
+>> Can't we use the usual .instance_init and .instance_finalize?
+> sorry, I somehow missed this comment. In prior patch, .instace_init
+> was used, but the current major init method is via host_iommu_ctx_init(),
+> so .instance_init is not really necessary.
+> https://www.spinics.net/lists/kvm/msg210878.html
 
-Well, that is the current state of affairs, only the first parallel
-ports shows up in the dsdt.  And given how rare parallel ports are these
-days I didn't bother changing that ...
+OK globally what disturbs me is you introduced a QOM object but globally
+the inheritance schema is not totally clear to me (only a VFIO derived
+is created and I do not understand what other backend would be able to
+use it) and this does not really have the look & feel of standard QOM
+objects. I tried to compare its usage/implementation version
+MemoryRegion for instance.
 
-We can handle this simliar to serial lines though, incremental below.
-Do you prefer that?
+Thanks
 
-take care,
-  Gerd
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D cut here =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-From 617797cf42e56e18d5d62cb171af00c28589caba Mon Sep 17 00:00:00 2001
-From: Gerd Hoffmann <kraxel@redhat.com>
-Date: Mon, 6 Apr 2020 12:17:59 +0200
-Subject: [PATCH] [fixup] parallel
-
----
- hw/char/parallel.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/hw/char/parallel.c b/hw/char/parallel.c
-index 2bff1f17fda7..7157d6816b77 100644
---- a/hw/char/parallel.c
-+++ b/hw/char/parallel.c
-@@ -572,10 +572,16 @@ static void parallel_isa_realizefn(DeviceState *dev, =
-Error **errp)
- static void parallel_isa_build_aml(ISADevice *isadev, Aml *scope)
- {
-     ISAParallelState *isa =3D ISA_PARALLEL(isadev);
-+    int i, uid =3D 0;
-     Aml *dev;
-     Aml *crs;
-=20
--    if (isa->iobase !=3D 0x0378) {
-+    for (i =3D 0; i < ARRAY_SIZE(isa_parallel_io); i++) {
-+        if (isa->iobase =3D=3D isa_parallel_io[i]) {
-+            uid =3D i + 1;
-+        }
-+    }
-+    if (!uid) {
-         return;
-     }
-=20
-@@ -583,8 +589,9 @@ static void parallel_isa_build_aml(ISADevice *isadev, A=
-ml *scope)
-     aml_append(crs, aml_io(AML_DECODE16, 0x0378, 0x0378, 0x08, 0x08));
-     aml_append(crs, aml_irq_no_flags(7));
-=20
--    dev =3D aml_device("LPT");
-+    dev =3D aml_device("LPT%d", uid);
-     aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0400")));
-+    aml_append(dev, aml_name_decl("_UID", aml_int(uid)));
-     aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
-     aml_append(dev, aml_name_decl("_CRS", crs));
-=20
---=20
-2.18.2
+Eric
+> Regards,
+> Yi Liu
+> 
 
 
