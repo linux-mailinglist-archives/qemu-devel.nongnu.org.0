@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E18F19F307
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 11:54:52 +0200 (CEST)
-Received: from localhost ([::1]:57536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8872619F2CC
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 11:43:09 +0200 (CEST)
+Received: from localhost ([::1]:57124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLOSx-0007HY-Ic
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 05:54:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44916)
+	id 1jLOHc-00034a-IX
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 05:43:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44001)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1jLOIK-0005fl-AE
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:43:53 -0400
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1jLOGO-0001Pa-5J
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:41:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1jLOII-0003d0-OC
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:43:52 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:46692)
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1jLOGL-0001zb-Qn
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:41:51 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:34398)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1jLOII-0003cH-Fq
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:43:50 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0369gtkH028646;
- Mon, 6 Apr 2020 09:43:39 GMT
+ id 1jLOGL-0001wz-FE
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:41:49 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0369dovi089372;
+ Mon, 6 Apr 2020 09:41:41 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=wWLay3pm8AxpvecMxv9+x86nn94U64jdP+vfUO8kaz8=;
- b=b9kAYaqNiWK/ekjYBp3vmvJ8Cyel5VjGwGgaT2Sk0TG4+wmL+GFk77b/gR7BLktNCec3
- vFL/64AcR3D6kv+2Cza10mXJNk+9+rjyAKWzIR6kx+B7TpoxYpdhP/30Xw5NshKbje+d
- xnavkTdT7Eqmf5vb+YrV/6d/yBUF8tiaNB59Hq/i2V5a5OQwk+wZM+cpsGcF/4MyJ2r8
- OoHQgnIAYXo4a/H/J/lXMLYGILpwNiEnyl0YfZSv9RFAMMOuawv/LOB/ELYNYKbyGiai
- xhI6Nsd8qeTA1+Y8uKkBgsqac27weq0jhgDxFmlDjKlWr92oeNPS+PFYGbAsscvF9eZx +A== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2120.oracle.com with ESMTP id 306jvmwrbb-1
+ content-transfer-encoding; s=corp-2020-01-29;
+ bh=zIeNg9GJ442gcJiKn8WcNNdmeKePXBPreKOVh7LX5jE=;
+ b=sqzGm/3DmLBQONhMzabQ1+zDUK7LaCgeNeTki2afJ4layHnUWgmkNSVwBbiR8At8My2g
+ J+dSzCOZbhJ6Ptpz3WX/7OdJ5E0JGdvonVhd9exa+i/Y1FwN+xGGFtMxYJzLE+tJbjxR
+ rZglctqEdN4pHj0hYuaJsfEMFGTanB+hQ+ABWANZ0t+SO5hLWHDdHE8J4wVDXYP1GEiy
+ 6qNli99+NPt+Mb25q4VnjfpvsZEAlgE5iTg/9RHwAA6TG+RHLSyoz9Vn2WvGvU18D54i
+ 7j6GldtdfJu8cFx7lRNrLoR50jeo1iSHjIu/MiAavsr58f3O71iKD1uX5xcfp8iyOg1z Uw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2130.oracle.com with ESMTP id 306hnqwtvt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 06 Apr 2020 09:43:39 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0369bLJ5056323;
- Mon, 6 Apr 2020 09:41:38 GMT
+ Mon, 06 Apr 2020 09:41:41 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0369cbxX006560;
+ Mon, 6 Apr 2020 09:41:40 GMT
 Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3030.oracle.com with ESMTP id 3073qcnby8-1
+ by userp3020.oracle.com with ESMTP id 3073xvtt92-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 06 Apr 2020 09:41:38 +0000
+ Mon, 06 Apr 2020 09:41:40 +0000
 Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0369faQi006721;
- Mon, 6 Apr 2020 09:41:37 GMT
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0369fdg6006731;
+ Mon, 6 Apr 2020 09:41:39 GMT
 Received: from flaka.hsd1.ca.comcast.net (/67.180.143.163)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 06 Apr 2020 02:41:36 -0700
+ with ESMTP ; Mon, 06 Apr 2020 02:41:38 -0700
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 03/36] command-line: refractor parser code
-Date: Mon,  6 Apr 2020 02:40:53 -0700
-Message-Id: <e9a5c0588905289b05ab03bee957b700de39f167.1586165555.git.elena.ufimtseva@oracle.com>
+Subject: [PATCH v6 04/36] multi-process: Refactor chardev functions out of vl.c
+Date: Mon,  6 Apr 2020 02:40:54 -0700
+Message-Id: <751edf3f6993127a439ed8f80b90fb52e8129d97.1586165555.git.elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.25.GIT
 In-Reply-To: <cover.1586165555.git.elena.ufimtseva@oracle.com>
 References: <cover.1586165555.git.elena.ufimtseva@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9582
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- mlxscore=0 mlxlogscore=999
- spamscore=0 bulkscore=0 adultscore=0 malwarescore=0 suspectscore=1
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2004060083
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ mlxlogscore=999
+ adultscore=0 spamscore=0 phishscore=0 malwarescore=0 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004060083
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9582
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- suspectscore=1
- mlxlogscore=999 mlxscore=0 bulkscore=0 adultscore=0 priorityscore=1501
- lowpriorityscore=0 clxscore=1015 malwarescore=0 impostorscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004060084
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by userp2120.oracle.com id
- 0369gtkH028646
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ phishscore=0 adultscore=0
+ priorityscore=1501 mlxscore=0 malwarescore=0 mlxlogscore=999
+ lowpriorityscore=0 spamscore=0 impostorscore=0 suspectscore=1
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004060083
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.85
+X-Received-From: 156.151.31.86
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -105,327 +102,80 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-Refactor command-line parser code so that it could be used by
-other processes as well.
+Some of the initialization helper functions w.r.t chardev
+in vl.c are also used by the remote process. Therefore, these functions
+are refactored into shared files that both QEMU & remote process
+could use.
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- MAINTAINERS          |  2 +
- Makefile.objs        |  2 +
- include/qemu-parse.h | 42 ++++++++++++++++++++
- qemu-parse.c         | 93 ++++++++++++++++++++++++++++++++++++++++++++
- softmmu/vl.c         | 84 +--------------------------------------
- 5 files changed, 140 insertions(+), 83 deletions(-)
- create mode 100644 include/qemu-parse.h
- create mode 100644 qemu-parse.c
+ chardev/char.c         | 14 ++++++++++++++
+ include/chardev/char.h |  2 ++
+ softmmu/vl.c           | 14 --------------
+ 3 files changed, 16 insertions(+), 14 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b5c86ec494..611d9a64b0 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2003,6 +2003,8 @@ F: tests/test-keyval.c
- F: tests/test-qemu-opts.c
- F: util/keyval.c
- F: util/qemu-option.c
-+F: include/qemu-parse.h
-+F: qemu-parse.c
-=20
- Coverity model
- M: Markus Armbruster <armbru@redhat.com>
-diff --git a/Makefile.objs b/Makefile.objs
-index bfb9271862..f29c60c59d 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -78,6 +78,8 @@ qemu-seccomp.o-libs :=3D $(SECCOMP_LIBS)
-=20
- common-obj-$(CONFIG_FDT) +=3D device_tree.o
-=20
-+common-obj-y +=3D qemu-parse.o
+diff --git a/chardev/char.c b/chardev/char.c
+index e77564060d..47dcf93da7 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -1196,3 +1196,17 @@ static void register_types(void)
+ }
+ 
+ type_init(register_types);
 +
- common-obj-y +=3D qapi/
- common-obj-y +=3D util/machine-notify.o
-=20
-diff --git a/include/qemu-parse.h b/include/qemu-parse.h
-new file mode 100644
-index 0000000000..156b238db6
---- /dev/null
-+++ b/include/qemu-parse.h
-@@ -0,0 +1,42 @@
-+/*
-+ * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#ifndef VL_H
-+#define VL_H
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+
-+/***********************************************************/
-+/* QEMU Block devices */
-+
-+#define HD_OPTS "media=3Ddisk"
-+#define CDROM_OPTS "media=3Dcdrom"
-+#define FD_OPTS ""
-+#define PFLASH_OPTS ""
-+#define MTD_OPTS ""
-+#define SD_OPTS ""
-+
-+#define HAS_ARG 0x0001
-+
-+typedef struct QEMUOption {
-+    const char *name;
-+    int flags;
-+    int index;
-+    uint32_t arch_mask;
-+} QEMUOption;
-+
-+const QEMUOption *lookup_opt(int argc, char **argv, const char **poptarg=
-,
-+                             int *poptind);
-+
-+int drive_init_func(void *opaque, QemuOpts *opts, Error **errp);
-+
-+int device_init_func(void *opaque, QemuOpts *opts, Error **errp);
-+
-+#endif /* VL_H */
-+
-diff --git a/qemu-parse.c b/qemu-parse.c
-new file mode 100644
-index 0000000000..2535374fdd
---- /dev/null
-+++ b/qemu-parse.c
-@@ -0,0 +1,93 @@
-+/*
-+ * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+
-+#include "sysemu/blockdev.h"
-+#include "sysemu/arch_init.h"
-+#include "qemu/option.h"
-+#include "qemu-options.h"
-+#include "qapi/error.h"
-+#include "qemu/error-report.h"
-+#include "monitor/qdev.h"
-+#include "qom/object.h"
-+#include "qemu-parse.h"
-+
-+/***********************************************************/
-+/* QEMU Block devices */
-+
-+static const QEMUOption qemu_options[] =3D {
-+    { "h", 0, QEMU_OPTION_h, QEMU_ARCH_ALL },
-+#define QEMU_OPTIONS_GENERATE_OPTIONS
-+#include "qemu-options-wrapper.h"
-+    { NULL },
-+};
-+
-+const QEMUOption *lookup_opt(int argc, char **argv, const char **poptarg=
-,
-+                             int *poptind)
++int chardev_init_func(void *opaque, QemuOpts *opts, Error **errp)
 +{
-+    const QEMUOption *popt;
-+    int optind =3D *poptind;
-+    char *r =3D argv[optind];
-+    const char *optarg;
++    Error *local_err = NULL;
 +
-+    loc_set_cmdline(argv, optind, 1);
-+    optind++;
-+    /* Treat --foo the same as -foo.  */
-+    if (r[1] =3D=3D '-') {
-+        r++;
-+    }
-+    popt =3D qemu_options;
-+    for (;;) {
-+        if (!popt->name) {
-+            error_report("invalid option");
-+            exit(1);
++    if (!qemu_chr_new_from_opts(opts, NULL, &local_err)) {
++        if (local_err) {
++            error_propagate(errp, local_err);
++            return -1;
 +        }
-+        if (!strcmp(popt->name, r + 1)) {
-+            break;
-+        }
-+        popt++;
-+    }
-+    if (popt->flags & HAS_ARG) {
-+        if (optind >=3D argc) {
-+            error_report("requires an argument");
-+            exit(1);
-+        }
-+        optarg =3D argv[optind++];
-+        loc_set_cmdline(argv, optind - 2, 2);
-+    } else {
-+        optarg =3D NULL;
-+    }
-+
-+    *poptarg =3D optarg;
-+    *poptind =3D optind;
-+
-+    return popt;
-+}
-+
-+int drive_init_func(void *opaque, QemuOpts *opts, Error **errp)
-+{
-+    BlockInterfaceType *block_default_type =3D opaque;
-+
-+    return drive_new(opts, *block_default_type, errp) =3D=3D NULL;
-+}
-+
-+int device_init_func(void *opaque, QemuOpts *opts, Error **errp)
-+{
-+    DeviceState *dev;
-+
-+    dev =3D qdev_device_add(opts, errp);
-+    if (!dev && *errp) {
-+        error_report_err(*errp);
-+        return -1;
-+    } else if (dev) {
-+        object_unref(OBJECT(dev));
++        exit(0);
 +    }
 +    return 0;
 +}
+diff --git a/include/chardev/char.h b/include/chardev/char.h
+index 00589a6025..0804e78f7a 100644
+--- a/include/chardev/char.h
++++ b/include/chardev/char.h
+@@ -290,4 +290,6 @@ GSource *qemu_chr_timeout_add_ms(Chardev *chr, guint ms,
+ /* console.c */
+ void qemu_chr_parse_vc(QemuOpts *opts, ChardevBackend *backend, Error **errp);
+ 
++int chardev_init_func(void *opaque, QemuOpts *opts, Error **errp);
++
+ #endif
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 380aefd56e..33568108b0 100644
+index 33568108b0..9517f0b167 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -36,6 +36,7 @@
- #include "sysemu/runstate.h"
- #include "sysemu/seccomp.h"
- #include "sysemu/tcg.h"
-+#include "qemu-parse.h"
-=20
- #include "qemu/error-report.h"
- #include "qemu/sockets.h"
-@@ -970,20 +971,6 @@ static int cleanup_add_fd(void *opaque, QemuOpts *op=
-ts, Error **errp)
- /***********************************************************/
- /* QEMU Block devices */
-=20
--#define HD_OPTS "media=3Ddisk"
--#define CDROM_OPTS "media=3Dcdrom"
--#define FD_OPTS ""
--#define PFLASH_OPTS ""
--#define MTD_OPTS ""
--#define SD_OPTS ""
--
--static int drive_init_func(void *opaque, QemuOpts *opts, Error **errp)
--{
--    BlockInterfaceType *block_default_type =3D opaque;
--
--    return drive_new(opts, *block_default_type, errp) =3D=3D NULL;
--}
--
- static int drive_enable_snapshot(void *opaque, QemuOpts *opts, Error **e=
-rrp)
- {
-     if (qemu_opt_get(opts, "snapshot") =3D=3D NULL) {
-@@ -1691,21 +1678,6 @@ static void help(int exitcode)
-     exit(exitcode);
- }
-=20
--#define HAS_ARG 0x0001
--
--typedef struct QEMUOption {
--    const char *name;
--    int flags;
--    int index;
--    uint32_t arch_mask;
--} QEMUOption;
--
--static const QEMUOption qemu_options[] =3D {
--    { "h", 0, QEMU_OPTION_h, QEMU_ARCH_ALL },
--#define QEMU_OPTIONS_GENERATE_OPTIONS
--#include "qemu-options-wrapper.h"
--    { NULL },
--};
-=20
- typedef struct VGAInterfaceInfo {
-     const char *opt_name;    /* option name */
-@@ -2067,20 +2039,6 @@ static int device_help_func(void *opaque, QemuOpts=
- *opts, Error **errp)
+@@ -2039,20 +2039,6 @@ static int device_help_func(void *opaque, QemuOpts *opts, Error **errp)
      return qdev_device_help(opts);
  }
-=20
--static int device_init_func(void *opaque, QemuOpts *opts, Error **errp)
+ 
+-static int chardev_init_func(void *opaque, QemuOpts *opts, Error **errp)
 -{
--    DeviceState *dev;
+-    Error *local_err = NULL;
 -
--    dev =3D qdev_device_add(opts, errp);
--    if (!dev && *errp) {
--        error_report_err(*errp);
--        return -1;
--    } else if (dev) {
--        object_unref(OBJECT(dev));
+-    if (!qemu_chr_new_from_opts(opts, NULL, &local_err)) {
+-        if (local_err) {
+-            error_propagate(errp, local_err);
+-            return -1;
+-        }
+-        exit(0);
 -    }
 -    return 0;
 -}
 -
- static int chardev_init_func(void *opaque, QemuOpts *opts, Error **errp)
+ #ifdef CONFIG_VIRTFS
+ static int fsdev_init_func(void *opaque, QemuOpts *opts, Error **errp)
  {
-     Error *local_err =3D NULL;
-@@ -2332,46 +2290,6 @@ static void qemu_unlink_pidfile(Notifier *n, void =
-*data)
-=20
- bool machine_init_done;
-=20
--static const QEMUOption *lookup_opt(int argc, char **argv,
--                                    const char **poptarg, int *poptind)
--{
--    const QEMUOption *popt;
--    int optind =3D *poptind;
--    char *r =3D argv[optind];
--    const char *optarg;
--
--    loc_set_cmdline(argv, optind, 1);
--    optind++;
--    /* Treat --foo the same as -foo.  */
--    if (r[1] =3D=3D '-')
--        r++;
--    popt =3D qemu_options;
--    for(;;) {
--        if (!popt->name) {
--            error_report("invalid option");
--            exit(1);
--        }
--        if (!strcmp(popt->name, r + 1))
--            break;
--        popt++;
--    }
--    if (popt->flags & HAS_ARG) {
--        if (optind >=3D argc) {
--            error_report("requires an argument");
--            exit(1);
--        }
--        optarg =3D argv[optind++];
--        loc_set_cmdline(argv, optind - 2, 2);
--    } else {
--        optarg =3D NULL;
--    }
--
--    *poptarg =3D optarg;
--    *poptind =3D optind;
--
--    return popt;
--}
--
- static MachineClass *select_machine(void)
- {
-     GSList *machines =3D object_class_get_list(TYPE_MACHINE, false);
---=20
+-- 
 2.25.GIT
 
 
