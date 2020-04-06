@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3E5719FCFC
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:21:18 +0200 (CEST)
-Received: from localhost ([::1]:36554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA54D19FC59
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:01:03 +0200 (CEST)
+Received: from localhost ([::1]:36118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLWN3-0007Tg-Nw
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:21:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37022)
+	id 1jLW3S-0007X2-TH
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:01:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36071)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrz-0003St-KD
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:49:12 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jLVqz-0001rG-U5
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrx-0003jG-HA
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:49:10 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:52106)
+ (envelope-from <richard.henderson@linaro.org>) id 1jLVqx-0002Pj-Kl
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:09 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:35408)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrx-0003ii-An
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:49:09 -0400
-Received: by mail-wm1-x333.google.com with SMTP id z7so304666wmk.1
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:49:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=vwVCTYhCp0Lrwvq8mABkyy5/qGJ2ZQsdDyKSYnT4qAQ=;
- b=P0+b6GJUrhml3X08b7IHqkkkQymB8AsFLyMRvO+Ipn0uQRERYwnMY0jgg35cukUcsI
- BAzV39yP4B3enwd4qzbV2AWnfFO+CxQY6io3aGRePjYuJ7oMERRli0+k4ltXANE3pnq+
- JHtpEaiGpTU+gdRrwgaNYDjzDrBhl/O4v4IPA0ikolEjXY4msQhpTx1JHP/EY8w5saeY
- 3hQnQtxC31ggtCTsFrEUIFH1CEelfOipSvte1gmfuk0M7uYCNSaxzltiXu42Kv1gVtdW
- 9aBmapAZx+36+z5dd67/r/idvNPBjVDljIFWugEfe+KGOABy8vEYzIlBH8aBq5BbTOkP
- Dd3g==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jLVqx-0002F1-Cx
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:07 -0400
+Received: by mail-pf1-x443.google.com with SMTP id a13so7917904pfa.2
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:48:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lYwzIICsJM0RRUf23L+5+nyADTk3rCmJe96y8g1THFk=;
+ b=KZM58eP+wzBOJW7tN6bxD0x0yH5YoRkJq5+Fgh+c7gHu0e6lV6Y7wip9MZTMAmFoYH
+ oR8QVOi550ZQnLsWnB1+6a6rmvWt7oEUoeQdP4D/+x8Il2nnltLoTkct019+coHaFuTM
+ 6yd2Zn8EErtRTzvGHKuH4nHUk95eNpth8p9NmRRXz2YKwmOqIqrPorF22i2rrqP6fiun
+ ZyG3laEQyqX/Lku/+3xTv5Wh5SU/5kDcnG6UbwPingxrACD+GiREX5ZwmFxs7bpePa+J
+ qJzo6tjN+tNtQDrNbK3cqp81rTyA95wUTcmgsFpj417LzeNPLyHnup9OQ691s7+VovA7
+ UAVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=vwVCTYhCp0Lrwvq8mABkyy5/qGJ2ZQsdDyKSYnT4qAQ=;
- b=DG/z8G2dNA0bTB5YcA5WOuONZA45vW5zLLuPEws0XfN13tXEabZ037itHP2Vhs6Kf6
- sRNvSV0565EDdLjoFSeyCvt5c7qpfFSlTMSDmJLqVhoZH7M7TiSoWU8SsQWUA/1yXf8Y
- E/l1PiO00O3ugKFMVjYhkhwdOWvdZ5gLVUGcvYCYLRgzy21W/2IzXA+zo0mFJZs4oly1
- n9SFODlqiUo28/QrUjllwPOjWyNi/BgO7pZOeURV6eDeW6uZIPdAsTRJLnHwd0SRVSzq
- PLWnsdeCvfhSsfX9Icecry9cZgVsJRcC9V+QAsVLlEaFWPu8ZpLC9VG4li9LRLjD0Bof
- Q2nQ==
-X-Gm-Message-State: AGi0PuY8k58bKvjoOf+zCTYUxwpy1vsbl3Hq7XHARk9xlVkjDNd7Lji/
- xqj3d4ezzF4+YMqumO9nMRlPRihQlno=
-X-Google-Smtp-Source: APiQypJYek6J7czWvZUyHrzNZa7iT1ppEsgcNErH12iavhUpIjSoNuLsIgkwczi4Ax5DTvS+zBsaLg==
-X-Received: by 2002:a1c:9ad7:: with SMTP id c206mr198761wme.48.1586195348157; 
- Mon, 06 Apr 2020 10:49:08 -0700 (PDT)
-Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.49.07
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lYwzIICsJM0RRUf23L+5+nyADTk3rCmJe96y8g1THFk=;
+ b=NrihiS0iut5EvjS8rFCubumW1LUYZgZLV8Nz/t8EN0RJ/Va1kDrnVAuOU2Kcs7uq5a
+ 9Pq4NTW8q3KygY83Tc7T4Ep2E00EaA6OsB54J08pUKPz3sON/ino+M2rInDI1LgBRXcg
+ r2tC3RqLxpdscOuaMJopxsOJqZvfdS6iCA2zMJacjwr3NZAOG31RKiInV/Ie619Cq9G9
+ AgwFdyTrXOU5l0rBO6JbQ/2ad0EKO0bLTaYPqiWTgL70VeE7uVgeusVUL+aZxQvgHgOZ
+ KlocByqVyMit4YPLn+bBkSpUeN1MSWJs9kEF2NN0EkrCSroMsO3rQsL7OOprNII5NOIp
+ Qb7Q==
+X-Gm-Message-State: AGi0PuYgbc8Ky7ls681kKvFjxvWlz0UWADPXmx5B1QrD+X2CbjUsGubr
+ kWAd/iqSZIbrdGZT07ilcyZoY7r6U2Y=
+X-Google-Smtp-Source: APiQypJDIVef3t4yb/R1zpk7VJEr6pzhsUCBo6w+/xPDO6x7WdxHaUZvWui25lAw0EBvEqLWgMHDaA==
+X-Received: by 2002:a62:e415:: with SMTP id r21mr581530pfh.169.1586195285354; 
+ Mon, 06 Apr 2020 10:48:05 -0700 (PDT)
+Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
+ [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id ep21sm137054pjb.10.2020.04.06.10.48.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 10:49:07 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org,
-	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH-for-5.1 v2 54/54] qga/commands-win32: Add missing
- error-propagation code
-Date: Mon,  6 Apr 2020 19:47:43 +0200
-Message-Id: <20200406174743.16956-55-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200406174743.16956-1-f4bug@amsat.org>
-References: <20200406174743.16956-1-f4bug@amsat.org>
+ Mon, 06 Apr 2020 10:48:04 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-5.0] tcg/i386: Fix %r12 guest_base initialization
+Date: Mon,  6 Apr 2020 10:48:03 -0700
+Message-Id: <20200406174803.8192-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::333
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,83 +76,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Running the coccinelle script produced:
+When %gs cannot be used, we use register offset addressing.
+This path is almost never used, so it was clearly not tested.
 
-  $ spatch \
-    --macro-file scripts/cocci-macro-file.h --include-headers \
-    --sp-file scripts/coccinelle/find-missing-error_propagate.cocci \
-    --keep-comments --smpl-spacing --dir .
-  HANDLING: ./qga/commands-win32.c
-  [[manual check required: error_propagate() might be missing in acquire_privilege() ./qga/commands-win32.c:1344:4]]
-  [[manual check required: error_propagate() might be missing in acquire_privilege() ./qga/commands-win32.c:1360:4]]
-  [[manual check required: error_propagate() might be missing in check_suspend_mode() ./qga/commands-win32.c:1343:4]]
-  [[manual check required: error_propagate() might be missing in check_suspend_mode() ./qga/commands-win32.c:1359:4]]
-
-Add the missing error_propagate() after review.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- qga/commands-win32.c | 26 ++++++++++++++++++--------
- 1 file changed, 18 insertions(+), 8 deletions(-)
+ tcg/i386/tcg-target.inc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index b49920e201..8b66098056 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -1341,13 +1341,18 @@ void qmp_guest_suspend_disk(Error **errp)
- 
-     *mode = GUEST_SUSPEND_MODE_DISK;
-     check_suspend_mode(*mode, &local_err);
-+    if (local_err) {
-+        goto out;
-+    }
-     acquire_privilege(SE_SHUTDOWN_NAME, &local_err);
-+    if (local_err) {
-+        goto out;
-+    }
-     execute_async(do_suspend, mode, &local_err);
- 
--    if (local_err) {
--        error_propagate(errp, local_err);
--        g_free(mode);
--    }
-+out:
-+    error_propagate(errp, local_err);
-+    g_free(mode);
- }
- 
- void qmp_guest_suspend_ram(Error **errp)
-@@ -1357,13 +1362,18 @@ void qmp_guest_suspend_ram(Error **errp)
- 
-     *mode = GUEST_SUSPEND_MODE_RAM;
-     check_suspend_mode(*mode, &local_err);
-+    if (local_err) {
-+        goto out;
-+    }
-     acquire_privilege(SE_SHUTDOWN_NAME, &local_err);
-+    if (local_err) {
-+        goto out;
-+    }
-     execute_async(do_suspend, mode, &local_err);
- 
--    if (local_err) {
--        error_propagate(errp, local_err);
--        g_free(mode);
--    }
-+out:
-+    error_propagate(errp, local_err);
-+    g_free(mode);
- }
- 
- void qmp_guest_suspend_hybrid(Error **errp)
+diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
+index 7f61eeedd0..ec083bddcf 100644
+--- a/tcg/i386/tcg-target.inc.c
++++ b/tcg/i386/tcg-target.inc.c
+@@ -3737,7 +3737,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
+         } else {
+             /* Choose R12 because, as a base, it requires a SIB byte. */
+             x86_guest_base_index = TCG_REG_R12;
+-            tcg_out_mov(s, TCG_TYPE_PTR, x86_guest_base_index, guest_base);
++            tcg_out_movi(s, TCG_TYPE_PTR, x86_guest_base_index, guest_base);
+             tcg_regset_set_reg(s->reserved_regs, x86_guest_base_index);
+         }
+     }
 -- 
-2.21.1
+2.20.1
 
 
