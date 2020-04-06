@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B9C19F35A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:15:45 +0200 (CEST)
-Received: from localhost ([::1]:58064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FF5B19F37D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:26:31 +0200 (CEST)
+Received: from localhost ([::1]:58320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLOnA-0003D1-3Y
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:15:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50100)
+	id 1jLOxa-0002iM-OH
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:26:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50113)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jLOjn-0006ij-CL
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:16 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jLOjo-0006jC-Ef
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jLOjm-0002ki-Ag
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:15 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40186)
+ (envelope-from <peter.maydell@linaro.org>) id 1jLOjn-0002ok-DN
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:16 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:44265)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jLOjm-0002k7-4U
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:14 -0400
-Received: by mail-wr1-x443.google.com with SMTP id s8so14576850wrt.7
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 03:12:14 -0700 (PDT)
+ id 1jLOjn-0002mA-7M
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:15 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id c15so801031wro.11
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 03:12:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=UsmjsPrqu/tMkzebNtgKAC7Wj/hA5gO7KEKMoSm+cTo=;
- b=rGq0gr2T54Kd376rXedZbjxb4QI/1ZqMBU9/jImwIc8eLcou3oMlki44pt7j9KBkHH
- IH9F4dz/NDTuD2fWmLGxWGHWJ2ECIRaDacG8JF1UvGaOWxf8xSYSbKbozC8eeHEFRMH2
- ohKg0ryuhQDROZzSEQzl8gr/rzI1dNsUr0Fe7ZwdA2TukrPdGJokgNfuvu8VKxyU27jL
- MU8U9qQeu5L+8Pn6DmrhVnmcYUAF1DSlcy93Ym2nTl/TxIyJhZNJ6lseR0uUgOj3cw3A
- O5X2ZEY42dcaUmFXeiompj2SgHBBIYhxp8nilwF4JTjglaKcaxWTnkIOjPm4nY4BzWdV
- nqAw==
+ bh=sVStBWBB/nYKZSZLm9qzTwRd2BAPghRDv9sMPC8uICQ=;
+ b=zM+xSxNeCpi6cl/P7qydRzmwD2hcWmp//lyl2LYNTfcwsp9wjtLXgqnOSNNvLjy7Rp
+ HiK7Gj4Ye1pVS3VZycGGWcbxUDZYealw2QgecFUTt81WE+jZyCGJTK4Th9UdhRzIMfm8
+ nY79NhT8kgXaSJ2hFvl8C2xpCEql3ar4S17wMZsMDwaHlsOvBVIWyhk5kXe4OX4Yk480
+ IHEUjcyqnZ1ySg/w9yZDmtIalEMQz6R+oVbMKQ6KqQU9Zcr6tREozKm+KRbKVv9OBgrj
+ 8H84yWoHaLpYheWziEvyCxLTR8yLxjwzDgpa4tCksNkJKB/kNjnZMn1xfrI5Kdmu/3HC
+ DCCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UsmjsPrqu/tMkzebNtgKAC7Wj/hA5gO7KEKMoSm+cTo=;
- b=tKKDEYBIeOGce1On0xeJ5EE1jHF7MMB1lcjM+ZMuHNQhnLv/cIsK8RLcWJoETDqWCC
- YAMXIZNBEbdEaXvsjV1LxWsaMeBQ9lDYwu9Y6zT+FnMpTj2scbvmhMhtZELLnWu4D6j+
- CFx57lBix8M01Kuz4gA37VyRl4z1qT/b7BOheujKqPmd7lRgm5FYQTfTHou4YbJ57KYN
- 5awWWiwClmI9RuHg8EuTSUg1ANJ5efC8ymol+nFQ6/R53XviOeo01TarLp7q04piKFxf
- 8edwHIv1vN8TlcTW9t1vLUl6PROItRPrcJWc0n8MN1ItfgAbB+dw2bZ0KLRRpOmCuymz
- zXQA==
-X-Gm-Message-State: AGi0Pua1CKYw47qbs95jCn3T/sT3pFi1CvHDoLARB010Jxyu2LmkO3uv
- E1cHXWqWb+hzeWoIHNm5ZBfqxdaLH1G7DA==
-X-Google-Smtp-Source: APiQypLHouNldcqU2CpoCyddMDnkJu1KFJ1nkmE2fUR3Q3EDvlifux4KFuBxlvKEW1ec4UquHI7TNQ==
-X-Received: by 2002:a05:6000:2:: with SMTP id h2mr1460205wrx.112.1586167932813; 
- Mon, 06 Apr 2020 03:12:12 -0700 (PDT)
+ bh=sVStBWBB/nYKZSZLm9qzTwRd2BAPghRDv9sMPC8uICQ=;
+ b=GU43TvJJkb7M0qcZOYUshOlQ1k5o/uvWrmDHUdddu1TRfDTjs/zNgyU5i/7CFB0lv7
+ TSEw7A1F5UtZERRFpA07Si0cKi8opEfpyqtc6vBEih37oLMwPB+S7/90/37llbY5liSc
+ YBNnGzYesMFymfJXI0IDu9+olVD87LqUsVc2S6YqW2oe+bY8jWGrJlfZ/sZvSxaLL8dF
+ chcgtIbzRYWbwtreq5qAPYk/OriQsMC1riafV9HOhF0pFMQzaCajqVFFfHWMGUs/jXnm
+ 4V64u19xMFKou1A9nac7R56E3DOAvXS9hg1V7Smemw0wD7oLACDhfJ9R3xib+YiaYA5c
+ oEkw==
+X-Gm-Message-State: AGi0PuZxtZUx447bHVbAOtxjCkZhUpr6ckZxLMQxyDOQ4RiZ6r78YwAk
+ PHJqSoIxHdhJjNywBiig2Am2226YJDIB4A==
+X-Google-Smtp-Source: APiQypJcI51Rn3etkNJA9kqHzC8gv7FknwDUG3UaeEiCpb65fgXCdCIIkOXl0pbq9LRRXv9ehlp7iA==
+X-Received: by 2002:adf:e6ce:: with SMTP id y14mr5634343wrm.45.1586167933729; 
+ Mon, 06 Apr 2020 03:12:13 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f187sm25163765wme.9.2020.04.06.03.12.11
+ by smtp.gmail.com with ESMTPSA id f187sm25163765wme.9.2020.04.06.03.12.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 03:12:12 -0700 (PDT)
+ Mon, 06 Apr 2020 03:12:13 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/11] hw/gpio/aspeed_gpio.c: Don't directly include assert.h
-Date: Mon,  6 Apr 2020 11:11:59 +0100
-Message-Id: <20200406101205.23027-6-peter.maydell@linaro.org>
+Subject: [PULL 06/11] dump: Fix writing of ELF section
+Date: Mon,  6 Apr 2020 11:12:00 +0100
+Message-Id: <20200406101205.23027-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200406101205.23027-1-peter.maydell@linaro.org>
 References: <20200406101205.23027-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::42e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,35 +82,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove a direct include of assert.h -- this is already
-provided by qemu/osdep.h, and it breaks our rule that the
-first include must always be osdep.h.
+In write_elf_section() we set the 'shdr' pointer to point to local
+structures shdr32 or shdr64, which we fill in to be written out to
+the ELF dump.  Unfortunately the address we pass to fd_write_vmcore()
+has a spurious '&' operator, so instead of writing out the section
+header we write out the literal pointer value followed by whatever is
+on the stack after the 'shdr' local variable.
 
-In particular we must get the assert() macro via osdep.h
-to avoid compile failures on mingw (see the comment in
-osdep.h where we redefine assert() for that platform).
+Pass the correct address into fd_write_vmcore().
 
+Spotted by Coverity: CID 1421970.
+
+Cc: qemu-stable@nongnu.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20200403124712.24826-1-peter.maydell@linaro.org
+Message-id: 20200324173630.12221-1-peter.maydell@linaro.org
 ---
- hw/gpio/aspeed_gpio.c | 2 --
- 1 file changed, 2 deletions(-)
+ dump/dump.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index 41e11ea9b04..e52fcfd9a03 100644
---- a/hw/gpio/aspeed_gpio.c
-+++ b/hw/gpio/aspeed_gpio.c
-@@ -6,8 +6,6 @@
-  * SPDX-License-Identifier: GPL-2.0-or-later
-  */
+diff --git a/dump/dump.c b/dump/dump.c
+index 6fb6e1245ad..22ed1d3b0d4 100644
+--- a/dump/dump.c
++++ b/dump/dump.c
+@@ -364,7 +364,7 @@ static void write_elf_section(DumpState *s, int type, Error **errp)
+         shdr = &shdr64;
+     }
  
--#include <assert.h>
--
- #include "qemu/osdep.h"
- #include "qemu/host-utils.h"
- #include "qemu/log.h"
+-    ret = fd_write_vmcore(&shdr, shdr_size, s);
++    ret = fd_write_vmcore(shdr, shdr_size, s);
+     if (ret < 0) {
+         error_setg_errno(errp, -ret,
+                          "dump: failed to write section header table");
 -- 
 2.20.1
 
