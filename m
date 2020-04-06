@@ -2,88 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F082F19FC09
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 19:51:49 +0200 (CEST)
-Received: from localhost ([::1]:35900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3711919FC0E
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 19:52:57 +0200 (CEST)
+Received: from localhost ([::1]:35922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLVuW-0006h4-Um
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 13:51:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35017)
+	id 1jLVvc-0000xi-AG
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 13:52:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35769)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anthony.perard@citrix.com>) id 1jLVmc-0008Ew-CD
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:43:39 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jLVqk-0001TR-3G
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:47:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1jLVmZ-00079M-Tv
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:43:37 -0400
-Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144]:52902)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1jLVmZ-00078q-Jm
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:43:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1586195015;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=bphNPG/A+OeRKQoZBapDV/s73PtCWQsb127JQKMzOao=;
- b=FeBhR/nYLKBbpRRDwTkKNSmsJ66yRATJvPIzoydcUPRKh3sxXUu8SvH5
- vwefUfz+UuccOnF+Pi3bRpP7OQ9VvFO6a3TCFZf03zdn6Ed/8D6g8r0J3
- 9HmrBk6DIGQiVDiIPzxJWQX9n3iIlOsIdQU/MK3lpLZmciuUHORNTsftq c=;
-Authentication-Results: esa4.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none;
- spf=None smtp.pra=anthony.perard@citrix.com;
- spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
- spf=None smtp.helo=postmaster@mail.citrix.com
-Received-SPF: None (esa4.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- anthony.perard@citrix.com) identity=pra;
- client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="anthony.perard@citrix.com";
- x-conformance=sidf_compatible
-Received-SPF: Pass (esa4.hc3370-68.iphmx.com: domain of
- anthony.perard@citrix.com designates 162.221.158.21 as
- permitted sender) identity=mailfrom;
- client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="anthony.perard@citrix.com";
- x-conformance=sidf_compatible; x-record-type="v=spf1";
- x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
- ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
- ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
- ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83
- ip4:168.245.78.127 ~all"
-Received-SPF: None (esa4.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- postmaster@mail.citrix.com) identity=helo;
- client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="postmaster@mail.citrix.com";
- x-conformance=sidf_compatible
-IronPort-SDR: hlwK8qzoKR3mA9SudDYB7JPSpQopwHfmD0RVWef2oBdIhmk3ijC0+3/s95S//l+6oEL8dsmgt8
- Uawkk1KEd8fi+ZuOC2BZ4QpNt5FC6GCEnEYZVho/chg/F8dlrZg6czj8gXIe8lUROYGsHwZkaq
- j+SraWWkJVFvNOLDyIeXhcspFxknIP0pUJllzFYn+l6GGDxL4WPszJx8A11HSq8WY4tHdX3CRE
- deaNLxX6QujMrG3H3CELbEh71lmlOeoZdd433K4tta+A+L6EstblMI3iZN47kIqjhMffSiFRmf
- 4N0=
-X-SBRS: 2.7
-X-MesageID: 15918507
-X-Ironport-Server: esa4.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.72,351,1580792400"; d="scan'208";a="15918507"
-Date: Mon, 6 Apr 2020 18:43:23 +0100
-From: Anthony PERARD <anthony.perard@citrix.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [RFC] hw/usb/xen-usb.c: Pass struct usbback_req* to
- usbback_packet_complete()
-Message-ID: <20200406174323.GV4088@perard.uk.xensource.com>
-References: <20200323164318.26567-1-peter.maydell@linaro.org>
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jLVqf-0001Mk-Mj
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:47:53 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43447)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jLVqe-0001Ey-A5
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:47:48 -0400
+Received: by mail-wr1-x442.google.com with SMTP id w15so463723wrv.10
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:47:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PpsZsWt4ims4klN0e9XgYMADqfOqIiOChYDI9wJAFf0=;
+ b=nqRvbH8+9hfvNeTx9eSTMzz0LasELDoF0GYALrIWE1KiFZr0LdATRmoZBSIrHZ/Wnn
+ noxGsq+z2oQj5fAl/8p1FNMvZlEvP8kQCQtiTFr9m94G+yvjpOhZt7X5uyXOOQODWYBQ
+ e+pwsSA2pLxe3QukERgUnQEVIX5TrX/ulSce0yTo3PSk49y+mxvh2gHVkzwq/NU6klVW
+ ZC7V6sHaS/doEZxa9M1mPUcP8gwTBBKSYM6u/DvlJFKC4EWNvbV3f5DRqFghPc+ch3r3
+ 2vUhWml3GFlwGrdAyjmgyjqvrKZP4537F5huaIBzbmHKWlYQSAKp4MP+Kqd/cVeb30Ng
+ 4Fcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=PpsZsWt4ims4klN0e9XgYMADqfOqIiOChYDI9wJAFf0=;
+ b=SJoAMf3chsOcXqChfExmoGfI+wi7jTSllpu/CQX3V4nL8dk/Vyp+x4e/EP0j9Jl8AW
+ Fa2VMLhneBcMpWLNJgH6dNgPax+P6Jt4mEbbf7AZACQJt+H284VvOgSUDVNguAwOrBS/
+ S3lK92y29Bt6zO0S8mUwvTTY5nDJYByqwhSptV9Evy+wMXNLKP9RncKPqMdsndfXobWo
+ oCjUcfLOsdYwJ1gcGlG4UQljo22gRusJC7+xUTnbr0vEFx8tFw4VruKogKCzvDJw03aH
+ fBysAQwUJDWpmMaA5AKXVyNiJrB5zfLufXdwGAbKDrg57IGiKIeoRkN6qN+RTI5wePI7
+ 7yJQ==
+X-Gm-Message-State: AGi0PuY3lQmxFiah0YAAwOLMsrfbvyA5pXu3l/xxDz7CEtkm3L/1rOLb
+ zEb5kWaC581TRTwCxX1VJtfQINQsRsk=
+X-Google-Smtp-Source: APiQypJXOwBTEyynL8IjpvXpkTXvGoNNzfc6EsA69sl+jk+sAxueNtUuJau2gQ1T8Q9ldsBQSgS/lw==
+X-Received: by 2002:a05:6000:1002:: with SMTP id
+ a2mr338918wrx.151.1586195265522; 
+ Mon, 06 Apr 2020 10:47:45 -0700 (PDT)
+Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.47.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Apr 2020 10:47:44 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org,
+	Markus Armbruster <armbru@redhat.com>
+Subject: [PATCH-for-5.1 v2 00/54] various: Fix error-propagation with
+ Coccinelle scripts
+Date: Mon,  6 Apr 2020 19:46:49 +0200
+Message-Id: <20200406174743.16956-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20200323164318.26567-1-peter.maydell@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 216.71.155.144
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,41 +82,209 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Durrant <paul@xen.org>, xen-devel@lists.xenproject.org, Stefano
- Stabellini <sstabellini@kernel.org>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 23, 2020 at 04:43:18PM +0000, Peter Maydell wrote:
-> The function usbback_packet_complete() currently takes a USBPacket*,
-> which must be a pointer to the packet field within a struct
-> usbback_req; the function uses container_of() to get the struct
-> usbback_req* given the USBPacket*.
-> 
-> This is unnecessarily confusing (and in particular it confuses the
-> Coverity Scan analysis, resulting in the false positive CID 1421919
-> where it thinks that we write off the end of the structure). Since
-> both callsites already have the pointer to the struct usbback_req,
-> just pass that in directly.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> This is an RFC because:
->  * I'm not very familiar with the Xen bits of QEMU
->  * the main rationale here is to change something that's
->    confusing Coverity -- the code as it stands isn't wrong
->  * the only testing I've done is "make check"
-> Still, the change seems like a good thing to me as a human reader...
-> 
-> PS: QEMU's MAINTAINERS file stanza for Xen doesn't pick up
-> that this file is Xen related, so it could use an extra F: line.
+This series is inspired of Peter Maydell fix [1]:
+"hw/arm/xlnx-zynqmp.c: fix some error-handling code",
+but grew after v1 [2] review :/
 
-Looks good,
-Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
+Markus wanted the reviewed patches in 5.0 [3] but it is too late
+(and too big :p).  Ideally I would have split it in 4 sub-series
+(roughly one with each cocci script) but since I won't have time
+to continue this (soon), I'm sending it altogether so interested
+can take/follow it.
 
-Thanks,
+If a particular patch is worth for 5.0, it can now be cherry-picked
+alone, with its cocci script for reference.
 
--- 
-Anthony PERARD
+Markus: I added the cocci patches to your Error section, I hope
+that's fine :)
+
+Regards,
+
+Phil.
+
+[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg691636.html
+[2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg692155.html
+[3] https://www.mail-archive.com/qemu-devel@nongnu.org/msg694413.html
+Supersedes: <20200325191830.16553-1-f4bug@amsat.org>
+
+Philippe Mathieu-Daudé (54):
+  various: Remove suspicious '\' character outside of #define in C code
+  scripts/coccinelle: Script to simplify DeviceClass error propagation
+  hw/arm/allwinner-a10: Move some code from realize() to init()
+  hw/arm/aspeed_ast2600: Simplify use of Error*
+  hw/arm/aspeed_ast2600: Move some code from realize() to init()
+  hw/arm/aspeed_soc: Move some code from realize() to init()
+  hw/arm/aspeed_soc: Simplify use of Error*
+  hw/arm/fsl-imx6: Simplify checks on 'smp_cpus' count
+  hw/arm/fsl-imx6: Move some code from realize() to init()
+  hw/arm/fsl-imx31: Move some code from realize() to init()
+  hw/arm/msf2-soc: Store MemoryRegion in MSF2State
+  hw/arm/stm32f205_soc: Store MemoryRegion in STM32F205State
+  hw/arm/stm32f205_soc: Move some code from realize() to init()
+  hw/arm/xlnx-zynqmp: Use single propagate_error() call
+  hw/arm/xlnx-zynqmp: Split xlnx_zynqmp_create_rpu() as init + realize
+  hw/arm/xlnx-zynqmp: Move some code from realize() to init()
+  hw/microblaze/xlnx-zynqmp-pmu: Move some code from realize() to init()
+  hw/pci-host/pnv_phb3: Move some code from realize() to init()
+  hw/riscv/sifive_e: Move some code from realize() to init()
+  hw/riscv/sifive_u: Use single type_init()
+  hw/riscv/sifive_u: Move some code from realize() to init()
+  hw/riscv/sifive_u: Store MemoryRegion in SiFiveUSoCState
+  hw/riscv/sifive_u: Move some code from realize() to init()
+  hw/riscv/sifive_u: Rename MachineClass::init()
+  scripts/coccinelle: Catch missing error_propagate() calls in realize()
+  hw/arm/fsl-imx: Add missing error-propagation code
+  hw/arm/stm32f*05_soc: Add missing error-propagation code
+  hw/arm/aspeed: Add missing error-propagation code
+  hw/arm/allwinner-a10: Add missing error-propagation code
+  hw/arm/msf2-soc: Add missing error-propagation code
+  hw/riscv/sifive: Add missing error-propagation code
+  hw/arm/armv7m: Add missing error-propagation code
+  hw/intc/arm_gicv3_its_kvm: Add missing error-propagation code
+  hw/microblaze/xlnx-zynqmp-pmu: Add missing error-propagation code
+  hw/pci-host/pnv_phb3: Add missing error-propagation code
+  hw/block/onenand: Add missing error-propagation code
+  scripts/coccinelle: Add script to catch missing error_propagate()
+    calls
+  hw/arm/bcm2835_peripherals: Add missing error-propagation code
+  hw/arm/fsl-imx: Add missing error-propagation code
+  hw/arm/stm32fx05_soc: Add missing error-propagation code
+  hw/dma/xilinx_axidma: Add missing error-propagation code
+  hw/i386/x86: Add missing error-propagation code
+  hw/mips/cps: Add missing error-propagation code
+  hw/misc/macio/macio: Add missing error-propagation code
+  hw/net/xilinx_axienet: Add missing error-propagation code
+  hw/riscv/sifive_u: Add missing error-propagation code
+  hw/sd/milkymist-memcard: Add missing error-propagation code
+  scripts/coccinelle: Use &error_abort in TypeInfo::instance_init()
+  various: Use &error_abort in instance_init()
+  scripts/coccinelle: Find eventually missing error_propagate() calls
+  migration/colo: Add missing error-propagation code
+  hw/mips/boston: Add missing error-propagation code
+  hw/mips/mips_malta: Add missing error-propagation code
+  qga/commands-win32: Add missing error-propagation code
+
+ .../add-missing-error_propagate.cocci         |  30 +++++
+ .../find-missing-error_propagate.cocci        |  53 ++++++++
+ ...implify-init-realize-error_propagate.cocci |  69 ++++++++++
+ .../use-error_abort-in-instance_init.cocci    |  52 ++++++++
+ .../use-error_propagate-in-realize.cocci      |  54 ++++++++
+ include/hw/arm/msf2-soc.h                     |   4 +
+ include/hw/arm/stm32f205_soc.h                |   4 +
+ include/hw/riscv/sifive_u.h                   |   2 +
+ backends/cryptodev-vhost-user.c               |   2 +-
+ backends/rng-egd.c                            |   2 +-
+ backends/rng-random.c                         |   2 +-
+ backends/vhost-user.c                         |   3 +-
+ block/replication.c                           |   4 +-
+ block/vhdx.c                                  |   8 +-
+ dump/dump.c                                   |   2 +-
+ hw/arm/allwinner-a10.c                        |  44 +++---
+ hw/arm/armv7m.c                               |  12 +-
+ hw/arm/aspeed_ast2600.c                       |  93 ++++++++-----
+ hw/arm/aspeed_soc.c                           |  27 ++--
+ hw/arm/bcm2835_peripherals.c                  |  14 +-
+ hw/arm/fsl-imx25.c                            |  14 +-
+ hw/arm/fsl-imx31.c                            |   4 +-
+ hw/arm/fsl-imx6.c                             |  81 ++++++-----
+ hw/arm/msf2-soc.c                             |  42 +++---
+ hw/arm/stm32f205_soc.c                        |  38 +++---
+ hw/arm/stm32f405_soc.c                        |  10 +-
+ hw/arm/vexpress.c                             |   8 +-
+ hw/arm/xlnx-zcu102.c                          |   8 +-
+ hw/arm/xlnx-zynqmp.c                          | 126 +++++++++---------
+ hw/block/fdc.c                                |   4 +-
+ hw/block/onenand.c                            |   6 +-
+ hw/block/vhost-user-blk.c                     |   2 +-
+ hw/block/virtio-blk.c                         |   2 +-
+ hw/core/machine.c                             |   6 +-
+ hw/cpu/core.c                                 |   4 +-
+ hw/display/vga-pci.c                          |   7 +-
+ hw/display/xlnx_dp.c                          |   4 +-
+ hw/dma/sparc32_dma.c                          |   2 +-
+ hw/dma/xilinx_axidma.c                        |   6 +
+ hw/gpio/aspeed_gpio.c                         |   2 +-
+ hw/i386/x86.c                                 |   4 +
+ hw/ide/macio.c                                |   4 +-
+ hw/ide/qdev.c                                 |   4 +-
+ hw/intc/apic_common.c                         |   2 +-
+ hw/intc/arm_gicv3_its_kvm.c                   |   6 +-
+ hw/mem/nvdimm.c                               |   4 +-
+ hw/microblaze/xlnx-zynqmp-pmu.c               |  52 ++++----
+ hw/mips/boston.c                              |  17 +--
+ hw/mips/cps.c                                 |  48 +++++++
+ hw/mips/mips_malta.c                          |  19 ++-
+ hw/misc/aspeed_sdmc.c                         |   2 +-
+ hw/misc/edu.c                                 |   3 +-
+ hw/misc/macio/macio.c                         |   8 +-
+ hw/misc/macio/pmu.c                           |   3 +-
+ hw/misc/pca9552.c                             |   2 +-
+ hw/misc/tmp105.c                              |   2 +-
+ hw/misc/tmp421.c                              |   8 +-
+ hw/net/e1000.c                                |   3 +-
+ hw/net/lance.c                                |   3 +-
+ hw/net/lasi_i82596.c                          |   3 +-
+ hw/net/ne2000-isa.c                           |   4 +-
+ hw/net/spapr_llan.c                           |   2 +-
+ hw/net/virtio-net.c                           |   4 +-
+ hw/net/xilinx_axienet.c                       |   6 +
+ hw/pci-host/grackle.c                         |   2 +-
+ hw/pci-host/i440fx.c                          |   8 +-
+ hw/pci-host/pnv_phb3.c                        |  32 +++--
+ hw/pci-host/prep.c                            |   2 +-
+ hw/pci-host/q35.c                             |  23 ++--
+ hw/pci-host/sabre.c                           |   3 +-
+ hw/pci-host/uninorth.c                        |   9 +-
+ hw/pcmcia/pxa2xx.c                            |   3 +-
+ hw/ppc/spapr_drc.c                            |   6 +-
+ hw/ppc/spapr_rng.c                            |   2 +-
+ hw/riscv/sifive_e.c                           |  32 +++--
+ hw/riscv/sifive_u.c                           | 102 ++++++++------
+ hw/s390x/event-facility.c                     |   6 +-
+ hw/s390x/s390-ccw.c                           |   2 +-
+ hw/s390x/s390-skeys.c                         |   4 +-
+ hw/s390x/s390-stattrib.c                      |   4 +-
+ hw/s390x/sclp.c                               |   2 +-
+ hw/scsi/scsi-bus.c                            |   2 +-
+ hw/scsi/scsi-disk.c                           |   2 +-
+ hw/sd/milkymist-memcard.c                     |   4 +
+ hw/sd/sdhci.c                                 |   2 +-
+ hw/ssi/xilinx_spips.c                         |   2 +-
+ hw/usb/bus.c                                  |   4 +-
+ hw/usb/dev-network.c                          |   2 +-
+ hw/usb/dev-storage.c                          |   4 +-
+ hw/usb/host-libusb.c                          |   2 +-
+ hw/usb/redirect.c                             |   2 +-
+ hw/virtio/virtio-balloon.c                    |   4 +-
+ migration/colo.c                              |   3 +
+ net/dump.c                                    |   4 +-
+ net/filter-buffer.c                           |   2 +-
+ net/filter-mirror.c                           |  10 +-
+ net/filter-rewriter.c                         |   3 +-
+ qga/commands-win32.c                          |  26 ++--
+ target/arm/cpu64.c                            |   4 +-
+ target/i386/cpu.c                             |  41 +++---
+ target/microblaze/cpu.c                       |  14 +-
+ target/ppc/translate_init.inc.c               |   4 +-
+ target/s390x/cpu.c                            |   3 +-
+ tests/check-qom-proplist.c                    |   7 +-
+ tests/test-qdev-global-props.c                |   4 +-
+ MAINTAINERS                                   |   5 +
+ 106 files changed, 1014 insertions(+), 458 deletions(-)
+ create mode 100644 scripts/coccinelle/add-missing-error_propagate.cocci
+ create mode 100644 scripts/coccinelle/find-missing-error_propagate.cocci
+ create mode 100644 scripts/coccinelle/simplify-init-realize-error_propagate.=
+cocci
+ create mode 100644 scripts/coccinelle/use-error_abort-in-instance_init.cocci
+ create mode 100644 scripts/coccinelle/use-error_propagate-in-realize.cocci
+
+--=20
+2.21.1
+
 
