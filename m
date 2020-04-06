@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99B0919F343
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:07:31 +0200 (CEST)
-Received: from localhost ([::1]:57894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E68819F357
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:14:45 +0200 (CEST)
+Received: from localhost ([::1]:58038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLOfB-0002zH-Bm
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:07:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48256)
+	id 1jLOmC-0001XT-7f
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:14:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48301)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jLOYG-0001Np-RO
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:00:25 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jLOYY-0001vg-C2
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:00:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jLOYF-0000kz-H8
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:00:20 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:50785
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1jLOYX-0000wC-7Y
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:00:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44239
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jLOYF-0000jx-8P
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:00:19 -0400
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jLOYX-0000vw-49
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:00:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586167218;
+ s=mimecast20190719; t=1586167236;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lvZGsl+mfC1vIV6x/TThSRiCchmIwWwO4IGLtbW1u9c=;
- b=VPt89h1vd57Jj3HPqxDVkDkrTPhyx0xA1/P+VDtxa6dz9j5uf36kb4xPvpkjRQYi8wZPtY
- 4xYZDlYsSpgkxbk5WXuZW5lufQaiipWNmDjubs2xU2izOnHbZR6825TDuQ044meGJPFOZJ
- UUT/6mOHDOvf9SdCncVnV7tXFoaVKj0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-1gpv6-u7OMC3tU0vstTiYA-1; Mon, 06 Apr 2020 06:00:17 -0400
-X-MC-Unique: 1gpv6-u7OMC3tU0vstTiYA-1
-Received: by mail-wr1-f69.google.com with SMTP id 88so5454020wrq.4
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 03:00:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=lvZGsl+mfC1vIV6x/TThSRiCchmIwWwO4IGLtbW1u9c=;
- b=Dd5sU4OGNU+DoHu0NX9mmh2R2OQNQTD2mMXFmL1cZQcKumwQ6+78ipNRZkcJV2Oqg+
- 8Sv0VdLVZAfmUAJkrxnLabproPswTLabU5nhzkkKkExk/HTLQ/9t0qLjDfkBeCuRsjFN
- 7xl7iBvcp6ClhkG+VLPoMXYSqB8EqtPdvXTZX6IdQdT5kUp1/PChh7FlvU6yV+VoVquT
- uGqUtjA7vDr9hlkbczWXczViluJ/mn6FgftJB2WKJwM3YzZnDXp8H965DpomU3L66mzD
- FIuwuqUVX0k2RT6cbY6YAvxJCo2lZIkUpQ4N5PVisYsx0vkcGDwGyHYo3aJ1UD4NnWA+
- 6gQQ==
-X-Gm-Message-State: AGi0PuZKiQLSfxeaty7yKOi9RwuE5RUwJrWdorxjB4HTE1N0KFHjM6ha
- nIP7f0QyN3shtNbLPYeoYa/uuPTdzxt/J4JNTimKbY8Qi6c0udN9PdR9mgBowvx0BOfajGutX5I
- 1nmnUpkY5Crq6sck=
-X-Received: by 2002:a5d:4988:: with SMTP id r8mr3888181wrq.248.1586167215612; 
- Mon, 06 Apr 2020 03:00:15 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKayENzJE7tRful42VTyax8Gs4EKSQcIgxcjYCeQjJKVT0YS+/27QY5Racjd1dkct4flzcBgA==
-X-Received: by 2002:a5d:4988:: with SMTP id r8mr3888157wrq.248.1586167215325; 
- Mon, 06 Apr 2020 03:00:15 -0700 (PDT)
-Received: from [192.168.10.150] ([93.56.170.5])
- by smtp.gmail.com with ESMTPSA id k9sm8085997wrn.89.2020.04.06.03.00.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Apr 2020 03:00:14 -0700 (PDT)
-Subject: Re: [PATCH v1 3/3] hvf: Support AVX512 guests on capable hardware
-To: Cameron Esfahani <dirty@apple.com>, qemu-devel@nongnu.org
-References: <cover.1585607927.git.dirty@apple.com>
- <1da0fc0a4f119e951ae11b29ff26ee587f4748aa.1585607927.git.dirty@apple.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <b9d908a5-c0ee-fba6-4763-e1542a114637@redhat.com>
-Date: Mon, 6 Apr 2020 12:00:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ bh=o0cnfA+2fzsd4lhl1s7qbyj7jOpJ24pAfxr5c8MPwpU=;
+ b=bbIT260xfpNC8m30qLqjeYCBk7Zv/NI6pJBOV3KQ2aoaUeMS0jKBPh2A58zu7BwlAd9DcL
+ 1nlyegNnOn5PATEkwwVKglz1kcEQMHg/iVN8OIyl0dnS5816s6YC3nH9jGeqHNlWOYQE43
+ N+4g/r/WuT5iH0Hs+/dvI/fCeMlJWCU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-504-NleO4kmSPjqCtfAJtbawAQ-1; Mon, 06 Apr 2020 06:00:33 -0400
+X-MC-Unique: NleO4kmSPjqCtfAJtbawAQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3C11107ACCA;
+ Mon,  6 Apr 2020 10:00:31 +0000 (UTC)
+Received: from gondolin (ovpn-113-129.ams2.redhat.com [10.36.113.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2D1749D36E;
+ Mon,  6 Apr 2020 10:00:26 +0000 (UTC)
+Date: Mon, 6 Apr 2020 12:00:23 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: Re: [PATCH 1/1] s390x/s390-virtio-ccw: Fix build on systems without
+ KVM
+Message-ID: <20200406120023.1e2075b6.cohuck@redhat.com>
+In-Reply-To: <a0dd3211-d159-955e-0e0b-dd73933ad369@de.ibm.com>
+References: <20200406075931.26232-1-borntraeger@de.ibm.com>
+ <20200406075931.26232-2-borntraeger@de.ibm.com>
+ <27304f4e-3801-3200-c5ba-9fb5ac0f8715@redhat.com>
+ <95faf831-5382-0c3e-fed4-67485f04a4b7@de.ibm.com>
+ <9062115a-58c1-833a-b9ac-83b3905f9039@redhat.com>
+ <a0dd3211-d159-955e-0e0b-dd73933ad369@de.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <1da0fc0a4f119e951ae11b29ff26ee587f4748aa.1585607927.git.dirty@apple.com>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,49 +77,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: r.bolshakov@yadro.com
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Bruce Rogers <brogers@suse.com>, Halil Pasic <pasic@linux.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/03/20 02:16, Cameron Esfahani wrote:
-> @@ -458,7 +459,7 @@ void hvf_reset_vcpu(CPUState *cpu) {
->      macvm_set_cr0(cpu->hvf_fd, CR0_CD_MASK | CR0_NW_MASK | CR0_ET_MASK);
->      macvm_set_cr0(cpu->hvf_fd, 0x60000010);
->  
-> -    wvmcs(cpu->hvf_fd, VMCS_CR4_MASK, CR4_VMXE_MASK);
-> +    wvmcs(cpu->hvf_fd, VMCS_CR4_MASK, CR4_VMXE_MASK | CR4_OSXSAVE_MASK);
->      wvmcs(cpu->hvf_fd, VMCS_CR4_SHADOW, 0x0);
->      wvmcs(cpu->hvf_fd, VMCS_GUEST_CR4, CR4_VMXE_MASK);
->  
-> diff --git a/target/i386/hvf/vmx.h b/target/i386/hvf/vmx.h
-> index 1a1b150c97..dccd5ceb0f 100644
-> --- a/target/i386/hvf/vmx.h
-> +++ b/target/i386/hvf/vmx.h
-> @@ -157,13 +157,20 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
->      hv_vcpu_flush(vcpu);
->  }
->  
-> -static inline void macvm_set_cr4(hv_vcpuid_t vcpu, uint64_t cr4)
-> +static inline void macvm_set_cr4(CPUX86State *env, hv_vcpuid_t vcpu,
-> +                                 uint64_t cr4)
->  {
->      uint64_t guest_cr4 = cr4 | CR4_VMXE_MASK;
+On Mon, 6 Apr 2020 11:51:24 +0200
+Christian Borntraeger <borntraeger@de.ibm.com> wrote:
 
-I think you need to add the host CR4.OSXSAVE bit here too?  (You can
-read it from CPUID).
+> On 06.04.20 11:32, David Hildenbrand wrote:
+> > On 06.04.20 11:29, Christian Borntraeger wrote:  
+> >>
+> >>
+> >> On 06.04.20 11:07, David Hildenbrand wrote:  
+> >>>  
+> >>>>  static inline bool s390_is_pv(void)
+> >>>> @@ -41,6 +42,7 @@ int s390_pv_unpack(uint64_t addr, uint64_t size, uint64_t tweak);
+> >>>>  void s390_pv_perf_clear_reset(void);
+> >>>>  int s390_pv_verify(void);
+> >>>>  void s390_pv_unshare(void);
+> >>>> +void s390_machine_inject_pv_error(CPUState *cs);
+> >>>>  #else /* CONFIG_KVM */
+> >>>>  static inline bool s390_is_pv(void) { return false; }
+> >>>>  static inline int s390_pv_vm_enable(void) { return 0; }
+> >>>> @@ -50,6 +52,7 @@ static inline int s390_pv_unpack(uint64_t addr, uint64_t size, uint64_t tweak) {
+> >>>>  static inline void s390_pv_perf_clear_reset(void) {}
+> >>>>  static inline int s390_pv_verify(void) { return 0; }
+> >>>>  static inline void s390_pv_unshare(void) {}
+> >>>> +static inline void s390_machine_inject_pv_error(CPUState *cs) {};  
+> >>>
+> >>> I'd suggest renaming that to s390_pv_inject_error() or similar right away.  
+> >>  
+> > 
+> > Me again: I guess "s390_pv_inject_reset_error()" is what it's really
+> > doing :)  
+> 
+> I will use that unless Conny complains.
+> 
 
->      wvmcs(vcpu, VMCS_GUEST_CR4, guest_cr4);
->      wvmcs(vcpu, VMCS_CR4_SHADOW, cr4);
->  
-> +    /*
-> +     * Track whether OSXSAVE is enabled so we can properly return it
-> +     * for CPUID 1.
-> +     */
-> +    env->osxsave_enabled = ((cr4 & CR4_OSXSAVE_MASK) != 0);
-
-This new variable doesn't seem necessary.  Instead you can just set
-env->cr[4] here, and everything should work fine.
-
-Paolo
+Go ahead.
 
 
