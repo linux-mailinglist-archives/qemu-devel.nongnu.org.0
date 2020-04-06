@@ -2,56 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3382C19F36E
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:21:10 +0200 (CEST)
-Received: from localhost ([::1]:58222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A122F19F369
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:19:42 +0200 (CEST)
+Received: from localhost ([::1]:58170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLOsP-0005GJ-9f
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:21:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50511)
+	id 1jLOqx-0001ut-LC
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:19:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50553)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jLOm7-0002cU-5y
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:14:40 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jLOmF-0002uV-75
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:14:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1jLOm5-0004h9-Mn
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:14:38 -0400
-Resent-Date: Mon, 06 Apr 2020 06:14:38 -0400
-Resent-Message-Id: <E1jLOm5-0004h9-Mn@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21121)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1jLOm5-0004gE-El
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:14:37 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1586168048; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=E/e7j7UHgcY2V/u1o47Ys0bkksfBWNFjw9TYVjRnekx+MIdVrbUT/XtjQVWadLFprsO+ADp7A+xXT96MeN1WSTCNtt8xFtXD+43mRzOJRl9G+35BbjWLxd4n6bgbT9XCksnI3YIbPj5wRm6WbnyZnnKrwN+s3Jdk2biTBCGSKJg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1586168048;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=6guS2k0K1aAcCilb3T6qfWYfloClyx+X9/7/Jbfm514=; 
- b=XHOXBbJIDsq7ClW5bbydbLSEIO0fJq9vKHeHEJRCzJ1cVpArPTVjnW2zeU5oOvEo2k3xObfLQwZsTgXydBdoSj+vq2oETdVl3mVrNo3nlbJkjzZD21HFSzMas7rdYYjafb1H+VKgAMtp5bS8K1Sy4i3ZuSLnWeZX14XepUS9C7s=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1586168042959951.2855408957737;
- Mon, 6 Apr 2020 03:14:02 -0700 (PDT)
-In-Reply-To: <cover.1586165555.git.elena.ufimtseva@oracle.com>
-Subject: Re: [PATCH v6 00/36] Initial support for multi-process qemu
-Message-ID: <158616803979.1460.13294311898021421882@39012742ff91>
+ (envelope-from <imammedo@redhat.com>) id 1jLOmD-0004mS-EF
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:14:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33827
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jLOmD-0004lx-9u
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:14:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586168084;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qVuZ0YChZq1ZmbbPzp7f10giAdwnD+gJFtu8iupNPnw=;
+ b=gSMv12QRtOFwh8EIeLHNEieymeFAUCqr3QwXy0A47a4rnekI1g9IpSNOc9Se12u2OKb2BI
+ 0HCrvKMAukjPGJ7iftM3+NgHoeuw+uvUtczoJEn/Cxn5dQu2/31GkuVyx7JkX/q9UX78yZ
+ 5XfMChhMwsVJPUJt82IiNjuFsBspVbU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-153-ZcO69RTeMgijUAcFqhRrNA-1; Mon, 06 Apr 2020 06:14:40 -0400
+X-MC-Unique: ZcO69RTeMgijUAcFqhRrNA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E514107ACC4;
+ Mon,  6 Apr 2020 10:14:39 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B868B60C18;
+ Mon,  6 Apr 2020 10:14:36 +0000 (UTC)
+Date: Mon, 6 Apr 2020 12:14:34 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Jon Doron <arilou@gmail.com>
+Subject: Re: [PATCH v1 5/5] i386: Hyper-V VMBus ACPI DSDT entry
+Message-ID: <20200406121434.6e598842@redhat.com>
+In-Reply-To: <20200403142308.82990-6-arilou@gmail.com>
+References: <20200403142308.82990-1-arilou@gmail.com>
+ <20200403142308.82990-6-arilou@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: elena.ufimtseva@oracle.com
-Date: Mon, 6 Apr 2020 03:14:02 -0700 (PDT)
-X-ZohoMailClient: External
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.51
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,55 +72,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
- john.g.johnson@oracle.com, qemu-devel@nongnu.org, kraxel@redhat.com,
- jag.raman@oracle.com, quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
- kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- liran.alon@oracle.com, stefanha@redhat.com, pbonzini@redhat.com,
- rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
- thanos.makatos@nutanix.com
+Cc: Evgeny Yakovlev <eyakovlev@virtuozzo.com>, ehabkost@redhat.com,
+ qemu-devel@nongnu.org, Roman Kagan <rkagan@virtuozzo.com>, pbonzini@redhat.com,
+ vkuznets@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS9jb3Zlci4xNTg2MTY1NTU1Lmdp
-dC5lbGVuYS51ZmltdHNldmFAb3JhY2xlLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQg
-dGhlIGFzYW4gYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29tbWFuZHMgYW5k
-CnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxlZCwgeW91IGNh
-biBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9
-PT0KIyEvYmluL2Jhc2gKZXhwb3J0IEFSQ0g9eDg2XzY0Cm1ha2UgZG9ja2VyLWltYWdlLWZlZG9y
-YSBWPTEgTkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1kZWJ1Z0BmZWRvcmEgVEFSR0VU
-X0xJU1Q9eDg2XzY0LXNvZnRtbXUgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9
-PT0KCiAgQ0MgICAgICBzdHVicy94ZW4tY29tbW9uLm8KICBDQyAgICAgIHN0dWJzL3hlbi1odm0u
-bwogIENDICAgICAgc3R1YnMvcGNpLWhvc3QtcGlpeC5vCi90bXAvcWVtdS10ZXN0L3NyYy9zdHVi
-cy9tb25pdG9yLmM6MjU6MTQ6IGVycm9yOiB3ZWFrIGlkZW50aWZpZXIgJ3FhcGlfZXZlbnRfZW1p
-dCcgbmV2ZXIgZGVjbGFyZWQgWy1XZXJyb3JdCiNwcmFnbWEgd2VhayBxYXBpX2V2ZW50X2VtaXQK
-ICAgICAgICAgICAgIF4KMSBlcnJvciBnZW5lcmF0ZWQuCiAgQ0MgICAgICBzdHVicy9yYW0tYmxv
-Y2subwptYWtlOiAqKiogWy90bXAvcWVtdS10ZXN0L3NyYy9ydWxlcy5tYWs6Njk6IHN0dWJzL21v
-bml0b3Iub10gRXJyb3IgMQptYWtlOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4u
-LgpUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6CiAgRmlsZSAiLi90ZXN0cy9kb2Nr
-ZXIvZG9ja2VyLnB5IiwgbGluZSA2NjQsIGluIDxtb2R1bGU+Ci0tLQogICAgcmFpc2UgQ2FsbGVk
-UHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6
-IENvbW1hbmQgJ1snc3VkbycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29t
-LnFlbXUuaW5zdGFuY2UudXVpZD1kYjVlZTgwZDhlNTk0MTQ3OGU2ODdlYmZlMGQ3ZGRiNScsICct
-dScsICcxMDAzJywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJt
-JywgJy1lJywgJ1RBUkdFVF9MSVNUPXg4Nl82NC1zb2Z0bW11JywgJy1lJywgJ0VYVFJBX0NPTkZJ
-R1VSRV9PUFRTPScsICctZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScsICct
-ZScsICdTSE9XX0VOVj0nLCAnLWUnLCAnQ0NBQ0hFX0RJUj0vdmFyL3RtcC9jY2FjaGUnLCAnLXYn
-LCAnL2hvbWUvcGF0Y2hldzIvLmNhY2hlL3FlbXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2Fj
-aGU6eicsICctdicsICcvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtODhmY2dxNV8vc3JjL2Rv
-Y2tlci1zcmMuMjAyMC0wNC0wNi0wNi4wOS4zNS4yMTI3MzovdmFyL3RtcC9xZW11Onoscm8nLCAn
-cWVtdTpmZWRvcmEnLCAnL3Zhci90bXAvcWVtdS9ydW4nLCAndGVzdC1kZWJ1ZyddJyByZXR1cm5l
-ZCBub24temVybyBleGl0IHN0YXR1cyAyLgpmaWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUu
-aW5zdGFuY2UudXVpZD1kYjVlZTgwZDhlNTk0MTQ3OGU2ODdlYmZlMGQ3ZGRiNQptYWtlWzFdOiAq
-KiogW2RvY2tlci1ydW5dIEVycm9yIDEKbWFrZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92YXIv
-dG1wL3BhdGNoZXctdGVzdGVyLXRtcC04OGZjZ3E1Xy9zcmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1
-bi10ZXN0LWRlYnVnQGZlZG9yYV0gRXJyb3IgMgoKcmVhbCAgICA0bTIzLjc4NnMKdXNlciAgICAw
-bTguNjY3cwoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3Jn
-L2xvZ3MvY292ZXIuMTU4NjE2NTU1NS5naXQuZWxlbmEudWZpbXRzZXZhQG9yYWNsZS5jb20vdGVz
-dGluZy5hc2FuLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxs
-eSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVl
-ZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On Fri,  3 Apr 2020 17:23:08 +0300
+Jon Doron <arilou@gmail.com> wrote:
+
+> Guest OS uses ACPI to discover vmbus presence.  Add a corresponding
+> entry to DSDT in case vmbus has been enabled.
+> 
+> Experimentally Windows guests were found to require this entry to
+> include two IRQ resources, so this patch adds two semi-arbitrarily
+> chosen ones (7 and 13).  This results, in particular, in parallel port
+> conflicting with vmbus.
+> 
+> TODO: discover and use spare IRQs to avoid conflicts.
+
+CCing Vitaly
+as he might know whom to ping wrt 'spec' that describes vmbus
+and confirm  with ACPI tables that native hyperv generates.
+
+ 
+> Signed-off-by: Evgeny Yakovlev <eyakovlev@virtuozzo.com>
+> Signed-off-by: Roman Kagan <rkagan@virtuozzo.com>
+> Signed-off-by: Jon Doron <arilou@gmail.com>
+> ---
+>  hw/i386/acpi-build.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 42 insertions(+)
+> 
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 2a7e55bae7..6d7fdbbe9b 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -43,6 +43,7 @@
+>  #include "hw/acpi/tpm.h"
+>  #include "hw/acpi/vmgenid.h"
+>  #include "hw/boards.h"
+> +#include "hw/vmbus/vmbus.h"
+>  #include "sysemu/tpm_backend.h"
+>  #include "hw/rtc/mc146818rtc_regs.h"
+>  #include "migration/vmstate.h"
+> @@ -1270,6 +1271,43 @@ static Aml *build_com_device_aml(uint8_t uid)
+>      return dev;
+>  }
+>  
+> +static Aml *build_vmbus_device_aml(void)
+> +{
+> +    Aml *dev;
+> +    Aml *method;
+> +    Aml *crs;
+> +
+> +    dev = aml_device("VMBS");
+> +    aml_append(dev, aml_name_decl("STA", aml_int(0xF)));
+> +    aml_append(dev, aml_name_decl("_HID", aml_string("VMBus")));
+> +    aml_append(dev, aml_name_decl("_UID", aml_int(0x0)));
+> +    aml_append(dev, aml_name_decl("_DDN", aml_string("VMBUS")));
+> +
+> +    method = aml_method("_DIS", 0, AML_NOTSERIALIZED);
+> +    aml_append(method, aml_store(aml_and(aml_name("STA"), aml_int(0xD), NULL),
+> +                                     aml_name("STA")));
+> +    aml_append(dev, method);
+> +
+> +    method = aml_method("_PS0", 0, AML_NOTSERIALIZED);
+> +    aml_append(method, aml_store(aml_or(aml_name("STA"), aml_int(0xF), NULL),
+> +                                     aml_name("STA")));
+> +    aml_append(dev, method);
+> +
+> +    method = aml_method("_STA", 0, AML_NOTSERIALIZED);
+> +    aml_append(method, aml_store(aml_name("STA"), aml_local(0)));
+> +    aml_append(method, aml_return(aml_local(0)));
+> +    aml_append(dev, method);
+does it need all that complicated _STA handling?
+Would simple
+   aml_append(dev, aml_name_decl("_STA", aml_int(0xF)));
+work for you?
+
+> +    aml_append(dev, aml_name_decl("_PS3", aml_int(0x0)));
+> +
+> +    crs = aml_resource_template();
+> +    aml_append(crs, aml_irq_no_flags(7));
+> +    aml_append(crs, aml_irq_no_flags(13));
+> +    aml_append(dev, aml_name_decl("_CRS", crs));
+> +
+> +    return dev;
+> +}
+> +
+>  static void build_isa_devices_aml(Aml *table)
+>  {
+>      ISADevice *fdc = pc_find_fdc0();
+> @@ -1296,6 +1334,10 @@ static void build_isa_devices_aml(Aml *table)
+>          build_acpi_ipmi_devices(scope, BUS(obj), "\\_SB.PCI0.ISA");
+>      }
+>  
+> +    if (vmbus_exists()) {
+> +        aml_append(scope, build_vmbus_device_aml());
+> +    }
+> +
+>      aml_append(table, scope);
+>  }
+>  
+
 
