@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA7519FCDD
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:16:52 +0200 (CEST)
-Received: from localhost ([::1]:36458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A9119FD4F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:37:30 +0200 (CEST)
+Received: from localhost ([::1]:36946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLWIl-0002rE-4m
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:16:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42110)
+	id 1jLWcj-0005ux-Qh
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:37:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42407)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wrampazz@redhat.com>) id 1jLWE9-0003dk-BZ
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:12:06 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jLWFW-0006ne-OV
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:13:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wrampazz@redhat.com>) id 1jLWE8-0001F6-84
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:12:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51329
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wrampazz@redhat.com>) id 1jLWE8-0001BD-57
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:12:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586196720;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6g71dqhfYpY6ip8qssxsq95Ylu99ddk1f+WNGX/f8fw=;
- b=HI83OVsZQdc5ha4poZ9XHfq2LGz7fQjNY4xNgITgOxEXEAsfJwc5ho3ZTXQVrsp5HzrG0T
- J57f++6GtdJIkrzCAH/NqNVU7wuWe0swcYRDIOkyNwp7xbm7BulRD5yyN2y0NzJjeB9JCh
- eE13qHg8QMbLNEufKL6uA+UoFDoCJAk=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-J8h1bzTEMlCnx1jFGxc6Ng-1; Mon, 06 Apr 2020 14:11:58 -0400
-X-MC-Unique: J8h1bzTEMlCnx1jFGxc6Ng-1
-Received: by mail-ua1-f72.google.com with SMTP id c4so145301uap.15
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 11:11:58 -0700 (PDT)
+ (envelope-from <alex.bennee@linaro.org>) id 1jLWFV-0003Qs-Iz
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:13:30 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36123)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jLWFV-0003Pv-4j
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:13:29 -0400
+Received: by mail-wr1-x441.google.com with SMTP id k1so622266wrm.3
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 11:13:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=gpAygWzDUXiL8EOJoOxXksGFFQ5Ela25FmX2gC3U99o=;
+ b=zZArsN/3ctNtfWWOxUnD2du1SpCxlSaAfynWdyLQUy1VoxWNmgL35UAj0cOh12SobT
+ tG3tguYlIjdNIz+xyOTRqiMY8btzYPTsaEDOkyFRJoxl3NsHXdxEBOox2A7GkkJGAvVy
+ AEzAwQYtFZ4UVNAXEDxfcvHywzGePyFwAa0UtsuSIsGWfWW9hwdi3fNmt3+gXePWXPlW
+ Y1BpE+CzGHBjZe3zO2rD6tnm1DYahi8CSKNVQIPPATVNhbbbyFdiKpHWbS7ZOPgZ53yV
+ qA1dY4mxScD0f0Md+6YxKqIUYSb1LW4/V5ZyNYbyeNj00NxQ76ZL0+FXnPXqhLW34xeL
+ Z92w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6g71dqhfYpY6ip8qssxsq95Ylu99ddk1f+WNGX/f8fw=;
- b=sW7ok2QsHHdotYNGOTmKaZwOC3wKR7cZE3CpkCoEC8NmMsWmVzRRL1jHyen2+/yxGc
- dKb5raeceWQq4LI6EhniLfcWzFla6hEDgJToShwQ1+S5w+F03t05lxUveoTB2VIwu1/3
- IuEtz0ycFBrnbaRhm3dYfNTtFwfrPQ7M1/teoqHfQa6ewJG63gErejJ2J65YgUZycjn2
- DIJBhkmwkew+RccgH4rVA/t64I3usLENkwXI1gBqOiokW+3Z5R7jigNlBwsspYWtESvq
- IC4MHdFy5fJPsT3aHjfx7aXnBRXCfZV5b8Z4RIHciXQD68KG3knokJk+qbtbkYoolTuQ
- 48xg==
-X-Gm-Message-State: AGi0PuZICJhbWVxJTCmSWpa4yQBzpykzz6aSrpX1g0FxGJPfx4SpiQu0
- RdtpG2jS6icva/jAdYiwu94WdnGvnEvTjtLCcQjSFT29KVv/B0DM2PsmoO2JVngwgGiyKE9GRXr
- C429AmagyHU0VSsj39xPlyrGiMZpEVr0=
-X-Received: by 2002:a67:1947:: with SMTP id 68mr781467vsz.145.1586196717930;
- Mon, 06 Apr 2020 11:11:57 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLTGQHeZGuuMQRAq1E4dmi+3I9X4k3TUWEfwmg7LIFyNtleXHj+KXjNv8/3DcmxVTbnvl05HxKLUYn5B0PGpvM=
-X-Received: by 2002:a67:1947:: with SMTP id 68mr781430vsz.145.1586196717432;
- Mon, 06 Apr 2020 11:11:57 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=gpAygWzDUXiL8EOJoOxXksGFFQ5Ela25FmX2gC3U99o=;
+ b=BN73xaUwWKf4TeIB/HbUnjszAHK51eh8bESq3NKWEabLT7d/SZCQsoNvGogkz1ebN3
+ Gc7qmOHHB86Vol7X94FxzdKUmLv3e5viIqdCO0Xjecy4f2UOWhVlt6Tvx8G2SqgzQEMA
+ Z1e8/USDJXLNodp80XY/gXRLVAxVkgkbpdIWL7uvI2PgJVDOOl35SL27qbyrP31SOPkP
+ bIlmTnb/7IA2CMZX/GXYLf0j+DsPQYyKFTjDutF4UqtKh3SqJ4vDPeO88x/8iHB8IFpJ
+ qaeqmv3b/HTMZl0PYKamMG0b+z1M0kdiMmMCipv2EV0IHAEcEIHvrafPM4QYlJjIKtox
+ CvTA==
+X-Gm-Message-State: AGi0PuasA2OiEkSLXgtRVbtjnbG87GuK5Gk88Kra6qIF5sIH+hPOlHp8
+ t4uamcexYdnIs5fhb4O0TEQIWg==
+X-Google-Smtp-Source: APiQypJ2L1a7pje2jJmgC8EavlztQg/iAv9uIq9dNNGgcJmRfChy1zfZufE0BJI3OsVtqzHiTOV6yQ==
+X-Received: by 2002:adf:d4ce:: with SMTP id w14mr468809wrk.135.1586196807865; 
+ Mon, 06 Apr 2020 11:13:27 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q11sm462231wme.0.2020.04.06.11.13.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Apr 2020 11:13:26 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 106651FF7E;
+ Mon,  6 Apr 2020 19:13:26 +0100 (BST)
+References: <20200406174803.8192-1-richard.henderson@linaro.org>
+User-agent: mu4e 1.3.10; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH for-5.0] tcg/i386: Fix %r12 guest_base initialization
+In-reply-to: <20200406174803.8192-1-richard.henderson@linaro.org>
+Date: Mon, 06 Apr 2020 19:13:26 +0100
+Message-ID: <87tv1wa3eh.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20200403172919.24621-1-philmd@redhat.com>
- <20200403172919.24621-7-philmd@redhat.com>
- <87zhboaaf5.fsf@linaro.org>
-In-Reply-To: <87zhboaaf5.fsf@linaro.org>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 6 Apr 2020 15:11:46 -0300
-Message-ID: <CAKJDGDbXMknOLw-xGGR3HJriCQB_-+1A5+eqf0DMb_hd6u99HA@mail.gmail.com>
-Subject: Re: [PATCH-for-5.1 6/8] tests/Makefile: Add fetch-acceptance-assets
- rule
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,64 +81,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- qemu-devel <qemu-devel@nongnu.org>, Fabien Chouteau <chouteau@adacore.com>,
- Kamil Rytarowski <kamil@netbsd.org>, qemu-ppc@nongnu.org,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 6, 2020 at 12:41 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->
->
-> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
->
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > ---
-> >  tests/Makefile.include | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> >
-> > diff --git a/tests/Makefile.include b/tests/Makefile.include
-> > index 51de676298..90f457593c 100644
-> > --- a/tests/Makefile.include
-> > +++ b/tests/Makefile.include
-> > @@ -906,6 +906,13 @@ get-vm-image-fedora-31-%: check-venv
-> >  # download all vm images, according to defined targets
-> >  get-vm-images: check-venv $(patsubst %,get-vm-image-fedora-31-%, $(FED=
-ORA_31_DOWNLOAD))
-> >
-> > +fetch-acceptance-assets: check-venv
-> > +     $(call quiet-command, \
-> > +            $(TESTS_VENV_DIR)/bin/python -m avocado \
-> > +            --show=3D$(if $(DEBUG),avocado.test,$(AVOCADO_SHOW)) asset=
-s fetch \
-> > +            tests/acceptance/*py, \
-> > +            "AVOCADO", "tests/acceptance")
-> > +
->
-> I'm wondering if we could expand this to a rule per-test group and
-> therefor allow parallel fetching of groups of assets?
 
-This is a valid idea! Additionally, my suggestion is to organize the
-tests by subdirectories under `tests/acceptance/`. Doing so makes it
-easy to handle the target rule, adding the subdirectory to the assets
-fetch command instead of listing specific tests for each group. Making
-a list of tests for each group requires extra editing to the makefile
-target when a new test is added. This can lead to new tests being
-missed in their groups by mistake.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
+> When %gs cannot be used, we use register offset addressing.
+> This path is almost never used, so it was clearly not tested.
 >
-> >  check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
-> >       $(call quiet-command, \
-> >              $(TESTS_VENV_DIR)/bin/python -m avocado \
->
->
-> --
-> Alex Benn=C3=A9e
->
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  tcg/i386/tcg-target.inc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
+> index 7f61eeedd0..ec083bddcf 100644
+> --- a/tcg/i386/tcg-target.inc.c
+> +++ b/tcg/i386/tcg-target.inc.c
+> @@ -3737,7 +3737,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
+>          } else {
+>              /* Choose R12 because, as a base, it requires a SIB byte. */
+>              x86_guest_base_index =3D TCG_REG_R12;
+> -            tcg_out_mov(s, TCG_TYPE_PTR, x86_guest_base_index, guest_bas=
+e);
+> +            tcg_out_movi(s, TCG_TYPE_PTR, x86_guest_base_index, guest_ba=
+se);
+>              tcg_regset_set_reg(s->reserved_regs, x86_guest_base_index);
+>          }
+>      }
+
+
+--=20
+Alex Benn=C3=A9e
 
