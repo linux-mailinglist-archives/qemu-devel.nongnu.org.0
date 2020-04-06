@@ -2,82 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 376B019F2F3
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 11:52:44 +0200 (CEST)
-Received: from localhost ([::1]:57492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 956EC19F2DF
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 11:47:24 +0200 (CEST)
+Received: from localhost ([::1]:57334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLOQt-0003l7-8f
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 05:52:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44560)
+	id 1jLOLj-0001ct-Js
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 05:47:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44024)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1jLOHG-0003OY-NJ
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:42:48 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jLOGP-0001Pm-B3
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:41:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1jLOHF-0002fx-02
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:42:46 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:35426)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1jLOHE-0002fG-Ne
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:42:44 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0369dpr4089419;
- Mon, 6 Apr 2020 09:42:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2020-01-29;
- bh=ZocP0cSRsfVsVQd13v1loLCOLD58vhqoOPrPurUZea8=;
- b=UQNgX5m4gNp0FqT+IzHkFtyE93PSSnJDUgg5lMiOMLXTb2gaElXaYI+ziNjvaAp3C9lP
- l1nOrhfBVigBe7GGFcUv0KN4wzmiTCSAJVBOzo2FNBRg/TkRY1h8whlcuTbflAsYWlgr
- SSr27hRZ74x8YNrmh+rI891jSFC4G+sjUe9e5r+HuCrBWSYQcHETxqt0AYb8dbfImMqF
- odf6hl6HRgYS7bFStsMqrUJIiiQz+Wr0b5zgKxV7UpEVqpRbmiJpqzz1vipShUHjiijU
- U0WPzeKtB++DemJe9L3uK4xEFwmKtgJXkNXjKDhRMAalVmA0H+jI3sBhE7FwZj8KTT+a zQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2130.oracle.com with ESMTP id 306hnqwu13-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 06 Apr 2020 09:42:39 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0369fOcd066204;
- Mon, 6 Apr 2020 09:42:38 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 307419xjct-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 06 Apr 2020 09:42:38 +0000
-Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0369gZUS013926;
- Mon, 6 Apr 2020 09:42:35 GMT
-Received: from flaka.hsd1.ca.comcast.net (/67.180.143.163)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 06 Apr 2020 02:42:31 -0700
-From: elena.ufimtseva@oracle.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 36/36] multi-process: add configure and usage information
-Date: Mon,  6 Apr 2020 02:41:26 -0700
-Message-Id: <e3f79f28e8530509f2ffcd59ed878400bb0ac761.1586165556.git.elena.ufimtseva@oracle.com>
-X-Mailer: git-send-email 2.25.GIT
-In-Reply-To: <cover.1586165555.git.elena.ufimtseva@oracle.com>
-References: <cover.1586165555.git.elena.ufimtseva@oracle.com>
+ (envelope-from <cohuck@redhat.com>) id 1jLOGN-00020y-G9
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:41:53 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38291
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jLOGM-0001zm-6r
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:41:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586166109;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZBrAFIa3Ym7Ygcf7VeY5ZqN9lSy1hwAZJqT+m4UuBc8=;
+ b=DIcGVSsXcu6ANwPhyVBOCYZb5PAb5BzqysP/Bcy2d99+g3dcgBX+fMibfOi2hHHvkAGYKS
+ TexSshnezC/X3vJEGI/BcvZWLBTRwO7WM/8MUJcQeyPXu5rS2zq2d+7MdJcWiwoB8d05HA
+ D/fmgVhAoulrJOE8hlisuukZ8WXf05E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-136-EwosemdQOrKFrIAEiLrkjQ-1; Mon, 06 Apr 2020 05:41:47 -0400
+X-MC-Unique: EwosemdQOrKFrIAEiLrkjQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7790C8017F4;
+ Mon,  6 Apr 2020 09:41:46 +0000 (UTC)
+Received: from gondolin (ovpn-113-129.ams2.redhat.com [10.36.113.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DCD05B19CB;
+ Mon,  6 Apr 2020 09:41:41 +0000 (UTC)
+Date: Mon, 6 Apr 2020 11:41:39 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: Re: [PATCH 1/1] s390x/s390-virtio-ccw: Fix build on systems without
+ KVM
+Message-ID: <20200406114139.78b60cd5.cohuck@redhat.com>
+In-Reply-To: <90760b85-ed98-3106-0cc4-900f55607479@de.ibm.com>
+References: <20200406075931.26232-1-borntraeger@de.ibm.com>
+ <20200406075931.26232-2-borntraeger@de.ibm.com>
+ <20200406110447.5ad97f62.cohuck@redhat.com>
+ <90760b85-ed98-3106-0cc4-900f55607479@de.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9582
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
- phishscore=0
- malwarescore=0 bulkscore=0 spamscore=0 adultscore=0 mlxlogscore=999
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004060084
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9582
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- phishscore=0 adultscore=0
- priorityscore=1501 mlxscore=0 malwarescore=0 mlxlogscore=999
- lowpriorityscore=0 spamscore=0 impostorscore=0 suspectscore=1
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004060083
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,282 +75,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
- john.g.johnson@oracle.com, kraxel@redhat.com, jag.raman@oracle.com,
- quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
- kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- liran.alon@oracle.com, stefanha@redhat.com, thanos.makatos@nutanix.com,
- rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Bruce Rogers <brogers@suse.com>, Halil Pasic <pasic@linux.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+On Mon, 6 Apr 2020 11:27:13 +0200
+Christian Borntraeger <borntraeger@de.ibm.com> wrote:
 
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
----
- docs/multi-process.rst               | 85 +++++++++++++++++++++++++
- scripts/mpqemu-launcher-perf-mode.py | 93 ++++++++++++++++++++++++++++
- scripts/mpqemu-launcher.py           | 54 ++++++++++++++++
- 3 files changed, 232 insertions(+)
- create mode 100644 docs/multi-process.rst
- create mode 100755 scripts/mpqemu-launcher-perf-mode.py
- create mode 100755 scripts/mpqemu-launcher.py
+> On 06.04.20 11:04, Cornelia Huck wrote:
+> > On Mon,  6 Apr 2020 03:59:31 -0400
+> > Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+> >   
+> >> linux/kvm.h is not available on all platforms. Let us move
+> >> s390_machine_inject_pv_error into pv.c as it uses KVM structures.
+> >>
+> >> Fixes: 49fc3220175e ("s390x: protvirt: Support unpack facility")
+> >> Reported-by: Bruce Rogers <brogers@suse.com>
+> >> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> >> ---
+> >>  hw/s390x/ipl.h             |  1 +
+> >>  hw/s390x/pv.c              | 11 +++++++++++
+> >>  hw/s390x/s390-virtio-ccw.c | 10 ----------
+> >>  include/hw/s390x/pv.h      |  3 +++
+> >>  4 files changed, 15 insertions(+), 10 deletions(-)
+> >>
+> >> diff --git a/hw/s390x/ipl.h b/hw/s390x/ipl.h
+> >> index 89b3044d7a..53cc9eb5ac 100644
+> >> --- a/hw/s390x/ipl.h
+> >> +++ b/hw/s390x/ipl.h
+> >> @@ -14,6 +14,7 @@
+> >>  #define HW_S390_IPL_H
+> >>  
+> >>  #include "cpu.h"
+> >> +#include "exec/address-spaces.h"  
+> > 
+> > Hm, what is now requiring including this? (No objection, but I don't
+> > see it.)  
+> 
+> ipl.h has
+> 
+> static inline bool ipl_valid_pv_header(IplParameterBlock *iplb)
+> {
+> [..]
+>         if (!address_space_access_valid(&address_space_memory,
+> 
+> and if included alone this fails to build without the include. 
+> 
 
-diff --git a/docs/multi-process.rst b/docs/multi-process.rst
-new file mode 100644
-index 0000000000..9d53667b4e
---- /dev/null
-+++ b/docs/multi-process.rst
-@@ -0,0 +1,85 @@
-+Multi-process QEMU
-+==================
-+
-+This document describes how to configure and use multi-process qemu.
-+For the design document refer to docs/devel/qemu-multiprocess.
-+
-+1) Configuration
-+----------------
-+
-+To enable support for multi-process add --enable-mpqemu
-+to the list of options for the "configure" script.
-+
-+
-+2) Usage
-+--------
-+
-+Multi-process QEMU requires an orchestrator to launch. Please refer to a
-+light-weight python based orchestrator for mpqemu in
-+scripts/mpqemu-launcher.py to lauch QEMU in multi-process mode.
-+
-+scripts/mpqemu-launcher-perf-mode.py launches in "perf" mode. In this mode,
-+the same QEMU process connects to multiple remote devices, each emulated in
-+a separate process.
-+
-+As of now, we only support the emulation of lsi53c895a in a separate process.
-+
-+Following is a description of command-line used to launch mpqemu.
-+
-+* Orchestrator:
-+
-+  - The Orchestrator creates a unix socketpair
-+
-+  - It launches the remote process and passes one of the
-+    sockets to it via command-line.
-+
-+  - It then launches QEMU and specifies the other socket as an option
-+    to the Proxy device object
-+
-+* Remote Process:
-+
-+  - The first command-line option in the remote process is one of the
-+    sockets created by the Orchestrator
-+
-+  - The remaining options are no different from how one launches QEMU with
-+    devices. The only other requirement is each PCI device must have a
-+    unique ID specified to it. This is needed to pair remote device with the
-+    Proxy object.
-+
-+  - Example command-line for the remote process is as follows:
-+
-+      /usr/bin/qemu-scsu-dev 4                                           \
-+      -device lsi53c895a,id=lsi0                                         \
-+      -drive id=drive_image2,file=/build/ol7-nvme-test-1.qcow2           \
-+      -device scsi-hd,id=drive2,drive=drive_image2,bus=lsi0.0,scsi-id=0
-+
-+* QEMU:
-+
-+  - Since parts of the RAM are shared between QEMU & remote process, a
-+    memory-backend-file is required to facilitate this, as follows:
-+
-+    -object memory-backend-file,id=mem,mem-path=/dev/shm/,size=4096M,share=on
-+
-+  - A "pci-proxy-dev" device is created for each of the PCI devices emulated
-+    in the remote process. A "socket" sub-option specifies the other end of
-+    unix channel created by orchestrator. The "id" sub-option must be specified
-+    and should be the same as the "id" specified for the remote PCI device
-+
-+  - Example commandline for QEMU is as follows:
-+
-+      -device pci-proxy-dev,id=lsi0,socket=3
-+
-+* Monitor / QMP:
-+
-+  - The remote process supports QEMU monitor. It could be specified using the
-+    "-monitor" or "-qmp" command-line options
-+
-+  - As an example, one could connect to the monitor by adding the following
-+    to the command-line of the remote process
-+
-+      -monitor unix:/home/qmp-sock,server,nowait
-+
-+  - The user could connect to the monitor using the qmp script or using
-+    "socat" as outlined below:
-+
-+      socat /home/qmp-sock stdio
-diff --git a/scripts/mpqemu-launcher-perf-mode.py b/scripts/mpqemu-launcher-perf-mode.py
-new file mode 100755
-index 0000000000..a9be82faf5
---- /dev/null
-+++ b/scripts/mpqemu-launcher-perf-mode.py
-@@ -0,0 +1,93 @@
-+#!/usr/bin/env python3
-+
-+import socket
-+import os
-+import subprocess
-+import time
-+
-+PROC_QEMU='/usr/bin/qemu-system-x86_64'
-+
-+PROC_REMOTE='/usr/bin/qemu-scsi-dev'
-+
-+proxy_1, remote_1 = socket.socketpair(socket.AF_UNIX, socket.SOCK_STREAM)
-+proxy_2, remote_2 = socket.socketpair(socket.AF_UNIX, socket.SOCK_STREAM)
-+proxy_3, remote_3 = socket.socketpair(socket.AF_UNIX, socket.SOCK_STREAM)
-+
-+remote_cmd_1 = [ PROC_REMOTE,                                                  \
-+                 str(remote_1.fileno()),                                       \
-+                 '-device', 'lsi53c895a,id=lsi1',                              \
-+                 '-drive', 'id=drive_image1,'                                  \
-+                               'file=/build/ol7-nvme-test-1.qcow2',            \
-+                 '-device', 'scsi-hd,id=drive1,drive=drive_image1,'            \
-+                                'bus=lsi1.0,scsi-id=0',                        \
-+               ]
-+
-+remote_cmd_2 = [ PROC_REMOTE,                                                  \
-+                 str(remote_2.fileno()),                                       \
-+                 '-device', 'lsi53c895a,id=lsi2',                              \
-+                 '-drive', 'id=drive_image2,'                                  \
-+                               'file=/build/ol7-nvme-test-2.qcow2',            \
-+                 '-device', 'scsi-hd,id=drive2,drive=drive_image2,'            \
-+                                'bus=lsi2.0,scsi-id=0'                         \
-+               ]
-+
-+remote_cmd_3 = [ PROC_REMOTE,                                                  \
-+                 str(remote_3.fileno()),                                       \
-+                 '-device', 'lsi53c895a,id=lsi3',                              \
-+                 '-drive', 'id=drive_image3,'                                  \
-+                               'file=/build/ol7-nvme-test-3.qcow2',            \
-+                 '-device', 'scsi-hd,id=drive3,drive=drive_image3,'            \
-+                                'bus=lsi3.0,scsi-id=0'                         \
-+               ]
-+
-+proxy_cmd = [ PROC_QEMU,                                                       \
-+              '-name', 'OL7.4',                                                \
-+              '-machine', 'q35,accel=kvm',                                     \
-+              '-smp', 'sockets=1,cores=1,threads=1',                           \
-+              '-m', '2048',                                                    \
-+              '-object', 'memory-backend-file,id=sysmem-file,'                 \
-+                             'mem-path=/dev/shm/test-mem,size=2G,share=on',    \
-+              '-numa', 'node,memdev=sysmem-file',                              \
-+              '-device', 'virtio-scsi-pci,id=virtio_scsi_pci0',                \
-+              '-drive', 'id=drive_image1,if=none,format=qcow2,'                \
-+                            'file=/home/ol7-hdd-1.qcow2',                      \
-+              '-device', 'scsi-hd,id=image1,drive=drive_image1,'               \
-+                             'bus=virtio_scsi_pci0.0',                         \
-+              '-boot', 'd',                                                    \
-+              '-vnc', ':0',                                                    \
-+              '-device', 'pci-proxy-dev,id=lsi1,'                              \
-+                             'socket='+str(proxy_1.fileno()),                  \
-+              '-device', 'pci-proxy-dev,id=lsi2,'                              \
-+                             'socket='+str(proxy_2.fileno()),                  \
-+              '-device', 'pci-proxy-dev,id=lsi3,'                              \
-+                             'socket='+str(proxy_3.fileno())                   \
-+            ]
-+
-+
-+pid = os.fork();
-+if pid == 0:
-+    # In remote_1
-+    print('Launching Remote process 1');
-+    process = subprocess.Popen(remote_cmd_1, pass_fds=[remote_1.fileno()])
-+    os._exit(0)
-+
-+
-+pid = os.fork();
-+if pid == 0:
-+    # In remote_2
-+    print('Launching Remote process 2');
-+    process = subprocess.Popen(remote_cmd_2, pass_fds=[remote_2.fileno()])
-+    os._exit(0)
-+
-+
-+pid = os.fork();
-+if pid == 0:
-+    # In remote_3
-+    print('Launching Remote process 3');
-+    process = subprocess.Popen(remote_cmd_3, pass_fds=[remote_3.fileno()])
-+    os._exit(0)
-+
-+
-+print('Launching Proxy process');
-+process = subprocess.Popen(proxy_cmd, pass_fds=[proxy_1.fileno(),              \
-+                           proxy_2.fileno(), proxy_3.fileno()])
-diff --git a/scripts/mpqemu-launcher.py b/scripts/mpqemu-launcher.py
-new file mode 100755
-index 0000000000..28d6aa441f
---- /dev/null
-+++ b/scripts/mpqemu-launcher.py
-@@ -0,0 +1,54 @@
-+#!/usr/bin/env python3
-+import socket
-+import os
-+import subprocess
-+import time
-+
-+PROC_QEMU='/usr/bin/qemu-system-x86_64'
-+
-+PROC_REMOTE='/usr/bin/qemu-scsi-dev'
-+
-+proxy, remote = socket.socketpair(socket.AF_UNIX, socket.SOCK_STREAM)
-+
-+remote_cmd = [ PROC_REMOTE,                                                    \
-+               str(remote.fileno()),                                           \
-+               '-device', 'lsi53c895a,id=lsi1',                                \
-+               '-drive', 'id=drive_image1,file=/build/ol7-nvme-test-1.qcow2',  \
-+               '-device', 'scsi-hd,id=drive1,drive=drive_image1,bus=lsi1.0,'   \
-+                              'scsi-id=0',                                     \
-+               '-device', 'lsi53c895a,id=lsi2',                                \
-+               '-drive', 'id=drive_image2,file=/build/ol7-nvme-test-2.qcow2',  \
-+               '-device', 'scsi-hd,id=drive2,drive=drive_image2,bus=lsi2.0,'   \
-+                              'scsi-id=0'                                      \
-+             ]
-+
-+proxy_cmd = [ PROC_QEMU,                                                       \
-+              '-name', 'OL7.4',                                                \
-+              '-machine', 'q35,accel=kvm',                                     \
-+              '-smp', 'sockets=1,cores=1,threads=1',                           \
-+              '-m', '2048',                                                    \
-+              '-object', 'memory-backend-file,id=sysmem-file,'                 \
-+                             'mem-path=/dev/shm/test-mem,size=2G,share=on',    \
-+              '-numa', 'node,memdev=sysmem-file',                              \
-+              '-device', 'virtio-scsi-pci,id=virtio_scsi_pci0',                \
-+              '-drive', 'id=drive_image1,if=none,format=qcow2,'                \
-+                            'file=/home/ol7-hdd-1.qcow2',                      \
-+              '-device', 'scsi-hd,id=image1,drive=drive_image1,'               \
-+                             'bus=virtio_scsi_pci0.0',                         \
-+              '-boot', 'd',                                                    \
-+              '-vnc', ':0',                                                    \
-+              '-device', 'pci-proxy-dev,id=lsi1,socket='+str(proxy.fileno()),  \
-+              '-device', 'pci-proxy-dev,id=lsi2,socket='+str(proxy.fileno())   \
-+            ]
-+
-+
-+pid = os.fork();
-+
-+if pid:
-+    # In Proxy
-+    print('Launching QEMU with Proxy object');
-+    process = subprocess.Popen(proxy_cmd, pass_fds=[proxy.fileno()])
-+else:
-+    # In remote
-+    print('Launching Remote process');
-+    process = subprocess.Popen(remote_cmd, pass_fds=[remote.fileno()])
--- 
-2.25.GIT
+Ah, makes sense.
+
+> 
+> >   
+> >>  #include "hw/qdev-core.h"
+> >>  
+> >>  struct IPLBlockPVComp {  
+> > 
 
 
