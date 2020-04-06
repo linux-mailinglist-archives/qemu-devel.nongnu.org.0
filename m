@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA27719FC77
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:06:12 +0200 (CEST)
-Received: from localhost ([::1]:36213 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 090C119FC1F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 19:57:10 +0200 (CEST)
+Received: from localhost ([::1]:36030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLW8R-0007Vy-TG
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:06:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36125)
+	id 1jLVzh-0001Au-2X
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 13:57:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36175)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVr2-0001vb-2b
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:13 -0400
+ id 1jLVr4-0001z5-Eo
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVr0-0002jD-TV
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:12 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:33427)
+ id 1jLVr2-0002mP-3x
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:13 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40007)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVr0-0002gW-Mu; Mon, 06 Apr 2020 13:48:10 -0400
-Received: by mail-wm1-x332.google.com with SMTP id g21so582346wmh.0;
- Mon, 06 Apr 2020 10:48:10 -0700 (PDT)
+ id 1jLVr1-0002k3-Tq
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:12 -0400
+Received: by mail-wr1-x444.google.com with SMTP id s8so486578wrt.7
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:48:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Cywb3NzU3xTAsl3tlLXZAS+5IRTu4MJbpH6wU0QcRK0=;
- b=IzVvpA9m3fMFuR0rzc0GtThCkipYcef0pszA8n1Odu59QjGfSZPI2Y5pk+z+X/G4ZI
- gBupz8W822SeIX1S1ot3bVU+PzhnRz1VNfqZ51MgzYdYhSHYxlk2qN4Cz0MaM4Reopo6
- OzSQPrYkFTJvrfgWMXKAzoY07DT8S1FXcCC+eooKRAbmG5TSea1ZtusMn1OGBGjEycET
- oWsoiyXiAKtPAMMDbLh2/D9q+iY5obH8HfCtcyvB7zJea1cr79ZAt/hzmiTYQpBLR5y9
- DBeDobrjyFgL6EGnGIb7ftcA57p8sSykb44EnaehaN/oaIEbgrjZf+SkyOaJhcZ1yfOw
- wIOw==
+ bh=cuu6Mf6C0OvH1MFPrRMIl5kc5c6SX3CKL/Tap4IxIuM=;
+ b=dhVHcOTsNa6LYJStTvLUBOZZ1iF+829dP+797919V6+SX4+DAbfIaXZWyGomJiMorU
+ N7Pr6MAOVy34D3eg51lO4Y2JCX6IMW2ciZf5gFk0EMscdTh/naB5+yPTlxmmuktWVQtr
+ 6+1UQINB8Za1c+I92XxBoQ6Alj/qj27hQ0X5vJqKFDTY6yGCKYyXdpyIPvWbF2uR2/6u
+ 2AoKWGn4I8nSaTXcoisqyk7hPbVzFCK5jUdxzcRT6ygtXCG+k2ePtehs+MWGn6zjgftP
+ Xjm4z1fft/VYIK+0zwt21Y/qAotrSP5ditecEPpryPbK6Lj4xxOmayYA07Iv+6e7CXhk
+ cVXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Cywb3NzU3xTAsl3tlLXZAS+5IRTu4MJbpH6wU0QcRK0=;
- b=MbZWLPlmXuWFMSZAuUA8ZUXRUigf9yPx6doXQOQgg44UgHXtlmmKnxob7LzGsnVBHr
- PsJb0LtaJhEDrKO6/AiKrushFcIpYdcQPqzC2Nu+Vrvj1kK4j15chF8W2cWSITpDThUZ
- xHmhGRgVy/WHWazhaIjxnT+flCgqMgouEN+J1SDlZe9WtsIGQPkauDBWvgkyNJsTI1Ak
- QidzD8Z37RWUetg6e/CpmxZWj9rFGTiruGAlTVzF9h7W40anjm4KYHhMEWIzsHR2hXfo
- fACenKEFRnT0bdLuMYABmwzEeWq6NvcYUx03VnDtTrmaBj5drPJPIiGyYzhwyr7Ds1Os
- sEzQ==
-X-Gm-Message-State: AGi0PubrHppvtL7NIcre/4FgRL6bzb7kCmMIe+bGx5d52ubCTSZq3xEn
- y0Ye/DwYcIXl/lzV7GF554FKXy2LHGw=
-X-Google-Smtp-Source: APiQypK8VND8Fj12H4vP1SchlZJltgfxbFXBX42JoIGZKM1LB9HaFE6eIPxJx38YxtdKDF033I8AIQ==
-X-Received: by 2002:a1c:dfc6:: with SMTP id w189mr498174wmg.180.1586195289478; 
- Mon, 06 Apr 2020 10:48:09 -0700 (PDT)
+ bh=cuu6Mf6C0OvH1MFPrRMIl5kc5c6SX3CKL/Tap4IxIuM=;
+ b=BiBpIZRwKNoo0yYLsfX45y2rpH9gTgzKlF2XzdeTAjKT+UIOalEBiefq8nVP4Gzi8P
+ eK3ffQYa58kbvG6BdA8hD4OtGOHLdM+YCwh4JzUCtRWbPTd2LXc3ln8ND/i4Gv6H4T3f
+ oxz5jDIog8BKz2ljuVNS+B91+z7Tz6Q4pBpw+Sjimf1tGZ+fSGlzkTwH7a4e09botRRh
+ K/M6jbMa3xLHRq2N77QdWISeUSXgTY9qOABi6nCd2LHvkVM2XsilESXjE7BJGSQ3tcIY
+ ZKwQtJwZ7LjH+p9ZzkJKyZ7CUgFPlLYqxNseSNLlBjOcMU2fobd+T7tWYsJHTRgddiT8
+ js1Q==
+X-Gm-Message-State: AGi0Puazy3sWdCB9AMN3GUN2IPBo9yzXcRf/UX3qaU/lU9UmzNkGkOT4
+ kXFzPXH/1jOl5LajUgw+ESeWCfsye0w=
+X-Google-Smtp-Source: APiQypLvJE0XJfrgReEsqMri9XgZGfYbQED/+0wha9HYj3DQ81Yoq+T/sd6XaHY5MpSIbzNgKbFC/Q==
+X-Received: by 2002:adf:ed0b:: with SMTP id a11mr362197wro.344.1586195290662; 
+ Mon, 06 Apr 2020 10:48:10 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.48.08
+ by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.48.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 10:48:08 -0700 (PDT)
+ Mon, 06 Apr 2020 10:48:10 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH-for-5.1 v2 17/54] hw/microblaze/xlnx-zynqmp-pmu: Move some
- code from realize() to init()
-Date: Mon,  6 Apr 2020 19:47:06 +0200
-Message-Id: <20200406174743.16956-18-f4bug@amsat.org>
+Subject: [PATCH-for-5.1 v2 18/54] hw/pci-host/pnv_phb3: Move some code from
+ realize() to init()
+Date: Mon,  6 Apr 2020 19:47:07 +0200
+Message-Id: <20200406174743.16956-19-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200406174743.16956-1-f4bug@amsat.org>
 References: <20200406174743.16956-1-f4bug@amsat.org>
@@ -71,7 +72,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::332
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,10 +86,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Alistair Francis <alistair@alistair23.me>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "open list:Xilinx ZynqMP" <qemu-arm@nongnu.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -96,88 +94,57 @@ Coccinelle reported:
 
   $ spatch ... --timeout 60 --sp-file \
     scripts/coccinelle/simplify-init-realize-error_propagate.cocci
-  HANDLING: ./hw/microblaze/xlnx-zynqmp-pmu.c
-  >>> possible moves from xlnx_zynqmp_pmu_soc_init() to xlnx_zynqmp_pmu_soc_realize() in ./hw/microblaze/xlnx-zynqmp-pmu.c:79
+  HANDLING: ./hw/pci-host/pnv_phb3.c
+  >>> possible moves from pnv_phb3_instance_init() to pnv_phb3_realize() in ./hw/pci-host/pnv_phb3.c:992
 
 Move the calls using &error_abort which don't depend of input
 updated before realize() to init().
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/microblaze/xlnx-zynqmp-pmu.c | 46 ++++++++++++++++-----------------
- 1 file changed, 23 insertions(+), 23 deletions(-)
+ hw/pci-host/pnv_phb3.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/microblaze/xlnx-zynqmp-pmu.c b/hw/microblaze/xlnx-zynqmp-pmu.c
-index 028f31894d..2aa602cf85 100644
---- a/hw/microblaze/xlnx-zynqmp-pmu.c
-+++ b/hw/microblaze/xlnx-zynqmp-pmu.c
-@@ -63,24 +63,6 @@ static void xlnx_zynqmp_pmu_soc_init(Object *obj)
+diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+index 74618fadf0..57d717ed23 100644
+--- a/hw/pci-host/pnv_phb3.c
++++ b/hw/pci-host/pnv_phb3.c
+@@ -970,6 +970,8 @@ static void pnv_phb3_instance_init(Object *obj)
+     /* LSI sources */
+     object_initialize_child(obj, "lsi", &phb->lsis, sizeof(phb->lsis),
+                              TYPE_ICS, &error_abort, NULL);
++    object_property_set_int(OBJECT(&phb->lsis), PNV_PHB3_NUM_LSI, "nr-irqs",
++                            &error_abort);
  
-     object_initialize_child(obj, "pmu-cpu", &s->cpu, sizeof(s->cpu),
-                             TYPE_MICROBLAZE_CPU, &error_abort, NULL);
--
--    sysbus_init_child_obj(obj, "intc", &s->intc, sizeof(s->intc),
--                          TYPE_XLNX_PMU_IO_INTC);
--
--    /* Create the IPI device */
--    for (int i = 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
--        char *name = g_strdup_printf("ipi%d", i);
--        sysbus_init_child_obj(obj, name, &s->ipi[i],
--                              sizeof(XlnxZynqMPIPI), TYPE_XLNX_ZYNQMP_IPI);
--        g_free(name);
--    }
--}
--
--static void xlnx_zynqmp_pmu_soc_realize(DeviceState *dev, Error **errp)
--{
--    XlnxZynqMPPMUSoCState *s = XLNX_ZYNQMP_PMU_SOC(dev);
--    Error *err = NULL;
--
-     object_property_set_uint(OBJECT(&s->cpu), XLNX_ZYNQMP_PMU_ROM_ADDR,
-                              "base-vectors", &error_abort);
-     object_property_set_bool(OBJECT(&s->cpu), true, "use-stack-protection",
-@@ -99,18 +81,36 @@ static void xlnx_zynqmp_pmu_soc_realize(DeviceState *dev, Error **errp)
-     object_property_set_str(OBJECT(&s->cpu), "8.40.b", "version",
-                             &error_abort);
-     object_property_set_uint(OBJECT(&s->cpu), 0, "pvr", &error_abort);
--    object_property_set_bool(OBJECT(&s->cpu), true, "realized", &err);
--    if (err) {
--        error_propagate(errp, err);
--        return;
--    }
+     /* Default init ... will be fixed by HW inits */
+     phb->lsis.offset = 0;
+@@ -977,6 +979,8 @@ static void pnv_phb3_instance_init(Object *obj)
+     /* MSI sources */
+     object_initialize_child(obj, "msi", &phb->msis, sizeof(phb->msis),
+                             TYPE_PHB3_MSI, &error_abort, NULL);
++    object_property_set_int(OBJECT(&phb->msis), PHB3_MAX_MSI, "nr-irqs",
++                            &error_abort);
  
-+    sysbus_init_child_obj(obj, "intc", &s->intc, sizeof(s->intc),
-+                          TYPE_XLNX_PMU_IO_INTC);
-     object_property_set_uint(OBJECT(&s->intc), 0x10, "intc-intr-size",
-                              &error_abort);
-     object_property_set_uint(OBJECT(&s->intc), 0x0, "intc-level-edge",
-                              &error_abort);
-     object_property_set_uint(OBJECT(&s->intc), 0xffff, "intc-positive",
-                              &error_abort);
-+
-+    /* Create the IPI device */
-+    for (int i = 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
-+        char *name = g_strdup_printf("ipi%d", i);
-+        sysbus_init_child_obj(obj, name, &s->ipi[i],
-+                              sizeof(XlnxZynqMPIPI), TYPE_XLNX_ZYNQMP_IPI);
-+        g_free(name);
-+    }
-+}
-+
-+static void xlnx_zynqmp_pmu_soc_realize(DeviceState *dev, Error **errp)
-+{
-+    XlnxZynqMPPMUSoCState *s = XLNX_ZYNQMP_PMU_SOC(dev);
-+    Error *err = NULL;
-+
-+    object_property_set_bool(OBJECT(&s->cpu), true, "realized", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+
-     object_property_set_bool(OBJECT(&s->intc), true, "realized", &err);
-     if (err) {
-         error_propagate(errp, err);
+     /* Power Bus Common Queue */
+     object_initialize_child(obj, "pbcq", &phb->pbcq, sizeof(phb->pbcq),
+@@ -1005,8 +1009,6 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
+     /* LSI sources */
+     object_property_set_link(OBJECT(&phb->lsis), OBJECT(pnv), "xics",
+                                    &error_abort);
+-    object_property_set_int(OBJECT(&phb->lsis), PNV_PHB3_NUM_LSI, "nr-irqs",
+-                            &error_abort);
+     object_property_set_bool(OBJECT(&phb->lsis), true, "realized", &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+@@ -1024,8 +1026,6 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
+                                    &error_abort);
+     object_property_set_link(OBJECT(&phb->msis), OBJECT(pnv), "xics",
+                                    &error_abort);
+-    object_property_set_int(OBJECT(&phb->msis), PHB3_MAX_MSI, "nr-irqs",
+-                            &error_abort);
+     object_property_set_bool(OBJECT(&phb->msis), true, "realized", &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
 -- 
 2.21.1
 
