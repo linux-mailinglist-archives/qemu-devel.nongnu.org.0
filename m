@@ -2,61 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0693C19EEFE
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 03:02:25 +0200 (CEST)
-Received: from localhost ([::1]:53222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F340819EF21
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 03:31:16 +0200 (CEST)
+Received: from localhost ([::1]:53356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLG9f-0003Ry-Ti
-	for lists+qemu-devel@lfdr.de; Sun, 05 Apr 2020 21:02:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47968)
+	id 1jLGbb-0007Vj-Qg
+	for lists+qemu-devel@lfdr.de; Sun, 05 Apr 2020 21:31:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51367)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jLG8X-000323-On
- for qemu-devel@nongnu.org; Sun, 05 Apr 2020 21:01:14 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jLGai-0006vZ-Au
+ for qemu-devel@nongnu.org; Sun, 05 Apr 2020 21:30:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jLG8W-0003lw-Gv
- for qemu-devel@nongnu.org; Sun, 05 Apr 2020 21:01:13 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42576)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jLG8W-0003kx-4g
- for qemu-devel@nongnu.org; Sun, 05 Apr 2020 21:01:12 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jLG8U-0001oF-IE
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 01:01:10 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 731792E8108
- for <qemu-devel@nongnu.org>; Mon,  6 Apr 2020 01:01:10 +0000 (UTC)
+ (envelope-from <dgibson@ozlabs.org>) id 1jLGag-00058K-FR
+ for qemu-devel@nongnu.org; Sun, 05 Apr 2020 21:30:19 -0400
+Received: from ozlabs.org ([203.11.71.1]:33925)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1jLGae-000532-I3; Sun, 05 Apr 2020 21:30:18 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48wXz04zmjz9sRf; Mon,  6 Apr 2020 11:30:04 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1586136604;
+ bh=oE1fCQjROzwh4aW6IS38BzIYdaOfJOtl3GvDGKkjGCE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=AGVTkev0ATeAEf5ENuSHnGpPkmTvbY40mAGdgbBDmta3styyhfMDgGsZXMh6QsPOR
+ 37Jz+Vvsj70s3kRQMAM0OQuoORYJEs03VrSprp05KX1dyPhgkxV56PTWssHDp5EEMX
+ D/7YPQ9ftw0Aor5uHkS0hLJhs+FaKyHAUw75qEns=
+Date: Mon, 6 Apr 2020 11:00:53 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH] ppc/pnv: Create BMC devices only when defaults are enabled
+Message-ID: <20200406010053.GA2945@umbus.fritz.box>
+References: <20200404153655.166834-1-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 06 Apr 2020 00:51:45 -0000
-From: Russell Morris <ubuntu@rkmorris.us>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 6-u3untu-h eminus
-X-Launchpad-Bug-Reporter: Emin Ghuliev (eminus)
-X-Launchpad-Bug-Modifier: Russell Morris (6-u3untu-h)
-References: <155352235092.32006.12315829232895734213.malonedeb@soybean.canonical.com>
-Message-Id: <158613430543.23887.16301552370281152983.malone@soybean.canonical.com>
-Subject: [Bug 1821595] Re: Failed to emulate MMIO access with
- EmulatorReturnStatus: 2
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a296f04231dee355be5db73cc878b9e21689a253";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 39f70b03aa6ffc44fca0dba386ef543c741bf415
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bg08WKrSYDhXBjb5"
+Content-Disposition: inline
+In-Reply-To: <20200404153655.166834-1-clg@kaod.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,89 +54,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1821595 <1821595@bugs.launchpad.net>
+Cc: Corey Minyard <cminyard@mvista.com>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ Oliver O'Halloran <oohall@gmail.com>,
+ Nathan Chancellor <natechancellor@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
 
-Having a similar issue here, running "QEMU emulator version 4.2.91
-(v5.0.0-rc1-31-g146aa0f104-dirty)"
+--bg08WKrSYDhXBjb5
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Configuration / build command line,
-./configure --cross-prefix=3Dx86_64-w64-mingw32- --target-list=3Dx86_64-sof=
-tmmu --enable-whpx --enable-fdt --enable-gtk --enable-vnc --disable-pie --e=
-nable-opengl && make -j16 && make -j16 installer
+On Sat, Apr 04, 2020 at 05:36:55PM +0200, C=E9dric Le Goater wrote:
+> Commit e2392d4395dd ("ppc/pnv: Create BMC devices at machine init")
+> introduced default BMC devices which can be a problem when the same
+> devices are defined on the command line with :
+>=20
+>   -device ipmi-bmc-sim,id=3Dbmc0 -device isa-ipmi-bt,bmc=3Dbmc0,irq=3D10
+>=20
+> QEMU fails with :
+>=20
+>   qemu-system-ppc64: error creating device tree: node: FDT_ERR_EXISTS
+>=20
+> Use defaults_enabled() when creating the default BMC devices to let
+> the user provide its own BMC devices using '-nodefaults'. If no BMC
+> device are provided, output a warning but let QEMU run as this is a
+> supported configuration. However, when multiple BMC devices are
+> defined, stop QEMU with a clear error as the results are unexpected.
+>=20
+> Fixes: e2392d4395dd ("ppc/pnv: Create BMC devices at machine init")
+> Reported-by: Nathan Chancellor <natechancellor@gmail.com>
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
-And the QEMU command line,
-qemu-system-x86_64.exe \
-    -m 2G \
-    -machine q35 \
-    -cpu Penryn \
-    -accel whpx \
-    -device isa-applesmc,osk=3D"ourhardworkbythesewordsguardedpleasedontste=
-al(c)AppleComputerInc" \
-    -smbios type=3D2 \
-    -drive if=3Dpflash,format=3Draw,readonly,file=3D"./firmware/OVMF_CODE.f=
-d"\
-    -drive if=3Dpflash,format=3Draw,file=3D"./firmware/OVMF_VARS-1024x768.f=
-d" \
-    -usb -device usb-kbd -device usb-mouse \
-    -netdev user,id=3Dnet0 \
-    -device e1000-82545em,netdev=3Dnet0,id=3Dnet0,mac=3D52:54:00:c9:18:27 \
-    -device ich9-ahci,id=3Dsata \
-    -drive id=3DESP,if=3Dnone,format=3Dqcow2,file=3DESP.qcow2 \
-    -device ide-hd,bus=3Dsata.2,drive=3DESP \
-    -drive id=3DInstallMedia,format=3Draw,if=3Dnone,file=3DBaseSystem.img \
-    -device ide-hd,bus=3Dsata.3,drive=3DInstallMedia \
-    -drive id=3DSystemDisk,if=3Dnone,file=3DMyDisk.qcow2 \
-    -device ide-hd,bus=3Dsata.4,drive=3DSystemDisk \
+As a regression fix, applied to ppc-for-5.0.
 
+> ---
+>  include/hw/ppc/pnv.h |  2 ++
+>  hw/ppc/pnv.c         | 32 ++++++++++++++++++++++++++-----
+>  hw/ppc/pnv_bmc.c     | 45 ++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 74 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+> index fb4d0c0234b3..d4b0b0e2ff71 100644
+> --- a/include/hw/ppc/pnv.h
+> +++ b/include/hw/ppc/pnv.h
+> @@ -241,6 +241,8 @@ struct PnvMachineState {
+>  void pnv_dt_bmc_sensors(IPMIBmc *bmc, void *fdt);
+>  void pnv_bmc_powerdown(IPMIBmc *bmc);
+>  IPMIBmc *pnv_bmc_create(PnvPnor *pnor);
+> +IPMIBmc *pnv_bmc_find(Error **errp);
+> +void pnv_bmc_set_pnor(IPMIBmc *bmc, PnvPnor *pnor);
+> =20
+>  /*
+>   * POWER8 MMIO base addresses
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index ac83b8698b8e..a3b7a8d0ff32 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -573,10 +573,29 @@ static void pnv_powerdown_notify(Notifier *n, void =
+*opaque)
+> =20
+>  static void pnv_reset(MachineState *machine)
+>  {
+> +    PnvMachineState *pnv =3D PNV_MACHINE(machine);
+> +    IPMIBmc *bmc;
+>      void *fdt;
+> =20
+>      qemu_devices_reset();
+> =20
+> +    /*
+> +     * The machine should provide by default an internal BMC simulator.
+> +     * If not, try to use the BMC device that was provided on the command
+> +     * line.
+> +     */
+> +    bmc =3D pnv_bmc_find(&error_fatal);
+> +    if (!pnv->bmc) {
+> +        if (!bmc) {
+> +            warn_report("machine has no BMC device. Use '-device "
+> +                        "ipmi-bmc-sim,id=3Dbmc0 -device isa-ipmi-bt,bmc=
+=3Dbmc0,irq=3D10' "
+> +                        "to define one");
+> +        } else {
+> +            pnv_bmc_set_pnor(bmc, pnv->pnor);
+> +            pnv->bmc =3D bmc;
+> +        }
+> +    }
+> +
+>      fdt =3D pnv_dt_create(machine);
+> =20
+>      /* Pack resulting tree */
+> @@ -835,9 +854,6 @@ static void pnv_init(MachineState *machine)
+>      }
+>      g_free(chip_typename);
+> =20
+> -    /* Create the machine BMC simulator */
+> -    pnv->bmc =3D pnv_bmc_create(pnv->pnor);
+> -
+>      /* Instantiate ISA bus on chip 0 */
+>      pnv->isa_bus =3D pnv_isa_create(pnv->chips[0], &error_fatal);
+> =20
+> @@ -847,8 +863,14 @@ static void pnv_init(MachineState *machine)
+>      /* Create an RTC ISA device too */
+>      mc146818_rtc_init(pnv->isa_bus, 2000, NULL);
+> =20
+> -    /* Create the IPMI BT device for communication with the BMC */
+> -    pnv_ipmi_bt_init(pnv->isa_bus, pnv->bmc, 10);
+> +    /*
+> +     * Create the machine BMC simulator and the IPMI BT device for
+> +     * communication with the BMC
+> +     */
+> +    if (defaults_enabled()) {
+> +        pnv->bmc =3D pnv_bmc_create(pnv->pnor);
+> +        pnv_ipmi_bt_init(pnv->isa_bus, pnv->bmc, 10);
+> +    }
+> =20
+>      /*
+>       * OpenPOWER systems use a IPMI SEL Event message to notify the
+> diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
+> index 8863354c1c08..4e018b8b70e4 100644
+> --- a/hw/ppc/pnv_bmc.c
+> +++ b/hw/ppc/pnv_bmc.c
+> @@ -213,6 +213,18 @@ static const IPMINetfn hiomap_netfn =3D {
+>      .cmd_handlers =3D hiomap_cmds
+>  };
+> =20
+> +
+> +void pnv_bmc_set_pnor(IPMIBmc *bmc, PnvPnor *pnor)
+> +{
+> +    object_ref(OBJECT(pnor));
+> +    object_property_add_const_link(OBJECT(bmc), "pnor", OBJECT(pnor),
+> +                                   &error_abort);
+> +
+> +    /* Install the HIOMAP protocol handlers to access the PNOR */
+> +    ipmi_sim_register_netfn(IPMI_BMC_SIMULATOR(bmc), IPMI_NETFN_OEM,
+> +                            &hiomap_netfn);
+> +}
+> +
+>  /*
+>   * Instantiate the machine BMC. PowerNV uses the QEMU internal
+>   * simulator but it could also be external.
+> @@ -232,3 +244,36 @@ IPMIBmc *pnv_bmc_create(PnvPnor *pnor)
+> =20
+>      return IPMI_BMC(obj);
+>  }
+> +
+> +typedef struct ForeachArgs {
+> +    const char *name;
+> +    Object *obj;
+> +} ForeachArgs;
+> +
+> +static int bmc_find(Object *child, void *opaque)
+> +{
+> +    ForeachArgs *args =3D opaque;
+> +
+> +    if (object_dynamic_cast(child, args->name)) {
+> +        if (args->obj) {
+> +            return 1;
+> +        }
+> +        args->obj =3D child;
+> +    }
+> +    return 0;
+> +}
+> +
+> +IPMIBmc *pnv_bmc_find(Error **errp)
+> +{
+> +    ForeachArgs args =3D { TYPE_IPMI_BMC_SIMULATOR, NULL };
+> +    int ret;
+> +
+> +    ret =3D object_child_foreach_recursive(object_get_root(), bmc_find, =
+&args);
+> +    if (ret) {
+> +        error_setg(errp, "machine should have only one BMC device. "
+> +                   "Use '-nodefaults'");
+> +        return NULL;
+> +    }
+> +
+> +    return args.obj ? IPMI_BMC(args.obj) : NULL;
+> +}
 
-If I remove (only), -accel whpx \ =3D> Then it all runs, just very slowly ;=
--).
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Any suggestions, things to try?
+--bg08WKrSYDhXBjb5
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks!
+-----BEGIN PGP SIGNATURE-----
 
--- =
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6Kf0UACgkQbDjKyiDZ
+s5KdLBAAnVsnXxAwCMdJ/6Amm31F6P/B5bTFfCYOkb6RszKeLeJ4xZ/XU1HRYBUE
+QSKTesSn0wFpKuu414qQtNn/mi6JOeyFUoTZ40Kl8b/JQ1xWVatFb4oefLdCXsSk
+GlG/sSpKtaq5zpUyZ0RiGf8iMjC2RyLWepm3D+DhWEGJBRvPSTfs7VRlh59dMzSa
+D3g5fBWJjZJa1vnFAasYDaiZaWCV/COqEgZeOHaoEycFMtHHVN8AXjilwWnRcvjy
+t/m3HJqVJLViUd4yLC14h3OaJGXxoOvq5vRjYaWR329DQKU3otabiFV2cz3bJ/ME
+ZnGZYRdPXk/Pfth3fvWhuYTydQmGFNr4TC0v7BslUBbLT1TFnADvJA8teyRgE+Un
+dx15c0ZLtIcou2Ru+jghxDC9Eas5xGQMDUCByZzWZ7VX1P5YyZBWui/NSzeZkChz
+WVvuTZoIrHeDY019M5r9R0Q6nqqgYclHvualqc/rgp/Zry1J2gRFK8xGYMmF8+cm
+W9NCqgwvydRsy9dcLHStpglNMpn9GA3SEn3oPj25dHr0cFwehIgvwqM50BfxN7tZ
+7Z8FykR2vIFaPOTvNNastUf/qnAxWrJGesmTkS0+9ND1GpTeDv3vHAN9DOwnZB6g
+X2LQe3ipPZK7MBJrfd8FkYke5bFPpUraS/zyMpw8EdYr/2qXUl0=
+=JdjF
+-----END PGP SIGNATURE-----
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1821595
-
-Title:
-  Failed to emulate MMIO access with EmulatorReturnStatus: 2
-
-Status in QEMU:
-  New
-
-Bug description:
-  I have compiled qemu with enable-whpx parameter for Hyper-V Platform API =
-in Mingw64 . When I tried run with Windows 7 iso file I have faced issue wi=
-th the following problem: =
-
-  qemu-system-x86_64.exe: WHPX: Failed to emulate MMIO access with Emulator=
-ReturnStatus: 2
-  qemu-system-x86_64.exe: WHPX: Failed to exec a virtual processor
-
-  =
-
-  configuration directives:
-
-  ../configure --target-list=3Dx86_64-softmmu,i386-softmmu --enable-lzo\
-   --enable-bzip2 --enable-tools --enable-sdl --enable-gtk --enable-hax\
-   --enable-vdi --enable-qcow1 --enable-whpx --disable-capstone\
-   --disable-werror --disable-stack-protector --prefix=3D"../../QEMU-bin"
-
-  =
-
-  Qemu command line:
-  qemu-system-x86_64.exe -m 1024 -cdrom "C:\Users\vmcs\Documents\en_windows=
-_7_home_premium_with_sp1_x86_dvd_u_676701.iso" -display sdl -machine q35 -a=
-ccel whpx
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1821595/+subscriptions
+--bg08WKrSYDhXBjb5--
 
