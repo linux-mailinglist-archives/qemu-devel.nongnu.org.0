@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E7A119FCBA
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:11:59 +0200 (CEST)
-Received: from localhost ([::1]:36320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF83019FCB6
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:11:25 +0200 (CEST)
+Received: from localhost ([::1]:36304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLWE2-00029Q-7j
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:11:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36608)
+	id 1jLWDU-0000Y7-Rq
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:11:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36625)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrT-0002ZL-Dk
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:40 -0400
+ id 1jLVrU-0002aT-8S
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrS-0003OP-63
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:39 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:40893)
+ id 1jLVrT-0003PP-AJ
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:40 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:34527)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrR-0003Nv-JQ
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:38 -0400
-Received: by mail-wr1-x434.google.com with SMTP id s8so488282wrt.7
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:48:37 -0700 (PDT)
+ id 1jLVrT-0003Ol-4W; Mon, 06 Apr 2020 13:48:39 -0400
+Received: by mail-wm1-x329.google.com with SMTP id c195so140616wme.1;
+ Mon, 06 Apr 2020 10:48:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rzpb0J1Cx8Gx3IGOeDn1CxWpgjTf5+0X2hS5j/0kwDI=;
- b=RqRw/cf3RxpKOHKcqc2z4XMDCFhaBg4tlvBUC2wpT6NM8BAeN0WzjKaT8yFOltPAH8
- 0SrSkFgqyK9ZdtkVYLqZbA+MbnhVMT3biptCgQz07m6qHNRjF2cN+/f3GJ5j1alb4AWg
- 4PU1ng7BEdV/drm5FEc10E58GcF/EB1w6WYSesuBhGCD63Lqi66iUBfVVSIF/TipYwLJ
- TTvQMK5SXgOw0wa/OR6PPrwbo/jNrQvaGlIf53OM2NfL3/78JMUn57XjOzlcDWbbmjPI
- aDFvw0bFov7o3tJyOtVwmCPR/xz6aJ4k6NG1KnjY0vgR+4peVed+xNWO1t3kxqQlN3zX
- XN9A==
+ bh=aa+iNBsUIc02tXQoILWJv3WLGp8FOp4Qp/JxXw+sxRg=;
+ b=gYtKflbxtv0KOO93GxMUFEEez7VBfiz39wC1pLQhhLlrVnwUvt27kQtjecwGYQGh24
+ WwWrubbOug/megiCEdA+R+D7nl62mzfjdtvk0AoxKdGgkk59Qa4w2BTRvOW/dBB/IqTu
+ PPJ12leEEvSmiv4C+p5ykHilzo3eGjjOZ3hNrdd6BGlfbWcNE2m37ZmNoB96H9eLTkcP
+ ex5EcJqt6SjKn9Jv8v3z1yriYPAsKeb7isB7S/NJkvyHPVLcTZ4Vn3h01s7oI7u2yHf6
+ /W1/YOlP/g0cw67BtLP7wIjh0uKfg0FuGK6disZtEixghWP2+SEI53bTZr9r2PGFiSeY
+ +zUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=rzpb0J1Cx8Gx3IGOeDn1CxWpgjTf5+0X2hS5j/0kwDI=;
- b=CYzMZbGKVspJbksxqkAUq1OoVVDASbLIKQYOiA6Kadw/BvSaETYWpDosYPHaSVX0IF
- zqe3ifTviYJyWlQMug8bAVdGpAkDj8jBZ2aAXyYqq2JFfVmR8QDcd6N8T7qnzXxH0khe
- nc+POtp+kZCwa8ESHpxPks8uEoYJtlc+6ZtvMg/afb4kueZSfaFSpaGv/7s2DElqnvT4
- Hvpd4Xv0Ei/aFSb9Cncd0X4uyRhk8sB7jVg9YFu1BjFDKhFJ6P9mwwg3gqIy8DWuoygV
- Td52O5hLpe0aXWTLIxnOePGmaaKIcz6VKVNLHJMRZtPeMJPlEbZlejywRZ6Ii5wii6HM
- tP4Q==
-X-Gm-Message-State: AGi0PuYEk+Jq7ciU0JVIhoUCVq4qZwrAQbZ2BqyNwuOdX0GU8KUjD72X
- g7wbGbEnhH/o8lbe0fLtvOupxIPr5fU=
-X-Google-Smtp-Source: APiQypJ2XL45j+foSFdMhjkTxrNUv6FXWPeIf9ntLPvj5gIQB43pE53pY3VCMxl6klcSq2i+kpFtbg==
-X-Received: by 2002:a5d:4d51:: with SMTP id a17mr334601wru.317.1586195316377; 
- Mon, 06 Apr 2020 10:48:36 -0700 (PDT)
+ bh=aa+iNBsUIc02tXQoILWJv3WLGp8FOp4Qp/JxXw+sxRg=;
+ b=rZ35EDLqmytOgxKQVJbSw/vycJjROmOGF35xwpDB2r+hVOjpDjK40/r+RF1PkFqwjB
+ oOdQ6Yxknmpbidn1ID3MkfPvl3g9Cz4pM6a1+jl/M4RLLp8Akd0GhrDdydQ1yVkg8u8T
+ FVcSuwHlT4JwRSngPenAT1uJ7MihiSxEcDJFIYf/ZMo+Xy2VOHnJ6TMoVlkNJkYsWtPJ
+ DRQ9Y+h5xQm+kxYe24iVH1fMjcjDORRdv8zwFAvjBmsy6DCkYTkOKBdJSmf0NUAqeEbw
+ IyyEH4nCrd3afyU6e71U5u+CLNdgl9LkezAckfK7KpMnDpz8FN7oTzlqewdIBQfhWeZr
+ 46Sg==
+X-Gm-Message-State: AGi0PuaVQLehZuL805KJ+3vIs1FFcM7DvKSvNSinlvMheIAlxWp+1la8
+ KzmxFHxhszO/zmqBgwwrx/UY6gJEXm8=
+X-Google-Smtp-Source: APiQypJQ4laCv081ZH32hm3VoCAbr7epFHV+qnueGIIHv6FVELl0qHwwNj64ATISb3bLHpuHYBJkoA==
+X-Received: by 2002:a1c:e242:: with SMTP id z63mr207222wmg.72.1586195318004;
+ Mon, 06 Apr 2020 10:48:38 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.48.34
+ by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.48.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 10:48:35 -0700 (PDT)
+ Mon, 06 Apr 2020 10:48:37 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH-for-5.1 v2 37/54] scripts/coccinelle: Add script to catch
- missing error_propagate() calls
-Date: Mon,  6 Apr 2020 19:47:26 +0200
-Message-Id: <20200406174743.16956-38-f4bug@amsat.org>
+Subject: [PATCH-for-5.1 v2 38/54] hw/arm/bcm2835_peripherals: Add missing
+ error-propagation code
+Date: Mon,  6 Apr 2020 19:47:27 +0200
+Message-Id: <20200406174743.16956-39-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200406174743.16956-1-f4bug@amsat.org>
 References: <20200406174743.16956-1-f4bug@amsat.org>
@@ -72,7 +71,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::329
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,70 +85,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ "open list:Raspberry Pi" <qemu-arm@nongnu.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In some places in we put an error into a local Error*, but forget
-to check for failure and pass it back to the caller.
-Add a Coccinelle patch to catch automatically add the missing code.
+Patch created mechanically by running:
 
-Inspired-by: Peter Maydell <peter.maydell@linaro.org>
+  $ spatch \
+    --macro-file scripts/cocci-macro-file.h --include-headers \
+    --sp-file scripts/coccinelle/object_property_missing_error_propagate.cocci \
+    --keep-comments --smpl-spacing --in-place --dir hw
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- .../add-missing-error_propagate.cocci         | 30 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 scripts/coccinelle/add-missing-error_propagate.cocci
+ hw/arm/bcm2835_peripherals.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/scripts/coccinelle/add-missing-error_propagate.cocci b/scripts/coccinelle/add-missing-error_propagate.cocci
-new file mode 100644
-index 0000000000..7991c9e2c2
---- /dev/null
-+++ b/scripts/coccinelle/add-missing-error_propagate.cocci
-@@ -0,0 +1,30 @@
-+// Add missing error-propagation code where caller provide a Error* argument
-+//
-+// Copyright: (C) 2020 Philippe Mathieu-Daudé
-+// This work is licensed under the terms of the GNU GPLv2 or later.
-+//
-+// spatch \
-+//  --macro-file scripts/cocci-macro-file.h --include-headers \
-+//  --sp-file scripts/coccinelle/add-missing-error_propagate.cocci \
-+//  --keep-comments --in-place
-+//
-+// Inspired by https://www.mail-archive.com/qemu-devel@nongnu.org/msg691638.html
-+
-+
-+@ add_missing_error_propagate @
-+typedef Error;
-+Error *local_err;
-+identifier func, errp, errfunc1, errfunc2;
-+@@
-+func(..., Error **errp)
-+{
-+    <...
-+    errfunc1(..., &local_err);
-++   if (local_err) {
-++       error_propagate(errp, local_err);
-++       return;
-++   }
-+    ... when != local_err
-+    errfunc2(..., &local_err);
-+    ...>
-+}
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7b58f02efb..14de2a31dc 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2053,6 +2053,7 @@ F: include/qemu/error-report.h
- F: qapi/error.json
- F: util/error.c
- F: util/qemu-error.c
-+F: scripts/coccinelle/add-missing-error_propagate.cocci
- F: scripts/coccinelle/err-bad-newline.cocci
- F: scripts/coccinelle/error-use-after-free.cocci
- F: scripts/coccinelle/error_propagate_null.cocci
+diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+index edcaa4916d..a111e91069 100644
+--- a/hw/arm/bcm2835_peripherals.c
++++ b/hw/arm/bcm2835_peripherals.c
+@@ -289,8 +289,16 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+      *   SD3.0_Host_AHB_eMMC4.4_Usersguide_ver5.9_jan11_10.pdf
+      */
+     object_property_set_uint(OBJECT(&s->sdhci), 3, "sd-spec-version", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
+     object_property_set_uint(OBJECT(&s->sdhci), BCM2835_SDHC_CAPAREG, "capareg",
+                              &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
+     object_property_set_bool(OBJECT(&s->sdhci), true, "pending-insert-quirk",
+                              &err);
+     if (err) {
 -- 
 2.21.1
 
