@@ -2,74 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E05D319F765
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 15:59:32 +0200 (CEST)
-Received: from localhost ([::1]:60560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5482A19F7C0
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 16:17:22 +0200 (CEST)
+Received: from localhost ([::1]:60880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLSHk-00015t-0O
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 09:59:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54582)
+	id 1jLSYz-0000zF-Cr
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 10:17:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56296)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1jLSDd-0005oz-3i
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 09:55:18 -0400
+ (envelope-from <bounces@canonical.com>) id 1jLSOc-0008D1-Et
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 10:06:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1jLSDb-00035a-D4
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 09:55:16 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:58663
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1jLSDb-00034w-6I
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 09:55:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586181314;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=toarXByCKt2mim18PYUHUF9o0fDDqbxkNKZGSw6amXE=;
- b=Yt8cIvzjY2fFzKG4H5uyHIaL6AOhWdIVfwn01WPclc09BMaZx6TeF0XJx7oFxzkenqd4Zp
- b3Bzb7Xw3fcVb7yv/kfRtzkWCLGY/gycr47Zj/qD3mLP/ovlmQ8IxcjhCLTmmHuAhx/A8w
- jkUjsac/5U+QiRwpq+LLI+4Oon+spWg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-Oq0HlvXZPrmzR7rOazaSYg-1; Mon, 06 Apr 2020 09:55:10 -0400
-X-MC-Unique: Oq0HlvXZPrmzR7rOazaSYg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EF74107B7E8;
- Mon,  6 Apr 2020 13:55:08 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-15.gru2.redhat.com
- [10.97.116.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2C2EC19C4F;
- Mon,  6 Apr 2020 13:54:57 +0000 (UTC)
-Subject: Re: [PATCH-for-5.0 3/8] tests/acceptance/ppc_prep_40p: Use mirror for
- ftp.software.ibm.com
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-References: <20200403172919.24621-1-philmd@redhat.com>
- <20200403172919.24621-4-philmd@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <8c5017c2-d242-8437-60e3-3e28e2116d42@redhat.com>
-Date: Mon, 6 Apr 2020 10:54:55 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (envelope-from <bounces@canonical.com>) id 1jLSOb-000064-5e
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 10:06:38 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58388)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jLSOb-00005R-0N
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 10:06:37 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jLSOY-00073w-Rh
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 14:06:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id AD1A22E8108
+ for <qemu-devel@nongnu.org>; Mon,  6 Apr 2020 14:06:34 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200403172919.24621-4-philmd@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Mon, 06 Apr 2020 13:54:57 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: whpx
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 6-u3untu-h ajbennee eminus
+X-Launchpad-Bug-Reporter: Emin Ghuliev (eminus)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <155352235092.32006.12315829232895734213.malonedeb@soybean.canonical.com>
+Message-Id: <158618129708.24863.428231285462234220.malone@soybean.canonical.com>
+Subject: [Bug 1821595] Re: Failed to emulate MMIO access with
+ EmulatorReturnStatus: 2
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a296f04231dee355be5db73cc878b9e21689a253";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 55e78d723dbcf1bf4f2b5cae9e71845918292590
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,48 +66,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- Kamil Rytarowski <kamil@netbsd.org>, Fabien Chouteau <chouteau@adacore.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-ppc@nongnu.org
+Reply-To: Bug 1821595 <1821595@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+As far as I can tell QEMU just hands this off to the whpx emulation sub-
+system:
 
-On 4/3/20 2:29 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> To avoid regular failures on Travis-CI with ftp.software.ibm.com,
-> use a mirror.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->   tests/acceptance/ppc_prep_40p.py | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_prep=
-_40p.py
-> index 138064285a..1515561249 100644
-> --- a/tests/acceptance/ppc_prep_40p.py
-> +++ b/tests/acceptance/ppc_prep_40p.py
-> @@ -30,7 +30,8 @@ def test_factory_firmware_and_netbsd(self):
->           :avocado: tags=3Dmachine:40p
->           :avocado: tags=3Dslowness:high
->           """
-> -        bios_url =3D ('ftp://ftp.boulder.ibm.com/rs6000/firmware/'
-> +        bios_url =3D ('http://ftpmirror.your.org/pub/misc/'
-> +                    'ftp.software.ibm.com/rs6000/firmware/'
->                       '7020-40p/P12H0456.IMG')
+  https://docs.microsoft.com/en-us/virtualization/api/hypervisor-
+instruction-emulator/funcs/whvemulatortryemulation
 
-I checked the bios file can be downloaded from the mirror. I cannot=20
-judge the mirror is more reliable than ftp.boulder.ibm.com or not, though.
+Basically what is happening is the guest has tried to access I/O space
+and trapped back to QEMU which then passes the instruction back to the
+whpx support library to decode and emulate.
 
-Code-wise, looks good. So:
+-- =
 
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1821595
 
->           bios_hash =3D '1775face4e6dc27f3a6ed955ef6eb331bf817f03'
->           bios_path =3D self.fetch_asset(bios_url, asset_hash=3Dbios_hash=
-)
+Title:
+  Failed to emulate MMIO access with EmulatorReturnStatus: 2
 
+Status in QEMU:
+  New
+
+Bug description:
+  I have compiled qemu with enable-whpx parameter for Hyper-V Platform API =
+in Mingw64 . When I tried run with Windows 7 iso file I have faced issue wi=
+th the following problem: =
+
+  qemu-system-x86_64.exe: WHPX: Failed to emulate MMIO access with Emulator=
+ReturnStatus: 2
+  qemu-system-x86_64.exe: WHPX: Failed to exec a virtual processor
+
+  =
+
+  configuration directives:
+
+  ../configure --target-list=3Dx86_64-softmmu,i386-softmmu --enable-lzo\
+   --enable-bzip2 --enable-tools --enable-sdl --enable-gtk --enable-hax\
+   --enable-vdi --enable-qcow1 --enable-whpx --disable-capstone\
+   --disable-werror --disable-stack-protector --prefix=3D"../../QEMU-bin"
+
+  =
+
+  Qemu command line:
+  qemu-system-x86_64.exe -m 1024 -cdrom "C:\Users\vmcs\Documents\en_windows=
+_7_home_premium_with_sp1_x86_dvd_u_676701.iso" -display sdl -machine q35 -a=
+ccel whpx
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1821595/+subscriptions
 
