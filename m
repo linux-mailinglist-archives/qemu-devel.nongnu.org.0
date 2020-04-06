@@ -2,91 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8141C1A0153
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 00:57:15 +0200 (CEST)
-Received: from localhost ([::1]:38820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4381A1A01A7
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 01:26:51 +0200 (CEST)
+Received: from localhost ([::1]:39020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLag6-0006fY-Kb
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 18:57:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48153)
+	id 1jLb8k-0002Iz-Bm
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 19:26:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50714)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty@apple.com>) id 1jLaes-0005cd-4o
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 18:55:59 -0400
+ (envelope-from <bounces@canonical.com>) id 1jLb7n-0001SL-GQ
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 19:25:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty@apple.com>) id 1jLaeq-0000Ue-A5
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 18:55:57 -0400
-Received: from ma1-aaemail-dr-lapp01.apple.com ([17.171.2.60]:59238)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dirty@apple.com>) id 1jLaep-0000TJ-M0
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 18:55:56 -0400
-Received: from pps.filterd (ma1-aaemail-dr-lapp01.apple.com [127.0.0.1])
- by ma1-aaemail-dr-lapp01.apple.com (8.16.0.27/8.16.0.27) with SMTP id
- 036MqDeb029834; Mon, 6 Apr 2020 15:55:45 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com;
- h=sender : from : to :
- cc : subject : date : message-id : mime-version :
- content-transfer-encoding; s=20180706;
- bh=hnHi7WI0O0n9+r7/0qDMDTwt2YUvqYNxWeQMHhl9yl0=;
- b=eYn3xDuHvTiKpK7JJq7APmj7lzSxQ5sKhAQgiASXf5PHDFs8qHNHQgcjm1vHcILw02t4
- 3ZLGuN3KZA/5yKh8MoQii8nQIPMhB6eJGXOJPclRgh0rKm0juAY2B+1NldVWJnBHv7lN
- tOHjkz4vH2Iw2iEf/E40JBk8GXG3/CxO2pxecuOzBaJTeS2ErovRqAk4jl2/qRt0MGN5
- YBYEQ/ZKfyVA5yPF2TayyvwLFVwDOmoOBDWit3z/TO8RnMOHnXRRq5n4xxZxsxE9eDcf
- X4EI9AWUHpTBf72hxZNwQ56X6Hi0L/JOekLGSVS1/Xvs36GYlaicWmT+978nJwweBwKp Cg== 
-Received: from rn-mailsvcp-mta-lapp01.rno.apple.com
- (rn-mailsvcp-mta-lapp01.rno.apple.com [10.225.203.149])
- by ma1-aaemail-dr-lapp01.apple.com with ESMTP id 306rw2fuhm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
- Mon, 06 Apr 2020 15:55:45 -0700
-Received: from rn-mailsvcp-mmp-lapp03.rno.apple.com
- (rn-mailsvcp-mmp-lapp03.rno.apple.com [17.179.253.16])
- by rn-mailsvcp-mta-lapp01.rno.apple.com
- (Oracle Communications Messaging Server 8.1.0.5.20200312 64bit (built Mar 12
- 2020)) with ESMTPS id <0Q8E003Q12CWL240@rn-mailsvcp-mta-lapp01.rno.apple.com>; 
- Mon, 06 Apr 2020 15:55:45 -0700 (PDT)
-Received: from process_milters-daemon.rn-mailsvcp-mmp-lapp03.rno.apple.com by
- rn-mailsvcp-mmp-lapp03.rno.apple.com
- (Oracle Communications Messaging Server 8.1.0.5.20200312 64bit (built Mar 12
- 2020)) id <0Q8E00O002AG4Z00@rn-mailsvcp-mmp-lapp03.rno.apple.com>; Mon,
- 06 Apr 2020 15:55:44 -0700 (PDT)
-X-Va-A: 
-X-Va-T-CD: d0f689b0b1d4f2921c086db3eba98d8e
-X-Va-E-CD: 323816aa3fc595e98d52185722ff1c53
-X-Va-R-CD: 41358f3a55e2bff765e7dbd4153ff819
-X-Va-CD: 0
-X-Va-ID: 6e7056ba-c171-4961-871e-333a7612e777
-X-V-A: 
-X-V-T-CD: d0f689b0b1d4f2921c086db3eba98d8e
-X-V-E-CD: 323816aa3fc595e98d52185722ff1c53
-X-V-R-CD: 41358f3a55e2bff765e7dbd4153ff819
-X-V-CD: 0
-X-V-ID: 9b11ac7b-83fa-402f-9b2f-824dd6fb47e8
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-04-06_10:2020-04-06,
- 2020-04-06 signatures=0
-Received: from pontoon.com (unknown [17.234.27.122])
- by rn-mailsvcp-mmp-lapp03.rno.apple.com
- (Oracle Communications Messaging Server 8.1.0.5.20200312 64bit (built Mar 12
- 2020))
- with ESMTPSA id <0Q8E00O2A2CWVG00@rn-mailsvcp-mmp-lapp03.rno.apple.com>; Mon,
- 06 Apr 2020 15:55:44 -0700 (PDT)
+ (envelope-from <bounces@canonical.com>) id 1jLb7l-0004Vg-8f
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 19:25:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51416)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jLb7l-0004Ux-3i
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 19:25:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jLb7k-0002Rs-BW
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 23:25:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4C6562E8041
+ for <qemu-devel@nongnu.org>; Mon,  6 Apr 2020 23:25:48 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 06 Apr 2020 23:17:48 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1663287@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
-Cc: joel@jms.id.au, peter.maydell@linaro.org, clg@kaod.org, philmd@redhat.com, 
- kraxel@redhat.com
-Subject: [PATCH v1] nrf51: Fix last GPIO CNF address
-Date: Mon, 06 Apr 2020 15:55:43 -0700
-Message-id: <0b02fe788de99120894f87f6d5c60e15d6a75d85.1586213450.git.dirty@apple.com>
-X-Mailer: git-send-email 2.24.0
-MIME-version: 1.0
-Content-transfer-encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-04-06_10:2020-04-06,
- 2020-04-06 signatures=0
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 17.171.2.60
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: mips
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bacam martin-sk philmd th-huth yongbok-kim
+X-Launchpad-Bug-Reporter: Brian Campbell (bacam)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <20170209154937.3933.99004.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158621506860.23297.12864921032252707596.malone@wampee.canonical.com>
+Subject: [Bug 1663287] Re: Illegal delay slot code causes abort on mips64
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a296f04231dee355be5db73cc878b9e21689a253";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 5f28d5c0ea9bb99baa3ae332ddbf40c94e1e95e2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -95,47 +66,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1663287 <1663287@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Cameron Esfahani <dirty@apple.com>
-From: Cameron Esfahani via <qemu-devel@nongnu.org>
 
-NRF51_GPIO_REG_CNF_END doesn't actually refer to the start of the last
-valid CNF register: it's referring to the last byte of the last valid
-CNF register.
+Hi Brian,
 
-This hasn't been a problem up to now, as current implementation in
-memory.c turns an unaligned 4-byte read from 0x77f to a single byte read
-and the qtest only looks at the least-significant byte of the register.
+You try to execute a CP1 instruction in a delay slot,
+which triggers a Reserved Instruction exception.
+Per the ISA the processor operation is UNPREDICTABLE in such case.
 
-But, when running with Cedric Le Goater's <clg@kaod.org> pending fix for
-unaligned accesses in memory.c, the qtest breaks.
+What is the behavior on real hardware?
+An assertion() seems appropriate.
 
-Considering NRF51 doesn't support unaligned accesses, the simplest fix
-is to actually set NRF51_GPIO_REG_CNF_END to the start of the last valid
-CNF register: 0x77c.
+Your compiler might be buggy, or you are not compiling for the correct CPU
+(or you are not using the correct QEMU cpu).
 
-Now, qtests work with or without Cedric's patch.
+-- =
 
-Signed-off-by: Cameron Esfahani <dirty@apple.com>
----
- include/hw/gpio/nrf51_gpio.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1663287
 
-diff --git a/include/hw/gpio/nrf51_gpio.h b/include/hw/gpio/nrf51_gpio.h
-index 337ee534bb..1d62bbc928 100644
---- a/include/hw/gpio/nrf51_gpio.h
-+++ b/include/hw/gpio/nrf51_gpio.h
-@@ -42,7 +42,7 @@
- #define NRF51_GPIO_REG_DIRSET       0x518
- #define NRF51_GPIO_REG_DIRCLR       0x51C
- #define NRF51_GPIO_REG_CNF_START    0x700
--#define NRF51_GPIO_REG_CNF_END      0x77F
-+#define NRF51_GPIO_REG_CNF_END      0x77C
- 
- #define NRF51_GPIO_PULLDOWN 1
- #define NRF51_GPIO_PULLUP 3
--- 
-2.24.0
+Title:
+  Illegal delay slot code causes abort on mips64
 
+Status in QEMU:
+  New
+
+Bug description:
+  During some randomised testing of an experimental MIPS implementation
+  I found an instruction sequence that also causes aborts on mainline
+  qemu's MIPS support.  The problem is triggered by an MSA branch
+  instruction appearing in a delay slot when emulating a processor
+  without MSA support.
+
+  For example, with the current repository HEAD
+  (f073cd3a2bf1054135271b837c58a7da650dd84b) configured for
+  mips64-softmmu, if I run the attached binary using
+
+      mips64-softmmu/qemu-system-mips64 -bios ../abort2.bin -machine
+  mipssim -nographic
+
+  it will report
+
+      unknown branch 0x13000
+      Aborted (core dumped)
+
+  The binary contains the following two instructions:
+
+      00200008 jr at
+      47081e61 bz.b       w8,0xffffffffbfc0798c
+
+  The jr sets up a jump, and hflags is set accordingly in
+  gen_compute_branch (in target/mips/translate.c).  When processing the
+  bz.b, check_insn generates an exception because the instruction isn't
+  support, but gen_msa_branch skips the usual delay slot check for the
+  same reason, and sets more bits in hflags, leading to an abort in
+  gen_branch because the hflags are now invalid.
+
+  I suspect the best fix is to remove the instruction set condition from
+  the delay slot check in gen_msa_branch.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1663287/+subscriptions
 
