@@ -2,65 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A122F19F369
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:19:42 +0200 (CEST)
-Received: from localhost ([::1]:58170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F8E619F370
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:21:37 +0200 (CEST)
+Received: from localhost ([::1]:58228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLOqx-0001ut-LC
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:19:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50553)
+	id 1jLOsq-0005Xw-Bt
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:21:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50577)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1jLOmF-0002uV-75
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:14:48 -0400
+ (envelope-from <philmd@redhat.com>) id 1jLOmI-00032O-Ey
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:14:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1jLOmD-0004mS-EF
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:14:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33827
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jLOmH-0004pF-Ci
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:14:50 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59917
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jLOmD-0004lx-9u
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:14:45 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jLOmH-0004oG-8w
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:14:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586168084;
+ s=mimecast20190719; t=1586168088;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qVuZ0YChZq1ZmbbPzp7f10giAdwnD+gJFtu8iupNPnw=;
- b=gSMv12QRtOFwh8EIeLHNEieymeFAUCqr3QwXy0A47a4rnekI1g9IpSNOc9Se12u2OKb2BI
- 0HCrvKMAukjPGJ7iftM3+NgHoeuw+uvUtczoJEn/Cxn5dQu2/31GkuVyx7JkX/q9UX78yZ
- 5XfMChhMwsVJPUJt82IiNjuFsBspVbU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-ZcO69RTeMgijUAcFqhRrNA-1; Mon, 06 Apr 2020 06:14:40 -0400
-X-MC-Unique: ZcO69RTeMgijUAcFqhRrNA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E514107ACC4;
- Mon,  6 Apr 2020 10:14:39 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B868B60C18;
- Mon,  6 Apr 2020 10:14:36 +0000 (UTC)
-Date: Mon, 6 Apr 2020 12:14:34 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Jon Doron <arilou@gmail.com>
-Subject: Re: [PATCH v1 5/5] i386: Hyper-V VMBus ACPI DSDT entry
-Message-ID: <20200406121434.6e598842@redhat.com>
-In-Reply-To: <20200403142308.82990-6-arilou@gmail.com>
-References: <20200403142308.82990-1-arilou@gmail.com>
- <20200403142308.82990-6-arilou@gmail.com>
+ bh=2SmZfaD8FZztWo3SmUJfLfJx+RKEm5IsODq5F9p69ak=;
+ b=YOKwLf2vM25Tv4gx3iDoqZ0B/D4pTXMu0EmYpLh2PxBx5CSBjc6ofvuqPVJ5igtTDvfCIg
+ XtRare2lklAiCglhOB0CPnomEpMAV3kcjQc2u5DgtdHX2ukI6j+Q1V6ad2Ueq+cYoXJouX
+ Hdxg8HrCA8Xck1GdoCkBXd0La9LtpsY=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-79-fDSAwzXZPOuioq6b8MGImA-1; Mon, 06 Apr 2020 06:14:44 -0400
+X-MC-Unique: fDSAwzXZPOuioq6b8MGImA-1
+Received: by mail-ed1-f70.google.com with SMTP id q29so11392006edc.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 03:14:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2SmZfaD8FZztWo3SmUJfLfJx+RKEm5IsODq5F9p69ak=;
+ b=lK0YVd7ZS8Y2czPDBh0CEqlkSuNjW+eWEzejYUjrzwjMZ0UVraaXzC0TLKhTeIhKKU
+ EkbJ5hGYuFt1GWsFAj/DRkbvgle0EPaSHtaVoeRew3TM/y16iYA5RMUZeQL0j5ZEpB8q
+ 6pOVngYoWe8Ezkt/O+WtprxktC1gtq2mLBgv57hpY3HAYIHZ0kSlh9x79dE2iSXEbOE2
+ iA/VJrfqwo30GR2a/Ts8U4VKJzj1KpSVVE5zdDOF3FHZEdVO9i3pr27Y/kcwbPuclVGH
+ mJXTKV9DWZJ58a5PVQD3rv5BtgW1zoa7w58rebvwo836jsi1sIDtjl4KD927/6MKiBO/
+ 2Big==
+X-Gm-Message-State: AGi0PuZzmwa21mo4G5qHT9MjMtIgRmm4BwbZz1VqERwph6XCMZrqdfYF
+ TzvZRV2DkmGB/cCnUZwM7c39MBRfoUXaheH6EzwqPWTzgICX3Wv1NjZsXVjR1xWhowxONlKX9HJ
+ 4W53SCeMzCfKWKOU=
+X-Received: by 2002:a50:ab5a:: with SMTP id t26mr18684371edc.380.1586168083500; 
+ Mon, 06 Apr 2020 03:14:43 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLh7Sh6ESyjp3ka8swU+vPytczudxSeQnAN7T2J+eL6xu8FPPpymGersJH5F1oRzBil954gOw==
+X-Received: by 2002:a50:ab5a:: with SMTP id t26mr18684357edc.380.1586168083323; 
+ Mon, 06 Apr 2020 03:14:43 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id oe24sm2216118ejb.47.2020.04.06.03.14.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Apr 2020 03:14:42 -0700 (PDT)
+Subject: Re: stm32f429 flash writing
+To: Mohannad Maklad <msala.work@gmail.com>, qemu-discuss@nongnu.org,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>
+References: <CADxp151=4QduaHYugXGD+gcKffUUdkxfzWNvk5xXAqMWRKEQGw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e415fc55-359b-509b-15dc-79181b0a53d7@redhat.com>
+Date: Mon, 6 Apr 2020 12:14:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <CADxp151=4QduaHYugXGD+gcKffUUdkxfzWNvk5xXAqMWRKEQGw@mail.gmail.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,107 +92,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Evgeny Yakovlev <eyakovlev@virtuozzo.com>, ehabkost@redhat.com,
- qemu-devel@nongnu.org, Roman Kagan <rkagan@virtuozzo.com>, pbonzini@redhat.com,
- vkuznets@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri,  3 Apr 2020 17:23:08 +0300
-Jon Doron <arilou@gmail.com> wrote:
-
-> Guest OS uses ACPI to discover vmbus presence.  Add a corresponding
-> entry to DSDT in case vmbus has been enabled.
+On 4/5/20 3:41 PM, Mohannad Maklad wrote:
+> Hello all,
 > 
-> Experimentally Windows guests were found to require this entry to
-> include two IRQ resources, so this patch adds two semi-arbitrarily
-> chosen ones (7 and 13).  This results, in particular, in parallel port
-> conflicting with vmbus.
-> 
-> TODO: discover and use spare IRQs to avoid conflicts.
+> I'm trying to write to stm32f429 discovery board on flash but it doesn't 
+> seem to work. Can I share the code with you?
 
-CCing Vitaly
-as he might know whom to ping wrt 'spec' that describes vmbus
-and confirm  with ACPI tables that native hyperv generates.
+You can certainly share your code/use case!
 
- 
-> Signed-off-by: Evgeny Yakovlev <eyakovlev@virtuozzo.com>
-> Signed-off-by: Roman Kagan <rkagan@virtuozzo.com>
-> Signed-off-by: Jon Doron <arilou@gmail.com>
-> ---
->  hw/i386/acpi-build.c | 42 ++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 42 insertions(+)
-> 
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 2a7e55bae7..6d7fdbbe9b 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -43,6 +43,7 @@
->  #include "hw/acpi/tpm.h"
->  #include "hw/acpi/vmgenid.h"
->  #include "hw/boards.h"
-> +#include "hw/vmbus/vmbus.h"
->  #include "sysemu/tpm_backend.h"
->  #include "hw/rtc/mc146818rtc_regs.h"
->  #include "migration/vmstate.h"
-> @@ -1270,6 +1271,43 @@ static Aml *build_com_device_aml(uint8_t uid)
->      return dev;
->  }
->  
-> +static Aml *build_vmbus_device_aml(void)
-> +{
-> +    Aml *dev;
-> +    Aml *method;
-> +    Aml *crs;
-> +
-> +    dev = aml_device("VMBS");
-> +    aml_append(dev, aml_name_decl("STA", aml_int(0xF)));
-> +    aml_append(dev, aml_name_decl("_HID", aml_string("VMBus")));
-> +    aml_append(dev, aml_name_decl("_UID", aml_int(0x0)));
-> +    aml_append(dev, aml_name_decl("_DDN", aml_string("VMBUS")));
-> +
-> +    method = aml_method("_DIS", 0, AML_NOTSERIALIZED);
-> +    aml_append(method, aml_store(aml_and(aml_name("STA"), aml_int(0xD), NULL),
-> +                                     aml_name("STA")));
-> +    aml_append(dev, method);
-> +
-> +    method = aml_method("_PS0", 0, AML_NOTSERIALIZED);
-> +    aml_append(method, aml_store(aml_or(aml_name("STA"), aml_int(0xF), NULL),
-> +                                     aml_name("STA")));
-> +    aml_append(dev, method);
-> +
-> +    method = aml_method("_STA", 0, AML_NOTSERIALIZED);
-> +    aml_append(method, aml_store(aml_name("STA"), aml_local(0)));
-> +    aml_append(method, aml_return(aml_local(0)));
-> +    aml_append(dev, method);
-does it need all that complicated _STA handling?
-Would simple
-   aml_append(dev, aml_name_decl("_STA", aml_int(0xF)));
-work for you?
+Note that the stm32f429 is not modeled in mainstream QEMU, only the 
+stm32f405.
 
-> +    aml_append(dev, aml_name_decl("_PS3", aml_int(0x0)));
-> +
-> +    crs = aml_resource_template();
-> +    aml_append(crs, aml_irq_no_flags(7));
-> +    aml_append(crs, aml_irq_no_flags(13));
-> +    aml_append(dev, aml_name_decl("_CRS", crs));
-> +
-> +    return dev;
-> +}
-> +
->  static void build_isa_devices_aml(Aml *table)
->  {
->      ISADevice *fdc = pc_find_fdc0();
-> @@ -1296,6 +1334,10 @@ static void build_isa_devices_aml(Aml *table)
->          build_acpi_ipmi_devices(scope, BUS(obj), "\\_SB.PCI0.ISA");
->      }
->  
-> +    if (vmbus_exists()) {
-> +        aml_append(scope, build_vmbus_device_aml());
-> +    }
-> +
->      aml_append(table, scope);
->  }
->  
+Please also include the following emails:
+- qemu-devel@nongnu.org
+- qemu-arm@nongnu.org
+
+If you want to share/attach example files, you can also fill a 
+bug/feature request here:
+https://bugs.launchpad.net/qemu/+filebug
+
+Regards,
+
+Phil.
 
 
