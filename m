@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2346C19FB28
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 19:16:22 +0200 (CEST)
-Received: from localhost ([::1]:35452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A154119FB31
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 19:18:17 +0200 (CEST)
+Received: from localhost ([::1]:35490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLVMD-0001A1-6r
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 13:16:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57525)
+	id 1jLVO4-0004A8-K9
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 13:18:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57558)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jLVKu-0008Ek-Gf
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:15:01 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jLVL4-0008S7-4e
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:15:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jLVKt-0007v5-9G
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:15:00 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21852
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1jLVL2-0007zc-Je
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:15:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53621
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jLVKt-0007ut-5B
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:14:59 -0400
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jLVL2-0007zW-Fz
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:15:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586193298;
+ s=mimecast20190719; t=1586193308;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ffrbOYKKpOtjyl53EK/Dus3PVGrjCSoSZ4IwVsA07g8=;
- b=S4GvjuCdFl51CfOEpc1fPBl15QVsxIDR9Vq0ZhAzaRGtAOgK8y7yPTdrMywd0P/0m751MT
- ilAvYHn74/dMeXSuLbYQCuV7L4PTNoIstEiQuIsLQiHCIGh7eWDIlAKbPPiFqxXsoCBKTy
- w8Zv7ywmTmscujLISkVQTjrxCUQb5rw=
+ bh=ZN2/Xav/cHCLfERaCl6an3xHsCGU37logxuocf2uq6A=;
+ b=gtgoaV1QlVucoBVso+tP57BTX0guidCvsnp6C9TuEF+ss6cP0NLR7j/3Ntdbqcp8WgePfJ
+ nzDaM+gHfMPHw19W+IU9LosmVxlVDfqajR6/ePy3dY0D2MQOm0rUXgTHEeBKfRoUiRIVJL
+ p3ZeROEqgkAmQ5oZ1b73gvsfvzfuHEA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-Mqg5bKTWNIuUP5DzvUb17Q-1; Mon, 06 Apr 2020 13:14:53 -0400
-X-MC-Unique: Mqg5bKTWNIuUP5DzvUb17Q-1
+ us-mta-45-iCHzJDrrMTObu264NITJuA-1; Mon, 06 Apr 2020 13:15:03 -0400
+X-MC-Unique: iCHzJDrrMTObu264NITJuA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54593804E28;
- Mon,  6 Apr 2020 17:14:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD0A318A3010;
+ Mon,  6 Apr 2020 17:14:13 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-113-74.ams2.redhat.com [10.36.113.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6C8B414FE5E;
- Mon,  6 Apr 2020 17:14:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9267D11CC05;
+ Mon,  6 Apr 2020 17:14:11 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH for-5.0 v2 1/3] block-backend: Reorder flush/pdiscard function
- definitions
-Date: Mon,  6 Apr 2020 19:14:01 +0200
-Message-Id: <20200406171403.6761-2-kwolf@redhat.com>
+Subject: [PATCH for-5.0 v2 2/3] block: Increase BB.in_flight for coroutine
+ interfaces
+Date: Mon,  6 Apr 2020 19:14:02 +0200
+Message-Id: <20200406171403.6761-3-kwolf@redhat.com>
 In-Reply-To: <20200406171403.6761-1-kwolf@redhat.com>
 References: <20200406171403.6761-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,146 +78,246 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, s.reiter@proxmox.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move all variants of the flush/pdiscard functions to a single place and
-put the blk_co_*() version first because it is called by all other
-variants (and will become static in the next patch).
+External callers of blk_co_*() don't currently increase the
+BlockBackend.in_flight counter, but calls from blk_aio_*() do, so there
+is an inconsistency whether the counter has been increased or not.
+
+This patch moves the actual operations to static functions that can
+later know they will always be called with in_flight increased exactly
+once, even for external callers using the blk_co_*() coroutine
+interfaces.
+
+If the public blk_co_*() interface is unused, remove it.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/block-backend.c | 92 +++++++++++++++++++++----------------------
- 1 file changed, 46 insertions(+), 46 deletions(-)
+ include/sysemu/block-backend.h |  1 -
+ block/block-backend.c          | 94 +++++++++++++++++++++++++++-------
+ 2 files changed, 76 insertions(+), 19 deletions(-)
 
+diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.=
+h
+index b198deca0b..9bbdbd63d7 100644
+--- a/include/sysemu/block-backend.h
++++ b/include/sysemu/block-backend.h
+@@ -171,7 +171,6 @@ BlockAIOCB *blk_aio_pdiscard(BlockBackend *blk, int64_t=
+ offset, int bytes,
+                              BlockCompletionFunc *cb, void *opaque);
+ void blk_aio_cancel(BlockAIOCB *acb);
+ void blk_aio_cancel_async(BlockAIOCB *acb);
+-int blk_co_ioctl(BlockBackend *blk, unsigned long int req, void *buf);
+ int blk_ioctl(BlockBackend *blk, unsigned long int req, void *buf);
+ BlockAIOCB *blk_aio_ioctl(BlockBackend *blk, unsigned long int req, void *=
+buf,
+                           BlockCompletionFunc *cb, void *opaque);
 diff --git a/block/block-backend.c b/block/block-backend.c
-index 8b8f2a80a0..17b2e87afa 100644
+index 17b2e87afa..d330e08b05 100644
 --- a/block/block-backend.c
 +++ b/block/block-backend.c
-@@ -1488,38 +1488,6 @@ BlockAIOCB *blk_aio_pwritev(BlockBackend *blk, int64=
-_t offset,
-                         blk_aio_write_entry, flags, cb, opaque);
+@@ -1147,9 +1147,10 @@ static void coroutine_fn blk_wait_while_drained(Bloc=
+kBackend *blk)
+     }
  }
 =20
--static void blk_aio_flush_entry(void *opaque)
--{
--    BlkAioEmAIOCB *acb =3D opaque;
--    BlkRwCo *rwco =3D &acb->rwco;
--
--    rwco->ret =3D blk_co_flush(rwco->blk);
--    blk_aio_complete(acb);
--}
--
--BlockAIOCB *blk_aio_flush(BlockBackend *blk,
--                          BlockCompletionFunc *cb, void *opaque)
--{
--    return blk_aio_prwv(blk, 0, 0, NULL, blk_aio_flush_entry, 0, cb, opaqu=
-e);
--}
--
--static void blk_aio_pdiscard_entry(void *opaque)
--{
--    BlkAioEmAIOCB *acb =3D opaque;
--    BlkRwCo *rwco =3D &acb->rwco;
--
--    rwco->ret =3D blk_co_pdiscard(rwco->blk, rwco->offset, acb->bytes);
--    blk_aio_complete(acb);
--}
--
--BlockAIOCB *blk_aio_pdiscard(BlockBackend *blk,
--                             int64_t offset, int bytes,
--                             BlockCompletionFunc *cb, void *opaque)
--{
--    return blk_aio_prwv(blk, offset, bytes, NULL, blk_aio_pdiscard_entry, =
-0,
--                        cb, opaque);
--}
--
- void blk_aio_cancel(BlockAIOCB *acb)
+-int coroutine_fn blk_co_preadv(BlockBackend *blk, int64_t offset,
+-                               unsigned int bytes, QEMUIOVector *qiov,
+-                               BdrvRequestFlags flags)
++/* To be called between exactly one pair of blk_inc/dec_in_flight() */
++static int coroutine_fn
++blk_do_preadv(BlockBackend *blk, int64_t offset, unsigned int bytes,
++              QEMUIOVector *qiov, BdrvRequestFlags flags)
  {
-     bdrv_aio_cancel(acb);
-@@ -1586,6 +1554,37 @@ int blk_co_pdiscard(BlockBackend *blk, int64_t offse=
-t, int bytes)
-     return bdrv_co_pdiscard(blk->root, offset, bytes);
+     int ret;
+     BlockDriverState *bs;
+@@ -1178,10 +1179,24 @@ int coroutine_fn blk_co_preadv(BlockBackend *blk, i=
+nt64_t offset,
+     return ret;
  }
 =20
-+static void blk_aio_pdiscard_entry(void *opaque)
+-int coroutine_fn blk_co_pwritev_part(BlockBackend *blk, int64_t offset,
+-                                     unsigned int bytes,
+-                                     QEMUIOVector *qiov, size_t qiov_offse=
+t,
+-                                     BdrvRequestFlags flags)
++int coroutine_fn blk_co_preadv(BlockBackend *blk, int64_t offset,
++                               unsigned int bytes, QEMUIOVector *qiov,
++                               BdrvRequestFlags flags)
 +{
-+    BlkAioEmAIOCB *acb =3D opaque;
-+    BlkRwCo *rwco =3D &acb->rwco;
++    int ret;
 +
-+    rwco->ret =3D blk_co_pdiscard(rwco->blk, rwco->offset, acb->bytes);
-+    blk_aio_complete(acb);
++    blk_inc_in_flight(blk);
++    ret =3D blk_do_preadv(blk, offset, bytes, qiov, flags);
++    blk_dec_in_flight(blk);
++
++    return ret;
 +}
 +
-+BlockAIOCB *blk_aio_pdiscard(BlockBackend *blk,
-+                             int64_t offset, int bytes,
-+                             BlockCompletionFunc *cb, void *opaque)
++/* To be called between exactly one pair of blk_inc/dec_in_flight() */
++static int coroutine_fn
++blk_do_pwritev_part(BlockBackend *blk, int64_t offset, unsigned int bytes,
++                    QEMUIOVector *qiov, size_t qiov_offset,
++                    BdrvRequestFlags flags)
+ {
+     int ret;
+     BlockDriverState *bs;
+@@ -1214,6 +1229,20 @@ int coroutine_fn blk_co_pwritev_part(BlockBackend *b=
+lk, int64_t offset,
+     return ret;
+ }
+=20
++int coroutine_fn blk_co_pwritev_part(BlockBackend *blk, int64_t offset,
++                                     unsigned int bytes,
++                                     QEMUIOVector *qiov, size_t qiov_offse=
+t,
++                                     BdrvRequestFlags flags)
 +{
-+    return blk_aio_prwv(blk, offset, bytes, NULL, blk_aio_pdiscard_entry, =
-0,
-+                        cb, opaque);
++    int ret;
++
++    blk_inc_in_flight(blk);
++    ret =3D blk_do_pwritev_part(blk, offset, bytes, qiov, qiov_offset, fla=
+gs);
++    blk_dec_in_flight(blk);
++
++    return ret;
 +}
 +
-+static void blk_pdiscard_entry(void *opaque)
-+{
-+    BlkRwCo *rwco =3D opaque;
-+    QEMUIOVector *qiov =3D rwco->iobuf;
-+
-+    rwco->ret =3D blk_co_pdiscard(rwco->blk, rwco->offset, qiov->size);
-+    aio_wait_kick();
-+}
-+
-+int blk_pdiscard(BlockBackend *blk, int64_t offset, int bytes)
-+{
-+    return blk_prw(blk, offset, NULL, bytes, blk_pdiscard_entry, 0);
-+}
-+
- int blk_co_flush(BlockBackend *blk)
+ int coroutine_fn blk_co_pwritev(BlockBackend *blk, int64_t offset,
+                                 unsigned int bytes, QEMUIOVector *qiov,
+                                 BdrvRequestFlags flags)
+@@ -1394,7 +1423,7 @@ static void blk_aio_read_entry(void *opaque)
+     }
+=20
+     assert(qiov->size =3D=3D acb->bytes);
+-    rwco->ret =3D blk_co_preadv(rwco->blk, rwco->offset, acb->bytes,
++    rwco->ret =3D blk_do_preadv(rwco->blk, rwco->offset, acb->bytes,
+                               qiov, rwco->flags);
+     blk_aio_complete(acb);
+ }
+@@ -1412,8 +1441,8 @@ static void blk_aio_write_entry(void *opaque)
+     }
+=20
+     assert(!qiov || qiov->size =3D=3D acb->bytes);
+-    rwco->ret =3D blk_co_pwritev(rwco->blk, rwco->offset, acb->bytes,
+-                               qiov, rwco->flags);
++    rwco->ret =3D blk_do_pwritev_part(rwco->blk, rwco->offset, acb->bytes,
++                                    qiov, 0, rwco->flags);
+     blk_aio_complete(acb);
+ }
+=20
+@@ -1498,7 +1527,9 @@ void blk_aio_cancel_async(BlockAIOCB *acb)
+     bdrv_aio_cancel_async(acb);
+ }
+=20
+-int blk_co_ioctl(BlockBackend *blk, unsigned long int req, void *buf)
++/* To be called between exactly one pair of blk_inc/dec_in_flight() */
++static int coroutine_fn
++blk_do_ioctl(BlockBackend *blk, unsigned long int req, void *buf)
  {
      blk_wait_while_drained(blk);
-@@ -1597,6 +1596,21 @@ int blk_co_flush(BlockBackend *blk)
-     return bdrv_co_flush(blk_bs(blk));
+=20
+@@ -1514,8 +1545,10 @@ static void blk_ioctl_entry(void *opaque)
+     BlkRwCo *rwco =3D opaque;
+     QEMUIOVector *qiov =3D rwco->iobuf;
+=20
+-    rwco->ret =3D blk_co_ioctl(rwco->blk, rwco->offset,
+-                             qiov->iov[0].iov_base);
++    blk_inc_in_flight(rwco->blk);
++    rwco->ret =3D blk_do_ioctl(rwco->blk, rwco->offset, qiov->iov[0].iov_b=
+ase);
++    blk_dec_in_flight(rwco->blk);
++
+     aio_wait_kick();
  }
 =20
-+static void blk_aio_flush_entry(void *opaque)
+@@ -1529,7 +1562,7 @@ static void blk_aio_ioctl_entry(void *opaque)
+     BlkAioEmAIOCB *acb =3D opaque;
+     BlkRwCo *rwco =3D &acb->rwco;
+=20
+-    rwco->ret =3D blk_co_ioctl(rwco->blk, rwco->offset, rwco->iobuf);
++    rwco->ret =3D blk_do_ioctl(rwco->blk, rwco->offset, rwco->iobuf);
+=20
+     blk_aio_complete(acb);
+ }
+@@ -1540,7 +1573,9 @@ BlockAIOCB *blk_aio_ioctl(BlockBackend *blk, unsigned=
+ long int req, void *buf,
+     return blk_aio_prwv(blk, req, 0, buf, blk_aio_ioctl_entry, 0, cb, opaq=
+ue);
+ }
+=20
+-int blk_co_pdiscard(BlockBackend *blk, int64_t offset, int bytes)
++/* To be called between exactly one pair of blk_inc/dec_in_flight() */
++static int coroutine_fn
++blk_do_pdiscard(BlockBackend *blk, int64_t offset, int bytes)
+ {
+     int ret;
+=20
+@@ -1559,7 +1594,7 @@ static void blk_aio_pdiscard_entry(void *opaque)
+     BlkAioEmAIOCB *acb =3D opaque;
+     BlkRwCo *rwco =3D &acb->rwco;
+=20
+-    rwco->ret =3D blk_co_pdiscard(rwco->blk, rwco->offset, acb->bytes);
++    rwco->ret =3D blk_do_pdiscard(rwco->blk, rwco->offset, acb->bytes);
+     blk_aio_complete(acb);
+ }
+=20
+@@ -1571,6 +1606,17 @@ BlockAIOCB *blk_aio_pdiscard(BlockBackend *blk,
+                         cb, opaque);
+ }
+=20
++int coroutine_fn blk_co_pdiscard(BlockBackend *blk, int64_t offset, int by=
+tes)
 +{
-+    BlkAioEmAIOCB *acb =3D opaque;
-+    BlkRwCo *rwco =3D &acb->rwco;
++    int ret;
 +
-+    rwco->ret =3D blk_co_flush(rwco->blk);
-+    blk_aio_complete(acb);
++    blk_inc_in_flight(blk);
++    ret =3D blk_do_pdiscard(blk, offset, bytes);
++    blk_dec_in_flight(blk);
++
++    return ret;
 +}
 +
-+BlockAIOCB *blk_aio_flush(BlockBackend *blk,
-+                          BlockCompletionFunc *cb, void *opaque)
-+{
-+    return blk_aio_prwv(blk, 0, 0, NULL, blk_aio_flush_entry, 0, cb, opaqu=
+ static void blk_pdiscard_entry(void *opaque)
+ {
+     BlkRwCo *rwco =3D opaque;
+@@ -1585,7 +1631,8 @@ int blk_pdiscard(BlockBackend *blk, int64_t offset, i=
+nt bytes)
+     return blk_prw(blk, offset, NULL, bytes, blk_pdiscard_entry, 0);
+ }
+=20
+-int blk_co_flush(BlockBackend *blk)
++/* To be called between exactly one pair of blk_inc/dec_in_flight() */
++static int coroutine_fn blk_do_flush(BlockBackend *blk)
+ {
+     blk_wait_while_drained(blk);
+=20
+@@ -1601,7 +1648,7 @@ static void blk_aio_flush_entry(void *opaque)
+     BlkAioEmAIOCB *acb =3D opaque;
+     BlkRwCo *rwco =3D &acb->rwco;
+=20
+-    rwco->ret =3D blk_co_flush(rwco->blk);
++    rwco->ret =3D blk_do_flush(rwco->blk);
+     blk_aio_complete(acb);
+ }
+=20
+@@ -1611,6 +1658,17 @@ BlockAIOCB *blk_aio_flush(BlockBackend *blk,
+     return blk_aio_prwv(blk, 0, 0, NULL, blk_aio_flush_entry, 0, cb, opaqu=
 e);
+ }
+=20
++int coroutine_fn blk_co_flush(BlockBackend *blk)
++{
++    int ret;
++
++    blk_inc_in_flight(blk);
++    ret =3D blk_do_flush(blk);
++    blk_dec_in_flight(blk);
++
++    return ret;
 +}
 +
  static void blk_flush_entry(void *opaque)
  {
      BlkRwCo *rwco =3D opaque;
-@@ -2083,20 +2097,6 @@ int blk_truncate(BlockBackend *blk, int64_t offset, =
-bool exact,
-     return bdrv_truncate(blk->root, offset, exact, prealloc, errp);
- }
-=20
--static void blk_pdiscard_entry(void *opaque)
--{
--    BlkRwCo *rwco =3D opaque;
--    QEMUIOVector *qiov =3D rwco->iobuf;
--
--    rwco->ret =3D blk_co_pdiscard(rwco->blk, rwco->offset, qiov->size);
--    aio_wait_kick();
--}
--
--int blk_pdiscard(BlockBackend *blk, int64_t offset, int bytes)
--{
--    return blk_prw(blk, offset, NULL, bytes, blk_pdiscard_entry, 0);
--}
--
- int blk_save_vmstate(BlockBackend *blk, const uint8_t *buf,
-                      int64_t pos, int size)
- {
 --=20
 2.20.1
 
