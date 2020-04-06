@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55C0419FC5C
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:02:15 +0200 (CEST)
-Received: from localhost ([::1]:36144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 560D719FCFB
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:21:09 +0200 (CEST)
+Received: from localhost ([::1]:36536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLW4c-0001CT-C4
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:02:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36726)
+	id 1jLWMu-0007AN-94
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:21:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36583)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrZ-0002kM-UK
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:46 -0400
+ id 1jLVrS-0002Wy-98
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrO-0003Mc-Rg
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:44 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:34488)
+ id 1jLVrQ-0003NH-6P
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:38 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:37133)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrO-0003M2-Ls
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:34 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id 65so542897wrl.1
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:48:34 -0700 (PDT)
+ id 1jLVrQ-0003Mq-0E; Mon, 06 Apr 2020 13:48:36 -0400
+Received: by mail-wm1-x331.google.com with SMTP id j19so224931wmi.2;
+ Mon, 06 Apr 2020 10:48:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+bsGyQcFnOKVG+Bd26nlz77NXbYaghgLj/LaGKCq2kg=;
- b=F8ja9Qu2fuEWoUyu5PPqgzA621ECwiPvYGvFj9QanTVML124/cbNkFFYz1x4dn1Tyj
- xGLiLK2IHuaR8NZv0BBEtw6WVS1Ob5UT3egtR5czRsDs+l/bg39Nw/AxSYXuk7JIyaAs
- +C/9A3uFcAHDqZ7sFSHpj21AdzOx0hSNzT+kWcfkTkUT4xyQ8q9QDM1OzgvPuSsYdSLS
- tI9Y8F2sVffYWuplQbzJ687UsbbU9fhQxSCoZowdzW06jseisLZq4MNXL8oMFT1cSl7I
- RAFIu7d80RlPP95avzXNhSjkk2qLPHICYPyu3kqeTdhdh9dupbpkawZooRLAFaWsIITp
- WRhg==
+ bh=74G8KHhadiGPyGitkFydcSDSAs1meyukZBFpYk9pD6I=;
+ b=ePE6RsG1CEc0Y4fP5dt+8+emPTpD/Ih7zbwBNWAwYrK2Zb9fi/4BGDmqYGl3IHioN6
+ THNjNH8nzneT5eGy7s0X78BpMzMOnUMXXStcISlrd/t0Tow1q8AOosCwUp5jNj0nm+l8
+ DppPSo4hJosWL/XGXEth0TSw4LUXXXrVdpF3g3fYQ4PYVfLHcHXn2e34M7h4mr7cn7Ol
+ b8NTiSDNOwfPzzc2eOMaX+ipqrxer9sYqW7slYlo8GXfWjGMytVmQoM3wuY4jVc45PYs
+ DKCUOapPDSU+XoFfYxhX336mvL9LLm79YKlTrhmwuOsUtrab5xeFAkGJ1w1AaHSmO8jN
+ V0dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+bsGyQcFnOKVG+Bd26nlz77NXbYaghgLj/LaGKCq2kg=;
- b=qvkbLJDqGIHEoA9AMZeClgOSarOKe7bz4/JPqcLYIK2ycXsqh6gBefSWQqBPGy+fx8
- GQpEsmVkuZE4BfEQKByjyzWlfeLhKY6rkC2bIDwPRYnTPtsg8ivSOzxYv6w2ebhYrZzL
- Fy3mNjfRRgiAug9gjTNC0hVPwsaPgPAy+ObS/iosuRBKaYVFpuFGfdL90vbzeY3ukLrR
- XDL8NRPcysaSuo3Ts3or1yOz+Z4VRfP2/IHId4Vft05CqG7dzwM8n7IxzlMj3KgHRKtG
- v7D8G+FRifcsCT3cyG/G7DL2OLcIOSnRt5EJq5T4lXPw2RsvVJBUeHmC9JZqMClIB4LC
- wiZA==
-X-Gm-Message-State: AGi0PuYA63XFCfz9dh6EeR1orAjpSBALe87uCoclrRyspsMCBBPuq2/w
- +yIocd6wg4LUKA9sE+c+06Wky/fWGT8=
-X-Google-Smtp-Source: APiQypJ+MA+ozQQxEbfMdnMsywDvTlsML4uX/3y31XTgjbuC3dW6JpMXY9TPDpDSwL0c5LusmCaKhQ==
-X-Received: by 2002:a5d:4e03:: with SMTP id p3mr349359wrt.408.1586195313605;
- Mon, 06 Apr 2020 10:48:33 -0700 (PDT)
+ bh=74G8KHhadiGPyGitkFydcSDSAs1meyukZBFpYk9pD6I=;
+ b=r1OQ2O4QOTPMve4kGkBXUCgmd0H3Qa3DB4aMaTC2MrvcBi8h0D6FHeDKGceoUfuc5v
+ xS0aN+F7McG4w8wJeOMYpCIb0t5sGKoFlZrcV+1lbm/AMoTVnZtVZS0FWXctBN86GMha
+ zXb1mSWbiMtPJ6sK32KlAY/AhRxTBHWI/zkWoQ7rrqJBT3WY95Bu+y8Gwwd6Gh3KIR4U
+ 4h/R/ZxRr2V76Qq6LaNc6l/PZs3hI9V2UknUwmVZ0spYg9OxdV5aOpHu0AlwWeAar9+c
+ mdHECBJBivfBWz/CtojIYIVVxHFlIyhhkdrICa/NNaScPXZJIhKY0Q98wngnw/ghYjf4
+ iEkQ==
+X-Gm-Message-State: AGi0PuYdyVYe8Nxg1YNvyZfrXs1zNOCuKLT1646oZdyzu8aweGiRmfHg
+ ZC+o1jEFVnS5TlTfZzP1EFN0JMTOVTY=
+X-Google-Smtp-Source: APiQypK/q/IVYaN6qURbBPVowpIN1qrXinNowX2GLuV7bUI18lWfmeH+KGKl939DsEJA6OJOZNVxag==
+X-Received: by 2002:a7b:c148:: with SMTP id z8mr476504wmi.31.1586195314802;
+ Mon, 06 Apr 2020 10:48:34 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.48.32
+ by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.48.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 10:48:33 -0700 (PDT)
+ Mon, 06 Apr 2020 10:48:34 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH-for-5.1 v2 35/54] hw/pci-host/pnv_phb3: Add missing
+Subject: [PATCH-for-5.1 v2 36/54] hw/block/onenand: Add missing
  error-propagation code
-Date: Mon,  6 Apr 2020 19:47:24 +0200
-Message-Id: <20200406174743.16956-36-f4bug@amsat.org>
+Date: Mon,  6 Apr 2020 19:47:25 +0200
+Message-Id: <20200406174743.16956-37-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200406174743.16956-1-f4bug@amsat.org>
 References: <20200406174743.16956-1-f4bug@amsat.org>
@@ -72,7 +71,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42c
+X-Received-From: 2a00:1450:4864:20::331
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,9 +83,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -99,59 +100,26 @@ Patch created mechanically by running:
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/pci-host/pnv_phb3.c | 24 ++++++++++++++++++++----
- 1 file changed, 20 insertions(+), 4 deletions(-)
+ hw/block/onenand.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-index 57d717ed23..a9029f5a02 100644
---- a/hw/pci-host/pnv_phb3.c
-+++ b/hw/pci-host/pnv_phb3.c
-@@ -1008,7 +1008,11 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
- 
-     /* LSI sources */
-     object_property_set_link(OBJECT(&phb->lsis), OBJECT(pnv), "xics",
--                                   &error_abort);
-+                                   &local_err);
+diff --git a/hw/block/onenand.c b/hw/block/onenand.c
+index 898ac563a3..1f68dba28b 100644
+--- a/hw/block/onenand.c
++++ b/hw/block/onenand.c
+@@ -810,7 +810,11 @@ static void onenand_realize(DeviceState *dev, Error **errp)
+     s->otp = memset(g_malloc((64 + 2) << PAGE_SHIFT),
+                     0xff, (64 + 2) << PAGE_SHIFT);
+     memory_region_init_ram_nomigrate(&s->ram, OBJECT(s), "onenand.ram",
+-                           0xc000 << s->shift, &error_fatal);
++                           0xc000 << s->shift, &local_err);
 +    if (local_err) {
 +        error_propagate(errp, local_err);
 +        return;
 +    }
-     object_property_set_bool(OBJECT(&phb->lsis), true, "realized", &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-@@ -1023,9 +1027,17 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
- 
-     /* MSI sources */
-     object_property_set_link(OBJECT(&phb->msis), OBJECT(phb), "phb",
--                                   &error_abort);
-+                                   &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-     object_property_set_link(OBJECT(&phb->msis), OBJECT(pnv), "xics",
--                                   &error_abort);
-+                                   &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-     object_property_set_bool(OBJECT(&phb->msis), true, "realized", &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-@@ -1034,7 +1046,11 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
- 
-     /* Power Bus Common Queue */
-     object_property_set_link(OBJECT(&phb->pbcq), OBJECT(phb), "phb",
--                                   &error_abort);
-+                                   &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-     object_property_set_bool(OBJECT(&phb->pbcq), true, "realized", &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
+     vmstate_register_ram_global(&s->ram);
+     ram = memory_region_get_ram_ptr(&s->ram);
+     s->boot[0] = ram + (0x0000 << s->shift);
 -- 
 2.21.1
 
