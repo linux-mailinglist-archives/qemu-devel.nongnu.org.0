@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3711919FC0E
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 19:52:57 +0200 (CEST)
-Received: from localhost ([::1]:35922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B59719FC07
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 19:50:53 +0200 (CEST)
+Received: from localhost ([::1]:35870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLVvc-0000xi-AG
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 13:52:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35769)
+	id 1jLVtc-0004gl-CA
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 13:50:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35756)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVqk-0001TR-3G
+ id 1jLVqj-0001Sr-2q
  for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:47:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVqf-0001Mk-Mj
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:47:53 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43447)
+ id 1jLVqg-0001Og-0x
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:47:51 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35007)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVqe-0001Ey-A5
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:47:48 -0400
-Received: by mail-wr1-x442.google.com with SMTP id w15so463723wrv.10
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:47:47 -0700 (PDT)
+ id 1jLVqf-0001Iz-Pp; Mon, 06 Apr 2020 13:47:49 -0400
+Received: by mail-wr1-x444.google.com with SMTP id g3so528283wrx.2;
+ Mon, 06 Apr 2020 10:47:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=PpsZsWt4ims4klN0e9XgYMADqfOqIiOChYDI9wJAFf0=;
- b=nqRvbH8+9hfvNeTx9eSTMzz0LasELDoF0GYALrIWE1KiFZr0LdATRmoZBSIrHZ/Wnn
- noxGsq+z2oQj5fAl/8p1FNMvZlEvP8kQCQtiTFr9m94G+yvjpOhZt7X5uyXOOQODWYBQ
- e+pwsSA2pLxe3QukERgUnQEVIX5TrX/ulSce0yTo3PSk49y+mxvh2gHVkzwq/NU6klVW
- ZC7V6sHaS/doEZxa9M1mPUcP8gwTBBKSYM6u/DvlJFKC4EWNvbV3f5DRqFghPc+ch3r3
- 2vUhWml3GFlwGrdAyjmgyjqvrKZP4537F5huaIBzbmHKWlYQSAKp4MP+Kqd/cVeb30Ng
- 4Fcw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=2rmRZ8EJBuNRGYmD7sOjQOcGn9wy27OJ72EAKJJ6t9Q=;
+ b=a1HmjqTXwLEeQNBl+IjNTUAIoDur89BD8uzU7eqvS3PP6M1VlcsnV6GeRYQyaNNMnA
+ h9U7ZGx0k8gOFtJXewZ64r19yXKMXRACLuOeQjQxO1RYW1QVC+SZPyv6J88aDTEtJccg
+ JbriKJIUplt+/a8GqtpghvFk9A3qYeFDJbx6nz/EszmdH7/tUIAapdvx4/CPfogJ8uOW
+ MIlstw/BLWe3+iazq2svu+ye+wLvJ6rqO3fVsgITZrAheZLyewvM+UDZlrBIFh/YnHKz
+ ikaKOJ9JRXGj1Gg+ZpZlg7Wafdfux2IBBbX1EPZ0wqfP74YhQPY18Is4+SvwyBAeDFBW
+ 0Luw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=PpsZsWt4ims4klN0e9XgYMADqfOqIiOChYDI9wJAFf0=;
- b=SJoAMf3chsOcXqChfExmoGfI+wi7jTSllpu/CQX3V4nL8dk/Vyp+x4e/EP0j9Jl8AW
- Fa2VMLhneBcMpWLNJgH6dNgPax+P6Jt4mEbbf7AZACQJt+H284VvOgSUDVNguAwOrBS/
- S3lK92y29Bt6zO0S8mUwvTTY5nDJYByqwhSptV9Evy+wMXNLKP9RncKPqMdsndfXobWo
- oCjUcfLOsdYwJ1gcGlG4UQljo22gRusJC7+xUTnbr0vEFx8tFw4VruKogKCzvDJw03aH
- fBysAQwUJDWpmMaA5AKXVyNiJrB5zfLufXdwGAbKDrg57IGiKIeoRkN6qN+RTI5wePI7
- 7yJQ==
-X-Gm-Message-State: AGi0PuY3lQmxFiah0YAAwOLMsrfbvyA5pXu3l/xxDz7CEtkm3L/1rOLb
- zEb5kWaC581TRTwCxX1VJtfQINQsRsk=
-X-Google-Smtp-Source: APiQypJXOwBTEyynL8IjpvXpkTXvGoNNzfc6EsA69sl+jk+sAxueNtUuJau2gQ1T8Q9ldsBQSgS/lw==
-X-Received: by 2002:a05:6000:1002:: with SMTP id
- a2mr338918wrx.151.1586195265522; 
- Mon, 06 Apr 2020 10:47:45 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=2rmRZ8EJBuNRGYmD7sOjQOcGn9wy27OJ72EAKJJ6t9Q=;
+ b=Z0wtJqRUuXbYfTL6NpufGiHjAF0klI0Fdm8QoIxADNb0Z6DT59aStQXDJ965DnOvvy
+ 6pb11qEd+KAgftKsKMrrLjifOzQ4i+g4FFQUVfUsVH844ZUoF47Am3XDu7fE3MqjWM58
+ YgrI7KUdvtxFCpikd6Gv5Dv7zbge8Fc22Z2MQErInoSqu/jNTTo/KkPRCWGKB589I6th
+ CvqDApWN2/6PwMT68jhYD5i3VAuFZ/Dete07sVLQkWen7V7js6EpSQmtyBKbn92BfxVC
+ oB0+A+5GeGkFsKD8LZtgmKXIXRJK95d/FMS+gSa3Fsadw/mYXhwPiUXOYhRKZXOtH9Hg
+ S9ng==
+X-Gm-Message-State: AGi0Pua7ugTGnMS+moBfOAmO9Bd2m1bxdLOfUufQWjiTol7g8MZj8xij
+ TpI6bAYVdTfsM6ilUipDn/d6G7l2JAI=
+X-Google-Smtp-Source: APiQypJMS9g2sBloVFBfjNbgKNfiMBE2qlrq/9dgafK3kRU3B6Y/KGhGTngEk1PNxdZCNXoJw7aLbw==
+X-Received: by 2002:adf:e744:: with SMTP id c4mr327360wrn.133.1586195267687;
+ Mon, 06 Apr 2020 10:47:47 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.47.44
+ by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.47.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 10:47:44 -0700 (PDT)
+ Mon, 06 Apr 2020 10:47:46 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH-for-5.1 v2 00/54] various: Fix error-propagation with
- Coccinelle scripts
-Date: Mon,  6 Apr 2020 19:46:49 +0200
-Message-Id: <20200406174743.16956-1-f4bug@amsat.org>
+Subject: [PATCH-for-5.1 v2 01/54] various: Remove suspicious '\' character
+ outside of #define in C code
+Date: Mon,  6 Apr 2020 19:46:50 +0200
+Message-Id: <20200406174743.16956-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200406174743.16956-1-f4bug@amsat.org>
+References: <20200406174743.16956-1-f4bug@amsat.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,209 +83,281 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jeff Cody <codyprime@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ "open list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Max Reitz <mreitz@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series is inspired of Peter Maydell fix [1]:
-"hw/arm/xlnx-zynqmp.c: fix some error-handling code",
-but grew after v1 [2] review :/
+Fixes the following coccinelle warnings:
 
-Markus wanted the reviewed patches in 5.0 [3] but it is too late
-(and too big :p).  Ideally I would have split it in 4 sub-series
-(roughly one with each cocci script) but since I won't have time
-to continue this (soon), I'm sending it altogether so interested
-can take/follow it.
+  $ spatch --sp-file --verbose-parsing  ... \
+      scripts/coccinelle/remove_local_err.cocci
+  ...
+  SUSPICIOUS: a \ character appears outside of a #define at ./target/ppc/translate_init.inc.c:5213
+  SUSPICIOUS: a \ character appears outside of a #define at ./target/ppc/translate_init.inc.c:5261
+  SUSPICIOUS: a \ character appears outside of a #define at ./target/microblaze/cpu.c:166
+  SUSPICIOUS: a \ character appears outside of a #define at ./target/microblaze/cpu.c:167
+  SUSPICIOUS: a \ character appears outside of a #define at ./target/microblaze/cpu.c:169
+  SUSPICIOUS: a \ character appears outside of a #define at ./target/microblaze/cpu.c:170
+  SUSPICIOUS: a \ character appears outside of a #define at ./target/microblaze/cpu.c:171
+  SUSPICIOUS: a \ character appears outside of a #define at ./target/microblaze/cpu.c:172
+  SUSPICIOUS: a \ character appears outside of a #define at ./target/microblaze/cpu.c:173
+  SUSPICIOUS: a \ character appears outside of a #define at ./target/i386/cpu.c:5787
+  SUSPICIOUS: a \ character appears outside of a #define at ./target/i386/cpu.c:5789
+  SUSPICIOUS: a \ character appears outside of a #define at ./target/i386/cpu.c:5800
+  SUSPICIOUS: a \ character appears outside of a #define at ./target/i386/cpu.c:5801
+  SUSPICIOUS: a \ character appears outside of a #define at ./target/i386/cpu.c:5802
+  SUSPICIOUS: a \ character appears outside of a #define at ./target/i386/cpu.c:5804
+  SUSPICIOUS: a \ character appears outside of a #define at ./target/i386/cpu.c:5805
+  SUSPICIOUS: a \ character appears outside of a #define at ./target/i386/cpu.c:5806
+  SUSPICIOUS: a \ character appears outside of a #define at ./target/i386/cpu.c:6329
+  SUSPICIOUS: a \ character appears outside of a #define at ./hw/sd/sdhci.c:1133
+  SUSPICIOUS: a \ character appears outside of a #define at ./hw/scsi/scsi-disk.c:3081
+  SUSPICIOUS: a \ character appears outside of a #define at ./hw/net/virtio-net.c:1529
+  SUSPICIOUS: a \ character appears outside of a #define at ./hw/riscv/sifive_u.c:468
+  SUSPICIOUS: a \ character appears outside of a #define at ./dump/dump.c:1895
+  SUSPICIOUS: a \ character appears outside of a #define at ./block/vhdx.c:2209
+  SUSPICIOUS: a \ character appears outside of a #define at ./block/vhdx.c:2215
+  SUSPICIOUS: a \ character appears outside of a #define at ./block/vhdx.c:2221
+  SUSPICIOUS: a \ character appears outside of a #define at ./block/vhdx.c:2222
+  SUSPICIOUS: a \ character appears outside of a #define at ./block/replication.c:172
+  SUSPICIOUS: a \ character appears outside of a #define at ./block/replication.c:173
 
-If a particular patch is worth for 5.0, it can now be cherry-picked
-alone, with its cocci script for reference.
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ block/replication.c             |  4 ++--
+ block/vhdx.c                    |  8 ++++----
+ dump/dump.c                     |  2 +-
+ hw/net/virtio-net.c             |  2 +-
+ hw/riscv/sifive_u.c             |  2 +-
+ hw/scsi/scsi-disk.c             |  2 +-
+ hw/sd/sdhci.c                   |  2 +-
+ target/i386/cpu.c               | 18 +++++++++---------
+ target/microblaze/cpu.c         | 14 +++++++-------
+ target/ppc/translate_init.inc.c |  4 ++--
+ 10 files changed, 29 insertions(+), 29 deletions(-)
 
-Markus: I added the cocci patches to your Error section, I hope
-that's fine :)
-
-Regards,
-
-Phil.
-
-[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg691636.html
-[2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg692155.html
-[3] https://www.mail-archive.com/qemu-devel@nongnu.org/msg694413.html
-Supersedes: <20200325191830.16553-1-f4bug@amsat.org>
-
-Philippe Mathieu-Daudé (54):
-  various: Remove suspicious '\' character outside of #define in C code
-  scripts/coccinelle: Script to simplify DeviceClass error propagation
-  hw/arm/allwinner-a10: Move some code from realize() to init()
-  hw/arm/aspeed_ast2600: Simplify use of Error*
-  hw/arm/aspeed_ast2600: Move some code from realize() to init()
-  hw/arm/aspeed_soc: Move some code from realize() to init()
-  hw/arm/aspeed_soc: Simplify use of Error*
-  hw/arm/fsl-imx6: Simplify checks on 'smp_cpus' count
-  hw/arm/fsl-imx6: Move some code from realize() to init()
-  hw/arm/fsl-imx31: Move some code from realize() to init()
-  hw/arm/msf2-soc: Store MemoryRegion in MSF2State
-  hw/arm/stm32f205_soc: Store MemoryRegion in STM32F205State
-  hw/arm/stm32f205_soc: Move some code from realize() to init()
-  hw/arm/xlnx-zynqmp: Use single propagate_error() call
-  hw/arm/xlnx-zynqmp: Split xlnx_zynqmp_create_rpu() as init + realize
-  hw/arm/xlnx-zynqmp: Move some code from realize() to init()
-  hw/microblaze/xlnx-zynqmp-pmu: Move some code from realize() to init()
-  hw/pci-host/pnv_phb3: Move some code from realize() to init()
-  hw/riscv/sifive_e: Move some code from realize() to init()
-  hw/riscv/sifive_u: Use single type_init()
-  hw/riscv/sifive_u: Move some code from realize() to init()
-  hw/riscv/sifive_u: Store MemoryRegion in SiFiveUSoCState
-  hw/riscv/sifive_u: Move some code from realize() to init()
-  hw/riscv/sifive_u: Rename MachineClass::init()
-  scripts/coccinelle: Catch missing error_propagate() calls in realize()
-  hw/arm/fsl-imx: Add missing error-propagation code
-  hw/arm/stm32f*05_soc: Add missing error-propagation code
-  hw/arm/aspeed: Add missing error-propagation code
-  hw/arm/allwinner-a10: Add missing error-propagation code
-  hw/arm/msf2-soc: Add missing error-propagation code
-  hw/riscv/sifive: Add missing error-propagation code
-  hw/arm/armv7m: Add missing error-propagation code
-  hw/intc/arm_gicv3_its_kvm: Add missing error-propagation code
-  hw/microblaze/xlnx-zynqmp-pmu: Add missing error-propagation code
-  hw/pci-host/pnv_phb3: Add missing error-propagation code
-  hw/block/onenand: Add missing error-propagation code
-  scripts/coccinelle: Add script to catch missing error_propagate()
-    calls
-  hw/arm/bcm2835_peripherals: Add missing error-propagation code
-  hw/arm/fsl-imx: Add missing error-propagation code
-  hw/arm/stm32fx05_soc: Add missing error-propagation code
-  hw/dma/xilinx_axidma: Add missing error-propagation code
-  hw/i386/x86: Add missing error-propagation code
-  hw/mips/cps: Add missing error-propagation code
-  hw/misc/macio/macio: Add missing error-propagation code
-  hw/net/xilinx_axienet: Add missing error-propagation code
-  hw/riscv/sifive_u: Add missing error-propagation code
-  hw/sd/milkymist-memcard: Add missing error-propagation code
-  scripts/coccinelle: Use &error_abort in TypeInfo::instance_init()
-  various: Use &error_abort in instance_init()
-  scripts/coccinelle: Find eventually missing error_propagate() calls
-  migration/colo: Add missing error-propagation code
-  hw/mips/boston: Add missing error-propagation code
-  hw/mips/mips_malta: Add missing error-propagation code
-  qga/commands-win32: Add missing error-propagation code
-
- .../add-missing-error_propagate.cocci         |  30 +++++
- .../find-missing-error_propagate.cocci        |  53 ++++++++
- ...implify-init-realize-error_propagate.cocci |  69 ++++++++++
- .../use-error_abort-in-instance_init.cocci    |  52 ++++++++
- .../use-error_propagate-in-realize.cocci      |  54 ++++++++
- include/hw/arm/msf2-soc.h                     |   4 +
- include/hw/arm/stm32f205_soc.h                |   4 +
- include/hw/riscv/sifive_u.h                   |   2 +
- backends/cryptodev-vhost-user.c               |   2 +-
- backends/rng-egd.c                            |   2 +-
- backends/rng-random.c                         |   2 +-
- backends/vhost-user.c                         |   3 +-
- block/replication.c                           |   4 +-
- block/vhdx.c                                  |   8 +-
- dump/dump.c                                   |   2 +-
- hw/arm/allwinner-a10.c                        |  44 +++---
- hw/arm/armv7m.c                               |  12 +-
- hw/arm/aspeed_ast2600.c                       |  93 ++++++++-----
- hw/arm/aspeed_soc.c                           |  27 ++--
- hw/arm/bcm2835_peripherals.c                  |  14 +-
- hw/arm/fsl-imx25.c                            |  14 +-
- hw/arm/fsl-imx31.c                            |   4 +-
- hw/arm/fsl-imx6.c                             |  81 ++++++-----
- hw/arm/msf2-soc.c                             |  42 +++---
- hw/arm/stm32f205_soc.c                        |  38 +++---
- hw/arm/stm32f405_soc.c                        |  10 +-
- hw/arm/vexpress.c                             |   8 +-
- hw/arm/xlnx-zcu102.c                          |   8 +-
- hw/arm/xlnx-zynqmp.c                          | 126 +++++++++---------
- hw/block/fdc.c                                |   4 +-
- hw/block/onenand.c                            |   6 +-
- hw/block/vhost-user-blk.c                     |   2 +-
- hw/block/virtio-blk.c                         |   2 +-
- hw/core/machine.c                             |   6 +-
- hw/cpu/core.c                                 |   4 +-
- hw/display/vga-pci.c                          |   7 +-
- hw/display/xlnx_dp.c                          |   4 +-
- hw/dma/sparc32_dma.c                          |   2 +-
- hw/dma/xilinx_axidma.c                        |   6 +
- hw/gpio/aspeed_gpio.c                         |   2 +-
- hw/i386/x86.c                                 |   4 +
- hw/ide/macio.c                                |   4 +-
- hw/ide/qdev.c                                 |   4 +-
- hw/intc/apic_common.c                         |   2 +-
- hw/intc/arm_gicv3_its_kvm.c                   |   6 +-
- hw/mem/nvdimm.c                               |   4 +-
- hw/microblaze/xlnx-zynqmp-pmu.c               |  52 ++++----
- hw/mips/boston.c                              |  17 +--
- hw/mips/cps.c                                 |  48 +++++++
- hw/mips/mips_malta.c                          |  19 ++-
- hw/misc/aspeed_sdmc.c                         |   2 +-
- hw/misc/edu.c                                 |   3 +-
- hw/misc/macio/macio.c                         |   8 +-
- hw/misc/macio/pmu.c                           |   3 +-
- hw/misc/pca9552.c                             |   2 +-
- hw/misc/tmp105.c                              |   2 +-
- hw/misc/tmp421.c                              |   8 +-
- hw/net/e1000.c                                |   3 +-
- hw/net/lance.c                                |   3 +-
- hw/net/lasi_i82596.c                          |   3 +-
- hw/net/ne2000-isa.c                           |   4 +-
- hw/net/spapr_llan.c                           |   2 +-
- hw/net/virtio-net.c                           |   4 +-
- hw/net/xilinx_axienet.c                       |   6 +
- hw/pci-host/grackle.c                         |   2 +-
- hw/pci-host/i440fx.c                          |   8 +-
- hw/pci-host/pnv_phb3.c                        |  32 +++--
- hw/pci-host/prep.c                            |   2 +-
- hw/pci-host/q35.c                             |  23 ++--
- hw/pci-host/sabre.c                           |   3 +-
- hw/pci-host/uninorth.c                        |   9 +-
- hw/pcmcia/pxa2xx.c                            |   3 +-
- hw/ppc/spapr_drc.c                            |   6 +-
- hw/ppc/spapr_rng.c                            |   2 +-
- hw/riscv/sifive_e.c                           |  32 +++--
- hw/riscv/sifive_u.c                           | 102 ++++++++------
- hw/s390x/event-facility.c                     |   6 +-
- hw/s390x/s390-ccw.c                           |   2 +-
- hw/s390x/s390-skeys.c                         |   4 +-
- hw/s390x/s390-stattrib.c                      |   4 +-
- hw/s390x/sclp.c                               |   2 +-
- hw/scsi/scsi-bus.c                            |   2 +-
- hw/scsi/scsi-disk.c                           |   2 +-
- hw/sd/milkymist-memcard.c                     |   4 +
- hw/sd/sdhci.c                                 |   2 +-
- hw/ssi/xilinx_spips.c                         |   2 +-
- hw/usb/bus.c                                  |   4 +-
- hw/usb/dev-network.c                          |   2 +-
- hw/usb/dev-storage.c                          |   4 +-
- hw/usb/host-libusb.c                          |   2 +-
- hw/usb/redirect.c                             |   2 +-
- hw/virtio/virtio-balloon.c                    |   4 +-
- migration/colo.c                              |   3 +
- net/dump.c                                    |   4 +-
- net/filter-buffer.c                           |   2 +-
- net/filter-mirror.c                           |  10 +-
- net/filter-rewriter.c                         |   3 +-
- qga/commands-win32.c                          |  26 ++--
- target/arm/cpu64.c                            |   4 +-
- target/i386/cpu.c                             |  41 +++---
- target/microblaze/cpu.c                       |  14 +-
- target/ppc/translate_init.inc.c               |   4 +-
- target/s390x/cpu.c                            |   3 +-
- tests/check-qom-proplist.c                    |   7 +-
- tests/test-qdev-global-props.c                |   4 +-
- MAINTAINERS                                   |   5 +
- 106 files changed, 1014 insertions(+), 458 deletions(-)
- create mode 100644 scripts/coccinelle/add-missing-error_propagate.cocci
- create mode 100644 scripts/coccinelle/find-missing-error_propagate.cocci
- create mode 100644 scripts/coccinelle/simplify-init-realize-error_propagate.=
-cocci
- create mode 100644 scripts/coccinelle/use-error_abort-in-instance_init.cocci
- create mode 100644 scripts/coccinelle/use-error_propagate-in-realize.cocci
-
---=20
+diff --git a/block/replication.c b/block/replication.c
+index 413d95407d..5e09951c6b 100644
+--- a/block/replication.c
++++ b/block/replication.c
+@@ -169,8 +169,8 @@ static void replication_child_perm(BlockDriverState *bs, BdrvChild *c,
+     if ((bs->open_flags & (BDRV_O_INACTIVE | BDRV_O_RDWR)) == BDRV_O_RDWR) {
+         *nperm |= BLK_PERM_WRITE;
+     }
+-    *nshared = BLK_PERM_CONSISTENT_READ \
+-               | BLK_PERM_WRITE \
++    *nshared = BLK_PERM_CONSISTENT_READ
++               | BLK_PERM_WRITE
+                | BLK_PERM_WRITE_UNCHANGED;
+     return;
+ }
+diff --git a/block/vhdx.c b/block/vhdx.c
+index 33e57cd656..e16fdc2f2d 100644
+--- a/block/vhdx.c
++++ b/block/vhdx.c
+@@ -2206,20 +2206,20 @@ static QemuOptsList vhdx_create_opts = {
+            .name = VHDX_BLOCK_OPT_BLOCK_SIZE,
+            .type = QEMU_OPT_SIZE,
+            .def_value_str = stringify(0),
+-           .help = "Block Size; min 1MB, max 256MB. " \
++           .help = "Block Size; min 1MB, max 256MB. "
+                    "0 means auto-calculate based on image size."
+        },
+        {
+            .name = BLOCK_OPT_SUBFMT,
+            .type = QEMU_OPT_STRING,
+-           .help = "VHDX format type, can be either 'dynamic' or 'fixed'. "\
++           .help = "VHDX format type, can be either 'dynamic' or 'fixed'. "
+                    "Default is 'dynamic'."
+        },
+        {
+            .name = VHDX_BLOCK_OPT_ZERO,
+            .type = QEMU_OPT_BOOL,
+-           .help = "Force use of payload blocks of type 'ZERO'. "\
+-                   "Non-standard, but default.  Do not set to 'off' when "\
++           .help = "Force use of payload blocks of type 'ZERO'. "
++                   "Non-standard, but default.  Do not set to 'off' when "
+                    "using 'qemu-img convert' with subformat=dynamic."
+        },
+        { NULL }
+diff --git a/dump/dump.c b/dump/dump.c
+index 22ed1d3b0d..248ea06370 100644
+--- a/dump/dump.c
++++ b/dump/dump.c
+@@ -1892,7 +1892,7 @@ static void dump_process(DumpState *s, Error **errp)
+     result = qmp_query_dump(NULL);
+     /* should never fail */
+     assert(result);
+-    qapi_event_send_dump_completed(result, !!local_err, (local_err ? \
++    qapi_event_send_dump_completed(result, !!local_err, (local_err ?
+                                    error_get_pretty(local_err) : NULL));
+     qapi_free_DumpQueryResult(result);
+ 
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index a46e3b37a7..eddfa7f923 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -1526,7 +1526,7 @@ static void virtio_net_rsc_extract_unit6(VirtioNetRscChain *chain,
+                                  + sizeof(struct eth_header));
+     unit->ip = ip6;
+     unit->ip_plen = &(ip6->ip6_ctlun.ip6_un1.ip6_un1_plen);
+-    unit->tcp = (struct tcp_header *)(((uint8_t *)unit->ip)\
++    unit->tcp = (struct tcp_header *)(((uint8_t *)unit->ip)
+                                         + sizeof(struct ip6_header));
+     unit->tcp_hdrlen = (htons(unit->tcp->th_offset_flags) & 0xF000) >> 10;
+ 
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 56351c4faa..998666c91f 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -465,7 +465,7 @@ static void riscv_sifive_u_machine_instance_init(Object *obj)
+     object_property_add_bool(obj, "start-in-flash", sifive_u_get_start_in_flash,
+                              sifive_u_set_start_in_flash, NULL);
+     object_property_set_description(obj, "start-in-flash",
+-                                    "Set on to tell QEMU's ROM to jump to " \
++                                    "Set on to tell QEMU's ROM to jump to "
+                                     "flash. Otherwise QEMU will jump to DRAM",
+                                     NULL);
+ }
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index 1c0cb63a6f..e5bcd0baf8 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -3078,7 +3078,7 @@ static const TypeInfo scsi_cd_info = {
+ 
+ #ifdef __linux__
+ static Property scsi_block_properties[] = {
+-    DEFINE_BLOCK_ERROR_PROPERTIES(SCSIDiskState, qdev.conf),         \
++    DEFINE_BLOCK_ERROR_PROPERTIES(SCSIDiskState, qdev.conf),
+     DEFINE_PROP_DRIVE("drive", SCSIDiskState, qdev.conf.blk),
+     DEFINE_PROP_BOOL("share-rw", SCSIDiskState, qdev.conf.share_rw, false),
+     DEFINE_PROP_UINT16("rotation_rate", SCSIDiskState, rotation_rate, 0),
+diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+index de63ffb037..70531ad360 100644
+--- a/hw/sd/sdhci.c
++++ b/hw/sd/sdhci.c
+@@ -1130,7 +1130,7 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
+ 
+         /* Limit block size to the maximum buffer size */
+         if (extract32(s->blksize, 0, 12) > s->buf_maxsz) {
+-            qemu_log_mask(LOG_GUEST_ERROR, "%s: Size 0x%x is larger than " \
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: Size 0x%x is larger than "
+                           "the maximum buffer 0x%x", __func__, s->blksize,
+                           s->buf_maxsz);
+ 
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 90ffc5f3b1..9c256ab159 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5784,9 +5784,9 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+             host_cpuid(index, 0, eax, ebx, ecx, edx);
+             break;
+         }
+-        *eax = (L1_DTLB_2M_ASSOC << 24) | (L1_DTLB_2M_ENTRIES << 16) | \
++        *eax = (L1_DTLB_2M_ASSOC << 24) | (L1_DTLB_2M_ENTRIES << 16) |
+                (L1_ITLB_2M_ASSOC <<  8) | (L1_ITLB_2M_ENTRIES);
+-        *ebx = (L1_DTLB_4K_ASSOC << 24) | (L1_DTLB_4K_ENTRIES << 16) | \
++        *ebx = (L1_DTLB_4K_ASSOC << 24) | (L1_DTLB_4K_ENTRIES << 16) |
+                (L1_ITLB_4K_ASSOC <<  8) | (L1_ITLB_4K_ENTRIES);
+         *ecx = encode_cache_cpuid80000005(env->cache_info_amd.l1d_cache);
+         *edx = encode_cache_cpuid80000005(env->cache_info_amd.l1i_cache);
+@@ -5797,13 +5797,13 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+             host_cpuid(index, 0, eax, ebx, ecx, edx);
+             break;
+         }
+-        *eax = (AMD_ENC_ASSOC(L2_DTLB_2M_ASSOC) << 28) | \
+-               (L2_DTLB_2M_ENTRIES << 16) | \
+-               (AMD_ENC_ASSOC(L2_ITLB_2M_ASSOC) << 12) | \
++        *eax = (AMD_ENC_ASSOC(L2_DTLB_2M_ASSOC) << 28) |
++               (L2_DTLB_2M_ENTRIES << 16) |
++               (AMD_ENC_ASSOC(L2_ITLB_2M_ASSOC) << 12) |
+                (L2_ITLB_2M_ENTRIES);
+-        *ebx = (AMD_ENC_ASSOC(L2_DTLB_4K_ASSOC) << 28) | \
+-               (L2_DTLB_4K_ENTRIES << 16) | \
+-               (AMD_ENC_ASSOC(L2_ITLB_4K_ASSOC) << 12) | \
++        *ebx = (AMD_ENC_ASSOC(L2_DTLB_4K_ASSOC) << 28) |
++               (L2_DTLB_4K_ENTRIES << 16) |
++               (AMD_ENC_ASSOC(L2_ITLB_4K_ASSOC) << 12) |
+                (L2_ITLB_4K_ENTRIES);
+         encode_cache_cpuid80000006(env->cache_info_amd.l2_cache,
+                                    cpu->enable_l3_cache ?
+@@ -6326,7 +6326,7 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
+              */
+             env->features[w] |=
+                 x86_cpu_get_supported_feature_word(w, cpu->migratable) &
+-                ~env->user_features[w] & \
++                ~env->user_features[w] &
+                 ~feature_word_info[w].no_autoenable_flags;
+         }
+     }
+diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
+index a2c2f271df..c9cf2364ca 100644
+--- a/target/microblaze/cpu.c
++++ b/target/microblaze/cpu.c
+@@ -163,14 +163,14 @@ static void mb_cpu_realizefn(DeviceState *dev, Error **errp)
+ 
+     qemu_init_vcpu(cs);
+ 
+-    env->pvr.regs[0] = PVR0_USE_EXC_MASK \
+-                       | PVR0_USE_ICACHE_MASK \
++    env->pvr.regs[0] = PVR0_USE_EXC_MASK
++                       | PVR0_USE_ICACHE_MASK
+                        | PVR0_USE_DCACHE_MASK;
+-    env->pvr.regs[2] = PVR2_D_OPB_MASK \
+-                        | PVR2_D_LMB_MASK \
+-                        | PVR2_I_OPB_MASK \
+-                        | PVR2_I_LMB_MASK \
+-                        | PVR2_FPU_EXC_MASK \
++    env->pvr.regs[2] = PVR2_D_OPB_MASK
++                        | PVR2_D_LMB_MASK
++                        | PVR2_I_OPB_MASK
++                        | PVR2_I_LMB_MASK
++                        | PVR2_FPU_EXC_MASK
+                         | 0;
+ 
+     version = cpu->cfg.version ? cpu->cfg.version : DEFAULT_CPU_VERSION;
+diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
+index e853164a86..fd763e588e 100644
+--- a/target/ppc/translate_init.inc.c
++++ b/target/ppc/translate_init.inc.c
+@@ -5210,7 +5210,7 @@ POWERPC_FAMILY(e5500)(ObjectClass *oc, void *data)
+                        PPC_FLOAT_STFIWX | PPC_WAIT |
+                        PPC_MEM_TLBSYNC | PPC_TLBIVAX | PPC_MEM_SYNC |
+                        PPC_64B | PPC_POPCNTB | PPC_POPCNTWD;
+-    pcc->insns_flags2 = PPC2_BOOKE206 | PPC2_PRCNTL | PPC2_PERM_ISA206 | \
++    pcc->insns_flags2 = PPC2_BOOKE206 | PPC2_PRCNTL | PPC2_PERM_ISA206 |
+                         PPC2_FP_CVT_S64;
+     pcc->msr_mask = (1ull << MSR_CM) |
+                     (1ull << MSR_GS) |
+@@ -5258,7 +5258,7 @@ POWERPC_FAMILY(e6500)(ObjectClass *oc, void *data)
+                        PPC_FLOAT_STFIWX | PPC_WAIT |
+                        PPC_MEM_TLBSYNC | PPC_TLBIVAX | PPC_MEM_SYNC |
+                        PPC_64B | PPC_POPCNTB | PPC_POPCNTWD | PPC_ALTIVEC;
+-    pcc->insns_flags2 = PPC2_BOOKE206 | PPC2_PRCNTL | PPC2_PERM_ISA206 | \
++    pcc->insns_flags2 = PPC2_BOOKE206 | PPC2_PRCNTL | PPC2_PERM_ISA206 |
+                         PPC2_FP_CVT_S64 | PPC2_ATOMIC_ISA206;
+     pcc->msr_mask = (1ull << MSR_CM) |
+                     (1ull << MSR_GS) |
+-- 
 2.21.1
 
 
