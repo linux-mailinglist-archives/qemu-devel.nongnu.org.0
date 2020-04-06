@@ -2,64 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE55519FB29
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 19:16:31 +0200 (CEST)
-Received: from localhost ([::1]:35454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B6B19FB32
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 19:18:22 +0200 (CEST)
+Received: from localhost ([::1]:35492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLVMM-0001Wu-Rs
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 13:16:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57582)
+	id 1jLVO9-0004JT-Vc
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 13:18:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57989)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jLVL6-0008Uv-OG
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:15:13 -0400
+ (envelope-from <anthony.perard@citrix.com>) id 1jLVMc-0002dg-TX
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:16:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jLVL5-00080f-KF
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:15:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29489
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <anthony.perard@citrix.com>) id 1jLVMb-0000MR-Ux
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:16:46 -0400
+Received: from esa5.hc3370-68.iphmx.com ([216.71.155.168]:35047)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jLVL5-00080W-Gf
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:15:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586193311;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HF/tVOpn66mmfW9If+9ev51Qxkj3zPw+qslEcdMudv8=;
- b=egkKj8O3laj8aKMNRdLbjYOcaOHJzYqMQsRXDB7kK3Ni8W/HGHuoarRwoevEIvPXOdcGIO
- QtyaPS5AuYc7+uaSkGWRzR+iVbPdXiDkNqUtKCDIqSdSAnNB06n6q0qhbhmY32BI2DcWyC
- QlIWvbTJ5CkbSSj+lKYhBYQQjkwbk7w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-LD_WZfecP6qd_69ZXYcu1A-1; Mon, 06 Apr 2020 13:15:06 -0400
-X-MC-Unique: LD_WZfecP6qd_69ZXYcu1A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E020C10FD887;
- Mon,  6 Apr 2020 17:14:15 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-113-74.ams2.redhat.com [10.36.113.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1472611CC04;
- Mon,  6 Apr 2020 17:14:13 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH for-5.0 v2 3/3] block: Fix blk->in_flight during
- blk_wait_while_drained()
-Date: Mon,  6 Apr 2020 19:14:03 +0200
-Message-Id: <20200406171403.6761-4-kwolf@redhat.com>
-In-Reply-To: <20200406171403.6761-1-kwolf@redhat.com>
-References: <20200406171403.6761-1-kwolf@redhat.com>
+ (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
+ id 1jLVMZ-0000Jj-G0; Mon, 06 Apr 2020 13:16:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1586193403;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=dw9qolkhXIn6b0T6yhcbrD/aJmWH4v6hLGN3vF3fBK8=;
+ b=hQqdR5jE63yWB5w7Ig8d2yj03df7FGQtChTFInojnWKL5Qn+NuDiyP6Y
+ +khI4iJ4SbzX8fPbYpV/1/kGpfrcWaEDRn8wZl1cqtxzn8lp1wgG7fTvR
+ OjGYTJWDXjkgnzJaKWyM+qxrkzo4mS2LCoBtkaxtO55L+99IaDbZ4m9w5 M=;
+Authentication-Results: esa5.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none;
+ spf=None smtp.pra=anthony.perard@citrix.com;
+ spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
+ spf=None smtp.helo=postmaster@mail.citrix.com
+Received-SPF: None (esa5.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ anthony.perard@citrix.com) identity=pra;
+ client-ip=162.221.158.21; receiver=esa5.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="anthony.perard@citrix.com";
+ x-conformance=sidf_compatible
+Received-SPF: Pass (esa5.hc3370-68.iphmx.com: domain of
+ anthony.perard@citrix.com designates 162.221.158.21 as
+ permitted sender) identity=mailfrom;
+ client-ip=162.221.158.21; receiver=esa5.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="anthony.perard@citrix.com";
+ x-conformance=sidf_compatible; x-record-type="v=spf1";
+ x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
+ ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
+ ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
+ ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83
+ ip4:168.245.78.127 ~all"
+Received-SPF: None (esa5.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ postmaster@mail.citrix.com) identity=helo;
+ client-ip=162.221.158.21; receiver=esa5.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="postmaster@mail.citrix.com";
+ x-conformance=sidf_compatible
+IronPort-SDR: 61p/Hxv70zQnfNanLwCuMtI/mdPU1ZSSxLjAFfIgef6sApVUYnSJHMAYfOnW8uANV8AS2N0yIT
+ Vf5v+Gaf8ayKF/U65vNby/Q7N4/I0KbK6CJoGwtUDEig5ia3pGgahxl5DxhFbP2iIkmEJTVTRr
+ GlWxFF0NpRtXbvUqwyXTeoER8101SH6FWaDPaopeKkipPXDaLfWYySeqtr8JnNpaUepwhNdNxD
+ Xty56atu35YBojAZtk94S+7IiroEpM1m7hWd6TBP5Q/no0osAtmn6sfC030hQzwynqpZg1JS85
+ 9lk=
+X-SBRS: 2.7
+X-MesageID: 15573591
+X-Ironport-Server: esa5.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.72,351,1580792400"; d="scan'208";a="15573591"
+Date: Mon, 6 Apr 2020 18:16:37 +0100
+From: Anthony PERARD <anthony.perard@citrix.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH for-5.0] xen-block: Fix uninitialized variable
+Message-ID: <20200406171637.GU4088@perard.uk.xensource.com>
+References: <20200406164207.1446817-1-anthony.perard@citrix.com>
+ <325e0ffb-2f1b-cbfd-6b24-0d912a9aabe2@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <325e0ffb-2f1b-cbfd-6b24-0d912a9aabe2@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 216.71.155.168
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,74 +95,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, s.reiter@proxmox.com,
- qemu-devel@nongnu.org, dietmar@proxmox.com, stefanha@redhat.com,
- mreitz@redhat.com, t.lamprecht@proxmox.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ qemu-block@nongnu.org, Paul Durrant <paul@xen.org>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, xen-devel@lists.xenproject.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Waiting in blk_wait_while_drained() while blk->in_flight is increased
-for the current request is wrong because it will cause the drain
-operation to deadlock.
+On Mon, Apr 06, 2020 at 06:50:41PM +0200, Philippe Mathieu-Daudé wrote:
+> On 4/6/20 6:42 PM, Anthony PERARD wrote:
+> > Since 7f5d9b206d1e ("object-add: don't create return value if
+> > failed"), qmp_object_add() don't write any value in 'ret_data', thus
+> > has random data. Then qobject_unref() fails and abort().
+> > 
+> > Fix by initialising 'ret_data' properly.
+> 
+> Or move qobject_unref() after the error check?
+> 
+> -- >8 --
+> diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
+> index 07bb32e22b..f3f1cbef65 100644
+> --- a/hw/block/xen-block.c
+> +++ b/hw/block/xen-block.c
+> @@ -869,7 +869,6 @@ static XenBlockIOThread *xen_block_iothread_create(const
+> char *id,
+>      qdict_put_str(opts, "id", id);
+>      qmp_object_add(opts, &ret_data, &local_err);
+>      qobject_unref(opts);
+> -    qobject_unref(ret_data);
+> 
+>      if (local_err) {
+>          error_propagate(errp, local_err);
+> @@ -878,6 +877,7 @@ static XenBlockIOThread *xen_block_iothread_create(const
+> char *id,
+>          g_free(iothread);
+>          return NULL;
+>      }
+> +    qobject_unref(ret_data);
 
-This patch makes sure that blk_wait_while_drained() is called with
-blk->in_flight increased exactly once for the current request, and that
-it temporarily decreases the counter while it waits.
+That won't help, qmp_object_add() doesn't change the value of ret_data
+at all. The other users of qmp_object_add() passes an initialised
+'ret_data', so we should do the same I think.
 
-Fixes: cf3129323f900ef5ddbccbe86e4fa801e88c566e
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- block/block-backend.c | 17 +++++------------
- 1 file changed, 5 insertions(+), 12 deletions(-)
+Thanks,
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index d330e08b05..f621435f0b 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -1140,10 +1140,15 @@ static int blk_check_byte_request(BlockBackend *blk=
-, int64_t offset,
-     return 0;
- }
-=20
-+/* To be called between exactly one pair of blk_inc/dec_in_flight() */
- static void coroutine_fn blk_wait_while_drained(BlockBackend *blk)
- {
-+    assert(blk->in_flight > 0);
-+
-     if (blk->quiesce_counter && !blk->disable_request_queuing) {
-+        blk_dec_in_flight(blk);
-         qemu_co_queue_wait(&blk->queued_requests, NULL);
-+        blk_inc_in_flight(blk);
-     }
- }
-=20
-@@ -1416,12 +1421,6 @@ static void blk_aio_read_entry(void *opaque)
-     BlkRwCo *rwco =3D &acb->rwco;
-     QEMUIOVector *qiov =3D rwco->iobuf;
-=20
--    if (rwco->blk->quiesce_counter) {
--        blk_dec_in_flight(rwco->blk);
--        blk_wait_while_drained(rwco->blk);
--        blk_inc_in_flight(rwco->blk);
--    }
--
-     assert(qiov->size =3D=3D acb->bytes);
-     rwco->ret =3D blk_do_preadv(rwco->blk, rwco->offset, acb->bytes,
-                               qiov, rwco->flags);
-@@ -1434,12 +1433,6 @@ static void blk_aio_write_entry(void *opaque)
-     BlkRwCo *rwco =3D &acb->rwco;
-     QEMUIOVector *qiov =3D rwco->iobuf;
-=20
--    if (rwco->blk->quiesce_counter) {
--        blk_dec_in_flight(rwco->blk);
--        blk_wait_while_drained(rwco->blk);
--        blk_inc_in_flight(rwco->blk);
--    }
--
-     assert(!qiov || qiov->size =3D=3D acb->bytes);
-     rwco->ret =3D blk_do_pwritev_part(rwco->blk, rwco->offset, acb->bytes,
-                                     qiov, 0, rwco->flags);
---=20
-2.20.1
-
+-- 
+Anthony PERARD
 
