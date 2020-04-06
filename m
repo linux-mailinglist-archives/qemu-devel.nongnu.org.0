@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44D1E19F36A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:19:47 +0200 (CEST)
-Received: from localhost ([::1]:58172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0766019F368
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:19:16 +0200 (CEST)
+Received: from localhost ([::1]:58160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLOr4-0002AZ-Ay
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:19:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50194)
+	id 1jLOqZ-0000u9-1E
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:19:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50171)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jLOk0-0006y6-P9
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:29 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jLOjt-0006pe-5l
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jLOjq-0002uF-MT
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:28 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:46625)
+ (envelope-from <peter.maydell@linaro.org>) id 1jLOjr-0002vB-Qp
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:21 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38752)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jLOjq-0002tb-Gr
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:18 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id j17so16628546wru.13
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 03:12:18 -0700 (PDT)
+ id 1jLOjr-0002uW-KV
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:19 -0400
+Received: by mail-wm1-x342.google.com with SMTP id f20so6118490wmh.3
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 03:12:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=PzdovVtNp3mfDYAEJlHSjvapxn9iZ3p1XuB2BfZl6uY=;
- b=RqKD0wbAS9KPhFCzEL5MFw0OOpvBL8mHSXGKVyvIMdkf8f+YN4QfXULVQx+9Y/7waH
- aXQDmTbTm9AN6Dzoje1Tk7CWX5GLaK5pDrhbTq7ckFjaKJCzRaNvWZXVXds6rXUuCHuv
- +Tl7kiZrRhQyc4NesIs1UwEDPi5eeNAPiS+FoXZC1+cdbE6aM/bUHFXGB05M4Lzt4KsR
- +LqBZMGVqgFTx2hgqzQyfbvcbs/+30P/21c3tAmi4B27hEzsSxA+qjoLzHXr7naVxmGd
- 0CIiWvTK6nfn7sZz/Ra5ph/Sdaw6C5Xsi4rcinpaWcW88o+OKpzmKpIvDuyTMa1/nH8U
- 6XAg==
+ bh=lJK5pRrZeOgvwi0MkqfizMKvlaa5ce7cwoPnkorTG8c=;
+ b=ySiyOg+o85M2Kc9stcp62VnsFU8RHu0dQlx1PuxTRFZqgMy4dXokc7KfAvb6Lzugxe
+ TyE9nHTfv5gtD9A8+CyTq5AbGaXAoswtbb8hmx/1UiD6m5+GtzJhDuph8gg6LvDwEh7D
+ 5nT8njMPELJ7k5in10d2SnO1A3nxtw9yzSGklPkrWzxOM3h3Q6Zq/487yrQ9b3W59fdt
+ PlckIznLiZA9Jh6g2vaHrf3g2r7v1DCQnFCwpgcHp3mPscSArxXG1VFVfk3A/oH8TgQr
+ wuIL2K2BGZ42lKj6QbYaCh00ldBa6rNVfedz67PQAzxqpd6TJ94W0IB31JtI4iRNMslG
+ dM0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PzdovVtNp3mfDYAEJlHSjvapxn9iZ3p1XuB2BfZl6uY=;
- b=mAstC2GegkX+vZYx2RfVZmBX6BaAL+TCZzPzyOsWmApG/9/qrVG0UT7/XhJLQ+19KA
- X8wjUvfTrjuVRQTl4ItpyShbmgk0gdQ2BMg9ybVY7sl3WgEyvNyY57o3hXOsMDm5MM5Z
- z+WQ26V6upVNRhO8PXRfTj2xtKnqPuTRUfAXzypJsYPkasJe0Fz842WY1Lo2Aeu8b+w5
- 0ZuEoi+zEgtnWWU7RGgnyoNQwMwbViyLAMIZe8ceqUkct/qyEVUO9hr+bP39CqItzfbr
- 9srviaO8UqJhS73v1oKOXptTfWnRi+lXhJQ4G3ilRdAhQD90t8g+PV0m0gXW5We0GB5v
- ZveA==
-X-Gm-Message-State: AGi0Pua4MPY8cx8Ie/JprEveQD8Tkii/yuBhWDnIZ8+/gz0ygVSttlAM
- wE/jjVF6L9kuH6RLtB1MtPCoPcrJ4it+3w==
-X-Google-Smtp-Source: APiQypJGtQcyUxdD3vcX+40x5dPZbzshddXm+HySJvQ56uwUWO/Uk46mslgUtgukdmCL859jDgPs1A==
-X-Received: by 2002:adf:a482:: with SMTP id g2mr17787604wrb.214.1586167937426; 
- Mon, 06 Apr 2020 03:12:17 -0700 (PDT)
+ bh=lJK5pRrZeOgvwi0MkqfizMKvlaa5ce7cwoPnkorTG8c=;
+ b=YHbbNHc5Akir6x/cWgid7evOHSvbzyeWyB2FUv1zFr3f5FOe5Qtobr/cyVc5lEmJrn
+ HBDCiFDRMMWvwyPFRl0kd1n+m3mCcQ1rAJqcQYBDIjcJ7s5bMBezESbI8ZYVZvpZJWAQ
+ Tbw6aggP4ClTChUTDB2Ukrqffo6ME/UW00iJeLgHgKFjPJDK0Lb4BjHnK6G02GQ971l6
+ +Vee3DZPW0uvhbYNpjJeoFXzTtPbN2xj7Eod8DVa6NGqm8AOUH7JWV9YZZrPudJ1KBSh
+ OA7lWB1/wXxVr7oGRPOTOrU45LGwBw2zRwjMQ3/wOpWpUvUlKRQPV+Ar7fSr/mJrstTU
+ pITw==
+X-Gm-Message-State: AGi0Pub4rRGqh04Iftr/r5mIyf63aMErSX7mRL6vntHGRV2I7Eplf6Fv
+ dyHFSOteIfvMhRRqnrA6b7BJ+zQJF6d2Aw==
+X-Google-Smtp-Source: APiQypKFzEnKbj8ESttpcGR7zgUpUelah9zcEWwHP6ZI1wMNauknyToK3HlFtTkBoKANWVh8ekgjuQ==
+X-Received: by 2002:a1c:2002:: with SMTP id g2mr9047886wmg.109.1586167938289; 
+ Mon, 06 Apr 2020 03:12:18 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f187sm25163765wme.9.2020.04.06.03.12.16
+ by smtp.gmail.com with ESMTPSA id f187sm25163765wme.9.2020.04.06.03.12.17
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 03:12:16 -0700 (PDT)
+ Mon, 06 Apr 2020 03:12:17 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/11] dma/xlnx-zdma: Advance the descriptor address when
- stopping
-Date: Mon,  6 Apr 2020 11:12:04 +0100
-Message-Id: <20200406101205.23027-11-peter.maydell@linaro.org>
+Subject: [PULL 11/11] dma/xlnx-zdma: Reorg to fix CUR_DSCR
+Date: Mon,  6 Apr 2020 11:12:05 +0100
+Message-Id: <20200406101205.23027-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200406101205.23027-1-peter.maydell@linaro.org>
 References: <20200406101205.23027-1-peter.maydell@linaro.org>
@@ -67,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,29 +83,95 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Advance the descriptor address when stopping the channel.
+Reorganize the descriptor handling so that CUR_DSCR always
+points to the next descriptor to be processed.
 
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20200402134721.27863-5-edgar.iglesias@gmail.com
+Message-id: 20200402134721.27863-6-edgar.iglesias@gmail.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/dma/xlnx-zdma.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/dma/xlnx-zdma.c | 47 ++++++++++++++++++++++------------------------
+ 1 file changed, 22 insertions(+), 25 deletions(-)
 
 diff --git a/hw/dma/xlnx-zdma.c b/hw/dma/xlnx-zdma.c
-index dd893bc420f..e856d233f2d 100644
+index e856d233f2d..1c45367f3c6 100644
 --- a/hw/dma/xlnx-zdma.c
 +++ b/hw/dma/xlnx-zdma.c
-@@ -514,7 +514,6 @@ static void zdma_process_descr(XlnxZDMA *s)
-     if (ptype == PT_REG || src_cmd == CMD_STOP) {
-         ARRAY_FIELD_DP32(s->regs, ZDMA_CH_CTRL2, EN, 0);
-         zdma_set_state(s, DISABLED);
--        return;
+@@ -333,10 +333,28 @@ static void zdma_load_src_descriptor(XlnxZDMA *s)
      }
+ }
  
-     if (src_cmd == CMD_HALT) {
++static void zdma_update_descr_addr(XlnxZDMA *s, bool type,
++                                   unsigned int basereg)
++{
++    uint64_t addr, next;
++
++    if (type == DTYPE_LINEAR) {
++        addr = zdma_get_regaddr64(s, basereg);
++        next = addr + sizeof(s->dsc_dst);
++    } else {
++        addr = zdma_get_regaddr64(s, basereg);
++        addr += sizeof(s->dsc_dst);
++        address_space_read(s->dma_as, addr, s->attr, (void *) &next, 8);
++    }
++
++    zdma_put_regaddr64(s, basereg, next);
++}
++
+ static void zdma_load_dst_descriptor(XlnxZDMA *s)
+ {
+     uint64_t dst_addr;
+     unsigned int ptype = ARRAY_FIELD_EX32(s->regs, ZDMA_CH_CTRL0, POINT_TYPE);
++    bool dst_type;
+ 
+     if (ptype == PT_REG) {
+         memcpy(&s->dsc_dst, &s->regs[R_ZDMA_CH_DST_DSCR_WORD0],
+@@ -349,24 +367,10 @@ static void zdma_load_dst_descriptor(XlnxZDMA *s)
+     if (!zdma_load_descriptor(s, dst_addr, &s->dsc_dst)) {
+         ARRAY_FIELD_DP32(s->regs, ZDMA_CH_ISR, AXI_RD_DST_DSCR, true);
+     }
+-}
+ 
+-static uint64_t zdma_update_descr_addr(XlnxZDMA *s, bool type,
+-                                       unsigned int basereg)
+-{
+-    uint64_t addr, next;
+-
+-    if (type == DTYPE_LINEAR) {
+-        next = zdma_get_regaddr64(s, basereg);
+-        next += sizeof(s->dsc_dst);
+-        zdma_put_regaddr64(s, basereg, next);
+-    } else {
+-        addr = zdma_get_regaddr64(s, basereg);
+-        addr += sizeof(s->dsc_dst);
+-        address_space_read(s->dma_as, addr, s->attr, &next, 8);
+-        zdma_put_regaddr64(s, basereg, next);
+-    }
+-    return next;
++    /* Advance the descriptor pointer.  */
++    dst_type = FIELD_EX32(s->dsc_dst.words[3], ZDMA_CH_DST_DSCR_WORD3, TYPE);
++    zdma_update_descr_addr(s, dst_type, R_ZDMA_CH_DST_CUR_DSCR_LSB);
+ }
+ 
+ static void zdma_write_dst(XlnxZDMA *s, uint8_t *buf, uint32_t len)
+@@ -387,14 +391,7 @@ static void zdma_write_dst(XlnxZDMA *s, uint8_t *buf, uint32_t len)
+         dst_size = FIELD_EX32(s->dsc_dst.words[2], ZDMA_CH_DST_DSCR_WORD2,
+                               SIZE);
+         if (dst_size == 0 && ptype == PT_MEM) {
+-            uint64_t next;
+-            bool dst_type = FIELD_EX32(s->dsc_dst.words[3],
+-                                       ZDMA_CH_DST_DSCR_WORD3,
+-                                       TYPE);
+-
+-            next = zdma_update_descr_addr(s, dst_type,
+-                                          R_ZDMA_CH_DST_CUR_DSCR_LSB);
+-            zdma_load_descriptor(s, next, &s->dsc_dst);
++            zdma_load_dst_descriptor(s);
+             dst_size = FIELD_EX32(s->dsc_dst.words[2], ZDMA_CH_DST_DSCR_WORD2,
+                                   SIZE);
+         }
 -- 
 2.20.1
 
