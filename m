@@ -2,87 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2484719FD1C
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:26:19 +0200 (CEST)
-Received: from localhost ([::1]:36690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AB8219FD44
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:35:26 +0200 (CEST)
+Received: from localhost ([::1]:36866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLWRt-0007dZ-VL
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:26:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38636)
+	id 1jLWaj-0002jG-Hy
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:35:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38847)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jLVxr-00073M-E3
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:55:16 -0400
+ (envelope-from <wrampazz@redhat.com>) id 1jLVye-0000Oh-2B
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:56:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jLVxp-0007Hk-RY
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:55:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41110
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <wrampazz@redhat.com>) id 1jLVyc-0007qX-Tk
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:56:03 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31029
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jLVxp-0007Gr-Nw
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:55:13 -0400
+ (Exim 4.71) (envelope-from <wrampazz@redhat.com>) id 1jLVyc-0007qP-Qs
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:56:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586195713;
+ s=mimecast20190719; t=1586195762;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EKVS7UdLyniSmV+K3U+BCWDj2PPZvEFKSkD0b/gjUnQ=;
- b=LXdXW0fIE+z/mk+hjSGHAYKH46ZsEHVc2QsR3NNCogyHZdgd/oG6G2DLksqeDR/aWND4QO
- Bb3DAh9ksSV2Ynw1jJWkAY0WWpx+Xnq16J1DhfMY58B2JR69rFt6xnUtl9lI0Fz9dvxsGi
- UXDV8M75MdjG4mfz0CUSlgZlNYC1Yt0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-1-MvmKDEKqPmCtWYDAC5JoMQ-1; Mon, 06 Apr 2020 13:55:09 -0400
-X-MC-Unique: MvmKDEKqPmCtWYDAC5JoMQ-1
-Received: by mail-wm1-f72.google.com with SMTP id t62so69185wma.0
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:55:09 -0700 (PDT)
+ bh=+ktaCtJpxQl2oZs+fcyf/bsZk1updY7wGcISlm7FYWk=;
+ b=J6Cy1uDvXSV8Mf4OaGPZTpzuX4koT9EkYA3RD/CeQzUpv7r5VWcp+rZ7SldCoVPnpISzmf
+ Zaqd8oodZV6ifzsiacYP0hQJk580M8xkMNjZdgdScgOJP4/ek7oV+/eFp7+CrSLoNhQKSP
+ 31Q1Itw/DoDTJyktFHzud/z56cDHyFk=
+Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
+ [209.85.217.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-99-jtj6yxNCPKykA0VY8eavmg-1; Mon, 06 Apr 2020 13:56:00 -0400
+X-MC-Unique: jtj6yxNCPKykA0VY8eavmg-1
+Received: by mail-vs1-f71.google.com with SMTP id w2so75713vsf.7
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:55:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=69/nF/b5wOeG2gDS+VtZJUjVBoUPQDai/vkgLqbNy+I=;
- b=N/suR75vvnFr1XfrJu3goK+yGE1BVS7vVCIyDWwxY05Azs4xyzWCRwGDNTlVpeDxrG
- 3TO43/WSmJgtTIeORfLwCIlEJD6WB+Ul9U27M/ZYRVYqOrJ3feM8fqdRiaFMqPcligQC
- U1g4mW2qbqblp/foCYMy+2jRhGIgjxs9c/OVR7pAwjkhhSnqtDEEdKwQcNQ39X9rF0EK
- qbqVcQGQvFniJ53eb5YUsHDbpqgZFe6f5kj1dRvdDSB2zmKKIy2IlRRzStS3cWUttZfi
- udpldorMIoJNfRJXole5EQI/cmXn//pLEtRmfiRERnbmaO9PIJv+Ms89lTW+ZzQWTXTR
- Cqzw==
-X-Gm-Message-State: AGi0PuZ8892ezxZdEvjBkrfZdPhcw25OwJL9i+Z7NlnXy8p9TKMKUI9D
- cOuGo80Lulddrs2rx+sJP3wAMWZkFV/TcvefMIszlxKGgTkxlu/WlBWaTBMAgyfrjUq44IuAJQ/
- kfDPxeZGqQU+IA1c=
-X-Received: by 2002:a5d:6a47:: with SMTP id t7mr362870wrw.131.1586195708901;
- Mon, 06 Apr 2020 10:55:08 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLJBm4ZnjflU1EPcLIcp6ojKFyCtmK2nGtPR/0SEdcv8hFxFnGRGrc+Vt/p9htPyKHchBfyeQ==
-X-Received: by 2002:a5d:6a47:: with SMTP id t7mr362852wrw.131.1586195708653;
- Mon, 06 Apr 2020 10:55:08 -0700 (PDT)
-Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id a2sm27277020wrp.13.2020.04.06.10.55.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Apr 2020 10:55:08 -0700 (PDT)
-Subject: Re: [PATCH-for-5.1 v2 38/54] hw/arm/bcm2835_peripherals: Add missing
- error-propagation code
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-References: <20200406174743.16956-1-f4bug@amsat.org>
- <20200406174743.16956-39-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <08382aa3-a75d-7c78-0007-db7c828b8314@redhat.com>
-Date: Mon, 6 Apr 2020 19:55:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+ktaCtJpxQl2oZs+fcyf/bsZk1updY7wGcISlm7FYWk=;
+ b=Nd6Z802jraYSSn6TgUptJZlGegoBYFd0DlwoW9Qs6G3TDBJHFyeFAqFWcyfgTpj9gw
+ XNbkjxwUEuM93OFfm8Wj/5pM1Y9SR/D6YM3uZ/YjL4T+dGGFsV49SgbUcHhu+npDctk8
+ RL5HWNyeTuE1rj9yThRSDB9qE03CSOjeS4JVK7cjQ1sacCc127zvy+8ZwUoKDqnoSasE
+ FgA/PHPEVrVg3hTa0XDrwAk23pSlBdAJnjiYl+swksmK6pO5M2YNtJZujUda5PWJYpuz
+ qdZuREQkMjkFLilbeBPmspQmngFatXY7u92QDANk0Qw4DTaQJ81F4Zi0a6tVPp6oaVTd
+ srVA==
+X-Gm-Message-State: AGi0PuY52YlOJ9np0MVj7C42CtzQHDvIZDLaMzzarS1n+eswCPVrD5aR
+ 2wKD54s8RmMa58nFo8VRVNZMxDoPNC/u5Ob1pVLOQtzKwPZiLmwOrI06SCXZmS94EDPN7/Yzlx/
+ jykadMhy+7qlkGxJ9DTKoeRvXdOX011w=
+X-Received: by 2002:a1f:7f1d:: with SMTP id o29mr304356vki.101.1586195759418; 
+ Mon, 06 Apr 2020 10:55:59 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLq/cV0d65HFZKjGaJmBGNrZHZ27UPcpEEEXApaJfUY/UIn3XiMRljyjzTb6U9YQbcwiG4y7rG5k4DUbdQ4+pY=
+X-Received: by 2002:a1f:7f1d:: with SMTP id o29mr304329vki.101.1586195759128; 
+ Mon, 06 Apr 2020 10:55:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200406174743.16956-39-f4bug@amsat.org>
-Content-Language: en-US
+References: <20200403172919.24621-1-philmd@redhat.com>
+ <20200403172919.24621-8-philmd@redhat.com>
+ <87369gbpgq.fsf@linaro.org> <4b9c706f-b9b0-35c6-457f-e03f746c9287@redhat.com>
+In-Reply-To: <4b9c706f-b9b0-35c6-457f-e03f746c9287@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Mon, 6 Apr 2020 14:55:48 -0300
+Message-ID: <CAKJDGDZePOW6Hg9P5WMoP93U2kGEO1=CGF0W7X-G-E7bid_8kQ@mail.gmail.com>
+Subject: Re: [PATCH-for-5.1 7/8] .travis.yml: Run fetch-acceptance-assets
+ before check-acceptance
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,57 +85,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:Raspberry Pi" <qemu-arm@nongnu.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Fabien Chouteau <chouteau@adacore.com>,
+ Kamil Rytarowski <kamil@netbsd.org>, qemu-ppc@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/6/20 7:47 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> Patch created mechanically by running:
->=20
->    $ spatch \
->      --macro-file scripts/cocci-macro-file.h --include-headers \
->      --sp-file scripts/coccinelle/object_property_missing_error_propagate=
-.cocci \
+On Mon, Apr 6, 2020 at 12:39 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+>
+> On 4/6/20 5:31 PM, Alex Benn=C3=A9e wrote:
+> >
+> > Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+> >
+> >> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> >> ---
+> >>   .travis.yml | 2 +-
+> >>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/.travis.yml b/.travis.yml
+> >> index 2fd63eceaa..c6b32da447 100644
+> >> --- a/.travis.yml
+> >> +++ b/.travis.yml
+> >> @@ -317,7 +317,7 @@ jobs:
+> >>         dist: bionic
+> >>         env:
+> >>           - CONFIG=3D"--enable-tools --target-list=3Daarch64-softmmu,a=
+lpha-softmmu,arm-softmmu,m68k-softmmu,microblaze-softmmu,mips-softmmu,mips6=
+4el-softmmu,nios2-softmmu,or1k-softmmu,ppc-softmmu,ppc64-softmmu,s390x-soft=
+mmu,sparc-softmmu,x86_64-softmmu,xtensa-softmmu"
+> >> -        - TEST_CMD=3D"make check-acceptance"
+> >> +        - TEST_CMD=3D"travis_retry make -j1 fetch-acceptance-assets
+> >> check-acceptance DEBUG=3D1"
+> >
+> > You could use TEST_BUILD_CMD for the fetching of acceptance tests - can
+> > that be done in parallel?
 
-sigh I forgot to update this, the scrip has been renamed=20
-add-missing-error_propagate.cocci :(
+If by `parallel` you mean running it with other targets, the
+fetch-acceptance-assets target can run at any time before the
+check-acceptance runs, concurrently with different targets. Now, if by
+`parallel` you mean fetch more than one asset at a time, right now it
+is not supported by Avocado, assets are fetched one by one, but it is
+an excellent idea. I have added it to my list.
 
->      --keep-comments --smpl-spacing --in-place --dir hw
->=20
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->   hw/arm/bcm2835_peripherals.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
->=20
-> diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-> index edcaa4916d..a111e91069 100644
-> --- a/hw/arm/bcm2835_peripherals.c
-> +++ b/hw/arm/bcm2835_peripherals.c
-> @@ -289,8 +289,16 @@ static void bcm2835_peripherals_realize(DeviceState =
-*dev, Error **errp)
->        *   SD3.0_Host_AHB_eMMC4.4_Usersguide_ver5.9_jan11_10.pdf
->        */
->       object_property_set_uint(OBJECT(&s->sdhci), 3, "sd-spec-version", &=
-err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    }
->       object_property_set_uint(OBJECT(&s->sdhci), BCM2835_SDHC_CAPAREG, "=
-capareg",
->                                &err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    }
->       object_property_set_bool(OBJECT(&s->sdhci), true, "pending-insert-q=
-uirk",
->                                &err);
->       if (err) {
->=20
+>
+> I'd say calling fetch-acceptance-assets parallelized is what seems to
+> break this Travis job (which is why I enforced -j1), but I'll refer to
+> Willian here.
+>
+
+As I mentioned above, no problem with running it in parallel to other
+targets. The errors we saw when you were testing are not related to
+the parallel run. It should be fixed in the next release of Avocado.
+
+> >
+> > Also no point in -j1 here - it's implied.
+>
+> You are right, I wanted to be sure this still work even if the globlal
+> script running the tests is updated. But the correct fix is probably to
+> use .NOTPARALLEL in the fetch-acceptance-assets rule in the previous patc=
+h.
+>
+> >
+> >>           - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-acceptance"
+> >>         after_script:
+> >>           - python3 -c 'import json; r =3D json.load(open("tests/resul=
+ts/latest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["s=
+tatus"] not in ("PASS", "SKIP")]' | xargs cat
+> >
+> >
+>
 
 
