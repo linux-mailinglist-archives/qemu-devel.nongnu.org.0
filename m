@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 399D219FC18
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 19:54:36 +0200 (CEST)
-Received: from localhost ([::1]:35952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C7D419FC03
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 19:50:17 +0200 (CEST)
+Received: from localhost ([::1]:35860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLVxD-0004pp-8B
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 13:54:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35770)
+	id 1jLVt2-0003Vw-14
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 13:50:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35771)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVqk-0001TS-3N
+ id 1jLVqk-0001TT-2i
  for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:47:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVqh-0001Rh-Jq
+ id 1jLVqi-0001Ru-09
  for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:47:53 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:35397)
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52096)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVqh-0001LY-2M
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:47:51 -0400
-Received: by mail-wm1-x329.google.com with SMTP id i19so333533wmb.0
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:47:50 -0700 (PDT)
+ id 1jLVqh-0001Qf-Qj; Mon, 06 Apr 2020 13:47:51 -0400
+Received: by mail-wm1-x343.google.com with SMTP id z7so300433wmk.1;
+ Mon, 06 Apr 2020 10:47:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iReDTzs2Dt50WrfdNdr1+4DatVHniwe5YHMC666osXs=;
- b=Zv67GidqC99G9Gve+Ccp7YzDO1MRq3kW4OVGIlwS0rpyZYGj45aYTI/PxuIFvjdGlp
- +y2ZB9LClb1vzF9rMAeW3dsAMdmvQLFbbX9B4Q86BCVwasrd+ZsILTTiEFPbfgwI5Llw
- 79tKup106tKsBObTfcg5pj1nSQrpqaUA6bm++UzZ9fVb/afNf/1BQ8Di6GP8GYjVSLUJ
- OngYWB4vWdq1zyEeLlQQJ4ERT4HrSMYEHqkYG312LRinyPbgdfnozgGngmBgONi44YoQ
- SWylms/zKsL4hPt+KwTXSVE1FMKmwNw2jw5U6n4HRlYTl/SUEtpYTa+CsGipJMGxrBn7
- 2jOA==
+ bh=SEX/nwZgTPc5n/w+lMa0+UqvNUZKOIm8zzduq8bu1fA=;
+ b=OmWPI53SVitm/Hc/eeQ4R7pbBNgpOgA4UffgmeF40nLceZUObiufYQ4edn2Csv/01G
+ iS4p9aAQs7JpusZEYNa9VfrlcxEumFLsC4n4mcpyQ1jVMx6wfsjanzLHMhMycZHbm3d7
+ pzv6l1VrPgeXx0n09ug9D+VxoK7lspWknUSxKSww9yfXAyDu0+d5qEhjfZC6giUDjE4S
+ 9dOnsgP3UiPUDN+oh3j4CrqClpcbDxhQtBfvWqGgJlBBe5AwGdmDwxtX+L7e3fBmxy6B
+ b9EYAOQ5AOYMorNYw6quJoJuaYwg1yIS8V07LP3cLZbgR4u/i29sMbckoLHF4NZTxpTV
+ S7Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=iReDTzs2Dt50WrfdNdr1+4DatVHniwe5YHMC666osXs=;
- b=dJFbA1+9MMzdEeK5CgkT8eVrva0DoPVN/ZiQNhtl8fDUie7utSy2vxCdgiqwfJYQnV
- q7YqxdmIItPfrQ+Q/sLdS6HBJUbugpQNLOXIz2KYQksoe2v4R95qJDpji6j2arMyHIv1
- 7g+ZC0i4Oa3mXc4PVuRzjmqV8K6VnJc/I3cCgaLiFWUHlKqX9nkoTAJpiMy0E+lqtDwm
- 6yOIwlGeTArbJPXlPXOFNMH+0RkJPpNS7IgJNNqJ0cOSiFr4/vS8hf9kkJNHpomFNCxi
- Z0yZeLnoQ6KV3182amB0u9EOiA/LNEVsaA3ahk7RuKN2LYjgvECU7NydwrjcGGA3BLYl
- +cQg==
-X-Gm-Message-State: AGi0PubGxnQTdWXOXvOw9CrAqJmnDppbBYEXvXVNG19RiPpeyFq87KU6
- ZzZoxOr2vAQyV59h/6QEh0JRq1+X7Gw=
-X-Google-Smtp-Source: APiQypLdx/GjEcHz6rJ7WbzX0/P9ebNLuTecdw2Ea/3fCP6OGGDNcJhQB5QpOMmbt16ngpOExEDkOQ==
-X-Received: by 2002:a05:600c:2257:: with SMTP id
- a23mr529751wmm.128.1586195268801; 
- Mon, 06 Apr 2020 10:47:48 -0700 (PDT)
+ bh=SEX/nwZgTPc5n/w+lMa0+UqvNUZKOIm8zzduq8bu1fA=;
+ b=NGT4lSxRnNTeswsaU8M10XDac/soA8IS2sX2bI7W2cMOO37/rA6U32QzNNVNq/QxgF
+ U6uN25DpLn7nwEqek5LX+479MIMwu8JLo5B5818PjPrhK7P4JF9sVM0o8LOVK3cj7Gbb
+ MDOkom/20IpbgmBYK7c1/pgH4ujRviHz3rEF4Zv8EJyqn22ctid88tI1Lnpo9Empb0yf
+ 9MwxdIiI13N/vKDqTFt4sj5u7Cseq6fcZBuR4gaxLhYvr94b9WFHwO5IYVIgm3qjQeFe
+ Nng2OhFhfzGgOpfh0cwlLlQNofH1NqpbFuBr/K3pnDSsUUpDxfsznAVZ9VDX/AiFBrSQ
+ oQYQ==
+X-Gm-Message-State: AGi0PuYmt/nUMOj+Pnl6pZwL/4VEBuk5jOMZ9sIJCCN1IM/isc1nTOOF
+ ne0t/FXxhkFbDw9KnW0BwhB6QRAidIk=
+X-Google-Smtp-Source: APiQypIYR5otdZAL+FRzOeSaWNGO4ue1YpD6fLr6TZ6iVgcz4ccUwumQUECtLxoJC/Kou8sxfr/qcg==
+X-Received: by 2002:a1c:dfc6:: with SMTP id w189mr497008wmg.180.1586195270273; 
+ Mon, 06 Apr 2020 10:47:50 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.47.47
+ by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.47.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 10:47:48 -0700 (PDT)
+ Mon, 06 Apr 2020 10:47:49 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH-for-5.1 v2 02/54] scripts/coccinelle: Script to simplify
- DeviceClass error propagation
-Date: Mon,  6 Apr 2020 19:46:51 +0200
-Message-Id: <20200406174743.16956-3-f4bug@amsat.org>
+Subject: [PATCH-for-5.1 v2 03/54] hw/arm/allwinner-a10: Move some code from
+ realize() to init()
+Date: Mon,  6 Apr 2020 19:46:52 +0200
+Message-Id: <20200406174743.16956-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200406174743.16956-1-f4bug@amsat.org>
 References: <20200406174743.16956-1-f4bug@amsat.org>
@@ -73,7 +71,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::329
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,110 +83,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Beniamino Galvani <b.galvani@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ "open list:Allwinner-a10" <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When a device uses an Error* with data not modified before realize(),
-this call can be moved to init(). Add a Coccinelle patch to find such
-uses.
+Coccinelle reported:
+
+  $ spatch ... --timeout 60 --sp-file \
+    scripts/coccinelle/simplify-init-realize-error_propagate.cocci
+  HANDLING: ./hw/arm/allwinner-a10.c
+  >>> possible moves from aw_a10_init() to aw_a10_realize() in ./hw/arm/allwinner-a10.c:77
+
+Move the calls using &error_fatal which don't depend of input
+updated before realize() to init().
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- ...implify-init-realize-error_propagate.cocci | 69 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 2 files changed, 70 insertions(+)
- create mode 100644 scripts/coccinelle/simplify-init-realize-error_propagate.cocci
+ hw/arm/allwinner-a10.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/scripts/coccinelle/simplify-init-realize-error_propagate.cocci b/scripts/coccinelle/simplify-init-realize-error_propagate.cocci
-new file mode 100644
-index 0000000000..2e3ec4d98a
---- /dev/null
-+++ b/scripts/coccinelle/simplify-init-realize-error_propagate.cocci
-@@ -0,0 +1,69 @@
-+// Find error-propagation calls that don't need to be in DeviceClass::realize()
-+// because they don't use information user can change before calling realize(),
-+// so they can be moved to DeviceClass:initfn() where error propagation is not
-+// needed.
-+//
-+// Copyright: (C) 2020 Philippe Mathieu-Daudé
-+// This work is licensed under the terms of the GNU GPLv2 or later.
-+//
-+// spatch \
-+//  --macro-file scripts/cocci-macro-file.h \
-+//  --sp-file \
-+//    scripts/coccinelle/simplify-init-realize-error_propagate.cocci \
-+//  --timeout 60
-+//
-+// Inspired by https://www.mail-archive.com/qemu-devel@nongnu.org/msg692500.html
-+
-+
-+@ match_class_init @
-+TypeInfo info;
-+identifier class_initfn;
-+@@
-+    info.class_init = class_initfn;
-+
-+
-+@ match_instance_init @
-+TypeInfo info;
-+identifier instance_initfn;
-+@@
-+    info.instance_init = instance_initfn;
-+
-+
-+@ match_realize @
-+identifier match_class_init.class_initfn;
-+DeviceClass *dc;
-+identifier realizefn;
-+@@
-+void class_initfn(...)
-+{
-+    ...
-+    dc->realize = realizefn;
-+    ...
-+}
-+
-+
-+@ propagate_in_realize @
-+identifier match_realize.realizefn;
-+identifier err;
-+identifier errp;
-+identifier func_with_errp =~ "(?!object_property_set_link)";
-+symbol error_abort, error_fatal;
-+position pos;
-+@@
-+void realizefn@pos(..., Error **errp)
-+{
-+    ...
-+    Error *err = NULL;
-+    <+...
-+    func_with_errp(..., \(&error_abort\|&error_fatal\));
-+    ...+>
-+}
-+
-+
-+@ script:python @
-+initfn << match_instance_init.instance_initfn;
-+realizefn << match_realize.realizefn;
-+p << propagate_in_realize.pos;
-+@@
-+print('>>> possible moves from {}() to {}() in {}:{}'
-+      .format(initfn, realizefn, p[0].file, p[0].line))
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9d156d73b3..d06ffeddd5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2057,6 +2057,7 @@ F: scripts/coccinelle/err-bad-newline.cocci
- F: scripts/coccinelle/error-use-after-free.cocci
- F: scripts/coccinelle/error_propagate_null.cocci
- F: scripts/coccinelle/remove_local_err.cocci
-+F: scripts/coccinelle/simplify-init-realize-error_propagate.cocci
- F: scripts/coccinelle/use-error_fatal.cocci
+diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
+index 62a67a3e1a..f41395734a 100644
+--- a/hw/arm/allwinner-a10.c
++++ b/hw/arm/allwinner-a10.c
+@@ -60,10 +60,18 @@ static void aw_a10_init(Object *obj)
+         int i;
  
- GDB stub
+         for (i = 0; i < AW_A10_NUM_USB; i++) {
++            char bus[16];
++
+             sysbus_init_child_obj(obj, "ehci[*]", OBJECT(&s->ehci[i]),
+                                   sizeof(s->ehci[i]), TYPE_PLATFORM_EHCI);
+             sysbus_init_child_obj(obj, "ohci[*]", OBJECT(&s->ohci[i]),
+                                   sizeof(s->ohci[i]), TYPE_SYSBUS_OHCI);
++            object_property_set_bool(OBJECT(&s->ehci[i]), true,
++                                     "companion-enable", &error_fatal);
++
++            sprintf(bus, "usb-bus.%d", i);
++            object_property_set_str(OBJECT(&s->ohci[i]), bus, "masterbus",
++                                    &error_fatal);
+         }
+     }
+ 
+@@ -72,6 +80,11 @@ static void aw_a10_init(Object *obj)
+ 
+     sysbus_init_child_obj(obj, "rtc", &s->rtc, sizeof(s->rtc),
+                           TYPE_AW_RTC_SUN4I);
++
++    memory_region_init_ram(&s->sram_a, obj, "sram A", 48 * KiB,
++                           &error_fatal);
++    memory_region_add_subregion(get_system_memory(), 0x00000000, &s->sram_a);
++    create_unimplemented_device("a10-sram-ctrl", 0x01c00000, 4 * KiB);
+ }
+ 
+ static void aw_a10_realize(DeviceState *dev, Error **errp)
+@@ -113,11 +126,6 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
+     sysbus_connect_irq(sysbusdev, 4, qdev_get_gpio_in(dev, 67));
+     sysbus_connect_irq(sysbusdev, 5, qdev_get_gpio_in(dev, 68));
+ 
+-    memory_region_init_ram(&s->sram_a, OBJECT(dev), "sram A", 48 * KiB,
+-                           &error_fatal);
+-    memory_region_add_subregion(get_system_memory(), 0x00000000, &s->sram_a);
+-    create_unimplemented_device("a10-sram-ctrl", 0x01c00000, 4 * KiB);
+-
+     /* FIXME use qdev NIC properties instead of nd_table[] */
+     if (nd_table[0].used) {
+         qemu_check_nic_model(&nd_table[0], TYPE_AW_EMAC);
+@@ -149,12 +157,6 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
+         int i;
+ 
+         for (i = 0; i < AW_A10_NUM_USB; i++) {
+-            char bus[16];
+-
+-            sprintf(bus, "usb-bus.%d", i);
+-
+-            object_property_set_bool(OBJECT(&s->ehci[i]), true,
+-                                     "companion-enable", &error_fatal);
+             object_property_set_bool(OBJECT(&s->ehci[i]), true, "realized",
+                                      &error_fatal);
+             sysbus_mmio_map(SYS_BUS_DEVICE(&s->ehci[i]), 0,
+@@ -162,8 +164,6 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
+             sysbus_connect_irq(SYS_BUS_DEVICE(&s->ehci[i]), 0,
+                                qdev_get_gpio_in(dev, 39 + i));
+ 
+-            object_property_set_str(OBJECT(&s->ohci[i]), bus, "masterbus",
+-                                    &error_fatal);
+             object_property_set_bool(OBJECT(&s->ohci[i]), true, "realized",
+                                      &error_fatal);
+             sysbus_mmio_map(SYS_BUS_DEVICE(&s->ohci[i]), 0,
 -- 
 2.21.1
 
