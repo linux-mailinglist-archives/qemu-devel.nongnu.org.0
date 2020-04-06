@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D8419F7AD
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 16:11:26 +0200 (CEST)
-Received: from localhost ([::1]:60768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D96219F7C4
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 16:18:14 +0200 (CEST)
+Received: from localhost ([::1]:60902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLSTF-0004E1-Jn
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 10:11:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56957)
+	id 1jLSZp-0001xC-CR
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 10:18:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58428)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jLSSR-0003cd-Cf
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 10:10:36 -0400
+ (envelope-from <wainersm@redhat.com>) id 1jLSYZ-0000zM-G2
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 10:16:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1jLSSM-0001eP-6X
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 10:10:35 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34408
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <wainersm@redhat.com>) id 1jLSYX-0005T0-RW
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 10:16:54 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28671
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jLSSM-0001eG-2q
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 10:10:30 -0400
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1jLSYX-0005SJ-Ll
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 10:16:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586182229;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1586182612;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p7AQ3vB2nkar6sre7AESSQQR5rDepPyZcpMhSIsdY6E=;
- b=WZnI0OcVT49dm97l7w856BoH14NWSXQuNo2pmBoDGPrxMVB6NcY7VIt2ma17TM6k9MVlf/
- XEbj9M+6RvvTrnZrXujzP3b1uk3pnMRoIhWPqiZoHX9oZ/cXloCzJs+NeDivicnGtVkGzo
- HYmRYajQzO8I6yrbgC9oeVFHuwKm5JM=
+ bh=3gEqQSNWrHXHOJFGrx4macWg7VKZYEqB5XrSJWRVqAQ=;
+ b=O6TJWuul3U0/4tJMuRTlQjyljbMGSoF1uYQh9Xm8F38OPbDVey8Au5cALEPblA+LKKx11i
+ X9XE3NTTJtGrImi28LH95w819m6+ZzQ9wlQHxu2TSDg6UMo08MzSyKzzP8RmmLtXKNZJSv
+ yLuta5sYLqOtJpVdzKKocALIAygcE/Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-v4Kwrj7cO6ObkxHtbEnMDA-1; Mon, 06 Apr 2020 10:10:27 -0400
-X-MC-Unique: v4Kwrj7cO6ObkxHtbEnMDA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-54-Rz3DaOahMHqedkOmcNi01w-1; Mon, 06 Apr 2020 10:16:46 -0400
+X-MC-Unique: Rz3DaOahMHqedkOmcNi01w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBB4B8017FC;
- Mon,  6 Apr 2020 14:10:26 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E0E644DA25;
- Mon,  6 Apr 2020 14:10:23 +0000 (UTC)
-Date: Mon, 6 Apr 2020 15:10:19 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: Questionable aspects of QEMU Error's design
-Message-ID: <20200406141019.GQ794362@redhat.com>
-References: <87o8sblgto.fsf@dusky.pond.sub.org>
- <87blo7heag.fsf@dusky.pond.sub.org>
- <87sghjfre8.fsf@dusky.pond.sub.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3EBA1005509;
+ Mon,  6 Apr 2020 14:16:44 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-15.gru2.redhat.com
+ [10.97.116.15])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8287262697;
+ Mon,  6 Apr 2020 14:16:36 +0000 (UTC)
+Subject: Re: [PATCH-for-5.0 5/8] .travis.yml: Cache acceptance-test assets
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+References: <20200403172919.24621-1-philmd@redhat.com>
+ <20200403172919.24621-6-philmd@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <56193f75-ff36-0718-2da1-18033d4899f6@redhat.com>
+Date: Mon, 6 Apr 2020 11:16:34 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <87sghjfre8.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200403172919.24621-6-philmd@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,37 +76,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Kamil Rytarowski <kamil@netbsd.org>, Fabien Chouteau <chouteau@adacore.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Apr 04, 2020 at 12:59:27PM +0200, Markus Armbruster wrote:
-> Paolo, Daniel, Eduardo,
->=20
-> Please pick one for QOM:
 
-> * Return true on success, false on error.  Looks like
->=20
->      if (!object_property_set_bool(..., errp)) {
->          return;
->      }
+On 4/3/20 2:29 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Keep all acceptance-test assets in the same cache bucket.
+>
+> As of v5.0.0-rc1, the cache is 2610.11MB:
+> https://travis-ci.org/github/philmd/qemu/jobs/670558103
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>   .travis.yml | 2 ++
+>   1 file changed, 2 insertions(+)
 
-My preference is this one, since it aligns with GLib recommendations
-for error reporting & is simple & concise.
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+>
+> diff --git a/.travis.yml b/.travis.yml
+> index e0c72210b7..2fd63eceaa 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -318,8 +318,10 @@ jobs:
+>         env:
+>           - CONFIG=3D"--enable-tools --target-list=3Daarch64-softmmu,alph=
+a-softmmu,arm-softmmu,m68k-softmmu,microblaze-softmmu,mips-softmmu,mips64el=
+-softmmu,nios2-softmmu,or1k-softmmu,ppc-softmmu,ppc64-softmmu,s390x-softmmu=
+,sparc-softmmu,x86_64-softmmu,xtensa-softmmu"
+>           - TEST_CMD=3D"make check-acceptance"
+> +        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-acceptance"
+>         after_script:
+>           - python3 -c 'import json; r =3D json.load(open("tests/results/=
+latest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["stat=
+us"] not in ("PASS", "SKIP")]' | xargs cat
+> +        - du -chs $HOME/avocado/data/cache
+>         addons:
+>           apt:
+>             packages:
 
 
