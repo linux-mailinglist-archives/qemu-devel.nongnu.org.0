@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4057D19F2CE
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 11:43:13 +0200 (CEST)
-Received: from localhost ([::1]:57132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 071A719F30A
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 11:56:08 +0200 (CEST)
+Received: from localhost ([::1]:57584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLOHg-0003B4-Au
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 05:43:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44049)
+	id 1jLOUB-00017Y-0n
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 05:56:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44899)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1jLOGR-0001Q1-5B
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:41:56 -0400
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1jLOIE-0005aZ-A7
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:43:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1jLOGP-000229-9x
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:41:54 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:34458)
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1jLOIC-0003Z0-Qy
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:43:46 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:36206)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1jLOGN-00020Q-Kn
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:41:53 -0400
+ id 1jLOIC-0003Y4-If
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:43:44 -0400
 Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0369dxfb089554;
- Mon, 6 Apr 2020 09:41:36 GMT
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0369dtf4089528;
+ Mon, 6 Apr 2020 09:43:37 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2020-01-29;
- bh=BFB0jbBLAAhWRdpEaUJINzAaXAPaQUAvTvTVo8clZIY=;
- b=Ypabdv7YxxaSf2SQug28+QleX7R/wSWqPuiLhaV6cCuIUhKieVu6hSq4oZ8IYkSt+LxQ
- hAlRnclAB3wese32IC+i/p1zNLfqOCZtODM/jTq3tTlZqCqqOn+8ZrvXcW+3yYJVRfVU
- yaAl1oo5UpaLZOJKbZ5vQFunLH4sRqn61zPlXkiGOroZNALe5SlyYd55wWEPZE/sRuWb
- +6RPaTRlCQkpFpJDvMgzIzhPxtFu9RnjcDdPi7xgYgHo1U90u9sPvfPikmcXJkbupTpc
- x4D/FHMlttCatRa9rpa4oPzJGdfzvVITH0+nA8ilZXlnkcjTciGkUhzpig5NvV6KnfJv 2A== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 306hnqwtvn-1
+ bh=vo9XVqRjUwLdxamis5vtm7R1B8Mjc6k73iBRSiBen4E=;
+ b=xKN+2vBvhNqIovOWgZc830JzkIabzB6WoCHUoaeutPeHsL5IWqrnGFv+J9SlqAEuPyy1
+ 1L33ZlWCiWL8xn6olSL8hx58vtq8II7uGGTl+T1X7/XjG05cRAmqFFVbdPZzcHrwfoar
+ GrBHFETFrK3WVCD5EaJncMV0tv0ko4eSGmZSDECjs5zE7hBojj5AwfzFOmMYaOaN54OW
+ YG+W5TlH+rIjqu4HkD1QWVH/7ppRDtAZpRxiBBmmK4jkrmZtINakRNeL4WrgupU0oeJq
+ NiWETFcpjXycqYO9/9/yJsYfnjyrwHxWZg+CiRv966hVJJBdQuDKE0j12iLzDFKqkHwF 6A== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2130.oracle.com with ESMTP id 306hnqwu5g-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 06 Apr 2020 09:41:36 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0369cfuK092164;
- Mon, 6 Apr 2020 09:41:36 GMT
+ Mon, 06 Apr 2020 09:43:37 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0369bLHC056293;
+ Mon, 6 Apr 2020 09:41:37 GMT
 Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3030.oracle.com with ESMTP id 3073spk5c9-1
+ by userp3030.oracle.com with ESMTP id 3073qcnbwu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 06 Apr 2020 09:41:35 +0000
+ Mon, 06 Apr 2020 09:41:37 +0000
 Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0369fXH8013456;
- Mon, 6 Apr 2020 09:41:33 GMT
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0369fZbY013461;
+ Mon, 6 Apr 2020 09:41:35 GMT
 Received: from flaka.hsd1.ca.comcast.net (/67.180.143.163)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 06 Apr 2020 02:41:32 -0700
+ with ESMTP ; Mon, 06 Apr 2020 02:41:34 -0700
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 01/36] memory: alloc RAM from file at offset
-Date: Mon,  6 Apr 2020 02:40:51 -0700
-Message-Id: <8eb137b1c387aad37e85eaa251a6da90c50306e2.1586165555.git.elena.ufimtseva@oracle.com>
+Subject: [PATCH v6 02/36] multi-process: Refactor machine_init and exit
+ notifiers
+Date: Mon,  6 Apr 2020 02:40:52 -0700
+Message-Id: <a390c0cab4aca444ed4e2bde3bdb2a8e39fbec0d.1586165555.git.elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.25.GIT
 In-Reply-To: <cover.1586165555.git.elena.ufimtseva@oracle.com>
 References: <cover.1586165555.git.elena.ufimtseva@oracle.com>
@@ -63,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9582
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- phishscore=0 spamscore=0
- malwarescore=0 suspectscore=3 adultscore=0 bulkscore=0 mlxlogscore=999
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ mlxscore=0 mlxlogscore=999
+ spamscore=0 bulkscore=0 adultscore=0 malwarescore=0 suspectscore=1
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
  definitions=main-2004060083
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9582
@@ -73,7 +74,7 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9582
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
  phishscore=0 adultscore=0
  priorityscore=1501 mlxscore=0 malwarescore=0 mlxlogscore=999
- lowpriorityscore=0 spamscore=0 impostorscore=0 suspectscore=3
+ lowpriorityscore=0 spamscore=0 impostorscore=0 suspectscore=1
  clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2003020000 definitions=main-2004060083
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
@@ -100,160 +101,213 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jagannathan Raman <jag.raman@oracle.com>
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-Allow RAM MemoryRegion to be created from an offset in a file, instead
-of allocating at offset of 0 by default. This is needed to synchronize
-RAM between QEMU & remote process.
+Relocate machine_int and exit notifiers into common code
 
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- exec.c                    | 11 +++++++----
- include/exec/ram_addr.h   |  2 +-
- include/qemu/mmap-alloc.h |  3 ++-
- memory.c                  |  2 +-
- util/mmap-alloc.c         |  7 ++++---
- util/oslib-posix.c        |  2 +-
- 6 files changed, 16 insertions(+), 11 deletions(-)
+ Makefile.objs             |  1 +
+ include/sysemu/sysemu.h   |  2 ++
+ softmmu/vl.c              | 40 -----------------------
+ stubs/machine-init-done.c | 12 +++++++
+ util/machine-notify.c     | 67 +++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 82 insertions(+), 40 deletions(-)
+ create mode 100644 util/machine-notify.c
 
-diff --git a/exec.c b/exec.c
-index de9d949902..d99bfef193 100644
---- a/exec.c
-+++ b/exec.c
-@@ -1801,6 +1801,7 @@ static void *file_ram_alloc(RAMBlock *block,
-                             ram_addr_t memory,
-                             int fd,
-                             bool truncate,
-+                            off_t offset,
-                             Error **errp)
+diff --git a/Makefile.objs b/Makefile.objs
+index a7c967633a..bfb9271862 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -79,6 +79,7 @@ qemu-seccomp.o-libs := $(SECCOMP_LIBS)
+ common-obj-$(CONFIG_FDT) += device_tree.o
+ 
+ common-obj-y += qapi/
++common-obj-y += util/machine-notify.o
+ 
+ endif # CONFIG_SOFTMMU
+ 
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index ef81302e1a..2438dd7bea 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -17,11 +17,13 @@ extern bool qemu_uuid_set;
+ 
+ void qemu_add_exit_notifier(Notifier *notify);
+ void qemu_remove_exit_notifier(Notifier *notify);
++void qemu_run_exit_notifiers(void);
+ 
+ extern bool machine_init_done;
+ 
+ void qemu_add_machine_init_done_notifier(Notifier *notify);
+ void qemu_remove_machine_init_done_notifier(Notifier *notify);
++void qemu_run_machine_init_done_notifiers(void);
+ 
+ extern int autostart;
+ 
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 814537bb42..380aefd56e 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -173,12 +173,6 @@ int icount_align_option;
+ QemuUUID qemu_uuid;
+ bool qemu_uuid_set;
+ 
+-static NotifierList exit_notifiers =
+-    NOTIFIER_LIST_INITIALIZER(exit_notifiers);
+-
+-static NotifierList machine_init_done_notifiers =
+-    NOTIFIER_LIST_INITIALIZER(machine_init_done_notifiers);
+-
+ bool xen_allowed;
+ uint32_t xen_domid;
+ enum xen_mode xen_mode = XEN_EMULATE;
+@@ -2326,21 +2320,6 @@ static MachineClass *machine_parse(const char *name, GSList *machines)
+     return mc;
+ }
+ 
+-void qemu_add_exit_notifier(Notifier *notify)
+-{
+-    notifier_list_add(&exit_notifiers, notify);
+-}
+-
+-void qemu_remove_exit_notifier(Notifier *notify)
+-{
+-    notifier_remove(notify);
+-}
+-
+-static void qemu_run_exit_notifiers(void)
+-{
+-    notifier_list_notify(&exit_notifiers, NULL);
+-}
+-
+ static const char *pid_file;
+ static Notifier qemu_unlink_pidfile_notifier;
+ 
+@@ -2353,25 +2332,6 @@ static void qemu_unlink_pidfile(Notifier *n, void *data)
+ 
+ bool machine_init_done;
+ 
+-void qemu_add_machine_init_done_notifier(Notifier *notify)
+-{
+-    notifier_list_add(&machine_init_done_notifiers, notify);
+-    if (machine_init_done) {
+-        notify->notify(notify, NULL);
+-    }
+-}
+-
+-void qemu_remove_machine_init_done_notifier(Notifier *notify)
+-{
+-    notifier_remove(notify);
+-}
+-
+-static void qemu_run_machine_init_done_notifiers(void)
+-{
+-    machine_init_done = true;
+-    notifier_list_notify(&machine_init_done_notifiers, NULL);
+-}
+-
+ static const QEMUOption *lookup_opt(int argc, char **argv,
+                                     const char **poptarg, int *poptind)
  {
-     void *area;
-@@ -1851,7 +1852,8 @@ static void *file_ram_alloc(RAMBlock *block,
-     }
+diff --git a/stubs/machine-init-done.c b/stubs/machine-init-done.c
+index cd8e81392d..fc8be8cead 100644
+--- a/stubs/machine-init-done.c
++++ b/stubs/machine-init-done.c
+@@ -3,6 +3,18 @@
  
-     area = qemu_ram_mmap(fd, memory, block->mr->align,
--                         block->flags & RAM_SHARED, block->flags & RAM_PMEM);
-+                         block->flags & RAM_SHARED, block->flags & RAM_PMEM,
-+                         offset);
-     if (area == MAP_FAILED) {
-         error_setg_errno(errp, errno,
-                          "unable to map backing store for guest RAM");
-@@ -2271,7 +2273,7 @@ static void ram_block_add(RAMBlock *new_block, Error **errp, bool shared)
- #ifdef CONFIG_POSIX
- RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
-                                  uint32_t ram_flags, int fd,
--                                 Error **errp)
-+                                 off_t offset, Error **errp)
+ bool machine_init_done = true;
+ 
++static NotifierList machine_init_done_notifiers =
++    NOTIFIER_LIST_INITIALIZER(machine_init_done_notifiers);
++
+ void qemu_add_machine_init_done_notifier(Notifier *notify)
  {
-     RAMBlock *new_block;
-     Error *local_err = NULL;
-@@ -2316,7 +2318,8 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
-     new_block->used_length = size;
-     new_block->max_length = size;
-     new_block->flags = ram_flags;
--    new_block->host = file_ram_alloc(new_block, size, fd, !file_size, errp);
-+    new_block->host = file_ram_alloc(new_block, size, fd, !file_size, offset,
-+                                     errp);
-     if (!new_block->host) {
-         g_free(new_block);
-         return NULL;
-@@ -2346,7 +2349,7 @@ RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size, MemoryRegion *mr,
-         return NULL;
-     }
- 
--    block = qemu_ram_alloc_from_fd(size, mr, ram_flags, fd, errp);
-+    block = qemu_ram_alloc_from_fd(size, mr, ram_flags, fd, 0, errp);
-     if (!block) {
-         if (created) {
-             unlink(mem_path);
-diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-index 5e59a3d8d7..1b9f489ff0 100644
---- a/include/exec/ram_addr.h
-+++ b/include/exec/ram_addr.h
-@@ -121,7 +121,7 @@ RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size, MemoryRegion *mr,
-                                    Error **errp);
- RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
-                                  uint32_t ram_flags, int fd,
--                                 Error **errp);
-+                                 off_t offset, Error **errp);
- 
- RAMBlock *qemu_ram_alloc_from_ptr(ram_addr_t size, void *host,
-                                   MemoryRegion *mr, Error **errp);
-diff --git a/include/qemu/mmap-alloc.h b/include/qemu/mmap-alloc.h
-index e786266b92..4f579858bc 100644
---- a/include/qemu/mmap-alloc.h
-+++ b/include/qemu/mmap-alloc.h
-@@ -25,7 +25,8 @@ void *qemu_ram_mmap(int fd,
-                     size_t size,
-                     size_t align,
-                     bool shared,
--                    bool is_pmem);
-+                    bool is_pmem,
-+                    off_t start);
- 
- void qemu_ram_munmap(int fd, void *ptr, size_t size);
- 
-diff --git a/memory.c b/memory.c
-index 601b749906..f5fec476b7 100644
---- a/memory.c
-+++ b/memory.c
-@@ -1596,7 +1596,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
-     mr->destructor = memory_region_destructor_ram;
-     mr->ram_block = qemu_ram_alloc_from_fd(size, mr,
-                                            share ? RAM_SHARED : 0,
--                                           fd, &err);
-+                                           fd, 0, &err);
-     mr->dirty_log_mask = tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
-     if (err) {
-         mr->size = int128_zero();
-diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
-index 27dcccd8ec..a28f7025f0 100644
---- a/util/mmap-alloc.c
-+++ b/util/mmap-alloc.c
-@@ -86,7 +86,8 @@ void *qemu_ram_mmap(int fd,
-                     size_t size,
-                     size_t align,
-                     bool shared,
--                    bool is_pmem)
-+                    bool is_pmem,
-+                    off_t start)
- {
-     int flags;
-     int map_sync_flags = 0;
-@@ -147,7 +148,7 @@ void *qemu_ram_mmap(int fd,
-     offset = QEMU_ALIGN_UP((uintptr_t)guardptr, align) - (uintptr_t)guardptr;
- 
-     ptr = mmap(guardptr + offset, size, PROT_READ | PROT_WRITE,
--               flags | map_sync_flags, fd, 0);
-+               flags | map_sync_flags, fd, start);
- 
-     if (ptr == MAP_FAILED && map_sync_flags) {
-         if (errno == ENOTSUP) {
-@@ -172,7 +173,7 @@ void *qemu_ram_mmap(int fd,
-          * we will remove these flags to handle compatibility.
-          */
-         ptr = mmap(guardptr + offset, size, PROT_READ | PROT_WRITE,
--                   flags, fd, 0);
-+                   flags, fd, start);
-     }
- 
-     if (ptr == MAP_FAILED) {
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index 4dd6d7d4b4..0671dc7964 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -209,7 +209,7 @@ void *qemu_memalign(size_t alignment, size_t size)
- void *qemu_anon_ram_alloc(size_t size, uint64_t *alignment, bool shared)
- {
-     size_t align = QEMU_VMALLOC_ALIGN;
--    void *ptr = qemu_ram_mmap(-1, size, align, shared, false);
-+    void *ptr = qemu_ram_mmap(-1, size, align, shared, false, 0);
- 
-     if (ptr == MAP_FAILED) {
-         return NULL;
+ }
++
++void qemu_remove_machine_init_done_notifier(Notifier *notify)
++{
++}
++
++void qemu_run_machine_init_done_notifiers(void)
++{
++    notifier_list_notify(&machine_init_done_notifiers, NULL);
++}
+diff --git a/util/machine-notify.c b/util/machine-notify.c
+new file mode 100644
+index 0000000000..63fc59a5a6
+--- /dev/null
++++ b/util/machine-notify.c
+@@ -0,0 +1,67 @@
++/*
++ * Machine notifiers.
++ *
++ * Copyright (c) 2003-2008 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/notify.h"
++#include "sysemu/sysemu.h"
++
++static NotifierList machine_init_done_notifiers =
++    NOTIFIER_LIST_INITIALIZER(machine_init_done_notifiers);
++
++static NotifierList exit_notifiers =
++    NOTIFIER_LIST_INITIALIZER(exit_notifiers);
++
++void qemu_add_machine_init_done_notifier(Notifier *notify)
++{
++    notifier_list_add(&machine_init_done_notifiers, notify);
++    if (machine_init_done) {
++        notify->notify(notify, NULL);
++    }
++}
++
++void qemu_remove_machine_init_done_notifier(Notifier *notify)
++{
++    notifier_remove(notify);
++}
++
++void qemu_run_machine_init_done_notifiers(void)
++{
++    machine_init_done = true;
++    notifier_list_notify(&machine_init_done_notifiers, NULL);
++}
++
++void qemu_add_exit_notifier(Notifier *notify)
++{
++    notifier_list_add(&exit_notifiers, notify);
++}
++
++void qemu_remove_exit_notifier(Notifier *notify)
++{
++    notifier_remove(notify);
++}
++
++void qemu_run_exit_notifiers(void)
++{
++    notifier_list_notify(&exit_notifiers, NULL);
++}
 -- 
 2.25.GIT
 
