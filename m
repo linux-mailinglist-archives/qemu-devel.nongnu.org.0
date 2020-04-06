@@ -2,70 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B6D019F372
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:22:06 +0200 (CEST)
-Received: from localhost ([::1]:58244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A081D19F393
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:32:54 +0200 (CEST)
+Received: from localhost ([::1]:58446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLOtJ-0006Qp-Iy
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:22:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51080)
+	id 1jLP3l-0001Jf-M0
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:32:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53051)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jLOpt-0001EF-AM
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:18:34 -0400
+ (envelope-from <bounces@canonical.com>) id 1jLP2T-0000CG-BW
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:31:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jLOps-00078z-1v
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:18:33 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42459)
+ (envelope-from <bounces@canonical.com>) id 1jLP2S-0006FI-7a
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:31:33 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36666)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jLOpr-000781-6K
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:18:31 -0400
-Received: by mail-wr1-x442.google.com with SMTP id h15so16710618wrx.9
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 03:18:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=5JuzwMCSXXr41L/anyvQm5p4YcGZqqqbcaJ3C3Ka1gQ=;
- b=tnBkf3vllxpr5luH0jIEv5kgYyztBQnnC47bPkQPurzw2DRamnIU8WXegRteT8c9iM
- 4RQbANVlu4qp3cPQbsoqaMN4O1xDtDhk2oW2jyE07RJexgx7m8vNWK9WZifOa55qwiYj
- Kyk7TKJiES2cty6FWt2IkIbC5Z0G0kGT75QpVd2vut2LZBScRzta3/JlEkVN+2oeO3bx
- WCGTYpNiK7d3gsbqi82RsZCuX7gfW1VEFJombSmJzW08gU1b5Lp2eHBYBhbTt8o8sC8t
- 7eYSOEXJS7m/aQdDA2mpnzOei2xmOOxnOI7ck3okHbRZ0d90uwntpZLGpbZNF0Mocufa
- USlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=5JuzwMCSXXr41L/anyvQm5p4YcGZqqqbcaJ3C3Ka1gQ=;
- b=ElGbEl6cBogNU1nV0oxgFtkkMyprpLQu1qZttrJuR7nSc2xejJ/MBXx61st7G+vIBs
- uroJkskvoCczJetYwKRBQ2XtDFptCRrkhp6x9hOV8rBoZGdocX/YhjB+AKkMG6OrPJIg
- cSim0bdnZGpU1mBYJhdzR0POEuDYyP+y1VBnQ0YSljSZTtYrKpyaBUvVkyT177rWz9OK
- JOoshkkeCkYgwkZmVfl4XWwraL8xw1Io10Qe/2LB5GUWq4YwVBfHKxkhG9+0TepNQ2Yj
- CABzzT1X+BoaR5hvfbWGhyIVjk9K0ePzJryw4k/Ic+IkLfssS9WuJmLZwuHa6nzltX1T
- tURA==
-X-Gm-Message-State: AGi0PuZ91tmJTky53wOveoDM2iwzsGGoAb8Wtv3s8yUqVxO6fJCTy8I2
- KcI36I6aWig6oxQ9QRo+2PQyyfI+42i6E0eTHGQ=
-X-Google-Smtp-Source: APiQypII+IapDL748+sL0Yp2DBQ/zv2qAiDovS5N7ugIhIzYKppCxG3mHSUQJ0evllJxeQCtf+vkdAxzoK+VbvVox4Q=
-X-Received: by 2002:adf:f841:: with SMTP id d1mr10883687wrq.381.1586168309481; 
- Mon, 06 Apr 2020 03:18:29 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jLP2S-0006Eq-2H
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:31:32 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jLP2Q-0000M1-DU
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:31:30 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 411642E8108
+ for <qemu-devel@nongnu.org>; Mon,  6 Apr 2020 10:31:30 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200404153340.164861-1-clg@kaod.org>
-In-Reply-To: <20200404153340.164861-1-clg@kaod.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 6 Apr 2020 12:18:17 +0200
-Message-ID: <CAJ+F1CL8ayBSz2wouZZ2R=w7nqW8QqVT1V1ji27fsBxK9z20-w@mail.gmail.com>
-Subject: Re: [PATCH] qom/object: Fix object_child_foreach_recursive() return
- value
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+Date: Mon, 06 Apr 2020 10:20:15 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: whpx
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 6-u3untu-h eminus
+X-Launchpad-Bug-Reporter: Emin Ghuliev (eminus)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <155352235092.32006.12315829232895734213.malonedeb@soybean.canonical.com>
+Message-Id: <158616841621.12119.3915376369659068768.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1821595] Re: Failed to emulate MMIO access with
+ EmulatorReturnStatus: 2
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a296f04231dee355be5db73cc878b9e21689a253";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: bcb00cd119b3284c817f9be70a96291099a7635d
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,56 +66,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Peter Crosthwaite <peter.crosthwaite@xilinx.com>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1821595 <1821595@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+** Tags added: whpx
 
-On Sat, Apr 4, 2020 at 5:34 PM C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> When recursing, the return value of do_object_child_foreach() is not
-> taken into account.
->
-> Cc: Peter Crosthwaite <peter.crosthwaite@xilinx.com>
-> Fixes: d714b8de7747 ("qom: Add recursive version of object_child_for_each=
-")
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+-- =
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1821595
 
+Title:
+  Failed to emulate MMIO access with EmulatorReturnStatus: 2
 
-> ---
->  qom/object.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/qom/object.c b/qom/object.c
-> index 1812f792247d..b68a707a5e65 100644
-> --- a/qom/object.c
-> +++ b/qom/object.c
-> @@ -1057,7 +1057,10 @@ static int do_object_child_foreach(Object *obj,
->                  break;
->              }
->              if (recurse) {
-> -                do_object_child_foreach(child, fn, opaque, true);
-> +                ret =3D do_object_child_foreach(child, fn, opaque, true)=
-;
-> +                if (ret !=3D 0) {
-> +                    break;
-> +                }
->              }
->          }
->      }
-> --
-> 2.25.1
->
->
+Status in QEMU:
+  New
 
+Bug description:
+  I have compiled qemu with enable-whpx parameter for Hyper-V Platform API =
+in Mingw64 . When I tried run with Windows 7 iso file I have faced issue wi=
+th the following problem: =
 
---=20
-Marc-Andr=C3=A9 Lureau
+  qemu-system-x86_64.exe: WHPX: Failed to emulate MMIO access with Emulator=
+ReturnStatus: 2
+  qemu-system-x86_64.exe: WHPX: Failed to exec a virtual processor
+
+  =
+
+  configuration directives:
+
+  ../configure --target-list=3Dx86_64-softmmu,i386-softmmu --enable-lzo\
+   --enable-bzip2 --enable-tools --enable-sdl --enable-gtk --enable-hax\
+   --enable-vdi --enable-qcow1 --enable-whpx --disable-capstone\
+   --disable-werror --disable-stack-protector --prefix=3D"../../QEMU-bin"
+
+  =
+
+  Qemu command line:
+  qemu-system-x86_64.exe -m 1024 -cdrom "C:\Users\vmcs\Documents\en_windows=
+_7_home_premium_with_sp1_x86_dvd_u_676701.iso" -display sdl -machine q35 -a=
+ccel whpx
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1821595/+subscriptions
 
