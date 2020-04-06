@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D01B19FCF2
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:18:34 +0200 (CEST)
-Received: from localhost ([::1]:36504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB93E19FD25
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:28:42 +0200 (CEST)
+Received: from localhost ([::1]:36726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLWKO-00054U-VQ
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:18:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37010)
+	id 1jLWUD-00030X-GX
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:28:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36985)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrx-0003Px-To
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:49:11 -0400
+ id 1jLVrv-0003MW-Tc
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:49:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrw-0003iX-Ms
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:49:09 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:34532)
+ id 1jLVru-0003hN-Tw
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:49:07 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:50953)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrw-0003i4-H6
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:49:08 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id c195so141598wme.1
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:49:08 -0700 (PDT)
+ id 1jLVru-0003hD-Nx
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:49:06 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id x25so310806wmc.0
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:49:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nkfwxbmtcGQqcNqONxBS4N4Qsj6iJU2M8QyuqgwGWzE=;
- b=dLWfUpjUZOenWr/sbg3dz0Pij4xjwUOFwsb+Q5moUMkgxhoL8wm2DnxVMbKsW1eBoY
- R97VxY0O72WkW2Hjncly8MHZ96yD4D4EMSnATiH5eZyfInP8Nrpojd4k19MxFeleiF3C
- CPidTx/sTmyG+s2EFHyQ4SSdlWg7NmNKQdc7RTTZZeh6kkfDBZe235pdtYCv9rEZGzXQ
- TTKlX17Pgfca8gxmypsTMCDCJ6FydbtxLZB1coFBOxqeAWhpiv9Pkl107FKMzu+kT+ir
- EjgZJMo64ToieWqr8ilTJxOuNi54H/fYpbCkx2N+7kjZ3qGZKTSfJmnFVdfjHVREIcU6
- pqkA==
+ bh=UhAVvFgdKZItMBK76DLdu4ImD7RTe3y+DxnwlUR9418=;
+ b=erhUWpe1r5OrzZAZS3568gwuSau77naxoYiRUacT+l+Kd6DCznye/Ya6spptunKb5R
+ nGHRssRHsRgTNm+E45sboaWQGaW5v6HVGitSejSPg+9az35wrfxMDIa4xnJ+YXppATQM
+ gQ4cBgIItMRYsL36CwPCgCWNnp0hN+kGZZevMKKAL3o/0alAT33FlXWHvHqTWFc00n1y
+ k59EhsMT1pfUc3vXle36Dvgu7zcwAb417fsQTqk1KmGlsthfabreoYmGcyo3D8udB7ix
+ fbuldLvOj6ezr88zoe/OdCRq7SIAIPcOBH2OJfiWgpK9GXJh7PngkY/34gUB4NqOcpvg
+ wC5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=nkfwxbmtcGQqcNqONxBS4N4Qsj6iJU2M8QyuqgwGWzE=;
- b=ZlgI9pnZpJ0vaXQiZ8wzTLgBuze+HWMuuAzvQm+uARcKfLwBdh5mFdcXhOpM2HkvxM
- hwzAIwGP6n6mgz0OXM+t7RZhS2rpxltSR/ErWuRDIcLldzFB9FRkOOKOrSlRPNeYvF80
- NM+/nL0UORSzXZh2gvpzskz97CK8SKXzIfcNI/OCq2BwTYfSVaQVvbRRVw+TpMwFxgys
- yYW38EH+NtO4OV1wi49EgIefU1Dgo1nmLh8Pi/SP0PRavvZjqNbpI+01OaGicvjng5es
- iwLWtI6c1T68LLAFsKWPidI0ObglHPoMMUWsAy37wVtW1419ABCQ1pdqQ1VctufdMspt
- b5OQ==
-X-Gm-Message-State: AGi0PuZr3rDhD+4iKyyl+m84ow8N4SBLiabPckTOqDzd7ihnIRjuAn9T
- o2/4LMsUO81fSlr5/wdLZ4p8XnYXR5I=
-X-Google-Smtp-Source: APiQypIJAsO6bfUkykEv0EHFpeDq8wqPkH8KhP/yrE+AitNxWlBtffO1Qf+akL/6t8GwN4Kh3BkV4Q==
-X-Received: by 2002:a7b:c4d0:: with SMTP id g16mr156168wmk.101.1586195344361; 
- Mon, 06 Apr 2020 10:49:04 -0700 (PDT)
+ bh=UhAVvFgdKZItMBK76DLdu4ImD7RTe3y+DxnwlUR9418=;
+ b=gYSFuhepv+bVLM5wn4x6rTgFsUmaQ7jOJE9uhPuYu2ljmuZF92vKIQGSIYqnAym/ym
+ jBVOA7GdG0CpogH0FapnuZGH4bnEMphMUVB0U4hepK1cDAgU9O2TVOpuGoBaVFie6FfW
+ M8ALwGoRyQKrS54+mXZY5YrohOfiaYdvxj4ik3nSp1G3X6ld/805Or50NdV5cURl9LxR
+ GOoVI4Xvh57KSTvwwrBcGtTObvCPal1bDHgSsdimA7yGTQ/SGXldz4zA6x/o+48Cy1qv
+ znd6hI4y58Jyq9JE6vBfT1onj6x7eHVHsefetGNU7oaHEDQwhmFAlDbKbpM8UdQQ/Php
+ 53KQ==
+X-Gm-Message-State: AGi0Pub5sgulR6XkDNHhxfjY/Mq8I+Demv8FjwYAX0U3AIALYUaLYDoh
+ 0SS4f/j4nURSdMYVXtKpi60o4xBS7N0=
+X-Google-Smtp-Source: APiQypI5nPOkHdW0N0VZ2hUui5w7DAreNFAdJZUfZNiYnGczZ5nS1YnDDexYYmbQyfMY0c6W6gzJZw==
+X-Received: by 2002:a1c:7216:: with SMTP id n22mr473022wmc.41.1586195345565;
+ Mon, 06 Apr 2020 10:49:05 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.49.01
+ by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.49.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 10:49:03 -0700 (PDT)
+ Mon, 06 Apr 2020 10:49:05 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH-for-5.1 v2 51/54] migration/colo: Add missing
+Subject: [PATCH-for-5.1 v2 52/54] hw/mips/boston: Add missing
  error-propagation code
-Date: Mon,  6 Apr 2020 19:47:40 +0200
-Message-Id: <20200406174743.16956-52-f4bug@amsat.org>
+Date: Mon,  6 Apr 2020 19:47:41 +0200
+Message-Id: <20200406174743.16956-53-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200406174743.16956-1-f4bug@amsat.org>
 References: <20200406174743.16956-1-f4bug@amsat.org>
@@ -72,7 +72,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32c
+X-Received-From: 2a00:1450:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,10 +86,11 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Paul Burton <pburton@wavecomp.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -99,30 +100,58 @@ Running the coccinelle script produced:
     --macro-file scripts/cocci-macro-file.h --include-headers \
     --sp-file scripts/coccinelle/find-missing-error_propagate.cocci \
     --keep-comments --smpl-spacing --dir .
-  HANDLING: ./migration/colo.c
-  [[manual check required: error_propagate() might be missing in migrate_set_block_enabled() ./migration/colo.c:439:4]]
+  HANDLING: ./hw/mips/boston.c
+  [[manual check required: error_propagate() might be missing in object_property_set_int() ./hw/mips/boston.c:462:4]]
+  [[manual check required: error_propagate() might be missing in object_property_set_str() ./hw/mips/boston.c:460:4]]
 
-Add the missing error_propagate() after review.
+Since the uses are inside a MachineClass::init() function,
+directly use &error_fatal instead of error_propagate().
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- migration/colo.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/mips/boston.c | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
-diff --git a/migration/colo.c b/migration/colo.c
-index a54ac84f41..57b2adb0cc 100644
---- a/migration/colo.c
-+++ b/migration/colo.c
-@@ -437,6 +437,9 @@ static int colo_do_checkpoint_transaction(MigrationState *s,
+diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+index 98ecd25e8e..2e821ca7d6 100644
+--- a/hw/mips/boston.c
++++ b/hw/mips/boston.c
+@@ -426,7 +426,6 @@ static void boston_mach_init(MachineState *machine)
+ {
+     DeviceState *dev;
+     BostonState *s;
+-    Error *err = NULL;
+     MemoryRegion *flash, *ddr_low_alias, *lcd, *platreg;
+     MemoryRegion *sys_mem = get_system_memory();
+     XilinxPCIEHost *pcie2;
+@@ -458,19 +457,15 @@ static void boston_mach_init(MachineState *machine)
+     sysbus_init_child_obj(OBJECT(machine), "cps", OBJECT(&s->cps),
+                           sizeof(s->cps), TYPE_MIPS_CPS);
+     object_property_set_str(OBJECT(&s->cps), machine->cpu_type, "cpu-type",
+-                            &err);
+-    object_property_set_int(OBJECT(&s->cps), machine->smp.cpus, "num-vp", &err);
+-    object_property_set_bool(OBJECT(&s->cps), true, "realized", &err);
+-
+-    if (err != NULL) {
+-        error_report("%s", error_get_pretty(err));
+-        exit(1);
+-    }
+-
++                            &error_fatal);
++    object_property_set_int(OBJECT(&s->cps), machine->smp.cpus, "num-vp",
++                            &error_fatal);
++    object_property_set_bool(OBJECT(&s->cps), true, "realized", &error_fatal);
+     sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->cps), 0, 0, 1);
  
-     /* Disable block migration */
-     migrate_set_block_enabled(false, &local_err);
-+    if (local_err) {
-+        goto out;
-+    }
-     qemu_mutex_lock_iothread();
+     flash =  g_new(MemoryRegion, 1);
+-    memory_region_init_rom(flash, NULL, "boston.flash", 128 * MiB, &err);
++    memory_region_init_rom(flash, NULL, "boston.flash", 128 * MiB,
++                           &error_fatal);
+     memory_region_add_subregion_overlap(sys_mem, 0x18000000, flash, 0);
  
- #ifdef CONFIG_REPLICATION
+     memory_region_add_subregion_overlap(sys_mem, 0x80000000, machine->ram, 0);
 -- 
 2.21.1
 
