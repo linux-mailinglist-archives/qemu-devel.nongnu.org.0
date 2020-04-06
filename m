@@ -2,142 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AF3B19FED7
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 22:12:32 +0200 (CEST)
-Received: from localhost ([::1]:37748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A93DA19FF51
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 22:42:04 +0200 (CEST)
+Received: from localhost ([::1]:37940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLY6h-0001uR-46
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 16:12:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58457)
+	id 1jLYZH-00015S-QO
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 16:42:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60934)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jLY5u-0001Or-HP
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 16:11:43 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1jLYY1-0008Pu-II
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 16:40:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jLY5t-0002gN-Cd
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 16:11:42 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34340
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <balaton@eik.bme.hu>) id 1jLYXz-0006Dn-NW
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 16:40:44 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:57373)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jLY5t-0002fC-8U
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 16:11:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586203900;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JdQpCENvoUZHQ6PO/Gn0KiWon9Gr9XsRy66iGIb4KsU=;
- b=NhvKFgr51nGLQRqeP+KeelnTtluON5fhaBFEK5ssul58KBuMhvl94DP34+UkF6mO5A0Zsf
- ZQKc3Put4tOlwlJEw5VgEkkmAuKt6Jjt3jBoeRaI8bnXYlPp7/nZscoxGgLMAp2oRBmfUx
- yR79Au01pE9b3qZJECP1Ux9Klip8mW0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-447--GZOKZr4OCqonvRzEwtphQ-1; Mon, 06 Apr 2020 16:11:36 -0400
-X-MC-Unique: -GZOKZr4OCqonvRzEwtphQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6812E8017CE;
- Mon,  6 Apr 2020 20:11:35 +0000 (UTC)
-Received: from [10.10.115.55] (ovpn-115-55.rdu2.redhat.com [10.10.115.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3318A5D9C5;
- Mon,  6 Apr 2020 20:11:27 +0000 (UTC)
-Subject: Re: [PATCH v4 0/3] Fix some AIO context locking in jobs
-To: Kevin Wolf <kwolf@redhat.com>, Stefan Reiter <s.reiter@proxmox.com>
-References: <20200401081504.200017-1-s.reiter@proxmox.com>
- <20200402124816.GC4006@linux.fritz.box>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <0843f954-d42d-0542-78ea-d5eb8e139334@redhat.com>
-Date: Mon, 6 Apr 2020 16:11:26 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1jLYXv-00061V-CX
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 16:40:43 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 3B141747DF7;
+ Mon,  6 Apr 2020 22:40:29 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 19559747D5D; Mon,  6 Apr 2020 22:40:29 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH] ati-vga: Fix checks in ati_2d_blt() to avoid crash
+Date: Mon, 06 Apr 2020 22:34:26 +0200
 MIME-Version: 1.0
-In-Reply-To: <20200402124816.GC4006@linux.fritz.box>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Type: text/plain; charset=UTF-8
+To: qemu-devel@nongnu.org
+Message-Id: <20200406204029.19559747D5D@zero.eik.bme.hu>
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 152.66.115.2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -149,33 +46,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, slp@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
- dietmar@proxmox.com
+Cc: mcascell@redhat.com, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+In some corner cases (that never happen during normal operation but a
+malicious guest could program wrong values) pixman functions were
+called with parameters that result in a crash. Fix this and add more
+checks to disallow such cases.
 
+Reported-by: Ziming Zhang <ezrakiez@gmail.com>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/display/ati_2d.c | 37 ++++++++++++++++++++++++++-----------
+ 1 file changed, 26 insertions(+), 11 deletions(-)
 
-On 4/2/20 8:48 AM, Kevin Wolf wrote:
-> Am 01.04.2020 um 10:15 hat Stefan Reiter geschrieben:
->> Contains three seperate but related patches cleaning up and fixing some
->> issues regarding aio_context_acquire/aio_context_release for jobs. Mostly
->> affects blockjobs running for devices that have IO threads enabled AFAICT.
->>
->> This is based on the discussions here:
->> https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg07929.html
-> 
-> I'm getting segfaults in some qemu-iotests cases:
-> 
->     Failures: 155 219 245 255 257 258
-> 
-> This is the backtrace of one of the coredumps I got, looks like use
-> after free:
-> 
-
-fwiw, this appears to be the case after the very first patch, all six tests.
-
---js
+diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
+index 42e82311eb..23a8ae0cd8 100644
+--- a/hw/display/ati_2d.c
++++ b/hw/display/ati_2d.c
+@@ -53,12 +53,20 @@ void ati_2d_blt(ATIVGAState *s)
+             s->vga.vbe_start_addr, surface_data(ds), surface_stride(ds),
+             surface_bits_per_pixel(ds),
+             (s->regs.dp_mix & GMC_ROP3_MASK) >> 16);
+-    int dst_x =3D (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
+-                 s->regs.dst_x : s->regs.dst_x + 1 - s->regs.dst_width);
+-    int dst_y =3D (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
+-                 s->regs.dst_y : s->regs.dst_y + 1 - s->regs.dst_height)=
+;
++    unsigned dst_x =3D (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
++                      s->regs.dst_x : s->regs.dst_x + 1 - s->regs.dst_wi=
+dth);
++    unsigned dst_y =3D (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
++                      s->regs.dst_y : s->regs.dst_y + 1 - s->regs.dst_he=
+ight);
+     int bpp =3D ati_bpp_from_datatype(s);
++    if (!bpp) {
++        qemu_log_mask(LOG_GUEST_ERROR, "Invalid bpp\n");
++        return;
++    }
+     int dst_stride =3D DEFAULT_CNTL ? s->regs.dst_pitch : s->regs.defaul=
+t_pitch;
++    if (!dst_stride) {
++        qemu_log_mask(LOG_GUEST_ERROR, "Zero dest pitch\n");
++        return;
++    }
+     uint8_t *dst_bits =3D s->vga.vram_ptr + (DEFAULT_CNTL ?
+                         s->regs.dst_offset : s->regs.default_offset);
+=20
+@@ -82,12 +90,16 @@ void ati_2d_blt(ATIVGAState *s)
+     switch (s->regs.dp_mix & GMC_ROP3_MASK) {
+     case ROP3_SRCCOPY:
+     {
+-        int src_x =3D (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
+-                     s->regs.src_x : s->regs.src_x + 1 - s->regs.dst_wid=
+th);
+-        int src_y =3D (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
+-                     s->regs.src_y : s->regs.src_y + 1 - s->regs.dst_hei=
+ght);
++        unsigned src_x =3D (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
++                       s->regs.src_x : s->regs.src_x + 1 - s->regs.dst_w=
+idth);
++        unsigned src_y =3D (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
++                       s->regs.src_y : s->regs.src_y + 1 - s->regs.dst_h=
+eight);
+         int src_stride =3D DEFAULT_CNTL ?
+                          s->regs.src_pitch : s->regs.default_pitch;
++        if (!src_stride) {
++            qemu_log_mask(LOG_GUEST_ERROR, "Zero source pitch\n");
++            return;
++        }
+         uint8_t *src_bits =3D s->vga.vram_ptr + (DEFAULT_CNTL ?
+                             s->regs.src_offset : s->regs.default_offset)=
+;
+=20
+@@ -137,8 +149,10 @@ void ati_2d_blt(ATIVGAState *s)
+                                     dst_y * surface_stride(ds),
+                                     s->regs.dst_height * surface_stride(=
+ds));
+         }
+-        s->regs.dst_x +=3D s->regs.dst_width;
+-        s->regs.dst_y +=3D s->regs.dst_height;
++        s->regs.dst_x =3D (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
++                         dst_x + s->regs.dst_width : dst_x);
++        s->regs.dst_y =3D (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
++                         dst_y + s->regs.dst_height : dst_y);
+         break;
+     }
+     case ROP3_PATCOPY:
+@@ -179,7 +193,8 @@ void ati_2d_blt(ATIVGAState *s)
+                                     dst_y * surface_stride(ds),
+                                     s->regs.dst_height * surface_stride(=
+ds));
+         }
+-        s->regs.dst_y +=3D s->regs.dst_height;
++        s->regs.dst_y =3D (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
++                         dst_y + s->regs.dst_height : dst_y);
+         break;
+     }
+     default:
+--=20
+2.21.1
 
 
