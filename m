@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B427C19F798
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 16:07:57 +0200 (CEST)
-Received: from localhost ([::1]:60686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67DB419F774
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 16:02:44 +0200 (CEST)
+Received: from localhost ([::1]:60578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLSPs-00086P-Lm
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 10:07:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54173)
+	id 1jLSKo-0002Ja-TA
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 10:02:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54172)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1jLSBm-00042R-LI
+ (envelope-from <damien.hedde@greensocs.com>) id 1jLSBm-00042P-KT
  for qemu-devel@nongnu.org; Mon, 06 Apr 2020 09:53:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1jLSBl-0002CU-Cs
+ (envelope-from <damien.hedde@greensocs.com>) id 1jLSBl-0002Ch-Gv
  for qemu-devel@nongnu.org; Mon, 06 Apr 2020 09:53:22 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:57132)
+Received: from beetle.greensocs.com ([5.135.226.135]:57150)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1jLSBi-00026N-2I; Mon, 06 Apr 2020 09:53:18 -0400
+ id 1jLSBi-00027G-Qq; Mon, 06 Apr 2020 09:53:19 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.14])
- by beetle.greensocs.com (Postfix) with ESMTPS id 9685F96F57;
- Mon,  6 Apr 2020 13:53:16 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 4F68896F58;
+ Mon,  6 Apr 2020 13:53:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
  s=mail; t=1586181197;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C0ooB5GiyOIOs5QGTuAebY7o8e/UFndNW9ySnoGuca8=;
- b=pzjC2Ao2TtO9oFrX2Jaqk41ct0/16yJQC73hbomoaNLFtpuaQKzCAyG4qy4OA1wRduP0AY
- TLm61tkCK/vFxl1cQhfYq9jZxhV7sodD9waBce/nCiiE0E1Vp1Ne4PYz3BJ4a61HIZVtTY
- 4i+owzfub2Gy2EC/ucNIL0upOSfaiZo=
+ bh=LSG/QpD1xqo/C6MQOGaRFTgH86+yW5uNIUzQ2andGQk=;
+ b=DpAvFuYyp6/Zj8DXDaj0LWWey/wKffnlF15Do7BcjiHjnRPrPPkyCX9rSnFcrlC6tLLI1e
+ a72PY47RxCRhMk72o+Nx//DWAdmQNa+dwQiVJ1LKD7xx7Ix21nQHglJKQSRM5od4s1c8KZ
+ WaDbTQliYZhb4imHLe7AzW+6ND1VLOU=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 8/9] hw/arm/xilinx_zynq: connect uart clocks to slcr
-Date: Mon,  6 Apr 2020 15:52:50 +0200
-Message-Id: <20200406135251.157596-9-damien.hedde@greensocs.com>
+Subject: [PATCH v9 9/9] qdev-monitor: print the device's clock with info qtree
+Date: Mon,  6 Apr 2020 15:52:51 +0200
+Message-Id: <20200406135251.157596-10-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200406135251.157596-1-damien.hedde@greensocs.com>
 References: <20200406135251.157596-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
  s=mail; t=1586181197;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C0ooB5GiyOIOs5QGTuAebY7o8e/UFndNW9ySnoGuca8=;
- b=ycVgJmGhj++DN1PghVrE7qDH01rQbGiTTjIjJCFbsQLHOociZtxHjqfU4Zr+VcLDRaFy0X
- 45YlvhakHc7eh1drSiYucuH1qtsYDkT/z1OzNhvJlbJmnL6cX4LW4CTMtXe6rNjirhUuvM
- 3svI8Qci/XYyHkSzQp3m9SCr2dDQtFo=
+ bh=LSG/QpD1xqo/C6MQOGaRFTgH86+yW5uNIUzQ2andGQk=;
+ b=TNiQbGa8DyiWfoxtZ+Y7ALFB2zUkwmiuEgiBH/9nRIH3u014NTlJST9/2yt06DRfSUcCP6
+ K7hGbMcwMEHCTskNq3W+3r1B6hvLBv5ruFubFi1wadJlUh0jZKamKv2Re0N312RtPhnJf5
+ xvh98UcFLi4wcJTJ2EqyPHPCaFF+9L4=
 ARC-Seal: i=1; s=mail; d=greensocs.com; t=1586181197; a=rsa-sha256; cv=none;
- b=ANq1FAeiCoUmdsiOapjX3qwSZyAeQHuCf2AG0NdLbdEGLyJT3KZ/hPdL+rOuqAqn7lBhvw
- fG61vxQihx1nusLLq36wOPqpsAgh3DCuqFE/PqoIM0t7AYyh4El31zRgpMT4F5UpsTvVsj
- ineKfij4IOLsO6K+tlgCLynCqaAbhwM=
+ b=rsoI97DSIWFUXxIgIO+apK3O1wMsvmJXjMh/wK62zdHy7JQc8371cFaCBjoBNjv16M/3T3
+ k7JY/U5+SXKpfXtgAljTdvLZC7S8LxXjqj2rCobsPh2HyFOToAMcs+ujyU3i+foxnIT219
+ L30zOxWP/rPwhE3Yn5n4NgZHkV774sI=
 ARC-Authentication-Results: i=1;
 	beetle.greensocs.com;
 	none
-X-Spam: Yes
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 5.135.226.135
@@ -83,143 +83,87 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the connection between the slcr's output clocks and the uarts inputs.
+This prints the clocks attached to a DeviceState when using
+"info qtree" monitor command. For every clock, it displays the
+direction, the name and if the clock is forwarded. For input clock,
+it displays also the frequency.
 
-Also add the main board clock 'ps_clk', which is hard-coded to 33.33MHz
-(the default frequency). This clock is used to feed the slcr's input
-clock.
+This is based on the original work of Frederic Konrad.
+
+Here follows a sample of `info qtree` output on xilinx_zynq machine
+after linux boot with only one uart clocked:
+> bus: main-system-bus
+>  type System
+>  [...]
+>  dev: cadence_uart, id ""
+>    gpio-out "sysbus-irq" 1
+>    clock-in "refclk" freq_hz=3D0.000000e+00
+>    chardev =3D ""
+>    mmio 00000000e0001000/0000000000001000
+>  dev: cadence_uart, id ""
+>    gpio-out "sysbus-irq" 1
+>    clock-in "refclk" freq_hz=3D1.375661e+07
+>    chardev =3D "serial0"
+>    mmio 00000000e0000000/0000000000001000
+>  [...]
+>  dev: xilinx,zynq_slcr, id ""
+>    clock-out "uart1_ref_clk" freq_hz=3D0.000000e+00
+>    clock-out "uart0_ref_clk" freq_hz=3D1.375661e+07
+>    clock-in "ps_clk" freq_hz=3D3.333333e+07
+>    mmio 00000000f8000000/0000000000001000
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
-v7
- + update ClockIn/ClockOut types
- + simplify the ps_clk frequency init
----
- hw/arm/xilinx_zynq.c | 57 +++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 49 insertions(+), 8 deletions(-)
 
-diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-index 571cdcd599..91b498dd5d 100644
---- a/hw/arm/xilinx_zynq.c
-+++ b/hw/arm/xilinx_zynq.c
-@@ -35,6 +35,15 @@
- #include "hw/char/cadence_uart.h"
- #include "hw/net/cadence_gem.h"
- #include "hw/cpu/a9mpcore.h"
-+#include "hw/qdev-clock.h"
-+#include "sysemu/reset.h"
-+
-+#define TYPE_ZYNQ_MACHINE MACHINE_TYPE_NAME("xilinx-zynq-a9")
-+#define ZYNQ_MACHINE(obj) \
-+    OBJECT_CHECK(ZynqMachineState, (obj), TYPE_ZYNQ_MACHINE)
-+
-+/* board base frequency: 33.333333 MHz */
-+#define PS_CLK_FREQUENCY (100 * 1000 * 1000 / 3)
+v7:
+ + print output clocks frequencies too
+ + add sample of qtree message above
+ + display frequencies in floating-point
+---
+ qdev-monitor.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index 9833b33549..56cee1483f 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -38,6 +38,7 @@
+ #include "migration/misc.h"
+ #include "migration/migration.h"
+ #include "qemu/cutils.h"
++#include "hw/clock.h"
 =20
- #define NUM_SPI_FLASHES 4
- #define NUM_QSPI_FLASHES 2
-@@ -75,6 +84,11 @@ static const int dma_irqs[8] =3D {
-     0xe3401000 + ARMV7_IMM16(extract32((val), 16, 16)), /* movt r1 ... *=
-/ \
-     0xe5801000 + (addr)
+ /*
+  * Aliases were a bad idea from the start.  Let's keep them
+@@ -737,6 +738,7 @@ static void qdev_print(Monitor *mon, DeviceState *dev=
+, int indent)
+     ObjectClass *class;
+     BusState *child;
+     NamedGPIOList *ngl;
++    NamedClockList *ncl;
 =20
-+typedef struct ZynqMachineState {
-+    MachineState parent;
-+    Clock *ps_clk;
-+} ZynqMachineState;
-+
- static void zynq_write_board_setup(ARMCPU *cpu,
-                                    const struct arm_boot_info *info)
- {
-@@ -159,10 +173,11 @@ static inline void zynq_init_spi_flashes(uint32_t b=
-ase_addr, qemu_irq irq,
-=20
- static void zynq_init(MachineState *machine)
- {
-+    ZynqMachineState *zynq_machine =3D ZYNQ_MACHINE(machine);
-     ARMCPU *cpu;
-     MemoryRegion *address_space_mem =3D get_system_memory();
-     MemoryRegion *ocm_ram =3D g_new(MemoryRegion, 1);
--    DeviceState *dev;
-+    DeviceState *dev, *slcr;
-     SysBusDevice *busdev;
-     qemu_irq pic[64];
-     int n;
-@@ -206,9 +221,18 @@ static void zynq_init(MachineState *machine)
-                           1, 0x0066, 0x0022, 0x0000, 0x0000, 0x0555, 0x2=
-aa,
-                           0);
-=20
--    dev =3D qdev_create(NULL, "xilinx,zynq_slcr");
--    qdev_init_nofail(dev);
--    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, 0xF8000000);
-+    /* Create slcr, keep a pointer to connect clocks */
-+    slcr =3D qdev_create(NULL, "xilinx,zynq_slcr");
-+    qdev_init_nofail(slcr);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(slcr), 0, 0xF8000000);
-+
-+    /* Create the main clock source, and feed slcr with it */
-+    zynq_machine->ps_clk =3D CLOCK(object_new(TYPE_CLOCK));
-+    object_property_add_child(OBJECT(zynq_machine), "ps_clk",
-+                              OBJECT(zynq_machine->ps_clk), &error_abort=
-);
-+    object_unref(OBJECT(zynq_machine->ps_clk));
-+    clock_set_hz(zynq_machine->ps_clk, PS_CLK_FREQUENCY);
-+    qdev_connect_clock_in(slcr, "ps_clk", zynq_machine->ps_clk);
-=20
-     dev =3D qdev_create(NULL, TYPE_A9MPCORE_PRIV);
-     qdev_prop_set_uint32(dev, "num-cpu", 1);
-@@ -229,8 +253,12 @@ static void zynq_init(MachineState *machine)
-     sysbus_create_simple(TYPE_CHIPIDEA, 0xE0002000, pic[53 - IRQ_OFFSET]=
-);
-     sysbus_create_simple(TYPE_CHIPIDEA, 0xE0003000, pic[76 - IRQ_OFFSET]=
-);
-=20
--    cadence_uart_create(0xE0000000, pic[59 - IRQ_OFFSET], serial_hd(0));
--    cadence_uart_create(0xE0001000, pic[82 - IRQ_OFFSET], serial_hd(1));
-+    dev =3D cadence_uart_create(0xE0000000, pic[59 - IRQ_OFFSET], serial=
-_hd(0));
-+    qdev_connect_clock_in(dev, "refclk",
-+                          qdev_get_clock_out(slcr, "uart0_ref_clk"));
-+    dev =3D cadence_uart_create(0xE0001000, pic[82 - IRQ_OFFSET], serial=
-_hd(1));
-+    qdev_connect_clock_in(dev, "refclk",
-+                          qdev_get_clock_out(slcr, "uart1_ref_clk"));
-=20
-     sysbus_create_varargs("cadence_ttc", 0xF8001000,
-             pic[42-IRQ_OFFSET], pic[43-IRQ_OFFSET], pic[44-IRQ_OFFSET], =
-NULL);
-@@ -308,8 +336,9 @@ static void zynq_init(MachineState *machine)
-     arm_load_kernel(ARM_CPU(first_cpu), machine, &zynq_binfo);
- }
-=20
--static void zynq_machine_init(MachineClass *mc)
-+static void zynq_machine_class_init(ObjectClass *oc, void *data)
- {
-+    MachineClass *mc =3D MACHINE_CLASS(oc);
-     mc->desc =3D "Xilinx Zynq Platform Baseboard for Cortex-A9";
-     mc->init =3D zynq_init;
-     mc->max_cpus =3D 1;
-@@ -319,4 +348,16 @@ static void zynq_machine_init(MachineClass *mc)
-     mc->default_ram_id =3D "zynq.ext_ram";
- }
-=20
--DEFINE_MACHINE("xilinx-zynq-a9", zynq_machine_init)
-+static const TypeInfo zynq_machine_type =3D {
-+    .name =3D TYPE_ZYNQ_MACHINE,
-+    .parent =3D TYPE_MACHINE,
-+    .class_init =3D zynq_machine_class_init,
-+    .instance_size =3D sizeof(ZynqMachineState),
-+};
-+
-+static void zynq_machine_register_types(void)
-+{
-+    type_register_static(&zynq_machine_type);
-+}
-+
-+type_init(zynq_machine_register_types)
+     qdev_printf("dev: %s, id \"%s\"\n", object_get_typename(OBJECT(dev))=
+,
+                 dev->id ? dev->id : "");
+@@ -751,6 +753,13 @@ static void qdev_print(Monitor *mon, DeviceState *de=
+v, int indent)
+                         ngl->num_out);
+         }
+     }
++    QLIST_FOREACH(ncl, &dev->clocks, node) {
++        qdev_printf("clock-%s%s \"%s\" freq_hz=3D%e\n",
++                    ncl->output ? "out" : "in",
++                    ncl->alias ? " (alias)" : "",
++                    ncl->name,
++                    CLOCK_PERIOD_TO_HZ(1.0 * clock_get(ncl->clock)));
++    }
+     class =3D object_get_class(OBJECT(dev));
+     do {
+         qdev_print_props(mon, dev, DEVICE_CLASS(class)->props_, indent);
 --=20
 2.26.0
 
