@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D7419FC70
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:05:10 +0200 (CEST)
-Received: from localhost ([::1]:36188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C34019FC7F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:06:53 +0200 (CEST)
+Received: from localhost ([::1]:36228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLW7R-0005Lw-7T
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:05:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36378)
+	id 1jLW96-0000sH-Eg
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:06:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36402)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrF-0002IU-VO
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:27 -0400
+ id 1jLVrH-0002Jn-TS
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrE-0003FW-JW
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:25 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37071)
+ id 1jLVrF-0003GK-V4
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:27 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:36688)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrE-0003Ch-2u; Mon, 06 Apr 2020 13:48:24 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id w10so515426wrm.4;
- Mon, 06 Apr 2020 10:48:23 -0700 (PDT)
+ id 1jLVrF-0003Fa-CL; Mon, 06 Apr 2020 13:48:25 -0400
+Received: by mail-wr1-x435.google.com with SMTP id k1so526602wrm.3;
+ Mon, 06 Apr 2020 10:48:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iPAKPkoi+HJFf28A5mZBn3JxaePmMb+vKpWg/g7b+Dc=;
- b=GG0uoRxUc8+VfK7SEVrlqHXsr7G6RT3PJlLFsn6OGv/t2KmIJPUbKP/whI/BTlWqnO
- 1qxz/Itc2t7BK9pKeOkjDP+OZrLaapNGCwHA2LWy/q7G8PV+V9vh/ic3XmnYhJffKiaT
- WcrXEmAzgarapZSoF3Hq6rr0y+94bE4CCk0/sQxjYEiEWy2AEC20KzoHLOm7p+O31bW3
- gvAf4lEdziS8z4xnndf4riyap4R1nazyl4+x3ZF4swdiH8MEY8J80gN59vaQNPztuqVw
- b7j+75uDJrOCK+8cc8rgCX/ykrR3zAlhBgnNaxN71zsvGpAZUvWLzDAzvx6Oc8kT4TuH
- TMCg==
+ bh=4qH9Y6DuxMr7Hpaab8O+4h54IDNv0/jiVmK2ORkgQcM=;
+ b=ZuDlqPJogrtywgtHo4K1K/hz3DAl5EpWjYGKKa4fN4HE+kv1/j+tL/RpJNONx0+Fvy
+ sZZrVWt2VMRGrKxGz+JaG2LdxnO+d9f1r3UFF4vGOoJGQewLN6C4FyFP0B8ByeXmmGbV
+ xvglBopPhx7dxZWfo56hyCdcsHbPIApDcZFX5DC0jiQQMmNCN7Vj4Q6f0Fa0EleqHd78
+ 4iBnWvW9FEfPqP357fTAg3kbTCzKG0Xk+/w2sYkr+hMGKSZumg2j2p2Yi4213mVKz2fa
+ ZY8p9j7FXJ1r8YPo2EKLnFdA/H4S9HuxfB40BfsQc9IG7cDFC7FMY0mV3f2bR7d/WbUM
+ 19RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=iPAKPkoi+HJFf28A5mZBn3JxaePmMb+vKpWg/g7b+Dc=;
- b=tkk1vMzhnrcwxlc7RqdW4nwmGGl1p0NryRgkJQ1gxTRuuB408VSipDDwM17WeSWqCR
- by0hR7aDGKBH18bUJNJvE4noeWSRgue2UYgPqNSUul5EtXROEakM1LPBJ3Ipp/DJQGk2
- mLHbnbLVhHxb+yFDkGPQea/0jdp/lXNek47CiMTXLmmXpga5Sa+vF3wbIq3eBbJQRLcq
- 42Ux/IKwedTJ6rdrRiZ6qr5ahE7QYVv08Mmhfmw93Z0Q4hvIOjJA4Fm2KW5LiJPSAyys
- HEE+tngv7fZNW14DKX0moee/Sg55dEKp7tehHnh9JlUcsVcR7UeM87GrYjS2d7BfsxXd
- m0vQ==
-X-Gm-Message-State: AGi0PuaLPg/+gvE1g3wRaaGwMONxLjG2ZRkc0gJZYQyYTgAzVpAodwUm
- jvwoUBgspUnU0Ki31aCQ+b9RbZT8Q74=
-X-Google-Smtp-Source: APiQypK7A9mPm3O15qzUuzUEuuvqsU2cICUP2VTTYb9l8/WD5tnJHA2Lz9vO3G/E/yYKIY/ZrZL7Lg==
-X-Received: by 2002:adf:a347:: with SMTP id d7mr350873wrb.21.1586195302796;
- Mon, 06 Apr 2020 10:48:22 -0700 (PDT)
+ bh=4qH9Y6DuxMr7Hpaab8O+4h54IDNv0/jiVmK2ORkgQcM=;
+ b=q7aTnrE+fxjQg5rhx3qUNut6hr7g8lN1UrZGzRI3R69nvYpTYjnbt9NWnEceDYKEus
+ LM2SlZMhzusICvb4oQqVRlSsAWKefr2W1w1pTJ/AM5PpwuBbTmso6wkO7SsrX4DOAKeB
+ IjLI3wLxSr49tNhsuubyup7RAZpJr4RS1ZqSn+3xqXcJIMc0Pzvbqetcr2XlBvVM54+b
+ vzVJV1azrbkALMxE0JRwX7arRDm8czp3CjntXS27UL/DmFK2uJaoPCHhN2KPTMSdLhBM
+ nx8WbT875hGNvru6R5Jz5bzcI7IjnwUyk04fkqr9BQ6d64OQ9CFhBtWrqS/LO27ZuUxK
+ 5+yA==
+X-Gm-Message-State: AGi0PuZEUC3ERHXvlEKlmteIcgFmZ339EbtTEK7dwNPD6ieiB2+waZJz
+ tSgS7CeYbU7CNJehi1Pp1kV3bNrFxkE=
+X-Google-Smtp-Source: APiQypLXUCdyx6FH0UxlG//cNePSGsrB43ux8fV+wI5gEV+n4XJkEpjhXKGIcLmdMPHfS8qmbH5aTA==
+X-Received: by 2002:adf:f1ce:: with SMTP id z14mr396708wro.68.1586195304023;
+ Mon, 06 Apr 2020 10:48:24 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.48.21
+ by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.48.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 10:48:22 -0700 (PDT)
+ Mon, 06 Apr 2020 10:48:23 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH-for-5.1 v2 27/54] hw/arm/stm32f*05_soc: Add missing
- error-propagation code
-Date: Mon,  6 Apr 2020 19:47:16 +0200
-Message-Id: <20200406174743.16956-28-f4bug@amsat.org>
+Subject: [PATCH-for-5.1 v2 28/54] hw/arm/aspeed: Add missing error-propagation
+ code
+Date: Mon,  6 Apr 2020 19:47:17 +0200
+Message-Id: <20200406174743.16956-29-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200406174743.16956-1-f4bug@amsat.org>
 References: <20200406174743.16956-1-f4bug@amsat.org>
@@ -71,7 +71,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42b
+X-Received-From: 2a00:1450:4864:20::435
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,10 +85,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Alistair Francis <alistair@alistair23.me>,
+ Andrew Jeffery <andrew@aj.id.au>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "open list:STM32F205" <qemu-arm@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>
+ "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -99,48 +99,119 @@ Patch created mechanically by running:
     --sp-file scripts/coccinelle/use-error_propagate-in-realize.cocci \
     --keep-comments --smpl-spacing --in-place --dir hw
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/stm32f205_soc.c | 6 +++++-
- hw/arm/stm32f405_soc.c | 6 +++++-
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ hw/arm/aspeed_ast2600.c | 36 ++++++++++++++++++++++++++++++------
+ hw/arm/aspeed_soc.c     | 12 ++++++++++--
+ 2 files changed, 40 insertions(+), 8 deletions(-)
 
-diff --git a/hw/arm/stm32f205_soc.c b/hw/arm/stm32f205_soc.c
-index 76b0b0e9be..b1be4fde40 100644
---- a/hw/arm/stm32f205_soc.c
-+++ b/hw/arm/stm32f205_soc.c
-@@ -106,7 +106,11 @@ static void stm32f205_soc_realize(DeviceState *dev_soc, Error **errp)
-     qdev_prop_set_string(armv7m, "cpu-type", s->cpu_type);
-     qdev_prop_set_bit(armv7m, "enable-bitband", true);
-     object_property_set_link(OBJECT(&s->armv7m), OBJECT(get_system_memory()),
--                                     "memory", &error_abort);
-+                                     "memory", &err);
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index c8e0171824..d810df928c 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -277,7 +277,11 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+         if (s->num_cpus > 1) {
+             object_property_set_int(OBJECT(&s->cpu[i]),
+                                     ASPEED_A7MPCORE_ADDR,
+-                                    "reset-cbar", &error_abort);
++                                    "reset-cbar", &err);
++            if (err) {
++                error_propagate(errp, err);
++                return;
++            }
+         }
+         /*
+          * TODO: the secondary CPUs are started and a boot helper
+@@ -293,10 +297,18 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+ 
+     /* A7MPCORE */
+     object_property_set_int(OBJECT(&s->a7mpcore), s->num_cpus, "num-cpu",
+-                            &error_abort);
++                            &err);
 +    if (err) {
 +        error_propagate(errp, err);
 +        return;
 +    }
-     object_property_set_bool(OBJECT(&s->armv7m), true, "realized", &err);
-     if (err != NULL) {
-         error_propagate(errp, err);
-diff --git a/hw/arm/stm32f405_soc.c b/hw/arm/stm32f405_soc.c
-index 4f10ce6176..2b8a84a695 100644
---- a/hw/arm/stm32f405_soc.c
-+++ b/hw/arm/stm32f405_soc.c
-@@ -121,7 +121,11 @@ static void stm32f405_soc_realize(DeviceState *dev_soc, Error **errp)
-     qdev_prop_set_string(armv7m, "cpu-type", s->cpu_type);
-     qdev_prop_set_bit(armv7m, "enable-bitband", true);
-     object_property_set_link(OBJECT(&s->armv7m), OBJECT(system_memory),
--                                     "memory", &error_abort);
-+                                     "memory", &err);
+ 
+     object_property_set_bool(OBJECT(&s->a7mpcore), true, "realized",
+-                             &error_abort);
++                             &err);
 +    if (err) {
 +        error_propagate(errp, err);
 +        return;
 +    }
-     object_property_set_bool(OBJECT(&s->armv7m), true, "realized", &err);
-     if (err != NULL) {
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->a7mpcore), 0, ASPEED_A7MPCORE_ADDR);
+ 
+     for (i = 0; i < s->num_cpus; i++) {
+@@ -343,7 +355,11 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+ 
+     /* Timer */
+     object_property_set_link(OBJECT(&s->timerctrl),
+-                             OBJECT(&s->scu), "scu", &error_abort);
++                             OBJECT(&s->scu), "scu", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
+     object_property_set_bool(OBJECT(&s->timerctrl), true, "realized", &err);
+     if (err) {
          error_propagate(errp, err);
+@@ -459,7 +475,11 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+         AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(&s->wdt[i]);
+ 
+         object_property_set_link(OBJECT(&s->wdt[i]),
+-                                 OBJECT(&s->scu), "scu", &error_abort);
++                                 OBJECT(&s->scu), "scu", &err);
++        if (err) {
++            error_propagate(errp, err);
++            return;
++        }
+         object_property_set_bool(OBJECT(&s->wdt[i]), true, "realized", &err);
+         if (err) {
+             error_propagate(errp, err);
+@@ -490,7 +510,11 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+                            aspeed_soc_get_irq(s, ASPEED_ETH1 + i));
+ 
+         object_property_set_link(OBJECT(&s->mii[i]), OBJECT(&s->ftgmac100[i]),
+-                                 "nic", &error_abort);
++                                 "nic", &err);
++        if (err) {
++            error_propagate(errp, err);
++            return;
++        }
+         object_property_set_bool(OBJECT(&s->mii[i]), true, "realized",
+                                  &err);
+         if (err) {
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index aa6d739ad0..5f90215187 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -301,7 +301,11 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+ 
+     /* Timer */
+     object_property_set_link(OBJECT(&s->timerctrl),
+-                             OBJECT(&s->scu), "scu", &error_abort);
++                             OBJECT(&s->scu), "scu", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
+     object_property_set_bool(OBJECT(&s->timerctrl), true, "realized", &err);
+     if (err) {
+         error_propagate(errp, err);
+@@ -398,7 +402,11 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+         AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(&s->wdt[i]);
+ 
+         object_property_set_link(OBJECT(&s->wdt[i]),
+-                                 OBJECT(&s->scu), "scu", &error_abort);
++                                 OBJECT(&s->scu), "scu", &err);
++        if (err) {
++            error_propagate(errp, err);
++            return;
++        }
+         object_property_set_bool(OBJECT(&s->wdt[i]), true, "realized", &err);
+         if (err) {
+             error_propagate(errp, err);
 -- 
 2.21.1
 
