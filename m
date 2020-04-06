@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E08D19FD34
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:30:14 +0200 (CEST)
-Received: from localhost ([::1]:36750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D01B19FCF2
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:18:34 +0200 (CEST)
+Received: from localhost ([::1]:36504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLWVh-0005GT-4q
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:30:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36960)
+	id 1jLWKO-00054U-VQ
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:18:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37010)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrs-0003HM-9n
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:49:09 -0400
+ id 1jLVrx-0003Px-To
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:49:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrr-0003fU-4I
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:49:04 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:44221)
+ id 1jLVrw-0003iX-Ms
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:49:09 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:34532)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrq-0003fD-Re
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:49:03 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id c15so460848wro.11
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:49:02 -0700 (PDT)
+ id 1jLVrw-0003i4-H6
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:49:08 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id c195so141598wme.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:49:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sdW0l6b6nTSbhLDFO8tdTL2LdtucDsWp9rO++BIIif0=;
- b=mogyeRr9N836X4lTudBjRzbYDylieiCWTT4PZwrosnVp0QYR6naf60R14KOH7YjRQG
- jHsSPoJkU+Nsehjc/lBEr9ejEw/tgeOgJrpA/kRHzG/B1v7EoDyYZMDgYRGR9GYFd1nr
- FyJExuWiznvXqpUM0M5Y4bD/952f5WhuoaJHGe78pRIxwjd81C2saw9fHSRlVxaj6aap
- yjwN20+lg+k4890FtgT09XWfNLj/PAjdUu7oFVKCZs7C8Inqq0EQgAK8I/2T8RDO3cje
- j/QrhFXNgxox6kBm7rpD9kJaDjXh2WMN2XodGd180sMkypohwIHivQAnZhSqoNoJkyH6
- 11fA==
+ bh=nkfwxbmtcGQqcNqONxBS4N4Qsj6iJU2M8QyuqgwGWzE=;
+ b=dLWfUpjUZOenWr/sbg3dz0Pij4xjwUOFwsb+Q5moUMkgxhoL8wm2DnxVMbKsW1eBoY
+ R97VxY0O72WkW2Hjncly8MHZ96yD4D4EMSnATiH5eZyfInP8Nrpojd4k19MxFeleiF3C
+ CPidTx/sTmyG+s2EFHyQ4SSdlWg7NmNKQdc7RTTZZeh6kkfDBZe235pdtYCv9rEZGzXQ
+ TTKlX17Pgfca8gxmypsTMCDCJ6FydbtxLZB1coFBOxqeAWhpiv9Pkl107FKMzu+kT+ir
+ EjgZJMo64ToieWqr8ilTJxOuNi54H/fYpbCkx2N+7kjZ3qGZKTSfJmnFVdfjHVREIcU6
+ pqkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=sdW0l6b6nTSbhLDFO8tdTL2LdtucDsWp9rO++BIIif0=;
- b=oC3FcXE9ui4k5hy1II/KQs6M4tnAtS11rtevG9GuEpjm3EilGjwrmwjEeiPgnJEWo4
- dIQR+BA8TdMtJXOdQ9fTZ1xcRraZfe9s3K2dzT1SqeckbBFqYxJF3wbgMFOMmEkZ5W4O
- 48LlnFM2/PV8HHXn/eafaWo0x50ouSUjXPGLk1u/+ISfh3HdVZ5TbFRoqnfo5RkwKui+
- LZiRTK7hLuZE1sgsRmmFC/U5ci1oq5izJ6RTXXNK5v+xYCQvryg087Tcj3+xmW9RXA7U
- JX9Td5et/8aREsUq22UsRhvt2PMxKLXSwd5YSLbWN06/4soZdJoKRxxYpCzkuG9RZ4PQ
- qWkw==
-X-Gm-Message-State: AGi0PuYRu9lzz1jsri7GlIeQ9Ks4Ltb6lQhVWVj0WjJUH+4gXm7tQUWQ
- IVP6960iPqC2gUp22lCen77WYMQv80g=
-X-Google-Smtp-Source: APiQypJIbyrrRC6KE6m4lKvo3p9EHIHQuoG/Y1gMAo1EoD3Tq8hXybPctjRWgRerJxAFPz1xoerXOw==
-X-Received: by 2002:adf:a347:: with SMTP id d7mr353725wrb.21.1586195341646;
- Mon, 06 Apr 2020 10:49:01 -0700 (PDT)
+ bh=nkfwxbmtcGQqcNqONxBS4N4Qsj6iJU2M8QyuqgwGWzE=;
+ b=ZlgI9pnZpJ0vaXQiZ8wzTLgBuze+HWMuuAzvQm+uARcKfLwBdh5mFdcXhOpM2HkvxM
+ hwzAIwGP6n6mgz0OXM+t7RZhS2rpxltSR/ErWuRDIcLldzFB9FRkOOKOrSlRPNeYvF80
+ NM+/nL0UORSzXZh2gvpzskz97CK8SKXzIfcNI/OCq2BwTYfSVaQVvbRRVw+TpMwFxgys
+ yYW38EH+NtO4OV1wi49EgIefU1Dgo1nmLh8Pi/SP0PRavvZjqNbpI+01OaGicvjng5es
+ iwLWtI6c1T68LLAFsKWPidI0ObglHPoMMUWsAy37wVtW1419ABCQ1pdqQ1VctufdMspt
+ b5OQ==
+X-Gm-Message-State: AGi0PuZr3rDhD+4iKyyl+m84ow8N4SBLiabPckTOqDzd7ihnIRjuAn9T
+ o2/4LMsUO81fSlr5/wdLZ4p8XnYXR5I=
+X-Google-Smtp-Source: APiQypIJAsO6bfUkykEv0EHFpeDq8wqPkH8KhP/yrE+AitNxWlBtffO1Qf+akL/6t8GwN4Kh3BkV4Q==
+X-Received: by 2002:a7b:c4d0:: with SMTP id g16mr156168wmk.101.1586195344361; 
+ Mon, 06 Apr 2020 10:49:04 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.49.00
+ by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.49.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 10:49:01 -0700 (PDT)
+ Mon, 06 Apr 2020 10:49:03 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH-for-5.1 v2 50/54] scripts/coccinelle: Find eventually missing
- error_propagate() calls
-Date: Mon,  6 Apr 2020 19:47:39 +0200
-Message-Id: <20200406174743.16956-51-f4bug@amsat.org>
+Subject: [PATCH-for-5.1 v2 51/54] migration/colo: Add missing
+ error-propagation code
+Date: Mon,  6 Apr 2020 19:47:40 +0200
+Message-Id: <20200406174743.16956-52-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200406174743.16956-1-f4bug@amsat.org>
 References: <20200406174743.16956-1-f4bug@amsat.org>
@@ -72,7 +72,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
+X-Received-From: 2a00:1450:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,93 +86,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In some places in we put an error into a local Error*, but
-forget to use it. Add a Coccinelle patch to find such cases
-and report them.
+Running the coccinelle script produced:
 
-Inspired-by: Peter Maydell <peter.maydell@linaro.org>
+  $ spatch \
+    --macro-file scripts/cocci-macro-file.h --include-headers \
+    --sp-file scripts/coccinelle/find-missing-error_propagate.cocci \
+    --keep-comments --smpl-spacing --dir .
+  HANDLING: ./migration/colo.c
+  [[manual check required: error_propagate() might be missing in migrate_set_block_enabled() ./migration/colo.c:439:4]]
+
+Add the missing error_propagate() after review.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- .../find-missing-error_propagate.cocci        | 53 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 scripts/coccinelle/find-missing-error_propagate.cocci
+ migration/colo.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/scripts/coccinelle/find-missing-error_propagate.cocci b/scripts/coccinelle/find-missing-error_propagate.cocci
-new file mode 100644
-index 0000000000..8b75b37b64
---- /dev/null
-+++ b/scripts/coccinelle/find-missing-error_propagate.cocci
-@@ -0,0 +1,53 @@
-+// Find places likely missing error-propagation code, but code is too
-+// complex for automatic transformation, so manual analysis is required.
-+//
-+// Copyright: (C) 2020 Philippe Mathieu-Daudé
-+// This work is licensed under the terms of the GNU GPLv2 or later.
-+//
-+// spatch \
-+//  --macro-file scripts/cocci-macro-file.h --include-headers \
-+//  --sp-file scripts/coccinelle/find-missing-error_propagate.cocci
-+//
-+// Inspired by https://www.mail-archive.com/qemu-devel@nongnu.org/msg691638.html
-+
-+
-+// First match two subsequent calls using local Error*
-+// in function provided a Error** argument
-+//
-+@discard_func_with_errp_argument@
-+typedef Error;
-+Error *local_err;
-+identifier func, errp, errfunc1, errfunc2;
-+@@
-+void func(..., Error **errp)
-+{
-+ <+...
-+ errfunc1(..., &local_err);
-+ ... when != local_err          // local_err is not used between the calls
-+ errfunc2(..., &local_err);
-+ ...+>
-+}
-+
-+
-+// Again, match two subsequent calls using local Error*
-+// but ignoring within functions provided a Error** argument
-+//
-+@manual depends on never discard_func_with_errp_argument@
-+Error *local_err;
-+identifier errfunc1, errfunc2;
-+position p;
-+@@
-+ errfunc1@p(..., &local_err);
-+ ... when != local_err
-+ errfunc2(..., &local_err);
-+
-+
-+// As it is likely too complex to transform, report the hit
-+//
-+@script:python@
-+f << manual.errfunc1;
-+p << manual.p;
-+@@
-+print("[[manual check required: "
-+      "error_propagate() might be missing in {}() {}:{}:{}]]".format(
-+            f, p[0].file, p[0].line, p[0].column))
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ae71a0a4b0..29d29461f3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2057,6 +2057,7 @@ F: scripts/coccinelle/add-missing-error_propagate.cocci
- F: scripts/coccinelle/err-bad-newline.cocci
- F: scripts/coccinelle/error-use-after-free.cocci
- F: scripts/coccinelle/error_propagate_null.cocci
-+F: scripts/coccinelle/find-missing-error_propagate.cocci
- F: scripts/coccinelle/remove_local_err.cocci
- F: scripts/coccinelle/simplify-init-realize-error_propagate.cocci
- F: scripts/coccinelle/use-error_abort-in-instance_init.cocci
+diff --git a/migration/colo.c b/migration/colo.c
+index a54ac84f41..57b2adb0cc 100644
+--- a/migration/colo.c
++++ b/migration/colo.c
+@@ -437,6 +437,9 @@ static int colo_do_checkpoint_transaction(MigrationState *s,
+ 
+     /* Disable block migration */
+     migrate_set_block_enabled(false, &local_err);
++    if (local_err) {
++        goto out;
++    }
+     qemu_mutex_lock_iothread();
+ 
+ #ifdef CONFIG_REPLICATION
 -- 
 2.21.1
 
