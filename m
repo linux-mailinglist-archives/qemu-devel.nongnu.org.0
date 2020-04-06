@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A097719FC16
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 19:54:08 +0200 (CEST)
-Received: from localhost ([::1]:35940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A222719FC28
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 19:58:42 +0200 (CEST)
+Received: from localhost ([::1]:36058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLVwl-0003cg-Ko
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 13:54:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35831)
+	id 1jLW1B-0003xp-LK
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 13:58:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35850)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVqn-0001VQ-Hq
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:02 -0400
+ id 1jLVqp-0001WV-5Z
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVql-0001ZH-3y
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:47:57 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35056)
+ id 1jLVqn-0001bp-57
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:47:58 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38384)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVqk-0001VW-U1; Mon, 06 Apr 2020 13:47:55 -0400
-Received: by mail-wm1-x341.google.com with SMTP id i19so333801wmb.0;
- Mon, 06 Apr 2020 10:47:54 -0700 (PDT)
+ id 1jLVql-0001aM-VA; Mon, 06 Apr 2020 13:47:57 -0400
+Received: by mail-wm1-x341.google.com with SMTP id f20so311623wmh.3;
+ Mon, 06 Apr 2020 10:47:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XkypjbVuB+1GCium+eRMS4VtjczYNZWFQPGZz1SIZd4=;
- b=Rgt/+zlWav1fyZIwcpx/1XZAIgQvCyKpgG8RA8eLsgvCmxGZ4bpM9GUKvK5VhcF0wN
- YdK6g5C1OrSX7bKaq+wCLqzvxk5oByiBI9fEnzVniTNQIOB+ZjFQbihP9tAmvfPqT2gu
- nxwSxFqjDPLQavDyrVNgyQlONHVksTDvuIkfplsTzD7/jrvYfcw0/hlc71jyxz98akyf
- Blmp5mwgbBhO69bB/NAQcc+f2l1QO/IdVYzS1Nea+vLX8M5mXfTM7WlXxvlW+P5xkvkw
- B9QrXpRek1oOfMvvCZOLFBQaJL01cZpJOaOqx0RqmCnrtli9X2hs+xu80n8kLvczg+et
- CrvQ==
+ bh=dxLsxZYXQYEKWKbERHeZOPlL0o3+IfFCX14RzhAQjos=;
+ b=t9H8A/f1nGr7g2HQs+8jQ9LgueOGv0KDhedNGjE9nRIHwNQQh4Lfb7Tnopm9NZsH4V
+ BqxahXtSkoixGLixzsJaB8FeIRZEQlTuXqwSI4nxhqznAorfTgukwIA/W55kf63hqLyZ
+ CjxOr4hplACHOTFohZECAkdFCfvkJh6rMSKoUiWZEskpHMTeCsW78i6HpjNmbo4XgZom
+ 3yBSY7i/8hhMhTk0q1l4EOlZqQLzqLQgBcMoOJdIZ4Y4kNLw2LWA2r6G+cqTlRZGtZ68
+ qiq+KzstFxHlUpneEVZTttMZ3IEpFN0IKcur2SwjB0Ht4SBotX9O8C1xVgmp2Am1E/wl
+ rdnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=XkypjbVuB+1GCium+eRMS4VtjczYNZWFQPGZz1SIZd4=;
- b=SDeogOgzY+6T1E4Cb2vx1gpXtTNbqaBcB/Kz8NBt8wseLG9ggusjrGuPKD+N1TTdVh
- T7OU9Im5WI40RtyPMSj7gXNzX6YApjTVMqj0MHj35uHIskQ4dBu8B+O024QfkQeXPIq/
- lF5Pxx4oA7QgSXT6fV7GwTiWLD70DrpCJc7MCCg9rbQZDP9SkXCWx2+Rr31/5MJsxVfn
- 8hNhAayC96j86vAQv6YT0AZJ2YOgANT57f9ZTLGgHEasOXtozKGGo1/v2q0/zbxy4O/O
- YS0jQ2yA6Iq6JTWBzIxl2GwJcfVqcbHlbjYZEZGQ+aZat4OhmeeZpA2EsKYlyVbok5ek
- qv7Q==
-X-Gm-Message-State: AGi0PubTkxhTlz2troxs47LmO+3i/Ki5IbHp3beenyF3doA3QbPZ+qHM
- IbhyFgwJDsyY+yZt+Sn81xcVaiXBFFo=
-X-Google-Smtp-Source: APiQypIXyb9dXbPn+kde5KtGb8oJIgi4447BNiqp3T9OK5kUfG1NX7t2RwOEzIkXiX0SOGQC+Y8ubQ==
-X-Received: by 2002:a05:600c:2f90:: with SMTP id
- t16mr206684wmn.66.1586195273564; 
- Mon, 06 Apr 2020 10:47:53 -0700 (PDT)
+ bh=dxLsxZYXQYEKWKbERHeZOPlL0o3+IfFCX14RzhAQjos=;
+ b=AJz0X1iEGU023GiUlZPsyZPdFuFJ1uhTiH6QH/swwwlhcps7OTaHFMUEw+IxMCF7YX
+ 4MbFffYZWALtpPaysWCvVQB6/ifsGvtkwNZ7Jf7+UC7bWIRHJdvK4IN6ouqhIxLF7Nf7
+ /vpgh+wo4D+OfC1H/dtI0kJWI005DhHCqjC+BbKg9FzVix6x28wQFG99mXFBxjSYjDR4
+ pP4AdC53x99iTa7M0OXHvwxtjIaCDsom7Gi/wKXy6xORrfDl3AXYZkqcd0L6lXdVwcHL
+ wAlOrF24SBQIKyg7Y5Rf2F0TBErEukHg5jGIJWTv91j348bGFrU44PldtLfCNbH7NaVJ
+ O60g==
+X-Gm-Message-State: AGi0PuZtKYDtnzh2Wd9I5TImt7M5ps4ra0NxubUhskCHBgXEiC6M4Kiy
+ U/oDr1f16oaDREK+KRVknyULHfoOy9M=
+X-Google-Smtp-Source: APiQypKQ/5Odm7IxD93WpDCWksFM6mfQBxbMIkr3OmA/utWWIdrgBI1g+Col37N+sheelFtrMkXWBw==
+X-Received: by 2002:a7b:c148:: with SMTP id z8mr474112wmi.31.1586195274811;
+ Mon, 06 Apr 2020 10:47:54 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.47.52
+ by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.47.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 10:47:53 -0700 (PDT)
+ Mon, 06 Apr 2020 10:47:54 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH-for-5.1 v2 05/54] hw/arm/aspeed_ast2600: Move some code from
+Subject: [PATCH-for-5.1 v2 06/54] hw/arm/aspeed_soc: Move some code from
  realize() to init()
-Date: Mon,  6 Apr 2020 19:46:54 +0200
-Message-Id: <20200406174743.16956-6-f4bug@amsat.org>
+Date: Mon,  6 Apr 2020 19:46:55 +0200
+Message-Id: <20200406174743.16956-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200406174743.16956-1-f4bug@amsat.org>
 References: <20200406174743.16956-1-f4bug@amsat.org>
@@ -97,109 +96,41 @@ Coccinelle reported:
 
   $ spatch ... --timeout 60 --sp-file \
     scripts/coccinelle/simplify-init-realize-error_propagate.cocci
-  HANDLING: ./hw/arm/aspeed_ast2600.c
-  >>> possible moves from aspeed_soc_ast2600_init() to aspeed_soc_ast2600_realize() in ./hw/arm/aspeed_ast2600.c:243
+  HANDLING: ./hw/arm/aspeed_soc.c
+  >>> possible moves from aspeed_soc_init() to aspeed_soc_realize() in ./hw/arm/aspeed_soc.c:231
 
 Move the calls using &error_fatal which don't depend of input
 updated before realize() to init().
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/aspeed_ast2600.c | 41 ++++++++++++++++++++---------------------
- 1 file changed, 20 insertions(+), 21 deletions(-)
+ hw/arm/aspeed_soc.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index b08359f3ef..c8e0171824 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -114,6 +114,16 @@ static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
-     return qdev_get_gpio_in(DEVICE(&s->a7mpcore), sc->irqmap[ctrl]);
- }
- 
-+/*
-+ * ASPEED ast2600 has 0xf as cluster ID
-+ *
-+ * http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0388e/CIHEBGFG.html
-+ */
-+static uint64_t aspeed_calc_affinity(int cpu)
-+{
-+    return (0xf << ARM_AFF1_SHIFT) | cpu;
-+}
-+
- static void aspeed_soc_ast2600_init(Object *obj)
- {
-     AspeedSoCState *s = ASPEED_SOC(obj);
-@@ -130,6 +140,13 @@ static void aspeed_soc_ast2600_init(Object *obj)
-         object_initialize_child(obj, "cpu[*]", OBJECT(&s->cpu[i]),
-                                 sizeof(s->cpu[i]), sc->cpu_type,
-                                 &error_abort, NULL);
-+        object_property_set_int(OBJECT(&s->cpu[i]), QEMU_PSCI_CONDUIT_SMC,
-+                                "psci-conduit", &error_abort);
-+        object_property_set_int(OBJECT(&s->cpu[i]), aspeed_calc_affinity(i),
-+                                "mp-affinity", &error_abort);
-+
-+        object_property_set_int(OBJECT(&s->cpu[i]), 1125000000, "cntfrq",
-+                                &error_abort);
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index 696c7fda14..debd7c8faa 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -183,6 +183,7 @@ static void aspeed_soc_init(Object *obj)
+         snprintf(typename, sizeof(typename), "aspeed.spi%d-%s", i + 1, socname);
+         sysbus_init_child_obj(obj, "spi[*]", OBJECT(&s->spi[i]),
+                               sizeof(s->spi[i]), typename);
++        object_property_set_int(OBJECT(&s->spi[i]), 1, "num-cs", &error_abort);
      }
  
-     snprintf(typename, sizeof(typename), "aspeed.scu-%s", socname);
-@@ -146,6 +163,9 @@ static void aspeed_soc_ast2600_init(Object *obj)
+     for (i = 0; i < sc->ehcis_num; i++) {
+@@ -360,10 +361,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
  
-     sysbus_init_child_obj(obj, "a7mpcore", &s->a7mpcore,
-                           sizeof(s->a7mpcore), TYPE_A15MPCORE_PRIV);
-+    object_property_set_int(OBJECT(&s->a7mpcore),
-+                            ASPEED_SOC_AST2600_MAX_IRQ + GIC_INTERNAL,
-+                            "num-irq", &error_abort);
- 
-     sysbus_init_child_obj(obj, "rtc", OBJECT(&s->rtc), sizeof(s->rtc),
-                           TYPE_ASPEED_RTC);
-@@ -230,16 +250,6 @@ static void aspeed_soc_ast2600_init(Object *obj)
-                           TYPE_SYSBUS_SDHCI);
- }
- 
--/*
-- * ASPEED ast2600 has 0xf as cluster ID
-- *
-- * http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0388e/CIHEBGFG.html
-- */
--static uint64_t aspeed_calc_affinity(int cpu)
--{
--    return (0xf << ARM_AFF1_SHIFT) | cpu;
--}
--
- static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
- {
-     int i;
-@@ -264,19 +274,11 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
- 
-     /* CPU */
-     for (i = 0; i < s->num_cpus; i++) {
--        object_property_set_int(OBJECT(&s->cpu[i]), QEMU_PSCI_CONDUIT_SMC,
--                                "psci-conduit", &error_abort);
-         if (s->num_cpus > 1) {
-             object_property_set_int(OBJECT(&s->cpu[i]),
-                                     ASPEED_A7MPCORE_ADDR,
-                                     "reset-cbar", &error_abort);
-         }
--        object_property_set_int(OBJECT(&s->cpu[i]), aspeed_calc_affinity(i),
--                                "mp-affinity", &error_abort);
--
--        object_property_set_int(OBJECT(&s->cpu[i]), 1125000000, "cntfrq",
--                                &error_abort);
--
-         /*
-          * TODO: the secondary CPUs are started and a boot helper
-          * is needed when using -kernel
-@@ -292,9 +294,6 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-     /* A7MPCORE */
-     object_property_set_int(OBJECT(&s->a7mpcore), s->num_cpus, "num-cpu",
-                             &error_abort);
--    object_property_set_int(OBJECT(&s->a7mpcore),
--                            ASPEED_SOC_AST2600_MAX_IRQ + GIC_INTERNAL,
--                            "num-irq", &error_abort);
- 
-     object_property_set_bool(OBJECT(&s->a7mpcore), true, "realized",
-                              &error_abort);
+     /* SPI */
+     for (i = 0; i < sc->spis_num; i++) {
+-        object_property_set_int(OBJECT(&s->spi[i]), 1, "num-cs", &err);
+-        object_property_set_bool(OBJECT(&s->spi[i]), true, "realized",
+-                                 &local_err);
+-        error_propagate(&err, local_err);
++        object_property_set_bool(OBJECT(&s->spi[i]), true, "realized", &err);
+         if (err) {
+             error_propagate(errp, err);
+             return;
 -- 
 2.21.1
 
