@@ -2,69 +2,132 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22C0A19F26D
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 11:25:21 +0200 (CEST)
-Received: from localhost ([::1]:56699 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 433C719F2A9
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 11:34:12 +0200 (CEST)
+Received: from localhost ([::1]:56820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLO0K-00088A-PV
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 05:25:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41281)
+	id 1jLO8x-0004MB-3w
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 05:34:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42327)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jLNsE-0004hl-02
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:16:58 -0400
+ (envelope-from <borntraeger@de.ibm.com>) id 1jLO2P-0001Af-5N
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:27:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1jLNsB-0006Xv-5a
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:16:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27634
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jLNsB-0006X7-16
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:16:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586164608;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Gq7YWLjq5eX5E8Nx5BIaB0j4PUge91Tq/2My6a2X1go=;
- b=Ry/Zvir+eU+4/4LPgTocEfKxwMHbUx3CL1IEFb4+ZkEHbOlPQf8RwomK6J7GLEEEv5sG8E
- A69mHjhThb4a7qWNQoXc0sZs0sf2yv/UaZaVNZMNbwUmZot/kSYQ9LNNVIr80ia53fTj6r
- +Kyefemhbs0Mc74K+XdLoGWIPNNNOLM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-237-fkjEJ6ZIMgmqxAk4rSEYuw-1; Mon, 06 Apr 2020 05:16:31 -0400
-X-MC-Unique: fkjEJ6ZIMgmqxAk4rSEYuw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5CAF801E67;
- Mon,  6 Apr 2020 09:16:29 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DB788101D480;
- Mon,  6 Apr 2020 09:16:21 +0000 (UTC)
-Date: Mon, 6 Apr 2020 10:16:18 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v4 for-5.0] configure: warn if not using a separate build
- directory
-Message-ID: <20200406091618.GG794362@redhat.com>
-References: <20200403135306.665493-1-berrange@redhat.com>
- <CAFEAcA_CSiw4ojYHVD6S73O-iRuXt6gTS=3VdAO545q8ye0+Ww@mail.gmail.com>
+ (envelope-from <borntraeger@de.ibm.com>) id 1jLO2L-0002yy-Kv
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:27:25 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:47526)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
+ id 1jLO2L-0002yh-Ci
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:27:21 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 03694e1k072999
+ for <qemu-devel@nongnu.org>; Mon, 6 Apr 2020 05:27:20 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 306pcyce0b-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 05:27:19 -0400
+Received: from localhost
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
+ Mon, 6 Apr 2020 10:27:01 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Mon, 6 Apr 2020 10:26:59 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0369REmx47775858
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 6 Apr 2020 09:27:14 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2888DA405C;
+ Mon,  6 Apr 2020 09:27:14 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AC9BCA4054;
+ Mon,  6 Apr 2020 09:27:13 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.145.23.63])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon,  6 Apr 2020 09:27:13 +0000 (GMT)
+Subject: Re: [PATCH 1/1] s390x/s390-virtio-ccw: Fix build on systems without
+ KVM
+To: Cornelia Huck <cohuck@redhat.com>
+References: <20200406075931.26232-1-borntraeger@de.ibm.com>
+ <20200406075931.26232-2-borntraeger@de.ibm.com>
+ <20200406110447.5ad97f62.cohuck@redhat.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+ nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
+Date: Mon, 6 Apr 2020 11:27:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_CSiw4ojYHVD6S73O-iRuXt6gTS=3VdAO545q8ye0+Ww@mail.gmail.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200406110447.5ad97f62.cohuck@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 20040609-0008-0000-0000-0000036B66C2
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20040609-0009-0000-0000-00004A8CFC53
+Message-Id: <90760b85-ed98-3106-0cc4-900f55607479@de.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
+ definitions=2020-04-06_05:2020-04-03,
+ 2020-04-06 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0
+ lowpriorityscore=0 adultscore=0 malwarescore=0 clxscore=1015
+ impostorscore=0 suspectscore=0 phishscore=0 mlxscore=0 spamscore=0
+ mlxlogscore=966 priorityscore=1501 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2003020000 definitions=main-2004060078
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,79 +139,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Liviu Ionescu <ilg@livius.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Michal =?utf-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Bruce Rogers <brogers@suse.com>, Halil Pasic <pasic@linux.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Apr 05, 2020 at 03:38:55PM +0100, Peter Maydell wrote:
-> On Fri, 3 Apr 2020 at 14:53, Daniel P. Berrang=C3=A9 <berrange@redhat.com=
-> wrote:
-> >
-> > Running configure directly from the source directory is a build
-> > configuration that will go away in future. It is also not currently
-> > covered by any automated testing. Display a deprecation warning if
-> > the user attempts to use an in-srcdir build setup, so that they are
-> > aware that they're building QEMU in an undesirable manner.
-> >
-> > Reviewed-by: Eric Blake <eblake@redhat.com>
-> > Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> > ---
->=20
-> > +if test "$in_srcdir" =3D "yes"; then
-> > +    echo
-> > +    echo "WARNING: SUPPORT FOR BUILDING IN THE SOURCE DIR IS DEPRECATE=
-D"
-> > +    echo
-> > +    echo "Support for running the 'configure' script directly from the=
-"
-> > +    echo "source directory is deprecated. In-tree builds are not cover=
-ed"
-> > +    echo "by automated testing and thus may not correctly build QEMU."
-> > +    echo "Users are recommended to use a separate build directory:"
-> > +    echo
-> > +    echo "  $ mkdir build"
-> > +    echo "  $ cd build"
-> > +    echo "  $ ../configure"
-> > +    echo "  $ make"
-> > +    echo
-> > +fi
->=20
-> So here's my stab at some text here; I'm aiming at nudging users
-> towards out-of-tree builds if they were simply not thinking about
-> it, but not actively marking them as 'deprecated', since it sounded
-> to me like we were planning to keep at least the basic
-> 'configure+make+make install' sequence of commands working.
->=20
-> echo "NOTE: we recommend against building in the source directory"
-> echo
-> echo "You've run the 'configure' script directly from the source"
-> echo "directory. This will work, but we recommend using a separate"
-> echo "build directory, especially if you plan to work with the QEMU"
-> echo "sources rather than just building it once. You can switch to"
-> echo "a separate build directory like this:"
-
-I'm fine with that text too.
-
-I'll submit another version of the patch with that incorporated
 
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+On 06.04.20 11:04, Cornelia Huck wrote:
+> On Mon,  6 Apr 2020 03:59:31 -0400
+> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+> 
+>> linux/kvm.h is not available on all platforms. Let us move
+>> s390_machine_inject_pv_error into pv.c as it uses KVM structures.
+>>
+>> Fixes: 49fc3220175e ("s390x: protvirt: Support unpack facility")
+>> Reported-by: Bruce Rogers <brogers@suse.com>
+>> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+>> ---
+>>  hw/s390x/ipl.h             |  1 +
+>>  hw/s390x/pv.c              | 11 +++++++++++
+>>  hw/s390x/s390-virtio-ccw.c | 10 ----------
+>>  include/hw/s390x/pv.h      |  3 +++
+>>  4 files changed, 15 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/hw/s390x/ipl.h b/hw/s390x/ipl.h
+>> index 89b3044d7a..53cc9eb5ac 100644
+>> --- a/hw/s390x/ipl.h
+>> +++ b/hw/s390x/ipl.h
+>> @@ -14,6 +14,7 @@
+>>  #define HW_S390_IPL_H
+>>  
+>>  #include "cpu.h"
+>> +#include "exec/address-spaces.h"
+> 
+> Hm, what is now requiring including this? (No objection, but I don't
+> see it.)
+
+ipl.h has
+
+static inline bool ipl_valid_pv_header(IplParameterBlock *iplb)
+{
+[..]
+        if (!address_space_access_valid(&address_space_memory,
+
+and if included alone this fails to build without the include. 
+
+
+> 
+>>  #include "hw/qdev-core.h"
+>>  
+>>  struct IPLBlockPVComp {
+> 
+> (...)
+> 
+>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+>> index b268907395..0e8b0c63a1 100644
+>> --- a/hw/s390x/s390-virtio-ccw.c
+>> +++ b/hw/s390x/s390-virtio-ccw.c
+>> @@ -45,7 +45,6 @@
+>>  #include "sysemu/sysemu.h"
+>>  #include "sysemu/balloon.h"
+>>  #include "hw/s390x/pv.h"
+>> -#include <linux/kvm.h>
+> 
+> In hindsight, that should have been obvious :)
+
+Yes, it is. It was added pretty late (v10 I think).
+ 
+>>  #include "migration/blocker.h"
+>>  
+>>  static Error *pv_mig_blocker;
+> 
 
 
