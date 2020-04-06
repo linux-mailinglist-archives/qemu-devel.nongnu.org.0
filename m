@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05C0419FD14
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:24:55 +0200 (CEST)
-Received: from localhost ([::1]:36642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E56BB19FD24
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:27:26 +0200 (CEST)
+Received: from localhost ([::1]:36712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLWQY-0005hl-2I
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:24:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36770)
+	id 1jLWT0-00010x-0E
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:27:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36838)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrc-0002p2-GG
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:55 -0400
+ id 1jLVrh-0002xG-9Q
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:49:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVra-0003VP-FH
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:48 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:33434)
+ id 1jLVrc-0003WQ-D9
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:53 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36755)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVra-0003UH-95
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:46 -0400
-Received: by mail-wm1-x336.google.com with SMTP id g21so583566wmh.0
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:48:46 -0700 (PDT)
+ id 1jLVrc-0003W8-74
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:48 -0400
+Received: by mail-wm1-x333.google.com with SMTP id d202so328157wmd.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:48:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IyfLiNmZozxtS04NjEv2J1qw63HPdKKGf5spfnd6BGI=;
- b=IdEZqOgzaQWe76xUqago30NbmRj+8VcwpL9v1NBW565wc1cTJVYJ+izVUIhY37sYN9
- /Wa3hwd6sJHx85GlPWR8AvkBUruqUL91haKYEiXU1q/Wi1bLDlQuHCVwMZYGdfqx+6ak
- rItgrVCHK5jc/o4v9str7JP719aDoxC5L0T0COtkTyx9pU7MYcULu09mvi3vQb5FOOj0
- wsMaWdU7YcL1zzoG30lSyOIo66UZTFuXeKZWwP7SZZZHJAXdT93hDkZSiQV973rkdXYc
- Zwdc78nTH9sDW/OAdbGpWvneTW+b03IxUbKvkHMWSo7kazS8L8cKnuPHfGZF1H0IE29d
- 4IRg==
+ bh=PEHTVvrf5Pm+Jom3wPMXvD0+JJqVe46WaOi392HQB5U=;
+ b=YDE3vpKxS1ahS6WZQYGQ5BsbWpk/jT6NYHZajiT55etah2+eqvbEwZPEpBKC597ynI
+ BRXH4eSKfiMD1xwJwhvG7wc/xDVFIFpy/LYXt2SFRH5i9wbNFooEA0BAL4XsZbiol5sv
+ PN2+xMNKX+u8uuDePIKN2d8taA2+cxXIgSAlX1RZszCIZaReHSnAMoQGf0c+z9ESWGRm
+ 8klfG4CpUeoux7/+RXBscbYCNDj9Wp0HbG9A5OSeqQ51IWriNbIZxfu7dzK1RQ5/HTRo
+ A9H9Eb7nLhIOIP3GNybzWApI6mFLFX3IK8evK8Wd3SCgM4qMlTDeiOccYDSfd3d5EGiQ
+ ktqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=IyfLiNmZozxtS04NjEv2J1qw63HPdKKGf5spfnd6BGI=;
- b=YdHPxxhu4Ig2FZNR77SMWhKbfBtiOvYhtMDEMm3CFr5MOeO3rBDtE0AU7Wa/EvLmYY
- ZC8p8NhEOWymvMVzb6e1VAMDmNbSx2Yj6vbH0rraKz1ZooIOKAK//9CMXeSJypkOq1/a
- VfBEYtH7d26JLESYvixuWhmq728aMZbFnmhy9foyRIRD5fux+aZIDFElYBwTnG6FdUZF
- iGj2pgACFRDWWgj4FfYOuRh387VcWm2wQmUZTowHaNTkSx1q4Jp/Enq24IZCBWcLFkIA
- Sc9SavAYkMtgENLy7rVuP5gWM6WNd80LshJB41Vdhkv/52XH9iCCSjBEy/0mCtF3UQfH
- 66DA==
-X-Gm-Message-State: AGi0Puah24iEXY0RGwOJnsCc0XW8uKqQYHnwzUUr1qdCuk9PSWZP8g1b
- kiotqZnN2taLBqDTJTkNxfoj6sGQ9Nk=
-X-Google-Smtp-Source: APiQypL1LibcRLYgfmY7gkmLVbaoNkncQeEZHskUhYK3Vo+SD3g3KrUppL6T4aLYDNg0lO7ZcIKbFA==
-X-Received: by 2002:a1c:6503:: with SMTP id z3mr527237wmb.92.1586195325141;
- Mon, 06 Apr 2020 10:48:45 -0700 (PDT)
+ bh=PEHTVvrf5Pm+Jom3wPMXvD0+JJqVe46WaOi392HQB5U=;
+ b=V9/Y9e13/C/txVR4+8RQn7PtkRY2V8EQHDXwqZj1LtwUS3Pa0b2cLImlNQ6HBI19L2
+ fpxqLirl+6npFmvFPgBPuoiihzfmjexyzqpDbXmoEYDoAuC/dpcgS93yWZnSl8z9YyWD
+ PnKX5DwtHCTlWK3stQger/9whgL4SIKfR7kmC4RNc0wUO+dBTO9ZsTMlOR4GZUpDptcO
+ +UxoMDKd3WF7HZpbZC8hKSXF8uuZyv0VnDO55+rNjcBZXM0PyBERZTHDEIWMHfwKQ0j3
+ 8axY1X5uK1W/ewDnocCgrjj/JT3aH5Mj9Tfv07dcNwARUxurefxfQRsQy81m50j7FBMA
+ WxHQ==
+X-Gm-Message-State: AGi0PuZPafucs+Fr334isEAF5g8Wja+UV/QUwmuy5KNFSONysGOsv/7b
+ zeqOtm8lvp8OTisKgDru5xPxBppXgjQ=
+X-Google-Smtp-Source: APiQypJDVOA05tidm3PgFhJNZMnKiQoCASE2z/ozeyeGOArqYGwv1eqTooLnfg7fJsZQZckhholW2Q==
+X-Received: by 2002:a1c:c302:: with SMTP id t2mr160254wmf.85.1586195326597;
+ Mon, 06 Apr 2020 10:48:46 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.48.43
+ by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.48.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 10:48:44 -0700 (PDT)
+ Mon, 06 Apr 2020 10:48:45 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH-for-5.1 v2 42/54] hw/i386/x86: Add missing error-propagation
+Subject: [PATCH-for-5.1 v2 43/54] hw/mips/cps: Add missing error-propagation
  code
-Date: Mon,  6 Apr 2020 19:47:31 +0200
-Message-Id: <20200406174743.16956-43-f4bug@amsat.org>
+Date: Mon,  6 Apr 2020 19:47:32 +0200
+Message-Id: <20200406174743.16956-44-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200406174743.16956-1-f4bug@amsat.org>
 References: <20200406174743.16956-1-f4bug@amsat.org>
@@ -72,7 +72,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::336
+X-Received-From: 2a00:1450:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,49 +86,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Running the coccinelle script:
+Patch created mechanically by running:
 
   $ spatch \
     --macro-file scripts/cocci-macro-file.h --include-headers \
     --sp-file scripts/coccinelle/object_property_missing_error_propagate.cocci \
-    --keep-comments --smpl-spacing --dir hw
+    --keep-comments --smpl-spacing --in-place --dir hw
 
-inserted a block after object_property_set_uint("apic-id") which
-calls error_propagate() and return.
-Thanksfully code review noticed returning here would skip the
-'object_unref(cpu)' call.
-Manually fix the error propagation code by adding a label to the
-existing call.
+Unfortunately the cocci script doesn't properly patch trailing
+error_propagate() block and emitted duplicate if() block statements.
+These 3 blocks were manually removed.
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/i386/x86.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/mips/cps.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index b82770024c..ec807ce94f 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -124,8 +124,12 @@ void x86_cpu_new(X86MachineState *x86ms, int64_t apic_id, Error **errp)
-     cpu = object_new(MACHINE(x86ms)->cpu_type);
- 
-     object_property_set_uint(cpu, apic_id, "apic-id", &local_err);
-+    if (local_err) {
-+        goto out;
+diff --git a/hw/mips/cps.c b/hw/mips/cps.c
+index 92b9b1a5f6..18943b64e0 100644
+--- a/hw/mips/cps.c
++++ b/hw/mips/cps.c
+@@ -102,9 +102,21 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
+         sysbus_init_child_obj(OBJECT(dev), "itu", &s->itu, sizeof(s->itu),
+                               TYPE_MIPS_ITU);
+         object_property_set_int(OBJECT(&s->itu), 16, "num-fifo", &err);
++        if (err) {
++            error_propagate(errp, err);
++            return;
++        }
+         object_property_set_int(OBJECT(&s->itu), 16, "num-semaphores", &err);
++        if (err) {
++            error_propagate(errp, err);
++            return;
++        }
+         object_property_set_bool(OBJECT(&s->itu), saar_present, "saar-present",
+                                  &err);
++        if (err) {
++            error_propagate(errp, err);
++            return;
++        }
+         if (saar_present) {
+             s->itu.saar = &env->CP0_SAAR;
+         }
+@@ -122,7 +134,15 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
+     sysbus_init_child_obj(OBJECT(dev), "cpc", &s->cpc, sizeof(s->cpc),
+                           TYPE_MIPS_CPC);
+     object_property_set_int(OBJECT(&s->cpc), s->num_vp, "num-vp", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
 +    }
-     object_property_set_bool(cpu, true, "realized", &local_err);
- 
-+out:
-     object_unref(cpu);
-     error_propagate(errp, local_err);
- }
+     object_property_set_int(OBJECT(&s->cpc), 1, "vp-start-running", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
+     object_property_set_bool(OBJECT(&s->cpc), true, "realized", &err);
+     if (err != NULL) {
+         error_propagate(errp, err);
+@@ -136,7 +156,15 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
+     sysbus_init_child_obj(OBJECT(dev), "gic", &s->gic, sizeof(s->gic),
+                           TYPE_MIPS_GIC);
+     object_property_set_int(OBJECT(&s->gic), s->num_vp, "num-vp", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
+     object_property_set_int(OBJECT(&s->gic), 128, "num-irq", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
+     object_property_set_bool(OBJECT(&s->gic), true, "realized", &err);
+     if (err != NULL) {
+         error_propagate(errp, err);
+@@ -152,10 +180,30 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
+     sysbus_init_child_obj(OBJECT(dev), "gcr", &s->gcr, sizeof(s->gcr),
+                           TYPE_MIPS_GCR);
+     object_property_set_int(OBJECT(&s->gcr), s->num_vp, "num-vp", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
+     object_property_set_int(OBJECT(&s->gcr), 0x800, "gcr-rev", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
+     object_property_set_int(OBJECT(&s->gcr), gcr_base, "gcr-base", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
+     object_property_set_link(OBJECT(&s->gcr), OBJECT(&s->gic.mr), "gic", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
+     object_property_set_link(OBJECT(&s->gcr), OBJECT(&s->cpc.mr), "cpc", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
+     object_property_set_bool(OBJECT(&s->gcr), true, "realized", &err);
+     if (err != NULL) {
+         error_propagate(errp, err);
 -- 
 2.21.1
 
