@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB4119FF3C
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 22:41:20 +0200 (CEST)
-Received: from localhost ([::1]:37930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14F9E1A0018
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 23:22:30 +0200 (CEST)
+Received: from localhost ([::1]:38184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLYYZ-0008R8-QA
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 16:41:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60871)
+	id 1jLZCO-0007eP-Ma
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 17:22:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37141)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jLYXP-0007oy-6A
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 16:40:08 -0400
+ (envelope-from <bounces@canonical.com>) id 1jLZBS-0007EK-VH
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 17:21:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1jLYXO-0005ks-0b
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 16:40:07 -0400
-Resent-Date: Mon, 06 Apr 2020 16:40:07 -0400
-Resent-Message-Id: <E1jLYXO-0005ks-0b@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21134)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1jLYXN-0005jZ-PN
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 16:40:05 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1586205590; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=ejT237q+vWGLyXTl9L7nG+WaiZfY/pvuRDwCSnS3by1hKSqE7ECQvcO9XVyHUCOyr7rpz3K9qvN2fcgoAfUX2QEJwRm/sw1FbEqTAFeDUadTm8qExZ1S2cOQKbQG5L61tAfwN5UB28U7X1mx3KQZHKz50Qqq87MABGDW8vCN3D0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1586205590;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=wmkHAF7m6ZW0vDvcD0k9nYX/dj6sdQx8OvsZZif9Dac=; 
- b=J3N1SEjFXS2gAWqLgjGuJoLi++viRunLjGlggWWtK0teTe39ovsrvAlNFgtYNkMl9lWB4tgp0ouv7RSTsrl9QeaFn/QeiE2h3cdMdbx1h83eUlUlE2+5az7KE2DfMQ2kwDUCikGxEnXwEcJpjneaNyHtD2pTorGqpgNPN5DoEvE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 158620558562019.978086141694007;
- Mon, 6 Apr 2020 13:39:45 -0700 (PDT)
-In-Reply-To: <20200406174743.16956-1-f4bug@amsat.org>
-Subject: Re: [PATCH-for-5.1 v2 00/54] various: Fix error-propagation with
- Coccinelle scripts
-Message-ID: <158620558415.11348.6623024802074701567@39012742ff91>
+ (envelope-from <bounces@canonical.com>) id 1jLZBR-0003WW-Lr
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 17:21:30 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57174)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jLZBR-0003US-Gc
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 17:21:29 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jLZBP-0004xC-RQ
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 21:21:27 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CE1512E8107
+ for <qemu-devel@nongnu.org>; Mon,  6 Apr 2020 21:21:27 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: f4bug@amsat.org
-Date: Mon, 6 Apr 2020 13:39:45 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 06 Apr 2020 21:07:15 -0000
+From: martin short <1663287@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: mips
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bacam martin-sk th-huth yongbok-kim
+X-Launchpad-Bug-Reporter: Brian Campbell (bacam)
+X-Launchpad-Bug-Modifier: martin short (martin-sk)
+References: <20170209154937.3933.99004.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158620723534.21403.16504598011986972232.malone@gac.canonical.com>
+Subject: [Bug 1663287] Re: Illegal delay slot code causes abort on mips64
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a296f04231dee355be5db73cc878b9e21689a253";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 05b62a19ed5dff3438010f77cc2a3f1e4b77638d
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.51
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,50 +65,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, f4bug@amsat.org, vsementsov@virtuozzo.com,
- qemu-devel@nongnu.org, armbru@redhat.com
+Reply-To: Bug 1663287 <1663287@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDQwNjE3NDc0My4xNjk1
-Ni0xLWY0YnVnQGFtc2F0Lm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRvY2tl
-ci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1h
-bmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQs
-IHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQg
-QkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRvczcgVj0xIE5FVFdP
-Uks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9XX0VOVj0xIEo9MTQg
-TkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIEJVSUxEICAgZnAtdGVzdAogIEND
-ICAgICAgdGVzdHMvcXRlc3QvZW5kaWFubmVzcy10ZXN0Lm8KL3RtcC9xZW11LXRlc3Qvc3JjL3Rl
-c3RzL3Rlc3QtcWRldi1nbG9iYWwtcHJvcHMuYzogSW4gZnVuY3Rpb24gJ2R5bmFtaWNfaW5zdGFu
-Y2VfaW5pdCc6Ci90bXAvcWVtdS10ZXN0L3NyYy90ZXN0cy90ZXN0LXFkZXYtZ2xvYmFsLXByb3Bz
-LmM6MTU0OjM4OiBlcnJvcjogJ2Vycm9yX2Fib3J0JyB1bmRlY2xhcmVkIChmaXJzdCB1c2UgaW4g
-dGhpcyBmdW5jdGlvbikKICAgICAgICAgICAgICAgICAgICAgICAgIE5VTEwsIE5VTEwsICZlcnJv
-cl9hYm9ydCk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgovdG1wL3Fl
-bXUtdGVzdC9zcmMvdGVzdHMvdGVzdC1xZGV2LWdsb2JhbC1wcm9wcy5jOjE1NDozODogbm90ZTog
-ZWFjaCB1bmRlY2xhcmVkIGlkZW50aWZpZXIgaXMgcmVwb3J0ZWQgb25seSBvbmNlIGZvciBlYWNo
-IGZ1bmN0aW9uIGl0IGFwcGVhcnMgaW4KbWFrZTogKioqIFt0ZXN0cy90ZXN0LXFkZXYtZ2xvYmFs
-LXByb3BzLm9dIEVycm9yIDEKbWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4u
-Li4KICBDQyAgICAgIGZwLXRlc3QubwogIENDICAgICAgc2xvd2Zsb2F0Lm8KLS0tCiAgICByYWlz
-ZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nl
-c3NFcnJvcjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4nLCAnLS1sYWJl
-bCcsICdjb20ucWVtdS5pbnN0YW5jZS51dWlkPWM4MzRlY2RjZmY0ZTQ3YzU5NmViZGNmODU3MjQ1
-MjIzJywgJy11JywgJzEwMDEnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11bmNvbmZpbmVk
-JywgJy0tcm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VYVFJBX0NPTkZJR1VSRV9P
-UFRTPScsICctZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScsICctZScsICdT
-SE9XX0VOVj0xJywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAvY2NhY2hlJywgJy12JywgJy9o
-b21lL3BhdGNoZXcvLmNhY2hlL3FlbXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eics
-ICctdicsICcvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtMTJzaHB4czAvc3JjL2RvY2tlci1z
-cmMuMjAyMC0wNC0wNi0xNi4zNi41Ny45Njk4Oi92YXIvdG1wL3FlbXU6eixybycsICdxZW11OmNl
-bnRvczcnLCAnL3Zhci90bXAvcWVtdS9ydW4nLCAndGVzdC1xdWljayddJyByZXR1cm5lZCBub24t
-emVybyBleGl0IHN0YXR1cyAyLgpmaWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUuaW5zdGFu
-Y2UudXVpZD1jODM0ZWNkY2ZmNGU0N2M1OTZlYmRjZjg1NzI0NTIyMwptYWtlWzFdOiAqKiogW2Rv
-Y2tlci1ydW5dIEVycm9yIDEKbWFrZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92YXIvdG1wL3Bh
-dGNoZXctdGVzdGVyLXRtcC0xMnNocHhzMC9zcmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1bi10ZXN0
-LXF1aWNrQGNlbnRvczddIEVycm9yIDIKCnJlYWwgICAgMm00Ny43MjdzCnVzZXIgICAgMG04Ljk5
-N3MKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dz
-LzIwMjAwNDA2MTc0NzQzLjE2OTU2LTEtZjRidWdAYW1zYXQub3JnL3Rlc3RpbmcuZG9ja2VyLXF1
-aWNrQGNlbnRvczcvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNh
-bGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBm
-ZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+I found the exact same bug. Tested on several hosts and qemu releases.
+The newest one I tested was on FreeBSD 12.1 host and qemu-4.1.1_1 built
+from ports.
+
+Instructions:
+  4000d0:	0320f809 	jalr	t9
+  4000d4:	45454545 	0x45454545         # bc1any4t $fcc1,0x800101f8
+
+I was running qemu-mips as:
+
+qemu-system-mipsel -s -m 1024 -M malta \
+        -kernel vmlinux-3.16.0-6-4kc-malta -initrd initrd.img-3.16.0-6-4kc-=
+malta \
+	-device virtio-blk-pci,drive=3Dhd0 -drive if=3Dnone,id=3Dhd0,format=3Dqcow=
+2,file=3Ddebian_wheezy_mipsel_standard.qcow2    \
+	-append "root=3D/dev/vda1" \
+	-device virtio-net-pci,netdev=3Dnet0 \
+	-netdev user,id=3Dnet0,hostfwd=3Dtcp::1666-:22,ipv6=3Doff  \
+	-curses =
+
+
+abort() was in target/mips/translate.c:12945, in gen_branch().
+
+Doesn't really matter if the instruction is supported on given CPU, user
+can crash the qemu within guest.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1663287
+
+Title:
+  Illegal delay slot code causes abort on mips64
+
+Status in QEMU:
+  New
+
+Bug description:
+  During some randomised testing of an experimental MIPS implementation
+  I found an instruction sequence that also causes aborts on mainline
+  qemu's MIPS support.  The problem is triggered by an MSA branch
+  instruction appearing in a delay slot when emulating a processor
+  without MSA support.
+
+  For example, with the current repository HEAD
+  (f073cd3a2bf1054135271b837c58a7da650dd84b) configured for
+  mips64-softmmu, if I run the attached binary using
+
+      mips64-softmmu/qemu-system-mips64 -bios ../abort2.bin -machine
+  mipssim -nographic
+
+  it will report
+
+      unknown branch 0x13000
+      Aborted (core dumped)
+
+  The binary contains the following two instructions:
+
+      00200008 jr at
+      47081e61 bz.b       w8,0xffffffffbfc0798c
+
+  The jr sets up a jump, and hflags is set accordingly in
+  gen_compute_branch (in target/mips/translate.c).  When processing the
+  bz.b, check_insn generates an exception because the instruction isn't
+  support, but gen_msa_branch skips the usual delay slot check for the
+  same reason, and sets more bits in hflags, leading to an abort in
+  gen_branch because the hflags are now invalid.
+
+  I suspect the best fix is to remove the instruction set condition from
+  the delay slot check in gen_msa_branch.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1663287/+subscriptions
 
