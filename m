@@ -2,59 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1993B1A01A6
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 01:26:46 +0200 (CEST)
-Received: from localhost ([::1]:39018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DD421A01E3
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 01:55:35 +0200 (CEST)
+Received: from localhost ([::1]:39192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLb8e-00029R-M3
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 19:26:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50689)
+	id 1jLbaY-0001Hf-95
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 19:55:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54786)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jLb7f-0001Ky-Sh
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 19:25:45 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jLbZT-0000n2-C2
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 19:54:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jLb7e-0004Nk-KO
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 19:25:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51104)
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jLbZR-0005Vv-3m
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 19:54:27 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34990)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jLb7e-0004Kg-FA
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 19:25:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jLb7c-0002HI-R3
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 23:25:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id ABDE82E8105
- for <qemu-devel@nongnu.org>; Mon,  6 Apr 2020 23:25:40 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 06 Apr 2020 23:20:12 -0000
-From: Russell Morris <ubuntu@rkmorris.us>
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jLbZO-0005UT-4p
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 19:54:25 -0400
+Received: by mail-wr1-x444.google.com with SMTP id g3so1758176wrx.2
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 16:54:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=R34IvQ59WmZYOufinMiSA1+L9itPdN9/G4aCeSyFXAk=;
+ b=uy5Qpd3v8o0Mc5WpPM+GtArMTjVmrmFJs7HjpzUf9AUaU2CY50+AWL4H+O6BKepO2p
+ rQYvxCd9INO3R0o++rfRtOdveUeSw1OtwBMlhhqTT2V9YppbFJ1jVpIZpNqKn+i2XYB3
+ WfufxmXJyPjssAsRf57rf7/LSQbO/ZNN0kAY98qXginVw3mRjDT1oO8XlwUdVSFa+5V3
+ FryILhBvWuMg2J2we+DKrC58LKssVytxBWBNtSpZIjDPhGOY+zWog+UpFAA/O+wWMRwX
+ pQ+SoqYlvjHEiNpjIvii/Pl/xmDfQA6ZNkactksGcztihkkuN/2Bjfgostzj5YJJWiF/
+ kW4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=R34IvQ59WmZYOufinMiSA1+L9itPdN9/G4aCeSyFXAk=;
+ b=YIRfP+CU4krIhVRIqj+h5Taxxna5ao5e2Vura9xT8fXmPm/qXOSGN3qvhhBa03+tpd
+ 96pifS8qMpOShqvuqS1N1z9OWgsUaq1aQFM6ZyT9304LiUogmIGO2ubJfVXOaQmy/tL5
+ 6UP5EL8CXp3LJNa4uF9LcEVpCd8OfXm5RUJv8zN87Pwa4L4IYXRuyKa3/50hLHnQxF/E
+ gvRoN57kL8e/yV5PJF7WRhqc6IK+CVktxtBcRwNGjGY/a+7eanCvWc5j6k0iLriFIajR
+ hR2LBQ0yOC/2wXo3Df40N8fSVvwCzeqRwOpQcxPC32dWAsC2Rfp//6imRdUq71+b6vPE
+ BNzw==
+X-Gm-Message-State: AGi0PubOLHHQXiNdoj9nUDBmO1CtZeIzXLQYq91R78+rTolS/YH+2YC0
+ SMsXxIn0Gpahgw3lfhfMzPmTs6YYbek=
+X-Google-Smtp-Source: APiQypJOdoRWFfQAkX5GrzwAEUTeYVPs/p50/GxqY4eGqWTHv0NlZJzPw6BA5b7ecbHk+wOyvH4tEQ==
+X-Received: by 2002:adf:aacf:: with SMTP id i15mr1720116wrc.31.1586217260807; 
+ Mon, 06 Apr 2020 16:54:20 -0700 (PDT)
+Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id n124sm1506856wma.11.2020.04.06.16.54.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Apr 2020 16:54:20 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 6-u3untu-h
-X-Launchpad-Bug-Reporter: Russell Morris (6-u3untu-h)
-X-Launchpad-Bug-Modifier: Russell Morris (6-u3untu-h)
-Message-Id: <158621521246.22866.8297146941622716788.malonedeb@wampee.canonical.com>
-Subject: [Bug 1871250] [NEW] Failed to create HAX VM
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a296f04231dee355be5db73cc878b9e21689a253";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: e3b9a722e7613a67d694f2a1e7482d52446d8834
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+Subject: [RFC PATCH-for-5.0?] target/mips/translate: Report exception in delay
+ slot as UNPREDICTABLE
+Date: Tue,  7 Apr 2020 01:54:18 +0200
+Message-Id: <20200406235418.18315-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,94 +81,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1871250 <1871250@bugs.launchpad.net>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ "Emilio G . Cota" <cota@braap.org>, Brian Campbell <bacam@z273.org.uk>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Using the BC1ANY4F instruction with a 24Kf core (MIPS32R2
+& ASE_MIPS16) we get:
 
-Hi,
+  $ echo -ne '\x03\x20\xf8\x09EEEE' > cop1x.bin
+  $ qemu-system-mipsel -bios cop1x.bin
+  unknown branch 0x13000
+  Aborted (core dumped)
 
-I'm running the latest (master) of QEMU, though the version doesn't seem
-to matter - I also checked back to v4.2.0, exactly the same issue. And
-this isn't about the VM (guest), if I even just try to run,
+  (gdb) bt
+  #0  0x00007fe2d38b1e35 in raise () at /lib64/libc.so.6
+  #1  0x00007fe2d389c895 in abort () at /lib64/libc.so.6
+  #2  0x000055aa9fe066e5 in gen_branch (ctx=0x7fe27bdfa590, insn_bytes=4) at target/mips/translate.c:13167
+  #3  0x000055aa9fe2baf4 in mips_tr_translate_insn (dcbase=0x7fe27bdfa590, cs=0x55aaa0e2d530) at target/mips/translate.c:30928
+  #4  0x000055aa9fd40138 in translator_loop (ops=0x55aaa05e94e0 <mips_tr_ops>, db=0x7fe27bdfa590, cpu=0x55aaa0e2d530, tb=0x7fe284000040 <code_gen_buffer+19>, max_insns=512) at accel/tcg/translator.c:102
+  #5  0x000055aa9fe2bd21 in gen_intermediate_code (cs=0x55aaa0e2d530, tb=0x7fe284000040 <code_gen_buffer+19>, max_insns=512) at target/mips/translate.c:30999
+  #6  0x000055aa9fd3e3d4 in tb_gen_code (cpu=0x55aaa0e2d530, pc=3217031168, cs_base=0, flags=268435600, cflags=-16252928) at accel/tcg/translate-all.c:1718
+  #7  0x000055aa9fd3ac06 in tb_find (cpu=0x55aaa0e2d530, last_tb=0x0, tb_exit=0, cf_mask=524288) at accel/tcg/cpu-exec.c:407
+  #8  0x000055aa9fd3b4d5 in cpu_exec (cpu=0x55aaa0e2d530) at accel/tcg/cpu-exec.c:731
+  #9  0x000055aa9fcfe33a in tcg_cpu_exec (cpu=0x55aaa0e2d530) at cpus.c:1405
+  #10 0x000055aa9fcfeb90 in qemu_tcg_cpu_thread_fn (arg=0x55aaa0e2d530) at cpus.c:1713
+  #11 0x000055aaa02ea7d7 in qemu_thread_start (args=0x55aaa0e465f0) at util/qemu-thread-posix.c:519
+  #12 0x00007fe2d3a484c0 in start_thread () at /lib64/libpthread.so.0
+  #13 0x00007fe2d3976163 in clone () at /lib64/libc.so.6
 
-> "c:\Program Files\qemu\qemu-system-x86_64.exe" -accel hax
+This is because this COP1X instruction generates a Reserved
+Instruction when used with this core, however we are in a delay
+slot, and exceptions in delay slot are architecturally unpredictable.
 
-Basically, just get a window to open, with acceleration enabled ... I get,
-Open the vm device error:/dev/hax_vm/vm00, ec:3
-Failed to open vm 0
-Failed to create HAX VM
-No accelerator found.
+Core dumps confunse users. Instead, report a friendlier error message:
 
-But I checked - I have installed Intel HAXM, and verified it's running,
-> sc query intelhaxm
-SERVICE_NAME: intelhaxm
-        TYPE               : 1  KERNEL_DRIVER
-        STATE              : 4  RUNNING
-                                (STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOWN)
-        WIN32_EXIT_CODE    : 0  (0x0)
-        SERVICE_EXIT_CODE  : 0  (0x0)
-        CHECKPOINT         : 0x0
-        WAIT_HINT          : 0x0
+  $ qemu-system-mipsel -bios cop1x.bin
+  qemu-system-mipsel: Exception in delay slot is UNPREDICTABLE
 
-Just remove the accelerator (-accel hax), and I get a window - so this
-is related to QEMU being able to contact / use the accelerator.
+Buglink: https://bugs.launchpad.net/qemu/+bug/1663287
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/mips/translate.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Help!?!?
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index 25b595a17d..99e675b87a 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -30925,6 +30925,10 @@ static void mips_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+         }
+     }
+     if (is_slot) {
++        if (ctx->base.is_jmp == DISAS_NORETURN) {
++            error_report("Exception in delay slot is UNPREDICTABLE");
++            exit(1);
++        }
+         gen_branch(ctx, insn_bytes);
+     }
+     ctx->base.pc_next += insn_bytes;
+-- 
+2.21.1
 
-Thanks!
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1871250
-
-Title:
-  Failed to create HAX VM
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hi,
-
-  I'm running the latest (master) of QEMU, though the version doesn't
-  seem to matter - I also checked back to v4.2.0, exactly the same
-  issue. And this isn't about the VM (guest), if I even just try to run,
-
-  > "c:\Program Files\qemu\qemu-system-x86_64.exe" -accel hax
-
-  Basically, just get a window to open, with acceleration enabled ... I get,
-  Open the vm device error:/dev/hax_vm/vm00, ec:3
-  Failed to open vm 0
-  Failed to create HAX VM
-  No accelerator found.
-
-  But I checked - I have installed Intel HAXM, and verified it's running,
-  > sc query intelhaxm
-  SERVICE_NAME: intelhaxm
-          TYPE               : 1  KERNEL_DRIVER
-          STATE              : 4  RUNNING
-                                  (STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOW=
-N)
-          WIN32_EXIT_CODE    : 0  (0x0)
-          SERVICE_EXIT_CODE  : 0  (0x0)
-          CHECKPOINT         : 0x0
-          WAIT_HINT          : 0x0
-
-  Just remove the accelerator (-accel hax), and I get a window - so this
-  is related to QEMU being able to contact / use the accelerator.
-
-  Help!?!?
-
-  Thanks!
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1871250/+subscriptions
 
