@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A85A19FC54
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 19:59:41 +0200 (CEST)
-Received: from localhost ([::1]:36076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD6719FC90
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:09:56 +0200 (CEST)
+Received: from localhost ([::1]:36278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLW28-0005Wz-Di
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 13:59:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36377)
+	id 1jLWC3-0006GX-BH
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:09:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36354)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrF-0002IR-UY
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:27 -0400
+ id 1jLVrD-0002FC-R0
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrA-00036k-Ha
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:25 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54705)
+ id 1jLVrB-00037s-MD
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:23 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:40470)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jLVrA-00033j-Ao; Mon, 06 Apr 2020 13:48:20 -0400
-Received: by mail-wm1-x342.google.com with SMTP id h2so283112wmb.4;
- Mon, 06 Apr 2020 10:48:20 -0700 (PDT)
+ id 1jLVrB-00037R-GR
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:21 -0400
+Received: by mail-wm1-x329.google.com with SMTP id a81so298429wmf.5
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:48:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=n53pt0qup4Bja42ysNmHw44EY6rNqSSO2uSNuR4e+2E=;
- b=r9V51Y1xouns4swlMGeNtpuxw+oQavIJ/c9mpdu2LCGIbVrGK1kRlGdNoixeGzATtE
- UWGY4aI4RIc1AzBg5KEUzySGBSELe6AAoS+vPZeFgqmS2uw5AREWo9H8NySwQbOXDPUd
- zrKRiclIwWnQuK2WASc4pf/9X9JzkGAQWMrHaSonCSDB3FrR+KRUBfisyJsnaDbvJ28T
- WZ3HsobJok8RaVMknOCwZPowiC5PIV4iQaiUREOh++wY4FzqJSvJu/lbHdty63aVdXpc
- 8fn27fKfdmBe51TJA0IXrasNmP3zKtFBJaTQMWDagGNwEKyiPpnyGFjWpQ06J01Odo7s
- lrsw==
+ bh=YhVPUQsfht6jA/IUTaj+buf6eqXAxfk/bBYv1XmJLk4=;
+ b=ok4WPrVUixwIKypERf9YDPnea3W9Jvy7sanmZCZ+u9uMZMV0TH+h1feoKfAQYSCia8
+ aKVETMkgPqRtKV8RFGFlosxY5dcheaR53J56AWxRC+WN8A2DzL6MTUDRuuMODdrknKxK
+ bkXjAganl6WsOl5iBU3GAo2UTdCjldIL9JyeYnAdSoKtfpDVoQHIv9HGCfqJa0pL4MJC
+ di1OSYsrTpiRA3X91/YG7grAFgRt4Ocxk4utXW4ouE/YOrZs/ujnjPs7o5WYSfHRanD9
+ 0JX2VpHs8JBQ/kzOLblGZ4T0vl8nH9zO8XN4QGAU4pnURoHNxmrmuNxEaVdtzWAcd40y
+ xoNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=n53pt0qup4Bja42ysNmHw44EY6rNqSSO2uSNuR4e+2E=;
- b=pCT2owFhmfi8920C+ME2qnfPegX34pJ7f+H1uwPM8OFbR9CShuvOXe0K9gAd7qYhc5
- 1anJfbeP1ldPbrr7J/9fllYttfQP6tdINzzB3UnT5vDdlvd+l4UWMyKofFBK2H/bSwT2
- EvS5sGVjZR71YBMWEmfpdWhnwE1DSGw4smzP8vcUUsLoSUMqp4DIke95kmS9c5xuLevT
- YIG+QOqQPGB1eh1w5OvqDvqjptFN7ivfzbThAuVn4u/Biu3w9AfjF2JexCNmMAsCEIbK
- PjXKFpwxpG+LeNum7YE2Uml3Okn1wxF+UpTsN8vREeVxpXF90CfWFqY8jZntpJ7AcJaX
- ePdA==
-X-Gm-Message-State: AGi0PuYGCvkHKXaNP7G2YRITRbFBOZPePA++ayqqiG0l/yQJeGDlzoYB
- 9sZspp8BBaTgJSfCeGPppdUh/o+wtpQ=
-X-Google-Smtp-Source: APiQypIuiPc2GUAaxQjcigKrXvSPriurNaUO+3xMcESy5OJB7RM1rwN+sb5yoML4b63vYmiMCYPbkA==
-X-Received: by 2002:a1c:a344:: with SMTP id m65mr206848wme.20.1586195299094;
- Mon, 06 Apr 2020 10:48:19 -0700 (PDT)
+ bh=YhVPUQsfht6jA/IUTaj+buf6eqXAxfk/bBYv1XmJLk4=;
+ b=XoTDMhSTbm/02aSi04JEye4G4VXFWMOTjXquHkIK80FCTVBSNl2Fc19espPZAQ3g8e
+ 3HUejHi4IvD9Gp9vbSeEOw3vHNdXLNLn6aQHPJ3fd14kqOVzzlGlsyJ22cMElBwRyqFO
+ /eCdhZo+Wqy0aZnelAUHtQc0N0VMxto/QkRwOhpsNOq1TwoD9tmFh7o4lFp5xLBOhciF
+ S6sElYLcana5yf+B4PE7ML+BIag8ld8lLR/QUnz90OKImy5BTqIWkGB9b2RPELSsc8le
+ oV/QnEow+kLEjW6ECbYvE3nS9Y0/U/BdfFtaR3jt29eLNKkj6Zt+bQU4uPx6faQlprpI
+ F12Q==
+X-Gm-Message-State: AGi0PubeyU5zwUG3WHhtwqdD2blOBR9NRKSeRTW4X/320flWE3JS2xuX
+ MocstZZTa0j0gB4iRbrXCgPxjN+NPNg=
+X-Google-Smtp-Source: APiQypIiSUddRW6GrDP1x9LqwJu4HPIC+MyntKbNyZdQRmc6Zn7xN1OrxmXLbGwi5yjCUEDF0VqzBQ==
+X-Received: by 2002:a1c:4d13:: with SMTP id o19mr205798wmh.82.1586195300185;
+ Mon, 06 Apr 2020 10:48:20 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.48.17
+ by smtp.gmail.com with ESMTPSA id a67sm364880wmc.30.2020.04.06.10.48.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 10:48:18 -0700 (PDT)
+ Mon, 06 Apr 2020 10:48:19 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH-for-5.1 v2 24/54] hw/riscv/sifive_u: Rename
- MachineClass::init()
-Date: Mon,  6 Apr 2020 19:47:13 +0200
-Message-Id: <20200406174743.16956-25-f4bug@amsat.org>
+Subject: [PATCH-for-5.1 v2 25/54] scripts/coccinelle: Catch missing
+ error_propagate() calls in realize()
+Date: Mon,  6 Apr 2020 19:47:14 +0200
+Message-Id: <20200406174743.16956-26-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200406174743.16956-1-f4bug@amsat.org>
 References: <20200406174743.16956-1-f4bug@amsat.org>
@@ -71,7 +72,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::329
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,45 +86,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As there already is the riscv_sifive_u_soc_init() method,
-rename riscv_sifive_u_init() as riscv_sifive_u_machine_init().
+In some DeviceClass::realize() while we can propagate errors
+to the caller, we forgot to do so. Add a Coccinelle patch to
+automatically add the missing code.
 
+Inspired-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/riscv/sifive_u.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../use-error_propagate-in-realize.cocci      | 54 +++++++++++++++++++
+ MAINTAINERS                                   |  1 +
+ 2 files changed, 55 insertions(+)
+ create mode 100644 scripts/coccinelle/use-error_propagate-in-realize.cocci
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 7bf1f30a35..e13ab34de4 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -312,7 +312,7 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-     g_free(nodename);
- }
+diff --git a/scripts/coccinelle/use-error_propagate-in-realize.cocci b/scripts/coccinelle/use-error_propagate-in-realize.cocci
+new file mode 100644
+index 0000000000..7b59277a50
+--- /dev/null
++++ b/scripts/coccinelle/use-error_propagate-in-realize.cocci
+@@ -0,0 +1,54 @@
++// Add missing error-propagation code in DeviceClass::realize()
++//
++// Copyright: (C) 2020 Philippe Mathieu-Daudé
++// This work is licensed under the terms of the GNU GPLv2 or later.
++//
++// spatch \
++//  --macro-file scripts/cocci-macro-file.h --include-headers \
++//  --sp-file scripts/coccinelle/use-error_abort-in-instance_init.cocci \
++//  --keep-comments --timeout 60 --in-place
++//
++// Inspired by https://www.mail-archive.com/qemu-devel@nongnu.org/msg691638.html
++
++
++@ match_class_init @
++TypeInfo info;
++identifier class_initfn;
++@@
++    info.class_init = class_initfn;
++
++
++@ match_realize @
++identifier match_class_init.class_initfn;
++DeviceClass *dc;
++identifier realizefn;
++@@
++void class_initfn(...)
++{
++    ...
++    dc->realize = realizefn;
++    ...
++}
++
++
++@ propagate_in_realize @
++identifier match_realize.realizefn;
++identifier err;
++identifier errp;
++identifier func_with_errp;
++symbol error_abort, error_fatal;
++@@
++void realizefn(..., Error **errp)
++{
++    ...
++    Error *err = NULL;
++    <+...
++    func_with_errp(...,
++-                      \(&error_abort\|&error_fatal\));
+++                      &err);
+++   if (err) {
+++       error_propagate(errp, err);
+++       return;
+++   }
++    ...+>
++}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d06ffeddd5..7b58f02efb 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2059,6 +2059,7 @@ F: scripts/coccinelle/error_propagate_null.cocci
+ F: scripts/coccinelle/remove_local_err.cocci
+ F: scripts/coccinelle/simplify-init-realize-error_propagate.cocci
+ F: scripts/coccinelle/use-error_fatal.cocci
++F: scripts/coccinelle/use-error_propagate-in-realize.cocci
  
--static void riscv_sifive_u_init(MachineState *machine)
-+static void riscv_sifive_u_machine_init(MachineState *machine)
- {
-     const struct MemmapEntry *memmap = sifive_u_memmap;
-     SiFiveUState *s = RISCV_U_MACHINE(machine);
-@@ -606,7 +606,7 @@ static void riscv_sifive_u_machine_class_init(ObjectClass *oc, void *data)
-     MachineClass *mc = MACHINE_CLASS(oc);
- 
-     mc->desc = "RISC-V Board compatible with SiFive U SDK";
--    mc->init = riscv_sifive_u_init;
-+    mc->init = riscv_sifive_u_machine_init;
-     mc->max_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + SIFIVE_U_COMPUTE_CPU_COUNT;
-     mc->min_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + 1;
-     mc->default_cpus = mc->min_cpus;
+ GDB stub
+ M: Alex Bennée <alex.bennee@linaro.org>
 -- 
 2.21.1
 
