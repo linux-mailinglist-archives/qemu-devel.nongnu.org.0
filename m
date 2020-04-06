@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8872619F2CC
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 11:43:09 +0200 (CEST)
-Received: from localhost ([::1]:57124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A768219F2D1
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 11:45:07 +0200 (CEST)
+Received: from localhost ([::1]:57238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLOHc-00034a-IX
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 05:43:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44001)
+	id 1jLOJW-0006TE-NK
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 05:45:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44002)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1jLOGO-0001Pa-5J
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1jLOGO-0001Pb-4K
  for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:41:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1jLOGL-0001zb-Qn
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1jLOGL-0001zg-Qs
  for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:41:51 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:34398)
+Received: from aserp2120.oracle.com ([141.146.126.78]:45240)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1jLOGL-0001wz-FE
+ id 1jLOGL-0001xQ-GD
  for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:41:49 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0369dovi089372;
- Mon, 6 Apr 2020 09:41:41 GMT
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0369djKw069599;
+ Mon, 6 Apr 2020 09:41:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2020-01-29;
- bh=zIeNg9GJ442gcJiKn8WcNNdmeKePXBPreKOVh7LX5jE=;
- b=sqzGm/3DmLBQONhMzabQ1+zDUK7LaCgeNeTki2afJ4layHnUWgmkNSVwBbiR8At8My2g
- J+dSzCOZbhJ6Ptpz3WX/7OdJ5E0JGdvonVhd9exa+i/Y1FwN+xGGFtMxYJzLE+tJbjxR
- rZglctqEdN4pHj0hYuaJsfEMFGTanB+hQ+ABWANZ0t+SO5hLWHDdHE8J4wVDXYP1GEiy
- 6qNli99+NPt+Mb25q4VnjfpvsZEAlgE5iTg/9RHwAA6TG+RHLSyoz9Vn2WvGvU18D54i
- 7j6GldtdfJu8cFx7lRNrLoR50jeo1iSHjIu/MiAavsr58f3O71iKD1uX5xcfp8iyOg1z Uw== 
+ bh=c0j6bwfYWxJ8tWMCbFF9L/DxtHFtQGMxoI2UFJHCj6M=;
+ b=vNSYIydaMYvu4imO4V+i3s1FhFzfZq/HRA2Xkww+8qHuy2BcroyJ56a8oYxSMtK1FM2/
+ 50F+sBPgfmPgKbFlmFIQC/CHI8Gbce4DIGhcFa1pxuj2oUtV5p0av+dA5LH58LK22HY+
+ VOVGX15hc48TgeJZB3ctJVeSbPwdR7yojt0GPMZ3CoC+izkEHiHjFDDVYspf82lTKVL7
+ xv8EjZ5W5AA2V7tEkyIPmRzTP+5+GtXRW9EOVwV9Rgyu1whAUaBQ661K0RBrp713gLFq
+ wH0wNHxSxZt1h3qhd9iHXjYw3Cgp2fBKFE9CnIpO3iD0fQuiNzbzwbiSzv/Kpotzsul8 mA== 
 Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 306hnqwtvt-1
+ by aserp2120.oracle.com with ESMTP id 306j6m5t9t-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 06 Apr 2020 09:41:41 +0000
+ Mon, 06 Apr 2020 09:41:43 +0000
 Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0369cbxX006560;
- Mon, 6 Apr 2020 09:41:40 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3020.oracle.com with ESMTP id 3073xvtt92-1
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0369cU1I006266;
+ Mon, 6 Apr 2020 09:41:42 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3020.oracle.com with ESMTP id 3073xvttbg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 06 Apr 2020 09:41:40 +0000
+ Mon, 06 Apr 2020 09:41:42 +0000
 Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0369fdg6006731;
- Mon, 6 Apr 2020 09:41:39 GMT
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0369fe6b031755;
+ Mon, 6 Apr 2020 09:41:40 GMT
 Received: from flaka.hsd1.ca.comcast.net (/67.180.143.163)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 06 Apr 2020 02:41:38 -0700
+ with ESMTP ; Mon, 06 Apr 2020 02:41:39 -0700
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 04/36] multi-process: Refactor chardev functions out of vl.c
-Date: Mon,  6 Apr 2020 02:40:54 -0700
-Message-Id: <751edf3f6993127a439ed8f80b90fb52e8129d97.1586165555.git.elena.ufimtseva@oracle.com>
+Subject: [PATCH v6 05/36] multi-process: Refactor monitor functions out of vl.c
+Date: Mon,  6 Apr 2020 02:40:55 -0700
+Message-Id: <42e0baf1cbf308ed01bcd72fcc5b829965855883.1586165555.git.elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.25.GIT
 In-Reply-To: <cover.1586165555.git.elena.ufimtseva@oracle.com>
 References: <cover.1586165555.git.elena.ufimtseva@oracle.com>
@@ -71,13 +71,13 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9582
  signatures=668685
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- phishscore=0 adultscore=0
- priorityscore=1501 mlxscore=0 malwarescore=0 mlxlogscore=999
- lowpriorityscore=0 spamscore=0 impostorscore=0 suspectscore=1
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004060083
+ mlxlogscore=999 spamscore=0
+ priorityscore=1501 suspectscore=1 lowpriorityscore=0 malwarescore=0
+ impostorscore=0 mlxscore=0 phishscore=0 adultscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004060083
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+X-Received-From: 141.146.126.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,7 +102,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-Some of the initialization helper functions w.r.t chardev
+Some of the initialization helper functions w.r.t monitor
 in vl.c are also used by the remote process. Therefore, these functions
 are refactored into shared files that both QEMU & remote process
 could use.
@@ -112,69 +112,124 @@ Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- chardev/char.c         | 14 ++++++++++++++
- include/chardev/char.h |  2 ++
- softmmu/vl.c           | 14 --------------
- 3 files changed, 16 insertions(+), 14 deletions(-)
+ include/monitor/monitor.h |  3 +++
+ monitor/monitor.c         | 37 +++++++++++++++++++++++++++++++++++++
+ softmmu/vl.c              | 35 -----------------------------------
+ 3 files changed, 40 insertions(+), 35 deletions(-)
 
-diff --git a/chardev/char.c b/chardev/char.c
-index e77564060d..47dcf93da7 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -1196,3 +1196,17 @@ static void register_types(void)
+diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
+index 1018d754a6..3803e904f2 100644
+--- a/include/monitor/monitor.h
++++ b/include/monitor/monitor.h
+@@ -48,4 +48,7 @@ int monitor_fdset_dup_fd_add(int64_t fdset_id, int dup_fd);
+ void monitor_fdset_dup_fd_remove(int dup_fd);
+ int64_t monitor_fdset_dup_fd_find(int dup_fd);
+ 
++int mon_init_func(void *opaque, QemuOpts *opts, Error **errp);
++void monitor_parse(const char *optarg, const char *mode, bool pretty);
++
+ #endif /* MONITOR_H */
+diff --git a/monitor/monitor.c b/monitor/monitor.c
+index 125494410a..88423b38b6 100644
+--- a/monitor/monitor.c
++++ b/monitor/monitor.c
+@@ -35,6 +35,8 @@
+ #include "sysemu/qtest.h"
+ #include "sysemu/sysemu.h"
+ #include "trace.h"
++#include "qemu/cutils.h"
++#include "qemu/config-file.h"
+ 
+ /*
+  * To prevent flooding clients, events can be throttled. The
+@@ -611,6 +613,41 @@ void monitor_init_globals_core(void)
+                                    NULL);
  }
  
- type_init(register_types);
-+
-+int chardev_init_func(void *opaque, QemuOpts *opts, Error **errp)
++int mon_init_func(void *opaque, QemuOpts *opts, Error **errp)
 +{
-+    Error *local_err = NULL;
-+
-+    if (!qemu_chr_new_from_opts(opts, NULL, &local_err)) {
-+        if (local_err) {
-+            error_propagate(errp, local_err);
-+            return -1;
-+        }
-+        exit(0);
-+    }
-+    return 0;
++    return monitor_init_opts(opts, errp);
 +}
-diff --git a/include/chardev/char.h b/include/chardev/char.h
-index 00589a6025..0804e78f7a 100644
---- a/include/chardev/char.h
-+++ b/include/chardev/char.h
-@@ -290,4 +290,6 @@ GSource *qemu_chr_timeout_add_ms(Chardev *chr, guint ms,
- /* console.c */
- void qemu_chr_parse_vc(QemuOpts *opts, ChardevBackend *backend, Error **errp);
- 
-+int chardev_init_func(void *opaque, QemuOpts *opts, Error **errp);
 +
- #endif
++void monitor_parse(const char *optarg, const char *mode, bool pretty)
++{
++    static int monitor_device_index;
++    QemuOpts *opts;
++    const char *p;
++    char label[32];
++
++    if (strstart(optarg, "chardev:", &p)) {
++        snprintf(label, sizeof(label), "%s", p);
++    } else {
++        snprintf(label, sizeof(label), "compat_monitor%d",
++                 monitor_device_index);
++        opts = qemu_chr_parse_compat(label, optarg, true);
++        if (!opts) {
++            error_report("parse error: %s", optarg);
++            exit(1);
++        }
++    }
++
++    opts = qemu_opts_create(qemu_find_opts("mon"), label, 1, &error_fatal);
++    qemu_opt_set(opts, "mode", mode, &error_abort);
++    qemu_opt_set(opts, "chardev", label, &error_abort);
++    if (!strcmp(mode, "control")) {
++        qemu_opt_set_bool(opts, "pretty", pretty, &error_abort);
++    } else {
++        assert(pretty == false);
++    }
++    monitor_device_index++;
++}
++
+ int monitor_init(MonitorOptions *opts, bool allow_hmp, Error **errp)
+ {
+     Chardev *chr;
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 33568108b0..9517f0b167 100644
+index 9517f0b167..f30b6994e8 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -2039,20 +2039,6 @@ static int device_help_func(void *opaque, QemuOpts *opts, Error **errp)
-     return qdev_device_help(opts);
+@@ -2046,41 +2046,6 @@ static int fsdev_init_func(void *opaque, QemuOpts *opts, Error **errp)
  }
+ #endif
  
--static int chardev_init_func(void *opaque, QemuOpts *opts, Error **errp)
+-static int mon_init_func(void *opaque, QemuOpts *opts, Error **errp)
 -{
--    Error *local_err = NULL;
--
--    if (!qemu_chr_new_from_opts(opts, NULL, &local_err)) {
--        if (local_err) {
--            error_propagate(errp, local_err);
--            return -1;
--        }
--        exit(0);
--    }
--    return 0;
+-    return monitor_init_opts(opts, errp);
 -}
 -
- #ifdef CONFIG_VIRTFS
- static int fsdev_init_func(void *opaque, QemuOpts *opts, Error **errp)
- {
+-static void monitor_parse(const char *optarg, const char *mode, bool pretty)
+-{
+-    static int monitor_device_index = 0;
+-    QemuOpts *opts;
+-    const char *p;
+-    char label[32];
+-
+-    if (strstart(optarg, "chardev:", &p)) {
+-        snprintf(label, sizeof(label), "%s", p);
+-    } else {
+-        snprintf(label, sizeof(label), "compat_monitor%d",
+-                 monitor_device_index);
+-        opts = qemu_chr_parse_compat(label, optarg, true);
+-        if (!opts) {
+-            error_report("parse error: %s", optarg);
+-            exit(1);
+-        }
+-    }
+-
+-    opts = qemu_opts_create(qemu_find_opts("mon"), label, 1, &error_fatal);
+-    qemu_opt_set(opts, "mode", mode, &error_abort);
+-    qemu_opt_set(opts, "chardev", label, &error_abort);
+-    if (!strcmp(mode, "control")) {
+-        qemu_opt_set_bool(opts, "pretty", pretty, &error_abort);
+-    } else {
+-        assert(pretty == false);
+-    }
+-    monitor_device_index++;
+-}
+-
+ struct device_config {
+     enum {
+         DEV_USB,       /* -usbdevice     */
 -- 
 2.25.GIT
 
