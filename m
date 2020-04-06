@@ -2,126 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F0FF19FB4F
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 19:21:32 +0200 (CEST)
-Received: from localhost ([::1]:35538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFA2419FBC8
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 19:40:38 +0200 (CEST)
+Received: from localhost ([::1]:35758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLVRD-0006gc-5z
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 13:21:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58592)
+	id 1jLVjh-0006Mg-7O
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 13:40:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34668)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prvs=13650a4581=coreyw7@fb.com>) id 1jLVQH-000696-9A
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:20:34 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jLVij-0005w0-Td
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:39:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=13650a4581=coreyw7@fb.com>) id 1jLVQF-0002o1-Uj
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:20:33 -0400
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:65348)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=13650a4581=coreyw7@fb.com>)
- id 1jLVQC-0002jb-HY; Mon, 06 Apr 2020 13:20:28 -0400
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 036HK7PW027299; Mon, 6 Apr 2020 10:20:20 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type :
- mime-version; s=facebook; bh=gnJQ7dNKCnMezcwtptQXNHwUn1fFSw/eW8MDrY/DnKY=;
- b=d9RnZ5aP+dfBXXFH0JK6yds3E+0YLAte7KpIHJZPYEQp/ScpnKMAQN0u4GEimBTOjJ5G
- Edpozjl7YWT9KHCmtz8ifpiby3wxARWEyH3ZmE6S3YCZWQHIzlt3Dccmg8lE513G9TWc
- SJ2VYS0aFb1wYDkgz2vZ60YGEACVTSYzVLQ= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
- by mx0a-00082601.pphosted.com with ESMTP id 307ff7tt3w-17
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Mon, 06 Apr 2020 10:20:20 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (100.104.31.183)
- by o365-in.thefacebook.com (100.104.35.174) with Microsoft SMTP
- Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1847.3; Mon, 6 Apr 2020 10:20:16 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XHVhxd8a+iLS0D97Zo7rZQRRQk43lxGwM5BMAJqsmr7Gwh3R0eXvkncgfPtKR1KtFxO+y3E9hzq5CVvl3UHeDx4OMr7n/tETLUllCYpZnSHi7WVsTZGnRal9Q+KNw58QGiwJvKaIMjtsShO+HwceyWAjZib6juSDIsKUW+WBLVSd6gkJuEbh9VUmVsyF4l2hhCVQ0zSJvG/FsZNF2z4D0YqJE6OpsPDdLIi1FwYdSChb08k1fBqhUE1mxO4mXylBC/vUB5dqM0l8GsxEAM9x+a/dC94Wk1YpDiqQJ1DcYYA5Z2aehfowAztKTmsP1qW26IHSOuIX+/GXoMbBflhDVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gnJQ7dNKCnMezcwtptQXNHwUn1fFSw/eW8MDrY/DnKY=;
- b=Ttpcc1PdjEX7jiR6RKTD1MH5v+pR6iaz71lxh2C+Hv71IR8F7atq40T5FTa299uS/hHzj1FBJLT6CYdItkMANSgmGbWCEXab2JlNLMfbUp/WTjJYIz9+iUksG80yPVBavQEDZF4eD87gXhv+SPKW5BqvXsXwoK9XFoFC0jS8mZLZJQc7o2J+KvoT3tHRxN+Y9srbVwl4UtSO3a/oaweJqHycNlKHaErb/+9LTxTS746p5Hdg4tyx6Sp4eLp/YCg0vIcC0GiTCLFblICYv2RDSFxsl3julxrHUwSc+Y+o0F83FSTh7UpcykzhACM5syD3BxhqWafgQbfft/sqYJ3Jsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector2-fb-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gnJQ7dNKCnMezcwtptQXNHwUn1fFSw/eW8MDrY/DnKY=;
- b=f18eG4IyHxy77Tw5luhvTHjYZ5LaRAc2yJ9SK+FVQeHQdDJ1DDl4w1XEnFstQR/ST7sExb1Q+1Sf/5oDF1xgxZ3VR6lMf/0r0Vjf0EbjtMQFdcdn0KBe/gLyRvMrPuQXq0QjGCtvxrks6woirvrf01e3ny9WA2I7PIvd7szgUvE=
-Received: from MW3PR15MB4041.namprd15.prod.outlook.com (2603:10b6:303:47::20)
- by MW3PR15MB3817.namprd15.prod.outlook.com (2603:10b6:303:4d::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.15; Mon, 6 Apr
- 2020 17:20:15 +0000
-Received: from MW3PR15MB4041.namprd15.prod.outlook.com
- ([fe80::c110:c47c:2e3b:af31]) by MW3PR15MB4041.namprd15.prod.outlook.com
- ([fe80::c110:c47c:2e3b:af31%5]) with mapi id 15.20.2878.021; Mon, 6 Apr 2020
- 17:20:15 +0000
-From: Corey Wharton <coreyw7@fb.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-riscv@nongnu.org"
- <qemu-riscv@nongnu.org>
-Subject: Re: [PATCH v2 0/2] Support different CPU types for the sifive_e
- machine
-Thread-Topic: [PATCH v2 0/2] Support different CPU types for the sifive_e
- machine
-Thread-Index: AQHV+W6F19oCiS7Pd0iMGSOlB5BcCKhsfFrN
-Date: Mon, 6 Apr 2020 17:20:15 +0000
-Message-ID: <MW3PR15MB40416B8789C2C1C63997DF8793C20@MW3PR15MB4041.namprd15.prod.outlook.com>
-References: <20200313193429.8035-1-coreyw7@fb.com>
-In-Reply-To: <20200313193429.8035-1-coreyw7@fb.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [2601:601:c980:28be:c89b:8bd6:c93b:5b92]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2c2a6214-8e7b-4f01-d034-08d7da4ec59c
-x-ms-traffictypediagnostic: MW3PR15MB3817:
-x-microsoft-antispam-prvs: <MW3PR15MB3817CF52884FF555F138B01793C20@MW3PR15MB3817.namprd15.prod.outlook.com>
-x-fb-source: Internal
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-forefront-prvs: 0365C0E14B
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW3PR15MB4041.namprd15.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10019020)(366004)(52536014)(55016002)(9686003)(33656002)(8676002)(5660300002)(86362001)(7696005)(71200400001)(64756008)(966005)(2906002)(66476007)(66556008)(110136005)(186003)(19627405001)(53546011)(66946007)(76116006)(66446008)(8936002)(498600001)(4326008)(81166006)(54906003)(6506007)(81156014);
- DIR:OUT; SFP:1102; 
-received-spf: None (protection.outlook.com: fb.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: EXj3P8D9R4de2b9CUK6znqXqjBrKeuQUztu4w8C2TR9SMOUNKIEpkWE+j3OjhcmKjE8aq0bwxxYbZVrHoQndEPduq3miat7SsGCOlwdyHA5LgOsJdrTqAbC6EwVuEDZI2PSMa7O60p+IVTRC8VGp2jhHW3jl1SCY62cOvkg6F+aCAWRMt9WMhP/4wyv5PiuQBQ2xq09DMR8VhvP0doDq/oc5Q9xfYIhnzl00V8HCy0B/ptaY8VO9dBBsiFx5iv/mrlrNp0Ail43o7FC7198sQwlSKqeWtW9gr2ZbNpkLA5Io+vcmpEXkgA0DnTU36R62n8nJVRncijQWFnjnTPPToM3EB+yXfvZiEIJaTJNiAib/7YfKm6NR1ipQnJV8ZkNfi7O2BGzWIgwmBAHRKS05BP4h4w+ooxqqSQqFfD/nAqgPgb2XuTUAcAMbW2a2SSVxP/7C9W+keJ/R22A/zMG/hMzJRiF5L7Kf7T/gB3CFFt+WfbAcdFPtNlJsPQsan2SYZNAV4YX/wmwXCGQdxTM9Wg==
-x-ms-exchange-antispam-messagedata: /D8ESInWC8tqQcGhm6qzMK6HSX0adQTfa8mw+SqmfDBshkYRck4QZk7K1Cs3mtnxaL6pzzbtUqjiIDdjl0YkhqQa1IjI26i+71mVIRVJwT6OOcSQgHeU4eIVSqAIS4X3zVGnzu4jRSBTLY8KMtWaq0mBa1SYskqaF34Dvrlke6pDRI3xbkvnbPcq5ior+pSmTwsJC4zIsHoLMIhtea6lFA==
-x-ms-exchange-transport-forked: True
-Content-Type: multipart/alternative;
- boundary="_000_MW3PR15MB40416B8789C2C1C63997DF8793C20MW3PR15MB4041namp_"
+ (envelope-from <alex.bennee@linaro.org>) id 1jLVii-0005R7-M4
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:39:37 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37254)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jLVii-0005Qt-C3
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:39:36 -0400
+Received: by mail-wr1-x441.google.com with SMTP id w10so484026wrm.4
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:39:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=zVsZYfvPkPZQiDGtrodSsuFSZlYWQpH7o6buIjo+aRQ=;
+ b=N4qrPO1e2POPtQ8fn6T3M4g7TVOUwxPuNv/Xz2WwIAlcugIHr97qps91xskDwTAE1W
+ munqZ8LY+Gj7pTen2qXML/9QYKF4yVX8C9F+K3/C+ENUfngEOP6BAug5oax3NkG8MIHg
+ p1ZXPXAcylaBJZMV9eMnbo/0I6dj4Or0E4oCdSgprpqcwzkmNtzNRamh9amWegEbjX9v
+ PoE7abH7/R2HPRwVedCFVfWE6CDQLWmGHpFwECfF+xrTYQD8NKeQLxRRMwCjvkqVf7PP
+ DgJJ/rgxFIOrksXVTTgWlXv1DpT/OwOjoNG8L522hVhy7AEkX0SFca9PXDuMGnTAtel0
+ xGvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=zVsZYfvPkPZQiDGtrodSsuFSZlYWQpH7o6buIjo+aRQ=;
+ b=YxZ//Zu9C10+xjwockzhzVG4DRtqtr5IloWQzv7p1B8L+A5cvj7ysadxn2WB3CIQaI
+ cnoikz4YtGWapIxISPskqSgtFLIOcQ5yAMCdSPxCQmMSj/X3Uu1EjXhwtuMAVowLYYVm
+ Gkj9FVDpHOrBU+gHp4N9UmL9E17X/jaXKYIyqd+VmZZpNglyktP/lcG5t1q8ldIK90pU
+ XPYOlQKrVdCd7DRYq0OBkoKz0Evhavyz3ew/vodeVDP1w3DpSO/CE+fYshkrfAO7AdnN
+ UBeFk4Ut+r19hNDjy85rqo4XGd7ifL1RaVNzS7XGFiuwMRJPbhrzLvqX/FGsdB3RHvpI
+ t0GQ==
+X-Gm-Message-State: AGi0Pua3oS3fRPulUCBGwfgIzUxNu1OallygFP1NunN6AEUxNvgsRRYV
+ QLIicl2BTDfB/No7djtKOrxOdg==
+X-Google-Smtp-Source: APiQypJuHYEVPoD7P07KFcKxAoasgWYQy4U7j0VMZea2j3y2NQ7zgsLPAc86AQxErVllFJyKbPTRQw==
+X-Received: by 2002:adf:ed8c:: with SMTP id c12mr369880wro.204.1586194775071; 
+ Mon, 06 Apr 2020 10:39:35 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o16sm27385962wrs.44.2020.04.06.10.39.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Apr 2020 10:39:33 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0EF6A1FF7E;
+ Mon,  6 Apr 2020 18:39:33 +0100 (BST)
+References: <20200403094014.9589-1-peter.maydell@linaro.org>
+User-agent: mu4e 1.3.10; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH for-5.0?] docs: Improve our gdbstub documentation
+In-reply-to: <20200403094014.9589-1-peter.maydell@linaro.org>
+Date: Mon, 06 Apr 2020 18:39:33 +0100
+Message-ID: <87wo6sa4yy.fsf@linaro.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c2a6214-8e7b-4f01-d034-08d7da4ec59c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Apr 2020 17:20:15.2145 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xukFE1UhP7b+s5agn9qZ79FdkWAJKJZgmGum/zOF47fiH6gsD86SiW1i1qEyLP0z
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR15MB3817
-X-OriginatorOrg: fb.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-04-06_08:2020-04-06,
- 2020-04-06 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
- lowpriorityscore=0
- mlxscore=0 clxscore=1011 suspectscore=0 phishscore=0 priorityscore=1501
- spamscore=0 malwarescore=0 mlxlogscore=604 adultscore=0 bulkscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004060137
-X-FB-Internal: deliver
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 67.231.153.30
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -133,128 +81,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_MW3PR15MB40416B8789C2C1C63997DF8793C20MW3PR15MB4041namp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
 
-ping
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-https://patchwork.kernel.org/patch/11437661/
-https://patchwork.kernel.org/patch/11437665/
-
-________________________________
-From: Corey Wharton <coreyw7@fb.com>
-Sent: Friday, March 13, 2020 12:35 PM
-To: qemu-devel@nongnu.org <qemu-devel@nongnu.org>; qemu-riscv@nongnu.org <q=
-emu-riscv@nongnu.org>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>; Alistair Francis <Alistair.Francis=
-@wdc.com>; Sagar Karandikar <sagark@eecs.berkeley.edu>; Bastian Koppelmann =
-<kbastian@mail.uni-paderborn.de>; Bin Meng <bmeng.cn@gmail.com>; Corey Whar=
-ton <coreyw7@fb.com>
-Subject: [PATCH v2 0/2] Support different CPU types for the sifive_e machin=
-e
-
-The purpose of this patch set is to allow the sifive_e machine to run
-with different CPU targets to enable different ISA entensions. To that
-end it also introduces a new sifive-e34 CPU type which provides the
-same ISA as sifive-e31, with the addition of the single precision
-floating-point extension (f). The default CPU for the sifive_e machine
-is unchanged.
-
-v2: Added missing RVU flag
-
-Corey Wharton (2):
-  riscv: sifive_e: Support changing CPU type
-  target/riscv: Add a sifive-e34 cpu type
-
- hw/riscv/sifive_e.c |  3 ++-
- target/riscv/cpu.c  | 10 ++++++++++
- target/riscv/cpu.h  |  1 +
- 3 files changed, 13 insertions(+), 1 deletion(-)
-
---
-2.21.1
-
-
---_000_MW3PR15MB40416B8789C2C1C63997DF8793C20MW3PR15MB4041namp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+> The documentation of our -s and -gdb options is quite old; in
+> particular it still claims that it will cause QEMU to stop and wait
+> for the gdb connection, when this has not been true for some time:
+> you also need to pass -S if you want to make QEMU not launch the
+> guest on startup.
 >
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<span>ping<br>
-</span>
-<div><br>
-</div>
-<div>https://patchwork.kernel.org/patch/11437661/<br>
-</div>
-<span><a href=3D"https://patchwork.kernel.org/patch/11437665/" id=3D"LPlnk8=
-66816">https://patchwork.kernel.org/patch/11437665/</a></span><br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Corey Wharton &lt;cor=
-eyw7@fb.com&gt;<br>
-<b>Sent:</b> Friday, March 13, 2020 12:35 PM<br>
-<b>To:</b> qemu-devel@nongnu.org &lt;qemu-devel@nongnu.org&gt;; qemu-riscv@=
-nongnu.org &lt;qemu-riscv@nongnu.org&gt;<br>
-<b>Cc:</b> Palmer Dabbelt &lt;palmer@dabbelt.com&gt;; Alistair Francis &lt;=
-Alistair.Francis@wdc.com&gt;; Sagar Karandikar &lt;sagark@eecs.berkeley.edu=
-&gt;; Bastian Koppelmann &lt;kbastian@mail.uni-paderborn.de&gt;; Bin Meng &=
-lt;bmeng.cn@gmail.com&gt;; Corey Wharton &lt;coreyw7@fb.com&gt;<br>
-<b>Subject:</b> [PATCH v2 0/2] Support different CPU types for the sifive_e=
- machine</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">The purpose of this patch set is to allow the sifi=
-ve_e machine to run<br>
-with different CPU targets to enable different ISA entensions. To that<br>
-end it also introduces a new sifive-e34 CPU type which provides the<br>
-same ISA as sifive-e31, with the addition of the single precision<br>
-floating-point extension (f). The default CPU for the sifive_e machine<br>
-is unchanged.<br>
-<br>
-v2: Added missing RVU flag<br>
-<br>
-Corey Wharton (2):<br>
-&nbsp; riscv: sifive_e: Support changing CPU type<br>
-&nbsp; target/riscv: Add a sifive-e34 cpu type<br>
-<br>
-&nbsp;hw/riscv/sifive_e.c |&nbsp; 3 &#43;&#43;-<br>
-&nbsp;target/riscv/cpu.c&nbsp; | 10 &#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43=
-;&#43;&#43;<br>
-&nbsp;target/riscv/cpu.h&nbsp; |&nbsp; 1 &#43;<br>
-&nbsp;3 files changed, 13 insertions(&#43;), 1 deletion(-)<br>
-<br>
--- <br>
-2.21.1<br>
-<br>
-</div>
-</span></font></div>
-</body>
-</html>
+> Improve the documentation to mention this requirement in the
+> executable's --help output, the documentation of the -gdb option in
+> the manual, and in the "GDB usage" chapter.
+>
+> Includes some minor tweaks to these paragraphs of documentation
+> since I was editing them anyway (such as dropping the description
+> of our gdb support as "primitive").
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> Maybe 5.0 material since it's just a docs improvement?
 
---_000_MW3PR15MB40416B8789C2C1C63997DF8793C20MW3PR15MB4041namp_--
+Sure why not.
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
