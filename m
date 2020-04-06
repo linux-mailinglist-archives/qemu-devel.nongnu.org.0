@@ -2,69 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA54D19FC59
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:01:03 +0200 (CEST)
-Received: from localhost ([::1]:36118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2484719FD1C
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:26:19 +0200 (CEST)
+Received: from localhost ([::1]:36690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLW3S-0007X2-TH
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:01:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36071)
+	id 1jLWRt-0007dZ-VL
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:26:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38636)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jLVqz-0001rG-U5
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:10 -0400
+ (envelope-from <philmd@redhat.com>) id 1jLVxr-00073M-E3
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:55:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jLVqx-0002Pj-Kl
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:09 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:35408)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jLVqx-0002F1-Cx
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:48:07 -0400
-Received: by mail-pf1-x443.google.com with SMTP id a13so7917904pfa.2
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:48:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lYwzIICsJM0RRUf23L+5+nyADTk3rCmJe96y8g1THFk=;
- b=KZM58eP+wzBOJW7tN6bxD0x0yH5YoRkJq5+Fgh+c7gHu0e6lV6Y7wip9MZTMAmFoYH
- oR8QVOi550ZQnLsWnB1+6a6rmvWt7oEUoeQdP4D/+x8Il2nnltLoTkct019+coHaFuTM
- 6yd2Zn8EErtRTzvGHKuH4nHUk95eNpth8p9NmRRXz2YKwmOqIqrPorF22i2rrqP6fiun
- ZyG3laEQyqX/Lku/+3xTv5Wh5SU/5kDcnG6UbwPingxrACD+GiREX5ZwmFxs7bpePa+J
- qJzo6tjN+tNtQDrNbK3cqp81rTyA95wUTcmgsFpj417LzeNPLyHnup9OQ691s7+VovA7
- UAVg==
+ (envelope-from <philmd@redhat.com>) id 1jLVxp-0007Hk-RY
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:55:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41110
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jLVxp-0007Gr-Nw
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 13:55:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586195713;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EKVS7UdLyniSmV+K3U+BCWDj2PPZvEFKSkD0b/gjUnQ=;
+ b=LXdXW0fIE+z/mk+hjSGHAYKH46ZsEHVc2QsR3NNCogyHZdgd/oG6G2DLksqeDR/aWND4QO
+ Bb3DAh9ksSV2Ynw1jJWkAY0WWpx+Xnq16J1DhfMY58B2JR69rFt6xnUtl9lI0Fz9dvxsGi
+ UXDV8M75MdjG4mfz0CUSlgZlNYC1Yt0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-1-MvmKDEKqPmCtWYDAC5JoMQ-1; Mon, 06 Apr 2020 13:55:09 -0400
+X-MC-Unique: MvmKDEKqPmCtWYDAC5JoMQ-1
+Received: by mail-wm1-f72.google.com with SMTP id t62so69185wma.0
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 10:55:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=lYwzIICsJM0RRUf23L+5+nyADTk3rCmJe96y8g1THFk=;
- b=NrihiS0iut5EvjS8rFCubumW1LUYZgZLV8Nz/t8EN0RJ/Va1kDrnVAuOU2Kcs7uq5a
- 9Pq4NTW8q3KygY83Tc7T4Ep2E00EaA6OsB54J08pUKPz3sON/ino+M2rInDI1LgBRXcg
- r2tC3RqLxpdscOuaMJopxsOJqZvfdS6iCA2zMJacjwr3NZAOG31RKiInV/Ie619Cq9G9
- AgwFdyTrXOU5l0rBO6JbQ/2ad0EKO0bLTaYPqiWTgL70VeE7uVgeusVUL+aZxQvgHgOZ
- KlocByqVyMit4YPLn+bBkSpUeN1MSWJs9kEF2NN0EkrCSroMsO3rQsL7OOprNII5NOIp
- Qb7Q==
-X-Gm-Message-State: AGi0PuYgbc8Ky7ls681kKvFjxvWlz0UWADPXmx5B1QrD+X2CbjUsGubr
- kWAd/iqSZIbrdGZT07ilcyZoY7r6U2Y=
-X-Google-Smtp-Source: APiQypJDIVef3t4yb/R1zpk7VJEr6pzhsUCBo6w+/xPDO6x7WdxHaUZvWui25lAw0EBvEqLWgMHDaA==
-X-Received: by 2002:a62:e415:: with SMTP id r21mr581530pfh.169.1586195285354; 
- Mon, 06 Apr 2020 10:48:05 -0700 (PDT)
-Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
- [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id ep21sm137054pjb.10.2020.04.06.10.48.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 10:48:04 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.0] tcg/i386: Fix %r12 guest_base initialization
-Date: Mon,  6 Apr 2020 10:48:03 -0700
-Message-Id: <20200406174803.8192-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ bh=69/nF/b5wOeG2gDS+VtZJUjVBoUPQDai/vkgLqbNy+I=;
+ b=N/suR75vvnFr1XfrJu3goK+yGE1BVS7vVCIyDWwxY05Azs4xyzWCRwGDNTlVpeDxrG
+ 3TO43/WSmJgtTIeORfLwCIlEJD6WB+Ul9U27M/ZYRVYqOrJ3feM8fqdRiaFMqPcligQC
+ U1g4mW2qbqblp/foCYMy+2jRhGIgjxs9c/OVR7pAwjkhhSnqtDEEdKwQcNQ39X9rF0EK
+ qbqVcQGQvFniJ53eb5YUsHDbpqgZFe6f5kj1dRvdDSB2zmKKIy2IlRRzStS3cWUttZfi
+ udpldorMIoJNfRJXole5EQI/cmXn//pLEtRmfiRERnbmaO9PIJv+Ms89lTW+ZzQWTXTR
+ Cqzw==
+X-Gm-Message-State: AGi0PuZ8892ezxZdEvjBkrfZdPhcw25OwJL9i+Z7NlnXy8p9TKMKUI9D
+ cOuGo80Lulddrs2rx+sJP3wAMWZkFV/TcvefMIszlxKGgTkxlu/WlBWaTBMAgyfrjUq44IuAJQ/
+ kfDPxeZGqQU+IA1c=
+X-Received: by 2002:a5d:6a47:: with SMTP id t7mr362870wrw.131.1586195708901;
+ Mon, 06 Apr 2020 10:55:08 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLJBm4ZnjflU1EPcLIcp6ojKFyCtmK2nGtPR/0SEdcv8hFxFnGRGrc+Vt/p9htPyKHchBfyeQ==
+X-Received: by 2002:a5d:6a47:: with SMTP id t7mr362852wrw.131.1586195708653;
+ Mon, 06 Apr 2020 10:55:08 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id a2sm27277020wrp.13.2020.04.06.10.55.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Apr 2020 10:55:08 -0700 (PDT)
+Subject: Re: [PATCH-for-5.1 v2 38/54] hw/arm/bcm2835_peripherals: Add missing
+ error-propagation code
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+References: <20200406174743.16956-1-f4bug@amsat.org>
+ <20200406174743.16956-39-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <08382aa3-a75d-7c78-0007-db7c828b8314@redhat.com>
+Date: Mon, 6 Apr 2020 19:55:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+In-Reply-To: <20200406174743.16956-39-f4bug@amsat.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,32 +94,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "open list:Raspberry Pi" <qemu-arm@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When %gs cannot be used, we use register offset addressing.
-This path is almost never used, so it was clearly not tested.
+On 4/6/20 7:47 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Patch created mechanically by running:
+>=20
+>    $ spatch \
+>      --macro-file scripts/cocci-macro-file.h --include-headers \
+>      --sp-file scripts/coccinelle/object_property_missing_error_propagate=
+.cocci \
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/i386/tcg-target.inc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+sigh I forgot to update this, the scrip has been renamed=20
+add-missing-error_propagate.cocci :(
 
-diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
-index 7f61eeedd0..ec083bddcf 100644
---- a/tcg/i386/tcg-target.inc.c
-+++ b/tcg/i386/tcg-target.inc.c
-@@ -3737,7 +3737,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
-         } else {
-             /* Choose R12 because, as a base, it requires a SIB byte. */
-             x86_guest_base_index = TCG_REG_R12;
--            tcg_out_mov(s, TCG_TYPE_PTR, x86_guest_base_index, guest_base);
-+            tcg_out_movi(s, TCG_TYPE_PTR, x86_guest_base_index, guest_base);
-             tcg_regset_set_reg(s->reserved_regs, x86_guest_base_index);
-         }
-     }
--- 
-2.20.1
+>      --keep-comments --smpl-spacing --in-place --dir hw
+>=20
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>   hw/arm/bcm2835_peripherals.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+>=20
+> diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+> index edcaa4916d..a111e91069 100644
+> --- a/hw/arm/bcm2835_peripherals.c
+> +++ b/hw/arm/bcm2835_peripherals.c
+> @@ -289,8 +289,16 @@ static void bcm2835_peripherals_realize(DeviceState =
+*dev, Error **errp)
+>        *   SD3.0_Host_AHB_eMMC4.4_Usersguide_ver5.9_jan11_10.pdf
+>        */
+>       object_property_set_uint(OBJECT(&s->sdhci), 3, "sd-spec-version", &=
+err);
+> +    if (err) {
+> +        error_propagate(errp, err);
+> +        return;
+> +    }
+>       object_property_set_uint(OBJECT(&s->sdhci), BCM2835_SDHC_CAPAREG, "=
+capareg",
+>                                &err);
+> +    if (err) {
+> +        error_propagate(errp, err);
+> +        return;
+> +    }
+>       object_property_set_bool(OBJECT(&s->sdhci), true, "pending-insert-q=
+uirk",
+>                                &err);
+>       if (err) {
+>=20
 
 
