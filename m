@@ -2,70 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85CF019FD23
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:27:26 +0200 (CEST)
-Received: from localhost ([::1]:36710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08DE619FCC8
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 20:14:26 +0200 (CEST)
+Received: from localhost ([::1]:36402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLWSz-00010u-Jy
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:27:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39897)
+	id 1jLWGP-00078S-3D
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 14:14:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42043)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jLW3L-0000Ki-0R
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:00:56 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jLWDt-000323-OP
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:11:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jLW3J-0002Bq-So
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:00:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59416
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jLW3J-0002BU-PM
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:00:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586196052;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lcRHjxwj2IvLYyUdLYq/UMlWvaUXQxQz8jsA6VMuQkI=;
- b=OHCi6burjlJfmKU2Oht6jJEUhCJJ9KTxRa4CUGHoV/SI+TWEVIHhIleEnJ1PbRuKxMyVb9
- GlzC3991kGUIOg67+zwckyvajp9rqEV20nHzAo2JLujB9WDp6u9A8JySsB+TUoCmv7H6gr
- CCYkJZgVPXWwFXDbuO20E5nuxIFoiyw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-68-UbMHiyz7MBKGZynepQXUNw-1; Mon, 06 Apr 2020 14:00:35 -0400
-X-MC-Unique: UbMHiyz7MBKGZynepQXUNw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4322418C35A4;
- Mon,  6 Apr 2020 18:00:34 +0000 (UTC)
-Received: from [10.3.114.49] (ovpn-114-49.phx2.redhat.com [10.3.114.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A9385C1B0;
- Mon,  6 Apr 2020 18:00:33 +0000 (UTC)
-Subject: Re: [PATCH-for-5.1 v2 03/54] hw/arm/allwinner-a10: Move some code
- from realize() to init()
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-References: <20200406174743.16956-1-f4bug@amsat.org>
- <20200406174743.16956-4-f4bug@amsat.org>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <e9eb76ff-b81b-91ad-55c1-62da93ca8cf4@redhat.com>
-Date: Mon, 6 Apr 2020 13:00:32 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
-MIME-Version: 1.0
-In-Reply-To: <20200406174743.16956-4-f4bug@amsat.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jLWDs-0000pB-GP
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 14:11:49 -0400
+Received: from mail-eopbgr130138.outbound.protection.outlook.com
+ ([40.107.13.138]:49853 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jLWDm-0000gc-G1; Mon, 06 Apr 2020 14:11:43 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=K+7Eez3mtV5K/MMjzwHZDz7BhHn8UMgTZ3MzAL7VyksVMjE+6dKknmmGn9n6HsDyeY1/ZwBiSfOOJTyc1RaM8QQRRU4nSKcvH71mjpN4ELHGak7CHfeRAkdryTkF70zFGdgoJGis9MJpYWGm/uBKLiLrsXGrkAry3HCY1nbzjWlE/V9ZD2MahF1q4omPl0hyUTTG6KEDXKm9QuoTiil+Bw2DknCta0TbvYjrYDD4WAy2G4cHx07qSeqE1f3YD4BHQL0PpyhkAgGHadm5HnD3TQ+IZ18WNXfQD83P9RQq/07X2z7j1N611HgtUzzj6HK57I/agaLajpNOvyhAy57SIg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WoeiNAiZilabHejGMNLyh2ndw5JkHG2GO+RiqeAy+xA=;
+ b=odS8rsCINmGp6Ci/OWs9ii6SE3o73THcgFnYqszOQ01h0rgK93tia601r+DJW7E2v2Ip5pjEyJKWT4Fj4DJEB2yrDlhzI3fBxvwHWLin16sVAB7UdCArLbeYj3Ub8qvkF3MOzp28TWsjobwqt5BzsLKYRn8O0qy8LgA9aL2s6U79eotkpYJPSg2YBpcxy6M70kaha5wVr+tRQgeeJ2UBtfYr3Tozjh2NdRvhHLDreJxwqCAlVTgFVP/YrxJc+C9Mw/DktchGRE9QaLCq/8XSNprGC8MzNKKc86behusRcWbtAKubtmfn3FwdcvyPy3+Lg5gsPtRQybt63l+Yn3h1/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WoeiNAiZilabHejGMNLyh2ndw5JkHG2GO+RiqeAy+xA=;
+ b=nZaHNXlaQ4j57CfsoeyK4fxDbmabuA2UD21+ZMc3g5LqWbmuXWgWiKxr1FnEUTLWrDZauv/7zmOwl+InTjMU9jR534Kq/Kz0IsdXYyG1vr64b3KlrLPRn0RrLoCCfhgf3E7JoU9gyzqSmScPJBHf3ixjV8kzb1DZ8HmrzWxrHg4=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (10.141.175.15) by
+ AM7PR08MB5527.eurprd08.prod.outlook.com (10.141.175.146) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2878.21; Mon, 6 Apr 2020 18:11:39 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::3944:477e:1562:cfcf]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::3944:477e:1562:cfcf%8]) with mapi id 15.20.2878.021; Mon, 6 Apr 2020
+ 18:11:39 +0000
+Subject: Re: [PATCH for-5.0? v2] qcow2: Explicit mention of padding bytes
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20200403181907.878751-1-eblake@redhat.com>
+ <8fe869d5-baf5-6d04-78d4-bee89cd7ef47@virtuozzo.com>
+ <3f720e97-a499-67f9-f85c-1dba29ec9551@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200406211137311
+Message-ID: <b5cd74fb-2d58-6b1c-1ef7-2d6d84a760fc@virtuozzo.com>
+Date: Mon, 6 Apr 2020 21:11:37 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <3f720e97-a499-67f9-f85c-1dba29ec9551@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-ClientProxiedBy: AM0PR04CA0030.eurprd04.prod.outlook.com
+ (2603:10a6:208:122::43) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.161) by
+ AM0PR04CA0030.eurprd04.prod.outlook.com (2603:10a6:208:122::43) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.16 via Frontend
+ Transport; Mon, 6 Apr 2020 18:11:38 +0000
+X-Tagtoolbar-Keys: D20200406211137311
+X-Originating-IP: [185.215.60.161]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f39a2a9d-4f80-40c8-60fa-08d7da55f376
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5527:
+X-Microsoft-Antispam-PRVS: <AM7PR08MB55278692BE45B7B5740D84C6C1C20@AM7PR08MB5527.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:862;
+X-Forefront-PRVS: 0365C0E14B
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(10019020)(4636009)(396003)(346002)(39840400004)(366004)(136003)(376002)(26005)(16526019)(5660300002)(81166006)(956004)(6486002)(2616005)(52116002)(8936002)(8676002)(31696002)(478600001)(81156014)(186003)(36756003)(53546011)(4326008)(2906002)(16576012)(316002)(66946007)(66476007)(66556008)(31686004)(54906003)(86362001);
+ DIR:OUT; SFP:1102; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bbqNoRlHMe6RgsG5OeeEM/jvivhyTDbTrNCl684755X5JLBkkTGwNg26JPy/Jcke6x88TjNMNCZRmZ3mz6eJPt7khUIPQMAlPUlfkoVqRm2jX9zEQGwpgxc+cjtiK4j3y2/R0XNsAGQVSzMo4pu2u17ctlR7vG8W9EdL2Yfvl3eAtSJ7UL42UK57N60iBY6b4pV/ZfstQUgxiZNFIvbFFyi+fpiq9ddEGzmtfqCBPZMOLU2ehZOfO2IlgrbAniFwovGHqvV4uh6zSZoHnMYTw6Yxufw8nQ1KB5ylTB3M14Z2DcBWAJUvogvN5iO/bhIufJr98DdiQebRPPwg91/SY6hXqc3f4bKkq2zHBmKuRJuRmhfSA5oLluovd8nnnaaXdms8pH+QRJSLEAYUtvGTG610tNFk2FI6ZRjOOoOfxiyfrILzFJplx5Wbzoy7yomCoOWCLHL9jHctvERuZL6w5B8Xsb1Xy1t+Vtgyuj8aSp7miTYf9DdARV8A0zYU+j0/bP10tfEI68jlBSmmEFTg6Q==
+X-MS-Exchange-AntiSpam-MessageData: Y5iPxarcGmWKc1FiptV81P66XBss1GhHDvjCS+jngzh5TFj656ESQS81r1vwnTw9jhWhVKqdD+SfqdSrpEWuF/ZlenyMyVg037wA9W/kAn4EAnfwgyz3qp7DePDcMiHtcr58RZMOL9liEEsMieTPPA==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f39a2a9d-4f80-40c8-60fa-08d7da55f376
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2020 18:11:39.3327 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JYMTX2ghJT0odPMA6B6PRub5PzCEOGZPWLVTWnZWhbLHAzwEp/5L16DB8BCUIIK9Zrx7DU6fiVqwK5ZiM2LZU6PojG1+S1D0Qd6v2NFlUNk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5527
+X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
+ [fuzzy]
+X-Received-From: 40.107.13.138
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,37 +112,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Beniamino Galvani <b.galvani@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:Allwinner-a10" <qemu-arm@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, "open list:qcow2" <qemu-block@nongnu.org>,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/6/20 12:46 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> Coccinelle reported:
+06.04.2020 16:32, Eric Blake wrote:
+> On 4/6/20 3:50 AM, Vladimir Sementsov-Ogievskiy wrote:
+>> 03.04.2020 21:19, Eric Blake wrote:
+>>> Although we already covered the need for padding bytes with our
+>>> changes in commit 3ae3fcfa, commit 66fcbca5 just added one byte and
+>>> relied on the rest of the text for implicitly covering 7 padding
+>>> bytes.=C2=A0 For consistency with other parts of the header (such as th=
+e
+>>> header extension format listing padding from n - m, or the snapshot
+>>> table entry mentioning variable padding), we might as well call out
+>>> the remaining 7 bytes as padding until such time (as any) as they gain
+>>> another meaning.
+>>>
+>>> Signed-off-by: Eric Blake <eblake@redhat.com>
+>>> ---
+>>>
+>>> v2: Call out explicit byte range rather than '105 - m' [Max]
+>>>
+>>> Safe for 5.0 as it is just a doc fix, but only if we actually want it.
+>>>
+>>> =C2=A0 docs/interop/qcow2.txt | 1 +
+>>> =C2=A0 1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/docs/interop/qcow2.txt b/docs/interop/qcow2.txt
+>>> index 640e0eca4000..80728bc2008d 100644
+>>> --- a/docs/interop/qcow2.txt
+>>> +++ b/docs/interop/qcow2.txt
+>>> @@ -210,3 +210,4 @@ version 2.
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Available compres=
+sion type values:
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 0: zlib <https://www.zlib.net/>
+>>>
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 105 - 111:=C2=A0 Padding, l=
+eave as zero.
+>>>
+>>
+>> Looking on this in separate, I'd make a software which will zero this pa=
+dding unconditionally. However, if it's an existing image which we just ope=
+n, we should keep the content we read.. On the other hand, of course, if re=
+ad the whole spec, everything is clear.
 >=20
->    $ spatch ... --timeout 60 --sp-file \
->      scripts/coccinelle/simplify-init-realize-error_propagate.cocci
->    HANDLING: ./hw/arm/allwinner-a10.c
->    >>> possible moves from aw_a10_init() to aw_a10_realize() in ./hw/arm/=
-allwinner-a10.c:77
->=20
-> Move the calls using &error_fatal which don't depend of input
+> Maybe:
+>  =C2=A0 105 - 111: Padding, contents defined below
 
-s/of/on/ (here, and in many subsequent messages in the series)
+Works for me, no objections)
 
-> updated before realize() to init().
 >=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->   hw/arm/allwinner-a10.c | 26 +++++++++++++-------------
->   1 file changed, 13 insertions(+), 13 deletions(-)
+> rather than an explicit mention of setting to 0?
 >=20
+
 
 --=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+Best regards,
+Vladimir
 
