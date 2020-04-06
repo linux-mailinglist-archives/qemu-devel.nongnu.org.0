@@ -2,87 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 442FB19F7B9
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 16:15:56 +0200 (CEST)
-Received: from localhost ([::1]:60860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B7C19F7A3
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 16:09:47 +0200 (CEST)
+Received: from localhost ([::1]:60724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLSXa-0008B8-S8
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 10:15:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55937)
+	id 1jLSRe-0002mF-5J
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 10:09:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56226)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anthony.perard@citrix.com>) id 1jLSLn-0005gl-M2
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 10:03:44 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1jLSNi-0007fq-ND
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 10:05:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1jLSLm-0007PL-7O
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 10:03:43 -0400
-Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175]:65287)
+ (envelope-from <ehabkost@redhat.com>) id 1jLSNg-0008IA-Os
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 10:05:41 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39431
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1jLSLi-0007Nb-VD; Mon, 06 Apr 2020 10:03:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1586181818;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=EEshw7iunLfDK0/dpc5kHUSg2CNL4OfRL0BhwgBTPaA=;
- b=P79XvjmU1LS2RjsASuFmcfjdZQrrcfVCoTW0pPd0fDBdplfaKKqti5u6
- 0kxGpp+oActTeGezs6i/kwlkl3WHIWeMyy9U3Anc8SqlmnkugN0Q7W7/6
- B2PYm5rGH7G2imEa+tmM3DAWe2Eh5oEEBtNQRyYWYGwJKPIDAJ/Igywjf U=;
-Authentication-Results: esa6.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none;
- spf=None smtp.pra=anthony.perard@citrix.com;
- spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
- spf=None smtp.helo=postmaster@mail.citrix.com
-Received-SPF: None (esa6.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- anthony.perard@citrix.com) identity=pra;
- client-ip=162.221.158.21; receiver=esa6.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="anthony.perard@citrix.com";
- x-conformance=sidf_compatible
-Received-SPF: Pass (esa6.hc3370-68.iphmx.com: domain of
- anthony.perard@citrix.com designates 162.221.158.21 as
- permitted sender) identity=mailfrom;
- client-ip=162.221.158.21; receiver=esa6.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="anthony.perard@citrix.com";
- x-conformance=sidf_compatible; x-record-type="v=spf1";
- x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
- ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
- ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
- ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83
- ip4:168.245.78.127 ~all"
-Received-SPF: None (esa6.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- postmaster@mail.citrix.com) identity=helo;
- client-ip=162.221.158.21; receiver=esa6.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="postmaster@mail.citrix.com";
- x-conformance=sidf_compatible
-IronPort-SDR: 9MrkKpqrOxmbABMEeQD23ezG2y0rspYc7sVNOVR8yJg58ralCaIY2RCz60VQkbDU5tHapZQcWP
- 1TkP4qAgGWf8oyzgFUOq7VrQJLgd3s49bPrSqjERNw6iwf/4PP3Rc/voNOGhrTR259UK5k4tsE
- 67HkjHkD2zIHr8y5qI3FuzHTjykg/9SHmwbuE6jN9t748FIXdmbPgZ1JrurLl5h94Afd2QS4s2
- tWC3yTh8b1QjOn25r5m699zLhUF7Zruxhi0JxGGng/UMFOWm6qJF2eCebMMuhgQm21SPo71NKE
- ofI=
-X-SBRS: 2.7
-X-MesageID: 15642675
-X-Ironport-Server: esa6.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.72,351,1580792400"; d="scan'208";a="15642675"
-From: Anthony PERARD <anthony.perard@citrix.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v2 for-5.0] xen-block: Fix double qlist remove and request leak
-Date: Mon, 6 Apr 2020 15:02:17 +0100
-Message-ID: <20200406140217.1441858-1-anthony.perard@citrix.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200406105954.GT4088@perard.uk.xensource.com>
-References: <20200406105954.GT4088@perard.uk.xensource.com>
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1jLSNg-0008I2-L4
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 10:05:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586181940;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z+4kbNaYKSc37XZ9+Furg1Tl1WS9KYQK9628t6eyCzg=;
+ b=giYhbe80+Qk+X1dgI+1RjV0QmEzPx0wgIC42B1M+FOF1ufHsZrIdzG9ErSg2Bhgym8vgYa
+ cOJswSRgHbTfNgNLZkcrWIn+8Tq75aWvBhZOHVvPkJgKjBBu3ELlIKWUDPlq5Ni99wf87X
+ 5kUMf0EBFKnWsOA7BsWEhsW6A3+a/og=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-315-xr3WpJeUP1-xHtW-G5EonQ-1; Mon, 06 Apr 2020 10:05:37 -0400
+X-MC-Unique: xr3WpJeUP1-xHtW-G5EonQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AD031005509;
+ Mon,  6 Apr 2020 14:05:36 +0000 (UTC)
+Received: from localhost (ovpn-116-201.gru2.redhat.com [10.97.116.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 43D62277B6;
+ Mon,  6 Apr 2020 14:05:33 +0000 (UTC)
+Date: Mon, 6 Apr 2020 11:05:31 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: Questionable aspects of QEMU Error's design
+Message-ID: <20200406140531.GE299832@habkost.net>
+References: <87o8sblgto.fsf@dusky.pond.sub.org>
+ <87blo7heag.fsf@dusky.pond.sub.org>
+ <87sghjfre8.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 216.71.155.175
+In-Reply-To: <87sghjfre8.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,158 +74,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- qemu-block@nongnu.org, Paul Durrant <paul@xen.org>, qemu-stable@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Anthony PERARD <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit a31ca6801c02 ("qemu/queue.h: clear linked list pointers on
-remove") revealed that a request was removed twice from a list, once
-in xen_block_finish_request() and a second time in
-xen_block_release_request() when both function are called from
-xen_block_complete_aio(). But also, the `requests_inflight' counter is
-decreased twice, and thus became negative.
+On Sat, Apr 04, 2020 at 12:59:27PM +0200, Markus Armbruster wrote:
+> Markus Armbruster <armbru@redhat.com> writes:
+>=20
+> > Markus Armbruster <armbru@redhat.com> writes:
+> >
+> >> QEMU's Error was patterned after GLib's GError.  Differences include:
+> > [...]
+> >> * Return value conventions
+> >>
+> >>   Common: non-void functions return a distinct error value on failure
+> >>   when such a value can be defined.  Patterns:
+> >>
+> >>   - Functions returning non-null pointers on success return null point=
+er
+> >>     on failure.
+> >>
+> >>   - Functions returning non-negative integers on success return a
+> >>     negative error code on failure.
+> >>
+> >>   Different: GLib discourages void functions, because these lead to
+> >>   awkward error checking code.  We have tons of them, and tons of
+> >>   awkward error checking code:
+> >>
+> >>     Error *err =3D NULL;
+> >>     frobnicate(arg, &err);
+> >>     if (err) {
+> >>         ... recover ...
+> >>         error_propagate(errp, err);
+> >>     }
+> >>
+> >>   instead of
+> >>
+> >>     if (!frobnicate(arg, errp))
+> >>         ... recover ...
+> >>     }
+> >>
+> >>   Can also lead to pointless creation of Error objects.
+> >>
+> >>   I consider this a design mistake.  Can we still fix it?  We have mor=
+e
+> >>   than 2000 void functions taking an Error ** parameter...
+> >>
+> >>   Transforming code that receives and checks for errors with Coccinell=
+e
+> >>   shouldn't be hard.  Transforming code that returns errors seems more
+> >>   difficult.  We need to transform explicit and implicit return to
+> >>   either return true or return false, depending on what we did to the
+> >>   @errp parameter on the way to the return.  Hmm.
+> > [...]
+> >
+> > To figure out what functions with an Error ** parameter return, I used
+> > Coccinelle to find such function definitions and print the return types=
+.
+> > Summary of results:
+> >
+> >    2155 void
+> >     873 signed integer
+> >     494 pointer
+> >     153 bool
+> >      33 unsigned integer
+> >       6 enum
+> >    ---------------------
+> >    3714 total
+> >
+> > I then used Coccinelle to find checked calls of void functions (passing
+> > &error_fatal or &error_abort is not considered "checking" here).  These
+> > calls become simpler if we make the functions return a useful value.  I
+> > found a bit under 600 direct calls, and some 50 indirect calls.
+> >
+> > Most frequent direct calls:
+> >
+> >     127 object_property_set_bool
+> >      27 qemu_opts_absorb_qdict
+> >      16 visit_type_str
+> >      14 visit_type_int
+> >      10 visit_type_uint32
+> >
+> > Let's have a closer look at object_property_set() & friends.  Out of
+> > almost 1000 calls, some 150 are checked.  While I'm sure many of the
+> > unchecked calls can't actually fail, I am concerned some unchecked call=
+s
+> > can.
+> >
+> > If we adopt the convention to return a value that indicates success /
+> > failure, we should consider converting object.h to it sooner rather tha=
+n
+> > later.
+> >
+> > Please understand these are rough numbers from quick & dirty scripts.
+>=20
+> Paolo, Daniel, Eduardo,
+>=20
+> Please pick one for QOM:
 
-This is a bug that was introduced in bfd0d6366043, where a `finished'
-list was removed.
+Replying this without reading the whole discussion and context:
 
-That commit also introduced a leak of request in xen_block_do_aio().
-That function calls xen_block_finish_request() but the request is
-never released after that.
+>=20
+> * Do nothing.  Looks like
+>=20
+>      object_property_set_bool(..., &err);
+>      if (err) {
+>          error_propagate(errp, err);
+>          return;
+>      }
+>=20
+> * Return true on success, false on error.  Looks like
+>=20
 
-To fix both issue, we do two changes:
-- we squash finish_request() and release_request() together as we want
-  to remove a request from 'inflight' list to add it to 'freelist'.
-- before releasing a request, we need to let now the result to the
-  other end, thus we should call xen_block_send_response() before
-  releasing a request.
+I prefer this one.
 
-The first change fix the double QLIST_REMOVE() as we remove the extra
-call. The second change makes the leak go away because if we want to
-call finish_request(), we need to call a function that do all of
-finish, send response, and release.
+>      if (!object_property_set_bool(..., errp)) {
+>          return;
+>      }
+>=20
+> * Return 0 on success, -1 on error.  Looks like
+>=20
+>      if (object_property_set_bool(..., errp) < 0) {
+>          return;
+>      }
+>=20
+>   This is slightly more likely to require line wrapping than the
+>   previous one.
 
-Fixes: bfd0d6366043 ("xen-block: improve response latency")
-Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
----
- hw/block/dataplane/xen-block.c | 48 ++++++++++++----------------------
- 1 file changed, 16 insertions(+), 32 deletions(-)
-
-diff --git a/hw/block/dataplane/xen-block.c b/hw/block/dataplane/xen-block.c
-index 288a87a814ad..5f8f15778ba5 100644
---- a/hw/block/dataplane/xen-block.c
-+++ b/hw/block/dataplane/xen-block.c
-@@ -64,6 +64,8 @@ struct XenBlockDataPlane {
-     AioContext *ctx;
- };
- 
-+static int xen_block_send_response(XenBlockRequest *request);
-+
- static void reset_request(XenBlockRequest *request)
- {
-     memset(&request->req, 0, sizeof(request->req));
-@@ -115,23 +117,26 @@ static XenBlockRequest *xen_block_start_request(XenBlockDataPlane *dataplane)
-     return request;
- }
- 
--static void xen_block_finish_request(XenBlockRequest *request)
-+static void xen_block_complete_request(XenBlockRequest *request)
- {
-     XenBlockDataPlane *dataplane = request->dataplane;
- 
--    QLIST_REMOVE(request, list);
--    dataplane->requests_inflight--;
--}
-+    if (xen_block_send_response(request)) {
-+        Error *local_err = NULL;
- 
--static void xen_block_release_request(XenBlockRequest *request)
--{
--    XenBlockDataPlane *dataplane = request->dataplane;
-+        xen_device_notify_event_channel(dataplane->xendev,
-+                                        dataplane->event_channel,
-+                                        &local_err);
-+        if (local_err) {
-+            error_report_err(local_err);
-+        }
-+    }
- 
-     QLIST_REMOVE(request, list);
-+    dataplane->requests_inflight--;
-     reset_request(request);
-     request->dataplane = dataplane;
-     QLIST_INSERT_HEAD(&dataplane->freelist, request, list);
--    dataplane->requests_inflight--;
- }
- 
- /*
-@@ -246,7 +251,6 @@ static int xen_block_copy_request(XenBlockRequest *request)
- }
- 
- static int xen_block_do_aio(XenBlockRequest *request);
--static int xen_block_send_response(XenBlockRequest *request);
- 
- static void xen_block_complete_aio(void *opaque, int ret)
- {
-@@ -286,7 +290,6 @@ static void xen_block_complete_aio(void *opaque, int ret)
-     }
- 
-     request->status = request->aio_errors ? BLKIF_RSP_ERROR : BLKIF_RSP_OKAY;
--    xen_block_finish_request(request);
- 
-     switch (request->req.operation) {
-     case BLKIF_OP_WRITE:
-@@ -306,17 +309,8 @@ static void xen_block_complete_aio(void *opaque, int ret)
-     default:
-         break;
-     }
--    if (xen_block_send_response(request)) {
--        Error *local_err = NULL;
- 
--        xen_device_notify_event_channel(dataplane->xendev,
--                                        dataplane->event_channel,
--                                        &local_err);
--        if (local_err) {
--            error_report_err(local_err);
--        }
--    }
--    xen_block_release_request(request);
-+    xen_block_complete_request(request);
- 
-     if (dataplane->more_work) {
-         qemu_bh_schedule(dataplane->bh);
-@@ -420,8 +414,8 @@ static int xen_block_do_aio(XenBlockRequest *request)
-     return 0;
- 
- err:
--    xen_block_finish_request(request);
-     request->status = BLKIF_RSP_ERROR;
-+    xen_block_complete_request(request);
-     return -1;
- }
- 
-@@ -575,17 +569,7 @@ static bool xen_block_handle_requests(XenBlockDataPlane *dataplane)
-                 break;
-             };
- 
--            if (xen_block_send_response(request)) {
--                Error *local_err = NULL;
--
--                xen_device_notify_event_channel(dataplane->xendev,
--                                                dataplane->event_channel,
--                                                &local_err);
--                if (local_err) {
--                    error_report_err(local_err);
--                }
--            }
--            xen_block_release_request(request);
-+            xen_block_complete_request(request);
-             continue;
-         }
- 
--- 
-Anthony PERARD
+--=20
+Eduardo
 
 
