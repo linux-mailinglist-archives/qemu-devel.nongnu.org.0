@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32B4C19F363
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:17:20 +0200 (CEST)
-Received: from localhost ([::1]:58118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1480819F358
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:15:15 +0200 (CEST)
+Received: from localhost ([::1]:58044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLOoh-0005fa-7Y
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:17:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50175)
+	id 1jLOmg-000286-2B
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:15:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50131)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jLOjt-0006pm-7i
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:22 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jLOjp-0006kX-Va
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jLOjo-0002q8-9V
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:21 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:46628)
+ (envelope-from <peter.maydell@linaro.org>) id 1jLOjp-0002rh-2v
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:17 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:55398)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jLOjo-0002oZ-3V
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:16 -0400
-Received: by mail-wr1-x432.google.com with SMTP id j17so16628369wru.13
+ id 1jLOjo-0002q5-Sr
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 06:12:17 -0400
+Received: by mail-wm1-x336.google.com with SMTP id r16so14045012wmg.5
  for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 03:12:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=qxOK+Eo/Etx7ayjTtq9TRrRBbpvwnNBBT4MlN6HQPlU=;
- b=y3bcytVC/174eOXONPV+l9m74EB/h9dWnq+RcP5Gq4svgEa4yvZENRNu/CCTyHpqjh
- DiPQFYwtHNRvAgcmw7o9sgLhhfmJmQxuIEETimfx8liCuH4yU0l0S9Zlwa4vW3W5BDL7
- 9ANCztwfeqlL928mCq5tvufzYFBOfTb2mTxRmnCVZD7kXF5O6Chjvfo7QCpM56Anpb8A
- +Iy9iSqxRUh5WYZjd35ygReCbfObXcSnruPD+zn39jZly7bHy5n1OhxT62VsbxJfkvw+
- J4f5cAVmKCiZkSBrA7JS6QfXIhvMO7raOCuz4DuwCXTNbkjlKIXdTFrQWMbk2fFKo6ru
- hu0w==
+ bh=WGk0JhktO1LmmcqBkiisXztczdE5FcLoayAA+KbaRqU=;
+ b=n8489t6rTifoqv28F8kszo5RbV9peFZKJIrT25zK1vQqjDEtBLdVtxKYejSPD9wLBh
+ xj406121Sc7/0tld8CNUAK0ikZDa8ppHGyCKxANbbF/vB+xwXqLL1DOuHW/EunWF+Qyv
+ rufRmkqkNZAOwY7y9T+j0f5jnZazptvd2rmhm4MC4sRqfQrwmgYCZpASUU6dfgjmCTNR
+ NNKVrcIcPBt+8RXyz5O48upjTBp5OUjY//HxXmJNaGayDWFilvgZjY77L/3mn0XvfKaN
+ yombsRFyj8Mv+UbDGmv26gGX/tqS4qPopO2xndyiC7DodC02V+SQZOPU+bKBsFAU8ooW
+ B8cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qxOK+Eo/Etx7ayjTtq9TRrRBbpvwnNBBT4MlN6HQPlU=;
- b=YUHpwmNYpt5gksw2n50it224oAYnfrX4uCZ1yXAdJ8gPd76ydvxVqZ7TXGhdHPCxM7
- Zk6p5rM3zF6d9OO74xyGusWDRpYlBZiZP/BRC0MgmamPUa9RcP8DCl2EFJvmJ3jm+v7B
- nd39IMKfCBqAKp/EXNP6WFJ7fR8CGx9AmqIKQuAcwHvq/TGv6PcPu4YNB/ijR9JPtJI7
- +a+vnKywSL0Qa1TRxm1eknjDZtdARUNtBfIKoZUD+UJ4LzKnfo3lAKlPGy6ttLH5yrtI
- UR0rBsyMuoMukSwLC8SM5rgoOI/bPRghUGDheUPvYNb+ZfZh5lyipMImz3aCXAon5S2+
- Wijw==
-X-Gm-Message-State: AGi0PuZZk5sdIafqoWJzvNavKgETApVD2XmRlMIQTQW68yTvu9fPHItK
- id/JMfx4O+RWwgpY+pegNTE5acECUdnOGA==
-X-Google-Smtp-Source: APiQypIC51+H3M0n9O6MAvRH1hvVxsz2mG+J+8e2J5pS4EhvfrGoffyIE6ZavMjDPf0VJD12nhE0oQ==
-X-Received: by 2002:a5d:5141:: with SMTP id u1mr22116282wrt.146.1586167934779; 
- Mon, 06 Apr 2020 03:12:14 -0700 (PDT)
+ bh=WGk0JhktO1LmmcqBkiisXztczdE5FcLoayAA+KbaRqU=;
+ b=MDCuPGGdBppVRhobn1jVB8I4KO54EOebpZqmqXUWurnfNnnRGvPvRQmYSukp5qN56x
+ 1QfZlcRacuLNxdySeK0JWtPIExbilxLF8zgYvXnw4IWEBoGMwS93UM3SUIpBSxPHK+Yd
+ bDU/eafcbJbQygDKATBRDIFpLW+r9b/ThnLuDumEhiI/sFLk5uOHGQuMv39pphu9XzWI
+ eZRxyUDMWWrqVyA6vTVPBTyjlHPGc31J+QHBZ55etYFuAmp+KUThpUK+yFgvAOi1fvsd
+ 4aIf9NHldGGL/ApB4tkK5AOM0DaWD8W4JUclhSPU92VpBcpTks9JABbsNCP166xWLUXs
+ Lx2Q==
+X-Gm-Message-State: AGi0PuZ0KyZHM1CQ/6hrF4p++cQvl0h8EkUjzlDCJdkz37UWW9mMLrtl
+ craXUAplNaz8pvIprK5s5wQ4fLUvuPifkg==
+X-Google-Smtp-Source: APiQypJtKD7/UgTCW48KV5cm05PB3xgGmMb5c91KpttFcWGtDPkONKf/92wkOKL8EsJb12KyWCTiLA==
+X-Received: by 2002:a1c:6605:: with SMTP id a5mr21961062wmc.32.1586167935642; 
+ Mon, 06 Apr 2020 03:12:15 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f187sm25163765wme.9.2020.04.06.03.12.13
+ by smtp.gmail.com with ESMTPSA id f187sm25163765wme.9.2020.04.06.03.12.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 03:12:14 -0700 (PDT)
+ Mon, 06 Apr 2020 03:12:15 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/11] dma/xlnx-zdma: Remove comment
-Date: Mon,  6 Apr 2020 11:12:01 +0100
-Message-Id: <20200406101205.23027-8-peter.maydell@linaro.org>
+Subject: [PULL 08/11] dma/xlnx-zdma: Populate DBG0.CMN_BUF_FREE
+Date: Mon,  6 Apr 2020 11:12:02 +0100
+Message-Id: <20200406101205.23027-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200406101205.23027-1-peter.maydell@linaro.org>
 References: <20200406101205.23027-1-peter.maydell@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::432
+X-Received-From: 2a00:1450:4864:20::336
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,29 +83,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Remove comment.
+Populate DBG0.CMN_BUF_FREE so that SW can see some free space.
 
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-Message-id: 20200402134721.27863-2-edgar.iglesias@gmail.com
+Message-id: 20200402134721.27863-3-edgar.iglesias@gmail.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/dma/xlnx-zdma.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/dma/xlnx-zdma.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/hw/dma/xlnx-zdma.c b/hw/dma/xlnx-zdma.c
-index 2d9c0a0d5e1..a6c5b2304a8 100644
+index a6c5b2304a8..6a4699757af 100644
 --- a/hw/dma/xlnx-zdma.c
 +++ b/hw/dma/xlnx-zdma.c
-@@ -511,7 +511,6 @@ static void zdma_process_descr(XlnxZDMA *s)
-         zdma_src_done(s);
-     }
- 
--    /* Load next descriptor.  */
-     if (ptype == PT_REG || src_cmd == CMD_STOP) {
-         ARRAY_FIELD_DP32(s->regs, ZDMA_CH_CTRL2, EN, 0);
-         zdma_set_state(s, DISABLED);
+@@ -680,6 +680,12 @@ static RegisterAccessInfo zdma_regs_info[] = {
+     },{ .name = "ZDMA_CH_DBG0",  .addr = A_ZDMA_CH_DBG0,
+         .rsvd = 0xfffffe00,
+         .ro = 0x1ff,
++
++        /*
++         * There's SW out there that will check the debug regs for free space.
++         * Claim that we always have 0x100 free.
++         */
++        .reset = 0x100
+     },{ .name = "ZDMA_CH_DBG1",  .addr = A_ZDMA_CH_DBG1,
+         .rsvd = 0xfffffe00,
+         .ro = 0x1ff,
 -- 
 2.20.1
 
