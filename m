@@ -2,94 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2069419F2D7
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 11:45:20 +0200 (CEST)
-Received: from localhost ([::1]:57254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4372719F330
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Apr 2020 12:03:10 +0200 (CEST)
+Received: from localhost ([::1]:57792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLOJj-0006lM-29
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 05:45:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44100)
+	id 1jLOaz-0005GM-BO
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 06:03:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45475)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jLOGW-0001TW-RZ
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:42:02 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jLOL3-0001gi-N6
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:46:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jLOGV-00026d-0S
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:42:00 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23997
+ (envelope-from <pbonzini@redhat.com>) id 1jLOL2-0005zo-MY
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:46:41 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55828
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jLOGU-000267-SZ
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:41:58 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jLOL2-0005yu-J2
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 05:46:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586166118;
+ s=mimecast20190719; t=1586166399;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=y3suTsH1bbq3JZgfq8zijBQI8w0ebNIfdnaWy1uPVnw=;
- b=iWY1koqFzDbKfKeXj0Ftof3eDnYqtXPv/BjX6wTClzJ925MjIBnJzmnCB4R87j7zw0Ohl3
- LFv9hLr7JNsLPehYcbwRLsGGy8vEnftpxHt5wRseWQoG/sN5aJVNGdmyTIsO19qhjbtItp
- 2cAOskzI/6TcKiNkNqhwyNe0JrXREdk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-ReYXmZ4yM8GdiFj3KvfFWA-1; Mon, 06 Apr 2020 05:41:54 -0400
-X-MC-Unique: ReYXmZ4yM8GdiFj3KvfFWA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1DBC8017F3;
- Mon,  6 Apr 2020 09:41:52 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-161.ams2.redhat.com
- [10.36.114.161])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F66B60BF1;
- Mon,  6 Apr 2020 09:41:46 +0000 (UTC)
-Subject: Re: [PATCH for-5.0 2/2] block: Fix blk->in_flight during
- blk_wait_while_drained()
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20200403104415.20963-1-kwolf@redhat.com>
- <20200403104415.20963-3-kwolf@redhat.com>
- <30e7194e-afbc-2822-f086-9891539c0e3a@redhat.com>
- <20200403145017.GE5336@linux.fritz.box>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <e1af671f-ed90-29ab-429f-5d9dedbf5024@redhat.com>
-Date: Mon, 6 Apr 2020 11:41:44 +0200
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3NSYbYw054NJkVL1fjapqeca668ySsYwttmemYsyJFg=;
+ b=dpb5yrMuvFLw2wPuagsWdBrBngm9CC3rriQch4AyDLfhAq2RHTyVxYDnN7rnzSZAaMJngZ
+ SfOJ902Zg662T3uV87owNZqwOOeqbdpG4t43W0TzWswrFVB4DQQ5vQfWrAa3/A9C5Ajoe3
+ Ct1ImRyPdTuGeICnWD3JRjWN2xRfrlo=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-235-_Y_96KRcM3OMfdo4raZXjw-1; Mon, 06 Apr 2020 05:46:38 -0400
+X-MC-Unique: _Y_96KRcM3OMfdo4raZXjw-1
+Received: by mail-wm1-f69.google.com with SMTP id o5so4703178wmo.6
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 02:46:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iO2rTxUejhgnMtVFCGlSVDFN+aK0Hsbfz46oSCWfJHk=;
+ b=Oa1BxreD1USjms5MdcYHUuisJ8a5FMhHds7OKXvmCVuyii2q+E0MxWGA/Z5tjlrVuE
+ p4YO69CfklJQPc1B7OoKATB0xMfo49nNmAvAH4neOb7xHpHzFsaaimQdpUv2nXTqZktQ
+ N62l4FVhOihH8aCH4WWyNVpSqB1hazKWjIUDPQJ8tmv11MqIGIL43byM2fU79GsK6j1g
+ ybDZlnO7e6PyMe0ogmi6rLvm+gym8Q782M6NyGljmai2CetPmr0ZcF9XnFPmGFXD9f0G
+ Uj4yKcwoPKyrnc7iZRZ0Srg9HIhVJ+YtbPvg8/Fqpk9XV42qmMCFUCPR8Rxsmfi7/HTu
+ /skw==
+X-Gm-Message-State: AGi0PuYbXWZGW5CtEf2LFo86MSh6xIF1Paq7YCWJ0n0a2Wbus/9/9EWk
+ 71BnSSAyYJsJoA7hAytT1/7PNNb6Z8hop7zKxLfy1UuAg4Xr5T6mHCIwHLXqr/R+Q16K2+H1ALs
+ Xuwf7Mnw1P8iHrAo=
+X-Received: by 2002:a7b:c343:: with SMTP id l3mr22544379wmj.38.1586166397206; 
+ Mon, 06 Apr 2020 02:46:37 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKuD8AFuVst9vzuntesfb9xe5JjUaehSfhYlqaiN9ob+zKyrlBmhNrTgqsWjFD896+Pc2r8JA==
+X-Received: by 2002:a7b:c343:: with SMTP id l3mr22544357wmj.38.1586166396946; 
+ Mon, 06 Apr 2020 02:46:36 -0700 (PDT)
+Received: from [192.168.10.150] ([93.56.170.5])
+ by smtp.gmail.com with ESMTPSA id 189sm24744000wme.31.2020.04.06.02.46.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Apr 2020 02:46:36 -0700 (PDT)
+Subject: Re: [PATCH] qom-qmp-cmds: remove unnecessary alloc in qmp_object_add
+ to fix memleak
+To: Markus Armbruster <armbru@redhat.com>
+References: <20200313075858.15860-1-pannengyuan@huawei.com>
+ <87a74fdznz.fsf@dusky.pond.sub.org> <87k12t9l7e.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <3fe7d100-9e13-3d3e-c40a-1c19502fb0b4@redhat.com>
+Date: Mon, 6 Apr 2020 11:46:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200403145017.GE5336@linux.fritz.box>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <87k12t9l7e.fsf@dusky.pond.sub.org>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="dYM7hB2V3zWaoNennahEXioKnxcSJe8Vn"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,102 +92,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, qemu-block@nongnu.org, s.reiter@proxmox.com,
- qemu-devel@nongnu.org, t.lamprecht@proxmox.com, stefanha@redhat.com,
- dietmar@proxmox.com
+Cc: Kevin Wolf <kwolf@redhat.com>, berrange@redhat.com, ehabkost@redhat.com,
+ Pan Nengyuan <pannengyuan@huawei.com>, qemu-devel@nongnu.org,
+ euler.robot@huawei.com, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---dYM7hB2V3zWaoNennahEXioKnxcSJe8Vn
-Content-Type: multipart/mixed; boundary="UsfEIQFv8nM5szviunKqL2i1ciccVStmJ"
-
---UsfEIQFv8nM5szviunKqL2i1ciccVStmJ
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 03.04.20 16:50, Kevin Wolf wrote:
-> Am 03.04.2020 um 14:42 hat Max Reitz geschrieben:
->> On 03.04.20 12:44, Kevin Wolf wrote:
->>> Calling blk_wait_while_drained() while blk->in_flight is increased for
->>> the current request is wrong because it will cause the drain operation
->>> to deadlock.
->>>
->>> Many callers of blk_wait_while_drained() have already increased
->>> blk->in_flight when called in a blk_aio_*() path, but can also be calle=
-d
->>> in synchonous code paths where blk->in_flight isn't increased. This
->>> means that these calls of blk_wait_while_drained() are wrong at least i=
-n
->>> some cases.
->>>
->>> In order to fix this, increase blk->in_flight even for synchronous
->>> operations and temporarily decrease the counter again in
->>> blk_wait_while_drained().
->>>
->>> Fixes: cf3129323f900ef5ddbccbe86e4fa801e88c566e
->>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->>> ---
->>>  block/block-backend.c | 8 ++++----
->>>  1 file changed, 4 insertions(+), 4 deletions(-)
->>
->> blk_co_pdiscard() and blk_co_flush() are called from outside of
->> block-backend.c (namely from mirror.c and nbd/server.c).  Is that OK?
+On 06/04/20 08:34, Markus Armbruster wrote:
+> Paolo, looks like this has fallen through the cracks.  If you'd prefer
+> me to take it, let me know.
 >=20
-> Hm... I think you're right that the NBD server has a problem now because
-> we might now decrease blk->in_flight without having increased it.
-> (Mirror should be fine anyway because it sets disable_request_queuing.)
->=20
-> At first I was going to suggest that we could do the opposite of this
-> patch and just move the dec/wait/inc sequence (which this patch removes
-> for read/write) to all coroutine entry functions, so direct calls
-> wouldn't incorrectly decrease the counter.
->=20
-> But this is not what we want either, we do want to queue requests for
-> drained BlockBackends even in the blk_co_*() API.
->=20
-> Do you have another idea or do we have to turn blk_co_*() into wrappers
-> around the existing functions, which would gain an additional bool
-> parameter that tells whether we need to dec/inc or not?
+> Markus Armbruster <armbru@redhat.com> writes:
 
-So that whenever blk_co_* is called from outside of block-backend.c, we
-don=92t dec/inc?
+Actually it was in my latest pull request, but between this version,=20
+Marc-Andr=C3=A9 and mine you might have missed it:
 
-Sounds reasonable to me.
+commit 7f5d9b206d1e86425faa5b84b551068bf044b823
+Author: Paolo Bonzini <pbonzini@redhat.com>
+Date:   Thu Mar 26 10:41:21 2020 +0100
 
-The only alternative I see would be ensuring we call
-blk_wait_while_drained() only outside of in_flight sections (without
-having to dec/inc around it).  But we can=92t call it in synchronous
-sections.  And for those synchronous calls, we also have to wrap the
-in_flight section around the whole asynchronous boilerplate, so there is
-no place where they can call bdrv_wait_while_drained() without dec/inc
-around it.
+    object-add: don't create return value if failed
+   =20
+    No need to return an empty value from object-add (it would also leak
+    if the command failed).  While at it, remove the "if" around object_unr=
+ef
+    since object_unref handles NULL arguments just fine.
+   =20
+    Reported-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+    Message-Id: <20200325184723.2029630-4-marcandre.lureau@redhat.com>
+    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-So I can=92t think of another way either.
+Thanks,
 
-Max
-
-
---UsfEIQFv8nM5szviunKqL2i1ciccVStmJ--
-
---dYM7hB2V3zWaoNennahEXioKnxcSJe8Vn
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6K+VgACgkQ9AfbAGHV
-z0CC0Qf+O3sceGqqQSatwkDHWs0f68tR5jHSXnUumlGaPdFvrI7bhjWfSBMlQrbo
-PwpxBh1EtcaqOj4WPaFCKcJpWxz1k3YEedzknJgV2OlGGoQ/tudsgSfUfEWEFIqQ
-90WTPIASVn3L2Qs3iwjiYyRe/3TWrCM5URCRhsdkgE8ca8fSFzGBmVs0RoO89TyU
-gWuxsOD2wFN5MNlURI2Pi7BZhiO2MhD9x1S8L9+J+MK58tjob3Tbw1FYPivYGxCM
-dfUxIwWn9Bcmnps8gLkFWvwY4JF4q7zAcjNtFf2a6MykEDR95aP/GwDEci50ivtM
-cAwHUviDQwkMYJAeya1YM/EkTm5cZw==
-=De8H
------END PGP SIGNATURE-----
-
---dYM7hB2V3zWaoNennahEXioKnxcSJe8Vn--
+Paolo
 
 
