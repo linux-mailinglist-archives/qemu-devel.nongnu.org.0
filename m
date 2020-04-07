@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEBA21A09BF
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 11:07:28 +0200 (CEST)
-Received: from localhost ([::1]:43450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6542D1A09CA
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 11:11:13 +0200 (CEST)
+Received: from localhost ([::1]:43540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLkCd-0002rm-RB
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 05:07:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56044)
+	id 1jLkGG-0006gX-Gh
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 05:11:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58385)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1jLkBR-00016b-Jw
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:06:14 -0400
+ (envelope-from <stefanha@redhat.com>) id 1jLkFA-0005vY-It
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:10:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1jLkBQ-0007ir-IS
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:06:13 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:40452
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <stefanha@redhat.com>) id 1jLkF9-0004xA-G0
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:10:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20125
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1jLkBQ-0007iP-EF
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:06:12 -0400
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1jLkF9-0004wm-Bj
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:10:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586250372;
+ s=mimecast20190719; t=1586250603;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=tfVifKiE2xfn7n26VgR9OimJ9M+oBz6Al+CpoPMqLJQ=;
- b=FbGMR4FxLbbGRTzRneKwEDwmoffrTRVMiKeuHH2ffrE/KQjusRVVc8a+E3/HxuOftdUeJw
- FZ3YJuVQoDVqAETBhV7uVCkUMQLO+PCWTmSCdWlvZwWAt3cv+L9P3bl/DTE4nKBC96O04M
- OGXaWmGjHiR5oy6kwe19TK1arV9kC1Y=
+ bh=jqNlTEiKupzwd/AdNrwWgYT4fMD9VHxeJbx1FLIG9MM=;
+ b=cIUSwbicnbXvBna6Xd2EhXZe73qQYswGPPM31zQCai3IXgG7fHQC3+ORibIPXKJ6ZoJyLV
+ pe5wcE++I1wY7fHeLGCVuoLj/f6eCdy7K8m3gKZy0miGoNodJERqjVaLtV4E42Asd3uXV5
+ Zz4gtvvSnac4m//RdP1iw6uUN0GwpLM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-162-6PIRzA6TPK64_4L4qMSrYA-1; Tue, 07 Apr 2020 05:06:09 -0400
-X-MC-Unique: 6PIRzA6TPK64_4L4qMSrYA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-277-dN4767_IPjmApadN4gJPLQ-1; Tue, 07 Apr 2020 05:09:57 -0400
+X-MC-Unique: dN4767_IPjmApadN4gJPLQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09989DB20;
- Tue,  7 Apr 2020 09:06:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8780D1922021;
+ Tue,  7 Apr 2020 09:09:56 +0000 (UTC)
 Received: from localhost (ovpn-113-168.ams2.redhat.com [10.36.113.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8CA639DD96;
- Tue,  7 Apr 2020 09:06:05 +0000 (UTC)
-Date: Tue, 7 Apr 2020 10:06:04 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1DAE55DA7B;
+ Tue,  7 Apr 2020 09:09:55 +0000 (UTC)
+Date: Tue, 7 Apr 2020 10:09:54 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 2/4] atomics: update documentation for C11
-Message-ID: <20200407090604.GB247777@stefanha-x1.localdomain>
+Subject: Re: [PATCH 4/4] async: use explicit memory barriers and relaxed
+ accesses
+Message-ID: <20200407090954.GC247777@stefanha-x1.localdomain>
 References: <20200406191320.13371-1-pbonzini@redhat.com>
- <20200406191320.13371-3-pbonzini@redhat.com>
+ <20200406191320.13371-5-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200406191320.13371-3-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200406191320.13371-5-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="nVMJ2NtxeReIH9PS"
+ protocol="application/pgp-signature"; boundary="f0KYrhQ4vYSV2aJu"
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,50 +77,72 @@ Cc: Ying Fang <fangying1@huawei.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---nVMJ2NtxeReIH9PS
+--f0KYrhQ4vYSV2aJu
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 06, 2020 at 03:13:18PM -0400, Paolo Bonzini wrote:
-> -The semantics of these primitives map to Java volatile variables,
-> -and are strongly related to memory barriers as used in the Linux
-> -kernel (see below).
-> -
-> -As long as you use atomic_mb_read and atomic_mb_set, accesses cannot
-> -be reordered with each other, and it is also not possible to reorder
-> -"normal" accesses around them.
-> -
-> -However, and this is the important difference between
-> -atomic_mb_read/atomic_mb_set and sequential consistency, it is important
-> -for both threads to access the same volatile variable.  It is not the
-> -case that everything visible to thread A when it writes volatile field f
-> -becomes visible to thread B after it reads volatile field g. The store
-> -and load have to "match" (i.e., be performed on the same volatile
-> -field) to achieve the right semantics.
-> -
-> -
-> -These operations operate on any type that is as wide as an int or smaller.
-> +which however are deprecated.
+On Mon, Apr 06, 2020 at 03:13:20PM -0400, Paolo Bonzini wrote:
+> When using C11 atomics, non-seqcst reads and writes do not participate
+> in the total order of seqcst operations.  In util/async.c and util/aio-po=
+six.c,
+> in particular, the pattern that we use
+>=20
+>           write ctx->notify_me                 write bh->scheduled
+>           read bh->scheduled                   read ctx->notify_me
+>           if !bh->scheduled, sleep             if ctx->notify_me, notify
+>=20
+> needs to use seqcst operations for both the write and the read.  In
+> general this is something that we do not want, because there can be
+> many sources that are polled in addition to bottom halves.  The
+> alternative is to place a seqcst memory barrier between the write
+> and the read.  This also comes with a disadvantage, in that the
+> memory barrier is implicit on strongly-ordered architectures and
+> it wastes a few dozen clock cycles.
+>=20
+> Fortunately, ctx->notify_me is never written concurrently by two
+> threads, so we can instead relax the writes to ctx->notify_me.
+> [This part of the commit message is still to be written more
+> in detail and is what I am not sure about.]
+>=20
+> Analyzed-by: Ying Fang <fangying1@huawei.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  util/aio-posix.c |  9 ++++++++-
+>  util/aio-win32.c |  8 +++++++-
+>  util/async.c     | 12 ++++++++++--
+>  3 files changed, 25 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/util/aio-posix.c b/util/aio-posix.c
+> index cd6cf0a4a9..37afec726f 100644
+> --- a/util/aio-posix.c
+> +++ b/util/aio-posix.c
+> @@ -569,7 +569,13 @@ bool aio_poll(AioContext *ctx, bool blocking)
+>       * so disable the optimization now.
+>       */
+>      if (blocking) {
+> -        atomic_add(&ctx->notify_me, 2);
+> +        atomic_set(&ctx->notify_me, atomic_read(&ctx->notify_me) + 2);
 
-Please indicate why they are deprecated and advise which alternative is
-preferred.  This will help readers understand the current best practices
-and make a decision about whether to avoid the deprecated APIs.
+Non-atomic "atomic" code looks suspicious and warrants a comment
+mentioning that this is only executed from one thread.  This applies to
+the other instances in this patch too.
 
---nVMJ2NtxeReIH9PS
+--f0KYrhQ4vYSV2aJu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6MQnwACgkQnKSrs4Gr
-c8iMuQgAvbA+Qhz2HN0hehNjeb5jPHAnzY3Sc2lzz0FtIssdzyjD/lXkoCI5t+yr
-0enOBN4J5wvUv+qYm0WOLjZ1xIzmr2pbditsONVb8o6TsvVnId4/tt/SihmNCCzM
-jrkxqjhQWRC20A/GCVlBNwIzmZrA3TYeUF4UusXXAs1d2IiYgPUr8fWzU+j+3NLM
-jwDdBWC9k884oXvmeagdDIcM1Pk3BjX4qst2Vs+JvdC+A+WGa+ZQ/AErSrsKP/mj
-vKUrA7UUUTIPBBENMJBEsfZGZBBqfTs7l85G3VtbKlQMNPuupLDzYW57h74gxyP+
-FYVZYMPg9mSpStupoHT6343Y3XQ7kQ==
-=1bHI
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6MQ2IACgkQnKSrs4Gr
+c8irTAgAhT/wa9N9TY+tJ92FEtjJX+INrAJuDhDE6mhg7VSYL6fusBxO3bMJleFl
+lLteyt+ikhhASHbQdhfc9FZ7Bcei5ZiQ5DdlNkJLEKVmOwuEPcou+pyHUVmCZKjR
+hg8aPrt5ZmT/T3y5bZPVYQ995XYi7kgsnkPdZsf4YoO9Do5NDQMHCmN2ZDxLTetp
+/v1H1z7+qpgzK4mNqxjV9hwEadyQ23SqtRdy6ast1ybgFpxCmRLEfB0lECTk4daU
+5nqQ4n3FZIyB+ptxaMB6icMzM2UBO5U85qIIVAGlACqSlZcVU3R3ffCmdIWPUO/K
+YSq+j8ieiyJxTmygLVluEEabp6xXmg==
+=eGiK
 -----END PGP SIGNATURE-----
 
---nVMJ2NtxeReIH9PS--
+--f0KYrhQ4vYSV2aJu--
 
 
