@@ -2,93 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBFA41A0E27
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 15:08:31 +0200 (CEST)
-Received: from localhost ([::1]:47186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D152F1A0E68
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 15:32:45 +0200 (CEST)
+Received: from localhost ([::1]:47504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLnxu-000364-WA
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 09:08:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39910)
+	id 1jLoLM-00056e-V9
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 09:32:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45462)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jLnx3-0002g0-J0
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 09:07:38 -0400
+ (envelope-from <bounces@canonical.com>) id 1jLoKF-0004JT-0E
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 09:31:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jLnx1-0004M4-Pt
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 09:07:37 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58904
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jLnx1-0004Io-84
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 09:07:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586264854;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O4C6E3l4A8GvX9sSQ9EbUY/KVQFkq3ZNosnRYpz09FU=;
- b=iZmipKfs0cPdD0Z6caRF1AayWli2FquajuUT8AU0XakVngOeVY/1nf/H8KN7dYcRH4B7uO
- aMi19jHuraZXuQuBu2iWaemRck4vq8CvsEWyJUryvS+w1YZ/Ik+cpKK3eEDdx16IzTTjSz
- vVKjf3zWwMsVU2TwMrOaSHy6D/eLMoM=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-CP6lnbH7OlCAjLMB3XZi6Q-1; Tue, 07 Apr 2020 09:07:29 -0400
-X-MC-Unique: CP6lnbH7OlCAjLMB3XZi6Q-1
-Received: by mail-ed1-f71.google.com with SMTP id n15so3038220edq.6
- for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 06:07:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Wm+JTSCWtvuw/S+BqEamaWBIaux6OslIEAbQoenfiII=;
- b=Lfsy/+cdAl9KaY600JmXsBlOG0VOAKzDSXS7ZCVfShE7pEmsgXHMnItJ89/z4Urnih
- kAObZfcM0fs0T20NKukKIadJmDu6zPdyWXUzcQW5TZaZ3Ek1WqbT3337KVIMPHoxaOB4
- ZqUwAO6ONk7pdNYy2EXD8Dgd0z8eeV4uGUl8/cvZI+ZOSxzfqKiPE9Lh0h5xXGgw8kNy
- ZAs7PvNPbKRWyUmrAJGmVW8vZiLzFvudZr2wPmnXHtIEPA/R468HmHZIZa1NNNRw1KcP
- cDwqLx17nIcrDbuOpLf0ejNOBc5d6i74PGNmRQ9fI/yR6TePZq5OjU2wuKndo5ZPcLA6
- Yfaw==
-X-Gm-Message-State: AGi0PuY55k7rZWyx+yADsn0GQxN6wjH1PiQjplTrGYeOffqEI/Dq1B1b
- J2e7kKKeVCviYte1gAB0oUNaR/HhK0tuwKMcY/bKNsS28jLIZZrJZaIs/ZdU21jLKWzugTMT7Lk
- av3MN75kYkj5sb40=
-X-Received: by 2002:a50:f00e:: with SMTP id r14mr1947104edl.228.1586264847849; 
- Tue, 07 Apr 2020 06:07:27 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIT2kNkmcrVLxccJHnICcIOKXtG6Ai7+vcrUsMcuQqPF46wRT7Um/5P32oM93mOzGOlLksttw==
-X-Received: by 2002:a50:f00e:: with SMTP id r14mr1947070edl.228.1586264847567; 
- Tue, 07 Apr 2020 06:07:27 -0700 (PDT)
-Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id y10sm3203287ejm.3.2020.04.07.06.07.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Apr 2020 06:07:26 -0700 (PDT)
-Subject: Re: [PATCH-for-5.1 v2 48/54] scripts/coccinelle: Use &error_abort in
- TypeInfo::instance_init()
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-References: <20200406174743.16956-1-f4bug@amsat.org>
- <20200406174743.16956-49-f4bug@amsat.org>
- <04663728-06f3-85bf-74b7-45184f90aa0a@virtuozzo.com>
- <ac7213fd-3ea2-e80c-7308-5f2de02c341c@redhat.com>
- <ae9ced39-f039-ffb5-b33b-df93b0f35e36@virtuozzo.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ffd970c9-c8f3-b6c4-3592-cbace296f986@redhat.com>
-Date: Tue, 7 Apr 2020 15:07:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <bounces@canonical.com>) id 1jLoKD-0002uw-80
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 09:31:34 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43118)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jLoKD-0002uJ-1Q
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 09:31:33 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jLoKB-0003tO-A2
+ for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 13:31:31 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4AB6F2E810A
+ for <qemu-devel@nongnu.org>; Tue,  7 Apr 2020 13:31:31 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <ae9ced39-f039-ffb5-b33b-df93b0f35e36@virtuozzo.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Tue, 07 Apr 2020 13:17:18 -0000
+From: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: hugepage kvm powerpc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: mopsfelder sathnaga
+X-Launchpad-Bug-Reporter: Satheesh Rajendran (sathnaga)
+X-Launchpad-Bug-Modifier: Satheesh Rajendran (sathnaga)
+References: <158391580227.26961.2494190856052631580.malonedeb@gac.canonical.com>
+Message-Id: <158626543829.12584.7437498497947709466.malone@chaenomeles.canonical.com>
+Subject: [Bug 1866962] Re: [Regression]Powerpc kvm guest unable to start with
+ hugepage backed memory
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a296f04231dee355be5db73cc878b9e21689a253";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 631128512c63ab794d36716c4bc60f0284dfaa7f
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -97,153 +67,226 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Reply-To: Bug 1866962 <1866962@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/7/20 3:01 PM, Vladimir Sementsov-Ogievskiy wrote:
-> 07.04.2020 14:03, Philippe Mathieu-Daud=C3=A9 wrote:
->> On 4/7/20 9:07 AM, Vladimir Sementsov-Ogievskiy wrote:
->>> 06.04.2020 20:47, Philippe Mathieu-Daud=C3=A9 wrote:
->>>> The instance_init() calls are not suppose to fail. Add a
->>>> Coccinelle script to use &error_abort instead of ignoring
->>>> errors by using a NULL Error*.
->>>>
->>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->>>> ---
->>>> =C2=A0 .../use-error_abort-in-instance_init.cocci=C2=A0=C2=A0=C2=A0 | =
-52=20
->>>> +++++++++++++++++++
->>>> =C2=A0 MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 1 +
->>>> =C2=A0 2 files changed, 53 insertions(+)
->>>> =C2=A0 create mode 100644=20
->>>> scripts/coccinelle/use-error_abort-in-instance_init.cocci
->>>>
->>>> diff --git=20
->>>> a/scripts/coccinelle/use-error_abort-in-instance_init.cocci=20
->>>> b/scripts/coccinelle/use-error_abort-in-instance_init.cocci
->>>> new file mode 100644
->>>> index 0000000000..8302d74a0c
->>>> --- /dev/null
->>>> +++ b/scripts/coccinelle/use-error_abort-in-instance_init.cocci
->>>> @@ -0,0 +1,52 @@
->>>> +// Use &error_abort in TypeInfo::instance_init()
->>>> +//
->>>> +// Copyright: (C) 2020 Philippe Mathieu-Daud=C3=A9
->>>> +// This work is licensed under the terms of the GNU GPLv2 or later.
->>>> +//
->>>> +// spatch \
->>>> +//=C2=A0 --macro-file scripts/cocci-macro-file.h --include-headers \
->>>> +//=C2=A0 --sp-file=20
->>>> scripts/coccinelle/use-error_abort-in-instance_init.cocci \
->>>> +//=C2=A0 --keep-comments --in-place
->>>> +//
->>>> +// Inspired by=20
->>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg692500.html
->>>> +// and=20
->>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg693637.html
->>>> +
->>>> +
->>>> +@ has_qapi_error @
->>>> +@@
->>>> +=C2=A0=C2=A0=C2=A0 #include "qapi/error.h"
->>>> +
->>>> +
->>>> +@ match_instance_init @
->>>> +TypeInfo info;
->>>> +identifier instance_initfn;
->>>> +@@
->>>> +=C2=A0=C2=A0=C2=A0 info.instance_init =3D instance_initfn;
->>>> +
->>>> +
->>>> +@ use_error_abort @
->>>> +identifier match_instance_init.instance_initfn;
->>>> +identifier func_with_error;
->>>> +expression parentobj, propname, childobj, size, type, errp;
->>>> +position pos;
->>>> +@@
->>>> +void instance_initfn(...)
->>>> +{
->>>> +=C2=A0=C2=A0 <+...
->>>> +(
->>>> +=C2=A0=C2=A0 object_initialize_child(parentobj, propname,
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 childobj, size, type,
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 errp, NULL);
->=20
-> I think, it doesn't actually differs from just=20
-> object_initialize_child(..., NULL); and you don't need all these=20
-> metavaraibles
->=20
->>>> +|
->>>> +=C2=A0=C2=A0 func_with_error@pos(...,
->>>> +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 NULL);
->>>> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 &error_abort);
->>>> +)
->>>
->>>
->>> Hmm. I don't follow, what are you trying to achieve by this ( | )=20
->>> construction? The second pattern (func_with_error...) will be matched=
-=20
->>> anyway, with or without first pattern (object_initialize_child...)=20
->>> matched. And first pattern does nothing.
->>
->> Expected behavior :)
->>
->> If object_initialize_child() matched:
->> =C2=A0=C2=A0 do nothing.
->> Else:
->> =C2=A0=C2=A0 transform.
->=20
-> Ah, understand, thanks. Checked, it works.
->=20
-> Possibly simpler way is just define func_with_errno identifier like this:
->=20
-> identifier func_with_error !=3D object_initialize_child;
+Thanks! Murilo, am able to boot with current master, tested with(commit
+53ef8a92eb04ee19640f5aad3bff36cd4a36c250).
 
-I didn't know, thanks!
+Regards,
+-Satheesh
 
->=20
->>
->>>
->>>
->>>> +=C2=A0=C2=A0 ...+>
->>>> +}
->>>> +
->>>> +
->>>> +@script:python depends on use_error_abort && !has_qapi_error@
->>>> +p << use_error_abort.pos;
->>>> +@@
->>>> +print('[[manual edit required, %s misses #include "qapi/error.h"]]'=
-=20
->>>> % p[0].file)
->>>> diff --git a/MAINTAINERS b/MAINTAINERS
->>>> index 14de2a31dc..ae71a0a4b0 100644
->>>> --- a/MAINTAINERS
->>>> +++ b/MAINTAINERS
->>>> @@ -2059,6 +2059,7 @@ F: scripts/coccinelle/error-use-after-free.cocci
->>>> =C2=A0 F: scripts/coccinelle/error_propagate_null.cocci
->>>> =C2=A0 F: scripts/coccinelle/remove_local_err.cocci
->>>> =C2=A0 F: scripts/coccinelle/simplify-init-realize-error_propagate.coc=
-ci
->>>> +F: scripts/coccinelle/use-error_abort-in-instance_init.cocci
->>>> =C2=A0 F: scripts/coccinelle/use-error_fatal.cocci
->>>> =C2=A0 F: scripts/coccinelle/use-error_propagate-in-realize.cocci
->>>>
->>>
->>>
->>
->=20
->=20
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1866962
+
+Title:
+  [Regression]Powerpc kvm guest unable to start with hugepage backed
+  memory
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  Current upstream qemu master does not boot a powerpc kvm guest backed
+  by hugepage.
+
+  HW: Power9 (DD2.3)
+  Host Kernel: 5.6.0-rc5
+  Guest Kernel: 5.6.0-rc5
+  Qemu: ba29883206d92a29ad5a466e679ccfc2ee6132ef
+
+  Steps to reproduce:
+  1. Allocate enough hugepage to boot a KVM guest
+  # cat /proc/meminfo |grep ^HugePages
+  HugePages_Total:    5000
+  HugePages_Free:     5000
+  HugePages_Rsvd:        0
+  HugePages_Surp:        0
+
+  2. Define and boot a guest
+  /usr/bin/virt-install --connect=3Dqemu:///system --hvm --accelerate --nam=
+e 'vm1' --machine pseries --memory=3D8192,hugepages=3Dyes --vcpu=3D8,maxvcp=
+us=3D8,sockets=3D1,cores=3D8,threads=3D1 --import --nographics --serial pty=
+ --memballoon model=3Dvirtio --controller type=3Dscsi,model=3Dvirtio-scsi -=
+-disk path=3D/home/kvmci/tests/data/avocado-vt/images/f31-ppc64le.qcow2,bus=
+=3Dscsi,size=3D10,format=3Dqcow2 --network=3Dbridge=3Dvirbr0,model=3Dvirtio=
+,mac=3D52:54:00:5f:82:83 --mac=3D52:54:00:5f:82:83 --boot emulator=3D/home/=
+sath/qemu/ppc64-softmmu/qemu-system-ppc64,kernel=3D/home/kvmci/linux/vmlinu=
+x,kernel_args=3D"root=3D/dev/sda5 rw console=3Dtty0 console=3DttyS0,115200 =
+init=3D/sbin/init initcall_debug selinux=3D0" --noautoconsole
+
+  Starting install...
+  ERROR    internal error: qemu unexpectedly closed the monitor: qemu-syste=
+m-ppc64: util/qemu-thread-posix.c:76: qemu_mutex_lock_impl: Assertion `mute=
+x->initialized' failed.
+  qemu-system-ppc64: util/qemu-thread-posix.c:76: qemu_mutex_lock_impl: Ass=
+ertion `mutex->initialized' failed.
+
+   -----------NOK
+
+  =
+
+  Bisected the issue to below commit.
+
+  037fb5eb3941c80a2b7c36a843e47207ddb004d4 is the first bad commit
+  commit 037fb5eb3941c80a2b7c36a843e47207ddb004d4
+  Author: bauerchen <bauerchen@tencent.com>
+  Date:   Tue Feb 11 17:10:35 2020 +0800
+
+      mem-prealloc: optimize large guest startup
+      =
+
+      [desc]:
+          Large memory VM starts slowly when using -mem-prealloc, and
+          there are some areas to optimize in current method;
+      =
+
+          1=E3=80=81mmap will be used to alloc threads stack during create =
+page
+          clearing threads, and it will attempt mm->mmap_sem for write
+          lock, but clearing threads have hold read lock, this competition
+          will cause threads createion very slow;
+      =
+
+          2=E3=80=81methods of calcuating pages for per threads is not well=
+;if we use
+          64 threads to split 160 hugepage,63 threads clear 2page,1 thread
+          clear 34 page,so the entire speed is very slow;
+      =
+
+          to solve the first problem,we add a mutex in thread function,and
+          start all threads when all threads finished createion;
+          and the second problem, we spread remainder to other threads,in
+          situation that 160 hugepage and 64 threads, there are 32 threads
+          clear 3 pages,and 32 threads clear 2 pages.
+      =
+
+      [test]:
+          320G 84c VM start time can be reduced to 10s
+          680G 84c VM start time can be reduced to 18s
+      =
+
+      Signed-off-by: bauerchen <bauerchen@tencent.com>
+      Reviewed-by: Pan Rui <ruippan@tencent.com>
+      Reviewed-by: Ivan Ren <ivanren@tencent.com>
+      [Simplify computation of the number of pages per thread. - Paolo]
+      Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+   util/oslib-posix.c | 32 ++++++++++++++++++++++++--------
+   1 file changed, 24 insertions(+), 8 deletions(-)
+
+
+  bisect log:
+
+  # git bisect log
+  git bisect start
+  # good: [52901abf94477b400cf88c1f70bb305e690ba2de] Update version for v4.=
+2.0-rc5 release
+  git bisect good 52901abf94477b400cf88c1f70bb305e690ba2de
+  # bad: [ba29883206d92a29ad5a466e679ccfc2ee6132ef] Merge remote-tracking b=
+ranch 'remotes/borntraeger/tags/s390x-20200310' into staging
+  git bisect bad ba29883206d92a29ad5a466e679ccfc2ee6132ef
+  # good: [d1ebbc9d16297b54b153ee33abe05eb4f1df0c66] target/arm/kvm: trivia=
+l: Clean up header documentation
+  git bisect good d1ebbc9d16297b54b153ee33abe05eb4f1df0c66
+  # good: [87b74e8b6edd287ea2160caa0ebea725fa8f1ca1] target/arm: Vectorize =
+USHL and SSHL
+  git bisect good 87b74e8b6edd287ea2160caa0ebea725fa8f1ca1
+  # bad: [e0175b71638cf4398903c0d25f93fe62e0606389] Merge remote-tracking b=
+ranch 'remotes/pmaydell/tags/pull-target-arm-20200228' into staging
+  git bisect bad e0175b71638cf4398903c0d25f93fe62e0606389
+  # bad: [ca6155c0f2bd39b4b4162533be401c98bd960820] Merge tag 'patchew/2020=
+0219160953.13771-1-imammedo@redhat.com' of https://github.com/patchew-proje=
+ct/qemu into HEAD
+  git bisect bad ca6155c0f2bd39b4b4162533be401c98bd960820
+  # good: [ab74e543112957696f7c79b0c33ecebd18b52af5] ppc/spapr: use memdev =
+for RAM
+  git bisect good ab74e543112957696f7c79b0c33ecebd18b52af5
+  # good: [cb06fdad05f3e546a4e20f1f3c0127f9ae53de1a] fuzz: support for fork=
+-based fuzzing.
+  git bisect good cb06fdad05f3e546a4e20f1f3c0127f9ae53de1a
+  # bad: [037fb5eb3941c80a2b7c36a843e47207ddb004d4] mem-prealloc: optimize =
+large guest startup
+  git bisect bad 037fb5eb3941c80a2b7c36a843e47207ddb004d4
+  # good: [88e2b97aa3e369a454c9d8360afddc348070c708] Merge remote-tracking =
+branch 'remotes/dgilbert-gitlab/tags/pull-virtiofs-20200221' into staging
+  git bisect good 88e2b97aa3e369a454c9d8360afddc348070c708
+  # good: [b1db8c63169f2139af9f26c884e5e2abd27dd290] fuzz: add virtio-net f=
+uzz target
+  git bisect good b1db8c63169f2139af9f26c884e5e2abd27dd290
+  # good: [e5c59355ae9f724777c61c859292ec9db2c8c2ab] fuzz: add documentatio=
+n to docs/devel/
+  git bisect good e5c59355ae9f724777c61c859292ec9db2c8c2ab
+  # good: [920d557e5ae58671d335acbcfba3f9a97a02911c] memory: batch allocate=
+ ioeventfds[] in address_space_update_ioeventfds()
+  git bisect good 920d557e5ae58671d335acbcfba3f9a97a02911c
+  # first bad commit: [037fb5eb3941c80a2b7c36a843e47207ddb004d4] mem-preall=
+oc: optimize large guest startup
+
+
+  =
+
+  Qemu cmdline:
+  ```
+  /home/sath/qemu/ppc64-softmmu/qemu-system-ppc64 \
+  -name guest=3Dvm1,debug-threads=3Don \
+  -S \
+  -object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/=
+domain-9-vm1/master-key.aes \
+  -machine pseries-5.0,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff \
+  -m 8192 \
+  -mem-prealloc \
+  -mem-path /dev/hugepages/libvirt/qemu/9-vm1 \
+  -overcommit mem-lock=3Doff \
+  -smp 8,sockets=3D1,cores=3D8,threads=3D1 \
+  -uuid e5875dd8-0d1c-422f-ae46-9a0b88919902 \
+  -display none \
+  -no-user-config \
+  -nodefaults \
+  -chardev socket,id=3Dcharmonitor,fd=3D36,server,nowait \
+  -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
+  -rtc base=3Dutc \
+  -no-shutdown \
+  -boot strict=3Don \
+  -kernel /home/kvmci/linux/vmlinux \
+  -append 'root=3D/dev/sda5 rw console=3Dtty0 console=3DttyS0,115200 init=
+=3D/sbin/init initcall_debug selinux=3D0' \
+  -device qemu-xhci,p2=3D15,p3=3D15,id=3Dusb,bus=3Dpci.0,addr=3D0x3 \
+  -device virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.0,addr=3D0x2 \
+  -device virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x4 \
+  -drive file=3D/home/kvmci/tests/data/avocado-vt/images/f31-ppc64le.qcow2,=
+format=3Dqcow2,if=3Dnone,id=3Ddrive-scsi0-0-0-0 \
+  -device scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,device_id=
+=3Ddrive-scsi0-0-0-0,drive=3Ddrive-scsi0-0-0-0,id=3Dscsi0-0-0-0,bootindex=
+=3D1 \
+  -netdev tap,fd=3D38,id=3Dhostnet0,vhost=3Don,vhostfd=3D39 \
+  -device virtio-net-pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:5f:82:8=
+3,bus=3Dpci.0,addr=3D0x1 \
+  -chardev pty,id=3Dcharserial0 \
+  -device spapr-vty,chardev=3Dcharserial0,id=3Dserial0,reg=3D0x30000000 \
+  -chardev socket,id=3Dcharchannel0,fd=3D40,server,nowait \
+  -device virtserialport,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchanne=
+l0,id=3Dchannel0,name=3Dorg.qemu.guest_agent.0 \
+  -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x5 \
+  -msg timestamp=3Don
+  2020-03-11 08:11:46.639+0000: 494632: info : libvirt version: 5.6.0, pack=
+age: 5.fc31 (Fedora Project, 2019-11-11-20:24:40, )
+  2020-03-11 08:11:46.639+0000: 494632: info : hostname: ltcmihawk50.aus.st=
+glabs.ibm.com
+  2020-03-11 08:11:46.639+0000: 494632: info : virObjectUnref:349 : OBJECT_=
+UNREF: obj=3D0x7fff3c0f6fb0
+  char device redirected to /dev/pts/2 (label charserial0)
+  qemu-system-ppc64: util/qemu-thread-posix.c:76: qemu_mutex_lock_impl: Ass=
+ertion `mutex->initialized' failed.
+  qemu-system-ppc64: util/qemu-thread-posix.c:76: qemu_mutex_lock_impl: Ass=
+ertion `mutex->initialized' failed.
+  2020-03-11 08:11:47.195+0000: shutting down, reason=3Dfailed
+  ```
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1866962/+subscriptions
 
