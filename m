@@ -2,120 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 888571A1585
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 21:04:29 +0200 (CEST)
-Received: from localhost ([::1]:52132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B74181A1593
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 21:08:31 +0200 (CEST)
+Received: from localhost ([::1]:52184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLtWO-0007pf-4n
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 15:04:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44781)
+	id 1jLtaI-0002lw-R1
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 15:08:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45531)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mail@maciej.szmigiero.name>) id 1jLtVT-0007OT-Vi
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 15:03:33 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jLtZX-0002BY-76
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 15:07:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mail@maciej.szmigiero.name>) id 1jLtVS-0005iJ-On
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 15:03:31 -0400
-Received: from vps-vb.mhejs.net ([37.28.154.113]:55222)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mail@maciej.szmigiero.name>)
- id 1jLtVS-0005dU-IW
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 15:03:30 -0400
-Received: from MUA
- by vps-vb.mhejs.net with esmtps (TLS1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
- (Exim 4.93.0.4) (envelope-from <mail@maciej.szmigiero.name>)
- id 1jLtV8-0004qy-IY; Tue, 07 Apr 2020 21:03:10 +0200
-Subject: Re: [PATCH v1 5/5] i386: Hyper-V VMBus ACPI DSDT entry
-To: Roman Kagan <rvkagan@yandex-team.ru>
-References: <20200403142308.82990-1-arilou@gmail.com>
- <20200403142308.82990-6-arilou@gmail.com>
- <76017793-735b-4bb5-0e69-ecded78af54d@maciej.szmigiero.name>
- <CAP7QCog_EmLJ=O8Xi9Tc4Jst1=z62DXim9ScCyoPv7WugrSyOw@mail.gmail.com>
- <CAP7QCogMdUis-=KsC--0ar2Zt2Vwcpn4HS+qCxPn5khtDTu+mA@mail.gmail.com>
- <9b9c42d3-af9e-25e9-210e-c58ee5975941@maciej.szmigiero.name>
- <472544e7-498a-4e28-06e9-83c102d6436b@maciej.szmigiero.name>
- <20200406073246.GA7707@rvkaganb>
- <CAP7QCojPsOYjw94k3rkH0A3rLFADLeVhgy502N=8X5wrUnoC6Q@mail.gmail.com>
- <20200407185608.GA178651@rvkaganb>
-From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-Autocrypt: addr=mail@maciej.szmigiero.name; prefer-encrypt=mutual; keydata=
- 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 sg==
-Message-ID: <8c278ea8-81c5-7458-8979-c319470440d7@maciej.szmigiero.name>
-Date: Tue, 7 Apr 2020 21:03:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <richard.henderson@linaro.org>) id 1jLtZV-00008i-Ow
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 15:07:42 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:39841)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jLtZV-00006X-Hw
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 15:07:41 -0400
+Received: by mail-pg1-x542.google.com with SMTP id g32so2171013pgb.6
+ for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 12:07:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZGk61WNrpGDP6QSZdndDZCbGnp9yVuwh0dhPIo77VUo=;
+ b=h2hKGpjqhgCC3I9QJ7UJ72N/QtdTZpED2R+k4xbpWC6QML50GYLqu4BsNLjRaIFklJ
+ FHj4d5ymRBRtJw3Ar2Hr3uuTrcafbtGw+35FZXx5KbUaqP3GKtLX/8U4QUEGvEKAPvs/
+ YtLeOfUPM35KpX74ryAsYRCQSfrirJ+V6kdtluo+EtQQpPSXY0fe5kXX5FaTBWlnnWap
+ 2d2y+v0M3FEP13q+P2Jf5mKYWuSMU5fw0X/yd/af860qrDF5J7Ch+P9SsnLJalIGYTjp
+ jDJSgRDp5U9I0zLXe3KPOZZcWzxwjQ8BLszhPD4x4uch5THIZHcdSvyhiN3vs77rVU3e
+ 4AzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZGk61WNrpGDP6QSZdndDZCbGnp9yVuwh0dhPIo77VUo=;
+ b=XVAu+qQKmzJloPhZggEOeC3rwlgjkH4bQUDBYqQnRCCc+t3twlNTfxDXOTFGnNTQG5
+ G8mf5G4udQfe5+WxGoxouXtmdxGm1BKArqnOLAA6DdU/UInRw1/YEWPglfwjFjuyF7AU
+ RIkt0J/WtpeNSNV73FvpgdwxebCzegmqpa4ATPQ6ELeIwFX36WqMDUlRvbhAh3rnLS/V
+ Z6bUTtHnMYS4a/EGy/ODj1v3IMJpNmmBu+KIbIJglCBan++8B8GSZ2PEFO/tewiO7y1D
+ co5E+6vabEBzJdVAJkvnxfPh25jrbZcdFEDXOT4gH+R2t4P9GQnsyXq0RFYBRG1wTIXA
+ 6ZfQ==
+X-Gm-Message-State: AGi0PubM59RHmS1i/wNlb6unPizz3ssA99aLVwZ7qnQ8BniHy3hyXB+s
+ l+1r6kyX9R+6TmwjoXCWvin9o+VZKq4=
+X-Google-Smtp-Source: APiQypLGHcXiq025MQYpGcRmMk30OLSldijn8Os4+rPYW8xkTd5tXRiGfNJU9x2l/Kzcx37u+jxQIQ==
+X-Received: by 2002:a63:e4a:: with SMTP id 10mr3425064pgo.90.1586286460128;
+ Tue, 07 Apr 2020 12:07:40 -0700 (PDT)
+Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
+ [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id q71sm14830635pfc.92.2020.04.07.12.07.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Apr 2020 12:07:39 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-5.0? v2] target/xtensa: Statically allocate
+ xtensa_insnbufs in DisasContext
+Date: Tue,  7 Apr 2020 12:07:38 -0700
+Message-Id: <20200407190738.15162-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200407185608.GA178651@rvkaganb>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 37.28.154.113
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -127,35 +77,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Evgeny Yakovlev <eyakovlev@virtuozzo.com>, Jon Doron <arilou@gmail.com>,
- QEMU <qemu-devel@nongnu.org>, Liran Alon <liran.alon@oracle.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- ehabkost@redhat.com
+Cc: Max Filippov <jcmvbkbc@gmail.com>, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07.04.2020 20:56, Roman Kagan wrote:
-> On Mon, Apr 06, 2020 at 11:20:39AM +0300, Jon Doron wrote:
->> Well I want it to be merged in :-)
-> 
-> Hmm I'm curious why, it has little to offer over virtio.
-> 
-> Anyway the series you've posted seems to be based on a fairly old
-> version.
-> 
-> The one in openvz repo is more recent.  It's still in need for
-> improvement, too, but should be testable at least.
+From: Max Filippov <jcmvbkbc@gmail.com>
 
-Isn't the one at 
-https://src.openvz.org/projects/UP/repos/qemu/commits?until=refs%2Fheads%2Fvmbus
-the latest one?
+Rather than dynamically allocate, and risk failing to free
+when we longjmp out of the translator, allocate the maximum
+buffer size from any of the supported cpus.
 
-It seems to be last changed in October 2019 - is there a
-later one?
+Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
+[rth: Merged the fixup in Max's reply to his original]
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/xtensa/cpu.h       |  3 +++
+ target/xtensa/helper.c    |  1 +
+ target/xtensa/translate.c | 18 ++----------------
+ 3 files changed, 6 insertions(+), 16 deletions(-)
 
-> Thanks,
-> Roman.
+diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
+index c0d69fad96..7a46dccbe1 100644
+--- a/target/xtensa/cpu.h
++++ b/target/xtensa/cpu.h
+@@ -213,6 +213,9 @@ enum {
+ #define MEMCTL_IL0EN 0x1
+ 
+ #define MAX_INSN_LENGTH 64
++#define MAX_INSNBUF_LENGTH \
++    ((MAX_INSN_LENGTH + sizeof(xtensa_insnbuf_word) - 1) / \
++     sizeof(xtensa_insnbuf_word))
+ #define MAX_INSN_SLOTS 32
+ #define MAX_OPCODE_ARGS 16
+ #define MAX_NAREG 64
+diff --git a/target/xtensa/helper.c b/target/xtensa/helper.c
+index 376a61f339..7073381f03 100644
+--- a/target/xtensa/helper.c
++++ b/target/xtensa/helper.c
+@@ -96,6 +96,7 @@ static void init_libisa(XtensaConfig *config)
+ 
+     config->isa = xtensa_isa_init(config->isa_internal, NULL, NULL);
+     assert(xtensa_isa_maxlength(config->isa) <= MAX_INSN_LENGTH);
++    assert(xtensa_insnbuf_size(config->isa) <= MAX_INSNBUF_LENGTH);
+     opcodes = xtensa_isa_num_opcodes(config->isa);
+     formats = xtensa_isa_num_formats(config->isa);
+     regfiles = xtensa_isa_num_regfiles(config->isa);
+diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
+index 37f65b1f03..b898ee2261 100644
+--- a/target/xtensa/translate.c
++++ b/target/xtensa/translate.c
+@@ -72,8 +72,8 @@ struct DisasContext {
+     unsigned cpenable;
+ 
+     uint32_t op_flags;
+-    xtensa_insnbuf insnbuf;
+-    xtensa_insnbuf slotbuf;
++    xtensa_insnbuf_word insnbuf[MAX_INSNBUF_LENGTH];
++    xtensa_insnbuf_word slotbuf[MAX_INSNBUF_LENGTH];
+ };
+ 
+ static TCGv_i32 cpu_pc;
+@@ -1173,16 +1173,6 @@ static void xtensa_tr_init_disas_context(DisasContextBase *dcbase,
+     dc->cwoe = tb_flags & XTENSA_TBFLAG_CWOE;
+     dc->callinc = ((tb_flags & XTENSA_TBFLAG_CALLINC_MASK) >>
+                    XTENSA_TBFLAG_CALLINC_SHIFT);
+-
+-    /*
+-     * FIXME: This will leak when a failed instruction load or similar
+-     * event causes us to longjump out of the translation loop and
+-     * hence not clean-up in xtensa_tr_tb_stop
+-     */
+-    if (dc->config->isa) {
+-        dc->insnbuf = xtensa_insnbuf_alloc(dc->config->isa);
+-        dc->slotbuf = xtensa_insnbuf_alloc(dc->config->isa);
+-    }
+     init_sar_tracker(dc);
+ }
+ 
+@@ -1272,10 +1262,6 @@ static void xtensa_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+     DisasContext *dc = container_of(dcbase, DisasContext, base);
+ 
+     reset_sar_tracker(dc);
+-    if (dc->config->isa) {
+-        xtensa_insnbuf_free(dc->config->isa, dc->insnbuf);
+-        xtensa_insnbuf_free(dc->config->isa, dc->slotbuf);
+-    }
+     if (dc->icount) {
+         tcg_temp_free(dc->next_icount);
+     }
+-- 
+2.20.1
 
-Thanks,
-Maciej
 
