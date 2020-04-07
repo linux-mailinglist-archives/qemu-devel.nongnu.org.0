@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71BEF1A0536
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 05:22:20 +0200 (CEST)
-Received: from localhost ([::1]:40450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B76AF1A0580
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 06:05:58 +0200 (CEST)
+Received: from localhost ([::1]:40676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLeod-0003MX-42
-	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 23:22:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45896)
+	id 1jLfUo-0003dx-LV
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 00:05:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50055)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jLenX-0002WU-5Y
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 23:21:12 -0400
+ (envelope-from <jcmvbkbc@gmail.com>) id 1jLfTw-0003Ew-FM
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 00:05:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jLenV-0003uJ-Hi
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 23:21:10 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:35005)
+ (envelope-from <jcmvbkbc@gmail.com>) id 1jLfTv-0006d7-AB
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 00:05:00 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:51740)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jLenV-0003tU-8f
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 23:21:09 -0400
-Received: by mail-pl1-x641.google.com with SMTP id c12so712033plz.2
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 20:21:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YchAy/C08LIfmnaBsXOS1Gb/JPzjItmG64oZ+9K4gkc=;
- b=fpHLtRBGWLQhwD3c+0T36AomptYB3jYsV5J3xY8MehX7THGWw+YTH5qugwZPlnjTiB
- W1hGrseVUlcRNE94eupvhkz2GK0XcYH5JAs8hKzAzZ4QXBBCcBx9rgHgGE9You8RCvbw
- cxNDKQnJiDUwvQTdwm6cMPT5KDL/JdezPpv9wexSiAkr0nLZjLT7i0qOj+3SYsvTpiZO
- P5UnGlTh6Jq6RHvpqSLGCOvTrNbnBAXrOrwABhN76S7KBrN7XjPUw7s9p/KoBZ9BpxJN
- LoPzV+8UYvBBKBgugBA3D8IJprAxd43Z6SsTFSqBpSFXz91/m01Ri+EfDhNNLImetlih
- KijQ==
+ (Exim 4.71) (envelope-from <jcmvbkbc@gmail.com>) id 1jLfTv-0006cU-0l
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 00:04:59 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id n4so197213pjp.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 21:04:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lrP9Nnpyn7AwZU8Ih6xNIyZ8h5UrDJrgYwrVrW5PZEc=;
+ b=Tse6dTGjs/yzxxuoO+/0GoB/QhVe61gs2pQUP0Ghhpmb3myQgFf96bA587hOD52F/t
+ o3Ffv1+SsgBsz4iA4K1M0Y02XkmuUuADqpu2AxUfnyPtLlw0i6ag5J+Dl15PAuqPzhg9
+ UkY+iIdKzNnRy9FhPG8NuJPm5kpquHr5HV8HyUH03o4c10ECL8+OyK2cS/4adcTXuV7c
+ gXoZJTSfxBeGqUejVpSJp9Kq80Q6EHjA83YGVIbx539JLCJVSbsSEmt+fsKzRvG6u8gz
+ NDQO+9cBkOvbs1wXCrbUi8cHWgeS51k8EfjzhPzJa8WgirCVN+pkXh82z5d0EHrZy3n6
+ Mgyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YchAy/C08LIfmnaBsXOS1Gb/JPzjItmG64oZ+9K4gkc=;
- b=JHejCIdALPUN1qzU+4VkRUJBKEypI9G+ySljasuXTZugNE1gOrizdwmfnnQ9OaWi5f
- BD1g7zVhK0iBZIJ9osNmvgtfyBmgnKvlJSX8gJx2uMoPPA6OGpnXwmFddhdokCsaTyh1
- 1jJ7T7dHsdhR1LFr0nnltUiu7F4j/cl426lR9L+awpdsmzwVYI9Yqxx4xBRs/jvj69Wq
- u8nb4KTb3eCNnXy5hRF8TUtDH1gPnidDcduOZWP52gZefKDN408BNGpA3JJANmGPt+/v
- a4MTKjmI4ENDMTnKfCzSYJObFaYmFGci59wu6aUqqrMVj4iESHgt8b92eLSlgNEKaDvz
- 6qww==
-X-Gm-Message-State: AGi0PuYi8jS3gmnK0SAHwbtTreH9q3Fup2p2z4UXcbD4CaTNXuK1uGFf
- TCdAYhQvI8pWCCuUsIv943If3yz0pTc=
-X-Google-Smtp-Source: APiQypLUB0D3Kw4arujSzGchZye2Boh5umWWckq0QnGysXamVoKOAKBlxrVfeMeWJ4C+Woe4xyZKsA==
-X-Received: by 2002:a17:90a:368f:: with SMTP id
- t15mr171412pjb.23.1586229667546; 
- Mon, 06 Apr 2020 20:21:07 -0700 (PDT)
-Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
- [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id lj14sm245565pjb.25.2020.04.06.20.21.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 20:21:06 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.0?] linux-user/ppc: Fix padding in mcontext_t for ppc64
-Date: Mon,  6 Apr 2020 20:21:05 -0700
-Message-Id: <20200407032105.26711-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lrP9Nnpyn7AwZU8Ih6xNIyZ8h5UrDJrgYwrVrW5PZEc=;
+ b=MngImibkVTRVDQ/t1JJj319yIoOej06Pn/Uk+5blirHNmhJxT3KT84GMgGJ4g0FUEq
+ 8FUrJUwM+YtH0HKcnNzbkIVhaMNZFGnXEqJle31k3WoZTJyWTYmnEJW2DFOUzKMqfiIx
+ m/5mmC3z0UlGPqqfQLSLtf/WlgPt5gvfDXqrSrgTmd5QFNSnSryqaZWxbF8C1XexoEKz
+ pCpZEfKktlg8GsYN0DsfGFZeyFQ2f+bzdMpDMH5ko+sEDIeFwZrqmom2CwFxRGffjFZg
+ qhHYEfchaWzrODQMOMt3iGKrDSzNWpEtfGogh1Iai2tUj92MvBbvKu3xHlMlLh49EcO2
+ MlRw==
+X-Gm-Message-State: AGi0Pub1MQV4FQIG7MApyfJXgJeJBPvfF7gWfB6M0X2K3uSLI5X0hegy
+ YyrBthNmXfZCL0+S7BfYgw2r3HB19Fp8aTumnUI=
+X-Google-Smtp-Source: APiQypJOo25T3rTMG01VRgPr4fzbJ85FczeNoL+AztvFlhOA4xXE/YI29NK9hSHxJmSAmXgWNg64Yv5St0FY8NTuzVU=
+X-Received: by 2002:a17:902:fe08:: with SMTP id
+ g8mr575705plj.333.1586232297574; 
+ Mon, 06 Apr 2020 21:04:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200407030938.26537-1-richard.henderson@linaro.org>
+In-Reply-To: <20200407030938.26537-1-richard.henderson@linaro.org>
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Mon, 6 Apr 2020 21:04:46 -0700
+Message-ID: <CAMo8BfJ9+fnA2xp8PMKm039oW-qVtTxpON6Ux=tkBySS=cQhxQ@mail.gmail.com>
+Subject: Re: [PATCH for-5.0?] target/xtensa: Statically allocate
+ xtensa_insnbufs
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::641
+X-Received-From: 2607:f8b0:4864:20::1043
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,193 +72,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, qemu-ppc@nongnu.org, laurent@vivier.eu,
- david@gibson.dropbear.id.au
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The padding that was added in 95cda4c44ee was added to a union,
-and so it had no effect.  This fixes misalignment errors detected
-by clang sanitizers for ppc64 and ppc64le.
+On Mon, Apr 6, 2020 at 8:09 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Rather than dynamically allocate, and risk failing to free
+> when we longjmp out of the translator, allocate the maximum
+> buffer size from any of the supported cpus, which is 8:
 
-In addition, only ppc64 allocates space for VSX registers, so do
-not save them for ppc32.  The kernel only has references to
-CONFIG_SPE in signal_32.c, so do not attempt to save them for ppc64.
+There's macro MAX_INSN_LENGTH that defines maximal supported
+instruction length in bytes. Maybe the following instead, along the lines
+of what libisa does dynamically?:
 
-Fixes: 95cda4c44ee
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+--8<--
+From 08cc91b0d51e244766d73aae23aebd194b598378 Mon Sep 17 00:00:00 2001
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Mon, 6 Apr 2020 20:59:54 -0700
+Subject: [PATCH] target/xtensa: statically allocate xtensa_insnbufs in
+DisasContext
+
+Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
+ target/xtensa/cpu.h       |  3 +++
+ target/xtensa/helper.c    |  1 +
+ target/xtensa/translate.c | 12 ++----------
+ 3 files changed, 6 insertions(+), 10 deletions(-)
 
-Note that ppc64abi32 is *not* fixed by this patch.  It looks to
-me that all of the defined(TARGET_PPC64) tests in this file are
-incorrect, and that we should instead be testing TARGET_ABI_BITS
-vs 32/64.  In addition, virtually all of the target_ulong structure
-members would need to be abi_ulong.
+diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
+index c0d69fad96c5..7a46dccbe11b 100644
+--- a/target/xtensa/cpu.h
++++ b/target/xtensa/cpu.h
+@@ -213,6 +213,9 @@ enum {
+ #define MEMCTL_IL0EN 0x1
 
-Should we in fact disable ppc64abi32?
-I can't see how it could work enough to be useful as-is.
+ #define MAX_INSN_LENGTH 64
++#define MAX_INSNBUF_LENGTH \
++    ((MAX_INSN_LENGTH + sizeof(xtensa_insnbuf_word) - 1) / \
++     sizeof(xtensa_insnbuf_word))
+ #define MAX_INSN_SLOTS 32
+ #define MAX_OPCODE_ARGS 16
+ #define MAX_NAREG 64
+diff --git a/target/xtensa/helper.c b/target/xtensa/helper.c
+index 376a61f3397c..278415ae0e06 100644
+--- a/target/xtensa/helper.c
++++ b/target/xtensa/helper.c
+@@ -96,6 +96,7 @@ static void init_libisa(XtensaConfig *config)
 
+     config->isa = xtensa_isa_init(config->isa_internal, NULL, NULL);
+     assert(xtensa_isa_maxlength(config->isa) <= MAX_INSN_LENGTH);
++    assert(xtensa_insnbuf_size(dc->config->isa) <= MAX_INSNBUF_LENGTH);
+     opcodes = xtensa_isa_num_opcodes(config->isa);
+     formats = xtensa_isa_num_formats(config->isa);
+     regfiles = xtensa_isa_num_regfiles(config->isa);
+diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
+index 8aa972cafdf3..91c7776c2544 100644
+--- a/target/xtensa/translate.c
++++ b/target/xtensa/translate.c
+@@ -72,8 +72,8 @@ struct DisasContext {
+     unsigned cpenable;
 
-r~
-
----
- linux-user/ppc/signal.c | 69 +++++++++++++++++------------------------
- 1 file changed, 29 insertions(+), 40 deletions(-)
-
-diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
-index ecd99736b7..20a02c197c 100644
---- a/linux-user/ppc/signal.c
-+++ b/linux-user/ppc/signal.c
-@@ -35,12 +35,26 @@ struct target_mcontext {
-     target_ulong mc_gregs[48];
-     /* Includes fpscr.  */
-     uint64_t mc_fregs[33];
-+
- #if defined(TARGET_PPC64)
-     /* Pointer to the vector regs */
-     target_ulong v_regs;
-+    /*
-+     * On ppc64, this mcontext structure is naturally *unaligned*,
-+     * or rather it is aligned on a 8 bytes boundary but not on
-+     * a 16 byte boundary.  This pad fixes it up.  This is why we
-+     * cannot use ppc_avr_t, which would force alignment.  This is
-+     * also why the vector regs are referenced in the ABI by the
-+     * v_regs pointer above so any amount of padding can be added here.
-+     */
-+    target_ulong pad;
-+    /* VSCR and VRSAVE are saved separately.  Also reserve space for VSX. */
-+    struct {
-+        uint64_t altivec[34 + 16][2];
-+    } mc_vregs;
- #else
-     target_ulong mc_pad[2];
--#endif
-+
-     /* We need to handle Altivec and SPE at the same time, which no
-        kernel needs to do.  Fortunately, the kernel defines this bit to
-        be Altivec-register-large all the time, rather than trying to
-@@ -48,32 +62,14 @@ struct target_mcontext {
-     union {
-         /* SPE vector registers.  One extra for SPEFSCR.  */
-         uint32_t spe[33];
--        /* Altivec vector registers.  The packing of VSCR and VRSAVE
--           varies depending on whether we're PPC64 or not: PPC64 splits
--           them apart; PPC32 stuffs them together.
--           We also need to account for the VSX registers on PPC64
--        */
--#if defined(TARGET_PPC64)
--#define QEMU_NVRREG (34 + 16)
--        /* On ppc64, this mcontext structure is naturally *unaligned*,
--         * or rather it is aligned on a 8 bytes boundary but not on
--         * a 16 bytes one. This pad fixes it up. This is also why the
--         * vector regs are referenced by the v_regs pointer above so
--         * any amount of padding can be added here
-+        /*
-+         * Altivec vector registers.  One extra for VRSAVE.
-+         * On ppc32, we are already aligned to 16 bytes.  We could
-+         * use ppc_avr_t, but choose to share the same type as ppc64.
-          */
--        target_ulong pad;
--#else
--        /* On ppc32, we are already aligned to 16 bytes */
--#define QEMU_NVRREG 33
--#endif
--        /* We cannot use ppc_avr_t here as we do *not* want the implied
--         * 16-bytes alignment that would result from it. This would have
--         * the effect of making the whole struct target_mcontext aligned
--         * which breaks the layout of struct target_ucontext on ppc64.
--         */
--        uint64_t altivec[QEMU_NVRREG][2];
--#undef QEMU_NVRREG
-+        uint64_t altivec[33][2];
-     } mc_vregs;
-+#endif
+     uint32_t op_flags;
+-    xtensa_insnbuf insnbuf;
+-    xtensa_insnbuf slotbuf;
++    xtensa_insnbuf_word insnbuf[MAX_INSNBUF_LENGTH];
++    xtensa_insnbuf_word slotbuf[MAX_INSNBUF_LENGTH];
  };
- 
- /* See arch/powerpc/include/asm/sigcontext.h.  */
-@@ -278,6 +274,7 @@ static void save_user_regs(CPUPPCState *env, struct target_mcontext *frame)
-         __put_user((uint32_t)env->spr[SPR_VRSAVE], vrsave);
-     }
- 
-+#if defined(TARGET_PPC64)
-     /* Save VSX second halves */
-     if (env->insns_flags2 & PPC2_VSX) {
-         uint64_t *vsregs = (uint64_t *)&frame->mc_vregs.altivec[34];
-@@ -286,6 +283,7 @@ static void save_user_regs(CPUPPCState *env, struct target_mcontext *frame)
-             __put_user(*vsrl, &vsregs[i]);
-         }
-     }
-+#endif
- 
-     /* Save floating point registers.  */
-     if (env->insns_flags & PPC_FLOAT) {
-@@ -296,22 +294,18 @@ static void save_user_regs(CPUPPCState *env, struct target_mcontext *frame)
-         __put_user((uint64_t) env->fpscr, &frame->mc_fregs[32]);
-     }
- 
-+#if !defined(TARGET_PPC64)
-     /* Save SPE registers.  The kernel only saves the high half.  */
-     if (env->insns_flags & PPC_SPE) {
--#if defined(TARGET_PPC64)
--        for (i = 0; i < ARRAY_SIZE(env->gpr); i++) {
--            __put_user(env->gpr[i] >> 32, &frame->mc_vregs.spe[i]);
--        }
--#else
-         for (i = 0; i < ARRAY_SIZE(env->gprh); i++) {
-             __put_user(env->gprh[i], &frame->mc_vregs.spe[i]);
-         }
--#endif
-         /* Set MSR_SPE in the saved MSR value to indicate that
-            frame->mc_vregs contains valid data.  */
-         msr |= MSR_SPE;
-         __put_user(env->spe_fscr, &frame->mc_vregs.spe[32]);
-     }
-+#endif
- 
-     /* Store MSR.  */
-     __put_user(msr, &frame->mc_gregs[TARGET_PT_MSR]);
-@@ -392,6 +386,7 @@ static void restore_user_regs(CPUPPCState *env,
-         __get_user(env->spr[SPR_VRSAVE], vrsave);
-     }
- 
-+#if defined(TARGET_PPC64)
-     /* Restore VSX second halves */
-     if (env->insns_flags2 & PPC2_VSX) {
-         uint64_t *vsregs = (uint64_t *)&frame->mc_vregs.altivec[34];
-@@ -400,6 +395,7 @@ static void restore_user_regs(CPUPPCState *env,
-             __get_user(*vsrl, &vsregs[i]);
-         }
-     }
-+#endif
- 
-     /* Restore floating point registers.  */
-     if (env->insns_flags & PPC_FLOAT) {
-@@ -412,22 +408,15 @@ static void restore_user_regs(CPUPPCState *env,
-         env->fpscr = (uint32_t) fpscr;
-     }
- 
-+#if !defined(TARGET_PPC64)
-     /* Save SPE registers.  The kernel only saves the high half.  */
-     if (env->insns_flags & PPC_SPE) {
--#if defined(TARGET_PPC64)
--        for (i = 0; i < ARRAY_SIZE(env->gpr); i++) {
--            uint32_t hi;
--
--            __get_user(hi, &frame->mc_vregs.spe[i]);
--            env->gpr[i] = ((uint64_t)hi << 32) | ((uint32_t) env->gpr[i]);
--        }
--#else
-         for (i = 0; i < ARRAY_SIZE(env->gprh); i++) {
-             __get_user(env->gprh[i], &frame->mc_vregs.spe[i]);
-         }
--#endif
-         __get_user(env->spe_fscr, &frame->mc_vregs.spe[32]);
-     }
-+#endif
- }
- 
- #if !defined(TARGET_PPC64)
--- 
-2.20.1
 
+ static TCGv_i32 cpu_pc;
+@@ -1174,10 +1174,6 @@ static void
+xtensa_tr_init_disas_context(DisasContextBase *dcbase,
+     dc->callinc = ((tb_flags & XTENSA_TBFLAG_CALLINC_MASK) >>
+                    XTENSA_TBFLAG_CALLINC_SHIFT);
+
+-    if (dc->config->isa) {
+-        dc->insnbuf = xtensa_insnbuf_alloc(dc->config->isa);
+-        dc->slotbuf = xtensa_insnbuf_alloc(dc->config->isa);
+-    }
+     init_sar_tracker(dc);
+ }
+
+@@ -1267,10 +1263,6 @@ static void xtensa_tr_tb_stop(DisasContextBase
+*dcbase, CPUState *cpu)
+     DisasContext *dc = container_of(dcbase, DisasContext, base);
+
+     reset_sar_tracker(dc);
+-    if (dc->config->isa) {
+-        xtensa_insnbuf_free(dc->config->isa, dc->insnbuf);
+-        xtensa_insnbuf_free(dc->config->isa, dc->slotbuf);
+-    }
+     if (dc->icount) {
+         tcg_temp_free(dc->next_icount);
+     }
+--8<--
+-- 
+Thanks.
+-- Max
 
