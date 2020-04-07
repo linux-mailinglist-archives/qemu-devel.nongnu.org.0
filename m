@@ -2,64 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84F051A0EEE
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 16:10:58 +0200 (CEST)
-Received: from localhost ([::1]:47914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF021A0F0C
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 16:20:13 +0200 (CEST)
+Received: from localhost ([::1]:48030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLowK-0005PG-Db
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 10:10:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51680)
+	id 1jLp5I-0001zb-IE
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 10:20:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53587)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jLovR-0004Va-U0
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 10:10:03 -0400
+ (envelope-from <philmd@redhat.com>) id 1jLp3T-00013V-3f
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 10:18:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jLovQ-0002MG-Oo
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 10:10:01 -0400
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:43841)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jLovQ-0002L8-9o
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 10:10:00 -0400
-Received: by mail-ot1-x333.google.com with SMTP id n25so585138otr.10
- for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 07:09:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dJAi7lK9nEf0bQnoH1ktu4tFUJnTKcRQtmoEO1bNvjQ=;
- b=w4Qon2oBjr/0Ee5i8TtZ85HxbRmpHsSCdiwfY1BcLIVrCVcdhJtmWzVuC3z98bQq5v
- kd/dhMaUpO2zoUp5T9wh19dM5lNOQXh6MeuTiwJhM6imnkG6UL0cxAUhC7Ba2U/Berdb
- N6B16uCRqtS/zDu68dBp3TJRrorcLhPFdbQKO7j9VJvjlMwqQqiLGn2K8L0mB2kPXzG3
- D+47j1KZ+jWkFkE2GwbkFkT+JPxbD5i4JQFeuGtY4SJUItRPHqf+D9a685xHT+lZmz3D
- 2CPxvfoLUOaxCaRuxS/w/9aoqD3KIxv7GRQV78R+gplgnZp2NyhCwha8/FeI/qim4Rg4
- Vhmg==
+ (envelope-from <philmd@redhat.com>) id 1jLp3J-0000JD-JY
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 10:18:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35604
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jLp3J-0000Im-EE
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 10:18:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586269088;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mH2/PweDEHcCPYgGy500/c2+rMaBnZLtprDIhE/koRQ=;
+ b=S9aBWhCGJZs2NvTgEiVj+9KmcOe2Ja/W4ClscBJU+ny/owxull7z7VvvjW4fjv1VXNxTVQ
+ 4GH8rwg+O+CKpl519zEVPGP3RqxQHuBlX4KwXAvLKF9xcaj02XiiWA0pRV5u9NXkZbnL81
+ pbM1m1R4nkJrCdzCKTXklUmt/auHH50=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-476-4Bp4i0FCMBOsBh1Cft2eig-1; Tue, 07 Apr 2020 10:17:51 -0400
+X-MC-Unique: 4Bp4i0FCMBOsBh1Cft2eig-1
+Received: by mail-ed1-f69.google.com with SMTP id b9so3229131edj.10
+ for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 07:17:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dJAi7lK9nEf0bQnoH1ktu4tFUJnTKcRQtmoEO1bNvjQ=;
- b=Rx6Jvlm0cqndY6yEt1wwT3V2b/EMvSivHJmxFGYd2Rer30ODkgg+v2f0ocPlqmbKcT
- fUOL8KNWOnKNrZPxEKXDbGpA0aZOI2HWqHb5++IXV6LqSvAJUzaFol0rFo8P175S0cY+
- 7cg+cZcfx9aOdFJDK/iAo42XGcbNW/905O2FJg2by58HUQmQ93vRY5/rZwRxqzLD9o7P
- 1Hz1v54lQxyMa33Fgf58RF9qaun1TZ9TxL2+YKMzJwH29hCNpXz+fVsU4uv2prh1Q8J5
- TkWas847wRorRRSO1hHSev/DDfxv1goALai454QWaBNh12seKjlx5cKKiTifUDraGVz4
- PHvg==
-X-Gm-Message-State: AGi0PuafghV5PDCIXC3jeM8dpWVRv6+0yh0Kw8iC0lnoPnXFZLUdGkh6
- AidIevdHv2GDgasmmUTyAKzai3oSdo5SZRMtDdnbPQ==
-X-Google-Smtp-Source: APiQypLukOKjP8tTGwgnvD/RnJX5VvI84vh3AxqPqgOVHg8dVJhRtknDAsP5AluTpSDmXAkUW13FNVD/cs1hHuNkIHY=
-X-Received: by 2002:a9d:1920:: with SMTP id j32mr1637718ota.221.1586268598620; 
- Tue, 07 Apr 2020 07:09:58 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mH2/PweDEHcCPYgGy500/c2+rMaBnZLtprDIhE/koRQ=;
+ b=L486BN7eZPFMcsjX8SoNP3vU2vfK/aK53mu+N4tPzucCXRlsKa2WwkEMBCXfPNicpF
+ uqHhOgd1XApnaOCP2xTUEiPgaqN2ik/m8IQlzRlTIFqRMvxjp5fcxAgPjGvhRqZxG0g7
+ 9fKedcRLbxfS/Ta3Wtrn5YtL9Wy5NEJYcP5LpV7jALtF6dzNbRy41Vdfo5/fve+EHC4o
+ 7PxlJ+LTrKtr+hvbDaTvQYt2RxoRR0Fm0Zr6+ltCeAQhoUnz+iRH1Cjjewq1TiqDfKeA
+ uJR33h+npe16el1wX99MV+LTlAcXo6LtFDoBjzBictObO0fx46jOMm83gZWrBoaxMQIF
+ we+Q==
+X-Gm-Message-State: AGi0PuZuN5TYtzFWHClnUTik9MhHlytXS0f+ajCRpcSTqg6H5989bpx0
+ vdnVWbOu4gyVRCS3mE6veKGeMSzoupc35YN8IZdXInTzrZtLrRHL1C8xMxJaRx2NdjnbFTNMkvT
+ dTsM7Xrbyv3jqt9M=
+X-Received: by 2002:a17:906:4d4e:: with SMTP id
+ b14mr2320512ejv.240.1586269070230; 
+ Tue, 07 Apr 2020 07:17:50 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLsT2kTHYgkqg7qshNKRu95Az6sVcoxcpXMmMxR+qtD5Ax7sLfkgj9ZPfFg0652HhzDKucIpg==
+X-Received: by 2002:a17:906:4d4e:: with SMTP id
+ b14mr2320472ejv.240.1586269069855; 
+ Tue, 07 Apr 2020 07:17:49 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id hh1sm50958ejb.46.2020.04.07.07.17.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Apr 2020 07:17:49 -0700 (PDT)
+Subject: Re: [PATCH for-5.0 v2 2/3] fw_cfg: Migrate ACPI table mr sizes
+ separately
+To: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, eric.auger@redhat.com,
+ imammedo@redhat.com
+References: <20200403101827.30664-1-shameerali.kolothum.thodi@huawei.com>
+ <20200403101827.30664-3-shameerali.kolothum.thodi@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <00b69974-4b63-0c7c-c6ad-ed0f2eb712b9@redhat.com>
+Date: Tue, 7 Apr 2020 16:17:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200407092207.6079-1-kraxel@redhat.com>
-In-Reply-To: <20200407092207.6079-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Apr 2020 15:09:46 +0100
-Message-ID: <CAFEAcA8h_N=krhE_GTCstmA7PF=TJVXWAo8kVfWnpf3pKKuL3Q@mail.gmail.com>
-Subject: Re: [PULL 0/4] Fixes 20200407 patches
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::333
+In-Reply-To: <20200403101827.30664-3-shameerali.kolothum.thodi@huawei.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,34 +96,253 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, xiaoguangrong.eric@gmail.com, mst@redhat.com,
+ david@redhat.com, dgilbert@redhat.com, xuwei5@hisilicon.com,
+ linuxarm@huawei.com, shannon.zhaosl@gmail.com, lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 7 Apr 2020 at 10:23, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> The following changes since commit 146aa0f104bb3bf88e43c4082a0bfc4bbda4fbd8:
->
->   Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2020-04-03 15:30:11 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kraxel.org/qemu tags/fixes-20200407-pull-request
->
-> for you to fetch changes up to ac2071c3791b67fc7af78b8ceb320c01ca1b5df7:
->
->   ati-vga: Fix checks in ati_2d_blt() to avoid crash (2020-04-07 09:25:23 +0200)
->
-> ----------------------------------------------------------------
-> fixes for 5.0:
-> - audio: windows (dsound) fixes.
-> - vga: ati blitter sanity check fixes.
+On 4/3/20 12:18 PM, Shameer Kolothum wrote:
+> Any sub-page size update to ACPI MRs will be lost during
+> migration, as we use aligned size in ram_load_precopy() ->
+> qemu_ram_resize() path. This will result in inconsistency in
+> FWCfgEntry sizes between source and destination. In order to avoid
+> this, save and restore them separately during migration.
+> 
+> Up until now, this problem may not be that relevant for x86 as both
+> ACPI table and Linker MRs gets padded and aligned. Also at present,
+> qemu_ram_resize() doesn't invoke callback to update FWCfgEntry for
+> unaligned size changes. But since we are going to fix the
+> qemu_ram_resize() in the subsequent patch, the issue may become
+> more serious especially for RSDP MR case.
+> 
+> Moreover, the issue will soon become prominent in arm/virt as well
+> where the MRs are not padded or aligned at all and eventually have
+> acpi table changes as part of future additions like NVDIMM hot-add
+> feature.
+> 
+> Suggested-by: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+> Acked-by: David Hildenbrand <david@redhat.com>
+> ---
+> v1 --> v2
+>   - Changed *_mr_size from size_t to uint64_t to address portability.
+>   - post_copy only done if sizes are not aligned.
+> 
+> Please find previous discussions here,
+> https://patchwork.kernel.org/patch/11339591/#23140343
+> ---
+>   hw/core/machine.c         |  1 +
+>   hw/nvram/fw_cfg.c         | 91 ++++++++++++++++++++++++++++++++++++++-
+>   include/hw/nvram/fw_cfg.h |  6 +++
+>   3 files changed, 97 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index de0c425605..c1a444cb75 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -39,6 +39,7 @@ GlobalProperty hw_compat_4_2[] = {
+>       { "usb-redir", "suppress-remote-wake", "off" },
+>       { "qxl", "revision", "4" },
+>       { "qxl-vga", "revision", "4" },
+> +    { "fw_cfg", "acpi-mr-restore", "false" },
+>   };
+>   const size_t hw_compat_4_2_len = G_N_ELEMENTS(hw_compat_4_2);
+>   
+> diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+> index 179b302f01..4be6c9d9fd 100644
+> --- a/hw/nvram/fw_cfg.c
+> +++ b/hw/nvram/fw_cfg.c
+> @@ -39,6 +39,7 @@
+>   #include "qemu/config-file.h"
+>   #include "qemu/cutils.h"
+>   #include "qapi/error.h"
+> +#include "hw/acpi/aml-build.h"
+>   
+>   #define FW_CFG_FILE_SLOTS_DFLT 0x20
+>   
+> @@ -610,6 +611,55 @@ bool fw_cfg_dma_enabled(void *opaque)
+>       return s->dma_enabled;
+>   }
+>   
+> +static bool fw_cfg_acpi_mr_restore(void *opaque)
+> +{
+> +    FWCfgState *s = opaque;
+> +    bool mr_aligned;
+> +
+> +    mr_aligned = QEMU_IS_ALIGNED(s->table_mr_size, qemu_real_host_page_size) &&
+> +                 QEMU_IS_ALIGNED(s->linker_mr_size, qemu_real_host_page_size) &&
+> +                 QEMU_IS_ALIGNED(s->rsdp_mr_size, qemu_real_host_page_size);
+> +    return s->acpi_mr_restore && !mr_aligned;
 
+This code is hard to review.
 
-Applied, thanks.
+Is this equivalent?
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
+     if (!s->acpi_mr_restore) {
+         return false;
+     }
+     if (!QEMU_IS_ALIGNED(s->table_mr_size, qemu_real_host_page_size)) {
+         return false;
+     }
+     if (!QEMU_IS_ALIGNED(s->linker_mr_size, qemu_real_host_page_size)) {
+         return false;
+     }
+     if (!QEMU_IS_ALIGNED(s->rsdp_mr_size, qemu_real_host_page_size)) {
+         return false;
+     }
+     return true;
 
--- PMM
+> +}
+> +
+> +static void fw_cfg_update_mr(FWCfgState *s, uint16_t key, size_t size)
+> +{
+> +    MemoryRegion *mr;
+> +    ram_addr_t offset;
+> +    int arch = !!(key & FW_CFG_ARCH_LOCAL);
+> +    void *ptr;
+> +
+> +    key &= FW_CFG_ENTRY_MASK;
+> +    assert(key < fw_cfg_max_entry(s));
+> +
+> +    ptr = s->entries[arch][key].data;
+> +    mr = memory_region_from_host(ptr, &offset);
+> +
+> +    memory_region_ram_resize(mr, size, &error_abort);
+> +}
+> +
+> +static int fw_cfg_acpi_mr_restore_post_load(void *opaque, int version_id)
+> +{
+> +    FWCfgState *s = opaque;
+> +    int i, index;
+> +
+> +    assert(s->files);
+> +
+> +    index = be32_to_cpu(s->files->count);
+> +
+> +    for (i = 0; i < index; i++) {
+> +        if (!strcmp(s->files->f[i].name, ACPI_BUILD_TABLE_FILE)) {
+> +            fw_cfg_update_mr(s, FW_CFG_FILE_FIRST + i, s->table_mr_size);
+> +        } else if (!strcmp(s->files->f[i].name, ACPI_BUILD_LOADER_FILE)) {
+> +            fw_cfg_update_mr(s, FW_CFG_FILE_FIRST + i, s->linker_mr_size);
+> +        } else if (!strcmp(s->files->f[i].name, ACPI_BUILD_RSDP_FILE)) {
+> +            fw_cfg_update_mr(s, FW_CFG_FILE_FIRST + i, s->rsdp_mr_size);
+> +        }
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>   static const VMStateDescription vmstate_fw_cfg_dma = {
+>       .name = "fw_cfg/dma",
+>       .needed = fw_cfg_dma_enabled,
+> @@ -619,6 +669,20 @@ static const VMStateDescription vmstate_fw_cfg_dma = {
+>       },
+>   };
+>   
+> +static const VMStateDescription vmstate_fw_cfg_acpi_mr = {
+> +    .name = "fw_cfg/acpi_mr",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .needed = fw_cfg_acpi_mr_restore,
+> +    .post_load = fw_cfg_acpi_mr_restore_post_load,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT64(table_mr_size, FWCfgState),
+> +        VMSTATE_UINT64(linker_mr_size, FWCfgState),
+> +        VMSTATE_UINT64(rsdp_mr_size, FWCfgState),
+> +        VMSTATE_END_OF_LIST()
+> +    },
+> +};
+> +
+>   static const VMStateDescription vmstate_fw_cfg = {
+>       .name = "fw_cfg",
+>       .version_id = 2,
+> @@ -631,6 +695,7 @@ static const VMStateDescription vmstate_fw_cfg = {
+>       },
+>       .subsections = (const VMStateDescription*[]) {
+>           &vmstate_fw_cfg_dma,
+> +        &vmstate_fw_cfg_acpi_mr,
+>           NULL,
+>       }
+>   };
+> @@ -815,6 +880,23 @@ static struct {
+>   #define FW_CFG_ORDER_OVERRIDE_LAST 200
+>   };
+>   
+> +/*
+> + * Any sub-page size update to these table MRs will be lost during migration,
+> + * as we use aligned size in ram_load_precopy() -> qemu_ram_resize() path.
+> + * In order to avoid the inconsistency in sizes save them seperately and
+> + * migrate over in vmstate post_load().
+> + */
+> +static void fw_cfg_acpi_mr_save(FWCfgState *s, const char *filename, size_t len)
+> +{
+> +    if (!strcmp(filename, ACPI_BUILD_TABLE_FILE)) {
+> +        s->table_mr_size = len;
+> +    } else if (!strcmp(filename, ACPI_BUILD_LOADER_FILE)) {
+> +        s->linker_mr_size = len;
+> +    } else if (!strcmp(filename, ACPI_BUILD_RSDP_FILE)) {
+> +        s->rsdp_mr_size = len;
+> +    }
+> +}
+> +
+>   static int get_fw_cfg_order(FWCfgState *s, const char *name)
+>   {
+>       int i;
+> @@ -914,6 +996,7 @@ void fw_cfg_add_file_callback(FWCfgState *s,  const char *filename,
+>       trace_fw_cfg_add_file(s, index, s->files->f[index].name, len);
+>   
+>       s->files->count = cpu_to_be32(count+1);
+> +    fw_cfg_acpi_mr_save(s, filename, len);
+>   }
+>   
+>   void fw_cfg_add_file(FWCfgState *s,  const char *filename,
+> @@ -937,6 +1020,7 @@ void *fw_cfg_modify_file(FWCfgState *s, const char *filename,
+>               ptr = fw_cfg_modify_bytes_read(s, FW_CFG_FILE_FIRST + i,
+>                                              data, len);
+>               s->files->f[i].size   = cpu_to_be32(len);
+> +            fw_cfg_acpi_mr_save(s, filename, len);
+>               return ptr;
+>           }
+>       }
+> @@ -973,7 +1057,10 @@ static void fw_cfg_machine_ready(struct Notifier *n, void *data)
+>       qemu_register_reset(fw_cfg_machine_reset, s);
+>   }
+>   
+> -
+> +static Property fw_cfg_properties[] = {
+> +    DEFINE_PROP_BOOL("acpi-mr-restore", FWCfgState, acpi_mr_restore, true),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+>   
+>   static void fw_cfg_common_realize(DeviceState *dev, Error **errp)
+>   {
+> @@ -1097,6 +1184,8 @@ static void fw_cfg_class_init(ObjectClass *klass, void *data)
+>   
+>       dc->reset = fw_cfg_reset;
+>       dc->vmsd = &vmstate_fw_cfg;
+> +
+> +    device_class_set_props(dc, fw_cfg_properties);
+>   }
+>   
+>   static const TypeInfo fw_cfg_info = {
+> diff --git a/include/hw/nvram/fw_cfg.h b/include/hw/nvram/fw_cfg.h
+> index b5291eefad..25d9307018 100644
+> --- a/include/hw/nvram/fw_cfg.h
+> +++ b/include/hw/nvram/fw_cfg.h
+> @@ -53,6 +53,12 @@ struct FWCfgState {
+>       dma_addr_t dma_addr;
+>       AddressSpace *dma_as;
+>       MemoryRegion dma_iomem;
+> +
+> +    /* restore during migration */
+> +    bool acpi_mr_restore;
+> +    uint64_t table_mr_size;
+> +    uint64_t linker_mr_size;
+> +    uint64_t rsdp_mr_size;
+>   };
+>   
+>   struct FWCfgIoState {
+> 
+
 
