@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F5551A1021
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 17:23:57 +0200 (CEST)
-Received: from localhost ([::1]:49170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A0781A1024
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 17:25:17 +0200 (CEST)
+Received: from localhost ([::1]:49224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLq4y-0000qS-86
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 11:23:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38715)
+	id 1jLq6G-0003CC-HP
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 11:25:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38765)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anthony.perard@citrix.com>) id 1jLq3u-00083E-KY
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:22:51 -0400
+ (envelope-from <anthony.perard@citrix.com>) id 1jLq42-0008E5-OE
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:22:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1jLq3t-0000QX-Oj
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:22:50 -0400
-Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144]:15905)
+ (envelope-from <anthony.perard@citrix.com>) id 1jLq41-0000Vh-TD
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:22:58 -0400
+Received: from esa1.hc3370-68.iphmx.com ([216.71.145.142]:13489)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1jLq3t-0000Ov-GM
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:22:49 -0400
+ id 1jLq41-0000TJ-LK
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:22:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1586272969;
+ d=citrix.com; s=securemail; t=1586272978;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Qg827KIvdKEzs6jvNwGqMNXyL08iW2Xpsw7/s+ZIo+U=;
- b=V8o7vYc51hqOZDOa1Gg4S5mY2soj2zTUTUK6aXiAhU+IwVM61h72ZOhV
- eTp6R/vXIMDIfriIwFU4MzTR1jRJCTsf063qWPdSTF2xBkEpzSQCRadS5
- vZ/cSmeAEIXIvQEv6Z/ULywPlb7VUJlt7PpCLy4a8tplEuMXmqA/t5MfW I=;
-Authentication-Results: esa4.hc3370-68.iphmx.com;
+ bh=zpD/qULcUWjnXe5Pei47zmPvZSaeufrHyKCovEQ8IY0=;
+ b=fBP35TLK1W/7PZUQGPLuBQDyE/1dS3G8hMgq+nJfTCgrE2B8oNJ+B30z
+ 5zTkLiCo/P1IFfN2L7Mj9WkQ4zCYhByMmsmKqzAW5b2v2ZKVPIblSkG/Y
+ GUG6+MICz7W/hpKtC+l5Pl2kHsE6rJULOcbrNMuiT5X4NglJXI93mzfoP I=;
+Authentication-Results: esa1.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none;
  spf=None smtp.pra=anthony.perard@citrix.com;
  spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
  spf=None smtp.helo=postmaster@mail.citrix.com
-Received-SPF: None (esa4.hc3370-68.iphmx.com: no sender
+Received-SPF: None (esa1.hc3370-68.iphmx.com: no sender
  authenticity information available from domain of
  anthony.perard@citrix.com) identity=pra;
- client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
+ client-ip=162.221.158.21; receiver=esa1.hc3370-68.iphmx.com;
  envelope-from="anthony.perard@citrix.com";
  x-sender="anthony.perard@citrix.com";
  x-conformance=sidf_compatible
-Received-SPF: Pass (esa4.hc3370-68.iphmx.com: domain of
+Received-SPF: Pass (esa1.hc3370-68.iphmx.com: domain of
  anthony.perard@citrix.com designates 162.221.158.21 as
  permitted sender) identity=mailfrom;
- client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
+ client-ip=162.221.158.21; receiver=esa1.hc3370-68.iphmx.com;
  envelope-from="anthony.perard@citrix.com";
  x-sender="anthony.perard@citrix.com";
  x-conformance=sidf_compatible; x-record-type="v=spf1";
@@ -53,29 +53,29 @@ Received-SPF: Pass (esa4.hc3370-68.iphmx.com: domain of
  ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
  ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83
  ip4:168.245.78.127 ~all"
-Received-SPF: None (esa4.hc3370-68.iphmx.com: no sender
+Received-SPF: None (esa1.hc3370-68.iphmx.com: no sender
  authenticity information available from domain of
  postmaster@mail.citrix.com) identity=helo;
- client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
+ client-ip=162.221.158.21; receiver=esa1.hc3370-68.iphmx.com;
  envelope-from="anthony.perard@citrix.com";
  x-sender="postmaster@mail.citrix.com";
  x-conformance=sidf_compatible
-IronPort-SDR: kEEUF3m5QJdGP+nVunsvGYsRB0qPKBIMKb/0kGJ3Ad5qvTmdLxzqw07ltbH+HjkMS71Lrl6qAZ
- yaqI6F3eG7Ljvf+RIJ4y5SPiYNj2f/YSQoguctmkfywB1hHd8dYISMCx2YiySk4t6THD2BQCLP
- knLe7MnbkruiyE3zrnKMGimmjyRfL/DuVm0FlJIL58nV+zkLXePqoukx+rwJVM+fHTfww1YqlB
- xHvSG8Zx8+xBzBZrflAGWY1Q724URub+FE+lbwk29Fg0NiOIHzB4pSav/fbtBaxYHZbvF4WFqP
- 4ps=
+IronPort-SDR: kIpJUdp/ueeziAdKh5CGN0J6Of7NJxXM7lkAmrFurtwL8Nti4/kW70mNzCLO/YPcuUrkSBnyju
+ hOF6Jspwi3Xkj/jXa0FPpfunPEQRgsAup8Eto8FuPJqlIK/0knMN1H429JH7VaUHURz/KgN/Ea
+ XkzvyPWPQZ+Up7cJv2GF+q9Hh27bPlEZxtTGJyjkroE/fsDBaWYSEoVsuZggKe23bYe1EDPO1h
+ JgFukRRiHec3wCj2Fjqoe8xuvbxriSu1WnXngqD3AbMNLELlA7KKs70KShHxsWTh9Saf1EMVzV
+ PKk=
 X-SBRS: 2.7
-X-MesageID: 15974527
-X-Ironport-Server: esa4.hc3370-68.iphmx.com
+X-MesageID: 15534906
+X-Ironport-Server: esa1.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.72,355,1580792400"; d="scan'208";a="15974527"
+X-IronPort-AV: E=Sophos;i="5.72,355,1580792400"; d="scan'208";a="15534906"
 From: Anthony PERARD <anthony.perard@citrix.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PULL 2/3] xen-block: Fix uninitialized variable
-Date: Tue, 7 Apr 2020 16:22:36 +0100
-Message-ID: <20200407152237.1468704-3-anthony.perard@citrix.com>
+Subject: [PULL 3/3] MAINTAINERS: Add xen-usb.c to Xen section
+Date: Tue, 7 Apr 2020 16:22:37 +0100
+Message-ID: <20200407152237.1468704-4-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200407152237.1468704-1-anthony.perard@citrix.com>
 References: <20200407152237.1468704-1-anthony.perard@citrix.com>
@@ -83,7 +83,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 216.71.155.144
+X-Received-From: 216.71.145.142
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,33 +99,25 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since 7f5d9b206d1e ("object-add: don't create return value if
-failed"), qmp_object_add() don't write any value in 'ret_data', thus
-has random data. Then qobject_unref() fails and abort().
-
-Fix by initialising 'ret_data' properly.
-
-Fixes: 5f07c4d60d09 ("qapi: Flatten object-add")
 Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200406164207.1446817-1-anthony.perard@citrix.com>
+Acked-by: Paul Durrant <paul@xen.org>
+Message-Id: <20200406165043.1447837-1-anthony.perard@citrix.com>
 ---
- hw/block/xen-block.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
-index 07bb32e22b51..99cb4c67cb09 100644
---- a/hw/block/xen-block.c
-+++ b/hw/block/xen-block.c
-@@ -860,7 +860,7 @@ static XenBlockIOThread *xen_block_iothread_create(const char *id,
-     XenBlockIOThread *iothread = g_new(XenBlockIOThread, 1);
-     Error *local_err = NULL;
-     QDict *opts;
--    QObject *ret_data;
-+    QObject *ret_data = NULL;
- 
-     iothread->id = g_strdup(id);
- 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9d156d73b31e..839959f7e4ac 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -440,6 +440,7 @@ F: hw/9pfs/xen-9p*
+ F: hw/char/xen_console.c
+ F: hw/display/xenfb.c
+ F: hw/net/xen_nic.c
++F: hw/usb/xen-usb.c
+ F: hw/block/xen*
+ F: hw/block/dataplane/xen*
+ F: hw/xen/
 -- 
 Anthony PERARD
 
