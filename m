@@ -2,69 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1179C1A09B0
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 11:02:15 +0200 (CEST)
-Received: from localhost ([::1]:43336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E6991A09E5
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 11:19:21 +0200 (CEST)
+Received: from localhost ([::1]:43726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLk7a-0005EY-3w
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 05:02:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54472)
+	id 1jLkO8-0007Zc-JS
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 05:19:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54557)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jLk4w-0003dC-TG
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:59:32 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jLk55-0003qC-K8
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:59:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jLk4t-0001fI-Qp
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:59:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32928
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1jLk53-0001mT-Jg
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:59:39 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24876
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jLk4t-0001ee-Hg
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:59:27 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jLk53-0001lc-F5
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:59:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586249966;
+ s=mimecast20190719; t=1586249976;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g5p4DdLRno1fJd2d90NCTV2OP/d2DxNC9HSgqxZJNWY=;
- b=DHf38DjioK0xJl2PsvHDIZSyzclpxxPf4V44cSSjtMXsh4l1vYlBKrv0H3VyNu4ys2ChEk
- kRgjcsYKl0J+lO8/f8hAoGcl4KLjFMnMErfFpMbTiwb6wpuvHVP/P2UwOs2+JTumtz402L
- rg9L72PBP6Yuu5uIa5iXE5uMNrcZguw=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=n0OLIzUHTF/IGV5mMgMhNSg9CICq5msrhGUh2oYwO8A=;
+ b=dYopLjrFnL860jh8hsJFAsibvCxiT0OtVE+irEMB0bM6/i7hGLxb+zEb5C7YApEQ3knrhM
+ NnQrGZy6GX8lPDzNyb87m8jCO4icGa0kDClmxUazsi2mWRDIW/00RXMXgoslQMSzHkA74A
+ IL/5IRzuqLIGQjrquDYT7DRfvJGPfI0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-397-nP9nBw1qM2C2oDi31dJfgQ-1; Tue, 07 Apr 2020 04:59:22 -0400
-X-MC-Unique: nP9nBw1qM2C2oDi31dJfgQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-508-9af1T8g5P5OyMpk3kaPG6w-1; Tue, 07 Apr 2020 04:59:31 -0400
+X-MC-Unique: 9af1T8g5P5OyMpk3kaPG6w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EADC107ACC4;
- Tue,  7 Apr 2020 08:59:21 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-113-253.ams2.redhat.com [10.36.113.253])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 73903277A5;
- Tue,  7 Apr 2020 08:59:16 +0000 (UTC)
-Date: Tue, 7 Apr 2020 10:59:15 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH for-5.0 v2 3/3] block: Fix blk->in_flight during
- blk_wait_while_drained()
-Message-ID: <20200407085915.GB7695@linux.fritz.box>
-References: <20200406171403.6761-1-kwolf@redhat.com>
- <20200406171403.6761-4-kwolf@redhat.com>
- <3c8fd1b8-5138-b6eb-1e9d-55e03ad078c7@virtuozzo.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CDDB18C8C03;
+ Tue,  7 Apr 2020 08:59:30 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-84.ams2.redhat.com
+ [10.36.114.84])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 76A1C114819;
+ Tue,  7 Apr 2020 08:59:29 +0000 (UTC)
+Subject: Re: [PATCH] iotests/common.pattern: Quote echos
+To: qemu-block@nongnu.org
+References: <20200403101134.805871-1-mreitz@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <40bbb898-ff15-f68c-35e4-40f6bc119638@redhat.com>
+Date: Tue, 7 Apr 2020 10:59:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <3c8fd1b8-5138-b6eb-1e9d-55e03ad078c7@virtuozzo.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200403101134.805871-1-mreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="7kadW11YygNNPY5Inr41dj3Jps3hHIAg9"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,98 +97,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, s.reiter@proxmox.com, qemu-devel@nongnu.org,
- dietmar@proxmox.com, stefanha@redhat.com, mreitz@redhat.com,
- t.lamprecht@proxmox.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 07.04.2020 um 08:52 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 06.04.2020 20:14, Kevin Wolf wrote:
-> > Waiting in blk_wait_while_drained() while blk->in_flight is increased
-> > for the current request is wrong because it will cause the drain
-> > operation to deadlock.
-> >=20
-> > This patch makes sure that blk_wait_while_drained() is called with
-> > blk->in_flight increased exactly once for the current request, and that
-> > it temporarily decreases the counter while it waits.
-> >=20
-> > Fixes: cf3129323f900ef5ddbccbe86e4fa801e88c566e
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > ---
-> >   block/block-backend.c | 17 +++++------------
-> >   1 file changed, 5 insertions(+), 12 deletions(-)
-> >=20
-> > diff --git a/block/block-backend.c b/block/block-backend.c
-> > index d330e08b05..f621435f0b 100644
-> > --- a/block/block-backend.c
-> > +++ b/block/block-backend.c
-> > @@ -1140,10 +1140,15 @@ static int blk_check_byte_request(BlockBackend =
-*blk, int64_t offset,
-> >       return 0;
-> >   }
-> > +/* To be called between exactly one pair of blk_inc/dec_in_flight() */
-> >   static void coroutine_fn blk_wait_while_drained(BlockBackend *blk)
-> >   {
-> > +    assert(blk->in_flight > 0);
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--7kadW11YygNNPY5Inr41dj3Jps3hHIAg9
+Content-Type: multipart/mixed; boundary="nZImnPxlLdapruQ2Su3atPtjZWWI4Lchp"
+
+--nZImnPxlLdapruQ2Su3atPtjZWWI4Lchp
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 03.04.20 12:11, Max Reitz wrote:
+> From time to time, my shell decides to repace the bracketed numbers here
+> by the numbers inside (i.e., "=3D=3D=3D Clusters to be compressed [1]" is
+> printed as "=3D=3D=3D Clusters to be compressed 1").  That makes tests th=
+at
+> use common.pattern fail.  Prevent that from happening by quoting the
+> arguments to all echos in common.pattern.
 >=20
-> Hmm. You promise to make sure that in_flight increased exactly once.
-> Shouldn't it be assert(blk->in_flight =3D=3D 1) ?
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>  tests/qemu-iotests/common.pattern | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
 
-Exactly once for this specific request, but if you have multiple
-requests in flight, blk->in_flight will be the sum of all requests.
+Thanks for the reviews, applied to my block branch.
 
-Just asserting > 0 should still catch potential bugs because you won't
-always have multiple requests in flight.
+Max
 
-> > +
-> >       if (blk->quiesce_counter && !blk->disable_request_queuing) {
-> > +        blk_dec_in_flight(blk);
-> >           qemu_co_queue_wait(&blk->queued_requests, NULL);
-> > +        blk_inc_in_flight(blk);
-> >       }
-> >   }
-> > @@ -1416,12 +1421,6 @@ static void blk_aio_read_entry(void *opaque)
-> >       BlkRwCo *rwco =3D &acb->rwco;
-> >       QEMUIOVector *qiov =3D rwco->iobuf;
-> > -    if (rwco->blk->quiesce_counter) {
-> > -        blk_dec_in_flight(rwco->blk);
-> > -        blk_wait_while_drained(rwco->blk);
-> > -        blk_inc_in_flight(rwco->blk);
-> > -    }
->=20
-> Hm, you drop it as it's called from blk_do_preadv too. I think it
-> worth mentioning in commit message still.
 
-Okay, I can add a sentence like "The blk_wait_while_drained() call in
-blk_aio_read/write_entry is redundant with the one in blk_co_*(), so
-drop it."
+--nZImnPxlLdapruQ2Su3atPtjZWWI4Lchp--
 
-> > -
-> >       assert(qiov->size =3D=3D acb->bytes);
-> >       rwco->ret =3D blk_do_preadv(rwco->blk, rwco->offset, acb->bytes,
-> >                                 qiov, rwco->flags);
-> > @@ -1434,12 +1433,6 @@ static void blk_aio_write_entry(void *opaque)
-> >       BlkRwCo *rwco =3D &acb->rwco;
-> >       QEMUIOVector *qiov =3D rwco->iobuf;
-> > -    if (rwco->blk->quiesce_counter) {
-> > -        blk_dec_in_flight(rwco->blk);
-> > -        blk_wait_while_drained(rwco->blk);
-> > -        blk_inc_in_flight(rwco->blk);
-> > -    }
-> > -
-> >       assert(!qiov || qiov->size =3D=3D acb->bytes);
-> >       rwco->ret =3D blk_do_pwritev_part(rwco->blk, rwco->offset, acb->b=
-ytes,
-> >                                       qiov, 0, rwco->flags);
-> >=20
->=20
-> With assert(blk->in_flight =3D=3D 1) and mention extra wait removing in c=
-ommit message:
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+--7kadW11YygNNPY5Inr41dj3Jps3hHIAg9
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-Thanks, and I hope you agree with blk->in_flight > 0 now.
+-----BEGIN PGP SIGNATURE-----
 
-Kevin
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6MQO8ACgkQ9AfbAGHV
+z0AphQf+IWf7NLGYmk+kgO9XyzEv28uchPLVahV/KAdzDqKaMo/vyE+Vj7gRhAr7
+pEkjU7l6FDG1mOT4/AGWD8afLS1wV50JDZwTW42hb0OojfPkYxuBAw0siDjsydYD
+NS9CzDPev7I2j3Zwh64swnTwCp2zjFCsatd+ig14BE8ssaV3pLbMRux4q4Puf/AA
+nQoBSwWzwPoxWJXlB3Xqjab8kx6yTuX3waP+9FV4qYUQuImzLGhQTzT/5KU4TNhN
+oaVDcq9CUJeyT2g1GA9jfbTn0s5svOPLrSUI2JZLfhOS0X88ALTbUgcE74TVTYkf
+2NK/dIq31PE5FWdKEJsG6DLNWEtH1Q==
+=DgVS
+-----END PGP SIGNATURE-----
+
+--7kadW11YygNNPY5Inr41dj3Jps3hHIAg9--
 
 
