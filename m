@@ -2,67 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C15C1A09D4
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 11:14:41 +0200 (CEST)
-Received: from localhost ([::1]:43630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECC101A09D8
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 11:16:06 +0200 (CEST)
+Received: from localhost ([::1]:43672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLkJc-0001xP-Kn
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 05:14:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52695)
+	id 1jLkL0-0003xD-2D
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 05:16:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52817)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jLjwk-0008ES-WF
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:51:05 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jLjxW-0008Q1-KB
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:51:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jLjwj-00053v-K4
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:51:02 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:43412)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jLjwj-00053Z-6i
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:51:01 -0400
-Received: by mail-oi1-x241.google.com with SMTP id k5so804623oiw.10
- for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 01:51:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KtxdNu1HXgzI2aJnUuQ/V+W7GgXzf+se8c+Cw9+cO/U=;
- b=pimIQuxq/3m7GiSEafrP0Yby8GxC17Kbjmdkk90DOfJ0nopmtkdek2AWeGtgxTge23
- 44c9FMmjRbRb4ZGl+eicL3claK8rlpKoSRdzgI3RYleQ+fJOGglzg4L1MfoK3uXT2dPZ
- EgSXwR78a3+nH1LQKCojRGzdEZ8SFvJ8c/crkHhN7Hx0tQdfdcyf9IFK8NlEdMn4QOgW
- zFDryqGemtUcZZucvis5HCdOsvTUPiGWOtZk+VD3/pC/RjEbwNUBLWtaFaiJRdu3Q12g
- xlL+Ih2pPEe7MUHaXhFHZiOkDeITlS4iTndagJNVZNeivpiM6wxps/8TgxcFaEv3Iyfh
- 1Drw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KtxdNu1HXgzI2aJnUuQ/V+W7GgXzf+se8c+Cw9+cO/U=;
- b=CgCIadatYXAr7iPP8Wxh9aIaXE7H15OuWvYNN1mcNSLFoel85n7173srQrR8/k24aR
- eozP7xCydgZmioTAn2KEZZeQ8vxNxWUj19RsZSzkwBzD1aXPJIuwFFh5XZ2IfsiSqj7U
- hwnH9m08tithqO1CA9nv5c+d+Kf0h8+U5u7VYOGwy8EfmJXYJCRwy8QcF6ajcwJ2s60E
- V5MMFxQZWQ08XkhiBt3UIzRrHMGVQeXc41POsX9fnyZwXYNNxV1Haiz2u0duB7iCZ2zG
- r3j2C6hGE2ASih8ocbISMR3AMtOWSAE8HBl33eNUFKHmH3S712uYFnE/gPnZwPlzVqer
- DVXQ==
-X-Gm-Message-State: AGi0PuZzo2EUbkM2Smq1lQnQxOdC8moc2hVArlO88S1a+IlnCl33/q3U
- asCAWWtCdo7BsRkgGX2lP/iXhpeL58hv4MCccN/a0Q==
-X-Google-Smtp-Source: APiQypJHVeLS3kpxJwVUHxEwREJhqevjhunmyM5cL36EIxrMcvCf9HVwbjV2upSRZP0dHUdk2wOzYtWbzaSJwJeMkcA=
-X-Received: by 2002:a05:6808:8cb:: with SMTP id
- k11mr822975oij.48.1586249459834; 
- Tue, 07 Apr 2020 01:50:59 -0700 (PDT)
+ (envelope-from <mreitz@redhat.com>) id 1jLjxV-0005SO-K0
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:51:50 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40921
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jLjxU-0005QL-PZ
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:51:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586249507;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=0hKmzRVqh/4WqpasGKcRyF6tHYccbxoP48KfV2VqzDw=;
+ b=PPdZI+ou/FAw+sxCrax19uYM9z3cRFUhGA07GBng7wtUuBdfHRrdBf9gTMPTdR31wrkadZ
+ CH1NeSgvMjVtHXtuVh4F6Z9R/VmM+Zx++LUSSW1m715uOQoDWqvUpA0BpuJmnA9y0N9YRI
+ Zgc7qIf1ZxzX2ibESKRBgmUANpLz4SE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-26-o4A41G8aPcmwWGj4r3WM1Q-1; Tue, 07 Apr 2020 04:51:39 -0400
+X-MC-Unique: o4A41G8aPcmwWGj4r3WM1Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31071107ACC4;
+ Tue,  7 Apr 2020 08:51:37 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-84.ams2.redhat.com
+ [10.36.114.84])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 067535DA7B;
+ Tue,  7 Apr 2020 08:51:34 +0000 (UTC)
+Subject: Re: [PATCH v2] qcow2: Check request size in
+ qcow2_co_pwritev_compressed_part()
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <20200406143401.26854-1-berto@igalia.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <e9415dbd-8c08-89b9-a29f-9c570010a4cc@redhat.com>
+Date: Tue, 7 Apr 2020 10:51:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <0b02fe788de99120894f87f6d5c60e15d6a75d85.1586213450.git.dirty@apple.com>
- <CAFEAcA9FSVzxwudyaDoCty8B+Up33caM20qytLNO7HAXWmcwtg@mail.gmail.com>
- <CACPK8Xc3mpoakAqq2_wccCH6_2i+V4NB61CmdxtMecJ4ejzgmQ@mail.gmail.com>
-In-Reply-To: <CACPK8Xc3mpoakAqq2_wccCH6_2i+V4NB61CmdxtMecJ4ejzgmQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Apr 2020 09:50:48 +0100
-Message-ID: <CAFEAcA9erXezwsn_UaXJz0SL5Zaj=UmjTO0LPg0LDM4P50tjHQ@mail.gmail.com>
-Subject: Re: [PATCH v1] nrf51: Fix last GPIO CNF address
-To: Joel Stanley <joel@jms.id.au>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+In-Reply-To: <20200406143401.26854-1-berto@igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="SWGyy8NOMswpb2OHEosFFO0hlRCtNu3Kj"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,35 +98,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, QEMU Developers <qemu-devel@nongnu.org>,
- Cameron Esfahani <dirty@apple.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Pavel Butsykin <pbutsykin@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 7 Apr 2020 at 09:45, Joel Stanley <joel@jms.id.au> wrote:
-> On Tue, 7 Apr 2020 at 08:41, Peter Maydell <peter.maydell@linaro.org> wrote:
-> > Do you have a link to this patch, please? I had a quick search through
-> > my mailing list articles but couldn't see anything obviously relevant.
->
-> There is a reference in this thread:
->
-> https://lore.kernel.org/qemu-devel/dd8fc1f7-56d9-4d9f-96a4-0fdcafdc8f55@www.fastmail.com/
->
-> The patch is here:
->
-> https://lore.kernel.org/qemu-devel/20170630030058.28943-1-andrew@aj.id.au/
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--SWGyy8NOMswpb2OHEosFFO0hlRCtNu3Kj
+Content-Type: multipart/mixed; boundary="x0vgbSKwXG3rA0q4sfJBxfTcBeI9FeKVc"
 
-Oh, that's from 2017, no wonder I couldn't find it!
+--x0vgbSKwXG3rA0q4sfJBxfTcBeI9FeKVc
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Does somebody who's already reviewed the patch want to summarize
-what the effects on devices are -- i.e. what calls the device's read/write
-methods used to get if the guest did an unaligned access, including an
-unaligned access half off-the-end of the memory region, and what
-calls the read/write methods get after the patch ? The patch's commit
-message doesn't really describe what it's doing...
+On 06.04.20 16:34, Alberto Garcia wrote:
+> When issuing a compressed write request the number of bytes must be a
+> multiple of the cluster size or reach the end of the last cluster.
+>=20
+> With the current code such requests are allowed and we hit an
+> assertion:
+>=20
+>    $ qemu-img create -f qcow2 img.qcow2 1M
+>    $ qemu-io -c 'write -c 0 32k' img.qcow2
+>=20
+>    qemu-io: block/qcow2.c:4257: qcow2_co_pwritev_compressed_task:
+>    Assertion `bytes =3D=3D s->cluster_size || (bytes < s->cluster_size &&
+>               (offset + bytes =3D=3D bs->total_sectors << BDRV_SECTOR_BIT=
+S))' failed.
+>    Aborted
+>=20
+> This patch fixes a regression introduced in 0d483dce38
+>=20
+> Signed-off-by: Alberto Garcia <berto@igalia.com>
+> ---
+>  block/qcow2.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 
-thanks
--- PMM
+Thanks, applied to my block branch:
+
+https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+
+Max
+
+
+--x0vgbSKwXG3rA0q4sfJBxfTcBeI9FeKVc--
+
+--SWGyy8NOMswpb2OHEosFFO0hlRCtNu3Kj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6MPxQACgkQ9AfbAGHV
+z0DqRQf7B5uCLJ991/Yulm0NS6ORq6AluSOnDXgQOyGlrPzlPN+uhAZVm+8/4v9x
+EUQ9sOHW1xUg0y1tMRKmBvpKyiO5mh0iXet4SGdSaAy/jHJ8z8nrCXwZlGcYnA2s
+bCPv11l/cIjN58Kuuoxb0I5RmdM9Vj81kMKYtwEL58xlBMJhPHOWTIYZped7DwcA
+SCU16ukpVyKBcq+PPqoyX31e2clVOjt0fg7bwZ6ok0+EWP0JKoUE22prmFAkLUM4
+JhM7idczyq2KJBqP8X7EIioWU1fzdadKH6bMxkRJJfwSlnGkpd2nWtYCshS3+A2c
+bcm/a0OAVuJHcavX3GE1rq+scN9WAw==
+=lzL5
+-----END PGP SIGNATURE-----
+
+--SWGyy8NOMswpb2OHEosFFO0hlRCtNu3Kj--
+
 
