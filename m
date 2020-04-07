@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2A6E1A084A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 09:29:01 +0200 (CEST)
-Received: from localhost ([::1]:42526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 214CA1A084F
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 09:30:45 +0200 (CEST)
+Received: from localhost ([::1]:42560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLifM-00063D-Rt
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 03:29:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41811)
+	id 1jLih2-0008Vk-7o
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 03:30:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41840)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <joel.stan@gmail.com>) id 1jLic3-0005Of-5u
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 03:25:36 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jLicF-0005TO-N9
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 03:25:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <joel.stan@gmail.com>) id 1jLic1-0003JC-Tq
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 03:25:35 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:38695)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
- id 1jLibz-0003AB-9o; Tue, 07 Apr 2020 03:25:31 -0400
-Received: by mail-pg1-x543.google.com with SMTP id m17so1298316pgj.5;
- Tue, 07 Apr 2020 00:25:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xSQjae3iHp8vDRdLTBEjdVkFcRaIif/B6y8hlJTqhks=;
- b=W/3Bn1gTxVlm6EolmJPogDFtbHGj29NTffMytH1J0dkzzc4idq8uDlZJ6uFVPthMp1
- hoyjaXfksqCE+ixUmxa+/ZAHy9xkuib1qq5ZVMOuPmNuc90MjSO2J03MppN32auN4/zs
- +pjC+u6GuH74KtYqfwdvN+70vb1BUMS7yxxB18OLNLl+RKKjaINt0qm/gu4dv3fSb3m1
- P3ZTBxAQA5cLrb3KOfhgob6vZyXWnKKCszI9d1HRka57jaav6jUz31R1GotnBRHm6VQs
- LMnju+j83C9M8BxNs9pp/WtodNXtu17RXBSAqIZ0CrgZJosq8233/Hrz4/JY0fKAWdcv
- M0Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=xSQjae3iHp8vDRdLTBEjdVkFcRaIif/B6y8hlJTqhks=;
- b=SF080vFbGbc4F/zcPhnjJkRsoKsO2zUt/HoNlYFAV8/9eYGyjuXYsFgor0HbqW4U8Q
- vbubaM2AMx5bSb3WynkSh6e6aL7tvKpxUoBqey6sS02D/w54TSpVCkfTDff4W7wIwjjh
- D75vn/+yDAMex73lBhD4pOZ6RAabQO9roUiNom0RMAbSGI42M5SnpFFsInMzHkOPwzuT
- 41G3ttq+dmVc5kuYCXcR2aZuHXxpv/eZ9znj85gnJ9qvqCXZypEV8lTM7UhkRKrOUGlT
- ZJGIlmp4FJ3A4p4PXBIPYEnByjziV6IO406ck5ywmCEPE+lpM9msTXABohR0VLC2g86S
- YxbA==
-X-Gm-Message-State: AGi0PuaNc9WIopxbGTJ3sIpdnzh2WTEzzgNj4azPmdrbmmb9D4bD+OaV
- oNKX6nhbfidcFMOySlSBhyA=
-X-Google-Smtp-Source: APiQypLcqngxCy/MFC9HQ1YJSoo/tnNdxSWzl2MskWSFurd6AZsJvJm2HxRasJgc0AbCpauqp+qcyw==
-X-Received: by 2002:a62:e515:: with SMTP id n21mr1291117pff.103.1586244329822; 
- Tue, 07 Apr 2020 00:25:29 -0700 (PDT)
-Received: from localhost.localdomain ([45.124.203.18])
- by smtp.gmail.com with ESMTPSA id 189sm13177249pfg.170.2020.04.07.00.25.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Apr 2020 00:25:29 -0700 (PDT)
-From: Joel Stanley <joel@jms.id.au>
-To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH] aspeed: Add boot stub for smp booting
-Date: Tue,  7 Apr 2020 16:55:17 +0930
-Message-Id: <20200407072517.671521-1-joel@jms.id.au>
-X-Mailer: git-send-email 2.25.1
+ (envelope-from <cohuck@redhat.com>) id 1jLicE-0003l4-7y
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 03:25:47 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44090
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jLicE-0003jT-4Q
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 03:25:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586244345;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cFLoFf2Zz2S4HXM+15Zcf1ZXm7YCuHDUwF3z0XzR934=;
+ b=YpXfIyxdABo7Y1XE/1RxS6z8zgtyuV+aoTBt28DrPLQumDRAV/9yv7NSQU+JlKP/TQyYoV
+ l+M7ycI52obacHtqw6FLCdRsJ8xQybWP0ATvHX7DPRnpfZ8ko6P5ts6ReRP9AnUrhXb6eR
+ U+ygs8k9FHixGaAhoro8j7VABd3RbU8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-513-iH-BjwjGPri-lzxGtNRvwQ-1; Tue, 07 Apr 2020 03:25:42 -0400
+X-MC-Unique: iH-BjwjGPri-lzxGtNRvwQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 355EA107B7D4;
+ Tue,  7 Apr 2020 07:25:41 +0000 (UTC)
+Received: from gondolin (ovpn-112-38.ams2.redhat.com [10.36.112.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 295255C64E;
+ Tue,  7 Apr 2020 07:25:36 +0000 (UTC)
+Date: Tue, 7 Apr 2020 09:25:34 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH 5/8] pc-bios: s390x: Move panic() into header and add
+ infinite loop
+Message-ID: <20200407092534.2edb0276.cohuck@redhat.com>
+In-Reply-To: <20200324150847.10476-6-frankja@linux.ibm.com>
+References: <20200324150847.10476-1-frankja@linux.ibm.com>
+ <20200324150847.10476-6-frankja@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::543
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,135 +74,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a boot stub that is similar to the code u-boot runs, allowing
-the kernel to boot the secondary CPU.
+On Tue, 24 Mar 2020 11:08:44 -0400
+Janosch Frank <frankja@linux.ibm.com> wrote:
 
-u-boot works as follows:
+> panic() was defined for the ccw and net bios, i.e. twice, so it's
+> cleaner to rather put it into the header.
 
- 1. Initialises the SMP mailbox area in the SCU at 0x1e6e2180 with default values
+They were also slightly different, so unifying them makes sense.
 
- 2. Copies a stub named 'mailbox_insn' from flash to the SCU, just above the
-    mailbox area
+> 
+> Also let's add an infinite loop into the assembly of disabled_wait() so
+> the caller doesn't need to take care of it.
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>  pc-bios/s390-ccw/main.c     | 7 -------
+>  pc-bios/s390-ccw/netmain.c  | 8 --------
+>  pc-bios/s390-ccw/s390-ccw.h | 7 ++++++-
+>  pc-bios/s390-ccw/start.S    | 5 +++--
+>  4 files changed, 9 insertions(+), 18 deletions(-)
+> 
 
- 3. Sets AST_SMP_MBOX_FIELD_READY to a magic value to indicate the
-    secondary can begin execution from the stub
+> @@ -91,6 +90,12 @@ bool menu_is_enabled_enum(void);
+>  
+>  #define MAX_BOOT_ENTRIES  31
+>  
+> +static inline void panic(const char *string)
+> +{
+> +    sclp_print(string);
+> +    disabled_wait();
+> +}
+> +
+>  static inline void fill_hex(char *out, unsigned char val)
+>  {
+>      const char hex[] = "0123456789abcdef";
+> diff --git a/pc-bios/s390-ccw/start.S b/pc-bios/s390-ccw/start.S
+> index aa8fceb19da2164a..35be141d8da38d07 100644
+> --- a/pc-bios/s390-ccw/start.S
+> +++ b/pc-bios/s390-ccw/start.S
+> @@ -47,8 +47,9 @@ memsetxc:
+>   */
+>  	.globl disabled_wait
+>  disabled_wait:
+> -        larl %r1,disabled_wait_psw
+> -        lpswe   0(%r1)
+> +        larl	%r1,disabled_wait_psw
+> +        lpswe	0(%r1)
+> +1:	j	1b
+>  
+>  
+>  /*
 
- 4. The stub waits until the AST_SMP_MBOX_FIELD_GOSIGN register is set to
-    a magic value
-
- 5. Jumps to the address in AST_SMP_MBOX_FIELD_ENTRY, starting Linux
-
-Linux indicates it is ready by writing the address of its entrypoint
-function to AST_SMP_MBOX_FIELD_ENTRY and the 'go' magic number to
-AST_SMP_MBOX_FIELD_GOSIGN. The secondary CPU sees this at step 4 and
-breaks out of it's loop.
-
-To be compatible, a fixed qemu stub is loaded into the mailbox area. As
-qemu can ensure the stub is loaded before execution starts, we do not
-need to emulate the AST_SMP_MBOX_FIELD_READY behaviour of u-boot. The
-secondary CPU's program counter points to the beginning of the stub,
-allowing qemu to start secondaries at step four.
-
-Reboot behaviour is preserved by resetting AST_SMP_MBOX_FIELD_GOSIGN
-when the secondaries are reset.
-
-This is only configured when the system is booted with -kernel and qemu
-does not execute u-boot first.
-
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- hw/arm/aspeed.c | 65 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 65 insertions(+)
-
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index a6a2102a93cb..bc4386cc6174 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -116,6 +116,58 @@ static const MemoryRegionOps max_ram_ops = {
-     .endianness = DEVICE_NATIVE_ENDIAN,
- };
- 
-+#define AST_SMP_MAILBOX_BASE            0x1e6e2180
-+#define AST_SMP_MBOX_FIELD_ENTRY        (AST_SMP_MAILBOX_BASE + 0x0)
-+#define AST_SMP_MBOX_FIELD_GOSIGN       (AST_SMP_MAILBOX_BASE + 0x4)
-+#define AST_SMP_MBOX_FIELD_READY        (AST_SMP_MAILBOX_BASE + 0x8)
-+#define AST_SMP_MBOX_FIELD_POLLINSN     (AST_SMP_MAILBOX_BASE + 0xc)
-+#define AST_SMP_MBOX_CODE               (AST_SMP_MAILBOX_BASE + 0x10)
-+#define AST_SMP_MBOX_GOSIGN             0xabbaab00
-+
-+static void aspeed_write_smpboot(ARMCPU *cpu,
-+                                 const struct arm_boot_info *info)
-+{
-+    static const uint32_t poll_mailbox_ready[] = {
-+        /*
-+         * r2 = per-cpu go sign value
-+         * r1 = AST_SMP_MBOX_FIELD_ENTRY
-+         * r0 = AST_SMP_MBOX_FIELD_GOSIGN
-+         */
-+        0xee100fb0,  /* mrc     p15, 0, r0, c0, c0, 5 */
-+        0xe21000ff,  /* ands    r0, r0, #255          */
-+        0xe59f201c,  /* ldr     r2, [pc, #28]         */
-+        0xe1822000,  /* orr     r2, r2, r0            */
-+
-+        0xe59f1018,  /* ldr     r1, [pc, #24]         */
-+        0xe59f0018,  /* ldr     r0, [pc, #24]         */
-+
-+        0xe320f002,  /* wfe                           */
-+        0xe5904000,  /* ldr     r4, [r0]              */
-+        0xe1520004,  /* cmp     r2, r4                */
-+        0x1afffffb,  /* bne     <wfe>                 */
-+        0xe591f000,  /* ldr     pc, [r1]              */
-+        AST_SMP_MBOX_GOSIGN,
-+        AST_SMP_MBOX_FIELD_ENTRY,
-+        AST_SMP_MBOX_FIELD_GOSIGN,
-+    };
-+
-+    rom_add_blob_fixed("aspeed.smpboot", poll_mailbox_ready,
-+                       sizeof(poll_mailbox_ready),
-+                       info->smp_loader_start);
-+}
-+
-+static void aspeed_reset_secondary(ARMCPU *cpu,
-+                                   const struct arm_boot_info *info)
-+{
-+    AddressSpace *as = arm_boot_address_space(cpu, info);
-+    CPUState *cs = CPU(cpu);
-+
-+    /* info->smp_bootreg_addr */
-+    address_space_stl_notdirty(as, AST_SMP_MBOX_FIELD_GOSIGN, 0,
-+                               MEMTXATTRS_UNSPECIFIED, NULL);
-+    cpu_set_pc(cs, info->smp_loader_start);
-+}
-+
- #define FIRMWARE_ADDR 0x0
- 
- static void write_boot_rom(DriveInfo *dinfo, hwaddr addr, size_t rom_size,
-@@ -270,6 +322,19 @@ static void aspeed_machine_init(MachineState *machine)
-         }
-     }
- 
-+    if (machine->kernel_filename) {
-+        /* With no u-boot we must set up a boot stub for the secondary CPU */
-+        MemoryRegion *smpboot = g_new(MemoryRegion, 1);
-+        memory_region_init_ram(smpboot, OBJECT(bmc), "aspeed.smpboot",
-+                               0x80, &error_abort);
-+        memory_region_add_subregion(get_system_memory(),
-+                                    AST_SMP_MAILBOX_BASE, smpboot);
-+
-+        aspeed_board_binfo.write_secondary_boot = aspeed_write_smpboot;
-+        aspeed_board_binfo.secondary_cpu_reset_hook = aspeed_reset_secondary;
-+        aspeed_board_binfo.smp_loader_start = AST_SMP_MBOX_CODE;
-+    }
-+
-     aspeed_board_binfo.ram_size = ram_size;
-     aspeed_board_binfo.loader_start = sc->memmap[ASPEED_SDRAM];
-     aspeed_board_binfo.nb_cpus = bmc->soc.num_cpus;
--- 
-2.25.1
+Possibly dumb question: Does checking code now figure out correctly
+that code flow does not continue after disabled_wait()?
 
 
