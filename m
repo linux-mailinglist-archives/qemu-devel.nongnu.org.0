@@ -2,90 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 646FB1A0C7A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 13:05:38 +0200 (CEST)
-Received: from localhost ([::1]:45240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E8181A0C86
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 13:10:43 +0200 (CEST)
+Received: from localhost ([::1]:45316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLm2z-0003cw-DI
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 07:05:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48488)
+	id 1jLm7u-0006DJ-51
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 07:10:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49126)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jLm1T-00029e-UF
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 07:04:05 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jLm77-0005dI-8Q
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 07:09:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jLm1R-0001wm-F6
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 07:04:02 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26336
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jLm1R-0001wc-8A
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 07:04:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586257440;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qH4vYyzUzyXgBG+RVHwqKwIDCWDhU/st53N1eVgzgwI=;
- b=U7rA4kDo+74tY3ReQDCJ0641jeWJoqsD2akJbYw3QBVj5SyajoaAaTlUANxyILf2DZ9fOp
- Y3k2J0s7dMZG8I3JqspjTgKtsfp7xrSiOLW8gqKKD4fwUsz+p9Bwr86X113UDFAig5B90H
- UTh5kcbdMm1RXs2CYN6yRf75g+ssLWo=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-z4qYMuOFNeOk_cHLagwQoQ-1; Tue, 07 Apr 2020 07:03:56 -0400
-X-MC-Unique: z4qYMuOFNeOk_cHLagwQoQ-1
-Received: by mail-ed1-f71.google.com with SMTP id h12so2731827edv.11
- for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 04:03:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=A9LL6Ut6al9YGzBIFblWxd6Wqj2HvddqjZHfnhuHJbY=;
- b=SQnM1cp94yxHE1uP86ptXXZixkOEZDhOomGLhB1OejMxA7/cmWml4t50QkJs22iYlk
- E5cFGrtQdmxxcORJYBkfZK9dYozEPb3DMFagCLNdIGDGF6e/uEu8sVoMX4/G7zvXFMFM
- Usjyku4Cf8stXkw3vgD77n8Y03hqM+rGEJfEGlAaAtYhws5y/WVF7myeLMO5sCeq0A9Z
- v1uOTE4Vt8GS1GsKhCpEJ6B45cmYBd866TrErdPAxyjQEb3Ns/7Wqbcq/8bsSXSJuVLo
- 7/Y1uTmDjThJ46Miwip9SwNteQBL+x9/hpMHq898drammIf7aZly2+W0YNUCSMerC0cH
- myzA==
-X-Gm-Message-State: AGi0PuZfutrpCMdQI4OEWHnfindQUopQ0XDcc3zYU3uXxtE8fid73r4C
- P4aBlKJZky96j9dXkyQ6z4KSVsppWQiUfcTS+Vy6Ml7mg1ihhQ/I6Er4N/4LAZzUIttO9VFuCmJ
- ixk6OXX3cr+Iq1sc=
-X-Received: by 2002:a17:906:52c2:: with SMTP id
- w2mr1439020ejn.117.1586257435310; 
- Tue, 07 Apr 2020 04:03:55 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJFJRnrVD/2aeBwqkQ3cpArrCanRWhUSyokzJQ0inUEyvLfyZFLUjawjGcPqjA67OfFbOG+lA==
-X-Received: by 2002:a17:906:52c2:: with SMTP id
- w2mr1438990ejn.117.1586257435011; 
- Tue, 07 Apr 2020 04:03:55 -0700 (PDT)
-Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id h11sm2644476edk.10.2020.04.07.04.03.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Apr 2020 04:03:54 -0700 (PDT)
-Subject: Re: [PATCH-for-5.1 v2 48/54] scripts/coccinelle: Use &error_abort in
- TypeInfo::instance_init()
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-References: <20200406174743.16956-1-f4bug@amsat.org>
- <20200406174743.16956-49-f4bug@amsat.org>
- <04663728-06f3-85bf-74b7-45184f90aa0a@virtuozzo.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ac7213fd-3ea2-e80c-7308-5f2de02c341c@redhat.com>
-Date: Tue, 7 Apr 2020 13:03:53 +0200
+ (envelope-from <laurent@vivier.eu>) id 1jLm75-0005Ur-Bk
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 07:09:53 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:59919)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1jLm75-0005Tv-3D; Tue, 07 Apr 2020 07:09:51 -0400
+Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MVdYY-1jl2Br2HsS-00RcHp; Tue, 07 Apr 2020 13:09:47 +0200
+Subject: Re: [PATCH for-5.0?] linux-user/ppc: Fix padding in mcontext_t for
+ ppc64
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20200407032105.26711-1-richard.henderson@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <9115bbab-4ce9-dae0-9f93-b1c5eaab20c3@vivier.eu>
+Date: Tue, 7 Apr 2020 13:09:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <04663728-06f3-85bf-74b7-45184f90aa0a@virtuozzo.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200407032105.26711-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:Igae+lQ42nG4nKhIetoWv3264+AzUO0WYQzLLbQ1xqlCBILRUEt
+ Bp8Ji7hqLGIwvnGTS92G8TDQVoUoi1nvzqMD1jKQdXXoMXgwiKMq4J33EebSlVt1DQXOrgr
+ DGcYS6fwvtRvZB+OJbxFbI4tyCtHyMyWF73RWmPChXj0vaM8AyhHt3ABhU8v+Y8NGA1Hsgc
+ VnF5/3kyBOyLNTXWLtuLw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:pMEdrysY1Tc=:H8IzW7jpeDS8YuIzFoktWz
+ f5Ouu9s+lp1y1S1lSOvnJpYMQ/J61cmnxcy5tRKfKj08th4CTfC4jUFAqkCBSCCqE/DXgw7H8
+ QIHFsCHiCZPU+FDY/Ta5c1/trntwG1zpsFOu382qVo/BE44oePoGKxlSNJ2l5WyIfSQNR8Wuc
+ xtoWl363v3pjAEYCgDlhSvN/wPUi+//fhHS8WpJY/hgqwAnFKyQtGiUf9u0Ptd/faVTO2JPZP
+ y85mPrQ2v81Rjwhce33GIG0ZTdoFHXz+z4Fefd2T3//LxLkc83s5RHr+JjxsRZBCZkatvSsQE
+ kJLwVwURF6TMuvjyhAFkszu3QvJsS4yfRLSo3oQVVZg+2xdj9WORv6ydCRpf2J3DYMvajsBBF
+ Oe+HH8FsQlMHgRS+cMrIxZIzueBsH4om4YjYD8qRdBCkQc+iZ+j/PKU41WsVITfnRJRdfAdgy
+ 36Go0yr97h2CCzswmh1aM2KOd+gV1YWWrieRfMR6vFn0NQeds95rMFpbtENGsSEy3tXrOGbNa
+ XVCJT0UKfy9y+7Ys8P/5h8WDcU2brBmQdd8ZhsvUZPt+GRTJd1w1ycKoeEmnZz4rruvBPlq3j
+ ZOIYQbQDlpc9mtY0rJ+zM5mrvuM7E/THT4Sm1d6afGHZixKGAKpQhA44Xs1IGDVIOBXLMQ7UN
+ h4f994HDT141EQkZicK3ClzCIopXSk8Yoycer+zZlq0YJY0tGeKzbO74fITU0KHKDl0jQIxFR
+ 4vPQqr2hnkF7WVPYmIGmNrOFmf1yWfq8zfIpiVJbj5k8EdryYJDZrIXiA9+TDHkgaHpX46XRc
+ yJQMMBNTJBS0aifBJT+dsXQLXbxco70fOnQVeXylIuSkjX7KvoNV1y/foc9J3v0QX/RG/s4
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 217.72.192.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,130 +109,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-ppc@nongnu.org, alex.bennee@linaro.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/7/20 9:07 AM, Vladimir Sementsov-Ogievskiy wrote:
-> 06.04.2020 20:47, Philippe Mathieu-Daud=C3=A9 wrote:
->> The instance_init() calls are not suppose to fail. Add a
->> Coccinelle script to use &error_abort instead of ignoring
->> errors by using a NULL Error*.
->>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->> ---
->> =C2=A0 .../use-error_abort-in-instance_init.cocci=C2=A0=C2=A0=C2=A0 | 52=
- +++++++++++++++++++
->> =C2=A0 MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0 1 +
->> =C2=A0 2 files changed, 53 insertions(+)
->> =C2=A0 create mode 100644=20
->> scripts/coccinelle/use-error_abort-in-instance_init.cocci
->>
->> diff --git a/scripts/coccinelle/use-error_abort-in-instance_init.cocci=
-=20
->> b/scripts/coccinelle/use-error_abort-in-instance_init.cocci
->> new file mode 100644
->> index 0000000000..8302d74a0c
->> --- /dev/null
->> +++ b/scripts/coccinelle/use-error_abort-in-instance_init.cocci
->> @@ -0,0 +1,52 @@
->> +// Use &error_abort in TypeInfo::instance_init()
->> +//
->> +// Copyright: (C) 2020 Philippe Mathieu-Daud=C3=A9
->> +// This work is licensed under the terms of the GNU GPLv2 or later.
->> +//
->> +// spatch \
->> +//=C2=A0 --macro-file scripts/cocci-macro-file.h --include-headers \
->> +//=C2=A0 --sp-file=20
->> scripts/coccinelle/use-error_abort-in-instance_init.cocci \
->> +//=C2=A0 --keep-comments --in-place
->> +//
->> +// Inspired by=20
->> https://www.mail-archive.com/qemu-devel@nongnu.org/msg692500.html
->> +// and https://www.mail-archive.com/qemu-devel@nongnu.org/msg693637.htm=
-l
->> +
->> +
->> +@ has_qapi_error @
->> +@@
->> +=C2=A0=C2=A0=C2=A0 #include "qapi/error.h"
->> +
->> +
->> +@ match_instance_init @
->> +TypeInfo info;
->> +identifier instance_initfn;
->> +@@
->> +=C2=A0=C2=A0=C2=A0 info.instance_init =3D instance_initfn;
->> +
->> +
->> +@ use_error_abort @
->> +identifier match_instance_init.instance_initfn;
->> +identifier func_with_error;
->> +expression parentobj, propname, childobj, size, type, errp;
->> +position pos;
->> +@@
->> +void instance_initfn(...)
->> +{
->> +=C2=A0=C2=A0 <+...
->> +(
->> +=C2=A0=C2=A0 object_initialize_child(parentobj, propname,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 childobj, size, type,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 errp, NULL);
->> +|
->> +=C2=A0=C2=A0 func_with_error@pos(...,
->> +-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 NULL);
->> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 &error_abort);
->> +)
->=20
->=20
-> Hmm. I don't follow, what are you trying to achieve by this ( | )=20
-> construction? The second pattern (func_with_error...) will be matched=20
-> anyway, with or without first pattern (object_initialize_child...)=20
-> matched. And first pattern does nothing.
+Le 07/04/2020 à 05:21, Richard Henderson a écrit :
+> The padding that was added in 95cda4c44ee was added to a union,
+> and so it had no effect.  This fixes misalignment errors detected
+> by clang sanitizers for ppc64 and ppc64le.
+> 
+> In addition, only ppc64 allocates space for VSX registers, so do
+> not save them for ppc32.  The kernel only has references to
+> CONFIG_SPE in signal_32.c, so do not attempt to save them for ppc64.
+> 
+> Fixes: 95cda4c44ee
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+> 
+> Note that ppc64abi32 is *not* fixed by this patch.  It looks to
+> me that all of the defined(TARGET_PPC64) tests in this file are
+> incorrect, and that we should instead be testing TARGET_ABI_BITS
+> vs 32/64.  In addition, virtually all of the target_ulong structure
+> members would need to be abi_ulong.
+> 
+> Should we in fact disable ppc64abi32?
+> I can't see how it could work enough to be useful as-is.
 
-Expected behavior :)
+Yes, this part needs definitively more cleanup, anyway:
 
-If object_initialize_child() matched:
-   do nothing.
-Else:
-   transform.
+Acked-by: Laurent Vivier <laurent@vivier.eu>
 
->=20
->=20
->> +=C2=A0=C2=A0 ...+>
->> +}
->> +
->> +
->> +@script:python depends on use_error_abort && !has_qapi_error@
->> +p << use_error_abort.pos;
->> +@@
->> +print('[[manual edit required, %s misses #include "qapi/error.h"]]' %=
-=20
->> p[0].file)
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 14de2a31dc..ae71a0a4b0 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -2059,6 +2059,7 @@ F: scripts/coccinelle/error-use-after-free.cocci
->> =C2=A0 F: scripts/coccinelle/error_propagate_null.cocci
->> =C2=A0 F: scripts/coccinelle/remove_local_err.cocci
->> =C2=A0 F: scripts/coccinelle/simplify-init-realize-error_propagate.cocci
->> +F: scripts/coccinelle/use-error_abort-in-instance_init.cocci
->> =C2=A0 F: scripts/coccinelle/use-error_fatal.cocci
->> =C2=A0 F: scripts/coccinelle/use-error_propagate-in-realize.cocci
->>
->=20
->=20
+Thanks,
+Laurent
+> 
+> r~
+> 
+> ---
+>  linux-user/ppc/signal.c | 69 +++++++++++++++++------------------------
+>  1 file changed, 29 insertions(+), 40 deletions(-)
+> 
+> diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
+> index ecd99736b7..20a02c197c 100644
+> --- a/linux-user/ppc/signal.c
+> +++ b/linux-user/ppc/signal.c
+> @@ -35,12 +35,26 @@ struct target_mcontext {
+>      target_ulong mc_gregs[48];
+>      /* Includes fpscr.  */
+>      uint64_t mc_fregs[33];
+> +
+>  #if defined(TARGET_PPC64)
+>      /* Pointer to the vector regs */
+>      target_ulong v_regs;
+> +    /*
+> +     * On ppc64, this mcontext structure is naturally *unaligned*,
+> +     * or rather it is aligned on a 8 bytes boundary but not on
+> +     * a 16 byte boundary.  This pad fixes it up.  This is why we
+> +     * cannot use ppc_avr_t, which would force alignment.  This is
+> +     * also why the vector regs are referenced in the ABI by the
+> +     * v_regs pointer above so any amount of padding can be added here.
+> +     */
+> +    target_ulong pad;
+> +    /* VSCR and VRSAVE are saved separately.  Also reserve space for VSX. */
+> +    struct {
+> +        uint64_t altivec[34 + 16][2];
+> +    } mc_vregs;
+>  #else
+>      target_ulong mc_pad[2];
+> -#endif
+> +
+>      /* We need to handle Altivec and SPE at the same time, which no
+>         kernel needs to do.  Fortunately, the kernel defines this bit to
+>         be Altivec-register-large all the time, rather than trying to
+> @@ -48,32 +62,14 @@ struct target_mcontext {
+>      union {
+>          /* SPE vector registers.  One extra for SPEFSCR.  */
+>          uint32_t spe[33];
+> -        /* Altivec vector registers.  The packing of VSCR and VRSAVE
+> -           varies depending on whether we're PPC64 or not: PPC64 splits
+> -           them apart; PPC32 stuffs them together.
+> -           We also need to account for the VSX registers on PPC64
+> -        */
+> -#if defined(TARGET_PPC64)
+> -#define QEMU_NVRREG (34 + 16)
+> -        /* On ppc64, this mcontext structure is naturally *unaligned*,
+> -         * or rather it is aligned on a 8 bytes boundary but not on
+> -         * a 16 bytes one. This pad fixes it up. This is also why the
+> -         * vector regs are referenced by the v_regs pointer above so
+> -         * any amount of padding can be added here
+> +        /*
+> +         * Altivec vector registers.  One extra for VRSAVE.
+> +         * On ppc32, we are already aligned to 16 bytes.  We could
+> +         * use ppc_avr_t, but choose to share the same type as ppc64.
+>           */
+> -        target_ulong pad;
+> -#else
+> -        /* On ppc32, we are already aligned to 16 bytes */
+> -#define QEMU_NVRREG 33
+> -#endif
+> -        /* We cannot use ppc_avr_t here as we do *not* want the implied
+> -         * 16-bytes alignment that would result from it. This would have
+> -         * the effect of making the whole struct target_mcontext aligned
+> -         * which breaks the layout of struct target_ucontext on ppc64.
+> -         */
+> -        uint64_t altivec[QEMU_NVRREG][2];
+> -#undef QEMU_NVRREG
+> +        uint64_t altivec[33][2];
+>      } mc_vregs;
+> +#endif
+>  };
+>  
+>  /* See arch/powerpc/include/asm/sigcontext.h.  */
+> @@ -278,6 +274,7 @@ static void save_user_regs(CPUPPCState *env, struct target_mcontext *frame)
+>          __put_user((uint32_t)env->spr[SPR_VRSAVE], vrsave);
+>      }
+>  
+> +#if defined(TARGET_PPC64)
+>      /* Save VSX second halves */
+>      if (env->insns_flags2 & PPC2_VSX) {
+>          uint64_t *vsregs = (uint64_t *)&frame->mc_vregs.altivec[34];
+> @@ -286,6 +283,7 @@ static void save_user_regs(CPUPPCState *env, struct target_mcontext *frame)
+>              __put_user(*vsrl, &vsregs[i]);
+>          }
+>      }
+> +#endif
+>  
+>      /* Save floating point registers.  */
+>      if (env->insns_flags & PPC_FLOAT) {
+> @@ -296,22 +294,18 @@ static void save_user_regs(CPUPPCState *env, struct target_mcontext *frame)
+>          __put_user((uint64_t) env->fpscr, &frame->mc_fregs[32]);
+>      }
+>  
+> +#if !defined(TARGET_PPC64)
+>      /* Save SPE registers.  The kernel only saves the high half.  */
+>      if (env->insns_flags & PPC_SPE) {
+> -#if defined(TARGET_PPC64)
+> -        for (i = 0; i < ARRAY_SIZE(env->gpr); i++) {
+> -            __put_user(env->gpr[i] >> 32, &frame->mc_vregs.spe[i]);
+> -        }
+> -#else
+>          for (i = 0; i < ARRAY_SIZE(env->gprh); i++) {
+>              __put_user(env->gprh[i], &frame->mc_vregs.spe[i]);
+>          }
+> -#endif
+>          /* Set MSR_SPE in the saved MSR value to indicate that
+>             frame->mc_vregs contains valid data.  */
+>          msr |= MSR_SPE;
+>          __put_user(env->spe_fscr, &frame->mc_vregs.spe[32]);
+>      }
+> +#endif
+>  
+>      /* Store MSR.  */
+>      __put_user(msr, &frame->mc_gregs[TARGET_PT_MSR]);
+> @@ -392,6 +386,7 @@ static void restore_user_regs(CPUPPCState *env,
+>          __get_user(env->spr[SPR_VRSAVE], vrsave);
+>      }
+>  
+> +#if defined(TARGET_PPC64)
+>      /* Restore VSX second halves */
+>      if (env->insns_flags2 & PPC2_VSX) {
+>          uint64_t *vsregs = (uint64_t *)&frame->mc_vregs.altivec[34];
+> @@ -400,6 +395,7 @@ static void restore_user_regs(CPUPPCState *env,
+>              __get_user(*vsrl, &vsregs[i]);
+>          }
+>      }
+> +#endif
+>  
+>      /* Restore floating point registers.  */
+>      if (env->insns_flags & PPC_FLOAT) {
+> @@ -412,22 +408,15 @@ static void restore_user_regs(CPUPPCState *env,
+>          env->fpscr = (uint32_t) fpscr;
+>      }
+>  
+> +#if !defined(TARGET_PPC64)
+>      /* Save SPE registers.  The kernel only saves the high half.  */
+>      if (env->insns_flags & PPC_SPE) {
+> -#if defined(TARGET_PPC64)
+> -        for (i = 0; i < ARRAY_SIZE(env->gpr); i++) {
+> -            uint32_t hi;
+> -
+> -            __get_user(hi, &frame->mc_vregs.spe[i]);
+> -            env->gpr[i] = ((uint64_t)hi << 32) | ((uint32_t) env->gpr[i]);
+> -        }
+> -#else
+>          for (i = 0; i < ARRAY_SIZE(env->gprh); i++) {
+>              __get_user(env->gprh[i], &frame->mc_vregs.spe[i]);
+>          }
+> -#endif
+>          __get_user(env->spe_fscr, &frame->mc_vregs.spe[32]);
+>      }
+> +#endif
+>  }
+>  
+>  #if !defined(TARGET_PPC64)
+> 
 
 
