@@ -2,66 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C414A1A09AB
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 11:01:07 +0200 (CEST)
-Received: from localhost ([::1]:43312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 551F11A04C9
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 04:16:58 +0200 (CEST)
+Received: from localhost ([::1]:39954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLk6T-0003zc-S8
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 05:01:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35550)
+	id 1jLdnL-0000cy-W7
+	for lists+qemu-devel@lfdr.de; Mon, 06 Apr 2020 22:16:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39031)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ckmichael8@gmail.com>) id 1jLd9L-0000GL-Ia
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 21:35:37 -0400
+ (envelope-from <bounces@canonical.com>) id 1jLdmV-0000C0-Lh
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 22:16:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ckmichael8@gmail.com>) id 1jLd9K-0007uF-1X
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 21:35:35 -0400
-Received: from mail-vs1-xe2e.google.com ([2607:f8b0:4864:20::e2e]:41659)
+ (envelope-from <bounces@canonical.com>) id 1jLdmU-0004jX-JA
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 22:16:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41378)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <ckmichael8@gmail.com>)
- id 1jLd9J-0007sw-Sc
- for qemu-devel@nongnu.org; Mon, 06 Apr 2020 21:35:33 -0400
-Received: by mail-vs1-xe2e.google.com with SMTP id a63so1177168vsa.8
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 18:35:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=GrV0p78i5gwYJ04UoF6aIMp/LpMBVDcYPtaSrKgUy/Q=;
- b=HLjlVWBEapiM6XslcdAW4qeL2HXqjxzJqMoTuLJDNknjfBfbicZuCQEb6rOYMPnPMS
- 0TX7fXXYFf+tx6XB2vOZaNgRUy48s4Ni8b+yFwQMs5rMw9Lo8DnLk5YrWax3b/lUFC2t
- GlYdszjoNFjd1hISL6Nx1YeeJygrOh0pAdEFLGNK8pPZXeOTO+EgPNNO6YC2FuL/mhO8
- X2f9qpBHFEBxjdc63dYGT7Rifmha1GIyx3UIbjJdqjel/IMROMOmytYCCaHjaOHeGIz9
- L2j5AbhQ2fzNI5AicafSve7XOPkKtT5GiUMLQ01ZyKP5DiRMkjUhZWIixNxbeXCP4fbv
- fWPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=GrV0p78i5gwYJ04UoF6aIMp/LpMBVDcYPtaSrKgUy/Q=;
- b=EMZT5cLSrNBbYeEiq+1LzbQA9MZvqQwW2hYZQ56nGdd8wOxLijQiapynHjRiKKms16
- as9O5/6HWmHjVfu+73tVq9X3G7afj0O0AwEeH5CDx+GuDELknep+qWMDC98qEHw9lqz8
- V12eV+C7yibMWNzaH155A57ROqSc3p6VBmRjrIXHpX628BVOhPlkKlAn7hEb+QlpzQtD
- GHgeapst+UZ1AsLh8vVqwT1GGCWAFTOCUglmNpO7oVW+DHPS0RhrcpxpQpTNoyReiV7T
- QBrIgQKVQZAtJExoo5QB7jAhVDeVybH+gJbR4Ob2a9adqz+M6l5rCF356nX9ge89v+xe
- 3Z8Q==
-X-Gm-Message-State: AGi0PuamafV/tMPjJiudw9nhyAJ298r6Y4B2cQFNdMFG0RP3Vug4wClF
- 93f2/rsCkyVvy2EjCZ8W1LdPP+gbndskgPlFdGU=
-X-Google-Smtp-Source: APiQypJ3LpECiH90wnJ60rxJHdMmbTdKt7eQbCu7Jvoc3o4tpeTFAlWdR4091Lwg64xTVNfcWDHpTyI1fpNy1KD2xoI=
-X-Received: by 2002:a67:2c8b:: with SMTP id s133mr149202vss.6.1586223332582;
- Mon, 06 Apr 2020 18:35:32 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jLdmU-0004iH-E8
+ for qemu-devel@nongnu.org; Mon, 06 Apr 2020 22:16:02 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jLdmS-0007MF-4b
+ for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 02:16:00 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 98AB52E8113
+ for <qemu-devel@nongnu.org>; Tue,  7 Apr 2020 02:15:59 +0000 (UTC)
 MIME-Version: 1.0
-From: Michael Lee <ckmichael8@gmail.com>
-Date: Tue, 7 Apr 2020 09:35:21 +0800
-Message-ID: <CAGNnKHAd21Z6L0LR6xj0cLVZ6WS7uNTYZDTvE2-BUhU+GvNiFA@mail.gmail.com>
-Subject: RFE: add usbredir device reset blacklist options support to allow
- macOS guest to iOS device usbredir
-To: kraxel@redhat.com
-Content-Type: multipart/alternative; boundary="00000000000045ed3205a2a966aa"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::e2e
-X-Mailman-Approved-At: Tue, 07 Apr 2020 04:58:30 -0400
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 07 Apr 2020 02:01:11 -0000
+From: Benjamin David Lunt <1863441@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fysnet jnsnow
+X-Launchpad-Bug-Reporter: Benjamin David Lunt (fysnet)
+X-Launchpad-Bug-Modifier: Benjamin David Lunt (fysnet)
+References: <158179973601.15520.14709037359293558924.malonedeb@soybean.canonical.com>
+Message-Id: <158622487161.23125.6111786224258134087.malone@wampee.canonical.com>
+Subject: [Bug 1863441] Re: cmd_mode_sense always reports 0x70, no CDROM present
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a296f04231dee355be5db73cc878b9e21689a253";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 2f0c5c7c991c5a7a1e554230c5d8e6dae49fadfc
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,128 +64,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1863441 <1863441@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000045ed3205a2a966aa
-Content-Type: text/plain; charset="UTF-8"
+Since I posted this bug report, I have done a little more research and
+this specific part of this command is actually quite obsolete.  It use
+to be documented (MMC v1.2 Draft), but later versions have actually
+removed this part of the command, even stating "obsolete" in some of the
+documentation.
 
-Description of problem:
-Currently, when a iOS device is redirected to a macOS VM, it falls into a
-reset-not-found loop.
-Version-Release number of selected component (if applicable):
-latest
-How reproducible:
-100%
-Steps to Reproduce:
+If you want to still allow it, it actually does state 0x70 is an empty
+drive.  However, being it is so obsolete, you may wish to change this
+status to closed.
 
-   1. Connect an iOS device to Ubuntu 18.04.2 LTS (I believe it is the same
-   for any distro.)
-   2. Connect virt-manager/virt-viewer to a macOS VM through SPICE (I am
-   using OSX 10.15 Catalina)
-   3. Attempt to redirect the iOS device (iPad in my case) to the VM
-   through usb redirection.
+Thanks for asking.  I don't mind if you close this bug report.
 
+Ben
 
+-- =
 
-Actual results:
-For any odd number of attempt, the guest macOS will send a reset to the iOS
-device which causes the host to reset the USB connection in the host side.
-In the UI, it will be displayed as a successful connection for a few
-seconds before it disconnects. After this, the iOS device will reconnect
-itself, but via a different device name /dev/bus/usb/x/y+1.
-For any even number of attempt, when I select the iOS device in the
-virt-manager/virt-viewer UI, the connection will not success and instead a
-LIBUSB_ERROR_NOT_FOUND error will be provided. Then the UI will reload and
-get the new device name of the iOS device, falling into the behavior of the
-aforementioned odd number of attempt.
-Expected results:
-The macOS detects the iOS device and connects to it happily.
-Additional info:
-It seems that this bug has been first identified as in
-https://bugs.freedesktop.org/show_bug.cgi?id=100149, for a Samsung Android
-device, which the developers of SPICE applied a hotfix in
-https://gitlab.freedesktop.org/spice/usbredir/-/blob/master/usbredirhost/usbredirhost.c#L147.
-However, there were no settings available for users to fix it.
-A similar bug that also consists of a macOS guest/iOS device pair, but
-instead of being usbredir, is usb-host, has been identified and patched in
-https://github.com/qemu/qemu/commit/ba4c735b4fc74e309ce4b2551d258e442ef513a5,
-which is further modified into
-https://github.com/qemu/qemu/blame/146aa0f104bb3bf88e43c4082a0bfc4bbda4fbd8/hw/usb/host-libusb.c#L1486.
-Following such patch, I have attempted to apply such patch at host-side in
-https://github.com/michaellee8/qemu/blob/master/hw/usb/redirect.c (not
-correctly formatted currently, pls ignore it atm), however I discovered
-that this is not enough since it is also a SPICE issue, which resolves to
-virt-manager/virt-viewer.
-This is probably a cross-project issue between qemu, spice (usbredir) and
-virt-manager/virt-viewer, which would some effort to coordinate a solution.
-However a working solution for this problem would probably benefits a lot
-of users whom relies on connecting a mobile device into a VM, for purposes
-like easier mobile development. Considering the report for the Samsung
-Android Device on a PC use case, such issue is probably
-cross-OS/cross-device.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1863441
 
-cross-references:
-- https://bugzilla.redhat.com/show_bug.cgi?id=1821518
-- https://bugzilla.redhat.com/show_bug.cgi?id=1821517
-- https://gitlab.freedesktop.org/spice/usbredir/-/issues/10
+Title:
+  cmd_mode_sense always reports 0x70, no CDROM present
 
---00000000000045ed3205a2a966aa
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Status in QEMU:
+  New
 
-<div dir=3D"ltr">Description of problem:<br>Currently, when a iOS device is=
- redirected to a macOS VM, it falls into a reset-not-found loop.<br>Version=
--Release number of selected component (if applicable):<br>latest<br>How rep=
-roducible:<br>100%<br>Steps to Reproduce:<br><ol><li>Connect an iOS device =
-to Ubuntu 18.04.2 LTS (I believe it is the same for any distro.)</li><li>Co=
-nnect virt-manager/virt-viewer to a macOS VM through SPICE (I am using OSX =
-10.15 Catalina)</li><li>Attempt to redirect the iOS device (iPad in my case=
-) to the VM through usb redirection.</li></ol><br><br>Actual results:<br>Fo=
-r any odd number of attempt, the guest macOS will send a reset to the iOS d=
-evice which causes the host to reset the USB connection in the host side. I=
-n the UI, it will be displayed as a successful connection for a few seconds=
- before it disconnects. After this, the iOS device will reconnect itself, b=
-ut via a different device name /dev/bus/usb/x/y+1.<br>For any even number o=
-f attempt, when I select the iOS device in the virt-manager/virt-viewer UI,=
- the connection will not success and instead a LIBUSB_ERROR_NOT_FOUND error=
- will be provided. Then the UI will reload and get the new device name of t=
-he iOS device, falling into the behavior of the aforementioned odd number o=
-f attempt.<br>Expected results:<br>The macOS detects the iOS device and con=
-nects to it happily.<br>Additional info:<br>It seems that this bug has been=
- first identified as in <a href=3D"https://bugs.freedesktop.org/show_bug.cg=
-i?id=3D100149">https://bugs.freedesktop.org/show_bug.cgi?id=3D100149</a>, f=
-or a Samsung Android device, which the developers of SPICE applied a hotfix=
- in <a href=3D"https://gitlab.freedesktop.org/spice/usbredir/-/blob/master/=
-usbredirhost/usbredirhost.c#L147">https://gitlab.freedesktop.org/spice/usbr=
-edir/-/blob/master/usbredirhost/usbredirhost.c#L147</a>. However, there wer=
-e no settings available for users to fix it.<br>A similar bug that also con=
-sists of a macOS guest/iOS device pair, but instead of being usbredir, is u=
-sb-host, has been identified and patched in <a href=3D"https://github.com/q=
-emu/qemu/commit/ba4c735b4fc74e309ce4b2551d258e442ef513a5">https://github.co=
-m/qemu/qemu/commit/ba4c735b4fc74e309ce4b2551d258e442ef513a5</a>, which is f=
-urther modified into <a href=3D"https://github.com/qemu/qemu/blame/146aa0f1=
-04bb3bf88e43c4082a0bfc4bbda4fbd8/hw/usb/host-libusb.c#L1486">https://github=
-.com/qemu/qemu/blame/146aa0f104bb3bf88e43c4082a0bfc4bbda4fbd8/hw/usb/host-l=
-ibusb.c#L1486</a>. Following such patch, I have attempted to apply such pat=
-ch at host-side in <a href=3D"https://github.com/michaellee8/qemu/blob/mast=
-er/hw/usb/redirect.c">https://github.com/michaellee8/qemu/blob/master/hw/us=
-b/redirect.c</a> (not correctly formatted currently, pls ignore it atm), ho=
-wever I discovered that this is not enough since it is also a SPICE issue, =
-which resolves to virt-manager/virt-viewer.<br>This is probably a cross-pro=
-ject issue between qemu, spice (usbredir) and virt-manager/virt-viewer, whi=
-ch would some effort to coordinate a solution. However a working solution f=
-or this problem would probably benefits a lot of users whom relies on conne=
-cting a mobile device into a VM, for purposes like easier mobile developmen=
-t. Considering the report for the Samsung Android Device on a PC use case, =
-such issue is probably cross-OS/cross-device.<br><br>cross-references:<br>-=
- <a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D1821518">https://=
-bugzilla.redhat.com/show_bug.cgi?id=3D1821518</a><br>- <a href=3D"https://b=
-ugzilla.redhat.com/show_bug.cgi?id=3D1821517">https://bugzilla.redhat.com/s=
-how_bug.cgi?id=3D1821517</a><br>- <a href=3D"https://gitlab.freedesktop.org=
-/spice/usbredir/-/issues/10">https://gitlab.freedesktop.org/spice/usbredir/=
--/issues/10</a><br></div>
+Bug description:
+  cmd_mode_sense
+    https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/ide/atapi.c;hb=3Dref=
+s/heads/master#l852
+  always reports 0x70 in byte 2 returned, indicating no CD-ROM present.
 
---00000000000045ed3205a2a966aa--
+  If CD-ROM is present, should report 0x01 (or 0x11).
+  If CD-ROM absent, should report 0x70.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1863441/+subscriptions
 
