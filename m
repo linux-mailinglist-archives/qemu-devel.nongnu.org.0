@@ -2,61 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 378B71A0CE1
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 13:32:54 +0200 (CEST)
-Received: from localhost ([::1]:45624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9D871A0CB4
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 13:17:27 +0200 (CEST)
+Received: from localhost ([::1]:45404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLmTM-0004VO-Te
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 07:32:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52373)
+	id 1jLmEQ-0001Yz-Rq
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 07:17:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50202)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jLmRh-0003hV-L8
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 07:31:10 -0400
+ (envelope-from <cfontana@suse.de>) id 1jLmDX-0000io-Up
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 07:16:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jLmRg-00049X-K5
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 07:31:09 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60170)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jLmRg-00048D-F0
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 07:31:08 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jLmRe-0001AJ-Ut
- for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 11:31:06 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E7DC32E806B
- for <qemu-devel@nongnu.org>; Tue,  7 Apr 2020 11:31:06 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 07 Apr 2020 11:16:06 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: mips
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bacam martin-sk philmd pmaydell th-huth yongbok-kim
-X-Launchpad-Bug-Reporter: Brian Campbell (bacam)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <20170209154937.3933.99004.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158625816679.25129.9631777367363631723.malone@soybean.canonical.com>
-Subject: [Bug 1663287] Re: Illegal delay slot code causes abort on mips64
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a296f04231dee355be5db73cc878b9e21689a253";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: acfd46293317eb2d1b65ff3358d7c760a81489de
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ (envelope-from <cfontana@suse.de>) id 1jLmDQ-0001J5-61
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 07:16:31 -0400
+Received: from mx2.suse.de ([195.135.220.15]:43916)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cfontana@suse.de>) id 1jLmDQ-0001I3-0L
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 07:16:24 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id B4B60AC62;
+ Tue,  7 Apr 2020 11:16:20 +0000 (UTC)
+From: Claudio Fontana <cfontana@suse.de>
+To: Laurent Vivier <laurent@vivier.eu>
+Subject: [PATCH] configure: check for bison, flex before dtc submodule build
+Date: Tue,  7 Apr 2020 13:16:18 +0200
+Message-Id: <20200407111618.17241-1-cfontana@suse.de>
+X-Mailer: git-send-email 2.16.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic]
+X-Received-From: 195.135.220.15
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,62 +44,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1663287 <1663287@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alex Bennee <alex.bennee@linaro.org>, Claudio Fontana <cfontana@suse.de>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yeah, QEMU crashing is definitely a bug that we should fix. (NB that
-it's not a 'security' bug, though -- we make no guarantee that malicious
-code run under QEMU with TCG emulation is unable to escape from it:
-there's too much unaudited and old code for us to be able to safely make
-that guarantee.)
+if fdt is required, and the system DTC (libfdt) is not usable,
+check for the dtc submodule requirements before trying to build it,
+and error out with a helpful message in case the dependencies are not met.
 
--- =
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+---
+ configure | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1663287
+diff --git a/configure b/configure
+index 22870f3867..68b95b8e94 100755
+--- a/configure
++++ b/configure
+@@ -4276,6 +4276,14 @@ EOF
+           git_submodules="${git_submodules} dtc"
+       fi
+       if test -d "${source_path}/dtc/libfdt" || test -e "${source_path}/.git" ; then
++          for binary in ${BISON:-bison} ${LEX:-flex} ; do
++              if ! has $binary ; then
++                  error_exit "DTC (libfdt) version >= 1.4.2 not present on the system,\n" \
++                             "and using the dtc submodule replacement requires '${binary}'.\n" \
++                             "Please install the DTC (libfdt) devel package,\n" \
++                             "or the required binary '${binary}' to use the dtc submodule instead.\n"
++              fi
++          done
+           fdt=git
+           mkdir -p dtc
+           if [ "$pwd_is_source_path" != "y" ] ; then
+-- 
+2.16.4
 
-Title:
-  Illegal delay slot code causes abort on mips64
-
-Status in QEMU:
-  New
-
-Bug description:
-  During some randomised testing of an experimental MIPS implementation
-  I found an instruction sequence that also causes aborts on mainline
-  qemu's MIPS support.  The problem is triggered by an MSA branch
-  instruction appearing in a delay slot when emulating a processor
-  without MSA support.
-
-  For example, with the current repository HEAD
-  (f073cd3a2bf1054135271b837c58a7da650dd84b) configured for
-  mips64-softmmu, if I run the attached binary using
-
-      mips64-softmmu/qemu-system-mips64 -bios ../abort2.bin -machine
-  mipssim -nographic
-
-  it will report
-
-      unknown branch 0x13000
-      Aborted (core dumped)
-
-  The binary contains the following two instructions:
-
-      00200008 jr at
-      47081e61 bz.b       w8,0xffffffffbfc0798c
-
-  The jr sets up a jump, and hflags is set accordingly in
-  gen_compute_branch (in target/mips/translate.c).  When processing the
-  bz.b, check_insn generates an exception because the instruction isn't
-  support, but gen_msa_branch skips the usual delay slot check for the
-  same reason, and sets more bits in hflags, leading to an abort in
-  gen_branch because the hflags are now invalid.
-
-  I suspect the best fix is to remove the instruction set condition from
-  the delay slot check in gen_msa_branch.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1663287/+subscriptions
 
