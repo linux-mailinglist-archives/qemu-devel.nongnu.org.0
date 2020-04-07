@@ -2,82 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D89A1A10E8
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 18:03:37 +0200 (CEST)
-Received: from localhost ([::1]:49980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39B681A10CC
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 17:58:15 +0200 (CEST)
+Received: from localhost ([::1]:49806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLqhM-0003TM-18
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 12:03:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44095)
+	id 1jLqcA-000670-8M
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 11:58:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44804)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jLqXD-0006lO-En
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:53:08 -0400
+ (envelope-from <ovoshcha@redhat.com>) id 1jLqaq-0004jL-Eg
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:56:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jLqXB-0005fF-T9
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:53:06 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21523
+ (envelope-from <ovoshcha@redhat.com>) id 1jLqap-0002Iw-FU
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:56:52 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58728
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jLqXB-0005eO-LK
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:53:05 -0400
+ (Exim 4.71) (envelope-from <ovoshcha@redhat.com>) id 1jLqap-0002IA-C8
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:56:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586274785;
+ s=mimecast20190719; t=1586275010;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X5gjgbplPVNjSw6yeDCD9HK/ITP33mRWm+N1A4dqtmE=;
- b=YHlBaotTQBxQeQeR9N/9qGmbD3jbHlOe1ZfzQcgLpZhY9UnfmsXxMQD6VxeoQ1m8wnR2iX
- LXsEyAlyuXO7ItMM+p4IE1SunJfJGnXCx9v4hRiTi09rvRysDlNAAG1SRH00pWIPL2GF/D
- cL87W2yH6dG/9OWv2f7f/mkBhAzm2oo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-61-cL-lBxeZMY-31Qq2FPWLRg-1; Tue, 07 Apr 2020 11:53:03 -0400
-X-MC-Unique: cL-lBxeZMY-31Qq2FPWLRg-1
-Received: by mail-wr1-f69.google.com with SMTP id 88so2198944wrq.4
- for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 08:53:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=X5gjgbplPVNjSw6yeDCD9HK/ITP33mRWm+N1A4dqtmE=;
- b=GZA9FbepcNlVyFN3nSUOJOgfHOhWh5XuvisB0q2UMJc+pdircNJluL6MjXOwG6Hwbv
- DkcMF5JrEi2ze+ygELMLwfewKqTURs1jS/+2Mi+VvU8NULQ+anmgqWkv4Sqa8p2lBrmI
- ha1Ttrs80q3eee7jY4u7d3YbcDwaQsmfDDk3T9lGiFIb3/IRVorepZUHV5tZdZSmqL+g
- 2/INOUlVKG4GR9Tkaipu8LpmICL6BGywc0pfUo3JXjisDqXCaHWbBhIThCNIy7b/C+3Z
- qlSqmj8YGu8+Q0xN5MbQqu0Ftw55j+rXyxA3+zrZDm3zuK5FNxjSm/LK7tp/fIpG55DS
- 7mWw==
-X-Gm-Message-State: AGi0PubV41uJ4u2aa3cNaED4Kn5FbniHVaId97lGx9DzeIONuJUf51W3
- jpVeHitos1/T8Adw8YGYPpIsm7oPzhEeKdqmsrICki4pEV5fnbEYZsQbHOFyWOI2a7/JSJ9EETY
- QJBtvR+d9OCxwUe8=
-X-Received: by 2002:adf:f8d2:: with SMTP id f18mr1020361wrq.139.1586274781866; 
- Tue, 07 Apr 2020 08:53:01 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKW+RJ0xQgoE0IUYSEWszWLNEIvL1Xo2pDJu/X6HP/16/9/n/vZklnSJw8TbGB9x+b9ykRVxg==
-X-Received: by 2002:adf:f8d2:: with SMTP id f18mr1020296wrq.139.1586274780902; 
- Tue, 07 Apr 2020 08:53:00 -0700 (PDT)
-Received: from [192.168.10.150] ([93.56.170.5])
- by smtp.gmail.com with ESMTPSA id p3sm11055825wrq.97.2020.04.07.08.53.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Apr 2020 08:53:00 -0700 (PDT)
-Subject: Re: [PATCH 2/5] atomics: update documentation
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200407140746.8041-1-pbonzini@redhat.com>
- <20200407140746.8041-3-pbonzini@redhat.com>
- <25ba1237-510d-cf4a-2b4f-c5fa1d715976@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <bfec4cbd-bbbc-40ec-554b-53b0ffa38ba0@redhat.com>
-Date: Tue, 7 Apr 2020 17:52:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hgEfDuNBmIyNK89rWPeVPTfEfxHAEV5r+LtsOTbL5Z4=;
+ b=SbcLmaGb7FmA3ulapuWRcluDenmSmKsBaADll9kpkVOIoPxC1yocP/HKnIprUT099VwjqO
+ KezVvpP6xylO8gG6+vAoq7p2tbyHh9nF6O/e8r+RK38p6jzre4vjp8BRarFOtKaycgkl+F
+ zoNQMsaftrBNVoFELP2l9+v3zZn8jzo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-355-Ot03YHQpMuOHQQIBushlUQ-1; Tue, 07 Apr 2020 11:56:49 -0400
+X-MC-Unique: Ot03YHQpMuOHQQIBushlUQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41DA1DB62
+ for <qemu-devel@nongnu.org>; Tue,  7 Apr 2020 15:56:48 +0000 (UTC)
+Received: from kh066.redhat.com (ovpn-114-200.ams2.redhat.com [10.36.114.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CC5EC5DA7B;
+ Tue,  7 Apr 2020 15:56:43 +0000 (UTC)
+From: Oksana Vohchana <ovoshcha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/3] Acceptance test: Extension of migration tests
+Date: Tue,  7 Apr 2020 18:56:39 +0300
+Message-Id: <20200407155642.10716-1-ovoshcha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <25ba1237-510d-cf4a-2b4f-c5fa1d715976@linaro.org>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.120
@@ -92,21 +68,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fangying1@huawei.com, stefanha@redhat.com
+Cc: ovoshcha@redhat.com, philmd@redhat.com, wainersm@redhat.com,
+ crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/04/20 17:25, Richard Henderson wrote:
-> On 4/7/20 7:07 AM, Paolo Bonzini wrote:
->> +- release operations will appear to happen, with respect to the other
->> +  components of the system, after all the LOAD or STORE operations
->> +  specified afterwards.
-> "specified before", not after for release.
+This series adds a new migration test through RDMA.
+To correct uses of migration need to add a new function to work
+with RDMA service.
+And as a part of migration tests, the series makes small updates to EXEC
+migration and to _get_free_port function
 
-Not the only one such pasto (e.g. "operations coming after
-``atomic_store_release()`` can still be reordered before it", the text
-said "after").  I have fixed all of them.
+V2:
+ - improves commit message in Acceptance test: adds param 'address'
+   in _get_free_port
+ - provides import check for netifaces library
+ - makes fix to _get_ip_rdma function
+ - adds skip to test if not upload python module
 
-Paolo
+V3:
+ - removes unrelated changes
+ - updates functions with new avocado features
+
+V4:
+ - moves RDMA's functions outside the Migration class
+
+V5:
+ - improvement to comments
+ - updates to functions
+
+Oksana Vohchana (3):
+  Acceptance test: adds param 'address' in _get_free_port
+  Acceptance test: provides new functions
+  Acceptance test: provides to use RDMA transport for migration test
+
+ tests/acceptance/migration.py | 61 +++++++++++++++++++++++++++++++++--
+ 1 file changed, 59 insertions(+), 2 deletions(-)
+
+--=20
+2.21.1
 
 
