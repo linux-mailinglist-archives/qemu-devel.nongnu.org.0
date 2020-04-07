@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64A8D1A1022
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 17:24:11 +0200 (CEST)
-Received: from localhost ([::1]:49172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F5551A1021
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 17:23:57 +0200 (CEST)
+Received: from localhost ([::1]:49170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLq5C-00012q-EX
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 11:24:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38759)
+	id 1jLq4y-0000qS-86
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 11:23:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38715)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anthony.perard@citrix.com>) id 1jLq42-0008D7-9N
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:22:59 -0400
+ (envelope-from <anthony.perard@citrix.com>) id 1jLq3u-00083E-KY
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:22:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1jLq41-0000VR-8g
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:22:58 -0400
-Received: from esa1.hc3370-68.iphmx.com ([216.71.145.142]:13489)
+ (envelope-from <anthony.perard@citrix.com>) id 1jLq3t-0000QX-Oj
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:22:50 -0400
+Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144]:15905)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1jLq40-0000TJ-Sf
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:22:57 -0400
+ id 1jLq3t-0000Ov-GM
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:22:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1586272977;
+ d=citrix.com; s=securemail; t=1586272969;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=qk1Y4jepw5ZUFH8O7s3prQyFWb+r4UOxrpJ04Jwz6vo=;
- b=GgoZGmKK8TkTo9wAHfUFKoEhYh/MDrfWcpPNJ1Y1JIrfmIqy8rvZHY6u
- tDz9e0Zt3WTw0El01IYb5I6lf/dU8Kg4GAtR8ANDISHSNhpdNtDjL51Be
- 1aPnNz1EtCJYRY/0RaJjs3A5Bie29mmW5vJPCeCDNnXTysbMZT7Q//di9 4=;
-Authentication-Results: esa1.hc3370-68.iphmx.com;
+ bh=Qg827KIvdKEzs6jvNwGqMNXyL08iW2Xpsw7/s+ZIo+U=;
+ b=V8o7vYc51hqOZDOa1Gg4S5mY2soj2zTUTUK6aXiAhU+IwVM61h72ZOhV
+ eTp6R/vXIMDIfriIwFU4MzTR1jRJCTsf063qWPdSTF2xBkEpzSQCRadS5
+ vZ/cSmeAEIXIvQEv6Z/ULywPlb7VUJlt7PpCLy4a8tplEuMXmqA/t5MfW I=;
+Authentication-Results: esa4.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none;
  spf=None smtp.pra=anthony.perard@citrix.com;
  spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
  spf=None smtp.helo=postmaster@mail.citrix.com
-Received-SPF: None (esa1.hc3370-68.iphmx.com: no sender
+Received-SPF: None (esa4.hc3370-68.iphmx.com: no sender
  authenticity information available from domain of
  anthony.perard@citrix.com) identity=pra;
- client-ip=162.221.158.21; receiver=esa1.hc3370-68.iphmx.com;
+ client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
  envelope-from="anthony.perard@citrix.com";
  x-sender="anthony.perard@citrix.com";
  x-conformance=sidf_compatible
-Received-SPF: Pass (esa1.hc3370-68.iphmx.com: domain of
+Received-SPF: Pass (esa4.hc3370-68.iphmx.com: domain of
  anthony.perard@citrix.com designates 162.221.158.21 as
  permitted sender) identity=mailfrom;
- client-ip=162.221.158.21; receiver=esa1.hc3370-68.iphmx.com;
+ client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
  envelope-from="anthony.perard@citrix.com";
  x-sender="anthony.perard@citrix.com";
  x-conformance=sidf_compatible; x-record-type="v=spf1";
@@ -53,30 +53,29 @@ Received-SPF: Pass (esa1.hc3370-68.iphmx.com: domain of
  ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
  ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83
  ip4:168.245.78.127 ~all"
-Received-SPF: None (esa1.hc3370-68.iphmx.com: no sender
+Received-SPF: None (esa4.hc3370-68.iphmx.com: no sender
  authenticity information available from domain of
  postmaster@mail.citrix.com) identity=helo;
- client-ip=162.221.158.21; receiver=esa1.hc3370-68.iphmx.com;
+ client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
  envelope-from="anthony.perard@citrix.com";
  x-sender="postmaster@mail.citrix.com";
  x-conformance=sidf_compatible
-IronPort-SDR: uJfw3vKfJcYjs2uYVUJY2Vqq4/96T8V+v/wBgcIrMvNqvt5u1WxRVXNo6wLv9KOa+i4hoW+dp1
- nvxF367qo1JJakgKbTVrvv124fXRlU1hiM1DezCI8AD65BnARTYJPyEmjXkdZgyRbUAPLfm430
- /CqeFeUgiyHOPAsksTFtT24nF7GshbMxRELlvxmk1s+L6BEaASJLDYHTQE2n+Y7VatC/LvrAG/
- BpEnnGqdJeavXRQqX6usRCNYpETrfT8sLyjQPmM533ZTEbdhPsXW4syivaAfud+3Jo0h/T81q/
- KP4=
+IronPort-SDR: kEEUF3m5QJdGP+nVunsvGYsRB0qPKBIMKb/0kGJ3Ad5qvTmdLxzqw07ltbH+HjkMS71Lrl6qAZ
+ yaqI6F3eG7Ljvf+RIJ4y5SPiYNj2f/YSQoguctmkfywB1hHd8dYISMCx2YiySk4t6THD2BQCLP
+ knLe7MnbkruiyE3zrnKMGimmjyRfL/DuVm0FlJIL58nV+zkLXePqoukx+rwJVM+fHTfww1YqlB
+ xHvSG8Zx8+xBzBZrflAGWY1Q724URub+FE+lbwk29Fg0NiOIHzB4pSav/fbtBaxYHZbvF4WFqP
+ 4ps=
 X-SBRS: 2.7
-X-MesageID: 15534900
-X-Ironport-Server: esa1.hc3370-68.iphmx.com
+X-MesageID: 15974527
+X-Ironport-Server: esa4.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.72,355,1580792400"; d="scan'208";a="15534900"
+X-IronPort-AV: E=Sophos;i="5.72,355,1580792400"; d="scan'208";a="15974527"
 From: Anthony PERARD <anthony.perard@citrix.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PULL 1/3] hw/usb/xen-usb.c: Pass struct usbback_req* to
- usbback_packet_complete()
-Date: Tue, 7 Apr 2020 16:22:35 +0100
-Message-ID: <20200407152237.1468704-2-anthony.perard@citrix.com>
+Subject: [PULL 2/3] xen-block: Fix uninitialized variable
+Date: Tue, 7 Apr 2020 16:22:36 +0100
+Message-ID: <20200407152237.1468704-3-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200407152237.1468704-1-anthony.perard@citrix.com>
 References: <20200407152237.1468704-1-anthony.perard@citrix.com>
@@ -84,7 +83,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 216.71.145.142
+X-Received-From: 216.71.155.144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,66 +99,33 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+Since 7f5d9b206d1e ("object-add: don't create return value if
+failed"), qmp_object_add() don't write any value in 'ret_data', thus
+has random data. Then qobject_unref() fails and abort().
 
-The function usbback_packet_complete() currently takes a USBPacket*,
-which must be a pointer to the packet field within a struct
-usbback_req; the function uses container_of() to get the struct
-usbback_req* given the USBPacket*.
+Fix by initialising 'ret_data' properly.
 
-This is unnecessarily confusing (and in particular it confuses the
-Coverity Scan analysis, resulting in the false positive CID 1421919
-where it thinks that we write off the end of the structure). Since
-both callsites already have the pointer to the struct usbback_req,
-just pass that in directly.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
-Message-Id: <20200323164318.26567-1-peter.maydell@linaro.org>
+Fixes: 5f07c4d60d09 ("qapi: Flatten object-add")
 Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20200406164207.1446817-1-anthony.perard@citrix.com>
 ---
- hw/usb/xen-usb.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ hw/block/xen-block.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/usb/xen-usb.c b/hw/usb/xen-usb.c
-index 1fc2f32ce93d..961190d0f78c 100644
---- a/hw/usb/xen-usb.c
-+++ b/hw/usb/xen-usb.c
-@@ -347,13 +347,11 @@ static int32_t usbback_xlat_status(int status)
-     return -ESHUTDOWN;
- }
+diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
+index 07bb32e22b51..99cb4c67cb09 100644
+--- a/hw/block/xen-block.c
++++ b/hw/block/xen-block.c
+@@ -860,7 +860,7 @@ static XenBlockIOThread *xen_block_iothread_create(const char *id,
+     XenBlockIOThread *iothread = g_new(XenBlockIOThread, 1);
+     Error *local_err = NULL;
+     QDict *opts;
+-    QObject *ret_data;
++    QObject *ret_data = NULL;
  
--static void usbback_packet_complete(USBPacket *packet)
-+static void usbback_packet_complete(struct usbback_req *usbback_req)
- {
--    struct usbback_req *usbback_req;
-+    USBPacket *packet = &usbback_req->packet;
-     int32_t status;
+     iothread->id = g_strdup(id);
  
--    usbback_req = container_of(packet, struct usbback_req, packet);
--
-     QTAILQ_REMOVE(&usbback_req->stub->submit_q, usbback_req, q);
- 
-     status = usbback_xlat_status(packet->status);
-@@ -566,7 +564,7 @@ static void usbback_dispatch(struct usbback_req *usbback_req)
- 
-     usb_handle_packet(usbback_req->stub->dev, &usbback_req->packet);
-     if (usbback_req->packet.status != USB_RET_ASYNC) {
--        usbback_packet_complete(&usbback_req->packet);
-+        usbback_packet_complete(usbback_req);
-     }
-     return;
- 
-@@ -993,7 +991,7 @@ static void xen_bus_complete(USBPort *port, USBPacket *packet)
- 
-     usbif = usbback_req->usbif;
-     TR_REQ(&usbif->xendev, "\n");
--    usbback_packet_complete(packet);
-+    usbback_packet_complete(usbback_req);
- }
- 
- static USBPortOps xen_usb_port_ops = {
 -- 
 Anthony PERARD
 
