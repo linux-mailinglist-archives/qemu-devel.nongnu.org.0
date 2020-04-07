@@ -2,64 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F17321A15AE
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 21:19:05 +0200 (CEST)
-Received: from localhost ([::1]:52296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E55211A15AF
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 21:19:11 +0200 (CEST)
+Received: from localhost ([::1]:52298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLtkW-0007Ur-QW
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 15:19:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47177)
+	id 1jLtkc-0007iZ-Ur
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 15:19:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47189)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jcmvbkbc@gmail.com>) id 1jLtj8-0006TV-Jc
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 15:17:39 -0400
+ (envelope-from <vr_qemu@t-online.de>) id 1jLtjD-0006Uv-Io
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 15:17:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jcmvbkbc@gmail.com>) id 1jLtj7-0006Ic-Kh
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 15:17:38 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:33487)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jcmvbkbc@gmail.com>) id 1jLtj7-0006I9-Fc
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 15:17:37 -0400
-Received: by mail-pg1-x542.google.com with SMTP id d17so2194107pgo.0
- for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 12:17:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NsUchHCX5ty8+J0HpbFC3rcBey9bYlOQ17MlgmxEXyw=;
- b=A7TqZg/SXsdISc6Z86MbnPm0mDRRsI2YnQNIhekF4Pp3Zjxkihpvhsfdi94EUklL4n
- k95pf+hFESZKPnM4dLxb9F97wNw2f/kChENeQzCOoUDvj+XwQS8jY4wF/34HqddHTWoX
- v2hiARxh9D1ugYptgubRvF6oB83L6FOVZ32PP6otbnT+C5ayenY5mFqcRtrRm2K5QpiW
- Bkw3FWLJxbpLw3SNYNmHtqBRq08fekjiCiF4ZdFIoZbDGXTmLMzzqbVntp03mqCeVOn8
- d8bDzsnI3iNwfHBbBpttPhnRVzWN6SLcMiqDm/KlprrOYbGmk9neFiE30Px/aW7MuoDe
- 9rsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NsUchHCX5ty8+J0HpbFC3rcBey9bYlOQ17MlgmxEXyw=;
- b=ZL731XI6gCxzEqh7OlJVP5pFzRD2xgIwkiOjNt2u7GxJuz2Yj1sDlK3CZlUZJyAV34
- RmUp20ORXa/xD5Mco3Wg8KO6Xoh6X1y8e8OJB+ppuGM5JacbEmidlU4+etu+TeR+Bkff
- 5z6/PAD6nW9f8n8rWVQ7W6zqt6MHWYDPAq0I7wOL9L+GI1HpERyLuHf59DZgZzrn1UXo
- iIkNC2NCL+OBn809VqURQyoXB3GAY1qgF+0KlW2OsONRNVHs8RS/DRCr5vrDcz9t13lE
- stb2BT5fM5eKY7+mDMJsGTEDYKgHIAVnUzHJtcPmNp9x75NMl0yC9efIkv2df+91s4ny
- qhXA==
-X-Gm-Message-State: AGi0PuZtMNzBw7hLZrLREWcULRVf1EEuTl4PF0X/CFkVtDZzH3yXS0Sw
- Lmlseq/q6/MpEarRYOw4Kb7u9f+zmdVrntXeJGo=
-X-Google-Smtp-Source: APiQypLlPEtjJKXD5NTmSwCkdcjnll8FDOpIy/L11GIvTqZAPEZ3i80OGm2hp3yu/ExxYc0Y83gTM+ZLDpxtdNO4Fio=
-X-Received: by 2002:aa7:958f:: with SMTP id z15mr3881757pfj.130.1586287056461; 
- Tue, 07 Apr 2020 12:17:36 -0700 (PDT)
+ (envelope-from <vr_qemu@t-online.de>) id 1jLtjB-0006KF-P8
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 15:17:43 -0400
+Received: from mailout08.t-online.de ([194.25.134.20]:45178)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vr_qemu@t-online.de>) id 1jLtjB-0006JP-IA
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 15:17:41 -0400
+Received: from fwd17.aul.t-online.de (fwd17.aul.t-online.de [172.20.27.64])
+ by mailout08.t-online.de (Postfix) with SMTP id 9E4F041E0A0F;
+ Tue,  7 Apr 2020 21:17:38 +0200 (CEST)
+Received: from [192.168.211.200]
+ (SaX2QYZvrheaL3ElGoDwhrU97mUSblV97kslVR4zMXvmb5I6bNEoCE-N0ziQSyfQI9@[46.86.48.198])
+ by fwd17.t-online.de
+ with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+ esmtp id 1jLtj8-1XdAXY0; Tue, 7 Apr 2020 21:17:38 +0200
+Subject: Re: [Bug 1871250] Failed to create HAX VM
+To: Bug 1871250 <1871250@bugs.launchpad.net>,
+ Russell Morris <ubuntu@rkmorris.us>
+References: <158621521246.22866.8297146941622716788.malonedeb@wampee.canonical.com>
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+Message-ID: <0cf58bb6-c3f0-45d7-d37f-561dddf5f457@t-online.de>
+Date: Tue, 7 Apr 2020 21:17:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200407190738.15162-1-richard.henderson@linaro.org>
-In-Reply-To: <20200407190738.15162-1-richard.henderson@linaro.org>
-From: Max Filippov <jcmvbkbc@gmail.com>
-Date: Tue, 7 Apr 2020 12:17:25 -0700
-Message-ID: <CAMo8BfKzHNPNtRJEdkg4hDTVT5B+GhAQNn5PjOw5uShURqZxJw@mail.gmail.com>
-Subject: Re: [PATCH for-5.0? v2] target/xtensa: Statically allocate
- xtensa_insnbufs in DisasContext
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::542
+In-Reply-To: <158621521246.22866.8297146941622716788.malonedeb@wampee.canonical.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ID: SaX2QYZvrheaL3ElGoDwhrU97mUSblV97kslVR4zMXvmb5I6bNEoCE-N0ziQSyfQI9
+X-TOI-MSGID: ab5cd388-a963-419d-a7c7-6c5e20b95add
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 194.25.134.20
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,33 +58,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 7, 2020 at 12:07 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
+> Hi,
 >
-> From: Max Filippov <jcmvbkbc@gmail.com>
+> I'm running the latest (master) of QEMU, though the version doesn't seem
+> to matter - I also checked back to v4.2.0, exactly the same issue. And
+> this isn't about the VM (guest), if I even just try to run,
 >
-> Rather than dynamically allocate, and risk failing to free
-> when we longjmp out of the translator, allocate the maximum
-> buffer size from any of the supported cpus.
->
-> Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
-> [rth: Merged the fixup in Max's reply to his original]
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/xtensa/cpu.h       |  3 +++
->  target/xtensa/helper.c    |  1 +
->  target/xtensa/translate.c | 18 ++----------------
->  3 files changed, 6 insertions(+), 16 deletions(-)
+>> "c:\Program Files\qemu\qemu-system-x86_64.exe" -accel hax
 
-I've re-posted it almost at the same time (:
-Should I take it, or do you have another plan for it?
+Hi Russell,
 
--- 
-Thanks.
--- Max
+at the moment you need this patch at
+https://lists.nongnu.org/archive/html/qemu-devel/2020-03/msg06831.html
+
+But I can't see why v4.2.0 doesn't work on your system. The bug was introduced later.
+
+> Basically, just get a window to open, with acceleration enabled ... I get,
+> Open the vm device error:/dev/hax_vm/vm00, ec:3
+> Failed to open vm 0
+> Failed to create HAX VM
+> No accelerator found.
+>
+
+ec:3 is ERROR_PATH_NOT_FOUND
+
+With best regards,
+Volker
+
+
 
