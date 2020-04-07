@@ -2,64 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A29A1A0976
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 10:44:44 +0200 (CEST)
-Received: from localhost ([::1]:43116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E80241A09B3
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 11:03:11 +0200 (CEST)
+Received: from localhost ([::1]:43342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLjqb-0004OY-RX
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 04:44:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51535)
+	id 1jLk8U-0005xq-WB
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 05:03:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52102)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jLjnK-0003Rx-RL
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:41:19 -0400
+ (envelope-from <philmd@redhat.com>) id 1jLjqd-00050h-Kk
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:44:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jLjnH-00070F-Jr
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:41:16 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:36752)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jLjnG-0006zi-NB
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:41:15 -0400
-Received: by mail-oi1-x244.google.com with SMTP id k18so810941oib.3
- for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 01:41:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mPoP9SOA3gisZqBOv6fWFTA/4XC/myugQYXeICEFOvg=;
- b=XeWF0iMz/r3Olt/OdexeTBgZh+VzohpRCZataVu2SV8AvCUl8awPpKT5JT3gEFnBuN
- kzkZoVzT+OZUTh6w+n/Zme75WIrCnelK4QEpe3O6xRENI4M7Ei8xNknWO4QhWXa1RJHW
- jQIOc/SCEIchODGG06bBDYriuo3XFS6rEwRrzsmSjoKUF6I5tZdCvxX2EZU9EqgFPPih
- ipSUzgi6o9ooQwkrBwXmnEMZjRr+TnnZAASo4/7dhhM7VuOwXXv9FyWnnBGlyDf7i0Sr
- K4kJP4JBueIHy++55ZIwEsHs9ZsO730MUBB4kQgZHdxUm6IfwmA/SLmCzZao/nkBfJ+A
- 2RQA==
+ (envelope-from <philmd@redhat.com>) id 1jLjqR-0000fw-U2
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:44:41 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59444
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jLjqR-0000fD-NS
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:44:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586249071;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iyD86UCPi7qWmJzIdN9nBj/+Pd6cSGA9iBteF0/HihE=;
+ b=IsUddEN5uAGipBsTbRPkzkIsCfA/Ks/XIcypdqqEfqzVZPccwT7M3CAUppiKKg621aqSUQ
+ dX9EnQyXY4j0jG0Eo1qLw24aHu3p4ddTlWsl4f12cp/5rjhF1+9rLmaeJL9CE1ydZKB1mD
+ 7ImgZEiE9FKPJNd5KHbji34QwB/lV4s=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-40-hZV1sdeJOdG_40yAydx0aA-1; Tue, 07 Apr 2020 04:44:27 -0400
+X-MC-Unique: hZV1sdeJOdG_40yAydx0aA-1
+Received: by mail-ed1-f69.google.com with SMTP id b100so2437780edf.15
+ for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 01:44:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mPoP9SOA3gisZqBOv6fWFTA/4XC/myugQYXeICEFOvg=;
- b=CX1sSrE1A8/0AtqExR4ZeU4GIkxrKEk1vTX2DLNqamvmnEOrk76uXlxnkwPPYv4yq+
- Skd4x9vR/J5BiiLTBNW7gtcA0trIhjH9w9oXTXQ5V/ElBG+zBlRDNTBt949fJpsNtFce
- nPVQDEzjmc7u01BNZRl7uAzo6ev0jQ0n6/HXcOeoOVs5byGnX4VTENFstVcOo+Bm88BI
- O4Eb1L+wWeB8g+wg07O5rsKqzFicNfz2KyZ6Q2kQXd298u1h4ZywMNPPxM0+dpTHzA2b
- jp7tXYntvsj6UQESof6vRyrtLkGcDwZGCAxR9376M/t7K9W4LasMHGN42LuKXe7j1bkz
- xWiA==
-X-Gm-Message-State: AGi0PuaKY6gXToPi2GUkC4x64BkPdXwXbrLYd/WblCs1Db3IFdWpcXA4
- SDdiXHRs5D29m8Foz3ynapaqnx+aXjqKtDQX7oyjBQ==
-X-Google-Smtp-Source: APiQypJWvp0BRy1lxfuYuEiJ4li4q/pR8uKbya3gCP+dj9UcFySdmmNx6mXGoeh/lHYa7Xlgys/hMZyo78zQIyHionI=
-X-Received: by 2002:aca:3049:: with SMTP id w70mr806821oiw.146.1586248873470; 
- Tue, 07 Apr 2020 01:41:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <0b02fe788de99120894f87f6d5c60e15d6a75d85.1586213450.git.dirty@apple.com>
-In-Reply-To: <0b02fe788de99120894f87f6d5c60e15d6a75d85.1586213450.git.dirty@apple.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Apr 2020 09:40:58 +0100
-Message-ID: <CAFEAcA9FSVzxwudyaDoCty8B+Up33caM20qytLNO7HAXWmcwtg@mail.gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iyD86UCPi7qWmJzIdN9nBj/+Pd6cSGA9iBteF0/HihE=;
+ b=ZWVETOyUveDzMKdUa41kIbFvFXWQbv4wLWBOUkZc30ucmjqBa5BEADYt3WjJf2zi6u
+ ZszCd5/9bn/ZsQFCVH72jVdPQGOVknfxCghQZP4TF2pOWW49Md5XYDrxWs6jMZtwwDw6
+ aJQ+5lz/72hO0EjRHjU9SYfOEGsAzxJ2rR0cnf7YbdNUqtSaKF6na1Me7EHZCvus47+3
+ TydCBegWxcedLnvzUasJ/0S9g7IVpdv+0FMlYdzG0g0dSbTJDb0IacU4rwRC/Ms4ijVP
+ 8ioomd5Zt8ky1465HWSikXxB+iHERSjs2P2amiUZrTtzGPPeCXTYuLY6W4Owek2TyvzV
+ SuRA==
+X-Gm-Message-State: AGi0PuZvlssdwxtJvR/1WCBps96TpPqBzvOEwdxGg6Ck9PDjsibcVaTN
+ GBAClls1JXgeMLNbJFLYYvW67ysHAE/xb+5Mk25Sdh3yuTrgsCf1BfJmAXaJqOG9LuDJEMlyB5U
+ Bgd+5hgw/dmXXAoI=
+X-Received: by 2002:a05:6402:31ad:: with SMTP id
+ dj13mr924069edb.60.1586249066047; 
+ Tue, 07 Apr 2020 01:44:26 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLUL/2/cZ6Zgv9tjQWH8/IEa4fyWtEb61Uk/4RuAKsPgruOYqQk1NQHIWUN4nD19i5aJfGOsw==
+X-Received: by 2002:a05:6402:31ad:: with SMTP id
+ dj13mr924059edb.60.1586249065808; 
+ Tue, 07 Apr 2020 01:44:25 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id n18sm2631405edv.93.2020.04.07.01.44.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Apr 2020 01:44:25 -0700 (PDT)
 Subject: Re: [PATCH v1] nrf51: Fix last GPIO CNF address
-To: Cameron Esfahani <dirty@apple.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+To: Cameron Esfahani <dirty@apple.com>, qemu-devel@nongnu.org
+References: <0b02fe788de99120894f87f6d5c60e15d6a75d85.1586213450.git.dirty@apple.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <6aac0d31-d0a4-d103-e3b5-89feef27c018@redhat.com>
+Date: Tue, 7 Apr 2020 10:44:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <0b02fe788de99120894f87f6d5c60e15d6a75d85.1586213450.git.dirty@apple.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,29 +92,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Joel Stanley <joel@jms.id.au>
+Cc: peter.maydell@linaro.org, kraxel@redhat.com, joel@jms.id.au, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 6 Apr 2020 at 23:55, Cameron Esfahani <dirty@apple.com> wrote:
->
+Hi Cameron,
+
+On 4/7/20 12:55 AM, Cameron Esfahani wrote:
 > NRF51_GPIO_REG_CNF_END doesn't actually refer to the start of the last
 > valid CNF register: it's referring to the last byte of the last valid
 > CNF register.
->
+> 
 > This hasn't been a problem up to now, as current implementation in
 > memory.c turns an unaligned 4-byte read from 0x77f to a single byte read
 > and the qtest only looks at the least-significant byte of the register.
->
+> 
 > But, when running with Cedric Le Goater's <clg@kaod.org> pending fix for
 > unaligned accesses in memory.c, the qtest breaks.
 
-Do you have a link to this patch, please? I had a quick search through
-my mailing list articles but couldn't see anything obviously relevant.
+The 'fix' is from Andrew.
 
-thanks
--- PMM
+> 
+> Considering NRF51 doesn't support unaligned accesses, the simplest fix
+> is to actually set NRF51_GPIO_REG_CNF_END to the start of the last valid
+> CNF register: 0x77c.
+
+NAck. You are burying bugs deeper. This test has to work.
+
+What would be helpful is qtests with unaligned accesses (expected to 
+work) such your USB XHCI VERSION example.
+
+> 
+> Now, qtests work with or without Cedric's patch.
+
+For the other reviewers, the cited patch is:
+https://github.com/legoater/qemu/commit/d57ac950c4be47a2bafd6c6a96dec2922c2ecd65.patch
+
+If you look at it closer, it has:
+
+          /* XXX: Big-endian path is untested...  */
+
+              /* XXX: Can't do this hack for writes */
+
+Also Paolo Bonzini made comments that are not addressed, about 3 years 
+later:
+https://lists.gnu.org/archive/html/qemu-devel/2017-07/msg03684.html
+
+> 
+> Signed-off-by: Cameron Esfahani <dirty@apple.com>
+> ---
+>   include/hw/gpio/nrf51_gpio.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/hw/gpio/nrf51_gpio.h b/include/hw/gpio/nrf51_gpio.h
+> index 337ee534bb..1d62bbc928 100644
+> --- a/include/hw/gpio/nrf51_gpio.h
+> +++ b/include/hw/gpio/nrf51_gpio.h
+> @@ -42,7 +42,7 @@
+>   #define NRF51_GPIO_REG_DIRSET       0x518
+>   #define NRF51_GPIO_REG_DIRCLR       0x51C
+>   #define NRF51_GPIO_REG_CNF_START    0x700
+> -#define NRF51_GPIO_REG_CNF_END      0x77F
+> +#define NRF51_GPIO_REG_CNF_END      0x77C
+>   
+>   #define NRF51_GPIO_PULLDOWN 1
+>   #define NRF51_GPIO_PULLUP 3
+> 
+
 
