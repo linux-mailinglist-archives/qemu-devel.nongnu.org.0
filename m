@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F16A1A0DE2
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 14:41:02 +0200 (CEST)
-Received: from localhost ([::1]:46738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA07F1A0DE6
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 14:42:30 +0200 (CEST)
+Received: from localhost ([::1]:46778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLnXJ-0003Vl-B2
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 08:41:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34720)
+	id 1jLnYj-00061N-RO
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 08:42:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34802)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jLnUB-0007Xt-Ai
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 08:37:48 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jLnUI-0007rR-R6
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 08:37:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jLnUA-0006nK-7J
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 08:37:47 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25272
+ (envelope-from <mreitz@redhat.com>) id 1jLnUH-0006tV-Ea
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 08:37:54 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38610
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jLnUA-0006l5-1p
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 08:37:46 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jLnUH-0006tI-Bg
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 08:37:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586263063;
+ s=mimecast20190719; t=1586263073;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P9sMMcwTn/qfPhGYjkb+FTpCQd50xWJGCzLtpVpetcw=;
- b=jDN9ytwXR6CNEYaKdiT3IuHhdxEaHsxJ3dAypUWOYG/7r/vP76clTgpi33NVRCPbYF4gXO
- texVjFOKSoymdZEmqZTnKDKN/K/dRG8d8XSPX5yH0Mcd5YxQ/xJYyxGIrJrnsFOdgAdxkw
- tJUVJmYCbzimTJTWgfXTfRbMyDdWeK0=
+ bh=3MB19gN0vZWLt9OgTn+jP5Qog8pmeTpyEzT/aQfIsMs=;
+ b=TnYyba9Oz2B63+0EADEhnFUKH1VFmGcDSY8IRC+kM5BNofSEi8aGd9C8HPKiK4rVEsmHHQ
+ DsHQOxn/xid8/V2tq2TWyjb/OUhbampz/AwSrgs5aqlRaHjv5VeThFEbbNpeFYVttvy4ry
+ gjDyhoXKK/qrX+qhybXtlTb83iX3jo8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-392-9JvTchx-MiOWMdobkPiW8w-1; Tue, 07 Apr 2020 08:37:41 -0400
-X-MC-Unique: 9JvTchx-MiOWMdobkPiW8w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-122-CfZRONQOO3K2DARdoabNpw-1; Tue, 07 Apr 2020 08:37:47 -0400
+X-MC-Unique: CfZRONQOO3K2DARdoabNpw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6FE01B18BC6;
- Tue,  7 Apr 2020 12:37:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 245061B18BC2;
+ Tue,  7 Apr 2020 12:37:46 +0000 (UTC)
 Received: from localhost (ovpn-114-84.ams2.redhat.com [10.36.114.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 340AC5DA7C;
- Tue,  7 Apr 2020 12:37:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A6A3B19A0;
+ Tue,  7 Apr 2020 12:37:42 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 4/5] iotests/common.pattern: Quote echos
-Date: Tue,  7 Apr 2020 14:37:26 +0200
-Message-Id: <20200407123727.829933-5-mreitz@redhat.com>
+Subject: [PULL 5/5] xen-block: Fix double qlist remove and request leak
+Date: Tue,  7 Apr 2020 14:37:27 +0200
+Message-Id: <20200407123727.829933-6-mreitz@redhat.com>
 In-Reply-To: <20200407123727.829933-1-mreitz@redhat.com>
 References: <20200407123727.829933-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.61
@@ -75,99 +75,162 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From time to time, my shell decides to repace the bracketed numbers here
-by the numbers inside (i.e., "=3D=3D=3D Clusters to be compressed [1]" is
-printed as "=3D=3D=3D Clusters to be compressed 1").  That makes tests that
-use common.pattern fail.  Prevent that from happening by quoting the
-arguments to all echos in common.pattern.
+From: Anthony PERARD <anthony.perard@citrix.com>
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200403101134.805871-1-mreitz@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Commit a31ca6801c02 ("qemu/queue.h: clear linked list pointers on
+remove") revealed that a request was removed twice from a list, once
+in xen_block_finish_request() and a second time in
+xen_block_release_request() when both function are called from
+xen_block_complete_aio(). But also, the `requests_inflight' counter is
+decreased twice, and thus became negative.
+
+This is a bug that was introduced in bfd0d6366043 ("xen-block: improve
+response latency"), where a `finished' list was removed.
+
+That commit also introduced a leak of request in xen_block_do_aio().
+That function calls xen_block_finish_request() but the request is
+never released after that.
+
+To fix both issue, we do two changes:
+- we squash finish_request() and release_request() together as we want
+  to remove a request from 'inflight' list to add it to 'freelist'.
+- before releasing a request, we need to let the other end know the
+  result, thus we should call xen_block_send_response() before
+  releasing a request.
+
+The first change fixes the double QLIST_REMOVE() as we remove the extra
+call. The second change makes the leak go away because if we want to
+call finish_request(), we need to call a function that does all of
+finish, send response, and release.
+
+Fixes: bfd0d6366043 ("xen-block: improve response latency")
+Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+Message-Id: <20200406140217.1441858-1-anthony.perard@citrix.com>
+Reviewed-by: Paul Durrant <paul@xen.org>
+[mreitz: Amended commit message as per Paul's suggestions]
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/common.pattern | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ hw/block/dataplane/xen-block.c | 48 ++++++++++++----------------------
+ 1 file changed, 16 insertions(+), 32 deletions(-)
 
-diff --git a/tests/qemu-iotests/common.pattern b/tests/qemu-iotests/common.=
-pattern
-index 4f5e5bcea0..4caa5de187 100644
---- a/tests/qemu-iotests/common.pattern
-+++ b/tests/qemu-iotests/common.pattern
-@@ -23,7 +23,7 @@ do_is_allocated() {
-     local count=3D$4
+diff --git a/hw/block/dataplane/xen-block.c b/hw/block/dataplane/xen-block.=
+c
+index 288a87a814..5f8f15778b 100644
+--- a/hw/block/dataplane/xen-block.c
++++ b/hw/block/dataplane/xen-block.c
+@@ -64,6 +64,8 @@ struct XenBlockDataPlane {
+     AioContext *ctx;
+ };
 =20
-     for ((i=3D1;i<=3D$count;i++)); do
--        echo alloc $(( start + (i - 1) * step )) $size
-+        echo "alloc $(( start + (i - 1) * step )) $size"
-     done
++static int xen_block_send_response(XenBlockRequest *request);
++
+ static void reset_request(XenBlockRequest *request)
+ {
+     memset(&request->req, 0, sizeof(request->req));
+@@ -115,23 +117,26 @@ out:
+     return request;
  }
 =20
-@@ -39,9 +39,9 @@ do_io() {
-     local count=3D$5
-     local pattern=3D$6
+-static void xen_block_finish_request(XenBlockRequest *request)
++static void xen_block_complete_request(XenBlockRequest *request)
+ {
+     XenBlockDataPlane *dataplane =3D request->dataplane;
 =20
--    echo =3D=3D=3D IO: pattern $pattern >&2
-+    echo "=3D=3D=3D IO: pattern $pattern" >&2
-     for ((i=3D1;i<=3D$count;i++)); do
--        echo $op -P $pattern $(( start + (i - 1) * step )) $size
-+        echo "$op -P $pattern $(( start + (i - 1) * step )) $size"
-     done
+-    QLIST_REMOVE(request, list);
+-    dataplane->requests_inflight--;
+-}
++    if (xen_block_send_response(request)) {
++        Error *local_err =3D NULL;
+=20
+-static void xen_block_release_request(XenBlockRequest *request)
+-{
+-    XenBlockDataPlane *dataplane =3D request->dataplane;
++        xen_device_notify_event_channel(dataplane->xendev,
++                                        dataplane->event_channel,
++                                        &local_err);
++        if (local_err) {
++            error_report_err(local_err);
++        }
++    }
+=20
+     QLIST_REMOVE(request, list);
++    dataplane->requests_inflight--;
+     reset_request(request);
+     request->dataplane =3D dataplane;
+     QLIST_INSERT_HEAD(&dataplane->freelist, request, list);
+-    dataplane->requests_inflight--;
  }
 =20
-@@ -110,31 +110,31 @@ io_test2() {
-     #        free - free - compressed
-=20
-     # Write the clusters to be compressed
--    echo =3D=3D=3D Clusters to be compressed [1]
-+    echo '=3D=3D=3D Clusters to be compressed [1]'
-     io_pattern writev $((offset + 4 * $cluster_size)) $cluster_size $((9 *=
- $cluster_size)) $num 165
--    echo =3D=3D=3D Clusters to be compressed [2]
-+    echo '=3D=3D=3D Clusters to be compressed [2]'
-     io_pattern writev $((offset + 5 * $cluster_size)) $cluster_size $((9 *=
- $cluster_size)) $num 165
--    echo =3D=3D=3D Clusters to be compressed [3]
-+    echo '=3D=3D=3D Clusters to be compressed [3]'
-     io_pattern writev $((offset + 8 * $cluster_size)) $cluster_size $((9 *=
- $cluster_size)) $num 165
-=20
-     mv "$TEST_IMG" "$TEST_IMG.orig"
-     $QEMU_IMG convert -f $IMGFMT -O $IMGFMT -c "$TEST_IMG.orig" "$TEST_IMG=
-"
-=20
-     # Write the used clusters
--    echo =3D=3D=3D Used clusters [1]
-+    echo '=3D=3D=3D Used clusters [1]'
-     io_pattern writev $((offset + 0 * $cluster_size)) $cluster_size $((9 *=
- $cluster_size)) $num 165
--    echo =3D=3D=3D Used clusters [2]
-+    echo '=3D=3D=3D Used clusters [2]'
-     io_pattern writev $((offset + 1 * $cluster_size)) $cluster_size $((9 *=
- $cluster_size)) $num 165
--    echo =3D=3D=3D Used clusters [3]
-+    echo '=3D=3D=3D Used clusters [3]'
-     io_pattern writev $((offset + 3 * $cluster_size)) $cluster_size $((9 *=
- $cluster_size)) $num 165
-=20
-     # Read them
--    echo =3D=3D=3D Read used/compressed clusters
-+    echo '=3D=3D=3D Read used/compressed clusters'
-     io_pattern readv $((offset + 0 * $cluster_size)) $((2 * $cluster_size)=
-) $((9 * $cluster_size)) $num 165
-     io_pattern readv $((offset + 3 * $cluster_size)) $((3 * $cluster_size)=
-) $((9 * $cluster_size)) $num 165
-     io_pattern readv $((offset + 8 * $cluster_size)) $((1 * $cluster_size)=
-) $((9 * $cluster_size)) $num 165
-=20
--    echo =3D=3D=3D Read zeros
-+    echo '=3D=3D=3D Read zeros'
-     io_zero readv $((offset + 2 * $cluster_size)) $((1 * $cluster_size)) $=
-((9 * $cluster_size)) $num
-     io_zero readv $((offset + 6 * $cluster_size)) $((2 * $cluster_size)) $=
-((9 * $cluster_size)) $num
+ /*
+@@ -246,7 +251,6 @@ static int xen_block_copy_request(XenBlockRequest *requ=
+est)
  }
+=20
+ static int xen_block_do_aio(XenBlockRequest *request);
+-static int xen_block_send_response(XenBlockRequest *request);
+=20
+ static void xen_block_complete_aio(void *opaque, int ret)
+ {
+@@ -286,7 +290,6 @@ static void xen_block_complete_aio(void *opaque, int re=
+t)
+     }
+=20
+     request->status =3D request->aio_errors ? BLKIF_RSP_ERROR : BLKIF_RSP_=
+OKAY;
+-    xen_block_finish_request(request);
+=20
+     switch (request->req.operation) {
+     case BLKIF_OP_WRITE:
+@@ -306,17 +309,8 @@ static void xen_block_complete_aio(void *opaque, int r=
+et)
+     default:
+         break;
+     }
+-    if (xen_block_send_response(request)) {
+-        Error *local_err =3D NULL;
+=20
+-        xen_device_notify_event_channel(dataplane->xendev,
+-                                        dataplane->event_channel,
+-                                        &local_err);
+-        if (local_err) {
+-            error_report_err(local_err);
+-        }
+-    }
+-    xen_block_release_request(request);
++    xen_block_complete_request(request);
+=20
+     if (dataplane->more_work) {
+         qemu_bh_schedule(dataplane->bh);
+@@ -420,8 +414,8 @@ static int xen_block_do_aio(XenBlockRequest *request)
+     return 0;
+=20
+ err:
+-    xen_block_finish_request(request);
+     request->status =3D BLKIF_RSP_ERROR;
++    xen_block_complete_request(request);
+     return -1;
+ }
+=20
+@@ -575,17 +569,7 @@ static bool xen_block_handle_requests(XenBlockDataPlan=
+e *dataplane)
+                 break;
+             };
+=20
+-            if (xen_block_send_response(request)) {
+-                Error *local_err =3D NULL;
+-
+-                xen_device_notify_event_channel(dataplane->xendev,
+-                                                dataplane->event_channel,
+-                                                &local_err);
+-                if (local_err) {
+-                    error_report_err(local_err);
+-                }
+-            }
+-            xen_block_release_request(request);
++            xen_block_complete_request(request);
+             continue;
+         }
+=20
 --=20
 2.25.1
 
