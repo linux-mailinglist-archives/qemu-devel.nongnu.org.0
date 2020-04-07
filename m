@@ -2,53 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B31F11A07A6
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 08:49:55 +0200 (CEST)
-Received: from localhost ([::1]:42112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 052141A07AE
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 08:52:00 +0200 (CEST)
+Received: from localhost ([::1]:42154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLi3W-00018D-N8
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 02:49:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37230)
+	id 1jLi5X-0004CC-2A
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 02:51:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37631)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1jLi1D-00080c-K0
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 02:47:32 -0400
+ (envelope-from <clg@kaod.org>) id 1jLi34-000210-6V
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 02:49:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1jLi1C-0006G7-Cw
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 02:47:31 -0400
-Received: from 7.mo1.mail-out.ovh.net ([87.98.158.110]:56183)
+ (envelope-from <clg@kaod.org>) id 1jLi33-0007d9-5p
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 02:49:26 -0400
+Received: from 2.mo173.mail-out.ovh.net ([178.33.251.49]:47753)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jLi1C-0006F1-6g
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 02:47:30 -0400
-Received: from player690.ha.ovh.net (unknown [10.108.35.232])
- by mo1.mail-out.ovh.net (Postfix) with ESMTP id 8C9FE1BA636
- for <qemu-devel@nongnu.org>; Tue,  7 Apr 2020 08:47:28 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jLi32-0007ao-V6
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 02:49:25 -0400
+Received: from player746.ha.ovh.net (unknown [10.108.42.170])
+ by mo173.mail-out.ovh.net (Postfix) with ESMTP id EA49D134B85
+ for <qemu-devel@nongnu.org>; Tue,  7 Apr 2020 08:49:19 +0200 (CEST)
 Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
  (Authenticated sender: clg@kaod.org)
- by player690.ha.ovh.net (Postfix) with ESMTPSA id 850AA110F0479;
- Tue,  7 Apr 2020 06:47:16 +0000 (UTC)
-Subject: Re: [PATCH-for-5.1 v2 28/54] hw/arm/aspeed: Add missing
- error-propagation code
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-References: <20200406174743.16956-1-f4bug@amsat.org>
- <20200406174743.16956-29-f4bug@amsat.org>
+ by player746.ha.ovh.net (Postfix) with ESMTPSA id CAA261140B04B;
+ Tue,  7 Apr 2020 06:49:10 +0000 (UTC)
+Subject: Re: [PATCH v1] nrf51: Fix last GPIO CNF address
+To: Cameron Esfahani <dirty@apple.com>, qemu-devel@nongnu.org
+References: <0b02fe788de99120894f87f6d5c60e15d6a75d85.1586213450.git.dirty@apple.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <f2b449ec-9254-4f71-eb6f-9d97e6c05ab0@kaod.org>
-Date: Tue, 7 Apr 2020 08:47:16 +0200
+Message-ID: <7bdd47e1-f082-6aa3-3611-9a0669272ad5@kaod.org>
+Date: Tue, 7 Apr 2020 08:49:10 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200406174743.16956-29-f4bug@amsat.org>
+In-Reply-To: <0b02fe788de99120894f87f6d5c60e15d6a75d85.1586213450.git.dirty@apple.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Ovh-Tracer-Id: 2449958197395753904
+X-Ovh-Tracer-Id: 2481201921378978668
 X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrudeggdduuddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpeejnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheiledtrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrudeggdduuddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgepgeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeegiedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 87.98.158.110
+X-Received-From: 178.33.251.49
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,159 +57,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Joel Stanley <joel@jms.id.au>, "open list:ASPEED BMCs" <qemu-arm@nongnu.org>
+Cc: peter.maydell@linaro.org, philmd@redhat.com, joel@jms.id.au,
+ kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/6/20 7:47 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> Patch created mechanically by running:
+On 4/7/20 12:55 AM, Cameron Esfahani wrote:
+> NRF51_GPIO_REG_CNF_END doesn't actually refer to the start of the last
+> valid CNF register: it's referring to the last byte of the last valid
+> CNF register.
 >=20
->   $ spatch \
->     --macro-file scripts/cocci-macro-file.h --include-headers \
->     --sp-file scripts/coccinelle/use-error_propagate-in-realize.cocci \
->     --keep-comments --smpl-spacing --in-place --dir hw
+> This hasn't been a problem up to now, as current implementation in
+> memory.c turns an unaligned 4-byte read from 0x77f to a single byte rea=
+d
+> and the qtest only looks at the least-significant byte of the register.
 >=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> But, when running with Cedric Le Goater's <clg@kaod.org> pending fix fo=
+r
+> unaligned accesses in memory.c, the qtest breaks.
+>=20
+> Considering NRF51 doesn't support unaligned accesses, the simplest fix
+> is to actually set NRF51_GPIO_REG_CNF_END to the start of the last vali=
+d
+> CNF register: 0x77c.
+>=20
+> Now, qtests work with or without Cedric's patch.
+>=20
+> Signed-off-by: Cameron Esfahani <dirty@apple.com>
 
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-
-The 'return' are correct this time.=20
+Tested-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
 Thanks,
 
-C.=20
-
+C.
 
 > ---
->  hw/arm/aspeed_ast2600.c | 36 ++++++++++++++++++++++++++++++------
->  hw/arm/aspeed_soc.c     | 12 ++++++++++--
->  2 files changed, 40 insertions(+), 8 deletions(-)
+>  include/hw/gpio/nrf51_gpio.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-> index c8e0171824..d810df928c 100644
-> --- a/hw/arm/aspeed_ast2600.c
-> +++ b/hw/arm/aspeed_ast2600.c
-> @@ -277,7 +277,11 @@ static void aspeed_soc_ast2600_realize(DeviceState=
- *dev, Error **errp)
->          if (s->num_cpus > 1) {
->              object_property_set_int(OBJECT(&s->cpu[i]),
->                                      ASPEED_A7MPCORE_ADDR,
-> -                                    "reset-cbar", &error_abort);
-> +                                    "reset-cbar", &err);
-> +            if (err) {
-> +                error_propagate(errp, err);
-> +                return;
-> +            }
->          }
->          /*
->           * TODO: the secondary CPUs are started and a boot helper
-> @@ -293,10 +297,18 @@ static void aspeed_soc_ast2600_realize(DeviceStat=
-e *dev, Error **errp)
+> diff --git a/include/hw/gpio/nrf51_gpio.h b/include/hw/gpio/nrf51_gpio.=
+h
+> index 337ee534bb..1d62bbc928 100644
+> --- a/include/hw/gpio/nrf51_gpio.h
+> +++ b/include/hw/gpio/nrf51_gpio.h
+> @@ -42,7 +42,7 @@
+>  #define NRF51_GPIO_REG_DIRSET       0x518
+>  #define NRF51_GPIO_REG_DIRCLR       0x51C
+>  #define NRF51_GPIO_REG_CNF_START    0x700
+> -#define NRF51_GPIO_REG_CNF_END      0x77F
+> +#define NRF51_GPIO_REG_CNF_END      0x77C
 > =20
->      /* A7MPCORE */
->      object_property_set_int(OBJECT(&s->a7mpcore), s->num_cpus, "num-cp=
-u",
-> -                            &error_abort);
-> +                            &err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    }
-> =20
->      object_property_set_bool(OBJECT(&s->a7mpcore), true, "realized",
-> -                             &error_abort);
-> +                             &err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    }
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->a7mpcore), 0, ASPEED_A7MPCORE_A=
-DDR);
-> =20
->      for (i =3D 0; i < s->num_cpus; i++) {
-> @@ -343,7 +355,11 @@ static void aspeed_soc_ast2600_realize(DeviceState=
- *dev, Error **errp)
-> =20
->      /* Timer */
->      object_property_set_link(OBJECT(&s->timerctrl),
-> -                             OBJECT(&s->scu), "scu", &error_abort);
-> +                             OBJECT(&s->scu), "scu", &err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    }
->      object_property_set_bool(OBJECT(&s->timerctrl), true, "realized", =
-&err);
->      if (err) {
->          error_propagate(errp, err);
-> @@ -459,7 +475,11 @@ static void aspeed_soc_ast2600_realize(DeviceState=
- *dev, Error **errp)
->          AspeedWDTClass *awc =3D ASPEED_WDT_GET_CLASS(&s->wdt[i]);
-> =20
->          object_property_set_link(OBJECT(&s->wdt[i]),
-> -                                 OBJECT(&s->scu), "scu", &error_abort)=
-;
-> +                                 OBJECT(&s->scu), "scu", &err);
-> +        if (err) {
-> +            error_propagate(errp, err);
-> +            return;
-> +        }
->          object_property_set_bool(OBJECT(&s->wdt[i]), true, "realized",=
- &err);
->          if (err) {
->              error_propagate(errp, err);
-> @@ -490,7 +510,11 @@ static void aspeed_soc_ast2600_realize(DeviceState=
- *dev, Error **errp)
->                             aspeed_soc_get_irq(s, ASPEED_ETH1 + i));
-> =20
->          object_property_set_link(OBJECT(&s->mii[i]), OBJECT(&s->ftgmac=
-100[i]),
-> -                                 "nic", &error_abort);
-> +                                 "nic", &err);
-> +        if (err) {
-> +            error_propagate(errp, err);
-> +            return;
-> +        }
->          object_property_set_bool(OBJECT(&s->mii[i]), true, "realized",
->                                   &err);
->          if (err) {
-> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-> index aa6d739ad0..5f90215187 100644
-> --- a/hw/arm/aspeed_soc.c
-> +++ b/hw/arm/aspeed_soc.c
-> @@ -301,7 +301,11 @@ static void aspeed_soc_realize(DeviceState *dev, E=
-rror **errp)
-> =20
->      /* Timer */
->      object_property_set_link(OBJECT(&s->timerctrl),
-> -                             OBJECT(&s->scu), "scu", &error_abort);
-> +                             OBJECT(&s->scu), "scu", &err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    }
->      object_property_set_bool(OBJECT(&s->timerctrl), true, "realized", =
-&err);
->      if (err) {
->          error_propagate(errp, err);
-> @@ -398,7 +402,11 @@ static void aspeed_soc_realize(DeviceState *dev, E=
-rror **errp)
->          AspeedWDTClass *awc =3D ASPEED_WDT_GET_CLASS(&s->wdt[i]);
-> =20
->          object_property_set_link(OBJECT(&s->wdt[i]),
-> -                                 OBJECT(&s->scu), "scu", &error_abort)=
-;
-> +                                 OBJECT(&s->scu), "scu", &err);
-> +        if (err) {
-> +            error_propagate(errp, err);
-> +            return;
-> +        }
->          object_property_set_bool(OBJECT(&s->wdt[i]), true, "realized",=
- &err);
->          if (err) {
->              error_propagate(errp, err);
+>  #define NRF51_GPIO_PULLDOWN 1
+>  #define NRF51_GPIO_PULLUP 3
 >=20
 
 
