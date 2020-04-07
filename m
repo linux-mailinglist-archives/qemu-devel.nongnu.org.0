@@ -2,88 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E6991A09E5
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 11:19:21 +0200 (CEST)
-Received: from localhost ([::1]:43726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEBA21A09BF
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 11:07:28 +0200 (CEST)
+Received: from localhost ([::1]:43450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLkO8-0007Zc-JS
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 05:19:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54557)
+	id 1jLkCd-0002rm-RB
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 05:07:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56044)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jLk55-0003qC-K8
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:59:40 -0400
+ (envelope-from <stefanha@redhat.com>) id 1jLkBR-00016b-Jw
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:06:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jLk53-0001mT-Jg
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:59:39 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24876
+ (envelope-from <stefanha@redhat.com>) id 1jLkBQ-0007ir-IS
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:06:13 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:40452
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jLk53-0001lc-F5
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:59:37 -0400
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1jLkBQ-0007iP-EF
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:06:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586249976;
+ s=mimecast20190719; t=1586250372;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=n0OLIzUHTF/IGV5mMgMhNSg9CICq5msrhGUh2oYwO8A=;
- b=dYopLjrFnL860jh8hsJFAsibvCxiT0OtVE+irEMB0bM6/i7hGLxb+zEb5C7YApEQ3knrhM
- NnQrGZy6GX8lPDzNyb87m8jCO4icGa0kDClmxUazsi2mWRDIW/00RXMXgoslQMSzHkA74A
- IL/5IRzuqLIGQjrquDYT7DRfvJGPfI0=
+ in-reply-to:in-reply-to:references:references;
+ bh=tfVifKiE2xfn7n26VgR9OimJ9M+oBz6Al+CpoPMqLJQ=;
+ b=FbGMR4FxLbbGRTzRneKwEDwmoffrTRVMiKeuHH2ffrE/KQjusRVVc8a+E3/HxuOftdUeJw
+ FZ3YJuVQoDVqAETBhV7uVCkUMQLO+PCWTmSCdWlvZwWAt3cv+L9P3bl/DTE4nKBC96O04M
+ OGXaWmGjHiR5oy6kwe19TK1arV9kC1Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-508-9af1T8g5P5OyMpk3kaPG6w-1; Tue, 07 Apr 2020 04:59:31 -0400
-X-MC-Unique: 9af1T8g5P5OyMpk3kaPG6w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-162-6PIRzA6TPK64_4L4qMSrYA-1; Tue, 07 Apr 2020 05:06:09 -0400
+X-MC-Unique: 6PIRzA6TPK64_4L4qMSrYA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CDDB18C8C03;
- Tue,  7 Apr 2020 08:59:30 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-84.ams2.redhat.com
- [10.36.114.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 76A1C114819;
- Tue,  7 Apr 2020 08:59:29 +0000 (UTC)
-Subject: Re: [PATCH] iotests/common.pattern: Quote echos
-To: qemu-block@nongnu.org
-References: <20200403101134.805871-1-mreitz@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <40bbb898-ff15-f68c-35e4-40f6bc119638@redhat.com>
-Date: Tue, 7 Apr 2020 10:59:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09989DB20;
+ Tue,  7 Apr 2020 09:06:09 +0000 (UTC)
+Received: from localhost (ovpn-113-168.ams2.redhat.com [10.36.113.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8CA639DD96;
+ Tue,  7 Apr 2020 09:06:05 +0000 (UTC)
+Date: Tue, 7 Apr 2020 10:06:04 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 2/4] atomics: update documentation for C11
+Message-ID: <20200407090604.GB247777@stefanha-x1.localdomain>
+References: <20200406191320.13371-1-pbonzini@redhat.com>
+ <20200406191320.13371-3-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200403101134.805871-1-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20200406191320.13371-3-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="7kadW11YygNNPY5Inr41dj3Jps3hHIAg9"
+ protocol="application/pgp-signature"; boundary="nVMJ2NtxeReIH9PS"
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,56 +71,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: Ying Fang <fangying1@huawei.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---7kadW11YygNNPY5Inr41dj3Jps3hHIAg9
-Content-Type: multipart/mixed; boundary="nZImnPxlLdapruQ2Su3atPtjZWWI4Lchp"
+--nVMJ2NtxeReIH9PS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---nZImnPxlLdapruQ2Su3atPtjZWWI4Lchp
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+On Mon, Apr 06, 2020 at 03:13:18PM -0400, Paolo Bonzini wrote:
+> -The semantics of these primitives map to Java volatile variables,
+> -and are strongly related to memory barriers as used in the Linux
+> -kernel (see below).
+> -
+> -As long as you use atomic_mb_read and atomic_mb_set, accesses cannot
+> -be reordered with each other, and it is also not possible to reorder
+> -"normal" accesses around them.
+> -
+> -However, and this is the important difference between
+> -atomic_mb_read/atomic_mb_set and sequential consistency, it is important
+> -for both threads to access the same volatile variable.  It is not the
+> -case that everything visible to thread A when it writes volatile field f
+> -becomes visible to thread B after it reads volatile field g. The store
+> -and load have to "match" (i.e., be performed on the same volatile
+> -field) to achieve the right semantics.
+> -
+> -
+> -These operations operate on any type that is as wide as an int or smaller.
+> +which however are deprecated.
 
-On 03.04.20 12:11, Max Reitz wrote:
-> From time to time, my shell decides to repace the bracketed numbers here
-> by the numbers inside (i.e., "=3D=3D=3D Clusters to be compressed [1]" is
-> printed as "=3D=3D=3D Clusters to be compressed 1").  That makes tests th=
-at
-> use common.pattern fail.  Prevent that from happening by quoting the
-> arguments to all echos in common.pattern.
->=20
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  tests/qemu-iotests/common.pattern | 22 +++++++++++-----------
->  1 file changed, 11 insertions(+), 11 deletions(-)
+Please indicate why they are deprecated and advise which alternative is
+preferred.  This will help readers understand the current best practices
+and make a decision about whether to avoid the deprecated APIs.
 
-Thanks for the reviews, applied to my block branch.
-
-Max
-
-
---nZImnPxlLdapruQ2Su3atPtjZWWI4Lchp--
-
---7kadW11YygNNPY5Inr41dj3Jps3hHIAg9
+--nVMJ2NtxeReIH9PS
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6MQO8ACgkQ9AfbAGHV
-z0AphQf+IWf7NLGYmk+kgO9XyzEv28uchPLVahV/KAdzDqKaMo/vyE+Vj7gRhAr7
-pEkjU7l6FDG1mOT4/AGWD8afLS1wV50JDZwTW42hb0OojfPkYxuBAw0siDjsydYD
-NS9CzDPev7I2j3Zwh64swnTwCp2zjFCsatd+ig14BE8ssaV3pLbMRux4q4Puf/AA
-nQoBSwWzwPoxWJXlB3Xqjab8kx6yTuX3waP+9FV4qYUQuImzLGhQTzT/5KU4TNhN
-oaVDcq9CUJeyT2g1GA9jfbTn0s5svOPLrSUI2JZLfhOS0X88ALTbUgcE74TVTYkf
-2NK/dIq31PE5FWdKEJsG6DLNWEtH1Q==
-=DgVS
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6MQnwACgkQnKSrs4Gr
+c8iMuQgAvbA+Qhz2HN0hehNjeb5jPHAnzY3Sc2lzz0FtIssdzyjD/lXkoCI5t+yr
+0enOBN4J5wvUv+qYm0WOLjZ1xIzmr2pbditsONVb8o6TsvVnId4/tt/SihmNCCzM
+jrkxqjhQWRC20A/GCVlBNwIzmZrA3TYeUF4UusXXAs1d2IiYgPUr8fWzU+j+3NLM
+jwDdBWC9k884oXvmeagdDIcM1Pk3BjX4qst2Vs+JvdC+A+WGa+ZQ/AErSrsKP/mj
+vKUrA7UUUTIPBBENMJBEsfZGZBBqfTs7l85G3VtbKlQMNPuupLDzYW57h74gxyP+
+FYVZYMPg9mSpStupoHT6343Y3XQ7kQ==
+=1bHI
 -----END PGP SIGNATURE-----
 
---7kadW11YygNNPY5Inr41dj3Jps3hHIAg9--
+--nVMJ2NtxeReIH9PS--
 
 
