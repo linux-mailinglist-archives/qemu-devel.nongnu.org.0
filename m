@@ -2,48 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E21D1A05E2
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 06:43:02 +0200 (CEST)
-Received: from localhost ([::1]:41074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9D5D1A0603
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 06:59:56 +0200 (CEST)
+Received: from localhost ([::1]:41214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLg4j-0000RV-M4
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 00:43:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52396)
+	id 1jLgL6-0003Q0-1T
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 00:59:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55496)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jLfyN-0007zt-Gb
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 00:36:28 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jLgKJ-0002zS-Ny
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 00:59:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jLfyL-0004Du-TQ
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 00:36:27 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:37507 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jLfyL-0004BN-Hu; Tue, 07 Apr 2020 00:36:25 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48xF3K5dzbz9sT2; Tue,  7 Apr 2020 14:36:13 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1586234173;
- bh=pW1uxdAur4xOwVTiGuVMZXeX7VCLpHTwUVMf33z0AzA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JqSMEe7UPjn7O1J51+bcO3vTFLp6MWObGzgMvq4Bafnsj/BxjK+P7SF7RUedv17O7
- A1ApqorpBUrwzMntF+jpXfhQXAEvO48ioBDLaTvX2O19rd74/OBTjzh06ODZ5Ye5Wr
- 0kDkb8hum70kJfEyfe8EX8bgA4wpYD7hw2UhAml4=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org
-Subject: [PULL 10/10] ppc/pnv: Create BMC devices only when defaults are
- enabled
-Date: Tue,  7 Apr 2020 14:36:06 +1000
-Message-Id: <20200407043606.291546-11-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.25.2
-In-Reply-To: <20200407043606.291546-1-david@gibson.dropbear.id.au>
-References: <20200407043606.291546-1-david@gibson.dropbear.id.au>
+ (envelope-from <richard.henderson@linaro.org>) id 1jLgKI-0004ov-H5
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 00:59:07 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:35381)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jLgKI-0004oI-1s
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 00:59:06 -0400
+Received: by mail-pl1-x641.google.com with SMTP id c12so790316plz.2
+ for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 21:59:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=QjS2Ux6QbNTgMi5Bl2pSoMFbfXu6ohQ90gJoWvN024w=;
+ b=rsYLSBHB1MMmoTnKIH90yts+dOB5kwpWQ+EQhB4zYszpv318lGE1UOxarudGoNpr9k
+ EECMqMB4AVPzMFTfJB+GJZpKQh5cag5wPhe+3/1CTC5/Mk+8PPhq5+QV0Vk4lHoXA4Jq
+ X0FTMnUlRZodlIZn5ElwshirWai0HEZud/UTcKlcNB/Yv75dBo77rLTGUlJmdopFAZ3o
+ kv0p41fOJujTHvS3Xq6dQ4KYznO//QuDabd+4ttibyrkSwfr87WHJk+w4jfb0qm9sF5S
+ zbDrwe/mptX+ZmefiBLznkBs/G9i4O40K+9v3MVwNwpqWVdjhc5JAVfkj4jJYuriEawp
+ 0ufg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QjS2Ux6QbNTgMi5Bl2pSoMFbfXu6ohQ90gJoWvN024w=;
+ b=Mis1TWIGaBkCWsyDkO7U5XOBdJ51C6dsW16levD5QfEz/xNpbEtS8YrUee+Pt7M9sg
+ fuSrrrDvdA5TiZHVzuOrjEYKyjXIaAW+CZ8NAUxsjmIbjOXncj7uewg8TPjrPwpwqwGC
+ 3Kbdn11AOnKmci2uvC4NIwlgPf4K7q33n3QX8K8EaEIDjFZwowq5yA6IIvnhNf1BFpQ9
+ 3UW58Pd6eFllHXoCwO3hA95c26C/hfWNrOjPEiylDoB+U8nMjFKEEVLgRRbkFjOURynq
+ +JwdNvnQP6r8oiM2Bko/gQVlq2ze/eUeHtSXbuH/qW1hf7ovxl6eL7oLUW9LZRiZ5Omx
+ BaAA==
+X-Gm-Message-State: AGi0Pua7TtmQYeV++X6D0YqKXT0wfyX4GYiwL8GPARWV8OkQShVyJg4R
+ +nBx7AYmzRBsp2XzawSbzDNm3w==
+X-Google-Smtp-Source: APiQypKp23woguSZSNNbfADIoUKS2nuRvuO30GnA8/RVSpWpd7/0GNoQhcNIUZtMzFtJ39W5yrlAYQ==
+X-Received: by 2002:a17:902:bc89:: with SMTP id
+ bb9mr773662plb.86.1586235544476; 
+ Mon, 06 Apr 2020 21:59:04 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id x4sm453384pjf.23.2020.04.06.21.59.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Apr 2020 21:59:03 -0700 (PDT)
+Subject: Re: [PATCH for-5.0?] target/xtensa: Statically allocate
+ xtensa_insnbufs
+To: Max Filippov <jcmvbkbc@gmail.com>
+References: <20200407030938.26537-1-richard.henderson@linaro.org>
+ <CAMo8BfJ9+fnA2xp8PMKm039oW-qVtTxpON6Ux=tkBySS=cQhxQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <1770c1d1-a6ac-be6d-2bb6-8d3530d8878b@linaro.org>
+Date: Mon, 6 Apr 2020 21:59:01 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+In-Reply-To: <CAMo8BfJ9+fnA2xp8PMKm039oW-qVtTxpON6Ux=tkBySS=cQhxQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,181 +84,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
- clg@kaod.org, Nathan Chancellor <natechancellor@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: C=C3=A9dric Le Goater <clg@kaod.org>
+On 4/6/20 9:04 PM, Max Filippov wrote:
+> On Mon, Apr 6, 2020 at 8:09 PM Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Rather than dynamically allocate, and risk failing to free
+>> when we longjmp out of the translator, allocate the maximum
+>> buffer size from any of the supported cpus, which is 8:
+> 
+> There's macro MAX_INSN_LENGTH that defines maximal supported
+> instruction length in bytes. Maybe the following instead, along the lines
+> of what libisa does dynamically?:
 
-Commit e2392d4395dd ("ppc/pnv: Create BMC devices at machine init")
-introduced default BMC devices which can be a problem when the same
-devices are defined on the command line with :
+Thanks for the pointer.  Looks better than mine.
 
-  -device ipmi-bmc-sim,id=3Dbmc0 -device isa-ipmi-bt,bmc=3Dbmc0,irq=3D10
+>  #define MAX_INSN_LENGTH 64
+> +#define MAX_INSNBUF_LENGTH \
+> +    ((MAX_INSN_LENGTH + sizeof(xtensa_insnbuf_word) - 1) / \
+> +     sizeof(xtensa_insnbuf_word))
 
-QEMU fails with :
+There is a ROUND_UP macro, but it seems unnecessary.
 
-  qemu-system-ppc64: error creating device tree: node: FDT_ERR_EXISTS
 
-Use defaults_enabled() when creating the default BMC devices to let
-the user provide its own BMC devices using '-nodefaults'. If no BMC
-device are provided, output a warning but let QEMU run as this is a
-supported configuration. However, when multiple BMC devices are
-defined, stop QEMU with a clear error as the results are unexpected.
-
-Fixes: e2392d4395dd ("ppc/pnv: Create BMC devices at machine init")
-Reported-by: Nathan Chancellor <natechancellor@gmail.com>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20200404153655.166834-1-clg@kaod.org>
-Tested-by: Nathan Chancellor <natechancellor@gmail.com>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/ppc/pnv.c         | 32 ++++++++++++++++++++++++++-----
- hw/ppc/pnv_bmc.c     | 45 ++++++++++++++++++++++++++++++++++++++++++++
- include/hw/ppc/pnv.h |  2 ++
- 3 files changed, 74 insertions(+), 5 deletions(-)
-
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index b75ad06390..c9cb6fa357 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -571,10 +571,29 @@ static void pnv_powerdown_notify(Notifier *n, void =
-*opaque)
-=20
- static void pnv_reset(MachineState *machine)
- {
-+    PnvMachineState *pnv =3D PNV_MACHINE(machine);
-+    IPMIBmc *bmc;
-     void *fdt;
-=20
-     qemu_devices_reset();
-=20
-+    /*
-+     * The machine should provide by default an internal BMC simulator.
-+     * If not, try to use the BMC device that was provided on the comman=
-d
-+     * line.
-+     */
-+    bmc =3D pnv_bmc_find(&error_fatal);
-+    if (!pnv->bmc) {
-+        if (!bmc) {
-+            warn_report("machine has no BMC device. Use '-device "
-+                        "ipmi-bmc-sim,id=3Dbmc0 -device isa-ipmi-bt,bmc=3D=
-bmc0,irq=3D10' "
-+                        "to define one");
-+        } else {
-+            pnv_bmc_set_pnor(bmc, pnv->pnor);
-+            pnv->bmc =3D bmc;
-+        }
-+    }
-+
-     fdt =3D pnv_dt_create(machine);
-=20
-     /* Pack resulting tree */
-@@ -833,9 +852,6 @@ static void pnv_init(MachineState *machine)
-     }
-     g_free(chip_typename);
-=20
--    /* Create the machine BMC simulator */
--    pnv->bmc =3D pnv_bmc_create(pnv->pnor);
--
-     /* Instantiate ISA bus on chip 0 */
-     pnv->isa_bus =3D pnv_isa_create(pnv->chips[0], &error_fatal);
-=20
-@@ -845,8 +861,14 @@ static void pnv_init(MachineState *machine)
-     /* Create an RTC ISA device too */
-     mc146818_rtc_init(pnv->isa_bus, 2000, NULL);
-=20
--    /* Create the IPMI BT device for communication with the BMC */
--    pnv_ipmi_bt_init(pnv->isa_bus, pnv->bmc, 10);
-+    /*
-+     * Create the machine BMC simulator and the IPMI BT device for
-+     * communication with the BMC
-+     */
-+    if (defaults_enabled()) {
-+        pnv->bmc =3D pnv_bmc_create(pnv->pnor);
-+        pnv_ipmi_bt_init(pnv->isa_bus, pnv->bmc, 10);
-+    }
-=20
-     /*
-      * OpenPOWER systems use a IPMI SEL Event message to notify the
-diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
-index 8863354c1c..4e018b8b70 100644
---- a/hw/ppc/pnv_bmc.c
-+++ b/hw/ppc/pnv_bmc.c
-@@ -213,6 +213,18 @@ static const IPMINetfn hiomap_netfn =3D {
-     .cmd_handlers =3D hiomap_cmds
- };
-=20
-+
-+void pnv_bmc_set_pnor(IPMIBmc *bmc, PnvPnor *pnor)
-+{
-+    object_ref(OBJECT(pnor));
-+    object_property_add_const_link(OBJECT(bmc), "pnor", OBJECT(pnor),
-+                                   &error_abort);
-+
-+    /* Install the HIOMAP protocol handlers to access the PNOR */
-+    ipmi_sim_register_netfn(IPMI_BMC_SIMULATOR(bmc), IPMI_NETFN_OEM,
-+                            &hiomap_netfn);
-+}
-+
- /*
-  * Instantiate the machine BMC. PowerNV uses the QEMU internal
-  * simulator but it could also be external.
-@@ -232,3 +244,36 @@ IPMIBmc *pnv_bmc_create(PnvPnor *pnor)
-=20
-     return IPMI_BMC(obj);
- }
-+
-+typedef struct ForeachArgs {
-+    const char *name;
-+    Object *obj;
-+} ForeachArgs;
-+
-+static int bmc_find(Object *child, void *opaque)
-+{
-+    ForeachArgs *args =3D opaque;
-+
-+    if (object_dynamic_cast(child, args->name)) {
-+        if (args->obj) {
-+            return 1;
-+        }
-+        args->obj =3D child;
-+    }
-+    return 0;
-+}
-+
-+IPMIBmc *pnv_bmc_find(Error **errp)
-+{
-+    ForeachArgs args =3D { TYPE_IPMI_BMC_SIMULATOR, NULL };
-+    int ret;
-+
-+    ret =3D object_child_foreach_recursive(object_get_root(), bmc_find, =
-&args);
-+    if (ret) {
-+        error_setg(errp, "machine should have only one BMC device. "
-+                   "Use '-nodefaults'");
-+        return NULL;
-+    }
-+
-+    return args.obj ? IPMI_BMC(args.obj) : NULL;
-+}
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index fb4d0c0234..d4b0b0e2ff 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -241,6 +241,8 @@ struct PnvMachineState {
- void pnv_dt_bmc_sensors(IPMIBmc *bmc, void *fdt);
- void pnv_bmc_powerdown(IPMIBmc *bmc);
- IPMIBmc *pnv_bmc_create(PnvPnor *pnor);
-+IPMIBmc *pnv_bmc_find(Error **errp);
-+void pnv_bmc_set_pnor(IPMIBmc *bmc, PnvPnor *pnor);
-=20
- /*
-  * POWER8 MMIO base addresses
---=20
-2.25.2
-
+r~
 
