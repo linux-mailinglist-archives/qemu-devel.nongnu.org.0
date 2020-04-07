@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8D61A05D1
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 06:37:57 +0200 (CEST)
-Received: from localhost ([::1]:40998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B97F11A05D9
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 06:40:36 +0200 (CEST)
+Received: from localhost ([::1]:41040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLfzo-0001QE-Fr
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 00:37:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52334)
+	id 1jLg2N-00064Q-Ry
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 00:40:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52340)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jLfyM-0007yH-5E
+ (envelope-from <dgibson@ozlabs.org>) id 1jLfyM-0007yQ-Fd
  for qemu-devel@nongnu.org; Tue, 07 Apr 2020 00:36:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jLfyL-0004Ch-7r
+ (envelope-from <dgibson@ozlabs.org>) id 1jLfyL-0004Cn-9F
  for qemu-devel@nongnu.org; Tue, 07 Apr 2020 00:36:26 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:39689 helo=ozlabs.org)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:40711 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jLfyK-0004Ak-T0; Tue, 07 Apr 2020 00:36:25 -0400
+ id 1jLfyK-0004Al-UH; Tue, 07 Apr 2020 00:36:25 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48xF3K4yRYz9sT1; Tue,  7 Apr 2020 14:36:13 +1000 (AEST)
+ id 48xF3K4Hptz9sSk; Tue,  7 Apr 2020 14:36:13 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1586234173;
- bh=s6bKQPRhd/ZqHFnqEThnxbQZV4q8BbxQrc+5e7hCMxw=;
+ bh=EYxcaKAJK6jtK2yRfiXyVNG0eInMoSPB/jy3Zpie/2s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lMjXXg/KVq1k0WpJP3Sp8M2KsM6EGN4SqMbgRhh2vVQukHj139BNbIHEPLefciNvk
- Y5tCOEKFnPH5NGWrSx6BBZUj4Me6/vXD8FGTr402WLKe9mPK1FY72Lb0yVTVmNq5rB
- XPVsJ6Sg9RrnU7Qzv/iZCSS9DLQ7WCAiS5QnvinI=
+ b=UKlNeUrSEksUbGIyc8O6geQ/NhgpCdKvaAsM3Ar5+gjtxzq6LIdMPqAr5yiZ/tf9z
+ jxB7zxacvQUGeF27BTJB5qwEkS5JsssIt4E6GMVrv7YmCrPYTThtz2GFT7Dx5v/PIY
+ EKsJcpZEMkxC8fAX/gt7Z7dpSg1ep+/KBKLgIDq4=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 07/10] spapr: Fix failure path for attempting to hot unplug PCI
- bridges
-Date: Tue,  7 Apr 2020 14:36:03 +1000
-Message-Id: <20200407043606.291546-8-david@gibson.dropbear.id.au>
+Subject: [PULL 08/10] hw/ppc/ppc440_uc.c: Remove incorrect iothread locking
+ from dcr_write_pcie()
+Date: Tue,  7 Apr 2020 14:36:04 +1000
+Message-Id: <20200407043606.291546-9-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <20200407043606.291546-1-david@gibson.dropbear.id.au>
 References: <20200407043606.291546-1-david@gibson.dropbear.id.au>
@@ -59,36 +59,62 @@ Cc: aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For various technical reasons we can't currently allow unplug a PCI to PC=
-I
-bridge on the pseries machine.  spapr_pci_unplug_request() correctly
-generates an error message if that's attempted.
+From: Peter Maydell <peter.maydell@linaro.org>
 
-But.. if the given errp is not error_abort or error_fatal, it doesn't
-actually stop trying to unplug the bridge anyway.
+In dcr_write_pcie() we take the iothread lock around a call to
+pcie_host_mmcfg_udpate().  This is an incorrect attempt to deal with
+the bug fixed in commit 235352ee6e73d7716, where we were not taking
+the iothread lock before calling device dcr read/write functions.
+(It's not sufficient locking, because although the other cases in the
+switch statement won't assert, there is no locking which prevents
+multiple guest CPUs from trying to access the PPC460EXPCIEState
+struct at the same time and corrupting data.)
 
-Fixes: 14e714900f6b "spapr: Allow hot plug/unplug of PCI bridges and devi=
-ces under PCI bridges"
+Unfortunately with commit 235352ee6e73d7716 we are now trying
+to recursively take the iothread lock, which will assert:
+
+  $ qemu-system-ppc -M sam460ex --display none
+  **
+  ERROR:/home/petmay01/linaro/qemu-from-laptop/qemu/cpus.c:1830:qemu_mute=
+x_lock_iothread_impl: assertion failed: (!qemu_mutex_iothread_locked())
+  Aborted (core dumped)
+
+Remove the locking within dcr_write_pcie().
+
+Fixes: 235352ee6e73d7716
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20200330125228.24994-1-peter.maydell@linaro.org>
+Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- hw/ppc/spapr_pci.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/ppc/ppc440_uc.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 709a52780d..55ca9dee1e 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -1663,6 +1663,7 @@ static void spapr_pci_unplug_request(HotplugHandler=
- *plug_handler,
-=20
-         if (pc->is_bridge) {
-             error_setg(errp, "PCI: Hot unplug of PCI bridges not support=
-ed");
-+            return;
-         }
-=20
-         /* ensure any other present functions are pending unplug */
+diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
+index d5ea962249..b30e093cbb 100644
+--- a/hw/ppc/ppc440_uc.c
++++ b/hw/ppc/ppc440_uc.c
+@@ -13,7 +13,6 @@
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+ #include "qemu/log.h"
+-#include "qemu/main-loop.h"
+ #include "qemu/module.h"
+ #include "cpu.h"
+ #include "hw/irq.h"
+@@ -1183,9 +1182,7 @@ static void dcr_write_pcie(void *opaque, int dcrn, =
+uint32_t val)
+     case PEGPL_CFGMSK:
+         s->cfg_mask =3D val;
+         size =3D ~(val & 0xfffffffe) + 1;
+-        qemu_mutex_lock_iothread();
+         pcie_host_mmcfg_update(PCIE_HOST_BRIDGE(s), val & 1, s->cfg_base=
+, size);
+-        qemu_mutex_unlock_iothread();
+         break;
+     case PEGPL_MSGBAH:
+         s->msg_base =3D ((uint64_t)val << 32) | (s->msg_base & 0xfffffff=
+f);
 --=20
 2.25.2
 
