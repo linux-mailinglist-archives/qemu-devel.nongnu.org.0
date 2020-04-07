@@ -2,66 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C92091A0D65
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 14:16:34 +0200 (CEST)
-Received: from localhost ([::1]:46404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 989E61A0DB2
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 14:33:19 +0200 (CEST)
+Received: from localhost ([::1]:46592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLn9d-0008Js-SI
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 08:16:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59338)
+	id 1jLnPq-0004DN-7R
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 08:33:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33645)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jLn6i-0004DL-T8
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 08:13:33 -0400
+ (envelope-from <no-reply@patchew.org>) id 1jLnPA-0003lI-3I
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 08:32:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jLn6h-0007vx-Pt
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 08:13:32 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38544
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jLn6e-0007uY-CT
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 08:13:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586261608;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pMiFVC4L+HygQg9Mg6OCC0cV3b6Gd5JfBKsySZrux7Q=;
- b=TortaL5hO3hcjF7fA+oZ6QcetYDYOm886VDiqLwaTw0iGkP2Hwx8A+oFSlWpoJo7OPQfXh
- pB8IML/h2fS6Wi5LPBU5KsCmb3PDle8cZZD2FgUsP6E2sZ7SXdtMpJ1AN2nMrZQpyL+p1E
- cOFSgPDGQMh5wfRWqV9SIHHHZSavYGQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-wz7_qe4QMOqHHgi8ReMmdQ-1; Tue, 07 Apr 2020 08:13:24 -0400
-X-MC-Unique: wz7_qe4QMOqHHgi8ReMmdQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12C8E107B7D5;
- Tue,  7 Apr 2020 12:13:23 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-113-253.ams2.redhat.com
- [10.36.113.253])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2B9BB10021B3;
- Tue,  7 Apr 2020 12:13:19 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH for-5.0 v3 3/3] block: Fix blk->in_flight during
- blk_wait_while_drained()
-Date: Tue,  7 Apr 2020 14:12:59 +0200
-Message-Id: <20200407121259.21350-4-kwolf@redhat.com>
-In-Reply-To: <20200407121259.21350-1-kwolf@redhat.com>
-References: <20200407121259.21350-1-kwolf@redhat.com>
+ (envelope-from <no-reply@patchew.org>) id 1jLnP8-0002qc-F7
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 08:32:35 -0400
+Resent-Date: Tue, 07 Apr 2020 08:32:35 -0400
+Resent-Message-Id: <E1jLnP8-0002qc-F7@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21148)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1jLnP8-0002nV-7V
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 08:32:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1586262734; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=BAt+pP+UdiFJdcpTSVyCACIPNNaPq9fFndMWtSds2KFHoH4ouqVDbexFYd4geJ9wNQgLE2fIFvFQxWkeyxtnXsiJNNVIIzNW3mmnrtj9nL5sZRvFCK7FyOcxG8NXdW8SyONv/GxcP2XFtp9fvo8Y2h4LsN3LGlMSkFuCgEvV/m4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1586262734;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=igNTzyMXXGC7kVNV1qbY5V+G8tX4zpi5rcXwo9qB38A=; 
+ b=XtgobPyCqzJiK6PFi4rJeWGnKC2WWYsmqZ0SjIpp7son8Qz3AhdUFGfR/BWGk02+7gw1PXqOALLB2gpFHTkqWkbvm7OCgkQmOAuy+Tfm17U0DFaDX2z3UN2xSVkkbQU6oeS+0v8+R7sxvE4FOZlCi+CFcJ4b+n51cG9Tiguz+CM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 15862627307521005.7188438061144;
+ Tue, 7 Apr 2020 05:32:10 -0700 (PDT)
+In-Reply-To: <20200407105706.1920-1-miaoyubo@huawei.com>
+Subject: Re: [PATCH v5 0/8] pci_expander_brdige:acpi:Support pxb-pcie for ARM
+Message-ID: <158626272955.11348.18290271649738716554@39012742ff91>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: miaoyubo@huawei.com
+Date: Tue, 7 Apr 2020 05:32:10 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,76 +63,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, s.reiter@proxmox.com,
- qemu-devel@nongnu.org, dietmar@proxmox.com, stefanha@redhat.com,
- mreitz@redhat.com, t.lamprecht@proxmox.com
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, berrange@redhat.com, mst@redhat.com,
+ qemu-devel@nongnu.org, xiexiangyou@huawei.com, shannon.zhaosl@gmail.com,
+ miaoyubo@huawei.com, imammedo@redhat.com, lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Waiting in blk_wait_while_drained() while blk->in_flight is increased
-for the current request is wrong because it will cause the drain
-operation to deadlock.
-
-This patch makes sure that blk_wait_while_drained() is called with
-blk->in_flight increased exactly once for the current request, and that
-it temporarily decreases the counter while it waits.
-
-Fixes: cf3129323f900ef5ddbccbe86e4fa801e88c566e
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
----
- block/block-backend.c | 17 +++++------------
- 1 file changed, 5 insertions(+), 12 deletions(-)
-
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 610dbfa0b2..38ae413826 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -1140,10 +1140,15 @@ static int blk_check_byte_request(BlockBackend *blk=
-, int64_t offset,
-     return 0;
- }
-=20
-+/* To be called between exactly one pair of blk_inc/dec_in_flight() */
- static void coroutine_fn blk_wait_while_drained(BlockBackend *blk)
- {
-+    assert(blk->in_flight > 0);
-+
-     if (blk->quiesce_counter && !blk->disable_request_queuing) {
-+        blk_dec_in_flight(blk);
-         qemu_co_queue_wait(&blk->queued_requests, NULL);
-+        blk_inc_in_flight(blk);
-     }
- }
-=20
-@@ -1418,12 +1423,6 @@ static void blk_aio_read_entry(void *opaque)
-     BlkRwCo *rwco =3D &acb->rwco;
-     QEMUIOVector *qiov =3D rwco->iobuf;
-=20
--    if (rwco->blk->quiesce_counter) {
--        blk_dec_in_flight(rwco->blk);
--        blk_wait_while_drained(rwco->blk);
--        blk_inc_in_flight(rwco->blk);
--    }
--
-     assert(qiov->size =3D=3D acb->bytes);
-     rwco->ret =3D blk_do_preadv(rwco->blk, rwco->offset, acb->bytes,
-                               qiov, rwco->flags);
-@@ -1436,12 +1435,6 @@ static void blk_aio_write_entry(void *opaque)
-     BlkRwCo *rwco =3D &acb->rwco;
-     QEMUIOVector *qiov =3D rwco->iobuf;
-=20
--    if (rwco->blk->quiesce_counter) {
--        blk_dec_in_flight(rwco->blk);
--        blk_wait_while_drained(rwco->blk);
--        blk_inc_in_flight(rwco->blk);
--    }
--
-     assert(!qiov || qiov->size =3D=3D acb->bytes);
-     rwco->ret =3D blk_do_pwritev_part(rwco->blk, rwco->offset, acb->bytes,
-                                     qiov, 0, rwco->flags);
---=20
-2.20.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDQwNzEwNTcwNi4xOTIw
+LTEtbWlhb3l1Ym9AaHVhd2VpLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGFz
+YW4gYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29tbWFuZHMgYW5kCnRoZWly
+IG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxlZCwgeW91IGNhbiBwcm9i
+YWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEv
+YmluL2Jhc2gKZXhwb3J0IEFSQ0g9eDg2XzY0Cm1ha2UgZG9ja2VyLWltYWdlLWZlZG9yYSBWPTEg
+TkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1kZWJ1Z0BmZWRvcmEgVEFSR0VUX0xJU1Q9
+eDg2XzY0LXNvZnRtbXUgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAg
+Q0MgICAgICB4ODZfNjQtc29mdG1tdS9zb2Z0bW11L21haW4ubwogIENDICAgICAgeDg2XzY0LXNv
+ZnRtbXUvZ2Ric3R1Yi14bWwubwogIENDICAgICAgeDg2XzY0LXNvZnRtbXUvdHJhY2UvZ2VuZXJh
+dGVkLWhlbHBlcnMubwovdG1wL3FlbXUtdGVzdC9zcmMvaHcvaTM4Ni9hY3BpLWJ1aWxkLmM6MTY4
+NTo5OiBlcnJvcjogaW1wbGljaXQgZGVjbGFyYXRpb24gb2YgZnVuY3Rpb24gJ2Nyc19yYW5nZV9p
+bnNlcnQnIGlzIGludmFsaWQgaW4gQzk5IFstV2Vycm9yLC1XaW1wbGljaXQtZnVuY3Rpb24tZGVj
+bGFyYXRpb25dCiAgICAgICAgY3JzX3JhbmdlX2luc2VydChjcnNfcmFuZ2Vfc2V0Lm1lbV9yYW5n
+ZXMsCiAgICAgICAgXgovdG1wL3FlbXUtdGVzdC9zcmMvaHcvaTM4Ni9hY3BpLWJ1aWxkLmM6MTY4
+NTo5OiBub3RlOiBkaWQgeW91IG1lYW4gJ2dfc3RyaW5nX2luc2VydCc/Ci91c3IvaW5jbHVkZS9n
+bGliLTIuMC9nbGliL2dzdHJpbmcuaDoxMDY6MTQ6IG5vdGU6ICdnX3N0cmluZ19pbnNlcnQnIGRl
+Y2xhcmVkIGhlcmUKR1N0cmluZyogICAgIGdfc3RyaW5nX2luc2VydCAgICAgICAgICAgIChHU3Ry
+aW5nICAgICAgICAgKnN0cmluZywKICAgICAgICAgICAgIF4KL3RtcC9xZW11LXRlc3Qvc3JjL2h3
+L2kzODYvYWNwaS1idWlsZC5jOjE2ODU6OTogZXJyb3I6IHRoaXMgZnVuY3Rpb24gZGVjbGFyYXRp
+b24gaXMgbm90IGEgcHJvdG90eXBlIFstV2Vycm9yLC1Xc3RyaWN0LXByb3RvdHlwZXNdCiAgICAg
+ICAgY3JzX3JhbmdlX2luc2VydChjcnNfcmFuZ2Vfc2V0Lm1lbV9yYW5nZXMsCiAgICAgICAgXgoy
+IGVycm9ycyBnZW5lcmF0ZWQuCm1ha2VbMV06ICoqKiBbL3RtcC9xZW11LXRlc3Qvc3JjL3J1bGVz
+Lm1hazo2OTogaHcvaTM4Ni9hY3BpLWJ1aWxkLm9dIEVycm9yIDEKbWFrZVsxXTogKioqIFdhaXRp
+bmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4KbWFrZTogKioqIFtNYWtlZmlsZTo1Mjc6IHg4Nl82
+NC1zb2Z0bW11L2FsbF0gRXJyb3IgMgpUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6
+CiAgRmlsZSAiLi90ZXN0cy9kb2NrZXIvZG9ja2VyLnB5IiwgbGluZSA2NjQsIGluIDxtb2R1bGU+
+CiAgICBzeXMuZXhpdChtYWluKCkpCi0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJl
+dGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3Vk
+bycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2Uu
+dXVpZD1jNTY1ZmQ0OWZiZjg0Nzk2YTU1ZmJhN2MwZWQ5ZDBmNScsICctdScsICcxMDAzJywgJy0t
+c2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdF
+VF9MSVNUPXg4Nl82NC1zb2Z0bW11JywgJy1lJywgJ0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICct
+ZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScsICctZScsICdTSE9XX0VOVj0n
+LCAnLWUnLCAnQ0NBQ0hFX0RJUj0vdmFyL3RtcC9jY2FjaGUnLCAnLXYnLCAnL2hvbWUvcGF0Y2hl
+dzIvLmNhY2hlL3FlbXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eicsICctdicsICcv
+dmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtdHlkM3F4MmUvc3JjL2RvY2tlci1zcmMuMjAyMC0w
+NC0wNy0wOC4yOC4yNC4yMDAwNjovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdTpmZWRvcmEnLCAn
+L3Zhci90bXAvcWVtdS9ydW4nLCAndGVzdC1kZWJ1ZyddJyByZXR1cm5lZCBub24temVybyBleGl0
+IHN0YXR1cyAyLgpmaWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUuaW5zdGFuY2UudXVpZD1j
+NTY1ZmQ0OWZiZjg0Nzk2YTU1ZmJhN2MwZWQ5ZDBmNQptYWtlWzFdOiAqKiogW2RvY2tlci1ydW5d
+IEVycm9yIDEKbWFrZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92YXIvdG1wL3BhdGNoZXctdGVz
+dGVyLXRtcC10eWQzcXgyZS9zcmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1bi10ZXN0LWRlYnVnQGZl
+ZG9yYV0gRXJyb3IgMgoKcmVhbCAgICAzbTQ1LjgxM3MKdXNlciAgICAwbTguMTUzcwoKClRoZSBm
+dWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA0MDcx
+MDU3MDYuMTkyMC0xLW1pYW95dWJvQGh1YXdlaS5jb20vdGVzdGluZy5hc2FuLz90eXBlPW1lc3Nh
+Z2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczov
+L3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZl
+bEByZWRoYXQuY29t
 
