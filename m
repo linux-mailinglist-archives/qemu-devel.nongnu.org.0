@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 758391A1027
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 17:26:18 +0200 (CEST)
-Received: from localhost ([::1]:49252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20ADF1A10AC
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 17:53:00 +0200 (CEST)
+Received: from localhost ([::1]:49634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLq7F-0004E7-I3
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 11:26:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39214)
+	id 1jLqX5-00056o-43
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 11:52:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43643)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jLq6R-0003kz-Cn
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:25:28 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jLqVc-0003QP-QG
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:51:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jLq6Q-0001mN-6D
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:25:27 -0400
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:37830)
+ (envelope-from <alex.bennee@linaro.org>) id 1jLqVb-0004KC-Lt
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:51:28 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:53045)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jLq6P-0001kQ-W5
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:25:26 -0400
-Received: by mail-pj1-x1041.google.com with SMTP id k3so904291pjj.2
- for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 08:25:25 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jLqVb-0004JX-Fs
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:51:27 -0400
+Received: by mail-wm1-x335.google.com with SMTP id t203so2239758wmt.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 08:51:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=kjsldSOR7/bneU8dWW7v++OHvgKrnHoq8Zuq/r88egI=;
- b=NhtuxjNdux6y4PoIlBwTX85sEl9yHZRijH3JV93Mj1iOtqQJbjxA14NnhxbJ7OKWrU
- pL/RB3ilE9BuAjWrud/ifkbUlS3nq/Ix+ivzvHLWTxtMNzgXxQ0iOkg4NyD0YHOVOdh3
- viU/uHapD58S/XJNgA5DAhQK9BYVZl/J4Z3KYPYanAoJf94yjE2gjBRgo8v9s42iJ7Nh
- ls2OPdGnI+HqdDg70vNKhvR6Gpvipxmmx/1S6t3YwGLjKBkRyiVa4LwhzayaznGG0HPq
- fnUKdnB3q8yU9aGxIxMyZPIXLJAqour3CPsxloQ/jbP9vy0QmgvyahBTjT9MW1Wcak6z
- 2aGg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ErBqsEg90J/rMI3zUeIrTPRPG0UcgfPkvLOHEBfuAjA=;
+ b=WSccltEYHqOkVcmXduMu7OKxsoBtnVbSHcZFgq1vn6Pg9FRuoqZKsyKlMYZCp1H355
+ QfBIfeftvr3m1AIm3tZkV3BWA7A3xy9DHV4NsreVcLxVSlTwc0bHbV0m/+3sAJ1gudd0
+ 3StuOktSoNrx9ZTe8t5yXJDJQnJ32DI2gpm418TPJ6pIG12pJ2SpU1go1u09muYqr0XY
+ 5TJdD2DZzjAFfc/pHxQ+JIse6Afc93yc5OVqB+ALTR8P4ccJUggihDxbiOsEStpXVbaD
+ /46MSUHuMk/Uv5BzAUjKUAj3BjjUoXcvJSuA0eT4mXNKqpV6DluaN4oOYe7NTuvXp4eL
+ dOVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=kjsldSOR7/bneU8dWW7v++OHvgKrnHoq8Zuq/r88egI=;
- b=YT7abvEDR/gcyLyLX3EZfUDzsv12E5Gp8Aiz9+QhAqJ663xMCdzNWS8wCay455huZ6
- uiDw+kS4tyqhUqaEd7Y15VfPm0wghYNq0HzAkCeEjWm3qy875wweBs0mo1184ZIKdAhV
- N7/qFMVGO+7PXKek4NXL5mmFUEVpnTQPzRP5Y2dL9E3L6ke6e17k3pOFngtZckgKByiB
- OPv6rUzVzC+8eeV2pNWdolgf7MZNqtqwOlbkumG746mKsqhLBRvUQWgOrNZG4N2iklrO
- Xo/L/1c5o7DIfSA6pHGlzkaSCOWXpiHHsEB73Mwx0oKlV0/KGfJjgEkI0pPUWgNZY2V2
- O9WA==
-X-Gm-Message-State: AGi0PuYRFOfFaOEytHOkt/YNvorWT5rhhBEVd+TMOmv+0e76vvthO++X
- GBijiCkv8hdRxpKKHpx2btcMzw==
-X-Google-Smtp-Source: APiQypLbcD40GJ/9Mvsd+wOnb4q60OPX/a9mKk18mIQ62RpCZwODHNKPptz+KihEfHRsBwkLIc4doQ==
-X-Received: by 2002:a17:902:5acb:: with SMTP id
- g11mr3037351plm.18.1586273124816; 
- Tue, 07 Apr 2020 08:25:24 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id c1sm1886897pje.24.2020.04.07.08.25.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Apr 2020 08:25:24 -0700 (PDT)
-Subject: Re: [PATCH 2/5] atomics: update documentation
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20200407140746.8041-1-pbonzini@redhat.com>
- <20200407140746.8041-3-pbonzini@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <25ba1237-510d-cf4a-2b4f-c5fa1d715976@linaro.org>
-Date: Tue, 7 Apr 2020 08:25:22 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ bh=ErBqsEg90J/rMI3zUeIrTPRPG0UcgfPkvLOHEBfuAjA=;
+ b=eKSwHPXslDnCD4TcfavpTskWYyAj/FOIfcmCpXw4gQA0TtxEfrf7RnLthEIgomsRFc
+ LmVuqxm3+OPZmHySQXVObXXrS51BDoUjcMZN/H2ebO3sbxHZ931Da+hzp154lGS7Eb3S
+ qsL4gaLdrUwbcCnXk62vlYy34AW6ZXiPla6IVqz690BsM24JX4iuh8skUpqd6KjtCw5i
+ BRkB86TAzBKj+xsu7m5cHxZSi+nk9g3GL5TaznXxOZgKYFt/8wFdrD+3qgkYMmb0EOAc
+ PYPGFc7edB9XbbmCKefqxuWImGbrO2gAp1cowwtjNFNu5CiF+cSRYyO/09ks41irFrtG
+ tHfw==
+X-Gm-Message-State: AGi0PuZfbaOfKHS+rKOFpIGX+gWocHtWIbdn2mjRCPS9bEUrakaqOe5U
+ tonHivBaPc+ZgJmRqE//neXNIw==
+X-Google-Smtp-Source: APiQypIHP5RY8sRN5fpQ5RsPBrAUyCRHss5lxfoXqGWIiyBmPrzTp5hQeeuSueJk5yKihSFeyNBw4A==
+X-Received: by 2002:a7b:c8cd:: with SMTP id f13mr3016808wml.138.1586274686414; 
+ Tue, 07 Apr 2020 08:51:26 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id p22sm2849589wmc.42.2020.04.07.08.51.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Apr 2020 08:51:19 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 43C851FF7E;
+ Tue,  7 Apr 2020 16:51:18 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL for 5.0-rc2 00/13] various fixes
+Date: Tue,  7 Apr 2020 16:51:05 +0100
+Message-Id: <20200407155118.20139-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200407140746.8041-3-pbonzini@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1041
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,19 +79,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fangying1@huawei.com, stefanha@redhat.com
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/7/20 7:07 AM, Paolo Bonzini wrote:
-> +- release operations will appear to happen, with respect to the other
-> +  components of the system, after all the LOAD or STORE operations
-> +  specified afterwards.
+The following changes since commit 53ef8a92eb04ee19640f5aad3bff36cd4a36c250:
 
-"specified before", not after for release.
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200406' into staging (2020-04-06 12:36:45 +0100)
 
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+are available in the Git repository at:
 
-r~
+  https://github.com/stsquad/qemu.git tags/pull-misc-fixes-070420-1
+
+for you to fetch changes up to cce743abbf398a324879039cd582349b36da0ea6:
+
+  tcg/i386: Fix %r12 guest_base initialization (2020-04-07 16:19:49 +0100)
+
+----------------------------------------------------------------
+Various fixes:
+
+  - add .github repo lockdown config
+  - better handle missing symbols in elf-ops
+  - protect fcntl64 with #ifdef
+  - remove unused macros from test
+  - fix handling of /proc/self/maps
+  - avoid BAD_SHIFT in x80 softfloat
+  - properly terminate on .hex EOF
+  - fix configure probe on windows cross build
+  - fix %r12 guest_base initialization
+
+----------------------------------------------------------------
+Alex Bennée (8):
+      elf-ops: bail out if we have no function symbols
+      linux-user: protect fcntl64 with an #ifdef
+      tests/tcg: remove extraneous pasting macros
+      linux-user: more debug for init_guest_space
+      target/xtensa: add FIXME for translation memory leak
+      linux-user: factor out reading of /proc/self/maps
+      linux-user: clean-up padding on /proc/self/maps
+      hw/core: properly terminate loading .hex on EOF record
+
+Denis Plotnikov (1):
+      gdbstub: fix compiler complaining
+
+Philippe Mathieu-Daudé (1):
+      .github: Enable repo-lockdown bot to refuse GitHub pull requests
+
+Richard Henderson (3):
+      softfloat: Fix BAD_SHIFT from normalizeFloatx80Subnormal
+      configure: Add -Werror to PIE probe
+      tcg/i386: Fix %r12 guest_base initialization
+
+ configure                      |  4 +--
+ include/hw/elf_ops.h           | 48 +++++++++++++------------
+ include/qemu/selfmap.h         | 44 +++++++++++++++++++++++
+ fpu/softfloat.c                |  3 ++
+ gdbstub.c                      |  4 +--
+ hw/core/loader.c               |  5 ++-
+ linux-user/elfload.c           |  8 ++++-
+ linux-user/syscall.c           | 80 ++++++++++++++++++++++--------------------
+ target/xtensa/translate.c      |  5 +++
+ tcg/i386/tcg-target.inc.c      |  2 +-
+ util/selfmap.c                 | 78 ++++++++++++++++++++++++++++++++++++++++
+ .github/lockdown.yml           | 34 ++++++++++++++++++
+ MAINTAINERS                    |  1 +
+ tests/tcg/x86_64/system/boot.S |  5 +--
+ util/Makefile.objs             |  1 +
+ 15 files changed, 250 insertions(+), 72 deletions(-)
+ create mode 100644 include/qemu/selfmap.h
+ create mode 100644 util/selfmap.c
+ create mode 100644 .github/lockdown.yml
+
+-- 
+2.20.1
+
 
