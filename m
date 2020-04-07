@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0630E1A0EE4
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 16:09:09 +0200 (CEST)
-Received: from localhost ([::1]:47874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5740C1A0EF7
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 16:16:12 +0200 (CEST)
+Received: from localhost ([::1]:47960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLoua-0002DU-1r
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 10:09:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51190)
+	id 1jLp1O-0006sP-OD
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 10:16:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52696)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jLotS-0000Z2-He
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 10:07:59 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jLozX-0006Kb-8i
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 10:14:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jLotQ-00013s-WC
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 10:07:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39940
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1jLozV-0005cj-OF
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 10:14:14 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:50366
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jLotQ-00013X-S8
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 10:07:56 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jLozV-0005bu-L5
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 10:14:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586268476;
+ s=mimecast20190719; t=1586268852;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2NlGDHsxs6NB6PgDud3ZxG1DzThL5NOMW87BbQ97wik=;
- b=e/EAs9Tb+kg/pay/IC4VvUFanwrSj230ZQ0+YZ6I6ccq2fZM8asOhxoBfvK3j55VwRi52d
- X/7j11rTDmXJnIOP29f63x1a9aLilPM1PurY3ZJwVH3DNEqkulLWIWD5I2jV7GEDF6qvFz
- EZz5AmCIFFCJqzKwMcKh1igXp9kVoJA=
+ bh=20aiP+/dA+EblNQZt/yrEm2C26ewENAgFUQO4Z58Jv0=;
+ b=NQcYtyinQ+/0ZJ3jrPCVKuKF3V5uuPmETKAzG2/jilLpo1Mn7i4JZk0ihzxkmKe7nSGfnV
+ /iaH0VKU8w0WmpNEigmBtI3TIQYi0mcdHFv63P2x5PR8xLRP2soFPQpBSvvgknVCASsU+c
+ qNk08ru0eeGuMkoTZg6ovvPBWb4A88U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-Q-8qwBxMMaC9j52qItvfGQ-1; Tue, 07 Apr 2020 10:07:54 -0400
-X-MC-Unique: Q-8qwBxMMaC9j52qItvfGQ-1
+ us-mta-428-LeA1f9ieNpWWN8KL4EM4Rw-1; Tue, 07 Apr 2020 10:07:55 -0400
+X-MC-Unique: LeA1f9ieNpWWN8KL4EM4Rw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99FCE1005509;
- Tue,  7 Apr 2020 14:07:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 579C2107B7D4;
+ Tue,  7 Apr 2020 14:07:54 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0D5755C1BB;
- Tue,  7 Apr 2020 14:07:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BE91F5C1BB;
+ Tue,  7 Apr 2020 14:07:53 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] aio-wait: delegate polling of main AioContext if BQL not
- held
-Date: Tue,  7 Apr 2020 10:07:45 -0400
-Message-Id: <20200407140746.8041-5-pbonzini@redhat.com>
+Subject: [PATCH 5/5] async: use explicit memory barriers
+Date: Tue,  7 Apr 2020 10:07:46 -0400
+Message-Id: <20200407140746.8041-6-pbonzini@redhat.com>
 In-Reply-To: <20200407140746.8041-1-pbonzini@redhat.com>
 References: <20200407140746.8041-1-pbonzini@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
@@ -59,8 +58,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,122 +74,175 @@ Cc: fangying1@huawei.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Any thread that is not a iothread returns NULL for qemu_get_current_aio_con=
-text().
-As a result, it would also return true for
-in_aio_context_home_thread(qemu_get_aio_context()), causing
-AIO_WAIT_WHILE to invoke aio_poll() directly.  This is incorrect
-if the BQL is not held, because aio_poll() does not expect to
-run concurrently from multiple threads, and it can actually
-happen when savevm writes to the vmstate file from the
-migration thread.
+When using C11 atomics, non-seqcst reads and writes do not participate
+in the total order of seqcst operations.  In util/async.c and util/aio-posi=
+x.c,
+in particular, the pattern that we use
 
-Therefore, restrict in_aio_context_home_thread to return true
-for the main AioContext only if the BQL is held.
+          write ctx->notify_me                 write bh->scheduled
+          read bh->scheduled                   read ctx->notify_me
+          if !bh->scheduled, sleep             if ctx->notify_me, notify
 
-The function is moved to aio-wait.h because it is mostly used
-there and to avoid a circular reference between main-loop.h
-and block/aio.h.
+needs to use seqcst operations for both the write and the read.  In
+general this is something that we do not want, because there can be
+many sources that are polled in addition to bottom halves.  The
+alternative is to place a seqcst memory barrier between the write
+and the read.  This also comes with a disadvantage, in that the
+memory barrier is implicit on strongly-ordered architectures and
+it wastes a few dozen clock cycles.
 
+Fortunately, ctx->notify_me is never written concurrently by two
+threads, so we can assert that and relax the writes to ctx->notify_me.
+The resulting solution works and performs well on both aarch64 and x86.
+
+Note that the atomic_set/atomic_read combination is not an atomic
+read-modify-write, and therefore it is even weaker than C11 ATOMIC_RELAXED;
+on x86, ATOMIC_RELAXED compiles to a locked operation.
+
+Analyzed-by: Ying Fang <fangying1@huawei.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/block/aio-wait.h | 22 ++++++++++++++++++++++
- include/block/aio.h      | 29 ++++++++++-------------------
- 2 files changed, 32 insertions(+), 19 deletions(-)
+ util/aio-posix.c | 16 ++++++++++++++--
+ util/aio-win32.c | 17 ++++++++++++++---
+ util/async.c     | 16 ++++++++++++----
+ 3 files changed, 40 insertions(+), 9 deletions(-)
 
-diff --git a/include/block/aio-wait.h b/include/block/aio-wait.h
-index afeeb18f95..716d2639df 100644
---- a/include/block/aio-wait.h
-+++ b/include/block/aio-wait.h
-@@ -26,6 +26,7 @@
- #define QEMU_AIO_WAIT_H
+diff --git a/util/aio-posix.c b/util/aio-posix.c
+index cd6cf0a4a9..c3613d299e 100644
+--- a/util/aio-posix.c
++++ b/util/aio-posix.c
+@@ -559,6 +559,11 @@ bool aio_poll(AioContext *ctx, bool blocking)
+     int64_t timeout;
+     int64_t start =3D 0;
 =20
- #include "block/aio.h"
-+#include "qemu/main-loop.h"
++    /*
++     * There cannot be two concurrent aio_poll calls for the same AioConte=
+xt (or
++     * an aio_poll concurrent with a GSource prepare/check/dispatch callba=
+ck).
++     * We rely on this below to avoid slow locked accesses to ctx->notify_=
+me.
++     */
+     assert(in_aio_context_home_thread(ctx));
 =20
- /**
-  * AioWait:
-@@ -124,4 +125,25 @@ void aio_wait_kick(void);
-  */
- void aio_wait_bh_oneshot(AioContext *ctx, QEMUBHFunc *cb, void *opaque);
+     /* aio_notify can avoid the expensive event_notifier_set if
+@@ -569,7 +574,13 @@ bool aio_poll(AioContext *ctx, bool blocking)
+      * so disable the optimization now.
+      */
+     if (blocking) {
+-        atomic_add(&ctx->notify_me, 2);
++        atomic_set(&ctx->notify_me, atomic_read(&ctx->notify_me) + 2);
++        /*
++         * Write ctx->notify_me before computing the timeout
++         * (reading bottom half flags, etc.).  Pairs with
++         * smp_mb in aio_notify().
++         */
++        smp_mb();
+     }
 =20
-+/**
-+ * in_aio_context_home_thread:
-+ * @ctx: the aio context
-+ *
-+ * Return whether we are running in the thread that normally runs @ctx.  N=
-ote
-+ * that acquiring/releasing ctx does not affect the outcome, each AioConte=
-xt
-+ * still only has one home thread that is responsible for running it.
-+ */
-+static inline bool in_aio_context_home_thread(AioContext *ctx)
-+{
-+    if (ctx =3D=3D qemu_get_current_aio_context()) {
-+        return true;
-+    }
+     qemu_lockcnt_inc(&ctx->list_lock);
+@@ -590,7 +601,8 @@ bool aio_poll(AioContext *ctx, bool blocking)
+     }
+=20
+     if (blocking) {
+-        atomic_sub(&ctx->notify_me, 2);
++        /* Finish the poll before clearing the flag.  */
++        atomic_store_release(&ctx->notify_me, atomic_read(&ctx->notify_me)=
+ - 2);
+         aio_notify_accept(ctx);
+     }
+=20
+diff --git a/util/aio-win32.c b/util/aio-win32.c
+index a23b9c364d..729d533faf 100644
+--- a/util/aio-win32.c
++++ b/util/aio-win32.c
+@@ -321,6 +321,12 @@ bool aio_poll(AioContext *ctx, bool blocking)
+     int count;
+     int timeout;
+=20
++    /*
++     * There cannot be two concurrent aio_poll calls for the same AioConte=
+xt (or
++     * an aio_poll concurrent with a GSource prepare/check/dispatch callba=
+ck).
++     * We rely on this below to avoid slow locked accesses to ctx->notify_=
+me.
++     */
++    assert(in_aio_context_home_thread(ctx));
+     progress =3D false;
+=20
+     /* aio_notify can avoid the expensive event_notifier_set if
+@@ -331,7 +337,13 @@ bool aio_poll(AioContext *ctx, bool blocking)
+      * so disable the optimization now.
+      */
+     if (blocking) {
+-        atomic_add(&ctx->notify_me, 2);
++        atomic_set(&ctx->notify_me, atomic_read(&ctx->notify_me) + 2);
++        /*
++         * Write ctx->notify_me before computing the timeout
++         * (reading bottom half flags, etc.).  Pairs with
++         * smp_mb in aio_notify().
++         */
++        smp_mb();
+     }
+=20
+     qemu_lockcnt_inc(&ctx->list_lock);
+@@ -364,8 +376,7 @@ bool aio_poll(AioContext *ctx, bool blocking)
+         ret =3D WaitForMultipleObjects(count, events, FALSE, timeout);
+         if (blocking) {
+             assert(first);
+-            assert(in_aio_context_home_thread(ctx));
+-            atomic_sub(&ctx->notify_me, 2);
++            atomic_store_release(&ctx->notify_me, atomic_read(&ctx->notify=
+_me) - 2);
+             aio_notify_accept(ctx);
+         }
+=20
+diff --git a/util/async.c b/util/async.c
+index b94518b948..3165a28f2f 100644
+--- a/util/async.c
++++ b/util/async.c
+@@ -249,7 +249,14 @@ aio_ctx_prepare(GSource *source, gint    *timeout)
+ {
+     AioContext *ctx =3D (AioContext *) source;
+=20
+-    atomic_or(&ctx->notify_me, 1);
++    atomic_set(&ctx->notify_me, atomic_read(&ctx->notify_me) | 1);
 +
-+    if (ctx =3D=3D qemu_get_aio_context()) {
-+        return qemu_mutex_iothread_locked();
-+    } else {
-+        return false;
-+    }
-+}
-+
- #endif /* QEMU_AIO_WAIT_H */
-diff --git a/include/block/aio.h b/include/block/aio.h
-index cb1989105a..62ed954344 100644
---- a/include/block/aio.h
-+++ b/include/block/aio.h
-@@ -133,12 +133,16 @@ struct AioContext {
-     AioHandlerList deleted_aio_handlers;
++    /*
++     * Write ctx->notify_me before computing the timeout
++     * (reading bottom half flags, etc.).  Pairs with
++     * smp_mb in aio_notify().
++     */
++    smp_mb();
 =20
-     /* Used to avoid unnecessary event_notifier_set calls in aio_notify;
--     * accessed with atomic primitives.  If this field is 0, everything
--     * (file descriptors, bottom halves, timers) will be re-evaluated
--     * before the next blocking poll(), thus the event_notifier_set call
--     * can be skipped.  If it is non-zero, you may need to wake up a
--     * concurrent aio_poll or the glib main event loop, making
--     * event_notifier_set necessary.
-+     * only written from the AioContext home thread, or under the BQL in
-+     * the case of the main AioContext.  However, it is read from any
-+     * thread so it is still accessed with atomic primitives.
-+     *
-+     * If this field is 0, everything (file descriptors, bottom halves,
-+     * timers) will be re-evaluated before the next blocking poll() or
-+     * io_uring wait; therefore, the event_notifier_set call can be
-+     * skipped.  If it is non-zero, you may need to wake up a concurrent
-+     * aio_poll or the glib main event loop, making event_notifier_set
-+     * necessary.
-      *
-      * Bit 0 is reserved for GSource usage of the AioContext, and is 1
-      * between a call to aio_ctx_prepare and the next call to aio_ctx_chec=
-k.
-@@ -681,19 +685,6 @@ void aio_co_enter(AioContext *ctx, struct Coroutine *c=
-o);
-  */
- AioContext *qemu_get_current_aio_context(void);
+     /* We assume there is no timeout already supplied */
+     *timeout =3D qemu_timeout_ns_to_ms(aio_compute_timeout(ctx));
+@@ -268,7 +275,8 @@ aio_ctx_check(GSource *source)
+     QEMUBH *bh;
+     BHListSlice *s;
 =20
--/**
-- * in_aio_context_home_thread:
-- * @ctx: the aio context
-- *
-- * Return whether we are running in the thread that normally runs @ctx.  N=
-ote
-- * that acquiring/releasing ctx does not affect the outcome, each AioConte=
-xt
-- * still only has one home thread that is responsible for running it.
-- */
--static inline bool in_aio_context_home_thread(AioContext *ctx)
--{
--    return ctx =3D=3D qemu_get_current_aio_context();
--}
--
- /**
-  * aio_context_setup:
-  * @ctx: the aio context
+-    atomic_and(&ctx->notify_me, ~1);
++    /* Finish computing the timeout before clearing the flag.  */
++    atomic_store_release(&ctx->notify_me, atomic_read(&ctx->notify_me) & ~=
+1);
+     aio_notify_accept(ctx);
+=20
+     QSLIST_FOREACH_RCU(bh, &ctx->bh_list, next) {
+@@ -411,10 +419,10 @@ LuringState *aio_get_linux_io_uring(AioContext *ctx)
+ void aio_notify(AioContext *ctx)
+ {
+     /* Write e.g. bh->scheduled before reading ctx->notify_me.  Pairs
+-     * with atomic_or in aio_ctx_prepare or atomic_add in aio_poll.
++     * with smp_mb in aio_ctx_prepare or aio_poll.
+      */
+     smp_mb();
+-    if (ctx->notify_me) {
++    if (atomic_read(&ctx->notify_me)) {
+         event_notifier_set(&ctx->notifier);
+         atomic_mb_set(&ctx->notified, true);
+     }
 --=20
 2.18.2
-
 
 
