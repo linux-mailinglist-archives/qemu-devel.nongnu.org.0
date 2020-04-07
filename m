@@ -2,69 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 464231A09B8
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 11:06:14 +0200 (CEST)
-Received: from localhost ([::1]:43408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EA7A1A09E3
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 11:18:16 +0200 (CEST)
+Received: from localhost ([::1]:43716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLkBR-0008UQ-1t
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 05:06:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52925)
+	id 1jLkN5-0006bZ-AO
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 05:18:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54419)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jLjyA-00009b-0k
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:52:32 -0400
+ (envelope-from <chenyi.qiang@intel.com>) id 1jLk4s-0003XU-2a
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:59:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jLjy8-000636-1I
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:52:28 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41498
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <chenyi.qiang@intel.com>) id 1jLk4p-0001c2-BO
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:59:25 -0400
+Received: from mga05.intel.com ([192.55.52.43]:47870)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jLjy7-00062d-Ta
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:52:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586249547;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lvX0pbMvWT9S94zP/2fd20+4oJcstPFlc84dRjUAjqk=;
- b=PC/TfB6E1eeuCO3MOV2cjTQf6Wrq+OC8QUoYUr/hSbN88ySTTCMfgX/AuiZXz1tZOJwXOq
- 77ualLLp0LaAb54Cx0VtAblbXqaJ9gyB+B31MPH8UuIvzGd6L9AJuSyn+VYD4XMhW48l21
- 2X35E1HJDsKG7keSVxKliHrFniGihOQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-x5bkuj3kNkiSGPvKHhFN_w-1; Tue, 07 Apr 2020 04:52:24 -0400
-X-MC-Unique: x5bkuj3kNkiSGPvKHhFN_w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E400518C35AB;
- Tue,  7 Apr 2020 08:52:22 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-113-253.ams2.redhat.com [10.36.113.253])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A4B15C1BB;
- Tue,  7 Apr 2020 08:52:18 +0000 (UTC)
-Date: Tue, 7 Apr 2020 10:52:16 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH for-5.0 v2 2/3] block: Increase BB.in_flight for
- coroutine interfaces
-Message-ID: <20200407085216.GA7695@linux.fritz.box>
-References: <20200406171403.6761-1-kwolf@redhat.com>
- <20200406171403.6761-3-kwolf@redhat.com>
- <9d0aa9cc-61a1-fd14-357e-6fb0ba2742dd@virtuozzo.com>
+ (Exim 4.71) (envelope-from <chenyi.qiang@intel.com>)
+ id 1jLk4p-0001Xm-3O
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:59:23 -0400
+IronPort-SDR: d2cb/5tP0CvcIOqrBJ11Bm6FOEBXUEJb7JaYDh5+qrcy+XefKp8gLpp1R09ubKKNFOWJfX3D7p
+ XrlxnLxWi5XQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2020 01:59:15 -0700
+IronPort-SDR: WKJFqFOfyFAz/iZefGgNo7+y0kXilaeKRpCwo1seWztHtIOeJF+On3e/90c2QaSwvGrNFZptvy
+ 59d8WyJNUqBg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,353,1580803200"; d="scan'208";a="251165450"
+Received: from cqiang-mobl.ccr.corp.intel.com (HELO [10.238.4.174])
+ ([10.238.4.174])
+ by orsmga003.jf.intel.com with ESMTP; 07 Apr 2020 01:59:13 -0700
+Subject: Re: [PATCH v2 0/4] modify CPU model info
+From: Chenyi Qiang <chenyi.qiang@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>, 
+ Eduardo Habkost <ehabkost@redhat.com>
+References: <20200328030625.16428-1-chenyi.qiang@intel.com>
+Message-ID: <62803177-01dd-46a1-c2f4-241adf515ecd@intel.com>
+Date: Tue, 7 Apr 2020 16:59:12 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <9d0aa9cc-61a1-fd14-357e-6fb0ba2742dd@virtuozzo.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+In-Reply-To: <20200328030625.16428-1-chenyi.qiang@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 192.55.52.43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,40 +62,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, s.reiter@proxmox.com, qemu-devel@nongnu.org,
- dietmar@proxmox.com, stefanha@redhat.com, mreitz@redhat.com,
- t.lamprecht@proxmox.com
+Cc: Xiaoyao Li <xiaoyao.li@intel.com>, qemu-devel@nongnu.org,
+ Robert Hoo <robert.hu@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 07.04.2020 um 08:41 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 06.04.2020 20:14, Kevin Wolf wrote:
-> > External callers of blk_co_*() don't currently increase the
-> > BlockBackend.in_flight counter, but calls from blk_aio_*() do, so there
-> > is an inconsistency whether the counter has been increased or not.
-> >=20
-> > This patch moves the actual operations to static functions that can
-> > later know they will always be called with in_flight increased exactly
-> > once, even for external callers using the blk_co_*() coroutine
-> > interfaces.
-> >=20
-> > If the public blk_co_*() interface is unused, remove it.
-> >=20
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->=20
->=20
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->=20
-> Still, did you consider instead just move inc/dec to _co_ functions, like
-> [...]
-> (and same for write, ioctl, flush, discard). It seems more
-> consistent.. Should it work?
+Ping for comments.
 
-No, it would be wrong because it would be too late. The main purpose of
-blk_inc_in_flight() is to keep the request covered during the first and
-the last phase outside of blk_co_*(), which can potentially involve BHs
-like blk_aio_complete_bh().
+Hi Paolo and Eduardo,
 
-Kevin
+ARCH_CAPABILITIES has been added into Icelake-Server CPU model.
+What your opinion of the missing feature bits in this patch set?
 
+Thanks
+Chenyi
+
+On 3/28/2020 11:06 AM, Chenyi Qiang wrote:
+> Add the missing VMX features in Skylake-Server, Cascadelake-Server and
+> Icelake-Server CPU models. In Icelake-Server CPU model, it also lacks
+> sha_ni, avx512ifma, rdpid and fsrm. The model numbers of Icelake-Client
+> and Icelake-Server need to be fixed.
+> 
+> Changes in v2:
+> 	- add missing features as a new version of CPU model
+> 	- add the support of FSRM
+> 
+> Chenyi Qiang (4):
+>    target/i386: add missing vmx features for several CPU models
+>    target/i386: add fast short REP MOV support
+>    target/i386: add the missing features for Icelake-Server CPU model
+>    target/i386: modify Icelake-Client and Icelake-Server CPU model number
+> 
+>   target/i386/cpu.c | 22 ++++++++++++++++++----
+>   target/i386/cpu.h |  2 ++
+>   2 files changed, 20 insertions(+), 4 deletions(-)
+> 
 
