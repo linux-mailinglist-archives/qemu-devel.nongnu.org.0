@@ -2,46 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05DC31A0C75
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 13:03:51 +0200 (CEST)
-Received: from localhost ([::1]:45208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B10881A0C70
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 13:03:02 +0200 (CEST)
+Received: from localhost ([::1]:45196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLm1G-00013l-3q
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 07:03:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47322)
+	id 1jLm0T-00083R-P8
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 07:03:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47367)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <miaoyubo@huawei.com>) id 1jLlvH-00080T-84
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 06:57:40 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jLlvN-0008Gj-CR
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 06:57:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <miaoyubo@huawei.com>) id 1jLlvF-0007Sz-SH
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 06:57:39 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3664 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <miaoyubo@huawei.com>) id 1jLlvF-0007Ra-Fr
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 06:57:37 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 0A3BCF0EC2D0DE2060E2;
- Tue,  7 Apr 2020 18:57:28 +0800 (CST)
-Received: from DESKTOP-D7EVK5B.china.huawei.com (10.173.221.29) by
- DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 7 Apr 2020 18:57:22 +0800
-From: Yubo Miao <miaoyubo@huawei.com>
-To: <peter.maydell@linaro.org>, <shannon.zhaosl@gmail.com>, <lersek@redhat.com>
-Subject: [PATCH v5 8/8] unit-test: add the binary file and clear diff.h
-Date: Tue, 7 Apr 2020 18:57:06 +0800
-Message-ID: <20200407105706.1920-9-miaoyubo@huawei.com>
-X-Mailer: git-send-email 2.24.1.windows.2
-In-Reply-To: <20200407105706.1920-1-miaoyubo@huawei.com>
-References: <20200407105706.1920-1-miaoyubo@huawei.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1jLlvL-0007WH-W4
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 06:57:44 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:38177)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jLlvL-0007VY-JM
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 06:57:43 -0400
+Received: by mail-oi1-x241.google.com with SMTP id w2so1085845oic.5
+ for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 03:57:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=7/U3mxK6SZm2EBUwuKYS+1jdggV3LsY8aqLxWYH8JQA=;
+ b=pQSq8LC6fheWz6vcTzqcJqeuo4HzZEGl2aSfmmzBxeGIlC27g9LGQ5lhhbyjzLgulH
+ Sd4uxZfndYPKxj1aVpjZ5XjzkfNtrQUlaDDT1LhkvD6E4uh2psgtCKTrLrJFrqhNm/uK
+ 4ej+s4OrEa+45uaVfbV3mtVZFNQe4mPgcqIe1J6dOO9hFK1YXHyNpmQIMkrQlbRVEJCS
+ 8wiUTRmEC6LeCyHVmVtVBzP2noip042BfZoO7nBfuNkfz1Z51BAMOKHIrlGfG7kKjLBR
+ 91oQFWUeevAjOKiveh90zh2CBTWYO8lTb4W/9k23f/mW97Orx2QJUCDj5ICWWLAZ6z9N
+ 15Pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=7/U3mxK6SZm2EBUwuKYS+1jdggV3LsY8aqLxWYH8JQA=;
+ b=IrOKCZBUSS+QJrYMgI0TdY9MYL3RtLIPdV1zkBKbysw6JR+M3/9oi96ZE7Vn2GE7/B
+ O43KE5Dn1VArpXG7rnk0kbaYMVFfiIBe7ixMY+8JsxNnlbjC93lnB9VX6OvT2FtJitVY
+ gybZ1Zy5SYWNhzhML56YzEBA/QXzOTxcQtBAy9sco+abxIlSNq5lPYTRTNGdVjXLC9FG
+ zU79FcUTguGGOLmzQ8IPsPT3gVVm6Cy2LxVe+BZGZJ5BnYbgDyenx32CqzGvwYmGQlyW
+ oW1OjA1HqceI8gsyiJ958YPzEFRXP+VdBytM4GlpqyB+RK6GQ86W2hYVXzZUIm+k571x
+ i0Vg==
+X-Gm-Message-State: AGi0Puax1A1qFb3SFMUWv4dC0h+Ni9nAZYQM5qwczUcxBbROGkWhep5/
+ NKcBeUqX58gvwTI/oKt/fMga96nlG/iSY9XcuN3sjg==
+X-Google-Smtp-Source: APiQypJ0+sZuvH8ApgV0JEHzrQl3/+aSN629Ac5yG1FiygKS+HCg8g8k4b69I1YUOKF+HPtC1sHs7W0qBxImw2cYFbo=
+X-Received: by 2002:a05:6808:8cb:: with SMTP id
+ k11mr1118405oij.48.1586257062430; 
+ Tue, 07 Apr 2020 03:57:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.173.221.29]
-X-CFilter-Loop: Reflected
+References: <mvmftdg8wxw.fsf@suse.de>
+ <216610b1-0d0f-a50b-8997-bb6aa6e20abf@vivier.eu>
+In-Reply-To: <216610b1-0d0f-a50b-8997-bb6aa6e20abf@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Apr 2020 11:57:31 +0100
+Message-ID: <CAFEAcA_zbeBM7iFd10ut4UTYDifJ=SWjMD1KYOJgKX=4OQSkmw@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: Use getcwd syscall directly
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.190
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,77 +75,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
- xiexiangyou@huawei.com, miaoyubo@huawei.com, imammedo@redhat.com
+Cc: Andreas Schwab <schwab@suse.de>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: miaoyubo <miaoyubo@huawei.com>
+On Tue, 7 Apr 2020 at 11:37, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> Le 06/04/2020 =C3=A0 17:18, Andreas Schwab a =C3=A9crit :
+> > The glibc getcwd function returns different errors than the getcwd
+> > syscall, which triggers an assertion failure in the glibc getcwd functi=
+on
+> > when running under the emulation.
 
-Add the binary file DSDT.pxb and clear bios-tables-test-allowed-diff.h
+What exactly are the differences in errors ?
 
-Signed-off-by: miaoyubo <miaoyubo@huawei.com>
----
- tests/data/acpi/virt/DSDT.pxb               | Bin 0 -> 7802 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   1 -
- 2 files changed, 1 deletion(-)
- create mode 100644 tests/data/acpi/virt/DSDT.pxb
+> > ---
 
-diff --git a/tests/data/acpi/virt/DSDT.pxb b/tests/data/acpi/virt/DSDT.px=
-b
-new file mode 100644
-index 0000000000000000000000000000000000000000..d5f0533a02d62bc2ae2db9b9d=
-e9484e5c06652fe
-GIT binary patch
-literal 7802
-zcmeI1%WoT16o;=3DLiS6+tw&OgUms2Pe&&rRcNlRN|kDbINPK+mQkW$GN2t>&y5*4DY
-z5GE1@x}%ZUunAHY{255B*s){5x*Prhb`0mvok@O&o()@MN3!S4-1E)-#wYff>!#D(
-zdAOidc(<`_Z#avMce{3z_Jx#EdRxC{zj_wB({~#Ey~7#1TrS7^8|`MgZg<-hEUS3`
-zR=3DcV84zJqVo#0rnvr#TrD*mx}-|jiN8EfisLTO+^WtIANRE0w4D0)D-m9<UB&)wYW
-zZBy<N%gtFCKbI0zG)SqKsqmDLIo(-GG)P%l+qKtB$~&#jEt-9m&f@IUtt92x^?zrE
-z6Vv|u>e1W1K-`?I3=3D=3D%fJX5q(*jFqgf=3DxI;=3D+i!j2&*$h#YZ&sEUM@nAgr*&hytU=
-E
-zjGD-ZNQ_Zn)R1vWWJD!K92l37u_Q7^B!&fyC1hL{8KV*-1&qtcSQZ&EiID-uGBQ>~
-zMqFZKfw6*&D<UHyG4jB;0*ng#H#)5kOJWp&aTOV2neu;<pwuUU@g_3lI!#IQm<Gl*
-zWXN@zmKZa@xQ-0DPBRi?4j4C(A=3Dl}c#8?2vTgZ^>G%GO{fw77VxlVHu;{{;Uks;S<
-zUSgaFMgtjgosLV43&5~}QI+eoATeGBMiUuwolZ!MSAo$&hFqtU661AXtRX|L(<zB@
-z5g6;pkn40>Vw8cgfeg7$ixQ&>j5adlI-QXimw<5-8FHP@N{q|EcpDjVoz6*&6<};4
-zL$1?#iE$Me9bnYtI$e+$*MPBw47pBA65|FiwtYtDhpxTi&!fB5E!WE{)VJ8wgqf&D
-zQN7vI`@BBFX|2<Cqp@WTyyi^5I6J*u(V9F^pQ-oMqH3xS)Tip6dY@hu4es`K#y3B)
-z2Ki((>AGs&X_uAR4$*c+<x_gU6{esX1Q7~qDxZ#~T$kE9GtQ5677fgpV_qH&4MLqs
-zd~YoENoK4c>C9j#H9`7}G}OzaP-oI?ys;54Gnhd{>C9kg#AMP?FOx!@Ni*^?sUtLF
-z{m6IphEmhyTLvL|jxf&=3D@0@|>h{+5lPa%4aGEZuLX$HYiYO>IiLiCI=3D&lvNJaZd`-
-zGtNBYUS@Dfs3}8F3ehvcJgIFrSI@g73GPWDdRolWVxH8*p(lmtnPi?x=3D9%Q46ryK}
-zd8U{rHGSwwA$q2nXPSAYxhI9_nPHw8=3D1EN=3DdQym<W6X1md5&>U3el5po1kv9%#)f*
-z^rR3ybIdcxJagQWLiEft&ph*_CKNp>M9*>NInF%CxhI9_Szw+8=3D1EN}dQym<6U=3Djh
-zc}{Ro3ej_tc}_A<YI4z&LiC(so>R<oihELso^*Q&@8>l0q^1}>DMZgA^DHvYBKM>a
-zJ!hEb4D+NW8a*jQ&spX<%RFbfCxz%a$2{klCpF#ZNg;a9GtYVEInO;QL{D1OFrQi8
-zXZ!;5q$V9bDMZf_^DHsX68EIgc<vpxqx!8hH*orE*)Ffq_o`kR(ci94E@LIVC65=3Dq
-zFLnB=3Der{i3wD0tskdN|v28N=3DQ0z{n`P-fpL>ZYER-{LZqUNJz{O9IR6<1D|`<t$n`
-zK-L9;W%l_jV?SZ#ze%eweR!(@{V7@-dZ6OYt!`Jv?VaAHDy${?+m0Q5vajssZsm9*
-zcJxth+{*5C{;2&`np^#T_kR87>%V{aWZ#O?fGWMl>9uyC1I^JJHH~_tpRAI8KF&Tp
-zx)=3DJKj#RwSmE*~$N5MF=3DJF5>K=3D)rpb$^MTSvtOU2a<X4|qu+Eo(c^PwHoq<Z`pj8+
-z*!gbi&rb0dyK|g4`dFRhBB79eqQ$NCpSm_yhSa{Dwrr+m(mI1Sb=3DOw1=3DDNyOZR*q(
-zRaxlWOw%{);DXL(*um+pd)UFb?y!T?l`!n!TzA;P=3D}H)OaIQP-;DjF4`mY^aA=3D|eb
-zb#+2_!795-PldYI)KTNJ5wq?GeVtNY(6NE~n(mQOv_|ATvab8LUS6k%dy$TWQnZp|
-z9<=3DmC50{RH)RWgB$2&aG$MnOC&YtxC|7GXciS}B-@1myT)<0P4JBON8e(w5s?*m<(
-z((2iz(Oa}?V18w7#O_?wzvHgAntf9Q=3D11I$UO=3DQfl{6jj`Q~mV5_-j?4q820Q>0Ek
-zp0J{OUnX^Ex184IVqw1Dy1kP)(81l~?9rpUmR_}c+}-Uptij%4QEy<y+2&m8A6W)v
-ATL1t6
+> According to the commit introducing the function, it could break fakeroot=
+:
+>
+> commit 3b3f24add09f8ab720860d4840f9755c102121b5
+> Author: Aurelien Jarno <aurelien@aurel32.net>
+> Date:   Wed Apr 15 16:12:13 2009 +0000
+>
+>     linux-user: prefer glibc over direct syscalls
+>
+>     The openat/*at syscalls are incredibly common with modern coreutils,
+>     calling them directly via syscalls breaks for example fakeroot. Use
+>     glibc stubs whenever directly available and provide old syscall
+>     calling for people still using older libc.
 
-literal 0
-HcmV?d00001
+I don't think (based on a quick grep of the fakeroot sources) that
+fakeroot intercepts 'getcwd', so this patch is probably ok on this
+front. It looks like the syscalls that fakeroot cares about that
+that patch was trying to improve our handling for are the
+ones like fstatat which return the kind of permission/ownership
+info fakeroot wants to alter (not including 'openat', despite
+that being the only function named in full in the commit message...)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bi=
-os-tables-test-allowed-diff.h
-index 90c53925fc..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,2 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/virt/DSDT.pxb",
---=20
-2.19.1
+More generally, we rely on making direct syscalls for at least
+some syscalls for signal-handling related correctness, so if
+that ever comes into conflict with QEMU continuing to work under
+'fakeroot' then fakeroot-compatilibity is going to lose...
+('fakeroot-ng' would still work, as it intercepts syscalls
+via ptrace.)
 
-
+thanks
+-- PMM
 
