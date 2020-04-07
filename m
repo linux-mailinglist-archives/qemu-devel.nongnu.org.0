@@ -2,62 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0ACB1A0F26
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 16:29:32 +0200 (CEST)
-Received: from localhost ([::1]:48264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C02A1A0F4E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 16:34:14 +0200 (CEST)
+Received: from localhost ([::1]:48384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLpEJ-0005yN-N8
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 10:29:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55205)
+	id 1jLpIr-0003nd-6j
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 10:34:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56091)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jLpBf-0000UY-Kf
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 10:26:48 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jLpFt-0000lY-ED
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 10:31:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jLpBe-00070T-Dz
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 10:26:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47130
+ (envelope-from <pbonzini@redhat.com>) id 1jLpFs-0001fd-7V
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 10:31:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41824
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jLpBe-000708-Av
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 10:26:46 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jLpFs-0001fO-3i
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 10:31:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586269606;
+ s=mimecast20190719; t=1586269867;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EEOR6aQu29iz80z013fDsdrq8dMvIXpmYtmMVT/1Fck=;
- b=jBjOtcEehXvHLkZcmDxbUO09DM1QMuzQjJij3irEwq73pozQfOMBE94XK1F0Nmx6Aq/P1D
- FC/kw/46Uk6vhIXKUlWCV2oUYXf/KMsZWio/JcWwxxDnKlSHD5Jy54VGWVqQEoSjcFoRXm
- 3gUCt/xWD1lTc9XJXNN4KxWiixX3NTQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-8mrXYvuROfWlQofSeD2t8g-1; Tue, 07 Apr 2020 10:26:40 -0400
-X-MC-Unique: 8mrXYvuROfWlQofSeD2t8g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 293438017F4;
- Tue,  7 Apr 2020 14:26:39 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-113-253.ams2.redhat.com
- [10.36.113.253])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2AEA25DA7B;
- Tue,  7 Apr 2020 14:26:38 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 7/7] vpc: Don't round up already aligned BAT sizes
-Date: Tue,  7 Apr 2020 16:26:16 +0200
-Message-Id: <20200407142616.7961-8-kwolf@redhat.com>
-In-Reply-To: <20200407142616.7961-1-kwolf@redhat.com>
-References: <20200407142616.7961-1-kwolf@redhat.com>
+ bh=uddvtKct4m3HROTxekVZMeJkAMH7ZlM1yUwuoZX7PK4=;
+ b=NGOEv1LOk4KyeaZzJhcmnjaeyvPwjZTiwpHUKr+2epZoy6CuQd4IqDCVOR7Pfbffa7Itn7
+ GHe491n5/aGzohPNUL7EWWM6uHXOJYkZYIFhPHzdb4nlHtv+WCw7wJaxHeax2gJVVCGptb
+ 50SSWwt+oKUs3eEQrAP4+QUMk8yJ5TE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-496-XiwZPBgHNdyONdRHNdLCjw-1; Tue, 07 Apr 2020 10:31:05 -0400
+X-MC-Unique: XiwZPBgHNdyONdRHNdLCjw-1
+Received: by mail-wm1-f71.google.com with SMTP id f9so937019wme.7
+ for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 07:31:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=uddvtKct4m3HROTxekVZMeJkAMH7ZlM1yUwuoZX7PK4=;
+ b=HuapSxqjUT05GLWRz3a9qaZEUR64HLq+9f7AHvOfdQbnBNpNaKwvuWK5xhkZHjYeiH
+ roDpvyQoGWas6KBlNAENZnIUvHH/d8VFK60FROOm/FBkkhpVkRX5uSdRY29JR8hj4SaU
+ dVOEL8uCLnnGHRX79Ij2fRZRsA8L0JTFe0Nl0u+iMVoOsmLefT1Rf4kfcz4OHZFzbJOZ
+ KXAaqUiHZym23amFexXA4EnzfLy6m8N7zy8Kx1alcE2C0AqKLfV+xqSy0rz0vIZHRsU0
+ l5Qcj4fYXt6zFwpIFnsGj+4RJdZGszjMh8vP1ay7F90nuUiGAX35/S7sJKAHJ1q0LnfC
+ O2Sg==
+X-Gm-Message-State: AGi0PuYm8HoHa4urwG8hd73bAPi8LxuXKxYKdKf3DUrw31Gq7GpUmwB8
+ T2zuG03lXXQFeU3sIlJkXQxMF3JkXZk52DkdTZyZmzZAR5zZDBf9zVypPWHtHmFgu8Q+owhnisf
+ RRIfiFB0lySDKK3Q=
+X-Received: by 2002:adf:a448:: with SMTP id e8mr2903517wra.238.1586269864264; 
+ Tue, 07 Apr 2020 07:31:04 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJRVmJnPRITFpnjlyFs3eWSGGBtnAU0JxJw+CTjtPjZsbFs1GCdQb7NXI941Nd/aYEuiUhCpA==
+X-Received: by 2002:adf:a448:: with SMTP id e8mr2903492wra.238.1586269864005; 
+ Tue, 07 Apr 2020 07:31:04 -0700 (PDT)
+Received: from [192.168.10.150] ([93.56.170.5])
+ by smtp.gmail.com with ESMTPSA id a15sm2558878wme.17.2020.04.07.07.31.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Apr 2020 07:31:03 -0700 (PDT)
+Subject: Re: [PATCH] exec: fetch the alignment of Linux devdax pmem character
+ device nodes
+To: Joao Martins <joao.m.martins@oracle.com>, Jingqi Liu <jingqi.liu@intel.com>
+References: <20200401031314.11592-1-jingqi.liu@intel.com>
+ <c906a3ae-c9d2-5802-5988-3c1d0302109b@oracle.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <b15709c2-bea7-2717-6833-ac4616b88660@redhat.com>
+Date: Tue, 7 Apr 2020 16:31:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <c906a3ae-c9d2-5802-5988-3c1d0302109b@oracle.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,50 +91,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: Dan Williams <dan.j.williams@intel.com>, qemu-devel@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As reported on Launchpad, Azure apparently doesn't accept images for
-upload that are not both aligned to 1 MB blocks and have a BAT size that
-matches the image size exactly.
+On 07/04/20 12:59, Joao Martins wrote:
+> Perhaps, you meant instead:
+> 
+> 	/sys/dev/char/%d:%d/align
+> 
+>  ?
+> 
 
-As far as I can tell, there is no real reason why we create a BAT that
-is one entry longer than necessary for aligned image sizes, so change
-that.
+So it works with that change?
 
-(Even though the condition is only mentioned as "should" in the spec and
-previous products accepted larger BATs - but we'll try to maintain
-compatibility with as many of Microsoft's ever-changing interpretations
-of the VHD spec as possible.)
-
-Fixes: https://bugs.launchpad.net/bugs/1870098
-Reported-by: Tobias Witek
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200402093603.2369-1-kwolf@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- block/vpc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/block/vpc.c b/block/vpc.c
-index 6df75e22dc..d8141b52da 100644
---- a/block/vpc.c
-+++ b/block/vpc.c
-@@ -835,7 +835,7 @@ static int create_dynamic_disk(BlockBackend *blk, uint8=
-_t *buf,
-=20
-     /* Write the footer (twice: at the beginning and at the end) */
-     block_size =3D 0x200000;
--    num_bat_entries =3D (total_sectors + block_size / 512) / (block_size /=
- 512);
-+    num_bat_entries =3D DIV_ROUND_UP(total_sectors, block_size / 512);
-=20
-     ret =3D blk_pwrite(blk, offset, buf, HEADER_SIZE, 0);
-     if (ret < 0) {
---=20
-2.20.1
+Paolo
 
 
