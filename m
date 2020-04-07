@@ -2,68 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92C181A1646
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 21:55:45 +0200 (CEST)
-Received: from localhost ([::1]:52686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D197B1A16A4
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 22:18:05 +0200 (CEST)
+Received: from localhost ([::1]:52888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLuK0-0004s2-4d
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 15:55:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53057)
+	id 1jLufc-0005W1-CF
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 16:18:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56270)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jLuJC-0004JR-My
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 15:54:55 -0400
+ (envelope-from <bounces@canonical.com>) id 1jLueH-000467-3i
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 16:16:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jLuJB-00086u-En
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 15:54:54 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:34924)
+ (envelope-from <bounces@canonical.com>) id 1jLueE-000062-UJ
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 16:16:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52686)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jLuJB-00086j-9e
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 15:54:53 -0400
-Received: by mail-ot1-x344.google.com with SMTP id v2so4478262oto.2
- for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 12:54:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+cMyA6Gct0CvWZdUNp+nw9dwzd1U2yl925v646NhQ5Y=;
- b=hS/YKWtZlEMQdgm3MimJ2inieiAkSG05cFiuGfs5DYq/zsiB0AIi0S1SVBqnvkKpUx
- XvHi6yY3PxFKIRfEzvGSD1XTg3gOXvM/fcoEGepg5V71Re+OefbyeWCAhryut2sIGUMQ
- My39vV42qXGc+8nLRzNCcNMJao0TxeXNGeqwLQvATfGLOGZS3OLY85IgLyi1NvPL4Tar
- NNRkWh0QH4+iChDdq6nzAmaX2Fbhc25qP31JFV4L8DLJfk5KiZVawqeMNnplSfrp7Vwy
- jJOEPic4unKM53ttdaNg2/Sx60Rx1GH3ENAdkkwvMgtkvYC1RGFDKKnj6laT+nUxddsZ
- FOfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+cMyA6Gct0CvWZdUNp+nw9dwzd1U2yl925v646NhQ5Y=;
- b=UX8uG/NHmOb50dUVXNSwREFBsOGmUGWwtSBzCQOgQF6tOj4jATC/Zjp9R/unEp/BXr
- qN7EfIA/dwbWpleavjWYwjhCGxTV02Vrdj5HlENfORTDibkdgVj6KNCRuIu6w9H4lp7/
- KqVrBYW8kWK4ZxkGQrdnSIGWTz0mXEuwSKiqSyBVD4HrimGqjTbUioH7Crs45MwA9UFb
- yI2XbE1ZHtNaARgrxYb37lCkPYN+LLbbsS8abuQBaCc6Q0NS4HBlqs/buc4thqMJZShG
- ZFP9GTvjchfnNfL31jZoeT1N2akhjS7wKjssWkeUQ7AvAsabzY9JjI1d7EheaJmpzJSJ
- xVVg==
-X-Gm-Message-State: AGi0PuZoCExrbDYLCw4guk7lbREbZBckngyHMix2Q4T+18FPMv2o5Sw+
- qkiwJ8xmLyeBGltdjWQu3rdMAQzDx1V8wTVrd0W5GA==
-X-Google-Smtp-Source: APiQypJ6ApckKDWQbw5CXptp7t/Wg6j7g6tUd1VjvQgyBVX9MI+QMBG7xq7U3qGndCP14+KlZ9qvumsHb/QCdPzF/rg=
-X-Received: by 2002:a05:6830:11d5:: with SMTP id
- v21mr3043832otq.91.1586289292395; 
- Tue, 07 Apr 2020 12:54:52 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jLueE-000050-PH
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 16:16:38 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jLueC-0005nZ-Aj
+ for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 20:16:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1F38A2E8112
+ for <qemu-devel@nongnu.org>; Tue,  7 Apr 2020 20:16:36 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200407142616.7961-1-kwolf@redhat.com>
-In-Reply-To: <20200407142616.7961-1-kwolf@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Apr 2020 20:54:40 +0100
-Message-ID: <CAFEAcA8S00kRhEBrHKRNc9Yd-ptZuz_usepdScOGW3x3X_RdqA@mail.gmail.com>
-Subject: Re: [PULL 0/7] Block layer patches
-To: Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 07 Apr 2020 20:05:23 -0000
+From: Brian Campbell <bacam@z273.org.uk>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: mips
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bacam martin-sk philmd pmaydell th-huth yongbok-kim
+X-Launchpad-Bug-Reporter: Brian Campbell (bacam)
+X-Launchpad-Bug-Modifier: Brian Campbell (bacam)
+References: <20170209154937.3933.99004.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158628992390.21754.2974765733755877334.malone@gac.canonical.com>
+Subject: [Bug 1663287] Re: Illegal delay slot code causes abort on mips64
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a296f04231dee355be5db73cc878b9e21689a253";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: f093c6122f7c364d9bc3f1e29d26d0944d7d0e1e
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,39 +65,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Reply-To: Bug 1663287 <1663287@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 7 Apr 2020 at 15:26, Kevin Wolf <kwolf@redhat.com> wrote:
->
-> The following changes since commit 53ef8a92eb04ee19640f5aad3bff36cd4a36c250:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200406' into staging (2020-04-06 12:36:45 +0100)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/kevin.git tags/for-upstream
->
-> for you to fetch changes up to 3f6de653b946fe849330208becf79d6af7e876cb:
->
->   vpc: Don't round up already aligned BAT sizes (2020-04-07 15:42:08 +0200)
->
-> ----------------------------------------------------------------
-> Block layer patches:
->
-> - Fix crashes and hangs related to iothreads, bdrv_drain and block jobs:
->     - Fix some AIO context locking in jobs
->     - Fix blk->in_flight during blk_wait_while_drained()
-> - vpc: Don't round up already aligned BAT sizes
->
-> ----------------------------------------------------------------
+If my memory is correct, this problem doesn't need qemu to execute the
+code, it only needs it to translate the code.  In the original test case
+the invalid instructions were actually dead code but still managed to
+crash qemu.
 
+I suggest following Yongbok Kim's approach and signalling Reserved
+Instruction in the same way R6 does.  I think that's architecturally
+allowed, although I admit that it's ages since I looked at this.
 
-Applied, thanks.
+-- =
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1663287
 
--- PMM
+Title:
+  Illegal delay slot code causes abort on mips64
+
+Status in QEMU:
+  New
+
+Bug description:
+  During some randomised testing of an experimental MIPS implementation
+  I found an instruction sequence that also causes aborts on mainline
+  qemu's MIPS support.  The problem is triggered by an MSA branch
+  instruction appearing in a delay slot when emulating a processor
+  without MSA support.
+
+  For example, with the current repository HEAD
+  (f073cd3a2bf1054135271b837c58a7da650dd84b) configured for
+  mips64-softmmu, if I run the attached binary using
+
+      mips64-softmmu/qemu-system-mips64 -bios ../abort2.bin -machine
+  mipssim -nographic
+
+  it will report
+
+      unknown branch 0x13000
+      Aborted (core dumped)
+
+  The binary contains the following two instructions:
+
+      00200008 jr at
+      47081e61 bz.b       w8,0xffffffffbfc0798c
+
+  The jr sets up a jump, and hflags is set accordingly in
+  gen_compute_branch (in target/mips/translate.c).  When processing the
+  bz.b, check_insn generates an exception because the instruction isn't
+  support, but gen_msa_branch skips the usual delay slot check for the
+  same reason, and sets more bits in hflags, leading to an abort in
+  gen_branch because the hflags are now invalid.
+
+  I suspect the best fix is to remove the instruction set condition from
+  the delay slot check in gen_msa_branch.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1663287/+subscriptions
 
