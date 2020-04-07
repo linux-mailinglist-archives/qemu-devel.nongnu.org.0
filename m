@@ -2,91 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECC101A09D8
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 11:16:06 +0200 (CEST)
-Received: from localhost ([::1]:43672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 464231A09B8
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 11:06:14 +0200 (CEST)
+Received: from localhost ([::1]:43408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLkL0-0003xD-2D
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 05:16:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52817)
+	id 1jLkBR-0008UQ-1t
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 05:06:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52925)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jLjxW-0008Q1-KB
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:51:52 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jLjyA-00009b-0k
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:52:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jLjxV-0005SO-K0
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:51:50 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40921
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1jLjy8-000636-1I
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:52:28 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41498
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jLjxU-0005QL-PZ
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:51:49 -0400
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jLjy7-00062d-Ta
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:52:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586249507;
+ s=mimecast20190719; t=1586249547;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=0hKmzRVqh/4WqpasGKcRyF6tHYccbxoP48KfV2VqzDw=;
- b=PPdZI+ou/FAw+sxCrax19uYM9z3cRFUhGA07GBng7wtUuBdfHRrdBf9gTMPTdR31wrkadZ
- CH1NeSgvMjVtHXtuVh4F6Z9R/VmM+Zx++LUSSW1m715uOQoDWqvUpA0BpuJmnA9y0N9YRI
- Zgc7qIf1ZxzX2ibESKRBgmUANpLz4SE=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lvX0pbMvWT9S94zP/2fd20+4oJcstPFlc84dRjUAjqk=;
+ b=PC/TfB6E1eeuCO3MOV2cjTQf6Wrq+OC8QUoYUr/hSbN88ySTTCMfgX/AuiZXz1tZOJwXOq
+ 77ualLLp0LaAb54Cx0VtAblbXqaJ9gyB+B31MPH8UuIvzGd6L9AJuSyn+VYD4XMhW48l21
+ 2X35E1HJDsKG7keSVxKliHrFniGihOQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-26-o4A41G8aPcmwWGj4r3WM1Q-1; Tue, 07 Apr 2020 04:51:39 -0400
-X-MC-Unique: o4A41G8aPcmwWGj4r3WM1Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-275-x5bkuj3kNkiSGPvKHhFN_w-1; Tue, 07 Apr 2020 04:52:24 -0400
+X-MC-Unique: x5bkuj3kNkiSGPvKHhFN_w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31071107ACC4;
- Tue,  7 Apr 2020 08:51:37 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-84.ams2.redhat.com
- [10.36.114.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 067535DA7B;
- Tue,  7 Apr 2020 08:51:34 +0000 (UTC)
-Subject: Re: [PATCH v2] qcow2: Check request size in
- qcow2_co_pwritev_compressed_part()
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-References: <20200406143401.26854-1-berto@igalia.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <e9415dbd-8c08-89b9-a29f-9c570010a4cc@redhat.com>
-Date: Tue, 7 Apr 2020 10:51:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E400518C35AB;
+ Tue,  7 Apr 2020 08:52:22 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-113-253.ams2.redhat.com [10.36.113.253])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A4B15C1BB;
+ Tue,  7 Apr 2020 08:52:18 +0000 (UTC)
+Date: Tue, 7 Apr 2020 10:52:16 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH for-5.0 v2 2/3] block: Increase BB.in_flight for
+ coroutine interfaces
+Message-ID: <20200407085216.GA7695@linux.fritz.box>
+References: <20200406171403.6761-1-kwolf@redhat.com>
+ <20200406171403.6761-3-kwolf@redhat.com>
+ <9d0aa9cc-61a1-fd14-357e-6fb0ba2742dd@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20200406143401.26854-1-berto@igalia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <9d0aa9cc-61a1-fd14-357e-6fb0ba2742dd@virtuozzo.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="SWGyy8NOMswpb2OHEosFFO0hlRCtNu3Kj"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,71 +76,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Pavel Butsykin <pbutsykin@virtuozzo.com>
+Cc: qemu-block@nongnu.org, s.reiter@proxmox.com, qemu-devel@nongnu.org,
+ dietmar@proxmox.com, stefanha@redhat.com, mreitz@redhat.com,
+ t.lamprecht@proxmox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---SWGyy8NOMswpb2OHEosFFO0hlRCtNu3Kj
-Content-Type: multipart/mixed; boundary="x0vgbSKwXG3rA0q4sfJBxfTcBeI9FeKVc"
-
---x0vgbSKwXG3rA0q4sfJBxfTcBeI9FeKVc
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 06.04.20 16:34, Alberto Garcia wrote:
-> When issuing a compressed write request the number of bytes must be a
-> multiple of the cluster size or reach the end of the last cluster.
+Am 07.04.2020 um 08:41 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 06.04.2020 20:14, Kevin Wolf wrote:
+> > External callers of blk_co_*() don't currently increase the
+> > BlockBackend.in_flight counter, but calls from blk_aio_*() do, so there
+> > is an inconsistency whether the counter has been increased or not.
+> >=20
+> > This patch moves the actual operations to static functions that can
+> > later know they will always be called with in_flight increased exactly
+> > once, even for external callers using the blk_co_*() coroutine
+> > interfaces.
+> >=20
+> > If the public blk_co_*() interface is unused, remove it.
+> >=20
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 >=20
-> With the current code such requests are allowed and we hit an
-> assertion:
 >=20
->    $ qemu-img create -f qcow2 img.qcow2 1M
->    $ qemu-io -c 'write -c 0 32k' img.qcow2
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 >=20
->    qemu-io: block/qcow2.c:4257: qcow2_co_pwritev_compressed_task:
->    Assertion `bytes =3D=3D s->cluster_size || (bytes < s->cluster_size &&
->               (offset + bytes =3D=3D bs->total_sectors << BDRV_SECTOR_BIT=
-S))' failed.
->    Aborted
->=20
-> This patch fixes a regression introduced in 0d483dce38
->=20
-> Signed-off-by: Alberto Garcia <berto@igalia.com>
-> ---
->  block/qcow2.c | 5 +++++
->  1 file changed, 5 insertions(+)
+> Still, did you consider instead just move inc/dec to _co_ functions, like
+> [...]
+> (and same for write, ioctl, flush, discard). It seems more
+> consistent.. Should it work?
 
-Thanks, applied to my block branch:
+No, it would be wrong because it would be too late. The main purpose of
+blk_inc_in_flight() is to keep the request covered during the first and
+the last phase outside of blk_co_*(), which can potentially involve BHs
+like blk_aio_complete_bh().
 
-https://git.xanclic.moe/XanClic/qemu/commits/branch/block
-
-Max
-
-
---x0vgbSKwXG3rA0q4sfJBxfTcBeI9FeKVc--
-
---SWGyy8NOMswpb2OHEosFFO0hlRCtNu3Kj
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6MPxQACgkQ9AfbAGHV
-z0DqRQf7B5uCLJ991/Yulm0NS6ORq6AluSOnDXgQOyGlrPzlPN+uhAZVm+8/4v9x
-EUQ9sOHW1xUg0y1tMRKmBvpKyiO5mh0iXet4SGdSaAy/jHJ8z8nrCXwZlGcYnA2s
-bCPv11l/cIjN58Kuuoxb0I5RmdM9Vj81kMKYtwEL58xlBMJhPHOWTIYZped7DwcA
-SCU16ukpVyKBcq+PPqoyX31e2clVOjt0fg7bwZ6ok0+EWP0JKoUE22prmFAkLUM4
-JhM7idczyq2KJBqP8X7EIioWU1fzdadKH6bMxkRJJfwSlnGkpd2nWtYCshS3+A2c
-bcm/a0OAVuJHcavX3GE1rq+scN9WAw==
-=lzL5
------END PGP SIGNATURE-----
-
---SWGyy8NOMswpb2OHEosFFO0hlRCtNu3Kj--
+Kevin
 
 
