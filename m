@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B531A0E5D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 15:30:04 +0200 (CEST)
-Received: from localhost ([::1]:47460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AB7D1A0EA3
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 15:49:37 +0200 (CEST)
+Received: from localhost ([::1]:47686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLoIl-0003cX-GW
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 09:30:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45014)
+	id 1jLobf-0001at-P1
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 09:49:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47879)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jLoHf-0002LH-9w
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 09:28:56 -0400
+ (envelope-from <eblake@redhat.com>) id 1jLoaD-0000fp-6Z
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 09:48:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1jLoHb-0001A6-4k
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 09:28:54 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27217
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1jLoaA-0001vT-SW
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 09:48:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43871
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jLoHb-00017d-0n
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 09:28:51 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jLoaA-0001tm-Mr
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 09:48:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586266129;
+ s=mimecast20190719; t=1586267281;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ocp6EFI20MUtjHSglurSSfhDC1bsCpIKAKWMCb27vzI=;
- b=C8wmc/ApfSPTDQMeecRBpm24CcDpxKJs6lYevHzo++gu9KQE7zxCh5+0F23yjGu0upyTbp
- ApbRaHAyRZNuB1u/rgzV6R/NsSh0s/PhXSAH+XjuSVTgjQqsbwPtJSR7Y1k/Q6UVG+aX32
- lYqlLsK6LKaGuvpS9YrtkTszqdOxwQM=
+ bh=ABcuaxqbH4G6x6mMYuhd+ADu34PgQNjR070PllAdWUo=;
+ b=ds+k6u5yK/Ek6D0nOKPxD7YdXhOO0BYxIBQN5IdU7QoL98RAQCS/Wt4GZBxzV/o1d17HEg
+ VTmAwrnSKbK3AZKswi5I/r52VMUq0ilwLAhwWAoOC7IviEuokMPmswCiTWNoid0K8PCAue
+ Om1HJOKNOtm5TWay6Q6Yv9b5BMrAmiQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-163-98bDI2EnMXS9kxLZ7dlJew-1; Tue, 07 Apr 2020 09:28:48 -0400
-X-MC-Unique: 98bDI2EnMXS9kxLZ7dlJew-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-43-IJUnKsKHNXiyEl5iaIfF0w-1; Tue, 07 Apr 2020 09:47:53 -0400
+X-MC-Unique: IJUnKsKHNXiyEl5iaIfF0w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A002801E66;
- Tue,  7 Apr 2020 13:28:42 +0000 (UTC)
-Received: from gondolin (ovpn-112-38.ams2.redhat.com [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2CF6C7E303;
- Tue,  7 Apr 2020 13:28:00 +0000 (UTC)
-Date: Tue, 7 Apr 2020 15:27:58 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
-Subject: Re: [PATCH-for-5.1 v2 49/54] various: Use &error_abort in
- instance_init()
-Message-ID: <20200407152758.1cf47130.cohuck@redhat.com>
-In-Reply-To: <20200406174743.16956-50-f4bug@amsat.org>
-References: <20200406174743.16956-1-f4bug@amsat.org>
- <20200406174743.16956-50-f4bug@amsat.org>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B277685B6FC;
+ Tue,  7 Apr 2020 13:47:39 +0000 (UTC)
+Received: from [10.3.114.49] (ovpn-114-49.phx2.redhat.com [10.3.114.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 001844D707;
+ Tue,  7 Apr 2020 13:47:32 +0000 (UTC)
+Subject: Re: Function-like macro with the same name as a typedef confuses
+ Coccinelle
+To: Markus Armbruster <armbru@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <87k12y5by1.fsf@dusky.pond.sub.org>
+ <CAFEAcA8aBjWPVH7VsicTrKce1K-sOh0Sv+Ok-75zbtsJV=OBaA@mail.gmail.com>
+ <87d08q3th5.fsf@dusky.pond.sub.org> <87eeszcxt6.fsf@dusky.pond.sub.org>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <84b95ae1-04ca-9d01-f273-cf0faa459e52@redhat.com>
+Date: Tue, 7 Apr 2020 08:47:32 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <87eeszcxt6.fsf@dusky.pond.sub.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,126 +79,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, "Michael
- S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, "Edgar E.
- Iglesias" <edgar.iglesias@gmail.com>, Jiri Slaby <jslaby@suse.cz>,
- Li Zhijian <lizhijian@cn.fujitsu.com>,
- "open list:Floppy" <qemu-block@nongnu.org>,
- David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- =?UTF-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>, "open
- list:Old World g3beige" <qemu-ppc@nongnu.org>,
- Richard Henderson <rth@twiddle.net>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Eric Farman <farman@linux.ibm.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Amit Shah <amit@kernel.org>,
- Alistair Francis <alistair@alistair23.me>,
- "open list:S390 Virtio-ccw" <qemu-s390x@nongnu.org>,
- "open list:Raspberry Pi" <qemu-arm@nongnu.org>,
- =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- "open list:RISC-V TCG
- CPUs" <qemu-riscv@nongnu.org>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- Andrew Jeffery <andrew@aj.id.au>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, Max Reitz <mreitz@redhat.com>,
- Zhang Chen <chen.zhang@intel.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Paolo Bonzini <pbonzini@redhat.com>
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon,  6 Apr 2020 19:47:38 +0200
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
+On 4/7/20 6:58 AM, Markus Armbruster wrote:
+> Markus Armbruster <armbru@redhat.com> writes:
+> 
+>> Peter Maydell <peter.maydell@linaro.org> writes:
+>>
+>>> On Thu, 2 Apr 2020 at 13:06, Markus Armbruster <armbru@redhat.com> wrote:
+>>>>
+>>>> I discovered that Vladimir's auto-propagated-errp.cocci leaves
+>>>> hw/arm/armsse.c unchanged, even though it clearly should change it.
+>>>> Running spatch with --debug prints (among lots of other things)
+>>>
+>>>> Clearly, Coccinelle is getting spooked to easily.
+>>>
+>>> Is it worth asking on the coccinelle mailing list about whether
+>>> coccinelle could be made to be less picky in this area ?
+>>
+>> I guess we owe them the feedback.  I'll look into minimizing the
+>> reproducer.
+> 
+> https://systeme.lip6.fr/pipermail/cocci/2020-April/007097.html
 
-> Patch created mechanically by running:
->=20
->   $ spatch \
->     --macro-file scripts/cocci-macro-file.h \
->     --include-headers --keep-comments --in-place \
->     --sp-file \
->       scripts/coccinelle/use-error_abort-in-instance_init.cocci
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  backends/cryptodev-vhost-user.c |  2 +-
->  backends/rng-egd.c              |  2 +-
->  backends/rng-random.c           |  2 +-
->  backends/vhost-user.c           |  3 ++-
->  hw/arm/bcm2835_peripherals.c    |  6 ++++--
->  hw/arm/vexpress.c               |  8 ++++----
->  hw/arm/xlnx-zcu102.c            |  8 ++++----
->  hw/block/fdc.c                  |  4 ++--
->  hw/block/vhost-user-blk.c       |  2 +-
->  hw/block/virtio-blk.c           |  2 +-
->  hw/core/machine.c               |  6 +++---
->  hw/cpu/core.c                   |  4 ++--
->  hw/display/vga-pci.c            |  7 +++++--
->  hw/display/xlnx_dp.c            |  4 ++--
->  hw/dma/sparc32_dma.c            |  2 +-
->  hw/gpio/aspeed_gpio.c           |  2 +-
->  hw/ide/macio.c                  |  4 +++-
->  hw/ide/qdev.c                   |  4 ++--
->  hw/intc/apic_common.c           |  2 +-
->  hw/mem/nvdimm.c                 |  4 ++--
->  hw/misc/aspeed_sdmc.c           |  2 +-
->  hw/misc/edu.c                   |  3 ++-
->  hw/misc/macio/macio.c           |  4 ++--
->  hw/misc/macio/pmu.c             |  3 ++-
->  hw/misc/pca9552.c               |  2 +-
->  hw/misc/tmp105.c                |  2 +-
->  hw/misc/tmp421.c                |  8 ++++----
->  hw/net/e1000.c                  |  3 ++-
->  hw/net/lance.c                  |  3 ++-
->  hw/net/lasi_i82596.c            |  3 ++-
->  hw/net/ne2000-isa.c             |  4 ++--
->  hw/net/spapr_llan.c             |  2 +-
->  hw/net/virtio-net.c             |  2 +-
->  hw/pci-host/grackle.c           |  2 +-
->  hw/pci-host/i440fx.c            |  8 ++++----
->  hw/pci-host/prep.c              |  2 +-
->  hw/pci-host/q35.c               | 23 ++++++++++++++---------
->  hw/pci-host/sabre.c             |  3 ++-
->  hw/pci-host/uninorth.c          |  9 +++++----
->  hw/pcmcia/pxa2xx.c              |  3 ++-
->  hw/ppc/spapr_drc.c              |  6 +++---
->  hw/ppc/spapr_rng.c              |  2 +-
->  hw/riscv/sifive_u.c             |  4 ++--
->  hw/s390x/event-facility.c       |  6 +++---
->  hw/s390x/s390-ccw.c             |  2 +-
->  hw/s390x/s390-skeys.c           |  4 ++--
->  hw/s390x/s390-stattrib.c        |  4 ++--
->  hw/s390x/sclp.c                 |  2 +-
->  hw/scsi/scsi-bus.c              |  2 +-
->  hw/ssi/xilinx_spips.c           |  2 +-
->  hw/usb/bus.c                    |  4 ++--
->  hw/usb/dev-network.c            |  2 +-
->  hw/usb/dev-storage.c            |  4 ++--
->  hw/usb/host-libusb.c            |  2 +-
->  hw/usb/redirect.c               |  2 +-
->  hw/virtio/virtio-balloon.c      |  4 ++--
->  net/dump.c                      |  4 ++--
->  net/filter-buffer.c             |  2 +-
->  net/filter-mirror.c             | 10 +++++-----
->  net/filter-rewriter.c           |  3 ++-
->  target/arm/cpu64.c              |  4 ++--
->  target/i386/cpu.c               | 23 ++++++++++++++---------
->  target/s390x/cpu.c              |  3 ++-
->  tests/check-qom-proplist.c      |  7 ++++---
->  tests/test-qdev-global-props.c  |  4 ++--
->  65 files changed, 155 insertions(+), 126 deletions(-)
->=20
+Wow - firefox refused to connect to that site until I downgraded to 
+permitting TLS 1.1.  We should also tell them about their configuration 
+bug in not supporting TLS 1.2 for their archives.
 
-s390 parts:
-Acked-by: Cornelia Huck <cohuck@redhat.com>
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
