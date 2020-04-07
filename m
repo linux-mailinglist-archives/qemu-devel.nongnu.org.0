@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF3DA1A10AB
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 17:52:59 +0200 (CEST)
-Received: from localhost ([::1]:49626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 724B21A10B2
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 17:54:48 +0200 (CEST)
+Received: from localhost ([::1]:49694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLqX4-0004zG-Pr
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 11:52:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43607)
+	id 1jLqYp-0000Dk-I7
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 11:54:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43624)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jLqVX-0003NF-MX
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:51:24 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jLqVY-0003NK-Mu
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:51:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jLqVW-0004Fp-KY
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:51:23 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43722)
+ (envelope-from <alex.bennee@linaro.org>) id 1jLqVX-0004HD-Q9
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:51:24 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:56292)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jLqVW-0004FD-Ep
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:51:22 -0400
-Received: by mail-wr1-x441.google.com with SMTP id w15so4446745wrv.10
- for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 08:51:22 -0700 (PDT)
+ id 1jLqVX-0004G3-KI
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:51:23 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id e26so2231890wmk.5
+ for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 08:51:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VJ6+jJuK9aM49AP9y9RG5kZxMwVILHzFOXjQWpNENXw=;
- b=E7cVgqrmx8m42zTAkUJ3leJxd5Zh9dPKamAXLo1ffqZ6Slnpe2RS+diupvVwo4VcDj
- Lm1YuGw2ImaGRPIrf+INC5+7o0WIQCdYdiuk1mjOubKpoLqpnjzzCYyOxm6NWco1WfsG
- haVz/7irjlwr8VXVZQqWmivLQqL3TscBXMdrTHPexT5rceZWhhk2/8JjoYx5zxuyrXlG
- +rt9sSNjsv+5EPDsuFyuVl/rY6emTU4DbQrov9YMcxP8TI6qJ4gBaHblF1FsreZRT2p3
- pUaH5FZ0zJI+BwdkvljGYQRiK2dyYtqgfV571LCFpwbFq0hNLH/5u754Epxn2xkIL85X
- zTZA==
+ bh=PbesXQUG3Qr2w0fWSAAmJ+0PO5T8KwoqRlchy88FHNA=;
+ b=oICfkXuyhHmVwAl/4mRoLJSLXNu7mcNg6OYmbVeiUFowmscviTbv4Jng1F5GyClnCG
+ ms1SJSe9UBA9xZMjeB++Tr09GKcAG4QIyBQ8UJ8xAx/Wfz1pzunESgQ0LkE+p6w/9T8x
+ e8nF2eM0WTFnpHSlT9AhKUimda8H6RDkF+P2P3DHHx19D5bMTuyJSYCflRFIef8FQK0U
+ 1OTAx/YMXLHU6AGNpJEaDuuxd5OO0MwFg0upr8ZkZrDo9p0WHhELLe3yvM/f+gPEP9HF
+ K34jXbe2209aKKo1vcGrHS1pjy0P/Rm9+XVMF9isBJm2nrQ52SqWnzh/J/TdlHVsa5QJ
+ Ev7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VJ6+jJuK9aM49AP9y9RG5kZxMwVILHzFOXjQWpNENXw=;
- b=RVRy9RYyzt19iIjbkqoi1Yv872NpMKpgCXwbHECzNcVTRaWF3DbBzJhDR5sPB81TaW
- nMSw5TR2j2oXkOIWkSsFL7I8SfzCiQ1x/SW8BCxE0UuPWsCLdz4gOWlwgn2TzFgvJNA3
- l8B/C772LqgeOZTlbrqnHl43PbO1wzk7lrVRNO4oaOUHUNseUMQ77200ww3pTdC0ZuOl
- P4+CRILPcB2R52t8nfI6PlR0+g0ktK9zztBSkSkDldlSdcuIsHDmIbC98IUTdXgflrQW
- n8YnqOR7Ws2TTK5c5xgSJpu4ByjFnmB1qbosLG7b7Kpiwza8V7SFrcC8yQuF3LdUJlR9
- HnIw==
-X-Gm-Message-State: AGi0Pua/vf0Hu7HkWkrjVLiB+eWkd/C/EtaptnWcmtEliO85jDw40Z8u
- aEpXcTFIY8Rd0RCnu/w6sQatmQ==
-X-Google-Smtp-Source: APiQypIj+YUA9HsryvVOCSbNoY3pvZb25vDpN+nLm4jVHAZx3MduCBA17p5iSQhUsmj7k2//EtvHxg==
-X-Received: by 2002:a5d:6452:: with SMTP id d18mr3336077wrw.405.1586274681427; 
- Tue, 07 Apr 2020 08:51:21 -0700 (PDT)
+ bh=PbesXQUG3Qr2w0fWSAAmJ+0PO5T8KwoqRlchy88FHNA=;
+ b=ZhT9JoTgEjIZr/L59qkPUbs1jDHn53mS/mx0jz7BOda27hzwePRRpKkCRNiXMA3Xi3
+ p+hYusJQUU8qfPOk76M5TPu1BonQQj319G2w3mlgqPGu9hP6LV2o/BTAg12twV1yI3Ss
+ T4BZ2OQ4cSPB/SfYm0sDUmR+gAksxz5g8YKEPv0oSykbg+nU3s0FMqdCRowmo8dFIZMa
+ hb0CiStHMF6oRcB2fT6cvvoucdrC7aRXl4P8vi/7Cw6NnintpwWfWw3DysBLT4D9IMzq
+ 7+kgXUzdL3BHvU1r5dnBQfMO2/dnaK/km+BexqBaKiLEtl45uiagAb+BcZSLMnIm69ik
+ EAHQ==
+X-Gm-Message-State: AGi0PuYU847egmJPwXwHh3p7kH4rZp95Xw3uYxNSyi71rmD9UPJIRS1I
+ IBzqQhpIkvPP31hNjBgTzReNpg==
+X-Google-Smtp-Source: APiQypI6enBHBjwxKsjTmidUIkeHHES++K9FcDFLYF4KpUS94vV4Iiu4+FBpNBoHGxZQGHAlvD0LLg==
+X-Received: by 2002:a05:600c:2251:: with SMTP id
+ a17mr2993003wmm.106.1586274682624; 
+ Tue, 07 Apr 2020 08:51:22 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i1sm2871571wmb.33.2020.04.07.08.51.19
+ by smtp.gmail.com with ESMTPSA id p3sm11048654wrq.97.2020.04.07.08.51.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 07 Apr 2020 08:51:19 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 854881FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id A00BA1FF90;
  Tue,  7 Apr 2020 16:51:18 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 03/13] linux-user: protect fcntl64 with an #ifdef
-Date: Tue,  7 Apr 2020 16:51:08 +0100
-Message-Id: <20200407155118.20139-4-alex.bennee@linaro.org>
+Subject: [PULL 04/13] tests/tcg: remove extraneous pasting macros
+Date: Tue,  7 Apr 2020 16:51:09 +0100
+Message-Id: <20200407155118.20139-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200407155118.20139-1-alex.bennee@linaro.org>
 References: <20200407155118.20139-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,50 +82,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Riku Voipio <riku.voipio@iki.fi>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Checking TARGET_ABI_BITS is sketchy - we should check for the presence
-of the define to be sure. Also clean up the white space while we are
-there.
+We are not using them and they just get in the way.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200403191150.863-3-alex.bennee@linaro.org>
+Message-Id: <20200403191150.863-4-alex.bennee@linaro.org>
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 5af55fca781..b679bc6b136 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -11331,11 +11331,11 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-            This is a hint, so ignoring and returning success is ok.  */
-         return 0;
- #endif
--#if TARGET_ABI_BITS == 32
-+#ifdef TARGET_NR_fcntl64
-     case TARGET_NR_fcntl64:
-     {
--	int cmd;
--	struct flock64 fl;
-+        int cmd;
-+        struct flock64 fl;
-         from_flock64_fn *copyfrom = copy_from_user_flock64;
-         to_flock64_fn *copyto = copy_to_user_flock64;
+diff --git a/tests/tcg/x86_64/system/boot.S b/tests/tcg/x86_64/system/boot.S
+index 205cfbd3982..73b19a2bda6 100644
+--- a/tests/tcg/x86_64/system/boot.S
++++ b/tests/tcg/x86_64/system/boot.S
+@@ -41,10 +41,7 @@
+ #define XEN_ELFNOTE_PHYS32_ENTRY  18
  
-@@ -11346,7 +11346,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         }
- #endif
+ #define __ASM_FORM(x)	x
+-#define __ASM_FORM_RAW(x)     x
+-#define __ASM_FORM_COMMA(x) x,
+-#define __ASM_SEL(a,b)           __ASM_FORM(b)
+-#define __ASM_SEL_RAW(a,b)      __ASM_FORM_RAW(b)
++#define __ASM_SEL(a,b)  __ASM_FORM(b)
+ #define _ASM_PTR	__ASM_SEL(.long, .quad)
  
--	cmd = target_to_host_fcntl_cmd(arg2);
-+        cmd = target_to_host_fcntl_cmd(arg2);
-         if (cmd == -TARGET_EINVAL) {
-             return cmd;
-         }
+ 	ELFNOTE(Xen, XEN_ELFNOTE_VIRT_BASE,      _ASM_PTR 0x100000)
 -- 
 2.20.1
 
