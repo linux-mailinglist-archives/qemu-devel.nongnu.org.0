@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2DC81A09FA
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 11:24:00 +0200 (CEST)
-Received: from localhost ([::1]:43830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3FE71A09FC
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 11:25:22 +0200 (CEST)
+Received: from localhost ([::1]:43854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLkSd-0004Ud-Rs
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 05:23:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33177)
+	id 1jLkTx-00071N-VI
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 05:25:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33111)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jLkR7-0002OU-Db
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:22:26 -0400
+ (envelope-from <kraxel@redhat.com>) id 1jLkQz-0002IK-Jf
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:22:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1jLkR5-0000h5-84
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:22:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37856
+ (envelope-from <kraxel@redhat.com>) id 1jLkQy-0000aU-It
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:22:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60230
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jLkR3-0000dt-OK
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:22:21 -0400
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jLkQy-0000Zi-D0
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:22:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586251339;
+ s=mimecast20190719; t=1586251336;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NM3v1M7rRjav14bilItKEzeKQnAuvPJUdvO24hXCyXs=;
- b=YZaMIwLbtEe45EwixOEtwA8DRe6ORnko5SMiBp4WbPH5cBMrN8XOlvAgnNM2p7mZGO63tp
- kXlw8XLtwfLXzAaJXQTNsMe4gd4ZJhweux0Ni1AeDdV16buCATgTXYNiGuSzQ2djjMcDgt
- Zqfw6qxbs/Shwz1xFssT4uWHFAFE9VU=
+ bh=MScHmYDiUSa4Iqbzbrlr05FKQfpiha1WluPabMnn3LQ=;
+ b=dkDWoDkn+101UksN6Pp6D+sYa+95CGowZkNpKbj7G0etjPiZIkyYPY/CiOFnIyHHoOXl9e
+ BbUWlcAzTRgEzCe34Lza4S7/ozOcBzfg65MfYE/8MibvhHJOGgB5WCtut6jo/X10c9COE6
+ DaN0Wuy2PeVzmpYIrRAxHhXXdfglVis=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-z5b4TgFlMpmWaR7RgW4ACw-1; Tue, 07 Apr 2020 05:22:15 -0400
-X-MC-Unique: z5b4TgFlMpmWaR7RgW4ACw-1
+ us-mta-312-jvTXjx1kPxSlJY7o6sX45g-1; Tue, 07 Apr 2020 05:22:12 -0400
+X-MC-Unique: jvTXjx1kPxSlJY7o6sX45g-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A8378017CE;
- Tue,  7 Apr 2020 09:22:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34DF313FB;
+ Tue,  7 Apr 2020 09:22:11 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-60.ams2.redhat.com
  [10.36.113.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1CA145C1BB;
- Tue,  7 Apr 2020 09:22:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 29A495C28E;
+ Tue,  7 Apr 2020 09:22:09 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 15DEF17511; Tue,  7 Apr 2020 11:22:07 +0200 (CEST)
+ id 1FD8317516; Tue,  7 Apr 2020 11:22:07 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/4] dsoundaudio: fix "Could not lock capture buffer" warning
-Date: Tue,  7 Apr 2020 11:22:04 +0200
-Message-Id: <20200407092207.6079-3-kraxel@redhat.com>
+Subject: [PULL 3/4] dsoundaudio: dsound_get_buffer_in should honor *size
+Date: Tue,  7 Apr 2020 11:22:05 +0200
+Message-Id: <20200407092207.6079-4-kraxel@redhat.com>
 In-Reply-To: <20200407092207.6079-1-kraxel@redhat.com>
 References: <20200407092207.6079-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -61,8 +61,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,39 +80,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 
-IDirectSoundCaptureBuffer_Lock() fails on Windows when called
-with len =3D 0. Return early from dsound_get_buffer_in() in this
-case.
-
-To reproduce the warning start a linux guest. In the guest
-start Audacity and you will see a lot of "Could not lock
-capture buffer" warnings.
+This patch prevents an underflow of variable samples in function
+audio_pcm_hw_run_in(). See commit 599eac4e5a "audio:
+audio_generic_get_buffer_in should honor *size". This time the
+while loop in audio_pcm_hw_run_in() will terminate nevertheless,
+because it seems the recording stream in Windows is always rate
+limited.
 
 Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
-Message-id: 20200405075017.9901-2-vr_qemu@t-online.de
+Message-id: 20200405075017.9901-3-vr_qemu@t-online.de
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/dsoundaudio.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ audio/audio.c       | 12 +++++-------
+ audio/dsoundaudio.c |  2 +-
+ 2 files changed, 6 insertions(+), 8 deletions(-)
 
+diff --git a/audio/audio.c b/audio/audio.c
+index 9ac9a20c41ba..7a9e6803558b 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -1491,16 +1491,14 @@ size_t audio_generic_write(HWVoiceOut *hw, void *bu=
+f, size_t size)
+=20
+ size_t audio_generic_read(HWVoiceIn *hw, void *buf, size_t size)
+ {
+-    size_t src_size, copy_size;
+-    void *src =3D hw->pcm_ops->get_buffer_in(hw, &src_size);
+-    copy_size =3D MIN(size, src_size);
++    void *src =3D hw->pcm_ops->get_buffer_in(hw, &size);
+=20
+-    memcpy(buf, src, copy_size);
+-    hw->pcm_ops->put_buffer_in(hw, src, copy_size);
+-    return copy_size;
++    memcpy(buf, src, size);
++    hw->pcm_ops->put_buffer_in(hw, src, size);
++
++    return size;
+ }
+=20
+-
+ static int audio_driver_init(AudioState *s, struct audio_driver *drv,
+                              bool msg, Audiodev *dev)
+ {
 diff --git a/audio/dsoundaudio.c b/audio/dsoundaudio.c
-index 9e621c889954..a08d519cae6a 100644
+index a08d519cae6a..4cdf19ab6799 100644
 --- a/audio/dsoundaudio.c
 +++ b/audio/dsoundaudio.c
-@@ -542,6 +542,11 @@ static void *dsound_get_buffer_in(HWVoiceIn *hw, size_=
-t *size)
-     req_size =3D audio_ring_dist(cpos, hw->pos_emul, hw->size_emul);
-     req_size =3D MIN(req_size, hw->size_emul - hw->pos_emul);
+@@ -540,7 +540,7 @@ static void *dsound_get_buffer_in(HWVoiceIn *hw, size_t=
+ *size)
+     }
 =20
-+    if (req_size =3D=3D 0) {
-+        *size =3D 0;
-+        return NULL;
-+    }
-+
-     err =3D dsound_lock_in(dscb, &hw->info, hw->pos_emul, req_size, &ret, =
-NULL,
-                          &act_size, NULL, false, ds->s);
-     if (err) {
+     req_size =3D audio_ring_dist(cpos, hw->pos_emul, hw->size_emul);
+-    req_size =3D MIN(req_size, hw->size_emul - hw->pos_emul);
++    req_size =3D MIN(*size, MIN(req_size, hw->size_emul - hw->pos_emul));
+=20
+     if (req_size =3D=3D 0) {
+         *size =3D 0;
 --=20
 2.18.2
 
