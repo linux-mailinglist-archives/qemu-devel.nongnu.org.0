@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C8721A05DB
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 06:41:59 +0200 (CEST)
-Received: from localhost ([::1]:41066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 714131A05DA
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 06:40:50 +0200 (CEST)
+Received: from localhost ([::1]:41042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLg3i-0007td-FY
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 00:41:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52382)
+	id 1jLg2b-0006NT-HO
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 00:40:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52395)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jLfyN-0007zR-9E
+ (envelope-from <dgibson@ozlabs.org>) id 1jLfyN-0007zs-Gv
  for qemu-devel@nongnu.org; Tue, 07 Apr 2020 00:36:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jLfyM-0004EG-2g
+ (envelope-from <dgibson@ozlabs.org>) id 1jLfyM-0004EU-4y
  for qemu-devel@nongnu.org; Tue, 07 Apr 2020 00:36:27 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:39321)
+Received: from ozlabs.org ([2401:3900:2:1::2]:44791)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jLfyL-0004Bj-Ob; Tue, 07 Apr 2020 00:36:26 -0400
+ id 1jLfyL-0004Bi-Ps; Tue, 07 Apr 2020 00:36:26 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48xF3K3t5jz9sSx; Tue,  7 Apr 2020 14:36:13 +1000 (AEST)
+ id 48xF3K3SH6z9sSb; Tue,  7 Apr 2020 14:36:13 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1586234173;
- bh=sh6TtPXrdue9B6HZ43emGvTJpQJECTK+zFY9Ut9jfDQ=;
+ bh=DUnTri7UMEV9sPL1R6ffZJAUsoqegh6MBdGQbtcDAxU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=k8RsCwVE9gioOH9JSdq91A+g+2lnyEqh0mJ6KmCV0hPtX7lGG2s9AAOqUoJWR7Wyd
- ljfrWQ+vU0xPI1GVHyJ2851yZ2UlCHfRuiRClBzLApXNsOIZ8dkpvQ2nNB1hrcuInh
- Acrark0/ZZl4Avj3We3SE/9L77Yu9HOGm3WBmOV8=
+ b=W+mhxOeMtJvqlhPBm0agJzRIEoupKGsXeppToXgisYD2ACkiW+emDykx0FTMYNl4T
+ prp6bJJUkg2cALl3URuOM31HW5bqjCpkoy0up/MQOvZ5DTXDzfTcrxjnJPkpSFtV46
+ g9zgkmNYk8ynjaryW2OaCLT9RCYFq3lgKMaWDIKs=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 05/10] ppc/spapr: Add FWNMI machine check delivery warnings
-Date: Tue,  7 Apr 2020 14:36:01 +1000
-Message-Id: <20200407043606.291546-6-david@gibson.dropbear.id.au>
+Subject: [PULL 06/10] ppc/spapr: Don't kill the guest if a recovered FWNMI
+ machine check delivery fails
+Date: Tue,  7 Apr 2020 14:36:02 +1000
+Message-Id: <20200407043606.291546-7-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <20200407043606.291546-1-david@gibson.dropbear.id.au>
 References: <20200407043606.291546-1-david@gibson.dropbear.id.au>
@@ -61,58 +62,87 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Nicholas Piggin <npiggin@gmail.com>
 
-Add some messages which explain problems and guest misbehaviour that
-may be difficult to diagnose in rare cases of machine checks.
+Try to be tolerant of FWNMI delivery errors if the machine check had been
+recovered by the host.
 
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-Message-Id: <20200325142906.221248-4-npiggin@gmail.com>
+Message-Id: <20200325142906.221248-5-npiggin@gmail.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
+[dwg: Updated comment at Greg's suggestion]
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_events.c | 4 ++++
- hw/ppc/spapr_rtas.c   | 3 +++
- 2 files changed, 7 insertions(+)
+ hw/ppc/spapr_events.c | 30 +++++++++++++++++++++++++-----
+ 1 file changed, 25 insertions(+), 5 deletions(-)
 
 diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-index a908c5d0e9..c8964eb25d 100644
+index c8964eb25d..1069d0197b 100644
 --- a/hw/ppc/spapr_events.c
 +++ b/hw/ppc/spapr_events.c
-@@ -833,6 +833,8 @@ static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, =
-bool recovered)
+@@ -833,13 +833,28 @@ static void spapr_mce_dispatch_elog(PowerPCCPU *cpu=
+, bool recovered)
      /* get rtas addr from fdt */
      rtas_addr =3D spapr_get_rtas_addr();
      if (!rtas_addr) {
-+        error_report(
-+"FWNMI: Unable to deliver machine check to guest: rtas_addr not found.")=
+-        error_report(
++        if (!recovered) {
++            error_report(
+ "FWNMI: Unable to deliver machine check to guest: rtas_addr not found.")=
 ;
-         qemu_system_guest_panicked(NULL);
+-        qemu_system_guest_panicked(NULL);
++            qemu_system_guest_panicked(NULL);
++        } else {
++            warn_report(
++"FWNMI: Unable to deliver machine check to guest: rtas_addr not found. "
++"Machine check recovered.");
++        }
          g_free(ext_elog);
          return;
-@@ -874,6 +876,8 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recove=
-red)
+     }
+=20
++    /*
++     * By taking the interlock, we assume that the MCE will be
++     * delivered to the guest. CAUTION: don't add anything that could
++     * prevent the MCE to be delivered after this line, otherwise the
++     * guest won't be able to release the interlock and ultimately
++     * hang/crash?
++     */
++    spapr->fwnmi_machine_check_interlock =3D cpu->vcpu_id;
++
+     stq_be_phys(&address_space_memory, rtas_addr + RTAS_ERROR_LOG_OFFSET=
+,
+                 env->gpr[3]);
+     cpu_physical_memory_write(rtas_addr + RTAS_ERROR_LOG_OFFSET +
+@@ -876,9 +891,15 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recov=
+ered)
           * that CPU called "ibm,nmi-interlock")
           */
          if (spapr->fwnmi_machine_check_interlock =3D=3D cpu->vcpu_id) {
-+            error_report(
-+"FWNMI: Unable to deliver machine check to guest: nested machine check."=
+-            error_report(
++            if (!recovered) {
++                error_report(
+ "FWNMI: Unable to deliver machine check to guest: nested machine check."=
 );
-             qemu_system_guest_panicked(NULL);
+-            qemu_system_guest_panicked(NULL);
++                qemu_system_guest_panicked(NULL);
++            } else {
++                warn_report(
++"FWNMI: Unable to deliver machine check to guest: nested machine check. =
+"
++"Machine check recovered.");
++            }
              return;
          }
-diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-index 29abe66d01..bcac0d00e7 100644
---- a/hw/ppc/spapr_rtas.c
-+++ b/hw/ppc/spapr_rtas.c
-@@ -462,6 +462,9 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+         qemu_cond_wait_iothread(&spapr->fwnmi_machine_check_interlock_co=
+nd);
+@@ -906,7 +927,6 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recove=
+red)
+         warn_report("Received a fwnmi while migration was in progress");
      }
 =20
-     if (spapr->fwnmi_machine_check_addr =3D=3D -1) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+"FWNMI: ibm,nmi-interlock RTAS called with FWNMI not registered.\n");
-+
-         /* NMI register not called */
-         rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
-         return;
+-    spapr->fwnmi_machine_check_interlock =3D cpu->vcpu_id;
+     spapr_mce_dispatch_elog(cpu, recovered);
+ }
+=20
 --=20
 2.25.2
 
