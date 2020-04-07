@@ -2,71 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D28BC1A0D04
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 13:43:21 +0200 (CEST)
-Received: from localhost ([::1]:45742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A1361A0D08
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 13:46:17 +0200 (CEST)
+Received: from localhost ([::1]:45800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLmdU-0002NP-K8
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 07:43:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53896)
+	id 1jLmgK-0004AL-3S
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 07:46:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55272)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jLmcO-0001YP-VO
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 07:42:16 -0400
+ (envelope-from <clg@kaod.org>) id 1jLmfB-0003Rp-Bu
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 07:45:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jLmcN-000681-US
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 07:42:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20009
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1jLmf8-0007yp-WB
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 07:45:05 -0400
+Received: from 6.mo173.mail-out.ovh.net ([46.105.43.93]:42492)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jLmcN-00067a-RF
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 07:42:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586259731;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YIyINTCo+c85ZDVFjJw6uH02aif6k+XK2F8JEPWlizw=;
- b=FoXXZmjKRVo98n+f5QUy8/cF2kgngcYCit0eJRW72Bbnv0VUjNII9n0Qu1uq8FdjuP/Ato
- RIqArF3NizPJE8372xGGRDa/7knyDF/oXCPfiMTcM42EU1UxG91FCElViVH6cw7oedVGEe
- Z6/I95Xt3Vrfyd3gJl1ukAZqg3LI5VY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-211-5ntJEqunNyekV1fD5QsQrg-1; Tue, 07 Apr 2020 07:42:08 -0400
-X-MC-Unique: 5ntJEqunNyekV1fD5QsQrg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF7661005514;
- Tue,  7 Apr 2020 11:42:07 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-20.ams2.redhat.com
- [10.36.113.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 683B05E000;
- Tue,  7 Apr 2020 11:42:07 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D994811385C8; Tue,  7 Apr 2020 13:42:05 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Simran Singhal <singhalsimran0@gmail.com>
-Subject: Re: [PATCH v3] qobject: json-streamer: Change bracket_count to
- brace_count
-References: <20200402182848.GA3023@simran-Inspiron-5558>
- <87eet5t67y.fsf@dusky.pond.sub.org>
-Date: Tue, 07 Apr 2020 13:42:05 +0200
-In-Reply-To: <87eet5t67y.fsf@dusky.pond.sub.org> (Markus Armbruster's message
- of "Fri, 03 Apr 2020 08:48:33 +0200")
-Message-ID: <87y2r7v7xu.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jLmf8-0007wF-Ji
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 07:45:02 -0400
+Received: from player739.ha.ovh.net (unknown [10.108.35.59])
+ by mo173.mail-out.ovh.net (Postfix) with ESMTP id 4B8ED136841
+ for <qemu-devel@nongnu.org>; Tue,  7 Apr 2020 13:45:00 +0200 (CEST)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player739.ha.ovh.net (Postfix) with ESMTPSA id 56405D2B9B6E;
+ Tue,  7 Apr 2020 11:44:53 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: [RFC PATCH] qom: Implement qom-get HMP command
+Date: Tue,  7 Apr 2020 13:44:49 +0200
+Message-Id: <20200407114449.482532-1-clg@kaod.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+X-Ovh-Tracer-Id: 7474568006855920434
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrudehgdeghecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeefledrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 46.105.43.93
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,54 +53,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, Julia Suvorova <jusual@mail.ru>,
- qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-> Simran Singhal <singhalsimran0@gmail.com> writes:
->
->> Change the "parser->bracket_count >=3D 0" to "parser->brace_count >=3D 0=
-"
->> to fix the typo.
->>
->> Fixes: 8d3265b3
->>
->> Reviewed-by: Eric Blake <eblake@redhat.com>
->> Signed-off-by: Simran Singhal <singhalsimran0@gmail.com>
->
-> First, thank you so much for spotting and fixing my typo!
->
-> The commit message neglects to explain what is broken.  I'd like to use
-> this one:
->
->   json: Fix check for unbalanced right curly brace
->
->   We immediately diagnose unbalanced right curly brace:
->
->       $ qemu-kvm --nodefaults --nographic --qmp stdio
->       {"QMP": {"version": {"qemu": {"micro": 91, "minor": 2, "major": 4},
->       "package": "v5.0.0-rc1-1-gf6ce4a439a08"}, "capabilities": ["oob"]}}
->       }
->       {"error": {"class": "GenericError", "desc": "JSON parse error,
->       expecting value"}}
->
->   except within square bracket:
->
->       [}
->
->   The check for unbalanced braces has a typo.  Fix it.
->
->   Fixes: 8d3265b3d00db1071d1d3bf8433b4818088fdeb5
->   Signed-off-by: Simran Singhal <singhalsimran0@gmail.com>
->   Reviewed-by: Eric Blake <eblake@redhat.com>
->
-> Objections?
+Reimplement it based on qmp_qom_get() to avoid converting QObjects back
+to strings.
 
-Apparently none.  Queued, thanks!
+Inspired-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Andreas F=C3=A4rber <afaerber@suse.de>
 
-[...]
+Slight fix for bit-rot:
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+[clg: updates for QEMU 5.0 ]
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+
+ I would like to restart the discussion on qom-get command to understand
+ what was the conclusion and see if things have changed since.
+
+ Thanks,
+
+ C.
+
+ include/monitor/hmp.h |  1 +
+ qom/qom-hmp-cmds.c    | 23 +++++++++++++++++++++++
+ hmp-commands.hx       | 13 +++++++++++++
+ 3 files changed, 37 insertions(+)
+
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index e33ca5a911a5..c986cfd28bc3 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -96,6 +96,7 @@ void hmp_info_memdev(Monitor *mon, const QDict *qdict);
+ void hmp_info_numa(Monitor *mon, const QDict *qdict);
+ void hmp_info_memory_devices(Monitor *mon, const QDict *qdict);
+ void hmp_qom_list(Monitor *mon, const QDict *qdict);
++void hmp_qom_get(Monitor *mon, const QDict *qdict);
+ void hmp_qom_set(Monitor *mon, const QDict *qdict);
+ void hmp_info_qom_tree(Monitor *mon, const QDict *dict);
+ void object_add_completion(ReadLineState *rs, int nb_args, const char *s=
+tr);
+diff --git a/qom/qom-hmp-cmds.c b/qom/qom-hmp-cmds.c
+index cd08233a4cfe..b14cf6e785f4 100644
+--- a/qom/qom-hmp-cmds.c
++++ b/qom/qom-hmp-cmds.c
+@@ -40,6 +40,29 @@ void hmp_qom_list(Monitor *mon, const QDict *qdict)
+     hmp_handle_error(mon, err);
+ }
+=20
++void hmp_qom_get(Monitor *mon, const QDict *qdict)
++{
++    const char *path =3D qdict_get_str(qdict, "path");
++    const char *property =3D qdict_get_str(qdict, "property");
++    Error *err =3D NULL;
++    Object *obj;
++    char *value;
++
++    obj =3D object_resolve_path(path, NULL);
++    if (obj =3D=3D NULL) {
++        error_set(&err, ERROR_CLASS_DEVICE_NOT_FOUND,
++                  "Device '%s' not found", path);
++        hmp_handle_error(mon, err);
++        return;
++    }
++    value =3D object_property_print(obj, property, true, &err);
++    if (err =3D=3D NULL) {
++        monitor_printf(mon, "%s\n", value);
++        g_free(value);
++    }
++    hmp_handle_error(mon, err);
++}
++
+ void hmp_qom_set(Monitor *mon, const QDict *qdict)
+ {
+     const char *path =3D qdict_get_str(qdict, "path");
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 7f0f3974ad90..4e39b9caed3e 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1790,6 +1790,19 @@ SRST
+   Print QOM properties of object at location *path*
+ ERST
+=20
++    {
++        .name       =3D "qom-get",
++        .args_type  =3D "path:s,property:s",
++        .params     =3D "path property",
++        .help       =3D "print QOM property",
++        .cmd        =3D hmp_qom_get,
++    },
++
++SRST
++``qom-get``  *path* *property*
++  Print QOM property *property* of object at location *path*
++ERST
++
+     {
+         .name       =3D "qom-set",
+         .args_type  =3D "path:s,property:s,value:s",
+--=20
+2.25.1
 
 
