@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5E401A13C6
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 20:37:39 +0200 (CEST)
-Received: from localhost ([::1]:51946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D02001A1561
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 20:57:25 +0200 (CEST)
+Received: from localhost ([::1]:52046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLt6Q-0007je-PI
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 14:37:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41246)
+	id 1jLtPY-0003jh-FC
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 14:57:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43839)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jLt5O-00074p-B4
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 14:36:35 -0400
+ (envelope-from <rvkagan@yandex-team.ru>) id 1jLtOX-0003HF-3x
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 14:56:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jLt5N-0007To-0z
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 14:36:33 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:51244)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jLt5M-0007Sv-IU
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 14:36:32 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id n4so124431pjp.1
- for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 11:36:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OO+d6Vrr3JcqFZxc8Udb4B+tXcoZQoLKySelinVWra0=;
- b=b96ZQiyOw2YK/XJ3yR7v1662dlNGJgCS0bi2EFjf3Wxg6x0pdx3D+oud+Qxuzw21OE
- 5nvjfAAQkgv3QVlWUlvDqX0dPaGCrzUic+KeBmUtAw6usatGg0hwcN/8vFC3DOuxgpLm
- qgVSE8iU3jUvLD1xsMi7GtwwLAcKSa0HHQvQf02XJ1x1b80wP+/RB4Pi6tOrX5Us9FGb
- GrJQoreVKyAF5eS6v55W0XUqMXV8j6YDjRU/LWUu4M+7q89INlMUjfHr/bEf0AcDrBuH
- a9HkHuPxlvkCYBDW74bNU8ojtJ+t0WsYXe75uOm0PaCGzIG5KRYRAVADOzYfSCyy0QQ6
- dmxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OO+d6Vrr3JcqFZxc8Udb4B+tXcoZQoLKySelinVWra0=;
- b=NU7ig2HG7dE9+iwVx4QbALXj+YTg27uqqfIhWYBOdap82XjprH0RMQqZRcL7Wriwn3
- IzadAWFquE2SwohokzDUhZQ+YR4lTspA2Xwf6HpWpEUO7D9NrQUUazAxHqdt4xLtUqOD
- MJWzj4EyY6wmm3paNIO6EO7x/A47g86edF8aV/h7ULaA20lAr3xaicyRl9zWtkfcBHhx
- rA3s/KGJo7tGxfkNuSlfwikEpz8+RCHJOJz7GMxHBbF+DsC+DNJbw3cVshXN92Fc6PHO
- pJ/zWoV2X1EZCJ2uBiHqy+4Aw7SoERvYxuhdDrLYMeZayqY9aXmT5dHtaxG9Xr4P1D1O
- ba0g==
-X-Gm-Message-State: AGi0PuaEPCUVl+k0XEkVrWQ9HVBgtxfqPliHdtSscBRgv0bLIsFE01l/
- HK6zwnGBaFgmMNbf4oQOG2e/og==
-X-Google-Smtp-Source: APiQypJ9M/E+jROjWKs2qNjbqySAnl672a7i9Qru/y/qQsxoTdyCpbicOFsu8m5Y6wbcuOGYWdooIA==
-X-Received: by 2002:a17:90a:272d:: with SMTP id
- o42mr741084pje.194.1586284590908; 
- Tue, 07 Apr 2020 11:36:30 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id s62sm13826297pgb.94.2020.04.07.11.36.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Apr 2020 11:36:30 -0700 (PDT)
-Subject: Re: [PATCH-for-5.1 v2 53/54] hw/mips/mips_malta: Add missing
- error-propagation code
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-References: <20200406174743.16956-1-f4bug@amsat.org>
- <20200406174743.16956-54-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <fc1ef46a-ea1d-02ff-7ca7-dd26821f34c7@linaro.org>
-Date: Tue, 7 Apr 2020 11:36:28 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <rvkagan@yandex-team.ru>) id 1jLtOT-0000z7-Ll
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 14:56:18 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:37296)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1jLtOS-0000sP-VY
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 14:56:17 -0400
+Received: from mxbackcorp1o.mail.yandex.net (mxbackcorp1o.mail.yandex.net
+ [IPv6:2a02:6b8:0:1a2d::301])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id AD0772E1626;
+ Tue,  7 Apr 2020 21:56:11 +0300 (MSK)
+Received: from iva4-7c3d9abce76c.qloud-c.yandex.net
+ (iva4-7c3d9abce76c.qloud-c.yandex.net [2a02:6b8:c0c:4e8e:0:640:7c3d:9abc])
+ by mxbackcorp1o.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ W3gNjfrmvP-uAXCsAoH; Tue, 07 Apr 2020 21:56:11 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1586285771; bh=Cf/eKvQBF69DieKVYZK4q4t4bli6eNxGN7gYpJCl67M=;
+ h=In-Reply-To:Message-ID:Subject:To:From:References:Date:Cc;
+ b=r8ghE5LYFqMIUHNZJXhVtUdI9w+Exay+CKbqAMNkRRm7ymnKlIS+YARAqd47SG7X9
+ 64P1Lg1ymZLp2m6i1FdH7ISTumHNY9j3woouJBlOkwsOSbMPLSvT9cJ14IcQTv+6Bg
+ izo/y6vBJZ/9ZcFG/LfGfmdQZBqGRKwrlizPDJXE=
+Authentication-Results: mxbackcorp1o.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from unknown (unknown [2a02:6b8:b080:9318::1:d])
+ by iva4-7c3d9abce76c.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ w78Nkkr9rq-uAXmTXN0; Tue, 07 Apr 2020 21:56:10 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Date: Tue, 7 Apr 2020 21:56:08 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: Jon Doron <arilou@gmail.com>
+Subject: Re: [PATCH v1 5/5] i386: Hyper-V VMBus ACPI DSDT entry
+Message-ID: <20200407185608.GA178651@rvkaganb>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ Jon Doron <arilou@gmail.com>,
+ "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>,
+ QEMU <qemu-devel@nongnu.org>,
+ Evgeny Yakovlev <eyakovlev@virtuozzo.com>, ehabkost@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Liran Alon <liran.alon@oracle.com>,
+ Roman Kagan <rkagan@virtuozzo.com>
+References: <20200403142308.82990-1-arilou@gmail.com>
+ <20200403142308.82990-6-arilou@gmail.com>
+ <76017793-735b-4bb5-0e69-ecded78af54d@maciej.szmigiero.name>
+ <CAP7QCog_EmLJ=O8Xi9Tc4Jst1=z62DXim9ScCyoPv7WugrSyOw@mail.gmail.com>
+ <CAP7QCogMdUis-=KsC--0ar2Zt2Vwcpn4HS+qCxPn5khtDTu+mA@mail.gmail.com>
+ <9b9c42d3-af9e-25e9-210e-c58ee5975941@maciej.szmigiero.name>
+ <472544e7-498a-4e28-06e9-83c102d6436b@maciej.szmigiero.name>
+ <20200406073246.GA7707@rvkaganb>
+ <CAP7QCojPsOYjw94k3rkH0A3rLFADLeVhgy502N=8X5wrUnoC6Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200406174743.16956-54-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAP7QCojPsOYjw94k3rkH0A3rLFADLeVhgy502N=8X5wrUnoC6Q@mail.gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::102b
+X-Received-From: 2a02:6b8:0:1472:2741:0:8b6:217
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,83 +85,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>,
+ Evgeny Yakovlev <eyakovlev@virtuozzo.com>, ehabkost@redhat.com,
+ QEMU <qemu-devel@nongnu.org>, Liran Alon <liran.alon@oracle.com>,
+ Roman Kagan <rkagan@virtuozzo.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/6/20 10:47 AM, Philippe Mathieu-Daudé wrote:
-> Running the coccinelle script produced:
-> 
->   $ spatch \
->     --macro-file scripts/cocci-macro-file.h --include-headers \
->     --sp-file scripts/coccinelle/find-missing-error_propagate.cocci \
->     --keep-comments --smpl-spacing --dir .
->   HANDLING: ./hw/mips/mips_malta.c
->   [[manual check required: error_propagate() might be missing in object_property_set_int() ./hw/mips/mips_malta.c:1193:4]]
->   [[manual check required: error_propagate() might be missing in object_property_set_str() ./hw/mips/mips_malta.c:1192:4]]
-> 
-> Add the missing error_propagate() after review by adding
-> a Error* parameter to create_cps().
-> 
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  hw/mips/mips_malta.c | 19 ++++++++++++++-----
->  1 file changed, 14 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-> index e4c4de1b4e..8d43cfd41b 100644
-> --- a/hw/mips/mips_malta.c
-> +++ b/hw/mips/mips_malta.c
-> @@ -1183,18 +1183,27 @@ static void create_cpu_without_cps(MachineState *ms,
->  }
->  
->  static void create_cps(MachineState *ms, MaltaState *s,
-> -                       qemu_irq *cbus_irq, qemu_irq *i8259_irq)
-> +                       qemu_irq *cbus_irq, qemu_irq *i8259_irq,
-> +                       Error **errp)
->  {
->      Error *err = NULL;
->  
->      sysbus_init_child_obj(OBJECT(s), "cps", OBJECT(&s->cps), sizeof(s->cps),
->                            TYPE_MIPS_CPS);
->      object_property_set_str(OBJECT(&s->cps), ms->cpu_type, "cpu-type", &err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    }
->      object_property_set_int(OBJECT(&s->cps), ms->smp.cpus, "num-vp", &err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    }
->      object_property_set_bool(OBJECT(&s->cps), true, "realized", &err);
-> -    if (err != NULL) {
-> -        error_report("%s", error_get_pretty(err));
-> -        exit(1);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
->      }
->  
->      sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->cps), 0, 0, 1);
-> @@ -1207,7 +1216,7 @@ static void mips_create_cpu(MachineState *ms, MaltaState *s,
->                              qemu_irq *cbus_irq, qemu_irq *i8259_irq)
->  {
->      if ((ms->smp.cpus > 1) && cpu_supports_cps_smp(ms->cpu_type)) {
-> -        create_cps(ms, s, cbus_irq, i8259_irq);
-> +        create_cps(ms, s, cbus_irq, i8259_irq, &error_fatal);
+On Mon, Apr 06, 2020 at 11:20:39AM +0300, Jon Doron wrote:
+> Well I want it to be merged in :-)
 
-Are you going to replace this with something else later?
-Otherwise it doesn't seem useful to add the argument here, as opposed to using
-error_fatal in create_cpus()
+Hmm I'm curious why, it has little to offer over virtio.
 
+Anyway the series you've posted seems to be based on a fairly old
+version.
 
-r~
+The one in openvz repo is more recent.  It's still in need for
+improvement, too, but should be testable at least.
+
+Thanks,
+Roman.
+
+> On Mon, Apr 6, 2020, 10:32 Roman Kagan <rvkagan@yandex-team.ru> wrote:
+> 
+> > On Fri, Apr 03, 2020 at 11:00:27PM +0200, Maciej S. Szmigiero wrote:
+> > > It seems to me that Roman might not be getting our e-mails since his
+> > > new e-mail address seems to be "rvkagan@yandex-team.ru".
+> >
+> > Indeed.  I'm subscribed with my new address to qemu-devel ML but must
+> > have missed this series.
+> >
+> > > @Roman, are you with us?
+> >
+> > Yes ;)
+> >
+> > So what are your plans regarding this patchset?
+> >
+> > Thanks,
+> > Roman.
+> >
+> > > On 03.04.2020 19:18, Maciej S. Szmigiero wrote:
+> > > > Hi Jon,
+> > > >
+> > > > The patches are available here:
+> > > > https://github.com/maciejsszmigiero/qemu.git in "vmbus-patches"
+> > branch.
+> > > >
+> > > > Please note that these patches don't have Roman's "Signed-off-by:"
+> > tags,
+> > > > so I haven't applied mine, either.
+> > > >
+> > > > If you are able to establish a proper SoB chain then please also add:
+> > > > "Signed-off-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>".
+> > > >
+> > > > Thanks for the effort,
+> > > > Maciej
+> > > >
+> > > > On 03.04.2020 17:30, Jon Doron wrote:
+> > > >>  Thank you Maciej it seems like your version is really ahead I'll do
+> > > >> the required work and merge it so i can submit a v2 with the latest
+> > > >> patchset from Roman
+> > > >>
+> > > >> On Fri, Apr 3, 2020 at 6:06 PM Jon Doron <arilou@gmail.com> wrote:
+> > > >>>
+> > > >>> Thank you Maciej, I based it on top of what Denis (den@openvz.org)
+> > gave me
+> > > >>> which was this:
+> > > >>>
+> > https://ftp.openvz.org/virtuozzo/releases/openvz-7.0.12-288/source/SRPMS/q/qemu-kvm-vz-2.12.0-33.vz7.14.4.src.rpm
+> > > >>>
+> > > >>> Do you think you have a more recent version I dont mind diffing and
+> > > >>> resubmitting a new version of the patchset?
+> > > >>>
+> > > >>> Thanks,
+> > > >>> -- Jon.
+> > > >>>
+> > > >>> On Fri, Apr 3, 2020 at 5:56 PM Maciej S. Szmigiero
+> > > >>> <mail@maciej.szmigiero.name> wrote:
+> > > >>>>
+> > > >>>> Hi Jon,
+> > > >>>>
+> > > >>>> On 03.04.2020 16:23, Jon Doron wrote:
+> > > >>>>> Guest OS uses ACPI to discover vmbus presence.  Add a corresponding
+> > > >>>>> entry to DSDT in case vmbus has been enabled.
+> > > >>>>>
+> > > >>>>> Experimentally Windows guests were found to require this entry to
+> > > >>>>> include two IRQ resources, so this patch adds two semi-arbitrarily
+> > > >>>>> chosen ones (7 and 13).  This results, in particular, in parallel
+> > port
+> > > >>>>> conflicting with vmbus.
+> > > >>>>>
+> > > >>>>> TODO: discover and use spare IRQs to avoid conflicts.
+> > > >>>>>
+> > > >>>>> Signed-off-by: Evgeny Yakovlev <eyakovlev@virtuozzo.com>
+> > > >>>>> Signed-off-by: Roman Kagan <rkagan@virtuozzo.com>
+> > > >>>>> Signed-off-by: Jon Doron <arilou@gmail.com>
+> > > >>>>
+> > > >>>> Nice work, thanks!
+> > > >>>>
+> > > >>>> However, it seems to be based on the code version that was posted in
+> > > >>>> February 2018, and not the latest version in OpenVZ qemu repository
+> > > >>>> dated October 2019:
+> > > >>>>
+> > https://src.openvz.org/projects/UP/repos/qemu/commits?until=refs%2Fheads%2Fvmbus
+> > > >>>>
+> > > >>>> This newer version has slightly different API here and there.
+> > > >>>> Any particular reason for selecting that older version for porting?
+> > > >>>>
+> > > >>>> I have actually rebased this latest version on the top of the
+> > current
+> > > >>>> QEMU master, and it basically seems to work fine.
+> > > >>>> However, I haven't done extensive tests whether there isn't a
+> > memory leak
+> > > >>>> somewhere or so on.
+> > > >>>>
+> > > >>>> Maciej
+> > > >
+> > >
+> >
 
