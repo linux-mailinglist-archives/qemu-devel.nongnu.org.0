@@ -2,93 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0320F1A09FD
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 11:25:40 +0200 (CEST)
-Received: from localhost ([::1]:43858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FE7B1A0A08
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 11:27:01 +0200 (CEST)
+Received: from localhost ([::1]:43894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLkUF-0007JW-3e
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 05:25:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33246)
+	id 1jLkVY-0001I4-3w
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 05:27:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33352)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jLkRD-0002Yr-Ee
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:22:32 -0400
+ (envelope-from <berrange@redhat.com>) id 1jLkRi-0003R4-5A
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:23:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jLkRC-0000oF-F4
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:22:31 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51960
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <berrange@redhat.com>) id 1jLkRh-0001FW-2z
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:23:02 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45512
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jLkRC-0000o2-B2
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:22:30 -0400
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jLkRg-0001F6-VK
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:23:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586251350;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=lv1XQFW9smB5ZYhozXdQJoZneNaLO84VdpAHV31TrzI=;
- b=GF5VG5b9xCbG//R2LPz51n0o1X/TwRddoce/HPbEBTGU1yC5LI/2WjN/0fHVpbWidHnaJX
- +0OzLyYSJ+9rZ6E8QNV1S4K8ZMH6UKitqpVX+zz5sIbEFuPzjwr8iRiNMxXjNv2d3aeQEe
- iYDwezmOgZmUdsnm/EfTS0p+UiZkRMM=
+ s=mimecast20190719; t=1586251380;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1bIkcehhb7OPhwm/zxUQzVJyR7RK05NU6I+4eyQpuVY=;
+ b=GJizmHP2aWsxzduVNa04PzA+vR5wgfctKyAk0yUqPOtyN3xIHGhYNYuP0StB1/vTYjZBOH
+ BXqKcYzqH5D4yn5WoJHYz7MCF6R8xaVr4cC+MEBQ0NWYSvFvxPVZbgfgpJF5/B/xXdBqhZ
+ 9r5yuLMuTex4kd2QIredgUO8IbjLKaY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-Jt3fFNkdN8e0V9dY1FtthQ-1; Tue, 07 Apr 2020 05:22:25 -0400
-X-MC-Unique: Jt3fFNkdN8e0V9dY1FtthQ-1
+ us-mta-37-3dsuHItdP-OWujVKGAC3Xg-1; Tue, 07 Apr 2020 05:22:53 -0400
+X-MC-Unique: 3dsuHItdP-OWujVKGAC3Xg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E98738017CE;
- Tue,  7 Apr 2020 09:22:23 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-84.ams2.redhat.com
- [10.36.114.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C7D1492F83;
- Tue,  7 Apr 2020 09:22:18 +0000 (UTC)
-Subject: Re: [PATCH for-5.0 v2 1/3] block-backend: Reorder flush/pdiscard
- function definitions
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20200406171403.6761-1-kwolf@redhat.com>
- <20200406171403.6761-2-kwolf@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <cb1ef778-55ab-7100-da05-03c31609d1e9@redhat.com>
-Date: Tue, 7 Apr 2020 11:22:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 374FE800D50;
+ Tue,  7 Apr 2020 09:22:52 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B7749D37E;
+ Tue,  7 Apr 2020 09:22:50 +0000 (UTC)
+Date: Tue, 7 Apr 2020 10:22:46 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: gokul cg <gokuljnpr@gmail.com>
+Subject: Re: X86: Abnormal variation in Freebsd VM launch time w.r.t freebsd
+ guest config
+Message-ID: <20200407092246.GC843246@redhat.com>
+References: <CAFP4jM8RpUXCxUN_J-Enkx_LZU67Vbn45voGBLHH3CG0ELi2Vg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200406171403.6761-2-kwolf@redhat.com>
+In-Reply-To: <CAFP4jM8RpUXCxUN_J-Enkx_LZU67Vbn45voGBLHH3CG0ELi2Vg@mail.gmail.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="6EvwEF9qVMeS5SfAxvLvjVCgktCZE5j3g"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,52 +75,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, s.reiter@proxmox.com, qemu-devel@nongnu.org,
- t.lamprecht@proxmox.com, stefanha@redhat.com, dietmar@proxmox.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-discuss@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---6EvwEF9qVMeS5SfAxvLvjVCgktCZE5j3g
-Content-Type: multipart/mixed; boundary="9bk1jn0ggqPTUvdlL7an1OeWqA07yQzsA"
-
---9bk1jn0ggqPTUvdlL7an1OeWqA07yQzsA
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 06.04.20 19:14, Kevin Wolf wrote:
-> Move all variants of the flush/pdiscard functions to a single place and
-> put the blk_co_*() version first because it is called by all other
-> variants (and will become static in the next patch).
+On Tue, Apr 07, 2020 at 09:59:59AM +0530, gokul cg wrote:
+> Hi Team,
 >=20
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  block/block-backend.c | 92 +++++++++++++++++++++----------------------
->  1 file changed, 46 insertions(+), 46 deletions(-)
+> We are observing abnormal variation in VM launch time w.r.t guest config.
+>=20
+> A simple VM(2gb ram no passthrough device) creation takes usually 6sec
+> (Time from execution of 'virsh create guest.xml  to get print "Welcome to
+> FreeBSD"' ),but when we add a USB passthrough device launch time increase=
+d
+> to 18-19 sec and further increased to 39-44sec when we have increased gue=
+st
+> ram to 48Gb.
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+snip.
 
+> Note : 1) This we have seen with legacy pci passthrough device not with
+> vfio. And we have not noticed any perfoance impact other than qemu-init/v=
+m
+> laucn time .
 
---9bk1jn0ggqPTUvdlL7an1OeWqA07yQzsA--
+Legacy pci passthrough support was deleted way back to 2017, and we had
+deprecated it for 2 years before then, in favour of VFIO.
 
---6EvwEF9qVMeS5SfAxvLvjVCgktCZE5j3g
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+>  Any suggestions to improve launch time with legacy passthrough ?
 
------BEGIN PGP SIGNATURE-----
+Just stop using legacy PCI assignment. VFIO has been the recommended
+impl for 5+ years now.
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6MRkkACgkQ9AfbAGHV
-z0DR/Af/UTWjiA8JL3ngKYZ9vq4GKEj78WEqeeTRPs3zns2VPS0CNXBjBjlsQBRZ
-6jf91NgJaDNOinVCpcYGtrbo+XP42m+NeG//ycHgyH3RFRKg0YX34WJVmsyyox6g
-H0QEy+7eqsMtHwYSv9B7Q0kEjvVw3PAUhz7XZaLoemLlzppMiz2411wsk0SeKsug
-NLeD4MNrdTwgQtDjhDUH2xXoir2nOiTH34r5fdS6pfuRhhyE4mbmW6vyRzQ0jirp
-qkQrtgk6M/gKJYhabmqK4Z+fw2peErE4PYrhbd/lnalcIt0AkK32f2rwd9xdAkqa
-hfZ9ZgriFfs+uyEaBj2OHqg0qHeaxA==
-=pUJj
------END PGP SIGNATURE-----
-
---6EvwEF9qVMeS5SfAxvLvjVCgktCZE5j3g--
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
