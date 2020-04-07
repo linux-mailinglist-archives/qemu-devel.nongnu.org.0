@@ -2,67 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 214CA1A084F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 09:30:45 +0200 (CEST)
-Received: from localhost ([::1]:42560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 440D71A0848
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 09:28:54 +0200 (CEST)
+Received: from localhost ([::1]:42536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLih2-0008Vk-7o
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 03:30:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41840)
+	id 1jLifF-0006fV-Bh
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 03:28:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42110)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jLicF-0005TO-N9
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 03:25:48 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jLieP-00067q-2W
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 03:28:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1jLicE-0003l4-7y
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 03:25:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44090
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jLicE-0003jT-4Q
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 03:25:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586244345;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cFLoFf2Zz2S4HXM+15Zcf1ZXm7YCuHDUwF3z0XzR934=;
- b=YpXfIyxdABo7Y1XE/1RxS6z8zgtyuV+aoTBt28DrPLQumDRAV/9yv7NSQU+JlKP/TQyYoV
- l+M7ycI52obacHtqw6FLCdRsJ8xQybWP0ATvHX7DPRnpfZ8ko6P5ts6ReRP9AnUrhXb6eR
- U+ygs8k9FHixGaAhoro8j7VABd3RbU8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-513-iH-BjwjGPri-lzxGtNRvwQ-1; Tue, 07 Apr 2020 03:25:42 -0400
-X-MC-Unique: iH-BjwjGPri-lzxGtNRvwQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 355EA107B7D4;
- Tue,  7 Apr 2020 07:25:41 +0000 (UTC)
-Received: from gondolin (ovpn-112-38.ams2.redhat.com [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 295255C64E;
- Tue,  7 Apr 2020 07:25:36 +0000 (UTC)
-Date: Tue, 7 Apr 2020 09:25:34 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH 5/8] pc-bios: s390x: Move panic() into header and add
- infinite loop
-Message-ID: <20200407092534.2edb0276.cohuck@redhat.com>
-In-Reply-To: <20200324150847.10476-6-frankja@linux.ibm.com>
-References: <20200324150847.10476-1-frankja@linux.ibm.com>
- <20200324150847.10476-6-frankja@linux.ibm.com>
-Organization: Red Hat GmbH
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jLieO-0000Gi-4u
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 03:28:01 -0400
+Received: from mail-eopbgr140123.outbound.protection.outlook.com
+ ([40.107.14.123]:58366 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jLieL-000067-Nm; Tue, 07 Apr 2020 03:27:57 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=egRRdyipAbRCDfYGopsWSVCbU1utUADehKLnblZhYx4wU0byraRxVBJkXrVZjaZ3wg0PhruJ1/Bse43o2N4WrMhc6cIvmY2ayD7az9zdzjRmTFCsWcQVoH3st5KLwpGwW3dH3smmhjNncu1YUGJJXPupYE5me+5qiq6nAN12brj+t9RkjD7SgSxbJhI3jzIUKbsDK5dxPq51W5l0e7XoGWXk/mUrN6KzSAuhjG1oPYGJFM21rXilGA3rSozBUoh/T/f3AWZNlq9PFGSU/HgwWNEtl45IcL3QqdKjVvmFT+hGppWEl8xb42d8ZMZkOUPvcAaYwlqHHud8LXPCvzBGeg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0ehWGCYkjp1btbfrjg6PQw0CchtkNpW/PA9mI7rXKPk=;
+ b=nwkAbwzUKihLxXATyrKrhhucVr/hoAG+EbHRH7e0sM3NtDtoqVjIAlHP9l+QPphEvEXAjbjhkiB4BHltB8cXcTgn9EVrJMRYSSSS7rJYq3V8XHVg/51voKxQ+hHKS5VQZdCpnVzWmPNHcysoAhJ/u7ZaiUrNkk2cX01DHnFnFLsqYvxNcnY6mpbzL+pMb5gRWZ8R3h7NQ1WTWIWOLfVOjkyqQPkSFPU43HWo+Otrg4iD53a4GzRHecNpDJuNE+RAdlN54ys1jdea0fXOK6FeWQwwvMAcyi48wYdb7yHYOSrb1QF3XpShTsaTYqNRj/+vnNlwXU2j2iHDzZz+DYrJQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0ehWGCYkjp1btbfrjg6PQw0CchtkNpW/PA9mI7rXKPk=;
+ b=VX9uPYZGy7H6uXweH0hFOZ4dz+tVTxWYR3jcyLdpiQ7dopV0KfJovrHRVOBFj3ESxeztHIj1TY5902B5NQ1B7TKU5HAtda6FLF0dlPdMiJjhdJXV9ksEAaoWP/bCgJZsjEP1tsvqcdvH2oSrxV2zIHGLLrJZAj+4cXZcRiFKxeM=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (10.141.175.15) by
+ AM7PR08MB5381.eurprd08.prod.outlook.com (10.141.172.87) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2878.20; Tue, 7 Apr 2020 07:27:53 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::3944:477e:1562:cfcf]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::3944:477e:1562:cfcf%8]) with mapi id 15.20.2878.021; Tue, 7 Apr 2020
+ 07:27:53 +0000
+Subject: Re: [PATCH v2] qcow2: Check request size in
+ qcow2_co_pwritev_compressed_part()
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <20200406143401.26854-1-berto@igalia.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200407102749882
+Message-ID: <90ae7712-7624-2367-a035-f155d3e7e4f3@virtuozzo.com>
+Date: Tue, 7 Apr 2020 10:27:49 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <20200406143401.26854-1-berto@igalia.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-ClientProxiedBy: AM5PR0701CA0004.eurprd07.prod.outlook.com
+ (2603:10a6:203:51::14) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.160) by
+ AM5PR0701CA0004.eurprd07.prod.outlook.com (2603:10a6:203:51::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.11 via Frontend
+ Transport; Tue, 7 Apr 2020 07:27:52 +0000
+X-Tagtoolbar-Keys: D20200407102749882
+X-Originating-IP: [185.215.60.160]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a2d28e54-e5bd-4457-29aa-08d7dac52f04
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5381:
+X-LD-Processed: 0bc7f26d-0264-416e-a6fc-8352af79c58f,ExtAddr
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5381D16AECA04BCC4BDD4E7CC1C30@AM7PR08MB5381.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:350;
+X-Forefront-PRVS: 036614DD9C
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(10019020)(4636009)(39830400003)(346002)(396003)(366004)(136003)(376002)(4326008)(8936002)(8676002)(186003)(81166006)(26005)(478600001)(31696002)(16526019)(86362001)(36756003)(5660300002)(107886003)(52116002)(81156014)(31686004)(66556008)(54906003)(2906002)(6666004)(2616005)(316002)(16576012)(956004)(66476007)(6486002)(66946007);
+ DIR:OUT; SFP:1102; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9424HWYnSisdTu9Yx4MHsBFozwzEleY6Ltm2AbSqzLNg7F90DcJuEiue89eFG7/tYQwJ3QLLvchUyC6pPwyFfNvq7ZVNFa3ksLHxGkisJfGwr7VHJapd0vi0lt+Xa4dS6m9ClfqMtnk5jn63iyYEDFjQYAybvVfWFrV8Tq3JLF9iDSu6bHEyGrqR4S7n1u6qs3hwgt6OTgzM3cnOsFelMaYugPPVwchBbO5YrLDXw+WH0zXa7sy0nOEPE46Q+0uClqFdIljHh4Qhnl0ZTBek4y77m9xW0glkIJTXwxt/3rWxCdWemQZyjyNbv6jh9NIXxZptY9bbFW3bEnkiDmhxrY7hrsr+ZMzh/zz1fYdzCzBiWXGsNsFn4Ri4BFTXg9DPfC6KELCxXkcNPZ9h7OoWErI/OgMlXG8cPBK7LoUs2Ui7mms8WTCzKGVLBWYuvetx
+X-MS-Exchange-AntiSpam-MessageData: AxwCioqIDycthnDQVtQ7D7KqxbF8scDWHcB+JH5DQjNQaj0UTcl00kWvsBkh5LZ1s9vWFpze7mg4VylXpNGLjf1ovHJv10IRhddB8pP21KYl5f3mleYCryguMyTJOCd5+L9YFDAUHtDjVj7n5iX1qQ==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a2d28e54-e5bd-4457-29aa-08d7dac52f04
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2020 07:27:53.0111 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EekEmDuLka71CH1kJLWujvg8XgwQayg6NA5Ob3L3j+HUCxH6cgX3f9Q1wvauQHyofauiLVNDYeUbww056MQVgQ/aCwn+NUZcunSx1tG7Mz8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5381
+X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 40.107.14.123
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,64 +113,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- david@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ Pavel Butsykin <pbutsykin@virtuozzo.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 Mar 2020 11:08:44 -0400
-Janosch Frank <frankja@linux.ibm.com> wrote:
-
-> panic() was defined for the ccw and net bios, i.e. twice, so it's
-> cleaner to rather put it into the header.
-
-They were also slightly different, so unifying them makes sense.
-
+06.04.2020 17:34, Alberto Garcia wrote:
+> When issuing a compressed write request the number of bytes must be a
+> multiple of the cluster size or reach the end of the last cluster.
 > 
-> Also let's add an infinite loop into the assembly of disabled_wait() so
-> the caller doesn't need to take care of it.
+> With the current code such requests are allowed and we hit an
+> assertion:
 > 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
+>     $ qemu-img create -f qcow2 img.qcow2 1M
+>     $ qemu-io -c 'write -c 0 32k' img.qcow2
+> 
+>     qemu-io: block/qcow2.c:4257: qcow2_co_pwritev_compressed_task:
+>     Assertion `bytes == s->cluster_size || (bytes < s->cluster_size &&
+>                (offset + bytes == bs->total_sectors << BDRV_SECTOR_BITS))' failed.
+>     Aborted
+> 
+> This patch fixes a regression introduced in 0d483dce38
+> 
+> Signed-off-by: Alberto Garcia <berto@igalia.com>
+
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+
 > ---
->  pc-bios/s390-ccw/main.c     | 7 -------
->  pc-bios/s390-ccw/netmain.c  | 8 --------
->  pc-bios/s390-ccw/s390-ccw.h | 7 ++++++-
->  pc-bios/s390-ccw/start.S    | 5 +++--
->  4 files changed, 9 insertions(+), 18 deletions(-)
+>   block/qcow2.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
+> diff --git a/block/qcow2.c b/block/qcow2.c
+> index 2bb536b014..587cf51948 100644
+> --- a/block/qcow2.c
+> +++ b/block/qcow2.c
+> @@ -4349,6 +4349,11 @@ qcow2_co_pwritev_compressed_part(BlockDriverState *bs,
+>           return -EINVAL;
+>       }
+>   
+> +    if (offset_into_cluster(s, bytes) &&
+> +        (offset + bytes) != (bs->total_sectors << BDRV_SECTOR_BITS)) {
+> +        return -EINVAL;
+> +    }
+> +
+>       while (bytes && aio_task_pool_status(aio) == 0) {
+>           uint64_t chunk_size = MIN(bytes, s->cluster_size);
+>   
 > 
 
-> @@ -91,6 +90,12 @@ bool menu_is_enabled_enum(void);
->  
->  #define MAX_BOOT_ENTRIES  31
->  
-> +static inline void panic(const char *string)
-> +{
-> +    sclp_print(string);
-> +    disabled_wait();
-> +}
-> +
->  static inline void fill_hex(char *out, unsigned char val)
->  {
->      const char hex[] = "0123456789abcdef";
-> diff --git a/pc-bios/s390-ccw/start.S b/pc-bios/s390-ccw/start.S
-> index aa8fceb19da2164a..35be141d8da38d07 100644
-> --- a/pc-bios/s390-ccw/start.S
-> +++ b/pc-bios/s390-ccw/start.S
-> @@ -47,8 +47,9 @@ memsetxc:
->   */
->  	.globl disabled_wait
->  disabled_wait:
-> -        larl %r1,disabled_wait_psw
-> -        lpswe   0(%r1)
-> +        larl	%r1,disabled_wait_psw
-> +        lpswe	0(%r1)
-> +1:	j	1b
->  
->  
->  /*
 
-Possibly dumb question: Does checking code now figure out correctly
-that code flow does not continue after disabled_wait()?
-
+-- 
+Best regards,
+Vladimir
 
