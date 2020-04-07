@@ -2,92 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB511A0E0A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 14:59:11 +0200 (CEST)
-Received: from localhost ([::1]:47032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CB591A0E17
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 15:03:49 +0200 (CEST)
+Received: from localhost ([::1]:47150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLnos-0007fH-Ux
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 08:59:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37652)
+	id 1jLntM-0001mk-Jc
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 09:03:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38984)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jLnkG-0003g9-F6
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 08:54:26 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jLnrP-0000G1-JR
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 09:01:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jLnkD-0001p6-Fi
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 08:54:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50437
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jLnkD-0001oi-AT
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 08:54:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586264061;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Ul0RFiQ8+DIQX/8SXJvc31Nqy0nkolrpU16EvnZYDaE=;
- b=EiBx3q7rfu0uiqDg3woDtJCJboZuwkgNwIhtNytKMx2qfaRcOpL5o7z9xgQ9y2hX3W3J8K
- 0gF8TuxkzOZrmRRVEC4hm8dogpFWFqNll4Dr/CfpSG4USHdAnojUZY9cId8bMQ+RaoXR9Y
- lN+NJuOTGIB2ck55E4ct1CUAB4Nu4mw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-Xw_OE9DfMhKlWsEY9AmVEg-1; Tue, 07 Apr 2020 08:54:16 -0400
-X-MC-Unique: Xw_OE9DfMhKlWsEY9AmVEg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 694ED107ACCC;
- Tue,  7 Apr 2020 12:54:15 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-84.ams2.redhat.com
- [10.36.114.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F06739DD74;
- Tue,  7 Apr 2020 12:54:05 +0000 (UTC)
-Subject: Re: [PATCH for-5.0 v3 2/3] block: Increase BB.in_flight for coroutine
- and sync interfaces
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20200407121259.21350-1-kwolf@redhat.com>
- <20200407121259.21350-3-kwolf@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <28f30c07-2980-a76f-3ec2-8effe7033b42@redhat.com>
-Date: Tue, 7 Apr 2020 14:54:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <peter.maydell@linaro.org>) id 1jLnrO-0007I1-DT
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 09:01:47 -0400
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:36229)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jLnrO-0007Fi-9M
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 09:01:46 -0400
+Received: by mail-oi1-x232.google.com with SMTP id k18so1392303oib.3
+ for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 06:01:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=93HaVial36xURZcqfHJKRWMt3ZEbi9Du7Ozf3NJtiM0=;
+ b=QhTVGuzJEwQPFQ4AHz3usFfAgKMFe1IWtBn34c88iOuxyHKVToOzmnHv1Ru2rY5vql
+ Pyc5dGShaBJCCbpEhNuT64IvQ+LLvf80U0BAlq33RFWNbeGHJ0q7wUK7QG+73Uy2GhAk
+ 6AB4+SxeTlMBl+gRtz0y8M504901TyFR12+Ddde7wZ3lrG8td5p+qzY1QGHymzsqAhCi
+ QiKlEXQPnasloGb1JTGYbMUpd9RDy+Y9AhTO7fyjXjp2HZm+XZS12Ds2CXBwAAXwu/VH
+ 47w/6CuCNjqNhybql4mjDY38+jpvqCFin4AEbq8o3p5cotb34sxV5ScpgH0fKnowwqQF
+ DHfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=93HaVial36xURZcqfHJKRWMt3ZEbi9Du7Ozf3NJtiM0=;
+ b=XfJRHVyseGfbQJ13pKPlixHE2SoTme6wdTNxUl51hMlZhuHFAwB7eBNSCUSjxCN38X
+ YDCNB4W72/sq57OLO7a2xpED/e4G30rhgFih1wkezDqOpV13Z7zh1mgZA13urerpN44T
+ PAaZ1zntKCiFxtt+PULs//fyGX7apcZDjxgQ1MRvAAfV9A1jl8/7Z+nI2EuE32umq9+g
+ 2NpjEln4IKUZt/ItKB8ShvElCaUvjrXRiphjgpDHD0ixs7tomwLz8SgWkz0jyBsFfIcF
+ v9L67FJ7DC4nR1M7pHwvf+/X29LtSpw5qvWhHEloLuXPxR8IQRjLzFlIw8nobBzeduEN
+ 8f7w==
+X-Gm-Message-State: AGi0PuaDjVECPNWK3dY0O27QbB4MNlyOnkoaNwLwaL8VudJLSP5lLzmu
+ 5ChV2X5VBFSYKDfsxNxAYX5bWmCsIfikEDTpq4daCnah4S4=
+X-Google-Smtp-Source: APiQypJdLoC371shAjcJHQ2qFkHaT74qRMn6DCkhkbSYm71wpPKaYtRHw/PjDLIP6i6Mq0W0z2fJBogbODzf+0me36o=
+X-Received: by 2002:aca:3049:: with SMTP id w70mr1488037oiw.146.1586264504479; 
+ Tue, 07 Apr 2020 06:01:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200407121259.21350-3-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="Ad4KHj6YKJNbLWL8FR7BIm6HSPTFdG1CQ"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+References: <20200407043606.291546-1-david@gibson.dropbear.id.au>
+In-Reply-To: <20200407043606.291546-1-david@gibson.dropbear.id.au>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Apr 2020 14:01:33 +0100
+Message-ID: <CAFEAcA9pe5hG4N6Sb8CzEe=vskAxxNJctMkt8z5aV_e207HWbQ@mail.gmail.com>
+Subject: Re: [PULL 00/10] ppc-for-5.0 queue 20200407
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::232
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,63 +71,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, s.reiter@proxmox.com, qemu-devel@nongnu.org,
- t.lamprecht@proxmox.com, stefanha@redhat.com, dietmar@proxmox.com
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Ad4KHj6YKJNbLWL8FR7BIm6HSPTFdG1CQ
-Content-Type: multipart/mixed; boundary="zkPWGW23GTGM3oAu0Vpf7pksYAKngjLqa"
-
---zkPWGW23GTGM3oAu0Vpf7pksYAKngjLqa
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 07.04.20 14:12, Kevin Wolf wrote:
-> External callers of blk_co_*() and of the synchronous blk_*() functions
-> don't currently increase the BlockBackend.in_flight counter, but calls
-> from blk_aio_*() do, so there is an inconsistency whether the counter
-> has been increased or not.
->=20
-> This patch moves the actual operations to static functions that can
-> later know they will always be called with in_flight increased exactly
-> once, even for external callers using the blk_co_*() coroutine
-> interfaces.
->=20
-> If the public blk_co_*() interface is unused, remove it.
->=20
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  include/sysemu/block-backend.h |   1 -
->  block/block-backend.c          | 103 +++++++++++++++++++++++++--------
->  2 files changed, 80 insertions(+), 24 deletions(-)
-
-Thanks!
-
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+On Tue, 7 Apr 2020 at 05:36, David Gibson <david@gibson.dropbear.id.au> wrote:
+>
+> The following changes since commit 53ef8a92eb04ee19640f5aad3bff36cd4a36c250:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200406' into staging (2020-04-06 12:36:45 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/dgibson/qemu.git tags/ppc-for-5.0-20200407
+>
+> for you to fetch changes up to 25f3170b06544e4de620336da5b2ea3b392d66bc:
+>
+>   ppc/pnv: Create BMC devices only when defaults are enabled (2020-04-07 08:55:11 +1000)
+>
+> ----------------------------------------------------------------
+> ppc patch queue 2020-04-07
+>
+> An assortment of fixes for qemu-5.0, including a number for the FWNMI
+> feature which is new this release.
+>
 
 
---zkPWGW23GTGM3oAu0Vpf7pksYAKngjLqa--
+Applied, thanks.
 
---Ad4KHj6YKJNbLWL8FR7BIm6HSPTFdG1CQ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6Md+sACgkQ9AfbAGHV
-z0BQEAf8D/FOycIAdZLlZM99PfnfyygiEtMIx7P8sh/Uuigz2RSvJ86+U9lq/6gB
-gti/RXlkEqSiOUPRUBQGqCMu31Ab35xRp33smXKzlhsSMjoZ714z7R+Va6iqT2LZ
-sSBYS4l7B1fbe4p6thw9Nh+dWxlnNHGHhVUYba9q4iFbX/kUYtiWf37qGTTHDiVd
-Kz29IVdpbC88nChL1l4tZqX2lVBvS8cFi14Lmhm64aoovpgm5XZkG1ZPMiPKEtZ9
-aRkAvISn0dtEKBzYLOWuRs++Q7ysA0MczjnPGryQx11bJDmbiKYIitn0vNqFYO3U
-Um1esNAiOlwDpveCIhXjpt19GrfjoA==
-=3xv1
------END PGP SIGNATURE-----
-
---Ad4KHj6YKJNbLWL8FR7BIm6HSPTFdG1CQ--
-
+-- PMM
 
