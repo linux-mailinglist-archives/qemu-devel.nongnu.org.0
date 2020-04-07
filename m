@@ -2,56 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D611A09A6
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 10:59:15 +0200 (CEST)
-Received: from localhost ([::1]:43286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A29A1A0976
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 10:44:44 +0200 (CEST)
+Received: from localhost ([::1]:43116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLk4e-0002ba-P6
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 04:59:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51339)
+	id 1jLjqb-0004OY-RX
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 04:44:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51535)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jingqi.liu@intel.com>) id 1jLjlW-0002h5-EI
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:39:31 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jLjnK-0003Rx-RL
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:41:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jingqi.liu@intel.com>) id 1jLjlO-0005x8-S6
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:39:24 -0400
-Received: from mga03.intel.com ([134.134.136.65]:24279)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jingqi.liu@intel.com>)
- id 1jLjlO-0005w3-Ki
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:39:18 -0400
-IronPort-SDR: olgFW5mn4smBxxZQCrJvyUGDL/zb5Ea50GJQMx7NdfwqMhwqZENXVsUfzjVU5igrBFrmz4B+6r
- eBRmST7bB1oQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2020 01:39:15 -0700
-IronPort-SDR: 2GeIXM19M3OQYNeQZUqeAvfOMqHnIO3ClZc83/bP/aUuKxneoFVZPY+j8qq4X0hfB4x8AVPuGZ
- 2FgTTtgnw7oA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,353,1580803200"; d="scan'208";a="254390438"
-Received: from unknown (HELO [10.238.4.245]) ([10.238.4.245])
- by orsmga006.jf.intel.com with ESMTP; 07 Apr 2020 01:39:14 -0700
-Subject: Re: [PATCH] exec: fetch the alignment of Linux devdax pmem character
- device nodes
-To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>, 
- "Williams, Dan J" <dan.j.williams@intel.com>
-References: <20200401031314.11592-1-jingqi.liu@intel.com>
- <2c45ec7c-f3ea-2962-47a6-9330f0a2f146@intel.com>
- <64ba0e18-2fa3-f5bd-7711-1d91f1dc74da@redhat.com>
-From: "Liu, Jingqi" <jingqi.liu@intel.com>
-Message-ID: <c60943a9-18b0-19c6-ae1f-39af8c1d7fb0@intel.com>
-Date: Tue, 7 Apr 2020 16:39:13 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <peter.maydell@linaro.org>) id 1jLjnH-00070F-Jr
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:41:16 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:36752)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jLjnG-0006zi-NB
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 04:41:15 -0400
+Received: by mail-oi1-x244.google.com with SMTP id k18so810941oib.3
+ for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 01:41:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mPoP9SOA3gisZqBOv6fWFTA/4XC/myugQYXeICEFOvg=;
+ b=XeWF0iMz/r3Olt/OdexeTBgZh+VzohpRCZataVu2SV8AvCUl8awPpKT5JT3gEFnBuN
+ kzkZoVzT+OZUTh6w+n/Zme75WIrCnelK4QEpe3O6xRENI4M7Ei8xNknWO4QhWXa1RJHW
+ jQIOc/SCEIchODGG06bBDYriuo3XFS6rEwRrzsmSjoKUF6I5tZdCvxX2EZU9EqgFPPih
+ ipSUzgi6o9ooQwkrBwXmnEMZjRr+TnnZAASo4/7dhhM7VuOwXXv9FyWnnBGlyDf7i0Sr
+ K4kJP4JBueIHy++55ZIwEsHs9ZsO730MUBB4kQgZHdxUm6IfwmA/SLmCzZao/nkBfJ+A
+ 2RQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mPoP9SOA3gisZqBOv6fWFTA/4XC/myugQYXeICEFOvg=;
+ b=CX1sSrE1A8/0AtqExR4ZeU4GIkxrKEk1vTX2DLNqamvmnEOrk76uXlxnkwPPYv4yq+
+ Skd4x9vR/J5BiiLTBNW7gtcA0trIhjH9w9oXTXQ5V/ElBG+zBlRDNTBt949fJpsNtFce
+ nPVQDEzjmc7u01BNZRl7uAzo6ev0jQ0n6/HXcOeoOVs5byGnX4VTENFstVcOo+Bm88BI
+ O4Eb1L+wWeB8g+wg07O5rsKqzFicNfz2KyZ6Q2kQXd298u1h4ZywMNPPxM0+dpTHzA2b
+ jp7tXYntvsj6UQESof6vRyrtLkGcDwZGCAxR9376M/t7K9W4LasMHGN42LuKXe7j1bkz
+ xWiA==
+X-Gm-Message-State: AGi0PuaKY6gXToPi2GUkC4x64BkPdXwXbrLYd/WblCs1Db3IFdWpcXA4
+ SDdiXHRs5D29m8Foz3ynapaqnx+aXjqKtDQX7oyjBQ==
+X-Google-Smtp-Source: APiQypJWvp0BRy1lxfuYuEiJ4li4q/pR8uKbya3gCP+dj9UcFySdmmNx6mXGoeh/lHYa7Xlgys/hMZyo78zQIyHionI=
+X-Received: by 2002:aca:3049:: with SMTP id w70mr806821oiw.146.1586248873470; 
+ Tue, 07 Apr 2020 01:41:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <64ba0e18-2fa3-f5bd-7711-1d91f1dc74da@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 134.134.136.65
+References: <0b02fe788de99120894f87f6d5c60e15d6a75d85.1586213450.git.dirty@apple.com>
+In-Reply-To: <0b02fe788de99120894f87f6d5c60e15d6a75d85.1586213450.git.dirty@apple.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Apr 2020 09:40:58 +0100
+Message-ID: <CAFEAcA9FSVzxwudyaDoCty8B+Up33caM20qytLNO7HAXWmcwtg@mail.gmail.com>
+Subject: Re: [PATCH v1] nrf51: Fix last GPIO CNF address
+To: Cameron Esfahani <dirty@apple.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,132 +71,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/7/2020 4:08 PM, Paolo Bonzini wrote:
-> On 07/04/20 09:29, Liu, Jingqi wrote:
->> Ping.
->>
->> Any comments are appreciated.
->>
->> Hi Paolo, Richard,
->>
->> Any comments about this ?
-> I was hoping to get a review from someone else because I have no way to
-> test it.  But I've now queued the patch, thanks.
-
-Hi Paolo,
-
-Thanks for your comments.
-
-Hi Dan,
-
-Can you help review this patch ?
-
-Thanks,
-
-Jingqi
-
-> Paolo
+On Mon, 6 Apr 2020 at 23:55, Cameron Esfahani <dirty@apple.com> wrote:
 >
->> Thanks,
->>
->> Jingqi
->>
->> On 4/1/2020 11:13 AM, Liu, Jingqi wrote:
->>> If the backend file is devdax pmem character device, the alignment
->>> specified by the option 'align=NUM' in the '-object memory-backend-file'
->>> needs to match the alignment requirement of the devdax pmem character
->>> device.
->>>
->>> This patch fetches the devdax pmem file 'align', so that we can compare
->>> it with the NUM of 'align=NUM'.
->>> The NUM needs to be larger than or equal to the devdax pmem file 'align'.
->>>
->>> It also fixes the problem that mmap() returns failure in qemu_ram_mmap()
->>> when the NUM of 'align=NUM' is less than the devdax pmem file 'align'.
->>>
->>> Cc: Dan Williams <dan.j.williams@intel.com>
->>> Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
->>> ---
->>>    exec.c | 46 +++++++++++++++++++++++++++++++++++++++++++++-
->>>    1 file changed, 45 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/exec.c b/exec.c
->>> index de9d949902..8221abffec 100644
->>> --- a/exec.c
->>> +++ b/exec.c
->>> @@ -1736,6 +1736,42 @@ static int64_t get_file_size(int fd)
->>>        return size;
->>>    }
->>>    +static int64_t get_file_align(int fd)
->>> +{
->>> +    int64_t align = -1;
->>> +#if defined(__linux__)
->>> +    struct stat st;
->>> +
->>> +    if (fstat(fd, &st) < 0) {
->>> +        return -errno;
->>> +    }
->>> +
->>> +    /* Special handling for devdax character devices */
->>> +    if (S_ISCHR(st.st_mode)) {
->>> +        g_autofree char *subsystem_path = NULL;
->>> +        g_autofree char *subsystem = NULL;
->>> +
->>> +        subsystem_path =
->>> g_strdup_printf("/sys/dev/char/%d:%d/subsystem",
->>> +                                         major(st.st_rdev),
->>> minor(st.st_rdev));
->>> +        subsystem = g_file_read_link(subsystem_path, NULL);
->>> +
->>> +        if (subsystem && g_str_has_suffix(subsystem, "/dax")) {
->>> +            g_autofree char *align_path = NULL;
->>> +            g_autofree char *align_str = NULL;
->>> +
->>> +            align_path =
->>> g_strdup_printf("/sys/dev/char/%d:%d/device/align",
->>> +                                    major(st.st_rdev),
->>> minor(st.st_rdev));
->>> +
->>> +            if (g_file_get_contents(align_path, &align_str, NULL,
->>> NULL)) {
->>> +                return g_ascii_strtoll(align_str, NULL, 0);
->>> +            }
->>> +        }
->>> +    }
->>> +#endif /* defined(__linux__) */
->>> +
->>> +    return align;
->>> +}
->>> +
->>>    static int file_ram_open(const char *path,
->>>                             const char *region_name,
->>>                             bool *created,
->>> @@ -2275,7 +2311,7 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t
->>> size, MemoryRegion *mr,
->>>    {
->>>        RAMBlock *new_block;
->>>        Error *local_err = NULL;
->>> -    int64_t file_size;
->>> +    int64_t file_size, file_align;
->>>          /* Just support these ram flags by now. */
->>>        assert((ram_flags & ~(RAM_SHARED | RAM_PMEM)) == 0);
->>> @@ -2311,6 +2347,14 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t
->>> size, MemoryRegion *mr,
->>>            return NULL;
->>>        }
->>>    +    file_align = get_file_align(fd);
->>> +    if (file_align > 0 && mr && file_align > mr->align) {
->>> +        error_setg(errp, "backing store align 0x%" PRIx64
->>> +                   " is larger than 'align' option 0x" RAM_ADDR_FMT,
->>> +                   file_align, mr->align);
->>> +        return NULL;
->>> +    }
->>> +
->>>        new_block = g_malloc0(sizeof(*new_block));
->>>        new_block->mr = mr;
->>>        new_block->used_length = size;
+> NRF51_GPIO_REG_CNF_END doesn't actually refer to the start of the last
+> valid CNF register: it's referring to the last byte of the last valid
+> CNF register.
+>
+> This hasn't been a problem up to now, as current implementation in
+> memory.c turns an unaligned 4-byte read from 0x77f to a single byte read
+> and the qtest only looks at the least-significant byte of the register.
+>
+> But, when running with Cedric Le Goater's <clg@kaod.org> pending fix for
+> unaligned accesses in memory.c, the qtest breaks.
+
+Do you have a link to this patch, please? I had a quick search through
+my mailing list articles but couldn't see anything obviously relevant.
+
+thanks
+-- PMM
 
