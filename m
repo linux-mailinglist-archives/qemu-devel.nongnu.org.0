@@ -2,68 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B10881A0C70
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 13:03:02 +0200 (CEST)
-Received: from localhost ([::1]:45196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EDD21A0C79
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 13:04:49 +0200 (CEST)
+Received: from localhost ([::1]:45234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLm0T-00083R-P8
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 07:03:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47367)
+	id 1jLm2C-0002Oa-Hv
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 07:04:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48394)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jLlvN-0008Gj-CR
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 06:57:46 -0400
+ (envelope-from <joao.m.martins@oracle.com>) id 1jLm0m-0001Ir-Ak
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 07:03:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jLlvL-0007WH-W4
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 06:57:44 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:38177)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jLlvL-0007VY-JM
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 06:57:43 -0400
-Received: by mail-oi1-x241.google.com with SMTP id w2so1085845oic.5
- for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 03:57:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=7/U3mxK6SZm2EBUwuKYS+1jdggV3LsY8aqLxWYH8JQA=;
- b=pQSq8LC6fheWz6vcTzqcJqeuo4HzZEGl2aSfmmzBxeGIlC27g9LGQ5lhhbyjzLgulH
- Sd4uxZfndYPKxj1aVpjZ5XjzkfNtrQUlaDDT1LhkvD6E4uh2psgtCKTrLrJFrqhNm/uK
- 4ej+s4OrEa+45uaVfbV3mtVZFNQe4mPgcqIe1J6dOO9hFK1YXHyNpmQIMkrQlbRVEJCS
- 8wiUTRmEC6LeCyHVmVtVBzP2noip042BfZoO7nBfuNkfz1Z51BAMOKHIrlGfG7kKjLBR
- 91oQFWUeevAjOKiveh90zh2CBTWYO8lTb4W/9k23f/mW97Orx2QJUCDj5ICWWLAZ6z9N
- 15Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=7/U3mxK6SZm2EBUwuKYS+1jdggV3LsY8aqLxWYH8JQA=;
- b=IrOKCZBUSS+QJrYMgI0TdY9MYL3RtLIPdV1zkBKbysw6JR+M3/9oi96ZE7Vn2GE7/B
- O43KE5Dn1VArpXG7rnk0kbaYMVFfiIBe7ixMY+8JsxNnlbjC93lnB9VX6OvT2FtJitVY
- gybZ1Zy5SYWNhzhML56YzEBA/QXzOTxcQtBAy9sco+abxIlSNq5lPYTRTNGdVjXLC9FG
- zU79FcUTguGGOLmzQ8IPsPT3gVVm6Cy2LxVe+BZGZJ5BnYbgDyenx32CqzGvwYmGQlyW
- oW1OjA1HqceI8gsyiJ958YPzEFRXP+VdBytM4GlpqyB+RK6GQ86W2hYVXzZUIm+k571x
- i0Vg==
-X-Gm-Message-State: AGi0Puax1A1qFb3SFMUWv4dC0h+Ni9nAZYQM5qwczUcxBbROGkWhep5/
- NKcBeUqX58gvwTI/oKt/fMga96nlG/iSY9XcuN3sjg==
-X-Google-Smtp-Source: APiQypJ0+sZuvH8ApgV0JEHzrQl3/+aSN629Ac5yG1FiygKS+HCg8g8k4b69I1YUOKF+HPtC1sHs7W0qBxImw2cYFbo=
-X-Received: by 2002:a05:6808:8cb:: with SMTP id
- k11mr1118405oij.48.1586257062430; 
- Tue, 07 Apr 2020 03:57:42 -0700 (PDT)
+ (envelope-from <joao.m.martins@oracle.com>) id 1jLm0l-0001hx-0s
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 07:03:19 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:36794)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <joao.m.martins@oracle.com>)
+ id 1jLm0k-0000be-NC
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 07:03:18 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 037AwvFU050175;
+ Tue, 7 Apr 2020 11:01:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=wJykV5Qdtt/ZtvZOw4iDo5UNjQtBrxzJ6C1scz4b13A=;
+ b=EHjFzv286j8eqnXMLu1Bf2LAvMmcT6Ntp4SGydOxNGGrZqJrSvxZ7FcBbJ2eFuQZZChX
+ hPT8UheOlgjePxKvyoO2sG16C+ugbSW60FOpdxRyc6SFN16PDMbV2g2m8qV2jE5vjt96
+ WZVEHgi+O5hYHGDdXNLo5FWsJ3UvB+2+rsXCuJxmiZ0Zbbsl/7oH27PnDxK44X4UGHiD
+ nMvztigRaxs84WpyhvpFRB5aSglf6vVwv3kRAL1dhTgtU70EUTYg+Ry4eVP2AsAc2IMF
+ /K00cFSNookzUR4/uiaUZPBUMpfgWsKCDV//zj+aCU6d/xWc2n2OoIoz5gxGtF8do4tF mg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2120.oracle.com with ESMTP id 306jvn42x7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 07 Apr 2020 11:01:15 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 037AvRYL162376;
+ Tue, 7 Apr 2020 10:59:14 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3020.oracle.com with ESMTP id 30741dv9tv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 07 Apr 2020 10:59:14 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 037AxDVc001565;
+ Tue, 7 Apr 2020 10:59:13 GMT
+Received: from [10.175.215.143] (/10.175.215.143)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 07 Apr 2020 03:59:13 -0700
+Subject: Re: [PATCH] exec: fetch the alignment of Linux devdax pmem character
+ device nodes
+To: Jingqi Liu <jingqi.liu@intel.com>
+References: <20200401031314.11592-1-jingqi.liu@intel.com>
+From: Joao Martins <joao.m.martins@oracle.com>
+Message-ID: <c906a3ae-c9d2-5802-5988-3c1d0302109b@oracle.com>
+Date: Tue, 7 Apr 2020 11:59:10 +0100
 MIME-Version: 1.0
-References: <mvmftdg8wxw.fsf@suse.de>
- <216610b1-0d0f-a50b-8997-bb6aa6e20abf@vivier.eu>
-In-Reply-To: <216610b1-0d0f-a50b-8997-bb6aa6e20abf@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Apr 2020 11:57:31 +0100
-Message-ID: <CAFEAcA_zbeBM7iFd10ut4UTYDifJ=SWjMD1KYOJgKX=4OQSkmw@mail.gmail.com>
-Subject: Re: [PATCH] linux-user: Use getcwd syscall directly
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+In-Reply-To: <20200401031314.11592-1-jingqi.liu@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9583
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ phishscore=0
+ malwarescore=0 bulkscore=0 spamscore=0 adultscore=0 mlxlogscore=999
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004070094
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9583
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ suspectscore=1
+ mlxlogscore=999 mlxscore=0 bulkscore=0 adultscore=0 priorityscore=1501
+ lowpriorityscore=0 clxscore=1011 malwarescore=0 impostorscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004070094
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 156.151.31.85
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,51 +91,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andreas Schwab <schwab@suse.de>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>, qemu-devel@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 7 Apr 2020 at 11:37, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> Le 06/04/2020 =C3=A0 17:18, Andreas Schwab a =C3=A9crit :
-> > The glibc getcwd function returns different errors than the getcwd
-> > syscall, which triggers an assertion failure in the glibc getcwd functi=
-on
-> > when running under the emulation.
 
-What exactly are the differences in errors ?
 
-> > ---
+On 4/1/20 4:13 AM, Jingqi Liu wrote:
+> If the backend file is devdax pmem character device, the alignment
+> specified by the option 'align=NUM' in the '-object memory-backend-file'
+> needs to match the alignment requirement of the devdax pmem character device.
+> 
+> This patch fetches the devdax pmem file 'align', so that we can compare
+> it with the NUM of 'align=NUM'.
+> The NUM needs to be larger than or equal to the devdax pmem file 'align'.
+> 
+> It also fixes the problem that mmap() returns failure in qemu_ram_mmap()
+> when the NUM of 'align=NUM' is less than the devdax pmem file 'align'.
+> 
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
+> ---
+>  exec.c | 46 +++++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 45 insertions(+), 1 deletion(-)
+> 
+> diff --git a/exec.c b/exec.c
+> index de9d949902..8221abffec 100644
+> --- a/exec.c
+> +++ b/exec.c
+> @@ -1736,6 +1736,42 @@ static int64_t get_file_size(int fd)
+>      return size;
+>  }
+>  
+> +static int64_t get_file_align(int fd)
+> +{
+> +    int64_t align = -1;
+> +#if defined(__linux__)
+> +    struct stat st;
+> +
+> +    if (fstat(fd, &st) < 0) {
+> +        return -errno;
+> +    }
+> +
+> +    /* Special handling for devdax character devices */
+> +    if (S_ISCHR(st.st_mode)) {
+> +        g_autofree char *subsystem_path = NULL;
+> +        g_autofree char *subsystem = NULL;
+> +
+> +        subsystem_path = g_strdup_printf("/sys/dev/char/%d:%d/subsystem",
+> +                                         major(st.st_rdev), minor(st.st_rdev));
+> +        subsystem = g_file_read_link(subsystem_path, NULL);
+> +
+> +        if (subsystem && g_str_has_suffix(subsystem, "/dax")) {
+> +            g_autofree char *align_path = NULL;
+> +            g_autofree char *align_str = NULL;
+> +
+> +            align_path = g_strdup_printf("/sys/dev/char/%d:%d/device/align",
+> +                                    major(st.st_rdev), minor(st.st_rdev));
+> +
 
-> According to the commit introducing the function, it could break fakeroot=
-:
->
-> commit 3b3f24add09f8ab720860d4840f9755c102121b5
-> Author: Aurelien Jarno <aurelien@aurel32.net>
-> Date:   Wed Apr 15 16:12:13 2009 +0000
->
->     linux-user: prefer glibc over direct syscalls
->
->     The openat/*at syscalls are incredibly common with modern coreutils,
->     calling them directly via syscalls breaks for example fakeroot. Use
->     glibc stubs whenever directly available and provide old syscall
->     calling for people still using older libc.
+Perhaps, you meant instead:
 
-I don't think (based on a quick grep of the fakeroot sources) that
-fakeroot intercepts 'getcwd', so this patch is probably ok on this
-front. It looks like the syscalls that fakeroot cares about that
-that patch was trying to improve our handling for are the
-ones like fstatat which return the kind of permission/ownership
-info fakeroot wants to alter (not including 'openat', despite
-that being the only function named in full in the commit message...)
+	/sys/dev/char/%d:%d/align
 
-More generally, we rely on making direct syscalls for at least
-some syscalls for signal-handling related correctness, so if
-that ever comes into conflict with QEMU continuing to work under
-'fakeroot' then fakeroot-compatilibity is going to lose...
-('fakeroot-ng' would still work, as it intercepts syscalls
-via ptrace.)
-
-thanks
--- PMM
+ ?
 
