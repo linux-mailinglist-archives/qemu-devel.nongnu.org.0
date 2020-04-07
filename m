@@ -2,70 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA171A06D1
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 07:54:54 +0200 (CEST)
-Received: from localhost ([::1]:41662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5612D1A0723
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 08:17:37 +0200 (CEST)
+Received: from localhost ([::1]:41810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLhCH-000098-MI
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 01:54:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60159)
+	id 1jLhYF-0006Ln-Uw
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 02:17:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33942)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <arilou@gmail.com>) id 1jLh9t-0004jr-Jh
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 01:52:26 -0400
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1jLhXE-0005gL-Qp
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 02:16:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <arilou@gmail.com>) id 1jLh9s-0002cD-Fr
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 01:52:25 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54358)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <arilou@gmail.com>) id 1jLh9s-0002bo-9l
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 01:52:24 -0400
-Received: by mail-wm1-x342.google.com with SMTP id h2so470749wmb.4
- for <qemu-devel@nongnu.org>; Mon, 06 Apr 2020 22:52:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=WU+H5+odnL+lFKgHafO2P278mQjtE3V6d/6koMgqUwg=;
- b=kvuvtpMZxquKhKaB3Yi0fhE1guv6O64cTGRGRC1M5XjwJ8SNWO63AQXDodUzimkxEH
- XRKq1/W2hGgYohXRTgOFBS/AN9S2CTOXR/tsuJJ56Y0zclNeyEMfT/vmG3+va0gxwpHV
- j/RbTdCojP4oa8jDPobbK9x5hUf/kwmxFWhiwF8kfJa74gQTModm6o0/XebiJ7a4CRJ0
- 5vLf9o0xS6HXgB1xdaAtZtk1BKFrCvWH2rw1swFdMSkTzavOqaKWMuDFt66H/YAOJP2y
- Kx8t8bKPfpY1fwHNTPHG45mccS2D8vDrnomGQp2eby2PUGEfAaszwWw+dPKa4+bnhYNg
- G+VA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=WU+H5+odnL+lFKgHafO2P278mQjtE3V6d/6koMgqUwg=;
- b=UWQF4kFznYB/mrVC9I5ik9t4lAu1Lb6zjyDMhJEfAfLyi0HCyaU2AxSLV6MrmHPcCq
- IUl//cCEyuwef0x8bIU4SuULB4vy+iPeHQK2LkfhcJZfedkh/pcwTHaqfeAmBImlbnO/
- ivYHkwrQs0ZMS9bUjnuAWO58uCXfbjzfhUML9kSMx38pCr0HmZWsPPor2/NJnPzC9juS
- Dsx6kTyUD95Pu46E9vRJ6pCJLzD8iBHbp4YNzubhoLhWCBls0suaFkeh1tg07nqzA1lD
- vNWMq3wjxa3Rp47CcMRParVj7fVqPyvw7/PvtULdD5eXMsRylqs1Wwaah9dc5mA/gbhF
- d9Iw==
-X-Gm-Message-State: AGi0PubSNhnYEREmJmaQE4GQWWlWgfXNM3E3jYb92ZBAzB0uKIxZgVcu
- IssA3tKi+25lzoQsVVpjQ6O14Ikj2aY=
-X-Google-Smtp-Source: APiQypJ1XaSLTGzuq2Mqjcf2TvJzt+aOBXFggMYaEIqVJPaK7acvxFOCMXlZIxDYxOOLjiZ2Smd5rA==
-X-Received: by 2002:a1c:7301:: with SMTP id d1mr583148wmb.26.1586238743104;
- Mon, 06 Apr 2020 22:52:23 -0700 (PDT)
-Received: from jondnuc.lan (IGLD-84-229-155-55.inter.net.il. [84.229.155.55])
- by smtp.gmail.com with ESMTPSA id
- n11sm32271007wrg.72.2020.04.06.22.52.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Apr 2020 22:52:22 -0700 (PDT)
-From: Jon Doron <arilou@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 7/7] vmbus: add infrastructure to save/load vmbus requests
-Date: Tue,  7 Apr 2020 08:51:56 +0300
-Message-Id: <20200407055156.137249-8-arilou@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200407055156.137249-1-arilou@gmail.com>
-References: <20200407055156.137249-1-arilou@gmail.com>
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1jLhXD-0004Uv-2j
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 02:16:32 -0400
+Received: from mail-eopbgr70109.outbound.protection.outlook.com
+ ([40.107.7.109]:23846 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1jLhXC-0004T6-G3; Tue, 07 Apr 2020 02:16:31 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZmDGvOrtqSlaZFiWKxF8KzAdqjiHSHN6Oig7+1aY0OQhihECj7VEH2CNXPyhkISe1JKdoHkPVuwq8/1OeHyp6qnFcyQ1dDw9ynHrXAVegQDMgKlbGZVqxz6WSiVmMhjX4nCStFqP7ekjaRdvQR3yadyeG6dvNb7eiku3YpRPAjy4JcPlyM4Ag+P3oZfsd4uvbFv1i4wakAzvoovtVyc1dcLmKQufAX3XuOmWELIvChqRwhQfQUvHnLh8oiBn+RLQwZ0ARAtxHJ9MvvgigDsLmdCRyWVNKAsjOrTFQO3PFwx8wTsrLdiEBNk7eBx8jezG20XjwiK+vvSInDB3F6GlvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HAp47Vw0WsqSGf8Rp/a8qZNNQ14vVAfRcnDo0AZVU/c=;
+ b=A9+XIxwdBlKAgYVG9chWbB2fkLXOo2IKqNF8Q1y/Uk5p7kEEYEdWmIZmAFQC0sctuKnBMFZj8NTa5khq/Av6x98SngrlJpRhhva7m74BQklIVBBni8xFC2b0Wcn8oIAF9clhVVkyeK6IH+QQ5c8HXizJdiL8y8DZrJTUP4JgP8Au47YTlaNZ5b71tkxWL4HVdvpk2tXaq7c+UZCNMKU5cnVaYMtf52jGxogFA2ZzFDI81t/0fP6WsTXTbfy4UdQSGZCP0CXcTvxjVEKwB+APJoCkGz5PYEGD0PYyEIEder0jmWkQFbx8N7t0Ea2m+VLAh59wVs3QenI0grxffwzPeg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HAp47Vw0WsqSGf8Rp/a8qZNNQ14vVAfRcnDo0AZVU/c=;
+ b=jjsddPAn9MrjtL6ttexK/ZYp6MZevm437VZ7S3dpiEnfwcJPi2ItPNWAZPxUC6FLb/EFWGGOcYOxLU3a3+WlG9Agut+fUBZSFzaEX98OJCLnAixtrGHuTi26VM1Gi8hU+5tp4rmLLxeakde4D8s+dsxHsr10iNsK3VVpXSsYH+4=
+Received: from AM6PR08MB5048.eurprd08.prod.outlook.com (10.255.123.95) by
+ AM6PR08MB3030.eurprd08.prod.outlook.com (52.135.164.26) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2878.17; Tue, 7 Apr 2020 06:16:26 +0000
+Received: from AM6PR08MB5048.eurprd08.prod.outlook.com
+ ([fe80::41e2:2f20:9b54:a0f5]) by AM6PR08MB5048.eurprd08.prod.outlook.com
+ ([fe80::41e2:2f20:9b54:a0f5%7]) with mapi id 15.20.2878.017; Tue, 7 Apr 2020
+ 06:16:26 +0000
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: Alberto Garcia <berto@igalia.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v2] qcow2: Check request size in
+ qcow2_co_pwritev_compressed_part()
+Thread-Topic: [PATCH v2] qcow2: Check request size in
+ qcow2_co_pwritev_compressed_part()
+Thread-Index: AQHWDCB88p2wqMkMHkKOqJjxfSztq6hsQwAAgADsv/Y=
+Date: Tue, 7 Apr 2020 06:16:26 +0000
+Message-ID: <AM6PR08MB50485BA32FA4F88D896A17A8F4C30@AM6PR08MB5048.eurprd08.prod.outlook.com>
+References: <20200406143401.26854-1-berto@igalia.com>,
+ <w518sj8ppff.fsf@maestria.local.igalia.com>
+In-Reply-To: <w518sj8ppff.fsf@maestria.local.igalia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=andrey.shinkevich@virtuozzo.com; 
+x-originating-ip: [109.252.115.13]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f0477ba5-0a85-4789-7075-08d7dabb3409
+x-ms-traffictypediagnostic: AM6PR08MB3030:
+x-ld-processed: 0bc7f26d-0264-416e-a6fc-8352af79c58f,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM6PR08MB3030A22361D1B9A944597EF5F4C30@AM6PR08MB3030.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5236;
+x-forefront-prvs: 036614DD9C
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM6PR08MB5048.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(10019020)(4636009)(396003)(136003)(376002)(346002)(39830400003)(366004)(54906003)(110136005)(6506007)(52536014)(53546011)(186003)(44832011)(2906002)(81156014)(5660300002)(8676002)(33656002)(316002)(81166006)(8936002)(4744005)(26005)(66446008)(66946007)(66556008)(76116006)(19627405001)(478600001)(86362001)(66476007)(64756008)(4326008)(107886003)(9686003)(55016002)(71200400001)(7696005);
+ DIR:OUT; SFP:1102; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: WAEepy5NplbHsXxQKiMZcSoAViz0/m0AR2AEUATBzBDz/WzShC0mudDrwyqmuD6gFushcC/LoN4cYs3MH4LlZBX8kljXdqjNCFJicUdDoMDL05OxZMLOnE71tMxPEG7S50dq1XBX8wtTjVNio3QZ4Ygk0ojwQZS8UY7nUBISm9KtlxoYjO0aCoLUL/Vzki5BAh+tpPBrId6Rg5xipTt6saC2j9k1PDCWvtjRM8IayW1we0P2w+NxRacHjJD+5GIYj7i57UvjpvNz9dsMkxdNdJL0GY7AOyPqCFdz9RGPL/2gas3eo7wDK2ifQyui5O67a/N51XPWbbm5aO1LLwQ+Qy6zKx0tswSU/unsEqLdY5RnrqOy9epQbmioX7aEXgxz/eVyGWNpNYYHplhrqChID+AuKh6YyDlavKwoDE5otkul4K3TvC/CYzPG5028CjST
+x-ms-exchange-antispam-messagedata: 7xayu4WwkOcGGrk9Qh86+XthQ+YFN0rLATXNRAvLhXDQ+VjH/Ug8nobBerhu4UgkhDjv9TacHrMvYgTw6JQZ+BjjMH1uox1J7AIHdOoyFmLo1UNKmrU1g+CKoeTrzhBGJpWkRW/3LoChclFC5fQpZw==
+Content-Type: multipart/alternative;
+ boundary="_000_AM6PR08MB50485BA32FA4F88D896A17A8F4C30AM6PR08MB5048eurp_"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0477ba5-0a85-4789-7075-08d7dabb3409
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Apr 2020 06:16:26.2068 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: lVDfT8K3LLXeZ3fbIBw2+CJAyQHQoVw39Y0EhzEGgXhSqwCF9OpQTHn68zh3VMQ0mv8cOidBqAJkjqXQDDaiH3rAOdAaOFz9MVO2YLma+yA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3030
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.7.109
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,148 +107,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mail@maciej.szmigiero.name, eyakovlev@virtuozzo.com, ehabkost@redhat.com,
- rvkagan@gmail.com, liran.alon@oracle.com, Roman Kagan <rkagan@virtuozzo.com>,
- pbonzini@redhat.com, vkuznets@redhat.com,
- "Maciej S . Szmigiero" <maciej.szmigiero@oracle.com>,
- Jon Doron <arilou@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Pavel Butsykin <pbutsykin@virtuozzo.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This can be allow to include controller-specific data while
-saving/loading in-flight scsi requests of the vmbus scsi controller.
+--_000_AM6PR08MB50485BA32FA4F88D896A17A8F4C30AM6PR08MB5048eurp_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Roman Kagan <rkagan@virtuozzo.com>
-Signed-off-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
-Signed-off-by: Jon Doron <arilou@gmail.com>
----
- hw/hyperv/vmbus.c         | 99 +++++++++++++++++++++++++++++++++++++++
- include/hw/hyperv/vmbus.h |  3 ++
- 2 files changed, 102 insertions(+)
+I wouldn't mind either.
 
-diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
-index 0df7afe0ca..ab72a59a4a 100644
---- a/hw/hyperv/vmbus.c
-+++ b/hw/hyperv/vmbus.c
-@@ -1272,6 +1272,105 @@ void vmbus_free_req(void *req)
-     g_free(req);
- }
- 
-+static const VMStateDescription vmstate_sgent = {
-+    .name = "vmbus/sgentry",
-+    .version_id = 0,
-+    .minimum_version_id = 0,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(base, ScatterGatherEntry),
-+        VMSTATE_UINT64(len, ScatterGatherEntry),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+typedef struct VMBusChanReqSave {
-+    uint16_t chan_idx;
-+    uint16_t pkt_type;
-+    uint32_t msglen;
-+    void *msg;
-+    uint64_t transaction_id;
-+    bool need_comp;
-+    uint32_t num;
-+    ScatterGatherEntry *sgl;
-+} VMBusChanReqSave;
-+
-+static const VMStateDescription vmstate_vmbus_chan_req = {
-+    .name = "vmbus/vmbus_chan_req",
-+    .version_id = 0,
-+    .minimum_version_id = 0,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT16(chan_idx, VMBusChanReqSave),
-+        VMSTATE_UINT16(pkt_type, VMBusChanReqSave),
-+        VMSTATE_UINT32(msglen, VMBusChanReqSave),
-+        VMSTATE_VBUFFER_ALLOC_UINT32(msg, VMBusChanReqSave, 0, NULL, msglen),
-+        VMSTATE_UINT64(transaction_id, VMBusChanReqSave),
-+        VMSTATE_BOOL(need_comp, VMBusChanReqSave),
-+        VMSTATE_UINT32(num, VMBusChanReqSave),
-+        VMSTATE_STRUCT_VARRAY_POINTER_UINT32(sgl, VMBusChanReqSave, num,
-+                                             vmstate_sgent, ScatterGatherEntry),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+void vmbus_save_req(QEMUFile *f, VMBusChanReq *req)
-+{
-+    VMBusChanReqSave req_save;
-+
-+    req_save.chan_idx = req->chan->subchan_idx;
-+    req_save.pkt_type = req->pkt_type;
-+    req_save.msglen = req->msglen;
-+    req_save.msg = req->msg;
-+    req_save.transaction_id = req->transaction_id;
-+    req_save.need_comp = req->need_comp;
-+    req_save.num = req->sgl.nsg;
-+    req_save.sgl = g_memdup(req->sgl.sg,
-+                            req_save.num * sizeof(ScatterGatherEntry));
-+
-+    vmstate_save_state(f, &vmstate_vmbus_chan_req, &req_save, NULL);
-+
-+    g_free(req_save.sgl);
-+}
-+
-+void *vmbus_load_req(QEMUFile *f, VMBusDevice *dev, uint32_t size)
-+{
-+    VMBusChanReqSave req_save;
-+    VMBusChanReq *req = NULL;
-+    VMBusChannel *chan = NULL;
-+    uint32_t i;
-+
-+    vmstate_load_state(f, &vmstate_vmbus_chan_req, &req_save, 0);
-+
-+    if (req_save.chan_idx >= dev->num_channels) {
-+        error_report("%s: %u(chan_idx) > %u(num_channels)", __func__,
-+                     req_save.chan_idx, dev->num_channels);
-+        goto out;
-+    }
-+    chan = &dev->channels[req_save.chan_idx];
-+
-+    if (vmbus_channel_reserve(chan, 0, req_save.msglen)) {
-+        goto out;
-+    }
-+
-+    req = vmbus_alloc_req(chan, size, req_save.pkt_type, req_save.msglen,
-+                          req_save.transaction_id, req_save.need_comp);
-+    if (req_save.msglen) {
-+        memcpy(req->msg, req_save.msg, req_save.msglen);
-+    }
-+
-+    for (i = 0; i < req_save.num; i++) {
-+        qemu_sglist_add(&req->sgl, req_save.sgl[i].base, req_save.sgl[i].len);
-+    }
-+
-+out:
-+    if (req_save.msglen) {
-+        g_free(req_save.msg);
-+    }
-+    if (req_save.num) {
-+        g_free(req_save.sgl);
-+    }
-+    return req;
-+}
-+
- static void channel_event_cb(EventNotifier *e)
- {
-     VMBusChannel *chan = container_of(e, VMBusChannel, notifier);
-diff --git a/include/hw/hyperv/vmbus.h b/include/hw/hyperv/vmbus.h
-index 63a5b807b6..9219f34d6b 100644
---- a/include/hw/hyperv/vmbus.h
-+++ b/include/hw/hyperv/vmbus.h
-@@ -224,4 +224,7 @@ int vmbus_map_sgl(VMBusChanReq *req, DMADirection dir, struct iovec *iov,
- void vmbus_unmap_sgl(VMBusChanReq *req, DMADirection dir, struct iovec *iov,
-                      unsigned iov_cnt, size_t accessed);
- 
-+void vmbus_save_req(QEMUFile *f, VMBusChanReq *req);
-+void *vmbus_load_req(QEMUFile *f, VMBusDevice *dev, uint32_t size);
-+
- #endif
--- 
-2.24.1
+Andrey
 
+________________________________
+From: Alberto Garcia <berto@igalia.com>
+Sent: Monday, April 6, 2020 7:08 PM
+To: qemu-devel@nongnu.org <qemu-devel@nongnu.org>
+Cc: qemu-block@nongnu.org <qemu-block@nongnu.org>; Andrey Shinkevich <andre=
+y.shinkevich@virtuozzo.com>; Max Reitz <mreitz@redhat.com>; Kevin Wolf <kwo=
+lf@redhat.com>; Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>; Pa=
+vel Butsykin <pbutsykin@virtuozzo.com>
+Subject: Re: [PATCH v2] qcow2: Check request size in qcow2_co_pwritev_compr=
+essed_part()
+
+I forgot to add the "for-5.0" tag in the subject, do I need to resend
+the patch?
+
+Berto
+
+--_000_AM6PR08MB50485BA32FA4F88D896A17A8F4C30AM6PR08MB5048eurp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+I wouldn't mind either.</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Andrey</div>
+<div id=3D"appendonsend"></div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+<br>
+</div>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" co=
+lor=3D"#000000" style=3D"font-size:11pt"><b>From:</b> Alberto Garcia &lt;be=
+rto@igalia.com&gt;<br>
+<b>Sent:</b> Monday, April 6, 2020 7:08 PM<br>
+<b>To:</b> qemu-devel@nongnu.org &lt;qemu-devel@nongnu.org&gt;<br>
+<b>Cc:</b> qemu-block@nongnu.org &lt;qemu-block@nongnu.org&gt;; Andrey Shin=
+kevich &lt;andrey.shinkevich@virtuozzo.com&gt;; Max Reitz &lt;mreitz@redhat=
+.com&gt;; Kevin Wolf &lt;kwolf@redhat.com&gt;; Vladimir Sementsov-Ogievskiy=
+ &lt;vsementsov@virtuozzo.com&gt;; Pavel Butsykin &lt;pbutsykin@virtuozzo.c=
+om&gt;<br>
+<b>Subject:</b> Re: [PATCH v2] qcow2: Check request size in qcow2_co_pwrite=
+v_compressed_part()</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt"=
+>
+<div class=3D"PlainText">I forgot to add the &quot;for-5.0&quot; tag in the=
+ subject, do I need to resend<br>
+the patch?<br>
+<br>
+Berto<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_AM6PR08MB50485BA32FA4F88D896A17A8F4C30AM6PR08MB5048eurp_--
 
