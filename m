@@ -2,81 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02001A1561
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 20:57:25 +0200 (CEST)
-Received: from localhost ([::1]:52046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B7B81A1590
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 21:06:52 +0200 (CEST)
+Received: from localhost ([::1]:52162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLtPY-0003jh-FC
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 14:57:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43839)
+	id 1jLtYh-0000qK-3Y
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 15:06:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45290)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <rvkagan@yandex-team.ru>) id 1jLtOX-0003HF-3x
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 14:56:22 -0400
+ (envelope-from <bounces@canonical.com>) id 1jLtXo-0000Qs-Ro
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 15:05:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rvkagan@yandex-team.ru>) id 1jLtOT-0000z7-Ll
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 14:56:18 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:37296)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <rvkagan@yandex-team.ru>)
- id 1jLtOS-0000sP-VY
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 14:56:17 -0400
-Received: from mxbackcorp1o.mail.yandex.net (mxbackcorp1o.mail.yandex.net
- [IPv6:2a02:6b8:0:1a2d::301])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id AD0772E1626;
- Tue,  7 Apr 2020 21:56:11 +0300 (MSK)
-Received: from iva4-7c3d9abce76c.qloud-c.yandex.net
- (iva4-7c3d9abce76c.qloud-c.yandex.net [2a02:6b8:c0c:4e8e:0:640:7c3d:9abc])
- by mxbackcorp1o.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
- W3gNjfrmvP-uAXCsAoH; Tue, 07 Apr 2020 21:56:11 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1586285771; bh=Cf/eKvQBF69DieKVYZK4q4t4bli6eNxGN7gYpJCl67M=;
- h=In-Reply-To:Message-ID:Subject:To:From:References:Date:Cc;
- b=r8ghE5LYFqMIUHNZJXhVtUdI9w+Exay+CKbqAMNkRRm7ymnKlIS+YARAqd47SG7X9
- 64P1Lg1ymZLp2m6i1FdH7ISTumHNY9j3woouJBlOkwsOSbMPLSvT9cJ14IcQTv+6Bg
- izo/y6vBJZ/9ZcFG/LfGfmdQZBqGRKwrlizPDJXE=
-Authentication-Results: mxbackcorp1o.mail.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from unknown (unknown [2a02:6b8:b080:9318::1:d])
- by iva4-7c3d9abce76c.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- w78Nkkr9rq-uAXmTXN0; Tue, 07 Apr 2020 21:56:10 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Date: Tue, 7 Apr 2020 21:56:08 +0300
-From: Roman Kagan <rvkagan@yandex-team.ru>
-To: Jon Doron <arilou@gmail.com>
-Subject: Re: [PATCH v1 5/5] i386: Hyper-V VMBus ACPI DSDT entry
-Message-ID: <20200407185608.GA178651@rvkaganb>
-Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
- Jon Doron <arilou@gmail.com>,
- "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>,
- QEMU <qemu-devel@nongnu.org>,
- Evgeny Yakovlev <eyakovlev@virtuozzo.com>, ehabkost@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>,
- Liran Alon <liran.alon@oracle.com>,
- Roman Kagan <rkagan@virtuozzo.com>
-References: <20200403142308.82990-1-arilou@gmail.com>
- <20200403142308.82990-6-arilou@gmail.com>
- <76017793-735b-4bb5-0e69-ecded78af54d@maciej.szmigiero.name>
- <CAP7QCog_EmLJ=O8Xi9Tc4Jst1=z62DXim9ScCyoPv7WugrSyOw@mail.gmail.com>
- <CAP7QCogMdUis-=KsC--0ar2Zt2Vwcpn4HS+qCxPn5khtDTu+mA@mail.gmail.com>
- <9b9c42d3-af9e-25e9-210e-c58ee5975941@maciej.szmigiero.name>
- <472544e7-498a-4e28-06e9-83c102d6436b@maciej.szmigiero.name>
- <20200406073246.GA7707@rvkaganb>
- <CAP7QCojPsOYjw94k3rkH0A3rLFADLeVhgy502N=8X5wrUnoC6Q@mail.gmail.com>
+ (envelope-from <bounces@canonical.com>) id 1jLtXn-0007aN-L3
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 15:05:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35160)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jLtXn-0007Zy-FY
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 15:05:55 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jLtXl-0004FR-RA
+ for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 19:05:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id BD5242E8106
+ for <qemu-devel@nongnu.org>; Tue,  7 Apr 2020 19:05:53 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAP7QCojPsOYjw94k3rkH0A3rLFADLeVhgy502N=8X5wrUnoC6Q@mail.gmail.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a02:6b8:0:1472:2741:0:8b6:217
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 07 Apr 2020 18:56:26 -0000
+From: martin short <1663287@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: mips
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bacam martin-sk philmd pmaydell th-huth yongbok-kim
+X-Launchpad-Bug-Reporter: Brian Campbell (bacam)
+X-Launchpad-Bug-Modifier: martin short (martin-sk)
+References: <20170209154937.3933.99004.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158628578689.25034.15178380415334365353.malone@soybean.canonical.com>
+Subject: [Bug 1663287] Re: Illegal delay slot code causes abort on mips64
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a296f04231dee355be5db73cc878b9e21689a253";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: da38a09435bafe92e1db4f4077c250cb22232358
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,123 +65,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>,
- Evgeny Yakovlev <eyakovlev@virtuozzo.com>, ehabkost@redhat.com,
- QEMU <qemu-devel@nongnu.org>, Liran Alon <liran.alon@oracle.com>,
- Roman Kagan <rkagan@virtuozzo.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>
+Reply-To: Bug 1663287 <1663287@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 06, 2020 at 11:20:39AM +0300, Jon Doron wrote:
-> Well I want it to be merged in :-)
+When I reread the thread I see Brian was doing some testing/fuzzing,
+that's why he found that out.
 
-Hmm I'm curious why, it has little to offer over virtio.
+I managed to get my old router running. It's BCM5354 (BCM3302 v2.9) running=
+ on Linux 2.4.35.
+I used the following code (gnu as compiled but replaced the nop after branc=
+h with the branch instruction above):
 
-Anyway the series you've posted seems to be based on a fairly old
-version.
+  4000d0:	10000003 	b	4000e0 <__start+0x10>
+  4000d4:	45454545 	0x45454545
+	...
+  4000e0:	2404002a 	li	a0,42
+  4000e4:	24020fa1 	li	v0,4001
+  4000e8:	0000000c 	syscall
+  4000ec:	00000000 	nop
 
-The one in openvz repo is more recent.  It's still in need for
-improvement, too, but should be testable at least.
+Program was terminated with the trap Illegal instruction.
 
-Thanks,
-Roman.
+-- =
 
-> On Mon, Apr 6, 2020, 10:32 Roman Kagan <rvkagan@yandex-team.ru> wrote:
-> 
-> > On Fri, Apr 03, 2020 at 11:00:27PM +0200, Maciej S. Szmigiero wrote:
-> > > It seems to me that Roman might not be getting our e-mails since his
-> > > new e-mail address seems to be "rvkagan@yandex-team.ru".
-> >
-> > Indeed.  I'm subscribed with my new address to qemu-devel ML but must
-> > have missed this series.
-> >
-> > > @Roman, are you with us?
-> >
-> > Yes ;)
-> >
-> > So what are your plans regarding this patchset?
-> >
-> > Thanks,
-> > Roman.
-> >
-> > > On 03.04.2020 19:18, Maciej S. Szmigiero wrote:
-> > > > Hi Jon,
-> > > >
-> > > > The patches are available here:
-> > > > https://github.com/maciejsszmigiero/qemu.git in "vmbus-patches"
-> > branch.
-> > > >
-> > > > Please note that these patches don't have Roman's "Signed-off-by:"
-> > tags,
-> > > > so I haven't applied mine, either.
-> > > >
-> > > > If you are able to establish a proper SoB chain then please also add:
-> > > > "Signed-off-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>".
-> > > >
-> > > > Thanks for the effort,
-> > > > Maciej
-> > > >
-> > > > On 03.04.2020 17:30, Jon Doron wrote:
-> > > >>  Thank you Maciej it seems like your version is really ahead I'll do
-> > > >> the required work and merge it so i can submit a v2 with the latest
-> > > >> patchset from Roman
-> > > >>
-> > > >> On Fri, Apr 3, 2020 at 6:06 PM Jon Doron <arilou@gmail.com> wrote:
-> > > >>>
-> > > >>> Thank you Maciej, I based it on top of what Denis (den@openvz.org)
-> > gave me
-> > > >>> which was this:
-> > > >>>
-> > https://ftp.openvz.org/virtuozzo/releases/openvz-7.0.12-288/source/SRPMS/q/qemu-kvm-vz-2.12.0-33.vz7.14.4.src.rpm
-> > > >>>
-> > > >>> Do you think you have a more recent version I dont mind diffing and
-> > > >>> resubmitting a new version of the patchset?
-> > > >>>
-> > > >>> Thanks,
-> > > >>> -- Jon.
-> > > >>>
-> > > >>> On Fri, Apr 3, 2020 at 5:56 PM Maciej S. Szmigiero
-> > > >>> <mail@maciej.szmigiero.name> wrote:
-> > > >>>>
-> > > >>>> Hi Jon,
-> > > >>>>
-> > > >>>> On 03.04.2020 16:23, Jon Doron wrote:
-> > > >>>>> Guest OS uses ACPI to discover vmbus presence.  Add a corresponding
-> > > >>>>> entry to DSDT in case vmbus has been enabled.
-> > > >>>>>
-> > > >>>>> Experimentally Windows guests were found to require this entry to
-> > > >>>>> include two IRQ resources, so this patch adds two semi-arbitrarily
-> > > >>>>> chosen ones (7 and 13).  This results, in particular, in parallel
-> > port
-> > > >>>>> conflicting with vmbus.
-> > > >>>>>
-> > > >>>>> TODO: discover and use spare IRQs to avoid conflicts.
-> > > >>>>>
-> > > >>>>> Signed-off-by: Evgeny Yakovlev <eyakovlev@virtuozzo.com>
-> > > >>>>> Signed-off-by: Roman Kagan <rkagan@virtuozzo.com>
-> > > >>>>> Signed-off-by: Jon Doron <arilou@gmail.com>
-> > > >>>>
-> > > >>>> Nice work, thanks!
-> > > >>>>
-> > > >>>> However, it seems to be based on the code version that was posted in
-> > > >>>> February 2018, and not the latest version in OpenVZ qemu repository
-> > > >>>> dated October 2019:
-> > > >>>>
-> > https://src.openvz.org/projects/UP/repos/qemu/commits?until=refs%2Fheads%2Fvmbus
-> > > >>>>
-> > > >>>> This newer version has slightly different API here and there.
-> > > >>>> Any particular reason for selecting that older version for porting?
-> > > >>>>
-> > > >>>> I have actually rebased this latest version on the top of the
-> > current
-> > > >>>> QEMU master, and it basically seems to work fine.
-> > > >>>> However, I haven't done extensive tests whether there isn't a
-> > memory leak
-> > > >>>> somewhere or so on.
-> > > >>>>
-> > > >>>> Maciej
-> > > >
-> > >
-> >
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1663287
+
+Title:
+  Illegal delay slot code causes abort on mips64
+
+Status in QEMU:
+  New
+
+Bug description:
+  During some randomised testing of an experimental MIPS implementation
+  I found an instruction sequence that also causes aborts on mainline
+  qemu's MIPS support.  The problem is triggered by an MSA branch
+  instruction appearing in a delay slot when emulating a processor
+  without MSA support.
+
+  For example, with the current repository HEAD
+  (f073cd3a2bf1054135271b837c58a7da650dd84b) configured for
+  mips64-softmmu, if I run the attached binary using
+
+      mips64-softmmu/qemu-system-mips64 -bios ../abort2.bin -machine
+  mipssim -nographic
+
+  it will report
+
+      unknown branch 0x13000
+      Aborted (core dumped)
+
+  The binary contains the following two instructions:
+
+      00200008 jr at
+      47081e61 bz.b       w8,0xffffffffbfc0798c
+
+  The jr sets up a jump, and hflags is set accordingly in
+  gen_compute_branch (in target/mips/translate.c).  When processing the
+  bz.b, check_insn generates an exception because the instruction isn't
+  support, but gen_msa_branch skips the usual delay slot check for the
+  same reason, and sets more bits in hflags, leading to an abort in
+  gen_branch because the hflags are now invalid.
+
+  I suspect the best fix is to remove the instruction set condition from
+  the delay slot check in gen_msa_branch.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1663287/+subscriptions
 
