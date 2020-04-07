@@ -2,65 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBD371A10F7
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 18:06:57 +0200 (CEST)
-Received: from localhost ([::1]:50076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D008A1A10FD
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 18:09:50 +0200 (CEST)
+Received: from localhost ([::1]:50220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLqka-0000CV-PL
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 12:06:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44875)
+	id 1jLqnM-00041S-VN
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 12:09:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47549)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ovoshcha@redhat.com>) id 1jLqax-0004vt-8y
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:57:01 -0400
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1jLqm3-0002fF-2b
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 12:08:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ovoshcha@redhat.com>) id 1jLqaw-0002RR-9Y
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:56:59 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47243
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ovoshcha@redhat.com>) id 1jLqaw-0002QM-1K
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:56:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586275017;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OM2TK08DprDmua1hryjviamFXGvjxXVAx44sc++ybd4=;
- b=Sj+iXLV6AipBFk2U+56NL5UhBa+uiMflT0kAZf/cWAsDHvX8hQGXADChroXbm+pEYI98gD
- Mhji4VuHkWtZ21oGZY8OCG481/erYpfMMNKyA11TcsP7xPnKjKvD2hWRj2uR+ExY2ruyD4
- seGBl4XMxMq2T69h78iWnEnJDbFYYgY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-owTViyVuNkmvPDOnxE8zZQ-1; Tue, 07 Apr 2020 11:56:55 -0400
-X-MC-Unique: owTViyVuNkmvPDOnxE8zZQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6035A1902EA0
- for <qemu-devel@nongnu.org>; Tue,  7 Apr 2020 15:56:54 +0000 (UTC)
-Received: from kh066.redhat.com (ovpn-114-200.ams2.redhat.com [10.36.114.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C59A75DA7B;
- Tue,  7 Apr 2020 15:56:52 +0000 (UTC)
-From: Oksana Vohchana <ovoshcha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 3/3] Acceptance test: provides to use RDMA transport for
- migration test
-Date: Tue,  7 Apr 2020 18:56:42 +0300
-Message-Id: <20200407155642.10716-4-ovoshcha@redhat.com>
-In-Reply-To: <20200407155642.10716-1-ovoshcha@redhat.com>
-References: <20200407155642.10716-1-ovoshcha@redhat.com>
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1jLqm0-0004gG-QB
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 12:08:25 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44406
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jLqm0-0004Zt-KE
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 12:08:24 -0400
+Received: from host86-138-178-30.range86-138.btcentralplus.com
+ ([86.138.178.30] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jLqmS-0000EO-9r; Tue, 07 Apr 2020 17:08:57 +0100
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ peter.maydell@linaro.org
+References: <20200407155118.20139-1-alex.bennee@linaro.org>
+ <20200407155118.20139-13-alex.bennee@linaro.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <035d422a-8a44-4ef3-1f24-560dfc719fdf@ilande.co.uk>
+Date: Tue, 7 Apr 2020 17:08:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+In-Reply-To: <20200407155118.20139-13-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.138.178.30
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PULL 12/13] configure: Add -Werror to PIE probe
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2001:41c9:1:41f::167
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,41 +85,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ovoshcha@redhat.com, philmd@redhat.com, wainersm@redhat.com,
- crosa@redhat.com
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adds test for RDMA migration check
+On 07/04/2020 16:51, Alex Bennée wrote:
 
-Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
----
- tests/acceptance/migration.py | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+> From: Richard Henderson <richard.henderson@linaro.org>
+> 
+> Without -Werror, the probe may succeed, but then compilation fails
+> later when -Werror is added for other reasons.  Shows up on windows,
+> where the compiler complains about -fPIC.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Message-Id: <20200401214756.6559-1-richard.henderson@linaro.org>
+> Message-Id: <20200403191150.863-13-alex.bennee@linaro.org>
+> 
+> diff --git a/configure b/configure
+> index 22870f38672..233c671aaa9 100755
+> --- a/configure
+> +++ b/configure
+> @@ -2119,7 +2119,7 @@ if compile_prog "-Werror -fno-pie" "-no-pie"; then
+>  fi
+>  
+>  if test "$static" = "yes"; then
+> -  if test "$pie" != "no" && compile_prog "-fPIE -DPIE" "-static-pie"; then
+> +  if test "$pie" != "no" && compile_prog "-Werror -fPIE -DPIE" "-static-pie"; then
+>      QEMU_CFLAGS="-fPIE -DPIE $QEMU_CFLAGS"
+>      QEMU_LDFLAGS="-static-pie $QEMU_LDFLAGS"
+>      pie="yes"
+> @@ -2132,7 +2132,7 @@ if test "$static" = "yes"; then
+>  elif test "$pie" = "no"; then
+>    QEMU_CFLAGS="$CFLAGS_NOPIE $QEMU_CFLAGS"
+>    QEMU_LDFLAGS="$LDFLAGS_NOPIE $QEMU_LDFLAGS"
+> -elif compile_prog "-fPIE -DPIE" "-pie"; then
+> +elif compile_prog "-Werror -fPIE -DPIE" "-pie"; then
+>    QEMU_CFLAGS="-fPIE -DPIE $QEMU_CFLAGS"
+>    QEMU_LDFLAGS="-pie $QEMU_LDFLAGS"
+>    pie="yes"
 
-diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
-index 1c3a684395..99563ae850 100644
---- a/tests/acceptance/migration.py
-+++ b/tests/acceptance/migration.py
-@@ -120,3 +120,15 @@ class Migration(Test):
-         """
-         free_port =3D self._get_free_port()
-         dest_uri =3D 'exec:nc -l localhost %u' % free_port
-+
-+    @skipUnless(get_rdma_status(), 'RDMA service is disabled or not instal=
-led')
-+    @skipUnless(get_interface_rdma(), 'RDMA interface not configured')
-+    def test_migration_with_rdma_localhost(self):
-+        iface =3D get_interface_rdma()
-+        ip =3D get_ip_rdma(iface)
-+        if ip:
-+            free_port =3D self._get_free_port(address=3Dip[0])
-+        else:
-+            self.cancel("Ip address doesn't configured properly on interfa=
-ce:%s" % iface)
-+        dest_uri =3D 'rdma:%s:%u' % (ip, free_port)
-+        self.do_migrate(dest_uri)
---=20
-2.21.1
+Note that even with this build fix, the native and cross-compiled Windows binaries
+crash upon startup unless --disable-pie is explicitly passed to configure (this seems
+like an unexpected side-effect of d2cd29e307: "configure: Do not force pie=no for
+non-x86").
 
+Given that users such as Howard and https://bugs.launchpad.net/bugs/1870911 are
+starting to notice, would it be best to set this configure option as the default for
+Windows builds for now?
+
+
+ATB,
+
+Mark.
 
