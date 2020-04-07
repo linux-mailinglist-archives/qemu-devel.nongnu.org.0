@@ -2,63 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA1751A09FB
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 11:25:03 +0200 (CEST)
-Received: from localhost ([::1]:43852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0320F1A09FD
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 11:25:40 +0200 (CEST)
+Received: from localhost ([::1]:43858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLkTc-0006lj-QA
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 05:25:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33199)
+	id 1jLkUF-0007JW-3e
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 05:25:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33246)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jLkR9-0002Pt-1l
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:22:28 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jLkRD-0002Yr-Ee
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:22:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1jLkR7-0000jU-Bu
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:22:26 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53379
+ (envelope-from <mreitz@redhat.com>) id 1jLkRC-0000oF-F4
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:22:31 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51960
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jLkR5-0000gu-In
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:22:23 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jLkRC-0000o2-B2
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 05:22:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586251342;
+ s=mimecast20190719; t=1586251350;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=k6/5yvLUT9256EPgfuT9fAsQePBTrk+RlVT/7aiGcUA=;
- b=Z6+gb5ukhGg8XRz+VTfGQaYwfNVWFI1f+5B8yT3kRF6AGiuESE1uzG+DRfAquFTtO7+ajq
- syOLE0rbb/zJvjyq3rvbEAlK/Ek856s7gTdLmLlH8Oyx4vNlPYelKfBV8bcs7VD4xGZ8an
- mxORPNk6DgQzf9/8BXxNB3exoy6rwG0=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=lv1XQFW9smB5ZYhozXdQJoZneNaLO84VdpAHV31TrzI=;
+ b=GF5VG5b9xCbG//R2LPz51n0o1X/TwRddoce/HPbEBTGU1yC5LI/2WjN/0fHVpbWidHnaJX
+ +0OzLyYSJ+9rZ6E8QNV1S4K8ZMH6UKitqpVX+zz5sIbEFuPzjwr8iRiNMxXjNv2d3aeQEe
+ iYDwezmOgZmUdsnm/EfTS0p+UiZkRMM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-507-_98NHsfoMW2Eizg5VhY2_A-1; Tue, 07 Apr 2020 05:22:15 -0400
-X-MC-Unique: _98NHsfoMW2Eizg5VhY2_A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-353-Jt3fFNkdN8e0V9dY1FtthQ-1; Tue, 07 Apr 2020 05:22:25 -0400
+X-MC-Unique: Jt3fFNkdN8e0V9dY1FtthQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E99A1005509;
- Tue,  7 Apr 2020 09:22:14 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-60.ams2.redhat.com
- [10.36.113.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BF4E260BE1;
- Tue,  7 Apr 2020 09:22:09 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 285F517517; Tue,  7 Apr 2020 11:22:07 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 4/4] ati-vga: Fix checks in ati_2d_blt() to avoid crash
-Date: Tue,  7 Apr 2020 11:22:06 +0200
-Message-Id: <20200407092207.6079-5-kraxel@redhat.com>
-In-Reply-To: <20200407092207.6079-1-kraxel@redhat.com>
-References: <20200407092207.6079-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E98738017CE;
+ Tue,  7 Apr 2020 09:22:23 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-84.ams2.redhat.com
+ [10.36.114.84])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C7D1492F83;
+ Tue,  7 Apr 2020 09:22:18 +0000 (UTC)
+Subject: Re: [PATCH for-5.0 v2 1/3] block-backend: Reorder flush/pdiscard
+ function definitions
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20200406171403.6761-1-kwolf@redhat.com>
+ <20200406171403.6761-2-kwolf@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <cb1ef778-55ab-7100-da05-03c31609d1e9@redhat.com>
+Date: Tue, 7 Apr 2020 11:22:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+MIME-Version: 1.0
+In-Reply-To: <20200406171403.6761-2-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="6EvwEF9qVMeS5SfAxvLvjVCgktCZE5j3g"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -73,108 +100,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: vsementsov@virtuozzo.com, s.reiter@proxmox.com, qemu-devel@nongnu.org,
+ t.lamprecht@proxmox.com, stefanha@redhat.com, dietmar@proxmox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: BALATON Zoltan <balaton@eik.bme.hu>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--6EvwEF9qVMeS5SfAxvLvjVCgktCZE5j3g
+Content-Type: multipart/mixed; boundary="9bk1jn0ggqPTUvdlL7an1OeWqA07yQzsA"
 
-In some corner cases (that never happen during normal operation but a
-malicious guest could program wrong values) pixman functions were
-called with parameters that result in a crash. Fix this and add more
-checks to disallow such cases.
+--9bk1jn0ggqPTUvdlL7an1OeWqA07yQzsA
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Reported-by: Ziming Zhang <ezrakiez@gmail.com>
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-id: 20200406204029.19559747D5D@zero.eik.bme.hu
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/display/ati_2d.c | 37 ++++++++++++++++++++++++++-----------
- 1 file changed, 26 insertions(+), 11 deletions(-)
+On 06.04.20 19:14, Kevin Wolf wrote:
+> Move all variants of the flush/pdiscard functions to a single place and
+> put the blk_co_*() version first because it is called by all other
+> variants (and will become static in the next patch).
+>=20
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  block/block-backend.c | 92 +++++++++++++++++++++----------------------
+>  1 file changed, 46 insertions(+), 46 deletions(-)
 
-diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
-index 42e82311eb44..23a8ae0cd8ce 100644
---- a/hw/display/ati_2d.c
-+++ b/hw/display/ati_2d.c
-@@ -53,12 +53,20 @@ void ati_2d_blt(ATIVGAState *s)
-             s->vga.vbe_start_addr, surface_data(ds), surface_stride(ds),
-             surface_bits_per_pixel(ds),
-             (s->regs.dp_mix & GMC_ROP3_MASK) >> 16);
--    int dst_x =3D (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
--                 s->regs.dst_x : s->regs.dst_x + 1 - s->regs.dst_width);
--    int dst_y =3D (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
--                 s->regs.dst_y : s->regs.dst_y + 1 - s->regs.dst_height);
-+    unsigned dst_x =3D (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
-+                      s->regs.dst_x : s->regs.dst_x + 1 - s->regs.dst_widt=
-h);
-+    unsigned dst_y =3D (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
-+                      s->regs.dst_y : s->regs.dst_y + 1 - s->regs.dst_heig=
-ht);
-     int bpp =3D ati_bpp_from_datatype(s);
-+    if (!bpp) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "Invalid bpp\n");
-+        return;
-+    }
-     int dst_stride =3D DEFAULT_CNTL ? s->regs.dst_pitch : s->regs.default_=
-pitch;
-+    if (!dst_stride) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "Zero dest pitch\n");
-+        return;
-+    }
-     uint8_t *dst_bits =3D s->vga.vram_ptr + (DEFAULT_CNTL ?
-                         s->regs.dst_offset : s->regs.default_offset);
-=20
-@@ -82,12 +90,16 @@ void ati_2d_blt(ATIVGAState *s)
-     switch (s->regs.dp_mix & GMC_ROP3_MASK) {
-     case ROP3_SRCCOPY:
-     {
--        int src_x =3D (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
--                     s->regs.src_x : s->regs.src_x + 1 - s->regs.dst_width=
-);
--        int src_y =3D (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
--                     s->regs.src_y : s->regs.src_y + 1 - s->regs.dst_heigh=
-t);
-+        unsigned src_x =3D (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
-+                       s->regs.src_x : s->regs.src_x + 1 - s->regs.dst_wid=
-th);
-+        unsigned src_y =3D (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
-+                       s->regs.src_y : s->regs.src_y + 1 - s->regs.dst_hei=
-ght);
-         int src_stride =3D DEFAULT_CNTL ?
-                          s->regs.src_pitch : s->regs.default_pitch;
-+        if (!src_stride) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "Zero source pitch\n");
-+            return;
-+        }
-         uint8_t *src_bits =3D s->vga.vram_ptr + (DEFAULT_CNTL ?
-                             s->regs.src_offset : s->regs.default_offset);
-=20
-@@ -137,8 +149,10 @@ void ati_2d_blt(ATIVGAState *s)
-                                     dst_y * surface_stride(ds),
-                                     s->regs.dst_height * surface_stride(ds=
-));
-         }
--        s->regs.dst_x +=3D s->regs.dst_width;
--        s->regs.dst_y +=3D s->regs.dst_height;
-+        s->regs.dst_x =3D (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
-+                         dst_x + s->regs.dst_width : dst_x);
-+        s->regs.dst_y =3D (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
-+                         dst_y + s->regs.dst_height : dst_y);
-         break;
-     }
-     case ROP3_PATCOPY:
-@@ -179,7 +193,8 @@ void ati_2d_blt(ATIVGAState *s)
-                                     dst_y * surface_stride(ds),
-                                     s->regs.dst_height * surface_stride(ds=
-));
-         }
--        s->regs.dst_y +=3D s->regs.dst_height;
-+        s->regs.dst_y =3D (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
-+                         dst_y + s->regs.dst_height : dst_y);
-         break;
-     }
-     default:
---=20
-2.18.2
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+
+--9bk1jn0ggqPTUvdlL7an1OeWqA07yQzsA--
+
+--6EvwEF9qVMeS5SfAxvLvjVCgktCZE5j3g
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6MRkkACgkQ9AfbAGHV
+z0DR/Af/UTWjiA8JL3ngKYZ9vq4GKEj78WEqeeTRPs3zns2VPS0CNXBjBjlsQBRZ
+6jf91NgJaDNOinVCpcYGtrbo+XP42m+NeG//ycHgyH3RFRKg0YX34WJVmsyyox6g
+H0QEy+7eqsMtHwYSv9B7Q0kEjvVw3PAUhz7XZaLoemLlzppMiz2411wsk0SeKsug
+NLeD4MNrdTwgQtDjhDUH2xXoir2nOiTH34r5fdS6pfuRhhyE4mbmW6vyRzQ0jirp
+qkQrtgk6M/gKJYhabmqK4Z+fw2peErE4PYrhbd/lnalcIt0AkK32f2rwd9xdAkqa
+hfZ9ZgriFfs+uyEaBj2OHqg0qHeaxA==
+=pUJj
+-----END PGP SIGNATURE-----
+
+--6EvwEF9qVMeS5SfAxvLvjVCgktCZE5j3g--
 
 
