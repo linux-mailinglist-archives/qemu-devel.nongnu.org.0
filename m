@@ -2,74 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88F3A1A10D6
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 18:00:01 +0200 (CEST)
-Received: from localhost ([::1]:49834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 455471A10E7
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Apr 2020 18:03:33 +0200 (CEST)
+Received: from localhost ([::1]:49976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLqds-00082B-IV
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 12:00:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43776)
+	id 1jLqhI-0003RM-3i
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 12:03:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44161)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jLqVo-0003rq-F3
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:51:41 -0400
+ (envelope-from <joao.m.martins@oracle.com>) id 1jLqXg-0007eU-6f
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:53:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jLqVm-0004Ts-IE
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:51:39 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:53352)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jLqVm-0004TF-BT
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:51:38 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id d77so2250804wmd.3
- for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 08:51:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=+Dj9bvmQD1l5de8jG8VJF31FLCLEGTP0nVDrh17bTiY=;
- b=wn3u4hXoejvD+TBBFVuquKqc7FHlfav1FYlvJdTory5jgXqTZt6EOTc3eHrcblqs++
- oMBEvm4HFNeaKpkU19bdg2gzOiHjtbFRlQW7enV5FueUPCwvRmsu/1MsVRSddjXb5VM8
- FBJbvlhRjnQ/3TdY/6/NDB/NuM4/sBg5pWUt2DSWtrOt6dupLil9mwi363vQBu7eYDzc
- xitJGkR8TjtmYFS8eG4RpgtEH8nIeZAe3CV4k8QW8z0375jWq+4AjYe6R3AvbprCFtxw
- SHMOVrjo3cC1IclJreMpJxWvFwfK9aUXR34zWJP1eysCQs43mawDuHCBLF1W+xArl3Zg
- hskw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=+Dj9bvmQD1l5de8jG8VJF31FLCLEGTP0nVDrh17bTiY=;
- b=k0nKjYOsoAjNRqjX1ToWhzo9QMNKyliCGb0uZxr6jPhCNlkzoQEzfrNE3VF+Z8Y0jT
- tW6qIjCAOCsrVF9zbQKxCuHu4nLjId1Noy9P5+WyGAqSNkGSxktSZ8Cqwd1ZSWXmvZof
- AC4bRPtSXp/p+oEkwNSdmwv+DSR+OacRyD+4A/Sz+mLIKbW16iXSTQW2aBLcgtPPDJye
- LDLbyrtuGkUl2CYTygB14eNq0uUaAwZrSC91MhV/SZuTucZYwU+hNqVeGpOye7XUZzAh
- M/1KkOMAE0GlpDT71mlfdpOYlv/JVBRA+9UabX9chndt5iDJnhZ9+zDxgV8tUPfnFpmh
- wVAQ==
-X-Gm-Message-State: AGi0PuY91bKmVxKIn0d8z/R459tB9pWoAt9Q2ohm0M/Yt0WhANx86mhx
- aDuatBCYqccZ7hWGlNaqUWZTag==
-X-Google-Smtp-Source: APiQypJh/j9qc+L/jj3QxgXIXeFngYvU6iyA3Cw4dp+qvHzXKQdOT4kT9p9lbnRUkNTYJ6KY4i5Dyw==
-X-Received: by 2002:a1c:4b1a:: with SMTP id y26mr1448584wma.130.1586274697219; 
- Tue, 07 Apr 2020 08:51:37 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e23sm21278552wra.43.2020.04.07.08.51.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Apr 2020 08:51:33 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 66BC41FF9C;
- Tue,  7 Apr 2020 16:51:19 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 13/13] tcg/i386: Fix %r12 guest_base initialization
-Date: Tue,  7 Apr 2020 16:51:18 +0100
-Message-Id: <20200407155118.20139-14-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200407155118.20139-1-alex.bennee@linaro.org>
-References: <20200407155118.20139-1-alex.bennee@linaro.org>
+ (envelope-from <joao.m.martins@oracle.com>) id 1jLqXf-00062c-47
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:53:35 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:41754)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <joao.m.martins@oracle.com>)
+ id 1jLqXe-00061a-RT
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 11:53:35 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 037FqaVK001252;
+ Tue, 7 Apr 2020 15:53:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=/AlQo5ZMSYyWL/AGF8EGAc+tUV3HzXcLDhl7dLkG7xQ=;
+ b=Hx27tEtGBM7F0r3OvTQCyWVCMBeGU20oaELqqCjeU89ADz/Webw/maw3abJcI9APZ4WD
+ wfhO3RW8nDcmz/kZGmYm4S/a0Kt/9lf6hrrZiGQSktXTgf/VNACQPJZvOHsCwtrxul5/
+ FesfZ/UHhXTf6gk688fBZ/8ttEnNurpDr6tJQffNOkbfEj82VgfRSUBoBa7QO1lDn4ZG
+ 8l5oTsv/WyK6+3RGTZBJSYhWyHdZWQSK3zIUpEmpYWzdpNzBZ0E7nCtdia1ho+JhPl6/
+ 6UlSM7kDQiuqJfcxXMsWzTZjp6d+1q1kRY84CK8k50r8AI/KcxGaramISZT21SohqUmi pQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 308ffdbwm0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 07 Apr 2020 15:53:32 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 037FlTQo155939;
+ Tue, 7 Apr 2020 15:51:32 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3020.oracle.com with ESMTP id 30741enkm2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 07 Apr 2020 15:51:32 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 037FpVTi024103;
+ Tue, 7 Apr 2020 15:51:31 GMT
+Received: from [10.175.215.143] (/10.175.215.143)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 07 Apr 2020 08:51:31 -0700
+Subject: Re: [PATCH] exec: fetch the alignment of Linux devdax pmem character
+ device nodes
+To: Paolo Bonzini <pbonzini@redhat.com>, Jingqi Liu <jingqi.liu@intel.com>
+References: <20200401031314.11592-1-jingqi.liu@intel.com>
+ <c906a3ae-c9d2-5802-5988-3c1d0302109b@oracle.com>
+ <b15709c2-bea7-2717-6833-ac4616b88660@redhat.com>
+From: Joao Martins <joao.m.martins@oracle.com>
+Message-ID: <7de3eccb-f0b4-a858-2fc4-addfc7b198aa@oracle.com>
+Date: Tue, 7 Apr 2020 16:51:28 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::32b
+In-Reply-To: <b15709c2-bea7-2717-6833-ac4616b88660@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9583
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ phishscore=0
+ malwarescore=0 bulkscore=0 spamscore=0 adultscore=0 mlxlogscore=999
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004070130
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9583
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ priorityscore=1501
+ impostorscore=0 malwarescore=0 mlxlogscore=999 lowpriorityscore=0
+ clxscore=1015 phishscore=0 mlxscore=0 bulkscore=0 adultscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004070130
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 156.151.31.86
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,37 +93,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+Cc: Dan Williams <dan.j.williams@intel.com>, qemu-devel@nongnu.org,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+On 4/7/20 3:31 PM, Paolo Bonzini wrote:
+> On 07/04/20 12:59, Joao Martins wrote:
+>> Perhaps, you meant instead:
+>>
+>> 	/sys/dev/char/%d:%d/align
+>>
+>>  ?
+>>
+> 
+> So it works with that change?
 
-When %gs cannot be used, we use register offset addressing.
-This path is almost never used, so it was clearly not tested.
+Yeah.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200406174803.8192-1-richard.henderson@linaro.org>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
-diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
-index 7f61eeedd09..ec083bddcfb 100644
---- a/tcg/i386/tcg-target.inc.c
-+++ b/tcg/i386/tcg-target.inc.c
-@@ -3737,7 +3737,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
-         } else {
-             /* Choose R12 because, as a base, it requires a SIB byte. */
-             x86_guest_base_index = TCG_REG_R12;
--            tcg_out_mov(s, TCG_TYPE_PTR, x86_guest_base_index, guest_base);
-+            tcg_out_movi(s, TCG_TYPE_PTR, x86_guest_base_index, guest_base);
-             tcg_regset_set_reg(s->reserved_regs, x86_guest_base_index);
-         }
-     }
--- 
-2.20.1
-
+	Joao
 
