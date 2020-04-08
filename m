@@ -2,73 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B15E1A243C
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 16:44:08 +0200 (CEST)
-Received: from localhost ([::1]:36924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 930371A1E07
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 11:30:59 +0200 (CEST)
+Received: from localhost ([::1]:33150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMBvz-0005UO-Gu
-	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 10:44:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35293)
+	id 1jM72u-00070O-Cb
+	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 05:30:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39111)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chenhuacai@gmail.com>) id 1jM6hK-0003Mu-6j
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:08:40 -0400
+ (envelope-from <joao.m.martins@oracle.com>) id 1jM70q-0006Cr-PJ
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:28:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chenhuacai@gmail.com>) id 1jM6hJ-00015L-8o
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:08:38 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:45571)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <chenhuacai@gmail.com>)
- id 1jM6hJ-00015B-3w
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:08:37 -0400
-Received: by mail-pl1-x641.google.com with SMTP id t4so2281831plq.12
- for <qemu-devel@nongnu.org>; Wed, 08 Apr 2020 02:08:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=AJdq9EhiCdLSVcbOQth7FpH7H9G2yKavu6s15Qit3QU=;
- b=meNjWUU7Rom/eLgKvl3ccII+1Rpvdyhl4sz4sEeYFgcKwz7LO0j+ERhyd8Dnwcg38d
- uEcCZfvI23e6Uyn6dNhQYbX1k+E7pB1b16cxe2tULtwXzFITMafcXFrdELOup/CfE5T1
- U/aunolCRPyPtSR8NfOuBzq8CM41dD7HBf+vHIpSZ/XGMEsDbLOzUZvjIpKujxjUlX93
- ZOr178zR7RWOReH7o6BxQmffecaagDXYz/ykJulDuSxNKCMHU0me6Tn3hMAjShAiBmgz
- ZMoyNP8u/Q8kj3OkZzNKquEUdora4EEVV46uOXXk7cRctGqcYmBVvLPJhAlmk6efH6O5
- BI+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=AJdq9EhiCdLSVcbOQth7FpH7H9G2yKavu6s15Qit3QU=;
- b=X0MDUb1DXVX0+Au3AnNq8Cl/jVMXR9iwuQPAyzL4TyoYeSqH3UczW3mzTtJh82sXKG
- MVhID2beF7kueKeCqsb9gVZCyabx/mJiXuKpVBRlAZbbDodAXiyUvIVAsAFrcvgVpOiY
- +KUTIHuQY0J0EIzlCb0brNnODcU3ex+R643UTL711eTpPeWdiTTC8WbEP28hPwmML1Vv
- zaOQRz+tqPJbQG1UbZdqlcNvriq5WWedXS8+hgvTBH4o5U/PoJ83cEx6ftxfYcwuAVn5
- g+3t9tk+cUjr6+qRu7q8s/lJt1g1YmV950bJYqRNwT4ZDmxzo3RCLTWW62eQVYZI0E8p
- Qx8Q==
-X-Gm-Message-State: AGi0PuZ4G5SeEDI12KvU7aQHeZKY6Q+ChB5ebDS7EoP8jJRcYKgx8uNU
- hRYOq/5cVeQ3FKNFPfZ7VEU=
-X-Google-Smtp-Source: APiQypJ6igsCX/AXtGM+l+i8xJP1Np5LQDoEz/ef89vzSKG6MUg6SjdK3kdGNgq/0alqL+2oHysdpA==
-X-Received: by 2002:a17:90a:582:: with SMTP id i2mr4254749pji.51.1586336916182; 
- Wed, 08 Apr 2020 02:08:36 -0700 (PDT)
-Received: from software.domain.org ([104.207.149.93])
- by smtp.gmail.com with ESMTPSA id o29sm16287584pfp.208.2020.04.08.02.08.31
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Wed, 08 Apr 2020 02:08:35 -0700 (PDT)
-From: Huacai Chen <chenhc@lemote.com>
-To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Subject: [PATCH 3/3] MAINTAINERS: Add myself as fulong2e co-maintainer
-Date: Wed,  8 Apr 2020 17:16:20 +0800
-Message-Id: <1586337380-25217-3-git-send-email-chenhc@lemote.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <1586337380-25217-1-git-send-email-chenhc@lemote.com>
-References: <1586337380-25217-1-git-send-email-chenhc@lemote.com>
+ (envelope-from <joao.m.martins@oracle.com>) id 1jM70n-0004cA-57
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:28:47 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:51308)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <joao.m.martins@oracle.com>)
+ id 1jM70m-0004bD-SM
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:28:45 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0389Rlg4038037;
+ Wed, 8 Apr 2020 09:28:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=kJjUjwqK4T/05E0rHBgx6sDy6vbuUKKQ/Oe5tFRP9ac=;
+ b=pOfTGM6rv1MACsgjj4YRVobw88duzNGgi0dEVW5EC3izqZUPL//sJV9tKCnHuI+YUU5a
+ WTSa0X8KXXwmAlsrxxrdQTzjV6jGf2RyuwwRd6RXKSiOxou2uq4OOscow8ZTvn43qlVv
+ nxZtxSLrNcsZdHmXJf8yWx1OCoHIUa3WIoae1Y9ZSXcv8fZE+wjL3guYM95sZ4b9hI/D
+ FMmeJH+eFf+r46jJB+IfCL3lfjtijxcgIFGuy5OUeEJiw/z96CZd1omUpIML8JcxNA95
+ G17Q4BO0dEUAYGi6NEcoCnpK10PV8+pIfCDdfqg4KL5zMhmoN+s+ofxg0GOIajYAQr3j jw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2120.oracle.com with ESMTP id 3091m0t932-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 08 Apr 2020 09:28:41 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0389Qhw8119029;
+ Wed, 8 Apr 2020 09:28:41 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3030.oracle.com with ESMTP id 309ag1dhsv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 08 Apr 2020 09:28:40 +0000
+Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0389Sdmc017865;
+ Wed, 8 Apr 2020 09:28:39 GMT
+Received: from [10.175.198.250] (/10.175.198.250)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 08 Apr 2020 02:28:39 -0700
+Subject: Re: [PATCH] exec: fetch the alignment of Linux devdax pmem character
+ device nodes
+To: "Liu, Jingqi" <jingqi.liu@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>
+References: <20200401031314.11592-1-jingqi.liu@intel.com>
+ <c906a3ae-c9d2-5802-5988-3c1d0302109b@oracle.com>
+ <b15709c2-bea7-2717-6833-ac4616b88660@redhat.com>
+ <7de3eccb-f0b4-a858-2fc4-addfc7b198aa@oracle.com>
+ <6b809ac5-1251-c80e-bbf6-82aa47333c1b@intel.com>
+From: Joao Martins <joao.m.martins@oracle.com>
+Message-ID: <9a001cb3-a81c-2c42-b957-5b841686672e@oracle.com>
+Date: Wed, 8 Apr 2020 10:28:35 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-X-Mailman-Approved-At: Wed, 08 Apr 2020 10:41:29 -0400
+In-Reply-To: <6b809ac5-1251-c80e-bbf6-82aa47333c1b@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9584
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ spamscore=0 malwarescore=0
+ phishscore=0 mlxscore=0 bulkscore=0 mlxlogscore=999 suspectscore=1
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004080078
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9584
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ mlxlogscore=999 mlxscore=0
+ priorityscore=1501 phishscore=0 suspectscore=1 bulkscore=0
+ lowpriorityscore=0 impostorscore=0 malwarescore=0 clxscore=1015
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004080078
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by aserp2120.oracle.com id
+ 0389Rlg4038037
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 141.146.126.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,39 +98,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@gmail.com>, Huacai Chen <chenhc@lemote.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I submitted the MIPS/fulong2e support about ten years ago, and after
-that I became a MIPS kernel developer. Last year, Philippe Mathieu-
-Daudé asked me that whether I can be a reviewer of MIPS/fulong2e, and I
-promised that I will do some QEMU work in the next year (i.e., 2020 and
-later). I think now (and also in future) I can have some spare time, so
-I can finally do some real work on QEMU/MIPS. And if possible, I hope I
-can be a co-maintainer of MIPS/fulong2e.
+On 4/8/20 2:16 AM, Liu, Jingqi wrote:
+> On 4/7/2020 11:51 PM, Joao Martins wrote:
+>> On 4/7/20 3:31 PM, Paolo Bonzini wrote:
+>>> On 07/04/20 12:59, Joao Martins wrote:
+>>>> Perhaps, you meant instead:
+>>>>
+>>>> 	/sys/dev/char/%d:%d/align
+>>>>
+>>>>   ?
+>>>>
+> Hi Joao,
+>=20
+> In my machine with real NVDIMM, the devdax device is as follows:
+>=20
+> $ ll /dev/dax0.0
+> crw------- 1 root root 250, 6 3=E6=9C=88=C2=A0 25 15:16 /dev/dax0.0
+>=20
+> $ ls /sys/dev/char/250\:6/align
+> ls: cannot access '/sys/dev/char/250:6/align': No such file or director=
+y
+>=20
+> $ ls /sys/dev/char/250\:6/device/align
+>=20
+> /sys/dev/char/250:6/device/align
+>=20
+> So:
+> The file of "/sys/dev/char/%d:%d/align" does not exist.
+> It should be "/sys/dev/char/%d:%d/device/align".
+>=20
+The 'align' (without the ../) was my mistake as I was testing with other =
+wip
+patches.
 
-Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Signed-off-by: Huacai Chen <chenhc@lemote.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+Albeit, still retain my comment to 'device/align' as it is relying on an
+deprecated path, so perhaps we should look other alternatives.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 642c8e0..3281ff2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1073,6 +1073,7 @@ F: hw/mips/mips_r4k.c
- Fulong 2E
- M: Philippe Mathieu-Daudé <f4bug@amsat.org>
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-+M: Huacai Chen <chenhc@lemote.com>
- S: Odd Fixes
- F: hw/mips/mips_fulong2e.c
- F: hw/isa/vt82c686.c
--- 
-2.7.0
+I had the deprecated dax class disabled (DEV_DAX_PMEM_COMPAT=3Dn), and 'd=
+evice'
+does not exist on that cases.
 
+
+
+> Anyone has a real NVDIMM can help double check. Thanks.
+>=20
+> Hi Dan,
+>=20
+> You may have a real NVDIMM, in what directory is the 'align' file ?
+>=20
+> Thanks,
+>=20
+> Jingqi
+>=20
+>>> So it works with that change?
+>> Yeah.
+>>
+>> 	Joao
 
