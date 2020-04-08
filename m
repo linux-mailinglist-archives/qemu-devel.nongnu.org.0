@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C14B1A1E23
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 11:41:00 +0200 (CEST)
-Received: from localhost ([::1]:33372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 495961A1E1D
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 11:38:12 +0200 (CEST)
+Received: from localhost ([::1]:33304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jM7Cd-0002R8-6c
-	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 05:40:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39659)
+	id 1jM79v-0006Ah-Aw
+	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 05:38:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39562)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jM73Q-0007x2-Cj
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:31:31 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jM73K-0007ov-Du
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:31:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jM73O-00063n-Ed
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:31:28 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jM73I-0005zj-RA
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:31:22 -0400
 Received: from mail-ve1eur01on0705.outbound.protection.outlook.com
  ([2a01:111:f400:fe1f::705]:64128
  helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jM73D-0005tu-40; Wed, 08 Apr 2020 05:31:15 -0400
+ id 1jM73E-0005tu-O5; Wed, 08 Apr 2020 05:31:17 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ld7aSy3Ir/irOgG7HJwHVno76mBvKtWM+v3thmuuBV112rmt5YmTDVTBO+Z8pVadou1v8zZrMIOF29BtAvymWQSh7U/MMCMFnAMK1fZNSBM2jCvHFgaS3jivn0oCwV8TIlz/4TOgIBo4/QPdDyNX+TUJrHsP0QKj7zwx1NVsmsi3dRfIJiSYYulKO/IaEg+Pp8v5ByWPnKQAPWa0owg0fbhzttVxOY/mwAXx/MzqcMPpYUXGtY0wAq5tmJG4FTrYx0Uv8NmvR3byYOyerVp2YTwRvOvwnIawxrTCk/uftfBdihGDxJiiU2L3vhRbjBdmDOyOVH1blg7/7TpRtSGC7g==
+ b=R6zyWLh2wbjjB7m+gwS5BoukskwX3/6dc0aSzmBeAmAcOUrPj78QsoDD/Q5ZdPkJ8ATJzMcyu7K+020smMFxQdWHCvfYbk9BF0R9OMGhOZYVdxA3ayFUDUI3QS4nNHl5he1UgVYFXoRtLmV9SK/0lzFpRYFY2bPFx8y190w6J9Cv2F/IOM4d6ebM2Ip/GYKMZSrWjbORS+dsd4rEi/tCZg/u0suROB37Q+gbp3bege77aK3WmKoMgb1LFZEhZT63AM3Quf4zZfs921Hw7vGrT8YU6G8T52lpaZCB23/DskbCDT2ryI3/03+Py9nx8ixDaNUcw+JCkRctSvdnf2e6gg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=87vgTIBvLlPypl3q1WI4LHsEyMyb+g1xZpy6wBDLnHA=;
- b=Dw8720slMQD8MxJj0A1ujwL8wVuE5doySZgmpZpXudnQDzVqvEXRU488d07GCtHPzbfZJoPsii3mv6TGHB5rxlopAw0gfgsfNAW5GaNG70q4LPHQvKaXXDQ2Qgk3RZMg0v2/lhVP8b+ZydNC+fXP/WypOIm8FmQIP3/tIfzpIaOsEnn3+BIizgHB3nwujHhIhT6c0OsILxKEQtFVuIPARkG7SLK94XLUn1REyeENrl6G7UTD8ELJDeGc6eYRxhnEmGNUEkxjhKpXYPAnt5y8BFASNulrB/yxlE2hTMtVSMYUc7bVwATQgFdm4rRss5X0p3qofkgKbe+tjH6eAsPZCg==
+ bh=n1H6pHZ5MlNjEidQ6XK14YXzURJC3WSagDRIKLy4f38=;
+ b=deM97R+ewQP38IZv8tv9Vn/gyU9/k7WtcwtNK1rwRx5HCzSvoxyFrZj1nTYeaf5CIcNUFNN7/OGUPUtcbiHdxTC2pJfg32RVVz5zLGZuoI6rucfdbcZpttMaA7lxFFqjK3sNvPMu4Gr0ULJ2Uuk1s4lsQN0SU2HRofp9gMoOvqjgC8zwJhUraTG+3/rAthLmkdBcje3dlWKJpbDmbW4MfK/sIFdhqBbvlnT1iOBiu5KKR24wR+PuX0sFFFUeX9CfQfJ/5W1mFRetcH0ytG/rCX1mns7rQ2ufIYBS8q7wTt75+QhCAaW6zl5Bf15IJVHxj1b7Disa147KwAsjprxZUA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=87vgTIBvLlPypl3q1WI4LHsEyMyb+g1xZpy6wBDLnHA=;
- b=MRI02oN76c0sQCFQsATAk7lKQULVCDZXlQoIPHKhQwKUNdapJ2JSSMVKn6Rv8YVx7iYrUC5MS4qIw6pwTxkCwGT+EBiGRD2suTyuQhm7W14OJNbhfyny5XrgOU5WCDdrPPvKrSles7M26uXXN2h1Zmtcif4QvFXQkzJiEmW259k=
+ bh=n1H6pHZ5MlNjEidQ6XK14YXzURJC3WSagDRIKLy4f38=;
+ b=mAcfMQJzo0iu92k25nbL1R1Hap3lIkJI7Pk14Yi8R7unrYbTAwMOHlERIglmtRLCE3TAt6F1uE7XTdJOoP5Wqat0GMgU2OHfvQGSbS1duAIOLThhzguA8wPzitS50wfa025kmF02tTBOb0uyfKdBB8cl4m/kM9289sdDUkKt62o=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=vsementsov@virtuozzo.com; 
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (10.141.175.15) by
  AM7PR08MB5365.eurprd08.prod.outlook.com (10.141.173.73) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2878.16; Wed, 8 Apr 2020 09:31:10 +0000
+ 15.20.2878.16; Wed, 8 Apr 2020 09:31:11 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::3944:477e:1562:cfcf]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::3944:477e:1562:cfcf%8]) with mapi id 15.20.2878.021; Wed, 8 Apr 2020
- 09:31:10 +0000
+ 09:31:11 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 5/9] block/io: expand in_flight inc/dec section: simple cases
-Date: Wed,  8 Apr 2020 12:30:47 +0300
-Message-ID: <20200408093051.9893-6-vsementsov@virtuozzo.com>
+Subject: [PATCH 6/9] block/io: expand in_flight inc/dec section: block-status
+Date: Wed,  8 Apr 2020 12:30:48 +0300
+Message-ID: <20200408093051.9893-7-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200408093051.9893-1-vsementsov@virtuozzo.com>
 References: <20200408093051.9893-1-vsementsov@virtuozzo.com>
@@ -70,30 +70,30 @@ Received: from kvm.sw.ru (185.215.60.139) by
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.139]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5da3fb8d-e2fa-4fa1-1dfb-08d7db9f92ce
+X-MS-Office365-Filtering-Correlation-Id: f7731202-1c94-40e9-ba61-08d7db9f9341
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5365:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB53654FED31216A1CB137E49FC1C00@AM7PR08MB5365.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB536558808CAE226C0F906050C1C00@AM7PR08MB5365.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-Forefront-PRVS: 0367A50BB1
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(10019020)(4636009)(396003)(346002)(136003)(39840400004)(366004)(376002)(52116002)(6506007)(5660300002)(2906002)(6916009)(2616005)(956004)(478600001)(16526019)(186003)(26005)(86362001)(66946007)(66556008)(66476007)(1076003)(6512007)(6486002)(107886003)(30864003)(4326008)(6666004)(36756003)(8676002)(316002)(8936002)(81156014)(81166007);
+ SFS:(10019020)(4636009)(396003)(346002)(136003)(39840400004)(366004)(376002)(52116002)(6506007)(5660300002)(2906002)(6916009)(2616005)(956004)(478600001)(16526019)(186003)(26005)(86362001)(66946007)(66556008)(66476007)(1076003)(6512007)(6486002)(107886003)(4326008)(6666004)(36756003)(8676002)(316002)(8936002)(81156014)(81166007);
  DIR:OUT; SFP:1102; 
 Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GhP91Yely4Sl2uV+WHuoCVUFJfMud20Qupt1vI4mYNiJS39CctmnhVrWvGlxI8FBO+kO5/XCeNuBFE4fSw45+fJp2vpaFNXBtNAENrnW22ilHsTYqs50KAgO3eINqIoO3RcJQJILTBToKQS7SlY1DTcrkozqR/dNEILWwGrj3jy5sjAk01PtcbF1GUTuU2eYep4TlXuI++j37hmWE7BenIyMY6obbBhpy59EYZCruDlcIkXNC7tkOeu150Aa4XYVhlPYLAhGjFA90qg6/kvHajlGbAgbjZxy36Pi7/GkjmPT91oedslylJgifFvCTHxvPNmP97RnXipfmaqDRnKGJa/tGw2kk6DhwEcs3L3uNT7RtSfW6GIeQihmiypSb9AjVAXCyh89RFVviTBCwiRBuDhwXjGgMKJQSNxBnJkH433Kg5CFXz7tTOsEdjU4vZAx
-X-MS-Exchange-AntiSpam-MessageData: PZ88VNTa6nzdufFOKvPWwmYQEJUcZ7wLuyOVJLgchm5NeFnm7pyezyvnyg2myUzYM2VCCRehmze2qtTROef/JHOiVzs8GSdsfR+AR3gc0PZ75B/6cetTahJIuk6dFFXoNjfngH+ANFyAzi2KjS7cQg==
+X-Microsoft-Antispam-Message-Info: 7IesvwQC6KydwE7aGvo9UL501ILrZeGfLgVKYqBQGRcsqH2bLeavoaEDDPCLZcvQ5MUBFObfplbw0fnFolsqzPuSUXEWpd1J176xTPUItvokKSENjDCqQKAkDKYpfpXxumwOJWJNk70ljKw+pBhXzMO8l6p0ljfiZe1mUAmDhuxyjHNegctLR1rlxbu7jZWuiHiI3ivVCi6LXmzZt+bknn66VQ/nwdhl0ymouCzH8Yxr50EPLZTm9/wIDDHsOUSbMey2mzxSfs8WxW08oY++bJTSylspJxKaQZOfM26ogHCov/pMMZ8sj1NLsoPPBzSU015voZFb5IjV8De8TuBRIuuu/l9uTi6gSRd8lPYuGAqlcTWUAsUbVG9ze0KtNNjwj+VH+L97ILDL5a3R2XUMqE//MlwvAw1yZt1oQZ63/x7YfFpoyMA9vgw6+bNFdu2O
+X-MS-Exchange-AntiSpam-MessageData: NU4Iht1w80Lc5h3ffaBPpSNOG/RcIpmkyLYKj53+Dh20X0VMGlHOBq3aUKhDOjjuVzY4bts2yLWBZEz9qdN31Ll8gWGC0NlBJo/SdSOru41nRfX+oywPea13TRGWTaFn2lOgnJqmiaZcRWD0pSENzg==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5da3fb8d-e2fa-4fa1-1dfb-08d7db9f92ce
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2020 09:31:10.7281 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f7731202-1c94-40e9-ba61-08d7db9f9341
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2020 09:31:11.4897 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: anjz09E3Uz5OmbEnCcEIbNuo7cAh713MGtK9f42HHMXT+Mzw6tpxfwRhhmIk/NHVxO5Q1ahepDup6NLhwa1BkYMniTCCujuWfcGbTic2oF0=
+X-MS-Exchange-CrossTenant-UserPrincipalName: L+h2AKPcFab9+m+v2fqpiMDynQkooKaVhTyMVjHtcsb1zn8+mEldg8oB3mw5+ZpMC6QicFxUw1t0jekeY5DhI3L6HkQPM0umm8/yOGghsZo=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5365
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -119,426 +119,254 @@ coroutine in synchronous wrappers and end after BDRV_POLL_WHILE loop.
 Note that qemu_coroutine_enter may only schedule the coroutine in some
 circumstances.
 
+block-status requests are complex, they involve querying different
+block driver states across backing chain. Let's expand only in_flight
+section for the top bs, keeping other sections as is.
+
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/io.c | 155 ++++++++++++++++++++++++++++++++++++++++-------------
- 1 file changed, 119 insertions(+), 36 deletions(-)
+ block/io.c | 60 +++++++++++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 46 insertions(+), 14 deletions(-)
 
 diff --git a/block/io.c b/block/io.c
-index dfbe68f428..9b57c7e422 100644
+index 9b57c7e422..760170731f 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -1511,7 +1511,8 @@ int coroutine_fn bdrv_co_preadv(BdrvChild *child,
-     return bdrv_co_preadv_part(child, offset, bytes, qiov, 0, flags);
- }
-=20
--int coroutine_fn bdrv_co_preadv_part(BdrvChild *child,
-+/* To be called between exactly one pair of bdrv_inc/dec_in_flight() */
-+static int coroutine_fn bdrv_do_preadv_part(BdrvChild *child,
-     int64_t offset, unsigned int bytes,
-     QEMUIOVector *qiov, size_t qiov_offset,
-     BdrvRequestFlags flags)
-@@ -1540,8 +1541,6 @@ int coroutine_fn bdrv_co_preadv_part(BdrvChild *child=
-,
-         return 0;
-     }
-=20
--    bdrv_inc_in_flight(bs);
--
-     /* Don't do copy-on-read if we read data before write operation */
-     if (atomic_read(&bs->copy_on_read)) {
-         flags |=3D BDRV_REQ_COPY_ON_READ;
-@@ -1554,13 +1553,26 @@ int coroutine_fn bdrv_co_preadv_part(BdrvChild *chi=
-ld,
-                               bs->bl.request_alignment,
-                               qiov, qiov_offset, flags);
-     tracked_request_end(&req);
--    bdrv_dec_in_flight(bs);
-=20
-     bdrv_padding_destroy(&pad);
-=20
-     return ret;
- }
-=20
-+int coroutine_fn bdrv_co_preadv_part(BdrvChild *child,
-+    int64_t offset, unsigned int bytes,
-+    QEMUIOVector *qiov, size_t qiov_offset,
-+    BdrvRequestFlags flags)
-+{
-+    int ret;
-+
-+    bdrv_inc_in_flight(child->bs);
-+    ret =3D bdrv_do_preadv_part(child, offset, bytes, qiov, qiov_offset, f=
-lags);
-+    bdrv_dec_in_flight(child->bs);
-+
-+    return ret;
-+}
-+
- static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
-     int64_t offset, int bytes, BdrvRequestFlags flags)
- {
-@@ -1922,7 +1934,8 @@ int coroutine_fn bdrv_co_pwritev(BdrvChild *child,
-     return bdrv_co_pwritev_part(child, offset, bytes, qiov, 0, flags);
- }
-=20
--int coroutine_fn bdrv_co_pwritev_part(BdrvChild *child,
-+/* To be called between exactly one pair of bdrv_inc/dec_in_flight() */
-+static int coroutine_fn bdrv_do_pwritev_part(BdrvChild *child,
-     int64_t offset, unsigned int bytes, QEMUIOVector *qiov, size_t qiov_of=
-fset,
-     BdrvRequestFlags flags)
- {
-@@ -1962,7 +1975,6 @@ int coroutine_fn bdrv_co_pwritev_part(BdrvChild *chil=
-d,
-         return 0;
-     }
-=20
--    bdrv_inc_in_flight(bs);
-     /*
-      * Align write if necessary by performing a read-modify-write cycle.
-      * Pad qiov with the read parts and be sure to have a tracked request =
-not
-@@ -1987,7 +1999,19 @@ int coroutine_fn bdrv_co_pwritev_part(BdrvChild *chi=
-ld,
-=20
- out:
-     tracked_request_end(&req);
--    bdrv_dec_in_flight(bs);
-+
-+    return ret;
-+}
-+
-+int coroutine_fn bdrv_co_pwritev_part(BdrvChild *child,
-+    int64_t offset, unsigned int bytes, QEMUIOVector *qiov, size_t qiov_of=
-fset,
-+    BdrvRequestFlags flags)
-+{
-+    int ret;
-+
-+    bdrv_inc_in_flight(child->bs);
-+    ret =3D bdrv_do_pwritev_part(child, offset, bytes, qiov, qiov_offset, =
-flags);
-+    bdrv_dec_in_flight(child->bs);
-=20
-     return ret;
- }
-@@ -2019,12 +2043,12 @@ static void coroutine_fn bdrv_rw_co_entry(void *opa=
-que)
-     RwCo *rwco =3D opaque;
-=20
-     if (!rwco->is_write) {
--        rwco->ret =3D bdrv_co_preadv(rwco->child, rwco->offset,
--                                   rwco->qiov->size, rwco->qiov,
-+        rwco->ret =3D bdrv_do_preadv_part(rwco->child, rwco->offset,
-+                                   rwco->qiov->size, rwco->qiov, 0,
-                                    rwco->flags);
-     } else {
--        rwco->ret =3D bdrv_co_pwritev(rwco->child, rwco->offset,
--                                    rwco->qiov->size, rwco->qiov,
-+        rwco->ret =3D bdrv_do_pwritev_part(rwco->child, rwco->offset,
-+                                    rwco->qiov->size, rwco->qiov, 0,
-                                     rwco->flags);
-     }
-     aio_wait_kick();
-@@ -2047,6 +2071,8 @@ static int bdrv_prwv_co(BdrvChild *child, int64_t off=
-set,
-         .flags =3D flags,
-     };
-=20
-+    bdrv_inc_in_flight(child->bs);
-+
-     if (qemu_in_coroutine()) {
-         /* Fast-path if already in coroutine context */
-         bdrv_rw_co_entry(&rwco);
-@@ -2055,6 +2081,9 @@ static int bdrv_prwv_co(BdrvChild *child, int64_t off=
-set,
-         bdrv_coroutine_enter(child->bs, co);
-         BDRV_POLL_WHILE(child->bs, rwco.ret =3D=3D NOT_DONE);
-     }
-+
-+    bdrv_dec_in_flight(child->bs);
-+
-     return rwco.ret;
- }
-=20
-@@ -2700,15 +2729,14 @@ typedef struct BdrvVmstateCo {
-     int                 ret;
- } BdrvVmstateCo;
-=20
-+/* To be called between exactly one pair of bdrv_inc/dec_in_flight() */
- static int coroutine_fn
--bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
-+bdrv_do_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
-                    bool is_read)
- {
-     BlockDriver *drv =3D bs->drv;
-     int ret =3D -ENOTSUP;
-=20
--    bdrv_inc_in_flight(bs);
--
-     if (!drv) {
-         ret =3D -ENOMEDIUM;
-     } else if (drv->bdrv_load_vmstate) {
-@@ -2718,17 +2746,18 @@ bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVect=
-or *qiov, int64_t pos,
-             ret =3D drv->bdrv_save_vmstate(bs, qiov, pos);
-         }
-     } else if (bs->file) {
--        ret =3D bdrv_co_rw_vmstate(bs->file->bs, qiov, pos, is_read);
-+        bdrv_inc_in_flight(bs->file->bs);
-+        ret =3D bdrv_do_rw_vmstate(bs->file->bs, qiov, pos, is_read);
-+        bdrv_dec_in_flight(bs->file->bs);
-     }
-=20
--    bdrv_dec_in_flight(bs);
-     return ret;
- }
-=20
- static void coroutine_fn bdrv_co_rw_vmstate_entry(void *opaque)
- {
-     BdrvVmstateCo *co =3D opaque;
--    co->ret =3D bdrv_co_rw_vmstate(co->bs, co->qiov, co->pos, co->is_read)=
-;
-+    co->ret =3D bdrv_do_rw_vmstate(co->bs, co->qiov, co->pos, co->is_read)=
-;
-     aio_wait_kick();
- }
-=20
-@@ -2736,8 +2765,12 @@ static inline int
- bdrv_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
-                 bool is_read)
- {
-+    int ret;
-+
-+    bdrv_inc_in_flight(bs);
-+
-     if (qemu_in_coroutine()) {
--        return bdrv_co_rw_vmstate(bs, qiov, pos, is_read);
-+        ret =3D bdrv_do_rw_vmstate(bs, qiov, pos, is_read);
-     } else {
-         BdrvVmstateCo data =3D {
-             .bs         =3D bs,
-@@ -2750,8 +2783,12 @@ bdrv_rw_vmstate(BlockDriverState *bs, QEMUIOVector *=
-qiov, int64_t pos,
-=20
-         bdrv_coroutine_enter(bs, co);
-         BDRV_POLL_WHILE(bs, data.ret =3D=3D -EINPROGRESS);
--        return data.ret;
-+        ret =3D data.ret;
-     }
-+
-+    bdrv_dec_in_flight(bs);
-+
-+    return ret;
- }
-=20
- int bdrv_save_vmstate(BlockDriverState *bs, const uint8_t *buf,
-@@ -2829,16 +2866,14 @@ void bdrv_aio_cancel_async(BlockAIOCB *acb)
- /**************************************************************/
- /* Coroutine block device emulation */
-=20
--int coroutine_fn bdrv_co_flush(BlockDriverState *bs)
-+/* To be called between exactly one pair of bdrv_inc/dec_in_flight() */
-+static int coroutine_fn bdrv_do_flush(BlockDriverState *bs)
- {
-     int current_gen;
--    int ret =3D 0;
--
--    bdrv_inc_in_flight(bs);
-+    int ret;
-=20
--    if (!bdrv_is_inserted(bs) || bdrv_is_read_only(bs) ||
--        bdrv_is_sg(bs)) {
--        goto early_exit;
-+    if (!bdrv_is_inserted(bs) || bdrv_is_read_only(bs) || bdrv_is_sg(bs)) =
-{
-+        return 0;
-     }
-=20
-     qemu_co_mutex_lock(&bs->reqs_lock);
-@@ -2936,8 +2971,17 @@ out:
-     qemu_co_queue_next(&bs->flush_queue);
-     qemu_co_mutex_unlock(&bs->reqs_lock);
-=20
--early_exit:
-+    return ret;
-+}
-+
-+int coroutine_fn bdrv_co_flush(BlockDriverState *bs)
-+{
-+    int ret;
-+
-+    bdrv_inc_in_flight(bs);
-+    ret =3D bdrv_do_flush(bs);
-     bdrv_dec_in_flight(bs);
-+
-     return ret;
- }
-=20
-@@ -2950,7 +2994,7 @@ static void coroutine_fn bdrv_flush_co_entry(void *op=
-aque)
- {
-     FlushCo *rwco =3D opaque;
-=20
--    rwco->ret =3D bdrv_co_flush(rwco->bs);
-+    rwco->ret =3D bdrv_do_flush(rwco->bs);
-     aio_wait_kick();
- }
-=20
-@@ -2962,6 +3006,8 @@ int bdrv_flush(BlockDriverState *bs)
-         .ret =3D NOT_DONE,
-     };
-=20
-+    bdrv_inc_in_flight(bs);
-+
-     if (qemu_in_coroutine()) {
-         /* Fast-path if already in coroutine context */
-         bdrv_flush_co_entry(&flush_co);
-@@ -2971,11 +3017,14 @@ int bdrv_flush(BlockDriverState *bs)
-         BDRV_POLL_WHILE(bs, flush_co.ret =3D=3D NOT_DONE);
-     }
-=20
-+    bdrv_dec_in_flight(bs);
-+
-     return flush_co.ret;
- }
-=20
--int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset,
--                                  int64_t bytes)
-+/* To be called between exactly one pair of bdrv_inc/dec_in_flight() */
-+static int coroutine_fn bdrv_do_pdiscahd(BdrvChild *child, int64_t offset,
-+                                         int64_t bytes)
- {
-     BdrvTrackedRequest req;
-     int max_pdiscard, ret;
-@@ -3013,7 +3062,6 @@ int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, i=
-nt64_t offset,
-     head =3D offset % align;
-     tail =3D (offset + bytes) % align;
-=20
--    bdrv_inc_in_flight(bs);
-     tracked_request_begin(&req, bs, offset, bytes, BDRV_TRACKED_DISCARD);
-=20
-     ret =3D bdrv_co_write_req_prepare(child, offset, bytes, &req, 0);
-@@ -3084,7 +3132,19 @@ int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, =
-int64_t offset,
- out:
-     bdrv_co_write_req_finish(child, req.offset, req.bytes, &req, ret);
-     tracked_request_end(&req);
--    bdrv_dec_in_flight(bs);
-+    return ret;
-+}
-+
-+int coroutine_fn bdrv_co_pdiscard(BdrvChild *child,
-+                                  int64_t offset, int64_t bytes)
-+{
-+    int ret;
-+    BlockDriverState *bs =3D child->bs;
-+
-+    bdrv_inc_in_flight(child->bs);
-+    ret =3D bdrv_do_pdiscahd(child, offset, bytes);
-+    bdrv_dec_in_flight(child->bs);
-+
-     return ret;
- }
-=20
-@@ -3113,6 +3173,8 @@ int bdrv_pdiscard(BdrvChild *child, int64_t offset, i=
-nt64_t bytes)
-         .ret =3D NOT_DONE,
-     };
-=20
-+    bdrv_inc_in_flight(child->bs);
-+
-     if (qemu_in_coroutine()) {
-         /* Fast-path if already in coroutine context */
-         bdrv_pdiscard_co_entry(&rwco);
-@@ -3122,6 +3184,8 @@ int bdrv_pdiscard(BdrvChild *child, int64_t offset, i=
-nt64_t bytes)
-         BDRV_POLL_WHILE(child->bs, rwco.ret =3D=3D NOT_DONE);
-     }
-=20
-+    bdrv_dec_in_flight(child->bs);
-+
-     return rwco.ret;
- }
-=20
-@@ -3412,9 +3476,12 @@ static void bdrv_parent_cb_resize(BlockDriverState *=
-bs)
-  * If 'exact' is true, the file must be resized to exactly the given
-  * 'offset'.  Otherwise, it is sufficient for the node to be at least
-  * 'offset' bytes in length.
+@@ -2302,6 +2302,10 @@ int coroutine_fn bdrv_co_block_status_from_backing(B=
+lockDriverState *bs,
+  * _ZERO where possible; otherwise, the result favors larger 'pnum',
+  * with a focus on accurate BDRV_BLOCK_ALLOCATED.
+  *
++ * If 'inc_in_flight' is true, in_flight counter will be increased for bs =
+during
++ * the operation. All nested block_status calls will increase the counter =
+for
++ * corresponding bs anyway.
 + *
-+ * To be called between exactly one pair of bdrv_inc/dec_in_flight()
+  * If 'offset' is beyond the end of the disk image the return value is
+  * BDRV_BLOCK_EOF and 'pnum' is set to 0.
+  *
+@@ -2320,7 +2324,7 @@ int coroutine_fn bdrv_co_block_status_from_backing(Bl=
+ockDriverState *bs,
+  * set to the host mapping and BDS corresponding to the guest offset.
   */
--int coroutine_fn bdrv_co_truncate(BdrvChild *child, int64_t offset, bool e=
-xact,
--                                  PreallocMode prealloc, Error **errp)
-+static int coroutine_fn bdrv_do_truncate(BdrvChild *child,
-+                                         int64_t offset, bool exact,
-+                                         PreallocMode prealloc, Error **er=
-rp)
- {
-     BlockDriverState *bs =3D child->bs;
-     BlockDriver *drv =3D bs->drv;
-@@ -3445,7 +3512,6 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, i=
-nt64_t offset, bool exact,
-         new_bytes =3D 0;
+ static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
+-                                             bool want_zero,
++                                             bool want_zero, bool inc_in_f=
+light,
+                                              int64_t offset, int64_t bytes=
+,
+                                              int64_t *pnum, int64_t *map,
+                                              BlockDriverState **file)
+@@ -2371,7 +2375,9 @@ static int coroutine_fn bdrv_co_block_status(BlockDri=
+verState *bs,
+         goto early_out;
      }
 =20
 -    bdrv_inc_in_flight(bs);
-     tracked_request_begin(&req, bs, offset - new_bytes, new_bytes,
-                           BDRV_TRACKED_TRUNCATE);
++    if (inc_in_flight) {
++        bdrv_inc_in_flight(bs);
++    }
 =20
-@@ -3494,6 +3560,19 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, =
-int64_t offset, bool exact,
+     /* Round out to request_alignment boundaries */
+     align =3D bs->bl.request_alignment;
+@@ -2408,7 +2414,7 @@ static int coroutine_fn bdrv_co_block_status(BlockDri=
+verState *bs,
+=20
+     if (ret & BDRV_BLOCK_RAW) {
+         assert(ret & BDRV_BLOCK_OFFSET_VALID && local_file);
+-        ret =3D bdrv_co_block_status(local_file, want_zero, local_map,
++        ret =3D bdrv_co_block_status(local_file, want_zero, true, local_ma=
+p,
+                                    *pnum, pnum, &local_map, &local_file);
+         goto out;
+     }
+@@ -2435,7 +2441,7 @@ static int coroutine_fn bdrv_co_block_status(BlockDri=
+verState *bs,
+         int64_t file_pnum;
+         int ret2;
+=20
+-        ret2 =3D bdrv_co_block_status(local_file, want_zero, local_map,
++        ret2 =3D bdrv_co_block_status(local_file, want_zero, true, local_m=
+ap,
+                                     *pnum, &file_pnum, NULL, NULL);
+         if (ret2 >=3D 0) {
+             /* Ignore errors.  This is just providing extra information, i=
+t
+@@ -2458,7 +2464,9 @@ static int coroutine_fn bdrv_co_block_status(BlockDri=
+verState *bs,
+     }
 =20
  out:
-     tracked_request_end(&req);
-+
-+    return ret;
-+}
-+
-+int coroutine_fn bdrv_co_truncate(BdrvChild *child,
-+                                  int64_t offset, bool exact,
-+                                  PreallocMode prealloc, Error **errp)
-+{
-+    int ret;
-+    BlockDriverState *bs =3D child->bs;
-+
-+    bdrv_inc_in_flight(bs);
-+    ret =3D bdrv_do_truncate(child, offset, exact, prealloc, errp);
-     bdrv_dec_in_flight(bs);
-=20
+-    bdrv_dec_in_flight(bs);
++    if (inc_in_flight) {
++        bdrv_dec_in_flight(bs);
++    }
+     if (ret >=3D 0 && offset + *pnum =3D=3D total_size) {
+         ret |=3D BDRV_BLOCK_EOF;
+     }
+@@ -2472,9 +2480,15 @@ early_out:
      return ret;
-@@ -3511,7 +3590,7 @@ typedef struct TruncateCo {
- static void coroutine_fn bdrv_truncate_co_entry(void *opaque)
- {
-     TruncateCo *tco =3D opaque;
--    tco->ret =3D bdrv_co_truncate(tco->child, tco->offset, tco->exact,
-+    tco->ret =3D bdrv_do_truncate(tco->child, tco->offset, tco->exact,
-                                 tco->prealloc, tco->errp);
-     aio_wait_kick();
  }
-@@ -3529,6 +3608,8 @@ int bdrv_truncate(BdrvChild *child, int64_t offset, b=
-ool exact,
-         .ret        =3D NOT_DONE,
+=20
++/*
++ * If 'inc_in_flight' is true, in_flight counter will be increased for bs =
+during
++ * the operation. All block_status calls to the backing chain of bs will
++ * increase the counter for corresponding bs anyway.
++ */
+ static int coroutine_fn bdrv_co_block_status_above(BlockDriverState *bs,
+                                                    BlockDriverState *base,
+                                                    bool want_zero,
++                                                   bool inc_in_flight,
+                                                    int64_t offset,
+                                                    int64_t bytes,
+                                                    int64_t *pnum,
+@@ -2487,11 +2501,13 @@ static int coroutine_fn bdrv_co_block_status_above(=
+BlockDriverState *bs,
+=20
+     assert(bs !=3D base);
+     for (p =3D bs; p !=3D base; p =3D backing_bs(p)) {
+-        ret =3D bdrv_co_block_status(p, want_zero, offset, bytes, pnum, ma=
+p,
+-                                   file);
++        ret =3D bdrv_co_block_status(p, want_zero, inc_in_flight,
++                                   offset, bytes, pnum, map, file);
+         if (ret < 0) {
+             break;
+         }
++        inc_in_flight =3D true;
++
+         if (ret & BDRV_BLOCK_ZERO && ret & BDRV_BLOCK_EOF && !first) {
+             /*
+              * Reading beyond the end of the file continues to read
+@@ -2513,15 +2529,16 @@ static int coroutine_fn bdrv_co_block_status_above(=
+BlockDriverState *bs,
+ }
+=20
+ static int coroutine_fn bdrv_co_is_allocated(BlockDriverState *bs,
++                                             bool inc_in_flight,
+                                              int64_t offset, int64_t bytes=
+,
+                                              int64_t *pnum)
+ {
+     int ret;
+     int64_t dummy;
+=20
+-    ret =3D bdrv_co_block_status_above(bs, backing_bs(bs), false, offset,
+-                                     bytes, pnum ? pnum : &dummy, NULL,
+-                                     NULL);
++    ret =3D bdrv_co_block_status_above(bs, backing_bs(bs), false, inc_in_f=
+light,
++                                     offset, bytes, pnum ? pnum : &dummy,
++                                     NULL, NULL);
+     if (ret < 0) {
+         return ret;
+     }
+@@ -2534,7 +2551,7 @@ static void coroutine_fn bdrv_block_status_above_co_e=
+ntry(void *opaque)
+     BdrvCoBlockStatusData *data =3D opaque;
+=20
+     data->ret =3D bdrv_co_block_status_above(data->bs, data->base,
+-                                           data->want_zero,
++                                           data->want_zero, false,
+                                            data->offset, data->bytes,
+                                            data->pnum, data->map, data->fi=
+le);
+     data->done =3D true;
+@@ -2566,6 +2583,8 @@ static int bdrv_common_block_status_above(BlockDriver=
+State *bs,
+         .done =3D false,
      };
 =20
-+    bdrv_inc_in_flight(child->bs);
++    bdrv_inc_in_flight(bs);
 +
      if (qemu_in_coroutine()) {
          /* Fast-path if already in coroutine context */
-         bdrv_truncate_co_entry(&tco);
-@@ -3538,5 +3619,7 @@ int bdrv_truncate(BdrvChild *child, int64_t offset, b=
-ool exact,
-         BDRV_POLL_WHILE(child->bs, tco.ret =3D=3D NOT_DONE);
+         bdrv_block_status_above_co_entry(&data);
+@@ -2574,6 +2593,9 @@ static int bdrv_common_block_status_above(BlockDriver=
+State *bs,
+         bdrv_coroutine_enter(bs, co);
+         BDRV_POLL_WHILE(bs, !data.done);
+     }
++
++    bdrv_dec_in_flight(bs);
++
+     return data.ret;
+ }
+=20
+@@ -2623,15 +2645,19 @@ int coroutine_fn bdrv_is_allocated(BlockDriverState=
+ *bs, int64_t offset,
+  * words, the result is not necessarily the maximum possible range);
+  * but 'pnum' will only be 0 when end of file is reached.
+  *
++ * To be called between exactly one pair of bdrv_inc/dec_in_flight() for t=
+op bs.
++ * bdrv_do_is_allocated_above takes care of increasing in_fligth for other=
+ block
++ * driver states from bs backing chain.
+  */
+ static int coroutine_fn
+-bdrv_co_is_allocated_above(BlockDriverState *top, BlockDriverState *base,
++bdrv_do_is_allocated_above(BlockDriverState *top, BlockDriverState *base,
+                            bool include_base, int64_t offset, int64_t byte=
+s,
+                            int64_t *pnum)
+ {
+     BlockDriverState *intermediate;
+     int ret;
+     int64_t n =3D bytes;
++    bool inc_in_flight =3D false;
+=20
+     assert(base || !include_base);
+=20
+@@ -2641,10 +2667,12 @@ bdrv_co_is_allocated_above(BlockDriverState *top, B=
+lockDriverState *base,
+         int64_t size_inter;
+=20
+         assert(intermediate);
+-        ret =3D bdrv_co_is_allocated(intermediate, offset, bytes, &pnum_in=
+ter);
++        ret =3D bdrv_co_is_allocated(intermediate, inc_in_flight, offset, =
+bytes,
++                                   &pnum_inter);
+         if (ret < 0) {
+             return ret;
+         }
++        inc_in_flight =3D true;
+         if (ret) {
+             *pnum =3D pnum_inter;
+             return 1;
+@@ -2685,7 +2713,7 @@ static void coroutine_fn bdrv_is_allocated_above_co_e=
+ntry(void *opaque)
+ {
+     BdrvCoIsAllocatedAboveData *data =3D opaque;
+=20
+-    data->ret =3D bdrv_co_is_allocated_above(data->top, data->base,
++    data->ret =3D bdrv_do_is_allocated_above(data->top, data->base,
+                                            data->include_base,
+                                            data->offset, data->bytes,
+                                            data->pnum);
+@@ -2709,6 +2737,8 @@ bdrv_is_allocated_above(BlockDriverState *top, BlockD=
+riverState *base,
+         .done =3D false,
+     };
+=20
++    bdrv_inc_in_flight(top);
++
+     if (qemu_in_coroutine()) {
+         /* Fast-path if already in coroutine context */
+         bdrv_is_allocated_above_co_entry(&data);
+@@ -2718,6 +2748,8 @@ bdrv_is_allocated_above(BlockDriverState *top, BlockD=
+riverState *base,
+         BDRV_POLL_WHILE(top, !data.done);
      }
 =20
-+    bdrv_dec_in_flight(child->bs);
++    bdrv_inc_in_flight(top);
 +
-     return tco.ret;
+     return data.ret;
  }
+=20
 --=20
 2.21.0
 
