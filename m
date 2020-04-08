@@ -2,54 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 259CC1A1D0D
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 10:01:59 +0200 (CEST)
-Received: from localhost ([::1]:57198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1025F1A1DA3
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 10:52:50 +0200 (CEST)
+Received: from localhost ([::1]:59896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jM5en-0000l9-Kt
-	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 04:01:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41269)
+	id 1jM6Rz-0007NA-LQ
+	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 04:52:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54634)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jM5du-0000LV-FN
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:01:04 -0400
+ (envelope-from <bounces@canonical.com>) id 1jM6DW-0000Dv-9m
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:37:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jM5ds-0005ym-Pz
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:01:02 -0400
-Received: from ozlabs.org ([203.11.71.1]:48895)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1jM5dr-0005vO-Np
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:01:00 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48xxY22C5Zz9sSG; Wed,  8 Apr 2020 18:00:54 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1586332854;
- bh=M/k/Nc9aO+7LmtmIlGUsSx5PmoGqfXqcMk1oDtCOzf8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kAbIxVZKUJNJUV/aWJlqEC43/YPHq8Gp47WK7xemW2bh1L/yixNXn+zQ+CTUeEK7B
- OqSgIXEyDJmxhGj3jE1y+7Jl034EMts+LjLbXin0b7yW/YMjOuqAe5q/TvHNh4ox5M
- IPMV7NbWQh8exGQHYiQL8gBkmn+SfLs1aVn+zkhI=
-Date: Wed, 8 Apr 2020 18:00:46 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH] configure: check for bison, flex before dtc submodule
- build
-Message-ID: <20200408080046.GD304335@umbus.fritz.box>
-References: <20200407111618.17241-1-cfontana@suse.de>
- <CAFEAcA9SYT227B9K7yHcv_J==r4xZ1spUSNzL_bRXUpAjT5QVA@mail.gmail.com>
- <20200408015717.GA44664@umbus.fritz.box>
- <1353d8a4-fe8b-ee8f-2f42-f1f463188767@suse.de>
+ (envelope-from <bounces@canonical.com>) id 1jM636-0000uo-Ii
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:27:05 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50394)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jM5oM-0002zx-EX
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:11:50 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jM5oI-0002xl-Sp
+ for <qemu-devel@nongnu.org>; Wed, 08 Apr 2020 08:11:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 42CD42E810A
+ for <qemu-devel@nongnu.org>; Wed,  8 Apr 2020 08:11:46 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="mSxgbZZZvrAyzONB"
-Content-Disposition: inline
-In-Reply-To: <1353d8a4-fe8b-ee8f-2f42-f1f463188767@suse.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 08 Apr 2020 08:04:56 -0000
+From: Tobias Witek <1870098@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: kwolf-redhat twitek
+X-Launchpad-Bug-Reporter: Tobias Witek (twitek)
+X-Launchpad-Bug-Modifier: Tobias Witek (twitek)
+References: <158573492237.25129.5161164490189934653.malonedeb@soybean.canonical.com>
+Message-Id: <158633309653.11754.6566095385150377415.malone@chaenomeles.canonical.com>
+Subject: [Bug 1870098] Re: [block/vpc] dynamic disk header: off-by-one error
+ for "num_bat_entries"
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a296f04231dee355be5db73cc878b9e21689a253";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 56f9259a10e654335eb85784b6ec4818d8840877
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -58,197 +65,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alex Bennee <alex.bennee@linaro.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>
+Reply-To: Bug 1870098 <1870098@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Thanks a lot for looking into it!
 
---mSxgbZZZvrAyzONB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes, we were able to verify that this patch does fix the problem.
 
-On Wed, Apr 08, 2020 at 09:52:40AM +0200, Claudio Fontana wrote:
-> On 4/8/20 3:57 AM, David Gibson wrote:
-> > On Tue, Apr 07, 2020 at 12:20:15PM +0100, Peter Maydell wrote:
-> >> On Tue, 7 Apr 2020 at 12:16, Claudio Fontana <cfontana@suse.de> wrote:
-> >>>
-> >>> if fdt is required, and the system DTC (libfdt) is not usable,
-> >>> check for the dtc submodule requirements before trying to build it,
-> >>> and error out with a helpful message in case the dependencies are not=
- met.
-> >>>
-> >>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> >>
-> >> Does the dtc module actually need bison/flex, or does it just
-> >> print an ugly warning about it? We only want the 'libfdt' part
-> >> of dtc, which doesn't need the parser, we don't need to build
-> >> the actual dtc compiler.
-> >=20
-> > Assuming we're just invoking "make libfdt" within the submodule,
-> > rather than "make" which will build dtc as well, then bison / flex
-> > shouldn't be needed.
-> >=20
->=20
-> Indeed; I just sent a patch that works for me,
-> tried a few in-tree and out-of-tree full builds, and it seems to work as =
-intended.
-> patchew complains about docker builds/tests though, although running the =
-same TEST SCRIPTs manually with docker works for me.
->=20
-> The libfdt target inside dtc/Makefile actually causes more than just libf=
-dt to be built:
->=20
-> ~/git/qemu/dtc> make libdtc
-> 	 DEP tests/dumptrees.c
-> 	 DEP tests/trees.S
-> 	 DEP tests/testutils.c
-> 	 DEP tests/value-labels.c
-> 	 DEP tests/asm_tree_dump.c
-> 	 DEP tests/truncated_memrsv.c
-> 	 DEP tests/truncated_string.c
-> 	 DEP tests/truncated_property.c
-> 	 DEP tests/check_full.c
-> 	 DEP tests/check_header.c
-> 	 DEP tests/check_path.c
-> 	 DEP tests/overlay_bad_fixup.c
-> 	 DEP tests/overlay.c
-> 	 DEP tests/subnode_iterate.c
-> 	 DEP tests/property_iterate.c
-> 	 DEP tests/integer-expressions.c
-> 	 DEP tests/utilfdt_test.c
-> 	 DEP tests/path_offset_aliases.c
-> 	 DEP tests/add_subnode_with_nops.c
-> 	 DEP tests/dtbs_equal_unordered.c
-> 	 DEP tests/dtb_reverse.c
-> 	 DEP tests/dtbs_equal_ordered.c
-> 	 DEP tests/extra-terminating-null.c
-> 	 DEP tests/incbin.c
-> 	 DEP tests/boot-cpuid.c
-> 	 DEP tests/phandle_format.c
-> 	 DEP tests/path-references.c
-> 	 DEP tests/references.c
-> 	 DEP tests/string_escapes.c
-> 	 DEP tests/propname_escapes.c
-> 	 DEP tests/appendprop2.c
-> 	 DEP tests/appendprop1.c
-> 	 DEP tests/del_node.c
-> 	 DEP tests/del_property.c
-> 	 DEP tests/setprop.c
-> 	 DEP tests/set_name.c
-> 	 DEP tests/rw_tree1.c
-> 	 DEP tests/open_pack.c
-> 	 DEP tests/nopulate.c
-> 	 DEP tests/mangle-layout.c
-> 	 DEP tests/move_and_save.c
-> 	 DEP tests/sw_states.c
-> 	 DEP tests/sw_tree1.c
-> 	 DEP tests/nop_node.c
-> 	 DEP tests/nop_property.c
-> 	 DEP tests/setprop_inplace.c
-> 	 DEP tests/stringlist.c
-> 	 DEP tests/addr_size_cells2.c
-> 	 DEP tests/addr_size_cells.c
-> 	 DEP tests/notfound.c
-> 	 DEP tests/sized_cells.c
-> 	 DEP tests/char_literal.c
-> 	 DEP tests/get_alias.c
-> 	 DEP tests/node_offset_by_compatible.c
-> 	 DEP tests/node_check_compatible.c
-> 	 DEP tests/node_offset_by_phandle.c
-> 	 DEP tests/node_offset_by_prop_value.c
-> 	 DEP tests/parent_offset.c
-> 	 DEP tests/supernode_atdepth_offset.c
-> 	 DEP tests/get_path.c
-> 	 DEP tests/get_phandle.c
-> 	 DEP tests/getprop.c
-> 	 DEP tests/get_name.c
-> 	 DEP tests/path_offset.c
-> 	 DEP tests/subnode_offset.c
-> 	 DEP tests/find_property.c
-> 	 DEP tests/root_node.c
-> 	 DEP tests/get_mem_rsv.c
-> 	 DEP libfdt/fdt_overlay.c
-> 	 DEP libfdt/fdt_addresses.c
-> 	 DEP libfdt/fdt_empty_tree.c
-> 	 DEP libfdt/fdt_strerror.c
-> 	 DEP libfdt/fdt_rw.c
-> 	 DEP libfdt/fdt_sw.c
-> 	 DEP libfdt/fdt_wip.c
-> 	 DEP libfdt/fdt_ro.c
-> 	 DEP libfdt/fdt.c
-> 	 DEP util.c
-> 	 DEP fdtoverlay.c
-> 	 DEP fdtput.c
-> 	 DEP fdtget.c
-> 	 DEP fdtdump.c
-> 	 LEX convert-dtsv0-lexer.lex.c
-> make: flex: Command not found
-> 	 DEP srcpos.c
-> 	 BISON dtc-parser.tab.c
-> make: bison: Command not found
-> 	 LEX dtc-lexer.lex.c
-> make: flex: Command not found
-> 	 DEP treesource.c
-> 	 DEP livetree.c
-> 	 DEP fstree.c
-> 	 DEP flattree.c
-> 	 DEP dtc.c
-> 	 DEP data.c
-> 	 DEP checks.c
-> 	CHK version_gen.h
-> 	 LEX convert-dtsv0-lexer.lex.c
-> make: flex: Command not found
-> 	 BISON dtc-parser.tab.c
-> make: bison: Command not found
-> 	 LEX dtc-lexer.lex.c
-> make: flex: Command not found
-> make: *** No rule to make target 'libdtc'.  Stop.
->=20
->=20
-> so I just used dtc/libfdt/Makefile.libfdt directly and removed the
-> recursion altogether.
+Many thanks!
 
-The Makefile setup of dtc/libfdt is a bit weird (mostly to allow for
-Makefile fragments to be used in weird build environments).  But for
-this case you might be better off still doing the recursion, but just
-changing the target from 'all' to 'libfdt'.
+-- =
 
-> Let me know what you think about the idea in general, or if anybody knows=
- what is wrong in the patch that makes patchew complain?
->=20
-> Ciao,
->=20
-> Claudio
->=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1870098
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Title:
+  [block/vpc] dynamic disk header: off-by-one error for
+  "num_bat_entries"
 
---mSxgbZZZvrAyzONB
-Content-Type: application/pgp-signature; name="signature.asc"
+Status in QEMU:
+  New
 
------BEGIN PGP SIGNATURE-----
+Bug description:
+  In current qemu versions (observed in 5.0.0-rc1 as well as
+  2833ad487cfff7dc33703e4731b75facde1c561e), disk headers for dynamic
+  VPCs are written with an incorrect "block allocation table entries"
+  value.
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6NhKsACgkQbDjKyiDZ
-s5KlNRAAiMR6MaLKjfxsHLWJ679n28LRkOSWfMgekIn4enqQocw0iEnTy1aHdqP8
-nZOE4mSHubegKZam6VFSn/ziQ/9k1hHf60+Oz4TS0a90I9as6aSllLRrzmppe9Mc
-agbx44b04/G79Iv7Q5ZoXkNk6USpyVZ4kJXjL5LHNLE0Lk7QYAHj9XDYWhJ8ZOoX
-CZTutT+Usjb5RlECVKEHUX//o6Cpg+/QlyGRmWmHlmSDYfcbitlgkniV1QbbfZ7J
-NGkuvf8MMGzaYB9DdqxWZ7aLHxpy27AS0i2LncONTCOjKGvmfMC4UgjV6QQCUt1C
-Mbf+u6ec5DiHsaA7K7El3yBKfEHYjvxOLuFLuHtSuNH3cpO55AtJh92P+KfmZhxw
-mT30Kd5KWMzQxUVUxTTQj4iCR6WCR2mqzh34TCLZwm8pTrYECNFlB1gf6gufpV/g
-8qmdILMpC0KN24zkspYgmD538cx5K7VsJ/tOqdmfqg6dEkltSMwLKCJBza9xbQfj
-HEbFsdg1p+tMiDbVHvX1tRle7UBCa5TOIItocq0+Ab94GAUzjyD4sTqopUoc5TUq
-4bFlmfhMCWtGU4c/zGGdNzpiS727xbegWeK99pPBieWdcwj6ctEZ1hJTfRoEyPST
-teE6bOWAsZV1JQDoo8mmxqDFkOxT7cbNfQMdTqu4T53Nv52VpIs=
-=UPo4
------END PGP SIGNATURE-----
+  https://www.microsoft.com/en-us/download/details.aspx?id=3D23850 (the
+  corresponding spec) states that:
 
---mSxgbZZZvrAyzONB--
+  "Max Table Entries
+  This field holds the maximum entries present in the BAT. This should be e=
+qual to the number of blocks in the disk (that is, the disk size divided by=
+ the block size)."
+
+  Inside the qemu code, the value is "disk size divided by the block
+  size *plus one*".
+
+  Calculating "num_bat_entries" as "total_sectors/(block_size / 512)"
+  *should* fix the issue.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1870098/+subscriptions
 
