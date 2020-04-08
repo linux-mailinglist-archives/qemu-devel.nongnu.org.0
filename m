@@ -2,88 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 298A41A2029
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 13:50:29 +0200 (CEST)
-Received: from localhost ([::1]:34772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3322E1A2437
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 16:42:49 +0200 (CEST)
+Received: from localhost ([::1]:36894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jM9Dw-0002Fy-7h
-	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 07:50:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59375)
+	id 1jMBui-00038W-7n
+	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 10:42:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60734)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jM9D6-0001pC-3L
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 07:49:37 -0400
+ (envelope-from <fredrik@strupe.net>) id 1jM9No-0004aL-Sp
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 08:00:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jM9D5-0005d5-4g
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 07:49:36 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28589
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <fredrik@strupe.net>) id 1jM9Nn-0001aw-Uv
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 08:00:40 -0400
+Received: from relay12.mail.gandi.net ([217.70.178.232]:41341)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jM9D5-0005cp-1N
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 07:49:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586346574;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KBApviWNBP9Hspt+1RXFKHuPerWDJtTeCdaJyQKxHA4=;
- b=a9n0khILKGqq+Oz68m/RzL8CTFqecFkPr1NtPugCerV9mgx+NUsXA2JHFKdCGK3DJ7c1jo
- Y6NZV3BLZZHhBcwEu1tU4PEdBH4h+P4SmFQX+a5Cx91Mp/jiRfAoWr7wYfZqIqEy5tsx3h
- 0zb1GWC3RNQR5Jxh5dYqQ2IqoKpjM+M=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-73--C-BjIMBPBGIDiZUMrjmAA-1; Wed, 08 Apr 2020 07:49:32 -0400
-X-MC-Unique: -C-BjIMBPBGIDiZUMrjmAA-1
-Received: by mail-ed1-f69.google.com with SMTP id w6so6530467edq.3
- for <qemu-devel@nongnu.org>; Wed, 08 Apr 2020 04:49:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=cdHBVygdJ4S5WAkxD/uXkZlSqsq1bpoZPDICmTF73F0=;
- b=EceMBtlST5xvhiL4+89z0mxOzuFN3gb+HY/iN+RkjpXVzhoVrWGmXJDUJmxdEaXQ0L
- EPmH+hN47Q8lGZ8BnXx17faUvPZz60+wr5XIY2HJrVJhvNPXOmcwNBssuvesnISnzP3L
- k5kXwxO0mO+Hy/slp/WJ0bHRnGbuG+iz6lirohioZgI8ycu7hKKY7vRsOpxcMlnG3YHB
- YLIhf0p8Xw8K0QTywDrV6t56vpUT96xcEg+IopnML8EMCqnTpWlQom4GYFwBQXi71fFj
- NyjMPgMIAVTkQR7/XOnormnpJQySh4be2K6XGY4ss2Uln0v0X35nZhqPIF4Ua3q30dCg
- 9UEg==
-X-Gm-Message-State: AGi0PuYUS7yaIeNxGMIBEDFjACLFtXtELXjyL3ifYN2/ETNDry/4GDMO
- RuWJjCqq5BC0gn+4j/S/12jBIzmVhUllMAa8T3LKQN3lnMHQbyi7aInEGhNWg2o+S4oWCAzeBiT
- Jb8vrZqklqE8vthw=
-X-Received: by 2002:a05:6402:2c8:: with SMTP id
- b8mr5782511edx.242.1586346571173; 
- Wed, 08 Apr 2020 04:49:31 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJ3qJ+TQk1563GptqGMAN3FZhTJjUKl843dA75EFr50UM6N4wCsbVeFcf4mlm7MZfvuea/wWQ==
-X-Received: by 2002:a05:6402:2c8:: with SMTP id
- b8mr5782495edx.242.1586346571013; 
- Wed, 08 Apr 2020 04:49:31 -0700 (PDT)
-Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id j9sm2887108edl.67.2020.04.08.04.49.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Apr 2020 04:49:30 -0700 (PDT)
-Subject: Re: [PATCH] configure: Add nios2-softmmu to the libfdt-required list
-To: Stephanos Ioannidis <root@stephanos.io>,
- Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
- Marek Vasut <marex@denx.de>
-References: <20200408081607.96114-1-root@stephanos.io>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <2cc3540c-69f2-d5b5-0ab5-1534a55fb07b@redhat.com>
-Date: Wed, 8 Apr 2020 13:49:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.71) (envelope-from <fredrik@strupe.net>)
+ id 1jM9Nl-0001W3-7O; Wed, 08 Apr 2020 08:00:37 -0400
+Received: from consensus.lan (cm-84.210.220.251.getinternet.no
+ [84.210.220.251]) (Authenticated sender: fredrik@strupe.net)
+ by relay12.mail.gandi.net (Postfix) with ESMTPSA id 9A984200014;
+ Wed,  8 Apr 2020 12:00:33 +0000 (UTC)
+From: Fredrik Strupe <fredrik@strupe.net>
+To: qemu-devel@nongnu.org,
+	qemu-arm@nongnu.org
+Subject: [PATCH 1/2] target/arm: Make VQDMULL undefined when U=1
+Date: Wed,  8 Apr 2020 13:59:53 +0200
+Message-Id: <20200408115953.1158-1-fredrik@strupe.net>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200408081607.96114-1-root@stephanos.io>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 217.70.178.232
+X-Mailman-Approved-At: Wed, 08 Apr 2020 10:41:29 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,36 +48,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: Fredrik Strupe <fredrik@strupe.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/8/20 10:16 AM, Stephanos Ioannidis wrote:
-> The nios2-softmmu target requires libfdt to function properly (see
-> hw/nios2/boot.c).
->=20
-> Signed-off-by: Stephanos Ioannidis <root@stephanos.io>
-> ---
->   configure | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/configure b/configure
-> index 233c671aaa..029adcf795 100755
-> --- a/configure
-> +++ b/configure
-> @@ -4236,7 +4236,7 @@ fi
->   fdt_required=3Dno
->   for target in $target_list; do
->     case $target in
-> -    aarch64*-softmmu|arm*-softmmu|ppc*-softmmu|microblaze*-softmmu|mips6=
-4el-softmmu|riscv*-softmmu|rx-softmmu)
-> +    aarch64*-softmmu|arm*-softmmu|ppc*-softmmu|microblaze*-softmmu|mips6=
-4el-softmmu|nios2-softmmu|riscv*-softmmu|rx-softmmu)
->         fdt_required=3Dyes
->       ;;
->     esac
->=20
+According to Arm ARM, VQDMULL is only valid when U=0, while having
+U=1 is unallocated.
 
-Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+Signed-off-by: Fredrik Strupe <fredrik@strupe.net>
+Fixes: 695272dcb976 ("target-arm: Handle UNDEF cases for Neon 3-regs-different-widths")
+---
+ target/arm/translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 9f9f4e19e0..dfe9dbbcfd 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -5817,7 +5817,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+                     {0, 0, 0, 0}, /* VMLSL */
+                     {0, 0, 0, 9}, /* VQDMLSL */
+                     {0, 0, 0, 0}, /* Integer VMULL */
+-                    {0, 0, 0, 1}, /* VQDMULL */
++                    {0, 0, 0, 9}, /* VQDMULL */
+                     {0, 0, 0, 0xa}, /* Polynomial VMULL */
+                     {0, 0, 0, 7}, /* Reserved: always UNDEF */
+                 };
+-- 
+2.20.1
 
 
