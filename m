@@ -2,52 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5759D1A2817
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 19:47:24 +0200 (CEST)
-Received: from localhost ([::1]:39180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C8F1A28E4
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 20:55:30 +0200 (CEST)
+Received: from localhost ([::1]:39622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMEnL-00064s-3m
-	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 13:47:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51981)
+	id 1jMFrD-0003ql-Sg
+	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 14:55:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58050)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1jMEmG-0005Yn-RU
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 13:46:17 -0400
+ (envelope-from <lukasstraub2@web.de>) id 1jMFWg-0006el-9Z
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 14:34:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1jMEmF-0000fw-Rq
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 13:46:16 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:41812)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1jMEmF-0000dJ-7a; Wed, 08 Apr 2020 13:46:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=qVvbnbArWEfrCCqGkA3oqEew/asQmaUTi/byeGxZGnM=; 
- b=Q+/n+RqI+ZQGAT3w9ymjuIUoAOkoIiHwrxtoJB07Hxa1W1YfDRuJfOr6IpqpJVYjh9PWfg6iqiwlBBuaWhC9QQ2DJ9XmNJokJTPt4VBBxFK418wWl/zyd+Uy00djZgGtm/kTMc3+GgpXoYPYWMNhw7TjU4zZRpYXEnfgoGJUEaYp+sqQ20bwcoJe5nv8pY80TIoLxifbEWLHYTg1KJbAD0fQY6EL4BMQxegiaIPmk+GoGsAp8xxSwwYTcF+2ySO8HkbPSr5kvKck6wL5BPL0jQHEjZBaNZ/S2gvqRp3pzi5ZxnEz1Sn2RNy2YQs2Nb9Dny2U7XofLPTJsiJhuPFGVQ==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1jMEmC-00064m-6V; Wed, 08 Apr 2020 19:46:12 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1jMEmB-00069s-T7; Wed, 08 Apr 2020 19:46:11 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 13/30] qcow2: Add QCow2SubclusterType and
- qcow2_get_subcluster_type()
-In-Reply-To: <d2b34b1c-4b4b-f363-3bbc-7c3999cf79a2@redhat.com>
-References: <cover.1584468723.git.berto@igalia.com>
- <fe21a93340427771899c47569c47063b849b54e6.1584468723.git.berto@igalia.com>
- <d2b34b1c-4b4b-f363-3bbc-7c3999cf79a2@redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Wed, 08 Apr 2020 19:46:11 +0200
-Message-ID: <w51tv1tuazg.fsf@maestria.local.igalia.com>
+ (envelope-from <lukasstraub2@web.de>) id 1jMFWf-0004Xm-Cj
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 14:34:14 -0400
+Received: from mout.web.de ([212.227.17.12]:41759)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <lukasstraub2@web.de>) id 1jMFWe-0004WJ-Op
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 14:34:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1586370827;
+ bh=TvyattrdAKBCkJMD7BJvExJBBGqSEEGXTDA2sU7+vMU=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=EDWevXdzvbw/bKaH5maPXXNn5hWTxFRK9YEYCV3xdmnGBfbLRAELxoxDPvNVmpyrY
+ 6uC0ovvLZgeDbS+bA/1sq7Kus9bthM0rEyIf4pZNmF0Khx1aD5IA6UGZ1fr7qK3/RF
+ Hjpc/3+UdnqZze4C+aQGmA62yZdbXy9IwpMmLMNo=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([88.130.61.62]) by smtp.web.de (mrweb101
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0MTy1N-1jn1cA1ZOD-00QhVq; Wed, 08
+ Apr 2020 20:33:47 +0200
+Date: Wed, 8 Apr 2020 20:33:45 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH 0/3] colo-compare bugfixes
+Message-ID: <cover.1586370737.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+Content-Type: multipart/signed; boundary="Sig_/Ur7ZzUgrhXsCZeUkHdBc=m5";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Provags-ID: V03:K1:7NydQP/OCWBbvWliATqh6q+wsPDBZRKEy3ga0GBywA1H+olHm2t
+ MRiWQLO7T3QEGAEIQksZR9vTAG2/LaZwjtOHnqqBaUSoKYYpOTw3QyrSajHlBaiZ20nCThj
+ zJH6cib2B72ISC9pEpsnC9HLwkbAvy7qTOwDDu4+P5P9RxWucP+q3wBUXCKMMAuxpWLPegP
+ L3xeWQ8orEAD8W9IaUi7Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0hz6aO4Qy2I=:Sm+PLN6AF3NQ/npT8tR/yW
+ tCDFLo9arMor4Hdio/bkIt5WGDztr2R6NAXq5O7APGRrBQuxBsFvvGpTxoKZFvkkpA6GyyVJW
+ /zWEVyU/VjkulXlO2FJmay2sx6e0S1goRIHlE+m8LGy89zleYvMOLpqWr5uKeKREij9gWqCg7
+ aw8WiaIvfEugWDwz2ssWrhLjIzXP1NXRKsp03VqMTVysXUlJFo19iw6MU54iSKnU4U0I+dNMq
+ SdL1wsZqBJSWlFzMPLFTjyYsKE9iD97TmtE5xaZq/IrAJq5X3a2Yg5bI0Tepue1VROP4ALhAo
+ jWDQJtOn+mZnhZWV952mcg0VfG4vmwAn88YFGsVgR91hFxnzpO3E2sW9I2s43J/1DZ/g/pgTN
+ HLkiipODJs0Bf61/ZvEd1wWiSWBKoVDqrHNq/RoofRNfp2Vd54cBwkqsZpXUZNu61tk6y5QMC
+ adfEvwdZehTEKLwZcT/iCVsk72G4sSJV3MHK++A23j504lm0b/RchYha5oFuPtW1SRXC3KMAg
+ l4UZ3fZ1tsCDFiwazvQxFxu4qr6hqOzTGCsxI2yWaiOXpnUgtcg6AJ2av8sPQtz3zjVp41yYV
+ bFXY7WbVXhJg49KWtCd23u36Ii7jHECKtXbHCI8MSlJwHFpJcrcJX13SqDaWopXrbbWvxHZIX
+ 93MDbG9KpZAG+vEM7P32a12HKmSLajRy6kqDx7QvgTJA3cH/f3ehQiJTrVlfR2bx6XEzSqH1t
+ OCzgD7y0z1JXbqUwq6oDYdXOUnAj++nIk7S/sNxBkEdAjjaCt8h7JIOYxcIxcVa2750dkojT3
+ FKymLZw1kwVwGeDtX0V665A3welelvB25fV6uc52pgN2tBaMZOsIQ09hhyKaEFlJVBGKOo649
+ G9hkH8MFJrIj0tmSfoQCEyeCZpRvcRytBJvfvrHaZQ1FCMIiDljb1ca7nrEvUakGjqIYMQ9OD
+ Fj7AwPTbJnmSxUjajNnvsY83/u5q3K9zGtxWJPAf+PVqXwnoqGx9jeMzOfn2wV7pvZSsXq0Cw
+ ntSvh14dNaSkifp+et0F+J4QF1PVSeaA6DwMeDlw59TCNYYQC6X3+TmZJi2DN7Ynsx0UMzyxn
+ l9/YJ5EBaO9T7YHaJq4cprkxQMCeIH0uuoSGNIPaq3lIh3z7vYdqzjAjfT+3BCHgU6PGc0wac
+ h3D8OF/iTE0hi2aFIJaPEsSUG4vVyUry+PmoC+OkxLtZoCXCC5lD5YEVOqZmoESH5ZtLwgd86
+ OLN2GPIHpvQphw1+6
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.17.12
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,21 +75,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- qemu-block@nongnu.org, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Denis V . Lunev" <den@openvz.org>
+Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Li Zhijian <lizhijian@cn.fujitsu.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed 08 Apr 2020 01:23:42 PM CEST, Max Reitz wrote:
->> +        switch (type) {
->> +        case QCOW2_CLUSTER_COMPRESSED:
->> +            return QCOW2_SUBCLUSTER_COMPRESSED;
->
-> Why did you drop the check that l2_bitmap == 0 here?
+--Sig_/Ur7ZzUgrhXsCZeUkHdBc=m5
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-We don't generally check that reserved bits are 0. It would for example
-allow us to add a new compatible feature in the future using those bits.
+Hello Everyone,
+Here are fixes for bugs that I found in my tests.
 
-Berto
+Regards,
+Lukas Straub
+
+Lukas Straub (3):
+  net/colo-compare.c: Create event_bh with the right AioContext
+  chardev/char.c: Use qemu_co_sleep_ns if in coroutine
+  net/colo-compare.c: Fix deadlock
+
+ chardev/char.c     |  7 +++-
+ net/colo-compare.c | 85 +++++++++++++++++++++++++++++++++++++++-------
+ 2 files changed, 79 insertions(+), 13 deletions(-)
+
+--=20
+2.20.1
+
+--Sig_/Ur7ZzUgrhXsCZeUkHdBc=m5
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl6OGQkACgkQNasLKJxd
+slhckRAAkFPOwzT/k7qXh1YHCvk9Ita8egwqjcM39o9Sx7ogww9gwj7Ra9k9NHZw
+3VyJGYbfZqahPJlsPO9WxXOwcbEXKHV0XhsmEVJ9UGrIUrnyVubIpzkkZeLvsil1
+1mRcGl84ZXq27lK7vm/ev7SSF7I2SDYlbgZjPkrtc2lLwqigjWNNFFc8Al6OAm1V
+pnW9OaGcswkg3dwaKttJE7DJWi2HHhh2obr0fpOre7eWKqcKAH2uJ8gqmIXsvQwU
+h8rsE9w/5C58YJVz4OMoPoooVw2zQeXHjp+OBwvgUqBW6RenqCN66R6RAMDJKxHl
+w/ainbzoZp1ZPnUJQQe9BNg3sLazJzGgzOAheGBbKGI8aIlIjxu1t6SQegG9MUVW
+lgjmc7GhDpz9IOaWGQnLxt9Orr/DpCdIwaaPiaJOLAu92BFu4NarIat/2x0yAlwn
++KFda6gzp9i4BIu2c2RYpFNW8KTs1TonDjVmbiiMzaIQ9hvvSV4Qw6BzgkUvsjzc
+vn3dTvBLTmMr/lpkYiKTkMdzrIe2RexZnShC/nQYTowC03cI7NJgMtEWEObGmuO1
+5O5cy4jhAu/IZVCnUSsY6FTjPW3csKrXSUBpowOFnEX2oMUkErl8gPqIyOBJkIWY
+23pbINmtBItmCSo8IwLwS+51bGg008SOYLW6OxrJJHdzAwz7AbI=
+=t1Mr
+-----END PGP SIGNATURE-----
+
+--Sig_/Ur7ZzUgrhXsCZeUkHdBc=m5--
 
