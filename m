@@ -2,61 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1025F1A1DA3
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 10:52:50 +0200 (CEST)
-Received: from localhost ([::1]:59896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 737E91A1D1C
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 10:11:14 +0200 (CEST)
+Received: from localhost ([::1]:58210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jM6Rz-0007NA-LQ
-	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 04:52:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54634)
+	id 1jM5nk-0004Ko-3Y
+	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 04:11:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44700)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jM6DW-0000Dv-9m
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:37:51 -0400
+ (envelope-from <philmd@redhat.com>) id 1jM5ks-0002oz-Be
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:08:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jM636-0000uo-Ii
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:27:05 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50394)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jM5oM-0002zx-EX
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:11:50 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jM5oI-0002xl-Sp
- for <qemu-devel@nongnu.org>; Wed, 08 Apr 2020 08:11:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 42CD42E810A
- for <qemu-devel@nongnu.org>; Wed,  8 Apr 2020 08:11:46 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1jM5kl-0000qV-DW
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:08:13 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35506
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jM5kl-0000oJ-3Z
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:08:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586333286;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ela0vKdFzjhC5nmoyH40WrnFKyFG8cxlzndK8e65Nl0=;
+ b=aEPU1xSuaxMx1rSzPE7b1YKrxXq+kL810HltI5cGljXUopOyc//WcWz3El63OgClGSvTH9
+ Iak/cCkxeFnBwHpzVzyCV3+IlV1VN+FBuQ8vvh99b3AQr2iNpjtyF71MuXZLySpWEV5b+K
+ iBlGY3Kn088JBAqH56nsGPwql2tpeqc=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-145-DyiRb7zfOiuDFcLpXWS_zw-1; Wed, 08 Apr 2020 04:08:03 -0400
+X-MC-Unique: DyiRb7zfOiuDFcLpXWS_zw-1
+Received: by mail-ed1-f71.google.com with SMTP id b100so5986759edf.15
+ for <qemu-devel@nongnu.org>; Wed, 08 Apr 2020 01:08:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ela0vKdFzjhC5nmoyH40WrnFKyFG8cxlzndK8e65Nl0=;
+ b=rwqtnM7ygcLoyzcFfvBmnS7Q5ZHpNS/fJl1K5tqLzAhQCAbmggcoe0cOPNasdnHp5S
+ usA08bBZhO/FagSh91lMsN0I5mTdbXQwbAgqW1qqKxu9OohDtKElTkJLOXlxbaKOyQux
+ FOwMOpwLbbTu2GFJ4pHNf9wriHcKBogNMVsTYHvn0qbDQlg7g0XzqRkZmuOfuESvICNl
+ VqsAbzti0Z+ElZ94wZltbkALS2BnYt6FeE38S9STIfotVrwl3PnuMUh4CCluJRaAsuk9
+ 8Kr2QCGPJpJuArEQTCgkfJW/xkEdNwvPmx3+6H6Fynm5/k8QpwwzW9rKkuHEkl85vuhx
+ CuDg==
+X-Gm-Message-State: AGi0PuZdoRlcd99RZ1onUSxb9NFbSn9a1yCF0VaGQAtklxfp/rR2vkMI
+ gsXgd5hIhmCq9x2S7JrCbJlIiV8Z8owfY0OLv//yyvQyNwUnoZEFRfs68TI+sGn7U1tIFsmqjZZ
+ UsMPFq1MF7hlNtFk=
+X-Received: by 2002:a50:ee0c:: with SMTP id g12mr1621927eds.214.1586333282500; 
+ Wed, 08 Apr 2020 01:08:02 -0700 (PDT)
+X-Google-Smtp-Source: APiQypK90QXu8nupHggHfB9VTcjzz/EXHVz65eweH/HKSk9tQwVna8As1+tt6Sx+OFuhlhhPYfdq4w==
+X-Received: by 2002:a50:ee0c:: with SMTP id g12mr1621907eds.214.1586333282155; 
+ Wed, 08 Apr 2020 01:08:02 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id s8sm1027349eju.62.2020.04.08.01.08.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Apr 2020 01:08:01 -0700 (PDT)
+Subject: Re: [PATCH] When updating the PFLASH file contents, we should check
+ for a possible failure of blk_pwrite(). Similar to 3a68829 commit
+To: Mansour Ahmadi <mansourweb@gmail.com>, qemu-devel@nongnu.org,
+ Qemu-block <qemu-block@nongnu.org>
+References: <20200408003552.58095-1-mansourweb@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <34044154-1982-6f43-d124-bc4bc3924136@redhat.com>
+Date: Wed, 8 Apr 2020 10:08:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 08 Apr 2020 08:04:56 -0000
-From: Tobias Witek <1870098@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kwolf-redhat twitek
-X-Launchpad-Bug-Reporter: Tobias Witek (twitek)
-X-Launchpad-Bug-Modifier: Tobias Witek (twitek)
-References: <158573492237.25129.5161164490189934653.malonedeb@soybean.canonical.com>
-Message-Id: <158633309653.11754.6566095385150377415.malone@chaenomeles.canonical.com>
-Subject: [Bug 1870098] Re: [block/vpc] dynamic disk header: off-by-one error
- for "num_bat_entries"
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a296f04231dee355be5db73cc878b9e21689a253";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 56f9259a10e654335eb85784b6ec4818d8840877
+In-Reply-To: <20200408003552.58095-1-mansourweb@gmail.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,49 +93,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1870098 <1870098@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks a lot for looking into it!
+Hi Mansour,
 
-Yes, we were able to verify that this patch does fix the problem.
+On 4/8/20 2:35 AM, Mansour Ahmadi wrote:
+> Signed-off-by: Mansour Ahmadi <mansourweb@gmail.com>
+> ---
+>   hw/block/pflash_cfi01.c | 6 +++++-
+>   hw/block/pflash_cfi02.c | 6 +++++-
+>   2 files changed, 10 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+> index 24f3bce7ef..31319cfd07 100644
+> --- a/hw/block/pflash_cfi01.c
+> +++ b/hw/block/pflash_cfi01.c
+> @@ -399,13 +399,17 @@ static void pflash_update(PFlashCFI01 *pfl, int offset,
+>                             int size)
+>   {
+>       int offset_end;
+> +    int ret;
+>       if (pfl->blk) {
+>           offset_end = offset + size;
+>           /* widen to sector boundaries */
+>           offset = QEMU_ALIGN_DOWN(offset, BDRV_SECTOR_SIZE);
+>           offset_end = QEMU_ALIGN_UP(offset_end, BDRV_SECTOR_SIZE);
+> -        blk_pwrite(pfl->blk, offset, pfl->storage + offset,
+> +        ret = blk_pwrite(pfl->blk, offset, pfl->storage + offset,
+>                      offset_end - offset, 0);
+> +	if (ret < 0) {
+> +            error_report("Could not update PFLASH: %s", strerror(-ret));
 
-Many thanks!
+Thanks for your patch. Note that it doesn't compile:
 
--- =
+hw/block/pflash_cfi01.c:411:6: error: implicit declaration of function 
+'error_report' [-Werror=implicit-function-declaration]
+       error_report("Could not update PFLASH: %s", strerror(-ret));
+       ^
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1870098
+Better than reporting the error is to set the error flag in the status 
+register.
 
-Title:
-  [block/vpc] dynamic disk header: off-by-one error for
-  "num_bat_entries"
+> +        }
+>       }
+>   }
+>   
+> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+> index 12f18d401a..fee5b3497c 100644
+> --- a/hw/block/pflash_cfi02.c
+> +++ b/hw/block/pflash_cfi02.c
+> @@ -393,13 +393,17 @@ static uint64_t pflash_read(void *opaque, hwaddr offset, unsigned int width)
+>   static void pflash_update(PFlashCFI02 *pfl, int offset, int size)
+>   {
+>       int offset_end;
+> +    int ret;
+>       if (pfl->blk) {
+>           offset_end = offset + size;
+>           /* widen to sector boundaries */
+>           offset = QEMU_ALIGN_DOWN(offset, BDRV_SECTOR_SIZE);
+>           offset_end = QEMU_ALIGN_UP(offset_end, BDRV_SECTOR_SIZE);
+> -        blk_pwrite(pfl->blk, offset, pfl->storage + offset,
+> +        ret = blk_pwrite(pfl->blk, offset, pfl->storage + offset,
+>                      offset_end - offset, 0);
+> +	if (ret < 0) {
+> +	    error_report("Could not update PFLASH: %s", strerror(-ret));
+> +        }
 
-Status in QEMU:
-  New
+Similar comments (does not compile, set error status register).
 
-Bug description:
-  In current qemu versions (observed in 5.0.0-rc1 as well as
-  2833ad487cfff7dc33703e4731b75facde1c561e), disk headers for dynamic
-  VPCs are written with an incorrect "block allocation table entries"
-  value.
+>       }
+>   }
+>   
+> 
 
-  https://www.microsoft.com/en-us/download/details.aspx?id=3D23850 (the
-  corresponding spec) states that:
-
-  "Max Table Entries
-  This field holds the maximum entries present in the BAT. This should be e=
-qual to the number of blocks in the disk (that is, the disk size divided by=
- the block size)."
-
-  Inside the qemu code, the value is "disk size divided by the block
-  size *plus one*".
-
-  Calculating "num_bat_entries" as "total_sectors/(block_size / 512)"
-  *should* fix the issue.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1870098/+subscriptions
 
