@@ -2,70 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 032FA1A194F
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 02:45:13 +0200 (CEST)
-Received: from localhost ([::1]:54786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C9301A197B
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 03:21:09 +0200 (CEST)
+Received: from localhost ([::1]:54962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLyq7-00018Q-PW
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 20:45:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59754)
+	id 1jLzOu-0000i1-CW
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 21:21:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49221)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <flukshun@gmail.com>) id 1jLypG-0000iE-DG
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 20:44:20 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1jLzO6-0000Ex-0R
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 21:20:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <flukshun@gmail.com>) id 1jLypE-00023K-Fh
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 20:44:18 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:44183)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <flukshun@gmail.com>) id 1jLypE-00022P-AD
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 20:44:16 -0400
-Received: by mail-ot1-x343.google.com with SMTP id a49so5128268otc.11
- for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 17:44:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:mime-version:content-transfer-encoding:from:cc:user-agent:to
- :message-id:subject:date;
- bh=ikRx3RcdYTgTeCeCfUgMHF61w8IKtGxjYaA617TF+dI=;
- b=SE4q8GAceYiu02pwoa/HvrFRHl9zhLIVMiCa+Sla+znjQeAqHuvz0SSSk0J+Z+1yBE
- iAEMm+77yGGpndXKzQdRb1gP+gDhLEzYnGONGZFYHT5i8hH4zGWXAhLj4s/U3k0/KNXR
- oPAwDxUQ415akEQvT7pcNyXrDeU5KEufsOIvQfsGnFsMSK3B9LsM0GFSRqDGZL2nZaMl
- ELA8MZpQaAew5HcqmpfZPphNPI/usXWycnGvSND9ZCR7IRnRw+vcA4XTl9kmtXhqjHdR
- LkuxgaACdUPCs3ee0/uqpLT0nRELPCtUQA+8Hkfi6GbKWhjoUb+zA3oUR8tUwcuWQWZW
- iF1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:mime-version:content-transfer-encoding
- :from:cc:user-agent:to:message-id:subject:date;
- bh=ikRx3RcdYTgTeCeCfUgMHF61w8IKtGxjYaA617TF+dI=;
- b=USXdFEyC4LANYhswXk34cqd3tlbh6IgXRBwYmx/H0WtARQvmKx0g7nkGMffjaUUl4a
- ZY8DsLT7Lm6cuql4lanpWPlOixVfsE7+59iRFoeqWeY36r5Uam/k6bVsJ/i2Wqol2hQE
- 6U93MIDDiPNhyWSsZqtQSpMn9rpEmQxfVEzPgYlmE17ePmOPNOK+/SNstHSZ1XYQeVPu
- agaGdgmXYCZIdoShCzc0SAomWeBMfySIf76XYhW4XgrbpovHbaitgmyKAt6ma3ukXwqY
- EvWE8obLQa5fyp6wGlxL0Z68WL6y/u+oEmA/yhM9ImRhiVPyvokqVCylyynZYai5aw/v
- fQKg==
-X-Gm-Message-State: AGi0PuaOTR5pbHR0CFBq0QQqHKCPaCtzm+oxB0xVgeXqOasVPV+ozVkl
- tMpodZPhwUCveS9WQryLM0Q=
-X-Google-Smtp-Source: APiQypLsa94Vj0NAcMsVq9BNNEjRJf6TtcUgyYWaZNvPjB56zsHM1JjvwsfDztbcn+nj6RLv7NXWOA==
-X-Received: by 2002:a05:6830:1b64:: with SMTP id
- d4mr3699985ote.368.1586306654866; 
- Tue, 07 Apr 2020 17:44:14 -0700 (PDT)
-Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
- [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id r24sm597348otq.9.2020.04.07.17.44.14
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 07 Apr 2020 17:44:14 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+ (envelope-from <yan.y.zhao@intel.com>) id 1jLzO4-0003CJ-4E
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 21:20:17 -0400
+Received: from mga11.intel.com ([192.55.52.93]:38333)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jLzO3-0003AL-MP
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 21:20:16 -0400
+IronPort-SDR: mzzERFj3wLA3pxopCFWwOqKDmCJH7nLF0q86HND0EkBTPIOfdOTEWAl91bSoiLlg0cVYc+OiCA
+ aS3tw582qisg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2020 18:20:14 -0700
+IronPort-SDR: z0eV4ksl3aVmPsXeemkwuosKrRiVzixYNMHU0bDHphQ8aceffYaY5q09twGF16XHcrl96H/vPj
+ +UfQn3ZD5HdA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,357,1580803200"; d="scan'208";a="275288917"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.16])
+ by fmsmga004.fm.intel.com with ESMTP; 07 Apr 2020 18:20:09 -0700
+Date: Tue, 7 Apr 2020 21:10:33 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH v17 Kernel 4/7] vfio iommu: Implementation of ioctl for
+ dirty pages tracking.
+Message-ID: <20200408011033.GD10586@joy-OptiPlex-7040>
+References: <1585587044-2408-1-git-send-email-kwankhede@nvidia.com>
+ <1585587044-2408-5-git-send-email-kwankhede@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-From: Michael Roth <mdroth@linux.vnet.ibm.com>
-User-Agent: alot/0.7
-To: qemu-devel@nongnu.org
-Message-ID: <158630664575.20966.7092686868903628704@sif>
-Subject: [ANNOUNCE] QEMU 5.0.0-rc2 is now available
-Date: Tue, 07 Apr 2020 19:44:05 -0500
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1585587044-2408-5-git-send-email-kwankhede@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 192.55.52.93
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,188 +61,423 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, alex.williamson@redhat.com,
+ eauger@redhat.com, felipe@nutanix.com, jonathan.davies@nutanix.com,
+ changpeng.liu@intel.com, Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+On Mon, Mar 30, 2020 at 10:20:41PM +0530, Kirti Wankhede wrote:
+> VFIO_IOMMU_DIRTY_PAGES ioctl performs three operations:
+> - Start dirty pages tracking while migration is active
+> - Stop dirty pages tracking.
+> - Get dirty pages bitmap. Its user space application's responsibility to
+>   copy content of dirty pages from source to destination during migration.
+> 
+> To prevent DoS attack, memory for bitmap is allocated per vfio_dma
+> structure. Bitmap size is calculated considering smallest supported page
+> size. Bitmap is allocated for all vfio_dmas when dirty logging is enabled
+> 
+> Bitmap is populated for already pinned pages when bitmap is allocated for
+> a vfio_dma with the smallest supported page size. Update bitmap from
+> pinning functions when tracking is enabled. When user application queries
+> bitmap, check if requested page size is same as page size used to
+> populated bitmap. If it is equal, copy bitmap, but if not equal, return
+> error.
+> 
+> Fixed below error by changing pgsize type from uint64_t to size_t.
+> Reported-by: kbuild test robot <lkp@intel.com>
+> 
+> All errors:
+> drivers/vfio/vfio_iommu_type1.c:197: undefined reference to `__udivdi3'
+> 
+> drivers/vfio/vfio_iommu_type1.c:225: undefined reference to `__udivdi3'
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> ---
+>  drivers/vfio/vfio_iommu_type1.c | 266 +++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 260 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
+> index 70aeab921d0f..5efebc2b60e1 100644
+> --- a/drivers/vfio/vfio_iommu_type1.c
+> +++ b/drivers/vfio/vfio_iommu_type1.c
+> @@ -71,6 +71,7 @@ struct vfio_iommu {
+>  	unsigned int		dma_avail;
+>  	bool			v2;
+>  	bool			nesting;
+> +	bool			dirty_page_tracking;
+>  };
+>  
+>  struct vfio_domain {
+> @@ -91,6 +92,7 @@ struct vfio_dma {
+>  	bool			lock_cap;	/* capable(CAP_IPC_LOCK) */
+>  	struct task_struct	*task;
+>  	struct rb_root		pfn_list;	/* Ex-user pinned pfn list */
+> +	unsigned long		*bitmap;
+>  };
+>  
+>  struct vfio_group {
+> @@ -125,7 +127,21 @@ struct vfio_regions {
+>  #define IS_IOMMU_CAP_DOMAIN_IN_CONTAINER(iommu)	\
+>  					(!list_empty(&iommu->domain_list))
+>  
+> +#define DIRTY_BITMAP_BYTES(n)	(ALIGN(n, BITS_PER_TYPE(u64)) / BITS_PER_BYTE)
+> +
+> +/*
+> + * Input argument of number of bits to bitmap_set() is unsigned integer, which
+> + * further casts to signed integer for unaligned multi-bit operation,
+> + * __bitmap_set().
+> + * Then maximum bitmap size supported is 2^31 bits divided by 2^3 bits/byte,
+> + * that is 2^28 (256 MB) which maps to 2^31 * 2^12 = 2^43 (8TB) on 4K page
+> + * system.
+> + */
+> +#define DIRTY_BITMAP_PAGES_MAX	(uint64_t)(INT_MAX - 1)
+> +#define DIRTY_BITMAP_SIZE_MAX	 DIRTY_BITMAP_BYTES(DIRTY_BITMAP_PAGES_MAX)
+> +
+>  static int put_pfn(unsigned long pfn, int prot);
+> +static unsigned long vfio_pgsize_bitmap(struct vfio_iommu *iommu);
+>  
+>  /*
+>   * This code handles mapping and unmapping of user data buffers
+> @@ -175,6 +191,77 @@ static void vfio_unlink_dma(struct vfio_iommu *iommu, struct vfio_dma *old)
+>  	rb_erase(&old->node, &iommu->dma_list);
+>  }
+>  
+> +
+> +static int vfio_dma_bitmap_alloc(struct vfio_dma *dma, size_t pgsize)
+> +{
+> +	uint64_t npages = dma->size / pgsize;
+> +
+> +	if (npages > DIRTY_BITMAP_PAGES_MAX)
+> +		return -EINVAL;
+> +
+> +	dma->bitmap = kvzalloc(DIRTY_BITMAP_BYTES(npages), GFP_KERNEL);
+> +	if (!dma->bitmap)
+> +		return -ENOMEM;
+> +
+> +	return 0;
+> +}
+> +
+> +static void vfio_dma_bitmap_free(struct vfio_dma *dma)
+> +{
+> +	kfree(dma->bitmap);
+> +	dma->bitmap = NULL;
+> +}
+> +
+> +static void vfio_dma_populate_bitmap(struct vfio_dma *dma, size_t pgsize)
+> +{
+> +	struct rb_node *p;
+> +
+> +	if (RB_EMPTY_ROOT(&dma->pfn_list))
+> +		return;
+> +
+> +	for (p = rb_first(&dma->pfn_list); p; p = rb_next(p)) {
+> +		struct vfio_pfn *vpfn = rb_entry(p, struct vfio_pfn, node);
+> +
+> +		bitmap_set(dma->bitmap, (vpfn->iova - dma->iova) / pgsize, 1);
+> +	}
+> +}
+> +
+> +static int vfio_dma_bitmap_alloc_all(struct vfio_iommu *iommu, size_t pgsize)
+> +{
+> +	struct rb_node *n = rb_first(&iommu->dma_list);
+> +
+> +	for (; n; n = rb_next(n)) {
+> +		struct vfio_dma *dma = rb_entry(n, struct vfio_dma, node);
+> +		int ret;
+> +
+> +		ret = vfio_dma_bitmap_alloc(dma, pgsize);
+> +		if (ret) {
+> +			struct rb_node *p = rb_prev(n);
+> +
+> +			for (; p; p = rb_prev(p)) {
+> +				struct vfio_dma *dma = rb_entry(n,
+> +							struct vfio_dma, node);
+> +
+> +				vfio_dma_bitmap_free(dma);
+> +			}
+> +			return ret;
+> +		}
+> +		vfio_dma_populate_bitmap(dma, pgsize);
+> +	}
+> +	return 0;
+> +}
+> +
+> +static void vfio_dma_bitmap_free_all(struct vfio_iommu *iommu)
+> +{
+> +	struct rb_node *n = rb_first(&iommu->dma_list);
+> +
+> +	for (; n; n = rb_next(n)) {
+> +		struct vfio_dma *dma = rb_entry(n, struct vfio_dma, node);
+> +
+> +		vfio_dma_bitmap_free(dma);
+> +	}
+> +}
+> +
+>  /*
+>   * Helper Functions for host iova-pfn list
+>   */
+> @@ -567,6 +654,18 @@ static int vfio_iommu_type1_pin_pages(void *iommu_data,
+>  			vfio_unpin_page_external(dma, iova, do_accounting);
+>  			goto pin_unwind;
+>  		}
+> +
+> +		if (iommu->dirty_page_tracking) {
+> +			unsigned long pgshift =
+> +					 __ffs(vfio_pgsize_bitmap(iommu));
+> +
 
-On behalf of the QEMU Team, I'd like to announce the availability of the
-third release candidate for the QEMU 5.0 release.  This release is meant
-for testing purposes and should not be used in a production environment.
+as there's a mutex_lock(&iommu->lock) in the beginning of this
+vfio_iommu_type1_pin_pages(),the mutex_lock(&iommu->lock) in
+vfio_pgsize_bitmap(iommu) would cause deadlock once vfio_pin_pages() is
+called for dirty page tracking during live migration.
 
-  http://download.qemu-project.org/qemu-5.0.0-rc2.tar.xz
-  http://download.qemu-project.org/qemu-5.0.0-rc2.tar.xz.sig
+Thanks
+Yan
 
-You can help improve the quality of the QEMU 5.0 release by testing this
-release and reporting bugs on Launchpad:
-
-  https://bugs.launchpad.net/qemu/
-
-The release plan, as well a documented known issues for release
-candidates, are available at:
-
-  http://wiki.qemu.org/Planning/5.0
-
-Please add entries to the ChangeLog for the 5.0 release below:
-
-  http://wiki.qemu.org/ChangeLog/5.0
-
-Thank you to everyone involved!
-
-Changes since rc1:
-
-f3bac27cc1: Update version for v5.0.0-rc2 release (Peter Maydell)
-cce743abbf: tcg/i386: Fix %r12 guest_base initialization (Richard Henderson)
-eca7a8e6c0: configure: Add -Werror to PIE probe (Richard Henderson)
-58d5e749d6: hw/core: properly terminate loading .hex on EOF record (Alex Be=
-nn=C3=A9e)
-bb55173cfb: linux-user: clean-up padding on /proc/self/maps (Alex Benn=C3=
-=A9e)
-01ef6b9e4e: linux-user: factor out reading of /proc/self/maps (Alex Benn=C3=
-=A9e)
-2f311075b7: softfloat: Fix BAD_SHIFT from normalizeFloatx80Subnormal (Richa=
-rd Henderson)
-076b2fadb5: gdbstub: fix compiler complaining (Denis Plotnikov)
-1f089c6705: target/xtensa: add FIXME for translation memory leak (Alex Benn=
-=C3=A9e)
-b859040dc4: linux-user: more debug for init_guest_space (Alex Benn=C3=A9e)
-af7fc47f2c: tests/tcg: remove extraneous pasting macros (Alex Benn=C3=A9e)
-bbf5f2a1aa: linux-user: protect fcntl64 with an #ifdef (Alex Benn=C3=A9e)
-040425f849: elf-ops: bail out if we have no function symbols (Alex Benn=C3=
-=A9e)
-20a4f14f6e: .github: Enable repo-lockdown bot to refuse GitHub pull request=
-s (Philippe Mathieu-Daud=C3=A9)
-758af9cfab: MAINTAINERS: Add xen-usb.c to Xen section (Anthony PERARD)
-0cd40042c5: xen-block: Fix uninitialized variable (Anthony PERARD)
-1aef27c93d: hw/usb/xen-usb.c: Pass struct usbback_req* to usbback_packet_co=
-mplete() (Peter Maydell)
-3f6de653b9: vpc: Don't round up already aligned BAT sizes (Kevin Wolf)
-7f16476fab: block: Fix blk->in_flight during blk_wait_while_drained() (Kevi=
-n Wolf)
-fbb92b6798: block: Increase BB.in_flight for coroutine and sync interfaces =
-(Kevin Wolf)
-564806c529: block-backend: Reorder flush/pdiscard function definitions (Kev=
-in Wolf)
-eca0f3524a: backup: don't acquire aio_context in backup_clean (Stefan Reite=
-r)
-08558e3325: replication: assert we own context before job_cancel_sync (Stef=
-an Reiter)
-b660a84bbb: job: take each job's lock individually in job_txn_apply (Stefan=
- Reiter)
-36d883ba0d: xen-block: Fix double qlist remove and request leak (Anthony PE=
-RARD)
-25fb2e9c39: iotests/common.pattern: Quote echos (Max Reitz)
-fb43d2d46e: qcow2: Check request size in qcow2_co_pwritev_compressed_part()=
- (Alberto Garcia)
-39f77cb662: qemu-img: Report convert errors by bytes, not sectors (Eric Bla=
-ke)
-80f5c01183: qcow2: Forbid discard in qcow2 v2 images with backing files (Al=
-berto Garcia)
-1394dc0690: json: Fix check for unbalanced right curly brace (Simran Singha=
-l)
-ac2071c379: ati-vga: Fix checks in ati_2d_blt() to avoid crash (BALATON Zol=
-tan)
-25f3170b06: ppc/pnv: Create BMC devices only when defaults are enabled (C=
-=C3=A9dric Le Goater)
-a872e4328b: pseries: Update SLOF firmware image (Alexey Kardashevskiy)
-2025fc6766: hw/ppc/ppc440_uc.c: Remove incorrect iothread locking from dcr_=
-write_pcie() (Peter Maydell)
-7aab589976: spapr: Fix failure path for attempting to hot unplug PCI bridge=
-s (David Gibson)
-4f7a11f93f: ppc/spapr: Don't kill the guest if a recovered FWNMI machine ch=
-eck delivery fails (Nicholas Piggin)
-b90b9ecb12: ppc/spapr: Add FWNMI machine check delivery warnings (Nicholas =
-Piggin)
-6c3dd24c05: ppc/spapr: Improve FWNMI machine check delivery corner case com=
-ments (Nicholas Piggin)
-ec010c0066: ppc/spapr: KVM FWNMI should not be enabled until guest requests=
- it (Nicholas Piggin)
-79178edd2a: vfio/spapr: Fix page size calculation (Alexey Kardashevskiy)
-3b4f50bd7d: hw/ppc/e500.c: Handle qemu_find_file() failure (Peter Maydell)
-a41f167547: .travis.yml: Cache acceptance-test assets (Philippe Mathieu-Dau=
-d=C3=A9)
-5baecf58ad: tests/acceptance/machine_sparc_leon3: Disable HelenOS test (Phi=
-lippe Mathieu-Daud=C3=A9)
-b131b49768: tests/acceptance/ppc_prep_40p: Use mirror for ftp.software.ibm.=
-com (Philippe Mathieu-Daud=C3=A9)
-5cf67ac04f: tests/acceptance/ppc_prep_40p: Use cdn.netbsd.org hostname (Phi=
-lippe Mathieu-Daud=C3=A9)
-002b24c0c7: Acceptance test: Fix to EXEC migration (Oksana Vohchana)
-8d1439b692: dsoundaudio: dsound_get_buffer_in should honor *size (Volker R=
-=C3=BCmelin)
-174702986c: dsoundaudio: fix "Could not lock capture buffer" warning (Volke=
-r R=C3=BCmelin)
-4ba664cb0a: dsoundaudio: fix never-ending playback loop (Volker R=C3=BCmeli=
-n)
-8893790966: dma/xlnx-zdma: Reorg to fix CUR_DSCR (Edgar E. Iglesias)
-4ec037f1dd: dma/xlnx-zdma: Advance the descriptor address when stopping (Ed=
-gar E. Iglesias)
-4fc4678c60: dma/xlnx-zdma: Clear DMA_DONE when halting (Edgar E. Iglesias)
-28009852aa: dma/xlnx-zdma: Populate DBG0.CMN_BUF_FREE (Edgar E. Iglesias)
-12ba36d910: dma/xlnx-zdma: Remove comment (Edgar E. Iglesias)
-6a4a38530e: qga/commands-posix: fix use after free of local_err (Vladimir S=
-ementsov-Ogievskiy)
-b0e709503c: dump/win_dump: fix use after free of err (Vladimir Sementsov-Og=
-ievskiy)
-d1d3a99795: scripts/coccinelle: add error-use-after-free.cocci (Vladimir Se=
-mentsov-Ogievskiy)
-174d2d6856: dump: Fix writing of ELF section (Peter Maydell)
-c88311f272: hw/gpio/aspeed_gpio.c: Don't directly include assert.h (Peter M=
-aydell)
-07d1be3b3a: target/arm: Remove obsolete TODO note from get_phys_addr_lpae()=
- (Peter Maydell)
-f4e1dbc578: target/arm: PSTATE.PAN should not clear exec bits (Peter Maydel=
-l)
-8a2b76ffc9: hw/arm/collie: Put StrongARMState* into a CollieMachineState st=
-ruct (Peter Maydell)
-9231951aa5: target/arm: don't expose "ieee_half" via gdbstub (Alex Benn=C3=
-=A9e)
-ae60ab7eb2: aio-posix: fix test-aio /aio/event/wait with fdmon-io_uring (St=
-efan Hajnoczi)
-0dc0389fa5: xen: fixup RAM memory region initialization (Igor Mammedov)
-7f5d9b206d: object-add: don't create return value if failed (Paolo Bonzini)
-b3fbb32812: qmp: fix leak on callbacks that return both value and error (Ma=
-rc-Andr=C3=A9 Lureau)
-9cbc36497c: migration: fix cleanup_bh leak on resume (Marc-Andr=C3=A9 Lurea=
-u)
-4a910e1f6a: target/i386: do not set unsupported VMX secondary execution con=
-trols (Vitaly Kuznetsov)
-f602d047ac: serial: Fix double migration data (Dr. David Alan Gilbert)
-ddd31732a7: i386: hvf: Reset IRQ inhibition after moving RIP (Roman Bolshak=
-ov)
-622e99c5cf: vl: fix broken IPA range for ARM -M virt with KVM enabled (Igor=
- Mammedov)
-5c30ef937f: vl/s390x: fixup ram sizes for compat machines (Christian Borntr=
-aeger)
-edd075ae2b: s390x: kvm: Fix number of cpu reports for stsi 3.2.2 (Janosch F=
-rank)
-8f13a39dc0: util/bufferiszero: improve avx2 accelerator (Robert Hoo)
-b87c99d073: util/bufferiszero: assign length_to_accel value for each accele=
-rator case (Robert Hoo)
-674fc21ff6: MAINTAINERS: Add an entry for the HVF accelerator (Roman Bolsha=
-kov)
-4951247d8b: softmmu: fix crash with invalid -M memory-backend=3D (Marc-Andr=
-=C3=A9 Lureau)
-3b703feaf8: virtio-iommu: depend on PCI (Paolo Bonzini)
-b822dfaecd: hw/isa/superio: Correct the license text (Philippe Mathieu-Daud=
-=C3=A9)
-e7ebf057e6: hw/scsi/vmw_pvscsi: Remove assertion for kick after reset (Elaz=
-ar Leibovich)
-d965dc3559: target/i386: Add ARCH_CAPABILITIES related bits into Icelake-Se=
-rver CPU model (Xiaoyao Li)
-ddc2fc9e4e: target/i386: set the CPUID level to 0x14 on old machine-type (L=
-uwei Kang)
-7b225762c8: i386: Fix pkg_id offset for EPYC cpu models (Babu Moger)
-247b18c593: target/i386: Enable new apic id encoding for EPYC based cpus mo=
-dels (Babu Moger)
-2e26f4ab3b: hw/i386: Move arch_id decode inside x86_cpus_init (Babu Moger)
-0c1538cb1a: i386: Introduce use_epyc_apic_id_encoding in X86CPUDefinition (=
-Babu Moger)
-6121c7fbfd: hw/i386: Introduce apicid functions inside X86MachineState (Bab=
-u Moger)
-dd08ef0318: target/i386: Cleanup and use the EPYC mode topology functions (=
-Babu Moger)
-7568b20555: hw/386: Add EPYC mode topology decoding functions (Babu Moger)
-
+> +			/*
+> +			 * Bitmap populated with the smallest supported page
+> +			 * size
+> +			 */
+> +			bitmap_set(dma->bitmap,
+> +				   (vpfn->iova - dma->iova) >> pgshift, 1);
+> +		}
+>  	}
+>  
+>  	ret = i;
+> @@ -801,6 +900,7 @@ static void vfio_remove_dma(struct vfio_iommu *iommu, struct vfio_dma *dma)
+>  	vfio_unmap_unpin(iommu, dma, true);
+>  	vfio_unlink_dma(iommu, dma);
+>  	put_task_struct(dma->task);
+> +	vfio_dma_bitmap_free(dma);
+>  	kfree(dma);
+>  	iommu->dma_avail++;
+>  }
+> @@ -831,6 +931,57 @@ static unsigned long vfio_pgsize_bitmap(struct vfio_iommu *iommu)
+>  	return bitmap;
+>  }
+>  
+> +static int vfio_iova_dirty_bitmap(struct vfio_iommu *iommu, dma_addr_t iova,
+> +				  size_t size, size_t pgsize,
+> +				  u64 __user *bitmap)
+> +{
+> +	struct vfio_dma *dma;
+> +	unsigned long pgshift = __ffs(pgsize);
+> +	unsigned int npages, bitmap_size;
+> +
+> +	dma = vfio_find_dma(iommu, iova, 1);
+> +
+> +	if (!dma)
+> +		return -EINVAL;
+> +
+> +	if (dma->iova != iova || dma->size != size)
+> +		return -EINVAL;
+> +
+> +	npages = dma->size >> pgshift;
+> +	bitmap_size = DIRTY_BITMAP_BYTES(npages);
+> +
+> +	/* mark all pages dirty if all pages are pinned and mapped. */
+> +	if (dma->iommu_mapped)
+> +		bitmap_set(dma->bitmap, 0, npages);
+> +
+> +	if (copy_to_user((void __user *)bitmap, dma->bitmap, bitmap_size))
+> +		return -EFAULT;
+> +
+> +	/*
+> +	 * Re-populate bitmap to include all pinned pages which are considered
+> +	 * as dirty but exclude pages which are unpinned and pages which are
+> +	 * marked dirty by vfio_dma_rw()
+> +	 */
+> +	bitmap_clear(dma->bitmap, 0, npages);
+> +	vfio_dma_populate_bitmap(dma, pgsize);
+> +	return 0;
+> +}
+> +
+> +static int verify_bitmap_size(uint64_t npages, uint64_t bitmap_size)
+> +{
+> +	uint64_t bsize;
+> +
+> +	if (!npages || !bitmap_size || (bitmap_size > DIRTY_BITMAP_SIZE_MAX))
+> +		return -EINVAL;
+> +
+> +	bsize = DIRTY_BITMAP_BYTES(npages);
+> +
+> +	if (bitmap_size < bsize)
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +
+>  static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
+>  			     struct vfio_iommu_type1_dma_unmap *unmap)
+>  {
+> @@ -1038,16 +1189,16 @@ static int vfio_dma_do_map(struct vfio_iommu *iommu,
+>  	unsigned long vaddr = map->vaddr;
+>  	size_t size = map->size;
+>  	int ret = 0, prot = 0;
+> -	uint64_t mask;
+> +	size_t pgsize;
+>  	struct vfio_dma *dma;
+>  
+>  	/* Verify that none of our __u64 fields overflow */
+>  	if (map->size != size || map->vaddr != vaddr || map->iova != iova)
+>  		return -EINVAL;
+>  
+> -	mask = ((uint64_t)1 << __ffs(vfio_pgsize_bitmap(iommu))) - 1;
+> +	pgsize = (size_t)1 << __ffs(vfio_pgsize_bitmap(iommu));
+>  
+> -	WARN_ON(mask & PAGE_MASK);
+> +	WARN_ON((pgsize - 1) & PAGE_MASK);
+>  
+>  	/* READ/WRITE from device perspective */
+>  	if (map->flags & VFIO_DMA_MAP_FLAG_WRITE)
+> @@ -1055,7 +1206,7 @@ static int vfio_dma_do_map(struct vfio_iommu *iommu,
+>  	if (map->flags & VFIO_DMA_MAP_FLAG_READ)
+>  		prot |= IOMMU_READ;
+>  
+> -	if (!prot || !size || (size | iova | vaddr) & mask)
+> +	if (!prot || !size || (size | iova | vaddr) & (pgsize - 1))
+>  		return -EINVAL;
+>  
+>  	/* Don't allow IOVA or virtual address wrap */
+> @@ -1130,6 +1281,12 @@ static int vfio_dma_do_map(struct vfio_iommu *iommu,
+>  	else
+>  		ret = vfio_pin_map_dma(iommu, dma, size);
+>  
+> +	if (!ret && iommu->dirty_page_tracking) {
+> +		ret = vfio_dma_bitmap_alloc(dma, pgsize);
+> +		if (ret)
+> +			vfio_remove_dma(iommu, dma);
+> +	}
+> +
+>  out_unlock:
+>  	mutex_unlock(&iommu->lock);
+>  	return ret;
+> @@ -2278,6 +2435,93 @@ static long vfio_iommu_type1_ioctl(void *iommu_data,
+>  
+>  		return copy_to_user((void __user *)arg, &unmap, minsz) ?
+>  			-EFAULT : 0;
+> +	} else if (cmd == VFIO_IOMMU_DIRTY_PAGES) {
+> +		struct vfio_iommu_type1_dirty_bitmap dirty;
+> +		uint32_t mask = VFIO_IOMMU_DIRTY_PAGES_FLAG_START |
+> +				VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP |
+> +				VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP;
+> +		int ret = 0;
+> +
+> +		if (!iommu->v2)
+> +			return -EACCES;
+> +
+> +		minsz = offsetofend(struct vfio_iommu_type1_dirty_bitmap,
+> +				    flags);
+> +
+> +		if (copy_from_user(&dirty, (void __user *)arg, minsz))
+> +			return -EFAULT;
+> +
+> +		if (dirty.argsz < minsz || dirty.flags & ~mask)
+> +			return -EINVAL;
+> +
+> +		/* only one flag should be set at a time */
+> +		if (__ffs(dirty.flags) != __fls(dirty.flags))
+> +			return -EINVAL;
+> +
+> +		if (dirty.flags & VFIO_IOMMU_DIRTY_PAGES_FLAG_START) {
+> +			size_t pgsize = 1 << __ffs(vfio_pgsize_bitmap(iommu));
+> +
+> +			mutex_lock(&iommu->lock);
+> +			if (!iommu->dirty_page_tracking) {
+> +				ret = vfio_dma_bitmap_alloc_all(iommu, pgsize);
+> +				if (!ret)
+> +					iommu->dirty_page_tracking = true;
+> +			}
+> +			mutex_unlock(&iommu->lock);
+> +			return ret;
+> +		} else if (dirty.flags & VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP) {
+> +			mutex_lock(&iommu->lock);
+> +			if (iommu->dirty_page_tracking) {
+> +				iommu->dirty_page_tracking = false;
+> +				vfio_dma_bitmap_free_all(iommu);
+> +			}
+> +			mutex_unlock(&iommu->lock);
+> +			return 0;
+> +		} else if (dirty.flags &
+> +				 VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP) {
+> +			struct vfio_iommu_type1_dirty_bitmap_get range;
+> +			unsigned long pgshift;
+> +			size_t data_size = dirty.argsz - minsz;
+> +			size_t iommu_pgsize =
+> +				 (size_t)1 << __ffs(vfio_pgsize_bitmap(iommu));
+> +
+> +			if (!data_size || data_size < sizeof(range))
+> +				return -EINVAL;
+> +
+> +			if (copy_from_user(&range, (void __user *)(arg + minsz),
+> +					   sizeof(range)))
+> +				return -EFAULT;
+> +
+> +			/* allow only smallest supported pgsize */
+> +			if (range.bitmap.pgsize != iommu_pgsize)
+> +				return -EINVAL;
+> +			if (range.iova & (iommu_pgsize - 1))
+> +				return -EINVAL;
+> +			if (!range.size || range.size & (iommu_pgsize - 1))
+> +				return -EINVAL;
+> +			if (range.iova + range.size < range.iova)
+> +				return -EINVAL;
+> +			if (!access_ok((void __user *)range.bitmap.data,
+> +				       range.bitmap.size))
+> +				return -EINVAL;
+> +
+> +			pgshift = __ffs(range.bitmap.pgsize);
+> +			ret = verify_bitmap_size(range.size >> pgshift,
+> +						 range.bitmap.size);
+> +			if (ret)
+> +				return ret;
+> +
+> +			mutex_lock(&iommu->lock);
+> +			if (iommu->dirty_page_tracking)
+> +				ret = vfio_iova_dirty_bitmap(iommu, range.iova,
+> +						range.size, range.bitmap.pgsize,
+> +						range.bitmap.data);
+> +			else
+> +				ret = -EINVAL;
+> +			mutex_unlock(&iommu->lock);
+> +
+> +			return ret;
+> +		}
+>  	}
+>  
+>  	return -ENOTTY;
+> @@ -2345,10 +2589,20 @@ static int vfio_iommu_type1_dma_rw_chunk(struct vfio_iommu *iommu,
+>  
+>  	vaddr = dma->vaddr + offset;
+>  
+> -	if (write)
+> +	if (write) {
+>  		*copied = __copy_to_user((void __user *)vaddr, data,
+>  					 count) ? 0 : count;
+> -	else
+> +		if (*copied && iommu->dirty_page_tracking) {
+> +			unsigned long pgshift =
+> +				__ffs(vfio_pgsize_bitmap(iommu));
+> +			/*
+> +			 * Bitmap populated with the smallest supported page
+> +			 * size
+> +			 */
+> +			bitmap_set(dma->bitmap, offset >> pgshift,
+> +				   *copied >> pgshift);
+> +		}
+> +	} else
+>  		*copied = __copy_from_user(data, (void __user *)vaddr,
+>  					   count) ? 0 : count;
+>  	if (kthread)
+> -- 
+> 2.7.0
+> 
 
