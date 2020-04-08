@@ -2,102 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43FB51A1E1C
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 11:37:36 +0200 (CEST)
-Received: from localhost ([::1]:33296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B82711A1E2B
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 11:43:45 +0200 (CEST)
+Received: from localhost ([::1]:33412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jM79L-0004zx-Ag
-	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 05:37:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39623)
+	id 1jM7FI-0005IS-I4
+	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 05:43:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41579)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jM73M-0007st-KB
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:31:26 -0400
+ (envelope-from <joao.m.martins@oracle.com>) id 1jM7E6-0004MW-CH
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:42:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jM73L-00061l-FD
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:31:24 -0400
-Received: from mail-ve1eur01on0705.outbound.protection.outlook.com
- ([2a01:111:f400:fe1f::705]:64128
- helo=EUR01-VE1-obe.outbound.protection.outlook.com)
+ (envelope-from <joao.m.martins@oracle.com>) id 1jM7E4-0002Ln-Aw
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:42:29 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:43660)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jM73I-0005tu-PW; Wed, 08 Apr 2020 05:31:20 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KZi9z0FTmqaPGNXvTsjTlT5qWNUT1uaMay3phHPdPeSlM5YYpQD0LBHZU6fyCx++BpNjL7Juc6g0rkQo60OIXzFDXyk1WB5snYOleijTeHqMpO1jNi5a6QQH8O3YfMsgpnes8dWNTt9u3n1g3ShQjKE+hJXMnlDBabs54lYsifn7waWUv38gHLv0nn/SSiO8GKBrIhKmdvwb47erV1BDRH7JMMHpY+BZDc1vrWI3GJP1s/qZQN5XY0qWyLUbk4Ef0Yw4xUiiL0Pwm5rkxaE7lKZgGVpX0Let5AY74sH72d9NvVruFTyLtQZXLuAP+TgJsuZksr9ogJInMvZEH+wTFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B/m0nfvxHVbem+siSZZ9JyxXaSxHFQx0Md3EKtMkcrA=;
- b=SH3Hrmuxq/wtmlF4vSm9gZnMqlEVdcoJQ0XR2/pAuh8PPVeT1p9vtXwao1RAfRFoNhIYXINrCTpJK4FBA0CWDIZ9KDHnaAKUY688XPlxOYiQmcdYoaUSxza34zi7WAYP/FwkDoRvN8STLm88C5H/4gNoTtiSi0Fyjgm0KE8TscWMtmNp9IxLcptvGguTnr6dapYT9EWRXy+dJP4nufT4G7H1Ye30xp7WHKoJLfBUHZ4ji2BRVTCBhNySgCWoAkEC/x4dU94BoylKEk+q9cSSZzsXFIqOd9Z8jBNpz1WLg4nSRbv1jueq8XiwktQSBT6KMj5mYFBhGgds+yBFmQmLEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B/m0nfvxHVbem+siSZZ9JyxXaSxHFQx0Md3EKtMkcrA=;
- b=Hq4VErDzRp0WQhZuhVIHES2tl/JkbZfjC+/lVNNxNT9tyrZWRyxx1VMGi+64BlEjWjZzwfeFJGkGOvpAX3HBw32C6x3Dn9YFtveYNxWQhI6koD8l7wrVdah4A6YVMhVOm/UnG35ijtyOr3y8JRyLoW0tjSXPJWNKBWGdLT3gqqA=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (10.141.175.15) by
- AM7PR08MB5365.eurprd08.prod.outlook.com (10.141.173.73) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2878.16; Wed, 8 Apr 2020 09:31:13 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::3944:477e:1562:cfcf]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::3944:477e:1562:cfcf%8]) with mapi id 15.20.2878.021; Wed, 8 Apr 2020
- 09:31:13 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 9/9] block/io: expand in_flight inc/dec section: bdrv_make_zero
-Date: Wed,  8 Apr 2020 12:30:51 +0300
-Message-ID: <20200408093051.9893-10-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200408093051.9893-1-vsementsov@virtuozzo.com>
-References: <20200408093051.9893-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: AM6PR01CA0041.eurprd01.prod.exchangelabs.com
- (2603:10a6:20b:e0::18) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.71) (envelope-from <joao.m.martins@oracle.com>)
+ id 1jM7E4-0002LD-1E
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:42:28 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0389dDPG031710;
+ Wed, 8 Apr 2020 09:42:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=bfMniuTGPqerbjYPCyePd9aAv3nT8Nsc/LsB8ZZCkd0=;
+ b=ijA06Rl2PXmjF4BMPHZaQNuxUHN0mkoiM1HbW1MZr8WwKgiqXgjenjWhKKcj4okx9fWC
+ 3V2U4S5lr6oyJdvzbdn21Zj0s+iddRTc5Zli+Gq/E3e4S+tIXZFj1mt+3G47LyhaiVi9
+ 1KVTwDfeg3x8GsSuxcyESTMheUUiwUR+B3d0i4Eb+Ck9Ja7DetBv96jLuLTThcaBKxKL
+ vMppRI6PSsrPI7L21lH8lsgGGZHdy4zBz3A+JFDhNoxyQ3aDLGWcRMYSqjgUCFQbTA8i
+ GoEGsft6huXGYa2BvIkKv8anG5Lc8kcw/xh5rFe8r9PHjWIzYsyOOOC9P4Q4mdgGgIPS iA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2120.oracle.com with ESMTP id 309ag38nr6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 08 Apr 2020 09:42:20 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0389aoqH154694;
+ Wed, 8 Apr 2020 09:42:20 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3030.oracle.com with ESMTP id 309ag1easn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 08 Apr 2020 09:42:19 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0389gJG5021944;
+ Wed, 8 Apr 2020 09:42:19 GMT
+Received: from [10.175.198.250] (/10.175.198.250)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 08 Apr 2020 02:42:18 -0700
+Subject: Re: [PATCH] exec: fetch the alignment of Linux devdax pmem character
+ device nodes
+To: "Liu, Jingqi" <jingqi.liu@intel.com>,
+ "Williams, Dan J" <dan.j.williams@intel.com>
+References: <20200401031314.11592-1-jingqi.liu@intel.com>
+ <c906a3ae-c9d2-5802-5988-3c1d0302109b@oracle.com>
+ <CAPcyv4igr9-DJx2ehoHj7sXk5g5GmgmivCqM3VpmJV7J4QM+kA@mail.gmail.com>
+ <3873cb30-608c-6a27-c19f-f6446898796f@oracle.com>
+ <9959e648-94f6-3be3-2271-3d2b855e7e48@intel.com>
+From: Joao Martins <joao.m.martins@oracle.com>
+Message-ID: <6c12c748-6ee6-7132-f54b-bf0f90ae84c2@oracle.com>
+Date: Wed, 8 Apr 2020 10:42:16 +0100
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.139) by
- AM6PR01CA0041.eurprd01.prod.exchangelabs.com (2603:10a6:20b:e0::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.15 via Frontend
- Transport; Wed, 8 Apr 2020 09:31:13 +0000
-X-Mailer: git-send-email 2.21.0
-X-Originating-IP: [185.215.60.139]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dce19073-ef83-4976-68c1-08d7db9f949c
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5365:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB53655E2A68B5A73BCC969CC3C1C00@AM7PR08MB5365.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-Forefront-PRVS: 0367A50BB1
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10019020)(4636009)(396003)(346002)(136003)(39840400004)(366004)(376002)(52116002)(6506007)(5660300002)(2906002)(6916009)(2616005)(956004)(478600001)(16526019)(186003)(26005)(86362001)(66946007)(66556008)(66476007)(1076003)(6512007)(6486002)(107886003)(4326008)(6666004)(36756003)(8676002)(316002)(8936002)(81156014)(81166007);
- DIR:OUT; SFP:1102; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PjxySw0d4xXECFAosK24NR9C/7goMP5594+HLR89TfLZTxmESpAYKLBvkLX73yDx9W+LZHXy6/bqsxGjXxoqS2gQYKp18pE9rtwmKz7tqQi0KN1Mucn/RhOlpJd/DXTymXpBtt8cn6yg9U08QpOIma0SJEj0rF+jkswlLIahH48/bqdJYqYOI9msH5jkjdgKMTbTre3eF8Uw5dljMCrsBRzJhfhkHfL4zstc6G/zjDEa5uByUtl6bT2jQ5/Ns3EP1cbVW6onEHxyAu4pLu/i4QVvqFV/uTGN3cM263dIVTlaA7ifV57Egt9ze3kB4twwlsROCo5LWPzpQ8NCatNk/oXW308ey8vnhwgKHgxGCxkTSx1SYcIawVBN6a7BTwb9CnQdyiKEFUKyiHE3AnOr9X+vBHAXS0CtkUBIl6fNZAJjWmdXJmVzf/QjKYrItuqg
-X-MS-Exchange-AntiSpam-MessageData: HLFidz/h6tsScSovR3cwMr2Ipu4WVlGdINVkDzq2Jhap9f0z+N46QSnqPeHjZW0xIPBeSc9f1Q0a345458+l8Phy567BtQmGNfdgJDtjZLBO5mMtKdn/BmXOuWq9EoYVI2eTEaWbvZKuII/5YmWCpQ==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dce19073-ef83-4976-68c1-08d7db9f949c
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2020 09:31:13.7289 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1K9HJvtqsrD01xtPWXP3mbpnqVQgWWjMh8gbg65aWzeOf8z+xvVkd0wddMItzZ8Tnh+ilZs1xcam1ld4uMfBetUjOgnkopLo9s1wpMmCuFE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5365
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a01:111:f400:fe1f::705
+In-Reply-To: <9959e648-94f6-3be3-2271-3d2b855e7e48@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9584
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ spamscore=0 malwarescore=0
+ phishscore=0 mlxscore=0 bulkscore=0 mlxlogscore=999 suspectscore=1
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004080079
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9584
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ adultscore=0
+ malwarescore=0 impostorscore=0 spamscore=0 mlxlogscore=999 clxscore=1015
+ priorityscore=1501 phishscore=0 mlxscore=0 lowpriorityscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004080079
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 156.151.31.85
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,117 +96,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's safer to expand in_flight request to start before enter to
-coroutine in synchronous wrappers and end after BDRV_POLL_WHILE loop.
-Note that qemu_coroutine_enter may only schedule the coroutine in some
-circumstances.
+On 4/8/20 3:25 AM, Liu, Jingqi wrote:
+> On 4/8/2020 2:28 AM, Joao Martins wrote:
+>> On 4/7/20 5:55 PM, Dan Williams wrote:
+>>> On Tue, Apr 7, 2020 at 4:01 AM Joao Martins <joao.m.martins@oracle.com> wrote:
+>>>> On 4/1/20 4:13 AM, Jingqi Liu wrote:
+>>>>> If the backend file is devdax pmem character device, the alignment
+>>>>> specified by the option 'align=NUM' in the '-object memory-backend-file'
+>>>>> needs to match the alignment requirement of the devdax pmem character device.
+>>>>>
+>>>>> This patch fetches the devdax pmem file 'align', so that we can compare
+>>>>> it with the NUM of 'align=NUM'.
+>>>>> The NUM needs to be larger than or equal to the devdax pmem file 'align'.
+>>>>>
+>>>>> It also fixes the problem that mmap() returns failure in qemu_ram_mmap()
+>>>>> when the NUM of 'align=NUM' is less than the devdax pmem file 'align'.
+>>>>>
+>>>>> Cc: Dan Williams <dan.j.williams@intel.com>
+>>>>> Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
+>>>>> ---
+>>>>>   exec.c | 46 +++++++++++++++++++++++++++++++++++++++++++++-
+>>>>>   1 file changed, 45 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/exec.c b/exec.c
+>>>>> index de9d949902..8221abffec 100644
+>>>>> --- a/exec.c
+>>>>> +++ b/exec.c
+>>>>> @@ -1736,6 +1736,42 @@ static int64_t get_file_size(int fd)
+>>>>>       return size;
+>>>>>   }
+>>>>>
+>>>>> +static int64_t get_file_align(int fd)
+>>>>> +{
+>>>>> +    int64_t align = -1;
+>>>>> +#if defined(__linux__)
+>>>>> +    struct stat st;
+>>>>> +
+>>>>> +    if (fstat(fd, &st) < 0) {
+>>>>> +        return -errno;
+>>>>> +    }
+>>>>> +
+>>>>> +    /* Special handling for devdax character devices */
+>>>>> +    if (S_ISCHR(st.st_mode)) {
+>>>>> +        g_autofree char *subsystem_path = NULL;
+>>>>> +        g_autofree char *subsystem = NULL;
+>>>>> +
+>>>>> +        subsystem_path = g_strdup_printf("/sys/dev/char/%d:%d/subsystem",
+>>>>> +                                         major(st.st_rdev), minor(st.st_rdev));
+>>>>> +        subsystem = g_file_read_link(subsystem_path, NULL);
+>>>>> +
+>>>>> +        if (subsystem && g_str_has_suffix(subsystem, "/dax")) {
+>>>>> +            g_autofree char *align_path = NULL;
+>>>>> +            g_autofree char *align_str = NULL;
+>>>>> +
+>>>>> +            align_path = g_strdup_printf("/sys/dev/char/%d:%d/device/align",
+>>>>> +                                    major(st.st_rdev), minor(st.st_rdev));
+>>>>> +
+>>>> Perhaps, you meant instead:
+>>>>
+>>>>          /sys/dev/char/%d:%d/align
+>>>>
+>>> Hmm, are you sure that's working?
+>> It is, except that I made the slight mistake of testing with a bunch of wip
+>> patches on top which one of them actually adds the 'align' to child dax device.
+>>
+>> Argh, my apologies - and thanks for noticing.
+>>
+>>> I expect the alignment to be found
+>>> in the region device:
+>>>
+>>> /sys/class/dax:
+>>> /sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus1/region1/dax1.1/dax1.0
+>>> $(readlink -f /sys/dev/char/253\:263)/../align
+>>> $(readlink -f /sys/dev/char/253\:263)/device/align
+>>>
+>>>
+>>> /sys/bus/dax:
+>>> /sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus1/region1/dax1.0/dax1.0
+>>> $(readlink -f /sys/dev/char/253\:265)/../align
+>>> $(readlink -f /sys/dev/char/253\:265)/device/align <-- No such file
+>>>
+>>> The use of the /sys/dev/char/%d:%d/device is only supported by the
+>>> deprecated /sys/class/dax.
+> 
+> Hi Dan,
+> 
+> Thanks for your comments.
+> 
+> Seems it is a mistake.
+> 
+> It should be: $(readlink -f /sys/dev/char/253\:263)/../../align
+> 
 
-bdrv_make_zero update includes refactoring: move the whole loop into
-coroutine, which has additional benefit of not create/enter new
-coroutine on each iteration.
+Hmm, perhaps you have an extra '../' in the path? This works for me:
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- block/io.c | 53 ++++++++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 50 insertions(+), 3 deletions(-)
+# ls $(readlink -f /sys/dev/char/252\:0/../align)
+/sys/devices/platform/e820_pmem/ndbus0/region0/dax0.0/dax0.0/../align
+# cat $(readlink -f /sys/dev/char/252\:0)/../align
+2097152
+# cat /sys/dev/char/252\:0/../align
+2097152
 
-diff --git a/block/io.c b/block/io.c
-index d2ac9ac7b5..220b5c04d7 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -2735,8 +2735,11 @@ bdrv_is_allocated_above(BlockDriverState *top, Block=
-DriverState *base,
-  * BDRV_REQ_FUA).
-  *
-  * Returns < 0 on error, 0 on success. For error codes see bdrv_write().
-+ *
-+ * To be called between exactly one pair of bdrv_inc/dec_in_flight()
-  */
--int bdrv_make_zero(BdrvChild *child, BdrvRequestFlags flags)
-+static int coroutine_fn
-+bdrv_do_make_zero(BdrvChild *child, BdrvRequestFlags flags)
- {
-     int ret;
-     int64_t target_size, bytes, offset =3D 0;
-@@ -2752,7 +2755,8 @@ int bdrv_make_zero(BdrvChild *child, BdrvRequestFlags=
- flags)
-         if (bytes <=3D 0) {
-             return 0;
-         }
--        ret =3D bdrv_block_status(bs, offset, bytes, &bytes, NULL, NULL);
-+        ret =3D bdrv_co_block_status(bs, true, false,
-+                                   offset, bytes, &bytes, NULL, NULL);
-         if (ret < 0) {
-             return ret;
-         }
-@@ -2760,7 +2764,7 @@ int bdrv_make_zero(BdrvChild *child, BdrvRequestFlags=
- flags)
-             offset +=3D bytes;
-             continue;
-         }
--        ret =3D bdrv_pwrite_zeroes(child, offset, bytes, flags);
-+        ret =3D bdrv_do_pwrite_zeroes(child, offset, bytes, flags);
-         if (ret < 0) {
-             return ret;
-         }
-@@ -2768,6 +2772,49 @@ int bdrv_make_zero(BdrvChild *child, BdrvRequestFlag=
-s flags)
-     }
- }
-=20
-+typedef struct BdrvDoMakeZeroData {
-+    BdrvChild *child;
-+    BdrvRequestFlags flags;
-+    int ret;
-+    bool done;
-+} BdrvDoMakeZeroData;
-+
-+static void coroutine_fn bdrv_make_zero_co_entry(void *opaque)
-+{
-+    BdrvDoMakeZeroData *data =3D opaque;
-+
-+    data->ret =3D bdrv_do_make_zero(data->child, data->flags);
-+    data->done =3D true;
-+    aio_wait_kick();
-+}
-+
-+int bdrv_make_zero(BdrvChild *child, BdrvRequestFlags flags)
-+{
-+    int ret;
-+
-+    bdrv_inc_in_flight(child->bs);
-+
-+    if (qemu_in_coroutine()) {
-+        /* Fast-path if already in coroutine context */
-+        ret =3D bdrv_do_make_zero(child, flags);
-+    } else {
-+        BdrvDoMakeZeroData data =3D {
-+            .child =3D child,
-+            .flags =3D flags,
-+            .done =3D false,
-+        };
-+        Coroutine *co =3D qemu_coroutine_create(bdrv_make_zero_co_entry, &=
-data);
-+
-+        bdrv_coroutine_enter(child->bs, co);
-+        BDRV_POLL_WHILE(child->bs, !data.done);
-+        ret =3D data.ret;
-+    }
-+
-+    bdrv_dec_in_flight(child->bs);
-+
-+    return ret;
-+}
-+
- typedef struct BdrvVmstateCo {
-     BlockDriverState    *bs;
-     QEMUIOVector        *qiov;
---=20
-2.21.0
+>> I don't have the deprecated dax class enabled as could you tell, so the second
+>> case is what I was testing. Except it wasn't a namespace/nvdimm but rather an
+>> hmem device-dax.
+>>
+>> '../align' though covers only one case? What about hmem which '../align' returns
+>> ENOENT; perhaps using '../dax_region/align' instead which is common to both?
+>> Albeit that wouldn't address the sub-division devices (that I mention above)
+> 
+> Seems that you mean to use $(readlink -f 
+> /sys/dev/char/253\:263)/../../dax_region/align.
+> 
+> Right ?
+> 
 
+An extra '../' ?
+
+# ls $(readlink -f /sys/dev/char/252\:0/../dax_region/align)
+/sys/devices/platform/e820_pmem/ndbus0/region0/dax0.0/dax0.0/../align
+# cat $(readlink -f /sys/dev/char/252\:0)/../dax_region/align
+2097152
+# cat /sys/dev/char/252\:0/../dax_region/align
+2097152
+
+For HMAT/hmem devdax, though, only 'dax_region/align' is available for now:
+
+# ls $(readlink -f /sys/dev/char/252:0)/../align
+ls: cannot access /sys/devices/platform/hmem.0/dax0.0/../align: No such file or
+directory
+# ls $(readlink -f /sys/dev/char/252:0)/../dax_region/align
+/sys/devices/platform/hmem.0/dax0.0/../dax_region/align
+# cat $(readlink -f /sys/dev/char/252:0)/../dax_region/align
+2097152
+
+The 'dax_region/align' was just an idea mainly because it's common to both
+device-dax devices -- not sure how others feel about it.
+
+	Joao
+
+> Thanks,
+> 
+> Jingqi
+> 
+>>> The current /sys/bus/dax device-model can
+>>> be a drop in replacement as long as software is not written to the
+>>> /sys/class sysfs layout, i.e. it uses ../ instead of device/ to walk
+>>> to the region properties.
+>>>
+>> /nods
 
