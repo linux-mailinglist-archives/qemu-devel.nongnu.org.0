@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 875341A1E16
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 11:34:32 +0200 (CEST)
-Received: from localhost ([::1]:33246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F1D41A1E1A
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 11:35:40 +0200 (CEST)
+Received: from localhost ([::1]:33252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jM76M-00015W-PC
-	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 05:34:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39463)
+	id 1jM77T-0002Ak-Ej
+	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 05:35:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39597)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jM73G-0007kF-EP
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:31:20 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jM73L-0007rX-SO
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:31:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jM73E-0005x4-Oh
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:31:18 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jM73J-00060d-Q8
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:31:23 -0400
 Received: from mail-ve1eur01on0705.outbound.protection.outlook.com
  ([2a01:111:f400:fe1f::705]:64128
  helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jM73B-0005tu-9j; Wed, 08 Apr 2020 05:31:13 -0400
+ id 1jM73B-0005tu-T1; Wed, 08 Apr 2020 05:31:14 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e4ChCJ4+tmnM6TaC+XtL/oVleFlzSPslvOwMk8Z/FmBposX3LxF7zXV161ndmTb0I2PszSbakcVsb3T6zah3vA7OS/5SU8h4kzjK/cI38fZId9rqAtT6EKFQaEdu2rLKe4c+K4EhN9+mM3wX3426TO1nTQXBf1HKSuXuY+RDVqLZypJCd3N8D6wLhvG7ts2fDCxz2uup9mQqac3oCtF2ZgSKH5DMhuvvF58HCqB+0x/LFkvrljvzPSddPtzF/OL3Fq/Ui98PoTvdxeanogY1oimFtPfz73k4j9S7UYQ2TcOtjdehvmdPSJWJkIAZfuqTaxLYGPjrbTjsRlBl+fFZ0Q==
+ b=l/lGPPLzoeWjJ5P8W8agZ0JiNumSMYiNqZpCFbJuFRqkFAB3BEHx5zqs3SOoG7plKvj9wTN8Cc0LoKjsY4kguU54i8sUn/wDVEhp7TUSud79vLdJKgiD10XC4PCqoju8jDbOjOdEMAns08lNwQdXAYIdkU0lDb0ABd21SGkDvgGomyvADCkgf3OGNMEMJriD+b06dxoLjQbMvOJ7RUk+BBmgbiwfMhdn7noC30h039hV03MTgadgAy2UoYCLNQQtgEtVTvPI8AOL0IJ2gZ9QnExch+FPtN95qFcW0SjjJBE59ebJNpIBdCeCQyADFYsRu8dFnksj0SdVI/TgpY1ZmA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i2vpKMkvqCGmyV0Ot0mi3MdQNqcNS7JwiUqCB9yJwJ0=;
- b=n15FjFTn43TpK1SU26xfi7v7CnkfUdRhIK0yLIvU5ncnuSAMxLeVQUxZaNOs1+OoIh3/WEHWlFIwfBOnnXHeNgYuB8lx/xgsJVfw8czFFfaoVEl87VdBQiUjjVOFcZenOILC3C2ERGlV9TGAwvBmncg/wXq8N4F5NodS/Gdfpv4NzaR+lShDnI0bNWDxgWlXN7ZUvJAzDuEI8Gm6zBbHCNu4hRBjzir2skiKEU6veJ3mTTlSrP0qlGzrjab0wHOuL+kQ0Z3LbSId/rFq2V5flPh+/dO4vPvGgV0guBjgO8Q//0jXjdUpSX327PJ+ByNjHDaaaIfiWD7xptczCJJPBg==
+ bh=lrAH8EEhLtVHUQRBFGNVfpBItKpUZosAMQDUUy1jX+c=;
+ b=MwRTfJEa7WqYyqqjQdywQgEZwhlcv4coqQtcdoF1rIoznfDKfcfg7khVevkZbGBJsL4ZXpssG5AAWRBG2CroTSjEn701yNAQOw2/DCIEqYWR1Y9QV3j9ZLTc7rw+u9DIjzPLP4rYhvMfN7lWvtNZK0WkqB+RkvUSnj8geZjZejsihbw0gM0PNdqqi8hb7rT8hrWWKE99R+vBEC39Qd3vH8sYMboHwKmPARsZsKdTJaNRtSLTzS4oEOkW+GspA3/ukt2/t7+4QlIGrhYVeJbu7rEm0rSMXrQD68ZlBQHc0cM8rygMZqeNDXflFOmKy5q5KuETM3LxsmBjNWD5rtfEFw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i2vpKMkvqCGmyV0Ot0mi3MdQNqcNS7JwiUqCB9yJwJ0=;
- b=Hv9n/doAzrZLDte+yl4VasVi4H46Pj+WJAITVCHfO0XOmaJ3ad+kkWgGvWehon9B/BSgyCKej+xu1Z1BsW4yXIk/xRBzgfulqW7HYVplWVYZ1WjaQLmjv/QMbUrj0b8wUv05TcYAwPalJrWqh6vozXcszyCfGXPlFv3Rmf9Anpo=
+ bh=lrAH8EEhLtVHUQRBFGNVfpBItKpUZosAMQDUUy1jX+c=;
+ b=SKL9395ac+OG0A/MeuxHtvlWFpMc8iduXleD3Bnu3w/aHXL7ONQB4ayoNC/fOTZ+W7n1nEDm3dKWgoyFigDVgNN+bgIN7B2Ofgw2zR0APyFWbd2+RZf/RqhWb6hr8FQsg0gkt9KTT9ol68y0ObyZnBRWdtM9qzf66D3dFv47rew=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=vsementsov@virtuozzo.com; 
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (10.141.175.15) by
  AM7PR08MB5365.eurprd08.prod.outlook.com (10.141.173.73) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2878.16; Wed, 8 Apr 2020 09:31:08 +0000
+ 15.20.2878.16; Wed, 8 Apr 2020 09:31:09 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::3944:477e:1562:cfcf]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::3944:477e:1562:cfcf%8]) with mapi id 15.20.2878.021; Wed, 8 Apr 2020
- 09:31:08 +0000
+ 09:31:09 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 2/9] block/io: refactor bdrv_co_ioctl: move aio stuff to
- corresponding block
-Date: Wed,  8 Apr 2020 12:30:44 +0300
-Message-ID: <20200408093051.9893-3-vsementsov@virtuozzo.com>
+Subject: [PATCH 3/9] block/io: move flush and pdiscard stuff down
+Date: Wed,  8 Apr 2020 12:30:45 +0300
+Message-ID: <20200408093051.9893-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200408093051.9893-1-vsementsov@virtuozzo.com>
 References: <20200408093051.9893-1-vsementsov@virtuozzo.com>
@@ -67,15 +66,15 @@ Received: from kvm.sw.ru (185.215.60.139) by
  AM6PR01CA0041.eurprd01.prod.exchangelabs.com (2603:10a6:20b:e0::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.15 via Frontend
- Transport; Wed, 8 Apr 2020 09:31:07 +0000
+ Transport; Wed, 8 Apr 2020 09:31:08 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.139]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a34666be-72f8-4f32-c73f-08d7db9f9176
+X-MS-Office365-Filtering-Correlation-Id: 3cce24c8-2224-4130-05a7-08d7db9f91e9
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5365:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB536569AC5BD1883BFCA8F67CC1C00@AM7PR08MB5365.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:901;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB53656E82E974D760D8BE120EC1C00@AM7PR08MB5365.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:248;
 X-Forefront-PRVS: 0367A50BB1
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
@@ -86,15 +85,15 @@ Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fadoDl+H3cEAKQhyqczt87zWfMdykea82fYhyP0pHqr8SE5OF5k3E6rWSk8SzQRGAm+oHJKu/i/Q5NnAksCytCfgg/1rxrPFV7JwbXOVtn0j1AmKSOdLxqGxNLXoEgBTNN/4H/ObDgGPLlPOZmx1c8J6oYUhDStmVFfg2gTsFwutO/8I+qJugdsph27TO9b2efC5c30mGmfnc6eWQ/tO3TUqs51aasuTQmTOvzBQHus0O2AfixvLpiBDJRN9OJa2agGwZyWNToGk5kTQFlnTxF7mgOLZFNqiMZ/KsqBldbr6bdZ0HkTMkUroOxyjaZXW60BvsakPlSckUfFkR/hCXVa+ijkyhx3cwJkBWJ09tL7D4GwGHKTbnAGCT9kfe//6755HgBA1DTNV0ng2l1GxVD22lw4c+rn0s242bx5i7vPXyDq18uL+QwX7jr4rf0Y6
-X-MS-Exchange-AntiSpam-MessageData: h1kkIpSOKnDLoEVDnQPw4whJwybr7erMk1I/6tV+rbkP8/PFlpbYGO0MX0rqe8YAVo+LSmPXZchHWjUCztmkORTAkQTshPCZSYpN8bH0iR4AQvLMOww90y7amfymcyQZC6yX/DU3R6jY/rwripCs8w==
+X-Microsoft-Antispam-Message-Info: WqgJfMEQ7HSMbe6Ua1jAosCl2mb3M9VMtWOsnsbpzwEC76wZy2edSZUWzZ1Vhc6BihPIux7fd4JNHodIrlHr+Cnh0ud3p/DL1UFDHHz+T92x3SH7p4xkzdNDmfhHz6blhT/hnXhksoWbvqdDbW/DxsUoHLKPx27iU1nz1cN4FOUnA40tgrj9HOx54eRMTB3/iLQ+NN4h1feDjgf326rA/bDF4qKwo7g8mly6YLyBX4yoaPVYVOHwsyW/oC7zr+b/R4DJlc1S0FkUIRN5d9m8yyocRe+Hp+19vScX1bjS+EmPaRx3z3qW4uGUWN2T2Et4uyDa1uNTJcOlYni7UsWuUlOlBq7UouAAyNhGIOyIH2fRCis00edLxEYR4g8o4pxXmFRiOT2bmzF7uikAaAjOtC5wg7rAPvnAlzWZeaGilhPuNyY+UjJgdVR5mU/+HTpM
+X-MS-Exchange-AntiSpam-MessageData: EHikI95LdSzDvcZtYxXkCh5VvgL+ptzf9dutaTf8C/su7uUbIweTQdvGuZ1iRHR89mKZwZyvt2doUnFzOrYGxAmTU+KCHDrYHAbORF/7vyJeYIwaKUDWKw9lOhePjI664OpFB5HQWi1FUb9sGEmVEg==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a34666be-72f8-4f32-c73f-08d7db9f9176
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2020 09:31:08.4581 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3cce24c8-2224-4130-05a7-08d7db9f91e9
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2020 09:31:09.1819 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VxTYnnky8e8e78DtcmbIvdcIuXLgqbnO8TqQYERraXWzPIMqnmvFjDZFodjUFdWaN0Z7ppYii9Fzaq1OUqk8M0Corp0wlK/Jfy2ypC3jhho=
+X-MS-Exchange-CrossTenant-UserPrincipalName: a457FYzwJ6wVHwZ5+yBdH0ULoJrUUmRPztS8oHTqEydFj2ha2AcdjJnov1eT362sCAD38VuAO6JISduBwSUZjS/fau4ztnCtJtQIaAbGf6w=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5365
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -115,64 +114,104 @@ Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+bdrv_co_flush and bdrv_co_pdiscard will become static in further patch,
+move their usage down.
+
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/io.c | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+ block/io.c | 56 +++++++++++++++++++++++++++---------------------------
+ 1 file changed, 28 insertions(+), 28 deletions(-)
 
 diff --git a/block/io.c b/block/io.c
-index a9f1a3e93e..29e53271b6 100644
+index 29e53271b6..379e86eeb5 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -3126,31 +3126,38 @@ int bdrv_pdiscard(BdrvChild *child, int64_t offset,=
- int64_t bytes)
+@@ -2828,20 +2828,6 @@ void bdrv_aio_cancel_async(BlockAIOCB *acb)
+ /**************************************************************/
+ /* Coroutine block device emulation */
 =20
- int bdrv_co_ioctl(BlockDriverState *bs, int req, void *buf)
+-typedef struct FlushCo {
+-    BlockDriverState *bs;
+-    int ret;
+-} FlushCo;
+-
+-
+-static void coroutine_fn bdrv_flush_co_entry(void *opaque)
+-{
+-    FlushCo *rwco =3D opaque;
+-
+-    rwco->ret =3D bdrv_co_flush(rwco->bs);
+-    aio_wait_kick();
+-}
+-
+ int coroutine_fn bdrv_co_flush(BlockDriverState *bs)
  {
-+    int ret;
-     BlockDriver *drv =3D bs->drv;
--    CoroutineIOCompletion co =3D {
--        .coroutine =3D qemu_coroutine_self(),
--    };
--    BlockAIOCB *acb;
-=20
-     bdrv_inc_in_flight(bs);
-+
-     if (!drv || (!drv->bdrv_aio_ioctl && !drv->bdrv_co_ioctl)) {
--        co.ret =3D -ENOTSUP;
-+        ret =3D -ENOTSUP;
-         goto out;
-     }
-=20
-     if (drv->bdrv_co_ioctl) {
--        co.ret =3D drv->bdrv_co_ioctl(bs, req, buf);
-+        ret =3D drv->bdrv_co_ioctl(bs, req, buf);
-     } else {
-+        CoroutineIOCompletion co =3D {
-+            .coroutine =3D qemu_coroutine_self(),
-+        };
-+        BlockAIOCB *acb;
-+
-         acb =3D drv->bdrv_aio_ioctl(bs, req, buf, bdrv_co_io_em_complete, =
-&co);
-         if (!acb) {
--            co.ret =3D -ENOTSUP;
-+            ret =3D -ENOTSUP;
-             goto out;
-         }
-+
-         qemu_coroutine_yield();
-+        ret =3D co.ret;
-     }
-+
- out:
-     bdrv_dec_in_flight(bs);
--    return co.ret;
-+
-+    return ret;
+     int current_gen;
+@@ -2954,6 +2940,19 @@ early_exit:
+     return ret;
  }
 =20
- void *qemu_blockalign(BlockDriverState *bs, size_t size)
++typedef struct FlushCo {
++    BlockDriverState *bs;
++    int ret;
++} FlushCo;
++
++static void coroutine_fn bdrv_flush_co_entry(void *opaque)
++{
++    FlushCo *rwco =3D opaque;
++
++    rwco->ret =3D bdrv_co_flush(rwco->bs);
++    aio_wait_kick();
++}
++
+ int bdrv_flush(BlockDriverState *bs)
+ {
+     Coroutine *co;
+@@ -2974,20 +2973,6 @@ int bdrv_flush(BlockDriverState *bs)
+     return flush_co.ret;
+ }
+=20
+-typedef struct DiscardCo {
+-    BdrvChild *child;
+-    int64_t offset;
+-    int64_t bytes;
+-    int ret;
+-} DiscardCo;
+-static void coroutine_fn bdrv_pdiscard_co_entry(void *opaque)
+-{
+-    DiscardCo *rwco =3D opaque;
+-
+-    rwco->ret =3D bdrv_co_pdiscard(rwco->child, rwco->offset, rwco->bytes)=
+;
+-    aio_wait_kick();
+-}
+-
+ int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset,
+                                   int64_t bytes)
+ {
+@@ -3102,6 +3087,21 @@ out:
+     return ret;
+ }
+=20
++typedef struct DiscardCo {
++    BdrvChild *child;
++    int64_t offset;
++    int64_t bytes;
++    int ret;
++} DiscardCo;
++
++static void coroutine_fn bdrv_pdiscard_co_entry(void *opaque)
++{
++    DiscardCo *rwco =3D opaque;
++
++    rwco->ret =3D bdrv_co_pdiscard(rwco->child, rwco->offset, rwco->bytes)=
+;
++    aio_wait_kick();
++}
++
+ int bdrv_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes)
+ {
+     Coroutine *co;
 --=20
 2.21.0
 
