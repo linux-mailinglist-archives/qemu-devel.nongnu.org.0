@@ -2,49 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB241A1DF3
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 11:14:30 +0200 (CEST)
-Received: from localhost ([::1]:32776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B1FF1A2438
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 16:42:51 +0200 (CEST)
+Received: from localhost ([::1]:36896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jM6mz-0001AE-Dp
-	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 05:14:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36334)
+	id 1jMBuk-0003Em-Ij
+	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 10:42:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35104)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fangying1@huawei.com>) id 1jM6lD-0007Ok-Tj
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:12:41 -0400
+ (envelope-from <chenhuacai@gmail.com>) id 1jM6gh-00031y-6P
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:08:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fangying1@huawei.com>) id 1jM6lC-0002tn-HZ
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:12:39 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:34466 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <fangying1@huawei.com>)
- id 1jM6lB-0002q9-WF
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:12:38 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 4DF4658F5B653A37508C;
- Wed,  8 Apr 2020 17:12:27 +0800 (CST)
-Received: from [10.133.205.53] (10.133.205.53) by smtp.huawei.com
- (10.3.19.206) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 8 Apr 2020
- 17:12:24 +0800
-Subject: Re: [RFC PATCH 0/4] async: fix hangs on weakly-ordered architectures
-To: Paolo Bonzini <pbonzini@redhat.com>, <qemu-devel@nongnu.org>
-References: <20200407140746.8041-1-pbonzini@redhat.com>
-From: Ying Fang <fangying1@huawei.com>
-Message-ID: <047d4327-8a79-ffc1-94fe-47355ed955c5@huawei.com>
-Date: Wed, 8 Apr 2020 17:12:24 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <20200407140746.8041-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.133.205.53]
-X-CFilter-Loop: Reflected
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.32
+ (envelope-from <chenhuacai@gmail.com>) id 1jM6gg-0000my-4t
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:07:59 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:46803)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <chenhuacai@gmail.com>)
+ id 1jM6gf-0000lk-Tj
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:07:58 -0400
+Received: by mail-pl1-x634.google.com with SMTP id s23so2277152plq.13
+ for <qemu-devel@nongnu.org>; Wed, 08 Apr 2020 02:07:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id;
+ bh=zWrnZumKf5bZt8iAgpjrXn5wo7mCnnfGiyN1FLjpUEg=;
+ b=LiKP+XERquNt3Zb1Yv2UGWWPmzzlUNJjtBZfN6tsUAB0BGPjLcpgFq4dA44fb4mBEF
+ BpExyYR04yUnH49aAltljzegKFHZZ2QvonlK+bpN9+3lLH/vo9XWyDuS6ida2Qx5+wCJ
+ /PkHbIZuaLbWFtwyoFJo/RPXAqit3JkaMnazo8PfWiUlxhK8ZyRTxjGLMDZEGb1vU0SC
+ Velhe+wF8kXS6ym8lnKwnqDY49+RkEJv5zDuvqwHoKPW/k7qZLgFmGC0Pg6QLwsXknJt
+ kR8Lc3PW4Srm6GhbeQVmzMWDbmPy6dt991qt2JNTLHiSSHMgQlJJP3j20eZDLiiXj99s
+ k51Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+ bh=zWrnZumKf5bZt8iAgpjrXn5wo7mCnnfGiyN1FLjpUEg=;
+ b=MQzViswrHkb0DBTbgAlZhUA8m0CxjFY1d65xmzUVY79g/0fhI7rbgZGstFcy9L1OC5
+ NO4JW43SWLkX6X/GqgxCnGhqw+mOWmIVfFUVHBVlf9QwfFa3fiSll0T/yHkXHqyJByNy
+ TJgoZZNA1cbMtoyIfKGuXRJkR+aTHZmR1Ms1SbtUA16XiCxeESnS1wBtCVOtJPat82CV
+ 1JJT5fDugRg2bi1140rE1zGmrOLXO7jMvkvWpDwPsqZMG8baHiUyl+gdt+02wr8JAMRm
+ n114OQWS4ZS93x2o33fx3tQwv8T5cL5a/kb9PH9jn4fpQqstGPNE/xL9KBc8N6bSvdm3
+ z5GA==
+X-Gm-Message-State: AGi0Pubog2JFnhRcjCjlcLmjaE2E5zd85LRSz2wWif/oFzs1xj6stLZ2
+ ACIndimsuo7jYAW/ImVzMKQ=
+X-Google-Smtp-Source: APiQypLodXnlYltUi29pkVzRTrVHblJz/EStDue+QgGLHxumv4gtoknDLNgDYO36bPg//ebOxCRAZA==
+X-Received: by 2002:a17:902:76ca:: with SMTP id
+ j10mr6193229plt.184.1586336876151; 
+ Wed, 08 Apr 2020 02:07:56 -0700 (PDT)
+Received: from software.domain.org ([104.207.149.93])
+ by smtp.gmail.com with ESMTPSA id o29sm16287584pfp.208.2020.04.08.02.07.51
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Wed, 08 Apr 2020 02:07:55 -0700 (PDT)
+From: Huacai Chen <chenhc@lemote.com>
+To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Subject: [PATCH 1/3] target/mips: Support variable page size
+Date: Wed,  8 Apr 2020 17:16:18 +0800
+Message-Id: <1586337380-25217-1-git-send-email-chenhc@lemote.com>
+X-Mailer: git-send-email 2.7.0
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::634
+X-Mailman-Approved-At: Wed, 08 Apr 2020 10:41:29 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,44 +74,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanha@redhat.com
+Cc: Huacai Chen <chenhuacai@gmail.com>, Huacai Chen <chenhc@lemote.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Traditionally, MIPS use 4KB page size, but Loongson prefer 16KB page
+size in system emulator. So, let's define TARGET_PAGE_BITS_VARY and
+TARGET_PAGE_BITS_MIN to support variable page size.
 
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Signed-off-by: Huacai Chen <chenhc@lemote.com>
+---
+ target/mips/cpu-param.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-On 2020/4/7 22:07, Paolo Bonzini wrote:
-> ARM machines and other weakly-ordered architectures have been suffering
-> for a long time from hangs in qemu-img and qemu-io.  For QEMU binaries
-> these are mitigated by the timers that sooner or later fire in the main
-> loop, but these will not happen for the tools and probably not with I/O
-> threads either.
-yes, we occasionally see qemu main thread hangs and VM stuck in in-shutdown
-state on aarch64 platform. So this could happen with I/O threads.
-> 
-> The fix is in patch 5.  Patch 1-3 are docs updates that explain the bug,
-> and patch 4 is a bugfix exposed by the new patch.
-> 
-> Paolo
-> 
-> Paolo Bonzini (5):
->    atomics: convert to reStructuredText
->    atomics: update documentation
->    rcu: do not mention atomic_mb_read/set in documentation
->    aio-wait: delegate polling of main AioContext if BQL not held
->    async: use explicit memory barriers
-> 
->   docs/devel/atomics.rst   | 501 +++++++++++++++++++++++++++++++++++++++
->   docs/devel/atomics.txt   | 403 -------------------------------
->   docs/devel/index.rst     |   1 +
->   docs/devel/rcu.txt       |   4 +-
->   include/block/aio-wait.h |  22 ++
->   include/block/aio.h      |  29 +--
->   util/aio-posix.c         |  16 +-
->   util/aio-win32.c         |  17 +-
->   util/async.c             |  16 +-
->   9 files changed, 576 insertions(+), 433 deletions(-)
->   create mode 100644 docs/devel/atomics.rst
->   delete mode 100644 docs/devel/atomics.txt
-> 
+diff --git a/target/mips/cpu-param.h b/target/mips/cpu-param.h
+index 308660d..9c4a6ea 100644
+--- a/target/mips/cpu-param.h
++++ b/target/mips/cpu-param.h
+@@ -23,7 +23,12 @@
+ #  define TARGET_VIRT_ADDR_SPACE_BITS 32
+ #endif
+ #endif
++#ifdef CONFIG_USER_ONLY
+ #define TARGET_PAGE_BITS 12
++#else
++#define TARGET_PAGE_BITS_VARY
++#define TARGET_PAGE_BITS_MIN 12
++#endif
+ #define NB_MMU_MODES 4
+ 
+ #endif
+-- 
+2.7.0
+
 
