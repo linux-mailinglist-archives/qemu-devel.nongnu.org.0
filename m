@@ -2,69 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEDDD1A19F2
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 04:27:07 +0200 (CEST)
-Received: from localhost ([::1]:55284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B832D1A1A35
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 05:11:11 +0200 (CEST)
+Received: from localhost ([::1]:55496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jM0Qk-0004M7-WE
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 22:27:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39601)
+	id 1jM17O-0002Jb-90
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 23:11:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37751)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fengli@smartx.com>) id 1jM0Pd-0003Pj-6m
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 22:25:59 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jM168-0001IV-JT
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 23:09:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fengli@smartx.com>) id 1jM0Pa-0002jE-Ug
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 22:25:56 -0400
-Received: from mail-ua1-x942.google.com ([2607:f8b0:4864:20::942]:43708)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <fengli@smartx.com>) id 1jM0Pa-0002gg-KZ
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 22:25:54 -0400
-Received: by mail-ua1-x942.google.com with SMTP id g24so2136092uan.10
- for <qemu-devel@nongnu.org>; Tue, 07 Apr 2020 19:25:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=smartx-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=QUsmYknwvXS5jHeVb9UmcxW3NPCdLzru5P2I7Y4+m/g=;
- b=w5TZ9R056RxEj/G40B2VmuyYxOkGhZosFtHnZ8FyFktgqGVO/8RSxCw4Pug+HJo77X
- jXYQcnKZqtEEAwNGIffGQ0QWf1PuK+dWtszCNQW4o93oFN1YA6i4JnAbPvjuFMOj55Mg
- stn5fnZ3LyAiVLrwDD0F7MxG7/NrE1X9fL19fYDUL+eFWAbWzFVSWsWs4BzGj3or5U5N
- hTL9sPo6xA5uvVZoKyaf6hD9h3xwo052v1mOS3agllGKF10Fk0AG3UVdVIlccz+Z2LGG
- +wvWbD/DCGJAEsjQWXPNwuezPQlt7AnohzJ+lfPj+1o9MhZOXnSjwYbAiJrKEPR3mXoE
- QoXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=QUsmYknwvXS5jHeVb9UmcxW3NPCdLzru5P2I7Y4+m/g=;
- b=YNz4ibbCr7Lf/GT6bsA6Tn7bWCeXjIz3ikUCGBx+4FzowE3fowGsgkXcC9dUyyxGWg
- W02FjVZjBwc9bEvpQPjvqjNcDkLzkQnDYCvDKo2a+VNL/h4NE0cu5L3H9IoBlF3L5Ut5
- NdjC4eJWnzoRlOLGLiixqbUqSDOpsEDqIB17IlZdST+aXv6ETuzH0VJGC2yDSh+2m266
- gRZeyr1IiQ/HPXODwo/aub2JCVu2mOvN8hSEOAJ0ex6nA/bCNFQGuMabYIXW3TkFx2PD
- fHQcCi6RV41dr8vYROGcfCqtzRlX5BC0ZI9AuJIl2k7V3DPqcVQjZedo8PzYyGQCIZ8I
- IX1w==
-X-Gm-Message-State: AGi0PuaS7KQb+qzq6W9xD2/JLbdBV2jaGtWybUJllSgMnPMBHVgMDhqX
- pZHFAK5smO8igSkLZ3lGUavf9VI4ElDzF6rxTTLf/DGZinF525755VEbs2XAYdCd4oUiCVb8Ad2
- SGGvQC35IK/47+2ratQaGe1mj
-X-Google-Smtp-Source: APiQypIxlYLBkuhSqIdesEEbo+heGgN5IuHRJ6I6rUIA7VoYzpoD2u4eNTVKPJLIgIqQ3NYd/ceQOl+ix7Ds6q/fmXw=
-X-Received: by 2002:ab0:1d10:: with SMTP id j16mr3893669uak.91.1586312753231; 
- Tue, 07 Apr 2020 19:25:53 -0700 (PDT)
+ (envelope-from <dgibson@ozlabs.org>) id 1jM166-0008HD-Gk
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 23:09:52 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:53147 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1jM165-0008E9-1Q; Tue, 07 Apr 2020 23:09:50 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48xq5434Ndz9sSX; Wed,  8 Apr 2020 13:09:44 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1586315384;
+ bh=yamYUH7vP7/DhXQarWI7qlp3c/jHe6P9sepb79+c78U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WUeU5tN8lqNoNrjel74nrS9rjd5jT/1D1R4tey7+vLiLdY9DdTqN2W54KXSlbsHDJ
+ ZMgtCxwv34hkKFkHRO+G72EIah7EgVjurNyjUxfV8Gg7Qw709BedVuXZb6gPgNf07H
+ 5bjWGll+tSotUx+7W/nXTehglXoFuqoXxfFOj08Q=
+Date: Wed, 8 Apr 2020 12:57:37 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v4 1/4] target/ppc: Introduce ppc_radix64_xlate() for
+ Radix tree translation
+Message-ID: <20200408025737.GA304335@umbus.fritz.box>
+References: <20200403140056.59465-1-clg@kaod.org>
+ <20200403140056.59465-2-clg@kaod.org>
 MIME-Version: 1.0
-From: Li Feng <fengli@smartx.com>
-Date: Wed, 8 Apr 2020 10:25:42 +0800
-Message-ID: <CAHckoCzojVSHLAwBP2QhFx3Gw6j9DVPRwNSML9D4GQMzKr9Y3g@mail.gmail.com>
-Subject: hotplug issue of vhost-user-blk
-To: "Michael S. Tsirkin" <mst@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, 
- "open list:Block layer core" <qemu-block@nongnu.org>, 
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- raphael.norwitz@nutanix.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::942
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5vNYLRcllDrimb99"
+Content-Disposition: inline
+In-Reply-To: <20200403140056.59465-2-clg@kaod.org>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,69 +56,344 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Zhang <kyle@smartx.com>
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
+ Suraj Jitindar Singh <sjitindarsingh@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
 
-Hotplug of vhost-user-blk doesn't not work in qemu master branch and
-all previous version.
+--5vNYLRcllDrimb99
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The action I insert a vhost-user-blk disk is:
-(qemu) chardev-add socket,id=3Dspdk_vhost_blk2,path=3D/vhost-blk.0,reconnec=
-t=3D1
-(qemu) device_add
-vhost-user-blk-pci,chardev=3Dspdk_vhost_blk2,id=3Dspdk_vhost_blk2,num-queue=
-s=3D4
+On Fri, Apr 03, 2020 at 04:00:53PM +0200, C=E9dric Le Goater wrote:
+> This is moving code under a new ppc_radix64_xlate() routine shared by
+> the MMU Radix page fault handler and the 'get_phys_page_debug' PPC
+> callback. The difference being that 'get_phys_page_debug' does not
+> generate exceptions.
+>=20
+> The specific part of process-scoped Radix translation is moved under
+> ppc_radix64_process_scoped_xlate() in preparation of the future support
+> for partition-scoped Radix translation. Routines raising the exceptions
+> now take a 'cause_excp' bool to cover the 'get_phys_page_debug' case.
+>=20
+> It should be functionally equivalent.
+>=20
+> Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
-Until here, it's well.
+Applied to ppc-for-5.1.
 
-Then I unplug it from qemu:
-(qemu) device_del spdk_vhost_blk2
-(qemu) chardev-remove spdk_vhost_blk2
-Error: Chardev 'spdk_vhost_blk2' is busy
-
-The related code is here:
-qmp_chardev_remove
-    -> qemu_chr_is_busy
-    -> object_unparent(OBJECT(chr));
-
- 330 static bool qemu_chr_is_busy(Chardev *s)
- 331 {
- 332     if (CHARDEV_IS_MUX(s)) {
- 333         MuxChardev *d =3D MUX_CHARDEV(s);
- 334         return d->mux_cnt >=3D 0;
- 335     } else {
- 336         return s->be !=3D NULL;
- 337     }
- 338 }
-
-My question is:
-1. s->be is set to NULL when qemu_chr_fe_deinit is called.
-However, the qmp_chardev_remove is blocked at qemu_chr_is_busy check,
-then the object_unparent will not be called.
-2. Is there a path that device_del will trigger the s->be that been set to =
-NULL?
-
-How should I fix this issue?
-I have tested that comment the qemu_chr_is_busy works well.
-
-Thanks in advance.
-
-Feng Li
+> ---
+>  target/ppc/mmu-radix64.c | 219 ++++++++++++++++++++++-----------------
+>  1 file changed, 123 insertions(+), 96 deletions(-)
+>=20
+> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+> index d2422d1c54c9..4b0d0ff50a3c 100644
+> --- a/target/ppc/mmu-radix64.c
+> +++ b/target/ppc/mmu-radix64.c
+> @@ -219,17 +219,127 @@ static bool validate_pate(PowerPCCPU *cpu, uint64_=
+t lpid, ppc_v3_pate_t *pate)
+>      return true;
+>  }
+> =20
+> +static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu, int rwx,
+> +                                            vaddr eaddr, uint64_t pid,
+> +                                            ppc_v3_pate_t pate, hwaddr *=
+g_raddr,
+> +                                            int *g_prot, int *g_page_siz=
+e,
+> +                                            bool cause_excp)
+> +{
+> +    CPUState *cs =3D CPU(cpu);
+> +    uint64_t offset, size, prtbe_addr, prtbe0, pte;
+> +    int fault_cause =3D 0;
+> +    hwaddr pte_addr;
+> +
+> +    /* Index Process Table by PID to Find Corresponding Process Table En=
+try */
+> +    offset =3D pid * sizeof(struct prtb_entry);
+> +    size =3D 1ULL << ((pate.dw1 & PATE1_R_PRTS) + 12);
+> +    if (offset >=3D size) {
+> +        /* offset exceeds size of the process table */
+> +        if (cause_excp) {
+> +            ppc_radix64_raise_si(cpu, rwx, eaddr, DSISR_NOPTE);
+> +        }
+> +        return 1;
+> +    }
+> +    prtbe_addr =3D (pate.dw1 & PATE1_R_PRTB) + offset;
+> +    prtbe0 =3D ldq_phys(cs->as, prtbe_addr);
+> +
+> +    /* Walk Radix Tree from Process Table Entry to Convert EA to RA */
+> +    *g_page_size =3D PRTBE_R_GET_RTS(prtbe0);
+> +    pte =3D ppc_radix64_walk_tree(cpu, eaddr & R_EADDR_MASK,
+> +                                prtbe0 & PRTBE_R_RPDB, prtbe0 & PRTBE_R_=
+RPDS,
+> +                                g_raddr, g_page_size, &fault_cause, &pte=
+_addr);
+> +
+> +    if (!(pte & R_PTE_VALID) ||
+> +        ppc_radix64_check_prot(cpu, rwx, pte, &fault_cause, g_prot)) {
+> +        /* No valid pte or access denied due to protection */
+> +        if (cause_excp) {
+> +            ppc_radix64_raise_si(cpu, rwx, eaddr, fault_cause);
+> +        }
+> +        return 1;
+> +    }
+> +
+> +    ppc_radix64_set_rc(cpu, rwx, pte, pte_addr, g_prot);
+> +
+> +    return 0;
+> +}
+> +
+> +static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, int rwx,
+> +                             bool relocation,
+> +                             hwaddr *raddr, int *psizep, int *protp,
+> +                             bool cause_excp)
+> +{
+> +    uint64_t lpid =3D 0, pid =3D 0;
+> +    ppc_v3_pate_t pate;
+> +    int psize, prot;
+> +    hwaddr g_raddr;
+> +
+> +    /* Virtual Mode Access - get the fully qualified address */
+> +    if (!ppc_radix64_get_fully_qualified_addr(&cpu->env, eaddr, &lpid, &=
+pid)) {
+> +        if (cause_excp) {
+> +            ppc_radix64_raise_segi(cpu, rwx, eaddr);
+> +        }
+> +        return 1;
+> +    }
+> +
+> +    /* Get Process Table */
+> +    if (cpu->vhyp) {
+> +        PPCVirtualHypervisorClass *vhc;
+> +        vhc =3D PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
+> +        vhc->get_pate(cpu->vhyp, &pate);
+> +    } else {
+> +        if (!ppc64_v3_get_pate(cpu, lpid, &pate)) {
+> +            if (cause_excp) {
+> +                ppc_radix64_raise_si(cpu, rwx, eaddr, DSISR_NOPTE);
+> +            }
+> +            return 1;
+> +        }
+> +        if (!validate_pate(cpu, lpid, &pate)) {
+> +            if (cause_excp) {
+> +                ppc_radix64_raise_si(cpu, rwx, eaddr, DSISR_R_BADCONFIG);
+> +            }
+> +            return 1;
+> +        }
+> +        /* We don't support guest mode yet */
+> +        if (lpid !=3D 0) {
+> +            error_report("PowerNV guest support Unimplemented");
+> +            exit(1);
+> +        }
+> +    }
+> +
+> +    *psizep =3D INT_MAX;
+> +    *protp =3D PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+> +
+> +    /*
+> +     * Perform process-scoped translation if relocation enabled.
+> +     *
+> +     * - Translates an effective address to a host real address in
+> +     *   quadrants 0 and 3 when HV=3D1.
+> +     */
+> +    if (relocation) {
+> +        int ret =3D ppc_radix64_process_scoped_xlate(cpu, rwx, eaddr, pi=
+d,
+> +                                                   pate, &g_raddr, &prot,
+> +                                                   &psize, cause_excp);
+> +        if (ret) {
+> +            return ret;
+> +        }
+> +        *psizep =3D MIN(*psizep, psize);
+> +        *protp &=3D prot;
+> +    } else {
+> +        g_raddr =3D eaddr & R_EADDR_MASK;
+> +    }
+> +
+> +    *raddr =3D g_raddr;
+> +    return 0;
+> +}
+> +
+>  int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
+>                                   int mmu_idx)
+>  {
+>      CPUState *cs =3D CPU(cpu);
+>      CPUPPCState *env =3D &cpu->env;
+> -    PPCVirtualHypervisorClass *vhc;
+> -    hwaddr raddr, pte_addr;
+> -    uint64_t lpid =3D 0, pid =3D 0, offset, size, prtbe0, pte;
+> -    int page_size, prot, fault_cause =3D 0;
+> -    ppc_v3_pate_t pate;
+> +    int page_size, prot;
+>      bool relocation;
+> +    hwaddr raddr;
+> =20
+>      assert(!(msr_hv && cpu->vhyp));
+>      assert((rwx =3D=3D 0) || (rwx =3D=3D 1) || (rwx =3D=3D 2));
+> @@ -262,55 +372,12 @@ int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, v=
+addr eaddr, int rwx,
+>                        TARGET_FMT_lx "\n", env->spr[SPR_LPCR]);
+>      }
+> =20
+> -    /* Virtual Mode Access - get the fully qualified address */
+> -    if (!ppc_radix64_get_fully_qualified_addr(env, eaddr, &lpid, &pid)) {
+> -        ppc_radix64_raise_segi(cpu, rwx, eaddr);
+> +    /* Translate eaddr to raddr (where raddr is addr qemu needs for acce=
+ss) */
+> +    if (ppc_radix64_xlate(cpu, eaddr, rwx, relocation, &raddr,
+> +                          &page_size, &prot, true)) {
+>          return 1;
+>      }
+> =20
+> -    /* Get Process Table */
+> -    if (cpu->vhyp) {
+> -        vhc =3D PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
+> -        vhc->get_pate(cpu->vhyp, &pate);
+> -    } else {
+> -        if (!ppc64_v3_get_pate(cpu, lpid, &pate)) {
+> -            ppc_radix64_raise_si(cpu, rwx, eaddr, DSISR_NOPTE);
+> -            return 1;
+> -        }
+> -        if (!validate_pate(cpu, lpid, &pate)) {
+> -            ppc_radix64_raise_si(cpu, rwx, eaddr, DSISR_R_BADCONFIG);
+> -        }
+> -        /* We don't support guest mode yet */
+> -        if (lpid !=3D 0) {
+> -            error_report("PowerNV guest support Unimplemented");
+> -            exit(1);
+> -       }
+> -    }
+> -
+> -    /* Index Process Table by PID to Find Corresponding Process Table En=
+try */
+> -    offset =3D pid * sizeof(struct prtb_entry);
+> -    size =3D 1ULL << ((pate.dw1 & PATE1_R_PRTS) + 12);
+> -    if (offset >=3D size) {
+> -        /* offset exceeds size of the process table */
+> -        ppc_radix64_raise_si(cpu, rwx, eaddr, DSISR_NOPTE);
+> -        return 1;
+> -    }
+> -    prtbe0 =3D ldq_phys(cs->as, (pate.dw1 & PATE1_R_PRTB) + offset);
+> -
+> -    /* Walk Radix Tree from Process Table Entry to Convert EA to RA */
+> -    page_size =3D PRTBE_R_GET_RTS(prtbe0);
+> -    pte =3D ppc_radix64_walk_tree(cpu, eaddr & R_EADDR_MASK,
+> -                                prtbe0 & PRTBE_R_RPDB, prtbe0 & PRTBE_R_=
+RPDS,
+> -                                &raddr, &page_size, &fault_cause, &pte_a=
+ddr);
+> -    if (!pte || ppc_radix64_check_prot(cpu, rwx, pte, &fault_cause, &pro=
+t)) {
+> -        /* Couldn't get pte or access denied due to protection */
+> -        ppc_radix64_raise_si(cpu, rwx, eaddr, fault_cause);
+> -        return 1;
+> -    }
+> -
+> -    /* Update Reference and Change Bits */
+> -    ppc_radix64_set_rc(cpu, rwx, pte, pte_addr, &prot);
+> -
+>      tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_MASK,
+>                   prot, mmu_idx, 1UL << page_size);
+>      return 0;
+> @@ -318,58 +385,18 @@ int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, v=
+addr eaddr, int rwx,
+> =20
+>  hwaddr ppc_radix64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong ead=
+dr)
+>  {
+> -    CPUState *cs =3D CPU(cpu);
+>      CPUPPCState *env =3D &cpu->env;
+> -    PPCVirtualHypervisorClass *vhc;
+> -    hwaddr raddr, pte_addr;
+> -    uint64_t lpid =3D 0, pid =3D 0, offset, size, prtbe0, pte;
+> -    int page_size, fault_cause =3D 0;
+> -    ppc_v3_pate_t pate;
+> +    int psize, prot;
+> +    hwaddr raddr;
+> =20
+>      /* Handle Real Mode */
+> -    if (msr_dr =3D=3D 0) {
+> +    if ((msr_dr =3D=3D 0) && (msr_hv || cpu->vhyp)) {
+>          /* In real mode top 4 effective addr bits (mostly) ignored */
+>          return eaddr & 0x0FFFFFFFFFFFFFFFULL;
+>      }
+> =20
+> -    /* Virtual Mode Access - get the fully qualified address */
+> -    if (!ppc_radix64_get_fully_qualified_addr(env, eaddr, &lpid, &pid)) {
+> -        return -1;
+> -    }
+> -
+> -    /* Get Process Table */
+> -    if (cpu->vhyp) {
+> -        vhc =3D PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
+> -        vhc->get_pate(cpu->vhyp, &pate);
+> -    } else {
+> -        if (!ppc64_v3_get_pate(cpu, lpid, &pate)) {
+> -            return -1;
+> -        }
+> -        if (!validate_pate(cpu, lpid, &pate)) {
+> -            return -1;
+> -        }
+> -        /* We don't support guest mode yet */
+> -        if (lpid !=3D 0) {
+> -            error_report("PowerNV guest support Unimplemented");
+> -            exit(1);
+> -       }
+> -    }
+> -
+> -    /* Index Process Table by PID to Find Corresponding Process Table En=
+try */
+> -    offset =3D pid * sizeof(struct prtb_entry);
+> -    size =3D 1ULL << ((pate.dw1 & PATE1_R_PRTS) + 12);
+> -    if (offset >=3D size) {
+> -        /* offset exceeds size of the process table */
+> -        return -1;
+> -    }
+> -    prtbe0 =3D ldq_phys(cs->as, (pate.dw1 & PATE1_R_PRTB) + offset);
+> -
+> -    /* Walk Radix Tree from Process Table Entry to Convert EA to RA */
+> -    page_size =3D PRTBE_R_GET_RTS(prtbe0);
+> -    pte =3D ppc_radix64_walk_tree(cpu, eaddr & R_EADDR_MASK,
+> -                                prtbe0 & PRTBE_R_RPDB, prtbe0 & PRTBE_R_=
+RPDS,
+> -                                &raddr, &page_size, &fault_cause, &pte_a=
+ddr);
+> -    if (!pte) {
+> +    if (ppc_radix64_xlate(cpu, eaddr, 0, msr_dr, &raddr, &psize,
+> +                          &prot, false)) {
+>          return -1;
+>      }
+> =20
 
 --=20
-The SmartX email address is only for business purpose. Any sent message=20
-that is not related to the business is not authorized or permitted by=20
-SmartX.
-=E6=9C=AC=E9=82=AE=E7=AE=B1=E4=B8=BA=E5=8C=97=E4=BA=AC=E5=BF=97=E5=87=8C=E6=
-=B5=B7=E7=BA=B3=E7=A7=91=E6=8A=80=E6=9C=89=E9=99=90=E5=85=AC=E5=8F=B8=EF=BC=
-=88SmartX=EF=BC=89=E5=B7=A5=E4=BD=9C=E9=82=AE=E7=AE=B1. =E5=A6=82=E6=9C=AC=
-=E9=82=AE=E7=AE=B1=E5=8F=91=E5=87=BA=E7=9A=84=E9=82=AE=E4=BB=B6=E4=B8=8E=E5=
-=B7=A5=E4=BD=9C=E6=97=A0=E5=85=B3,=E8=AF=A5=E9=82=AE=E4=BB=B6=E6=9C=AA=E5=
-=BE=97=E5=88=B0=E6=9C=AC=E5=85=AC=E5=8F=B8=E4=BB=BB=E4=BD=95=E7=9A=84=E6=98=
-=8E=E7=A4=BA=E6=88=96=E9=BB=98=E7=A4=BA=E7=9A=84=E6=8E=88=E6=9D=83.
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--5vNYLRcllDrimb99
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6NPZ8ACgkQbDjKyiDZ
+s5JR5BAA53ZgrxiyuMr/ZUYiETGdZHXLsIYaPJAXoNj+qP0tGaEEL4XROzPnbFiy
+w+jfaoWpsUGHyYTd71zxvYOlTgc8r0lojYJRp4EfRxCXowOcBc36bt1BMuoFwW7u
+GASpS2vBGZBZPKQuv+w+swdnSbOQ14jvO6rht/HlFVnOmDrEv4OiDpr4CfbkDbEf
+xcr3cw7wZwiweVxb96VLJCAPxYeDdjD0cXmdsP3RShIf3wbjvsd0F/e2oePOgN+1
+P4FQzNVGgrG88GD3h6QGyeAh3IW1zhaQGvNuJNSQA8tmZaGCapgBBlBClX57kml5
++1DGPd38W80/kUORGdE0x7+8F+pSGWXgb3ZyRhdg0SfSJ6UrRbQ11/MqY83nWSxf
+HQ+8/zqgK8lxJKIKKLuNUfu0+svDLRiHIj17bYW9ouunrVec5Piz8V8hOXtThJMI
+u+GVpX1qE7QEXV8Pjw7E25lfgUCWvi7vWn3QXrdTA8UF7xo3ZydhGZgKmUIerH5l
+8ftgFT+1xcRnY9AEETKbu2XdpXFT4+HgqRbUg+UFl05KH23yDIvNo+pN/jln4pfv
+ahZmE6xmvwGJnkruOsTty6vzrITv5euUot9J5IuOcS2exbXEiMboM6J8CK9L7Gp7
+g5cBZXVPskDSEpttssOiJonC/FAeT92uMXO/D9pOBb6T98tmBuI=
+=rHyj
+-----END PGP SIGNATURE-----
+
+--5vNYLRcllDrimb99--
 
