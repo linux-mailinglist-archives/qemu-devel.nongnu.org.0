@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3755F1A1DE8
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 11:10:13 +0200 (CEST)
-Received: from localhost ([::1]:60496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57CD61A1DF0
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 11:13:28 +0200 (CEST)
+Received: from localhost ([::1]:60888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jM6iq-0003pu-Ag
-	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 05:10:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34048)
+	id 1jM6lz-0007zW-60
+	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 05:13:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35415)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jM6ak-0007aH-9O
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:01:51 -0400
+ (envelope-from <berrange@redhat.com>) id 1jM6i2-0003qS-Rj
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:09:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jM6aZ-0006fx-4T
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:01:49 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41419
+ (envelope-from <berrange@redhat.com>) id 1jM6hy-0001GT-1X
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:09:19 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33451
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jM6aZ-0006ef-1G
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:01:39 -0400
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jM6hx-0001GC-U1
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 05:09:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586336498;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1586336956;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wFArfiRnUzWisktSAFgkY4kNHsrWzBNlvMfmbIoPbW0=;
- b=cYsaWIq+YGvG0c7sWqa8h4gljMrjXzUkGlzT/13jGaYCE1Bqq8ItZfpn6ml78m5y/GTnjT
- OBkYmYuoOlYDGxsmu0xj5UJF3HJpXV+K61pSt/HVybhqIB0X04WcEy9Yi3X0//pcKpudIf
- 6GC3Arcj+RfEDheLU1dz5PAU2kZRxdA=
+ bh=D9Lr9msyjubWAYM8VPHvJFpMuaTUCO39VsOExCkN4NY=;
+ b=Z5+rhCiO00iUNkGq7BJlOmC6ECRmNh1yc/vyhJU/kzkIb1Pf1FBiGvTa1ZPOl4iXwRe7Vu
+ ZepnHxkrgEI2sYPOjfabvRv2Ur8rHrKrD35Hx0dOUD3IR2nGbd0domQkCGi1XoRIp4jDed
+ nokLFSBSQJDoKAftecM8G4s1N049cDk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-YFiy0FuoMe2gj-1UtYkNCg-1; Wed, 08 Apr 2020 05:01:33 -0400
-X-MC-Unique: YFiy0FuoMe2gj-1UtYkNCg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-416-TNjcdcyvOCKN4sp10FnpTA-1; Wed, 08 Apr 2020 05:08:59 -0400
+X-MC-Unique: TNjcdcyvOCKN4sp10FnpTA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89813107ACC4;
- Wed,  8 Apr 2020 09:01:31 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-113-208.ams2.redhat.com [10.36.113.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A8B15D9CA;
- Wed,  8 Apr 2020 09:01:25 +0000 (UTC)
-Date: Wed, 8 Apr 2020 11:01:24 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH RESEND v4] nvme: introduce PMR support from NVMe 1.4 spec
-Message-ID: <20200408090124.GA7914@linux.fritz.box>
-References: <20200330164656.9348-1-andrzej.jakowski@linux.intel.com>
- <20200330165518.GA8234@redsun51.ssa.fujisawa.hgst.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C01008017F3;
+ Wed,  8 Apr 2020 09:08:57 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ABA091001F43;
+ Wed,  8 Apr 2020 09:08:55 +0000 (UTC)
+Date: Wed, 8 Apr 2020 10:08:52 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH] Makefile: libfdt: build only the strict necessary
+Message-ID: <20200408090852.GB1073390@redhat.com>
+References: <158632959483.16886.907739858138361292@39012742ff91>
+ <6b2eca03-8fd0-54de-1622-ba26d4f1a31e@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20200330165518.GA8234@redsun51.ssa.fujisawa.hgst.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <6b2eca03-8fd0-54de-1622-ba26d4f1a31e@suse.de>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,32 +74,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: haozhong.zhang@intel.com, qemu-block@nongnu.org, stefanha@gmail.com,
- dgilbert@redhat.com, qemu-devel@nongnu.org, yi.z.zhang@linux.intel.com,
- Andrzej Jakowski <andrzej.jakowski@linux.intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
- mreitz@redhat.com, junyan.he@intel.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: peter.maydell@linaro.org, david@gibson.dropbear.id.au,
+ alex.bennee@linaro.org, qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 30.03.2020 um 18:55 hat Keith Busch geschrieben:
-> On Mon, Mar 30, 2020 at 09:46:56AM -0700, Andrzej Jakowski wrote:
-> > This patch introduces support for PMR that has been defined as part of =
-NVMe 1.4
-> > spec. User can now specify a pmrdev option that should point to HostMem=
-oryBackend.
-> > pmrdev memory region will subsequently be exposed as PCI BAR 2 in emula=
-ted NVMe
-> > device. Guest OS can perform mmio read and writes to the PMR region tha=
-t will stay
-> > persistent across system reboot.
+On Wed, Apr 08, 2020 at 09:49:56AM +0200, Claudio Fontana wrote:
+> Hi,
 >=20
-> Looks pretty good to me.
+> On 4/8/20 9:06 AM, no-reply@patchew.org wrote:
+> > Patchew URL: https://patchew.org/QEMU/20200408070231.20265-1-cfontana@s=
+use.de/
+> >=20
+> >=20
+> >=20
+> > Hi,
+> >=20
+> > This series failed the asan build test. Please find the testing command=
+s and
+> > their output below. If you have Docker installed, you can probably repr=
+oduce it
+> > locally.
 >=20
-> Reviewed-by: Keith Busch <kbusch@kernel.org>
+> I can't reproduce this here running the commands (TEST SCRIPT) below..
+>=20
+> >=20
+> > =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
+> > #!/bin/bash
+> > export ARCH=3Dx86_64
+> > make docker-image-fedora V=3D1 NETWORK=3D1
+> > time make docker-test-debug@fedora TARGET_LIST=3Dx86_64-softmmu J=3D14 =
+NETWORK=3D1
+> > =3D=3D=3D TEST SCRIPT END =3D=3D=3D
+> >=20
+> > =3D=3D=3D OUTPUT BEGIN =3D=3D=3D
+> > Makefile:532: dtc/libfdt/Makefile.libfdt: No such file or directory
+>=20
+> hmm this is the include directive
+>=20
+> include $(LIBFDT_srcdir)/Makefile.libfdt
+>=20
+> is this test not getting the dtc submodule for some reason?
 
-Thanks, applied to the block-next branch for 5.1.
+Note that this test script did not even get as far as trying to
+build QEMU itself.
 
-Kevin
+Starting from a clean checkout *WITHOUT* having run configure,
+it is trying todo
+
+   make docker-image-fedora V=3D1 NETWORK=3D1
+
+This should invoke the rules to launch docker, and then run
+configure inside docker. Instead it is trying to build dtc.
+
+So something in your changes has broken the ability to run
+the docker make targets.
+
+>=20
+> > cc -nostdlib  -o dtc/libfdt/Makefile.libfdt.mo=20
+>=20
+> Hmm..
+>=20
+> > cc: fatal error: no input files
+> > compilation terminated.
+> > make: *** [dtc/libfdt/Makefile.libfdt.mo] Error 4
+> > Makefile:532: dtc/libfdt/Makefile.libfdt: No such file or directory
+> >   LD      dtc/libfdt/Makefile.libfdt.mo
+> > cc: fatal error: no input files
+> > compilation terminated.
+> > make: *** [dtc/libfdt/Makefile.libfdt.mo] Error 4
+> >=20
+> > real    0m0.585s
+> > user    0m0.384s
+> >=20
+> >=20
+> > The full log is available at
+> > http://patchew.org/logs/20200408070231.20265-1-cfontana@suse.de/testing=
+.asan/?type=3Dmessage.
+> > ---
+> > Email generated automatically by Patchew [https://patchew.org/].
+> > Please send your feedback to patchew-devel@redhat.com
+> >=20
+>=20
+>=20
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
