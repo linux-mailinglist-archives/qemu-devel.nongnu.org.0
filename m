@@ -2,67 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 695061A23A9
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 15:57:36 +0200 (CEST)
-Received: from localhost ([::1]:36390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79F511A248C
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 17:03:49 +0200 (CEST)
+Received: from localhost ([::1]:37154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMBCx-0000E0-0a
-	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 09:57:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46302)
+	id 1jMCF2-0006O3-5N
+	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 11:03:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56517)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <r.bolshakov@yadro.com>) id 1jMBCB-0008Eh-1w
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 09:56:47 -0400
+ (envelope-from <its@irrelevant.dk>) id 1jMCDy-0005bP-Dv
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 11:02:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <r.bolshakov@yadro.com>) id 1jMBCA-0001dD-29
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 09:56:46 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:34796 helo=mta-01.yadro.com)
+ (envelope-from <its@irrelevant.dk>) id 1jMCDt-0000Us-KW
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 11:02:42 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:35884)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <r.bolshakov@yadro.com>)
- id 1jMBC9-0001aA-RL
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 09:56:46 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 049EB412E3;
- Wed,  8 Apr 2020 13:56:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1586354199;
- x=1588168600; bh=Tw2LpjvR5OuzVCFXuR1FIYGtXOSpPdgpLso6uLGxgWU=; b=
- IAEXonTpPolw3lFXc1ATv6ZAvLPAedm3GY8D3BLwCB6gGV8IFRcq+1HMgeMsIEY0
- BP177dcznM6qpdzNE4H7SYqYpPk7oyoV3MqKtUBOzLYFpvNEjQnsu81XRHR2ChpN
- WWBOd4souvvaaLI0xZJ3c+ltveH4/UZXbXftxjsNRX8=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gGDXiregbh8X; Wed,  8 Apr 2020 16:56:39 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id BAEAA412CA;
- Wed,  8 Apr 2020 16:56:39 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 8 Apr
- 2020 16:56:40 +0300
-Date: Wed, 8 Apr 2020 16:56:39 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Cameron Esfahani <dirty@apple.com>
-Subject: Re: [PATCH v1 3/3] hvf: Support AVX512 guests on capable hardware
-Message-ID: <20200408135639.GA17172@SPB-NB-133.local>
-References: <cover.1585607927.git.dirty@apple.com>
- <1da0fc0a4f119e951ae11b29ff26ee587f4748aa.1585607927.git.dirty@apple.com>
+ (Exim 4.71) (envelope-from <its@irrelevant.dk>)
+ id 1jMCDr-0000S6-6B; Wed, 08 Apr 2020 11:02:35 -0400
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by charlie.dont.surf (Postfix) with ESMTPSA id 17032BF5E2;
+ Wed,  8 Apr 2020 15:02:33 +0000 (UTC)
+Date: Wed, 8 Apr 2020 17:02:29 +0200
+From: Klaus Birkelund Jensen <its@irrelevant.dk>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [PATCH v6 32/42] nvme: allow multiple aios per command
+Message-ID: <20200408150229.rv6z5qspuwpnrlhv@apples.localdomain>
+References: <20200316142928.153431-1-its@irrelevant.dk>
+ <20200316142928.153431-33-its@irrelevant.dk>
+ <d7ed3bb2e27814d414bcba2ace23e633ebe5df9f.camel@redhat.com>
+ <20200331054647.pvcjrsnz2xbar3zf@apples.localdomain>
+ <bd3c2be383491f1eb321f4e8b5eb5a7df2fc30eb.camel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1da0fc0a4f119e951ae11b29ff26ee587f4748aa.1585607927.git.dirty@apple.com>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
+In-Reply-To: <bd3c2be383491f1eb321f4e8b5eb5a7df2fc30eb.camel@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 89.207.88.252
+X-Received-From: 128.199.63.193
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,29 +52,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 30, 2020 at 05:16:06PM -0700, Cameron Esfahani wrote:
-> macOS lazily enables AVX512.  Explicitly enable it if the processor
-> supports it.
+On Mar 31 12:10, Maxim Levitsky wrote:
+> On Tue, 2020-03-31 at 07:47 +0200, Klaus Birkelund Jensen wrote:
+> > On Mar 25 12:57, Maxim Levitsky wrote:
+> > > On Mon, 2020-03-16 at 07:29 -0700, Klaus Jensen wrote:
+> > > > @@ -516,10 +613,10 @@ static inline uint16_t nvme_check_prinfo(NvmeCtrl *n, NvmeNamespace *ns,
+> > > >      return NVME_SUCCESS;
+> > > >  }
+> > > >  
+> > > > -static inline uint16_t nvme_check_bounds(NvmeCtrl *n, NvmeNamespace *ns,
+> > > > -                                         uint64_t slba, uint32_t nlb,
+> > > > -                                         NvmeRequest *req)
+> > > > +static inline uint16_t nvme_check_bounds(NvmeCtrl *n, uint64_t slba,
+> > > > +                                         uint32_t nlb, NvmeRequest *req)
+> > > >  {
+> > > > +    NvmeNamespace *ns = req->ns;
+> > > >      uint64_t nsze = le64_to_cpu(ns->id_ns.nsze);
+> > > 
+> > > This should go to the patch that added nvme_check_bounds as well
+> > > 
+> > 
+> > We can't really, because the NvmeRequest does not hold a reference to
+> > the namespace as a struct member at that point. This is also an issue
+> > with the nvme_check_prinfo function above.
 > 
-> cpu_x86_cpuid() tries to handle OSXSAVE but refers to env->cr[4] for the
-> guest copy of CR4.  HVF doesn't support caching CPUID values like KVM,
-> so we need to track it ourselves.
+> I see it now. The changes to NvmeRequest together with this are a good candidate
+> to split from this patch to get this patch to size that is easy to review.
 > 
 
-Hi Cameron,
+I'm factoring those changes and other stuff out into separate patches!
 
-Side question, how did you test it? I tried the latest ubuntu and
-archlinux iso with -cpu host and noticed that kernel complains about TSC
-misbehaviour early during boot.
 
-Also, I didn't look thoroughly into it but do you happen to know if
-there could be a case that we're getting AVX512 support without AVX2
-support? Wouldn't that be an issue?
-
-Thanks,
-Roman
 
