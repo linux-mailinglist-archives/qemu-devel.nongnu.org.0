@@ -2,58 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA3491A1971
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 03:17:25 +0200 (CEST)
-Received: from localhost ([::1]:54942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE07C1A19FF
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 04:37:26 +0200 (CEST)
+Received: from localhost ([::1]:55352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jLzLI-00083g-DP
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 21:17:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47162)
+	id 1jM0aj-0001LT-CQ
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 22:37:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50569)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jingqi.liu@intel.com>) id 1jLzK6-0007Lx-Dl
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 21:16:13 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jM0Za-0000Ft-1Y
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 22:36:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jingqi.liu@intel.com>) id 1jLzK4-0008LA-NX
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 21:16:09 -0400
-Received: from mga14.intel.com ([192.55.52.115]:25268)
+ (envelope-from <dgibson@ozlabs.org>) id 1jM0ZY-0003wu-HU
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 22:36:13 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:56841 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jingqi.liu@intel.com>)
- id 1jLzK4-0008J7-ER
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 21:16:08 -0400
-IronPort-SDR: sS5ZH1gxCJ1F0OBNJEM5rS8yRAfmVRNAhixFNZw+eDR+d/c6Tp7sbb+kt0kKLlzPiKRLrQ49dY
- TgY4E3PcpVVQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2020 18:16:04 -0700
-IronPort-SDR: BtZVysrvB+t6Qu+F6LsKZhrGX1Efu59nsTuMaIJU6K9/eIEyBrpudb21o00qoiAIYIXBNSVOqg
- ZhVD0s3aj4hg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,357,1580803200"; d="scan'208";a="452653902"
-Received: from jingqili-mobl.ccr.corp.intel.com (HELO [10.238.4.245])
- ([10.238.4.245])
- by fmsmga006.fm.intel.com with ESMTP; 07 Apr 2020 18:16:03 -0700
-Subject: Re: [PATCH] exec: fetch the alignment of Linux devdax pmem character
- device nodes
-To: Joao Martins <joao.m.martins@oracle.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Dan Williams <dan.j.williams@intel.com>
-References: <20200401031314.11592-1-jingqi.liu@intel.com>
- <c906a3ae-c9d2-5802-5988-3c1d0302109b@oracle.com>
- <b15709c2-bea7-2717-6833-ac4616b88660@redhat.com>
- <7de3eccb-f0b4-a858-2fc4-addfc7b198aa@oracle.com>
-From: "Liu, Jingqi" <jingqi.liu@intel.com>
-Message-ID: <6b809ac5-1251-c80e-bbf6-82aa47333c1b@intel.com>
-Date: Wed, 8 Apr 2020 09:16:02 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1jM0ZW-0003mZ-4c
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 22:36:11 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48xpLD06Crz9sSj; Wed,  8 Apr 2020 12:36:03 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1586313364;
+ bh=GavUyRU1Os05ZnO+wP19ljW1i49iDVMq0ikxbW/PeNE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=M34JQJ3PHz91qYfZAjhGUR1Y9AUE8HjHMK6sm8pxz/jtKb+g3OetVlPjm5U9TNJi7
+ wshbf+O3ZVXtyXmbWU7/3v3vk8691yHWeA4mKpFOlb7zSsVAd3N7EhXOwFNsv0jtS+
+ v5wF1Cj20Dx82cdMhukEFgcqSl46BLFdc3Io8c4I=
+Date: Wed, 8 Apr 2020 11:57:17 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] configure: check for bison, flex before dtc submodule
+ build
+Message-ID: <20200408015717.GA44664@umbus.fritz.box>
+References: <20200407111618.17241-1-cfontana@suse.de>
+ <CAFEAcA9SYT227B9K7yHcv_J==r4xZ1spUSNzL_bRXUpAjT5QVA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <7de3eccb-f0b4-a858-2fc4-addfc7b198aa@oracle.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 192.55.52.115
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="y0ulUmNC+osPPQO6"
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA9SYT227B9K7yHcv_J==r4xZ1spUSNzL_bRXUpAjT5QVA@mail.gmail.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,49 +56,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Alex Bennee <alex.bennee@linaro.org>, Claudio Fontana <cfontana@suse.de>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/7/2020 11:51 PM, Joao Martins wrote:
-> On 4/7/20 3:31 PM, Paolo Bonzini wrote:
->> On 07/04/20 12:59, Joao Martins wrote:
->>> Perhaps, you meant instead:
->>>
->>> 	/sys/dev/char/%d:%d/align
->>>
->>>   ?
->>>
-Hi Joao,
 
-In my machine with real NVDIMM, the devdax device is as follows:
+--y0ulUmNC+osPPQO6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-$ ll /dev/dax0.0
-crw------- 1 root root 250, 6 3月  25 15:16 /dev/dax0.0
+On Tue, Apr 07, 2020 at 12:20:15PM +0100, Peter Maydell wrote:
+> On Tue, 7 Apr 2020 at 12:16, Claudio Fontana <cfontana@suse.de> wrote:
+> >
+> > if fdt is required, and the system DTC (libfdt) is not usable,
+> > check for the dtc submodule requirements before trying to build it,
+> > and error out with a helpful message in case the dependencies are not m=
+et.
+> >
+> > Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>=20
+> Does the dtc module actually need bison/flex, or does it just
+> print an ugly warning about it? We only want the 'libfdt' part
+> of dtc, which doesn't need the parser, we don't need to build
+> the actual dtc compiler.
 
-$ ls /sys/dev/char/250\:6/align
-ls: cannot access '/sys/dev/char/250:6/align': No such file or directory
+Assuming we're just invoking "make libfdt" within the submodule,
+rather than "make" which will build dtc as well, then bison / flex
+shouldn't be needed.
 
-$ ls /sys/dev/char/250\:6/device/align
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-/sys/dev/char/250:6/device/align
+--y0ulUmNC+osPPQO6
+Content-Type: application/pgp-signature; name="signature.asc"
 
-So:
-The file of "/sys/dev/char/%d:%d/align" does not exist.
-It should be "/sys/dev/char/%d:%d/device/align".
+-----BEGIN PGP SIGNATURE-----
 
-Anyone has a real NVDIMM can help double check. Thanks.
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6NL3sACgkQbDjKyiDZ
+s5JfMRAAgaTRADnNrKZ1KzMfKTGQXQ0bi4d5PqAArr8eiWPbxm96/edqZyP2LymP
+X+rdvZ0G3+eYI6jWxqyaSRurwgyJsZYDeja3OzOMAY40vGsbX2ZZFnpP/AGDhlQm
+dH11HrYceFeESubw5c+lIZtzBQMKY7sEQ8ey7FUsxPRnaegKtAHWCJUv6qFufdGu
+4VO24FSVS35bO8TFPtpEMqGq1Z1/E7MGAJ5l6f+DMaoI+x8Kv1biP5D7baMLiM12
+/KBs7A23CMbyZa9OED08Jpdlj/CtalYp0I4FiMgh/XL4VcHcHlrpg3tN6G77uf24
+Th/2giFLjkI/bX6pL2fFCRRR5dSnMDIIWefBOE8ArUp3qtUWWTqhAYl90GsI2jK1
+fZGOkQ9PdeSUM9WY9G1e/dJwMrq5g1cgpOvJeZ4pcFRcqCf43FPp9f3jG2RzhtNf
+ZiQTJUPVmUPgQOI+A+LG2Da+wcQ+fnL2RIpTBlSbRqHCFSgUDUaN9D+/JL/6WKBm
+C1ByjKnrScJh1z8SUuli3OA7FTkMXnSgG6lMOZtqIaamBi9I6af91l+IEoboIid1
+qKjS5fF9OgPa9Wz4STTPrXfmMSsS3VzlEMUnsVbzVV88oTdG3I4+GV7rJdAeIZJY
+xsY/jlrAPuFBmCiacaNziA6bRPhI8PLxXSEsbGKPPB9Sb1HMSQQ=
+=bIei
+-----END PGP SIGNATURE-----
 
-Hi Dan,
-
-You may have a real NVDIMM, in what directory is the 'align' file ?
-
-Thanks,
-
-Jingqi
-
->> So it works with that change?
-> Yeah.
->
-> 	Joao
+--y0ulUmNC+osPPQO6--
 
