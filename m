@@ -2,48 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 601561A1A00
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 04:37:29 +0200 (CEST)
-Received: from localhost ([::1]:55354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 625DB1A19F0
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 04:26:40 +0200 (CEST)
+Received: from localhost ([::1]:55282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jM0al-0001RH-Be
-	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 22:37:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50567)
+	id 1jM0QI-0003cX-UG
+	for lists+qemu-devel@lfdr.de; Tue, 07 Apr 2020 22:26:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39157)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jM0Za-0000Fs-1t
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 22:36:15 -0400
+ (envelope-from <jingqi.liu@intel.com>) id 1jM0PI-00037l-7z
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 22:25:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jM0ZY-0003wp-HO
- for qemu-devel@nongnu.org; Tue, 07 Apr 2020 22:36:13 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:55353 helo=ozlabs.org)
+ (envelope-from <jingqi.liu@intel.com>) id 1jM0PG-00029P-El
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 22:25:35 -0400
+Received: from mga03.intel.com ([134.134.136.65]:30247)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jM0ZW-0003mr-3z; Tue, 07 Apr 2020 22:36:12 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48xpLD1B1qz9sSr; Wed,  8 Apr 2020 12:36:04 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1586313364;
- bh=Cc9g3ZmOCGoeB+xR43eqST2kwnQ9z6FBWqPy0eWgQcM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BtNyw5SVYMnQKQbx2mgLQuFFctsGdzMNziWqr87NDUDE3Wn1wuylNc2awbaS7ifOf
- /nVm9sPyDBAhQqOCpPqIlh57ClX61gGgbzo9WHkThfCRgcy1UFm3jEesVy0P+8voek
- +qBd5/0iAYSNDk7I0s8Mj1xgNW0HVIGnMZYq2tMg=
-Date: Wed, 8 Apr 2020 12:10:06 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH for-5.0?] linux-user/ppc: Fix padding in mcontext_t for
- ppc64
-Message-ID: <20200408021006.GB44664@umbus.fritz.box>
-References: <20200407032105.26711-1-richard.henderson@linaro.org>
+ (Exim 4.71) (envelope-from <jingqi.liu@intel.com>)
+ id 1jM0PG-00025b-5G
+ for qemu-devel@nongnu.org; Tue, 07 Apr 2020 22:25:34 -0400
+IronPort-SDR: IK0RZNAIEBKpFS8AO9Kliwxvrrz/Wha/Vuk0xHW4gOg/UwvKgnX/m2lzS4r7WsDKRx0yUju+Q8
+ cY+tg/IbKAIg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2020 19:25:29 -0700
+IronPort-SDR: swITCJNrJqDcbjiTXvS/abIRR+6uayNvPS2N5eoXn/nRBRPbXatoMYWYkYKSFCaa/GPXgG1t/b
+ XtfgCIt3lWLQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,357,1580803200"; d="scan'208";a="452669511"
+Received: from jingqili-mobl.ccr.corp.intel.com (HELO [10.238.4.245])
+ ([10.238.4.245])
+ by fmsmga006.fm.intel.com with ESMTP; 07 Apr 2020 19:25:28 -0700
+Subject: Re: [PATCH] exec: fetch the alignment of Linux devdax pmem character
+ device nodes
+To: Joao Martins <joao.m.martins@oracle.com>,
+ "Williams, Dan J" <dan.j.williams@intel.com>
+References: <20200401031314.11592-1-jingqi.liu@intel.com>
+ <c906a3ae-c9d2-5802-5988-3c1d0302109b@oracle.com>
+ <CAPcyv4igr9-DJx2ehoHj7sXk5g5GmgmivCqM3VpmJV7J4QM+kA@mail.gmail.com>
+ <3873cb30-608c-6a27-c19f-f6446898796f@oracle.com>
+From: "Liu, Jingqi" <jingqi.liu@intel.com>
+Message-ID: <9959e648-94f6-3be3-2271-3d2b855e7e48@intel.com>
+Date: Wed, 8 Apr 2020 10:25:27 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="H1spWtNR+x+ondvy"
-Content-Disposition: inline
-In-Reply-To: <20200407032105.26711-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+In-Reply-To: <3873cb30-608c-6a27-c19f-f6446898796f@oracle.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 134.134.136.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,72 +65,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- laurent@vivier.eu
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Qemu Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 4/8/2020 2:28 AM, Joao Martins wrote:
+> On 4/7/20 5:55 PM, Dan Williams wrote:
+>> On Tue, Apr 7, 2020 at 4:01 AM Joao Martins <joao.m.martins@oracle.com> wrote:
+>>> On 4/1/20 4:13 AM, Jingqi Liu wrote:
+>>>> If the backend file is devdax pmem character device, the alignment
+>>>> specified by the option 'align=NUM' in the '-object memory-backend-file'
+>>>> needs to match the alignment requirement of the devdax pmem character device.
+>>>>
+>>>> This patch fetches the devdax pmem file 'align', so that we can compare
+>>>> it with the NUM of 'align=NUM'.
+>>>> The NUM needs to be larger than or equal to the devdax pmem file 'align'.
+>>>>
+>>>> It also fixes the problem that mmap() returns failure in qemu_ram_mmap()
+>>>> when the NUM of 'align=NUM' is less than the devdax pmem file 'align'.
+>>>>
+>>>> Cc: Dan Williams <dan.j.williams@intel.com>
+>>>> Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
+>>>> ---
+>>>>   exec.c | 46 +++++++++++++++++++++++++++++++++++++++++++++-
+>>>>   1 file changed, 45 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/exec.c b/exec.c
+>>>> index de9d949902..8221abffec 100644
+>>>> --- a/exec.c
+>>>> +++ b/exec.c
+>>>> @@ -1736,6 +1736,42 @@ static int64_t get_file_size(int fd)
+>>>>       return size;
+>>>>   }
+>>>>
+>>>> +static int64_t get_file_align(int fd)
+>>>> +{
+>>>> +    int64_t align = -1;
+>>>> +#if defined(__linux__)
+>>>> +    struct stat st;
+>>>> +
+>>>> +    if (fstat(fd, &st) < 0) {
+>>>> +        return -errno;
+>>>> +    }
+>>>> +
+>>>> +    /* Special handling for devdax character devices */
+>>>> +    if (S_ISCHR(st.st_mode)) {
+>>>> +        g_autofree char *subsystem_path = NULL;
+>>>> +        g_autofree char *subsystem = NULL;
+>>>> +
+>>>> +        subsystem_path = g_strdup_printf("/sys/dev/char/%d:%d/subsystem",
+>>>> +                                         major(st.st_rdev), minor(st.st_rdev));
+>>>> +        subsystem = g_file_read_link(subsystem_path, NULL);
+>>>> +
+>>>> +        if (subsystem && g_str_has_suffix(subsystem, "/dax")) {
+>>>> +            g_autofree char *align_path = NULL;
+>>>> +            g_autofree char *align_str = NULL;
+>>>> +
+>>>> +            align_path = g_strdup_printf("/sys/dev/char/%d:%d/device/align",
+>>>> +                                    major(st.st_rdev), minor(st.st_rdev));
+>>>> +
+>>> Perhaps, you meant instead:
+>>>
+>>>          /sys/dev/char/%d:%d/align
+>>>
+>> Hmm, are you sure that's working?
+> It is, except that I made the slight mistake of testing with a bunch of wip
+> patches on top which one of them actually adds the 'align' to child dax device.
+>
+> Argh, my apologies - and thanks for noticing.
+>
+>> I expect the alignment to be found
+>> in the region device:
+>>
+>> /sys/class/dax:
+>> /sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus1/region1/dax1.1/dax1.0
+>> $(readlink -f /sys/dev/char/253\:263)/../align
+>> $(readlink -f /sys/dev/char/253\:263)/device/align
+>>
+>>
+>> /sys/bus/dax:
+>> /sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus1/region1/dax1.0/dax1.0
+>> $(readlink -f /sys/dev/char/253\:265)/../align
+>> $(readlink -f /sys/dev/char/253\:265)/device/align <-- No such file
+>>
+>> The use of the /sys/dev/char/%d:%d/device is only supported by the
+>> deprecated /sys/class/dax.
 
---H1spWtNR+x+ondvy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Dan,
 
-On Mon, Apr 06, 2020 at 08:21:05PM -0700, Richard Henderson wrote:
-> The padding that was added in 95cda4c44ee was added to a union,
-> and so it had no effect.  This fixes misalignment errors detected
-> by clang sanitizers for ppc64 and ppc64le.
->=20
-> In addition, only ppc64 allocates space for VSX registers, so do
-> not save them for ppc32.  The kernel only has references to
-> CONFIG_SPE in signal_32.c, so do not attempt to save them for ppc64.
->=20
-> Fixes: 95cda4c44ee
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Thanks for your comments.
 
-Applied to ppc-for-5.0, thanks.
+Seems it is a mistake.
 
-> ---
->=20
-> Note that ppc64abi32 is *not* fixed by this patch.  It looks to
-> me that all of the defined(TARGET_PPC64) tests in this file are
-> incorrect, and that we should instead be testing TARGET_ABI_BITS
-> vs 32/64.  In addition, virtually all of the target_ulong structure
-> members would need to be abi_ulong.
->=20
-> Should we in fact disable ppc64abi32?
-> I can't see how it could work enough to be useful as-is.
+It should be: $(readlink -f /sys/dev/char/253\:263)/../../align
 
-Yeah, I think so.  Last time we had a problem in this area, I couldn't
-even figure out what ppc64abi32 was supposed to *be*, let alone what
-the use case for it is.  Given that, it's hard to imagine it's been
-working (whatever that means) any time recently.
+> I don't have the deprecated dax class enabled as could you tell, so the second
+> case is what I was testing. Except it wasn't a namespace/nvdimm but rather an
+> hmem device-dax.
+>
+> '../align' though covers only one case? What about hmem which '../align' returns
+> ENOENT; perhaps using '../dax_region/align' instead which is common to both?
+> Albeit that wouldn't address the sub-division devices (that I mention above)
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Seems that you mean to use $(readlink -f 
+/sys/dev/char/253\:263)/../../dax_region/align.
 
---H1spWtNR+x+ondvy
-Content-Type: application/pgp-signature; name="signature.asc"
+Right ?
 
------BEGIN PGP SIGNATURE-----
+Thanks,
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6NMnsACgkQbDjKyiDZ
-s5IoZA/7BGtlfpWcQIXwbVNRaEDkxCDB1NXTzZwx7A1W75t9sMSzf7f/w+QnjRio
-u/6vQXXammauT5mMjQ3m5wiBNKQtsOKYG4A/aUJ0bFpLCAH/f3Mk01zC7cyEMY0b
-elbGOqzhrVS6LHV8ucOkmqbg2M8PXD0UqZIFoKTKxLXr79O9jazl5pLD/eLWPOM/
-ZzeVEo5tnV+DbnqqPFWNX/saB4/+AAviLflhhi91mpp6PFunVxmmMsqouJelPSeV
-USj2MTgwqS95ND/i4WdmvboZaz+gHYtUmhw9A4hq4sEROJMr2lISX0AMjyURGyeS
-8Q5LphcJAhcmUridMfRVITbk3sqYSvRXQ3SfmAr9hqSEXJpz1xLUqsmHXXRr1jUW
-qZQe0kHXYTJQ+JXW9eSqa2A8PwD8Vooo7FyelW059/U/kd61wqNXnN/vu+Ciq9Bz
-/NCQ6qefs/hi0oajOv3evO5crkQXLy1/zdVkXKCFYpoDGQyhmu2fZuWY/VJINWyu
-bRNzuCB99QZlYaOMZxjfFBDA7x5Y0rMy/oGAGuzxt85K34w8G/rnnmEDhgz0CY6S
-m+PeRLMxyADFRix3zFayPPDnfgj8Nl5Y1sVeFYmAO17aA5er3BQS3NsEX8XwoW9f
-d/cpuGuh5SA/8UZGSpLu98OXj02maU1OOWub1UdBbq3yzKYwyTo=
-=ncLW
------END PGP SIGNATURE-----
+Jingqi
 
---H1spWtNR+x+ondvy--
+>> The current /sys/bus/dax device-model can
+>> be a drop in replacement as long as software is not written to the
+>> /sys/class sysfs layout, i.e. it uses ../ instead of device/ to walk
+>> to the region properties.
+>>
+> /nods
 
