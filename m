@@ -2,85 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9E8A1A1DA4
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 10:52:57 +0200 (CEST)
-Received: from localhost ([::1]:59898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B901A1DE9
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 11:11:03 +0200 (CEST)
+Received: from localhost ([::1]:60502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jM6S8-0007Zq-Sg
-	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 04:52:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55034)
+	id 1jM6je-0004Wa-Ja
+	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 05:11:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58722)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jM6DX-0000U3-Bj
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:37:52 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jM6JF-0003hz-MD
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:43:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jM64N-0001Sj-B3
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:28:24 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46801
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1jM6JC-0001eK-J7
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:43:44 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:37857 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jM64L-0001RO-Qq
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:28:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586334499;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GHglZpjSW4Myq7g0U/mPi9zfj2n4SzDKjvVBcETEuOo=;
- b=Nevbn0odse4JObliMN+keCqJQrd0TqQnzOJDElsgISoV/k4VjJ3hijpdURZPchsfH7G7It
- aeqJ8dQu9kEHrtrtAQSgWUm5177Qwh7dVeRN4DqzIHAFmoieAmC55cIgGemk1drgRQjJPC
- NeYZHeTf7c1w7bYbbgMbZ+Lj+fysyvE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-4mMacskONZWrU7mzEPIe8g-1; Wed, 08 Apr 2020 04:28:12 -0400
-X-MC-Unique: 4mMacskONZWrU7mzEPIe8g-1
-Received: by mail-wr1-f71.google.com with SMTP id y1so3614000wrp.5
- for <qemu-devel@nongnu.org>; Wed, 08 Apr 2020 01:28:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GHglZpjSW4Myq7g0U/mPi9zfj2n4SzDKjvVBcETEuOo=;
- b=Icbwi0JpyBqyI5D+h0B1dmOu16CEPeYi2Tx/VREn5wPe0r8VrrikhUJmEVbO12uaPO
- fSL9PDlyG3b2eHOs2kSiORMaLMGyeuZY9fSf50a4m7OYHsIFemmnGGiyzI8dxK1gtpV+
- eF4OrWS+iTnnQBdYPFORTTELuCk3+/VK2Mi9gms/P2OnAy/LbaQZUrll/+W/d18JxzKo
- a55Lveu1EBhIuJPQfUghZonnjZYAHav3R3N4iVFlirsLZgzgdcZpCMA+jKH5Miqoos5l
- XGqBY9MUPYuPbQ7Mh/2KkzKdMQ4NiMHP0jg2XHD0jbiWZqrML08+9NQoTsP0A8wj8cEg
- LszA==
-X-Gm-Message-State: AGi0PuaBl8PzaRqgHXri0uoWEwmnnA/qRf5OfZIBJezxHc/9ciB2ifJU
- AEVJEHI9moZK3yPX1gtXUV6oBMOgSghcK/jYkYRUDnOH3gtJcRTxMIaergIH/zrelxabpnrghqH
- 1hqJhQyYCt198Yc0=
-X-Received: by 2002:adf:a350:: with SMTP id d16mr7485860wrb.277.1586334491409; 
- Wed, 08 Apr 2020 01:28:11 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJEwANJpYcXhYEXwhxo+Rw1ae/lqPVgRuKMguJdb96Nb7+c9B16orSjEKxLkmYI3MYvdluUvQ==
-X-Received: by 2002:adf:a350:: with SMTP id d16mr7485846wrb.277.1586334491218; 
- Wed, 08 Apr 2020 01:28:11 -0700 (PDT)
-Received: from [192.168.10.150] ([93.56.170.5])
- by smtp.gmail.com with ESMTPSA id n131sm5935605wmf.35.2020.04.08.01.28.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Apr 2020 01:28:10 -0700 (PDT)
-Subject: Re: [PATCH v1 1/3] hvf: use standard CR0 and CR4 register definitions
-To: Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>
-References: <cover.1585607927.git.dirty@apple.com>
- <9ba0495405a1cd1e6c272a1e67d54dfda09494e1.1585607927.git.dirty@apple.com>
- <20200405175845.GC74346@SPB-NB-133.local>
- <47A5AD5B-50BF-4E7B-BE64-64B97E820E8A@apple.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <c8ca2869-0dbb-1be7-6d55-bf9e34afed33@redhat.com>
-Date: Wed, 8 Apr 2020 10:28:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1jM6JA-0001bg-GL
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:43:42 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48xyVH1phsz9sSG; Wed,  8 Apr 2020 18:43:34 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1586335415;
+ bh=zhRo/eQUGHWzQheZOLhJztXqQHYDc6QL9QQfrHkUo8A=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XujKIKO0Pxd2ai/zACXJYGBmgXH/u6QtaZTVMUt/ZUjY3iqLYT96Z2dQehfrftVPg
+ GY00NMyKrjW/bisNh7j/8RgAgf/guVuldTKbfbozuyIHiQGCkm5Jt5T2sk8XtvdRmz
+ +sy50246v0E/wvj3LirmUwEu/HWsBzs0YN+JICDM=
+Date: Wed, 8 Apr 2020 18:36:31 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH] configure: check for bison, flex before dtc submodule
+ build
+Message-ID: <20200408083631.GF304335@umbus.fritz.box>
+References: <20200407111618.17241-1-cfontana@suse.de>
+ <CAFEAcA9SYT227B9K7yHcv_J==r4xZ1spUSNzL_bRXUpAjT5QVA@mail.gmail.com>
+ <20200408015717.GA44664@umbus.fritz.box>
+ <1353d8a4-fe8b-ee8f-2f42-f1f463188767@suse.de>
+ <20200408080046.GD304335@umbus.fritz.box>
+ <8019e044-04d8-df5a-9eae-c525ac1881e5@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <47A5AD5B-50BF-4E7B-BE64-64B97E820E8A@apple.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Y1L3PTX8QE8cb2T+"
+Content-Disposition: inline
+In-Reply-To: <8019e044-04d8-df5a-9eae-c525ac1881e5@suse.de>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,37 +60,208 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alex Bennee <alex.bennee@linaro.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/04/20 08:09, Cameron Esfahani wrote:
->>>
->>>     if (efer & MSR_EFER_LME) {
->>> -        if (!(old_cr0 & CR0_PG) && (cr0 & CR0_PG)) {
->>> +        if (!(old_cr0 & CR0_PG_MASK) && (cr0 & CR0_PG_MASK)) {
->>>             enter_long_mode(vcpu, cr0, efer);
->>>         }
->>> -        if (/*(old_cr0 & CR0_PG) &&*/ !(cr0 & CR0_PG)) {
->>> +        if (!(cr0 & CR0_PG_MASK)) {
->> IMO the patch should only change CR0_PG to CR0_PG_MASK without removal
->> of the commented condition.
->>
->> In the next patch you're improving how long mode exit is done and
->> replacement of the comment with an implementation fits better there.
->>
-> The reason I removed that code was because checkpatch.pl scolded me for a patch with code commented out.
-> 
-> I assumed that I'd get a similar warning from patchew.org about some erroneous coding styles.
-> 
-> So I thought the easiest thing would be to remove that code as well.
-> 
-> But I'll defer to you or Paolo: should I remove that commented code with this patch?
 
-checkpatch errors are not absolutely a no-no, especially if the code is
-pre-existing and/or it goes away later in the patch.  In this case,
-since you have already written the patch it's okay to keep it as is.
+--Y1L3PTX8QE8cb2T+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Paolo
+On Wed, Apr 08, 2020 at 10:08:57AM +0200, Claudio Fontana wrote:
+> On 4/8/20 10:00 AM, David Gibson wrote:
+> > On Wed, Apr 08, 2020 at 09:52:40AM +0200, Claudio Fontana wrote:
+> >> On 4/8/20 3:57 AM, David Gibson wrote:
+> >>> On Tue, Apr 07, 2020 at 12:20:15PM +0100, Peter Maydell wrote:
+> >>>> On Tue, 7 Apr 2020 at 12:16, Claudio Fontana <cfontana@suse.de> wrot=
+e:
+> >>>>>
+> >>>>> if fdt is required, and the system DTC (libfdt) is not usable,
+> >>>>> check for the dtc submodule requirements before trying to build it,
+> >>>>> and error out with a helpful message in case the dependencies are n=
+ot met.
+> >>>>>
+> >>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> >>>>
+> >>>> Does the dtc module actually need bison/flex, or does it just
+> >>>> print an ugly warning about it? We only want the 'libfdt' part
+> >>>> of dtc, which doesn't need the parser, we don't need to build
+> >>>> the actual dtc compiler.
+> >>>
+> >>> Assuming we're just invoking "make libfdt" within the submodule,
+> >>> rather than "make" which will build dtc as well, then bison / flex
+> >>> shouldn't be needed.
+> >>>
+> >>
+> >> Indeed; I just sent a patch that works for me,
+> >> tried a few in-tree and out-of-tree full builds, and it seems to work =
+as intended.
+> >> patchew complains about docker builds/tests though, although running t=
+he same TEST SCRIPTs manually with docker works for me.
+> >>
+> >> The libfdt target inside dtc/Makefile actually causes more than just l=
+ibfdt to be built:
+> >>
+> >> ~/git/qemu/dtc> make libdtc
+> >> 	 DEP tests/dumptrees.c
+> >> 	 DEP tests/trees.S
+> >> 	 DEP tests/testutils.c
+> >> 	 DEP tests/value-labels.c
+> >> 	 DEP tests/asm_tree_dump.c
+> >> 	 DEP tests/truncated_memrsv.c
+> >> 	 DEP tests/truncated_string.c
+> >> 	 DEP tests/truncated_property.c
+> >> 	 DEP tests/check_full.c
+> >> 	 DEP tests/check_header.c
+> >> 	 DEP tests/check_path.c
+> >> 	 DEP tests/overlay_bad_fixup.c
+> >> 	 DEP tests/overlay.c
+> >> 	 DEP tests/subnode_iterate.c
+> >> 	 DEP tests/property_iterate.c
+> >> 	 DEP tests/integer-expressions.c
+> >> 	 DEP tests/utilfdt_test.c
+> >> 	 DEP tests/path_offset_aliases.c
+> >> 	 DEP tests/add_subnode_with_nops.c
+> >> 	 DEP tests/dtbs_equal_unordered.c
+> >> 	 DEP tests/dtb_reverse.c
+> >> 	 DEP tests/dtbs_equal_ordered.c
+> >> 	 DEP tests/extra-terminating-null.c
+> >> 	 DEP tests/incbin.c
+> >> 	 DEP tests/boot-cpuid.c
+> >> 	 DEP tests/phandle_format.c
+> >> 	 DEP tests/path-references.c
+> >> 	 DEP tests/references.c
+> >> 	 DEP tests/string_escapes.c
+> >> 	 DEP tests/propname_escapes.c
+> >> 	 DEP tests/appendprop2.c
+> >> 	 DEP tests/appendprop1.c
+> >> 	 DEP tests/del_node.c
+> >> 	 DEP tests/del_property.c
+> >> 	 DEP tests/setprop.c
+> >> 	 DEP tests/set_name.c
+> >> 	 DEP tests/rw_tree1.c
+> >> 	 DEP tests/open_pack.c
+> >> 	 DEP tests/nopulate.c
+> >> 	 DEP tests/mangle-layout.c
+> >> 	 DEP tests/move_and_save.c
+> >> 	 DEP tests/sw_states.c
+> >> 	 DEP tests/sw_tree1.c
+> >> 	 DEP tests/nop_node.c
+> >> 	 DEP tests/nop_property.c
+> >> 	 DEP tests/setprop_inplace.c
+> >> 	 DEP tests/stringlist.c
+> >> 	 DEP tests/addr_size_cells2.c
+> >> 	 DEP tests/addr_size_cells.c
+> >> 	 DEP tests/notfound.c
+> >> 	 DEP tests/sized_cells.c
+> >> 	 DEP tests/char_literal.c
+> >> 	 DEP tests/get_alias.c
+> >> 	 DEP tests/node_offset_by_compatible.c
+> >> 	 DEP tests/node_check_compatible.c
+> >> 	 DEP tests/node_offset_by_phandle.c
+> >> 	 DEP tests/node_offset_by_prop_value.c
+> >> 	 DEP tests/parent_offset.c
+> >> 	 DEP tests/supernode_atdepth_offset.c
+> >> 	 DEP tests/get_path.c
+> >> 	 DEP tests/get_phandle.c
+> >> 	 DEP tests/getprop.c
+> >> 	 DEP tests/get_name.c
+> >> 	 DEP tests/path_offset.c
+> >> 	 DEP tests/subnode_offset.c
+> >> 	 DEP tests/find_property.c
+> >> 	 DEP tests/root_node.c
+> >> 	 DEP tests/get_mem_rsv.c
+> >> 	 DEP libfdt/fdt_overlay.c
+> >> 	 DEP libfdt/fdt_addresses.c
+> >> 	 DEP libfdt/fdt_empty_tree.c
+> >> 	 DEP libfdt/fdt_strerror.c
+> >> 	 DEP libfdt/fdt_rw.c
+> >> 	 DEP libfdt/fdt_sw.c
+> >> 	 DEP libfdt/fdt_wip.c
+> >> 	 DEP libfdt/fdt_ro.c
+> >> 	 DEP libfdt/fdt.c
+> >> 	 DEP util.c
+> >> 	 DEP fdtoverlay.c
+> >> 	 DEP fdtput.c
+> >> 	 DEP fdtget.c
+> >> 	 DEP fdtdump.c
+> >> 	 LEX convert-dtsv0-lexer.lex.c
+> >> make: flex: Command not found
+> >> 	 DEP srcpos.c
+> >> 	 BISON dtc-parser.tab.c
+> >> make: bison: Command not found
+> >> 	 LEX dtc-lexer.lex.c
+> >> make: flex: Command not found
+> >> 	 DEP treesource.c
+> >> 	 DEP livetree.c
+> >> 	 DEP fstree.c
+> >> 	 DEP flattree.c
+> >> 	 DEP dtc.c
+> >> 	 DEP data.c
+> >> 	 DEP checks.c
+> >> 	CHK version_gen.h
+> >> 	 LEX convert-dtsv0-lexer.lex.c
+> >> make: flex: Command not found
+> >> 	 BISON dtc-parser.tab.c
+> >> make: bison: Command not found
+> >> 	 LEX dtc-lexer.lex.c
+> >> make: flex: Command not found
+> >> make: *** No rule to make target 'libdtc'.  Stop.
+> >>
+> >>
+> >> so I just used dtc/libfdt/Makefile.libfdt directly and removed the
+> >> recursion altogether.
+> >=20
+> > The Makefile setup of dtc/libfdt is a bit weird (mostly to allow for
+> > Makefile fragments to be used in weird build environments).  But for
+> > this case you might be better off still doing the recursion, but just
+> > changing the target from 'all' to 'libfdt'.
+>=20
+> Hi David,
+>=20
+> that approach (recursing the same way, just building libfdt instead
+> of all) is what I tried first, however as showcased above the libfdt
+> target seems to cause more stuff to be built than necessary.
 
+Ah, right.  I had a look at this in dtc upstream.  It looks like the
+problem is that we're always doing dependency generation for
+everything, including on the flex and bison generated files.
+
+> Do you think we should change the external module to make the
+> minimal build of libfdt work, instead of removing the recursion?
+
+It'd be nice to fix this upstream as well, which would also fix it
+here.  Unfortunately, I'm not really sure how to do that.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--Y1L3PTX8QE8cb2T+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6NjQ8ACgkQbDjKyiDZ
+s5ICCQ//TVvOk4glL2uDbit1wz3UqwjAKKRD/AyLdrTxVW8KiqzqfrThdvWk3S7B
+yyP3ehit/iuHOzvx2x/1K0c0hgw7RVk4plbwI+31PELif9tLRwVwXe16saqFUcu0
+kuQCc08GbN0RLa+P6eAJkCzHMezuhGAefyEh4prMbLinfENIMXRTkQuWatwAoc8S
+wYTokguSMX+5HjkYaDjiI1agqe2DNEsNMkECBoIfVJp9URfQPNUm++3ECcl8Af/4
+DJXziaiCFyoCwiu7qGikwfHRMziC3AeH8BNya5cM4XOJt8j49pkDTrXuX7BePLmL
+Nj7yagaMwPzOQRtLGw24ivUfIUmHSG0A2QfIbICObjzqOgA1HDPHVaq1Pa/GGVWB
+qWzQr4coF0zNsp09R9GQuXAegs5APITuHbOYrwq4FRP1RB+KrExOZPVA61f6brLF
+qlwi4a0Twgy9te9KHBZAUH0lm77Fmm4GfYmWMYMAvu1ub7Ir/fBW0NUoITDqrMos
+zks3vV+AR53cPBQUTCo58g7pPfdjh9+zK0dkh6/x2k17zEwpJ8qtt3+gda53SUV+
+a6xk05DyRUdUcu6NIrnxAOEY1nOl7nJzpT7s9nEbWkshpWw8lnM4ZRM/FrhHgJIb
+0ZS+DA4UE7JGhd/fJLYWcOlKwftT9zfHCzEUgNnW5PAWMAKPnzM=
+=d9TJ
+-----END PGP SIGNATURE-----
+
+--Y1L3PTX8QE8cb2T+--
 
