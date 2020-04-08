@@ -2,57 +2,121 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 833B31A2AB8
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 22:59:54 +0200 (CEST)
-Received: from localhost ([::1]:40538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE8D01A2B5F
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 23:44:01 +0200 (CEST)
+Received: from localhost ([::1]:40850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMHnd-0003pM-4V
-	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 16:59:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43167)
+	id 1jMIUK-0005eA-J1
+	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 17:44:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47497)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jMHmh-000384-Mn
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 16:58:57 -0400
+ (envelope-from <mail@maciej.szmigiero.name>) id 1jMIT8-0004t8-Io
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 17:42:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1jMHmg-000331-6R
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 16:58:55 -0400
-Resent-Date: Wed, 08 Apr 2020 16:58:55 -0400
-Resent-Message-Id: <E1jMHmg-000331-6R@eggs.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21703)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1jMHmf-00030y-TS
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 16:58:54 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1586379524; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=ZcqAlqU24mgd8hq20wByoOK2ZXXu46p/CE6lrw+fznqsrJzx54CMA716RylIhoI0f9DEpbiKpcsAhNbP8odzpDXlk91TY5rjzt0HjdA/ZGQhN/VsA5NSWvDjamkGNJRhmRwstNPM0iXnpP9pzlKDQbGiByrLUHj2QkJHqF0rbXA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1586379524;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=/k8Ev4BtjiFiJjp9YwhwdMb4AM90J0N5Pphackcanp4=; 
- b=HQuSRZJtYAjQTWTcOTS2ZAvoxeMsO12R9hffjmkIst5Lt/R5OuwFTVmZCSkJ79ODb739HWks6sa9PTenkxM3lSoLsVy6jza96h3QsCNoLrkFRL4BthWjQb07LPHNZCnk7gyXNk8faVR/qCKU7g7+u6o15iD9Sie62sVv/98XtuE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1586379522461720.0324022760435;
- Wed, 8 Apr 2020 13:58:42 -0700 (PDT)
-In-Reply-To: <20200408194628.24143.51644.stgit@localhost.localdomain>
-Subject: Re: [PATCH v17 RESUBMIT QEMU 0/3] virtio-balloon: add support for
- providing free page reporting
-Message-ID: <158637952127.18042.11609267329459924847@39012742ff91>
+ (envelope-from <mail@maciej.szmigiero.name>) id 1jMIT7-0003DC-AB
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 17:42:46 -0400
+Received: from vps-vb.mhejs.net ([37.28.154.113]:41498)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1jMIT7-0003AM-4E
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 17:42:45 -0400
+Received: from MUA
+ by vps-vb.mhejs.net with esmtps (TLS1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+ (Exim 4.93.0.4) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1jMISs-0001Dz-JO; Wed, 08 Apr 2020 23:42:30 +0200
+Subject: Re: [PATCH v1 5/5] i386: Hyper-V VMBus ACPI DSDT entry
+To: Roman Kagan <rvkagan@yandex-team.ru>
+References: <20200403142308.82990-6-arilou@gmail.com>
+ <76017793-735b-4bb5-0e69-ecded78af54d@maciej.szmigiero.name>
+ <CAP7QCog_EmLJ=O8Xi9Tc4Jst1=z62DXim9ScCyoPv7WugrSyOw@mail.gmail.com>
+ <CAP7QCogMdUis-=KsC--0ar2Zt2Vwcpn4HS+qCxPn5khtDTu+mA@mail.gmail.com>
+ <9b9c42d3-af9e-25e9-210e-c58ee5975941@maciej.szmigiero.name>
+ <472544e7-498a-4e28-06e9-83c102d6436b@maciej.szmigiero.name>
+ <20200406073246.GA7707@rvkaganb>
+ <CAP7QCojPsOYjw94k3rkH0A3rLFADLeVhgy502N=8X5wrUnoC6Q@mail.gmail.com>
+ <20200407185608.GA178651@rvkaganb>
+ <8c278ea8-81c5-7458-8979-c319470440d7@maciej.szmigiero.name>
+ <20200408202608.GA699284@rvkaganb>
+From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Autocrypt: addr=mail@maciej.szmigiero.name; prefer-encrypt=mutual; keydata=
+ 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 sg==
+Message-ID: <2594408b-c322-a8f8-3b66-389bdbc2b63b@maciej.szmigiero.name>
+Date: Wed, 8 Apr 2020 23:42:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: alexander.duyck@gmail.com
-Date: Wed, 8 Apr 2020 13:58:42 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.57
+In-Reply-To: <20200408202608.GA699284@rvkaganb>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 37.28.154.113
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,59 +128,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: virtio-dev@lists.oasis-open.org, mst@redhat.com, qemu-devel@nongnu.org,
- david@redhat.com
+Cc: Evgeny Yakovlev <eyakovlev@virtuozzo.com>, Jon Doron <arilou@gmail.com>,
+ QEMU <qemu-devel@nongnu.org>, Liran Alon <liran.alon@oracle.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDQwODE5NDYyOC4yNDE0
-My41MTY0NC5zdGdpdEBsb2NhbGhvc3QubG9jYWxkb21haW4vCgoKCkhpLAoKVGhpcyBzZXJpZXMg
-c2VlbXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxv
-dyBmb3IKbW9yZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtQQVRDSCB2MTcgUkVTVUJNSVQgUUVN
-VSAwLzNdIHZpcnRpby1iYWxsb29uOiBhZGQgc3VwcG9ydCBmb3IgcHJvdmlkaW5nIGZyZWUgcGFn
-ZSByZXBvcnRpbmcKTWVzc2FnZS1pZDogMjAyMDA0MDgxOTQ2MjguMjQxNDMuNTE2NDQuc3RnaXRA
-bG9jYWxob3N0LmxvY2FsZG9tYWluClR5cGU6IHNlcmllcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lO
-ID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAw
-CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2Fs
-IGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0
-b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1Qg
-U0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4
-ODg3MTMzODQKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwpjMWUxZTRjIHZpcnRpby1i
-YWxsb29uOiBQcm92aWRlIGEgaW50ZXJmYWNlIGZvciBmcmVlIHBhZ2UgcmVwb3J0aW5nCmMzZmM0
-YzUgdmlydGlvLWJhbGxvb246IEFkZCBzdXBwb3J0IGZvciBwcm92aWRpbmcgZnJlZSBwYWdlIHJl
-cG9ydHMgdG8gaG9zdAozNDEwZjY1IHZpcnRpby1iYWxsb29uOiBJbXBsZW1lbnQgc3VwcG9ydCBm
-b3IgcGFnZSBwb2lzb24gdHJhY2tpbmcgZmVhdHVyZQoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8z
-IENoZWNraW5nIGNvbW1pdCAzNDEwZjY1OTkyMTEgKHZpcnRpby1iYWxsb29uOiBJbXBsZW1lbnQg
-c3VwcG9ydCBmb3IgcGFnZSBwb2lzb24gdHJhY2tpbmcgZmVhdHVyZSkKRVJST1I6IHRyYWlsaW5n
-IHdoaXRlc3BhY2UKIzY4OiBGSUxFOiBody92aXJ0aW8vdmlydGlvLWJhbGxvb24uYzo3MDg6Cisg
-ICAgZGV2LT5wb2lzb25fdmFsID0gdmlydGlvX3ZkZXZfaGFzX2ZlYXR1cmUodmRldiwgVklSVElP
-X0JBTExPT05fRl9QQUdFX1BPSVNPTikgPyAkCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFj
-dGVycwojNjg6IEZJTEU6IGh3L3ZpcnRpby92aXJ0aW8tYmFsbG9vbi5jOjcwODoKKyAgICBkZXYt
-PnBvaXNvbl92YWwgPSB2aXJ0aW9fdmRldl9oYXNfZmVhdHVyZSh2ZGV2LCBWSVJUSU9fQkFMTE9P
-Tl9GX1BBR0VfUE9JU09OKSA/IAoKdG90YWw6IDEgZXJyb3JzLCAxIHdhcm5pbmdzLCA3NiBsaW5l
-cyBjaGVja2VkCgpQYXRjaCAxLzMgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
-SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
-IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjIvMyBDaGVj
-a2luZyBjb21taXQgYzNmYzRjNWE5ZmMzICh2aXJ0aW8tYmFsbG9vbjogQWRkIHN1cHBvcnQgZm9y
-IHByb3ZpZGluZyBmcmVlIHBhZ2UgcmVwb3J0cyB0byBob3N0KQozLzMgQ2hlY2tpbmcgY29tbWl0
-IGMxZTFlNGM3ZjNkMSAodmlydGlvLWJhbGxvb246IFByb3ZpZGUgYSBpbnRlcmZhY2UgZm9yIGZy
-ZWUgcGFnZSByZXBvcnRpbmcpCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRh
-YnMKIzM2OiBGSUxFOiBody92aXJ0aW8vdmlydGlvLWJhbGxvb24uYzozMzA6CisgICAgXkl1bnNp
-Z25lZCBpbnQgaTskCgpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1z
-IG9mIHRoaXMgc3RhdGVtZW50CiM0NTogRklMRTogaHcvdmlydGlvL3ZpcnRpby1iYWxsb29uLmM6
-MzM5OgorICAgICAgICAgICAgaWYgKHFlbXVfYmFsbG9vbl9pc19pbmhpYml0ZWQoKSB8fCBkZXYt
-PnBvaXNvbl92YWwpClsuLi5dCgpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFs
-bCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiM1MjogRklMRTogaHcvdmlydGlvL3ZpcnRpby1iYWxs
-b29uLmM6MzQ2OgorICAgICAgICAgICAgaWYgKChyYW1fb2Zmc2V0IHwgc2l6ZSkgJiAocmJfcGFn
-ZV9zaXplIC0gMSkpClsuLi5dCgp0b3RhbDogMyBlcnJvcnMsIDAgd2FybmluZ3MsIDg0IGxpbmVz
-IGNoZWNrZWQKClBhdGNoIDMvMyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
-ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
-dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKPT09IE9VVFBV
-VCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxv
-ZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA0MDgxOTQ2Mjgu
-MjQxNDMuNTE2NDQuc3RnaXRAbG9jYWxob3N0LmxvY2FsZG9tYWluL3Rlc3RpbmcuY2hlY2twYXRj
-aC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0
-Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRv
-IHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On 08.04.2020 22:26, Roman Kagan wrote:
+> On Tue, Apr 07, 2020 at 09:03:05PM +0200, Maciej S. Szmigiero wrote:
+>> On 07.04.2020 20:56, Roman Kagan wrote:
+>>> On Mon, Apr 06, 2020 at 11:20:39AM +0300, Jon Doron wrote:
+>>>> Well I want it to be merged in :-)
+>>>
+>>> Hmm I'm curious why, it has little to offer over virtio.
+>>>
+>>> Anyway the series you've posted seems to be based on a fairly old
+>>> version.
+>>>
+>>> The one in openvz repo is more recent.  It's still in need for
+>>> improvement, too, but should be testable at least.
+>>
+>> Isn't the one at 
+>> https://src.openvz.org/projects/UP/repos/qemu/commits?until=refs%2Fheads%2Fvmbus
+>> the latest one?
+>>
+>> It seems to be last changed in October 2019 - is there a
+>> later one?
+> 
+> There isn't, to the best of my knowledge.  It's still sorta unfinished,
+> though, and the demand seems to have disappeared so I couldn't find the
+> motivation to complete it.
+
+These patches that were posted should be based on this version, that I
+have ported to the current QEMU master and then provided to Jon.
+
+BTW. I have written an e-mail to you about this porting work about
+a month ago, but it was sent your old Virtuozzo mailbox, because that's
+the email address that these commits had in their metadata.
+
+> Thanks,
+> Roman.
+> 
+
+Thanks,
+Maciej
 
