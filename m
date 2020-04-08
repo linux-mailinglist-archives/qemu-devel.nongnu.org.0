@@ -2,86 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 737E91A1D1C
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 10:11:14 +0200 (CEST)
-Received: from localhost ([::1]:58210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE0D1A1DB1
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Apr 2020 10:56:13 +0200 (CEST)
+Received: from localhost ([::1]:60052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jM5nk-0004Ko-3Y
-	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 04:11:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44700)
+	id 1jM6VI-00035e-1h
+	for lists+qemu-devel@lfdr.de; Wed, 08 Apr 2020 04:56:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54588)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jM5ks-0002oz-Be
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:08:23 -0400
+ (envelope-from <cfontana@suse.de>) id 1jM6Dq-00009g-FJ
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:38:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jM5kl-0000qV-DW
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:08:13 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35506
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <cfontana@suse.de>) id 1jM5lb-0001xI-TZ
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:09:42 -0400
+Received: from mx2.suse.de ([195.135.220.15]:35210)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jM5kl-0000oJ-3Z
- for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:08:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586333286;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ela0vKdFzjhC5nmoyH40WrnFKyFG8cxlzndK8e65Nl0=;
- b=aEPU1xSuaxMx1rSzPE7b1YKrxXq+kL810HltI5cGljXUopOyc//WcWz3El63OgClGSvTH9
- Iak/cCkxeFnBwHpzVzyCV3+IlV1VN+FBuQ8vvh99b3AQr2iNpjtyF71MuXZLySpWEV5b+K
- iBlGY3Kn088JBAqH56nsGPwql2tpeqc=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-DyiRb7zfOiuDFcLpXWS_zw-1; Wed, 08 Apr 2020 04:08:03 -0400
-X-MC-Unique: DyiRb7zfOiuDFcLpXWS_zw-1
-Received: by mail-ed1-f71.google.com with SMTP id b100so5986759edf.15
- for <qemu-devel@nongnu.org>; Wed, 08 Apr 2020 01:08:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ela0vKdFzjhC5nmoyH40WrnFKyFG8cxlzndK8e65Nl0=;
- b=rwqtnM7ygcLoyzcFfvBmnS7Q5ZHpNS/fJl1K5tqLzAhQCAbmggcoe0cOPNasdnHp5S
- usA08bBZhO/FagSh91lMsN0I5mTdbXQwbAgqW1qqKxu9OohDtKElTkJLOXlxbaKOyQux
- FOwMOpwLbbTu2GFJ4pHNf9wriHcKBogNMVsTYHvn0qbDQlg7g0XzqRkZmuOfuESvICNl
- VqsAbzti0Z+ElZ94wZltbkALS2BnYt6FeE38S9STIfotVrwl3PnuMUh4CCluJRaAsuk9
- 8Kr2QCGPJpJuArEQTCgkfJW/xkEdNwvPmx3+6H6Fynm5/k8QpwwzW9rKkuHEkl85vuhx
- CuDg==
-X-Gm-Message-State: AGi0PuZdoRlcd99RZ1onUSxb9NFbSn9a1yCF0VaGQAtklxfp/rR2vkMI
- gsXgd5hIhmCq9x2S7JrCbJlIiV8Z8owfY0OLv//yyvQyNwUnoZEFRfs68TI+sGn7U1tIFsmqjZZ
- UsMPFq1MF7hlNtFk=
-X-Received: by 2002:a50:ee0c:: with SMTP id g12mr1621927eds.214.1586333282500; 
- Wed, 08 Apr 2020 01:08:02 -0700 (PDT)
-X-Google-Smtp-Source: APiQypK90QXu8nupHggHfB9VTcjzz/EXHVz65eweH/HKSk9tQwVna8As1+tt6Sx+OFuhlhhPYfdq4w==
-X-Received: by 2002:a50:ee0c:: with SMTP id g12mr1621907eds.214.1586333282155; 
- Wed, 08 Apr 2020 01:08:02 -0700 (PDT)
-Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id s8sm1027349eju.62.2020.04.08.01.08.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Apr 2020 01:08:01 -0700 (PDT)
-Subject: Re: [PATCH] When updating the PFLASH file contents, we should check
- for a possible failure of blk_pwrite(). Similar to 3a68829 commit
-To: Mansour Ahmadi <mansourweb@gmail.com>, qemu-devel@nongnu.org,
- Qemu-block <qemu-block@nongnu.org>
-References: <20200408003552.58095-1-mansourweb@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <34044154-1982-6f43-d124-bc4bc3924136@redhat.com>
-Date: Wed, 8 Apr 2020 10:08:00 +0200
+ (Exim 4.71) (envelope-from <cfontana@suse.de>) id 1jM5lb-0001wF-KT
+ for qemu-devel@nongnu.org; Wed, 08 Apr 2020 04:08:59 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id EDE73AD6B;
+ Wed,  8 Apr 2020 08:08:57 +0000 (UTC)
+Subject: Re: [PATCH] configure: check for bison, flex before dtc submodule
+ build
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20200407111618.17241-1-cfontana@suse.de>
+ <CAFEAcA9SYT227B9K7yHcv_J==r4xZ1spUSNzL_bRXUpAjT5QVA@mail.gmail.com>
+ <20200408015717.GA44664@umbus.fritz.box>
+ <1353d8a4-fe8b-ee8f-2f42-f1f463188767@suse.de>
+ <20200408080046.GD304335@umbus.fritz.box>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <8019e044-04d8-df5a-9eae-c525ac1881e5@suse.de>
+Date: Wed, 8 Apr 2020 10:08:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200408003552.58095-1-mansourweb@gmail.com>
+In-Reply-To: <20200408080046.GD304335@umbus.fritz.box>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic]
+X-Received-From: 195.135.220.15
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,78 +56,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alex Bennee <alex.bennee@linaro.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Mansour,
-
-On 4/8/20 2:35 AM, Mansour Ahmadi wrote:
-> Signed-off-by: Mansour Ahmadi <mansourweb@gmail.com>
-> ---
->   hw/block/pflash_cfi01.c | 6 +++++-
->   hw/block/pflash_cfi02.c | 6 +++++-
->   2 files changed, 10 insertions(+), 2 deletions(-)
+On 4/8/20 10:00 AM, David Gibson wrote:
+> On Wed, Apr 08, 2020 at 09:52:40AM +0200, Claudio Fontana wrote:
+>> On 4/8/20 3:57 AM, David Gibson wrote:
+>>> On Tue, Apr 07, 2020 at 12:20:15PM +0100, Peter Maydell wrote:
+>>>> On Tue, 7 Apr 2020 at 12:16, Claudio Fontana <cfontana@suse.de> wrote:
+>>>>>
+>>>>> if fdt is required, and the system DTC (libfdt) is not usable,
+>>>>> check for the dtc submodule requirements before trying to build it,
+>>>>> and error out with a helpful message in case the dependencies are not met.
+>>>>>
+>>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>>>
+>>>> Does the dtc module actually need bison/flex, or does it just
+>>>> print an ugly warning about it? We only want the 'libfdt' part
+>>>> of dtc, which doesn't need the parser, we don't need to build
+>>>> the actual dtc compiler.
+>>>
+>>> Assuming we're just invoking "make libfdt" within the submodule,
+>>> rather than "make" which will build dtc as well, then bison / flex
+>>> shouldn't be needed.
+>>>
+>>
+>> Indeed; I just sent a patch that works for me,
+>> tried a few in-tree and out-of-tree full builds, and it seems to work as intended.
+>> patchew complains about docker builds/tests though, although running the same TEST SCRIPTs manually with docker works for me.
+>>
+>> The libfdt target inside dtc/Makefile actually causes more than just libfdt to be built:
+>>
+>> ~/git/qemu/dtc> make libdtc
+>> 	 DEP tests/dumptrees.c
+>> 	 DEP tests/trees.S
+>> 	 DEP tests/testutils.c
+>> 	 DEP tests/value-labels.c
+>> 	 DEP tests/asm_tree_dump.c
+>> 	 DEP tests/truncated_memrsv.c
+>> 	 DEP tests/truncated_string.c
+>> 	 DEP tests/truncated_property.c
+>> 	 DEP tests/check_full.c
+>> 	 DEP tests/check_header.c
+>> 	 DEP tests/check_path.c
+>> 	 DEP tests/overlay_bad_fixup.c
+>> 	 DEP tests/overlay.c
+>> 	 DEP tests/subnode_iterate.c
+>> 	 DEP tests/property_iterate.c
+>> 	 DEP tests/integer-expressions.c
+>> 	 DEP tests/utilfdt_test.c
+>> 	 DEP tests/path_offset_aliases.c
+>> 	 DEP tests/add_subnode_with_nops.c
+>> 	 DEP tests/dtbs_equal_unordered.c
+>> 	 DEP tests/dtb_reverse.c
+>> 	 DEP tests/dtbs_equal_ordered.c
+>> 	 DEP tests/extra-terminating-null.c
+>> 	 DEP tests/incbin.c
+>> 	 DEP tests/boot-cpuid.c
+>> 	 DEP tests/phandle_format.c
+>> 	 DEP tests/path-references.c
+>> 	 DEP tests/references.c
+>> 	 DEP tests/string_escapes.c
+>> 	 DEP tests/propname_escapes.c
+>> 	 DEP tests/appendprop2.c
+>> 	 DEP tests/appendprop1.c
+>> 	 DEP tests/del_node.c
+>> 	 DEP tests/del_property.c
+>> 	 DEP tests/setprop.c
+>> 	 DEP tests/set_name.c
+>> 	 DEP tests/rw_tree1.c
+>> 	 DEP tests/open_pack.c
+>> 	 DEP tests/nopulate.c
+>> 	 DEP tests/mangle-layout.c
+>> 	 DEP tests/move_and_save.c
+>> 	 DEP tests/sw_states.c
+>> 	 DEP tests/sw_tree1.c
+>> 	 DEP tests/nop_node.c
+>> 	 DEP tests/nop_property.c
+>> 	 DEP tests/setprop_inplace.c
+>> 	 DEP tests/stringlist.c
+>> 	 DEP tests/addr_size_cells2.c
+>> 	 DEP tests/addr_size_cells.c
+>> 	 DEP tests/notfound.c
+>> 	 DEP tests/sized_cells.c
+>> 	 DEP tests/char_literal.c
+>> 	 DEP tests/get_alias.c
+>> 	 DEP tests/node_offset_by_compatible.c
+>> 	 DEP tests/node_check_compatible.c
+>> 	 DEP tests/node_offset_by_phandle.c
+>> 	 DEP tests/node_offset_by_prop_value.c
+>> 	 DEP tests/parent_offset.c
+>> 	 DEP tests/supernode_atdepth_offset.c
+>> 	 DEP tests/get_path.c
+>> 	 DEP tests/get_phandle.c
+>> 	 DEP tests/getprop.c
+>> 	 DEP tests/get_name.c
+>> 	 DEP tests/path_offset.c
+>> 	 DEP tests/subnode_offset.c
+>> 	 DEP tests/find_property.c
+>> 	 DEP tests/root_node.c
+>> 	 DEP tests/get_mem_rsv.c
+>> 	 DEP libfdt/fdt_overlay.c
+>> 	 DEP libfdt/fdt_addresses.c
+>> 	 DEP libfdt/fdt_empty_tree.c
+>> 	 DEP libfdt/fdt_strerror.c
+>> 	 DEP libfdt/fdt_rw.c
+>> 	 DEP libfdt/fdt_sw.c
+>> 	 DEP libfdt/fdt_wip.c
+>> 	 DEP libfdt/fdt_ro.c
+>> 	 DEP libfdt/fdt.c
+>> 	 DEP util.c
+>> 	 DEP fdtoverlay.c
+>> 	 DEP fdtput.c
+>> 	 DEP fdtget.c
+>> 	 DEP fdtdump.c
+>> 	 LEX convert-dtsv0-lexer.lex.c
+>> make: flex: Command not found
+>> 	 DEP srcpos.c
+>> 	 BISON dtc-parser.tab.c
+>> make: bison: Command not found
+>> 	 LEX dtc-lexer.lex.c
+>> make: flex: Command not found
+>> 	 DEP treesource.c
+>> 	 DEP livetree.c
+>> 	 DEP fstree.c
+>> 	 DEP flattree.c
+>> 	 DEP dtc.c
+>> 	 DEP data.c
+>> 	 DEP checks.c
+>> 	CHK version_gen.h
+>> 	 LEX convert-dtsv0-lexer.lex.c
+>> make: flex: Command not found
+>> 	 BISON dtc-parser.tab.c
+>> make: bison: Command not found
+>> 	 LEX dtc-lexer.lex.c
+>> make: flex: Command not found
+>> make: *** No rule to make target 'libdtc'.  Stop.
+>>
+>>
+>> so I just used dtc/libfdt/Makefile.libfdt directly and removed the
+>> recursion altogether.
 > 
-> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-> index 24f3bce7ef..31319cfd07 100644
-> --- a/hw/block/pflash_cfi01.c
-> +++ b/hw/block/pflash_cfi01.c
-> @@ -399,13 +399,17 @@ static void pflash_update(PFlashCFI01 *pfl, int offset,
->                             int size)
->   {
->       int offset_end;
-> +    int ret;
->       if (pfl->blk) {
->           offset_end = offset + size;
->           /* widen to sector boundaries */
->           offset = QEMU_ALIGN_DOWN(offset, BDRV_SECTOR_SIZE);
->           offset_end = QEMU_ALIGN_UP(offset_end, BDRV_SECTOR_SIZE);
-> -        blk_pwrite(pfl->blk, offset, pfl->storage + offset,
-> +        ret = blk_pwrite(pfl->blk, offset, pfl->storage + offset,
->                      offset_end - offset, 0);
-> +	if (ret < 0) {
-> +            error_report("Could not update PFLASH: %s", strerror(-ret));
+> The Makefile setup of dtc/libfdt is a bit weird (mostly to allow for
+> Makefile fragments to be used in weird build environments).  But for
+> this case you might be better off still doing the recursion, but just
+> changing the target from 'all' to 'libfdt'.
 
-Thanks for your patch. Note that it doesn't compile:
+Hi David,
 
-hw/block/pflash_cfi01.c:411:6: error: implicit declaration of function 
-'error_report' [-Werror=implicit-function-declaration]
-       error_report("Could not update PFLASH: %s", strerror(-ret));
-       ^
+that approach (recursing the same way, just building libfdt instead of all) is what I tried first,
+however as showcased above the libfdt target seems to cause more stuff to be built than necessary.
 
-Better than reporting the error is to set the error flag in the status 
-register.
+Do you think we should change the external module to make the minimal build of libfdt work, instead of removing the recursion?
 
-> +        }
->       }
->   }
->   
-> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-> index 12f18d401a..fee5b3497c 100644
-> --- a/hw/block/pflash_cfi02.c
-> +++ b/hw/block/pflash_cfi02.c
-> @@ -393,13 +393,17 @@ static uint64_t pflash_read(void *opaque, hwaddr offset, unsigned int width)
->   static void pflash_update(PFlashCFI02 *pfl, int offset, int size)
->   {
->       int offset_end;
-> +    int ret;
->       if (pfl->blk) {
->           offset_end = offset + size;
->           /* widen to sector boundaries */
->           offset = QEMU_ALIGN_DOWN(offset, BDRV_SECTOR_SIZE);
->           offset_end = QEMU_ALIGN_UP(offset_end, BDRV_SECTOR_SIZE);
-> -        blk_pwrite(pfl->blk, offset, pfl->storage + offset,
-> +        ret = blk_pwrite(pfl->blk, offset, pfl->storage + offset,
->                      offset_end - offset, 0);
-> +	if (ret < 0) {
-> +	    error_report("Could not update PFLASH: %s", strerror(-ret));
-> +        }
+Thanks,
 
-Similar comments (does not compile, set error status register).
+Claudio
 
->       }
->   }
->   
+
+> 
+>> Let me know what you think about the idea in general, or if anybody knows what is wrong in the patch that makes patchew complain?
+>>
+>> Ciao,
+>>
+>> Claudio
+>>
 > 
 
 
