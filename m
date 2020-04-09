@@ -2,84 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1AF71A39C8
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 20:27:02 +0200 (CEST)
-Received: from localhost ([::1]:53910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10B061A39E6
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 20:42:25 +0200 (CEST)
+Received: from localhost ([::1]:54038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMbtF-0002un-Ja
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 14:27:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47339)
+	id 1jMc88-000413-4E
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 14:42:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50616)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jMbsE-00020x-5M
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:25:59 -0400
+ (envelope-from <bounces@canonical.com>) id 1jMc72-00034O-70
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:41:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1jMbsC-0006ku-Ts
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:25:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30894
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1jMbsC-0006kR-MX
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:25:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586456755;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4XpP1+Pjt6b6a5a97WHX4mOy2IBBm0OGO1n4M3sTT3s=;
- b=CA+1ewEOmLQ2s8w3n6k/Rhd8wbRfDCgZplcdKN08VHdaLJVnP/OFELt0cy4PZEDwrI7bLk
- 3Kw0TvA63QUPq2eTlIe1M8s4xwLyKTLjuO+491D5pQbxtR074V5Dc08IfjvKLvOPmpgPE1
- OTJ30eUcUo+B/e5/Q8wqPocYYr3lmRk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-9-4ippi2MnPZmkyJLVRPrbyg-1; Thu, 09 Apr 2020 14:25:53 -0400
-X-MC-Unique: 4ippi2MnPZmkyJLVRPrbyg-1
-Received: by mail-wm1-f69.google.com with SMTP id c129so422796wme.8
- for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 11:25:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=DMIBHhMmhgMRZOGANFmaZ+fu0Zf4rstcSLqki1mHDjI=;
- b=HbmsS0opbGbQI6TZRiwBY1deBkxwHxkVuPutyzUaaCWOm4AXmrEKbGcnTjMmkskY0B
- zdUWcfFyJ+wfTSqXD54MA3Bp6S2liTCe2bp3Dx7F5e118KFjerVV3JMgHMcNTFD+mibb
- lqsf8ojliaWem4PFX8m6A/52OcpuFB9ICJsJpL+/7+rdotyU6G2xen7G3NSx4NcVjaTI
- KDggRnYGJUyolVTbsfuLibryxJxOKNNMe+vf0bWG38VU118s+OiUYdyuUwhim3F7SeoE
- b5bBQxeRJrJNnwdA2F6P09x2+tGxhVkYgbaWV4Z7ZOUhRvZvmrMH1EyPy9XHCCq6mAS3
- dCZw==
-X-Gm-Message-State: AGi0PuY7I/J8r0GmYV1nuYgih5jm65h7Bcc7nrYNb6RII6k9QmTqWmIY
- sa2cbQNJmrUtwdgEUkFyrLon+nN2aEEyLAo3u/75Z26ky+j3xotHfICGTSIGoDpQWWGy4jv7rbQ
- SOZkc5hZBlhZKrlg=
-X-Received: by 2002:adf:eed1:: with SMTP id a17mr412556wrp.287.1586456752354; 
- Thu, 09 Apr 2020 11:25:52 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJ1Fr42UstJC0TB8JJEV6ItHPkTfsuoTjSvIe4kl10t1/uu+b5Dw7e0wVl9eYkegwaynpiM8g==
-X-Received: by 2002:adf:eed1:: with SMTP id a17mr412538wrp.287.1586456752177; 
- Thu, 09 Apr 2020 11:25:52 -0700 (PDT)
-Received: from xz-x1.redhat.com ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id a187sm3817882wmh.40.2020.04.09.11.25.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Apr 2020 11:25:51 -0700 (PDT)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] gdbstub: i386: Fix gdb_get_reg16() parameter to
- unbreak gdb
-Date: Thu,  9 Apr 2020 14:25:38 -0400
-Message-Id: <20200409182538.40816-3-peterx@redhat.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200409182538.40816-1-peterx@redhat.com>
-References: <20200409182538.40816-1-peterx@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1jMc71-0005SX-2m
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:41:16 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37596)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jMc70-0005RS-TW
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:41:15 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jMc6z-0006ak-CC
+ for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 18:41:13 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 594A12E8106
+ for <qemu-devel@nongnu.org>; Thu,  9 Apr 2020 18:41:13 +0000 (UTC)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Thu, 09 Apr 2020 18:28:26 -0000
+From: Russell Morris <ubuntu@rkmorris.us>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: whpx
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 6-u3untu-h ajbennee eminus
+X-Launchpad-Bug-Reporter: Emin Ghuliev (eminus)
+X-Launchpad-Bug-Modifier: Russell Morris (6-u3untu-h)
+References: <155352235092.32006.12315829232895734213.malonedeb@soybean.canonical.com>
+Message-Id: <158645690725.17331.9403472581328107479.malone@wampee.canonical.com>
+Subject: [Bug 1821595] Re: Failed to emulate MMIO access with
+ EmulatorReturnStatus: 2
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 0efc3b68be47312eef37ac557b8cdaea2aa1706b
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,40 +66,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- peterx@redhat.com
+Reply-To: Bug 1821595 <1821595@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We should only pass in gdb_get_reg16() with the GByteArray* object
-itself, no need to shift.  Without this patch, gdb remote attach will
-crash QEMU.
+Folks seem to think this is the fix,
+https://stackoverflow.com/questions/55197032/android-emulator-whpx-failed-t=
+o-emulate-mmio-access-exit-code-3
 
-Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Fixes: b7b8756a9c ("target/i386: use gdb_get_reg helpers", 2020-03-17)
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- target/i386/gdbstub.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+But it's not working for me ... does it help you?
 
-diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
-index f3d23b614e..b98a99500a 100644
---- a/target/i386/gdbstub.c
-+++ b/target/i386/gdbstub.c
-@@ -106,7 +106,7 @@ int x86_cpu_gdb_read_register(CPUState *cs, GByteArray =
-*mem_buf, int n)
-     } else if (n >=3D IDX_FP_REGS && n < IDX_FP_REGS + 8) {
-         floatx80 *fp =3D (floatx80 *) &env->fpregs[n - IDX_FP_REGS];
-         int len =3D gdb_get_reg64(mem_buf, cpu_to_le64(fp->low));
--        len +=3D gdb_get_reg16(mem_buf + len, cpu_to_le16(fp->high));
-+        len +=3D gdb_get_reg16(mem_buf, cpu_to_le16(fp->high));
-         return len;
-     } else if (n >=3D IDX_XMM_REGS && n < IDX_XMM_REGS + CPU_NB_REGS) {
-         n -=3D IDX_XMM_REGS;
---=20
-2.24.1
+Thanks!
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1821595
+
+Title:
+  Failed to emulate MMIO access with EmulatorReturnStatus: 2
+
+Status in QEMU:
+  New
+
+Bug description:
+  I have compiled qemu with enable-whpx parameter for Hyper-V Platform API =
+in Mingw64 . When I tried run with Windows 7 iso file I have faced issue wi=
+th the following problem: =
+
+  qemu-system-x86_64.exe: WHPX: Failed to emulate MMIO access with Emulator=
+ReturnStatus: 2
+  qemu-system-x86_64.exe: WHPX: Failed to exec a virtual processor
+
+  =
+
+  configuration directives:
+
+  ../configure --target-list=3Dx86_64-softmmu,i386-softmmu --enable-lzo\
+   --enable-bzip2 --enable-tools --enable-sdl --enable-gtk --enable-hax\
+   --enable-vdi --enable-qcow1 --enable-whpx --disable-capstone\
+   --disable-werror --disable-stack-protector --prefix=3D"../../QEMU-bin"
+
+  =
+
+  Qemu command line:
+  qemu-system-x86_64.exe -m 1024 -cdrom "C:\Users\vmcs\Documents\en_windows=
+_7_home_premium_with_sp1_x86_dvd_u_676701.iso" -display sdl -machine q35 -a=
+ccel whpx
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1821595/+subscriptions
 
