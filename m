@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9AA1A39CB
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 20:28:17 +0200 (CEST)
-Received: from localhost ([::1]:53920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1AF71A39C8
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 20:27:02 +0200 (CEST)
+Received: from localhost ([::1]:53910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMbuT-0004IJ-0E
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 14:28:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47328)
+	id 1jMbtF-0002un-Ja
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 14:27:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47339)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jMbs7-0001yS-VR
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:25:53 -0400
+ (envelope-from <peterx@redhat.com>) id 1jMbsE-00020x-5M
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:25:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1jMbs6-0006jR-FV
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:25:51 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59721
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <peterx@redhat.com>) id 1jMbsC-0006ku-Ts
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:25:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30894
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1jMbs6-0006jK-CA
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:25:50 -0400
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1jMbsC-0006kR-MX
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:25:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586456750;
+ s=mimecast20190719; t=1586456755;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RqXrpKI0mE3/hUQ2AM6vqbuPQRfTIg6Z844cRK/kSmw=;
- b=Xs2Pl85YsjskPpV4MbFna7YK88zhfYIrb1Sz1pE2+r5lmO23TgSWHZvlRfGZnfu/YNwbep
- lWM7Xv+L7kr4Z6zzb8eycNqEqr9Q07BfWeIfh5ZkWcJIPRC0wk3pP4821qkPRwuFeCnJ5o
- YzItebfM4XgpdOqC+SpEFaA/kbN01mc=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-pNPSjhLmMZiz0PnXad7wgw-1; Thu, 09 Apr 2020 14:25:48 -0400
-X-MC-Unique: pNPSjhLmMZiz0PnXad7wgw-1
-Received: by mail-wr1-f72.google.com with SMTP id v14so7019291wrq.13
- for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 11:25:48 -0700 (PDT)
+ bh=4XpP1+Pjt6b6a5a97WHX4mOy2IBBm0OGO1n4M3sTT3s=;
+ b=CA+1ewEOmLQ2s8w3n6k/Rhd8wbRfDCgZplcdKN08VHdaLJVnP/OFELt0cy4PZEDwrI7bLk
+ 3Kw0TvA63QUPq2eTlIe1M8s4xwLyKTLjuO+491D5pQbxtR074V5Dc08IfjvKLvOPmpgPE1
+ OTJ30eUcUo+B/e5/Q8wqPocYYr3lmRk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-9-4ippi2MnPZmkyJLVRPrbyg-1; Thu, 09 Apr 2020 14:25:53 -0400
+X-MC-Unique: 4ippi2MnPZmkyJLVRPrbyg-1
+Received: by mail-wm1-f69.google.com with SMTP id c129so422796wme.8
+ for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 11:25:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cffX4MrmggT23maUJWPQXr4qj7SC2ubmE9gy9f7kJs8=;
- b=KXCA8BqMtLqSIOeSY0NEXJmix0a2jv/Bpi6Q2hZoicl9iCZN4QbN5rLn9Ilj11/6OE
- kYHifR61YKCYY0BXfI/G2O71sutAAPu8yyXB3Vj561wTvcZNr/zGcG8a2kwQaJlM5gOh
- uCc0fpf4boUU8ZGRUcfYhaJ66waE+p4YhYxHorsJ0tDyk33DvGOXCsEhkRXHTwhSfqDD
- ofQBIVhSysSXP3NP2DEscHuyPx5uTyA2bknxlC4gF6tUataBYnvmKbNbnUXRgCrnkgw4
- Re27xWbcULjZEk0mNM6/KmYqXxdWcjo0tG25aNnTegiHp7nvFeiGDhHrTH4zyZT2JrCn
- s2og==
-X-Gm-Message-State: AGi0PuYGUm/7oZg54fgTCj7Wo+R6vIsPTl4Ck1dBbDBBZG8HZZl3c3Se
- OSz2hgFXaKe6WIb09QabdHAlp93ruc0BFYw0p78X7CAbRMqM3+2YvZc7VEWdEE6NgM3ELkgrLbc
- q2KI08qXtsxjS/o0=
-X-Received: by 2002:adf:92a3:: with SMTP id 32mr514611wrn.254.1586456747153;
- Thu, 09 Apr 2020 11:25:47 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKakBdFqhbAHvUpBRceralisIeVvxfK4jSk2syX+7vmgV/djq7CyemxbLQS2k3RmcEwl3oY2Q==
-X-Received: by 2002:adf:92a3:: with SMTP id 32mr514598wrn.254.1586456746978;
- Thu, 09 Apr 2020 11:25:46 -0700 (PDT)
+ bh=DMIBHhMmhgMRZOGANFmaZ+fu0Zf4rstcSLqki1mHDjI=;
+ b=HbmsS0opbGbQI6TZRiwBY1deBkxwHxkVuPutyzUaaCWOm4AXmrEKbGcnTjMmkskY0B
+ zdUWcfFyJ+wfTSqXD54MA3Bp6S2liTCe2bp3Dx7F5e118KFjerVV3JMgHMcNTFD+mibb
+ lqsf8ojliaWem4PFX8m6A/52OcpuFB9ICJsJpL+/7+rdotyU6G2xen7G3NSx4NcVjaTI
+ KDggRnYGJUyolVTbsfuLibryxJxOKNNMe+vf0bWG38VU118s+OiUYdyuUwhim3F7SeoE
+ b5bBQxeRJrJNnwdA2F6P09x2+tGxhVkYgbaWV4Z7ZOUhRvZvmrMH1EyPy9XHCCq6mAS3
+ dCZw==
+X-Gm-Message-State: AGi0PuY7I/J8r0GmYV1nuYgih5jm65h7Bcc7nrYNb6RII6k9QmTqWmIY
+ sa2cbQNJmrUtwdgEUkFyrLon+nN2aEEyLAo3u/75Z26ky+j3xotHfICGTSIGoDpQWWGy4jv7rbQ
+ SOZkc5hZBlhZKrlg=
+X-Received: by 2002:adf:eed1:: with SMTP id a17mr412556wrp.287.1586456752354; 
+ Thu, 09 Apr 2020 11:25:52 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJ1Fr42UstJC0TB8JJEV6ItHPkTfsuoTjSvIe4kl10t1/uu+b5Dw7e0wVl9eYkegwaynpiM8g==
+X-Received: by 2002:adf:eed1:: with SMTP id a17mr412538wrp.287.1586456752177; 
+ Thu, 09 Apr 2020 11:25:52 -0700 (PDT)
 Received: from xz-x1.redhat.com ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id p13sm40373704wru.3.2020.04.09.11.25.45
+ by smtp.gmail.com with ESMTPSA id a187sm3817882wmh.40.2020.04.09.11.25.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Apr 2020 11:25:46 -0700 (PDT)
+ Thu, 09 Apr 2020 11:25:51 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/2] gdbstub: Assert len read from each register
-Date: Thu,  9 Apr 2020 14:25:37 -0400
-Message-Id: <20200409182538.40816-2-peterx@redhat.com>
+Subject: [PATCH v2 2/2] gdbstub: i386: Fix gdb_get_reg16() parameter to
+ unbreak gdb
+Date: Thu,  9 Apr 2020 14:25:38 -0400
+Message-Id: <20200409182538.40816-3-peterx@redhat.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200409182538.40816-1-peterx@redhat.com>
 References: <20200409182538.40816-1-peterx@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,46 +94,33 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This can expose the issue earlier on which register returned the wrong
-result.
+We should only pass in gdb_get_reg16() with the GByteArray* object
+itself, no need to shift.  Without this patch, gdb remote attach will
+crash QEMU.
 
+Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Fixes: b7b8756a9c ("target/i386: use gdb_get_reg helpers", 2020-03-17)
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- gdbstub.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ target/i386/gdbstub.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/gdbstub.c b/gdbstub.c
-index 171e150950..69656e1052 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -911,17 +911,23 @@ static int gdb_read_register(CPUState *cpu, GByteArra=
-y *buf, int reg)
-     CPUClass *cc =3D CPU_GET_CLASS(cpu);
-     CPUArchState *env =3D cpu->env_ptr;
-     GDBRegisterState *r;
-+    int len =3D 0, orig_len =3D buf->len;
-=20
-     if (reg < cc->gdb_num_core_regs) {
--        return cc->gdb_read_register(cpu, buf, reg);
-+        len =3D cc->gdb_read_register(cpu, buf, reg);
-+        goto out;
-     }
-=20
-     for (r =3D cpu->gdb_regs; r; r =3D r->next) {
-         if (r->base_reg <=3D reg && reg < r->base_reg + r->num_regs) {
--            return r->get_reg(env, buf, reg - r->base_reg);
-+            len =3D r->get_reg(env, buf, reg - r->base_reg);
-+            break;
-         }
-     }
--    return 0;
-+
-+out:
-+    assert(len =3D=3D buf->len - orig_len);
-+    return len;
- }
-=20
- static int gdb_write_register(CPUState *cpu, uint8_t *mem_buf, int reg)
+diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
+index f3d23b614e..b98a99500a 100644
+--- a/target/i386/gdbstub.c
++++ b/target/i386/gdbstub.c
+@@ -106,7 +106,7 @@ int x86_cpu_gdb_read_register(CPUState *cs, GByteArray =
+*mem_buf, int n)
+     } else if (n >=3D IDX_FP_REGS && n < IDX_FP_REGS + 8) {
+         floatx80 *fp =3D (floatx80 *) &env->fpregs[n - IDX_FP_REGS];
+         int len =3D gdb_get_reg64(mem_buf, cpu_to_le64(fp->low));
+-        len +=3D gdb_get_reg16(mem_buf + len, cpu_to_le16(fp->high));
++        len +=3D gdb_get_reg16(mem_buf, cpu_to_le16(fp->high));
+         return len;
+     } else if (n >=3D IDX_XMM_REGS && n < IDX_XMM_REGS + CPU_NB_REGS) {
+         n -=3D IDX_XMM_REGS;
 --=20
 2.24.1
 
