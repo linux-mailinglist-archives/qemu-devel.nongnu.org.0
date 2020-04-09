@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 335FC1A36B2
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 17:13:42 +0200 (CEST)
-Received: from localhost ([::1]:51444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A33341A36D2
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 17:19:17 +0200 (CEST)
+Received: from localhost ([::1]:51502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMYs9-0008LD-9a
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 11:13:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47046)
+	id 1jMYxY-0003IQ-OL
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 11:19:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47884)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jMYqy-0007Rq-10
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 11:12:29 -0400
+ (envelope-from <stefanha@gmail.com>) id 1jMYwA-0002qi-8r
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 11:17:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jMYqw-0002hm-UJ
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 11:12:27 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55030
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jMYqw-0002hO-Qk
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 11:12:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586445146;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PUfG0198tCse+qrgUkKq2eWyxNFi1WwoEqSa2S+HeJs=;
- b=FuTay27EMjkffcJmvlK5af+TZEAo8w64nOshkAC0KTLL6arevL4m9t4l3tSXpkXKaithI1
- blbHLPUOq51V0H+uBaZnxzi72F1+e6/XeQBvjCGNJkWHKfkpwopUu+7Iu/ige3EzZ0MrtW
- +9sPq23FaHSlM94Himvj+LemGrmjEAI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-116-dDb9qoXjNqm4hx1wDF5USg-1; Thu, 09 Apr 2020 11:12:20 -0400
-X-MC-Unique: dDb9qoXjNqm4hx1wDF5USg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD5F21005509;
- Thu,  9 Apr 2020 15:12:18 +0000 (UTC)
-Received: from [10.3.114.49] (ovpn-114-49.phx2.redhat.com [10.3.114.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 265DB10013A1;
- Thu,  9 Apr 2020 15:12:17 +0000 (UTC)
-Subject: Re: [PATCH v4 07/30] qcow2: Document the Extended L2 Entries feature
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-References: <cover.1584468723.git.berto@igalia.com>
- <aa1ac3fbb1d42db67d930b76255c9b7b19c07b42.1584468723.git.berto@igalia.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <8c88b96f-c6f5-e06c-73e1-56001089a7ca@redhat.com>
-Date: Thu, 9 Apr 2020 10:12:16 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <stefanha@gmail.com>) id 1jMYw9-0007Aj-46
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 11:17:50 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50981)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1jMYw8-00078D-Rt
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 11:17:49 -0400
+Received: by mail-wm1-x343.google.com with SMTP id x25so145591wmc.0
+ for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 08:17:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=k9GqnLQCuKxsRwO2iM+XaKCU6V3PZuJKFoDweOAaXio=;
+ b=flqMMrnG9dT5hU8vQSCLdQ4ayM3YjKCbpWIr3b6FfHZtmWh2es+8U+Gq4CvvVGYjQh
+ 7xypkWZFL0rJappWNkatoYJTOBwkm8Xvoj4oGxbTbA+Do4g1K73mcDMJa257IkBtf9Jh
+ 8NvJu66Q56zOkfbiXL127pHd5F1WyOmkrYkRJ04Qo92cEP/L0lwap3xyiO0d937wMT7c
+ XR0gMm6tnF5bbtdfgkFzR7P52r638WOJBBh+XHF3xDTts3yJo12GazHZA1g3NZRyM/oC
+ ESBiNzBQdRe5PrfjEgqjG22Bd0arJzXuht681hDBjrjMtu7TM1AFkzaMh0kliHbjD1Y7
+ 2CYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=k9GqnLQCuKxsRwO2iM+XaKCU6V3PZuJKFoDweOAaXio=;
+ b=HUPl9hHSZpfrAwBKUnC/djqhdcGqs1OD4PIvQruTiu5pt8SqL+0Hg/KbFdDx+JWQkX
+ ZOX3GnjeyPm0LpTps1xOut5x2qlH8vY05niakY6JLfVhI2acPib4sjTlxxrW76yLWUL+
+ XUeGRKSYTxv8BPqmZLqeSlUBCcuvzp1gqls21TVMSy4gf0bxGp7syK79fRQf2C2PdNzP
+ VGOaS13kDg3hmLIhdZU4DIB98TtAklgOO/hQA3qg02M872AkBlaY2bZFZ93+KvHMXOZM
+ 9VJRg3ivgkiVhc0ri+frmOY1MaaXgUW225E6XAXd/oWUX7oei8kjooDK/0wEetfizVQl
+ eNUQ==
+X-Gm-Message-State: AGi0PuZt6ZDuz42cZU1gP8PVkzBdaWNtCgXEmhNftZkmXlmfBezkfLa1
+ Z1yAF6jxoiyvmhZ+YHOJHXU=
+X-Google-Smtp-Source: APiQypLd2nKl/aFW+Q4ALOZ92vtkmitlVbn3dtL4ELdwdLbeBT+4rYiHn8TjB2GIY1BdpXbJlYVlsw==
+X-Received: by 2002:a1c:3b02:: with SMTP id i2mr351677wma.139.1586445467250;
+ Thu, 09 Apr 2020 08:17:47 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id f12sm4030435wmh.4.2020.04.09.08.17.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Apr 2020 08:17:46 -0700 (PDT)
+Date: Thu, 9 Apr 2020 16:17:44 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC PATCH 0/4] async: fix hangs on weakly-ordered architectures
+Message-ID: <20200409151744.GA318725@stefanha-x1.localdomain>
+References: <20200407140746.8041-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <aa1ac3fbb1d42db67d930b76255c9b7b19c07b42.1584468723.git.berto@igalia.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="wRRV7LY7NUeQGEoC"
+Content-Disposition: inline
+In-Reply-To: <20200407140746.8041-1-pbonzini@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,79 +77,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Denis V . Lunev" <den@openvz.org>
+Cc: fangying1@huawei.com, qemu-devel@nongnu.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/17/20 1:16 PM, Alberto Garcia wrote:
-> Subcluster allocation in qcow2 is implemented by extending the
-> existing L2 table entries and adding additional information to
-> indicate the allocation status of each subcluster.
-> 
-> This patch documents the changes to the qcow2 format and how they
-> affect the calculation of the L2 cache size.
-> 
-> Signed-off-by: Alberto Garcia <berto@igalia.com>
-> ---
->   docs/interop/qcow2.txt | 68 ++++++++++++++++++++++++++++++++++++++++--
->   docs/qcow2-cache.txt   | 19 +++++++++++-
->   2 files changed, 83 insertions(+), 4 deletions(-)
-> 
 
-> +== Extended L2 Entries ==
-> +
-> +An image uses Extended L2 Entries if bit 4 is set on the incompatible_features
-> +field of the header.
-> +
-> +In these images standard data clusters are divided into 32 subclusters of the
-> +same size. They are contiguous and start from the beginning of the cluster.
-> +Subclusters can be allocated independently and the L2 entry contains information
-> +indicating the status of each one of them. Compressed data clusters don't have
-> +subclusters so they are treated the same as in images without this feature.
-> +
-> +The size of an extended L2 entry is 128 bits so the number of entries per table
-> +is calculated using this formula:
-> +
-> +    l2_entries = (cluster_size / (2 * sizeof(uint64_t)))
-> +
-> +The first 64 bits have the same format as the standard L2 table entry described
-> +in the previous section, with the exception of bit 0 of the standard cluster
-> +descriptor.
-> +
-> +The last 64 bits contain a subcluster allocation bitmap with this format:
-> +
-> +Subcluster Allocation Bitmap (for standard clusters):
-> +
-> +    Bit  0 -  31:   Allocation status (one bit per subcluster)
-> +
-> +                    1: the subcluster is allocated. In this case the
-> +                       host cluster offset field must contain a valid
-> +                       offset.
-> +                    0: the subcluster is not allocated. In this case
-> +                       read requests shall go to the backing file or
-> +                       return zeros if there is no backing file data.
+--wRRV7LY7NUeQGEoC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hmm - raw external files are incompatible with backing files.  Should we 
-also document that extended L2 entries are incompatible with raw 
-external files?  (The text here reminded me about it, but it would be 
-the text earlier at the incompatible feature bits that we edit if we 
-want that additional restriction; compare to the restriction in the 
-autoclear bit 1).  After all, when raw external file is enabled, the 
-entire image is allocated, at which point subclusters don't make much sense.
+On Tue, Apr 07, 2020 at 10:07:41AM -0400, Paolo Bonzini wrote:
+> ARM machines and other weakly-ordered architectures have been suffering
+> for a long time from hangs in qemu-img and qemu-io.  For QEMU binaries
+> these are mitigated by the timers that sooner or later fire in the main
+> loop, but these will not happen for the tools and probably not with I/O
+> threads either.
+>=20
+> The fix is in patch 5.  Patch 1-3 are docs updates that explain the bug,
+> and patch 4 is a bugfix exposed by the new patch.
+>=20
+> Paolo
+>=20
+> Paolo Bonzini (5):
+>   atomics: convert to reStructuredText
+>   atomics: update documentation
+>   rcu: do not mention atomic_mb_read/set in documentation
+>   aio-wait: delegate polling of main AioContext if BQL not held
+>   async: use explicit memory barriers
+>=20
+>  docs/devel/atomics.rst   | 501 +++++++++++++++++++++++++++++++++++++++
+>  docs/devel/atomics.txt   | 403 -------------------------------
+>  docs/devel/index.rst     |   1 +
+>  docs/devel/rcu.txt       |   4 +-
+>  include/block/aio-wait.h |  22 ++
+>  include/block/aio.h      |  29 +--
+>  util/aio-posix.c         |  16 +-
+>  util/aio-win32.c         |  17 +-
+>  util/async.c             |  16 +-
+>  9 files changed, 576 insertions(+), 433 deletions(-)
+>  create mode 100644 docs/devel/atomics.rst
+>  delete mode 100644 docs/devel/atomics.txt
 
-And in stating that, it looks like we have a pre-existing hole in that 
-header bytes 8-15 don't mention the incompatibility with autoclear (when 
-things are incompatible, it's best to mention the restriction from both 
-sides, rather than only one of the sides, to make sure the reader 
-notices the restriction regardless of which field they look up first). 
-But tweaking that would be a separate patch.
+Applied patches 4 and 5 to my block branch.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Stefan
 
+--wRRV7LY7NUeQGEoC
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6PPJgACgkQnKSrs4Gr
+c8hLvwf+NfBI2VK1M6Xz82mDPhssDjDIaTqRO0oU7ANlMCANsKPl0jx4MlKiwUtH
+feVElgiY9en3ufD/B2L+ia+spXUHPY2T6Cg04H87tD4fSBhtWtjyZubDqwx7nvSo
+GsFEFkblv/5RnwIsY1K6faUxuk+6Bj9I/WfypRj05TDdr6n3bGyAgidKcuizLqzz
+qMeUmw+MB0S/9JgwJllqjTPrmhR+KatSl8f5o+ce07tQ2zTXMbuBlLh74CylDr3a
+URx9//huFRVouaP/KVgUgSeWnh4r6tMtFf7Yz4n/w4hqOnKLzxxsIYTZ1Do3qDQz
+BNhk+lVEBKdkriduD3EWbwvMR/0lcQ==
+=t3bN
+-----END PGP SIGNATURE-----
+
+--wRRV7LY7NUeQGEoC--
 
