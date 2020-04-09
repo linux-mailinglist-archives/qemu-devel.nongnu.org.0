@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B061A39E6
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 20:42:25 +0200 (CEST)
-Received: from localhost ([::1]:54038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB3CC1A39E5
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 20:42:23 +0200 (CEST)
+Received: from localhost ([::1]:54036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMc88-000413-4E
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 14:42:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50616)
+	id 1jMc86-0003yV-TU
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 14:42:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50617)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jMc72-00034O-70
+ (envelope-from <bounces@canonical.com>) id 1jMc72-00034S-6W
  for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:41:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jMc71-0005SX-2m
+ (envelope-from <bounces@canonical.com>) id 1jMc71-0005SR-25
  for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:41:16 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37596)
+Received: from indium.canonical.com ([91.189.90.7]:37606)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jMc70-0005RS-TW
+ id 1jMc70-0005Ro-Sb
  for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:41:15 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jMc6z-0006ak-CC
+ id 1jMc6z-0006ba-Uy
  for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 18:41:13 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 594A12E8106
+ by loganberry.canonical.com (Postfix) with ESMTP id E52102E8105
  for <qemu-devel@nongnu.org>; Thu,  9 Apr 2020 18:41:13 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Apr 2020 18:28:26 -0000
+Date: Thu, 09 Apr 2020 18:30:33 -0000
 From: Russell Morris <ubuntu@rkmorris.us>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -44,7 +44,7 @@ X-Launchpad-Bug-Commenters: 6-u3untu-h ajbennee eminus
 X-Launchpad-Bug-Reporter: Emin Ghuliev (eminus)
 X-Launchpad-Bug-Modifier: Russell Morris (6-u3untu-h)
 References: <155352235092.32006.12315829232895734213.malonedeb@soybean.canonical.com>
-Message-Id: <158645690725.17331.9403472581328107479.malone@wampee.canonical.com>
+Message-Id: <158645703402.11570.900125832756139080.malone@soybean.canonical.com>
 Subject: [Bug 1821595] Re: Failed to emulate MMIO access with
  EmulatorReturnStatus: 2
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -53,7 +53,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 0efc3b68be47312eef37ac557b8cdaea2aa1706b
+X-Launchpad-Hash: 216654a4185ac9b772739fed63c9a161dde92fed
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,13 +70,9 @@ Reply-To: Bug 1821595 <1821595@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Folks seem to think this is the fix,
-https://stackoverflow.com/questions/55197032/android-emulator-whpx-failed-t=
-o-emulate-mmio-access-exit-code-3
-
-But it's not working for me ... does it help you?
-
-Thanks!
+And here,
+https://www.reddit.com/r/androiddev/comments/c7u6h2/android_virtual_device_=
+on_ryzen/
 
 -- =
 
