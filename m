@@ -2,111 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A9A51A39E4
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 20:40:41 +0200 (CEST)
-Received: from localhost ([::1]:54014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D6551A39FA
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 20:49:10 +0200 (CEST)
+Received: from localhost ([::1]:54106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMc6S-0002FU-Kw
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 14:40:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49642)
+	id 1jMcEf-0000P2-IZ
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 14:49:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52970)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jMc5J-0001aS-Ne
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:39:30 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jMcCz-0007aM-Cl
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:47:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jMc5I-0004PY-I5
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:39:29 -0400
-Received: from mail-db8eur05on2072f.outbound.protection.outlook.com
- ([2a01:111:f400:7e1a::72f]:41440
- helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jMcCy-0000Fd-7R
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:47:25 -0400
+Received: from mail-db8eur05on2107.outbound.protection.outlook.com
+ ([40.107.20.107]:61605 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jMc5E-0004NJ-7d; Thu, 09 Apr 2020 14:39:24 -0400
+ id 1jMcCq-00009w-NV; Thu, 09 Apr 2020 14:47:16 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RyZNYXNTJo7norSAxR4uKPRN4+JSoO9iKy27+/k8eMLvVf8Pq/Di/LJfESkEad/xPiDEDgjWn18wLLSXYuUakS0EO1gQs+gPlHWGwEPW2/kypz+6xlv9pGVUFb2P7bQt6GzXk+OvL2rG6TWj7nX2TIaFw38XoDbNvArKlZ9jYLFanWQ6IFFJqiYX4JdXp3cZRKvAS1MoDgkrL1K6WMAPshqneFfWRataiG2bFw4z0B0ihCzWW7EhvQ34XiGHiPg+XBX/BdV2q0sNbLaSn5q4vb4ixKLYLi/P1WhmzRX8SSfOicTK/fDySW/JeaSZdl8jJhQ2qOYeHaM78jQM4NOKtA==
+ b=UJREU6yaD09lgBjWxSL2nBXkifdK87sC78Do+BH1YwNdXIaagQphI/DAWgfzL0UEglr4Y4lbM2Ht/gkKWSMSwKljgdYeVPkkcey/xi1fi2mwos3LqVEYhpu2F5chKa3IDfJNCxm1g8PfdWDjRKaRVcdNQxh3fkhSPLJJmAcGIarYAolTiMbWcnAU5B5rARqNujPLXrBq/RML7txo2Xdagzs0liGMXCTIbJb8iO4UCAx8UR+gdzWF8Ubn0EyYrIm4gmpQTMVzNDvoziE3Pk7NWPzrnqWEbIvWI3o60p71UO9awO5tOAUIEjKkGKyrG8V48hFIObJuKB50XOGkGhL2kg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Dl9SepakIWcO8CZfW9EsQFOPnSn+hDeolT3KdiabAQQ=;
- b=VREgG9vjrIvon2OZ03YQEqIoDhoWJCTy5EABxhnz7Gg71LmktNLmMSqyPAWDq+ckReHMNAR7Y2D4N35JB4q9DVBFSkuPtI5n7Dc3MEt1DJKMryDVfzt7bkKxtkw2iYD3PjLIozs9evxxbXAQzDId3MbvQNQ4SElYTlWqjTBQGvOHDLvGNbtV9TyC8lOmvoTxIkOpAevp4yZdZFOQa6CY4/99qFNBcPqpQDuvpejvorV24Lh360KHJznCa1KT7oBT97V473p3TmT6AcSBDhFRLjyZIQD41/wd8wy4moNsTmWBtHA5ZFYiywtLgmjrJEoFdpVfebxAqDbUMvl6XBlbMA==
+ bh=lBlIaDzw6j5oHxrv9t0eJD6F8dSfd0LL/49F4HXMjI8=;
+ b=GzaktvSd7VizWYj0LdAfGReCx9ud9f1b7Z/0O3Gl+06YRizMqisTH+2VsoBtB7DUT0jWE1F34MfeKXP5iGEZtPra49gTzKTqky++EZvnL6LI7xnMJ38GPgkHJ+0XaZbULjjWVzMIqoEAAHIYQ3KaiDv7szpk/YaWmHZZx9mTPaND2qXNiFMGWue14mI7BEbq6qUC3C+k+VT4G7RE5Pz8mBeITyZIfLqHncNeLeFep0cJqHgAZWsBnHELuJOCJOgXSmZNCbLghpSrldKMzd0Dcansb7f7MFa2b5Vg8AaH052IYppMSIFgYnkhwynvanQ1ZDm9ZKfZPguYHUay4aue1Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Dl9SepakIWcO8CZfW9EsQFOPnSn+hDeolT3KdiabAQQ=;
- b=IW3XV+QjB84e3Y1cQEEQQFqp6j3Pk+Zj1xbkbNtHiRxY0Sl4u1KUYSOiZQIU8vRZ2G4gkn8iPkjtjjrzccHur9yUKRF4rsBmb5CC2A7OB/Ee5gTLushDM8++W+ZESzXf2L7D10RPD565RJfadOmofVDKLTqgM31ZfusDO91jhSA=
+ bh=lBlIaDzw6j5oHxrv9t0eJD6F8dSfd0LL/49F4HXMjI8=;
+ b=M9wAumrruVcEoqOWDefoto6Bf6O20TBZIaTJC1eLWYp1BUqO47aqQaUovWukPdBvALRIQk0rs7zHTM7Cl7XYRJgb9HC+KlwRJr5RPmXztXZ/vMWgqMMDRBoHtWqtdmwyidCAbknrc3AFbS7zJmLpTxLb59Gf2bT61mW7k4dhpEw=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=vsementsov@virtuozzo.com; 
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5478.eurprd08.prod.outlook.com (2603:10a6:20b:107::14)
+ by AM7PR08MB5445.eurprd08.prod.outlook.com (2603:10a6:20b:10d::7)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.15; Thu, 9 Apr
- 2020 18:39:22 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.20; Thu, 9 Apr
+ 2020 18:47:14 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9%4]) with mapi id 15.20.2900.015; Thu, 9 Apr 2020
- 18:39:22 +0000
-Subject: Re: [PATCH v12 2/3] qcow2: Allow writing compressed data of multiple
- clusters
-To: Alberto Garcia <berto@igalia.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
-References: <1575288906-551879-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1575288906-551879-3-git-send-email-andrey.shinkevich@virtuozzo.com>
- <w51y2r41u4d.fsf@maestria.local.igalia.com>
+ 18:47:14 +0000
+Subject: Re: [PATCH v4 03/30] qcow2: Add calculate_l2_meta()
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <cover.1584468723.git.berto@igalia.com>
+ <627da7ad090c0b166f3d0294312d956fcddc5a2a.1584468723.git.berto@igalia.com>
+ <6a3a60be-9d15-5005-d492-f350f1a150aa@virtuozzo.com>
+ <w515ze83d8f.fsf@maestria.local.igalia.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200409213912160
-Message-ID: <5bbb126f-37c0-f107-c3b3-667ed43670fa@virtuozzo.com>
-Date: Thu, 9 Apr 2020 21:39:12 +0300
+X-Tagtoolbar-Keys: D20200409214704724
+Message-ID: <01b68581-182f-a2bc-d280-ef58205a16e1@virtuozzo.com>
+Date: Thu, 9 Apr 2020 21:47:04 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.2.1
-In-Reply-To: <w51y2r41u4d.fsf@maestria.local.igalia.com>
+In-Reply-To: <w515ze83d8f.fsf@maestria.local.igalia.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR01CA0081.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:10e::22) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: AM4PR0202CA0014.eurprd02.prod.outlook.com
+ (2603:10a6:200:89::24) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.100.2] (185.215.60.186) by
- AM0PR01CA0081.eurprd01.prod.exchangelabs.com (2603:10a6:208:10e::22) with
+ AM4PR0202CA0014.eurprd02.prod.outlook.com (2603:10a6:200:89::24) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.15 via Frontend
- Transport; Thu, 9 Apr 2020 18:39:21 +0000
-X-Tagtoolbar-Keys: D20200409213912160
+ Transport; Thu, 9 Apr 2020 18:47:13 +0000
+X-Tagtoolbar-Keys: D20200409214704724
 X-Originating-IP: [185.215.60.186]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ece1d461-bce2-4ce6-a0df-08d7dcb551d9
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5478:
+X-MS-Office365-Filtering-Correlation-Id: 145a4d5e-3d77-42bf-1449-08d7dcb66b81
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5445:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB54785DEB30DAFB259DF3735CC1C10@AM7PR08MB5478.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB544526A8AE5F825916C53BDBC1C10@AM7PR08MB5445.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:55;
 X-Forefront-PRVS: 0368E78B5B
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(10019020)(4636009)(366004)(346002)(376002)(39840400004)(396003)(136003)(4326008)(6486002)(36756003)(5660300002)(81166007)(107886003)(6666004)(81156014)(66946007)(2906002)(316002)(66476007)(66556008)(8936002)(8676002)(31696002)(2616005)(956004)(52116002)(478600001)(26005)(110136005)(16526019)(86362001)(186003)(16576012)(31686004);
+ SFS:(10019020)(4636009)(136003)(366004)(346002)(376002)(39840400004)(396003)(66476007)(5660300002)(66556008)(8936002)(86362001)(31696002)(2616005)(81156014)(81166007)(6666004)(26005)(8676002)(31686004)(16526019)(186003)(4326008)(316002)(478600001)(66946007)(956004)(107886003)(16576012)(6486002)(36756003)(2906002)(52116002)(54906003)(966005);
  DIR:OUT; SFP:1102; 
 Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nbP1Axewk1ukJA1m+oOfQtIE+ybAzlkWB0SDNsAPzg5xj4mF7QI3gh/J7g7R/IiJc3wDCqKmacbAQU/0FFUXnhNMDhZNsL6B+dK1MV9iNT9/APSwnmey8Xw0FLd8hUXwVJEwMkHphoBjQQc8EhRipHnDh4zn+GqkDb+1iKaVmahakhOy8rW4A5hF8CNpjqh7hi1BWEWyRVZibOdx8WiXXnISMi65kidIwFxciWXkstdDYbTAMPflMdBvnMWhhXLo45aHz+frTA70/dPjagNRH7Od30IBLt9VMSLZ7kcYCihTF3zjY/avf0gxaEJzpz6/5OWG7W/5qCW6DUDOp5rNRt0xEZiE/fTKrlJ5cGQEOaaANbszFCM1PxOfO7akyf+YsNBXhCHjm11UqNUkFBOy5eMdz1H3arx81v95eksCq9LPHrjvM5tPm/MP7b0eJ1CH
-X-MS-Exchange-AntiSpam-MessageData: 69d39YLRPG+Iu5NfXNhTYtkOINf8qw5U0qrVPR4bSK7aldlLj2Zcmm7TisKdm3sy90oAgJsPZzN6dVNBIV8K6LnWgZarVk8YrG6RhiXjKtPO3agi4bXydjRnswwNaxGxhN0AtsK7Qrnhrga9TngBQQ==
+X-Microsoft-Antispam-Message-Info: iKtsq0grp2nDbmHNxJ/m02gXLLge0M8s44SEpdfXY/i+nSP1h68r1C1ZC+iLBCTIuMowJoApnBkxae5fuS5oJlR5IEmh6evFflE3yfJDkSWYKT2vnFWQ3KueK/UST8YTQJiB6orEhzL5toTn4FRsVYKK0C6rpR93Ghyc/j9d0IKIZeMhUFelgIp+dCyLxLrLb3sFujzH925LSn1NOEG9+CIwGXZUgfdC4dRdwmuyL+W0TTxMx8uYV5/i8x02Ov7wdICHR1miLeg6djNQWWat4BCr841A9HOhBxClKvOa2XebhUG6j0V5Sq5pf/PLHP+V8dgNIEe9kNIWLBeOqVRfVYy4h+ELWX2ytw88XzqKgSd3FdN2WAwIy/d7sYGFe7ueVKyAcaqOlmSc4+iaL7BUrdKLrzjmuHX8zFQQMkpPmDo6vKNd861bFUG68UQ4JUMTGXVT4Ogeg4uUQE6F7BM6gmzPZD7+McMwVut15eGFnwAXV/bPkf7KYgJfQRLYv1UrKzxXKrM3AsfuQKZ/j5MJpg==
+X-MS-Exchange-AntiSpam-MessageData: stlaKvzR6RYf1uXGDxIA2Jgjf8oxGJmr1APr1LAcbx3S2BJJVQ/t9x+cCX1zwHU1YMY3Tv0YrV+h3E9nV08UU0gr0PMO3zfcLCft4zZtlERLxClrVeCkjgsUVmdPYxqXrlkaRPipp39rc7imKHoP5g==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ece1d461-bce2-4ce6-a0df-08d7dcb551d9
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2020 18:39:21.8026 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 145a4d5e-3d77-42bf-1449-08d7dcb66b81
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2020 18:47:14.4722 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rsinhfLOuiEbaCMcjUgQdP9QepJhTlbw8qR0SulDGq5vgPYLojt9avWbaPgdcoF1er1l9M3Mk1I5EfRoz+llpzOjk9uqw5zpn3odTSJAfv0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5478
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a01:111:f400:7e1a::72f
+X-MS-Exchange-CrossTenant-UserPrincipalName: RuTSt0YuSEy3pD1nGaVEyl4GIo5brspjcrK979bgsG6W5uMTzDQ5iAnyemBkietAPWB+TwupGU+Gqp7TwmhCe45Jz3/UAFi1nAIQAucFGek=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5445
+X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
+ [fuzzy]
+X-Received-From: 40.107.20.107
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -118,90 +115,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, armbru@redhat.com, mreitz@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-09.04.2020 19:50, Alberto Garcia wrote:
-> On Mon 02 Dec 2019 01:15:05 PM CET, Andrey Shinkevich wrote:
->> +static coroutine_fn int
->> +qcow2_co_pwritev_compressed_part(BlockDriverState *bs,
->> +                                 uint64_t offset, uint64_t bytes,
->> +                                 QEMUIOVector *qiov, size_t qiov_offset)
->> +{
->> +    BDRVQcow2State *s = bs->opaque;
->> +    AioTaskPool *aio = NULL;
->> +    int ret = 0;
->> +
->> +    if (has_data_file(bs)) {
->> +        return -ENOTSUP;
->> +    }
->> +
->> +    if (bytes == 0) {
->> +        /*
->> +         * align end of file to a sector boundary to ease reading with
->> +         * sector based I/Os
->> +         */
->> +        int64_t len = bdrv_getlength(bs->file->bs);
->> +        if (len < 0) {
->> +            return len;
->> +        }
->> +        return bdrv_co_truncate(bs->file, len, false, PREALLOC_MODE_OFF, NULL);
->> +    }
->> +
->> +    if (offset_into_cluster(s, offset)) {
->> +        return -EINVAL;
->> +    }
->> +
->> +    while (bytes && aio_task_pool_status(aio) == 0) {
->> +        uint64_t chunk_size = MIN(bytes, s->cluster_size);
->> +
->> +        if (!aio && chunk_size != bytes) {
->> +            aio = aio_task_pool_new(QCOW2_MAX_WORKERS);
->> +        }
->> +
->> +        ret = qcow2_add_task(bs, aio, qcow2_co_pwritev_compressed_task_entry,
->> +                             0, 0, offset, chunk_size, qiov, qiov_offset, NULL);
->> +        if (ret < 0) {
->> +            break;
->> +        }
->> +        qiov_offset += chunk_size;
->> +        offset += chunk_size;
->> +        bytes -= chunk_size;
->> +    }
+09.04.2020 18:12, Alberto Garcia wrote:
+> On Thu 09 Apr 2020 10:30:13 AM CEST, Vladimir Sementsov-Ogievskiy wrote:
+>>> +static void calculate_l2_meta(BlockDriverState *bs,
+>>> +                              uint64_t host_cluster_offset,
+>>> +                              uint64_t guest_offset, unsigned bytes,
+>>> +                              QCowL2Meta **m, bool keep_old)
+>>> +{
+>>> +    BDRVQcow2State *s = bs->opaque;
+>>> +    unsigned cow_start_from = 0;
+>>> +    unsigned cow_start_to = offset_into_cluster(s, guest_offset);
+>>> +    unsigned cow_end_from = cow_start_to + bytes;
+>>> +    unsigned cow_end_to = ROUND_UP(cow_end_from, s->cluster_size);
+>>> +    unsigned nb_clusters = size_to_clusters(s, cow_end_from);
+>>> +    QCowL2Meta *old_m = *m;
+>>> +
+>>> +    *m = g_malloc0(sizeof(**m));
+>>> +    **m = (QCowL2Meta) {
+>>> +        .next           = old_m,
+>>> +
+>>> +        .alloc_offset   = host_cluster_offset,
+>>> +        .offset         = start_of_cluster(s, guest_offset),
+>>> +        .nb_clusters    = nb_clusters,
+>>> +
+>>> +        .keep_old_clusters = keep_old,
+>>> +
+>>> +        .cow_start = {
+>>> +            .offset     = cow_start_from,
+>>> +            .nb_bytes   = cow_start_to - cow_start_from,
+>>> +        },
+>>> +        .cow_end = {
+>>> +            .offset     = cow_end_from,
+>>
+>> Hmm. So, you make it equal to requested_bytes from handle_alloc().
 > 
-> This patch allows the user to write more than one cluster of compressed
-> data at a time, and it does so by splitting the request into many
-> cluster-sized requests and using qcow2_add_task() for each one of them.
+> No, requested_bytes from handle_alloc is:
 > 
-> What happens however is that there's no guarantee that the requests are
-> processed in the same order that they were added.
+>     requested_bytes = *bytes + offset_into_cluster(s, guest_offset);
 > 
-> One consequence is that running on an empty qcow2 file a command as
-> simple as this one:
+> But *bytes is later modified before calling calculate_l2_meta():
 > 
->     qemu-io -c 'write -c 0 256k' image.qcow2
+>     *bytes = MIN(*bytes, nb_bytes - offset_into_cluster(s, guest_offset));
 > 
-> does not always produce the same results.
+> More details here:
 > 
-> This does not have any user-visible consequences for the guest. In all
-> cases the data is correctly written, it's just that the ordering of the
-> compressed clusters (and therefore the contents of the L2 entries) will
-> be different each time.
-> 
-> Because of this a test cannot expect that running the same commands on
-> an empty image produces always the same results.
-> 
-> Is this something that we should be concerned about?
+>     https://lists.gnu.org/archive/html/qemu-block/2019-10/msg01808.html
 > 
 
-Parallel writing compressed clusters is significant improvement, as it allow compressing in really parallel threads.
+Ahah, me again, sorry :)
 
-Generally, async parallel issuing of several requests gives more performance than handling peaces one-by-one, mirror works on this basis and it is fast. I've already moved qcow2 to this idea (aio tasks in qcow2 code), and in progress of moving backup job. So, I think that asynchrony and ambiguity would be native for block-layer anyway.
 
-Hmm. Still, what about cluster sequence? For normal clusters there may be simple thing to do: preallocation (at least of metadata). So, we can pre-create cluster sequence.. But what to do with compressed clusters if we want specific order for them, I don't know. On the other hand, ordering of normal cluster may make sence: it should increase performnace of following IO. But for compressed clusters it's not the case.
-
-So, I don't think we should make specific workaround for testing... What exactly is the case?
 
 -- 
 Best regards,
