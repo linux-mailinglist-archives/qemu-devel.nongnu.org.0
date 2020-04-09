@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 095E51A38FF
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 19:37:59 +0200 (CEST)
-Received: from localhost ([::1]:53320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 352E81A390C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 19:42:04 +0200 (CEST)
+Received: from localhost ([::1]:53356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMb7m-0002t1-2Q
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 13:37:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38438)
+	id 1jMbBZ-0004oZ-IP
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 13:41:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39262)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jMb5V-0000yu-IX
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 13:35:47 -0400
+ (envelope-from <bounces@canonical.com>) id 1jMbAk-0004P6-19
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 13:41:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jMb5U-0001Xp-I0
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 13:35:37 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51984)
+ (envelope-from <bounces@canonical.com>) id 1jMbAi-0005nX-VZ
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 13:41:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52878)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jMb5U-0001V9-C3
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 13:35:36 -0400
+ id 1jMbAi-0005my-QP
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 13:41:00 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jMb5S-00083y-4F
- for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 17:35:34 +0000
+ id 1jMbAh-0000A4-NE
+ for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 17:40:59 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 129082E8109
- for <qemu-devel@nongnu.org>; Thu,  9 Apr 2020 17:35:34 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id AE97E2E8030
+ for <qemu-devel@nongnu.org>; Thu,  9 Apr 2020 17:40:59 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Apr 2020 17:27:11 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+Date: Thu, 09 Apr 2020 17:31:40 -0000
+From: Russell Morris <ubuntu@rkmorris.us>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: configure pie windows
+X-Launchpad-Bug-Tags: windows
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee chewi
-X-Launchpad-Bug-Reporter: James Le Cuirot (chewi)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <158642182265.5805.199845175533907355.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158645323159.6177.9979924364953207482.malone@chaenomeles.canonical.com>
-Subject: [Bug 1871798] Re: Fails to start on Windows host without explicit
- --disable-pie
+X-Launchpad-Bug-Commenters: 6-u3untu-h chewi
+X-Launchpad-Bug-Reporter: Russell Morris (6-u3untu-h)
+X-Launchpad-Bug-Modifier: Russell Morris (6-u3untu-h)
+References: <158621521246.22866.8297146941622716788.malonedeb@wampee.canonical.com>
+Message-Id: <158645350065.5216.5686824253154041092.malone@chaenomeles.canonical.com>
+Subject: [Bug 1871250] Re: Failed to create HAX VM
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 47e033e07ef2402e5b97053013d7b023e26182c1
+X-Launchpad-Hash: ec6a9ae81ac0669f2626cb1c4c01fe975a677f46
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,34 +66,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1871798 <1871798@bugs.launchpad.net>
+Reply-To: Bug 1871250 <1871250@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-What compiler and toolchain are you using?
+NP, will do. Thanks again for the help!
 
 ** Changed in: qemu
-       Status: New =3D> Incomplete
+       Status: New =3D> Fix Committed
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1871798
+https://bugs.launchpad.net/bugs/1871250
 
 Title:
-  Fails to start on Windows host without explicit --disable-pie
+  Failed to create HAX VM
 
 Status in QEMU:
-  Incomplete
+  Fix Committed
 
 Bug description:
-  Since commit d2cd29e30736afd4a1e8cac3cf4da360bbc65978, which removed
-  the x86 conditional around PIE, QEMU completely fails to start on a
-  Windows host unless --disable-pie is explicitly given at build time.
-  Even just requesting the help text doesn't work. To make testing
-  easier, this can be replicated with Wine.
+  Hi,
+
+  I'm running the latest (master) of QEMU, though the version doesn't
+  seem to matter - I also checked back to v4.2.0, exactly the same
+  issue. And this isn't about the VM (guest), if I even just try to run,
+
+  > "c:\Program Files\qemu\qemu-system-x86_64.exe" -accel hax
+
+  Basically, just get a window to open, with acceleration enabled ... I get,
+  Open the vm device error:/dev/hax_vm/vm00, ec:3
+  Failed to open vm 0
+  Failed to create HAX VM
+  No accelerator found.
+
+  But I checked - I have installed Intel HAXM, and verified it's running,
+  > sc query intelhaxm
+  SERVICE_NAME: intelhaxm
+          TYPE               : 1  KERNEL_DRIVER
+          STATE              : 4  RUNNING
+                                  (STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOW=
+N)
+          WIN32_EXIT_CODE    : 0  (0x0)
+          SERVICE_EXIT_CODE  : 0  (0x0)
+          CHECKPOINT         : 0x0
+          WAIT_HINT          : 0x0
+
+  Just remove the accelerator (-accel hax), and I get a window - so this
+  is related to QEMU being able to contact / use the accelerator.
+
+  Help!?!?
+
+  Thanks!
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1871798/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1871250/+subscriptions
 
