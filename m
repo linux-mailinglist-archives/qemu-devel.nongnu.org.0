@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5C0B1A3602
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 16:34:38 +0200 (CEST)
-Received: from localhost ([::1]:50766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 255761A3645
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 16:52:31 +0200 (CEST)
+Received: from localhost ([::1]:51060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMYGL-0003q7-PK
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 10:34:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40620)
+	id 1jMYXe-0005hd-84
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 10:52:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43113)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jingqi.liu@intel.com>) id 1jMYFd-0003LP-Bc
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:33:54 -0400
+ (envelope-from <bounces@canonical.com>) id 1jMYWV-0004u2-Vn
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:51:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jingqi.liu@intel.com>) id 1jMYFa-0008CG-A4
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:33:51 -0400
-Received: from mga04.intel.com ([192.55.52.120]:30950)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jingqi.liu@intel.com>)
- id 1jMYFa-00088I-1L
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:33:50 -0400
-IronPort-SDR: /8v0frFdGiI7BbZBTQTAOBO1UF5G2PsNU8iO9upBSnMU1Kyqv7yhQk7XUwohTKxbrH9KGWniew
- VZssparc6Q5Q==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Apr 2020 07:33:36 -0700
-IronPort-SDR: 9kyqAuY15GlLixjByP2rolwhGLAG7FduRl7pdWqmpvP6OAw5Y5H0bomiqjJrhGp7YZb8v8l3pi
- 1PYH4dbsJbHA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,363,1580803200"; d="scan'208";a="330865832"
-Received: from jingqili-mobl.ccr.corp.intel.com (HELO [10.254.213.9])
- ([10.254.213.9])
- by orsmga001.jf.intel.com with ESMTP; 09 Apr 2020 07:33:34 -0700
-Subject: Re: [PATCH] exec: fetch the alignment of Linux devdax pmem character
- device nodes
-To: Joao Martins <joao.m.martins@oracle.com>,
- "Williams, Dan J" <dan.j.williams@intel.com>
-References: <20200401031314.11592-1-jingqi.liu@intel.com>
- <c906a3ae-c9d2-5802-5988-3c1d0302109b@oracle.com>
- <CAPcyv4igr9-DJx2ehoHj7sXk5g5GmgmivCqM3VpmJV7J4QM+kA@mail.gmail.com>
- <3873cb30-608c-6a27-c19f-f6446898796f@oracle.com>
- <9959e648-94f6-3be3-2271-3d2b855e7e48@intel.com>
- <6c12c748-6ee6-7132-f54b-bf0f90ae84c2@oracle.com>
-From: "Liu, Jingqi" <jingqi.liu@intel.com>
-Message-ID: <2e2ba0c4-88ed-dc37-c642-a1cc7ae98f05@intel.com>
-Date: Thu, 9 Apr 2020 22:33:33 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <bounces@canonical.com>) id 1jMYWU-0001Cy-HH
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:51:19 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38900)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jMYWU-0001Ce-Bt
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:51:18 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jMYWS-0000zb-Ba
+ for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 14:51:16 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 555C52E8107
+ for <qemu-devel@nongnu.org>; Thu,  9 Apr 2020 14:51:16 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <6c12c748-6ee6-7132-f54b-bf0f90ae84c2@oracle.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 192.55.52.120
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 09 Apr 2020 14:34:59 -0000
+From: Sean Feole <sean.feole@canonical.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=maas; status=Triaged; importance=Low;
+ assignee=lee.trager@canonical.com; 
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: product=ubuntu-z-systems; status=Triaged; importance=High;
+ assignee=maas; 
+X-Launchpad-Bug-Tags: s390x
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: andrew-cloke fheimes ltrager paelzer sfeole
+X-Launchpad-Bug-Reporter: Sean Feole (sfeole)
+X-Launchpad-Bug-Modifier: Sean Feole (sfeole)
+References: <157902669328.14768.4315907500950527119.malonedeb@wampee.canonical.com>
+Message-Id: <158644289924.11806.6253987034588526277.malone@soybean.canonical.com>
+Subject: [Bug 1859656] Re: [2.6] Unable to reboot s390x KVM machine after
+ initial deploy
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: ea805b821bdcdd411b1cad841fc4517e5cd6d58b
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,146 +71,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1859656 <1859656@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/8/2020 5:42 PM, Joao Martins wrote:
-> On 4/8/20 3:25 AM, Liu, Jingqi wrote:
->> On 4/8/2020 2:28 AM, Joao Martins wrote:
->>> On 4/7/20 5:55 PM, Dan Williams wrote:
->>>> On Tue, Apr 7, 2020 at 4:01 AM Joao Martins <joao.m.martins@oracle.com> wrote:
->>>>> Perhaps, you meant instead:
->>>>>
->>>>>           /sys/dev/char/%d:%d/align
->>>>>
->>>> Hmm, are you sure that's working?
->>> It is, except that I made the slight mistake of testing with a bunch of wip
->>> patches on top which one of them actually adds the 'align' to child dax device.
->>>
->>> Argh, my apologies - and thanks for noticing.
->>>
->>>> I expect the alignment to be found
->>>> in the region device:
->>>>
->>>> /sys/class/dax:
->>>> /sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus1/region1/dax1.1/dax1.0
->>>> $(readlink -f /sys/dev/char/253\:263)/../align
->>>> $(readlink -f /sys/dev/char/253\:263)/device/align
->>>>
->>>>
->>>> /sys/bus/dax:
->>>> /sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus1/region1/dax1.0/dax1.0
->>>> $(readlink -f /sys/dev/char/253\:265)/../align
->>>> $(readlink -f /sys/dev/char/253\:265)/device/align <-- No such file
->>>>
->>>> The use of the /sys/dev/char/%d:%d/device is only supported by the
->>>> deprecated /sys/class/dax.
->> Hi Dan,
->>
->> Thanks for your comments.
->>
->> Seems it is a mistake.
->>
->> It should be: $(readlink -f /sys/dev/char/253\:263)/../../align
->>
-> Hmm, perhaps you have an extra '../' in the path? This works for me:
->
-> # ls $(readlink -f /sys/dev/char/252\:0/../align)
-> /sys/devices/platform/e820_pmem/ndbus0/region0/dax0.0/dax0.0/../align
-> # cat $(readlink -f /sys/dev/char/252\:0)/../align
-> 2097152
-> # cat /sys/dev/char/252\:0/../align
-> 2097152
+It would appear that this bug is once again causing problems with some of o=
+ur automated testing.  =
 
-Hi Joao,
+S390x KVM deployments are failing for Focal. When attempting to investigate=
+ a big I found that it is indeed this bug. =
 
-Hmm, I need to have an extra '../' in the path. The details are as follows:
 
-# ll /dev/dax2.0
-crw------- 1 root root 251, 5 Mar 20 13:35 /dev/dax2.0
-# uname -r
-5.6.0-rc1-00044-gb19e8c684703
-# readlink -f /sys/dev/char/251\:5/
-/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus0/region2/dax2.1/dax/dax2.0
-# ls $(readlink -f /sys/dev/char/251\:5)/../align
-ls: cannot access 
-'/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus0/region2/dax2.1/dax/dax2.0/../align': 
-No such file or directory
-# ls $(readlink -f /sys/dev/char/251\:5)/../dax_region/align
-ls: cannot access 
-'/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus0/region2/dax2.1/dax/dax2.0/../dax_region/align': 
-No such file or directory
-# ls $(readlink -f /sys/dev/char/251\:5)/../../align
-/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus0/region2/dax2.1/dax/dax2.0/../../align
-# ls $(readlink -f /sys/dev/char/251\:5)/../../dax_region/align
-/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus0/region2/dax2.1/dax/dax2.0/../../dax_region/align
-# lsmod|grep pmem
-dax_pmem_compat        16384  0
-device_dax             20480  1 dax_pmem_compat
-dax_pmem_core          16384  1 dax_pmem_compat
-# lsmod|grep dax
-dax_pmem_compat        16384  0
-device_dax             20480  1 dax_pmem_compat
-dax_pmem_core          16384  1 dax_pmem_compat
+Our MAAS Server is Version:
 
-Seems some configurations are different ?
+maas:
+  Installed: 2.7.0-8232-g.6e1dba4ab-0ubuntu1~18.04.1
+  Candidate: 2.7.0-8232-g.6e1dba4ab-0ubuntu1~18.04.1
+  Version table:
 
-Can you share your info as above ? Thanks.
 
->>> I don't have the deprecated dax class enabled as could you tell, so the second
->>> case is what I was testing. Except it wasn't a namespace/nvdimm but rather an
->>> hmem device-dax.
->>>
->>> '../align' though covers only one case? What about hmem which '../align' returns
->>> ENOENT; perhaps using '../dax_region/align' instead which is common to both?
->>> Albeit that wouldn't address the sub-division devices (that I mention above)
->> Seems that you mean to use $(readlink -f
->> /sys/dev/char/253\:263)/../../dax_region/align.
->>
->> Right ?
->>
-> An extra '../' ?
->
-> # ls $(readlink -f /sys/dev/char/252\:0/../dax_region/align)
-> /sys/devices/platform/e820_pmem/ndbus0/region0/dax0.0/dax0.0/../align
-> # cat $(readlink -f /sys/dev/char/252\:0)/../dax_region/align
-> 2097152
-> # cat /sys/dev/char/252\:0/../dax_region/align
-> 2097152
->
-> For HMAT/hmem devdax, though, only 'dax_region/align' is available for now:
->
-> # ls $(readlink -f /sys/dev/char/252:0)/../align
-> ls: cannot access /sys/devices/platform/hmem.0/dax0.0/../align: No such file or
-> directory
-> # ls $(readlink -f /sys/dev/char/252:0)/../dax_region/align
-> /sys/devices/platform/hmem.0/dax0.0/../dax_region/align
-> # cat $(readlink -f /sys/dev/char/252:0)/../dax_region/align
-> 2097152
->
-> The 'dax_region/align' was just an idea mainly because it's common to both
-> device-dax devices -- not sure how others feel about it.
+I've attached the console log of the -KVM machine deploying.
 
-Seems it's reasonable. I need to sync the above path with yours.
+On MAAS the rack controller reports the following:
+sfeole@bsg75:~$ cat focal-s390x-maas.txt =
 
-Thanks,
+=3D=3D> rackd.log <=3D=3D
+2020-04-09 14:14:59 provisioningserver.rackdservices.tftp: [info] boots390x=
+.bin requested by 10.246.75.177
+2020-04-09 14:14:59 provisioningserver.rackdservices.tftp: [info] s390x/65a=
+9ca43-9541-49be-b315-e2ca85936ea2 requested by 10.246.75.177
+2020-04-09 14:14:59 provisioningserver.rackdservices.tftp: [info] s390x/01-=
+52-54-00-e5-d7-bb requested by 10.246.75.177
 
-Jingqi
+=3D=3D> regiond.log <=3D=3D
+2020-04-09 14:14:59 maasserver.rpc.leases: [info] Lease update: commit for =
+10.246.75.177 on 52:54:0:e5:d7:bb at 2020-04-09 14:14:59 (lease time: 600s)
 
->
-> 	Joao
->
->> Thanks,
->>
->> Jingqi
->>
->>>> The current /sys/bus/dax device-model can
->>>> be a drop in replacement as long as software is not written to the
->>>> /sys/class sysfs layout, i.e. it uses ../ instead of device/ to walk
->>>> to the region properties.
->>>>
->>> /nods
+=3D=3D> rackd.log <=3D=3D
+2020-04-09 14:14:59 provisioningserver.rackdservices.tftp: [info] s390x/0AF=
+64BB1 requested by 10.246.75.177
+2020-04-09 14:14:59 provisioningserver.rackdservices.tftp: [info] s390x/0AF=
+64BB requested by 10.246.75.177
+2020-04-09 14:14:59 provisioningserver.rackdservices.tftp: [info] s390x/0AF=
+64B requested by 10.246.75.177
+2020-04-09 14:14:59 provisioningserver.rackdservices.tftp: [info] s390x/0AF=
+64 requested by 10.246.75.177
+2020-04-09 14:14:59 provisioningserver.rackdservices.tftp: [info] s390x/0AF=
+6 requested by 10.246.75.177
+2020-04-09 14:15:00 provisioningserver.rackdservices.tftp: [info] s390x/0AF=
+ requested by 10.246.75.177
+2020-04-09 14:15:00 provisioningserver.rackdservices.tftp: [info] s390x/0A =
+requested by 10.246.75.177
+2020-04-09 14:15:00 provisioningserver.rackdservices.tftp: [info] s390x/0 r=
+equested by 10.246.75.177
+2020-04-09 14:15:00 provisioningserver.rackdservices.tftp: [info] s390x/def=
+ault requested by 10.246.75.177
+
+
+** Attachment added: "focal-s390x-deploy.txt"
+   https://bugs.launchpad.net/maas/+bug/1859656/+attachment/5350338/+files/=
+focal-s390x-deploy.txt
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859656
+
+Title:
+  [2.6] Unable to reboot s390x KVM machine after initial deploy
+
+Status in MAAS:
+  Triaged
+Status in QEMU:
+  Incomplete
+Status in Ubuntu on IBM z Systems:
+  Triaged
+
+Bug description:
+  MAAS version: 2.6.1 (7832-g17912cdc9-0ubuntu1~18.04.1)
+  Arch: S390x
+
+  Appears that MAAS can not find the s390x bootloader to boot from the
+  disk, not sure how maas determines this.  However this was working in
+  the past. I had originally thought that if the maas machine was
+  deployed then it defaulted to boot from disk.
+
+  If I force the VM to book from disk, the VM starts up as expected.
+
+  Reproduce:
+
+  - Deploy Disco on S390x KVM instance
+  - Reboot it
+
+  on the KVM console...
+
+  Connected to domain s2lp6g001
+  Escape character is ^]
+  done
+  =C2=A0=C2=A0Using IPv4 address: 10.246.75.160
+  =C2=A0=C2=A0Using TFTP server: 10.246.72.3
+  =C2=A0=C2=A0Bootfile name: 'boots390x.bin'
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  =C2=A0=C2=A0TFTP error: file not found: boots390x.bin
+  Trying pxelinux.cfg files...
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  Failed to load OS from network
+
+  =3D=3D> /var/log/maas/rackd.log <=3D=3D
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] boots39=
+0x.bin requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/6=
+5a9ca43-9541-49be-b315-e2ca85936ea2 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+1-52-54-00-e5-d7-bb requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64BA0 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64BA requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64B requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF6 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+A requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+ requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/d=
+efault requested by 10.246.75.160
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/maas/+bug/1859656/+subscriptions
 
