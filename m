@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF97C1A363A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 16:50:19 +0200 (CEST)
-Received: from localhost ([::1]:51030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 450AF1A365A
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 16:56:20 +0200 (CEST)
+Received: from localhost ([::1]:51134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMYVX-0004Iy-0D
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 10:50:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42826)
+	id 1jMYbL-0007mf-C1
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 10:56:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43703)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jMYUi-0003aC-En
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:49:29 -0400
+ (envelope-from <stefanha@redhat.com>) id 1jMYaU-0007B3-FX
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:55:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jMYUh-0000HL-8D
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:49:28 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49382
+ (envelope-from <stefanha@redhat.com>) id 1jMYaT-0002wN-C9
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:55:26 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51286
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jMYUg-0000GZ-KN
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:49:27 -0400
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1jMYaT-0002vz-8y
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:55:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586443765;
+ s=mimecast20190719; t=1586444124;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PvqwSjbrl7g4cxcyYsFWpP+EQRxsQkAigZC0N5QtIvI=;
- b=BLVX+mCIOuTFuySOo2s/yZniircMvADPR/qIOmMrQ2hkJbAw6594F3WN6DiSnTS4KFEBAp
- CQqomydLgcurPRNKMfmUTWK0TfYzLsRvEGtXBeNPM/QvG42BJewfa3ZOBLqSF5gdzyPD92
- pqkbHcbW3CwrqtWt/aswZYPmLqQv2AY=
+ bh=7w9AMJuOospUEouwGl8pZ9jOrQnoUO3wMgXnbfTfLL4=;
+ b=iCkXmMGJralLsNjdTDtV3321ntwqfiv4pJ8Oyn1DNY4vwt/qrqqLYgpWsyjtciCYOQrdoC
+ gTohd+BnU+IRcDte1EKHOMJYPI35So8jLVhYQkF/JSRvMy/HU/sFdeAL2AnvEHnjip55P4
+ yE6qmutecd+x0L4pX/iRCpIH3kXKGWw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-hWN2cZU9PHKJBrQ_zX8gFQ-1; Thu, 09 Apr 2020 10:49:23 -0400
-X-MC-Unique: hWN2cZU9PHKJBrQ_zX8gFQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-81-drVDNWlCNCC8VQoNAl_3uA-1; Thu, 09 Apr 2020 10:55:19 -0400
+X-MC-Unique: drVDNWlCNCC8VQoNAl_3uA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6219F18C43C7;
- Thu,  9 Apr 2020 14:49:22 +0000 (UTC)
-Received: from [10.3.114.49] (ovpn-114-49.phx2.redhat.com [10.3.114.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9EAE160BF3;
- Thu,  9 Apr 2020 14:49:21 +0000 (UTC)
-Subject: Re: [PATCH v4 28/30] qcow2: Add the 'extended_l2' option and the
- QCOW2_INCOMPAT_EXTL2 bit
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-References: <cover.1584468723.git.berto@igalia.com>
- <3de25a8fec2085e835c0f167ad91f05bd9002fa4.1584468724.git.berto@igalia.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <eef91c39-dcf2-1b37-af4d-80d2ee5bf77e@redhat.com>
-Date: Thu, 9 Apr 2020 09:49:21 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1363800D53;
+ Thu,  9 Apr 2020 14:55:18 +0000 (UTC)
+Received: from localhost (ovpn-114-141.ams2.redhat.com [10.36.114.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 450801195B1;
+ Thu,  9 Apr 2020 14:55:13 +0000 (UTC)
+Date: Thu, 9 Apr 2020 15:55:12 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH for-5.0] aio-posix: signal-proof fdmon-io_uring
+Message-ID: <20200409145512.GB317045@stefanha-x1.localdomain>
+References: <20200408091139.273851-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <3de25a8fec2085e835c0f167ad91f05bd9002fa4.1584468724.git.berto@igalia.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200408091139.273851-1-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="f2QGlHpHGjS2mn6Y"
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,50 +71,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Denis V . Lunev" <den@openvz.org>
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Julia Suvorova <jusual@redhat.com>, qemu-block@nongnu.org, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/17/20 1:16 PM, Alberto Garcia wrote:
-> Now that the implementation of subclusters is complete we can finally
-> add the necessary options to create and read images with this feature,
-> which we call "extended L2 entries".
-> 
-> Signed-off-by: Alberto Garcia <berto@igalia.com>
-> Reviewed-by: Max Reitz <mreitz@redhat.com>
+--f2QGlHpHGjS2mn6Y
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Apr 08, 2020 at 10:11:39AM +0100, Stefan Hajnoczi wrote:
+> The io_uring_enter(2) syscall returns with errno=3DEINTR when interrupted
+> by a signal.  Retry the syscall in this case.
+>=20
+> It's essential to do this in the io_uring_submit_and_wait() case.  My
+> interpretation of the Linux v5.5 io_uring_enter(2) code is that it
+> shouldn't affect the io_uring_submit() case, but there is no guarantee
+> this will always be the case.  Let's check for -EINTR around both APIs.
+>=20
+> Note that the liburing APIs have -errno return values.
+>=20
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
+>  util/fdmon-io_uring.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
 
-> +++ b/qapi/block-core.json
-> @@ -66,6 +66,9 @@
->   #                 standalone (read-only) raw image without looking at qcow2
->   #                 metadata (since: 4.0)
->   #
-> +# @extended-l2: true if the image has extended L2 entries; only valid for
-> +#               compat >= 1.1 (since 5.0)
+Thanks, applied to my block tree:
+https://github.com/stefanha/qemu/commits/block
 
-Looks like we'll have to tweak this to 5.1 now (multiple spots).
+Stefan
 
-> +++ b/block/qcow2.h
-> @@ -231,13 +231,16 @@ enum {
->       QCOW2_INCOMPAT_DIRTY_BITNR      = 0,
->       QCOW2_INCOMPAT_CORRUPT_BITNR    = 1,
->       QCOW2_INCOMPAT_DATA_FILE_BITNR  = 2,
-> +    QCOW2_INCOMPAT_EXTL2_BITNR      = 4,
+--f2QGlHpHGjS2mn6Y
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Why are we skipping bit 3?  (Hmm, now I have to go find the earlier 
-patch that touched the spec...)
+-----BEGIN PGP SIGNATURE-----
 
-aha - the spec documented compression bits (the spec change for those 
-made 5.0, but the qcow2 implementation did not); we'll have to rebase 
-depending on what lands first.  But the resolution of that merge 
-conflict will result in both feature bits eventually existing here.
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6PN1AACgkQnKSrs4Gr
+c8idUggAoS6H2m1IviOF6BPvwfJ9SN6Ah7/ai8zun5w+yZbAMyTTTQw1s1GkMkLp
+Eti5lItyB9LISmgfoIEnKdwsXiJ7e1H2DyMo7ywN0dIMdcp44i18LwYPPf/YBDLQ
+f9eCmT0hJNTRbfKtx5sQucDUbYuMdh0hwgYdUXVyraKxWrbMshTi0QXzLDKWf0oL
+Y55sRIEQSW9d/MYE83x2HEj1eGg2L9eCDKq3vjryIr8vH3NzlEc2fgGgVdOnRKQq
+d3LsM4sH3+uWLNZJ3JymqZlNEV6NIq2/a3J01/zO+KgQNm0dZtAlH90iaJZG89QU
+AlpIgH/BGOOd1GTQ5OgKJOmk5sxd8g==
+=ImnL
+-----END PGP SIGNATURE-----
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+--f2QGlHpHGjS2mn6Y--
 
 
