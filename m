@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D48D1A3348
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 13:36:30 +0200 (CEST)
-Received: from localhost ([::1]:47944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87CD41A339D
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 13:57:01 +0200 (CEST)
+Received: from localhost ([::1]:48094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMVTx-0001K2-4P
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 07:36:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45369)
+	id 1jMVno-0004ro-47
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 07:57:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47081)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jMVTD-0000uF-Uc
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 07:35:45 -0400
+ (envelope-from <bounces@canonical.com>) id 1jMVmk-0004SF-5K
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 07:55:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jMVTC-0005R2-RT
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 07:35:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46258)
+ (envelope-from <bounces@canonical.com>) id 1jMVmj-0004zl-1G
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 07:55:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50578)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jMVTC-0005Ps-Lz
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 07:35:42 -0400
+ id 1jMVmi-0004zL-RZ
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 07:55:52 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jMVTA-0006B7-HZ
- for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 11:35:40 +0000
+ id 1jMVmh-0000WU-F7
+ for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 11:55:51 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 49A722E8109
- for <qemu-devel@nongnu.org>; Thu,  9 Apr 2020 11:35:40 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 6EC222E8105
+ for <qemu-devel@nongnu.org>; Thu,  9 Apr 2020 11:55:51 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Apr 2020 11:29:20 -0000
-From: Russell Morris <ubuntu@rkmorris.us>
+Date: Thu, 09 Apr 2020 11:44:51 -0000
+From: James Le Cuirot <chewi@aura-online.co.uk>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -42,9 +42,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: 6-u3untu-h chewi
 X-Launchpad-Bug-Reporter: Russell Morris (6-u3untu-h)
-X-Launchpad-Bug-Modifier: Russell Morris (6-u3untu-h)
+X-Launchpad-Bug-Modifier: James Le Cuirot (chewi)
 References: <158621521246.22866.8297146941622716788.malonedeb@wampee.canonical.com>
-Message-Id: <158643176017.11570.16854396729355638057.malone@soybean.canonical.com>
+Message-Id: <158643269110.27729.762015179089602254.malone@gac.canonical.com>
 Subject: [Bug 1871250] Re: Failed to create HAX VM
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -52,7 +52,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 928e541b6c3a8c80a48b9974c2f7c0319c521e4e
+X-Launchpad-Hash: d0241ae5fda2c01fc916a1d45e1d238b33bb99ac
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,32 +69,10 @@ Reply-To: Bug 1871250 <1871250@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-I received an email yesterday (content below) - and it worked! Not sure
-why it's not here also (and why only via email), but let me share, hope
-this helps! And BTW, when I say worked ... I applied this to the latest
-master (locally), addreses the issue. So add this in to the master
-(formally)?
-
-Thanks!
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-
-at the moment you need this patch at
-https://lists.nongnu.org/archive/html/qemu-devel/2020-03/msg06831.html
-
-But I can't see why v4.2.0 doesn't work on your system. The bug was
-introduced later.
-
-> Basically, just get a window to open, with acceleration enabled ... I =
-
-> get, Open the vm device error:/dev/hax_vm/vm00, ec:3 Failed to open vm
-> 0 Failed to create HAX VM No accelerator found.
->
-
-ec:3 is ERROR_PATH_NOT_FOUND
+Thanks, that does indeed work for me too! Sorry for the confusion there,
+apparently merge commits play havoc with git bisect. I also thought it
+was strange that 4.2.0 didn't work for you as my last working commit
+came after that.
 
 -- =
 
