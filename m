@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13D0F1A340E
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 14:36:48 +0200 (CEST)
-Received: from localhost ([::1]:48578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D64791A3473
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 14:58:28 +0200 (CEST)
+Received: from localhost ([::1]:48808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMWQH-0007xU-Pd
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 08:36:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51081)
+	id 1jMWlH-0005Hb-Pp
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 08:58:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53505)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jMWPG-0007XT-Nd
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 08:35:43 -0400
+ (envelope-from <bounces@canonical.com>) id 1jMWir-0004Kl-I7
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 08:55:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jMWPF-0004oe-IA
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 08:35:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58162)
+ (envelope-from <bounces@canonical.com>) id 1jMWiq-0005gC-Go
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 08:55:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36732)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jMWPF-0004l4-CI
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 08:35:41 -0400
+ id 1jMWiq-0005fi-Bj
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 08:55:56 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jMWPC-0005Fu-KF
- for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 12:35:38 +0000
+ id 1jMWio-0000cW-CW
+ for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 12:55:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 964FC2E8107
- for <qemu-devel@nongnu.org>; Thu,  9 Apr 2020 12:35:38 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5374F2E8109
+ for <qemu-devel@nongnu.org>; Thu,  9 Apr 2020 12:55:54 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Apr 2020 12:24:22 -0000
-From: Russell Morris <ubuntu@rkmorris.us>
+Date: Thu, 09 Apr 2020 12:41:50 -0000
+From: James Le Cuirot <chewi@aura-online.co.uk>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -42,9 +42,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: 6-u3untu-h chewi
 X-Launchpad-Bug-Reporter: Russell Morris (6-u3untu-h)
-X-Launchpad-Bug-Modifier: Russell Morris (6-u3untu-h)
+X-Launchpad-Bug-Modifier: James Le Cuirot (chewi)
 References: <158621521246.22866.8297146941622716788.malonedeb@wampee.canonical.com>
-Message-Id: <158643506217.11855.10812002473391831794.malone@soybean.canonical.com>
+Message-Id: <158643611065.6474.7032418654000991981.malone@chaenomeles.canonical.com>
 Subject: [Bug 1871250] Re: Failed to create HAX VM
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -52,7 +52,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: f06a7ac3ec8badc8e6252d147439e4ab2b6ad1e7
+X-Launchpad-Hash: 74b423be995a61712e4a393865fdc9151e8a2661
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,16 +69,7 @@ Reply-To: Bug 1871250 <1871250@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No worries! And my apologies for some confusion too - I was trying
-v4.2.0 from the official (recent) downloads, and I think something
-wasn't quite right ... so I went back, manually built a clean v4.2.0. It
-worked, as you suspected.
-
-Good news is - seems we know the fix. Fast, and quite minor ... doesn't
-get better than that. LOL! How to get this in the formal / official
-code?
-
-Thanks!
+It looks like it's been queued for merging already.
 
 -- =
 
