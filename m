@@ -2,80 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4061B1A3877
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 18:57:15 +0200 (CEST)
-Received: from localhost ([::1]:52798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB8F1A3882
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 18:59:56 +0200 (CEST)
+Received: from localhost ([::1]:52840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMaUL-0000SE-2I
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 12:57:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59412)
+	id 1jMaWx-00037O-Br
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 12:59:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59395)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jMaNi-0004AQ-8V
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 12:50:23 -0400
+ (envelope-from <berto@igalia.com>) id 1jMaNc-000466-VT
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 12:50:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1jMaNX-0004I0-4t
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 12:50:21 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22553
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1jMaNX-0004Hv-1I
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 12:50:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586451010;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4NGfhs1HGx/KhU+MvTCQJYOweIqJyMhKQdliqlI/tvQ=;
- b=jD8C0wXclh5dj7iofZ9haF0EVTngOSA4/yb16C6Dl6//EnQKSvsPUyi0TrEJj3Bi0OgxpY
- 7ak9GBlQcb17tTMqYxnZh2TGblNVPc4ZhcG12yhJvMf1gq310ygCdxf+jg9FJMw999fz7k
- j6OCFfpGaM12HRgYG9kniZbd7PCj53I=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-324-rLRxIrbrOtGnEP3hmlyoDg-1; Thu, 09 Apr 2020 12:50:09 -0400
-X-MC-Unique: rLRxIrbrOtGnEP3hmlyoDg-1
-Received: by mail-wm1-f69.google.com with SMTP id 2so295884wmf.1
- for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 09:50:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=RZ7KiZLbzf6nVOm0eQ0Iw1Tt+NS2d318U/9Sx06YhPU=;
- b=IdFCdhEHKhBN1Y1xuZj1GI4ntXtVpA1p2gCSGC3PxvcdunEIiDGp4WkplkumecXo9b
- +EE5cwElYpeb9Sd538XhcIIPe0A7oE6w5pInAoPaq9n2Us9sd7N6fpAwlmyqBS7FnTgD
- ZbbVMYYRiCuyZSs6UCU8ed6EufMlcBW14OuuEJ+liLZGqkRcqw8NyG0zDau/VPuCJeKx
- 3PImbiAgfU8Je3m9ZpTHZBQRlg8r8mzYy2yeLt/Y3ofd7whwagxnN5ivOIYW2sppx7Y2
- foLkMNMVCKff2ZB2cW4C7mTpn5lZ3xljMomdx46rwgaLk01RsBCRqmM6IKsrscoF5VDJ
- o0aQ==
-X-Gm-Message-State: AGi0PuZYcKHlwRpnrW3+Sps2GxlTxVPAsun3CxGpMotFbF8trZJ5NT+G
- l1CT3oJ0O8MhFhUmLZYLpMoqteYG2Jh7mSgtBgRz4b6nbJpfhQrC9i4/ZIjUdlse4uxxGdJbgia
- MBFNdowUv/gkwrTU=
-X-Received: by 2002:a5d:6104:: with SMTP id v4mr38737wrt.213.1586451007372;
- Thu, 09 Apr 2020 09:50:07 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJK4PkSHMBI1mFhhJEoFFfcw/cqC/y7VuUAL9Nnt8mD2rDnOGL8vc11TP2hOJTKoJx3sE0Y/Q==
-X-Received: by 2002:a5d:6104:: with SMTP id v4mr38720wrt.213.1586451007186;
- Thu, 09 Apr 2020 09:50:07 -0700 (PDT)
-Received: from xz-x1.redhat.com ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id a67sm4446634wmc.30.2020.04.09.09.50.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Apr 2020 09:50:06 -0700 (PDT)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] gdbstub: i386: Fix gdb_get_reg16() parameter to unbreak
- gdb
-Date: Thu,  9 Apr 2020 12:49:54 -0400
-Message-Id: <20200409164954.36902-3-peterx@redhat.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200409164954.36902-1-peterx@redhat.com>
-References: <20200409164954.36902-1-peterx@redhat.com>
+ (envelope-from <berto@igalia.com>) id 1jMaNb-0004JW-JH
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 12:50:16 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:53299)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <berto@igalia.com>)
+ id 1jMaNb-0004IM-0p; Thu, 09 Apr 2020 12:50:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=I+6mDo4XSvy8YKAoUz+SvkbY6cJVefu99/5tiFkst/Y=; 
+ b=Uh6QOcaRM2qMjVHAjyWMle3zDrALSVrSy3mWoXd+M9lb2cCdS2aAbEzL2PXbVc2YcJMa4gDG7U4oH5MP1kRB6ZdNqsUfkLvHERBADayI5MyTE6POjES+jsgJ2oAhSOqiAyKZN1ZxJ5OrncEIjRvwpMl5ANkc50QbeLh1eUWq3gYBQzAAR8KXyHNu/KP2OU1nkRweURRwuTRlg5zNBp9Z3kFDKM16I7N4qWX3eMTgxW/C8M3eC5t7QCQVrtq04SC1PKVNCjTR/mjh3Hjk9trkyx4E+D6pMhazgSof1BKTi9alnVHvyqoa2jqb64p2Bdad6ZneA23jzGCpnU8OQ5iyQw==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1jMaNW-0004mS-WB; Thu, 09 Apr 2020 18:50:11 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1jMaNW-0000Cm-Ln; Thu, 09 Apr 2020 18:50:10 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
+Subject: Re: [PATCH v12 2/3] qcow2: Allow writing compressed data of multiple
+ clusters
+In-Reply-To: <1575288906-551879-3-git-send-email-andrey.shinkevich@virtuozzo.com>
+References: <1575288906-551879-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1575288906-551879-3-git-send-email-andrey.shinkevich@virtuozzo.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Thu, 09 Apr 2020 18:50:10 +0200
+Message-ID: <w51y2r41u4d.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 178.60.130.6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,37 +59,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, peterx@redhat.com
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
+ mreitz@redhat.com, den@openvz.org, andrey.shinkevich@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We should only pass in gdb_get_reg16() with the GByteArray* object
-itself, no need to shift.  Without this patch, gdb remote attach will
-crash QEMU.
+On Mon 02 Dec 2019 01:15:05 PM CET, Andrey Shinkevich wrote:
+> +static coroutine_fn int
+> +qcow2_co_pwritev_compressed_part(BlockDriverState *bs,
+> +                                 uint64_t offset, uint64_t bytes,
+> +                                 QEMUIOVector *qiov, size_t qiov_offset)
+> +{
+> +    BDRVQcow2State *s = bs->opaque;
+> +    AioTaskPool *aio = NULL;
+> +    int ret = 0;
+> +
+> +    if (has_data_file(bs)) {
+> +        return -ENOTSUP;
+> +    }
+> +
+> +    if (bytes == 0) {
+> +        /*
+> +         * align end of file to a sector boundary to ease reading with
+> +         * sector based I/Os
+> +         */
+> +        int64_t len = bdrv_getlength(bs->file->bs);
+> +        if (len < 0) {
+> +            return len;
+> +        }
+> +        return bdrv_co_truncate(bs->file, len, false, PREALLOC_MODE_OFF, NULL);
+> +    }
+> +
+> +    if (offset_into_cluster(s, offset)) {
+> +        return -EINVAL;
+> +    }
+> +
+> +    while (bytes && aio_task_pool_status(aio) == 0) {
+> +        uint64_t chunk_size = MIN(bytes, s->cluster_size);
+> +
+> +        if (!aio && chunk_size != bytes) {
+> +            aio = aio_task_pool_new(QCOW2_MAX_WORKERS);
+> +        }
+> +
+> +        ret = qcow2_add_task(bs, aio, qcow2_co_pwritev_compressed_task_entry,
+> +                             0, 0, offset, chunk_size, qiov, qiov_offset, NULL);
+> +        if (ret < 0) {
+> +            break;
+> +        }
+> +        qiov_offset += chunk_size;
+> +        offset += chunk_size;
+> +        bytes -= chunk_size;
+> +    }
 
-Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- target/i386/gdbstub.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This patch allows the user to write more than one cluster of compressed
+data at a time, and it does so by splitting the request into many
+cluster-sized requests and using qcow2_add_task() for each one of them.
 
-diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
-index f3d23b614e..b98a99500a 100644
---- a/target/i386/gdbstub.c
-+++ b/target/i386/gdbstub.c
-@@ -106,7 +106,7 @@ int x86_cpu_gdb_read_register(CPUState *cs, GByteArray =
-*mem_buf, int n)
-     } else if (n >=3D IDX_FP_REGS && n < IDX_FP_REGS + 8) {
-         floatx80 *fp =3D (floatx80 *) &env->fpregs[n - IDX_FP_REGS];
-         int len =3D gdb_get_reg64(mem_buf, cpu_to_le64(fp->low));
--        len +=3D gdb_get_reg16(mem_buf + len, cpu_to_le16(fp->high));
-+        len +=3D gdb_get_reg16(mem_buf, cpu_to_le16(fp->high));
-         return len;
-     } else if (n >=3D IDX_XMM_REGS && n < IDX_XMM_REGS + CPU_NB_REGS) {
-         n -=3D IDX_XMM_REGS;
---=20
-2.24.1
+What happens however is that there's no guarantee that the requests are
+processed in the same order that they were added.
 
+One consequence is that running on an empty qcow2 file a command as
+simple as this one:
+
+   qemu-io -c 'write -c 0 256k' image.qcow2
+
+does not always produce the same results.
+
+This does not have any user-visible consequences for the guest. In all
+cases the data is correctly written, it's just that the ordering of the
+compressed clusters (and therefore the contents of the L2 entries) will
+be different each time.
+
+Because of this a test cannot expect that running the same commands on
+an empty image produces always the same results.
+
+Is this something that we should be concerned about?
+
+Berto
 
