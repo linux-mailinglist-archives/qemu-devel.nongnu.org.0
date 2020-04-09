@@ -2,61 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7A641A3744
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 17:34:47 +0200 (CEST)
-Received: from localhost ([::1]:51798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EE221A371E
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 17:28:58 +0200 (CEST)
+Received: from localhost ([::1]:51642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMZCZ-0006RU-0h
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 11:34:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50605)
+	id 1jMZ6u-0008BM-Og
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 11:28:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49853)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jMZ8l-00019d-Lu
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 11:30:53 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jMZ5u-0007RJ-Mv
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 11:27:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jMZ8k-0003iP-Bn
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 11:30:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47660)
+ (envelope-from <alex.bennee@linaro.org>) id 1jMZ5t-0000js-79
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 11:27:54 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39358)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jMZ8k-0003fP-5t
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 11:30:50 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jMZ8h-0006IG-Ee
- for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 15:30:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6CC8E2E810A
- for <qemu-devel@nongnu.org>; Thu,  9 Apr 2020 15:30:47 +0000 (UTC)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jMZ5s-0000ig-PB
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 11:27:53 -0400
+Received: by mail-wr1-x444.google.com with SMTP id p10so12373578wrt.6
+ for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 08:27:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=+I14NGFvQzepe7pJd+vCPxfGFMnDX3QH9l1rQ+LEbRQ=;
+ b=t58lOH78MbafIflT7uVnQrpbPkLLRgEXeERUJF7kgOAW89LPnOI1kazzMxh4xdmeMU
+ tboy3e9TXwuvGE4eDlpvAZ7/2osZrlFoEPO5iEQJcy+CFkXi3bChD0ml45LxaVU5fAIq
+ W1fEnx0QBG+egnZcTfUWjYf+LRDrIJXQ/WUqwe82NV3TfZ8598TBAm+TpLXoFNp8QRNR
+ hCt9lQwkzyNnsPLkG0o+7y8GEjOCBcPoVMdKbIN/8PIsU8gPBiQoUFgMdNy7fSjwp7pE
+ L0koCwH5kqvSQ75DARQZy5RwdgneZ+fCYtCmApQl7s/XQYT47KjS89STEjp0c2t3+GPt
+ Jhng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=+I14NGFvQzepe7pJd+vCPxfGFMnDX3QH9l1rQ+LEbRQ=;
+ b=oeG6lMYdBfcWVHFocACGFbRGR3qQ3w1zNPxxKVvAD/GJFGAMb9jzhT3WlYz4024/AG
+ SpzmT+Qb/d9Ej6y7+zhvSj65R2Y3/pprQ3jDX+bAGq1fTxyzY09WD5TRDgBy0Ryh+Pa4
+ MF9j1zgf6T4cDFKlNmE0t5nW9kT+IV+qAy0cMbuTupIF+v8ECzjCqQVY5WFEpNeFjwwJ
+ LsOzIYKdUSJ1c/Dk3WqLovuaYaveuzz+3qbpRdy2xm13Ba/CmBAcL90L1zUc8tZVZyGk
+ LTydZkmGQrxtrJbiccZuJQAUjzZ4+pDgVdy2n+kc63XI7taJchcxhSKDOR0A/qvRTXID
+ lG4A==
+X-Gm-Message-State: AGi0PuZX6dn4R6rz7jQi2XfY4+tPnr+1J8psJNaSrN1YLIvFvDsVr0gb
+ lgWqeMXdMfPQBOQDRM305XctPA==
+X-Google-Smtp-Source: APiQypJlis410iFHKsMSkmLripsionstKUfZ20Zpgo4RQhRXNTQj3JGu8PJTHX3baerBZRDIiK9I7Q==
+X-Received: by 2002:adf:fdc6:: with SMTP id i6mr15096460wrs.252.1586446071215; 
+ Thu, 09 Apr 2020 08:27:51 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id d133sm4413302wmc.27.2020.04.09.08.27.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Apr 2020 08:27:49 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C5D5B1FF7E;
+ Thu,  9 Apr 2020 16:27:47 +0100 (BST)
+References: <fb4c55fa-d539-67ee-c6c9-de8fb63c8488@inria.fr>
+User-agent: mu4e 1.3.10; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Brice Goglin <Brice.Goglin@inria.fr>
+Subject: Re: linux-user: keep the name-ending parenthesis in /proc/self/stat
+In-reply-to: <fb4c55fa-d539-67ee-c6c9-de8fb63c8488@inria.fr>
+Date: Thu, 09 Apr 2020 16:27:47 +0100
+Message-ID: <87wo6oadcc.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Apr 2020 15:20:51 -0000
-From: James Le Cuirot <chewi@aura-online.co.uk>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: windows
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 6-u3untu-h chewi
-X-Launchpad-Bug-Reporter: Russell Morris (6-u3untu-h)
-X-Launchpad-Bug-Modifier: James Le Cuirot (chewi)
-References: <158621521246.22866.8297146941622716788.malonedeb@wampee.canonical.com>
-Message-Id: <158644565110.28316.15019183466115872715.malone@gac.canonical.com>
-Subject: [Bug 1871250] Re: Failed to create HAX VM
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 6a55ac38e597c63718553f262c28fe1a6ea24020
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,58 +81,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1871250 <1871250@bugs.launchpad.net>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Wait, just in case, I guess. I'm just a lowly user here.
 
--- =
+Brice Goglin <Brice.Goglin@inria.fr> writes:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1871250
+> When the program name is very long, qemu-user may truncate it in
+> /proc/self/stat. However the truncation must keep the ending ") "
+> to conform to the proc manpage which says:
+>     (2) comm  %s
+>            The  filename of the executable, in parentheses.  This
+>            is visible whether or not the  executable  is  swapped
+>            out.
+>
+> To reproduce:
+> $ ln -s /bin/cat <filenamewithmorethan128chars>
+> $ qemu-x86_64 ./<filenamewithmorethan128chars> /proc/self/stat
+>
+> Before the patch, you get:
+> 1134631 (<filenametruncated>0 0 0 0 0 0 0 0 ...
+> After the patch:
+> 1134631 (<filenametruncat>) 0 0 0 0 0 0 0 0 ...
+>
+> This fixes an issue with hwloc failing to parse /proc/self/stat
+> when Ludovic Courtes was testing it in Guix over qemu-aarch64.
+>
+> Signed-off-by: Philippe_Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Signed-off-by: Brice Goglin <Brice.Goglin@inria.fr>
+>
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -7305,7 +7305,11 @@ static int open_self_stat(void *cpu_env, int fd)
+>          snprintf(buf, sizeof(buf), "%"PRId64 " ", val);
+>        } else if (i =3D=3D 1) {
+>          /* app name */
+> -        snprintf(buf, sizeof(buf), "(%s) ", ts->bprm->argv[0]);
+> +        char *ptr =3D buf;
+> +
+> +        *ptr++ =3D '(';
+> +        ptr =3D stpncpy(ptr, ts->bprm->argv[0], sizeof(buf) - 3);
+> +        strcpy(ptr, ") ");
 
-Title:
-  Failed to create HAX VM
+why not just use a format string:
 
-Status in QEMU:
-  New
+  snprintf(buf, sizeof(buf), "(%.125s) ", ts->bprm->argv[0]);
 
-Bug description:
-  Hi,
+although to be honest when ever I see a bunch of sizeof(buf) code for
+strings I tend to re-write it to use the glib GString functions.
 
-  I'm running the latest (master) of QEMU, though the version doesn't
-  seem to matter - I also checked back to v4.2.0, exactly the same
-  issue. And this isn't about the VM (guest), if I even just try to run,
+>        } else if (i =3D=3D 27) {
+>          /* stack bottom */
+>          val =3D start_stack;
 
-  > "c:\Program Files\qemu\qemu-system-x86_64.exe" -accel hax
 
-  Basically, just get a window to open, with acceleration enabled ... I get,
-  Open the vm device error:/dev/hax_vm/vm00, ec:3
-  Failed to open vm 0
-  Failed to create HAX VM
-  No accelerator found.
-
-  But I checked - I have installed Intel HAXM, and verified it's running,
-  > sc query intelhaxm
-  SERVICE_NAME: intelhaxm
-          TYPE               : 1  KERNEL_DRIVER
-          STATE              : 4  RUNNING
-                                  (STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOW=
-N)
-          WIN32_EXIT_CODE    : 0  (0x0)
-          SERVICE_EXIT_CODE  : 0  (0x0)
-          CHECKPOINT         : 0x0
-          WAIT_HINT          : 0x0
-
-  Just remove the accelerator (-accel hax), and I get a window - so this
-  is related to QEMU being able to contact / use the accelerator.
-
-  Help!?!?
-
-  Thanks!
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1871250/+subscriptions
+--=20
+Alex Benn=C3=A9e
 
