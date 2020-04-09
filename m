@@ -2,48 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86BD81A357F
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 16:12:37 +0200 (CEST)
-Received: from localhost ([::1]:50618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87D4E1A35FD
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 16:33:49 +0200 (CEST)
+Received: from localhost ([::1]:50758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMXv2-0004Lv-Ko
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 10:12:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38293)
+	id 1jMYFY-0002wQ-5S
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 10:33:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40458)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jan.kiszka@siemens.com>) id 1jMXuH-0003ec-Uu
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:11:51 -0400
+ (envelope-from <eblake@redhat.com>) id 1jMYEZ-0002JA-Df
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:32:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.kiszka@siemens.com>) id 1jMXuF-0006Qt-Jr
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:11:48 -0400
-Received: from gecko.sbs.de ([194.138.37.40]:59321)
+ (envelope-from <eblake@redhat.com>) id 1jMYEV-0007kj-SN
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:32:45 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22930
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jan.kiszka@siemens.com>)
- id 1jMXuF-0006Ds-AP
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:11:47 -0400
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
- by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id 039EBNun002817
- (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 9 Apr 2020 16:11:23 +0200
-Received: from [139.22.34.184] ([139.22.34.184])
- by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 039EBLIk014322;
- Thu, 9 Apr 2020 16:11:22 +0200
-Subject: Re: [RFC][PATCH v2 0/3] IVSHMEM version 2 device for QEMU
-To: Liang Yan <lyan@suse.com>, qemu-devel <qemu-devel@nongnu.org>
-References: <cover.1578407802.git.jan.kiszka@siemens.com>
- <e11366c8-44e6-2d58-7c0a-f49e497cc240@suse.com>
-From: Jan Kiszka <jan.kiszka@siemens.com>
-Message-ID: <883ab460-77c2-a324-6c8b-eb2e74f6458c@siemens.com>
-Date: Thu, 9 Apr 2020 16:11:21 +0200
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jMYEV-0007kW-C2
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:32:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586442762;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ujcT+BIDTMUUBh7B9IQDNxoBUzewwRj/dSNEKYP3xJ8=;
+ b=aOe8OjsK3nVQAqpWyb9Z9zsf7pkNMMz82Wzq8Cjejznmwjz5EdpH7JZUz7nWebdwGg3mu9
+ ZLJVt+9nGx3aDq5dG8oWqaw/2ASpZ1RoZI+gpGXKI9V1OfZQbQS71BWB0cEnA4m0cTREgt
+ AUbxVa6tJzyraEjHZmmDjSSto7p+HjI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-169-HgnFJ4hsPP2n2moqsfepRQ-1; Thu, 09 Apr 2020 10:32:38 -0400
+X-MC-Unique: HgnFJ4hsPP2n2moqsfepRQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67C2D1005509;
+ Thu,  9 Apr 2020 14:32:37 +0000 (UTC)
+Received: from [10.3.114.49] (ovpn-114-49.phx2.redhat.com [10.3.114.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E56B79DD89;
+ Thu,  9 Apr 2020 14:32:36 +0000 (UTC)
+Subject: Re: qcow2: Zero-initialization of external data files
+To: Max Reitz <mreitz@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Kevin Wolf <kwolf@redhat.com>
+References: <db0b4b5c-d564-f003-bbbc-9afdcac07cc4@redhat.com>
+ <50080252-ff22-78ed-0002-1742c694471b@redhat.com>
+ <8b4bc264-7bce-c9c1-1905-a22b4c61cae4@redhat.com>
+ <ad2542f0-1faf-88eb-9dac-36d87a2a795f@redhat.com>
+ <ff515dc1-0ac1-08c6-b636-cd50c09cab7d@redhat.com>
+ <e91aa2c9-5709-ee1c-d8e9-45f12493613e@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <cc17fee7-3349-063c-3531-f6239676dc50@redhat.com>
+Date: Thu, 9 Apr 2020 09:32:36 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <e11366c8-44e6-2d58-7c0a-f49e497cc240@suse.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <e91aa2c9-5709-ee1c-d8e9-45f12493613e@redhat.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 194.138.37.40
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,91 +81,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jailhouse <jailhouse-dev@googlegroups.com>,
- Claudio Fontana <claudio.fontana@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Hannes Reinecke <hare@suse.de>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09.04.20 15:52, Liang Yan wrote:
-> 
-> 
-> On 1/7/20 9:36 AM, Jan Kiszka wrote:
->> Overdue update of the ivshmem 2.0 device model as presented at [1].
->>
->> Changes in v2:
->>   - changed PCI device ID to Siemens-granted one,
->>     adjusted PCI device revision to 0
->>   - removed unused feature register from device
->>   - addressed feedback on specification document
->>   - rebased over master
->>
->> This version is now fully in sync with the implementation for Jailhouse
->> that is currently under review [2][3], UIO and virtio-ivshmem drivers
->> are shared. Jailhouse will very likely pick up this revision of the
->> device in order to move forward with stressing it.
->>
->> More details on the usage with QEMU were in the original cover letter
->> (with adjustements to the new device ID):
->>
->> If you want to play with this, the basic setup of the shared memory
->> device is described in patch 1 and 3. UIO driver and also the
->> virtio-ivshmem prototype can be found at
->>
->>      http://git.kiszka.org/?p=linux.git;a=shortlog;h=refs/heads/queues/ivshmem2
->>
->> Accessing the device via UIO is trivial enough. If you want to use it
->> for virtio, this is additionally to the description in patch 3 needed on
->> the virtio console backend side:
->>
->>      modprobe uio_ivshmem
->>      echo "110a 4106 1af4 1100 ffc003 ffffff" > /sys/bus/pci/drivers/uio_ivshmem/new_id
->>      linux/tools/virtio/virtio-ivshmem-console /dev/uio0
->>
->> And for virtio block:
->>
->>      echo "110a 4106 1af4 1100 ffc002 ffffff" > /sys/bus/pci/drivers/uio_ivshmem/new_id
->>      linux/tools/virtio/virtio-ivshmem-console /dev/uio0 /path/to/disk.img
->>
->> After that, you can start the QEMU frontend instance with the
->> virtio-ivshmem driver installed which can use the new /dev/hvc* or
->> /dev/vda* as usual.
->>
-> Hi, Jan,
-> 
-> Nice work.
-> 
-> I did a full test for your this new version. QEMU device part looks
-> good, virtio console worked as expected. Just had some issue with
-> virtio-ivshmem-block tests here.
-> 
-> I suppose you mean "linux/tools/virtio/virtio-ivshmem-block"?
+On 4/9/20 9:10 AM, Max Reitz wrote:
 
-Yes, copy&paste mistake, had the same issue over in 
-https://github.com/siemens/jailhouse/blob/master/Documentation/inter-cell-communication.md
+>>
+>> What happens when an operation attempts to unmap things?=C2=A0 Do we rej=
+ect
+>> all unmap operations when data-file-raw is set (thus leaving a cluster
+>> marked as allocated at all times, if we can first guarantee that
+>> preallocation set things up that way)?
+> No, unmap operations currently work.  qcow2_free_any_clusters() passes
+> them through to the external data file.
+>=20
+> The problem is that the unmap also zeroes the L2 entry, so if you then
+> write data to the raw file, it won=E2=80=99t be visible from the qcow2 si=
+de of
+> things.  However, I=E2=80=99m not sure whether we support modifications o=
+f a raw
+> file when it is already =E2=80=9Cin use=E2=80=9D by a qcow2 image, so may=
+be that=E2=80=99s fine.
 
-> 
-> Noticed "ffc002" is the main difference, however I saw nothing response
-> when run echo command here, are there anything I need to prepare?
-> 
-> I build the driver in guest kernel already.
-> 
-> Do I need a new protocol or anything for below command line?
-> ivshmem2-server -F -l 64K -n 2 -V 3 -P 0x8003
+We don't support concurrent modification. But if the guest is running=20
+and unmaps things, then shuts off, then we edit the raw file offline,=20
+then we restart the guest, the guest should see the results of those=20
+offline edits.
 
-Yes, you need to adjust that command line - didn't I document that 
-somewhere? Looks like I didn't:
+We have to special-case the qcow2 code to either treat unallocated=20
+cluster + raw-data-file as not really unallocated (so that we can see=20
+those edits), or we have to special case it to handle unmap +=20
+raw-data-file specially (pass unmap to the raw file, but do NOT mark the=20
+cluster unallocated in the qcow2 wrapper).  Which special case we choose=20
+for unmap may in turn affect whether it is easier to require=20
+preallocation=3Dmetadata (because we can now guarantee that no cluster=20
+will ever be marked unallocated in qcow2) or whether the default=20
+preallocation of leaving clusters "unallocated" in qcow2 still sees the=20
+proper guest data.
 
-ivshmem2-server -F -l 1M -n 2 -V 2 -P 0x8002
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-i.e. a bit more memory is good (but this isn't speed-optimized anyway), 
-you only need 2 vectors here (but more do not harm), and the protocol 
-indeed needs adjustment (that is the key).
-
-Jan
-
--- 
-Siemens AG, Corporate Technology, CT RDA IOT SES-DE
-Corporate Competence Center Embedded Linux
 
