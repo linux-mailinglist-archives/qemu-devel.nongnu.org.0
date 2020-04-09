@@ -2,89 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F711A3750
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 17:38:54 +0200 (CEST)
-Received: from localhost ([::1]:51872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEAC91A3768
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 17:48:36 +0200 (CEST)
+Received: from localhost ([::1]:52014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMZGX-0004Mt-T0
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 11:38:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51137)
+	id 1jMZPv-0000Mt-M0
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 11:48:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52466)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Brice.Goglin@inria.fr>) id 1jMZBu-0006Dc-Ud
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 11:34:07 -0400
+ (envelope-from <eblake@redhat.com>) id 1jMZOW-0007uS-8E
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 11:47:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Brice.Goglin@inria.fr>) id 1jMZBt-0006l6-Fh
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 11:34:06 -0400
-Received: from mail2-relais-roc.national.inria.fr ([192.134.164.83]:22591)
+ (envelope-from <eblake@redhat.com>) id 1jMZOU-0003nG-TQ
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 11:47:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38887
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Brice.Goglin@inria.fr>)
- id 1jMZBt-0006ge-6L
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 11:34:05 -0400
-X-IronPort-AV: E=Sophos;i="5.72,363,1580770800"; d="scan'208";a="444602462"
-Received: from 91-160-5-165.subs.proxad.net (HELO [192.168.44.21])
- ([91.160.5.165])
- by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-SHA;
- 09 Apr 2020 17:34:01 +0200
-Subject: Re: linux-user: keep the name-ending parenthesis in /proc/self/stat
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <fb4c55fa-d539-67ee-c6c9-de8fb63c8488@inria.fr>
- <87wo6oadcc.fsf@linaro.org>
-From: Brice Goglin <Brice.Goglin@inria.fr>
-Autocrypt: addr=Brice.Goglin@inria.fr; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <149b6a99-fa9e-7ba2-6325-3ad1ff151f6c@inria.fr>
-Date: Thu, 9 Apr 2020 17:34:01 +0200
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jMZOU-0003ju-QP
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 11:47:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586447222;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0SnoqIWJLdqz7zO7Umi3yzoNXL2HaHL7mANxY0tVX3g=;
+ b=Xqir8LVimHfIWyMWGXAyxCU+FRtUVEg0mlmY3a5JJ6HoaTNSeN8cbPX94WGcq0bq9Wwab3
+ HgYr8ByAWfbRK53kou6sZdfxjDMwR1o9iTMrhezjbTXY59vSGiDffrnvB49ftX7jaZb2gK
+ jp58A67nbZVxa6yr7SqQanWVxFg2xSQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-64-eoFD45Q8MiGaVf8zLzBeew-1; Thu, 09 Apr 2020 11:46:59 -0400
+X-MC-Unique: eoFD45Q8MiGaVf8zLzBeew-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 172CD8017FC;
+ Thu,  9 Apr 2020 15:46:58 +0000 (UTC)
+Received: from [10.3.114.49] (ovpn-114-49.phx2.redhat.com [10.3.114.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 93E6352735;
+ Thu,  9 Apr 2020 15:46:57 +0000 (UTC)
+Subject: Re: qcow2: Zero-initialization of external data files
+To: Max Reitz <mreitz@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Kevin Wolf <kwolf@redhat.com>
+References: <db0b4b5c-d564-f003-bbbc-9afdcac07cc4@redhat.com>
+ <50080252-ff22-78ed-0002-1742c694471b@redhat.com>
+ <8b4bc264-7bce-c9c1-1905-a22b4c61cae4@redhat.com>
+ <ad2542f0-1faf-88eb-9dac-36d87a2a795f@redhat.com>
+ <ff515dc1-0ac1-08c6-b636-cd50c09cab7d@redhat.com>
+ <e91aa2c9-5709-ee1c-d8e9-45f12493613e@redhat.com>
+ <cc17fee7-3349-063c-3531-f6239676dc50@redhat.com>
+ <713d39ff-29f6-f9e0-bbbc-c9b26ffd28a0@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <5a8099d6-3885-2bfe-f85a-477c5cc76a45@redhat.com>
+Date: Thu, 9 Apr 2020 10:46:56 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <87wo6oadcc.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <713d39ff-29f6-f9e0-bbbc-c9b26ffd28a0@redhat.com>
 Content-Language: en-US
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.134.164.83
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,66 +82,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 09/04/2020 à 17:27, Alex Bennée a écrit :
-> Brice Goglin <Brice.Goglin@inria.fr> writes:
->
->> When the program name is very long, qemu-user may truncate it in
->> /proc/self/stat. However the truncation must keep the ending ") "
->> to conform to the proc manpage which says:
->>     (2) comm  %s
->>            The  filename of the executable, in parentheses.  This
->>            is visible whether or not the  executable  is  swapped
->>            out.
+On 4/9/20 10:01 AM, Max Reitz wrote:
+> On 09.04.20 16:32, Eric Blake wrote:
+>> On 4/9/20 9:10 AM, Max Reitz wrote:
 >>
->> To reproduce:
->> $ ln -s /bin/cat <filenamewithmorethan128chars>
->> $ qemu-x86_64 ./<filenamewithmorethan128chars> /proc/self/stat
+>>>>
+>>>> What happens when an operation attempts to unmap things?=C2=A0 Do we r=
+eject
+>>>> all unmap operations when data-file-raw is set (thus leaving a cluster
+>>>> marked as allocated at all times, if we can first guarantee that
+>>>> preallocation set things up that way)?
+>>> No, unmap operations currently work.=C2=A0 qcow2_free_any_clusters() pa=
+sses
+>>> them through to the external data file.
+>>>
+>>> The problem is that the unmap also zeroes the L2 entry, so if you then
+>>> write data to the raw file, it won=E2=80=99t be visible from the qcow2 =
+side of
+>>> things.=C2=A0 However, I=E2=80=99m not sure whether we support modifica=
+tions of a raw
+>>> file when it is already =E2=80=9Cin use=E2=80=9D by a qcow2 image, so m=
+aybe that=E2=80=99s fine.
 >>
->> Before the patch, you get:
->> 1134631 (<filenametruncated>0 0 0 0 0 0 0 0 ...
->> After the patch:
->> 1134631 (<filenametruncat>) 0 0 0 0 0 0 0 0 ...
->>
->> This fixes an issue with hwloc failing to parse /proc/self/stat
->> when Ludovic Courtes was testing it in Guix over qemu-aarch64.
->>
->> Signed-off-by: Philippe_Mathieu-Daudé <philmd@redhat.com>
->> Signed-off-by: Brice Goglin <Brice.Goglin@inria.fr>
->>
->> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
->> --- a/linux-user/syscall.c
->> +++ b/linux-user/syscall.c
->> @@ -7305,7 +7305,11 @@ static int open_self_stat(void *cpu_env, int fd)
->>          snprintf(buf, sizeof(buf), "%"PRId64 " ", val);
->>        } else if (i == 1) {
->>          /* app name */
->> -        snprintf(buf, sizeof(buf), "(%s) ", ts->bprm->argv[0]);
->> +        char *ptr = buf;
->> +
->> +        *ptr++ = '(';
->> +        ptr = stpncpy(ptr, ts->bprm->argv[0], sizeof(buf) - 3);
->> +        strcpy(ptr, ") ");
-> why not just use a format string:
->
->   snprintf(buf, sizeof(buf), "(%.125s) ", ts->bprm->argv[0]);
->
+>> We don't support concurrent modification. But if the guest is running
+>> and unmaps things, then shuts off, then we edit the raw file offline,
+>> then we restart the guest, the guest should see the results of those
+>> offline edits.
+>=20
+> Should it?  The specification doesn=E2=80=99t say anything about that.
+>=20
+> In fact, I think we have always said we explicitly discourage that
+> because this might lead to outdated metadata; even though we usually
+> meant =E2=80=9Cdirty bitmaps=E2=80=9D by that.
 
-Go ahead and apply what you want (maybe 124 instead of 125 because of
-the ending \0).
+Hmm.  Kevin, I'd really like your opinion here.  The point of the=20
+raw-external-data flag is to state that "qemu MUST ensure that whatever=20
+is done to this image while the guest is running is reflected through to=20
+the raw file, so that after the guest stops, the raw file alone is still=20
+viable to see what the guest saw".  But as you say, there's a difference=20
+between "the raw file will read what the guest saw" and "we can now edit=20
+the raw file without regards to the qcow2 wrapper but later reuse of the=20
+qcow2 wrapper won't be corrupted by those edits".
 
-My commit message above explains how to test things very quickly.
-
-I don't use qemu-user or Guix myself, and I can't spend time
-debugging/testing this further.
-
-Thank you
-
-Brice
-
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
