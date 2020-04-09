@@ -2,62 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29AEC1A3982
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 20:02:41 +0200 (CEST)
-Received: from localhost ([::1]:53638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 708441A3965
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 19:56:06 +0200 (CEST)
+Received: from localhost ([::1]:53558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMbVg-00053B-7H
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 14:02:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43568)
+	id 1jMbPJ-0000zo-Gn
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 13:56:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42505)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jMbUE-00042D-Sr
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:01:18 -0400
+ (envelope-from <berrange@redhat.com>) id 1jMbOO-0000W2-Mz
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 13:55:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jMbUD-0000y0-OW
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:01:10 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55760)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jMbUD-0000xF-Iz
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:01:09 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jMbUB-000283-UY
- for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 18:01:07 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E52712E8104
- for <qemu-devel@nongnu.org>; Thu,  9 Apr 2020 18:01:07 +0000 (UTC)
+ (envelope-from <berrange@redhat.com>) id 1jMbON-0006EV-D3
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 13:55:08 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60152
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jMbON-0006E6-8R
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 13:55:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586454906;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CRLxGsEJ8oonQg2Sfzzgn/yhXQ0dnrlMsVotJr0hi0Y=;
+ b=eP6Uyi27ONqXLNT0+Gm2tdFWXQ2QpE0YfBRTNI+JaAqgIor7DfUXZ0GV8uV5X9fSlSylcG
+ GpEqob/MeDpgQ3LZYMqM4ZbkPPlyE7JhaCbjH/SzlOWQH/DBMSslVuSh1KgES2HYeIh9LV
+ U8CPsrvdDVzzbiiuxjCJPXGPG5DDZSI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-120-QRSp1mriOq-oSbLXe9kuvQ-1; Thu, 09 Apr 2020 13:54:58 -0400
+X-MC-Unique: QRSp1mriOq-oSbLXe9kuvQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3993800D53;
+ Thu,  9 Apr 2020 17:54:56 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4426D60BF3;
+ Thu,  9 Apr 2020 17:54:55 +0000 (UTC)
+Date: Thu, 9 Apr 2020 18:54:51 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH RESEND 3/3] .travis.yml: Test building with Xcode 11.3
+Message-ID: <20200409175451.GA1202384@redhat.com>
+References: <20200218142018.7224-1-philmd@redhat.com>
+ <20200218142018.7224-4-philmd@redhat.com>
+ <874kvezw8h.fsf@linaro.org>
+ <41c6101f-8334-b3de-8ba2-2d5808ec4e18@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <41c6101f-8334-b3de-8ba2-2d5808ec4e18@redhat.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Apr 2020 17:53:36 -0000
-From: Emin Ghuliev <1821595@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: whpx
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 6-u3untu-h ajbennee eminus
-X-Launchpad-Bug-Reporter: Emin Ghuliev (eminus)
-X-Launchpad-Bug-Modifier: Emin Ghuliev (eminus)
-References: <155352235092.32006.12315829232895734213.malonedeb@soybean.canonical.com>
-Message-Id: <158645481696.5694.17646887544357440561.malone@chaenomeles.canonical.com>
-Subject: [Bug 1821595] Re: Failed to emulate MMIO access with
- EmulatorReturnStatus: 2
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: c4de5dab8082e433e09811883c391152fab8bfe8
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,49 +76,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1821595 <1821595@bugs.launchpad.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I think WHPX can't some MMIO requests for EFI.
+On Thu, Apr 09, 2020 at 07:44:46PM +0200, Philippe Mathieu-Daud=C3=A9 wrote=
+:
+> On 2/25/20 1:29 PM, Alex Benn=C3=A9e wrote:
+> >=20
+> > Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+> >=20
+> > > We currently run a CI job on macOS Mojave with Xcode 10.
+> > >=20
+> > > QEMU policy is to support the two last major OS releases.
+> > > Add a job building on macOS Catalina, which comes with Xcode 11.
+> > >=20
+> > > Split the target list in two, as we don't need to cover twice the
+> > > same targets.
+> > >=20
+> > > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> > > ---
+> > >   .travis.yml | 36 +++++++++++++++++++++++++++++++++++-
+> > >   1 file changed, 35 insertions(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/.travis.yml b/.travis.yml
+> > > index a2a7fd0dd1..d02a477623 100644
+> > > --- a/.travis.yml
+> > > +++ b/.travis.yml
+> > > @@ -269,9 +269,10 @@ matrix:
+> > >       # MacOSX builds - cirrus.yml also tests some MacOS builds inclu=
+ding latest Xcode
+> > > +    # On macOS Mojave, the SDK comes bundled with Xcode 10.
+> > >       - name: "OSX Xcode 10.3"
+> > >         env:
+> > > -        - CONFIG=3D"--target-list=3Di386-softmmu,ppc-softmmu,ppc64-s=
+oftmmu,m68k-softmmu,x86_64-softmmu --extra-cflags=3D-I/usr/local/opt/ncurse=
+s/include --extra-ldflags=3D-L/usr/local/opt/ncurses/lib"
+> > > +        - CONFIG=3D"--target-list=3Di386-softmmu,ppc-softmmu,ppc64-s=
+oftmmu,m68k-softmmu --extra-cflags=3D-I/usr/local/opt/ncurses/include --ext=
+ra-ldflags=3D-L/usr/local/opt/ncurses/lib"
+> > >         os: osx
+> > >         osx_image: xcode10.3
+> > >         compiler: clang
+> > > @@ -301,6 +302,39 @@ matrix:
+> > >           - ${SRC_DIR}/configure ${BASE_CONFIG} ${CONFIG} || { cat co=
+nfig.log && exit 1; }
+> > > +    # On macOS Catalina, the SDK comes bundled with Xcode 11.
+> > > +    - name: "OSX Xcode 11.3"
+> > > +      env:
+> > > +        - CONFIG=3D"--target-list=3Darm-softmmu,ppc64-softmmu,x86_64=
+-softmmu --extra-cflags=3D-I/usr/local/opt/ncurses/include --extra-ldflags=
+=3D-L/usr/local/opt/ncurses/lib"
+> > > +      os: osx
+> > > +      osx_image: xcode11.3
+> >=20
+> > Are we duplicating what the latest Xcode on Cirrus is here?
+>=20
+> Maybe, I'm not sure. It seems only few people care about Cirrus/Shippable
+> but they are not taken seriously by the community, as they are often brok=
+en
+> and nobody is notified. Currently Travis has a broader audience.
+>=20
+> Also I sent a series to fix various things that break on Cirrus from time=
+ to
+> time but I felt there is not many interest so I stopped spending energy o=
+n
+> it:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg675074.html
+>=20
+> We could change that by refusing to merge pullreq that break such CI.
 
--- =
+IMHO less is more. IOW, we should use/support the fewest  possible CI
+systems required to get the coverage we want.  If we can get all macOS
+coverage on Travis, I'd remove it from Cirrus, or vica-verca. The fewer
+places we have to look at the more likely we'll pay attention to it
+when it breaks.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1821595
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
-Title:
-  Failed to emulate MMIO access with EmulatorReturnStatus: 2
-
-Status in QEMU:
-  New
-
-Bug description:
-  I have compiled qemu with enable-whpx parameter for Hyper-V Platform API =
-in Mingw64 . When I tried run with Windows 7 iso file I have faced issue wi=
-th the following problem: =
-
-  qemu-system-x86_64.exe: WHPX: Failed to emulate MMIO access with Emulator=
-ReturnStatus: 2
-  qemu-system-x86_64.exe: WHPX: Failed to exec a virtual processor
-
-  =
-
-  configuration directives:
-
-  ../configure --target-list=3Dx86_64-softmmu,i386-softmmu --enable-lzo\
-   --enable-bzip2 --enable-tools --enable-sdl --enable-gtk --enable-hax\
-   --enable-vdi --enable-qcow1 --enable-whpx --disable-capstone\
-   --disable-werror --disable-stack-protector --prefix=3D"../../QEMU-bin"
-
-  =
-
-  Qemu command line:
-  qemu-system-x86_64.exe -m 1024 -cdrom "C:\Users\vmcs\Documents\en_windows=
-_7_home_premium_with_sp1_x86_dvd_u_676701.iso" -display sdl -machine q35 -a=
-ccel whpx
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1821595/+subscriptions
 
