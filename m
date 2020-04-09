@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBD101A3983
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 20:03:01 +0200 (CEST)
-Received: from localhost ([::1]:53642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AE7E1A3989
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 20:04:48 +0200 (CEST)
+Received: from localhost ([::1]:53660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMbW0-0005Zt-Qr
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 14:03:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43618)
+	id 1jMbXj-0007Np-Ay
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 14:04:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43715)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jMbUh-0004Re-LU
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:01:40 -0400
+ (envelope-from <eblake@redhat.com>) id 1jMbV9-0004wu-Ib
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:02:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1jMbUg-0001BS-KU
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:01:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36612
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1jMbV8-0001Vt-HW
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:02:07 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38702
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1jMbUg-0001Au-GE
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:01:38 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jMbV8-0001U3-7z
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:02:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586455298;
+ s=mimecast20190719; t=1586455324;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=F5U6sFpx2dH/GaJD3694bYIhd8KMdcHVrUQFq/q+enY=;
- b=OAVinZHhMZBMvnWdqfVC+tra6tIXCFB54ldpUuRl+dpYJWOKSBvk4BqugpSE9WzZx0ye+M
- hncMFN/V7iUrY4xkGQ0rar03FMX+367Zce/RNXTMeekUgiAgRc0L6HIEjQLIxeLEhWZpSJ
- 75ZoD7ewXRNLZHIJGGkvBqXcJLwAa/I=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-oUWP4OLvPQ2pwaTGKLC4hw-1; Thu, 09 Apr 2020 14:01:36 -0400
-X-MC-Unique: oUWP4OLvPQ2pwaTGKLC4hw-1
-Received: by mail-wm1-f69.google.com with SMTP id w8so413726wmk.5
- for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 11:01:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=XerKs3Mbx2b79V0d+hgonl7siBG/nHxzL60tiDiMwjg=;
- b=U/wrOSYpL1uM1QpAXTDGrNvj0H3NSAZn2W1pqveJUIIJgqN2bLIKWW37nMo8boGptx
- 11rK219FM334QyU45LgrKL+cqPFrYvOl+zt8SAMrC1y3p4PG1RuAQfE0LF6pXUqYDm1q
- kMJx8fi+9bS5/5W7hBUG3sYA0eeOTwO4+F6cp2Q48y4gT9kgY+EPi3S5b0/Nt19Y1uxs
- s+s+q567Zgt3URKj4ES2h4htdxLWFnvEolXuHZXVPimkxiSSQUGev9EqMCqZsqntcgvV
- k0dulpTgtm6psZf3MMZ0yhFSGJP05JEj3J35wyAR9QCWLwTpXfOS0WOZERH+2bVubeUs
- 5d4g==
-X-Gm-Message-State: AGi0PuaeY/5B7mkqqBUo1XPBsTXH+m+Gl5EYwRQ8mq2K+8yprA5E0XD1
- HviqEcYshoD0kgk2kn+x//y+yGLpgPFFumkQ+NoIYUsfvyQD9CBC34cqlCYM7lk0Ezi9iGt0lh6
- Kv1orsVSFT4C3MU4=
-X-Received: by 2002:a1c:4d18:: with SMTP id o24mr948848wmh.141.1586455295057; 
- Thu, 09 Apr 2020 11:01:35 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIsQkT3VQAHQmBNuMcQg/sSOd45W00HdXZKoeNtTZDLkoWhfqqFiye3VgiJ0KRxKX+yAvTTAw==
-X-Received: by 2002:a1c:4d18:: with SMTP id o24mr948827wmh.141.1586455294786; 
- Thu, 09 Apr 2020 11:01:34 -0700 (PDT)
-Received: from xz-x1 ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id c190sm4649081wme.10.2020.04.09.11.01.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Apr 2020 11:01:34 -0700 (PDT)
-Date: Thu, 9 Apr 2020 14:01:30 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 2/2] gdbstub: i386: Fix gdb_get_reg16() parameter to
- unbreak gdb
-Message-ID: <20200409180130.GA10061@xz-x1>
-References: <20200409164954.36902-1-peterx@redhat.com>
- <20200409164954.36902-3-peterx@redhat.com>
- <b559bedc-c6d7-922b-35fd-96ac4f068d9b@redhat.com>
+ bh=ohurTFnwHTFEvah1f7EZXFN/XV+nDXWrD4MHbi4zHEc=;
+ b=TYzFrM1pKmut2aZhQls06xPwLD9MI+RfGM3F9T9zHD5OsWUWJpLjqMJNZ6iQ6HGvEXB0De
+ I8K4ZkASPuXBofTxa1CZl6H/39XJdN9ceIW307Gw6retFyQgvB0fyNBoo3OK5j67uI6pkb
+ gRMIOCeY0IUfeYCxuqerJDi331bNqCk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-167-Mjl1GEcMMeqHSazoxH7GOg-1; Thu, 09 Apr 2020 14:02:00 -0400
+X-MC-Unique: Mjl1GEcMMeqHSazoxH7GOg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0033E800D53;
+ Thu,  9 Apr 2020 18:02:00 +0000 (UTC)
+Received: from [10.3.114.49] (ovpn-114-49.phx2.redhat.com [10.3.114.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B3BA391;
+ Thu,  9 Apr 2020 18:01:59 +0000 (UTC)
+Subject: Re: [PATCH for-5.1 2/8] qemu-options: Factor out get_opt_name_value()
+ helper
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200409153041.17576-1-armbru@redhat.com>
+ <20200409153041.17576-3-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <5f39e636-f799-55f3-873f-08a3a0f53dca@redhat.com>
+Date: Thu, 9 Apr 2020 13:01:59 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <b559bedc-c6d7-922b-35fd-96ac4f068d9b@redhat.com>
+In-Reply-To: <20200409153041.17576-3-armbru@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,38 +77,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Phil,
+On 4/9/20 10:30 AM, Markus Armbruster wrote:
+> The next commits will put it to use.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>   util/qemu-option.c | 102 +++++++++++++++++++++++++--------------------
+>   1 file changed, 56 insertions(+), 46 deletions(-)
+> 
 
-On Thu, Apr 09, 2020 at 07:21:04PM +0200, Philippe Mathieu-Daud=C3=A9 wrote=
-:
-> On 4/9/20 6:49 PM, Peter Xu wrote:
-> > We should only pass in gdb_get_reg16() with the GByteArray* object
-> > itself, no need to shift.  Without this patch, gdb remote attach will
-> > crash QEMU.
->=20
-> You are correct.
->=20
-> Fixes: a010bdbe719 ("extend GByteArray to read register helpers")
+> +static const char *get_opt_name_value(const char *params,
+> +                                      const char *firstname,
+> +                                      char **name, char **value)
+> +{
+> +    const char *p, *pe, *pc;
+> +
+> +    pe = strchr(params, '=');
+> +    pc = strchr(params, ',');
+> +
+> +    if (!pe || (pc && pc < pe)) {
+> +        /* found "foo,more" */
+> +        if (firstname) {
+> +            /* implicitly named first option */
+> +            *name = g_strdup(firstname);
+> +            p = get_opt_value(params, value);
 
-Oh I forgot to paste the fix line.  However, is it b7b8756a9c
-("target/i386: use gdb_get_reg helpers", 2020-03-17) instead?
+Is this correct even when params is "foo,,more"?  But...
 
->=20
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>   static void opts_do_parse(QemuOpts *opts, const char *params,
+>                             const char *firstname, bool prepend,
+>                             bool *invalidp, Error **errp)
+>   {
+> -    char *option = NULL;
+> -    char *value = NULL;
+> -    const char *p,*pe,*pc;
+>       Error *local_err = NULL;
+> +    char *option, *value;
+> +    const char *p;
+>   
+> -    for (p = params; *p != '\0'; p++) {
+> -        pe = strchr(p, '=');
+> -        pc = strchr(p, ',');
+> -        if (!pe || (pc && pc < pe)) {
+> -            /* found "foo,more" */
+> -            if (p == params && firstname) {
+> -                /* implicitly named first option */
+> -                option = g_strdup(firstname);
+> -                p = get_opt_value(p, &value);
 
-Thanks!
+...in this patch, it is just code motion, so if it is a bug, it's 
+pre-existing and worth a separate fix.
 
->=20
-> Same problem in m68k_fpu_gdb_get_reg().
->=20
-> TODO for 5.1, rename mem_buf -> array.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
---=20
-Peter Xu
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
