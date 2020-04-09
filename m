@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD65F1A3BD1
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 23:19:34 +0200 (CEST)
-Received: from localhost ([::1]:55644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05DAF1A3BD5
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 23:21:23 +0200 (CEST)
+Received: from localhost ([::1]:55712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMeaD-0007T4-Mt
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 17:19:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42336)
+	id 1jMeby-00029E-1f
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 17:21:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42349)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jMeWS-000252-Op
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 17:15:42 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jMeWU-00025x-6o
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 17:15:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jMeWR-0005gi-8S
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 17:15:40 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:50675)
+ (envelope-from <alex.bennee@linaro.org>) id 1jMeWS-0005hh-Ah
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 17:15:42 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:34130)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jMeWR-0005g3-2J
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 17:15:39 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id x25so294470wmc.0
- for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 14:15:39 -0700 (PDT)
+ id 1jMeWS-0005h1-5I
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 17:15:40 -0400
+Received: by mail-wm1-x335.google.com with SMTP id c195so3416623wme.1
+ for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 14:15:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8kQXViYqUTZuPa2IrzFhn8UbNVNyk6FZ2Gjm7NSMqNs=;
- b=Nus5r/PBUtysXeNOzCbziBtjB2uborn+ThW7eupuqD/2pQJvPDsYIKnWlJnDVRBxaE
- sglav2nIVP9iwmP96Znw1zBwDaUTWM6+c20xnmRj9BGIsnIAszo06Tf+qrCGR028z6Ma
- mwCGOIFuhLzhx22Q5Gyz7tZs/sj8FO5MzcFMWnAoAyrZSkDtLWn/C81tQbGPeu7hyTrX
- NNFYWTZsARklMZDgZFBuENY2j7kVBhzJAbJWpI9NkKTJONaDjZWfAGb+Jg2VpvbkI5OB
- i9i1c6zRPoZwn0qLc6gL+xOa7Ya8WED3sbIfjW/ya9NoUQ5jzoYA3RNl00NkZhYmdR3y
- gvCg==
+ bh=BdeCn4+10IAGnxWmwrkvRB49uZrWTVunuxiT/Jj8P3k=;
+ b=c1tIiXIDvJBh4Eg+6dYhPcprRYOKl0gTIA+tOK6kkmyV2UDcoPbXFzKujxwNqvvm7T
+ dHOSaOHKMbicZu+Gaes1roDlsxRbG6gjBC/4IZfy3aQVrBpeK+/NvcIPo07bd5gAH4Q9
+ F1sciZTvpgMMvuEi59jNbPl42CFaRf6z59Lo7LY7Eu6aGI9YWxI1Y5Pn5+Bq57F+QWRU
+ XZ2YiDv1334obufMCg2uKXmRAaGl54ajveewnBeH7XB85HvzzX64rv4KEkIyTAvvSEEF
+ fJ530c/YPRKtyLdvxnytz4mPX8x4/29eJzaNx9bfkVdbEusdohr7JLs6Ggqakg6S809N
+ 3fKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8kQXViYqUTZuPa2IrzFhn8UbNVNyk6FZ2Gjm7NSMqNs=;
- b=hmNDHPjRWqt3w7tjywpoQ+cLVXvnMU4OlMdVL6HxwmY7rprMFZx//xB3/jJpLtCEqZ
- I++OulBuC2Vpk8gVkAZ+gYJHUfMVWU7y3wdPsujZgu/FrSD43wOAjzUaLsEkxLn3nRj5
- ULTe9D1ijscw3QfB1P9uLnwG+00wCjujxbcPw0EzUsfihFQhj4OCIRPhOxIbiq54/6qM
- oTIqh8oxZPX5/B5g8irB5bKX05gogyeU5CYbcuCNBJ+D6/zIIlzvjuKO25BDMsuAi2vs
- 87F3IXxdo/A044ciD97hbJRJm9irv7U4iUKpbtbUG2NkUmYuTJ9+VRiVR86osi1XqPPY
- 01ew==
-X-Gm-Message-State: AGi0PuY8b7D+xIWaXnvRc66mp90kHlDUv/vH6rOA9qb1FOiZaOuu95MB
- jMXwSMknBUEoGP+C7wN7rHq3oA==
-X-Google-Smtp-Source: APiQypKbqLrtSh4fH8LcE2onNKIi88ZMocBJlO67z6NBzpwuHH0frhvfDQp7lg/mCsXEs4P3K+3dmQ==
-X-Received: by 2002:a1c:9c47:: with SMTP id f68mr1709909wme.148.1586466937998; 
- Thu, 09 Apr 2020 14:15:37 -0700 (PDT)
+ bh=BdeCn4+10IAGnxWmwrkvRB49uZrWTVunuxiT/Jj8P3k=;
+ b=e3jRnnzwvWnaW15tyaKIvTn3THdoWqiMEW6zvSKE7HYZf6nDyf67KO9A8VBGfif/dE
+ Rtu/p3vdtkiqTwla+XBUI9O3QvO/dVF2HCTMQzAYe2+nRaL75ViZx1LATxQX+Bulabim
+ 5FtTT9raT2XopaY0JM9aqZDEM0tW4wHWm9e4Vjc+cbuStt3xcZx+KVRwigEKoSRthf/x
+ 8VRWnIu9vaAdOiAycukz2Ws2AOmXJZrlFp7Z/K2xydF8yk+XYYPg48Bsp3ARZiHXFZ5F
+ MhHzctCtlipoFO306RHz8+jVcPDrIdFdrMMUhz9f82oqK4Yt3b6x8r4U/r8s5vDBgL5p
+ VvVQ==
+X-Gm-Message-State: AGi0PubNOB3IJUbZoKqPk7KmnVyxOcS6e/sJh0yPRt0iJjZfvK3OWXkG
+ Undp2iW3GoCeO6Eiz6wW0T5G5A==
+X-Google-Smtp-Source: APiQypKE5MeDGOqE7WkXJJeUEpYo+++z2drN5M0o5Q9fsI8ABvviper07GxK6+qMphcq8hR4A1smxw==
+X-Received: by 2002:a1c:7415:: with SMTP id p21mr1720225wmc.93.1586466939240; 
+ Thu, 09 Apr 2020 14:15:39 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j10sm24038122wru.85.2020.04.09.14.15.32
+ by smtp.gmail.com with ESMTPSA id s6sm5167430wmh.17.2020.04.09.14.15.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 09 Apr 2020 14:15:35 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 830BE1FF91;
+ by zen.linaroharston (Postfix) with ESMTP id 967B61FF92;
  Thu,  9 Apr 2020 22:15:30 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 05/11] tests/docker: add docs FEATURE flag and use for
- test-misc
-Date: Thu,  9 Apr 2020 22:15:23 +0100
-Message-Id: <20200409211529.5269-6-alex.bennee@linaro.org>
+Subject: [PATCH v1 06/11] configure: redirect sphinx-build check to config.log
+Date: Thu,  9 Apr 2020 22:15:24 +0100
+Message-Id: <20200409211529.5269-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200409211529.5269-1-alex.bennee@linaro.org>
 References: <20200409211529.5269-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32e
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,109 +81,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test-misc docker test fails on a number of images which don't have
-the prerequisites to build the docs. Use the FEATURES flag so we can
-skip those tests.
-
-As the sphinx test fails to detect whatever feature we need to get
-hxtool to work we drop them from debian9 so the windows build doesn't
-attempt to build the docs.
+Otherwise it's hard to debug whats going on.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/dockerfiles/debian10.docker   | 2 ++
- tests/docker/dockerfiles/debian9.docker    | 2 --
- tests/docker/dockerfiles/fedora.docker     | 2 +-
- tests/docker/dockerfiles/travis.docker     | 2 +-
- tests/docker/dockerfiles/ubuntu.docker     | 2 +-
- tests/docker/dockerfiles/ubuntu1804.docker | 2 +-
- tests/docker/test-misc                     | 2 ++
- 7 files changed, 8 insertions(+), 6 deletions(-)
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
-index 2fcdc406e83..0769700a416 100644
---- a/tests/docker/dockerfiles/debian10.docker
-+++ b/tests/docker/dockerfiles/debian10.docker
-@@ -34,3 +34,5 @@ RUN apt update && \
-         python3-sphinx \
-         texinfo \
-         $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
-+
-+ENV FEATURES docs
-diff --git a/tests/docker/dockerfiles/debian9.docker b/tests/docker/dockerfiles/debian9.docker
-index 92edbbf0f48..08cc970feb1 100644
---- a/tests/docker/dockerfiles/debian9.docker
-+++ b/tests/docker/dockerfiles/debian9.docker
-@@ -30,6 +30,4 @@ RUN apt update && \
-         pkg-config \
-         psmisc \
-         python3 \
--        python3-sphinx \
--        texinfo \
-         $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 4bd2c953af8..179575ecaaa 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -103,4 +103,4 @@ ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3
- RUN dnf install -y $PACKAGES
- RUN rpm -q $PACKAGES | sort > /packages.txt
- ENV PATH $PATH:/usr/libexec/python3-sphinx/
--ENV FEATURES mingw clang pyyaml asan
-+ENV FEATURES mingw clang pyyaml asan docs
-diff --git a/tests/docker/dockerfiles/travis.docker b/tests/docker/dockerfiles/travis.docker
-index e8eb48dccfd..591282561bc 100644
---- a/tests/docker/dockerfiles/travis.docker
-+++ b/tests/docker/dockerfiles/travis.docker
-@@ -13,5 +13,5 @@ RUN apt-get -y install device-tree-compiler python3 python3-yaml dh-autoreconf g
- # Travis tools require PhantomJS / Neo4j / Maven accessible
- # in their PATH (QEMU build won't access them).
- ENV PATH /usr/local/phantomjs/bin:/usr/local/phantomjs:/usr/local/neo4j-3.2.7/bin:/usr/local/maven-3.5.2/bin:/usr/local/cmake-3.9.2/bin:/usr/local/clang-5.0.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
--ENV FEATURES clang pyyaml
-+ENV FEATURES clang pyyaml docs
- USER travis
-diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
-index b6c7b41dddd..eeb3b22bf20 100644
---- a/tests/docker/dockerfiles/ubuntu.docker
-+++ b/tests/docker/dockerfiles/ubuntu.docker
-@@ -68,4 +68,4 @@ ENV PACKAGES flex bison \
- RUN apt-get update && \
-     DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
- RUN dpkg -l $PACKAGES | sort > /packages.txt
--ENV FEATURES clang pyyaml sdl2
-+ENV FEATURES clang pyyaml sdl2 docs
-diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-index 1efedeef995..f66b06f4cff 100644
---- a/tests/docker/dockerfiles/ubuntu1804.docker
-+++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -54,7 +54,7 @@ ENV PACKAGES flex bison \
- RUN apt-get update && \
-     DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
- RUN dpkg -l $PACKAGES | sort > /packages.txt
--ENV FEATURES clang pyyaml sdl2
-+ENV FEATURES clang pyyaml sdl2 docs
+diff --git a/configure b/configure
+index 233c671aaa9..a207cce82bc 100755
+--- a/configure
++++ b/configure
+@@ -4936,7 +4936,7 @@ has_sphinx_build() {
+     # sphinx-build doesn't exist at all or if it is too old.
+     mkdir -p "$TMPDIR1/sphinx"
+     touch "$TMPDIR1/sphinx/index.rst"
+-    "$sphinx_build" -c "$source_path/docs" -b html "$TMPDIR1/sphinx" "$TMPDIR1/sphinx/out" >/dev/null 2>&1
++    "$sphinx_build" -c "$source_path/docs" -b html "$TMPDIR1/sphinx" "$TMPDIR1/sphinx/out" >> config.log 2>&1
+ }
  
- # https://bugs.launchpad.net/qemu/+bug/1838763
- ENV QEMU_CONFIGURE_OPTS --disable-libssh
-diff --git a/tests/docker/test-misc b/tests/docker/test-misc
-index d480afedca7..cc94a738dd0 100755
---- a/tests/docker/test-misc
-+++ b/tests/docker/test-misc
-@@ -14,6 +14,8 @@
- 
- . common.rc
- 
-+requires docs
-+
- cd "$BUILD_DIR"
- 
- # build everything else but QEMU
+ # Check if tools are available to build documentation.
 -- 
 2.20.1
 
