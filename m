@@ -2,89 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA6A71A395A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 19:53:35 +0200 (CEST)
-Received: from localhost ([::1]:53522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29AEC1A3982
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 20:02:41 +0200 (CEST)
+Received: from localhost ([::1]:53638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMbMt-0008Eb-0n
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 13:53:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42005)
+	id 1jMbVg-00053B-7H
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 14:02:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43568)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jMbLI-0006JQ-Ab
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 13:51:57 -0400
+ (envelope-from <bounces@canonical.com>) id 1jMbUE-00042D-Sr
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:01:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jMbLH-0004YL-76
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 13:51:56 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26612
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jMbLH-0004Xy-2l
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 13:51:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586454714;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xHAvMus4cQyELNp/evLoJilV3gIxx/6KnNzPAd0tDNw=;
- b=VJ9N7RvS3p8UMQXBfmkLr8uP7qsTEO6Q/1hNY0O8+fN3dm7UFy+QQTo8HSTQQ6L0WoCPgt
- 6vGuEd7AQ+HLeosMGbU5RdSMq2i4UdwO8p36BMfRIX2swby6WhbToworHFz8Avq78+mH/R
- 8FkrNqJUdLAgWZyIRNy7PIErgzI7dgU=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-LLTWKHT-M3q9mbZKiG7m6A-1; Thu, 09 Apr 2020 13:51:52 -0400
-X-MC-Unique: LLTWKHT-M3q9mbZKiG7m6A-1
-Received: by mail-ed1-f71.google.com with SMTP id n15so598756edq.6
- for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 10:51:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xHAvMus4cQyELNp/evLoJilV3gIxx/6KnNzPAd0tDNw=;
- b=GU4B7GzX46nF2Sb80cntBJb0qlQ4dgAp70SYrivbwjYWw16zwqsBJHNoMoWP3QJ2Sw
- qVCM/PA897RS4ELUJub7wCrXM9TEJNtbFdjjqVXFmefnAe0vW4eXO3vm8c4kiKudOAze
- yPiDwNfjWsX18EjEDZBRx2KumPLWH4qv9rVciey+SFr27DqU1G+uH6VGD+vwcSNiOBgt
- 1HIFpIce87R/JK1k4woF5haoXbWDOzMx/4to8J3XiI4UvAx7rn8pKQgWeVsBuB/PyQyu
- TBO/Pgz3REVcEEerDHr5mQO164nlw59u3ByQTTHKgQ3srwtHRw13vj6tJMJe39h6949c
- VvZg==
-X-Gm-Message-State: AGi0PuaodOIC7MNo5x8k3vnru+C1dMV8Hgj2FyyvqUxaonj4OmQFtNYv
- cXX5Nn+hfbr5AgeN8teshCuOCxNY7OS5hc9bRAXXiJb6x5ri9IPmO5iq1gzwn/IOiKFWLMmJsBM
- vaVQl025ZFx7dsnU=
-X-Received: by 2002:a17:906:5045:: with SMTP id
- e5mr166936ejk.325.1586454711272; 
- Thu, 09 Apr 2020 10:51:51 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJO+tzaZOEfMAMnu9wdAnFxtRXYuLhxEOWMpaRsrXVk6EV2sHII7FSSCfTusSMdyJuB1tjpvQ==
-X-Received: by 2002:a17:906:5045:: with SMTP id
- e5mr166921ejk.325.1586454711040; 
- Thu, 09 Apr 2020 10:51:51 -0700 (PDT)
-Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id p11sm3868406ejg.64.2020.04.09.10.51.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Apr 2020 10:51:50 -0700 (PDT)
-Subject: Re: [PATCH 1/2] gdbstub: Assert len read from each register
-To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
-References: <20200409164954.36902-1-peterx@redhat.com>
- <20200409164954.36902-2-peterx@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0121e4b2-c6dd-d0c4-a7d5-490e08bee923@redhat.com>
-Date: Thu, 9 Apr 2020 19:51:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <bounces@canonical.com>) id 1jMbUD-0000y0-OW
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:01:10 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55760)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jMbUD-0000xF-Iz
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:01:09 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jMbUB-000283-UY
+ for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 18:01:07 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E52712E8104
+ for <qemu-devel@nongnu.org>; Thu,  9 Apr 2020 18:01:07 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200409164954.36902-2-peterx@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 09 Apr 2020 17:53:36 -0000
+From: Emin Ghuliev <1821595@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: whpx
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 6-u3untu-h ajbennee eminus
+X-Launchpad-Bug-Reporter: Emin Ghuliev (eminus)
+X-Launchpad-Bug-Modifier: Emin Ghuliev (eminus)
+References: <155352235092.32006.12315829232895734213.malonedeb@soybean.canonical.com>
+Message-Id: <158645481696.5694.17646887544357440561.malone@chaenomeles.canonical.com>
+Subject: [Bug 1821595] Re: Failed to emulate MMIO access with
+ EmulatorReturnStatus: 2
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: c4de5dab8082e433e09811883c391152fab8bfe8
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -93,59 +66,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Reply-To: Bug 1821595 <1821595@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/9/20 6:49 PM, Peter Xu wrote:
-> This can expose the issue earlier on which register returned the wrong
-> result.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->   gdbstub.c | 11 ++++++++---
->   1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/gdbstub.c b/gdbstub.c
-> index 171e150950..f763545e81 100644
-> --- a/gdbstub.c
-> +++ b/gdbstub.c
-> @@ -911,17 +911,22 @@ static int gdb_read_register(CPUState *cpu, GByteArray *buf, int reg)
->       CPUClass *cc = CPU_GET_CLASS(cpu);
->       CPUArchState *env = cpu->env_ptr;
->       GDBRegisterState *r;
-> +    int len = 0, orig_len = buf->len;
->   
->       if (reg < cc->gdb_num_core_regs) {
-> -        return cc->gdb_read_register(cpu, buf, reg);
-> +        len = cc->gdb_read_register(cpu, buf, reg);
+I think WHPX can't some MMIO requests for EFI.
 
-This change the code flow. We could add ...:
+-- =
 
-            goto out;
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1821595
 
->       }
+Title:
+  Failed to emulate MMIO access with EmulatorReturnStatus: 2
 
-... or use else?
->   
->       for (r = cpu->gdb_regs; r; r = r->next) {
->           if (r->base_reg <= reg && reg < r->base_reg + r->num_regs) {
-> -            return r->get_reg(env, buf, reg - r->base_reg);
-> +            len = r->get_reg(env, buf, reg - r->base_reg);
-> +            break;
->           }
->       }
-> -    return 0;
-> +
+Status in QEMU:
+  New
 
-   out:
+Bug description:
+  I have compiled qemu with enable-whpx parameter for Hyper-V Platform API =
+in Mingw64 . When I tried run with Windows 7 iso file I have faced issue wi=
+th the following problem: =
 
-> +    assert(len == buf->len - orig_len);
-> +
-> +    return len;
->   }
->   
->   static int gdb_write_register(CPUState *cpu, uint8_t *mem_buf, int reg)
-> 
+  qemu-system-x86_64.exe: WHPX: Failed to emulate MMIO access with Emulator=
+ReturnStatus: 2
+  qemu-system-x86_64.exe: WHPX: Failed to exec a virtual processor
 
+  =
+
+  configuration directives:
+
+  ../configure --target-list=3Dx86_64-softmmu,i386-softmmu --enable-lzo\
+   --enable-bzip2 --enable-tools --enable-sdl --enable-gtk --enable-hax\
+   --enable-vdi --enable-qcow1 --enable-whpx --disable-capstone\
+   --disable-werror --disable-stack-protector --prefix=3D"../../QEMU-bin"
+
+  =
+
+  Qemu command line:
+  qemu-system-x86_64.exe -m 1024 -cdrom "C:\Users\vmcs\Documents\en_windows=
+_7_home_premium_with_sp1_x86_dvd_u_676701.iso" -display sdl -machine q35 -a=
+ccel whpx
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1821595/+subscriptions
 
