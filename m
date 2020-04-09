@@ -2,107 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2952F1A39E1
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 20:37:32 +0200 (CEST)
-Received: from localhost ([::1]:53982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BFF61A39F6
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 20:48:07 +0200 (CEST)
+Received: from localhost ([::1]:54090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMc3P-0007j3-8t
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 14:37:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48733)
+	id 1jMcDe-0007RH-A9
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 14:48:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52701)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jMc2P-0006pX-1D
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:36:30 -0400
+ (envelope-from <bounces@canonical.com>) id 1jMcBT-0006pV-2x
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:45:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jMc2O-0003M4-2c
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:36:28 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:60479)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jMc2N-0003Lp-Qc
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:36:28 -0400
-Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mr7iw-1iz5Rx31Jm-00oCcR; Thu, 09 Apr 2020 20:36:23 +0200
-Subject: Re: [PATCH-for-5.0] target/m68k/helper: Fix m68k_fpu_gdb_get_reg()
- use of GByteArray
-To: Peter Xu <peterx@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>
-References: <20200409172509.4078-1-philmd@redhat.com>
- <20200409182215.GA40299@xz-x1>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <92ba02b2-1bad-9f97-a931-2270b9c3508d@vivier.eu>
-Date: Thu, 9 Apr 2020 20:36:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <bounces@canonical.com>) id 1jMcBL-0007pO-35
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:45:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37806)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jMcBK-0007oK-T4
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:45:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jMcBJ-0006rI-UG
+ for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 18:45:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DF5F62E8041
+ for <qemu-devel@nongnu.org>; Thu,  9 Apr 2020 18:45:41 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200409182215.GA40299@xz-x1>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ezPjhHx54ofTmc7yNoJ86eM4n85AVaYo12MV1nkfk3yRCWYtRrd
- JRPGn88AE9k7iD60Uy3TigNA0TNTgKHIZcCBvIdxjFw3rtInK5xGw3sYLXQt8yeb6MzorfI
- Vv0UAQmDr2XYL2ypinxWKDNfpGibktzYgQjdL8xM6TJbDv411AqzMNFXuCWmoptT3H+MLGv
- AKP4D5AC7ZJoN0xEPZBqg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iVuLyQm5AP0=:KEY0cjJ/rDx1y76DztXbZG
- rgGA3Gu9LU0IZaysGskoZNxch9sGP2+fJTg9kfwjlPvodE6nWKaAfmzduuFSgoFuo2ymWTBv6
- LUWt9aYGsbCT3vBo619jDHKSD8g2MBLBm7E/eR5fhZyn7h4Z6PY6jfLe/LMyAheRldeqs8Ume
- ts687XpFLYNVVDx+e6ruaaaESvrTyHmMr13PiTXKbC8uRt6ASG+wHIN4FfEY2c/uBYwULqdki
- LGGT5Bn0p/M10yQ4chNGJ7ySwxwm40tr7kM1KDju6j+pTux7We2aUiAbxHOWBusIcYV7Krp4k
- fnNMc+CvBNGPNqJjfFEPAEiwt3kqgVT5nM/ir5bSH2ujIOOdeLw/t7zviEkO7nY21tCv0ciUL
- 6NbfrLYkFtZgJmrZjjxTYabnaAjdKjn/B/Qtcn3gt49LFarQIiHuMlM/QzvA+YJB3vQRv4Hzk
- lDhdATAUYGuLBeXpdaAuodtaczJKa9PLlDLTlicIk3hVIAN95R2Y8e+4lY2QcrjfFGix8uzIX
- 0YGyv5l1U/10qKPgK8RDijEB20ncVwQN+NlcPXZWwA04Kwx1drNBEfgZjZN2EFdQwj1b6RJqM
- pg0N3mqdREPgivLE1w0oicSfsW3BOdiVheKyJjYdsOJWaXuR87UU6GyucgfuzVAysjIuIi4Ek
- m0RyNcaVQeHKa/A7kdkZ3Y6GyyfCBww7NJ5TFyLCFg1PAUuklrgRVA76JwwC8EFfO8QHZ7GSM
- W/2DJbFtaxzSVWsTxknoLx6t+TVae8Z7O61W8XrbPNv6VQKDJfzoelDZQ3fCLDRxmf2o/Lpd/
- 7LAQZ2Dhrf7s+A02+La32GD17rk5SQHfcJVXXnjsPj5SHGLfEfaQiMqQTGo7ivewLj1rEmb
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 09 Apr 2020 18:37:41 -0000
+From: Babu Moger <1871842@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: babumoger e-philipp imammedo
+X-Launchpad-Bug-Reporter: Philipp Eppelt (e-philipp)
+X-Launchpad-Bug-Modifier: Babu Moger (babumoger)
+References: <158643709116.17430.15995069125716778943.malonedeb@wampee.canonical.com>
+ <20200409160037.431ec776@redhat.com>
+Message-Id: <679ba0cc-1af0-42ee-f8bc-26e7cafcc304@amd.com>
+Subject: Re: [Bug 1871842] [NEW] AMD CPUID leaf 0x8000'0008 reported number of
+ cores inconsistent with ACPI.MADT
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: d1c9be88194af2e66b983251ecd6be4f3a5c39f6
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.133
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -111,62 +66,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Reply-To: Bug 1871842 <1871842@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 09/04/2020 à 20:22, Peter Xu a écrit :
-> On Thu, Apr 09, 2020 at 07:25:08PM +0200, Philippe Mathieu-Daudé wrote:
->> Since a010bdbe719 the gdbstub API takes a GByteArray*.
->> Unfortunately we forgot to update the gdb_get_reg*()
->> calls.  Do it now.
+On 4/9/20 9:00 AM, Igor Mammedov wrote:
+> On Thu, 09 Apr 2020 12:58:11 -0000
+> Philipp Eppelt <1871842@bugs.launchpad.net> wrote:
+> =
+
+>> Public bug reported:
 >>
->> Fixes: a010bdbe719 ("extend GByteArray to read register helpers")
-> 
-> Should this be instead 462474d760 ("target/m68k: use gdb_get_reg
-> helpers", 2020-03-17)?
-
-No, this one is correct because it uses an "uint8_t *", then a010bdbe719
-changed this to a GByteArray and didn't remove the "+ len".
-
-Thanks,
-Laurent
-
->> Reported-by: Peter Xu <peterx@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> 
-> Reviewed-by: Peter Xu <peterx@redhat.com>
-> 
->> ---
->> Based-on: <20200409164954.36902-1-peterx@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> 
-> (One benigh extra line; same thing could happen to me when amending
->  like this with "---")
-> 
->> ---
->>  target/m68k/helper.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
+>> Setup:
+>> CPU: AMD EPYC-v2 or host's EPYC cpu
+>> Linux 64-bit fedora host; Kernel version 5.5.15-200.fc31
+>> qemu version: self build
+>> git-head: f3bac27cc1e303e1860cc55b9b6889ba39dee587
+>> config: Configured with: '../configure' '--target-list=3Dx86_64-softmmu,=
+mips64el-softmmu,mips64-softmmu,mipsel-softmmu,mips-softmmu,i386-softmmu,aa=
+rch64-softmmu,arm-softmmu' '--prefix=3D/opt/qemu-master'
 >>
->> diff --git a/target/m68k/helper.c b/target/m68k/helper.c
->> index 014657c637..cad4083895 100644
->> --- a/target/m68k/helper.c
->> +++ b/target/m68k/helper.c
->> @@ -109,8 +109,8 @@ static int m68k_fpu_gdb_get_reg(CPUM68KState *env, GByteArray *mem_buf, int n)
->>  {
->>      if (n < 8) {
->>          int len = gdb_get_reg16(mem_buf, env->fregs[n].l.upper);
->> -        len += gdb_get_reg16(mem_buf + len, 0);
->> -        len += gdb_get_reg64(mem_buf + len, env->fregs[n].l.lower);
->> +        len += gdb_get_reg16(mem_buf, 0);
->> +        len += gdb_get_reg64(mem_buf, env->fregs[n].l.lower);
->>          return len;
->>      }
->>      switch (n) {
->> -- 
->> 2.21.1
->>
-> 
+>> Cmdline: =
 
+>> qemu-system-x86_64 -kernel /home/peppelt/code/l4/internal/.build-x86_64/=
+bin/amd64_gen/bootstrap -append "" -initrd "./fiasco/.build-x86_64/fiasco ,=
+ ... " -serial stdio -nographic -monitor none -nographic -monitor none -cpu=
+ EPYC-v2 -m 4G -smp 4 =
+
+>>
+>> Issue:
+>> We are developing an microkernel operating system called L4Re. We recent=
+ly got an AMD EPYC server for testing and we couldn't execute SMP tests of =
+our system when running Linux + qemu + VM w/ L4Re.
+>> In fact, the kernel did not recognize any APs at all. On AMD CPUs the ke=
+rnel checks for the number of cores reported in CPUID leaf 0x8000_0008.ECX[=
+NC] or [ApicIdSize].  [0][1]
+>>
+>> The physical machine reports for leaf 0x8000_0008:  EAX: 0x3030 EBX: 0x1=
+8cf757 ECX: 0x703f EDX: 0x1000
+>> The lower four bits of ECX are the [NC] field and all set.
+>>
+>> When querying inside qemu with -enable-kvm -cpu host -smp 4 (basically a=
+s replacement and addition to the above cmdline) the CPUID leaf shows: EAX:=
+ 0x3024, EBX: 0x1001000, ECX: 0x0, EDX: 0x0
+>> Note, ECX is zero. Indicating that this is no SMP capabale CPU.
+>>
+>> I'm debugging it using my local machine and the QEMU provided EPYC-v2
+>> CPU model and it is reproducible there as well and reports:  EAX:
+>> 0x3028, EBX: 0x0, ECX: 0x0, EDX: 0x0
+>>
+>> I checked other AMD based CPU models (phenom, opteron_g3/g5) and they be=
+have the same. [2] shows the CPUID 0x8000'0008 handling in the QEMU source.
+>> I believe that behavior here is wrong as ECX[NC] should report the numbe=
+r of cores per processor, as stated in the AMD manual [2] p.584. In my unde=
+rstanding -smp 4 should then lead to ECX[NC] =3D 0x3.
+>>
+>> The following table shows my findings with the -smp option:
+>> Option | Qemu guest observed ECX value
+>> -smp 4 | 0x0
+>> -smp 4,cores=3D4  | 0x3
+>> -smp 4,cores=3D2,thread=3D2 | 0x3
+>> -smp 4,cores=3D4,threads=3D2 | QEMU boot error: topology false.
+>>
+>> Now, I'm asking myself how the terminology of the AMD manual maps to QEM=
+U's -smp option.
+>> Obviously, nr_cores and nr_threads correspond to the cores and threads o=
+ptions on the cmdline and cores * threads <=3D 4 (in this example), but wha=
+t corresponds the X in -smp X to?
+> I'd say X corresponds to number of logical CPUs.
+> Depending on presence of other options these are distributed among them i=
+n magical manner
+> (see pc_smp_parse() for starters)
+> =
+
+>> Querying 0x8000'0008 on the physical processor results in different
+>> reports than quering QEMU's model as does it with -enable-kvm -cpu host.
+>>
+>> Furthermore, the ACPI.MADT shows 4 local APICs to be present while the
+>> CPU leave reports a single core processor.
+> it matches -smp X as it should be.
+> =
+
+>>
+>> This leads me to the conclusion that CPUID 0x8000'0008.ECX reports the
+>> wrong number.
+> CCed author of recent epyc patches who might know how AMD should work bet=
+ter than me.
+
+Hmm.. Interesting.. Not sure why this did not come up during my testing.
+Probably this cpuid information is not widely used.
+
+Yes. I am looking at it right now. I see that EPYC model is reporting
+wrong. Not sure why -cpu host is reporting wrong. I thought -cpu host gets
+the information directly from the host. Will investigate.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1871842
+
+Title:
+  AMD CPUID leaf 0x8000'0008 reported number of cores  inconsistent with
+  ACPI.MADT
+
+Status in QEMU:
+  New
+
+Bug description:
+  Setup:
+  CPU: AMD EPYC-v2 or host's EPYC cpu
+  Linux 64-bit fedora host; Kernel version 5.5.15-200.fc31
+  qemu version: self build
+  git-head: f3bac27cc1e303e1860cc55b9b6889ba39dee587
+  config: Configured with: '../configure' '--target-list=3Dx86_64-softmmu,m=
+ips64el-softmmu,mips64-softmmu,mipsel-softmmu,mips-softmmu,i386-softmmu,aar=
+ch64-softmmu,arm-softmmu' '--prefix=3D/opt/qemu-master'
+
+  Cmdline: =
+
+  qemu-system-x86_64 -kernel /home/peppelt/code/l4/internal/.build-x86_64/b=
+in/amd64_gen/bootstrap -append "" -initrd "./fiasco/.build-x86_64/fiasco , =
+... " -serial stdio -nographic -monitor none -nographic -monitor none -cpu =
+EPYC-v2 -m 4G -smp 4 =
+
+
+  Issue:
+  We are developing an microkernel operating system called L4Re. We recentl=
+y got an AMD EPYC server for testing and we couldn't execute SMP tests of o=
+ur system when running Linux + qemu + VM w/ L4Re.
+  In fact, the kernel did not recognize any APs at all. On AMD CPUs the ker=
+nel checks for the number of cores reported in CPUID leaf 0x8000_0008.ECX[N=
+C] or [ApicIdSize].  [0][1]
+
+  The physical machine reports for leaf 0x8000_0008:  EAX: 0x3030 EBX: 0x18=
+cf757 ECX: 0x703f EDX: 0x1000
+  The lower four bits of ECX are the [NC] field and all set.
+
+  When querying inside qemu with -enable-kvm -cpu host -smp 4 (basically as=
+ replacement and addition to the above cmdline) the CPUID leaf shows: EAX: =
+0x3024, EBX: 0x1001000, ECX: 0x0, EDX: 0x0
+  Note, ECX is zero. Indicating that this is no SMP capabale CPU.
+
+  I'm debugging it using my local machine and the QEMU provided EPYC-v2
+  CPU model and it is reproducible there as well and reports:  EAX:
+  0x3028, EBX: 0x0, ECX: 0x0, EDX: 0x0
+
+  I checked other AMD based CPU models (phenom, opteron_g3/g5) and they beh=
+ave the same. [2] shows the CPUID 0x8000'0008 handling in the QEMU source.
+  I believe that behavior here is wrong as ECX[NC] should report the number=
+ of cores per processor, as stated in the AMD manual [2] p.584. In my under=
+standing -smp 4 should then lead to ECX[NC] =3D 0x3.
+
+  The following table shows my findings with the -smp option:
+  Option | Qemu guest observed ECX value
+  -smp 4 | 0x0
+  -smp 4,cores=3D4  | 0x3
+  -smp 4,cores=3D2,thread=3D2 | 0x3
+  -smp 4,cores=3D4,threads=3D2 | QEMU boot error: topology false.
+
+  Now, I'm asking myself how the terminology of the AMD manual maps to QEMU=
+'s -smp option.
+  Obviously, nr_cores and nr_threads correspond to the cores and threads op=
+tions on the cmdline and cores * threads <=3D 4 (in this example), but what=
+ corresponds the X in -smp X to?
+
+  Querying 0x8000'0008 on the physical processor results in different
+  reports than quering QEMU's model as does it with -enable-kvm -cpu
+  host.
+
+  Furthermore, the ACPI.MADT shows 4 local APICs to be present while the
+  CPU leave reports a single core processor.
+
+  This leads me to the conclusion that CPUID 0x8000'0008.ECX reports the
+  wrong number.
+
+  =
+
+  Please let me know, if you need more information from my side.
+
+  =
+
+  [0] https://github.com/kernkonzept/fiasco/blob/522ccc5f29ab120213cf02d713=
+28e2b879cbbd19/src/kern/ia32/kernel_thread-ia32.cpp#L109
+  [1] https://github.com/kernkonzept/fiasco/blob/522ccc5f29ab120213cf02d713=
+28e2b879cbbd19/src/kern/ia32/cpu-ia32.cpp#L1120
+  [2] https://github.com/qemu/qemu/blob/f2a8261110c32c4dccd84e774d8dd7a0524=
+e00fb/target/i386/cpu.c#L5835
+  [3] https://www.amd.com/system/files/TechDocs/24594.pdf
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1871842/+subscriptions
 
