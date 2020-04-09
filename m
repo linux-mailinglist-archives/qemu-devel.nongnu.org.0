@@ -2,61 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D64791A3473
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 14:58:28 +0200 (CEST)
-Received: from localhost ([::1]:48808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB8761A3450
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 14:44:42 +0200 (CEST)
+Received: from localhost ([::1]:48642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMWlH-0005Hb-Pp
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 08:58:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53505)
+	id 1jMWXx-00017l-OH
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 08:44:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51920)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jMWir-0004Kl-I7
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 08:55:58 -0400
+ (envelope-from <cfontana@suse.de>) id 1jMWX5-0000iL-Jq
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 08:43:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jMWiq-0005gC-Go
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 08:55:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36732)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jMWiq-0005fi-Bj
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 08:55:56 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jMWio-0000cW-CW
- for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 12:55:54 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5374F2E8109
- for <qemu-devel@nongnu.org>; Thu,  9 Apr 2020 12:55:54 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Apr 2020 12:41:50 -0000
-From: James Le Cuirot <chewi@aura-online.co.uk>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: windows
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 6-u3untu-h chewi
-X-Launchpad-Bug-Reporter: Russell Morris (6-u3untu-h)
-X-Launchpad-Bug-Modifier: James Le Cuirot (chewi)
-References: <158621521246.22866.8297146941622716788.malonedeb@wampee.canonical.com>
-Message-Id: <158643611065.6474.7032418654000991981.malone@chaenomeles.canonical.com>
-Subject: [Bug 1871250] Re: Failed to create HAX VM
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 74b423be995a61712e4a393865fdc9151e8a2661
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ (envelope-from <cfontana@suse.de>) id 1jMWX4-000258-6h
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 08:43:47 -0400
+Received: from mx2.suse.de ([195.135.220.15]:44316)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cfontana@suse.de>) id 1jMWX3-00024y-UU
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 08:43:46 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 54390AF6D;
+ Thu,  9 Apr 2020 12:43:43 +0000 (UTC)
+From: Claudio Fontana <cfontana@suse.de>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
+Subject: [PATCH v2] Makefile: libfdt: build only the strict necessary
+Date: Thu,  9 Apr 2020 14:43:37 +0200
+Message-Id: <20200409124337.32134-1-cfontana@suse.de>
+X-Mailer: git-send-email 2.16.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic]
+X-Received-From: 195.135.220.15
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,58 +45,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1871250 <1871250@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, Alex Bennee <alex.bennee@linaro.org>,
+ Claudio Fontana <cfontana@suse.de>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It looks like it's been queued for merging already.
+when building dtc/libfdt, we were previously using dtc/Makefile,
+which tries to build some artifacts that are not needed,
+and can complain on stderr about the absence of tools that
+are not required to build just libfdt.
 
--- =
+Instead, build only the strict necessary to get libfdt.a .
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1871250
+Remove the subdir-dtc "compatibility gunk" for recursion,
+since we are not recursing anymore.
 
-Title:
-  Failed to create HAX VM
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+---
+ Makefile  | 23 +++++++++++++----------
+ configure |  6 +-----
+ rules.mak |  2 ++
+ 3 files changed, 16 insertions(+), 15 deletions(-)
 
-Status in QEMU:
-  New
+v1 -> v2:
 
-Bug description:
-  Hi,
+* fix error generated when running UNCHECKED_GOALS without prior configure,
+  for example during make docker-image-fedora. Without configure, DSOSUF is
+  empty, and the module pattern rule in rules.mak that uses this variable
+  can match too much; provide a default in the Makefile to avoid it.
 
-  I'm running the latest (master) of QEMU, though the version doesn't
-  seem to matter - I also checked back to v4.2.0, exactly the same
-  issue. And this isn't about the VM (guest), if I even just try to run,
+* only attempt to build the archive when there is a non-empty list of objects.
+  This could be done in general for the %.a: pattern in rules.mak, but maybe
+  there are valid reasons to build an empty .a?
 
-  > "c:\Program Files\qemu\qemu-system-x86_64.exe" -accel hax
+* removed some intermediate variables that did not add much value
+  (LIBFDT_srcdir, LIBFDT_archive)
 
-  Basically, just get a window to open, with acceleration enabled ... I get,
-  Open the vm device error:/dev/hax_vm/vm00, ec:3
-  Failed to open vm 0
-  Failed to create HAX VM
-  No accelerator found.
+Tested locally with 3 VPATH configurations (no-, VPATH, VPATH in src subdir),
+and with docker-image-fedora, docker-test-debug@fedora that failed before.
 
-  But I checked - I have installed Intel HAXM, and verified it's running,
-  > sc query intelhaxm
-  SERVICE_NAME: intelhaxm
-          TYPE               : 1  KERNEL_DRIVER
-          STATE              : 4  RUNNING
-                                  (STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOW=
-N)
-          WIN32_EXIT_CODE    : 0  (0x0)
-          SERVICE_EXIT_CODE  : 0  (0x0)
-          CHECKPOINT         : 0x0
-          WAIT_HINT          : 0x0
+diff --git a/Makefile b/Makefile
+index 84ef881600..92bc853b5f 100644
+--- a/Makefile
++++ b/Makefile
+@@ -4,6 +4,10 @@ ifneq ($(words $(subst :, ,$(CURDIR))), 1)
+   $(error main directory cannot contain spaces nor colons)
+ endif
+ 
++# some pattern rules in rules.mak are confused by an empty DSOSUF,
++# and UNCHECKED_GOALS for testing (docker-) can run without prior configure.
++DSOSUF ?= ".so"
++
+ # Always point to the root of the build tree (needs GNU make).
+ BUILD_DIR=$(CURDIR)
+ 
+@@ -526,15 +530,16 @@ $(SOFTMMU_FUZZ_RULES): $(edk2-decompressed)
+ $(TARGET_DIRS_RULES):
+ 	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" TARGET_DIR="$(dir $@)" $(notdir $@),)
+ 
+-DTC_MAKE_ARGS=-I$(SRC_PATH)/dtc VPATH=$(SRC_PATH)/dtc -C dtc V="$(V)" LIBFDT_srcdir=$(SRC_PATH)/dtc/libfdt
+-DTC_CFLAGS=$(CFLAGS) $(QEMU_CFLAGS)
+-DTC_CPPFLAGS=-I$(BUILD_DIR)/dtc -I$(SRC_PATH)/dtc -I$(SRC_PATH)/dtc/libfdt
+-
+-.PHONY: dtc/all
+-dtc/all: .git-submodule-status dtc/libfdt dtc/tests
+-	$(call quiet-command,$(MAKE) $(DTC_MAKE_ARGS) CPPFLAGS="$(DTC_CPPFLAGS)" CFLAGS="$(DTC_CFLAGS)" LDFLAGS="$(QEMU_LDFLAGS)" ARFLAGS="$(ARFLAGS)" CC="$(CC)" AR="$(AR)" LD="$(LD)" $(SUBDIR_MAKEFLAGS) libfdt/libfdt.a,)
++LIBFDT_objdir = dtc/libfdt
++-include $(SRC_PATH)/dtc/libfdt/Makefile.libfdt
++LIBFDT_objects = $(addprefix $(LIBFDT_objdir)/, $(LIBFDT_OBJS))
++.PHONY: libfdt
++libfdt: .git-submodule-status $(LIBFDT_objdir)/libfdt.a
++$(LIBFDT_objdir)/libfdt.a: $(LIBFDT_objects)
++	$(if $(LIBFDT_objects),$(call quiet-command,rm -f $@ && $(AR) rcs $@ $^,"AR","$(TARGET_DIR)$@"),)
+ 
+-dtc/%: .git-submodule-status
++$(LIBFDT_objects): | $(LIBFDT_objdir)
++$(LIBFDT_objdir): .git-submodule-status
+ 	@mkdir -p $@
+ 
+ # Overriding CFLAGS causes us to lose defines added in the sub-makefile.
+@@ -563,7 +568,6 @@ slirp/all: .git-submodule-status
+ 
+ # Compatibility gunk to keep make working across the rename of targets
+ # for recursion, to be removed some time after 4.1.
+-subdir-dtc: dtc/all
+ subdir-capstone: capstone/all
+ subdir-slirp: slirp/all
+ 
+@@ -821,7 +825,6 @@ distclean: clean
+ 	rm -rf $$d || exit 1 ; \
+         done
+ 	rm -Rf .sdk
+-	if test -f dtc/version_gen.h; then $(MAKE) $(DTC_MAKE_ARGS) clean; fi
+ 
+ KEYMAPS=da     en-gb  et  fr     fr-ch  is  lt  no  pt-br  sv \
+ ar      de     en-us  fi  fr-be  hr     it  lv  nl         pl  ru     th \
+diff --git a/configure b/configure
+index 233c671aaa..36f83ffc5a 100755
+--- a/configure
++++ b/configure
+@@ -4278,10 +4278,6 @@ EOF
+       if test -d "${source_path}/dtc/libfdt" || test -e "${source_path}/.git" ; then
+           fdt=git
+           mkdir -p dtc
+-          if [ "$pwd_is_source_path" != "y" ] ; then
+-              symlink "$source_path/dtc/Makefile" "dtc/Makefile"
+-              symlink "$source_path/dtc/scripts" "dtc/scripts"
+-          fi
+           fdt_cflags="-I\$(SRC_PATH)/dtc/libfdt"
+           fdt_ldflags="-L\$(BUILD_DIR)/dtc/libfdt"
+           fdt_libs="$fdt_libs"
+@@ -8151,7 +8147,7 @@ echo "PIXMAN_CFLAGS=$pixman_cflags" >> $config_host_mak
+ echo "PIXMAN_LIBS=$pixman_libs" >> $config_host_mak
+ 
+ if [ "$fdt" = "git" ]; then
+-  echo "config-host.h: dtc/all" >> $config_host_mak
++  echo "config-host.h: libfdt" >> $config_host_mak
+ fi
+ if [ "$capstone" = "git" -o "$capstone" = "internal" ]; then
+   echo "config-host.h: capstone/all" >> $config_host_mak
+diff --git a/rules.mak b/rules.mak
+index 694865b63e..61eb474ba4 100644
+--- a/rules.mak
++++ b/rules.mak
+@@ -105,6 +105,8 @@ LINK = $(call quiet-command, $(LINKPROG) $(CFLAGS) $(QEMU_LDFLAGS) -o $@ \
+ 
+ DSO_OBJ_CFLAGS := -fPIC -DBUILD_DSO
+ module-common.o: CFLAGS += $(DSO_OBJ_CFLAGS)
++
++# Note: DSOSUF must not be empty, or these rules will try to match too much
+ %$(DSOSUF): QEMU_LDFLAGS += $(LDFLAGS_SHARED)
+ %$(DSOSUF): %.mo
+ 	$(call LINK,$^)
+-- 
+2.16.4
 
-  Just remove the accelerator (-accel hax), and I get a window - so this
-  is related to QEMU being able to contact / use the accelerator.
-
-  Help!?!?
-
-  Thanks!
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1871250/+subscriptions
 
