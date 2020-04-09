@@ -2,61 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28981A34DE
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 15:27:28 +0200 (CEST)
-Received: from localhost ([::1]:49229 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D04741A34B5
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 15:18:56 +0200 (CEST)
+Received: from localhost ([::1]:49086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMXDL-0006yg-Sq
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 09:27:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57895)
+	id 1jMX55-0001ip-V9
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 09:18:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56516)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jMXBs-000636-5o
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 09:25:57 -0400
+ (envelope-from <mlureau@redhat.com>) id 1jMX2e-000806-Hp
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 09:16:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jMXBr-0002zv-0H
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 09:25:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44320)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jMXBq-0002zi-RC
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 09:25:54 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jMXBp-0004zF-DL
- for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 13:25:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5E3E42E8104
- for <qemu-devel@nongnu.org>; Thu,  9 Apr 2020 13:25:53 +0000 (UTC)
+ (envelope-from <mlureau@redhat.com>) id 1jMX2b-0005JH-B8
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 09:16:23 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33829
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1jMX2b-0005Is-1C
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 09:16:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586438180;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZRExIM2Z2m5qDrESh7Oi3RNfeWIJhsVi+U/vpkAR0rw=;
+ b=SaJ1ckvq+qt3qHRBBg7Kv7pvuYK4Yquf9gF7m5jKgfrjycw0+Z7I6PyCfpicat6ECVdzcn
+ v0572XcWxkVSnunO7OgsLX1XJ79m0zftnHU/VH/qrBCVdybAWBf6BK5Ol7FU3Dh6nTR/Cb
+ 8xOpxhQdgDFzq8nGMlQL/h9acXwOuGg=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-181-5aJPXa-5PG6lRMYPGtfZdA-1; Thu, 09 Apr 2020 09:16:13 -0400
+X-MC-Unique: 5aJPXa-5PG6lRMYPGtfZdA-1
+Received: by mail-io1-f71.google.com with SMTP id a16so3376133ios.9
+ for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 06:16:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hr07qM0B92ytmiO12hneByD+ycutNapukJr649WflaQ=;
+ b=NN35Ju0O4j8GM/Otz6dO1h80VsaHJ5wwvOkvyaatLHH8Te5eNYTpPgSl1tdxYnVgvF
+ JOf18EZk4CZ1jiBFJ6+qF+UoP/kPPyM41E7LC9/yYinn+swkXfAFujvFAnVRuypIAXDS
+ jsb5tuCEx7Lze2tIR8i+NOQ9WfXbeF/IS1ElYEAtRXkg1RpErfu5KTggD3PBkmnSWOBZ
+ EgoveEQ8Ro89tkMEg1OATB0/UQid+RwX0QWGPu/KtHX+MLIdeWUDMxxcLLFyZc2geSil
+ nfKF1RMJoQeXVdxMAtPw3L+e8R7+WKtBT/ohU8XH7XEBCOl2nUt2yrgUbYcB256RFGz9
+ qwTg==
+X-Gm-Message-State: AGi0PuYQMapTZJAbBk/gyVGsBDPwM5URg+nucwD9TX+MLod61qhPGvnd
+ y6xfpXaWnLUsgLVBavzMOSQ2XF7606ZMo0sT4oNSrGkgY1suhwlZS5Rjq063vgfSNX71zGeQKGG
+ QvWiFQ+7nEQzP7sdBexRhUbeLEuCiOP4=
+X-Received: by 2002:a92:91d6:: with SMTP id e83mr5222831ill.165.1586438173008; 
+ Thu, 09 Apr 2020 06:16:13 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKumHX6pFF+L99C61k7Rtw9tHy9pvrnlMG6E6wd0FWKTuXS4ReUYF2Ue8J9YJ/MyHjuEVt/FCeRCsl1wNeb8kU=
+X-Received: by 2002:a92:91d6:: with SMTP id e83mr5222798ill.165.1586438172709; 
+ Thu, 09 Apr 2020 06:16:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <20200409124601.toh6jpbfcwiwzb6z@r>
+In-Reply-To: <20200409124601.toh6jpbfcwiwzb6z@r>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Thu, 9 Apr 2020 15:16:01 +0200
+Message-ID: <CAMxuvayJjHH_dqyoPCweQDysubzv=bKnJqgp9TxZNcNKnLTJhw@mail.gmail.com>
+Subject: Re: Replace GSource with AioContext for chardev
+To: Coiby Xu <coiby.xu@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Apr 2020 13:13:36 -0000
-From: James Le Cuirot <chewi@aura-online.co.uk>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: windows
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 6-u3untu-h chewi
-X-Launchpad-Bug-Reporter: Russell Morris (6-u3untu-h)
-X-Launchpad-Bug-Modifier: James Le Cuirot (chewi)
-References: <158621521246.22866.8297146941622716788.malonedeb@wampee.canonical.com>
-Message-Id: <158643801689.11953.12506160520769633249.malone@soybean.canonical.com>
-Subject: [Bug 1871250] Re: Failed to create HAX VM
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 5df94ef65cf297420e452200bfd6f6e6dfebf644
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,59 +82,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1871250 <1871250@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just going by https://lists.nongnu.org/archive/html/qemu-
-devel/2020-03/msg06882.html.
+Hi
 
--- =
+On Thu, Apr 9, 2020 at 2:46 PM Coiby Xu <coiby.xu@gmail.com> wrote:
+>
+>
+> Hi,
+>
+> I'm now implementing vhost-user block device backend
+> https://patchew.org/QEMU/20200309100342.14921-1-coiby.xu@gmail.com/
+> and want to use chardev to help manage vhost-user client connections
+> and read socket message. However there are two issues that need to be
+> addressed.
+>
+> Firstly, chardev isn't suitable for the case when exported drive is
+> run in an IOThread because for mow chardev use GSource to dispatch
+> socket fd events. So I have to specify which IOThread the exported
+> drive is using when launching vhost-user block device backend,
+> for example, the following syntax will be used,
+>
+>    -drive file=3Dfile.img,id=3Ddisk -device virtio-blk,drive=3Ddisk,iothr=
+ead=3Diothread0 \
+>     -object vhost-user-blk-server,node-name=3Ddisk,chardev=3Dmon1,iothrea=
+d=3Diothread0 \
+>     -object iothread,id=3Diothread0 \
+>     -chardev socket,id=3Dmon1,path=3D/tmp/vhost-user-blk_vhost.socket,ser=
+ver,nowait
+>
+> then iothread_get_g_main_context(IOThread *iothread) has to be called
+> to run the gcontext in IOThread. If we use AioContext to dispatch socket
+> fd events, we needn't to specify IOThread twice. Besides aio_poll is fast=
+er
+> than g_main_loop_run.
+>
+> Secondly, socket chardev's async read handler (set through
+> qemu_chr_fe_set_handlers) doesn't take the case of socket short read
+> into consideration.  I plan to add one which will make use qio_channel_yi=
+eld.
+>
+> According to
+> [1] Improving the QEMU Event Loop - Linux Foundation Events
+> http://events17.linuxfoundation.org/sites/events/files/slides/Improving%2=
+0the%20QEMU%20Event%20Loop%20-%203.pdf
+>
+> "Convert chardev GSource to aio or an equivalent source" (p.30) should ha=
+ve
+> been finished. I'm curious why the plan didn't continue. If it's desirabl=
+e,
+> I'm going to finish the leftover work to resolve the aforementioned two i=
+ssues.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1871250
+Converting all chardevs to Aio might be challenging, and doesn't bring
+much benefits imho.
 
-Title:
-  Failed to create HAX VM
+Perhaps a better approach would be to rely on a new chardev API to
+steal the chardev underlying fd or QIO... (mostly keeping -chardev for
+CLI/QMP compatibility reason - although breaking some chardev features
+that imho aren't compatible with all use cases, like replay, muxing,
+swapping etc). The chardev should probably be removed after that...
 
-Status in QEMU:
-  New
-
-Bug description:
-  Hi,
-
-  I'm running the latest (master) of QEMU, though the version doesn't
-  seem to matter - I also checked back to v4.2.0, exactly the same
-  issue. And this isn't about the VM (guest), if I even just try to run,
-
-  > "c:\Program Files\qemu\qemu-system-x86_64.exe" -accel hax
-
-  Basically, just get a window to open, with acceleration enabled ... I get,
-  Open the vm device error:/dev/hax_vm/vm00, ec:3
-  Failed to open vm 0
-  Failed to create HAX VM
-  No accelerator found.
-
-  But I checked - I have installed Intel HAXM, and verified it's running,
-  > sc query intelhaxm
-  SERVICE_NAME: intelhaxm
-          TYPE               : 1  KERNEL_DRIVER
-          STATE              : 4  RUNNING
-                                  (STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOW=
-N)
-          WIN32_EXIT_CODE    : 0  (0x0)
-          SERVICE_EXIT_CODE  : 0  (0x0)
-          CHECKPOINT         : 0x0
-          WAIT_HINT          : 0x0
-
-  Just remove the accelerator (-accel hax), and I get a window - so this
-  is related to QEMU being able to contact / use the accelerator.
-
-  Help!?!?
-
-  Thanks!
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1871250/+subscriptions
 
