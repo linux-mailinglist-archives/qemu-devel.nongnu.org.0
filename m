@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B5D1A3873
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 18:54:50 +0200 (CEST)
-Received: from localhost ([::1]:52768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FB271A3881
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 18:59:51 +0200 (CEST)
+Received: from localhost ([::1]:52836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMaS0-0006nA-99
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 12:54:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58853)
+	id 1jMaWs-0002xa-5Y
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 12:59:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59351)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dan.j.williams@intel.com>) id 1jMaKX-0001TE-6V
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 12:47:06 -0400
+ (envelope-from <peterx@redhat.com>) id 1jMaNP-0003py-EL
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 12:50:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dan.j.williams@intel.com>) id 1jMaKT-0002to-LY
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 12:47:02 -0400
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:46877)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <dan.j.williams@intel.com>)
- id 1jMaKT-0002p5-AF
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 12:47:01 -0400
-Received: by mail-ed1-x542.google.com with SMTP id dk4so531282edb.13
- for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 09:46:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=intel-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=n9FEAdpDjPYMRFdoFbysT5eMJJ0P5dsamPqoNfI9cHc=;
- b=xWWYISO4wCuDtwghfIKXyIZbt5X+zk/OJUkDIqk+11TZUo0BTr9wX7A9K3iNjf0UNj
- czkrFtn7sLDvaKFPcq8AW8ZXupCLLEyeI85yqAAGZ8TAgjKkoTWrLpDJ8YKbaFtY6ux3
- IPtPfT+RAzC2DSBnCdKSt6ifMuPmnYpwK9H0k/vtH2xNK94fHCDVPnB/tIjcuIvzbtWR
- hDE9FdOZRdJwY2nn6DmCh21Ush0DDjbeXUxrG6VR9CWI+NFGoE151zb6rP+akJl617PR
- g2CwSTj+YgGPZNOGcirG6os/HyjqtGcq8gPoniJppdHzsKxecU8Dd9+2xJAaQTKiGQ+y
- CxGg==
+ (envelope-from <peterx@redhat.com>) id 1jMaNO-0004F0-0m
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 12:50:02 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36070
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1jMaNN-0004EB-Pb
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 12:50:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586451000;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=FtYZ8zvtdgQms3S7Fq/g6eFvvamlpX9A8dSGP/jEk3w=;
+ b=YwqDukvxo+hVeBs2FOzS41wtWusZKnuXL3m9GjfLlbkiJizx2QDgk7nfP0GfjYreT9swNN
+ BmI1UNcvWNcOfZd8idBCi1Co3hI23+gKuYSV3t3c9/LIqW0YgzW2eheumJb7crLmbLL/ol
+ 1mTC8sUovXT6ZFzwehKx4ZagtahR9tc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-324-Qg6Udpj8NvOnrK0c5LsmOQ-1; Thu, 09 Apr 2020 12:49:58 -0400
+X-MC-Unique: Qg6Udpj8NvOnrK0c5LsmOQ-1
+Received: by mail-wr1-f72.google.com with SMTP id j22so3623780wrb.4
+ for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 09:49:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=n9FEAdpDjPYMRFdoFbysT5eMJJ0P5dsamPqoNfI9cHc=;
- b=lRRuetAr1K3m6Rkdv2xITR9nPkCaUfcd0CXG0zOucWmii8EmijSS+tnQ88fwWTQrCM
- HXPueuYypoyLmqm71iGTaLXtL9J/B74tJ0No2C5hu9QTMkpARx/2UMyVxT6EZ540J00x
- TSwleeG0Ej9vv1B80f5JwB/8bW5vsrN5TY1WhIdg0P/BPZ7Y9FIAvrSnqTkHouxqDQj7
- jFZGhtCOUig51NX1o1vBQAdl+b4XTAgbtVoMxjTxALe03MuB4m75MhlUSxVWt8A4L+q+
- Rg+l7TW0CQI98CoqbLEzA7MSUiEzKNa4S3+IcTnZ/M2XS1ab3X/PKgfVhFGujQTgdtU1
- rSLw==
-X-Gm-Message-State: AGi0PubEFd3J5fthOtf8gXZacm1M9wZRSvfmg4jfXRB7ADUnQPzvXp7Q
- xLc1WKPXBEfrMaOQP54M6Qbs948RswX//F39KTg8LA==
-X-Google-Smtp-Source: APiQypLY8N2jehAYP9EJOPRFBqg+kkPwk6+KE2ZHCfYNpDNKnd+d7NRCFFLzYCjOh4t3ziked9t9WqOeQtaC+HPVI5s=
-X-Received: by 2002:a17:906:6987:: with SMTP id
- i7mr12437981ejr.12.1586450805184; 
- Thu, 09 Apr 2020 09:46:45 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=d86mx4vYJc69Jq1w0JarA8ZXRIcivQyN3mFEr1ot9MY=;
+ b=V4c6z2HwOgHtYm0gJT4IVd/uGds/ja6uj7LT7FTMn02hiyyXLy7E5tVLOTQQto7vib
+ myc+SGO/NlESmxBDXB6O6wl3wk4JlFfP0tWPlk5MQCiOgAdbte5M6wQ4cYHuv0JD+fiW
+ L+0X0EvBeJkQ1DdWNX+Li8SwZL/KY8ZuAfj6DiQg5EynvAzYmODAnLEWJG4C7M4yk1rf
+ ai/QUkcWmKwAo6e6z2v4SiR+nU7gynLRRVtUqJvit9SBA8a/m8mVkMTbTqk54pG5O3Nz
+ ZJ3EMNnlURRRtdCQE9PFzB3XmSNb5/sZRsP3iyOjn4IjgHkyURDZrvNXaS9THLnVv8vI
+ Y0KA==
+X-Gm-Message-State: AGi0PuZOKKDt5LqtvOhYXj6PXd95MqKYj/uKDjz1Z6wqOj5uAMKubK1D
+ ZiSF6hw3x2ex0KQygtWfDjChza4XwRPxGl1vHBpdoriRxsbcgfcJ5DQr8ZWiaPxS9TEC+ndkLr6
+ nxORLNuMHYzQWRJI=
+X-Received: by 2002:a1c:e914:: with SMTP id q20mr736078wmc.105.1586450997261; 
+ Thu, 09 Apr 2020 09:49:57 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKPIDcPTtqJCRItW/UlsgkLjsv7aDdoT38YIdpWNnkAbZIQfOlbakiYFNQMi3T4UajjMVe+Tw==
+X-Received: by 2002:a1c:e914:: with SMTP id q20mr736057wmc.105.1586450996948; 
+ Thu, 09 Apr 2020 09:49:56 -0700 (PDT)
+Received: from xz-x1.redhat.com ([2607:9880:19c0:32::2])
+ by smtp.gmail.com with ESMTPSA id j10sm23263569wru.85.2020.04.09.09.49.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Apr 2020 09:49:56 -0700 (PDT)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] gdbstub: Unbreak i386 with gdb remote
+Date: Thu,  9 Apr 2020 12:49:52 -0400
+Message-Id: <20200409164954.36902-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <20200401031314.11592-1-jingqi.liu@intel.com>
- <c906a3ae-c9d2-5802-5988-3c1d0302109b@oracle.com>
- <CAPcyv4igr9-DJx2ehoHj7sXk5g5GmgmivCqM3VpmJV7J4QM+kA@mail.gmail.com>
- <3873cb30-608c-6a27-c19f-f6446898796f@oracle.com>
- <9959e648-94f6-3be3-2271-3d2b855e7e48@intel.com>
- <6c12c748-6ee6-7132-f54b-bf0f90ae84c2@oracle.com>
- <2e2ba0c4-88ed-dc37-c642-a1cc7ae98f05@intel.com>
-In-Reply-To: <2e2ba0c4-88ed-dc37-c642-a1cc7ae98f05@intel.com>
-From: Dan Williams <dan.j.williams@intel.com>
-Date: Thu, 9 Apr 2020 09:46:33 -0700
-Message-ID: <CAPcyv4hpA1Lc8+-3sDLBkG=sqMXbcxwQzNHYEcJevu8NypQcFQ@mail.gmail.com>
-Subject: Re: [PATCH] exec: fetch the alignment of Linux devdax pmem character
- device nodes
-To: "Liu, Jingqi" <jingqi.liu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::542
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,110 +83,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 9, 2020 at 7:33 AM Liu, Jingqi <jingqi.liu@intel.com> wrote:
->
-> On 4/8/2020 5:42 PM, Joao Martins wrote:
-> > On 4/8/20 3:25 AM, Liu, Jingqi wrote:
-> >> On 4/8/2020 2:28 AM, Joao Martins wrote:
-> >>> On 4/7/20 5:55 PM, Dan Williams wrote:
-> >>>> On Tue, Apr 7, 2020 at 4:01 AM Joao Martins <joao.m.martins@oracle.com> wrote:
-> >>>>> Perhaps, you meant instead:
-> >>>>>
-> >>>>>           /sys/dev/char/%d:%d/align
-> >>>>>
-> >>>> Hmm, are you sure that's working?
-> >>> It is, except that I made the slight mistake of testing with a bunch of wip
-> >>> patches on top which one of them actually adds the 'align' to child dax device.
-> >>>
-> >>> Argh, my apologies - and thanks for noticing.
-> >>>
-> >>>> I expect the alignment to be found
-> >>>> in the region device:
-> >>>>
-> >>>> /sys/class/dax:
-> >>>> /sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus1/region1/dax1.1/dax1.0
-> >>>> $(readlink -f /sys/dev/char/253\:263)/../align
-> >>>> $(readlink -f /sys/dev/char/253\:263)/device/align
-> >>>>
-> >>>>
-> >>>> /sys/bus/dax:
-> >>>> /sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus1/region1/dax1.0/dax1.0
-> >>>> $(readlink -f /sys/dev/char/253\:265)/../align
-> >>>> $(readlink -f /sys/dev/char/253\:265)/device/align <-- No such file
-> >>>>
-> >>>> The use of the /sys/dev/char/%d:%d/device is only supported by the
-> >>>> deprecated /sys/class/dax.
-> >> Hi Dan,
-> >>
-> >> Thanks for your comments.
-> >>
-> >> Seems it is a mistake.
-> >>
-> >> It should be: $(readlink -f /sys/dev/char/253\:263)/../../align
-> >>
-> > Hmm, perhaps you have an extra '../' in the path? This works for me:
-> >
-> > # ls $(readlink -f /sys/dev/char/252\:0/../align)
-> > /sys/devices/platform/e820_pmem/ndbus0/region0/dax0.0/dax0.0/../align
-> > # cat $(readlink -f /sys/dev/char/252\:0)/../align
-> > 2097152
-> > # cat /sys/dev/char/252\:0/../align
-> > 2097152
->
-> Hi Joao,
->
-> Hmm, I need to have an extra '../' in the path. The details are as follows:
->
-> # ll /dev/dax2.0
-> crw------- 1 root root 251, 5 Mar 20 13:35 /dev/dax2.0
-> # uname -r
-> 5.6.0-rc1-00044-gb19e8c684703
-> # readlink -f /sys/dev/char/251\:5/
-> /sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus0/region2/dax2.1/dax/dax2.0
-> # ls $(readlink -f /sys/dev/char/251\:5)/../align
-> ls: cannot access
-> '/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus0/region2/dax2.1/dax/dax2.0/../align':
-> No such file or directory
-> # ls $(readlink -f /sys/dev/char/251\:5)/../dax_region/align
-> ls: cannot access
-> '/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus0/region2/dax2.1/dax/dax2.0/../dax_region/align':
-> No such file or directory
-> # ls $(readlink -f /sys/dev/char/251\:5)/../../align
-> /sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus0/region2/dax2.1/dax/dax2.0/../../align
-> # ls $(readlink -f /sys/dev/char/251\:5)/../../dax_region/align
-> /sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus0/region2/dax2.1/dax/dax2.0/../../dax_region/align
-> # lsmod|grep pmem
-> dax_pmem_compat        16384  0
-> device_dax             20480  1 dax_pmem_compat
-> dax_pmem_core          16384  1 dax_pmem_compat
-> # lsmod|grep dax
-> dax_pmem_compat        16384  0
-> device_dax             20480  1 dax_pmem_compat
-> dax_pmem_core          16384  1 dax_pmem_compat
->
-> Seems some configurations are different ?
->
-> Can you share your info as above ? Thanks.
+It's silently broken on master during an refactoring.  Let's fix it.
 
-Alternatively maybe you can use libdaxctl that automatically handles
-the ABI differences between compat-dax-class and dax-bus layouts? I
-didn't recommend it before because I was not sure about qemu's policy
-about taking on new library dependencies, but with libdaxctl you could
-do something like (untested):
+Please feel free to drop patch 1 if it's not rc material, but I guess
+we want patch 2...
 
-path = g_strdup_printf("/sys/dev/char/%d:%d", major(st.st_rdev),
-minor(st.st_rdev));
-rpath = realpath(path, NULL);
-daxctl_region_foreach(ctx, region)
-    if (strstr(daxctl_region_get_path(region), rpath)) {
-        align = daxctl_region_get_align(region);
-        break;
-    }
+Thanks,
+
+Peter Xu (2):
+  gdbstub: Assert len read from each register
+  gdbstub: i386: Fix gdb_get_reg16() parameter to unbreak gdb
+
+ gdbstub.c             | 11 ++++++++---
+ target/i386/gdbstub.c |  2 +-
+ 2 files changed, 9 insertions(+), 4 deletions(-)
+
+--=20
+2.24.1
+
 
