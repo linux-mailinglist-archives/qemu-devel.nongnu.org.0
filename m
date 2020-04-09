@@ -2,85 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A36A91A3817
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 18:34:29 +0200 (CEST)
-Received: from localhost ([::1]:52602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B5D1A3873
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 18:54:50 +0200 (CEST)
+Received: from localhost ([::1]:52768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMa8K-0006lS-Oc
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 12:34:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57269)
+	id 1jMaS0-0006nA-99
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 12:54:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58853)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jMa7Q-0006L1-TG
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 12:33:34 -0400
+ (envelope-from <dan.j.williams@intel.com>) id 1jMaKX-0001TE-6V
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 12:47:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jMa7P-0004M1-87
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 12:33:32 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39613
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jMa7P-0004Lm-0W
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 12:33:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586450010;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0e4qS9NYmcGx6l5M1QXrgjPKDpJNuprUUdFLE6DLajA=;
- b=NIiC4hUXeWU/zcywdzbnG75DkhYw2nVSg7aJhZ8osT9pIOUgl1iR1q29lWnAKHc0VF91aL
- S5UBh9qs7270gjBWKCsMkV80vWiIm1+8wij/YBDZoWE/1eRafip8w02Y8va+UX9gP29P9f
- qtV0uY9ujQODPaJSJRUC2uCb1ecVSuQ=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-162-B-OGCsVrMb-QcblvsScfwQ-1; Thu, 09 Apr 2020 12:33:26 -0400
-X-MC-Unique: B-OGCsVrMb-QcblvsScfwQ-1
-Received: by mail-ed1-f71.google.com with SMTP id j10so398609edy.21
- for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 09:33:26 -0700 (PDT)
+ (envelope-from <dan.j.williams@intel.com>) id 1jMaKT-0002to-LY
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 12:47:02 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:46877)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <dan.j.williams@intel.com>)
+ id 1jMaKT-0002p5-AF
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 12:47:01 -0400
+Received: by mail-ed1-x542.google.com with SMTP id dk4so531282edb.13
+ for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 09:46:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=intel-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=n9FEAdpDjPYMRFdoFbysT5eMJJ0P5dsamPqoNfI9cHc=;
+ b=xWWYISO4wCuDtwghfIKXyIZbt5X+zk/OJUkDIqk+11TZUo0BTr9wX7A9K3iNjf0UNj
+ czkrFtn7sLDvaKFPcq8AW8ZXupCLLEyeI85yqAAGZ8TAgjKkoTWrLpDJ8YKbaFtY6ux3
+ IPtPfT+RAzC2DSBnCdKSt6ifMuPmnYpwK9H0k/vtH2xNK94fHCDVPnB/tIjcuIvzbtWR
+ hDE9FdOZRdJwY2nn6DmCh21Ush0DDjbeXUxrG6VR9CWI+NFGoE151zb6rP+akJl617PR
+ g2CwSTj+YgGPZNOGcirG6os/HyjqtGcq8gPoniJppdHzsKxecU8Dd9+2xJAaQTKiGQ+y
+ CxGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0e4qS9NYmcGx6l5M1QXrgjPKDpJNuprUUdFLE6DLajA=;
- b=K7yfAt4a0LjTqxo0zlPZhg1ybRsfn41mlCzcLrfnAsLwrB7HDrFIY7GGBqap5joCsB
- YZ3ncIHBegVumVJmWASZ6ykYkW0/ZjaB7D2g77fn08nUvaRibb4NC5SSX0aSd3NlxmQO
- BVpwLCEQPaE8q6uyw1SwlouJ8jH9yqwqP10Wz0MttsZfIkeEWSy4ZmldXZ3g5cQYvBhr
- OWuOi/OXZ17bxO7e7up8xsdDgWrKJkoJwpIBvkYk8kjTGZVQxXtN6YefUdWVUl+9OjKW
- BgW74s2Fk1Z33Ftyx5W6zG3bTQfhuuvsDAIzJf3nNEdgC8wuMSIZu6oPtJ7nS8PAH22G
- 6O7w==
-X-Gm-Message-State: AGi0PubYkSrqLAGlhFLnsmmQUT+FheJm0c6/B5PCXa7Gt3T1iX+wlmqI
- vvAg16uY1xThRl9opfi61gJW0G7hlpbHLRSGzqoqiCiwpY0EqbD0KufdvcwBdSFsWxftPjqO5S/
- MScJes7YooGBkDe4=
-X-Received: by 2002:aa7:dc17:: with SMTP id b23mr804244edu.321.1586450005160; 
- Thu, 09 Apr 2020 09:33:25 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJJ+KAMy8VYioXfvaVlwHRx3+HtsqUgML18Y7a804z24RnEfaxkZB0ecahJ1WqSZO06Y9XzEg==
-X-Received: by 2002:aa7:dc17:: with SMTP id b23mr804218edu.321.1586450004895; 
- Thu, 09 Apr 2020 09:33:24 -0700 (PDT)
-Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id u2sm3104842edj.21.2020.04.09.09.33.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Apr 2020 09:33:24 -0700 (PDT)
-Subject: Re: [PATCH v2] Makefile: libfdt: build only the strict necessary
-To: Claudio Fontana <cfontana@suse.de>,
- Peter Maydell <peter.maydell@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <20200409124337.32134-1-cfontana@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <2a5ea4be-96bb-b686-1683-52269bd518ff@redhat.com>
-Date: Thu, 9 Apr 2020 18:33:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=n9FEAdpDjPYMRFdoFbysT5eMJJ0P5dsamPqoNfI9cHc=;
+ b=lRRuetAr1K3m6Rkdv2xITR9nPkCaUfcd0CXG0zOucWmii8EmijSS+tnQ88fwWTQrCM
+ HXPueuYypoyLmqm71iGTaLXtL9J/B74tJ0No2C5hu9QTMkpARx/2UMyVxT6EZ540J00x
+ TSwleeG0Ej9vv1B80f5JwB/8bW5vsrN5TY1WhIdg0P/BPZ7Y9FIAvrSnqTkHouxqDQj7
+ jFZGhtCOUig51NX1o1vBQAdl+b4XTAgbtVoMxjTxALe03MuB4m75MhlUSxVWt8A4L+q+
+ Rg+l7TW0CQI98CoqbLEzA7MSUiEzKNa4S3+IcTnZ/M2XS1ab3X/PKgfVhFGujQTgdtU1
+ rSLw==
+X-Gm-Message-State: AGi0PubEFd3J5fthOtf8gXZacm1M9wZRSvfmg4jfXRB7ADUnQPzvXp7Q
+ xLc1WKPXBEfrMaOQP54M6Qbs948RswX//F39KTg8LA==
+X-Google-Smtp-Source: APiQypLY8N2jehAYP9EJOPRFBqg+kkPwk6+KE2ZHCfYNpDNKnd+d7NRCFFLzYCjOh4t3ziked9t9WqOeQtaC+HPVI5s=
+X-Received: by 2002:a17:906:6987:: with SMTP id
+ i7mr12437981ejr.12.1586450805184; 
+ Thu, 09 Apr 2020 09:46:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200409124337.32134-1-cfontana@suse.de>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+References: <20200401031314.11592-1-jingqi.liu@intel.com>
+ <c906a3ae-c9d2-5802-5988-3c1d0302109b@oracle.com>
+ <CAPcyv4igr9-DJx2ehoHj7sXk5g5GmgmivCqM3VpmJV7J4QM+kA@mail.gmail.com>
+ <3873cb30-608c-6a27-c19f-f6446898796f@oracle.com>
+ <9959e648-94f6-3be3-2271-3d2b855e7e48@intel.com>
+ <6c12c748-6ee6-7132-f54b-bf0f90ae84c2@oracle.com>
+ <2e2ba0c4-88ed-dc37-c642-a1cc7ae98f05@intel.com>
+In-Reply-To: <2e2ba0c4-88ed-dc37-c642-a1cc7ae98f05@intel.com>
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Thu, 9 Apr 2020 09:46:33 -0700
+Message-ID: <CAPcyv4hpA1Lc8+-3sDLBkG=sqMXbcxwQzNHYEcJevu8NypQcFQ@mail.gmail.com>
+Subject: Re: [PATCH] exec: fetch the alignment of Linux devdax pmem character
+ device nodes
+To: "Liu, Jingqi" <jingqi.liu@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,159 +80,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Bennee <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Claudio,
+On Thu, Apr 9, 2020 at 7:33 AM Liu, Jingqi <jingqi.liu@intel.com> wrote:
+>
+> On 4/8/2020 5:42 PM, Joao Martins wrote:
+> > On 4/8/20 3:25 AM, Liu, Jingqi wrote:
+> >> On 4/8/2020 2:28 AM, Joao Martins wrote:
+> >>> On 4/7/20 5:55 PM, Dan Williams wrote:
+> >>>> On Tue, Apr 7, 2020 at 4:01 AM Joao Martins <joao.m.martins@oracle.com> wrote:
+> >>>>> Perhaps, you meant instead:
+> >>>>>
+> >>>>>           /sys/dev/char/%d:%d/align
+> >>>>>
+> >>>> Hmm, are you sure that's working?
+> >>> It is, except that I made the slight mistake of testing with a bunch of wip
+> >>> patches on top which one of them actually adds the 'align' to child dax device.
+> >>>
+> >>> Argh, my apologies - and thanks for noticing.
+> >>>
+> >>>> I expect the alignment to be found
+> >>>> in the region device:
+> >>>>
+> >>>> /sys/class/dax:
+> >>>> /sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus1/region1/dax1.1/dax1.0
+> >>>> $(readlink -f /sys/dev/char/253\:263)/../align
+> >>>> $(readlink -f /sys/dev/char/253\:263)/device/align
+> >>>>
+> >>>>
+> >>>> /sys/bus/dax:
+> >>>> /sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus1/region1/dax1.0/dax1.0
+> >>>> $(readlink -f /sys/dev/char/253\:265)/../align
+> >>>> $(readlink -f /sys/dev/char/253\:265)/device/align <-- No such file
+> >>>>
+> >>>> The use of the /sys/dev/char/%d:%d/device is only supported by the
+> >>>> deprecated /sys/class/dax.
+> >> Hi Dan,
+> >>
+> >> Thanks for your comments.
+> >>
+> >> Seems it is a mistake.
+> >>
+> >> It should be: $(readlink -f /sys/dev/char/253\:263)/../../align
+> >>
+> > Hmm, perhaps you have an extra '../' in the path? This works for me:
+> >
+> > # ls $(readlink -f /sys/dev/char/252\:0/../align)
+> > /sys/devices/platform/e820_pmem/ndbus0/region0/dax0.0/dax0.0/../align
+> > # cat $(readlink -f /sys/dev/char/252\:0)/../align
+> > 2097152
+> > # cat /sys/dev/char/252\:0/../align
+> > 2097152
+>
+> Hi Joao,
+>
+> Hmm, I need to have an extra '../' in the path. The details are as follows:
+>
+> # ll /dev/dax2.0
+> crw------- 1 root root 251, 5 Mar 20 13:35 /dev/dax2.0
+> # uname -r
+> 5.6.0-rc1-00044-gb19e8c684703
+> # readlink -f /sys/dev/char/251\:5/
+> /sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus0/region2/dax2.1/dax/dax2.0
+> # ls $(readlink -f /sys/dev/char/251\:5)/../align
+> ls: cannot access
+> '/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus0/region2/dax2.1/dax/dax2.0/../align':
+> No such file or directory
+> # ls $(readlink -f /sys/dev/char/251\:5)/../dax_region/align
+> ls: cannot access
+> '/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus0/region2/dax2.1/dax/dax2.0/../dax_region/align':
+> No such file or directory
+> # ls $(readlink -f /sys/dev/char/251\:5)/../../align
+> /sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus0/region2/dax2.1/dax/dax2.0/../../align
+> # ls $(readlink -f /sys/dev/char/251\:5)/../../dax_region/align
+> /sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0012:00/ndbus0/region2/dax2.1/dax/dax2.0/../../dax_region/align
+> # lsmod|grep pmem
+> dax_pmem_compat        16384  0
+> device_dax             20480  1 dax_pmem_compat
+> dax_pmem_core          16384  1 dax_pmem_compat
+> # lsmod|grep dax
+> dax_pmem_compat        16384  0
+> device_dax             20480  1 dax_pmem_compat
+> dax_pmem_core          16384  1 dax_pmem_compat
+>
+> Seems some configurations are different ?
+>
+> Can you share your info as above ? Thanks.
 
-On 4/9/20 2:43 PM, Claudio Fontana wrote:
-> when building dtc/libfdt, we were previously using dtc/Makefile,
-> which tries to build some artifacts that are not needed,
-> and can complain on stderr about the absence of tools that
-> are not required to build just libfdt.
-> 
-> Instead, build only the strict necessary to get libfdt.a .
-> 
-> Remove the subdir-dtc "compatibility gunk" for recursion,
-> since we are not recursing anymore.
-> 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> ---
->   Makefile  | 23 +++++++++++++----------
->   configure |  6 +-----
->   rules.mak |  2 ++
->   3 files changed, 16 insertions(+), 15 deletions(-)
-> 
-> v1 -> v2:
-> 
-> * fix error generated when running UNCHECKED_GOALS without prior configure,
->    for example during make docker-image-fedora. Without configure, DSOSUF is
->    empty, and the module pattern rule in rules.mak that uses this variable
->    can match too much; provide a default in the Makefile to avoid it.
-> 
-> * only attempt to build the archive when there is a non-empty list of objects.
->    This could be done in general for the %.a: pattern in rules.mak, but maybe
->    there are valid reasons to build an empty .a?
-> 
-> * removed some intermediate variables that did not add much value
->    (LIBFDT_srcdir, LIBFDT_archive)
-> 
-> Tested locally with 3 VPATH configurations (no-, VPATH, VPATH in src subdir),
-> and with docker-image-fedora, docker-test-debug@fedora that failed before.
-> 
-> diff --git a/Makefile b/Makefile
-> index 84ef881600..92bc853b5f 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -4,6 +4,10 @@ ifneq ($(words $(subst :, ,$(CURDIR))), 1)
->     $(error main directory cannot contain spaces nor colons)
->   endif
->   
-> +# some pattern rules in rules.mak are confused by an empty DSOSUF,
-> +# and UNCHECKED_GOALS for testing (docker-) can run without prior configure.
-> +DSOSUF ?= ".so"
-> +
->   # Always point to the root of the build tree (needs GNU make).
->   BUILD_DIR=$(CURDIR)
->   
-> @@ -526,15 +530,16 @@ $(SOFTMMU_FUZZ_RULES): $(edk2-decompressed)
->   $(TARGET_DIRS_RULES):
->   	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" TARGET_DIR="$(dir $@)" $(notdir $@),)
->   
-> -DTC_MAKE_ARGS=-I$(SRC_PATH)/dtc VPATH=$(SRC_PATH)/dtc -C dtc V="$(V)" LIBFDT_srcdir=$(SRC_PATH)/dtc/libfdt
-> -DTC_CFLAGS=$(CFLAGS) $(QEMU_CFLAGS)
-> -DTC_CPPFLAGS=-I$(BUILD_DIR)/dtc -I$(SRC_PATH)/dtc -I$(SRC_PATH)/dtc/libfdt
-> -
-> -.PHONY: dtc/all
-> -dtc/all: .git-submodule-status dtc/libfdt dtc/tests
+Alternatively maybe you can use libdaxctl that automatically handles
+the ABI differences between compat-dax-class and dax-bus layouts? I
+didn't recommend it before because I was not sure about qemu's policy
+about taking on new library dependencies, but with libdaxctl you could
+do something like (untested):
 
-I'm getting:
-
-config-host.mak is out-of-date, running configure
-make: *** No rule to make target 'dtc/all', needed by 'config-host.h'. 
-Stop.
-
-On second try it works.
-
-Instead of alarming users, we could keep this target as a silent no-op, 
-then remove it after some time.
-
-For the rest, patch looks good, nice cleanup!
-
-Regards,
-
-Phil.
-
-> -	$(call quiet-command,$(MAKE) $(DTC_MAKE_ARGS) CPPFLAGS="$(DTC_CPPFLAGS)" CFLAGS="$(DTC_CFLAGS)" LDFLAGS="$(QEMU_LDFLAGS)" ARFLAGS="$(ARFLAGS)" CC="$(CC)" AR="$(AR)" LD="$(LD)" $(SUBDIR_MAKEFLAGS) libfdt/libfdt.a,)
-> +LIBFDT_objdir = dtc/libfdt
-> +-include $(SRC_PATH)/dtc/libfdt/Makefile.libfdt
-> +LIBFDT_objects = $(addprefix $(LIBFDT_objdir)/, $(LIBFDT_OBJS))
-> +.PHONY: libfdt
-> +libfdt: .git-submodule-status $(LIBFDT_objdir)/libfdt.a
-> +$(LIBFDT_objdir)/libfdt.a: $(LIBFDT_objects)
-> +	$(if $(LIBFDT_objects),$(call quiet-command,rm -f $@ && $(AR) rcs $@ $^,"AR","$(TARGET_DIR)$@"),)
->   
-> -dtc/%: .git-submodule-status
-> +$(LIBFDT_objects): | $(LIBFDT_objdir)
-> +$(LIBFDT_objdir): .git-submodule-status
->   	@mkdir -p $@
->   
->   # Overriding CFLAGS causes us to lose defines added in the sub-makefile.
-> @@ -563,7 +568,6 @@ slirp/all: .git-submodule-status
->   
->   # Compatibility gunk to keep make working across the rename of targets
->   # for recursion, to be removed some time after 4.1.
-> -subdir-dtc: dtc/all
->   subdir-capstone: capstone/all
->   subdir-slirp: slirp/all
->   
-> @@ -821,7 +825,6 @@ distclean: clean
->   	rm -rf $$d || exit 1 ; \
->           done
->   	rm -Rf .sdk
-> -	if test -f dtc/version_gen.h; then $(MAKE) $(DTC_MAKE_ARGS) clean; fi
->   
->   KEYMAPS=da     en-gb  et  fr     fr-ch  is  lt  no  pt-br  sv \
->   ar      de     en-us  fi  fr-be  hr     it  lv  nl         pl  ru     th \
-> diff --git a/configure b/configure
-> index 233c671aaa..36f83ffc5a 100755
-> --- a/configure
-> +++ b/configure
-> @@ -4278,10 +4278,6 @@ EOF
->         if test -d "${source_path}/dtc/libfdt" || test -e "${source_path}/.git" ; then
->             fdt=git
->             mkdir -p dtc
-> -          if [ "$pwd_is_source_path" != "y" ] ; then
-> -              symlink "$source_path/dtc/Makefile" "dtc/Makefile"
-> -              symlink "$source_path/dtc/scripts" "dtc/scripts"
-> -          fi
->             fdt_cflags="-I\$(SRC_PATH)/dtc/libfdt"
->             fdt_ldflags="-L\$(BUILD_DIR)/dtc/libfdt"
->             fdt_libs="$fdt_libs"
-> @@ -8151,7 +8147,7 @@ echo "PIXMAN_CFLAGS=$pixman_cflags" >> $config_host_mak
->   echo "PIXMAN_LIBS=$pixman_libs" >> $config_host_mak
->   
->   if [ "$fdt" = "git" ]; then
-> -  echo "config-host.h: dtc/all" >> $config_host_mak
-> +  echo "config-host.h: libfdt" >> $config_host_mak
->   fi
->   if [ "$capstone" = "git" -o "$capstone" = "internal" ]; then
->     echo "config-host.h: capstone/all" >> $config_host_mak
-> diff --git a/rules.mak b/rules.mak
-> index 694865b63e..61eb474ba4 100644
-> --- a/rules.mak
-> +++ b/rules.mak
-> @@ -105,6 +105,8 @@ LINK = $(call quiet-command, $(LINKPROG) $(CFLAGS) $(QEMU_LDFLAGS) -o $@ \
->   
->   DSO_OBJ_CFLAGS := -fPIC -DBUILD_DSO
->   module-common.o: CFLAGS += $(DSO_OBJ_CFLAGS)
-> +
-> +# Note: DSOSUF must not be empty, or these rules will try to match too much
->   %$(DSOSUF): QEMU_LDFLAGS += $(LDFLAGS_SHARED)
->   %$(DSOSUF): %.mo
->   	$(call LINK,$^)
-> 
-
+path = g_strdup_printf("/sys/dev/char/%d:%d", major(st.st_rdev),
+minor(st.st_rdev));
+rpath = realpath(path, NULL);
+daxctl_region_foreach(ctx, region)
+    if (strstr(daxctl_region_get_path(region), rpath)) {
+        align = daxctl_region_get_align(region);
+        break;
+    }
 
