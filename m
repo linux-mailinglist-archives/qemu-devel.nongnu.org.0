@@ -2,82 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C86771A3A10
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 20:57:34 +0200 (CEST)
-Received: from localhost ([::1]:54222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C6481A3A2D
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 21:07:16 +0200 (CEST)
+Received: from localhost ([::1]:54316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMcMn-0007GO-LJ
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 14:57:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54834)
+	id 1jMcWB-0004ET-0p
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 15:07:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56123)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jMcLT-0006L3-NY
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:56:12 -0400
+ (envelope-from <philmd@redhat.com>) id 1jMcVQ-0003ot-N8
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 15:06:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1jMcLS-0007RM-Ni
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:56:11 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59663
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jMcVO-0004zG-V7
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 15:06:28 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37090
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1jMcLS-0007Qz-Iy
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 14:56:10 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jMcVO-0004yu-Rt
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 15:06:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586458569;
+ s=mimecast20190719; t=1586459185;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AImWi1qfVjLZ9cIosDLagwg4wgU2GY4KBvwJrLZ7Trs=;
- b=SO6AdlVnMPARsh9wNY7uQ9UY0tPUPMzvAfdJ6Po8jY0X2JSKC6zuwpKl7/yIQNrjRKD6Md
- w5x9fKR5Jj6E8trM11Zw1Qr62gkKawQ4RBogb1vB/mIJUCM5PLQqSZd9+VATevFOF/d036
- qP6FYKiYyB6PCQn4n/P/FxNYdajcM2M=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-216-2i-Xf-k3N6avW53mclXrFQ-1; Thu, 09 Apr 2020 14:56:06 -0400
-X-MC-Unique: 2i-Xf-k3N6avW53mclXrFQ-1
-Received: by mail-wm1-f72.google.com with SMTP id y1so531142wmj.3
- for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 11:56:06 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=RtwQBAbTW7BWKvrSIJQ7+1pntJJwuL8RjCFmlk7YZag=;
+ b=CqKbhUy5VfdnW7Jgjek/vR7sOjvNAWk3kmb/IRkaUh6H0oZFE84GO0Fj6gbhvDRX7LiGeQ
+ 4E9CIRT/UyUlxLDbuWXUNj0QXnf4Co6uRxQlBNzf96q97YVhsIy9QgRp5oj81u7EbdO56l
+ 3t49t7UDhaxAw3uF4BjEzQRIZlgXNHs=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-277-IRFmSOGaNhq1uZ2FnHJxag-1; Thu, 09 Apr 2020 15:06:22 -0400
+X-MC-Unique: IRFmSOGaNhq1uZ2FnHJxag-1
+Received: by mail-wm1-f71.google.com with SMTP id f9so506449wme.7
+ for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 12:06:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=hYMwAUN9005u1k4S4HE8N4Pxn5WyuHriISCiAyqv1h8=;
- b=mlA/j4icTyROkUtkyzszUpqpgg92giZ73xUoAq6NO4hfxiCaGTzfE9YppEqz9LJmRy
- MQI6y5lQbCH3yokJqWib+5okAhePKe3RYp+39reKh8illXIzRYQTzTVE5KurbWxiPVTB
- B9tYjpdoAevKPecSQqzxToJoBjelkx/DzlQd2ZiZ+O11o2s1cdRnVAr65BdQi/fH8uyc
- HkQusrgZUsKwX9Eh7MBv1jHy9uwrCDVaF1If+aXB7kiN0SziGyaKyUuXCYyVADk+KfOQ
- QKFHQHN1LNYoYlg13sk4CHP9CMafXepwierqOf6Rsit+mXRg7bw/N73OrbHTyQWNDChO
- ZJsg==
-X-Gm-Message-State: AGi0PuY46lKsdZscDKqy/iSmBozhA2+3owIye160u/ZD61+Q1Bmrgw9E
- a4Hdgb8lHphHzE1aOMBsxNab2921uxgiqCXHJKwoD/+sRT7jjFN1uah4j1uBdPCWLNwq+vpcawk
- g+SEwhM6LbwvGdBI=
-X-Received: by 2002:a5d:5230:: with SMTP id i16mr573936wra.15.1586458564727;
- Thu, 09 Apr 2020 11:56:04 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJwdwjjBZ68XxAzBiip2rd4Cb+fDC16Z6NI6rFIBa2DfO+v0ym91Tys/Agjv5B/75FL9+Ujgg==
-X-Received: by 2002:a5d:5230:: with SMTP id i16mr573916wra.15.1586458564496;
- Thu, 09 Apr 2020 11:56:04 -0700 (PDT)
-Received: from xz-x1 ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id t2sm22721839wrs.7.2020.04.09.11.56.03
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sdQBmgEPqZ+soXjb8a3HCcVvzi2W+whd++8qhuX2MMI=;
+ b=mfLUykWN91m3xgoDKOO8dz/zUpYRg19cXOO3l0twG4FAmTeI5BATxU40E6FlGu5doW
+ A+GuqmDECRIAQY38EpkZ/noAK0GCmBq2IIpds4vCDGPFjMjSf6mTNenS8aCvat5nR1VX
+ STDSKzWhcjIDJdvzNNyEuGPWQfdIu0Enfvu5mciZ68OsJjJ/CCgCNg+7wDhRD6PYgrQ/
+ eOoLHgqIjUSTlBbndegGMGcbTRCNlctbjp088bE1fKa+cKvvxN+Pz2RWqzKbjH/BagvF
+ tg2WuqS4fVd1uhHmL5IhiMf/+cy+uoc4Rgphog/+slhOPGLOKt6zrQ8gCa1Ldh7ah3s4
+ 6UiQ==
+X-Gm-Message-State: AGi0PubRab4x/ziF/aLcFFwKKcyEu16rGHZgz3MNasyZ+HRjBsOtarPq
+ ovM2KK39hyWCgd8F0HI0hb0kxrGk2zh4LF5G7FIbTrsrc4b7zp0qa0yVVbkrzhB9kZSyE5GPS/Q
+ rGdV9LzGyYN5DS9k=
+X-Received: by 2002:adf:f9cc:: with SMTP id w12mr667797wrr.148.1586459181520; 
+ Thu, 09 Apr 2020 12:06:21 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKSd7QaL4s4qogqdcKPhPzOmc2frmhUtkSWYop+uvtKJRjpzMo4bYD/vCmKvgi2OrujG15Msw==
+X-Received: by 2002:adf:f9cc:: with SMTP id w12mr667768wrr.148.1586459181226; 
+ Thu, 09 Apr 2020 12:06:21 -0700 (PDT)
+Received: from localhost.localdomain (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id i8sm44168458wrb.41.2020.04.09.12.06.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Apr 2020 11:56:04 -0700 (PDT)
-Date: Thu, 9 Apr 2020 14:56:01 -0400
-From: Peter Xu <peterx@redhat.com>
+ Thu, 09 Apr 2020 12:06:20 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 2/2] gdbstub: i386: Fix gdb_get_reg16() parameter to
- unbreak gdb
-Message-ID: <20200409185601.GC40299@xz-x1>
-References: <20200409182538.40816-1-peterx@redhat.com>
- <20200409182538.40816-3-peterx@redhat.com>
+Subject: [PATCH-for-5.0] .travis.yml: Build OSX 10.14 with Xcode 10.0
+Date: Thu,  9 Apr 2020 21:06:18 +0200
+Message-Id: <20200409190618.7402-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-In-Reply-To: <20200409182538.40816-3-peterx@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,51 +86,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 09, 2020 at 02:25:38PM -0400, Peter Xu wrote:
-> We should only pass in gdb_get_reg16() with the GByteArray* object
-> itself, no need to shift.  Without this patch, gdb remote attach will
-> crash QEMU.
->=20
-> Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Fixes: b7b8756a9c ("target/i386: use gdb_get_reg helpers", 2020-03-17)
+Travis recently made a change which generates various warnings
+such [*]:
 
-So I think this should still be:
+    CC      utils.o
+  In file included from cs.c:11:
+  In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX10.1=
+4.sdk/usr/include/stdio.h:64:
+  /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/_std=
+io.h:93:16: warning: pointer is missing a nullability type specifier (_Nonn=
+ull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+          unsigned char   *_base;
+                          ^
+  /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/_std=
+io.h:93:16: note: insert '_Nullable' if the pointer may be null
+          unsigned char   *_base;
+                          ^
+                            _Nullable
 
-Fixes: a010bdbe71 ("gdbstub: extend GByteArray to read register helpers")
+We only aim to support MacOS 10.14 and 10.15. 10.14 comes with
+Xcode 10.0. These warnings are not emitted with this Xcode version,
+so switch back to it.
 
-As Phil & Laurent pointed out.
+[*] https://travis-ci.org/github/qemu/qemu/jobs/673000302#L1387
 
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->  target/i386/gdbstub.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
-> index f3d23b614e..b98a99500a 100644
-> --- a/target/i386/gdbstub.c
-> +++ b/target/i386/gdbstub.c
-> @@ -106,7 +106,7 @@ int x86_cpu_gdb_read_register(CPUState *cs, GByteArra=
-y *mem_buf, int n)
->      } else if (n >=3D IDX_FP_REGS && n < IDX_FP_REGS + 8) {
->          floatx80 *fp =3D (floatx80 *) &env->fpregs[n - IDX_FP_REGS];
->          int len =3D gdb_get_reg64(mem_buf, cpu_to_le64(fp->low));
-> -        len +=3D gdb_get_reg16(mem_buf + len, cpu_to_le16(fp->high));
-> +        len +=3D gdb_get_reg16(mem_buf, cpu_to_le16(fp->high));
->          return len;
->      } else if (n >=3D IDX_XMM_REGS && n < IDX_XMM_REGS + CPU_NB_REGS) {
->          n -=3D IDX_XMM_REGS;
-> --=20
-> 2.24.1
->=20
+Reported-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ .travis.yml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/.travis.yml b/.travis.yml
+index 2fd63eceaa..7c92206ea3 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -272,12 +272,12 @@ jobs:
+=20
+     # MacOSX builds - cirrus.yml also tests some MacOS builds including la=
+test Xcode
+=20
+-    - name: "OSX Xcode 10.3"
++    - name: "OSX 10.14 (Xcode 10.0)"
+       env:
+         - BASE_CONFIG=3D"--disable-docs --enable-tools"
+         - CONFIG=3D"--target-list=3Di386-softmmu,ppc-softmmu,ppc64-softmmu=
+,m68k-softmmu,x86_64-softmmu"
+       os: osx
+-      osx_image: xcode10.3
++      osx_image: xcode10
+       compiler: clang
+       addons:
+         homebrew:
 --=20
-Peter Xu
+2.21.1
 
 
