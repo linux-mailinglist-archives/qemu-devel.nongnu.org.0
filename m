@@ -2,77 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41D731A3BD2
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 23:19:36 +0200 (CEST)
-Received: from localhost ([::1]:55648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FD521A3CB3
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 01:02:11 +0200 (CEST)
+Received: from localhost ([::1]:56504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMeaF-0007Vo-9W
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 17:19:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42413)
+	id 1jMgBW-0003RE-Bf
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 19:02:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52688)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jMeWZ-0002G5-GQ
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 17:15:48 -0400
+ (envelope-from <bounces@canonical.com>) id 1jMgAE-0002R1-HM
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 19:00:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jMeWY-0005rQ-9n
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 17:15:47 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:47076)
+ (envelope-from <bounces@canonical.com>) id 1jMgAD-00046o-F9
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 19:00:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57628)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jMeWY-0005qa-46
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 17:15:46 -0400
-Received: by mail-wr1-x433.google.com with SMTP id f13so7119786wrm.13
- for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 14:15:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=NsgGnaK6H7tXZSUowxzbNGfoZoXPun4GYcBXJ76FIg0=;
- b=iokV08ARsSiWllJ9cOA3WSv7O7YlPfESa/gnZ4Jr2a14wQsD5Mju2H6CgmQnJwU2iW
- b5zuJTJk7+PJ137KF9mgQ1QQhiReONIFhcd/iCVjQRLo9kWeyYw+6HurYjHLvHofSGPc
- af6EnETKMHmGLkZZwDEKxtC/e0E+lUCAKM465sZhnde7FZ4H/gRHcWu2wXBllMxb97Am
- 22DzvRGM7sxdvoDUmwFIU2OTJF5vKzMMR0WoSYdKJj4r/D69Nc1c7b0pWjgJitgeqV6m
- lLK0/KiW0XEmmnpg1GNsffZbQiTykkj/xz408UGAOpXFFJzR5XaiuhgMukAKIWHgLkxn
- JMfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NsgGnaK6H7tXZSUowxzbNGfoZoXPun4GYcBXJ76FIg0=;
- b=fOtwgNaBosP5xHT00ghex701f6s1qAh1UyQ7DtJFvqs4r8rKWfFoybs3vxQ28zRPDZ
- VFHVvHqiVzRKLqSZs7jYEmCJZwyxD45zpgVeZRcHDQ8Rf9Ay41TJGJ4Xh/AC7w8BP0Qv
- 7pYezF3/ejpEpGPuuNLJ7uB4SasO2+nqEXeasAgFQImjbtnxA36tyqFCD6jTkbpQcqts
- WXl3FiqAEMQPPTwBCGPodXykuN7vCEv4fMrVVMnB2J142xhMHBltIHaPhuGRQqnzBoZ8
- czSCc9PIYVUF9sLAWrc3FXHLMFx6ikWUPmlxKkue9evDemQSMHG9viVlb4nD44RsN+1e
- 7rmA==
-X-Gm-Message-State: AGi0PuarxtZFEeACruNd6L+r65bcXNn9M9r1jPw3tets3MqoBkGwY7JJ
- 7ImJOx5e2RFOTZRZxXMowGgr4w==
-X-Google-Smtp-Source: APiQypKoFD1XjBzu3LhzxvXwnZt5npJILuC62nU6zdHnVpG7eurJAW8SeitIbGFMV7841ambAvUPuw==
-X-Received: by 2002:adf:e94a:: with SMTP id m10mr1130808wrn.324.1586466945102; 
- Thu, 09 Apr 2020 14:15:45 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o9sm36693010wru.29.2020.04.09.14.15.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Apr 2020 14:15:41 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0FA191FF9A;
- Thu,  9 Apr 2020 22:15:31 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 11/11] .travis.yml: Build OSX 10.14 with Xcode 10.0
-Date: Thu,  9 Apr 2020 22:15:29 +0100
-Message-Id: <20200409211529.5269-12-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200409211529.5269-1-alex.bennee@linaro.org>
-References: <20200409211529.5269-1-alex.bennee@linaro.org>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jMgAD-00045h-8B
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 19:00:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jMgAB-0004e9-H7
+ for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 23:00:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 80A882E8106
+ for <qemu-devel@nongnu.org>; Thu,  9 Apr 2020 23:00:47 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::433
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 09 Apr 2020 22:51:35 -0000
+From: Howard Spoelstra <1871798@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: configure pie windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee cat-7 chewi
+X-Launchpad-Bug-Reporter: James Le Cuirot (chewi)
+X-Launchpad-Bug-Modifier: Howard Spoelstra (cat-7)
+References: <158642182265.5805.199845175533907355.malonedeb@chaenomeles.canonical.com>
+ <20200409211529.5269-8-alex.bennee@linaro.org>
+Message-Id: <CABLmASE7JW5q46ADfm77kVq_wqAXGNgLyxXqTKgswLmh1fLnCQ@mail.gmail.com>
+Subject: [Bug 1871798] Re: [PATCH v1 07/11] configure: disable PIE for Windows
+ builds
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 5dacd018e13cdebac4ff210f888c7ff8aae97a31
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,63 +68,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: Bug 1871798 <1871798@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Thu, Apr 9, 2020 at 11:18 PM Alex Benn=C3=A9e <alex.bennee@linaro.org>
+wrote:
 
-Travis recently made a change which generates various warnings
-such [*]:
+> It seems on some compilers the test can pass but still give you
+> broken binaries.
+>
+> [AJB untested - please could windows users test]
+>
+> Fixes: d2cd29e30736
+> Fixes: https://bugs.launchpad.net/qemu/+bug/1871798
+> Cc: Bug 1871798 <1871798@bugs.launchpad.net>
+> Cc: James Le Cuirot <chewi@aura-online.co.uk>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>  configure | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/configure b/configure
+> index a207cce82bc..e9c5f630c14 100755
+> --- a/configure
+> +++ b/configure
+> @@ -807,6 +807,7 @@ MINGW32*)
+>      audio_drv_list=3D""
+>    fi
+>    supported_os=3D"yes"
+> +  pie=3D"no"
+>  ;;
+>  GNU/kFreeBSD)
+>    bsd=3D"yes"
+> --
+> 2.20.1
+>
 
-    CC      utils.o
-  In file included from cs.c:11:
-  In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/stdio.h:64:
-  /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/_stdio.h:93:16: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
-          unsigned char   *_base;
-                          ^
-  /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/_stdio.h:93:16: note: insert '_Nullable' if the pointer may be null
-          unsigned char   *_base;
-                          ^
-                            _Nullable
+Solves my issue! So,
 
-We only aim to support MacOS 10.14 and 10.15. 10.14 comes with
-Xcode 10.0. These warnings are not emitted with this Xcode version,
-so switch back to it.
+Tested-by: Howard Spoelstra <hsp.cat7@gmail.com>
 
-[*] https://travis-ci.org/github/qemu/qemu/jobs/673000302#L1387
+-- =
 
-Reported-by: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200409190618.7402-1-philmd@redhat.com>
----
- .travis.yml | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1871798
 
-diff --git a/.travis.yml b/.travis.yml
-index 2fd63eceaac..7c92206ea33 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -272,12 +272,12 @@ jobs:
- 
-     # MacOSX builds - cirrus.yml also tests some MacOS builds including latest Xcode
- 
--    - name: "OSX Xcode 10.3"
-+    - name: "OSX 10.14 (Xcode 10.0)"
-       env:
-         - BASE_CONFIG="--disable-docs --enable-tools"
-         - CONFIG="--target-list=i386-softmmu,ppc-softmmu,ppc64-softmmu,m68k-softmmu,x86_64-softmmu"
-       os: osx
--      osx_image: xcode10.3
-+      osx_image: xcode10
-       compiler: clang
-       addons:
-         homebrew:
--- 
-2.20.1
+Title:
+  Fails to start on Windows host without explicit --disable-pie
 
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Since commit d2cd29e30736afd4a1e8cac3cf4da360bbc65978, which removed
+  the x86 conditional around PIE, QEMU completely fails to start on a
+  Windows host unless --disable-pie is explicitly given at build time.
+  Even just requesting the help text doesn't work. To make testing
+  easier, this can be replicated with Wine.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1871798/+subscriptions
 
