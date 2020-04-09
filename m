@@ -2,86 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC3761A3B36
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 22:19:48 +0200 (CEST)
-Received: from localhost ([::1]:54980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 123511A3B56
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 22:31:42 +0200 (CEST)
+Received: from localhost ([::1]:55086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMdeN-00005J-Vy
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 16:19:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35866)
+	id 1jMdps-0003se-So
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 16:31:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36936)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jMddb-00081b-EB
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 16:19:00 -0400
+ (envelope-from <bounces@canonical.com>) id 1jMdp8-0003Sy-Lr
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 16:30:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1jMdda-0002RB-Gj
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 16:18:59 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41436
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jMdda-0002Qh-DQ
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 16:18:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586463537;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3vKBb5Lc9IFuoMO1BKmiAVROFNQmWaGJXo1mut7TsPs=;
- b=Wnvq3IeQunoV+tmZdBA+136BCP+6AKtJ3uDUm64ghiHcMtjVt+xBAe0Uc8iXRz0rL5HqXw
- lFhnRZTQtj8Pcn1YD5ebrydFa5jPgnXWW/Zxo943peEWESG7br7eYv9D7CNmCwqUL4QmLB
- WSwibjmGryTONhedct0c4EoTe6e6yZc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-jeVownLINX6Ql3F9joc4cw-1; Thu, 09 Apr 2020 16:18:53 -0400
-X-MC-Unique: jeVownLINX6Ql3F9joc4cw-1
-Received: by mail-wr1-f71.google.com with SMTP id n7so7264842wru.9
- for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 13:18:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=AJBticWigxjd1m/sXCH6CS6jcYJfAhFRAd45SGm5I4E=;
- b=r8mHkEOVP/kMzoGtDGQfiEDR6pWCKuf6gSt81sRY2ed6JOC0LK5Ekp9BOkmt1pvrrN
- FNiViuVcjNwChGYV5k37JI2rDbA9sT6r1T8q7/oAALao3KvtWfOWiECAA29wmLIYz9Dt
- xw9jgNY67oPjX4inRrPaxbybjh6HZtkoYNKTBfPCeTLXSBndXkbXdPZJsLAp4i4vykMH
- 5As82vdI6DnP29U8ejIpIrHsRHGmqpH4KEsQGTYldXN71Np4MxIMxoT2aFeDNc/tbYyh
- /5qCptGPrleqkuSA26uq7u5EqOIdsdOrwnP2sLz8XQlrpkVwkYL8EwORTU+Mij2/DC7t
- CV7Q==
-X-Gm-Message-State: AGi0PubivKgg2C2XDstFgudxnMpXD8CTr5rPhj6rZ0iK5owbqpifThiL
- Q9ecbzNk8C8W0vpdEMTrg3vSql8rpkEoR/IrRJ021/z6d+CSssc1t3tXxk8Dnku4HOMT4zuxbSI
- s/wUKJQt/NoIj9e8=
-X-Received: by 2002:a05:600c:a:: with SMTP id
- g10mr1575970wmc.153.1586463532638; 
- Thu, 09 Apr 2020 13:18:52 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJdk9bk3/hjz3YKzU0Ix4SHglGYmuclXDqeBf5w8jw/FgBGlxwl4iGZY8rI7kKhKT8VPU2ilA==
-X-Received: by 2002:a05:600c:a:: with SMTP id
- g10mr1575949wmc.153.1586463532288; 
- Thu, 09 Apr 2020 13:18:52 -0700 (PDT)
-Received: from redhat.com (bzq-109-67-97-76.red.bezeqint.net. [109.67.97.76])
- by smtp.gmail.com with ESMTPSA id
- 106sm32337899wrc.46.2020.04.09.13.18.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Apr 2020 13:18:51 -0700 (PDT)
-Date: Thu, 9 Apr 2020 16:18:49 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Li Feng <fengli@smartx.com>
-Subject: Re: hotplug issue of vhost-user-blk
-Message-ID: <20200409161748-mutt-send-email-mst@kernel.org>
-References: <CAHckoCzojVSHLAwBP2QhFx3Gw6j9DVPRwNSML9D4GQMzKr9Y3g@mail.gmail.com>
+ (envelope-from <bounces@canonical.com>) id 1jMdp4-0008CE-TG
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 16:30:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33712)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jMdp4-0008C0-OL
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 16:30:50 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jMdp3-0002TW-EW
+ for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 20:30:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6CBF22E8107
+ for <qemu-devel@nongnu.org>; Thu,  9 Apr 2020 20:30:49 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAHckoCzojVSHLAwBP2QhFx3Gw6j9DVPRwNSML9D4GQMzKr9Y3g@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Thu, 09 Apr 2020 20:22:41 -0000
+From: Russell Morris <ubuntu@rkmorris.us>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: upstream-bug whpx
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 6-u3untu-h ajbennee eminus
+X-Launchpad-Bug-Reporter: Emin Ghuliev (eminus)
+X-Launchpad-Bug-Modifier: Russell Morris (6-u3untu-h)
+References: <155352235092.32006.12315829232895734213.malonedeb@soybean.canonical.com>
+Message-Id: <158646376164.16856.17014557809116722786.malone@wampee.canonical.com>
+Subject: [Bug 1821595] Re: Failed to emulate MMIO access with
+ EmulatorReturnStatus: 2
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 63d06e934281b9afde9058ff20bec76c542da701
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,79 +66,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Pan Nengyuan <pannengyuan@huawei.com>, jusual@redhat.com,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- raphael.norwitz@nutanix.com, Kyle Zhang <kyle@smartx.com>,
- Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1821595 <1821595@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 08, 2020 at 10:25:42AM +0800, Li Feng wrote:
-> Hi all,
->=20
-> Hotplug of vhost-user-blk doesn't not work in qemu master branch and
-> all previous version.
->=20
-> The action I insert a vhost-user-blk disk is:
-> (qemu) chardev-add socket,id=3Dspdk_vhost_blk2,path=3D/vhost-blk.0,reconn=
-ect=3D1
-> (qemu) device_add
-> vhost-user-blk-pci,chardev=3Dspdk_vhost_blk2,id=3Dspdk_vhost_blk2,num-que=
-ues=3D4
->=20
-> Until here, it's well.
->=20
-> Then I unplug it from qemu:
-> (qemu) device_del spdk_vhost_blk2
-> (qemu) chardev-remove spdk_vhost_blk2
-> Error: Chardev 'spdk_vhost_blk2' is busy
+Sorry, not quite following your comment - but it's likely me :-(.
 
-Pan Nengyuan (cc'd) fixed unplug recently so I expect it
-worked for him after the patch ...
+I assume you mean QEMU - but build against what upstream library? I ask
+because for QEMU to build, only the three header files from Windows are
+copied over, and then it calls / uses the dll's (libraries) in Windows
+itself ... right? FYI, I'm running Windows 19041.172, to try to make
+sure I do have the latest related to whpx.
 
-> The related code is here:
-> qmp_chardev_remove
->     -> qemu_chr_is_busy
->     -> object_unparent(OBJECT(chr));
->=20
->  330 static bool qemu_chr_is_busy(Chardev *s)
->  331 {
->  332     if (CHARDEV_IS_MUX(s)) {
->  333         MuxChardev *d =3D MUX_CHARDEV(s);
->  334         return d->mux_cnt >=3D 0;
->  335     } else {
->  336         return s->be !=3D NULL;
->  337     }
->  338 }
->=20
-> My question is:
-> 1. s->be is set to NULL when qemu_chr_fe_deinit is called.
-> However, the qmp_chardev_remove is blocked at qemu_chr_is_busy check,
-> then the object_unparent will not be called.
-> 2. Is there a path that device_del will trigger the s->be that been set t=
-o NULL?
->=20
-> How should I fix this issue?
-> I have tested that comment the qemu_chr_is_busy works well.
->=20
-> Thanks in advance.
->=20
-> Feng Li
->=20
-> --=20
-> The SmartX email address is only for business purpose. Any sent message=
-=20
-> that is not related to the business is not authorized or permitted by=20
-> SmartX.
-> =E6=9C=AC=E9=82=AE=E7=AE=B1=E4=B8=BA=E5=8C=97=E4=BA=AC=E5=BF=97=E5=87=8C=
-=E6=B5=B7=E7=BA=B3=E7=A7=91=E6=8A=80=E6=9C=89=E9=99=90=E5=85=AC=E5=8F=B8=EF=
-=BC=88SmartX=EF=BC=89=E5=B7=A5=E4=BD=9C=E9=82=AE=E7=AE=B1. =E5=A6=82=E6=9C=
-=AC=E9=82=AE=E7=AE=B1=E5=8F=91=E5=87=BA=E7=9A=84=E9=82=AE=E4=BB=B6=E4=B8=8E=
-=E5=B7=A5=E4=BD=9C=E6=97=A0=E5=85=B3,=E8=AF=A5=E9=82=AE=E4=BB=B6=E6=9C=AA=
-=E5=BE=97=E5=88=B0=E6=9C=AC=E5=85=AC=E5=8F=B8=E4=BB=BB=E4=BD=95=E7=9A=84=E6=
-=98=8E=E7=A4=BA=E6=88=96=E9=BB=98=E7=A4=BA=E7=9A=84=E6=8E=88=E6=9D=83.
->=20
+Thanks!
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1821595
+
+Title:
+  Failed to emulate MMIO access with EmulatorReturnStatus: 2
+
+Status in QEMU:
+  New
+
+Bug description:
+  I have compiled qemu with enable-whpx parameter for Hyper-V Platform API =
+in Mingw64 . When I tried run with Windows 7 iso file I have faced issue wi=
+th the following problem: =
+
+  qemu-system-x86_64.exe: WHPX: Failed to emulate MMIO access with Emulator=
+ReturnStatus: 2
+  qemu-system-x86_64.exe: WHPX: Failed to exec a virtual processor
+
+  =
+
+  configuration directives:
+
+  ../configure --target-list=3Dx86_64-softmmu,i386-softmmu --enable-lzo\
+   --enable-bzip2 --enable-tools --enable-sdl --enable-gtk --enable-hax\
+   --enable-vdi --enable-qcow1 --enable-whpx --disable-capstone\
+   --disable-werror --disable-stack-protector --prefix=3D"../../QEMU-bin"
+
+  =
+
+  Qemu command line:
+  qemu-system-x86_64.exe -m 1024 -cdrom "C:\Users\vmcs\Documents\en_windows=
+_7_home_premium_with_sp1_x86_dvd_u_676701.iso" -display sdl -machine q35 -a=
+ccel whpx
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1821595/+subscriptions
 
