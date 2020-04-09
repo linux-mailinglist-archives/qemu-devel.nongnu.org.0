@@ -2,68 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07D4E1A3572
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 16:12:00 +0200 (CEST)
-Received: from localhost ([::1]:50608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86BD81A357F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 16:12:37 +0200 (CEST)
+Received: from localhost ([::1]:50618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMXuR-0003SH-3W
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 10:11:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38195)
+	id 1jMXv2-0004Lv-Ko
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 10:12:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38293)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jMXtc-0002jG-AC
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:11:09 -0400
+ (envelope-from <jan.kiszka@siemens.com>) id 1jMXuH-0003ec-Uu
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:11:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jMXtb-00065S-Az
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:11:08 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34528)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jMXtb-00064y-5e
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:11:07 -0400
-Received: by mail-wr1-x443.google.com with SMTP id 65so12123255wrl.1
- for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 07:11:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=7kbUcMwdULW/E1x4D6HcmHiKt3/9mxxS3vMZPmXveDk=;
- b=gCTIJC8DYeDQa5Eg8V3e12wTBkaYYqWJyh/8kkQreYumjq0tlkiWkdhFKCP7c1V1td
- arEeTc9RDFO4R5Vtlf0UkgwmU+w1UD18Jx3+3La4BggmTC1tM41mVJVHc5/e9nMzVKW+
- rzyJKpW6kXJb5wn81hKcfjiqQNUnVl/pTzg/7xhyiLz9OXpHKmtT8qDvoLE1vs9eXZeI
- k80HUf6nZ0SObrWkl/sqUGAQzG5CV4zUZWuYxsIPXLZEpgkPfEGu2SSFD3pNgC6MetYi
- Ln6+p9Jk5NrdRj/znw39cLPHxbSz90uzuBcB+fB1gj98nu19ujpmRPsDY6P3jdVcEvlc
- EsRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=7kbUcMwdULW/E1x4D6HcmHiKt3/9mxxS3vMZPmXveDk=;
- b=YUH1JlUCc6WZ5UkZvlvMf5M5NdUAJ9yna1sbfkuMCygZ4QtuyWjYqN6OXA068DybJw
- 6Jrap0QpT5k+kCrkUGZr6jnIte7M0GJpDwPbE4AvkDw6hr0KouTqkmP64DauwXjIzsxq
- a2t/P0ixYmF+D2cUcv103+hTYywGl3n71EVAry1kZF9Aa4iWGQShbncjLzDKhQfLJ70q
- paYK+txJS9ldYzW6YONvkaLDv+AoTsOX1ZF1srtVT7TqNq3ww18ocsAliLKczb6t/Ups
- WLg3TgL142cntQJZzzvQRFpIZvfInlu469aW07NyRXsBNNKWUO29a6O4nZF7nXs+s64L
- 6sOw==
-X-Gm-Message-State: AGi0PuYp8fJ2lWnrFdnip+qasx+Ghz3ApoCT7R8jXX/3ATn/3U0gB2a5
- qpqJyxjeu63VpwL2TUhg8NGdE1ea396jdv1sdVk=
-X-Google-Smtp-Source: APiQypLK69XI46ayW2qrt0LgnEqMLx+S3CHi0Sn+iZnBJfRlsDXGeIb9jsuSEK4uV6GASLpFY11P+by4umyJIHeVqGc=
-X-Received: by 2002:a05:6000:187:: with SMTP id
- p7mr14122102wrx.196.1586441465791; 
- Thu, 09 Apr 2020 07:11:05 -0700 (PDT)
+ (envelope-from <jan.kiszka@siemens.com>) id 1jMXuF-0006Qt-Jr
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:11:48 -0400
+Received: from gecko.sbs.de ([194.138.37.40]:59321)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jan.kiszka@siemens.com>)
+ id 1jMXuF-0006Ds-AP
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 10:11:47 -0400
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+ by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id 039EBNun002817
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 9 Apr 2020 16:11:23 +0200
+Received: from [139.22.34.184] ([139.22.34.184])
+ by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 039EBLIk014322;
+ Thu, 9 Apr 2020 16:11:22 +0200
+Subject: Re: [RFC][PATCH v2 0/3] IVSHMEM version 2 device for QEMU
+To: Liang Yan <lyan@suse.com>, qemu-devel <qemu-devel@nongnu.org>
+References: <cover.1578407802.git.jan.kiszka@siemens.com>
+ <e11366c8-44e6-2d58-7c0a-f49e497cc240@suse.com>
+From: Jan Kiszka <jan.kiszka@siemens.com>
+Message-ID: <883ab460-77c2-a324-6c8b-eb2e74f6458c@siemens.com>
+Date: Thu, 9 Apr 2020 16:11:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200409134133.11339-1-imammedo@redhat.com>
-In-Reply-To: <20200409134133.11339-1-imammedo@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 9 Apr 2020 16:10:53 +0200
-Message-ID: <CAJ+F1C+kHYng295fWdKEgqUJ4Zn_ywa8srf3hZGSp+rpDFpFYQ@mail.gmail.com>
-Subject: Re: [PATCH for-5.0] vl.c: error out if -mem-path is used together
- with -M memory-backend
-To: Igor Mammedov <imammedo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+In-Reply-To: <e11366c8-44e6-2d58-7c0a-f49e497cc240@suse.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 194.138.37.40
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,48 +55,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Jailhouse <jailhouse-dev@googlegroups.com>,
+ Claudio Fontana <claudio.fontana@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Hannes Reinecke <hare@suse.de>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 9, 2020 at 3:41 PM Igor Mammedov <imammedo@redhat.com> wrote:
->
-> the former is not actually used by explicit backend, so instead of
-> silently ignoring the option in non valid context, exit with error.
->
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+On 09.04.20 15:52, Liang Yan wrote:
+> 
+> 
+> On 1/7/20 9:36 AM, Jan Kiszka wrote:
+>> Overdue update of the ivshmem 2.0 device model as presented at [1].
+>>
+>> Changes in v2:
+>>   - changed PCI device ID to Siemens-granted one,
+>>     adjusted PCI device revision to 0
+>>   - removed unused feature register from device
+>>   - addressed feedback on specification document
+>>   - rebased over master
+>>
+>> This version is now fully in sync with the implementation for Jailhouse
+>> that is currently under review [2][3], UIO and virtio-ivshmem drivers
+>> are shared. Jailhouse will very likely pick up this revision of the
+>> device in order to move forward with stressing it.
+>>
+>> More details on the usage with QEMU were in the original cover letter
+>> (with adjustements to the new device ID):
+>>
+>> If you want to play with this, the basic setup of the shared memory
+>> device is described in patch 1 and 3. UIO driver and also the
+>> virtio-ivshmem prototype can be found at
+>>
+>>      http://git.kiszka.org/?p=linux.git;a=shortlog;h=refs/heads/queues/ivshmem2
+>>
+>> Accessing the device via UIO is trivial enough. If you want to use it
+>> for virtio, this is additionally to the description in patch 3 needed on
+>> the virtio console backend side:
+>>
+>>      modprobe uio_ivshmem
+>>      echo "110a 4106 1af4 1100 ffc003 ffffff" > /sys/bus/pci/drivers/uio_ivshmem/new_id
+>>      linux/tools/virtio/virtio-ivshmem-console /dev/uio0
+>>
+>> And for virtio block:
+>>
+>>      echo "110a 4106 1af4 1100 ffc002 ffffff" > /sys/bus/pci/drivers/uio_ivshmem/new_id
+>>      linux/tools/virtio/virtio-ivshmem-console /dev/uio0 /path/to/disk.img
+>>
+>> After that, you can start the QEMU frontend instance with the
+>> virtio-ivshmem driver installed which can use the new /dev/hvc* or
+>> /dev/vda* as usual.
+>>
+> Hi, Jan,
+> 
+> Nice work.
+> 
+> I did a full test for your this new version. QEMU device part looks
+> good, virtio console worked as expected. Just had some issue with
+> virtio-ivshmem-block tests here.
+> 
+> I suppose you mean "linux/tools/virtio/virtio-ivshmem-block"?
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Yes, copy&paste mistake, had the same issue over in 
+https://github.com/siemens/jailhouse/blob/master/Documentation/inter-cell-communication.md
 
+> 
+> Noticed "ffc002" is the main difference, however I saw nothing response
+> when run echo command here, are there anything I need to prepare?
+> 
+> I build the driver in guest kernel already.
+> 
+> Do I need a new protocol or anything for below command line?
+> ivshmem2-server -F -l 64K -n 2 -V 3 -P 0x8003
 
-> ---
->  softmmu/vl.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 58a40bcfc1..32c0047889 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -4315,6 +4315,11 @@ void qemu_init(int argc, char **argv, char **envp)
->                               "explicitly specified 'memory-backend' prop=
-erty");
->                  exit(EXIT_FAILURE);
->          }
-> +        if (mem_path) {
-> +            error_report("'-mem-path' can't be used together with"
-> +                         "'-machine memory-backend'");
-> +            exit(EXIT_FAILURE);
-> +        }
->          ram_size =3D backend_size;
->      }
->
-> --
-> 2.18.1
->
->
+Yes, you need to adjust that command line - didn't I document that 
+somewhere? Looks like I didn't:
 
+ivshmem2-server -F -l 1M -n 2 -V 2 -P 0x8002
 
---=20
-Marc-Andr=C3=A9 Lureau
+i.e. a bit more memory is good (but this isn't speed-optimized anyway), 
+you only need 2 vectors here (but more do not harm), and the protocol 
+indeed needs adjustment (that is the key).
+
+Jan
+
+-- 
+Siemens AG, Corporate Technology, CT RDA IOT SES-DE
+Corporate Competence Center Embedded Linux
 
