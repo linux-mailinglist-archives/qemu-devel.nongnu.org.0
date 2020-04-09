@@ -2,120 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 581791A3B39
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 22:23:45 +0200 (CEST)
-Received: from localhost ([::1]:55022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B1F11A3B66
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Apr 2020 22:35:57 +0200 (CEST)
+Received: from localhost ([::1]:55142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMdiC-0001dG-5A
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 16:23:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36235)
+	id 1jMdu0-0005Wq-Ar
+	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 16:35:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37323)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tsimpson@quicinc.com>) id 1jMdhM-00018h-Np
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 16:22:53 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jMdt2-00051Z-Ab
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 16:34:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tsimpson@quicinc.com>) id 1jMdhL-0004Gz-0H
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 16:22:51 -0400
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:58582)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tsimpson@quicinc.com>)
- id 1jMdhK-0004Fn-IM
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 16:22:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1586463770; x=1617999770;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=TRPjeP2kKGJGqa94zBmWwjqgr64QSTZaV7ZwuKpLfIw=;
- b=SvXd1mHuqDRrhN0edf+QqaEj5KWdqN/07lhny7Is5DwC0aSfzBtD3H1t
- oecKKdRbdEss1sUwNkrUwtmiQ7gSC3jFBVp5FNGLvaMnP+SmvWup2lJzn
- bjQFJVtKcEIovjl4yCWEJuLtkHYjydBP7YCR3IMwndDhXnPluvk421opT c=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 09 Apr 2020 13:22:48 -0700
-Received: from nasanexm03g.na.qualcomm.com ([10.85.0.49])
- by ironmsg01-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 09 Apr 2020 13:22:48 -0700
-Received: from apsanexr02e.ap.qualcomm.com (10.85.0.28) by
- nasanexm03g.na.qualcomm.com (10.85.0.49) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 9 Apr 2020 13:22:47 -0700
-Received: from nasanexm03h.na.qualcomm.com (10.85.0.50) by
- apsanexr02e.ap.qualcomm.com (10.85.0.28) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 9 Apr 2020 13:22:45 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (199.106.107.6)
- by nasanexm03h.na.qualcomm.com (10.85.0.50) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2 via Frontend Transport; Thu, 9 Apr 2020 13:22:45 -0700
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com (2603:10b6:a03:46::32)
- by BYAPR02MB5656.namprd02.prod.outlook.com (2603:10b6:a03:96::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.17; Thu, 9 Apr
- 2020 20:22:44 +0000
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::f09d:8640:4c4e:9803]) by BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::f09d:8640:4c4e:9803%6]) with mapi id 15.20.2900.015; Thu, 9 Apr 2020
- 20:22:44 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: "bcain@codeaurora.org" <bcain@codeaurora.org>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [RFC PATCH v2 20/67] Hexagon instruction utility functions
-Thread-Topic: [RFC PATCH v2 20/67] Hexagon instruction utility functions
-Thread-Index: AQHV7lZiglbdn13CRkOt6bs3YimnOqhxY5GAgAAYjWA=
-Date: Thu, 9 Apr 2020 20:22:44 +0000
-Message-ID: <BYAPR02MB4886A123EB6D0DF1362F9003DEC10@BYAPR02MB4886.namprd02.prod.outlook.com>
-References: <1582908244-304-1-git-send-email-tsimpson@quicinc.com>
- <1582908244-304-21-git-send-email-tsimpson@quicinc.com>
- <094101d60ea0$204c0ee0$60e42ca0$@codeaurora.org>
-In-Reply-To: <094101d60ea0$204c0ee0$60e42ca0$@codeaurora.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=tsimpson@quicinc.com; 
-x-originating-ip: [70.115.140.19]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6149a29d-15b6-48cb-2be2-08d7dcc3c30b
-x-ms-traffictypediagnostic: BYAPR02MB5656:
-x-microsoft-antispam-prvs: <BYAPR02MB5656C5110E4102726FEC8BB6DEC10@BYAPR02MB5656.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2582;
-x-forefront-prvs: 0368E78B5B
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR02MB4886.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10019020)(136003)(396003)(39860400002)(376002)(366004)(346002)(76116006)(66946007)(66556008)(66446008)(64756008)(66476007)(5660300002)(52536014)(26005)(86362001)(186003)(81166007)(478600001)(110136005)(54906003)(7696005)(53546011)(6506007)(4326008)(71200400001)(33656002)(2906002)(316002)(8936002)(55016002)(9686003)(8676002)(81156014);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: JSJSxDqBTakD2dtyozAN8pbU/bMVUhW2khRRj4uUv+O+cF3/D4lGauMSkbeOH2M4jvAFAHl/HBRN8aEjz6CSi5SnJC27rhpepQ4nmgdaBElbqNQmUZJQSon9puLzIxC9lt/aztxKnoTgFJ6fU4bypEmPAtwyuSK7xCx2JUu95fhAgIsfr4YzCQbtuin4ft1Tp04O0sUv1MiTxFQDH/QDWYwASe+TVrI3UggbOs7me7kO+4XgLwe9TiyK2PT+20JRiT7hGJwALXaLJi2upObc3W/tStyPb6gIGyxXpVANNMZqj3QXS0ZCzPYffbG1d1hxNeNWMMsYpf9g6fCV/BQXGY4A7VIQ3R3yadyZ5ukVmUKpOeX/zzBXfsgBh4ZCOvAR1RX/4XsrFuMqDay5CTHAbup3vikzw6B90w96l3mxeNvlaziJF/7u/BKCkVCeZ7Tg
-x-ms-exchange-antispam-messagedata: Qj4fCpyAl+yNbeIVXL5Y+BOS5Rvv/4cfmNlLIMRqlO1aOlKzOAe9iV5XemAJvZNkjLN+dp24jmPMiwNuBjHtw7C9/ASNxfv3MeQVk9iv1fbHgPAoD75Mu3XlIQwmEHbazzzo6WPKSi038tiyq/1MiA==
-x-ms-exchange-transport-forked: True
-arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j3OP7/pKUctbvNiK/202rpYrpzA5+PndutFnn6AgYE8DNrE9b/ANPalyH+4Z/jtY9cZNv1uRtos7OjTd2+GzVhzAgP4KuBopv5HUF11AdbrK73BK5NaBW+nKjiwVbm6kqFZObPdhJMaPGrW07wNxi7pOlzNnTJX3/5uf4+ZVevOVbjtuG19Zlf2rkLMiehXjETkaQOHobriRRuI1DcXQ+XWvRlpZzwJ6iWj3csWM9vYTehyfYJQznrwKhOX46l+vmYxoPLRUT5BvstHcoy/ppkqogIH3wbnRe96bUgqYowkaGPRxK01fh9AT/kSjGwaxlOy3mAjHi7couz/81un5OQ==
-arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GPdSNuqKmzPImKYJMkly8e1bKEZvlZte7lYPytUZZCg=;
- b=guq6Wq2JlMj8PLCCOK9Boblk0x/mUpwwBkeyFLhC7NQdz5Bq/znBBWpBQfYG70QsSEJmeRJZiku3VkXP4oQkNAVAKki4ZQiCVT5Jo6qrpmsg21XmY08K4vQBapYDObzZdbGbqXVd6qergHEXJPgP/WA6a+cYTetwWO/J70bAy91gUnJ2X9PYi7QKFNFwq9CvpwMiZZSkmpTVc6eFxYlwG7nHdxAlFWrgWQ9kIj8fDpgESc+EY+vR0IHW12r0d4jSumv/65a+A5VInxsC3sxFBmVPr1ka5QxBN0RrhQMoZJyxa4HO7VHP6SNVGfp6jgBQIT8ts/BxbgTUSgV62Ul0Jg==
-arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-dkim-signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GPdSNuqKmzPImKYJMkly8e1bKEZvlZte7lYPytUZZCg=;
- b=Icmhtem1ONtg2Ea5o/lyF3SuH34l7PCZEhmq7oBT5mtgKrYT/BglJewQ+DXiN0/aFJKgcFeYhGlS1FzLkGmEVMop1IsIj0jt1w44/vWp8sa9SgVXKdWftaad3dxKTqiA2yFkyePSGkUfEcytx7sNw7T6Z4R8zdHNupGZP+PmjMI=
-x-ms-exchange-crosstenant-network-message-id: 6149a29d-15b6-48cb-2be2-08d7dcc3c30b
-x-ms-exchange-crosstenant-originalarrivaltime: 09 Apr 2020 20:22:44.3628 (UTC)
-x-ms-exchange-crosstenant-fromentityheader: Hosted
-x-ms-exchange-crosstenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-x-ms-exchange-crosstenant-mailboxtype: HOSTED
-x-ms-exchange-crosstenant-userprincipalname: 34FefAVrLJ0npYEsP6vfDVVIvc0WwLys5tIC2Bi6DzL5ENzKmVM6OyeVIQKO7jGscUiAnz+U2PQsddeNR/vfVQ==
-x-ms-exchange-transport-crosstenantheadersstamped: BYAPR02MB5656
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (envelope-from <alex.bennee@linaro.org>) id 1jMdt1-0001gl-6B
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 16:34:56 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39266)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jMdt0-0001gO-Vd
+ for qemu-devel@nongnu.org; Thu, 09 Apr 2020 16:34:55 -0400
+Received: by mail-wm1-x342.google.com with SMTP id y24so172088wma.4
+ for <qemu-devel@nongnu.org>; Thu, 09 Apr 2020 13:34:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=iO1OzD0u//+p/06hMRrCDyC/5gto/5geNL7rNx4T+/U=;
+ b=xvnOHR998+iLwaxgRFIxu7ahNmVfsqvwz/ATc8UcVRUxktyQ8ivppTUfFRjalc03fz
+ 9gw/vXrYrEjoCn8J5waOdkyD+VYa6Ep5z88CbYjAZ3UN3o/nNqRJShs7HKarJKtNuqbA
+ aagvUULyPBOqGZ9YdnJZ2Hmh5PY6PVq3a4rBSH6Y2z9DogvGoSGg8lF6EQI3QSOhVaRj
+ SvfnQ8bhfrgvIhy3FWyTRn2yfQ6tXE0w8Yh9N+ixbTdukLPpajyK8FSu7gHhAVr1Rsra
+ S8vUQNvShkWTJwAkXrKFokw7EAmlIi0jXpMM9U3K3HAUdYu9OQmf5pEq20gbKaEJ9ea9
+ pZxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=iO1OzD0u//+p/06hMRrCDyC/5gto/5geNL7rNx4T+/U=;
+ b=iTEKgmdst86dtV2Tv6WnU1Wv1nLcxe70w2jTYM9oobqFpheLkPPM6fy9Iw4b2HMA6e
+ MNfAdJe/uqIW1hVTwU1WzENiXqNGsJ440sPWTDR8IKUTI4rSwxgfZXE8mzJ3wBV2k/0Z
+ vq8EhChtQQLEakFEgEauPa1CdNz9HjPkzFq1qkUvwmcuWrB3ISgLdPWatwS9XFrXSFwl
+ plT1CO9BT+xCuEfRvXSRJgNbf0xY5ok9eR2BxzxPEA4h2zZWEZ1fABElOagsKOt1C/5z
+ RBc9Tj9y0POwZKNj339uFLyu/uZfzoaoGQbvoL7Hrc7abs/fSI9SN+L+/niqvv1a5fMa
+ xf6A==
+X-Gm-Message-State: AGi0PuZPFYGMjdnZUHbkIqxyj6v6r3GJ81V6vW0OPEjzON7dO5cIUbih
+ uayAh5C9/ac4vZmaE1kfE8D7XpoNUMA=
+X-Google-Smtp-Source: APiQypLk3Ji0TmMWz5PzlszJpVHYYzFqNNQOy/MCnTNjJXjGSfR6Trnclo0xepXoBq9QNX/Pl9eKhA==
+X-Received: by 2002:a05:600c:2316:: with SMTP id
+ 22mr1677725wmo.25.1586464492547; 
+ Thu, 09 Apr 2020 13:34:52 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id h4sm20620276wrv.91.2020.04.09.13.34.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Apr 2020 13:34:51 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A761E1FF7E;
+ Thu,  9 Apr 2020 21:34:50 +0100 (BST)
+References: <20200409172509.4078-1-philmd@redhat.com>
+User-agent: mu4e 1.3.10; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-5.0] target/m68k/helper: Fix m68k_fpu_gdb_get_reg()
+ use of GByteArray
+In-reply-to: <20200409172509.4078-1-philmd@redhat.com>
+Date: Thu, 09 Apr 2020 21:34:50 +0100
+Message-ID: <87r1ww9z4l.fsf@linaro.org>
 MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 199.106.114.39
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -127,40 +83,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "philmd@redhat.com" <philmd@redhat.com>,
- "riku.voipio@iki.fi" <riku.voipio@iki.fi>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "laurent@vivier.eu" <laurent@vivier.eu>,
- "aleksandar.m.mail@gmail.com" <aleksandar.m.mail@gmail.com>
+Cc: qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogYmNhaW49Y29kZWF1cm9y
-YS5vcmdAbWcuY29kZWF1cm9yYS5vcmcNCj4gPGJjYWluPWNvZGVhdXJvcmEub3JnQG1nLmNvZGVh
-dXJvcmEub3JnPiBPbiBCZWhhbGYgT2YgQnJpYW4gQ2Fpbg0KPiBTZW50OiBUaHVyc2RheSwgQXBy
-aWwgOSwgMjAyMCAxOjUzIFBNDQo+IFRvOiBUYXlsb3IgU2ltcHNvbiA8dHNpbXBzb25AcXVpY2lu
-Yy5jb20+OyBxZW11LWRldmVsQG5vbmdudS5vcmcNCj4gQ2M6IHJpa3Uudm9pcGlvQGlraS5maTsg
-cmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZzsgbGF1cmVudEB2aXZpZXIuZXU7DQo+IHBoaWxt
-ZEByZWRoYXQuY29tOyBhbGVrc2FuZGFyLm0ubWFpbEBnbWFpbC5jb20NCj4gU3ViamVjdDogUkU6
-IFtSRkMgUEFUQ0ggdjIgMjAvNjddIEhleGFnb24gaW5zdHJ1Y3Rpb24gdXRpbGl0eSBmdW5jdGlv
-bnMNCj4NCj4gPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+IEZyb206IFFlbXUtZGV2
-ZWwgPHFlbXUtZGV2ZWwtDQo+ID4gYm91bmNlcytiY2Fpbj1jb2RlYXVyb3JhLm9yZ0Bub25nbnUu
-b3JnPiBPbiBCZWhhbGYgT2YgVGF5bG9yDQo+IFNpbXBzb24NCj4gPiBTZW50OiBGcmlkYXksIEZl
-YnJ1YXJ5IDI4LCAyMDIwIDEwOjQzIEFNDQo+ID4gVG86IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZw0K
-PiA+IENjOiByaWt1LnZvaXBpb0Bpa2kuZmk7IHJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmc7
-IGxhdXJlbnRAdml2aWVyLmV1Ow0KPiA+IFRheWxvciBTaW1wc29uIDx0c2ltcHNvbkBxdWljaW5j
-LmNvbT47IHBoaWxtZEByZWRoYXQuY29tOw0KPiA+IGFsZWtzYW5kYXIubS5tYWlsQGdtYWlsLmNv
-bQ0KPiA+IFN1YmplY3Q6IFtSRkMgUEFUQ0ggdjIgMjAvNjddIEhleGFnb24gaW5zdHJ1Y3Rpb24g
-dXRpbGl0eSBmdW5jdGlvbnMNCj4gLi4uDQo+ID4gK2ludCBhcmNoX3NmX2ludnNxcnRfY29tbW9u
-KHNpemU0c190ICpScywgc2l6ZTRzX3QgKlJkLCBpbnQgKmFkanVzdCkNCj4gPiArew0KPiAuLi4N
-Cj4gPiArICAgIH0gZWxzZSBpZiAocl9jbGFzcyA9PSBGUF9JTkZJTklURSkgew0KPiA+ICsgICAg
-ICAgIC8qIEVKUDogb3IgcHV0IEluZiBpbiBudW0gZml4dXA/ICovDQo+ID4gKyAgICAgICAgUnNW
-ID0gZlNGSU5GVkFMKC0xKTsNCj4gPiArICAgICAgICBSZFYgPSBmU0ZJTkZWQUwoLTEpOw0KPiA+
-ICsgICAgfSBlbHNlIGlmIChyX2NsYXNzID09IEZQX1pFUk8pIHsNCj4gPiArICAgICAgICAvKiBF
-SlA6IG9yIHB1dCB6ZXJvIGluIG51bSBmaXh1cD8gKi8NCj4gPiArICAgICAgICBSc1YgPSBSc1Y7
-DQo+ID4gKyAgICAgICAgUmRWID0gZlNGT05FVkFMKDApOw0KPiAuLi4NCj4NCj4gVGhpcyAiUnNW
-ID0gUnNWIiBsb29rcyBsaWtlIGEgbG9naWMgZXJyb3I/ICBQcmVzdW1hYmx5IGl0J3Mgc2FmZSB0
-byByZW1vdmUgLS0NCj4gdW5sZXNzIHRoZXJlJ3Mgc29tZSBvdGhlciBmaWVsZCB0aGF0IHNob3Vs
-ZCBnZXQgaW5pdGlhbGl6ZWQgaGVyZT8gIFBlViBtYXliZT8NCg0KUHJvYmFibHkgYSBjb3B5L3Bh
-c3RlIGVycm9yLiAgSSB3aWxsIHJlbW92ZSBpdC4NCg0KVGhhbmtzLA0KVGF5bG9yDQoNCg==
+
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+
+> Since a010bdbe719 the gdbstub API takes a GByteArray*.
+> Unfortunately we forgot to update the gdb_get_reg*()
+> calls.  Do it now.
+>
+
+Queued to for-5.0/more-random-fixes, thanks.
+
+> Fixes: a010bdbe719 ("extend GByteArray to read register helpers")
+> Reported-by: Peter Xu <peterx@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> Based-on: <20200409164954.36902-1-peterx@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  target/m68k/helper.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/m68k/helper.c b/target/m68k/helper.c
+> index 014657c637..cad4083895 100644
+> --- a/target/m68k/helper.c
+> +++ b/target/m68k/helper.c
+> @@ -109,8 +109,8 @@ static int m68k_fpu_gdb_get_reg(CPUM68KState *env, GB=
+yteArray *mem_buf, int n)
+>  {
+>      if (n < 8) {
+>          int len =3D gdb_get_reg16(mem_buf, env->fregs[n].l.upper);
+> -        len +=3D gdb_get_reg16(mem_buf + len, 0);
+> -        len +=3D gdb_get_reg64(mem_buf + len, env->fregs[n].l.lower);
+> +        len +=3D gdb_get_reg16(mem_buf, 0);
+> +        len +=3D gdb_get_reg64(mem_buf, env->fregs[n].l.lower);
+>          return len;
+>      }
+>      switch (n) {
+
+
+--=20
+Alex Benn=C3=A9e
 
