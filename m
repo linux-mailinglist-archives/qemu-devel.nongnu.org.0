@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E4AE1A4484
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 11:39:10 +0200 (CEST)
-Received: from localhost ([::1]:60366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07A051A4452
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 11:12:44 +0200 (CEST)
+Received: from localhost ([::1]:60172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMq7x-0006I2-9Z
-	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 05:39:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50753)
+	id 1jMpiM-0005SV-Jq
+	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 05:12:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47984)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jMq7A-0005o0-3Y
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 05:38:21 -0400
+ (envelope-from <andrew@daynix.com>) id 1jMphJ-00053M-EB
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 05:11:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jMq78-0002fu-RX
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 05:38:19 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45930)
+ (envelope-from <andrew@daynix.com>) id 1jMphH-0006Sr-AK
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 05:11:37 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52021)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jMq78-0002fB-Iz
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 05:38:18 -0400
-Received: by mail-wr1-x441.google.com with SMTP id v5so1644037wrp.12
- for <qemu-devel@nongnu.org>; Fri, 10 Apr 2020 02:38:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.71) (envelope-from <andrew@daynix.com>) id 1jMphG-0006SN-SU
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 05:11:35 -0400
+Received: by mail-wm1-x343.google.com with SMTP id x4so1864178wmj.1
+ for <qemu-devel@nongnu.org>; Fri, 10 Apr 2020 02:11:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qXKdO8VuMZ0caJ8j3klE5W3SvvElBF6p+Yp2J4ffjZc=;
- b=J4uwkIzp2QOLuk1mqh5RlrCklTwfd0cH4ggZtvjg8uBXras6xDEC0dCeV+FUqqAVuM
- hkMDwIGSXNC27IhkLqnY6RORTw3bWs+qJmoItCDamog1qETrgFu1K2I0/406f+GdP+SG
- sn7heGeVwdMn3jv+R7p9YBr4YOYjiQMn5mE/HpOjmRkTC4rwhkm70XaAYPUa8LCa3fGj
- 0Ij3ZXBjrAEH5DKa1thvyQQ16HDOMGQeas4FQZ4pJ+GDgI+uwyuDqAACkBvVqp8zHSLo
- HchVa9jzLjzQasdL7GrPYUDBAwNHzx6hraIMIOQdOI2Yc7SbLKbewJmpoAENLbd5FABC
- vqRw==
+ :cc; bh=YaQW89CrBNi2GL6CjKXClHpZt+h92wumux98ytnSGpk=;
+ b=dxWyuF5qjBMs5YmSvgkhB30+YXznN/1n3mPz/M/k5rIBAYVLQqEVbpYuBo13fRD5kI
+ SW4pUh3lMU+Efm/xk5UfqsM9yPznPH4qFq9FdU6Mrpr1r90nl6TAbrXkwwyVkfvxCF/R
+ FSwza62Bh00ZzbhUNWynKkt+DgKA+cUbnPVY1mEHzPaQuvHbHW5W0DiJBKkV8XtaXYGL
+ lTRZKyJse4BCzICeBoI7WWpV8he08GuALIYju1U7yJi8LqAc5sWT8gqCK/dme7swr4rv
+ ei+eP/vrbjvKZTxEzirR7btDjYV8bZGIG0q7AZ5vhgFV2bIevKGYKN5y8ztCxPakqRjh
+ 16kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=qXKdO8VuMZ0caJ8j3klE5W3SvvElBF6p+Yp2J4ffjZc=;
- b=trVv8FGRozJ1AJltuQQnALrMS1prpuHrPHgP1qZZnQ035b1vRZzv5JrwYaop6ky6GH
- uy5F8+JZyU/zoZ3JyMID7/SGE6gf6UiJmSpP1EwIWR8vgFRvimSA1yBvJQcMMyWjalS1
- S1kbpaMrUun7zPUaXDzEgw8M0otjQdNLBGqn9ezBNByaMrK/7+35A6vTRxuWd7iUQOfn
- Ed7gdS9nHYkBSy9DmTPX8O1SLjgpx/tO+mDugwhCDJivrMJSNZZWxw1zzp6rfFbyWTQe
- GRdWOnAQbhWGxJaZcwpfE6eEcbGoIpBXN3PEKYeM2BS+N7BxYtk/andNUnb6MYPyrS2S
- AoFA==
-X-Gm-Message-State: AGi0PubZevet/ENZcLG6b9g+RI3l1uQ0F8mzNVgzkR//YfQxLm1W8vY0
- CKmb3A6iepL6hxl8eNOW8bEUwOWY6CAFXPqz7ho=
-X-Google-Smtp-Source: APiQypLf0gQE3PA2W89/hBaEWvWQgQdq4crd8EGvY568IsyUuE5PxssRhvGC3Wh4RBjvZdvE6bXoqE/Lo3khjmbGPiI=
-X-Received: by 2002:a5d:65cb:: with SMTP id e11mr3666406wrw.402.1586511497286; 
- Fri, 10 Apr 2020 02:38:17 -0700 (PDT)
+ bh=YaQW89CrBNi2GL6CjKXClHpZt+h92wumux98ytnSGpk=;
+ b=XO636mtC9u0lJKykk9ZwzKpSHQC20f+99ZXTK8u/w4eklTozdV6HREdYGtTRNHx3Hn
+ kNE5B12WasRYc1DH1QlbPqnXELGmYQQDl/YQ/y+ukbxBOqlGN28fD8a23GxFG5TuI3WL
+ ix2XVqI5T/AN5L9JxsoJXGw/Qf7EXJ8kGGcgz7GNnuaE49w5gkH//OD8WL+RP4rNBY4Y
+ Of0vgEGDy4YzD9pkZAqJ+VdvrN0b0sFmCPSfoInM3NOTI2qLv8NUwJt1rMz5IogqGd79
+ iSL4e3OW7oOVjun8dS1WP+jt+1uD5lzSRPnx2Qh7K1kSq42YxkIeanCyZaWB0oxMvDbf
+ QDuA==
+X-Gm-Message-State: AGi0Puar1+3t94nzLH+wkhASzK6w+4cz5441NgGNUbIei5ukpFGwh7uE
+ YivZOZnFJl4ByjyAsbVyaJ/F6TRxmYZwCtqIvHid+Q==
+X-Google-Smtp-Source: APiQypImmH8KblsY3ddt7/zfPbmIJLve4+tyMnAdQY0DhEXPpiGlHZma/lRYK7kPQBEW92BRzCNYYTGIOPF6YyThptM=
+X-Received: by 2002:a7b:c402:: with SMTP id k2mr4351531wmi.21.1586509893738;
+ Fri, 10 Apr 2020 02:11:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200407155118.20139-1-alex.bennee@linaro.org>
- <20200407155118.20139-9-alex.bennee@linaro.org>
-In-Reply-To: <20200407155118.20139-9-alex.bennee@linaro.org>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Fri, 10 Apr 2020 11:38:00 +0200
-Message-ID: <CAHiYmc7Eu0XsCe_bkV=tP_S3wyWy4St1RR2AphE7Obko-18mNQ@mail.gmail.com>
-Subject: Re: [PULL 08/13] softfloat: Fix BAD_SHIFT from
- normalizeFloatx80Subnormal
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000003a57fa05a2ec7ef3"
+References: <20200405191940.866972-1-andrew@daynix.com>
+ <e756b1b3-2346-822c-974c-79c40970c09d@redhat.com>
+ <CABcq3pFMaRSj6TD8NQMbeqFXe8zqUVJQcuv9bTD=Qi8SfiYuQg@mail.gmail.com>
+ <5160b387-3068-cdd8-e47c-5c449319b05e@redhat.com>
+In-Reply-To: <5160b387-3068-cdd8-e47c-5c449319b05e@redhat.com>
+From: Andrew Melnichenko <andrew@daynix.com>
+Date: Fri, 10 Apr 2020 12:38:36 +0300
+Message-ID: <CABcq3pEbac8F2bq+2bGnygf0MnaAjMe9L226txuhFVQAmLtJDg@mail.gmail.com>
+Subject: Re: [PATCH] Fixed IPv6 payload lenght without jumbo option
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000a638ab05a2ec1e46"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,143 +74,468 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: dmitry.fleytman@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003a57fa05a2ec7ef3
+--000000000000a638ab05a2ec1e46
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-17:55 Uto, 07.04.2020. Alex Benn=C3=A9e <alex.bennee@linaro.org> =D1=98=D0=
-=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+Ok, later - I'll prepare a new patch with length fix, segmentation and
+checks.
+For now, the current patch can be discarded.
+
+On Fri, Apr 10, 2020 at 5:28 AM Jason Wang <jasowang@redhat.com> wrote:
+
 >
-> From: Richard Henderson <richard.henderson@linaro.org>
->
-> All other calls to normalize*Subnormal detect zero input before
-> the call -- this is the only outlier.  This case can happen with
-> +0.0 + +0.0 =3D +0.0 or -0.0 + -0.0 =3D -0.0, so return a zero of
-> the correct sign.
->
-> Reported-by: Coverity (CID 1421991)
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Message-Id: <20200327232042.10008-1-richard.henderson@linaro.org>
-> Message-Id: <20200403191150.863-8-alex.bennee@linaro.org>
->
-> diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-> index 301ce3b537b..ae6ba718540 100644
-> --- a/fpu/softfloat.c
-> +++ b/fpu/softfloat.c
-> @@ -5856,6 +5856,9 @@ static floatx80 addFloatx80Sigs(floatx80 a,
-floatx80 b, flag zSign,
->          zSig1 =3D 0;
->          zSig0 =3D aSig + bSig;
->          if ( aExp =3D=3D 0 ) {
-> +            if (zSig0 =3D=3D 0) {
-> +                return packFloatx80(zSign, 0, 0);
-> +            }
->              normalizeFloatx80Subnormal( zSig0, &zExp, &zSig0 );
->              goto roundAndPack;
->          }
-> --
-> 2.20.1
+> On 2020/4/9 =E4=B8=8B=E5=8D=889:35, Andrew Melnichenko wrote:
+> > > Do we support ipv6 segmentation then?
+> > No, but - if the backend supports big frames there is an issue that
+> > IPv6 plen doesn't have valid value.
+> > Actually, It's a good idea to add IPv6 fragmentation - I would do it
+> > later.
 >
 >
+> Right, another question.
+>
+> E.g for virtio-net, we will do the following check:
+>
+>      if (!peer_has_vnet_hdr(n)) {
+>          virtio_clear_feature(&features, VIRTIO_NET_F_CSUM);
+>          virtio_clear_feature(&features, VIRTIO_NET_F_HOST_TSO4);
+>          virtio_clear_feature(&features, VIRTIO_NET_F_HOST_TSO6);
+>          virtio_clear_feature(&features, VIRTIO_NET_F_HOST_ECN);
+>
+>          virtio_clear_feature(&features, VIRTIO_NET_F_GUEST_CSUM);
+>          virtio_clear_feature(&features, VIRTIO_NET_F_GUEST_TSO4);
+>          virtio_clear_feature(&features, VIRTIO_NET_F_GUEST_TSO6);
+>          virtio_clear_feature(&features, VIRTIO_NET_F_GUEST_ECN);
+>      }
+>
+> I think we should do something similar in e1000e. But I can only see
+> disable_vnet parameter but not a checking of the ability of its peer.
+>
+> 1) when peer has vnet hdr, it supports receiving GSO packets, we don't
+> need software segmentation.
+> 2) when peer does not have vnet hdr, we need to use software path
+> segmentation.
+>
+> This means we need:
+>
+> 1) check peer_has_vnet_hdr() and disable_vnet in net_pkt_send() before
+> calling net_tx_pkt_sendv() and fallback to software segmentation
+> 2) fix the ipv6 payload len
+> 3) add the ipv6 software segmentation support
+>
+> It would be better if we can fix all of these issue in one series.
+>
+> Thanks
+>
+>
+> >
+> >
+> > On Thu, Apr 9, 2020 at 6:15 AM Jason Wang <jasowang@redhat.com
+> > <mailto:jasowang@redhat.com>> wrote:
+> >
+> >
+> >     On 2020/4/6 =E4=B8=8A=E5=8D=883:19, andrew@daynix.com <mailto:andre=
+w@daynix.com>
+> >     wrote:
+> >     > From: Andrew Melnychenko <andrew@daynix.com
+> >     <mailto:andrew@daynix.com>>
+> >     >
+> >     > Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1708065
+> >     > e1000e driver doesn't sets 'plen' field for IPv6 for big packets
+> >     > if TSO is enabled. Jumbo option isn't added yet, until
+> >     > qemu supports packets greater than 64K.
+> >     >
+> >     > Signed-off-by: Andrew Melnychenko <andrew@daynix.com
+> >     <mailto:andrew@daynix.com>>
+> >     > ---
+> >     >   hw/net/e1000e_core.c |  1 +
+> >     >   hw/net/net_tx_pkt.c  | 31 +++++++++++++++++++++++++++++++
+> >     >   hw/net/net_tx_pkt.h  |  7 +++++++
+> >     >   include/net/eth.h    |  1 +
+> >     >   4 files changed, 40 insertions(+)
+> >     >
+> >     > diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+> >     > index d5676871fa..a1ec55598b 100644
+> >     > --- a/hw/net/e1000e_core.c
+> >     > +++ b/hw/net/e1000e_core.c
+> >     > @@ -656,6 +656,7 @@ e1000e_tx_pkt_send(E1000ECore *core, struct
+> >     e1000e_tx *tx, int queue_index)
+> >     >       NetClientState *queue =3D qemu_get_subqueue(core->owner_nic=
+,
+> >     target_queue);
+> >     >
+> >     >       e1000e_setup_tx_offloads(core, tx);
+> >     > +    net_tx_pkt_fix_ip6_payload_len(tx->tx_pkt);
+> >
+> >
+> >     A question here:
+> >
+> >     I don't see any code that set ip6_plen during
+> >     net_tx_pkt_do_sw_fragmentation(). This is described in 7.3.6.2.1 an=
+d
+> >     7.3.6.2.2 in the datasheet.
+> >
+> >     And:
+> >
+> >     1) eth_setup_ip4_fragmentation() only deal with ipv4
+> >
+> >     2) eth_fix_ip4_checksum() assumes a ipv4 header
+> >
+> >     Do we support ipv6 segmentation then?
+> >
+> >     Thanks
+> >
+> >
+> >     >
+> >     >       net_tx_pkt_dump(tx->tx_pkt);
+> >     >
+> >     > diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
+> >     > index 162f802dd7..b05d554ac3 100644
+> >     > --- a/hw/net/net_tx_pkt.c
+> >     > +++ b/hw/net/net_tx_pkt.c
+> >     > @@ -635,3 +635,34 @@ bool net_tx_pkt_send_loopback(struct
+> >     NetTxPkt *pkt, NetClientState *nc)
+> >     >
+> >     >       return res;
+> >     >   }
+> >     > +
+> >     > +void net_tx_pkt_fix_ip6_payload_len(struct NetTxPkt *pkt)
+> >     > +{
+> >     > +    /*
+> >     > +     * If ipv6 payload length field is 0 - then there should be
+> >     Hop-by-Hop
+> >     > +     * option for packets greater than 65,535.
+> >     > +     * For packets with payload less than 65,535: fix 'plen'
+> field.
+> >     > +     * For now, qemu drops every packet with size greater 64K
+> >     > +     * (see net_tx_pkt_send()) so, there is no reason to add
+> >     jumbo option to ip6
+> >     > +     * hop-by-hop extension if it's missed
+> >     > +     */
+> >     > +
+> >     > +    struct iovec *l2 =3D &pkt->vec[NET_TX_PKT_L2HDR_FRAG];
+> >     > +    if (eth_get_l3_proto(l2, 1, l2->iov_len) =3D=3D ETH_P_IPV6) =
+{
+> >     > +        struct ip6_header *ip6 =3D (struct ip6_header *)
+> pkt->l3_hdr;
+> >     > +        /*
+> >     > +         * TODO: if qemu would support >64K packets - add jumbo
+> >     option check
+> >     > +         * something like that:
+> >     > +         * 'if (ip6->ip6_plen =3D=3D 0 && !has_jumbo_option(ip6)=
+) {'
+> >     > +         */
+> >     > +        if (ip6->ip6_plen =3D=3D 0) {
+> >     > +            if (pkt->payload_len <=3D ETH_MAX_IP_DGRAM_LEN) {
+> >     > +                ip6->ip6_plen =3D htons(pkt->payload_len);
+> >     > +            }
+> >     > +            /*
+> >     > +             * TODO: if qemu would support >64K packets
+> >     > +             * add jumbo option for packets greater then 65,535
+> >     bytes
+> >     > +             */
+> >     > +        }
+> >     > +    }
+> >     > +}
+> >     > diff --git a/hw/net/net_tx_pkt.h b/hw/net/net_tx_pkt.h
+> >     > index 212ecc62fc..912d56ef13 100644
+> >     > --- a/hw/net/net_tx_pkt.h
+> >     > +++ b/hw/net/net_tx_pkt.h
+> >     > @@ -187,4 +187,11 @@ bool net_tx_pkt_parse(struct NetTxPkt *pkt);
+> >     >   */
+> >     >   bool net_tx_pkt_has_fragments(struct NetTxPkt *pkt);
+> >     >
+> >     > +/**
+> >     > + * Fix IPv6 'plen' field.
+> >     > + *
+> >     > + * @pkt            packet
+> >     > + */
+> >     > +void net_tx_pkt_fix_ip6_payload_len(struct NetTxPkt *pkt);
+> >     > +
+> >     >   #endif
+> >     > diff --git a/include/net/eth.h b/include/net/eth.h
+> >     > index 7f45c678e7..0671be6916 100644
+> >     > --- a/include/net/eth.h
+> >     > +++ b/include/net/eth.h
+> >     > @@ -186,6 +186,7 @@ struct tcp_hdr {
+> >     >
+> >     >   #define ip6_nxt      ip6_ctlun.ip6_un1.ip6_un1_nxt
+> >     >   #define ip6_ecn_acc  ip6_ctlun.ip6_un3.ip6_un3_ecn
+> >     > +#define ip6_plen     ip6_ctlun.ip6_un1.ip6_un1_plen
+> >     >
+> >     >   #define PKT_GET_ETH_HDR(p)        \
+> >     >       ((struct eth_header *)(p))
+> >
+>
+>
 
-We in MIPS have extensive FP tests, that certainly include many cases of
-operations with +0 and -0. And they are all correct even before this patch.
-
-Unfortunately, because of my current remote work, I don't havecthese tests
-with me, and can't confirm if they work correctly, or perhaps are
-unaffected at all.
-
-Alex, from the commit message, it not clear if this is a fix of a bug (in
-which case a test example would be useful to have, and the assesment on
-what scenarios could be affected), or just a correction for some rare
-condition that practically for all intents and purposes was never
-triggered, or perhaps something third.
-
-Alex, please explain this in more detail to me.
-
-Secondly, and not related to this patch only, I see more and more patches
-integrated into the main tree without "Reviewed-by:" tag. I don't think
-this is the best way an open source community works. In my personal
-opinion, this must stop.
-
-Regards,
-Aleksandar
-
---0000000000003a57fa05a2ec7ef3
+--000000000000a638ab05a2ec1e46
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<p dir=3D"ltr"></p>
-<p dir=3D"ltr">17:55 Uto, 07.04.2020. Alex Benn=C3=A9e &lt;<a href=3D"mailt=
-o:alex.bennee@linaro.org">alex.bennee@linaro.org</a>&gt; =D1=98=D0=B5 =D0=
-=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
+<div dir=3D"ltr"><div>Ok, later - I&#39;ll prepare a new patch with length =
+fix, segmentation and checks.</div><div>For now, the current patch can be <=
+span class=3D"gmail-tlid-translation gmail-translation" lang=3D"en"><span t=
+itle=3D"" class=3D"gmail-">discarded.</span></span></div></div><br><div cla=
+ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Apr 10, 20=
+20 at 5:28 AM Jason Wang &lt;<a href=3D"mailto:jasowang@redhat.com">jasowan=
+g@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex"><br>
+On 2020/4/9 =E4=B8=8B=E5=8D=889:35, Andrew Melnichenko wrote:<br>
+&gt; &gt; Do we support ipv6 segmentation then?<br>
+&gt; No, but - if the backend supports big frames there is an issue that <b=
+r>
+&gt; IPv6 plen doesn&#39;t have valid value.<br>
+&gt; Actually, It&#39;s a good idea to add IPv6 fragmentation - I would do =
+it <br>
+&gt; later.<br>
+<br>
+<br>
+Right, another question.<br>
+<br>
+E.g for virtio-net, we will do the following check:<br>
+<br>
+=C2=A0=C2=A0=C2=A0=C2=A0 if (!peer_has_vnet_hdr(n)) {<br>
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 virtio_clear_feature(&amp;=
+features, VIRTIO_NET_F_CSUM);<br>
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 virtio_clear_feature(&amp;=
+features, VIRTIO_NET_F_HOST_TSO4);<br>
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 virtio_clear_feature(&amp;=
+features, VIRTIO_NET_F_HOST_TSO6);<br>
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 virtio_clear_feature(&amp;=
+features, VIRTIO_NET_F_HOST_ECN);<br>
+<br>
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 virtio_clear_feature(&amp;=
+features, VIRTIO_NET_F_GUEST_CSUM);<br>
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 virtio_clear_feature(&amp;=
+features, VIRTIO_NET_F_GUEST_TSO4);<br>
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 virtio_clear_feature(&amp;=
+features, VIRTIO_NET_F_GUEST_TSO6);<br>
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 virtio_clear_feature(&amp;=
+features, VIRTIO_NET_F_GUEST_ECN);<br>
+=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
+<br>
+I think we should do something similar in e1000e. But I can only see <br>
+disable_vnet parameter but not a checking of the ability of its peer.<br>
+<br>
+1) when peer has vnet hdr, it supports receiving GSO packets, we don&#39;t =
+<br>
+need software segmentation.<br>
+2) when peer does not have vnet hdr, we need to use software path <br>
+segmentation.<br>
+<br>
+This means we need:<br>
+<br>
+1) check peer_has_vnet_hdr() and disable_vnet in net_pkt_send() before <br>
+calling net_tx_pkt_sendv() and fallback to software segmentation<br>
+2) fix the ipv6 payload len<br>
+3) add the ipv6 software segmentation support<br>
+<br>
+It would be better if we can fix all of these issue in one series.<br>
+<br>
+Thanks<br>
+<br>
+<br>
 &gt;<br>
-&gt; From: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro=
-.org">richard.henderson@linaro.org</a>&gt;<br>
 &gt;<br>
-&gt; All other calls to normalize*Subnormal detect zero input before<br>
-&gt; the call -- this is the only outlier.=C2=A0 This case can happen with<=
+&gt; On Thu, Apr 9, 2020 at 6:15 AM Jason Wang &lt;<a href=3D"mailto:jasowa=
+ng@redhat.com" target=3D"_blank">jasowang@redhat.com</a> <br>
+&gt; &lt;mailto:<a href=3D"mailto:jasowang@redhat.com" target=3D"_blank">ja=
+sowang@redhat.com</a>&gt;&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0On 2020/4/6 =E4=B8=8A=E5=8D=883:19, <a href=3D"mail=
+to:andrew@daynix.com" target=3D"_blank">andrew@daynix.com</a> &lt;mailto:<a=
+ href=3D"mailto:andrew@daynix.com" target=3D"_blank">andrew@daynix.com</a>&=
+gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; From: Andrew Melnychenko &lt;<a href=3D"mailto=
+:andrew@daynix.com" target=3D"_blank">andrew@daynix.com</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:andrew@daynix.com" tar=
+get=3D"_blank">andrew@daynix.com</a>&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Buglink: <a href=3D"https://bugzilla.redhat.co=
+m/show_bug.cgi?id=3D1708065" rel=3D"noreferrer" target=3D"_blank">https://b=
+ugzilla.redhat.com/show_bug.cgi?id=3D1708065</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; e1000e driver doesn&#39;t sets &#39;plen&#39; =
+field for IPv6 for big packets<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; if TSO is enabled. Jumbo option isn&#39;t adde=
+d yet, until<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; qemu supports packets greater than 64K.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Signed-off-by: Andrew Melnychenko &lt;<a href=
+=3D"mailto:andrew@daynix.com" target=3D"_blank">andrew@daynix.com</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:andrew@daynix.com" tar=
+get=3D"_blank">andrew@daynix.com</a>&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; ---<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0hw/net/e1000e_core.c |=C2=A0 1 +<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0hw/net/net_tx_pkt.c=C2=A0 | 31 +++=
+++++++++++++++++++++++++++++<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0hw/net/net_tx_pkt.h=C2=A0 |=C2=A0 =
+7 +++++++<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0include/net/eth.h=C2=A0 =C2=A0 |=
+=C2=A0 1 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A04 files changed, 40 insertions(+)<=
 br>
-&gt; +0.0 + +0.0 =3D +0.0 or -0.0 + -0.0 =3D -0.0, so return a zero of<br>
-&gt; the correct sign.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; diff --git a/hw/net/e1000e_core.c b/hw/net/e10=
+00e_core.c<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; index d5676871fa..a1ec55598b 100644<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; --- a/hw/net/e1000e_core.c<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +++ b/hw/net/e1000e_core.c<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; @@ -656,6 +656,7 @@ e1000e_tx_pkt_send(E1000EC=
+ore *core, struct<br>
+&gt;=C2=A0 =C2=A0 =C2=A0e1000e_tx *tx, int queue_index)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0NetClientState *queu=
+e =3D qemu_get_subqueue(core-&gt;owner_nic,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0target_queue);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0e1000e_setup_tx_offl=
+oads(core, tx);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 net_tx_pkt_fix_ip6_payload_len(=
+tx-&gt;tx_pkt);<br>
 &gt;<br>
-&gt; Reported-by: Coverity (CID 1421991)<br>
-&gt; Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henders=
-on@linaro.org">richard.henderson@linaro.org</a>&gt;<br>
-&gt; Signed-off-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@lina=
-ro.org">alex.bennee@linaro.org</a>&gt;<br>
-&gt; Message-Id: &lt;<a href=3D"mailto:20200327232042.10008-1-richard.hende=
-rson@linaro.org">20200327232042.10008-1-richard.henderson@linaro.org</a>&gt=
-;<br>
-&gt; Message-Id: &lt;<a href=3D"mailto:20200403191150.863-8-alex.bennee@lin=
-aro.org">20200403191150.863-8-alex.bennee@linaro.org</a>&gt;<br>
 &gt;<br>
-&gt; diff --git a/fpu/softfloat.c b/fpu/softfloat.c<br>
-&gt; index 301ce3b537b..ae6ba718540 100644<br>
-&gt; --- a/fpu/softfloat.c<br>
-&gt; +++ b/fpu/softfloat.c<br>
-&gt; @@ -5856,6 +5856,9 @@ static floatx80 addFloatx80Sigs(floatx80 a, floa=
-tx80 b, flag zSign,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0zSig1 =3D 0;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0zSig0 =3D aSig + bSig;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if ( aExp =3D=3D 0 ) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (zSig0 =3D=3D 0) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return packFl=
-oatx80(zSign, 0, 0);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0normalizeFloatx80Subno=
-rmal( zSig0, &amp;zExp, &amp;zSig0 );<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto roundAndPack;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; -- <br>
-&gt; 2.20.1<br>
+&gt;=C2=A0 =C2=A0 =C2=A0A question here:<br>
 &gt;<br>
-&gt;</p>
-<p dir=3D"ltr">We in MIPS have extensive FP tests, that certainly include m=
-any cases of operations with +0 and -0. And they are all correct even befor=
-e this patch.</p>
-<p dir=3D"ltr">Unfortunately, because of my current remote work, I don&#39;=
-t havecthese tests with me, and can&#39;t confirm if they work correctly, o=
-r perhaps are unaffected at all.</p>
-<p dir=3D"ltr">Alex, from the commit message, it not clear if this is a fix=
- of a bug (in which case a test example would be useful to have, and the as=
-sesment on what scenarios could be affected), or just a correction for some=
- rare condition that practically for all intents and purposes was never tri=
-ggered, or perhaps something third.</p>
-<p dir=3D"ltr">Alex, please explain this in more detail to me.</p>
-<p dir=3D"ltr">Secondly, and not related to this patch only, I see more and=
- more patches integrated into the main tree without &quot;Reviewed-by:&quot=
-; tag. I don&#39;t think this is the best way an open source community work=
-s. In my personal opinion, this must stop.</p>
-<p dir=3D"ltr">Regards,<br>
-Aleksandar</p>
+&gt;=C2=A0 =C2=A0 =C2=A0I don&#39;t see any code that set ip6_plen during<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0net_tx_pkt_do_sw_fragmentation(). This is described=
+ in 7.3.6.2.1 and<br>
+&gt;=C2=A0 =C2=A0 =C2=A07.3.6.2.2 in the datasheet.<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0And:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A01) eth_setup_ip4_fragmentation() only deal with ipv=
+4<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A02) eth_fix_ip4_checksum() assumes a ipv4 header<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Do we support ipv6 segmentation then?<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Thanks<br>
+&gt;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0net_tx_pkt_dump(tx-&=
+gt;tx_pkt);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_=
+tx_pkt.c<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; index 162f802dd7..b05d554ac3 100644<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; --- a/hw/net/net_tx_pkt.c<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +++ b/hw/net/net_tx_pkt.c<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; @@ -635,3 +635,34 @@ bool net_tx_pkt_send_loop=
+back(struct<br>
+&gt;=C2=A0 =C2=A0 =C2=A0NetTxPkt *pkt, NetClientState *nc)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return res;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +void net_tx_pkt_fix_ip6_payload_len(struct Ne=
+tTxPkt *pkt)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +{<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 /*<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0* If ipv6 payload length =
+field is 0 - then there should be<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Hop-by-Hop<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0* option for packets grea=
+ter than 65,535.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0* For packets with payloa=
+d less than 65,535: fix &#39;plen&#39; field.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0* For now, qemu drops eve=
+ry packet with size greater 64K<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0* (see net_tx_pkt_send())=
+ so, there is no reason to add<br>
+&gt;=C2=A0 =C2=A0 =C2=A0jumbo option to ip6<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0* hop-by-hop extension if=
+ it&#39;s missed<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 struct iovec *l2 =3D &amp;pkt-&=
+gt;vec[NET_TX_PKT_L2HDR_FRAG];<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 if (eth_get_l3_proto(l2, 1, l2-=
+&gt;iov_len) =3D=3D ETH_P_IPV6) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct ip6_header=
+ *ip6 =3D (struct ip6_header *) pkt-&gt;l3_hdr;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* TODO: if =
+qemu would support &gt;64K packets - add jumbo<br>
+&gt;=C2=A0 =C2=A0 =C2=A0option check<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* something=
+ like that:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* &#39;if (=
+ip6-&gt;ip6_plen =3D=3D 0 &amp;&amp; !has_jumbo_option(ip6)) {&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ip6-&gt;ip6_p=
+len =3D=3D 0) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if =
+(pkt-&gt;payload_len &lt;=3D ETH_MAX_IP_DGRAM_LEN) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 ip6-&gt;ip6_plen =3D htons(pkt-&gt;payload_len);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0* TODO: if qemu would support &gt;64K packets<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0* add jumbo option for packets greater then 65,535<br>
+&gt;=C2=A0 =C2=A0 =C2=A0bytes<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0*/<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; diff --git a/hw/net/net_tx_pkt.h b/hw/net/net_=
+tx_pkt.h<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; index 212ecc62fc..912d56ef13 100644<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; --- a/hw/net/net_tx_pkt.h<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +++ b/hw/net/net_tx_pkt.h<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; @@ -187,4 +187,11 @@ bool net_tx_pkt_parse(str=
+uct NetTxPkt *pkt);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0*/<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0bool net_tx_pkt_has_fragments(stru=
+ct NetTxPkt *pkt);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +/**<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; + * Fix IPv6 &#39;plen&#39; field.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; + *<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; + * @pkt=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 packet<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; + */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +void net_tx_pkt_fix_ip6_payload_len(struct Ne=
+tTxPkt *pkt);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0#endif<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; diff --git a/include/net/eth.h b/include/net/e=
+th.h<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; index 7f45c678e7..0671be6916 100644<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; --- a/include/net/eth.h<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +++ b/include/net/eth.h<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; @@ -186,6 +186,7 @@ struct tcp_hdr {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0#define ip6_nxt=C2=A0 =C2=A0 =C2=
+=A0 ip6_ctlun.ip6_un1.ip6_un1_nxt<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0#define ip6_ecn_acc=C2=A0 ip6_ctlu=
+n.ip6_un3.ip6_un3_ecn<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; +#define ip6_plen=C2=A0 =C2=A0 =C2=A0ip6_ctlun=
+.ip6_un1.ip6_un1_plen<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0#define PKT_GET_ETH_HDR(p)=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0((struct eth_header =
+*)(p))<br>
+&gt;<br>
+<br>
+</blockquote></div>
 
---0000000000003a57fa05a2ec7ef3--
+--000000000000a638ab05a2ec1e46--
 
