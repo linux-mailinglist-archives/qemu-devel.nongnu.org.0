@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 745861A479D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 16:47:45 +0200 (CEST)
-Received: from localhost ([::1]:35390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C83221A47A6
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 16:52:31 +0200 (CEST)
+Received: from localhost ([::1]:35490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMuwa-0000h5-EE
-	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 10:47:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53322)
+	id 1jMv1C-0007H2-K8
+	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 10:52:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54377)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sundeep.lkml@gmail.com>) id 1jMuun-0006i0-F7
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 10:45:54 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jMv0O-0006ro-0F
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 10:51:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sundeep.lkml@gmail.com>) id 1jMuum-0007WA-DZ
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 10:45:53 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:42850)
+ (envelope-from <richard.henderson@linaro.org>) id 1jMv0M-0002ev-Nv
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 10:51:39 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:42889)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <sundeep.lkml@gmail.com>)
- id 1jMuum-0007Uu-7d; Fri, 10 Apr 2020 10:45:52 -0400
-Received: by mail-pg1-x542.google.com with SMTP id g6so1055441pgs.9;
- Fri, 10 Apr 2020 07:45:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=oC4LI+rsC3AfaHKWa06ELH+UcID+dQ6LdmleZ0eZwSQ=;
- b=q3UjFZIzspKy6uVSbDGTBSYT6H/6K2BvXfAxw5pLG1xZTpsO3L3qy4dffeV/Jsh7Oi
- GrZmL8EqUzxWm1HMtBZ05bwRrXOroxTkdtjR2+ddmF25ZU2Zapmaecz+WlinOBbMNeSd
- zxgW6DGyBwYRffDLE1VCKPqzPgqjJyxj2A4BDVbJorSyGV6byv60subaDzEzq8GSPrG5
- yjA9qQXy2TUGRUGQeUakuR/0aVB9olpt/G1yUH4tzXIyxC3HgzOgov0gsTbPM1Vkvif8
- v6vghspncvKCjuTnEhDB2PKW2p+fpiyQxFRrAhxJ1mXYIYLXgoC2Y11fRpS1bkgnUjwI
- K3vA==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jMv0M-0002cl-9a
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 10:51:38 -0400
+Received: by mail-pg1-x544.google.com with SMTP id g6so1061249pgs.9
+ for <qemu-devel@nongnu.org>; Fri, 10 Apr 2020 07:51:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=A2efwbep2WIqV8cdCCsODJVnI0w6TbMYw+rmItyVqM0=;
+ b=QchP5oiAfJk57PH1YT+GW4ksUQaT664fYVNc6K02E6xatY7Enbt0YY92u/PKt7adET
+ l7El/lC2NXrL1i9uTwz3fS6dcGlXr70QbKVcvZulTo0kt/ERK+OHVaKhFXu+fzBkxwkX
+ /aVBFiA3JfJ36bS6BYmRkzWEPuv6hA7iDJP3LcBg+tUkEN2Q1e3Dzh+1Jumbw0vaXgfo
+ knVHrtKhHbPC3k7jM6LTPhClxvO3rcaZdoKPazE5QPH1LN5u8kuc2WU1oM6F+JHlVXoJ
+ xbICQMghI21szI9AGmtzc4iRBU7PKDX/p76ZqhwgfItNf0HbtDoVzw/lYhyBBwyKl+hu
+ Haig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=oC4LI+rsC3AfaHKWa06ELH+UcID+dQ6LdmleZ0eZwSQ=;
- b=F6vmziBSigas4+WMo1SDzO4cynGjqXjlYjrYDHcYdtZZQ5f0+AFhPN0pp8ORYD6BKi
- kbQfCKqcnaQdHHIdiAXikSofLQyKGkUrqIp5C7Y/lH5kbgQRPZmIyBZv2nGzEfLQRtCL
- cS7AYLmFlFueu86pE+WTEr+nsxkZ2wtBWQFA3715+/VwK5U1FETadIkBdA2y8qi7V6Je
- /Z0S0xTNPAN/u89NTemS2w+rBF/FaqBd+S7w6hFYq4tWV6HfWvto+SbnFInentXN8rGA
- TjVVu0Yd8Hf5NnUcPV04wicKTUF5QblsqFgch7uYpHa/leCPgdsd+/ciFe7TKFVn4f5Q
- RN7w==
-X-Gm-Message-State: AGi0PubegdWrWKUPXbEEGK5CMJK80QoUXEPWbev8myUnTp40WPkumgH5
- BtvyziOclzdkgMXoh7flz/g=
-X-Google-Smtp-Source: APiQypLLMFmnDKLcfRgiIlg54ujUZ46ln0bq/MAi8wZtcqxAlzD1eanW2tS8Ax/bb4/4zQEu4gWmOg==
-X-Received: by 2002:a63:721a:: with SMTP id n26mr4995899pgc.386.1586529951237; 
- Fri, 10 Apr 2020 07:45:51 -0700 (PDT)
-Received: from hyd1358.marvell.com ([115.113.156.2])
- by smtp.googlemail.com with ESMTPSA id p12sm1984667pfq.153.2020.04.10.07.45.48
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 10 Apr 2020 07:45:50 -0700 (PDT)
-From: sundeep.lkml@gmail.com
-To: jasowang@redhat.com, peter.maydell@linaro.org, philmd@redhat.com,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Subject: [Qemu devel PATCH v4 3/3] tests/boot_linux_console: Add ethernet test
- to SmartFusion2
-Date: Fri, 10 Apr 2020 20:15:26 +0530
-Message-Id: <1586529926-11441-4-git-send-email-sundeep.lkml@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1586529926-11441-1-git-send-email-sundeep.lkml@gmail.com>
-References: <1586529926-11441-1-git-send-email-sundeep.lkml@gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=A2efwbep2WIqV8cdCCsODJVnI0w6TbMYw+rmItyVqM0=;
+ b=RtrcR5TiPWwl/JRSajVaMjhFBubC9t70PIXEbAwIupJBBbO52sM1wVN0lF9BBrX2TY
+ jP61OH2LeaCi53koCzzv7YoakGg1xK3Npoo5JsucBPB+B42zxqlEka4DhipF/5XxUnaa
+ 9byb7m/MPTmLSndb5V2u/nF/sGkKLAC7Ma9XtqDnu3MfqvF7c50Ci3Id8ggV+l6JnWeW
+ o1Kki754Oca6uvd9dvkNbtj/bs5/yyAyCwHe0Huu4dYPNjFA/hBbGQ7CV2w/0F2wJfc8
+ zZBzUc/5xXzTgJSv+ECnnas/4wBdqflGSYKD0TcXUZ3Cq9fG3liwtqNUB0j8FfPHjq4o
+ 33vg==
+X-Gm-Message-State: AGi0PuYwWiYQwIYsycDe8mGDjkuSMKm18VNUvsrpiHh74vkbkPX1Z2Ij
+ nMmoIlJorkd/+kPbPO4xzxWL8w==
+X-Google-Smtp-Source: APiQypLuNY6+CncCfBmCE2e/LqRRZylPEgtLuZQ6Wcv6SxB/88ymUhySAIuqSfyPuHCeJ3959zF7/w==
+X-Received: by 2002:a63:3002:: with SMTP id w2mr4865651pgw.290.1586530296686; 
+ Fri, 10 Apr 2020 07:51:36 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id z15sm1980151pfg.152.2020.04.10.07.51.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Apr 2020 07:51:36 -0700 (PDT)
+Subject: Re: [PATCH v1 10/11] linux-user: fix /proc/self/stat handling
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200409211529.5269-1-alex.bennee@linaro.org>
+ <20200409211529.5269-11-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <0871ff0f-28bc-728f-a5df-7980000a8f97@linaro.org>
+Date: Fri, 10 Apr 2020 07:51:34 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <20200409211529.5269-11-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,57 +83,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Subbaraya Sundeep <sundeep.lkml@gmail.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ =?UTF-8?Q?Philippe=5fMathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Brice Goglin <Brice.Goglin@inria.fr>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Subbaraya Sundeep <sundeep.lkml@gmail.com>
+On 4/9/20 2:15 PM, Alex Bennée wrote:
+> In the original bug report long files names in Guix caused
+> /proc/self/stat be truncated without the trailing ") " as specified in
+> proc manpage which says:
+>     (2) comm  %s
+>            The  filename of the executable, in parentheses.  This
+>            is visible whether or not the  executable  is  swapped
+>            out.
+> 
+> Additionally it should only be reporting the executable name rather
+> than the full path. Fix both these failings while cleaning up the code
+> to use GString to build up the reported values. As the whole function
+> is cleaned up also adjust the white space to the current coding style.
+> 
+> Message-ID: <fb4c55fa-d539-67ee-c6c9-de8fb63c8488@inria.fr>
+> Reported-by: Brice Goglin <Brice.Goglin@inria.fr>
+> Cc: Philippe_Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  linux-user/syscall.c | 43 +++++++++++++++++++------------------------
+>  1 file changed, 19 insertions(+), 24 deletions(-)
 
-In addition to simple serial test this patch uses ping
-to test the ethernet block modelled in SmartFusion2 SoC.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Subbaraya Sundeep <sundeep.lkml@gmail.com>
----
- tests/acceptance/boot_linux_console.py | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index f825cd9..c6b06a1 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -336,13 +336,13 @@ class BootLinuxConsole(Test):
-         """
-         uboot_url = ('https://raw.githubusercontent.com/'
-                      'Subbaraya-Sundeep/qemu-test-binaries/'
--                     'fa030bd77a014a0b8e360d3b7011df89283a2f0b/u-boot')
--        uboot_hash = 'abba5d9c24cdd2d49cdc2a8aa92976cf20737eff'
-+                     'fe371d32e50ca682391e1e70ab98c2942aeffb01/u-boot')
-+        uboot_hash = 'cbb8cbab970f594bf6523b9855be209c08374ae2'
-         uboot_path = self.fetch_asset(uboot_url, asset_hash=uboot_hash)
-         spi_url = ('https://raw.githubusercontent.com/'
-                    'Subbaraya-Sundeep/qemu-test-binaries/'
--                   'fa030bd77a014a0b8e360d3b7011df89283a2f0b/spi.bin')
--        spi_hash = '85f698329d38de63aea6e884a86fbde70890a78a'
-+                   'fe371d32e50ca682391e1e70ab98c2942aeffb01/spi.bin')
-+        spi_hash = '65523a1835949b6f4553be96dec1b6a38fb05501'
-         spi_path = self.fetch_asset(spi_url, asset_hash=spi_hash)
- 
-         self.vm.set_console()
-@@ -352,7 +352,12 @@ class BootLinuxConsole(Test):
-                          '-drive', 'file=' + spi_path + ',if=mtd,format=raw',
-                          '-no-reboot')
-         self.vm.launch()
--        self.wait_for_console_pattern('init started: BusyBox')
-+        self.wait_for_console_pattern('Enter \'help\' for a list')
-+
-+        exec_command_and_wait_for_pattern(self, 'ifconfig eth0 10.0.2.15',
-+                                                 'eth0: link becomes ready')
-+        exec_command_and_wait_for_pattern(self, 'ping -c 3 10.0.2.2',
-+            '3 packets transmitted, 3 packets received, 0% packet loss')
- 
-     def do_test_arm_raspi2(self, uart_id):
-         """
--- 
-2.7.4
+r~
 
 
