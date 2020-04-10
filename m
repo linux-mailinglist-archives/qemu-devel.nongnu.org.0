@@ -2,80 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 684111A3ED7
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 05:44:47 +0200 (CEST)
-Received: from localhost ([::1]:58204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63AB11A4228
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 07:02:04 +0200 (CEST)
+Received: from localhost ([::1]:58654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMkb0-0005pq-G3
-	for lists+qemu-devel@lfdr.de; Thu, 09 Apr 2020 23:44:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47906)
+	id 1jMlnn-000529-21
+	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 01:02:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54306)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrew@aj.id.au>) id 1jMkYg-0002gt-CO
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 23:42:23 -0400
+ (envelope-from <bowen.wang@intel.com>) id 1jMlme-0004Rh-Gi
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 01:00:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrew@aj.id.au>) id 1jMkYe-0008DF-UF
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 23:42:22 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:46471)
+ (envelope-from <bowen.wang@intel.com>) id 1jMlmb-00059p-W1
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 01:00:51 -0400
+Received: from mga05.intel.com ([192.55.52.43]:20068)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrew@aj.id.au>) id 1jMkYe-0008Ci-Fg
- for qemu-devel@nongnu.org; Thu, 09 Apr 2020 23:42:20 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id EDDDC5C00A4;
- Thu,  9 Apr 2020 23:42:18 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Thu, 09 Apr 2020 23:42:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm2; bh=fOKPc3YI3q/NXP+x0EVRaUlZVrZw9OO
- Pfm+ZgwKP6Yc=; b=YH8sw4z3CAeqT6XwegB1837zFN5uz/q32vZ0gkdg6D/XZGN
- urxHV4Sov69PcBKvrtmxJEFB5D/818InyrFsrZIw2b8ugxhlEntw1sYq9yFtl19f
- EJDLIE9A3rPfU2eAMGDGBqfsnhcusc4mpHXp5Fu9idND1j3otQHx1GOBVCOQbpfT
- 4WTHBarhsqeQ7O0AEgizIoOmWnsWTdghydyIwL0Ziuqk5nVZ10TiNJ29M0e/302y
- pOjZMl5/YpUg31yMdEmMRLPouz40lP3rujqiYkxfJ5sQTj2xD7Trf8SJO9MHl26n
- vPbP/lm5rcywGFtMGsOteNDbEV67ruXoqwcjvKg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=fOKPc3
- YI3q/NXP+x0EVRaUlZVrZw9OOPfm+ZgwKP6Yc=; b=ZhGmGTS0qv9rPrsfH6FsOX
- NMHlpRu++hn0T1W4A7+jX0bpr42qFKIG8CFmRPyeHSPDYJaIZw3lpA+wXhlArYWh
- 45/C2FgyfHKFkLPflhZ2l+3jCl68ez2hsxCKQhoZfbUkoed7pwSgTH/MIsNkSNc/
- uQkQu4rPpERbG72tJ8mKICQqVHOXIRZgIp1uWw+eDTUW6BPeLRk8NA1yCZxgQFC7
- CR7QbPGq48wJftGdEEogvHEOAJucMOvojEeYBecL6Pe4VXPJ4PU+F8GL5IPkVaEP
- LODD08udoQSWRftraTO+yH4B5OXgVTM9u0g6FpfGaC73BbVnNqMsYzyS8765etvg
- ==
-X-ME-Sender: <xms:GuuPXuG6oudMXRa8j8HJxNBfq4dFFlpfI5dm_KRhph3fBqUdKrmRwQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrvddugdejfecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
- vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucffohhmrg
- hinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
- pehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:GuuPXvjT8PY0-YdG0SNTEkLQLdD46DCmpZhvoRcY944jLHBi8Vfj6g>
- <xmx:GuuPXqx1fk8sENiI6Yjtnsq_xqunGw3ViviE8YhWcbviyewPNO_zWA>
- <xmx:GuuPXjqZoG_x9ZY2-F_i9ncnMrV-e3-yECFWvdosVysA9wKQ2TKjew>
- <xmx:GuuPXin4nFVv321YJ0kmZW9gAAFL7MoTgbm1cXI6eSGQSZBKtDsHkA>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id EE178E00A5; Thu,  9 Apr 2020 23:42:17 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-1104-g203475c-fmstable-20200408v2
-Mime-Version: 1.0
-Message-Id: <9e8076d0-6704-4ff6-bcc7-90b71ac398db@www.fastmail.com>
-In-Reply-To: <CAFEAcA9erXezwsn_UaXJz0SL5Zaj=UmjTO0LPg0LDM4P50tjHQ@mail.gmail.com>
-References: <0b02fe788de99120894f87f6d5c60e15d6a75d85.1586213450.git.dirty@apple.com>
- <CAFEAcA9FSVzxwudyaDoCty8B+Up33caM20qytLNO7HAXWmcwtg@mail.gmail.com>
- <CACPK8Xc3mpoakAqq2_wccCH6_2i+V4NB61CmdxtMecJ4ejzgmQ@mail.gmail.com>
- <CAFEAcA9erXezwsn_UaXJz0SL5Zaj=UmjTO0LPg0LDM4P50tjHQ@mail.gmail.com>
-Date: Fri, 10 Apr 2020 13:12:06 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Peter Maydell" <peter.maydell@linaro.org>, "Joel Stanley" <joel@jms.id.au>
-Subject: Re: [PATCH v1] nrf51: Fix last GPIO CNF address
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 66.111.4.28
+ (Exim 4.71) (envelope-from <bowen.wang@intel.com>)
+ id 1jMlmb-0004hm-O7
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 01:00:49 -0400
+IronPort-SDR: xIOrQ59SbanC3wfhHzPpVg+vW755D3LQr6bEw1T7OlPQ/jBDcqjdjq+OhgONlQux3KRYIzQyB3
+ 8Oq+32eomOaQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Apr 2020 22:00:21 -0700
+IronPort-SDR: ilrqJ3TIqblCeNRKDlTzobM4izAPG+pyIot8y+BIMKGDpU21zFoH3QnyLgJg7bzK/k7Nm0Zg0Q
+ NvL4/EQBW+6Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,364,1580803200"; d="scan'208";a="452271483"
+Received: from desktop-do5fptk.sh.intel.com (HELO localhost.localdomain)
+ ([10.239.47.198])
+ by fmsmga005.fm.intel.com with ESMTP; 09 Apr 2020 22:00:19 -0700
+From: WangBowen <bowen.wang@intel.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hax: Add hax max vcpu IOCTL and support 64 vcpu
+Date: Fri, 10 Apr 2020 12:57:51 +0800
+Message-Id: <20200410045751.3448-1-bowen.wang@intel.com>
+X-Mailer: git-send-email 2.24.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 192.55.52.43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,68 +56,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Cameron Esfahani via <qemu-devel@nongnu.org>,
- Cameron Esfahani <dirty@apple.com>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: bowen.wang@intel.com, colin.xu@intel.com, wenchao.wang@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This commit tried to obtain max vcpu of haxm driver by calling
+HAX_IOCTL_CAP_MAX_VCPU before creating the vm so that if using hax as
+the accelerator and the smp value is larger than the haxm driver
+supported max value, the program will terminate. Previously, it will
+create vm and vcpu one by one until haxm reports error. Also, the
+maximum vcpu value in qemu for haxm is updated from 0x10 to 0x40 in
+hax-i386.h.
 
+This patch resolves the issue by calling hax device ioctl
+HAX_IOCTL_CAP_MAX_VCPU in hax_init and store the min(haxm max, qemu max)
+in hax_state structure. The value will be compared with smp value in
+vm_create. (ioctl naming credit to KVM)
 
-On Tue, 7 Apr 2020, at 18:20, Peter Maydell wrote:
-> On Tue, 7 Apr 2020 at 09:45, Joel Stanley <joel@jms.id.au> wrote:
-> > On Tue, 7 Apr 2020 at 08:41, Peter Maydell <peter.maydell@linaro.org> wrote:
-> > > Do you have a link to this patch, please? I had a quick search through
-> > > my mailing list articles but couldn't see anything obviously relevant.
-> >
-> > There is a reference in this thread:
-> >
-> > https://lore.kernel.org/qemu-devel/dd8fc1f7-56d9-4d9f-96a4-0fdcafdc8f55@www.fastmail.com/
-> >
-> > The patch is here:
-> >
-> > https://lore.kernel.org/qemu-devel/20170630030058.28943-1-andrew@aj.id.au/
-> 
-> Oh, that's from 2017, no wonder I couldn't find it!
+This commit results in if ioctl doesn't exist or occur error, it will
+continue running but output warning, if smp value is larger than the
+min(hax max,qemu max), it will terminate and output error message.
 
-Yeah, I never quite got back to finishing it :(
+Signed-off-by: WangBowen <bowen.wang@intel.com>
+---
+ target/i386/hax-all.c     |  7 +++++--
+ target/i386/hax-i386.h    |  4 +++-
+ target/i386/hax-posix.c   | 29 +++++++++++++++++++++++++++++
+ target/i386/hax-posix.h   |  1 +
+ target/i386/hax-windows.c | 32 ++++++++++++++++++++++++++++++++
+ target/i386/hax-windows.h |  2 ++
+ 6 files changed, 72 insertions(+), 3 deletions(-)
 
-It's development was driven by development of the ASPEED ADC model,
-which I hacked up in the interest of getting the ASPEED SDK booting
-under qemu (the SDK kernel had an infinite spin waiting for the ADC-ready
-bit).
+diff --git a/target/i386/hax-all.c b/target/i386/hax-all.c
+index a22adec5da..eadfa7c881 100644
+--- a/target/i386/hax-all.c
++++ b/target/i386/hax-all.c
+@@ -259,8 +259,9 @@ struct hax_vm *hax_vm_create(struct hax_state *hax, int max_cpus)
+         goto error;
+     }
+ 
+-    if (max_cpus > HAX_MAX_VCPU) {
+-        fprintf(stderr, "Maximum VCPU number QEMU supported is %d\n", HAX_MAX_VCPU);
++    if (max_cpus > hax->hax_max_vcpu) {
++        fprintf(stderr, "Maximum VCPU number QEMU and HAXM driver supported is %d\n",
++                hax->hax_max_vcpu);
+         goto error;
+     }
+ 
+@@ -332,6 +333,8 @@ static int hax_init(ram_addr_t ram_size, int max_cpus)
+         goto error;
+     }
+ 
++    hax->hax_max_vcpu = hax_max_vcpus_support(hax);
++
+     if (!hax_version_support(hax)) {
+         ret = -EINVAL;
+         goto error;
+diff --git a/target/i386/hax-i386.h b/target/i386/hax-i386.h
+index 7d988f81da..1ffa8df63a 100644
+--- a/target/i386/hax-i386.h
++++ b/target/i386/hax-i386.h
+@@ -38,9 +38,10 @@ struct hax_state {
+     struct hax_vm *vm;
+     uint64_t mem_quota;
+     bool supports_64bit_ramblock;
++    int hax_max_vcpu;
+ };
+ 
+-#define HAX_MAX_VCPU 0x10
++#define HAX_MAX_VCPU 0x40
+ #define MAX_VM_ID 0x40
+ #define MAX_VCPU_ID 0x40
+ 
+@@ -74,6 +75,7 @@ int hax_notify_qemu_version(hax_fd vm_fd, struct hax_qemu_version *qversion);
+ int hax_set_ram(uint64_t start_pa, uint32_t size, uint64_t host_va, int flags);
+ 
+ /* Common host function */
++int hax_max_vcpus_support(struct hax_state *hax);
+ int hax_host_create_vm(struct hax_state *hax, int *vm_id);
+ hax_fd hax_host_open_vm(struct hax_state *hax, int vm_id);
+ int hax_host_create_vcpu(hax_fd vm_fd, int vcpuid);
+diff --git a/target/i386/hax-posix.c b/target/i386/hax-posix.c
+index a5426a6dac..a4f9dce55e 100644
+--- a/target/i386/hax-posix.c
++++ b/target/i386/hax-posix.c
+@@ -163,6 +163,35 @@ int hax_host_create_vm(struct hax_state *hax, int *vmid)
+     return ret;
+ }
+ 
++int hax_max_vcpus_support(struct hax_state *hax)
++{
++    int ret;
++    int vcpu_num = 0;
++
++    if (hax_invalid_fd(hax->fd)) {
++        return vcpu_num;
++    }
++
++    ret = ioctl(hax->fd, HAX_IOCTL_CAP_MAX_VCPU, &vcpu_num);
++
++    if (ret == 0 && vcpu_num > 0) {
++        if (vcpu_num != HAX_MAX_VCPU) {
++            fprintf(stderr, "Warning: HAXM driver and QEMU are inconsistent"
++                    " in max vcpu number, HAXM driver: %d, QEMU: %d,"
++                    " refers to the smaller one.\n", vcpu_num, HAX_MAX_VCPU);
++            if (vcpu_num > HAX_MAX_VCPU) {
++                vcpu_num = HAX_MAX_VCPU;
++            }
++        }
++    } else {
++        vcpu_num = HAX_MAX_VCPU;
++        fprintf(stderr, "Warning: HAXM driver doesn't support HAX_IOCTL_CAP_MAX_VCPU,"
++                " will refer to max value defined in QEMU\n");
++    }
++
++    return vcpu_num;
++}
++
+ hax_fd hax_host_open_vm(struct hax_state *hax, int vm_id)
+ {
+     hax_fd fd;
+diff --git a/target/i386/hax-posix.h b/target/i386/hax-posix.h
+index fb7c64426d..42e58f6fa5 100644
+--- a/target/i386/hax-posix.h
++++ b/target/i386/hax-posix.h
+@@ -38,6 +38,7 @@ static inline void hax_close_fd(hax_fd fd)
+ #define HAX_IOCTL_CREATE_VM _IOWR(0, 0x21, uint32_t)
+ #define HAX_IOCTL_DESTROY_VM _IOW(0, 0x22, uint32_t)
+ #define HAX_IOCTL_CAPABILITY _IOR(0, 0x23, struct hax_capabilityinfo)
++#define HAX_IOCTL_CAP_MAX_VCPU _IOR(0, 0x25, uint32_t)
+ 
+ #define HAX_VM_IOCTL_VCPU_CREATE _IOWR(0, 0x80, uint32_t)
+ #define HAX_VM_IOCTL_ALLOC_RAM _IOWR(0, 0x81, struct hax_alloc_ram_info)
+diff --git a/target/i386/hax-windows.c b/target/i386/hax-windows.c
+index 5729ad9b48..c7816e1950 100644
+--- a/target/i386/hax-windows.c
++++ b/target/i386/hax-windows.c
+@@ -249,6 +249,38 @@ int hax_host_create_vm(struct hax_state *hax, int *vmid)
+     return 0;
+ }
+ 
++int hax_max_vcpus_support(struct hax_state *hax)
++{
++    int ret;
++    int vcpu_num = 0;
++    DWORD dSize = 0;
++
++    if (hax_invalid_fd(hax->fd)) {
++        return vcpu_num;
++    }
++
++    ret = DeviceIoControl(hax->fd,
++                          HAX_IOCTL_CAP_MAX_VCPU,
++                          NULL, 0, &vcpu_num, sizeof(vcpu_num), &dSize,
++                          (LPOVERLAPPED) NULL);
++    if (ret && vcpu_num > 0) {
++        if (vcpu_num != HAX_MAX_VCPU) {
++            fprintf(stderr, "Warning: HAXM driver and QEMU are inconsistent"
++                    " in max vcpu number, HAXM driver: %d, QEMU: %d,"
++                    " refers to the smaller one.\n", vcpu_num, HAX_MAX_VCPU);
++            if (vcpu_num > HAX_MAX_VCPU) {
++                vcpu_num = HAX_MAX_VCPU;
++            }
++        }
++    } else {
++        vcpu_num = HAX_MAX_VCPU;
++        fprintf(stderr, "Warning: HAXM driver doesn't support HAX_IOCTL_CAP_MAX_VCPU,"
++                " will refer to max value defined in QEMU\n");
++    }
++
++    return vcpu_num;
++}
++
+ hax_fd hax_host_open_vm(struct hax_state *hax, int vm_id)
+ {
+     char *vm_name = NULL;
+diff --git a/target/i386/hax-windows.h b/target/i386/hax-windows.h
+index 12cbd813dc..c4fa88a2fa 100644
+--- a/target/i386/hax-windows.h
++++ b/target/i386/hax-windows.h
+@@ -48,6 +48,8 @@ static inline int hax_invalid_fd(hax_fd fd)
+                                          METHOD_BUFFERED, FILE_ANY_ACCESS)
+ #define HAX_IOCTL_CAPABILITY    CTL_CODE(HAX_DEVICE_TYPE, 0x910, \
+                                          METHOD_BUFFERED, FILE_ANY_ACCESS)
++#define HAX_IOCTL_CAP_MAX_VCPU  CTL_CODE(HAX_DEVICE_TYPE, 0x917, \
++                                         METHOD_BUFFERED, FILE_ANY_ACCESS)
+ 
+ #define HAX_VM_IOCTL_VCPU_CREATE   CTL_CODE(HAX_DEVICE_TYPE, 0x902, \
+                                             METHOD_BUFFERED, FILE_ANY_ACCESS)
+-- 
+2.24.1
 
-IIRC Phil wanted to enable sub-word accesses to the sample value
-registers but I didn't want to spread logic dealing with different access
-widths through the model. We already had a mechanism to describe the
-model's  supported access sizes (as opposed to the valid access sizes
-allowed by hardware) in the `impl` member of the MemoryRegionOps, so
-I was trying to use that, but it didn't work as I needed.
-
-The accesses generated at the point of the guest MMIO need to be
-expanded to the access width supported by the model and then the
-resulting data trimmed again upon returning the data (in the case of a
-read) via the MMIO operation.
-
-So the intent was less about unaligned accesses than enabling models
-implementations that only have to handle certain-sized access widths.
-It happens to help the unaligned access case as well.
-
-> 
-> Does somebody who's already reviewed the patch want to summarize
-> what the effects on devices are -- i.e. what calls the device's read/write
-> methods used to get if the guest did an unaligned access, including an
-> unaligned access half off-the-end of the memory region, and what
-> calls the read/write methods get after the patch ? The patch's commit
-> message doesn't really describe what it's doing...
-
-Honestly any of that information has well left my memory at this point, I'd
-have to analyse the patch to recover it.
-
-I was hoping that my turn-around time would be shorter than 3 years but
-there hasn't been a shortage of fires to put out in the mean time.
-
-Andrew
 
