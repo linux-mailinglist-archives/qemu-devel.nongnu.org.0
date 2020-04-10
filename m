@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 520501A428A
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 08:36:17 +0200 (CEST)
-Received: from localhost ([::1]:59158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25DB61A428E
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 08:37:26 +0200 (CEST)
+Received: from localhost ([::1]:59174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMnGy-0000WU-07
-	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 02:36:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34125)
+	id 1jMnI4-0002xT-Ns
+	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 02:37:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34124)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chenyi.qiang@intel.com>) id 1jMnFb-0007HP-20
+ (envelope-from <chenyi.qiang@intel.com>) id 1jMnFb-0007HO-5G
  for qemu-devel@nongnu.org; Fri, 10 Apr 2020 02:34:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chenyi.qiang@intel.com>) id 1jMnFZ-0007CD-EA
+ (envelope-from <chenyi.qiang@intel.com>) id 1jMnFZ-0007CI-EU
  for qemu-devel@nongnu.org; Fri, 10 Apr 2020 02:34:50 -0400
-Received: from mga07.intel.com ([134.134.136.100]:42754)
+Received: from mga07.intel.com ([134.134.136.100]:42757)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <chenyi.qiang@intel.com>)
- id 1jMnFZ-0007Al-6n
+ id 1jMnFZ-0007BO-5F
  for qemu-devel@nongnu.org; Fri, 10 Apr 2020 02:34:49 -0400
-IronPort-SDR: gSwy3RgQGX03+N/WOtdi0sFHbmqbf4OCvfrEGD+6Ah0Kf8dkv0ziGNze2eQUpjnFWSidGmAcA3
- lVmdNYJTP+tg==
+IronPort-SDR: b0c5s9RoRFOs2pR9DQ9Qx5vV8NvKe0RtBGGs0ai4xqlTJBv3W8JDbgWKHmdYixw49/CcztiRhJ
+ 46o/s5LNjGrA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Apr 2020 23:34:41 -0700
-IronPort-SDR: uLEH4+2TgYoEpNNj2/mfPAdBmkyJcsUUXcyYk5fa6HwIn1Wc58jHi/t5od+mlNwrHTBZeGXNkG
- mMFTN+Df0Gmw==
+ 09 Apr 2020 23:34:43 -0700
+IronPort-SDR: yzJyejpyJb1YGM0NOqERfxSn+tE76jivnloYYN1ZAWZx5kUHYxKEg/pLqEtYKmg2XZKUL0qbH9
+ FcZ+RTUd2Hiw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,364,1580803200"; d="scan'208";a="425800261"
+X-IronPort-AV: E=Sophos;i="5.72,364,1580803200"; d="scan'208";a="425800265"
 Received: from chenyi-pc.sh.intel.com ([10.239.159.72])
- by orsmga005.jf.intel.com with ESMTP; 09 Apr 2020 23:34:39 -0700
+ by orsmga005.jf.intel.com with ESMTP; 09 Apr 2020 23:34:41 -0700
 From: Chenyi Qiang <chenyi.qiang@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
  Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH v3 1/4] target/i386: add missing vmx features for several CPU
- models
-Date: Fri, 10 Apr 2020 14:35:52 +0800
-Message-Id: <20200410063555.2309-2-chenyi.qiang@intel.com>
+Subject: [PATCH v3 2/4] target/i386: add fast short REP MOV support
+Date: Fri, 10 Apr 2020 14:35:53 +0800
+Message-Id: <20200410063555.2309-3-chenyi.qiang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200410063555.2309-1-chenyi.qiang@intel.com>
 References: <20200410063555.2309-1-chenyi.qiang@intel.com>
@@ -62,45 +61,41 @@ Cc: Xiaoyao Li <xiaoyao.li@intel.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add some missing VMX features in Skylake-Server, Cascadelake-Server and
-Icelake-Server CPU models based on the output of Paolo's script.
+For CPUs support fast short REP MOV[CPUID.(EAX=7,ECX=0):EDX(bit4)], e.g
+Icelake and Tigerlake, expose it to the guest VM.
 
 Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
 ---
- target/i386/cpu.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ target/i386/cpu.c | 2 +-
+ target/i386/cpu.h | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 90ffc5f3b1..3ed7502e80 100644
+index 3ed7502e80..4bbe9f0948 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -2982,6 +2982,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
-              VMX_SECONDARY_EXEC_RDRAND_EXITING | VMX_SECONDARY_EXEC_ENABLE_INVPCID |
-              VMX_SECONDARY_EXEC_ENABLE_VMFUNC | VMX_SECONDARY_EXEC_SHADOW_VMCS |
-              VMX_SECONDARY_EXEC_RDSEED_EXITING | VMX_SECONDARY_EXEC_ENABLE_PML,
-+        .features[FEAT_VMX_VMFUNC] = MSR_VMX_VMFUNC_EPT_SWITCHING,
-         .xlevel = 0x80000008,
-         .model_id = "Intel Xeon Processor (Skylake)",
-         .versions = (X86CPUVersionDefinition[]) {
-@@ -3110,6 +3111,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
-              VMX_SECONDARY_EXEC_RDRAND_EXITING | VMX_SECONDARY_EXEC_ENABLE_INVPCID |
-              VMX_SECONDARY_EXEC_ENABLE_VMFUNC | VMX_SECONDARY_EXEC_SHADOW_VMCS |
-              VMX_SECONDARY_EXEC_RDSEED_EXITING | VMX_SECONDARY_EXEC_ENABLE_PML,
-+        .features[FEAT_VMX_VMFUNC] = MSR_VMX_VMFUNC_EPT_SWITCHING,
-         .xlevel = 0x80000008,
-         .model_id = "Intel Xeon Processor (Cascadelake)",
-         .versions = (X86CPUVersionDefinition[]) {
-@@ -3457,7 +3459,9 @@ static X86CPUDefinition builtin_x86_defs[] = {
-              VMX_SECONDARY_EXEC_APIC_REGISTER_VIRT |
-              VMX_SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY |
-              VMX_SECONDARY_EXEC_RDRAND_EXITING | VMX_SECONDARY_EXEC_ENABLE_INVPCID |
--             VMX_SECONDARY_EXEC_ENABLE_VMFUNC | VMX_SECONDARY_EXEC_SHADOW_VMCS,
-+             VMX_SECONDARY_EXEC_ENABLE_VMFUNC | VMX_SECONDARY_EXEC_SHADOW_VMCS |
-+             VMX_SECONDARY_EXEC_RDSEED_EXITING | VMX_SECONDARY_EXEC_ENABLE_PML,
-+        .features[FEAT_VMX_VMFUNC] = MSR_VMX_VMFUNC_EPT_SWITCHING,
-         .xlevel = 0x80000008,
-         .model_id = "Intel Xeon Processor (Icelake)",
-         .versions = (X86CPUVersionDefinition[]) {
+@@ -984,7 +984,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+         .type = CPUID_FEATURE_WORD,
+         .feat_names = {
+             NULL, NULL, "avx512-4vnniw", "avx512-4fmaps",
+-            NULL, NULL, NULL, NULL,
++            "fsrm", NULL, NULL, NULL,
+             NULL, NULL, "md-clear", NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL /* pconfig */, NULL,
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index e818fc712a..d320265b92 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -770,6 +770,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+ #define CPUID_7_0_EDX_AVX512_4VNNIW     (1U << 2)
+ /* AVX512 Multiply Accumulation Single Precision */
+ #define CPUID_7_0_EDX_AVX512_4FMAPS     (1U << 3)
++/* Fast Short Rep Mov */
++#define CPUID_7_0_EDX_FSRM              (1U << 4)
+ /* Speculation Control */
+ #define CPUID_7_0_EDX_SPEC_CTRL         (1U << 26)
+ /* Single Thread Indirect Branch Predictors */
 -- 
 2.17.1
 
