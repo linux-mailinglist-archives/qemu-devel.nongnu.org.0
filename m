@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD771A48C0
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 19:03:35 +0200 (CEST)
-Received: from localhost ([::1]:37125 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A5F01A484A
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 18:15:22 +0200 (CEST)
+Received: from localhost ([::1]:36510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMx42-0002as-HR
-	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 13:03:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33596)
+	id 1jMwJM-0001Ol-QQ
+	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 12:15:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34861)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jerome@forissier.org>) id 1jMw7P-0004Hw-J3
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 12:03:00 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jMwIA-0000xk-Lc
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 12:14:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jerome@forissier.org>) id 1jMw7O-000377-FF
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 12:02:59 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38647)
+ (envelope-from <peter.maydell@linaro.org>) id 1jMwI9-0008QP-Gr
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 12:14:06 -0400
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:39722)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jerome@forissier.org>)
- id 1jMw7O-00036b-3l
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 12:02:58 -0400
-Received: by mail-wm1-x344.google.com with SMTP id f20so3156797wmh.3
- for <qemu-devel@nongnu.org>; Fri, 10 Apr 2020 09:02:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=forissier-org.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pePTeeE7h5ir7BgZLzcfutrSaXBXb4kdz/GFrYkYkbA=;
- b=zdYSOJifHlZTMqNFNk+XREK2HRDDzxbjS0rElQPguz11sXfaruI1t5K7B76KAKzZMT
- VhEcLvBUg89/nLrVxQdwkYg4uYg1GOfSPq5iZTRIeGe3924sowVzzvOpAUoSeZnvqvJZ
- ussgcbyg+IhZmiDBLtI2188qedVDqNQEqg7byPwmpzXT/ZUJ5f/LHOc3w7CXlYheAeJt
- qvB7akeg84WxYvHFQUGqr9oSRLPo6Nv4dQDRbffmt0C2MuFocZcqLnOmtJzpZ8aqBbCY
- k1PqNtXRNy2A1WXkNFJPDi/mdzHr6dWNw3i8f0rPm386RuJkZXYuZuwy4/zgdbNq5aEh
- 11lQ==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jMwI9-0008PK-8g
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 12:14:05 -0400
+Received: by mail-oi1-x235.google.com with SMTP id d63so1778381oig.6
+ for <qemu-devel@nongnu.org>; Fri, 10 Apr 2020 09:14:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=70qNq4i2GsfpyCPylN86WvcllEE6tbW5Ef2byxSYEeE=;
+ b=QlOKGvHuG3IxP0g47oKUUKrUh66WVD7UDaHblHV1GO49UsS9tpT7vtDidbd6mZiHOG
+ +E1mJkT9JPdCJnd+G9PLVDIIPZ4n1ZNxb4/iF5HJEsDLoss+h/ifVgEzUl2imcJbIkQh
+ GgtyyUQkyl2y03bZjL+sQR2cwbYbG0tXJQhJAcfk3BXZn9xgAfQhIEzUpq9XpYldzfFP
+ lj7Amm0+jDvo0K6CL/HJxQld9DDHnVMftin5wTR/65a0HT69tNs5n3h0tm1GJf+0cdus
+ 0RXjOnhruz1ccYW1Th3Exw+bex1PW2KfHPiNhCfiE5pWSiIoMPSGKy7VwM7bgD1KnokW
+ C1rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pePTeeE7h5ir7BgZLzcfutrSaXBXb4kdz/GFrYkYkbA=;
- b=khTshb6z10CYwZ24g6GJjJpMb1+YJ3nStWeWHsDPDINm9jcCBQsc//5o0cp/PUcst5
- 0ufjQndpItqwOvB3NRkqrhvtX/rzdJ0TW+dit2jUbAM6ZL4oaKSq7e41+M0VOd1/XkmL
- hsTfRfqbkEEGpNEJGs9lHNn/VsFehYGQlOhXWTH01JBdkJGl6UREFe5+qeVflZv0u+/B
- ZkriIo72qR1CNLzOejsD2wk5KVvO51K025YVYJL51UxKuDtZRu50uthTw2WUxNe3ycAw
- Cx7qEr1jZ82M0xkIV7nA63vI0gwkwwdmOWaAVL/avYudPdHqynBcVgo8J1tpYF2PQRsk
- muSQ==
-X-Gm-Message-State: AGi0PuZOipnUqBvo9ZmrSQo/hJjdMB0gdg5mlwJeCYwm8atFza3hSg29
- xt8cp3l+jylMMng8VL1LhU+0/g==
-X-Google-Smtp-Source: APiQypKEEAesNpAPC9WrImaUMDsJDzoHv4cKfFy3ZsTsJhTVarEjMSt4MVy3Pe9zztPaRqMdpjFq6Q==
-X-Received: by 2002:a05:600c:210:: with SMTP id
- 16mr5508968wmi.57.1586534576762; 
- Fri, 10 Apr 2020 09:02:56 -0700 (PDT)
-Received: from matebook.home ([2a01:e0a:3cb:7bb0:f902:b48c:6f87:25f2])
- by smtp.gmail.com with ESMTPSA id v21sm3268094wmj.8.2020.04.10.09.02.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Apr 2020 09:02:56 -0700 (PDT)
-From: Jerome Forissier <jerome@forissier.org>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-arm@nongnu.org
-Subject: [PATCH] hw/arm/virt: Add DT property /secure-chosen/kaslr-seed
-Date: Fri, 10 Apr 2020 18:01:29 +0200
-Message-Id: <20200410160129.19748-1-jerome@forissier.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=70qNq4i2GsfpyCPylN86WvcllEE6tbW5Ef2byxSYEeE=;
+ b=q8gIA0LCMgLnLX98EBWsLoYBM52HAmTGcb4DBBbtoxaWqo1YlwTbzTvdMfQID1W1rZ
+ nqzFp2RFmx0TzuLmLfO1YgN5fUYYhI2IDaIfH9Dc9yG+kT/Uk0QO37BZUmDaQ4ND7yAP
+ +QF5lAmE3VYuOxRIWBbiIftnUxZoQvhQAfq3y6xrJZZQhLbsquOZwCxNHJEKxbSQxdkF
+ FKg6Q35adEKg0DhJpDpn/pWSAETvzM2wAeev3Add7HcTH3S7NTbSYRcXr/kCgHVPK97p
+ IvTPPJsIjdMYCs1psn5qs5b3vlnCNsM/EyWg0TEqA2mXgpzCnMQdHaE5XsFlBk+9M56E
+ uIJw==
+X-Gm-Message-State: AGi0PubdY7o1q/Y7p4GcA8kaBNKu4DR8GBZzC2/iEd3qzTlhv6kjtX3I
+ 3F/9RIeMmGmYfrr4lBBmhfiBcXgQoJjXPV8undxY0Q==
+X-Google-Smtp-Source: APiQypLgoQor6u/sUbIdigs3B4RO4yojd8AdiV0nPG3xtBsybqqqzMj91CsymNIRXD7yoHT4VANqbDN98DDzWq1kbEM=
+X-Received: by 2002:aca:b78a:: with SMTP id h132mr1677477oif.163.1586535244361; 
+ Fri, 10 Apr 2020 09:14:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200407155118.20139-1-alex.bennee@linaro.org>
+ <20200407155118.20139-9-alex.bennee@linaro.org>
+ <CAHiYmc7Eu0XsCe_bkV=tP_S3wyWy4St1RR2AphE7Obko-18mNQ@mail.gmail.com>
+ <45a7fe3b-cede-c8e9-fe98-99914bef0e97@linaro.org>
+In-Reply-To: <45a7fe3b-cede-c8e9-fe98-99914bef0e97@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 Apr 2020 17:13:53 +0100
+Message-ID: <CAFEAcA_aE5uA9eaZWU9cr8tZR3x=dmqWBx5FO8QD8K3n+Fsv5w@mail.gmail.com>
+Subject: Re: [PULL 08/13] softfloat: Fix BAD_SHIFT from
+ normalizeFloatx80Subnormal
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
-X-Mailman-Approved-At: Fri, 10 Apr 2020 13:01:30 -0400
+X-Received-From: 2607:f8b0:4864:20::235
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,63 +75,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jerome Forissier <jerome@forissier.org>,
- Jens Wiklander <jens.wiklander@linaro.org>, qemu-devel@nongnu.org
+Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This commit generates a random seed to be used by the secure OS for
-ASLR when the machine is secure. The seed is a 64-bit random value
-exported via the DT in /secure-chosen/kaslr-seed. This interface is
-used by OP-TEE [1].
+On Fri, 10 Apr 2020 at 16:17, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+> Although why Alex didn't add his own R-b to my patch when merging it to his
+> branch, I don't know.
 
-[1] https://github.com/OP-TEE/optee_os/commit/ef262691fe0e
+I think this is one of those areas where different submaintainers
+have different work practices. Personally I distinguish "did I
+actually review this" from "did I just put this into my tree and
+rely on others doing the review" and use r-by for the former
+and not on the latter (although obviously everything I put in
+my tree I will have at least very very briefly looked over).
+But I think some submaintainers don't bother to add r-by tags
+for things they review in the process of assembling their
+tree because they see it as implicit in the process.
 
-Signed-off-by: Jerome Forissier <jerome@forissier.org>
----
- hw/arm/virt.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 7dc96abf72c..42a6f84086f 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -77,6 +77,7 @@
- #include "hw/acpi/generic_event_device.h"
- #include "hw/virtio/virtio-iommu.h"
- #include "hw/char/pl011.h"
-+#include "crypto/random.h"
- 
- #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
-     static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
-@@ -1635,6 +1636,18 @@ static void finalize_gic_version(VirtMachineState *vms)
-     }
- }
- 
-+static void create_secure_kaslr_seed(VirtMachineState *vms)
-+{
-+    Error *err = NULL;
-+    uint64_t seed;
-+
-+    if (qcrypto_random_bytes(&seed, sizeof(seed), &err)) {
-+        error_free(err);
-+        return;
-+    }
-+    qemu_fdt_setprop_u64(vms->fdt, "/secure-chosen", "kaslr-seed", seed);
-+}
-+
- static void machvirt_init(MachineState *machine)
- {
-     VirtMachineState *vms = VIRT_MACHINE(machine);
-@@ -1837,6 +1850,7 @@ static void machvirt_init(MachineState *machine)
-     if (vms->secure) {
-         create_secure_ram(vms, secure_sysmem);
-         create_uart(vms, VIRT_SECURE_UART, secure_sysmem, serial_hd(1));
-+        create_secure_kaslr_seed(vms);
-     }
- 
-     vms->highmem_ecam &= vms->highmem && (!firmware_loaded || aarch64);
--- 
-2.20.1
-
+thanks
+-- PMM
 
