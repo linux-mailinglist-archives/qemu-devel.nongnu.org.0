@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68AC21A48BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 19:02:36 +0200 (CEST)
-Received: from localhost ([::1]:37114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6B91A4802
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 17:56:07 +0200 (CEST)
+Received: from localhost ([::1]:36048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMx35-0001XL-10
-	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 13:02:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59180)
+	id 1jMw0j-0004Pn-W9
+	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 11:56:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60743)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jerome@forissier.org>) id 1jMvkb-00056S-W9
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 11:39:27 -0400
+ (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jMvzE-0003x6-MX
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 11:54:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jerome@forissier.org>) id 1jMvka-0003G9-Pv
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 11:39:25 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38446)
+ (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jMvzC-0003iH-Rx
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 11:54:32 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45158)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jerome@forissier.org>)
- id 1jMvka-0003Fb-EH
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 11:39:24 -0400
-Received: by mail-wm1-x342.google.com with SMTP id f20so3094954wmh.3
- for <qemu-devel@nongnu.org>; Fri, 10 Apr 2020 08:39:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=forissier-org.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pePTeeE7h5ir7BgZLzcfutrSaXBXb4kdz/GFrYkYkbA=;
- b=VHqznM834Q3FGNoDrCU5swGI2/sM2m1H/BjRJmuH27SgGDgZE2jfTpJpjfJ9yVxSUd
- 8afJlWJ4/ppMd1rIM27IyDUdr0TGe/m3Yvu6bQchHLJ6QbrxMQdU8G0MIdCUQ1h8iujX
- n76dyg0r8Ca9SVYzdJ8qWU2fLN+iN2unml4bLReuQZhgzVXkCEJqExeyJlIyhfpCSOXS
- tkzVVRnCdAemhpBgy93pAlexTUHiYjPgYv4akk16hnEd0xx6Q5MAmXsC+sXmST5+uO1l
- tci+8uHZs3xtt6HJtCCl3wrsW3y1mvOVaXycsn/6v3adczdnZGq5vqMvzwSXAwnwzDaK
- 7AqA==
+ (Exim 4.71) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jMvzC-0003h6-IY
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 11:54:30 -0400
+Received: by mail-wr1-x441.google.com with SMTP id v5so2701454wrp.12
+ for <qemu-devel@nongnu.org>; Fri, 10 Apr 2020 08:54:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=B8TxbiCwRZnnMMH7pr+97aaQI6o6WzgeP4uG8D+b6Jw=;
+ b=tN5muob4Ir0gIDktn7UFwkINtDKy+023wNR3Qe7D8VMlkpEtFjf/ZE2klYyO+vY1vo
+ Jk/PP83+PymKoZ9pQ8GHZ/BSJpHtfTYE0UuSdSrzWpFEbJeZX9o1FAbmQa7Ubc/puKgv
+ AbtMD28hjV5KbulZUZPySwz13m4vf21gGZl8bCQVKsLKyh5NCTxyI5mf7BFREzOsPt2H
+ 4aKXG3/SfYJHx8D8YvHQk+rYyGOsDHfWwJJkzbjUP1SetH8FMrnhXR6KMjhcwOvZdMG1
+ HzmZyZIFjOD083r9vTbi24Ueh94k/rWBSyBlxzIYCn/Yr+jbt3qtNg+q14dlHPi/WEFR
+ 5D8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pePTeeE7h5ir7BgZLzcfutrSaXBXb4kdz/GFrYkYkbA=;
- b=pV7gnKGodda21pY7rz4Q/BSrK0lT/rtahakumm+J8jOJuQdfkchcG14UbZzi0bA9Dc
- p3Yof+oCKdmB0qEHmVe+VNbMUX40oxboSD+D+TB7VX+N13BSHnVy56v5i5aTGnE/huB5
- y45zHpne/MQux++7paVwF9C/Ng/ehHZ3scHadmVrKEHpZRPUI7m4KU8bvhwU1TLZjEFl
- 1QMRozaxMSrn2tB7cz2GWK3bSxVe1ftQh2AUk+qDXECOVk/jqecdruO7bbkc8xymvLZA
- lILEUqcopi2WsPDP2E6z31XOVQL85Jl9ksp4Tgty1OOwVnGbS1G2BLiXRkNy+S07ICUb
- SmZw==
-X-Gm-Message-State: AGi0PuacQRKd94ySYMgQr7yjzQGidvEp7RgPbTDle4WSF9mZvRxE1f2J
- cSiFkKHlrEmzSYnnBgIct9Nk6XGH3/1wLQ==
-X-Google-Smtp-Source: APiQypLlsugc8ej+el5zmekUPIP2QIPzriNKWb60AGoNgQus0cZtKMg/NsnknmpmfAjJ7eRQjSxoYg==
-X-Received: by 2002:a1c:dfc2:: with SMTP id w185mr5462853wmg.1.1586533162428; 
- Fri, 10 Apr 2020 08:39:22 -0700 (PDT)
-Received: from matebook.home ([2a01:e0a:3cb:7bb0:f902:b48c:6f87:25f2])
- by smtp.gmail.com with ESMTPSA id k184sm3271699wmf.9.2020.04.10.08.39.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Apr 2020 08:39:21 -0700 (PDT)
-From: Jerome Forissier <jerome@forissier.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/arm/virt: Add DT property /secure-chosen/kaslr-seed
-Date: Fri, 10 Apr 2020 17:39:16 +0200
-Message-Id: <20200410153916.17718-1-jerome@forissier.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=B8TxbiCwRZnnMMH7pr+97aaQI6o6WzgeP4uG8D+b6Jw=;
+ b=Aycrv2Ffjc398Fn36L04u2s/aIXbeDoXyVkRR8ru7TXPhSHjp5T5+hOU7hfy31t/m3
+ 6XCUxuvS7Ft4o5QQHui5iWm2wBqfWJCe+daD+VdDXtdV8gKz/ijQt2KovBvIX12KkGIL
+ g1yFCp++i5xoFa5GL/Ynehw/vOgU9p2l0UNmiqBh1B6hFSKp2Ub65BjwRsbeF4G6kL85
+ oLm/QFr1BaIDS5qZvOcOg1we92E1RhDWHKg7Yn3Ki4qKk3H+aTT/XQVTeCGKQmPiKANd
+ DIesxCUlfwz5o6mb7WFYjWV/xno2n8pRIVeqZdarrzopS3cIZFjJ2IlZcmB1PRn3oTwh
+ ij2g==
+X-Gm-Message-State: AGi0PubWdbrM5o4G8/teQlzAXNVnQ+gNOaay9PJOG/Xu9plRRnmaseGy
+ T3xm76diE6cfqhvXEmMvkpuo66RyHntBJ70d+lQ=
+X-Google-Smtp-Source: APiQypKhthjNVlTM1RpZtPlT+WConY98VyEFAFF/gWMifiWrz+6ico3H4QDlCR9E3Z+k40AlzZdfGJAe1KMkKTE28Lk=
+X-Received: by 2002:a5d:65cb:: with SMTP id e11mr5125255wrw.402.1586534068966; 
+ Fri, 10 Apr 2020 08:54:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200407155118.20139-1-alex.bennee@linaro.org>
+ <20200407155118.20139-9-alex.bennee@linaro.org>
+ <CAHiYmc7Eu0XsCe_bkV=tP_S3wyWy4St1RR2AphE7Obko-18mNQ@mail.gmail.com>
+ <45a7fe3b-cede-c8e9-fe98-99914bef0e97@linaro.org>
+In-Reply-To: <45a7fe3b-cede-c8e9-fe98-99914bef0e97@linaro.org>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Fri, 10 Apr 2020 17:54:13 +0200
+Message-ID: <CAHiYmc4+UnBBay+=GyP0fCxefOwB3fT=T6TiTcorvv_2AjCjpw@mail.gmail.com>
+Subject: Re: [PULL 08/13] softfloat: Fix BAD_SHIFT from
+ normalizeFloatx80Subnormal
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000009ad9a105a2f1bf1b"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
-X-Mailman-Approved-At: Fri, 10 Apr 2020 13:01:30 -0400
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,63 +75,292 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jerome Forissier <jerome@forissier.org>,
- Jens Wiklander <jens.wiklander@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This commit generates a random seed to be used by the secure OS for
-ASLR when the machine is secure. The seed is a 64-bit random value
-exported via the DT in /secure-chosen/kaslr-seed. This interface is
-used by OP-TEE [1].
+--0000000000009ad9a105a2f1bf1b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[1] https://github.com/OP-TEE/optee_os/commit/ef262691fe0e
+17:17 Pet, 10.04.2020. Richard Henderson <richard.henderson@linaro.org> =D1=
+=98=D0=B5
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+> On 4/10/20 2:38 AM, Aleksandar Markovic wrote:
+> > 17:55 Uto, 07.04.2020. Alex Benn=C3=A9e <alex.bennee@linaro.org
+> > <mailto:alex.bennee@linaro.org>> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=
+=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+> >>
+> >> From: Richard Henderson <richard.henderson@linaro.org
+> > <mailto:richard.henderson@linaro.org>>
+> >>
+> >> All other calls to normalize*Subnormal detect zero input before
+> >> the call -- this is the only outlier.  This case can happen with
+> >> +0.0 + +0.0 =3D +0.0 or -0.0 + -0.0 =3D -0.0, so return a zero of
+> >> the correct sign.
+> >>
+> >> Reported-by: Coverity (CID 1421991)
+> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org
+> > <mailto:richard.henderson@linaro.org>>
+> >> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org
+> > <mailto:alex.bennee@linaro.org>>
+> >> Message-Id: <20200327232042.10008-1-richard.henderson@linaro.org
+> > <mailto:20200327232042.10008-1-richard.henderson@linaro.org>>
+> >> Message-Id: <20200403191150.863-8-alex.bennee@linaro.org
+> > <mailto:20200403191150.863-8-alex.bennee@linaro.org>>
+> >>
+> >> diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+> >> index 301ce3b537b..ae6ba718540 100644
+> >> --- a/fpu/softfloat.c
+> >> +++ b/fpu/softfloat.c
+> >> @@ -5856,6 +5856,9 @@ static floatx80 addFloatx80Sigs(floatx80 a,
+floatx80 b,
+> > flag zSign,
+> >>          zSig1 =3D 0;
+> >>          zSig0 =3D aSig + bSig;
+> >>          if ( aExp =3D=3D 0 ) {
+> >> +            if (zSig0 =3D=3D 0) {
+> >> +                return packFloatx80(zSign, 0, 0);
+> >> +            }
+> >>              normalizeFloatx80Subnormal( zSig0, &zExp, &zSig0 );
+> >>              goto roundAndPack;
+> >>          }
+> >> --
+> >> 2.20.1
+> >>
+> >>
+> >
+> > We in MIPS have extensive FP tests, that certainly include many cases o=
+f
+> > operations with +0 and -0. And they are all correct even before this
+patch.
+>
+> This is for the 80-bit extended-double type, only used on x86 and m68k.
+You
+> will not execute this path using MIPS.
+>
 
-Signed-off-by: Jerome Forissier <jerome@forissier.org>
----
- hw/arm/virt.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Thanks, Richard!
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 7dc96abf72c..42a6f84086f 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -77,6 +77,7 @@
- #include "hw/acpi/generic_event_device.h"
- #include "hw/virtio/virtio-iommu.h"
- #include "hw/char/pl011.h"
-+#include "crypto/random.h"
- 
- #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
-     static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
-@@ -1635,6 +1636,18 @@ static void finalize_gic_version(VirtMachineState *vms)
-     }
- }
- 
-+static void create_secure_kaslr_seed(VirtMachineState *vms)
-+{
-+    Error *err = NULL;
-+    uint64_t seed;
-+
-+    if (qcrypto_random_bytes(&seed, sizeof(seed), &err)) {
-+        error_free(err);
-+        return;
-+    }
-+    qemu_fdt_setprop_u64(vms->fdt, "/secure-chosen", "kaslr-seed", seed);
-+}
-+
- static void machvirt_init(MachineState *machine)
- {
-     VirtMachineState *vms = VIRT_MACHINE(machine);
-@@ -1837,6 +1850,7 @@ static void machvirt_init(MachineState *machine)
-     if (vms->secure) {
-         create_secure_ram(vms, secure_sysmem);
-         create_uart(vms, VIRT_SECURE_UART, secure_sysmem, serial_hd(1));
-+        create_secure_kaslr_seed(vms);
-     }
- 
-     vms->highmem_ecam &= vms->highmem && (!firmware_loaded || aarch64);
--- 
-2.20.1
+First and foremost, may health be with you and all people of United States
+and all Americas!!
 
+Yes, the fact that m68k also uses 80-bit FP arithmetic was known to me.
+Though probably many people think 80-bit FP is limited to x86.
+
+I was just afraid of some strange way that other targets may end up using
+the function in question. But again, thanks for reassurances!
+
+> > Alex, from the commit message, it not clear if this is a fix of a bug
+(in which
+> > case a test example would be useful to have, and the assesment on what
+> > scenarios could be affected), or just a correction for some rare
+condition that
+> > practically for all intents and purposes was never triggered, or perhap=
+s
+> > something third.
+>
+> This only avoids a Coverity out-of-range shift warning.
+>
+> Beforehand, we executed 0 << 64, got 0 as the result (regardless of
+whether or
+> not the host truncates the shift count), and constructed the correctly
+signed
+> fp zero in the end.
+>
+> There was more discussion about this in an earlier thread, associated
+with a
+> different patch for this same problem:
+>
+> https://lists.nongnu.org/archive/html/qemu-devel/2020-03/msg08278.html
+>
+
+OK. I didn't have a chance to read this pattivular thread. Thanks for the
+pointer!
+
+>
+> > Secondly, and not related to this patch only, I see more and more
+patches
+> > integrated into the main tree without "Reviewed-by:" tag. I don't think
+this is
+> > the best way an open source community works. In my personal opinion,
+this must
+> > stop.
+>
+> The only way to avoid this is to have more developers review code outside
+their
+> own bailiwick.  The patch has been on the list for two weeks and was
+pinged
+> twice.
+>
+> Although why Alex didn't add his own R-b to my patch when merging it to
+his
+> branch, I don't know.
+>
+
+I also have a very similar impression as yours, that Alex in fact reviewed
+the patch (as if he implicitely gave R-B, but forgot to insert it in a
+hurry, given these hectic days around 5.0 final release).
+
+Best regards, and best wishes to all Sietlans, or wherever you happen to
+live!
+
+Aleksandar
+
+>
+> r~
+
+--0000000000009ad9a105a2f1bf1b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<p dir=3D"ltr"></p>
+<p dir=3D"ltr">17:17 Pet, 10.04.2020. Richard Henderson &lt;<a href=3D"mail=
+to:richard.henderson@linaro.org">richard.henderson@linaro.org</a>&gt; =D1=
+=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
+&gt;<br>
+&gt; On 4/10/20 2:38 AM, Aleksandar Markovic wrote:<br>
+&gt; &gt; 17:55 Uto, 07.04.2020. Alex Benn=C3=A9e &lt;<a href=3D"mailto:ale=
+x.bennee@linaro.org">alex.bennee@linaro.org</a><br>
+&gt; &gt; &lt;mailto:<a href=3D"mailto:alex.bennee@linaro.org">alex.bennee@=
+linaro.org</a>&gt;&gt; =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=
+=BE/=D0=BB=D0=B0:<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; From: Richard Henderson &lt;<a href=3D"mailto:richard.henders=
+on@linaro.org">richard.henderson@linaro.org</a><br>
+&gt; &gt; &lt;mailto:<a href=3D"mailto:richard.henderson@linaro.org">richar=
+d.henderson@linaro.org</a>&gt;&gt;<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; All other calls to normalize*Subnormal detect zero input befo=
+re<br>
+&gt; &gt;&gt; the call -- this is the only outlier.=C2=A0 This case can hap=
+pen with<br>
+&gt; &gt;&gt; +0.0 + +0.0 =3D +0.0 or -0.0 + -0.0 =3D -0.0, so return a zer=
+o of<br>
+&gt; &gt;&gt; the correct sign.<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; Reported-by: Coverity (CID 1421991)<br>
+&gt; &gt;&gt; Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richar=
+d.henderson@linaro.org">richard.henderson@linaro.org</a><br>
+&gt; &gt; &lt;mailto:<a href=3D"mailto:richard.henderson@linaro.org">richar=
+d.henderson@linaro.org</a>&gt;&gt;<br>
+&gt; &gt;&gt; Signed-off-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.be=
+nnee@linaro.org">alex.bennee@linaro.org</a><br>
+&gt; &gt; &lt;mailto:<a href=3D"mailto:alex.bennee@linaro.org">alex.bennee@=
+linaro.org</a>&gt;&gt;<br>
+&gt; &gt;&gt; Message-Id: &lt;<a href=3D"mailto:20200327232042.10008-1-rich=
+ard.henderson@linaro.org">20200327232042.10008-1-richard.henderson@linaro.o=
+rg</a><br>
+&gt; &gt; &lt;mailto:<a href=3D"mailto:20200327232042.10008-1-richard.hende=
+rson@linaro.org">20200327232042.10008-1-richard.henderson@linaro.org</a>&gt=
+;&gt;<br>
+&gt; &gt;&gt; Message-Id: &lt;<a href=3D"mailto:20200403191150.863-8-alex.b=
+ennee@linaro.org">20200403191150.863-8-alex.bennee@linaro.org</a><br>
+&gt; &gt; &lt;mailto:<a href=3D"mailto:20200403191150.863-8-alex.bennee@lin=
+aro.org">20200403191150.863-8-alex.bennee@linaro.org</a>&gt;&gt;<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; diff --git a/fpu/softfloat.c b/fpu/softfloat.c<br>
+&gt; &gt;&gt; index 301ce3b537b..ae6ba718540 100644<br>
+&gt; &gt;&gt; --- a/fpu/softfloat.c<br>
+&gt; &gt;&gt; +++ b/fpu/softfloat.c<br>
+&gt; &gt;&gt; @@ -5856,6 +5856,9 @@ static floatx80 addFloatx80Sigs(floatx8=
+0 a, floatx80 b,<br>
+&gt; &gt; flag zSign,<br>
+&gt; &gt;&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0zSig1 =3D 0;<br>
+&gt; &gt;&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0zSig0 =3D aSig + bSig;<br>
+&gt; &gt;&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if ( aExp =3D=3D 0 ) {<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (zSig0 =3D=3D 0=
+) {<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 retu=
+rn packFloatx80(zSign, 0, 0);<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; &gt;&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0normalizeFloa=
+tx80Subnormal( zSig0, &amp;zExp, &amp;zSig0 );<br>
+&gt; &gt;&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto roundAnd=
+Pack;<br>
+&gt; &gt;&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; &gt;&gt; --<br>
+&gt; &gt;&gt; 2.20.1<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt;<br>
+&gt; &gt; <br>
+&gt; &gt; We in MIPS have extensive FP tests, that certainly include many c=
+ases of<br>
+&gt; &gt; operations with +0 and -0. And they are all correct even before t=
+his patch.<br>
+&gt;<br>
+&gt; This is for the 80-bit extended-double type, only used on x86 and m68k=
+.=C2=A0 You<br>
+&gt; will not execute this path using MIPS.<br>
+&gt;</p>
+<p dir=3D"ltr">Thanks, Richard!</p>
+<p dir=3D"ltr">First and foremost, may health be with you and all people of=
+ United States and all Americas!!</p>
+<p dir=3D"ltr">Yes, the fact that m68k also uses 80-bit FP arithmetic was k=
+nown to me. Though probably many people think 80-bit FP is limited to x86.<=
+/p>
+<p dir=3D"ltr">I was just afraid of some strange way that other targets may=
+ end up using the function in question. But again, thanks for reassurances!=
+</p>
+<p dir=3D"ltr">&gt; &gt; Alex, from the commit message, it not clear if thi=
+s is a fix of a bug (in which<br>
+&gt; &gt; case a test example would be useful to have, and the assesment on=
+ what<br>
+&gt; &gt; scenarios could be affected), or just a correction for some rare =
+condition that<br>
+&gt; &gt; practically for all intents and purposes was never triggered, or =
+perhaps<br>
+&gt; &gt; something third.<br>
+&gt;<br>
+&gt; This only avoids a Coverity out-of-range shift warning.<br>
+&gt;<br>
+&gt; Beforehand, we executed 0 &lt;&lt; 64, got 0 as the result (regardless=
+ of whether or<br>
+&gt; not the host truncates the shift count), and constructed the correctly=
+ signed<br>
+&gt; fp zero in the end.<br>
+&gt;<br>
+&gt; There was more discussion about this in an earlier thread, associated =
+with a<br>
+&gt; different patch for this same problem:<br>
+&gt;<br>
+&gt; <a href=3D"https://lists.nongnu.org/archive/html/qemu-devel/2020-03/ms=
+g08278.html">https://lists.nongnu.org/archive/html/qemu-devel/2020-03/msg08=
+278.html</a><br>
+&gt;</p>
+<p dir=3D"ltr">OK. I didn&#39;t have a chance to read this pattivular threa=
+d. Thanks for the pointer!</p>
+<p dir=3D"ltr">&gt;<br>
+&gt; &gt; Secondly, and not related to this patch only, I see more and more=
+ patches<br>
+&gt; &gt; integrated into the main tree without &quot;Reviewed-by:&quot; ta=
+g. I don&#39;t think this is<br>
+&gt; &gt; the best way an open source community works. In my personal opini=
+on, this must<br>
+&gt; &gt; stop.<br>
+&gt;<br>
+&gt; The only way to avoid this is to have more developers review code outs=
+ide their<br>
+&gt; own bailiwick.=C2=A0 The patch has been on the list for two weeks and =
+was pinged<br>
+&gt; twice.<br>
+&gt;<br>
+&gt; Although why Alex didn&#39;t add his own R-b to my patch when merging =
+it to his<br>
+&gt; branch, I don&#39;t know.<br>
+&gt;</p>
+<p dir=3D"ltr">I also have a very similar impression as yours, that Alex in=
+ fact reviewed the patch (as if he implicitely gave R-B, but forgot to inse=
+rt it in a hurry, given these hectic days around 5.0 final release).</p>
+<p dir=3D"ltr">Best regards, and best wishes to all Sietlans, or wherever y=
+ou happen to live!</p>
+<p dir=3D"ltr">Aleksandar</p>
+<p dir=3D"ltr">&gt;<br>
+&gt; r~<br>
+</p>
+
+--0000000000009ad9a105a2f1bf1b--
 
