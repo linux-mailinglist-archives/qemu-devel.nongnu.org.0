@@ -2,104 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AE2C1A43F2
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 10:49:42 +0200 (CEST)
-Received: from localhost ([::1]:60036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C96B81A4453
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 11:13:43 +0200 (CEST)
+Received: from localhost ([::1]:60188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMpM5-0000Ob-29
-	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 04:49:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45027)
+	id 1jMpjK-0006qX-UR
+	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 05:13:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48050)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jMpLB-0008MT-TW
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 04:48:46 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jMphu-0005Vu-3I
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 05:12:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jMpLA-000372-TC
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 04:48:45 -0400
-Received: from mail-eopbgr30121.outbound.protection.outlook.com
- ([40.107.3.121]:6766 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jMpht-0006r4-42
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 05:12:14 -0400
+Received: from mail-db8eur05on2130.outbound.protection.outlook.com
+ ([40.107.20.130]:4480 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jMpL6-00032j-C6; Fri, 10 Apr 2020 04:48:41 -0400
+ id 1jMphh-0006ng-JP; Fri, 10 Apr 2020 05:12:02 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kjaJ5whykPxyEQseZaW+bcjWIiVkSSi4YoggAe1puMCGQ8XOQUpRyiYHsFthr7OS1gFAnHQKiV7VUPqJvAaJpBssLUfBjVM5hZD0NvbuySrNgfOox3acCHjAsG1hr/1/T58tgG4wBDP+Iz7CRlwe7J6Om5699nPE1jWyG6r08fdQ/O9NDtygZv0dt+2ecEp3E9QdxOsNWdaHnltH4OxvBwOwOe2ThCxMoG0RDdoxlDldeF7EoF5JJqzLwDqa81dQK3wAZdAql+oVSazdaCNsA1ae4pRT7powkYnjmizR5NC+Ak5aPPEYGRIywJBmD6QAl+UF5bvMH3y4+0TCjOOB9A==
+ b=mO/sTG3rwLfAXrnGD/QwGUXDvOYYLkmn0pdu/Imm1vf5/U+7c+eDZC6YmOO0LsM9Dm4wTDoxAd/1BOPv6ZvJ6AR2MGYY1XIGVLA4VaF2ILVODWLBvTk1yJlxAr94h6l0I+uTBFjHrkmgvhjjcBZ0Zxl8gcshAscjS7/zPIsWqDTRwuPE6cNSd6yRK37pP5DeaquI7FX9gfnCBSSm4MrQbkdNu1eleUdDigDsMTc/IlWWiQcLbThArTgzyjTjYJZ7kmpzI7/RsxK5Hr2GCfgeTgLfgHOzRksoDAd5Lx3wbHHJEBrjkWJuFDdkrg2eVLDFX8DyA5ljfb4X2TdHjaVm/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uHjfs4yYT/9/QO4jMKTBHkWLBtN/TGFsUHOojb24zR8=;
- b=iPn/hg+/PQtQXtCKMzh0IZS33xhLlIu7jWrsgWFaIrGk2AJWV8SPQOde6FpoFMJWU+EonBGitLokObubHTZ+0TgLHZDF5p+RAAahGG8uGUZ5JqP1hHcUXr9LY3tUWgUSb5yhWcMr3vv/oM7og+lXyS+XiZvnQykq/a/JN/UGeoXv9JKvNOULIkA5KHGQHIR/+hFsUs4BGBVrtIik/jaWxf7Sa4ezxfdr/gxgTv8hwImHgli2R4gjU1LXKKNLMsL0Q+/o6esI2FX/vSWgSFkGIA1XDpyehzRpOY5fYJCtAWu60ciqtcZ9Gg0XcQDg6kZGfhfRnK5h36AmrworzHn0fA==
+ bh=tC/IscOwcu4DsXK4S9INyVtSTi4PEz4+SOsS8/bRvRU=;
+ b=GIPAt7mAWIDVlAus19WQQZ9BjbUxFq2/E6ztVgorctsJ8dmRXLAYdiC6ZpFHlua4e9VJmuglCbqP/lubmUVHYS6JyIj+AACvvcIu9zuIpHUKrOzY9oi3K237JyAo3NCdnV6cOdftE5vGJ5qIZsATUVBaQ/KpOSDu9tXLjCWWh1NODtdFso9A5oklI/PyYwblefjtPIV2M2kEMsoJz4pCiX124dGl3g/a6WJGXGlvJpfeM3LAAkh0nT8dbHJEyhsY5VrFQ0gzfQKZlccihEqdyD1gPN7rXwRBrfCQ0lFVsGmL/oH7M2ZUy30enIFz1ucNBp9aXGPMBwAO3ieN5I8WOw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uHjfs4yYT/9/QO4jMKTBHkWLBtN/TGFsUHOojb24zR8=;
- b=Xi9b3lpt7NtTTao9GZIQdfvrrjpwVATNRejsKBxeEwgbnr80fJLp4ZR2CWTKvE8jzRjgL82l3xu7MzDi+5+FF2bmAI7bISRB1fzpBNlUpbpkos1Kn5SBIaR6uEd9S2fSaFETHTZzOVtFQK+yPUP+dTdXSLO/RP/+vAio/wlzkts=
+ bh=tC/IscOwcu4DsXK4S9INyVtSTi4PEz4+SOsS8/bRvRU=;
+ b=SgzqI6yDAkfvykDt6t03YdrRnHHLIyUuNQLSRCKCIL/tAVm+rrR2sChktXi9WZXh5RRd9UciQpr8X6xRXMbvCwSBKlUNuXx/v1nsBrzsI2xvOhjAOtON0PDdVVi8UtbGnCtUr3A+iBCKDBYPyNlAheY+rGxgPiNVKhTyqAyLDlA=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=vsementsov@virtuozzo.com; 
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5349.eurprd08.prod.outlook.com (2603:10a6:20b:107::22)
+ by AM7PR08MB5510.eurprd08.prod.outlook.com (2603:10a6:20b:109::16)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.15; Fri, 10 Apr
- 2020 08:48:36 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.15; Fri, 10 Apr
+ 2020 09:11:59 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9%4]) with mapi id 15.20.2900.015; Fri, 10 Apr 2020
- 08:48:36 +0000
-Subject: Re: [PATCH v4 06/30] qcow2: Add get_l2_entry() and set_l2_entry()
+ 09:11:59 +0000
+Subject: Re: [PATCH v4 08/30] qcow2: Add dummy has_subclusters() function
 To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
 References: <cover.1584468723.git.berto@igalia.com>
- <bd054be18d469233e7ebcb81d8e8190c1f2eda0a.1584468723.git.berto@igalia.com>
+ <0e88d0a02693bc48e1cf5a411ae32af973a6c3c2.1584468723.git.berto@igalia.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200410114834353
-Message-ID: <82d3d5b6-8b79-3639-931d-7bb576d5c818@virtuozzo.com>
-Date: Fri, 10 Apr 2020 11:48:34 +0300
+X-Tagtoolbar-Keys: D20200410121157367
+Message-ID: <87373df4-9399-7d84-c07e-1e1b10f28c16@virtuozzo.com>
+Date: Fri, 10 Apr 2020 12:11:57 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.2.1
-In-Reply-To: <bd054be18d469233e7ebcb81d8e8190c1f2eda0a.1584468723.git.berto@igalia.com>
+In-Reply-To: <0e88d0a02693bc48e1cf5a411ae32af973a6c3c2.1584468723.git.berto@igalia.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: ZRAP278CA0010.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:10::20) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: ZR0P278CA0047.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:1d::16) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.100.2] (185.215.60.134) by
- ZRAP278CA0010.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:10::20) with Microsoft
+ ZR0P278CA0047.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:1d::16) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2900.15 via Frontend Transport; Fri, 10 Apr 2020 08:48:35 +0000
-X-Tagtoolbar-Keys: D20200410114834353
+ 15.20.2900.15 via Frontend Transport; Fri, 10 Apr 2020 09:11:58 +0000
+X-Tagtoolbar-Keys: D20200410121157367
 X-Originating-IP: [185.215.60.134]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f2a67e0e-faa7-4e7e-1c7c-08d7dd2bf528
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5349:
+X-MS-Office365-Filtering-Correlation-Id: 1aededbc-8203-434f-fb61-08d7dd2f3960
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5510:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5349FE60A7DD7A3550DFDB7FC1DE0@AM7PR08MB5349.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5510A2ABEEA89D54388BC480C1DE0@AM7PR08MB5510.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
 X-Forefront-PRVS: 0369E8196C
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(10019020)(4636009)(396003)(39840400004)(366004)(346002)(376002)(136003)(956004)(52116002)(26005)(16576012)(107886003)(5660300002)(54906003)(8936002)(8676002)(2616005)(86362001)(478600001)(81156014)(36756003)(316002)(31686004)(16526019)(66476007)(6486002)(66946007)(4326008)(2906002)(66556008)(31696002)(186003);
+ SFS:(10019020)(4636009)(346002)(136003)(376002)(396003)(366004)(39840400004)(8936002)(81156014)(5660300002)(31696002)(66476007)(478600001)(86362001)(4326008)(66946007)(6486002)(31686004)(4744005)(66556008)(107886003)(52116002)(8676002)(54906003)(26005)(16526019)(186003)(2906002)(316002)(956004)(16576012)(36756003)(2616005);
  DIR:OUT; SFP:1102; 
 Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YjVH4EHPIr4WgCF3aCFeaSRZ3Y1iRMZnWWlX7GuLW3EzmRrqQ7T5jvScyJnqTXBVSb/g1OigKbtRI6pVkurHFja5InhXE7kLYJKVaRcqkYNz5niTliUuJQyKnmORD/iEx9szOjdmepnuaZ37Bm/mxu+5+EIAbm4Df3foltGRn6syprhx9WA7MWwN8CXAtXR/whod9MLEdTdDyYx9njzP7EGhYIjdh16bmV9G5Doa2HvPBN1yTaIGipaanzJvN9phs3BrXOvmIAkLhIDt/OLBLiDRTpNiTPwrdhQuVLRsQYB12nO5EGUy9VG0NeWGRW2aaw9/e6h7NacSLKztn9WvCH/8jf4I0KkH8joOGaVvjmOTFZDoNjRo79wWkUIeg/HOFd4+1c0n9HSdbmx16VxekAsU/pRuEQ9kATEjTn3TrBbBal5h4gPFVqDYQlj0wum6
-X-MS-Exchange-AntiSpam-MessageData: bNHDuR363yzhBmrT0wTqpGw0UQ8EAVX5t7nkI+c0UZQhLgig17HyCr/Zlb7e68sRNZ6nrzIAhcpsrObBM/EURXJ3i3uTZ0Ty3o3j+C+5K7Aw1yJ0D0pXS5tYt3rWXbB/CcrgWEbWmzP8I2NxWVRBFA==
+X-Microsoft-Antispam-Message-Info: JR3vTw8ofbnKAJzHCTzFH0KE8cOjfWO52aASZsOYg/QwExNxp9bpcuf28HoUo6puAI97QU6ppcpxqYqAQIZ8FR+IXk/gnL6HQ+q0DQpIKBsFFKrdeI5AyZvfFoabWOYzPF8FvaxcwaSrVziypDgyeL0S0k4yqBRxFhCXQ84LI6OTa2vZVhioN9mk7cqxt9WgbhaCEe72M31Dxrmux5sPPk11IyMf6kwAJfhKTejDr493ll4H7zzkXFTU7ZUN+WdRcT244MDCyATXGAvghUPfQris9TVPRNdFX8D6lson181UL8AhqBCm1GxYj/1/8kobOAq7WPBdwaYxrj0fomYhlilkHmQT65bm1aQqd20gY4ab7OB0N2tqIuFCXmqrYJU8MHrFGqce6TQiQvrAR5qV2Q07LCzR3FPkRdMIGqe/3ltwFPbByb8st4wJSXAluPDm
+X-MS-Exchange-AntiSpam-MessageData: DbnOvGpq/s0ZyiT6QXNX9CitMUshMsF2o0pwydBJzAvUYPxAAuQ+DZ2F3EQmmHlncMZiUwYZEDm5kIKrYfBW2S5nDPpfGTCAOhhHwSVfD2PtZYdHGJtBuEwrGMZ/HJ2PAa0CBknvQReAC4vbaCQI1Q==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f2a67e0e-faa7-4e7e-1c7c-08d7dd2bf528
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2020 08:48:36.4833 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1aededbc-8203-434f-fb61-08d7dd2f3960
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2020 09:11:59.5687 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: z+dWYGd+9rBSYDprnokeK2Xgh1D+1+ZA+f+/nBw5qa0nLOZYnX1MOSRgTf9owOLpjfX8TIYVkRX1SUvltQVJy55VUnj/7dhSH3q/sjI0+es=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5349
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.3.121
+X-MS-Exchange-CrossTenant-UserPrincipalName: 81bemNOzmTqP2wz79M+YY6IkigIoSODoPfC6VS8YO/pG92TNtmJPVn85cw4M/P+t0tR6fT/xHfVGr6q40WAiktME8miK9JR8XZofUUppeAU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5510
+X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
+ [fuzzy]
+X-Received-From: 40.107.20.130
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -118,35 +119,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 17.03.2020 21:16, Alberto Garcia wrote:
-> The size of an L2 entry is 64 bits, but if we want to have subclusters
-> we need extended L2 entries. This means that we have to access L2
-> tables and slices differently depending on whether an image has
-> extended L2 entries or not.
+> This function will be used by the qcow2 code to check if an image has
+> subclusters or not.
 > 
-> This patch replaces all l2_slice[] accesses with calls to
-> get_l2_entry() and set_l2_entry().
+> At the moment this simply returns false. Once all patches needed for
+> subcluster support are ready then QEMU will be able to create and
+> read images with subclusters and this function will return the actual
+> value.
+> 
+> Signed-off-by: Alberto Garcia<berto@igalia.com>
+> Reviewed-by: Eric Blake<eblake@redhat.com>
+> Reviewed-by: Max Reitz<mreitz@redhat.com>
 
-and it replaces some l2_table[] as well.
-
-I found one not-updated case, in qcow2-refcount.c:
-
-        ret = bdrv_pwrite_sync(bs->file, l2e_offset,
-                               &l2_table[i], sizeof(uint64_t));
-
-But on the other hand, if l2_table will be enhanced somehow, this should
-be updated other way, as we don't get l2_entry, but write it...
-
-Also, I don't quite like the naming: you'll update in further patch the interface
-
-to be [gs]et_l2_entry and [gs]et_l2_bitmap..
-
-But get_l2_entry, don't return the whole entry, only one half of it, same for set_l2_entry...
-
-May be, good to make a comment above [gs]et_l2_entry definitions.
-
-anyway,
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
 
 -- 
 Best regards,
