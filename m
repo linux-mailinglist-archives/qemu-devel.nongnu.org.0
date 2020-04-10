@@ -2,86 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF0A91A4576
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 13:06:07 +0200 (CEST)
-Received: from localhost ([::1]:60916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E28201A4578
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 13:07:40 +0200 (CEST)
+Received: from localhost ([::1]:60930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMrU6-00089M-SB
-	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 07:06:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57499)
+	id 1jMrVc-0001L1-0p
+	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 07:07:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57602)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jMrMd-0004gj-38
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 06:58:25 -0400
+ (envelope-from <philmd@redhat.com>) id 1jMrNL-0004nY-Sp
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 06:59:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jMrMX-0004rg-Nn
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 06:58:23 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49121
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jMrNJ-0005Wu-R9
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 06:59:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21574
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jMrMX-0004rB-K7
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 06:58:17 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jMrNJ-0005WV-Nt
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 06:59:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586516297;
+ s=mimecast20190719; t=1586516345;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pa6FI2Gv1z36NGz6y0X8/IW0tvqzA2+GbTYJ9WvUQDo=;
- b=ce/P+nn4gCqUrbpbPDD9GPSd8Az+tTLlnoZz1GqhbM+GWTLfm5FC3hWUTkIuRYdiGqnRIZ
- hLoxJOTnnjRZ6ebFDN4e8w16XN22vTnTlmAOxojwNvEhgTEs6lWI6xjH6Mn12K9se0aUHU
- LZbUEvg4kxxAfHM57diY3DbCU+RZIaQ=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-420-W_4v4ML3Mye5Hj2MIAH_xA-1; Fri, 10 Apr 2020 06:58:13 -0400
-X-MC-Unique: W_4v4ML3Mye5Hj2MIAH_xA-1
-Received: by mail-ed1-f69.google.com with SMTP id w8so1839866ede.0
- for <qemu-devel@nongnu.org>; Fri, 10 Apr 2020 03:58:12 -0700 (PDT)
+ bh=dTX1xg8zW831QXtNEgYAU6hlku4+H6JzFLKELBpBh4U=;
+ b=czrCv31tbgybkklQrBGw1MQeRACiQQXjaldTuWQD6Vxdlg4X77Ovl2psfH/FhMXHupw2RP
+ 2GROAdEZAg3KR8bY1o7oqMbPEpdr0kXDaMwGbqefel3tivieX/J8zE/sKaOceXOXclkbyx
+ ++Pk5OEdEha48bx3Ek/xZHs3LxfSRIw=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-189-9EeONrjlPCOFKjy4c7Xy-w-1; Fri, 10 Apr 2020 06:59:04 -0400
+X-MC-Unique: 9EeONrjlPCOFKjy4c7Xy-w-1
+Received: by mail-ed1-f71.google.com with SMTP id f11so1832067edc.4
+ for <qemu-devel@nongnu.org>; Fri, 10 Apr 2020 03:59:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=en8luydTtqH5FIyueeclYjrK+YGJs5BpjtMiu5ZJDd8=;
- b=sWjon/6HsQAvVFs5OUF/KU751A3a5kg0UmcDh5+nxV8klum11Ak/7Y2AWVv8sgINhP
- CrZDIPIn/CX4kIqs0VBvdKX48wg43ifHNMcwGe4ff7L4bTeqII9tGsIq5AG1BJdlA3Bl
- AUwGv2C979rOgZRwzMFh0gPwS4Lx+9iqtJd+tCysQLWxO39E7R2jniR14b60RFy49L9L
- s6m0yUk2agTnO0lkdgabcjovLtxQXAPfSQy1NE0tcCGlsGrCUcXKSUzZDAD5GZXrFC1K
- hN9IyYsOCZfoEPwnb2nlcfJZYM2jo2JyHH2vaExhAK/d6hUT93gAWQGzr/KINALyKQ6z
- NU+Q==
-X-Gm-Message-State: AGi0PuZ8e1J9nS3WMoi4cyhKnYAf42FB/J2Ilg4s9wgL/PnwPopC0o1M
- LS4JLXCzgKTGdAvx/ZAlVJmPfOKjXbJY3hn48bPu/RRPUin6NJrPJd9h6eUG0YcUyLqA8I+9Jcj
- hJA5Vfn6hU5nwPEg=
-X-Received: by 2002:aa7:d4c4:: with SMTP id t4mr4161942edr.181.1586516291452; 
- Fri, 10 Apr 2020 03:58:11 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKcjle0HiMgRaBALygtf49hTzs8lVIRiU3v1KrktJkDZOsYgURVX3Dzw6AxmGt82F1KGgkWAw==
-X-Received: by 2002:aa7:d4c4:: with SMTP id t4mr4161934edr.181.1586516291250; 
- Fri, 10 Apr 2020 03:58:11 -0700 (PDT)
+ bh=trhecORPaNp8R+G71A0fF221RyXqjQB25KPHwE9c/tQ=;
+ b=UGdOq8xmTutuJzaSQx/YWBhUQRdcD0VB8Jc2koZppWr/kQNsL+9E6ZA5emkLdPGn6N
+ PIWsW5MkOiuyuMXCQjToT4jgFoa6RbOe8mIaInSGl5eIFlxVycAwdZAqQpgU4+VHV7uc
+ jSoAROZMsHuGaUiBg6VfYjqQ9orB1jCDb50Bx4PVe/iBZemRGQHGa3ajeKhGAA9VEqea
+ vS1TvSuhkFZPb6sowFLlqJHeS96xyKE1fx/cGwyX69ELilEbxB6+1nX1rwa1/HEZ0G5f
+ fKHL8n2EEwLuZkfJ/k3qmedetlKthtwMeIGWMnULv/C51ToMSUx4HnUKJWWoUg9CX6Jk
+ c+qw==
+X-Gm-Message-State: AGi0PuYJRJrmvFLBTDfDSrsO1qi6/1RfrH1H0dmaqAEsMn/7NrU98CCR
+ g7h+vsPG0PWeGJBS5eVxb0dP8Q5KJf8FlfSTkH3lnCv6xPUn30Bo/zHBezKJhTnmMYlOhe2lLQt
+ U+kWavCFjJVHmKZQ=
+X-Received: by 2002:a05:6402:1695:: with SMTP id
+ a21mr4129069edv.111.1586516342485; 
+ Fri, 10 Apr 2020 03:59:02 -0700 (PDT)
+X-Google-Smtp-Source: APiQypK/l/svkxCMO01pogRFpUBaVIqPqXD/QtsAJ5m+vp322AXdHyjl7EGHz0Rdmt7j0HB1Z1p5vQ==
+X-Received: by 2002:a05:6402:1695:: with SMTP id
+ a21mr4129056edv.111.1586516342287; 
+ Fri, 10 Apr 2020 03:59:02 -0700 (PDT)
 Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id z13sm80973edj.0.2020.04.10.03.58.10
+ by smtp.gmail.com with ESMTPSA id x1sm99315eju.70.2020.04.10.03.59.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Apr 2020 03:58:10 -0700 (PDT)
-Subject: Re: [PATCH v1 05/11] tests/docker: add docs FEATURE flag and use for
- test-misc
+ Fri, 10 Apr 2020 03:59:01 -0700 (PDT)
+Subject: Re: [PATCH v1 02/11] exec/cpu-all: Use bool for have_guest_base
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20200409211529.5269-1-alex.bennee@linaro.org>
- <20200409211529.5269-6-alex.bennee@linaro.org>
+ <20200409211529.5269-3-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a4e31a27-cca3-2742-719b-a9ff8a300394@redhat.com>
-Date: Fri, 10 Apr 2020 12:58:09 +0200
+Message-ID: <9cf96a98-c59f-7bbe-22b0-b2f59169b8ee@redhat.com>
+Date: Fri, 10 Apr 2020 12:59:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200409211529.5269-6-alex.bennee@linaro.org>
+In-Reply-To: <20200409211529.5269-3-alex.bennee@linaro.org>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,125 +95,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/9/20 11:15 PM, Alex Benn=C3=A9e wrote:
-> The test-misc docker test fails on a number of images which don't have
-> the prerequisites to build the docs. Use the FEATURES flag so we can
-> skip those tests.
+> From: Richard Henderson <richard.henderson@linaro.org>
 >=20
-> As the sphinx test fails to detect whatever feature we need to get
-> hxtool to work we drop them from debian9 so the windows build doesn't
-> attempt to build the docs.
->=20
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 > ---
->   tests/docker/dockerfiles/debian10.docker   | 2 ++
->   tests/docker/dockerfiles/debian9.docker    | 2 --
->   tests/docker/dockerfiles/fedora.docker     | 2 +-
->   tests/docker/dockerfiles/travis.docker     | 2 +-
->   tests/docker/dockerfiles/ubuntu.docker     | 2 +-
->   tests/docker/dockerfiles/ubuntu1804.docker | 2 +-
->   tests/docker/test-misc                     | 2 ++
->   7 files changed, 8 insertions(+), 6 deletions(-)
+>   include/exec/cpu-all.h | 2 +-
+>   bsd-user/main.c        | 4 ++--
+>   linux-user/main.c      | 4 ++--
+>   3 files changed, 5 insertions(+), 5 deletions(-)
 >=20
-> diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dock=
-erfiles/debian10.docker
-> index 2fcdc406e83..0769700a416 100644
-> --- a/tests/docker/dockerfiles/debian10.docker
-> +++ b/tests/docker/dockerfiles/debian10.docker
-> @@ -34,3 +34,5 @@ RUN apt update && \
->           python3-sphinx \
->           texinfo \
->           $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut=
- -d\  -f2)
-> +
-> +ENV FEATURES docs
-> diff --git a/tests/docker/dockerfiles/debian9.docker b/tests/docker/docke=
-rfiles/debian9.docker
-> index 92edbbf0f48..08cc970feb1 100644
-> --- a/tests/docker/dockerfiles/debian9.docker
-> +++ b/tests/docker/dockerfiles/debian9.docker
-> @@ -30,6 +30,4 @@ RUN apt update && \
->           pkg-config \
->           psmisc \
->           python3 \
-> -        python3-sphinx \
-> -        texinfo \
->           $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut=
- -d\  -f2)
-> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/docker=
-files/fedora.docker
-> index 4bd2c953af8..179575ecaaa 100644
-> --- a/tests/docker/dockerfiles/fedora.docker
-> +++ b/tests/docker/dockerfiles/fedora.docker
-> @@ -103,4 +103,4 @@ ENV QEMU_CONFIGURE_OPTS --python=3D/usr/bin/python3
->   RUN dnf install -y $PACKAGES
->   RUN rpm -q $PACKAGES | sort > /packages.txt
->   ENV PATH $PATH:/usr/libexec/python3-sphinx/
-> -ENV FEATURES mingw clang pyyaml asan
-> +ENV FEATURES mingw clang pyyaml asan docs
-> diff --git a/tests/docker/dockerfiles/travis.docker b/tests/docker/docker=
-files/travis.docker
-> index e8eb48dccfd..591282561bc 100644
-> --- a/tests/docker/dockerfiles/travis.docker
-> +++ b/tests/docker/dockerfiles/travis.docker
-> @@ -13,5 +13,5 @@ RUN apt-get -y install device-tree-compiler python3 pyt=
-hon3-yaml dh-autoreconf g
->   # Travis tools require PhantomJS / Neo4j / Maven accessible
->   # in their PATH (QEMU build won't access them).
->   ENV PATH /usr/local/phantomjs/bin:/usr/local/phantomjs:/usr/local/neo4j=
--3.2.7/bin:/usr/local/maven-3.5.2/bin:/usr/local/cmake-3.9.2/bin:/usr/local=
-/clang-5.0.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/b=
-in
-> -ENV FEATURES clang pyyaml
-> +ENV FEATURES clang pyyaml docs
->   USER travis
-> diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/docker=
-files/ubuntu.docker
-> index b6c7b41dddd..eeb3b22bf20 100644
-> --- a/tests/docker/dockerfiles/ubuntu.docker
-> +++ b/tests/docker/dockerfiles/ubuntu.docker
-> @@ -68,4 +68,4 @@ ENV PACKAGES flex bison \
->   RUN apt-get update && \
->       DEBIAN_FRONTEND=3Dnoninteractive apt-get -y install $PACKAGES
->   RUN dpkg -l $PACKAGES | sort > /packages.txt
-> -ENV FEATURES clang pyyaml sdl2
-> +ENV FEATURES clang pyyaml sdl2 docs
-> diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/do=
-ckerfiles/ubuntu1804.docker
-> index 1efedeef995..f66b06f4cff 100644
-> --- a/tests/docker/dockerfiles/ubuntu1804.docker
-> +++ b/tests/docker/dockerfiles/ubuntu1804.docker
-> @@ -54,7 +54,7 @@ ENV PACKAGES flex bison \
->   RUN apt-get update && \
->       DEBIAN_FRONTEND=3Dnoninteractive apt-get -y install $PACKAGES
->   RUN dpkg -l $PACKAGES | sort > /packages.txt
-> -ENV FEATURES clang pyyaml sdl2
-> +ENV FEATURES clang pyyaml sdl2 docs
+> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+> index 49384bb66a5..b4fb5832c4a 100644
+> --- a/include/exec/cpu-all.h
+> +++ b/include/exec/cpu-all.h
+> @@ -159,7 +159,7 @@ static inline void tswap64s(uint64_t *s)
+>    * This allows the guest address space to be offset to a convenient loc=
+ation.
+>    */
+>   extern unsigned long guest_base;
+> -extern int have_guest_base;
+> +extern bool have_guest_base;
+>   extern unsigned long reserved_va;
 >  =20
->   # https://bugs.launchpad.net/qemu/+bug/1838763
->   ENV QEMU_CONFIGURE_OPTS --disable-libssh
-> diff --git a/tests/docker/test-misc b/tests/docker/test-misc
-> index d480afedca7..cc94a738dd0 100755
-> --- a/tests/docker/test-misc
-> +++ b/tests/docker/test-misc
-> @@ -14,6 +14,8 @@
+>   #if HOST_LONG_BITS <=3D TARGET_VIRT_ADDR_SPACE_BITS
+> diff --git a/bsd-user/main.c b/bsd-user/main.c
+> index 770c2b267ad..aef5531628a 100644
+> --- a/bsd-user/main.c
+> +++ b/bsd-user/main.c
+> @@ -42,7 +42,7 @@
+>   int singlestep;
+>   unsigned long mmap_min_addr;
+>   unsigned long guest_base;
+> -int have_guest_base;
+> +bool have_guest_base;
+>   unsigned long reserved_va;
 >  =20
->   . common.rc
+>   static const char *interp_prefix =3D CONFIG_QEMU_INTERP_PREFIX;
+> @@ -828,7 +828,7 @@ int main(int argc, char **argv)
+>               }
+>           } else if (!strcmp(r, "B")) {
+>              guest_base =3D strtol(argv[optind++], NULL, 0);
+> -           have_guest_base =3D 1;
+> +           have_guest_base =3D true;
+>           } else if (!strcmp(r, "drop-ld-preload")) {
+>               (void) envlist_unsetenv(envlist, "LD_PRELOAD");
+>           } else if (!strcmp(r, "bsd")) {
+> diff --git a/linux-user/main.c b/linux-user/main.c
+> index 1d20a83d4e8..90ad365b439 100644
+> --- a/linux-user/main.c
+> +++ b/linux-user/main.c
+> @@ -59,7 +59,7 @@ static const char *cpu_type;
+>   static const char *seed_optarg;
+>   unsigned long mmap_min_addr;
+>   unsigned long guest_base;
+> -int have_guest_base;
+> +bool have_guest_base;
 >  =20
-> +requires docs
-
-TIL 'requires' macro. Clean fix.
+>   /*
+>    * Used to implement backwards-compatibility for the `-strace`, and
+> @@ -334,7 +334,7 @@ static void handle_arg_cpu(const char *arg)
+>   static void handle_arg_guest_base(const char *arg)
+>   {
+>       guest_base =3D strtol(arg, NULL, 0);
+> -    have_guest_base =3D 1;
+> +    have_guest_base =3D true;
+>   }
+>  =20
+>   static void handle_arg_reserved_va(const char *arg)
+>=20
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-> +
->   cd "$BUILD_DIR"
->  =20
->   # build everything else but QEMU
->=20
 
 
