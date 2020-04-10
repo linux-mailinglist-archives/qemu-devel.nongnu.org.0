@@ -2,55 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 996461A4898
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 18:43:41 +0200 (CEST)
-Received: from localhost ([::1]:36916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F07C81A49A2
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 20:02:10 +0200 (CEST)
+Received: from localhost ([::1]:37622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMwkm-0002P1-4N
-	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 12:43:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39929)
+	id 1jMxyj-000430-H7
+	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 14:02:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51988)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1jMwjm-0001vO-3i
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 12:42:38 -0400
+ (envelope-from <bounces@canonical.com>) id 1jMxxa-0003Kk-J1
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 14:01:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1jMwjj-0006gZ-4H
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 12:42:37 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:41008)
+ (envelope-from <bounces@canonical.com>) id 1jMxxY-0007lb-R4
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 14:00:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35744)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1jMwjh-0006de-Hx; Fri, 10 Apr 2020 12:42:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=W7N2zDutPcb+wf3Yub3ll025wkKHdVw1o3eCrYUxKVs=; 
- b=ccHw1LfCLbrL7T1y51AC4xHEwYgXvoyyjLgURdUFJL9G6MoHFuBWPjjKtLv4NWOVJbsb1qPrGWH3O59oeVkwuF7J3H0PMzZ0GMvdvNw90lYGCQEZBkVYAtvZeNT4coUJOuSOpgB2Jzr/zf8Bef0xTqCJoA9JSKdUi2JnCI3kIM8SmK0YtIYUBCrH3vhMbTk/q4o6r9OU4RPgyp86MZGnD9NGWRV76H+svpsOjKtRccs0DuOAHYPXfJS6R9K8jSUFc6CYzH56hNXixT8iag9rb5LOSWwdBm3/nTvWJnGDASz6NZEaLkCSQP46r4aqY/9ZGzRuP+iC71FF2awIniKyAA==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1jMwje-0002Is-Cm; Fri, 10 Apr 2020 18:42:30 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1jMwje-000669-3S; Fri, 10 Apr 2020 18:42:30 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 27/30] qcow2: Assert that expand_zero_clusters_in_l1()
- does not support subclusters
-In-Reply-To: <45fe195e-4635-de14-39af-1f44a155c102@redhat.com>
-References: <cover.1584468723.git.berto@igalia.com>
- <5cc70489bfeb7d2f8f6c8a113dc530cab504db9e.1584468723.git.berto@igalia.com>
- <45fe195e-4635-de14-39af-1f44a155c102@redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Fri, 10 Apr 2020 18:42:30 +0200
-Message-ID: <w51h7xr5m2x.fsf@maestria.local.igalia.com>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jMxxY-0007kd-LK
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 14:00:56 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jMxxW-0007sO-R2
+ for <qemu-devel@nongnu.org>; Fri, 10 Apr 2020 18:00:54 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C1F1D2E8024
+ for <qemu-devel@nongnu.org>; Fri, 10 Apr 2020 18:00:54 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 10 Apr 2020 17:42:53 -0000
+From: =?utf-8?q?Stig-=C3=98rjan_Smelror?= <1872113@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: kekepower
+X-Launchpad-Bug-Reporter: =?utf-8?q?Stig-=C3=98rjan_Smelror_=28kekepower=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Stig-=C3=98rjan_Smelror_=28kekepower=29?=
+Message-Id: <158654057369.6269.6354060003943218170.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1872113] [NEW] qemu docs fails to build with Sphinx 3.0.x
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 6201c602b2f1b948f9c559971efdff908f5427cc
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -59,24 +63,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- qemu-block@nongnu.org, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Denis V . Lunev" <den@openvz.org>
+Reply-To: Bug 1872113 <1872113@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu 09 Apr 2020 12:27:36 PM CEST, Max Reitz wrote:
->> +=== Testing version downgrade with extended L2 entries ===
->> +
->> +Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
->> +qemu-img: Cannot downgrade an image with incompatible features 0x10 set
->
-> This test fails in this commit, because extended_l2 is only available
-> after the next commit.  The code changes and the test itself look good
-> to me, though.
+Public bug reported:
 
-You're right, thanks! Since this one only adds an assertion I'll just
-swap both commits.
+We've just updated Sphinx to version 3.0.1 and qemu fails to build the
+docs with this version.
 
-Berto
+Here's the relevant section in the build log.
+
+CONFDIR=3D"/etc/qemu" /usr/bin/sphinx-build-3  -W -b html -D version=3D4.2.=
+92 -D release=3D"4.2.92 (qemu-5.0.0-0.rc2.0.1.mga8)" -d .doctrees/devel-htm=
+l /home/iurt/rpmbuild/BUILD/qemu-5.0.0-rc2/docs/devel docs/devel
+Running Sphinx v3.0.1
+making output directory... done
+building [mo]: targets for 0 po files that are out of date
+building [html]: targets for 14 source files that are out of date
+updating environment: [new config] 14 added, 0 changed, 0 removed
+reading sources... [  7%] bitops
+reading sources... [ 14%] decodetree
+reading sources... [ 21%] index
+reading sources... [ 28%] kconfig
+reading sources... [ 35%] loads-stores
+reading sources... [ 42%] memory
+reading sources... [ 50%] migration
+reading sources... [ 57%] reset
+reading sources... [ 64%] s390-dasd-ipl
+reading sources... [ 71%] secure-coding-practices
+reading sources... [ 78%] stable-process
+reading sources... [ 85%] tcg
+reading sources... [ 92%] tcg-plugins
+reading sources... [100%] testing
+
+Warning, treated as error:
+/home/iurt/rpmbuild/BUILD/qemu-5.0.0-rc2/docs/../include/exec/memory.h:3:Ty=
+pe must be either just a name or a typedef-like declaration.
+If just a name:
+=C2=A0=C2=A0Error in declarator or parameters
+=C2=A0=C2=A0Invalid C declaration: Expected identifier in nested name, got =
+keyword: struct [error at 6]
+=C2=A0=C2=A0=C2=A0=C2=A0struct MemoryListener
+=C2=A0=C2=A0=C2=A0=C2=A0------^
+If typedef-like declaration:
+=C2=A0=C2=A0Error in declarator or parameters
+=C2=A0=C2=A0Invalid C declaration: Expected identifier in nested name. [err=
+or at 21]
+=C2=A0=C2=A0=C2=A0=C2=A0struct MemoryListener
+=C2=A0=C2=A0=C2=A0=C2=A0---------------------^
+
+make: *** [Makefile:1095: docs/devel/index.html] Error 2
+make: *** Waiting for unfinished jobs....
+
+I found this commit for memory.h that includes the section that faults.
+https://github.com/qemu/qemu/commit/5d248213180749e674fbccbacc6ee9c38499abb=
+3#diff-d892cbf314945b44699534cc1de4ebbd
+
+You can see the whole build log here.
+https://pkgsubmit.mageia.org/uploads/failure/cauldron/core/release/20200410=
+161120.tv.duvel.699/log/qemu-5.0.0-0.rc2.0.1.mga8/build.0.20200410161338.log
+
+System: Mageia Cauldron
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Description changed:
+
+  We've just updated Sphinx to version 3.0.1 and qemu fails to build the
+  docs with this version.
+  =
+
+  Here's the relevant section in the build log.
+  =
+
+- CONFDIR=3D"/etc/qemu" /usr/bin/sphinx-build-3  -W -b html -D version=3D4.=
+2.92 -D release=3D"4.2.92 (qemu-5.0.0-0.rc2.0.1.mga8)" -d .doctrees/devel-h=
+tml /home/iurt/rpmbuild/BUILD/qemu-5.0.0-rc2/docs/devel docs/devel =
+
++ CONFDIR=3D"/etc/qemu" /usr/bin/sphinx-build-3  -W -b html -D version=3D4.=
+2.92 -D release=3D"4.2.92 (qemu-5.0.0-0.rc2.0.1.mga8)" -d .doctrees/devel-h=
+tml /home/iurt/rpmbuild/BUILD/qemu-5.0.0-rc2/docs/devel docs/devel
+  Running Sphinx v3.0.1
+  making output directory... done
+  building [mo]: targets for 0 po files that are out of date
+  building [html]: targets for 14 source files that are out of date
+  updating environment: [new config] 14 added, 0 changed, 0 removed
+  reading sources... [  7%] bitops
+  reading sources... [ 14%] decodetree
+  reading sources... [ 21%] index
+  reading sources... [ 28%] kconfig
+  reading sources... [ 35%] loads-stores
+  reading sources... [ 42%] memory
+  reading sources... [ 50%] migration
+  reading sources... [ 57%] reset
+  reading sources... [ 64%] s390-dasd-ipl
+  reading sources... [ 71%] secure-coding-practices
+  reading sources... [ 78%] stable-process
+  reading sources... [ 85%] tcg
+  reading sources... [ 92%] tcg-plugins
+  reading sources... [100%] testing
+  =
+
+- =
+
+  Warning, treated as error:
+  /home/iurt/rpmbuild/BUILD/qemu-5.0.0-rc2/docs/../include/exec/memory.h:3:=
+Type must be either just a name or a typedef-like declaration.
+  If just a name:
+-   Error in declarator or parameters
+-   Invalid C declaration: Expected identifier in nested name, got keyword:=
+ struct [error at 6]
+-     struct MemoryListener
+-     ------^
++ =C2=A0=C2=A0Error in declarator or parameters
++ =C2=A0=C2=A0Invalid C declaration: Expected identifier in nested name, go=
+t keyword: struct [error at 6]
++ =C2=A0=C2=A0=C2=A0=C2=A0struct MemoryListener
++ =C2=A0=C2=A0=C2=A0=C2=A0------^
+  If typedef-like declaration:
+-   Error in declarator or parameters
+-   Invalid C declaration: Expected identifier in nested name. [error at 21]
+-     struct MemoryListener
+-     ---------------------^
++ =C2=A0=C2=A0Error in declarator or parameters
++ =C2=A0=C2=A0Invalid C declaration: Expected identifier in nested name. [e=
+rror at 21]
++ =C2=A0=C2=A0=C2=A0=C2=A0struct MemoryListener
++ =C2=A0=C2=A0=C2=A0=C2=A0---------------------^
+  =
+
+  make: *** [Makefile:1095: docs/devel/index.html] Error 2
+  make: *** Waiting for unfinished jobs....
+  =
+
+  I found this commit for memory.h that includes the section that faults.
+  https://github.com/qemu/qemu/commit/5d248213180749e674fbccbacc6ee9c38499a=
+bb3#diff-d892cbf314945b44699534cc1de4ebbd
+  =
+
+- You can see the whol build log here.
++ You can see the whole build log here.
+  https://pkgsubmit.mageia.org/uploads/failure/cauldron/core/release/202004=
+10161120.tv.duvel.699/log/qemu-5.0.0-0.rc2.0.1.mga8/build.0.20200410161338.=
+log
+  =
+
+  System: Mageia Cauldron
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1872113
+
+Title:
+  qemu docs fails to build with Sphinx 3.0.x
+
+Status in QEMU:
+  New
+
+Bug description:
+  We've just updated Sphinx to version 3.0.1 and qemu fails to build the
+  docs with this version.
+
+  Here's the relevant section in the build log.
+
+  CONFDIR=3D"/etc/qemu" /usr/bin/sphinx-build-3  -W -b html -D version=3D4.=
+2.92 -D release=3D"4.2.92 (qemu-5.0.0-0.rc2.0.1.mga8)" -d .doctrees/devel-h=
+tml /home/iurt/rpmbuild/BUILD/qemu-5.0.0-rc2/docs/devel docs/devel
+  Running Sphinx v3.0.1
+  making output directory... done
+  building [mo]: targets for 0 po files that are out of date
+  building [html]: targets for 14 source files that are out of date
+  updating environment: [new config] 14 added, 0 changed, 0 removed
+  reading sources... [  7%] bitops
+  reading sources... [ 14%] decodetree
+  reading sources... [ 21%] index
+  reading sources... [ 28%] kconfig
+  reading sources... [ 35%] loads-stores
+  reading sources... [ 42%] memory
+  reading sources... [ 50%] migration
+  reading sources... [ 57%] reset
+  reading sources... [ 64%] s390-dasd-ipl
+  reading sources... [ 71%] secure-coding-practices
+  reading sources... [ 78%] stable-process
+  reading sources... [ 85%] tcg
+  reading sources... [ 92%] tcg-plugins
+  reading sources... [100%] testing
+
+  Warning, treated as error:
+  /home/iurt/rpmbuild/BUILD/qemu-5.0.0-rc2/docs/../include/exec/memory.h:3:=
+Type must be either just a name or a typedef-like declaration.
+  If just a name:
+  =C2=A0=C2=A0Error in declarator or parameters
+  =C2=A0=C2=A0Invalid C declaration: Expected identifier in nested name, go=
+t keyword: struct [error at 6]
+  =C2=A0=C2=A0=C2=A0=C2=A0struct MemoryListener
+  =C2=A0=C2=A0=C2=A0=C2=A0------^
+  If typedef-like declaration:
+  =C2=A0=C2=A0Error in declarator or parameters
+  =C2=A0=C2=A0Invalid C declaration: Expected identifier in nested name. [e=
+rror at 21]
+  =C2=A0=C2=A0=C2=A0=C2=A0struct MemoryListener
+  =C2=A0=C2=A0=C2=A0=C2=A0---------------------^
+
+  make: *** [Makefile:1095: docs/devel/index.html] Error 2
+  make: *** Waiting for unfinished jobs....
+
+  I found this commit for memory.h that includes the section that faults.
+  https://github.com/qemu/qemu/commit/5d248213180749e674fbccbacc6ee9c38499a=
+bb3#diff-d892cbf314945b44699534cc1de4ebbd
+
+  You can see the whole build log here.
+  https://pkgsubmit.mageia.org/uploads/failure/cauldron/core/release/202004=
+10161120.tv.duvel.699/log/qemu-5.0.0-0.rc2.0.1.mga8/build.0.20200410161338.=
+log
+
+  System: Mageia Cauldron
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1872113/+subscriptions
 
