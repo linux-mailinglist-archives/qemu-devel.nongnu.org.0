@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D5DF1A479A
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 16:45:43 +0200 (CEST)
-Received: from localhost ([::1]:35336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11FB41A479B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 16:46:19 +0200 (CEST)
+Received: from localhost ([::1]:35354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMuuc-0005L5-Ey
-	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 10:45:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53010)
+	id 1jMuvB-0005wB-VB
+	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 10:46:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53059)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jMutI-0004Fl-5C
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 10:44:21 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jMutT-0004Vh-BO
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 10:44:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jMutH-0004UL-69
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 10:44:20 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:40091)
+ (envelope-from <richard.henderson@linaro.org>) id 1jMutR-0004lN-C9
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 10:44:30 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:55828)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jMutH-0004T9-0e
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 10:44:19 -0400
-Received: by mail-pg1-x544.google.com with SMTP id c5so1063657pgi.7
- for <qemu-devel@nongnu.org>; Fri, 10 Apr 2020 07:44:18 -0700 (PDT)
+ id 1jMutR-0004k1-6q
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 10:44:29 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id a32so848643pje.5
+ for <qemu-devel@nongnu.org>; Fri, 10 Apr 2020 07:44:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=sxKgp4+6IowN7KloiCvSUhWbu6aFX/0Rmfz4AXGiLnQ=;
- b=MPUI8UFxhKMmJ0OC8amSftyxwHsL9bgpk38+Fp/ZtHvOJP7WhuwyMocMXsE+NeMNee
- tkdBoBZpFyykhEgumrJqNBkDyRXCDXp98+4PTrayWmEmssMxj+rP7VowLG4kIKD/X2PN
- h8ou5tedSp6v41d/VhUB9uAvOyGiUM2NHQa9NHlPsOW2Y6fbpO3rCdmutImdgLZbXaRd
- et9IbWJPttfi8+ZBmuUKdGfRZ27yLIdlauNe5rxsD9Isp0VJ/khgu1ffeiV62VO8iKoU
- vvFy412DUd8EVBVtmovyquuAhmLWImnCIYmHV3oinoJHknluIYp41TtVnna/85ACnJUN
- Fn9Q==
+ bh=9iokJ5CCd8GDiPgiQ6G0CP+zEPYyk7zTwssL54FPTUM=;
+ b=wpOI3nV8mhVwSvCYQWDvVrHqSzfOnxyVCdAWJRumDXCX9FAbKNk7kKSvJXEES7tzun
+ 4sxlffqoVrAle6uqRoZ2AqUFGQTkYNgm0PQ7xhXkRmb7SvcycntjhaBcZ8FWOfaF7Q5u
+ RoMP9D8P/rPyhjrlZ/qJZ4BLtu4NaUtQHudD36qzRQDARD+zdk32E8dmx4sxjvzQzK5J
+ OzqjKA5URi05i7NBnno4+XhiM0NLTeznSTYMgeDuvOaQCHjH03tCHlUh+bWesdTrF/Gn
+ utrh6UFpQUUnyiTZxs0fssk1Gu5nGim0BPnb/hJekYYFv87Opu7RMm8K6+ILk5onmWsl
+ w+aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=sxKgp4+6IowN7KloiCvSUhWbu6aFX/0Rmfz4AXGiLnQ=;
- b=Ks5MoKrnltg6hQg4st2nzcuAmS75dEcVJk8NLS6suUVyPpzt+Pt67byYW25OL4XCzF
- WMhSkom25li8ako28YDUBBIw6wfu+16Ti7zxAFeaM2Urt2wa+dt7VnyxW+C1FitmzIPz
- WumFCteDiY0esemaFa3e4oHARl6l9lgANfFLr4hnoRqWaZbNj19gOYEyAVbRQS6xXkSp
- MiELiJn4Vmerf9cmo9XsX8vq89+hdR3nCAY88yghTvXnla+yKye6HZm9TXbQXWutwqJu
- cATAH1sxFFGBdsVcN+zSczjRbON8V6x/Vx67P/MA8Cl5AFG4ccNxz071YKl3NpmCPzgq
- WA3A==
-X-Gm-Message-State: AGi0PuYMSuO/CEs3GW7fdyPOY6RwgImc+YnbUFLJPHoxcyzWQoedbm8K
- +kxl6jH51xRpNMYZuIcc86NguQ==
-X-Google-Smtp-Source: APiQypKuISQqrRy6WKnw8HUi09GyOeLeJe+s5QsyLCXQOIQQ0hrvd2uMyNsnlGul0ZQ+6/GSQ2PyQw==
-X-Received: by 2002:a63:ca41:: with SMTP id o1mr4955526pgi.419.1586529858150; 
- Fri, 10 Apr 2020 07:44:18 -0700 (PDT)
+ bh=9iokJ5CCd8GDiPgiQ6G0CP+zEPYyk7zTwssL54FPTUM=;
+ b=CQZ2hOL8Z+oVm9o9AFEaiyrKNnoETkvUpEhH3VrmeFPY24na32THeiQ4woB0gK0Zm6
+ zo81wXLaagmKxLkRSJa1ePEJqY3USKUBh0RUr9PVO8f+kDogsigZfH8oDZlGxU5EYloP
+ 2W0ng/hi2siiONvhQc70E1/d07GdX/Mnd4M/iVcX68lDgJ0Oa2OtpGzl1EX+Tufj5J4L
+ 7fwwU0vPWuJBiEHOW/soDLwO/wd80HqJ82YY+ZJEVufdvQH8kQ8uuR4C7LyFa9gFBrW2
+ g0EynBY/WpjfjJDyKsMuG358Bs4v/cAz+xDB8/swjlf3KF9gInFptcWGu2U7CqkMDfwC
+ w3fw==
+X-Gm-Message-State: AGi0PuYDRsxxv+M2HBHkmmbSJG0mbXOlTBuPh+WrPnNW0yjGppwj7Aud
+ 51jJebAtWlH7Mv6Ttx7duCNTGg==
+X-Google-Smtp-Source: APiQypJ50IIFeOAxzwzaQO0H50MS+NpirigiPQb1ehvL2GJN5Vcg7a+BgnHvGSnscUTGmJ6/hd7B5w==
+X-Received: by 2002:a17:90b:3789:: with SMTP id
+ mz9mr5873662pjb.38.1586529868130; 
+ Fri, 10 Apr 2020 07:44:28 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id b26sm1950246pfd.98.2020.04.10.07.44.17
+ by smtp.gmail.com with ESMTPSA id g9sm1752139pgj.89.2020.04.10.07.44.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Apr 2020 07:44:17 -0700 (PDT)
-Subject: Re: [PATCH v1 09/11] gdbstub: i386: Fix gdb_get_reg16() parameter to
- unbreak gdb
+ Fri, 10 Apr 2020 07:44:27 -0700 (PDT)
+Subject: Re: [PATCH v1 08/11] target/m68k/helper: Fix m68k_fpu_gdb_get_reg()
+ use of GByteArray
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20200409211529.5269-1-alex.bennee@linaro.org>
- <20200409211529.5269-10-alex.bennee@linaro.org>
+ <20200409211529.5269-9-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <eb994b95-e70e-50a0-fc60-8734d28f8bd6@linaro.org>
-Date: Fri, 10 Apr 2020 07:44:15 -0700
+Message-ID: <8aedd9e0-2288-26f4-53ce-468af0413eed@linaro.org>
+Date: Fri, 10 Apr 2020 07:44:25 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200409211529.5269-10-alex.bennee@linaro.org>
+In-Reply-To: <20200409211529.5269-9-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+X-Received-From: 2607:f8b0:4864:20::1042
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,28 +85,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Peter Xu <peterx@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/9/20 2:15 PM, Alex Bennée wrote:
-> From: Peter Xu <peterx@redhat.com>
+> From: Philippe Mathieu-Daudé <philmd@redhat.com>
 > 
-> We should only pass in gdb_get_reg16() with the GByteArray* object
-> itself, no need to shift.  Without this patch, gdb remote attach will
-> crash QEMU.
+> Since a010bdbe719 the gdbstub API takes a GByteArray*. Unfortunately
+> we forgot to update the gdb_get_reg*() calls. Do it now.
 > 
 > Fixes: a010bdbe719 ("extend GByteArray to read register helpers")
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Reported-by: Peter Xu <peterx@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> Reviewed-by: Peter Xu <peterx@redhat.com>
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Message-Id: <20200409164954.36902-3-peterx@redhat.com>
+> Message-Id: <20200409172509.4078-1-philmd@redhat.com>
 > ---
->  target/i386/gdbstub.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  target/m68k/helper.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
