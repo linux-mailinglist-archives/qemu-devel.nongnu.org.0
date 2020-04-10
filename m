@@ -2,90 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B4A41A4574
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 13:03:02 +0200 (CEST)
-Received: from localhost ([::1]:60890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B781A4577
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 13:07:06 +0200 (CEST)
+Received: from localhost ([::1]:60924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMrR7-00060t-3s
-	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 07:03:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56915)
+	id 1jMrV3-0000fw-FE
+	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 07:07:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58123)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jMrKN-00048Z-GU
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 06:56:04 -0400
+ (envelope-from <bounces@canonical.com>) id 1jMrTk-0008HV-6B
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 07:05:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jMrKL-0002yy-8F
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 06:56:02 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58972
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jMrKL-0002xk-52
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 06:56:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586516159;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kOLA7AqaqpADD0ZR9/oqBIrBUf1FjNrKODwO5g6ohmU=;
- b=i+0QFEROsJilopX32V2NyVS1MunKMKbNW4AfNI5GfIDHYRRX9qSVuiqSljkuZDwvWznXCt
- p2gTkUEC6a/GlekmT8Cpe5siohKO/zPTfiY91bEzBQhia21Sh9bXegkNiV/c7lwABRGTmi
- y4nsnW1t+LrYcqgdZEKzE1DTbZdy04Q=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-ehoVO-bXNjOhG-0ZSIcV1Q-1; Fri, 10 Apr 2020 06:55:56 -0400
-X-MC-Unique: ehoVO-bXNjOhG-0ZSIcV1Q-1
-Received: by mail-ed1-f72.google.com with SMTP id f11so1828142edc.4
- for <qemu-devel@nongnu.org>; Fri, 10 Apr 2020 03:55:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+Qy0+sxx9vY8LwqhMfzG/MM9udzfMVKhxBEV71lHBa8=;
- b=OpCkYfLgsMP86h18JYicJk6FR3Q7q0RaFduNg1Z37plE0Aq74tmbz6nwQ/wWMA+ebu
- jV4JV6AnKe/Oeh/NwCl9/hklAwKWddi6F8/dYfO9+QVkxEV8DhqYJwKZargFlyFBbrp/
- sRAEVtPEi5nYPWMZUJU+JUIVuhpmVd4xtHGS05davFWh0q4urHVHVk9nVX8yvaIxPblG
- riEGQ9afPHjGn4ej+3uAWHgcFBthhfkSlIXRtj/ELlFztgUgceKkEbRZKGMc9gOAboE0
- 8qeGpAyqM47XydgZKQRtklqV7rryk+5SLzYmawPGQui8wNS8G6F3gnyJckx9mwL2QB3Y
- RuAA==
-X-Gm-Message-State: AGi0PuYD51rtO+NZRcI44RBXkzgJFVkpK2XUT+xBj5UapPoIu70JiB8H
- vQThV0YQ/wqbgB7CkGawhxHuA3kZP8iJZ33ZhHS/LgQdOaH4OInWX/vBmHRJd+LAZYCkw6Hs4Wc
- TzUP/ZtRHuBgJNQk=
-X-Received: by 2002:a17:907:270c:: with SMTP id
- w12mr3373498ejk.258.1586516154840; 
- Fri, 10 Apr 2020 03:55:54 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIbvYsXf+Sj3ctP1EpcO3kqssWOcQsBcbeAmJ8KeeO+BuBrgtm+86EyXYH7jwbpxIpbnCLUdQ==
-X-Received: by 2002:a17:907:270c:: with SMTP id
- w12mr3373485ejk.258.1586516154564; 
- Fri, 10 Apr 2020 03:55:54 -0700 (PDT)
-Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id ar26sm92759ejc.52.2020.04.10.03.55.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Apr 2020 03:55:54 -0700 (PDT)
-Subject: Re: [PATCH v1 07/11] configure: disable PIE for Windows builds
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20200409211529.5269-1-alex.bennee@linaro.org>
- <20200409211529.5269-8-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <427d4303-f69b-bbf8-7b2d-12805c61f816@redhat.com>
-Date: Fri, 10 Apr 2020 12:55:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <bounces@canonical.com>) id 1jMrTj-0001gz-0S
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 07:05:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47788)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jMrTi-0001g7-Qb
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 07:05:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jMrTh-0004d4-1A
+ for <qemu-devel@nongnu.org>; Fri, 10 Apr 2020 11:05:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 05FFD2E8104
+ for <qemu-devel@nongnu.org>; Fri, 10 Apr 2020 11:05:41 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200409211529.5269-8-alex.bennee@linaro.org>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Fri, 10 Apr 2020 10:55:52 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1871798@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: configure pie windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee cat-7 chewi philmd
+X-Launchpad-Bug-Reporter: James Le Cuirot (chewi)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <158642182265.5805.199845175533907355.malonedeb@chaenomeles.canonical.com>
+ <20200409211529.5269-8-alex.bennee@linaro.org>
+Message-Id: <427d4303-f69b-bbf8-7b2d-12805c61f816@redhat.com>
+Subject: [Bug 1871798] Re: [PATCH v1 07/11] configure: disable PIE for Windows
+ builds
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 5b91f02fd74928a08fe2a9e173ffce91633d79f4
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -94,17 +69,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bug 1871798 <1871798@bugs.launchpad.net>,
- James Le Cuirot <chewi@aura-online.co.uk>
+Reply-To: Bug 1871798 <1871798@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/9/20 11:15 PM, Alex Benn=C3=A9e wrote:
 > It seems on some compilers the test can pass but still give you
 > broken binaries.
->=20
+> =
+
 > [AJB untested - please could windows users test]
->=20
+> =
+
 > Fixes: d2cd29e30736
 > Fixes: https://bugs.launchpad.net/qemu/+bug/1871798
 > Cc: Bug 1871798 <1871798@bugs.launchpad.net>
@@ -113,7 +89,8 @@ On 4/9/20 11:15 PM, Alex Benn=C3=A9e wrote:
 > ---
 >   configure | 1 +
 >   1 file changed, 1 insertion(+)
->=20
+> =
+
 > diff --git a/configure b/configure
 > index a207cce82bc..e9c5f630c14 100755
 > --- a/configure
@@ -126,8 +103,30 @@ On 4/9/20 11:15 PM, Alex Benn=C3=A9e wrote:
 >   ;;
 >   GNU/kFreeBSD)
 >     bsd=3D"yes"
->=20
+> =
+
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1871798
+
+Title:
+  Fails to start on Windows host without explicit --disable-pie
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Since commit d2cd29e30736afd4a1e8cac3cf4da360bbc65978, which removed
+  the x86 conditional around PIE, QEMU completely fails to start on a
+  Windows host unless --disable-pie is explicitly given at build time.
+  Even just requesting the help text doesn't work. To make testing
+  easier, this can be replicated with Wine.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1871798/+subscriptions
 
