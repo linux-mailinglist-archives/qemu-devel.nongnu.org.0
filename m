@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B4E11A428B
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EFE81A428C
 	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 08:36:17 +0200 (CEST)
-Received: from localhost ([::1]:59156 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:59160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMnGx-0000U8-Rk
-	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 02:36:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34130)
+	id 1jMnGy-0000Z5-GU
+	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 02:36:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34129)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chenyi.qiang@intel.com>) id 1jMnFa-0007HR-US
+ (envelope-from <chenyi.qiang@intel.com>) id 1jMnFa-0007HQ-V0
  for qemu-devel@nongnu.org; Fri, 10 Apr 2020 02:34:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chenyi.qiang@intel.com>) id 1jMnFZ-0007DH-S1
+ (envelope-from <chenyi.qiang@intel.com>) id 1jMnFZ-0007DM-SX
  for qemu-devel@nongnu.org; Fri, 10 Apr 2020 02:34:50 -0400
-Received: from mga07.intel.com ([134.134.136.100]:42754)
+Received: from mga07.intel.com ([134.134.136.100]:42757)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <chenyi.qiang@intel.com>)
- id 1jMnFZ-0007Al-Ks
+ id 1jMnFZ-0007BO-LK
  for qemu-devel@nongnu.org; Fri, 10 Apr 2020 02:34:49 -0400
-IronPort-SDR: pJG3Fu6NFW3bZ4WL4gUp0xIjN885Z7GTiGQKJQNRe+PFbiZ436P/vMnZeVGgSoSeOTgKQq4EV3
- dqyxgnPQq2dA==
+IronPort-SDR: EGEVUS0wPxpD4VnSD2Y8ZuKxj4qOW9ROCXvZ1TTKeKgWiF4v1GOAzM6EpeKjWKcCHky8q2u6h8
+ 7GYnIF7Csk0g==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Apr 2020 23:34:45 -0700
-IronPort-SDR: Uco3NC7Aq9glRaJPkQboPZUdWo2tcAa0ZOHgv1N5ci94A/T+DNLCChRRKwZMTM2BPrlWpVezG8
- AWScmpiaziSA==
+ 09 Apr 2020 23:34:47 -0700
+IronPort-SDR: R2p4DFymLWwVHchEGoYrdiv087rMj6e2XpD2eJbqcTblmkCifkAQPIa8nmMcvz9PDs4u40mHM/
+ 5DATugx0FWGQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,364,1580803200"; d="scan'208";a="425800277"
+X-IronPort-AV: E=Sophos;i="5.72,364,1580803200"; d="scan'208";a="425800280"
 Received: from chenyi-pc.sh.intel.com ([10.239.159.72])
- by orsmga005.jf.intel.com with ESMTP; 09 Apr 2020 23:34:43 -0700
+ by orsmga005.jf.intel.com with ESMTP; 09 Apr 2020 23:34:45 -0700
 From: Chenyi Qiang <chenyi.qiang@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
  Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH v3 3/4] target/i386: add the missing features for
- Icelake-Server CPU model
-Date: Fri, 10 Apr 2020 14:35:54 +0800
-Message-Id: <20200410063555.2309-4-chenyi.qiang@intel.com>
+Subject: [PATCH v3 4/4] target/i386: modify Icelake-Server CPU model number
+Date: Fri, 10 Apr 2020 14:35:55 +0800
+Message-Id: <20200410063555.2309-5-chenyi.qiang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200410063555.2309-1-chenyi.qiang@intel.com>
 References: <20200410063555.2309-1-chenyi.qiang@intel.com>
@@ -62,35 +61,27 @@ Cc: Xiaoyao Li <xiaoyao.li@intel.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the SHA_NI and AVX512IFMA feature bits in FEAT_7_0_EBX, RDPID
-feature bit in FEAT_7_0_ECX and FSRM feature bit in FEAT_7_0_EDX.
+According to the Intel Icelake family list, Icelake-Server uses model
+number 106(0x6A).
 
 Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
 ---
- target/i386/cpu.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ target/i386/cpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 4bbe9f0948..d2f8a276c4 100644
+index d2f8a276c4..04bcf01b5a 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -3488,6 +3488,16 @@ static X86CPUDefinition builtin_x86_defs[] = {
-                     { /* end of list */ }
-                 },
-             },
-+            {
-+                .version = 4,
-+                .props = (PropValue[]) {
-+                    { "sha-ni", "on" },
-+                    { "avx512ifma", "on" },
-+                    { "rdpid", "on" },
-+                    { "fsrm", "on" },
-+                    { /* end of list */ }
-+                },
-+            },
-             { /* end of list */ }
-         }
-     },
+@@ -3364,7 +3364,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+         .level = 0xd,
+         .vendor = CPUID_VENDOR_INTEL,
+         .family = 6,
+-        .model = 134,
++        .model = 106,
+         .stepping = 0,
+         .features[FEAT_1_EDX] =
+             CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX |
 -- 
 2.17.1
 
