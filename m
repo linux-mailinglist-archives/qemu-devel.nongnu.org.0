@@ -2,65 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58B781A4577
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 13:07:06 +0200 (CEST)
-Received: from localhost ([::1]:60924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A50741A4575
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Apr 2020 13:04:35 +0200 (CEST)
+Received: from localhost ([::1]:60896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jMrV3-0000fw-FE
-	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 07:07:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58123)
+	id 1jMrSc-0006uS-Pp
+	for lists+qemu-devel@lfdr.de; Fri, 10 Apr 2020 07:04:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57082)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jMrTk-0008HV-6B
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 07:05:48 -0400
+ (envelope-from <philmd@redhat.com>) id 1jMrL2-0004EH-Dy
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 06:56:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jMrTj-0001gz-0S
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 07:05:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47788)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jMrTi-0001g7-Qb
- for qemu-devel@nongnu.org; Fri, 10 Apr 2020 07:05:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jMrTh-0004d4-1A
- for <qemu-devel@nongnu.org>; Fri, 10 Apr 2020 11:05:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 05FFD2E8104
- for <qemu-devel@nongnu.org>; Fri, 10 Apr 2020 11:05:41 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1jMrL0-0003bT-Vw
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 06:56:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26352
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jMrL0-0003ae-SC
+ for qemu-devel@nongnu.org; Fri, 10 Apr 2020 06:56:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586516202;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0SaFtYGCjXLPfPjxDb7OB/4Vn7dtSugdx73n9Ucs8Y4=;
+ b=L6ud53dRHoRbOLm5FednHZMSkroz8yh/THTcNWsv//+Kd5X5Nc4ajGLT/335QJl1e8U4/r
+ vys++MpZDXng7YzKbluUxizO4EM+oG84AyG3QbU0UOFBSNmPUKDo4cHvvM0k/ddjmPyNlh
+ iPJzOZI/Og+YvemcQeniZ+ZiR9g/W2E=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-303-l1Pr6gpZOLWM1mRI3TF5bg-1; Fri, 10 Apr 2020 06:56:40 -0400
+X-MC-Unique: l1Pr6gpZOLWM1mRI3TF5bg-1
+Received: by mail-ed1-f71.google.com with SMTP id eb6so1803599edb.12
+ for <qemu-devel@nongnu.org>; Fri, 10 Apr 2020 03:56:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=BAVLweB6R5UwaGyQBJu7yfQgvnm8za2nkyZt9mVeWYE=;
+ b=YpKlVNojqJX3MU+lbIWIGmQRC4nHH9g3w0r2iXlP9kisMDv67HqOBU2FkDwZSXkHHS
+ YRORqP2TEf9ZN418mWH7B54DRwSvAp2Nyq7M9PaYWI67eBgvZIR+epLg19nKsaDm2QHT
+ hehGMjJXO6FkWRmo767fVmR/IQBXePwJ1e/rLZhrnv8y780mKylYD5e4ThzmtrrlR88n
+ oS2Wy4uf+X/wMXTz2nbAvtJOH+xPXGslWvVZRywqJv1mctqMHCI7k/w9MUrNHcEHS7Wb
+ udj43Rv0vbENgj1yq4zWvfoYIPS37CqAZSbzUKFhmGzdIlkaW6yEwTTdfA4JJamKzfgB
+ micg==
+X-Gm-Message-State: AGi0PuaWqJ81RaYksTv/sBVyqQ7BlrI8uwcYVSxKihuj/HxHQqOTPAe+
+ e2MtNe88zI2NOuVVRQJs+K0yvsjm7nRZuAPEvOg/UC3YwAr3pHJrLJbi2GEZyTe3J5961omxwp5
+ hWv+268IQQVJEe7Y=
+X-Received: by 2002:a17:906:258a:: with SMTP id
+ m10mr3352837ejb.255.1586516198781; 
+ Fri, 10 Apr 2020 03:56:38 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLKtlm8WevB7UuTl5VX6UYddy9xxPEL7LAc1dnWycfUJcZKVBqxd2huxskK0dkwkwaOZ7vMAw==
+X-Received: by 2002:a17:906:258a:: with SMTP id
+ m10mr3352825ejb.255.1586516198590; 
+ Fri, 10 Apr 2020 03:56:38 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id w3sm98453ejf.21.2020.04.10.03.56.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Apr 2020 03:56:38 -0700 (PDT)
+Subject: Re: [PATCH v1 06/11] configure: redirect sphinx-build check to
+ config.log
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200409211529.5269-1-alex.bennee@linaro.org>
+ <20200409211529.5269-7-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <b8c8e6a7-7c9e-4b9f-2e7c-3cc4135aec39@redhat.com>
+Date: Fri, 10 Apr 2020 12:56:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200409211529.5269-7-alex.bennee@linaro.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 10 Apr 2020 10:55:52 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1871798@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: configure pie windows
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee cat-7 chewi philmd
-X-Launchpad-Bug-Reporter: James Le Cuirot (chewi)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <158642182265.5805.199845175533907355.malonedeb@chaenomeles.canonical.com>
- <20200409211529.5269-8-alex.bennee@linaro.org>
-Message-Id: <427d4303-f69b-bbf8-7b2d-12805c61f816@redhat.com>
-Subject: [Bug 1871798] Re: [PATCH v1 07/11] configure: disable PIE for Windows
- builds
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 5b91f02fd74928a08fe2a9e173ffce91633d79f4
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,64 +96,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1871798 <1871798@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/9/20 11:15 PM, Alex Benn=C3=A9e wrote:
-> It seems on some compilers the test can pass but still give you
-> broken binaries.
-> =
-
-> [AJB untested - please could windows users test]
-> =
-
-> Fixes: d2cd29e30736
-> Fixes: https://bugs.launchpad.net/qemu/+bug/1871798
-> Cc: Bug 1871798 <1871798@bugs.launchpad.net>
-> Cc: James Le Cuirot <chewi@aura-online.co.uk>
+> Otherwise it's hard to debug whats going on.
+>=20
 > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 > ---
->   configure | 1 +
->   1 file changed, 1 insertion(+)
-> =
-
+>   configure | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
 > diff --git a/configure b/configure
-> index a207cce82bc..e9c5f630c14 100755
+> index 233c671aaa9..a207cce82bc 100755
 > --- a/configure
 > +++ b/configure
-> @@ -807,6 +807,7 @@ MINGW32*)
->       audio_drv_list=3D""
->     fi
->     supported_os=3D"yes"
-> +  pie=3D"no"
->   ;;
->   GNU/kFreeBSD)
->     bsd=3D"yes"
-> =
-
+> @@ -4936,7 +4936,7 @@ has_sphinx_build() {
+>       # sphinx-build doesn't exist at all or if it is too old.
+>       mkdir -p "$TMPDIR1/sphinx"
+>       touch "$TMPDIR1/sphinx/index.rst"
+> -    "$sphinx_build" -c "$source_path/docs" -b html "$TMPDIR1/sphinx" "$T=
+MPDIR1/sphinx/out" >/dev/null 2>&1
+> +    "$sphinx_build" -c "$source_path/docs" -b html "$TMPDIR1/sphinx" "$T=
+MPDIR1/sphinx/out" >> config.log 2>&1
+>   }
+>  =20
+>   # Check if tools are available to build documentation.
+>=20
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1871798
-
-Title:
-  Fails to start on Windows host without explicit --disable-pie
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Since commit d2cd29e30736afd4a1e8cac3cf4da360bbc65978, which removed
-  the x86 conditional around PIE, QEMU completely fails to start on a
-  Windows host unless --disable-pie is explicitly given at build time.
-  Even just requesting the help text doesn't work. To make testing
-  easier, this can be replicated with Wine.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1871798/+subscriptions
 
