@@ -2,35 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA6D61A4DD4
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Apr 2020 06:22:33 +0200 (CEST)
-Received: from localhost ([::1]:48642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C4BD1A4DCA
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Apr 2020 06:17:56 +0200 (CEST)
+Received: from localhost ([::1]:48546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jN7f6-0001hv-QO
-	for lists+qemu-devel@lfdr.de; Sat, 11 Apr 2020 00:22:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47199)
+	id 1jN7ac-0001p8-W3
+	for lists+qemu-devel@lfdr.de; Sat, 11 Apr 2020 00:17:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47051)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jiangyifei@huawei.com>) id 1jN7Ze-0000N2-Od
- for qemu-devel@nongnu.org; Sat, 11 Apr 2020 00:16:55 -0400
+ (envelope-from <jiangyifei@huawei.com>) id 1jN7ZV-0000BO-Iv
+ for qemu-devel@nongnu.org; Sat, 11 Apr 2020 00:16:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jiangyifei@huawei.com>) id 1jN7ZT-0006M7-VL
- for qemu-devel@nongnu.org; Sat, 11 Apr 2020 00:16:53 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3739 helo=huawei.com)
+ (envelope-from <jiangyifei@huawei.com>) id 1jN7ZU-0006MP-2T
+ for qemu-devel@nongnu.org; Sat, 11 Apr 2020 00:16:45 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3740 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jiangyifei@huawei.com>)
- id 1jN7ZT-0006L7-L6; Sat, 11 Apr 2020 00:16:43 -0400
+ id 1jN7ZT-0006L8-Nh; Sat, 11 Apr 2020 00:16:44 -0400
 Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 74309DF672F0D1670750;
+ by Forcepoint Email with ESMTP id 6E36319CAD27E4DABFCC;
  Sat, 11 Apr 2020 12:16:40 +0800 (CST)
 Received: from huawei.com (10.173.222.107) by DGGEMS408-HUB.china.huawei.com
  (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Sat, 11 Apr 2020
  12:16:33 +0800
 From: Yifei Jiang <jiangyifei@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
-Subject: [PATCH RFC v2 1/9] linux-header: Update linux/kvm.h
-Date: Sat, 11 Apr 2020 12:14:19 +0800
-Message-ID: <20200411041427.14828-2-jiangyifei@huawei.com>
+Subject: [PATCH RFC v2 2/9] target/riscv: Add target/riscv/kvm.c to place the
+ public kvm interface
+Date: Sat, 11 Apr 2020 12:14:20 +0800
+Message-ID: <20200411041427.14828-3-jiangyifei@huawei.com>
 X-Mailer: git-send-email 2.14.1.windows.1
 In-Reply-To: <20200411041427.14828-1-jiangyifei@huawei.com>
 References: <20200411041427.14828-1-jiangyifei@huawei.com>
@@ -60,41 +61,175 @@ Cc: victor.zhangxiaofeng@huawei.com, zhang.zhanghailiang@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update linux/kvm.h to commit b9a6e4cd9 on https://github.com/kvm-riscv/linux.
-Only use this header file, so do not update all linux headers.
+Add target/riscv/kvm.c to place kvm_arch_* function needed by kvm/kvm-all.c.
+Meanwhile, add kvm support in configure file.
 
 Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
 Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
 ---
- linux-headers/linux/kvm.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ configure                  |   1 +
+ target/riscv/Makefile.objs |   1 +
+ target/riscv/kvm.c         | 128 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 130 insertions(+)
+ create mode 100644 target/riscv/kvm.c
 
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index 265099100e..7cfc111af5 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -236,6 +236,7 @@ struct kvm_hyperv_exit {
- #define KVM_EXIT_IOAPIC_EOI       26
- #define KVM_EXIT_HYPERV           27
- #define KVM_EXIT_ARM_NISV         28
-+#define KVM_EXIT_RISCV_SBI        28
+diff --git a/configure b/configure
+index 233c671aaa..7114a1c64d 100755
+--- a/configure
++++ b/configure
+@@ -200,6 +200,7 @@ supported_kvm_target() {
+         x86_64:i386 | x86_64:x86_64 | x86_64:x32 | \
+         mips:mips | mipsel:mips | \
+         ppc:ppc | ppc64:ppc | ppc:ppc64 | ppc64:ppc64 | ppc64:ppc64le | \
++        riscv32:riscv32 | riscv64:riscv64 | \
+         s390x:s390x)
+             return 0
+         ;;
+diff --git a/target/riscv/Makefile.objs b/target/riscv/Makefile.objs
+index ff651f69f6..7ea8f4c3da 100644
+--- a/target/riscv/Makefile.objs
++++ b/target/riscv/Makefile.objs
+@@ -1,5 +1,6 @@
+ obj-y += translate.o op_helper.o cpu_helper.o cpu.o csr.o fpu_helper.o gdbstub.o
+ obj-$(CONFIG_SOFTMMU) += pmp.o
++obj-$(CONFIG_KVM) += kvm.o
  
- /* For KVM_EXIT_INTERNAL_ERROR */
- /* Emulate instruction failed. */
-@@ -400,6 +401,13 @@ struct kvm_run {
- 			__u64 esr_iss;
- 			__u64 fault_ipa;
- 		} arm_nisv;
-+		/* KVM_EXIT_RISCV_SBI */
-+		struct {
-+			unsigned long extension_id;
-+			unsigned long function_id;
-+			unsigned long args[6];
-+			unsigned long ret[2];
-+		} riscv_sbi;
- 		/* Fix the size of the union. */
- 		char padding[256];
- 	};
+ ifeq ($(CONFIG_SOFTMMU),y)
+ obj-y += monitor.o
+diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
+new file mode 100644
+index 0000000000..8c386d9acf
+--- /dev/null
++++ b/target/riscv/kvm.c
+@@ -0,0 +1,128 @@
++/*
++ * RISC-V implementation of KVM hooks
++ *
++ * Copyright (c) 2020 Huawei Technologies Co., Ltd
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include <sys/ioctl.h>
++
++#include <linux/kvm.h>
++
++#include "qemu-common.h"
++#include "qemu/timer.h"
++#include "qemu/error-report.h"
++#include "qemu/main-loop.h"
++#include "sysemu/sysemu.h"
++#include "sysemu/kvm.h"
++#include "sysemu/kvm_int.h"
++#include "cpu.h"
++#include "trace.h"
++#include "hw/pci/pci.h"
++#include "exec/memattrs.h"
++#include "exec/address-spaces.h"
++#include "hw/boards.h"
++#include "hw/irq.h"
++#include "qemu/log.h"
++#include "hw/loader.h"
++
++const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
++    KVM_CAP_LAST_INFO
++};
++
++int kvm_arch_get_registers(CPUState *cs)
++{
++    return 0;
++}
++
++int kvm_arch_put_registers(CPUState *cs, int level)
++{
++    return 0;
++}
++
++int kvm_arch_release_virq_post(int virq)
++{
++    return 0;
++}
++
++int kvm_arch_fixup_msi_route(struct kvm_irq_routing_entry *route,
++                             uint64_t address, uint32_t data, PCIDevice *dev)
++{
++    return 0;
++}
++
++int kvm_arch_destroy_vcpu(CPUState *cs)
++{
++    return 0;
++}
++
++unsigned long kvm_arch_vcpu_id(CPUState *cpu)
++{
++    return cpu->cpu_index;
++}
++
++void kvm_arch_init_irq_routing(KVMState *s)
++{
++}
++
++int kvm_arch_init_vcpu(CPUState *cs)
++{
++    return 0;
++}
++
++int kvm_arch_msi_data_to_gsi(uint32_t data)
++{
++    abort();
++}
++
++int kvm_arch_add_msi_route_post(struct kvm_irq_routing_entry *route,
++                                int vector, PCIDevice *dev)
++{
++    return 0;
++}
++
++int kvm_arch_init(MachineState *ms, KVMState *s)
++{
++    return 0;
++}
++
++int kvm_arch_irqchip_create(KVMState *s)
++{
++    return 0;
++}
++
++int kvm_arch_process_async_events(CPUState *cs)
++{
++    return 0;
++}
++
++void kvm_arch_pre_run(CPUState *cs, struct kvm_run *run)
++{
++}
++
++MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
++{
++    return MEMTXATTRS_UNSPECIFIED;
++}
++
++bool kvm_arch_stop_on_emulation_error(CPUState *cs)
++{
++    return true;
++}
++
++int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
++{
++    return 0;
++}
 -- 
 2.19.1
 
