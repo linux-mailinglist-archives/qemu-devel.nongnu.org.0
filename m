@@ -2,87 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37B5D1A524B
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Apr 2020 15:10:02 +0200 (CEST)
-Received: from localhost ([::1]:51886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE9B71A526D
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Apr 2020 15:59:44 +0200 (CEST)
+Received: from localhost ([::1]:52220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jNFtZ-0007jv-7d
-	for lists+qemu-devel@lfdr.de; Sat, 11 Apr 2020 09:10:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33355)
+	id 1jNGfd-0005MM-5P
+	for lists+qemu-devel@lfdr.de; Sat, 11 Apr 2020 09:59:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37477)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jNFnq-00085f-Fu
- for qemu-devel@nongnu.org; Sat, 11 Apr 2020 09:04:07 -0400
+ (envelope-from <npiggin@gmail.com>) id 1jNGdl-0004l2-6R
+ for qemu-devel@nongnu.org; Sat, 11 Apr 2020 09:57:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jNFnp-0002nP-ET
- for qemu-devel@nongnu.org; Sat, 11 Apr 2020 09:04:06 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55171
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jNFnp-0002nH-B8
- for qemu-devel@nongnu.org; Sat, 11 Apr 2020 09:04:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586610245;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XwCjF1FA7bZD/BVfLxjIdpj3FDTZQ8sXYvzUMCawWpg=;
- b=ZJpF7gK5bltGUL/dG1HIOC3cwwl6+pySdlYh776kFlZ0JyXghkrjXDHQJ6rCXAe+PHa1rx
- 3d+SkLDviwQhIIhBDzWQ6Mc+x5yVjuLY4QMWMvd08wHK6sDOmqfrfa7X1vKMY5IHxmnCO7
- XDGKR+EfQA2T0zI+xk+9wIybnq0HRNE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-MG7WIqMBMQOsHbu3dQ3TTQ-1; Sat, 11 Apr 2020 09:03:59 -0400
-X-MC-Unique: MG7WIqMBMQOsHbu3dQ3TTQ-1
-Received: by mail-wr1-f71.google.com with SMTP id v14so3152576wrq.13
- for <qemu-devel@nongnu.org>; Sat, 11 Apr 2020 06:03:59 -0700 (PDT)
+ (envelope-from <npiggin@gmail.com>) id 1jNGdi-0007X0-Nz
+ for qemu-devel@nongnu.org; Sat, 11 Apr 2020 09:57:45 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:50499)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <npiggin@gmail.com>)
+ id 1jNGdg-0007Sq-40; Sat, 11 Apr 2020 09:57:40 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id b7so1861285pju.0;
+ Sat, 11 Apr 2020 06:57:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:subject:to:cc:references:in-reply-to:mime-version
+ :user-agent:message-id:content-transfer-encoding;
+ bh=CA2EXUjq+Smems++Ma6jf28vZQyf783AuJ5tepKvzfA=;
+ b=DMp+YOudHyMCAXvEqVuaa7+96e2O9c2iSlraMUG5+nS0bzsiqt1LHYUO008HNzla+0
+ aeYOaDj25zqXFdSnSa4F4BkJnuMbRC+SwNhRwjkCjIgAbLL8Zxl1ozzB9/sQd/JbliHF
+ RK0FFcoBrnHA/dwgb2Nl95LobnwMnsnZJpu3+XD4l4N5PUL7p6mBnlG4T/z4BiQb+crv
+ nWgzTlGEWo9shdYkxql16SVt208OFvM5O4Q4LVL+1H5PIDxoENgev8tFyY7Xu+DurRd4
+ CjgOUyG0q+bum4jmYFS+jutZoukYDzQ8XUkBaLPIsdwN3tR4UI6d2pD4P4qYikuyJxo5
+ h5vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XwCjF1FA7bZD/BVfLxjIdpj3FDTZQ8sXYvzUMCawWpg=;
- b=mgBV7JrPFAj0ralZQmWhAULnYRGwqjt3JlBWX27YpG1q97UoIK2gZlMPWFlCwQm27q
- hYnMQnjqxAn1UAJEAdmC8Pt0dPX6x0e9pBHnnoLTjZ50ed2JVEkuk0plYDSZkcoZe2X3
- pyfpYrT5b9ST0CdoGxASMP7Ws0o7Kw69/y6k6l+wa+iantQtJSGJrwCFYiEzPRfenSMi
- A1LEDjTmA/ZY5enKQsE7KYVKE5BW677uvq1NcQoPeuwtG0D8gV89uz08MwO3IDzMnO1B
- p2QmHik7j882NcaPNLW2N0kcZTLICiTeRRv/CbkOyrVAgSctkms3MTlZOdAvGT1ldGtG
- cuzQ==
-X-Gm-Message-State: AGi0PubSyvvjcgLQEPzP8ihw6YnpUoFsXQnFhMXs//KOf5QCPD0MCnJC
- hZ8OEHeP9wvHubo2TsmXJNmepXU6kKA1vYq6wSiSeRVfgdOHKioYUqVg0UDFzvHqMOtknT5wv/w
- PjHVelse32QgDET8=
-X-Received: by 2002:a5d:5307:: with SMTP id e7mr9117907wrv.97.1586610238325;
- Sat, 11 Apr 2020 06:03:58 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIkn/nRwWkuKj9whVIqEOmPhtClehmlu+MJsnbfdG2kri15427vjdh6lVB/J1CKXRec7Tm6dA==
-X-Received: by 2002:a5d:5307:: with SMTP id e7mr9117892wrv.97.1586610238034;
- Sat, 11 Apr 2020 06:03:58 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:f95d:5f37:e378:f48d?
- ([2001:b07:6468:f312:f95d:5f37:e378:f48d])
- by smtp.gmail.com with ESMTPSA id t8sm6874795wrq.88.2020.04.11.06.03.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 11 Apr 2020 06:03:57 -0700 (PDT)
-Subject: Re: [PATCH v5 2/2] lockable: replaced locks with lock guard macros
- where appropriate
-To: Daniel Brodsky <dnbrdsky@gmail.com>
-References: <20200404042108.389635-1-dnbrdsky@gmail.com>
- <20200404042108.389635-3-dnbrdsky@gmail.com>
- <CA+ZmoZVJhyuXbbUJHTQdFZKA6+WqYUgnxEXF0y-nq0=aK4cpww@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <aacbf5fb-2c13-b7a8-3a28-de0a9b1b465e@redhat.com>
-Date: Sat, 11 Apr 2020 15:03:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
+ :mime-version:user-agent:message-id:content-transfer-encoding;
+ bh=CA2EXUjq+Smems++Ma6jf28vZQyf783AuJ5tepKvzfA=;
+ b=I2tZ4tGDdvR7W9O/UjkLqUFx3iBGeLLt6G2Oqskgh8i6xX7V9z/efseAvYMQysu/v7
+ c33yMI73mf2Ng0O5KOMgLe3XYuYo6CXb//BRieY6Zlibr8QFaesyr7HfqFJ0+Zn8p4OD
+ LzT+pJDi5fRmClIZuasn5pXwcDSvciLiW9SW0kFTn/j2M1oa90Dph8MTi74dH0b0zR2t
+ AVpFDJZzYeUZWYg4z9FXpDpBrBtMtcjSbTmdCM9oQ8xPDoiP/PilISOpLmrYZL5goWJY
+ Y6eHaWfLCweOTn99ITCoVC+SWNNPXh9hWvgacpawM5heOJWr1L1Zs6vqkAfdqZI5nWmJ
+ F2gg==
+X-Gm-Message-State: AGi0PuZHtVi3IehMs/AQN+gcbX4mCy6fhR/L5Sl3SaX0CaWUWegBV4Oz
+ lfhUb6hQoJetkw6jhCqni3M=
+X-Google-Smtp-Source: APiQypKJZjPQepDzedFgjgZHVNHo13y3VmhECU+Qh9O1RVtKp3jSMqIMYo0qxruFCc1cg2vyLVnXxg==
+X-Received: by 2002:a17:90b:1985:: with SMTP id
+ mv5mr11349089pjb.69.1586613458322; 
+ Sat, 11 Apr 2020 06:57:38 -0700 (PDT)
+Received: from localhost (60-241-117-97.tpgi.com.au. [60.241.117.97])
+ by smtp.gmail.com with ESMTPSA id u18sm4380454pfl.40.2020.04.11.06.57.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 11 Apr 2020 06:57:37 -0700 (PDT)
+Date: Sat, 11 Apr 2020 23:57:23 +1000
+From: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: Boot flakiness with QEMU 3.1.0 and Clang built kernels
+To: Nathan Chancellor <natechancellor@gmail.com>
+References: <20200410205932.GA880@ubuntu-s3-xlarge-x86>
+ <1586564375.zt8lm9finh.astroid@bobo.none>
+ <20200411005354.GA24145@ubuntu-s3-xlarge-x86>
+ <1586597161.xyshvdbjo6.astroid@bobo.none>
+In-Reply-To: <1586597161.xyshvdbjo6.astroid@bobo.none>
 MIME-Version: 1.0
-In-Reply-To: <CA+ZmoZVJhyuXbbUJHTQdFZKA6+WqYUgnxEXF0y-nq0=aK4cpww@mail.gmail.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: astroid/0.15.0 (https://github.com/astroidmail/astroid)
+Message-Id: <1586612535.6kk4az03np.astroid@bobo.none>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::1042
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,25 +81,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- "open list:iSCSI" <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Peter Lieven <pl@kamp.de>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, clang-built-linux@googlegroups.com,
+ =?iso-8859-1?q?C=E9dric?= Le Goater <clg@fr.ibm.com>, qemu-ppc@nongnu.org,
+ linuxppc-dev@lists.ozlabs.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/04/20 13:19, Daniel Brodsky wrote:
-> Just making sure this patch didn't get lost.
-> ping http://patchwork.ozlabs.org/patch/1266336/
+Nicholas Piggin's on April 11, 2020 7:32 pm:
+> Nathan Chancellor's on April 11, 2020 10:53 am:
+>> The tt.config values are needed to reproduce but I did not verify that
+>> ONLY tt.config was needed. Other than that, no, we are just building
+>> either pseries_defconfig or powernv_defconfig with those configs and
+>> letting it boot up with a simple initramfs, which prints the version
+>> string then shuts the machine down.
+>>=20
+>> Let me know if you need any more information, cheers!
+>=20
+> Okay I can reproduce it. Sometimes it eventually recovers after a long
+> pause, and some keyboard input often helps it along. So that seems like=20
+> it might be a lost interrupt.
+>=20
+> POWER8 vs POWER9 might just be a timing thing if P9 is still hanging
+> sometimes. I wasn't able to reproduce it with defconfig+tt.config, I
+> needed your other config with various other debug options.
+>=20
+> Thanks for the very good report. I'll let you know what I find.
 
-The patch looks good, but it will be included in QEMU only after 5.0 is
-released.
+It looks like a qemu bug. Booting with '-d int' shows the decrementer=20
+simply stops firing at the point of the hang, even though MSR[EE]=3D1 and=20
+the DEC register is wrapping. Linux appears to be doing the right thing=20
+as far as I can tell (not losing interrupts).
+
+This qemu patch fixes the boot hang for me. I don't know that qemu=20
+really has the right idea of "context synchronizing" as defined in the
+powerpc architecture -- mtmsrd L=3D1 is not context synchronizing but that
+does not mean it can avoid looking at exceptions until the next such
+event. It looks like the decrementer exception goes high but the
+execution of mtmsrd L=3D1 is ignoring it.
+
+Prior to the Linux patch 3282a3da25b you bisected to, interrupt replay
+code would return with an 'rfi' instruction as part of interrupt return,
+which probably helped to get things moving along a bit. However it would
+not be foolproof, and Cedric did say he encountered some mysterious
+lockups under load with qemu powernv before that patch was merged, so
+maybe it's the same issue?
 
 Thanks,
+Nick
 
-Paolo
+The patch is a bit of a hack, but if you can run it and verify it fixes
+your boot hang would be good.
+---
 
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index b207fb5386..1d997f5c32 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -4364,12 +4364,21 @@ static void gen_mtmsrd(DisasContext *ctx)
+     if (ctx->opcode & 0x00010000) {
+         /* Special form that does not need any synchronisation */
+         TCGv t0 =3D tcg_temp_new();
++        TCGv t1 =3D tcg_temp_new();
+         tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)],
+                         (1 << MSR_RI) | (1 << MSR_EE));
+-        tcg_gen_andi_tl(cpu_msr, cpu_msr,
++        tcg_gen_andi_tl(t1, cpu_msr,
+                         ~(target_ulong)((1 << MSR_RI) | (1 << MSR_EE)));
+-        tcg_gen_or_tl(cpu_msr, cpu_msr, t0);
++        tcg_gen_or_tl(t1, t1, t0);
++
++        gen_update_nip(ctx, ctx->base.pc_next);
++        gen_helper_store_msr(cpu_env, t1);
+         tcg_temp_free(t0);
++        tcg_temp_free(t1);
++        /* Must stop the translation as machine state (may have) changed *=
+/
++        /* Note that mtmsr is not always defined as context-synchronizing =
+*/
++        gen_stop_exception(ctx);
++
+     } else {
+         /*
+          * XXX: we need to update nip before the store if we enter
+=
 
