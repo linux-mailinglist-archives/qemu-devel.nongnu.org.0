@@ -2,60 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318671A524D
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Apr 2020 15:11:54 +0200 (CEST)
-Received: from localhost ([::1]:51910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E2731A523D
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Apr 2020 15:02:00 +0200 (CEST)
+Received: from localhost ([::1]:51750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jNFvN-0000aA-9P
-	for lists+qemu-devel@lfdr.de; Sat, 11 Apr 2020 09:11:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33938)
+	id 1jNFln-0006WL-Gm
+	for lists+qemu-devel@lfdr.de; Sat, 11 Apr 2020 09:01:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32842)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jNFuK-00009B-R0
- for qemu-devel@nongnu.org; Sat, 11 Apr 2020 09:10:49 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jNFkq-0005v2-Lo
+ for qemu-devel@nongnu.org; Sat, 11 Apr 2020 09:01:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jNFuJ-0005I3-DO
- for qemu-devel@nongnu.org; Sat, 11 Apr 2020 09:10:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44150)
+ (envelope-from <alex.bennee@linaro.org>) id 1jNFkp-0000Vl-9y
+ for qemu-devel@nongnu.org; Sat, 11 Apr 2020 09:01:00 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46232)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jNFuJ-0005Gl-8H
- for qemu-devel@nongnu.org; Sat, 11 Apr 2020 09:10:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jNFuH-0001Kq-QR
- for <qemu-devel@nongnu.org>; Sat, 11 Apr 2020 13:10:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9D5FB2E8108
- for <qemu-devel@nongnu.org>; Sat, 11 Apr 2020 13:10:45 +0000 (UTC)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jNFkp-0000Ub-3L
+ for qemu-devel@nongnu.org; Sat, 11 Apr 2020 09:00:59 -0400
+Received: by mail-wr1-x441.google.com with SMTP id f13so5088961wrm.13
+ for <qemu-devel@nongnu.org>; Sat, 11 Apr 2020 06:00:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Isly0kRfK8PoyVFmcKHqJrhHAuzEPsUlBvhsJb8HWes=;
+ b=RFUwo6H9ISO3VF8euO5xVf1kZtMOC8B7ZfVeX2XO4TRwFAALuxn2Is/VSoY3di17ki
+ vj3Pgdne0t8PsKccLStcHGkk+BgetFWe1w96qUY7gQkuwEkfNlnxFxkIrzbmY8OKw/N7
+ l5wrrP3ZPDgujjXmYI/iO+2QGXX5VmT3P2FSsOVpXZjZSKCmdrHRWx8tp1KmXdC1VdPh
+ CJRf8kmHTs9NBIWzqrNZeMSolKMvXQvgIxVnKeSAsaTK0ckvDNOO8hwoRWrZ8Bb0eEkw
+ hTASZDxQVuf1DBREEK8d8LX4DGH4m1cm562XfirZz8QVGX/LfuoV04486aXXymJqaejH
+ THIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=Isly0kRfK8PoyVFmcKHqJrhHAuzEPsUlBvhsJb8HWes=;
+ b=oqqDWCp61bapWVkYthjDOQku2cnq+gXgb6JpvVOeVnTHHYZ/ZCu2AEsWrzo4lE03Md
+ UGivnchfF2Hi6QaK00iVjXwXbNPvdsyNEuPKc6zgwPcqXr4q3aySWjfOMaQM0l+QCcYS
+ 7gzICh25MrStq7X1NZxylRYFiKKwzpiF3WrTsokAK9JVqnrEI69hNoU4ut2XSbU6G4vB
+ UyxsFmy8XJHh77rOh8JbPc2qSmijACLSZJNLQ0nZMjoEAZbzw3s6GFokrdKvvD7Xtbar
+ UyoIJQp1rV51TeaHQyubHYOqK2Ci14EvIjuVMdhJogT/K7p69LgIFEIQun46E5TfoRjS
+ 3yLA==
+X-Gm-Message-State: AGi0PuY99wRfi4N7RC8zun9WowSBDpM11yDJvWxD7fcp9azzQC9LVtAZ
+ ScKDb7ZAFOuGegabz7LvBMSVLQ==
+X-Google-Smtp-Source: APiQypJ/3T+y603RUxWOEhJZTNCVFK85QHonjMzTQ+lxB4wHzN5c1V+Y52N8Vn99yB5ywaIHR5gUaA==
+X-Received: by 2002:a5d:4fc6:: with SMTP id h6mr4078173wrw.277.1586610057457; 
+ Sat, 11 Apr 2020 06:00:57 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f3sm6843735wmj.24.2020.04.11.06.00.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 11 Apr 2020 06:00:56 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3F9E21FF7E;
+ Sat, 11 Apr 2020 14:00:55 +0100 (BST)
+References: <20200409211529.5269-1-alex.bennee@linaro.org>
+ <20200409211529.5269-11-alex.bennee@linaro.org>
+ <88154583-5a03-a89c-f10e-06e6010abf95@redhat.com>
+ <CAHDbmO0iF+_TfBH7ZMQD+AYX3=+xS7N_-q-4=sdkEpbYp+tFEQ@mail.gmail.com>
+ <5ffb4cc2-f397-28b1-ec63-eb9d606439cf@inria.fr>
+User-agent: mu4e 1.3.10; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Brice Goglin <Brice.Goglin@inria.fr>
+Subject: Re: [PATCH v1 10/11] linux-user: fix /proc/self/stat handling
+In-reply-to: <5ffb4cc2-f397-28b1-ec63-eb9d606439cf@inria.fr>
+Date: Sat, 11 Apr 2020 14:00:55 +0100
+Message-ID: <87r1wu89dk.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 11 Apr 2020 12:58:40 -0000
-From: =?utf-8?q?Stig-=C3=98rjan_Smelror?= <1872113@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kekepower pmaydell
-X-Launchpad-Bug-Reporter: =?utf-8?q?Stig-=C3=98rjan_Smelror_=28kekepower=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Stig-=C3=98rjan_Smelror_=28kekepower=29?=
-References: <158654057369.6269.6354060003943218170.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158660992021.5647.7894353556797815297.malone@chaenomeles.canonical.com>
-Subject: [Bug 1872113] Re: qemu docs fails to build with Sphinx 3.0.x
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: fcd54b52cc75ab1512730adf0800a2cb4bffde1e
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,91 +85,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1872113 <1872113@bugs.launchpad.net>
+Cc: Ludovic Courtes <ludovic.courtes@inria.fr>,
+ Riku Voipio <riku.voipio@iki.fi>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-You are right. Wrong choice of words.
 
-However, the change is a breaking change from Sphinx.
+Brice Goglin <Brice.Goglin@inria.fr> writes:
 
-See https://github.com/sphinx-
-doc/sphinx/issues/7457#issuecomment-612413080
+> Le 10/04/2020 =C3=A0 14:33, Alex Benn=C3=A9e a =C3=A9crit :
+>> That was by inspection on my system which seems to truncate a lot
+>> earlier. It would be nice to find where in the Linux kernel it is
+>> output but I failed to grep the relevant function last night.
+>
+>
+> It's in proc/array.c, do_task_stat() calls proc_task_name(). In the end,
+> it seems to use task->tcomm or task->comm which is limited by
+>
+> #define TASK_COMM_LEN			16
 
-** Bug watch added: github.com/sphinx-doc/sphinx/issues #7457
-   https://github.com/sphinx-doc/sphinx/issues/7457
+Thanks. I'll amend the commit message. Are you happy with the fix on
+your end?
 
--- =
+>
+> Brice
+>
+>
+>
+>>
+>> On Fri, 10 Apr 2020, 12:11 Philippe Mathieu-Daud=C3=A9, <philmd@redhat.c=
+om
+>> <mailto:philmd@redhat.com>> wrote:
+>>
+>>     Cc'ing Ludovic in case he can test with Guix-HPC.
+>>
+>>     On 4/9/20 11:15 PM, Alex Benn=C3=A9e wrote:
+>>     > In the original bug report long files names in Guix caused
+>>     > /proc/self/stat be truncated without the trailing ") " as
+>>     specified in
+>>     > proc manpage which says:
+>>     >      (2) comm  %s
+>>     >             The  filename of the executable, in parentheses.  This
+>>     >             is visible whether or not the  executable  is  swapped
+>>     >             out.
+>>     >
+>>     > Additionally it should only be reporting the executable name rather
+>>     > than the full path. Fix both these failings while cleaning up
+>>     the code
+>>     > to use GString to build up the reported values. As the whole
+>>     function
+>>     > is cleaned up also adjust the white space to the current coding
+>>     style.
+>>     >
+>>     > Message-ID: <fb4c55fa-d539-67ee-c6c9-de8fb63c8488@inria.fr
+>>     <mailto:fb4c55fa-d539-67ee-c6c9-de8fb63c8488@inria.fr>>
+>>     > Reported-by: Brice Goglin <Brice.Goglin@inria.fr
+>>     <mailto:Brice.Goglin@inria.fr>>
+>>     > Cc: Philippe_Mathieu-Daud=C3=A9 <philmd@redhat.com
+>>     <mailto:philmd@redhat.com>>
+>>     > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org
+>>     <mailto:alex.bennee@linaro.org>>
+>>     > ---
+>>     >   linux-user/syscall.c | 43
+>>     +++++++++++++++++++------------------------
+>>     >   1 file changed, 19 insertions(+), 24 deletions(-)
+>>     >
+>>     > diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+>>     > index 6495ddc4cda..674f70e70a5 100644
+>>     > --- a/linux-user/syscall.c
+>>     > +++ b/linux-user/syscall.c
+>>     > @@ -7295,34 +7295,29 @@ static int open_self_stat(void *cpu_env,
+>>     int fd)
+>>     >   {
+>>     >       CPUState *cpu =3D env_cpu((CPUArchState *)cpu_env);
+>>     >       TaskState *ts =3D cpu->opaque;
+>>     > -    abi_ulong start_stack =3D ts->info->start_stack;
+>>     > +    g_autoptr(GString) buf =3D g_string_new(NULL);
+>>     >       int i;
+>>     >=20=20=20
+>>     >       for (i =3D 0; i < 44; i++) {
+>>     > -      char buf[128];
+>>     > -      int len;
+>>     > -      uint64_t val =3D 0;
+>>     > -
+>>     > -      if (i =3D=3D 0) {
+>>     > -        /* pid */
+>>     > -        val =3D getpid();
+>>     > -        snprintf(buf, sizeof(buf), "%"PRId64 " ", val);
+>>     > -      } else if (i =3D=3D 1) {
+>>     > -        /* app name */
+>>     > -        snprintf(buf, sizeof(buf), "(%s) ", ts->bprm->argv[0]);
+>>     > -      } else if (i =3D=3D 27) {
+>>     > -        /* stack bottom */
+>>     > -        val =3D start_stack;
+>>     > -        snprintf(buf, sizeof(buf), "%"PRId64 " ", val);
+>>     > -      } else {
+>>     > -        /* for the rest, there is MasterCard */
+>>     > -        snprintf(buf, sizeof(buf), "0%c", i =3D=3D 43 ? '\n' : ' =
+');
+>>     > -      }
+>>     > +        if (i =3D=3D 0) {
+>>     > +            /* pid */
+>>     > +            g_string_printf(buf, FMT_pid " ", getpid());
+>>     > +        } else if (i =3D=3D 1) {
+>>     > +            /* app name */
+>>     > +            gchar *bin =3D g_strrstr(ts->bprm->argv[0], "/");
+>>     > +            bin =3D bin ? bin + 1 : ts->bprm->argv[0];
+>>     > +            g_string_printf(buf, "(%.15s) ", bin);
+>>
+>>     15 or 125? 15 seems short. From your previous test I understood it
+>>     was
+>>     124, for
+>>     sizeof("cat_with9_12345678901234567890123456789012345678901234567890=
+123456789012345678901234567890123456789012345678901234567890___40").
+>>
+>>     > +        } else if (i =3D=3D 27) {
+>>     > +            /* stack bottom */
+>>     > +            g_string_printf(buf, TARGET_ABI_FMT_ld " ",
+>>     ts->info->start_stack);
+>>     > +        } else {
+>>     > +            /* for the rest, there is MasterCard */
+>>     > +            g_string_printf(buf, "0%c", i =3D=3D 43 ? '\n' : ' ');
+>>     > +        }
+>>     >=20=20=20
+>>     > -      len =3D strlen(buf);
+>>     > -      if (write(fd, buf, len) !=3D len) {
+>>     > -          return -1;
+>>     > -      }
+>>     > +        if (write(fd, buf->str, buf->len) !=3D buf->len) {
+>>     > +            return -1;
+>>     > +        }
+>>     >       }
+>>     >=20=20=20
+>>     >       return 0;
+>>     >
+>>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1872113
 
-Title:
-  qemu docs fails to build with Sphinx 3.0.x
-
-Status in QEMU:
-  New
-
-Bug description:
-  We've just updated Sphinx to version 3.0.1 and qemu fails to build the
-  docs with this version.
-
-  Here's the relevant section in the build log.
-
-  CONFDIR=3D"/etc/qemu" /usr/bin/sphinx-build-3  -W -b html -D version=3D4.=
-2.92 -D release=3D"4.2.92 (qemu-5.0.0-0.rc2.0.1.mga8)" -d .doctrees/devel-h=
-tml /home/iurt/rpmbuild/BUILD/qemu-5.0.0-rc2/docs/devel docs/devel
-  Running Sphinx v3.0.1
-  making output directory... done
-  building [mo]: targets for 0 po files that are out of date
-  building [html]: targets for 14 source files that are out of date
-  updating environment: [new config] 14 added, 0 changed, 0 removed
-  reading sources... [  7%] bitops
-  reading sources... [ 14%] decodetree
-  reading sources... [ 21%] index
-  reading sources... [ 28%] kconfig
-  reading sources... [ 35%] loads-stores
-  reading sources... [ 42%] memory
-  reading sources... [ 50%] migration
-  reading sources... [ 57%] reset
-  reading sources... [ 64%] s390-dasd-ipl
-  reading sources... [ 71%] secure-coding-practices
-  reading sources... [ 78%] stable-process
-  reading sources... [ 85%] tcg
-  reading sources... [ 92%] tcg-plugins
-  reading sources... [100%] testing
-
-  Warning, treated as error:
-  /home/iurt/rpmbuild/BUILD/qemu-5.0.0-rc2/docs/../include/exec/memory.h:3:=
-Type must be either just a name or a typedef-like declaration.
-  If just a name:
-  =C2=A0=C2=A0Error in declarator or parameters
-  =C2=A0=C2=A0Invalid C declaration: Expected identifier in nested name, go=
-t keyword: struct [error at 6]
-  =C2=A0=C2=A0=C2=A0=C2=A0struct MemoryListener
-  =C2=A0=C2=A0=C2=A0=C2=A0------^
-  If typedef-like declaration:
-  =C2=A0=C2=A0Error in declarator or parameters
-  =C2=A0=C2=A0Invalid C declaration: Expected identifier in nested name. [e=
-rror at 21]
-  =C2=A0=C2=A0=C2=A0=C2=A0struct MemoryListener
-  =C2=A0=C2=A0=C2=A0=C2=A0---------------------^
-
-  make: *** [Makefile:1095: docs/devel/index.html] Error 2
-  make: *** Waiting for unfinished jobs....
-
-  I found this commit for memory.h that includes the section that faults.
-  https://github.com/qemu/qemu/commit/5d248213180749e674fbccbacc6ee9c38499a=
-bb3#diff-d892cbf314945b44699534cc1de4ebbd
-
-  You can see the whole build log here.
-  https://pkgsubmit.mageia.org/uploads/failure/cauldron/core/release/202004=
-10161120.tv.duvel.699/log/qemu-5.0.0-0.rc2.0.1.mga8/build.0.20200410161338.=
-log
-
-  System: Mageia Cauldron
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1872113/+subscriptions
+--=20
+Alex Benn=C3=A9e
 
