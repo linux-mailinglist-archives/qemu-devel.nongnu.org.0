@@ -2,27 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B40EF1A4F19
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Apr 2020 11:23:46 +0200 (CEST)
-Received: from localhost ([::1]:50162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41CA11A4F1A
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Apr 2020 11:23:47 +0200 (CEST)
+Received: from localhost ([::1]:50164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jNCMb-0002zQ-Pt
-	for lists+qemu-devel@lfdr.de; Sat, 11 Apr 2020 05:23:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38906)
+	id 1jNCMc-00030X-8v
+	for lists+qemu-devel@lfdr.de; Sat, 11 Apr 2020 05:23:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38905)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cfontana@suse.de>) id 1jNCLJ-0001Mz-T9
+ (envelope-from <cfontana@suse.de>) id 1jNCLJ-0001My-S6
  for qemu-devel@nongnu.org; Sat, 11 Apr 2020 05:22:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cfontana@suse.de>) id 1jNCLI-0001Un-O1
+ (envelope-from <cfontana@suse.de>) id 1jNCLI-0001UT-Jr
  for qemu-devel@nongnu.org; Sat, 11 Apr 2020 05:22:25 -0400
-Received: from mx2.suse.de ([195.135.220.15]:38958)
+Received: from mx2.suse.de ([195.135.220.15]:38956)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cfontana@suse.de>) id 1jNCLI-0001U8-G4
+ (Exim 4.71) (envelope-from <cfontana@suse.de>) id 1jNCLI-0001U6-BN
  for qemu-devel@nongnu.org; Sat, 11 Apr 2020 05:22:24 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 86D68AC19;
+ by mx2.suse.de (Postfix) with ESMTP id 87069AC58;
  Sat, 11 Apr 2020 09:22:22 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
@@ -30,8 +30,8 @@ To: Peter Maydell <peter.maydell@linaro.org>,
  Philippe Mathieu-Daude <philmd@redhat.com>,
  Markus Armbruster <armbru@redhat.com>
 Subject: [PATCH 1/2] Makefile: libfdt: build only the strict necessary
-Date: Sat, 11 Apr 2020 11:22:01 +0200
-Message-Id: <20200411092203.4167-2-cfontana@suse.de>
+Date: Sat, 11 Apr 2020 11:22:02 +0200
+Message-Id: <20200411092203.4167-3-cfontana@suse.de>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <20200411092203.4167-1-cfontana@suse.de>
 References: <20200411092203.4167-1-cfontana@suse.de>
