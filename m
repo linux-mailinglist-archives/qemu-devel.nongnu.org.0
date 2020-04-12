@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39B341A60F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Apr 2020 00:50:40 +0200 (CEST)
-Received: from localhost ([::1]:38040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 979A41A60FB
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Apr 2020 00:53:44 +0200 (CEST)
+Received: from localhost ([::1]:38132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jNlR1-00080u-9Y
-	for lists+qemu-devel@lfdr.de; Sun, 12 Apr 2020 18:50:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48316)
+	id 1jNlTz-0005kk-JK
+	for lists+qemu-devel@lfdr.de; Sun, 12 Apr 2020 18:53:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48391)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jNlEP-0007ip-QF
- for qemu-devel@nongnu.org; Sun, 12 Apr 2020 18:37:38 -0400
+ id 1jNlEU-0007tj-9B
+ for qemu-devel@nongnu.org; Sun, 12 Apr 2020 18:37:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jNlEO-00037N-Qm
- for qemu-devel@nongnu.org; Sun, 12 Apr 2020 18:37:37 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40811)
+ id 1jNlES-00039U-4w
+ for qemu-devel@nongnu.org; Sun, 12 Apr 2020 18:37:42 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33148)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jNlEO-00036r-L8; Sun, 12 Apr 2020 18:37:36 -0400
-Received: by mail-wm1-x341.google.com with SMTP id a81so8356808wmf.5;
- Sun, 12 Apr 2020 15:37:36 -0700 (PDT)
+ id 1jNlER-00038t-Ua; Sun, 12 Apr 2020 18:37:40 -0400
+Received: by mail-wr1-x444.google.com with SMTP id a25so8559991wrd.0;
+ Sun, 12 Apr 2020 15:37:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hYB5vJlsKA+XSoc5iK2InUvEzWA5ZYFw0I+M2ardO5E=;
- b=BYyCk3ysLTDOxvtJ73/q5WWa8lxptRXaEql9KyX9gVYciRP/cpSDx11z3VBLqHevGi
- ykC7mEJ03yLE/tNA/itYzDSffQy6jbRPpseuo4UqzJ1uwsRXkn18iaqw/MgWpta6rCaT
- Vf1xxjmga+cOmGjRjidRgWAANClD4FNUO7tM8ku5pWUsQgEUGow0aQYZLEoTR2w68m3q
- HKsUCKIUSPXFhNMA6/3dH1nAmCg56ltQs5nmbsUpxZuOsveyypf7KtCiqet1I8wUDQ45
- Rfxiy1kXt4i6mFRQRkSwWLB7gmGiq1RQeinPvKQFwAcfef+hzWeAFiyqMP0WeCAZKQuX
- bfWQ==
+ bh=Y8TMNAxjLNSnTnU3+gPKyE2L5mZZ/LKhb2zY67/m5zA=;
+ b=MvbBrLyCvTZ/70lcVY/q6ms0rvsDExeGsXFbBqzdolKTlhTT6i0SvOU+QFnk8TlqP9
+ vzObHMw67W76UOMpDd4eS6nXQqotcUwTNzCnjxF4H2IFvnEAWiR2iKfYkbdhf2cy+xNn
+ y2fPzYUFmdpGNQ2wY+PhEuaJhLTv0zRzj/QalgIDh/in59It8/CD1StdgaNrx+PUOS0X
+ 5XrmbxAxlt27m3oET3BbCeclEjW/qu1xy6Tqom+saQp03iNXJPl7HqZdibrz6lZpnCC6
+ x2ZPbbnpe8IVl/t+mt/pQBiDmGW0aq2QZX28nV9P7uhAoLuo+Z691eRZK4jkbq3E82FW
+ rfHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=hYB5vJlsKA+XSoc5iK2InUvEzWA5ZYFw0I+M2ardO5E=;
- b=BhfuFYmKdKk7xTqNzY/0sF5KxbdjTul577k9LuCiZMAG0Mlv+fZ1ZItBEgy1FZ6zUg
- m6Hz/Hf+MkODf9BA0sUFv+uEfq/6uintFPhJaLdmX9X0hQurFygsiGSLs69katCwmMD5
- d5dqRW16L2eve7NqiR5SzeoUvP29U+os9AmZxrmwvMUXSu4u8hcHaSKHkKXkH6++WWEe
- gCuv6nM5TruwbAnkGakg2W81McT62a1lWg3RXX5F9OCrySGqLQxZ+29Q1OkHHQ6lz1N4
- i5Sd3XSVB2ITAy2oFGvZa3ScJpnl9blEvT8NxDIKQvQa13QZi7km4ihaXymJEcjIZ+56
- qVGg==
-X-Gm-Message-State: AGi0PuZwRNVBDikrKfx48MNd8ye6KK6obBExxz5mXJuqwgS47CRXGMqs
- utMovFcnFCVRxiN0ZVz8Nqsfe5hnG28yKg==
-X-Google-Smtp-Source: APiQypKljnwa59JiW3WSGCMMentFT30+ckG5mxUcJQUjQFWIdEJUCrFL68+FcSlCzYIkbBjcw+shKw==
-X-Received: by 2002:a7b:c959:: with SMTP id i25mr15552087wml.20.1586731055515; 
- Sun, 12 Apr 2020 15:37:35 -0700 (PDT)
+ bh=Y8TMNAxjLNSnTnU3+gPKyE2L5mZZ/LKhb2zY67/m5zA=;
+ b=jtbH5t6/FS46Eu+dSNBTWDlFC86jW91HXjSlz9YcjJhUOf5gcGk6LYMoGKjsVUtlHD
+ HIAJoyqNpu5BNU2kYRxoLUGWLqon6nAwHfZC95ffr93HQpiRX0Hpr4n2st9fF0WTUH2Q
+ c4+qqLGlW+odehJ+aoWwiDND4oFl1BW93Fz2TOc4tVYmoQC/MBDUkzd/sywamt0FEMJz
+ kzmXAlrHZcveNIL6AUCyyOC9+keaYoNtLA1fzC7EXqxp/Wv/n5ZKeZbzoyAVlHqxO3u6
+ rZQQKCtgLQzILYXcw+VM2MO+tTakO7q0+SkMiTPetA3vs0s7dcAojiKpCmSMmasRjPAf
+ k9xA==
+X-Gm-Message-State: AGi0PuZb4VaHvv3Q5zSsauq1ajLVg9aT64WKh09cUz/R77GsISSCZONh
+ vZqc2sC+Gw8LaH9d3tJjQBnnUuIbTTuOTA==
+X-Google-Smtp-Source: APiQypLciWgZ1RglVtEmrha9Cp5muhPhK+QnDF/3m6tgDPz4KlgtF4oYxSEcUAdA5pyuOK8twCySnQ==
+X-Received: by 2002:adf:dd07:: with SMTP id a7mr2653756wrm.349.1586731058777; 
+ Sun, 12 Apr 2020 15:37:38 -0700 (PDT)
 Received: from localhost.localdomain (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id d13sm12563559wrv.34.2020.04.12.15.37.32
+ by smtp.gmail.com with ESMTPSA id d13sm12563559wrv.34.2020.04.12.15.37.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Apr 2020 15:37:35 -0700 (PDT)
+ Sun, 12 Apr 2020 15:37:38 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.1 v3 21/24] hw/riscv/sifive_u: Move some code from
- realize() to init()
-Date: Mon, 13 Apr 2020 00:36:16 +0200
-Message-Id: <20200412223619.11284-22-f4bug@amsat.org>
+Subject: [PATCH-for-5.1 v3 22/24] hw/riscv/sifive_u: Store MemoryRegion in
+ SiFiveUSoCState
+Date: Mon, 13 Apr 2020 00:36:17 +0200
+Message-Id: <20200412223619.11284-23-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200412223619.11284-1-f4bug@amsat.org>
 References: <20200412223619.11284-1-f4bug@amsat.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -117,38 +117,68 @@ Coccinelle reported:
   HANDLING: ./hw/riscv/sifive_u.c
   >>> possible moves from riscv_sifive_u_soc_init() to riscv_sifive_u_soc_realize() in ./hw/riscv/sifive_u.c:473
 
-Move the calls using &error_abort which don't depend on input
-updated before realize() to init().
+While reviewing we notice storing the MemoryRegion in the device
+state, we'll be able to later automatically simplify the error
+propagation calls.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-v3: Typo 'depend of' -> 'depend on' (eblake)
----
- hw/riscv/sifive_u.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/hw/riscv/sifive_u.h |  2 ++
+ hw/riscv/sifive_u.c         | 10 ++++------
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+index 82667b5746..254c6a64f8 100644
+--- a/include/hw/riscv/sifive_u.h
++++ b/include/hw/riscv/sifive_u.h
+@@ -42,6 +42,8 @@ typedef struct SiFiveUSoCState {
+     SiFiveUPRCIState prci;
+     SiFiveUOTPState otp;
+     CadenceGEMState gem;
++    MemoryRegion mask_rom;
++    MemoryRegion l2lim_mem;
+ } SiFiveUSoCState;
+ 
+ #define TYPE_RISCV_U_MACHINE MACHINE_TYPE_NAME("sifive_u")
 diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 9c90c94c33..754af19eef 100644
+index 754af19eef..96177c1977 100644
 --- a/hw/riscv/sifive_u.c
 +++ b/hw/riscv/sifive_u.c
-@@ -441,6 +441,8 @@ static void riscv_sifive_u_soc_init(Object *obj)
-     qdev_prop_set_uint32(DEVICE(&s->otp), "serial", OTP_SERIAL);
-     sysbus_init_child_obj(obj, "gem", &s->gem, sizeof(s->gem),
-                           TYPE_CADENCE_GEM);
-+    object_property_set_int(OBJECT(&s->gem), GEM_REVISION, "revision",
-+                            &error_abort);
- }
+@@ -478,8 +478,6 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
+     SiFiveUSoCState *s = RISCV_U_SOC(dev);
+     const struct MemmapEntry *memmap = sifive_u_memmap;
+     MemoryRegion *system_memory = get_system_memory();
+-    MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
+-    MemoryRegion *l2lim_mem = g_new(MemoryRegion, 1);
+     qemu_irq plic_gpios[SIFIVE_U_PLIC_NUM_SOURCES];
+     char *plic_hart_config;
+     size_t plic_hart_config_len;
+@@ -503,10 +501,10 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
+                              &error_abort);
  
- static bool sifive_u_get_start_in_flash(Object *obj, Error **errp)
-@@ -569,8 +571,6 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
-         qemu_check_nic_model(nd, TYPE_CADENCE_GEM);
-         qdev_set_nic_properties(DEVICE(&s->gem), nd);
-     }
--    object_property_set_int(OBJECT(&s->gem), GEM_REVISION, "revision",
--                            &error_abort);
-     object_property_set_bool(OBJECT(&s->gem), true, "realized", &err);
-     if (err) {
-         error_propagate(errp, err);
+     /* boot rom */
+-    memory_region_init_rom(mask_rom, OBJECT(dev), "riscv.sifive.u.mrom",
++    memory_region_init_rom(&s->mask_rom, OBJECT(dev), "riscv.sifive.u.mrom",
+                            memmap[SIFIVE_U_MROM].size, &error_fatal);
+     memory_region_add_subregion(system_memory, memmap[SIFIVE_U_MROM].base,
+-                                mask_rom);
++                                &s->mask_rom);
+ 
+     /*
+      * Add L2-LIM at reset size.
+@@ -517,10 +515,10 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
+      * leave it enabled all the time. This won't break anything, but will be
+      * too generous to misbehaving guests.
+      */
+-    memory_region_init_ram(l2lim_mem, NULL, "riscv.sifive.u.l2lim",
++    memory_region_init_ram(&s->l2lim_mem, NULL, "riscv.sifive.u.l2lim",
+                            memmap[SIFIVE_U_L2LIM].size, &error_fatal);
+     memory_region_add_subregion(system_memory, memmap[SIFIVE_U_L2LIM].base,
+-                                l2lim_mem);
++                                &s->l2lim_mem);
+ 
+     /* create PLIC hart topology configuration string */
+     plic_hart_config_len = (strlen(SIFIVE_U_PLIC_HART_CONFIG) + 1) *
 -- 
 2.21.1
 
