@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D36001A5BD3
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Apr 2020 03:42:34 +0200 (CEST)
-Received: from localhost ([::1]:57950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4395A1A5BCF
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Apr 2020 03:41:45 +0200 (CEST)
+Received: from localhost ([::1]:57944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jNRdp-00060y-Vn
-	for lists+qemu-devel@lfdr.de; Sat, 11 Apr 2020 21:42:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44941)
+	id 1jNRd1-00057k-T6
+	for lists+qemu-devel@lfdr.de; Sat, 11 Apr 2020 21:41:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44940)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jNRcC-0004hh-88
+ (envelope-from <bounces@canonical.com>) id 1jNRcC-0004hg-7s
  for qemu-devel@nongnu.org; Sat, 11 Apr 2020 21:40:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jNRcB-0007vX-5J
+ (envelope-from <bounces@canonical.com>) id 1jNRcB-0007vc-5X
  for qemu-devel@nongnu.org; Sat, 11 Apr 2020 21:40:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36094)
+Received: from indium.canonical.com ([91.189.90.7]:36108)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jNRcB-0007v0-01
+ id 1jNRcB-0007vH-00
  for qemu-devel@nongnu.org; Sat, 11 Apr 2020 21:40:51 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jNRc9-00078l-9c
- for <qemu-devel@nongnu.org>; Sun, 12 Apr 2020 01:40:49 +0000
+ id 1jNRcA-00079K-4v
+ for <qemu-devel@nongnu.org>; Sun, 12 Apr 2020 01:40:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 422BF2E8060
- for <qemu-devel@nongnu.org>; Sun, 12 Apr 2020 01:40:49 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 1E26A2E8105
+ for <qemu-devel@nongnu.org>; Sun, 12 Apr 2020 01:40:50 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 12 Apr 2020 01:31:35 -0000
+Date: Sun, 12 Apr 2020 01:31:53 -0000
 From: Russell Morris <ubuntu@rkmorris.us>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -44,7 +44,7 @@ X-Launchpad-Bug-Commenters: 6-u3untu-h ajbennee eminus
 X-Launchpad-Bug-Reporter: Emin Ghuliev (eminus)
 X-Launchpad-Bug-Modifier: Russell Morris (6-u3untu-h)
 References: <155352235092.32006.12315829232895734213.malonedeb@soybean.canonical.com>
-Message-Id: <158665509551.12002.1840327971719008178.malone@soybean.canonical.com>
+Message-Id: <158665511318.27440.9294625609229250857.malone@gac.canonical.com>
 Subject: [Bug 1821595] Re: Failed to emulate MMIO access with
  EmulatorReturnStatus: 2
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -53,7 +53,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 1ff6ca872192e8fa13f3a59b76e7b671932b73e2
+X-Launchpad-Hash: 9582bc8221187c5d48a3a98b684ad1a26a051d6e
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,14 +70,7 @@ Reply-To: Bug 1821595 <1821595@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-I built against the latest library I could (Windows Insider Preview,
-SDK) - same failure.
-
-Thoughts?
-
-Thanks!
+Should say - I rebuilt (today). Still no joy.
 
 -- =
 
