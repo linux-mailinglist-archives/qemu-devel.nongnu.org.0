@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A46E1A60E4
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Apr 2020 00:41:44 +0200 (CEST)
-Received: from localhost ([::1]:37792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A2491A60DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Apr 2020 00:38:07 +0200 (CEST)
+Received: from localhost ([::1]:37668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jNlIM-0006U2-UU
-	for lists+qemu-devel@lfdr.de; Sun, 12 Apr 2020 18:41:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47146)
+	id 1jNlEs-0007eb-83
+	for lists+qemu-devel@lfdr.de; Sun, 12 Apr 2020 18:38:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47199)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jNlDS-00057H-P2
- for qemu-devel@nongnu.org; Sun, 12 Apr 2020 18:36:39 -0400
+ id 1jNlDV-0005Gd-DE
+ for qemu-devel@nongnu.org; Sun, 12 Apr 2020 18:36:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jNlDR-00022B-II
- for qemu-devel@nongnu.org; Sun, 12 Apr 2020 18:36:38 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34236)
+ id 1jNlDU-00025e-B3
+ for qemu-devel@nongnu.org; Sun, 12 Apr 2020 18:36:41 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:54668)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jNlDR-0001zl-Aq; Sun, 12 Apr 2020 18:36:37 -0400
-Received: by mail-wr1-x443.google.com with SMTP id 65so8549525wrl.1;
- Sun, 12 Apr 2020 15:36:36 -0700 (PDT)
+ id 1jNlDU-000250-4f; Sun, 12 Apr 2020 18:36:40 -0400
+Received: by mail-wm1-x334.google.com with SMTP id h2so7913129wmb.4;
+ Sun, 12 Apr 2020 15:36:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0L3GtgkM+tHAsomgjJ+0n9R4GwoMloXQteUzufC2V7I=;
- b=jTYU73qGqVFddr8pLnVQpLbF5W2VR27kMU7rzfTogZDI+MLQvq0BoNDP7FDEEvSRBX
- 0ZNK4KsvD2fjIjLEu7ZM4UXndxYQ6owfy2j6Ifdfg68yAYMy7FOK7okPnY1OQ1l3M2Mw
- uLMFStGPYm5v+vCENxCdqkSYFw3+z0vBvc7LR3+wPtpgOEAGG4M6thP4q+rPL/C/+IlQ
- tJ2MpkbjbvVZPc2Yx42MoILUTLS7bq5Rqf29jIcEfLLWsMcqnZdsRahPVkGNx1t2shat
- ud7bFgG/ceAmbWp/JuEKJsOeHmcHTKgWEg1r2TXfNTdtd8AKLbcjAPHnMN+e7iRjm2EE
- /1Ag==
+ bh=VnSS2TQOtgiol91KdSBROLvPE94j7ZxN6xXY/l64ecg=;
+ b=cX9rTLk2CkjoGxHpklWN5Vy/Qp3XH7ATVVGbVAajQzFz91HJa5m6rIPaJOyW6WQQVU
+ wRfjkdeTNh2QFxv8NNTSZL9Zv/lmsYgn3X2/XGv6n3vvvTkjNdtHOmQeFRWtXr05ZSvr
+ NYi7MriXVp3pYJnIMzNk1g/A+EJEqnnt31q4yQ+rVO6LgmjJjbKEGiyb82l2CgDBbY+7
+ Y/kmQ0spa5Xe57L797fhlbvjZO1zZZDowIl/nch2FGgCGBt6xKWYQoruA8hPLvJLZOlJ
+ BG0GUzugNraWsg47zMWBKRgY8wOCW/hNASUvADGRFTjxJNG/QM89heg2r1VqDkJUd3BS
+ 6xVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0L3GtgkM+tHAsomgjJ+0n9R4GwoMloXQteUzufC2V7I=;
- b=TiDvkiBEgSH5ngW+qv81Ud9AYCGrqSZYaCdSsBEwcjvMTcGAJHDT7Gs9EzbDvAcGiZ
- 4y0Ivx4gNnLP9IS5YNlsSGS+bsGyJTYST/Dlv6OriGmKwCc4+d4g5wn4SA6xq7K4+6q7
- UqnBrKTT1HwoTpLMmJ/XoqBuWGdbj4fytEYB1VC85Ruhn+WmMu+pfx97gKHCKW1hHO9s
- f/i++3CUYU8nvmCoew4M9maWy3A9YzOjh32ulKEnMCrtA8jLTtpcaJEa1kymlWRn9rhz
- f+VvH3pqJ7IxKSp4AK9gJPoePmzAKXkG9BmFHyUvrZsfX5nhj/i2E2n35DQ7d18TLkU2
- 5vSg==
-X-Gm-Message-State: AGi0PubLTWsdERrkaN1Wuwup/DbP9MGysFwDdVs9EokZpmrp0JsXstD5
- /ieyPzU285a+bmiogRs3plJJaG2R2qiEGg==
-X-Google-Smtp-Source: APiQypKbvGTU4Pf9Pr1DbRq3aUYFhdoJtit2q5Q3w5auGE9iEbijWU1OypoPSTTdWhJUNH+wBlYysQ==
-X-Received: by 2002:a5d:53ce:: with SMTP id a14mr15422281wrw.129.1586730995171; 
- Sun, 12 Apr 2020 15:36:35 -0700 (PDT)
+ bh=VnSS2TQOtgiol91KdSBROLvPE94j7ZxN6xXY/l64ecg=;
+ b=t2aYUtbaeRE5u1H7yxh+TJu8t4YUB62lm5OU6aK7Hq+d3OZTB0vTWzRcjH6oxDc6uE
+ Q14ZLpjLJGhZ/FGN5gog2qSCJsg4jhUrv9iMbMKRo5k0/jsrRNSj/g8fmA/Q/q8V5b/V
+ ldL9eNkS3X6pSs3IvdUN+I/+yMq7eFTYoFaE0Gl4R4ZBIIgmk0eoWG+oRQ4h4+z/3bnZ
+ Xig45BPyQ81R5e8H3EqiFQMalBAZEdkOGTUxuUVQf9qE0HE0vPR43BMS/KVHJ+3f0caC
+ 47s7TnNPIWtRBXaKJBFvYrjXD9O4do4HqeuLTsPSvvAG9sEetmwhge5f+HSrI+0HHKmz
+ yZ7A==
+X-Gm-Message-State: AGi0Pub9KPTbNGfyGq/UC+TZYzJxBeapE802z3JR1XsoW67sX5TQosq4
+ y2lelIPJH01qjnrvGfu36UiDhUU7e5ECEQ==
+X-Google-Smtp-Source: APiQypIKXCqNMjtmIpB7hHSHlw/qYAI0+ttXO+kHxlf/WQwZBGsagrQWrlGHj6ZZCZc7k9iZrC6Kbg==
+X-Received: by 2002:a1c:3c08:: with SMTP id j8mr13489689wma.30.1586730998917; 
+ Sun, 12 Apr 2020 15:36:38 -0700 (PDT)
 Received: from localhost.localdomain (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id d13sm12563559wrv.34.2020.04.12.15.36.31
+ by smtp.gmail.com with ESMTPSA id d13sm12563559wrv.34.2020.04.12.15.36.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Apr 2020 15:36:34 -0700 (PDT)
+ Sun, 12 Apr 2020 15:36:38 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.1 v3 03/24] hw/arm/allwinner-a10: Move some code from
- realize() to init()
-Date: Mon, 13 Apr 2020 00:35:58 +0200
-Message-Id: <20200412223619.11284-4-f4bug@amsat.org>
+Subject: [PATCH-for-5.1 v3 04/24] hw/arm/aspeed_ast2600: Simplify use of Error*
+Date: Mon, 13 Apr 2020 00:35:59 +0200
+Message-Id: <20200412223619.11284-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200412223619.11284-1-f4bug@amsat.org>
 References: <20200412223619.11284-1-f4bug@amsat.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -114,88 +113,68 @@ Coccinelle reported:
 
   $ spatch ... --timeout 60 --sp-file \
     scripts/coccinelle/simplify-init-realize-error_propagate.cocci
-  HANDLING: ./hw/arm/allwinner-a10.c
-  >>> possible moves from aw_a10_init() to aw_a10_realize() in ./hw/arm/allwinner-a10.c:77
+  HANDLING: ./hw/arm/aspeed_ast2600.c
+  >>> possible moves from aspeed_soc_ast2600_init() to aspeed_soc_ast2600_realize() in ./hw/arm/aspeed_ast2600.c:243
 
-Move the calls using &error_fatal which don't depend on input
-updated before realize() to init().
+While reviewing we notice we don't need two different Error*,
+drop the one less used.
 
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-v3: Typo 'depend of' -> 'depend on' (eblake)
+v3: Indented 'return'.
 ---
- hw/arm/allwinner-a10.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ hw/arm/aspeed_ast2600.c | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
-index 62a67a3e1a..f41395734a 100644
---- a/hw/arm/allwinner-a10.c
-+++ b/hw/arm/allwinner-a10.c
-@@ -60,10 +60,18 @@ static void aw_a10_init(Object *obj)
-         int i;
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index 1a869e09b9..a860ab6a35 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -245,7 +245,7 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+     int i;
+     AspeedSoCState *s = ASPEED_SOC(dev);
+     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+-    Error *err = NULL, *local_err = NULL;
++    Error *err = NULL;
+     qemu_irq irq;
  
-         for (i = 0; i < AW_A10_NUM_USB; i++) {
-+            char bus[16];
-+
-             sysbus_init_child_obj(obj, "ehci[*]", OBJECT(&s->ehci[i]),
-                                   sizeof(s->ehci[i]), TYPE_PLATFORM_EHCI);
-             sysbus_init_child_obj(obj, "ohci[*]", OBJECT(&s->ohci[i]),
-                                   sizeof(s->ohci[i]), TYPE_SYSBUS_OHCI);
-+            object_property_set_bool(OBJECT(&s->ehci[i]), true,
-+                                     "companion-enable", &error_fatal);
-+
-+            sprintf(bus, "usb-bus.%d", i);
-+            object_property_set_str(OBJECT(&s->ohci[i]), bus, "masterbus",
-+                                    &error_fatal);
+     /* IO space */
+@@ -418,9 +418,12 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+             return;
          }
-     }
- 
-@@ -72,6 +80,11 @@ static void aw_a10_init(Object *obj)
- 
-     sysbus_init_child_obj(obj, "rtc", &s->rtc, sizeof(s->rtc),
-                           TYPE_AW_RTC_SUN4I);
-+
-+    memory_region_init_ram(&s->sram_a, obj, "sram A", 48 * KiB,
-+                           &error_fatal);
-+    memory_region_add_subregion(get_system_memory(), 0x00000000, &s->sram_a);
-+    create_unimplemented_device("a10-sram-ctrl", 0x01c00000, 4 * KiB);
- }
- 
- static void aw_a10_realize(DeviceState *dev, Error **errp)
-@@ -113,11 +126,6 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
-     sysbus_connect_irq(sysbusdev, 4, qdev_get_gpio_in(dev, 67));
-     sysbus_connect_irq(sysbusdev, 5, qdev_get_gpio_in(dev, 68));
- 
--    memory_region_init_ram(&s->sram_a, OBJECT(dev), "sram A", 48 * KiB,
--                           &error_fatal);
--    memory_region_add_subregion(get_system_memory(), 0x00000000, &s->sram_a);
--    create_unimplemented_device("a10-sram-ctrl", 0x01c00000, 4 * KiB);
--
-     /* FIXME use qdev NIC properties instead of nd_table[] */
-     if (nd_table[0].used) {
-         qemu_check_nic_model(&nd_table[0], TYPE_AW_EMAC);
-@@ -149,12 +157,6 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
-         int i;
- 
-         for (i = 0; i < AW_A10_NUM_USB; i++) {
--            char bus[16];
--
--            sprintf(bus, "usb-bus.%d", i);
--
--            object_property_set_bool(OBJECT(&s->ehci[i]), true,
--                                     "companion-enable", &error_fatal);
-             object_property_set_bool(OBJECT(&s->ehci[i]), true, "realized",
-                                      &error_fatal);
-             sysbus_mmio_map(SYS_BUS_DEVICE(&s->ehci[i]), 0,
-@@ -162,8 +164,6 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
-             sysbus_connect_irq(SYS_BUS_DEVICE(&s->ehci[i]), 0,
-                                qdev_get_gpio_in(dev, 39 + i));
- 
--            object_property_set_str(OBJECT(&s->ohci[i]), bus, "masterbus",
--                                    &error_fatal);
-             object_property_set_bool(OBJECT(&s->ohci[i]), true, "realized",
-                                      &error_fatal);
-             sysbus_mmio_map(SYS_BUS_DEVICE(&s->ohci[i]), 0,
+         object_property_set_int(OBJECT(&s->spi[i]), 1, "num-cs", &err);
++        if (err) {
++            error_propagate(errp, err);
++            return;
++        }
+         object_property_set_bool(OBJECT(&s->spi[i]), true, "realized",
+-                                 &local_err);
+-        error_propagate(&err, local_err);
++                                 &err);
+         if (err) {
+             error_propagate(errp, err);
+             return;
+@@ -472,12 +475,15 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+         qdev_set_nic_properties(DEVICE(&s->ftgmac100[i]), &nd_table[i]);
+         object_property_set_bool(OBJECT(&s->ftgmac100[i]), true, "aspeed",
+                                  &err);
+-        object_property_set_bool(OBJECT(&s->ftgmac100[i]), true, "realized",
+-                                 &local_err);
+-        error_propagate(&err, local_err);
+         if (err) {
+             error_propagate(errp, err);
+-           return;
++            return;
++        }
++        object_property_set_bool(OBJECT(&s->ftgmac100[i]), true, "realized",
++                                 &err);
++        if (err) {
++            error_propagate(errp, err);
++            return;
+         }
+         sysbus_mmio_map(SYS_BUS_DEVICE(&s->ftgmac100[i]), 0,
+                         sc->memmap[ASPEED_ETH1 + i]);
 -- 
 2.21.1
 
