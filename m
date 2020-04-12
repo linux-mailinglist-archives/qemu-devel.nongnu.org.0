@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92A91A60A5
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Apr 2020 23:13:15 +0200 (CEST)
-Received: from localhost ([::1]:37066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 742F81A60B1
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Apr 2020 23:31:04 +0200 (CEST)
+Received: from localhost ([::1]:37240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jNjul-0003iD-0S
-	for lists+qemu-devel@lfdr.de; Sun, 12 Apr 2020 17:13:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41278)
+	id 1jNkBy-00036U-40
+	for lists+qemu-devel@lfdr.de; Sun, 12 Apr 2020 17:31:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42913)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jNjt1-0002Aj-Ri
- for qemu-devel@nongnu.org; Sun, 12 Apr 2020 17:11:28 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jNkAn-0001lG-48
+ for qemu-devel@nongnu.org; Sun, 12 Apr 2020 17:29:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jNjt0-0005ZW-Fe
- for qemu-devel@nongnu.org; Sun, 12 Apr 2020 17:11:27 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:40922)
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jNkAm-0006h8-3Z
+ for qemu-devel@nongnu.org; Sun, 12 Apr 2020 17:29:48 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38992)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jNjt0-0005ZF-A8
- for qemu-devel@nongnu.org; Sun, 12 Apr 2020 17:11:26 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id h11so2719714plk.7
- for <qemu-devel@nongnu.org>; Sun, 12 Apr 2020 14:11:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Qi+n7ODv/l3RsbJtLXhoMScg4tR6tjfge3kZ2WpJBR0=;
- b=QtD+q+NSLft6F/7RZSal6tF/ONRc6QRtNJYd/NbzfUorkUqgC2rsjMMTfndKBCvygR
- mCRDs374Dkvj9ofPNRchyb4SXWOejN473DSZKyLGoomD3DI+7kGdq9N1/BVgA8CiknLU
- rLbIfZqyna1egB46iw/3zrRSbRnvoj9pb/K0SUIgROMP5l32rSQE6oeMEn99YNiMF7Ct
- 2zY+i9wk6TG0RHvbdDKuYPH7ALdDDq0a26KoCh2CsF6rj0R2pThg+2RAS1fxxW88QkZI
- RHqCtlRkQ0oGKX7q0oEWycqHY/8VsfY+5NFauHlpW/3AVow7JRHriQGABnUEIGl9oslD
- GOIA==
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jNkAl-0006gK-UM; Sun, 12 Apr 2020 17:29:48 -0400
+Received: by mail-wr1-x441.google.com with SMTP id p10so8423293wrt.6;
+ Sun, 12 Apr 2020 14:29:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=T5mHgLfEaaiCDMXdWGGj6PS3hq3rh1VE3urG/NfjmHY=;
+ b=ry7qXePkzycErex1S+qfV6gEnHMN9U/xYq6kaN5qXnjPk/2XCl1yEq98xxc3XA4X2k
+ aZ2dovBUI565DNkBQ0QqzyxdOySPJp/DzpN506AfQ8owkplDr/KUqGRH/jNnEaLh9t7E
+ WhhjMebgeX3pAjmd6h81kDT5KM1uRHsSBAvtj+Huu3cuoPDoFHdKfyjHWPxlJSHdUunj
+ apGQbCMpcQb2ZR9MHvq89W8wj5h9FRJR3immaV/LaL+YbZpe+w6RsW+3ISMmBgxr2n+L
+ YqEQW/BHXDVTkM9zM86hw3t5u80+5vxuz69Gi4D5D8Z7H2a+0u0tRkZ4khbQgKm/Ceyp
+ PHyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Qi+n7ODv/l3RsbJtLXhoMScg4tR6tjfge3kZ2WpJBR0=;
- b=ETgqtMNfBxhonWQCHYDjN8mrM5Vu1Eo2X+YNCpXYFXFpAvdIiJh8RtTt2XcZRrw/7U
- L1U0OQPKCdyMVhV7yzEYnoHsz16DtfnEG5OaG7n6iTKc5OEl9Bv7HcicRQgBpRK43wQ/
- VAzkQ3LgzkTIcC1QsMmFpR9wy2N3e3QuCMdnqrc1P3kmjqbYEGocWrzyvW9c7yVU8+DP
- 3xkpw4DWyTxffBnkmf4jVmjhn/j7C+gNGKJ1lp0xcRDCGY72QQIhh3bGXuxte8NoUBxG
- FR53y7tZoqIEEvSZV45sA2LHa5Gvw/VQhtjM3vPmN76QaYQwCodYcrPhgncfRWlemBon
- pq0g==
-X-Gm-Message-State: AGi0PuZNTe9317nflhUC6qTDLf1ZG/fnaKNlcjAeOCe/UJ6yjtZMUKAI
- y3aZHLf5J7l05HtFvqwtgIEuz78oHtA=
-X-Google-Smtp-Source: APiQypK/xUM8U1wpv0GDZTseSOCG1MIGgXGybkHstEjQsBRy2BSRPTj51QbD4NZIdt0nxru2BuYUPQ==
-X-Received: by 2002:a17:90a:1f07:: with SMTP id
- u7mr18835394pja.24.1586725884883; 
- Sun, 12 Apr 2020 14:11:24 -0700 (PDT)
-Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
- [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id jx1sm4916804pjb.5.2020.04.12.14.11.23
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=T5mHgLfEaaiCDMXdWGGj6PS3hq3rh1VE3urG/NfjmHY=;
+ b=Wd+gDMQmL8SHdpBErx+75sOF45qMGDsuF1AxW8oBSgqGwX5+tDwiO07oQo4t6BR6zv
+ kC76KQmBeCQlCNVgKcc3cy5Ix4jqVkH2vE+J6uraxD++KM5F2TYYGEDBqxPuhhwQICYF
+ leI8srNEBSl4EsTd1rgVVYS91WjtgmX0hKvCKBcFEeFy25bsRtZJxtqFdhFI0Mrd6HHe
+ bYqLqkiFyod2RIfH0qdPN6mcZEUYemX0VU2plxjiG2EIY0PG8NMaWlhEuLsF2/2R54SK
+ 2Bf56VWDBasbIbQLCzZa3l7+gZh3xIn8GbNpHh27HFVSXTNwZGCbGmzkSwiuv2zHkq31
+ mTOQ==
+X-Gm-Message-State: AGi0PuYvfHNaeI0pIC+n5wIO/n9bFpldUHbATo40pBtC3SUGi1heUqIP
+ uRCqZ2jYPvCX9DaeBcqT1PbBK2XDZe8=
+X-Google-Smtp-Source: APiQypIl/akK1MjWFM2FmD18Z7pu4x1841MT4AUscJwM3omjpouy5sCrx1nBiGOJH+FvEjiXI9w//A==
+X-Received: by 2002:adf:e288:: with SMTP id v8mr15090742wri.141.1586726986002; 
+ Sun, 12 Apr 2020 14:29:46 -0700 (PDT)
+Received: from localhost.localdomain (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id r3sm12797798wrm.35.2020.04.12.14.29.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Apr 2020 14:11:24 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ Sun, 12 Apr 2020 14:29:45 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL for-5.0 1/1] tcg/mips: mips sync* encode error
-Date: Sun, 12 Apr 2020 14:11:21 -0700
-Message-Id: <20200412211121.13579-2-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200412211121.13579-1-richard.henderson@linaro.org>
-References: <20200412211121.13579-1-richard.henderson@linaro.org>
+Subject: [PATCH 0/3] hw: Use qdev gpio rather than qemu_allocate_irqs()
+Date: Sun, 12 Apr 2020 23:29:40 +0200
+Message-Id: <20200412212943.4117-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::62d
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,55 +78,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+Cc: qemu-block@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- lixinyu <precinct@mail.ustc.edu.cn>
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Stafford Horne <shorne@gmail.com>, John Snow <jsnow@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: lixinyu <precinct@mail.ustc.edu.cn>
+Use a coccinelle script to convert few qemu_allocate_irqs()
+calls to the qdev gpio API.
 
-OPC_SYNC_WMB, OPC_SYNC_MB, OPC_SYNC_ACQUIRE, OPC_SYNC_RELEASE and
-OPC_SYNC_RMB have wrong encode. According to the mips manual,
-their encode should be 'OPC_SYNC | 0x?? << 6' rather than
-'OPC_SYNC | 0x?? << 5'. Wrong encode can lead illegal instruction
-errors. These instructions often appear with multi-threaded
-simulation.
+One memory leak removed in hw/openrisc/pic_cpu.c
 
-Fixes: 6f0b99104a3 ("tcg/mips: Add support for fence")
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: lixinyu <precinct@mail.ustc.edu.cn>
-Message-Id: <20200411124612.12560-1-precinct@mail.ustc.edu.cn>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/mips/tcg-target.inc.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Philippe Mathieu-Daudé (3):
+  hw/ide/ahci: Use qdev gpio rather than qemu_allocate_irqs()
+  hw/mips/mips_int: Use qdev gpio rather than qemu_allocate_irqs()
+  hw/openrisc/pic_cpu: Use qdev gpio rather than qemu_allocate_irqs()
 
-diff --git a/tcg/mips/tcg-target.inc.c b/tcg/mips/tcg-target.inc.c
-index 1da663ce84..4d32ebc1df 100644
---- a/tcg/mips/tcg-target.inc.c
-+++ b/tcg/mips/tcg-target.inc.c
-@@ -404,11 +404,11 @@ typedef enum {
- 
-     /* MIPS r6 introduced names for weaker variants of SYNC.  These are
-        backward compatible to previous architecture revisions.  */
--    OPC_SYNC_WMB     = OPC_SYNC | 0x04 << 5,
--    OPC_SYNC_MB      = OPC_SYNC | 0x10 << 5,
--    OPC_SYNC_ACQUIRE = OPC_SYNC | 0x11 << 5,
--    OPC_SYNC_RELEASE = OPC_SYNC | 0x12 << 5,
--    OPC_SYNC_RMB     = OPC_SYNC | 0x13 << 5,
-+    OPC_SYNC_WMB     = OPC_SYNC | 0x04 << 6,
-+    OPC_SYNC_MB      = OPC_SYNC | 0x10 << 6,
-+    OPC_SYNC_ACQUIRE = OPC_SYNC | 0x11 << 6,
-+    OPC_SYNC_RELEASE = OPC_SYNC | 0x12 << 6,
-+    OPC_SYNC_RMB     = OPC_SYNC | 0x13 << 6,
- 
-     /* Aliases for convenience.  */
-     ALIAS_PADD     = sizeof(void *) == 4 ? OPC_ADDU : OPC_DADDU,
+ hw/ide/ahci.c         | 6 ++----
+ hw/mips/mips_int.c    | 6 ++----
+ hw/openrisc/pic_cpu.c | 5 ++---
+ 3 files changed, 6 insertions(+), 11 deletions(-)
+
 -- 
-2.20.1
+2.21.1
 
 
