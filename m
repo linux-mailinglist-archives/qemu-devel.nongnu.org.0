@@ -2,49 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBEE41A634E
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Apr 2020 08:58:05 +0200 (CEST)
-Received: from localhost ([::1]:40994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 849811A6369
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Apr 2020 09:06:07 +0200 (CEST)
+Received: from localhost ([::1]:41036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jNt2i-0003tn-Kh
-	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 02:58:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35074)
+	id 1jNtAU-0005i2-Hw
+	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 03:06:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35673)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cathy.zhang@intel.com>) id 1jNt21-0003VA-BL
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 02:57:22 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jNt9U-0004xO-Pf
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 03:05:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cathy.zhang@intel.com>) id 1jNt1z-0005BW-Jm
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 02:57:20 -0400
-Received: from mga06.intel.com ([134.134.136.31]:34271)
+ (envelope-from <pbonzini@redhat.com>) id 1jNt9T-0007z4-Ch
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 03:05:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29369
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cathy.zhang@intel.com>)
- id 1jNt1z-00059n-6n
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 02:57:19 -0400
-IronPort-SDR: BGsi1Nj3q1KGbO1pPurngzL2+wNBBT265X6F1lApbhgPd8Z/VMXj5ADMRrhAOSwstw7AkPskGv
- SP8+dJo9bzZg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2020 23:57:10 -0700
-IronPort-SDR: Lr7knNyBEDv3IuwB+Yr7uZp02UD3fJvELuabZgNEkn5IhQP5+CF7DKV51f8IU5sM0GeDGBwcRT
- 7yai+tzj0cwg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,377,1580803200"; d="scan'208";a="270992545"
-Received: from unknown (HELO localhost.localdomain.bj.intel.com)
- ([10.238.156.101])
- by orsmga002.jf.intel.com with ESMTP; 12 Apr 2020 23:57:08 -0700
-From: Cathy Zhang <cathy.zhang@intel.com>
-To: pbonzini@redhat.com,
-	rth@twiddle.net,
-	ehabkost@redhat.com
-Subject: [PATCH] x86/cpu: Enable AVX512_VP2INTERSECT cpu feature
-Date: Mon, 13 Apr 2020 14:52:38 +0800
-Message-Id: <1586760758-13638-1-git-send-email-cathy.zhang@intel.com>
-X-Mailer: git-send-email 1.8.3.1
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 134.134.136.31
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jNt9T-0007yg-6H
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 03:05:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586761502;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=RZCKbBLiuFnZdCNkCVsECS8lV70QZ6GPa9l2d2OloCs=;
+ b=SsOzjN7c4DrVTnZTBexwhSasjUHnKASESFCYtHX4SBvwVgwWV7fzjvFx51SQMs+h8nFYtU
+ y8OIg2vRrB8grMx9VfpsK2TP5eZEBevAJG6jYOzpFlg8W+r7uJ94q8k9NFMENngBUQcaYA
+ fR1vp4sYfUfbn97Zcpoky9ptoeFRImA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-194-G1Mlc2UKPQiUk32VzT3Jmg-1; Mon, 13 Apr 2020 03:04:59 -0400
+X-MC-Unique: G1Mlc2UKPQiUk32VzT3Jmg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C335118B5FA0
+ for <qemu-devel@nongnu.org>; Mon, 13 Apr 2020 07:04:58 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7EA555D9C9
+ for <qemu-devel@nongnu.org>; Mon, 13 Apr 2020 07:04:58 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 0/8] Misc patches for QEMU 5.0-rc3
+Date: Mon, 13 Apr 2020 03:04:57 -0400
+Message-Id: <20200413070457.25499-1-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,51 +67,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, cathy.zhang@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-AVX512_VP2INTERSECT compute vector pair intersection to a pair
-of mask registers, which is introduced with intel Tiger Lake,
-defining as CPUID.(EAX=7,ECX=0):EDX[bit 08].
+The following changes since commit 53ef8a92eb04ee19640f5aad3bff36cd4a36c250=
+:
 
-Refer to the following release spec:
-https://software.intel.com/sites/default/files/managed/c5/15/\
-architecture-instruction-set-extensions-programming-reference.pdf
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200=
+406' into staging (2020-04-06 12:36:45 +0100)
 
-Signed-off-by: Cathy Zhang <cathy.zhang@intel.com>
----
- target/i386/cpu.c | 2 +-
- target/i386/cpu.h | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+are available in the Git repository at:
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 92fafa2..c8c95c3 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -1078,7 +1078,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-         .feat_names = {
-             NULL, NULL, "avx512-4vnniw", "avx512-4fmaps",
-             NULL, NULL, NULL, NULL,
--            NULL, NULL, "md-clear", NULL,
-+            "avx512-vp2intersect", NULL, "md-clear", NULL,
-             NULL, NULL, NULL, NULL,
-             NULL, NULL, NULL /* pconfig */, NULL,
-             NULL, NULL, NULL, NULL,
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 576f309..5c34795 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -770,6 +770,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- #define CPUID_7_0_EDX_AVX512_4VNNIW     (1U << 2)
- /* AVX512 Multiply Accumulation Single Precision */
- #define CPUID_7_0_EDX_AVX512_4FMAPS     (1U << 3)
-+/* AVX512 Vector Pair Intersection to a Pair of Mask Registers */
-+#define CPUID_7_0_EDX_AVX512_VP2INTERSECT (1U << 8)
- /* Speculation Control */
- #define CPUID_7_0_EDX_SPEC_CTRL         (1U << 26)
- /* Single Thread Indirect Branch Predictors */
--- 
-1.8.3.1
+  git://github.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to 267514b33ffa3f315adc26fc14d89f92e90840f5:
+
+  module: increase dirs array size by one (2020-04-13 02:56:18 -0400)
+
+----------------------------------------------------------------
+Bugfixes, and reworking of the atomics documentation.
+
+----------------------------------------------------------------
+
+v1->v2: remove stray roms/SLOF change
+
+Alexander Duyck (1):
+      memory: Do not allow direct write access to rom_device regions
+
+Bauerchen (1):
+      oslib-posix: take lock before qemu_cond_broadcast
+
+Bruce Rogers (1):
+      module: increase dirs array size by one
+
+Igor Mammedov (1):
+      vl.c: error out if -mem-path is used together with -M memory-backend
+
+Olaf Hering (1):
+      piix: fix xenfv regression, add compat machine xenfv-4.2
+
+Paolo Bonzini (3):
+      atomics: convert to reStructuredText
+      atomics: update documentation
+      rcu: do not mention atomic_mb_read/set in documentation
+
+ docs/devel/atomics.rst               | 507 +++++++++++++++++++++++++++++++=
+++++
+ docs/devel/atomics.txt               | 403 ----------------------------
+ docs/devel/index.rst                 |   1 +
+ docs/devel/rcu.txt                   |   4 +-
+ hw/i386/pc_piix.c                    |  19 +-
+ include/exec/memory.h                |   4 +-
+ softmmu/vl.c                         |   5 +
+ tests/qtest/device-introspect-test.c |   2 +-
+ tests/qtest/qom-test.c               |  42 +--
+ tests/qtest/test-hmp.c               |   2 +-
+ util/module.c                        |   2 +-
+ util/oslib-posix.c                   |   3 +
+ 12 files changed, 547 insertions(+), 447 deletions(-)
+ create mode 100644 docs/devel/atomics.rst
+ delete mode 100644 docs/devel/atomics.txt
+--=20
+2.18.2
 
 
