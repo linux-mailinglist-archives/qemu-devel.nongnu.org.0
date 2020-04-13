@@ -2,51 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 139B71A6BFE
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Apr 2020 20:19:25 +0200 (CEST)
-Received: from localhost ([::1]:47460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6110F1A6C09
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Apr 2020 20:23:47 +0200 (CEST)
+Received: from localhost ([::1]:47518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jO3g4-0002kY-2W
-	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 14:19:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48540)
+	id 1jO3kI-0005I4-FY
+	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 14:23:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49125)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vr_qemu@t-online.de>) id 1jO3eQ-0002KM-TE
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 14:17:45 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jO3jQ-0004t3-PN
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 14:22:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vr_qemu@t-online.de>) id 1jO3eO-0002Q2-QH
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 14:17:42 -0400
-Received: from mailout09.t-online.de ([194.25.134.84]:55008)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vr_qemu@t-online.de>) id 1jO3eO-0002NO-K6
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 14:17:40 -0400
-Received: from fwd23.aul.t-online.de (fwd23.aul.t-online.de [172.20.26.128])
- by mailout09.t-online.de (Postfix) with SMTP id 06E3742266E8;
- Mon, 13 Apr 2020 20:17:37 +0200 (CEST)
-Received: from [192.168.211.200]
- (XVKyicZfZh8UpCyJFvmohnb8M7IZ-SCq8e3k2p2p-JNXHpMKi6z2EErwcnqXtblwGJ@[46.86.48.198])
- by fwd23.t-online.de
- with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1jO3eK-4ZYztQ0; Mon, 13 Apr 2020 20:17:36 +0200
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Subject: Re: [PATCH] hax: Windows doesn't like posix device names
-To: Paolo Bonzini <pbonzini@redhat.com>
-References: <20200322210211.29603-1-vr_qemu@t-online.de>
- <e38bcea7-4fce-724f-d154-d3ffc3d3d33f@redhat.com>
-Message-ID: <8ca00eb9-bf68-12c5-ab78-d048cc86f562@t-online.de>
-Date: Mon, 13 Apr 2020 20:17:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (envelope-from <peter.maydell@linaro.org>) id 1jO3jP-0006R2-Ky
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 14:22:52 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:44563)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jO3jP-0006Q4-9D
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 14:22:51 -0400
+Received: by mail-ot1-x343.google.com with SMTP id j4so3431689otr.11
+ for <qemu-devel@nongnu.org>; Mon, 13 Apr 2020 11:22:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ut6bOVECxYRHJs2ojrm+229SFdLK6A3hayjM4R1R+jE=;
+ b=HKfqVmb/YMPC2XgwfCqwXlM7zA+HQMBCUqDZM5bsXQ2wBAMafEDK9VlY4O5r94ID5L
+ 9iF6K5a+3fdbtzTJ0/F+BtGhl0g1ukGQlfmmimQVl3PB0NFU2R0P8fLR/GnIcfLunlo4
+ qkSkjDv47DG7Wa9M6wcX4nTNfuxwW17GG6Bj+aBLmPUCihj63Qczi4LQPOVrjXZfTAi6
+ l65znvwwDco28vvgIKa3HJ/z1qIR38bAkuS3+Mw+FvuIbsD4QzP/p8hdSUEka9iBKC5f
+ xuMuLTZN2I1Fs3dQ6Smjlnc0E/h//LhjHABAk/blQnEq3/PgYtdoTuAunfzWAJW1D5Qi
+ RTTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ut6bOVECxYRHJs2ojrm+229SFdLK6A3hayjM4R1R+jE=;
+ b=RH5rcC3EVH/jqbbNiCkPs2UL7WDdaFVS3jUfEaX/bebNHZ5ted6JgVHT4+1IdAYII/
+ CBRa1nllI31rOw1Yhv2BtCLPRn8M/QFe/U1XfQD+dQiJ68h+r/3MQ2QKPQy3X6qhtZNv
+ 0PMzAASQTX1vgnLjDyu4z9Y5Uak440pogS7GIWmDIBbXlzznPXuTCCriLeDCCKmNzvhQ
+ Hwj057EOki7Z11tfMdhUEJR3icrE3oyX3a67GQKQAVga57C7LDPHl0KCwcgyykdSOt5h
+ bzwtMLVV+dOuTCXh8AJl8EORR+yQt+1US8GXajrvCymrmRIjGB25qdnian7zJQoAjlQH
+ bHRQ==
+X-Gm-Message-State: AGi0PuZ5m1uqVF97MmZfL+CkqYctvUk7N+a6pyHsD6CiyUu8AgGKiMXW
+ 7uDYxtHUO0gdUxKZKoN13ZMaIwOZBgmxbb5i5ULf/Q==
+X-Google-Smtp-Source: APiQypIpnGY3ihIoIHjJ6uBS4AKrseVaag3ay9Bw08zRpUik68dSik7A28tedwJr4jldd9iWyP/Ro+hesN4P+vL8oBU=
+X-Received: by 2002:a4a:b241:: with SMTP id i1mr15287182ooo.64.1586802170292; 
+ Mon, 13 Apr 2020 11:22:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <e38bcea7-4fce-724f-d154-d3ffc3d3d33f@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-ID: XVKyicZfZh8UpCyJFvmohnb8M7IZ-SCq8e3k2p2p-JNXHpMKi6z2EErwcnqXtblwGJ
-X-TOI-MSGID: 7e7b61e6-82a9-46e2-838c-e3db0de24c8f
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 194.25.134.84
+References: <20200411182934.28678-1-peter.maydell@linaro.org>
+ <4873c74c-f590-62bf-bd64-dd5ab391c252@redhat.com>
+In-Reply-To: <4873c74c-f590-62bf-bd64-dd5ab391c252@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 13 Apr 2020 19:22:39 +0100
+Message-ID: <CAFEAcA-Nuk8hnbtTrhtmSDroZugoEWheyh1N9E4jcAPikpPx9g@mail.gmail.com>
+Subject: Re: Supported Sphinx Versions (was: Re: [PATCH for-5.0? 0/3] Make
+ docs build work with Sphinx 3)
+To: John Snow <jsnow@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,30 +73,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> On 22/03/20 22:02, Volker R=C3=BCmelin wrote:
->> Patch acb9f95a7c "i386: Fix GCC warning with snprintf when HAX
->> is enabled" replaced Windows device names with posix device
->> names. Revert this.
->>
->> Fixes: acb9f95a7c "i386: Fix GCC warning with snprintf when HAX is ena=
-bled"
+On Mon, 13 Apr 2020 at 19:08, John Snow <jsnow@redhat.com> wrote:
+> I was curious about our actual version compatibility, so I did some testing.
 
->> Queued, thanks.
->>
->> Paolo
->>
+Thanks for doing the testing.
 
-Hi Paolo,
+> 1.6.1 through 2.2.2 all appear to work just fine, but produce a lot of
+> warnings about a coming incompatibility with Docutils > 0.16.
 
-I would like to remind you that without this patch qemu 5.0 on Windows wi=
-ll not work with HAX. There is already a bug report at
+FWIW, I don't get this warning with the stock Ubuntu
+1.6.7. The only time I did see it was when I'd managed
+to accidentally install half of Sphinx 3 to my ~/.local
+directory and I think it was the system Sphinx and an
+upgraded docutils or some other weird combo.
 
-https://bugs.launchpad.net/bugs/1871250
+> Conclusion:
+>
+> Required: >= 1.6.1
+> Recommended: >= 2.3.0
 
-With best regards,
-Volker
+I think that what we actually care about is the usual thing:
+do we build OK with the version of sphinx-build shipped by
+every distro on our support list?
+
+thanks
+-- PMM
 
