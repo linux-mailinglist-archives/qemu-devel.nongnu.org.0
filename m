@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 633CB1A639A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Apr 2020 09:24:37 +0200 (CEST)
-Received: from localhost ([::1]:41156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F791A639E
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Apr 2020 09:25:29 +0200 (CEST)
+Received: from localhost ([::1]:41172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jNtSO-0005QR-F0
-	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 03:24:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37093)
+	id 1jNtTE-0007Dr-3U
+	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 03:25:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37146)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chenhuacai@gmail.com>) id 1jNtR2-000430-H8
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 03:23:13 -0400
+ (envelope-from <chenhuacai@gmail.com>) id 1jNtRK-0004Vt-Nz
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 03:23:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chenhuacai@gmail.com>) id 1jNtR1-00072d-I4
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 03:23:12 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:43069)
+ (envelope-from <chenhuacai@gmail.com>) id 1jNtRI-0007LW-Fr
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 03:23:29 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:39658)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <chenhuacai@gmail.com>)
- id 1jNtR1-00070k-Cs
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 03:23:11 -0400
-Received: by mail-pg1-x536.google.com with SMTP id x26so2928918pgc.10
- for <qemu-devel@nongnu.org>; Mon, 13 Apr 2020 00:23:11 -0700 (PDT)
+ id 1jNtRI-0007Hq-1u
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 03:23:28 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id o1so2646430pjs.4
+ for <qemu-devel@nongnu.org>; Mon, 13 Apr 2020 00:23:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=qhpq41BRu/RPPwD4eaCJ5cfb9DHBcGHPYRUi0Z0GRT4=;
- b=Pm3BaaYHprds2QFeII0r9egbTq6PKvjEZ4oGWq6qQF9MHfbSZOZ42IDzZkMcHh55A+
- moc02dm11rgYAADl/KyOBMkZhgs3w0bnFOczVFoIvmTj6F8HIN1ulrRauQW5Rgo5NuId
- cXruvUf/VP0hNrJKVD2c53l6etSJ/THuMFWw6OAzl97dx6gQWKjOGJ5CKq9HOOfckpbv
- sPR1JXy3tWmtoL4udghPanl6w/nfyKA+k43Y769uyDrP2/Y+pGF5wucOFknJIetRoSPE
- 9AKK2KvEpo2cl4eZXGQrK9nOL0A6VnpDNJLZ3gNDdQSWbY++e/NP/xOvBAtzahq9328R
- HV+w==
+ bh=UVCxTnXHR3JksW4kNoRPYShJz0VQm0+u2ggksb/zVto=;
+ b=YHKwQhQ8uYspWZKAckCJrtm72ODPhNdButAAJ27i9ZCefOlJDY//J9k6k+KGCG9+LI
+ cljDdKd298diKZYs+1YwB3L5xRmmtSEe/0R0Tp1qGy9M6exVw2H/pM0AR7NFXsnsCwsL
+ KwMoI/aRYOokKR/ub5d6FFHj2R0A/J+Kb8Fb1ozpAvLvzUq2zcJbQSC+WGsJ3InM64ER
+ udEBtFP2AoLf2+YyzXXveF9V88yw5U5iNUEcF6jxoDOH+cd0NIROOZWwjuT7nwJ1L7MN
+ zRJY4HD+dc2adbLRErSmlzHa3Rw6gJgc1PreAdODMduMyTn2NCpp66X0scK2Q54ikpur
+ Ljug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=qhpq41BRu/RPPwD4eaCJ5cfb9DHBcGHPYRUi0Z0GRT4=;
- b=FontlRklqyGRBShb+jlQaYha7ND+Rn6esQIwmw7j6k7PBb/Ks7U3KWaH2b9F3JYIUR
- 61ViHRXaQU9bWXf5PlrqwcAVHD2fR8VA/A49LXXlsIXKXo2gKRFT+WST0SWQ2jaXrQI7
- 0XJU7m75iUAQygXdEyE56gidU/+4o8KvssjyNnPMK0WPownHU+rRdhIsUbU6g325t3kG
- q6DDDGZ1lUHhw3d4lfOmbVVX17FdSyHOuPNyWWZ0Akfp4OsTGVUWYVhtLTMsgmMCw4gC
- sgGbU6cAMl9dRiuqKUhlQ7DHcrOc6Mg29UevoLFrsu9HRT4ITBplRcYYQ4w/WhxGMp6K
- 1wgQ==
-X-Gm-Message-State: AGi0PubpMTnFhMmmwbge2qJfoSYXqbXsPUiMe4e6G4/Amo+CFnzzVP9V
- N3MnPgmk3N3eWZ9LOigOd1w=
-X-Google-Smtp-Source: APiQypJ2RWntWbbpBSM1g5kZmzP5ruORUti27kfstHoJP/pSw4ATCiAl2BtVdEXVJ1aCioNa49hX9Q==
-X-Received: by 2002:a62:164d:: with SMTP id 74mr1172550pfw.52.1586762590414;
- Mon, 13 Apr 2020 00:23:10 -0700 (PDT)
+ bh=UVCxTnXHR3JksW4kNoRPYShJz0VQm0+u2ggksb/zVto=;
+ b=hxBrRjE35i7g5CP4ZTCWM3dq1ZQL2rv+6JqgaEWAQWYV+yqkdFLiC6jeDYtaOCB8di
+ Tk5UWsZHL90VTLYeB2ZqO4YKHSxw5PA/NRyzCyspoQyjUBxNH1L7BoVBcYRge7l2he5O
+ kZOVNZgbkqKrMMdB19hMHvrpEJ05tEozWkI/E4NrBdT4+KTmy6cxHUdnezPYE4bZYzEG
+ AXrvMQfc6To5HwKavyM5TQh6OJ4hMT8wYMF3GuhB0veQTyXO1kLfiq0ywUvbBiHKj+cT
+ K2+/IBGEmjGQsITjwMgoCjbW1jcZuHY54S9tP0Vqb8ZODiBssEy59+Sa1aFEttUPy6zV
+ h/QA==
+X-Gm-Message-State: AGi0PuYTYn8lwL5k5s/loHm7SUKmmnqh5k1ZDlD9i0eJe2leFS7b9DLI
+ N3DI0pCD0cpoTt279t5QVW8=
+X-Google-Smtp-Source: APiQypI1h6KmTeIWmHIup4Gdrnsdh7SfYOYPE5/YrcJrz5mweL0LD6nQ/PM51Xkrsv2zk27QQYZkow==
+X-Received: by 2002:a17:90a:fe18:: with SMTP id
+ ck24mr21510792pjb.57.1586762607056; 
+ Mon, 13 Apr 2020 00:23:27 -0700 (PDT)
 Received: from software.domain.org (28.144.92.34.bc.googleusercontent.com.
  [34.92.144.28])
- by smtp.gmail.com with ESMTPSA id u8sm7241341pgl.19.2020.04.13.00.23.08
+ by smtp.gmail.com with ESMTPSA id u8sm7241341pgl.19.2020.04.13.00.23.24
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 13 Apr 2020 00:23:10 -0700 (PDT)
+ Mon, 13 Apr 2020 00:23:26 -0700 (PDT)
 From: Huacai Chen <chenhc@lemote.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: [PATCH 04/15] KVM: MIPS: Increase KVM_MAX_VCPUS and
- KVM_USER_MEM_SLOTS to 16
-Date: Mon, 13 Apr 2020 15:30:13 +0800
-Message-Id: <1586763024-12197-5-git-send-email-chenhc@lemote.com>
+Subject: [PATCH 05/15] KVM: MIPS: Add EVENTFD support which is needed by VHOST
+Date: Mon, 13 Apr 2020 15:30:14 +0800
+Message-Id: <1586763024-12197-6-git-send-email-chenhc@lemote.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1586763024-12197-1-git-send-email-chenhc@lemote.com>
 References: <1586763024-12197-1-git-send-email-chenhc@lemote.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::536
+X-Received-From: 2607:f8b0:4864:20::1041
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,30 +84,71 @@ Cc: kvm@vger.kernel.org, Huacai Chen <chenhuacai@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Loongson-3 based machines can have as many as 16 CPUs, and so does
-memory slots, so increase KVM_MAX_VCPUS and KVM_USER_MEM_SLOTS to 16.
+Add EVENTFD support for KVM/MIPS, which is needed by VHOST. Tested on
+Loongson-3 platform.
 
 Signed-off-by: Huacai Chen <chenhc@lemote.com>
 Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 ---
- arch/mips/include/asm/kvm_host.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/mips/kvm/Kconfig     | 1 +
+ arch/mips/kvm/Makefile    | 2 +-
+ arch/mips/kvm/trap_emul.c | 3 +++
+ arch/mips/kvm/vz.c        | 3 +++
+ 4 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/arch/mips/include/asm/kvm_host.h b/arch/mips/include/asm/kvm_host.h
-index 7b47a32..2258a2e 100644
---- a/arch/mips/include/asm/kvm_host.h
-+++ b/arch/mips/include/asm/kvm_host.h
-@@ -78,8 +78,8 @@
- #define KVM_REG_MIPS_CP0_KSCRATCH6	MIPS_CP0_64(31, 7)
+diff --git a/arch/mips/kvm/Kconfig b/arch/mips/kvm/Kconfig
+index eac25ae..80b0464 100644
+--- a/arch/mips/kvm/Kconfig
++++ b/arch/mips/kvm/Kconfig
+@@ -22,6 +22,7 @@ config KVM
+ 	select EXPORT_UASM
+ 	select PREEMPT_NOTIFIERS
+ 	select KVM_GENERIC_DIRTYLOG_READ_PROTECT
++	select HAVE_KVM_EVENTFD
+ 	select HAVE_KVM_VCPU_ASYNC_IOCTL
+ 	select KVM_MMIO
+ 	select MMU_NOTIFIER
+diff --git a/arch/mips/kvm/Makefile b/arch/mips/kvm/Makefile
+index 01affc1..0a3cef6 100644
+--- a/arch/mips/kvm/Makefile
++++ b/arch/mips/kvm/Makefile
+@@ -2,7 +2,7 @@
+ # Makefile for KVM support for MIPS
+ #
  
+-common-objs-y = $(addprefix ../../../virt/kvm/, kvm_main.o coalesced_mmio.o)
++common-objs-y = $(addprefix ../../../virt/kvm/, kvm_main.o coalesced_mmio.o eventfd.o)
  
--#define KVM_MAX_VCPUS		8
--#define KVM_USER_MEM_SLOTS	8
-+#define KVM_MAX_VCPUS		16
-+#define KVM_USER_MEM_SLOTS	16
- /* memory slots that does not exposed to userspace */
- #define KVM_PRIVATE_MEM_SLOTS	0
+ EXTRA_CFLAGS += -Ivirt/kvm -Iarch/mips/kvm
  
+diff --git a/arch/mips/kvm/trap_emul.c b/arch/mips/kvm/trap_emul.c
+index 5a11e83..f464506b 100644
+--- a/arch/mips/kvm/trap_emul.c
++++ b/arch/mips/kvm/trap_emul.c
+@@ -529,6 +529,9 @@ static int kvm_trap_emul_check_extension(struct kvm *kvm, long ext)
+ 	case KVM_CAP_MIPS_TE:
+ 		r = 1;
+ 		break;
++	case KVM_CAP_IOEVENTFD:
++		r = 1;
++		break;
+ 	default:
+ 		r = 0;
+ 		break;
+diff --git a/arch/mips/kvm/vz.c b/arch/mips/kvm/vz.c
+index dde2088..17932ab 100644
+--- a/arch/mips/kvm/vz.c
++++ b/arch/mips/kvm/vz.c
+@@ -2927,6 +2927,9 @@ static int kvm_vz_check_extension(struct kvm *kvm, long ext)
+ 		r = 2;
+ 		break;
+ #endif
++	case KVM_CAP_IOEVENTFD:
++		r = 1;
++		break;
+ 	default:
+ 		r = 0;
+ 		break;
 -- 
 2.7.0
 
