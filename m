@@ -2,102 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B1521A6EF1
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 00:11:45 +0200 (CEST)
-Received: from localhost ([::1]:49532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF5151A6F00
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 00:20:41 +0200 (CEST)
+Received: from localhost ([::1]:49642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jO7Iu-0006Pj-FJ
-	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 18:11:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44634)
+	id 1jO7RY-000541-P2
+	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 18:20:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45761)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jO7HY-0005MV-1t
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:10:22 -0400
+ (envelope-from <alistair23@gmail.com>) id 1jO7Ps-0003ib-S2
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:18:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jO7HX-00045p-33
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:10:20 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39094)
+ (envelope-from <alistair23@gmail.com>) id 1jO7Pr-0005P5-Qw
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:18:56 -0400
+Received: from mail-ua1-x942.google.com ([2607:f8b0:4864:20::942]:33973)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jO7HW-00045U-TT
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:10:19 -0400
-Received: by mail-wm1-x342.google.com with SMTP id y24so11720334wma.4
- for <qemu-devel@nongnu.org>; Mon, 13 Apr 2020 15:10:18 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1jO7Pr-0005P0-My; Mon, 13 Apr 2020 18:18:55 -0400
+Received: by mail-ua1-x942.google.com with SMTP id d23so3732745uak.1;
+ Mon, 13 Apr 2020 15:18:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=b4HPrLWdYQkSwtpKAYu7RyctuItnpt/9pcQ9NVcYeYs=;
- b=sL1QkVfEo0gyC5s1mufXuuiak4XScCn+N/qxhUdmYaUX/hdEtZqU2HJMuRy8Lf/EpW
- 3YUcZ4GqnslwiA/WgG7u6Z6bwAeVonHRO0iwAond1df5seP0Fo8IfUwLitR1MDdtYhY+
- WoxJg4ORJTgW61zFXuvOjmxx29iszzSoY7pZNeNwVle2QaZYE+SbWF3DGPYtBjI5PMBa
- CZ/XeDHMJ8IzsT1nWflxMS0FGP/0chmP/SZ/gk3P4XEqLkyNDDbeERyZeqVG3g4qTmgp
- mVzYY5yYZGprIpURk7cXOxbMelcGV628WuovJHOOgoOIzW+LrfbFtK4ZHO3141Y9VKGS
- k7Lg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ASvdBLcUCKQLyIh8bOZhHn+RseYcmfhTrHXZiAk3wxo=;
+ b=tTVICie5uEs0IaXlLz5qq4wXKoclyXmdgLXM0iT6/F53LLaCX8nmvPbqOlabLx4k6T
+ eAwCGaIz5Iqi6xLZpY1HHtVLhiqaqXgW8MDuHr6Co+AZKNUKzVX7WDcUngXPHPXI/Y+o
+ FAzBvikO5qWcstP1yqQRyX28uJLJ1mDtT4IioVuqfpGQxMK4z0SYtGls8n6h/ZMBxpuA
+ 3BxHD0gNEoMMj270I2kLLApnChND9HYzBlKwHNskHfUJ2CkYyrAqfNd+AqipGwhOPq54
+ VTYx6Cu7l35+MNDeC2nx1B5wKd0uEN0ipKjCfGB2hdD7JPZEV32wD2766oXGPSbmMoqO
+ KaMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=b4HPrLWdYQkSwtpKAYu7RyctuItnpt/9pcQ9NVcYeYs=;
- b=CKRvjBQ/zkZtdSXAg0MamslMamZQgT6+DA2qH3wShJ0+tOsjgVz/nmmEzPycvpf7//
- cBlCnp2OXBbooxmxS0R0YmKM7aCrn8FCsyCgm22igukVjW5y+YbBH8GQCwgUVbZ+6WZl
- rD8gpTJXsnRtAYTxuUq+YQcvlzI/9Y193firCVHbLVtODoolLDVck2rNdu4Oe/OXYOu2
- 8pZ38+uPuj9qn1+DVmCphs1w7v3LNENknQKqqasH63hXKTyKQLePHIhuZCTb2eeoKA1m
- 4Kp+tco/wxquHgCsssxK5TO/bchf7OG/03yZfr72/gmPZPGGytY2vyHf19lmfhB4Nk6C
- eYPA==
-X-Gm-Message-State: AGi0PubZzk37KTxlMu72cvOeiaVXqucLUaKdozGulqCcEotvAk9+R/u8
- ekBY9oVwVNky85b4he4Qr+o=
-X-Google-Smtp-Source: APiQypKmsT7o2gyrVIgzKAWYBinXWujmOSiaoqUMwL1l1+322DqLLQu2oGEFo8zHrWFam7RevUMhlA==
-X-Received: by 2002:a7b:c104:: with SMTP id w4mr15921958wmi.8.1586815817581;
- Mon, 13 Apr 2020 15:10:17 -0700 (PDT)
-Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id o11sm16119235wme.13.2020.04.13.15.10.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Apr 2020 15:10:16 -0700 (PDT)
-Subject: Re: [PATCH] MAINTAINERS: Add myself as vhost-user-blk maintainer
-To: Raphael Norwitz <raphael.norwitz@nutanix.com>, mst@redhat.com,
- qemu-devel@nongnu.org
-References: <20200410002800.GA7689@localhost.localdomain>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Autocrypt: addr=f4bug@amsat.org; keydata=
- mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
- u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
- HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
- YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
- ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
- dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
- ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
- Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
- HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
- Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
- CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
- klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
- jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
- 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
- loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
- sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
- JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
- 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
- K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
- n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
- CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
-Message-ID: <74dbcf2f-79d2-ffcd-01eb-6c997bb26c1f@amsat.org>
-Date: Tue, 14 Apr 2020 00:10:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ASvdBLcUCKQLyIh8bOZhHn+RseYcmfhTrHXZiAk3wxo=;
+ b=leufw6y6dOzBv6ZSgwZCPDTUtK1Y/uNsEFxxUC2y4Wg85UfuyuywtOXT9EsTjE4Fr4
+ OpPEU7vCLhtKtpczJAn07FJ1UYkGtiJOQDmtisPXxNi0Qi4Qsl7DSqim8OpwmXIKPukD
+ Z+t7RpRdkKMfwPkF7hM1my4cKMaAFuLcXtmIlPXSxIbVWGqqaiMsIBMAHE2m7XxsRSPx
+ 5qRr/25Q4rTCkCt5ZSsw8i6ShSRWWYebRSmD7ScdI7fNcVr8ixD9HdGMYJS/TnzMIeaQ
+ osrLNtgFOHQC5oeoYeA/IqteJKQ1R3AtWmh0t5KtrIcyRO2mvnosFQQIN+IlKW9aqRJ+
+ plWA==
+X-Gm-Message-State: AGi0PuZkqkrY0+rWbEfBuBiCT96x2CBNdZaJL1OlI+oQh0VN+wX5AQc8
+ 4wnuC1wcjP6efrhPuDwsYOhXpI9oNN4qYI4dFUE=
+X-Google-Smtp-Source: APiQypJLpjEOQztDtwHfex7Yb89Yc5z920EJbwj90x3o77paEp/SDnSrLCxlS6qwG6sHWtoIgqgzaZsuWkDFJfbF1BA=
+X-Received: by 2002:ab0:7444:: with SMTP id p4mr4226881uaq.133.1586816334965; 
+ Mon, 13 Apr 2020 15:18:54 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200410002800.GA7689@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200412224144.12205-1-f4bug@amsat.org>
+ <20200412224144.12205-9-f4bug@amsat.org>
+In-Reply-To: <20200412224144.12205-9-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 13 Apr 2020 15:10:38 -0700
+Message-ID: <CAKmqyKNGxMFoJVdpxqs18HkeXrzDkSYWUcpJ-p7mvpV=nRbE3w@mail.gmail.com>
+Subject: Re: [PATCH-for-5.1 v3 08/23] hw/arm/armv7m: Add missing
+ error-propagation code
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2607:f8b0:4864:20::942
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,52 +74,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: raphael.s.norwitz@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Max Reitz <mreitz@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Joel Stanley <joel@jms.id.au>, "open list:New World" <qemu-ppc@nongnu.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Alistair Francis <alistair@alistair23.me>,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, Michael Walle <michael@walle.cc>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/10/20 2:28 AM, Raphael Norwitz wrote:
-> Ping
+On Sun, Apr 12, 2020 at 3:54 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Patch created mechanically by running:
+>
+>   $ spatch \
+>     --macro-file scripts/cocci-macro-file.h --include-headers \
+>     --sp-file scripts/coccinelle/use-error_propagate-in-realize.cocci \
+>     --keep-comments --smpl-spacing --in-place --dir hw
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-FYI this patch has been recently merged as commit
-b372d79b236a4e07eaa3ce65ee0543569b712326.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-> 
-> On Thu, Mar 26, 2020 at 04:47:35AM -0400, Raphael Norwitz wrote:
->> As suggested by Michael, let's add me as a maintainer of
->> vhost-user-blk and vhost-user-scsi.
->>
->> CC: Michael S. Tsirkin <mst@redhat.com>
->> CC Peter Maydell <peter.maydell@linaro.org>
->> Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
->> ---
->>  MAINTAINERS | 12 ++++++++++++
->>  1 file changed, 12 insertions(+)
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index e580276..239ecc1 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -1845,6 +1845,18 @@ F: hw/display/virtio-gpu*
->>  F: hw/display/virtio-vga.*
->>  F: include/hw/virtio/virtio-gpu.h
->>  
->> +vhost-user-blk
->> +M: Raphael Norwitz <raphael.norwitz@nutanix.com>
->> +S: Maintained
->> +F: contrib/vhost-user-blk/
->> +F: contrib/vhost-user-scsi/
->> +F: hw/block/vhost-user-blk.c
->> +F: hw/scsi/vhost-user-scsi.c
->> +F: hw/virtio/vhost-user-blk-pci.c
->> +F: hw/virtio/vhost-user-scsi-pci.c
->> +F: include/hw/virtio/vhost-user-blk.h
->> +F: include/hw/virtio/vhost-user-scsi.h
->> +
->>  vhost-user-gpu
->>  M: Marc-André Lureau <marcandre.lureau@redhat.com>
->>  M: Gerd Hoffmann <kraxel@redhat.com>
->> -- 
->> 1.8.3.1
-> 
+Alistair
+
+> ---
+>  hw/arm/armv7m.c | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
+> index 7531b97ccd..249a7605f6 100644
+> --- a/hw/arm/armv7m.c
+> +++ b/hw/arm/armv7m.c
+> @@ -168,7 +168,11 @@ static void armv7m_realize(DeviceState *dev, Error *=
+*errp)
+>      }
+>
+>      object_property_set_link(OBJECT(s->cpu), OBJECT(&s->container), "mem=
+ory",
+> -                             &error_abort);
+> +                             &err);
+> +    if (err) {
+> +        error_propagate(errp, err);
+> +        return;
+> +    }
+>      if (object_property_find(OBJECT(s->cpu), "idau", NULL)) {
+>          object_property_set_link(OBJECT(s->cpu), s->idau, "idau", &err);
+>          if (err !=3D NULL) {
+> @@ -256,7 +260,11 @@ static void armv7m_realize(DeviceState *dev, Error *=
+*errp)
+>                  return;
+>              }
+>              object_property_set_link(obj, OBJECT(s->board_memory),
+> -                                     "source-memory", &error_abort);
+> +                                     "source-memory", &err);
+> +            if (err) {
+> +                error_propagate(errp, err);
+> +                return;
+> +            }
+>              object_property_set_bool(obj, true, "realized", &err);
+>              if (err !=3D NULL) {
+>                  error_propagate(errp, err);
+> --
+> 2.21.1
+>
+>
 
