@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85F2A1A639B
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Apr 2020 09:24:38 +0200 (CEST)
-Received: from localhost ([::1]:41158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FA071A63A1
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Apr 2020 09:26:13 +0200 (CEST)
+Received: from localhost ([::1]:41176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jNtSP-0005Sh-KE
-	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 03:24:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36974)
+	id 1jNtTw-00009e-8c
+	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 03:26:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37020)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chenhuacai@gmail.com>) id 1jNtQK-0002q4-56
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 03:22:30 -0400
+ (envelope-from <chenhuacai@gmail.com>) id 1jNtQg-0003Rx-JL
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 03:22:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chenhuacai@gmail.com>) id 1jNtQJ-0006KR-3A
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 03:22:28 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:32971)
+ (envelope-from <chenhuacai@gmail.com>) id 1jNtQf-0006gh-LX
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 03:22:50 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:41776)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <chenhuacai@gmail.com>)
- id 1jNtQI-0006IT-UC
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 03:22:27 -0400
-Received: by mail-pl1-x644.google.com with SMTP id ay1so3122346plb.0
- for <qemu-devel@nongnu.org>; Mon, 13 Apr 2020 00:22:26 -0700 (PDT)
+ id 1jNtQf-0006gW-GK
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 03:22:49 -0400
+Received: by mail-pl1-x641.google.com with SMTP id d24so3104613pll.8
+ for <qemu-devel@nongnu.org>; Mon, 13 Apr 2020 00:22:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=IYw9KM308fvuCNV456QoScKTZAovGHwS9ZllmosmZHA=;
- b=oGsjS1xbf9xogVsLJWnou0X56088c+jXKkPfT4EJU21wV61xCDLOKDxpfmfG3pbREz
- 8RQpXNeO/EqiBDGVeX6h16ORRBAT4GMuyFDC1fiPSjnwWXiceuU2GkdRxDubsjebobmS
- wdS/aovMHceQneB3xpCwn4W03T2EFMhwJdatsQgjPMvzabeRU3KMqOvbM/uPSCVUmMQZ
- Y2VqTQKgDxDT6DXqWega5bMoOk65CMSUjR63sJ+QZjjf8AbyyIgnO00cNo/wjESjTQBz
- 9rZnV43N3RDME72XFmvzcsoVa3MUW1LuYiBW4T+krx3BSkwHC0rX+Y48YBgSGkDTyCFh
- m9OQ==
+ bh=TZhgT5gzN/QhZfE1otKiPDej1lzfZYbOzbi8m9YCzNk=;
+ b=msz8u4rnm9qloVBXtsffUI8FKe2tlKM+2hEuS45XjwHEz+dCvQHSQ7PdkCU8J9piN1
+ 3JvsDMJor8tnwIMkln5CN+Pa7AlPwBEjUTpBVIWCna1HZjItxG7ACje3wFcktp5e8tkD
+ Kk0eY6ZdyNJ3lfzJ0c+r5Ccm4+ZO3xfZ3QTxoph9DQScR54Vkge4xoT10Fe2RDG+P0VB
+ 9Rv74/DzrAge9B1F/XCGuTOEmDOA3xb1+ktX3RK1VHaz0A0tjixOBqApknXcYiST4eGI
+ CtT6oZS+UsGeR6471krMaDkC7MIFPuSCOX+ElkDp5r1/0cjb1yAvCfvBMdHPQ9Q6x4ta
+ NG3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=IYw9KM308fvuCNV456QoScKTZAovGHwS9ZllmosmZHA=;
- b=Kvsky2/FF3urnQEwVxSKr5Veq8dDmX2CioB3iFlocfBdz5pPtfaXRWsVm2Kc13tUXw
- kKdS6L98qVFUgVdeiZsldwQg2to5AUD0iaUukXeDBUfeRdbTxM7imf7Fei81X70eGVng
- EFK3wT9VkvjPTD3xNyEocQs48Ocn/3WJgJGGBZyQibAOWuxlQLzS7SIALeN/LCZbSE3C
- lmFFXcjUP2V351uoIOscFdDWGDIrDruADzz5yAcFDqztSdg1PFENRP6reFuVcrytsUqA
- 6WAnZoZNsyfw9Lc1OSPGmcOwuZs0FTz7YbQjd0jKf8T5B8dHYUsVhWoYSRcH9PkbSZ0F
- UqYg==
-X-Gm-Message-State: AGi0PuZWgJKs0gaIEi9PDB8yaDkVESt5vwIHFHSYlepnLWYCgC41LLKz
- 9fIJhpCBUcNC0a86Gb6h7C2I+GevO7k=
-X-Google-Smtp-Source: APiQypLratNJjdldNhRTz0xpzWmi6lNCP7lJRob5L/BRLECvfri/in1gAYGd1LdcJFUKuecUGIfAQw==
-X-Received: by 2002:a17:90a:c295:: with SMTP id
- f21mr12982259pjt.176.1586762546007; 
- Mon, 13 Apr 2020 00:22:26 -0700 (PDT)
+ bh=TZhgT5gzN/QhZfE1otKiPDej1lzfZYbOzbi8m9YCzNk=;
+ b=NROhwCxxnPy88/T7JeF6n5YcPf5AegBreBA120HNe3YCQ2QSPrr6/M8O5LbtW7yoJA
+ 1ynaluh2k446l46xtFVhmZ69nLY3A7GjceilHSwuA/36Gc+1Quj4VFPry/dkYNeRHkLn
+ HUFs1OixTOSlq5yciWHvGHGhbsKyF7Ec4a4+796tmRX/tJHCuBpiX+PjogzsnXnjGmRB
+ 93br787uhoC8d3EOOJLbjKTFHv8RRNkBjisFcxKnbUVl7+HR18HqxFzarfIyt3zHcd13
+ hjEZlFU6mgew+ik8KjjfSnB3CCQUokcTA8qMeN2V/iIHFkVl6YbJQmUxLkJBlviTF8PR
+ BgUA==
+X-Gm-Message-State: AGi0PuZsSumfYlVIow5bU/FKCsiOvm/7VwWi5wOK0SC6RNHWKFI4Ioq8
+ CeFCeDPY6nP/HPjue/XMOH0=
+X-Google-Smtp-Source: APiQypI2Dw4REaEH3isPk9kUjxH01Os9b6g4OioUqeQskNSG8c/c8x97XaoId95X7kvG/IQrU79kDw==
+X-Received: by 2002:a17:90a:ee90:: with SMTP id
+ i16mr3079047pjz.165.1586762568561; 
+ Mon, 13 Apr 2020 00:22:48 -0700 (PDT)
 Received: from software.domain.org (28.144.92.34.bc.googleusercontent.com.
  [34.92.144.28])
- by smtp.gmail.com with ESMTPSA id u8sm7241341pgl.19.2020.04.13.00.22.23
+ by smtp.gmail.com with ESMTPSA id u8sm7241341pgl.19.2020.04.13.00.22.45
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 13 Apr 2020 00:22:25 -0700 (PDT)
+ Mon, 13 Apr 2020 00:22:48 -0700 (PDT)
 From: Huacai Chen <chenhc@lemote.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: [PATCH 02/15] KVM: MIPS: Define KVM_ENTRYHI_ASID to
- cpu_asid_mask(&boot_cpu_data)
-Date: Mon, 13 Apr 2020 15:30:11 +0800
-Message-Id: <1586763024-12197-3-git-send-email-chenhc@lemote.com>
+Subject: [PATCH 03/15] KVM: MIPS: Fix VPN2_MASK definition for variable
+ cpu_vmbits
+Date: Mon, 13 Apr 2020 15:30:12 +0800
+Message-Id: <1586763024-12197-4-git-send-email-chenhc@lemote.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1586763024-12197-1-git-send-email-chenhc@lemote.com>
 References: <1586763024-12197-1-git-send-email-chenhc@lemote.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,39 +88,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xing Li <lixing@loongson.cn>
 
-The code in decode_config4() of arch/mips/kernel/cpu-probe.c
+If a CPU support more than 32bit vmbits (which is true for 64bit CPUs),
+VPN2_MASK set to fixed 0xffffe000 will lead to a wrong EntryHi in some
+functions such as _kvm_mips_host_tlb_inv().
 
-        asid_mask = MIPS_ENTRYHI_ASID;
-        if (config4 & MIPS_CONF4_AE)
-                asid_mask |= MIPS_ENTRYHI_ASIDX;
-        set_cpu_asid_mask(c, asid_mask);
-
-set asid_mask to cpuinfo->asid_mask.
-
-So in order to support variable ASID_MASK, KVM_ENTRYHI_ASID should also
-be changed to cpu_asid_mask(&boot_cpu_data).
+The cpu_vmbits definition of 32bit CPU in cpu-features.h is 31, so we
+still use the old definition.
 
 Cc: stable@vger.kernel.org
 Signed-off-by: Xing Li <lixing@loongson.cn>
-[Huacai: Change current_cpu_data to boot_cpu_data for optimization]
+[Huacai: Improve commit messages]
 Signed-off-by: Huacai Chen <chenhc@lemote.com>
 ---
- arch/mips/include/asm/kvm_host.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/mips/include/asm/kvm_host.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/arch/mips/include/asm/kvm_host.h b/arch/mips/include/asm/kvm_host.h
-index 41204a4..5794584 100644
+index 5794584..7b47a32 100644
 --- a/arch/mips/include/asm/kvm_host.h
 +++ b/arch/mips/include/asm/kvm_host.h
-@@ -275,7 +275,7 @@ enum emulation_result {
+@@ -274,7 +274,11 @@ enum emulation_result {
+ #define MIPS3_PG_SHIFT		6
  #define MIPS3_PG_FRAME		0x3fffffc0
  
++#if defined(CONFIG_64BIT)
++#define VPN2_MASK		GENMASK(cpu_vmbits - 1, 13)
++#else
  #define VPN2_MASK		0xffffe000
--#define KVM_ENTRYHI_ASID	MIPS_ENTRYHI_ASID
-+#define KVM_ENTRYHI_ASID	cpu_asid_mask(&boot_cpu_data)
++#endif
+ #define KVM_ENTRYHI_ASID	cpu_asid_mask(&boot_cpu_data)
  #define TLB_IS_GLOBAL(x)	((x).tlb_lo[0] & (x).tlb_lo[1] & ENTRYLO_G)
  #define TLB_VPN2(x)		((x).tlb_hi & VPN2_MASK)
- #define TLB_ASID(x)		((x).tlb_hi & KVM_ENTRYHI_ASID)
 -- 
 2.7.0
 
