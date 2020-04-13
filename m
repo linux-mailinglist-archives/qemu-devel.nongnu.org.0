@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 294241A6960
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Apr 2020 18:05:11 +0200 (CEST)
-Received: from localhost ([::1]:45978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8BB51A6971
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Apr 2020 18:10:12 +0200 (CEST)
+Received: from localhost ([::1]:46126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jO1a9-0000T2-Mt
-	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 12:05:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58247)
+	id 1jO1f1-0006KK-Th
+	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 12:10:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59258)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent.desnogues@gmail.com>) id 1jO1XH-0006GR-1z
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 12:02:12 -0400
+ (envelope-from <laurent.desnogues@gmail.com>) id 1jO1eG-0005fc-Ej
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 12:09:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent.desnogues@gmail.com>) id 1jO1XF-0002h0-Rz
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 12:02:10 -0400
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:33348)
+ (envelope-from <laurent.desnogues@gmail.com>) id 1jO1eF-0005dr-He
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 12:09:24 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:45328)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent.desnogues@gmail.com>)
- id 1jO1XF-0002ft-LO; Mon, 13 Apr 2020 12:02:09 -0400
-Received: by mail-il1-x141.google.com with SMTP id d2so8558403ilc.0;
- Mon, 13 Apr 2020 09:02:09 -0700 (PDT)
+ id 1jO1eF-0005dT-Di; Mon, 13 Apr 2020 12:09:23 -0400
+Received: by mail-io1-xd43.google.com with SMTP id i19so9814525ioh.12;
+ Mon, 13 Apr 2020 09:09:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yONhBCSNUkWh6rwM7oTIQMVkTPHNbYZwilZ1IfCuB0g=;
- b=ni1+dbQQHLNo6IUk8JzHPS5xHhMXACkakAAV9YLF73gfgq71tETyfkFGiOdSxnMFZ5
- NG8ZDQoSNTC7qnjVr2L4In2Lq2V3qbRdpp5kVNsg36krt1gWBq4JzpFjE1Rg8GuASdgU
- PJd1KlQs49aL4PNnX/8Q/fT71hHp/48H6QXhofb90E5pAR50Ibk+yMK/nU7EQRpqlq1d
- B7pf+n8QvpO5XdtoP+yXMc7wOAEP1/Yz3xOKFHZBU5SianEbrSvMBE3kBjQSQ4w4AqTO
- PxqH5k25l2bK2usMJFilEFEnVVKhQ2XlZRptUnTlMBgx/uZW2TwFQKVFlVOCrXFn5zNk
- 7M+A==
+ :cc; bh=6zzYFmntnypYkZL8T/VhiKG1nc4HF35zN8ul5ipSsiQ=;
+ b=gmuAY6sOFARZwsD5xGK6yQ1qKibzfPITzJ14I4YMcs8zY0+KSATmFxVSF+Vg/WUxr9
+ ZCLJwgGknIwHZ4MSDbqAtpGxkg8M5w916LZ4aCLbWgdib+jqCTYVH+lsR8fUfMaxf3BH
+ qq+o5krAETEWtaV17KLV2m0PLjQxQOqKU37FXKqEGR89a9m/0NClXMrequaWiIUUIpYe
+ yZyDx9QoPzIBulaW92fBgGpbiMfM10NeKbCs3tiwgpv4bts6t8A5tqE8dqaNNjMNpjLj
+ LnyiU6H7iVjulBMcG4qUcylsmAAFMmU2cWIlBE5EY/OOkAz1JgcaDgNa5IuNFm1/n5Jw
+ kG1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=yONhBCSNUkWh6rwM7oTIQMVkTPHNbYZwilZ1IfCuB0g=;
- b=lmk0pX5lFoUts1FV6SvpCV5qbNI4+ymHBkLk8vSEzH91h5BhWX590wNcXV6zpTGOl0
- vUk444h+6dvinZQRwx1j4+WC6hY51g+ioL5f9GRwSZpjum4ukojjaEiYc3gIQRhppGN1
- 2ZpEPsT3d0tfxBovmE0AbIoo1HwtN73IFJI1Kp7EdvRXPxnxiLnBlD4XXwMgQR2dMaMz
- irHggrY1hGRQeotPsi05TcolrBQAntFDasyJld0zu+fxUQGdvslGnkWMh7jy4Z33TS5Q
- vyUpXRv8tvQjiegRqA9qGUWuwyoJz6avCK6Iwi9Zr7+hJlQ2SF10RzwxmSRKwyc86vzS
- atPQ==
-X-Gm-Message-State: AGi0PuYPvXhkYVX+N3d8Xy4ydmD6fsRyg41FyXaBNWuMpVNlD2Qt9iBG
- CKF4TiI4Yn3V+R5WXeOoT1mMgmdAQfVHleO/+f4=
-X-Google-Smtp-Source: APiQypIOn/fCH40QiRHkIgh8qbbPjAzbVRhYcv8tv1hYLQElPp7ZxR6CeZOF8Wo443cfkY9gXwodI8uM7bZ2pbzLa0g=
-X-Received: by 2002:a05:6e02:68b:: with SMTP id
- o11mr2399410ils.245.1586793728491; 
- Mon, 13 Apr 2020 09:02:08 -0700 (PDT)
+ bh=6zzYFmntnypYkZL8T/VhiKG1nc4HF35zN8ul5ipSsiQ=;
+ b=QdCmE7DCyioU6q7xhbmnrnOfXM4XVap5zKRAaqPjmxlMWkatoj7qBHRED9LF/cqw4r
+ 2F9YnLWLI+vQjxkzImfbGo4e0fwiWktIu+9N6IK0a01b6hIV6TJzTE6d5t/HWhyM3tbO
+ GldzHBYTfwQQXy8oJvv3GAGRwCbl2LmIf1EoJZh5W4GWF/xEX4ELbWX2bryMNXdX+Pvf
+ dOMKG22QOfUUNPTawAlx1xrI1s40oQQpvYoG1+Xcx4xyoX++Y9bmBzQWKLTeGB9hK3qx
+ m2dV/+8mgaF4R+SpvEZXg2XGZZd5AeJmL+bT9bvW+pu+iX+HYMfwX8OUl3YaXO5DrwFp
+ T2aA==
+X-Gm-Message-State: AGi0PubaAbOkFVokltXb9Ows8Sj6mmcMJa6PboM4lpZMqh7KWgFeB7zq
+ boBZKZ9nw2dYhToQRzJqYUTh5R7nONcY9+XL5OE=
+X-Google-Smtp-Source: APiQypJdB85qasYujTK6yhUK6MKTLtRj4dpDwERVWw0UhSM7wAMS3MO8ojeuKSqN8L6mjSj4wUXJKLPzRF0go8Ds1dM=
+X-Received: by 2002:a5e:9b13:: with SMTP id j19mr16937896iok.86.1586794162572; 
+ Mon, 13 Apr 2020 09:09:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200326230838.31112-1-richard.henderson@linaro.org>
- <20200326230838.31112-10-richard.henderson@linaro.org>
-In-Reply-To: <20200326230838.31112-10-richard.henderson@linaro.org>
+ <20200326230838.31112-12-richard.henderson@linaro.org>
+In-Reply-To: <20200326230838.31112-12-richard.henderson@linaro.org>
 From: Laurent Desnogues <laurent.desnogues@gmail.com>
-Date: Mon, 13 Apr 2020 18:02:04 +0200
-Message-ID: <CABoDooMa1g-x7KhEyrZX9u7vFh3+BLz5T+t8xhB1BZYku3bR_A@mail.gmail.com>
-Subject: Re: [PATCH 09/31] target/arm: Implement SVE2 integer pairwise
- arithmetic
+Date: Mon, 13 Apr 2020 18:09:18 +0200
+Message-ID: <CABoDooNLXi7TOJ7nBDiyMAZi4BvC6nyD-oD5FWgXY2t4bxtkfQ@mail.gmail.com>
+Subject: Re: [PATCH 11/31] target/arm: Implement SVE2 integer add/subtract long
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::141
+X-Received-From: 2607:f8b0:4864:20::d43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,60 +76,35 @@ Cc: rajav@quicinc.com, qemu-arm <qemu-arm@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 27, 2020 at 12:16 AM Richard Henderson
+On Fri, Mar 27, 2020 at 12:09 AM Richard Henderson
 <richard.henderson@linaro.org> wrote:
 [...]
 > diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-> index 5d75aed7b7..d7c181ddb8 100644
+> index bee00eaa44..7d7a59f620 100644
 > --- a/target/arm/sve_helper.c
 > +++ b/target/arm/sve_helper.c
-> @@ -681,6 +681,73 @@ DO_ZPZZ_D(sve2_uhsub_zpzz_d, uint64_t, DO_HSUB_D)
->  #undef DO_ZPZZ
->  #undef DO_ZPZZ_D
+> @@ -1088,6 +1088,49 @@ DO_ZZW(sve_lsl_zzw_s, uint32_t, uint64_t, H1_4, DO_LSL)
+>  #undef DO_ZPZ
+>  #undef DO_ZPZ_D
 >
 > +/*
-> + * Three operand expander, operating on element pairs.
-> + * If the slot I is even, the elements from from VN {I, I+1}.
-> + * If the slot I is odd, the elements from from VM {I-1, I}.
+> + * Three-operand expander, unpredicated, in which the two inputs are
+> + * selected from the top or bottom half of the wide column.
 > + */
-> +#define DO_ZPZZ_PAIR(NAME, TYPE, H, OP)                                 \
-> +void HELPER(NAME)(void *vd, void *vn, void *vm, void *vg, uint32_t desc) \
-> +{                                                                       \
-> +    intptr_t i, opr_sz = simd_oprsz(desc);                              \
-> +    for (i = 0; i < opr_sz; ) {                                         \
-> +        uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));                 \
-> +        do {                                                            \
-> +            if (pg & 1) {                                               \
-> +                void *p = (i & 1 ? vm : vn);                            \
-> +                TYPE nn = *(TYPE *)(p + H(i & ~1));                     \
-> +                TYPE mm = *(TYPE *)(p + H(i | 1));                      \
-> +                *(TYPE *)(vd + H(i)) = OP(nn, mm);                      \
-> +            }                                                           \
-> +            i += sizeof(TYPE), pg >>= sizeof(TYPE);                     \
-> +        } while (i & 15);                                               \
-> +    }                                                                   \
+> +#define DO_ZZZ_TB(NAME, TYPE, TYPEN, OP) \
+> +void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc) \
+> +{                                                              \
+> +    intptr_t i, opr_sz = simd_oprsz(desc);                     \
+> +    int sel1 = (simd_data(desc) & 1) * sizeof(TYPE);           \
+> +    int sel2 = (simd_data(desc) & 2) * (sizeof(TYPE) / 2);     \
+> +    for (i = 0; i < opr_sz; i += sizeof(TYPE)) {               \
+> +        TYPE nn = (TYPEN)(*(TYPE *)(vn + i) >> sel1);          \
+> +        TYPE mm = (TYPEN)(*(TYPE *)(vm + i) >> sel2);          \
+> +        *(TYPE *)(vd + i) = OP(nn, mm);                        \
+> +    }                                                          \
 > +}
 
-You should not use 1 as mask but sizeof(TYPE).
-A temporary should be used because vd also is a source.
-
-> +/* Similarly, specialized for 64-bit operands.  */
-> +#define DO_ZPZZ_PAIR_D(NAME, TYPE, OP)                                  \
-> +void HELPER(NAME)(void *vd, void *vn, void *vm, void *vg, uint32_t desc) \
-> +{                                                               \
-> +    intptr_t i, opr_sz = simd_oprsz(desc) / 8;                  \
-> +    TYPE *d = vd, *n = vn, *m = vm;                             \
-> +    uint8_t *pg = vg;                                           \
-> +    for (i = 0; i < opr_sz; i += 1) {                           \
-> +        if (pg[H1(i)] & 1) {                                    \
-> +            TYPE *p = (i & 1 ? m : n) + (i & ~1);               \
-> +            TYPE nn = p[0], mm = p[1];                          \
-> +            d[i] = OP(nn, mm);                                  \
-> +        }                                                       \
-> +    }                                                           \
-> +}
-
-A temporary should be used because vd also is a source.
+For sel1/sel2 the multiplicand should be the number of bits in TYPEN.
 
 Laurent
 
