@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CD101A6EE6
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 00:09:55 +0200 (CEST)
-Received: from localhost ([::1]:49484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8E91A6ED8
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 00:02:47 +0200 (CEST)
+Received: from localhost ([::1]:49420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jO7H8-0004cY-M7
-	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 18:09:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44405)
+	id 1jO7AE-0000Ff-ND
+	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 18:02:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43797)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jO7GD-0003oK-FE
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:08:58 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jO78f-00080U-56
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:01:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1jO7GC-0003pY-9i
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:08:57 -0400
-Received: from mail-vs1-xe43.google.com ([2607:f8b0:4864:20::e43]:38823)
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jO78d-00011J-NM
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:01:09 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39655)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1jO7GC-0003pU-5y; Mon, 13 Apr 2020 18:08:56 -0400
-Received: by mail-vs1-xe43.google.com with SMTP id y15so6009110vsm.5;
- Mon, 13 Apr 2020 15:08:55 -0700 (PDT)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jO78d-000117-FB; Mon, 13 Apr 2020 18:01:07 -0400
+Received: by mail-wr1-x444.google.com with SMTP id b11so537478wrs.6;
+ Mon, 13 Apr 2020 15:01:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=HKNaRMZJ3gFznHNDvelB7ig1QHhvKcE4j/y1jytht9A=;
- b=InWQtmKQfXr4TqinKncD7MN/QgUNsROyxXpW62erh/0xwbvfeiB6pN936PJiLl5Cym
- 3DFI6tjS5ltJDR5zx/cwBEHy7iErje8rAG0eAPxf2nVuJF1MfJ9p83Bejc+YPYCIE04y
- XUF1mJi1WJcj5x+VkkfjswcfAzQ21IQy6yiqWIuP5gxja1779TpRyxrUDrHTsq2NYR3v
- ue204YHjPOYkKQvaD03UlSlyyg6lt1j9s3b1vF7u0iPkqeAZLHx1+ZYgS5k9nRTc3Jws
- gpYeHT18BTGdppwtyHP4A7k/3lsEvfsEQLycaeEFmqyDpJw1tUmcPyyx0p3uakuwhh5K
- kzUA==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ndokyy4SYgAG7QOUdFdg+00Xo7krv/bNWzSSpTC1RKg=;
+ b=PlvfKGHW5lph8jS/zLLpggTq65ser2sW7PTMTta29+Zftavz8aCwQHCfOpRHUQzCDs
+ yZjQaCMGJ2spSQJWOtYgrmcbc4tt1fbGtQhzZLcWXyQBOik9FrASCUUkoHZVV3NQCU2r
+ nonPTo0ggQTVg2XfITB/SJyNsiSMEOGAajZdbpwBEAiUP7LzlJNqkvUtO0fXUk1YTKyr
+ B8wCIaqVdekrKIKp+B5lrdcsDJ6feFL3TG0g86G5J/cBNUEHjmY1AAJOVN8eRcSOk0nP
+ oQ4bLNnFthgzStsK206c3b2LZhGgVtNY+liaVGufAoKmlWIDIk7V3rQCcdP2tqsYUuIW
+ 4SLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=HKNaRMZJ3gFznHNDvelB7ig1QHhvKcE4j/y1jytht9A=;
- b=jiRu2y3SQruy+iRYwR8gzEuQfTa7LY0O+3SjkMHohqMgjzluQhxNOqa7iFiGiwT80P
- lq+IQAzz75WjQsDXfjhmGh8ka8HNxWgHXXDO6D7MnXiQXlu25vUarsaaloPIdPVE5H93
- XQzY5P74b2ox3bXWe7HZYtdoed2CFW2E7p4ddIUw5f2t+g/x5lPV4hITyD2WA7PsitoT
- 0eNDN6/MbjvplQnihvxgTjembcrxAy4E0O/8PLFpP0l10sbon69qjoH+Gfy9ggbzRj1Q
- 7jVtK8uwM0aDr8xOK9bfbInwFDFRvGt2UzzOi0zDosKmCPtPgp5aF+72tVR1A+YZpLeV
- NVFg==
-X-Gm-Message-State: AGi0PuZaTFoytv6NDJZgZMWSNgC9U6yg+/jLCWcX6UagtJ0nU5zVXdc6
- gUz4K9+SM6Vfrr40KnC/ropqm2YY31dR3i8fYvQ=
-X-Google-Smtp-Source: APiQypJDM+Ytl8QF98aM4sj5gWifJfbg22cv5Ib9uFnyCrhc0JH2H4jr2a+ZjmSvhldng+NJpqpyWy8kxoXLw5M2auA=
-X-Received: by 2002:a67:e2d5:: with SMTP id i21mr4682013vsm.151.1586815735420; 
- Mon, 13 Apr 2020 15:08:55 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=ndokyy4SYgAG7QOUdFdg+00Xo7krv/bNWzSSpTC1RKg=;
+ b=nJNPyAeWkFZawdAZF25sKj2jqpbAzj9BCbiznYQYAUnSxe2tfyENKiu5JB7p5HhiZE
+ 42Yp5i9MnnOnAPD4fAbR3YkbgRD8ReyLB9ebRzXNntEBLGadjNQ5QUOnLekZV+yFHrJ6
+ xnt6Dg0epdSyo/TUyJHULrcOBsnwDV1Eg/5C0cvtwALTaChaJiP483MaxERZntv82C75
+ U8ooaoxcCgl0E7M3iOTqnEPrVNonMP1GHssfNrK35YVKZ/E7I7CLcU+PCVEKUhauH5L/
+ eKBQOjX/URezyslTeuzKQztXLmls6jaKWKN1i+Z0zSi0Uf3/XgX4nC3OwzEixiAk5wy1
+ tTmA==
+X-Gm-Message-State: AGi0PuZ6JzRqKqdD6Vg0If1I0MXxjRPWX+L9js8GssQrqs3oCknpldRx
+ ePu6NJQ7ejVjCht2XGbWZY8hlfd8a9N/1g==
+X-Google-Smtp-Source: APiQypJmlFu5UEHS/EsX9/xZ9jdp2Qr/mbGLqyWR6YCIaIdyFQiEdSrkOKnTSzRBEK6MZzEKOu/V4g==
+X-Received: by 2002:a5d:4fc6:: with SMTP id h6mr15711249wrw.277.1586815264928; 
+ Mon, 13 Apr 2020 15:01:04 -0700 (PDT)
+Received: from localhost.localdomain (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id 36sm612327wrc.35.2020.04.13.15.01.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Apr 2020 15:01:03 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-5.0 v2] hw/display/sm501: Avoid heap overflow in
+ sm501_2d_operation()
+Date: Tue, 14 Apr 2020 00:01:00 +0200
+Message-Id: <20200413220100.18628-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-References: <20200412223619.11284-1-f4bug@amsat.org>
- <20200412223619.11284-13-f4bug@amsat.org>
-In-Reply-To: <20200412223619.11284-13-f4bug@amsat.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 13 Apr 2020 15:00:39 -0700
-Message-ID: <CAKmqyKPUdDT+QM3ovRsRMq6gf=B6MJt_FQgcjza236mdUWpYAA@mail.gmail.com>
-Subject: Re: [PATCH-for-5.1 v3 12/24] hw/arm/stm32f205_soc: Store MemoryRegion
- in STM32F205State
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::e43
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,122 +80,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jeff Cody <codyprime@gmail.com>,
- Jason Wang <jasowang@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Max Reitz <mreitz@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Joel Stanley <joel@jms.id.au>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- "open list:New World" <qemu-ppc@nongnu.org>,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Andrew Jeffery <andrew@aj.id.au>,
- Wen Congyang <wencongyang2@huawei.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-stable@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Zhang Zi Ming <1015138407@qq.com>,
+ qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Apr 12, 2020 at 3:41 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> Coccinelle reported:
->
->   $ spatch ... --timeout 60 --sp-file \
->     scripts/coccinelle/simplify-init-realize-error_propagate.cocci
->   HANDLING: ./hw/arm/stm32f205_soc.c
->   >>> possible moves from stm32f205_soc_initfn() to stm32f205_soc_realize=
-() in ./hw/arm/stm32f205_soc.c:83
->
-> While reviewing we notice storing the MemoryRegion in the device
-> state, we'll be able to later automatically simplify the error
-> propagation calls.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Zhang Zi Ming reported a heap overflow in the Drawing Engine of
+the SM501 companion chip model, in particular in the COPY_AREA()
+macro in sm501_2d_operation().
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Add a simple check to avoid the heap overflow.
 
-Alistair
+This fixes:
 
-> ---
->  include/hw/arm/stm32f205_soc.h |  4 ++++
->  hw/arm/stm32f205_soc.c         | 18 +++++++-----------
->  2 files changed, 11 insertions(+), 11 deletions(-)
->
-> diff --git a/include/hw/arm/stm32f205_soc.h b/include/hw/arm/stm32f205_so=
-c.h
-> index 922a733f88..63e7e7c825 100644
-> --- a/include/hw/arm/stm32f205_soc.h
-> +++ b/include/hw/arm/stm32f205_soc.h
-> @@ -56,6 +56,10 @@ typedef struct STM32F205State {
->
->      ARMv7MState armv7m;
->
-> +    MemoryRegion sram;
-> +    MemoryRegion flash;
-> +    MemoryRegion flash_alias;
-> +
->      STM32F2XXSyscfgState syscfg;
->      STM32F2XXUsartState usart[STM_NUM_USARTS];
->      STM32F2XXTimerState timer[STM_NUM_TIMERS];
-> diff --git a/hw/arm/stm32f205_soc.c b/hw/arm/stm32f205_soc.c
-> index 118c342559..42f4e44134 100644
-> --- a/hw/arm/stm32f205_soc.c
-> +++ b/hw/arm/stm32f205_soc.c
-> @@ -87,23 +87,19 @@ static void stm32f205_soc_realize(DeviceState *dev_so=
-c, Error **errp)
->      SysBusDevice *busdev;
->      Error *err =3D NULL;
->      int i;
-> -
->      MemoryRegion *system_memory =3D get_system_memory();
-> -    MemoryRegion *sram =3D g_new(MemoryRegion, 1);
-> -    MemoryRegion *flash =3D g_new(MemoryRegion, 1);
-> -    MemoryRegion *flash_alias =3D g_new(MemoryRegion, 1);
->
-> -    memory_region_init_rom(flash, OBJECT(dev_soc), "STM32F205.flash",
-> +    memory_region_init_rom(&s->flash, OBJECT(dev_soc), "STM32F205.flash"=
-,
->                             FLASH_SIZE, &error_fatal);
-> -    memory_region_init_alias(flash_alias, OBJECT(dev_soc),
-> -                             "STM32F205.flash.alias", flash, 0, FLASH_SI=
-ZE);
-> +    memory_region_init_alias(&s->flash_alias, OBJECT(dev_soc),
-> +                             "STM32F205.flash.alias", &s->flash, 0, FLAS=
-H_SIZE);
->
-> -    memory_region_add_subregion(system_memory, FLASH_BASE_ADDRESS, flash=
-);
-> -    memory_region_add_subregion(system_memory, 0, flash_alias);
-> +    memory_region_add_subregion(system_memory, FLASH_BASE_ADDRESS, &s->f=
-lash);
-> +    memory_region_add_subregion(system_memory, 0, &s->flash_alias);
->
-> -    memory_region_init_ram(sram, NULL, "STM32F205.sram", SRAM_SIZE,
-> +    memory_region_init_ram(&s->sram, NULL, "STM32F205.sram", SRAM_SIZE,
->                             &error_fatal);
-> -    memory_region_add_subregion(system_memory, SRAM_BASE_ADDRESS, sram);
-> +    memory_region_add_subregion(system_memory, SRAM_BASE_ADDRESS, &s->sr=
-am);
->
->      armv7m =3D DEVICE(&s->armv7m);
->      qdev_prop_set_uint32(armv7m, "num-irq", 96);
-> --
-> 2.21.1
->
->
+  =================================================================
+  ==20518==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x7f6f4c3fffff at pc 0x55b1e1d358f0 bp 0x7ffce464dfb0 sp 0x7ffce464dfa8
+  READ of size 1 at 0x7f6f4c3fffff thread T0
+      #0 0x55b1e1d358ef in sm501_2d_operation hw/display/sm501.c:788:13
+      #1 0x55b1e1d32c38 in sm501_2d_engine_write hw/display/sm501.c:1466:13
+      #2 0x55b1e0cd19d8 in memory_region_write_accessor memory.c:483:5
+      #3 0x55b1e0cd1404 in access_with_adjusted_size memory.c:544:18
+      #4 0x55b1e0ccfb9d in memory_region_dispatch_write memory.c:1476:16
+      #5 0x55b1e0ae55a8 in flatview_write_continue exec.c:3125:23
+      #6 0x55b1e0ad3e87 in flatview_write exec.c:3165:14
+      #7 0x55b1e0ad3a24 in address_space_write exec.c:3256:18
+
+  0x7f6f4c3fffff is located 4194303 bytes to the right of 4194304-byte region [0x7f6f4bc00000,0x7f6f4c000000)
+  allocated by thread T0 here:
+      #0 0x55b1e0a6e715 in __interceptor_posix_memalign (ppc64-softmmu/qemu-system-ppc64+0x19c0715)
+      #1 0x55b1e31c1482 in qemu_try_memalign util/oslib-posix.c:189:11
+      #2 0x55b1e31c168c in qemu_memalign util/oslib-posix.c:205:27
+      #3 0x55b1e11a00b3 in spapr_reallocate_hpt hw/ppc/spapr.c:1560:23
+      #4 0x55b1e11a0ce4 in spapr_setup_hpt hw/ppc/spapr.c:1593:5
+      #5 0x55b1e11c2fba in spapr_machine_reset hw/ppc/spapr.c:1644:9
+      #6 0x55b1e1368b01 in qemu_system_reset softmmu/vl.c:1391:9
+      #7 0x55b1e1375af3 in qemu_init softmmu/vl.c:4436:5
+      #8 0x55b1e2fc8a59 in main softmmu/main.c:48:5
+      #9 0x7f6f8150bf42 in __libc_start_main (/lib64/libc.so.6+0x23f42)
+
+  SUMMARY: AddressSanitizer: heap-buffer-overflow hw/display/sm501.c:788:13 in sm501_2d_operation
+  Shadow bytes around the buggy address:
+    0x0fee69877fa0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+    0x0fee69877fb0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+    0x0fee69877fc0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+    0x0fee69877fd0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+    0x0fee69877fe0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  =>0x0fee69877ff0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa[fa]
+    0x0fee69878000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x0fee69878010: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x0fee69878020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x0fee69878030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x0fee69878040: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  Shadow byte legend (one shadow byte represents 8 application bytes):
+    Addressable:           00
+    Partially addressable: 01 02 03 04 05 06 07
+    Heap left redzone:       fa
+    Freed heap region:       fd
+    Poisoned by user:        f7
+    ASan internal:           fe
+  ==20518==ABORTING
+
+Cc: qemu-stable@nongnu.org
+Fixes: 07d8a50cb0e ("sm501: add 2D engine copyrect support")
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1786026
+Reported-by: Zhang Zi Ming <1015138407@qq.com>
+Acked-by: BALATON Zoltan <balaton@eik.bme.hu>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+Since v1: Reword description & add Zoltan's A-b.
+
+Test to verify this bug:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg695421.html
+
+Per the links on
+https://bugzilla.redhat.com/show_bug.cgi?id=1808510 there is probably
+a CVE assigned to this, but I don't have access to the information,
+https://bugzilla.redhat.com/show_bug.cgi?id=1786593 only show:
+
+  You are not authorized to access bug #1786593.
+  Most likely the bug has been restricted for internal development processes and we cannot grant access.
+
+Anyway as this code is not used in conjunction with a hypervisor,
+it is not a 'security bug' as described in
+https://www.qemu.org/contribute/security-process/ and
+https://www.qemu.org/docs/master/system/security.html#non-virtualization-use-case
+---
+ hw/display/sm501.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/hw/display/sm501.c b/hw/display/sm501.c
+index de0ab9d977..902acb3875 100644
+--- a/hw/display/sm501.c
++++ b/hw/display/sm501.c
+@@ -726,6 +726,12 @@ static void sm501_2d_operation(SM501State *s)
+     int crt = (s->dc_crt_control & SM501_DC_CRT_CONTROL_SEL) ? 1 : 0;
+     int fb_len = get_width(s, crt) * get_height(s, crt) * get_bpp(s, crt);
+ 
++    if (rtl && (src_x < operation_width || src_y < operation_height)) {
++        qemu_log_mask(LOG_GUEST_ERROR, "sm501: Illegal RTL address (%i, %i)\n",
++                      src_x, src_y);
++        return;
++    }
++
+     if (addressing != 0x0) {
+         printf("%s: only XY addressing is supported.\n", __func__);
+         abort();
+-- 
+2.21.1
+
 
