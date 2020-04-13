@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A5561A6D54
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Apr 2020 22:35:53 +0200 (CEST)
-Received: from localhost ([::1]:48524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E011A6D5C
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Apr 2020 22:37:48 +0200 (CEST)
+Received: from localhost ([::1]:48570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jO5o7-0006MG-C3
-	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 16:35:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34164)
+	id 1jO5pz-0008W0-6p
+	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 16:37:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34527)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jO5mK-0005DD-Or
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 16:34:01 -0400
+ (envelope-from <danielhb413@gmail.com>) id 1jO5ou-0007fr-Rr
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 16:36:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jO5mJ-0000lw-MW
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 16:34:00 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37988)
+ (envelope-from <danielhb413@gmail.com>) id 1jO5ot-0001jk-VN
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 16:36:40 -0400
+Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:38979)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jO5mJ-0000lg-GB
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 16:33:59 -0400
-Received: by mail-wr1-x442.google.com with SMTP id k11so11016170wrp.5
- for <qemu-devel@nongnu.org>; Mon, 13 Apr 2020 13:33:59 -0700 (PDT)
+ (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
+ id 1jO5ot-0001jT-RH; Mon, 13 Apr 2020 16:36:39 -0400
+Received: by mail-qk1-x743.google.com with SMTP id b62so10956249qkf.6;
+ Mon, 13 Apr 2020 13:36:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=TSTOgqIqkHP/A6SEq23VPb4QmBizW4+fbueFj4i2CPw=;
- b=aNw7cq3+8KXzWk3JWdUnifnGtCtfiMMk9+0FNN4hsxYU8NUL4ihIN0QZ/59z7S5oAE
- 9wCoMBzMHzsuOao8uSC9ItkEplzIn3uL1PJpbDCefxQ9g4Zn20GqutEnIt5wa6ONZUM2
- CDsFJTJF/Q/bfNc6Xw2d4j9VZYqmF2aXwD+UZGL1/d8VxyMKK94dtCqkvnDzZ3+nIHIH
- v/uDVu5yOfqgBWGWUCbzozu9fcaWmEcV7zDHXx+8qEVwv2+TnC44sgOdr2lJNc/MJGw6
- i3FnY1fimduDHHiB/vR6osAUYNHbKd82bulwPjA606/g9LsGyt3q/d26FgwU1LcIq9Dv
- jwjA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=74N17PX5gAPwPcIqFsP4IDLijznu0Gv0TdDGYOhArUk=;
+ b=R+oQffKB19d2vKMjhDGtJ4C20YRVPtbnH0B54KAEGaqyQ9VMg+V1EbAGeSm+T3/D12
+ bZUWtwJC/Ppcaoii6iOlKpQ4ZarVgcmEY1CpYzd6Ui/W7+Ud4XHqsPofepeCcoTgqFC+
+ Te98GgfiqPIs9sHz0m6A+g8JSv9ioBNO5CPfcBkUu7ZkSZ7R3CGiK6LIbE3cjxV3kRy2
+ iZmNYBi+xaqO0i+Cl7uvjF8ujetIo7T/ZNRM8QNIkjgOgrz5Tu5hb4/xHUmpallKu5AE
+ 94/0zq4DwQ2+PP4hDaMuar+4a/JTWSBm9cvgsrshbpiycF/DQeum8ON8Fot6eME3rH7e
+ /NPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=TSTOgqIqkHP/A6SEq23VPb4QmBizW4+fbueFj4i2CPw=;
- b=PFfxoaVRnFcWHoUcYc6ElZCAvwVnQHJ7YuwroiGlmdEUkr0zN6CjDL5JYc33E5SiAm
- acwYgcWBLzrEoKNJIh6SGvtO1IyCtT+8VggsrdRor3y2OmN8UYOrWaNypLpGGBQc7Yhg
- XPHEu6wD0N42gF4Q+qwkyxGaqe8YPogjDlyttt4RCcjfAkQ5nzwuSnxNl95vYjp5JP0n
- Fzf6NY29tzOfq3z2i9ldkhmjqpNTTimzxkY3TdWSIrhKrISQKLh034y7GA5aBcuYQ9Ay
- rKEy7blegW+ERzqeIfpy1tc+e7OhzNPqw4UhF3JOopgqBN6iJtJOCtK0OLNf8QcXbAD0
- +PQQ==
-X-Gm-Message-State: AGi0PuagBcJu5PNssGlsl8qFM4Nvw8ChCA/oOsfWsTLugg5JV2e3xGAe
- +xXPhCzUBCat2SJsl5/g09OAOk3rBJ/4Lg==
-X-Google-Smtp-Source: APiQypJiBME2Z8nP2c+ZIdmqOWuUO4dAGgiEvbalzHjaDeEA0+leygUgmTik2/BLaBUTZP/DabfxCg==
-X-Received: by 2002:a05:6000:4:: with SMTP id
- h4mr20875286wrx.386.1586810037973; 
- Mon, 13 Apr 2020 13:33:57 -0700 (PDT)
-Received: from localhost.localdomain (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id i97sm17519238wri.1.2020.04.13.13.33.55
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=74N17PX5gAPwPcIqFsP4IDLijznu0Gv0TdDGYOhArUk=;
+ b=juo1htTS/2ATgvNInmvwO0QoVZu9pKNDQpXJ5HctYPzRNp8XnjjrTNkUqgz5XB9vk2
+ eo8IFfdv7PE4/wgEnnVG+smXgGkY3cM4BTgP/mUQYlyvNxiiATStHeluqqTIsYstYCt8
+ kMTJjm+pKsVSlYXEObpl/qIuG28ik1iFfvDbkyAXLWvw4lsTiYTKWlAZ4gB85VlgypWI
+ AZr7zgMT5IOiosMdKu4VWa5FGNl1+Z0RCOinM1JGYA6SDnJrhSvidLHC/jilTP73Volj
+ 9TgzPKgm5aYM6ynE8TIkLSNNQ3EY/GyzU/yetZ2KYmc3GelROfMYKVc+cnsqKOifHBYo
+ ta0w==
+X-Gm-Message-State: AGi0Puatys12m4BUU4XZigFaKrkGqxCH3z8A4PYztTU7oIvMF2acPa2E
+ JJzLauJXEaE0AsmqP+XzLIbmUQljQNs=
+X-Google-Smtp-Source: APiQypIb/4rdD94nw9ofh6p8EagwaQzIyIUBeNWvTROBQvOMblzwFpVimzDCyNQpz5C2JFfaLttsjQ==
+X-Received: by 2002:a37:7203:: with SMTP id n3mr17522752qkc.336.1586810198519; 
+ Mon, 13 Apr 2020 13:36:38 -0700 (PDT)
+Received: from rekt.ibmuc.com ([2804:431:c7c6:b6b7:222c:adc1:59c6:6fc1])
+ by smtp.gmail.com with ESMTPSA id g25sm1778606qkl.50.2020.04.13.13.36.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Apr 2020 13:33:57 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Mon, 13 Apr 2020 13:36:38 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.1 v3 6/7] hw/mips/mips_malta: Use &error_abort in
- MachineClass::init -> create_cps
-Date: Mon, 13 Apr 2020 22:33:49 +0200
-Message-Id: <20200413203349.30590-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: 20200412224517.12869-1-f4bug@amsat.org
-References: 
+Subject: [PATCH] spapr_nvdimm.c: make 'label-size' mandatory
+Date: Mon, 13 Apr 2020 17:36:28 -0300
+Message-Id: <20200413203628.31636-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.25.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2607:f8b0:4864:20::743
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,72 +74,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Running the coccinelle script produced:
+The pseries machine does not support NVDIMM modules without label.
+Attempting to do so, even if the overall block size is aligned with
+256MB, will seg fault the guest kernel during NVDIMM probe. This
+can be avoided by forcing 'label-size' to always be present for
+sPAPR NVDIMMs.
 
-  $ spatch \
-    --macro-file scripts/cocci-macro-file.h --include-headers \
-    --sp-file scripts/coccinelle/find-missing-error_propagate.cocci \
-    --keep-comments --smpl-spacing --dir .
-  HANDLING: ./hw/mips/mips_malta.c
-  [[manual check required: error_propagate() might be missing in object_property_set_int() ./hw/mips/mips_malta.c:1193:4]]
-  [[manual check required: error_propagate() might be missing in object_property_set_str() ./hw/mips/mips_malta.c:1192:4]]
+The verification was put before the alignment check because the
+presence of label-size affects the alignment calculation, so
+it's not optimal to warn the user about an alignment error,
+then about the lack of label-size, then about a new alignment
+error when the user sets a label-size.
 
-Since create_cps() is called from a MachineClass::init(),
-replace local Error* by &error_abort.
-
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
-v3: Use &error_fatal (rth)
----
- hw/mips/mips_malta.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ hw/ppc/spapr_nvdimm.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-index e4c4de1b4e..477ee6cc5b 100644
---- a/hw/mips/mips_malta.c
-+++ b/hw/mips/mips_malta.c
-@@ -51,7 +51,6 @@
- #include "sysemu/reset.h"
- #include "sysemu/runstate.h"
- #include "qapi/error.h"
--#include "qemu/error-report.h"
- #include "hw/empty_slot.h"
- #include "sysemu/kvm.h"
- #include "hw/semihosting/semihost.h"
-@@ -1185,17 +1184,13 @@ static void create_cpu_without_cps(MachineState *ms,
- static void create_cps(MachineState *ms, MaltaState *s,
-                        qemu_irq *cbus_irq, qemu_irq *i8259_irq)
- {
--    Error *err = NULL;
--
-     sysbus_init_child_obj(OBJECT(s), "cps", OBJECT(&s->cps), sizeof(s->cps),
-                           TYPE_MIPS_CPS);
--    object_property_set_str(OBJECT(&s->cps), ms->cpu_type, "cpu-type", &err);
--    object_property_set_int(OBJECT(&s->cps), ms->smp.cpus, "num-vp", &err);
--    object_property_set_bool(OBJECT(&s->cps), true, "realized", &err);
--    if (err != NULL) {
--        error_report("%s", error_get_pretty(err));
--        exit(1);
--    }
-+    object_property_set_str(OBJECT(&s->cps), ms->cpu_type, "cpu-type",
-+                            &error_fatal);
-+    object_property_set_int(OBJECT(&s->cps), ms->smp.cpus, "num-vp",
-+                            &error_fatal);
-+    object_property_set_bool(OBJECT(&s->cps), true, "realized", &error_fatal);
+diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+index 25be8082d7..9abcdcc26b 100644
+--- a/hw/ppc/spapr_nvdimm.c
++++ b/hw/ppc/spapr_nvdimm.c
+@@ -37,6 +37,12 @@ void spapr_nvdimm_validate_opts(NVDIMMDevice *nvdimm, uint64_t size,
+     QemuUUID uuid;
+     int ret;
  
-     sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->cps), 0, 0, 1);
- 
++    if (object_property_get_int(OBJECT(nvdimm), NVDIMM_LABEL_SIZE_PROP,
++                                &error_abort) == 0) {
++        error_setg(errp, "NVDIMM device requires label-size to be set");
++        return;
++    }
++
+     if (size % SPAPR_MINIMUM_SCM_BLOCK_SIZE) {
+         error_setg(errp, "NVDIMM memory size excluding the label area"
+                    " must be a multiple of %" PRIu64 "MB",
 -- 
-2.21.1
+2.25.2
 
 
