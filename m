@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A0AA1A6393
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Apr 2020 09:23:08 +0200 (CEST)
-Received: from localhost ([::1]:41140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85F2A1A639B
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Apr 2020 09:24:38 +0200 (CEST)
+Received: from localhost ([::1]:41158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jNtQx-0003Ey-IA
-	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 03:23:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36955)
+	id 1jNtSP-0005Sh-KE
+	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 03:24:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36974)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chenhuacai@gmail.com>) id 1jNtQ2-0002Nq-I9
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 03:22:11 -0400
+ (envelope-from <chenhuacai@gmail.com>) id 1jNtQK-0002q4-56
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 03:22:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chenhuacai@gmail.com>) id 1jNtQ1-00062u-8l
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 03:22:10 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:51976)
+ (envelope-from <chenhuacai@gmail.com>) id 1jNtQJ-0006KR-3A
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 03:22:28 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:32971)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <chenhuacai@gmail.com>)
- id 1jNtQ1-00062m-3T
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 03:22:09 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id e16so3211731pjp.1
- for <qemu-devel@nongnu.org>; Mon, 13 Apr 2020 00:22:09 -0700 (PDT)
+ id 1jNtQI-0006IT-UC
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 03:22:27 -0400
+Received: by mail-pl1-x644.google.com with SMTP id ay1so3122346plb.0
+ for <qemu-devel@nongnu.org>; Mon, 13 Apr 2020 00:22:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=unWCB+7tFDxvEbrE324xq/PWVQz1J3pJxb0QQI5akQE=;
- b=eKTR6opBGDmh0WFyXbesHgyM2YLRiQFBHC5uiZl88n0oTzSeL/Tw+NnUNWcgwwMV14
- qKkmx5brwvB6qb6lT84AzMa8YjqZO8gDWvwkYx17LXozZOZwUDRvs5yxrWL2p4Ig/s3u
- X50Y/qv8M0lU4uKxUALpT/12ToTX+eSaLTsgLbN1b9tH/QQvi0RDupAzExbDtqEhZX3n
- slW9tOMpwAZENfYGaOaU6jubumcyoWCclOA95qQU9NBXVvCMZ9AOoKgbLhNYfYfW518z
- RfbMLqTBmwnA6IFH4TSOhP9Nyd0OH0d67QITUHNXc2UrZCBwdv+PcS3/U2DsWN3XhRjG
- 0/Kw==
+ bh=IYw9KM308fvuCNV456QoScKTZAovGHwS9ZllmosmZHA=;
+ b=oGsjS1xbf9xogVsLJWnou0X56088c+jXKkPfT4EJU21wV61xCDLOKDxpfmfG3pbREz
+ 8RQpXNeO/EqiBDGVeX6h16ORRBAT4GMuyFDC1fiPSjnwWXiceuU2GkdRxDubsjebobmS
+ wdS/aovMHceQneB3xpCwn4W03T2EFMhwJdatsQgjPMvzabeRU3KMqOvbM/uPSCVUmMQZ
+ Y2VqTQKgDxDT6DXqWega5bMoOk65CMSUjR63sJ+QZjjf8AbyyIgnO00cNo/wjESjTQBz
+ 9rZnV43N3RDME72XFmvzcsoVa3MUW1LuYiBW4T+krx3BSkwHC0rX+Y48YBgSGkDTyCFh
+ m9OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=unWCB+7tFDxvEbrE324xq/PWVQz1J3pJxb0QQI5akQE=;
- b=FxSnWr1w5eeq7mzm3ShHxXrNr8L4b0+J/lqaPFer4e+g9+2DQqeuPHwzyBYhiHimwm
- NBg+MY0oTsshbf6y/EMGOJNk0sv0cZOP6hfqzz3jlGFdm6v/Jw0l8OJ8gPVA55qcQ6Ve
- vwMYT5SabiJdUGAuW+8HrnqB1aH3bpY0sI4CJbox4f/SqGDuwGJXZ+e61/ZWb0DycNIH
- JRq3bYXDbMWCyp73VD/2aZUc47BtdxMVHdCvFQY7uRqrnFo0DMOzcn7Q3l3+8mhu5oQ5
- 2QKVcdHnJlNgp6MKoxr++LUe8ISI7DevSnJC/8E3aL4OeknGQAQy69zCSds7batzl5Jy
- VI9A==
-X-Gm-Message-State: AGi0PuZoXzL7BSCa383E3YWpHPwJ96JWjMLcdroEaMh7yaLWqSWBSONc
- bRsB3KaSP7BxgxejMwyzbQg=
-X-Google-Smtp-Source: APiQypKG3jjD0bEk/1UaizxYUdFYFTcbzT0+h4p2hEYYr1KO3YnMiBfTuV+NpLNifY8hBLinUgTaew==
-X-Received: by 2002:a17:90a:4809:: with SMTP id
- a9mr20297730pjh.73.1586762528070; 
- Mon, 13 Apr 2020 00:22:08 -0700 (PDT)
+ bh=IYw9KM308fvuCNV456QoScKTZAovGHwS9ZllmosmZHA=;
+ b=Kvsky2/FF3urnQEwVxSKr5Veq8dDmX2CioB3iFlocfBdz5pPtfaXRWsVm2Kc13tUXw
+ kKdS6L98qVFUgVdeiZsldwQg2to5AUD0iaUukXeDBUfeRdbTxM7imf7Fei81X70eGVng
+ EFK3wT9VkvjPTD3xNyEocQs48Ocn/3WJgJGGBZyQibAOWuxlQLzS7SIALeN/LCZbSE3C
+ lmFFXcjUP2V351uoIOscFdDWGDIrDruADzz5yAcFDqztSdg1PFENRP6reFuVcrytsUqA
+ 6WAnZoZNsyfw9Lc1OSPGmcOwuZs0FTz7YbQjd0jKf8T5B8dHYUsVhWoYSRcH9PkbSZ0F
+ UqYg==
+X-Gm-Message-State: AGi0PuZWgJKs0gaIEi9PDB8yaDkVESt5vwIHFHSYlepnLWYCgC41LLKz
+ 9fIJhpCBUcNC0a86Gb6h7C2I+GevO7k=
+X-Google-Smtp-Source: APiQypLratNJjdldNhRTz0xpzWmi6lNCP7lJRob5L/BRLECvfri/in1gAYGd1LdcJFUKuecUGIfAQw==
+X-Received: by 2002:a17:90a:c295:: with SMTP id
+ f21mr12982259pjt.176.1586762546007; 
+ Mon, 13 Apr 2020 00:22:26 -0700 (PDT)
 Received: from software.domain.org (28.144.92.34.bc.googleusercontent.com.
  [34.92.144.28])
- by smtp.gmail.com with ESMTPSA id u8sm7241341pgl.19.2020.04.13.00.22.05
+ by smtp.gmail.com with ESMTPSA id u8sm7241341pgl.19.2020.04.13.00.22.23
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 13 Apr 2020 00:22:07 -0700 (PDT)
+ Mon, 13 Apr 2020 00:22:25 -0700 (PDT)
 From: Huacai Chen <chenhc@lemote.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: [PATCH 01/15] mips: define pud_index() regardless of page table
- folding
-Date: Mon, 13 Apr 2020 15:30:10 +0800
-Message-Id: <1586763024-12197-2-git-send-email-chenhc@lemote.com>
+Subject: [PATCH 02/15] KVM: MIPS: Define KVM_ENTRYHI_ASID to
+ cpu_asid_mask(&boot_cpu_data)
+Date: Mon, 13 Apr 2020 15:30:11 +0800
+Message-Id: <1586763024-12197-3-git-send-email-chenhc@lemote.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1586763024-12197-1-git-send-email-chenhc@lemote.com>
 References: <1586763024-12197-1-git-send-email-chenhc@lemote.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1042
+X-Received-From: 2607:f8b0:4864:20::644
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,56 +80,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: kvm@vger.kernel.org, Huacai Chen <chenhuacai@gmail.com>,
  qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- linux-mips@vger.kernel.org, Fuxin Zhang <zhangfx@lemote.com>,
- Huacai Chen <chenhc@lemote.com>, Mike Rapoport <rppt@linux.ibm.com>
+ linux-mips@vger.kernel.org, stable@vger.kernel.org,
+ Fuxin Zhang <zhangfx@lemote.com>, Huacai Chen <chenhc@lemote.com>,
+ Xing Li <lixing@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mike Rapoport <rppt@linux.ibm.com>
+From: Xing Li <lixing@loongson.cn>
 
-Commit 31168f033e37 ("mips: drop __pXd_offset() macros that duplicate
-pXd_index() ones") is correct that pud_index() & __pud_offset() are the
-same when pud_index() is actually provided, however it does not take into
-account the __PAGETABLE_PUD_FOLDED case. This has broken MIPS KVM
-compilation because it relied on availability of pud_index().
+The code in decode_config4() of arch/mips/kernel/cpu-probe.c
 
-Define pud_index() regardless of page table folded. It will evaluate to
-actual index for 4-level pagetables and to 0 for folded PUD level.
+        asid_mask = MIPS_ENTRYHI_ASID;
+        if (config4 & MIPS_CONF4_AE)
+                asid_mask |= MIPS_ENTRYHI_ASIDX;
+        set_cpu_asid_mask(c, asid_mask);
 
-Link: https://lore.kernel.org/lkml/20200331154749.5457-1-pbonzini@redhat.com
-Tested-by: Bibo Mao <maobibo@loongson.cn>
-Tested-by: Huacai Chen <chenhc@lemote.com>
-Reported-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-[Huacai: Add Tested-by and take this patch into my series, because my
-         series can't build an available kernel if without this patch.]
+set asid_mask to cpuinfo->asid_mask.
+
+So in order to support variable ASID_MASK, KVM_ENTRYHI_ASID should also
+be changed to cpu_asid_mask(&boot_cpu_data).
+
+Cc: stable@vger.kernel.org
+Signed-off-by: Xing Li <lixing@loongson.cn>
+[Huacai: Change current_cpu_data to boot_cpu_data for optimization]
 Signed-off-by: Huacai Chen <chenhc@lemote.com>
 ---
- arch/mips/include/asm/pgtable-64.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/mips/include/asm/kvm_host.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/mips/include/asm/pgtable-64.h b/arch/mips/include/asm/pgtable-64.h
-index f92716c..ee5dc0c 100644
---- a/arch/mips/include/asm/pgtable-64.h
-+++ b/arch/mips/include/asm/pgtable-64.h
-@@ -172,6 +172,8 @@
+diff --git a/arch/mips/include/asm/kvm_host.h b/arch/mips/include/asm/kvm_host.h
+index 41204a4..5794584 100644
+--- a/arch/mips/include/asm/kvm_host.h
++++ b/arch/mips/include/asm/kvm_host.h
+@@ -275,7 +275,7 @@ enum emulation_result {
+ #define MIPS3_PG_FRAME		0x3fffffc0
  
- extern pte_t invalid_pte_table[PTRS_PER_PTE];
- 
-+#define pud_index(address)	(((address) >> PUD_SHIFT) & (PTRS_PER_PUD - 1))
-+
- #ifndef __PAGETABLE_PUD_FOLDED
- /*
-  * For 4-level pagetables we defines these ourselves, for 3-level the
-@@ -210,8 +212,6 @@ static inline void p4d_clear(p4d_t *p4dp)
- 	p4d_val(*p4dp) = (unsigned long)invalid_pud_table;
- }
- 
--#define pud_index(address)	(((address) >> PUD_SHIFT) & (PTRS_PER_PUD - 1))
--
- static inline unsigned long p4d_page_vaddr(p4d_t p4d)
- {
- 	return p4d_val(p4d);
+ #define VPN2_MASK		0xffffe000
+-#define KVM_ENTRYHI_ASID	MIPS_ENTRYHI_ASID
++#define KVM_ENTRYHI_ASID	cpu_asid_mask(&boot_cpu_data)
+ #define TLB_IS_GLOBAL(x)	((x).tlb_lo[0] & (x).tlb_lo[1] & ENTRYLO_G)
+ #define TLB_VPN2(x)		((x).tlb_hi & VPN2_MASK)
+ #define TLB_ASID(x)		((x).tlb_hi & KVM_ENTRYHI_ASID)
 -- 
 2.7.0
 
