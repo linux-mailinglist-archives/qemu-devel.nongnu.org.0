@@ -2,107 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 971F91A6EDE
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 00:06:58 +0200 (CEST)
-Received: from localhost ([::1]:49444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 041621A6EFA
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 00:16:00 +0200 (CEST)
+Received: from localhost ([::1]:49608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jO7EH-00027T-Mx
-	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 18:06:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44144)
+	id 1jO7N1-0002A1-2d
+	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 18:15:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45202)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jO7DX-0001ht-3v
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:06:12 -0400
+ (envelope-from <alistair23@gmail.com>) id 1jO7Lo-00010N-8b
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:14:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jO7DV-0002Ll-1N
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:06:10 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44747)
+ (envelope-from <alistair23@gmail.com>) id 1jO7Ln-0004in-00
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:14:44 -0400
+Received: from mail-vs1-xe42.google.com ([2607:f8b0:4864:20::e42]:35817)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jO7DU-0002Lc-PW
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:06:08 -0400
-Received: by mail-wr1-x442.google.com with SMTP id d17so5032882wrg.11
- for <qemu-devel@nongnu.org>; Mon, 13 Apr 2020 15:06:08 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1jO7Lk-0004ia-2F; Mon, 13 Apr 2020 18:14:42 -0400
+Received: by mail-vs1-xe42.google.com with SMTP id r7so3550196vso.2;
+ Mon, 13 Apr 2020 15:14:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9bfTY167sjqKg0j7diQOa4rjBTWcdaFc9b+SRgfV2hU=;
- b=aZt4UZ0t1AVfMlIDatV5vi1aCOl5hqdvSlO1cm+3X6HEHiZmtaX5MZ7WaRDPUXJNXh
- tEtnFdvHN7sYoqoo/WhdG1o0r9K7SrLxSIQchuSkgkk7uW7nZf595VVG7kxp8p4nIOXz
- cvK2QH6lh7WTBzik/WK4h9WPUFZDuHYPViBpK8HDYG0NQCaOP3e3H3G+iVz3MbEIIIrq
- JxFDxiH+EAUKTkBoqZrCcLX8fw81SIHnzIfpYD/HZpn673N6SZ/e7xoxoAcNSCzO6Lgz
- OOGxfcIw4C4qaACgGOhF8+nkKtZS7k7uWhfHs/xu8sSwFyww4RIjfb1a0NXbi2yw7AkE
- +f9A==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=5eB1z8c5kK9kvW0a6iujT6vXRX9S8fGFoN6RJDHnU2g=;
+ b=TI0Calf2IxOfsyHK2xiLLnkprfuUQZ3rec4E0Pkows5wNSZzE+kFamJx03TcD8yytM
+ +PmQUcTuSLU/Ujb1i8o6P54jgreamUbYltgTg6N8mLPZWQ/+phGZ3MJ/5beryeROv6Wq
+ MeVe3ia9ChISGinAPI3RoLam/Ohz1Z2KxvaWL0A+Lv0rWruY1J3gsD24+ETUVUCjZw79
+ kOtB3XMkAeKNnOgRFbwVgzZBdYbMxasyFTEUt51C1fESqQPUoGLFEDn2ZJVo9DMFJoVp
+ 9CLusdX3k8qPVNGNG2biM+CHwoDwc9toaZz3qTyOQv4oP6jwl7FgdO+it01nV0kzIYfl
+ q/BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=9bfTY167sjqKg0j7diQOa4rjBTWcdaFc9b+SRgfV2hU=;
- b=O1I2DtSvex2jN93m7KU+2AsTp8sUyAWzM4dhhWtlsuzOiZEDQcKu9+c8lgO9FaGMs5
- VLrXJmjt10mNqErM8k3TqgQgUeOWMq0u5FSGvEBvD7gkMx1xS0Svz+XABTDo+LkctVN7
- EtcN4vzfuZg4F3MmBB23vR23+aHSldax0bYuhcRiE/SCmzlmCqeL6HavW0OmJtM52DqW
- DGz/2IlZ6k4nIMJ58YFj79HNlxuy8vHoB6s4PUQCr8imLFmV3r6zsLo7RLdYX+g1tGEj
- +tepYq0E77VImuMqIiP9je21Khl+haCjqp7EpEF8a2LyZBo2bRToG+BIrf/8z3QFQRGS
- UYCA==
-X-Gm-Message-State: AGi0PuY3RTXLrpYZgMqRBYHNRjrVIhHEiaJxzfOCIWIqDndI7HMBJJs0
- zFHn0AZbGvcBye5rrkfAXFg=
-X-Google-Smtp-Source: APiQypKNCjM8knpi+73akKW+WqsoXHXA+wU4vlxlt9kqSImXkRtt9gIOnbYHvtiyMuRH52c9+Nn24g==
-X-Received: by 2002:a5d:494a:: with SMTP id r10mr22158368wrs.302.1586815567546; 
- Mon, 13 Apr 2020 15:06:07 -0700 (PDT)
-Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id v16sm16185569wml.30.2020.04.13.15.06.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Apr 2020 15:06:06 -0700 (PDT)
-Subject: Re: [PATCH 3/3] MAINTAINERS: Add myself as fulong2e co-maintainer
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>
-References: <1586337380-25217-1-git-send-email-chenhc@lemote.com>
- <1586337380-25217-3-git-send-email-chenhc@lemote.com>
- <CAHiYmc61GZSvvwhCaC0B5q0GrEUN3CevDvNTEEWLE9PCJqVbvw@mail.gmail.com>
- <CAAhV-H5moZ8kD5WAM1GvLRmg9spO7m=2DZZL+uUXAoo4iWZyVg@mail.gmail.com>
- <20200409103844.1591548c@flygoat-x1e>
- <CAHiYmc71dZK9bYOWCQ4aA4_wTnicrpCGkuNp+h5umOwP6Q1xiA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Autocrypt: addr=f4bug@amsat.org; keydata=
- mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
- u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
- HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
- YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
- ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
- dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
- ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
- Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
- HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
- Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
- CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
- klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
- jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
- 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
- loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
- sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
- JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
- 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
- K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
- n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
- CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
-Message-ID: <21fee195-29d6-706e-144d-d06ad76a0869@amsat.org>
-Date: Tue, 14 Apr 2020 00:06:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=5eB1z8c5kK9kvW0a6iujT6vXRX9S8fGFoN6RJDHnU2g=;
+ b=f5zRKLB7jWSUZZaSvbCEaP+1b462nZA2CegQR/bcZ9c8iwqKyJWZtXFLrh2S9YTm0E
+ lL2XFujgVM1G3DCRCrojIUrzgozpK/ccayRq3LF3z5M+FoaelzBvvrgmUBVxmpnCAkff
+ Q2rm0WRBQjgyA3OASCUQS/ev9oi6m6YJRhNmVT5tgrLuPh1TgCVXMtPJjSDd55ql3tRI
+ 8eh0uuvduLvWB0kxbTXDXGyfF866WQTptybe6LdkelmzFVKnTCkX7D5lXID6D2l5r4XC
+ U4YsUtwm0tn+uDJzJLOWOHifocUCYeQM0atd9qsGWL+gQvQqBh6A8vDcgjnK6jfoAVYX
+ Tzog==
+X-Gm-Message-State: AGi0PuYhU9dTS4e5IRbr8mMKS6cM4sbNOVcvbIYwAW4hkzMoqNdmmPBw
+ H6JLeIpQh+lE/PZ5DuHzQ8J+fFGZ/NB5RMSF+e4=
+X-Google-Smtp-Source: APiQypLObMJB5KGfvx8eqmUvlJyWtzXJPVcel83Hl2IydFW0aD/us9mAT8+du+g1gFIylr5J/S0ETsQkcTdu9h5BKx4=
+X-Received: by 2002:a67:902:: with SMTP id 2mr14851445vsj.133.1586816079263;
+ Mon, 13 Apr 2020 15:14:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAHiYmc71dZK9bYOWCQ4aA4_wTnicrpCGkuNp+h5umOwP6Q1xiA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200412223619.11284-1-f4bug@amsat.org>
+ <20200412223619.11284-17-f4bug@amsat.org>
+In-Reply-To: <20200412223619.11284-17-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 13 Apr 2020 15:06:22 -0700
+Message-ID: <CAKmqyKN=2tkTyPY6d5a_T1Lnd0-m6tFPw2fdes2a0C+_erYXeQ@mail.gmail.com>
+Subject: Re: [PATCH-for-5.1 v3 16/24] hw/arm/xlnx-zynqmp: Move some code from
+ realize() to init()
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2607:f8b0:4864:20::e42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -114,118 +74,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhc@lemote.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jeff Cody <codyprime@gmail.com>,
+ Jason Wang <jasowang@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Max Reitz <mreitz@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Peter Chubb <peter.chubb@nicta.com.au>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ "open list:New World" <qemu-ppc@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/10/20 4:37 PM, Aleksandar Markovic wrote:
-> 04:39 Čet, 09.04.2020. Jiaxun Yang <jiaxun.yang@flygoat.com
-> <mailto:jiaxun.yang@flygoat.com>> је написао/ла:
->>
->> On Thu, 9 Apr 2020 10:17:46 +0800
->> Huacai Chen <chenhc@lemote.com <mailto:chenhc@lemote.com>> wrote:
->>
->> > Hi, Aleksandar,
->> >
->> > On Wed, Apr 8, 2020 at 11:30 PM Aleksandar Markovic
->> > <aleksandar.qemu.devel@gmail.com
-> <mailto:aleksandar.qemu.devel@gmail.com>> wrote:
->> > >
->> > > 11:08 Sre, 08.04.2020. Huacai Chen <chenhc@lemote.com
-> <mailto:chenhc@lemote.com>> је
->> > > написао/ла: 
->> > > >
->> > > > I submitted the MIPS/fulong2e support about ten years ago, and
->> > > > after that I became a MIPS kernel developer. Last year, Philippe
->> > > > Mathieu- Daudé asked me that whether I can be a reviewer of
->> > > > MIPS/fulong2e, and I promised that I will do some QEMU work in
->> > > > the next year (i.e., 2020 and later). I think now (and also in
->> > > > future) I can have some spare time, so I can finally do some real
->> > > > work on QEMU/MIPS. And if possible, I hope I can be a
->> > > > co-maintainer of MIPS/fulong2e.
->> > > >
->> > > > Cc: Jiaxun Yang <jiaxun.yang@flygoat.com
-> <mailto:jiaxun.yang@flygoat.com>>
->> > > > Signed-off-by: Huacai Chen <chenhc@lemote.com
-> <mailto:chenhc@lemote.com>>
->> > > > ---
->> > > >  MAINTAINERS | 1 +
->> > > >  1 file changed, 1 insertion(+)
->> > > >
->> > > > diff --git a/MAINTAINERS b/MAINTAINERS
->> > > > index 642c8e0..3281ff2 100644
->> > > > --- a/MAINTAINERS
->> > > > +++ b/MAINTAINERS
->> > > > @@ -1073,6 +1073,7 @@ F: hw/mips/mips_r4k.c
->> > > >  Fulong 2E
->> > > >  M: Philippe Mathieu-Daudé <f4bug@amsat.org
-> <mailto:f4bug@amsat.org>>
->> > > >  M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com
-> <mailto:aleksandar.qemu.devel@gmail.com>>
->> > > > +M: Huacai Chen <chenhc@lemote.com <mailto:chenhc@lemote.com>>
->> > > >  S: Odd Fixes
->> > > >  F: hw/mips/mips_fulong2e.c
->> > > >  F: hw/isa/vt82c686.c
->> > > > --
->> > > > 2.7.0
->> > > > 
->> > >
->> > > First of all, I want to express great pleasure and delight seing
->> > > your series, and this patch in particular.
->> > >
->> > > A warm welcome to QEMU developers communities!
->> > >
->> > > We are currenyly very busy preparing QEMU 5.0 release, and
->> > > additionaly, Easter holidays are in next few days or week
->> > > (different parts od Christian world have different calendars), so,
->> > > fot thay and other reasons, don't expect promot replies from us.
->> > >
->> > > I would also like to see Jiaxng at least having official reviewer
->> > > status, but, of course, only if he wants that. 
->> > Thank you for your best wishes, I'm also very glad to see Jiaxun be
->> > an reviewer.
->>
->> Thanks, but I was a primary school student at Loongson-2E's era, so I
->> can do nothing with 2E.
->>
->> My experience with Loongson starts from 2F. And I'm more familiar with
->> 2K and 3A.
+On Sun, Apr 12, 2020 at 3:41 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Coccinelle failed at processing this file:
+>
+>   $ spatch ... --timeout 60 --sp-file \
+>     scripts/coccinelle/simplify-init-realize-error_propagate.cocci
+>   HANDLING: ./hw/arm/xlnx-zynqmp.c
+>   EXN: Coccinelle_modules.Common.Timeout
+>
+> Move the calls using &error_abort which don't depend on input
+> updated before realize() to init().
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Thank you both of you, your help is very welcome :)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-I have a simple series renaming "fulo[o]ng" I plan to send when the 5.1
-development window opens, I'll include your patch.
+Alistair
 
->>
-> 
-> OK, it makes sense. But, if you ever become wanting to be a reviewer for
-> Foolong 2e, just give me an email.
-> 
->> I'm happy to contribute QEMU support for these platforms.
->>
-> 
-> I am happy as well.
-> 
-> Best wishes and best health to you, people from China, and the whole
-> region!!
-> 
-> Yours,
-> Aleksandar
-> 
->> Thanks.
->>
->> >
->> > Regards,
->> > Huacai
->> > >
->> > > Yours,
->> > > and wishing you and all people from China best health!
->> > >
->> > > Aleksandar 
->>
->> --
->> Jiaxun Yang
-> 
+> ---
+> v3: Typo 'depend of' -> 'depend on' (eblake)
+> ---
+>  hw/arm/xlnx-zynqmp.c | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
+>
+> diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
+> index 457057198a..5ec9c24ee7 100644
+> --- a/hw/arm/xlnx-zynqmp.c
+> +++ b/hw/arm/xlnx-zynqmp.c
+> @@ -242,6 +242,11 @@ static void xlnx_zynqmp_init(Object *obj)
+>                                  &s->apu_cpu[i], sizeof(s->apu_cpu[i]),
+>                                  ARM_CPU_TYPE_NAME("cortex-a53"),
+>                                  &error_abort, NULL);
+> +
+> +        object_property_set_int(OBJECT(&s->apu_cpu[i]), QEMU_PSCI_CONDUI=
+T_SMC,
+> +                                "psci-conduit", &error_abort);
+> +        object_property_set_int(OBJECT(&s->apu_cpu[i]), GIC_BASE_ADDR,
+> +                                "reset-cbar", &error_abort);
+>      }
+>
+>      sysbus_init_child_obj(obj, "gic", &s->gic, sizeof(s->gic),
+> @@ -250,6 +255,10 @@ static void xlnx_zynqmp_init(Object *obj)
+>      for (i =3D 0; i < XLNX_ZYNQMP_NUM_GEMS; i++) {
+>          sysbus_init_child_obj(obj, "gem[*]", &s->gem[i], sizeof(s->gem[i=
+]),
+>                                TYPE_CADENCE_GEM);
+> +        object_property_set_int(OBJECT(&s->gem[i]), GEM_REVISION, "revis=
+ion",
+> +                                &error_abort);
+> +        object_property_set_int(OBJECT(&s->gem[i]), 2, "num-priority-que=
+ues",
+> +                                &error_abort);
+>      }
+>
+>      for (i =3D 0; i < XLNX_ZYNQMP_NUM_UARTS; i++) {
+> @@ -259,6 +268,8 @@ static void xlnx_zynqmp_init(Object *obj)
+>
+>      sysbus_init_child_obj(obj, "sata", &s->sata, sizeof(s->sata),
+>                            TYPE_SYSBUS_AHCI);
+> +    object_property_set_int(OBJECT(&s->sata), SATA_NUM_PORTS, "num-ports=
+",
+> +                            &error_abort);
+>
+>      for (i =3D 0; i < XLNX_ZYNQMP_NUM_SDHCI; i++) {
+>          sysbus_init_child_obj(obj, "sdhci[*]", &s->sdhci[i],
+> @@ -370,9 +381,6 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Err=
+or **errp)
+>      for (i =3D 0; i < num_apus; i++) {
+>          char *name;
+>
+> -        object_property_set_int(OBJECT(&s->apu_cpu[i]), QEMU_PSCI_CONDUI=
+T_SMC,
+> -                                "psci-conduit", &error_abort);
+> -
+>          name =3D object_get_canonical_path_component(OBJECT(&s->apu_cpu[=
+i]));
+>          if (strcmp(name, boot_cpu)) {
+>              /* Secondary CPUs start in PSCI powered-down state */
+> @@ -387,8 +395,6 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Err=
+or **errp)
+>                                   s->secure, "has_el3", NULL);
+>          object_property_set_bool(OBJECT(&s->apu_cpu[i]),
+>                                   s->virt, "has_el2", NULL);
+> -        object_property_set_int(OBJECT(&s->apu_cpu[i]), GIC_BASE_ADDR,
+> -                                "reset-cbar", &error_abort);
+>          object_property_set_int(OBJECT(&s->apu_cpu[i]), num_apus,
+>                                  "core-count", &error_abort);
+>          object_property_set_bool(OBJECT(&s->apu_cpu[i]), true, "realized=
+",
+> @@ -490,10 +496,6 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Er=
+ror **errp)
+>              qemu_check_nic_model(nd, TYPE_CADENCE_GEM);
+>              qdev_set_nic_properties(DEVICE(&s->gem[i]), nd);
+>          }
+> -        object_property_set_int(OBJECT(&s->gem[i]), GEM_REVISION, "revis=
+ion",
+> -                                &error_abort);
+> -        object_property_set_int(OBJECT(&s->gem[i]), 2, "num-priority-que=
+ues",
+> -                                &error_abort);
+>          object_property_set_bool(OBJECT(&s->gem[i]), true, "realized", &=
+err);
+>          if (err) {
+>              goto out_propagate_error;
+> @@ -514,8 +516,6 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Err=
+or **errp)
+>                             gic_spi[uart_intr[i]]);
+>      }
+>
+> -    object_property_set_int(OBJECT(&s->sata), SATA_NUM_PORTS, "num-ports=
+",
+> -                            &error_abort);
+>      object_property_set_bool(OBJECT(&s->sata), true, "realized", &err);
+>      if (err) {
+>          goto out_propagate_error;
+> --
+> 2.21.1
+>
+>
 
