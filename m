@@ -2,67 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29B5D1A6EF6
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 00:14:38 +0200 (CEST)
-Received: from localhost ([::1]:49562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 971F91A6EDE
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 00:06:58 +0200 (CEST)
+Received: from localhost ([::1]:49444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jO7Lh-0000c8-8P
-	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 18:14:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45054)
+	id 1jO7EH-00027T-Mx
+	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 18:06:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44144)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jO7Kc-0008Us-Pn
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:13:32 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jO7DX-0001ht-3v
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:06:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1jO7Kb-0004ZQ-Ax
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:13:30 -0400
-Received: from mail-vk1-xa43.google.com ([2607:f8b0:4864:20::a43]:37320)
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jO7DV-0002Ll-1N
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:06:10 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44747)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1jO7Kb-0004ZM-7G; Mon, 13 Apr 2020 18:13:29 -0400
-Received: by mail-vk1-xa43.google.com with SMTP id f195so2685126vka.4;
- Mon, 13 Apr 2020 15:13:29 -0700 (PDT)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jO7DU-0002Lc-PW
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:06:08 -0400
+Received: by mail-wr1-x442.google.com with SMTP id d17so5032882wrg.11
+ for <qemu-devel@nongnu.org>; Mon, 13 Apr 2020 15:06:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=QVGiwzDVXsng6V7wzwCWbfgWJVNp0GqNxsTzRI+mWVU=;
- b=SHANxu50qfI6lch7kjJUabRpcqqwvSlbFIdbI7gWU6b21Ty5/POPVjvhlVzVZikm0C
- aK50aut118wRB2mxwpE8x6OWjbYhsMYgp2TjBUT9buHtBXx448izUympsR+q+hKkbCka
- IG0Bc68ysiltoIVpcZaLouMGXBfYam9h8Rm4uTjR+09ZXDFnNRTaZl+giAGXQt0TE627
- uhsE8ZMoUmCe523HaKA7nYGYHN39R7nv2RHl99qbYDmZF5GgKpqzrKf6MvPSqKJkuLEC
- v2A5gM/I5u46515fzK1dWa+dZREb0APZvkDZhEGalz0CBcBDbh2sI7ElTL3H8XjR/OQ3
- 2sZg==
+ h=sender:subject:to:cc:references:from:autocrypt:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9bfTY167sjqKg0j7diQOa4rjBTWcdaFc9b+SRgfV2hU=;
+ b=aZt4UZ0t1AVfMlIDatV5vi1aCOl5hqdvSlO1cm+3X6HEHiZmtaX5MZ7WaRDPUXJNXh
+ tEtnFdvHN7sYoqoo/WhdG1o0r9K7SrLxSIQchuSkgkk7uW7nZf595VVG7kxp8p4nIOXz
+ cvK2QH6lh7WTBzik/WK4h9WPUFZDuHYPViBpK8HDYG0NQCaOP3e3H3G+iVz3MbEIIIrq
+ JxFDxiH+EAUKTkBoqZrCcLX8fw81SIHnzIfpYD/HZpn673N6SZ/e7xoxoAcNSCzO6Lgz
+ OOGxfcIw4C4qaACgGOhF8+nkKtZS7k7uWhfHs/xu8sSwFyww4RIjfb1a0NXbi2yw7AkE
+ +f9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=QVGiwzDVXsng6V7wzwCWbfgWJVNp0GqNxsTzRI+mWVU=;
- b=tXpV8wps4BYDEA6AoDPF9jdnA01MiOxMda3aFvQ5aZ+pza/Pz9T/2UO5SDmtT2H77L
- O6Ef8fxrFAwKKOE2mBWW/PxiPO9aqQgTtls16DCjU7bQWNkhlurUGFcsQBnAxRHzKuhd
- u4iwYMszZdZjpdgrmtyUNTRDToSmoHXcB8F+WC4XcauHJnpVmClmvDt0sUUpjV2iqZIj
- hNL/BIctnXYyjvEV6gS5tq9Ysci7mr8uuRzPnnpqmYEzI06LFtXOlmi8eFLLgg3ZYFrk
- Oa+/+F1WKYdFYWqPwdUj6Rd/6q7Q9gCuYDgYmFXKyhsLinf1yoM3LS4w+6dvkDlabq3N
- bjOA==
-X-Gm-Message-State: AGi0PuaCsTjXT9fMJ/2Ev7Xn4ZdKRJwXql/T1ip/May/8PxGB7tUJbSo
- DXQ5x7IpdpzR5ds2obDXXLA8aos7NZVZ7+j/hgE=
-X-Google-Smtp-Source: APiQypKj/ZAMAGLolI6z0AJsXW6yYjY3nZ+TbE0DNauCof7bVNNXcuoK715Bki2y3zMSMJ2GjII/w5q1w8zO2agepqU=
-X-Received: by 2002:a1f:2e8c:: with SMTP id u134mr13001976vku.16.1586816008350; 
- Mon, 13 Apr 2020 15:13:28 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=9bfTY167sjqKg0j7diQOa4rjBTWcdaFc9b+SRgfV2hU=;
+ b=O1I2DtSvex2jN93m7KU+2AsTp8sUyAWzM4dhhWtlsuzOiZEDQcKu9+c8lgO9FaGMs5
+ VLrXJmjt10mNqErM8k3TqgQgUeOWMq0u5FSGvEBvD7gkMx1xS0Svz+XABTDo+LkctVN7
+ EtcN4vzfuZg4F3MmBB23vR23+aHSldax0bYuhcRiE/SCmzlmCqeL6HavW0OmJtM52DqW
+ DGz/2IlZ6k4nIMJ58YFj79HNlxuy8vHoB6s4PUQCr8imLFmV3r6zsLo7RLdYX+g1tGEj
+ +tepYq0E77VImuMqIiP9je21Khl+haCjqp7EpEF8a2LyZBo2bRToG+BIrf/8z3QFQRGS
+ UYCA==
+X-Gm-Message-State: AGi0PuY3RTXLrpYZgMqRBYHNRjrVIhHEiaJxzfOCIWIqDndI7HMBJJs0
+ zFHn0AZbGvcBye5rrkfAXFg=
+X-Google-Smtp-Source: APiQypKNCjM8knpi+73akKW+WqsoXHXA+wU4vlxlt9kqSImXkRtt9gIOnbYHvtiyMuRH52c9+Nn24g==
+X-Received: by 2002:a5d:494a:: with SMTP id r10mr22158368wrs.302.1586815567546; 
+ Mon, 13 Apr 2020 15:06:07 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id v16sm16185569wml.30.2020.04.13.15.06.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Apr 2020 15:06:06 -0700 (PDT)
+Subject: Re: [PATCH 3/3] MAINTAINERS: Add myself as fulong2e co-maintainer
+To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <1586337380-25217-1-git-send-email-chenhc@lemote.com>
+ <1586337380-25217-3-git-send-email-chenhc@lemote.com>
+ <CAHiYmc61GZSvvwhCaC0B5q0GrEUN3CevDvNTEEWLE9PCJqVbvw@mail.gmail.com>
+ <CAAhV-H5moZ8kD5WAM1GvLRmg9spO7m=2DZZL+uUXAoo4iWZyVg@mail.gmail.com>
+ <20200409103844.1591548c@flygoat-x1e>
+ <CAHiYmc71dZK9bYOWCQ4aA4_wTnicrpCGkuNp+h5umOwP6Q1xiA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Autocrypt: addr=f4bug@amsat.org; keydata=
+ mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
+ u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
+ HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
+ YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
+ ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
+ dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
+ ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
+ Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
+ HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
+ Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
+ CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
+ klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
+ jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
+ 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
+ loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
+ sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
+ JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
+ 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
+ K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
+ n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
+ CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
+Message-ID: <21fee195-29d6-706e-144d-d06ad76a0869@amsat.org>
+Date: Tue, 14 Apr 2020 00:06:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200412223619.11284-1-f4bug@amsat.org>
- <20200412223619.11284-15-f4bug@amsat.org>
-In-Reply-To: <20200412223619.11284-15-f4bug@amsat.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 13 Apr 2020 15:05:12 -0700
-Message-ID: <CAKmqyKOUZPaERF3VYRDEn1+0g86ULEJP5w-iuE_eOyA3_KXScw@mail.gmail.com>
-Subject: Re: [PATCH-for-5.1 v3 14/24] hw/arm/xlnx-zynqmp: Use single
- propagate_error() call
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAHiYmc71dZK9bYOWCQ4aA4_wTnicrpCGkuNp+h5umOwP6Q1xiA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::a43
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,269 +114,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jeff Cody <codyprime@gmail.com>,
- Jason Wang <jasowang@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Max Reitz <mreitz@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Joel Stanley <joel@jms.id.au>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- "open list:New World" <qemu-ppc@nongnu.org>,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Andrew Jeffery <andrew@aj.id.au>,
- Wen Congyang <wencongyang2@huawei.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Huacai Chen <chenhc@lemote.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Apr 12, 2020 at 3:45 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> Coccinelle failed at processing this file:
->
->   $ spatch ... --timeout 60 --sp-file \
->     scripts/coccinelle/simplify-init-realize-error_propagate.cocci
->   HANDLING: ./hw/arm/xlnx-zynqmp.c
->   EXN: Coccinelle_modules.Common.Timeout
->
-> We are going to manually add the missing propagate_error() calls.
-> As there are many Error* calls used, simplify by using an unique
-> call to propagate_error().
+On 4/10/20 4:37 PM, Aleksandar Markovic wrote:
+> 04:39 Čet, 09.04.2020. Jiaxun Yang <jiaxun.yang@flygoat.com
+> <mailto:jiaxun.yang@flygoat.com>> је написао/ла:
+>>
+>> On Thu, 9 Apr 2020 10:17:46 +0800
+>> Huacai Chen <chenhc@lemote.com <mailto:chenhc@lemote.com>> wrote:
+>>
+>> > Hi, Aleksandar,
+>> >
+>> > On Wed, Apr 8, 2020 at 11:30 PM Aleksandar Markovic
+>> > <aleksandar.qemu.devel@gmail.com
+> <mailto:aleksandar.qemu.devel@gmail.com>> wrote:
+>> > >
+>> > > 11:08 Sre, 08.04.2020. Huacai Chen <chenhc@lemote.com
+> <mailto:chenhc@lemote.com>> је
+>> > > написао/ла: 
+>> > > >
+>> > > > I submitted the MIPS/fulong2e support about ten years ago, and
+>> > > > after that I became a MIPS kernel developer. Last year, Philippe
+>> > > > Mathieu- Daudé asked me that whether I can be a reviewer of
+>> > > > MIPS/fulong2e, and I promised that I will do some QEMU work in
+>> > > > the next year (i.e., 2020 and later). I think now (and also in
+>> > > > future) I can have some spare time, so I can finally do some real
+>> > > > work on QEMU/MIPS. And if possible, I hope I can be a
+>> > > > co-maintainer of MIPS/fulong2e.
+>> > > >
+>> > > > Cc: Jiaxun Yang <jiaxun.yang@flygoat.com
+> <mailto:jiaxun.yang@flygoat.com>>
+>> > > > Signed-off-by: Huacai Chen <chenhc@lemote.com
+> <mailto:chenhc@lemote.com>>
+>> > > > ---
+>> > > >  MAINTAINERS | 1 +
+>> > > >  1 file changed, 1 insertion(+)
+>> > > >
+>> > > > diff --git a/MAINTAINERS b/MAINTAINERS
+>> > > > index 642c8e0..3281ff2 100644
+>> > > > --- a/MAINTAINERS
+>> > > > +++ b/MAINTAINERS
+>> > > > @@ -1073,6 +1073,7 @@ F: hw/mips/mips_r4k.c
+>> > > >  Fulong 2E
+>> > > >  M: Philippe Mathieu-Daudé <f4bug@amsat.org
+> <mailto:f4bug@amsat.org>>
+>> > > >  M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com
+> <mailto:aleksandar.qemu.devel@gmail.com>>
+>> > > > +M: Huacai Chen <chenhc@lemote.com <mailto:chenhc@lemote.com>>
+>> > > >  S: Odd Fixes
+>> > > >  F: hw/mips/mips_fulong2e.c
+>> > > >  F: hw/isa/vt82c686.c
+>> > > > --
+>> > > > 2.7.0
+>> > > > 
+>> > >
+>> > > First of all, I want to express great pleasure and delight seing
+>> > > your series, and this patch in particular.
+>> > >
+>> > > A warm welcome to QEMU developers communities!
+>> > >
+>> > > We are currenyly very busy preparing QEMU 5.0 release, and
+>> > > additionaly, Easter holidays are in next few days or week
+>> > > (different parts od Christian world have different calendars), so,
+>> > > fot thay and other reasons, don't expect promot replies from us.
+>> > >
+>> > > I would also like to see Jiaxng at least having official reviewer
+>> > > status, but, of course, only if he wants that. 
+>> > Thank you for your best wishes, I'm also very glad to see Jiaxun be
+>> > an reviewer.
+>>
+>> Thanks, but I was a primary school student at Loongson-2E's era, so I
+>> can do nothing with 2E.
+>>
+>> My experience with Loongson starts from 2F. And I'm more familiar with
+>> 2K and 3A.
 
-I'm not a huge fan of goto's so I'm not sure this is simpler.
+Thank you both of you, your help is very welcome :)
 
-Alistair
+I have a simple series renaming "fulo[o]ng" I plan to send when the 5.1
+development window opens, I'll include your patch.
 
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  hw/arm/xlnx-zynqmp.c | 61 +++++++++++++++++---------------------------
->  1 file changed, 23 insertions(+), 38 deletions(-)
->
-> diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-> index b84d153d56..43d57fa7de 100644
-> --- a/hw/arm/xlnx-zynqmp.c
-> +++ b/hw/arm/xlnx-zynqmp.c
-> @@ -385,15 +385,13 @@ static void xlnx_zynqmp_realize(DeviceState *dev, E=
-rror **errp)
->          object_property_set_bool(OBJECT(&s->apu_cpu[i]), true, "realized=
-",
->                                   &err);
->          if (err) {
-> -            error_propagate(errp, err);
-> -            return;
-> +            goto out_propagate_error;
->          }
->      }
->
->      object_property_set_bool(OBJECT(&s->gic), true, "realized", &err);
->      if (err) {
-> -        error_propagate(errp, err);
-> -        return;
-> +        goto out_propagate_error;
->      }
->
->      assert(ARRAY_SIZE(xlnx_zynqmp_gic_regions) =3D=3D XLNX_ZYNQMP_GIC_RE=
-GIONS);
-> @@ -462,8 +460,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Err=
-or **errp)
->
->      xlnx_zynqmp_create_rpu(ms, s, boot_cpu, &err);
->      if (err) {
-> -        error_propagate(errp, err);
-> -        return;
-> +        goto out_propagate_error;
->      }
->
->      if (!s->boot_cpu_ptr) {
-> @@ -488,8 +485,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Err=
-or **errp)
->                                  &error_abort);
->          object_property_set_bool(OBJECT(&s->gem[i]), true, "realized", &=
-err);
->          if (err) {
-> -            error_propagate(errp, err);
-> -            return;
-> +            goto out_propagate_error;
->          }
->          sysbus_mmio_map(SYS_BUS_DEVICE(&s->gem[i]), 0, gem_addr[i]);
->          sysbus_connect_irq(SYS_BUS_DEVICE(&s->gem[i]), 0,
-> @@ -500,8 +496,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Err=
-or **errp)
->          qdev_prop_set_chr(DEVICE(&s->uart[i]), "chardev", serial_hd(i));
->          object_property_set_bool(OBJECT(&s->uart[i]), true, "realized", =
-&err);
->          if (err) {
-> -            error_propagate(errp, err);
-> -            return;
-> +            goto out_propagate_error;
->          }
->          sysbus_mmio_map(SYS_BUS_DEVICE(&s->uart[i]), 0, uart_addr[i]);
->          sysbus_connect_irq(SYS_BUS_DEVICE(&s->uart[i]), 0,
-> @@ -512,8 +507,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Err=
-or **errp)
->                              &error_abort);
->      object_property_set_bool(OBJECT(&s->sata), true, "realized", &err);
->      if (err) {
-> -        error_propagate(errp, err);
-> -        return;
-> +        goto out_propagate_error;
->      }
->
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->sata), 0, SATA_ADDR);
-> @@ -531,23 +525,19 @@ static void xlnx_zynqmp_realize(DeviceState *dev, E=
-rror **errp)
->           */
->          object_property_set_uint(sdhci, 3, "sd-spec-version", &err);
->          if (err) {
-> -            error_propagate(errp, err);
-> -            return;
-> +            goto out_propagate_error;
->          }
->          object_property_set_uint(sdhci, SDHCI_CAPABILITIES, "capareg", &=
-err);
->          if (err) {
-> -            error_propagate(errp, err);
-> -            return;
-> +            goto out_propagate_error;
->          }
->          object_property_set_uint(sdhci, UHS_I, "uhs", &err);
->          if (err) {
-> -            error_propagate(errp, err);
-> -            return;
-> +            goto out_propagate_error;
->          }
->          object_property_set_bool(sdhci, true, "realized", &err);
->          if (err) {
-> -            error_propagate(errp, err);
-> -            return;
-> +            goto out_propagate_error;
->          }
->          sysbus_mmio_map(sbd, 0, sdhci_addr[i]);
->          sysbus_connect_irq(sbd, 0, gic_spi[sdhci_intr[i]]);
-> @@ -564,8 +554,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Err=
-or **errp)
->
->          object_property_set_bool(OBJECT(&s->spi[i]), true, "realized", &=
-err);
->          if (err) {
-> -            error_propagate(errp, err);
-> -            return;
-> +            goto out_propagate_error;
->          }
->
->          sysbus_mmio_map(SYS_BUS_DEVICE(&s->spi[i]), 0, spi_addr[i]);
-> @@ -582,8 +571,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Err=
-or **errp)
->
->      object_property_set_bool(OBJECT(&s->qspi), true, "realized", &err);
->      if (err) {
-> -        error_propagate(errp, err);
-> -        return;
-> +        goto out_propagate_error;
->      }
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->qspi), 0, QSPI_ADDR);
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->qspi), 1, LQSPI_ADDR);
-> @@ -605,16 +593,14 @@ static void xlnx_zynqmp_realize(DeviceState *dev, E=
-rror **errp)
->
->      object_property_set_bool(OBJECT(&s->dp), true, "realized", &err);
->      if (err) {
-> -        error_propagate(errp, err);
-> -        return;
-> +        goto out_propagate_error;
->      }
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->dp), 0, DP_ADDR);
->      sysbus_connect_irq(SYS_BUS_DEVICE(&s->dp), 0, gic_spi[DP_IRQ]);
->
->      object_property_set_bool(OBJECT(&s->dpdma), true, "realized", &err);
->      if (err) {
-> -        error_propagate(errp, err);
-> -        return;
-> +        goto out_propagate_error;
->      }
->      object_property_set_link(OBJECT(&s->dp), OBJECT(&s->dpdma), "dpdma",
->                               &error_abort);
-> @@ -623,16 +609,14 @@ static void xlnx_zynqmp_realize(DeviceState *dev, E=
-rror **errp)
->
->      object_property_set_bool(OBJECT(&s->ipi), true, "realized", &err);
->      if (err) {
-> -        error_propagate(errp, err);
-> -        return;
-> +        goto out_propagate_error;
->      }
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->ipi), 0, IPI_ADDR);
->      sysbus_connect_irq(SYS_BUS_DEVICE(&s->ipi), 0, gic_spi[IPI_IRQ]);
->
->      object_property_set_bool(OBJECT(&s->rtc), true, "realized", &err);
->      if (err) {
-> -        error_propagate(errp, err);
-> -        return;
-> +        goto out_propagate_error;
->      }
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->rtc), 0, RTC_ADDR);
->      sysbus_connect_irq(SYS_BUS_DEVICE(&s->rtc), 0, gic_spi[RTC_IRQ]);
-> @@ -640,13 +624,11 @@ static void xlnx_zynqmp_realize(DeviceState *dev, E=
-rror **errp)
->      for (i =3D 0; i < XLNX_ZYNQMP_NUM_GDMA_CH; i++) {
->          object_property_set_uint(OBJECT(&s->gdma[i]), 128, "bus-width", =
-&err);
->          if (err) {
-> -            error_propagate(errp, err);
-> -            return;
-> +            goto out_propagate_error;
->          }
->          object_property_set_bool(OBJECT(&s->gdma[i]), true, "realized", =
-&err);
->          if (err) {
-> -            error_propagate(errp, err);
-> -            return;
-> +            goto out_propagate_error;
->          }
->
->          sysbus_mmio_map(SYS_BUS_DEVICE(&s->gdma[i]), 0, gdma_ch_addr[i])=
-;
-> @@ -657,14 +639,17 @@ static void xlnx_zynqmp_realize(DeviceState *dev, E=
-rror **errp)
->      for (i =3D 0; i < XLNX_ZYNQMP_NUM_ADMA_CH; i++) {
->          object_property_set_bool(OBJECT(&s->adma[i]), true, "realized", =
-&err);
->          if (err) {
-> -            error_propagate(errp, err);
-> -            return;
-> +            goto out_propagate_error;
->          }
->
->          sysbus_mmio_map(SYS_BUS_DEVICE(&s->adma[i]), 0, adma_ch_addr[i])=
-;
->          sysbus_connect_irq(SYS_BUS_DEVICE(&s->adma[i]), 0,
->                             gic_spi[adma_ch_intr[i]]);
->      }
-> +    return;
-> +
-> +out_propagate_error:
-> +    error_propagate(errp, err);
->  }
->
->  static Property xlnx_zynqmp_props[] =3D {
-> --
-> 2.21.1
->
->
+>>
+> 
+> OK, it makes sense. But, if you ever become wanting to be a reviewer for
+> Foolong 2e, just give me an email.
+> 
+>> I'm happy to contribute QEMU support for these platforms.
+>>
+> 
+> I am happy as well.
+> 
+> Best wishes and best health to you, people from China, and the whole
+> region!!
+> 
+> Yours,
+> Aleksandar
+> 
+>> Thanks.
+>>
+>> >
+>> > Regards,
+>> > Huacai
+>> > >
+>> > > Yours,
+>> > > and wishing you and all people from China best health!
+>> > >
+>> > > Aleksandar 
+>>
+>> --
+>> Jiaxun Yang
+> 
 
