@@ -2,66 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 796491A6EFF
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 00:20:21 +0200 (CEST)
-Received: from localhost ([::1]:49640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B1521A6EF1
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 00:11:45 +0200 (CEST)
+Received: from localhost ([::1]:49532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jO7RC-0004me-Ql
-	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 18:20:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45677)
+	id 1jO7Iu-0006Pj-FJ
+	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 18:11:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44634)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jO7PT-0003Aa-3c
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:18:33 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jO7HY-0005MV-1t
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:10:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1jO7PS-0005LF-46
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:18:30 -0400
-Received: from mail-vk1-xa43.google.com ([2607:f8b0:4864:20::a43]:35058)
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jO7HX-00045p-33
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:10:20 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39094)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1jO7PS-0005L9-0M; Mon, 13 Apr 2020 18:18:30 -0400
-Received: by mail-vk1-xa43.google.com with SMTP id u8so2333827vkl.2;
- Mon, 13 Apr 2020 15:18:29 -0700 (PDT)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jO7HW-00045U-TT
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 18:10:19 -0400
+Received: by mail-wm1-x342.google.com with SMTP id y24so11720334wma.4
+ for <qemu-devel@nongnu.org>; Mon, 13 Apr 2020 15:10:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Xqfg2UOfrtjX2QlezANpKbA9eU75rpqm2Ozq/7avSc0=;
- b=Vs//LplSMj0jTGSs5BBPfQYKXoe29gtamnOyzQ4O/v6WMfhH697NVZas1W6B7Bn9ty
- jpuGSfa2f/RoEUv/DB/BZtqU3RszXNBuQ5elO4bjkiUiJWaYQp4eoPKuLFM0IyRcTZLW
- 5SENLTIgkOq3ISDdw7Iw5Gf/wo9XHz2x7aIOZEPUZm7BWpRud5nRgrwoCEjIbHVyTn/S
- K8d+ONFaKXvTpgOW/t92TM1A0q31JNhkMAKzbkmUt6UChB1jGRNZNC/9Htx1FCgb4C2G
- 9+L/QdbjHZQxNOAAR3n+I75wQ+u+QTRUyJpEm7Iu9PI38FHalHlWgNsXHORsL3IxggVu
- o1gQ==
+ h=sender:subject:to:cc:references:from:autocrypt:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=b4HPrLWdYQkSwtpKAYu7RyctuItnpt/9pcQ9NVcYeYs=;
+ b=sL1QkVfEo0gyC5s1mufXuuiak4XScCn+N/qxhUdmYaUX/hdEtZqU2HJMuRy8Lf/EpW
+ 3YUcZ4GqnslwiA/WgG7u6Z6bwAeVonHRO0iwAond1df5seP0Fo8IfUwLitR1MDdtYhY+
+ WoxJg4ORJTgW61zFXuvOjmxx29iszzSoY7pZNeNwVle2QaZYE+SbWF3DGPYtBjI5PMBa
+ CZ/XeDHMJ8IzsT1nWflxMS0FGP/0chmP/SZ/gk3P4XEqLkyNDDbeERyZeqVG3g4qTmgp
+ mVzYY5yYZGprIpURk7cXOxbMelcGV628WuovJHOOgoOIzW+LrfbFtK4ZHO3141Y9VKGS
+ k7Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Xqfg2UOfrtjX2QlezANpKbA9eU75rpqm2Ozq/7avSc0=;
- b=ljDH6ZR5ECjFn28Lz/xIXEtsfwrGkd0NhhUL9IaXsK40vJF5jSUxg/mcpVdXqCPYAx
- tEl6UHGx/FoabaUqbW3bUhgfx47l3/a+YbllJqHkWbV/H0sRn4w8bzdudddCIauzgVxP
- en0fSOwY6Lf23Vknl8EhCLYolFI7cXZJ3M+J+x3X0454+GL60utc6etGew0dgoWM6Fb2
- aGjQBmyBqE5TSdedXptZ4wibsvysxVXw3JSqkkV1btzdci3kCCpb4ywJfXL/lF1prclI
- XxMGTimqRLbGpwakVyt7S2dPbd9H429kmYPTPWtqEhyK7cFXV2mWrjc98l/QVpVXtwAp
- 32Hw==
-X-Gm-Message-State: AGi0PuZrvT4TyzjNo9ATCkUyhCvSwHhkK8fTpGMnjXg0FsOw8VYHjmsh
- kWb4kdH2SszMDUZG7EHyjkh85gtnJ+L1jXnBuDA=
-X-Google-Smtp-Source: APiQypLzyDOBZozL608qupMxkepFwn/QSjcZy6zpv0qEom/nVYwT8W3kwfR2k1SkAxdgL4UMznqQlNQeIEYH1doqnpc=
-X-Received: by 2002:a1f:2e8c:: with SMTP id u134mr13016321vku.16.1586816309527; 
- Mon, 13 Apr 2020 15:18:29 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=b4HPrLWdYQkSwtpKAYu7RyctuItnpt/9pcQ9NVcYeYs=;
+ b=CKRvjBQ/zkZtdSXAg0MamslMamZQgT6+DA2qH3wShJ0+tOsjgVz/nmmEzPycvpf7//
+ cBlCnp2OXBbooxmxS0R0YmKM7aCrn8FCsyCgm22igukVjW5y+YbBH8GQCwgUVbZ+6WZl
+ rD8gpTJXsnRtAYTxuUq+YQcvlzI/9Y193firCVHbLVtODoolLDVck2rNdu4Oe/OXYOu2
+ 8pZ38+uPuj9qn1+DVmCphs1w7v3LNENknQKqqasH63hXKTyKQLePHIhuZCTb2eeoKA1m
+ 4Kp+tco/wxquHgCsssxK5TO/bchf7OG/03yZfr72/gmPZPGGytY2vyHf19lmfhB4Nk6C
+ eYPA==
+X-Gm-Message-State: AGi0PubZzk37KTxlMu72cvOeiaVXqucLUaKdozGulqCcEotvAk9+R/u8
+ ekBY9oVwVNky85b4he4Qr+o=
+X-Google-Smtp-Source: APiQypKmsT7o2gyrVIgzKAWYBinXWujmOSiaoqUMwL1l1+322DqLLQu2oGEFo8zHrWFam7RevUMhlA==
+X-Received: by 2002:a7b:c104:: with SMTP id w4mr15921958wmi.8.1586815817581;
+ Mon, 13 Apr 2020 15:10:17 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id o11sm16119235wme.13.2020.04.13.15.10.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Apr 2020 15:10:16 -0700 (PDT)
+Subject: Re: [PATCH] MAINTAINERS: Add myself as vhost-user-blk maintainer
+To: Raphael Norwitz <raphael.norwitz@nutanix.com>, mst@redhat.com,
+ qemu-devel@nongnu.org
+References: <20200410002800.GA7689@localhost.localdomain>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Autocrypt: addr=f4bug@amsat.org; keydata=
+ mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
+ u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
+ HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
+ YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
+ ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
+ dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
+ ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
+ Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
+ HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
+ Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
+ CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
+ klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
+ jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
+ 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
+ loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
+ sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
+ JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
+ 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
+ K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
+ n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
+ CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
+Message-ID: <74dbcf2f-79d2-ffcd-01eb-6c997bb26c1f@amsat.org>
+Date: Tue, 14 Apr 2020 00:10:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200412223619.11284-1-f4bug@amsat.org>
- <20200412223619.11284-21-f4bug@amsat.org>
-In-Reply-To: <20200412223619.11284-21-f4bug@amsat.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 13 Apr 2020 15:10:13 -0700
-Message-ID: <CAKmqyKN6uKZkkutqeeMGQBgCq8sg_wfRjOM3RvMfDi13b7RbvA@mail.gmail.com>
-Subject: Re: [PATCH-for-5.1 v3 20/24] hw/riscv/sifive_u: Use single type_init()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200410002800.GA7689@localhost.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::a43
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,87 +109,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jeff Cody <codyprime@gmail.com>,
- Jason Wang <jasowang@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Max Reitz <mreitz@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Joel Stanley <joel@jms.id.au>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- "open list:New World" <qemu-ppc@nongnu.org>,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Andrew Jeffery <andrew@aj.id.au>,
- Wen Congyang <wencongyang2@huawei.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: raphael.s.norwitz@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Apr 12, 2020 at 3:48 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> We can use a single type_init() to call multiple type_register*().
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+On 4/10/20 2:28 AM, Raphael Norwitz wrote:
+> Ping
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+FYI this patch has been recently merged as commit
+b372d79b236a4e07eaa3ce65ee0543569b712326.
 
-Alistair
-
-> ---
->  hw/riscv/sifive_u.c | 12 +++---------
->  1 file changed, 3 insertions(+), 9 deletions(-)
->
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index 998666c91f..9c90c94c33 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -601,13 +601,6 @@ static const TypeInfo riscv_sifive_u_soc_type_info =
-=3D {
->      .class_init =3D riscv_sifive_u_soc_class_init,
->  };
->
-> -static void riscv_sifive_u_soc_register_types(void)
-> -{
-> -    type_register_static(&riscv_sifive_u_soc_type_info);
-> -}
-> -
-> -type_init(riscv_sifive_u_soc_register_types)
-> -
->  static void riscv_sifive_u_machine_class_init(ObjectClass *oc, void *dat=
-a)
->  {
->      MachineClass *mc =3D MACHINE_CLASS(oc);
-> @@ -627,9 +620,10 @@ static const TypeInfo riscv_sifive_u_machine_typeinf=
-o =3D {
->      .instance_size =3D sizeof(SiFiveUState),
->  };
->
-> -static void riscv_sifive_u_machine_init_register_types(void)
-> +static void riscv_sifive_u_register_types(void)
->  {
-> +    type_register_static(&riscv_sifive_u_soc_type_info);
->      type_register_static(&riscv_sifive_u_machine_typeinfo);
->  }
->
-> -type_init(riscv_sifive_u_machine_init_register_types)
-> +type_init(riscv_sifive_u_register_types)
-> --
-> 2.21.1
->
->
+> 
+> On Thu, Mar 26, 2020 at 04:47:35AM -0400, Raphael Norwitz wrote:
+>> As suggested by Michael, let's add me as a maintainer of
+>> vhost-user-blk and vhost-user-scsi.
+>>
+>> CC: Michael S. Tsirkin <mst@redhat.com>
+>> CC Peter Maydell <peter.maydell@linaro.org>
+>> Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+>> ---
+>>  MAINTAINERS | 12 ++++++++++++
+>>  1 file changed, 12 insertions(+)
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index e580276..239ecc1 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -1845,6 +1845,18 @@ F: hw/display/virtio-gpu*
+>>  F: hw/display/virtio-vga.*
+>>  F: include/hw/virtio/virtio-gpu.h
+>>  
+>> +vhost-user-blk
+>> +M: Raphael Norwitz <raphael.norwitz@nutanix.com>
+>> +S: Maintained
+>> +F: contrib/vhost-user-blk/
+>> +F: contrib/vhost-user-scsi/
+>> +F: hw/block/vhost-user-blk.c
+>> +F: hw/scsi/vhost-user-scsi.c
+>> +F: hw/virtio/vhost-user-blk-pci.c
+>> +F: hw/virtio/vhost-user-scsi-pci.c
+>> +F: include/hw/virtio/vhost-user-blk.h
+>> +F: include/hw/virtio/vhost-user-scsi.h
+>> +
+>>  vhost-user-gpu
+>>  M: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>  M: Gerd Hoffmann <kraxel@redhat.com>
+>> -- 
+>> 1.8.3.1
+> 
 
