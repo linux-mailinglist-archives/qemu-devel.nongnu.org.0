@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 143221A84F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:31:22 +0200 (CEST)
-Received: from localhost ([::1]:34134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E2111A8537
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:38:50 +0200 (CEST)
+Received: from localhost ([::1]:34418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOT2-0005mH-0I
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:31:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51713)
+	id 1jOOaH-0000pm-E8
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:38:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52383)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jOOOR-0005M4-Nd
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:36 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jOORF-0003ID-Q7
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:29:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jOOOM-0007ER-50
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:35 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39644)
+ (envelope-from <richard.henderson@linaro.org>) id 1jOORA-0008Vc-6W
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:29:29 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:37141)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jOOOL-0007Dp-U9
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:30 -0400
-Received: by mail-wr1-x441.google.com with SMTP id b11so3682561wrs.6
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 09:26:29 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jOORA-0008V3-1J
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:29:24 -0400
+Received: by mail-pg1-x542.google.com with SMTP id r4so117049pgg.4
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 09:29:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=on6om2BuBSGRUVifgjuA6roTR5aDCOVAu/rIcJHMwjY=;
- b=X0TuT0aQyZUWlhshx4MZ4QyeKNdTTjoXjWjQ7/dbGceLuYeL9CstQI2U/LoC9sKbSh
- Xkb6pDIEWJzYRdE2SWPEqu8IE7xyUi8liBWsMa2HbFCV0JLMP9mlFb/7gxPJCmJeJgtU
- kKD2IjGyTyBNdcafCoY/gK4NQQelbsxBl35BXrmQ+YOD7pbJpl3VOJEzUA9iIfquKFGH
- pQJFv8dfMhJX20Q7kAmVbYSw0hbWfZK1NfoNLQIdFT4SfH54T1XTjfAy6fJJCieS31nj
- 7nhG4MovcE4fgIJ1OW/Wle27eUr5ro+u4X04c4vnCnP+O9Carzn6C+PRu9BCwMWaagx9
- UqkQ==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=5RQ2wSpsjJpzp7+16tdJJpRXhZ+KgD3tAKq0P8YKk4c=;
+ b=Oviq4tQkcduoMSH0vwqoGkfkLL/gchTHIcCcSG/EoYi0HA1smeA9/6tf1deSzaM0Zt
+ LBaBRX/GYKre/3tfvkSkN9C9aOmPveg7nbJHK1+iGcWSz3hnleW71ZHUkUuvqzbK3hvv
+ g6wybJu7VZry3HQcBkKVa4pRApdFcffPNLoglTg+i8wcpU8d6SuSWl6dzO9QUfHdMSu2
+ u24Q49WgL5NjHdX68HxMpUeAf6+wCgjOxW3moPTWOJjMdlELE9OHSl/1Ec6uhUwWLSAT
+ ibltO+tA0SSVnct2jrvATCxp+/uxih8FfJ3DDLxb9jAjeWePVuPnlKdH95Stv6Xd3Hj9
+ cgWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=on6om2BuBSGRUVifgjuA6roTR5aDCOVAu/rIcJHMwjY=;
- b=BdmmilxJigM3tvBjzTKXduYzGcjvje7C7WTkjhN/ILJvifgiuYvNHviiQXgJB0JdWi
- CtsHDDJYFZD7nBcGO0bZjTuhWf5/+6So7JxRcop38cd9bYLtaid3XWoYveMsnN3TsdGl
- SYS5DEj3DA9q5X1MTaPxeuLCDVhBMQW4E5RjOW2jSCwmfXf48No6Xwh2WGPFNt/OTre+
- 2nYMhtCi+vWUIvjsT7ABCwoo+HUoKCvZ6F62PHZxxLmHEBfiJBFy2qSqouyeXDndfF/P
- mq8PgfSouASDYLjU3AGGxm5FuiPZH1cAE+5J/Fvl5VBPF6RrWZ09+zbAjoPaW552ZIab
- EBCQ==
-X-Gm-Message-State: AGi0PuYC8jNef4gLXwqn2nZWNxV9IPDWqNQEcmYmBaForYWp7PH6ePgH
- MzanI1kviOP3eJ02U+b2GaoIxmSMeJj04g==
-X-Google-Smtp-Source: APiQypK8BWnC7SPHiI8Lbxda8XZnZ31FwqTuODzOzHJ8+uWdyC5pzB8YQkZJ8fA2tp8Ng0/rp+38ig==
-X-Received: by 2002:adf:f5c4:: with SMTP id k4mr15019449wrp.294.1586881588674; 
- Tue, 14 Apr 2020 09:26:28 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i129sm20003802wmi.20.2020.04.14.09.26.27
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 09:26:28 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 12/12] Deprecate KVM support for AArch32
-Date: Tue, 14 Apr 2020 17:26:13 +0100
-Message-Id: <20200414162613.4479-13-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200414162613.4479-1-peter.maydell@linaro.org>
-References: <20200414162613.4479-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5RQ2wSpsjJpzp7+16tdJJpRXhZ+KgD3tAKq0P8YKk4c=;
+ b=CQuCXC2PTKOYd9ZyZalrsbW2Sk9gwuTce9En9cofE5luiRhOR/jsCA8TN1KV+X6Nmr
+ ywh3hipp2KKB7mrohs+Au1VrY9PJ5k0/rKv1ymwxuMXHTKGTs+xTaPJvSuQ3xiMBiIh4
+ 3uVY3RZCqNIxlORWfiwfmPAP3VOivFhabPaA2Pe7JeaC/H5m4768ePfevSak2JcdyJRh
+ RlUxUha0Dz0d1ViJfNoEfCGT3dQXIEQ2KW8YAIPXlYWZnuXtMV8PYPGpEn1jhaMfjdID
+ Q4KPQnWKaCQkaaUBiM0dr4VmyETJzknGxL+51R9PPGDHXzYE3UA2kWv92GurkAF1gtMF
+ 9zYw==
+X-Gm-Message-State: AGi0PuZWAZ5sQvkPV2HaOyf7dLXjmpV2sSrbFGgjOQWbDjJAuocCEZMw
+ 76bIadvKHyq6qNdAAWpjr+iQd+1Ly8g=
+X-Google-Smtp-Source: APiQypJlW2yLQFO5wNjcyQF1fO7jaLshzsqDC77i/mDxk9lEOtFnty5O+LoFap+dv6cELLeObxMMkQ==
+X-Received: by 2002:a63:e80b:: with SMTP id s11mr22175390pgh.350.1586881762325; 
+ Tue, 14 Apr 2020 09:29:22 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id c59sm12634846pje.10.2020.04.14.09.29.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Apr 2020 09:29:21 -0700 (PDT)
+Subject: Re: [for-5.0] Deprecate KVM support for AArch32
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200414120935.12719-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <6bb58601-5614-b01e-5ac5-5d3331aaeac9@linaro.org>
+Date: Tue, 14 Apr 2020 09:29:19 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200414120935.12719-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,38 +85,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Linux kernel has dropped support for allowing 32-bit Arm systems
-to host KVM guests (kernel commit 541ad0150ca4aa663a2, which just
-landed upstream in the 5.7 merge window).  Mark QEMU's support for
-this configuration as deprecated, so that we can delete that support
-code in 5.2.
+On 4/14/20 5:09 AM, Peter Maydell wrote:
+> The Linux kernel has dropped support for allowing 32-bit Arm systems
+> to host KVM guests (kernel commit 541ad0150ca4aa663a2, which just
+> landed upstream in the 5.7 merge window).  Mark QEMU's support for
+> this configuration as deprecated, so that we can delete that support
+> code in 5.2.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> I was reading the 5.7 merge window writeup on LWN this weekend
+> and saw that the dropping of 32-bit support had gone in; just
+> enough time to squeeze our deprecation warning into 5.0 so we
+> can drop the code in 5.2 rather than 6.0...
+> 
+>  docs/system/deprecated.rst | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Andrew Jones <drjones@redhat.com>
----
- docs/system/deprecated.rst | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index c633fe2beff..3142fac3865 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -336,6 +336,14 @@ The ``compat`` property used to set backwards compatibility modes for
- the processor has been deprecated. The ``max-cpu-compat`` property of
- the ``pseries`` machine type should be used instead.
- 
-+KVM guest support on 32-bit Arm hosts (since 5.0)
-+'''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+The Linux kernel has dropped support for allowing 32-bit Arm systems
-+to host KVM guests as of the 5.7 kernel. Accordingly, QEMU is deprecating
-+its support for this configuration and will remove it in a future version.
-+Running 32-bit guests on a 64-bit Arm host remains supported.
-+
- System emulator devices
- -----------------------
- 
--- 
-2.20.1
-
+r~
 
