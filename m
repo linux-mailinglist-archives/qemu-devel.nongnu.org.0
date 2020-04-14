@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D111A85B9
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:51:35 +0200 (CEST)
-Received: from localhost ([::1]:34942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC7821A85C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:53:24 +0200 (CEST)
+Received: from localhost ([::1]:34980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOmc-0006PA-Jl
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:51:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57590)
+	id 1jOOoN-0008HK-9m
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:53:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34074)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jOOdZ-0000wF-N1
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:42:14 -0400
+ (envelope-from <philmd@redhat.com>) id 1jOOln-0006Wr-3e
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:50:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jOOdY-0006Mo-A0
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:42:13 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23900
+ (envelope-from <philmd@redhat.com>) id 1jOOll-0002rs-1p
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:50:42 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:29123
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOLec-0008CQ-Im
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 09:31:06 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOLef-0008DI-6b
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 09:31:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586871066;
+ s=mimecast20190719; t=1586871068;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=42lVAfyseGz1VGufIzij+GuSVkOjvcpSK4kWq6V6gmk=;
- b=HzO8STMDDgZl5dL2Y9vXGJvm/TKx/4/4TO97T/alIxOK00ACgBuNHKJub7/T6sGouLPqEP
- TxT7h1cJdTZyxmAI2+8fLtqwCds+qSAjIm5JBTEynbB1OVidlwUKxNDrPPOfq2WYFGpu/O
- pPoxn0+AVNAuXnAPro6Z9wytXk9bY6Q=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-333-8hi55XSEM5WwVFPGRdm9Nw-1; Tue, 14 Apr 2020 09:31:02 -0400
-X-MC-Unique: 8hi55XSEM5WwVFPGRdm9Nw-1
-Received: by mail-wr1-f72.google.com with SMTP id m5so5560435wru.15
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 06:31:01 -0700 (PDT)
+ bh=GnJYBUthOsce7NJ4xT6W5gmharUMTFvzDWfeqO/U2B4=;
+ b=PKrk+PfAQAey7pGbNH4bRmsEQeG/8WnmpFMcQh4+HzwxZ26sj0jLKaURiEwCxvlpeOSBVs
+ /tfgLtFMbzobr1ccNnYAEL5y5EqLpZgcXKlbWEf+/IfGW/WEMFp5yleTd7TB+51VCZPqLY
+ bq4qMcFblG36m3lZZF2nMZxFdAYa3vk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-361-zDdda0cnPhuMJAx74_G21A-1; Tue, 14 Apr 2020 09:31:07 -0400
+X-MC-Unique: zDdda0cnPhuMJAx74_G21A-1
+Received: by mail-wm1-f71.google.com with SMTP id f128so2617095wmf.8
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 06:31:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kGKRmnKwmRxlOxdVqgxjmKtx9Q2hpJOt1NAPPmcNK0Y=;
- b=ikeU5bX9d8W19zyu85KnMn4Mx0PIIIq0HdRZ/qY3lYAabXGsJJknR/uZ+RsXd/1knY
- AxYvcloxgA8u9kM0kotDQ/nAQG0G19w2GRb7mw50YUvo2aNBlOp7QgMt7KA3mOvJdcg8
- ouhDBs8pKfTH5d3UkZTjg6+uwhPeIxxO/GF28vSgDzDpxqkOhmC3yZf1OdFQUYzr6vN1
- CW2qnu7v9KyLJmn3x291Fog1ptwnQfa7oLMcyAURitg6jq08wQRTrgDOiJDhwUlOuvvp
- AOxfQHK0rJid3VUsGtrMepoZYJWLIFpWNZ74B/oE9vbFalmF+xMWkFXjzqw7rg3T6slJ
- mGBg==
-X-Gm-Message-State: AGi0PubfwuUNQCAj5bnz/QcenVYL2CdDPyBo5m3a9aGTrUPH1gKhdbAd
- 1N/iJ2DR2qA/gBAwUdSwNG/EWmt6HHmI0KN6u2ht9wsxK17INGcNrHf3wqiBrL1H+voOr/uJ5Go
- upsEdV1BfGb6M7n8=
-X-Received: by 2002:a1c:ed1a:: with SMTP id l26mr23523422wmh.175.1586871060655; 
- Tue, 14 Apr 2020 06:31:00 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLviEloVTS1cRcyC6vYEbzQ4KMafGY7ljn+PIpkM/EA0pUQsfi5Ks+nCt7hSSsjIbmhL666ZQ==
-X-Received: by 2002:a1c:ed1a:: with SMTP id l26mr23523395wmh.175.1586871060392; 
- Tue, 14 Apr 2020 06:31:00 -0700 (PDT)
+ bh=6idqut0mU47T5T/l9mhwNn6dpgHJZBNeGp23JGNjmX8=;
+ b=fD4pnzakIDJGsaxiirmmi8LNvxkHLKdNDNyaNPi6Z7F5HSVkcAATwi76uXAjoXk/bi
+ u/P7tJ8uWreHPFE7XzndfK7eCbzLU+plYnTcT6NiqHcP4K5otND1st2h+gybUemHbtMC
+ ymTSvjQDMqphimSRlhHDwD3/8uU3x8T6BqSIaKZSsO6Grk/aIoBQlaF2wLT+ZNW/+GP2
+ L3uu/znZ/2gTZgVFYCjwr+6GVud5zyjr7XyzpaSkRn9QxSTHOLuTxL0T2MuVCK4Qa37x
+ nkq/ArbJDATIMnl+K2/0vOZ91FCOzWoEdQyepvnsric5mR7P0gylhxCUvROzmmBDrbqx
+ EhJQ==
+X-Gm-Message-State: AGi0PuZpaWN26cOZLl6UykAT1+g8LC3ExOclDYehaolwTa1k8V1LWxjO
+ oZwqNWQ3ahzYBR74ZFx+ovMvD2ISoi9+tqGSHrNi+jTMwXl2bc+pSrGxdHBOU2CeHB+Fu4opMNP
+ SWQqlFaAw01Ru8eE=
+X-Received: by 2002:a7b:c399:: with SMTP id s25mr11080821wmj.169.1586871065894; 
+ Tue, 14 Apr 2020 06:31:05 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJT7xwqvbFm2A1e3XbxbEWYXE5l1/xS/BPhuY4kMrEK2MOnZO8H5pZCHZ8EcBxjytSIZOsDUA==
+X-Received: by 2002:a7b:c399:: with SMTP id s25mr11080797wmj.169.1586871065711; 
+ Tue, 14 Apr 2020 06:31:05 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id q8sm18307453wmg.22.2020.04.14.06.30.59
+ by smtp.gmail.com with ESMTPSA id q19sm19299307wra.38.2020.04.14.06.31.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 06:30:59 -0700 (PDT)
+ Tue, 14 Apr 2020 06:31:05 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0 01/12] Revert "prevent crash when executing
- guest-file-read with large count"
-Date: Tue, 14 Apr 2020 15:30:41 +0200
-Message-Id: <20200414133052.13712-2-philmd@redhat.com>
+Subject: [PATCH-for-5.0 02/12] qga: Extract guest_file_handle_find() to
+ commands-common.h
+Date: Tue, 14 Apr 2020 15:30:42 +0200
+Message-Id: <20200414133052.13712-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200414133052.13712-1-philmd@redhat.com>
 References: <20200414133052.13712-1-philmd@redhat.com>
@@ -91,7 +91,6 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
  Michael Roth <mdroth@linux.vnet.ibm.com>,
  Fabien Chouteau <chouteau@adacore.com>, Max Filippov <jcmvbkbc@gmail.com>,
@@ -104,57 +103,115 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As noted by Daniel Berrang=C3=A9 in [*], the fix from commit 807e2b6fce
-which replaced malloc() by try_malloc() is not enough, the process
-can still run out of memory a few line later:
+As we are going to reuse this method, declare it in common
+header.
 
- 346     buf =3D g_try_malloc0(count + 1);
- 347     if (!buf) {
- 348         error_setg(errp,
- 349                    "failed to allocate sufficient memory "
- 350                    "to complete the requested service");
- 351         return NULL;
- 352     }
- 353     is_ok =3D ReadFile(fh, buf, count, &read_count, NULL);
- 354     if (!is_ok) {
- 355         error_setg_win32(errp, GetLastError(), "failed to read file");
- 356         slog("guest-file-read failed, handle %" PRId64, handle);
- 357     } else {
- 358         buf[read_count] =3D 0;
- 359         read_data =3D g_new0(GuestFileRead, 1);
-                         ^^^^^^
-
-Instead we are going to put a low hard limit on 'count' in the next
-commits. This reverts commit 807e2b6fce022707418bc8f61c069d91c613b3d2.
-
-[*] https://lists.gnu.org/archive/html/qemu-devel/2018-06/msg03471.html
-
-Suggested-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- qga/commands-win32.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ qga/commands-common.h | 18 ++++++++++++++++++
+ qga/commands-posix.c  |  7 ++++---
+ qga/commands-win32.c  |  7 ++++---
+ 3 files changed, 26 insertions(+), 6 deletions(-)
+ create mode 100644 qga/commands-common.h
 
+diff --git a/qga/commands-common.h b/qga/commands-common.h
+new file mode 100644
+index 0000000000..af90e5481e
+--- /dev/null
++++ b/qga/commands-common.h
+@@ -0,0 +1,18 @@
++/*
++ * QEMU Guest Agent common/cross-platform common commands
++ *
++ * Copyright (c) 2020 Red Hat, Inc.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or late=
+r.
++ * See the COPYING file in the top-level directory.
++ */
++#ifndef QGA_COMMANDS_COMMON_H
++#define QGA_COMMANDS_COMMON_H
++
++#include "qga-qapi-types.h"
++
++typedef struct GuestFileHandle GuestFileHandle;
++
++GuestFileHandle *guest_file_handle_find(int64_t id, Error **errp);
++
++#endif
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index cc69b82704..c59c32185c 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -26,6 +26,7 @@
+ #include "qemu/sockets.h"
+ #include "qemu/base64.h"
+ #include "qemu/cutils.h"
++#include "commands-common.h"
+=20
+ #ifdef HAVE_UTMPX
+ #include <utmpx.h>
+@@ -237,12 +238,12 @@ typedef enum {
+     RW_STATE_WRITING,
+ } RwState;
+=20
+-typedef struct GuestFileHandle {
++struct GuestFileHandle {
+     uint64_t id;
+     FILE *fh;
+     RwState state;
+     QTAILQ_ENTRY(GuestFileHandle) next;
+-} GuestFileHandle;
++};
+=20
+ static struct {
+     QTAILQ_HEAD(, GuestFileHandle) filehandles;
+@@ -268,7 +269,7 @@ static int64_t guest_file_handle_add(FILE *fh, Error **=
+errp)
+     return handle;
+ }
+=20
+-static GuestFileHandle *guest_file_handle_find(int64_t id, Error **errp)
++GuestFileHandle *guest_file_handle_find(int64_t id, Error **errp)
+ {
+     GuestFileHandle *gfh;
+=20
 diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index b49920e201..46cea7d1d9 100644
+index 46cea7d1d9..cfaf6b84b8 100644
 --- a/qga/commands-win32.c
 +++ b/qga/commands-win32.c
-@@ -343,13 +343,7 @@ GuestFileRead *qmp_guest_file_read(int64_t handle, boo=
-l has_count,
-     }
+@@ -37,6 +37,7 @@
+ #include "qemu/queue.h"
+ #include "qemu/host-utils.h"
+ #include "qemu/base64.h"
++#include "commands-common.h"
 =20
-     fh =3D gfh->fh;
--    buf =3D g_try_malloc0(count + 1);
--    if (!buf) {
--        error_setg(errp,
--                   "failed to allocate sufficient memory "
--                   "to complete the requested service");
--        return NULL;
--    }
-+    buf =3D g_malloc0(count + 1);
-     is_ok =3D ReadFile(fh, buf, count, &read_count, NULL);
-     if (!is_ok) {
-         error_setg_win32(errp, GetLastError(), "failed to read file");
+ #ifndef SHTDN_REASON_FLAG_PLANNED
+ #define SHTDN_REASON_FLAG_PLANNED 0x80000000
+@@ -50,11 +51,11 @@
+=20
+ #define INVALID_SET_FILE_POINTER ((DWORD)-1)
+=20
+-typedef struct GuestFileHandle {
++struct GuestFileHandle {
+     int64_t id;
+     HANDLE fh;
+     QTAILQ_ENTRY(GuestFileHandle) next;
+-} GuestFileHandle;
++};
+=20
+ static struct {
+     QTAILQ_HEAD(, GuestFileHandle) filehandles;
+@@ -126,7 +127,7 @@ static int64_t guest_file_handle_add(HANDLE fh, Error *=
+*errp)
+     return handle;
+ }
+=20
+-static GuestFileHandle *guest_file_handle_find(int64_t id, Error **errp)
++GuestFileHandle *guest_file_handle_find(int64_t id, Error **errp)
+ {
+     GuestFileHandle *gfh;
+     QTAILQ_FOREACH(gfh, &guest_file_state.filehandles, next) {
 --=20
 2.21.1
 
