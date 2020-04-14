@@ -2,60 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DF6E1A8550
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:41:19 +0200 (CEST)
-Received: from localhost ([::1]:34548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1F811A856A
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:43:30 +0200 (CEST)
+Received: from localhost ([::1]:34624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOcg-0006Ni-2q
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:41:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53498)
+	id 1jOOen-0001U1-CC
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:43:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53531)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <devtoe82@gmail.com>) id 1jOOUz-0001Ne-Nz
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:33:22 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jOOV2-0001U9-WA
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:33:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <devtoe82@gmail.com>) id 1jOOUy-00021b-Qk
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:33:21 -0400
-Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:42016)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <devtoe82@gmail.com>) id 1jOMfU-0000tD-Jr
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 10:36:04 -0400
-Received: by mail-ot1-x336.google.com with SMTP id l21so7398094otd.9
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 07:36:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=0UKzmnzb24l9+mhQPAfis3S8cu/WolgMuV5WqdYEOGA=;
- b=UZJQxy2q0zNO8EC6IjCll1cEoGKfoA5X0Va1ynOw5034I7cxqkb7F+BJ62ArX+OvrE
- bVbJbpD9rbyYg9ydXPw2TwGTmRJjv0tiFeiBCMkCD5FyQ3/S/Q46xfcnQTXetorlHUJ6
- g2CS4GY6pZP2nwl+BouOOqdyLlTFCcVREaMi5Ai2OJLdpjPiZiptyC1C+cjw2WwDyLCC
- tDhROTB0jWWtPLcmquBWX6S5KytWeBJV+sjBIBJHWu3QR1A3ZaTbMRMwku8DievCRJLh
- sOeh0s/5fReKz3S1r2GvcgLj7gBEdPrKcnK9Cr5B8EHWEZC91xlRWqZHBPfpTYg4Xp6V
- SsVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=0UKzmnzb24l9+mhQPAfis3S8cu/WolgMuV5WqdYEOGA=;
- b=b8aznwt156khY/nFG4IlnMhFvvgAh/opvT1DDIGrSObXalozpfK7sIxfswfnSnGZXv
- 3LtZo14f+N+2d0JeTh1AEyc1SnjBtCOwwPI8xVQn6o/uGnrZ5y+euo4sxhKzcYk+UTPN
- eOYY081zQhhlFldgiFQrKKaMNXq/HNtCgfrAE31tWi261g25eAxmdcNeCAUAvEBUkcpx
- lKzJym1TLb374xE4Bu2rJjPsAYZEPLhWhJtJ+lR23c+NIyvfUByR5n9ZcWypMhPz9BJY
- X6hrw6S3VDGsZ5vR6AnqwLLKwL31DpDvms1BcnNm61JObe+9/EXlfD6P/N/AXtXBVXbW
- nB6A==
-X-Gm-Message-State: AGi0Pubc19TGXnYgvFyrIO29Gawr91U1Gu+A7Iov4ub7sjyHryQ0tEY9
- k4uhELUQ4quZ1FU0sK9L8T3/A5vRPrtLnuKHu/LoCn3P
-X-Google-Smtp-Source: APiQypInEQimLjb3vS4XBC8tYEgRAVkdunJbMnutNPncbDSPP+0YRoKgx7/6TklzqvykrxjsHtEzH4HzYU3uQXWsS7g=
-X-Received: by 2002:a9d:3a04:: with SMTP id j4mr12111540otc.217.1586874962943; 
- Tue, 14 Apr 2020 07:36:02 -0700 (PDT)
+ (envelope-from <kwolf@redhat.com>) id 1jOOV2-00023f-5l
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:33:24 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:37984
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jOMo2-00036E-77
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 10:44:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586875493;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WyAUYt4L1plAb7f5jDAYmaD9SqzTXV5lpQp/1rOfuV8=;
+ b=aUyE3jX6u21RyNIarjVfFmz2p4VRqkNMdelJ2l5/xvJyGAH7GTDFJg6gmrRbQUh3h07nsI
+ sH8Azm6fkHEHXTTwUj6tV+nR4sX1iKKslmPHCCk/T2sxdVmRBwUY2rB8SQiRvZpml1SBBm
+ 6l+Gd2zduB0vQQ5MbBgmI1pWg2OdGBM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-408-d6gV4beoNxSxzPu-1OO--g-1; Tue, 14 Apr 2020 10:44:51 -0400
+X-MC-Unique: d6gV4beoNxSxzPu-1OO--g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8452107B0E1;
+ Tue, 14 Apr 2020 14:44:50 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-1.ams2.redhat.com [10.36.114.1])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CC7B7CFE15;
+ Tue, 14 Apr 2020 14:44:49 +0000 (UTC)
+Date: Tue, 14 Apr 2020 16:44:48 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH for-5.1 3/8] qemu-option: Fix sloppy recognition of
+ "id=..." after ",,"
+Message-ID: <20200414144448.GI7747@linux.fritz.box>
+References: <20200409153041.17576-1-armbru@redhat.com>
+ <20200409153041.17576-4-armbru@redhat.com>
 MIME-Version: 1.0
-From: Toe Dev <devtoe82@gmail.com>
-Date: Tue, 14 Apr 2020 17:35:50 +0300
-Message-ID: <CAN+O=T+bk=hXjPF67R=YHKebcuMP2dGzT_qXPWMUp=RvWOPxOw@mail.gmail.com>
-Subject: cscope redundant chars
-To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::336
+In-Reply-To: <20200409153041.17576-4-armbru@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,36 +74,13 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-add cscope phony(ctags have one) and remove redundancy
+Am 09.04.2020 um 17:30 hat Markus Armbruster geschrieben:
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-diff --git a/Makefile b/Makefile
-index 84ef881600..9cf62532f9 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1005,16 +1005,18 @@ ctags:
-        rm -f tags
-        find "$(SRC_PATH)" -name '*.[hc]' -exec ctags --append {} +
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 
-+.PHONY: cscope
-+
-+cscope:
-+       rm -f cscope.*
-+       find $(SRC_PATH) -name "*.[chsS]" -print | sed 's,^\./,,' >
-"$(SRC_PATH)/cscope.files"
-+       cscope -b -q -k cscope.files
-+
- .PHONY: TAGS
- TAGS:
-        rm -f TAGS
-        find "$(SRC_PATH)" -name '*.[hc]' -exec etags --append {} +
-
--cscope:
--       rm -f "$(SRC_PATH)"/cscope.*
--       find "$(SRC_PATH)/" -name "*.[chsS]" -print | sed 's,^\./,,' >
-"$(SRC_PATH)/cscope.files"
--       cscope -b -i"$(SRC_PATH)/cscope.files"
--
 
