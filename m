@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C002B1A854F
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:41:12 +0200 (CEST)
-Received: from localhost ([::1]:34542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 634381A85B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:49:58 +0200 (CEST)
+Received: from localhost ([::1]:34888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOcZ-00066M-NI
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:41:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56335)
+	id 1jOOl3-0004Ui-DK
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:49:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56364)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jOOb8-0003pI-7u
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:39:43 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jOOb9-0003tO-O2
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:39:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jOOb7-0005H2-93
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:39:42 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34594
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1jOOb8-0005Hg-NK
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:39:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40248
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jOOb7-0005Gq-5b
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:39:41 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jOOb8-0005HU-JI
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:39:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586882380;
+ s=mimecast20190719; t=1586882382;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qjwYkl3cRbkwG2uxirET7doz0xycLkTnyirONRVyO/M=;
- b=d5hnBfwIG084tnAUpqX1fH13420VMS238gO4klfJv1khXBlmja0lNvMGncoTaLlxXsUjnM
- EeTLPg+0xOmgImIR7/+HItuR3lYohY7dTEq0pBtA0+D7Vd+ieChfHQeGEGzSULh/sT5/Tq
- ZzOKupIeGHfoWBb8W36guKhfILeIi7s=
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=s0m/vE/JDp/YTnEV/4OiBeyYKV7QGW/+0j4jil7uRNo=;
+ b=Qa47vX2hbRo72j/ucVH761ASWt5NTL4PpsH0JMxT2micUdqibmEupXhQ5Mozriv1OIEdeL
+ kHE8OLITEOdo4ZRY9GtmG22sZrQdF0cXnhSm85tw1eXBnXA+Zh1RbtZC9tjXVUqM7gEqAH
+ BIQ0g5wSnekE/kDn8nAZVGx/nEyQf4c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-380-00T9SOqMPhOkf6uSuNRSiQ-1; Tue, 14 Apr 2020 12:39:39 -0400
-X-MC-Unique: 00T9SOqMPhOkf6uSuNRSiQ-1
+ us-mta-40-Ms7C1-KBM3y5zUiJyBeR0w-1; Tue, 14 Apr 2020 12:39:40 -0400
+X-MC-Unique: Ms7C1-KBM3y5zUiJyBeR0w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CC83102C8BB
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 16:39:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FD0A1034B42
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 16:39:39 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 22DCD60BEC
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 16:39:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 790EA60BEC;
+ Tue, 14 Apr 2020 16:39:38 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/3] More misc patches for QEMU 5.0-rc3
-Date: Tue, 14 Apr 2020 12:39:34 -0400
-Message-Id: <20200414163937.29669-1-pbonzini@redhat.com>
-MIME-Version: 1.0
+Subject: [PULL 1/3] hostmem: set default prealloc_threads to valid value
+Date: Tue, 14 Apr 2020 12:39:35 -0400
+Message-Id: <20200414163937.29669-2-pbonzini@redhat.com>
+In-Reply-To: <20200414163937.29669-1-pbonzini@redhat.com>
+References: <20200414163937.29669-1-pbonzini@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,38 +70,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 267514b33ffa3f315adc26fc14d89f92e90840f5=
-:
+From: Igor Mammedov <imammedo@redhat.com>
 
-  module: increase dirs array size by one (2020-04-13 02:56:18 -0400)
+Commit 4ebc74dbbf removed default prealloc_threads initialization
+by mistake, and that makes QEMU crash with division on zero at
+  numpages_per_thread =3D numpages / memset_num_threads;
+when QEMU is started with following backend
+  -object memory-backend-ram,id=3Dram-node0,prealloc=3Dyes,size=3D128M
 
-are available in the Git repository at:
+Return back initialization removed by 4ebc74dbbf to fix issue.
 
-  git://github.com/bonzini/qemu.git tags/for-upstream
+Fixes: 4ebc74dbbf7ad50e4101629f3f5da5fdc1544051
+Reported-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+Message-Id: <20200325094423.24293-2-imammedo@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ backends/hostmem.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-for you to fetch changes up to 9f5a0664187e9411c5c6b7dbd21a1f50922cf698:
-
-  hax: Windows doesn't like posix device names (2020-04-14 10:37:42 -0400)
-
-----------------------------------------------------------------
-Bugfixes, and reworking of the atomics documentation.
-
-----------------------------------------------------------------
-Igor Mammedov (2):
-      hostmem: set default prealloc_threads to valid value
-      tests: numa: test one backend with prealloc enabled
-
-Volker R=C3=BCmelin (1):
-      hax: Windows doesn't like posix device names
-
- backends/hostmem.c        | 1 +
- target/i386/hax-windows.c | 4 ++--
- tests/qtest/numa-test.c   | 2 +-
- 3 files changed, 4 insertions(+), 3 deletions(-)
+diff --git a/backends/hostmem.c b/backends/hostmem.c
+index a70867b255..327f9eebc3 100644
+--- a/backends/hostmem.c
++++ b/backends/hostmem.c
+@@ -280,6 +280,7 @@ static void host_memory_backend_init(Object *obj)
+     /* TODO: convert access to globals to compat properties */
+     backend->merge =3D machine_mem_merge(machine);
+     backend->dump =3D machine_dump_guest_core(machine);
++    backend->prealloc_threads =3D 1;
+ }
+=20
+ static void host_memory_backend_post_init(Object *obj)
 --=20
 2.18.2
+
 
 
