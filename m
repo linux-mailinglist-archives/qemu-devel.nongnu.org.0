@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D0C1A8C1F
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 22:16:37 +0200 (CEST)
-Received: from localhost ([::1]:38564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E839E1A8D44
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 23:06:15 +0200 (CEST)
+Received: from localhost ([::1]:39134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jORz2-0003dN-Bt
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 16:16:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45636)
+	id 1jOSl4-0004Qt-Hu
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 17:06:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54811)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jORxh-0002GT-He
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 16:15:14 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jOSjm-0003ua-Dp
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 17:04:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jORxf-0001AI-Lq
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 16:15:13 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:24224
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jORxd-00018q-Tp
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 16:15:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586895308;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BksGceqi8Hlz7wc/wSL0ipcIudxPGZtDvtNegAFL00I=;
- b=O8ggp4Fem353ujHScE2gTitdJxsi2jlMYR3o6iADzP+lKneIoxneSJqTRYKdbRKyVTNgKn
- 9kYaE6Sr3WgMIrvlW/JtYDWk/QnYER3PSdlD0yJ4wMX88dIYcQthdSVCkmOAKLeCsCtGKd
- BkwbyKK1fzgQbhVA0HUxPnjDerrLoQY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-253-p8XZhFc8P5qUZPMGLmQ_pg-1; Tue, 14 Apr 2020 16:15:06 -0400
-X-MC-Unique: p8XZhFc8P5qUZPMGLmQ_pg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C076A8EDB04;
- Tue, 14 Apr 2020 20:14:56 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-20.ams2.redhat.com
- [10.36.113.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D3285D9CD;
- Tue, 14 Apr 2020 20:14:56 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 55A8A11385C8; Tue, 14 Apr 2020 22:14:55 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH for-5.1 8/8] qemu-option: Move is_valid_option_list() to
- qemu-img.c and rewrite
-References: <20200409153041.17576-1-armbru@redhat.com>
- <20200409153041.17576-9-armbru@redhat.com>
- <e3d05915-268f-0d1a-e760-723a10807d16@redhat.com>
- <87k12ixxlb.fsf@dusky.pond.sub.org>
- <87blnup257.fsf@dusky.pond.sub.org>
- <20200414151014.GM7747@linux.fritz.box>
-Date: Tue, 14 Apr 2020 22:14:55 +0200
-In-Reply-To: <20200414151014.GM7747@linux.fritz.box> (Kevin Wolf's message of
- "Tue, 14 Apr 2020 17:10:14 +0200")
-Message-ID: <87zhbdn7sw.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (envelope-from <richard.henderson@linaro.org>) id 1jOSjl-0002gg-FS
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 17:04:54 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:32927)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jOSjl-0002gT-Ak
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 17:04:53 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id d17so485031pgo.0
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 14:04:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=veAH+l2i6qe1cosWs9I0eHFIkTrMxuIn58EjU8uXJkE=;
+ b=LXOWOa56CH9h3w7ANnuvTXAcZ61+GBWimUb+bWXWXVDnWuZpOsWXVHP/CMt+b5pXxW
+ fuefgawlRePRH2oAiOfLdyXXoRFXsJFir0pTVTkVgvqZFtjjR8HlRnGr39f62ujepR9Z
+ NhkaWbTXUSoXl3ueJ4/nYZwBFBkf4XFnP1Qr9dMap6JRfvbOckSaQXM+uqLFcnbWGV8d
+ X5klzcntk71W7xUbR3OLWF/GXp2qvIahhrRUgM4coyu+r9ABnDB4H7OvF+HutMRg4i0C
+ w+XtunUHAs6AKRhnd9kHMLD+8QCwDlRHV1hgPmjFMaYD5JHA7e7PJjw/6MQqi3TN2RZ1
+ 97cA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=veAH+l2i6qe1cosWs9I0eHFIkTrMxuIn58EjU8uXJkE=;
+ b=Pm09M4olYSGXQwhB1p9gv6IBH0Org2qpQXYsr0FRxydojbWvhb3Ec9OLietZ67PL8A
+ ccbVypxCJNj4Rn7Pz8hhBj3B+6leFI6IgqxfENXPgVEnUdhKJQu7Kycv4hrAb6fzxrF+
+ Z9S+J46XlFJgXkkTdcPkp++B7Fk3K3/n/yvZvHYDUd7CYVZebzSUOJn3vQdUzTCcgWfM
+ u8Z38zkWyAjKZDMFxHDu3z7FWyWI0oJKr0hvlM5W5YcMAVna0TOgwWgsCXgNzxzu9hUh
+ o1tvup8IMK8WvrlgxPJuWL0boZdT6mrEu2g+Vj/2GGabXENV83fOYt54VOcVSwwsBfB5
+ /paw==
+X-Gm-Message-State: AGi0PubQ/Y2+Y9ND7c4/z63NhufIiNtPpmAp+dag5TYahHQPLv8fq/5n
+ 5UBqGKxO2rlEjJuf1gNTw00tSg==
+X-Google-Smtp-Source: APiQypLJ178kephfhiGK6AJlFB6wLfJ9uxvNmmuTn7Q4JChhxo1kWWCkfh2MKme8++f2yf4XvSr7hg==
+X-Received: by 2002:a63:c34e:: with SMTP id e14mr23874366pgd.212.1586898277719; 
+ Tue, 14 Apr 2020 14:04:37 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id k14sm12001020pfg.15.2020.04.14.14.04.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Apr 2020 14:04:36 -0700 (PDT)
+Subject: Re: [PATCH-for-5.0 v2 1/2] gdbstub: Introduce gdb_get_float32() to
+ get 32-bit float registers
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200414143240.21764-1-philmd@redhat.com>
+ <20200414143240.21764-2-philmd@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <f7acef91-9e26-0a88-240e-4d64df8ee65d@linaro.org>
+Date: Tue, 14 Apr 2020 14:04:34 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+In-Reply-To: <20200414143240.21764-2-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::52d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,115 +84,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+On 4/14/20 7:32 AM, Philippe Mathieu-Daudé wrote:
+> Since we now use a GByteArray, we can not use stfl_p() directly.
+> Introduce the gdb_get_float32() helper to load a float32 register.
+> 
+> Fixes: a010bdbe719 ("extend GByteArray to read register helpers")
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  include/exec/gdbstub.h | 12 ++++++++++++
+>  target/sh4/gdbstub.c   |  6 ++----
+>  2 files changed, 14 insertions(+), 4 deletions(-)
 
-> Am 14.04.2020 um 16:34 hat Markus Armbruster geschrieben:
->> Markus Armbruster <armbru@redhat.com> writes:
->>=20
->> > Eric Blake <eblake@redhat.com> writes:
->> >
->> >> On 4/9/20 10:30 AM, Markus Armbruster wrote:
->> >>> is_valid_option_list()'s purpose is ensuring qemu-img.c's can safely
->> >>> join multiple parameter strings separated by ',' like this:
->> >>>
->> >>>          g_strdup_printf("%s,%s", params1, params2);
->> >>>
->> >>> How it does that is anything but obvious.  A close reading of the co=
-de
->> >>> reveals that it fails exactly when its argument starts with ',' or
->> >>> ends with an odd number of ','.  Makes sense, actually, because when
->> >>> the argument starts with ',', a separating ',' preceding it would ge=
-t
->> >>> escaped, and when it ends with an odd number of ',', a separating ',=
-'
->> >>> following it would get escaped.
->> >>>
->> >>> Move it to qemu-img.c and rewrite it the obvious way.
->> >>>
->> >>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> >>> ---
->> >>>   include/qemu/option.h |  1 -
->> >>>   qemu-img.c            | 26 ++++++++++++++++++++++++++
->> >>>   util/qemu-option.c    | 22 ----------------------
->> >>>   3 files changed, 26 insertions(+), 23 deletions(-)
->> >>>
->> >>
->> >>> +++ b/qemu-img.c
->> >>> @@ -223,6 +223,32 @@ static bool qemu_img_object_print_help(const ch=
-ar *type, QemuOpts *opts)
->> >>>       return true;
->> >>>   }
->> >>>   +/*
->> >>> + * Is @optarg safe for accumulate_options()?
->> >>> + * It is when multiple of them can be joined together separated by =
-','.
->> >>> + * To make that work, @optarg must not start with ',' (or else a
->> >>> + * separating ',' preceding it gets escaped), and it must not end w=
-ith
->> >>> + * an odd number of ',' (or else a separating ',' following it gets
->> >>> + * escaped).
->> >>> + */
->> >>> +static bool is_valid_option_list(const char *optarg)
->> >>> +{
->> >>> +    size_t len =3D strlen(optarg);
->> >>> +    size_t i;
->> >>> +
->> >>> +    if (optarg[0] =3D=3D ',') {
->> >>> +        return false;
->> >>> +    }
->> >>> +
->> >>> +    for (i =3D len; i > 0 && optarg[i - 1] =3D=3D ','; i--) {
->> >>> +    }
->> >>> +    if ((len - i) % 2) {
->> >>> +        return false;
->> >>> +    }
->> >>> +
->> >>> +    return true;
->> >>
->> >> Okay, that's easy to read.  Note that is_valid_option_list("") return=
-s
->> >> true.
->> >
->> > Hmm, that's a bug:
->> >
->> >     $ qemu-img create -f qcow2 -o backing_file=3Da -o "" -o backing_fm=
-t=3Draw,size=3D1M new.qcow2
->> >     qemu-img: warning: Could not verify backing image. This may become=
- an error in future versions.
->> >     Could not open 'a,backing_fmt=3Draw': No such file or directory
->> >     Formatting 'new.qcow2', fmt=3Dqcow2 size=3D1048576 backing_file=3D=
-a,,backing_fmt=3Draw cluster_size=3D65536 lazy_refcounts=3Doff refcount_bit=
-s=3D16
->> >     $ qemu-img info new.qcow2=20
->> >     image: new.qcow2
->> >     file format: qcow2
->> >     virtual size: 1 MiB (1048576 bytes)
->> >     disk size: 196 KiB
->> >     cluster_size: 65536
->> > --> backing file: a,backing_fmt=3Draw
->> >     Format specific information:
->> >         compat: 1.1
->> >         lazy refcounts: false
->> >         refcount bits: 16
->> >         corrupt: false
->> >
->> > My rewrite preserves this bug.  Will fix in v2.
->>=20
->> Kevin, two obvious fixes:
->>=20
->> * Make is_valid_option_list() reject -o ""
->>=20
->> * Make accumulate_options(options, "") return options.
->>=20
->> Got a preference?
->
-> In other words, the choice is between reporting an error and ignoring it
-> silently. I think reporting an error makes more sense.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Thanks!
 
+r~
 
