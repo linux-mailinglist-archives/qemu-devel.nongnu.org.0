@@ -2,58 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7AA81A77FF
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 12:02:05 +0200 (CEST)
-Received: from localhost ([::1]:55240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D74891AE942
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Apr 2020 03:47:42 +0200 (CEST)
+Received: from localhost ([::1]:53750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOIOK-0003NL-Hh
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 06:02:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34255)
+	id 1jPca5-0002yA-Jh
+	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 21:47:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47075)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frederic.konrad@adacore.com>) id 1jOINI-0002wy-PR
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 06:01:01 -0400
+ (envelope-from <raphael.norwitz@nutanix.com>) id 1jPcYg-0002LQ-Jk
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 21:46:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frederic.konrad@adacore.com>) id 1jOINH-00008O-F8
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 06:01:00 -0400
-Received: from mel.act-europe.fr ([2a02:2ab8:224:1::a0a:d2]:42264
- helo=smtp.eu.adacore.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <frederic.konrad@adacore.com>)
- id 1jOINH-00007b-6U
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 06:00:59 -0400
-Received: from localhost (localhost [127.0.0.1])
- by filtered-smtp.eu.adacore.com (Postfix) with ESMTP id 316BE81385;
- Tue, 14 Apr 2020 12:00:57 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at eu.adacore.com
-Received: from smtp.eu.adacore.com ([127.0.0.1])
- by localhost (smtp.eu.adacore.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id c42_6YV0X91d; Tue, 14 Apr 2020 12:00:57 +0200 (CEST)
-Received: from localhost.localdomain (lfbn-tou-1-1471-22.w90-89.abo.wanadoo.fr
- [90.89.4.22])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp.eu.adacore.com (Postfix) with ESMTPSA id 4413A81382;
- Tue, 14 Apr 2020 12:00:56 +0200 (CEST)
-Subject: Re: [PATCH 0/7] hw/sparc/leon3: Few fixes and disable HelenOS test
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <20200331105048.27989-1-f4bug@amsat.org>
- <81737d76-06c6-4c83-1287-b0d14db4ce2f@amsat.org>
- <989bf2f5-0e23-f9c3-e9e1-0bd8c03f3231@adacore.com>
- <1b7a4c63-5a31-6efe-d807-7092e3ee0ffb@amsat.org>
-From: KONRAD Frederic <frederic.konrad@adacore.com>
-Message-ID: <230dbf6b-120a-f1f0-d48d-9fa4a04e05cd@adacore.com>
-Date: Tue, 14 Apr 2020 12:00:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (envelope-from <raphael.norwitz@nutanix.com>) id 1jPcYe-0002LR-Ee
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 21:46:13 -0400
+Received: from [192.146.154.243] (port=11250 helo=mcp01.nutanix.com)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <raphael.norwitz@nutanix.com>) id 1jPcYe-0002J8-9L
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 21:46:12 -0400
+Received: from localhost.localdomain (unknown [10.40.36.165])
+ by mcp01.nutanix.com (Postfix) with ESMTP id 70A451030DF9;
+ Sat, 18 Apr 2020 01:46:10 +0000 (UTC)
+Date: Tue, 14 Apr 2020 06:02:08 -0400
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
+To: ni.xun.intel@gmail.com, tonnylu@tencent.com, leomyan@tencent.com,
+ lucascye@tencent.com
+Subject: Re: [PATCH] resend slave fd to vhost when reconnect to vhost
+Message-ID: <20200414100208.GA14282@localhost.localdomain>
+References: <20200417051400.30398-1-richardni@tencent.com>
 MIME-Version: 1.0
-In-Reply-To: <1b7a4c63-5a31-6efe-d807-7092e3ee0ffb@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200417051400.30398-1-richardni@tencent.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 2a02:2ab8:224:1::a0a:d2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 192.146.154.243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,88 +49,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Fabien Chouteau <chouteau@adacore.com>, Jiri Gaisler <jiri@gaisler.se>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-Le 4/13/20 =C3=A0 11:07 PM, Philippe Mathieu-Daud=C3=A9 a =C3=A9crit=C2=A0=
-:
-> [Cc'ing Peter]
+On Fri, Apr 17, 2020 at 01:14:00PM +0800, ni.xun.intel@gmail.com wrote:
 >=20
-> On 4/13/20 12:12 PM, KONRAD Frederic wrote:
->> Le 4/11/20 =C3=A0 7:30 PM, Philippe Mathieu-Daud=C3=A9 a =C3=A9crit=C2=
-=A0:
->>> On 3/31/20 12:50 PM, Philippe Mathieu-Daud=C3=A9 wrote:
->>>> Philippe Mathieu-Daud=C3=A9 (7):
->>>>  =C2=A0=C2=A0 hw/misc/grlib_ahb_apb_pnp: Avoid crash when writing to=
- AHB PnP
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0 registers
->>>>  =C2=A0=C2=A0 hw/misc/grlib_ahb_apb_pnp: Fix AHB PnP 8-bit accesses
->>>
->>> Ping ^^^ for 5.0?
->>
->> Hi Philippe,
->>
->> You already have my rb tag for those one, and IMHO they should be good
->> candidate
->> for 5.0 (if it's not too late).
+> From: Ni Xun <richardni@tencent.com>
 >=20
-> Yes, thanks for the reviews. I see Mark Cave-Ayland merged this file
-> first, but you are listed as maintainer :) I was hoping you could send =
-a
-> pull request.
-
-Yes that's usually Mark who take the patches, sorry I didn't get it.
-
->=20
-> $ scripts/get_maintainer.pl -f hw/misc/grlib_ahb_apb_pnp.c
-> Fabien Chouteau <chouteau@adacore.com> (maintainer:Leon3)
-> KONRAD Frederic <frederic.konrad@adacore.com> (maintainer:Leon3)
-> qemu-devel@nongnu.org (open list:All patches CC here)
+> when reconnecting to vhost server, it doesn't send slave fd to vhost
+> as the slave fd is only sent in vhost_user_init. also resend the slave =
+fd
+> in vhost reconnect.
 >=20
 
-> This is a bug but not 'security critical', so it might wait 5.1 and go
-> via qemu-trivial tree.
+I don=E2=80=99t think that=E2=80=99s correct. See vhost_user_init() here:
 
-Well let's do that then if you're ok.
+https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/virtio/vhost-user.c;h=3D=
+08e7e63790e5bcfae6cd31bf9ccd32c3a7347f4e;hb=3DHEAD#l1898
 
-Best Regards,
-Fred
+Rather, vhost_setup_slave_channel() is called by vhost_user_backend_init(=
+),
+which is called on every reconnect inside vhost_dev_init().
+
+see vhost_user_blk_connect(): https://git.qemu.org/?p=3Dqemu.git;a=3Dblob=
+;f=3Dhw/block/vhost-user-blk.c;h=3D17df5338e77c684175a86e882b508849c246e7=
+8a;hb=3DHEAD#l297
+and vhost_dev_init():https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/v=
+irtio/vhost.c;h=3D01ebe12f28e9d7e3150375dda6f55b6b8f04a42a;hb=3DHEAD#l122=
+4
+
+Note that the dev->vq_index is also set to 0 right before the
+vhost_dev_init() call.
+
+I tested myself and saw a VHOST_USER_SET_SLAVE_REQ_FD message sent on eac=
+h
+reconnect with the vhost-user-blk sample.
+
+Are you seeing different behavior? If so, please provide more details on
+your setup?
 
 >=20
-> Regards,
+> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+> index 17df5338e7..59650a570b 100644
+> --- a/hw/block/vhost-user-blk.c
+> +++ b/hw/block/vhost-user-blk.c
+> @@ -138,6 +138,12 @@ static int vhost_user_blk_start(VirtIODevice *vdev=
+)
+>              error_report("Error get inflight: %d", -ret);
+>              goto err_guest_notifiers;
+>          }
+
+What's the justification for sending the slave fd here? Please elaborate.
+
+> +    } else {
+> +        ret =3D vhost_setup_slave_channel(&s->dev);
+> +        if (ret < 0) {
+> +            error_report("Error setting vhost slave channel: %d", -ret=
+);
+> +            return ret;
+> +        }
+>      }
+> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+> index 085450c6f8..cad60ad521 100644
+> --- a/include/hw/virtio/vhost.h
+> +++ b/include/hw/virtio/vhost.h
+
+Why expose this through vhost.h? This is vhost-user specific.
+
+> @@ -100,6 +100,7 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIOD=
+evice *vdev);
+>  void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
+>  int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *v=
+dev);
+>  void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice =
+*vdev);
+> +int vhost_setup_slave_channel(struct vhost_dev *hdev);
+> =20
+>  /* Test and clear masked event pending status.
+>   * Should be called after unmask to avoid losing events.
+> --=20
+> 2.24.1 (Apple Git-126)
 >=20
-> Phil.
 >=20
->>
->> Cheers,
->> Fred
->>
->>>
->>>>  =C2=A0=C2=A0 hw/misc/grlib_ahb_apb_pnp: Add trace events on read ac=
-cesses
->>>>  =C2=A0=C2=A0 hw/timer/grlib_gptimer: Display frequency in decimal
->>>>  =C2=A0=C2=A0 target/sparc/int32_helper: Remove DEBUG_PCALL definiti=
-on
->>>>  =C2=A0=C2=A0 target/sparc/int32_helper: Extract and use excp_name_s=
-tr()
->>>>
->>>>  =C2=A0 hw/misc/grlib_ahb_apb_pnp.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 24 ++++++++++++++++++++++--
->>>>  =C2=A0 target/sparc/int32_helper.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 23 ++++++++++++-----------
->>>>  =C2=A0 hw/misc/trace-events=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-|=C2=A0 4 ++++
->>>>  =C2=A0 hw/timer/trace-events=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 2 +-
->>>>  =C2=A0 tests/acceptance/machine_sparc_leon3.py |=C2=A0 4 ++++
->>>>  =C2=A0 5 files changed, 43 insertions(+), 14 deletions(-)
->>>>
->>
 
