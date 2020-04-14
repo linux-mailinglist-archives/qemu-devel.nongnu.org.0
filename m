@@ -2,60 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FA631A867A
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 19:00:35 +0200 (CEST)
-Received: from localhost ([::1]:35300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35A001A878C
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 19:32:49 +0200 (CEST)
+Received: from localhost ([::1]:36308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOvK-0004aK-94
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 13:00:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37972)
+	id 1jOPQW-0003TT-8S
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 13:32:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45500)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jOOtg-00032O-KO
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:58:53 -0400
+ (envelope-from <armbru@redhat.com>) id 1jOP7E-0008Bw-4T
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:12:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jOOtf-0000jd-D6
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:58:52 -0400
-Received: from mail-yb1-f193.google.com ([209.85.219.193]:40389)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jOLjN-0001eQ-P1; Tue, 14 Apr 2020 09:36:01 -0400
-Received: by mail-yb1-f193.google.com with SMTP id f13so5459125ybk.7;
- Tue, 14 Apr 2020 06:36:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=1NutwCTYV7GLRuvHlCy5xsed3qRvUhgaTVGeCnPArTk=;
- b=SpICs4bd1ki1KdFh1NDjSBK+l62Fdivb5nVKLkVVbWcxjC9qB/sLEwLXKRFTNukbjd
- VmA0Ixd1wYtuXZWnTQo4Br1TZSJ0cQV7aOJAVk+PT6d/6Ea2C+wsd58benuJkwZol7E7
- c3e+TTbfzLrnyldgLJwvc/5o7/y4k8bO8vIc+tidmE62QQVB1H74lTiFGvp+crebpdo2
- J//O5SfSJ7enrS+p4S4+CF9fgeUHioJ/4/vGQC76Ny5zgkIfo3wP+edX5rszhsgcpbpg
- R4SekxYH1JbLpFSTU46PUyS9BBZ5u/w1uUX93MYUXXMEhfR0sSFJIU6ntjH1yj+8RuA8
- DrAQ==
-X-Gm-Message-State: AGi0PuYrPDn2hf0hr29ybK6vOvthVIdBOD8V/MpSiYDjKbWCsBluIPDx
- 8PtvCaboAiXMfUFx9Cj9ms3AsUbqU3g5kA+Ci/E=
-X-Google-Smtp-Source: APiQypIJ+HC2pKttust+ddqIdMi+grpwPEnN0c06his9mOC/GAB6uA3yXK/YmA/lIxZC9SLhWMu2dHc8FSs5AeAFDdE=
-X-Received: by 2002:a25:8491:: with SMTP id v17mr54493ybk.316.1586871361190;
- Tue, 14 Apr 2020 06:36:01 -0700 (PDT)
+ (envelope-from <armbru@redhat.com>) id 1jOP7C-0003rp-TU
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:12:52 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30635
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jOLjm-0001oA-L0
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 09:36:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586871386;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YsfOzAvX5A1PpdTevpkBf/9GkxlvNPhfZaziVQBfagE=;
+ b=hIWudsZRiLUg7zpVGsubMo2BMvev/9tCbJwoQZSeU6hqGHJmzGhr9b3mzatm0ACI958q92
+ CnHQ2ABU8dfwTzZHJg1Q95lYfOxOrCAUN8M92x7c3Sfn6pfHyf7orGi8hLi6aQ1unZso/8
+ EVpfV/v1wS1Ay8k+ZxdaBEiWZWP0fjg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-101-v_fpdkhiMSiEWSWfEctKzg-1; Tue, 14 Apr 2020 09:36:22 -0400
+X-MC-Unique: v_fpdkhiMSiEWSWfEctKzg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1F991005509;
+ Tue, 14 Apr 2020 13:36:21 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-20.ams2.redhat.com
+ [10.36.113.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3769F60BE1;
+ Tue, 14 Apr 2020 13:36:21 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 933E311385C8; Tue, 14 Apr 2020 15:36:19 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH for-5.1 1/8] tests-qemu-opts: Cover has_help_option(),
+ qemu_opt_has_help_opt()
+References: <20200409153041.17576-1-armbru@redhat.com>
+ <20200409153041.17576-2-armbru@redhat.com>
+ <8ea167d6-2784-1ab9-cf55-52eb7553cb4d@redhat.com>
+ <878siyxwir.fsf@dusky.pond.sub.org>
+ <20200414131339.GE7747@linux.fritz.box>
+Date: Tue, 14 Apr 2020 15:36:19 +0200
+In-Reply-To: <20200414131339.GE7747@linux.fritz.box> (Kevin Wolf's message of
+ "Tue, 14 Apr 2020 15:13:39 +0200")
+Message-ID: <87v9m2p4to.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-References: <1586529926-11441-1-git-send-email-sundeep.lkml@gmail.com>
- <1586529926-11441-2-git-send-email-sundeep.lkml@gmail.com>
- <999b20d0-4933-046d-f014-a885073b1740@amsat.org>
- <CALHRZup_St5oJqB3gDm+RiVUo2-xwh_RUJKscMmGh=roQAa0gQ@mail.gmail.com>
-In-Reply-To: <CALHRZup_St5oJqB3gDm+RiVUo2-xwh_RUJKscMmGh=roQAa0gQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Tue, 14 Apr 2020 15:35:49 +0200
-Message-ID: <CAAdtpL4QUTXWHLG0M+fGvR0iTbx_qdVSyQSKrvoJWTQ=CTZTag@mail.gmail.com>
-Subject: Re: [Qemu devel PATCH v4 1/3] hw/net: Add Smartfusion2 emac block
-To: sundeep subbaraya <sundeep.lkml@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.219.193
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,52 +81,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: mreitz@redhat.com, Markus Armbruster <armbru@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 14, 2020 at 3:05 PM sundeep subbaraya
-<sundeep.lkml@gmail.com> wrote:
->
-> Hi Philippe,
->
-> On Mon, Apr 13, 2020 at 2:16 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
-org> wrote:
-> >
-> > Hi Sundeep,
-> >
-> > On 4/10/20 4:45 PM, sundeep.lkml@gmail.com wrote:
-> > > From: Subbaraya Sundeep <sundeep.lkml@gmail.com>
-> > >
-> > > Modelled Ethernet MAC of Smartfusion2 SoC.
-> > > Micrel KSZ8051 PHY is present on Emcraft's
-> > > SOM kit hence same PHY is emulated.
-> > >
-> > > Signed-off-by: Subbaraya Sundeep <sundeep.lkml@gmail.com>
-> > > ---
-[...]
-> > > +static const VMStateDescription vmstate_msf2_emac =3D {
-> > > +    .name =3D TYPE_MSS_EMAC,
-> > > +    .version_id =3D 1,
-> > > +    .minimum_version_id =3D 1,
-> > > +    .fields =3D (VMStateField[]) {
-> > > +        VMSTATE_UINT32(rx_desc, MSF2EmacState),
-> > > +        VMSTATE_UINT16_ARRAY(phy_regs, MSF2EmacState, PHY_MAX_REGS),
-> >
-> > Later we'll move the PHY registers out of the EMAC. Not now...
-> >
-> Cool but how? Like SSI and I2C, mdio bus?
+Kevin Wolf <kwolf@redhat.com> writes:
 
-Don't worry about it now, it was more as a comment to myself. I have
-some series doing it, I'll cc you when it is ready.
-
+> Am 14.04.2020 um 11:10 hat Markus Armbruster geschrieben:
+>> Eric Blake <eblake@redhat.com> writes:
+>>=20
+>> > On 4/9/20 10:30 AM, Markus Armbruster wrote:
+>> >> The two turn out to be inconsistent for "a,b,,help".  Test case
+>> >> marked /* BUG */.
+>> >>
+>> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> >> ---
+>> >>   tests/test-qemu-opts.c | 38 ++++++++++++++++++++++++++++++++++++++
+>> >>   1 file changed, 38 insertions(+)
+>> >>
+>> >
+>> >> +static void test_has_help_option(void)
+>> >> +{
+>> >> +    static const struct {
+>> >> +        const char *params;
+>> >> +        /* expected value of has_help_option() */
+>> >> +        bool expect_has_help_option;
+>> >> +        /* expected value of qemu_opt_has_help_opt() with implied=3D=
+false */
+>> >> +        bool expect_opt_has_help_opt;
+>> >> +        /* expected value of qemu_opt_has_help_opt() with implied=3D=
+true */
+>> >> +        bool expect_opt_has_help_opt_implied;
+>> >> +    } test[] =3D {
+>> >> +        { "help", true, true, false },
 >
-> > > +        VMSTATE_UINT32_ARRAY(regs, MSF2EmacState, R_MAX),
-> > > +        VMSTATE_END_OF_LIST()
-> > > +    }
-> > > +};
-[...]
+> While we're talking about unintuitive, I feel the result for
+> implied=3Dtrue is confusing, too. Never noticed it before, but are we
+> really sure that it is the best possible behaviour that '-chardev help'
+> and '-chardev id=3Dfoo,help' print two entirely different help texts?
+>
+> I'm not requesting to change anything about this in this series, but
+> just making the point that maybe sometimes the existing behaviour is
+> questionable.
+
+The QEMU CLI may sometimes be confusing?!?  I'm shocked, sir, I'm
+shocked!
+
+>> >> +        { "helpme", false, false, false },
+>> >> +        { "a,help", true, true, true },
+>> >> +        { "a=3D0,help,b", true, true, true },
+>> >> +        { "help,b=3D1", true, true, false },
+>> >> +        { "a,b,,help", false /* BUG */, true, true },
+>> >
+>> > So which way are you calling the bug?  Without looking at the code but
+>> > going off my intuition, I parse this as option 'a' and option
+>> > 'b,help'. The latter is not a normal option name because it contains a
+>> > ',', but is a valid option value.
+>> >
+>> > I agree that we have a bug, but I'm not yet sure in which direction
+>> > the bug lies (should has_help_option be fixed to report true, in which
+>> > case the substring ",help" has precedence over ',,' escaping; or
+>> > should qemu_opt_has_help_opt be fixed to report false, due to treating
+>> > 'b,help' after ',,' escape removal as an invalid option name).  So the
+>> > placement of the /* BUG */ comment matters - where you placed it, I'm
+>> > presuming that later in the series you change has_help_option to
+>> > return true, even though that goes against my intuitive parse.
+>>=20
+>> In addition to the canonical QemuOpts parser opts_do_parse(), we have
+>> several more, and of course they all differ from the canonical one for
+>> corner cases.
+>>=20
+>> I treat the canonical one as correct, and fix the others by eliminating
+>> the extra parsers.
+>>=20
+>> The others are:
+>>=20
+>> * has_help_option()
+>>=20
+>>   Fixed in PATCH 5 by reusing the guts of opts_do_parse().
+>>=20
+>> * is_valid_option_list()
+>>=20
+>>   Fixed in PATCH 8 by not parsing.
+>>=20
+>> * "id" extraction in opts_parse()
+>>=20
+>>   Lazy hack.  Fixed in PATCH 3 by reusing the guts of opts_do_parse().
+>>=20
+>> Back to your question: the value of has_help_option() differs from the
+>> value of qemu_opt_has_help_opt().  The latter uses the canonical parser,
+>> the former is one of the other parsers.  I therefore judge the latter
+>> right and the former wrong.
+>
+> Shouldn't we also consider what users would reasonably expect?
+
+Of course we should consider reasonable user expectations.
+
+Grumpy aside: when I do, I commonly run into objections that users
+reasonably expect things not to change.
+
+> Getting it parsed as an empty option name (I assume with a default value
+> of "on"?) certainly looks like something that would surprise most users
+> and, as you can see, even some QEMU developers.
+
+My preferred way to address QemuOpts parsing madness is replacing it
+wholesale by keyval.c, but that's some time off, I'm afraid.
+
+This series merely aims for more method to the same old madness.
+
 
