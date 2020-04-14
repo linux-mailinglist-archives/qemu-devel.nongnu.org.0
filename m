@@ -2,79 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61D5A1A853B
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:39:31 +0200 (CEST)
-Received: from localhost ([::1]:34436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94D111A85B9
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:51:35 +0200 (CEST)
+Received: from localhost ([::1]:34942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOaw-0001xp-AW
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:39:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53173)
+	id 1jOOmc-0006PA-Jl
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:51:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57590)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jOOTw-0008C6-5Y
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:32:17 -0400
+ (envelope-from <philmd@redhat.com>) id 1jOOdZ-0000wF-N1
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:42:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jOOTv-0001Su-1c
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:32:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57621
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jOOdY-0006Mo-A0
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:42:13 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23900
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOLeU-0008AW-Uy
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 09:30:59 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOLec-0008CQ-Im
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 09:31:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586871058;
+ s=mimecast20190719; t=1586871066;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=WpXqVRWnwC/7fduD19tFiabBEgGygCctCEDBIM8aWy0=;
- b=alUJg5GDp2rof1gWIFzWwR9WTU7KyOxoRcwyjG8dnUrAko2a3bqc0i5kBgAMSDKZkl1j3y
- WkHgzB2YRieRlzbWMKCQkmCFuU1Cf1lD3IUEA+dg5O3UPKh0MR2891VzVDzPaGBkIV7sCx
- NWd1TnlDZfw4qgdIFHezQpAjSyfJP2Y=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-95bRvRR0MHe9JsvYzsoG2g-1; Tue, 14 Apr 2020 09:30:57 -0400
-X-MC-Unique: 95bRvRR0MHe9JsvYzsoG2g-1
-Received: by mail-wr1-f71.google.com with SMTP id s11so3807767wru.6
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 06:30:56 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=42lVAfyseGz1VGufIzij+GuSVkOjvcpSK4kWq6V6gmk=;
+ b=HzO8STMDDgZl5dL2Y9vXGJvm/TKx/4/4TO97T/alIxOK00ACgBuNHKJub7/T6sGouLPqEP
+ TxT7h1cJdTZyxmAI2+8fLtqwCds+qSAjIm5JBTEynbB1OVidlwUKxNDrPPOfq2WYFGpu/O
+ pPoxn0+AVNAuXnAPro6Z9wytXk9bY6Q=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-333-8hi55XSEM5WwVFPGRdm9Nw-1; Tue, 14 Apr 2020 09:31:02 -0400
+X-MC-Unique: 8hi55XSEM5WwVFPGRdm9Nw-1
+Received: by mail-wr1-f72.google.com with SMTP id m5so5560435wru.15
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 06:31:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uc7TJUs/ixiFyqutC9VIpB13KeQ267/XOs+rA8uW20U=;
- b=NE8CETHU+cDhFgT7KRpJkjTfuVNUPW34OBG5Qpy5F08OOl+yaj1Q7PbqXMB/yW2pyv
- WUJF3UDS0laFKBl2qhKH3rqznSqAaSj4sQytFIJYpl0LwjK+zp9xEFQhgN3EzI5IcUwA
- b/d0BcMrpkQKqyHjdy09NwOP7InAr80RYL4rgGP4Z4Wk/leW22EOKBuzcFfENFTZakwd
- bgXlThmuIowoZ9sYk16H91q28LoePr6v2NvcUXOx2+WBZBlOJCQfuvMqMLFmrGk2AI/k
- aoka0COpIYu2zI9+Q/itsKOLPDvREbPT2F+FywKy7eoRKsGxlnANndIp1iiHo9k68yUB
- a8wQ==
-X-Gm-Message-State: AGi0PuY+f1A64j2aueIYzy/XiG29sLeoksGrwauhxL9uREZHFIyAnVaB
- d8sHKlxcDT14fOpYXQBsIQu6DBDj4KTB1xUPBNw7xGv9r1PlxDVdWJKO4kaZZomXWY14OQkfT+b
- 6DY8FhAA8wc4liVE=
-X-Received: by 2002:a05:600c:29c2:: with SMTP id
- s2mr12029760wmd.111.1586871055679; 
- Tue, 14 Apr 2020 06:30:55 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLTafOtZRvlulCPIwRXNLeuETKKAKgsl+vdMjDDb2Z6iAXkvUkCko6Ky3XslGGxi+LvLKJXgg==
-X-Received: by 2002:a05:600c:29c2:: with SMTP id
- s2mr12029726wmd.111.1586871055365; 
- Tue, 14 Apr 2020 06:30:55 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=kGKRmnKwmRxlOxdVqgxjmKtx9Q2hpJOt1NAPPmcNK0Y=;
+ b=ikeU5bX9d8W19zyu85KnMn4Mx0PIIIq0HdRZ/qY3lYAabXGsJJknR/uZ+RsXd/1knY
+ AxYvcloxgA8u9kM0kotDQ/nAQG0G19w2GRb7mw50YUvo2aNBlOp7QgMt7KA3mOvJdcg8
+ ouhDBs8pKfTH5d3UkZTjg6+uwhPeIxxO/GF28vSgDzDpxqkOhmC3yZf1OdFQUYzr6vN1
+ CW2qnu7v9KyLJmn3x291Fog1ptwnQfa7oLMcyAURitg6jq08wQRTrgDOiJDhwUlOuvvp
+ AOxfQHK0rJid3VUsGtrMepoZYJWLIFpWNZ74B/oE9vbFalmF+xMWkFXjzqw7rg3T6slJ
+ mGBg==
+X-Gm-Message-State: AGi0PubfwuUNQCAj5bnz/QcenVYL2CdDPyBo5m3a9aGTrUPH1gKhdbAd
+ 1N/iJ2DR2qA/gBAwUdSwNG/EWmt6HHmI0KN6u2ht9wsxK17INGcNrHf3wqiBrL1H+voOr/uJ5Go
+ upsEdV1BfGb6M7n8=
+X-Received: by 2002:a1c:ed1a:: with SMTP id l26mr23523422wmh.175.1586871060655; 
+ Tue, 14 Apr 2020 06:31:00 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLviEloVTS1cRcyC6vYEbzQ4KMafGY7ljn+PIpkM/EA0pUQsfi5Ks+nCt7hSSsjIbmhL666ZQ==
+X-Received: by 2002:a1c:ed1a:: with SMTP id l26mr23523395wmh.175.1586871060392; 
+ Tue, 14 Apr 2020 06:31:00 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id v1sm14490755wrv.19.2020.04.14.06.30.54
+ by smtp.gmail.com with ESMTPSA id q8sm18307453wmg.22.2020.04.14.06.30.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 06:30:54 -0700 (PDT)
+ Tue, 14 Apr 2020 06:30:59 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0 00/12] various bugfixes
-Date: Tue, 14 Apr 2020 15:30:40 +0200
-Message-Id: <20200414133052.13712-1-philmd@redhat.com>
+Subject: [PATCH-for-5.0 01/12] Revert "prevent crash when executing
+ guest-file-read with large count"
+Date: Tue, 14 Apr 2020 15:30:41 +0200
+Message-Id: <20200414133052.13712-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200414133052.13712-1-philmd@redhat.com>
+References: <20200414133052.13712-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,6 +91,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
  Michael Roth <mdroth@linux.vnet.ibm.com>,
  Fabien Chouteau <chouteau@adacore.com>, Max Filippov <jcmvbkbc@gmail.com>,
@@ -99,53 +104,57 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Collection of bugfixes for 5.0.
+As noted by Daniel Berrang=C3=A9 in [*], the fix from commit 807e2b6fce
+which replaced malloc() by try_malloc() is not enough, the process
+can still run out of memory a few line later:
 
-Only vhost-user-gpu/grlib_ahb_apb_pnp patches are reviewed.
+ 346     buf =3D g_try_malloc0(count + 1);
+ 347     if (!buf) {
+ 348         error_setg(errp,
+ 349                    "failed to allocate sufficient memory "
+ 350                    "to complete the requested service");
+ 351         return NULL;
+ 352     }
+ 353     is_ok =3D ReadFile(fh, buf, count, &read_count, NULL);
+ 354     if (!is_ok) {
+ 355         error_setg_win32(errp, GetLastError(), "failed to read file");
+ 356         slog("guest-file-read failed, handle %" PRId64, handle);
+ 357     } else {
+ 358         buf[read_count] =3D 0;
+ 359         read_data =3D g_new0(GuestFileRead, 1);
+                         ^^^^^^
 
-As 5.0-rc3 is tomorrow, I thought it could help to gather
-them and resend altogether.
+Instead we are going to put a low hard limit on 'count' in the next
+commits. This reverts commit 807e2b6fce022707418bc8f61c069d91c613b3d2.
 
-Regards,
+[*] https://lists.gnu.org/archive/html/qemu-devel/2018-06/msg03471.html
 
-Phil.
+Suggested-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ qga/commands-win32.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-Mansour Ahmadi (1):
-  hw/block/pflash: Check return value of blk_pwrite()
-
-Philippe Mathieu-Daud=C3=A9 (11):
-  Revert "prevent crash when executing guest-file-read with large count"
-  qga: Extract guest_file_handle_find() to commands-common.h
-  qga: Extract qmp_guest_file_read() to common commands.c
-  qga: Restrict guest-file-read count to 48 MB to avoid crashes
-  vhost-user-gpu: Release memory returned by vu_queue_pop() with free()
-  hw/openrisc/pic_cpu: Use qdev gpio rather than qemu_allocate_irqs()
-  hw/misc/grlib_ahb_apb_pnp: Avoid crash when writing to AHB PnP
-    registers
-  hw/misc/grlib_ahb_apb_pnp: Fix AHB PnP 8-bit accesses
-  hw/display/sm501: Avoid heap overflow in sm501_2d_operation()
-  gdbstub: Do not use memset() on GByteArray
-  gdbstub: Introduce gdb_get_freg32() to get float32 registers
-
- qga/qapi-schema.json                    |  6 +++--
- include/exec/gdbstub.h                  | 22 ++++++++++++++++
- qga/commands-common.h                   | 21 +++++++++++++++
- contrib/vhost-user-gpu/vhost-user-gpu.c |  4 +--
- contrib/vhost-user-gpu/virgl.c          |  2 +-
- hw/block/pflash_cfi01.c                 |  8 +++++-
- hw/block/pflash_cfi02.c                 |  8 +++++-
- hw/display/sm501.c                      |  6 +++++
- hw/misc/grlib_ahb_apb_pnp.c             | 11 ++++++++
- hw/openrisc/pic_cpu.c                   |  5 ++--
- qga/commands-posix.c                    | 29 +++++---------------
- qga/commands-win32.c                    | 35 ++++++-------------------
- qga/commands.c                          | 33 +++++++++++++++++++++++
- target/arm/gdbstub.c                    |  3 +--
- target/sh4/gdbstub.c                    |  6 ++---
- target/xtensa/gdbstub.c                 |  6 ++---
- 16 files changed, 136 insertions(+), 69 deletions(-)
- create mode 100644 qga/commands-common.h
-
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index b49920e201..46cea7d1d9 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -343,13 +343,7 @@ GuestFileRead *qmp_guest_file_read(int64_t handle, boo=
+l has_count,
+     }
+=20
+     fh =3D gfh->fh;
+-    buf =3D g_try_malloc0(count + 1);
+-    if (!buf) {
+-        error_setg(errp,
+-                   "failed to allocate sufficient memory "
+-                   "to complete the requested service");
+-        return NULL;
+-    }
++    buf =3D g_malloc0(count + 1);
+     is_ok =3D ReadFile(fh, buf, count, &read_count, NULL);
+     if (!is_ok) {
+         error_setg_win32(errp, GetLastError(), "failed to read file");
 --=20
 2.21.1
 
