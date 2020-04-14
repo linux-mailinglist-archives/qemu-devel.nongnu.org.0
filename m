@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B101A8732
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 19:13:46 +0200 (CEST)
-Received: from localhost ([::1]:35862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2D011A842B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:06:53 +0200 (CEST)
+Received: from localhost ([::1]:33376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOP84-00088k-Qp
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 13:13:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41952)
+	id 1jOO5M-0004Fj-GO
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:06:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47541)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jOP0U-0006My-U5
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:05:55 -0400
+ (envelope-from <eblake@redhat.com>) id 1jOO0a-0007Vf-L1
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:02:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jOP0T-0006AR-Oj
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:05:54 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:35317)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jONwd-0006dy-2B
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 11:57:52 -0400
-Received: by mail-oi1-x243.google.com with SMTP id b7so8253932oic.2
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 08:57:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=L8FR74iMrVNmAQJ041jH/wKttuH5XlivU6A83idZbXM=;
- b=a25EJJ/e+cr0CtuOgm9emVAHTSBvgzs4I1BQgbBzn0UkPRdwQuREMLrryfpZSYIa7R
- muXV5EIUqdDQEW4Iih1xc7ipBAG/q3LwP9akl1UfXTNj7O7ekhYx72yj2YMijtZrmKe5
- cwqCAjRxgmwzYZOPjbAy71Ho656aClE5Tq+TWhS4uGj7KLIRchKj7BcSAknzYNwvAL9R
- pBz+kt9zObiYtpoSJW8hoB9eqKgxGPM95ml6jpScTV5QOEb8w3fw0MLwKo2t4wAO7ZPx
- CEIWLwF473kScQxEwDXCgNwFtYZCmJhROIlLoDx1vN0/IrxS2Ei5fyQVVPzqFsXVDIy/
- 34Bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=L8FR74iMrVNmAQJ041jH/wKttuH5XlivU6A83idZbXM=;
- b=KOv82QzwOu8Hs/nV/ZEwzDyc/96eIbB6lrHI1oMC8P2Crt6rp37emYuvrSs0Tlh12D
- H9xVdLRuaWeGeow+z7ePgKh281VdABRuxoz+ZEBmQLpWsLq2kF51ALqfxOtDNGwkiQUt
- FfQOjyNecAWUr71In8d/fxWnaF27WmKo9YGLm8PUrGcTyIvZUY5zTsk2HZLQPq3qUmbe
- tQCP98l17Iz9RVC9BkcWogSEfv3slTTJVJAYo/0kRL6HAI2U2QQt3D1bCCkQ/MswmQ/k
- i+dGFR2xDq7HPKKHocX+v74MvI/PwO28a+B1xABo3pAO6fbGM4UqRlr/JvYiCA/M7Jmi
- RIeQ==
-X-Gm-Message-State: AGi0PuYSl3K/y1qWjs7q1MD2O4x/B04iIEKzFjOhseOJTyWhte51lTx4
- /Z5NfpNckdhHfMwbCj5YnrjzQdhH0vjO7QRYdpa/Cw==
-X-Google-Smtp-Source: APiQypK2Nwh/0pRC13UrnKBEBWv9WeabLbHZANGRvl4gHbQ5pqTRFwO+g40gkr6Jun0URTtsJCakrZnj5lLIaiGPGhU=
-X-Received: by 2002:aca:f3c2:: with SMTP id r185mr5031317oih.163.1586879870030; 
- Tue, 14 Apr 2020 08:57:50 -0700 (PDT)
+ (envelope-from <eblake@redhat.com>) id 1jOO0U-0008Bh-GK
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:01:55 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22812
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jOO0U-0008BA-9C
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:01:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586880109;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BPKN/eZSreBtCfpg+PAM2VGxJ4Mdmq8P0K4hWkWqD4Y=;
+ b=Z2aluzzwUQk3kyu3EJvZda04e1Y30NpO+Upoa2S++dlh2NKwNqIbyi0a9KsSz9KpoxQx/0
+ UEpR6a/Q6dOA97ekqulq4fYmSunH9ca9pVl49KGmRRiYpJpVc7GdhhyqGe7m230+Z/S5T4
+ EdGPSK5QGEjD7TbF3Rtmi5r6Uv89cXA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-199-v4cgDZbNNUOF3NwhS-wSJQ-1; Tue, 14 Apr 2020 12:01:47 -0400
+X-MC-Unique: v4cgDZbNNUOF3NwhS-wSJQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DA4D1083E80;
+ Tue, 14 Apr 2020 16:01:45 +0000 (UTC)
+Received: from [10.3.115.59] (ovpn-115-59.phx2.redhat.com [10.3.115.59])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CAFB79A248;
+ Tue, 14 Apr 2020 16:01:43 +0000 (UTC)
+Subject: Re: [PATCH v4 11/30] qcow2: Add l2_entry_size()
+To: Alberto Garcia <berto@igalia.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <cover.1584468723.git.berto@igalia.com>
+ <fd0f93353a218ff4518f34ebdbca05c2fc0f1085.1584468723.git.berto@igalia.com>
+ <58d1fa17-91ea-9f8d-c39a-4141783d1234@virtuozzo.com>
+ <w51y2qy5kd6.fsf@maestria.local.igalia.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <81446480-40cc-3e6f-ac0f-8b18422ae9f4@redhat.com>
+Date: Tue, 14 Apr 2020 11:01:42 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200411182934.28678-1-peter.maydell@linaro.org>
- <20200411182934.28678-4-peter.maydell@linaro.org> <871roq9i7k.fsf@linaro.org>
-In-Reply-To: <871roq9i7k.fsf@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 14 Apr 2020 16:57:38 +0100
-Message-ID: <CAFEAcA-RuNNOKSKSvWi-uWfPosbqUyipX7fx-_JviFzh+da4+w@mail.gmail.com>
-Subject: Re: [PATCH for-5.0? 3/3] kernel-doc: Use c:struct for Sphinx 3.0 and
- later
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+In-Reply-To: <w51y2qy5kd6.fsf@maestria.local.igalia.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,29 +80,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, "Denis V . Lunev" <den@openvz.org>,
+ Anton Nefedov <anton.nefedov@virtuozzo.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 14 Apr 2020 at 16:54, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
-> Looks reasonable although I don't have a way of testing it on my system.
-> Any idea what systems have the latest sphinx 3 on them? I tried fedora
-> but that still has 1.8.4 so it's not that bleeding edge.
+On 4/14/20 7:20 AM, Alberto Garcia wrote:
 
-I tested using a sphinx 3 install in a python virtualenv:
+>> Hmm. How to avoid it? Maybe, at least, refactor the code, to drop all
+>> sizeof(uint64_t), converting them to L2_ENTRY_SIZE, L1_ENTRY_SIZE,
+>> REFTABLE_ENTRY_SIZE etc?
+> 
+> That wouldn't be a bad thing I guess but, again, for a separate patch or
+> series.
+> 
+>> And all occurrences of pure '8' (not many of them exist)
+> 
+> I think most/all nowadays only refer to the number of bits per byte.
 
- cd
- python3 -m venv python-env
- . ~/python-env/bin/activate
- pip install sphinx
- deactivate
+CHAR_BIT (from <limits.h>) is good for that.
 
-and then tell configure to use ~/python-env/bin/sphinx-build
-(or don't deactivate, and then that will be the first
-sphinx-build on the PATH.)
+> 
+> Maybe there's a couple that still need to be fixed, but we have been
+> removing a lot of numeric literals from the qcow2 code (see for example
+> b6c246942b, 3afea40243 or a35f87f50d).
+> 
+> Berto
+> 
 
-thanks
--- PMM
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
