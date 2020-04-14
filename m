@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44AFC1A86C4
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 19:05:00 +0200 (CEST)
-Received: from localhost ([::1]:35528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C6071A860B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:55:14 +0200 (CEST)
+Received: from localhost ([::1]:35094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOzb-0002Tm-7p
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 13:04:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32838)
+	id 1jOOq9-0003IR-9X
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:55:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57875)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jOOjh-0003Xm-Oz
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:48:34 -0400
+ (envelope-from <philmd@redhat.com>) id 1jOOe6-0001hr-Su
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:42:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jOOjd-0001Ql-RT
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:48:33 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46355
+ (envelope-from <philmd@redhat.com>) id 1jOOe5-0006ZU-Ra
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:42:46 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27149
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jONCe-0005VY-OT
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 11:10:20 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jONJc-0006pT-Nk
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 11:17:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586877020;
+ s=mimecast20190719; t=1586877452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mHjDn7GVjkKmjZF0kyX6Ab2OXXDLE9a22KNo8L8ZMHw=;
- b=Fv2EqRUJs6HDDQd4NjZEDQz5pZgAvRE6RPd/M2yTnpNr/nWqK1MqrTDgiAWcX3WEW8hQCQ
- kdLU6H+4FrzPsCjAA3f/1sZ2m8604ri6MGpjJd8AopqgTQmzPopVhxDON5gXXb8iP7MIcT
- rDibYKYzu/PnaPAtukYt1MsN7MD1XaU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-zZlt4Md7NZmk3ug6P-SKmQ-1; Tue, 14 Apr 2020 11:10:18 -0400
-X-MC-Unique: zZlt4Md7NZmk3ug6P-SKmQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A7F613F8;
- Tue, 14 Apr 2020 15:10:17 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-1.ams2.redhat.com [10.36.114.1])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 366C919C69;
- Tue, 14 Apr 2020 15:10:16 +0000 (UTC)
-Date: Tue, 14 Apr 2020 17:10:14 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH for-5.1 8/8] qemu-option: Move is_valid_option_list() to
- qemu-img.c and rewrite
-Message-ID: <20200414151014.GM7747@linux.fritz.box>
-References: <20200409153041.17576-1-armbru@redhat.com>
- <20200409153041.17576-9-armbru@redhat.com>
- <e3d05915-268f-0d1a-e760-723a10807d16@redhat.com>
- <87k12ixxlb.fsf@dusky.pond.sub.org>
- <87blnup257.fsf@dusky.pond.sub.org>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=elfX9Jap2S51zkLes32cUESThcaOh4oCLB1Mj17tGoQ=;
+ b=dFJta/4vJgKPAiWS25a4C9t81N5d8VMR9r27h1ndw7co8hM/o42PGutuKsNTeCd+5HbeCd
+ 9mZM9v2v4H08VcBVbPX2E+h+NQqKwIQ4kVoAn4JlSh9tZAhzXN68lH46asHek2DHNFb8+X
+ cwAS8yGwW/GCQXRgrX8DqStZY1W8m3s=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-141-YtZxACtAPTCVRzM8Xn3_dQ-1; Tue, 14 Apr 2020 11:17:30 -0400
+X-MC-Unique: YtZxACtAPTCVRzM8Xn3_dQ-1
+Received: by mail-wr1-f71.google.com with SMTP id m5so5743347wru.15
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 08:17:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RslDUjfrw1mYqJ+woerz+C46TheRzySb2oFzeCEKBZA=;
+ b=e4vN9bzIV/KTdbtyusHxZFCzg4sKvJYIOCMRKFpTuHwW2ua2Ta7r/S6E56PDMl11wV
+ HafH3Y3XXnXt4ZhSXBy+HKGr++/btxX4hPI74Y1/efgsvUjcEpfSc8BU/ZOxCKns4kuh
+ Ul/eORddpl7f/QYX9bYzR61XEtTfHHtsRdcr3snf8CI1zqYG+wZT1Q8MX2YAf0+Yr3Nm
+ 7wumuXG24snXaPLxGQS3VAGtRtF7CpGr8dJtjraS2wwOr+8e0yNSy2hfHxf8NMUCxS7Z
+ B1a7yWevCQpZPsgxmyvwo/+Br3vxPDbelnBXYVGJn6R1hmCAtUy07v5gl37q5YjBgosj
+ LJKA==
+X-Gm-Message-State: AGi0PuabrLJ+J6r6tky6ezwqLbCA9RXgJbd3Nfu0vCf1heNfPWjmDb0k
+ cLCt/BIcbc1OeqBwE+IKtfj36HMgqH8UZN+WuEIdiNH57FlDbqwRwg00bdNpYis6dfZpeJIoghq
+ bn0UQuQLB2jBmCRs=
+X-Received: by 2002:adf:dd07:: with SMTP id a7mr10964645wrm.349.1586877449407; 
+ Tue, 14 Apr 2020 08:17:29 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKA3dfH+EmvoIX2ADuzqJq72Fm0mrQA5oHzVwobpm8jlTsxrDU6JZ4fJLuRLKn+Trj8Tc03Zg==
+X-Received: by 2002:adf:dd07:: with SMTP id a7mr10964628wrm.349.1586877449227; 
+ Tue, 14 Apr 2020 08:17:29 -0700 (PDT)
+Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id g74sm19268685wme.44.2020.04.14.08.17.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Apr 2020 08:17:28 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] block/nvme: Remove memory leak
+Date: Tue, 14 Apr 2020 17:17:26 +0200
+Message-Id: <20200414151727.17012-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-In-Reply-To: <87blnup257.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -78,110 +86,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 14.04.2020 um 16:34 hat Markus Armbruster geschrieben:
-> Markus Armbruster <armbru@redhat.com> writes:
->=20
-> > Eric Blake <eblake@redhat.com> writes:
-> >
-> >> On 4/9/20 10:30 AM, Markus Armbruster wrote:
-> >>> is_valid_option_list()'s purpose is ensuring qemu-img.c's can safely
-> >>> join multiple parameter strings separated by ',' like this:
-> >>>
-> >>>          g_strdup_printf("%s,%s", params1, params2);
-> >>>
-> >>> How it does that is anything but obvious.  A close reading of the cod=
-e
-> >>> reveals that it fails exactly when its argument starts with ',' or
-> >>> ends with an odd number of ','.  Makes sense, actually, because when
-> >>> the argument starts with ',', a separating ',' preceding it would get
-> >>> escaped, and when it ends with an odd number of ',', a separating ','
-> >>> following it would get escaped.
-> >>>
-> >>> Move it to qemu-img.c and rewrite it the obvious way.
-> >>>
-> >>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> >>> ---
-> >>>   include/qemu/option.h |  1 -
-> >>>   qemu-img.c            | 26 ++++++++++++++++++++++++++
-> >>>   util/qemu-option.c    | 22 ----------------------
-> >>>   3 files changed, 26 insertions(+), 23 deletions(-)
-> >>>
-> >>
-> >>> +++ b/qemu-img.c
-> >>> @@ -223,6 +223,32 @@ static bool qemu_img_object_print_help(const cha=
-r *type, QemuOpts *opts)
-> >>>       return true;
-> >>>   }
-> >>>   +/*
-> >>> + * Is @optarg safe for accumulate_options()?
-> >>> + * It is when multiple of them can be joined together separated by '=
-,'.
-> >>> + * To make that work, @optarg must not start with ',' (or else a
-> >>> + * separating ',' preceding it gets escaped), and it must not end wi=
-th
-> >>> + * an odd number of ',' (or else a separating ',' following it gets
-> >>> + * escaped).
-> >>> + */
-> >>> +static bool is_valid_option_list(const char *optarg)
-> >>> +{
-> >>> +    size_t len =3D strlen(optarg);
-> >>> +    size_t i;
-> >>> +
-> >>> +    if (optarg[0] =3D=3D ',') {
-> >>> +        return false;
-> >>> +    }
-> >>> +
-> >>> +    for (i =3D len; i > 0 && optarg[i - 1] =3D=3D ','; i--) {
-> >>> +    }
-> >>> +    if ((len - i) % 2) {
-> >>> +        return false;
-> >>> +    }
-> >>> +
-> >>> +    return true;
-> >>
-> >> Okay, that's easy to read.  Note that is_valid_option_list("") returns
-> >> true.
-> >
-> > Hmm, that's a bug:
-> >
-> >     $ qemu-img create -f qcow2 -o backing_file=3Da -o "" -o backing_fmt=
-=3Draw,size=3D1M new.qcow2
-> >     qemu-img: warning: Could not verify backing image. This may become =
-an error in future versions.
-> >     Could not open 'a,backing_fmt=3Draw': No such file or directory
-> >     Formatting 'new.qcow2', fmt=3Dqcow2 size=3D1048576 backing_file=3Da=
-,,backing_fmt=3Draw cluster_size=3D65536 lazy_refcounts=3Doff refcount_bits=
-=3D16
-> >     $ qemu-img info new.qcow2=20
-> >     image: new.qcow2
-> >     file format: qcow2
-> >     virtual size: 1 MiB (1048576 bytes)
-> >     disk size: 196 KiB
-> >     cluster_size: 65536
-> > --> backing file: a,backing_fmt=3Draw
-> >     Format specific information:
-> >         compat: 1.1
-> >         lazy refcounts: false
-> >         refcount bits: 16
-> >         corrupt: false
-> >
-> > My rewrite preserves this bug.  Will fix in v2.
->=20
-> Kevin, two obvious fixes:
->=20
-> * Make is_valid_option_list() reject -o ""
->=20
-> * Make accumulate_options(options, "") return options.
->=20
-> Got a preference?
+Fixes: bdd6a90a9 ("Add VFIO based NVMe driver")
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ block/nvme.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-In other words, the choice is between reporting an error and ignoring it
-silently. I think reporting an error makes more sense.
-
-Kevin
+diff --git a/block/nvme.c b/block/nvme.c
+index 7b7c0cc5d6..9f3c7ab819 100644
+--- a/block/nvme.c
++++ b/block/nvme.c
+@@ -163,6 +163,7 @@ static void nvme_init_queue(BlockDriverState *bs, NVMeQ=
+ueue *q,
+     }
+     r =3D qemu_vfio_dma_map(s->vfio, q->queue, bytes, false, &q->iova);
+     if (r) {
++        qemu_vfree(q->queue);
+         error_setg(errp, "Cannot map queue");
+     }
+ }
+--=20
+2.21.1
 
 
