@@ -2,42 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28561AD512
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 06:11:18 +0200 (CEST)
-Received: from localhost ([::1]:42132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D7D41A710D
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 04:35:42 +0200 (CEST)
+Received: from localhost ([::1]:51776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPILV-0006qL-LB
-	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 00:11:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49177)
+	id 1jOBQL-0007df-0i
+	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 22:35:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46744)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <raphael.norwitz@nutanix.com>) id 1jPIKe-0006Mi-GU
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 00:10:25 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jOBMc-0002IH-Pg
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 22:31:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <raphael.norwitz@nutanix.com>) id 1jPIKb-0004S0-A3
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 00:10:22 -0400
-Received: from [192.146.154.243] (port=7260 helo=mcp01.nutanix.com)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <raphael.norwitz@nutanix.com>) id 1jPIKb-0004Rm-4L
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 00:10:21 -0400
-Received: from localhost.localdomain (unknown [10.40.36.165])
- by mcp01.nutanix.com (Postfix) with ESMTP id C359F1044E43;
- Fri, 17 Apr 2020 04:10:19 +0000 (UTC)
-Date: Mon, 13 Apr 2020 21:54:48 -0400
-From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-To: Li Feng <fengli@smartx.com>
-Subject: Re: [PATCH 4/4] vhost-user-blk: fix crash in realize process
-Message-ID: <20200414015448.GA8307@localhost.localdomain>
-References: <20200415032826.16701-1-fengli@smartx.com>
- <20200415032826.16701-5-fengli@smartx.com>
+ (envelope-from <dgibson@ozlabs.org>) id 1jOBMb-0003WK-GU
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 22:31:50 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:34713 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1jOBMb-0003AE-58; Mon, 13 Apr 2020 22:31:49 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 491Tx72pvgz9sT0; Tue, 14 Apr 2020 12:17:46 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1586831435;
+ bh=ImiyRVoNQbOcTp6A/fzUejw3ihwjmxwUHNQzgVijvmI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GrTC6qiENynrCDGBq0ymymSo9xYTnR45lcglilIqAZSXYJEjU9bXyLj4GJsJMYrP8
+ 2n2XAPSH0bmu0Zg+TqMb95w+KuNUfk0Vr2d2Jp/kfoisApGywgTTn2szR5TEa/4dQy
+ emgrsoVXQY70cjlr48J8bMZTe31kGFMWuFHqQLLI=
+Date: Tue, 14 Apr 2020 12:01:17 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH] spapr_nvdimm.c: make 'label-size' mandatory
+Message-ID: <20200414020117.GB48061@umbus.fritz.box>
+References: <20200413203628.31636-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Izn7cH1Com+I3R9J"
 Content-Disposition: inline
-In-Reply-To: <20200415032826.16701-5-fengli@smartx.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 192.146.154.243
+In-Reply-To: <20200413203628.31636-1-danielhb413@gmail.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,33 +54,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, mst@redhat.com
+Cc: Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mostly looks good - just a few superficial notes.
 
-On Wed, Apr 15, 2020 at 11:28:26AM +0800, Li Feng wrote:
-> 1. set s->connected to true after vhost_dev_init;
-> 2. call vhost_dev_get_config when s->connected is true, otherwise the
->     hdev->host_ops will be nullptr.
+--Izn7cH1Com+I3R9J
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You mean hdev->vhost_ops, right?
+CCing Xiao, Michael and Igor for generic NVDIMM perspective.
 
+On Mon, Apr 13, 2020 at 05:36:28PM -0300, Daniel Henrique Barboza wrote:
+> The pseries machine does not support NVDIMM modules without label.
+> Attempting to do so, even if the overall block size is aligned with
+> 256MB, will seg fault the guest kernel during NVDIMM probe. This
+> can be avoided by forcing 'label-size' to always be present for
+> sPAPR NVDIMMs.
 >=20
-> Signed-off-by: Li Feng <fengli@smartx.com>
-> ---
->  hw/block/vhost-user-blk.c | 47 +++++++++++++++++++++++++--------------=
---------
->  1 file changed, 25 insertions(+), 22 deletions(-)
-> +    /*
-> +     * set true util vhost_dev_init return ok, because CLOSE event may=
- happen
-> +     * in vhost_dev_init routine.
-> +     */
+> The verification was put before the alignment check because the
+> presence of label-size affects the alignment calculation, so
+> it's not optimal to warn the user about an alignment error,
+> then about the lack of label-size, then about a new alignment
+> error when the user sets a label-size.
+>=20
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-I'm a little confused by this comment. Do you mean to say =E2=80=9Cwait u=
-ntil vhost_dev_init
-succeeds to set connected to true, because a close event may happen while
-vhost_dev_init is executing=E2=80=9D?
+So, this would get the job done, but it seems a bit inelegant compared
+to having the device default to working settings.  I'm looking at how
+this interacts with the generic constraints on label-size.
+
+The generic nvdimm code has a MIN_NAMESPACE_LABEL_SIZE of 128 kiB, and
+values of label-size less than that are rejected.  Except that if
+label-size is not set at all, it is left as 0.
+
+Is that intended behaviour?  Do x86 (or whatever) NVDIMMs have a label
+of at least 128kiB, unless they have no label at all?  Or could we
+make the default label-size 128kiB generically?
+
+> ---
+>  hw/ppc/spapr_nvdimm.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+> index 25be8082d7..9abcdcc26b 100644
+> --- a/hw/ppc/spapr_nvdimm.c
+> +++ b/hw/ppc/spapr_nvdimm.c
+> @@ -37,6 +37,12 @@ void spapr_nvdimm_validate_opts(NVDIMMDevice *nvdimm, =
+uint64_t size,
+>      QemuUUID uuid;
+>      int ret;
+> =20
+> +    if (object_property_get_int(OBJECT(nvdimm), NVDIMM_LABEL_SIZE_PROP,
+> +                                &error_abort) =3D=3D 0) {
+> +        error_setg(errp, "NVDIMM device requires label-size to be set");
+> +        return;
+> +    }
+> +
+>      if (size % SPAPR_MINIMUM_SCM_BLOCK_SIZE) {
+>          error_setg(errp, "NVDIMM memory size excluding the label area"
+>                     " must be a multiple of %" PRIu64 "MB",
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--Izn7cH1Com+I3R9J
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6VGWoACgkQbDjKyiDZ
+s5JiLxAApB/8Pux+iWIQjEXmFDQeJnlr7c9lDe5mB5zlzsP/N5xGvKe2p0liy6aq
+4puwTH7RzFiOg7tVVNcqJkAxBN1YMKQCYG5DPLcq5uAvOX3b1GovePObVglCwNxu
+fQR/Dg12BaFQfk8scqTU9m8Uq+Yc3fLaQhxVp0r6+LlaXpgBTxyKja983acHRA1S
+Bn3tEMJnpK0TARAxRqfhTgu1yj7+uFvnsNSPC11VKh7jH9uXjIm46MYyYA7rEh6p
+Ht9PNF/I478GzyKZogcy//a6Qe9p+ouc7DzhwvEEEwTjGI+e/iss0BHS4Rnm0Wd2
+XaWjbmR4T3L2SQnCXfU5Ml5e/RfzOP5DExqiLdPK4XOQ5zRjGWlVR/xFHD/bAd3n
+kPjHsF0q/L2PVDuJt8z3c39lvpKNUjKRvRK0a6/YWqNzyk4X3FjcvtLnmi8sIeIM
+FJyNl+1CvhnhcNUVI1c+rCz6TDdk9GcCRgV2aDJFl/wsUfjpNObgLH5Z4blfwZ8c
+AZh/7hY9pCTfF5T+a9zSLBuodqtEimrUuZnMdioQsojXrjXXrwnE4NLdzXtbJUBm
+5E44BdEG7D+hVoIeS9PgXEjrgBXV6WyZFihCAX7xN3DstR6P31NDsw1GcH/ESGB3
+sktq3qlhg0gIOe7ceG/neQPFh7cTxtv+VZ0KcPMtXQTCLFASSQE=
+=GZCk
+-----END PGP SIGNATURE-----
+
+--Izn7cH1Com+I3R9J--
 
