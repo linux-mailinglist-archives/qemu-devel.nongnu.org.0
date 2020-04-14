@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 039151A8755
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 19:22:00 +0200 (CEST)
-Received: from localhost ([::1]:35996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1237D1A8686
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 19:03:30 +0200 (CEST)
+Received: from localhost ([::1]:35458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOPG2-0005Zv-SY
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 13:21:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42513)
+	id 1jOOy9-0000Wn-1d
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 13:03:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39092)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jOP1L-0007a6-GC
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:06:48 -0400
+ (envelope-from <philmd@redhat.com>) id 1jOOvy-0006yU-7d
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:01:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jOP1K-0006o1-BK
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:06:47 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:40598
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jOOvt-0002KY-GO
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:01:13 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43066
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOLfA-0008Kd-Bi
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 09:31:40 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOLfK-0008MU-3t
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 09:31:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586871100;
+ s=mimecast20190719; t=1586871109;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sp8SzHLCDmolhv1WuiLlsIvFgsrHTJti0rZsOPUJPyM=;
- b=N+Vob9krwCKOimUmtELkT+ceW5juhZCEe8tn455q7ofep3e5aMGFaa5lkcuC2T0ryRNfFs
- Bc2w6yMUNoUPTDawAWNP3RA3/BtPBKHR2LozuwXDZgNV/jFzxLdwShDT+O/OdWXvPw+w1E
- bKy/s0iqSx/albh89N7lolzlt/Wv4o8=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-lhnjZcTPPweyx_9poJXKgA-1; Tue, 14 Apr 2020 09:31:37 -0400
-X-MC-Unique: lhnjZcTPPweyx_9poJXKgA-1
-Received: by mail-wr1-f70.google.com with SMTP id o12so5624730wra.14
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 06:31:37 -0700 (PDT)
+ bh=5F5VGUrhvJ/6dwp4oORH6NykPEQT94CUfCEwFf8jKAI=;
+ b=gRuTmzrlipJ+G0VE/i9jILhxh4/WUuefnDmrs1cg4WJosgegZGxzsarSwjJGSclsYu6Vab
+ U6TL1mx4a1kViSdS2eQDQ0FiI4wR1S3EP7eJsm1u0Lgi0VKreK3JMzPb5sGfcWeZqsxKr/
+ DcCKc6jy7QL2iKUzgnO2Qc8cY7RC6RY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-337-j-iFQrp8NIuLMlyoDjyX-A-1; Tue, 14 Apr 2020 09:31:44 -0400
+X-MC-Unique: j-iFQrp8NIuLMlyoDjyX-A-1
+Received: by mail-wm1-f69.google.com with SMTP id n127so3769576wme.4
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 06:31:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tNX3//qXDnRxcPpWRn8QtDnslzojVakNKy5THztVse4=;
- b=uiy49fAn5d7RVhgC1iZY76apypPNmQ31qu317/C3iMTAXq1DZRHlgWDaW8HpfrOlAC
- tg/n7n2a6q07mP7vXiIX4PYOFi3OaRiEUH3MUnFHXrR838u8tMMxmr7iDXWtDaUVkGDM
- EqJB3X2mHXcoEBwU8QBlgCTal20TXEu7Q/Zued1xe6sOgYaskHr672UftS1JwcgwUe/m
- F5tFAkgQ5TBq/8y/JoLWh7vcgV4dc2xIrQXb1fE63/chfoljrYJuLzJFTFHkcFzeZPsB
- S26lNvfkLihceBY9PPzs64XGgjGGWN1/kUZHOdCBRVD0dxsHGKci6x7kHzbanscoantq
- UjbQ==
-X-Gm-Message-State: AGi0PuYaEzYvU7YuLJCEvBYtbPwCx/nPNBGLzI88uSaWNlWs3TUy8wwT
- t5IZx+XR802w0qZMf+iYtO/9WG9vY0Rtmlbeu9cmXi2/0QDieiUx+/bM5pOvgUq+jmBfj0+4Li4
- mJ1g3Ons/qxKjT4I=
-X-Received: by 2002:a5d:460b:: with SMTP id t11mr21176976wrq.319.1586871096166; 
- Tue, 14 Apr 2020 06:31:36 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIv9RBVDEd3xw1GEDZI6IhmUZJUQ1PGjXeX5+q1aweflnJmMAgLsdEz4/QVZsnGZyoClpC5sg==
-X-Received: by 2002:a5d:460b:: with SMTP id t11mr21176965wrq.319.1586871095937; 
- Tue, 14 Apr 2020 06:31:35 -0700 (PDT)
+ bh=TyZlA8S5K4aOaRBq4xW9gDApmrrmteGX4XubxYmsTLk=;
+ b=L+4DzkCE+sYx2MXMIBFQPPWYx5DNX81I6uTbu8U2RzoLIGpOOwMYn6S19TpWp6di/2
+ N0dl9RY3Dibm1r0YS2ZxyqfE18OFXrlv8osX8spXdc/QsqVFsy45dHj9mCnT04Yayu2G
+ 7YdqxD4Ho1MWCIhCo9mkb5FIM+Hm8DJQ/F+fHoT7HWBM8oRhWhdajEXQviPr8MiO3a20
+ kVEMGdM9s4tRvQthc4dl7w2UbKmOOqsg7R9p5Fen7yZfhg85LK/ETbJjvpUmJM7bNsmY
+ Hz6RegsMYAbQDl00mgOMhs/AEI7RdpGotQUSURAvXQ3ZaOubDBYgj7uqwpjVO5lBnzj6
+ bXuw==
+X-Gm-Message-State: AGi0PuZtO6YSssKFGKQ9+xPpi6Y5nY7/H/qCONYIJ2aGxqBENAiiPuMB
+ DH+WIpvRVPpi+7aYZFlsiulDyOc0PBQg61I2IGc3J5BLnW3eptJtQVXhhSdiqUHYF1QUVJuCijh
+ JhHbMUxliip62bxI=
+X-Received: by 2002:adf:f1c2:: with SMTP id z2mr25296875wro.40.1586871101510; 
+ Tue, 14 Apr 2020 06:31:41 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJP6fHl4xNW7Nqa11UFZNTCw4vVRGUyy4CcjNllaD1Gvcu9E5d3AraZgLgF6aFxBzGxafB78g==
+X-Received: by 2002:adf:f1c2:: with SMTP id z2mr25296846wro.40.1586871101209; 
+ Tue, 14 Apr 2020 06:31:41 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id t13sm2952131wre.70.2020.04.14.06.31.34
+ by smtp.gmail.com with ESMTPSA id j68sm19680265wrj.32.2020.04.14.06.31.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 06:31:35 -0700 (PDT)
+ Tue, 14 Apr 2020 06:31:40 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0 08/12] hw/misc/grlib_ahb_apb_pnp: Fix AHB PnP 8-bit
- accesses
-Date: Tue, 14 Apr 2020 15:30:48 +0200
-Message-Id: <20200414133052.13712-9-philmd@redhat.com>
+Subject: [PATCH-for-5.0 09/12] hw/display/sm501: Avoid heap overflow in
+ sm501_2d_operation()
+Date: Tue, 14 Apr 2020 15:30:49 +0200
+Message-Id: <20200414133052.13712-10-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200414133052.13712-1-philmd@redhat.com>
 References: <20200414133052.13712-1-philmd@redhat.com>
@@ -77,7 +77,8 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,8 +92,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Fabien Chouteau <chouteau@adacore.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ qemu-stable@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Fabien Chouteau <chouteau@adacore.com>, Zhang Zi Ming <1015138407@qq.com>,
+ Max Filippov <jcmvbkbc@gmail.com>,
  KONRAD Frederic <frederic.konrad@adacore.com>, qemu-arm@nongnu.org,
  qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
@@ -105,46 +107,98 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-The Plug & Play region of the AHB/APB bridge can be accessed
-by various word size, however the implementation is clearly
-restricted to 32-bit:
+Zhang Zi Ming reported a heap overflow in the Drawing Engine of
+the SM501 companion chip model, in particular in the COPY_AREA()
+macro in sm501_2d_operation().
 
-  static uint64_t grlib_ahb_pnp_read(void *opaque, hwaddr offset, unsigned =
-size)
-  {
-      AHBPnp *ahb_pnp =3D GRLIB_AHB_PNP(opaque);
+Add a simple check to avoid the heap overflow.
 
-      return ahb_pnp->regs[offset >> 2];
-  }
+This fixes:
 
-Similarly to commit 0fbe394a64 with the APB PnP registers,
-set the MemoryRegionOps::impl min/max fields to 32-bit, so
-memory.c::access_with_adjusted_size() can adjust when the
-access is not 32-bit.
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  =3D=3D20518=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on address=
+ 0x7f6f4c3fffff at pc 0x55b1e1d358f0 bp 0x7ffce464dfb0 sp 0x7ffce464dfa8
+  READ of size 1 at 0x7f6f4c3fffff thread T0
+      #0 0x55b1e1d358ef in sm501_2d_operation hw/display/sm501.c:788:13
+      #1 0x55b1e1d32c38 in sm501_2d_engine_write hw/display/sm501.c:1466:13
+      #2 0x55b1e0cd19d8 in memory_region_write_accessor memory.c:483:5
+      #3 0x55b1e0cd1404 in access_with_adjusted_size memory.c:544:18
+      #4 0x55b1e0ccfb9d in memory_region_dispatch_write memory.c:1476:16
+      #5 0x55b1e0ae55a8 in flatview_write_continue exec.c:3125:23
+      #6 0x55b1e0ad3e87 in flatview_write exec.c:3165:14
+      #7 0x55b1e0ad3a24 in address_space_write exec.c:3256:18
 
-Reviewed-by: KONRAD Frederic <frederic.konrad@adacore.com>
+  0x7f6f4c3fffff is located 4194303 bytes to the right of 4194304-byte regi=
+on [0x7f6f4bc00000,0x7f6f4c000000)
+  allocated by thread T0 here:
+      #0 0x55b1e0a6e715 in __interceptor_posix_memalign (ppc64-softmmu/qemu=
+-system-ppc64+0x19c0715)
+      #1 0x55b1e31c1482 in qemu_try_memalign util/oslib-posix.c:189:11
+      #2 0x55b1e31c168c in qemu_memalign util/oslib-posix.c:205:27
+      #3 0x55b1e11a00b3 in spapr_reallocate_hpt hw/ppc/spapr.c:1560:23
+      #4 0x55b1e11a0ce4 in spapr_setup_hpt hw/ppc/spapr.c:1593:5
+      #5 0x55b1e11c2fba in spapr_machine_reset hw/ppc/spapr.c:1644:9
+      #6 0x55b1e1368b01 in qemu_system_reset softmmu/vl.c:1391:9
+      #7 0x55b1e1375af3 in qemu_init softmmu/vl.c:4436:5
+      #8 0x55b1e2fc8a59 in main softmmu/main.c:48:5
+      #9 0x7f6f8150bf42 in __libc_start_main (/lib64/libc.so.6+0x23f42)
+
+  SUMMARY: AddressSanitizer: heap-buffer-overflow hw/display/sm501.c:788:13=
+ in sm501_2d_operation
+  Shadow bytes around the buggy address:
+    0x0fee69877fa0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+    0x0fee69877fb0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+    0x0fee69877fc0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+    0x0fee69877fd0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+    0x0fee69877fe0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  =3D>0x0fee69877ff0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa[fa]
+    0x0fee69878000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x0fee69878010: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x0fee69878020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x0fee69878030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x0fee69878040: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  Shadow byte legend (one shadow byte represents 8 application bytes):
+    Addressable:           00
+    Partially addressable: 01 02 03 04 05 06 07
+    Heap left redzone:       fa
+    Freed heap region:       fd
+    Poisoned by user:        f7
+    ASan internal:           fe
+  =3D=3D20518=3D=3DABORTING
+
+Cc: qemu-stable@nongnu.org
+Fixes: 07d8a50cb0e ("sm501: add 2D engine copyrect support")
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1786026
+Reported-by: Zhang Zi Ming <1015138407@qq.com>
+Acked-by: BALATON Zoltan <balaton@eik.bme.hu>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Message-Id: <20200331105048.27989-4-f4bug@amsat.org>
+Message-Id: <20200413220100.18628-1-f4bug@amsat.org>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/misc/grlib_ahb_apb_pnp.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/display/sm501.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/misc/grlib_ahb_apb_pnp.c b/hw/misc/grlib_ahb_apb_pnp.c
-index 72a8764776..d22ed00206 100644
---- a/hw/misc/grlib_ahb_apb_pnp.c
-+++ b/hw/misc/grlib_ahb_apb_pnp.c
-@@ -146,6 +146,10 @@ static const MemoryRegionOps grlib_ahb_pnp_ops =3D {
-     .read       =3D grlib_ahb_pnp_read,
-     .write      =3D grlib_ahb_pnp_write,
-     .endianness =3D DEVICE_BIG_ENDIAN,
-+    .impl =3D {
-+        .min_access_size =3D 4,
-+        .max_access_size =3D 4,
-+    },
- };
+diff --git a/hw/display/sm501.c b/hw/display/sm501.c
+index de0ab9d977..902acb3875 100644
+--- a/hw/display/sm501.c
++++ b/hw/display/sm501.c
+@@ -726,6 +726,12 @@ static void sm501_2d_operation(SM501State *s)
+     int crt =3D (s->dc_crt_control & SM501_DC_CRT_CONTROL_SEL) ? 1 : 0;
+     int fb_len =3D get_width(s, crt) * get_height(s, crt) * get_bpp(s, crt=
+);
 =20
- static void grlib_ahb_pnp_realize(DeviceState *dev, Error **errp)
++    if (rtl && (src_x < operation_width || src_y < operation_height)) {
++        qemu_log_mask(LOG_GUEST_ERROR, "sm501: Illegal RTL address (%i, %i=
+)\n",
++                      src_x, src_y);
++        return;
++    }
++
+     if (addressing !=3D 0x0) {
+         printf("%s: only XY addressing is supported.\n", __func__);
+         abort();
 --=20
 2.21.1
 
