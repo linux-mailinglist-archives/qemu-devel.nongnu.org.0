@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB8A1A8488
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:21:31 +0200 (CEST)
-Received: from localhost ([::1]:33720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B4DA1A853D
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:39:57 +0200 (CEST)
+Received: from localhost ([::1]:34472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOJW-0007s9-Tn
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:21:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50253)
+	id 1jOObM-00032M-DN
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:39:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52880)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jOOHQ-0006BQ-NA
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:19:26 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jOOSR-00065N-Es
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:30:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jOOHJ-0004s7-W5
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:19:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38898
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jONXB-0001lv-Ak
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 11:31:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586878292;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6yPgsSE4OWXkD6OLed8cp+voX1L86uQXOFF8yFIR+9M=;
- b=EzUfGlsFEH4fGpvmGf2ocUIiYPdYhvan6xr4o+3BnWJnN+hiRIKsq78GeI8TUeoSSc+FJV
- lQUM8eUOnHjtR5oeO4Y006NM2vXX0w3rfECAXonWUk25InI25TSeW8COBYWs52bfddvG/E
- JkLBZbBdVaLfOxHwABSLh8qlwoJpwZo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-481-gAkImttRMmSXb4ULLXDzYA-1; Tue, 14 Apr 2020 11:31:30 -0400
-X-MC-Unique: gAkImttRMmSXb4ULLXDzYA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D558080268C;
- Tue, 14 Apr 2020 15:31:29 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-1.ams2.redhat.com [10.36.114.1])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 791AA5C1BE;
- Tue, 14 Apr 2020 15:31:28 +0000 (UTC)
-Date: Tue, 14 Apr 2020 17:31:26 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Alberto Garcia <berto@igalia.com>
-Subject: Re: [PATCH for-5.0] qcow2: Add incompatibility note between backing
- files and raw external data files
-Message-ID: <20200414153126.GN7747@linux.fritz.box>
-References: <20200410121816.8334-1-berto@igalia.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1jOOSQ-0000p6-Cj
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:30:43 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42384)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jONsv-0005l5-5X
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 11:54:01 -0400
+Received: by mail-wr1-x443.google.com with SMTP id j2so14931616wrs.9
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 08:54:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=+M3YxcBpVTHRfV9T7ktJT+BMteoS6RiXxkl/ZW/4gQQ=;
+ b=AjPRjyW3vGNa0PepY/zEDmiFkT33OBhhXrwxiV3odnTsEfBHc+cxtRo4KrOOASj1JG
+ r8hrnd6eOcORD7whdiiak9c337bUftrBRUL/2F5GUeE82G8iTYvMSaz5LPOduEK30Lrx
+ 0595IwD7Uqh4uvef4hPpf40GGvjaFUjGUcQvn/fUo9YKcTopoIxoFVTLRrY6UsOgY6KH
+ TGRSScF2SDXy8yWjW3kXwZX+DArIraFs4BD6ww6/xXVLO66HIdmetwh3mDi/oML3jR67
+ saR6nAIAH2e8fPkiKVB/cRwswO0udUS8JTiyU26OaNRrMwTEWgzUhp61WDYx2x/HjoDw
+ jxfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=+M3YxcBpVTHRfV9T7ktJT+BMteoS6RiXxkl/ZW/4gQQ=;
+ b=Gk8Q00DnozgMXD+SaWrKC1zLjCcnF16SKvC1Ii3qTRU+USR2lqyikCZYsrB84HjzOz
+ Q+iBVDhutjTue7atAFyB9Pvy07SEL6b/t4EwaZG7gD9AK2PYjkyBSo6z1cgl9R2Qt0JC
+ lB3LWJCUcKzE7ZopaVKgLzmwMQCSTsLBPTi20T7f1r2puSvFIvuk6k5KP7hz4l7fuqKd
+ Fyi1fXXnAE1X92u4wCQsTfr1S5ea3ehh2fD0oXhqG8V1CRHTzSGj2cWmZ4Is46iak0Km
+ ScRlXUNYaFD8xXa+jCGw3El7Fz6XKlMCZSz2TP/1E8tZRvB31Nl11vd+oA90y0PBouLE
+ 8Yog==
+X-Gm-Message-State: AGi0Pua1iSJosSffvYBREInreIE1SpCKD7i/LTvN/MW9EB6OMpr0AE0K
+ LZJpEmij1Pu8aNwjgJNmp7Be3Q==
+X-Google-Smtp-Source: APiQypL0/7Zw+huV5HN6+Vd9WgnJjFqV3FVTDJpTmAbr94tWlC4dZzvKxGAJ053CmvPQlaTUp5A+Lg==
+X-Received: by 2002:adf:aad7:: with SMTP id i23mr24273645wrc.184.1586879639680; 
+ Tue, 14 Apr 2020 08:53:59 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id k14sm20018303wrp.53.2020.04.14.08.53.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Apr 2020 08:53:58 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 660441FF7E;
+ Tue, 14 Apr 2020 16:53:51 +0100 (BST)
+References: <20200411182934.28678-1-peter.maydell@linaro.org>
+ <20200411182934.28678-4-peter.maydell@linaro.org>
+User-agent: mu4e 1.3.10; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH for-5.0? 3/3] kernel-doc: Use c:struct for Sphinx 3.0
+ and later
+In-reply-to: <20200411182934.28678-4-peter.maydell@linaro.org>
+Date: Tue, 14 Apr 2020 16:53:51 +0100
+Message-ID: <871roq9i7k.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200410121816.8334-1-berto@igalia.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,25 +83,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 10.04.2020 um 14:18 hat Alberto Garcia geschrieben:
-> Backing files and raw external data files are mutually exclusive.
-> The documentation of the raw external data bit (in autoclear_features)
-> already indicates that, but we should also mention it on the other
-> side.
->=20
-> Suggested-by: Eric Blake <eblake@redhat.com>
-> Signed-off-by: Alberto Garcia <berto@igalia.com>
 
-Thanks, applied to the block branch.
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-I don't think this is critical for 5.0, so if I make a pull request for
-other reasons, I'll include it, but if you agree, I won't send one just
-for this patch.
+> The kernel-doc Sphinx plugin and associated script currently emit
+> 'c:type' directives for "struct foo" documentation.
+>
+> Sphinx 3.0 warns about this:
+>   /home/petmay01/linaro/qemu-from-laptop/qemu/docs/../include/exec/memory=
+.h:3: WARNING: Type must be either just a name or a typedef-like declaratio=
+n.
+>   If just a name:
+>     Error in declarator or parameters
+>     Invalid C declaration: Expected identifier in nested name, got keywor=
+d: struct [error at 6]
+>       struct MemoryListener
+>       ------^
+>   If typedef-like declaration:
+>     Error in declarator or parameters
+>     Invalid C declaration: Expected identifier in nested name. [error at =
+21]
+>       struct MemoryListener
+>       ---------------------^
+>
+> because it wants us to use the new-in-3.0 'c:struct' instead.
+>
+> Plumb the Sphinx version through to the kernel-doc script
+> and use it to select 'c:struct' for newer versions than 3.0.
+>
+> Fixes: LP:1872113
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Kevin
+Looks reasonable although I don't have a way of testing it on my system.
+Any idea what systems have the latest sphinx 3 on them? I tried fedora
+but that still has 1.8.4 so it's not that bleeding edge.
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
