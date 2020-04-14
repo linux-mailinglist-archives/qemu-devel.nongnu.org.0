@@ -2,89 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A43DD1A8579
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:44:15 +0200 (CEST)
-Received: from localhost ([::1]:34654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 970581A86CD
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 19:05:36 +0200 (CEST)
+Received: from localhost ([::1]:35560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOfW-00033r-MR
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:44:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55213)
+	id 1jOP0B-0004EW-IJ
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 13:05:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40312)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jOOYH-0006v3-2h
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:36:45 -0400
+ (envelope-from <bounces@canonical.com>) id 1jOOy4-0001nR-LJ
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:03:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jOOYG-00045i-4i
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:36:44 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36216
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jONO9-0007mr-0T
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 11:22:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586877732;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=T47jjTmFB0dQt0VOFFjvgXGa6qL01FfKTD0QVvKLKDk=;
- b=EloAyU3gCjHfiIhdcaDbmqviP/qjoK3kQQErxyuu12b3CAiggJ3n/q2VloWopzWOcfnql2
- oWXoPmcKEj3St2/YiHflM1vpLD6GjvHBYXkyzg6gCKOhI3JFkxcCFM33MKuUGYn7i8IrH3
- 9CXmpbIbbSgxqUmLxBa9SBiUPSNIi3I=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-53-SiX25Pl4Pky3jqsSxT7Hxw-1; Tue, 14 Apr 2020 11:22:10 -0400
-X-MC-Unique: SiX25Pl4Pky3jqsSxT7Hxw-1
-Received: by mail-wr1-f70.google.com with SMTP id 11so2554411wrc.3
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 08:22:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FeCCTWaNSRLxufx6+oivoFLifDhnwtozvnd5P831NGo=;
- b=mEnOSVFvmkgDKxMSeF7nfLY261VE93V8jjP+wIOpHzn0Ktl0GxuHF4k3gOpMtV9pT7
- 4LbyFBn8MCYhO1HUfFdMoBioTSfwUHdp3+6YgSKkWVqZIyMXrNqLIqcXkUbuLpEdT7Ga
- wxTCDFvWixcJf9XZM6LaPbqScUJvh2PiyQlc51tMO1N0+HttAoiz8d5kHrrUoiWKB7P6
- TJ4vOT9rr1Sdh9WSsF2mQn1C5zT/uGGH16MH9crfeavP+yJlEB9e3JU8GOev2YjtTUqG
- tOL25kstn6/SjeLjx75LUzZWapbJ7iV1+k5WzZ/zGE5gz+VamNhQlF64KRm9Kzebm2bH
- 61gA==
-X-Gm-Message-State: AGi0PuZfb1XeoiBwYYT/bFFPozIaBogZJe2wOqpYoXyINzQTqDsy1fXY
- 4PMs6wJo9T0epV8BaAEUokhYLsXYFGFdG9OWAbWmznBCa8uLxdGN0Q+B6qUgju3biSaiPzI8iQy
- 0fgv7nMPS4snF5Kg=
-X-Received: by 2002:a05:600c:c9:: with SMTP id u9mr366102wmm.15.1586877729724; 
- Tue, 14 Apr 2020 08:22:09 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKqBtokZm6PGFOndpaYlgdnGpPWMzF8doxKJgcMmcWvmSOJLGaeTCejjY8hNIZPRYvoHP8EPg==
-X-Received: by 2002:a05:600c:c9:: with SMTP id u9mr366024wmm.15.1586877728564; 
- Tue, 14 Apr 2020 08:22:08 -0700 (PDT)
-Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id f63sm18748022wma.47.2020.04.14.08.22.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Apr 2020 08:22:08 -0700 (PDT)
-Subject: Re: [PATCH-for-5.0] gdbstub: Introduce gdb_get_freg32() to get
- float32 registers
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200414111846.27495-1-philmd@redhat.com>
- <420ba3eb-996a-6bab-7764-ebf91ab22917@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9805276a-79d5-e913-5817-b894d2aabf72@redhat.com>
-Date: Tue, 14 Apr 2020 17:22:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <bounces@canonical.com>) id 1jOOy2-0003vv-C6
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:03:24 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55446)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jONb0-0002dS-I4
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 11:35:30 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jONaz-00055j-79
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 15:35:29 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 344CC2E80E7
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 15:35:29 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <420ba3eb-996a-6bab-7764-ebf91ab22917@linaro.org>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Tue, 14 Apr 2020 15:26:27 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: docs
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: kekepower pmaydell
+X-Launchpad-Bug-Reporter: =?utf-8?q?Stig-=C3=98rjan_Smelror_=28kekepower=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <158654057369.6269.6354060003943218170.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158687798884.27828.8466736829761538117.launchpad@gac.canonical.com>
+Subject: [Bug 1872113] Re: qemu docs fails to build with Sphinx 3.0.x
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: e4b100c7ebc929fc77bd610d032e0584b227a7db
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -93,28 +66,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Bug 1872113 <1872113@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/14/20 5:19 PM, Richard Henderson wrote:
-> On 4/14/20 4:18 AM, Philippe Mathieu-Daud=C3=A9 wrote:
->> +static inline int gdb_get_freg32(GByteArray *array, float32 val)
->> +{
->> +    uint8_t buf[4];
->> +
->> +    QEMU_BUILD_BUG_ON(sizeof(CPU_FloatU) !=3D sizeof(buf));
->=20
-> Why bother withe the BUG_ON when you could just put the sizeof(CPU_FloatU=
-) into
-> the array bounds above?
+** Tags added: docs
 
-Ah good idea, thanks :)
+-- =
 
->=20
->=20
-> r~
->=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1872113
 
+Title:
+  qemu docs fails to build with Sphinx 3.0.x
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  We've just updated Sphinx to version 3.0.1 and qemu fails to build the
+  docs with this version.
+
+  Here's the relevant section in the build log.
+
+  CONFDIR=3D"/etc/qemu" /usr/bin/sphinx-build-3  -W -b html -D version=3D4.=
+2.92 -D release=3D"4.2.92 (qemu-5.0.0-0.rc2.0.1.mga8)" -d .doctrees/devel-h=
+tml /home/iurt/rpmbuild/BUILD/qemu-5.0.0-rc2/docs/devel docs/devel
+  Running Sphinx v3.0.1
+  making output directory... done
+  building [mo]: targets for 0 po files that are out of date
+  building [html]: targets for 14 source files that are out of date
+  updating environment: [new config] 14 added, 0 changed, 0 removed
+  reading sources... [  7%] bitops
+  reading sources... [ 14%] decodetree
+  reading sources... [ 21%] index
+  reading sources... [ 28%] kconfig
+  reading sources... [ 35%] loads-stores
+  reading sources... [ 42%] memory
+  reading sources... [ 50%] migration
+  reading sources... [ 57%] reset
+  reading sources... [ 64%] s390-dasd-ipl
+  reading sources... [ 71%] secure-coding-practices
+  reading sources... [ 78%] stable-process
+  reading sources... [ 85%] tcg
+  reading sources... [ 92%] tcg-plugins
+  reading sources... [100%] testing
+
+  Warning, treated as error:
+  /home/iurt/rpmbuild/BUILD/qemu-5.0.0-rc2/docs/../include/exec/memory.h:3:=
+Type must be either just a name or a typedef-like declaration.
+  If just a name:
+  =C2=A0=C2=A0Error in declarator or parameters
+  =C2=A0=C2=A0Invalid C declaration: Expected identifier in nested name, go=
+t keyword: struct [error at 6]
+  =C2=A0=C2=A0=C2=A0=C2=A0struct MemoryListener
+  =C2=A0=C2=A0=C2=A0=C2=A0------^
+  If typedef-like declaration:
+  =C2=A0=C2=A0Error in declarator or parameters
+  =C2=A0=C2=A0Invalid C declaration: Expected identifier in nested name. [e=
+rror at 21]
+  =C2=A0=C2=A0=C2=A0=C2=A0struct MemoryListener
+  =C2=A0=C2=A0=C2=A0=C2=A0---------------------^
+
+  make: *** [Makefile:1095: docs/devel/index.html] Error 2
+  make: *** Waiting for unfinished jobs....
+
+  I found this commit for memory.h that includes the section that faults.
+  https://github.com/qemu/qemu/commit/5d248213180749e674fbccbacc6ee9c38499a=
+bb3#diff-d892cbf314945b44699534cc1de4ebbd
+
+  You can see the whole build log here.
+  https://pkgsubmit.mageia.org/uploads/failure/cauldron/core/release/202004=
+10161120.tv.duvel.699/log/qemu-5.0.0-0.rc2.0.1.mga8/build.0.20200410161338.=
+log
+
+  System: Mageia Cauldron
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1872113/+subscriptions
 
