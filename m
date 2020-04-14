@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 547421A879D
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 19:36:56 +0200 (CEST)
-Received: from localhost ([::1]:36486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AA0F1A8743
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 19:17:31 +0200 (CEST)
+Received: from localhost ([::1]:35924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOPUV-0000iy-6F
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 13:36:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46773)
+	id 1jOPBg-0002bb-U3
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 13:17:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42074)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sundeep.lkml@gmail.com>) id 1jOP9J-0001e0-Qf
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:15:04 -0400
+ (envelope-from <sundeep.lkml@gmail.com>) id 1jOP0e-0006lE-NN
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:06:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sundeep.lkml@gmail.com>) id 1jOP9H-0005t4-Of
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:15:01 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:36041)
+ (envelope-from <sundeep.lkml@gmail.com>) id 1jOP0d-0006JC-DP
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:06:04 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:43869)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <sundeep.lkml@gmail.com>)
- id 1jON5O-0003dY-JW; Tue, 14 Apr 2020 11:02:50 -0400
-Received: by mail-pf1-x443.google.com with SMTP id n10so39092pff.3;
- Tue, 14 Apr 2020 08:02:50 -0700 (PDT)
+ id 1jON5R-0003e7-7n; Tue, 14 Apr 2020 11:02:53 -0400
+Received: by mail-pf1-x443.google.com with SMTP id l1so23846pff.10;
+ Tue, 14 Apr 2020 08:02:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CUyXXTyShFlx2/maCp5HGaaaIrvw4HRoNrxDU7Mf/kQ=;
- b=WluseXrBHnVseij7jQRu9iNU5Wspkl85BKByw1Ua6dODwWIgNS01Q+3np+07qVQ957
- o7syHT4q3eI+sEPmYMQFUi5R6yr/xUQjQp5A+Ruxf55+3IFoyB9qC+AImyuKAtZdp8sZ
- 9D/M1wQPCXLLizkp83+404zHMTn+cofqj+RZSRhA633VLVWcmPlSW4AmzoBT3xV/xxsH
- BJ+sdVrQLlLWnIC2yeN3d8e3HL59jyJVnKV0O1Wr1dSNkt62tIzK82oiTjrXSgGVqJEZ
- Tak0Ef6TSC9D0Qm7SKB7nr5qNpuFXge4rPd2fQJbuvn3gXwMgfq3NTzYAOfHKLRCxqA9
- C1RQ==
+ bh=gXNblUO4SiKtKIE29/5D+Fmm4HZBRwhfz9A4bbnSMB4=;
+ b=ihnlJiCaqcTHchqB2ttsaySfBAA08IHsJ0NEpXxDg2fgeFuRtyoZxzguGPjIxTD9gK
+ 5unU4FoyTUTNcHcN63ZNFOI0444P4nig/vEjcy+4XHd1Z+/xfkyRGpxzoSCQCjPYYZuW
+ fPlW7Mh5ThMIYYVgKmiBHgyloK1q6duvPRraVQNzgkfoJ24WCrL6kuwq6/OncYxgTqPC
+ TkUokb43PsZD70pP9QpU/aMm26qsfnkPWO8YT2cqyiWoqfSCieptDBfBRorD0F9W1OgX
+ zbJeKHbcFxoBXuOpxPE8AbeN1PTaqfja0rp0PCzhI0aam8PNGC0PwGAIY4Goho/DJiSK
+ YVUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CUyXXTyShFlx2/maCp5HGaaaIrvw4HRoNrxDU7Mf/kQ=;
- b=DH+s8sJSvYyriSol6ODS1HyzbK0YA03eGbh4JkN5xdzooMpl1WVGoYU8mXVtgh1Vl6
- jxFyddcqddCR75q95KczDL4w6gr1CjYirPaF8tbSXddF8XzJLNPNcQBRixb3p2C7VcTk
- xBMER21ZPQP4d92KEcNJXL2sUpp8TdzA2oELMaui8LhXc9LSMLyd3y8Cgar6Ko5CavXk
- qMfH9pBFd0YBr7e1J6fGoY+XNJrr3amHmB9XE5huEn7KGSIEmPMoLv/Jqk/u1Rdn2PGg
- 6boD1Byw6wteRFm9se3x2gRfX91bGc/BjHZm1UghfYV75rDL+M2nM3ZCaL9EH5qc5z60
- 9Dmg==
-X-Gm-Message-State: AGi0PuaJIqwVwa1tVtWqGSWL967EmartqoOwbsFqLY/Xvs7bMmrhy84M
- 8mlk/b9ofOrHCNVHhMdLKSM=
-X-Google-Smtp-Source: APiQypLA3nkmae9WXEicCHRkDPc7v+YfS2XFktrXRQqafvYcW8ENN61I9Uer7+5uZnqhltc5hB5Gcw==
-X-Received: by 2002:a63:4004:: with SMTP id n4mr11361362pga.234.1586876569594; 
- Tue, 14 Apr 2020 08:02:49 -0700 (PDT)
+ bh=gXNblUO4SiKtKIE29/5D+Fmm4HZBRwhfz9A4bbnSMB4=;
+ b=k6dy4LOIrV22s6Uqa9tYufnS2zHAAs4AYt8Vx2HKz/VYDR06K/0AQdxpnY6Oss6w70
+ QOBZiIeEKK6+9McuY35C+LKk3Uj3DEv31h5/a29kM6nzCLxpquKMmeEvD4xaYfziQZ5/
+ SmIlG+s9wCyTtorRVxhPag9bOQBjQTcWYG212vhOR+S4UBOYlYO1mHc0KRRv+80ZmGCf
+ 7mtMa5TybNbFOqF8wcPdo+h7vmHYBWkF5EGY0DK/4E8e8HJ8VntFeBiSqQLGFm0uOzTQ
+ u7sHyCfRX1d1cLz/zXYU3Et1ksMe9vM3xMetDX5FJk0qdN1mOknHfRl2zS2reEePZx5I
+ 47OQ==
+X-Gm-Message-State: AGi0PuZbtaNxBEpjTRLikFrM4p984OS6Cj+2wX90NuK2Xh7LEjQzMg/N
+ xnefXVd6Bti0/Amhdj+ghSqChJ7o1/I=
+X-Google-Smtp-Source: APiQypJ66Dn6kgPMqFzuOKCnNT9aHp0VZP5mPHQNojdGWTVbh17eYfsOTw9HoxVDqhVJ8K9M1D7EFQ==
+X-Received: by 2002:a65:6805:: with SMTP id l5mr21834666pgt.256.1586876572332; 
+ Tue, 14 Apr 2020 08:02:52 -0700 (PDT)
 Received: from hyd1358.marvell.com ([115.113.156.2])
- by smtp.googlemail.com with ESMTPSA id f9sm12175240pjt.45.2020.04.14.08.02.47
+ by smtp.googlemail.com with ESMTPSA id f9sm12175240pjt.45.2020.04.14.08.02.49
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 14 Apr 2020 08:02:49 -0700 (PDT)
+ Tue, 14 Apr 2020 08:02:51 -0700 (PDT)
 From: sundeep.lkml@gmail.com
 To: jasowang@redhat.com, peter.maydell@linaro.org, philmd@redhat.com,
  qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Subject: [Qemu devel PATCH v5 2/3] msf2: Add EMAC block to SmartFusion2 SoC
-Date: Tue, 14 Apr 2020 20:32:30 +0530
-Message-Id: <1586876551-3695-3-git-send-email-sundeep.lkml@gmail.com>
+Subject: [Qemu devel PATCH v5 3/3] tests/boot_linux_console: Add ethernet test
+ to SmartFusion2
+Date: Tue, 14 Apr 2020 20:32:31 +0530
+Message-Id: <1586876551-3695-4-git-send-email-sundeep.lkml@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1586876551-3695-1-git-send-email-sundeep.lkml@gmail.com>
 References: <1586876551-3695-1-git-send-email-sundeep.lkml@gmail.com>
@@ -84,107 +85,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Subbaraya Sundeep <sundeep.lkml@gmail.com>
 
-With SmartFusion2 Ethernet MAC model in
-place this patch adds the same to SoC.
+In addition to simple serial test this patch uses ping
+to test the ethernet block modelled in SmartFusion2 SoC.
 
 Signed-off-by: Subbaraya Sundeep <sundeep.lkml@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/msf2-soc.c         | 26 ++++++++++++++++++++++++--
- include/hw/arm/msf2-soc.h |  2 ++
- 2 files changed, 26 insertions(+), 2 deletions(-)
+ tests/acceptance/boot_linux_console.py | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/hw/arm/msf2-soc.c b/hw/arm/msf2-soc.c
-index 588d643..a455b88 100644
---- a/hw/arm/msf2-soc.c
-+++ b/hw/arm/msf2-soc.c
-@@ -1,7 +1,7 @@
- /*
-  * SmartFusion2 SoC emulation.
-  *
-- * Copyright (c) 2017 Subbaraya Sundeep <sundeep.lkml@gmail.com>
-+ * Copyright (c) 2017-2020 Subbaraya Sundeep <sundeep.lkml@gmail.com>
-  *
-  * Permission is hereby granted, free of charge, to any person obtaining a copy
-  * of this software and associated documentation files (the "Software"), to deal
-@@ -35,11 +35,14 @@
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index f825cd9..c6b06a1 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -336,13 +336,13 @@ class BootLinuxConsole(Test):
+         """
+         uboot_url = ('https://raw.githubusercontent.com/'
+                      'Subbaraya-Sundeep/qemu-test-binaries/'
+-                     'fa030bd77a014a0b8e360d3b7011df89283a2f0b/u-boot')
+-        uboot_hash = 'abba5d9c24cdd2d49cdc2a8aa92976cf20737eff'
++                     'fe371d32e50ca682391e1e70ab98c2942aeffb01/u-boot')
++        uboot_hash = 'cbb8cbab970f594bf6523b9855be209c08374ae2'
+         uboot_path = self.fetch_asset(uboot_url, asset_hash=uboot_hash)
+         spi_url = ('https://raw.githubusercontent.com/'
+                    'Subbaraya-Sundeep/qemu-test-binaries/'
+-                   'fa030bd77a014a0b8e360d3b7011df89283a2f0b/spi.bin')
+-        spi_hash = '85f698329d38de63aea6e884a86fbde70890a78a'
++                   'fe371d32e50ca682391e1e70ab98c2942aeffb01/spi.bin')
++        spi_hash = '65523a1835949b6f4553be96dec1b6a38fb05501'
+         spi_path = self.fetch_asset(spi_url, asset_hash=spi_hash)
  
- #define MSF2_TIMER_BASE       0x40004000
- #define MSF2_SYSREG_BASE      0x40038000
-+#define MSF2_EMAC_BASE        0x40041000
- 
- #define ENVM_BASE_ADDRESS     0x60000000
- 
- #define SRAM_BASE_ADDRESS     0x20000000
- 
-+#define MSF2_EMAC_IRQ         12
+         self.vm.set_console()
+@@ -352,7 +352,12 @@ class BootLinuxConsole(Test):
+                          '-drive', 'file=' + spi_path + ',if=mtd,format=raw',
+                          '-no-reboot')
+         self.vm.launch()
+-        self.wait_for_console_pattern('init started: BusyBox')
++        self.wait_for_console_pattern('Enter \'help\' for a list')
 +
- #define MSF2_ENVM_MAX_SIZE    (512 * KiB)
++        exec_command_and_wait_for_pattern(self, 'ifconfig eth0 10.0.2.15',
++                                                 'eth0: link becomes ready')
++        exec_command_and_wait_for_pattern(self, 'ping -c 3 10.0.2.2',
++            '3 packets transmitted, 3 packets received, 0% packet loss')
  
- /*
-@@ -81,6 +84,13 @@ static void m2sxxx_soc_initfn(Object *obj)
-         sysbus_init_child_obj(obj, "spi[*]", &s->spi[i], sizeof(s->spi[i]),
-                           TYPE_MSS_SPI);
-     }
-+
-+    sysbus_init_child_obj(obj, "emac", &s->emac, sizeof(s->emac),
-+                          TYPE_MSS_EMAC);
-+    if (nd_table[0].used) {
-+        qemu_check_nic_model(&nd_table[0], TYPE_MSS_EMAC);
-+        qdev_set_nic_properties(DEVICE(&s->emac), &nd_table[0]);
-+    }
- }
- 
- static void m2sxxx_soc_realize(DeviceState *dev_soc, Error **errp)
-@@ -192,6 +202,19 @@ static void m2sxxx_soc_realize(DeviceState *dev_soc, Error **errp)
-         g_free(bus_name);
-     }
- 
-+    dev = DEVICE(&s->emac);
-+    object_property_set_link(OBJECT(&s->emac), OBJECT(get_system_memory()),
-+                             "ahb-bus", &error_abort);
-+    object_property_set_bool(OBJECT(&s->emac), true, "realized", &err);
-+    if (err != NULL) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+    busdev = SYS_BUS_DEVICE(dev);
-+    sysbus_mmio_map(busdev, 0, MSF2_EMAC_BASE);
-+    sysbus_connect_irq(busdev, 0,
-+                       qdev_get_gpio_in(armv7m, MSF2_EMAC_IRQ));
-+
-     /* Below devices are not modelled yet. */
-     create_unimplemented_device("i2c_0", 0x40002000, 0x1000);
-     create_unimplemented_device("dma", 0x40003000, 0x1000);
-@@ -202,7 +225,6 @@ static void m2sxxx_soc_realize(DeviceState *dev_soc, Error **errp)
-     create_unimplemented_device("can", 0x40015000, 0x1000);
-     create_unimplemented_device("rtc", 0x40017000, 0x1000);
-     create_unimplemented_device("apb_config", 0x40020000, 0x10000);
--    create_unimplemented_device("emac", 0x40041000, 0x1000);
-     create_unimplemented_device("usb", 0x40043000, 0x1000);
- }
- 
-diff --git a/include/hw/arm/msf2-soc.h b/include/hw/arm/msf2-soc.h
-index 3cfe5c7..c9cb214 100644
---- a/include/hw/arm/msf2-soc.h
-+++ b/include/hw/arm/msf2-soc.h
-@@ -29,6 +29,7 @@
- #include "hw/timer/mss-timer.h"
- #include "hw/misc/msf2-sysreg.h"
- #include "hw/ssi/mss-spi.h"
-+#include "hw/net/msf2-emac.h"
- 
- #define TYPE_MSF2_SOC     "msf2-soc"
- #define MSF2_SOC(obj)     OBJECT_CHECK(MSF2State, (obj), TYPE_MSF2_SOC)
-@@ -62,6 +63,7 @@ typedef struct MSF2State {
-     MSF2SysregState sysreg;
-     MSSTimerState timer;
-     MSSSpiState spi[MSF2_NUM_SPIS];
-+    MSF2EmacState emac;
- } MSF2State;
- 
- #endif
+     def do_test_arm_raspi2(self, uart_id):
+         """
 -- 
 2.7.4
 
