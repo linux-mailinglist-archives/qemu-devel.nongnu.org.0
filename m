@@ -2,42 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D74891AE942
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Apr 2020 03:47:42 +0200 (CEST)
-Received: from localhost ([::1]:53750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F5AD1A7808
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 12:05:11 +0200 (CEST)
+Received: from localhost ([::1]:55262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPca5-0002yA-Jh
-	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 21:47:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47075)
+	id 1jOIRK-0004lo-A3
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 06:05:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34714)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <raphael.norwitz@nutanix.com>) id 1jPcYg-0002LQ-Jk
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 21:46:17 -0400
+ (envelope-from <armbru@redhat.com>) id 1jOIQN-0003vu-Ql
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 06:04:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <raphael.norwitz@nutanix.com>) id 1jPcYe-0002LR-Ee
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 21:46:13 -0400
-Received: from [192.146.154.243] (port=11250 helo=mcp01.nutanix.com)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <raphael.norwitz@nutanix.com>) id 1jPcYe-0002J8-9L
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 21:46:12 -0400
-Received: from localhost.localdomain (unknown [10.40.36.165])
- by mcp01.nutanix.com (Postfix) with ESMTP id 70A451030DF9;
- Sat, 18 Apr 2020 01:46:10 +0000 (UTC)
-Date: Tue, 14 Apr 2020 06:02:08 -0400
-From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-To: ni.xun.intel@gmail.com, tonnylu@tencent.com, leomyan@tencent.com,
- lucascye@tencent.com
-Subject: Re: [PATCH] resend slave fd to vhost when reconnect to vhost
-Message-ID: <20200414100208.GA14282@localhost.localdomain>
-References: <20200417051400.30398-1-richardni@tencent.com>
+ (envelope-from <armbru@redhat.com>) id 1jOIQM-0001aC-8G
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 06:04:11 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:43630
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jOIQM-0001Zi-2G
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 06:04:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586858649;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=K3/9PAsRVLGzUvdFOhxXxSRuwc/IHBzXF6b6U4JVseM=;
+ b=AlPi3KxkdeiEmAQPP17m7KUz2yXHsEpXuklp6eN9kpheNk2eg68/pRozBCgCJyPKsLqzMh
+ TtjeI6Oac7YY+9sdhYcRd74OCy17S+Dfx7v35fvhmgusc81fIcCC2Jca4tj06oexlx8ASB
+ YaWjposQkztaPV3UokTkhuP31PVW1bc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-442-ULNyNPOMM9eTciiXVMKHSw-1; Tue, 14 Apr 2020 06:04:06 -0400
+X-MC-Unique: ULNyNPOMM9eTciiXVMKHSw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF35D18B9FC1;
+ Tue, 14 Apr 2020 10:04:05 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-20.ams2.redhat.com
+ [10.36.113.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BA51B5C1B0;
+ Tue, 14 Apr 2020 10:04:05 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3C7A611385C8; Tue, 14 Apr 2020 12:04:04 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH for-5.1 4/8] qemu-option: Avoid has_help_option() in
+ qemu_opts_parse_noisily()
+References: <20200409153041.17576-1-armbru@redhat.com>
+ <20200409153041.17576-5-armbru@redhat.com>
+ <4f38f94d-5c7a-c00f-c7dc-8bc28de4fd39@redhat.com>
+Date: Tue, 14 Apr 2020 12:04:04 +0200
+In-Reply-To: <4f38f94d-5c7a-c00f-c7dc-8bc28de4fd39@redhat.com> (Eric Blake's
+ message of "Thu, 9 Apr 2020 13:07:31 -0500")
+Message-ID: <871roqwfhn.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200417051400.30398-1-richardni@tencent.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 192.146.154.243
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,87 +78,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, mst@redhat.com
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 17, 2020 at 01:14:00PM +0800, ni.xun.intel@gmail.com wrote:
->=20
-> From: Ni Xun <richardni@tencent.com>
->=20
-> when reconnecting to vhost server, it doesn't send slave fd to vhost
-> as the slave fd is only sent in vhost_user_init. also resend the slave =
-fd
-> in vhost reconnect.
->=20
+Eric Blake <eblake@redhat.com> writes:
 
-I don=E2=80=99t think that=E2=80=99s correct. See vhost_user_init() here:
+> On 4/9/20 10:30 AM, Markus Armbruster wrote:
+>> When opts_parse() sets @invalidp to true, qemu_opts_parse_noisily()
+>> uses has_help_option() to decide whether to print help.  This parses
+>> the input string a second time, in a slightly different way.
+>>
+>> Easy to avoid: replace @invalidp by @help_wanted.
+>>
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>   util/qemu-option.c | 20 ++++++++++----------
+>>   1 file changed, 10 insertions(+), 10 deletions(-)
+>>
+>
+>> -    opts =3D opts_parse(list, params, permit_abbrev, false, &invalidp, =
+&err);
+>> +    opts =3D opts_parse(list, params, permit_abbrev, false, &help_wante=
+d, &err);
+>>       if (err) {
+>> -        if (invalidp && has_help_option(params)) {
+>> +        if (help_wanted) {
+>
+> Yep, that is cleaner.  Should there be testsuite coverage changing as
+> a result of this?
 
-https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/virtio/vhost-user.c;h=3D=
-08e7e63790e5bcfae6cd31bf9ccd32c3a7347f4e;hb=3DHEAD#l1898
+Hmm.  I guess the actual question is whether this patch changes
+behavior.
 
-Rather, vhost_setup_slave_channel() is called by vhost_user_backend_init(=
-),
-which is called on every reconnect inside vhost_dev_init().
+@invalidp gets set to true when opt_set() runs into an unknown @name.
 
-see vhost_user_blk_connect(): https://git.qemu.org/?p=3Dqemu.git;a=3Dblob=
-;f=3Dhw/block/vhost-user-blk.c;h=3D17df5338e77c684175a86e882b508849c246e7=
-8a;hb=3DHEAD#l297
-and vhost_dev_init():https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/v=
-irtio/vhost.c;h=3D01ebe12f28e9d7e3150375dda6f55b6b8f04a42a;hb=3DHEAD#l122=
-4
+Aside: can't happend when opts_accepts_any(); such options can't rely on
+qemu_opts_parse_noisily() providing help.
 
-Note that the dev->vq_index is also set to 0 right before the
-vhost_dev_init() call.
+One reason for unknown @name is the user asking for help.  We want to
+provide it then.  To find out, we use has_help_option(), which parses
+certain corner cases differently.  PATCH 1 demonstrates it can return
+false incorrectly for certain corner cases.  This patch fixes
+qemu_opts_parse_noisily() to provide help as it should even for these
+corner cases.
 
-I tested myself and saw a VHOST_USER_SET_SLAVE_REQ_FD message sent on eac=
-h
-reconnect with the vhost-user-blk sample.
+What about this:
 
-Are you seeing different behavior? If so, please provide more details on
-your setup?
+* I put PATCH 5 "qemu-option: Fix has_help_option()'s sloppy parsing"
+  before this one, so that this one doesn't change behavior.
 
->=20
-> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-> index 17df5338e7..59650a570b 100644
-> --- a/hw/block/vhost-user-blk.c
-> +++ b/hw/block/vhost-user-blk.c
-> @@ -138,6 +138,12 @@ static int vhost_user_blk_start(VirtIODevice *vdev=
-)
->              error_report("Error get inflight: %d", -ret);
->              goto err_guest_notifiers;
->          }
+* I adjust this one's commit message accordingly: scratch ", in a
+  slightly different way".
 
-What's the justification for sending the slave fd here? Please elaborate.
+Do we care enough to further document the bug fix in PATCH 5's commit
+message?  Even find an actual CLI option that reproduces the bug?  I
+doubt it.  This is all about silly corner cases involving ','.
 
-> +    } else {
-> +        ret =3D vhost_setup_slave_channel(&s->dev);
-> +        if (ret < 0) {
-> +            error_report("Error setting vhost slave channel: %d", -ret=
-);
-> +            return ret;
-> +        }
->      }
-> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-> index 085450c6f8..cad60ad521 100644
-> --- a/include/hw/virtio/vhost.h
-> +++ b/include/hw/virtio/vhost.h
+Perhaps has_help_option() can also return true incorrectly.  I doubt we
+care.
 
-Why expose this through vhost.h? This is vhost-user specific.
+> Reviewed-by: Eric Blake <eblake@redhat.com>
 
-> @@ -100,6 +100,7 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIOD=
-evice *vdev);
->  void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
->  int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *v=
-dev);
->  void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice =
-*vdev);
-> +int vhost_setup_slave_channel(struct vhost_dev *hdev);
-> =20
->  /* Test and clear masked event pending status.
->   * Should be called after unmask to avoid losing events.
-> --=20
-> 2.24.1 (Apple Git-126)
->=20
->=20
+Thanks!
+
 
