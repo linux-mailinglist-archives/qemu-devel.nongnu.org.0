@@ -2,108 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 133781A8494
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:23:35 +0200 (CEST)
-Received: from localhost ([::1]:33788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F141A84D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:27:55 +0200 (CEST)
+Received: from localhost ([::1]:33972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOLU-00026V-I0
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:23:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50333)
+	id 1jOOPi-0006v1-75
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:27:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51625)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jOOHn-0006VR-PJ
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:19:54 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jOOOF-00054k-P6
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jOOHh-0004yv-10
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:19:42 -0400
-Received: from mail-eopbgr80121.outbound.protection.outlook.com
- ([40.107.8.121]:27910 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jOOHT-0004uf-1M; Tue, 14 Apr 2020 12:19:23 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nljeRqhO9kob4MmUItCGG/uAJqiUAqk3PfpAMjD6wuuQNkcfUEHo0Dplq1Xekv0OMfE2BJ/wy2brg7RBCIvem1Z2uaERYYcTv7MwoO5HGinv/4tt9m7rIo0u7tYSgPRBZSDrFd56JRRhVyJziLUIho5LqqY+ogXZv8fHYCtCkjo0JdLCwECKoSj3gj9i+3BS+12DG5K0ncT3DTGIS9XsWXMGSaiFOq+1gxZO+P1PYItAq8jBvVX/AmZwt5J+X89ImkiG8JiBHkb3gzvpnhkQZ4WuYbeVohU9j8HEDbG2Pha8nUWRLpb8pqqUEF16kzhcEib+FW+rrMjf25keWSAjQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dmNRnjtBRxi9dY4qi2tjYoIQITmjbbAww6EiuF2iN0o=;
- b=XkR2wHwXIa1H/w5tgbpq+aKLcs4LtRwTWCuf15QlOM++jYCME/jIvfZC0vULOnA906kmBTlYA7ukGyKKU99BWMa0z8I/WmPpgtuWMe731rjFkDaWosO5mimC1izU3ByWGlcFRhuqwEm8Kd5UBmpYzK5G6/8zFighrAD8MSoyRVN3A2wL2zXUGDdDG/41onfqfBEbA3mCj3nwLMmlfLaFYpJxcKWc+LBsF/SESJfKwmX5nJKB98Oeh8pQFjyGLy/VD74IWWTtradB4lL1ptc9pibS1/1SSbOkvuc3SggqKzedzX+EaxrfjC/baisW63iCT6kDE3ESPzyieAQEfEv/Ow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dmNRnjtBRxi9dY4qi2tjYoIQITmjbbAww6EiuF2iN0o=;
- b=HKFLkMS0z3AWhp1bjwCR+ENM1z0EYOG+Ofhi1n41IQ+wYJ26RTUIiqmZ2Tm9eEzZuuOKSwKoLqbPKiaRNDlHIl45mydzP4GVkL7tZ7xIzPtYXLNYjZ5ba9rDiOb1POnIYz+xpo0qIwYtCwNfx4SZQgjV/I8L8zJDgBrX3edUvMw=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5525.eurprd08.prod.outlook.com (2603:10a6:20b:107::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.15; Tue, 14 Apr
- 2020 16:19:21 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%4]) with mapi id 15.20.2900.028; Tue, 14 Apr 2020
- 16:19:21 +0000
-Subject: Re: [PATCH v4 07/30] qcow2: Document the Extended L2 Entries feature
-To: Alberto Garcia <berto@igalia.com>, Eric Blake <eblake@redhat.com>,
- qemu-devel@nongnu.org
-References: <cover.1584468723.git.berto@igalia.com>
- <aa1ac3fbb1d42db67d930b76255c9b7b19c07b42.1584468723.git.berto@igalia.com>
- <8c88b96f-c6f5-e06c-73e1-56001089a7ca@redhat.com>
- <781c734c-e53c-76ae-74de-26d9e827e1a2@virtuozzo.com>
- <w51o8ru5dg2.fsf@maestria.local.igalia.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200414191918469
-Message-ID: <83922517-b5f5-2d4a-6518-c1912942ad27@virtuozzo.com>
-Date: Tue, 14 Apr 2020 19:19:18 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <w51o8ru5dg2.fsf@maestria.local.igalia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR06CA0105.eurprd06.prod.outlook.com
- (2603:10a6:208:fa::46) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (envelope-from <peter.maydell@linaro.org>) id 1jOOO9-00078p-T2
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:23 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:37985)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jOOO9-00078T-F6
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:17 -0400
+Received: by mail-wm1-x336.google.com with SMTP id g12so6878908wmh.3
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 09:26:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=R7JGiudy1UdoZaTW4BQ3pL5AFqpsAym0Lwz8mT/Tr/4=;
+ b=j75IshkECkR+lwcigJNChqrnfIlFDtmC8OpuWkRAGES1SUZecepWk2lLn2L9FnJ/KB
+ jsyfL4HtG4KcWRm1NvcQltoj4lJsXsqs4M5PKjyjWeK4d/+arfbyTTNtlQMMPt9Phnn+
+ 1JQxu75BEYR4o6aPJ3+1i7vuLJNtiJ35+2HH4QeoB4VlCuA8A23ih3Ngu9CeHEif0FT/
+ TAsznYd/Hx+g7O1O+i+Cqgw/PPCA2LKNq9Cdm4ojJ5jdiBUs4mKvLsHBy+5FsLef0RqM
+ CcA03SFTqUJj/RY0yAOJfVZLJ56dqXz/vh7/JK7wIM3v/PaCfoGL9jwsO5g8TcKckSll
+ ujWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=R7JGiudy1UdoZaTW4BQ3pL5AFqpsAym0Lwz8mT/Tr/4=;
+ b=dDI36RO0TLq2qckiSfFuQPiQcwNLurFrwj62EhnS5PgBDf2PAaMOrB8jO7FTpSqTLU
+ yOmpbWd+8BuHrWlcsETRJG2JZWGBwtj89keanBymnnuycew47Em6XYuu5kEFS6zctsBN
+ psQUmCjTLgHnhNuiIjQChjjFzQQ9w/4PJyxsMf6YN3uZ3FJAoYh3B4u2tgaMI7fXjfa8
+ 4Dvskk60sKFy/3OIgAljTSo7llUdZbE4mcqcV5zgtM9VRgtFPUuYEuNQbJKVDuus2bck
+ rb7G9OiGA7eTVmAC3iSUaeQ94+ZuIoX265h+Aa+KtjjZCoS80F9pVruBaYKWq2BinI5S
+ 76Jw==
+X-Gm-Message-State: AGi0PuZEY0lUycfChFvE9V30AgN+vfG6YefOeNnyNw7ACQfJAWsFWRuc
+ pDV4W1o/GNAJiYMTjQIRRSfYJFm5OP73Jw==
+X-Google-Smtp-Source: APiQypKH5YLMd+DqzohF9gXVr1jbMopfL0BnyDMR3m+rR6ds8V9tZA2BUWXYmUf71UlXJFcp99zhVQ==
+X-Received: by 2002:a1c:3b09:: with SMTP id i9mr617513wma.19.1586881575931;
+ Tue, 14 Apr 2020 09:26:15 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id i129sm20003802wmi.20.2020.04.14.09.26.15
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Apr 2020 09:26:15 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/12] target-arm queue
+Date: Tue, 14 Apr 2020 17:26:01 +0100
+Message-Id: <20200414162613.4479-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.131) by
- AM0PR06CA0105.eurprd06.prod.outlook.com (2603:10a6:208:fa::46) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2900.15 via Frontend Transport; Tue, 14 Apr 2020 16:19:20 +0000
-X-Tagtoolbar-Keys: D20200414191918469
-X-Originating-IP: [185.215.60.131]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b74cf27e-64f5-4fda-9d21-08d7e08f96b1
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5525:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB55254A821CD9A27CBBD2F11DC1DA0@AM7PR08MB5525.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-Forefront-PRVS: 0373D94D15
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10019020)(4636009)(346002)(366004)(376002)(136003)(396003)(39840400004)(31696002)(31686004)(4326008)(26005)(16526019)(186003)(52116002)(107886003)(81156014)(8676002)(86362001)(6486002)(66476007)(66556008)(66946007)(110136005)(16576012)(54906003)(8936002)(5660300002)(956004)(2616005)(36756003)(2906002)(316002)(478600001);
- DIR:OUT; SFP:1102; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2YAA2ToDpXIqn+BGIb01SJt8A5BLjvp/dr4qLuseu0Aywna1IS/CYN/zOQy0NPrvkTUnoQtkO8zjGkMU6RE/8zr2nrw7fRd+ajHTekDriFZnsUMNqRS8hVE/8bD5W14Q3nRaE2IEB6kg2P0BjK9GFVe5IVtwmAi/EqZzy1LTZmnX10MfW3i3F7XBtZJAusivm4HDEsLc6BZ3gOs50Cs0zm1UssaU06sMqmyPdzfQfEqQ27Bi7R1n0O4TDPXbkCZLGGPi7DKN+oixBd8xNPpVBTGOpjfkb8fKl/iyTTkn0dcVGAMMNuba21wbfvAaMs6rnxfApE8xbiN0PLvk/VfLTCxkdjC3ekSy+IrLIz7rMXmE6FPCR4m0O4/TiNKB1P5HEflZordrL9NLdQk/tEdMmZVijGOAq6xVwb4HZmBe3YPmQrk5tZSs11z1+kqWxRpg
-X-MS-Exchange-AntiSpam-MessageData: RpozgzxOy0XMJsdMyqGL9RyboSk2fVS55BtN774+C3ZVCfCJ7dQtRnwMMsr+pQYOHA3eib1EE1OcdPeJrEDFRmpvg8DF4uSMBTXrq2VfNYrFUEWLy8ACmcnT/ZS8ttImDBmsVsrvelQ689YgUyNK4w==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b74cf27e-64f5-4fda-9d21-08d7e08f96b1
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2020 16:19:21.0626 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4ClCm1MPH+wX7HC4Z9Y4Lf2CqoFMvVQscocaPpeS1g3MDVNvGhVkm0RRLFw5ZTDcCM0j7I9pxYZtRP8weD+G6n1r8ZgdW+jA1TdKuW0cAGE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5525
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.8.121
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::336
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -115,40 +77,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Denis V . Lunev" <den@openvz.org>,
- Anton Nefedov <anton.nefedov@virtuozzo.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-14.04.2020 17:50, Alberto Garcia wrote:
-> On Fri 10 Apr 2020 11:29:59 AM CEST, Vladimir Sementsov-Ogievskiy wrote:
->>> Hmm - raw external files are incompatible with backing files. Should
->>> we also document that extended L2 entries are incompatible with raw
->>> external files? (The text here reminded me about it, but it would be
->>> the text earlier at the incompatible feature bits that we edit if we
->>> want that additional restriction; compare to the restriction in the
->>> autoclear bit 1). After all, when raw external file is enabled, the
->>> entire image is allocated, at which point subclusters don't make much
->>> sense.
->> It still may cache information about zeroed subclusters: gives more
->> detailed block-status. But we should mention somehow external
->> files. Hm. not only for raw external files, but it is documented that
->> cluster can't be unallocated when an external data file is used.
-> 
-> What do you mean by "cluster can't be unallocated" ?
-> 
+Almost nothing in here is arm-related, but the target-arm
+queue was convenient for these last minute bits and pieces
+for 5.0...
 
+thanks
+-- PMM
 
-I mean this sentence from qcow2.txt:
+The following changes since commit 14e5526b51910efd62cd31cd95b49baca975c83f:
 
-                    "The offset may only be 0 with
-                     bit 63 set (indicating a host cluster offset of 0) when an
-                     external data file is used."
+  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2020-04-13 15:42:51 +0100)
 
-In other words, cluster can't be unallocated with data file in use.
+are available in the Git repository at:
 
--- 
-Best regards,
-Vladimir
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200414
+
+for you to fetch changes up to 84f82ddcbb4ac4ed04c8675e85155329f23184f0:
+
+  Deprecate KVM support for AArch32 (2020-04-14 17:20:22 +0100)
+
+----------------------------------------------------------------
+patch queue:
+ * Fix some problems that trip up Coverity's scanner
+ * run-coverity-scan: New script automating the scan-and-upload process
+ * docs: Improve our gdbstub documentation
+ * configure: Honour --disable-werror for Sphinx
+ * docs: Fix errors produced when building with Sphinx 3.0
+ * docs: Require Sphinx 1.6 or better
+ * Add deprecation notice for KVM support on AArch32 hosts
+
+----------------------------------------------------------------
+Peter Maydell (12):
+      osdep.h: Drop no-longer-needed Coverity workarounds
+      thread.h: Fix Coverity version of qemu_cond_timedwait()
+      thread.h: Remove trailing semicolons from Coverity qemu_mutex_lock() etc
+      linux-user/flatload.c: Use "" for include of QEMU header target_flat.h
+      scripts/run-coverity-scan: Script to run Coverity Scan build
+      scripts/coverity-scan: Add Docker support
+      docs: Improve our gdbstub documentation
+      configure: Honour --disable-werror for Sphinx
+      scripts/kernel-doc: Add missing close-paren in c:function directives
+      kernel-doc: Use c:struct for Sphinx 3.0 and later
+      docs: Require Sphinx 1.6 or better
+      Deprecate KVM support for AArch32
+
+ configure                                  |   9 +-
+ Makefile                                   |   2 +-
+ include/qemu/osdep.h                       |  14 -
+ include/qemu/thread.h                      |  12 +-
+ linux-user/flatload.c                      |   2 +-
+ MAINTAINERS                                |   5 +
+ docs/conf.py                               |   6 +-
+ docs/sphinx/kerneldoc.py                   |   1 +
+ docs/system/deprecated.rst                 |   8 +
+ docs/system/gdb.rst                        |  22 +-
+ qemu-options.hx                            |  24 +-
+ scripts/coverity-scan/coverity-scan.docker | 131 ++++++++++
+ scripts/coverity-scan/run-coverity-scan    | 401 +++++++++++++++++++++++++++++
+ scripts/kernel-doc                         |  18 +-
+ 14 files changed, 615 insertions(+), 40 deletions(-)
+ create mode 100644 scripts/coverity-scan/coverity-scan.docker
+ create mode 100755 scripts/coverity-scan/run-coverity-scan
 
