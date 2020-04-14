@@ -2,55 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABC701A850D
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:33:07 +0200 (CEST)
-Received: from localhost ([::1]:34188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0BA1A851B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:35:35 +0200 (CEST)
+Received: from localhost ([::1]:34262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOUk-0008CK-Jn
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:33:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52949)
+	id 1jOOX8-0003Qv-QM
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:35:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53038)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1jOOSf-0006R6-PS
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:31:00 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jOOT4-0006tx-LF
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:31:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1jOOSe-00010y-Kn
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:30:57 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:51599)
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jOOT3-0001Ar-84
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:31:22 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43392)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1jOOSd-0000xh-Ov; Tue, 14 Apr 2020 12:30:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=BVVXGDXpudVw7nOjZv5M0PlmfT18ZPrVoCl7zON5WTs=; 
- b=IGN3S6SIag6kLBHVv21JHa3MPdNPa95C3cFMr/eAAFmMT36D9J0h0jeZoWM2+VCeTIteWtLnoGYXXaAvdAFmNmuUy24TLRsNZqNgmEtg08iWhEJSAckC9tYrzvwi5I6nrSkrL2vMbvPPD7glxCyu4JEShqyP7F1gG4QjJ2U77CpusvNdTDYk7nRRxXxfAAYey3V8wLqNneUukU6fr79f5FDqv4MEKsrZtpmsqDaN32ymWSpPGfJy0WMFnOiPpOxEp3L4rKbEiHzwqmAvJYKYnFMf9Krs1ZdRwp6HlHyHa1Lr57bTcJc4sRJwgJiwnKtRKLwXWuetIhY3grxrWEtSRg==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1jOOSY-0001YS-1s; Tue, 14 Apr 2020 18:30:50 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1jOOSX-0005pk-No; Tue, 14 Apr 2020 18:30:49 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 07/30] qcow2: Document the Extended L2 Entries feature
-In-Reply-To: <83922517-b5f5-2d4a-6518-c1912942ad27@virtuozzo.com>
-References: <cover.1584468723.git.berto@igalia.com>
- <aa1ac3fbb1d42db67d930b76255c9b7b19c07b42.1584468723.git.berto@igalia.com>
- <8c88b96f-c6f5-e06c-73e1-56001089a7ca@redhat.com>
- <781c734c-e53c-76ae-74de-26d9e827e1a2@virtuozzo.com>
- <w51o8ru5dg2.fsf@maestria.local.igalia.com>
- <83922517-b5f5-2d4a-6518-c1912942ad27@virtuozzo.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Tue, 14 Apr 2020 18:30:49 +0200
-Message-ID: <w51lfmyrpvq.fsf@maestria.local.igalia.com>
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jOOT3-0001AI-1G
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:31:21 -0400
+Received: by mail-wr1-x444.google.com with SMTP id i10so15080695wrv.10
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 09:31:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:to:cc:from:autocrypt:subject:message-id:date:user-agent
+ :mime-version:content-language:content-transfer-encoding;
+ bh=bUeQuorw99Ho/BLVjuAYoW2kjbNgVS9ZdntEABl9u38=;
+ b=T4l3pqAwQxiQT4ZueS58CMHoSmugytRvcT1KA6yfEM7/IkAQaSXs3P2/szJXba+5W4
+ Ezsm3iTGq9RyP/xQb6uJ14mQfi19AR151Rah1GzF3yPh0dFyrBcID0yBlHsfYIpc/DsC
+ Ey6vVKtiGpyc2rvdTLcYtleNEw87hiTSjhZ8NTHiJHXRuSK0EGKNgiuDmoHLlSCTRWCE
+ mHKUAxZMFZT+BCt1uuTmoA895yINcDybXGe85mlmYEpJ1s93xGO2i+dUmVJYRZvNBLmY
+ 8BfDWYJwBBbmanAQnCUeAWS9wws8L2nb5J2sH/FW+Ggqnfd2PsO0B5W1uP/NhVgjqvZY
+ CK0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:to:cc:from:autocrypt:subject:message-id
+ :date:user-agent:mime-version:content-language
+ :content-transfer-encoding;
+ bh=bUeQuorw99Ho/BLVjuAYoW2kjbNgVS9ZdntEABl9u38=;
+ b=ltjtkgGvT0kyIF61vIPPY58hfqiw3Cr3eJm8pD/qeOWmMgsIRdCzd317rO6h2bF3BS
+ 4OOC6TcgQ1R3BUDqRsNZ72KSp0oymsYr2L2iZUdCZL+19/+iLSl1GPDvoUCxQ5Scxbck
+ 3hWnLoKuEEDcskApWWUF4k6tYZxR+RtMPeuzIeRQEXyg0tyA3vTvpac3yO2OlKK40ZjS
+ fzdP3jrRumz/mzk9/Io9jtSq3WcxWyVg4YLH8sgdY7Rd5v0p9hNQb7JWWQIsfCtqzSs3
+ D/kYP1OA+KACgi101IKUhQwVEqunyZsuzBax4taMxzqe1Wpa+N/pIjcmDqnZJh4zDMXt
+ NO0w==
+X-Gm-Message-State: AGi0PuYg57vNj+yt6Kk3pCPDxzJClNTB3ZBdzVNi6rN9MYZ9UFYL7kfX
+ MN2pSGyEVIzNtiRrPBPi1Fo=
+X-Google-Smtp-Source: APiQypLAPd9RHcBo4LeMnBsiaTpQJPBQ3zqsAiDq1/Ae1uV+6znAmrXegvByyGqRjpH59kNcR3ncnw==
+X-Received: by 2002:adf:97d0:: with SMTP id t16mr24720608wrb.343.1586881879298; 
+ Tue, 14 Apr 2020 09:31:19 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id e5sm20316694wru.92.2020.04.14.09.31.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Apr 2020 09:31:18 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Autocrypt: addr=f4bug@amsat.org; keydata=
+ mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
+ u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
+ HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
+ YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
+ ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
+ dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
+ ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
+ Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
+ HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
+ Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
+ CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
+ klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
+ jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
+ 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
+ loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
+ sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
+ JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
+ 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
+ K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
+ n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
+ CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
+Subject: m68k: gdbstub crashing setting float register on cfv4e cpu
+Message-ID: <3be54f78-cf6d-af3b-6e1f-e91d146c6a3a@amsat.org>
+Date: Tue, 14 Apr 2020 18:31:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,33 +106,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Denis V . Lunev" <den@openvz.org>,
- Anton Nefedov <anton.nefedov@virtuozzo.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Thomas Huth <huth@tuxfamily.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue 14 Apr 2020 06:19:18 PM CEST, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
->>> It still may cache information about zeroed subclusters: gives more
->>> detailed block-status. But we should mention somehow external
->>> files. Hm. not only for raw external files, but it is documented that
->>> cluster can't be unallocated when an external data file is used.
->> 
->> What do you mean by "cluster can't be unallocated" ?
->
-> I mean this sentence from qcow2.txt:
->
->                     "The offset may only be 0 with
->                      bit 63 set (indicating a host cluster offset of 0) when an
->                      external data file is used."
->
-> In other words, cluster can't be unallocated with data file in use.
+gdbstub/m68k seems broken with floats, previous to refactor commit
+a010bdbe719 ("extend GByteArray to read register helpers").
 
-I still don't follow... clusters can be unallocated, and when you create
-a new image they are indeed unallocated.
+HEAD at 6fb1603aa2:
 
-Bit 63 (QCOW_OFLAG_COPIED) is what indicates if a cluster is allocated
-or not, and you can unmap an allocated cluster with 'write -z -u'.
+$ qemu-system-m68k -s -S -cpu cfv4e
 
-Berto
+---[GUEST]---
+
+(gdb) set architecture m68k:cfv4e
+The target architecture is assumed to be m68k:cfv4e
+(gdb) target remote 172.17.0.1:1234
+Remote debugging using 172.17.0.1:1234
+(gdb) info float
+fp0            -nan(0xfffffffffff7f) (raw 0xffffffffffffff7f)
+fp1            -nan(0xfffffffffff7f) (raw 0xffffffffffffff7f)
+fp2            -nan(0xfffffffffff7f) (raw 0xffffffffffffff7f)
+fp3            -nan(0xfffffffffff7f) (raw 0xffffffffffffff7f)
+fp4            -nan(0xfffffffffff7f) (raw 0xffffffffffffff7f)
+fp5            -nan(0xfffffffffff7f) (raw 0xffffffffffffff7f)
+fp6            -nan(0xfffffffffff7f) (raw 0xffffffffffffff7f)
+fp7            -nan(0xfffffffffff7f) (raw 0xffffffffffffff7f)
+fpcontrol      0x0                 0
+fpstatus       0x0                 0
+fpiaddr        0x0                 0x0
+(gdb) set $fp0=1
+Remote communication error.  Target disconnected.: Connection reset by peer.
+
+---[HOST]---
+
+30279@1586881511.897231:gdbstub_io_command Received: P12=000000000000f03f
+30279@1586881511.897293:gdbstub_io_reply Sent: OK
+30279@1586881511.897593:gdbstub_io_got_ack Got ACK
+30279@1586881511.897837:gdbstub_io_command Received: g
+Aborted (core dumped)
+
+(gdb) bt
+#1  0x00007ffff514e895 in abort () at /lib64/libc.so.6
+#2  0x00005555556a9548 in roundAndPackFloat64 (zSign=0 '\000', zExp=0,
+zSig=0, status=0x7fffffff9b20) at fpu/softfloat.c:3756
+#3  0x00005555556ad2bb in floatx80_to_float64 (a=...,
+status=0x7fffffff9b20) at fpu/softfloat.c:5659
+#4  0x000055555573a6c7 in cf_fpu_gdb_get_reg
+    (env=0x555555fb58d0, mem_buf=0x7fffffff9c7c
+"\177\377\377\377\377\377\377\377\177\377\377\377\377\377\377\377\177\377\377\377\377\377\377\377\177\377\377\377\377\377\377\377\177\377\377\377\377\377\377\377\177\377\377\377\377\377\377\377\177\377\377\377\377\377\377\377\177\377\377\377\377\377\377\377",
+n=0) at target/m68k/helper.c:75
+#5  0x00005555556bd866 in gdb_read_register
+    (cpu=0x555555fad250, mem_buf=0x7fffffff9c7c
+"\177\377\377\377\377\377\377\377\177\377\377\377\377\377\377\377\177\377\377\377\377\377\377\377\177\377\377\377\377\377\377\377\177\377\377\377\377\377\377\377\177\377\377\377\377\377\377\377\177\377\377\377\377\377\377\377\177\377\377\377\377\377\377\377",
+reg=18) at gdbstub.c:896
+#6  0x00005555556bf665 in handle_read_all_regs (gdb_ctx=0x7fffffff9c20,
+user_ctx=0x0) at gdbstub.c:1813
+#7  0x00005555556bead0 in process_string_cmd (s=0x5555564bb000,
+user_ctx=0x0, data=0x5555564bb01c "g", cmds=0x555555bf5880
+<read_all_regs_cmd_desc>, num_cmds=1) at gdbstub.c:1477
+#8  0x00005555556beb45 in run_cmd_parser (s=0x5555564bb000,
+data=0x5555564bb01c "g", cmd=0x555555bf5880 <read_all_regs_cmd_desc>) at
+gdbstub.c:1493
+#9  0x00005555556c093a in gdb_handle_packet (s=0x5555564bb000,
+line_buf=0x5555564bb01c "g") at gdbstub.c:2596
+#10 0x00005555556c15b7 in gdb_read_byte (s=0x5555564bb000, ch=55 '7') at
+gdbstub.c:2932
+#11 0x00005555556c17ea in gdb_chr_receive (opaque=0x5555564bb000,
+buf=0x7fffffffbde0 "$g#67", '0' <repeats 12 times>,
+"f03f#5f\347\372\340\366\377\177", size=5) at gdbstub.c:3170
+#12 0x000055555595e986 in qemu_chr_be_write_impl (s=0x55555622eac0,
+buf=0x7fffffffbde0 "$g#67", '0' <repeats 12 times>,
+"f03f#5f\347\372\340\366\377\177", len=5) at chardev/char.c:183
+#13 0x000055555595e9ea in qemu_chr_be_write (s=0x55555622eac0,
+buf=0x7fffffffbde0 "$g#67", '0' <repeats 12 times>,
+"f03f#5f\347\372\340\366\377\177", len=5) at chardev/char.c:195
+#14 0x0000555555967734 in tcp_chr_read (chan=0x555555e21290,
+cond=G_IO_IN, opaque=0x55555622eac0) at chardev/char-socket.c:525
+#15 0x0000555555982fb4 in qio_channel_fd_source_dispatch
+(source=0x555556493200, callback=0x555555967585 <tcp_chr_read>,
+user_data=0x55555622eac0) at io/channel-watch.c:84
+#16 0x00007ffff7c42ecd in g_main_context_dispatch () at
+/lib64/libglib-2.0.so.0
+#17 0x00005555559ec20c in glib_pollfds_poll () at util/main-loop.c:219
+#18 0x00005555559ec286 in os_host_main_loop_wait (timeout=14976775) at
+util/main-loop.c:242
+#19 0x00005555559ec38b in main_loop_wait (nonblocking=0) at
+util/main-loop.c:518
+#20 0x00005555557163dd in qemu_main_loop () at softmmu/vl.c:1665
+#21 0x0000555555988d21 in main (argc=7, argv=0x7fffffffd078,
+envp=0x7fffffffd0b8) at softmmu/main.c:49
 
