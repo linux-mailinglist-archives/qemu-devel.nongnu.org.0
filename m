@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B11491A710C
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 04:35:36 +0200 (CEST)
-Received: from localhost ([::1]:51774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1684D1A710B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 04:33:58 +0200 (CEST)
+Received: from localhost ([::1]:51740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOBQF-0007Wp-NK
-	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 22:35:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46804)
+	id 1jOBOf-0004Qa-1P
+	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 22:33:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46759)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jOBMx-0002yZ-8j
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 22:32:13 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jOBMf-0002Ke-6h
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 22:31:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jOBMw-0003a4-0k
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 22:32:11 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35559 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1jOBMd-0003Y2-Jp
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 22:31:53 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:52679 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1jOBMv-0003US-Lq
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 22:32:09 -0400
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1jOBMd-0003AA-89; Mon, 13 Apr 2020 22:31:51 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 491TxP31hVz9sTK; Tue, 14 Apr 2020 12:19:39 +1000 (AEST)
+ id 491Twc1sd7z9sTS; Tue, 14 Apr 2020 12:22:34 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1586831449;
- bh=WJLiycbU2fx+ZCVD0et7MCneHzzsvDNA1cg34XPHel4=;
+ d=gibson.dropbear.id.au; s=201602; t=1586831408;
+ bh=s+h6RahcZzYYfeeXQO5SulGcL901j5evDB+gL/9pWUg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JrX7f+VXXTw09GYhueZlu0UCOHYFnJ8JbtUDNoJSW81wOdVzjxeiyAT46we3pvO2c
- f3yoJL5bQEsXeh9DsKQjPeROPiue/j7+6Kkrv9z8UCk/2/9QFmMNzKyfiax6qzTLax
- qjUKosDu0ltGz6gCADsREqsoZ5n/eKC99RPHoleA=
-Date: Tue, 14 Apr 2020 12:03:03 +1000
+ b=C0o1HILRNbU52slNTOS7Ou5kuosrbTG0h3HLBCUime57Kk4a99mwmIwfWjOTbr50i
+ pcrEom/eyxXvWTdp1LE340uZjjmwg03ANoJa0UlZNjGLY7Qj7HA402fXka//JG3QCC
+ 8Uqe74ZF8xKCd3yveJUwYqyGZBZmlcNkhNHGrBgw=
+Date: Tue, 14 Apr 2020 12:05:53 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH RESEND v3 0/2] Makefile: libfdt: build only the strict
- necessary
-Message-ID: <20200414020303.GC48061@umbus.fritz.box>
-References: <20200411093150.4741-1-cfontana@suse.de>
+To: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: Boot flakiness with QEMU 3.1.0 and Clang built kernels
+Message-ID: <20200414020553.GD48061@umbus.fritz.box>
+References: <20200410205932.GA880@ubuntu-s3-xlarge-x86>
+ <1586564375.zt8lm9finh.astroid@bobo.none>
+ <20200411005354.GA24145@ubuntu-s3-xlarge-x86>
+ <1586597161.xyshvdbjo6.astroid@bobo.none>
+ <1586612535.6kk4az03np.astroid@bobo.none>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HWvPVVuAAfuRc6SZ"
+ protocol="application/pgp-signature"; boundary="WBsA/oQW3eTA3LlM"
 Content-Disposition: inline
-In-Reply-To: <20200411093150.4741-1-cfontana@suse.de>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+In-Reply-To: <1586612535.6kk4az03np.astroid@bobo.none>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,65 +58,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe Mathieu-Daude <philmd@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Alex Bennee <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org, clang-built-linux@googlegroups.com,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@fr.ibm.com>, qemu-ppc@nongnu.org,
+ Nathan Chancellor <natechancellor@gmail.com>, linuxppc-dev@lists.ozlabs.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---HWvPVVuAAfuRc6SZ
+--WBsA/oQW3eTA3LlM
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Apr 11, 2020 at 11:31:48AM +0200, Claudio Fontana wrote:
-> v2 -> v3:
+On Sat, Apr 11, 2020 at 11:57:23PM +1000, Nicholas Piggin wrote:
+> Nicholas Piggin's on April 11, 2020 7:32 pm:
+> > Nathan Chancellor's on April 11, 2020 10:53 am:
+> >> The tt.config values are needed to reproduce but I did not verify that
+> >> ONLY tt.config was needed. Other than that, no, we are just building
+> >> either pseries_defconfig or powernv_defconfig with those configs and
+> >> letting it boot up with a simple initramfs, which prints the version
+> >> string then shuts the machine down.
+> >>=20
+> >> Let me know if you need any more information, cheers!
+> >=20
+> > Okay I can reproduce it. Sometimes it eventually recovers after a long
+> > pause, and some keyboard input often helps it along. So that seems like=
+=20
+> > it might be a lost interrupt.
+> >=20
+> > POWER8 vs POWER9 might just be a timing thing if P9 is still hanging
+> > sometimes. I wasn't able to reproduce it with defconfig+tt.config, I
+> > needed your other config with various other debug options.
+> >=20
+> > Thanks for the very good report. I'll let you know what I find.
 >=20
-> * changed into a 2 patch series; in the second patch we remove the old
->   compatibility gunks that were meant for removal some time after 4.1.
+> It looks like a qemu bug. Booting with '-d int' shows the decrementer=20
+> simply stops firing at the point of the hang, even though MSR[EE]=3D1 and=
+=20
+> the DEC register is wrapping. Linux appears to be doing the right thing=
+=20
+> as far as I can tell (not losing interrupts).
 >=20
-> * renamed the libfdt PHONY rule to dtc/all, with the intent to make
->   existing working trees forward and backward compatible across the chang=
-e.
+> This qemu patch fixes the boot hang for me. I don't know that qemu=20
+> really has the right idea of "context synchronizing" as defined in the
+> powerpc architecture -- mtmsrd L=3D1 is not context synchronizing but that
+> does not mean it can avoid looking at exceptions until the next such
+> event. It looks like the decrementer exception goes high but the
+> execution of mtmsrd L=3D1 is ignoring it.
 >=20
-> v1 -> v2:
+> Prior to the Linux patch 3282a3da25b you bisected to, interrupt replay
+> code would return with an 'rfi' instruction as part of interrupt return,
+> which probably helped to get things moving along a bit. However it would
+> not be foolproof, and Cedric did say he encountered some mysterious
+> lockups under load with qemu powernv before that patch was merged, so
+> maybe it's the same issue?
 >=20
-> * fix error generated when running UNCHECKED_GOALS without prior configur=
-e,
->   for example during make docker-image-fedora. Without configure, DSOSUF =
-is
->   empty, and the module pattern rule in rules.mak that uses this variable
->   can match too much; provide a default in the Makefile to avoid it.
+> Thanks,
+> Nick
 >=20
-> * only attempt to build the archive when there is a non-empty list of obj=
-ects.
->   This could be done in general for the %.a: pattern in rules.mak, but ma=
-ybe
->   there are valid reasons to build an empty .a?
->=20
-> * removed some intermediate variables that did not add much value
->   (LIBFDT_srcdir, LIBFDT_archive)
->=20
-> Tested locally with 3 VPATH configurations (no-, VPATH, VPATH in src subd=
-ir),
-> and with docker-image-fedora, docker-test-debug@fedora that failed
-> before.
+> The patch is a bit of a hack, but if you can run it and verify it fixes
+> your boot hang would be good.
 
-Seems reasonable to me.  It's a bit of a shame that we can't use the
-dtc makefiles more simply for this.  But I don't quickly know how to
-fix them upstream to allow that.
+So a bug in this handling wouldn't surprise me at all.  However a
+report against QEMU 3.1 isn't particularly useful.
 
+ * Does the problem occur with current upstream master qemu?
+ * Does the problem occur with qemu-2.12 (a pretty widely deployed
+   "stable" qemu, e.g. in RHEL)?
+
+> ---
 >=20
-> Claudio Fontana (2):
->   Makefile: libfdt: build only the strict necessary
->   Makefile: remove old compatibility gunks
->=20
->  Makefile  | 32 ++++++++++++++++----------------
->  configure |  6 +-----
->  rules.mak |  2 ++
->  3 files changed, 19 insertions(+), 21 deletions(-)
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index b207fb5386..1d997f5c32 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -4364,12 +4364,21 @@ static void gen_mtmsrd(DisasContext *ctx)
+>      if (ctx->opcode & 0x00010000) {
+>          /* Special form that does not need any synchronisation */
+>          TCGv t0 =3D tcg_temp_new();
+> +        TCGv t1 =3D tcg_temp_new();
+>          tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)],
+>                          (1 << MSR_RI) | (1 << MSR_EE));
+> -        tcg_gen_andi_tl(cpu_msr, cpu_msr,
+> +        tcg_gen_andi_tl(t1, cpu_msr,
+>                          ~(target_ulong)((1 << MSR_RI) | (1 << MSR_EE)));
+> -        tcg_gen_or_tl(cpu_msr, cpu_msr, t0);
+> +        tcg_gen_or_tl(t1, t1, t0);
+> +
+> +        gen_update_nip(ctx, ctx->base.pc_next);
+> +        gen_helper_store_msr(cpu_env, t1);
+>          tcg_temp_free(t0);
+> +        tcg_temp_free(t1);
+> +        /* Must stop the translation as machine state (may have) changed=
+ */
+> +        /* Note that mtmsr is not always defined as context-synchronizin=
+g */
+> +        gen_stop_exception(ctx);
+> +
+>      } else {
+>          /*
+>           * XXX: we need to update nip before the store if we enter
 >=20
 
 --=20
@@ -122,25 +166,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---HWvPVVuAAfuRc6SZ
+--WBsA/oQW3eTA3LlM
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6VGdcACgkQbDjKyiDZ
-s5JkdxAAza25ROvzcQbH0k4QiAjYWwLc+JCbdzEzbH8IfQ8R48rQ3lGVmbwKcxUK
-ZRbLYD76bByVVMnzVhLC/GpRTW629yy6K/w5nr2INwVjW1v2gJmcfhk8A/TnltGT
-F8sHVLWeumBwQEoKy1wLUQmHcCpq/sN8/MyRiqbevYHT8OPjX6gyizIaZzrWGsfm
-V+ZDErGtMixY5VeNHy6SknJuhdbaYwGEHeJCrbyihIGtbvp8TaGwWoVNC3FU5Rga
-yTnZ5QO4H6thx283jAXzte4eVSQGY30SblZ+UFkWA6/uMvniPQwsgDiU0Q+DDH+m
-335xRdCpgLvbRtpduyeqmtqg3NO3HySYIcpR3kWqdQEPFOqitV668i4Vrpi6EcE9
-A2swqXghl6uQskSXSj7VBbY1mG5vX2Du7eVcO92G3/Cs5Tu8wbDuPXUL1gkUv7P9
-UpI4wMJw1TpO6ZYNnlukUTU+XdFJxF0EeMBe4QwgWGuJJ9YlUWVsyhLPV4dttQVN
-ZxFZ9Z72y+fCT57rt8gq9k7/AIrMXv7cXkDCStB0sJySYx8A9qRI7NBTz88alFih
-kumOWf3JJHyrgYSKM8qfNWGQDRuNeYgMMu6D3vqQjyKk1v2d0nHA+98pKlE7/Wwi
-+resnhfGqpUU7S9g490/tWTKr7J5g2RDk+UYufCONusN0803ZFo=
-=yOrh
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6VGoAACgkQbDjKyiDZ
+s5Lyhg//TomNgFk7I7WoNDVdWfstVP8av11YeK/MKpSxrha0zOw+CgPJJAGUeCQT
+c/K0tQXzXR2joC0opPWbO8VBLms5CapY8+I11tOsOi5okidzvJTP6T/ZCff5/Guz
+Oi4reP211wqoYISQhjzoNL21HB1fyzPUMLycpNYokQYagyUBROO29mVAZpVgWMfm
+B7L4p89VPzTxd5FcM5/xT7rNRzpcW5ICxpOQLIm0Tbo6Ez9OLXwPHxqTVdZnekhD
++1pygEVhKwy80e+fJ1EYnAWCXKLgQBmBQ65sdA/H6y90KLLSlQireaPwroMkVWyP
+tNf75J3JIzqUdaO08ZgjuV90/EoeuJ+AtJ+txqWNnQ3LAIrskL7WBmarOMVQq/3y
+IRGlesv6M/dsXLwgw6cX0Hr/iSwHP9ytfZFoGlG2GNeNFphfRyIJKRaisF+jWI6w
+1gUt8wy7H2zJ+ghmUJWgie8Nay7p9uWLnX4JP74JsA+qEMb5q1DTsK7BTfKyQEqL
+pCZtQLNAJbW61KQT0TWOdJlv1szE5JB+Aj7QF96VWwEUZaLtmE8ZoK8uoYbQb6na
+WHmlMu/VX1De4SCsZgB2iQfeOqn7BiQt4VseXOsaN843bFhap40x4o+jwYuQIsBI
+vaFMm2sLBsgmzdLEqwIXy8ujgTsj5lFrVmqzNlzKb7JgjmgUF3o=
+=/XSB
 -----END PGP SIGNATURE-----
 
---HWvPVVuAAfuRc6SZ--
+--WBsA/oQW3eTA3LlM--
 
