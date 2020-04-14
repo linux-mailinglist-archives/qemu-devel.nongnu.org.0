@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3628F1A8513
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:34:13 +0200 (CEST)
-Received: from localhost ([::1]:34230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BED7B1A84F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:32:06 +0200 (CEST)
+Received: from localhost ([::1]:34158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOVo-0001hP-8G
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:34:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51687)
+	id 1jOOTl-0006Zb-Pt
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:32:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51694)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jOOOM-0005Ba-Mc
+ (envelope-from <peter.maydell@linaro.org>) id 1jOOON-0005Dy-Ra
  for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jOOOG-0007C3-Sd
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:30 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37823)
+ (envelope-from <peter.maydell@linaro.org>) id 1jOOOI-0007Cc-0R
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:31 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:40622)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jOOOG-0007Bh-Lz
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:24 -0400
-Received: by mail-wr1-x429.google.com with SMTP id k1so7843857wrx.4
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 09:26:24 -0700 (PDT)
+ id 1jOOOH-0007CE-QB
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:25 -0400
+Received: by mail-wr1-x435.google.com with SMTP id h26so3664328wrb.7
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 09:26:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=tQ88i9Gc2sOteI8WTccEItBNd95hLEm8yCcLQuCQWRs=;
- b=gjdLmX2ZMSNfKyO6GAsBxlQitcL2Kqgf5lLVAoCFJ2eZiNNeyvoTZJf91i6eZb5fl8
- jsRPZJo++deBi+JCQ0da839iSTRHM2j98T980mRx/Z+mjNUjVXdScyHXToDHePiJ+LTS
- mVuzJr+DpFTS5270ziGCcw0r87WAwkseDxI3RDrpANlmlYAd13KJmS0jy+MqZyaK10IY
- beoGm1VHXqX31hkmwhq8w03VCHtMHU9urXoeeV3xTc5waeM6C04Yn3iIgvE9MF+jegfQ
- naxdu4kKEUl5+056lg882j6bSeJD5IVxoGrM6k3wsempeQ1PiXvKkkNTpE7OaaW3Swhw
- Rw0Q==
+ bh=3GfCTfNzdj9dy1pa2ZHw7P0hlDvMSW+Y7bEI+7tRgbU=;
+ b=kbkZnarKZKoMu8TADfKifLPL6IFzKUW2Vod37uexqnAMlU8ITuuq8FiES+0YqvTT3N
+ YNSfVeqKbMZxvbRzjqVK4X155boV+bUY9bkMDG6cOdabxwcfQkYyNhZAVhPF6YgjBJ1K
+ 1XhTVN9kKmmdMvHppYAQKxI+FJHPAQ41grycF7k5s/heYIUlnrOEYtr2U/ADwKji0XRJ
+ EmCqg3Bc8DA8flkqSsP6ZHfmAxtNrQM2EwQ2P+i/hhlrbImEP9qmXK1gfOhPXIZbqdZQ
+ 0usYMWxaO9baTIhpEk9ym8bNWuw5q18TMRcnV/D7XrC4iz+XkSi9DgvY0l4kwofF5iSs
+ i2qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tQ88i9Gc2sOteI8WTccEItBNd95hLEm8yCcLQuCQWRs=;
- b=E2RgCNbCEXTG7E+B4FUMI1Kxz5myL6ubqCB6i/adPdOyQLh+3LsVPUCzNsLqU93dW8
- cL2AUE8632DMhqeST81LUpbltiykeLjpr1GsL4Y7AB07wxawy1ydzS9tgweH0kgaZuF3
- FyCPBBvwO+5ftnyI9Q+V7Ju/I9GKzTQg+COVB0612fr/geCgOsrzvenyIoVEqB0CB2RA
- 3tijZJg+l4V4VPTKO4hX0dgqXxh4vRRAh/EQ20sfIb//9L8rm1GOqEQYx6xvxnnCwijl
- ATQuP7T8kfPhVc9GKUhFymsDr8Jf8K0rqHC2fX2KCrIgiuHTwBBSiAKolGvWgQD1dvgL
- BCLQ==
-X-Gm-Message-State: AGi0PuZ1s4fsI4WewWQZsnTfHVTU8KnHdbh3FlpT/d3/VG/TZeP5Ym/t
- xYRBgUF+LOMENbYTsaDiLwLgitHwZNIaXA==
-X-Google-Smtp-Source: APiQypIR09Ao3ZJGjxkb9Tj9+7kOT0x/jwX7h91M5zKDDXj65iZoFeeZAozTvr/Odj7lr6iGV7+Trg==
-X-Received: by 2002:adf:dd0c:: with SMTP id a12mr25575703wrm.144.1586881583254; 
- Tue, 14 Apr 2020 09:26:23 -0700 (PDT)
+ bh=3GfCTfNzdj9dy1pa2ZHw7P0hlDvMSW+Y7bEI+7tRgbU=;
+ b=cMhEaPuFNPTWmGbKb6C166APe3GD93AEeQ0GzfSFVf7U7mqRbd2sW7TYuDWz76o7Od
+ lRSlwUt8Jk41afLDkdfQieneR6+1yzDdhe4J+nlLB+8EfR+AuUCpDR9mlCl7vpcz5W69
+ dXOuJHnVXzfZM5x3RZMebPXBwcpQCDXzHZwCrEu5qg4L1nh9RuJ2o2lLcZbFchHqL8dY
+ aUq78jt0cyfZI2Af2EtM7uqJ5SfgtqoQzNSXIZk8nEwW6usrULyd4JXzVEVm9yOsgYSq
+ pPeNDiqa9t9dQltQ4jFlMLGrOFVqsWXo5ATm3kkwaOsS2fWGpGupmKvfVvcp2oh32vhz
+ Xqog==
+X-Gm-Message-State: AGi0PuZRQ883XaUc7Eoc1ZEXhaKY1+KnepdoVQ/XYQHlyPAZdXtx5iIW
+ 7lJ5jis7MS7eMP386kFMj55B+dHZwlUCYw==
+X-Google-Smtp-Source: APiQypLPPzSwAOrb271XFSh72LaJ+Ur0jJK6t0vtw7ZAC0Y5G4yCVP1Slh9upK9XoKmhkcu48uKUaA==
+X-Received: by 2002:a5d:5085:: with SMTP id a5mr4866957wrt.394.1586881584533; 
+ Tue, 14 Apr 2020 09:26:24 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i129sm20003802wmi.20.2020.04.14.09.26.22
+ by smtp.gmail.com with ESMTPSA id i129sm20003802wmi.20.2020.04.14.09.26.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 09:26:22 -0700 (PDT)
+ Tue, 14 Apr 2020 09:26:23 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/12] docs: Improve our gdbstub documentation
-Date: Tue, 14 Apr 2020 17:26:08 +0100
-Message-Id: <20200414162613.4479-8-peter.maydell@linaro.org>
+Subject: [PULL 08/12] configure: Honour --disable-werror for Sphinx
+Date: Tue, 14 Apr 2020 17:26:09 +0100
+Message-Id: <20200414162613.4479-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200414162613.4479-1-peter.maydell@linaro.org>
 References: <20200414162613.4479-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::429
+X-Received-From: 2a00:1450:4864:20::435
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,104 +82,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The documentation of our -s and -gdb options is quite old; in
-particular it still claims that it will cause QEMU to stop and wait
-for the gdb connection, when this has not been true for some time:
-you also need to pass -S if you want to make QEMU not launch the
-guest on startup.
+If we are not making warnings fatal for compilation, make them
+non-fatal when building the Sphinx documentation also.  (For instance
+Sphinx 3.0 warns about some constructs that older versions were happy
+with, which is a build failure if we use the warnings-as-errors
+flag.)
 
-Improve the documentation to mention this requirement in the
-executable's --help output, the documentation of the -gdb option in
-the manual, and in the "GDB usage" chapter.
-
-Includes some minor tweaks to these paragraphs of documentation
-since I was editing them anyway (such as dropping the description
-of our gdb support as "primitive").
+This provides a workaround at least for LP:1872113.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200411182934.28678-2-peter.maydell@linaro.org
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20200403094014.9589-1-peter.maydell@linaro.org
 ---
- docs/system/gdb.rst | 22 +++++++++++++++-------
- qemu-options.hx     | 24 ++++++++++++++++++------
- 2 files changed, 33 insertions(+), 13 deletions(-)
+ configure | 9 ++++++++-
+ Makefile  | 2 +-
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/docs/system/gdb.rst b/docs/system/gdb.rst
-index 639f814b32d..a40145fcf84 100644
---- a/docs/system/gdb.rst
-+++ b/docs/system/gdb.rst
-@@ -3,17 +3,25 @@
- GDB usage
- ---------
+diff --git a/configure b/configure
+index 233c671aaa9..9b1f5b33e45 100755
+--- a/configure
++++ b/configure
+@@ -4928,6 +4928,12 @@ if check_include sys/kcov.h ; then
+     kcov=yes
+ fi
  
--QEMU has a primitive support to work with gdb, so that you can do
--'Ctrl-C' while the virtual machine is running and inspect its state.
-+QEMU supports working with gdb via gdb's remote-connection facility
-+(the "gdbstub"). This allows you to debug guest code in the same
-+way that you might with a low-level debug facility like JTAG
-+on real hardware. You can stop and start the virtual machine,
-+examine state like registers and memory, and set breakpoints and
-+watchpoints.
- 
--In order to use gdb, launch QEMU with the '-s' option. It will wait for
--a gdb connection:
-+In order to use gdb, launch QEMU with the ``-s`` and ``-S`` options.
-+The ``-s`` option will make QEMU listen for an incoming connection
-+from gdb on TCP port 1234, and ``-S`` will make QEMU not start the
-+guest until you tell it to from gdb. (If you want to specify which
-+TCP port to use or to use something other than TCP for the gdbstub
-+connection, use the ``-gdb dev`` option instead of ``-s``.)
- 
- .. parsed-literal::
- 
--   |qemu_system| -s -kernel bzImage -hda rootdisk.img -append "root=/dev/hda"
--   Connected to host network interface: tun0
--   Waiting gdb connection on port 1234
-+   |qemu_system| -s -S -kernel bzImage -hda rootdisk.img -append "root=/dev/hda"
++# If we're making warnings fatal, apply this to Sphinx runs as well
++sphinx_werror=""
++if test "$werror" = "yes"; then
++    sphinx_werror="-W"
++fi
 +
-+QEMU will launch but will silently wait for gdb to connect.
+ # Check we have a new enough version of sphinx-build
+ has_sphinx_build() {
+     # This is a bit awkward but works: create a trivial document and
+@@ -4936,7 +4942,7 @@ has_sphinx_build() {
+     # sphinx-build doesn't exist at all or if it is too old.
+     mkdir -p "$TMPDIR1/sphinx"
+     touch "$TMPDIR1/sphinx/index.rst"
+-    "$sphinx_build" -c "$source_path/docs" -b html "$TMPDIR1/sphinx" "$TMPDIR1/sphinx/out" >/dev/null 2>&1
++    "$sphinx_build" $sphinx_werror -c "$source_path/docs" -b html "$TMPDIR1/sphinx" "$TMPDIR1/sphinx/out" >/dev/null 2>&1
+ }
  
- Then launch gdb on the 'vmlinux' executable::
- 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 16debd03cb6..292d4e7c0ce 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -3680,14 +3680,26 @@ SRST
- ERST
- 
- DEF("gdb", HAS_ARG, QEMU_OPTION_gdb, \
--    "-gdb dev        wait for gdb connection on 'dev'\n", QEMU_ARCH_ALL)
-+    "-gdb dev        accept gdb connection on 'dev'. (QEMU defaults to starting\n"
-+    "                the guest without waiting for gdb to connect; use -S too\n"
-+    "                if you want it to not start execution.)\n",
-+    QEMU_ARCH_ALL)
- SRST
- ``-gdb dev``
--    Wait for gdb connection on device dev (see
--    :ref:`gdb_005fusage`). Typical connections will likely be
--    TCP-based, but also UDP, pseudo TTY, or even stdio are reasonable
--    use case. The latter is allowing to start QEMU from within gdb and
--    establish the connection via a pipe:
-+    Accept a gdb connection on device dev (see
-+    :ref:`gdb_005fusage`). Note that this option does not pause QEMU
-+    execution -- if you want QEMU to not start the guest until you
-+    connect with gdb and issue a ``continue`` command, you will need to
-+    also pass the ``-S`` option to QEMU.
-+
-+    The most usual configuration is to listen on a local TCP socket::
-+
-+        -gdb tcp::3117
-+
-+    but you can specify other backends; UDP, pseudo TTY, or even stdio
-+    are all reasonable use cases. For example, a stdio connection
-+    allows you to start QEMU from within gdb and establish the
-+    connection via a pipe:
- 
-     .. parsed-literal::
- 
+ # Check if tools are available to build documentation.
+@@ -7631,6 +7637,7 @@ echo "INSTALL_PROG=$install -c -m 0755" >> $config_host_mak
+ echo "INSTALL_LIB=$install -c -m 0644" >> $config_host_mak
+ echo "PYTHON=$python" >> $config_host_mak
+ echo "SPHINX_BUILD=$sphinx_build" >> $config_host_mak
++echo "SPHINX_WERROR=$sphinx_werror" >> $config_host_mak
+ echo "GENISOIMAGE=$genisoimage" >> $config_host_mak
+ echo "CC=$cc" >> $config_host_mak
+ if $iasl -h > /dev/null 2>&1; then
+diff --git a/Makefile b/Makefile
+index 84ef8816000..8a9113e6663 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1076,7 +1076,7 @@ sphinxdocs: $(MANUAL_BUILDDIR)/devel/index.html \
+ # Note the use of different doctree for each (manual, builder) tuple;
+ # this works around Sphinx not handling parallel invocation on
+ # a single doctree: https://github.com/sphinx-doc/sphinx/issues/2946
+-build-manual = $(call quiet-command,CONFDIR="$(qemu_confdir)" $(SPHINX_BUILD) $(if $(V),,-q) -W -b $2 -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1-$2 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
++build-manual = $(call quiet-command,CONFDIR="$(qemu_confdir)" $(SPHINX_BUILD) $(if $(V),,-q) $(SPHINX_WERROR) -b $2 -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1-$2 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
+ # We assume all RST files in the manual's directory are used in it
+ manual-deps = $(wildcard $(SRC_PATH)/docs/$1/*.rst $(SRC_PATH)/docs/$1/*/*.rst) \
+               $(SRC_PATH)/docs/defs.rst.inc \
 -- 
 2.20.1
 
