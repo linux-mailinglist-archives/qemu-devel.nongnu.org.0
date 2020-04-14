@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5137F1A87AE
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 19:38:17 +0200 (CEST)
-Received: from localhost ([::1]:36514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 944311A86F6
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 19:07:47 +0200 (CEST)
+Received: from localhost ([::1]:35674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOPVo-0002gl-EJ
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 13:38:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46891)
+	id 1jOP2I-0007vy-Kn
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 13:07:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40360)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jOP9X-0001qq-2r
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:15:20 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jOOy9-0001z9-8A
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:03:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jOP9V-00067p-U9
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:15:14 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45322)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jOMzj-00071f-6R
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 10:56:59 -0400
-Received: by mail-wr1-x442.google.com with SMTP id t14so1452182wrw.12
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 07:56:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=Gtxbdlm72vvTaIPyJNm/xnYijqhLcCiptWpyPLYeWKU=;
- b=LQUpiXbwSG8h2B4r90v+vQdsPccFoxvsImyR11qFQ7sfF0CdfaGSJDWhYZvkI6CBPK
- f6/YR4EWgK1eUdMK6ZwgtFsdkNyhmFEiA0yw0/W0MiwGSFVkse67MFQMC/UKMsrgl/j3
- c938otO6bsrmYLmt2RRWN/RqlbPhqzkQdpTMcD7J2ARlAfMIM7mXn9f0bRNtEYWtB8WQ
- ou1/tEmdewo0DDOcTyhEV3G34Bh+Aw5dIuKNW0VtqYTgFVKx0iHqpHXDTByGAfhac0bp
- heOF5PYmLJ2QH7bPczH0IaqoBaYkXc/bMxK7klxTocNndQgosSQWavQ5iIR9JsGDQlIh
- t9vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=Gtxbdlm72vvTaIPyJNm/xnYijqhLcCiptWpyPLYeWKU=;
- b=mPz+HO6jXXPw8eVfYSD6NsFymmrJw28kgk0u65koys3bNRZSzzNbO2aTV80sGTzUyI
- +wDD8oHt/+RXSBlt0NekuskpI7nXAUJ6zRgpAV7wpUDywl/s7bpykrgVk/QhCeAj9gzL
- VS9eYO0X4fMPlpgtwVCeIA6aJV3sOhfJ2DKeIjMxibWf4ytSWTD3JVMoUzr43PaANetb
- J1dpJwlce6hoHfntjCVOd/+yf05SpkzH9kwB8dKOWsfmUVEAAI0hDE5BwxZ/hFwRH9Xt
- xANEL4qKnagVYV6wHRNb5SZevyLLbPwcSLJxRUoq+eV9RL4kJPA6uP5P+CiBrCe7B+rJ
- A+Zw==
-X-Gm-Message-State: AGi0PuawTzm9hinOUloIKWa+7keddgAQHvIAKl1KLZYldof+pCy52mvK
- WW2m8nayYngJ1KFryk46434grQ==
-X-Google-Smtp-Source: APiQypIx2dDa3Zun8BVzrP44O8TzgjlTlMbjPWde3nQ8RlpWgEa+gXTLxG8w17f2SnwBotUpjoQTCw==
-X-Received: by 2002:a5d:49c8:: with SMTP id t8mr25026947wrs.5.1586876217783;
- Tue, 14 Apr 2020 07:56:57 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 138sm19848083wmb.14.2020.04.14.07.56.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 07:56:56 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7BD331FF7E;
- Tue, 14 Apr 2020 15:56:55 +0100 (BST)
-References: <20200411182934.28678-1-peter.maydell@linaro.org>
- <20200411182934.28678-3-peter.maydell@linaro.org>
-User-agent: mu4e 1.3.10; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH for-5.0? 2/3] scripts/kernel-doc: Add missing
- close-paren in c:function directives
-In-reply-to: <20200411182934.28678-3-peter.maydell@linaro.org>
-Date: Tue, 14 Apr 2020 15:56:55 +0100
-Message-ID: <874ktm9kug.fsf@linaro.org>
+ (envelope-from <kwolf@redhat.com>) id 1jOOy7-00040v-W4
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:03:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29564
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jON0P-00005z-QR
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 10:57:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586876261;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yp5TGuo/I/TtY3w9uQpkaw3+DeyTo3rCwGvzTSQtah8=;
+ b=fy2yRhopQkM7wXRuKjmj4EMlfj+y98TTpgaBuy+lKlR5t+tQui7fLliEXjU36W2+WUAGLD
+ +Xy6uhN6pHm1hZ/Y9RvmfYILRjMDW1VnogMuu1nwtv7tGSh/hXfY2mguRGt8dPm71EX3O1
+ xHXyx4MA/YOeFYJsATUjlVZZiDimGSg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-447-smaJWHKYOA-YeIVGtx9GUw-1; Tue, 14 Apr 2020 10:57:39 -0400
+X-MC-Unique: smaJWHKYOA-YeIVGtx9GUw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9365DA0CC1;
+ Tue, 14 Apr 2020 14:57:38 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-1.ams2.redhat.com [10.36.114.1])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5452B1000325;
+ Tue, 14 Apr 2020 14:57:37 +0000 (UTC)
+Date: Tue, 14 Apr 2020 16:57:35 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH for-5.1 5/8] qemu-option: Fix has_help_option()'s sloppy
+ parsing
+Message-ID: <20200414145735.GJ7747@linux.fritz.box>
+References: <20200409153041.17576-1-armbru@redhat.com>
+ <20200409153041.17576-6-armbru@redhat.com>
+ <4e7c8e64-b5fe-4b8c-70d4-f6b2ea527e6a@redhat.com>
+ <87o8ruv0c8.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <87o8ruv0c8.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,53 +77,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Am 14.04.2020 um 12:16 hat Markus Armbruster geschrieben:
+> Eric Blake <eblake@redhat.com> writes:
+>=20
+> > On 4/9/20 10:30 AM, Markus Armbruster wrote:
+> >> has_help_option() uses its own parser.  It's inconsistent with
+> >> qemu_opts_parse(), as demonstrated by test-qemu-opts case
+> >> /qemu-opts/has_help_option.  Fix by reusing the common parser.
+> >>
+> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+> >> @@ -165,26 +165,6 @@ void parse_option_size(const char *name, const ch=
+ar *value,
+> >>       *ret =3D size;
+> >>   }
+> >>   -bool has_help_option(const char *param)
+> >> -{
+> >> -    const char *p =3D param;
+> >> -    bool result =3D false;
+> >> -
+> >> -    while (*p && !result) {
+> >> -        char *value;
+> >> -
+> >> -        p =3D get_opt_value(p, &value);
+> >> -        if (*p) {
+> >> -            p++;
+> >> -        }
+> >> -
+> >> -        result =3D is_help_option(value);
+> >
+> > Old code: both 'help' and '?' are accepted.
+> >
+> >> +bool has_help_option(const char *params)
+> >> +{
+> >> +    const char *p;
+> >> +    char *name, *value;
+> >> +    bool ret;
+> >> +
+> >> +    for (p =3D params; *p;) {
+> >> +        p =3D get_opt_name_value(p, NULL, &name, &value);
+> >> +        ret =3D !strcmp(name, "help");
+> >
+> > New code: only 'help' is accepted.  Is the loss of '?' intentional?
+>=20
+> No.  Will fix, thanks!
 
-> When kernel-doc generates a 'c:function' directive for a function
-> one of whose arguments is a function pointer, it fails to print
-> the close-paren after the argument list of the function pointer
-> argument, for instance:
+Please also add some '?' test cases while you're at it.
 
-for instance in the memory API documentation:
+Kevin
 
-?
-
->   .. c:function:: void memory_region_init_resizeable_ram (MemoryRegion * =
-mr, struct Object * owner, const char * name, uint64_t size, uint64_t max_s=
-ize, void (*resized) (const char*, uint64_t length, void *host, Error ** er=
-rp)
->
-> which should have a ')' after the 'void *host' which is the
-> last argument to 'resized'.
->
-> Older versions of Sphinx don't try to parse the argumnet
-> to c:function, but Sphinx 3.0 does do this and will complain:
->
->   /home/petmay01/linaro/qemu-from-laptop/qemu/docs/../include/exec/memory=
-.h:834: WARNING: Error in declarator or parameters
->   Invalid C declaration: Expecting "," or ")" in parameters, got "EOF". [=
-error at 208]
->     void memory_region_init_resizeable_ram (MemoryRegion * mr, struct Obj=
-ect * owner, const char * name, uint64_t size, uint64_t max_size, void (*re=
-sized) (const char*, uint64_t length, void *host, Error ** errp)
->     ---------------------------------------------------------------------=
----------------------------------------------------------------------------=
-----------------------------------------------------------------^
->
-> Add the missing close-paren.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-
-Anyway:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
