@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C048E1A851E
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:36:20 +0200 (CEST)
-Received: from localhost ([::1]:34320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34D1F1A8795
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 19:34:53 +0200 (CEST)
+Received: from localhost ([::1]:36400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOXr-0004gt-Mv
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:36:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52117)
+	id 1jOPSW-0006GD-90
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 13:34:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45805)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jOOPc-0007ql-3T
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:27:49 -0400
+ (envelope-from <armbru@redhat.com>) id 1jOP7t-0000aQ-Bf
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:13:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jOOPa-0007hC-Kn
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:27:47 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:45898
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1jOP7r-0004Je-6v
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:13:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28177
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOMcQ-0008Qd-TP
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 10:32:54 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jOMdm-0000KA-Az
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 10:34:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586874774;
+ s=mimecast20190719; t=1586874858;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=usud7HQtWcVJijpTkz2PO4OweNTy74ApJTA60pfgfLM=;
- b=DFhOGUfOTTJP6d9KA3XWjHzbqZGTM6T3mf9pEpeSwxA6BkKO3zIBPrkDTmzG/OOuJ8mxlw
- atbj152AKAA3NuAPZSo7Hk9SuHaKL7Ql1ALE3Kax+c0PQfbkWiLmPtBqe7auQjYFH6kSJf
- ALlckXLfw6h5bOYnNNgw4G4/YywzRH8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-3QdrhU5nOTm36XNY5UTgbw-1; Tue, 14 Apr 2020 10:32:53 -0400
-X-MC-Unique: 3QdrhU5nOTm36XNY5UTgbw-1
-Received: by mail-wr1-f72.google.com with SMTP id s11so3916729wru.6
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 07:32:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=DlcgVz7EPaAP2AnC9Mg/H61s7VGki7VELu66pHcsX8M=;
- b=p2z3cX35rOiHhWn/AdfJEuzQj7F7OZ09QP3Q1Vcrg2QkYykhsSSyYpaDxwGzIRf5kb
- ALdePEFWg8rHTmV6sgNirTlv4iSgU7cwn2asJsKF6P4abnS0EN+UpRjouVaDhyye9KzM
- G8PnNMwIPYewLKu/6jBytBKDSg05x/82+73syCN/N3096zeIJrBYhEJqOX8VLRdQayBD
- NAe/6Tzs9ZkUdtgnlOG/MuUU7/kSfYuAsWyLKQ+J5UYRjlGS11ZkMKW3SasQ4FvqKos3
- 1N0saI4sa6+TOVifuYTDqUr5W4NOZT647/lzEsqkowrge/RfkdciXy3HyES4YoWhlYvJ
- wLiw==
-X-Gm-Message-State: AGi0PubUS1a8NTtCckdNrv61lcSJzSV0z2QgofCT8Rc6C5KgYMig3H/J
- FmFcwjMlay9GKz7LJu7FJm3QZocQDaZSD7pQW0iE1M7fhtuQnzXqj8yc3+/vDrRinLa0fXq31WK
- GGTawKYrR15NkVE8=
-X-Received: by 2002:adf:cd0b:: with SMTP id w11mr23395490wrm.161.1586874771788; 
- Tue, 14 Apr 2020 07:32:51 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLziDO4Yb83DWlpveulj3lVb9bkkfCKws6I53ZNVAwfcHGSn8jSeivxZ0iY1ozoLCkfoEg+Gw==
-X-Received: by 2002:adf:cd0b:: with SMTP id w11mr23395478wrm.161.1586874771613; 
- Tue, 14 Apr 2020 07:32:51 -0700 (PDT)
-Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id q187sm19020295wma.41.2020.04.14.07.32.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 07:32:51 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0 v2 2/2] gdbstub: Introduce gdb_get_float64() to get
- 64-bit float registers
-Date: Tue, 14 Apr 2020 16:32:40 +0200
-Message-Id: <20200414143240.21764-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200414143240.21764-1-philmd@redhat.com>
-References: <20200414143240.21764-1-philmd@redhat.com>
+ bh=sFzhb4kAEqasUttGXHDzOYFmUYzd9ujfsvx8e7mBgk0=;
+ b=jJcK90Ie1L9mknYfx9KPCzKiSZqN9Ddi+L+b/3ShKDDgha7ApVVS+bzN0wdI9ZhGJv+D4G
+ 6fWT1KKVF45IECz9xNB/iDKqT8ufhk7Bz8haSacY/FN5fZBraEqFThGPoPFe302qGzArWC
+ AMmxH9eJyFShcK84wDmWfcaQqkAlnSM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-292-StHte5k0PMG5agVruekZxA-1; Tue, 14 Apr 2020 10:34:15 -0400
+X-MC-Unique: StHte5k0PMG5agVruekZxA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 954D9107ACCD;
+ Tue, 14 Apr 2020 14:34:14 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-20.ams2.redhat.com
+ [10.36.113.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5EA8B99DFD;
+ Tue, 14 Apr 2020 14:34:14 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id BE89411385C8; Tue, 14 Apr 2020 16:34:12 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH for-5.1 8/8] qemu-option: Move is_valid_option_list() to
+ qemu-img.c and rewrite
+References: <20200409153041.17576-1-armbru@redhat.com>
+ <20200409153041.17576-9-armbru@redhat.com>
+ <e3d05915-268f-0d1a-e760-723a10807d16@redhat.com>
+ <87k12ixxlb.fsf@dusky.pond.sub.org>
+Date: Tue, 14 Apr 2020 16:34:12 +0200
+In-Reply-To: <87k12ixxlb.fsf@dusky.pond.sub.org> (Markus Armbruster's message
+ of "Tue, 14 Apr 2020 10:47:44 +0200")
+Message-ID: <87blnup257.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,111 +79,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When converted to use GByteArray in commits 462474d760c and
-a010bdbe719, the call to stfq_p() was removed. This call
-serialize a float.
-Since we now use a GByteArray, we can not use stfq_p() directly.
-Introduce the gdb_get_float64() helper to load a float64 register.
+Markus Armbruster <armbru@redhat.com> writes:
 
-Fixes: 462474d760c ("target/m68k: use gdb_get_reg helpers")
-Fixes: a010bdbe719 ("extend GByteArray to read register helpers")
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- include/exec/gdbstub.h          | 12 ++++++++++++
- target/m68k/helper.c            |  3 ++-
- target/ppc/gdbstub.c            |  4 ++--
- target/ppc/translate_init.inc.c |  2 +-
- 4 files changed, 17 insertions(+), 4 deletions(-)
+> Eric Blake <eblake@redhat.com> writes:
+>
+>> On 4/9/20 10:30 AM, Markus Armbruster wrote:
+>>> is_valid_option_list()'s purpose is ensuring qemu-img.c's can safely
+>>> join multiple parameter strings separated by ',' like this:
+>>>
+>>>          g_strdup_printf("%s,%s", params1, params2);
+>>>
+>>> How it does that is anything but obvious.  A close reading of the code
+>>> reveals that it fails exactly when its argument starts with ',' or
+>>> ends with an odd number of ','.  Makes sense, actually, because when
+>>> the argument starts with ',', a separating ',' preceding it would get
+>>> escaped, and when it ends with an odd number of ',', a separating ','
+>>> following it would get escaped.
+>>>
+>>> Move it to qemu-img.c and rewrite it the obvious way.
+>>>
+>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>>> ---
+>>>   include/qemu/option.h |  1 -
+>>>   qemu-img.c            | 26 ++++++++++++++++++++++++++
+>>>   util/qemu-option.c    | 22 ----------------------
+>>>   3 files changed, 26 insertions(+), 23 deletions(-)
+>>>
+>>
+>>> +++ b/qemu-img.c
+>>> @@ -223,6 +223,32 @@ static bool qemu_img_object_print_help(const char =
+*type, QemuOpts *opts)
+>>>       return true;
+>>>   }
+>>>   +/*
+>>> + * Is @optarg safe for accumulate_options()?
+>>> + * It is when multiple of them can be joined together separated by ','=
+.
+>>> + * To make that work, @optarg must not start with ',' (or else a
+>>> + * separating ',' preceding it gets escaped), and it must not end with
+>>> + * an odd number of ',' (or else a separating ',' following it gets
+>>> + * escaped).
+>>> + */
+>>> +static bool is_valid_option_list(const char *optarg)
+>>> +{
+>>> +    size_t len =3D strlen(optarg);
+>>> +    size_t i;
+>>> +
+>>> +    if (optarg[0] =3D=3D ',') {
+>>> +        return false;
+>>> +    }
+>>> +
+>>> +    for (i =3D len; i > 0 && optarg[i - 1] =3D=3D ','; i--) {
+>>> +    }
+>>> +    if ((len - i) % 2) {
+>>> +        return false;
+>>> +    }
+>>> +
+>>> +    return true;
+>>
+>> Okay, that's easy to read.  Note that is_valid_option_list("") returns
+>> true.
+>
+> Hmm, that's a bug:
+>
+>     $ qemu-img create -f qcow2 -o backing_file=3Da -o "" -o backing_fmt=
+=3Draw,size=3D1M new.qcow2
+>     qemu-img: warning: Could not verify backing image. This may become an=
+ error in future versions.
+>     Could not open 'a,backing_fmt=3Draw': No such file or directory
+>     Formatting 'new.qcow2', fmt=3Dqcow2 size=3D1048576 backing_file=3Da,,=
+backing_fmt=3Draw cluster_size=3D65536 lazy_refcounts=3Doff refcount_bits=
+=3D16
+>     $ qemu-img info new.qcow2=20
+>     image: new.qcow2
+>     file format: qcow2
+>     virtual size: 1 MiB (1048576 bytes)
+>     disk size: 196 KiB
+>     cluster_size: 65536
+> --> backing file: a,backing_fmt=3Draw
+>     Format specific information:
+>         compat: 1.1
+>         lazy refcounts: false
+>         refcount bits: 16
+>         corrupt: false
+>
+> My rewrite preserves this bug.  Will fix in v2.
 
-diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
-index 3caca99416..ef88cefbf6 100644
---- a/include/exec/gdbstub.h
-+++ b/include/exec/gdbstub.h
-@@ -137,6 +137,18 @@ static inline int gdb_get_float32(GByteArray *array, f=
-loat32 val)
-     return sizeof(buf);
- }
-=20
-+static inline int gdb_get_float64(GByteArray *array, float64 val)
-+{
-+    uint8_t buf[8];
-+
-+    QEMU_BUILD_BUG_ON(sizeof(CPU_DoubleU) !=3D sizeof(buf));
-+
-+    stfq_p(buf, val);
-+    g_byte_array_append(array, buf, sizeof(buf));
-+
-+    return sizeof(buf);
-+}
-+
- static inline int gdb_get_zeroes(GByteArray *array, size_t len)
- {
-     for (size_t i =3D 0; i < len; i++) {
-diff --git a/target/m68k/helper.c b/target/m68k/helper.c
-index 014657c637..cc80b48dda 100644
---- a/target/m68k/helper.c
-+++ b/target/m68k/helper.c
-@@ -72,7 +72,8 @@ static int cf_fpu_gdb_get_reg(CPUM68KState *env, GByteArr=
-ay *mem_buf, int n)
- {
-     if (n < 8) {
-         float_status s;
--        return gdb_get_reg64(mem_buf, floatx80_to_float64(env->fregs[n].d,=
- &s));
-+        return gdb_get_float64(mem_buf,
-+                               floatx80_to_float64(env->fregs[n].d, &s));
-     }
-     switch (n) {
-     case 8: /* fpcontrol */
-diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
-index eb362dd9ae..5c11c88b2a 100644
---- a/target/ppc/gdbstub.c
-+++ b/target/ppc/gdbstub.c
-@@ -130,7 +130,7 @@ int ppc_cpu_gdb_read_register(CPUState *cs, GByteArray =
-*buf, int n)
-         gdb_get_regl(buf, env->gpr[n]);
-     } else if (n < 64) {
-         /* fprs */
--        gdb_get_reg64(buf, *cpu_fpr_ptr(env, n - 32));
-+        gdb_get_float64(buf, *cpu_fpr_ptr(env, n - 32));
-     } else {
-         switch (n) {
-         case 64:
-@@ -184,7 +184,7 @@ int ppc_cpu_gdb_read_register_apple(CPUState *cs, GByte=
-Array *buf, int n)
-         gdb_get_reg64(buf, env->gpr[n]);
-     } else if (n < 64) {
-         /* fprs */
--        gdb_get_reg64(buf, *cpu_fpr_ptr(env, n - 32));
-+        gdb_get_float64(buf, *cpu_fpr_ptr(env, n - 32));
-     } else if (n < 96) {
-         /* Altivec */
-         gdb_get_reg64(buf, n - 64);
-diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.in=
-c.c
-index e853164a86..d825cb5975 100644
---- a/target/ppc/translate_init.inc.c
-+++ b/target/ppc/translate_init.inc.c
-@@ -9881,7 +9881,7 @@ static int gdb_get_float_reg(CPUPPCState *env, GByteA=
-rray *buf, int n)
- {
-     uint8_t *mem_buf;
-     if (n < 32) {
--        gdb_get_reg64(buf, *cpu_fpr_ptr(env, n));
-+        gdb_get_float64(buf, *cpu_fpr_ptr(env, n));
-         mem_buf =3D gdb_get_reg_ptr(buf, 8);
-         ppc_maybe_bswap_register(env, mem_buf, 8);
-         return 8;
---=20
-2.21.1
+Kevin, two obvious fixes:
+
+* Make is_valid_option_list() reject -o ""
+
+* Make accumulate_options(options, "") return options.
+
+Got a preference?
+
+[...]
 
 
