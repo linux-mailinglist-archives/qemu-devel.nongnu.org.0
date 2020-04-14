@@ -2,85 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B46B1A791C
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 13:07:53 +0200 (CEST)
-Received: from localhost ([::1]:58374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEA711A7931
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 13:13:35 +0200 (CEST)
+Received: from localhost ([::1]:58422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOJPz-0005xf-P9
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 07:07:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52106)
+	id 1jOJVW-0000we-Rs
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 07:13:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52487)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jOJO7-0005P3-Uz
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 07:05:59 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jOJT8-0007I0-HC
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 07:11:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jOJO6-0006wL-TQ
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 07:05:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29391
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOJO6-0006w5-QY
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 07:05:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586862354;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fhKic4CgLDAITTVqOWLQc/a0CpGBlrbxOka9h/3X3Xg=;
- b=RLCw0krnZXF2ID2OANKOdLOwVIoYkC8y1heVodYxFORhTCpbzYjqkoG/XbzPA1EXiQrQ/4
- wLHd78G4bYuZqhhP/I4A4CvIvazwkrlG53YU39g61xSd3teFcu1qkpVPYkk//N3kjZT30a
- yFfgTkM8EVSqysdp25dSAFHNqwI5dzo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-477-bcdalglVNDieb2-SIL8Glw-1; Tue, 14 Apr 2020 07:05:51 -0400
-X-MC-Unique: bcdalglVNDieb2-SIL8Glw-1
-Received: by mail-wr1-f69.google.com with SMTP id r17so8475142wrg.19
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 04:05:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IMZOTjQzgLyDI6M332pDffSdIQH9Z471mNNr3+WXrPk=;
- b=acWZqOvvYCW3RLK1F0Urvpjpmp47nCEeXNlVhCWvFkI5zEdBk0Ox+efzjF/aqVqFIN
- J1SDUpnfs+T9NBgSz5hmx2NAx5z4Lomi6ub7fkuFOgoG8ZHKLrwf1lkppfMqAYaAw4Cc
- z75E1YaZiM8Axy0lZ2RMi5n0s8sbo8XLQvWFgve4074jivwki/cbKvg9q6gU7Bhy6TlU
- dWG1sHS94qK4fLdlZfOUyvdorXEQLw1Jhexz4gpBXZ4sAYQIEXuZb0ywCRUt/USP9h96
- Tx4efh4wDu0jCbS/lnF/WldaKcTPrtwxR5ERGBesyV1b/VY39ORsQLq6N4xBSkDCZgFV
- ZboA==
-X-Gm-Message-State: AGi0PubqhQcTlLySRwXkTLtD0NfGuAP7fLY4b2Kg70SpXulpPTZ4jYdP
- W+/Lcvd8TNdRT+iMIqcuUUlLn5AXW81hr9OIAyKeYQ2FItdhqX8+e6mrwWedrfxd8vPRTWrf3io
- hUbAJzTS3RK1ALSM=
-X-Received: by 2002:adf:c442:: with SMTP id a2mr21985007wrg.110.1586862349945; 
- Tue, 14 Apr 2020 04:05:49 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIbN0fe8Ama2qI+/1Q2RknOTHjp0tsYdxi96xJzVtLc36o6Mc5PQ1OJRdgjk0mUpKicyivIhg==
-X-Received: by 2002:adf:c442:: with SMTP id a2mr21984989wrg.110.1586862349740; 
- Tue, 14 Apr 2020 04:05:49 -0700 (PDT)
-Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id k185sm18888734wmb.7.2020.04.14.04.05.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Apr 2020 04:05:49 -0700 (PDT)
-Subject: Re: [PATCH-for-5.0] gdbstub: Do not use memset() on GByteArray
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200414102427.7459-1-philmd@redhat.com>
- <CAFEAcA-PyMisjC25CSGyU5-ASjaAd7gQMabzMCR=uvudSBk-Fw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <357e2335-b00f-cd28-4ade-d6286ace144f@redhat.com>
-Date: Tue, 14 Apr 2020 13:05:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-PyMisjC25CSGyU5-ASjaAd7gQMabzMCR=uvudSBk-Fw@mail.gmail.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jOJT5-0000eV-BA
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 07:11:06 -0400
+Received: from mail-eopbgr50107.outbound.protection.outlook.com
+ ([40.107.5.107]:18879 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jOJSz-0000bu-5r; Tue, 14 Apr 2020 07:10:57 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NNZjnUud9Leyyv+4xEd9ehZcGTO65jiT+Z4tdkyUbju6ZLTKVSOn5mb2fhjuPaw+LFjeDcxeSacQnphT+3pnfUjdSCwqwstX7qhe43gkApKgLJdEWmv7OruzOPqD+Zye/9+S9K3uhb9QY0Rmvt5B56gaXmDpnFQ6jQMMUgC11xnj1yNpxh7kiOsYBdwCBk24JGaOr1F/ZG1RaTMCcy5GMIJx3rnJC1CW8/OfXCESgnOcrsCrmkD08aOPUWqBY8PUEYjoCpUHzRIKpfcQaayHqbktj6yIzR22oBFV6vHjY08+NcaPOfLiA9FodIx8YyJaJ/ewYpeyIcCMwaZ59zjjIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bVJfeV7/QTLKzuCcaEkJdtooZx/TLtYi5idgX1dyGo4=;
+ b=KB6U5KUeSd0N5a3IMBiaL9G6gsHrLDzS5rSrxrQt7Gf5QU6URYoRaYFxnIY8MGvrh2OTwbCn5tiA34qWtHhrYWAnKLez6Q/vn8vXwDQ3HAptHpAazd40QxXl93QquB0BxX9GmKjzMik0sQbpHZBfdN2yGdCGTD76V7xuJ5y5Q77QRftWGt6JQB1CW/z08Yi1WVqPlg0MHNGTpSydo7JoryExAaCayzUKVFmPxJMrbmRmjzxsLHiFYTJC1HLje4fmPrn0z/G3wCjJLjGuYqLicu2dN3c+vPz4JWtzVaqWCE6jPPSOZ1xm5sW0T6QjGtzebhdgdFm9E4tbBADo1py5gA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bVJfeV7/QTLKzuCcaEkJdtooZx/TLtYi5idgX1dyGo4=;
+ b=Rr7oCRsC6R7Ue1jRiok4ZOXOxPpqrnQq/ZGL0YEr8zYyRbBh1ikLnceaAmUebJ0CkE9F87NK1UKetLbRyrlyVkpkV7HdLdwPZ9zPuikjz8OB5zhcZA5KBSLigawslilOWxBgigiEvTLbmYwogOjQyKb4eFMcMl3lJrqTHWhTHO8=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5496.eurprd08.prod.outlook.com (2603:10a6:20b:de::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.17; Tue, 14 Apr
+ 2020 11:10:54 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%4]) with mapi id 15.20.2900.028; Tue, 14 Apr 2020
+ 11:10:54 +0000
+Subject: Re: [PATCH v4 13/30] qcow2: Add QCow2SubclusterType and
+ qcow2_get_subcluster_type()
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <cover.1584468723.git.berto@igalia.com>
+ <fe21a93340427771899c47569c47063b849b54e6.1584468723.git.berto@igalia.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200414141047003
+Message-ID: <1fb53079-7a3f-9b4f-7194-74090bf52210@virtuozzo.com>
+Date: Tue, 14 Apr 2020 14:10:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <fe21a93340427771899c47569c47063b849b54e6.1584468723.git.berto@igalia.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR01CA0112.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:168::17) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.131) by
+ AM0PR01CA0112.eurprd01.prod.exchangelabs.com (2603:10a6:208:168::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.15 via Frontend
+ Transport; Tue, 14 Apr 2020 11:10:51 +0000
+X-Tagtoolbar-Keys: D20200414141047003
+X-Originating-IP: [185.215.60.131]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 22e9a78d-95b5-4598-a7c8-08d7e0647f81
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5496:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5496158F9E7D7CEF8FC4FD86C1DA0@AM7PR08MB5496.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Forefront-PRVS: 0373D94D15
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(10019020)(4636009)(396003)(346002)(39850400004)(366004)(376002)(136003)(52116002)(8676002)(86362001)(26005)(186003)(8936002)(31696002)(81156014)(16576012)(66476007)(66556008)(316002)(4326008)(16526019)(66946007)(36756003)(6666004)(54906003)(2906002)(956004)(6486002)(478600001)(107886003)(5660300002)(19627235002)(2616005)(31686004);
+ DIR:OUT; SFP:1102; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CJ8ZGdShfWNf8a7iqahqGzMqU51VvfJGfmCsZlnYfKwp98r768mookPYXbon4IoJIZ+yPJi/6r8a9JjfDj2t3e5f2w9k0s1Q78dgTTt/sM0Q9vs2W/hmwX4oh4BRSZB4BYP28V7mrwM5V8aSUG7+ygRAytBQXthAH12/Zo5S7ZO7RnYUNbzU0rCufHz4k/VNTvMFpNnj9oPmBxPI+yAiCFV/Q70enFDRiCjqxzolI5LPv/MeJOQoAFoXJgKSCkgF52jgZa+NdvoyRtnhk/FD0J0u+c6iRPSFHIuTCtf8NQhdPj8AU482mDP96XJ392XhYSNSE3RbsvaNv3n/U0VLtPRlIHihesIw90xqBoubu7mueetqAUG5Ne0PhNg5cXtnFUvXsZpmOglxn1gK+f6jUmpEvZ8S6uifMNQUIHY/1Ue4uS/fsZNmwZJ7WBPA4sID
+X-MS-Exchange-AntiSpam-MessageData: xGh2AhdSUK8l6LCUkvphzUP7/D2Hd6piOF4KcMXRCrnTCt9KqXVfImM0CghUwgI/rQk2jiLulRlQ5gHDD5LEM7qSeVjKGbmki/gSMguSAajUcoHw9hpC4TE9VPcNZPpyl6HlNt/nDIJoKjjSE6St6g==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22e9a78d-95b5-4598-a7c8-08d7e0647f81
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2020 11:10:53.8700 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ydn0vUvsQEiwtoDINIcEkzC6Ep2Sa0uFiuVIWJvJhMJxRcdS2cg6nue/1cylBo5CuBzRomLajC3RccY5J+H7H4TKdLFpcUyqgCF3gmrQwp4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5496
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.5.107
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,83 +113,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Max Filippov <jcmvbkbc@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/14/20 12:52 PM, Peter Maydell wrote:
-> On Tue, 14 Apr 2020 at 11:24, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
-com> wrote:
->>
->> Introduce gdb_get_zeroes() to fill a GByteArray with zeroes.
->>
->> Fixes: a010bdbe719 ("extend GByteArray to read register helpers")
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> ---
->>   include/exec/gdbstub.h  | 9 +++++++++
->>   target/arm/gdbstub.c    | 3 +--
->>   target/xtensa/gdbstub.c | 6 ++----
->>   3 files changed, 12 insertions(+), 6 deletions(-)
->>
->> diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
->> index 30b909ebd2..b52d9933ee 100644
->> --- a/include/exec/gdbstub.h
->> +++ b/include/exec/gdbstub.h
->> @@ -125,6 +125,15 @@ static inline int gdb_get_reg128(GByteArray *buf, u=
-int64_t val_hi,
->>       return 16;
->>   }
->>
->> +static inline int gdb_get_zeroes(GByteArray *array, size_t len)
->> +{
->> +    for (size_t i =3D 0; i < len; i++) {
->> +        gdb_get_reg8(array, '\0');
->> +    }
->> +
->> +    return len;
->> +}
->=20
-> The other implementation option here would be
->=20
->       guint oldlen =3D array->len;
->       g_byte_array_set_size(array, oldlen + len);
->       memset(array->data + oldlen, 0, len);
+17.03.2020 21:16, Alberto Garcia wrote:
+> This patch adds QCow2SubclusterType, which is the subcluster-level
+> version of QCow2ClusterType. All QCOW2_SUBCLUSTER_* values have the
+> the same meaning as their QCOW2_CLUSTER_* equivalents (when they
+> exist). See below for details and caveats.
+> 
+> In images without extended L2 entries clusters are treated as having
+> exactly one subcluster so it is possible to replace one data type with
+> the other while keeping the exact same semantics.
+> 
+> With extended L2 entries there are new possible values, and every
+> subcluster in the same cluster can obviously have a different
+> QCow2SubclusterType so functions need to be adapted to work on the
+> subcluster level.
+> 
+> There are several things that have to be taken into account:
+> 
+>    a) QCOW2_SUBCLUSTER_COMPRESSED means that the whole cluster is
+>       compressed. We do not support compression at the subcluster
+>       level.
+> 
+>    b) There are two different values for unallocated subclusters:
+>       QCOW2_SUBCLUSTER_UNALLOCATED_PLAIN which means that the whole
+>       cluster is unallocated, and QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC
+>       which means that the cluster is allocated but the subcluster is
+>       not. The latter can only happen in images with extended L2
+>       entries.
+> 
+>    c) QCOW2_SUBCLUSTER_INVALID is used to detect the cases where an L2
+>       entry has a value that violates the specification. The caller is
+>       responsible for handling these situations.
+> 
+>       To prevent compatibility problems with images that have invalid
+>       values but are currently being read by QEMU without causing side
+>       effects, QCOW2_SUBCLUSTER_INVALID is only returned for images
+>       with extended L2 entries.
+> 
+> qcow2_cluster_to_subcluster_type() is added as a separate function
+> from qcow2_get_subcluster_type(), but this is only temporary and both
+> will be merged in a subsequent patch.
+> 
+> Signed-off-by: Alberto Garcia<berto@igalia.com>
 
-I thought about it but I'd rather not access GByteArray internals.
 
->=20
-> For length values < 16 my guess is the perf difference is
-> not going to be noticeable though.
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-On ARM it is called with size=3D12:
-
-target/arm/gdbstub.c:50:        memset(mem_buf, 0, 12);
-
-On Xtensa it is only used with unimplemented registers:
-
-         qemu_log_mask(LOG_UNIMP, "%s from reg %d of unsupported type %d\n"=
-,
-                       __func__, n, reg->type);
-
-If you prefer I can use a static empty buffer of 16 bytes and copy from it:
-
-static inline int gdb_get_zeroes(GByteArray *array, size_t len)
-{
-     static const uint8_t zeroed_buf[16] =3D { };
-
-     g_byte_array_append(array, zeroed_buf, MIN(len, sizeof(zeroed_buf)));
-     for (size_t i =3D sizeof(zeroed_buf); i < len; i++) {
-         gdb_get_reg8(array, '\0');
-     }
-
-     return len;
-}
-
->=20
-> thanks
-> -- PMM
->=20
-
+-- 
+Best regards,
+Vladimir
 
