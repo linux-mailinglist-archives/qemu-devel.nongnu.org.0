@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5FCC1A8C15
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 22:15:40 +0200 (CEST)
-Received: from localhost ([::1]:38526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 995E81A8BF7
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 22:11:16 +0200 (CEST)
+Received: from localhost ([::1]:38458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jORy8-00027Z-0U
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 16:15:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44578)
+	id 1jORtr-0005xZ-Ni
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 16:11:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44542)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jORpd-0006CK-LK
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 16:06:55 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jORpY-0006Ag-OG
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 16:06:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jORpa-0005zn-4N
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 16:06:52 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:38787)
+ (envelope-from <alex.bennee@linaro.org>) id 1jORpX-0005yQ-JD
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 16:06:48 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:54470)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jORpZ-0005zK-UZ
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 16:06:50 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id g12so7907648wmh.3
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 13:06:49 -0700 (PDT)
+ id 1jORpX-0005xz-CK
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 16:06:47 -0400
+Received: by mail-wm1-x332.google.com with SMTP id h2so14492110wmb.4
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 13:06:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bPwQhRdvGibSgM9jwxm8brESu2WKcPxrBlyVkpOMlqE=;
- b=ZHs6+T8P2V4NE5qGEv4Tz+U6rxgh9AG50KbjQDc/JCEXQbcKQXxH74p/9wXdbq8m3T
- FJqr+Ntsr+W9Wp1O/3HZMOkrHunP0sjl97W0fX9FqMQpNKgc7ikz2v5Jp1NScH1JHb6K
- mI/gYrdv4geJ/PKpUiF0A5uIGp5esL/iKB5aFfBYFJH0Ntm9hdyRGns69F84B8yK0Uj7
- 00eGNVDPH0/8avgkOUI3SWrQPvAuDwfqQ9kxAe2rcHWCy2w9WxCzWyPKGul2+vo/SYhN
- nwzez2xyveo79KiD+9qkXK+s+R9qDILnrHhQAOiub5u1K+BCtzvu3THlwhz4GTGRVW4C
- xPYA==
+ bh=aZ6FKx87IIsaQ+fv9HHif36FthP5pDUoqk2AxtvgmQ8=;
+ b=eUXplBNYodG6JvFBONo8L2tEaI/kp6eZoywXUqbyebmAcDcuCDcAeR0YJYW95D5TaH
+ 0RNJJwZpd3ggMQ/YHnfJGW72P1lZk0wVjw7RWju1wmk/LB2XZtag/CxNHYbBpDDcqYyq
+ 1hlP7oX7jJxTMPnELJTdLeg3hkiyyFtsBeuttFJT5tuIk86jyxkVhgNjv4saKw+uRsfn
+ F007fJBxomr6EKdpnxoRpIjjnAmQsOFKEaU3/lnOR8p3lGjven6DckXymUNTdqDz610z
+ 8X35a5na7Rav/ANxVFULQgDnsw55VRFt6+KfllhSogx72uBa5fR3gbQT4JDnxlwfCOh9
+ t6bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bPwQhRdvGibSgM9jwxm8brESu2WKcPxrBlyVkpOMlqE=;
- b=RPT2sncdYeHZO10O0lwzXZNKrOcQau1d5c04GHq6M29x3pfQAsamp3ZOaXpuFNXASZ
- EC8tcDR0hMUs3ZVVT4RP+zSkuet8R18Ca28dhO0RzLEK4hZy3wTrDVbiD2BkyCQoA/i/
- GKI9eKHx3QG0l/cUWoyrssLVPSlQ7OrtVO+Zrb3gtJlV7ar2Vm080Co7pzT7iScIMIY4
- 0Ow0ugLnYI+ARjijs36KOk6a2ilQvJf4rcz9oTmzoWnIOpo3Bvcby8bg0NepRmQrh9lX
- ncQIrKGiuxWhxj8dLr+qaEAJo3YopK4sWAgJ63o7hVFby05zrBJj7zelCFfz2QCetOZM
- GiNA==
-X-Gm-Message-State: AGi0PuYGa/q6TuWH0CVyDHxXE8bs1J9iwoE+j+B6pwutREiK29MJ8zlB
- d9vdpZSRWTQcAd49wL4T6nqW5A==
-X-Google-Smtp-Source: APiQypLF+7Hb1JbiLgu9Jecullk+r5OV6x3N5GcjwrmnSqmSUtLByTYR1yMftF30io3ddg9Gnnyc6A==
-X-Received: by 2002:a1c:dfc2:: with SMTP id w185mr1427740wmg.1.1586894808896; 
- Tue, 14 Apr 2020 13:06:48 -0700 (PDT)
+ bh=aZ6FKx87IIsaQ+fv9HHif36FthP5pDUoqk2AxtvgmQ8=;
+ b=b4NDhEZnHBO25iBElobheZm0ggRpAlM3SfUIc+cfwznOI3LrwRmqyPacr/z+TuZ3wO
+ t8/eE304Ko2g4jyabb3bYna+AVHayChut/9+f75cARVYelQBnYv1hyf5JV8ee6PnGTvH
+ bAp6OwVz+zDrMmRuLkXQeTkVWqFLbCl3egta08p0tYpE7UB9gOLSuQQXDjhCUU0W4DIZ
+ P6GwhXLSutLcGstW13xPUR/u93H0hhkPRLitBMrfmQ6SXpnx66uK4q0dGjkouh8GV3/p
+ sxebk5xG2aOlZS+wBwsaxMPb1GbFHIntt3J0+9fDjbrxWOp8kOwHEoGtXbkz2m9uvUrj
+ 2K+Q==
+X-Gm-Message-State: AGi0PuZsTXPUut4DWGqYFi4Yd49f6TUlcejK1C/S9F+azTfQDkDU/6Rw
+ mI1erRPgPfaUuce1sMuwc2PKOQ==
+X-Google-Smtp-Source: APiQypIjq+bOv/fD6Tg0a0tqQj+Pv+Ssu1MFdXasDH/p9VfEpXuxFlYElcFgMoNkUfcyGdzr9yZeBg==
+X-Received: by 2002:a1c:4b0a:: with SMTP id y10mr1472289wma.24.1586894806418; 
+ Tue, 14 Apr 2020 13:06:46 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a205sm15483375wmh.29.2020.04.14.13.06.38
+ by smtp.gmail.com with ESMTPSA id q17sm11836553wmj.45.2020.04.14.13.06.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 14 Apr 2020 13:06:44 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 585D81FF9A;
+ by zen.linaroharston (Postfix) with ESMTP id 87CFB1FF9B;
  Tue, 14 Apr 2020 21:06:33 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 11/17] gdbstub: i386: Fix gdb_get_reg16() parameter to
- unbreak gdb
-Date: Tue, 14 Apr 2020 21:06:25 +0100
-Message-Id: <20200414200631.12799-12-alex.bennee@linaro.org>
+Subject: [PATCH  v2 12/17] gdbstub: Do not use memset() on GByteArray
+Date: Tue, 14 Apr 2020 21:06:26 +0100
+Message-Id: <20200414200631.12799-13-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200414200631.12799-1-alex.bennee@linaro.org>
 References: <20200414200631.12799-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32e
+X-Received-From: 2a00:1450:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,56 +81,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+Cc: Max Filippov <jcmvbkbc@gmail.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Stefano Garzarella <sgarzare@redhat.com>
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Xu <peterx@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-We should only pass in gdb_get_reg16() with the GByteArray* object
-itself, no need to shift.  Without this patch, gdb remote attach will
-crash QEMU:
-
-  (gdb) target remote :1234
-  Remote debugging using :1234
-  Remote communication error.  Target disconnected.: Connection reset by peer.
-  $ qemu-system-x86_64 -m 1G -smp 4 ... -s
-  ERROR:qemu/gdbstub.c:1843:handle_read_all_regs: assertion failed: (len == gdbserver_state.mem_buf->len)
-  Bail out! ERROR:qemu/gdbstub.c:1843:handle_read_all_regs: assertion failed: (len == gdbserver_state.mem_buf->len)
+Introduce gdb_get_zeroes() to fill a GByteArray with zeroes.
 
 Fixes: a010bdbe719 ("extend GByteArray to read register helpers")
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200414102427.7459-1-philmd@redhat.com>
+[AJB: used slightly more gliby set_size approach]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Stefano Garzarella <sgarzare@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200409164954.36902-3-peterx@redhat.com>
-
 ---
-v2
-  - tags and expand comment
----
- target/i386/gdbstub.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/exec/gdbstub.h  | 9 +++++++++
+ target/arm/gdbstub.c    | 3 +--
+ target/xtensa/gdbstub.c | 6 ++----
+ 3 files changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
-index f3d23b614ee..b98a99500ae 100644
---- a/target/i386/gdbstub.c
-+++ b/target/i386/gdbstub.c
-@@ -106,7 +106,7 @@ int x86_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
-     } else if (n >= IDX_FP_REGS && n < IDX_FP_REGS + 8) {
-         floatx80 *fp = (floatx80 *) &env->fpregs[n - IDX_FP_REGS];
-         int len = gdb_get_reg64(mem_buf, cpu_to_le64(fp->low));
--        len += gdb_get_reg16(mem_buf + len, cpu_to_le16(fp->high));
-+        len += gdb_get_reg16(mem_buf, cpu_to_le16(fp->high));
-         return len;
-     } else if (n >= IDX_XMM_REGS && n < IDX_XMM_REGS + CPU_NB_REGS) {
-         n -= IDX_XMM_REGS;
+diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
+index 30b909ebd27..3c452fc50c0 100644
+--- a/include/exec/gdbstub.h
++++ b/include/exec/gdbstub.h
+@@ -125,6 +125,15 @@ static inline int gdb_get_reg128(GByteArray *buf, uint64_t val_hi,
+     return 16;
+ }
+ 
++static inline int gdb_get_zeroes(GByteArray *array, size_t len)
++{
++    guint oldlen = array->len;
++    g_byte_array_set_size(array, oldlen + len);
++    memset(array->data + oldlen, 0, len);
++
++    return len;
++}
++
+ /**
+  * gdb_get_reg_ptr: get pointer to start of last element
+  * @len: length of element
+diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
+index 8efc535f2a0..063551df234 100644
+--- a/target/arm/gdbstub.c
++++ b/target/arm/gdbstub.c
+@@ -47,8 +47,7 @@ int arm_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+         if (gdb_has_xml) {
+             return 0;
+         }
+-        memset(mem_buf, 0, 12);
+-        return 12;
++        return gdb_get_zeroes(mem_buf, 12);
+     }
+     switch (n) {
+     case 24:
+diff --git a/target/xtensa/gdbstub.c b/target/xtensa/gdbstub.c
+index 0ee3feabe54..4d43f1340ae 100644
+--- a/target/xtensa/gdbstub.c
++++ b/target/xtensa/gdbstub.c
+@@ -105,8 +105,7 @@ int xtensa_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+         default:
+             qemu_log_mask(LOG_UNIMP, "%s from reg %d of unsupported size %d\n",
+                           __func__, n, reg->size);
+-            memset(mem_buf, 0, reg->size);
+-            return reg->size;
++            return gdb_get_zeroes(mem_buf, reg->size);
+         }
+ 
+     case xtRegisterTypeWindow: /*a*/
+@@ -115,8 +114,7 @@ int xtensa_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+     default:
+         qemu_log_mask(LOG_UNIMP, "%s from reg %d of unsupported type %d\n",
+                       __func__, n, reg->type);
+-        memset(mem_buf, 0, reg->size);
+-        return reg->size;
++        return gdb_get_zeroes(mem_buf, reg->size);
+     }
+ }
+ 
 -- 
 2.20.1
 
