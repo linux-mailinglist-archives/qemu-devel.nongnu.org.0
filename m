@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1F811A856A
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:43:30 +0200 (CEST)
-Received: from localhost ([::1]:34624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 534CC1A8724
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 19:12:39 +0200 (CEST)
+Received: from localhost ([::1]:35814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOen-0001U1-CC
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:43:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53531)
+	id 1jOP70-0006i9-CD
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 13:12:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41392)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jOOV2-0001U9-WA
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:33:25 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jOOzY-0003ye-3I
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:04:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jOOV2-00023f-5l
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:33:24 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:37984
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jOMo2-00036E-77
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 10:44:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586875493;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WyAUYt4L1plAb7f5jDAYmaD9SqzTXV5lpQp/1rOfuV8=;
- b=aUyE3jX6u21RyNIarjVfFmz2p4VRqkNMdelJ2l5/xvJyGAH7GTDFJg6gmrRbQUh3h07nsI
- sH8Azm6fkHEHXTTwUj6tV+nR4sX1iKKslmPHCCk/T2sxdVmRBwUY2rB8SQiRvZpml1SBBm
- 6l+Gd2zduB0vQQ5MbBgmI1pWg2OdGBM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-d6gV4beoNxSxzPu-1OO--g-1; Tue, 14 Apr 2020 10:44:51 -0400
-X-MC-Unique: d6gV4beoNxSxzPu-1OO--g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8452107B0E1;
- Tue, 14 Apr 2020 14:44:50 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-1.ams2.redhat.com [10.36.114.1])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CC7B7CFE15;
- Tue, 14 Apr 2020 14:44:49 +0000 (UTC)
-Date: Tue, 14 Apr 2020 16:44:48 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH for-5.1 3/8] qemu-option: Fix sloppy recognition of
- "id=..." after ",,"
-Message-ID: <20200414144448.GI7747@linux.fritz.box>
-References: <20200409153041.17576-1-armbru@redhat.com>
- <20200409153041.17576-4-armbru@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1jOOzW-0005L3-Vr
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:04:56 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:46889)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jOMql-00047Q-UE
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 10:47:44 -0400
+Received: by mail-pf1-x443.google.com with SMTP id m21so1026pff.13
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 07:47:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=6zBODJds4+fSTJpYuEtmzFzjzEaKbjVXEFHVqO+Gaqo=;
+ b=HlGtoP8hEKRc1QZED6Q1w6frytsbMTjixH+IopFibt8RgaC1filGd/sKRKAJcZEq1D
+ QKmGMitNsZdKOVQuh6pbp6bwGJsk2uRbMqj3+k6tNWR4orp06j91jH+lp8voFltpFZ6e
+ 6WAQc86PX+L9bqBq9ZZ/DNSP/lQXwvrwPnvNv9/gfca4YDpkVQwLH77HV4GI/J4irgcX
+ IhMd9F8CNwwSvimZtUaqq5s7pUOkTeYnsZuD477WAViKyTHWOB3Gl7nOxE83GvbutVqq
+ fXVU5AVIq4edWDIYjY0BNmWzEZ5MozOU478ERX23ecAmyAkknPkxpOlcf3cfauMmiGRp
+ Q/lQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6zBODJds4+fSTJpYuEtmzFzjzEaKbjVXEFHVqO+Gaqo=;
+ b=P6bKnszgJPirQFYWMPqh+xX9CAHo1wP9F8B5xoA+uW1p5D7Qnx4h2biqBRZ1rWqHlZ
+ 7B3RYWW6sPIeUBRC7qIsN5G59JYWLb4b5BVzTIAA1YXUpn/rx0dtE3L+44Txq5SRVy4z
+ coomm8zdZd7dOwkgos1RghRhpOkoBvJ54draQphUY1LneJ53fOZ4/12yyb2/RGfiqD4f
+ zwkwS1x/a1Lrg8gSeU3Qc/fWiRRXcJFobfGmnrtoO+ablIQPH3RgG0DjKX6eJGuhr9r4
+ osj7GjdsR76+9Q2ptAKde55ZREi3qQJeaUZxWRMbG+XMfTh9MN8td112fDHSx82nymup
+ PZvQ==
+X-Gm-Message-State: AGi0PuZk+p73hsudmeho1EheZLFhec4/Lh4+LdYsO93z7k8MCeVolhu7
+ gx0vQJwLX/7v/UbOCjp1U3Yt+w==
+X-Google-Smtp-Source: APiQypJQ4YR2BY2wYRkv2TRiwBc3oA8Ql7QWV/mqQj3xWZApBb8yBWwJPOHPqx3yKuEp0gmsseT/EA==
+X-Received: by 2002:a62:e414:: with SMTP id r20mr22767777pfh.96.1586875662596; 
+ Tue, 14 Apr 2020 07:47:42 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id r28sm5007678pfg.186.2020.04.14.07.47.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Apr 2020 07:47:41 -0700 (PDT)
+Subject: Re: [PATCH RFC] target/arm: Implement SVE2 MATCH, NMATCH
+To: Stephen Long <steplong@quicinc.com>, qemu-devel@nongnu.org
+References: <20200413234224.12005-1-steplong@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <895cd38f-f957-5328-6b61-c6f2b0d02788@linaro.org>
+Date: Tue, 14 Apr 2020 07:47:39 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200409153041.17576-4-armbru@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+In-Reply-To: <20200413234224.12005-1-steplong@quicinc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,13 +81,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
+Cc: apazos@quicinc.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 09.04.2020 um 17:30 hat Markus Armbruster geschrieben:
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+On 4/13/20 4:42 PM, Stephen Long wrote:
+> +#define DO_ZPZZ_CHAR_MATCH(NAME, TYPE, H, EQUALS)                            \
+> +void HELPER(NAME)(void *vd, void *vn, void *vm, void *vg, uint32_t desc)     \
+> +{                                                                            \
+> +    intptr_t i, opr_sz = simd_oprsz(desc);                                   \
+> +    for (i = 0; i < opr_sz; i += sizeof(TYPE)) {                             \
+> +        uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));                      \
+> +        uint16_t *pd = (uint16_t *)(vd + H1_2(i >> 3));                      \
+> +        *pd = (*pd & ~1) | ((0 & EQUALS) | (1 & !EQUALS));                   \
+> +        if (pg & 1) {                                                        \
 
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+The important error here is that the predicate is not always the low bit.  When
+operating on bytes, every bit of the predicate is significant.  When operating
+on halfwords, every even bit of the predicate is significant.  In addition,
+when operating on halfwords, every odd bit of the result predicate must be zero.
 
+Which is why, generally, I have constructed the output predicate as we go.
+See, for instance, DO_CMP_PPZZ.
+
+> +            TYPE nn = *(TYPE *)(vn + H(i));                                  \
+> +            for (intptr_t j = 0; j < 16; j += sizeof(TYPE)) {                \
+> +                TYPE mm = *(TYPE *)(vm + H(i * 16 + j));                     \
+
+mm needs to start at the beginning of the segment, which in this case is (i &
+-16).  You don't need the elements of mm in any particular order (all of them
+are significant), so you can drop the use of H() here.
+
+Therefore the indexing for mm should be vm + (i & -16) + j.
+
+> +                bool eq = nn == mm;                                          \
+> +                if ((eq && EQUALS) || (!eq && !EQUALS)) {                    \
+> +                    *pd = (*pd & ~1) | ((1 & EQUALS) | (0 & !EQUALS));       \
+> +                }                                                            \
+
+It might be handy to split out the inner loop to a helper function, as, while
+the basic loop is ok, there are tricks that can improve it, so that we're
+comparing 8 bytes at a time.
+
+
+> +static bool do_sve2_zpzz_char_match(DisasContext *s, arg_rprr_esz *a,
+> +                                    gen_helper_gvec_4 *fn)
+> +{
+> +    if (!dc_isar_feature(aa64_sve2, s)) {
+> +        return false;
+> +    }
+> +    if (fn == NULL) {
+> +        return false;
+> +    }
+> +    if (sve_access_check(s)) {
+> +        unsigned vsz = vec_full_reg_size(s);
+> +        unsigned psz = pred_full_reg_size(s);
+> +        int dofs = pred_full_reg_offset(s, a->rd);
+> +        int nofs = vec_full_reg_offset(s, a->rn);
+> +        int mofs = vec_full_reg_offset(s, a->rm);
+> +        int gofs = pred_full_reg_offset(s, a->pg);
+> +
+> +        /* Save a copy if the destination overwrites the guarding predicate */
+> +        int tofs = gofs;
+> +        if (a->rd == a->pg) {
+> +            tofs = offsetof(CPUARMState, vfp.preg_tmp);
+> +            tcg_gen_gvec_mov(0, tofs, gofs, psz, psz);
+> +        }
+> +
+> +        tcg_gen_gvec_4_ool(dofs, nofs, mofs, gofs, vsz, vsz, 0, fn);
+> +        do_predtest(s, dofs, tofs, psz / 8);
+
+You can avoid the copy and the predtest by using the iter_predtest_* functions
+and returning the flags result directly from the helper.  Again, see DO_CMP_PPZZ.
+
+
+r~
 
