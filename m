@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D21B1A8685
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 19:02:56 +0200 (CEST)
-Received: from localhost ([::1]:35416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C08041A8527
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:36:39 +0200 (CEST)
+Received: from localhost ([::1]:34336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOxb-0007xZ-IU
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 13:02:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38085)
+	id 1jOOYA-0005L3-Ab
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:36:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52026)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jOOtr-0003Fh-4V
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:59:04 -0400
+ (envelope-from <philmd@redhat.com>) id 1jOOPN-0007Jd-Lx
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:27:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jOOtp-0000s6-QI
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:59:03 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23199
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jOOPM-0007Zo-8B
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:27:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26198
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOLfK-0008MW-6f
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 09:31:50 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOLfQ-0008P6-5J
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 09:31:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586871109;
+ s=mimecast20190719; t=1586871115;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=paXjZbPCkV37DDf2O1tNOwKJgrQ4LCbjZD9did5UhGw=;
- b=CAGhbGeEVE5IyK+HvnZYSW7f5eF2gadfvEwuzlPQDNkQLqri0uaa2u0KsLOrBBwckTH6Hv
- 9Usw7wPKZpz7b+bSVNnsrVZZDmKN+3pnTfUKqNoH96Pb+r5pZ5CN9nUt6nHKHf423t9mVq
- hCeEd4FOy32vd8Cfe80b8T9B6FAhI7M=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-ZiymqHNpMOeHZ2i9ivgSZg-1; Tue, 14 Apr 2020 09:31:48 -0400
-X-MC-Unique: ZiymqHNpMOeHZ2i9ivgSZg-1
-Received: by mail-wr1-f72.google.com with SMTP id j22so8731086wrb.4
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 06:31:48 -0700 (PDT)
+ bh=Fjs4yVSzX/t7eIZ4BMJCeGD5o8nvdl+6NyWwA/aHCM0=;
+ b=fCVIrjvANftPw/cpB8vc7GG2NPioQJ7Z3AUnVzDsLd8yUWu7dH9dsNYx8A0nZhEdBe12PQ
+ KPrIaEvm8vF3a66ADEwLEkKpNUMql4RkKMRx3V5TEp0iJ1foSypHn3UKxC9XfWj2Al/nVN
+ +zVlOZ3jTXgrxaPT8PJdoTH2q4ZJfJY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-453-_fImy4kmMVWZ7V47WhgILQ-1; Tue, 14 Apr 2020 09:31:54 -0400
+X-MC-Unique: _fImy4kmMVWZ7V47WhgILQ-1
+Received: by mail-wr1-f70.google.com with SMTP id j16so8003354wrw.20
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 06:31:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VKuurj9MXRedKfmA5ryNgu9rBKfxRZmPvNByOLPGMI4=;
- b=OVMY/b6a+dIxrG1hJ8HbdyxjlYxlweN38AkNMQbhIYlBmXRkOvYjAmZgKb0F2WOltu
- A6ynRqZoXg6vk5foQaDnLDU1G+QXkoATYNBGotKz/LsqE1Nl4D1Th+DTD9R1VLIEwP7Q
- SVRUdhP5buympBdwJlPjTrnP/xeXusZ8XfnE9Akt+SguZ7Q20Ya6iqUD41jrY05RrKMJ
- 1qvuy0kTqFcYUTLI7eONSxi1uKWjnKok7SkRwElxJ+aeLBBI1QTsG/DcrhwKhNapO3b4
- 8SHJHcdmEmUJrEYoI+IqCfmh2bT8wJxOMhhbKsxJSHtUAr+TtZoJWTdIUBol5yYYqVsx
- Fm1g==
-X-Gm-Message-State: AGi0PuZqhJ10coNUdsQ1TqAi9L+Agbt6+D0G70KNnejWPxoCTBKWPqbU
- d/xP5mxbVX2rAWFtgaEdzPxiPDUc523drzOuvcQ2pGgIzjDB8Wa+XnaVQJG2GyoGUxvliyHlRwk
- 4dr8v0Mc6ZT3zXIk=
-X-Received: by 2002:a1c:bd54:: with SMTP id n81mr22998501wmf.141.1586871107033; 
- Tue, 14 Apr 2020 06:31:47 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJVzEvlOYwkSBwVlRPHnYkDX8MfVacv5//9ggyGXKU+OID2YJMC0BXwtMAu7MVAX7f0ZUOUlQ==
-X-Received: by 2002:a1c:bd54:: with SMTP id n81mr22998457wmf.141.1586871106571; 
- Tue, 14 Apr 2020 06:31:46 -0700 (PDT)
+ bh=RxFffFGRSs8+HS+rlE7EgcZ1aLnSCjkXM0Jmxf700XU=;
+ b=jwEuGYIg8w5PKRqVQyATdwRSZpDQrtUFoSe9rRl7b4v9uhkSkYy0+wYjFA1yjQ4MAR
+ oPBc/Uh3+JLW/k1F+SYT42PlOmFQ1Kzu5BJg17Asjz7L8d5eNAeifYLW1yf4BEgfv4UF
+ hpf6UTZTTRNyRrANFKyF12LyHI6alu8Ds6RbF3At+zMnr0IY9Y9rNEJleZulhBTNLd0R
+ QBZNcfNhhgVRWFShVSFFqf753az6QI8T7DSon3WnYbx95cEwiqqX3aFvlzNkb5e/HU4P
+ Dp6vCKmYzEP6UuyluElc06kIwn/eMVkcPSzvpFa6EJ/pdyioZ3v3EIeGpWX0Tf2P7MZs
+ KUQQ==
+X-Gm-Message-State: AGi0PuZJfhvKWw9iJjdFRsWn4uCGm7VByDRQD9Nd+zAMeaL/MaJOwoTR
+ lP4pRzOLzHJKQmwWKRxgLnXaw2DKot3kPbkvSRdoNtMAob+qz8Al57/s2r4ffyXhEsegp5EqWlk
+ +QFqdgFIw2KwQmdU=
+X-Received: by 2002:a1c:2e0a:: with SMTP id u10mr23597880wmu.146.1586871112676; 
+ Tue, 14 Apr 2020 06:31:52 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJRJH2vy/dj6LD4fLL4gnrOHkxWz7ywj/Mxkgl91RzwfuK8MqCUULM6H1h+c2ndOXnhvXAG4g==
+X-Received: by 2002:a1c:2e0a:: with SMTP id u10mr23597795wmu.146.1586871111491; 
+ Tue, 14 Apr 2020 06:31:51 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id n6sm19582479wrs.81.2020.04.14.06.31.44
+ by smtp.gmail.com with ESMTPSA id s14sm19592651wme.33.2020.04.14.06.31.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 06:31:46 -0700 (PDT)
+ Tue, 14 Apr 2020 06:31:51 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0 10/12] hw/block/pflash: Check return value of
- blk_pwrite()
-Date: Tue, 14 Apr 2020 15:30:50 +0200
-Message-Id: <20200414133052.13712-11-philmd@redhat.com>
+Subject: [PATCH-for-5.0 11/12] gdbstub: Do not use memset() on GByteArray
+Date: Tue, 14 Apr 2020 15:30:51 +0200
+Message-Id: <20200414133052.13712-12-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200414133052.13712-1-philmd@redhat.com>
 References: <20200414133052.13712-1-philmd@redhat.com>
@@ -77,7 +76,8 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,7 +91,6 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Mansour Ahmadi <mansourweb@gmail.com>,
  Michael Roth <mdroth@linux.vnet.ibm.com>,
  Fabien Chouteau <chouteau@adacore.com>, Max Filippov <jcmvbkbc@gmail.com>,
  KONRAD Frederic <frederic.konrad@adacore.com>, qemu-arm@nongnu.org,
@@ -103,83 +102,81 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mansour Ahmadi <mansourweb@gmail.com>
+Introduce gdb_get_zeroes() to fill a GByteArray with zeroes.
 
-When updating the PFLASH file contents, we should check for a
-possible failure of blk_pwrite(). Similar to commit 3a688294e.
-
-Signed-off-by: Mansour Ahmadi <mansourweb@gmail.com>
-Message-Id: <20200408003552.58095-1-mansourweb@gmail.com>
-[PMD: Add missing "qemu/error-report.h" include and TODO comment]
+Fixes: a010bdbe719 ("extend GByteArray to read register helpers")
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/block/pflash_cfi01.c | 8 +++++++-
- hw/block/pflash_cfi02.c | 8 +++++++-
- 2 files changed, 14 insertions(+), 2 deletions(-)
+Since v1: Use memset (pm215)
+---
+ include/exec/gdbstub.h  | 10 ++++++++++
+ target/arm/gdbstub.c    |  3 +--
+ target/xtensa/gdbstub.c |  6 ++----
+ 3 files changed, 13 insertions(+), 6 deletions(-)
 
-diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index 24f3bce7ef..be1954c5d8 100644
---- a/hw/block/pflash_cfi01.c
-+++ b/hw/block/pflash_cfi01.c
-@@ -42,6 +42,7 @@
- #include "hw/qdev-properties.h"
- #include "sysemu/block-backend.h"
- #include "qapi/error.h"
-+#include "qemu/error-report.h"
- #include "qemu/timer.h"
- #include "qemu/bitops.h"
- #include "qemu/error-report.h"
-@@ -399,13 +400,18 @@ static void pflash_update(PFlashCFI01 *pfl, int offse=
-t,
-                           int size)
- {
-     int offset_end;
-+    int ret;
-     if (pfl->blk) {
-         offset_end =3D offset + size;
-         /* widen to sector boundaries */
-         offset =3D QEMU_ALIGN_DOWN(offset, BDRV_SECTOR_SIZE);
-         offset_end =3D QEMU_ALIGN_UP(offset_end, BDRV_SECTOR_SIZE);
--        blk_pwrite(pfl->blk, offset, pfl->storage + offset,
-+        ret =3D blk_pwrite(pfl->blk, offset, pfl->storage + offset,
-                    offset_end - offset, 0);
-+        if (ret < 0) {
-+            /* TODO set error bit in status */
-+            error_report("Could not update PFLASH: %s", strerror(-ret));
-+        }
-     }
+diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
+index 30b909ebd2..f44bdd2270 100644
+--- a/include/exec/gdbstub.h
++++ b/include/exec/gdbstub.h
+@@ -125,6 +125,16 @@ static inline int gdb_get_reg128(GByteArray *buf, uint=
+64_t val_hi,
+     return 16;
  }
 =20
-diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index 12f18d401a..c6b6f2d082 100644
---- a/hw/block/pflash_cfi02.c
-+++ b/hw/block/pflash_cfi02.c
-@@ -37,6 +37,7 @@
- #include "hw/block/flash.h"
- #include "hw/qdev-properties.h"
- #include "qapi/error.h"
-+#include "qemu/error-report.h"
- #include "qemu/bitmap.h"
- #include "qemu/timer.h"
- #include "sysemu/block-backend.h"
-@@ -393,13 +394,18 @@ static uint64_t pflash_read(void *opaque, hwaddr offs=
-et, unsigned int width)
- static void pflash_update(PFlashCFI02 *pfl, int offset, int size)
- {
-     int offset_end;
-+    int ret;
-     if (pfl->blk) {
-         offset_end =3D offset + size;
-         /* widen to sector boundaries */
-         offset =3D QEMU_ALIGN_DOWN(offset, BDRV_SECTOR_SIZE);
-         offset_end =3D QEMU_ALIGN_UP(offset_end, BDRV_SECTOR_SIZE);
--        blk_pwrite(pfl->blk, offset, pfl->storage + offset,
-+        ret =3D blk_pwrite(pfl->blk, offset, pfl->storage + offset,
-                    offset_end - offset, 0);
-+        if (ret < 0) {
-+            /* TODO set error bit in status */
-+            error_report("Could not update PFLASH: %s", strerror(-ret));
-+        }
++static inline int gdb_get_zeroes(GByteArray *array, size_t len)
++{
++    guint oldlen =3D array->len;
++
++    g_byte_array_set_size(array, oldlen + len);
++    memset(array->data + oldlen, 0, len);
++
++    return len;
++}
++
+ /**
+  * gdb_get_reg_ptr: get pointer to start of last element
+  * @len: length of element
+diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
+index 8efc535f2a..063551df23 100644
+--- a/target/arm/gdbstub.c
++++ b/target/arm/gdbstub.c
+@@ -47,8 +47,7 @@ int arm_cpu_gdb_read_register(CPUState *cs, GByteArray *m=
+em_buf, int n)
+         if (gdb_has_xml) {
+             return 0;
+         }
+-        memset(mem_buf, 0, 12);
+-        return 12;
++        return gdb_get_zeroes(mem_buf, 12);
+     }
+     switch (n) {
+     case 24:
+diff --git a/target/xtensa/gdbstub.c b/target/xtensa/gdbstub.c
+index 0ee3feabe5..4d43f1340a 100644
+--- a/target/xtensa/gdbstub.c
++++ b/target/xtensa/gdbstub.c
+@@ -105,8 +105,7 @@ int xtensa_cpu_gdb_read_register(CPUState *cs, GByteArr=
+ay *mem_buf, int n)
+         default:
+             qemu_log_mask(LOG_UNIMP, "%s from reg %d of unsupported size %=
+d\n",
+                           __func__, n, reg->size);
+-            memset(mem_buf, 0, reg->size);
+-            return reg->size;
++            return gdb_get_zeroes(mem_buf, reg->size);
+         }
+=20
+     case xtRegisterTypeWindow: /*a*/
+@@ -115,8 +114,7 @@ int xtensa_cpu_gdb_read_register(CPUState *cs, GByteArr=
+ay *mem_buf, int n)
+     default:
+         qemu_log_mask(LOG_UNIMP, "%s from reg %d of unsupported type %d\n"=
+,
+                       __func__, n, reg->type);
+-        memset(mem_buf, 0, reg->size);
+-        return reg->size;
++        return gdb_get_zeroes(mem_buf, reg->size);
      }
  }
 =20
