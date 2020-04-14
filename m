@@ -2,75 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E2111A8537
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:38:50 +0200 (CEST)
-Received: from localhost ([::1]:34418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC701A850D
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:33:07 +0200 (CEST)
+Received: from localhost ([::1]:34188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOaH-0000pm-E8
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:38:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52383)
+	id 1jOOUk-0008CK-Jn
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:33:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52949)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jOORF-0003ID-Q7
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:29:35 -0400
+ (envelope-from <berto@igalia.com>) id 1jOOSf-0006R6-PS
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:31:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jOORA-0008Vc-6W
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:29:29 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:37141)
+ (envelope-from <berto@igalia.com>) id 1jOOSe-00010y-Kn
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:30:57 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:51599)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jOORA-0008V3-1J
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:29:24 -0400
-Received: by mail-pg1-x542.google.com with SMTP id r4so117049pgg.4
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 09:29:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=5RQ2wSpsjJpzp7+16tdJJpRXhZ+KgD3tAKq0P8YKk4c=;
- b=Oviq4tQkcduoMSH0vwqoGkfkLL/gchTHIcCcSG/EoYi0HA1smeA9/6tf1deSzaM0Zt
- LBaBRX/GYKre/3tfvkSkN9C9aOmPveg7nbJHK1+iGcWSz3hnleW71ZHUkUuvqzbK3hvv
- g6wybJu7VZry3HQcBkKVa4pRApdFcffPNLoglTg+i8wcpU8d6SuSWl6dzO9QUfHdMSu2
- u24Q49WgL5NjHdX68HxMpUeAf6+wCgjOxW3moPTWOJjMdlELE9OHSl/1Ec6uhUwWLSAT
- ibltO+tA0SSVnct2jrvATCxp+/uxih8FfJ3DDLxb9jAjeWePVuPnlKdH95Stv6Xd3Hj9
- cgWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5RQ2wSpsjJpzp7+16tdJJpRXhZ+KgD3tAKq0P8YKk4c=;
- b=CQuCXC2PTKOYd9ZyZalrsbW2Sk9gwuTce9En9cofE5luiRhOR/jsCA8TN1KV+X6Nmr
- ywh3hipp2KKB7mrohs+Au1VrY9PJ5k0/rKv1ymwxuMXHTKGTs+xTaPJvSuQ3xiMBiIh4
- 3uVY3RZCqNIxlORWfiwfmPAP3VOivFhabPaA2Pe7JeaC/H5m4768ePfevSak2JcdyJRh
- RlUxUha0Dz0d1ViJfNoEfCGT3dQXIEQ2KW8YAIPXlYWZnuXtMV8PYPGpEn1jhaMfjdID
- Q4KPQnWKaCQkaaUBiM0dr4VmyETJzknGxL+51R9PPGDHXzYE3UA2kWv92GurkAF1gtMF
- 9zYw==
-X-Gm-Message-State: AGi0PuZWAZ5sQvkPV2HaOyf7dLXjmpV2sSrbFGgjOQWbDjJAuocCEZMw
- 76bIadvKHyq6qNdAAWpjr+iQd+1Ly8g=
-X-Google-Smtp-Source: APiQypJlW2yLQFO5wNjcyQF1fO7jaLshzsqDC77i/mDxk9lEOtFnty5O+LoFap+dv6cELLeObxMMkQ==
-X-Received: by 2002:a63:e80b:: with SMTP id s11mr22175390pgh.350.1586881762325; 
- Tue, 14 Apr 2020 09:29:22 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id c59sm12634846pje.10.2020.04.14.09.29.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Apr 2020 09:29:21 -0700 (PDT)
-Subject: Re: [for-5.0] Deprecate KVM support for AArch32
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20200414120935.12719-1-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6bb58601-5614-b01e-5ac5-5d3331aaeac9@linaro.org>
-Date: Tue, 14 Apr 2020 09:29:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.71) (envelope-from <berto@igalia.com>)
+ id 1jOOSd-0000xh-Ov; Tue, 14 Apr 2020 12:30:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=BVVXGDXpudVw7nOjZv5M0PlmfT18ZPrVoCl7zON5WTs=; 
+ b=IGN3S6SIag6kLBHVv21JHa3MPdNPa95C3cFMr/eAAFmMT36D9J0h0jeZoWM2+VCeTIteWtLnoGYXXaAvdAFmNmuUy24TLRsNZqNgmEtg08iWhEJSAckC9tYrzvwi5I6nrSkrL2vMbvPPD7glxCyu4JEShqyP7F1gG4QjJ2U77CpusvNdTDYk7nRRxXxfAAYey3V8wLqNneUukU6fr79f5FDqv4MEKsrZtpmsqDaN32ymWSpPGfJy0WMFnOiPpOxEp3L4rKbEiHzwqmAvJYKYnFMf9Krs1ZdRwp6HlHyHa1Lr57bTcJc4sRJwgJiwnKtRKLwXWuetIhY3grxrWEtSRg==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1jOOSY-0001YS-1s; Tue, 14 Apr 2020 18:30:50 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1jOOSX-0005pk-No; Tue, 14 Apr 2020 18:30:49 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 07/30] qcow2: Document the Extended L2 Entries feature
+In-Reply-To: <83922517-b5f5-2d4a-6518-c1912942ad27@virtuozzo.com>
+References: <cover.1584468723.git.berto@igalia.com>
+ <aa1ac3fbb1d42db67d930b76255c9b7b19c07b42.1584468723.git.berto@igalia.com>
+ <8c88b96f-c6f5-e06c-73e1-56001089a7ca@redhat.com>
+ <781c734c-e53c-76ae-74de-26d9e827e1a2@virtuozzo.com>
+ <w51o8ru5dg2.fsf@maestria.local.igalia.com>
+ <83922517-b5f5-2d4a-6518-c1912942ad27@virtuozzo.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Tue, 14 Apr 2020 18:30:49 +0200
+Message-ID: <w51lfmyrpvq.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <20200414120935.12719-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::542
+Content-Type: text/plain
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 178.60.130.6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,27 +62,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, "Denis V . Lunev" <den@openvz.org>,
+ Anton Nefedov <anton.nefedov@virtuozzo.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/14/20 5:09 AM, Peter Maydell wrote:
-> The Linux kernel has dropped support for allowing 32-bit Arm systems
-> to host KVM guests (kernel commit 541ad0150ca4aa663a2, which just
-> landed upstream in the 5.7 merge window).  Mark QEMU's support for
-> this configuration as deprecated, so that we can delete that support
-> code in 5.2.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> I was reading the 5.7 merge window writeup on LWN this weekend
-> and saw that the dropping of 32-bit support had gone in; just
-> enough time to squeeze our deprecation warning into 5.0 so we
-> can drop the code in 5.2 rather than 6.0...
-> 
->  docs/system/deprecated.rst | 8 ++++++++
->  1 file changed, 8 insertions(+)
+On Tue 14 Apr 2020 06:19:18 PM CEST, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
+>>> It still may cache information about zeroed subclusters: gives more
+>>> detailed block-status. But we should mention somehow external
+>>> files. Hm. not only for raw external files, but it is documented that
+>>> cluster can't be unallocated when an external data file is used.
+>> 
+>> What do you mean by "cluster can't be unallocated" ?
+>
+> I mean this sentence from qcow2.txt:
+>
+>                     "The offset may only be 0 with
+>                      bit 63 set (indicating a host cluster offset of 0) when an
+>                      external data file is used."
+>
+> In other words, cluster can't be unallocated with data file in use.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I still don't follow... clusters can be unallocated, and when you create
+a new image they are indeed unallocated.
 
-r~
+Bit 63 (QCOW_OFLAG_COPIED) is what indicates if a cluster is allocated
+or not, and you can unmap an allocated cluster with 'write -z -u'.
+
+Berto
 
