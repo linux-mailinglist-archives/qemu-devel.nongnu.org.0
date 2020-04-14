@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 750CF1A8512
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:33:55 +0200 (CEST)
-Received: from localhost ([::1]:34208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C8941A84E0
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:29:47 +0200 (CEST)
+Received: from localhost ([::1]:34034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOVW-0000y3-Dj
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:33:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51699)
+	id 1jOORW-0002fI-Av
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:29:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51703)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jOOOP-0005HI-2a
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:37 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jOOOQ-0005Ju-6O
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jOOOJ-0007D6-9J
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:32 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40612)
+ (envelope-from <peter.maydell@linaro.org>) id 1jOOOK-0007DM-4U
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:34 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46994)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jOOOJ-0007Co-3g
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:27 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id h26so3664388wrb.7
+ id 1jOOOJ-0007DA-Uj
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:28 -0400
+Received: by mail-wr1-x443.google.com with SMTP id f13so15048008wrm.13
  for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 09:26:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=CT6aAVcPUz2WZ3lRhtbSp2EjDloFUvZAespPdqcpC9E=;
- b=HjQ6P6C4yF4NvN7JhraDlJHbmOouFej0kqSeTCysuSkPPIAodUe+opKqEXLf7d/uAM
- 2M7mGudwijJGz4nh8k693y61Cvmt3fMk1cOsSHPl1UqwAFwZrf1IPLbOSVYKXKMC+aEr
- iO8Euh4aKpE/YtyBzKTBAHcxMPHk1BwL0fIJguzsG9PpZfDc/kPahwEK9HbVF6QzgMuV
- jwoDYz8yyesPd/Hy0fHOxiYN6z+jg3FrGqA286wXE9pGvxqbJnpJih7MD1tOXmk4LMcb
- E04EEv41YlhjN0X8gZmKk9jmdIupAXKpG0xffdD8V+31+WH6q0rQVW+/jC51eY9ueDQw
- Y0RA==
+ bh=qGeIMQxu3PilBoKo2MoV3NHkvFJQkVL7vf1SB9ePcU4=;
+ b=HOkfzDe9OAZb+EK6qsQwwxdfm54o74IIqr7XfCaFq2v0irBwZZw6Wel1g8Vfvm/9yY
+ ZYs7utHS5Z0D/Z0x/FWQ3OVF/ikVadxpX9fITDrNQ4tHGPFsvdTNXR4cbNaW7Daop3Ta
+ RVeLiu+AUg8EelHyd/QVQSeJ/hL8BxqWjKJr1hLkzjGSZylIEPa5wZATl2Ar+Eo5eAKJ
+ gFxXVvGLne75oHDCmggxY9BnZTJ7pA2TVi7kCIds3O+JyzHpErC+UenE7Kasso/qea3F
+ hsrUhkWNLjIlfbk6hUVzfB74XRquBtPc4eUxQdkNsin34IYDGQORtQxFQRAiY3UTYGR3
+ 3DGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CT6aAVcPUz2WZ3lRhtbSp2EjDloFUvZAespPdqcpC9E=;
- b=oFnW00WIO6XTN3aeEJdN0XxuD9BAa9HsphDjJFY+ywj5cMJAjhJlGOBWeibfNwjm/O
- VTI3lkZ7shoC7ouvR/5j4o8Ek26yNEzSHv9esOJUW2TXm0bk4eo3CKrYgkNEpOeD/cTv
- /tQNuhJtn9Kc9kizSkiUAZxXZfrVMmLrgVUP4vkhSovMpZ1fibZC26E8VLNOVbNybnjE
- EF4zwLpIo4FEBIr7630+xnCZ1eGR10Y5RxyoxHUxJBjLXVgh2Evwc4gqqS8iVLrYpPe+
- 6bJU8VXgVP/KtXAvMxV6lcP9CHrgCplE/6bXE/MqtdIiqFpMMCYK1QLIDBeswc5sSiFc
- kp2Q==
-X-Gm-Message-State: AGi0PuYXD40x8p24psZ9hMggpSre+t0j6iRpoRUbMG+LW79XWSb11VJc
- 2IBrZuOL7KYgh8/rAlkO3UFCMceMvmq1zQ==
-X-Google-Smtp-Source: APiQypKG3C43RgNJcUN6r2R1h71f+0t8LnipJIHurLzluICiHimSkVNKstqNgTRbP9q6TIunNeH7sQ==
-X-Received: by 2002:adf:e691:: with SMTP id r17mr24723255wrm.421.1586881585571; 
- Tue, 14 Apr 2020 09:26:25 -0700 (PDT)
+ bh=qGeIMQxu3PilBoKo2MoV3NHkvFJQkVL7vf1SB9ePcU4=;
+ b=dAIfHgjDXVv+xIGifx+6Dp7fq2VtfGE+QOLG6txJe/U6VyBDBnK1EkGS+cMcpp8RnV
+ 2mH7c28U3DAfc2/YdH+gBGJk+l2Tl85uSXSK2KCLpFF378HnJKlDPF1dqzRxMcyG2Hd3
+ R/67Rx9vKx/HoPnFoGyjZR9wTv6dsgvu0hFpNYZpXeqGiTlRtn1Tl95ya7nRG7Nd2Sup
+ Q7zFRnXVvWnqismdwZllWtskZGyFYD6deuTgg6ko4IV/NqxOvbuNst0esNDcYmMqAXUX
+ /N5cYuYVu47oO4b1/YZ2qG6RoKsb0vyDcuKKKiIgD8U7ZQ7V+xJbwgzwZxeqbtHSt8G7
+ c65Q==
+X-Gm-Message-State: AGi0PuZY7AlG3GIpgK5qTjPUPWXOQFnsnfyk1LqzgsUfSk/itcJAE3yE
+ GMHeoJPFTQab1KKHxNOyui39iDoQW3sEnQ==
+X-Google-Smtp-Source: APiQypJtGNodIz3H5usVxy9Hg65QLi2sciZR5aAgkbnpeDQrONHrhIrahP/38FvvsMEdUwq2OrDKjQ==
+X-Received: by 2002:a5d:5707:: with SMTP id a7mr24549392wrv.108.1586881586529; 
+ Tue, 14 Apr 2020 09:26:26 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i129sm20003802wmi.20.2020.04.14.09.26.24
+ by smtp.gmail.com with ESMTPSA id i129sm20003802wmi.20.2020.04.14.09.26.25
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 09:26:24 -0700 (PDT)
+ Tue, 14 Apr 2020 09:26:26 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/12] scripts/kernel-doc: Add missing close-paren in
- c:function directives
-Date: Tue, 14 Apr 2020 17:26:10 +0100
-Message-Id: <20200414162613.4479-10-peter.maydell@linaro.org>
+Subject: [PULL 10/12] kernel-doc: Use c:struct for Sphinx 3.0 and later
+Date: Tue, 14 Apr 2020 17:26:11 +0100
+Message-Id: <20200414162613.4479-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200414162613.4479-1-peter.maydell@linaro.org>
 References: <20200414162613.4479-1-peter.maydell@linaro.org>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,46 +82,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When kernel-doc generates a 'c:function' directive for a function
-one of whose arguments is a function pointer, it fails to print
-the close-paren after the argument list of the function pointer
-argument, for instance in the memory API documentation:
-  .. c:function:: void memory_region_init_resizeable_ram (MemoryRegion * mr, struct Object * owner, const char * name, uint64_t size, uint64_t max_size, void (*resized) (const char*, uint64_t length, void *host, Error ** errp)
+The kernel-doc Sphinx plugin and associated script currently emit
+'c:type' directives for "struct foo" documentation.
 
-which should have a ')' after the 'void *host' which is the
-last argument to 'resized'.
+Sphinx 3.0 warns about this:
+  /home/petmay01/linaro/qemu-from-laptop/qemu/docs/../include/exec/memory.h:3: WARNING: Type must be either just a name or a typedef-like declaration.
+  If just a name:
+    Error in declarator or parameters
+    Invalid C declaration: Expected identifier in nested name, got keyword: struct [error at 6]
+      struct MemoryListener
+      ------^
+  If typedef-like declaration:
+    Error in declarator or parameters
+    Invalid C declaration: Expected identifier in nested name. [error at 21]
+      struct MemoryListener
+      ---------------------^
 
-Older versions of Sphinx don't try to parse the argumnet
-to c:function, but Sphinx 3.0 does do this and will complain:
+because it wants us to use the new-in-3.0 'c:struct' instead.
 
-  /home/petmay01/linaro/qemu-from-laptop/qemu/docs/../include/exec/memory.h:834: WARNING: Error in declarator or parameters
-  Invalid C declaration: Expecting "," or ")" in parameters, got "EOF". [error at 208]
-    void memory_region_init_resizeable_ram (MemoryRegion * mr, struct Object * owner, const char * name, uint64_t size, uint64_t max_size, void (*resized) (const char*, uint64_t length, void *host, Error ** errp)
-    ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------^
+Plumb the Sphinx version through to the kernel-doc script
+and use it to select 'c:struct' for newer versions than 3.0.
 
-Add the missing close-paren.
-
+Fixes: LP:1872113
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200411182934.28678-3-peter.maydell@linaro.org
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- scripts/kernel-doc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ docs/sphinx/kerneldoc.py |  1 +
+ scripts/kernel-doc       | 16 +++++++++++++++-
+ 2 files changed, 16 insertions(+), 1 deletion(-)
 
+diff --git a/docs/sphinx/kerneldoc.py b/docs/sphinx/kerneldoc.py
+index 1159405cb92..3e879402064 100644
+--- a/docs/sphinx/kerneldoc.py
++++ b/docs/sphinx/kerneldoc.py
+@@ -99,6 +99,7 @@ class KernelDocDirective(Directive):
+                 env.note_dependency(os.path.abspath(f))
+                 cmd += ['-export-file', f]
+ 
++        cmd += ['-sphinx-version', sphinx.__version__]
+         cmd += [filename]
+ 
+         try:
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index af470eb3211..8dc30e01e58 100755
+index 8dc30e01e58..030b5c8691f 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -853,7 +853,7 @@ sub output_function_rst(%) {
+@@ -71,6 +71,8 @@ Output selection (mutually exclusive):
+ 			DOC: sections. May be specified multiple times.
  
- 	if ($type =~ m/([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)/) {
- 	    # pointer-to-function
--	    print $1 . $parameter . ") (" . $2;
-+	    print $1 . $parameter . ") (" . $2 . ")";
- 	} else {
- 	    print $type . " " . $parameter;
- 	}
+ Output selection modifiers:
++  -sphinx-version VER   Generate rST syntax for the specified Sphinx version.
++                        Only works with reStructuredTextFormat.
+   -no-doc-sections	Do not output DOC: sections.
+   -enable-lineno        Enable output of #define LINENO lines. Only works with
+                         reStructuredText format.
+@@ -286,6 +288,7 @@ use constant {
+ };
+ my $output_selection = OUTPUT_ALL;
+ my $show_not_found = 0;	# No longer used
++my $sphinx_version = "0.0"; # if not specified, assume old
+ 
+ my @export_file_list;
+ 
+@@ -436,6 +439,8 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
+ 	    $enable_lineno = 1;
+     } elsif ($cmd eq 'show-not-found') {
+ 	$show_not_found = 1;  # A no-op but don't fail
++    } elsif ($cmd eq 'sphinx-version') {
++        $sphinx_version = shift @ARGV;
+     } else {
+ 	# Unknown argument
+         usage();
+@@ -963,7 +968,16 @@ sub output_struct_rst(%) {
+     my $oldprefix = $lineprefix;
+     my $name = $args{'type'} . " " . $args{'struct'};
+ 
+-    print "\n\n.. c:type:: " . $name . "\n\n";
++    # Sphinx 3.0 and up will emit warnings for "c:type:: struct Foo".
++    # It wants to see "c:struct:: Foo" (and will add the word 'struct' in
++    # the rendered output).
++    if ((split(/\./, $sphinx_version))[0] >= 3) {
++        my $sname = $name;
++        $sname =~ s/^struct //;
++        print "\n\n.. c:struct:: " . $sname . "\n\n";
++    } else {
++        print "\n\n.. c:type:: " . $name . "\n\n";
++    }
+     print_lineno($declaration_start_line);
+     $lineprefix = "   ";
+     output_highlight_rst($args{'purpose'});
 -- 
 2.20.1
 
