@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F141A84D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:27:55 +0200 (CEST)
-Received: from localhost ([::1]:33972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE99E1A84DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:28:22 +0200 (CEST)
+Received: from localhost ([::1]:33986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOPi-0006v1-75
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:27:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51625)
+	id 1jOOQ9-0007pn-QJ
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:28:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51630)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jOOOF-00054k-P6
+ (envelope-from <peter.maydell@linaro.org>) id 1jOOOF-000559-Tb
  for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jOOO9-00078p-T2
+ (envelope-from <peter.maydell@linaro.org>) id 1jOOOA-00079A-CM
  for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:23 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:37985)
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38964)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jOOO9-00078T-F6
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:17 -0400
-Received: by mail-wm1-x336.google.com with SMTP id g12so6878908wmh.3
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 09:26:17 -0700 (PDT)
+ id 1jOOOA-00078h-6X
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:18 -0400
+Received: by mail-wm1-x344.google.com with SMTP id y24so14710326wma.4
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 09:26:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=R7JGiudy1UdoZaTW4BQ3pL5AFqpsAym0Lwz8mT/Tr/4=;
- b=j75IshkECkR+lwcigJNChqrnfIlFDtmC8OpuWkRAGES1SUZecepWk2lLn2L9FnJ/KB
- jsyfL4HtG4KcWRm1NvcQltoj4lJsXsqs4M5PKjyjWeK4d/+arfbyTTNtlQMMPt9Phnn+
- 1JQxu75BEYR4o6aPJ3+1i7vuLJNtiJ35+2HH4QeoB4VlCuA8A23ih3Ngu9CeHEif0FT/
- TAsznYd/Hx+g7O1O+i+Cqgw/PPCA2LKNq9Cdm4ojJ5jdiBUs4mKvLsHBy+5FsLef0RqM
- CcA03SFTqUJj/RY0yAOJfVZLJ56dqXz/vh7/JK7wIM3v/PaCfoGL9jwsO5g8TcKckSll
- ujWA==
+ bh=OKC9Pxddfkn7fXnu8/AzAFxKBTosF8UUw8eP0Jg/zfU=;
+ b=StXec8e7eWk3jn6nerfcl8zvAfN5inSEjyMBFxd9eK1lH9JiMepbUIIs/vRnbnhGTN
+ lFxVrAnpmCwWZTQme5A4n7wLLA6yWt/f6OAdOCeKVczg4dGBmonlvIbGOup3DVqDv15V
+ bUmWRdhjspeV/NGz5V68A25JvnHWIpRzKxKYQXT9/Kwn1yHFgttV47BE6giysXNqyfzJ
+ YjcI1plO4ERLAoSkSfmvmyks3bmkDOSYrmQLXPw+vPau1EXRZibDy0MT14BK4VvxZvk/
+ SYVtAnc+khAMPdD6wlPW5QKScl65vWGdU6V5DQqHArs1Y/yD6YGD86esw2cN7X86hpqR
+ gXVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=R7JGiudy1UdoZaTW4BQ3pL5AFqpsAym0Lwz8mT/Tr/4=;
- b=dDI36RO0TLq2qckiSfFuQPiQcwNLurFrwj62EhnS5PgBDf2PAaMOrB8jO7FTpSqTLU
- yOmpbWd+8BuHrWlcsETRJG2JZWGBwtj89keanBymnnuycew47Em6XYuu5kEFS6zctsBN
- psQUmCjTLgHnhNuiIjQChjjFzQQ9w/4PJyxsMf6YN3uZ3FJAoYh3B4u2tgaMI7fXjfa8
- 4Dvskk60sKFy/3OIgAljTSo7llUdZbE4mcqcV5zgtM9VRgtFPUuYEuNQbJKVDuus2bck
- rb7G9OiGA7eTVmAC3iSUaeQ94+ZuIoX265h+Aa+KtjjZCoS80F9pVruBaYKWq2BinI5S
- 76Jw==
-X-Gm-Message-State: AGi0PuZEY0lUycfChFvE9V30AgN+vfG6YefOeNnyNw7ACQfJAWsFWRuc
- pDV4W1o/GNAJiYMTjQIRRSfYJFm5OP73Jw==
-X-Google-Smtp-Source: APiQypKH5YLMd+DqzohF9gXVr1jbMopfL0BnyDMR3m+rR6ds8V9tZA2BUWXYmUf71UlXJFcp99zhVQ==
-X-Received: by 2002:a1c:3b09:: with SMTP id i9mr617513wma.19.1586881575931;
- Tue, 14 Apr 2020 09:26:15 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=OKC9Pxddfkn7fXnu8/AzAFxKBTosF8UUw8eP0Jg/zfU=;
+ b=epRj/ZJCzuin5gMYJNSF4p4qtCpqielAdDel6gQiyeiozZO7146wugzsDAYX0JBlse
+ z1qHV6liQOWNhiOU/bffVjBTkww3rIQsbrOhCOYVWh0tM39enLo7kHiP2y2jdxGm3bDn
+ 5ldlStFGLp2U0+RcFxdBqFwTZ+HgqH13G9YWhLde2rwF6uvspdkYDQ/ZuQGXcz0fZ1PA
+ zpCC9qdGa023RCL1pb63enxUgn35/HsPIZ0vX/fME2VJtzxSrGOYrGbNTEjMcyEKZnt4
+ HMwwFiuXyJvQXEY3i1ogat/BSm2es8VfjG4lazGm5bHOAeJXVgorTmnNz9ecezVDo5MM
+ FeWQ==
+X-Gm-Message-State: AGi0PuaKXgQ4FgiOZK5FGPpC+PfDSZV2kCVm6/oh9ULlW/H/IwUIM1Ei
+ G0tNS4DBsfusCVP8HrvDpJR5GXeT/LYMUg==
+X-Google-Smtp-Source: APiQypIU25nGuJdNiVzftlTuuxmbCrZZjEnYGsTebqRSPAUZKBj5NojVWsJkVBSU/Qc78DS3ZqvRxQ==
+X-Received: by 2002:a05:600c:2046:: with SMTP id
+ p6mr615121wmg.177.1586881576889; 
+ Tue, 14 Apr 2020 09:26:16 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i129sm20003802wmi.20.2020.04.14.09.26.15
+ by smtp.gmail.com with ESMTPSA id i129sm20003802wmi.20.2020.04.14.09.26.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 09:26:15 -0700 (PDT)
+ Tue, 14 Apr 2020 09:26:16 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/12] target-arm queue
-Date: Tue, 14 Apr 2020 17:26:01 +0100
-Message-Id: <20200414162613.4479-1-peter.maydell@linaro.org>
+Subject: [PULL 01/12] osdep.h: Drop no-longer-needed Coverity workarounds
+Date: Tue, 14 Apr 2020 17:26:02 +0100
+Message-Id: <20200414162613.4479-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200414162613.4479-1-peter.maydell@linaro.org>
+References: <20200414162613.4479-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::336
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,65 +82,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Almost nothing in here is arm-related, but the target-arm
-queue was convenient for these last minute bits and pieces
-for 5.0...
+In commit a1a98357e3fd in 2018 we added some workarounds for Coverity
+not being able to handle the _Float* types introduced by recent
+glibc.  Newer versions of the Coverity scan tools have support for
+these types, and will fail with errors about duplicate typedefs if we
+have our workaround.  Remove our copy of the typedefs.
 
-thanks
--- PMM
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200319193323.2038-2-peter.maydell@linaro.org
+---
+ include/qemu/osdep.h | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-The following changes since commit 14e5526b51910efd62cd31cd95b49baca975c83f:
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 9bd3dcfd136..20f5c5f197d 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -33,20 +33,6 @@
+ #else
+ #include "exec/poison.h"
+ #endif
+-#ifdef __COVERITY__
+-/* Coverity does not like the new _Float* types that are used by
+- * recent glibc, and croaks on every single file that includes
+- * stdlib.h.  These typedefs are enough to please it.
+- *
+- * Note that these fix parse errors so they cannot be placed in
+- * scripts/coverity-model.c.
+- */
+-typedef float _Float32;
+-typedef double _Float32x;
+-typedef double _Float64;
+-typedef __float80 _Float64x;
+-typedef __float128 _Float128;
+-#endif
+ 
+ #include "qemu/compiler.h"
+ 
+-- 
+2.20.1
 
-  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2020-04-13 15:42:51 +0100)
-
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200414
-
-for you to fetch changes up to 84f82ddcbb4ac4ed04c8675e85155329f23184f0:
-
-  Deprecate KVM support for AArch32 (2020-04-14 17:20:22 +0100)
-
-----------------------------------------------------------------
-patch queue:
- * Fix some problems that trip up Coverity's scanner
- * run-coverity-scan: New script automating the scan-and-upload process
- * docs: Improve our gdbstub documentation
- * configure: Honour --disable-werror for Sphinx
- * docs: Fix errors produced when building with Sphinx 3.0
- * docs: Require Sphinx 1.6 or better
- * Add deprecation notice for KVM support on AArch32 hosts
-
-----------------------------------------------------------------
-Peter Maydell (12):
-      osdep.h: Drop no-longer-needed Coverity workarounds
-      thread.h: Fix Coverity version of qemu_cond_timedwait()
-      thread.h: Remove trailing semicolons from Coverity qemu_mutex_lock() etc
-      linux-user/flatload.c: Use "" for include of QEMU header target_flat.h
-      scripts/run-coverity-scan: Script to run Coverity Scan build
-      scripts/coverity-scan: Add Docker support
-      docs: Improve our gdbstub documentation
-      configure: Honour --disable-werror for Sphinx
-      scripts/kernel-doc: Add missing close-paren in c:function directives
-      kernel-doc: Use c:struct for Sphinx 3.0 and later
-      docs: Require Sphinx 1.6 or better
-      Deprecate KVM support for AArch32
-
- configure                                  |   9 +-
- Makefile                                   |   2 +-
- include/qemu/osdep.h                       |  14 -
- include/qemu/thread.h                      |  12 +-
- linux-user/flatload.c                      |   2 +-
- MAINTAINERS                                |   5 +
- docs/conf.py                               |   6 +-
- docs/sphinx/kerneldoc.py                   |   1 +
- docs/system/deprecated.rst                 |   8 +
- docs/system/gdb.rst                        |  22 +-
- qemu-options.hx                            |  24 +-
- scripts/coverity-scan/coverity-scan.docker | 131 ++++++++++
- scripts/coverity-scan/run-coverity-scan    | 401 +++++++++++++++++++++++++++++
- scripts/kernel-doc                         |  18 +-
- 14 files changed, 615 insertions(+), 40 deletions(-)
- create mode 100644 scripts/coverity-scan/coverity-scan.docker
- create mode 100755 scripts/coverity-scan/run-coverity-scan
 
