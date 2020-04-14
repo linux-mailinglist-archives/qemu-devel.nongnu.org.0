@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D7D41A710D
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 04:35:42 +0200 (CEST)
-Received: from localhost ([::1]:51776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B11491A710C
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 04:35:36 +0200 (CEST)
+Received: from localhost ([::1]:51774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOBQL-0007df-0i
-	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 22:35:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46744)
+	id 1jOBQF-0007Wp-NK
+	for lists+qemu-devel@lfdr.de; Mon, 13 Apr 2020 22:35:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46804)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jOBMc-0002IH-Pg
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 22:31:53 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jOBMx-0002yZ-8j
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 22:32:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jOBMb-0003WK-GU
- for qemu-devel@nongnu.org; Mon, 13 Apr 2020 22:31:50 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:34713 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1jOBMw-0003a4-0k
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 22:32:11 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35559 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jOBMb-0003AE-58; Mon, 13 Apr 2020 22:31:49 -0400
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1jOBMv-0003US-Lq
+ for qemu-devel@nongnu.org; Mon, 13 Apr 2020 22:32:09 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 491Tx72pvgz9sT0; Tue, 14 Apr 2020 12:17:46 +1000 (AEST)
+ id 491TxP31hVz9sTK; Tue, 14 Apr 2020 12:19:39 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1586831435;
- bh=ImiyRVoNQbOcTp6A/fzUejw3ihwjmxwUHNQzgVijvmI=;
+ d=gibson.dropbear.id.au; s=201602; t=1586831449;
+ bh=WJLiycbU2fx+ZCVD0et7MCneHzzsvDNA1cg34XPHel4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GrTC6qiENynrCDGBq0ymymSo9xYTnR45lcglilIqAZSXYJEjU9bXyLj4GJsJMYrP8
- 2n2XAPSH0bmu0Zg+TqMb95w+KuNUfk0Vr2d2Jp/kfoisApGywgTTn2szR5TEa/4dQy
- emgrsoVXQY70cjlr48J8bMZTe31kGFMWuFHqQLLI=
-Date: Tue, 14 Apr 2020 12:01:17 +1000
+ b=JrX7f+VXXTw09GYhueZlu0UCOHYFnJ8JbtUDNoJSW81wOdVzjxeiyAT46we3pvO2c
+ f3yoJL5bQEsXeh9DsKQjPeROPiue/j7+6Kkrv9z8UCk/2/9QFmMNzKyfiax6qzTLax
+ qjUKosDu0ltGz6gCADsREqsoZ5n/eKC99RPHoleA=
+Date: Tue, 14 Apr 2020 12:03:03 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH] spapr_nvdimm.c: make 'label-size' mandatory
-Message-ID: <20200414020117.GB48061@umbus.fritz.box>
-References: <20200413203628.31636-1-danielhb413@gmail.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH RESEND v3 0/2] Makefile: libfdt: build only the strict
+ necessary
+Message-ID: <20200414020303.GC48061@umbus.fritz.box>
+References: <20200411093150.4741-1-cfontana@suse.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Izn7cH1Com+I3R9J"
+ protocol="application/pgp-signature"; boundary="HWvPVVuAAfuRc6SZ"
 Content-Disposition: inline
-In-Reply-To: <20200413203628.31636-1-danielhb413@gmail.com>
+In-Reply-To: <20200411093150.4741-1-cfontana@suse.de>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2401:3900:2:1::2
@@ -54,69 +55,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Philippe Mathieu-Daude <philmd@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Alex Bennee <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Izn7cH1Com+I3R9J
+--HWvPVVuAAfuRc6SZ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-CCing Xiao, Michael and Igor for generic NVDIMM perspective.
-
-On Mon, Apr 13, 2020 at 05:36:28PM -0300, Daniel Henrique Barboza wrote:
-> The pseries machine does not support NVDIMM modules without label.
-> Attempting to do so, even if the overall block size is aligned with
-> 256MB, will seg fault the guest kernel during NVDIMM probe. This
-> can be avoided by forcing 'label-size' to always be present for
-> sPAPR NVDIMMs.
+On Sat, Apr 11, 2020 at 11:31:48AM +0200, Claudio Fontana wrote:
+> v2 -> v3:
 >=20
-> The verification was put before the alignment check because the
-> presence of label-size affects the alignment calculation, so
-> it's not optimal to warn the user about an alignment error,
-> then about the lack of label-size, then about a new alignment
-> error when the user sets a label-size.
+> * changed into a 2 patch series; in the second patch we remove the old
+>   compatibility gunks that were meant for removal some time after 4.1.
 >=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-So, this would get the job done, but it seems a bit inelegant compared
-to having the device default to working settings.  I'm looking at how
-this interacts with the generic constraints on label-size.
-
-The generic nvdimm code has a MIN_NAMESPACE_LABEL_SIZE of 128 kiB, and
-values of label-size less than that are rejected.  Except that if
-label-size is not set at all, it is left as 0.
-
-Is that intended behaviour?  Do x86 (or whatever) NVDIMMs have a label
-of at least 128kiB, unless they have no label at all?  Or could we
-make the default label-size 128kiB generically?
-
-> ---
->  hw/ppc/spapr_nvdimm.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+> * renamed the libfdt PHONY rule to dtc/all, with the intent to make
+>   existing working trees forward and backward compatible across the chang=
+e.
 >=20
-> diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-> index 25be8082d7..9abcdcc26b 100644
-> --- a/hw/ppc/spapr_nvdimm.c
-> +++ b/hw/ppc/spapr_nvdimm.c
-> @@ -37,6 +37,12 @@ void spapr_nvdimm_validate_opts(NVDIMMDevice *nvdimm, =
-uint64_t size,
->      QemuUUID uuid;
->      int ret;
-> =20
-> +    if (object_property_get_int(OBJECT(nvdimm), NVDIMM_LABEL_SIZE_PROP,
-> +                                &error_abort) =3D=3D 0) {
-> +        error_setg(errp, "NVDIMM device requires label-size to be set");
-> +        return;
-> +    }
-> +
->      if (size % SPAPR_MINIMUM_SCM_BLOCK_SIZE) {
->          error_setg(errp, "NVDIMM memory size excluding the label area"
->                     " must be a multiple of %" PRIu64 "MB",
+> v1 -> v2:
+>=20
+> * fix error generated when running UNCHECKED_GOALS without prior configur=
+e,
+>   for example during make docker-image-fedora. Without configure, DSOSUF =
+is
+>   empty, and the module pattern rule in rules.mak that uses this variable
+>   can match too much; provide a default in the Makefile to avoid it.
+>=20
+> * only attempt to build the archive when there is a non-empty list of obj=
+ects.
+>   This could be done in general for the %.a: pattern in rules.mak, but ma=
+ybe
+>   there are valid reasons to build an empty .a?
+>=20
+> * removed some intermediate variables that did not add much value
+>   (LIBFDT_srcdir, LIBFDT_archive)
+>=20
+> Tested locally with 3 VPATH configurations (no-, VPATH, VPATH in src subd=
+ir),
+> and with docker-image-fedora, docker-test-debug@fedora that failed
+> before.
+
+Seems reasonable to me.  It's a bit of a shame that we can't use the
+dtc makefiles more simply for this.  But I don't quickly know how to
+fix them upstream to allow that.
+
+>=20
+> Claudio Fontana (2):
+>   Makefile: libfdt: build only the strict necessary
+>   Makefile: remove old compatibility gunks
+>=20
+>  Makefile  | 32 ++++++++++++++++----------------
+>  configure |  6 +-----
+>  rules.mak |  2 ++
+>  3 files changed, 19 insertions(+), 21 deletions(-)
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -124,25 +122,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Izn7cH1Com+I3R9J
+--HWvPVVuAAfuRc6SZ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6VGWoACgkQbDjKyiDZ
-s5JiLxAApB/8Pux+iWIQjEXmFDQeJnlr7c9lDe5mB5zlzsP/N5xGvKe2p0liy6aq
-4puwTH7RzFiOg7tVVNcqJkAxBN1YMKQCYG5DPLcq5uAvOX3b1GovePObVglCwNxu
-fQR/Dg12BaFQfk8scqTU9m8Uq+Yc3fLaQhxVp0r6+LlaXpgBTxyKja983acHRA1S
-Bn3tEMJnpK0TARAxRqfhTgu1yj7+uFvnsNSPC11VKh7jH9uXjIm46MYyYA7rEh6p
-Ht9PNF/I478GzyKZogcy//a6Qe9p+ouc7DzhwvEEEwTjGI+e/iss0BHS4Rnm0Wd2
-XaWjbmR4T3L2SQnCXfU5Ml5e/RfzOP5DExqiLdPK4XOQ5zRjGWlVR/xFHD/bAd3n
-kPjHsF0q/L2PVDuJt8z3c39lvpKNUjKRvRK0a6/YWqNzyk4X3FjcvtLnmi8sIeIM
-FJyNl+1CvhnhcNUVI1c+rCz6TDdk9GcCRgV2aDJFl/wsUfjpNObgLH5Z4blfwZ8c
-AZh/7hY9pCTfF5T+a9zSLBuodqtEimrUuZnMdioQsojXrjXXrwnE4NLdzXtbJUBm
-5E44BdEG7D+hVoIeS9PgXEjrgBXV6WyZFihCAX7xN3DstR6P31NDsw1GcH/ESGB3
-sktq3qlhg0gIOe7ceG/neQPFh7cTxtv+VZ0KcPMtXQTCLFASSQE=
-=GZCk
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6VGdcACgkQbDjKyiDZ
+s5JkdxAAza25ROvzcQbH0k4QiAjYWwLc+JCbdzEzbH8IfQ8R48rQ3lGVmbwKcxUK
+ZRbLYD76bByVVMnzVhLC/GpRTW629yy6K/w5nr2INwVjW1v2gJmcfhk8A/TnltGT
+F8sHVLWeumBwQEoKy1wLUQmHcCpq/sN8/MyRiqbevYHT8OPjX6gyizIaZzrWGsfm
+V+ZDErGtMixY5VeNHy6SknJuhdbaYwGEHeJCrbyihIGtbvp8TaGwWoVNC3FU5Rga
+yTnZ5QO4H6thx283jAXzte4eVSQGY30SblZ+UFkWA6/uMvniPQwsgDiU0Q+DDH+m
+335xRdCpgLvbRtpduyeqmtqg3NO3HySYIcpR3kWqdQEPFOqitV668i4Vrpi6EcE9
+A2swqXghl6uQskSXSj7VBbY1mG5vX2Du7eVcO92G3/Cs5Tu8wbDuPXUL1gkUv7P9
+UpI4wMJw1TpO6ZYNnlukUTU+XdFJxF0EeMBe4QwgWGuJJ9YlUWVsyhLPV4dttQVN
+ZxFZ9Z72y+fCT57rt8gq9k7/AIrMXv7cXkDCStB0sJySYx8A9qRI7NBTz88alFih
+kumOWf3JJHyrgYSKM8qfNWGQDRuNeYgMMu6D3vqQjyKk1v2d0nHA+98pKlE7/Wwi
++resnhfGqpUU7S9g490/tWTKr7J5g2RDk+UYufCONusN0803ZFo=
+=yOrh
 -----END PGP SIGNATURE-----
 
---Izn7cH1Com+I3R9J--
+--HWvPVVuAAfuRc6SZ--
 
