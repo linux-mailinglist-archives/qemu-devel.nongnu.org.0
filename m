@@ -2,62 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 970581A86CD
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 19:05:36 +0200 (CEST)
-Received: from localhost ([::1]:35560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEB8A1A8488
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:21:31 +0200 (CEST)
+Received: from localhost ([::1]:33720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOP0B-0004EW-IJ
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 13:05:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40312)
+	id 1jOOJW-0007s9-Tn
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:21:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50253)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jOOy4-0001nR-LJ
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:03:26 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jOOHQ-0006BQ-NA
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:19:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jOOy2-0003vv-C6
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:03:24 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55446)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jONb0-0002dS-I4
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 11:35:30 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jONaz-00055j-79
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 15:35:29 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 344CC2E80E7
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 15:35:29 +0000 (UTC)
+ (envelope-from <kwolf@redhat.com>) id 1jOOHJ-0004s7-W5
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:19:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38898
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jONXB-0001lv-Ak
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 11:31:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586878292;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6yPgsSE4OWXkD6OLed8cp+voX1L86uQXOFF8yFIR+9M=;
+ b=EzUfGlsFEH4fGpvmGf2ocUIiYPdYhvan6xr4o+3BnWJnN+hiRIKsq78GeI8TUeoSSc+FJV
+ lQUM8eUOnHjtR5oeO4Y006NM2vXX0w3rfECAXonWUk25InI25TSeW8COBYWs52bfddvG/E
+ JkLBZbBdVaLfOxHwABSLh8qlwoJpwZo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-481-gAkImttRMmSXb4ULLXDzYA-1; Tue, 14 Apr 2020 11:31:30 -0400
+X-MC-Unique: gAkImttRMmSXb4ULLXDzYA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D558080268C;
+ Tue, 14 Apr 2020 15:31:29 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-1.ams2.redhat.com [10.36.114.1])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 791AA5C1BE;
+ Tue, 14 Apr 2020 15:31:28 +0000 (UTC)
+Date: Tue, 14 Apr 2020 17:31:26 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Alberto Garcia <berto@igalia.com>
+Subject: Re: [PATCH for-5.0] qcow2: Add incompatibility note between backing
+ files and raw external data files
+Message-ID: <20200414153126.GN7747@linux.fritz.box>
+References: <20200410121816.8334-1-berto@igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200410121816.8334-1-berto@igalia.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 14 Apr 2020 15:26:27 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: docs
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kekepower pmaydell
-X-Launchpad-Bug-Reporter: =?utf-8?q?Stig-=C3=98rjan_Smelror_=28kekepower=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <158654057369.6269.6354060003943218170.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158687798884.27828.8466736829761538117.launchpad@gac.canonical.com>
-Subject: [Bug 1872113] Re: qemu docs fails to build with Sphinx 3.0.x
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: e4b100c7ebc929fc77bd610d032e0584b227a7db
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,83 +74,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1872113 <1872113@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: docs
+Am 10.04.2020 um 14:18 hat Alberto Garcia geschrieben:
+> Backing files and raw external data files are mutually exclusive.
+> The documentation of the raw external data bit (in autoclear_features)
+> already indicates that, but we should also mention it on the other
+> side.
+>=20
+> Suggested-by: Eric Blake <eblake@redhat.com>
+> Signed-off-by: Alberto Garcia <berto@igalia.com>
 
--- =
+Thanks, applied to the block branch.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1872113
+I don't think this is critical for 5.0, so if I make a pull request for
+other reasons, I'll include it, but if you agree, I won't send one just
+for this patch.
 
-Title:
-  qemu docs fails to build with Sphinx 3.0.x
+Kevin
 
-Status in QEMU:
-  In Progress
-
-Bug description:
-  We've just updated Sphinx to version 3.0.1 and qemu fails to build the
-  docs with this version.
-
-  Here's the relevant section in the build log.
-
-  CONFDIR=3D"/etc/qemu" /usr/bin/sphinx-build-3  -W -b html -D version=3D4.=
-2.92 -D release=3D"4.2.92 (qemu-5.0.0-0.rc2.0.1.mga8)" -d .doctrees/devel-h=
-tml /home/iurt/rpmbuild/BUILD/qemu-5.0.0-rc2/docs/devel docs/devel
-  Running Sphinx v3.0.1
-  making output directory... done
-  building [mo]: targets for 0 po files that are out of date
-  building [html]: targets for 14 source files that are out of date
-  updating environment: [new config] 14 added, 0 changed, 0 removed
-  reading sources... [  7%] bitops
-  reading sources... [ 14%] decodetree
-  reading sources... [ 21%] index
-  reading sources... [ 28%] kconfig
-  reading sources... [ 35%] loads-stores
-  reading sources... [ 42%] memory
-  reading sources... [ 50%] migration
-  reading sources... [ 57%] reset
-  reading sources... [ 64%] s390-dasd-ipl
-  reading sources... [ 71%] secure-coding-practices
-  reading sources... [ 78%] stable-process
-  reading sources... [ 85%] tcg
-  reading sources... [ 92%] tcg-plugins
-  reading sources... [100%] testing
-
-  Warning, treated as error:
-  /home/iurt/rpmbuild/BUILD/qemu-5.0.0-rc2/docs/../include/exec/memory.h:3:=
-Type must be either just a name or a typedef-like declaration.
-  If just a name:
-  =C2=A0=C2=A0Error in declarator or parameters
-  =C2=A0=C2=A0Invalid C declaration: Expected identifier in nested name, go=
-t keyword: struct [error at 6]
-  =C2=A0=C2=A0=C2=A0=C2=A0struct MemoryListener
-  =C2=A0=C2=A0=C2=A0=C2=A0------^
-  If typedef-like declaration:
-  =C2=A0=C2=A0Error in declarator or parameters
-  =C2=A0=C2=A0Invalid C declaration: Expected identifier in nested name. [e=
-rror at 21]
-  =C2=A0=C2=A0=C2=A0=C2=A0struct MemoryListener
-  =C2=A0=C2=A0=C2=A0=C2=A0---------------------^
-
-  make: *** [Makefile:1095: docs/devel/index.html] Error 2
-  make: *** Waiting for unfinished jobs....
-
-  I found this commit for memory.h that includes the section that faults.
-  https://github.com/qemu/qemu/commit/5d248213180749e674fbccbacc6ee9c38499a=
-bb3#diff-d892cbf314945b44699534cc1de4ebbd
-
-  You can see the whole build log here.
-  https://pkgsubmit.mageia.org/uploads/failure/cauldron/core/release/202004=
-10161120.tv.duvel.699/log/qemu-5.0.0-0.rc2.0.1.mga8/build.0.20200410161338.=
-log
-
-  System: Mageia Cauldron
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1872113/+subscriptions
 
