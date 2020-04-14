@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB3481A8613
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:57:26 +0200 (CEST)
-Received: from localhost ([::1]:35186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EADC1A858D
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:47:11 +0200 (CEST)
+Received: from localhost ([::1]:34802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOsH-00085F-Pi
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:57:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35252)
+	id 1jOOiM-0008AG-4w
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:47:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55944)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jOOoI-00015K-NU
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:53:19 -0400
+ (envelope-from <philmd@redhat.com>) id 1jOOaZ-0002Rw-98
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:39:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jOOoE-0004tB-9z
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:53:18 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51322
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jOOaX-0004yn-Do
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:39:07 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:33813
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOMcJ-0008NV-GQ
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 10:32:47 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOMcM-0008OK-MN
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 10:32:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586874766;
+ s=mimecast20190719; t=1586874770;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=bmyh+jYPcDijCvpDxDWwxU9xm/Alqb+kJhD/zBQdiwY=;
- b=CeLjkgcZw4PpTNXTar30JufDbMMA1/jqdJkKd5H7TQFU8z5Ql/MaRs+K/R6VXcteCKxEZ0
- jCVIMPcjiWgjJVOFRArDMPXlPeESwV9fszjiPB1k+boygN+3oVkn0rfvB1hToql7ZGrcfX
- UtmKoY+NxE1hcFltjowfEUODgtFLA0g=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-166-loFpgm3yNeGNo1eV0rhkoQ-1; Tue, 14 Apr 2020 10:32:43 -0400
-X-MC-Unique: loFpgm3yNeGNo1eV0rhkoQ-1
-Received: by mail-wr1-f72.google.com with SMTP id f2so344642wrm.9
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 07:32:43 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jZFQWRRmxtz/+WJb6IoMnCqiX+d+hiM5esZ7aEbtiwQ=;
+ b=KhGVGS9TfGMu3COn6xivi7adq9AGedbCFbnkw5hhyGsPJbwlwQDVfkObWP9RkH3+ih1RQT
+ YyFBuCsnWvCFuSaCgdBiEQ0MWDKsO4zB6ReXvqGVoZvHv5DHW7OBfdOAOGFGdnpKJS++dH
+ Yfzat1Bs3yQXf67ECFBgmLY9kJP0/qY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-374-qUQHiY10NBu-t4hrxPPKOw-1; Tue, 14 Apr 2020 10:32:48 -0400
+X-MC-Unique: qUQHiY10NBu-t4hrxPPKOw-1
+Received: by mail-wm1-f72.google.com with SMTP id f128so2709747wmf.8
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 07:32:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JgmJ4RQhAwCkbJTUNgKdOeWwPSHSXH8OU4HtYAg8Hi4=;
- b=QSEK14P5DROKdWHJOBETLTIQmzLasjzgs7Ywq+bV1sv5cghDoYXt7P+aLTWIho7baQ
- C8delmWkxfB4c/0HZSVR2WsU5u3I/3E6q4+AC3UCPkRICkDxjVOieZUats+AetgqSYP3
- 8LkBGpuuU7DshfXkHRN77EjNhR3GHVAVMeLkK+n4xX47EvbZKl1r6hh5tDR2A2YY6WCJ
- ugtzw/u5NMNFh29vO18rwObqI4RFZ3pBlt8f/d7yhQE9qegeCd8sSs/fPHGR6qIoT+PN
- aEwK0evBFPuXV1LxqPHG74pED/phJCtq81YAM3/f+owCIyfetYrbXBc2JYqUp98KVJT4
- 47ww==
-X-Gm-Message-State: AGi0PuYIiTdPOYDgFm5ZW7xffksKEe83Yj1U2kfuDJFnnvKvXKDL2hqy
- fxEIB9ICZvptkkqSiDMOfg73TUe3Waof3hTj2qpLoIzj7/qLxlH4D6pXWp0lSo4z4f2ZNVOCYEk
- xp4gPhuDeyU9d7J4=
-X-Received: by 2002:a5d:65cb:: with SMTP id e11mr23717640wrw.402.1586874762075; 
- Tue, 14 Apr 2020 07:32:42 -0700 (PDT)
-X-Google-Smtp-Source: APiQypItr5hxDjn2lOtndBCgMPvZQdbWyHGM6ulmAb3PhtoyhkiRAhtfgF4Cg6Oeqe452dzR7LD66g==
-X-Received: by 2002:a5d:65cb:: with SMTP id e11mr23717617wrw.402.1586874761815; 
- Tue, 14 Apr 2020 07:32:41 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=HAo29GLrra0kpb4F1uXdTWM4Afqo9zSyzRKdzK333tk=;
+ b=sZ9DykTVNzBuTbyO+dsXvJ/0K9FQxn0f8HAtVRkG1RMIMrXO0p3d8yX7ZgLcajtvOf
+ 3/qUeaXOZqmJ11666q4Q65y5PKRXO3eiqWJMzNcysXv0zUWb1L6r3hlakyE9Vl7LusOg
+ KvSqtMf0aBBloJ5DDKlw5xH16g0UIcNAw1TlXznT8DDmZsI6E4wRCXmTMh3p/Ro9OrF0
+ FPE8FVUAyKWvLn+nIa+j8xZy0/bkKT07bJu8bzpfI54Mc4mJcR2kOG5GUNlIvlO4ghQO
+ 1v9EemJ4RJU9zeSBq2GN6xNxYshZXopkrR3TSBxkbyH1869ZhinyhX+qFkKNtxBoJCiY
+ GCvA==
+X-Gm-Message-State: AGi0PuYrZtuxE8ZY/eWEORtKnziHYMGJKB+83+B186/pDfH9Kawng90j
+ sQSchln31UCKw6i55YujV8TP47A4RUy26omhLIcFUCKJc4pAJkvUkOPFjHsXKCzRWsISOyS9eqG
+ sMXtkpx6hSleaJaU=
+X-Received: by 2002:adf:a28e:: with SMTP id s14mr24415311wra.208.1586874767229; 
+ Tue, 14 Apr 2020 07:32:47 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLHS0bba7RmEtN2KcWQoHYvsJgHuCQB69zdd8+XPbm4MFrJ7/34QQ3kTKMSoLwdTARLmYLJ7w==
+X-Received: by 2002:adf:a28e:: with SMTP id s14mr24415298wra.208.1586874767069; 
+ Tue, 14 Apr 2020 07:32:47 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id b7sm19340044wrn.67.2020.04.14.07.32.40
+ by smtp.gmail.com with ESMTPSA id f3sm19476741wmj.24.2020.04.14.07.32.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 07:32:41 -0700 (PDT)
+ Tue, 14 Apr 2020 07:32:46 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0 v2 0/2] gdbstub: Introduce
- gdb_get_float32/gdb_get_float64 helpers
-Date: Tue, 14 Apr 2020 16:32:38 +0200
-Message-Id: <20200414143240.21764-1-philmd@redhat.com>
+Subject: [PATCH-for-5.0 v2 1/2] gdbstub: Introduce gdb_get_float32() to get
+ 32-bit float registers
+Date: Tue, 14 Apr 2020 16:32:39 +0200
+Message-Id: <20200414143240.21764-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200414143240.21764-1-philmd@redhat.com>
+References: <20200414143240.21764-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,22 +98,59 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes for GByteArray (commits 462474d760c & a010bdbe719).
+Since we now use a GByteArray, we can not use stfl_p() directly.
+Introduce the gdb_get_float32() helper to load a float32 register.
 
-Based-on: <20200414102427.7459-1-philmd@redhat.com>
-Supersedes: <20200414111846.27495-1-philmd@redhat.com>
+Fixes: a010bdbe719 ("extend GByteArray to read register helpers")
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ include/exec/gdbstub.h | 12 ++++++++++++
+ target/sh4/gdbstub.c   |  6 ++----
+ 2 files changed, 14 insertions(+), 4 deletions(-)
 
-Philippe Mathieu-Daud=C3=A9 (2):
-  gdbstub: Introduce gdb_get_float32() to get 32-bit float registers
-  gdbstub: Introduce gdb_get_float64() to get 64-bit float registers
-
- include/exec/gdbstub.h          | 24 ++++++++++++++++++++++++
- target/m68k/helper.c            |  3 ++-
- target/ppc/gdbstub.c            |  4 ++--
- target/ppc/translate_init.inc.c |  2 +-
- target/sh4/gdbstub.c            |  6 ++----
- 5 files changed, 31 insertions(+), 8 deletions(-)
-
+diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
+index b52d9933ee..3caca99416 100644
+--- a/include/exec/gdbstub.h
++++ b/include/exec/gdbstub.h
+@@ -125,6 +125,18 @@ static inline int gdb_get_reg128(GByteArray *buf, uint=
+64_t val_hi,
+     return 16;
+ }
+=20
++static inline int gdb_get_float32(GByteArray *array, float32 val)
++{
++    uint8_t buf[4];
++
++    QEMU_BUILD_BUG_ON(sizeof(CPU_FloatU) !=3D sizeof(buf));
++
++    stfl_p(buf, val);
++    g_byte_array_append(array, buf, sizeof(buf));
++
++    return sizeof(buf);
++}
++
+ static inline int gdb_get_zeroes(GByteArray *array, size_t len)
+ {
+     for (size_t i =3D 0; i < len; i++) {
+diff --git a/target/sh4/gdbstub.c b/target/sh4/gdbstub.c
+index 49fc4a0cc6..34ad3ca050 100644
+--- a/target/sh4/gdbstub.c
++++ b/target/sh4/gdbstub.c
+@@ -58,11 +58,9 @@ int superh_cpu_gdb_read_register(CPUState *cs, GByteArra=
+y *mem_buf, int n)
+         return gdb_get_regl(mem_buf, env->fpscr);
+     case 25 ... 40:
+         if (env->fpscr & FPSCR_FR) {
+-            stfl_p(mem_buf, env->fregs[n - 9]);
+-        } else {
+-            stfl_p(mem_buf, env->fregs[n - 25]);
++            return gdb_get_float32(mem_buf, env->fregs[n - 9]);
+         }
+-        return 4;
++        return gdb_get_float32(mem_buf, env->fregs[n - 25]);
+     case 41:
+         return gdb_get_regl(mem_buf, env->ssr);
+     case 42:
 --=20
 2.21.1
 
