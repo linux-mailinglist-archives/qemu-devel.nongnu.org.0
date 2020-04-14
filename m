@@ -2,72 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D1F1A8795
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 19:34:53 +0200 (CEST)
-Received: from localhost ([::1]:36400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DF6E1A8550
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:41:19 +0200 (CEST)
+Received: from localhost ([::1]:34548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOPSW-0006GD-90
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 13:34:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45805)
+	id 1jOOcg-0006Ni-2q
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:41:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53498)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jOP7t-0000aQ-Bf
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:13:35 -0400
+ (envelope-from <devtoe82@gmail.com>) id 1jOOUz-0001Ne-Nz
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:33:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jOP7r-0004Je-6v
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 13:13:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28177
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jOMdm-0000KA-Az
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 10:34:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586874858;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sFzhb4kAEqasUttGXHDzOYFmUYzd9ujfsvx8e7mBgk0=;
- b=jJcK90Ie1L9mknYfx9KPCzKiSZqN9Ddi+L+b/3ShKDDgha7ApVVS+bzN0wdI9ZhGJv+D4G
- 6fWT1KKVF45IECz9xNB/iDKqT8ufhk7Bz8haSacY/FN5fZBraEqFThGPoPFe302qGzArWC
- AMmxH9eJyFShcK84wDmWfcaQqkAlnSM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-292-StHte5k0PMG5agVruekZxA-1; Tue, 14 Apr 2020 10:34:15 -0400
-X-MC-Unique: StHte5k0PMG5agVruekZxA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 954D9107ACCD;
- Tue, 14 Apr 2020 14:34:14 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-20.ams2.redhat.com
- [10.36.113.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5EA8B99DFD;
- Tue, 14 Apr 2020 14:34:14 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BE89411385C8; Tue, 14 Apr 2020 16:34:12 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH for-5.1 8/8] qemu-option: Move is_valid_option_list() to
- qemu-img.c and rewrite
-References: <20200409153041.17576-1-armbru@redhat.com>
- <20200409153041.17576-9-armbru@redhat.com>
- <e3d05915-268f-0d1a-e760-723a10807d16@redhat.com>
- <87k12ixxlb.fsf@dusky.pond.sub.org>
-Date: Tue, 14 Apr 2020 16:34:12 +0200
-In-Reply-To: <87k12ixxlb.fsf@dusky.pond.sub.org> (Markus Armbruster's message
- of "Tue, 14 Apr 2020 10:47:44 +0200")
-Message-ID: <87blnup257.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (envelope-from <devtoe82@gmail.com>) id 1jOOUy-00021b-Qk
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:33:21 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:42016)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <devtoe82@gmail.com>) id 1jOMfU-0000tD-Jr
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 10:36:04 -0400
+Received: by mail-ot1-x336.google.com with SMTP id l21so7398094otd.9
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 07:36:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=0UKzmnzb24l9+mhQPAfis3S8cu/WolgMuV5WqdYEOGA=;
+ b=UZJQxy2q0zNO8EC6IjCll1cEoGKfoA5X0Va1ynOw5034I7cxqkb7F+BJ62ArX+OvrE
+ bVbJbpD9rbyYg9ydXPw2TwGTmRJjv0tiFeiBCMkCD5FyQ3/S/Q46xfcnQTXetorlHUJ6
+ g2CS4GY6pZP2nwl+BouOOqdyLlTFCcVREaMi5Ai2OJLdpjPiZiptyC1C+cjw2WwDyLCC
+ tDhROTB0jWWtPLcmquBWX6S5KytWeBJV+sjBIBJHWu3QR1A3ZaTbMRMwku8DievCRJLh
+ sOeh0s/5fReKz3S1r2GvcgLj7gBEdPrKcnK9Cr5B8EHWEZC91xlRWqZHBPfpTYg4Xp6V
+ SsVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=0UKzmnzb24l9+mhQPAfis3S8cu/WolgMuV5WqdYEOGA=;
+ b=b8aznwt156khY/nFG4IlnMhFvvgAh/opvT1DDIGrSObXalozpfK7sIxfswfnSnGZXv
+ 3LtZo14f+N+2d0JeTh1AEyc1SnjBtCOwwPI8xVQn6o/uGnrZ5y+euo4sxhKzcYk+UTPN
+ eOYY081zQhhlFldgiFQrKKaMNXq/HNtCgfrAE31tWi261g25eAxmdcNeCAUAvEBUkcpx
+ lKzJym1TLb374xE4Bu2rJjPsAYZEPLhWhJtJ+lR23c+NIyvfUByR5n9ZcWypMhPz9BJY
+ X6hrw6S3VDGsZ5vR6AnqwLLKwL31DpDvms1BcnNm61JObe+9/EXlfD6P/N/AXtXBVXbW
+ nB6A==
+X-Gm-Message-State: AGi0Pubc19TGXnYgvFyrIO29Gawr91U1Gu+A7Iov4ub7sjyHryQ0tEY9
+ k4uhELUQ4quZ1FU0sK9L8T3/A5vRPrtLnuKHu/LoCn3P
+X-Google-Smtp-Source: APiQypInEQimLjb3vS4XBC8tYEgRAVkdunJbMnutNPncbDSPP+0YRoKgx7/6TklzqvykrxjsHtEzH4HzYU3uQXWsS7g=
+X-Received: by 2002:a9d:3a04:: with SMTP id j4mr12111540otc.217.1586874962943; 
+ Tue, 14 Apr 2020 07:36:02 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+From: Toe Dev <devtoe82@gmail.com>
+Date: Tue, 14 Apr 2020 17:35:50 +0300
+Message-ID: <CAN+O=T+bk=hXjPF67R=YHKebcuMP2dGzT_qXPWMUp=RvWOPxOw@mail.gmail.com>
+Subject: cscope redundant chars
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::336
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,104 +67,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
+add cscope phony(ctags have one) and remove redundancy
 
-> Eric Blake <eblake@redhat.com> writes:
->
->> On 4/9/20 10:30 AM, Markus Armbruster wrote:
->>> is_valid_option_list()'s purpose is ensuring qemu-img.c's can safely
->>> join multiple parameter strings separated by ',' like this:
->>>
->>>          g_strdup_printf("%s,%s", params1, params2);
->>>
->>> How it does that is anything but obvious.  A close reading of the code
->>> reveals that it fails exactly when its argument starts with ',' or
->>> ends with an odd number of ','.  Makes sense, actually, because when
->>> the argument starts with ',', a separating ',' preceding it would get
->>> escaped, and when it ends with an odd number of ',', a separating ','
->>> following it would get escaped.
->>>
->>> Move it to qemu-img.c and rewrite it the obvious way.
->>>
->>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->>> ---
->>>   include/qemu/option.h |  1 -
->>>   qemu-img.c            | 26 ++++++++++++++++++++++++++
->>>   util/qemu-option.c    | 22 ----------------------
->>>   3 files changed, 26 insertions(+), 23 deletions(-)
->>>
->>
->>> +++ b/qemu-img.c
->>> @@ -223,6 +223,32 @@ static bool qemu_img_object_print_help(const char =
-*type, QemuOpts *opts)
->>>       return true;
->>>   }
->>>   +/*
->>> + * Is @optarg safe for accumulate_options()?
->>> + * It is when multiple of them can be joined together separated by ','=
-.
->>> + * To make that work, @optarg must not start with ',' (or else a
->>> + * separating ',' preceding it gets escaped), and it must not end with
->>> + * an odd number of ',' (or else a separating ',' following it gets
->>> + * escaped).
->>> + */
->>> +static bool is_valid_option_list(const char *optarg)
->>> +{
->>> +    size_t len =3D strlen(optarg);
->>> +    size_t i;
->>> +
->>> +    if (optarg[0] =3D=3D ',') {
->>> +        return false;
->>> +    }
->>> +
->>> +    for (i =3D len; i > 0 && optarg[i - 1] =3D=3D ','; i--) {
->>> +    }
->>> +    if ((len - i) % 2) {
->>> +        return false;
->>> +    }
->>> +
->>> +    return true;
->>
->> Okay, that's easy to read.  Note that is_valid_option_list("") returns
->> true.
->
-> Hmm, that's a bug:
->
->     $ qemu-img create -f qcow2 -o backing_file=3Da -o "" -o backing_fmt=
-=3Draw,size=3D1M new.qcow2
->     qemu-img: warning: Could not verify backing image. This may become an=
- error in future versions.
->     Could not open 'a,backing_fmt=3Draw': No such file or directory
->     Formatting 'new.qcow2', fmt=3Dqcow2 size=3D1048576 backing_file=3Da,,=
-backing_fmt=3Draw cluster_size=3D65536 lazy_refcounts=3Doff refcount_bits=
-=3D16
->     $ qemu-img info new.qcow2=20
->     image: new.qcow2
->     file format: qcow2
->     virtual size: 1 MiB (1048576 bytes)
->     disk size: 196 KiB
->     cluster_size: 65536
-> --> backing file: a,backing_fmt=3Draw
->     Format specific information:
->         compat: 1.1
->         lazy refcounts: false
->         refcount bits: 16
->         corrupt: false
->
-> My rewrite preserves this bug.  Will fix in v2.
+diff --git a/Makefile b/Makefile
+index 84ef881600..9cf62532f9 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1005,16 +1005,18 @@ ctags:
+        rm -f tags
+        find "$(SRC_PATH)" -name '*.[hc]' -exec ctags --append {} +
 
-Kevin, two obvious fixes:
++.PHONY: cscope
++
++cscope:
++       rm -f cscope.*
++       find $(SRC_PATH) -name "*.[chsS]" -print | sed 's,^\./,,' >
+"$(SRC_PATH)/cscope.files"
++       cscope -b -q -k cscope.files
++
+ .PHONY: TAGS
+ TAGS:
+        rm -f TAGS
+        find "$(SRC_PATH)" -name '*.[hc]' -exec etags --append {} +
 
-* Make is_valid_option_list() reject -o ""
-
-* Make accumulate_options(options, "") return options.
-
-Got a preference?
-
-[...]
-
+-cscope:
+-       rm -f "$(SRC_PATH)"/cscope.*
+-       find "$(SRC_PATH)/" -name "*.[chsS]" -print | sed 's,^\./,,' >
+"$(SRC_PATH)/cscope.files"
+-       cscope -b -i"$(SRC_PATH)/cscope.files"
+-
 
