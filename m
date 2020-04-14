@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 021D71A8BEA
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 22:08:12 +0200 (CEST)
-Received: from localhost ([::1]:38344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDD071A8BF0
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 22:09:42 +0200 (CEST)
+Received: from localhost ([::1]:38396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jORqs-0007Rw-Pu
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 16:08:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44422)
+	id 1jORsK-0002e7-Tn
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 16:09:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44444)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jORpN-0005t7-Ft
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 16:06:38 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jORpQ-0005ut-R8
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 16:06:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jORpM-0005tB-5K
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 16:06:37 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53853)
+ (envelope-from <alex.bennee@linaro.org>) id 1jORpP-0005ue-GQ
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 16:06:40 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42770)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jORpL-0005si-RP
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 16:06:36 -0400
-Received: by mail-wm1-x341.google.com with SMTP id d77so14502776wmd.3
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 13:06:35 -0700 (PDT)
+ id 1jORpP-0005uF-AK
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 16:06:39 -0400
+Received: by mail-wr1-x443.google.com with SMTP id j2so16014403wrs.9
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 13:06:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LyYH1vUOROUp+ALOi+AoU+6fL4aHHF4lo5SZlCQc25A=;
- b=IvmSZCaf0yjtZb0gsBQFlbhTvILOEfY9/Da4cG8YJArjhfh8PFu+VvvGPNwWFmXngu
- nUAqz6JWGDzYetx0BdIs/hktD5qPK7yIJAPWw7Ym83EBvpgOBGH38W8400kKl46oFxud
- eJYdz5OGnaPSNiRcwtOVhH4VRa60dvbzommM1bJeEDfyfu7IMSTBmNKl+R0NSBesAo1/
- VgSjf+giw6lzor5Kl4UcXufBev1A9diGflZkZRMu4ujfcuoofgum6dCM6Cfj3jGXm3vN
- 8C0fqeuBCWXqJQXnOeu3wRc04LkEY/eA83ae0z/xfFopbE3QuK+Ox6ylyPdcFNPx0zul
- Zy+Q==
+ bh=NOU8+nMEIGED2iJZhktWL6KnvYhctO6T5v6pR87w3Mo=;
+ b=mjCsPmuoughxp2LFW8AqP6K9VjuIgM5qLtRrDGoyhOZ827z4tTBSm1EN6iMC/LrnUT
+ SjW90UCu66krkF3TGUKx+Zqc/+AqSvmleQmIgr9MbU+S8OuvFkaywELX2NIwMWPESOJw
+ RlyJrM3V8bZswbUY7JmLbDWaDYrTZxLaWk0PBPRONIvTqQt6WXvLLABXQDR63H/FNxwa
+ NVaSaPEL9LBbPdeWSzWxvUyoLSrXljzGIo+TRLSmkS+AsQnP3k8Rs9wWwDJEUCWbA3uT
+ +c1hNLk1x+BuzmXY4c3tQOdGODYc73xeeU3tZYM+6jD5sKCR5D+xXDrfWyia2T6Th6x3
+ c08Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LyYH1vUOROUp+ALOi+AoU+6fL4aHHF4lo5SZlCQc25A=;
- b=jcL7ZmFofyWNn+OwNkuFmqNW/sIXhSE93CAqrt4VPN/v9lcvjGslQzn8aqOQSehEd6
- 38CT1N6REJkKJ7aiZqGlw0wqTU1gRmHkTfmWIShe3pt3a+89YUsi9kovpM8rIJ1Mclha
- inkCepg4DfL1kN8YHkGVT7dHUrHTYZFQeXkZqgcegjwLlJhYYHojxfR3kz8R1aFYIQuw
- ZvPJXlg3KyP+JyXssFuY0wLiEsG+2K8s3PapZSrAcswgjhqqj1YWwuEH0IdLHNyPSXiF
- iGld4r52mRTih8WxloO71b0xNjUJhHFyliwl8wmfExq3LJwtsC022QgMGtzbmD3nHr6k
- W1Vw==
-X-Gm-Message-State: AGi0PuaFdMTYtkY8D83R83fKqBc2CExRANRW5WbDRcK73cYojPDqFHug
- 44JBse8hnx+Y3zeKPFEtAEUDFQ==
-X-Google-Smtp-Source: APiQypI01tCXhk3gNbophIDXmJ2bhrGBHZHya+6Zsexa8ww7+rizey/8n3ivJMuKt38628ELoCF1Ig==
-X-Received: by 2002:a1c:7ed7:: with SMTP id z206mr1406655wmc.64.1586894794435; 
- Tue, 14 Apr 2020 13:06:34 -0700 (PDT)
+ bh=NOU8+nMEIGED2iJZhktWL6KnvYhctO6T5v6pR87w3Mo=;
+ b=NtOhGcTRaLcj9uQpmI1b0+vkYT/m0VEv9SdhzF6uyKH8Qb5g9rNoLWcUS1dR0d2E+x
+ ODnwb3UuXeypHkQDAL0l4GJNrc6S2d6l/nKN8YCMX0QOH6MMNN+B4UF16f7QJYLwit2H
+ ArwMhaH69OJsJfe5dPeUpmaC8MEQHgjd0XOtkeEwq4crnNP+zHXE86XO875J6M4XDn6E
+ rQohsYddezZf4O+tXLI1ZmDhVipAnqjQ9X6kyLsvOx4fkTxT1OjExi2ePanieFOkXveM
+ GtbBzDA/Aps3y+qTv6eFXF34x/YstHZlBMEkM/IUTY7v29iOHIBUiAXRYgDEpQKUHKvt
+ LWGg==
+X-Gm-Message-State: AGi0PuYWQ3OfPm3pksZUebtFYKVvVT0oAewebAqLd+iZBYnFZ3f+Ew0e
+ hzlzTVE6MpwjXvCipRJpLLoIGg==
+X-Google-Smtp-Source: APiQypKyxfdfMAhXePnNUwkyhPlGQ0fmpP6F7zO+4ZTd3/HfXZdnNXY3r9alCEACwBsycmvnec4WIg==
+X-Received: by 2002:a5d:4404:: with SMTP id z4mr20300751wrq.316.1586894798275; 
+ Tue, 14 Apr 2020 13:06:38 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u30sm22636wru.13.2020.04.14.13.06.32
+ by smtp.gmail.com with ESMTPSA id v1sm15855007wrv.19.2020.04.14.13.06.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 13:06:32 -0700 (PDT)
+ Tue, 14 Apr 2020 13:06:36 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AE2271FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id E5C4E1FF8F;
  Tue, 14 Apr 2020 21:06:31 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 02/17] exec/cpu-all: Use bool for have_guest_base
-Date: Tue, 14 Apr 2020 21:06:16 +0100
-Message-Id: <20200414200631.12799-3-alex.bennee@linaro.org>
+Subject: [PATCH  v2 03/17] accel/tcg: Relax va restrictions on 64-bit guests
+Date: Tue, 14 Apr 2020 21:06:17 +0100
+Message-Id: <20200414200631.12799-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200414200631.12799-1-alex.bennee@linaro.org>
 References: <20200414200631.12799-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,83 +81,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Riku Voipio <riku.voipio@iki.fi>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
+We cannot at present limit a 64-bit guest to a virtual address
+space smaller than the host.  It will mostly work to ignore this
+limitation, except if the guest uses high bits of the address
+space for tags.  But it will certainly work better, as presently
+we can wind up failing to allocate the guest stack.
+
+Widen our user-only page tree to the host or abi pointer width.
+Remove the workaround for this problem from target/alpha.
+Always validate guest addresses vs reserved_va, as there we
+control allocation ourselves.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/exec/cpu-all.h | 2 +-
- bsd-user/main.c        | 4 ++--
- linux-user/main.c      | 4 ++--
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ include/exec/cpu-all.h    | 23 +++++++++++++++++++----
+ target/alpha/cpu-param.h  | 15 ++-------------
+ accel/tcg/translate-all.c | 15 +++++++++------
+ 3 files changed, 30 insertions(+), 23 deletions(-)
 
 diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 49384bb66a5..b4fb5832c4a 100644
+index b4fb5832c4a..c0c2fa3cc56 100644
 --- a/include/exec/cpu-all.h
 +++ b/include/exec/cpu-all.h
-@@ -159,7 +159,7 @@ static inline void tswap64s(uint64_t *s)
-  * This allows the guest address space to be offset to a convenient location.
-  */
- extern unsigned long guest_base;
--extern int have_guest_base;
-+extern bool have_guest_base;
+@@ -162,12 +162,27 @@ extern unsigned long guest_base;
+ extern bool have_guest_base;
  extern unsigned long reserved_va;
  
- #if HOST_LONG_BITS <= TARGET_VIRT_ADDR_SPACE_BITS
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index 770c2b267ad..aef5531628a 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -42,7 +42,7 @@
- int singlestep;
- unsigned long mmap_min_addr;
- unsigned long guest_base;
--int have_guest_base;
-+bool have_guest_base;
- unsigned long reserved_va;
+-#if HOST_LONG_BITS <= TARGET_VIRT_ADDR_SPACE_BITS
+-#define GUEST_ADDR_MAX (~0ul)
++/*
++ * Limit the guest addresses as best we can.
++ *
++ * When not using -R reserved_va, we cannot really limit the guest
++ * to less address space than the host.  For 32-bit guests, this
++ * acts as a sanity check that we're not giving the guest an address
++ * that it cannot even represent.  For 64-bit guests... the address
++ * might not be what the real kernel would give, but it is at least
++ * representable in the guest.
++ *
++ * TODO: Improve address allocation to avoid this problem, and to
++ * avoid setting bits at the top of guest addresses that might need
++ * to be used for tags.
++ */
++#if MIN(TARGET_VIRT_ADDR_SPACE_BITS, TARGET_ABI_BITS) <= 32
++# define GUEST_ADDR_MAX_  UINT32_MAX
+ #else
+-#define GUEST_ADDR_MAX (reserved_va ? reserved_va - 1 : \
+-                                    (1ul << TARGET_VIRT_ADDR_SPACE_BITS) - 1)
++# define GUEST_ADDR_MAX_  ~0ul
+ #endif
++#define GUEST_ADDR_MAX    (reserved_va ? reserved_va - 1 : GUEST_ADDR_MAX_)
++
+ #else
  
- static const char *interp_prefix = CONFIG_QEMU_INTERP_PREFIX;
-@@ -828,7 +828,7 @@ int main(int argc, char **argv)
-             }
-         } else if (!strcmp(r, "B")) {
-            guest_base = strtol(argv[optind++], NULL, 0);
--           have_guest_base = 1;
-+           have_guest_base = true;
-         } else if (!strcmp(r, "drop-ld-preload")) {
-             (void) envlist_unsetenv(envlist, "LD_PRELOAD");
-         } else if (!strcmp(r, "bsd")) {
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 1d20a83d4e8..90ad365b439 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -59,7 +59,7 @@ static const char *cpu_type;
- static const char *seed_optarg;
- unsigned long mmap_min_addr;
- unsigned long guest_base;
--int have_guest_base;
-+bool have_guest_base;
+ #include "exec/hwaddr.h"
+diff --git a/target/alpha/cpu-param.h b/target/alpha/cpu-param.h
+index 692aee27ca9..1153992e42a 100644
+--- a/target/alpha/cpu-param.h
++++ b/target/alpha/cpu-param.h
+@@ -10,22 +10,11 @@
  
- /*
-  * Used to implement backwards-compatibility for the `-strace`, and
-@@ -334,7 +334,7 @@ static void handle_arg_cpu(const char *arg)
- static void handle_arg_guest_base(const char *arg)
- {
-     guest_base = strtol(arg, NULL, 0);
--    have_guest_base = 1;
-+    have_guest_base = true;
- }
+ #define TARGET_LONG_BITS 64
+ #define TARGET_PAGE_BITS 13
+-#ifdef CONFIG_USER_ONLY
+-/*
+- * ??? The kernel likes to give addresses in high memory.  If the host has
+- * more virtual address space than the guest, this can lead to impossible
+- * allocations.  Honor the long-standing assumption that only kernel addrs
+- * are negative, but otherwise allow allocations anywhere.  This could lead
+- * to tricky emulation problems for programs doing tagged addressing, but
+- * that's far fewer than encounter the impossible allocation problem.
+- */
+-#define TARGET_PHYS_ADDR_SPACE_BITS  63
+-#define TARGET_VIRT_ADDR_SPACE_BITS  63
+-#else
++
+ /* ??? EV4 has 34 phys addr bits, EV5 has 40, EV6 has 44.  */
+ #define TARGET_PHYS_ADDR_SPACE_BITS  44
+ #define TARGET_VIRT_ADDR_SPACE_BITS  (30 + TARGET_PAGE_BITS)
+-#endif
++
+ #define NB_MMU_MODES 3
  
- static void handle_arg_reserved_va(const char *arg)
+ #endif
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 9924e66d1f7..e4f703a7e6d 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -173,8 +173,13 @@ struct page_collection {
+ #define TB_FOR_EACH_JMP(head_tb, tb, n)                                 \
+     TB_FOR_EACH_TAGGED((head_tb)->jmp_list_head, tb, n, jmp_list_next)
+ 
+-/* In system mode we want L1_MAP to be based on ram offsets,
+-   while in user mode we want it to be based on virtual addresses.  */
++/*
++ * In system mode we want L1_MAP to be based on ram offsets,
++ * while in user mode we want it to be based on virtual addresses.
++ *
++ * TODO: For user mode, see the caveat re host vs guest virtual
++ * address spaces near GUEST_ADDR_MAX.
++ */
+ #if !defined(CONFIG_USER_ONLY)
+ #if HOST_LONG_BITS < TARGET_PHYS_ADDR_SPACE_BITS
+ # define L1_MAP_ADDR_SPACE_BITS  HOST_LONG_BITS
+@@ -182,7 +187,7 @@ struct page_collection {
+ # define L1_MAP_ADDR_SPACE_BITS  TARGET_PHYS_ADDR_SPACE_BITS
+ #endif
+ #else
+-# define L1_MAP_ADDR_SPACE_BITS  TARGET_VIRT_ADDR_SPACE_BITS
++# define L1_MAP_ADDR_SPACE_BITS  MIN(HOST_LONG_BITS, TARGET_ABI_BITS)
+ #endif
+ 
+ /* Size of the L2 (and L3, etc) page tables.  */
+@@ -2497,9 +2502,7 @@ void page_set_flags(target_ulong start, target_ulong end, int flags)
+     /* This function should never be called with addresses outside the
+        guest address space.  If this assert fires, it probably indicates
+        a missing call to h2g_valid.  */
+-#if TARGET_ABI_BITS > L1_MAP_ADDR_SPACE_BITS
+-    assert(end <= ((target_ulong)1 << L1_MAP_ADDR_SPACE_BITS));
+-#endif
++    assert(end - 1 <= GUEST_ADDR_MAX);
+     assert(start < end);
+     assert_memory_lock();
+ 
 -- 
 2.20.1
 
