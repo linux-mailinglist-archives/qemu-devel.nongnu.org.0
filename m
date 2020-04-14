@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E0DD1A84D7
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:27:58 +0200 (CEST)
-Received: from localhost ([::1]:33977 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40A801A84DE
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:29:37 +0200 (CEST)
+Received: from localhost ([::1]:34024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOPl-0006yW-8G
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:27:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51642)
+	id 1jOORM-00027v-90
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:29:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51652)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jOOOH-00056X-7x
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:30 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jOOOI-00057I-0W
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jOOOB-00079j-Kn
+ (envelope-from <peter.maydell@linaro.org>) id 1jOOOC-00079x-Cd
  for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:25 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39642)
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38629)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jOOOB-00079J-EN
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:19 -0400
-Received: by mail-wr1-x442.google.com with SMTP id b11so3681776wrs.6
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 09:26:19 -0700 (PDT)
+ id 1jOOOC-00079Y-6e
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:20 -0400
+Received: by mail-wm1-x341.google.com with SMTP id g12so6879148wmh.3
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 09:26:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=6N7F/VqKmbYnLDIg9jtfPkCRYuB7XZyhZjr0Akis3f0=;
- b=h9qKX8lZo0wdP1+4dNosaxnySI5/WifsBOPoiUsv27MzgZQ7CWmm+GkaIn6IpepZ3a
- wba7SFeCMtWcFkBFaGLpBInFTTCp5FE0KlkcK2PCiTK4qR27+1hV40wU3LDxiovrSJYy
- aqkpI57yKpCPWOX+sfAiCkX0sa548gj23+duxEYggaZltcnZkITnmW0Wmm7IEA13Fari
- OcxbY7vj8+d5ohkXPU1F4wars6YfY7PT/jxAkl6BNQd4fRDfr1BuFGMIC7wMVGeEjLUC
- GU1q2FmJqzWwwzDfnFIXOrctoqGTbaMK1VSjLGImH597YulVd2A5fBRDDBHBya+HxvM+
- OlhQ==
+ bh=yvyxieRgXTgnaYpRAHFSnkQCJYL7gwucJ9BQHEnE72U=;
+ b=dsCYQ8FpR5f1yzZHJovafOOVrGN+hbeQLjaxs5CckGpDvnvr5tvobIlieI1LGou891
+ 3lWmb1/4L+0TtDr/zrt1ZIX1nhfegha2HgujbwnS+GXCIShHtkH0ioThszOtAiDZzC6O
+ hv5Esu+UaX2INjPxGvvs9vbJMgt0AafIpzhQGGx004KUv6eDQ/gPVpa0zdxtPYYPKT1p
+ k2fKI+UQLj5VShL7IZZx7rxT8HGgQ+g48Uq5OXYKQpEglxM3LvJ+aIu68MYElAhUF6Vy
+ n/PeMXXKosGCsGULv8qVGmrThjpAbwSg/3Z29TzNsyNnnKgVBeBdW3knvW7lsJ+NlyIl
+ D6Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6N7F/VqKmbYnLDIg9jtfPkCRYuB7XZyhZjr0Akis3f0=;
- b=bQWwEZzBy0W95FJGFYJyj6XDuKfIG/qPCiwu1L/B5d+mtmS8r9M8ESWwE5w+zx8shp
- rIB+DORoC2l/2v5d2lG1/udnvvpeyoJ+6DVMoUOVUlbLPTqXK2dVo1gBr0p5jfpR8MUN
- 9OykAoJG54aZhlRHG8QRmVqrhsI3bKa579qSOeLJjLpkkE042gUg8Es/myrdnLrtYQad
- Q7jPKlW2I0LyTUToisJz1412+4+5hbmeaH4XGTw81dcg/gRYJhRcmGkpMt4J/s2srIOB
- 5Vmhb4aqk1gYnYJWwDJUv0TeQQlZScmbABDqtrAF4nq+tIsz24Zl+qc7HwHrlDIXTeaF
- 2XLg==
-X-Gm-Message-State: AGi0PuargmSGuAwb+r/r72l7nJ+bW/H5pL3ki4Ec/Ur2GKJ2vlsPLHGd
- y0mdZJXTyvjEhCjKCwZciieZ50Pvrdg+YQ==
-X-Google-Smtp-Source: APiQypJ7n670ydIoxkKZYWjfjjFIJclfhs7zQ1X6TYQskYyOvXBvgSfJJ6N/MXOJQdK3VMQyUynsFg==
-X-Received: by 2002:a5d:48cc:: with SMTP id p12mr26037990wrs.170.1586881578020; 
+ bh=yvyxieRgXTgnaYpRAHFSnkQCJYL7gwucJ9BQHEnE72U=;
+ b=m254sfJSsdtmhe6eg7CTZlU+cNgeWvv70ehH0+5QjrSOceVM3M7hCRATl9ftagxeVH
+ JlCLvY0q7DLJlO9gEAo2/zAQu8IOe0SEYnTNEJsM3OClw4TYA4PVCrZmLxWb5Is0oF4K
+ aCs0HKtXXbTJAgR5oGatR3EJ8N9osOYbS7IrfzSOUQ0co9Eo/5tQpVnDcMy4bTJaN0v3
+ S9qw1PAf0BE0XkVtaEK2F1ezVg9zdZ9NtPzotT1zeK5lkM8xj+V8+RYdK4Bjg3rAab6i
+ bUC5m9+CdFeL4TMI84Dl1FB03zbhM8uJEqIo+Nz7t3HMBccHt+vtnXyGHxB2749GpZ+s
+ qoUA==
+X-Gm-Message-State: AGi0PubzLqWIlinFPJrwTkq2F41bDGE1fQ32GM7an5kKHaigep7ENf0x
+ A4fcOdRVSXv+LnMd7ElcIeTZaKCrbhpsXQ==
+X-Google-Smtp-Source: APiQypKmQn1sNH2HqX6XhycvF6ValpgAe9rxmZkXPRZa5z+mGnMJd46fq0KBWhij1xS3h8BY7jNpLA==
+X-Received: by 2002:a1c:e302:: with SMTP id a2mr633636wmh.96.1586881578930;
  Tue, 14 Apr 2020 09:26:18 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i129sm20003802wmi.20.2020.04.14.09.26.16
+ by smtp.gmail.com with ESMTPSA id i129sm20003802wmi.20.2020.04.14.09.26.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 09:26:17 -0700 (PDT)
+ Tue, 14 Apr 2020 09:26:18 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/12] thread.h: Fix Coverity version of qemu_cond_timedwait()
-Date: Tue, 14 Apr 2020 17:26:03 +0100
-Message-Id: <20200414162613.4479-3-peter.maydell@linaro.org>
+Subject: [PULL 03/12] thread.h: Remove trailing semicolons from Coverity
+ qemu_mutex_lock() etc
+Date: Tue, 14 Apr 2020 17:26:04 +0100
+Message-Id: <20200414162613.4479-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200414162613.4479-1-peter.maydell@linaro.org>
 References: <20200414162613.4479-1-peter.maydell@linaro.org>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,49 +83,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For Coverity's benefit, we provide simpler versions of functions like
-qemu_mutex_lock(), qemu_cond_wait() and qemu_cond_timedwait().  When
-we added qemu_cond_timedwait() in commit 3dcc9c6ec4ea, a cut and
-paste error meant that the Coverity version of qemu_cond_timedwait()
-was using the wrong _impl function, which makes the Coverity parser
-complain:
+All the Coverity-specific definitions of qemu_mutex_lock() and friends
+have a trailing semicolon. This works fine almost everywhere because
+of QEMU's mandatory-braces coding style and because most callsites are
+simple, but target/s390x/sigp.c has a use of qemu_mutex_trylock() as
+an if() statement, which makes the ';' a syntax error:
+"../target/s390x/sigp.c", line 461: warning #18: expected a ")"
+      if (qemu_mutex_trylock(&qemu_sigp_mutex)) {
+          ^
 
-"/qemu/include/qemu/thread.h", line 159: warning #140: too many arguments in
-          function call
-      return qemu_cond_timedwait(cond, mutex, ms);
-             ^
-
-"/qemu/include/qemu/thread.h", line 159: warning #120: return value type does
-          not match the function type
-      return qemu_cond_timedwait(cond, mutex, ms);
-             ^
-
-"/qemu/include/qemu/thread.h", line 156: warning #1563: function
-          "qemu_cond_timedwait" not emitted, consider modeling it or review
-          parse diagnostics to improve fidelity
-  static inline bool (qemu_cond_timedwait)(QemuCond *cond, QemuMutex *mutex,
-                      ^
-
-These aren't fatal, but reduce the scope of the analysis. Fix the error.
+Remove the bogus semicolons from the macro definitions.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20200319193323.2038-3-peter.maydell@linaro.org
+Message-id: 20200319193323.2038-4-peter.maydell@linaro.org
 ---
- include/qemu/thread.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/qemu/thread.h | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/include/qemu/thread.h b/include/qemu/thread.h
-index 047db0307e7..10262c63f58 100644
+index 10262c63f58..d22848138ea 100644
 --- a/include/qemu/thread.h
 +++ b/include/qemu/thread.h
-@@ -67,7 +67,7 @@ extern QemuCondTimedWaitFunc qemu_cond_timedwait_func;
+@@ -57,17 +57,17 @@ extern QemuCondTimedWaitFunc qemu_cond_timedwait_func;
+  * hide them.
+  */
+ #define qemu_mutex_lock(m)                                              \
+-            qemu_mutex_lock_impl(m, __FILE__, __LINE__);
++            qemu_mutex_lock_impl(m, __FILE__, __LINE__)
+ #define qemu_mutex_trylock(m)                                           \
+-            qemu_mutex_trylock_impl(m, __FILE__, __LINE__);
++            qemu_mutex_trylock_impl(m, __FILE__, __LINE__)
+ #define qemu_rec_mutex_lock(m)                                          \
+-            qemu_rec_mutex_lock_impl(m, __FILE__, __LINE__);
++            qemu_rec_mutex_lock_impl(m, __FILE__, __LINE__)
+ #define qemu_rec_mutex_trylock(m)                                       \
+-            qemu_rec_mutex_trylock_impl(m, __FILE__, __LINE__);
++            qemu_rec_mutex_trylock_impl(m, __FILE__, __LINE__)
  #define qemu_cond_wait(c, m)                                            \
-             qemu_cond_wait_impl(c, m, __FILE__, __LINE__);
+-            qemu_cond_wait_impl(c, m, __FILE__, __LINE__);
++            qemu_cond_wait_impl(c, m, __FILE__, __LINE__)
  #define qemu_cond_timedwait(c, m, ms)                                   \
--            qemu_cond_wait_impl(c, m, ms, __FILE__, __LINE__);
-+            qemu_cond_timedwait_impl(c, m, ms, __FILE__, __LINE__);
+-            qemu_cond_timedwait_impl(c, m, ms, __FILE__, __LINE__);
++            qemu_cond_timedwait_impl(c, m, ms, __FILE__, __LINE__)
  #else
  #define qemu_mutex_lock(m) ({                                           \
              QemuMutexLockFunc _f = atomic_read(&qemu_mutex_lock_func);  \
