@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC78A1A84D8
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:28:04 +0200 (CEST)
-Received: from localhost ([::1]:33980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C93C1A84F1
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:31:31 +0200 (CEST)
+Received: from localhost ([::1]:34140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOPr-0007EF-Ud
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:28:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51673)
+	id 1jOOTC-0005yD-90
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:31:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51683)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jOOOL-0005A7-HO
+ (envelope-from <peter.maydell@linaro.org>) id 1jOOOM-0005B8-9b
  for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jOOOF-0007B0-1A
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:29 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:35016)
+ (envelope-from <peter.maydell@linaro.org>) id 1jOOOF-0007BO-Q7
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:30 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:39632)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jOOOE-0007Ar-Q4
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:22 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id x18so10782645wrq.2
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 09:26:22 -0700 (PDT)
+ id 1jOOOF-0007Ax-J5
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:23 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id b11so3682124wrs.6
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 09:26:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=7ac9z7NGgu/WIBfQCIpXpUHbyr0rqhQpZciZjY8CLv8=;
- b=e4pSYJ9lAPfZkg0TGQ7Z/V/GWfXlfrXgTmC4y2vwl/BXe6P69l8vdPM2aDldladjN8
- B9Fsh2oz3+t/qEQW+6iJaNvoh8VuwDQP90yFDsulssVe/pmi5h6r1XDgFatz/5umOB0b
- T8RD1VAgCR7Qs9cdto0V7uwaUWpzYEq1mvlrPaoaBXIbJO2vIk+HOvDSBRSFap/By3it
- 6ejdNJMdY1iQkf2iCXVXrmJcxBxTp8HMeWz+LzWPsoH9m7AbwMZlpdzdPmTeXoOgcsSI
- Qd1MSuW/oSdGbvOfkjL30fAgsjcGXFKDNCMPflFamIbzCkb1kSmngAzu4x6eo7rp9sBw
- lYuQ==
+ bh=CYD2oYIO4KxGswH2zilZZk7dQlRMdgopLeP0MiqqWFk=;
+ b=OcMM2nKcs9HRm0oKtmmVAIZx1BBIPFcSTuxQVvAQL1UFI2+tsFKJTuFecTPiMhEUgI
+ XNNrVMxn+o3ho9tbK026bwlr7lNEZwpfh9On43olfUm0Z/nlpPhXvyYRN2xY/ejo5hkX
+ vKgDKDc1pzmp+VMi+ckn3p3yb/l/Ht8G5eI3n4uMACvdK8k6BH89E2qSBmsNPi9MMdj4
+ mEVPhSRULuLu0SRcETyyWF+8smSmUrM7DclmPMc7m0FIVkLNEYaQ4cHPiJAQm/jluQ9/
+ UOdCBQZqyev8digGI2IGKAf38ozJqGaPEUWquFPkC3GrRURB50MWLzfRqLexlAy6RN6u
+ iOMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7ac9z7NGgu/WIBfQCIpXpUHbyr0rqhQpZciZjY8CLv8=;
- b=Dfarygfag/Kw0qB6sNqgjRDv7s57m4RUfzT1TQea/dmT3J9PivOixrctB4An5lYvkW
- 71q3rcM7wP3BZhBooZnn+J0PUQRWudDH7dYNSY2OK64k4KjiJIi0gd3igxfjMPBbFnq6
- 51QPTVPNbe4O4y6VKm3XCRI/5NBXXXu6bM79Xdb4+Pz42OCE/Y0xPC7VUUMt4aG9W6IM
- NSEJ0Co0h5f8EuN6XCTbfgjxz0BfaW4E5Dfzt3Gdtdmn6xOrEBdVEYjjRapE0Ha5UTW7
- zkoi31b9+JELA+eTCB6/OIIfPQFHXVEgTjsW6/y8YxESWlq0I4ywm2Er2uwEFcjqTSp5
- 4RgA==
-X-Gm-Message-State: AGi0Pubh45tFpq4fCztjtY0ipkZftxEhdVilGPwtDpVXz9XH4k4FuIjg
- mK0LnuvdBSGA08VNETt8MPYlgA1LB//FiA==
-X-Google-Smtp-Source: APiQypJafHqKjfNCJalXk7YuEPr1WYuw6d50dX8o1IIUhXrjCE1aEReprCH29Fncgtb1IiXSZctbnQ==
-X-Received: by 2002:adf:bb94:: with SMTP id q20mr26634168wrg.105.1586881581021; 
- Tue, 14 Apr 2020 09:26:21 -0700 (PDT)
+ bh=CYD2oYIO4KxGswH2zilZZk7dQlRMdgopLeP0MiqqWFk=;
+ b=UOz+L+SIKnQY2w/8VfP8VoRk/A4/j7hbZ2TYO0vmfRvlkhk0dGXSoyJCCP+hzoadC+
+ HGciMZZk+6TrOkRZwxku9CBqQ7JJGMSZS4mh+2dfFHDWN0UpdgMu+ZkluWsDCjp5eD9b
+ VQ1wnfyh2bMrVLQi5ue2m7hQp/jCguYYLwJdvjeBBkDLRWvJppmSXmZ1ISScp0K9aMCx
+ Ws/eawUhb8EkxzUkybvRhcblwcnNhrOx0o+6sXzDg6nvJ7oaEvb6t1yUcA8jncZhBzWu
+ qUdTxKh4HftLFkPdrMpFbEpgzlkSQaHtfYKYbvlSS0veI4T2tAAqxLGqMe/NNVyBsEcM
+ Ni4Q==
+X-Gm-Message-State: AGi0Puaj424yZb0eLdFoUpKRQQwO/2NzlAjqxb4msHzGrikjSn28EvIq
+ WxubkQmDsXrkC8LnpJgqK4qEhEAiLmKV7A==
+X-Google-Smtp-Source: APiQypLsctirfLscM2xHlOYUkrbBhneb5zOmrs6LNFRhIOFp1MBBMy8tVPQ9edHCk8t9nDDIBsO9vw==
+X-Received: by 2002:a5d:410a:: with SMTP id l10mr24153145wrp.355.1586881582013; 
+ Tue, 14 Apr 2020 09:26:22 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i129sm20003802wmi.20.2020.04.14.09.26.20
+ by smtp.gmail.com with ESMTPSA id i129sm20003802wmi.20.2020.04.14.09.26.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 09:26:20 -0700 (PDT)
+ Tue, 14 Apr 2020 09:26:21 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/12] scripts/run-coverity-scan: Script to run Coverity Scan
- build
-Date: Tue, 14 Apr 2020 17:26:06 +0100
-Message-Id: <20200414162613.4479-6-peter.maydell@linaro.org>
+Subject: [PULL 06/12] scripts/coverity-scan: Add Docker support
+Date: Tue, 14 Apr 2020 17:26:07 +0100
+Message-Id: <20200414162613.4479-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200414162613.4479-1-peter.maydell@linaro.org>
 References: <20200414162613.4479-1-peter.maydell@linaro.org>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
+X-Received-From: 2a00:1450:4864:20::42b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,360 +82,300 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new script to automate the process of running the Coverity
-Scan build tools and uploading the resulting tarball to the
-website.
-
-This is intended eventually to be driven from Travis,
-but it can be run locally, if you are a maintainer of the
-QEMU project on the Coverity Scan website and have the secret
-upload token.
-
-The script must be run on a Fedora 30 system.  Support for using a
-Docker container is added in a following commit.
+Add support for running the Coverity Scan tools inside a Docker
+container rather than directly on the host system.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20200319193323.2038-6-peter.maydell@linaro.org
+Message-id: 20200319193323.2038-7-peter.maydell@linaro.org
 ---
- MAINTAINERS                             |   5 +
- scripts/coverity-scan/run-coverity-scan | 311 ++++++++++++++++++++++++
- 2 files changed, 316 insertions(+)
- create mode 100755 scripts/coverity-scan/run-coverity-scan
+ scripts/coverity-scan/coverity-scan.docker | 131 +++++++++++++++++++++
+ scripts/coverity-scan/run-coverity-scan    |  90 ++++++++++++++
+ 2 files changed, 221 insertions(+)
+ create mode 100644 scripts/coverity-scan/coverity-scan.docker
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5f93e8c01d3..8cbc1fac2bf 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2038,6 +2038,11 @@ M: Markus Armbruster <armbru@redhat.com>
- S: Supported
- F: scripts/coverity-model.c
- 
-+Coverity Scan integration
-+M: Peter Maydell <peter.maydell@linaro.org>
-+S: Maintained
-+F: scripts/coverity-scan/
-+
- Device Tree
- M: Alistair Francis <alistair.francis@wdc.com>
- R: David Gibson <david@gibson.dropbear.id.au>
-diff --git a/scripts/coverity-scan/run-coverity-scan b/scripts/coverity-scan/run-coverity-scan
-new file mode 100755
-index 00000000000..d40b51969fa
+diff --git a/scripts/coverity-scan/coverity-scan.docker b/scripts/coverity-scan/coverity-scan.docker
+new file mode 100644
+index 00000000000..a4f64d12834
 --- /dev/null
-+++ b/scripts/coverity-scan/run-coverity-scan
-@@ -0,0 +1,311 @@
-+#!/bin/sh -e
-+
-+# Upload a created tarball to Coverity Scan, as per
++++ b/scripts/coverity-scan/coverity-scan.docker
+@@ -0,0 +1,131 @@
++# syntax=docker/dockerfile:1.0.0-experimental
++#
++# Docker setup for running the "Coverity Scan" tools over the source
++# tree and uploading them to the website, as per
 +# https://scan.coverity.com/projects/qemu/builds/new
-+
-+# This work is licensed under the terms of the GNU GPL version 2,
-+# or (at your option) any later version.
-+# See the COPYING file in the top-level directory.
++# We do this on a fixed config (currently Fedora 30 with a known
++# set of dependencies and a configure command that enables a specific
++# set of options) so that random changes don't result in our accidentally
++# dropping some files from the scan.
 +#
-+# Copyright (c) 2017-2020 Linaro Limited
-+# Written by Peter Maydell
++# We don't build on top of the fedora.docker file because we don't
++# want to accidentally change or break the scan config when that
++# is updated.
 +
-+# Note that this script will automatically download and
-+# run the (closed-source) coverity build tools, so don't
-+# use it if you don't trust them!
++# The work of actually doing the build is handled by the
++# run-coverity-scan script.
 +
-+# This script assumes that you're running it from a QEMU source
-+# tree, and that tree is a fresh clean one, because we do an in-tree
-+# build. (This is necessary so that the filenames that the Coverity
-+# Scan server sees are relative paths that match up with the component
-+# regular expressions it uses; an out-of-tree build won't work for this.)
-+# The host machine should have as many of QEMU's dependencies
-+# installed as possible, for maximum coverity coverage.
++FROM fedora:30
++ENV PACKAGES \
++    alsa-lib-devel \
++    bc \
++    bison \
++    brlapi-devel \
++    bzip2 \
++    bzip2-devel \
++    ccache \
++    clang \
++    curl \
++    cyrus-sasl-devel \
++    dbus-daemon \
++    device-mapper-multipath-devel \
++    findutils \
++    flex \
++    gcc \
++    gcc-c++ \
++    gettext \
++    git \
++    glib2-devel \
++    glusterfs-api-devel \
++    gnutls-devel \
++    gtk3-devel \
++    hostname \
++    libaio-devel \
++    libasan \
++    libattr-devel \
++    libblockdev-mpath-devel \
++    libcap-devel \
++    libcap-ng-devel \
++    libcurl-devel \
++    libepoxy-devel \
++    libfdt-devel \
++    libgbm-devel \
++    libiscsi-devel \
++    libjpeg-devel \
++    libpmem-devel \
++    libnfs-devel \
++    libpng-devel \
++    librbd-devel \
++    libseccomp-devel \
++    libssh-devel \
++    libubsan \
++    libudev-devel \
++    libusbx-devel \
++    libxml2-devel \
++    libzstd-devel \
++    llvm \
++    lzo-devel \
++    make \
++    mingw32-bzip2 \
++    mingw32-curl \
++    mingw32-glib2 \
++    mingw32-gmp \
++    mingw32-gnutls \
++    mingw32-gtk3 \
++    mingw32-libjpeg-turbo \
++    mingw32-libpng \
++    mingw32-libtasn1 \
++    mingw32-nettle \
++    mingw32-nsis \
++    mingw32-pixman \
++    mingw32-pkg-config \
++    mingw32-SDL2 \
++    mingw64-bzip2 \
++    mingw64-curl \
++    mingw64-glib2 \
++    mingw64-gmp \
++    mingw64-gnutls \
++    mingw64-gtk3 \
++    mingw64-libjpeg-turbo \
++    mingw64-libpng \
++    mingw64-libtasn1 \
++    mingw64-nettle \
++    mingw64-pixman \
++    mingw64-pkg-config \
++    mingw64-SDL2 \
++    ncurses-devel \
++    nettle-devel \
++    nss-devel \
++    numactl-devel \
++    perl \
++    perl-Test-Harness \
++    pixman-devel \
++    pulseaudio-libs-devel \
++    python3 \
++    python3-sphinx \
++    PyYAML \
++    rdma-core-devel \
++    SDL2-devel \
++    snappy-devel \
++    sparse \
++    spice-server-devel \
++    systemd-devel \
++    systemtap-sdt-devel \
++    tar \
++    texinfo \
++    usbredir-devel \
++    virglrenderer-devel \
++    vte291-devel \
++    wget \
++    which \
++    xen-devel \
++    xfsprogs-devel \
++    zlib-devel
++ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3
 +
-+# To do an upload you need to be a maintainer in the Coverity online
-+# service, and you will need to know the "Coverity token", which is a
-+# secret 8 digit hex string. You can find that from the web UI in the
-+# project settings, if you have maintainer access there.
++RUN dnf install -y $PACKAGES
++RUN rpm -q $PACKAGES | sort > /packages.txt
++ENV PATH $PATH:/usr/libexec/python3-sphinx/
++ENV COVERITY_TOOL_BASE=/coverity-tools
++COPY run-coverity-scan run-coverity-scan
++RUN --mount=type=secret,id=coverity.token,required ./run-coverity-scan --update-tools-only --tokenfile /run/secrets/coverity.token
+diff --git a/scripts/coverity-scan/run-coverity-scan b/scripts/coverity-scan/run-coverity-scan
+index d40b51969fa..2e067ef5cfc 100755
+--- a/scripts/coverity-scan/run-coverity-scan
++++ b/scripts/coverity-scan/run-coverity-scan
+@@ -29,6 +29,7 @@
+ 
+ # Command line options:
+ #   --dry-run : run the tools, but don't actually do the upload
++#   --docker : create and work inside a docker container
+ #   --update-tools-only : update the cached copy of the tools, but don't run them
+ #   --tokenfile : file to read Coverity token from
+ #   --version ver : specify version being analyzed (default: ask git)
+@@ -36,6 +37,8 @@
+ #   --srcdir : QEMU source tree to analyze (default: current working dir)
+ #   --results-tarball : path to copy the results tarball to (default: don't
+ #                       copy it anywhere, just upload it)
++#   --src-tarball : tarball to untar into src dir (default: none); this
++#                   is intended mainly for internal use by the Docker support
+ #
+ # User-specifiable environment variables:
+ #  COVERITY_TOKEN -- Coverity token
+@@ -125,6 +128,7 @@ update_coverity_tools () {
+ # Check user-provided environment variables and arguments
+ DRYRUN=no
+ UPDATE_ONLY=no
++DOCKER=no
+ 
+ while [ "$#" -ge 1 ]; do
+     case "$1" in
+@@ -181,6 +185,19 @@ while [ "$#" -ge 1 ]; do
+             RESULTSTARBALL="$1"
+             shift
+             ;;
++        --src-tarball)
++            shift
++            if [ $# -eq 0 ]; then
++                echo "--src-tarball needs an argument"
++                exit 1
++            fi
++            SRCTARBALL="$1"
++            shift
++            ;;
++        --docker)
++            DOCKER=yes
++            shift
++            ;;
+         *)
+             echo "Unexpected argument '$1'"
+             exit 1
+@@ -212,6 +229,10 @@ PROJTOKEN="$COVERITY_TOKEN"
+ PROJNAME=QEMU
+ TARBALL=cov-int.tar.xz
+ 
++if [ "$UPDATE_ONLY" = yes ] && [ "$DOCKER" = yes ]; then
++    echo "Combining --docker and --update-only is not supported"
++    exit 1
++fi
+ 
+ if [ "$UPDATE_ONLY" = yes ]; then
+     # Just do the tools update; we don't need to check whether
+@@ -221,8 +242,17 @@ if [ "$UPDATE_ONLY" = yes ]; then
+     exit 0
+ fi
+ 
++if [ ! -e "$SRCDIR" ]; then
++    mkdir "$SRCDIR"
++fi
 +
-+# Command line options:
-+#   --dry-run : run the tools, but don't actually do the upload
-+#   --update-tools-only : update the cached copy of the tools, but don't run them
-+#   --tokenfile : file to read Coverity token from
-+#   --version ver : specify version being analyzed (default: ask git)
-+#   --description desc : specify description of this version (default: ask git)
-+#   --srcdir : QEMU source tree to analyze (default: current working dir)
-+#   --results-tarball : path to copy the results tarball to (default: don't
-+#                       copy it anywhere, just upload it)
-+#
-+# User-specifiable environment variables:
-+#  COVERITY_TOKEN -- Coverity token
-+#  COVERITY_EMAIL -- the email address to use for uploads (default:
-+#                    looks at your git user.email config)
-+#  COVERITY_BUILD_CMD -- make command (default: 'make -jN' where N is
-+#                    number of CPUs as determined by 'nproc')
-+#  COVERITY_TOOL_BASE -- set to directory to put coverity tools
-+#                        (default: /tmp/coverity-tools)
-+#
-+# You must specify the token, either by environment variable or by
-+# putting it in a file and using --tokenfile. Everything else has
-+# a reasonable default if this is run from a git tree.
+ cd "$SRCDIR"
+ 
++if [ ! -z "$SRCTARBALL" ]; then
++    echo "Untarring source tarball into $SRCDIR..."
++    tar xvf "$SRCTARBALL"
++fi
 +
-+check_upload_permissions() {
-+    # Check whether we can do an upload to the server; will exit the script
-+    # with status 1 if the check failed (usually a bad token);
-+    # will exit the script with status 0 if the check indicated that we
-+    # can't upload yet (ie we are at quota)
-+    # Assumes that PROJTOKEN, PROJNAME and DRYRUN have been initialized.
-+
-+    echo "Checking upload permissions..."
-+
-+    if ! up_perm="$(wget https://scan.coverity.com/api/upload_permitted --post-data "token=$PROJTOKEN&project=$PROJNAME" -q -O -)"; then
-+        echo "Coverity Scan API access denied: bad token?"
+ echo "Checking this is a QEMU source tree..."
+ if ! [ -e "$SRCDIR/VERSION" ]; then
+     echo "Not in a QEMU source tree?"
+@@ -242,6 +272,66 @@ if [ -z "$COVERITY_EMAIL" ]; then
+     COVERITY_EMAIL="$(git config user.email)"
+ fi
+ 
++# Run ourselves inside docker if that's what the user wants
++if [ "$DOCKER" = yes ]; then
++    # build docker container including the coverity-scan tools
++    # Put the Coverity token into a temporary file that only
++    # we have read access to, and then pass it to docker build
++    # using --secret. This requires at least Docker 18.09.
++    # Mostly what we are trying to do here is ensure we don't leak
++    # the token into the Docker image.
++    umask 077
++    SECRETDIR=$(mktemp -d)
++    if [ -z "$SECRETDIR" ]; then
++        echo "Failed to create temporary directory"
 +        exit 1
 +    fi
-+
-+    # Really up_perm is a JSON response with either
-+    # {upload_permitted:true} or {next_upload_permitted_at:<date>}
-+    # We do some hacky string parsing instead of properly parsing it.
-+    case "$up_perm" in
-+        *upload_permitted*true*)
-+            echo "Coverity Scan: upload permitted"
-+            ;;
-+        *next_upload_permitted_at*)
-+            if [ "$DRYRUN" = yes ]; then
-+                echo "Coverity Scan: upload quota reached, continuing dry run"
-+            else
-+                echo "Coverity Scan: upload quota reached; stopping here"
-+                # Exit success as this isn't a build error.
-+                exit 0
-+            fi
-+            ;;
-+        *)
-+            echo "Coverity Scan upload check: unexpected result $up_perm"
-+            exit 1
-+            ;;
-+    esac
-+}
-+
-+
-+update_coverity_tools () {
-+    # Check for whether we need to download the Coverity tools
-+    # (either because we don't have a copy, or because it's out of date)
-+    # Assumes that COVERITY_TOOL_BASE, PROJTOKEN and PROJNAME are set.
-+
-+    mkdir -p "$COVERITY_TOOL_BASE"
-+    cd "$COVERITY_TOOL_BASE"
-+
-+    echo "Checking for new version of coverity build tools..."
-+    wget https://scan.coverity.com/download/linux64 --post-data "token=$PROJTOKEN&project=$PROJNAME&md5=1" -O coverity_tool.md5.new
-+
-+    if ! cmp -s coverity_tool.md5 coverity_tool.md5.new; then
-+        # out of date md5 or no md5: download new build tool
-+        # blow away the old build tool
-+        echo "Downloading coverity build tools..."
-+        rm -rf coverity_tool coverity_tool.tgz
-+        wget https://scan.coverity.com/download/linux64 --post-data "token=$PROJTOKEN&project=$PROJNAME" -O coverity_tool.tgz
-+        if ! (cat coverity_tool.md5.new; echo "  coverity_tool.tgz") | md5sum -c --status; then
-+            echo "Downloaded tarball didn't match md5sum!"
-+            exit 1
-+        fi
-+        # extract the new one, keeping it corralled in a 'coverity_tool' directory
-+        echo "Unpacking coverity build tools..."
-+        mkdir -p coverity_tool
-+        cd coverity_tool
-+        tar xf ../coverity_tool.tgz
-+        cd ..
-+        mv coverity_tool.md5.new coverity_tool.md5
++    trap 'rm -rf "$SECRETDIR"' INT TERM EXIT
++    echo "Created temporary directory $SECRETDIR"
++    SECRET="$SECRETDIR/token"
++    echo "$COVERITY_TOKEN" > "$SECRET"
++    echo "Building docker container..."
++    # TODO: This re-downloads the tools every time, rather than
++    # caching and reusing the image produced with the downloaded tools.
++    # Not sure why.
++    # TODO: how do you get 'docker build' to print the output of the
++    # commands it is running to its stdout? This would be useful for debug.
++    DOCKER_BUILDKIT=1 docker build -t coverity-scanner \
++                   --secret id=coverity.token,src="$SECRET" \
++                   -f scripts/coverity-scan/coverity-scan.docker \
++                   scripts/coverity-scan
++    echo "Archiving sources to be analyzed..."
++    ./scripts/archive-source.sh "$SECRETDIR/qemu-sources.tgz"
++    if [ "$DRYRUN" = yes ]; then
++        DRYRUNARG=--dry-run
 +    fi
-+
-+    rm -f coverity_tool.md5.new
-+}
-+
-+
-+# Check user-provided environment variables and arguments
-+DRYRUN=no
-+UPDATE_ONLY=no
-+
-+while [ "$#" -ge 1 ]; do
-+    case "$1" in
-+        --dry-run)
-+            shift
-+            DRYRUN=yes
-+            ;;
-+        --update-tools-only)
-+            shift
-+            UPDATE_ONLY=yes
-+            ;;
-+        --version)
-+            shift
-+            if [ $# -eq 0 ]; then
-+                echo "--version needs an argument"
-+                exit 1
-+            fi
-+            VERSION="$1"
-+            shift
-+            ;;
-+        --description)
-+            shift
-+            if [ $# -eq 0 ]; then
-+                echo "--description needs an argument"
-+                exit 1
-+            fi
-+            DESCRIPTION="$1"
-+            shift
-+            ;;
-+        --tokenfile)
-+            shift
-+            if [ $# -eq 0 ]; then
-+                echo "--tokenfile needs an argument"
-+                exit 1
-+            fi
-+            COVERITY_TOKEN="$(cat "$1")"
-+            shift
-+            ;;
-+        --srcdir)
-+            shift
-+            if [ $# -eq 0 ]; then
-+                echo "--srcdir needs an argument"
-+                exit 1
-+            fi
-+            SRCDIR="$1"
-+            shift
-+            ;;
-+        --results-tarball)
-+            shift
-+            if [ $# -eq 0 ]; then
-+                echo "--results-tarball needs an argument"
-+                exit 1
-+            fi
-+            RESULTSTARBALL="$1"
-+            shift
-+            ;;
-+        *)
-+            echo "Unexpected argument '$1'"
-+            exit 1
-+            ;;
-+    esac
-+done
-+
-+if [ -z "$COVERITY_TOKEN" ]; then
-+    echo "COVERITY_TOKEN environment variable not set"
-+    exit 1
-+fi
-+
-+if [ -z "$COVERITY_BUILD_CMD" ]; then
-+    NPROC=$(nproc)
-+    COVERITY_BUILD_CMD="make -j$NPROC"
-+    echo "COVERITY_BUILD_CMD: using default '$COVERITY_BUILD_CMD'"
-+fi
-+
-+if [ -z "$COVERITY_TOOL_BASE" ]; then
-+    echo "COVERITY_TOOL_BASE: using default /tmp/coverity-tools"
-+    COVERITY_TOOL_BASE=/tmp/coverity-tools
-+fi
-+
-+if [ -z "$SRCDIR" ]; then
-+    SRCDIR="$PWD"
-+fi
-+
-+PROJTOKEN="$COVERITY_TOKEN"
-+PROJNAME=QEMU
-+TARBALL=cov-int.tar.xz
-+
-+
-+if [ "$UPDATE_ONLY" = yes ]; then
-+    # Just do the tools update; we don't need to check whether
-+    # we are in a source tree or have upload rights for this,
-+    # so do it before some of the command line and source tree checks.
-+    update_coverity_tools
++    echo "Running scanner..."
++    # If we need to capture the output tarball, get the inner run to
++    # save it to the secrets directory so we can copy it out before the
++    # directory is cleaned up.
++    if [ ! -z "$RESULTSTARBALL" ]; then
++        RTARGS="--results-tarball /work/cov-int.tar.xz"
++    else
++        RTARGS=""
++    fi
++    # Arrange for this docker run to get access to the sources with -v.
++    # We pass through all the configuration from the outer script to the inner.
++    export COVERITY_EMAIL COVERITY_BUILD_CMD
++    docker run -it --env COVERITY_EMAIL --env COVERITY_BUILD_CMD \
++           -v "$SECRETDIR:/work" coverity-scanner \
++           ./run-coverity-scan --version "$VERSION" \
++           --description "$DESCRIPTION" $DRYRUNARG --tokenfile /work/token \
++           --srcdir /qemu --src-tarball /work/qemu-sources.tgz $RTARGS
++    if [ ! -z "$RESULTSTARBALL" ]; then
++        echo "Copying results tarball to $RESULTSTARBALL..."
++        cp "$SECRETDIR/cov-int.tar.xz" "$RESULTSTARBALL"
++    fi
++    echo "Docker work complete."
 +    exit 0
 +fi
 +
-+cd "$SRCDIR"
++# Otherwise, continue with the full build and upload process.
 +
-+echo "Checking this is a QEMU source tree..."
-+if ! [ -e "$SRCDIR/VERSION" ]; then
-+    echo "Not in a QEMU source tree?"
-+    exit 1
-+fi
-+
-+# Fill in defaults used by the non-update-only process
-+if [ -z "$VERSION" ]; then
-+    VERSION="$(git describe --always HEAD)"
-+fi
-+
-+if [ -z "$DESCRIPTION" ]; then
-+    DESCRIPTION="$(git rev-parse HEAD)"
-+fi
-+
-+if [ -z "$COVERITY_EMAIL" ]; then
-+    COVERITY_EMAIL="$(git config user.email)"
-+fi
-+
-+check_upload_permissions
-+
-+update_coverity_tools
-+
-+TOOLBIN="$(cd "$COVERITY_TOOL_BASE" && echo $PWD/coverity_tool/cov-analysis-*/bin)"
-+
-+if ! test -x "$TOOLBIN/cov-build"; then
-+    echo "Couldn't find cov-build in the coverity build-tool directory??"
-+    exit 1
-+fi
-+
-+export PATH="$TOOLBIN:$PATH"
-+
-+cd "$SRCDIR"
-+
-+echo "Doing make distclean..."
-+make distclean
-+
-+echo "Configuring..."
-+# We configure with a fixed set of enables here to ensure that we don't
-+# accidentally reduce the scope of the analysis by doing the build on
-+# the system that's missing a dependency that we need to build part of
-+# the codebase.
-+./configure --disable-modules --enable-sdl --enable-gtk \
-+    --enable-opengl --enable-vte --enable-gnutls \
-+    --enable-nettle --enable-curses --enable-curl \
-+    --audio-drv-list=oss,alsa,sdl,pa --enable-virtfs \
-+    --enable-vnc --enable-vnc-sasl --enable-vnc-jpeg --enable-vnc-png \
-+    --enable-xen --enable-brlapi \
-+    --enable-linux-aio --enable-attr \
-+    --enable-cap-ng --enable-trace-backends=log --enable-spice --enable-rbd \
-+    --enable-xfsctl --enable-libusb --enable-usb-redir \
-+    --enable-libiscsi --enable-libnfs --enable-seccomp \
-+    --enable-tpm --enable-libssh --enable-lzo --enable-snappy --enable-bzip2 \
-+    --enable-numa --enable-rdma --enable-smartcard --enable-virglrenderer \
-+    --enable-mpath --enable-libxml2 --enable-glusterfs \
-+    --enable-virtfs --enable-zstd
-+
-+echo "Making libqemustub.a..."
-+make libqemustub.a
-+
-+echo "Running cov-build..."
-+rm -rf cov-int
-+mkdir cov-int
-+cov-build --dir cov-int $COVERITY_BUILD_CMD
-+
-+echo "Creating results tarball..."
-+tar cvf - cov-int | xz > "$TARBALL"
-+
-+if [ ! -z "$RESULTSTARBALL" ]; then
-+    echo "Copying results tarball to $RESULTSTARBALL..."
-+    cp "$TARBALL" "$RESULTSTARBALL"
-+fi
-+
-+echo "Uploading results tarball..."
-+
-+if [ "$DRYRUN" = yes ]; then
-+    echo "Dry run only, not uploading $TARBALL"
-+    exit 0
-+fi
-+
-+curl --form token="$PROJTOKEN" --form email="$COVERITY_EMAIL" \
-+     --form file=@"$TARBALL" --form version="$VERSION" \
-+     --form description="$DESCRIPTION" \
-+     https://scan.coverity.com/builds?project="$PROJNAME"
-+
-+echo "Done."
+ check_upload_permissions
+ 
+ update_coverity_tools
 -- 
 2.20.1
 
