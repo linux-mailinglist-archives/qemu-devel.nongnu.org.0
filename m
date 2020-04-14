@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE99E1A84DB
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:28:22 +0200 (CEST)
-Received: from localhost ([::1]:33986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E0DD1A84D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Apr 2020 18:27:58 +0200 (CEST)
+Received: from localhost ([::1]:33977 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOOQ9-0007pn-QJ
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:28:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51630)
+	id 1jOOPl-0006yW-8G
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 12:27:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51642)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jOOOF-000559-Tb
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:29 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jOOOH-00056X-7x
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jOOOA-00079A-CM
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:23 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38964)
+ (envelope-from <peter.maydell@linaro.org>) id 1jOOOB-00079j-Kn
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:25 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39642)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jOOOA-00078h-6X
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:18 -0400
-Received: by mail-wm1-x344.google.com with SMTP id y24so14710326wma.4
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 09:26:18 -0700 (PDT)
+ id 1jOOOB-00079J-EN
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 12:26:19 -0400
+Received: by mail-wr1-x442.google.com with SMTP id b11so3681776wrs.6
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 09:26:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=OKC9Pxddfkn7fXnu8/AzAFxKBTosF8UUw8eP0Jg/zfU=;
- b=StXec8e7eWk3jn6nerfcl8zvAfN5inSEjyMBFxd9eK1lH9JiMepbUIIs/vRnbnhGTN
- lFxVrAnpmCwWZTQme5A4n7wLLA6yWt/f6OAdOCeKVczg4dGBmonlvIbGOup3DVqDv15V
- bUmWRdhjspeV/NGz5V68A25JvnHWIpRzKxKYQXT9/Kwn1yHFgttV47BE6giysXNqyfzJ
- YjcI1plO4ERLAoSkSfmvmyks3bmkDOSYrmQLXPw+vPau1EXRZibDy0MT14BK4VvxZvk/
- SYVtAnc+khAMPdD6wlPW5QKScl65vWGdU6V5DQqHArs1Y/yD6YGD86esw2cN7X86hpqR
- gXVQ==
+ bh=6N7F/VqKmbYnLDIg9jtfPkCRYuB7XZyhZjr0Akis3f0=;
+ b=h9qKX8lZo0wdP1+4dNosaxnySI5/WifsBOPoiUsv27MzgZQ7CWmm+GkaIn6IpepZ3a
+ wba7SFeCMtWcFkBFaGLpBInFTTCp5FE0KlkcK2PCiTK4qR27+1hV40wU3LDxiovrSJYy
+ aqkpI57yKpCPWOX+sfAiCkX0sa548gj23+duxEYggaZltcnZkITnmW0Wmm7IEA13Fari
+ OcxbY7vj8+d5ohkXPU1F4wars6YfY7PT/jxAkl6BNQd4fRDfr1BuFGMIC7wMVGeEjLUC
+ GU1q2FmJqzWwwzDfnFIXOrctoqGTbaMK1VSjLGImH597YulVd2A5fBRDDBHBya+HxvM+
+ OlhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OKC9Pxddfkn7fXnu8/AzAFxKBTosF8UUw8eP0Jg/zfU=;
- b=epRj/ZJCzuin5gMYJNSF4p4qtCpqielAdDel6gQiyeiozZO7146wugzsDAYX0JBlse
- z1qHV6liQOWNhiOU/bffVjBTkww3rIQsbrOhCOYVWh0tM39enLo7kHiP2y2jdxGm3bDn
- 5ldlStFGLp2U0+RcFxdBqFwTZ+HgqH13G9YWhLde2rwF6uvspdkYDQ/ZuQGXcz0fZ1PA
- zpCC9qdGa023RCL1pb63enxUgn35/HsPIZ0vX/fME2VJtzxSrGOYrGbNTEjMcyEKZnt4
- HMwwFiuXyJvQXEY3i1ogat/BSm2es8VfjG4lazGm5bHOAeJXVgorTmnNz9ecezVDo5MM
- FeWQ==
-X-Gm-Message-State: AGi0PuaKXgQ4FgiOZK5FGPpC+PfDSZV2kCVm6/oh9ULlW/H/IwUIM1Ei
- G0tNS4DBsfusCVP8HrvDpJR5GXeT/LYMUg==
-X-Google-Smtp-Source: APiQypIU25nGuJdNiVzftlTuuxmbCrZZjEnYGsTebqRSPAUZKBj5NojVWsJkVBSU/Qc78DS3ZqvRxQ==
-X-Received: by 2002:a05:600c:2046:: with SMTP id
- p6mr615121wmg.177.1586881576889; 
- Tue, 14 Apr 2020 09:26:16 -0700 (PDT)
+ bh=6N7F/VqKmbYnLDIg9jtfPkCRYuB7XZyhZjr0Akis3f0=;
+ b=bQWwEZzBy0W95FJGFYJyj6XDuKfIG/qPCiwu1L/B5d+mtmS8r9M8ESWwE5w+zx8shp
+ rIB+DORoC2l/2v5d2lG1/udnvvpeyoJ+6DVMoUOVUlbLPTqXK2dVo1gBr0p5jfpR8MUN
+ 9OykAoJG54aZhlRHG8QRmVqrhsI3bKa579qSOeLJjLpkkE042gUg8Es/myrdnLrtYQad
+ Q7jPKlW2I0LyTUToisJz1412+4+5hbmeaH4XGTw81dcg/gRYJhRcmGkpMt4J/s2srIOB
+ 5Vmhb4aqk1gYnYJWwDJUv0TeQQlZScmbABDqtrAF4nq+tIsz24Zl+qc7HwHrlDIXTeaF
+ 2XLg==
+X-Gm-Message-State: AGi0PuargmSGuAwb+r/r72l7nJ+bW/H5pL3ki4Ec/Ur2GKJ2vlsPLHGd
+ y0mdZJXTyvjEhCjKCwZciieZ50Pvrdg+YQ==
+X-Google-Smtp-Source: APiQypJ7n670ydIoxkKZYWjfjjFIJclfhs7zQ1X6TYQskYyOvXBvgSfJJ6N/MXOJQdK3VMQyUynsFg==
+X-Received: by 2002:a5d:48cc:: with SMTP id p12mr26037990wrs.170.1586881578020; 
+ Tue, 14 Apr 2020 09:26:18 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id i129sm20003802wmi.20.2020.04.14.09.26.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 09:26:16 -0700 (PDT)
+ Tue, 14 Apr 2020 09:26:17 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/12] osdep.h: Drop no-longer-needed Coverity workarounds
-Date: Tue, 14 Apr 2020 17:26:02 +0100
-Message-Id: <20200414162613.4479-2-peter.maydell@linaro.org>
+Subject: [PULL 02/12] thread.h: Fix Coverity version of qemu_cond_timedwait()
+Date: Tue, 14 Apr 2020 17:26:03 +0100
+Message-Id: <20200414162613.4479-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200414162613.4479-1-peter.maydell@linaro.org>
 References: <20200414162613.4479-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,44 +82,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit a1a98357e3fd in 2018 we added some workarounds for Coverity
-not being able to handle the _Float* types introduced by recent
-glibc.  Newer versions of the Coverity scan tools have support for
-these types, and will fail with errors about duplicate typedefs if we
-have our workaround.  Remove our copy of the typedefs.
+For Coverity's benefit, we provide simpler versions of functions like
+qemu_mutex_lock(), qemu_cond_wait() and qemu_cond_timedwait().  When
+we added qemu_cond_timedwait() in commit 3dcc9c6ec4ea, a cut and
+paste error meant that the Coverity version of qemu_cond_timedwait()
+was using the wrong _impl function, which makes the Coverity parser
+complain:
+
+"/qemu/include/qemu/thread.h", line 159: warning #140: too many arguments in
+          function call
+      return qemu_cond_timedwait(cond, mutex, ms);
+             ^
+
+"/qemu/include/qemu/thread.h", line 159: warning #120: return value type does
+          not match the function type
+      return qemu_cond_timedwait(cond, mutex, ms);
+             ^
+
+"/qemu/include/qemu/thread.h", line 156: warning #1563: function
+          "qemu_cond_timedwait" not emitted, consider modeling it or review
+          parse diagnostics to improve fidelity
+  static inline bool (qemu_cond_timedwait)(QemuCond *cond, QemuMutex *mutex,
+                      ^
+
+These aren't fatal, but reduce the scope of the analysis. Fix the error.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200319193323.2038-2-peter.maydell@linaro.org
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20200319193323.2038-3-peter.maydell@linaro.org
 ---
- include/qemu/osdep.h | 14 --------------
- 1 file changed, 14 deletions(-)
+ include/qemu/thread.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 9bd3dcfd136..20f5c5f197d 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -33,20 +33,6 @@
+diff --git a/include/qemu/thread.h b/include/qemu/thread.h
+index 047db0307e7..10262c63f58 100644
+--- a/include/qemu/thread.h
++++ b/include/qemu/thread.h
+@@ -67,7 +67,7 @@ extern QemuCondTimedWaitFunc qemu_cond_timedwait_func;
+ #define qemu_cond_wait(c, m)                                            \
+             qemu_cond_wait_impl(c, m, __FILE__, __LINE__);
+ #define qemu_cond_timedwait(c, m, ms)                                   \
+-            qemu_cond_wait_impl(c, m, ms, __FILE__, __LINE__);
++            qemu_cond_timedwait_impl(c, m, ms, __FILE__, __LINE__);
  #else
- #include "exec/poison.h"
- #endif
--#ifdef __COVERITY__
--/* Coverity does not like the new _Float* types that are used by
-- * recent glibc, and croaks on every single file that includes
-- * stdlib.h.  These typedefs are enough to please it.
-- *
-- * Note that these fix parse errors so they cannot be placed in
-- * scripts/coverity-model.c.
-- */
--typedef float _Float32;
--typedef double _Float32x;
--typedef double _Float64;
--typedef __float80 _Float64x;
--typedef __float128 _Float128;
--#endif
- 
- #include "qemu/compiler.h"
- 
+ #define qemu_mutex_lock(m) ({                                           \
+             QemuMutexLockFunc _f = atomic_read(&qemu_mutex_lock_func);  \
 -- 
 2.20.1
 
