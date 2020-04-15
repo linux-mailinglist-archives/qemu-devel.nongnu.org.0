@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4F291A9782
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 10:53:25 +0200 (CEST)
-Received: from localhost ([::1]:46266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9BD21A980E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 11:12:04 +0200 (CEST)
+Received: from localhost ([::1]:46514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOdnQ-0006pH-Fx
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 04:53:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60232)
+	id 1jOe5T-0006ou-S3
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 05:12:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34556)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jOdmg-0006Eq-5L
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 04:52:39 -0400
+ (envelope-from <bounces@canonical.com>) id 1jOe4e-0006PK-CZ
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 05:11:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jOdme-0006Az-NC
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 04:52:37 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:41410)
+ (envelope-from <bounces@canonical.com>) id 1jOe4d-0000v7-6X
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 05:11:12 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35268)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jOdme-0006A4-Aj
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 04:52:36 -0400
-Received: by mail-ot1-x341.google.com with SMTP id f52so2630235otf.8
- for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 01:52:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=StL/cMMjJ5IslSOjhEF66nL7PCiS9iU4PqVnidvU0yI=;
- b=lHNuTvQDvCZ92UJ7lYJqHaS2SKp3NCkzTLYdtfn6FjfYBIo/ZbOMBYAe5FvcyMUdMD
- AOs3Z+mwR9boYBO8/2MecOkEj0N0eRoci0ah4aD1Z6gGbbKbKG/GF72IUIh5/PupCwRZ
- 92xabGdCkM4Yo9l5n0yBTKeoWqVXv5Ck5Mf6+NWaO4BeSsNhpMSs75XzSOMTjnBs88mA
- 5LzWUbs2gn+ZcVe4QlPmMLCZWgD4Zdhtpvab6Y3IQG5ML6ZBuF2KM5x5j16S4dcKAnkU
- Op5yyyyCWqB/y7lNQfxv0mRnpJadj2vQjYDm5LqA81vq9FdJ1xudQTLw8IOjrsB464dd
- bOxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=StL/cMMjJ5IslSOjhEF66nL7PCiS9iU4PqVnidvU0yI=;
- b=IbvsFCjha/knISJGMOMaMMqnW6BJ157jyYH3AFnlSG7IOirAi+8Mv5jXt8IemdgGWR
- bTej5AmLZiApaqLsElwAM3fgRcigbUvJjkL3DFFy4+e1FefOPKH5Ob3akCWesZNU8jbt
- KmNaTXZaRYaUgqTf9MgYsqnvFWoeh4g3rY7fTxQKdfSQduSZzVn072BV6jOAdzmunm+X
- l3sC/1cg8kZpky+S14s//Bupy2YyuW06N03wB/KUBYPRZSSQhaaJUDCIM7jBFJ3mk/cj
- mQ6zxxmVM4nrPV5sRG7HkYJWfOLMej8w2x9g82LbV1J7uztKNJ36hLm5FJe2GL4uyPEo
- OH6Q==
-X-Gm-Message-State: AGi0Pub4EtKZdmupTyN6DGYZwIkAErlY6MiphTKYfHbGWoJGjvT8myei
- kK9D2H2Ci+7o2AMGeFfiBvH0baGtvGNuyEGmjdnw6w==
-X-Google-Smtp-Source: APiQypIaikqAvQ/igkvIrxKl0bArXMMmxTJ4XhHxaYBV+wgr77Flb9SYaVtOcqocoFoU5VTNjmvLzivGFgYyDyHYICY=
-X-Received: by 2002:a05:6830:1e4e:: with SMTP id
- e14mr3445572otj.91.1586940754865; 
- Wed, 15 Apr 2020 01:52:34 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jOe4d-0000uf-1g
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 05:11:11 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jOe4b-0007HT-Kh
+ for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 09:11:09 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9AB532E8105
+ for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 09:11:09 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200406153326.806024-1-berrange@redhat.com>
- <CAFEAcA8rXBty2tHZOoqQA+mEcxEYiBntjeKj07-NUiPH+NWxmg@mail.gmail.com>
- <87zhbdl1ip.fsf@dusky.pond.sub.org>
-In-Reply-To: <87zhbdl1ip.fsf@dusky.pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 15 Apr 2020 09:52:23 +0100
-Message-ID: <CAFEAcA-nCr81nkrtsncpqKkwe-D22smTdD4cG7SD-svnMNw56g@mail.gmail.com>
-Subject: Re: [PATCH v5 for-5.0] configure: warn if not using a separate build
- directory
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 15 Apr 2020 08:56:51 -0000
+From: Barnabas Viragh <1872847@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: alpha linux-user python
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: cyborgyn laurent-vivier
+X-Launchpad-Bug-Reporter: Barnabas Viragh (cyborgyn)
+X-Launchpad-Bug-Modifier: Barnabas Viragh (cyborgyn)
+References: <158690356239.28566.12748384831078553261.malonedeb@gac.canonical.com>
+Message-Id: <158694101203.17680.18149775209629427036.malone@wampee.canonical.com>
+Subject: [Bug 1872847] Re: qemu-alpha linux-user breaks python3.6
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 87b22747b65c4c7369bdc8ae66bbeb420ba3075b
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,69 +65,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Liviu Ionescu <ilg@livius.net>, QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Reply-To: Bug 1872847 <1872847@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 15 Apr 2020 at 07:13, Markus Armbruster <armbru@redhat.com> wrote:
-> Peter Maydell <peter.maydell@linaro.org> writes:
-> > Given where we are in the release cycle, I think this isn't
-> > going to go in for 5.0; and it's not really that urgent now
-> > we've decided we don't want to actually deprecate in-tree builds.
->
-> Have we?
->
-> We had a Aleksandar assert that out-of-tree builds can't do certain
-> things, which led to the decision to soften this patch's warning from
-> "deprecated; better use the grace period to adjust, and here's how to"
-> to "not recommended; here's the recommended way".
+I know, that it is broken since I use for alpha emulation, since
+2017-2018. However it worked with python2.7 before. But python 2.7
+reached end of life support, and HAVE TO use 3.6 or 3.7, so this one
+became a pain now. I will try the git version, but have no high hopes...
 
-This is not how I recall the discussion. The reason we decided to
-soften this patche's warning was because there was a sizeable
-contingent of people who said "I want the basic './configure; make'
-commands to keep working and am willing to write the wrapper
-makefile that wil cause those to automatically create and use
-a build directory under the hood". If the commands will keep working
-then there's nothing to deprecate.
+-- =
 
-("Stuff doesn't currently work with out-of-tree builds" is something
-that I argued at that point in the thread was definitely not a reason
-not to deprecate.)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1872847
 
-> Whether we want to keep sinking time & energy into an extra way to build
-> will become irrelevant once we move to Meson, unless Meson deviates from
-> its "this is an opinionated build tool, not a 'give users all the rope
-> they may possibly want, and then some'" approach in a surprising lapse
-> of judgement.
+Title:
+  qemu-alpha linux-user breaks python3.6
 
-And Meson is the other part of this -- if Meson is coming soon-ish
-and will mean users having to change their build commands in some
-way anyway, it's better for them if we only make them change once,
-when Meson arrives, rather than once now and then again later.
+Status in QEMU:
+  New
 
-> If we can't reach consensus in time for 5.0, that's regrettable, but I
-> accept it.  Our decision making process is open and slow.  Hard to get
-> one without the other.
->
-> Much harder to accept is us once again defaulting to do nothing because
-> deciding what to do involves a tradeoff.
+Bug description:
+  Running on Gentoo Linux in a chroot environment:
+  # python3 -c 'import selectors; selectors.DefaultSelector()'
+  Traceback (most recent call last):
+    File "<string>", line 1, in <module>
+    File "/usr/lib/python3.7/selectors.py", line 349, in __init__
+      self._selector =3D self._selector_cls()
+  OSError: [Errno 22] Invalid argument
 
-My understanding of the consensus position was "we should stop
-supporting in-tree build in the main makefile machinery but should
-have a trivial wrapper that creates and uses a build directory
-under the hood if the user does run configure/make from the
-source tree". I think that should be much less painful to maintain
-than handling both setups through the whole of our makefile system.
-(I wouldn't personally bother to implement it, but several people
-volunteered to do so.)
+  However, on real hardware, with the same binaries there is no
+  exception.
 
-thanks
--- PMM
+  This impacts whole python3 based Gentoo ebuild system (package
+  management), and renders linux user mode alpha emulation in chroot
+  environment building useless, more or less.
+
+  The used systems:
+  # qemu-alpha --version
+  qemu-alpha version 4.2.0
+  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
+  # uname -a
+  Linux blackbird 5.4.28-gentoo-blackbird-06 #2 SMP Sat Apr 4 13:13:10 CEST=
+ 2020 x86_64 AMD Ryzen 5 3600 6-Core Processor AuthenticAMD GNU/Linux
+  (chroot)# python3 --version
+  Python 3.7.7
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1872847/+subscriptions
 
