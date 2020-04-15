@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D91C1A9002
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 03:02:30 +0200 (CEST)
-Received: from localhost ([::1]:40884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C30C61A9013
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 03:06:06 +0200 (CEST)
+Received: from localhost ([::1]:40916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOWRh-00034i-5D
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 21:02:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58354)
+	id 1jOWVB-0006d7-G4
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 21:06:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58426)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alazar@bitdefender.com>) id 1jOWOy-0000vs-IE
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:41 -0400
+ (envelope-from <alazar@bitdefender.com>) id 1jOWP8-0001Gx-Nv
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alazar@bitdefender.com>) id 1jOWOx-00051u-GE
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:40 -0400
-Received: from mx01.bbu.dsd.mx.bitdefender.com ([91.199.104.161]:49092)
+ (envelope-from <alazar@bitdefender.com>) id 1jOWP7-0005BN-GO
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:50 -0400
+Received: from mx01.bbu.dsd.mx.bitdefender.com ([91.199.104.161]:49094)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <alazar@bitdefender.com>)
- id 1jOWOx-000511-7t
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:39 -0400
+ id 1jOWP7-000512-8k
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:49 -0400
 Received: from smtp.bitdefender.com (smtp02.buh.bitdefender.net [10.17.80.76])
  by mx01.bbu.dsd.mx.bitdefender.com (Postfix) with ESMTPS id
- 50B2930747CC
+ 65CA930747CD
  for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 03:59:35 +0300 (EEST)
 Received: from localhost.localdomain (unknown [91.199.104.27])
- by smtp.bitdefender.com (Postfix) with ESMTPSA id 3F091305B7A4;
+ by smtp.bitdefender.com (Postfix) with ESMTPSA id 54760305B7A0;
  Wed, 15 Apr 2020 03:59:35 +0300 (EEST)
 From: =?UTF-8?q?Adalbert=20Laz=C4=83r?= <alazar@bitdefender.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v1 13/26] kvm: vmi: block the object destruction if the
- chardev is connected
-Date: Wed, 15 Apr 2020 03:59:25 +0300
-Message-Id: <20200415005938.23895-14-alazar@bitdefender.com>
+Subject: [RFC PATCH v1 14/26] kvm: vmi: allow only one instance of the
+ introspection object
+Date: Wed, 15 Apr 2020 03:59:26 +0300
+Message-Id: <20200415005938.23895-15-alazar@bitdefender.com>
 In-Reply-To: <20200415005938.23895-1-alazar@bitdefender.com>
 References: <20200415005938.23895-1-alazar@bitdefender.com>
 MIME-Version: 1.0
@@ -57,40 +57,103 @@ Cc: =?UTF-8?q?Adalbert=20Laz=C4=83r?= <alazar@bitdefender.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The introspection tool can modify the VM while it is running
-(e.g. it can set breakpoints), and when the VM is no longer introspected
-these changes need to be removed. Until then, we block the destruction of
-the introspection object that would lead to the unexpected shutdown
-of the introspection channel.
+Because only one introspection tool must introspect a VM at a given time,
+we block the completion of the second instance.
 
 Signed-off-by: Adalbert Laz=C4=83r <alazar@bitdefender.com>
 ---
- accel/kvm/vmi.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ accel/kvm/vmi.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
 diff --git a/accel/kvm/vmi.c b/accel/kvm/vmi.c
-index f456ca56ef..2ce8a60565 100644
+index 2ce8a60565..54c56c6e13 100644
 --- a/accel/kvm/vmi.c
 +++ b/accel/kvm/vmi.c
-@@ -151,11 +151,19 @@ static bool chardev_is_connected(VMIntrospection *i=
-, Error **errp)
-     return obj && object_property_get_bool(obj, "connected", errp);
- }
+@@ -52,10 +52,18 @@ typedef struct VMIntrospection {
+     bool kvmi_hooked;
+ } VMIntrospection;
 =20
-+static bool introspection_can_be_deleted(UserCreatable *uc)
-+{
-+    VMIntrospection *i =3D VM_INTROSPECTION(uc);
++typedef struct VMIntrospectionClass {
++    ObjectClass parent_class;
++    uint32_t instance_counter;
++    VMIntrospection *uniq;
++} VMIntrospectionClass;
 +
-+    return !chardev_is_connected(i, NULL);
-+}
-+
- static void class_init(ObjectClass *oc, void *data)
+ #define TYPE_VM_INTROSPECTION "introspection"
+=20
+ #define VM_INTROSPECTION(obj) \
+     OBJECT_CHECK(VMIntrospection, (obj), TYPE_VM_INTROSPECTION)
++#define VM_INTROSPECTION_CLASS(class) \
++    OBJECT_CLASS_CHECK(VMIntrospectionClass, (class), TYPE_VM_INTROSPECT=
+ION)
+=20
+ static Error *vm_introspection_init(VMIntrospection *i);
+=20
+@@ -81,8 +89,14 @@ static void update_vm_start_time(VMIntrospection *i)
+=20
+ static void complete(UserCreatable *uc, Error **errp)
  {
-     UserCreatableClass *uc =3D USER_CREATABLE_CLASS(oc);
++    VMIntrospectionClass *ic =3D VM_INTROSPECTION_CLASS(OBJECT(uc)->clas=
+s);
+     VMIntrospection *i =3D VM_INTROSPECTION(uc);
 =20
-     uc->complete =3D complete;
-+    uc->can_be_deleted =3D introspection_can_be_deleted;
++    if (ic->instance_counter > 1) {
++        error_setg(errp, "VMI: only one introspection object can be crea=
+ted");
++        return;
++    }
++
+     if (!i->chardevid) {
+         error_setg(errp, "VMI: chardev is not set");
+         return;
+@@ -106,6 +120,8 @@ static void complete(UserCreatable *uc, Error **errp)
+         i->init_error =3D NULL;
+         return;
+     }
++
++    ic->uniq =3D i;
  }
+=20
+ static void prop_set_chardev(Object *obj, const char *value, Error **err=
+p)
+@@ -168,8 +184,11 @@ static void class_init(ObjectClass *oc, void *data)
 =20
  static void instance_init(Object *obj)
+ {
++    VMIntrospectionClass *ic =3D VM_INTROSPECTION_CLASS(obj->class);
+     VMIntrospection *i =3D VM_INTROSPECTION(obj);
+=20
++    ic->instance_counter++;
++
+     i->sock_fd =3D -1;
+     i->created_from_command_line =3D (qdev_hotplug =3D=3D false);
+=20
+@@ -234,6 +253,7 @@ static void cancel_handshake_timer(VMIntrospection *i=
+)
+=20
+ static void instance_finalize(Object *obj)
+ {
++    VMIntrospectionClass *ic =3D VM_INTROSPECTION_CLASS(obj->class);
+     VMIntrospection *i =3D VM_INTROSPECTION(obj);
+=20
+     g_free(i->chardevid);
+@@ -248,12 +268,18 @@ static void instance_finalize(Object *obj)
+     }
+=20
+     error_free(i->init_error);
++
++    ic->instance_counter--;
++    if (!ic->instance_counter) {
++        ic->uniq =3D NULL;
++    }
+ }
+=20
+ static const TypeInfo info =3D {
+     .name              =3D TYPE_VM_INTROSPECTION,
+     .parent            =3D TYPE_OBJECT,
+     .class_init        =3D class_init,
++    .class_size        =3D sizeof(VMIntrospectionClass),
+     .instance_size     =3D sizeof(VMIntrospection),
+     .instance_finalize =3D instance_finalize,
+     .instance_init     =3D instance_init,
 
