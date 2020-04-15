@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0CBF1A9044
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 03:17:08 +0200 (CEST)
-Received: from localhost ([::1]:41080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C14F61A9024
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 03:12:49 +0200 (CEST)
+Received: from localhost ([::1]:40990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOWfr-00070g-Uh
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 21:17:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58498)
+	id 1jOWbg-00078e-NJ
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 21:12:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58535)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alazar@bitdefender.com>) id 1jOWPA-0001MB-Rd
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:54 -0400
+ (envelope-from <alazar@bitdefender.com>) id 1jOWPB-0001Oc-P3
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alazar@bitdefender.com>) id 1jOWP9-0005Ck-5d
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:52 -0400
-Received: from mx01.bbu.dsd.mx.bitdefender.com ([91.199.104.161]:49114)
+ (envelope-from <alazar@bitdefender.com>) id 1jOWP9-0005D1-A2
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:53 -0400
+Received: from mx01.bbu.dsd.mx.bitdefender.com ([91.199.104.161]:49116)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <alazar@bitdefender.com>)
- id 1jOWP8-00052i-PO
+ id 1jOWP8-00052n-QN
  for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:51 -0400
 Received: from smtp.bitdefender.com (smtp02.buh.bitdefender.net [10.17.80.76])
  by mx01.bbu.dsd.mx.bitdefender.com (Postfix) with ESMTPS id
- 664CA3074872
+ 7960A3074895
  for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 03:59:36 +0300 (EEST)
 Received: from localhost.localdomain (unknown [91.199.104.27])
- by smtp.bitdefender.com (Postfix) with ESMTPSA id 55FEC305B7A3;
+ by smtp.bitdefender.com (Postfix) with ESMTPSA id 67278305B7A4;
  Wed, 15 Apr 2020 03:59:36 +0300 (EEST)
 From: =?UTF-8?q?Adalbert=20Laz=C4=83r?= <alazar@bitdefender.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v1 24/26] kvm: vmi: add 'unhook_on_shutdown' property
-Date: Wed, 15 Apr 2020 03:59:36 +0300
-Message-Id: <20200415005938.23895-25-alazar@bitdefender.com>
+Subject: [RFC PATCH v1 25/26] kvm: vmi: extend handshake to include the e820
+ table
+Date: Wed, 15 Apr 2020 03:59:37 +0300
+Message-Id: <20200415005938.23895-26-alazar@bitdefender.com>
 In-Reply-To: <20200415005938.23895-1-alazar@bitdefender.com>
 References: <20200415005938.23895-1-alazar@bitdefender.com>
 MIME-Version: 1.0
@@ -56,72 +57,154 @@ Cc: =?UTF-8?q?Adalbert=20Laz=C4=83r?= <alazar@bitdefender.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some introspection tools can detect when the guest is shutting down.
-This new option, 'unhook_on_shutdown' controls if QEMU will notify the
-introspection tool on a shutdown command at its level.
+The introspection tool can use the e820 table to avoid accessing
+(read/write) or modifying access (rwx) for reserved memory pages.
 
 Signed-off-by: Adalbert Laz=C4=83r <alazar@bitdefender.com>
 ---
- accel/kvm/vmi.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ accel/kvm/vmi.c                | 68 ++++++++++++++++++++++++++++++----
+ include/sysemu/vmi-handshake.h | 23 +++++++++++-
+ 2 files changed, 82 insertions(+), 9 deletions(-)
 
 diff --git a/accel/kvm/vmi.c b/accel/kvm/vmi.c
-index 2c6981a4bf..02877eec06 100644
+index 02877eec06..f70d78848a 100644
 --- a/accel/kvm/vmi.c
 +++ b/accel/kvm/vmi.c
-@@ -58,6 +58,7 @@ typedef struct VMIntrospection {
-     GSource *unhook_timer;
-     uint32_t unhook_timeout;
-     bool async_unhook;
-+    bool unhook_on_shutdown;
+@@ -26,6 +26,7 @@
+ #include "migration/misc.h"
+ #include "qapi/qmp/qobject.h"
+ #include "monitor/monitor.h"
++#include "hw/i386/e820_memory_layout.h"
 =20
-     int reconnect_time;
+ #include "sysemu/vmi-intercept.h"
+ #include "sysemu/vmi-handshake.h"
+@@ -412,23 +413,74 @@ static void register_types(void)
 =20
-@@ -203,6 +204,20 @@ static void prop_set_async_unhook(Object *obj, bool =
-value, Error **errp)
-     i->async_unhook =3D value;
- }
+ type_init(register_types);
 =20
-+static bool prop_get_unhook_on_shutdown(Object *obj, Error **errp)
++static uint8_t handshake_cpu_type(void)
 +{
-+    VMIntrospection *i =3D VM_INTROSPECTION(obj);
-+
-+    return i->unhook_on_shutdown;
++#ifdef TARGET_X86_64
++    return QEMU_VMI_CPU_TYPE_X86_64;
++#elif TARGET_I386
++    return QEMU_VMI_CPU_TYPE_I386;
++#else
++    return QEMU_VMI_CPU_TYPE_UNKNOWN;
++#endif
 +}
 +
-+static void prop_set_unhook_on_shutdown(Object *obj, bool value, Error *=
-*errp)
++static int cmp_address(const void *a, const void *b)
 +{
-+    VMIntrospection *i =3D VM_INTROSPECTION(obj);
++    uint64_t addr_a =3D ((qemu_vmi_e820_entry *)a)->address;
++    uint64_t addr_b =3D ((qemu_vmi_e820_entry *)b)->address;
 +
-+    i->unhook_on_shutdown =3D value;
++    return (addr_a > addr_b) - (addr_a < addr_b);
 +}
 +
- static void prop_get_uint32(Object *obj, Visitor *v, const char *name,
-                             void *opaque, Error **errp)
++static void fill_e820_info(qemu_vmi_e820_entry *dest, int n)
++{
++    int idx;
++
++    for (idx =3D 0; idx < n; idx++)
++        e820_get_entry2(idx, &dest[idx].type, &dest[idx].address,
++                        &dest[idx].length);
++
++    qsort(dest, n, sizeof(*dest), cmp_address);
++}
++
+ static bool send_handshake_info(VMIntrospection *i, Error **errp)
  {
-@@ -285,6 +300,11 @@ static void instance_init(Object *obj)
-                              prop_get_async_unhook,
-                              prop_set_async_unhook, NULL);
+-    qemu_vmi_to_introspector send =3D {};
++    qemu_vmi_to_introspector *send;
++    int max_n_e820, n_e820;
+     const char *vm_name;
++    size_t send_sz;
+     int r;
 =20
-+    i->unhook_on_shutdown =3D true;
-+    object_property_add_bool(obj, "unhook_on_shutdown",
-+                             prop_get_unhook_on_shutdown,
-+                             prop_set_unhook_on_shutdown, NULL);
+-    send.struct_size =3D sizeof(send);
+-    send.start_time =3D i->vm_start_time;
+-    memcpy(&send.uuid, &qemu_uuid, sizeof(send.uuid));
++    max_n_e820 =3D 8 * sizeof(((qemu_vmi_to_introspector *)0)->arch.e820=
+_count);
++    n_e820 =3D e820_get_num_entries();
 +
-     vmstate_register(NULL, 0, &vmstate_introspection, i);
- }
-=20
-@@ -801,6 +821,11 @@ static bool intercept_action(VMIntrospection *i,
++    if (n_e820 < 0 || n_e820 > max_n_e820) {
++        warn_report("VMI: discard e820 info (size %d, max %d)",
++                    n_e820, max_n_e820);
++        n_e820 =3D 0;
++    }
++
++    send_sz =3D sizeof(*send) + n_e820 * sizeof(qemu_vmi_e820_entry);
++
++    send =3D g_malloc0(send_sz);
++
++    send->struct_size =3D send_sz;
++    send->start_time =3D i->vm_start_time;
++    send->cpu_type =3D handshake_cpu_type();
++    memcpy(&send->uuid, &qemu_uuid, sizeof(send->uuid));
+     vm_name =3D qemu_get_vm_name();
+     if (vm_name) {
+-        snprintf(send.name, sizeof(send.name), "%s", vm_name);
+-        send.name[sizeof(send.name) - 1] =3D 0;
++        snprintf(send->name, sizeof(send->name), "%s", vm_name);
++        send->name[sizeof(send->name) - 1] =3D 0;
++    }
++    send->arch.e820_count =3D n_e820;
++    if (n_e820) {
++        fill_e820_info(send->arch.e820_entries, n_e820);
      }
 =20
-     switch (action) {
-+    case VMI_INTERCEPT_SHUTDOWN:
-+        if (!i->unhook_on_shutdown) {
-+            return false;
-+        }
-+        break;
-     case VMI_INTERCEPT_FORCE_RESET:
-         disconnect_and_unhook_kvmi(i);
+-    r =3D qemu_chr_fe_write_all(&i->sock, (uint8_t *)&send, sizeof(send)=
+);
+-    if (r !=3D sizeof(send)) {
++    r =3D qemu_chr_fe_write_all(&i->sock, (uint8_t *)send, send_sz);
++    g_free(send);
++    if (r !=3D send_sz) {
+         error_setg_errno(errp, errno, "VMI: error writing to '%s'",
+                          i->chardevid);
          return false;
+diff --git a/include/sysemu/vmi-handshake.h b/include/sysemu/vmi-handshak=
+e.h
+index 19bdfb6740..3c5201d37b 100644
+--- a/include/sysemu/vmi-handshake.h
++++ b/include/sysemu/vmi-handshake.h
+@@ -9,6 +9,25 @@
+ enum { QEMU_VMI_NAME_SIZE =3D 64 };
+ enum { QEMU_VMI_COOKIE_HASH_SIZE =3D 20};
+=20
++enum {
++    QEMU_VMI_CPU_TYPE_I386 =3D 0,
++    QEMU_VMI_CPU_TYPE_X86_64 =3D 1,
++    QEMU_VMI_CPU_TYPE_UNKNOWN =3D 255
++};
++
++typedef struct qemu_vmi_e820_entry {
++    uint64_t address;
++    uint64_t length;
++    uint32_t type;
++    uint32_t padding;
++} qemu_vmi_e820_entry;
++
++typedef struct qemu_vmi_to_introspector_x86 {
++   uint8_t e820_count;
++   uint8_t padding[3];
++   qemu_vmi_e820_entry e820_entries[0];
++} qemu_vmi_to_introspector_x86;
++
+ /**
+  * qemu_vmi_to_introspector:
+  *
+@@ -22,9 +41,11 @@ enum { QEMU_VMI_COOKIE_HASH_SIZE =3D 20};
+ typedef struct qemu_vmi_to_introspector {
+     uint32_t struct_size;
+     uint8_t  uuid[16];
+-    uint32_t padding;
++    uint8_t  cpu_type;
++    uint8_t  padding[3];
+     int64_t  start_time;
+     char     name[QEMU_VMI_NAME_SIZE];
++    qemu_vmi_to_introspector_x86 arch;
+     /* ... */
+ } qemu_vmi_to_introspector;
+=20
 
