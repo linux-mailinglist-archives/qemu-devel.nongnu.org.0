@@ -2,56 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EB5F1A9684
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 10:31:31 +0200 (CEST)
-Received: from localhost ([::1]:46044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 191CA1A969E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 10:35:01 +0200 (CEST)
+Received: from localhost ([::1]:46108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOdSD-0002fk-VU
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 04:31:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57037)
+	id 1jOdVc-0000Fu-6f
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 04:35:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57271)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yan.y.zhao@intel.com>) id 1jOdQT-0001CU-Dt
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 04:29:42 -0400
+ (envelope-from <armbru@redhat.com>) id 1jOdRf-0002j3-AZ
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 04:30:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yan.y.zhao@intel.com>) id 1jOdQS-0003F6-Cv
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 04:29:41 -0400
-Received: from mga05.intel.com ([192.55.52.43]:61287)
+ (envelope-from <armbru@redhat.com>) id 1jOdRe-0004KE-41
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 04:30:54 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55960
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
- id 1jOdQS-0003Dq-3j
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 04:29:40 -0400
-IronPort-SDR: iN8wq2x1ORtPJaMQDbhwKCWWuMoiWMw9QCYaKkjlxZzjCktzsb0FQJj1L8eRSlj5AE1JvUqbGn
- D+VEQDkeiJeA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2020 01:29:38 -0700
-IronPort-SDR: EkMz3UsYNqC04ddmiE2HBeDWWwkSAlKTVIokEmwotXRaiKZHnazE37sml1YPxzu4DBlzG/9nJa
- 14cTfs9H3OnA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,386,1580803200"; d="scan'208";a="277543630"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.16])
- by fmsmga004.fm.intel.com with ESMTP; 15 Apr 2020 01:29:36 -0700
-Date: Wed, 15 Apr 2020 04:19:58 -0400
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v3 3/3] hw/vfio: let read-only flag take effect for
- mmap'd regions
-Message-ID: <20200415081958.GI10586@joy-OptiPlex-7040>
-References: <20200413063627.84608-1-yan.y.zhao@intel.com>
- <20200413063747.84753-1-yan.y.zhao@intel.com>
- <c2a0631b-4c2a-6b46-ec11-cd247b751dae@redhat.com>
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jOdRd-0004Ii-SO
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 04:30:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586939453;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9B2KP4LXGa4bCYSs6QlLPCoOKi3ra0OsfqNB6tL8mHo=;
+ b=BVP9igO+W1UmJP5BsoeqKr9fPTPx/4Y8gF+WybUQh7WIuJdNBMchghy+N57KpIwVRzPuoB
+ lZonmvXs3kc9oiHv432xK8pvbFPjTtdLFcP/0EpgP2SOYIPXidZRV22HloTv7CVC/8sCPG
+ xnE6VOKllhqq6womglrWKuiAmWwMPeE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-137-YMMb0uwAM8q_Lum1b6MJ6A-1; Wed, 15 Apr 2020 04:30:51 -0400
+X-MC-Unique: YMMb0uwAM8q_Lum1b6MJ6A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FCC719067E3;
+ Wed, 15 Apr 2020 08:30:50 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-20.ams2.redhat.com
+ [10.36.113.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E93C5C1B2;
+ Wed, 15 Apr 2020 08:30:50 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9915111385C8; Wed, 15 Apr 2020 10:30:48 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-5.1 0/5] qobject: Minor spring cleaning
+Date: Wed, 15 Apr 2020 10:30:43 +0200
+Message-Id: <20200415083048.14339-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c2a0631b-4c2a-6b46-ec11-cd247b751dae@redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 192.55.52.43
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,45 +71,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>, "Zeng,
- Xin" <xin.zeng@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 14, 2020 at 05:37:58PM +0800, Philippe Mathieu-Daudé wrote:
-> On 4/13/20 8:37 AM, Yan Zhao wrote:
-> > along side setting host page table to be read-only, the memory regions
-> > are also required to be read-only, so that when guest writes to the
-> > read-only & mmap'd regions, vmexits would happen and region write handlers
-> > are called.
-> > 
-> > Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
-> > Signed-off-by: Xin Zeng <xin.zeng@intel.com>
-> > ---
-> >   hw/vfio/common.c | 4 ++++
-> >   1 file changed, 4 insertions(+)
-> > 
-> > diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> > index fd6ee1fe3e..fc7618e041 100644
-> > --- a/hw/vfio/common.c
-> > +++ b/hw/vfio/common.c
-> > @@ -977,6 +977,10 @@ int vfio_region_mmap(VFIORegion *region)
-> >                                             name, region->mmaps[i].size,
-> >                                             region->mmaps[i].mmap);
-> >           g_free(name);
-> > +
-> > +        if (!(region->flags & VFIO_REGION_INFO_FLAG_WRITE)) {
-> > +            memory_region_set_readonly(&region->mmaps[i].mem, true);
-> > +        }
-> >           memory_region_add_subregion(region->mem, region->mmaps[i].offset,
-> >                                       &region->mmaps[i].mem);
-> >   
-> > 
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Markus Armbruster (5):
+  qobject: Clean up QLIST_FOREACH_ENTRY()
+  qobject: Factor out helper json_pretty_newline()
+  qobject: Eliminate qlist_iter(), use QLIST_FOREACH_ENTRY() instead
+  qobject: Eliminate qdict_iter(), use qdict_first(), qdict_next()
+  qemu-option: Clean up after the previous commit
 
-Thanks!
+ include/qapi/qmp/qdict.h     |   3 -
+ include/qapi/qmp/qlist.h     |  10 ++--
+ qapi/qobject-input-visitor.c |  21 +++----
+ qobject/qdict.c              |  19 -------
+ qobject/qjson.c              | 107 +++++++++++++----------------------
+ qobject/qlist.c              |  44 ++++----------
+ tests/check-qlist.c          |  37 +++++-------
+ util/qemu-option.c           |  43 +++++++-------
+ 8 files changed, 98 insertions(+), 186 deletions(-)
+
+--=20
+2.21.1
+
 
