@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 500111A92F7
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 08:11:26 +0200 (CEST)
-Received: from localhost ([::1]:43832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38ED21A92DF
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 08:06:55 +0200 (CEST)
+Received: from localhost ([::1]:43742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jObGf-0001su-AY
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 02:11:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35559)
+	id 1jObCI-00028K-7b
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 02:06:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35545)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jOaz1-0002r9-03
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 01:53:12 -0400
+ (envelope-from <its@irrelevant.dk>) id 1jOaz0-0002qD-Lu
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 01:53:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jOayy-0002qY-Uk
+ (envelope-from <its@irrelevant.dk>) id 1jOayy-0002px-Ox
  for qemu-devel@nongnu.org; Wed, 15 Apr 2020 01:53:10 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:47570)
+Received: from charlie.dont.surf ([128.199.63.193]:47568)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jOayv-0002Zr-18; Wed, 15 Apr 2020 01:53:05 -0400
+ id 1jOayv-0002Zs-2A; Wed, 15 Apr 2020 01:53:05 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id A1791BFD94;
+ by charlie.dont.surf (Postfix) with ESMTPSA id 07A86BFD9F;
  Wed, 15 Apr 2020 05:52:28 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 29/48] nvme: add request mapping helper
-Date: Wed, 15 Apr 2020 07:51:21 +0200
-Message-Id: <20200415055140.466900-30-its@irrelevant.dk>
+Subject: [PATCH v7 30/48] nvme: verify validity of prp lists in the cmb
+Date: Wed, 15 Apr 2020 07:51:22 +0200
+Message-Id: <20200415055140.466900-31-its@irrelevant.dk>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200415055140.466900-1-its@irrelevant.dk>
 References: <20200415055140.466900-1-its@irrelevant.dk>
@@ -58,58 +58,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Introduce the nvme_map helper to remove some noise in the main nvme_rw
-function.
+Before this patch the device already supported this, but it did not
+check for the validity of it nor announced the support in the LISTS
+field.
+
+If some of the PRPs in a PRP list are in the CMB, then ALL entries must
+be there. This patch makes sure that is verified as well as properly
+announcing support for PRP lists in the CMB.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- hw/block/nvme.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ hw/block/nvme.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 66f92f6f6f2d..1f4ce48b9cbb 100644
+index 1f4ce48b9cbb..3e5e99644a4e 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -359,6 +359,15 @@ static uint16_t nvme_dma_prp(NvmeCtrl *n, uint8_t *p=
-tr, uint32_t len,
-     return status;
- }
+@@ -218,6 +218,7 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, QEMUSGList =
+*qsg, QEMUIOVector *iov,
+     trans_len =3D MIN(len, trans_len);
+     int num_prps =3D (len >> n->page_bits) + 1;
+     uint16_t status;
++    bool prp_list_in_cmb =3D false;
 =20
-+static uint16_t nvme_map(NvmeCtrl *n, NvmeCmd *cmd, QEMUSGList *qsg,
-+                         QEMUIOVector *iov, size_t len, NvmeRequest *req=
-)
-+{
-+    uint64_t prp1 =3D le64_to_cpu(cmd->dptr.prp1);
-+    uint64_t prp2 =3D le64_to_cpu(cmd->dptr.prp2);
+     trace_nvme_dev_map_prp(nvme_cid(req), trans_len, len, prp1, prp2,
+                            num_prps);
+@@ -245,11 +246,16 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, QEMUSGLis=
+t *qsg, QEMUIOVector *iov,
+             status =3D NVME_INVALID_FIELD | NVME_DNR;
+             goto unmap;
+         }
 +
-+    return nvme_map_prp(n, qsg, iov, prp1, prp2, len, req);
-+}
+         if (len > n->page_size) {
+             uint64_t prp_list[n->max_prp_ents];
+             uint32_t nents, prp_trans;
+             int i =3D 0;
+=20
++            if (nvme_addr_is_cmb(n, prp2)) {
++                prp_list_in_cmb =3D true;
++            }
 +
- static void nvme_post_cqes(void *opaque)
- {
-     NvmeCQueue *cq =3D opaque;
-@@ -546,8 +555,6 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *n=
-s, NvmeCmd *cmd,
-     NvmeRwCmd *rw =3D (NvmeRwCmd *)cmd;
-     uint32_t nlb  =3D le32_to_cpu(rw->nlb) + 1;
-     uint64_t slba =3D le64_to_cpu(rw->slba);
--    uint64_t prp1 =3D le64_to_cpu(rw->dptr.prp1);
--    uint64_t prp2 =3D le64_to_cpu(rw->dptr.prp2);
+             nents =3D (len + n->page_size - 1) >> n->page_bits;
+             prp_trans =3D MIN(n->max_prp_ents, nents) * sizeof(uint64_t)=
+;
+             nvme_addr_read(n, prp2, (void *)prp_list, prp_trans);
+@@ -263,6 +269,11 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, QEMUSGList=
+ *qsg, QEMUIOVector *iov,
+                         goto unmap;
+                     }
 =20
-     uint8_t lba_index  =3D NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
-     uint8_t data_shift =3D ns->id_ns.lbaf[lba_index].ds;
-@@ -564,7 +571,7 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *n=
-s, NvmeCmd *cmd,
-         return NVME_LBA_RANGE | NVME_DNR;
-     }
-=20
--    if (nvme_map_prp(n, &req->qsg, &req->iov, prp1, prp2, data_size, req=
++                    if (prp_list_in_cmb !=3D nvme_addr_is_cmb(n, prp_ent=
 )) {
-+    if (nvme_map(n, cmd, &req->qsg, &req->iov, data_size, req)) {
-         block_acct_invalid(blk_get_stats(n->conf.blk), acct);
-         return NVME_INVALID_FIELD | NVME_DNR;
-     }
++                        status =3D NVME_INVALID_USE_OF_CMB | NVME_DNR;
++                        goto unmap;
++                    }
++
+                     i =3D 0;
+                     nents =3D (len + n->page_size - 1) >> n->page_bits;
+                     prp_trans =3D MIN(n->max_prp_ents, nents) * sizeof(u=
+int64_t);
+@@ -282,6 +293,7 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, QEMUSGList =
+*qsg, QEMUIOVector *iov,
+                 if (status) {
+                     goto unmap;
+                 }
++
+                 len -=3D trans_len;
+                 i++;
+             }
+@@ -1953,7 +1965,7 @@ static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *p=
+ci_dev)
+=20
+     NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
+     NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
+-    NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 0);
++    NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 1);
+     NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
+     NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
+     NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2);
 --=20
 2.26.0
 
