@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 230BD1A967F
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 10:30:16 +0200 (CEST)
-Received: from localhost ([::1]:46014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EB5F1A9684
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 10:31:31 +0200 (CEST)
+Received: from localhost ([::1]:46044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOdR1-0001Uz-7n
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 04:30:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56988)
+	id 1jOdSD-0002fk-VU
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 04:31:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57037)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yan.y.zhao@intel.com>) id 1jOdQ7-0000ea-Ns
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 04:29:20 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1jOdQT-0001CU-Dt
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 04:29:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yan.y.zhao@intel.com>) id 1jOdQ6-0002xS-Ki
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 04:29:19 -0400
-Received: from mga04.intel.com ([192.55.52.120]:61444)
+ (envelope-from <yan.y.zhao@intel.com>) id 1jOdQS-0003F6-Cv
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 04:29:41 -0400
+Received: from mga05.intel.com ([192.55.52.43]:61287)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
- id 1jOdQ6-0002wa-Cy
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 04:29:18 -0400
-IronPort-SDR: OujNwXwoNnK57wV/aytZwQ5Re/QiznMj++hT6E+EOr2uuJp6QmOEkqjoHir3lcmvn1vfFtDKRu
- GZGCaJFfdS+w==
+ id 1jOdQS-0003Dq-3j
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 04:29:40 -0400
+IronPort-SDR: iN8wq2x1ORtPJaMQDbhwKCWWuMoiWMw9QCYaKkjlxZzjCktzsb0FQJj1L8eRSlj5AE1JvUqbGn
+ D+VEQDkeiJeA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2020 01:29:17 -0700
-IronPort-SDR: 4nfTuhY9ZpcYE/nLXBRtxMcHATvsxOT9XU+W4c1t/tkx8hfzt/cFDLQngr7LJ0BTtlAE5ToWvN
- 68QJ9bNR920w==
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Apr 2020 01:29:38 -0700
+IronPort-SDR: EkMz3UsYNqC04ddmiE2HBeDWWwkSAlKTVIokEmwotXRaiKZHnazE37sml1YPxzu4DBlzG/9nJa
+ 14cTfs9H3OnA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,386,1580803200"; d="scan'208";a="277543555"
+X-IronPort-AV: E=Sophos;i="5.72,386,1580803200"; d="scan'208";a="277543630"
 Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
  ([10.239.13.16])
- by fmsmga004.fm.intel.com with ESMTP; 15 Apr 2020 01:29:15 -0700
-Date: Wed, 15 Apr 2020 04:19:37 -0400
+ by fmsmga004.fm.intel.com with ESMTP; 15 Apr 2020 01:29:36 -0700
+Date: Wed, 15 Apr 2020 04:19:58 -0400
 From: Yan Zhao <yan.y.zhao@intel.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v3 1/3] memory: drop guest writes to read-only ram device
- regions
-Message-ID: <20200415081937.GH10586@joy-OptiPlex-7040>
+Subject: Re: [PATCH v3 3/3] hw/vfio: let read-only flag take effect for
+ mmap'd regions
+Message-ID: <20200415081958.GI10586@joy-OptiPlex-7040>
 References: <20200413063627.84608-1-yan.y.zhao@intel.com>
- <20200413063713.84659-1-yan.y.zhao@intel.com>
- <36cbf8f3-65e6-936f-6278-ab45dc470b02@redhat.com>
+ <20200413063747.84753-1-yan.y.zhao@intel.com>
+ <c2a0631b-4c2a-6b46-ec11-cd247b751dae@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <36cbf8f3-65e6-936f-6278-ab45dc470b02@redhat.com>
+In-Reply-To: <c2a0631b-4c2a-6b46-ec11-cd247b751dae@redhat.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 192.55.52.120
+X-Received-From: 192.55.52.43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,55 +71,37 @@ Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 14, 2020 at 05:35:22PM +0800, Philippe Mathieu-Daudé wrote:
+On Tue, Apr 14, 2020 at 05:37:58PM +0800, Philippe Mathieu-Daudé wrote:
 > On 4/13/20 8:37 AM, Yan Zhao wrote:
-> > for ram device regions, drop guest writes if the regions is read-only.
+> > along side setting host page table to be read-only, the memory regions
+> > are also required to be read-only, so that when guest writes to the
+> > read-only & mmap'd regions, vmexits would happen and region write handlers
+> > are called.
 > > 
 > > Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
 > > Signed-off-by: Xin Zeng <xin.zeng@intel.com>
 > > ---
-> >   memory.c     | 6 +++++-
-> >   trace-events | 2 +-
-> >   2 files changed, 6 insertions(+), 2 deletions(-)
+> >   hw/vfio/common.c | 4 ++++
+> >   1 file changed, 4 insertions(+)
 > > 
-> > diff --git a/memory.c b/memory.c
-> > index 601b749906..a380b59980 100644
-> > --- a/memory.c
-> > +++ b/memory.c
-> > @@ -1312,7 +1312,11 @@ static void memory_region_ram_device_write(void *opaque, hwaddr addr,
-> >   {
-> >       MemoryRegion *mr = opaque;
+> > diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> > index fd6ee1fe3e..fc7618e041 100644
+> > --- a/hw/vfio/common.c
+> > +++ b/hw/vfio/common.c
+> > @@ -977,6 +977,10 @@ int vfio_region_mmap(VFIORegion *region)
+> >                                             name, region->mmaps[i].size,
+> >                                             region->mmaps[i].mmap);
+> >           g_free(name);
+> > +
+> > +        if (!(region->flags & VFIO_REGION_INFO_FLAG_WRITE)) {
+> > +            memory_region_set_readonly(&region->mmaps[i].mem, true);
+> > +        }
+> >           memory_region_add_subregion(region->mem, region->mmaps[i].offset,
+> >                                       &region->mmaps[i].mem);
 > >   
-> > -    trace_memory_region_ram_device_write(get_cpu_index(), mr, addr, data, size);
-> > +    trace_memory_region_ram_device_write(get_cpu_index(), mr, addr, data,
-> > +                                         size, mr->readonly);
-> > +    if (mr->readonly) {
-> 
->             qemu_log_mask(LOG_GUEST_ERROR, ...)?
->
-ok. will add it in next version.
-
-Thanks
-Yan
-
-> > +        return;
-> > +    }
-> >   
-> >       switch (size) {
-> >       case 1:
-> > diff --git a/trace-events b/trace-events
-> > index 42107ebc69..e1de662973 100644
-> > --- a/trace-events
-> > +++ b/trace-events
-> > @@ -61,7 +61,7 @@ memory_region_ops_write(int cpu_index, void *mr, uint64_t addr, uint64_t value,
-> >   memory_region_subpage_read(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
-> >   memory_region_subpage_write(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
-> >   memory_region_ram_device_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
-> > -memory_region_ram_device_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
-> > +memory_region_ram_device_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size, bool readonly) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u" " is_readonly_region=%d"
-> >   flatview_new(void *view, void *root) "%p (root %p)"
-> >   flatview_destroy(void *view, void *root) "%p (root %p)"
-> >   flatview_destroy_rcu(void *view, void *root) "%p (root %p)"
 > > 
 > 
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+Thanks!
 
