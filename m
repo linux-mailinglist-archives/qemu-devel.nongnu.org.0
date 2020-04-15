@@ -2,144 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A6C91AAE67
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 18:44:04 +0200 (CEST)
-Received: from localhost ([::1]:52596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2257E1AAF4C
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 19:18:40 +0200 (CEST)
+Received: from localhost ([::1]:52922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOl8t-0003A6-1X
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 12:44:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37153)
+	id 1jOlgM-0001AC-GR
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 13:18:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42073)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jOl80-0002kd-FL
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 12:43:09 -0400
+ (envelope-from <alexander.duyck@gmail.com>) id 1jOlfF-0000iw-4X
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 13:17:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jOl7y-0005ZQ-PR
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 12:43:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45186
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jOl7y-0005ZE-LR
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 12:43:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586968985;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=yBo6WS94Ad5YehuNySzMTXCmMoC9aMZAXelCg99LnqQ=;
- b=CW9SR4u1MQpY73Qy9YoQjfNXFfRyr2RkrkqmRaBd5SJNyRJFt5EAvjlX0gd4XcW0ItSd0z
- fftBGxRWUorsCCE+LJ5rXS5YAOhkXlO7XhP0uyu01KQiQL5urtWjnM1KnxR14quvpgwKe2
- uY23yKgOVeozGPJTsmFbs5QhOy9WbjQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-Qx15TSPsN_O_EAUvv0B7AQ-1; Wed, 15 Apr 2020 12:43:04 -0400
-X-MC-Unique: Qx15TSPsN_O_EAUvv0B7AQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48C21190B2A0;
- Wed, 15 Apr 2020 16:43:03 +0000 (UTC)
-Received: from [10.10.119.33] (ovpn-119-33.rdu2.redhat.com [10.10.119.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 911CD6092D;
- Wed, 15 Apr 2020 16:43:02 +0000 (UTC)
-Subject: Supported Build Platforms (Again) (Was Re: Supported Sphinx Versions)
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200411182934.28678-1-peter.maydell@linaro.org>
- <4873c74c-f590-62bf-bd64-dd5ab391c252@redhat.com>
- <CAFEAcA-Nuk8hnbtTrhtmSDroZugoEWheyh1N9E4jcAPikpPx9g@mail.gmail.com>
- <0519cb85-5c86-d202-7649-7928b4696644@redhat.com>
- <87a73ezeni.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <30779c3c-f887-6b13-6f08-17f085da4874@redhat.com>
-Date: Wed, 15 Apr 2020 12:43:01 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <alexander.duyck@gmail.com>) id 1jOlfD-0001gO-JZ
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 13:17:29 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:33375)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alexander.duyck@gmail.com>)
+ id 1jOlfD-0001dy-Ce
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 13:17:27 -0400
+Received: by mail-io1-xd41.google.com with SMTP id o127so17993845iof.0
+ for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 10:17:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gSN0/qeENb5kKav2LlresTxjTBv1SDGkH/WoHklv6RI=;
+ b=KXyHksKLWaRs47ks89Nl8bMxN/4uFSzuVPMnNmlaxgdPHC7XiSmHmKvuo4lGlZE8HI
+ rF9s1Hr8G3nIamXtBSBYkVT0K8Zorrlm0J/4pKpOOFTbLFLWTVv3r7JD6ktRgGj4L4U9
+ j1cXK2by8YIttZN7feUy44aeeBDXRNUeMW6/lh36sVKOFsvbciGtqqo+s/NnHHBBszZI
+ WG3XlPPC+uQ9DSY75VgKByMw0C71MIRKG4/BKnoB0kcEa3f1k7gTo/DaZJJf8SlyCVYJ
+ 22w4RYPdLFy+1fUNi1q2YnKW6YYuK5SneoMZ+7V7fsDv07xIXyEPUlfsSuiLeTg5Y/TZ
+ RtzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gSN0/qeENb5kKav2LlresTxjTBv1SDGkH/WoHklv6RI=;
+ b=lKFZqipkbTmxDIWcI1GUyc7ACLBqSr5K8z+dnFg5tYpr5bV6rIfR9ajLUfmijoYbtM
+ 9DmofhIGoHb6SyYH1+BJN3wqcE3OOtfByoQmPvD4imo5UyIDss9NUeWgEBTk/xNIJ8AH
+ 0Rqw/mDhyaI4salk1PN5E/9ymquHeQpwkL0sczjrAirRAAkfKfQPLB+ST25K3QYZZ4uL
+ 39XFZDUpKLeQMT4RF+TV28Q6aYCl0wEX+dWoO3aZRVztrkw5IQ1OKp0VxQRc634KGbnY
+ HRT0XYeOd2j0fL/nG6TJF0ro3dZEKuGnRkaSTe4rNHPDMSYdLzNtKGBmbjaADIjQxCmq
+ 95BQ==
+X-Gm-Message-State: AGi0PuaZPDX5mAIRaz8qO2dRRsuIa5X0q6SWqBWHN4JuZGgDGi8RL/LB
+ YcVdVZcFZJytXhbQW8P0pFTv5Zg7OEAEyahdC8V5H8sb
+X-Google-Smtp-Source: APiQypIogN+UMkNKxRSrUDxtcLM3GSJDlagNMbijQebEjESkWTsGN0FcxJKAsd3OO5pyJhSkAkHpFBgb6V58vCg2kGw=
+X-Received: by 2002:a5e:870f:: with SMTP id y15mr23602872ioj.88.1586971046211; 
+ Wed, 15 Apr 2020 10:17:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87a73ezeni.fsf@dusky.pond.sub.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+References: <20200410033729.24738.22879.stgit@localhost.localdomain>
+ <20200410034129.24738.36022.stgit@localhost.localdomain>
+ <b6f97131-89dc-064a-5b87-2bf68437176d@redhat.com>
+In-Reply-To: <b6f97131-89dc-064a-5b87-2bf68437176d@redhat.com>
+From: Alexander Duyck <alexander.duyck@gmail.com>
+Date: Wed, 15 Apr 2020 10:17:15 -0700
+Message-ID: <CAKgT0UcgbhKASE3RahdVZR35HHcnMVFGvh=q3qewgL7Yxin27w@mail.gmail.com>
+Subject: Re: [PATCH v19 QEMU 1/4] virtio-balloon: Implement support for page
+ poison tracking feature
+To: David Hildenbrand <david@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d41
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -151,43 +74,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ virtio-dev@lists.oasis-open.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Apr 15, 2020 at 1:08 AM David Hildenbrand <david@redhat.com> wrote:
+>
+> On 10.04.20 05:41, Alexander Duyck wrote:
+> > From: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+> >
+> > We need to make certain to advertise support for page poison tracking if
+> > we want to actually get data on if the guest will be poisoning pages. So
+> > if free page hinting is active we should add page poisoning support and
+> > let the guest disable it if it isn't using it.
+> >
+> > Page poisoning will result in a page being dirtied on free. As such we
+> > cannot really avoid having to copy the page at least one more time since
+> > we will need to write the poison value to the destination. As such we can
+> > just ignore free page hinting if page poisoning is enabled as it will
+> > actually reduce the work we have to do.
+> >
+> > Signed-off-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+> > ---
+> >  hw/virtio/virtio-balloon.c         |   26 ++++++++++++++++++++++----
+> >  include/hw/virtio/virtio-balloon.h |    1 +
+> >  2 files changed, 23 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+> > index a4729f7fc930..1c6d36a29a04 100644
+> > --- a/hw/virtio/virtio-balloon.c
+> > +++ b/hw/virtio/virtio-balloon.c
+> > @@ -531,6 +531,15 @@ static void virtio_balloon_free_page_start(VirtIOBalloon *s)
+> >          return;
+> >      }
+> >
+> > +    /*
+> > +     * If page poisoning is enabled then we probably shouldn't bother with
+> > +     * the hinting since the poisoning will dirty the page and invalidate
+> > +     * the work we are doing anyway.
+> > +     */
+> > +    if (virtio_vdev_has_feature(vdev, VIRTIO_BALLOON_F_PAGE_POISON)) {
+>
+> Why not check for the poison value instead? (as you do in patch #3) ?
 
+So if I recall correctly the vdev has feature requires the host to
+indicate that the feature is in use. If page poisoning is not enabled
+on the host then it clears the flag on its end and we can proceed with
+the feature.
 
-On 4/14/20 3:53 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
+The comment above explains the "why". Basically poisoning a page will
+dirty it. So why hint a page as free when that will drop it back into
+the guest and result in it being dirtied again. What you end up with
+is all the pages that were temporarily placed in the balloon are dirty
+after the hinting report is finished at which point you made things
+worse instead of helping to improve them.
 
->> Debian:
->>     8/Jessie: We don't support this anymore AFAIUI.
-> 
-> Correct.
-> 
-> docs/system/build-platforms.rst:
-> 
->     For distributions with long-lifetime releases, the project will aim
->     to support the most recent major version at all times.  Support for
->     the previous major version will be dropped 2 years after the new
->     major version is released, or when it reaches "end of life".
-> 
-> Debian 8 reached end of life in 2018, one year after 9's release.
-> 
+>
+> > +        return;
+> > +    }
+> > +
+> >      if (s->free_page_report_cmd_id == UINT_MAX) {
+> >          s->free_page_report_cmd_id =
+> >                         VIRTIO_BALLOON_FREE_PAGE_REPORT_CMD_ID_MIN;
+>
+> We should rename all "free_page_report" stuff we can to
+> "free_page_hint"/"free_page_hinting" to avoid confusion (e.g., on my
+> side :) ) before adding free page reporting .
+>
+> (looking at the virtio-balloon linux header, it's also confusing but
+> we're stuck with that - maybe we should add better comments)
 
-Debian 8 has "long-term support" until 2020-06-30. I only bring this
-point up because we still list "Debian" under the "long-lifetime
-releases" section, but are excluding the version of Debian that has
-"Long-term" in the name.
+Are we stuck? Couldn't we just convert it to an anonymous union with
+free_page_hint_cmd_id and then use that where needed?
 
-Pedantic, yes.
+> > @@ -618,12 +627,10 @@ static size_t virtio_balloon_config_size(VirtIOBalloon *s)
+> >      if (s->qemu_4_0_config_size) {
+> >          return sizeof(struct virtio_balloon_config);
+> >      }
+> > -    if (virtio_has_feature(features, VIRTIO_BALLOON_F_PAGE_POISON)) {
+> > +    if (virtio_has_feature(features, VIRTIO_BALLOON_F_PAGE_POISON) ||
+> > +        virtio_has_feature(features, VIRTIO_BALLOON_F_FREE_PAGE_HINT)) {
+> >          return sizeof(struct virtio_balloon_config);
+> >      }
+> > -    if (virtio_has_feature(features, VIRTIO_BALLOON_F_FREE_PAGE_HINT)) {
+> > -        return offsetof(struct virtio_balloon_config, poison_val);
+> > -    }
+>
+> I am not sure this change is completely sane. Why is that necessary at all?
 
-Is it worth clarifying that we treat Debian as a "long-lifetime" release
-distro, but we do not count their "long-term" support for purposes of
-calculating EOL?
+The poison_val is stored at the end of the structure and is required
+in order to make free page hinting to work. What this change is doing
+is forcing it so that we report the config size as the full size if
+either poisoning or hinting are enabled since the poison val is the
+last member of the config structure.
 
+If the question is why bother reducing the size if free page hinting
+is not present then I guess we could simplify this and just report
+report the size of the config for all cases.
 
+> >      return offsetof(struct virtio_balloon_config, free_page_report_cmd_id);
+> >  }
+> >
+> > @@ -634,6 +641,7 @@ static void virtio_balloon_get_config(VirtIODevice *vdev, uint8_t *config_data)
+> >
+> >      config.num_pages = cpu_to_le32(dev->num_pages);
+> >      config.actual = cpu_to_le32(dev->actual);
+> > +    config.poison_val = cpu_to_le32(dev->poison_val);
+> >
+> >      if (dev->free_page_report_status == FREE_PAGE_REPORT_S_REQUESTED) {
+> >          config.free_page_report_cmd_id =
+> > @@ -697,6 +705,9 @@ static void virtio_balloon_set_config(VirtIODevice *vdev,
+> >          qapi_event_send_balloon_change(vm_ram_size -
+> >                          ((ram_addr_t) dev->actual << VIRTIO_BALLOON_PFN_SHIFT));
+> >      }
+> > +    dev->poison_val = virtio_vdev_has_feature(vdev,
+> > +                                              VIRTIO_BALLOON_F_PAGE_POISON) ?
+> > +                      le32_to_cpu(config.poison_val) : 0;
+>
+> Can we just do a
+>
+>
+> dev->poison_val = 0;
+> if (virtio_vdev_has_feature(vdev, VIRTIO_BALLOON_F_PAGE_POISON)) {
+>         dev->poison_val = le32_to_cpu(config.poison_val);
+> }
+>
+> instead?
+
+I can change it to that if that is what is preferred.
+
+> >      trace_virtio_balloon_set_config(dev->actual, oldactual);
+> >  }
+> >
+> > @@ -706,6 +717,9 @@ static uint64_t virtio_balloon_get_features(VirtIODevice *vdev, uint64_t f,
+> >      VirtIOBalloon *dev = VIRTIO_BALLOON(vdev);
+> >      f |= dev->host_features;
+> >      virtio_add_feature(&f, VIRTIO_BALLOON_F_STATS_VQ);
+> > +    if (virtio_has_feature(f, VIRTIO_BALLOON_F_FREE_PAGE_HINT)) {
+> > +        virtio_add_feature(&f, VIRTIO_BALLOON_F_PAGE_POISON);
+> > +    }
+> >
+> >      return f;
+> >  }
+> > @@ -854,6 +868,8 @@ static void virtio_balloon_device_reset(VirtIODevice *vdev)
+> >          g_free(s->stats_vq_elem);
+> >          s->stats_vq_elem = NULL;
+> >      }
+> > +
+> > +    s->poison_val = 0;
+> >  }
+> >
+> >  static void virtio_balloon_set_status(VirtIODevice *vdev, uint8_t status)
+> > @@ -916,6 +932,8 @@ static Property virtio_balloon_properties[] = {
+> >                      VIRTIO_BALLOON_F_DEFLATE_ON_OOM, false),
+> >      DEFINE_PROP_BIT("free-page-hint", VirtIOBalloon, host_features,
+> >                      VIRTIO_BALLOON_F_FREE_PAGE_HINT, false),
+> > +    DEFINE_PROP_BIT("x-page-poison", VirtIOBalloon, host_features,
+> > +                    VIRTIO_BALLOON_F_PAGE_POISON, false),
+>
+> Just curious, why an x- feature?
+
+It was something I didn't expect the users to enable. It gets enabled
+when either free page hinting or free page reporting is enabled. So if
+you look you will see that in virtio_balloon_get_features the page
+poison feature is added if free page hinting is present. The guest
+will clear the feature bit if poisoning is not enabled in the guest.
+That results in the vdev getting the bit cleared.
+
+Part of it was also about making this work with the existing feature
+code as it had been added to the upstream kernel.
 
