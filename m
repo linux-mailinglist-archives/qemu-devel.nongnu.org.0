@@ -2,52 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 185B91A9518
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 09:50:34 +0200 (CEST)
-Received: from localhost ([::1]:45402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F309F1A9515
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 09:49:30 +0200 (CEST)
+Received: from localhost ([::1]:45342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOcob-00076s-2b
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 03:50:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51003)
+	id 1jOcnZ-0004u6-Vz
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 03:49:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50736)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1jOcn6-00053d-O6
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:49:01 -0400
+ (envelope-from <philmd@redhat.com>) id 1jOcmP-0003NR-6v
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:48:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1jOcn5-0007C2-Pu
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:49:00 -0400
-Received: from 12.mo6.mail-out.ovh.net ([178.32.125.228]:52686)
+ (envelope-from <philmd@redhat.com>) id 1jOcmO-0006wT-9u
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:48:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27934
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jOcn5-0007BB-Gs
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:48:59 -0400
-Received: from player794.ha.ovh.net (unknown [10.108.35.215])
- by mo6.mail-out.ovh.net (Postfix) with ESMTP id 1AFAE20B308
- for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 09:48:57 +0200 (CEST)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player794.ha.ovh.net (Postfix) with ESMTPSA id C91BCE662EB5;
- Wed, 15 Apr 2020 07:48:00 +0000 (UTC)
-Subject: Re: [PATCH-for-5.1 1/3] target: Remove unnecessary CPU() cast
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200412210954.32313-1-f4bug@amsat.org>
- <20200412210954.32313-2-f4bug@amsat.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <1a7f2324-4264-e23f-b218-beeb50051cce@kaod.org>
-Date: Wed, 15 Apr 2020 09:48:00 +0200
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOcmO-0006wH-60
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:48:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586936895;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AF+e7TpCW7HNvuvnmW3nWhqAkFfE1AiJRNDi2eqd65c=;
+ b=JpU/r3/3GhpyvT+xVVtd0vbqCmho2ixTvES7ZWj29E4SWR5ay8j+QPC5pOe/WlneFlNi4c
+ KciEDSHy4izc3dVFk933YLZKt9tR9eEYfxmErP+Q1DDMpvwrT/vQYQi310ViicdQeExXks
+ +PmVIMvXaA+oJlKO4XP4CaIOJciyNBk=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-vfPtlND_Oyq2MMTJC1nQHw-1; Wed, 15 Apr 2020 03:48:14 -0400
+X-MC-Unique: vfPtlND_Oyq2MMTJC1nQHw-1
+Received: by mail-ed1-f71.google.com with SMTP id b9so2207798edj.10
+ for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 00:48:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=KR7xsr+24veqwxj09foJj4lRNHecEqvy06ieolHb95s=;
+ b=JKeNJjoFHHKeiuADm4C08rYR6qvYyD9duYRh0Eb0+7KKRHPtL68o9nCbwTcqv800GJ
+ N0/6eNs8L68z+s46Z4nQD+LM/5O3Yhm+YvD3nARl8i/uoiN0YGo6ntGZJXkWzHpiAM/p
+ IrAyydMjIwO2M3aCxsu9VkkbZ/D4WpwZCXhEMc4uJrpN70fu7WSvvVOJDcJKVSwaFVB4
+ bTsDQ85qcCP4zbhNqbYmYj2zXzMX+zIo0rqpEVxyMltazc0LK92JVOcR2E9yMj3EXwEo
+ tOvlGs47505S2UgFi70LQevJuXCVQPBBUaB9z13LN9VA/7uCGY3afhkcX5ODat0qTo9k
+ Z8gQ==
+X-Gm-Message-State: AGi0PuZSM7KvPXDiE0uVj3db1zjVLVHzVYpVnUntW58NRjyOon84upSv
+ PJ6DvhtE6x4IHu2m/DP8Ai91xebk+s9E/nw7x3th9PhsQkD5PIfpvBPCovaJn4H+vuhyjyn0GqE
+ 0TtxOju7M7VRzME0=
+X-Received: by 2002:a05:6402:1543:: with SMTP id
+ p3mr4643888edx.333.1586936893209; 
+ Wed, 15 Apr 2020 00:48:13 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKpItHSEn57+htSvX5IlTOvDs0OidhZ2OQ3a4vHeFv/1iyVDvu8UHWrTyiZEL/ltmeQA4aANQ==
+X-Received: by 2002:a05:6402:1543:: with SMTP id
+ p3mr4643875edx.333.1586936893022; 
+ Wed, 15 Apr 2020 00:48:13 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id s17sm800454edq.16.2020.04.15.00.48.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Apr 2020 00:48:12 -0700 (PDT)
+Subject: Re: [PATCH v7 10/48] nvme: remove redundant cmbloc/cmbsz members
+To: Klaus Birkelund Jensen <its@irrelevant.dk>
+References: <20200415055140.466900-1-its@irrelevant.dk>
+ <20200415055140.466900-11-its@irrelevant.dk>
+ <62ec4481-a31d-d2cf-efb4-9107ae23bb76@redhat.com>
+ <20200415071952.cdrdjura6aj3j346@apples.localdomain>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <a1d2b9b0-4f02-05f5-50a6-ed36d5cf40b0@redhat.com>
+Date: Wed, 15 Apr 2020 09:48:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200412210954.32313-2-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200415071952.cdrdjura6aj3j346@apples.localdomain>
 Content-Language: en-US
-X-Ovh-Tracer-Id: 13576101080511187955
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrfedvgdduvddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejleegrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.32.125.228
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,68 +95,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>, qemu-block@nongnu.org,
- Paul Durrant <paul@xen.org>, Markus Armbruster <armbru@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Joel Stanley <joel@jms.id.au>, Anthony Perard <anthony.perard@citrix.com>,
- xen-devel@lists.xenproject.org, David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Corey Minyard <minyard@acm.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Peter Chubb <peter.chubb@nicta.com.au>,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>, Cornelia Huck <cohuck@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/12/20 11:09 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> The CPU() macro is defined as:
+On 4/15/20 9:19 AM, Klaus Birkelund Jensen wrote:
+> On Apr 15 09:10, Philippe Mathieu-Daud=C3=A9 wrote:
+>>
+>> "hw/block/nvme.h" should not pull in "block/nvme.h", both should include=
+ a
+>> common "hw/block/nvme_spec.h" (or better named). Not related to this pat=
+ch
+>> although.
+>>
 >=20
->   #define CPU(obj) ((CPUState *)(obj))
+> Hmm. It does pull in the "include/block/nvme.h" which is basically the
+> "nvme_spec.h" you are talking about. That file holds all spec related
+> structs that are shared between the VFIO based nvme driver
+> (block/nvme.c) and the emulated device (hw/block/nvme.c).
 >=20
-> Remove an unnecessary CPU() cast.
->=20
-> Patch created mechanically using spatch with this script:
->=20
->   @@
->   typedef CPUState;
->   CPUState *s;
->   @@
->   -   CPU(s)
->   +   s
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Isn't that what is intended?
 
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-
-> ---
->  target/ppc/mmu_helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-> index 86c667b094..8972714775 100644
-> --- a/target/ppc/mmu_helper.c
-> +++ b/target/ppc/mmu_helper.c
-> @@ -1820,7 +1820,7 @@ static inline void do_invalidate_BAT(CPUPPCState =
-*env, target_ulong BATu,
->      if (((end - base) >> TARGET_PAGE_BITS) > 1024) {
->          /* Flushing 1024 4K pages is slower than a complete flush */
->          LOG_BATS("Flush all BATs\n");
-> -        tlb_flush(CPU(cs));
-> +        tlb_flush(cs);
->          LOG_BATS("Flush done\n");
->          return;
->      }
->=20
+You are correct, "include/block/nvme.h" contains the spec definitions. I=20
+was expecting to see (QEMU) block-related structure in it, but they aren't.
 
 
