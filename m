@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EABCD1A9020
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 03:11:57 +0200 (CEST)
-Received: from localhost ([::1]:40984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8EE71A903C
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 03:15:24 +0200 (CEST)
+Received: from localhost ([::1]:41032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOWaq-0005c8-V2
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 21:11:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58435)
+	id 1jOWeB-0004a9-Mw
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 21:15:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58490)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alazar@bitdefender.com>) id 1jOWP9-0001Hi-2a
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:52 -0400
+ (envelope-from <alazar@bitdefender.com>) id 1jOWPA-0001LV-IP
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alazar@bitdefender.com>) id 1jOWP7-0005Bd-MF
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:50 -0400
-Received: from mx01.bbu.dsd.mx.bitdefender.com ([91.199.104.161]:49088)
+ (envelope-from <alazar@bitdefender.com>) id 1jOWP8-0005CD-VH
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:52 -0400
+Received: from mx01.bbu.dsd.mx.bitdefender.com ([91.199.104.161]:49090)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <alazar@bitdefender.com>)
- id 1jOWP7-00050x-9E
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:49 -0400
+ id 1jOWP7-00050y-8s
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:50 -0400
 Received: from smtp.bitdefender.com (smtp02.buh.bitdefender.net [10.17.80.76])
  by mx01.bbu.dsd.mx.bitdefender.com (Postfix) with ESMTPS id
- 2809C30747C9
+ 3B5A430747CA
  for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 03:59:35 +0300 (EEST)
 Received: from localhost.localdomain (unknown [91.199.104.27])
- by smtp.bitdefender.com (Postfix) with ESMTPSA id 148FB305B7A2;
+ by smtp.bitdefender.com (Postfix) with ESMTPSA id 2B8C1305B7A3;
  Wed, 15 Apr 2020 03:59:35 +0300 (EEST)
 From: =?UTF-8?q?Adalbert=20Laz=C4=83r?= <alazar@bitdefender.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v1 11/26] kvm: vmi: add 'handshake_timeout' property
-Date: Wed, 15 Apr 2020 03:59:23 +0300
-Message-Id: <20200415005938.23895-12-alazar@bitdefender.com>
+Subject: [RFC PATCH v1 12/26] kvm: vmi: add 'key' property
+Date: Wed, 15 Apr 2020 03:59:24 +0300
+Message-Id: <20200415005938.23895-13-alazar@bitdefender.com>
 In-Reply-To: <20200415005938.23895-1-alazar@bitdefender.com>
 References: <20200415005938.23895-1-alazar@bitdefender.com>
 MIME-Version: 1.0
@@ -56,159 +56,154 @@ Cc: =?UTF-8?q?Adalbert=20Laz=C4=83r?= <alazar@bitdefender.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By having a timer during handshake, the blocked connections can be
-restored.
+The introspection tool can be authenticated if the 'key' parameter is
+set with the ID of a secret object holding a shared secret between the
+introspection tool and QEMU of the introspected VM.
 
 Signed-off-by: Adalbert Laz=C4=83r <alazar@bitdefender.com>
 ---
- accel/kvm/vmi.c | 66 ++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 65 insertions(+), 1 deletion(-)
+ accel/kvm/vmi.c | 66 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 66 insertions(+)
 
 diff --git a/accel/kvm/vmi.c b/accel/kvm/vmi.c
-index 57ded2f69c..5659663caa 100644
+index 5659663caa..f456ca56ef 100644
 --- a/accel/kvm/vmi.c
 +++ b/accel/kvm/vmi.c
-@@ -19,6 +19,8 @@
+@@ -14,6 +14,8 @@
+ #include "qom/object_interfaces.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/kvm.h"
++#include "crypto/secret.h"
++#include "crypto/hash.h"
+ #include "chardev/char.h"
+ #include "chardev/char-fe.h"
 =20
- #include "sysemu/vmi-handshake.h"
+@@ -31,6 +33,11 @@ typedef struct VMIntrospection {
+     CharBackend sock;
+     int sock_fd;
 =20
-+#define HANDSHAKE_TIMEOUT_SEC 10
++    char *keyid;
++    Object *key;
++    uint8_t cookie_hash[QEMU_VMI_COOKIE_HASH_SIZE];
++    bool key_with_cookie;
 +
- typedef struct VMIntrospection {
-     Object parent_obj;
-=20
-@@ -32,6 +34,8 @@ typedef struct VMIntrospection {
      qemu_vmi_from_introspector hsk_in;
      uint64_t hsk_in_read_pos;
      uint64_t hsk_in_read_size;
-+    GSource *hsk_timer;
-+    uint32_t handshake_timeout;
-=20
-     int64_t vm_start_time;
-=20
-@@ -105,6 +109,26 @@ static void prop_set_chardev(Object *obj, const char=
+@@ -109,6 +116,14 @@ static void prop_set_chardev(Object *obj, const char=
  *value, Error **errp)
      i->chardevid =3D g_strdup(value);
  }
 =20
-+static void prop_get_uint32(Object *obj, Visitor *v, const char *name,
-+                            void *opaque, Error **errp)
++static void prop_set_key(Object *obj, const char *value, Error **errp)
 +{
-+    uint32_t *value =3D opaque;
++    VMIntrospection *i =3D VM_INTROSPECTION(obj);
 +
-+    visit_type_uint32(v, name, value, errp);
++    g_free(i->keyid);
++    i->keyid =3D g_strdup(value);
 +}
 +
-+static void prop_set_uint32(Object *obj, Visitor *v, const char *name,
-+                            void *opaque, Error **errp)
-+{
-+    uint32_t *value =3D opaque;
-+    Error *local_err =3D NULL;
-+
-+    visit_type_uint32(v, name, value, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+    }
-+}
-+
- static bool chardev_is_connected(VMIntrospection *i, Error **errp)
+ static void prop_get_uint32(Object *obj, Visitor *v, const char *name,
+                             void *opaque, Error **errp)
  {
-     Object *obj =3D OBJECT(i->chr);
-@@ -129,6 +153,11 @@ static void instance_init(Object *obj)
+@@ -153,6 +168,7 @@ static void instance_init(Object *obj)
      update_vm_start_time(i);
 =20
      object_property_add_str(obj, "chardev", NULL, prop_set_chardev, NULL=
 );
-+
-+    i->handshake_timeout =3D HANDSHAKE_TIMEOUT_SEC;
-+    object_property_add(obj, "handshake_timeout", "uint32",
-+                        prop_set_uint32, prop_get_uint32,
-+                        NULL, &i->handshake_timeout, NULL);
- }
++    object_property_add_str(obj, "key", NULL, prop_set_key, NULL);
 =20
- static void disconnect_chardev(VMIntrospection *i)
-@@ -165,12 +194,28 @@ static void disconnect_and_unhook_kvmi(VMIntrospect=
-ion *i)
-     unhook_kvmi(i);
- }
-=20
-+static void cancel_timer(GSource *timer)
-+{
-+    if (timer) {
-+        g_source_destroy(timer);
-+        g_source_unref(timer);
-+    }
-+}
-+
-+static void cancel_handshake_timer(VMIntrospection *i)
-+{
-+    cancel_timer(i->hsk_timer);
-+    i->hsk_timer =3D NULL;
-+}
-+
- static void instance_finalize(Object *obj)
- {
+     i->handshake_timeout =3D HANDSHAKE_TIMEOUT_SEC;
+     object_property_add(obj, "handshake_timeout", "uint32",
+@@ -213,6 +229,7 @@ static void instance_finalize(Object *obj)
      VMIntrospection *i =3D VM_INTROSPECTION(obj);
 =20
      g_free(i->chardevid);
++    g_free(i->keyid);
 =20
-+    cancel_handshake_timer(i);
-+
-     if (i->chr) {
-         shutdown_socket_fd(i);
-         qemu_chr_fe_deinit(&i->sock, true);
-@@ -303,7 +348,7 @@ static int chr_can_read(void *opaque)
- {
-     VMIntrospection *i =3D opaque;
+     cancel_handshake_timer(i);
 =20
--    if (i->sock_fd =3D=3D -1) {
-+    if (i->hsk_timer =3D=3D NULL || i->sock_fd =3D=3D -1) {
-         return 0;
-     }
-=20
-@@ -356,10 +401,24 @@ static void chr_read(void *opaque, const uint8_t *b=
-uf, int size)
-     }
-=20
-     if (enough_bytes_for_handshake(i)) {
-+        cancel_handshake_timer(i);
-         validate_and_connect(i);
-     }
+@@ -276,6 +293,16 @@ static bool send_handshake_info(VMIntrospection *i, =
+Error **errp)
+     return true;
  }
 =20
-+static gboolean chr_timeout(gpointer opaque)
++static bool validate_handshake_cookie(VMIntrospection *i)
 +{
-+    VMIntrospection *i =3D opaque;
++    if (!i->key_with_cookie) {
++        return true;
++    }
 +
-+    warn_report("VMI: the handshake takes too long");
-+
-+    g_source_unref(i->hsk_timer);
-+    i->hsk_timer =3D NULL;
-+
-+    disconnect_and_unhook_kvmi(i);
-+    return FALSE;
++    return 0 =3D=3D memcmp(&i->cookie_hash, &i->hsk_in.cookie_hash,
++                       sizeof(i->cookie_hash));
 +}
 +
- static void chr_event_open(VMIntrospection *i)
+ static bool validate_handshake(VMIntrospection *i, Error **errp)
  {
-     Error *local_err =3D NULL;
-@@ -378,6 +437,9 @@ static void chr_event_open(VMIntrospection *i)
-     memset(&i->hsk_in, 0, sizeof(i->hsk_in));
-     i->hsk_in_read_pos =3D 0;
-     i->hsk_in_read_size =3D 0;
-+    i->hsk_timer =3D qemu_chr_timeout_add_ms(i->chr,
-+                                           i->handshake_timeout * 1000,
-+                                           chr_timeout, i);
- }
-=20
- static void chr_event_close(VMIntrospection *i)
-@@ -386,6 +448,8 @@ static void chr_event_close(VMIntrospection *i)
-         warn_report("VMI: introspection tool disconnected");
-         disconnect_and_unhook_kvmi(i);
+     uint32_t min_accepted_size;
+@@ -288,6 +315,11 @@ static bool validate_handshake(VMIntrospection *i, E=
+rror **errp)
+         return false;
      }
+=20
++    if (!validate_handshake_cookie(i)) {
++        error_setg(errp, "VMI: received cookie doesn't match");
++        return false;
++    }
 +
-+    cancel_handshake_timer(i);
+     /*
+      * Check hsk_in.struct_size and sizeof(hsk_in) before accessing any
+      * other fields. We might get fewer bytes from applications using
+@@ -468,6 +500,31 @@ static void chr_event(void *opaque, QEMUChrEvent eve=
+nt)
+     }
  }
 =20
- static void chr_event(void *opaque, QEMUChrEvent event)
++static bool make_cookie_hash(const char *key_id, uint8_t *cookie_hash,
++                             Error **errp)
++{
++    uint8_t *cookie =3D NULL, *hash =3D NULL;
++    size_t cookie_size, hash_size =3D 0;
++    bool done =3D false;
++
++    if (qcrypto_secret_lookup(key_id, &cookie, &cookie_size, errp) =3D=3D=
+ 0
++            && qcrypto_hash_bytes(QCRYPTO_HASH_ALG_SHA1,
++                                  (const char *)cookie, cookie_size,
++                                  &hash, &hash_size, errp) =3D=3D 0) {
++        if (hash_size =3D=3D QEMU_VMI_COOKIE_HASH_SIZE) {
++            memcpy(cookie_hash, hash, QEMU_VMI_COOKIE_HASH_SIZE);
++            done =3D true;
++        } else {
++            error_setg(errp, "VMI: hash algorithm size mismatch");
++        }
++    }
++
++    g_free(cookie);
++    g_free(hash);
++
++    return done;
++}
++
+ static Error *vm_introspection_init(VMIntrospection *i)
+ {
+     Error *err =3D NULL;
+@@ -486,6 +543,15 @@ static Error *vm_introspection_init(VMIntrospection =
+*i)
+         return err;
+     }
+=20
++    if (i->keyid) {
++        if (!make_cookie_hash(i->keyid, i->cookie_hash, &err)) {
++            return err;
++        }
++        i->key_with_cookie =3D true;
++    } else {
++        warn_report("VMI: the introspection tool won't be 'authenticated=
+'");
++    }
++
+     chr =3D qemu_chr_find(i->chardevid);
+     if (!chr) {
+         error_setg(&err, "VMI: device '%s' not found", i->chardevid);
 
