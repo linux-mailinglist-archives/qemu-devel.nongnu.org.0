@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE14F1AA3B3
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 15:18:01 +0200 (CEST)
-Received: from localhost ([::1]:49978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C40B1AA2CF
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 15:10:24 +0200 (CEST)
+Received: from localhost ([::1]:49776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOhvU-0006s5-Qb
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 09:18:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34213)
+	id 1jOho7-0003Nh-IJ
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 09:10:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34408)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jOhir-0001nR-BJ
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 09:04:58 -0400
+ (envelope-from <philmd@redhat.com>) id 1jOhkZ-000435-NH
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 09:06:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jOhip-0005IE-CB
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 09:04:57 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24108
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jOhkY-0005qj-Ib
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 09:06:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44737
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOhip-0005I2-8a
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 09:04:55 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOhkY-0005qK-EY
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 09:06:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586955894;
+ s=mimecast20190719; t=1586956001;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VX4NKjQaIT6y+qxfeigOFk8WuHnkmkz5xen/o8xFSzw=;
- b=EgN0vfgiUqTvVb5WFPjoUru12xoNQAQKmCxqgNdeTYcNAD4TymbcOXgIjG7DyXQc4n9JuF
- 79kGrYjTLLP6I7tX14ecnx9U0N+cxnwb2Y6bhrV4wPWi2XYn6JF3GOwoufneIYSN7Fd5FB
- UD481uGdiTg8zQBbL1uhEVKiA9e2/ro=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-RfZje3PkPkyGv2zOo_hkxg-1; Wed, 15 Apr 2020 09:04:51 -0400
-X-MC-Unique: RfZje3PkPkyGv2zOo_hkxg-1
-Received: by mail-ed1-f69.google.com with SMTP id d1so2856447edq.11
- for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 06:04:50 -0700 (PDT)
+ bh=aYZmNReGK1pSGRRWpxTqQ83lTYAgY8/zZkrOB9knXOE=;
+ b=LMzbdmGG3L7WcCxz/SpI1G6c34y9Auc2SHwX5a41tEuSTOt7aDkO19y9zaMw4oVkZVEXl3
+ R3UBpEzvAhj6fgbVAgTVFlR5CVOyu69ST+OQIQcbXcuWmfnxbiFEj58RF+OWHRGzuxZHLa
+ cuM5lfdrEB33i9CMCqk+38pUd/aGF+Q=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-34-bzlWLfcIOB6V1R1XGhHPAg-1; Wed, 15 Apr 2020 09:06:39 -0400
+X-MC-Unique: bzlWLfcIOB6V1R1XGhHPAg-1
+Received: by mail-ed1-f72.google.com with SMTP id y66so2837190ede.19
+ for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 06:06:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=XOofiCgDkNBk1D3kGg35dI93R6dLdc2o6KFbDoD1hls=;
- b=FinE0j1dXKGGFB/3Ht4s65+IKzWiLnb0Ljpa7jsYzHeobrmhGD3lABwdAZw7y5xvoV
- UqEqdpuVEfoQvmfKJUOm127Q2hGMn7I7pGADRrdTzaTp+wIJA5XlPMNhneUjQnELwHFh
- y3qqPC5ItEcp/pyJ2b4JxAhGroQX1oSY+Lb70TNWkV4PDq0CYrXk1pkJJgnbH++x+3hH
- LYvDWaCUiwwHBOX74laazKPeojcOhnB3DkF1J2ba/TXUgeCNz4ucdcVuwYViZeLV8CkC
- Z7Cyr4dhFxYJifMkyaARJEpMwkN1iSeuD7RoloqOf65b3VIxAZegmx0yNPIiMohltGo0
- vdrg==
-X-Gm-Message-State: AGi0PubQgJ82qrWmWeLGg/8ISRQtTQhamDDJO+syjgtN1RowJtk7vMMb
- PSjersXhH/ZFOihrcrkD+XwVnXodhV0HrvTA9JLkdfo5vzGgPFj2KnrGSNceQZJh09T5kfTIv1j
- czeSpXg3a3BN7CXM=
-X-Received: by 2002:a05:6402:74f:: with SMTP id
- p15mr6342652edy.227.1586955890031; 
- Wed, 15 Apr 2020 06:04:50 -0700 (PDT)
-X-Google-Smtp-Source: APiQypICkboC3hd9peQNUR3/DLkjnhGKbWZyoXarKhaJ0bgE2YcabNp8DDA19HnCW5qi1YtaUMahuA==
-X-Received: by 2002:a05:6402:74f:: with SMTP id
- p15mr6342630edy.227.1586955889832; 
- Wed, 15 Apr 2020 06:04:49 -0700 (PDT)
+ bh=KmWDByMW8BYvtmDOuU0rsLeDFfuOTOokEoaxud6LCCo=;
+ b=pZRRaLoBvukqFNSx0pzI1fijk/8MD4bXQg+d6jTMz0VPVhOoBjx2yTC/oQYEO84Ily
+ CC7/zs43tXml5B4g/rMBxATIfeiWaP8X2mWGFw+c/WXKqZJ+sj4vQbAggzX6+oEIDkPn
+ p8fneuivgBo0pzr6QubJTvzAHLyvCfZ9UH8lAbkSvZLRSEgwR0GG0og60U6jrneF5icR
+ ebHrsNG7RzKgdbLQLgQJLA/qBY4wBFqdU/DZUEdWxmmq40kT4ywG0XBROpcMH+PJoTHt
+ IUkJcqwpoB0+WO4ytQkc6l6su3234okw4lz6LtbymuafNlCp3tO9n5h8KmOFT7p3VnjE
+ Y/7Q==
+X-Gm-Message-State: AGi0PuYTM+WX6rBSpVVzYRoTT7Rcwno3gJM+2HfrZ07QXFbwWL2fD6zk
+ RvIgboW2KqDrfOCt29qLEXb57vDHy35Ghcs42LPzAPpBdbAZW+/S1gNh+deByVHasc/BzIMNrvo
+ vq6N9p6w69lhzEFI=
+X-Received: by 2002:a17:907:210d:: with SMTP id
+ qn13mr5047915ejb.376.1586955998282; 
+ Wed, 15 Apr 2020 06:06:38 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIh4VEoy/rVQAbilep7/r2eTOZsqH2WeB3Mt+U1p3r7qb8VVHkzq9UyhpeSnp58Xw6Xxg4p5A==
+X-Received: by 2002:a17:907:210d:: with SMTP id
+ qn13mr5047880ejb.376.1586955997998; 
+ Wed, 15 Apr 2020 06:06:37 -0700 (PDT)
 Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id g20sm2625649ejb.41.2020.04.15.06.04.48
+ by smtp.gmail.com with ESMTPSA id ga1sm2609400ejb.65.2020.04.15.06.06.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Apr 2020 06:04:49 -0700 (PDT)
-Subject: Re: [PATCH v2 02/16] nvme: rename trace events to pci_nvme
+ Wed, 15 Apr 2020 06:06:37 -0700 (PDT)
+Subject: Re: [PATCH v2 16/16] nvme: factor out controller identify setup
 To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
 References: <20200415130159.611361-1-its@irrelevant.dk>
- <20200415130159.611361-3-its@irrelevant.dk>
+ <20200415130159.611361-17-its@irrelevant.dk>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <fe3c25d8-c2a5-a581-4a4a-36779ee10dc8@redhat.com>
-Date: Wed, 15 Apr 2020 15:04:47 +0200
+Message-ID: <0bc8ad32-7c58-9c29-f15b-68d7c8615bf8@redhat.com>
+Date: Wed, 15 Apr 2020 15:06:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200415130159.611361-3-its@irrelevant.dk>
+In-Reply-To: <20200415130159.611361-17-its@irrelevant.dk>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,17 +104,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 4/15/20 3:01 PM, Klaus Jensen wrote:
 > From: Klaus Jensen <k.jensen@samsung.com>
 >=20
-> Change the prefix of all nvme device related trace events to 'pci_nvme'
-> to not clash with trace events from the nvme block driver.
->=20
 > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->   hw/block/nvme.c       | 190 +++++++++++++++++++++---------------------
->   hw/block/trace-events | 172 +++++++++++++++++++-------------------
->   2 files changed, 180 insertions(+), 182 deletions(-)
+>   hw/block/nvme.c | 52 +++++++++++++++++++++++++++----------------------
+>   1 file changed, 29 insertions(+), 23 deletions(-)
+>=20
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 4c28d75e0fc8..804f24719dce 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -1422,32 +1422,11 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevice =
+*pci_dev)
+>       }
+>   }
+>  =20
+> -static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+> +static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+>   {
+> -    NvmeCtrl *n =3D NVME(pci_dev);
+>       NvmeIdCtrl *id =3D &n->id_ctrl;
+> -    Error *err =3D NULL;
+> +    uint8_t *pci_conf =3D pci_dev->config;
+>  =20
+> -    int i;
+> -    uint8_t *pci_conf;
+> -
+> -    nvme_check_constraints(n, &err);
+> -    if (err) {
+> -        error_propagate(errp, err);
+> -        return;
+> -    }
+> -
+> -    nvme_init_state(n);
+> -
+> -    nvme_init_blk(n, &err);
+> -    if (err) {
+> -        error_propagate(errp, err);
+> -        return;
+> -    }
+> -
+> -    nvme_init_pci(n, pci_dev);
+> -
+> -    pci_conf =3D pci_dev->config;
+>       id->vid =3D cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
+>       id->ssvid =3D cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VEN=
+DOR_ID));
+>       strpadcpy((char *)id->mn, sizeof(id->mn), "QEMU NVMe Ctrl", ' ');
+> @@ -1481,6 +1460,33 @@ static void nvme_realize(PCIDevice *pci_dev, Error=
+ **errp)
+>       n->bar.vs =3D 0x00010200;
+>       n->bar.intmc =3D n->bar.intms =3D 0;
+>  =20
+> +
 
-Thanks for updating.
+Spurious empty lines (no need to repost!).
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+To other reviewer, patch trivial to review with 'git-diff -W'.
+
+> +}
+> +
+> +static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+> +{
+> +    NvmeCtrl *n =3D NVME(pci_dev);
+> +    Error *err =3D NULL;
+> +
+> +    int i;
+> +
+> +    nvme_check_constraints(n, &err);
+> +    if (err) {
+> +        error_propagate(errp, err);
+> +        return;
+> +    }
+> +
+> +
+> +    nvme_init_state(n);
+> +    nvme_init_blk(n, &err);
+> +    if (err) {
+> +        error_propagate(errp, err);
+> +        return;
+> +    }
+> +
+> +    nvme_init_pci(n, pci_dev);
+> +    nvme_init_ctrl(n, pci_dev);
+> +
+>       for (i =3D 0; i < n->num_namespaces; i++) {
+>           nvme_init_namespace(n, &n->namespaces[i], &err);
+>           if (err) {
+>=20
 
 
