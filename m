@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B03561AA3A0
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 15:14:30 +0200 (CEST)
-Received: from localhost ([::1]:49882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 896BC1AA3A9
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 15:16:26 +0200 (CEST)
+Received: from localhost ([::1]:49926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOhs5-0001qD-OT
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 09:14:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34889)
+	id 1jOhtx-0004j9-KR
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 09:16:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34973)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jOhmq-0001gN-HE
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 09:09:05 -0400
+ (envelope-from <philmd@redhat.com>) id 1jOhnU-0003II-BE
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 09:09:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jOhmp-0006da-GU
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 09:09:04 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33398
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jOhnT-0006oa-8a
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 09:09:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26468
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOhmp-0006dK-Cr
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 09:09:03 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOhnT-0006oQ-5C
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 09:09:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586956142;
+ s=mimecast20190719; t=1586956182;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QiDBNnQG1uzK2Vm9GELAOknE819NdQfSTdybdbZmQ3U=;
- b=hkxQbBEY4OZgtbnGTM9jMXhrAVZ4Et53bf9PbpdTQ0GyCutAu99EKGl8qTVV3878GdFngJ
- KQgwwPCM4/3/RHQ2DizZzFBsyeuUACsndzH315y8C5cT7f8zRORChJJBe9kQtW5Q1wnwtv
- EVJ+msrTopkW3Jb8IdEpreGkjefAvGs=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-8RX4rtX3OX6fwMFSLI5cMg-1; Wed, 15 Apr 2020 09:09:01 -0400
-X-MC-Unique: 8RX4rtX3OX6fwMFSLI5cMg-1
-Received: by mail-wr1-f72.google.com with SMTP id v14so10556438wrq.13
- for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 06:09:01 -0700 (PDT)
+ bh=fLMPmt7njuanWRNTWhXP+9mSBXTYEydgmqKlTxHXCfU=;
+ b=bktu4vg8+i0+bVfN66+Ub0M5w4DDvG4CFaG1+WFEHEp6k20I8RcQE33FLQapPsWMCZbvTk
+ qD4Q8kOzXEjqraAwBdG657UDZpME0u5RZFxGmMTI4i5EHHmxyqY9zVjShQrWTvs0tltpuw
+ HSyswq6xD2xL4jjy1SFL39ON7erA6os=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-289-qJyNVDgrN3qyq0WCLHJ1xA-1; Wed, 15 Apr 2020 09:09:41 -0400
+X-MC-Unique: qJyNVDgrN3qyq0WCLHJ1xA-1
+Received: by mail-wr1-f69.google.com with SMTP id h95so10504134wrh.11
+ for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 06:09:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=DJcgCPWagtcPKFcXYDUtCdAw0ueYLMcAFCJqfQ5kJn0=;
- b=lvbg73QYiaM9d4ykaCKE6U/IFkl1yVcWHmCmq6oKknCz/wcRQP8Ev25DahY36+iYGF
- tRFXpx7h9fm6V/iIbkWdkoEITX561Lui/C7xdGPUV5oVE5LqvpFvD9/UJaf+4nFqSrwM
- 4VvjHI7PnD8ifPtWdheZawNynbRpo5IJUKaSXfXZ+IMGF8wcSAhmXvFKsaX3f9FXG1em
- OsXL8zG0xvTkB8O7d9sOIf9y6WyCukokvcL7WpDV5e78Ir4GpK6fqJX8eoxjB2paa8Gb
- nu/wCihoUzdKvQAYQ9n5eBES/LZkHnGHoBZprYm3+Fsthtusq+kcXyhFnYL3BEKN8Zdr
- Lbew==
-X-Gm-Message-State: AGi0PuZD4ZJYYV4I/u/LzJlNhORXZ3ASFGSigmWW7W33ChZWZGF9TGcQ
- mq92j/MViC32uzoEk/BCoVJmz8ZrVtgtThXZ9keRXrYRTWB1FNgjWZhM5Te6u7cjJmRbXM6/BeQ
- oAsghIRjQL393DTs=
-X-Received: by 2002:a1c:9aca:: with SMTP id c193mr5013523wme.38.1586956140345; 
- Wed, 15 Apr 2020 06:09:00 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJBGohX3CjtvOj9c4vcr7D2Pv4Bn/u5Fb1C36PhlmxXy1r0eiEB5WRKwh5vENfhFaYFvi4Agw==
-X-Received: by 2002:a1c:9aca:: with SMTP id c193mr5013509wme.38.1586956140147; 
- Wed, 15 Apr 2020 06:09:00 -0700 (PDT)
+ bh=nycj3YGPL3m8ifd7HKptJxrhLfJPaviIpGNpnjlOEvw=;
+ b=EQvahnobh4ONWQqVaLrRkGTAB0fYo0bCaH3EGmksAIbKJ9ajt33vieP70VoRi0Liv/
+ sfbQG4QkF173EH7P/1UEWvjWevY4BZFqiE6BJDQerquVAiqVnC/biTrJ0id1zuvXCDlZ
+ q+ION1R9oJJts3w2mdL9qK/3JQUWF+2W/PXSNi8ooKwMHhXnD96cd2I/05AhC7nnAsZP
+ yuBds6E7NrztcMVtzYFva8tCec0QITzbSTTxblQ79E6iyrxy38WPbHNQYssepaN+ShcC
+ eOEP6Lmi2IbtJ4cExIBX4ZhkJuCBJu6uxLjP3/VjKTnXd3rbGP5UlJ8cmQ3ZpAqovhXk
+ +4Rg==
+X-Gm-Message-State: AGi0PuZfb+72Mond6NCA9xHiIFFtRU0WGTVZ8fvOD0tYWjMFfgxYf/ge
+ 4ka0RLJ8YHAGQbnkb+dEYK8FxKiydGuFiZcpFDmdwMQHG80Bj5LjaR0tH/0eYn9UZGtUy/VUFe9
+ EPUidFY8EI51DYfA=
+X-Received: by 2002:a1c:2e07:: with SMTP id u7mr5169954wmu.74.1586956179424;
+ Wed, 15 Apr 2020 06:09:39 -0700 (PDT)
+X-Google-Smtp-Source: APiQypK+nTdxUkBt/LiO8WQqdPX/zXZILBMjvCcghJDCFm5YDJZoAwwIu2kJb5CwBdbzfyAVdj/wsg==
+X-Received: by 2002:a1c:2e07:: with SMTP id u7mr5169933wmu.74.1586956179214;
+ Wed, 15 Apr 2020 06:09:39 -0700 (PDT)
 Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id z10sm21258313wrg.69.2020.04.15.06.08.58
+ by smtp.gmail.com with ESMTPSA id p10sm22623316wrm.6.2020.04.15.06.09.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Apr 2020 06:08:59 -0700 (PDT)
-Subject: Re: [PATCH v2 11/16] nvme: factor out block backend setup
+ Wed, 15 Apr 2020 06:09:38 -0700 (PDT)
+Subject: Re: [PATCH v2 12/16] nvme: add namespace helpers
 To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
 References: <20200415130159.611361-1-its@irrelevant.dk>
- <20200415130159.611361-12-its@irrelevant.dk>
+ <20200415130159.611361-13-its@irrelevant.dk>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b8eff0ea-485f-1f07-a0d0-3bba1ca2e526@redhat.com>
-Date: Wed, 15 Apr 2020 15:08:58 +0200
+Message-ID: <61bb042c-6e4d-8038-acb8-2be364d00367@redhat.com>
+Date: Wed, 15 Apr 2020 15:09:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200415130159.611361-12-its@irrelevant.dk>
+In-Reply-To: <20200415130159.611361-13-its@irrelevant.dk>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -80,7 +80,7 @@ Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -103,48 +103,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 4/15/20 3:01 PM, Klaus Jensen wrote:
 > From: Klaus Jensen <k.jensen@samsung.com>
 >=20
+> Introduce some small helpers to make the next patches easier on the eye.
+>=20
 > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 > ---
->   hw/block/nvme.c | 13 ++++++++++---
->   1 file changed, 10 insertions(+), 3 deletions(-)
+>   hw/block/nvme.c |  3 +--
+>   hw/block/nvme.h | 16 ++++++++++++++++
+>   2 files changed, 17 insertions(+), 2 deletions(-)
 >=20
 > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index 45a352b63d89..80da0825d295 100644
+> index 80da0825d295..d5244102252c 100644
 > --- a/hw/block/nvme.c
 > +++ b/hw/block/nvme.c
-> @@ -1351,6 +1351,13 @@ static void nvme_init_state(NvmeCtrl *n)
->       n->cq =3D g_new0(NvmeCQueue *, n->params.max_ioqpairs + 1);
->   }
->  =20
-> +static void nvme_init_blk(NvmeCtrl *n, Error **errp)
-> +{
-> +    blkconf_blocksizes(&n->conf);
-> +    blkconf_apply_backend_options(&n->conf, blk_is_read_only(n->conf.blk=
-),
-> +                                  false, errp);
+> @@ -1469,8 +1469,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error =
+**errp)
+>           id_ns->dps =3D 0;
+>           id_ns->lbaf[0].ds =3D BDRV_SECTOR_BITS;
+>           id_ns->ncap  =3D id_ns->nuse =3D id_ns->nsze =3D
+> -            cpu_to_le64(n->ns_size >>
+> -                id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas)].ds)=
+;
+> +            cpu_to_le64(nvme_ns_nlbas(n, ns));
+
+Thanks :)
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
+>       }
+>   }
+>  =20
+> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+> index 7eecfd3a50f6..dd932a9e7ebc 100644
+> --- a/hw/block/nvme.h
+> +++ b/hw/block/nvme.h
+> @@ -67,6 +67,17 @@ typedef struct NvmeNamespace {
+>       NvmeIdNs        id_ns;
+>   } NvmeNamespace;
+>  =20
+> +static inline NvmeLBAF *nvme_ns_lbaf(NvmeNamespace *ns)
+> +{
+> +    NvmeIdNs *id_ns =3D &ns->id_ns;
+> +    return &id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(id_ns->flbas)];
 > +}
 > +
->   static void nvme_realize(PCIDevice *pci_dev, Error **errp)
->   {
->       NvmeCtrl *n =3D NVME(pci_dev);
-> @@ -1375,9 +1382,9 @@ static void nvme_realize(PCIDevice *pci_dev, Error =
-**errp)
->           return;
->       }
+> +static inline uint8_t nvme_ns_lbads(NvmeNamespace *ns)
+> +{
+> +    return nvme_ns_lbaf(ns)->ds;
+> +}
+> +
+>   #define TYPE_NVME "nvme"
+>   #define NVME(obj) \
+>           OBJECT_CHECK(NvmeCtrl, (obj), TYPE_NVME)
+> @@ -101,4 +112,9 @@ typedef struct NvmeCtrl {
+>       NvmeIdCtrl      id_ctrl;
+>   } NvmeCtrl;
 >  =20
-> -    blkconf_blocksizes(&n->conf);
-> -    if (!blkconf_apply_backend_options(&n->conf, blk_is_read_only(n->con=
-f.blk),
-> -                                       false, errp)) {
-> +    nvme_init_blk(n, &err);
-> +    if (err) {
-> +        error_propagate(errp, err);
->           return;
->       }
->  =20
+> +static inline uint64_t nvme_ns_nlbas(NvmeCtrl *n, NvmeNamespace *ns)
+> +{
+> +    return n->ns_size >> nvme_ns_lbads(ns);
+> +}
+> +
+>   #endif /* HW_NVME_H */
 >=20
 
 
