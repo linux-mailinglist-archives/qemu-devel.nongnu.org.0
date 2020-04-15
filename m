@@ -2,67 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D3FE1A9B5C
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 12:49:21 +0200 (CEST)
-Received: from localhost ([::1]:47820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 877321A9B6F
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 12:53:19 +0200 (CEST)
+Received: from localhost ([::1]:47902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOfbc-00064u-A9
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 06:49:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46416)
+	id 1jOffS-0000Xn-KU
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 06:53:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47061)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jOfZZ-0004K9-QV
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:47:14 -0400
+ (envelope-from <philmd@redhat.com>) id 1jOfei-0008Ga-2E
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:52:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jOfZY-00070Z-NI
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:47:13 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39454)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jOfZY-0006xi-Gr
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:47:12 -0400
-Received: by mail-wm1-x344.google.com with SMTP id y24so18400371wma.4
- for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 03:47:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=eaH8cnBY+1M0lWYZxTpwdfzQ/feooZwfZWoSUSO/MQg=;
- b=uuLYskoeRrd/xxXh8dn9deOFfxrz1mXX1hq2G8jr8RkGHwA/XGYbNU9QHyHZYvL4uj
- 0JkLxwlb/LMPuESEgSE1cSLin7PVjE57RzEdQ16F3uHzQHzx7dD5R/sJ0Aibt8GLqUF+
- 8TWCYk7yvB73S4jgK8R2h84+ysnDgCm7tsIU1udvYS0FWM6mwRdVzPrUYCVmbEmdFvyj
- OBakrF93IwI0otvLTkL3rUPRhwex5fno8yvD+Xtyse16sKQPlfZPJVnsoRLpkPTuTEUn
- /QR7mYHmp+a8f4r2qx6gj14OIgQ1dSVuWMGDkLN/RpluWu7xBoDfLNVGocwoYYQn7yh6
- guRg==
+ (envelope-from <philmd@redhat.com>) id 1jOfeg-0004o7-OV
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:52:31 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:40141
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOfeg-0004na-LL
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:52:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586947950;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mK08CPN7IHrzcQvykjcxyQ81hnxGB/iCSSS68h1aqXE=;
+ b=L/M0zzxyED4Xoco8ILlP9Uh4uSAqw6qzePtiBpgmq3ZIY+Uuf/BBRJ/JPnhAwHc1fKtxFU
+ GpVd0QnWOmacA9AW9Du9s9aPjdJyWpHzNTqB0gTAes+3ISDuu2TjbDLPpvbGqxnCTyvWBX
+ DMxkBo/H1giH1zXmrYLq6LBn2VaNLgU=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-326-ioXypyVVPaSez_jse41iIw-1; Wed, 15 Apr 2020 06:52:28 -0400
+X-MC-Unique: ioXypyVVPaSez_jse41iIw-1
+Received: by mail-ed1-f69.google.com with SMTP id i61so2585141edc.2
+ for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 03:52:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=eaH8cnBY+1M0lWYZxTpwdfzQ/feooZwfZWoSUSO/MQg=;
- b=D0j+zJAuamGoSkKQB4q25vuEUuRFnCzHE8aXoge4WFP9wu10XInolNsdpKIlENfk1H
- n087k+bwQC9MJG44U1dHTJBc1GtqEP717oIo/9MYI+a9y1nixGV7YVLzK+brWCwAbJEy
- EU2j5MO+GDgqfF0w+9K+4tDGLtLLI91aJ9rbDc+wtWdiHjYohERxMedyNkYZuPBVpxrf
- TvaQV5zxGn00kEg4c3ptKOeMoCWUHzzRZ7vyt4bsril6I8arGn03GvMBnTNT0u4FHWNl
- mbwn04/DS/oKGU63TP9tZwagfxEzapVyWa2zqtAXeQeFda02YSCtGeY/NhBOcTIFX4+K
- Gcgw==
-X-Gm-Message-State: AGi0PubJUDH5L9/1NlnXIROyOXunIYTNNubNfTeNEHMAL1zNkJaDTCg1
- z+KIH+3gj/Dx7e5jkBwiDCjCwTkGHgVK5X+8By458Z5+
-X-Google-Smtp-Source: APiQypJqMne8VMtYR4ud5M7+hY5dvvC18aUKHQjcImbugMgHreM/SqG2p4uiKYNpVNg+6jM+hx1KoiZiWWFhjbNdd5E=
-X-Received: by 2002:a1c:e284:: with SMTP id z126mr4817729wmg.32.1586947630424; 
- Wed, 15 Apr 2020 03:47:10 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NT/3XJjKl/vFM+tG5mU1zi30QhQybHMcw8eBken1LTk=;
+ b=A1kcGN3cdf/SgpYQsfcbcepa8sFQdV4sRGvCbmAdvUa8OCVYnD1UaLkaAFicP8vO5F
+ p6QRXG9suQTO32w7XmJ0CNLWRMOn6leX4L2NVhKkuN4ZPR9eauUjZgYDZz5sYIC0DS0J
+ 042i9/vL+2kL1j3gV25BeNWpMoEUnbTKOj1P29288pW94cDgx51TQcvEioGyBimTCovC
+ ttrQEUT9p2oUg7hZC5OFEVbzIBPQwlY8sSgyQSuzdetCbfeXwtlG/CPxJKR++iRLKy5q
+ FVpeMLkNXNAo39Dib9RlzMm9lw1wKOJsoiUegV0j8YxIDY/mUnkWwMctowUqvRoBUHvF
+ Zh8g==
+X-Gm-Message-State: AGi0PuZrLNIYZz2On8XTI/M+oB9qQOxons4ed1exSH4d+sL+hO1jj4jD
+ oCpdgmriSwYDbqhAH+HEv5kdhzMgUUsHNWv94wq4W2Po3oiSlAC2vxYM/ACNOZFAhlJuheXTJ4X
+ V2U5/Lh9iTVNrMuE=
+X-Received: by 2002:a50:ee10:: with SMTP id g16mr17159236eds.111.1586947947312; 
+ Wed, 15 Apr 2020 03:52:27 -0700 (PDT)
+X-Google-Smtp-Source: APiQypL/C7MIJORARa6bEHapV1asqS3mSX+1R5u2Oh3nkiaRgokxVzmT9gUpyaol3GIP79BXtJeBzQ==
+X-Received: by 2002:a50:ee10:: with SMTP id g16mr17159216eds.111.1586947947113; 
+ Wed, 15 Apr 2020 03:52:27 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id l19sm2577117ejn.31.2020.04.15.03.52.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Apr 2020 03:52:26 -0700 (PDT)
+Subject: Re: [PATCH 11/16] nvme: factor out block backend setup
+To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
+References: <20200415102445.564803-1-its@irrelevant.dk>
+ <20200415102445.564803-12-its@irrelevant.dk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <1557e920-2869-4e62-f996-30172ce82e0e@redhat.com>
+Date: Wed, 15 Apr 2020 12:52:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200415005938.23895-1-alazar@bitdefender.com>
- <20200415005938.23895-5-alazar@bitdefender.com>
-In-Reply-To: <20200415005938.23895-5-alazar@bitdefender.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 15 Apr 2020 12:46:57 +0200
-Message-ID: <CAJ+F1C+JsPGWy=KJXcDyfsHOmmtUPP7vNvwJu_pFeeO6Mg-XyQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 04/26] char-socket: add 'reconnecting' property
-To: =?UTF-8?Q?Adalbert_Laz=C4=83r?= <alazar@bitdefender.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200415102445.564803-12-its@irrelevant.dk>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,70 +91,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Javier Gonzalez <javier.gonz@samsung.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
-
-On Wed, Apr 15, 2020 at 3:03 AM Adalbert Laz=C4=83r <alazar@bitdefender.com=
-> wrote:
->
-> This is used by the VM introspection object to check if the connection
-> will be reestablished in case it disconnects from some reason.
->
-> The closing of the socket is used by any of the three parties involved,
-> KVM, the introspection tool and QEMU (eg. on force-reset), to signal
-> the other parties that the session is over. As such, it is very important
-> that the socket will reconnect.
->
-> CC: "Marc-Andr=C3=A9 Lureau" <marcandre.lureau@redhat.com>
-> CC: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Adalbert Laz=C4=83r <alazar@bitdefender.com>
+On 4/15/20 12:24 PM, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+>=20
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 > ---
->  chardev/char-socket.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->
-> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-> index fd0106ab85..22ab242748 100644
-> --- a/chardev/char-socket.c
-> +++ b/chardev/char-socket.c
-> @@ -1492,6 +1492,13 @@ char_socket_get_connected(Object *obj, Error **err=
-p)
->      return s->state =3D=3D TCP_CHARDEV_STATE_CONNECTED;
->  }
->
-> +static bool char_socket_get_reconnecting(Object *obj, Error **errp)
+>   hw/block/nvme.c | 15 ++++++++++++---
+>   1 file changed, 12 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index e67f578fbf79..f0989cbb4335 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -1348,6 +1348,17 @@ static void nvme_init_state(NvmeCtrl *n)
+>       n->cq =3D g_new0(NvmeCQueue *, n->params.max_ioqpairs + 1);
+>   }
+>  =20
+> +static int nvme_init_blk(NvmeCtrl *n, Error **errp)
 > +{
-> +    SocketChardev *s =3D SOCKET_CHARDEV(obj);
+> +    blkconf_blocksizes(&n->conf);
+> +    if (!blkconf_apply_backend_options(&n->conf, blk_is_read_only(n->con=
+f.blk),
+> +                                       false, errp)) {
+> +        return -1;
+> +    }
 > +
-> +    return s->reconnect_time > 0;
+> +    return 0;
+
+I'm not sure this is a correct usage of the 'propagating errors' API=20
+(see CODING_STYLE.rst and include/qapi/error.h), I'd expect this=20
+function to return void, and use a local_error & error_propagate() in=20
+nvme_realize().
+
+However this works, so:
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
 > +}
 > +
->  static int tcp_chr_reconnect_time(Chardev *chr, int secs)
->  {
->      SocketChardev *s =3D SOCKET_CHARDEV(chr);
-> @@ -1528,6 +1535,10 @@ static void char_socket_class_init(ObjectClass *oc=
-, void *data)
->
->      object_class_property_add_bool(oc, "connected", char_socket_get_conn=
-ected,
->                                     NULL, &error_abort);
-> +
-> +    object_class_property_add_bool(oc, "reconnecting",
-> +                                   char_socket_get_reconnecting,
-> +                                   NULL, &error_abort);
+>   static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+>   {
+>       NvmeCtrl *n =3D NVME(pci_dev);
+> @@ -1369,9 +1380,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error =
+**errp)
+>           return;
+>       }
+>  =20
+> -    blkconf_blocksizes(&n->conf);
+> -    if (!blkconf_apply_backend_options(&n->conf, blk_is_read_only(n->con=
+f.blk),
+> -                                       false, errp)) {
+> +    if (nvme_init_blk(n, errp)) {
+>           return;
+>       }
+>  =20
+>=20
 
-That may be misleading, as the socket connection may be established
-and this will return true if reconnect_time > 0. Why not have a
-"reconnect-time" property instead?
-
->  }
->
->  static const TypeInfo char_socket_type_info =3D {
->
-
-
---=20
-Marc-Andr=C3=A9 Lureau
 
