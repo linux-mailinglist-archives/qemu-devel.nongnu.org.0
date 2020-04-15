@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F751A9802
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 11:09:22 +0200 (CEST)
-Received: from localhost ([::1]:46496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A09E81A97C0
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 11:03:12 +0200 (CEST)
+Received: from localhost ([::1]:46376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOe2r-0005jm-Ce
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 05:09:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34298)
+	id 1jOdwt-0001uH-6S
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 05:03:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33003)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yan.y.zhao@intel.com>) id 1jOe1r-0004jS-R6
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 05:08:21 -0400
+ (envelope-from <no-reply@patchew.org>) id 1jOdvr-0001Or-SM
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 05:02:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yan.y.zhao@intel.com>) id 1jOe1p-0008Mu-9I
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 05:08:19 -0400
-Received: from mga06.intel.com ([134.134.136.31]:9213)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
- id 1jOe1o-0008Lv-Uy
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 05:08:17 -0400
-IronPort-SDR: 7YZzcpKm8AtZrKTfC22r0DtJjmeZqrr4cFKTCndLeO0LnTdkOqZCYMXQDYomdmu1bLKRHeeVNL
- NHwXkICx0HwQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2020 02:08:13 -0700
-IronPort-SDR: Sb/bOKaI/6yn3gDzWatW0WtOr9GWinUWQ1Q99E1O1FXNzLpPKvXtosbGeW7MVGT5fdFcGDqxwW
- nHgK0jCfbZVA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,386,1580803200"; d="scan'208";a="453859196"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.16])
- by fmsmga005.fm.intel.com with ESMTP; 15 Apr 2020 02:08:06 -0700
-Date: Wed, 15 Apr 2020 04:58:28 -0400
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Erik Skultety <eskultet@redhat.com>
-Subject: Re: [PATCH v5 1/4] vfio/mdev: add migration_version attribute for
- mdev (under mdev_type node)
-Message-ID: <20200415085828.GJ10586@joy-OptiPlex-7040>
-References: <20200413055201.27053-1-yan.y.zhao@intel.com>
- <20200413055403.27203-1-yan.y.zhao@intel.com>
- <20200415072851.GJ269314@sturgeon>
+ (envelope-from <no-reply@patchew.org>) id 1jOdvp-0005OG-P8
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 05:02:07 -0400
+Resent-Date: Wed, 15 Apr 2020 05:02:07 -0400
+Resent-Message-Id: <E1jOdvp-0005OG-P8@eggs.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21356)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1jOdvp-0005NQ-Hm; Wed, 15 Apr 2020 05:02:05 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1586941318; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=cw5gpo7nNX1Mg52Amuxxj7j+xSv+/yc05Fhr45us/wQACIgoBEJX0vFo0BMlCsm3Ms9zOAO177LSeWdWDueRQc7hVYg8D2ORJLNYWuL2uWM2zvp1Jc5upBiFTDNkW79PYFZ/JOTAXt3BlvWDN3OpCUurMWYSH50h6b63e+hHhAw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1586941318;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=trvOEByBsTtXlKdpEscPCK54k2GE4OVcfSF9HvzF+Dc=; 
+ b=jg/cPbPYNm4Il3F4Vt/T+QWYnLTPH5cXdVb4CPqrVejYMo/ruftaEx+EdDcrXO4bW3GMu7Vtj3LAbOFxi90vongcXTwFVu3Ui+NZqHt4e0zqWz26qKzbMkvQAl1cIJCsF2udYoHvlF1gUSKD5L5vbxPtLUC+9+ZzKUbKPYisFIg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1586941316079273.1897624643367;
+ Wed, 15 Apr 2020 02:01:56 -0700 (PDT)
+In-Reply-To: <20200415074927.19897-1-armbru@redhat.com>
+Subject: Re: [PATCH v2 for-5.1 0/9] qemu-option: Fix corner cases and clean up
+Message-ID: <158694131488.27250.3474237517193157270@39012742ff91>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200415072851.GJ269314@sturgeon>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 134.134.136.31
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: armbru@redhat.com
+Date: Wed, 15 Apr 2020 02:01:56 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 136.143.188.53
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,343 +62,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: "cjia@nvidia.com" <cjia@nvidia.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>,
- "Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
- "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
- "eauger@redhat.com" <eauger@redhat.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "corbet@lwn.net" <corbet@lwn.net>, "Yang, Ziye" <ziye.yang@intel.com>,
- "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
- "felipe@nutanix.com" <felipe@nutanix.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
- "Tian, Kevin" <kevin.tian@intel.com>, "Zeng, Xin" <xin.zeng@intel.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
- "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- "Liu, Changpeng" <changpeng.liu@intel.com>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, "dinechin@redhat.com" <dinechin@redhat.com>,
- "He, Shaopeng" <shaopeng.he@intel.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 15, 2020 at 03:28:51PM +0800, Erik Skultety wrote:
-> On Mon, Apr 13, 2020 at 01:54:03AM -0400, Yan Zhao wrote:
-> > migration_version attribute is used to check migration compatibility
-> > between two mdev devices of the same mdev type.
-> > The key is that it's rw and its data is opaque to userspace.
-> >
-> > Userspace reads migration_version of mdev device at source side and
-> > writes the value to migration_version attribute of mdev device at target
-> > side. It judges migration compatibility according to whether the read
-> > and write operations succeed or fail.
-> >
-> > Currently, it is able to read/write migration_version attribute under two
-> > places:
-> >
-> > (1) under mdev_type node
-> > userspace is able to know whether two mdev devices are compatible before
-> > a mdev device is created.
-> >
-> > userspace also needs to check whether the two mdev devices are of the same
-> > mdev type before checking the migration_version attribute. It also needs
-> > to check device creation parameters if aggregation is supported in future.
-> >
-> > (2) under mdev device node
-> > userspace is able to know whether two mdev devices are compatible after
-> > they are all created. But it does not need to check mdev type and device
-> > creation parameter for aggregation as device vendor driver would have
-> > incorporated those information into the migration_version attribute.
-> >
-> >              __    userspace
-> >               /\              \
-> >              /                 \write
-> >             / read              \
-> >    ________/__________       ___\|/_____________
-> >   | migration_version |     | migration_version |-->check migration
-> >   ---------------------     ---------------------   compatibility
-> >     mdev device A               mdev device B
-> >
-> > This patch is for mdev documentation about the first place (under
-> > mdev_type node)
-> >
-> > Cc: Alex Williamson <alex.williamson@redhat.com>
-> > Cc: Erik Skultety <eskultet@redhat.com>
-> > Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > Cc: Cornelia Huck <cohuck@redhat.com>
-> > Cc: "Tian, Kevin" <kevin.tian@intel.com>
-> > Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
-> > Cc: "Wang, Zhi A" <zhi.a.wang@intel.com>
-> > Cc: Neo Jia <cjia@nvidia.com>
-> > Cc: Kirti Wankhede <kwankhede@nvidia.com>
-> > Cc: Daniel P. Berrangé <berrange@redhat.com>
-> > Cc: Christophe de Dinechin <dinechin@redhat.com>
-> >
-> > Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-> > Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
-> >
-> > ---
-> > v5:
-> > updated commit message a little to indicate this patch is for
-> > migration_version attribute under mdev_type node
-> >
-> > v4:
-> > fixed a typo. (Cornelia Huck)
-> >
-> > v3:
-> > 1. renamed version to migration_version
-> > (Christophe de Dinechin, Cornelia Huck, Alex Williamson)
-> > 2. let errno to be freely defined by vendor driver
-> > (Alex Williamson, Erik Skultety, Cornelia Huck, Dr. David Alan Gilbert)
-> > 3. let checking mdev_type be prerequisite of migration compatibility
-> > check. (Alex Williamson)
-> > 4. reworded example usage section.
-> > (most of this section came from Alex Williamson)
-> > 5. reworded attribute intention section (Cornelia Huck)
-> >
-> > v2:
-> > 1. added detailed intent and usage
-> > 2. made definition of version string completely private to vendor driver
-> >    (Alex Williamson)
-> > 3. abandoned changes to sample mdev drivers (Alex Williamson)
-> > 4. mandatory --> optional (Cornelia Huck)
-> > 5. added description for errno (Cornelia Huck)
-> > ---
-> >  .../driver-api/vfio-mediated-device.rst       | 113 ++++++++++++++++++
-> >  1 file changed, 113 insertions(+)
-> >
-> > diff --git a/Documentation/driver-api/vfio-mediated-device.rst b/Documentation/driver-api/vfio-mediated-device.rst
-> > index 25eb7d5b834b..2d1f3c0f3c8f 100644
-> > --- a/Documentation/driver-api/vfio-mediated-device.rst
-> > +++ b/Documentation/driver-api/vfio-mediated-device.rst
-> > @@ -202,6 +202,7 @@ Directories and files under the sysfs for Each Physical Device
-> >    |     |   |--- available_instances
-> >    |     |   |--- device_api
-> >    |     |   |--- description
-> > +  |     |   |--- migration_version
-> >    |     |   |--- [devices]
-> >    |     |--- [<type-id>]
-> >    |     |   |--- create
-> > @@ -209,6 +210,7 @@ Directories and files under the sysfs for Each Physical Device
-> >    |     |   |--- available_instances
-> >    |     |   |--- device_api
-> >    |     |   |--- description
-> > +  |     |   |--- migration_version
-> >    |     |   |--- [devices]
-> >    |     |--- [<type-id>]
-> >    |          |--- create
-> > @@ -216,6 +218,7 @@ Directories and files under the sysfs for Each Physical Device
-> >    |          |--- available_instances
-> >    |          |--- device_api
-> >    |          |--- description
-> > +  |          |--- migration_version
-> >    |          |--- [devices]
-> >
-> >  * [mdev_supported_types]
-> > @@ -246,6 +249,116 @@ Directories and files under the sysfs for Each Physical Device
-> >    This attribute should show the number of devices of type <type-id> that can be
-> >    created.
-> 
-> I've got only a few suggestions to improve to wording in the documentation
-> (feel free to disagree):
-> 
-hi Erik,
-Thanks for your good suggestions. They are better to understand than
-the original ones:)
-I'll update the doc according to them except for below minor one --
-may I just put it like this:
-* migration_version (rw, optional)
-
-Thanks
-Yan
-
-> >
-> > +* migration_version
-> > +
-> > +  This attribute is rw, and is optional.
-> 
-> IMO better wording: "This is an optional, RW attribute."
->
-
-
-
-> > +  It is used to check migration compatibility between two mdev devices of the
-> > +  same mdev type. Absence of this attribute means the device of type <type-id>
-> > +  does not support migration.
-> > +  This attribute provides a way to check migration compatibility between two
-> > +  mdev devices from userspace even before device creation. The intended usage is
-> 
-> ^This sentence essentially duplicates the information from the first sentence,
-> can we condense it into something like:
-> 
-> "It is used to check the migration compatibility between two mdev devices of the
-> same mdev type. Typically, the target device has not been created yet at the
-> time of userspace using this attribute to check the migration compatibility."
-> 
-> > +  for userspace to read the migration_version attribute from one mdev device and
-> > +  then writing that value to the migration_version attribute of the other mdev
-> > +  device. The second mdev device indicates compatibility via the return code of
-> > +  the write operation. This makes compatibility between mdev devices completely
-> > +  vendor-defined and opaque to userspace. Userspace should do nothing more
-> > +  than verify the mdev types match and then use the migration_version attribute
-> > +  to confirm source to target compatibility.
-> 
-> I'd rephrase the ^last sentence differently:
-> "Therefore, userspace is only expected to verify that the mdev types of the
-> respective devices match and then use the migration_version attribute to
-> confirm migration compatibility between the source and target mdev devices."
-> 
-> > +
-> > +  Reading/Writing Attribute Data:
-> > +  read(2) will fail if device of type <type-id> does not support migration and
-> > +          otherwise succeed and return migration_version string of the device of
-> 
-> "returns a migration_version string of the device on success, fails with an
-> errno if the device doesn't support migration"
-> 
-> > +          type <type-id>.
-> > +
-> > +          This migration_version string is vendor defined and opaque to the
-> > +          userspace. Vendor is free to include whatever they feel is relevant.
-> > +          e.g. <pciid of parent device>-<software version>.
-> > +
-> > +          Restrictions on this migration_version string:
-> > +            1. It should only contain ascii characters
-> > +            2. MAX Length is PATH_MAX (4096)
-> > +
-> > +  write(2) expects migration_version string of source mdev device, and will
-> > +          succeed if it is determined to be compatible and otherwise fail with
-> > +          vendor specific errno.
-> 
-> "expects a migration_version string of the source mdev device, succeeds if the
-> two mdev devices are migration compatible, otherwise fails with and errno"
-> 
-> > +
-> > +  Errno:
-> > +  -An errno on read(2) indicates the device of type <type-id> does not support
-> > +  migration;
-> > +  -An errno on write(2) indicates the devices are incompatible or the target
-> > +  doesn't support migration.
-> > +  Vendor driver is free to define specific errno and is suggested to
-> > +  print detailed error in syslog for diagnose purpose.
-> > +
-> > +  Userspace should treat ANY of below conditions as two mdev devices not
-> 
-> Userspace should treat any of the below conditions as an indication of migration
-> incompatibility between two mdev devices.
-> 
-> > +  compatible:
-> > +  (0) The mdev devices are not of the same type
-> > +  (1) any one of the two mdev devices does not have a migration_version
-> > +  attribute
-> 
-> any of the two mdev devices is missing the migration_version attribute
-> 
-> > +  (2) error when reading from migration_version attribute of one mdev device
-> 
-> when reading the source mdev's migration_version attribute
-> 
-> > +  (3) error when writing migration_version string of one mdev device to
-> > +  migration_version attribute of the other mdev device
-> 
-> when writing the source mdev migration_version string to the target mdev
-> device's migration_version attribute
-> 
-> > +
-> > +  Userspace should regard two mdev devices compatible when ALL of below
-> > +  conditions are met:
-> 
-> Userspace can consider the two mdev devices to be compatible when all of the
-> below conditions are met:
-> 
-> > +  (0) The mdev devices are of the same type
-> > +  (1) success when reading from migration_version attribute of one mdev device.
-> 
-> reading the migration_version attribute of the source succeeds
-> 
-> > +  (2) success when writing migration_version string of one mdev device to
-> > +  migration_version attribute of the other mdev device.
-> 
-> writing the migration_version string to the target mdev's migration_version
-> attribute succeeds
-> 
-> > +
-> > +  Example Usage:
-> > +  (1) Compare mdev types:
-> 
-> Comparing two mdev types:
-> 
-> > +
-> > +  The mdev type of an instantiated device can be read from the mdev_type link
-> > +  within the device instance in sysfs, for example:
-> > +
-> > +  # basename $(readlink -f /sys/bus/mdev/devices/$MDEV_UUID/mdev_type/)
-> > +
-> > +  The mdev types available on a given host system can also be found through
-> > +  /sys/class/mdev_bus, for example:
-> > +
-> > +  # ls /sys/class/mdev_bus/*/mdev_supported_types/
-> > +
-> > +  Migration is only possible between devices of the same mdev type.
-> > +
-> > +  (2) Retrieve the mdev source migration_version:
-> > +
-> > +  The migration_version information can either be read from the mdev_type link
-> > +  on an instantiated device:
-> 
-> s/information/string
-> 
-> > +
-> > +  # cat /sys/bus/mdev/devices/$UUID1/mdev_type/migration_version
-> > +
-> > +  Or it can be read from the mdev type definition, for example:
-> > +
-> > +  # cat /sys/class/mdev_bus/*/mdev_supported_types/$MDEV_TYPE/migration_version
-> > +
-> > +  If reading the source migration_version generates an error, migration is not
-> > +  possible.
-> > +  NB, there might be several parent devices for a given mdev type on a host
-> > +  system, each may support or expose different migration_versions.
-> > +  Matching the specific mdev type to a parent may become important in such
-> > +  configurations.
-> > +
-> > +  (3) Test source migration_version at target:
-> > +
-> > +  Given a migration_version as outlined above, its compatibility to an
-> > +  instantiated device of the same mdev type can be tested as:
-> > +  # echo $VERSION > /sys/bus/mdev/devices/$UUID2/mdev_type/migration_version
-> > +
-> > +  If this write fails, the source and target migration versions are not
-> > +  compatible or the target does not support migration.
-> > +
-> > +  Compatibility can also be tested prior to target device creation using the
-> 
-> prior to creation of the target device
-> 
-> > +  mdev type definition for a parent device with a previously found matching mdev
-> > +  type, for example:
-> 
-> using the migration_version attribute present inside a specific mdev type
-> directory for a given physical parent device.
-> 
-> > +
-> > +  # echo $VERSION > \
-> > +  /sys/class/mdev_bus/$PARENT/mdev_supported_types/$MDEV_TYPE/migration_version
-> > +
-> > +  Again, an error writing the migration_version indicates that an instance of
-> > +  this mdev type would not support a migration from the provided migration
-> > +  version.
-> 
-> would not support migration from the source.
-> 
-> --
-> Erik Skultety
-> 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDQxNTA3NDkyNy4xOTg5
+Ny0xLWFybWJydUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
+c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
+b3JtYXRpb246CgpTdWJqZWN0OiBbUEFUQ0ggdjIgZm9yLTUuMSAwLzldIHFlbXUtb3B0aW9uOiBG
+aXggY29ybmVyIGNhc2VzIGFuZCBjbGVhbiB1cApNZXNzYWdlLWlkOiAyMDIwMDQxNTA3NDkyNy4x
+OTg5Ny0xLWFybWJydUByZWRoYXQuY29tClR5cGU6IHNlcmllcwoKPT09IFRFU1QgU0NSSVBUIEJF
+R0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhp
+dCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxv
+Y2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBo
+aXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRF
+U1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0
+YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUK
+ICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIwMDQxNTA4MzA0OC4xNDMzOS0xLWFybWJy
+dUByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMDA0MTUwODMwNDguMTQzMzktMS1hcm1icnVAcmVk
+aGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjNiMzNiZTUgcWVtdS1pbWc6
+IFJlamVjdCBicm9rZW4gLW8gIiIKN2I1ZGFkZCBxZW11LWltZzogTW92ZSBpc192YWxpZF9vcHRp
+b25fbGlzdCgpIHRvIHFlbXUtaW1nLmMgYW5kIHJld3JpdGUKMzBiYmUzNCBxZW11LWltZzogRmFj
+dG9yIG91dCBhY2N1bXVsYXRlX29wdGlvbnMoKSBoZWxwZXIKYzI5OTBlOSBxZW11LW9wdGlvbjog
+QXZvaWQgaGFzX2hlbHBfb3B0aW9uKCkgaW4gcWVtdV9vcHRzX3BhcnNlX25vaXNpbHkoKQoyZjZk
+MGU0IHRlc3QtcWVtdS1vcHRzOiBTaW1wbGlmeSB0ZXN0X2hhc19oZWxwX29wdGlvbigpIGFmdGVy
+IGJ1ZyBmaXgKNjI2OGQzNCBxZW11LW9wdGlvbjogRml4IGhhc19oZWxwX29wdGlvbigpJ3Mgc2xv
+cHB5IHBhcnNpbmcKOTY5OGJjYyBxZW11LW9wdGlvbjogRml4IHNsb3BweSByZWNvZ25pdGlvbiBv
+ZiAiaWQ9Li4uIiBhZnRlciAiLCAsICIKOTUzN2QyMyBxZW11LW9wdGlvbnM6IEZhY3RvciBvdXQg
+Z2V0X29wdF9uYW1lX3ZhbHVlKCkgaGVscGVyCjBmNjgzOWMgdGVzdHMtcWVtdS1vcHRzOiBDb3Zl
+ciBoYXNfaGVscF9vcHRpb24oKSwgcWVtdV9vcHRfaGFzX2hlbHBfb3B0KCkKCj09PSBPVVRQVVQg
+QkVHSU4gPT09CjEvOSBDaGVja2luZyBjb21taXQgMGY2ODM5Y2RmNzU0ICh0ZXN0cy1xZW11LW9w
+dHM6IENvdmVyIGhhc19oZWxwX29wdGlvbigpLCBxZW11X29wdF9oYXNfaGVscF9vcHQoKSkKV0FS
+TklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUK
+IzQyOiBGSUxFOiB0ZXN0cy90ZXN0LXFlbXUtb3B0cy5jOjc1MjoKKyAgICAgICAgeyAiYSxiLCxo
+ZWxwIiwgZmFsc2UgLyogQlVHICovLCB0cnVlLCB0cnVlIH0sCgpXQVJOSU5HOiBCbG9jayBjb21t
+ZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojNDM6IEZJTEU6IHRlc3Rz
+L3Rlc3QtcWVtdS1vcHRzLmM6NzUzOgorICAgICAgICB7ICJhLGIsLD8iLCBmYWxzZSAvKiBCVUcg
+Ki8sIHRydWUsIHRydWUgfSwKCnRvdGFsOiAwIGVycm9ycywgMiB3YXJuaW5ncywgNTYgbGluZXMg
+Y2hlY2tlZAoKUGF0Y2ggMS85IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
+IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
+aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjIvOSBDaGVja2lu
+ZyBjb21taXQgOTUzN2QyMzA5NmE3IChxZW11LW9wdGlvbnM6IEZhY3RvciBvdXQgZ2V0X29wdF9u
+YW1lX3ZhbHVlKCkgaGVscGVyKQozLzkgQ2hlY2tpbmcgY29tbWl0IDk2OThiY2MxYzFmZSAocWVt
+dS1vcHRpb246IEZpeCBzbG9wcHkgcmVjb2duaXRpb24gb2YgImlkPS4uLiIgYWZ0ZXIgIiwgLCAi
+KQo0LzkgQ2hlY2tpbmcgY29tbWl0IDYyNjhkMzQ1NTQxMCAocWVtdS1vcHRpb246IEZpeCBoYXNf
+aGVscF9vcHRpb24oKSdzIHNsb3BweSBwYXJzaW5nKQo1LzkgQ2hlY2tpbmcgY29tbWl0IDJmNmQw
+ZTQ4NjdiNiAodGVzdC1xZW11LW9wdHM6IFNpbXBsaWZ5IHRlc3RfaGFzX2hlbHBfb3B0aW9uKCkg
+YWZ0ZXIgYnVnIGZpeCkKNi85IENoZWNraW5nIGNvbW1pdCBjMjk5MGU5M2ViNTYgKHFlbXUtb3B0
+aW9uOiBBdm9pZCBoYXNfaGVscF9vcHRpb24oKSBpbiBxZW11X29wdHNfcGFyc2Vfbm9pc2lseSgp
+KQo3LzkgQ2hlY2tpbmcgY29tbWl0IDMwYmJlMzRjOGI2ZiAocWVtdS1pbWc6IEZhY3RvciBvdXQg
+YWNjdW11bGF0ZV9vcHRpb25zKCkgaGVscGVyKQo4LzkgQ2hlY2tpbmcgY29tbWl0IDdiNWRhZGRh
+ZWMxNyAocWVtdS1pbWc6IE1vdmUgaXNfdmFsaWRfb3B0aW9uX2xpc3QoKSB0byBxZW11LWltZy5j
+IGFuZCByZXdyaXRlKQpFUlJPUjogc3VzcGVjdCBjb2RlIGluZGVudCBmb3IgY29uZGl0aW9uYWwg
+c3RhdGVtZW50cyAoNCwgNCkKIzYyOiBGSUxFOiBxZW11LWltZy5jOjI0MzoKKyAgICBmb3IgKGkg
+PSBsZW47IGkgPiAwICYmIG9wdGFyZ1tpIC0gMV0gPT0gJywnOyBpLS0pIHsKKyAgICB9Cgp0b3Rh
+bDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDY3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDgvOSBoYXMg
+c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
+ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
+S1BBVENIIGluIE1BSU5UQUlORVJTLgoKOS85IENoZWNraW5nIGNvbW1pdCAzYjMzYmU1NjAyM2Yg
+KHFlbXUtaW1nOiBSZWplY3QgYnJva2VuIC1vICIiKQpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFj
+ZQojNDk6IEZJTEU6IHFlbXUtaW1nLmM6MjM0OgorICogJAoKdG90YWw6IDEgZXJyb3JzLCAwIHdh
+cm5pbmdzLCAxOCBsaW5lcyBjaGVja2VkCgpQYXRjaCA5LzkgaGFzIHN0eWxlIHByb2JsZW1zLCBw
+bGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVz
+IHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJ
+TkVSUy4KCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6
+IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dz
+LzIwMjAwNDE1MDc0OTI3LjE5ODk3LTEtYXJtYnJ1QHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3Bh
+dGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQ
+YXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sg
+dG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
