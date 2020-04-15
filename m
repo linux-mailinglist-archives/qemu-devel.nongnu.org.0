@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 958A71A9A9F
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 12:34:08 +0200 (CEST)
-Received: from localhost ([::1]:47398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E39321A9AC7
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 12:37:44 +0200 (CEST)
+Received: from localhost ([::1]:47484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOfMt-0008KJ-MG
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 06:34:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43256)
+	id 1jOfQO-00046Y-1P
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 06:37:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43303)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jOfEa-00048Y-1v
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:25:33 -0400
+ (envelope-from <its@irrelevant.dk>) id 1jOfEb-0004AP-TL
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:25:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jOfEY-0005DZ-19
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:25:31 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:48190)
+ (envelope-from <its@irrelevant.dk>) id 1jOfEZ-0005Ea-VV
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:25:33 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:48202)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jOfEP-0004wJ-1g; Wed, 15 Apr 2020 06:25:21 -0400
+ id 1jOfEP-0004wY-EL; Wed, 15 Apr 2020 06:25:21 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id E425ABF9DF;
- Wed, 15 Apr 2020 10:24:59 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id 52148BFB38;
+ Wed, 15 Apr 2020 10:25:00 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH 11/16] nvme: factor out block backend setup
-Date: Wed, 15 Apr 2020 12:24:40 +0200
-Message-Id: <20200415102445.564803-12-its@irrelevant.dk>
+Subject: [PATCH 12/16] nvme: add namespace helpers
+Date: Wed, 15 Apr 2020 12:24:41 +0200
+Message-Id: <20200415102445.564803-13-its@irrelevant.dk>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200415102445.564803-1-its@irrelevant.dk>
 References: <20200415102445.564803-1-its@irrelevant.dk>
@@ -59,47 +59,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
+Introduce some small helpers to make the next patches easier on the eye.
+
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ hw/block/nvme.h | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index e67f578fbf79..f0989cbb4335 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1348,6 +1348,17 @@ static void nvme_init_state(NvmeCtrl *n)
-     n->cq =3D g_new0(NvmeCQueue *, n->params.max_ioqpairs + 1);
- }
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index ad1786953be9..d9900bed957c 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -67,6 +67,17 @@ typedef struct NvmeNamespace {
+     NvmeIdNs        id_ns;
+ } NvmeNamespace;
 =20
-+static int nvme_init_blk(NvmeCtrl *n, Error **errp)
++static inline NvmeLBAF *nvme_ns_lbaf(NvmeNamespace *ns)
 +{
-+    blkconf_blocksizes(&n->conf);
-+    if (!blkconf_apply_backend_options(&n->conf, blk_is_read_only(n->con=
-f.blk),
-+                                       false, errp)) {
-+        return -1;
-+    }
-+
-+    return 0;
++    NvmeIdNs *id_ns =3D &ns->id_ns;
++    return &id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(id_ns->flbas)];
 +}
 +
- static void nvme_realize(PCIDevice *pci_dev, Error **errp)
- {
-     NvmeCtrl *n =3D NVME(pci_dev);
-@@ -1369,9 +1380,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error =
-**errp)
-         return;
-     }
++static inline uint8_t nvme_ns_lbads(NvmeNamespace *ns)
++{
++    return nvme_ns_lbaf(ns)->ds;
++}
++
+ #define TYPE_NVME "nvme"
+ #define NVME(obj) \
+         OBJECT_CHECK(NvmeCtrl, (obj), TYPE_NVME)
+@@ -101,4 +112,9 @@ typedef struct NvmeCtrl {
+     NvmeIdCtrl      id_ctrl;
+ } NvmeCtrl;
 =20
--    blkconf_blocksizes(&n->conf);
--    if (!blkconf_apply_backend_options(&n->conf, blk_is_read_only(n->con=
-f.blk),
--                                       false, errp)) {
-+    if (nvme_init_blk(n, errp)) {
-         return;
-     }
-=20
++static inline uint64_t nvme_ns_nlbas(NvmeCtrl *n, NvmeNamespace *ns)
++{
++    return n->ns_size >> nvme_ns_lbads(ns);
++}
++
+ #endif /* HW_NVME_H */
 --=20
 2.26.0
 
