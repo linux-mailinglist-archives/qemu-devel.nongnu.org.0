@@ -2,38 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C30C61A9013
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 03:06:06 +0200 (CEST)
-Received: from localhost ([::1]:40916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 085FF1A901E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 03:09:48 +0200 (CEST)
+Received: from localhost ([::1]:40952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOWVB-0006d7-G4
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 21:06:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58426)
+	id 1jOWYl-0002DR-2e
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 21:09:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58477)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alazar@bitdefender.com>) id 1jOWP8-0001Gx-Nv
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:52 -0400
+ (envelope-from <alazar@bitdefender.com>) id 1jOWPA-0001Kf-6f
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alazar@bitdefender.com>) id 1jOWP7-0005BN-GO
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:50 -0400
-Received: from mx01.bbu.dsd.mx.bitdefender.com ([91.199.104.161]:49094)
+ (envelope-from <alazar@bitdefender.com>) id 1jOWP8-0005Bu-QT
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:52 -0400
+Received: from mx01.bbu.dsd.mx.bitdefender.com ([91.199.104.161]:49096)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <alazar@bitdefender.com>)
- id 1jOWP7-000512-8k
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:49 -0400
+ id 1jOWP8-00052I-Hl
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:50 -0400
 Received: from smtp.bitdefender.com (smtp02.buh.bitdefender.net [10.17.80.76])
  by mx01.bbu.dsd.mx.bitdefender.com (Postfix) with ESMTPS id
- 65CA930747CD
- for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 03:59:35 +0300 (EEST)
+ 7E08530747CE; Wed, 15 Apr 2020 03:59:35 +0300 (EEST)
 Received: from localhost.localdomain (unknown [91.199.104.27])
- by smtp.bitdefender.com (Postfix) with ESMTPSA id 54760305B7A0;
+ by smtp.bitdefender.com (Postfix) with ESMTPSA id 6A050305B7A5;
  Wed, 15 Apr 2020 03:59:35 +0300 (EEST)
 From: =?UTF-8?q?Adalbert=20Laz=C4=83r?= <alazar@bitdefender.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v1 14/26] kvm: vmi: allow only one instance of the
- introspection object
-Date: Wed, 15 Apr 2020 03:59:26 +0300
-Message-Id: <20200415005938.23895-15-alazar@bitdefender.com>
+Subject: [RFC PATCH v1 15/26] kvm: vmi: reconnect the socket on reset
+Date: Wed, 15 Apr 2020 03:59:27 +0300
+Message-Id: <20200415005938.23895-16-alazar@bitdefender.com>
 In-Reply-To: <20200415005938.23895-1-alazar@bitdefender.com>
 References: <20200415005938.23895-1-alazar@bitdefender.com>
 MIME-Version: 1.0
@@ -53,107 +51,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Adalbert=20Laz=C4=83r?= <alazar@bitdefender.com>
+Cc: =?UTF-8?q?Adalbert=20Laz=C4=83r?= <alazar@bitdefender.com>,
+ Marian Rotariu <marian.c.rotariu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Because only one introspection tool must introspect a VM at a given time,
-we block the completion of the second instance.
+From: Marian Rotariu <marian.c.rotariu@gmail.com>
 
+The guest could be reset from various reasons and by disconnecting the
+socket (which would reconnect), KVM and the introspection tool will be
+notified and can clean up the introspection structures.
+
+Signed-off-by: Marian Rotariu <marian.c.rotariu@gmail.com>
 Signed-off-by: Adalbert Laz=C4=83r <alazar@bitdefender.com>
 ---
- accel/kvm/vmi.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ accel/kvm/vmi.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
 diff --git a/accel/kvm/vmi.c b/accel/kvm/vmi.c
-index 2ce8a60565..54c56c6e13 100644
+index 54c56c6e13..5beec2b091 100644
 --- a/accel/kvm/vmi.c
 +++ b/accel/kvm/vmi.c
-@@ -52,10 +52,18 @@ typedef struct VMIntrospection {
-     bool kvmi_hooked;
- } VMIntrospection;
-=20
-+typedef struct VMIntrospectionClass {
-+    ObjectClass parent_class;
-+    uint32_t instance_counter;
-+    VMIntrospection *uniq;
-+} VMIntrospectionClass;
-+
- #define TYPE_VM_INTROSPECTION "introspection"
-=20
- #define VM_INTROSPECTION(obj) \
-     OBJECT_CHECK(VMIntrospection, (obj), TYPE_VM_INTROSPECTION)
-+#define VM_INTROSPECTION_CLASS(class) \
-+    OBJECT_CLASS_CHECK(VMIntrospectionClass, (class), TYPE_VM_INTROSPECT=
+@@ -13,6 +13,7 @@
+ #include "qemu/error-report.h"
+ #include "qom/object_interfaces.h"
+ #include "sysemu/sysemu.h"
++#include "sysemu/reset.h"
+ #include "sysemu/kvm.h"
+ #include "crypto/secret.h"
+ #include "crypto/hash.h"
+@@ -66,6 +67,7 @@ typedef struct VMIntrospectionClass {
+     OBJECT_CLASS_CHECK(VMIntrospectionClass, (class), TYPE_VM_INTROSPECT=
 ION)
 =20
  static Error *vm_introspection_init(VMIntrospection *i);
++static void vm_introspection_reset(void *opaque);
 =20
-@@ -81,8 +89,14 @@ static void update_vm_start_time(VMIntrospection *i)
-=20
- static void complete(UserCreatable *uc, Error **errp)
+ static void machine_ready(Notifier *notifier, void *data)
  {
-+    VMIntrospectionClass *ic =3D VM_INTROSPECTION_CLASS(OBJECT(uc)->clas=
-s);
-     VMIntrospection *i =3D VM_INTROSPECTION(uc);
-=20
-+    if (ic->instance_counter > 1) {
-+        error_setg(errp, "VMI: only one introspection object can be crea=
-ted");
-+        return;
-+    }
-+
-     if (!i->chardevid) {
-         error_setg(errp, "VMI: chardev is not set");
-         return;
-@@ -106,6 +120,8 @@ static void complete(UserCreatable *uc, Error **errp)
-         i->init_error =3D NULL;
-         return;
+@@ -122,6 +124,8 @@ static void complete(UserCreatable *uc, Error **errp)
      }
+=20
+     ic->uniq =3D i;
 +
-+    ic->uniq =3D i;
++    qemu_register_reset(vm_introspection_reset, i);
  }
 =20
  static void prop_set_chardev(Object *obj, const char *value, Error **err=
 p)
-@@ -168,8 +184,11 @@ static void class_init(ObjectClass *oc, void *data)
-=20
- static void instance_init(Object *obj)
- {
-+    VMIntrospectionClass *ic =3D VM_INTROSPECTION_CLASS(obj->class);
-     VMIntrospection *i =3D VM_INTROSPECTION(obj);
-=20
-+    ic->instance_counter++;
-+
-     i->sock_fd =3D -1;
-     i->created_from_command_line =3D (qdev_hotplug =3D=3D false);
-=20
-@@ -234,6 +253,7 @@ static void cancel_handshake_timer(VMIntrospection *i=
-)
-=20
- static void instance_finalize(Object *obj)
- {
-+    VMIntrospectionClass *ic =3D VM_INTROSPECTION_CLASS(obj->class);
-     VMIntrospection *i =3D VM_INTROSPECTION(obj);
-=20
-     g_free(i->chardevid);
-@@ -248,12 +268,18 @@ static void instance_finalize(Object *obj)
+@@ -273,6 +277,8 @@ static void instance_finalize(Object *obj)
+     if (!ic->instance_counter) {
+         ic->uniq =3D NULL;
      }
-=20
-     error_free(i->init_error);
 +
-+    ic->instance_counter--;
-+    if (!ic->instance_counter) {
-+        ic->uniq =3D NULL;
-+    }
++    qemu_unregister_reset(vm_introspection_reset, i);
  }
 =20
  static const TypeInfo info =3D {
-     .name              =3D TYPE_VM_INTROSPECTION,
-     .parent            =3D TYPE_OBJECT,
-     .class_init        =3D class_init,
-+    .class_size        =3D sizeof(VMIntrospectionClass),
-     .instance_size     =3D sizeof(VMIntrospection),
-     .instance_finalize =3D instance_finalize,
-     .instance_init     =3D instance_init,
+@@ -534,6 +540,18 @@ static void chr_event(void *opaque, QEMUChrEvent eve=
+nt)
+     }
+ }
+=20
++static void vm_introspection_reset(void *opaque)
++{
++    VMIntrospection *i =3D opaque;
++
++    if (i->sock_fd !=3D -1) {
++        info_report("VMI: Reset detected. Closing the socket...");
++        disconnect_and_unhook_kvmi(i);
++    }
++
++    update_vm_start_time(i);
++}
++
+ static bool make_cookie_hash(const char *key_id, uint8_t *cookie_hash,
+                              Error **errp)
+ {
 
