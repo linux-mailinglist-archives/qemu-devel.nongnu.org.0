@@ -2,67 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE9351A9522
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 09:52:31 +0200 (CEST)
-Received: from localhost ([::1]:45466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A48721A954A
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 09:56:47 +0200 (CEST)
+Received: from localhost ([::1]:45546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOcqU-00036Z-Pl
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 03:52:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51231)
+	id 1jOcuc-0000h9-MQ
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 03:56:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51664)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jOcnf-0006Oo-9p
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:49:36 -0400
+ (envelope-from <clg@kaod.org>) id 1jOcpv-0003Bv-P5
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:51:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jOcnd-0007LQ-TX
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:49:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32509
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1jOcpu-0008Fb-6B
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:51:55 -0400
+Received: from 4.mo3.mail-out.ovh.net ([178.33.46.10]:39323)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jOcnd-0007KP-Oc
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:49:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586936973;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZTXu9VOC5cjy/LHpJSbxX3yw8P34uUaNspmSlmDPxBQ=;
- b=RGLB6+Oz6TiDzDGqR1ayYMTih0aOGI/41U6Lrn2iFIlTbIo7lDOXTMR2uhrKVBl53qke6S
- 4nrF0TjZBmwd8nM934IRbzgKA/mLn2Dj+7wwpZ81VUYWOjCQbQm2R8MUZD9KmxAVOq3W44
- Aks2TG+bMJnD5z8v92tH2cSoJ1+VOhU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-njc0c8RrP3GEx9EmSsVteg-1; Wed, 15 Apr 2020 03:49:31 -0400
-X-MC-Unique: njc0c8RrP3GEx9EmSsVteg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B206018C35A7;
- Wed, 15 Apr 2020 07:49:30 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-20.ams2.redhat.com
- [10.36.113.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C79119C70;
- Wed, 15 Apr 2020 07:49:30 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id CB6671132C38; Wed, 15 Apr 2020 09:49:27 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 for-5.1 9/9] qemu-img: Reject broken -o ""
-Date: Wed, 15 Apr 2020 09:49:27 +0200
-Message-Id: <20200415074927.19897-10-armbru@redhat.com>
-In-Reply-To: <20200415074927.19897-1-armbru@redhat.com>
-References: <20200415074927.19897-1-armbru@redhat.com>
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jOcpt-0008Dx-TU
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:51:54 -0400
+Received: from player718.ha.ovh.net (unknown [10.110.103.76])
+ by mo3.mail-out.ovh.net (Postfix) with ESMTP id 85BF7248FE2
+ for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 09:51:52 +0200 (CEST)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player718.ha.ovh.net (Postfix) with ESMTPSA id D0D5411513851;
+ Wed, 15 Apr 2020 07:51:00 +0000 (UTC)
+Subject: Re: [PATCH-for-5.1 v3 05/24] hw/arm/aspeed_ast2600: Move some code
+ from realize() to init()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200412223619.11284-1-f4bug@amsat.org>
+ <20200412223619.11284-6-f4bug@amsat.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <7407eb89-2f66-aa01-e1d2-dba410926aca@kaod.org>
+Date: Wed, 15 Apr 2020 09:50:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20200412223619.11284-6-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 13625640676116368304
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrfedvgdduvdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucffohhmrghinheprghrmhdrtghomhenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejudekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 178.33.46.10
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,72 +60,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, mreitz@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jeff Cody <codyprime@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-arm@nongnu.org,
+ Peter Chubb <peter.chubb@nicta.com.au>, Palmer Dabbelt <palmer@dabbelt.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-riscv@nongnu.org, Andrew Jeffery <andrew@aj.id.au>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-ppc@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu-img create, convert, amend, and measure use accumulate_options()
-to merge multiple -o options.  This is broken for -o "":
+On 4/13/20 12:36 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Coccinelle reported:
+>=20
+>   $ spatch ... --timeout 60 --sp-file \
+>     scripts/coccinelle/simplify-init-realize-error_propagate.cocci
+>   HANDLING: ./hw/arm/aspeed_ast2600.c
+>   >>> possible moves from aspeed_soc_ast2600_init() to aspeed_soc_ast26=
+00_realize() in ./hw/arm/aspeed_ast2600.c:243
+>=20
+> Move the calls using &error_fatal which don't depend on input
+> updated before realize() to init().
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-    $ qemu-img create -f qcow2 -o backing_file=3Da -o "" -o backing_fmt=3Dr=
-aw,size=3D1M new.qcow2
-    qemu-img: warning: Could not verify backing image. This may become an e=
-rror in future versions.
-    Could not open 'a,backing_fmt=3Draw': No such file or directory
-    Formatting 'new.qcow2', fmt=3Dqcow2 size=3D1048576 backing_file=3Da,,ba=
-cking_fmt=3Draw cluster_size=3D65536 lazy_refcounts=3Doff refcount_bits=3D1=
-6
-    $ qemu-img info new.qcow2
-    image: new.qcow2
-    file format: qcow2
-    virtual size: 1 MiB (1048576 bytes)
-    disk size: 196 KiB
-    cluster_size: 65536
---> backing file: a,backing_fmt=3Draw
-    Format specific information:
-        compat: 1.1
-        lazy refcounts: false
-        refcount bits: 16
-        corrupt: false
 
-Merging these three -o the obvious way is wrong, because it results in
-an unwanted ',' escape:
 
-    backing_file=3Da,,backing_fmt=3Draw,size=3D1M
-                  ~~
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-We could silently drop -o "", but Kevin asked me to reject it instead.
-
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- qemu-img.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/qemu-img.c b/qemu-img.c
-index cc51db7ed4..a2369766f0 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -229,14 +229,16 @@ static bool qemu_img_object_print_help(const char *ty=
-pe, QemuOpts *opts)
-  * To make that work, @optarg must not start with ',' (or else a
-  * separating ',' preceding it gets escaped), and it must not end with
-  * an odd number of ',' (or else a separating ',' following it gets
-- * escaped).
-+ * escaped), or be empty (or else a separating ',' preceding it can
-+ * escape a separating ',' following it).
-+ *=20
-  */
- static bool is_valid_option_list(const char *optarg)
- {
-     size_t len =3D strlen(optarg);
-     size_t i;
-=20
--    if (optarg[0] =3D=3D ',') {
-+    if (!optarg[0] || optarg[0] =3D=3D ',') {
-         return false;
-     }
-=20
---=20
-2.21.1
+> ---
+> v3: Typo 'depend of' -> 'depend on' (eblake)
+> ---
+>  hw/arm/aspeed_ast2600.c | 41 ++++++++++++++++++++---------------------
+>  1 file changed, 20 insertions(+), 21 deletions(-)
+>=20
+> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+> index a860ab6a35..64512f95c9 100644
+> --- a/hw/arm/aspeed_ast2600.c
+> +++ b/hw/arm/aspeed_ast2600.c
+> @@ -114,6 +114,16 @@ static qemu_irq aspeed_soc_get_irq(AspeedSoCState =
+*s, int ctrl)
+>      return qdev_get_gpio_in(DEVICE(&s->a7mpcore), sc->irqmap[ctrl]);
+>  }
+> =20
+> +/*
+> + * ASPEED ast2600 has 0xf as cluster ID
+> + *
+> + * http://infocenter.arm.com/help/index.jsp?topic=3D/com.arm.doc.ddi03=
+88e/CIHEBGFG.html
+> + */
+> +static uint64_t aspeed_calc_affinity(int cpu)
+> +{
+> +    return (0xf << ARM_AFF1_SHIFT) | cpu;
+> +}
+> +
+>  static void aspeed_soc_ast2600_init(Object *obj)
+>  {
+>      AspeedSoCState *s =3D ASPEED_SOC(obj);
+> @@ -130,6 +140,13 @@ static void aspeed_soc_ast2600_init(Object *obj)
+>          object_initialize_child(obj, "cpu[*]", OBJECT(&s->cpu[i]),
+>                                  sizeof(s->cpu[i]), sc->cpu_type,
+>                                  &error_abort, NULL);
+> +        object_property_set_int(OBJECT(&s->cpu[i]), QEMU_PSCI_CONDUIT_=
+SMC,
+> +                                "psci-conduit", &error_abort);
+> +        object_property_set_int(OBJECT(&s->cpu[i]), aspeed_calc_affini=
+ty(i),
+> +                                "mp-affinity", &error_abort);
+> +
+> +        object_property_set_int(OBJECT(&s->cpu[i]), 1125000000, "cntfr=
+q",
+> +                                &error_abort);
+>      }
+> =20
+>      snprintf(typename, sizeof(typename), "aspeed.scu-%s", socname);
+> @@ -146,6 +163,9 @@ static void aspeed_soc_ast2600_init(Object *obj)
+> =20
+>      sysbus_init_child_obj(obj, "a7mpcore", &s->a7mpcore,
+>                            sizeof(s->a7mpcore), TYPE_A15MPCORE_PRIV);
+> +    object_property_set_int(OBJECT(&s->a7mpcore),
+> +                            ASPEED_SOC_AST2600_MAX_IRQ + GIC_INTERNAL,
+> +                            "num-irq", &error_abort);
+> =20
+>      sysbus_init_child_obj(obj, "rtc", OBJECT(&s->rtc), sizeof(s->rtc),
+>                            TYPE_ASPEED_RTC);
+> @@ -230,16 +250,6 @@ static void aspeed_soc_ast2600_init(Object *obj)
+>                            TYPE_SYSBUS_SDHCI);
+>  }
+> =20
+> -/*
+> - * ASPEED ast2600 has 0xf as cluster ID
+> - *
+> - * http://infocenter.arm.com/help/index.jsp?topic=3D/com.arm.doc.ddi03=
+88e/CIHEBGFG.html
+> - */
+> -static uint64_t aspeed_calc_affinity(int cpu)
+> -{
+> -    return (0xf << ARM_AFF1_SHIFT) | cpu;
+> -}
+> -
+>  static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+>  {
+>      int i;
+> @@ -264,19 +274,11 @@ static void aspeed_soc_ast2600_realize(DeviceStat=
+e *dev, Error **errp)
+> =20
+>      /* CPU */
+>      for (i =3D 0; i < s->num_cpus; i++) {
+> -        object_property_set_int(OBJECT(&s->cpu[i]), QEMU_PSCI_CONDUIT_=
+SMC,
+> -                                "psci-conduit", &error_abort);
+>          if (s->num_cpus > 1) {
+>              object_property_set_int(OBJECT(&s->cpu[i]),
+>                                      ASPEED_A7MPCORE_ADDR,
+>                                      "reset-cbar", &error_abort);
+>          }
+> -        object_property_set_int(OBJECT(&s->cpu[i]), aspeed_calc_affini=
+ty(i),
+> -                                "mp-affinity", &error_abort);
+> -
+> -        object_property_set_int(OBJECT(&s->cpu[i]), 1125000000, "cntfr=
+q",
+> -                                &error_abort);
+> -
+>          /*
+>           * TODO: the secondary CPUs are started and a boot helper
+>           * is needed when using -kernel
+> @@ -292,9 +294,6 @@ static void aspeed_soc_ast2600_realize(DeviceState =
+*dev, Error **errp)
+>      /* A7MPCORE */
+>      object_property_set_int(OBJECT(&s->a7mpcore), s->num_cpus, "num-cp=
+u",
+>                              &error_abort);
+> -    object_property_set_int(OBJECT(&s->a7mpcore),
+> -                            ASPEED_SOC_AST2600_MAX_IRQ + GIC_INTERNAL,
+> -                            "num-irq", &error_abort);
+> =20
+>      object_property_set_bool(OBJECT(&s->a7mpcore), true, "realized",
+>                               &error_abort);
+>=20
 
 
