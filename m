@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FFBE1A9421
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 09:20:56 +0200 (CEST)
-Received: from localhost ([::1]:44924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C9831A9431
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 09:25:52 +0200 (CEST)
+Received: from localhost ([::1]:44990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOcLv-0002id-9g
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 03:20:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45859)
+	id 1jOcQh-0004r8-DH
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 03:25:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46866)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jOcL3-0001kx-D6
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:20:02 -0400
+ (envelope-from <its@irrelevant.dk>) id 1jOcPt-0004N8-EZ
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:25:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jOcL2-0000At-BB
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:20:01 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:47756)
+ (envelope-from <its@irrelevant.dk>) id 1jOcPs-0003np-IF
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:25:01 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:47770)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jOcL0-00008k-4k; Wed, 15 Apr 2020 03:19:58 -0400
+ id 1jOcPq-0003mu-KO; Wed, 15 Apr 2020 03:24:58 -0400
 Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 7ED3EBF603;
- Wed, 15 Apr 2020 07:19:56 +0000 (UTC)
-Date: Wed, 15 Apr 2020 09:19:52 +0200
+ by charlie.dont.surf (Postfix) with ESMTPSA id 00DCCBF603;
+ Wed, 15 Apr 2020 07:24:56 +0000 (UTC)
+Date: Wed, 15 Apr 2020 09:24:53 +0200
 From: Klaus Birkelund Jensen <its@irrelevant.dk>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v7 10/48] nvme: remove redundant cmbloc/cmbsz members
-Message-ID: <20200415071952.cdrdjura6aj3j346@apples.localdomain>
+Subject: Re: [PATCH v7 12/48] nvme: add temperature threshold feature
+Message-ID: <20200415072453.cs4urfwreedqlmbl@apples.localdomain>
 References: <20200415055140.466900-1-its@irrelevant.dk>
- <20200415055140.466900-11-its@irrelevant.dk>
- <62ec4481-a31d-d2cf-efb4-9107ae23bb76@redhat.com>
+ <20200415055140.466900-13-its@irrelevant.dk>
+ <0ab46987-8026-c059-1470-6cac2e6cbcbb@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <62ec4481-a31d-d2cf-efb4-9107ae23bb76@redhat.com>
+In-Reply-To: <0ab46987-8026-c059-1470-6cac2e6cbcbb@redhat.com>
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -59,19 +59,29 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Apr 15 09:10, Philippe Mathieu-Daud=C3=A9 wrote:
+On Apr 15 09:19, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 4/15/20 7:51 AM, Klaus Jensen wrote:
+> > From: Klaus Jensen <k.jensen@samsung.com>
+> >=20
+> > It might seem wierd to implement this feature for an emulated device,
 >=20
-> "hw/block/nvme.h" should not pull in "block/nvme.h", both should includ=
-e a
-> common "hw/block/nvme_spec.h" (or better named). Not related to this pa=
-tch
-> although.
+> 'weird'
+
+Thanks, fixed :)
+
+>=20
+> > but it is mandatory to support and the feature is useful for testing
+> > asynchronous event request support, which will be added in a later
+> > patch.
+>=20
+> Which patch? I can't find how you set the temperature in this series.
 >=20
 
-Hmm. It does pull in the "include/block/nvme.h" which is basically the
-"nvme_spec.h" you are talking about. That file holds all spec related
-structs that are shared between the VFIO based nvme driver
-(block/nvme.c) and the emulated device (hw/block/nvme.c).
+The temperature cannot be changed, but the thresholds can with the Set
+Features command (and that can then trigger AERs). That is added in
+"nvme: add temperature threshold feature" and "nvme: add support for the
+asynchronous event request command" respectively.
 
-Isn't that what is intended?
+There is a test in SPDK that does this.
+
 
