@@ -2,34 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CC241AA2CA
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 15:08:56 +0200 (CEST)
-Received: from localhost ([::1]:49738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70AA81AA2B8
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 15:05:03 +0200 (CEST)
+Received: from localhost ([::1]:49626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOhmg-0008II-KT
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 09:08:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33704)
+	id 1jOhiw-0000lW-Ge
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 09:05:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33541)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jOhgU-0007DW-JQ
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 09:02:36 -0400
+ (envelope-from <its@irrelevant.dk>) id 1jOhgP-00073U-2c
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 09:02:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jOhgO-0004Bv-IA
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 09:02:30 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:48514)
+ (envelope-from <its@irrelevant.dk>) id 1jOhgN-0004A3-Tr
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 09:02:24 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:48526)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jOhgL-00044a-1P; Wed, 15 Apr 2020 09:02:21 -0400
+ id 1jOhgL-00044j-AH; Wed, 15 Apr 2020 09:02:21 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 5FB3FBF7AF;
+ by charlie.dont.surf (Postfix) with ESMTPSA id D5D93BF9DF;
  Wed, 15 Apr 2020 13:02:19 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 00/16] nvme: refactoring and cleanups
-Date: Wed, 15 Apr 2020 15:01:43 +0200
-Message-Id: <20200415130159.611361-1-its@irrelevant.dk>
+Subject: [PATCH v2 01/16] nvme: fix pci doorbell size calculation
+Date: Wed, 15 Apr 2020 15:01:44 +0200
+Message-Id: <20200415130159.611361-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.26.0
+In-Reply-To: <20200415130159.611361-1-its@irrelevant.dk>
+References: <20200415130159.611361-1-its@irrelevant.dk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -58,58 +60,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Changes since v1
-~~~~~~~~~~~~~~~~
-* nvme: fix pci doorbell size calculation
-  - added some defines and a better comment (Philippe)
+The size of the BAR is 0x1000 (main registers) + 8 bytes for each
+queue. Currently, the size of the BAR is calculated like so:
 
-* nvme: rename trace events to pci_nvme
-  - changed the prefix from nvme_dev to pci_nvme (Philippe)
+    n->reg_size =3D pow2ceil(0x1004 + 2 * (n->num_queues + 1) * 4);
 
-* nvme: add max_ioqpairs device parameter
-  - added a deprecation comment. I doubt this will go in until 5.1, so
-    changed it to "deprecated from 5.1" (Philippe)
+Since the 'num_queues' parameter already accounts for the admin queue,
+this should in any case not need to be incremented by one. Also, the
+size should be initialized to (0x1000).
 
-* nvme: factor out property/constraint checks
-* nvme: factor out block backend setup
-  - changed to return void and propagate errors in proper QEMU style
-    (Philippe)
+    n->reg_size =3D pow2ceil(0x1000 + 2 * n->num_queues * 4);
 
-* nvme: add namespace helpers
-  - use the helper immediately (Philippe)
+This, with the default value of num_queues (64), we will set aside room
+for 1 admin queue and 63 I/O queues (4 bytes per doorbell, 2 doorbells
+per queue).
 
-* nvme: factor out pci setup
-  - removed setting of vendor and device id which is already inherited
-    from nvme_class_init() (Philippe)
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ hw/block/nvme.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-* nvme: factor out cmb setup
-  - add lost comment (Philippe)
-
-
-Klaus Jensen (16):
-  nvme: fix pci doorbell size calculation
-  nvme: rename trace events to pci_nvme
-  nvme: remove superfluous breaks
-  nvme: move device parameters to separate struct
-  nvme: use constants in identify
-  nvme: refactor nvme_addr_read
-  nvme: add max_ioqpairs device parameter
-  nvme: remove redundant cmbloc/cmbsz members
-  nvme: factor out property/constraint checks
-  nvme: factor out device state setup
-  nvme: factor out block backend setup
-  nvme: add namespace helpers
-  nvme: factor out namespace setup
-  nvme: factor out pci setup
-  nvme: factor out cmb setup
-  nvme: factor out controller identify setup
-
- hw/block/nvme.c       | 433 ++++++++++++++++++++++++------------------
- hw/block/nvme.h       |  36 +++-
- hw/block/trace-events | 172 ++++++++---------
- include/block/nvme.h  |   8 +
- 4 files changed, 372 insertions(+), 277 deletions(-)
-
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index d28335cbf377..5b5f75c9d29e 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -43,6 +43,9 @@
+ #include "trace.h"
+ #include "nvme.h"
+=20
++#define NVME_REG_SIZE 0x1000
++#define NVME_DB_SIZE  4
++
+ #define NVME_GUEST_ERR(trace, fmt, ...) \
+     do { \
+         (trace_##trace)(__VA_ARGS__); \
+@@ -1345,7 +1348,9 @@ static void nvme_realize(PCIDevice *pci_dev, Error =
+**errp)
+     pcie_endpoint_cap_init(pci_dev, 0x80);
+=20
+     n->num_namespaces =3D 1;
+-    n->reg_size =3D pow2ceil(0x1004 + 2 * (n->num_queues + 1) * 4);
++
++    /* num_queues is really number of pairs, so each has two doorbells *=
+/
++    n->reg_size =3D pow2ceil(NVME_REG_SIZE + 2 * n->num_queues * NVME_DB=
+_SIZE);
+     n->ns_size =3D bs_size / (uint64_t)n->num_namespaces;
+=20
+     n->namespaces =3D g_new0(NvmeNamespace, n->num_namespaces);
 --=20
 2.26.0
 
