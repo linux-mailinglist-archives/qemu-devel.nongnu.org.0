@@ -2,69 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A1E81A9ADB
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 12:39:03 +0200 (CEST)
-Received: from localhost ([::1]:47500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 338291A9AF0
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 12:40:15 +0200 (CEST)
+Received: from localhost ([::1]:47518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOfRe-0005vM-3a
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 06:39:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45040)
+	id 1jOfSo-0007jU-9M
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 06:40:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45077)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jOfQV-0004nx-MP
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:37:52 -0400
+ (envelope-from <philmd@redhat.com>) id 1jOfRB-0005yz-5t
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:38:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jOfQU-0001si-Lc
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:37:51 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38585)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jOfQR-0001qQ-F0
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:37:50 -0400
-Received: by mail-wr1-x443.google.com with SMTP id k11so17891168wrp.5
- for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 03:37:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=D5sObk6zM7CPpcNkFXpi2dbYOOcLYt59wgs8YQk/lMg=;
- b=fFTReTcuC4HlpxEdbpOphGhP4AmxXL2fzewVdh9BrRxeQed6b4m5+/rbXik1DqL7KV
- S3GUtta3GIqJhXf+YD/c39JZ+YrNe26LYqPFlE3NMjWf0f3hyCviFdbhYC1K6K9+LkDi
- cqq6Px7Ac7xG6sL3RY2WM4WePyRc1dad96pOyVENdcFEAjQHrxFhRmouf+L9xHJYKsK8
- dg02kJ156903POZnVVzRrkiDbBg8UwgWAKdZ1ZtrWvseK6X0TJ2PmgTBeXQAq/KQ7XNs
- pxAJOfJf3WDZXI44Do82N0G4Gzq8OAI6wEgdlFFYd5TVcvoFji5f5h2ejqfve652wCEi
- V92Q==
+ (envelope-from <philmd@redhat.com>) id 1jOfR9-000247-A7
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:38:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47535
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOfR9-00023f-18
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:38:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586947109;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=74s5Fg++pQBEC5Y45tiZ4bG3OttvPCGf5MQxemyekpw=;
+ b=T3NsOrZNqbUw1x1yTdQuf9uhUVXhsHl/Z4h+LpOyHCJ4FqFiFsf57oEGUjUlSbE7YE4B0L
+ ZmTs6Q630motx1bIur5jzumKMUEDdA/vVwytlLodgjDOeba93l3v1Mz6QU+UgybK4m5yZC
+ yEOusIcOsNdZKp0zn8zGPu9RzR++UtU=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-407-L_v_v_HOO6-jeJ96MBehgg-1; Wed, 15 Apr 2020 06:38:28 -0400
+X-MC-Unique: L_v_v_HOO6-jeJ96MBehgg-1
+Received: by mail-ed1-f69.google.com with SMTP id f25so2509334edt.23
+ for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 03:38:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=D5sObk6zM7CPpcNkFXpi2dbYOOcLYt59wgs8YQk/lMg=;
- b=tXdnyXsDgnh0EU4nzisgSOChv36gDHXv4AGJPqajx/wk8uCRVqU1Oc60ibmPn0BCHc
- c4Sl/WNH2lGMB/87i6QpXU/8Y4q4ZjFzvwQ4B82sWKEwwoAofXH0WXvLRhCO0uVXLMA/
- tschZJMdKrkXkU+IZQHaB5TmEGUG2BfrkJaftqzF7lqya7wcXDlrtMAZDOBGWBvydYRk
- IiL8nnR5XeqygwvwntE/9vDsq9atSH3oUdY69TpCSzqzsaPYR3d3d2t4gkrXBqeiyU+a
- yA4Kt7ExXM8YtHR0kl0GRna/jiDxDT1k1WEP/tdKVbHiA9hUohqp+I0KCdS6WEcy2jn9
- 4eRg==
-X-Gm-Message-State: AGi0PuYebi3vG0o3FRJAIUhWfNpWcA1SrDErJqpH8cdhc9hiHKGgP3aQ
- WSsrSQSxZsQjpE+e91Wkp8irT0lNMdXeiklBVEo=
-X-Google-Smtp-Source: APiQypJmuxIs84FNE+pNbbmu0uumDWCcEATu4Ezx0ysPW2r1NOMNY/AeeR2UMHelT3GsOAe7yL+Pzl/XqSIwgE40LZs=
-X-Received: by 2002:a05:6000:187:: with SMTP id
- p7mr27993705wrx.196.1586947066360; 
- Wed, 15 Apr 2020 03:37:46 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=74s5Fg++pQBEC5Y45tiZ4bG3OttvPCGf5MQxemyekpw=;
+ b=mZ56B4352KcY6aqgUTZbbYYe73xDcO5f/VsUWZJkd0wFuerqW0AmftHGaXUfxzsp3E
+ ixnN/hg2C33sKomx89gtfXrG5U5QZ4HJL0ZaBVtgGxoB/VncmqSB9X58oJdZsTzpOMLT
+ hBPbZ0ou4WWYT8/7XZooWA0UMOay0cB2F0WsU2XvkC9B7AR2ZTWvEjGirhyAdbs6WPGk
+ TWkVygtFut3ROP80fF4k8W9zMrNo5O5Vtbx/5YuKWx+9/eVrTPk07MPRiJZeOACUrcvu
+ SMdJQNdoQksWMopkY18w1dkPSuawE340zBCQJlOFi8xRT6X3vTfJdMnp2YQbQ8fOfvgt
+ KOPg==
+X-Gm-Message-State: AGi0Pub5NpHxxnfKwMqbXREBDhL8smqCseePvOCzCPE4KIidUIfu62IB
+ Qz3FxdBa04rh75kSmruQAajn9d77hExgOf0KNr7YhvP4tNyrfbejB4XtlTss5yLJ6g9jKB9TKMS
+ iSqd2XEyJHTbmpVk=
+X-Received: by 2002:a17:906:4bc9:: with SMTP id
+ x9mr2612334ejv.27.1586947107414; 
+ Wed, 15 Apr 2020 03:38:27 -0700 (PDT)
+X-Google-Smtp-Source: APiQypI/c5khlyDbYTihJdmuXSjPIv2WEFimeRyhD1ikw5F3z3VTGqPC4h3upGbkNLjC0RcsoBdfdg==
+X-Received: by 2002:a17:906:4bc9:: with SMTP id
+ x9mr2612311ejv.27.1586947107136; 
+ Wed, 15 Apr 2020 03:38:27 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id bx16sm1057951ejc.83.2020.04.15.03.38.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Apr 2020 03:38:26 -0700 (PDT)
+Subject: Re: [PATCH 13/16] nvme: factor out namespace setup
+To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
+References: <20200415102445.564803-1-its@irrelevant.dk>
+ <20200415102445.564803-14-its@irrelevant.dk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <1f57886a-8645-eeda-f482-4353b423c80f@redhat.com>
+Date: Wed, 15 Apr 2020 12:38:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200415005938.23895-1-alazar@bitdefender.com>
- <20200415005938.23895-4-alazar@bitdefender.com>
-In-Reply-To: <20200415005938.23895-4-alazar@bitdefender.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 15 Apr 2020 12:37:34 +0200
-Message-ID: <CAJ+F1CLLpzdoNqwgMQh8j4Sd4_HGEmBt=x1wPsHXvgZ7O=8Kzg@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 03/26] char-socket: fix the client mode when
- created through QMP
-To: =?UTF-8?Q?Adalbert_Laz=C4=83r?= <alazar@bitdefender.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+In-Reply-To: <20200415102445.564803-14-its@irrelevant.dk>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,45 +94,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Javier Gonzalez <javier.gonz@samsung.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
-
-On Wed, Apr 15, 2020 at 3:00 AM Adalbert Laz=C4=83r <alazar@bitdefender.com=
-> wrote:
->
-> qmp_chardev_open_socket() ignores the absence of the 'server' argument
-> and always switches to listen/server mode.
->
-> CC: "Marc-Andr=C3=A9 Lureau" <marcandre.lureau@redhat.com>
-> CC: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Adalbert Laz=C4=83r <alazar@bitdefender.com>
+On 4/15/20 12:24 PM, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 > ---
->  chardev/char-socket.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-> index 9b2deb0125..fd0106ab85 100644
-> --- a/chardev/char-socket.c
-> +++ b/chardev/char-socket.c
-> @@ -1310,7 +1310,7 @@ static void qmp_chardev_open_socket(Chardev *chr,
->      SocketChardev *s =3D SOCKET_CHARDEV(chr);
->      ChardevSocket *sock =3D backend->u.socket.data;
->      bool do_nodelay     =3D sock->has_nodelay ? sock->nodelay : false;
-> -    bool is_listen      =3D sock->has_server  ? sock->server  : true;
-> +    bool is_listen      =3D sock->has_server  ? sock->server  : false;
+>   hw/block/nvme.c | 47 ++++++++++++++++++++++++++---------------------
+>   1 file changed, 26 insertions(+), 21 deletions(-)
+> 
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index f0989cbb4335..08f7ae0a48b3 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -1359,13 +1359,35 @@ static int nvme_init_blk(NvmeCtrl *n, Error **errp)
+>       return 0;
+>   }
+>   
+> +static int nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+> +{
+> +    int64_t bs_size;
+> +    NvmeIdNs *id_ns = &ns->id_ns;
+> +
+> +    bs_size = blk_getlength(n->conf.blk);
+> +    if (bs_size < 0) {
+> +        error_setg_errno(errp, -bs_size, "could not get backing file size");
+> +        return -1;
+> +    }
+> +
+> +    n->ns_size = bs_size;
+> +
+> +    id_ns->lbaf[0].ds = BDRV_SECTOR_BITS;
+> +    id_ns->nsze = cpu_to_le64(nvme_ns_nlbas(n, ns));
+> +
+> +    /* no thin provisioning */
+> +    id_ns->ncap = id_ns->nsze;
+> +    id_ns->nuse = id_ns->ncap;
+> +
+> +    return 0;
+> +}
+> +
+>   static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+>   {
+>       NvmeCtrl *n = NVME(pci_dev);
+>       NvmeIdCtrl *id = &n->id_ctrl;
+>   
+>       int i;
+> -    int64_t bs_size;
+>       uint8_t *pci_conf;
+>   
+>       if (nvme_check_constraints(n, errp)) {
+> @@ -1374,12 +1396,6 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+>   
+>       nvme_init_state(n);
+>   
+> -    bs_size = blk_getlength(n->conf.blk);
+> -    if (bs_size < 0) {
+> -        error_setg(errp, "could not get backing file size");
+> -        return;
+> -    }
+> -
+>       if (nvme_init_blk(n, errp)) {
+>           return;
+>       }
+> @@ -1390,8 +1406,6 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+>       pci_config_set_class(pci_dev->config, PCI_CLASS_STORAGE_EXPRESS);
+>       pcie_endpoint_cap_init(pci_dev, 0x80);
+>   
+> -    n->ns_size = bs_size / (uint64_t)n->num_namespaces;
 
-I don't understand what you mean. It defaults to server mode. We can't
-change that.
+I'm not sure this line belong to this patch.
 
->      bool is_telnet      =3D sock->has_telnet  ? sock->telnet  : false;
->      bool is_tn3270      =3D sock->has_tn3270  ? sock->tn3270  : false;
->      bool is_waitconnect =3D sock->has_wait    ? sock->wait    : false;
->
+> -
+>       memory_region_init_io(&n->iomem, OBJECT(n), &nvme_mmio_ops, n,
+>                             "nvme", n->reg_size);
+>       pci_register_bar(pci_dev, 0,
+> @@ -1455,18 +1469,9 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+>       }
+>   
+>       for (i = 0; i < n->num_namespaces; i++) {
+> -        NvmeNamespace *ns = &n->namespaces[i];
+> -        NvmeIdNs *id_ns = &ns->id_ns;
+> -        id_ns->nsfeat = 0;
+> -        id_ns->nlbaf = 0;
+> -        id_ns->flbas = 0;
+> -        id_ns->mc = 0;
+> -        id_ns->dpc = 0;
+> -        id_ns->dps = 0;
+> -        id_ns->lbaf[0].ds = BDRV_SECTOR_BITS;
+> -        id_ns->ncap  = id_ns->nuse = id_ns->nsze =
+> -            cpu_to_le64(n->ns_size >>
+> -                id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas)].ds);
+> +        if (nvme_init_namespace(n, &n->namespaces[i], errp)) {
+> +            return;
+> +        }
+>       }
+>   }
+>   
+> 
 
-
---=20
-Marc-Andr=C3=A9 Lureau
 
