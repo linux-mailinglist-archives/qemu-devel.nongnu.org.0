@@ -2,87 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 338291A9AF0
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 12:40:15 +0200 (CEST)
-Received: from localhost ([::1]:47518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE4F01A9B1A
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 12:43:45 +0200 (CEST)
+Received: from localhost ([::1]:47622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOfSo-0007jU-9M
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 06:40:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45077)
+	id 1jOfWC-0003m6-Se
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 06:43:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45431)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jOfRB-0005yz-5t
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:38:34 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jOfUm-000265-PZ
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:42:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jOfR9-000247-A7
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:38:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47535
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOfR9-00023f-18
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:38:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1586947109;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=74s5Fg++pQBEC5Y45tiZ4bG3OttvPCGf5MQxemyekpw=;
- b=T3NsOrZNqbUw1x1yTdQuf9uhUVXhsHl/Z4h+LpOyHCJ4FqFiFsf57oEGUjUlSbE7YE4B0L
- ZmTs6Q630motx1bIur5jzumKMUEDdA/vVwytlLodgjDOeba93l3v1Mz6QU+UgybK4m5yZC
- yEOusIcOsNdZKp0zn8zGPu9RzR++UtU=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-L_v_v_HOO6-jeJ96MBehgg-1; Wed, 15 Apr 2020 06:38:28 -0400
-X-MC-Unique: L_v_v_HOO6-jeJ96MBehgg-1
-Received: by mail-ed1-f69.google.com with SMTP id f25so2509334edt.23
- for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 03:38:28 -0700 (PDT)
+ (envelope-from <alex.bennee@linaro.org>) id 1jOfUl-00036A-DV
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:42:16 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:36616)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jOfUl-00035l-7L
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:42:15 -0400
+Received: by mail-wm1-x336.google.com with SMTP id a201so18015221wme.1
+ for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 03:42:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HmmBVP9lJhtIH13EX9i16VWrS1EnJ/4YNTP37UUhzHw=;
+ b=zVwx0s8dSoQu3BKLEChh/J+ds59m/SAovAJZjrCzLgTi6gl88g2PxMRUe3TXO5QP8F
+ 6HUI+BB1L5DZ6rIH9E2mkYH3/OedvET/Fv24CT7pgbUXGGysAaWQyUjDBhUMy5Z2Elcv
+ yPyQ3mZ/+OEkuu4w8l+KhgfzJqx6d9yeQQBZ/bRUQUR/R9ZHv2C7csgY4GWR3Zdlzgu8
+ P9x+1eWeWJSQjDO29TkjKP8sFLmIQHUvIbyD2ZqR+LEj7xxtpNZd1zRddhyTc7xDldfr
+ Z8kbQef6x1Kmf/kWfUkyuL7wVy5nvvJIic+OZCKrVWAW2joUbe9mBBipo5rKwEkEGKD2
+ adiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=74s5Fg++pQBEC5Y45tiZ4bG3OttvPCGf5MQxemyekpw=;
- b=mZ56B4352KcY6aqgUTZbbYYe73xDcO5f/VsUWZJkd0wFuerqW0AmftHGaXUfxzsp3E
- ixnN/hg2C33sKomx89gtfXrG5U5QZ4HJL0ZaBVtgGxoB/VncmqSB9X58oJdZsTzpOMLT
- hBPbZ0ou4WWYT8/7XZooWA0UMOay0cB2F0WsU2XvkC9B7AR2ZTWvEjGirhyAdbs6WPGk
- TWkVygtFut3ROP80fF4k8W9zMrNo5O5Vtbx/5YuKWx+9/eVrTPk07MPRiJZeOACUrcvu
- SMdJQNdoQksWMopkY18w1dkPSuawE340zBCQJlOFi8xRT6X3vTfJdMnp2YQbQ8fOfvgt
- KOPg==
-X-Gm-Message-State: AGi0Pub5NpHxxnfKwMqbXREBDhL8smqCseePvOCzCPE4KIidUIfu62IB
- Qz3FxdBa04rh75kSmruQAajn9d77hExgOf0KNr7YhvP4tNyrfbejB4XtlTss5yLJ6g9jKB9TKMS
- iSqd2XEyJHTbmpVk=
-X-Received: by 2002:a17:906:4bc9:: with SMTP id
- x9mr2612334ejv.27.1586947107414; 
- Wed, 15 Apr 2020 03:38:27 -0700 (PDT)
-X-Google-Smtp-Source: APiQypI/c5khlyDbYTihJdmuXSjPIv2WEFimeRyhD1ikw5F3z3VTGqPC4h3upGbkNLjC0RcsoBdfdg==
-X-Received: by 2002:a17:906:4bc9:: with SMTP id
- x9mr2612311ejv.27.1586947107136; 
- Wed, 15 Apr 2020 03:38:27 -0700 (PDT)
-Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id bx16sm1057951ejc.83.2020.04.15.03.38.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Apr 2020 03:38:26 -0700 (PDT)
-Subject: Re: [PATCH 13/16] nvme: factor out namespace setup
-To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
-References: <20200415102445.564803-1-its@irrelevant.dk>
- <20200415102445.564803-14-its@irrelevant.dk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <1f57886a-8645-eeda-f482-4353b423c80f@redhat.com>
-Date: Wed, 15 Apr 2020 12:38:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ bh=HmmBVP9lJhtIH13EX9i16VWrS1EnJ/4YNTP37UUhzHw=;
+ b=pCumwopCbaChGGqg7cUAj8WBEx1sswr0D3XmDBzhQIGvqLsTmnV3u0k7OVmjV7wP09
+ MPnqPqSsu4Ii7CqwOK2sJ2ahUHNapUwva+cWXBSnei8rEpa1pmf+q15jES+b78ZUbw3l
+ BN8WboRXNDAqRVV3RxSYiBSJSs7NuVUAXwDNdBBW8WHBU/bY/WM7F1pGzVFud+mond/D
+ ysoLm1TnhLqbmZFF4uTR9FSZGBWfdNqzjx5CW3BKclIh85B4DuYNjv+WlAeWQkjICt4J
+ 3HK2eXieHsxOffP/gDOvgPC84HZmDOqeg4Bj69ocBhUdgG9lhqwhYAvkb6XKRlF6oAi7
+ 6ILA==
+X-Gm-Message-State: AGi0Pua9mS2yHYITNHzMGN3jZUfuILF9V6XcaTyZ2ER790zkQvzSMebq
+ vrkDUR+nOq1m7hx7soLFSKmPvQ==
+X-Google-Smtp-Source: APiQypJDHm/7+MovHg7b/EJXjo3Dm+D2JvfhbZQd5P3OuG5TAmXvPnNPyDggst4ICmdiwFQcgoA+kA==
+X-Received: by 2002:a1c:ac44:: with SMTP id v65mr4653629wme.33.1586947333746; 
+ Wed, 15 Apr 2020 03:42:13 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id c1sm22434135wrc.4.2020.04.15.03.42.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Apr 2020 03:42:12 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id EC2B11FF7E;
+ Wed, 15 Apr 2020 11:42:11 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL for 5.0-rc3 0/8] a few small fixes (docker, user,
+ pie and gdbstub)
+Date: Wed, 15 Apr 2020 11:42:03 +0100
+Message-Id: <20200415104211.9388-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200415102445.564803-14-its@irrelevant.dk>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::336
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,110 +80,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Javier Gonzalez <javier.gonz@samsung.com>,
- Maxim Levitsky <mlevitsk@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/15/20 12:24 PM, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
-> 
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
->   hw/block/nvme.c | 47 ++++++++++++++++++++++++++---------------------
->   1 file changed, 26 insertions(+), 21 deletions(-)
-> 
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index f0989cbb4335..08f7ae0a48b3 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -1359,13 +1359,35 @@ static int nvme_init_blk(NvmeCtrl *n, Error **errp)
->       return 0;
->   }
->   
-> +static int nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
-> +{
-> +    int64_t bs_size;
-> +    NvmeIdNs *id_ns = &ns->id_ns;
-> +
-> +    bs_size = blk_getlength(n->conf.blk);
-> +    if (bs_size < 0) {
-> +        error_setg_errno(errp, -bs_size, "could not get backing file size");
-> +        return -1;
-> +    }
-> +
-> +    n->ns_size = bs_size;
-> +
-> +    id_ns->lbaf[0].ds = BDRV_SECTOR_BITS;
-> +    id_ns->nsze = cpu_to_le64(nvme_ns_nlbas(n, ns));
-> +
-> +    /* no thin provisioning */
-> +    id_ns->ncap = id_ns->nsze;
-> +    id_ns->nuse = id_ns->ncap;
-> +
-> +    return 0;
-> +}
-> +
->   static void nvme_realize(PCIDevice *pci_dev, Error **errp)
->   {
->       NvmeCtrl *n = NVME(pci_dev);
->       NvmeIdCtrl *id = &n->id_ctrl;
->   
->       int i;
-> -    int64_t bs_size;
->       uint8_t *pci_conf;
->   
->       if (nvme_check_constraints(n, errp)) {
-> @@ -1374,12 +1396,6 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
->   
->       nvme_init_state(n);
->   
-> -    bs_size = blk_getlength(n->conf.blk);
-> -    if (bs_size < 0) {
-> -        error_setg(errp, "could not get backing file size");
-> -        return;
-> -    }
-> -
->       if (nvme_init_blk(n, errp)) {
->           return;
->       }
-> @@ -1390,8 +1406,6 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
->       pci_config_set_class(pci_dev->config, PCI_CLASS_STORAGE_EXPRESS);
->       pcie_endpoint_cap_init(pci_dev, 0x80);
->   
-> -    n->ns_size = bs_size / (uint64_t)n->num_namespaces;
+The following changes since commit 2f7cc1fbd6f6655d900ca7f45973b9bd5330c6dd:
 
-I'm not sure this line belong to this patch.
+  Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into staging (2020-04-14 20:09:52 +0100)
 
-> -
->       memory_region_init_io(&n->iomem, OBJECT(n), &nvme_mmio_ops, n,
->                             "nvme", n->reg_size);
->       pci_register_bar(pci_dev, 0,
-> @@ -1455,18 +1469,9 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
->       }
->   
->       for (i = 0; i < n->num_namespaces; i++) {
-> -        NvmeNamespace *ns = &n->namespaces[i];
-> -        NvmeIdNs *id_ns = &ns->id_ns;
-> -        id_ns->nsfeat = 0;
-> -        id_ns->nlbaf = 0;
-> -        id_ns->flbas = 0;
-> -        id_ns->mc = 0;
-> -        id_ns->dpc = 0;
-> -        id_ns->dps = 0;
-> -        id_ns->lbaf[0].ds = BDRV_SECTOR_BITS;
-> -        id_ns->ncap  = id_ns->nuse = id_ns->nsze =
-> -            cpu_to_le64(n->ns_size >>
-> -                id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas)].ds);
-> +        if (nvme_init_namespace(n, &n->namespaces[i], errp)) {
-> +            return;
-> +        }
->       }
->   }
->   
-> 
+are available in the Git repository at:
+
+  https://github.com/stsquad/qemu.git tags/pull-more-fixes-150420-1
+
+for you to fetch changes up to 377f8f08bebea7cd44617b0ac0a2baf307f5f055:
+
+  gdbstub: Introduce gdb_get_float32() to get 32-bit float registers (2020-04-15 11:38:23 +0100)
+
+----------------------------------------------------------------
+More small fixes for rc3
+
+  - tweak docker FEATURE flags for document building
+  - include sphinx configure check in config.log
+  - disable PIE for Windows builds
+  - fix /proc/self/stat handling
+  - a number of gdbstub fixups following GByteArray conversion
+
+----------------------------------------------------------------
+Alex Bennée (4):
+      tests/docker: add docs FEATURE flag and use for test-misc
+      configure: redirect sphinx-build check to config.log
+      configure: disable PIE for Windows builds
+      linux-user: fix /proc/self/stat handling
+
+Peter Xu (1):
+      gdbstub: i386: Fix gdb_get_reg16() parameter to unbreak gdb
+
+Philippe Mathieu-Daudé (3):
+      target/m68k/helper: Fix m68k_fpu_gdb_get_reg() use of GByteArray
+      gdbstub: Do not use memset() on GByteArray
+      gdbstub: Introduce gdb_get_float32() to get 32-bit float registers
+
+ configure                                  |  5 +++-
+ include/exec/gdbstub.h                     | 18 +++++++++++++
+ linux-user/syscall.c                       | 43 +++++++++++++-----------------
+ target/arm/gdbstub.c                       |  3 +--
+ target/i386/gdbstub.c                      |  2 +-
+ target/m68k/helper.c                       |  4 +--
+ target/sh4/gdbstub.c                       |  6 ++---
+ target/xtensa/gdbstub.c                    |  6 ++---
+ tests/docker/dockerfiles/debian10.docker   |  2 ++
+ tests/docker/dockerfiles/debian9.docker    |  2 --
+ tests/docker/dockerfiles/fedora.docker     |  2 +-
+ tests/docker/dockerfiles/travis.docker     |  2 +-
+ tests/docker/dockerfiles/ubuntu.docker     |  2 +-
+ tests/docker/dockerfiles/ubuntu1804.docker |  2 +-
+ tests/docker/test-misc                     |  2 ++
+ 15 files changed, 57 insertions(+), 44 deletions(-)
+
+-- 
+2.20.1
 
 
