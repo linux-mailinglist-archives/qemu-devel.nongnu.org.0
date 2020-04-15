@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF5901A903F
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 03:15:50 +0200 (CEST)
-Received: from localhost ([::1]:41040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EABCD1A9020
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 03:11:57 +0200 (CEST)
+Received: from localhost ([::1]:40984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOWeb-0004r9-NQ
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 21:15:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58502)
+	id 1jOWaq-0005c8-V2
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 21:11:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58435)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alazar@bitdefender.com>) id 1jOWPB-0001Mz-4Z
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:56 -0400
+ (envelope-from <alazar@bitdefender.com>) id 1jOWP9-0001Hi-2a
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alazar@bitdefender.com>) id 1jOWP7-0005BY-MB
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:53 -0400
-Received: from mx01.bbu.dsd.mx.bitdefender.com ([91.199.104.161]:49086)
+ (envelope-from <alazar@bitdefender.com>) id 1jOWP7-0005Bd-MF
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:50 -0400
+Received: from mx01.bbu.dsd.mx.bitdefender.com ([91.199.104.161]:49088)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <alazar@bitdefender.com>)
- id 1jOWP7-00050u-8J
+ id 1jOWP7-00050x-9E
  for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:49 -0400
 Received: from smtp.bitdefender.com (smtp02.buh.bitdefender.net [10.17.80.76])
  by mx01.bbu.dsd.mx.bitdefender.com (Postfix) with ESMTPS id
- 11C7830747C8
+ 2809C30747C9
  for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 03:59:35 +0300 (EEST)
 Received: from localhost.localdomain (unknown [91.199.104.27])
- by smtp.bitdefender.com (Postfix) with ESMTPSA id F0C46305B7A1;
- Wed, 15 Apr 2020 03:59:34 +0300 (EEST)
+ by smtp.bitdefender.com (Postfix) with ESMTPSA id 148FB305B7A2;
+ Wed, 15 Apr 2020 03:59:35 +0300 (EEST)
 From: =?UTF-8?q?Adalbert=20Laz=C4=83r?= <alazar@bitdefender.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v1 10/26] kvm: vmi: add the handshake with the
- introspection tool
-Date: Wed, 15 Apr 2020 03:59:22 +0300
-Message-Id: <20200415005938.23895-11-alazar@bitdefender.com>
+Subject: [RFC PATCH v1 11/26] kvm: vmi: add 'handshake_timeout' property
+Date: Wed, 15 Apr 2020 03:59:23 +0300
+Message-Id: <20200415005938.23895-12-alazar@bitdefender.com>
 In-Reply-To: <20200415005938.23895-1-alazar@bitdefender.com>
 References: <20200415005938.23895-1-alazar@bitdefender.com>
 MIME-Version: 1.0
@@ -57,132 +56,94 @@ Cc: =?UTF-8?q?Adalbert=20Laz=C4=83r?= <alazar@bitdefender.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU sends the name, the UUID and the VM start time and expects the
-hash of a secret shared with the introspection tool that can be used to
-authenticate it.
+By having a timer during handshake, the blocked connections can be
+restored.
 
 Signed-off-by: Adalbert Laz=C4=83r <alazar@bitdefender.com>
 ---
- accel/kvm/vmi.c                | 290 +++++++++++++++++++++++++++++++++
- include/sysemu/vmi-handshake.h |  45 +++++
- 2 files changed, 335 insertions(+)
- create mode 100644 include/sysemu/vmi-handshake.h
+ accel/kvm/vmi.c | 66 ++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 65 insertions(+), 1 deletion(-)
 
 diff --git a/accel/kvm/vmi.c b/accel/kvm/vmi.c
-index 883c666a2a..57ded2f69c 100644
+index 57ded2f69c..5659663caa 100644
 --- a/accel/kvm/vmi.c
 +++ b/accel/kvm/vmi.c
-@@ -8,6 +8,7 @@
-  */
+@@ -19,6 +19,8 @@
 =20
- #include "qemu/osdep.h"
-+#include "qemu-common.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "qom/object_interfaces.h"
-@@ -16,6 +17,8 @@
- #include "chardev/char.h"
- #include "chardev/char-fe.h"
+ #include "sysemu/vmi-handshake.h"
 =20
-+#include "sysemu/vmi-handshake.h"
++#define HANDSHAKE_TIMEOUT_SEC 10
 +
  typedef struct VMIntrospection {
      Object parent_obj;
 =20
-@@ -23,9 +26,19 @@ typedef struct VMIntrospection {
+@@ -32,6 +34,8 @@ typedef struct VMIntrospection {
+     qemu_vmi_from_introspector hsk_in;
+     uint64_t hsk_in_read_pos;
+     uint64_t hsk_in_read_size;
++    GSource *hsk_timer;
++    uint32_t handshake_timeout;
 =20
-     char *chardevid;
-     Chardev *chr;
-+    CharBackend sock;
-+    int sock_fd;
-+
-+    qemu_vmi_from_introspector hsk_in;
-+    uint64_t hsk_in_read_pos;
-+    uint64_t hsk_in_read_size;
-+
-+    int64_t vm_start_time;
+     int64_t vm_start_time;
 =20
-     Notifier machine_ready;
-     bool created_from_command_line;
-+
-+    bool kvmi_hooked;
- } VMIntrospection;
-=20
- #define TYPE_VM_INTROSPECTION "introspection"
-@@ -50,6 +63,11 @@ static void machine_ready(Notifier *notifier, void *da=
-ta)
-     }
- }
-=20
-+static void update_vm_start_time(VMIntrospection *i)
-+{
-+    i->vm_start_time =3D qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-+}
-+
- static void complete(UserCreatable *uc, Error **errp)
- {
-     VMIntrospection *i =3D VM_INTROSPECTION(uc);
-@@ -87,6 +105,13 @@ static void prop_set_chardev(Object *obj, const char =
-*value, Error **errp)
+@@ -105,6 +109,26 @@ static void prop_set_chardev(Object *obj, const char=
+ *value, Error **errp)
      i->chardevid =3D g_strdup(value);
  }
 =20
-+static bool chardev_is_connected(VMIntrospection *i, Error **errp)
++static void prop_get_uint32(Object *obj, Visitor *v, const char *name,
++                            void *opaque, Error **errp)
 +{
-+    Object *obj =3D OBJECT(i->chr);
++    uint32_t *value =3D opaque;
 +
-+    return obj && object_property_get_bool(obj, "connected", errp);
++    visit_type_uint32(v, name, value, errp);
 +}
 +
- static void class_init(ObjectClass *oc, void *data)
- {
-     UserCreatableClass *uc =3D USER_CREATABLE_CLASS(oc);
-@@ -98,17 +123,60 @@ static void instance_init(Object *obj)
- {
-     VMIntrospection *i =3D VM_INTROSPECTION(obj);
-=20
-+    i->sock_fd =3D -1;
-     i->created_from_command_line =3D (qdev_hotplug =3D=3D false);
-=20
-+    update_vm_start_time(i);
++static void prop_set_uint32(Object *obj, Visitor *v, const char *name,
++                            void *opaque, Error **errp)
++{
++    uint32_t *value =3D opaque;
++    Error *local_err =3D NULL;
 +
++    visit_type_uint32(v, name, value, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++    }
++}
++
+ static bool chardev_is_connected(VMIntrospection *i, Error **errp)
+ {
+     Object *obj =3D OBJECT(i->chr);
+@@ -129,6 +153,11 @@ static void instance_init(Object *obj)
+     update_vm_start_time(i);
+=20
      object_property_add_str(obj, "chardev", NULL, prop_set_chardev, NULL=
 );
++
++    i->handshake_timeout =3D HANDSHAKE_TIMEOUT_SEC;
++    object_property_add(obj, "handshake_timeout", "uint32",
++                        prop_set_uint32, prop_get_uint32,
++                        NULL, &i->handshake_timeout, NULL);
  }
 =20
-+static void disconnect_chardev(VMIntrospection *i)
+ static void disconnect_chardev(VMIntrospection *i)
+@@ -165,12 +194,28 @@ static void disconnect_and_unhook_kvmi(VMIntrospect=
+ion *i)
+     unhook_kvmi(i);
+ }
+=20
++static void cancel_timer(GSource *timer)
 +{
-+    if (chardev_is_connected(i, NULL)) {
-+        qemu_chr_fe_disconnect(&i->sock);
++    if (timer) {
++        g_source_destroy(timer);
++        g_source_unref(timer);
 +    }
 +}
 +
-+static void unhook_kvmi(VMIntrospection *i)
++static void cancel_handshake_timer(VMIntrospection *i)
 +{
-+    if (i->kvmi_hooked) {
-+        if (kvm_vm_ioctl(kvm_state, KVM_INTROSPECTION_UNHOOK, NULL)) {
-+            error_report("VMI: ioctl/KVM_INTROSPECTION_UNHOOK failed, er=
-rno %d",
-+                         errno);
-+        }
-+        i->kvmi_hooked =3D false;
-+    }
-+}
-+
-+static void shutdown_socket_fd(VMIntrospection *i)
-+{
-+    /* signal both ends (kernel, introspector) */
-+    if (i->sock_fd !=3D -1) {
-+        shutdown(i->sock_fd, SHUT_RDWR);
-+        i->sock_fd =3D -1;
-+    }
-+}
-+
-+static void disconnect_and_unhook_kvmi(VMIntrospection *i)
-+{
-+    shutdown_socket_fd(i);
-+    disconnect_chardev(i);
-+    unhook_kvmi(i);
++    cancel_timer(i->hsk_timer);
++    i->hsk_timer =3D NULL;
 +}
 +
  static void instance_finalize(Object *obj)
@@ -191,314 +152,63 @@ rno %d",
 =20
      g_free(i->chardevid);
 =20
-+    if (i->chr) {
-+        shutdown_socket_fd(i);
-+        qemu_chr_fe_deinit(&i->sock, true);
-+        unhook_kvmi(i);
-+    }
++    cancel_handshake_timer(i);
 +
-     error_free(i->init_error);
- }
-=20
-@@ -132,6 +200,210 @@ static void register_types(void)
-=20
- type_init(register_types);
-=20
-+static bool send_handshake_info(VMIntrospection *i, Error **errp)
-+{
-+    qemu_vmi_to_introspector send =3D {};
-+    const char *vm_name;
-+    int r;
-+
-+    send.struct_size =3D sizeof(send);
-+    send.start_time =3D i->vm_start_time;
-+    memcpy(&send.uuid, &qemu_uuid, sizeof(send.uuid));
-+    vm_name =3D qemu_get_vm_name();
-+    if (vm_name) {
-+        snprintf(send.name, sizeof(send.name), "%s", vm_name);
-+        send.name[sizeof(send.name) - 1] =3D 0;
-+    }
-+
-+    r =3D qemu_chr_fe_write_all(&i->sock, (uint8_t *)&send, sizeof(send)=
-);
-+    if (r !=3D sizeof(send)) {
-+        error_setg_errno(errp, errno, "VMI: error writing to '%s'",
-+                         i->chardevid);
-+        return false;
-+    }
-+
-+    /* tcp_chr_write may call tcp_chr_disconnect/CHR_EVENT_CLOSED */
-+    if (!chardev_is_connected(i, errp)) {
-+        error_append_hint(errp, "VMI: qemu_chr_fe_write_all() failed");
-+        return false;
-+    }
-+
-+    return true;
-+}
-+
-+static bool validate_handshake(VMIntrospection *i, Error **errp)
-+{
-+    uint32_t min_accepted_size;
-+
-+    min_accepted_size =3D offsetof(qemu_vmi_from_introspector, cookie_ha=
-sh)
-+                        + QEMU_VMI_COOKIE_HASH_SIZE;
-+
-+    if (i->hsk_in.struct_size < min_accepted_size) {
-+        error_setg(errp, "VMI: not enough or invalid handshake data");
-+        return false;
-+    }
-+
-+    /*
-+     * Check hsk_in.struct_size and sizeof(hsk_in) before accessing any
-+     * other fields. We might get fewer bytes from applications using
-+     * old versions if we extended the qemu_vmi_from_introspector struct=
-ure.
-+     */
-+
-+    return true;
-+}
-+
-+static bool connect_kernel(VMIntrospection *i, Error **errp)
-+{
-+    struct kvm_introspection_feature commands, events;
-+    struct kvm_introspection_hook kernel;
-+    const __s32 all_ids =3D -1;
-+
-+    memset(&kernel, 0, sizeof(kernel));
-+    memcpy(kernel.uuid, &qemu_uuid, sizeof(kernel.uuid));
-+    kernel.fd =3D i->sock_fd;
-+
-+    if (kvm_vm_ioctl(kvm_state, KVM_INTROSPECTION_HOOK, &kernel)) {
-+        error_setg_errno(errp, -errno,
-+                         "VMI: ioctl/KVM_INTROSPECTION_HOOK failed");
-+        if (errno =3D=3D -EPERM) {
-+            error_append_hint(errp,
-+                              "Reload the kvm module with kvm.introspect=
-ion=3Don");
-+        }
-+        return false;
-+    }
-+
-+    i->kvmi_hooked =3D true;
-+
-+    commands.allow =3D 1;
-+    commands.id =3D all_ids;
-+    if (kvm_vm_ioctl(kvm_state, KVM_INTROSPECTION_COMMAND, &commands)) {
-+        error_setg_errno(errp, -errno,
-+                         "VMI: ioctl/KVM_INTROSPECTION_COMMAND failed");
-+        unhook_kvmi(i);
-+        return false;
-+    }
-+
-+    events.allow =3D 1;
-+    events.id =3D all_ids;
-+    if (kvm_vm_ioctl(kvm_state, KVM_INTROSPECTION_EVENT, &events)) {
-+        error_setg_errno(errp, -errno,
-+                         "VMI: ioctl/KVM_INTROSPECTION_EVENT failed");
-+        unhook_kvmi(i);
-+        return false;
-+    }
-+
-+    return true;
-+}
-+
-+/*
-+ * We should read only the handshake structure,
-+ * which might have a different size than what we expect.
-+ */
-+static int chr_can_read(void *opaque)
-+{
-+    VMIntrospection *i =3D opaque;
-+
-+    if (i->sock_fd =3D=3D -1) {
-+        return 0;
-+    }
-+
-+    /* first, we read the incoming structure size */
-+    if (i->hsk_in_read_pos =3D=3D 0) {
-+        return sizeof(i->hsk_in.struct_size);
-+    }
-+
-+    /* validate the incoming structure size */
-+    if (i->hsk_in.struct_size < sizeof(i->hsk_in.struct_size)) {
-+        return 0;
-+    }
-+
-+    /* read the rest of the incoming structure */
-+    return i->hsk_in.struct_size - i->hsk_in_read_pos;
-+}
-+
-+static bool enough_bytes_for_handshake(VMIntrospection *i)
-+{
-+    return i->hsk_in_read_pos  >=3D sizeof(i->hsk_in.struct_size)
-+        && i->hsk_in_read_size =3D=3D i->hsk_in.struct_size;
-+}
-+
-+static void validate_and_connect(VMIntrospection *i)
-+{
-+    Error *local_err =3D NULL;
-+
-+    if (!validate_handshake(i, &local_err) || !connect_kernel(i, &local_=
-err)) {
-+        error_append_hint(&local_err, "reconnecting\n");
-+        warn_report_err(local_err);
-+        disconnect_chardev(i);
-+    }
-+}
-+
-+static void chr_read(void *opaque, const uint8_t *buf, int size)
-+{
-+    VMIntrospection *i =3D opaque;
-+    size_t to_read;
-+
-+    i->hsk_in_read_size +=3D size;
-+
-+    to_read =3D sizeof(i->hsk_in) - i->hsk_in_read_pos;
-+    if (to_read > size) {
-+        to_read =3D size;
-+    }
-+
-+    if (to_read) {
-+        memcpy((uint8_t *)&i->hsk_in + i->hsk_in_read_pos, buf, to_read)=
-;
-+        i->hsk_in_read_pos +=3D to_read;
-+    }
-+
-+    if (enough_bytes_for_handshake(i)) {
-+        validate_and_connect(i);
-+    }
-+}
-+
-+static void chr_event_open(VMIntrospection *i)
-+{
-+    Error *local_err =3D NULL;
-+
-+    if (!send_handshake_info(i, &local_err)) {
-+        error_append_hint(&local_err, "reconnecting\n");
-+        warn_report_err(local_err);
-+        disconnect_chardev(i);
-+        return;
-+    }
-+
-+    info_report("VMI: introspection tool connected");
-+
-+    i->sock_fd =3D object_property_get_int(OBJECT(i->chr), "fd", NULL);
-+
-+    memset(&i->hsk_in, 0, sizeof(i->hsk_in));
-+    i->hsk_in_read_pos =3D 0;
-+    i->hsk_in_read_size =3D 0;
-+}
-+
-+static void chr_event_close(VMIntrospection *i)
-+{
-+    if (i->sock_fd !=3D -1) {
-+        warn_report("VMI: introspection tool disconnected");
-+        disconnect_and_unhook_kvmi(i);
-+    }
-+}
-+
-+static void chr_event(void *opaque, QEMUChrEvent event)
-+{
-+    VMIntrospection *i =3D opaque;
-+
-+    switch (event) {
-+    case CHR_EVENT_OPENED:
-+        chr_event_open(i);
-+        break;
-+    case CHR_EVENT_CLOSED:
-+        chr_event_close(i);
-+        break;
-+    default:
-+        break;
-+    }
-+}
-+
- static Error *vm_introspection_init(VMIntrospection *i)
+     if (i->chr) {
+         shutdown_socket_fd(i);
+         qemu_chr_fe_deinit(&i->sock, true);
+@@ -303,7 +348,7 @@ static int chr_can_read(void *opaque)
  {
-     Error *err =3D NULL;
-@@ -162,7 +434,25 @@ static Error *vm_introspection_init(VMIntrospection =
-*i)
-         return err;
+     VMIntrospection *i =3D opaque;
+=20
+-    if (i->sock_fd =3D=3D -1) {
++    if (i->hsk_timer =3D=3D NULL || i->sock_fd =3D=3D -1) {
+         return 0;
      }
 =20
-+    if (!qemu_chr_fe_init(&i->sock, chr, &err)) {
-+        error_append_hint(&err, "VMI: device '%s' not initialized",
-+                          i->chardevid);
-+        return err;
-+    }
-+
-     i->chr =3D chr;
+@@ -356,10 +401,24 @@ static void chr_read(void *opaque, const uint8_t *b=
+uf, int size)
+     }
 =20
-+    qemu_chr_fe_set_handlers(&i->sock, chr_can_read, chr_read, chr_event=
-,
-+                             NULL, i, NULL, true);
-+
-+    /*
-+     * The reconnect timer is triggered by either machine init or by a c=
-hardev
-+     * disconnect. For the QMP creation, when the machine is already sta=
-rted,
-+     * use an artificial disconnect just to restart the timer.
-+     */
-+    if (!i->created_from_command_line) {
-+        qemu_chr_fe_disconnect(&i->sock);
-+    }
-+
-     return NULL;
+     if (enough_bytes_for_handshake(i)) {
++        cancel_handshake_timer(i);
+         validate_and_connect(i);
+     }
  }
-diff --git a/include/sysemu/vmi-handshake.h b/include/sysemu/vmi-handshak=
-e.h
-new file mode 100644
-index 0000000000..19bdfb6740
---- /dev/null
-+++ b/include/sysemu/vmi-handshake.h
-@@ -0,0 +1,45 @@
-+/*
-+ * QEMU VM Introspection Handshake
-+ *
-+ */
+=20
++static gboolean chr_timeout(gpointer opaque)
++{
++    VMIntrospection *i =3D opaque;
 +
-+#ifndef QEMU_VMI_HANDSHAKE_H
-+#define QEMU_VMI_HANDSHAKE_H
++    warn_report("VMI: the handshake takes too long");
 +
-+enum { QEMU_VMI_NAME_SIZE =3D 64 };
-+enum { QEMU_VMI_COOKIE_HASH_SIZE =3D 20};
++    g_source_unref(i->hsk_timer);
++    i->hsk_timer =3D NULL;
 +
-+/**
-+ * qemu_vmi_to_introspector:
-+ *
-+ * This structure is passed to the introspection tool during the handsha=
-ke.
-+ *
-+ * @struct_size: the structure size
-+ * @uuid: the UUID
-+ * @start_time: the VM start time
-+ * @name: the VM name
-+ */
-+typedef struct qemu_vmi_to_introspector {
-+    uint32_t struct_size;
-+    uint8_t  uuid[16];
-+    uint32_t padding;
-+    int64_t  start_time;
-+    char     name[QEMU_VMI_NAME_SIZE];
-+    /* ... */
-+} qemu_vmi_to_introspector;
++    disconnect_and_unhook_kvmi(i);
++    return FALSE;
++}
 +
-+/**
-+ * qemu_vmi_from_introspector:
-+ *
-+ * This structure is passed by the introspection tool during the handsha=
-ke.
-+ *
-+ * @struct_size: the structure size
-+ * @cookie_hash: the hash of the cookie know by the introspection tool
-+ */
-+typedef struct qemu_vmi_from_introspector {
-+    uint32_t struct_size;
-+    uint8_t  cookie_hash[QEMU_VMI_COOKIE_HASH_SIZE];
-+    /* ... */
-+} qemu_vmi_from_introspector;
+ static void chr_event_open(VMIntrospection *i)
+ {
+     Error *local_err =3D NULL;
+@@ -378,6 +437,9 @@ static void chr_event_open(VMIntrospection *i)
+     memset(&i->hsk_in, 0, sizeof(i->hsk_in));
+     i->hsk_in_read_pos =3D 0;
+     i->hsk_in_read_size =3D 0;
++    i->hsk_timer =3D qemu_chr_timeout_add_ms(i->chr,
++                                           i->handshake_timeout * 1000,
++                                           chr_timeout, i);
+ }
+=20
+ static void chr_event_close(VMIntrospection *i)
+@@ -386,6 +448,8 @@ static void chr_event_close(VMIntrospection *i)
+         warn_report("VMI: introspection tool disconnected");
+         disconnect_and_unhook_kvmi(i);
+     }
 +
-+#endif /* QEMU_VMI_HANDSHAKE_H */
++    cancel_handshake_timer(i);
+ }
+=20
+ static void chr_event(void *opaque, QEMUChrEvent event)
 
