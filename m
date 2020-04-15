@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C27C1A9B2E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 12:45:19 +0200 (CEST)
-Received: from localhost ([::1]:47684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EC1E1A9B44
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 12:46:44 +0200 (CEST)
+Received: from localhost ([::1]:47756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOfXi-0007Db-BC
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 06:45:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45472)
+	id 1jOfZ5-0002YJ-MI
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 06:46:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45490)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jOfUp-00029R-K9
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:42:20 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jOfUr-0002Db-DU
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:42:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jOfUo-00037T-Fl
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:42:19 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:51866)
+ (envelope-from <alex.bennee@linaro.org>) id 1jOfUq-00038D-9f
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:42:21 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39953)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jOfUo-00037D-9m
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:42:18 -0400
-Received: by mail-wm1-x336.google.com with SMTP id x4so16843604wmj.1
- for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 03:42:18 -0700 (PDT)
+ id 1jOfUq-00037t-2u
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:42:20 -0400
+Received: by mail-wm1-x343.google.com with SMTP id a81so18368554wmf.5
+ for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 03:42:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=R1iGbNrPxs7Q1flfCK5WZAyghUVesN3d6e9WvcQ4hxE=;
- b=bXs6vLnL1mmwCoZunbo4QOPJgBB3Nr1b5K1QpKfcOt80TgynDurUml9i13rYBUdXjj
- RASNv6rnVvK8gfMGDvxwRjvqRcsbrJbiiCYKWxnW6AaE++dtX/thhAN/lKblFkhQirUd
- 4VAr331f1TmVHcOhFeu87JdpbTeJxGLVcjWgjQUI+Olr4LLbeylbwm+lZefPk8hNfs8o
- 58uZFDax1ppAvQXI7htmHuGH1BOg+4RIyv2BB9uDvk9L8hSQJSYW6CnPia+ZhEU4fzBi
- vK4Aby+fer7RBNuTaSLQYKXLppuMBVH+eN0v0dWDP7XK/pMCnCKtER1ZBWfryudDleh6
- NPhQ==
+ bh=xbro/RkD78CkyyXw+NBefFNc/SpIU1l0Ej5jYONi0ms=;
+ b=Z8oriZLafPy1iDQxG3Fe9GeQv78TtU963w4AhWk6iHSTB9iK7i334CwDJSsL1HAIZ8
+ R5SsYqQ/Yzgs18TP1rGfzSybzphIRIAdttoj5M0IfYn5oHPa57+nGy8HIb0pRx1AmPkM
+ 9+QuJOOgtJ8u8oERT4F/ss6WcSm/Y2RLafTr8S0XqePZc0WWk5wjK/7a9jXb3ylRPtC4
+ hUfWtWoxizcsdQDfZRBI1pjN/tU7uRgdY72hly0j76/Cu2glTi8EQRPnwP59PLIVOnLp
+ K9SJB0aA7gUTcMQd7X/Nc6zzQJMWx26kuOSb730B6w+R1MR9gBG/vNVa7nkSFPYVsTgB
+ QJmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=R1iGbNrPxs7Q1flfCK5WZAyghUVesN3d6e9WvcQ4hxE=;
- b=IBZSOS3dDCNhIzvu0VfEVpjoEEkjiho7HOVWoHjMqbtIecVR0WkPfyrlkcQ9i4Xhnw
- 6KG+AJ+Pf1kVnQlhTjSdTt81e8ejXM45YbON9SGO+7utnsKdz6x92WBIrS10ZmYZwjAY
- llBWR+cFcgFm+NlbiThzLEjNiz1FvTyv4lgOgabqYKoJucJbwNO3QIEnvE6OpsAbkrrH
- EOpRGfgd7IdccHGh5HuenFPkmVS2e3lfSGte5iXPKe9pIiMvJlc8G6CmnNhAeIn307+U
- dABlWGpgDXD7FWcY8oe8ALdd7RVtS4092yYtYyLC7rslJVbQCRLco5D3CihqAdJCe9kZ
- Bhfg==
-X-Gm-Message-State: AGi0PuaGExaLSE3344w90ePm/xOIqQZKrpWObWou03YNJVmPuwDYkdAV
- YD8RGhXwE+urY5iXLEJHfFUdJw==
-X-Google-Smtp-Source: APiQypKb/M6xge/q/yD5nbz1LzCSXm33CHkFr7YucYOpdg6FuCG/mOppP/+hsqsrFCoK6Xwrc+vmhA==
-X-Received: by 2002:a1c:6503:: with SMTP id z3mr4759100wmb.92.1586947337330;
- Wed, 15 Apr 2020 03:42:17 -0700 (PDT)
+ bh=xbro/RkD78CkyyXw+NBefFNc/SpIU1l0Ej5jYONi0ms=;
+ b=A9ICF1nPbhAvSyXZa3zlrgXd27qFu+oOTyCQ4c4hDjQ09Np9z1fkASiNOL34MhRYJU
+ sxfgfmpzfyO/VB6WtuvVC/D/gnzLA5ETBa3o5z6tSouaa1+Qk9I7z2Z6FluC7qBqM+WH
+ JtkN15Gi4zsRVPbVLrP0nhl4Se+e5evrNA6cFp0I/7EfpyiykvjSPLQsCOYToRIs8Glo
+ vdNgK4GPw8NffPqKwf/sOTGCn72HJL0/xh6QGOHMt7t5pJ+BkL/mVpl+3TEMSy2mbIMj
+ JWlvJWwsbI/Koyjet1mOnwUXFmjH2RuF5VffWUth6KZTnIsVoN48jDKToh+S7VZ27UXe
+ Zh9A==
+X-Gm-Message-State: AGi0PuaTKddSmC3qxyr7T6tOeQdyd+xCamGoH7iuxiyuACzB3BKHlPWx
+ I4JAHQTug2UCtRhK3rHTbpoAfw==
+X-Google-Smtp-Source: APiQypICNbw5c2xGu4wILI6O2VWgnWV1pnQQ5vHgstO9uTNEL4QbB+Im7Ng25Bxj1P5cZog1CB3kFQ==
+X-Received: by 2002:a7b:c755:: with SMTP id w21mr4465467wmk.120.1586947339104; 
+ Wed, 15 Apr 2020 03:42:19 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e15sm22831332wrt.16.2020.04.15.03.42.12
+ by smtp.gmail.com with ESMTPSA id r27sm3810254wra.83.2020.04.15.03.42.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Apr 2020 03:42:12 -0700 (PDT)
+ Wed, 15 Apr 2020 03:42:17 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 416D21FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id 5689F1FF90;
  Wed, 15 Apr 2020 11:42:12 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 3/8] configure: disable PIE for Windows builds
-Date: Wed, 15 Apr 2020 11:42:06 +0100
-Message-Id: <20200415104211.9388-4-alex.bennee@linaro.org>
+Subject: [PULL 4/8] linux-user: fix /proc/self/stat handling
+Date: Wed, 15 Apr 2020 11:42:07 +0100
+Message-Id: <20200415104211.9388-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200415104211.9388-1-alex.bennee@linaro.org>
 References: <20200415104211.9388-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::336
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,40 +81,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bug 1871798 <1871798@bugs.launchpad.net>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Riku Voipio <riku.voipio@iki.fi>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- James Le Cuirot <chewi@aura-online.co.uk>,
- Howard Spoelstra <hsp.cat7@gmail.com>,
+ Laurent Vivier <laurent@vivier.eu>, Brice Goglin <Brice.Goglin@inria.fr>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It seems on some compilers the test can pass but still give you
-broken binaries.
+In the original bug report long files names in Guix caused
+/proc/self/stat be truncated without the trailing ") " as specified in
+proc manpage which says:
+    (2) comm  %s
+           The  filename of the executable, in parentheses.  This
+           is visible whether or not the  executable  is  swapped
+           out.
 
-Fixes: d2cd29e30736
-Fixes: https://bugs.launchpad.net/qemu/+bug/1871798
-Cc: Bug 1871798 <1871798@bugs.launchpad.net>
+In the kernel this is currently done by do_task_stat calling
+proc_task_name() which uses a structure limited by TASK_COMM_LEN (16).
+
+Additionally it should only be reporting the executable name rather
+than the full path. Fix both these failings while cleaning up the code
+to use GString to build up the reported values. As the whole function
+is cleaned up also adjust the white space to the current coding style.
+
+Message-ID: <fb4c55fa-d539-67ee-c6c9-de8fb63c8488@inria.fr>
+Reported-by: Brice Goglin <Brice.Goglin@inria.fr>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Howard Spoelstra <hsp.cat7@gmail.com>
-Tested-by: James Le Cuirot <chewi@aura-online.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200414200631.12799-9-alex.bennee@linaro.org>
+Message-Id: <20200414200631.12799-10-alex.bennee@linaro.org>
 
-diff --git a/configure b/configure
-index 25f7d915720..23b5e93752b 100755
---- a/configure
-+++ b/configure
-@@ -807,6 +807,7 @@ MINGW32*)
-     audio_drv_list=""
-   fi
-   supported_os="yes"
-+  pie="no"
- ;;
- GNU/kFreeBSD)
-   bsd="yes"
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 6495ddc4cda..674f70e70a5 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -7295,34 +7295,29 @@ static int open_self_stat(void *cpu_env, int fd)
+ {
+     CPUState *cpu = env_cpu((CPUArchState *)cpu_env);
+     TaskState *ts = cpu->opaque;
+-    abi_ulong start_stack = ts->info->start_stack;
++    g_autoptr(GString) buf = g_string_new(NULL);
+     int i;
+ 
+     for (i = 0; i < 44; i++) {
+-      char buf[128];
+-      int len;
+-      uint64_t val = 0;
+-
+-      if (i == 0) {
+-        /* pid */
+-        val = getpid();
+-        snprintf(buf, sizeof(buf), "%"PRId64 " ", val);
+-      } else if (i == 1) {
+-        /* app name */
+-        snprintf(buf, sizeof(buf), "(%s) ", ts->bprm->argv[0]);
+-      } else if (i == 27) {
+-        /* stack bottom */
+-        val = start_stack;
+-        snprintf(buf, sizeof(buf), "%"PRId64 " ", val);
+-      } else {
+-        /* for the rest, there is MasterCard */
+-        snprintf(buf, sizeof(buf), "0%c", i == 43 ? '\n' : ' ');
+-      }
++        if (i == 0) {
++            /* pid */
++            g_string_printf(buf, FMT_pid " ", getpid());
++        } else if (i == 1) {
++            /* app name */
++            gchar *bin = g_strrstr(ts->bprm->argv[0], "/");
++            bin = bin ? bin + 1 : ts->bprm->argv[0];
++            g_string_printf(buf, "(%.15s) ", bin);
++        } else if (i == 27) {
++            /* stack bottom */
++            g_string_printf(buf, TARGET_ABI_FMT_ld " ", ts->info->start_stack);
++        } else {
++            /* for the rest, there is MasterCard */
++            g_string_printf(buf, "0%c", i == 43 ? '\n' : ' ');
++        }
+ 
+-      len = strlen(buf);
+-      if (write(fd, buf, len) != len) {
+-          return -1;
+-      }
++        if (write(fd, buf->str, buf->len) != buf->len) {
++            return -1;
++        }
+     }
+ 
+     return 0;
 -- 
 2.20.1
 
