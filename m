@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA9F61A9195
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 05:31:50 +0200 (CEST)
-Received: from localhost ([::1]:42286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12F451A9189
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 05:29:38 +0200 (CEST)
+Received: from localhost ([::1]:42232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOYmD-0000EB-SI
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 23:31:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47553)
+	id 1jOYk5-0005YN-3Z
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 23:29:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47571)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fengli@smartx.com>) id 1jOYij-0003vX-4g
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 23:28:14 -0400
+ (envelope-from <fengli@smartx.com>) id 1jOYim-0003zD-11
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 23:28:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fengli@smartx.com>) id 1jOYii-0003VR-7a
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 23:28:13 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:45653)
+ (envelope-from <fengli@smartx.com>) id 1jOYik-0003Wd-S6
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 23:28:15 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:41644)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <fengli@smartx.com>) id 1jOYii-0003VB-1m
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 23:28:12 -0400
-Received: by mail-pl1-x643.google.com with SMTP id t4so733822plq.12
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 20:28:11 -0700 (PDT)
+ (Exim 4.71) (envelope-from <fengli@smartx.com>) id 1jOYik-0003WG-NM
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 23:28:14 -0400
+Received: by mail-pl1-x642.google.com with SMTP id d24so744447pll.8
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 20:28:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=smartx-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:from:to:cc:subject:date:message-id:in-reply-to
  :references:content-transfer-encoding;
- bh=7QrF3lqnF8J6N38bFem6LFl6ts/NWaHVdZgVmsDDT/8=;
- b=rhvuh+n0LI9F/aDAXM7keiZ++BeWK0sIaxx3ZNxVaMPMdxIEhH2o8np7hw4V9riKxB
- TiHUV8N3yOxzX0LwYQnlnLks8y/5usVAG4R5lAn4M7q0Dc9bNmvKZ/38w3x/l6ui0Vbn
- iZ4caRLh64BVaY9CiW8fIah8cjmKvE399fZWqHcwgsN4jn/bUOLqisjqsE0cbBD1gddG
- LKmpxSJsEcsScAvEtO9YyZaPKOYDpIEnWjy0UYchi/pFw6Jz6oFuc5IXG1F70kztbEfl
- f6BbUNQ9JFvVwXPy6sgxMonRzBfcHiDbyTzUSBezFwDFgV4xfWHBZ7bveVhWUnfTYZ5Y
- o2Xg==
+ bh=b6O9MOPsS5sqJwwRSOtIH4vxPCnN0SubzzVkQkgHtWE=;
+ b=uOC7xMkgTRK3uL5lWMJprvE4cZXzrsuX/xuqArrJ0W6B75tletpxKX46xDiAsQmfDJ
+ vNLHTzkwcQJ2NauINYSoTSVgTd0/CvqVh2leLzqVKxzexzU/SrUtOZYBO2czXDofrlX/
+ LV3pDstcCJQSArYL3xrSnuQZd9jFcTcvujVNiVj8Dop9YtQxi3cidovoZ9BbQUQZ64je
+ Lk7fT+2ee97TxRgzUr2kODul1O3pEP/l69UlE43sVAC6ReHSl+9VSyoHV1jI+EBIF9bj
+ UpCVHbCjrpdZOE8enBfW1IqQsKxkDo5U0/W0ysm5HU5n/SPJvRe7RbfkPKsZgWeVkw/h
+ Yz7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :in-reply-to:references:content-transfer-encoding;
- bh=7QrF3lqnF8J6N38bFem6LFl6ts/NWaHVdZgVmsDDT/8=;
- b=uFbwqw2AqReGCDtCoIF3eBRoIIJLJAZvV5YNOJWVNnHHbrBUXRTAMPYaH59Hhs2PbM
- PhaCGRnqz3qt/7Ewe/j0L/xTnvKZ3RCSQar/Ew318urmDhn+1Ta8ek0VGc428rawMs80
- Y1r919Q1k6tKnsYxdgtMcYJRkHWd+8phi5VwoCtKsBcv6UffcGwqL391rLr1d49VFcBM
- P0JdxljnObFv/Flos36614WoItiLZJ3OM5nPF8NfJIg84xxY73SahlFuHvSePukIchzx
- ptkcUK7wTaPpt3MAzq9G/D+V92VX2AeXfn8iZYYXxXTk6nTUy8rvBnghgDVYbni2dXrn
- o1RA==
+ bh=b6O9MOPsS5sqJwwRSOtIH4vxPCnN0SubzzVkQkgHtWE=;
+ b=BVqaSHPU4kjTVKyc/enl4zixLsSZcYj4ht24UYtS5e23O1hYu1xx6W0IgB9PO6RZtw
+ uGxRnMTtEL5RS7sBgsP+N5090d/7y3B6FBVZqXaJILDfgvfglOQR+OLnG6euT7B0xIxJ
+ ou2xSqXcXWip91avx6acgMg0H5O3RT2xO2UwZFs0FpXxQ4QfXKLlEd35YumwAb5CYgYN
+ e0z37PCjKXnyaIlwI8C+7gqwKJMQzttmNO0NVb1ZUoYyA2VMTk1HuF7jkV3mRuGvThDW
+ jT0z0ghGnk7iQLbsamzYLVPNDFfEkXBfGeUjEVeSuXFy5FDdryFSv409iHyGH3nwrTmf
+ iQug==
 MIME-Version: 1.0
-X-Gm-Message-State: AGi0Pubmm5XQS5Kxm4CJKWytM/72SztuXIAlEvsd7u+KHkkww0CeDav0
- ODlLafko9I7XcDkeqIozeITsdYZkOah2YakfgqWTWf2hJ04JeAg8RogmBeYEJUSZCPt/6AKEpNf
- mbb/FYrZL
-X-Google-Smtp-Source: APiQypL8yMIrHuYc6CsLq+cP2DLYGggxNSzC/75KshAyFMXdrb3tkk/9D5J+5AWxBAtxN4awGDwxpA==
-X-Received: by 2002:a17:90a:fe8:: with SMTP id 95mr3815506pjz.45.1586921290457; 
- Tue, 14 Apr 2020 20:28:10 -0700 (PDT)
+X-Gm-Message-State: AGi0PuZMfp33RBshug4WZBLi9bW+ShplbhLfeSNqS/b1einYnLclmlEg
+ y/BywBtkumrxcUTgo971RMsY/nuXx6tSrHso/eqNvqj33ohmryc32nRs7YNZbXTNPipw49Tv6Jn
+ 9WBPG4AP7
+X-Google-Smtp-Source: APiQypLPo/eiQ8JgedI0yKEnD504kyhFcjFFqgZwQuQJG1GlQZ49O9vbKix5//mHOeunCdmvYeglcQ==
+X-Received: by 2002:a17:902:8d89:: with SMTP id
+ v9mr3026092plo.83.1586921293772; 
+ Tue, 14 Apr 2020 20:28:13 -0700 (PDT)
 Received: from 31_216.localdomain ([47.240.167.159])
- by smtp.gmail.com with ESMTPSA id d21sm5915061pjs.3.2020.04.14.20.28.08
+ by smtp.gmail.com with ESMTPSA id d21sm5915061pjs.3.2020.04.14.20.28.11
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 14 Apr 2020 20:28:10 -0700 (PDT)
+ Tue, 14 Apr 2020 20:28:13 -0700 (PDT)
 From: Li Feng <fengli@smartx.com>
-To: kyle@smartx.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+To: kyle@smartx.com, Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ qemu-block@nongnu.org (open list:Block layer core),
  qemu-devel@nongnu.org (open list:All patches CC here)
-Subject: [PATCH 3/4] char-socket: avoid double call tcp_chr_free_connection
-Date: Wed, 15 Apr 2020 11:28:25 +0800
-Message-Id: <20200415032826.16701-4-fengli@smartx.com>
+Subject: [PATCH 4/4] vhost-user-blk: fix crash in realize process
+Date: Wed, 15 Apr 2020 11:28:26 +0800
+Message-Id: <20200415032826.16701-5-fengli@smartx.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20200415032826.16701-1-fengli@smartx.com>
 References: <20200415032826.16701-1-fengli@smartx.com>
@@ -70,7 +72,7 @@ Content-Type: text/plain; charset="GB2312"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::643
+X-Received-From: 2607:f8b0:4864:20::642
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,30 +88,109 @@ Cc: Li Feng <fengli@smartx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-double call tcp_chr_free_connection generates a crash.
+The crash could be reproduced like this:
+1. break vhost_user_write;
+2. kill the vhost-user-blk target;
+3. let qemu continue running;
+4. start vhost-user-blk;
+5. see crash!
+
+This fix makes changes:
+1. set s->connected to true after vhost_dev_init;
+2. call vhost_dev_get_config when s->connected is true, otherwise the
+    hdev->host_ops will be nullptr.
 
 Signed-off-by: Li Feng <fengli@smartx.com>
 ---
- chardev/char-socket.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/block/vhost-user-blk.c | 47 +++++++++++++++++++++++++------------------=
+----
+ 1 file changed, 25 insertions(+), 22 deletions(-)
 
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index 185fe38dda..43aab8f24b 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -476,6 +476,11 @@ static void tcp_chr_disconnect_locked(Chardev *chr)
-     SocketChardev *s =3D SOCKET_CHARDEV(chr);
-     bool emit_close =3D s->state =3D=3D TCP_CHARDEV_STATE_CONNECTED;
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index 19e79b96e4..35386b7cb7 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -303,8 +303,6 @@ static int vhost_user_blk_connect(DeviceState *dev)
+     if (s->connected) {
+         return 0;
+     }
+-    s->connected =3D true;
+-
+     s->dev.nvqs =3D s->num_queues;
+     s->dev.vqs =3D s->vhost_vqs;
+     s->dev.vq_index =3D 0;
+@@ -318,6 +316,11 @@ static int vhost_user_blk_connect(DeviceState *dev)
+                      strerror(-ret));
+         return ret;
+     }
++    /*
++     * set true util vhost_dev_init return ok, because CLOSE event may hap=
+pen
++     * in vhost_dev_init routine.
++     */
++    s->connected =3D true;
 =20
-+    /* avoid re-enter when socket read/write error and disconnect event. *=
-/
-+    if (s->state =3D=3D TCP_CHARDEV_STATE_DISCONNECTED) {
-+        return;
-+    }
-+
-     tcp_chr_free_connection(chr);
+     /* restore vhost state */
+     if (virtio_device_started(vdev, vdev->status)) {
+@@ -401,6 +404,7 @@ static void vhost_user_blk_device_realize(DeviceState *=
+dev, Error **errp)
+     VHostUserBlk *s =3D VHOST_USER_BLK(vdev);
+     Error *err =3D NULL;
+     int i, ret;
++    bool reconnect;
 =20
-     if (s->listener) {
+     if (!s->chardev.chr) {
+         error_setg(errp, "vhost-user-blk: chardev is mandatory");
+@@ -433,27 +437,26 @@ static void vhost_user_blk_device_realize(DeviceState=
+ *dev, Error **errp)
+     s->inflight =3D g_new0(struct vhost_inflight, 1);
+     s->vhost_vqs =3D g_new0(struct vhost_virtqueue, s->num_queues);
+     s->connected =3D false;
++    reconnect =3D false;
+=20
+-    qemu_chr_fe_set_handlers(&s->chardev,  NULL, NULL, vhost_user_blk_even=
+t,
+-                             NULL, (void *)dev, NULL, true);
+-
+-reconnect:
+-    if (qemu_chr_fe_wait_connected(&s->chardev, &err) < 0) {
+-        error_report_err(err);
+-        goto virtio_err;
+-    }
+-
+-    /* check whether vhost_user_blk_connect() failed or not */
+-    if (!s->connected) {
+-        goto reconnect;
+-    }
+-
+-    ret =3D vhost_dev_get_config(&s->dev, (uint8_t *)&s->blkcfg,
+-                               sizeof(struct virtio_blk_config));
+-    if (ret < 0) {
+-        error_report("vhost-user-blk: get block config failed");
+-        goto reconnect;
+-    }
++    do {
++        if (qemu_chr_fe_wait_connected(&s->chardev, &err) < 0) {
++            error_report_err(err);
++            goto virtio_err;
++        }
++        qemu_chr_fe_set_handlers(&s->chardev,  NULL, NULL, vhost_user_blk_=
+event,
++                                 NULL, (void *)dev, NULL, true);
++        if (s->connected) {
++            ret =3D vhost_dev_get_config(&s->dev, (uint8_t *)&s->blkcfg,
++                                       sizeof(struct virtio_blk_config));
++            if (ret < 0) {
++                error_report("vhost-user-blk: get block config failed");
++                reconnect =3D true;
++            } else {
++                reconnect =3D false;
++            }
++        }
++    } while (!s->connected || reconnect);
+=20
+     if (s->blkcfg.num_queues !=3D s->num_queues) {
+         s->blkcfg.num_queues =3D s->num_queues;
 --=20
 2.11.0
 
