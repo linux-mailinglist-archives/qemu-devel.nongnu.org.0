@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 712981A9188
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 05:29:31 +0200 (CEST)
-Received: from localhost ([::1]:42230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B17C1A9192
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 05:30:51 +0200 (CEST)
+Received: from localhost ([::1]:42262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOYjx-0005Cf-UA
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 23:29:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47502)
+	id 1jOYlG-0007S5-5t
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 23:30:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47527)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fengli@smartx.com>) id 1jOYic-0003qj-B3
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 23:28:07 -0400
+ (envelope-from <fengli@smartx.com>) id 1jOYie-0003qx-Ml
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 23:28:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fengli@smartx.com>) id 1jOYib-0003SD-3O
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 23:28:06 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:46288)
+ (envelope-from <fengli@smartx.com>) id 1jOYid-0003Te-Kj
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 23:28:08 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:41445)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <fengli@smartx.com>) id 1jOYia-0003Rf-Mx
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 23:28:04 -0400
-Received: by mail-pf1-x443.google.com with SMTP id m21so900679pff.13
- for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 20:28:03 -0700 (PDT)
+ (Exim 4.71) (envelope-from <fengli@smartx.com>) id 1jOYid-0003Sl-G3
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 23:28:07 -0400
+Received: by mail-pg1-x542.google.com with SMTP id h69so874301pgc.8
+ for <qemu-devel@nongnu.org>; Tue, 14 Apr 2020 20:28:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=smartx-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:from:to:cc:subject:date:message-id
- :content-transfer-encoding;
- bh=qdVfe2QUukV3BpLl1BRexPLCXtYN6LN/z+zHrtHIb5U=;
- b=ROOMXU12WqwarlXx/o/Aiz7FZdkHe92o09mtE6rhIZfkZK1E9kr6LZDQP1yoE0gNuN
- EP4UVNKCVyJED+6PliEej8Byiu+LtgK9lngEuwyTIRjaLXZLAsxwl0ilh2WZ7zl+JQ0v
- u+5NOo9KYVCpaMinxx5xgKSX7VasKdMifAuyWWOvmiIYVyh44S7YGS529LdROSyQmpzN
- kP67192KKjXYQFt6Zu3pvpclsadDHapQ+ASvGe5NeVkNMuRrtEs+/7ZZm5eJ1FBTam0E
- ePjcAtn4+MrNNYGOgazr3ST6mNrC7zXDAm+H5S2IjBT+Jn6xTxT4ET7A0UIRYea/vLJl
- Xn6g==
+ h=mime-version:from:to:cc:subject:date:message-id:in-reply-to
+ :references:content-transfer-encoding;
+ bh=TwgnJmPadU3PRD+Wik0Nx8aB1MFbEI3Wplly0TQHwwk=;
+ b=kUdN+5+Uw4a2c+bhi313HV5e51yUFB6NmuLD9wajdjuyUgtmuvKwRADQxgZ1j6Rc5N
+ JDkEz5aco2ScDAh9NWjqQe+/2u3uIOZH3QrC9eEtyuD2OKMZMx5V6Iy4C7nOg8IFI4EF
+ BjNK7zkfnfJuoc1nyjVpiC3Xvn5LEhEtSfRwqxBD3fRxxYQXygFeDfZScq9okIshyMNM
+ 64ro/0/DlRILQ6WkRAWEHw3GjUbMoSs8wurEpE8dXcGbZu95l3zv3P8oDrdKc7DVAUks
+ W50AW+w+rZAyrEK3tr6zdOMpUth3axOavXa/F8vfWlaveNnckSf9z3UTxfepbVXRFYhe
+ Xgcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :content-transfer-encoding;
- bh=qdVfe2QUukV3BpLl1BRexPLCXtYN6LN/z+zHrtHIb5U=;
- b=hmalRtZjvEQbxiNjoqYebMJ5qncT2yKtkOzt9bKQtOKfx3vJEGcQyzUd8qVCfUl90m
- CWGFDtusdlrhvnbfWEVDLh3sXrPtai8Wwk9ZQ05jM8dUA2higtu/pl8QPf73dUDJdBAA
- 3f2WJzMvt1IKgiG+gTsBsZqvjetzq1x0iefmoCDsLjDKbkbGB5Q211vGmarVhAmYH/fm
- AKj4Rs4RrqdoA2Wt8LGkc3iu8b5ZIfKeU5icg0kDYLX2eT1IP5a3OnJuZIu8Rs/ppMw4
- Y7qaSqvumfxicg0VZFz8AEPrC48V3/4XyWi0LpU5JBdXpj/h6hV/3B4Ard4R2MdV2Qoa
- 3PoQ==
+ :in-reply-to:references:content-transfer-encoding;
+ bh=TwgnJmPadU3PRD+Wik0Nx8aB1MFbEI3Wplly0TQHwwk=;
+ b=G9PEaSI3urnu7Jxoka2eUR4arL062aJxPdg5h1Obg8DoW2tWlW2xW1XDVU86TycWhD
+ VaExuSXTZ6ItOV3kli8PqbbPqmmYWG3PUgLz/VRGW1H0bYO3c/sNxEg5H6bdINs6QzlL
+ GNP/k7aIyNg+cYALI/yDDAMWnNj7ezf2Q80js+lL0TPMeIZZFdm3G0BCPGHd7VaQemgD
+ ociVKZ/maOdCBHlpYwfX3Ojs8mdJTyhFCBwr4TWDxfJBiGOoZVZxAKKjvZRqBCHqtTd+
+ o9WiNbe36mZB3KP6AlcAgGGncBrbIA3yyilZa0ZmyDICVJwIp+UC27rtFR+WwjOIu/Ng
+ sOMg==
 MIME-Version: 1.0
-X-Gm-Message-State: AGi0PuYGavoMpAVwXhLd3ipUnu8qVkXbXaTBLtwv9qF3jc/lzy93A4jo
- y7cK2Lr13EeQztkxKNd3/pxOiVz7VeqYsqogZEQM4T+J9abFowJB/HvV8jXayEnbLmp2BK64fQ0
- JP4lJnx0l
-X-Google-Smtp-Source: APiQypJVbN9kez0cF++JkBTrjF/nWha0ybWyUqjQigyxByWx3hnYf7pX4pU7dEk0TN9/zv/S4Kle2A==
-X-Received: by 2002:a65:6250:: with SMTP id q16mr25829502pgv.9.1586921282745; 
- Tue, 14 Apr 2020 20:28:02 -0700 (PDT)
+X-Gm-Message-State: AGi0PuZf3V3b6rpdg3TnTy+ElHnmY3cfBThOvs5phUKMs9BW9AdmxZzt
+ O4yOxzSMzN9Gc2khXDcjQ4kpGXg/RMZ7wqBTX/UgseuSnT/usPncrGdXQSH58a3raz1KmiAfoXu
+ GpgYIOHlm
+X-Google-Smtp-Source: APiQypJV/JQFC25bGpCrV2bQ7xJrTDyM/NxV0I+OcWIy8Vcn9GO4JkuiF3SrPfKkYjnkuTp200CbcQ==
+X-Received: by 2002:a63:2e44:: with SMTP id u65mr6130125pgu.142.1586921285512; 
+ Tue, 14 Apr 2020 20:28:05 -0700 (PDT)
 Received: from 31_216.localdomain ([47.240.167.159])
- by smtp.gmail.com with ESMTPSA id d21sm5915061pjs.3.2020.04.14.20.27.59
+ by smtp.gmail.com with ESMTPSA id d21sm5915061pjs.3.2020.04.14.20.28.03
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 14 Apr 2020 20:28:02 -0700 (PDT)
+ Tue, 14 Apr 2020 20:28:04 -0700 (PDT)
 From: Li Feng <fengli@smartx.com>
-To: kyle@smartx.com, Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Max Reitz <mreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+To: kyle@smartx.com, Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
  qemu-block@nongnu.org (open list:Block layer core),
- qemu-devel@nongnu.org (open list:All patches CC here),
- Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: [PATCH 0/4] fix crashes when inject errors to vhost-user-blk chardev
-Date: Wed, 15 Apr 2020 11:28:22 +0800
-Message-Id: <20200415032826.16701-1-fengli@smartx.com>
+ qemu-devel@nongnu.org (open list:All patches CC here)
+Subject: [PATCH 1/4] vhost-user-blk: delay vhost_user_blk_disconnect
+Date: Wed, 15 Apr 2020 11:28:23 +0800
+Message-Id: <20200415032826.16701-2-fengli@smartx.com>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20200415032826.16701-1-fengli@smartx.com>
+References: <20200415032826.16701-1-fengli@smartx.com>
 Content-Type: text/plain; charset="GB2312"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,43 +87,67 @@ Cc: Li Feng <fengli@smartx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following patches fix various crashes happened when injecting errors to
-chardev unix domain socket.
+Since commit b0a335e351103bf92f3f9d0bd5759311be8156ac, a socket write
+may trigger a disconnect events, calling vhost_user_blk_disconnect() and
+clearing all the vhost_dev strutures. Then the next socket read will
+encounter an invalid pointer to vhost_dev.
 
-The crashes are encountered when the socket is from connected to disconnect=
-ed at
-vhost-user-blk realize routine.
+Signed-off-by: Li Feng <fengli@smartx.com>
+---
+ hw/block/vhost-user-blk.c | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
 
-These crashes could be reproduced like this:
-1. gdb break at vhost_user_write;
-2. add a vhost-user-blk device through qmp;
-3. when stop at vhost_user_write, kill the vhost-user-blk target;
-3. let qemu continue running;
-4. start vhost-user-blk;
-5. see crash!
-
-The 'CLOSE' event path is core trouble maker.
-
-qemu_chr_fe_set_handlers
-   -> vhost_user_blk_event(OPEN)
-       -> vhost_user_blk_connect
-            -> vhost_dev_init
-                -> vhost_user_blk_event(CLOSE)
-                -> vhost_dev_cleanup
-
-
-Li Feng (4):
-  vhost-user-blk: delay vhost_user_blk_disconnect
-  vhost-user-blk: fix invalid memory access
-  char-socket: avoid double call tcp_chr_free_connection
-  vhost-user-blk: fix crash in realize process
-
- chardev/char-socket.c     |  5 ++++
- hw/block/vhost-user-blk.c | 75 ++++++++++++++++++++++++++++++++-----------=
-----
- hw/virtio/vhost.c         |  2 +-
- 3 files changed, 58 insertions(+), 24 deletions(-)
-
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index 17df5338e7..776b9af3eb 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -349,11 +349,24 @@ static void vhost_user_blk_disconnect(DeviceState *de=
+v)
+     vhost_dev_cleanup(&s->dev);
+ }
+=20
++static void vhost_user_blk_event(void *opaque, QEMUChrEvent event);
++
++static void vhost_user_blk_chr_closed_bh(void *opaque)
++{
++    DeviceState *dev =3D opaque;
++    VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
++    VHostUserBlk *s =3D VHOST_USER_BLK(vdev);
++    vhost_user_blk_disconnect(dev);
++    qemu_chr_fe_set_handlers(&s->chardev,  NULL, NULL, vhost_user_blk_even=
+t,
++                             NULL, (void *)dev, NULL, true);
++}
++
+ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
+ {
+     DeviceState *dev =3D opaque;
+     VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
+     VHostUserBlk *s =3D VHOST_USER_BLK(vdev);
++    AioContext *ctx;
+=20
+     switch (event) {
+     case CHR_EVENT_OPENED:
+@@ -363,7 +376,16 @@ static void vhost_user_blk_event(void *opaque, QEMUChr=
+Event event)
+         }
+         break;
+     case CHR_EVENT_CLOSED:
+-        vhost_user_blk_disconnect(dev);
++        /*
++         * a close event may happen during a read/write, but vhost
++         * code assumes the vhost_dev remains setup, so delay the
++         * stop & clear to idle.
++         */
++        ctx =3D qemu_get_current_aio_context();
++
++        qemu_chr_fe_set_handlers(&s->chardev,  NULL, NULL, NULL,
++                                 NULL, NULL, NULL, false);
++        aio_bh_schedule_oneshot(ctx, vhost_user_blk_chr_closed_bh, opaque)=
+;
+         break;
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
 --=20
 2.11.0
 
