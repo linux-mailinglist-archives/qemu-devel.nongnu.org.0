@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB2841A92DC
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 08:05:16 +0200 (CEST)
-Received: from localhost ([::1]:43686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A32901A92DE
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 08:06:33 +0200 (CEST)
+Received: from localhost ([::1]:43738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jObAh-0006q6-Nt
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 02:05:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35447)
+	id 1jObBw-0001F4-LR
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 02:06:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35455)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jOayy-0002jy-G7
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 01:53:09 -0400
+ (envelope-from <its@irrelevant.dk>) id 1jOayy-0002kB-OB
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 01:53:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jOayw-0002nx-S3
+ (envelope-from <its@irrelevant.dk>) id 1jOayx-0002oK-8a
  for qemu-devel@nongnu.org; Wed, 15 Apr 2020 01:53:08 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:47552)
+Received: from charlie.dont.surf ([128.199.63.193]:47558)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jOayt-0002Yc-I4; Wed, 15 Apr 2020 01:53:03 -0400
+ id 1jOayv-0002Z3-2A; Wed, 15 Apr 2020 01:53:05 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 1C240BFD2F;
+ by charlie.dont.surf (Postfix) with ESMTPSA id 75EF1BFD5F;
  Wed, 15 Apr 2020 05:52:26 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 22/48] nvme: bump supported version to v1.3
-Date: Wed, 15 Apr 2020 07:51:14 +0200
-Message-Id: <20200415055140.466900-23-its@irrelevant.dk>
+Subject: [PATCH v7 23/48] nvme: memset preallocated requests structures
+Date: Wed, 15 Apr 2020 07:51:15 +0200
+Message-Id: <20200415055140.466900-24-its@irrelevant.dk>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200415055140.466900-1-its@irrelevant.dk>
 References: <20200415055140.466900-1-its@irrelevant.dk>
@@ -58,41 +58,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
+This is preparatory to subsequent patches that change how QSGs/IOVs are
+handled. It is important that the qsg and iov members of the NvmeRequest
+are initially zeroed.
+
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- hw/block/nvme.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/block/nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index d5c293476411..59935d4641a6 100644
+index 59935d4641a6..1d4705693287 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -44,6 +44,7 @@
- #include "trace.h"
- #include "nvme.h"
+@@ -604,7 +604,7 @@ static void nvme_init_sq(NvmeSQueue *sq, NvmeCtrl *n,=
+ uint64_t dma_addr,
+     sq->size =3D size;
+     sq->cqid =3D cqid;
+     sq->head =3D sq->tail =3D 0;
+-    sq->io_req =3D g_new(NvmeRequest, sq->size);
++    sq->io_req =3D g_new0(NvmeRequest, sq->size);
 =20
-+#define NVME_SPEC_VER 0x00010300
- #define NVME_CMB_BIR 2
- #define NVME_TEMPERATURE 0x143
- #define NVME_TEMPERATURE_WARNING 0x157
-@@ -1913,6 +1914,7 @@ static void nvme_init_ctrl(NvmeCtrl *n)
-     id->ieee[0] =3D 0x00;
-     id->ieee[1] =3D 0x02;
-     id->ieee[2] =3D 0xb3;
-+    id->ver =3D cpu_to_le32(NVME_SPEC_VER);
-     id->oacs =3D cpu_to_le16(0);
-=20
-     /*
-@@ -1957,7 +1959,7 @@ static void nvme_init_ctrl(NvmeCtrl *n)
-     NVME_CAP_SET_CSS(n->bar.cap, 1);
-     NVME_CAP_SET_MPSMAX(n->bar.cap, 4);
-=20
--    n->bar.vs =3D 0x00010200;
-+    n->bar.vs =3D NVME_SPEC_VER;
-     n->bar.intmc =3D n->bar.intms =3D 0;
- }
-=20
+     QTAILQ_INIT(&sq->req_list);
+     QTAILQ_INIT(&sq->out_req_list);
 --=20
 2.26.0
 
