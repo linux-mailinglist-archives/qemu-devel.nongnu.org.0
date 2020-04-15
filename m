@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FAA11AABF2
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 17:33:47 +0200 (CEST)
-Received: from localhost ([::1]:51838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5BCF1AAF11
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 19:05:16 +0200 (CEST)
+Received: from localhost ([::1]:52772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOk2r-0004kK-ST
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 11:33:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56478)
+	id 1jOlTP-0003IC-AT
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 13:05:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36109)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alexander.duyck@gmail.com>) id 1jOk1C-0004AJ-Kb
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 11:32:03 -0400
+ (envelope-from <bounces@canonical.com>) id 1jOl0l-000181-0c
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 12:35:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alexander.duyck@gmail.com>) id 1jOk1B-0006CQ-EW
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 11:32:02 -0400
-Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:46153)
+ (envelope-from <bounces@canonical.com>) id 1jOl0j-0003ZH-QT
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 12:35:38 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54692)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alexander.duyck@gmail.com>)
- id 1jOk1B-0006Bq-A6
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 11:32:01 -0400
-Received: by mail-il1-x144.google.com with SMTP id i75so3662823ild.13
- for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 08:32:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8jFqyVMuOl5dtDPLx8c0ylbN6fKtzArmLPib3LYOgBs=;
- b=NPJjDBtT1ybR+e37Sv6ZMvZgRFSGCBo65a6oIODlGkpZuRmzulscvTwG6f54Odpxzy
- Xfk2kijGERUlbpGTSYkdzvKMuBpXkmQ77X2FfXJX5VqNu23m0yNtqwXiBdNDRi0axIq4
- 2Irahn55MR+gSN7pOGyoozmwYDangBhMPGEFz2Pz+a9jJB+a31pFn/ULTQEwznf8z+ij
- QIXnp0qIfMcTgnyYbZ9bd0XlJlzvQKycEitRyn/N+g69n3LS2Fqtopf3EDvf4UZNbnW3
- KcD3c/atfgFDuHvMrOk/9CJGTmhAUKrLH5/Uzs5dGopKBZCo3AWGqwypAx2EjEDOAzNh
- OhVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8jFqyVMuOl5dtDPLx8c0ylbN6fKtzArmLPib3LYOgBs=;
- b=ewBXxQh10NmM4fiafPHU+YUQ6MJabhoCikBMSQE+EPEqhMjbDRD909Xh+P0M4mgtJD
- bMXRU548xKESH8N5MjcK+jVXxh6Xk0ILLcsLf77/YTpfl67ZWGpsJDMLyGRuM/jg0C64
- ahcn4a9jUacsZXEqAtNLwa0x3nnrWXd63b2kQghhXvQR0OheFftThwQL9klYkE5cxd9T
- zTsORL23xudJRfgETfBMptPRnIKVvN2IrZbgq0/fyYsUhJYtK3TIyGQ98ZzkWeVwQOyI
- W89xneQsuP7Lv/E85S6qYfU5+X22hMVh1ZJ3uELMJLgZLG+Ogqk2ZGnfI7vCzv1TWJMY
- 2uYQ==
-X-Gm-Message-State: AGi0PuYvNTXFr6r+RRjEQRa5NIynYDL16R2h5C8Z5xTriYslULvF2SfX
- HgV2tOp6VYgPC4YFrW+uAmTsBSs4V76gMRI1kw0=
-X-Google-Smtp-Source: APiQypJXF7Q8rFVnxdGYbiL0mr2MCnA2JMkrKgeAbp6AWSYn5O6wl9NNWTJmjmu42v8CBA39s+0lQhnyMSyy6MZRyWc=
-X-Received: by 2002:a05:6e02:672:: with SMTP id
- l18mr6230753ilt.237.1586964718810; 
- Wed, 15 Apr 2020 08:31:58 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jOl0j-0003Z9-Lc
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 12:35:37 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jOl0i-00056N-Av
+ for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 16:35:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4D85A2E8104
+ for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 16:35:36 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200410033729.24738.22879.stgit@localhost.localdomain>
- <20200410034143.24738.78852.stgit@localhost.localdomain>
- <4f26ec52-5520-1bfb-a1e5-fe6492f7af60@redhat.com>
-In-Reply-To: <4f26ec52-5520-1bfb-a1e5-fe6492f7af60@redhat.com>
-From: Alexander Duyck <alexander.duyck@gmail.com>
-Date: Wed, 15 Apr 2020 08:31:47 -0700
-Message-ID: <CAKgT0UeHwrj+RSb3o8ZPAnzA3+_M0eW4q36c-OU5ntL9W5i2jw@mail.gmail.com>
-Subject: Re: [PATCH v19 QEMU 3/4] virtio-balloon: Provide an interface for
- free page reporting
-To: David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::144
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 15 Apr 2020 16:25:44 -0000
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: mikegav
+X-Launchpad-Bug-Reporter: Mikhail Gavrilov (mikegav)
+X-Launchpad-Bug-Modifier: Mikhail Gavrilov (mikegav)
+Message-Id: <158696794416.12296.17436515324844466583.malonedeb@soybean.canonical.com>
+Subject: [Bug 1873032] [NEW] After upgrade qemu to 5.0.0-0.3.rc2.fc33 the
+ virtual machine with Windows 10 after a while starts to work very slowly
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: e60e734822e607365317cc2b265dc2e4f578a819
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Wed, 15 Apr 2020 13:03:53 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,102 +65,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- virtio-dev@lists.oasis-open.org, "Michael S. Tsirkin" <mst@redhat.com>
+Reply-To: Bug 1873032 <1873032@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 15, 2020 at 1:17 AM David Hildenbrand <david@redhat.com> wrote:
->
-> On 10.04.20 05:41, Alexander Duyck wrote:
-> > From: Alexander Duyck <alexander.h.duyck@linux.intel.com>
-> >
-> > Add support for free page reporting. The idea is to function very similar
-> > to how the balloon works in that we basically end up madvising the page as
-> > not being used. However we don't really need to bother with any deflate
-> > type logic since the page will be faulted back into the guest when it is
-> > read or written to.
-> >
-> > This provides a new way of letting the guest proactively report free
-> > pages to the hypervisor, so the hypervisor can reuse them. In contrast to
-> > inflate/deflate that is triggered via the hypervisor explicitly.
->
-> Much better, thanks!
->
-> >
-> > Signed-off-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
-> > ---
-> >  hw/virtio/virtio-balloon.c         |   63 +++++++++++++++++++++++++++++++++++-
-> >  include/hw/virtio/virtio-balloon.h |    2 +
-> >  2 files changed, 62 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-> > index 1c6d36a29a04..86d8b48a8e3a 100644
-> > --- a/hw/virtio/virtio-balloon.c
-> > +++ b/hw/virtio/virtio-balloon.c
-> > @@ -321,6 +321,57 @@ static void balloon_stats_set_poll_interval(Object *obj, Visitor *v,
-> >      balloon_stats_change_timer(s, 0);
-> >  }
-> >
-> > +static void virtio_balloon_handle_report(VirtIODevice *vdev, VirtQueue *vq)
-> > +{
-> > +    VirtIOBalloon *dev = VIRTIO_BALLOON(vdev);
-> > +    VirtQueueElement *elem;
-> > +
-> > +    while ((elem = virtqueue_pop(vq, sizeof(VirtQueueElement)))) {
-> > +        unsigned int i;
-> > +
-> > +        for (i = 0; i < elem->in_num; i++) {
-> > +            void *addr = elem->in_sg[i].iov_base;
-> > +            size_t size = elem->in_sg[i].iov_len;
-> > +            ram_addr_t ram_offset;
-> > +            size_t rb_page_size;
-> > +            RAMBlock *rb;
-> > +
-> > +            if (qemu_balloon_is_inhibited() || dev->poison_val) {
-> > +                continue;
->
-> actually, you want to do that in the outer loop, no?
+Public bug reported:
 
-I'll move that. Odds are compiler was doing that anyway.
+Description of problem:
 
-> > +            }
-> > +
-> > +            /*
-> > +             * There is no need to check the memory section to see if
-> > +             * it is ram/readonly/romd like there is for handle_output
-> > +             * below. If the region is not meant to be written to then
-> > +             * address_space_map will have allocated a bounce buffer
-> > +             * and it will be freed in address_space_unmap and trigger
-> > +             * and unassigned_mem_write before failing to copy over the
-> > +             * buffer. If more than one bad descriptor is provided it
-> > +             * will return NULL after the first bounce buffer and fail
-> > +             * to map any resources.
-> > +             */
-> > +            rb = qemu_ram_block_from_host(addr, false, &ram_offset);
-> > +            if (!rb) {
-> > +                trace_virtio_balloon_bad_addr(elem->in_addr[i]);
-> > +                continue;
-> > +            }
-> > +
-> > +            /* For now we will simply ignore unaligned memory regions */
-> > +            rb_page_size = qemu_ram_pagesize(rb);
-> > +            if (!QEMU_IS_ALIGNED(ram_offset | size, rb_page_size)) {
->
-> /me thinks you can drop rb_page_size
+After upgrade qemu to 5.0.0-0.3.rc2.fc33 the virtual machine with
+Windows 10 after a while starts to work very slowly
 
-You mean just fold it into the statement? I guess I can do that.
+I created the virtual machine with Windows 10 with the following config:
+- 1 CPU
+- 2GB RAM
+- With network access
 
-> I *think* there is still one remaining case to handle: Crossing RAM blocks.
->
-> Most probably you should check
->
-> /* For now, ignore crossing RAM blocks. */
-> if (ram_offset + size >= qemu_ram_get_used_length()) {
->         continue;
-> }
->
-> otherwise ram_block_discard_range() will report an error.
+I launch there a web browser there with flash content. =
 
-Makes sense. I can add that into the QEMU_IS_ALIGNED check.
+And usually, the system (Windows 10) does not work there for more than an h=
+our.
+When the system starts to work very slowly it doesn't respond to "Reboot" a=
+nd "Shut Down" commands. Only works "Force Reset" and "Force Off". But when=
+ I reboot the system with "Force Reset" it usually stuck at boot at the Win=
+dows splash screen. https://imgur.com/yGyacDG
+
+The last version of qemu which not contain this issue is
+5.0.0-0.2.rc0.fc33
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Attachment added: "win10.log"
+   https://bugs.launchpad.net/bugs/1873032/+attachment/5354690/+files/win10=
+.log
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1873032
+
+Title:
+  After upgrade qemu to 5.0.0-0.3.rc2.fc33 the virtual machine with
+  Windows 10 after a while starts to work very slowly
+
+Status in QEMU:
+  New
+
+Bug description:
+  Description of problem:
+
+  After upgrade qemu to 5.0.0-0.3.rc2.fc33 the virtual machine with
+  Windows 10 after a while starts to work very slowly
+
+  I created the virtual machine with Windows 10 with the following config:
+  - 1 CPU
+  - 2GB RAM
+  - With network access
+
+  I launch there a web browser there with flash content. =
+
+  And usually, the system (Windows 10) does not work there for more than an=
+ hour.
+  When the system starts to work very slowly it doesn't respond to "Reboot"=
+ and "Shut Down" commands. Only works "Force Reset" and "Force Off". But wh=
+en I reboot the system with "Force Reset" it usually stuck at boot at the W=
+indows splash screen. https://imgur.com/yGyacDG
+
+  The last version of qemu which not contain this issue is
+  5.0.0-0.2.rc0.fc33
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1873032/+subscriptions
 
