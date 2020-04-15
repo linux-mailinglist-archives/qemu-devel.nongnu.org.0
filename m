@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F70C1A901D
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 03:09:24 +0200 (CEST)
-Received: from localhost ([::1]:40950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD5421A9021
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 03:12:01 +0200 (CEST)
+Received: from localhost ([::1]:40986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOWYN-00020n-Dm
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 21:09:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58358)
+	id 1jOWau-0005qg-MW
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 21:12:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58385)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alazar@bitdefender.com>) id 1jOWOy-0000vw-Nc
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:41 -0400
+ (envelope-from <alazar@bitdefender.com>) id 1jOWOz-0000wV-PF
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alazar@bitdefender.com>) id 1jOWOx-000524-I9
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:40 -0400
-Received: from mx01.bbu.dsd.mx.bitdefender.com ([91.199.104.161]:49082)
+ (envelope-from <alazar@bitdefender.com>) id 1jOWOx-00052D-JZ
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:41 -0400
+Received: from mx01.bbu.dsd.mx.bitdefender.com ([91.199.104.161]:49084)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <alazar@bitdefender.com>)
- id 1jOWOx-00050q-4G
+ id 1jOWOx-00050t-75
  for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:39 -0400
 Received: from smtp.bitdefender.com (smtp02.buh.bitdefender.net [10.17.80.76])
  by mx01.bbu.dsd.mx.bitdefender.com (Postfix) with ESMTPS id
- C2F0730747C6; Wed, 15 Apr 2020 03:59:34 +0300 (EEST)
+ 0390F30747C7; Wed, 15 Apr 2020 03:59:35 +0300 (EEST)
 Received: from localhost.localdomain (unknown [91.199.104.27])
- by smtp.bitdefender.com (Postfix) with ESMTPSA id AD7E7305B7A3;
+ by smtp.bitdefender.com (Postfix) with ESMTPSA id C749B305B7A0;
  Wed, 15 Apr 2020 03:59:34 +0300 (EEST)
 From: =?UTF-8?q?Adalbert=20Laz=C4=83r?= <alazar@bitdefender.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v1 08/26] kvm: add VM introspection usage documentation
-Date: Wed, 15 Apr 2020 03:59:20 +0300
-Message-Id: <20200415005938.23895-9-alazar@bitdefender.com>
+Subject: [RFC PATCH v1 09/26] kvm: introduce the VM introspection object
+Date: Wed, 15 Apr 2020 03:59:21 +0300
+Message-Id: <20200415005938.23895-10-alazar@bitdefender.com>
 In-Reply-To: <20200415005938.23895-1-alazar@bitdefender.com>
 References: <20200415005938.23895-1-alazar@bitdefender.com>
 MIME-Version: 1.0
@@ -52,118 +52,213 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Adalbert=20Laz=C4=83r?= <alazar@bitdefender.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  Marian Rotariu <marian.c.rotariu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marian Rotariu <marian.c.rotariu@gmail.com>
+This is used to initiate the connection with the introspection tool and
+hand over the file descriptor to KVM. The object needs a chardev socket
+(in client mode) created with the 'reconnect' property set.
 
+CC: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Marian Rotariu <marian.c.rotariu@gmail.com>
 Signed-off-by: Adalbert Laz=C4=83r <alazar@bitdefender.com>
 ---
- qemu-options.hx | 76 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 76 insertions(+)
+ accel/kvm/Makefile.objs |   1 +
+ accel/kvm/vmi.c         | 168 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 169 insertions(+)
+ create mode 100644 accel/kvm/vmi.c
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 16debd03cb..6c5618e310 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -5005,6 +5005,82 @@ SRST
-         ::
-=20
-             (qemu) qom-set /objects/iothread1 poll-max-ns 100000
+diff --git a/accel/kvm/Makefile.objs b/accel/kvm/Makefile.objs
+index fdfa481578..5e85294eb3 100644
+--- a/accel/kvm/Makefile.objs
++++ b/accel/kvm/Makefile.objs
+@@ -1,2 +1,3 @@
+ obj-y +=3D kvm-all.o
++obj-y +=3D vmi.o
+ obj-$(call lnot,$(CONFIG_SEV)) +=3D sev-stub.o
+diff --git a/accel/kvm/vmi.c b/accel/kvm/vmi.c
+new file mode 100644
+index 0000000000..883c666a2a
+--- /dev/null
++++ b/accel/kvm/vmi.c
+@@ -0,0 +1,168 @@
++/*
++ * VM Introspection
++ *
++ * Copyright (C) 2017-2020 Bitdefender S.R.L.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
++ * See the COPYING file in the top-level directory.
++ */
 +
-+    ``-object introspection,id=3Did,chardev=3Did[,key=3Did][,handshake_t=
-imeout=3Dseconds][,unhook_timeout=3Dseconds][,command=3Did[,...]][,event=3D=
-id[,...]]``
-+        Defines a VM Introspection (VMI) object that will connect to
-+        an introspection tool, initiate the handshake and hand over the =
-connection
-+        file descriptor to KVM. The introspection channel will be used b=
-y
-+        the introspection tool to talk directly with KVM. If the VM is p=
-aused
-+        or migrated, QEMU will delay the action, signal KVM, which in tu=
-rn will
-+        signal the introspection tool to remove its hooks (e.g. breakpoi=
-nts
-+        placed inside the guest).
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "qemu/error-report.h"
++#include "qom/object_interfaces.h"
++#include "sysemu/sysemu.h"
++#include "sysemu/kvm.h"
++#include "chardev/char.h"
++#include "chardev/char-fe.h"
 +
-+        The ``chardev`` parameter provides the introspection channel.
-+        This is the id of a previously created chardev socket,
-+        with a non-zero reconnect parameter.
++typedef struct VMIntrospection {
++    Object parent_obj;
 +
-+        The ``key`` parameter is an optional secret object used to
-+        authenticate the instrospection tool.
++    Error *init_error;
 +
-+        The ``handshake_timeout`` parameter specify how long will QEMU
-+        wait for the introspection tool during handshake (default is
-+        10 seconds).
++    char *chardevid;
++    Chardev *chr;
 +
-+        The ``unhook_timeout` parameter specify how long will QEMU
-+        wait for the introspection tool on pause/migrate (default is
-+        60 seconds).
++    Notifier machine_ready;
++    bool created_from_command_line;
++} VMIntrospection;
 +
-+        The ``command`` parameter specify an allowed introspection comma=
-nd.
-+        It can be used multiple times. If omitted, all commands are
-+        allowed. For example, ``command=3D10,command=3D8`` will allow th=
-e
-+        introspection tool to use two commands, KVMI_VCPU_PAUSE(10) and
-+        KVMI_VM_WRITE_PHYSICAL(8), in addition to those that are used
-+        to query the API, which are always allowed (KVMI_GET_VERSION,
-+        KVMI_VM_CHECK_COMMAND and KVMI_VM_CHECK_EVENT).
++#define TYPE_VM_INTROSPECTION "introspection"
 +
-+        The ``event` parameter specify an allowed introspection event.
-+        It can be used multiple times. If omitted, all events
-+        are allowed. For example, ``event=3D1,event=3D3`` will
-+        allow the introspection tool to receive only two events,
-+        KVMI_EVENT_PAUSE_VCPU(1) and KVMI_EVENT_BREAKPOINT(3).
++#define VM_INTROSPECTION(obj) \
++    OBJECT_CHECK(VMIntrospection, (obj), TYPE_VM_INTROSPECTION)
 +
-+        VM introspected through a unix socket:
++static Error *vm_introspection_init(VMIntrospection *i);
 +
-+        .. parsed-literal::
++static void machine_ready(Notifier *notifier, void *data)
++{
++    VMIntrospection *i =3D container_of(notifier, VMIntrospection, machi=
+ne_ready);
 +
-+             # |qemu_system_x86| \
-+                 ......
-+                 -chardev socket,id=3Dvmi_chardev,type=3Dunix,path=3D/tm=
-p/vmi-guest1.sock,reconnect=3D10 \
-+                 -object introspection,id=3Dvmi,chardev=3Dvmi_chardev
++    i->init_error =3D vm_introspection_init(i);
++    if (i->init_error) {
++        Error *err =3D error_copy(i->init_error);
 +
-+        VM introspected by an authenticated introspection tool:
++        error_report_err(err);
++        if (i->created_from_command_line) {
++            exit(1);
++        }
++    }
++}
 +
-+        .. parsed-literal::
++static void complete(UserCreatable *uc, Error **errp)
++{
++    VMIntrospection *i =3D VM_INTROSPECTION(uc);
 +
-+             # |qemu_system_x86| \
-+                 ......
-+                 -chardev socket,id=3Dvmi_chardev,type=3Dunix,path=3D/tm=
-p/vmi-guest1.sock,reconnect=3D10 \
-+                 -object secret,id=3Dvmi_key,file=3D/etc/secret \
-+                 -object introspection,id=3Dvmi,chardev=3Dvmi_chardev,ke=
-y=3Dvmi_key
++    if (!i->chardevid) {
++        error_setg(errp, "VMI: chardev is not set");
++        return;
++    }
 +
-+        VM introspected through a virtual socket, with the introspection=
- tool
-+        listening on port 4321 from another VM started with cid=3D1234:
++    i->machine_ready.notify =3D machine_ready;
++    qemu_add_machine_init_done_notifier(&i->machine_ready);
 +
-+        .. parsed-literal::
++    /*
++     * If the introspection object is created while parsing the command =
+line,
++     * the machine_ready callback will be called later. At that time,
++     * it vm_introspection_init() fails, exit() will be called.
++     *
++     * If the introspection object is created through QMP, machine_init_=
+done
++     * is already set and qemu_add_machine_init_done_notifier() will
++     * call our machine_done() callback. If vm_introspection_init() fail=
+s,
++     * we don't call exit() and report the error back to the user.
++     */
++    if (i->init_error) {
++        *errp =3D i->init_error;
++        i->init_error =3D NULL;
++        return;
++    }
++}
 +
-+             # |qemu_system_x86| \
-+                 ......
-+                 -chardev socket,id=3Dvmi_chardev,type=3Dvsock,cid=3D123=
-4,port=3D4321,reconnect=3D10 \
-+                 -object introspection,id=3Dvmi,chardev=3Dvmi_chardev
++static void prop_set_chardev(Object *obj, const char *value, Error **err=
+p)
++{
++    VMIntrospection *i =3D VM_INTROSPECTION(obj);
 +
-+        VM running the introspection tool:
++    g_free(i->chardevid);
++    i->chardevid =3D g_strdup(value);
++}
 +
-+        .. parsed-literal::
++static void class_init(ObjectClass *oc, void *data)
++{
++    UserCreatableClass *uc =3D USER_CREATABLE_CLASS(oc);
 +
-+             # |qemu_system_x86| \
-+                 ......
-+                 -device vhost-vsock-pci,id=3Dvhost-vsock-pci0,guest-cid=
-=3D1234
++    uc->complete =3D complete;
++}
 +
- ERST
-=20
-=20
++static void instance_init(Object *obj)
++{
++    VMIntrospection *i =3D VM_INTROSPECTION(obj);
++
++    i->created_from_command_line =3D (qdev_hotplug =3D=3D false);
++
++    object_property_add_str(obj, "chardev", NULL, prop_set_chardev, NULL=
+);
++}
++
++static void instance_finalize(Object *obj)
++{
++    VMIntrospection *i =3D VM_INTROSPECTION(obj);
++
++    g_free(i->chardevid);
++
++    error_free(i->init_error);
++}
++
++static const TypeInfo info =3D {
++    .name              =3D TYPE_VM_INTROSPECTION,
++    .parent            =3D TYPE_OBJECT,
++    .class_init        =3D class_init,
++    .instance_size     =3D sizeof(VMIntrospection),
++    .instance_finalize =3D instance_finalize,
++    .instance_init     =3D instance_init,
++    .interfaces        =3D (InterfaceInfo[]){
++        {TYPE_USER_CREATABLE},
++        {}
++    }
++};
++
++static void register_types(void)
++{
++    type_register_static(&info);
++}
++
++type_init(register_types);
++
++static Error *vm_introspection_init(VMIntrospection *i)
++{
++    Error *err =3D NULL;
++    int kvmi_version;
++    Chardev *chr;
++
++    if (!kvm_enabled()) {
++        error_setg(&err, "VMI: missing KVM support");
++        return err;
++    }
++
++    kvmi_version =3D kvm_check_extension(kvm_state, KVM_CAP_INTROSPECTIO=
+N);
++    if (kvmi_version =3D=3D 0) {
++        error_setg(&err,
++                   "VMI: missing kernel built with CONFIG_KVM_INTROSPECT=
+ION");
++        return err;
++    }
++
++    chr =3D qemu_chr_find(i->chardevid);
++    if (!chr) {
++        error_setg(&err, "VMI: device '%s' not found", i->chardevid);
++        return err;
++    }
++
++    if (!object_property_get_bool(OBJECT(chr), "reconnecting", &err)) {
++        error_append_hint(&err, "VMI: missing reconnect=3DN for '%s'",
++                          i->chardevid);
++        return err;
++    }
++
++    i->chr =3D chr;
++
++    return NULL;
++}
 
