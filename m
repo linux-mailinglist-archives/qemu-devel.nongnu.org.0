@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0E431A9B46
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 12:47:14 +0200 (CEST)
-Received: from localhost ([::1]:47762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD9041A9B5B
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 12:48:53 +0200 (CEST)
+Received: from localhost ([::1]:47818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOfZZ-0002xy-LV
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 06:47:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45582)
+	id 1jOfbB-0005vS-0B
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 06:48:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45791)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jOfUv-0002O9-Pl
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:42:26 -0400
+ (envelope-from <philmd@redhat.com>) id 1jOfW6-0004l7-N5
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:43:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jOfUu-0003Ai-Gz
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:42:25 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:43673)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jOfUu-0003A4-AO
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:42:24 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id i10so18515803wrv.10
- for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 03:42:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=GnU4V1ssA1vvrZAqgpc7l1Tr/eH57b7BySlJY/PvGWg=;
- b=pOxIZEg9XzXXexDMvObLCzOlHhXv+fua1xazJDYfVWTIFR3twymeWGfi5rc6T/sGNu
- lE0c5mgI4HAGfpxJnE3bcsIuv+w+n91LNqPY1dijXi86esrtYRqkyOxfR4WSPlPBywke
- 8ycQR7iZAaFHfnxri+IUqy+D4/u4tSw/Nz4hUiNxLRENEp63jNAFQOaY65OicB+jcswi
- xCp/6GZsCq/PHRbWrdifaJqIlLyHfgGu8NRigS5QLDY0l+XwMBsZBKve8LkDvm3jckt1
- Eq2a6iaip5q4ue5sajKeUz5eecIaBszg+14YqYlDkc5yVAc47KJbvf7NsyxD+ZL/o7nb
- +fUw==
+ (envelope-from <philmd@redhat.com>) id 1jOfW5-0003ej-Gn
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:43:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51065
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOfW5-0003eZ-DJ
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:43:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586947417;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ofi8je2wP1nCW9e7McQzsNRAwCMXxB7OTGUAKTQ0Cr0=;
+ b=Hky2ryfwnLoCA9XgASRnmAugtP7aI+Aid2S+pKKuqb30gid2nPezC6Ao1TRcB/ueQC6XT/
+ 9Tr+hreNslaENNMNbgjr+uzA5xEvER+BMomDnZqRXd/C2RmEO+3gxReI2Icu0M6++66Yuh
+ bgmIsKLswLNunh6s9Ts6wYtIBFwzilo=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-395--rzA_fStNLu_Ecye_pIcgQ-1; Wed, 15 Apr 2020 06:43:35 -0400
+X-MC-Unique: -rzA_fStNLu_Ecye_pIcgQ-1
+Received: by mail-ed1-f72.google.com with SMTP id f11so2575196edc.4
+ for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 03:43:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=GnU4V1ssA1vvrZAqgpc7l1Tr/eH57b7BySlJY/PvGWg=;
- b=Qc5EnylTagAKyy4c5Q/1uEdtQWaz84+NLR6N5BaG6QxpSSMtSSzDD3zpsBh11mQUQd
- 9KUOCOq/Bz1yK/gHB2HmkF/4PEcShoZ9J1kWNhlVgjF57XJKFTvLK/FJG6AvvHLMMzq5
- 9ciMFU5cfuQo1DSwlbFzIzJneqaXCITl3cDQ5Bc0v1hXo+aAQqpAOPSTEr+sNRiKLgY5
- TAWN/oDQNzyI+k2g1u8smibXxHoGx7rNMM0xUUK3L4Lme/4AHncOjWEZmePGPO3OC/Oz
- AseHKpCG2rP3lNUsLw1n1llZInhWNy+2fZwe5pbvJZQbKgribAhP/ontOe9ZCgzrwfgV
- HCow==
-X-Gm-Message-State: AGi0PuaHlWXMwMAHbMsCu3Kfrav4/0jynlhi7TEx+BX4eQUKxz4dCOcO
- JZ/1Wpc2IxXRKex2uFH367ytH1J43Tk=
-X-Google-Smtp-Source: APiQypJl48ouiU1VkrUrqvMGKDSloOtdgVKfSYlBFyeJ/sEE0hyPzarLJ1ziW/RMeCjOs/npr1v6jw==
-X-Received: by 2002:adf:dfc2:: with SMTP id q2mr16409449wrn.390.1586947343281; 
- Wed, 15 Apr 2020 03:42:23 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h137sm17314440wme.0.2020.04.15.03.42.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Apr 2020 03:42:17 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B2FA71FF96;
- Wed, 15 Apr 2020 11:42:12 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 8/8] gdbstub: Introduce gdb_get_float32() to get 32-bit float
- registers
-Date: Wed, 15 Apr 2020 11:42:11 +0100
-Message-Id: <20200415104211.9388-9-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200415104211.9388-1-alex.bennee@linaro.org>
-References: <20200415104211.9388-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ofi8je2wP1nCW9e7McQzsNRAwCMXxB7OTGUAKTQ0Cr0=;
+ b=UfXEez1yotZ/qSoLUOkbYQPeWE1uwCRjomm0rv8vtS0FV9SJA5rDJ22t76PkAkTnuz
+ zqRr8jtnPRz/uAdVgZLT66GlhvBnizsEu7yOP4ZN8YP1XMbZm8RwveewMmBdhZk7eSvK
+ 4I5AwoicVkhXIfjjiN1KiJ9lcBZkcuJQQ1On3UA/UY9vFzS4r3GoUa++WsVXbiewKWoV
+ dDBpAFg4NFm25pXBNTd5BTlqMnfnhHhaMQWw6eVupFRx3+uoJnXndwH4ty/Mv7/Kngrt
+ fxhGG3I8K5jXwpS5Wku+SYEMtMJNZLVznf59KqPj0si3btKfxz+iD87MoPUldk9v1Q4w
+ uAiw==
+X-Gm-Message-State: AGi0PuaZK+1DbJbaZKVSrUfCeNX0Ae29LSRuupsbw2d8amXnYyZRTEIP
+ h8Cb6a3gyrxNYglEffI2N7uyTrYrzQqrGXN6c1dNSH5QRSDpnbXHuX6gn1w4q7qa5ZgjlZhUQou
+ LrZpsHBhcUJd7iw4=
+X-Received: by 2002:a50:dac9:: with SMTP id s9mr22102784edj.313.1586947414298; 
+ Wed, 15 Apr 2020 03:43:34 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJWrM3veihm/2OnGLiNiD4resWu+jHDWM8hkbRsmHq4eRLPvmqjf8fdVzbGA31Z8gpLP61QFQ==
+X-Received: by 2002:a50:dac9:: with SMTP id s9mr22102764edj.313.1586947414050; 
+ Wed, 15 Apr 2020 03:43:34 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id d19sm1150883edx.49.2020.04.15.03.43.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Apr 2020 03:43:33 -0700 (PDT)
+Subject: Re: [PATCH 14/16] nvme: factor out pci setup
+To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
+References: <20200415102445.564803-1-its@irrelevant.dk>
+ <20200415102445.564803-15-its@irrelevant.dk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <bcb8fd8b-9eae-9b38-5360-d9c9b3447529@redhat.com>
+Date: Wed, 15 Apr 2020 12:43:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::42c
+In-Reply-To: <20200415102445.564803-15-its@irrelevant.dk>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,64 +92,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Javier Gonzalez <javier.gonz@samsung.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On 4/15/20 12:24 PM, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>   hw/block/nvme.c | 32 ++++++++++++++++++++------------
+>   1 file changed, 20 insertions(+), 12 deletions(-)
+> 
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 08f7ae0a48b3..16d01af53a07 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -1382,6 +1382,24 @@ static int nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+>       return 0;
+>   }
+>   
+> +static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev)
+> +{
+> +    uint8_t *pci_conf = pci_dev->config;
+> +
+> +    pci_conf[PCI_INTERRUPT_PIN] = 1;
+> +    pci_config_set_prog_interface(pci_conf, 0x2);
 
-Since we now use a GByteArray, we can not use stfl_p() directly.
-Introduce the gdb_get_float32() helper to load a float32 register.
+<--
 
-Fixes: a010bdbe719 ("extend GByteArray to read register helpers")
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200414163853.12164-2-philmd@redhat.com>
-Message-Id: <20200414200631.12799-14-alex.bennee@linaro.org>
+> +    pci_config_set_vendor_id(pci_conf, PCI_VENDOR_ID_INTEL);
+> +    pci_config_set_device_id(pci_conf, 0x5845);
 
-diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
-index 3c452fc50c0..20e10726929 100644
---- a/include/exec/gdbstub.h
-+++ b/include/exec/gdbstub.h
-@@ -125,6 +125,15 @@ static inline int gdb_get_reg128(GByteArray *buf, uint64_t val_hi,
-     return 16;
- }
- 
-+static inline int gdb_get_float32(GByteArray *array, float32 val)
-+{
-+    uint8_t buf[sizeof(CPU_FloatU)];
-+
-+    stfl_p(buf, val);
-+    g_byte_array_append(array, buf, sizeof(buf));
-+
-+    return sizeof(buf);
-+}
- static inline int gdb_get_zeroes(GByteArray *array, size_t len)
- {
-     guint oldlen = array->len;
-diff --git a/target/sh4/gdbstub.c b/target/sh4/gdbstub.c
-index 49fc4a0cc69..34ad3ca0508 100644
---- a/target/sh4/gdbstub.c
-+++ b/target/sh4/gdbstub.c
-@@ -58,11 +58,9 @@ int superh_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
-         return gdb_get_regl(mem_buf, env->fpscr);
-     case 25 ... 40:
-         if (env->fpscr & FPSCR_FR) {
--            stfl_p(mem_buf, env->fregs[n - 9]);
--        } else {
--            stfl_p(mem_buf, env->fregs[n - 25]);
-+            return gdb_get_float32(mem_buf, env->fregs[n - 9]);
-         }
--        return 4;
-+        return gdb_get_float32(mem_buf, env->fregs[n - 25]);
-     case 41:
-         return gdb_get_regl(mem_buf, env->ssr);
-     case 42:
--- 
-2.20.1
+-->
+
+This is new. Already inherited by nvme_class_init().
+
+> +    pci_config_set_class(pci_conf, PCI_CLASS_STORAGE_EXPRESS);
+> +    pcie_endpoint_cap_init(pci_dev, 0x80);
+> +
+> +    memory_region_init_io(&n->iomem, OBJECT(n), &nvme_mmio_ops, n, "nvme",
+> +                          n->reg_size);
+> +    pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY |
+> +                     PCI_BASE_ADDRESS_MEM_TYPE_64, &n->iomem);
+> +    msix_init_exclusive_bar(pci_dev, n->params.max_ioqpairs + 1, 4, NULL);
+> +}
+> +
+>   static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+>   {
+>       NvmeCtrl *n = NVME(pci_dev);
+> @@ -1400,19 +1418,9 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+>           return;
+>       }
+>   
+> +    nvme_init_pci(n, pci_dev);
+> +
+>       pci_conf = pci_dev->config;
+> -    pci_conf[PCI_INTERRUPT_PIN] = 1;
+> -    pci_config_set_prog_interface(pci_dev->config, 0x2);
+> -    pci_config_set_class(pci_dev->config, PCI_CLASS_STORAGE_EXPRESS);
+> -    pcie_endpoint_cap_init(pci_dev, 0x80);
+> -
+> -    memory_region_init_io(&n->iomem, OBJECT(n), &nvme_mmio_ops, n,
+> -                          "nvme", n->reg_size);
+> -    pci_register_bar(pci_dev, 0,
+> -        PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64,
+> -        &n->iomem);
+> -    msix_init_exclusive_bar(pci_dev, n->params.max_ioqpairs + 1, 4, NULL);
+> -
+>       id->vid = cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
+>       id->ssvid = cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VENDOR_ID));
+>       strpadcpy((char *)id->mn, sizeof(id->mn), "QEMU NVMe Ctrl", ' ');
+> 
 
 
