@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4B0C1A9546
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 09:56:26 +0200 (CEST)
-Received: from localhost ([::1]:45532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 356181A9555
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 09:58:52 +0200 (CEST)
+Received: from localhost ([::1]:45582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOcuH-0008T0-Jt
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 03:56:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51229)
+	id 1jOcwd-0004Vc-97
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 03:58:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51239)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jOcnf-0006Ok-8t
+ (envelope-from <armbru@redhat.com>) id 1jOcnf-0006PF-Fq
  for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:49:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jOcnd-0007Kh-Le
+ (envelope-from <armbru@redhat.com>) id 1jOcnd-0007Kx-QH
  for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:49:35 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60444
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:58533
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jOcnd-0007Jp-Eq
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jOcnd-0007KG-KY
  for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:49:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1586936973;
@@ -27,32 +27,32 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fiLXMPHz393DyIEaz+0bLZVx3mR3IDR1Y7+PMw6nYOA=;
- b=HaBlahKvOpw4CdIJUjUsileoMfsWs0ismawmCZiGUizqXWa25wu1OC9lMdeA9b0nRnWCiD
- BvpvNyphEvJJPHUGxP2bjhxA/qSckRW5ImYwE05RwVbl+WSuF0K9fWxGL7sDwF7CRZZ5uU
- pLQP5mwBNu+RzHjDdjMewOeP15m2AvM=
+ bh=AxYhS6566ynMu6iYQOxJwhg94SejROMl4YRxPGotvqc=;
+ b=ZPbKrBGwsBL8ljZVEf8rSP6pIFl2+2LjK+wOJsGfuaT7BoNrnnUaSKHNbF9m1VxDWxbedM
+ hNEA/LAwp5ICntDeibdtTUdkARGB6ptg3sUK3k4M656G7kew0wMtBPn8Q6sZo8HmiBnlAS
+ m93oM625A7ACxiqi68nfc3uCSwlcem0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-pHE-baVuPoSkBosw2_h5ow-1; Wed, 15 Apr 2020 03:49:31 -0400
-X-MC-Unique: pHE-baVuPoSkBosw2_h5ow-1
+ us-mta-421-QW6mK9fkPD-_F0BW9hHWuA-1; Wed, 15 Apr 2020 03:49:31 -0400
+X-MC-Unique: QW6mK9fkPD-_F0BW9hHWuA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BBF810CE782;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A84E38018A9;
  Wed, 15 Apr 2020 07:49:30 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-20.ams2.redhat.com
  [10.36.113.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 645CE116D95;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 64689116D96;
  Wed, 15 Apr 2020 07:49:30 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BE53311358B2; Wed, 15 Apr 2020 09:49:27 +0200 (CEST)
+ id C1A9E11358B3; Wed, 15 Apr 2020 09:49:27 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 for-5.1 5/9] test-qemu-opts: Simplify
- test_has_help_option() after bug fix
-Date: Wed, 15 Apr 2020 09:49:23 +0200
-Message-Id: <20200415074927.19897-6-armbru@redhat.com>
+Subject: [PATCH v2 for-5.1 6/9] qemu-option: Avoid has_help_option() in
+ qemu_opts_parse_noisily()
+Date: Wed, 15 Apr 2020 09:49:24 +0200
+Message-Id: <20200415074927.19897-7-armbru@redhat.com>
 In-Reply-To: <20200415074927.19897-1-armbru@redhat.com>
 References: <20200415074927.19897-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -62,7 +62,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,78 +79,103 @@ Cc: kwolf@redhat.com, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+When opts_parse() sets @invalidp to true, qemu_opts_parse_noisily()
+uses has_help_option() to decide whether to print help.  This parses
+the input string a second time.
+
+Easy to avoid: replace @invalidp by @help_wanted.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/test-qemu-opts.c | 36 +++++++++++++++++-------------------
- 1 file changed, 17 insertions(+), 19 deletions(-)
+ util/qemu-option.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/tests/test-qemu-opts.c b/tests/test-qemu-opts.c
-index 77c944c4aa..2a0f42a09b 100644
---- a/tests/test-qemu-opts.c
-+++ b/tests/test-qemu-opts.c
-@@ -732,41 +732,39 @@ static void test_has_help_option(void)
- {
-     static const struct {
-         const char *params;
--        /* expected value of has_help_option() */
--        bool expect_has_help_option;
-         /* expected value of qemu_opt_has_help_opt() with implied=3Dfalse =
-*/
--        bool expect_opt_has_help_opt;
-+        bool expect;
-         /* expected value of qemu_opt_has_help_opt() with implied=3Dtrue *=
-/
--        bool expect_opt_has_help_opt_implied;
-+        bool expect_implied;
-     } test[] =3D {
--        { "help", true, true, false },
--        { "?", true, true, false },
--        { "helpme", false, false, false },
--        { "?me", false, false, false },
--        { "a,help", true, true, true },
--        { "a,?", true, true, true },
--        { "a=3D0,help,b", true, true, true },
--        { "a=3D0,?,b", true, true, true },
--        { "help,b=3D1", true, true, false },
--        { "?,b=3D1", true, true, false },
--        { "a,b,,help", true, true, true },
--        { "a,b,,?", true, true, true },
-+        { "help", true, false },
-+        { "?", true, false },
-+        { "helpme", false, false },
-+        { "?me", false, false },
-+        { "a,help", true, true },
-+        { "a,?", true, true },
-+        { "a=3D0,help,b", true, true },
-+        { "a=3D0,?,b", true, true },
-+        { "help,b=3D1", true, false },
-+        { "?,b=3D1", true, false },
-+        { "a,b,,help", true, true },
-+        { "a,b,,?", true, true },
-     };
-     int i;
-     QemuOpts *opts;
-=20
-     for (i =3D 0; i < ARRAY_SIZE(test); i++) {
-         g_assert_cmpint(has_help_option(test[i].params),
--                        =3D=3D, test[i].expect_has_help_option);
-+                        =3D=3D, test[i].expect);
-         opts =3D qemu_opts_parse(&opts_list_03, test[i].params, false,
-                                &error_abort);
-         g_assert_cmpint(qemu_opt_has_help_opt(opts),
--                        =3D=3D, test[i].expect_opt_has_help_opt);
-+                        =3D=3D, test[i].expect);
-         qemu_opts_del(opts);
-         opts =3D qemu_opts_parse(&opts_list_03, test[i].params, true,
-                                &error_abort);
-         g_assert_cmpint(qemu_opt_has_help_opt(opts),
--                        =3D=3D, test[i].expect_opt_has_help_opt_implied);
-+                        =3D=3D, test[i].expect_implied);
-         qemu_opts_del(opts);
-     }
+diff --git a/util/qemu-option.c b/util/qemu-option.c
+index 0abf26b61f..2d0d24ee27 100644
+--- a/util/qemu-option.c
++++ b/util/qemu-option.c
+@@ -519,7 +519,7 @@ int qemu_opt_unset(QemuOpts *opts, const char *name)
  }
+=20
+ static void opt_set(QemuOpts *opts, const char *name, char *value,
+-                    bool prepend, bool *invalidp, Error **errp)
++                    bool prepend, bool *help_wanted, Error **errp)
+ {
+     QemuOpt *opt;
+     const QemuOptDesc *desc;
+@@ -529,8 +529,8 @@ static void opt_set(QemuOpts *opts, const char *name, c=
+har *value,
+     if (!desc && !opts_accepts_any(opts)) {
+         g_free(value);
+         error_setg(errp, QERR_INVALID_PARAMETER, name);
+-        if (invalidp) {
+-            *invalidp =3D true;
++        if (help_wanted && is_help_option(name)) {
++            *help_wanted =3D true;
+         }
+         return;
+     }
+@@ -827,7 +827,7 @@ static const char *get_opt_name_value(const char *param=
+s,
+=20
+ static void opts_do_parse(QemuOpts *opts, const char *params,
+                           const char *firstname, bool prepend,
+-                          bool *invalidp, Error **errp)
++                          bool *help_wanted, Error **errp)
+ {
+     Error *local_err =3D NULL;
+     char *option, *value;
+@@ -843,7 +843,7 @@ static void opts_do_parse(QemuOpts *opts, const char *p=
+arams,
+             continue;
+         }
+=20
+-        opt_set(opts, option, value, prepend, invalidp, &local_err);
++        opt_set(opts, option, value, prepend, help_wanted, &local_err);
+         g_free(option);
+         if (local_err) {
+             error_propagate(errp, local_err);
+@@ -903,7 +903,7 @@ void qemu_opts_do_parse(QemuOpts *opts, const char *par=
+ams,
+=20
+ static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
+                             bool permit_abbrev, bool defaults,
+-                            bool *invalidp, Error **errp)
++                            bool *help_wanted, Error **errp)
+ {
+     const char *firstname;
+     char *id =3D opts_parse_id(params);
+@@ -928,7 +928,7 @@ static QemuOpts *opts_parse(QemuOptsList *list, const c=
+har *params,
+         return NULL;
+     }
+=20
+-    opts_do_parse(opts, params, firstname, defaults, invalidp, &local_err)=
+;
++    opts_do_parse(opts, params, firstname, defaults, help_wanted, &local_e=
+rr);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         qemu_opts_del(opts);
+@@ -964,11 +964,11 @@ QemuOpts *qemu_opts_parse_noisily(QemuOptsList *list,=
+ const char *params,
+ {
+     Error *err =3D NULL;
+     QemuOpts *opts;
+-    bool invalidp =3D false;
++    bool help_wanted =3D false;
+=20
+-    opts =3D opts_parse(list, params, permit_abbrev, false, &invalidp, &er=
+r);
++    opts =3D opts_parse(list, params, permit_abbrev, false, &help_wanted, =
+&err);
+     if (err) {
+-        if (invalidp && has_help_option(params)) {
++        if (help_wanted) {
+             qemu_opts_print_help(list, true);
+             error_free(err);
+         } else {
 --=20
 2.21.1
 
