@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 745551A92C7
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 07:58:28 +0200 (CEST)
-Received: from localhost ([::1]:43532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 529311A92D2
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 08:02:16 +0200 (CEST)
+Received: from localhost ([::1]:43612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOb47-0003Ul-G1
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 01:58:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35180)
+	id 1jOb7n-00012M-7v
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 02:02:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35162)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jOayf-0001kF-1D
+ (envelope-from <its@irrelevant.dk>) id 1jOaye-0001jF-Ii
  for qemu-devel@nongnu.org; Wed, 15 Apr 2020 01:52:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jOayd-0002ch-Sr
+ (envelope-from <its@irrelevant.dk>) id 1jOayd-0002cE-F4
  for qemu-devel@nongnu.org; Wed, 15 Apr 2020 01:52:48 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:47288)
+Received: from charlie.dont.surf ([128.199.63.193]:47298)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jOaya-0002R7-Os; Wed, 15 Apr 2020 01:52:44 -0400
+ id 1jOayb-0002RE-2c; Wed, 15 Apr 2020 01:52:45 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 990F4BFA0B;
+ by charlie.dont.surf (Postfix) with ESMTPSA id F3694BFD52;
  Wed, 15 Apr 2020 05:52:23 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 17/48] nvme: make sure ncqr and nsqr is valid
-Date: Wed, 15 Apr 2020 07:51:09 +0200
-Message-Id: <20200415055140.466900-18-its@irrelevant.dk>
+Subject: [PATCH v7 18/48] nvme: add log specific field to trace events
+Date: Wed, 15 Apr 2020 07:51:10 +0200
+Message-Id: <20200415055140.466900-19-its@irrelevant.dk>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200415055140.466900-1-its@irrelevant.dk>
 References: <20200415055140.466900-1-its@irrelevant.dk>
@@ -58,38 +58,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-0xffff is not an allowed value for NCQR and NSQR in Set Features on
-Number of Queues.
+The LSP field is not used directly now, but include it in the trace.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Acked-by: Keith Busch <kbusch@kernel.org>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- hw/block/nvme.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hw/block/nvme.c       | 3 ++-
+ hw/block/trace-events | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 7094767eeccb..c1e3ae81666a 100644
+index c1e3ae81666a..d4622278450e 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1162,6 +1162,14 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, Nvme=
-Cmd *cmd, NvmeRequest *req)
-         blk_set_enable_write_cache(n->conf.blk, dw11 & 1);
-         break;
-     case NVME_NUMBER_OF_QUEUES:
-+        /*
-+         * NVMe v1.3, Section 5.21.1.7: 0xffff is not an allowed value f=
-or NCQR
-+         * and NSQR.
-+         */
-+        if ((dw11 & 0xffff) =3D=3D 0xffff || ((dw11 >> 16) & 0xffff) =3D=
-=3D 0xffff) {
-+            return NVME_INVALID_FIELD | NVME_DNR;
-+        }
-+
-         trace_nvme_dev_setfeat_numq((dw11 & 0xFFFF) + 1,
-                                     ((dw11 >> 16) & 0xFFFF) + 1,
-                                     n->params.max_ioqpairs,
+@@ -767,6 +767,7 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeCmd *cm=
+d, NvmeRequest *req)
+     uint32_t dw12 =3D le32_to_cpu(cmd->cdw12);
+     uint32_t dw13 =3D le32_to_cpu(cmd->cdw13);
+     uint8_t  lid =3D dw10 & 0xff;
++    uint8_t  lsp =3D (dw10 >> 8) & 0xf;
+     uint8_t  rae =3D (dw10 >> 15) & 0x1;
+     uint32_t numdl, numdu;
+     uint64_t off, lpol, lpou;
+@@ -784,7 +785,7 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeCmd *cm=
+d, NvmeRequest *req)
+         return NVME_INVALID_FIELD | NVME_DNR;
+     }
+=20
+-    trace_nvme_dev_get_log(nvme_cid(req), lid, rae, len, off);
++    trace_nvme_dev_get_log(nvme_cid(req), lid, lsp, rae, len, off);
+=20
+     switch (lid) {
+     case NVME_LOG_ERROR_INFO:
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index 659091fc2fed..fb5b26f6f5f6 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -52,7 +52,7 @@ nvme_dev_getfeat_numq(int result) "get feature number o=
+f queues, result=3D%d"
+ nvme_dev_setfeat_numq(int reqcq, int reqsq, int gotcq, int gotsq) "reque=
+sted cq_count=3D%d sq_count=3D%d, responding with cq_count=3D%d sq_count=3D=
+%d"
+ nvme_dev_setfeat_timestamp(uint64_t ts) "set feature timestamp =3D 0x%"P=
+RIx64""
+ nvme_dev_getfeat_timestamp(uint64_t ts) "get feature timestamp =3D 0x%"P=
+RIx64""
+-nvme_dev_get_log(uint16_t cid, uint8_t lid, uint8_t rae, uint32_t len, u=
+int64_t off) "cid %"PRIu16" lid 0x%"PRIx8" rae 0x%"PRIx8" len %"PRIu32" o=
+ff %"PRIu64""
++nvme_dev_get_log(uint16_t cid, uint8_t lid, uint8_t lsp, uint8_t rae, ui=
+nt32_t len, uint64_t off) "cid %"PRIu16" lid 0x%"PRIx8" lsp 0x%"PRIx8" ra=
+e 0x%"PRIx8" len %"PRIu32" off %"PRIu64""
+ nvme_dev_process_aers(int queued) "queued %d"
+ nvme_dev_aer(uint16_t cid) "cid %"PRIu16""
+ nvme_dev_aer_aerl_exceeded(void) "aerl exceeded"
 --=20
 2.26.0
 
