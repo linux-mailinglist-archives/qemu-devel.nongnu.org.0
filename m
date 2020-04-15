@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE27F1AB3CB
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Apr 2020 00:27:26 +0200 (CEST)
-Received: from localhost ([::1]:55598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8DE1AB3F3
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Apr 2020 00:51:57 +0200 (CEST)
+Received: from localhost ([::1]:55782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOqVB-0005S9-MY
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 18:27:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49275)
+	id 1jOqsu-0005O6-EL
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 18:51:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52574)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex-krasikov@yandex-team.ru>) id 1jOqTZ-0003qn-3E
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 18:25:46 -0400
+ (envelope-from <bounces@canonical.com>) id 1jOqrm-0004vq-I8
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 18:50:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex-krasikov@yandex-team.ru>) id 1jOqTX-0003tl-Or
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 18:25:45 -0400
-Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:56154)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alex-krasikov@yandex-team.ru>)
- id 1jOqTX-0003s4-CQ
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 18:25:43 -0400
-Received: from mxbackcorp2j.mail.yandex.net (mxbackcorp2j.mail.yandex.net
- [IPv6:2a02:6b8:0:1619::119])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 4F7AB2E164A;
- Thu, 16 Apr 2020 01:25:38 +0300 (MSK)
-Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
- (myt5-70c90f7d6d7d.qloud-c.yandex.net [2a02:6b8:c12:3e2c:0:640:70c9:f7d])
- by mxbackcorp2j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
- 8Pd0U4H8GE-PcMmR27f; Thu, 16 Apr 2020 01:25:38 +0300
+ (envelope-from <bounces@canonical.com>) id 1jOqrl-00056Y-Bb
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 18:50:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52766)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jOqrl-00056A-6a
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 18:50:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jOqrj-0003ap-L9
+ for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 22:50:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9BB6E2E8042
+ for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 22:50:43 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 15 Apr 2020 22:39:29 -0000
+From: Sergei Trofimovich <1872847@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=gentoo; sourcepackage=None; component=None;
+ status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: alpha linux-user python
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: cyborgyn laurent-vivier trofi
+X-Launchpad-Bug-Reporter: Barnabas Viragh (cyborgyn)
+X-Launchpad-Bug-Modifier: Sergei Trofimovich (trofi)
+References: <158690356239.28566.12748384831078553261.malonedeb@gac.canonical.com>
+Message-Id: <158699036954.11904.140318039530441249.malone@soybean.canonical.com>
+Subject: [Bug 1872847] Re: qemu-alpha linux-user breaks python3.6
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1586989538; bh=MfMY9q2td2b1MJFytz7fXEPP8IsDFnaKFqm3ffWfda8=;
- h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
- b=KEbF9j5BwobLA/6k54UZCNzJJ499d7Dnx+KinynLnY9lDTk1/rKtkyISVS9HFzH+A
- hG6cWD9oLHVCduCZIxlFmiyLMIva5OV8Ex5q0hrelcLXrmdSBxB7UWKXvFgqT54OAH
- RzsOK5TQqG9UkD4HXeJtT7HYYCg3oLenwnuz1M2A=
-Authentication-Results: mxbackcorp2j.mail.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from unknown (unknown [2a02:6b8:b080:6410::1:e])
- by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 0wmBaV4yMk-PcXa2cD0; Thu, 16 Apr 2020 01:25:38 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-From: Alexey Krasikov <alex-krasikov@yandex-team.ru>
-To: berrange@redhat.com,
-	qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 5/5] test-crypto-secret: add 'syskey' object tests.
-Date: Thu, 16 Apr 2020 01:25:25 +0300
-Message-Id: <20200415222525.4022-5-alex-krasikov@yandex-team.ru>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200415222525.4022-1-alex-krasikov@yandex-team.ru>
-References: <20200415222525.4022-1-alex-krasikov@yandex-team.ru>
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 92d32393400907e5843882e091a72db3dfb1e42b
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 95.108.205.193
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -66,186 +67,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yc-core@yandex-team.ru
+Reply-To: Bug 1872847 <1872847@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* test_secret_seckey_bad_key_access_right() is not working yet.
-  We don't know yet if this due a bag in the Linux kernel or
-  whether it's normal syscall behavior.
-  We've requested information from kernel maintainer.
+Proposed possible fix as https://lists.nongnu.org/archive/html/qemu-
+devel/2020-04/msg02545.html
 
-Signed-off-by: Alexey Krasikov <alex-krasikov@yandex-team.ru>
----
- tests/test-crypto-secret.c | 138 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 138 insertions(+)
+-- =
 
-diff --git a/tests/test-crypto-secret.c b/tests/test-crypto-secret.c
-index 13fc6c4c75..6b17fe3a81 100644
---- a/tests/test-crypto-secret.c
-+++ b/tests/test-crypto-secret.c
-@@ -22,8 +22,10 @@
- 
- #include "crypto/init.h"
- #include "crypto/secret.h"
-+#include "crypto/linux_keyring.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
-+#include <keyutils.h>
- 
- static void test_secret_direct(void)
- {
-@@ -125,6 +127,132 @@ static void test_secret_indirect_emptyfile(void)
- }
- 
- 
-+#define DESCRIPTION "qemu_test_secret"
-+#define PAYLOAD "Test Payload"
-+
-+
-+static void test_secret_seckey_good(void)
-+{
-+    char key_str[16];
-+    Object *sec;
-+    key_serial_t key = add_key("user", DESCRIPTION, PAYLOAD,
-+                               strlen(PAYLOAD), KEY_SPEC_PROCESS_KEYRING);
-+
-+    g_assert(key >= 0);
-+
-+    snprintf(key_str, sizeof(key_str), "0x%08x", key);
-+    sec = object_new_with_props(
-+        TYPE_QCRYPTO_SECRET_LINUX_KEYRING,
-+        object_get_objects_root(),
-+        "sec0",
-+        &error_abort,
-+        "serial", key_str,
-+        NULL);
-+
-+    assert(0 <= keyctl_unlink(key, KEY_SPEC_PROCESS_KEYRING));
-+    char *pw = qcrypto_secret_lookup_as_utf8("sec0",
-+                                             &error_abort);
-+    g_assert_cmpstr(pw, ==, PAYLOAD);
-+
-+    object_unparent(sec);
-+    g_free(pw);
-+}
-+
-+
-+static void test_secret_seckey_revoked_key(void)
-+{
-+    char key_str[16];
-+    Object *sec;
-+    key_serial_t key = add_key("user", DESCRIPTION, PAYLOAD,
-+                               strlen(PAYLOAD), KEY_SPEC_PROCESS_KEYRING);
-+    g_assert(key >= 0);
-+    g_assert_false(keyctl_revoke(key));
-+
-+    snprintf(key_str, sizeof(key_str), "0x%08x", key);
-+    sec = object_new_with_props(
-+        TYPE_QCRYPTO_SECRET_LINUX_KEYRING,
-+        object_get_objects_root(),
-+        "sec0",
-+        NULL,
-+        "serial", key_str,
-+        NULL);
-+
-+    g_assert(errno == EKEYREVOKED);
-+    g_assert(sec == NULL);
-+
-+    keyctl_unlink(key, KEY_SPEC_PROCESS_KEYRING);
-+}
-+
-+
-+static void test_secret_seckey_expired_key(void)
-+{
-+    char key_str[16];
-+    Object *sec;
-+    key_serial_t key = add_key("user", DESCRIPTION, PAYLOAD,
-+                               strlen(PAYLOAD), KEY_SPEC_PROCESS_KEYRING);
-+    g_assert(key >= 0);
-+    g_assert_false(keyctl_set_timeout(key, 1));
-+    sleep(1);
-+
-+    snprintf(key_str, sizeof(key_str), "0x%08x", key);
-+    sec = object_new_with_props(
-+        TYPE_QCRYPTO_SECRET_LINUX_KEYRING,
-+        object_get_objects_root(),
-+        "sec0",
-+        NULL,
-+        "serial", key_str,
-+        NULL);
-+
-+    g_assert(errno == EKEYEXPIRED);
-+    g_assert(sec == NULL);
-+
-+    keyctl_unlink(key, KEY_SPEC_PROCESS_KEYRING);
-+}
-+
-+
-+static void test_secret_seckey_bad_serial_key(void)
-+{
-+    Object *sec;
-+
-+    sec = object_new_with_props(
-+        TYPE_QCRYPTO_SECRET,
-+        object_get_objects_root(),
-+        "sec0",
-+        NULL,
-+        "serial", "1",
-+        NULL);
-+
-+    g_assert(errno == ENOKEY);
-+    g_assert(sec == NULL);
-+}
-+
-+
-+static void test_secret_seckey_bad_key_access_right(void)
-+{
-+    char key_str[16];
-+    Object *sec;
-+    key_serial_t key = add_key("user", DESCRIPTION, PAYLOAD,
-+                               strlen(PAYLOAD), KEY_SPEC_PROCESS_KEYRING);
-+    g_assert(key >= 0);
-+    g_assert_false(keyctl_setperm(key, KEY_POS_ALL & (~KEY_POS_READ)));
-+
-+    snprintf(key_str, sizeof(key_str), "0x%08x", key);
-+
-+    sec = object_new_with_props(
-+        TYPE_QCRYPTO_SECRET_LINUX_KEYRING,
-+        object_get_objects_root(),
-+        "sec0",
-+        NULL,
-+        "serial", key_str,
-+        NULL);
-+
-+    g_assert(errno == EACCES);
-+    g_assert(sec == NULL);
-+
-+    keyctl_unlink(key, KEY_SPEC_PROCESS_KEYRING);
-+}
-+
-+
- static void test_secret_noconv_base64_good(void)
- {
-     Object *sec = object_new_with_props(
-@@ -425,6 +553,16 @@ int main(int argc, char **argv)
-                     test_secret_indirect_badfile);
-     g_test_add_func("/crypto/secret/indirect/emptyfile",
-                     test_secret_indirect_emptyfile);
-+    g_test_add_func("/crypto/secret/seckey/good",
-+                    test_secret_seckey_good);
-+    g_test_add_func("/crypto/secret/seckey/revoked_key",
-+                    test_secret_seckey_revoked_key);
-+    g_test_add_func("/crypto/secret/seckey/expired_key",
-+                    test_secret_seckey_expired_key);
-+    g_test_add_func("/crypto/secret/seckey/bad_serial_key",
-+                    test_secret_seckey_bad_serial_key);
-+    g_test_add_func("/crypto/secret/seckey/bad_key_access_right",
-+                    test_secret_seckey_bad_key_access_right);
- 
-     g_test_add_func("/crypto/secret/noconv/base64/good",
-                     test_secret_noconv_base64_good);
--- 
-2.17.1
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1872847
 
+Title:
+  qemu-alpha linux-user breaks python3.6
+
+Status in QEMU:
+  New
+Status in Gentoo Linux:
+  New
+
+Bug description:
+  Running on Gentoo Linux in a chroot environment:
+  # python3 -c 'import selectors; selectors.DefaultSelector()'
+  Traceback (most recent call last):
+    File "<string>", line 1, in <module>
+    File "/usr/lib/python3.7/selectors.py", line 349, in __init__
+      self._selector =3D self._selector_cls()
+  OSError: [Errno 22] Invalid argument
+
+  However, on real hardware, with the same binaries there is no
+  exception.
+
+  This impacts whole python3 based Gentoo ebuild system (package
+  management), and renders linux user mode alpha emulation in chroot
+  environment building useless, more or less.
+
+  The used systems:
+  # qemu-alpha --version
+  qemu-alpha version 4.2.0
+  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
+  # uname -a
+  Linux blackbird 5.4.28-gentoo-blackbird-06 #2 SMP Sat Apr 4 13:13:10 CEST=
+ 2020 x86_64 AMD Ryzen 5 3600 6-Core Processor AuthenticAMD GNU/Linux
+  (chroot)# python3 --version
+  Python 3.7.7
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1872847/+subscriptions
 
