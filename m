@@ -2,50 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8581A919E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 05:41:30 +0200 (CEST)
-Received: from localhost ([::1]:42356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83FEF1A91F9
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 06:38:19 +0200 (CEST)
+Received: from localhost ([::1]:42806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOYvZ-0003HH-Hd
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 23:41:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48666)
+	id 1jOZoY-0001Oj-64
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 00:38:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53776)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jingqi.liu@intel.com>) id 1jOYuW-0002A1-6p
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 23:40:25 -0400
+ (envelope-from <dirty@apple.com>) id 1jOZnh-0000yU-AQ
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 00:37:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jingqi.liu@intel.com>) id 1jOYuU-0000l3-Ur
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 23:40:24 -0400
-Received: from mga01.intel.com ([192.55.52.88]:4319)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jingqi.liu@intel.com>)
- id 1jOYuU-0000iK-LK
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 23:40:22 -0400
-IronPort-SDR: Vso2MVOuXhj6IrylKLZ5Z2G2aUgZB3/GkWDmqTq/n+5pIHFf3a3yepjvw9ZVmhjZd1P/hmO3AM
- 5CUnBG/lJ9zA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2020 20:40:19 -0700
-IronPort-SDR: EdPkNu5xjSXD4FZCpo1TdrgpS97aHxyJXq2yKdksV0tKeUMzPMhQXH+8wMznzuvl+kAzMlg3Ze
- ytZXUrgV1FRA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,385,1580803200"; d="scan'208";a="256729973"
-Received: from dazhang1-mobile.sh.intel.com ([10.239.48.70])
- by orsmga006.jf.intel.com with ESMTP; 14 Apr 2020 20:40:17 -0700
-From: Jingqi Liu <jingqi.liu@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- Dan Williams <dan.j.williams@intel.com>
-Subject: [PATCH v2 3/3] configure: add libdaxctl support
-Date: Wed, 15 Apr 2020 11:35:38 +0800
-Message-Id: <20200415033538.43329-4-jingqi.liu@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200415033538.43329-1-jingqi.liu@intel.com>
-References: <20200415033538.43329-1-jingqi.liu@intel.com>
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 192.55.52.88
+ (envelope-from <dirty@apple.com>) id 1jOZng-0004Gq-7k
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 00:37:25 -0400
+Received: from ma1-aaemail-dr-lapp02.apple.com ([17.171.2.68]:46240)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dirty@apple.com>) id 1jOZng-0004Ea-37
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 00:37:24 -0400
+Received: from pps.filterd (ma1-aaemail-dr-lapp02.apple.com [127.0.0.1])
+ by ma1-aaemail-dr-lapp02.apple.com (8.16.0.27/8.16.0.27) with SMTP id
+ 03F4ankT043753; Tue, 14 Apr 2020 21:37:18 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com;
+ h=mime-version :
+ content-transfer-encoding : content-type : sender : from : to : cc :
+ subject : date : message-id; s=20180706;
+ bh=XDmELxSjQ+o5KLRWHK8+jDYRjylpjF+JDulFD0rD77Q=;
+ b=f8iTPboYqItbf24hKof1ePJL1LrTPVyP7VUveFqV4sHQv+RW+P2kmbtE4yrNEyYFVeh4
+ 6N6e53E7KSCEdBCqdvWXV/4BwxWLu15wXb7QWVMZwL0JHL+MAsoVFicZP4jj9oYdcgIQ
+ LYqDFKTdlE8TxJsZdOhY9CFLPXcmZf9fHqwbXKaGAchmdW87fmPthSJDvq540TE0ecY6
+ +KKyZypgAEIK13G5T781eNE3MFkY+tasJve1cjSUFC9AEcKRe+B6NqPqnDEFTKaDjd+2
+ nldHeXp+76B/jHlOL4IRKeYfqVgjxVczzC+4zNiHKPj0zRy09u3Hrbr3v3PdbJwxIIt0 tw== 
+Received: from rn-mailsvcp-mta-lapp04.rno.apple.com
+ (rn-mailsvcp-mta-lapp04.rno.apple.com [10.225.203.152])
+ by ma1-aaemail-dr-lapp02.apple.com with ESMTP id 30dn6e5bh1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+ Tue, 14 Apr 2020 21:37:18 -0700
+Received: from rn-mailsvcp-mmp-lapp03.rno.apple.com
+ (rn-mailsvcp-mmp-lapp03.rno.apple.com [17.179.253.16])
+ by rn-mailsvcp-mta-lapp04.rno.apple.com
+ (Oracle Communications Messaging Server 8.1.0.5.20200312 64bit (built Mar 12
+ 2020)) with ESMTPS id <0Q8T00IPABI6T920@rn-mailsvcp-mta-lapp04.rno.apple.com>; 
+ Tue, 14 Apr 2020 21:37:18 -0700 (PDT)
+Received: from process_milters-daemon.rn-mailsvcp-mmp-lapp03.rno.apple.com by
+ rn-mailsvcp-mmp-lapp03.rno.apple.com
+ (Oracle Communications Messaging Server 8.1.0.5.20200312 64bit (built Mar 12
+ 2020)) id <0Q8T00300B7R2200@rn-mailsvcp-mmp-lapp03.rno.apple.com>; Tue,
+ 14 Apr 2020 21:37:18 -0700 (PDT)
+X-Va-A: 
+X-Va-T-CD: d0f689b0b1d4f2921c086db3eba98d8e
+X-Va-E-CD: 2e1c52973bcc393be12ee73f9d24800d
+X-Va-R-CD: fa5db05249a82189bbd2eb58c4009f01
+X-Va-CD: 0
+X-Va-ID: 5cd2d550-994d-4b9a-a1de-b7af5ebaff0e
+X-V-A: 
+X-V-T-CD: d0f689b0b1d4f2921c086db3eba98d8e
+X-V-E-CD: 2e1c52973bcc393be12ee73f9d24800d
+X-V-R-CD: fa5db05249a82189bbd2eb58c4009f01
+X-V-CD: 0
+X-V-ID: acb632cd-e5a0-4ddf-9511-1c33e97ee0f5
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
+ definitions=2020-04-15_01:2020-04-14,
+ 2020-04-15 signatures=0
+MIME-version: 1.0
+Content-type: text/plain; charset=UTF-8
+Received: from pontoon.com (unknown [17.234.86.21])
+ by rn-mailsvcp-mmp-lapp03.rno.apple.com
+ (Oracle Communications Messaging Server 8.1.0.5.20200312 64bit (built Mar 12
+ 2020))
+ with ESMTPSA id <0Q8T0058HBI5HT00@rn-mailsvcp-mmp-lapp03.rno.apple.com>; Tue,
+ 14 Apr 2020 21:37:18 -0700 (PDT)
+To: qemu-devel@nongnu.org
+Cc: joel@jms.id.au, peter.maydell@linaro.org, clg@kaod.org, philmd@redhat.com, 
+ kraxel@redhat.com
+Subject: [PATCH v2] nrf51: Fix last GPIO CNF address
+Date: Tue, 14 Apr 2020 21:37:17 -0700
+Message-id: <51b427f06838622da783d38ba56e3630d6d85c60.1586925392.git.dirty@apple.com>
+X-Mailer: git-send-email 2.24.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
+ definitions=2020-04-15_01:2020-04-14,
+ 2020-04-15 signatures=0
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ ma1-aaemail-dr-lapp02.apple.com id 03F4ankT043753
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 17.171.2.68
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,112 +98,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jingqi Liu <jingqi.liu@intel.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Cameron Esfahani <dirty@apple.com>
+From: Cameron Esfahani via <qemu-devel@nongnu.org>
 
-Add a pair of configure options --{enable,disable}-libdaxctl to control
-whether QEMU is compiled with libdaxctl [1]. Libdaxctl is a utility
-library for managing the device dax subsystem.
+NRF51_GPIO_REG_CNF_END doesn't actually refer to the start of the last
+valid CNF register: it's referring to the last byte of the last valid
+CNF register.
 
-QEMU uses mmap(2) to maps vNVDIMM backends and aligns the mapping
-address to the page size (getpagesize(2)) by default. However, some
-types of backends may require an alignment different than the page
-size. The 'align' option is provided to memory-backend-file to allow
-users to specify the proper alignment.
+This hasn't been a problem up to now, as current implementation in
+memory.c turns an unaligned 4-byte read from 0x77f to a single byte read
+and the qtest only looks at the least-significant byte of the register.
 
-For device dax (e.g., /dev/dax0.0), the 'align' option needs to match
-the alignment requirement of the device dax, which can be fetched
-through the libdaxctl APIs.
+But when running with patches which fix unaligned accesses in memory.c,
+the qtest breaks.
 
-[1] Libdaxctl is a part of ndctl project.
-The project's repository is: https://github.com/pmem/ndctl
+Considering NRF51 doesn't support unaligned accesses, the simplest fix
+is to actually set NRF51_GPIO_REG_CNF_END to the start of the last valid
+CNF register: 0x77c.
 
-For more information about libdaxctl APIs, you can refer to the
-comments in source code of: pmem/ndctl/daxctl/lib/libdaxctl.c.
+Now, qtests work with or without the unaligned access patches.
 
-Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Tested-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+Signed-off-by: Cameron Esfahani <dirty@apple.com>
 ---
- configure | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ include/hw/gpio/nrf51_gpio.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/configure b/configure
-index e225a1e3ff..df1752cf08 100755
---- a/configure
-+++ b/configure
-@@ -509,6 +509,7 @@ libpmem=""
- default_devices="yes"
- plugins="no"
- fuzzing="no"
-+libdaxctl=""
- 
- supported_cpu="no"
- supported_os="no"
-@@ -1601,6 +1602,10 @@ for opt do
-   ;;
-   --gdb=*) gdb_bin="$optarg"
-   ;;
-+  --enable-libdaxctl) libdaxctl=yes
-+  ;;
-+  --disable-libdaxctl) libdaxctl=no
-+  ;;
-   *)
-       echo "ERROR: unknown option $opt"
-       echo "Try '$0 --help' for more information"
-@@ -1894,6 +1899,7 @@ disabled with --disable-FEATURE, default is enabled if available:
-   debug-mutex     mutex debugging support
-   libpmem         libpmem support
-   xkbcommon       xkbcommon support
-+  libdaxctl       libdaxctl support
- 
- NOTE: The object files are built at the place where configure is launched
- EOF
-@@ -6190,6 +6196,25 @@ if test "$libpmem" != "no"; then
- 	fi
- fi
- 
-+##########################################
-+# check for libdaxctl
-+
-+if test "$libdaxctl" != "no"; then
-+	if $pkg_config --exists "libdaxctl"; then
-+		libdaxctl="yes"
-+		libdaxctl_libs=$($pkg_config --libs libdaxctl)
-+		libdaxctl_cflags=$($pkg_config --cflags libdaxctl)
-+		libs_softmmu="$libs_softmmu $libdaxctl_libs"
-+		QEMU_CFLAGS="$QEMU_CFLAGS $libdaxctl_cflags"
-+	else
-+		if test "$libdaxctl" = "yes" ; then
-+			feature_not_found "libdaxctl" "Install libdaxctl"
-+		fi
-+		libdaxctl="no"
-+	fi
-+fi
-+
-+
- ##########################################
- # check for slirp
- 
-@@ -6767,6 +6792,7 @@ echo "parallels support $parallels"
- echo "sheepdog support  $sheepdog"
- echo "capstone          $capstone"
- echo "libpmem support   $libpmem"
-+echo "libdaxctl support $libdaxctl"
- echo "libudev           $libudev"
- echo "default devices   $default_devices"
- echo "plugin support    $plugins"
-@@ -7590,6 +7616,10 @@ if test "$libpmem" = "yes" ; then
-   echo "CONFIG_LIBPMEM=y" >> $config_host_mak
- fi
- 
-+if test "$libdaxctl" = "yes" ; then
-+  echo "CONFIG_LIBDAXCTL=y" >> $config_host_mak
-+fi
-+
- if test "$bochs" = "yes" ; then
-   echo "CONFIG_BOCHS=y" >> $config_host_mak
- fi
--- 
-2.17.1
+diff --git a/include/hw/gpio/nrf51_gpio.h b/include/hw/gpio/nrf51_gpio.h
+index 337ee534bb..1d62bbc928 100644
+--- a/include/hw/gpio/nrf51_gpio.h
++++ b/include/hw/gpio/nrf51_gpio.h
+@@ -42,7 +42,7 @@
+ #define NRF51_GPIO_REG_DIRSET       0x518
+ #define NRF51_GPIO_REG_DIRCLR       0x51C
+ #define NRF51_GPIO_REG_CNF_START    0x700
+-#define NRF51_GPIO_REG_CNF_END      0x77F
++#define NRF51_GPIO_REG_CNF_END      0x77C
+=20
+ #define NRF51_GPIO_PULLDOWN 1
+ #define NRF51_GPIO_PULLUP 3
+--=20
+2.24.0
 
 
