@@ -2,41 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0B211A9A6E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 12:29:15 +0200 (CEST)
-Received: from localhost ([::1]:47294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A8601A9ACE
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 12:38:03 +0200 (CEST)
+Received: from localhost ([::1]:47486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOfIA-0001So-Nc
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 06:29:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43345)
+	id 1jOfQg-0004Nv-55
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 06:38:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44729)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jOfEd-0004DB-Ix
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:25:36 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jOfOH-000268-1d
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:35:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jOfEb-0005Gb-Vm
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:25:35 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:48242)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jOfER-0004yV-3T; Wed, 15 Apr 2020 06:25:23 -0400
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id E608CBFD52;
- Wed, 15 Apr 2020 10:25:01 +0000 (UTC)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-block@nongnu.org
-Subject: [PATCH 16/16] nvme: factor out controller identify setup
-Date: Wed, 15 Apr 2020 12:24:45 +0200
-Message-Id: <20200415102445.564803-17-its@irrelevant.dk>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200415102445.564803-1-its@irrelevant.dk>
-References: <20200415102445.564803-1-its@irrelevant.dk>
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jOfOE-00015O-Rj
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:35:32 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39262)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jOfOB-000148-HU
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:35:28 -0400
+Received: by mail-wm1-x343.google.com with SMTP id y24so18360186wma.4
+ for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 03:35:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=RCPukqXeU90Sta1kCxiNpB66dVcf62a681H7MU0Gmfk=;
+ b=t1YI7DSkuL2sA7XoAjLkT91WakZoqVEzk6OHRq1q2SsLaIribeop53bQNC4WE+farD
+ hEYny6wsFBfUDPjaYBUCZ72d7KqEWPC6wjrJeAaREL82ImozEDBKvhss1+xxiqlAE1sB
+ c4N4hJgafeKqKlm47yXyNftRnvuzOvYy0VSAbykb7h6EsNzViCmn4Nj29bcxgbyWA0dH
+ UhmkMRJncsjBQ1/DfZg7JOnBWFxWhFIU2WuYhyIMnmVxypk0Kghc8ddenhNJUq/lmNw1
+ mh7fB4Mw9FP8H+sFPyAF4+lW4PJqIDL2CDVRfag5M4vnUSx4OMPCYcSni9omUkotip62
+ UjIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=RCPukqXeU90Sta1kCxiNpB66dVcf62a681H7MU0Gmfk=;
+ b=KVR2jdNuwarGD0f2LssQMTSqLhtpZ5iuhGqzI5dxMD1hEb05MYjgiZ0zZ5grDV2NRV
+ hWlRIhA9DD9v9lLpbcIbl7kpSlrAwzecf/M/7cMYMXT9+fDAHhaCVIftD/8ar9eWMyjD
+ 2tu0C+8ZtZhjOtsNVOcmL3rVdlpVMBSULGD3v/ydPqtBvng5eCO+Sh+/iLFOF9/k45kF
+ h0V6u/8s/7WxJqcOsO8aKHdyr6pgaeZYOa72P7Z8GhH6CaF1Zx0+WpkuXAwinXhz/dPb
+ DBe7dVNCQbwUrgT5v/EiqoveYxbgqpREZqncooIeTvcBjYWwpAj4FmQIvRnMN2sGs587
+ +NZA==
+X-Gm-Message-State: AGi0Pub9E9YfwZME4qg6mrg+0rfEhKUSpTUwMA/Jw0A2jdsv7OoKGuN7
+ wNz//cX4kOZHJuCIMN6uKxMigjqCKxuglQdsHwY=
+X-Google-Smtp-Source: APiQypKGvKrqB1CpbcMtbgEYojLyAgT7R12eFL1LuqCrxJ4ZZQFScfks8tCcm/UWJRcMRxJ+klMceExOcH93IItgv7U=
+X-Received: by 2002:a7b:c404:: with SMTP id k4mr4293405wmi.37.1586946926130;
+ Wed, 15 Apr 2020 03:35:26 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200415032826.16701-1-fengli@smartx.com>
+ <20200415032826.16701-4-fengli@smartx.com>
+In-Reply-To: <20200415032826.16701-4-fengli@smartx.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 15 Apr 2020 12:35:14 +0200
+Message-ID: <CAJ+F1C+y-UXH=KARXtTK+aFFb58umRDna_jk2XjHsjDeaxkWYQ@mail.gmail.com>
+Subject: Re: [PATCH 3/4] char-socket: avoid double call tcp_chr_free_connection
+To: Li Feng <fengli@smartx.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 128.199.63.193
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,89 +74,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>,
- Maxim Levitsky <mlevitsk@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, kyle@smartx.com,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+Hi
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/block/nvme.c | 42 ++++++++++++++++++++++++------------------
- 1 file changed, 24 insertions(+), 18 deletions(-)
+On Wed, Apr 15, 2020 at 5:31 AM Li Feng <fengli@smartx.com> wrote:
+>
+> double call tcp_chr_free_connection generates a crash.
+>
+> Signed-off-by: Li Feng <fengli@smartx.com>
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 7387cf409f96..d1566b56381d 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1428,27 +1428,11 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevice =
-*pci_dev)
-     }
- }
-=20
--static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-+static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
- {
--    NvmeCtrl *n =3D NVME(pci_dev);
-     NvmeIdCtrl *id =3D &n->id_ctrl;
-+    uint8_t *pci_conf =3D pci_dev->config;
-=20
--    int i;
--    uint8_t *pci_conf;
--
--    if (nvme_check_constraints(n, errp)) {
--        return;
--    }
--
--    nvme_init_state(n);
--
--    if (nvme_init_blk(n, errp)) {
--        return;
--    }
--
--    nvme_init_pci(n, pci_dev);
--
--    pci_conf =3D pci_dev->config;
-     id->vid =3D cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
-     id->ssvid =3D cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VEND=
-OR_ID));
-     strpadcpy((char *)id->mn, sizeof(id->mn), "QEMU NVMe Ctrl", ' ');
-@@ -1482,6 +1466,28 @@ static void nvme_realize(PCIDevice *pci_dev, Error=
- **errp)
-     n->bar.vs =3D 0x00010200;
-     n->bar.intmc =3D n->bar.intms =3D 0;
-=20
-+
-+}
-+
-+static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-+{
-+    NvmeCtrl *n =3D NVME(pci_dev);
-+
-+    int i;
-+
-+    if (nvme_check_constraints(n, errp)) {
-+        return;
-+    }
-+
-+    nvme_init_state(n);
-+
-+    if (nvme_init_blk(n, errp)) {
-+        return;
-+    }
-+
-+    nvme_init_pci(n, pci_dev);
-+    nvme_init_ctrl(n, pci_dev);
-+
-     for (i =3D 0; i < n->num_namespaces; i++) {
-         if (nvme_init_namespace(n, &n->namespaces[i], errp)) {
-             return;
+Could you describe how you reach the "double call".
+
+Even better would be to write a test for it in tests/test-char.c
+
+thanks
+
+> ---
+>  chardev/char-socket.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+> index 185fe38dda..43aab8f24b 100644
+> --- a/chardev/char-socket.c
+> +++ b/chardev/char-socket.c
+> @@ -476,6 +476,11 @@ static void tcp_chr_disconnect_locked(Chardev *chr)
+>      SocketChardev *s =3D SOCKET_CHARDEV(chr);
+>      bool emit_close =3D s->state =3D=3D TCP_CHARDEV_STATE_CONNECTED;
+>
+> +    /* avoid re-enter when socket read/write error and disconnect event.=
+ */
+> +    if (s->state =3D=3D TCP_CHARDEV_STATE_DISCONNECTED) {
+> +        return;
+> +    }
+> +
+>      tcp_chr_free_connection(chr);
+>
+>      if (s->listener) {
+> --
+> 2.11.0
+>
+>
+> --
+> The SmartX email address is only for business purpose. Any sent message
+> that is not related to the business is not authorized or permitted by
+> SmartX.
+> =E6=9C=AC=E9=82=AE=E7=AE=B1=E4=B8=BA=E5=8C=97=E4=BA=AC=E5=BF=97=E5=87=8C=
+=E6=B5=B7=E7=BA=B3=E7=A7=91=E6=8A=80=E6=9C=89=E9=99=90=E5=85=AC=E5=8F=B8=EF=
+=BC=88SmartX=EF=BC=89=E5=B7=A5=E4=BD=9C=E9=82=AE=E7=AE=B1. =E5=A6=82=E6=9C=
+=AC=E9=82=AE=E7=AE=B1=E5=8F=91=E5=87=BA=E7=9A=84=E9=82=AE=E4=BB=B6=E4=B8=8E=
+=E5=B7=A5=E4=BD=9C=E6=97=A0=E5=85=B3,=E8=AF=A5=E9=82=AE=E4=BB=B6=E6=9C=AA=
+=E5=BE=97=E5=88=B0=E6=9C=AC=E5=85=AC=E5=8F=B8=E4=BB=BB=E4=BD=95=E7=9A=84=E6=
+=98=8E=E7=A4=BA=E6=88=96=E9=BB=98=E7=A4=BA=E7=9A=84=E6=8E=88=E6=9D=83.
+>
+>
+>
+
+
 --=20
-2.26.0
-
+Marc-Andr=C3=A9 Lureau
 
