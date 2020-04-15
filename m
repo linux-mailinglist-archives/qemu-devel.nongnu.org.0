@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9186C1A9554
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 09:57:41 +0200 (CEST)
-Received: from localhost ([::1]:45564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5447C1A9559
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 10:00:04 +0200 (CEST)
+Received: from localhost ([::1]:45598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOcvU-0002pE-MW
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 03:57:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51236)
+	id 1jOcxn-00063m-Dp
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 04:00:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51243)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jOcnf-0006PB-GK
+ (envelope-from <armbru@redhat.com>) id 1jOcnf-0006Pe-Kx
  for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:49:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jOcnd-0007L4-Qw
+ (envelope-from <armbru@redhat.com>) id 1jOcnd-0007LJ-Sj
  for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:49:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20965
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53989
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jOcnd-0007KC-Lm
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jOcnd-0007KS-NB
  for qemu-devel@nongnu.org; Wed, 15 Apr 2020 03:49:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1586936973;
@@ -27,32 +27,32 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=apeeM7s/Me0ShiEgPJBP2dbh22rv4ahsU5BowSbT83U=;
- b=FOJfVF1JN9kcBOFO9N6axD0eTbeA4YDYAE6uPu99FeLZxrHSBo0WTZSzo/B9yTnUxY6jau
- RbFfhXjfUK8TXslw5Sp1gTLUGNUqaSggT9tgSL2Jr+nE+F859ykXCtVrWiUYprH/2THrrV
- SkteINtO3dVMnsgXSbxsrjR9vHq2I0E=
+ bh=w4/aCNwhpA9m3Y65zS8cEH4smCxfFNnQD2MenRfIuZ0=;
+ b=MgnNG0qcjGcaWBgFJ+wodoLTpRvQ/htL5OtELYmzYyPJA+fZM/gzMOtFIXkNDiw+/K27aB
+ 4kI/MCmPWeU7gswnZ/MfJsAV2LHmRM/Z97LUHb6OjzxDtMoG2AHg1BERNmvAn6StYmjRAL
+ FIq4WiNCa2BAfkqKnZaGPWpvcPMrMk0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-d6G9fokbNimV-Va6PpK2Mw-1; Wed, 15 Apr 2020 03:49:31 -0400
-X-MC-Unique: d6G9fokbNimV-Va6PpK2Mw-1
+ us-mta-51-bo95N2rdM3KrbxLdV2EKCQ-1; Wed, 15 Apr 2020 03:49:31 -0400
+X-MC-Unique: bo95N2rdM3KrbxLdV2EKCQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A993B10CE783;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B89AE8018AB;
  Wed, 15 Apr 2020 07:49:30 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-20.ams2.redhat.com
  [10.36.113.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A83BA0983;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A56B9F9B6;
  Wed, 15 Apr 2020 07:49:30 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C4F9811358B7; Wed, 15 Apr 2020 09:49:27 +0200 (CEST)
+ id C838511358BB; Wed, 15 Apr 2020 09:49:27 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 for-5.1 7/9] qemu-img: Factor out accumulate_options()
- helper
-Date: Wed, 15 Apr 2020 09:49:25 +0200
-Message-Id: <20200415074927.19897-8-armbru@redhat.com>
+Subject: [PATCH v2 for-5.1 8/9] qemu-img: Move is_valid_option_list() to
+ qemu-img.c and rewrite
+Date: Wed, 15 Apr 2020 09:49:26 +0200
+Message-Id: <20200415074927.19897-9-armbru@redhat.com>
 In-Reply-To: <20200415074927.19897-1-armbru@redhat.com>
 References: <20200415074927.19897-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -62,7 +62,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,121 +79,113 @@ Cc: kwolf@redhat.com, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+is_valid_option_list()'s purpose is ensuring qemu-img.c's can safely
+join multiple parameter strings separated by ',' like this:
+
+        g_strdup_printf("%s,%s", params1, params2);
+
+How it does that is anything but obvious.  A close reading of the code
+reveals that it fails exactly when its argument starts with ',' or
+ends with an odd number of ','.  Makes sense, actually, because when
+the argument starts with ',', a separating ',' preceding it would get
+escaped, and when it ends with an odd number of ',', a separating ','
+following it would get escaped.
+
+Move it to qemu-img.c and rewrite it the obvious way.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qemu-img.c | 59 +++++++++++++++++++++---------------------------------
- 1 file changed, 23 insertions(+), 36 deletions(-)
+ include/qemu/option.h |  1 -
+ qemu-img.c            | 26 ++++++++++++++++++++++++++
+ util/qemu-option.c    | 22 ----------------------
+ 3 files changed, 26 insertions(+), 23 deletions(-)
 
+diff --git a/include/qemu/option.h b/include/qemu/option.h
+index 844587cab3..eb4097889d 100644
+--- a/include/qemu/option.h
++++ b/include/qemu/option.h
+@@ -33,7 +33,6 @@ const char *get_opt_value(const char *p, char **value);
+ void parse_option_size(const char *name, const char *value,
+                        uint64_t *ret, Error **errp);
+ bool has_help_option(const char *param);
+-bool is_valid_option_list(const char *param);
+=20
+ enum QemuOptType {
+     QEMU_OPT_STRING =3D 0,  /* no parsing (use string as-is)              =
+          */
 diff --git a/qemu-img.c b/qemu-img.c
-index 821cbf610e..d36b21b758 100644
+index d36b21b758..cc51db7ed4 100644
 --- a/qemu-img.c
 +++ b/qemu-img.c
-@@ -223,6 +223,25 @@ static bool qemu_img_object_print_help(const char *typ=
+@@ -223,6 +223,32 @@ static bool qemu_img_object_print_help(const char *typ=
 e, QemuOpts *opts)
      return true;
  }
 =20
-+static int accumulate_options(char **options, char *optarg)
++/*
++ * Is @optarg safe for accumulate_options()?
++ * It is when multiple of them can be joined together separated by ','.
++ * To make that work, @optarg must not start with ',' (or else a
++ * separating ',' preceding it gets escaped), and it must not end with
++ * an odd number of ',' (or else a separating ',' following it gets
++ * escaped).
++ */
++static bool is_valid_option_list(const char *optarg)
 +{
-+    char *new_options;
++    size_t len =3D strlen(optarg);
++    size_t i;
 +
-+    if (!is_valid_option_list(optarg)) {
-+        error_report("Invalid option list: %s", optarg);
-+        return -1;
++    if (optarg[0] =3D=3D ',') {
++        return false;
 +    }
 +
-+    if (!*options) {
-+        *options =3D g_strdup(optarg);
-+    } else {
-+        new_options =3D g_strdup_printf("%s,%s", *options, optarg);
-+        g_free(*options);
-+        *options =3D new_options;
++    for (i =3D len; i > 0 && optarg[i - 1] =3D=3D ','; i--) {
 +    }
-+    return 0;
++    if ((len - i) % 2) {
++        return false;
++    }
++
++    return true;
 +}
 +
- static QemuOptsList qemu_source_opts =3D {
-     .name =3D "source",
-     .implied_opt_name =3D "file",
-@@ -482,17 +501,9 @@ static int img_create(int argc, char **argv)
-             fmt =3D optarg;
-             break;
-         case 'o':
--            if (!is_valid_option_list(optarg)) {
--                error_report("Invalid option list: %s", optarg);
-+            if (accumulate_options(&options, optarg) < 0) {
-                 goto fail;
-             }
--            if (!options) {
--                options =3D g_strdup(optarg);
--            } else {
--                char *old_options =3D options;
--                options =3D g_strdup_printf("%s,%s", options, optarg);
--                g_free(old_options);
--            }
-             break;
-         case 'q':
-             quiet =3D true;
-@@ -2127,17 +2138,9 @@ static int img_convert(int argc, char **argv)
-             s.compressed =3D true;
-             break;
-         case 'o':
--            if (!is_valid_option_list(optarg)) {
--                error_report("Invalid option list: %s", optarg);
-+            if (accumulate_options(&options, optarg) < 0) {
-                 goto fail_getopt;
-             }
--            if (!options) {
--                options =3D g_strdup(optarg);
--            } else {
--                char *old_options =3D options;
--                options =3D g_strdup_printf("%s,%s", options, optarg);
--                g_free(old_options);
--            }
-             break;
-         case 'l':
-             if (strstart(optarg, SNAPSHOT_OPT_BASE, NULL)) {
-@@ -3953,18 +3956,10 @@ static int img_amend(int argc, char **argv)
-             help();
-             break;
-         case 'o':
--            if (!is_valid_option_list(optarg)) {
--                error_report("Invalid option list: %s", optarg);
-+            if (accumulate_options(&options, optarg) < 0) {
-                 ret =3D -1;
-                 goto out_no_progress;
-             }
--            if (!options) {
--                options =3D g_strdup(optarg);
--            } else {
--                char *old_options =3D options;
--                options =3D g_strdup_printf("%s,%s", options, optarg);
--                g_free(old_options);
--            }
-             break;
-         case 'f':
-             fmt =3D optarg;
-@@ -4855,17 +4850,9 @@ static int img_measure(int argc, char **argv)
-             out_fmt =3D optarg;
-             break;
-         case 'o':
--            if (!is_valid_option_list(optarg)) {
--                error_report("Invalid option list: %s", optarg);
-+            if (accumulate_options(&options, optarg) < 0) {
-                 goto out;
-             }
--            if (!options) {
--                options =3D g_strdup(optarg);
--            } else {
--                char *old_options =3D options;
--                options =3D g_strdup_printf("%s,%s", options, optarg);
--                g_free(old_options);
--            }
-             break;
-         case 'l':
-             if (strstart(optarg, SNAPSHOT_OPT_BASE, NULL)) {
+ static int accumulate_options(char **options, char *optarg)
+ {
+     char *new_options;
+diff --git a/util/qemu-option.c b/util/qemu-option.c
+index 2d0d24ee27..9542988183 100644
+--- a/util/qemu-option.c
++++ b/util/qemu-option.c
+@@ -165,28 +165,6 @@ void parse_option_size(const char *name, const char *v=
+alue,
+     *ret =3D size;
+ }
+=20
+-bool is_valid_option_list(const char *p)
+-{
+-    char *value =3D NULL;
+-    bool result =3D false;
+-
+-    while (*p) {
+-        p =3D get_opt_value(p, &value);
+-        if ((*p && !*++p) ||
+-            (!*value || *value =3D=3D ',')) {
+-            goto out;
+-        }
+-
+-        g_free(value);
+-        value =3D NULL;
+-    }
+-
+-    result =3D true;
+-out:
+-    g_free(value);
+-    return result;
+-}
+-
+ static const char *opt_type_to_string(enum QemuOptType type)
+ {
+     switch (type) {
 --=20
 2.21.1
 
