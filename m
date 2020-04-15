@@ -2,66 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 344931AA2B4
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 15:03:30 +0200 (CEST)
-Received: from localhost ([::1]:49588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CC241AA2CA
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 15:08:56 +0200 (CEST)
+Received: from localhost ([::1]:49738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOhhQ-0006x4-RW
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 09:03:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33361)
+	id 1jOhmg-0008II-KT
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 09:08:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33704)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <r.bolshakov@yadro.com>) id 1jOhfT-0006EI-KY
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 09:01:28 -0400
+ (envelope-from <its@irrelevant.dk>) id 1jOhgU-0007DW-JQ
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 09:02:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <r.bolshakov@yadro.com>) id 1jOhfS-0003gg-Ic
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 09:01:27 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:37694 helo=mta-01.yadro.com)
+ (envelope-from <its@irrelevant.dk>) id 1jOhgO-0004Bv-IA
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 09:02:30 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:48514)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <r.bolshakov@yadro.com>)
- id 1jOhfS-0003fv-Ae
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 09:01:26 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 8239C42E12;
- Wed, 15 Apr 2020 13:01:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1586955677;
- x=1588770078; bh=t/8cO5SM1SzJSxPQofJkoM4/etqeKcHWSg5fehcvZCs=; b=
- gdIe904XE3VonLk65T7lCwVVHG1Mt5MCGn1EF9dDZhMT9ROabPQqBQK8NGubRaJD
- wQ8+e+Tdk3UPNn31P3+D/+ydbdT20ZKtQjeQIXAmO8qFuGX0y705YG6dURnlLbjF
- 19IwxergwriTgZF7ijoCTA91SXpfHD1ox97eZqmOBUU=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EB-qulNf2zfa; Wed, 15 Apr 2020 16:01:17 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 149044128C;
- Wed, 15 Apr 2020 16:01:17 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 15
- Apr 2020 16:01:17 +0300
-Date: Wed, 15 Apr 2020 16:01:19 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Cameron Esfahani <dirty@apple.com>
-Subject: Re: [PATCH v2] hvf: use standard CR0 and CR4 register definitions
-Message-ID: <20200415130119.GA7853@SPB-NB-133.local>
-References: <a31c1c7f7a7b4f537be9d307ccddc6e17761f1b0.1586927010.git.dirty@apple.com>
+ (Exim 4.71) (envelope-from <its@irrelevant.dk>)
+ id 1jOhgL-00044a-1P; Wed, 15 Apr 2020 09:02:21 -0400
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by charlie.dont.surf (Postfix) with ESMTPSA id 5FB3FBF7AF;
+ Wed, 15 Apr 2020 13:02:19 +0000 (UTC)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2 00/16] nvme: refactoring and cleanups
+Date: Wed, 15 Apr 2020 15:01:43 +0200
+Message-Id: <20200415130159.611361-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <a31c1c7f7a7b4f537be9d307ccddc6e17761f1b0.1586927010.git.dirty@apple.com>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 89.207.88.252
+X-Received-From: 128.199.63.193
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,25 +47,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
+ Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 14, 2020 at 10:12:12PM -0700, Cameron Esfahani wrote:
->  target/i386/cpu.h          |  2 ++
->  target/i386/hvf/hvf.c      |  2 +-
->  target/i386/hvf/vmx.h      | 15 ++++++++-------
->  target/i386/hvf/x86.c      |  6 +++---
->  target/i386/hvf/x86.h      | 34 ----------------------------------
->  target/i386/hvf/x86_mmu.c  |  2 +-
->  target/i386/hvf/x86_task.c |  3 ++-
->  7 files changed, 17 insertions(+), 47 deletions(-)
-> 
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Hi Cameron,
+Changes since v1
+~~~~~~~~~~~~~~~~
+* nvme: fix pci doorbell size calculation
+  - added some defines and a better comment (Philippe)
 
-Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
+* nvme: rename trace events to pci_nvme
+  - changed the prefix from nvme_dev to pci_nvme (Philippe)
 
-Thanks,
-Roman
+* nvme: add max_ioqpairs device parameter
+  - added a deprecation comment. I doubt this will go in until 5.1, so
+    changed it to "deprecated from 5.1" (Philippe)
+
+* nvme: factor out property/constraint checks
+* nvme: factor out block backend setup
+  - changed to return void and propagate errors in proper QEMU style
+    (Philippe)
+
+* nvme: add namespace helpers
+  - use the helper immediately (Philippe)
+
+* nvme: factor out pci setup
+  - removed setting of vendor and device id which is already inherited
+    from nvme_class_init() (Philippe)
+
+* nvme: factor out cmb setup
+  - add lost comment (Philippe)
+
+
+Klaus Jensen (16):
+  nvme: fix pci doorbell size calculation
+  nvme: rename trace events to pci_nvme
+  nvme: remove superfluous breaks
+  nvme: move device parameters to separate struct
+  nvme: use constants in identify
+  nvme: refactor nvme_addr_read
+  nvme: add max_ioqpairs device parameter
+  nvme: remove redundant cmbloc/cmbsz members
+  nvme: factor out property/constraint checks
+  nvme: factor out device state setup
+  nvme: factor out block backend setup
+  nvme: add namespace helpers
+  nvme: factor out namespace setup
+  nvme: factor out pci setup
+  nvme: factor out cmb setup
+  nvme: factor out controller identify setup
+
+ hw/block/nvme.c       | 433 ++++++++++++++++++++++++------------------
+ hw/block/nvme.h       |  36 +++-
+ hw/block/trace-events | 172 ++++++++---------
+ include/block/nvme.h  |   8 +
+ 4 files changed, 372 insertions(+), 277 deletions(-)
+
+--=20
+2.26.0
+
 
