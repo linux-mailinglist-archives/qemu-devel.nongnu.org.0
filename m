@@ -2,47 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 787981AA01F
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 14:30:49 +0200 (CEST)
-Received: from localhost ([::1]:49002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E0211AA0D9
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 14:33:23 +0200 (CEST)
+Received: from localhost ([::1]:49032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOhBo-0003Tl-Jt
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 08:30:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57600)
+	id 1jOhEI-0004ll-Et
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 08:33:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57847)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alazar@bitdefender.com>) id 1jOh9a-0001jC-QG
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 08:28:32 -0400
+ (envelope-from <berrange@redhat.com>) id 1jOhCN-00041G-BH
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 08:31:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alazar@bitdefender.com>) id 1jOh9Z-0005Ed-EU
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 08:28:30 -0400
-Received: from mx01.bbu.dsd.mx.bitdefender.com ([91.199.104.161]:32774)
+ (envelope-from <berrange@redhat.com>) id 1jOhCL-0006uU-AE
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 08:31:22 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46368
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alazar@bitdefender.com>)
- id 1jOh9Z-0005E9-7h
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 08:28:29 -0400
-Received: from smtp.bitdefender.com (smtp02.buh.bitdefender.net [10.17.80.76])
- by mx01.bbu.dsd.mx.bitdefender.com (Postfix) with ESMTPS id
- 28F40306E47C; Wed, 15 Apr 2020 15:28:27 +0300 (EEST)
-Received: from localhost (unknown [89.136.169.210])
- by smtp.bitdefender.com (Postfix) with ESMTPSA id 0FAE1305B7A0;
- Wed, 15 Apr 2020 15:28:27 +0300 (EEST)
-From: Adalbert =?iso-8859-2?b?TGF643I=?= <alazar@bitdefender.com>
-Subject: Re: [RFC PATCH v1 04/26] char-socket: add 'reconnecting' property
-To: =?iso-8859-1?q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
-In-Reply-To: <CAJ+F1C+JsPGWy=KJXcDyfsHOmmtUPP7vNvwJu_pFeeO6Mg-XyQ@mail.gmail.com>
-References: <20200415005938.23895-1-alazar@bitdefender.com>
- <20200415005938.23895-5-alazar@bitdefender.com>
- <CAJ+F1C+JsPGWy=KJXcDyfsHOmmtUPP7vNvwJu_pFeeO6Mg-XyQ@mail.gmail.com>
-Date: Wed, 15 Apr 2020 15:28:53 +0300
-Message-ID: <15869537330.eB2a5.30082@host>
-User-agent: void
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jOhCK-0006ta-9d
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 08:31:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586953879;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YAgrkkEk1C+Q61V3yoNxvQ8E992hoOuHOxNq6H+90Mo=;
+ b=a7jx4ngxBaQl0j0T4kjnEd8xYprIli47XZudtmOlSXYpZCKB+oEOt86rwOVWrUvSZToZp7
+ LyUeC9ciTZXbXO2s4/o3RMJNH3BnfJBrVXbisPRlF6WkV38nH3zO+8NZwy7ybqLAnFh8BN
+ Ge87fSCJriJ7I+MblIJ2HYmdsQNlKr0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-340-a6k97MPfPoWAPaDZJk8W2Q-1; Wed, 15 Apr 2020 08:31:17 -0400
+X-MC-Unique: a6k97MPfPoWAPaDZJk8W2Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 593898017F5;
+ Wed, 15 Apr 2020 12:31:16 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 07DBC60BE0;
+ Wed, 15 Apr 2020 12:31:06 +0000 (UTC)
+Date: Wed, 15 Apr 2020 13:31:04 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: Replace GSource with AioContext for chardev
+Message-ID: <20200415123104.GB1344391@redhat.com>
+References: <20200409124601.toh6jpbfcwiwzb6z@r>
+ <CAMxuvayJjHH_dqyoPCweQDysubzv=bKnJqgp9TxZNcNKnLTJhw@mail.gmail.com>
+ <20200409132441.GS1202384@redhat.com>
+ <87imi2zfy1.fsf@dusky.pond.sub.org>
+ <20200414102753.GJ1338838@redhat.com>
+ <802d831b-e13a-7256-77d8-03c7a064522a@redhat.com>
+ <20200414121345.GB7747@linux.fritz.box>
 MIME-Version: 1.0
+In-Reply-To: <20200414121345.GB7747@linux.fritz.box>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.199.104.161
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,70 +79,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel <qemu-devel@nongnu.org>,
+ Coiby Xu <coiby.xu@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 15 Apr 2020 12:46:57 +0200, Marc-Andr=C3=A9 Lureau <marcandre.lur=
-eau@gmail.com> wrote:
-> Hi
+On Tue, Apr 14, 2020 at 02:13:45PM +0200, Kevin Wolf wrote:
+> Am 14.04.2020 um 12:54 hat Paolo Bonzini geschrieben:
+> > On 14/04/20 12:27, Daniel P. Berrang=C3=A9 wrote:
+> > > Ignoring back compat, what would be our ideal CLI syntax ?
+> > >=20
+> > > Current syntax is
+> > >=20
+> > >   -chardev socket,id=3Dcharnet1,path=3D/tmp/vhost1.sock
+> > >   -netdev vhost-user,chardev=3Dcharnet1,id=3Dhostnet1=20
+> > >=20
+> > > Should we have an option that expresses a "SocketAddress" struct on t=
+he
+> > > CLI ?
+> > >=20
+> > >    -socket type=3Dunix,path=3D/tmp/vhost1.sock,id=3Dsock0
+> > >    -netdev vhost-user,socket=3Dsock0,id=3Dhostnet1
+> >=20
+> > I think this should be just a "-object socket" that under the covers
+> > creates a QIOChannel.  There are also ideas of switching "-chardev" to
+> > "-object"; we could do the reverse of Marc-Andr=C3=A9's suggestion, and=
+ have
+> > "chardev=3D" take both a "chardev-foo" object or a QIOChannel object
+> > (converting the latter to a socket-based chardev).
 >=20
-> On Wed, Apr 15, 2020 at 3:03 AM Adalbert Laz=C4=83r <alazar@bitdefender=
-.com> wrote:
-> >
-> > This is used by the VM introspection object to check if the connectio=
-n
-> > will be reestablished in case it disconnects from some reason.
-> >
-> > The closing of the socket is used by any of the three parties involve=
-d,
-> > KVM, the introspection tool and QEMU (eg. on force-reset), to signal
-> > the other parties that the session is over. As such, it is very impor=
-tant
-> > that the socket will reconnect.
-> >
-> > CC: "Marc-Andr=C3=A9 Lureau" <marcandre.lureau@redhat.com>
-> > CC: Paolo Bonzini <pbonzini@redhat.com>
-> > Signed-off-by: Adalbert Laz=C4=83r <alazar@bitdefender.com>
-> > ---
-> >  chardev/char-socket.c | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> >
-> > diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-> > index fd0106ab85..22ab242748 100644
-> > --- a/chardev/char-socket.c
-> > +++ b/chardev/char-socket.c
-> > @@ -1492,6 +1492,13 @@ char_socket_get_connected(Object *obj, Error *=
-*errp)
-> >      return s->state =3D=3D TCP_CHARDEV_STATE_CONNECTED;
-> >  }
-> >
-> > +static bool char_socket_get_reconnecting(Object *obj, Error **errp)
-> > +{
-> > +    SocketChardev *s =3D SOCKET_CHARDEV(obj);
-> > +
-> > +    return s->reconnect_time > 0;
-> > +}
-> > +
-> >  static int tcp_chr_reconnect_time(Chardev *chr, int secs)
-> >  {
-> >      SocketChardev *s =3D SOCKET_CHARDEV(chr);
-> > @@ -1528,6 +1535,10 @@ static void char_socket_class_init(ObjectClass=
- *oc, void *data)
-> >
-> >      object_class_property_add_bool(oc, "connected", char_socket_get_=
-connected,
-> >                                     NULL, &error_abort);
-> > +
-> > +    object_class_property_add_bool(oc, "reconnecting",
-> > +                                   char_socket_get_reconnecting,
-> > +                                   NULL, &error_abort);
+> Is this just an attempt to avoid nesting on the command line? Because I
+> don't see much use in socket objects that need to be managed separately
+> and require separate object-add/del commands.
 >=20
-> That may be misleading, as the socket connection may be established
-> and this will return true if reconnect_time > 0. Why not have a
-> "reconnect-time" property instead?
+> While dotted syntax can make SocketAddress specifications a bit lengthy,
+> the obvious syntax is:
 >=20
+> -netdev vhost-user,socket.type=3Dunix,socket.path=3D/tmp/vhost1.sock,id=
+=3Dhostnet1
+>=20
+> Assuming that this would be a QAPIfied -netdev, JSON is a readily
+> available alternative syntax.
 
-Sure.
-Thanks.
+I'd be fine with this approach too.  I'm not bothered about the dotted
+syntax being verbose, as that battle is already lost, and can only be
+solved by switching to a different config approach, such as reading
+an actual json file.  IOW, we'd not be making life worse than it already
+is.
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
+
 
