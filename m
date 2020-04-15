@@ -2,67 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A8601A9ACE
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 12:38:03 +0200 (CEST)
-Received: from localhost ([::1]:47486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3C5E1A9B1E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 12:43:48 +0200 (CEST)
+Received: from localhost ([::1]:47630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOfQg-0004Nv-55
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 06:38:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44729)
+	id 1jOfWG-0003xn-1o
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 06:43:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44966)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jOfOH-000268-1d
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:35:33 -0400
+ (envelope-from <philmd@redhat.com>) id 1jOfPj-00040a-UZ
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:37:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jOfOE-00015O-Rj
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:35:32 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39262)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jOfOB-000148-HU
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:35:28 -0400
-Received: by mail-wm1-x343.google.com with SMTP id y24so18360186wma.4
- for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 03:35:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=RCPukqXeU90Sta1kCxiNpB66dVcf62a681H7MU0Gmfk=;
- b=t1YI7DSkuL2sA7XoAjLkT91WakZoqVEzk6OHRq1q2SsLaIribeop53bQNC4WE+farD
- hEYny6wsFBfUDPjaYBUCZ72d7KqEWPC6wjrJeAaREL82ImozEDBKvhss1+xxiqlAE1sB
- c4N4hJgafeKqKlm47yXyNftRnvuzOvYy0VSAbykb7h6EsNzViCmn4Nj29bcxgbyWA0dH
- UhmkMRJncsjBQ1/DfZg7JOnBWFxWhFIU2WuYhyIMnmVxypk0Kghc8ddenhNJUq/lmNw1
- mh7fB4Mw9FP8H+sFPyAF4+lW4PJqIDL2CDVRfag5M4vnUSx4OMPCYcSni9omUkotip62
- UjIw==
+ (envelope-from <philmd@redhat.com>) id 1jOfPi-0001Xq-MB
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:37:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53374
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jOfPi-0001XY-HO
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 06:37:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586947022;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QDfuqoOho3wrn6/nWucDhG5VcyPRj9pbXgSdAphjrZU=;
+ b=STf5msoqqEGMx+nhkevJo73/QwF8R1EHcuXl4BZmZcsSV0qhtNrWUX+mMrMgh0UbQ30tEA
+ wkYVZY5QAxHP80KPD02tFRMPapAUXI4g4dWg92Z9csaDPTvE1WtgwDrdHE88XNI/0dZjl4
+ KtFBiL39+0/FZAsiDCrzQJXMGs6n8rQ=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-145-kn1TQl1JP-ypDLrS8fh_qA-1; Wed, 15 Apr 2020 06:36:58 -0400
+X-MC-Unique: kn1TQl1JP-ypDLrS8fh_qA-1
+Received: by mail-ed1-f71.google.com with SMTP id q27so2552634edc.15
+ for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 03:36:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=RCPukqXeU90Sta1kCxiNpB66dVcf62a681H7MU0Gmfk=;
- b=KVR2jdNuwarGD0f2LssQMTSqLhtpZ5iuhGqzI5dxMD1hEb05MYjgiZ0zZ5grDV2NRV
- hWlRIhA9DD9v9lLpbcIbl7kpSlrAwzecf/M/7cMYMXT9+fDAHhaCVIftD/8ar9eWMyjD
- 2tu0C+8ZtZhjOtsNVOcmL3rVdlpVMBSULGD3v/ydPqtBvng5eCO+Sh+/iLFOF9/k45kF
- h0V6u/8s/7WxJqcOsO8aKHdyr6pgaeZYOa72P7Z8GhH6CaF1Zx0+WpkuXAwinXhz/dPb
- DBe7dVNCQbwUrgT5v/EiqoveYxbgqpREZqncooIeTvcBjYWwpAj4FmQIvRnMN2sGs587
- +NZA==
-X-Gm-Message-State: AGi0Pub9E9YfwZME4qg6mrg+0rfEhKUSpTUwMA/Jw0A2jdsv7OoKGuN7
- wNz//cX4kOZHJuCIMN6uKxMigjqCKxuglQdsHwY=
-X-Google-Smtp-Source: APiQypKGvKrqB1CpbcMtbgEYojLyAgT7R12eFL1LuqCrxJ4ZZQFScfks8tCcm/UWJRcMRxJ+klMceExOcH93IItgv7U=
-X-Received: by 2002:a7b:c404:: with SMTP id k4mr4293405wmi.37.1586946926130;
- Wed, 15 Apr 2020 03:35:26 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QDfuqoOho3wrn6/nWucDhG5VcyPRj9pbXgSdAphjrZU=;
+ b=KZCPfTBu77PwW5KJ+Z+0+hjTmPGPXUU5Fitw51zVKU4/De5f6ETxR72e9G9pr33kol
+ OhGxlJKuhA10ADSN8Ms5K03DPdtaB6lI76G1+ymni7krXbc2RyqYNJqKMJlHvVlNwnHG
+ K5NCNda0ee+q7ps2i6DyxZjioOGRdgztlYs9h03HIrRXUt3p+7oLa5MRcTFYFPOmy+1Y
+ QJypvrilDWaY9w6Kyy9u3zeIjDkvJbGd1PEJ+axn0sEsUHa4HPb1uoUDPzrRTOPXFma/
+ TQ3tI3WFn1h4Ln9zPr5JpcxUJRzuogD1+ccVW1brZH4n4LaraE8LA//Dea8qIefjTeCf
+ jmkA==
+X-Gm-Message-State: AGi0PubKFZxjcjtTdyAjPYtbN9gG0XUJXH/bf90ZLDeLe5cUUqjFe1es
+ Pp8kQgouIOuOEls6rjw+Hae2+QFHUpi2w/j5a2tkAwMM8CjbARwskwDNSlGHa4S/JkfHgASG82M
+ g1Tw6/TxU2v+uSNk=
+X-Received: by 2002:aa7:d857:: with SMTP id f23mr23993926eds.235.1586947017317; 
+ Wed, 15 Apr 2020 03:36:57 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJZutSx5VxPg6GZtKFwdiGI58HY6j+AP1EorroXWZiJH8q0fj0pS0XuNOmtEqPRbC88mC6Ntg==
+X-Received: by 2002:aa7:d857:: with SMTP id f23mr23993908eds.235.1586947016982; 
+ Wed, 15 Apr 2020 03:36:56 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id m5sm2584919ejq.51.2020.04.15.03.36.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Apr 2020 03:36:56 -0700 (PDT)
+Subject: Re: [PATCH 12/16] nvme: add namespace helpers
+To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
+References: <20200415102445.564803-1-its@irrelevant.dk>
+ <20200415102445.564803-13-its@irrelevant.dk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <8315d218-c677-56e3-b589-d3aa3144f745@redhat.com>
+Date: Wed, 15 Apr 2020 12:36:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200415032826.16701-1-fengli@smartx.com>
- <20200415032826.16701-4-fengli@smartx.com>
-In-Reply-To: <20200415032826.16701-4-fengli@smartx.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 15 Apr 2020 12:35:14 +0200
-Message-ID: <CAJ+F1C+y-UXH=KARXtTK+aFFb58umRDna_jk2XjHsjDeaxkWYQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] char-socket: avoid double call tcp_chr_free_connection
-To: Li Feng <fengli@smartx.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
+In-Reply-To: <20200415102445.564803-13-its@irrelevant.dk>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,66 +92,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, kyle@smartx.com,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Javier Gonzalez <javier.gonz@samsung.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
-
-On Wed, Apr 15, 2020 at 5:31 AM Li Feng <fengli@smartx.com> wrote:
->
-> double call tcp_chr_free_connection generates a crash.
->
-> Signed-off-by: Li Feng <fengli@smartx.com>
-
-Could you describe how you reach the "double call".
-
-Even better would be to write a test for it in tests/test-char.c
-
-thanks
-
+On 4/15/20 12:24 PM, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> Introduce some small helpers to make the next patches easier on the eye.
+> 
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 > ---
->  chardev/char-socket.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-> index 185fe38dda..43aab8f24b 100644
-> --- a/chardev/char-socket.c
-> +++ b/chardev/char-socket.c
-> @@ -476,6 +476,11 @@ static void tcp_chr_disconnect_locked(Chardev *chr)
->      SocketChardev *s =3D SOCKET_CHARDEV(chr);
->      bool emit_close =3D s->state =3D=3D TCP_CHARDEV_STATE_CONNECTED;
->
-> +    /* avoid re-enter when socket read/write error and disconnect event.=
- */
-> +    if (s->state =3D=3D TCP_CHARDEV_STATE_DISCONNECTED) {
-> +        return;
-> +    }
+>   hw/block/nvme.h | 16 ++++++++++++++++
+>   1 file changed, 16 insertions(+)
+> 
+> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+> index ad1786953be9..d9900bed957c 100644
+> --- a/hw/block/nvme.h
+> +++ b/hw/block/nvme.h
+> @@ -67,6 +67,17 @@ typedef struct NvmeNamespace {
+>       NvmeIdNs        id_ns;
+>   } NvmeNamespace;
+>   
+> +static inline NvmeLBAF *nvme_ns_lbaf(NvmeNamespace *ns)
+> +{
+> +    NvmeIdNs *id_ns = &ns->id_ns;
+> +    return &id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(id_ns->flbas)];
+> +}
 > +
->      tcp_chr_free_connection(chr);
->
->      if (s->listener) {
-> --
-> 2.11.0
->
->
-> --
-> The SmartX email address is only for business purpose. Any sent message
-> that is not related to the business is not authorized or permitted by
-> SmartX.
-> =E6=9C=AC=E9=82=AE=E7=AE=B1=E4=B8=BA=E5=8C=97=E4=BA=AC=E5=BF=97=E5=87=8C=
-=E6=B5=B7=E7=BA=B3=E7=A7=91=E6=8A=80=E6=9C=89=E9=99=90=E5=85=AC=E5=8F=B8=EF=
-=BC=88SmartX=EF=BC=89=E5=B7=A5=E4=BD=9C=E9=82=AE=E7=AE=B1. =E5=A6=82=E6=9C=
-=AC=E9=82=AE=E7=AE=B1=E5=8F=91=E5=87=BA=E7=9A=84=E9=82=AE=E4=BB=B6=E4=B8=8E=
-=E5=B7=A5=E4=BD=9C=E6=97=A0=E5=85=B3,=E8=AF=A5=E9=82=AE=E4=BB=B6=E6=9C=AA=
-=E5=BE=97=E5=88=B0=E6=9C=AC=E5=85=AC=E5=8F=B8=E4=BB=BB=E4=BD=95=E7=9A=84=E6=
-=98=8E=E7=A4=BA=E6=88=96=E9=BB=98=E7=A4=BA=E7=9A=84=E6=8E=88=E6=9D=83.
->
->
->
+> +static inline uint8_t nvme_ns_lbads(NvmeNamespace *ns)
+> +{
+> +    return nvme_ns_lbaf(ns)->ds;
+> +}
+> +
+>   #define TYPE_NVME "nvme"
+>   #define NVME(obj) \
+>           OBJECT_CHECK(NvmeCtrl, (obj), TYPE_NVME)
+> @@ -101,4 +112,9 @@ typedef struct NvmeCtrl {
+>       NvmeIdCtrl      id_ctrl;
+>   } NvmeCtrl;
+>   
+> +static inline uint64_t nvme_ns_nlbas(NvmeCtrl *n, NvmeNamespace *ns)
+> +{
+> +    return n->ns_size >> nvme_ns_lbads(ns);
+> +}
+> +
+>   #endif /* HW_NVME_H */
+> 
 
+Personally I'd use it directly in the same patch, this is one more hunk:
 
---=20
-Marc-Andr=C3=A9 Lureau
+@@ -1455,18 +1469,9 @@ static void nvme_realize(PCIDevice *pci_dev, 
+Error **errp)
+[...]
+-        id_ns->ncap  = id_ns->nuse = id_ns->nsze =
+-            cpu_to_le64(n->ns_size >>
+-                id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas)].ds);
++            cpu_to_le64(nvme_ns_nlbas(n, ns));
+
 
