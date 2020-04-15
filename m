@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 529311A92D2
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 08:02:16 +0200 (CEST)
-Received: from localhost ([::1]:43612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A281D1A92DA
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 08:04:26 +0200 (CEST)
+Received: from localhost ([::1]:43658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOb7n-00012M-7v
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 02:02:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35162)
+	id 1jOb9t-0004rQ-Ic
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 02:04:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35238)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jOaye-0001jF-Ii
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 01:52:49 -0400
+ (envelope-from <its@irrelevant.dk>) id 1jOayh-0001tF-Eq
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 01:52:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jOayd-0002cE-F4
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 01:52:48 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:47298)
+ (envelope-from <its@irrelevant.dk>) id 1jOayf-0002dx-6N
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 01:52:51 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:47306)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jOayb-0002RE-2c; Wed, 15 Apr 2020 01:52:45 -0400
+ id 1jOayb-0002RU-HS; Wed, 15 Apr 2020 01:52:45 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id F3694BFD52;
- Wed, 15 Apr 2020 05:52:23 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id 5BA6FBFD5C;
+ Wed, 15 Apr 2020 05:52:24 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 18/48] nvme: add log specific field to trace events
-Date: Wed, 15 Apr 2020 07:51:10 +0200
-Message-Id: <20200415055140.466900-19-its@irrelevant.dk>
+Subject: [PATCH v7 19/48] nvme: support identify namespace descriptor list
+Date: Wed, 15 Apr 2020 07:51:11 +0200
+Message-Id: <20200415055140.466900-20-its@irrelevant.dk>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200415055140.466900-1-its@irrelevant.dk>
 References: <20200415055140.466900-1-its@irrelevant.dk>
@@ -58,60 +58,96 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-The LSP field is not used directly now, but include it in the trace.
+Since we are not providing the NGUID or EUI64 fields, we must support
+the Namespace UUID. We do not have any way of storing a persistent
+unique identifier, so conjure up a UUID that is just the namespace id.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- hw/block/nvme.c       | 3 ++-
- hw/block/trace-events | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ hw/block/nvme.c       | 39 +++++++++++++++++++++++++++++++++++++++
+ hw/block/trace-events |  1 +
+ 2 files changed, 40 insertions(+)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index c1e3ae81666a..d4622278450e 100644
+index d4622278450e..f40bc861facc 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -767,6 +767,7 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeCmd *cm=
-d, NvmeRequest *req)
-     uint32_t dw12 =3D le32_to_cpu(cmd->cdw12);
-     uint32_t dw13 =3D le32_to_cpu(cmd->cdw13);
-     uint8_t  lid =3D dw10 & 0xff;
-+    uint8_t  lsp =3D (dw10 >> 8) & 0xf;
-     uint8_t  rae =3D (dw10 >> 15) & 0x1;
-     uint32_t numdl, numdu;
-     uint64_t off, lpol, lpou;
-@@ -784,7 +785,7 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeCmd *cm=
-d, NvmeRequest *req)
+@@ -949,6 +949,43 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, Nv=
+meIdentify *c)
+     return ret;
+ }
+=20
++static uint16_t nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeIdentify *c=
+)
++{
++    uint32_t nsid =3D le32_to_cpu(c->nsid);
++    uint64_t prp1 =3D le64_to_cpu(c->prp1);
++    uint64_t prp2 =3D le64_to_cpu(c->prp2);
++
++    uint8_t list[NVME_IDENTIFY_DATA_SIZE];
++
++    struct data {
++        struct {
++            NvmeIdNsDescr hdr;
++            uint8_t v[16];
++        } uuid;
++    };
++
++    struct data *ns_descrs =3D (struct data *)list;
++
++    trace_nvme_dev_identify_ns_descr_list(nsid);
++
++    if (unlikely(nsid =3D=3D 0 || nsid > n->num_namespaces)) {
++        trace_nvme_dev_err_invalid_ns(nsid, n->num_namespaces);
++        return NVME_INVALID_NSID | NVME_DNR;
++    }
++
++    /*
++     * Because the NGUID and EUI64 fields are 0 in the Identify Namespac=
+e data
++     * structure, a Namespace UUID (nidt =3D 0x3) must be reported in th=
+e
++     * Namespace Identification Descriptor. Add a very basic Namespace U=
+UID
++     * here.
++     */
++    ns_descrs->uuid.hdr.nidt =3D NVME_NIDT_UUID;
++    ns_descrs->uuid.hdr.nidl =3D NVME_NIDT_UUID_LEN;
++    stl_be_p(&ns_descrs->uuid.v, nsid);
++
++    return nvme_dma_read_prp(n, list, NVME_IDENTIFY_DATA_SIZE, prp1, prp=
+2);
++}
++
+ static uint16_t nvme_identify(NvmeCtrl *n, NvmeCmd *cmd)
+ {
+     NvmeIdentify *c =3D (NvmeIdentify *)cmd;
+@@ -960,6 +997,8 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeCmd *c=
+md)
+         return nvme_identify_ctrl(n, c);
+     case NVME_ID_CNS_NS_ACTIVE_LIST:
+         return nvme_identify_nslist(n, c);
++    case NVME_ID_CNS_NS_DESCR_LIST:
++        return nvme_identify_ns_descr_list(n, c);
+     default:
+         trace_nvme_dev_err_invalid_identify_cns(le32_to_cpu(c->cns));
          return NVME_INVALID_FIELD | NVME_DNR;
-     }
-=20
--    trace_nvme_dev_get_log(nvme_cid(req), lid, rae, len, off);
-+    trace_nvme_dev_get_log(nvme_cid(req), lid, lsp, rae, len, off);
-=20
-     switch (lid) {
-     case NVME_LOG_ERROR_INFO:
 diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 659091fc2fed..fb5b26f6f5f6 100644
+index fb5b26f6f5f6..7ecd47131ac2 100644
 --- a/hw/block/trace-events
 +++ b/hw/block/trace-events
-@@ -52,7 +52,7 @@ nvme_dev_getfeat_numq(int result) "get feature number o=
-f queues, result=3D%d"
- nvme_dev_setfeat_numq(int reqcq, int reqsq, int gotcq, int gotsq) "reque=
-sted cq_count=3D%d sq_count=3D%d, responding with cq_count=3D%d sq_count=3D=
-%d"
- nvme_dev_setfeat_timestamp(uint64_t ts) "set feature timestamp =3D 0x%"P=
-RIx64""
- nvme_dev_getfeat_timestamp(uint64_t ts) "get feature timestamp =3D 0x%"P=
-RIx64""
--nvme_dev_get_log(uint16_t cid, uint8_t lid, uint8_t rae, uint32_t len, u=
-int64_t off) "cid %"PRIu16" lid 0x%"PRIx8" rae 0x%"PRIx8" len %"PRIu32" o=
-ff %"PRIu64""
-+nvme_dev_get_log(uint16_t cid, uint8_t lid, uint8_t lsp, uint8_t rae, ui=
-nt32_t len, uint64_t off) "cid %"PRIu16" lid 0x%"PRIx8" lsp 0x%"PRIx8" ra=
-e 0x%"PRIx8" len %"PRIu32" off %"PRIu64""
- nvme_dev_process_aers(int queued) "queued %d"
- nvme_dev_aer(uint16_t cid) "cid %"PRIu16""
- nvme_dev_aer_aerl_exceeded(void) "aerl exceeded"
+@@ -45,6 +45,7 @@ nvme_dev_del_cq(uint16_t cqid) "deleted completion queu=
+e, cqid=3D%"PRIu16""
+ nvme_dev_identify_ctrl(void) "identify controller"
+ nvme_dev_identify_ns(uint32_t ns) "nsid %"PRIu32""
+ nvme_dev_identify_nslist(uint32_t ns) "nsid %"PRIu32""
++nvme_dev_identify_ns_descr_list(uint32_t ns) "nsid %"PRIu32""
+ nvme_dev_getfeat(uint16_t cid, uint32_t fid) "cid %"PRIu16" fid 0x%"PRIx=
+32""
+ nvme_dev_setfeat(uint16_t cid, uint32_t fid, uint32_t val) "cid %"PRIu16=
+" fid 0x%"PRIx32" val 0x%"PRIx32""
+ nvme_dev_getfeat_vwcache(const char* result) "get feature volatile write=
+ cache, result=3D%s"
 --=20
 2.26.0
 
