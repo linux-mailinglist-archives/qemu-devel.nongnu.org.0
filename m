@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41BFF1A92DD
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 08:05:25 +0200 (CEST)
-Received: from localhost ([::1]:43690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1FFC1A930D
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 08:16:58 +0200 (CEST)
+Received: from localhost ([::1]:43962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jObAq-00078m-97
-	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 02:05:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35602)
+	id 1jObM1-0003HT-NM
+	for lists+qemu-devel@lfdr.de; Wed, 15 Apr 2020 02:16:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35627)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jOaz1-0002tA-NM
+ (envelope-from <its@irrelevant.dk>) id 1jOaz2-0002uO-6H
  for qemu-devel@nongnu.org; Wed, 15 Apr 2020 01:53:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jOayz-0002r6-N7
- for qemu-devel@nongnu.org; Wed, 15 Apr 2020 01:53:11 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:47574)
+ (envelope-from <its@irrelevant.dk>) id 1jOaz0-0002s0-LX
+ for qemu-devel@nongnu.org; Wed, 15 Apr 2020 01:53:12 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:47578)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jOayv-0002aK-NU; Wed, 15 Apr 2020 01:53:05 -0400
+ id 1jOayw-0002aj-4p; Wed, 15 Apr 2020 01:53:06 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id BE3E6BFDAB;
- Wed, 15 Apr 2020 05:52:29 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id 23845BFDAD;
+ Wed, 15 Apr 2020 05:52:30 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 32/48] nvme: add check for mdts
-Date: Wed, 15 Apr 2020 07:51:24 +0200
-Message-Id: <20200415055140.466900-33-its@irrelevant.dk>
+Subject: [PATCH v7 33/48] nvme: be consistent about zeros vs zeroes
+Date: Wed, 15 Apr 2020 07:51:25 +0200
+Message-Id: <20200415055140.466900-34-its@irrelevant.dk>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200415055140.466900-1-its@irrelevant.dk>
 References: <20200415055140.466900-1-its@irrelevant.dk>
@@ -58,141 +58,108 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Add 'mdts' device parameter to control the Maximum Data Transfer Size of
-the controller and check that it is respected.
+The spec in general uses 'zeroes' and not 'zeros'.
+
+Now, according to the Oxford dictionary, 'zeroes' is the action of
+zeroing something, i.e. "he zeroes the range" and 'zeros' is the plural
+of zero. Thus, Write Zeroes should actually be called Write Zeros, but
+alas, let us align with the spec.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- hw/block/nvme.c       | 29 ++++++++++++++++++++++++++++-
- hw/block/nvme.h       |  4 +++-
- hw/block/trace-events |  1 +
- 3 files changed, 32 insertions(+), 2 deletions(-)
+ block/nvme.c         | 4 ++--
+ hw/block/nvme.c      | 8 ++++----
+ include/block/nvme.h | 4 ++--
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
+diff --git a/block/nvme.c b/block/nvme.c
+index 7302cc19ade4..304e975e0270 100644
+--- a/block/nvme.c
++++ b/block/nvme.c
+@@ -465,7 +465,7 @@ static void nvme_identify(BlockDriverState *bs, int n=
+amespace, Error **errp)
+                           s->page_size / sizeof(uint64_t) * s->page_size=
+);
+=20
+     oncs =3D le16_to_cpu(idctrl->oncs);
+-    s->supports_write_zeroes =3D !!(oncs & NVME_ONCS_WRITE_ZEROS);
++    s->supports_write_zeroes =3D !!(oncs & NVME_ONCS_WRITE_ZEROES);
+     s->supports_discard =3D !!(oncs & NVME_ONCS_DSM);
+=20
+     memset(resp, 0, 4096);
+@@ -1119,7 +1119,7 @@ static coroutine_fn int nvme_co_pwrite_zeroes(Block=
+DriverState *bs,
+     }
+=20
+     NvmeCmd cmd =3D {
+-        .opcode =3D NVME_CMD_WRITE_ZEROS,
++        .opcode =3D NVME_CMD_WRITE_ZEROES,
+         .nsid =3D cpu_to_le32(s->nsid),
+         .cdw10 =3D cpu_to_le32((offset >> s->blkshift) & 0xFFFFFFFF),
+         .cdw11 =3D cpu_to_le32(((offset >> s->blkshift) >> 32) & 0xFFFFF=
+FFF),
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 7528d75905d4..d8edd071b261 100644
+index d8edd071b261..94d42046149e 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -19,7 +19,8 @@
-  *      -drive file=3D<file>,if=3Dnone,id=3D<drive_id>
-  *      -device nvme,drive=3D<drive_id>,serial=3D<serial>,id=3D<id[optio=
-nal]>, \
-  *              cmb_size_mb=3D<cmb_size_mb[optional]>, \
-- *              max_ioqpairs=3D<N[optional]>
-+ *              max_ioqpairs=3D<N[optional]>, \
-+ *              mdts=3D<mdts[optional]>
-  *
-  * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
-  * offset 0 in BAR2 and supports only WDS, RDS and SQS for now.
-@@ -499,6 +500,19 @@ static void nvme_clear_events(NvmeCtrl *n, uint8_t e=
-vent_type)
-     }
+@@ -564,7 +564,7 @@ static uint16_t nvme_flush(NvmeCtrl *n, NvmeNamespace=
+ *ns, NvmeCmd *cmd,
+     return NVME_NO_COMPLETE;
  }
 =20
-+static inline uint16_t nvme_check_mdts(NvmeCtrl *n, size_t len,
-+                                       NvmeRequest *req)
-+{
-+    uint8_t mdts =3D n->params.mdts;
-+
-+    if (mdts && len > n->page_size << mdts) {
-+        trace_nvme_dev_err_mdts(nvme_cid(req), n->page_size << mdts, len=
+-static uint16_t nvme_write_zeros(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd=
+ *cmd,
++static uint16_t nvme_write_zeroes(NvmeCtrl *n, NvmeNamespace *ns, NvmeCm=
+d *cmd,
+     NvmeRequest *req)
+ {
+     NvmeRwCmd *rw =3D (NvmeRwCmd *)cmd;
+@@ -662,8 +662,8 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeCmd *cmd=
+, NvmeRequest *req)
+     switch (cmd->opcode) {
+     case NVME_CMD_FLUSH:
+         return nvme_flush(n, ns, cmd, req);
+-    case NVME_CMD_WRITE_ZEROS:
+-        return nvme_write_zeros(n, ns, cmd, req);
++    case NVME_CMD_WRITE_ZEROES:
++        return nvme_write_zeroes(n, ns, cmd, req);
+     case NVME_CMD_WRITE:
+     case NVME_CMD_READ:
+         return nvme_rw(n, ns, cmd, req);
+@@ -2086,7 +2086,7 @@ static void nvme_init_ctrl(NvmeCtrl *n)
+     id->sqes =3D (0x6 << 4) | 0x6;
+     id->cqes =3D (0x4 << 4) | 0x4;
+     id->nn =3D cpu_to_le32(n->num_namespaces);
+-    id->oncs =3D cpu_to_le16(NVME_ONCS_WRITE_ZEROS | NVME_ONCS_TIMESTAMP=
 );
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+
-+    return NVME_SUCCESS;
-+}
-+
- static inline uint16_t nvme_check_bounds(NvmeCtrl *n, NvmeNamespace *ns,
-                                          uint64_t slba, uint32_t nlb,
-                                          NvmeRequest *req)
-@@ -593,6 +607,12 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *=
-ns, NvmeCmd *cmd,
++    id->oncs =3D cpu_to_le16(NVME_ONCS_WRITE_ZEROES | NVME_ONCS_TIMESTAM=
+P);
 =20
-     trace_nvme_dev_rw(is_write ? "write" : "read", nlb, data_size, slba)=
-;
+     pstrcpy((char *) id->subnqn, sizeof(id->subnqn), "nqn.2019-08.org.qe=
+mu:");
+     pstrcat((char *) id->subnqn, sizeof(id->subnqn), n->params.serial);
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 88e5385a9d3f..c4c669e32fc4 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -287,7 +287,7 @@ enum NvmeIoCommands {
+     NVME_CMD_READ               =3D 0x02,
+     NVME_CMD_WRITE_UNCOR        =3D 0x04,
+     NVME_CMD_COMPARE            =3D 0x05,
+-    NVME_CMD_WRITE_ZEROS        =3D 0x08,
++    NVME_CMD_WRITE_ZEROES       =3D 0x08,
+     NVME_CMD_DSM                =3D 0x09,
+ };
 =20
-+    status =3D nvme_check_mdts(n, data_size, req);
-+    if (status) {
-+        block_acct_invalid(blk_get_stats(n->conf.blk), acct);
-+        return status;
-+    }
-+
-     status =3D nvme_check_bounds(n, ns, slba, nlb, req);
-     if (status) {
-         block_acct_invalid(blk_get_stats(n->conf.blk), acct);
-@@ -884,6 +904,7 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeCmd *cm=
-d, NvmeRequest *req)
-     uint32_t numdl, numdu;
-     uint64_t off, lpol, lpou;
-     size_t   len;
-+    uint16_t status;
-=20
-     numdl =3D (dw10 >> 16);
-     numdu =3D (dw11 & 0xffff);
-@@ -899,6 +920,11 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeCmd *c=
-md, NvmeRequest *req)
-=20
-     trace_nvme_dev_get_log(nvme_cid(req), lid, lsp, rae, len, off);
-=20
-+    status =3D nvme_check_mdts(n, len, req);
-+    if (status) {
-+        return status;
-+    }
-+
-     switch (lid) {
-     case NVME_LOG_ERROR_INFO:
-         return nvme_error_info(n, cmd, rae, len, off, req);
-@@ -2033,6 +2059,7 @@ static void nvme_init_ctrl(NvmeCtrl *n)
-     id->ieee[0] =3D 0x00;
-     id->ieee[1] =3D 0x02;
-     id->ieee[2] =3D 0xb3;
-+    id->mdts =3D params->mdts;
-     id->ver =3D cpu_to_le32(NVME_SPEC_VER);
-     id->oacs =3D cpu_to_le16(0);
-=20
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index a946ae88d817..a25568723d0d 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -9,7 +9,8 @@
-     DEFINE_PROP_UINT32("num_queues", _state, _props.num_queues, 0), \
-     DEFINE_PROP_UINT32("max_ioqpairs", _state, _props.max_ioqpairs, 64),=
- \
-     DEFINE_PROP_UINT8("aerl", _state, _props.aerl, 3), \
--    DEFINE_PROP_UINT32("aer_max_queued", _state, _props.aer_max_queued, =
-64)
-+    DEFINE_PROP_UINT32("aer_max_queued", _state, _props.aer_max_queued, =
-64), \
-+    DEFINE_PROP_UINT8("mdts", _state, _props.mdts, 7)
-=20
- typedef struct NvmeParams {
-     char     *serial;
-@@ -18,6 +19,7 @@ typedef struct NvmeParams {
-     uint32_t cmb_size_mb;
-     uint8_t  aerl;
-     uint32_t aer_max_queued;
-+    uint8_t  mdts;
- } NvmeParams;
-=20
- typedef struct NvmeAsyncEvent {
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index e050af87ece4..291422a5b77d 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -83,6 +83,7 @@ nvme_dev_mmio_doorbell_cq(uint16_t cqid, uint16_t new_h=
-ead) "cqid %"PRIu16" new_
- nvme_dev_mmio_doorbell_sq(uint16_t sqid, uint16_t new_tail) "cqid %"PRIu=
-16" new_tail %"PRIu16""
-=20
- # nvme traces for error conditions
-+nvme_dev_err_mdts(uint16_t cid, size_t mdts, size_t len) "cid %"PRIu16" =
-mdts %"PRIu64" len %"PRIu64""
- nvme_dev_err_invalid_dma(void) "PRP/SGL is too small for transfer size"
- nvme_dev_err_invalid_prplist_ent(uint64_t prplist) "PRP list entry is nu=
-ll or not page aligned: 0x%"PRIx64""
- nvme_dev_err_invalid_prp2_align(uint64_t prp2) "PRP2 is not page aligned=
-: 0x%"PRIx64""
+@@ -665,7 +665,7 @@ enum NvmeIdCtrlOncs {
+     NVME_ONCS_COMPARE       =3D 1 << 0,
+     NVME_ONCS_WRITE_UNCORR  =3D 1 << 1,
+     NVME_ONCS_DSM           =3D 1 << 2,
+-    NVME_ONCS_WRITE_ZEROS   =3D 1 << 3,
++    NVME_ONCS_WRITE_ZEROES  =3D 1 << 3,
+     NVME_ONCS_FEATURES      =3D 1 << 4,
+     NVME_ONCS_RESRVATIONS   =3D 1 << 5,
+     NVME_ONCS_TIMESTAMP     =3D 1 << 6,
 --=20
 2.26.0
 
