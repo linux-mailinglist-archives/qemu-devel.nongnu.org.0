@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 964071A9056
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 03:20:49 +0200 (CEST)
-Received: from localhost ([::1]:41128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C0891A903D
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Apr 2020 03:15:25 +0200 (CEST)
+Received: from localhost ([::1]:41034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jOWjQ-0002YT-N9
-	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 21:20:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58562)
+	id 1jOWeC-0004dd-7V
+	for lists+qemu-devel@lfdr.de; Tue, 14 Apr 2020 21:15:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58485)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alazar@bitdefender.com>) id 1jOWPC-0001S5-J8
- for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:56 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alazar@bitdefender.com>) id 1jOWP9-0005Cu-6k
+ (envelope-from <alazar@bitdefender.com>) id 1jOWPA-0001L8-EN
  for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:54 -0400
-Received: from mx01.bbu.dsd.mx.bitdefender.com ([91.199.104.161]:49108)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alazar@bitdefender.com>) id 1jOWP9-0005CY-3z
+ for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:52 -0400
+Received: from mx01.bbu.dsd.mx.bitdefender.com ([91.199.104.161]:49110)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <alazar@bitdefender.com>)
- id 1jOWP8-00052c-NL
+ id 1jOWP8-00052b-Mg
  for qemu-devel@nongnu.org; Tue, 14 Apr 2020 20:59:51 -0400
 Received: from smtp.bitdefender.com (smtp02.buh.bitdefender.net [10.17.80.76])
  by mx01.bbu.dsd.mx.bitdefender.com (Postfix) with ESMTPS id
- 2B6703074839; Wed, 15 Apr 2020 03:59:36 +0300 (EEST)
+ 3AA83307483A
+ for <qemu-devel@nongnu.org>; Wed, 15 Apr 2020 03:59:36 +0300 (EEST)
 Received: from localhost.localdomain (unknown [91.199.104.27])
- by smtp.bitdefender.com (Postfix) with ESMTPSA id 175AE305B7A0;
+ by smtp.bitdefender.com (Postfix) with ESMTPSA id 2B115305B7A1;
  Wed, 15 Apr 2020 03:59:36 +0300 (EEST)
 From: =?UTF-8?q?Adalbert=20Laz=C4=83r?= <alazar@bitdefender.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v1 21/26] kvm: vmi: postpone the OK response from
- qmp_stop()
-Date: Wed, 15 Apr 2020 03:59:33 +0300
-Message-Id: <20200415005938.23895-22-alazar@bitdefender.com>
+Subject: [RFC PATCH v1 22/26] kvm: vmi: add 'async_unhook' property
+Date: Wed, 15 Apr 2020 03:59:34 +0300
+Message-Id: <20200415005938.23895-23-alazar@bitdefender.com>
 In-Reply-To: <20200415005938.23895-1-alazar@bitdefender.com>
 References: <20200415005938.23895-1-alazar@bitdefender.com>
 MIME-Version: 1.0
@@ -52,207 +52,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Adalbert=20Laz=C4=83r?= <alazar@bitdefender.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: =?UTF-8?q?Adalbert=20Laz=C4=83r?= <alazar@bitdefender.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The method to postpone the intercepted command (pause/suspend/migrate)
-until the introspection tool has the chance to remove its hooks
-(e.g. breakpoints) from guest doesn't work on snapshot+memory (at
-least as it is done by libvirt/virt-manager 1.3.1). The sequence
-qmp_stop()+save_vm+qmp_cont() doesn't wait for the STOP event.  save_vm()
-is called right after qmp_stop() returns OK. What we do is postpone
-this OK response until the introspection tools finishes the unhook
-process.
+The default method to handle the intercepted commands
+(pause/suspend/migrate) might not be the simplest method. We add an
+alternative method, used when async_unhook is set to false, that runs
+the main loop until the introspection tool finish the unhook process
+and closes the introspection socket.
 
-CC: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Adalbert Laz=C4=83r <alazar@bitdefender.com>
 ---
- accel/kvm/vmi.c                | 29 +++++++++++++++++++++++++++++
- accel/stubs/vmi-stubs.c        |  7 +++++++
- include/monitor/monitor.h      |  1 +
- include/sysemu/vmi-intercept.h |  2 +-
- monitor/Makefile.objs          |  2 +-
- monitor/qmp.c                  | 11 +++++++++++
- monitor/stubs.c                |  9 +++++++++
- 7 files changed, 59 insertions(+), 2 deletions(-)
- create mode 100644 monitor/stubs.c
+ accel/kvm/vmi.c | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
 diff --git a/accel/kvm/vmi.c b/accel/kvm/vmi.c
-index ea7191e48d..01034d460e 100644
+index 01034d460e..bee9798e54 100644
 --- a/accel/kvm/vmi.c
 +++ b/accel/kvm/vmi.c
-@@ -10,6 +10,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qapi/error.h"
-+#include "qapi/qmp/qdict.h"
- #include "qemu/error-report.h"
- #include "qom/object_interfaces.h"
- #include "sysemu/sysemu.h"
-@@ -23,6 +24,8 @@
- #include "migration/vmstate.h"
- #include "migration/migration.h"
- #include "migration/misc.h"
-+#include "qapi/qmp/qobject.h"
-+#include "monitor/monitor.h"
+@@ -57,6 +57,7 @@ typedef struct VMIntrospection {
+     int intercepted_action;
+     GSource *unhook_timer;
+     uint32_t unhook_timeout;
++    bool async_unhook;
 =20
- #include "sysemu/vmi-intercept.h"
- #include "sysemu/vmi-handshake.h"
-@@ -63,6 +66,9 @@ typedef struct VMIntrospection {
-     Notifier migration_state_change;
-     bool created_from_command_line;
+     int reconnect_time;
 =20
-+    void *qmp_monitor;
-+    QDict *qmp_rsp;
-+
-     bool kvmi_hooked;
- } VMIntrospection;
-=20
-@@ -333,6 +339,8 @@ static void instance_finalize(Object *obj)
-=20
-     error_free(i->init_error);
-=20
-+    qobject_unref(i->qmp_rsp);
-+
-     ic->instance_counter--;
-     if (!ic->instance_counter) {
-         ic->uniq =3D NULL;
-@@ -506,6 +514,12 @@ static void continue_with_the_intercepted_action(VMI=
-ntrospection *i)
-=20
-     info_report("VMI: continue with '%s'",
-                 action_string[i->intercepted_action]);
-+
-+    if (i->qmp_rsp) {
-+        monitor_qmp_respond_later(i->qmp_monitor, i->qmp_rsp);
-+        i->qmp_monitor =3D NULL;
-+        i->qmp_rsp =3D NULL;
-+    }
+@@ -186,6 +187,20 @@ static void prop_set_key(Object *obj, const char *va=
+lue, Error **errp)
+     i->keyid =3D g_strdup(value);
  }
 =20
- /*
-@@ -676,6 +690,21 @@ static VMIntrospection *vm_introspection_object(void=
-)
-     return ic ? ic->uniq : NULL;
- }
-=20
-+bool vm_introspection_qmp_delay(void *mon, QDict *rsp)
++static bool prop_get_async_unhook(Object *obj, Error **errp)
 +{
-+    VMIntrospection *i =3D vm_introspection_object();
-+    bool intercepted;
++    VMIntrospection *i =3D VM_INTROSPECTION(obj);
 +
-+    intercepted =3D i && i->intercepted_action =3D=3D VMI_INTERCEPT_SUSP=
-END;
-+
-+    if (intercepted) {
-+        i->qmp_monitor =3D mon;
-+        i->qmp_rsp =3D rsp;
-+    }
-+
-+    return intercepted;
++    return i->async_unhook;
 +}
 +
- /*
-  * This ioctl succeeds only when KVM signals the introspection tool.
-  * (the socket is connected and the event was sent without error).
-diff --git a/accel/stubs/vmi-stubs.c b/accel/stubs/vmi-stubs.c
-index 1bd93b2ca5..0cb1d6572b 100644
---- a/accel/stubs/vmi-stubs.c
-+++ b/accel/stubs/vmi-stubs.c
-@@ -1,7 +1,14 @@
- #include "qemu/osdep.h"
-+#include "qapi/qmp/qdict.h"
++static void prop_set_async_unhook(Object *obj, bool value, Error **errp)
++{
++    VMIntrospection *i =3D VM_INTROSPECTION(obj);
 +
- #include "sysemu/vmi-intercept.h"
-=20
- bool vm_introspection_intercept(VMI_intercept_command ic, Error **errp)
++    i->async_unhook =3D value;
++}
++
+ static void prop_get_uint32(Object *obj, Visitor *v, const char *name,
+                             void *opaque, Error **errp)
  {
-     return false;
- }
+@@ -263,6 +278,11 @@ static void instance_init(Object *obj)
+                         prop_set_uint32, prop_get_uint32,
+                         NULL, &i->unhook_timeout, NULL);
+=20
++    i->async_unhook =3D true;
++    object_property_add_bool(obj, "async_unhook",
++                             prop_get_async_unhook,
++                             prop_set_async_unhook, NULL);
 +
-+bool vm_introspection_qmp_delay(void *mon, QDict *rsp)
+     vmstate_register(NULL, 0, &vmstate_introspection, i);
+ }
+=20
+@@ -739,6 +759,19 @@ static bool record_intercept_action(VMI_intercept_co=
+mmand action)
+     return true;
+ }
+=20
++static void wait_until_the_socket_is_closed(VMIntrospection *i)
 +{
-+    return false;
-+}
-diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
-index 1018d754a6..1b3debc635 100644
---- a/include/monitor/monitor.h
-+++ b/include/monitor/monitor.h
-@@ -47,5 +47,6 @@ int monitor_fdset_get_fd(int64_t fdset_id, int flags);
- int monitor_fdset_dup_fd_add(int64_t fdset_id, int dup_fd);
- void monitor_fdset_dup_fd_remove(int dup_fd);
- int64_t monitor_fdset_dup_fd_find(int dup_fd);
-+void monitor_qmp_respond_later(void *_mon, QDict *rsp);
-=20
- #endif /* MONITOR_H */
-diff --git a/include/sysemu/vmi-intercept.h b/include/sysemu/vmi-intercep=
-t.h
-index b4a9a3faa7..4b93d17f2b 100644
---- a/include/sysemu/vmi-intercept.h
-+++ b/include/sysemu/vmi-intercept.h
-@@ -19,6 +19,6 @@ typedef enum {
- } VMI_intercept_command;
-=20
- bool vm_introspection_intercept(VMI_intercept_command ic, Error **errp);
--bool vm_introspection_qmp_delay(void *mon, QObject *id, bool resume);
-+bool vm_introspection_qmp_delay(void *mon, QDict *rsp);
-=20
- #endif /* QEMU_VMI_INTERCEPT_H */
-diff --git a/monitor/Makefile.objs b/monitor/Makefile.objs
-index a8533c9dd7..16652ed162 100644
---- a/monitor/Makefile.objs
-+++ b/monitor/Makefile.objs
-@@ -3,4 +3,4 @@ common-obj-y +=3D monitor.o qmp.o hmp.o
- common-obj-y +=3D qmp-cmds.o qmp-cmds-control.o
- common-obj-y +=3D hmp-cmds.o
-=20
--storage-daemon-obj-y +=3D monitor.o qmp.o qmp-cmds-control.o
-+storage-daemon-obj-y +=3D monitor.o qmp.o qmp-cmds-control.o stubs.o
-diff --git a/monitor/qmp.c b/monitor/qmp.c
-index f89e7daf27..fc9ea7eafa 100644
---- a/monitor/qmp.c
-+++ b/monitor/qmp.c
-@@ -32,6 +32,7 @@
- #include "qapi/qmp/qjson.h"
- #include "qapi/qmp/qlist.h"
- #include "qapi/qmp/qstring.h"
-+#include "sysemu/vmi-intercept.h"
- #include "trace.h"
-=20
- struct QMPRequest {
-@@ -158,6 +159,16 @@ static void monitor_qmp_dispatch(MonitorQMP *mon, QO=
-bject *req)
-         }
-     }
-=20
-+    if (!vm_introspection_qmp_delay(mon, rsp)) {
-+        monitor_qmp_respond(mon, rsp);
-+        qobject_unref(rsp);
++    info_report("VMI: start waiting until fd=3D%d is closed", i->sock_fd=
+);
++
++    while (i->sock_fd !=3D -1) {
++        main_loop_wait(false);
 +    }
++
++    info_report("VMI: continue with the intercepted action fd=3D%d", i->=
+sock_fd);
++
++    maybe_disable_socket_reconnect(i);
 +}
 +
-+void monitor_qmp_respond_later(void *_mon, QDict *rsp)
-+{
-+    MonitorQMP *mon =3D _mon;
+ static bool intercept_action(VMIntrospection *i,
+                              VMI_intercept_command action, Error **errp)
+ {
+@@ -767,6 +800,11 @@ static bool intercept_action(VMIntrospection *i,
+                                               i->unhook_timeout * 1000,
+                                               unhook_timeout_cbk, i);
+=20
++    if (!i->async_unhook) {
++        wait_until_the_socket_is_closed(i);
++        return false;
++    }
 +
-     monitor_qmp_respond(mon, rsp);
-     qobject_unref(rsp);
+     i->intercepted_action =3D action;
+     return true;
  }
-diff --git a/monitor/stubs.c b/monitor/stubs.c
-new file mode 100644
-index 0000000000..fc5707ae13
---- /dev/null
-+++ b/monitor/stubs.c
-@@ -0,0 +1,9 @@
-+#include "qemu/osdep.h"
-+#include "qapi/qmp/qdict.h"
-+
-+#include "sysemu/vmi-intercept.h"
-+
-+bool vm_introspection_qmp_delay(void *mon, QDict *rsp)
-+{
-+    return false;
-+}
 
