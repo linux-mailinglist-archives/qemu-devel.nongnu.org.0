@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 459BE1ACF92
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Apr 2020 20:24:23 +0200 (CEST)
-Received: from localhost ([::1]:37912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5FE1ACF86
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Apr 2020 20:22:29 +0200 (CEST)
+Received: from localhost ([::1]:37880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jP9BW-0000IR-Co
-	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 14:24:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43427)
+	id 1jP99f-00068X-Rc
+	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 14:22:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43324)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nsoffer@redhat.com>) id 1jP99I-0006L1-Px
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 14:22:07 -0400
+ (envelope-from <alexander.duyck@gmail.com>) id 1jP98Z-0005jc-MH
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 14:21:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nsoffer@redhat.com>) id 1jP99G-00041p-Q3
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 14:22:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30548
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <nsoffer@redhat.com>) id 1jP99G-00041D-Ig
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 14:22:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587061321;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=70alt/7B+24bnmtlAVFkzdPqViYaJh7M0VeENCRicXw=;
- b=fzPh3SrTGDUav4OovmRWwy/BjI7zgSlTa28bIZlXqq2EboVhGNBK70pfDl98yLM+VRSOwT
- qmUjJ/YrRZeqfwD/oNReDjoyqzpJMykYm7QrNKjLyeJH4wAr8K0us6MI+1UAwdqbXjRkka
- 8n8MXR4RIxmOUEAexce293coAjKK3zw=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-tBqapK32OJuAwDOg9bPK3w-1; Thu, 16 Apr 2020 14:20:40 -0400
-X-MC-Unique: tBqapK32OJuAwDOg9bPK3w-1
-Received: by mail-ot1-f72.google.com with SMTP id 22so2174874otg.7
- for <qemu-devel@nongnu.org>; Thu, 16 Apr 2020 11:20:39 -0700 (PDT)
+ (envelope-from <alexander.duyck@gmail.com>) id 1jP98Y-0003Qn-7t
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 14:21:19 -0400
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:36152)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alexander.duyck@gmail.com>)
+ id 1jP98Y-0003Pk-3L
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 14:21:18 -0400
+Received: by mail-il1-x144.google.com with SMTP id t8so7889616ilj.3
+ for <qemu-devel@nongnu.org>; Thu, 16 Apr 2020 11:21:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9/ilK9h74frLS2QPOveBdqWTPAs2onSHmT92Qpp4lkk=;
+ b=F++hYXCiyp5LBmDzYWxPIWIGhWpnWl/TFQRvtEuBP3QN1qEkmP1HuZBphLF+ED6S7N
+ 5VuNOXEEPHQYV7miHnoy5CxjlQx7W1TLRG8/yOFaiY17XqeJFdsuLfdFH4AGW2WnZQ8B
+ 6NZXPK5jn23gKnVlFws9hM9PTldqgKwf7Rt63eCP6EsapwDjS8AYAwZZaVcF4S6AxpD5
+ lDuDpFek5460PGyMGerMe0Y8vVUqxPKbYFqCR77M/ltLoiaVbu1l9i3jU5QspVeC3POl
+ 0i1jCq0HHbnzWxH1hi7cHms3kcKCo/BVIfju3n/T8qkht6GC5Y3IcQRWtIijkkCRliMB
+ Q3HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=B6TPwGF0EGrZE8IelXtzU2VyQIFJTMj9QaAqWrqJP48=;
- b=AGLO8sDv65g5ZMMbAt+dJ4hcBe+YCkv0qsMrhNwsPHxm9uNbFp3/M+PDFGPX6QMziN
- YvcOLsVon+Yaz7mBGkIBliuEheTysp+l4qveYEhqVB+7CIlMwBHN11dInaQtYvc4Umzo
- FSF/1Fhx5W0hpxc5s6e80cPA52ogFH8iCi/yfTu+duq7svJzv1+RytcqLOIHUoFCgu60
- pbbYuqLvRgAdFPozWJ2v+91GYdmk5CYZjnCpilayNXrOPWgvl99bVGkEfqxuiTImOotx
- z1+qX5xwc+4WryY3vkOGHTqnohFU4N7D7tDc9trq89k1WJko1ocgM0e31w+xOStDT9uD
- IJiQ==
-X-Gm-Message-State: AGi0Pua89UnBdqkAjGndLgMPcdgyE4g2cRF3ZmaXmgoLXIbYwfwM7J6v
- M7y6lFAJz3wIvD4NV3gDmbjYEj994mM1y3wUDHfjXYoD7qkredfBwLYaic1hh+Q9v0n6ZuC6pqq
- nNNbq7KsvCt+U7g3yBYMcHfoj3Ud64Mg=
-X-Received: by 2002:aca:f50e:: with SMTP id t14mr3690080oih.156.1587061239107; 
- Thu, 16 Apr 2020 11:20:39 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKXh/eH9h9WgxhIgenWorF4nmNVkyyl1cd47ipFOAO9ScioAvX+CKidL7oE+1KPPGFW2hsKfPS3+leB+uoEpIQ=
-X-Received: by 2002:aca:f50e:: with SMTP id t14mr3690059oih.156.1587061238751; 
- Thu, 16 Apr 2020 11:20:38 -0700 (PDT)
+ bh=9/ilK9h74frLS2QPOveBdqWTPAs2onSHmT92Qpp4lkk=;
+ b=FBCSelpstNW3wv/asjq4Pexm3eXM5cVGKZBU1/lGZOnsV7iATE+pydTJugAqYBZclV
+ izbbaqD3x9UYAfWt+suCg6Es7SXWr4BxcZFA6WaHqiHbF46YldH7Mzi3N97IR5WlF8DD
+ LKNME/WObFJuTrGQJ2gL6tj7LOl3Hd/v8qm3gnqamdKbiWrMuhxlUXJeoMXFyd+LyKAc
+ PV4rnsAFlQyNTuVglYPvVOYWKKklf7yeHeYOQNMzBqOLjOXf9t76LE/AZrsVR0dEDcEm
+ 1mGQbmMYwGPnDb2KprjeikB3AJpcgrF4fyUUJ0e5aiRhcL4bJ8R4LtsquQ5h9DtLOd7+
+ DyfQ==
+X-Gm-Message-State: AGi0PuYqu5D5ylNESrWAIEedjA5Jvef7LQBZe246CfcqsmGCKp0F65Tz
+ 83ffPxEQXIxuLJDgp7HUbGsM0l67FV6aNOkFzfg=
+X-Google-Smtp-Source: APiQypIif0lhgBiue6WSgcG6ImaB3Jw+JA6MSqoX3brHo3HINE0e+E5H34dF75h2kDpjKnf4bE/IVHz24c8zuKAsDLU=
+X-Received: by 2002:a92:858b:: with SMTP id f133mr2103786ilh.97.1587061276362; 
+ Thu, 16 Apr 2020 11:21:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200416145115.699033-1-eblake@redhat.com>
-In-Reply-To: <20200416145115.699033-1-eblake@redhat.com>
-From: Nir Soffer <nsoffer@redhat.com>
-Date: Thu, 16 Apr 2020 21:20:22 +0300
-Message-ID: <CAMRbyyv5=AsFLsaaWg9hEWo4NgR=OMzLgvG5=spcHXmNJGebUA@mail.gmail.com>
-Subject: Re: [PATCH 0/3] qemu-img: Add convert --bitmaps
-To: Eric Blake <eblake@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <CAKgT0UcaBfyKdTPErOxxLJgShOaJNfo9Maqps0ufABMbAo0iuQ@mail.gmail.com>
+ <EDD25A47-8A8D-4F9B-9875-B983A1BA72C2@redhat.com>
+ <CAKgT0Uf9a8K50XAS9K39KxBGdNRd5+G7nmkg2PsCHOYHAZ7Xew@mail.gmail.com>
+ <f685fa75-6898-4fbe-c2a1-ba35424cb4a2@redhat.com>
+ <20200416102229-mutt-send-email-mst@kernel.org>
+ <5df12fd8-da98-dd3c-04ef-740189bc48ea@redhat.com>
+In-Reply-To: <5df12fd8-da98-dd3c-04ef-740189bc48ea@redhat.com>
+From: Alexander Duyck <alexander.duyck@gmail.com>
+Date: Thu, 16 Apr 2020 11:21:05 -0700
+Message-ID: <CAKgT0UeVi=xnNxaVE5vB44rDwR4-m305wE671VdaK6R2TM6KGw@mail.gmail.com>
+Subject: Re: [PATCH v19 QEMU 1/4] virtio-balloon: Implement support for page
+ poison tracking feature
+To: David Hildenbrand <david@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,142 +77,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eyal Shenitzky <eshenitz@redhat.com>, John Snow <jsnow@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
- Benny Zlotnik <bzlotnik@redhat.com>
+Cc: virtio-dev@lists.oasis-open.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, "Wang, Wei W" <wei.w.wang@intel.com>,
+ David Hildenbrand <dhildenb@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 16, 2020 at 5:51 PM Eric Blake <eblake@redhat.com> wrote:
+On Thu, Apr 16, 2020 at 7:55 AM David Hildenbrand <david@redhat.com> wrote:
 >
-> Without this series, the process for copying one qcow2 image to
-> another including all of its bitmaps involves running qemu and doing
-> the copying by hand with a series of QMP commands.  This makes the
-> process a bit more convenient.
-
-This seems good for copying an image chain from one storage to another,
-but I think we need a similar --bitmaps option to qemu-img measure to make
-this really useful.
-
-Here is example use case showing how qemu-img measure is related:
-
-Source chain:
-/dev/vg1/base
-/dev/vg1/top
-
-Destination chain:
-/dev/vg2/base
-/dev/vg2/top
-
-We create empty lvs with the same name on destination storage (/dev/vg2).
-
-We measure the base lv using qemu-img measure for creating the target lv:
-
-    qemu-img measure -f qcow2 -O qcow2 /dev/vg1/base
-    lvcreate -L required_size /dev/vg2/base
-    qemu-img create -f qcow2 /dev/vg2/base 10g
-
-For the top lv we use the current size of the source lv - I think we
-should measure it instead but
-I'm not sure if qemu-img measure supports measuring a single image in a cha=
-in
-(maybe -o backing_file?).
-
-    lvcreate -L current_size /dev/vg2/top
-    qemu-img create -f qcow2 -b /dev/vg2/base -F qcow2 /dev/vg2/top 10g
-
-And then convert the lvs one by one:
-
-    qemu-img convert -f qcow2 -O qcow2 -n --bitmaps /dev/vg1/base /dev/vg2/=
-base
-    qemu-img convert -f qcow2 -O qcow2 -n --bitmaps -B /dev/vg2/base
-/dev/vg1/top /dev/vg2/top
-
-The first copy may fail with ENOSPC since qemu-img measure of the base
-does not consider the
-bitmaps in the required size.
-
-So I think we need to add a similar --bitmaps option to qemu-img
-measure, hopefully reusing the
-same code to find and estimate the size of the bitmaps.
-
-Maybe we can estimate the size using qemu-img info --bitmaps, but I
-think the right way to
-do this is in qemu-img measure.
-
-We have also another use case when we collapsed an image chain to single im=
-age:
-
-Source chain:
-/dev/vg1/base
-/dev/vg1/top
-
-Destination:
-/dev/vg2/collapsed
-
-In this case we measure the size of the entire chain (/dev/vg1/base <-
-/dev/vg1/top) and create
-/dev/vg2/collapsed in the correct size, and then we convert the chain using=
-:
-
-   qemu-img convert /dev/vg1/top /dev/vg2/collapsed
-
-Currently we use this for exporting images, for example when creating
-templates, or as a simple
-backup. In this case we don't need to copy the bitmaps in the target
-image - this is a new image
-not used by any VM. Copying the bitmaps may also be non-trivial since
-we may have the bitmaps
-with the same names in several layers (e.g. result of live snapshot).
-
-So I think using --bitmaps should be disabled when doing this kind of
-convert. We can handle this
-on our side easily, but I think this should fail or log a warning on
-qemu-img, or require merging of
-bitmaps with same names during the copy. I did not check if you
-already handle this.
-
-Finally we also have a use case when we copy the chain as is to new or
-same storage, but
-we create a new vm. In this case I don't think the backup history
-makes sense for the new
-vm, so we don't need to copy the bitmaps.
-
-I will review the rest of the patches next week and can maybe give
-this some testing.
-
-Nir
-
-> I still think that someday we will need a 'qemu-img bitmap' with
-> various subcommands for manipulating bitmaps within an offline image,
-> but in the meantime, this seems like a useful addition on its own.
+> >> We should document our result of page poisoning, free page hinting, and
+> >> free page reporting there as well. I hope you'll have time for the latter.
+> >>
+> >> -------------------------------------------------------------------------
+> >> Semantics of VIRTIO_BALLOON_F_PAGE_POISON
+> >> -------------------------------------------------------------------------
+> >>
+> >> "The VIRTIO_BALLOON_F_PAGE_POISON feature bit is used to indicate if the
+> >> guest is using page poisoning. Guest writes to the poison_val config
+> >> field to tell host about the page poisoning value that is in use."
+> >> -> Very little information, no signs about what has to be done.
+> >
+> > I think it's an informational field. Knowing that free pages
+> > are full of a specific pattern can be handy for the hypervisor
+> > for a variety of reasons. E.g. compression/deduplication?
 >
-> Series can also be downloaded at:
-> https://repo.or.cz/qemu/ericb.git/shortlog/refs/tags/qemu-img-bitmaps-v1
+> I was referring to the documentation of the feature and what we
+> (hypervisor) are expected to do (in regards to inflation/deflation).
 >
-> Eric Blake (3):
->   blockdev: Split off basic bitmap operations for qemu-img
->   qemu-img: Add convert --bitmaps option
->   iotests: Add test 291 to for qemu-img convert --bitmaps
->
->  docs/tools/qemu-img.rst    |   6 +-
->  Makefile.objs              |   2 +-
->  include/sysemu/blockdev.h  |  10 ++
->  blockbitmaps.c             | 217 +++++++++++++++++++++++++++++++++++++
->  blockdev.c                 | 184 -------------------------------
->  qemu-img.c                 |  81 +++++++++++++-
->  MAINTAINERS                |   1 +
->  qemu-img-cmds.hx           |   4 +-
->  tests/qemu-iotests/291     | 143 ++++++++++++++++++++++++
->  tests/qemu-iotests/291.out |  56 ++++++++++
->  tests/qemu-iotests/group   |   1 +
->  11 files changed, 514 insertions(+), 191 deletions(-)
->  create mode 100644 blockbitmaps.c
->  create mode 100755 tests/qemu-iotests/291
->  create mode 100644 tests/qemu-iotests/291.out
->
-> --
-> 2.26.0
->
+> Yes, it might be valuable to know that the guest is using poisoning. I
+> assume compression/deduplication (IOW KSM) will figure out themselves
+> that such pages are equal.
 
+The other thing to keep in mind is that the poison value only really
+comes into play with hinting/reporting. In the case of the standard
+balloon the pages are considered allocated from the guest's
+perspective until the balloon is deflated. Then any poison/init will
+occur over again anyway so I don't think the standard balloon should
+really care.
+
+For hinting it somewhat depends. Currently the implementation is
+inflating a balloon so having poisoning or init_on_free means it is
+written to immediately after it is freed so it defeats the purpose of
+the hinting. However that is a Linux implementation issue, not
+necessarily an issue with the QEMU implementation. As such may be I
+should fix that in the Linux driver since that has been ignored in
+QEMU up until now anyway. The more interesting bit is what should the
+behavior be from the hypervisor when a page is marked as being hinted.
+I think right now the behavior is to just not migrate the page. I
+wonder though if we shouldn't instead just consider the page a zero
+page, and then maybe modify the zero page behavior for the case where
+we know page poisoning is enabled.
+
+For reporting it is a matter of tracking the contents. We don't want
+to modify the contents in any way as we are attempting to essentially
+do in-place tracking of the page. So if it is poisoned or initialized
+it needs to stay in that state so we cannot invalidate the page if
+doing so will cause it to lose state information.
+
+> >> "Let the hypervisor know that we are expecting a specific value to be
+> >> written back in balloon pages."
+> >
+> >
+> >
+> >> -> Okay, that talks about "balloon pages", which would include right now
+> >> -- pages "inflated" and then "deflated" using free page hinting
+> >> -- pages "inflated" and then "deflated" using oridnary inflate/deflate
+> >>    queue
+> >
+> > ATM, in this case driver calls "free" and that fills page with the
+> > poison value.
+>
+> Yes, that's what I mentioned somehwere, it's currently done by Linux and ...
+>
+> >
+> > It might be a valid optimization to allow driver to skip
+> > poisoning of freed pages in this case.
+>
+> ... we should prepare for that :)
+
+Agreed.
+
+> >
+> >> And I would add
+> >>
+> >> "However, if the inflated page was not filled with "poison_val" when
+> >> inflating, it's not predictable if the original page or a page filled
+> >> with "poison_val" is returned."
+> >>
+> >> Which would cover the "we did not discard the page in the hypervisor, so
+> >> the original page is still there".
+> >>
+> >>
+> >> We should also document what is expected to happen if "poison_val" is
+> >> suddenly changed by the guest at one point in time again. (e.g., not
+> >> supported, unexpected things can happen, etc.)
+> >
+> > Right. I think we should require that this can only be changed
+> > before features have been negotiated.
+> > That is the only point where hypervisor can still fail
+> > gracefully (i.e. fail FEATURES_OK).
+>
+> Agreed.
+
+I believe that is the current behavior. Essentially if poisoning
+enabled then the feature flag is left set. I think the one change I
+will make in the driver is that if poisoning is enabled in the kernel,
+but PAGE_POISON is not available as a feature, I am going to disable
+both the reporting and hinting features in virtballoon_validate.
+
+> I can totally understand if Alex would want to stop working on
+> VIRTIO_BALLOON_F_PAGE_POISON at this point and only fix the guest to not
+> enable free page reporting in case we don't have
+> VIRTIO_BALLOON_F_PAGE_POISON (unless that's already done), lol. :)
+
+I already have a patch for that.
+
+The bigger issue is how to deal with the PAGE_POISON being enabled
+with FREE_PAGE_HINTING. The legacy code at this point is just broken
+and is plowing through with FREE_PAGE_HINTING while it is enabled.
+That is safe for now because it is using a balloon, the side effect is
+that it is going to defer migration. If it switches to a page
+reporting type setup at some point in the future we would need to make
+sure something is written to the other end to identify the poison/zero
+pages.
 
