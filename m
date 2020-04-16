@@ -2,56 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B11C1AC4E4
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Apr 2020 16:07:19 +0200 (CEST)
-Received: from localhost ([::1]:34692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A881AC51E
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Apr 2020 16:13:24 +0200 (CEST)
+Received: from localhost ([::1]:34748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jP5Ak-0007Rb-Lm
-	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 10:07:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37983)
+	id 1jP5Gd-0001sD-Ga
+	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 10:13:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38818)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gengdongjiu@huawei.com>) id 1jP59o-0006ur-Uv
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 10:06:25 -0400
+ (envelope-from <lersek@redhat.com>) id 1jP5Fg-0000fd-1L
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 10:12:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <gengdongjiu@huawei.com>) id 1jP59n-00011N-T3
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 10:06:20 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2099 helo=huawei.com)
+ (envelope-from <lersek@redhat.com>) id 1jP5Fd-0003k3-Bb
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 10:12:23 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27385
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <gengdongjiu@huawei.com>)
- id 1jP59l-0000y5-5G; Thu, 16 Apr 2020 10:06:17 -0400
-Received: from lhreml719-chm.china.huawei.com (unknown [172.18.7.108])
- by Forcepoint Email with ESMTP id 36671CEF52316704C813;
- Thu, 16 Apr 2020 15:06:14 +0100 (IST)
-Received: from dggeme755-chm.china.huawei.com (10.3.19.101) by
- lhreml719-chm.china.huawei.com (10.201.108.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.1913.5; Thu, 16 Apr 2020 15:06:12 +0100
-Received: from dggeme755-chm.china.huawei.com ([10.7.64.71]) by
- dggeme755-chm.china.huawei.com ([10.7.64.71]) with mapi id 15.01.1713.004;
- Thu, 16 Apr 2020 22:06:10 +0800
-From: gengdongjiu <gengdongjiu@huawei.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: RE: [PATCH v25 00/10] Add ARMv8 RAS virtualization support in QEMU
-Thread-Topic: [PATCH v25 00/10] Add ARMv8 RAS virtualization support in QEMU
-Thread-Index: AQHWDy2Iho/0lGTqbEC6pfKPUDNKmKh70QB0gAABAfE=
-Date: Thu, 16 Apr 2020 14:06:10 +0000
-Message-ID: B0366384-0528-4F5C-931F-075D5ECCEEAF
-References: <20200410114639.32844-1-gengdongjiu@huawei.com>
- <5e9863af.1c69fb81.dbe22.5caaSMTPIN_ADDED_BROKEN@mx.google.com>,
- <CAFEAcA_-fcGUKoo955jeHzNDDVTKCsgvH6QGqUWu0efAyth1rg@mail.gmail.com>
-In-Reply-To: <CAFEAcA_-fcGUKoo955jeHzNDDVTKCsgvH6QGqUWu0efAyth1rg@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-Content-Type: multipart/alternative;
- boundary="_000_B036638405284F5C931F075D5ECCEEAF_"
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1jP5Fd-0003jb-2v
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 10:12:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587046340;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=deAgRMha9vbO84oPPQUTZiiRddZsD9MmZmXDB5M67RE=;
+ b=S/7ryVn04EU/FdfBIARHT8nO21E3voJI0zQqPhrJu2MgmKV2Afcc9HWUDXKHnTd3BByzIY
+ Q/Ol4OW2l9kLipf71dVGcB4QMgPmlJSShBmDENoRNE7F/xk7vUavxGn+a7qShGqCs9qx+h
+ ftaNPNzl3Yp6gbjMFCVaIXn2iciv8tE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-484-74vu1PQvNn6Ub20Vtcxqew-1; Thu, 16 Apr 2020 10:12:10 -0400
+X-MC-Unique: 74vu1PQvNn6Ub20Vtcxqew-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82DB718FF665;
+ Thu, 16 Apr 2020 14:12:08 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-114-225.ams2.redhat.com
+ [10.36.114.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1494E60BEC;
+ Thu, 16 Apr 2020 14:12:03 +0000 (UTC)
+Subject: Re: [edk2-discuss] Load Option passing. Either bugs or my confusion.
+To: Hou Qiming <hqm03ster@gmail.com>
+References: <623b1855-285c-cce3-c806-c17e5fd217ea@redhat.com>
+ <5211.1586899245384995995@groups.io>
+ <a972450d-8834-ae87-e4e3-5263a41d1735@redhat.com>
+ <CABSdmr=u9QeNA6jy29e2pkiqnGH=xw1n+Hkkrd=AH1RRvj92Ng@mail.gmail.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <2941f608-7e0f-1190-cccb-2b17d9ea20bf@redhat.com>
+Date: Thu, 16 Apr 2020 16:12:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+In-Reply-To: <CABSdmr=u9QeNA6jy29e2pkiqnGH=xw1n+Hkkrd=AH1RRvj92Ng@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 185.176.76.210
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,86 +77,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam <fam@euphon.net>, "xiaoguangrong.eric" <xiaoguangrong.eric@gmail.com>,
- kvm <kvm@vger.kernel.org>, mst <mst@redhat.com>,
- mtosatti <mtosatti@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Linuxarm <linuxarm@huawei.com>,
- "shannon.zhaosl" <shannon.zhaosl@gmail.com>,
- "zhengxiang \(A\)" <zhengxiang9@huawei.com>, qemu-arm <qemu-arm@nongnu.org>,
- Jonathan Cameron <jonathan.cameron@huawei.com>, pbonzini <pbonzini@redhat.com>,
- imammedo <imammedo@redhat.com>, rth <rth@twiddle.net>
+Cc: edk2-devel-groups-io <devel@edk2.groups.io>,
+ qemu devel list <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ discuss@edk2.groups.io, valerij zaporogeci <vlrzprgts@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_B036638405284F5C931F075D5ECCEEAF_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On 04/16/20 06:38, Hou Qiming wrote:
+> Very good point, I did neglect ramfb resolution changes... But there is one
+> important thing: it *can* cause a QEMU crash, a potentially exploitable
+> one, not always a guest crash. That's what motivated my heavy-handed
+> approach since allowing resolution change would have necessitated a good
+> deal of security checks. It has crashed my host *kernel* quite a few times.
+> 
+> The point is, while the QemuRamfbDxe driver may behave properly, nothing
+> prevents the guest from writing garbage or *malicious* values to the ramfb
+> config space. Then the values are sent to the display component without any
+> sanity check. For some GUI frontends, this means allocating an OpenGL
+> texture with guest-supplied dimensions and uploading guest memory content
+> to it, which means that guest memory content goes straight into a *kernel
+> driver*, *completely unchecked*. Some integer overflow and a lenient GPU
+> driver later, and the guest escapes straight to kernel.
+> 
+> The proper way to enable ramfb resolution change again is adding sanity
+> checks for ramfb resolution / pointer / etc. on the QEMU side. We have to
+> make sure it doesn't exceed what the host GPU driver supports. Maybe clamp
+> both width and height to between 1 and 2048? We also need to validate that
+> OpenGL texture dimension update succeeds. Note that OpenGL is not obliged
+> to validate anything and everything has to be checked on the QEMU side.
 
-b2vvvIx0aGFua3MgdmVyeSBtdWNoIGZvciBwZXRlcidzIHRpbWUgYW5kICAgICByZXBseQ0KDQrl
-j5Hku7bkurrvvJpQZXRlciBNYXlkZWxsIDxwZXRlci5tYXlkZWxsQGxpbmFyby5vcmc+DQrmlLbk
-u7bkurrvvJpnZW5nZG9uZ2ppdSA8Z2VuZ2RvbmdqaXVAaHVhd2VpLmNvbT4NCuaKhOKAg+mAge+8
-mmltYW1tZWRvIDxpbWFtbWVkb0ByZWRoYXQuY29tPjttc3QgPG1zdEByZWRoYXQuY29tPjt4aWFv
-Z3Vhbmdyb25nLmVyaWMgPHhpYW9ndWFuZ3JvbmcuZXJpY0BnbWFpbC5jb20+O3NoYW5ub24uemhh
-b3NsIDxzaGFubm9uLnpoYW9zbEBnbWFpbC5jb20+O2ZhbSA8ZmFtQGV1cGhvbi5uZXQ+O3J0aCA8
-cnRoQHR3aWRkbGUubmV0PjtFZHVhcmRvIEhhYmtvc3QgPGVoYWJrb3N0QHJlZGhhdC5jb20+O210
-b3NhdHRpIDxtdG9zYXR0aUByZWRoYXQuY29tPjtxZW11LWRldmVsIDxxZW11LWRldmVsQG5vbmdu
-dS5vcmc+O2t2bSA8a3ZtQHZnZXIua2VybmVsLm9yZz47cWVtdS1hcm0gPHFlbXUtYXJtQG5vbmdu
-dS5vcmc+O3Bib256aW5pIDxwYm9uemluaUByZWRoYXQuY29tPjt6aGVuZ3hpYW5nIChBKSA8emhl
-bmd4aWFuZzlAaHVhd2VpLmNvbT47TGludXhhcm0gPGxpbnV4YXJtQGh1YXdlaS5jb20+O0pvbmF0
-aGFuIENhbWVyb24gPGpvbmF0aGFuLmNhbWVyb25AaHVhd2VpLmNvbT4NCuaXtuKAg+mXtO+8mjIw
-MjAtMDQtMTYgMjI6MDI6MzQNCuS4u+KAg+mimO+8mlJlOiBbUEFUQ0ggdjI1IDAwLzEwXSBBZGQg
-QVJNdjggUkFTIHZpcnR1YWxpemF0aW9uIHN1cHBvcnQgaW4gUUVNVQ0KDQpPbiBUaHUsIDE2IEFw
-ciAyMDIwIGF0IDE0OjU0LCBnZW5nZG9uZ2ppdSA8Z2VuZ2RvbmdqaXVAaHVhd2VpLmNvbT4gd3Jv
-dGU6DQo+DQo+IHBpbmcuLi4uDQoNCkhpOyB0aGlzIGlzIG9uIG15IHRvLXJldmlldyBxdWV1ZSwg
-YnV0IHNvIGFyZSAyNSBvdGhlciBwYXRjaHNldHMuDQooSSd2ZSBidWlsdCB1cCBhIGJpdCBvZiBh
-IGJhY2tsb2cgZHVlIHRvIGNvbmNlbnRyYXRpbmcgb24gd29yaw0KZm9yIHRoZSA1LjAgcmVsZWFz
-ZSB3aGlsZSB3ZSdyZSBpbiB0aGUgZnJlZXplIHBlcmlvZC4pIEkgd2lsbA0KZ2V0IHRvIGl0IGV2
-ZW50dWFsbHkgaWYgbm9ib2R5IGVsc2UgZG9lcyBmaXJzdC4uLg0KDQp0aGFua3MNCi0tIFBNTQ0K
+I agree that QEMU should sanity check the resolution requested by the
+guest. I also agree that "arbitrary" limits are acceptable, for
+preventing integer overflows and -- hopefully -- memory allocation
+failures too.
 
---_000_B036638405284F5C931F075D5ECCEEAF_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+But I don't see the host kernel / OpenGL / physical GPU angle, at least
+not directly. That angle seems to be specific to your particular use
+case (particular choice of display backend).
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRvciIgY29udGVu
-dD0iTWljcm9zb2Z0IEV4Y2hhbmdlIFNlcnZlciI+DQo8IS0tIGNvbnZlcnRlZCBmcm9tIHRleHQg
-LS0+PHN0eWxlPjwhLS0gLkVtYWlsUXVvdGUgeyBtYXJnaW4tbGVmdDogMXB0OyBwYWRkaW5nLWxl
-ZnQ6IDRwdDsgYm9yZGVyLWxlZnQ6ICM4MDAwMDAgMnB4IHNvbGlkOyB9IC0tPjwvc3R5bGU+DQo8
-L2hlYWQ+DQo8Ym9keT4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+DQo8IS0tDQpib2R5DQoJe2Zv
-bnQtZmFtaWx5OkNhbGlicml9DQotLT4NCjwvc3R5bGU+DQo8ZGl2Pg0KPGRpdj4NCjxwPjxmb250
-IHNpemU9IjMiPm9r77yMdGhhbmtzIHZlcnkgbXVjaCBmb3IgcGV0ZXIncyB0aW1lIGFuZCZuYnNw
-OyAmbmJzcDsgJm5ic3A7cmVwbHk8L2ZvbnQ+PC9wPg0KPC9kaXY+DQo8ZGl2PjwvZGl2Pg0KPGRp
-diBuYW1lPSJ4X0FueU9mZmljZS1CYWNrZ3JvdW5kLUltYWdlIiBzdHlsZT0iYm9yZGVyLXRvcDox
-cHggc29saWQgI0I1QzRERjsgcGFkZGluZzo4cHgiPg0KPGRpdiBzdHlsZT0id29yZC1icmVhazpi
-cmVhay1hbGwiPjxiPuWPkeS7tuS6uu+8mjwvYj5QZXRlciBNYXlkZWxsICZsdDtwZXRlci5tYXlk
-ZWxsQGxpbmFyby5vcmcmZ3Q7PC9kaXY+DQo8ZGl2IHN0eWxlPSJ3b3JkLWJyZWFrOmJyZWFrLWFs
-bCI+PGI+5pS25Lu25Lq677yaPC9iPmdlbmdkb25naml1ICZsdDtnZW5nZG9uZ2ppdUBodWF3ZWku
-Y29tJmd0OzwvZGl2Pg0KPGRpdiBzdHlsZT0id29yZC1icmVhazpicmVhay1hbGwiPjxiPuaKhOKA
-g+mAge+8mjwvYj5pbWFtbWVkbyAmbHQ7aW1hbW1lZG9AcmVkaGF0LmNvbSZndDs7bXN0ICZsdDtt
-c3RAcmVkaGF0LmNvbSZndDs7eGlhb2d1YW5ncm9uZy5lcmljICZsdDt4aWFvZ3Vhbmdyb25nLmVy
-aWNAZ21haWwuY29tJmd0OztzaGFubm9uLnpoYW9zbCAmbHQ7c2hhbm5vbi56aGFvc2xAZ21haWwu
-Y29tJmd0OztmYW0gJmx0O2ZhbUBldXBob24ubmV0Jmd0OztydGggJmx0O3J0aEB0d2lkZGxlLm5l
-dCZndDs7RWR1YXJkbyBIYWJrb3N0ICZsdDtlaGFia29zdEByZWRoYXQuY29tJmd0OzttdG9zYXR0
-aQ0KICZsdDttdG9zYXR0aUByZWRoYXQuY29tJmd0OztxZW11LWRldmVsICZsdDtxZW11LWRldmVs
-QG5vbmdudS5vcmcmZ3Q7O2t2bSAmbHQ7a3ZtQHZnZXIua2VybmVsLm9yZyZndDs7cWVtdS1hcm0g
-Jmx0O3FlbXUtYXJtQG5vbmdudS5vcmcmZ3Q7O3Bib256aW5pICZsdDtwYm9uemluaUByZWRoYXQu
-Y29tJmd0Ozt6aGVuZ3hpYW5nIChBKSAmbHQ7emhlbmd4aWFuZzlAaHVhd2VpLmNvbSZndDs7TGlu
-dXhhcm0gJmx0O2xpbnV4YXJtQGh1YXdlaS5jb20mZ3Q7O0pvbmF0aGFuIENhbWVyb24gJmx0O2pv
-bmF0aGFuLmNhbWVyb25AaHVhd2VpLmNvbSZndDs8L2Rpdj4NCjxkaXYgc3R5bGU9IndvcmQtYnJl
-YWs6YnJlYWstYWxsIj48Yj7ml7bigIPpl7TvvJo8L2I+MjAyMC0wNC0xNiAyMjowMjozNDwvZGl2
-Pg0KPGRpdiBzdHlsZT0id29yZC1icmVhazpicmVhay1hbGwiPjxiPuS4u+KAg+mimO+8mjwvYj5S
-ZTogW1BBVENIIHYyNSAwMC8xMF0gQWRkIEFSTXY4IFJBUyB2aXJ0dWFsaXphdGlvbiBzdXBwb3J0
-IGluIFFFTVU8L2Rpdj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPGZvbnQg
-c2l6ZT0iMiI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMHB0OyI+DQo8ZGl2IGNsYXNzPSJQbGFp
-blRleHQiPk9uIFRodSwgMTYgQXByIDIwMjAgYXQgMTQ6NTQsIGdlbmdkb25naml1ICZsdDtnZW5n
-ZG9uZ2ppdUBodWF3ZWkuY29tJmd0OyB3cm90ZTo8YnI+DQomZ3Q7PGJyPg0KJmd0OyBwaW5nLi4u
-Ljxicj4NCjxicj4NCkhpOyB0aGlzIGlzIG9uIG15IHRvLXJldmlldyBxdWV1ZSwgYnV0IHNvIGFy
-ZSAyNSBvdGhlciBwYXRjaHNldHMuPGJyPg0KKEkndmUgYnVpbHQgdXAgYSBiaXQgb2YgYSBiYWNr
-bG9nIGR1ZSB0byBjb25jZW50cmF0aW5nIG9uIHdvcms8YnI+DQpmb3IgdGhlIDUuMCByZWxlYXNl
-IHdoaWxlIHdlJ3JlIGluIHRoZSBmcmVlemUgcGVyaW9kLikgSSB3aWxsPGJyPg0KZ2V0IHRvIGl0
-IGV2ZW50dWFsbHkgaWYgbm9ib2R5IGVsc2UgZG9lcyBmaXJzdC4uLjxicj4NCjxicj4NCnRoYW5r
-czxicj4NCi0tIFBNTTxicj4NCjwvZGl2Pg0KPC9zcGFuPjwvZm9udD4NCjwvYm9keT4NCjwvaHRt
-bD4NCg==
+For example, if you nest QEMU/TCG in QEMU/TCG, with no KVM and no device
+assignment in the picture anywhere, and OVMF drives ramfb in L2, and the
+display *backend* (such as GTK or SDL GUI window) for the QEMU process
+running in L1 sits on top of a virtual device (such as bochs-display)
+provided by QEMU running in L0, then the ramfb stuff (including the
+resolution changes and the range checks) should work just the same,
+between L2 and L1.
 
---_000_B036638405284F5C931F075D5ECCEEAF_--
+I kinda feel like ramfb has been hijacked for providing a boot time
+display crutch for kvmgt. (I might not be using the correct terminology
+here; sorry about that). That's *not* what ramfb was originally intended
+for, as far as I recall. Compare:
+
+- 59926de9987c ("Merge remote-tracking branch
+'remotes/kraxel/tags/vga-20180618-pull-request' into staging", 2018-06-19)
+
+- dddb37495b84 ("Merge remote-tracking branch
+'remotes/awilliam/tags/vfio-updates-20181015.0' into staging", 2018-10-15)
+
+IIRC, Gerd originally invented ramfb for giving AARCH64 Windows the
+linear framebuffer that the latter so badly wants, in particular so that
+the framebuffer exist in guest RAM (not in guest MMIO), in order to
+avoid the annoying S1/S2 caching behavior of AARCH64/KVM when the guest
+maps an area as MMIO that is mapped as RAM on the host [1]. See:
+
+- https://bugzilla.tianocore.org/show_bug.cgi?id=785#c4
+- https://bugzilla.tianocore.org/show_bug.cgi?id=785#c7
+- https://bugzilla.tianocore.org/show_bug.cgi?id=785#c8
+
+and the further references given in those bugzilla comments.
+
+[1] https://bugzilla.redhat.com/show_bug.cgi?id=1679680#c0
+
+Component reuse is obviously *hugely* important, and it would be silly
+for me to argue against reusing ramfb wherever it applies. Just please
+don't break the original use case.
+
+Should I file a bug report in LaunchPad, or is this thread enough for
+tracking the QEMU regression?
+
+Thanks
+Laszlo
+
+> 
+> Qiming
+> 
+> 
+> On Wed, Apr 15, 2020 at 11:05 PM Laszlo Ersek <lersek@redhat.com> wrote:
+> 
+>> (CC Gerd, Qiming, Marcel, qemu-devel for ramfb:)
+>>
+>> On 04/14/20 23:20, valerij zaporogeci wrote:
+>>
+>> [snip]
+>>
+>>> There is a Boot Manager UI display problem, I don't know if this is
+>>> qemu problem, but with the ARM (both 32 and 64 bits, the qemu version
+>>> is 4.2.0, the OVMF is fresh), and using "ramfb" device, the Boot
+>>> Manager has troubles with drawing - it's interfase looks entirely
+>>> broken, like this (I'll try to attach the screenshot). UEFI shell
+>>> doesn't have this problem. switching to "serial" (which is -serial vc)
+>>> doesn't produce it too. Only when ramfb is chosen, the Boot Manager UI
+>>> gets smeared. But it takes input and presumable works properly, except
+>>> displaying things. qemu writes these messages in the command prompt:
+>>> ramfb_fw_cfg_write: 640x480 @ 0x4bd00000
+>>> ramfb_fw_cfg_write: resolution locked, change rejected
+>>> ramfb_fw_cfg_write: 800x600 @ 0x4bd00000
+>>> ramfb_fw_cfg_write: resolution locked, change rejected
+>>
+>> Gerd contributed the OVMF QemuRamfbDxe driver in edk2 commit
+>> 1d25ff51af5c ("OvmfPkg: add QemuRamfbDxe", 2018-06-14). Note the date:
+>> June 2018.
+>>
+>> The then-latest (released) QEMU version was v2.12.0, and v2.12.1 /
+>> v3.0.0 were in the making.
+>>
+>> At that time, the resolution change definitely worked -- note my
+>> "Tested-by" on the edk2 commit message.
+>>
+>>
+>> Running "git blame" on the QEMU source, I now find commit a9e0cb67b7f4
+>> ("hw/display/ramfb: lock guest resolution after it's set", 2019-05-24).
+>>
+>> Again, note the date: May 2019 (and this commit was released with QEMU
+>> v4.1.0).
+>>
+>> So I would say that the symptom you see is a QEMU v4.1.0 regression. The
+>> QemuRamfbGraphicsOutputSetMode() function in the OVMF ramfb driver
+>> certainly needs the QemuFwCfgWriteBytes() call to work, for changing the
+>> resolution.
+>>
+>>
+>> Now, I'm not familiar with the reasons behind QEMU commit a9e0cb67b7f4.
+>> It says it intends to "prevent[] a crash when the guest writes garbage
+>> to the configuration space (e.g. when rebooting)".
+>>
+>> But I don't understand why locking the resolution was necessary for
+>> preventing "a crash":
+>>
+>> (1) Registering a device reset handler in QEMU seems sufficient, so that
+>> QEMU forget about the currently shared RAMFB area at platform reset.
+>>
+>> (2) The crash in question is apparently not a *QEMU* crash -- which
+>> might otherwise justify a heavy-handed approach. Instead, it is a
+>> *guest* crash. See the references below:
+>>
+>> (2a)
+>> http://mid.mail-archive.com/CABSdmrmU7FK90Bupq_ySowcc9Uk=8nQxNLHgzvDsNYdp_QLogA@mail.gmail.com
+>>      https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg02299.html
+>>
+>> (2b) https://github.com/intel/gvt-linux/issues/23#issuecomment-483651476
+>>
+>> Therefore, I don't think that locking the resolution was justified!
+>>
+>> Importantly:
+>>
+>> - The QemuRamfbDxe driver allocates the framebuffer in *reserved*
+>> memory, therefore any well-behaving OS will *never* touch the
+>> framebuffer.
+>>
+>> - The QemuRamfbDxe driver allocates the framebuffer memory only once,
+>> namely for such a resolution that needs the largest amount of
+>> framebuffer memory. Therefore, framebuffer re-allocations in the guest
+>> driver -- and thereby guest RAM *re-mapping* in QEMU -- are *not*
+>> necessary, upon resolution change.
+>>
+>> The ramfb device reset handler in QEMU is justified (for unmapping /
+>> forgetting the previously shared RAMFB area).
+>>
+>> The resolution locking is *NOT* justified, and it breaks the OVMF
+>> driver. I suggest backing out the resolution locking from QEMU.
+>>
+>> Reference (2a) above indicates 'It could be a misguided attempt to
+>> "resize ramfb" by the guest Intel driver'. If that is the case, then
+>> please fix the Intel guest driver, without regressing the QEMU device
+>> model.
+>>
+>> I'm sad that the QEMU device model change was not regression-tested
+>> against the *upstream* OVMF driver (which, by then, had been upstream
+>> for almost a year).
+>>
+>> Laszlo
+>>
+>>
+> 
+
 
