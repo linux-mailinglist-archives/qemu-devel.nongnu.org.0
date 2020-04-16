@@ -2,43 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E71FC1AC7BC
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Apr 2020 16:59:25 +0200 (CEST)
-Received: from localhost ([::1]:35614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B271AC6B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Apr 2020 16:44:09 +0200 (CEST)
+Received: from localhost ([::1]:35294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jP5zB-0000ga-0P
-	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 10:59:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46619)
+	id 1jP5kN-0002xa-VH
+	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 10:44:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44003)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steplong@quicinc.com>) id 1jP5y1-0007s2-5h
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 10:58:14 -0400
+ (envelope-from <steplong@quicinc.com>) id 1jP5jV-0002Pw-Q1
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 10:43:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <steplong@quicinc.com>) id 1jP5xz-0006Tb-Nh
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 10:58:13 -0400
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:43210)
+ (envelope-from <steplong@quicinc.com>) id 1jP5jT-0001Bn-If
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 10:43:12 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:29832)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <steplong@quicinc.com>)
- id 1jP5xv-0006Ro-6z; Thu, 16 Apr 2020 10:58:07 -0400
+ id 1jP5jT-0001BU-4y; Thu, 16 Apr 2020 10:43:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1587049087; x=1618585087;
+ t=1587048191; x=1618584191;
  h=from:to:cc:subject:date:message-id:mime-version;
  bh=aM3fQYAYsmzWQZk45QjumC7ZQT5nOJfHHGWxE85H1WA=;
- b=SX8P1dANvnAP4lzWvpAaa6QfhLMMAIGn7u8jrKAswwZfliZgxlZ70fDl
- KOYe5Jl+al8ujhme0Yz3NfZy/h8OHycdUo6YZWF8owIXqIUDv5849+RGX
- azD7xl374Od0DGhVoiDhpuWrOcnkr44fKLPGTqPpDaUeZSojLjSkYWXMz w=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 16 Apr 2020 07:58:04 -0700
-Received: from nasanexm03h.na.qualcomm.com ([10.85.0.50])
- by ironmsg05-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 16 Apr 2020 07:58:03 -0700
-Received: from NASANEXM01D.na.qualcomm.com (10.85.0.84) by
- nasanexm03h.na.qualcomm.com (10.85.0.50) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 16 Apr 2020 07:58:01 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (199.106.107.6)
- by NASANEXM01D.na.qualcomm.com (10.85.0.84) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2 via Frontend Transport; Thu, 16 Apr 2020 07:58:01 -0700
+ b=FBQElcsWnvCcDoZi57Tw/WCaicBPASyxQo2KSBug38/SmoFO9E8pQgtI
+ 3Y5RCsWC5cQ2JmHpvKIm//NsYMI8GGdSfiAY5pd88DIvAUvOKT7V0c1WV
+ +8XiYZoCokPFFB4ELkUCd9rEEEWP9z+c1OcH91mXhPwoCtrKZSXnbkcyF s=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 16 Apr 2020 07:43:09 -0700
+Received: from nasanexm03e.na.qualcomm.com ([10.85.0.48])
+ by ironmsg04-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 16 Apr 2020 07:43:09 -0700
+Received: from apsanexr02e.ap.qualcomm.com (10.85.0.28) by
+ nasanexm03e.na.qualcomm.com (10.85.0.48) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 16 Apr 2020 07:43:09 -0700
+Received: from nasanexm03g.na.qualcomm.com (10.85.0.49) by
+ apsanexr02e.ap.qualcomm.com (10.85.0.28) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 16 Apr 2020 07:42:27 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (199.106.107.6)
+ by nasanexm03g.na.qualcomm.com (10.85.0.49) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2 via Frontend Transport; Thu, 16 Apr 2020 07:42:27 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
  b=eTlhIAfI73hpxHVOxVguV9uTIE6M737uV5WafavE5oChMKOWjbbipEgbWTNcJQP4zBTjtRteiyJzhqLGD89j/Roh8r1ZndoGqqwvYRrrlE0jT3D79CuRRHAKlGGofmkrLeegNJxxKx27GFJ7IHYOhkMBS5fvzZJRS7WSC5Dcja93kY35V63dvdnh7/vTKuguU+K7+eOvdVhf42bDUo9EzRO+Jan87Ig0CIpKH2Wu5kToK+PxC54F6Mzze0t1qXnDvqHNktNUNJxwbN5ko+LeEUeuTCErcNXXLf49fn+Ic39qUJYTAf+t0IiXzdTV5gzgPVefJFyYrIKwZ1xIxK0kgQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
@@ -106,7 +109,7 @@ X-MS-Exchange-CrossTenant-UserPrincipalName: +aHHhNB7vEGtkjhicCR03wJ1049Dj71qWKi
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR0201MB3498
 X-OriginatorOrg: quicinc.com
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 199.106.114.38
+X-Received-From: 199.106.114.39
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
