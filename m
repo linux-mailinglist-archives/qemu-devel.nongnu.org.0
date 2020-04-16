@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DD4B1AC73D
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Apr 2020 16:52:32 +0200 (CEST)
-Received: from localhost ([::1]:35454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AAE41AC748
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Apr 2020 16:54:00 +0200 (CEST)
+Received: from localhost ([::1]:35482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jP5sU-0006jr-KH
-	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 10:52:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45569)
+	id 1jP5tv-0000M3-9x
+	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 10:53:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45632)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jP5rT-0005nH-RZ
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 10:51:29 -0400
+ (envelope-from <eblake@redhat.com>) id 1jP5ra-0005vT-47
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 10:51:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jP5rQ-00047e-JL
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 10:51:27 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46232
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1jP5rY-0004Hi-E2
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 10:51:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52514
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jP5rQ-000477-Em
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 10:51:24 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jP5rY-0004GC-A9
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 10:51:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587048683;
+ s=mimecast20190719; t=1587048691;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=abQSmJyssFcBCZgfyAQ78JYSyHvtRFOYqH4gOaS+LRc=;
- b=Cb9tg/94TAKP0ZMnH9j3YbjMaLIk/6ixsDeU2Jnr5GDIUImoxwgaAn/y5CpmZwf4jzgbku
- oVyhiEq4SJdZmk9meZ3fyx5dK5IrKL9mI1/dIAGlTmKhuLJxltwKi4WXhrZin8qkq3V2jD
- SZmcEwC6fyPvOv/xrKzlBc1PBXyTdss=
+ bh=4lALPtScT6gir/jpjzcOMmlzfGURjh+wMxkTlrOLeOQ=;
+ b=GsNvtgZTlZa44/G4YPjJ9SmaUqbq/dDvyeebPfoP0xecgju2Mt11lN0l8wptfVtYosr2OQ
+ cSyMVzwH7jpWMYrXQwwVnxnYyyb9GvHZGbqm0y0+V+NNB3IsjOiTBDj+ktivgKxhKNF5wU
+ gcoNccGUi2hCUxRnAgCqgeXxygBfTB4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-iKM1cKBaOsSuIEXIBVz02A-1; Thu, 16 Apr 2020 10:51:19 -0400
-X-MC-Unique: iKM1cKBaOsSuIEXIBVz02A-1
+ us-mta-260-CVTB3m1KOT6cLStpUSpbNw-1; Thu, 16 Apr 2020 10:51:20 -0400
+X-MC-Unique: CVTB3m1KOT6cLStpUSpbNw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B50CF1090064;
- Thu, 16 Apr 2020 14:51:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76ADF100DFC5;
+ Thu, 16 Apr 2020 14:51:19 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-115-59.phx2.redhat.com [10.3.115.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0C4EC1001DD8;
- Thu, 16 Apr 2020 14:51:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E50EF1001DD8;
+ Thu, 16 Apr 2020 14:51:18 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] blockdev: Split off basic bitmap operations for qemu-img
-Date: Thu, 16 Apr 2020 09:51:13 -0500
-Message-Id: <20200416145115.699033-2-eblake@redhat.com>
+Subject: [PATCH 2/3] qemu-img: Add convert --bitmaps option
+Date: Thu, 16 Apr 2020 09:51:14 -0500
+Message-Id: <20200416145115.699033-3-eblake@redhat.com>
 In-Reply-To: <20200416145115.699033-1-eblake@redhat.com>
 References: <20200416145115.699033-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -58,8 +58,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,541 +70,261 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- nsoffer@redhat.com, jsnow@redhat.com
+Cc: nsoffer@redhat.com, Kevin Wolf <kwolf@redhat.com>, jsnow@redhat.com,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The next patch wants to teach qemu how to copy a bitmap from one qcow2
-file to another.  But blockdev.o is too heavyweight to link into
-qemu-img, so it's time to split off the bare bones of what we will
-need into a new file blockbitmaps.o.  Transactions are not needed in
-qemu-img (if things fail while creating the new image, the fix is to
-delete the botched copy, rather than worrying about atomic rollback).
+Make it easier to copy all the persistent bitmaps of a source image
+along with the contents, by adding a boolean flag for use with
+qemu-img convert.
 
-For now, I stuck to just the minimum code motion (add and merge); we
-could instead decide to move everything bitmap-related that does not
-also pull in transactions (delete, enable, disable).
+See also https://bugzilla.redhat.com/show_bug.cgi?id=3D1779893
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- Makefile.objs             |   2 +-
- include/sysemu/blockdev.h |  10 ++
- blockbitmaps.c            | 217 ++++++++++++++++++++++++++++++++++++++
- blockdev.c                | 184 --------------------------------
- MAINTAINERS               |   1 +
- 5 files changed, 229 insertions(+), 185 deletions(-)
- create mode 100644 blockbitmaps.c
+ docs/tools/qemu-img.rst |  6 ++-
+ qemu-img.c              | 81 +++++++++++++++++++++++++++++++++++++++--
+ qemu-img-cmds.hx        |  4 +-
+ 3 files changed, 85 insertions(+), 6 deletions(-)
 
-diff --git a/Makefile.objs b/Makefile.objs
-index a7c967633acf..44e30fa9a6e3 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -14,7 +14,7 @@ chardev-obj-y =3D chardev/
- authz-obj-y =3D authz/
+diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
+index 0080f83a76c9..8c4d85e0b835 100644
+--- a/docs/tools/qemu-img.rst
++++ b/docs/tools/qemu-img.rst
+@@ -186,6 +186,10 @@ Parameters to convert subcommand:
 
- block-obj-y =3D nbd/
--block-obj-y +=3D block.o blockjob.o job.o
-+block-obj-y +=3D block.o blockbitmaps.o blockjob.o job.o
- block-obj-y +=3D block/ scsi/
- block-obj-y +=3D qemu-io-cmds.o
- block-obj-$(CONFIG_REPLICATION) +=3D replication.o
-diff --git a/include/sysemu/blockdev.h b/include/sysemu/blockdev.h
-index a86d99b3d875..95cfeb29bc0a 100644
---- a/include/sysemu/blockdev.h
-+++ b/include/sysemu/blockdev.h
-@@ -57,4 +57,14 @@ QemuOpts *drive_add(BlockInterfaceType type, int index, =
-const char *file,
- DriveInfo *drive_new(QemuOpts *arg, BlockInterfaceType block_default_type,
-                      Error **errp);
+ .. program:: qemu-img-convert
 
-+BdrvDirtyBitmap *block_dirty_bitmap_lookup(const char *node,
-+                                           const char *name,
-+                                           BlockDriverState **pbs,
-+                                           Error **errp);
-+BdrvDirtyBitmap *do_block_dirty_bitmap_merge(const char *node,
-+                                             const char *target,
-+                                             BlockDirtyBitmapMergeSourceLi=
-st *bitmaps,
-+                                             HBitmap **backup, Error **err=
-p);
++.. option:: --bitmaps
 +
++  Additionally copy all bitmaps
 +
- #endif
-diff --git a/blockbitmaps.c b/blockbitmaps.c
-new file mode 100644
-index 000000000000..0d334d82006d
---- /dev/null
-+++ b/blockbitmaps.c
-@@ -0,0 +1,217 @@
-+/*
-+ * QEMU host block device bitmaps
-+ *
-+ * Copyright (c) 2003-2008 Fabrice Bellard
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or
-+ * later.  See the COPYING file in the top-level directory.
-+ *
-+ * This file incorporates work covered by the following copyright and
-+ * permission notice:
-+ *
-+ * Copyright (c) 2003-2008 Fabrice Bellard
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a=
- copy
-+ * of this software and associated documentation files (the "Software"), t=
-o deal
-+ * in the Software without restriction, including without limitation the r=
-ights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or se=
-ll
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included=
- in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS=
- OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY=
-,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OT=
-HER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING=
- FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS =
-IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "sysemu/blockdev.h"
-+#include "block/block.h"
-+#include "qapi/qapi-commands-block.h"
-+#include "qapi/error.h"
-+
-+/**
-+ * block_dirty_bitmap_lookup:
-+ * Return a dirty bitmap (if present), after validating
-+ * the node reference and bitmap names.
-+ *
-+ * @node: The name of the BDS node to search for bitmaps
-+ * @name: The name of the bitmap to search for
-+ * @pbs: Output pointer for BDS lookup, if desired. Can be NULL.
-+ * @errp: Output pointer for error information. Can be NULL.
-+ *
-+ * @return: A bitmap object on success, or NULL on failure.
-+ */
-+BdrvDirtyBitmap *block_dirty_bitmap_lookup(const char *node,
-+                                           const char *name,
-+                                           BlockDriverState **pbs,
-+                                           Error **errp)
-+{
-+    BlockDriverState *bs;
-+    BdrvDirtyBitmap *bitmap;
-+
-+    if (!node) {
-+        error_setg(errp, "Node cannot be NULL");
-+        return NULL;
-+    }
-+    if (!name) {
-+        error_setg(errp, "Bitmap name cannot be NULL");
-+        return NULL;
-+    }
-+    bs =3D bdrv_lookup_bs(node, node, NULL);
-+    if (!bs) {
-+        error_setg(errp, "Node '%s' not found", node);
-+        return NULL;
-+    }
-+
-+    bitmap =3D bdrv_find_dirty_bitmap(bs, name);
-+    if (!bitmap) {
-+        error_setg(errp, "Dirty bitmap '%s' not found", name);
-+        return NULL;
-+    }
-+
-+    if (pbs) {
-+        *pbs =3D bs;
-+    }
-+
-+    return bitmap;
-+}
-+
-+void qmp_block_dirty_bitmap_add(const char *node, const char *name,
-+                                bool has_granularity, uint32_t granularity=
-,
-+                                bool has_persistent, bool persistent,
-+                                bool has_disabled, bool disabled,
-+                                Error **errp)
-+{
-+    BlockDriverState *bs;
-+    BdrvDirtyBitmap *bitmap;
-+    AioContext *aio_context;
-+
-+    if (!name || name[0] =3D=3D '\0') {
-+        error_setg(errp, "Bitmap name cannot be empty");
-+        return;
-+    }
-+
-+    bs =3D bdrv_lookup_bs(node, node, errp);
-+    if (!bs) {
-+        return;
-+    }
-+
-+    aio_context =3D bdrv_get_aio_context(bs);
-+    aio_context_acquire(aio_context);
-+
-+    if (has_granularity) {
-+        if (granularity < 512 || !is_power_of_2(granularity)) {
-+            error_setg(errp, "Granularity must be power of 2 "
-+                             "and at least 512");
-+            goto out;
-+        }
-+    } else {
-+        /* Default to cluster size, if available: */
-+        granularity =3D bdrv_get_default_bitmap_granularity(bs);
-+    }
-+
-+    if (!has_persistent) {
-+        persistent =3D false;
-+    }
-+
-+    if (!has_disabled) {
-+        disabled =3D false;
-+    }
-+
-+    if (persistent &&
-+        !bdrv_can_store_new_dirty_bitmap(bs, name, granularity, errp))
-+    {
-+        goto out;
-+    }
-+
-+    bitmap =3D bdrv_create_dirty_bitmap(bs, granularity, name, errp);
-+    if (bitmap =3D=3D NULL) {
-+        goto out;
-+    }
-+
-+    if (disabled) {
-+        bdrv_disable_dirty_bitmap(bitmap);
-+    }
-+
-+    bdrv_dirty_bitmap_set_persistence(bitmap, persistent);
-+
-+out:
-+    aio_context_release(aio_context);
-+}
-+
-+BdrvDirtyBitmap *do_block_dirty_bitmap_merge(
-+        const char *node, const char *target,
-+        BlockDirtyBitmapMergeSourceList *bitmaps,
-+        HBitmap **backup, Error **errp)
-+{
-+    BlockDriverState *bs;
-+    BdrvDirtyBitmap *dst, *src, *anon;
-+    BlockDirtyBitmapMergeSourceList *lst;
-+    Error *local_err =3D NULL;
-+
-+    dst =3D block_dirty_bitmap_lookup(node, target, &bs, errp);
-+    if (!dst) {
-+        return NULL;
-+    }
-+
-+    anon =3D bdrv_create_dirty_bitmap(bs, bdrv_dirty_bitmap_granularity(ds=
-t),
-+                                    NULL, errp);
-+    if (!anon) {
-+        return NULL;
-+    }
-+
-+    for (lst =3D bitmaps; lst; lst =3D lst->next) {
-+        switch (lst->value->type) {
-+            const char *name, *node;
-+        case QTYPE_QSTRING:
-+            name =3D lst->value->u.local;
-+            src =3D bdrv_find_dirty_bitmap(bs, name);
-+            if (!src) {
-+                error_setg(errp, "Dirty bitmap '%s' not found", name);
-+                dst =3D NULL;
-+                goto out;
-+            }
-+            break;
-+        case QTYPE_QDICT:
-+            node =3D lst->value->u.external.node;
-+            name =3D lst->value->u.external.name;
-+            src =3D block_dirty_bitmap_lookup(node, name, NULL, errp);
-+            if (!src) {
-+                dst =3D NULL;
-+                goto out;
-+            }
-+            break;
-+        default:
-+            abort();
-+        }
-+
-+        bdrv_merge_dirty_bitmap(anon, src, NULL, &local_err);
-+        if (local_err) {
-+            error_propagate(errp, local_err);
-+            dst =3D NULL;
-+            goto out;
-+        }
-+    }
-+
-+    /* Merge into dst; dst is unchanged on failure. */
-+    bdrv_merge_dirty_bitmap(dst, anon, backup, errp);
-+
-+ out:
-+    bdrv_release_dirty_bitmap(anon);
-+    return dst;
-+}
-+
-+void qmp_block_dirty_bitmap_merge(const char *node, const char *target,
-+                                  BlockDirtyBitmapMergeSourceList *bitmaps=
-,
-+                                  Error **errp)
-+{
-+    do_block_dirty_bitmap_merge(node, target, bitmaps, NULL, errp);
-+}
-diff --git a/blockdev.c b/blockdev.c
-index 5faddaa7052f..ff6f5d38fcd5 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -1185,53 +1185,6 @@ out_aio_context:
-     return NULL;
+ .. option:: -n
+
+   Skip the creation of the target volume
+@@ -373,7 +377,7 @@ Command description:
+   4
+     Error on reading data
+
+-.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-op=
+ts] [--target-is-zero] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-=
+T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l SNAPSHOT_PA=
+RAM] [-S SPARSE_SIZE] [-m NUM_COROUTINES] [-W] FILENAME [FILENAME2 [...]] O=
+UTPUT_FILENAME
++.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-op=
+ts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [=
+-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l=
+ SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-m NUM_COROUTINES] [-W] FILENAME [FILENA=
+ME2 [...]] OUTPUT_FILENAME
+
+   Convert the disk image *FILENAME* or a snapshot *SNAPSHOT_PARAM*
+   to disk image *OUTPUT_FILENAME* using format *OUTPUT_FMT*. It can
+diff --git a/qemu-img.c b/qemu-img.c
+index 821cbf610e5f..6541357179c2 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -28,6 +28,7 @@
+ #include "qemu-common.h"
+ #include "qemu-version.h"
+ #include "qapi/error.h"
++#include "qapi/qapi-commands-block-core.h"
+ #include "qapi/qapi-visit-block-core.h"
+ #include "qapi/qobject-output-visitor.h"
+ #include "qapi/qmp/qjson.h"
+@@ -71,6 +72,7 @@ enum {
+     OPTION_SHRINK =3D 266,
+     OPTION_SALVAGE =3D 267,
+     OPTION_TARGET_IS_ZERO =3D 268,
++    OPTION_BITMAPS =3D 269,
+ };
+
+ typedef enum OutputFormat {
+@@ -176,6 +178,7 @@ static void QEMU_NORETURN help(void)
+            "       hiding corruption that has already occurred.\n"
+            "\n"
+            "Parameters to convert subcommand:\n"
++           "  '--bitmaps' copies all persistent bitmaps to destination\n"
+            "  '-m' specifies how many coroutines work in parallel during t=
+he convert\n"
+            "       process (defaults to 8)\n"
+            "  '-W' allow to write to the target out of order rather than s=
+equential\n"
+@@ -2054,6 +2057,47 @@ static int convert_do_copy(ImgConvertState *s)
+     return s->ret;
  }
 
--/**
-- * block_dirty_bitmap_lookup:
-- * Return a dirty bitmap (if present), after validating
-- * the node reference and bitmap names.
-- *
-- * @node: The name of the BDS node to search for bitmaps
-- * @name: The name of the bitmap to search for
-- * @pbs: Output pointer for BDS lookup, if desired. Can be NULL.
-- * @errp: Output pointer for error information. Can be NULL.
-- *
-- * @return: A bitmap object on success, or NULL on failure.
-- */
--static BdrvDirtyBitmap *block_dirty_bitmap_lookup(const char *node,
--                                                  const char *name,
--                                                  BlockDriverState **pbs,
--                                                  Error **errp)
--{
--    BlockDriverState *bs;
--    BdrvDirtyBitmap *bitmap;
--
--    if (!node) {
--        error_setg(errp, "Node cannot be NULL");
--        return NULL;
--    }
--    if (!name) {
--        error_setg(errp, "Bitmap name cannot be NULL");
--        return NULL;
--    }
--    bs =3D bdrv_lookup_bs(node, node, NULL);
--    if (!bs) {
--        error_setg(errp, "Node '%s' not found", node);
--        return NULL;
--    }
--
--    bitmap =3D bdrv_find_dirty_bitmap(bs, name);
--    if (!bitmap) {
--        error_setg(errp, "Dirty bitmap '%s' not found", name);
--        return NULL;
--    }
--
--    if (pbs) {
--        *pbs =3D bs;
--    }
--
--    return bitmap;
--}
--
- /* New and old BlockDriverState structs for atomic group operations */
++static int convert_copy_bitmaps(BlockDriverState *src, BlockDriverState *d=
+st)
++{
++    BdrvDirtyBitmap *bm;
++    Error *err =3D NULL;
++    BlockDirtyBitmapMergeSource *merge;
++    BlockDirtyBitmapMergeSourceList *list;
++
++    FOR_EACH_DIRTY_BITMAP(src, bm) {
++        const char *name;
++
++        if (!bdrv_dirty_bitmap_get_persistence(bm)) {
++            continue;
++        }
++        name =3D bdrv_dirty_bitmap_name(bm);
++        qmp_block_dirty_bitmap_add(dst->node_name, name,
++                                   true, bdrv_dirty_bitmap_granularity(bm)=
+,
++                                   true, true,
++                                   true, !bdrv_dirty_bitmap_enabled(bm),
++                                   &err);
++        if (err) {
++            error_reportf_err(err, "Failed to create bitmap %s: ", name);
++            return -1;
++        }
++
++        merge =3D g_new0(BlockDirtyBitmapMergeSource, 1);
++        merge->type =3D QTYPE_QDICT;
++        merge->u.external.node =3D g_strdup(src->node_name);
++        merge->u.external.name =3D g_strdup(name);
++        list =3D g_new0(BlockDirtyBitmapMergeSourceList, 1);
++        list->value =3D merge;
++        qmp_block_dirty_bitmap_merge(dst->node_name, name, list, &err);
++        qapi_free_BlockDirtyBitmapMergeSourceList(list);
++        if (err) {
++            error_reportf_err(err, "Failed to populate bitmap %s: ", name)=
+;
++            return -1;
++        }
++    }
++
++    return 0;
++}
++
+ #define MAX_BUF_SECTORS 32768
 
- typedef struct BlkActionState BlkActionState;
-@@ -2171,11 +2124,6 @@ static void block_dirty_bitmap_disable_abort(BlkActi=
-onState *common)
+ static int img_convert(int argc, char **argv)
+@@ -2075,6 +2119,8 @@ static int img_convert(int argc, char **argv)
+     int64_t ret =3D -EINVAL;
+     bool force_share =3D false;
+     bool explict_min_sparse =3D false;
++    bool bitmaps =3D false;
++    size_t nbitmaps =3D 0;
+
+     ImgConvertState s =3D (ImgConvertState) {
+         /* Need at least 4k of zeros for sparse detection */
+@@ -2094,6 +2140,7 @@ static int img_convert(int argc, char **argv)
+             {"target-image-opts", no_argument, 0, OPTION_TARGET_IMAGE_OPTS=
+},
+             {"salvage", no_argument, 0, OPTION_SALVAGE},
+             {"target-is-zero", no_argument, 0, OPTION_TARGET_IS_ZERO},
++            {"bitmaps", no_argument, 0, OPTION_BITMAPS},
+             {0, 0, 0, 0}
+         };
+         c =3D getopt_long(argc, argv, ":hf:O:B:Cco:l:S:pt:T:qnm:WU",
+@@ -2225,6 +2272,9 @@ static int img_convert(int argc, char **argv)
+              */
+             s.has_zero_init =3D true;
+             break;
++        case OPTION_BITMAPS:
++            bitmaps =3D true;
++            break;
+         }
      }
- }
 
--static BdrvDirtyBitmap *do_block_dirty_bitmap_merge(
--        const char *node, const char *target,
--        BlockDirtyBitmapMergeSourceList *bitmaps,
--        HBitmap **backup, Error **errp);
--
- static void block_dirty_bitmap_merge_prepare(BlkActionState *common,
-                                              Error **errp)
- {
-@@ -2441,69 +2389,6 @@ void qmp_block_passwd(bool has_device, const char *d=
-evice,
-                "Setting block passwords directly is no longer supported");
- }
+@@ -2286,7 +2336,6 @@ static int img_convert(int argc, char **argv)
+         goto fail_getopt;
+     }
 
--void qmp_block_dirty_bitmap_add(const char *node, const char *name,
--                                bool has_granularity, uint32_t granularity=
-,
--                                bool has_persistent, bool persistent,
--                                bool has_disabled, bool disabled,
--                                Error **errp)
--{
--    BlockDriverState *bs;
--    BdrvDirtyBitmap *bitmap;
--    AioContext *aio_context;
 -
--    if (!name || name[0] =3D=3D '\0') {
--        error_setg(errp, "Bitmap name cannot be empty");
--        return;
--    }
--
--    bs =3D bdrv_lookup_bs(node, node, errp);
--    if (!bs) {
--        return;
--    }
--
--    aio_context =3D bdrv_get_aio_context(bs);
--    aio_context_acquire(aio_context);
--
--    if (has_granularity) {
--        if (granularity < 512 || !is_power_of_2(granularity)) {
--            error_setg(errp, "Granularity must be power of 2 "
--                             "and at least 512");
--            goto out;
--        }
--    } else {
--        /* Default to cluster size, if available: */
--        granularity =3D bdrv_get_default_bitmap_granularity(bs);
--    }
--
--    if (!has_persistent) {
--        persistent =3D false;
--    }
--
--    if (!has_disabled) {
--        disabled =3D false;
--    }
--
--    if (persistent &&
--        !bdrv_can_store_new_dirty_bitmap(bs, name, granularity, errp))
--    {
--        goto out;
--    }
--
--    bitmap =3D bdrv_create_dirty_bitmap(bs, granularity, name, errp);
--    if (bitmap =3D=3D NULL) {
--        goto out;
--    }
--
--    if (disabled) {
--        bdrv_disable_dirty_bitmap(bitmap);
--    }
--
--    bdrv_dirty_bitmap_set_persistence(bitmap, persistent);
--
--out:
--    aio_context_release(aio_context);
--}
--
- static BdrvDirtyBitmap *do_block_dirty_bitmap_remove(
-         const char *node, const char *name, bool release,
-         BlockDriverState **bitmap_bs, Error **errp)
-@@ -2609,75 +2494,6 @@ void qmp_block_dirty_bitmap_disable(const char *node=
-, const char *name,
-     bdrv_disable_dirty_bitmap(bitmap);
- }
+     /* ret is still -EINVAL until here */
+     ret =3D bdrv_parse_cache_mode(src_cache, &src_flags, &src_writethrough=
+);
+     if (ret < 0) {
+@@ -2446,6 +2495,28 @@ static int img_convert(int argc, char **argv)
+         }
+     }
 
--static BdrvDirtyBitmap *do_block_dirty_bitmap_merge(
--        const char *node, const char *target,
--        BlockDirtyBitmapMergeSourceList *bitmaps,
--        HBitmap **backup, Error **errp)
--{
--    BlockDriverState *bs;
--    BdrvDirtyBitmap *dst, *src, *anon;
--    BlockDirtyBitmapMergeSourceList *lst;
--    Error *local_err =3D NULL;
--
--    dst =3D block_dirty_bitmap_lookup(node, target, &bs, errp);
--    if (!dst) {
--        return NULL;
++    /* Determine how many bitmaps need copying */
++    if (bitmaps) {
++        BdrvDirtyBitmap *bm;
++
++        if (s.src_num > 1) {
++            error_report("Copying bitmaps only possible with single source=
+");
++            ret =3D -1;
++            goto out;
++        }
++        FOR_EACH_DIRTY_BITMAP(blk_bs(s.src[0]), bm) {
++            if (bdrv_dirty_bitmap_get_persistence(bm)) {
++                nbitmaps++;
++            }
++        }
++        if (nbitmaps > 0 && drv && !drv->bdrv_co_can_store_new_dirty_bitma=
+p) {
++            error_report("Format driver '%s' does not support bitmaps",
++                         out_fmt);
++            ret =3D -1;
++            goto out;
++        }
++    }
++
+     /*
+      * The later open call will need any decryption secrets, and
+      * bdrv_create() will purge "opts", so extract them now before
+@@ -2454,9 +2525,7 @@ static int img_convert(int argc, char **argv)
+     if (!skip_create) {
+         open_opts =3D qdict_new();
+         qemu_opt_foreach(opts, img_add_key_secrets, open_opts, &error_abor=
+t);
 -    }
--
--    anon =3D bdrv_create_dirty_bitmap(bs, bdrv_dirty_bitmap_granularity(ds=
-t),
--                                    NULL, errp);
--    if (!anon) {
--        return NULL;
--    }
--
--    for (lst =3D bitmaps; lst; lst =3D lst->next) {
--        switch (lst->value->type) {
--            const char *name, *node;
--        case QTYPE_QSTRING:
--            name =3D lst->value->u.local;
--            src =3D bdrv_find_dirty_bitmap(bs, name);
--            if (!src) {
--                error_setg(errp, "Dirty bitmap '%s' not found", name);
--                dst =3D NULL;
--                goto out;
--            }
--            break;
--        case QTYPE_QDICT:
--            node =3D lst->value->u.external.node;
--            name =3D lst->value->u.external.name;
--            src =3D block_dirty_bitmap_lookup(node, name, NULL, errp);
--            if (!src) {
--                dst =3D NULL;
--                goto out;
--            }
--            break;
--        default:
--            abort();
--        }
--
--        bdrv_merge_dirty_bitmap(anon, src, NULL, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
--            dst =3D NULL;
--            goto out;
--        }
--    }
--
--    /* Merge into dst; dst is unchanged on failure. */
--    bdrv_merge_dirty_bitmap(dst, anon, backup, errp);
--
-- out:
--    bdrv_release_dirty_bitmap(anon);
--    return dst;
--}
--
--void qmp_block_dirty_bitmap_merge(const char *node, const char *target,
--                                  BlockDirtyBitmapMergeSourceList *bitmaps=
-,
--                                  Error **errp)
--{
--    do_block_dirty_bitmap_merge(node, target, bitmaps, NULL, errp);
--}
--
- BlockDirtyBitmapSha256 *qmp_x_debug_block_dirty_bitmap_sha256(const char *=
-node,
-                                                               const char *=
-name,
-                                                               Error **errp=
-)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8cbc1fac2bfc..769cd357d281 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1989,6 +1989,7 @@ T: git https://github.com/jnsnow/qemu.git jobs
- Block QAPI, monitor, command line
- M: Markus Armbruster <armbru@redhat.com>
- S: Supported
-+F: blockbitmaps.c
- F: blockdev.c
- F: blockdev-hmp-cmds.c
- F: block/qapi.c
+
+-    if (!skip_create) {
+         /* Create the new image */
+         ret =3D bdrv_create(drv, out_filename, opts, &local_err);
+         if (ret < 0) {
+@@ -2553,6 +2622,12 @@ static int img_convert(int argc, char **argv)
+     }
+
+     ret =3D convert_do_copy(&s);
++
++    /* Now copy the bitmaps */
++    if (nbitmaps > 0 && ret =3D=3D 0) {
++        ret =3D convert_copy_bitmaps(blk_bs(s.src[0]), out_bs);
++    }
++
+ out:
+     if (!ret) {
+         qemu_progress_print(100, 0);
+diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
+index c9c54de1df40..37cb36335218 100644
+--- a/qemu-img-cmds.hx
++++ b/qemu-img-cmds.hx
+@@ -39,9 +39,9 @@ SRST
+ ERST
+
+ DEF("convert", img_convert,
+-    "convert [--object objectdef] [--image-opts] [--target-image-opts] [--=
+target-is-zero] [-U] [-C] [-c] [-p] [-q] [-n] [-f fmt] [-t cache] [-T src_c=
+ache] [-O output_fmt] [-B backing_file] [-o options] [-l snapshot_param] [-=
+S sparse_size] [-m num_coroutines] [-W] [--salvage] filename [filename2 [..=
+.]] output_filename")
++    "convert [--object objectdef] [--image-opts] [--target-image-opts] [--=
+target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f fmt] [-t cach=
+e] [-T src_cache] [-O output_fmt] [-B backing_file] [-o options] [-l snapsh=
+ot_param] [-S sparse_size] [-m num_coroutines] [-W] [--salvage] filename [f=
+ilename2 [...]] output_filename")
+ SRST
+-.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-op=
+ts] [--target-is-zero] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-=
+T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l SNAPSHOT_PA=
+RAM] [-S SPARSE_SIZE] [-m NUM_COROUTINES] [-W] [--salvage] FILENAME [FILENA=
+ME2 [...]] OUTPUT_FILENAME
++.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-op=
+ts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [=
+-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l=
+ SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-m NUM_COROUTINES] [-W] [--salvage] FILE=
+NAME [FILENAME2 [...]] OUTPUT_FILENAME
+ ERST
+
+ DEF("create", img_create,
 --=20
 2.26.0
 
