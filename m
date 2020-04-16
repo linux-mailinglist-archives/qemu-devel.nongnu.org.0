@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 523FE1ACA71
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Apr 2020 17:35:49 +0200 (CEST)
-Received: from localhost ([::1]:36050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2BBE1ACB5F
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Apr 2020 17:46:38 +0200 (CEST)
+Received: from localhost ([::1]:36162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jP6YO-0002vF-Du
-	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 11:35:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50850)
+	id 1jP6ir-0001ch-J7
+	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 11:46:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52467)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jP6XC-0001hH-JO
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 11:34:35 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jP6i0-0001CN-Jm
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 11:45:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jP6X3-0000wW-5w
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 11:34:34 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:25980
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jP6X3-0000vw-2Y
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 11:34:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587051264;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/e4HZ5FjcATpoVm8EALcBpBG3D1OZisEdd5bGNhT8WM=;
- b=JNYnYPqUclH47xhGwoQKdkWuvWpDGLNXHba+ZqO6KYBVHGHgul7etfClq7HB61CNcY5jeh
- vkY2rUITXnbMigZU6r1ED0tHCAPpwKNoPlnAcbEeTxTeo2XUAHHHvtMwVwFpKd/TtmTQll
- nX4+97xyIFk1mIvNlZagJjbOvPHlOEk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-JgHnbMk2O6Ow3DO3K1bsgg-1; Thu, 16 Apr 2020 11:34:22 -0400
-X-MC-Unique: JgHnbMk2O6Ow3DO3K1bsgg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80FC813FD;
- Thu, 16 Apr 2020 15:34:21 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-113-109.ams2.redhat.com
- [10.36.113.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9077B28D02;
- Thu, 16 Apr 2020 15:34:18 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 2/2] qemu-storage-daemon: Fix non-string --object properties
-Date: Thu, 16 Apr 2020 17:34:04 +0200
-Message-Id: <20200416153404.15389-3-kwolf@redhat.com>
-In-Reply-To: <20200416153404.15389-1-kwolf@redhat.com>
-References: <20200416153404.15389-1-kwolf@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1jP6hy-0007Mn-Ns
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 11:45:44 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:46865)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jP6hy-0007MN-GJ
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 11:45:42 -0400
+Received: by mail-ot1-x344.google.com with SMTP id w12so3384957otm.13
+ for <qemu-devel@nongnu.org>; Thu, 16 Apr 2020 08:45:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FHUymdv8GaiEH1J1AepKkhGwX2tfXevb/xyrCZRKrro=;
+ b=Q6HjpqOLe9r/VEf6/mAiNaIx54QcVfazi4GwH5j/OZ/xnJfjrkW0DqIit6KG4EXHq7
+ QAvzGkLeEhRLG8qNlSA9f4YKt2rIMEj+5daXX+7GxsINQfdwmYs6iehrXcg2vrtqTbms
+ yRK4zdmG9/5SRp7x/Ef0xFfmt7DTKYrsFU8xlfR9LaEOW0VI96vLrunZtLl7C2EFbJq7
+ k/ShDLfsx746QCx170hN6PjCv7Yms9KdNsNnDFSrd+EWJbtD6JyAIBick3bbnkdD3eFP
+ wZe0ukuFI5TXEHhqkH5NAdiyyB1yu1mhiqSU8N+oGb4CXzIkFPcCzRUD1sxjiImSR65N
+ a/kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FHUymdv8GaiEH1J1AepKkhGwX2tfXevb/xyrCZRKrro=;
+ b=PM1puUq9UGCFF9jMeh31EwrxSMuLnLitOkRbuGJy4x/7zD3v2FxLVcmXnumACY4HhN
+ g5xVciDSi74ATzeJJNEjV1h8gO3TMPOSBxMWIeoWXElXDtmsMt5WxnBFkU4Gchtx6rt5
+ +yuRq+YAGI9lmYF6eKvbjy2+c37tVUxbhVNQz6h8vcXev3ff8zE34b1454tfheNk8xHy
+ YeLv1dds62kSGzgtDnAr5Le3F93VNNEdVaTkLVBMOh4FI5V6BR5BXxMXlTuXXwgQW57+
+ jO3z6Ie8Igx5+H9M2YmpBX+bHZmShwIetr3HyQtEq2MAt5AN/bQeGbvDn0zKFxgtxv3Q
+ dVkg==
+X-Gm-Message-State: AGi0PuaScH6A+VIai9c8AmULJsYJnGFEVtkpqOhfT8vVgpupcgaNwjtQ
+ WnqM81eZKjBNVA0F5voQmLGPK5tyyVOVTdSVtSShvQ==
+X-Google-Smtp-Source: APiQypJPGTyeCtLQhH/BQr1wJlnaziqSJEm+iIca0hQnNGB0AkYzcaDIy4J+XYiucNeGVivIzLn+ivLKJgmhMyD7eso=
+X-Received: by 2002:a05:6830:22dc:: with SMTP id
+ q28mr5725461otc.221.1587051941022; 
+ Thu, 16 Apr 2020 08:45:41 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+References: <20200329001705.15966-1-pauldzim@gmail.com>
+ <20200329001705.15966-5-pauldzim@gmail.com>
+In-Reply-To: <20200329001705.15966-5-pauldzim@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 16 Apr 2020 16:45:29 +0100
+Message-ID: <CAFEAcA9bL=uZ3-F4bYbHW+V9REnS1OnSusGKB2UoHS0bjSbvzA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/6] dwc-hsotg USB host controller emulation
+To: Paul Zimmerman <pauldzim@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,126 +73,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- coiby.xu@gmail.com, mreitz@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@gmail.com>, John Snow <jsnow@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After processing the option string with the keyval parser, we get a
-QDict that contains only strings. This QDict must be fed to a keyval
-visitor which converts the strings into the right data types.
+On Sun, 29 Mar 2020 at 00:18, Paul Zimmerman <pauldzim@gmail.com> wrote:
+>
+> Add the dwc-hsotg (dwc2) USB host controller emulation code.
+> Based on hw/usb/hcd-ehci.c and hw/usb/hcd-ohci.c.
+>
+> Note that to use this with the dwc-otg driver in the Raspbian
+> kernel, you must pass the option "dwc_otg.fiq_fsm_enable=0" on
+> the kernel command line.
+>
+> Emulation of slave mode and of descriptor-DMA mode has not been
+> implemented yet. These modes are seldom used.
+>
+> I have used some on-line sources of information while developing
+> this emulation, including:
+>
+> http://www.capital-micro.com/PDF/CME-M7_Family_User_Guide_EN.pdf
+> has a pretty complete description of the controller starting on
+> page 370.
+>
+> https://sourceforge.net/p/wive-ng/wive-ng-mt/ci/master/tree/docs/DataSheets/RT3050_5x_V2.0_081408_0902.pdf
+> has a description of the controller registers starting on page
+> 130.
 
-qmp_object_add(), however, uses the normal QObject input visitor, which
-expects a QDict where all properties already have the QType that matches
-the data type required by the QOM object type.
+Ooh, these reference URLs are very helpful. Could you put
+them in a comment at the top of the C file as well as in the
+commit message, please?
 
-Change the --object implementation in qemu-storage-daemon so that it
-doesn't call qmp_object_add(), but calls user_creatable_add_dict()
-directly instead and pass it a new keyval boolean that decides which
-visitor must be used.
+> Signed-off-by: Paul Zimmerman <pauldzim@gmail.com>
+> ---
+>  hw/usb/hcd-dwc2.c   | 1301 +++++++++++++++++++++++++++++++++++++++++++
+>  hw/usb/trace-events |   47 ++
+>  2 files changed, 1348 insertions(+)
+>  create mode 100644 hw/usb/hcd-dwc2.c
+>
+> diff --git a/hw/usb/hcd-dwc2.c b/hw/usb/hcd-dwc2.c
+> new file mode 100644
+> index 0000000000..fd85543f4d
+> --- /dev/null
+> +++ b/hw/usb/hcd-dwc2.c
+> @@ -0,0 +1,1301 @@
+> +/*
+> + * dwc-hsotg (dwc2) USB host controller emulation
+> + *
+> + * Based on hw/usb/hcd-ehci.c and hw/usb/hcd-ohci.c
+> + *
+> + * Copyright (c) 2020 Paul Zimmerman <pauldzim@gmail.com>
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License as published by
+> + * the Free Software Foundation; either version 2 of the License, or
+> + * (at your option) any later version.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+> + * GNU General Public License for more details.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "hw/usb/dwc2-regs.h"
+> +#include "hw/usb/hcd-dwc2.h"
+> +#include "trace.h"
+> +#include "qemu/error-report.h"
+> +#include "qemu/main-loop.h"
+> +
+> +#define USB_HZ_FS       12000000
+> +#define USB_HZ_HS       96000000
+> +
+> +/* nifty macros from Arnon's EHCI version  */
+> +#define get_field(data, field) \
+> +    (((data) & field##_MASK) >> field##_SHIFT)
+> +
+> +#define set_field(data, newval, field) do { \
+> +    uint32_t val = *data; \
+> +    val &= ~field##_MASK; \
+> +    val |= ((newval) << field##_SHIFT) & field##_MASK; \
+> +    *data = val; \
+> +} while (0)
+> +
+> +#define get_bit(data, bitmask) \
+> +    (!!((data) & bitmask))
 
-Reported-by: Coiby Xu <coiby.xu@gmail.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- include/qom/object_interfaces.h | 6 +++++-
- qemu-storage-daemon.c           | 4 +---
- qom/object_interfaces.c         | 8 ++++++--
- qom/qom-qmp-cmds.c              | 2 +-
- 4 files changed, 13 insertions(+), 7 deletions(-)
+Could you use the standard field definition, extract, and deposit
+macros from include/hw/registerfields.h, please?
 
-diff --git a/include/qom/object_interfaces.h b/include/qom/object_interface=
-s.h
-index a0037968a4..65172120fa 100644
---- a/include/qom/object_interfaces.h
-+++ b/include/qom/object_interfaces.h
-@@ -90,6 +90,10 @@ Object *user_creatable_add_type(const char *type, const =
-char *id,
- /**
-  * user_creatable_add_dict:
-  * @qdict: the object definition
-+ * @keyval: if true, use a keyval visitor for processing @qdict (i.e.
-+ *          assume that all @qdict values are strings); otherwise, use
-+ *          the normal QObject visitor (i.e. assume all @qdict values
-+ *          have the QType expected by the QOM object type)
-  * @errp: if an error occurs, a pointer to an area to store the error
-  *
-  * Create an instance of the user creatable object that is defined by
-@@ -97,7 +101,7 @@ Object *user_creatable_add_type(const char *type, const =
-char *id,
-  * ID from the key 'id'. The remaining entries in @qdict are used to
-  * initialize the object properties.
-  */
--void user_creatable_add_dict(QDict *qdict, Error **errp);
-+void user_creatable_add_dict(QDict *qdict, bool keyval, Error **errp);
-=20
- /**
-  * user_creatable_add_opts:
-diff --git a/qemu-storage-daemon.c b/qemu-storage-daemon.c
-index dd128978cc..9e7adfe3a6 100644
---- a/qemu-storage-daemon.c
-+++ b/qemu-storage-daemon.c
-@@ -278,7 +278,6 @@ static void process_options(int argc, char *argv[])
-                 QemuOpts *opts;
-                 const char *type;
-                 QDict *args;
--                QObject *ret_data =3D NULL;
-=20
-                 /* FIXME The keyval parser rejects 'help' arguments, so we=
- must
-                  * unconditionall try QemuOpts first. */
-@@ -291,9 +290,8 @@ static void process_options(int argc, char *argv[])
-                 qemu_opts_del(opts);
-=20
-                 args =3D keyval_parse(optarg, "qom-type", &error_fatal);
--                qmp_object_add(args, &ret_data, &error_fatal);
-+                user_creatable_add_dict(args, true, &error_fatal);
-                 qobject_unref(args);
--                qobject_unref(ret_data);
-                 break;
-             }
-         default:
-diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
-index 739e3e5172..bc36f96e47 100644
---- a/qom/object_interfaces.c
-+++ b/qom/object_interfaces.c
-@@ -106,7 +106,7 @@ out:
-     return obj;
- }
-=20
--void user_creatable_add_dict(QDict *qdict, Error **errp)
-+void user_creatable_add_dict(QDict *qdict, bool keyval, Error **errp)
- {
-     Visitor *v;
-     Object *obj;
-@@ -127,7 +127,11 @@ void user_creatable_add_dict(QDict *qdict, Error **err=
-p)
-     }
-     qdict_del(qdict, "id");
-=20
--    v =3D qobject_input_visitor_new(QOBJECT(qdict));
-+    if (keyval) {
-+        v =3D qobject_input_visitor_new_keyval(QOBJECT(qdict));
-+    } else {
-+        v =3D qobject_input_visitor_new(QOBJECT(qdict));
-+    }
-     obj =3D user_creatable_add_type(type, id, qdict, v, errp);
-     visit_free(v);
-     object_unref(obj);
-diff --git a/qom/qom-qmp-cmds.c b/qom/qom-qmp-cmds.c
-index 35db44b50e..c5249e44d0 100644
---- a/qom/qom-qmp-cmds.c
-+++ b/qom/qom-qmp-cmds.c
-@@ -263,7 +263,7 @@ void qmp_object_add(QDict *qdict, QObject **ret_data, E=
-rror **errp)
-         qobject_unref(pdict);
-     }
-=20
--    user_creatable_add_dict(qdict, errp);
-+    user_creatable_add_dict(qdict, false, errp);
- }
-=20
- void qmp_object_del(const char *id, Error **errp)
---=20
-2.20.1
+> +static void dwc2_sysbus_realize(DeviceState *dev, Error **errp)
+> +{
+> +    SysBusDevice *d = SYS_BUS_DEVICE(dev);
+> +    DWC2State *s = DWC2_USB(dev);
+> +
+> +    s->glbregbase = 0;
+> +    s->fszregbase = 0x0100;
+> +    s->hreg0base = 0x0400;
+> +    s->hreg1base = 0x0500;
+> +    s->pcgregbase = 0x0e00;
+> +    s->hreg2base = 0x1000;
+> +    s->portnr = NB_PORTS;
+> +    s->as = &address_space_memory;
 
+Ideally this should be a device property. (hw/dma/pl080.c
+has an example of how to declare a TYPE_MEMORY_REGION
+property and then create an AddressSpace from it in
+the realize method. hw/arm/versatilepb.c and hw/arm/mps2-tz.c
+show the other end, using object_property_set_link() to pass
+the appropriate MemoryRegion to the device before realizing it.)
+
+> +
+> +    dwc2_realize(s, dev, errp);
+
+Why have you divided the realize function up into
+dwc2_sysbus_realize() and dwc2_realize() and
+dwc2_init()? The usual expectation would be that
+there is (if you need it) an instance_init called
+dwc2_init() and a realize called dwc2_realize(),
+so using these names for functions that are just
+called from the realize method is a bit confusing.
+    object_property_set_link(OBJECT(dev), OBJECT(sysmem), "downstream",
+                             &error_fatal);
+
+> +    dwc2_init(s, dev);
+> +    sysbus_init_irq(d, &s->irq);
+> +    sysbus_init_mmio(d, &s->mem);
+> +}
+> +
+> +static void dwc2_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +
+> +    dc->realize = dwc2_sysbus_realize;
+> +    dc->reset = dwc2_sysbus_reset;
+> +    set_bit(DEVICE_CATEGORY_USB, dc->categories);
+
+Could you provide a VMStateDescription for dc->vmsd, please?
+
+> +}
+> +
+> +static const TypeInfo dwc2_usb_type_info = {
+> +    .name          = TYPE_DWC2_USB,
+> +    .parent        = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size = sizeof(DWC2State),
+> +    .class_init    = dwc2_class_init,
+> +};
+> +
+> +static void dwc2_usb_register_types(void)
+> +{
+> +    type_register_static(&dwc2_usb_type_info);
+> +}
+
+thanks
+-- PMM
 
