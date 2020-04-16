@@ -2,53 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30B7C1AD136
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Apr 2020 22:37:32 +0200 (CEST)
-Received: from localhost ([::1]:39082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C79DB1AD147
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Apr 2020 22:39:01 +0200 (CEST)
+Received: from localhost ([::1]:39094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPBGM-0000LX-Oz
-	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 16:37:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60478)
+	id 1jPBHo-00024H-SU
+	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 16:39:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60490)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1jPBFV-00080T-Il
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 16:36:38 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1jPBFX-00080d-N0
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 16:36:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1jPBFT-00040R-GM
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 16:36:36 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32886
+ (envelope-from <mlevitsk@redhat.com>) id 1jPBFW-00042d-PU
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 16:36:39 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37706
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jPBFT-0003zp-9z
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 16:36:35 -0400
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jPBFW-00042N-MH
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 16:36:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587069394;
+ s=mimecast20190719; t=1587069398;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=PMs7kMb35HuCdMRBCSKzXefdpwtPTgWF2vukymgQgys=;
- b=K39XJpsVvIRviLy0anEM7AntPp34bsRLNflmfaSR5ECAkqUh7RXPiq0aeFMpJ8b7BiKQRL
- pveiFT8rGy4WfAZ+9JoLc9W3hgJf7CY0RU5p5jUUaxkaqG0pUCIXXgVQlpdikHJ4KrxXhw
- k2IX0VgBCWaQdD1wOSqje8738aA6GuI=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ap+Pt4fSPMW5Snij4O6Cep7cm0g2WkDrl1yiJWCRlzk=;
+ b=S9eJX6KF2jmkb95LUUTgsN9tgIS+Io4dhsHttQEEwrDZ7sJLZ+CLRvTZH3h+Ooq+zIOdB7
+ YsBCorlP7FVjMrbqz2H+WOwOitAzyzttct89OO8DWqY3Cs+TrzXIAPb+3Y/guk2uHmy0Y7
+ 4KNei1cG1SB5fDnwH1oym+jxfrCUss8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-23-tA_sbelSNwW7W2MjZZGntw-1; Thu, 16 Apr 2020 16:36:32 -0400
-X-MC-Unique: tA_sbelSNwW7W2MjZZGntw-1
+ us-mta-51-77ki8K5WNXmGOUm74Y_f4A-1; Thu, 16 Apr 2020 16:36:34 -0400
+X-MC-Unique: 77ki8K5WNXmGOUm74Y_f4A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65A9A800D53;
- Thu, 16 Apr 2020 20:36:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC57018C43C0;
+ Thu, 16 Apr 2020 20:36:33 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4335CA09A5;
- Thu, 16 Apr 2020 20:36:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C165CA099C;
+ Thu, 16 Apr 2020 20:36:31 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] RFC/WIP: Fix scsi devices plug/unplug races w.r.t
- virtio-scsi iothread
-Date: Thu, 16 Apr 2020 23:36:20 +0300
-Message-Id: <20200416203624.32366-1-mlevitsk@redhat.com>
+Subject: [PATCH 1/4] scsi/scsi_bus: switch search direction in scsi_device_find
+Date: Thu, 16 Apr 2020 23:36:21 +0300
+Message-Id: <20200416203624.32366-2-mlevitsk@redhat.com>
+In-Reply-To: <20200416203624.32366-1-mlevitsk@redhat.com>
+References: <20200416203624.32366-1-mlevitsk@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -75,79 +77,46 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi!
+This change will allow us to convert the bus children list to RCU,
+while not changing the logic of this function
 
-This is a patch series that is a result of my discussion with Paulo on
-how to correctly fix the root cause of the BZ #1812399.
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+---
+ hw/scsi/scsi-bus.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-The root cause of this bug is the fact that IO thread is running mostly
-unlocked versus main thread on which device hotplug is done.
-
-qdev_device_add first creates the device object, then places it on the bus,
-and only then realizes it.
-
-However some drivers and currently only virtio-scsi enumerate its child bus
-devices on each request that is received from the guest and that can happen=
- on the IO
-thread.
-
-Thus we have a window when new device is on the bus but not realized and ca=
-n be accessed
-by the virtio-scsi driver in that state.
-
-Fix that by doing two things:
-
-1. Add partial RCU protection to the list of a bus's child devices.
-This allows the scsi IO thread to safely enumerate the child devices
-while it races with the hotplug placing the device on the bus.
-
-2. Make the virtio-scsi driver check .realized property of the scsi device
-and avoid touching the device if it isn't
-
-I don't think that this is very pretty way to solve this, we discussed this
-with Paulo and it kind of looks like the lesser evil. I am open to your tho=
-ughts about this.
-
-Note that this patch series doesn't pass some unit tests and in particular =
-qtest 'drive_del-test'
-I did some light debug of this test and I see that the reason for this is t=
-hat now child device deletion
-can be delayed due to RCU. This is also something I would like to discuss i=
-n this RFC.
-
-Note also that I might have some code style errors and bugs in this since I=
- haven't
-tested the code in depth yet, because I am not yet sure that this is the ri=
-ght way
-to fix that bug
-
-Also note that in the particular bug report the issue wasn't a race but rat=
-her due
-to combination of things, the .realize code in the middle managed to trigge=
-r IO on the virtqueue
-which caused the virtio-scsi driver to access the half realized device. How=
-ever
-since this can happen as well with real IO thread, this patch series was do=
-ne,
-which fixes this as well.
-
-Best regards,
-=09Maxim Levitsky
-
-Maxim Levitsky (4):
-  scsi/scsi_bus: switch search direction in scsi_device_find
-  device-core: use RCU for list of childs of a bus
-  device-core: use atomic_set on .realized property
-  virtio-scsi: don't touch scsi devices that are not yet realized
-
- hw/core/bus.c                  | 43 ++++++++++++++++++++----------
- hw/core/qdev.c                 | 48 ++++++++++++++++++++++------------
- hw/scsi/scsi-bus.c             | 27 ++++++++++++++++---
- hw/scsi/virtio-scsi.c          | 24 +++++++++++++++--
- include/hw/qdev-core.h         |  3 +++
- include/hw/virtio/virtio-bus.h |  7 +++--
- 6 files changed, 114 insertions(+), 38 deletions(-)
-
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index 1c980cab38..7bbc37acec 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -1584,7 +1584,7 @@ SCSIDevice *scsi_device_find(SCSIBus *bus, int channe=
+l, int id, int lun)
+     BusChild *kid;
+     SCSIDevice *target_dev =3D NULL;
+=20
+-    QTAILQ_FOREACH_REVERSE(kid, &bus->qbus.children, sibling) {
++    QTAILQ_FOREACH(kid, &bus->qbus.children, sibling) {
+         DeviceState *qdev =3D kid->child;
+         SCSIDevice *dev =3D SCSI_DEVICE(qdev);
+=20
+@@ -1592,7 +1592,15 @@ SCSIDevice *scsi_device_find(SCSIBus *bus, int chann=
+el, int id, int lun)
+             if (dev->lun =3D=3D lun) {
+                 return dev;
+             }
+-            target_dev =3D dev;
++
++            /*
++             * If we don't find exact match (channel/bus/lun),
++             * we will return the first device which matches channel/bus
++             */
++
++            if (!target_dev) {
++                target_dev =3D dev;
++            }
+         }
+     }
+     return target_dev;
 --=20
 2.17.2
 
