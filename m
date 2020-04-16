@@ -2,74 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA11D1AD069
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Apr 2020 21:35:22 +0200 (CEST)
-Received: from localhost ([::1]:38462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7678F1AD07F
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Apr 2020 21:42:01 +0200 (CEST)
+Received: from localhost ([::1]:38570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPAID-0004Pi-OT
-	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 15:35:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52618)
+	id 1jPAOe-0002oD-HG
+	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 15:42:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53717)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jPAG5-0003Dx-Km
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 15:33:10 -0400
+ (envelope-from <bounces@canonical.com>) id 1jPANa-0001YV-3y
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 15:40:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jPAG4-0004Su-Mv
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 15:33:09 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:45323)
+ (envelope-from <bounces@canonical.com>) id 1jPANZ-0008LP-48
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 15:40:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42770)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jPAG4-0004S3-Fu
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 15:33:08 -0400
-Received: by mail-lj1-x243.google.com with SMTP id v9so9071312ljk.12
- for <qemu-devel@nongnu.org>; Thu, 16 Apr 2020 12:33:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=/lWXnmPg4SaRCku5rYB8kdcP6M/aKtEzuf5WJ9DGh30=;
- b=X5OCfi7snmIwqhVpGBn1kbNNK91l03shUC4/F6l048Gb9k1jrGcKnGKYC/VNUFD4O1
- xZ06zY3GtN4F8pizjVjhtd6axuloH3GOq7hHwkSx/mEGTl7zUPsS3coGbyKjZWVSqHV6
- Jm5vNrrovNlE/sLM+4Ztsfxsf8YJ8BoDYwHIUBNEqe/KJ7NcpJYVhr2WABBU8McU4fzY
- Q7x3MO+EZTHTT5vy5QHZhp27lGdveICc5hN76aQ1KTzLKf2kajXvrOpsc0D0G3dis/kH
- NFy5ak9fNYoecb8ZCxLjobk4Zf5MgtY2rtg/yHT6XuRuWRZb3WJdaisdsl17pVQk2L6N
- hLWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/lWXnmPg4SaRCku5rYB8kdcP6M/aKtEzuf5WJ9DGh30=;
- b=AObxUT+3a6i9UfyYYpl9oLPM9j+kkABhlCqAuS22/O631yWl65qbZKlTmiskvztl+T
- teNm/NW8y8wouBxqqa39Bqa7j30PHNRPbZj7mk2WxweLc/cGRtF9WPtp28Y+ULHtZZ9Q
- A2HAPTdmjbMfaHXGCcon6syAV9mBO4Zzf+aKprKH1vrAKKrF2tILxCJYUN92lFfjl16/
- Cv0xJKdW2KMhRvkWb4r3C8tw+BsF+86J4H7fk/f9i2+5Zm8BV7WT34Fi+N32dwjIATyW
- uA9f8WkPiHCdtBgCtaXQurcJK/qBYirCGSqoMvRWJZ4C1kGY80YG0hfy2qn0ZfR23FjO
- bncQ==
-X-Gm-Message-State: AGi0PuZSX8gIoQFVfOLSheNxYHNwHkAURrKrpK5sfSjms6MFVm15UKuU
- iLdKLfd/VS4olK/JOi6OUa2oQrRPXOlo4g==
-X-Google-Smtp-Source: APiQypK4+V37nBe+Tu9I7CTPTb21huwm0kBA7HpJ3Z6m6SlsnBwn5urIQ+SnYQkw4lwRwITjurz9tw==
-X-Received: by 2002:a2e:2201:: with SMTP id i1mr7352806lji.31.1587065586137;
- Thu, 16 Apr 2020 12:33:06 -0700 (PDT)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id e16sm17535919ljh.18.2020.04.16.12.33.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Apr 2020 12:33:05 -0700 (PDT)
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 PATCH v1 1/1] tests: machine-none-test: Enable MicroBlaze
- testing
-Date: Thu, 16 Apr 2020 21:33:03 +0200
-Message-Id: <20200416193303.23674-2-edgar.iglesias@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200416193303.23674-1-edgar.iglesias@gmail.com>
-References: <20200416193303.23674-1-edgar.iglesias@gmail.com>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jPANY-0008L4-Ub
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 15:40:53 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jPANY-0006Hh-6w
+ for <qemu-devel@nongnu.org>; Thu, 16 Apr 2020 19:40:52 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 311FB2E8024
+ for <qemu-devel@nongnu.org>; Thu, 16 Apr 2020 19:40:52 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::243
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 16 Apr 2020 19:33:40 -0000
+From: ruthan <ruthan@email.cz>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ruthan
+X-Launchpad-Bug-Reporter: ruthan (ruthan)
+X-Launchpad-Bug-Modifier: ruthan (ruthan)
+Message-Id: <158706562034.6027.11807874678540403888.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1873338] [NEW] Dos on the fly CD image replacement is not
+ Working with DOS
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 37e5cde485524852b3cb8f90bd55b361d4cdf63d
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,49 +64,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, pbonzini@redhat.com, thuth@redhat.com,
- edgar.iglesias@xilinx.com
+Reply-To: Bug 1873338 <1873338@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+Public bug reported:
 
-Enable MicroBlaze testing.
+Im not able to exchange CD image on the fly (needed for some games). I
+messed with command like - in console(ATL+CRTL+2) eject ide1-cd0 and
+change ide-cd0 D:/Games/!Emulators/Dos-QEMU/ISOs/TestChangeISO.iso , but
+system so never able to find new CD data.. simply drive so empty.. but
+when i reboot virtual machine, new change image is now working.
 
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
----
- tests/qtest/machine-none-test.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+  Qemu 4.2.
 
-diff --git a/tests/qtest/machine-none-test.c b/tests/qtest/machine-none-test.c
-index 8bb54a6360..209d86eb57 100644
---- a/tests/qtest/machine-none-test.c
-+++ b/tests/qtest/machine-none-test.c
-@@ -33,8 +33,8 @@ static struct arch2cpu cpus_map[] = {
-     { "cris", "crisv32" },
-     { "lm32", "lm32-full" },
-     { "m68k", "m5206" },
--    /* FIXME: { "microblaze", "any" }, doesn't work with -M none -cpu any */
--    /* FIXME: { "microblazeel", "any" }, doesn't work with -M none -cpu any */
-+    { "microblaze", "any" },
-+    { "microblazeel", "any" },
-     { "mips", "4Kc" },
-     { "mipsel", "I7200" },
-     { "mips64", "20Kc" },
-@@ -79,10 +79,8 @@ static void test_machine_cpu_cli(void)
-     QTestState *qts;
- 
-     if (!cpu_model) {
--        if (!(!strcmp(arch, "microblaze") || !strcmp(arch, "microblazeel"))) {
--            fprintf(stderr, "WARNING: cpu name for target '%s' isn't defined,"
--                    " add it to cpus_map\n", arch);
--        }
-+        fprintf(stderr, "WARNING: cpu name for target '%s' isn't defined,"
-+                " add it to cpus_map\n", arch);
-         return; /* TODO: die here to force all targets have a test */
-     }
-     qts = qtest_initf("-machine none -cpu '%s'", cpu_model);
--- 
-2.20.1
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1873338
+
+Title:
+  Dos on the fly CD image replacement is not Working with DOS
+
+Status in QEMU:
+  New
+
+Bug description:
+  Im not able to exchange CD image on the fly (needed for some games). I
+  messed with command like - in console(ATL+CRTL+2) eject ide1-cd0 and
+  change ide-cd0 D:/Games/!Emulators/Dos-QEMU/ISOs/TestChangeISO.iso ,
+  but system so never able to find new CD data.. simply drive so empty..
+  but when i reboot virtual machine, new change image is now working.
+
+    Qemu 4.2.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1873338/+subscriptions
 
