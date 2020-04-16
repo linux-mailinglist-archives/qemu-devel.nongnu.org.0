@@ -2,66 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3C4D1AC4B6
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Apr 2020 16:03:34 +0200 (CEST)
-Received: from localhost ([::1]:34652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B11C1AC4E4
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Apr 2020 16:07:19 +0200 (CEST)
+Received: from localhost ([::1]:34692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jP577-00064U-Hi
-	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 10:03:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37418)
+	id 1jP5Ak-0007Rb-Lm
+	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 10:07:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37983)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jP569-0005XD-0E
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 10:02:33 -0400
+ (envelope-from <gengdongjiu@huawei.com>) id 1jP59o-0006ur-Uv
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 10:06:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jP567-0007ux-Fv
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 10:02:32 -0400
-Received: from mail-yw1-xc44.google.com ([2607:f8b0:4864:20::c44]:42905
- helo=mail-oo1-xc44.google.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jP567-0007tZ-3j
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 10:02:31 -0400
-Received: by mail-oo1-xc44.google.com with SMTP id e18so666552oot.9
- for <qemu-devel@nongnu.org>; Thu, 16 Apr 2020 07:02:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bK7H8mZBC1M9jaa+zdop9zDdD2J3ilKiMpcnXRm9/wc=;
- b=S75OjJEUYpb6Z8Ok91mLrz3lPxofemMNkAQA1i3r6UhQPpDgwDrlfyGb/w8paViyEC
- rQZ0Y39Y1slvIdhcQTdZSJL1qwTFYQRRrjpkU8AjNAcAj1ncnYW9ndpkOVmqMKLRjE0g
- AWuGETJV2o92M9d8JNUDAjw1xnE0JRg1jV4awo8ocR3quYZus/2zojs8IYyEqXToEWwW
- NvKRf8jYYN7Y3M8mkS//cwpUH34XwsEiHhXEGb4O3YLXd9qp8tdGiInT74KWH25l+bax
- xtv701IBjfmMe9ma7ZFjukFwgas2g34GXpaxLXBPwkkY61L5/GraJPoZO+PacRZnvxko
- a9JA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bK7H8mZBC1M9jaa+zdop9zDdD2J3ilKiMpcnXRm9/wc=;
- b=CaogaZFQZPdDGOxeqsQn4+2qloKQ7Tp4t6xSErPkNq/puGLuR/yKSkuDyGYxhanIV7
- M6d5k5HNWzoGMXHkMhhzAuykjWqNAajF7O2WdopIUjCxr3MsZmCWlSqQi3ISUaXdQhMw
- zpuqCeB5G9H8ZMNMdUeRlzYNkPpd1cVGgG/oh6bY67A1frAZo7AhWaHPNpJQxupS3+BC
- rxZtE63zA6UY2sp319Q0VBJGepGXf1wn4JCRN0uIsXbiMrC3bSEqLsucBM8UsH5kD8Xk
- A32uvgYfprd1kAfBJZluJg4NKe6mEx5oU3n5UA6WsShTF/5wc5bvNEDusPPe7duG8jVk
- 3Dbg==
-X-Gm-Message-State: AGi0PuYHWzjVP5pA7jEuT9x+IRzAXH2VZRh3CRHA4aC1AALtNg0HU/Ex
- B5hXu+5W7XUFRiD9a8EDY3YvAOyTRkbFxw5QlHxrOQ==
-X-Google-Smtp-Source: APiQypJUJwn9q949J4jXdUe6aFPBX8YziM8R4GhLsgRIYP8spb1sUXkLRxFdfswJKyD7fWYk3R9w9fp+kZdyZVRdRGQ=
-X-Received: by 2002:a4a:890b:: with SMTP id f11mr26704869ooi.85.1587045746654; 
- Thu, 16 Apr 2020 07:02:26 -0700 (PDT)
-MIME-Version: 1.0
+ (envelope-from <gengdongjiu@huawei.com>) id 1jP59n-00011N-T3
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 10:06:20 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:2099 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <gengdongjiu@huawei.com>)
+ id 1jP59l-0000y5-5G; Thu, 16 Apr 2020 10:06:17 -0400
+Received: from lhreml719-chm.china.huawei.com (unknown [172.18.7.108])
+ by Forcepoint Email with ESMTP id 36671CEF52316704C813;
+ Thu, 16 Apr 2020 15:06:14 +0100 (IST)
+Received: from dggeme755-chm.china.huawei.com (10.3.19.101) by
+ lhreml719-chm.china.huawei.com (10.201.108.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.1913.5; Thu, 16 Apr 2020 15:06:12 +0100
+Received: from dggeme755-chm.china.huawei.com ([10.7.64.71]) by
+ dggeme755-chm.china.huawei.com ([10.7.64.71]) with mapi id 15.01.1713.004;
+ Thu, 16 Apr 2020 22:06:10 +0800
+From: gengdongjiu <gengdongjiu@huawei.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: RE: [PATCH v25 00/10] Add ARMv8 RAS virtualization support in QEMU
+Thread-Topic: [PATCH v25 00/10] Add ARMv8 RAS virtualization support in QEMU
+Thread-Index: AQHWDy2Iho/0lGTqbEC6pfKPUDNKmKh70QB0gAABAfE=
+Date: Thu, 16 Apr 2020 14:06:10 +0000
+Message-ID: B0366384-0528-4F5C-931F-075D5ECCEEAF
 References: <20200410114639.32844-1-gengdongjiu@huawei.com>
- <5e9863af.1c69fb81.dbe22.5caaSMTPIN_ADDED_BROKEN@mx.google.com>
-In-Reply-To: <5e9863af.1c69fb81.dbe22.5caaSMTPIN_ADDED_BROKEN@mx.google.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Apr 2020 15:02:14 +0100
-Message-ID: <CAFEAcA_-fcGUKoo955jeHzNDDVTKCsgvH6QGqUWu0efAyth1rg@mail.gmail.com>
-Subject: Re: [PATCH v25 00/10] Add ARMv8 RAS virtualization support in QEMU
-To: gengdongjiu <gengdongjiu@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::c44
+ <5e9863af.1c69fb81.dbe22.5caaSMTPIN_ADDED_BROKEN@mx.google.com>,
+ <CAFEAcA_-fcGUKoo955jeHzNDDVTKCsgvH6QGqUWu0efAyth1rg@mail.gmail.com>
+In-Reply-To: <CAFEAcA_-fcGUKoo955jeHzNDDVTKCsgvH6QGqUWu0efAyth1rg@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+Content-Type: multipart/alternative;
+ boundary="_000_B036638405284F5C931F075D5ECCEEAF_"
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 185.176.76.210
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,15 +74,75 @@ Cc: fam <fam@euphon.net>, "xiaoguangrong.eric" <xiaoguangrong.eric@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 16 Apr 2020 at 14:54, gengdongjiu <gengdongjiu@huawei.com> wrote:
->
-> ping....
+--_000_B036638405284F5C931F075D5ECCEEAF_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Hi; this is on my to-review queue, but so are 25 other patchsets.
-(I've built up a bit of a backlog due to concentrating on work
-for the 5.0 release while we're in the freeze period.) I will
-get to it eventually if nobody else does first...
+b2vvvIx0aGFua3MgdmVyeSBtdWNoIGZvciBwZXRlcidzIHRpbWUgYW5kICAgICByZXBseQ0KDQrl
+j5Hku7bkurrvvJpQZXRlciBNYXlkZWxsIDxwZXRlci5tYXlkZWxsQGxpbmFyby5vcmc+DQrmlLbk
+u7bkurrvvJpnZW5nZG9uZ2ppdSA8Z2VuZ2RvbmdqaXVAaHVhd2VpLmNvbT4NCuaKhOKAg+mAge+8
+mmltYW1tZWRvIDxpbWFtbWVkb0ByZWRoYXQuY29tPjttc3QgPG1zdEByZWRoYXQuY29tPjt4aWFv
+Z3Vhbmdyb25nLmVyaWMgPHhpYW9ndWFuZ3JvbmcuZXJpY0BnbWFpbC5jb20+O3NoYW5ub24uemhh
+b3NsIDxzaGFubm9uLnpoYW9zbEBnbWFpbC5jb20+O2ZhbSA8ZmFtQGV1cGhvbi5uZXQ+O3J0aCA8
+cnRoQHR3aWRkbGUubmV0PjtFZHVhcmRvIEhhYmtvc3QgPGVoYWJrb3N0QHJlZGhhdC5jb20+O210
+b3NhdHRpIDxtdG9zYXR0aUByZWRoYXQuY29tPjtxZW11LWRldmVsIDxxZW11LWRldmVsQG5vbmdu
+dS5vcmc+O2t2bSA8a3ZtQHZnZXIua2VybmVsLm9yZz47cWVtdS1hcm0gPHFlbXUtYXJtQG5vbmdu
+dS5vcmc+O3Bib256aW5pIDxwYm9uemluaUByZWRoYXQuY29tPjt6aGVuZ3hpYW5nIChBKSA8emhl
+bmd4aWFuZzlAaHVhd2VpLmNvbT47TGludXhhcm0gPGxpbnV4YXJtQGh1YXdlaS5jb20+O0pvbmF0
+aGFuIENhbWVyb24gPGpvbmF0aGFuLmNhbWVyb25AaHVhd2VpLmNvbT4NCuaXtuKAg+mXtO+8mjIw
+MjAtMDQtMTYgMjI6MDI6MzQNCuS4u+KAg+mimO+8mlJlOiBbUEFUQ0ggdjI1IDAwLzEwXSBBZGQg
+QVJNdjggUkFTIHZpcnR1YWxpemF0aW9uIHN1cHBvcnQgaW4gUUVNVQ0KDQpPbiBUaHUsIDE2IEFw
+ciAyMDIwIGF0IDE0OjU0LCBnZW5nZG9uZ2ppdSA8Z2VuZ2RvbmdqaXVAaHVhd2VpLmNvbT4gd3Jv
+dGU6DQo+DQo+IHBpbmcuLi4uDQoNCkhpOyB0aGlzIGlzIG9uIG15IHRvLXJldmlldyBxdWV1ZSwg
+YnV0IHNvIGFyZSAyNSBvdGhlciBwYXRjaHNldHMuDQooSSd2ZSBidWlsdCB1cCBhIGJpdCBvZiBh
+IGJhY2tsb2cgZHVlIHRvIGNvbmNlbnRyYXRpbmcgb24gd29yaw0KZm9yIHRoZSA1LjAgcmVsZWFz
+ZSB3aGlsZSB3ZSdyZSBpbiB0aGUgZnJlZXplIHBlcmlvZC4pIEkgd2lsbA0KZ2V0IHRvIGl0IGV2
+ZW50dWFsbHkgaWYgbm9ib2R5IGVsc2UgZG9lcyBmaXJzdC4uLg0KDQp0aGFua3MNCi0tIFBNTQ0K
 
-thanks
--- PMM
+--_000_B036638405284F5C931F075D5ECCEEAF_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
+
+PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
+dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRvciIgY29udGVu
+dD0iTWljcm9zb2Z0IEV4Y2hhbmdlIFNlcnZlciI+DQo8IS0tIGNvbnZlcnRlZCBmcm9tIHRleHQg
+LS0+PHN0eWxlPjwhLS0gLkVtYWlsUXVvdGUgeyBtYXJnaW4tbGVmdDogMXB0OyBwYWRkaW5nLWxl
+ZnQ6IDRwdDsgYm9yZGVyLWxlZnQ6ICM4MDAwMDAgMnB4IHNvbGlkOyB9IC0tPjwvc3R5bGU+DQo8
+L2hlYWQ+DQo8Ym9keT4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+DQo8IS0tDQpib2R5DQoJe2Zv
+bnQtZmFtaWx5OkNhbGlicml9DQotLT4NCjwvc3R5bGU+DQo8ZGl2Pg0KPGRpdj4NCjxwPjxmb250
+IHNpemU9IjMiPm9r77yMdGhhbmtzIHZlcnkgbXVjaCBmb3IgcGV0ZXIncyB0aW1lIGFuZCZuYnNw
+OyAmbmJzcDsgJm5ic3A7cmVwbHk8L2ZvbnQ+PC9wPg0KPC9kaXY+DQo8ZGl2PjwvZGl2Pg0KPGRp
+diBuYW1lPSJ4X0FueU9mZmljZS1CYWNrZ3JvdW5kLUltYWdlIiBzdHlsZT0iYm9yZGVyLXRvcDox
+cHggc29saWQgI0I1QzRERjsgcGFkZGluZzo4cHgiPg0KPGRpdiBzdHlsZT0id29yZC1icmVhazpi
+cmVhay1hbGwiPjxiPuWPkeS7tuS6uu+8mjwvYj5QZXRlciBNYXlkZWxsICZsdDtwZXRlci5tYXlk
+ZWxsQGxpbmFyby5vcmcmZ3Q7PC9kaXY+DQo8ZGl2IHN0eWxlPSJ3b3JkLWJyZWFrOmJyZWFrLWFs
+bCI+PGI+5pS25Lu25Lq677yaPC9iPmdlbmdkb25naml1ICZsdDtnZW5nZG9uZ2ppdUBodWF3ZWku
+Y29tJmd0OzwvZGl2Pg0KPGRpdiBzdHlsZT0id29yZC1icmVhazpicmVhay1hbGwiPjxiPuaKhOKA
+g+mAge+8mjwvYj5pbWFtbWVkbyAmbHQ7aW1hbW1lZG9AcmVkaGF0LmNvbSZndDs7bXN0ICZsdDtt
+c3RAcmVkaGF0LmNvbSZndDs7eGlhb2d1YW5ncm9uZy5lcmljICZsdDt4aWFvZ3Vhbmdyb25nLmVy
+aWNAZ21haWwuY29tJmd0OztzaGFubm9uLnpoYW9zbCAmbHQ7c2hhbm5vbi56aGFvc2xAZ21haWwu
+Y29tJmd0OztmYW0gJmx0O2ZhbUBldXBob24ubmV0Jmd0OztydGggJmx0O3J0aEB0d2lkZGxlLm5l
+dCZndDs7RWR1YXJkbyBIYWJrb3N0ICZsdDtlaGFia29zdEByZWRoYXQuY29tJmd0OzttdG9zYXR0
+aQ0KICZsdDttdG9zYXR0aUByZWRoYXQuY29tJmd0OztxZW11LWRldmVsICZsdDtxZW11LWRldmVs
+QG5vbmdudS5vcmcmZ3Q7O2t2bSAmbHQ7a3ZtQHZnZXIua2VybmVsLm9yZyZndDs7cWVtdS1hcm0g
+Jmx0O3FlbXUtYXJtQG5vbmdudS5vcmcmZ3Q7O3Bib256aW5pICZsdDtwYm9uemluaUByZWRoYXQu
+Y29tJmd0Ozt6aGVuZ3hpYW5nIChBKSAmbHQ7emhlbmd4aWFuZzlAaHVhd2VpLmNvbSZndDs7TGlu
+dXhhcm0gJmx0O2xpbnV4YXJtQGh1YXdlaS5jb20mZ3Q7O0pvbmF0aGFuIENhbWVyb24gJmx0O2pv
+bmF0aGFuLmNhbWVyb25AaHVhd2VpLmNvbSZndDs8L2Rpdj4NCjxkaXYgc3R5bGU9IndvcmQtYnJl
+YWs6YnJlYWstYWxsIj48Yj7ml7bigIPpl7TvvJo8L2I+MjAyMC0wNC0xNiAyMjowMjozNDwvZGl2
+Pg0KPGRpdiBzdHlsZT0id29yZC1icmVhazpicmVhay1hbGwiPjxiPuS4u+KAg+mimO+8mjwvYj5S
+ZTogW1BBVENIIHYyNSAwMC8xMF0gQWRkIEFSTXY4IFJBUyB2aXJ0dWFsaXphdGlvbiBzdXBwb3J0
+IGluIFFFTVU8L2Rpdj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPGZvbnQg
+c2l6ZT0iMiI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMHB0OyI+DQo8ZGl2IGNsYXNzPSJQbGFp
+blRleHQiPk9uIFRodSwgMTYgQXByIDIwMjAgYXQgMTQ6NTQsIGdlbmdkb25naml1ICZsdDtnZW5n
+ZG9uZ2ppdUBodWF3ZWkuY29tJmd0OyB3cm90ZTo8YnI+DQomZ3Q7PGJyPg0KJmd0OyBwaW5nLi4u
+Ljxicj4NCjxicj4NCkhpOyB0aGlzIGlzIG9uIG15IHRvLXJldmlldyBxdWV1ZSwgYnV0IHNvIGFy
+ZSAyNSBvdGhlciBwYXRjaHNldHMuPGJyPg0KKEkndmUgYnVpbHQgdXAgYSBiaXQgb2YgYSBiYWNr
+bG9nIGR1ZSB0byBjb25jZW50cmF0aW5nIG9uIHdvcms8YnI+DQpmb3IgdGhlIDUuMCByZWxlYXNl
+IHdoaWxlIHdlJ3JlIGluIHRoZSBmcmVlemUgcGVyaW9kLikgSSB3aWxsPGJyPg0KZ2V0IHRvIGl0
+IGV2ZW50dWFsbHkgaWYgbm9ib2R5IGVsc2UgZG9lcyBmaXJzdC4uLjxicj4NCjxicj4NCnRoYW5r
+czxicj4NCi0tIFBNTTxicj4NCjwvZGl2Pg0KPC9zcGFuPjwvZm9udD4NCjwvYm9keT4NCjwvaHRt
+bD4NCg==
+
+--_000_B036638405284F5C931F075D5ECCEEAF_--
 
