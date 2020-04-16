@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D8C61AD07E
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Apr 2020 21:41:58 +0200 (CEST)
-Received: from localhost ([::1]:38568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F39A1AD09A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Apr 2020 21:51:50 +0200 (CEST)
+Received: from localhost ([::1]:38652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPAOb-0002gs-NH
-	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 15:41:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53702)
+	id 1jPAY9-0007mi-80
+	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 15:51:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54857)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jPANZ-0001YT-4v
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 15:40:54 -0400
+ (envelope-from <bounces@canonical.com>) id 1jPAX4-0006hU-9e
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 15:50:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jPANY-0008Ks-0y
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 15:40:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42730)
+ (envelope-from <bounces@canonical.com>) id 1jPAX3-0004eb-0K
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 15:50:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44240)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jPANX-0008KW-Rz
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 15:40:51 -0400
+ id 1jPAX2-0004dC-R3
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 15:50:40 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jPANW-0006Ft-Lv
- for <qemu-devel@nongnu.org>; Thu, 16 Apr 2020 19:40:50 +0000
+ id 1jPAX2-0007DA-41
+ for <qemu-devel@nongnu.org>; Thu, 16 Apr 2020 19:50:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8A0752E806D
- for <qemu-devel@nongnu.org>; Thu, 16 Apr 2020 19:40:50 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 1D2F82E8025
+ for <qemu-devel@nongnu.org>; Thu, 16 Apr 2020 19:50:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 16 Apr 2020 19:35:18 -0000
+Date: Thu, 16 Apr 2020 19:39:30 -0000
 From: ruthan <ruthan@email.cz>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,17 +42,16 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: ruthan
 X-Launchpad-Bug-Reporter: ruthan (ruthan)
 X-Launchpad-Bug-Modifier: ruthan (ruthan)
-Message-Id: <158706571876.12002.5666042854910451278.malonedeb@soybean.canonical.com>
-Subject: [Bug 1873339] [NEW] Qemu DOS Quake - 640x480 and above resolutions -
- Unable to load VESA palette in dos prompt and game crashing are not
- working 
+Message-Id: <158706597063.17331.9857104872351030807.malonedeb@wampee.canonical.com>
+Subject: [Bug 1873340] [NEW] KVM Old ATI(pre) AMD card passthrough is not
+ working
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 9328006d1086959e6fc022ed5b6964e012b0e9b5
+X-Launchpad-Hash: d1d075479b39a063bbc3130f985516e8ab386c04
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,54 +64,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1873339 <1873339@bugs.launchpad.net>
+Reply-To: Bug 1873340 <1873340@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Public bug reported:
 
-I have problem make Quake Demo working with 640x480+, with 320x200 working =
-fine.
-I tried 3 virtual videocards settings: -vga cirrus 640x480 is not available=
-, probably emulated GPU has not enough VRAM or some Vesa2 utility is needed=
-. For -vga std and -vga vmware // 640x480 is available in game menu, but wh=
-en i tried to set it, im getting: Unable to load VESA palette in dos prompt=
- and game crashing.
-With vmware svgaII other Q2DOS 640x480 and 1024x768 its working fine, so it=
- not working only with some games.
+Hello,
+tried to passthroug old ATI pre AMD PCI / PCI-E cards, on machine where any=
+thing else is working - Nvidia /Matrox / 3dfx cards..
 
-  Qemu 4.2, its same on Linux and Windows.
+Here are results:
+ATI Mach 64 PCI - videocard - machine start segfault
+ATI Rage XL PCI - videocard - machine start segfault
+ATI Radeon 7000 PCI - Segmentation fault
+ATI X600 Giabyte GV-RX60P128D - Segmentation fault
+ATI X700 PCI-E Legend - videocard - completely broken picture from boot
+ATI X800 XL PCI-E Gigabyte - videocard - completely broken picture from boot
+=C2=A0=C2=A0All cards have last bioses.
+
+ATI X600 - HP one professional with DMS-59 connector, im unable to make
+passthrough, but im not able to set in Windows 98/WinXP machine..
+anything less than 16 bit colors.. Im getting VM crashes or boot
+freezes, when i try to boot with more colors.
+
+=C2=A0Qemu 2.11 and 4.2, is the same, Mint Linux 19.3. Giabyte Z170 MB.
 
 ** Affects: qemu
      Importance: Undecided
          Status: New
 
+** Description changed:
+
+  Hello,
+  tried to passthroug old ATI pre AMD PCI / PCI-E cards, on machine where a=
+nything else is working - Nvidia /Matrox / 3dfx cards..
+  =
+
+  Here are results:
+  ATI Mach 64 PCI - videocard - machine start segfault
+  ATI Rage XL PCI - videocard - machine start segfault
+  ATI Radeon 7000 PCI - Segmentation fault
+  ATI X600 Giabyte GV-RX60P128D - Segmentation fault
+  ATI X700 PCI-E Legend - videocard - completely broken picture from boot
+  ATI X800 XL PCI-E Gigabyte - videocard - completely broken picture from b=
+oot
+-   All cards has last bioses.
++ =C2=A0=C2=A0All cards have last bioses.
+  =
+
+  ATI X600 - HP one professional with DMS-59 connector, im unable to make
+  passthrough, but im not able to set in Windows 98/WinXP machine..
+  anything less than 16 bit colors.. Im getting VM crashes or boot
+  freezes, when i try to boot with more colors.
+  =
+
+-  Qemu 2.11 and 4.2, is the same, Mint Linux 19.3.
++ =C2=A0Qemu 2.11 and 4.2, is the same, Mint Linux 19.3. Giabyte Z170 MB.
+
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1873339
+https://bugs.launchpad.net/bugs/1873340
 
 Title:
-  Qemu DOS Quake - 640x480 and above resolutions - Unable to load VESA
-  palette in dos prompt and game crashing are not working
+  KVM Old ATI(pre) AMD card passthrough is not working
 
 Status in QEMU:
   New
 
 Bug description:
-  I have problem make Quake Demo working with 640x480+, with 320x200 workin=
-g fine.
-  I tried 3 virtual videocards settings: -vga cirrus 640x480 is not availab=
-le, probably emulated GPU has not enough VRAM or some Vesa2 utility is need=
-ed. For -vga std and -vga vmware // 640x480 is available in game menu, but =
-when i tried to set it, im getting: Unable to load VESA palette in dos prom=
-pt and game crashing.
-  With vmware svgaII other Q2DOS 640x480 and 1024x768 its working fine, so =
-it not working only with some games.
+  Hello,
+  tried to passthroug old ATI pre AMD PCI / PCI-E cards, on machine where a=
+nything else is working - Nvidia /Matrox / 3dfx cards..
 
-    Qemu 4.2, its same on Linux and Windows.
+  Here are results:
+  ATI Mach 64 PCI - videocard - machine start segfault
+  ATI Rage XL PCI - videocard - machine start segfault
+  ATI Radeon 7000 PCI - Segmentation fault
+  ATI X600 Giabyte GV-RX60P128D - Segmentation fault
+  ATI X700 PCI-E Legend - videocard - completely broken picture from boot
+  ATI X800 XL PCI-E Gigabyte - videocard - completely broken picture from b=
+oot
+  =C2=A0=C2=A0All cards have last bioses.
+
+  ATI X600 - HP one professional with DMS-59 connector, im unable to
+  make passthrough, but im not able to set in Windows 98/WinXP machine..
+  anything less than 16 bit colors.. Im getting VM crashes or boot
+  freezes, when i try to boot with more colors.
+
+  =C2=A0Qemu 2.11 and 4.2, is the same, Mint Linux 19.3. Giabyte Z170 MB.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1873339/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1873340/+subscriptions
 
