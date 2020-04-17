@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB5561AD57B
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 07:08:24 +0200 (CEST)
-Received: from localhost ([::1]:42520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC771AD577
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 07:07:11 +0200 (CEST)
+Received: from localhost ([::1]:42508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPJEl-0003mT-Rq
-	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 01:08:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53905)
+	id 1jPJDZ-0001vz-UO
+	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 01:07:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53913)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jPJBz-0000gj-5r
+ (envelope-from <dgibson@ozlabs.org>) id 1jPJBz-0000gl-Ay
  for qemu-devel@nongnu.org; Fri, 17 Apr 2020 01:05:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jPJBx-0007Rz-ED
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 01:05:30 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:44107 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1jPJBy-0007SL-1g
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 01:05:31 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:41189 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jPJBv-0007RS-K7; Fri, 17 Apr 2020 01:05:29 -0400
+ id 1jPJBv-0007RU-Of; Fri, 17 Apr 2020 01:05:29 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 493PDM3Y3bz9sQx; Fri, 17 Apr 2020 15:05:23 +1000 (AEST)
+ id 493PDM4l3Qz9sSs; Fri, 17 Apr 2020 15:05:23 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1587099923;
- bh=4XGPYHVoUfRb7ZLjjBorBfA3SzHrRVUtdj2ETvavjJM=;
+ bh=uB/pOlpSyK6RnSOjkZjsdS+Li7f3wH6cGmH3QFWMPrI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hpcAaddHXuUExNc2G8gy3USfLUDFX3F96DNbQ8KQPYItzN71YZb6IC+wF9pZo6sRz
- Qe44e62iO14oKoNeF4hPzv0VLsj6Mmg2B7dW3rxzZRQrRfr3c+nJDd9/YECqkqL54W
- lZCS1B1Hx+tIpkTkZIaSNo9dKVivb2EAe8ND3aPY=
+ b=l1LpHJNMi1JpK3kAh+psr5CQ4+vCUXfSVY1xMnVfUf4q/1nfCEgEu2qsCFjnQT1df
+ eDv7h/2Yp+J8V4bTDT+phm29dnqr/F3dVu44tUTzPhjF1PBLEQ8bczpLdPg1oA4G+w
+ NDvICM03UopTp5K7Sg30kNWDy0PjFhA8Q5pi8SSo=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 1/3] linux-user/ppc: Fix padding in mcontext_t for ppc64
-Date: Fri, 17 Apr 2020 15:05:12 +1000
-Message-Id: <20200417050514.235060-2-david@gibson.dropbear.id.au>
+Subject: [PULL 2/3] target/ppc: Fix wrong interpretation of the disposition
+ flag.
+Date: Fri, 17 Apr 2020 15:05:13 +1000
+Message-Id: <20200417050514.235060-3-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <20200417050514.235060-1-david@gibson.dropbear.id.au>
 References: <20200417050514.235060-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,189 +54,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, groug@kaod.org, qemu-ppc@nongnu.org,
- clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org, groug@kaod.org,
+ Ganesh Goudar <ganeshgr@linux.ibm.com>, clg@kaod.org, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Ganesh Goudar <ganeshgr@linux.ibm.com>
 
-The padding that was added in 95cda4c44ee was added to a union,
-and so it had no effect.  This fixes misalignment errors detected
-by clang sanitizers for ppc64 and ppc64le.
+Bitwise AND with kvm_run->flags to evaluate if we recovered from
+MCE or not is not correct, As disposition in kvm_run->flags is a
+two-bit integer value and not a bit map, So check for equality
+instead of bitwise AND.
 
-In addition, only ppc64 allocates space for VSX registers, so do
-not save them for ppc32.  The kernel only has references to
-CONFIG_SPE in signal_32.c, so do not attempt to save them for ppc64.
+Without the fix qemu treats any unrecoverable mce error as recoverable
+and ends up in a mce loop inside the guest, Below are the MCE logs before
+and after the fix.
 
-Fixes: 95cda4c44ee
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200407032105.26711-1-richard.henderson@linaro.org>
-Acked-by: Laurent Vivier <laurent@vivier.eu>
+Before fix:
+
+[   66.775757] MCE: CPU0: Initiator CPU
+[   66.775891] MCE: CPU0: Unknown
+[   66.776587] MCE: CPU0: machine check (Harmless) Host UE Indeterminate =
+[Recovered]
+[   66.776857] MCE: CPU0: NIP: [c0080000000e00b8] mcetest_tlbie+0xb0/0x12=
+8 [mcetest_tlbie]
+
+After fix:
+
+[ 20.650577] CPU: 0 PID: 1415 Comm: insmod Tainted: G M O 5.6.0-fwnmi-arv=
++ #11
+[ 20.650618] NIP: c0080000023a00e8 LR: c0080000023a00d8 CTR: c00000000002=
+1fe0
+[ 20.650660] REGS: c0000001fffd3d70 TRAP: 0200 Tainted: G M O (5.6.0-fwnm=
+i-arv+)
+[ 20.650708] MSR: 8000000002a0b033 <SF,VEC,VSX,EE,FP,ME,IR,DR,RI,LE> CR: =
+42000222 XER: 20040000
+[ 20.650758] CFAR: c00000000000b940 DAR: c0080000025e00e0 DSISR: 00000200=
+ IRQMASK: 0
+[ 20.650758] GPR00: c0080000023a00d8 c0000001fddd79a0 c0080000023a8500 00=
+00000000000039
+[ 20.650758] GPR04: 0000000000000001 0000000000000000 0000000000000000 00=
+00000000000007
+[ 20.650758] GPR08: 0000000000000007 c0080000025e00e0 0000000000000000 00=
+000000000000f7
+[ 20.650758] GPR12: 0000000000000000 c000000001900000 c00000000101f398 c0=
+080000025c052f
+[ 20.650758] GPR16: 00000000000003a8 c0080000025c0000 c0000001fddd7d70 c0=
+000000015b7940
+[ 20.650758] GPR20: 000000000000fff1 c000000000f72c28 c0080000025a0988 00=
+00000000000000
+[ 20.650758] GPR24: 0000000000000100 c0080000023a05d0 c0000000001f1d70 00=
+00000000000000
+[ 20.650758] GPR28: c0000001fde20000 c0000001fd02b2e0 c0080000023a0000 c0=
+080000025e0000
+[ 20.651178] NIP [c0080000023a00e8] mcetest_tlbie+0xe8/0xf0 [mcetest_tlbi=
+e]
+[ 20.651220] LR [c0080000023a00d8] mcetest_tlbie+0xd8/0xf0 [mcetest_tlbie=
+]
+[ 20.651262] Call Trace:
+[ 20.651280] [c0000001fddd79a0] [c0080000023a00d8] mcetest_tlbie+0xd8/0xf=
+0 [mcetest_tlbie] (unreliable)
+[ 20.651340] [c0000001fddd7a10] [c00000000001091c] do_one_initcall+0x6c/0=
+x2c0
+[ 20.651390] [c0000001fddd7af0] [c0000000001f7998] do_init_module+0x90/0x=
+298
+[ 20.651433] [c0000001fddd7b80] [c0000000001f61a8] load_module+0x1f58/0x2=
+7a0
+[ 20.651476] [c0000001fddd7d40] [c0000000001f6c70] __do_sys_finit_module+=
+0xe0/0x100
+[ 20.651526] [c0000001fddd7e20] [c00000000000b9d0] system_call+0x5c/0x68
+[ 20.651567] Instruction dump:
+[ 20.651594] e8410018 3c620000 e8638020 480000cd e8410018 3c620000 e86380=
+28 480000bd
+[ 20.651646] e8410018 7be904e4 39400000 612900e0 <7d434a64> 4bffff74 3c4c=
+0001 38428410
+[ 20.651699] ---[ end trace 4c40897f016b4340 ]---
+[ 20.653310]
+Bus error
+[ 20.655575] MCE: CPU0: machine check (Harmless) Host UE Indeterminate [N=
+ot recovered]
+[ 20.655575] MCE: CPU0: NIP: [c0080000023a00e8] mcetest_tlbie+0xe8/0xf0 [=
+mcetest_tlbie]
+[ 20.655576] MCE: CPU0: Initiator CPU
+[ 20.655576] MCE: CPU0: Unknown
+
+Signed-off-by: Ganesh Goudar <ganeshgr@linux.ibm.com>
+Message-Id: <20200408170944.16003-1-ganeshgr@linux.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- linux-user/ppc/signal.c | 69 +++++++++++++++++------------------------
- 1 file changed, 29 insertions(+), 40 deletions(-)
+ target/ppc/kvm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
-index ecd99736b7..20a02c197c 100644
---- a/linux-user/ppc/signal.c
-+++ b/linux-user/ppc/signal.c
-@@ -35,12 +35,26 @@ struct target_mcontext {
-     target_ulong mc_gregs[48];
-     /* Includes fpscr.  */
-     uint64_t mc_fregs[33];
-+
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index 03d0667e8f..2692f76130 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -2816,11 +2816,11 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
  #if defined(TARGET_PPC64)
-     /* Pointer to the vector regs */
-     target_ulong v_regs;
-+    /*
-+     * On ppc64, this mcontext structure is naturally *unaligned*,
-+     * or rather it is aligned on a 8 bytes boundary but not on
-+     * a 16 byte boundary.  This pad fixes it up.  This is why we
-+     * cannot use ppc_avr_t, which would force alignment.  This is
-+     * also why the vector regs are referenced in the ABI by the
-+     * v_regs pointer above so any amount of padding can be added here.
-+     */
-+    target_ulong pad;
-+    /* VSCR and VRSAVE are saved separately.  Also reserve space for VSX=
-. */
-+    struct {
-+        uint64_t altivec[34 + 16][2];
-+    } mc_vregs;
- #else
-     target_ulong mc_pad[2];
--#endif
-+
-     /* We need to handle Altivec and SPE at the same time, which no
-        kernel needs to do.  Fortunately, the kernel defines this bit to
-        be Altivec-register-large all the time, rather than trying to
-@@ -48,32 +62,14 @@ struct target_mcontext {
-     union {
-         /* SPE vector registers.  One extra for SPEFSCR.  */
-         uint32_t spe[33];
--        /* Altivec vector registers.  The packing of VSCR and VRSAVE
--           varies depending on whether we're PPC64 or not: PPC64 splits
--           them apart; PPC32 stuffs them together.
--           We also need to account for the VSX registers on PPC64
--        */
--#if defined(TARGET_PPC64)
--#define QEMU_NVRREG (34 + 16)
--        /* On ppc64, this mcontext structure is naturally *unaligned*,
--         * or rather it is aligned on a 8 bytes boundary but not on
--         * a 16 bytes one. This pad fixes it up. This is also why the
--         * vector regs are referenced by the v_regs pointer above so
--         * any amount of padding can be added here
--         */
--        target_ulong pad;
--#else
--        /* On ppc32, we are already aligned to 16 bytes */
--#define QEMU_NVRREG 33
--#endif
--        /* We cannot use ppc_avr_t here as we do *not* want the implied
--         * 16-bytes alignment that would result from it. This would have
--         * the effect of making the whole struct target_mcontext aligned
--         * which breaks the layout of struct target_ucontext on ppc64.
-+        /*
-+         * Altivec vector registers.  One extra for VRSAVE.
-+         * On ppc32, we are already aligned to 16 bytes.  We could
-+         * use ppc_avr_t, but choose to share the same type as ppc64.
-          */
--        uint64_t altivec[QEMU_NVRREG][2];
--#undef QEMU_NVRREG
-+        uint64_t altivec[33][2];
-     } mc_vregs;
-+#endif
- };
+ int kvm_handle_nmi(PowerPCCPU *cpu, struct kvm_run *run)
+ {
+-    bool recovered =3D run->flags & KVM_RUN_PPC_NMI_DISP_FULLY_RECOV;
++    uint16_t flags =3D run->flags & KVM_RUN_PPC_NMI_DISP_MASK;
 =20
- /* See arch/powerpc/include/asm/sigcontext.h.  */
-@@ -278,6 +274,7 @@ static void save_user_regs(CPUPPCState *env, struct t=
-arget_mcontext *frame)
-         __put_user((uint32_t)env->spr[SPR_VRSAVE], vrsave);
-     }
+     cpu_synchronize_state(CPU(cpu));
 =20
-+#if defined(TARGET_PPC64)
-     /* Save VSX second halves */
-     if (env->insns_flags2 & PPC2_VSX) {
-         uint64_t *vsregs =3D (uint64_t *)&frame->mc_vregs.altivec[34];
-@@ -286,6 +283,7 @@ static void save_user_regs(CPUPPCState *env, struct t=
-arget_mcontext *frame)
-             __put_user(*vsrl, &vsregs[i]);
-         }
-     }
-+#endif
+-    spapr_mce_req_event(cpu, recovered);
++    spapr_mce_req_event(cpu, flags =3D=3D KVM_RUN_PPC_NMI_DISP_FULLY_REC=
+OV);
 =20
-     /* Save floating point registers.  */
-     if (env->insns_flags & PPC_FLOAT) {
-@@ -296,22 +294,18 @@ static void save_user_regs(CPUPPCState *env, struct=
- target_mcontext *frame)
-         __put_user((uint64_t) env->fpscr, &frame->mc_fregs[32]);
-     }
-=20
-+#if !defined(TARGET_PPC64)
-     /* Save SPE registers.  The kernel only saves the high half.  */
-     if (env->insns_flags & PPC_SPE) {
--#if defined(TARGET_PPC64)
--        for (i =3D 0; i < ARRAY_SIZE(env->gpr); i++) {
--            __put_user(env->gpr[i] >> 32, &frame->mc_vregs.spe[i]);
--        }
--#else
-         for (i =3D 0; i < ARRAY_SIZE(env->gprh); i++) {
-             __put_user(env->gprh[i], &frame->mc_vregs.spe[i]);
-         }
--#endif
-         /* Set MSR_SPE in the saved MSR value to indicate that
-            frame->mc_vregs contains valid data.  */
-         msr |=3D MSR_SPE;
-         __put_user(env->spe_fscr, &frame->mc_vregs.spe[32]);
-     }
-+#endif
-=20
-     /* Store MSR.  */
-     __put_user(msr, &frame->mc_gregs[TARGET_PT_MSR]);
-@@ -392,6 +386,7 @@ static void restore_user_regs(CPUPPCState *env,
-         __get_user(env->spr[SPR_VRSAVE], vrsave);
-     }
-=20
-+#if defined(TARGET_PPC64)
-     /* Restore VSX second halves */
-     if (env->insns_flags2 & PPC2_VSX) {
-         uint64_t *vsregs =3D (uint64_t *)&frame->mc_vregs.altivec[34];
-@@ -400,6 +395,7 @@ static void restore_user_regs(CPUPPCState *env,
-             __get_user(*vsrl, &vsregs[i]);
-         }
-     }
-+#endif
-=20
-     /* Restore floating point registers.  */
-     if (env->insns_flags & PPC_FLOAT) {
-@@ -412,22 +408,15 @@ static void restore_user_regs(CPUPPCState *env,
-         env->fpscr =3D (uint32_t) fpscr;
-     }
-=20
-+#if !defined(TARGET_PPC64)
-     /* Save SPE registers.  The kernel only saves the high half.  */
-     if (env->insns_flags & PPC_SPE) {
--#if defined(TARGET_PPC64)
--        for (i =3D 0; i < ARRAY_SIZE(env->gpr); i++) {
--            uint32_t hi;
--
--            __get_user(hi, &frame->mc_vregs.spe[i]);
--            env->gpr[i] =3D ((uint64_t)hi << 32) | ((uint32_t) env->gpr[=
-i]);
--        }
--#else
-         for (i =3D 0; i < ARRAY_SIZE(env->gprh); i++) {
-             __get_user(env->gprh[i], &frame->mc_vregs.spe[i]);
-         }
--#endif
-         __get_user(env->spe_fscr, &frame->mc_vregs.spe[32]);
-     }
-+#endif
+     return 0;
  }
-=20
- #if !defined(TARGET_PPC64)
 --=20
 2.25.2
 
