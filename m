@@ -2,61 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DCAD1AE0ED
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 17:22:21 +0200 (CEST)
-Received: from localhost ([::1]:48400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DCF91AE11C
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 17:29:01 +0200 (CEST)
+Received: from localhost ([::1]:48504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPSou-0002bS-6d
-	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 11:22:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51066)
+	id 1jPSvM-0007O1-7v
+	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 11:29:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52205)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jPSnR-0001B3-Fi
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 11:20:51 -0400
+ (envelope-from <mst@redhat.com>) id 1jPSu8-0006bu-4o
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 11:27:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jPSnP-0000RT-Nd
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 11:20:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56760)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jPSnP-0000Qi-6I
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 11:20:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jPSnN-0006gs-Ei
- for <qemu-devel@nongnu.org>; Fri, 17 Apr 2020 15:20:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 54B232E8109
- for <qemu-devel@nongnu.org>; Fri, 17 Apr 2020 15:20:45 +0000 (UTC)
+ (envelope-from <mst@redhat.com>) id 1jPSu6-000409-57
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 11:27:43 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41122
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jPSu5-0003y5-TQ
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 11:27:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587137261;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=o3ff6rgMA2qyRxg425PHXGMxGq+PxttnXXQ604+Cq7w=;
+ b=B0j4s+A8NRL2fwF+VHq38qTVOTVK3fBcrtyP5qv0uFc4i4T4HNiryVXb2Vx7mtenlJbhMz
+ zK7ZSYiAfQviq4Ds2N11PknPevcpEbit41Kuucz+ZzB7U0VxhBxZXKF6ljlAe76gcAmhXj
+ KQbkXwNfmcfL74JHVyieBlCOzQLajD0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-329-xJAd7PYuO5q9LQh-gGfuew-1; Fri, 17 Apr 2020 11:27:39 -0400
+X-MC-Unique: xJAd7PYuO5q9LQh-gGfuew-1
+Received: by mail-wr1-f69.google.com with SMTP id m15so1195968wrb.0
+ for <qemu-devel@nongnu.org>; Fri, 17 Apr 2020 08:27:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=QjfqxDeMa13kqODMarxZ6BTmhf7jxQnL33XRGg7aots=;
+ b=XOEbnPl0bpBfRQZXhzp7wq/qW32RBhIqQjNSMJVopMY/dleHNkS1Tjhlm6bBdEQ8PY
+ ESpwOk5YDqlAW6Sbo3mMT3Ryv78TORBMnI3o3v6KFRAJ9IzgEHvMtBvG/yy2rg7WswPP
+ Ts31k8m4MjsqRrLFKHqkQ63ve6u3E0nszT+9dSoODz7sqs+A78twxTx/ZapCcIWJHzjH
+ HagS9wvdgfXUxsd2eCROBBwLSKCw4iiQ2US5nnSghEoTctGh6aReeKqPstI1S0laNpc9
+ A9RL/pSawPeu9gCi+vbwpjdve1IWnd0G5JjBnSihlY3VkG2e/nxey+Ds4cho8/fwW5Jp
+ pRmQ==
+X-Gm-Message-State: AGi0PuY3fQBwpUXDolRdA8mxGVbOeCq+vRAmwZx1TNJ0R1HBMo3aaJLk
+ Hkbzf6tLua4x9aW+PHmnruIFUx4d0yUOVnHPIKcyI6Ro8EKMZU4DLzIJnQhpdBGcikYNRLS3EEv
+ MF5M003Os6Wy7Vh0=
+X-Received: by 2002:a5d:42cf:: with SMTP id t15mr4402380wrr.354.1587137258218; 
+ Fri, 17 Apr 2020 08:27:38 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKcJVZOCtip37zZxD508I1VQzln6OLILFOZy2C31LM6RWIunkMHE83VDkPCQzZ3bM4A0BjmpQ==
+X-Received: by 2002:a5d:42cf:: with SMTP id t15mr4402337wrr.354.1587137257686; 
+ Fri, 17 Apr 2020 08:27:37 -0700 (PDT)
+Received: from redhat.com (bzq-79-183-51-3.red.bezeqint.net. [79.183.51.3])
+ by smtp.gmail.com with ESMTPSA id i17sm22304145wru.39.2020.04.17.08.27.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Apr 2020 08:27:36 -0700 (PDT)
+Date: Fri, 17 Apr 2020 11:27:34 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Ani Sinha <ani.sinha@nutanix.com>
+Subject: Re: [PATCH] Add a new PIIX option to control PCI hot unplugging of
+ devices on non-root buses
+Message-ID: <20200417112620-mutt-send-email-mst@kernel.org>
+References: <1587136411-200885-1-git-send-email-ani.sinha@nutanix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <1587136411-200885-1-git-send-email-ani.sinha@nutanix.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 17 Apr 2020 15:14:32 -0000
-From: Babu Moger <1871842@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: babumoger e-philipp imammedo
-X-Launchpad-Bug-Reporter: Philipp Eppelt (e-philipp)
-X-Launchpad-Bug-Modifier: Babu Moger (babumoger)
-References: <158643709116.17430.15995069125716778943.malonedeb@wampee.canonical.com>
-Message-Id: <20200417151432.46867.72601.stgit@localhost.localdomain>
-Subject: [Bug 1871842] Re: AMD CPUID leaf 0x8000'0008 reported number of cores
- inconsistent with ACPI.MADT
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 213fe05aed20d57efe6cf2b3de2b0008d28612f9
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,168 +88,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1871842 <1871842@bugs.launchpad.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Marcel Apfelbaum <marcel@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CPUID leaf CPUID_Fn80000008_ECX provides information about the
-number of threads supported by the processor. It was found that
-the field ApicIdSize(bits 15-12) was not set correctly.
+On Fri, Apr 17, 2020 at 03:13:31PM +0000, Ani Sinha wrote:
+> A new option "use_acpi_unplug" is introduced for PIIX which will
+> selectively only disable hot unplugging of both hot plugged and
+> cold plugged PCI devices on non-root PCI buses. This will prevent
+> hot unplugging of devices from Windows based guests from system
+> tray but will not prevent devices from being hot plugged into the
+> guest.
+>=20
+> The patch is initial version and is a rough implementation. It has
+> been tested on Windows guests.
+>=20
+> Signed-off-by: Ani Sinha <ani.sinha@nutanix.com>
 
-ApicIdSize is defined as the number of bits required to represent
-all the ApicId values within a package.
-
-Valid Values: Value Description
-3h-0h		Reserved.
-4h		up to 16 threads.
-5h		up to 32 threads.
-6h		up to 64 threads.
-7h		up to 128 threads.
-Fh-8h		Reserved.
-
-Fix the bit appropriately.
-
-This came up during following thread.
-https://lore.kernel.org/qemu-devel/158643709116.17430.15995069125716778943.=
-malonedeb@wampee.canonical.com/#t
-
-Refer the Processor Programming Reference (PPR) for AMD Family 17h
-Model 01h, Revision B1 Processors. The documentation is available
-from the bugzilla Link below.
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D206537
-
-Reported-by: Philipp Eppelt <1871842@bugs.launchpad.net>
-Signed-off-by: Babu Moger <babu.moger@amd.com>
----
- target/i386/cpu.c |   12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
-
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 90ffc5f..68210f6 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -5830,11 +5830,17 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index=
-, uint32_t count,
-             *eax =3D cpu->phys_bits;
-         }
-         *ebx =3D env->features[FEAT_8000_0008_EBX];
--        *ecx =3D 0;
--        *edx =3D 0;
-         if (cs->nr_cores * cs->nr_threads > 1) {
--            *ecx |=3D (cs->nr_cores * cs->nr_threads) - 1;
-+            unsigned int max_apicids, bits_required;
-+
-+            max_apicids =3D (cs->nr_cores * cs->nr_threads) - 1;
-+            /* Find out the number of bits to represent all the apicids */
-+            bits_required =3D 32 - clz32(max_apicids);
-+            *ecx =3D bits_required << 12 | max_apicids;
-+        } else {
-+            *ecx =3D 0;
-         }
-+        *edx =3D 0;
-         break;
-     case 0x8000000A:
-         if (env->features[FEAT_8000_0001_ECX] & CPUID_EXT3_SVM) {
+Is there a real reason to do this? Can't we just limit the
+hotplug control to pcie ports? At some point I'd like us to
+start leaving piix alone...
 
 
-** Bug watch added: Linux Kernel Bug Tracker #206537
-   https://bugzilla.kernel.org/show_bug.cgi?id=3D206537
+> ---
+>  hw/acpi/piix4.c      |  3 +++
+>  hw/i386/acpi-build.c | 40 ++++++++++++++++++++++++++--------------
+>  2 files changed, 29 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+> index d706360..dad1bf4 100644
+> --- a/hw/acpi/piix4.c
+> +++ b/hw/acpi/piix4.c
+> @@ -82,6 +82,7 @@ typedef struct PIIX4PMState {
+> =20
+>      AcpiPciHpState acpi_pci_hotplug;
+>      bool use_acpi_pci_hotplug;
+> +    bool use_acpi_unplug;
+> =20
+>      uint8_t disable_s3;
+>      uint8_t disable_s4;
+> @@ -676,6 +677,8 @@ static Property piix4_pm_properties[] =3D {
+>      DEFINE_PROP_UINT8(ACPI_PM_PROP_S4_VAL, PIIX4PMState, s4_val, 2),
+>      DEFINE_PROP_BOOL("acpi-pci-hotplug-with-bridge-support", PIIX4PMStat=
+e,
+>                       use_acpi_pci_hotplug, true),
+> +    DEFINE_PROP_BOOL("acpi-pci-hotunplug-enable-bridge", PIIX4PMState,
+> +                     use_acpi_unplug, true),
+>      DEFINE_PROP_BOOL("memory-hotplug-support", PIIX4PMState,
+>                       acpi_memory_hotplug.is_enabled, true),
+>      DEFINE_PROP_END_OF_LIST(),
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 2bc8117..526feb2 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -94,6 +94,7 @@ typedef struct AcpiPmInfo {
+>      bool s3_disabled;
+>      bool s4_disabled;
+>      bool pcihp_bridge_en;
+> +    bool pcihup_bridge_en;
+>      uint8_t s4_val;
+>      AcpiFadtData fadt;
+>      uint16_t cpu_hp_io_base;
+> @@ -220,6 +221,9 @@ static void acpi_get_pm_info(AcpiPmInfo *pm)
+>      pm->pcihp_bridge_en =3D
+>          object_property_get_bool(obj, "acpi-pci-hotplug-with-bridge-supp=
+ort",
+>                                   NULL);
+> +    pm->pcihup_bridge_en =3D
+> +        object_property_get_bool(obj, "acpi-pci-hotunplug-enable-bridge"=
+,
+> +                                 NULL);
+>  }
+> =20
+>  static void acpi_get_misc_info(AcpiMiscInfo *info)
+> @@ -430,7 +434,8 @@ static void build_append_pcihp_notify_entry(Aml *meth=
+od, int slot)
+>  }
+> =20
+>  static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+> -                                         bool pcihp_bridge_en)
+> +                                         bool pcihp_bridge_en,
+> +                                         bool pcihup_bridge_en)
+>  {
+>      Aml *dev, *notify_method =3D NULL, *method;
+>      QObject *bsel;
+> @@ -458,11 +463,14 @@ static void build_append_pci_bus_devices(Aml *paren=
+t_scope, PCIBus *bus,
+>                  dev =3D aml_device("S%.02X", PCI_DEVFN(slot, 0));
+>                  aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
+>                  aml_append(dev, aml_name_decl("_ADR", aml_int(slot << 16=
+)));
+> -                method =3D aml_method("_EJ0", 1, AML_NOTSERIALIZED);
+> -                aml_append(method,
+> -                    aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN")=
+)
+> -                );
+> -                aml_append(dev, method);
+> +                if (pcihup_bridge_en || pci_bus_is_root(bus)) {
+> +                    method =3D aml_method("_EJ0", 1, AML_NOTSERIALIZED);
+> +                    aml_append(method,
+> +                               aml_call2("PCEJ", aml_name("BSEL"),
+> +                                         aml_name("_SUN"))
+> +                        );
+> +                    aml_append(dev, method);
+> +                }
+>                  aml_append(parent_scope, dev);
+> =20
+>                  build_append_pcihp_notify_entry(notify_method, slot);
+> @@ -516,12 +524,14 @@ static void build_append_pci_bus_devices(Aml *paren=
+t_scope, PCIBus *bus,
+>              /* add _SUN/_EJ0 to make slot hotpluggable  */
+>              aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
+> =20
+> -            method =3D aml_method("_EJ0", 1, AML_NOTSERIALIZED);
+> -            aml_append(method,
+> -                aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
+> -            );
+> -            aml_append(dev, method);
+> -
+> +            if (pcihup_bridge_en || pci_bus_is_root(bus)) {
+> +                method =3D aml_method("_EJ0", 1, AML_NOTSERIALIZED);
+> +                aml_append(method,
+> +                           aml_call2("PCEJ", aml_name("BSEL"),
+> +                                     aml_name("_SUN"))
+> +                    );
+> +                aml_append(dev, method);
+> +            }
+>              if (bsel) {
+>                  build_append_pcihp_notify_entry(notify_method, slot);
+>              }
+> @@ -532,7 +542,8 @@ static void build_append_pci_bus_devices(Aml *parent_=
+scope, PCIBus *bus,
+>               */
+>              PCIBus *sec_bus =3D pci_bridge_get_sec_bus(PCI_BRIDGE(pdev))=
+;
+> =20
+> -            build_append_pci_bus_devices(dev, sec_bus, pcihp_bridge_en);
+> +            build_append_pci_bus_devices(dev, sec_bus, pcihp_bridge_en,
+> +                                         pcihup_bridge_en);
+>          }
+>          /* slot descriptor has been composed, add it into parent context=
+ */
+>          aml_append(parent_scope, dev);
+> @@ -2133,7 +2144,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>          if (bus) {
+>              Aml *scope =3D aml_scope("PCI0");
+>              /* Scan all PCI buses. Generate tables to support hotplug. *=
+/
+> -            build_append_pci_bus_devices(scope, bus, pm->pcihp_bridge_en=
+);
+> +            build_append_pci_bus_devices(scope, bus, pm->pcihp_bridge_en=
+,
+> +                                         pm->pcihup_bridge_en);
+> =20
+>              if (TPM_IS_TIS(tpm_find())) {
+>                  dev =3D aml_device("ISA.TPM");
+> --=20
+> 1.9.4
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1871842
-
-Title:
-  AMD CPUID leaf 0x8000'0008 reported number of cores  inconsistent with
-  ACPI.MADT
-
-Status in QEMU:
-  New
-
-Bug description:
-  Setup:
-  CPU: AMD EPYC-v2 or host's EPYC cpu
-  Linux 64-bit fedora host; Kernel version 5.5.15-200.fc31
-  qemu version: self build
-  git-head: f3bac27cc1e303e1860cc55b9b6889ba39dee587
-  config: Configured with: '../configure' '--target-list=3Dx86_64-softmmu,m=
-ips64el-softmmu,mips64-softmmu,mipsel-softmmu,mips-softmmu,i386-softmmu,aar=
-ch64-softmmu,arm-softmmu' '--prefix=3D/opt/qemu-master'
-
-  Cmdline: =
-
-  qemu-system-x86_64 -kernel /home/peppelt/code/l4/internal/.build-x86_64/b=
-in/amd64_gen/bootstrap -append "" -initrd "./fiasco/.build-x86_64/fiasco , =
-... " -serial stdio -nographic -monitor none -nographic -monitor none -cpu =
-EPYC-v2 -m 4G -smp 4 =
-
-
-  Issue:
-  We are developing an microkernel operating system called L4Re. We recentl=
-y got an AMD EPYC server for testing and we couldn't execute SMP tests of o=
-ur system when running Linux + qemu + VM w/ L4Re.
-  In fact, the kernel did not recognize any APs at all. On AMD CPUs the ker=
-nel checks for the number of cores reported in CPUID leaf 0x8000_0008.ECX[N=
-C] or [ApicIdSize].  [0][1]
-
-  The physical machine reports for leaf 0x8000_0008:  EAX: 0x3030 EBX: 0x18=
-cf757 ECX: 0x703f EDX: 0x1000
-  The lower four bits of ECX are the [NC] field and all set.
-
-  When querying inside qemu with -enable-kvm -cpu host -smp 4 (basically as=
- replacement and addition to the above cmdline) the CPUID leaf shows: EAX: =
-0x3024, EBX: 0x1001000, ECX: 0x0, EDX: 0x0
-  Note, ECX is zero. Indicating that this is no SMP capabale CPU.
-
-  I'm debugging it using my local machine and the QEMU provided EPYC-v2
-  CPU model and it is reproducible there as well and reports:  EAX:
-  0x3028, EBX: 0x0, ECX: 0x0, EDX: 0x0
-
-  I checked other AMD based CPU models (phenom, opteron_g3/g5) and they beh=
-ave the same. [2] shows the CPUID 0x8000'0008 handling in the QEMU source.
-  I believe that behavior here is wrong as ECX[NC] should report the number=
- of cores per processor, as stated in the AMD manual [2] p.584. In my under=
-standing -smp 4 should then lead to ECX[NC] =3D 0x3.
-
-  The following table shows my findings with the -smp option:
-  Option | Qemu guest observed ECX value
-  -smp 4 | 0x0
-  -smp 4,cores=3D4  | 0x3
-  -smp 4,cores=3D2,thread=3D2 | 0x3
-  -smp 4,cores=3D4,threads=3D2 | QEMU boot error: topology false.
-
-  Now, I'm asking myself how the terminology of the AMD manual maps to QEMU=
-'s -smp option.
-  Obviously, nr_cores and nr_threads correspond to the cores and threads op=
-tions on the cmdline and cores * threads <=3D 4 (in this example), but what=
- corresponds the X in -smp X to?
-
-  Querying 0x8000'0008 on the physical processor results in different
-  reports than quering QEMU's model as does it with -enable-kvm -cpu
-  host.
-
-  Furthermore, the ACPI.MADT shows 4 local APICs to be present while the
-  CPU leave reports a single core processor.
-
-  This leads me to the conclusion that CPUID 0x8000'0008.ECX reports the
-  wrong number.
-
-  =
-
-  Please let me know, if you need more information from my side.
-
-  =
-
-  [0] https://github.com/kernkonzept/fiasco/blob/522ccc5f29ab120213cf02d713=
-28e2b879cbbd19/src/kern/ia32/kernel_thread-ia32.cpp#L109
-  [1] https://github.com/kernkonzept/fiasco/blob/522ccc5f29ab120213cf02d713=
-28e2b879cbbd19/src/kern/ia32/cpu-ia32.cpp#L1120
-  [2] https://github.com/qemu/qemu/blob/f2a8261110c32c4dccd84e774d8dd7a0524=
-e00fb/target/i386/cpu.c#L5835
-  [3] https://www.amd.com/system/files/TechDocs/24594.pdf
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1871842/+subscriptions
 
