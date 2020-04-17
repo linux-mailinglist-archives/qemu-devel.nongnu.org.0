@@ -2,83 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 612F91AE1DF
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 18:10:17 +0200 (CEST)
-Received: from localhost ([::1]:49234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 288931AE236
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 18:25:00 +0200 (CEST)
+Received: from localhost ([::1]:49454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPTZH-0007Kv-Tx
-	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 12:10:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58655)
+	id 1jPTnW-0003bA-Nm
+	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 12:24:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37148)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jPTYD-00068h-Sp
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 12:09:10 -0400
+ (envelope-from <steplong@quicinc.com>) id 1jPTlb-00023p-F9
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 12:23:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1jPTYB-0004vI-WD
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 12:09:09 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51442
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jPTYB-0004tK-Qr
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 12:09:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587139746;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g0S7QFP+CVHgNxdQFuggiU/bVlLSo2bymUmVNcV3lsI=;
- b=FTIxAQrYuF9guu3Wz/q+D0wTTPEupG+yrc4moeo7V9mPp7TFYhd6PKfD9X+Lzbn/+yrJSm
- U7NNsDFwHhbe/TDQe7t9P2kCTHinebX1jT5L4bVzOeMfPvAymmPOYK1uwqT2fKE4PFTU6s
- O4wtqkzZ6gREpE2njUZlcBDf2WNv2I0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-97-9at4eY9vPJalkmjw55tjwg-1; Fri, 17 Apr 2020 12:09:04 -0400
-X-MC-Unique: 9at4eY9vPJalkmjw55tjwg-1
-Received: by mail-wr1-f70.google.com with SMTP id i10so1243386wrq.8
- for <qemu-devel@nongnu.org>; Fri, 17 Apr 2020 09:09:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=H6NNClUmmzsdMk/PF7rOufoHsQR3CrXpOiq3cyvFyDI=;
- b=HrMkJX7UW11sMmDf5gZjnRhegfCirKp1TPRgIx8XoQ57W6iKaRRfz1PJXrgec+AbZG
- K3Wf5XIZCh7opmwKREXpTHIkpI+xOpGx5Ud3K+jg21EaS3zvsfkYctgIJF71cvIvvKHr
- DmtPOGJvsiI4CDGPtPgAkXy/XyAoShtaACb2aHepKPg1Zt09QpSGgefDN12bF/4c/cNT
- 7ppB47044FuVVYIZrCP6pYDrK5jrg7zdPFupK2a6Mm55D4l62OSFJqFCRxJgqTOWTvV7
- EthJ/DwU4EFE/9xsTE3B/01ODyTj3gUD2jRVEM75ezBresPnxKVVWRUb2nQ+b8YHghAz
- VUdQ==
-X-Gm-Message-State: AGi0PuZu/iLr72SeyYR4XWazWTCj/YPywF1eFopbiDOwtZ92eKbg3G9/
- egq6JS53QzitxWIIhiNGj3TWwmPAcI59FgYDRckm4vVeZgU8XCRUn+YLH9oS7zCrsIFOikloL8r
- ysaUeDLeqPMn7eZw=
-X-Received: by 2002:a5d:4b04:: with SMTP id v4mr4975197wrq.358.1587139743547; 
- Fri, 17 Apr 2020 09:09:03 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIjmIgdOPk18ekxKkugdoMa+kWa99991YYofEbGMagSZJSyE19I3UscTFqHPNohETPo2RzWGw==
-X-Received: by 2002:a5d:4b04:: with SMTP id v4mr4975173wrq.358.1587139743358; 
- Fri, 17 Apr 2020 09:09:03 -0700 (PDT)
-Received: from redhat.com (bzq-79-183-51-3.red.bezeqint.net. [79.183.51.3])
- by smtp.gmail.com with ESMTPSA id a125sm1963425wme.3.2020.04.17.09.09.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Apr 2020 09:09:02 -0700 (PDT)
-Date: Fri, 17 Apr 2020 12:09:00 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Ani Sinha <ani.sinha@nutanix.com>
-Subject: Re: [PATCH] Add a new PIIX option to control PCI hot unplugging of
- devices on non-root buses
-Message-ID: <20200417120732-mutt-send-email-mst@kernel.org>
-References: <1587136411-200885-1-git-send-email-ani.sinha@nutanix.com>
- <20200417112620-mutt-send-email-mst@kernel.org>
- <2A13ACCD-BD24-41FB-B6EA-2804F7C1FF1D@nutanix.com>
+ (envelope-from <steplong@quicinc.com>) id 1jPTlX-0007gX-7m
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 12:22:56 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:45089)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <steplong@quicinc.com>)
+ id 1jPTlW-0007fW-DM; Fri, 17 Apr 2020 12:22:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1587140574; x=1618676574;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=W6t2EmTFpCfVcBriQ8uR6j5TYOVWPNCFRcm0s9wHxO4=;
+ b=QM/kEcaoHDOAVBj8VOd9mXsv5lJTgNxdvWj4M3QtP80azpPZdSHCKrDC
+ LqSRgcc00lR2I+ToBGl08cSHljcMu/pVxAKjYtdc/hYQVHp4TuT7zP3nG
+ giQRnzaYCVSFBmUpcTgGS0kacXt1/w3FkAnw5DNf1qihRC2py4wsEIP98 0=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 17 Apr 2020 09:22:51 -0700
+Received: from nasanexm03g.na.qualcomm.com ([10.85.0.49])
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 17 Apr 2020 09:22:51 -0700
+Received: from APSANEXR01E.ap.qualcomm.com (10.85.0.38) by
+ nasanexm03g.na.qualcomm.com (10.85.0.49) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 17 Apr 2020 09:22:51 -0700
+Received: from nasanexm03b.na.qualcomm.com (10.85.0.98) by
+ APSANEXR01E.ap.qualcomm.com (10.85.0.38) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 17 Apr 2020 09:22:48 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (199.106.107.6)
+ by nasanexm03b.na.qualcomm.com (10.85.0.98) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2 via Frontend Transport; Fri, 17 Apr 2020 09:22:48 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bu0HFkCpDK8lNgcMU6qqLm2xJ5yG2FlvuftsmunnL9MxYS2+lMrYEr05YDTY48LAN/VaN0KF+vtKoyz26Bic6ADvi5Svb/Et1MT6I4s9GWo1Pt44h8kRSKkr4t+B2B9e2ZXhJIPzvSUF+NDHatEaDuQMKtE4vOYXFPsnkaUDJdQfV/rzzqClezGXLlqPVmnzPjXSUQ79mzlcy4TgaNv0TBfLWiD19WqzpalA5X2svdK7vu6VstmvLBiT7U/iyjGh0LDSP18jXjXPXuxRt2/7OAbFseWI0LaUwyf7q5Vtm6wczFvr1SmSwPQFxI2aGVBmR07usTe90E9H0PhhYWOtDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0KnQRcrhrdSGXoTUZjFxucRT7Nr9L/n6sGUaL8SnRa0=;
+ b=KrnvsicDRq/l4lgyfUSWGb6HlyPm/F3KQHOUG7y9Qd6zGsGxHXeo8cuGU32bip76+eC5fv/nHwHkHI6tj/wxtNKr9vFNZJW1amTcPdUZGuUbNCKyYM1RKUd3CEao9RWa4OJzDdhHgfzxKobEYpnu5iYdOIF9e9a82zru4LPupIwrFCOCJWas7xXUsVGsIdX8z3jOImL99uO/m8XfHOuMOkbmvhlU2OYLRiRlEEWApx3S90sOFF1iD4YQWMsLET2hZfD1XSCh2cc2HnvYwUjkahsRcYR3aw8t7UhDNXd9/Nu9405e2HO7a2DJZVh+oEvWA86WusQsauWNsnitekbZkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0KnQRcrhrdSGXoTUZjFxucRT7Nr9L/n6sGUaL8SnRa0=;
+ b=EqpN7q7rO1Av2CVD2nWcJyThOOiG76wsIC7y1RRy6tSuurzJUGd16spNdpFPZ1UWMZFVyJDnQATKLOUawjlpzPEQejHuBSXCbeea9LNW6jmog1pk/fIQthWVvUHL2E+zLMH4PT3RVxGGW3JsY9aMZWacLLhuBSf7hyHIELveURc=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=steplong@quicinc.com; 
+Received: from MWHPR0201MB3547.namprd02.prod.outlook.com
+ (2603:10b6:301:7b::24) by MWHPR0201MB3484.namprd02.prod.outlook.com
+ (2603:10b6:301:77::36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.29; Fri, 17 Apr
+ 2020 16:22:47 +0000
+Received: from MWHPR0201MB3547.namprd02.prod.outlook.com
+ ([fe80::10ad:5df5:d575:1f37]) by MWHPR0201MB3547.namprd02.prod.outlook.com
+ ([fe80::10ad:5df5:d575:1f37%3]) with mapi id 15.20.2900.030; Fri, 17 Apr 2020
+ 16:22:47 +0000
+From: Stephen Long <steplong@quicinc.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH 0/4] target/arm: Implement last SVE2 narrowing section
+Date: Fri, 17 Apr 2020 12:22:27 -0400
+Message-ID: <20200417162231.10374-1-steplong@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: CH2PR12CA0017.namprd12.prod.outlook.com
+ (2603:10b6:610:57::27) To MWHPR0201MB3547.namprd02.prod.outlook.com
+ (2603:10b6:301:7b::24)
 MIME-Version: 1.0
-In-Reply-To: <2A13ACCD-BD24-41FB-B6EA-2804F7C1FF1D@nutanix.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from DESKTOP-L2LA14H.localdomain (108.176.222.2) by
+ CH2PR12CA0017.namprd12.prod.outlook.com (2603:10b6:610:57::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2921.25 via Frontend Transport; Fri, 17 Apr 2020 16:22:46 +0000
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [108.176.222.2]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ef5113fb-fac5-4ce9-122a-08d7e2eb909b
+X-MS-TrafficTypeDiagnostic: MWHPR0201MB3484:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MWHPR0201MB348465933E6085C9D59851EAC7D90@MWHPR0201MB3484.namprd02.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
+X-Forefront-PRVS: 0376ECF4DD
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR0201MB3547.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(10019020)(396003)(376002)(136003)(39860400002)(366004)(346002)(5660300002)(107886003)(4326008)(66946007)(66476007)(66556008)(6916009)(6486002)(478600001)(6512007)(6666004)(2906002)(36756003)(4744005)(186003)(16526019)(86362001)(956004)(1076003)(2616005)(316002)(8676002)(26005)(6506007)(52116002)(81156014)(8936002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZARQjLIbnmPP7e0PJoJaI6xfVApWFGkpJDK8kvrR+IU5/6aLhkv0SSFOZ4W5xC381aCVog0mWrCJcQQg/QBV5Fadw34BEAY0Gpuc01mZtXR/5x1HkifwbqDw0MsR6+oYnkIgASCWlWUM7H2BVWyJsRzglyKVAt76IMBXAr31yppwcyNltwzZzQzhV77p7kRdYw6vPtPAPGJRFOqytOw9UWiul6RR9pnlmJ9+eSmxcuUM74aoVyOOJyXUe97Y8srrLU6mkBM0Lh/Rsbc4zwyTFhb09wb/Ih5byjF9XILEsQjUbrlf2oXNYtkfeJv3/smIfoynWRV6jBxhNjt/OYrKvTxVeDqlBizzCvcpnuorElQlJ8FotfAWAUDDz5DrnG1+lt8KOMjezHOhQ9G80d4OKAlcTlx7y8Y8Pdcv575GYOxdZWlLaQKxo44skTuPZpW9
+X-MS-Exchange-AntiSpam-MessageData: VRBviKGSvZjTBbO3+D7bleRt2SVNpJH1pN6bAuceKEJJXo7KmWqTuA4MK6AVuQbUXBZuSm2AhBIyQG3Qq+cGn6DSZxz7hwYJh39igjicxAtz74xunM524PEooH5oGQjihGfc7JBmQtiu7c0as1NFKQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef5113fb-fac5-4ce9-122a-08d7e2eb909b
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2020 16:22:47.0426 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AyH48sYGXlX0DMpncdv8WBHRgq/qS4AwfdK/BpqiDf2QqbdeMgtEIeGR2vlAwi7cLM1PNLwv000Ee2f25ZNwgA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR0201MB3484
+X-OriginatorOrg: quicinc.com
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 199.106.114.39
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,34 +123,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Marcel Apfelbaum <marcel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-arm@nongnu.org, richard.henderson@linaro.org, apazos@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 17, 2020 at 03:36:14PM +0000, Ani Sinha wrote:
->=20
->=20
-> > On Apr 17, 2020, at 8:57 PM, Michael S. Tsirkin <mst@redhat.com> wrote:
-> >=20
-> > Is there a real reason to do this? Can't we just limit the
-> > hotplug control to pcie ports? At some point I'd like us to
-> > start leaving piix alone..
->=20
-> Yes we really need this feature as want to be able to hot plug devices in=
-to the guest but prevent customers from hot unplugging them from say Window=
-s system tray.
->=20
-> ani
+Submitting patches for the section 'SVE2 integer add/subtract narrow
+high part' for early review.
 
-Problem is, I think this is not something we can support with pcie or shpc.
-I'm reluctant to add features that only ACPI can support,
-we are trying to phase that out.
-Better ideas?
+Stephen Long (4):
+  target/arm: Implement SVE2 ADDHNB, ADDHNT
+  target/arm: Implement SVE2 RADDHNB, RADDHNT
+  target/arm: Implement SVE2 SUBHNB, SUBHNT
+  target/arm: Implement SVE2 RSUBHNB, RSUBHNT
 
---=20
-MST
+ target/arm/helper-sve.h    | 32 ++++++++++++++++++
+ target/arm/sve.decode      | 11 +++++++
+ target/arm/sve_helper.c    | 66 ++++++++++++++++++++++++++++++++++++++
+ target/arm/translate-sve.c | 20 ++++++++++++
+ 4 files changed, 129 insertions(+)
+
+-- 
+2.17.1
 
 
