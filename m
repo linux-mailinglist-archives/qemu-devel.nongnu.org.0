@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72DBD1AE593
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 21:13:42 +0200 (CEST)
-Received: from localhost ([::1]:50974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 185B71AE5A5
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 21:15:23 +0200 (CEST)
+Received: from localhost ([::1]:50986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPWQn-0005RH-HS
-	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 15:13:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54219)
+	id 1jPWSQ-0007q2-5h
+	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 15:15:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54242)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jPWNh-0002fJ-6L
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jPWNh-0002fT-J1
  for qemu-devel@nongnu.org; Fri, 17 Apr 2020 15:10:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jPWNf-0005H6-3a
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jPWNg-0005IW-6D
  for qemu-devel@nongnu.org; Fri, 17 Apr 2020 15:10:29 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:33073)
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:34289)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jPWNe-0005Ep-Rz
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 15:10:27 -0400
-Received: by mail-lj1-x242.google.com with SMTP id q22so3200501ljg.0
- for <qemu-devel@nongnu.org>; Fri, 17 Apr 2020 12:10:26 -0700 (PDT)
+ id 1jPWNf-0005HB-TW
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 15:10:28 -0400
+Received: by mail-lj1-x242.google.com with SMTP id m8so3189522lji.1
+ for <qemu-devel@nongnu.org>; Fri, 17 Apr 2020 12:10:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=j4+pLj7eQpP+1IFfO1O1TwFE+yPC5V1FdSQ5yPNNIxA=;
- b=SI5oIYz0rxAo0t32NBu+qd3LM6xE/sY4dTJJZBK2aCB01JY8UPCfxYQVWpesPHRxZ9
- GW8/z9uAzFtO0UjzwH+J3R8h2s3hoa1SJiAI4FlIQJuweRr7phWBdpI5+V1AidRpK4qw
- IdnR8NkhEkf2hCVDvFPkw5rIUz656xJPiWuH7q9nzTtlTuMgMk+LyK0dCzryI2TEylVd
- rz41QCfCFzwI2n08ZFva9nPn21oGHx8ZhJAvtTZKfYU8Oh7RFpVmUmfnB/Tl5IqAZVca
- BNIn/qI/1xCv30Mel9myKTzHwe6L0YqVoQVvh5QvX250d3bN2uN6oLeccpMT3SeixDsN
- CDbg==
+ bh=2x2mJH31KlGYiU2wu4PSoZqahVuM0TdaRfwUNuf81eo=;
+ b=ElPON/mIvPA2n2q3lUm+ykax6vitPr2lkTceEDS1GVOds0dgZ7ahsN9ZeXLQ+zOwZs
+ bYmRVk0oVT9mXCDAPwNedNCXuRd8MshYnka5hSoxC1bgphkPcrzigJtiUti1bwKOJc4s
+ mPQK12bwS3R+hpbCu56pZJ25xKP5Gwl0a5ka75dLOaXe5UOQo98hKHic/vHooObhPkNK
+ fs01ZVBQGjKvqUNE8zPDZWahikaHuII1B7hMIUwnziM2FPvQrsAk3BwYcqCtrOXsEHyt
+ Yaou5+4m/IQhIyQzUQ+tt91yXwDXTCB+zfNXeOnNk+7K1u9LZ/rXlR+MJP/0nALTVVSe
+ Oorg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=j4+pLj7eQpP+1IFfO1O1TwFE+yPC5V1FdSQ5yPNNIxA=;
- b=bY/PXhqg9viWZWE+5E8Uv2BON5yhvnEb+vGdSlnkOx1h+jzavxY+dExbKRuIDRg6O+
- 3qzhZW0pQiE11iicbQ8HiJWsb7OEmYR1Sl15IGZVYEl/k4Ewd7FYXd98NWKKv4xr4Duk
- u04qSTce36MxHTM/C1rEDI9z8VGUuH4y5YCCLNUGe3HOzm6HYS96fqA/B7Hn0LsVeii/
- Q/tianxsgni0QEy5QP1+dsATv9MqzWf+x1GebKQXNttUKglGm3xI81vqoeLO9u82jjri
- vXk1gheqef3pyF78x7S6/u1lsPD8DYQ6JEhzlbM+PiwRNOu0eSxVhIbh0Jy7+hO06WfK
- +R7w==
-X-Gm-Message-State: AGi0PubcoghPuy8YSdx8sxkHZMqj6KpfukschNlID2SSF97NpN+G74Ko
- VwlRTKj4eMAK1yh833mjyezn04LsAq8fzw==
-X-Google-Smtp-Source: APiQypLNkc8db9WZydwpU+px78fjKec64UnfXLIp2fZanWQKzTNifgWfjNMZ66QSLvpKPxGob4353Q==
-X-Received: by 2002:a2e:988f:: with SMTP id b15mr3116550ljj.232.1587150625127; 
- Fri, 17 Apr 2020 12:10:25 -0700 (PDT)
+ bh=2x2mJH31KlGYiU2wu4PSoZqahVuM0TdaRfwUNuf81eo=;
+ b=huY85e5fWOIhmziDBIsUKBqOmIdgL3EKtizKcIHT1eqtgWwLM/GfFhwVJKsfDoI8fY
+ C57l/Db+1jnGvsbSTQNlPfTMC4nanLVs6BeHcu9eV5f8pbLYlqPJ/DC3h39JWgmGFtjZ
+ w4mWPgHwGABTAGE5i5WWIZJ1kUTUc8UV1UHZ7t4eX3mlREQhm+yfUwQ8RjapICaf79ef
+ hCO4QX60BnljSfMb6VRWc0BbT6jt3tBXe0YL5s/urjuK3VbPmsOMF+LKaoa60mEiuQNf
+ 3HRpEtXr4ml1E/Op6t+U2SVie8VJjvAt3oI0VhsG1pGhQHq0g0C0EcizuZcghcnGkkRD
+ +LyQ==
+X-Gm-Message-State: AGi0PubXh6QncIKNE3xU7ZsvlXI+vbdECeyfonaf4Txkm0O5VYzFfcmR
+ 2N0ZGHRWoWVEbMQbdsnQH5d5dC1Xju9Vzw==
+X-Google-Smtp-Source: APiQypLedWpga3PNMupgadifDgKxRR/25Ve3e9f7aa+VLkeaB5jNvS5RDWmLa70ANHDEryoKBNoTwQ==
+X-Received: by 2002:a2e:8290:: with SMTP id y16mr3083016ljg.186.1587150626413; 
+ Fri, 17 Apr 2020 12:10:26 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id j22sm19235399lfg.96.2020.04.17.12.10.24
+ by smtp.gmail.com with ESMTPSA id t24sm21828574lfk.90.2020.04.17.12.10.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Apr 2020 12:10:24 -0700 (PDT)
+ Fri, 17 Apr 2020 12:10:25 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 1/6] target/microblaze: Add the opcode-0x0-illegal CPU
+Subject: [PATCH v1 2/6] target/microblaze: Add the ill-opcode-exception
  property
-Date: Fri, 17 Apr 2020 21:10:17 +0200
-Message-Id: <20200417191022.5247-2-edgar.iglesias@gmail.com>
+Date: Fri, 17 Apr 2020 21:10:18 +0200
+Message-Id: <20200417191022.5247-3-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200417191022.5247-1-edgar.iglesias@gmail.com>
 References: <20200417191022.5247-1-edgar.iglesias@gmail.com>
@@ -88,64 +88,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Add the opcode-0x0-illegal CPU property to control if the core
-should trap opcode zero as illegal.
+Add the ill-opcode-exception property to control if illegal
+instructions will raise exceptions.
 
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- target/microblaze/cpu.c       | 6 +++++-
+ target/microblaze/cpu.c       | 4 ++++
  target/microblaze/cpu.h       | 1 +
  target/microblaze/translate.c | 2 +-
- 3 files changed, 7 insertions(+), 2 deletions(-)
+ 3 files changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index a2c2f271df..1044120702 100644
+index 1044120702..36c20d9724 100644
 --- a/target/microblaze/cpu.c
 +++ b/target/microblaze/cpu.c
-@@ -206,7 +206,9 @@ static void mb_cpu_realizefn(DeviceState *dev, Error **errp)
-                         (cpu->cfg.dopb_bus_exception ?
+@@ -207,6 +207,8 @@ static void mb_cpu_realizefn(DeviceState *dev, Error **errp)
                                                   PVR2_DOPB_BUS_EXC_MASK : 0) |
                          (cpu->cfg.iopb_bus_exception ?
--                                                 PVR2_IOPB_BUS_EXC_MASK : 0);
-+                                                 PVR2_IOPB_BUS_EXC_MASK : 0) |
-+                        (cpu->cfg.opcode_0_illegal ?
-+                                                 PVR2_OPCODE_0x0_ILL_MASK : 0);
+                                                  PVR2_IOPB_BUS_EXC_MASK : 0) |
++                        (cpu->cfg.illegal_opcode_exception ?
++                                                PVR2_ILL_OPCODE_EXC_MASK : 0) |
+                         (cpu->cfg.opcode_0_illegal ?
+                                                  PVR2_OPCODE_0x0_ILL_MASK : 0);
  
-     env->pvr.regs[5] |= cpu->cfg.dcache_writeback ?
-                                         PVR5_DCACHE_WRITEBACK_MASK : 0;
-@@ -274,6 +276,8 @@ static Property mb_properties[] = {
+@@ -276,6 +278,8 @@ static Property mb_properties[] = {
      /* Enables bus exceptions on failed instruction fetches.  */
      DEFINE_PROP_BOOL("iopb-bus-exception", MicroBlazeCPU,
                       cfg.iopb_bus_exception, false),
-+    DEFINE_PROP_BOOL("opcode-0x0-illegal", MicroBlazeCPU,
-+                     cfg.opcode_0_illegal, false),
++    DEFINE_PROP_BOOL("ill-opcode-exception", MicroBlazeCPU,
++                     cfg.illegal_opcode_exception, false),
+     DEFINE_PROP_BOOL("opcode-0x0-illegal", MicroBlazeCPU,
+                      cfg.opcode_0_illegal, false),
      DEFINE_PROP_STRING("version", MicroBlazeCPU, cfg.version),
-     DEFINE_PROP_UINT8("pvr", MicroBlazeCPU, cfg.pvr, C_PVR_FULL),
-     DEFINE_PROP_END_OF_LIST(),
 diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index 1a700a880c..d51587b342 100644
+index d51587b342..71d7317a58 100644
 --- a/target/microblaze/cpu.h
 +++ b/target/microblaze/cpu.h
 @@ -303,6 +303,7 @@ struct MicroBlazeCPU {
          bool endi;
          bool dopb_bus_exception;
          bool iopb_bus_exception;
-+        bool opcode_0_illegal;
++        bool illegal_opcode_exception;
+         bool opcode_0_illegal;
          char *version;
          uint8_t pvr;
-     } cfg;
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 37a844db99..222632b670 100644
+index 222632b670..b4a78551ef 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -1573,7 +1573,7 @@ static inline void decode(DisasContext *dc, uint32_t ir)
-     LOG_DIS("%8.8x\t", dc->ir);
- 
-     if (ir == 0) {
--        trap_illegal(dc, dc->cpu->env.pvr.regs[2] & PVR2_OPCODE_0x0_ILL_MASK);
-+        trap_illegal(dc, dc->cpu->cfg.opcode_0_illegal);
-         /* Don't decode nop/zero instructions any further.  */
-         return;
+@@ -185,7 +185,7 @@ static void write_carryi(DisasContext *dc, bool carry)
+ static bool trap_illegal(DisasContext *dc, bool cond)
+ {
+     if (cond && (dc->tb_flags & MSR_EE_FLAG)
+-        && (dc->cpu->env.pvr.regs[2] & PVR2_ILL_OPCODE_EXC_MASK)) {
++        && dc->cpu->cfg.illegal_opcode_exception) {
+         tcg_gen_movi_i64(cpu_SR[SR_ESR], ESR_EC_ILLEGAL_OP);
+         t_gen_raise_exception(dc, EXCP_HW_EXCP);
      }
 -- 
 2.20.1
