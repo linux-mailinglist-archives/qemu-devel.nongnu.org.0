@@ -2,114 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9186B1AE4C8
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 20:33:31 +0200 (CEST)
-Received: from localhost ([::1]:50546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A1D51AE4DF
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 20:35:30 +0200 (CEST)
+Received: from localhost ([::1]:50576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPVnu-0003Hh-J5
-	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 14:33:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36822)
+	id 1jPVpp-0005x8-5t
+	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 14:35:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39198)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fnuv@xilinx.com>) id 1jPVlA-0001bT-Lz
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 14:30:45 -0400
+ (envelope-from <leoluan@gmail.com>) id 1jPVo0-0004SA-8U
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 14:33:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fnuv@xilinx.com>) id 1jPVl8-0002ai-8H
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 14:30:40 -0400
-Received: from mail-co1nam11on2047.outbound.protection.outlook.com
- ([40.107.220.47]:20859 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <fnuv@xilinx.com>) id 1jPVl7-0002Yl-UH
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 14:30:38 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J9TVDu5KGGXB5oFv7fLN8d3W859HjWs9Nm5/Aiq8ahQ/r4ztAe9kJdUGdF5+qGZDt+8sqhV4QuQk/Maj4a7UTCWyxc4Ou4Iq2j/1m0yk6WE74GZcgNr07aIjTFwFWKZcMQ/ch3T4kWIxlHjZRxYWhb0XsjdAee5siVPHvs9DyvCSfGgwRyZwanXC2VPR8PESHe79UBUGrCeDzVZcep3qkB68KgM3/esw11GsvpXadkXtMOnnB02RZnHPALbLRQzh5MRW5MQcim4B7a9s0J4VxUXX7eOfyKWCpWUDYkSkNCSU6rh/hWUumKLE+XC7aaKQYOLKIa1ea9tcCntejpdR6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tZR1+LdfXy6+Pf5p4bgXiHCZ2yeiKHMSVQGYzwxMNzU=;
- b=bD7OWpH4V8lkIdWzsFXsTs3g2cahehZ2klpJHr37Nv5XFilrj3JtRiexFOWONOfuJDnsXIsasnQvSxn3nGDifvDPhY0fVXIWLOZfwDVgh1aT4ULz8fPCl30gYzux6A7WSO3KuhzJ7akyy34RiZzlfM3bDHk1M9NtGNopKO32O3zrlfnjJmCKWJBhpcG0NwD9xM9LRmcZcQ7vaW9wqA9Zm+qtq6n6wJbmidaRyoIe/UjZfrefFfGJj7xl+sEA0568WLNOpBPYOYfX0isfy74HCV3BWk6XsrXaFAAFCdY0HpxT0MUoAhc6ytxc73bi5IUpVT6YEgNtFflTeJO1r4q2BQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tZR1+LdfXy6+Pf5p4bgXiHCZ2yeiKHMSVQGYzwxMNzU=;
- b=HtxDiKQIwzde1veCnx+M814+4yfHHxZ2cT4qWK4nRyPi8Rus3Dgu5VJs/iLXUFXMRqZaigWDHqsJ0OOpfCSj6NNne0zPpqSjV7n9ZSBovV9S8yHoEZvbVq96JuIjGaqBs8CoPcY0ZADvaB4N0/ezRUrZ/DVykOa+eTriqe4Tejw=
-Received: from DM6PR14CA0072.namprd14.prod.outlook.com (2603:10b6:5:18f::49)
- by DM5PR02MB2586.namprd02.prod.outlook.com (2603:10b6:3:40::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.26; Fri, 17 Apr
- 2020 18:30:35 +0000
-Received: from CY1NAM02FT028.eop-nam02.prod.protection.outlook.com
- (2603:10b6:5:18f:cafe::ac) by DM6PR14CA0072.outlook.office365.com
- (2603:10b6:5:18f::49) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.26 via Frontend
- Transport; Fri, 17 Apr 2020 18:30:35 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- CY1NAM02FT028.mail.protection.outlook.com (10.152.75.132) with Microsoft SMTP
- Server id 15.20.2921.25 via Frontend Transport; Fri, 17 Apr 2020 18:30:34
- +0000
-Received: from [149.199.38.66] (port=36816 helo=xsj-pvapsmtp01)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <fnu.vikram@xilinx.com>)
- id 1jPVkG-0007KT-NL; Fri, 17 Apr 2020 11:29:44 -0700
-Received: from [127.0.0.1] (helo=localhost)
- by xsj-pvapsmtp01 with smtp (Exim 4.63)
- (envelope-from <fnu.vikram@xilinx.com>)
- id 1jPVl4-0006R2-GG; Fri, 17 Apr 2020 11:30:34 -0700
-Received: from [172.19.2.115] (helo=xsjfnuv50.xilinx.com)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <fnu.vikram@xilinx.com>)
- id 1jPVl0-00055H-KE; Fri, 17 Apr 2020 11:30:30 -0700
-From: Vikram Garhwal <fnu.vikram@xilinx.com>
-To: qemu-devel@nongnu.org
-Subject: [[PATCH v2 4/4] hw/net/can: Introduce QTEST for Xlnx CAN controller
-Date: Fri, 17 Apr 2020 11:29:29 -0700
-Message-Id: <1587148169-173268-5-git-send-email-fnu.vikram@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1587148169-173268-1-git-send-email-fnu.vikram@xilinx.com>
-References: <1587148169-173268-1-git-send-email-fnu.vikram@xilinx.com>
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFTY:;
- SFS:(10009020)(4636009)(376002)(136003)(396003)(39860400002)(346002)(46966005)(7696005)(70206006)(70586007)(26005)(8676002)(81156014)(8936002)(30864003)(5660300002)(478600001)(2906002)(4326008)(54906003)(9786002)(2616005)(186003)(36756003)(81166007)(47076004)(316002)(426003)(336012)(356005)(6916009)(82740400003);
- DIR:OUT; SFP:1101; 
+ (envelope-from <leoluan@gmail.com>) id 1jPVnx-0005wf-Sg
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 14:33:36 -0400
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:41008)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <leoluan@gmail.com>) id 1jPVnx-0005u3-Mi
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 14:33:33 -0400
+Received: by mail-io1-xd34.google.com with SMTP id b12so3358482ion.8
+ for <qemu-devel@nongnu.org>; Fri, 17 Apr 2020 11:33:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=gqWyM1NUsDEgwukS7pgzVFpqxPCykt/KGKvJC0x5ZK8=;
+ b=RrBOuJLkGXO8lVWwCENZcFx0vTwAlyr77uV9zpkJPi8IFJtYV1eMpft0M1trdyJpmk
+ xOy0GdembnvEbxhbsXDrnAiXP6diSxbHVcuIeh3U92jaLYUn/+L//HLT50RapVkF977X
+ Q4wS5R190Xy4pXer3zB4N7tTYw2OKWMlClkgzC0M5a782hfm8efuBOH4ifXOam8hAcyt
+ nf0Il5Rv5uuM2Q0/kbbsMG8R9lZJTA6t2pywacHivcWI9g4grt2iys+dmCzuE2PQu4B6
+ NfmJVoYB2nhpbLYEf31mi62OFCVdX4WanTI+M2ffjFoDNPjow2RtfJpcYVNq+HmJOzlF
+ ONAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=gqWyM1NUsDEgwukS7pgzVFpqxPCykt/KGKvJC0x5ZK8=;
+ b=Vz+hGhzP3LIUd3fTyUi0tskEvjsd8P5Lx4srGcjM3vV76LvdhtjyrJ9tvCRLq4AdU8
+ zv6ih2hRk7skbDnlLRnGjn1eiheaGgo3CGZjE45WCfvp7ANfMBuU/QFb+s5uJVjNNYsD
+ 4MEaSA6bATD9OJe+7q/AvRDPAnELDaTUCdL26ItJFem6cyI/aAuuBrnFiR+jxVqDdrOO
+ UFbVpAEVHnuBFx51XrAvoST01xUD8B7Hc4KAKk3rQ1j1wnAgzodAePNWB+Oqo+daP9aN
+ JvL0a9/gSfXqPxMPg8I0CI7Ha8lPphID3tFi4WJnJJkQL5RWLHRM6/FSRzbI6LwKMLAN
+ XP0w==
+X-Gm-Message-State: AGi0PuYCX7C5GwHVJYpS4mqXtLYZ/lKOXytQvJg/WB+Ml+HHXrgj3FQt
+ R5MMzWxSstRV3Lughr7nTZ6jFk0Hite2g5RPAvbZ2Obn
+X-Google-Smtp-Source: APiQypJjt5qHudyFk/2jUVYv9+lOXSDetKAk+0+OQE26LR+fQ59kX/qfFEDNwCmge5+8xdBx7d/FX4csRxOFNDLKF7E=
+X-Received: by 2002:a02:1482:: with SMTP id 124mr4610111jag.4.1587148411454;
+ Fri, 17 Apr 2020 11:33:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a5cfe251-7276-4cf6-4a89-08d7e2fd6b1a
-X-MS-TrafficTypeDiagnostic: DM5PR02MB2586:
-X-Microsoft-Antispam-PRVS: <DM5PR02MB2586A30D6528AF1586B9CA73BCD90@DM5PR02MB2586.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-Forefront-PRVS: 0376ECF4DD
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yJbBh6bMB12gkK+khRIHcOSt19Z3GQkH9hUnx6NKH0irlVHy4WMmHrYSuJl/694ty6G9+FqHG38WTA5eANhUBGBqhi1KUnEhUpibvXuFrjMCqdlmWeLX6EqtcaC6jbmQuzV57EmbKBjy6P996MaUAXv8oc74N/a/h4CWUEB3NvrUSFlkY86SWQpBQNzqOTBmUU44fqjgw4MoYTxUhZf34bPL+2t3noTW2AjAejoKoCPCEbOirPrg4pL/VqRmBsSCMWxOnTug+nkC70Y+iLe5Yz8oMe354eD0eTBv+5FoTDWQyYE00F0WfJ5RPIN3fLMG+Ddzz4b+uyuWClH0Zy17t+KOGmshGq5kcZvunSMBI4r1cqmp8HB4oceaCuE3+r7vw/rSmNhCPr0mZcqKyMLjlFwc4gsFBqWf9p/+tfgjzaJl906nULe4yX8ZoRvJwbJAKRgXXRi5h9sMdH3YdPHyFZ+bThDLpaFr5jBLlPQknWmiWn1PV5UH3sH56+jDs1yrZMiPk3exl4SxfTnV3TcLdQ==
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2020 18:30:34.7622 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a5cfe251-7276-4cf6-4a89-08d7e2fd6b1a
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR02MB2586
-X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
- [fuzzy]
-X-Received-From: 40.107.220.47
+From: Leo Luan <leoluan@gmail.com>
+Date: Fri, 17 Apr 2020 11:33:20 -0700
+Message-ID: <CAD_3s9Jnd9BzkZAe6SEKz7unuxJHY502pNdUgxrC3MOQAFj9Hw@mail.gmail.com>
+Subject: Avoid copying unallocated clusters during full backup
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="00000000000045486605a380c9eb"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d34
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -121,410 +67,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Vikram Garhwal <fnu.vikram@xilinx.com>, jasowang@redhat.com,
- francisco.iglesias@xilinx.com, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Qtest performs five tests on Xlnx-CAN controller:
-	It checks communication between CAN0 and CAN1 via can-bus.
-	Tests CAN in loopback, sleep and snoop mode.
-	Tests CAN filtering for incoming messages.
+--00000000000045486605a380c9eb
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
----
- tests/qtest/Makefile.include |   1 +
- tests/qtest/xlnx-can-test.c  | 367 +++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 368 insertions(+)
- create mode 100644 tests/qtest/xlnx-can-test.c
+When doing a full backup from a single layer qcow2 disk file to a new qcow2
+file, the backup_run function does not unset unallocated parts in the copy
+bit map.  The subsequent backup_loop call goes through these unallocated
+clusters unnecessarily.  In the case when the target and source reside in
+different file systems, an EXDEV error would cause zeroes to be actually
+copied into the target and that causes a target file size explosion to the
+full virtual disk size.
 
-diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
-index 9e5a51d..369234a 100644
---- a/tests/qtest/Makefile.include
-+++ b/tests/qtest/Makefile.include
-@@ -136,6 +136,7 @@ check-qtest-aarch64-$(CONFIG_TPM_TIS_SYSBUS) += tpm-tis-device-swtpm-test
- check-qtest-aarch64-y += numa-test
- check-qtest-aarch64-y += boot-serial-test
- check-qtest-aarch64-y += migration-test
-+check-qtest-aarch64-y += xlnx-can-test
- 
- # TODO: once aarch64 TCG is fixed on ARM 32 bit host, make test unconditional
- ifneq ($(ARCH),arm)
-diff --git a/tests/qtest/xlnx-can-test.c b/tests/qtest/xlnx-can-test.c
-new file mode 100644
-index 0000000..c9e2efc
---- /dev/null
-+++ b/tests/qtest/xlnx-can-test.c
-@@ -0,0 +1,367 @@
-+/*
-+ *  Xilinx CAN qtest.
-+ *
-+ * Copyright (c) 2020 Xilinx Inc.
-+ *
-+ * Written-by: Vikram Garhwal<fnu.vikram@xilinx.com>
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "libqtest.h"
-+
-+/* Xlnx-CAN base address. */
-+#define CAN0_BASE_ADDR          0xFF060000
-+#define CAN1_BASE_ADDR          0xFF070000
-+
-+/* Register address in Xlnx-CAN. */
-+#define R_SRR_OFFSET            0x00
-+#define R_MSR_OFFSET            0x04
-+#define R_SR_OFFSET             0x18
-+#define R_ISR_OFFSET            0x1C
-+#define R_ICR_OFFSET            0x24
-+#define R_TXID_OFFSET           0x30
-+#define R_TXDLC_OFFSET          0x34
-+#define R_TXDATA1_OFFSET        0x38
-+#define R_TXDATA2_OFFSET        0x3C
-+#define R_RXID_OFFSET           0x50
-+#define R_RXDLC_OFFSET          0x54
-+#define R_RXDATA1_OFFSET        0x58
-+#define R_RXDATA2_OFFSET        0x5C
-+#define R_AFR                   0x60
-+#define R_AFMR1                 0x64
-+#define R_AFIR1                 0x68
-+#define R_AFMR2                 0x6C
-+#define R_AFIR2                 0x70
-+#define R_AFMR3                 0x74
-+#define R_AFIR3                 0x78
-+#define R_AFMR4                 0x7C
-+#define R_AFIR4                 0x80
-+
-+/* CAN modes. */
-+#define CONFIG_MODE             0x00
-+#define NORMAL_MODE             0x00
-+#define LOOPBACK_MODE           0x02
-+#define SNOOP_MODE              0x04
-+#define SLEEP_MODE              0x01
-+#define ENABLE_CAN              (1 << 1)
-+#define STATUS_NORMAL_MODE      (1 << 3)
-+#define STATUS_LOOPBACK_MODE    (1 << 1)
-+#define STATUS_SNOOP_MODE       (1 << 12)
-+#define STATUS_SLEEP_MODE       (1 << 2)
-+#define ISR_TXOK                (1 << 1)
-+#define ISR_RXOK                (1 << 4)
-+
-+static void match_rx_tx_data(uint32_t *buf_tx, uint32_t *buf_rx,
-+                             uint8_t can_timestamp)
+This patch aims to unset the unallocated parts in the copy bitmap when it
+is safe to do so, thereby avoid dealing with unallocated clusters in the
+backup loop to prevent significant performance or storage efficiency
+impacts when running full backup jobs.
+
+Any insights or corrections?
+
+diff --git a/block/backup.c b/block/backup.c
+index cf62b1a38c..609d551b1e 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -139,6 +139,29 @@ static void backup_clean(Job *job)
+     bdrv_backup_top_drop(s->backup_top);
+ }
+
++static bool backup_ok_to_skip_unallocated(BackupBlockJob *s)
 +{
-+    uint16_t size = 0;
-+    uint8_t len = 4;
-+
-+    while (size < len) {
-+        if (R_RXID_OFFSET + 4 * size == R_RXDLC_OFFSET)  {
-+            g_assert_cmpint(buf_rx[size], ==, buf_tx[size] + can_timestamp);
-+        } else {
-+            g_assert_cmpint(buf_rx[size], ==, buf_tx[size]);
-+        }
-+
-+        size++;
-+    }
-+}
-+
-+static void read_data(QTestState *qts, uint64_t can_base_addr, uint32_t *buf_rx)
-+{
-+    uint32_t int_status;
-+
-+    /* Read the interrupt on CAN rx. */
-+    int_status = qtest_readl(qts, can_base_addr + R_ISR_OFFSET) & ISR_RXOK;
-+
-+    g_assert_cmpint(int_status, ==, ISR_RXOK);
-+
-+    /* Read the RX register data for CAN. */
-+    buf_rx[0] = qtest_readl(qts, can_base_addr + R_RXID_OFFSET);
-+    buf_rx[1] = qtest_readl(qts, can_base_addr + R_RXDLC_OFFSET);
-+    buf_rx[2] = qtest_readl(qts, can_base_addr + R_RXDATA1_OFFSET);
-+    buf_rx[3] = qtest_readl(qts, can_base_addr + R_RXDATA2_OFFSET);
-+
-+    /* Clear the RX interrupt. */
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_ICR_OFFSET, ISR_RXOK);
-+}
-+
-+static void send_data(QTestState *qts, uint64_t can_base_addr, uint32_t *buf_tx)
-+{
-+    uint32_t int_status;
-+
-+    /* Write the TX register data for CAN. */
-+    qtest_writel(qts, can_base_addr + R_TXID_OFFSET, buf_tx[0]);
-+    qtest_writel(qts, can_base_addr + R_TXDLC_OFFSET, buf_tx[1]);
-+    qtest_writel(qts, can_base_addr + R_TXDATA1_OFFSET, buf_tx[2]);
-+    qtest_writel(qts, can_base_addr + R_TXDATA2_OFFSET, buf_tx[3]);
-+
-+    /* Read the interrupt on CAN for tx. */
-+    int_status = qtest_readl(qts, can_base_addr + R_ISR_OFFSET) & ISR_TXOK;
-+
-+    g_assert_cmpint(int_status, ==, ISR_TXOK);
-+
-+    /* Clear the interrupt for tx. */
-+    qtest_writel(qts, CAN0_BASE_ADDR + R_ICR_OFFSET, ISR_TXOK);
-+}
-+
-+/*
-+ * This test will be transferring data from CAN0 and CAN1 through canbus. CAN0
-+ * initiate the data transfer to can-bus, CAN1 receives the data. Test compares
-+ * the data sent from CAN0 with received on CAN1.
-+ */
-+static void test_can_bus(void)
-+{
-+    uint32_t buf_tx[4] = {0xFF, 0x80000000, 0x12345678, 0x87654321};
-+    uint32_t buf_rx[4] = {0x00, 0x00, 0x00, 0x00};
-+    uint32_t status = 0;
-+    uint8_t can_timestamp = 0;
-+
-+    QTestState *qts = qtest_init("-m 4G -machine xlnx-zcu102"
-+                " -object can-bus,id=canbus0"
-+                " -global driver=xlnx.zynqmp-can,property=canbus0,value=canbus0"
-+                " -global driver=xlnx.zynqmp-can,property=canbus1,value=canbus0"
-+                );
-+
-+    /* Configure the CAN0 and CAN1. */
-+    qtest_writel(qts, CAN0_BASE_ADDR + R_SRR_OFFSET, ENABLE_CAN);
-+    qtest_writel(qts, CAN0_BASE_ADDR + R_MSR_OFFSET, NORMAL_MODE);
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_SRR_OFFSET, ENABLE_CAN);
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_MSR_OFFSET, NORMAL_MODE);
-+
-+    /* Check here if CAN0 and CAN1 are in normal mode. */
-+    status = qtest_readl(qts, CAN0_BASE_ADDR + R_SR_OFFSET);
-+    g_assert_cmpint(status, ==, STATUS_NORMAL_MODE);
-+
-+    status = qtest_readl(qts, CAN1_BASE_ADDR + R_SR_OFFSET);
-+    g_assert_cmpint(status, ==, STATUS_NORMAL_MODE);
-+
-+    send_data(qts, CAN0_BASE_ADDR, buf_tx);
-+
-+    can_timestamp += 1;
-+
-+    read_data(qts, CAN1_BASE_ADDR, buf_rx);
-+    match_rx_tx_data(buf_tx, buf_rx, can_timestamp);
-+
-+    qtest_quit(qts);
-+}
-+
-+/*
-+ * This test is performing loopback mode on CAN0 and CAN1. Data sent from TX of
-+ * each CAN0 and CAN1 are compared with RX register data for respective CAN.
-+ */
-+static void test_can_loopback(void)
-+{
-+    uint32_t buf_tx[4] = {0xFF, 0x80000000, 0x12345678, 0x87654321};
-+    uint32_t buf_rx[4] = {0x00, 0x00, 0x00, 0x00};
-+    uint32_t status = 0;
-+
-+    QTestState *qts = qtest_init("-machine xlnx-zcu102"
-+                " -object can-bus,id=canbus0"
-+                " -global driver=xlnx.zynqmp-can,property=canbus0,value=canbus0"
-+                " -global driver=xlnx.zynqmp-can,property=canbus1,value=canbus0"
-+                );
-+
-+    /* Configure the CAN0 in loopback mode. */
-+    qtest_writel(qts, CAN0_BASE_ADDR + R_SRR_OFFSET, CONFIG_MODE);
-+    qtest_writel(qts, CAN0_BASE_ADDR + R_MSR_OFFSET, LOOPBACK_MODE);
-+    qtest_writel(qts, CAN0_BASE_ADDR + R_SRR_OFFSET, ENABLE_CAN);
-+
-+    /* Check here if CAN0 is set in loopback mode. */
-+    status = qtest_readl(qts, CAN0_BASE_ADDR + R_SR_OFFSET);
-+
-+    g_assert_cmpint(status, ==, STATUS_LOOPBACK_MODE);
-+
-+    send_data(qts, CAN0_BASE_ADDR, buf_tx);
-+    read_data(qts, CAN0_BASE_ADDR, buf_rx);
-+    match_rx_tx_data(buf_tx, buf_rx, 0);
-+
-+    /* Configure the CAN1 in loopback mode. */
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_SRR_OFFSET, CONFIG_MODE);
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_MSR_OFFSET, LOOPBACK_MODE);
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_SRR_OFFSET, ENABLE_CAN);
-+
-+    /* Check here if CAN1 is set in loopback mode. */
-+    status = qtest_readl(qts, CAN1_BASE_ADDR + R_SR_OFFSET);
-+
-+    g_assert_cmpint(status, ==, STATUS_LOOPBACK_MODE);
-+
-+    send_data(qts, CAN1_BASE_ADDR, buf_tx);
-+    read_data(qts, CAN1_BASE_ADDR, buf_rx);
-+    match_rx_tx_data(buf_tx, buf_rx, 0);
-+
-+    qtest_quit(qts);
-+}
-+
-+/*
-+ * Enable filters for CAN1. This will filter incoming messages with ID. In this
-+ * test message will pass through filter 2.
-+ */
-+static void test_can_filter(void)
-+{
-+    uint32_t buf_tx[4] = {0x14, 0x80000000, 0x12345678, 0x87654321};
-+    uint32_t buf_rx[4] = {0x00, 0x00, 0x00, 0x00};
-+    uint32_t status = 0;
-+    uint8_t can_timestamp = 0;
-+
-+    QTestState *qts = qtest_init("-m 4G -machine xlnx-zcu102"
-+                " -object can-bus,id=canbus0"
-+                " -global driver=xlnx.zynqmp-can,property=canbus0,value=canbus0"
-+                " -global driver=xlnx.zynqmp-can,property=canbus1,value=canbus0"
-+                );
-+
-+    /* Configure the CAN0 and CAN1. */
-+    qtest_writel(qts, CAN0_BASE_ADDR + R_SRR_OFFSET, ENABLE_CAN);
-+    qtest_writel(qts, CAN0_BASE_ADDR + R_MSR_OFFSET, NORMAL_MODE);
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_SRR_OFFSET, ENABLE_CAN);
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_MSR_OFFSET, NORMAL_MODE);
-+
-+    /* Check here if CAN0 and CAN1 are in normal mode. */
-+    status = qtest_readl(qts, CAN0_BASE_ADDR + R_SR_OFFSET);
-+    g_assert_cmpint(status, ==, STATUS_NORMAL_MODE);
-+
-+    status = qtest_readl(qts, CAN1_BASE_ADDR + R_SR_OFFSET);
-+    g_assert_cmpint(status, ==, STATUS_NORMAL_MODE);
-+
-+    /* Set filter for CAN1 for incoming messages. */
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_AFR, 0x0);
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_AFMR1, 0xF7);
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_AFIR1, 0x121F);
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_AFMR2, 0x5431);
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_AFIR2, 0x14);
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_AFMR3, 0x1234);
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_AFIR3, 0x5431);
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_AFMR4, 0xFFF);
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_AFIR4, 0x1234);
-+
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_AFR, 0xF);
-+
-+    send_data(qts, CAN0_BASE_ADDR, buf_tx);
-+
-+    can_timestamp += 1;
-+
-+    read_data(qts, CAN1_BASE_ADDR, buf_rx);
-+    match_rx_tx_data(buf_tx, buf_rx, can_timestamp);
-+
-+    qtest_quit(qts);
-+}
-+
-+/* Testing sleep mode on CAN0 while CAN1 is in normal mode. */
-+static void test_can_sleepmode(void)
-+{
-+    uint32_t buf_tx[4] = {0x14, 0x80000000, 0x12345678, 0x87654321};
-+    uint32_t buf_rx[4] = {0x00, 0x00, 0x00, 0x00};
-+    uint32_t status = 0;
-+    uint8_t can_timestamp = 0;
-+
-+    QTestState *qts = qtest_init("-m 4G -machine xlnx-zcu102"
-+                " -object can-bus,id=canbus0"
-+                " -global driver=xlnx.zynqmp-can,property=canbus0,value=canbus0"
-+                " -global driver=xlnx.zynqmp-can,property=canbus1,value=canbus0"
-+                );
-+
-+    /* Configure the CAN0. */
-+    qtest_writel(qts, CAN0_BASE_ADDR + R_SRR_OFFSET, CONFIG_MODE);
-+    qtest_writel(qts, CAN0_BASE_ADDR + R_MSR_OFFSET, SLEEP_MODE);
-+    qtest_writel(qts, CAN0_BASE_ADDR + R_SRR_OFFSET, ENABLE_CAN);
-+
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_SRR_OFFSET, ENABLE_CAN);
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_MSR_OFFSET, NORMAL_MODE);
-+
-+    /* Check here if CAN0 is in SNOOP mode and CAN1 in normal mode. */
-+    status = qtest_readl(qts, CAN0_BASE_ADDR + R_SR_OFFSET);
-+    g_assert_cmpint(status, ==, STATUS_SLEEP_MODE);
-+
-+    status = qtest_readl(qts, CAN1_BASE_ADDR + R_SR_OFFSET);
-+    g_assert_cmpint(status, ==, STATUS_NORMAL_MODE);
-+
-+    send_data(qts, CAN1_BASE_ADDR, buf_tx);
-+
-+    /*
-+     * Once CAN1 sends data on can-bus. CAN0 should exit sleep mode.
-+     * Check the CAN0 status now. It should exit the sleep mode and receive the
-+     * incoming data.
++    /* Checks whether this backup job can avoid copying or dealing with
++       unallocated clusters in the backup loop and their associated
++       performance and storage effciency impacts. Check for the condition
++       when it's safe to skip copying unallocated clusters that allows the
++       corresponding bits in the copy bitmap to be unset.  The assumption
++       here is that it is ok to do so when we are doing a full backup,
++       the target file is a qcow2, and the source is single layer.
++       Do we need to add additional checks (so that it does not break
++       something) or add addtional conditions to optimize additional use
++       cases?
 +     */
-+    status = qtest_readl(qts, CAN0_BASE_ADDR + R_SR_OFFSET);
-+    g_assert_cmpint(status, ==, STATUS_NORMAL_MODE);
 +
-+    can_timestamp += 1;
-+
-+    read_data(qts, CAN0_BASE_ADDR, buf_rx);
-+
-+    match_rx_tx_data(buf_tx, buf_rx, can_timestamp);
-+
-+    qtest_quit(qts);
++    if (s->sync_mode == MIRROR_SYNC_MODE_FULL &&
++       s->bcs->target->bs->drv != NULL &&
++       strncmp(s->bcs->target->bs->drv->format_name, "qcow2", 5) == 0 &&
++       s->bcs->source->bs->backing_file[0] == '\0')
++       return true;
++    else
++        return false;
 +}
 +
-+/* Testing Snoop mode on CAN0 while CAN1 is in normal mode. */
-+static void test_can_snoopmode(void)
-+{
-+    uint32_t buf_tx[4] = {0x14, 0x80000000, 0x12345678, 0x87654321};
-+    uint32_t buf_rx[4] = {0x00, 0x00, 0x00, 0x00};
-+    uint32_t status = 0;
-+    uint8_t can_timestamp = 0;
-+
-+    QTestState *qts = qtest_init("-m 4G -machine xlnx-zcu102"
-+                " -object can-bus,id=canbus0"
-+                " -global driver=xlnx.zynqmp-can,property=canbus0,value=canbus0"
-+                " -global driver=xlnx.zynqmp-can,property=canbus1,value=canbus0"
-+                );
-+
-+    /* Configure the CAN0. */
-+    qtest_writel(qts, CAN0_BASE_ADDR + R_SRR_OFFSET, CONFIG_MODE);
-+    qtest_writel(qts, CAN0_BASE_ADDR + R_MSR_OFFSET, SNOOP_MODE);
-+    qtest_writel(qts, CAN0_BASE_ADDR + R_SRR_OFFSET, ENABLE_CAN);
-+
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_SRR_OFFSET, ENABLE_CAN);
-+    qtest_writel(qts, CAN1_BASE_ADDR + R_MSR_OFFSET, NORMAL_MODE);
-+
-+    /* Check here if CAN0 is in SNOOP mode and CAN1 in normal mode. */
-+    status = qtest_readl(qts, CAN0_BASE_ADDR + R_SR_OFFSET);
-+    g_assert_cmpint(status, ==, STATUS_SNOOP_MODE);
-+
-+    status = qtest_readl(qts, CAN1_BASE_ADDR + R_SR_OFFSET);
-+    g_assert_cmpint(status, ==, STATUS_NORMAL_MODE);
-+
-+    send_data(qts, CAN1_BASE_ADDR, buf_tx);
-+
-+    can_timestamp += 1;
-+
-+    read_data(qts, CAN0_BASE_ADDR, buf_rx);
-+
-+    match_rx_tx_data(buf_tx, buf_rx, can_timestamp);
-+
-+    qtest_quit(qts);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    g_test_init(&argc, &argv, NULL);
-+
-+    qtest_add_func("/net/can/can_bus", test_can_bus);
-+    qtest_add_func("/net/can/can_loopback", test_can_loopback);
-+    qtest_add_func("/net/can/can_filter", test_can_filter);
-+    qtest_add_func("/net/can/can_test_snoopmode", test_can_snoopmode);
-+    qtest_add_func("/net/can/can_test_sleepmode", test_can_sleepmode);
-+
-+    return g_test_run();
-+}
--- 
-2.7.4
+ void backup_do_checkpoint(BlockJob *job, Error **errp)
+ {
+     BackupBlockJob *backup_job = container_of(job, BackupBlockJob, common);
+@@ -248,7 +271,7 @@ static int coroutine_fn backup_run(Job *job, Error
+**errp)
 
+     backup_init_copy_bitmap(s);
+
+-    if (s->sync_mode == MIRROR_SYNC_MODE_TOP) {
++    if (s->sync_mode == MIRROR_SYNC_MODE_TOP ||
+backup_ok_to_skip_unallocated(s)) {
+         int64_t offset = 0;
+         int64_t count;
+
+--00000000000045486605a380c9eb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>When doing a full backup from a single layer qcow2 di=
+sk file to a new qcow2 file, the backup_run function does not unset unalloc=
+ated parts in the copy bit map.=C2=A0 The subsequent backup_loop call goes =
+through these unallocated clusters unnecessarily.=C2=A0 In the case when th=
+e target and source reside in different file systems, an EXDEV error would =
+cause zeroes to be actually copied into the target and that causes a target=
+ file size explosion to the full virtual disk size.</div><div><br></div><di=
+v>This patch aims to unset the unallocated parts in the copy bitmap when it=
+ is safe to do so, thereby avoid dealing with unallocated clusters in the b=
+ackup loop to prevent significant performance or storage efficiency impacts=
+ when running full backup jobs.</div><div><br></div><div>Any insights or co=
+rrections?</div><div><br></div>diff --git a/block/backup.c b/block/backup.c=
+<br>index cf62b1a38c..609d551b1e 100644<br>--- a/block/backup.c<br>+++ b/bl=
+ock/backup.c<br>@@ -139,6 +139,29 @@ static void backup_clean(Job *job)<br>=
+=C2=A0 =C2=A0 =C2=A0bdrv_backup_top_drop(s-&gt;backup_top);<br>=C2=A0}<br>=
+=C2=A0<br>+static bool backup_ok_to_skip_unallocated(BackupBlockJob *s)<br>=
++{<br>+ =C2=A0 =C2=A0/* Checks whether this backup job can avoid copying or=
+ dealing with<br>+ =C2=A0 =C2=A0 =C2=A0 unallocated clusters in the backup =
+loop and their associated <br>+ =C2=A0 =C2=A0 =C2=A0 performance and storag=
+e effciency impacts. Check for the condition<br>+ =C2=A0 =C2=A0 =C2=A0 when=
+ it&#39;s safe to skip copying unallocated clusters that allows the<br>+ =
+=C2=A0 =C2=A0 =C2=A0 corresponding bits in the copy bitmap to be unset.=C2=
+=A0 The assumption<br>+ =C2=A0 =C2=A0 =C2=A0 here is that it is ok to do so=
+ when we are doing a full backup,<br>+ =C2=A0 =C2=A0 =C2=A0 the target file=
+ is a qcow2, and the source is single layer.<br>+ =C2=A0 =C2=A0 =C2=A0 Do w=
+e need to add additional checks (so that it does not break<br>+ =C2=A0 =C2=
+=A0 =C2=A0 something) or add addtional conditions to optimize additional us=
+e<br>+ =C2=A0 =C2=A0 =C2=A0 cases?<br>+ =C2=A0 =C2=A0 */<br>+<br>+ =C2=A0 =
+=C2=A0if (s-&gt;sync_mode =3D=3D MIRROR_SYNC_MODE_FULL &amp;&amp;<br>+ =C2=
+=A0 =C2=A0 =C2=A0 s-&gt;bcs-&gt;target-&gt;bs-&gt;drv !=3D NULL &amp;&amp;<=
+br>+ =C2=A0 =C2=A0 =C2=A0 strncmp(s-&gt;bcs-&gt;target-&gt;bs-&gt;drv-&gt;f=
+ormat_name, &quot;qcow2&quot;, 5) =3D=3D 0 &amp;&amp;<br>+ =C2=A0 =C2=A0 =
+=C2=A0 s-&gt;bcs-&gt;source-&gt;bs-&gt;backing_file[0] =3D=3D &#39;\0&#39;)=
+<br>+ =C2=A0 =C2=A0 =C2=A0 return true;<br>+ =C2=A0 =C2=A0else<br>+ =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0return false;<br>+}<br>+<br>=C2=A0void backup_do_checkp=
+oint(BlockJob *job, Error **errp)<br>=C2=A0{<br>=C2=A0 =C2=A0 =C2=A0BackupB=
+lockJob *backup_job =3D container_of(job, BackupBlockJob, common);<br>@@ -2=
+48,7 +271,7 @@ static int coroutine_fn backup_run(Job *job, Error **errp)<b=
+r>=C2=A0<br>=C2=A0 =C2=A0 =C2=A0backup_init_copy_bitmap(s);<br>=C2=A0<br>- =
+=C2=A0 =C2=A0if (s-&gt;sync_mode =3D=3D MIRROR_SYNC_MODE_TOP) {<br>+ =C2=A0=
+ =C2=A0if (s-&gt;sync_mode =3D=3D MIRROR_SYNC_MODE_TOP || backup_ok_to_skip=
+_unallocated(s)) {<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int64_t offset =3D =
+0;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int64_t count;<br>=C2=A0<br></div>
+
+--00000000000045486605a380c9eb--
 
