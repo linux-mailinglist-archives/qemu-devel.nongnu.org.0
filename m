@@ -2,61 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A66BA1AD848
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 10:08:09 +0200 (CEST)
-Received: from localhost ([::1]:43550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EAA11AD495
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 04:41:57 +0200 (CEST)
+Received: from localhost ([::1]:41524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPM2i-0000Ac-Pg
-	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 04:08:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35305)
+	id 1jPGx2-0002zh-K8
+	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 22:41:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41366)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yates@digitalsignallabs.com>) id 1jPG5F-00019d-Rk
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 21:46:23 -0400
+ (envelope-from <farman@linux.ibm.com>) id 1jPGqC-0003cv-9q
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 22:34:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yates@digitalsignallabs.com>) id 1jPG5E-0006yc-2h
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 21:46:21 -0400
-Received: from mail.onyx.syn-alias.com ([206.152.134.66]:59457
- helo=smtp.centurylink.net)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yates@digitalsignallabs.com>)
- id 1jPG5D-0006su-Kf
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 21:46:19 -0400
-X_CMAE_Category: , ,
-X-CNFS-Analysis: v=2.3 cv=PLVxBsiC c=1 sm=1 tr=0
- a=/DUmtE38f4iOwNXrSUBayA==:117 a=/DUmtE38f4iOwNXrSUBayA==:17
- a=KGjhK52YXX0A:10 a=cl8xLZFz6L8A:10 a=PPsO2EghCewA:10 a=eQrCS-SpgXYA:10
- a=YL6Xjd1eAAAA:8 a=yrnTiy7_AAAA:8 a=lBLTMJS-2gcmsWpGvOwA:9
- a=0u0qVQpVVqsDn71S:21 a=j6Lnkqpu-uj4ozWN:21 a=VqsvSLrz3NoJyWTxnQUA:9
- a=1zHEvBeRn2yyR2Sj:21 a=bgIN8SM0sFczpb_Z:21 a=B-T63VDYfxC_wYyR:21
- a=yLS1KB8ZbIgHeRWbGdJx:22 a=d2wp0cl8BqqoVUBAGsA6:22 a=Z5ABNNGmrOfJ6cZ5bIyy:22
- a=bWyr8ysk75zN3GCy5bjg:22
-X-CM-Score: 0
-X-Scanned-by: Cloudmark Authority Engine
-Feedback-ID: dfw:ctl:res:onyx
-X-Authed-Username: eWF0ZXNmcmVlZGFyYW5keUBjZW50dXJ5bGluay5uZXQ=
-Authentication-Results: smtp03.onyx.dfw.sync.lan
- smtp.user=yatesfreedarandy@centurylink.net; auth=pass (LOGIN)
-Received: from [71.217.96.46] ([71.217.96.46:45440]
- helo=galois.digitalsignallabs.com)
- by smtp.centurylink.net (envelope-from <yates@digitalsignallabs.com>)
- (ecelerity 3.6.25.56547 r(Core:3.6.25.0)) with ESMTPA
- id 58/93-22124-76A099E5; Thu, 16 Apr 2020 21:46:17 -0400
-Received: from localhost.localdomain (unknown [71.217.96.46])
- by galois.digitalsignallabs.com (Postfix) with ESMTPA id E352E2E11B2
- for <qemu-devel@nongnu.org>; Thu, 16 Apr 2020 21:46:14 -0400 (EDT)
-From: Randy Yates <yates@digitalsignallabs.com>
-To: qemu-devel@nongnu.org
-Subject: QEMU Development Questions
-Organization: Digital Signal Labs
-Date: Thu, 16 Apr 2020 21:46:14 -0400
-Message-ID: <87mu7ac2ah.fsf@digitalsignallabs.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-=-="
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.6.x
-X-Received-From: 206.152.134.66
-X-Mailman-Approved-At: Fri, 17 Apr 2020 04:03:55 -0400
+ (envelope-from <farman@linux.ibm.com>) id 1jPGqB-0002I4-24
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 22:34:52 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:20544
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <farman@linux.ibm.com>)
+ id 1jPGqA-0002Hi-Ss
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 22:34:50 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 03H2YoZI140937
+ for <qemu-devel@nongnu.org>; Thu, 16 Apr 2020 22:34:50 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 30f3rcr1af-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 16 Apr 2020 22:34:50 -0400
+Received: from localhost
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <farman@linux.ibm.com>;
+ Fri, 17 Apr 2020 03:34:25 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 17 Apr 2020 03:34:23 +0100
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 03H2YeOk35520612
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 17 Apr 2020 02:34:40 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D274A11C050;
+ Fri, 17 Apr 2020 02:34:40 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BF4B411C04A;
+ Fri, 17 Apr 2020 02:34:40 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Fri, 17 Apr 2020 02:34:40 +0000 (GMT)
+Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 4958)
+ id 7006AE026B; Fri, 17 Apr 2020 04:34:40 +0200 (CEST)
+From: Eric Farman <farman@linux.ibm.com>
+To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+Subject: [PATCH v3 0/7] s390x/vfio-ccw: Channel Path Handling [QEMU]
+Date: Fri, 17 Apr 2020 04:34:33 +0200
+X-Mailer: git-send-email 2.17.1
+X-TM-AS-GCONF: 00
+x-cbid: 20041702-0012-0000-0000-000003A5E756
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20041702-0013-0000-0000-000021E3299D
+Message-Id: <20200417023440.70514-1-farman@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
+ definitions=2020-04-16_10:2020-04-14,
+ 2020-04-16 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 spamscore=0
+ clxscore=1015 mlxscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
+ phishscore=0 priorityscore=1501 mlxlogscore=792 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004170019
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,446 +89,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Halil Pasic <pasic@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Jared Rossi <jrossi@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---=-=-=
-Content-Type: text/plain
+Here is a new pass at the channel-path handling code for vfio-ccw,
+to take advantage of the corresponding kernel patches posted here:
+
+https://lore.kernel.org/kvm/20200417023001.65006-1-farman@linux.ibm.com/
+
+Per the discussion in v2, I dropped the EIO-to-CC3 patch from the
+head of the series.
+
+I also added a patch to refactor css_queue_crw(), so we can get a
+CRW queued with a fully-qualified CRW we get out of this region
+instead of extracting/recreating it.
+
+Besides that, changes should be in the git notes for each patch.
+
+v2: https://lore.kernel.org/qemu-devel/20200206214509.16434-1-farman@linux.ibm.com/
+v1: https://lore.kernel.org/qemu-devel/20191115033437.37926-1-farman@linux.ibm.com/
+
+Eric Farman (3):
+  vfio-ccw: Refactor cleanup of regions
+  vfio-ccw: Refactor ccw irq handler
+  s390x/css: Refactor the css_queue_crw() routine
+
+Farhan Ali (4):
+  linux-headers: update
+  vfio-ccw: Add support for the schib region
+  vfio-ccw: Add support for the crw region
+  vfio-ccw: Add support for the CRW irq
+
+ hw/s390x/css.c                 |  57 ++++++---
+ hw/s390x/s390-ccw.c            |  28 +++++
+ hw/vfio/ccw.c                  | 203 +++++++++++++++++++++++++++++----
+ include/hw/s390x/css.h         |   4 +-
+ include/hw/s390x/s390-ccw.h    |   1 +
+ linux-headers/linux/vfio.h     |  40 +++++++
+ linux-headers/linux/vfio_ccw.h |  18 +++
+ target/s390x/ioinst.c          |   3 +-
+ 8 files changed, 313 insertions(+), 41 deletions(-)
+
+-- 
+2.17.1
 
-1      Introduction
-
-
-
-I came to the QEMU project with the goal of writing a new machine. We are reverse
-engineering this machine and do not have the SoC reference manual.  We do have
-the flash code, the bare metal startup code.  Thus we're having to guess and infer a
-lot about the machine from the code.  Since this is an ARM A9, my initial thought
-was to base the new machine on the vexpress-a9.
-
-
-I've been asking lots of questions in #qemu@irc.oftc.net and some of the folks
-there (mainly pm215 and f4bug) suggested I put these questions and my comments
-into writing and send out to the mailing list to help new people become familiar
-with the project.
-
-
-I confess, I am ignorant.  Some of the questions may not be QEMU questions at all
-but ARM architecture, hardware, or other questions.  Please bear with me and help
-me out.
-
-
-It is believed we are using an ARM Cortex A9 MPCORE machine with 4 cores and
-with  TrustZone  (and  possibly  hypervisor)  functionality.   The  machine  eventually
-loads and runs linux, but we believe there are at least three levels of bootloaders
-prior to linux:
-
-
-
-    1.  bootrom
-
-    2.  first-level bootloader.
-
-    3.  second-level bootloader via an embedded elf file.
-
-
-
-It appears that only two of the four cores are used and it appears to be an asymmetric
-multiprocessing design,  in which the two cores are running different OSes,  one a
-bare metal and the other linux.
-
-
-The goal is to define the minimum amount of machine (cpu, sram, dram, itcm, dtcm,
-gic, flash, ?)  be able to reverse engineer code up to the second-level bootloader.
-Then hopefully we can leverage QEMU's capabilities, e.g., exception reporting in
-the debug output, to determine missing functionality.
-
-
-The QEMU project was git cloned on 4/16/2020.  The work is being done under
-Fedora 31.
-
-
-
-                                                  1
-
-
-
-
-2      Questions
-
-
-
-2.1      Top-Level  Architecture
-
-
-
-There is a MachineClass, MachineState, and MachineInstance.  What are purposes
-of these logical divisions?
-
-
-
-2.2      Miscellaneous
-
-
-    1.  Apparently the CPU has properties. What are the specific properties and their
-        defaults?  How do you change a property's default value?
-
-    2.  Ditto previous question for other machine components.
-
-    3.  How do you model and implement startup from power on reset?
-
-
-          (a) Bootrom code is modeled by specifying -bios !file? on the command line.
-              What format should the code in !file? be?
-
-         (b)  Bootrom code performs required initializations, e.g., populating the in-
-              terrupt vector table at the appropriate spot, GIC? other registers?  Copy-
-              ing code to DRAM?
-
-          (c) Once bootrom code is finished, what happens?  Should it simply branch
-              to the first-level bootloader (which is supposedly loaded into DRAM)?
-              Is the reset vector used somehow?
-
-
-    4.  I'm using the -pflash command-line option to map a copy of the flash code.
-        Do you simply specify the address of an existing memory (DRAM) of where
-        to load the file?  Is there a way to specify an entry point address (of where to
-        begin execution).  How does this interact with the -bios option?
-
-    5.  There may be custom hardware involved, e.g., GPIOs, I2Cs, etc.  How would
-        these be defined in the machine?
-
-    6.  Documentation for routing the monitor to another place (e.g., a telnet termi-
-        nal) could be better.  pm215 gave me the following complex set of command-
-        line options:
-
-
-        -chardev  socket,id=monitor,host=127.0.0.1,port=4444,server,nowait,telnet  -mon  chardev=monitor,mode=readline
-
-
-    7.  Ditto above comment for the -d option.
-
-    8.  How are multiple cores traced in the debug output?
-
-    9.  The vexpress code had clocks,  voltages,  etc.  defined.  Are these necessary
-        for a bare-metal, base functioning machine?  Exactly which components are
-        absolutely required?  E.g., is the busdev required?
-
-
-
-                                                  2
-
-
-
-
-  10.   Terminology questions:
-
-          (a) Throughout  there  is  mention  of  highmem/lowmem.   What  does  this
-              mean?
-
-         (b)  Throughout  there  are  "PL"  devices,  e.g.,  PL111.   What  does  "PL"
-              mean?
-
-
-
-3      Conclusion
-
-
-
-That's all for now - thanks for all help/suggestions/pointers/etc.
-
-
-
-                                                  3
-Randy Yates, DSP/Embedded Firmware Developer
-Digital Signal Labs
-http://www.digitalsignallabs.com
-
---=-=-=
-Content-Type: text/html
-
-
-
-
-
-
-
-
-
-<style>
-*
-{
-  font-size: 12px;
-  font-family: Verdana, Geneva, sans-serif;
-}
-
-p 
-{
-  font-size: 12px;
-  font-family: Verdana, Geneva, sans-serif;
-}
-
-div
-{
-  font-size: 12px;
-  font-family: Verdana, Geneva, sans-serif;
-}
-
-v
-{
-  font-size: 12px;
-  font-family: Verdana, Geneva, sans-serif;
-}
-
-li
-{
-  font-size: 12px;
-  font-family: Verdana, Geneva, sans-serif;
-}
-
-table 
-{
-  font-size: 12px;
-  font-family: Verdana, Geneva, sans-serif;
-  color: rgb(31,73,125);
-%  background-color: white;
-%  border-style: solid;
-%  border-width: 1px;
-%  border-color: white;
-}
-
-pre 
-{
-  font-size: 11px;
-  font-weight: bold;
-  font-family: Courier New, Courier, monospace;
-%  color: #404040;
-  background-color: #c0c0c0;
-}
-
-a, a:visited, a:hover, a:active 
-{
-  color: inherit;
-}
-
-.sig
-{
-  font-size: 10px;
-  font-weight: bold;
-}
-
-</style>
-
-
-
-
-
-<span style="color:#1F497D">
-<span style="font-family:helvetica">
-
-<div class="p"><!----></div>
- <a id="tth_sEc1"></a><h2>
-1&nbsp;&nbsp;Introduction</h2>
-
-<div class="p"><!----></div>
-<p>I came to the QEMU&nbsp;project with the goal of writing a new machine.
-We are reverse engineering this machine and do not have the SoC
-reference manual. We do have the flash code, the bare metal startup
-code. Thus we're having to guess and infer a lot about the machine
-from the code. Since this is an ARM A9, my initial thought was to base
-the new machine on the vexpress-a9.
-
-<div class="p"><!----></div>
-I've been asking lots of questions in <span style="color:#000000"><tt><b>#qemu@irc.oftc.net</b></tt></span> and
-some of the folks there (mainly pm215 and f4bug) suggested I put these
-questions and my comments into writing and send out to the mailing
-list to help new people become familiar with the project.
-
-<div class="p"><!----></div>
-<p>I confess, I am ignorant. Some of the questions may not be QEMU&nbsp;questions at all but ARM architecture, hardware, or other questions.
-Please bear with me and help me out.
-
-<div class="p"><!----></div>
-<p>It is believed we are using an ARM Cortex A9 MPCORE machine with 4
-cores and with TrustZone (and possibly hypervisor) functionality. The
-machine eventually loads and runs linux, but we believe there are at
-least three levels of bootloaders prior to linux:
-
-<ol type="1"><p>
-<li> bootrom
-<p>
-<div class="p"><!----></div>
-</li>
-
-<li> first-level bootloader.
-<p>
-<div class="p"><!----></div>
-</li>
-
-<li> second-level bootloader via an embedded elf file.
-<div class="p"><!----></div>
-</li>
-</ol>
-<p>It appears that only two of the four cores are used and it appears
-to be an asymmetric multiprocessing design, in which the two cores are
-running different OSes, one a bare metal and the other linux.
-
-<div class="p"><!----></div>
-<p>The goal is to define the minimum amount of machine (cpu, sram,
-dram, itcm, dtcm, gic, flash, ?) be able to reverse engineer code up
-to the second-level bootloader. Then hopefully we can leverage QEMU's
-capabilities, e.g., exception reporting in the debug output, to
-determine missing functionality.
-
-<div class="p"><!----></div>
-<p>The QEMU&nbsp;project was git cloned on 4/16/2020. The work is being done
-under Fedora 31.
-
-<div class="p"><!----></div>
- <a id="tth_sEc2"></a><h2>
-2&nbsp;&nbsp;Questions</h2>
-
-<div class="p"><!----></div>
-     <a id="tth_sEc2.1"></a><h3>
-2.1&nbsp;&nbsp;Top-Level Architecture</h3>
-
-<div class="p"><!----></div>
-<p>There is a MachineClass, MachineState, and MachineInstance. What are purposes
-of these logical divisions?
-
-<div class="p"><!----></div>
-     <a id="tth_sEc2.2"></a><h3>
-2.2&nbsp;&nbsp;Miscellaneous</h3>
-
-<div class="p"><!----></div>
-
-<ol type="1"><p>
-<li> Apparently the CPU has properties. What are the specific properties and their
-defaults? How do you change a property's default value?
-
-<div class="p"><!----></div>
-<p>
-<div class="p"><!----></div>
-</li>
-
-<li> Ditto previous question for other machine components.
-
-<div class="p"><!----></div>
-<p>
-<div class="p"><!----></div>
-</li>
-
-<li> How do you model and implement startup from power on reset? 
-
-<div class="p"><!----></div>
-
-<ol type="a"><p>
-<li>  Bootrom code is modeled by specifying -bios &lt;file&#62; on the command line.
-What format should the code in &lt;file&#62; be?
-
-<div class="p"><!----></div>
-<p>
-<div class="p"><!----></div>
-</li>
-
-<li> Bootrom code performs required initializations, e.g.,
-populating the interrupt vector table at the appropriate spot, GIC?
-other registers? Copying code to DRAM?
-
-<div class="p"><!----></div>
-<p>
-<div class="p"><!----></div>
-</li>
-
-<li> Once bootrom code is finished, what happens? Should it simply branch to
-the first-level bootloader (which is supposedly loaded into DRAM)? Is the
-reset vector used somehow?
-<div class="p"><!----></div>
-</li>
-</ol>
-
-<div class="p"><!----></div>
-<p>
-<div class="p"><!----></div>
-</li>
-
-<li> I'm using the -pflash command-line option to map a copy of the flash code. Do you simply specify
-the address of an existing memory (DRAM) of where to load the file? Is there a way to specify
-an entry point address (of where to begin execution). How does this interact with the -bios option?
-
-<div class="p"><!----></div>
-<p>
-<div class="p"><!----></div>
-</li>
-
-<li> There may be custom hardware involved, e.g., GPIOs, I2Cs,
-etc. How would these be defined in the machine?
-
-<div class="p"><!----></div>
-<p>
-<div class="p"><!----></div>
-</li>
-
-<li> Documentation for routing the monitor to another place (e.g., a telnet terminal) could be better. 
-pm215 gave me the following complex set of command-line options:
-
-<pre>
--chardev&nbsp;socket,id=monitor,host=127.0.0.1,port=4444,server,nowait,telnet&nbsp;-mon&nbsp;chardev=monitor,mode=readline&nbsp;
-
-</pre>
-
-<div class="p"><!----></div>
-<p>
-<div class="p"><!----></div>
-</li>
-
-<li> Ditto above comment for the -d option.
-
-<div class="p"><!----></div>
-<p>
-<div class="p"><!----></div>
-</li>
-
-<li> How are multiple cores traced in the debug output?
-
-<div class="p"><!----></div>
-<p>
-<div class="p"><!----></div>
-</li>
-
-<li> The vexpress code had clocks, voltages, etc. defined. Are these necessary for a bare-metal, base functioning
-machine? Exactly which components are absolutely required? E.g., is the busdev required?
-
-<div class="p"><!----></div>
-<p>
-<div class="p"><!----></div>
-</li>
-
-<li> Terminology questions:
-
-<ol type="a"><p>
-<li> Throughout there is mention of highmem/lowmem. What does this mean?
-
-<div class="p"><!----></div>
-<p>
-<div class="p"><!----></div>
-</li>
-
-<li> Throughout there are "PL" devices, e.g., PL111. What does "PL" mean?
-<div class="p"><!----></div>
-</li>
-</ol>
-<div class="p"><!----></div>
-</li>
-</ol>
-
-<div class="p"><!----></div>
- <a id="tth_sEc3"></a><h2>
-3&nbsp;&nbsp;Conclusion</h2>
-
-<div class="p"><!----></div>
-<p>That's all for now - thanks for all help/suggestions/pointers/etc.
-
-<div class="p"><!----></div>
-</span></span>
---=-=-=--
 
