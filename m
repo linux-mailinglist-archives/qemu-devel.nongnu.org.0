@@ -2,47 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C843D1AD3E5
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 03:02:18 +0200 (CEST)
-Received: from localhost ([::1]:40852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A66BA1AD848
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 10:08:09 +0200 (CEST)
+Received: from localhost ([::1]:43550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPFOb-00011e-CH
-	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 21:02:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60142)
+	id 1jPM2i-0000Ac-Pg
+	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 04:08:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35305)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jPFNH-0000M0-EZ
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 21:00:58 -0400
+ (envelope-from <yates@digitalsignallabs.com>) id 1jPG5F-00019d-Rk
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 21:46:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jPFNF-0002C4-9m
- for qemu-devel@nongnu.org; Thu, 16 Apr 2020 21:00:54 -0400
-Received: from ozlabs.org ([203.11.71.1]:45071)
+ (envelope-from <yates@digitalsignallabs.com>) id 1jPG5E-0006yc-2h
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 21:46:21 -0400
+Received: from mail.onyx.syn-alias.com ([206.152.134.66]:59457
+ helo=smtp.centurylink.net)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jPFNE-00023q-5d; Thu, 16 Apr 2020 21:00:53 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 493Hp21kWhz9sSG; Fri, 17 Apr 2020 11:00:42 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1587085242;
- bh=yoah8bflFH5+cIjZW68ZwOiWwUY28dTHfS4xBrV55Lg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=K+nttMMp/QFurxERBnQtMKnndcRtzCwL2DLHLx1Hn3NSPTBUUag1ymTvHTKORXgt6
- 9kX/XlyDnwx0RIjZfU8cN4t4jP3ceEBt7giarpHxcE10EsoOBekvi9awjOZhageKdt
- t4aMiN4AL4r/Gpqk4rSJK0jBdFTZiER6BKaDOzeo=
-Date: Fri, 17 Apr 2020 10:40:12 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH] target/ppc: Fix mtmsr(d) L=1 variant that loses interrupts
-Message-ID: <20200417004012.GA2102@umbus.fritz.box>
-References: <20200414111131.465560-1-npiggin@gmail.com>
+ (Exim 4.71) (envelope-from <yates@digitalsignallabs.com>)
+ id 1jPG5D-0006su-Kf
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 21:46:19 -0400
+X_CMAE_Category: , ,
+X-CNFS-Analysis: v=2.3 cv=PLVxBsiC c=1 sm=1 tr=0
+ a=/DUmtE38f4iOwNXrSUBayA==:117 a=/DUmtE38f4iOwNXrSUBayA==:17
+ a=KGjhK52YXX0A:10 a=cl8xLZFz6L8A:10 a=PPsO2EghCewA:10 a=eQrCS-SpgXYA:10
+ a=YL6Xjd1eAAAA:8 a=yrnTiy7_AAAA:8 a=lBLTMJS-2gcmsWpGvOwA:9
+ a=0u0qVQpVVqsDn71S:21 a=j6Lnkqpu-uj4ozWN:21 a=VqsvSLrz3NoJyWTxnQUA:9
+ a=1zHEvBeRn2yyR2Sj:21 a=bgIN8SM0sFczpb_Z:21 a=B-T63VDYfxC_wYyR:21
+ a=yLS1KB8ZbIgHeRWbGdJx:22 a=d2wp0cl8BqqoVUBAGsA6:22 a=Z5ABNNGmrOfJ6cZ5bIyy:22
+ a=bWyr8ysk75zN3GCy5bjg:22
+X-CM-Score: 0
+X-Scanned-by: Cloudmark Authority Engine
+Feedback-ID: dfw:ctl:res:onyx
+X-Authed-Username: eWF0ZXNmcmVlZGFyYW5keUBjZW50dXJ5bGluay5uZXQ=
+Authentication-Results: smtp03.onyx.dfw.sync.lan
+ smtp.user=yatesfreedarandy@centurylink.net; auth=pass (LOGIN)
+Received: from [71.217.96.46] ([71.217.96.46:45440]
+ helo=galois.digitalsignallabs.com)
+ by smtp.centurylink.net (envelope-from <yates@digitalsignallabs.com>)
+ (ecelerity 3.6.25.56547 r(Core:3.6.25.0)) with ESMTPA
+ id 58/93-22124-76A099E5; Thu, 16 Apr 2020 21:46:17 -0400
+Received: from localhost.localdomain (unknown [71.217.96.46])
+ by galois.digitalsignallabs.com (Postfix) with ESMTPA id E352E2E11B2
+ for <qemu-devel@nongnu.org>; Thu, 16 Apr 2020 21:46:14 -0400 (EDT)
+From: Randy Yates <yates@digitalsignallabs.com>
+To: qemu-devel@nongnu.org
+Subject: QEMU Development Questions
+Organization: Digital Signal Labs
+Date: Thu, 16 Apr 2020 21:46:14 -0400
+Message-ID: <87mu7ac2ah.fsf@digitalsignallabs.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/9DWx/yDrRhgMJTb"
-Content-Disposition: inline
-In-Reply-To: <20200414111131.465560-1-npiggin@gmail.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+Content-Type: multipart/alternative; boundary="=-=-="
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.6.x
+X-Received-From: 206.152.134.66
+X-Mailman-Approved-At: Fri, 17 Apr 2020 04:03:55 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,208 +68,446 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@fr.ibm.com>, qemu-ppc@nongnu.org,
- Nathan Chancellor <natechancellor@gmail.com>,
- Anton Blanchard <anton@ozlabs.org>, linuxppc-dev@lists.ozlabs.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--=-=-=
+Content-Type: text/plain
 
---/9DWx/yDrRhgMJTb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+1      Introduction
 
-On Tue, Apr 14, 2020 at 09:11:31PM +1000, Nicholas Piggin wrote:
-65;5803;1c> If mtmsr L=3D1 sets MSR[EE] while there is a maskable exception=
- pending,
-> it does not cause an interrupt. This causes the test case to hang:
->=20
-> https://lists.gnu.org/archive/html/qemu-ppc/2019-10/msg00826.html
->=20
-> More recently, Linux reduced the occurance of operations (e.g., rfi)
-> which stop translation and allow pending interrupts to be processed.
-> This started causing hangs in Linux boot in long-running kernel tests,
-> running with '-d int' shows the decrementer stops firing despite DEC
-> wrapping and MSR[EE]=3D1.
->=20
-> https://lists.ozlabs.org/pipermail/linuxppc-dev/2020-April/208301.html
->=20
-> The cause is the broken mtmsr L=3D1 behaviour, which is contrary to the
-> architecture. From Power ISA v3.0B, p.977, Move To Machine State Register,
-> Programming Note states:
->=20
->     If MSR[EE]=3D0 and an External, Decrementer, or Performance Monitor
->     exception is pending, executing an mtmsrd instruction that sets
->     MSR[EE] to 1 will cause the interrupt to occur before the next
->     instruction is executed, if no higher priority exception exists
->=20
-> Fix this by handling L=3D1 exactly the same way as L=3D0, modulo the MSR
-> bits altered.
->=20
-> The confusion arises from L=3D0 being "context synchronizing" whereas L=
-=3D1
-> is "execution synchronizing", which is a weaker semantic. However this
-> is not a relaxation of the requirement that these exceptions cause
-> interrupts when MSR[EE]=3D1 (e.g., when mtmsr executes to completion as
-> TCG is doing here), rather it specifies how a pipelined processor can
-> have multiple instructions in flight where one may influence how another
-> behaves.
->=20
-> Cc: qemu-stable@nongnu.org
-> Reported-by: Anton Blanchard <anton@ozlabs.org>
-> Reported-by: Nathan Chancellor <natechancellor@gmail.com>
-> Tested-by: Nathan Chancellor <natechancellor@gmail.com>
-> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-> ---
-> Thanks very much to Nathan for reporting and testing it, I added his
-> Tested-by tag despite a more polished patch, as the the basics are=20
-> still the same (and still fixes his test case here).
->=20
-> This bug possibly goes back to early v2.04 / mtmsrd L=3D1 support around
-> 2007, and the code has been changed several times since then so may
-> require some backporting.
->=20
-> 32-bit / mtmsr untested at the moment, I don't have an environment
-> handy.
->=20
->  target/ppc/translate.c | 46 +++++++++++++++++++++++++-----------------
->  1 file changed, 27 insertions(+), 19 deletions(-)
 
-Applied to ppc-for-5.0.
 
->=20
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index b207fb5386..9959259dba 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -4361,30 +4361,34 @@ static void gen_mtmsrd(DisasContext *ctx)
->      CHK_SV;
-> =20
->  #if !defined(CONFIG_USER_ONLY)
-> +    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> +        gen_io_start();
-> +    }
->      if (ctx->opcode & 0x00010000) {
-> -        /* Special form that does not need any synchronisation */
-> +        /* L=3D1 form only updates EE and RI */
->          TCGv t0 =3D tcg_temp_new();
-> +        TCGv t1 =3D tcg_temp_new();
->          tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)],
->                          (1 << MSR_RI) | (1 << MSR_EE));
-> -        tcg_gen_andi_tl(cpu_msr, cpu_msr,
-> +        tcg_gen_andi_tl(t1, cpu_msr,
->                          ~(target_ulong)((1 << MSR_RI) | (1 << MSR_EE)));
-> -        tcg_gen_or_tl(cpu_msr, cpu_msr, t0);
-> +        tcg_gen_or_tl(t1, t1, t0);
-> +
-> +        gen_helper_store_msr(cpu_env, t1);
->          tcg_temp_free(t0);
-> +        tcg_temp_free(t1);
-> +
->      } else {
->          /*
->           * XXX: we need to update nip before the store if we enter
->           *      power saving mode, we will exit the loop directly from
->           *      ppc_store_msr
->           */
-> -        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -            gen_io_start();
-> -        }
->          gen_update_nip(ctx, ctx->base.pc_next);
->          gen_helper_store_msr(cpu_env, cpu_gpr[rS(ctx->opcode)]);
-> -        /* Must stop the translation as machine state (may have) changed=
- */
-> -        /* Note that mtmsr is not always defined as context-synchronizin=
-g */
-> -        gen_stop_exception(ctx);
->      }
-> +    /* Must stop the translation as machine state (may have) changed */
-> +    gen_stop_exception(ctx);
->  #endif /* !defined(CONFIG_USER_ONLY) */
->  }
->  #endif /* defined(TARGET_PPC64) */
-> @@ -4394,15 +4398,23 @@ static void gen_mtmsr(DisasContext *ctx)
->      CHK_SV;
-> =20
->  #if !defined(CONFIG_USER_ONLY)
-> -   if (ctx->opcode & 0x00010000) {
-> -        /* Special form that does not need any synchronisation */
-> +    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> +        gen_io_start();
-> +    }
-> +    if (ctx->opcode & 0x00010000) {
-> +        /* L=3D1 form only updates EE and RI */
->          TCGv t0 =3D tcg_temp_new();
-> +        TCGv t1 =3D tcg_temp_new();
->          tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)],
->                          (1 << MSR_RI) | (1 << MSR_EE));
-> -        tcg_gen_andi_tl(cpu_msr, cpu_msr,
-> +        tcg_gen_andi_tl(t1, cpu_msr,
->                          ~(target_ulong)((1 << MSR_RI) | (1 << MSR_EE)));
-> -        tcg_gen_or_tl(cpu_msr, cpu_msr, t0);
-> +        tcg_gen_or_tl(t1, t1, t0);
-> +
-> +        gen_helper_store_msr(cpu_env, t1);
->          tcg_temp_free(t0);
-> +        tcg_temp_free(t1);
-> +
->      } else {
->          TCGv msr =3D tcg_temp_new();
-> =20
-> @@ -4411,9 +4423,6 @@ static void gen_mtmsr(DisasContext *ctx)
->           *      power saving mode, we will exit the loop directly from
->           *      ppc_store_msr
->           */
-> -        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> -            gen_io_start();
-> -        }
->          gen_update_nip(ctx, ctx->base.pc_next);
->  #if defined(TARGET_PPC64)
->          tcg_gen_deposit_tl(msr, cpu_msr, cpu_gpr[rS(ctx->opcode)], 0, 32=
-);
-> @@ -4422,10 +4431,9 @@ static void gen_mtmsr(DisasContext *ctx)
->  #endif
->          gen_helper_store_msr(cpu_env, msr);
->          tcg_temp_free(msr);
-> -        /* Must stop the translation as machine state (may have) changed=
- */
-> -        /* Note that mtmsr is not always defined as context-synchronizin=
-g */
-> -        gen_stop_exception(ctx);
->      }
-> +    /* Must stop the translation as machine state (may have) changed */
-> +    gen_stop_exception(ctx);
->  #endif
->  }
-> =20
+I came to the QEMU project with the goal of writing a new machine. We are reverse
+engineering this machine and do not have the SoC reference manual.  We do have
+the flash code, the bare metal startup code.  Thus we're having to guess and infer a
+lot about the machine from the code.  Since this is an ARM A9, my initial thought
+was to base the new machine on the vexpress-a9.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
 
---/9DWx/yDrRhgMJTb
-Content-Type: application/pgp-signature; name="signature.asc"
+I've been asking lots of questions in #qemu@irc.oftc.net and some of the folks
+there (mainly pm215 and f4bug) suggested I put these questions and my comments
+into writing and send out to the mailing list to help new people become familiar
+with the project.
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6Y+uoACgkQbDjKyiDZ
-s5IfvQ/7B95w2bN1JzPlxMZJbbl/6U1RSYX643qSwxmHp3qmmWV4okUgaNzsVscC
-mBl17DQbHuvl8YJduL5G6qNwfnkcEq+OIfX3k60QyQ+bf7ETK5UlmUq3c4Ao/E7e
-H9O44iv5RSBZ41TQoYUVC+1IU11Mx0GXMsKiGkHOCCB3aK9no22rY4Um9LoEhHLB
-Kue9WvNLlOcUm78BJ/00K70UffTgnbyR6q/CzUY81Lq1vuohZ1SdJWb6z8DeJLLe
-XQ9Thne+6Z48MN/tPc0gLg6MF/NSaXzC4jeuI6Ht6WHe2P1USIgB+CrRpUmU/eK2
-cpeHUZjg1oZgvno8v9uoKyQloTdaNczVJ4HmdMjt0+FmEhUFyZqx6o5aW4V93BV7
-tPUc0TxNORcc31ol2gjBVWzQRTHbF5dq3rCBJzVellzUg6hA+H/AXudVRR1Z/Szk
-CzbvVhLCpbJXmx5e/g0MZJnvejOjOTM1WLi0VwibH/ZIGVBbFP0wwG5GfAkP7D9+
-/8YX1vb+5E8a10ThMP01hyQFJjjFbhkLilT6IMwJAzf5rv3josFj+QI5wKmt9b6n
-zI2f0xkb15zX4aMAwTj05ReDQ7qA3ICwcu4As2N32PqO9j+jJ08sAzpkH6e2zXDE
-Jb0Ew1oM/n0XkPQHIRIE4pjGhpgafPyOaK5PLokVaSpm1D/2hfU=
-=Qw8M
------END PGP SIGNATURE-----
+I confess, I am ignorant.  Some of the questions may not be QEMU questions at all
+but ARM architecture, hardware, or other questions.  Please bear with me and help
+me out.
 
---/9DWx/yDrRhgMJTb--
+
+It is believed we are using an ARM Cortex A9 MPCORE machine with 4 cores and
+with  TrustZone  (and  possibly  hypervisor)  functionality.   The  machine  eventually
+loads and runs linux, but we believe there are at least three levels of bootloaders
+prior to linux:
+
+
+
+    1.  bootrom
+
+    2.  first-level bootloader.
+
+    3.  second-level bootloader via an embedded elf file.
+
+
+
+It appears that only two of the four cores are used and it appears to be an asymmetric
+multiprocessing design,  in which the two cores are running different OSes,  one a
+bare metal and the other linux.
+
+
+The goal is to define the minimum amount of machine (cpu, sram, dram, itcm, dtcm,
+gic, flash, ?)  be able to reverse engineer code up to the second-level bootloader.
+Then hopefully we can leverage QEMU's capabilities, e.g., exception reporting in
+the debug output, to determine missing functionality.
+
+
+The QEMU project was git cloned on 4/16/2020.  The work is being done under
+Fedora 31.
+
+
+
+                                                  1
+
+
+
+
+2      Questions
+
+
+
+2.1      Top-Level  Architecture
+
+
+
+There is a MachineClass, MachineState, and MachineInstance.  What are purposes
+of these logical divisions?
+
+
+
+2.2      Miscellaneous
+
+
+    1.  Apparently the CPU has properties. What are the specific properties and their
+        defaults?  How do you change a property's default value?
+
+    2.  Ditto previous question for other machine components.
+
+    3.  How do you model and implement startup from power on reset?
+
+
+          (a) Bootrom code is modeled by specifying -bios !file? on the command line.
+              What format should the code in !file? be?
+
+         (b)  Bootrom code performs required initializations, e.g., populating the in-
+              terrupt vector table at the appropriate spot, GIC? other registers?  Copy-
+              ing code to DRAM?
+
+          (c) Once bootrom code is finished, what happens?  Should it simply branch
+              to the first-level bootloader (which is supposedly loaded into DRAM)?
+              Is the reset vector used somehow?
+
+
+    4.  I'm using the -pflash command-line option to map a copy of the flash code.
+        Do you simply specify the address of an existing memory (DRAM) of where
+        to load the file?  Is there a way to specify an entry point address (of where to
+        begin execution).  How does this interact with the -bios option?
+
+    5.  There may be custom hardware involved, e.g., GPIOs, I2Cs, etc.  How would
+        these be defined in the machine?
+
+    6.  Documentation for routing the monitor to another place (e.g., a telnet termi-
+        nal) could be better.  pm215 gave me the following complex set of command-
+        line options:
+
+
+        -chardev  socket,id=monitor,host=127.0.0.1,port=4444,server,nowait,telnet  -mon  chardev=monitor,mode=readline
+
+
+    7.  Ditto above comment for the -d option.
+
+    8.  How are multiple cores traced in the debug output?
+
+    9.  The vexpress code had clocks,  voltages,  etc.  defined.  Are these necessary
+        for a bare-metal, base functioning machine?  Exactly which components are
+        absolutely required?  E.g., is the busdev required?
+
+
+
+                                                  2
+
+
+
+
+  10.   Terminology questions:
+
+          (a) Throughout  there  is  mention  of  highmem/lowmem.   What  does  this
+              mean?
+
+         (b)  Throughout  there  are  "PL"  devices,  e.g.,  PL111.   What  does  "PL"
+              mean?
+
+
+
+3      Conclusion
+
+
+
+That's all for now - thanks for all help/suggestions/pointers/etc.
+
+
+
+                                                  3
+Randy Yates, DSP/Embedded Firmware Developer
+Digital Signal Labs
+http://www.digitalsignallabs.com
+
+--=-=-=
+Content-Type: text/html
+
+
+
+
+
+
+
+
+
+<style>
+*
+{
+  font-size: 12px;
+  font-family: Verdana, Geneva, sans-serif;
+}
+
+p 
+{
+  font-size: 12px;
+  font-family: Verdana, Geneva, sans-serif;
+}
+
+div
+{
+  font-size: 12px;
+  font-family: Verdana, Geneva, sans-serif;
+}
+
+v
+{
+  font-size: 12px;
+  font-family: Verdana, Geneva, sans-serif;
+}
+
+li
+{
+  font-size: 12px;
+  font-family: Verdana, Geneva, sans-serif;
+}
+
+table 
+{
+  font-size: 12px;
+  font-family: Verdana, Geneva, sans-serif;
+  color: rgb(31,73,125);
+%  background-color: white;
+%  border-style: solid;
+%  border-width: 1px;
+%  border-color: white;
+}
+
+pre 
+{
+  font-size: 11px;
+  font-weight: bold;
+  font-family: Courier New, Courier, monospace;
+%  color: #404040;
+  background-color: #c0c0c0;
+}
+
+a, a:visited, a:hover, a:active 
+{
+  color: inherit;
+}
+
+.sig
+{
+  font-size: 10px;
+  font-weight: bold;
+}
+
+</style>
+
+
+
+
+
+<span style="color:#1F497D">
+<span style="font-family:helvetica">
+
+<div class="p"><!----></div>
+ <a id="tth_sEc1"></a><h2>
+1&nbsp;&nbsp;Introduction</h2>
+
+<div class="p"><!----></div>
+<p>I came to the QEMU&nbsp;project with the goal of writing a new machine.
+We are reverse engineering this machine and do not have the SoC
+reference manual. We do have the flash code, the bare metal startup
+code. Thus we're having to guess and infer a lot about the machine
+from the code. Since this is an ARM A9, my initial thought was to base
+the new machine on the vexpress-a9.
+
+<div class="p"><!----></div>
+I've been asking lots of questions in <span style="color:#000000"><tt><b>#qemu@irc.oftc.net</b></tt></span> and
+some of the folks there (mainly pm215 and f4bug) suggested I put these
+questions and my comments into writing and send out to the mailing
+list to help new people become familiar with the project.
+
+<div class="p"><!----></div>
+<p>I confess, I am ignorant. Some of the questions may not be QEMU&nbsp;questions at all but ARM architecture, hardware, or other questions.
+Please bear with me and help me out.
+
+<div class="p"><!----></div>
+<p>It is believed we are using an ARM Cortex A9 MPCORE machine with 4
+cores and with TrustZone (and possibly hypervisor) functionality. The
+machine eventually loads and runs linux, but we believe there are at
+least three levels of bootloaders prior to linux:
+
+<ol type="1"><p>
+<li> bootrom
+<p>
+<div class="p"><!----></div>
+</li>
+
+<li> first-level bootloader.
+<p>
+<div class="p"><!----></div>
+</li>
+
+<li> second-level bootloader via an embedded elf file.
+<div class="p"><!----></div>
+</li>
+</ol>
+<p>It appears that only two of the four cores are used and it appears
+to be an asymmetric multiprocessing design, in which the two cores are
+running different OSes, one a bare metal and the other linux.
+
+<div class="p"><!----></div>
+<p>The goal is to define the minimum amount of machine (cpu, sram,
+dram, itcm, dtcm, gic, flash, ?) be able to reverse engineer code up
+to the second-level bootloader. Then hopefully we can leverage QEMU's
+capabilities, e.g., exception reporting in the debug output, to
+determine missing functionality.
+
+<div class="p"><!----></div>
+<p>The QEMU&nbsp;project was git cloned on 4/16/2020. The work is being done
+under Fedora 31.
+
+<div class="p"><!----></div>
+ <a id="tth_sEc2"></a><h2>
+2&nbsp;&nbsp;Questions</h2>
+
+<div class="p"><!----></div>
+     <a id="tth_sEc2.1"></a><h3>
+2.1&nbsp;&nbsp;Top-Level Architecture</h3>
+
+<div class="p"><!----></div>
+<p>There is a MachineClass, MachineState, and MachineInstance. What are purposes
+of these logical divisions?
+
+<div class="p"><!----></div>
+     <a id="tth_sEc2.2"></a><h3>
+2.2&nbsp;&nbsp;Miscellaneous</h3>
+
+<div class="p"><!----></div>
+
+<ol type="1"><p>
+<li> Apparently the CPU has properties. What are the specific properties and their
+defaults? How do you change a property's default value?
+
+<div class="p"><!----></div>
+<p>
+<div class="p"><!----></div>
+</li>
+
+<li> Ditto previous question for other machine components.
+
+<div class="p"><!----></div>
+<p>
+<div class="p"><!----></div>
+</li>
+
+<li> How do you model and implement startup from power on reset? 
+
+<div class="p"><!----></div>
+
+<ol type="a"><p>
+<li>  Bootrom code is modeled by specifying -bios &lt;file&#62; on the command line.
+What format should the code in &lt;file&#62; be?
+
+<div class="p"><!----></div>
+<p>
+<div class="p"><!----></div>
+</li>
+
+<li> Bootrom code performs required initializations, e.g.,
+populating the interrupt vector table at the appropriate spot, GIC?
+other registers? Copying code to DRAM?
+
+<div class="p"><!----></div>
+<p>
+<div class="p"><!----></div>
+</li>
+
+<li> Once bootrom code is finished, what happens? Should it simply branch to
+the first-level bootloader (which is supposedly loaded into DRAM)? Is the
+reset vector used somehow?
+<div class="p"><!----></div>
+</li>
+</ol>
+
+<div class="p"><!----></div>
+<p>
+<div class="p"><!----></div>
+</li>
+
+<li> I'm using the -pflash command-line option to map a copy of the flash code. Do you simply specify
+the address of an existing memory (DRAM) of where to load the file? Is there a way to specify
+an entry point address (of where to begin execution). How does this interact with the -bios option?
+
+<div class="p"><!----></div>
+<p>
+<div class="p"><!----></div>
+</li>
+
+<li> There may be custom hardware involved, e.g., GPIOs, I2Cs,
+etc. How would these be defined in the machine?
+
+<div class="p"><!----></div>
+<p>
+<div class="p"><!----></div>
+</li>
+
+<li> Documentation for routing the monitor to another place (e.g., a telnet terminal) could be better. 
+pm215 gave me the following complex set of command-line options:
+
+<pre>
+-chardev&nbsp;socket,id=monitor,host=127.0.0.1,port=4444,server,nowait,telnet&nbsp;-mon&nbsp;chardev=monitor,mode=readline&nbsp;
+
+</pre>
+
+<div class="p"><!----></div>
+<p>
+<div class="p"><!----></div>
+</li>
+
+<li> Ditto above comment for the -d option.
+
+<div class="p"><!----></div>
+<p>
+<div class="p"><!----></div>
+</li>
+
+<li> How are multiple cores traced in the debug output?
+
+<div class="p"><!----></div>
+<p>
+<div class="p"><!----></div>
+</li>
+
+<li> The vexpress code had clocks, voltages, etc. defined. Are these necessary for a bare-metal, base functioning
+machine? Exactly which components are absolutely required? E.g., is the busdev required?
+
+<div class="p"><!----></div>
+<p>
+<div class="p"><!----></div>
+</li>
+
+<li> Terminology questions:
+
+<ol type="a"><p>
+<li> Throughout there is mention of highmem/lowmem. What does this mean?
+
+<div class="p"><!----></div>
+<p>
+<div class="p"><!----></div>
+</li>
+
+<li> Throughout there are "PL" devices, e.g., PL111. What does "PL" mean?
+<div class="p"><!----></div>
+</li>
+</ol>
+<div class="p"><!----></div>
+</li>
+</ol>
+
+<div class="p"><!----></div>
+ <a id="tth_sEc3"></a><h2>
+3&nbsp;&nbsp;Conclusion</h2>
+
+<div class="p"><!----></div>
+<p>That's all for now - thanks for all help/suggestions/pointers/etc.
+
+<div class="p"><!----></div>
+</span></span>
+--=-=-=--
 
