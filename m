@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04B31AE4E0
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 20:38:03 +0200 (CEST)
-Received: from localhost ([::1]:50628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D9E51AE6DE
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 22:39:09 +0200 (CEST)
+Received: from localhost ([::1]:51748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPVsI-0008JB-Fo
-	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 14:38:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42209)
+	id 1jPXlU-0005G7-8T
+	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 16:39:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42640)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <osandov@osandov.com>) id 1jPVqT-0007T2-J5
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 14:36:11 -0400
+ (envelope-from <jrossi@linux.ibm.com>) id 1jPVqo-0007eH-D3
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 14:36:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <osandov@osandov.com>) id 1jPVqR-000151-42
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 14:36:09 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:45752)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <osandov@osandov.com>) id 1jPVqQ-00012d-Ob
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 14:36:07 -0400
-Received: by mail-pf1-x442.google.com with SMTP id w65so1437249pfc.12
- for <qemu-devel@nongnu.org>; Fri, 17 Apr 2020 11:36:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=osandov-com.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Hzvj7OOYXOhPIvsUeCGihYX8zmn28YGY+um7T06891I=;
- b=cJKLlzqoZvjBuZD4xd6rQkvcPOk4WPVU+Wrlkp2xet4/vp5Hu/OGYfwO/vbPT6wieB
- rnUrV/1iOohIhFYKHdE6vALCkT4UjhSmZObmbYoEZ/Chsup+ohKHaEIV974tSC7BfBJD
- swSKrYpCq5B9Ffu3obdQCYPphyiomcYjhHimZuh9EZW5WPmkIlF+vthMHADbTksppaKX
- T/6rhyTqfCs/BkgMJrS2GM8LohC8NKvhZqGtlLVu+RK95PpMGASR4MkNky0ej4yJxVEw
- xCLRBzyRLTA5biJE9JclZtonUZQsSEIVnfgmZkyf/KseBc+u2XWlRGdqwYTXVWO9duYx
- cALQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Hzvj7OOYXOhPIvsUeCGihYX8zmn28YGY+um7T06891I=;
- b=TDLd1DsyhXnTSF0XGGIFN1PPoLjuV/wVefbpJ0Y7sIx+ggsWMyyHj/msaYlaayYs27
- Hw9gEYFShOYQSNSmNkb71OqHSYI3nUZW52sP5RGMpuaIJWCm5bbeyiHS4xOzIbn4fbD5
- W3AfmUOTdMuX+24IQvy+lGi44uubA8ro/mAaAsYQuEEKLILTTQ1QcwWoUuQrOmg5GSGH
- 6sOqblo+4rjMsf7U/byNU6OeNTDbciys/uxddnNp+nAymFZHP4Bd1scd3r9fKEGWJSnl
- T7k23B/ILU0K31yjtGh1rliqGrNU7Y1T8hzbgFO/kgrwA44IAPruPzeNocl4ZHrApAGN
- 2R9w==
-X-Gm-Message-State: AGi0PuYZnJcBy+jQ46iH9mNO73nrRy80xA7bvZmQD3LJHqoNY5nur0C9
- b/tHon4bXNrosQrB/f2hvyygdFTE1Hk=
-X-Google-Smtp-Source: APiQypK+wdAUuWnlNh+Ay2bjSvRtEuNozJOb7Qq8kv9CznNZUIk7Ak0EHWbKjAR+apQv8yp/KEAPKg==
-X-Received: by 2002:a63:1506:: with SMTP id v6mr4513712pgl.365.1587148565193; 
- Fri, 17 Apr 2020 11:36:05 -0700 (PDT)
-Received: from vader ([2620:10d:c090:400::5:82d8])
- by smtp.gmail.com with ESMTPSA id a18sm6236745pjh.25.2020.04.17.11.36.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Apr 2020 11:36:04 -0700 (PDT)
-Date: Fri, 17 Apr 2020 11:36:01 -0700
-From: Omar Sandoval <osandov@osandov.com>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH] 9pfs: local: ignore O_NOATIME if we don't have permissions
-Message-ID: <20200417183601.GA719237@vader>
-References: <1e65cffe9778857735e7ae6066d6f0df0b0e2db3.1586997767.git.osandov@fb.com>
- <2496702.lrWaslOkEp@silver> <20200416184711.GB696015@vader>
- <1939315.5ePf2Jtb4B@silver>
+ (envelope-from <jrossi@linux.ibm.com>) id 1jPVqn-0001cx-Aa
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 14:36:30 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8154
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jrossi@linux.ibm.com>)
+ id 1jPVqn-0001b5-5H; Fri, 17 Apr 2020 14:36:29 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 03HIYa0s018074; Fri, 17 Apr 2020 14:36:28 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30fgpfj4m8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 17 Apr 2020 14:36:27 -0400
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 03HIYmvM019285;
+ Fri, 17 Apr 2020 14:36:27 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30fgpfj4kt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 17 Apr 2020 14:36:27 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 03HIUans004544;
+ Fri, 17 Apr 2020 18:36:26 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma01dal.us.ibm.com with ESMTP id 30b5h7sc5p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 17 Apr 2020 18:36:26 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 03HIaP1U66257290
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 17 Apr 2020 18:36:25 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 75C3EC6059;
+ Fri, 17 Apr 2020 18:36:25 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C836CC6057;
+ Fri, 17 Apr 2020 18:36:24 +0000 (GMT)
+Received: from localhost.localdomain.com (unknown [9.85.151.210])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Fri, 17 Apr 2020 18:36:24 +0000 (GMT)
+From: Jared Rossi <jrossi@linux.ibm.com>
+To: Eric Farman <farman@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH 0/1] vfio-ccw: Enable transparent CCW IPL from DASD
+Date: Fri, 17 Apr 2020 14:38:37 -0400
+Message-Id: <20200417183838.11796-1-jrossi@linux.ibm.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1939315.5ePf2Jtb4B@silver>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::442
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
+ definitions=2020-04-17_08:2020-04-17,
+ 2020-04-17 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 suspectscore=0
+ lowpriorityscore=0 mlxlogscore=789 clxscore=1011 mlxscore=0 spamscore=0
+ phishscore=0 priorityscore=1501 adultscore=0 impostorscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004170141
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
+X-Mailman-Approved-At: Fri, 17 Apr 2020 16:37:30 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,76 +91,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 17, 2020 at 12:45:36PM +0200, Christian Schoenebeck wrote:
-> On Donnerstag, 16. April 2020 20:47:11 CEST Omar Sandoval wrote:
-> > > > Luckily, O_NOATIME is effectively a hint, and is often ignored by, e.g.,
-> > > > network filesystems. open(2) notes that O_NOATIME "may not be effective
-> > > > on all filesystems. One example is NFS, where the server maintains the
-> > > > access time." This means that we can honor it when possible but fall
-> > > > back to ignoring it.
-> > > 
-> > > I am not sure whether NFS would simply silently ignore O_NOATIME i.e.
-> > > without returning EPERM. I don't read it that way.
-> > 
-> > As far as I can tell, the NFS protocol has nothing equivalent to
-> > O_NOATIME and thus can't honor it. Feel free to test it:
-> 
-> I did not doubt that NFS does not support O_NOATIME, what I said was that I 
-> thought using O_NOATIME on NFS would return EPERM, but ...
-> 
-> >   # mount -t nfs -o vers=4,rw 10.0.2.2:/ /mnt
-> >   # echo foo > /mnt/foo
-> >   # touch -d "1 hour ago" /mnt/foo
-> >   # stat /mnt/foo | grep 'Access: [0-9]'
-> >   Access: 2020-04-16 10:43:36.838952593 -0700
-> >   # # Drop caches so we have to go to the NFS server.
-> >   # echo 3 > /proc/sys/vm/drop_caches
-> >   # strace -e openat dd if=/mnt/foo of=/dev/null iflag=noatime |& grep
-> > /mnt/foo openat(AT_FDCWD, "/mnt/foo", O_RDONLY|O_NOATIME) = 3
-> >   # stat /mnt/foo | grep 'Access: [0-9]'
-> >   Access: 2020-04-16 11:43:36.906462928 -0700
-> 
-> ... I tried this as well, and you are right, O_NOATIME is indeed simply 
-> *silently* dropped/ignored by NFS (i.e. without raising any error).
-> 
-> > > It would certainly fix the problem in your use case. But it would also
-> > > unmask O_NOATIME for all other ones (i.e. regular users on guest).
-> > 
-> > The guest kernel will still check whether processes on the guest have
-> > permission to use O_NOATIME. This only changes the behavior when the
-> > guest kernel believes that the process has permission even though the
-> > host QEMU process doesn't.
-> 
-> Good point!
-> 
-> > > I mean I understand your point, but I also have to take other use cases
-> > > into account which might expect to receive EPERM if O_NOATIME cannot be
-> > > granted.
-> > If you'd still like to preserve this behavior, would it be acceptable to
-> > make this a QEMU option? Maybe something like "-virtfs
-> > honor_noatime=no": the default would be "yes", which is the current
-> > behavior, and "no" would always mask out NOATIME.
-> 
-> That was my initial tendency yesterday, but your arguments now convinced me 
-> that the implied re-run, in the way your provided patch already does, is in 
-> this particular case the better choice.
-> 
-> Making that a configurable option would render this issue unnecessarily 
-> complicated and probably even contra productive for other users which might 
-> stumble over the same issue.
-> 
-> Just do me a favour: you already thoroughly explained the issue in the commit 
-> log, that's good, but please also add a short comment in code why the rerun is 
-> required, because it is not obvious by just reading the code. Finding that 
-> info from git log becomes tedious as soon as code is refactored there.
-> 
-> Aside of the missing comment in code:
-> 
-> Acked-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Remove the explicit prefetch check when using vfio-ccw devices.
+This check is not needed as all Linux channel programs are intended
+to use prefetch and will be executed in the same way regardless.
 
-Thank you! I'll add the comment and resend.
+Jared Rossi (1):
+  vfio-ccw: Enable transparent CCW IPL from DASD
+
+ hw/vfio/ccw.c | 13 +++----------
+ 1 file changed, 3 insertions(+), 10 deletions(-)
+
+-- 
+2.21.1
+
 
