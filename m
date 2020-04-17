@@ -2,80 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77D0D1AD64C
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 08:43:16 +0200 (CEST)
-Received: from localhost ([::1]:42990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12ED41AD2F4
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 00:54:34 +0200 (CEST)
+Received: from localhost ([::1]:40092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPKiZ-0000mn-IT
-	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 02:43:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33695)
+	id 1jPDOy-0007HL-Sv
+	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 18:54:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48314)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jPKgF-00076N-KP
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 02:40:52 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1jPDO6-0006dw-GT
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 18:53:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1jPKgE-0007ok-Hd
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 02:40:51 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27371
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <yan.y.zhao@intel.com>) id 1jPDO4-0000L4-UE
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 18:53:37 -0400
+Received: from mga02.intel.com ([134.134.136.20]:18219)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jPKgC-0007mA-NT
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 02:40:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587105647;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fEMxjAYNaA24PRwCIBTPQwHjswgDw/0sJlHDOVvm1G0=;
- b=G0RGKHVBGCWhukryt+9GpYPQKZ65rP6bz76xHaELuibvrxwuO1anf5QRb4sXZRNhJhb1Iv
- 1T7KY8xsKwIUXeoL9epfUcryf59XElChn5UKUculiYqoN5wJAd2moeiwtugD2AfEvPmWT6
- k1lyN1Ci570AtmdLddJQMwBAioZBb4A=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-2eY-1d94P_-ssnl8yY77gg-1; Fri, 17 Apr 2020 02:40:44 -0400
-X-MC-Unique: 2eY-1d94P_-ssnl8yY77gg-1
-Received: by mail-wr1-f70.google.com with SMTP id h95so519494wrh.11
- for <qemu-devel@nongnu.org>; Thu, 16 Apr 2020 23:40:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=2mHImV1cMqRM3Vy0b2SFiCR52s4bh8qmJiZQmqCJy9w=;
- b=QTMrDBd+i/QgrkLdzQFCgXe24ZiDiFKXCXsSwdR81Xeiw1MIm9eulMd1KzKhSewrJI
- VsI8XJuPBndXO7Oltifn3E8IW3e97IYwL8rnUCYoX+oY8MYr3FP7Z4XFuJ1wMxD6i+t2
- HhxTTLPPEDLgl3s4jOmmjDstXfRvDY8po+idhEVBtKGMVpqF4imO9NnGlSLj1wm99t3Y
- 86FwZQ80J/27WB/0fN78gY0Pew21Jxx3vA1FzbzSpzxbKpOehK4C9/AofDi/F+x+ciLf
- X/WO+lCrD3sd6w+nZFzmXbXtPgCO3b6IgKxciUDbEZablNVL0jAsHNGoSYKYZjcaOgkx
- tm5A==
-X-Gm-Message-State: AGi0Pubp3DJgY7ETXPFwjrFbItyODgZ1UjMyIumOhqzp1zEWMp75uAdu
- DgyKnDvC+3M0dJ9vIkDSpEMiSM8Dord/SMjH6N/mH/cB8x5kKnv/5ZZghZSNlJdgelqw/kPwiu4
- nDKndmXGsP/UZaw4=
-X-Received: by 2002:a1c:9e43:: with SMTP id h64mr1749155wme.0.1587105642864;
- Thu, 16 Apr 2020 23:40:42 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKzlAP17UU5r0iAIWNFd7owlN6f/orkvhQ1YHL+Xld4z3riVhqvA9+PyWSCH4So4BHxOoywrA==
-X-Received: by 2002:a1c:9e43:: with SMTP id h64mr1749122wme.0.1587105642603;
- Thu, 16 Apr 2020 23:40:42 -0700 (PDT)
-Received: from redhat.com (bzq-79-183-51-3.red.bezeqint.net. [79.183.51.3])
- by smtp.gmail.com with ESMTPSA id v21sm6436460wmj.8.2020.04.16.23.40.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Apr 2020 23:40:42 -0700 (PDT)
-Date: Fri, 17 Apr 2020 02:40:39 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH-for-5.0 00/12] various bugfixes
-Message-ID: <20200417024020-mutt-send-email-mst@kernel.org>
-References: <20200414133052.13712-1-philmd@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <20200414133052.13712-1-philmd@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jPDO4-0000J9-Kx
+ for qemu-devel@nongnu.org; Thu, 16 Apr 2020 18:53:36 -0400
+IronPort-SDR: i7uqPKkSVJkuZqhsnDcRhnx3TIcipmGzYcHPqx1rZHy4kDzE8gLTvpf7Jbe13hpeP0GTEsEEvM
+ e8g/m9YKOHFg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2020 15:53:28 -0700
+IronPort-SDR: FIne49EMQxvGF+nmuUvuh7dQgRnHQhlSnJa3gPkSU+OF0caAT54Muf4BNxy3dMRzhPbjoxgFPt
+ EZOYKLqUjW1Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,392,1580803200"; d="scan'208";a="454510875"
+Received: from dpdk-zhirun.sh.intel.com ([10.67.119.121])
+ by fmsmga005.fm.intel.com with ESMTP; 16 Apr 2020 15:53:26 -0700
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: pbonzini@redhat.com,
+	alex.williamson@redhat.com
+Subject: [PATCH v4 0/3] drop writes to read-only ram device & vfio regions
+Date: Fri, 17 Apr 2020 07:44:14 +0000
+Message-Id: <20200417074414.28479-1-yan.y.zhao@intel.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 134.134.136.20
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,70 +54,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Fabien Chouteau <chouteau@adacore.com>,
- Max Filippov <jcmvbkbc@gmail.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Stafford Horne <shorne@gmail.com>, Max Reitz <mreitz@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Yan Zhao <yan.y.zhao@intel.com>, xin.zeng@intel.com, philmd@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 14, 2020 at 03:30:40PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> Collection of bugfixes for 5.0.
->=20
-> Only vhost-user-gpu/grlib_ahb_apb_pnp patches are reviewed.
->=20
-> As 5.0-rc3 is tomorrow, I thought it could help to gather
-> them and resend altogether.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+patch 1 modifies handler of ram device memory regions to drop guest writes
+to read-only ram device memory regions
+
+patch 2 modifies handler of non-mmap'd read-only vfio regions to drop guest
+writes to those regions 
+
+patch 3 set read-only flag to mmap'd read-only vfio regions, so that guest
+writes to those regions would be trapped.
+without patch 1, host qemu would then crash on guest write to those
+read-only regions.
+with patch 1, host qemu would drop the writes.
+
+Changelog:
+v4:
+-instead of modifying tracing log, added qemu_log_mask(LOG_GUEST_ERROR...)
+to log guest writes to read-only regions (Philippe)
+
+for
+v3:
+-refreshed and Cc Stefan for reviewing of tracing part
+
+v2:
+-split one big patches into smaller ones (Philippe)
+-modify existing trace to record guest writes to read-only memory (Alex)
+-modify vfio_region_write() to drop guest writes to non-mmap'd read-only
+ region (Alex)
 
 
-So who's applying all this stuff? Peter?
+Yan Zhao (3):
+  memory: drop guest writes to read-only ram device regions
+  hw/vfio: drop guest writes to ro regions
+  hw/vfio: let read-only flag take effect for mmap'd regions
 
-> Regards,
->=20
-> Phil.
->=20
-> Mansour Ahmadi (1):
->   hw/block/pflash: Check return value of blk_pwrite()
->=20
-> Philippe Mathieu-Daud=E9 (11):
->   Revert "prevent crash when executing guest-file-read with large count"
->   qga: Extract guest_file_handle_find() to commands-common.h
->   qga: Extract qmp_guest_file_read() to common commands.c
->   qga: Restrict guest-file-read count to 48 MB to avoid crashes
->   vhost-user-gpu: Release memory returned by vu_queue_pop() with free()
->   hw/openrisc/pic_cpu: Use qdev gpio rather than qemu_allocate_irqs()
->   hw/misc/grlib_ahb_apb_pnp: Avoid crash when writing to AHB PnP
->     registers
->   hw/misc/grlib_ahb_apb_pnp: Fix AHB PnP 8-bit accesses
->   hw/display/sm501: Avoid heap overflow in sm501_2d_operation()
->   gdbstub: Do not use memset() on GByteArray
->   gdbstub: Introduce gdb_get_freg32() to get float32 registers
->=20
->  qga/qapi-schema.json                    |  6 +++--
->  include/exec/gdbstub.h                  | 22 ++++++++++++++++
->  qga/commands-common.h                   | 21 +++++++++++++++
->  contrib/vhost-user-gpu/vhost-user-gpu.c |  4 +--
->  contrib/vhost-user-gpu/virgl.c          |  2 +-
->  hw/block/pflash_cfi01.c                 |  8 +++++-
->  hw/block/pflash_cfi02.c                 |  8 +++++-
->  hw/display/sm501.c                      |  6 +++++
->  hw/misc/grlib_ahb_apb_pnp.c             | 11 ++++++++
->  hw/openrisc/pic_cpu.c                   |  5 ++--
->  qga/commands-posix.c                    | 29 +++++---------------
->  qga/commands-win32.c                    | 35 ++++++-------------------
->  qga/commands.c                          | 33 +++++++++++++++++++++++
->  target/arm/gdbstub.c                    |  3 +--
->  target/sh4/gdbstub.c                    |  6 ++---
->  target/xtensa/gdbstub.c                 |  6 ++---
->  16 files changed, 136 insertions(+), 69 deletions(-)
->  create mode 100644 qga/commands-common.h
->=20
-> --=20
-> 2.21.1
+ hw/vfio/common.c | 16 ++++++++++++++--
+ memory.c         |  7 +++++++
+ 2 files changed, 21 insertions(+), 2 deletions(-)
+
+-- 
+2.17.1
 
 
