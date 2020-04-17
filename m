@@ -2,47 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C74AA1AD57C
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 07:08:24 +0200 (CEST)
-Received: from localhost ([::1]:42522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CBB21AD82C
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 10:05:48 +0200 (CEST)
+Received: from localhost ([::1]:43530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPJEl-0003mw-U5
-	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 01:08:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53909)
+	id 1jPM0R-00072E-7z
+	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 04:05:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54799)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jPJBz-0000gk-40
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 01:05:32 -0400
+ (envelope-from <ni.xun.intel@gmail.com>) id 1jPJKk-0005fx-7E
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 01:14:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jPJBx-0007S7-IZ
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 01:05:31 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:54563 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jPJBv-0007RD-Mr; Fri, 17 Apr 2020 01:05:29 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 493PDM5S39z9sSv; Fri, 17 Apr 2020 15:05:23 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1587099923;
- bh=sukPRN7kqfCsG8KffgiHN7+nZU28w250zeniJlzFCFw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=g4+htptkfIzbWFMJvzAnJr70psXB3ZFPVnay7lpAPjggVuqIuzJd4RW93kVTD4yGn
- t9WAXPgFgA5Ib3pzIp1KqolMO/ezlGzGDj2wJuO6FJOg44BBBwJK2zLqgXiqWDQW00
- 0qKn+kxY3ZqU7qCXBQjpFoqCxuvDpKWR1n9xzvCg=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org
-Subject: [PULL 3/3] target/ppc: Fix mtmsr(d) L=1 variant that loses interrupts
-Date: Fri, 17 Apr 2020 15:05:14 +1000
-Message-Id: <20200417050514.235060-4-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.25.2
-In-Reply-To: <20200417050514.235060-1-david@gibson.dropbear.id.au>
-References: <20200417050514.235060-1-david@gibson.dropbear.id.au>
+ (envelope-from <ni.xun.intel@gmail.com>) id 1jPJKj-0002Vc-6P
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 01:14:34 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:38243)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <ni.xun.intel@gmail.com>)
+ id 1jPJKg-0002Ub-Qf; Fri, 17 Apr 2020 01:14:30 -0400
+Received: by mail-pf1-x441.google.com with SMTP id y25so524321pfn.5;
+ Thu, 16 Apr 2020 22:14:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4FGrssPyP2GvHmjw7awTY/F55dKYyfXpXPoaU8AZM5o=;
+ b=HpZknUQu+qOV8VzyAhv26eF5Hm5NZxSpSUOIuCeZUOwA3Ob2KzImoDfoQaQtYWbweD
+ oId5YBUoC4BbMXjomPMOwBZljXK8ByzrerujS1xq6Jwp8DZAT4gykVFq313il8v5kNu6
+ dSGpmTsjZq+3ofSoCKtokOfYFcNBxrTGyyftlnSX/hd0HbchC6ccOXbjHXUx8Hl+gdY7
+ JHLfKpksnHaN1M/PiscSNLrbssaxWlL2EacRWabyEwjhCRcKe34HtTsN9+AnaYQJdQMe
+ mPpKCUhlVRC62bG8/08b9gK4PNyt/7PMHn/upwbOm8uJveFof5xV/G8ZnygflQ3oA/Zp
+ Lgkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4FGrssPyP2GvHmjw7awTY/F55dKYyfXpXPoaU8AZM5o=;
+ b=Y4Tz1bMoC0qiX8boKGJ26/5jVt4qXNB7K6/Xy0Lh0hBVVW5dH1f6GqJmQI+g+haU66
+ ZtcQyFDoeBFqKahKkmykKTdYr7R8ZxbObP+e4wOWZtn6PJhURemw2erbIugAmU194fQ/
+ IOzUjYq6HrLvylF5UZxGqr4qu/FgMJTB1cIsVh3Mo/aIPkLy1h/wf9rPqzE6irYzasID
+ L/qWYuRZf7Bwz34/eSxDUq0dZZl0ghHXQ0EHMVaOwUeOe937BeYvwK9wkTkkB1nY4/gi
+ 2fWQIccZNRhB4uqjonmJ+jWxeZ9zauF3y4RG2OpIi7j2IPrp0p4esrzv00i3Pe9vU8jl
+ XmIw==
+X-Gm-Message-State: AGi0PubwxgYDFkxxApAlt5IJRYDjUet/pBbUEwTKqOjxND9Gm/a3Twox
+ cZ5mkDMaYh+dRZzvzWQdE8w=
+X-Google-Smtp-Source: APiQypLJ4fcDAc9SZ1fR6eViE3QCLgps6/l3HyeWQZUPzfFhisJmXvvpFWq1AwV5JGJxcvCC9FrgVQ==
+X-Received: by 2002:aa7:9a92:: with SMTP id w18mr1446065pfi.95.1587100469260; 
+ Thu, 16 Apr 2020 22:14:29 -0700 (PDT)
+Received: from RICHARDNI-MB0.tencent.com ([203.205.141.36])
+ by smtp.gmail.com with ESMTPSA id d7sm18241638pfa.106.2020.04.16.22.14.26
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 16 Apr 2020 22:14:28 -0700 (PDT)
+From: ni.xun.intel@gmail.com
+X-Google-Original-From: richardni@tencent.com
+To: raphael.norwitz@nutanix.com, mst@redhat.com, kwolf@redhat.com,
+ mreitz@redhat.com, qemu-block@nongnu.org
+Subject: [PATCH] resend slave fd to vhost when reconnect to vhost
+Date: Fri, 17 Apr 2020 13:14:00 +0800
+Message-Id: <20200417051400.30398-1-richardni@tencent.com>
+X-Mailer: git-send-email 2.24.1 (Apple Git-126)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::441
+X-Mailman-Approved-At: Fri, 17 Apr 2020 04:03:58 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,168 +77,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Nicholas Piggin <npiggin@gmail.com>,
- qemu-stable@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
- Nathan Chancellor <natechancellor@gmail.com>,
- Anton Blanchard <anton@ozlabs.org>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Yan Miao <leomyan@tencent.com>, lucascye <lucascye@tencent.com>,
+ Lu Zhigang <tonnylu@tencent.com>, qemu-devel@nongnu.org,
+ Ni Xun <richardni@tencent.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Nicholas Piggin <npiggin@gmail.com>
+From: Ni Xun <richardni@tencent.com>
 
-If mtmsr L=3D1 sets MSR[EE] while there is a maskable exception pending,
-it does not cause an interrupt. This causes the test case to hang:
+when reconnecting to vhost server, it doesn't send slave fd to vhost
+as the slave fd is only sent in vhost_user_init. also resend the slave fd
+in vhost reconnect.
 
-https://lists.gnu.org/archive/html/qemu-ppc/2019-10/msg00826.html
-
-More recently, Linux reduced the occurance of operations (e.g., rfi)
-which stop translation and allow pending interrupts to be processed.
-This started causing hangs in Linux boot in long-running kernel tests,
-running with '-d int' shows the decrementer stops firing despite DEC
-wrapping and MSR[EE]=3D1.
-
-https://lists.ozlabs.org/pipermail/linuxppc-dev/2020-April/208301.html
-
-The cause is the broken mtmsr L=3D1 behaviour, which is contrary to the
-architecture. From Power ISA v3.0B, p.977, Move To Machine State Register=
-,
-Programming Note states:
-
-    If MSR[EE]=3D0 and an External, Decrementer, or Performance Monitor
-    exception is pending, executing an mtmsrd instruction that sets
-    MSR[EE] to 1 will cause the interrupt to occur before the next
-    instruction is executed, if no higher priority exception exists
-
-Fix this by handling L=3D1 exactly the same way as L=3D0, modulo the MSR
-bits altered.
-
-The confusion arises from L=3D0 being "context synchronizing" whereas L=3D=
-1
-is "execution synchronizing", which is a weaker semantic. However this
-is not a relaxation of the requirement that these exceptions cause
-interrupts when MSR[EE]=3D1 (e.g., when mtmsr executes to completion as
-TCG is doing here), rather it specifies how a pipelined processor can
-have multiple instructions in flight where one may influence how another
-behaves.
-
-Cc: qemu-stable@nongnu.org
-Reported-by: Anton Blanchard <anton@ozlabs.org>
-Reported-by: Nathan Chancellor <natechancellor@gmail.com>
-Tested-by: Nathan Chancellor <natechancellor@gmail.com>
-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-Message-Id: <20200414111131.465560-1-npiggin@gmail.com>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Tested-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Ni Xun <richardni@tencent.com>
+Signed-off-by: Lu Zhigang <tonnylu@tencent.com>
+Signed-off-by: Yan Miao <leomyan@tencent.com>
+Signed-off-by: lucascye <lucascye@tencent.com>
 ---
- target/ppc/translate.c | 46 +++++++++++++++++++++++++-----------------
- 1 file changed, 27 insertions(+), 19 deletions(-)
+ hw/block/vhost-user-blk.c | 6 ++++++
+ hw/virtio/vhost-user.c    | 2 +-
+ include/hw/virtio/vhost.h | 1 +
+ 3 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index b207fb5386..9959259dba 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -4361,30 +4361,34 @@ static void gen_mtmsrd(DisasContext *ctx)
-     CHK_SV;
-=20
- #if !defined(CONFIG_USER_ONLY)
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-     if (ctx->opcode & 0x00010000) {
--        /* Special form that does not need any synchronisation */
-+        /* L=3D1 form only updates EE and RI */
-         TCGv t0 =3D tcg_temp_new();
-+        TCGv t1 =3D tcg_temp_new();
-         tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)],
-                         (1 << MSR_RI) | (1 << MSR_EE));
--        tcg_gen_andi_tl(cpu_msr, cpu_msr,
-+        tcg_gen_andi_tl(t1, cpu_msr,
-                         ~(target_ulong)((1 << MSR_RI) | (1 << MSR_EE)));
--        tcg_gen_or_tl(cpu_msr, cpu_msr, t0);
-+        tcg_gen_or_tl(t1, t1, t0);
-+
-+        gen_helper_store_msr(cpu_env, t1);
-         tcg_temp_free(t0);
-+        tcg_temp_free(t1);
-+
-     } else {
-         /*
-          * XXX: we need to update nip before the store if we enter
-          *      power saving mode, we will exit the loop directly from
-          *      ppc_store_msr
-          */
--        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
--            gen_io_start();
--        }
-         gen_update_nip(ctx, ctx->base.pc_next);
-         gen_helper_store_msr(cpu_env, cpu_gpr[rS(ctx->opcode)]);
--        /* Must stop the translation as machine state (may have) changed=
- */
--        /* Note that mtmsr is not always defined as context-synchronizin=
-g */
--        gen_stop_exception(ctx);
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index 17df5338e7..59650a570b 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -138,6 +138,12 @@ static int vhost_user_blk_start(VirtIODevice *vdev)
+             error_report("Error get inflight: %d", -ret);
+             goto err_guest_notifiers;
+         }
++    } else {
++        ret = vhost_setup_slave_channel(&s->dev);
++        if (ret < 0) {
++            error_report("Error setting vhost slave channel: %d", -ret);
++            return ret;
++        }
      }
-+    /* Must stop the translation as machine state (may have) changed */
-+    gen_stop_exception(ctx);
- #endif /* !defined(CONFIG_USER_ONLY) */
+ 
+     ret = vhost_dev_set_inflight(&s->dev, s->inflight);
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 08e7e63790..0da4a12787 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -1115,7 +1115,7 @@ err:
+     return;
  }
- #endif /* defined(TARGET_PPC64) */
-@@ -4394,15 +4398,23 @@ static void gen_mtmsr(DisasContext *ctx)
-     CHK_SV;
-=20
- #if !defined(CONFIG_USER_ONLY)
--   if (ctx->opcode & 0x00010000) {
--        /* Special form that does not need any synchronisation */
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-+    if (ctx->opcode & 0x00010000) {
-+        /* L=3D1 form only updates EE and RI */
-         TCGv t0 =3D tcg_temp_new();
-+        TCGv t1 =3D tcg_temp_new();
-         tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)],
-                         (1 << MSR_RI) | (1 << MSR_EE));
--        tcg_gen_andi_tl(cpu_msr, cpu_msr,
-+        tcg_gen_andi_tl(t1, cpu_msr,
-                         ~(target_ulong)((1 << MSR_RI) | (1 << MSR_EE)));
--        tcg_gen_or_tl(cpu_msr, cpu_msr, t0);
-+        tcg_gen_or_tl(t1, t1, t0);
-+
-+        gen_helper_store_msr(cpu_env, t1);
-         tcg_temp_free(t0);
-+        tcg_temp_free(t1);
-+
-     } else {
-         TCGv msr =3D tcg_temp_new();
-=20
-@@ -4411,9 +4423,6 @@ static void gen_mtmsr(DisasContext *ctx)
-          *      power saving mode, we will exit the loop directly from
-          *      ppc_store_msr
-          */
--        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
--            gen_io_start();
--        }
-         gen_update_nip(ctx, ctx->base.pc_next);
- #if defined(TARGET_PPC64)
-         tcg_gen_deposit_tl(msr, cpu_msr, cpu_gpr[rS(ctx->opcode)], 0, 32=
-);
-@@ -4422,10 +4431,9 @@ static void gen_mtmsr(DisasContext *ctx)
- #endif
-         gen_helper_store_msr(cpu_env, msr);
-         tcg_temp_free(msr);
--        /* Must stop the translation as machine state (may have) changed=
- */
--        /* Note that mtmsr is not always defined as context-synchronizin=
-g */
--        gen_stop_exception(ctx);
-     }
-+    /* Must stop the translation as machine state (may have) changed */
-+    gen_stop_exception(ctx);
- #endif
- }
-=20
---=20
-2.25.2
+ 
+-static int vhost_setup_slave_channel(struct vhost_dev *dev)
++int vhost_setup_slave_channel(struct vhost_dev *dev)
+ {
+     VhostUserMsg msg = {
+         .hdr.request = VHOST_USER_SET_SLAVE_REQ_FD,
+diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+index 085450c6f8..cad60ad521 100644
+--- a/include/hw/virtio/vhost.h
++++ b/include/hw/virtio/vhost.h
+@@ -100,6 +100,7 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
+ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
+ int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
+ void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
++int vhost_setup_slave_channel(struct vhost_dev *hdev);
+ 
+ /* Test and clear masked event pending status.
+  * Should be called after unmask to avoid losing events.
+-- 
+2.24.1 (Apple Git-126)
 
 
