@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B4F61AE82C
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Apr 2020 00:24:48 +0200 (CEST)
-Received: from localhost ([::1]:52640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A51B1AE813
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Apr 2020 00:19:40 +0200 (CEST)
+Received: from localhost ([::1]:52592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPZPj-0003Zm-D4
-	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 18:24:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54527)
+	id 1jPZKl-0000Cg-65
+	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 18:19:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47014)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jPZNy-0002fL-Lk
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 18:23:00 -0400
+ (envelope-from <eblake@redhat.com>) id 1jPZI1-0006nv-Va
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 18:16:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1jPZNx-0003N1-12
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 18:22:58 -0400
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:46566)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1jPZNw-0003Kg-R0; Fri, 17 Apr 2020 18:22:56 -0400
-Received: by mail-io1-xd41.google.com with SMTP id i3so4055381ioo.13;
- Fri, 17 Apr 2020 15:22:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Yci4dGcm4um/vtAgvtXC7THuPPQi/0cF/TuiO5+jZzk=;
- b=ZmALFK+iLgrsfMoKQDsA5CF3Zouy2hvrE8Uw8a1oelbkxUMrPMdBNZu5KSkSux+AlW
- kM7dDxM4Whg/7xt+IelPwYnNjbO7aYzOznsgIV2GA3ePc0iU+w/CgYCPecXuqDfSX3lQ
- k3Za6sezvHauw2BbOzuzV2qRD2Ot1BtuGwapx4a6qfGmlr6Ingg29h2UC8guiHOD6pdl
- 9lTEaWsOTgc30zDGtlKCyzsvS915QYxcwYgn64Ee7XNlSPnlBwYxP8KJPbCqk0wf4+iy
- aYqVofXZMM4GdIDbWlTtWvAGnbJJTEKK8biVB+T+JRiDT9JmrYRQ1o71riDsWuVOeymM
- Iiuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Yci4dGcm4um/vtAgvtXC7THuPPQi/0cF/TuiO5+jZzk=;
- b=TTQnsIXQEDEvPkkMdhDJdZNuWVSnhIVyM+mNjCHqTqU+pmfViyi8Ac6oNW25Lyfnp9
- BUeHIb4+0O9YXwd2pR8pwYQ388gKRg0yYANz36XAf2GqOOsmjhp9gXsqCxbXsazegyn1
- sJxMskmW3DlIhQa5a6/dH1+mphTNABGKOz/qSBndzyIkemfa7yIZURsg48wpnAqwnbkn
- P8G2F+dBbqSv2M+e9DN/aCvIvmMJIlzXR61qrV/xjci1a498jVW4bfPqj6UcT60ijzhQ
- 5XQAAvQBRyhKQtsuLcTsNUgT1SFWcAODt0QhG6swTIUJ6S+z6d3ODYPjGjenLJ5146Pe
- /emg==
-X-Gm-Message-State: AGi0PubufFCxrOCsbTSrugspPCO88v2IcFbci5ecwKnudAjS1BgdgOaK
- LPqicBQDjKjRf6rQ6N1PujItEILKjLc8arXUlVM=
-X-Google-Smtp-Source: APiQypImW02oTGM3nK/Gc83srFImA520CuJ0W4i4cu0VKeoJeYlETGxaK/MgsplmlNMjy0ynv1Ot8+BsLPpN9Proezs=
-X-Received: by 2002:a5d:9604:: with SMTP id w4mr2068920iol.105.1587162175826; 
- Fri, 17 Apr 2020 15:22:55 -0700 (PDT)
+ (envelope-from <eblake@redhat.com>) id 1jPZI0-0001Sl-S4
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 18:16:49 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35069
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jPZI0-0001QX-OD
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 18:16:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587161808;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=syBgCS5Esla0lu5vZPZZKzGs0qRBljvfPIltt3id39A=;
+ b=R2vHhY84OXHTBeL7K0l4eqoinRll0RFScbnLXUiVQDwdlfFS8KfM0Gw0wZ5rhYnAOWkyWn
+ AEv8DgmqfD4qWfjI+wg7nGFndMkSoMjWnCqoMUcuhjJjyHa8FlIgAJodstbySOXk9kdGxc
+ 6VXwx90rNnGCD+uIb2hzCHcBnL7kizY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-482-oT_2r349P4W5eJFhCeYNKw-1; Fri, 17 Apr 2020 18:16:41 -0400
+X-MC-Unique: oT_2r349P4W5eJFhCeYNKw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C05A0800D53;
+ Fri, 17 Apr 2020 22:16:40 +0000 (UTC)
+Received: from [10.3.115.59] (ovpn-115-59.phx2.redhat.com [10.3.115.59])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 123F29E0D4;
+ Fri, 17 Apr 2020 22:16:40 +0000 (UTC)
+Subject: Re: [PATCH] qemu-img: Fix stale doc comment
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+References: <20200417221258.900117-1-eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <c3c49393-eedd-3aa0-6156-86cc1e732762@redhat.com>
+Date: Fri, 17 Apr 2020 17:16:39 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200330153633.15298-1-zhiwei_liu@c-sky.com>
- <20200330153633.15298-39-zhiwei_liu@c-sky.com>
-In-Reply-To: <20200330153633.15298-39-zhiwei_liu@c-sky.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 17 Apr 2020 15:14:32 -0700
-Message-ID: <CAKmqyKMuxjsjFJV9y3pNP7DaTVCXH8LKC-Mxv933Q4nb3WoX0Q@mail.gmail.com>
-Subject: Re: [PATCH v7 38/61] target/riscv: vector floating-point
- sign-injection instructions
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::d41
+In-Reply-To: <20200417221258.900117-1-eblake@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,184 +74,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wxy194768@alibaba-inc.com, Chih-Min Chao <chihmin.chao@sifive.com>,
- wenmeng_zhang@c-sky.com, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: qemu-trivial@nongnu.org, peter.maydell@linaro.org,
+ Kevin Wolf <kwolf@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 30, 2020 at 9:53 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+On 4/17/20 5:12 PM, Eric Blake wrote:
+> Missed in commit e13c59fa.
+> 
+> Signed-off-by: Eric Blake <eblake@redhat.com>
 > ---
->  target/riscv/helper.h                   | 19 ++++++
->  target/riscv/insn32.decode              |  6 ++
->  target/riscv/insn_trans/trans_rvv.inc.c |  8 +++
->  target/riscv/vector_helper.c            | 85 +++++++++++++++++++++++++
->  4 files changed, 118 insertions(+)
->
-> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-> index 12d959ba0d..d6e7ce57be 100644
-> --- a/target/riscv/helper.h
-> +++ b/target/riscv/helper.h
-> @@ -934,3 +934,22 @@ DEF_HELPER_6(vfmin_vf_d, void, ptr, ptr, i64, ptr, env, i32)
->  DEF_HELPER_6(vfmax_vf_h, void, ptr, ptr, i64, ptr, env, i32)
->  DEF_HELPER_6(vfmax_vf_w, void, ptr, ptr, i64, ptr, env, i32)
->  DEF_HELPER_6(vfmax_vf_d, void, ptr, ptr, i64, ptr, env, i32)
-> +
-> +DEF_HELPER_6(vfsgnj_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vfsgnj_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vfsgnj_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vfsgnjn_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vfsgnjn_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vfsgnjn_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vfsgnjx_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vfsgnjx_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vfsgnjx_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vfsgnj_vf_h, void, ptr, ptr, i64, ptr, env, i32)
-> +DEF_HELPER_6(vfsgnj_vf_w, void, ptr, ptr, i64, ptr, env, i32)
-> +DEF_HELPER_6(vfsgnj_vf_d, void, ptr, ptr, i64, ptr, env, i32)
-> +DEF_HELPER_6(vfsgnjn_vf_h, void, ptr, ptr, i64, ptr, env, i32)
-> +DEF_HELPER_6(vfsgnjn_vf_w, void, ptr, ptr, i64, ptr, env, i32)
-> +DEF_HELPER_6(vfsgnjn_vf_d, void, ptr, ptr, i64, ptr, env, i32)
-> +DEF_HELPER_6(vfsgnjx_vf_h, void, ptr, ptr, i64, ptr, env, i32)
-> +DEF_HELPER_6(vfsgnjx_vf_w, void, ptr, ptr, i64, ptr, env, i32)
-> +DEF_HELPER_6(vfsgnjx_vf_d, void, ptr, ptr, i64, ptr, env, i32)
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 5ec5595e2c..ce2f497ed2 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -494,6 +494,12 @@ vfmin_vv        000100 . ..... ..... 001 ..... 1010111 @r_vm
->  vfmin_vf        000100 . ..... ..... 101 ..... 1010111 @r_vm
->  vfmax_vv        000110 . ..... ..... 001 ..... 1010111 @r_vm
->  vfmax_vf        000110 . ..... ..... 101 ..... 1010111 @r_vm
-> +vfsgnj_vv       001000 . ..... ..... 001 ..... 1010111 @r_vm
-> +vfsgnj_vf       001000 . ..... ..... 101 ..... 1010111 @r_vm
-> +vfsgnjn_vv      001001 . ..... ..... 001 ..... 1010111 @r_vm
-> +vfsgnjn_vf      001001 . ..... ..... 101 ..... 1010111 @r_vm
-> +vfsgnjx_vv      001010 . ..... ..... 001 ..... 1010111 @r_vm
-> +vfsgnjx_vf      001010 . ..... ..... 101 ..... 1010111 @r_vm
->
->  vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
->  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
-> diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-> index ea00e2dfb0..4963004dd4 100644
-> --- a/target/riscv/insn_trans/trans_rvv.inc.c
-> +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-> @@ -2155,3 +2155,11 @@ GEN_OPFVV_TRANS(vfmin_vv, opfvv_check)
->  GEN_OPFVV_TRANS(vfmax_vv, opfvv_check)
->  GEN_OPFVF_TRANS(vfmin_vf, opfvf_check)
->  GEN_OPFVF_TRANS(vfmax_vf, opfvf_check)
-> +
-> +/* Vector Floating-Point Sign-Injection Instructions */
-> +GEN_OPFVV_TRANS(vfsgnj_vv, opfvv_check)
-> +GEN_OPFVV_TRANS(vfsgnjn_vv, opfvv_check)
-> +GEN_OPFVV_TRANS(vfsgnjx_vv, opfvv_check)
-> +GEN_OPFVF_TRANS(vfsgnj_vf, opfvf_check)
-> +GEN_OPFVF_TRANS(vfsgnjn_vf, opfvf_check)
-> +GEN_OPFVF_TRANS(vfsgnjx_vf, opfvf_check)
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index a2c427b26c..3f01fdd83c 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -3843,3 +3843,88 @@ RVVCALL(OPFVF2, vfmax_vf_d, OP_UUU_D, H8, H8, float64_maxnum)
->  GEN_VEXT_VF(vfmax_vf_h, 2, 2, clearh)
->  GEN_VEXT_VF(vfmax_vf_w, 4, 4, clearl)
->  GEN_VEXT_VF(vfmax_vf_d, 8, 8, clearq)
-> +
-> +/* Vector Floating-Point Sign-Injection Instructions */
-> +static uint16_t fsgnj16(uint16_t a, uint16_t b, float_status *s)
-> +{
-> +    return deposit64(b, 0, 15, a);
-> +}
-> +
-> +static uint32_t fsgnj32(uint32_t a, uint32_t b, float_status *s)
-> +{
-> +    return deposit64(b, 0, 31, a);
-> +}
-> +
-> +static uint64_t fsgnj64(uint64_t a, uint64_t b, float_status *s)
-> +{
-> +    return deposit64(b, 0, 63, a);
-> +}
-> +
-> +RVVCALL(OPFVV2, vfsgnj_vv_h, OP_UUU_H, H2, H2, H2, fsgnj16)
-> +RVVCALL(OPFVV2, vfsgnj_vv_w, OP_UUU_W, H4, H4, H4, fsgnj32)
-> +RVVCALL(OPFVV2, vfsgnj_vv_d, OP_UUU_D, H8, H8, H8, fsgnj64)
-> +GEN_VEXT_VV_ENV(vfsgnj_vv_h, 2, 2, clearh)
-> +GEN_VEXT_VV_ENV(vfsgnj_vv_w, 4, 4, clearl)
-> +GEN_VEXT_VV_ENV(vfsgnj_vv_d, 8, 8, clearq)
-> +RVVCALL(OPFVF2, vfsgnj_vf_h, OP_UUU_H, H2, H2, fsgnj16)
-> +RVVCALL(OPFVF2, vfsgnj_vf_w, OP_UUU_W, H4, H4, fsgnj32)
-> +RVVCALL(OPFVF2, vfsgnj_vf_d, OP_UUU_D, H8, H8, fsgnj64)
-> +GEN_VEXT_VF(vfsgnj_vf_h, 2, 2, clearh)
-> +GEN_VEXT_VF(vfsgnj_vf_w, 4, 4, clearl)
-> +GEN_VEXT_VF(vfsgnj_vf_d, 8, 8, clearq)
-> +
-> +static uint16_t fsgnjn16(uint16_t a, uint16_t b, float_status *s)
-> +{
-> +    return deposit64(~b, 0, 15, a);
-> +}
-> +
-> +static uint32_t fsgnjn32(uint32_t a, uint32_t b, float_status *s)
-> +{
-> +    return deposit64(~b, 0, 31, a);
-> +}
-> +
-> +static uint64_t fsgnjn64(uint64_t a, uint64_t b, float_status *s)
-> +{
-> +    return deposit64(~b, 0, 63, a);
-> +}
-> +
-> +RVVCALL(OPFVV2, vfsgnjn_vv_h, OP_UUU_H, H2, H2, H2, fsgnjn16)
-> +RVVCALL(OPFVV2, vfsgnjn_vv_w, OP_UUU_W, H4, H4, H4, fsgnjn32)
-> +RVVCALL(OPFVV2, vfsgnjn_vv_d, OP_UUU_D, H8, H8, H8, fsgnjn64)
-> +GEN_VEXT_VV_ENV(vfsgnjn_vv_h, 2, 2, clearh)
-> +GEN_VEXT_VV_ENV(vfsgnjn_vv_w, 4, 4, clearl)
-> +GEN_VEXT_VV_ENV(vfsgnjn_vv_d, 8, 8, clearq)
-> +RVVCALL(OPFVF2, vfsgnjn_vf_h, OP_UUU_H, H2, H2, fsgnjn16)
-> +RVVCALL(OPFVF2, vfsgnjn_vf_w, OP_UUU_W, H4, H4, fsgnjn32)
-> +RVVCALL(OPFVF2, vfsgnjn_vf_d, OP_UUU_D, H8, H8, fsgnjn64)
-> +GEN_VEXT_VF(vfsgnjn_vf_h, 2, 2, clearh)
-> +GEN_VEXT_VF(vfsgnjn_vf_w, 4, 4, clearl)
-> +GEN_VEXT_VF(vfsgnjn_vf_d, 8, 8, clearq)
-> +
-> +static uint16_t fsgnjx16(uint16_t a, uint16_t b, float_status *s)
-> +{
-> +    return deposit64(b ^ a, 0, 15, a);
-> +}
-> +
-> +static uint32_t fsgnjx32(uint32_t a, uint32_t b, float_status *s)
-> +{
-> +    return deposit64(b ^ a, 0, 31, a);
-> +}
-> +
-> +static uint64_t fsgnjx64(uint64_t a, uint64_t b, float_status *s)
-> +{
-> +    return deposit64(b ^ a, 0, 63, a);
-> +}
-> +
-> +RVVCALL(OPFVV2, vfsgnjx_vv_h, OP_UUU_H, H2, H2, H2, fsgnjx16)
-> +RVVCALL(OPFVV2, vfsgnjx_vv_w, OP_UUU_W, H4, H4, H4, fsgnjx32)
-> +RVVCALL(OPFVV2, vfsgnjx_vv_d, OP_UUU_D, H8, H8, H8, fsgnjx64)
-> +GEN_VEXT_VV_ENV(vfsgnjx_vv_h, 2, 2, clearh)
-> +GEN_VEXT_VV_ENV(vfsgnjx_vv_w, 4, 4, clearl)
-> +GEN_VEXT_VV_ENV(vfsgnjx_vv_d, 8, 8, clearq)
-> +RVVCALL(OPFVF2, vfsgnjx_vf_h, OP_UUU_H, H2, H2, fsgnjx16)
-> +RVVCALL(OPFVF2, vfsgnjx_vf_w, OP_UUU_W, H4, H4, fsgnjx32)
-> +RVVCALL(OPFVF2, vfsgnjx_vf_d, OP_UUU_D, H8, H8, fsgnjx64)
-> +GEN_VEXT_VF(vfsgnjx_vf_h, 2, 2, clearh)
-> +GEN_VEXT_VF(vfsgnjx_vf_w, 4, 4, clearl)
-> +GEN_VEXT_VF(vfsgnjx_vf_d, 8, 8, clearq)
-> --
-> 2.23.0
->
+>   qemu-img-cmds.hx | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+
+and I should have grepped for other instances; this needs to be squashed in:
+
+diff --git i/qemu-img.c w/qemu-img.c
+index d900bde89911..481103f7a10f 100644
+--- i/qemu-img.c
++++ w/qemu-img.c
+@@ -110,7 +110,7 @@ static void QEMU_NORETURN unrecognized_option(const 
+char *option)
+      error_exit("unrecognized option '%s'", option);
+  }
+
+-/* Please keep in synch with qemu-img.texi */
++/* Please keep in synch with docs/tools/qemu-img.rst */
+  static void QEMU_NORETURN help(void)
+  {
+      const char *help_msg =
+
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
