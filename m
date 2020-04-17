@@ -2,70 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 193971AE16E
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 17:46:14 +0200 (CEST)
-Received: from localhost ([::1]:48770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FB661AE178
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 17:50:50 +0200 (CEST)
+Received: from localhost ([::1]:48790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPTC0-00067g-KY
-	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 11:46:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54910)
+	id 1jPTGT-0000Te-77
+	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 11:50:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55504)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jPTAr-0005PT-1d
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 11:45:01 -0400
+ (envelope-from <yates@digitalsignallabs.com>) id 1jPTFM-00080m-74
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 11:49:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jPTAq-0005LV-6J
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 11:45:00 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:40111)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jPTAo-0005Ii-0W; Fri, 17 Apr 2020 11:44:58 -0400
-Received: by mail-lj1-x243.google.com with SMTP id y4so2495060ljn.7;
- Fri, 17 Apr 2020 08:44:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=S7ZNopsLY+4c0MxDoi8HaUVT0NAryJP5GfzG/43hYZs=;
- b=F8WT4GMAXDUuOpKFcVQlNBgWQBVq6xUc8GU5Lj3oW+fXdqzoy7tR6GBt9Kp4uu2Yl9
- ffankAD4HKNDCSuV9pumY6SbG9Dlh1nkAzosJoRBHCddk2TXMiLEANk1TDDj5vLHwZQn
- Lf64srJnFATFsReyICN3CS0CLh/Ydc4YFP5Uvz+t1Z8gA9vbtnlxkPILPqh3hvFf//Z9
- B/GdkzQQFmQZdNg4M3wJ4n1AApKa0I58CUC1W4pSAYycqpJUY469wrEQTiQDdP3Ja6bl
- yGdAX1l0elsP8dxj8YMNEiETNTBMYMZuRPEwqqFeA6Li93equud5J0ADHps7doRUKKEK
- Ku4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=S7ZNopsLY+4c0MxDoi8HaUVT0NAryJP5GfzG/43hYZs=;
- b=kUwXdEUJVwqp5QIU66m3FzaBjDYxL6sk0op4/HRpWYxyvQRM/PRxxb+lpEvT41jOV/
- vztGXNCqoKo7yFo7UqxkHi+L3IMTysCjSUI8iQVIS0w830gSEs/b0Od0Tnkmn2P5kpfV
- K9ye7QQbwRJ0D9PlMC/I6/SnJaCWHxiF31DTZUpBlML4uPq2abQ5RsK6Fc09HXNoT9PG
- uFtPxTsupX6cVY2XjWOlE0iV3VKOcjPjv96ojXZLi+Z5pDtYOP68eqvy3Wgy0d8WCUfM
- 9rspCk2VocBymCrq78EBZAwirruh+BkSCUN3H9cjd5mjmTOhB+b+K9dwV6vDcaTXb6VV
- xDKw==
-X-Gm-Message-State: AGi0Pub3hISgANXhj8NwSbpCNrjDwwnsB6qSm3mburH4zSQU2AFLltNp
- FfEvMsoqMQwKfyEE4vNB7NY=
-X-Google-Smtp-Source: APiQypLra0RKDRERVYZKe2kwBYfnwqq5zJhh3vOeh/TYlQmrcGt0MCOOOWynsZEJoedDp8ib5B91Mw==
-X-Received: by 2002:a2e:9f13:: with SMTP id u19mr2573867ljk.14.1587138296072; 
- Fri, 17 Apr 2020 08:44:56 -0700 (PDT)
-Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id y29sm16666917ljd.26.2020.04.17.08.44.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Apr 2020 08:44:55 -0700 (PDT)
-Date: Fri, 17 Apr 2020 17:46:06 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Ramon Fried <rfried.dev@gmail.com>
-Subject: Re: [PATCH] Cadence: gem: fix wraparound in 64bit descriptors
-Message-ID: <20200417154606.GC2669@toto>
-References: <20200416090247.353414-1-rfried.dev@gmail.com>
+ (envelope-from <yates@digitalsignallabs.com>) id 1jPTFL-0000Zx-1l
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 11:49:40 -0400
+Received: from mail.onyx.syn-alias.com ([206.152.134.66]:7900
+ helo=smtp.centurylink.net)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yates@digitalsignallabs.com>)
+ id 1jPTFK-0000ZA-Sf
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 11:49:39 -0400
+X_CMAE_Category: , ,
+X-CNFS-Analysis: v=2.3 cv=JJdFTPCb c=1 sm=1 tr=0
+ a=/DUmtE38f4iOwNXrSUBayA==:117 a=/DUmtE38f4iOwNXrSUBayA==:17
+ a=KGjhK52YXX0A:10 a=cl8xLZFz6L8A:10 a=PPsO2EghCewA:10 a=eQrCS-SpgXYA:10
+ a=yrnTiy7_AAAA:8 a=CHELGaInbuG0p1oXFN4A:9 a=lbpfFqayHvHkQ8LnpU4A:9
+ a=d2wp0cl8BqqoVUBAGsA6:22 a=pHzHmUro8NiASowvMSCR:22 a=xoEH_sTeL_Rfw54TyV31:22
+X-CM-Score: 0
+X-Scanned-by: Cloudmark Authority Engine
+Feedback-ID: dfw:ctl:res:onyx
+X-Authed-Username: eWF0ZXNmcmVlZGFyYW5keUBjZW50dXJ5bGluay5uZXQ=
+Authentication-Results: smtp01.onyx.dfw.sync.lan
+ smtp.user=yatesfreedarandy@centurylink.net; auth=pass (LOGIN)
+Received: from [71.217.96.46] ([71.217.96.46:41482]
+ helo=galois.digitalsignallabs.com)
+ by smtp.centurylink.net (envelope-from <yates@digitalsignallabs.com>)
+ (ecelerity 3.6.25.56547 r(Core:3.6.25.0)) with ESMTPA
+ id 39/21-10847-110D99E5; Fri, 17 Apr 2020 11:49:37 -0400
+Received: from localhost.localdomain (unknown [71.217.96.46])
+ by galois.digitalsignallabs.com (Postfix) with ESMTPA id 2A0D02E0C4B
+ for <qemu-devel@nongnu.org>; Fri, 17 Apr 2020 11:49:36 -0400 (EDT)
+From: Randy Yates <yates@digitalsignallabs.com>
+To: qemu-devel@nongnu.org
+Subject: Re: QEMU Development Questions
+Organization: Digital Signal Labs
+Date: Fri, 17 Apr 2020 11:49:35 -0400
+Message-ID: <87o8rqdsds.fsf@digitalsignallabs.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200416090247.353414-1-rfried.dev@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::243
+Content-Type: multipart/alternative; boundary="=-=-="
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.6.x
+X-Received-From: 206.152.134.66
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,49 +64,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, jasowang@redhat.com, alistair@alistair23.me,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 16, 2020 at 12:02:47PM +0300, Ramon Fried wrote:
-> Wraparound of TX descriptor cyclic buffer only updated
-> the low 32 bits of the descriptor.
-> Fix that by checking if we're working with 64bit descriptors.
+--=-=-=
+Content-Type: text/plain
 
-Looks good to me, so with the indentation fix that Peter mentioned:
-
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Thanks for the answers I've received so far - much appreciated.
 
 
+Is there a standard way to define your own custom coprocessor CP15 registers?
 
-> 
-> Signed-off-by: Ramon Fried <rfried.dev@gmail.com>
-> ---
->  hw/net/cadence_gem.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-> index 51ec5a072d..b8ae21cc0d 100644
-> --- a/hw/net/cadence_gem.c
-> +++ b/hw/net/cadence_gem.c
-> @@ -1238,7 +1238,14 @@ static void gem_transmit(CadenceGEMState *s)
->              /* read next descriptor */
->              if (tx_desc_get_wrap(desc)) {
->                  tx_desc_set_last(desc);
-> -                packet_desc_addr = s->regs[GEM_TXQBASE];
-> +
-> +            if (s->regs[GEM_DMACFG] & GEM_DMACFG_ADDR_64B) {
-> +                packet_desc_addr = s->regs[GEM_TBQPH];
-> +                packet_desc_addr <<= 32;
-> +            } else {
-> +                packet_desc_addr = 0;
-> +            }
-> +                packet_desc_addr |= s->regs[GEM_TXQBASE];
->              } else {
->                  packet_desc_addr += 4 * gem_get_desc_len(s, false);
->              }
-> -- 
-> 2.26.0
-> 
+
+----Randy
+
+
+
+                                                  1
+Randy Yates, DSP/Embedded Firmware Developer
+Digital Signal Labs
+http://www.digitalsignallabs.com
+
+--=-=-=
+Content-Type: text/html
+
+
+
+
+
+
+
+
+  
+<style>
+*
+{
+  font-size: 12px;
+  font-family: Verdana, Geneva, sans-serif;
+}
+
+p 
+{
+  font-size: 12px;
+  font-family: Verdana, Geneva, sans-serif;
+}
+
+div
+{
+  font-size: 12px;
+  font-family: Verdana, Geneva, sans-serif;
+}
+
+v
+{
+  font-size: 12px;
+  font-family: Verdana, Geneva, sans-serif;
+}
+
+li
+{
+  font-size: 12px;
+  font-family: Verdana, Geneva, sans-serif;
+}
+
+table 
+{
+  font-size: 12px;
+  font-family: Verdana, Geneva, sans-serif;
+  color: rgb(31,73,125);
+%  background-color: white;
+%  border-style: solid;
+%  border-width: 1px;
+%  border-color: white;
+}
+
+pre 
+{
+  font-size: 11px;
+  font-weight: bold;
+  font-family: Courier New, Courier, monospace;
+%  color: #404040;
+  background-color: #c0c0c0;
+}
+
+a, a:visited, a:hover, a:active 
+{
+  color: inherit;
+}
+
+.sig
+{
+  font-size: 10px;
+  font-weight: bold;
+}
+
+</style>
+
+
+
+
+
+<span style="color:#1F497D">
+<span style="font-family:helvetica">
+
+<div class="p"><!----></div>
+<p>Thanks for the answers I've received so far - much appreciated. 
+
+<div class="p"><!----></div>
+<p>Is there a standard way to define your own custom coprocessor CP15 registers?
+
+<div class="p"><!----></div>
+<p>--Randy
+
+<div class="p"><!----></div>
+</span></span>
+--=-=-=--
 
