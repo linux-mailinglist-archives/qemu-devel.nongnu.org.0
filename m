@@ -2,52 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F7631ADD9A
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 14:50:52 +0200 (CEST)
-Received: from localhost ([::1]:46840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC5C1ADDFD
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 15:04:10 +0200 (CEST)
+Received: from localhost ([::1]:46986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPQSI-00044A-JL
-	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 08:50:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58089)
+	id 1jPQfA-0000cY-Oo
+	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 09:04:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60762)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1jPQOG-000284-Be
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 08:46:46 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jPQcX-0007bu-Ov
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 09:01:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1jPQOF-0005uo-0u
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 08:46:40 -0400
-Received: from 9.mo178.mail-out.ovh.net ([46.105.75.45]:36817)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jPQOE-0005mx-RD
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 08:46:38 -0400
-Received: from player797.ha.ovh.net (unknown [10.108.42.192])
- by mo178.mail-out.ovh.net (Postfix) with ESMTP id B97929AE71
- for <qemu-devel@nongnu.org>; Fri, 17 Apr 2020 14:46:29 +0200 (CEST)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player797.ha.ovh.net (Postfix) with ESMTPSA id 5F0A5D747FBF;
- Fri, 17 Apr 2020 12:46:17 +0000 (UTC)
-Subject: Re: [PATCH-for-5.0?] target/ppc: Fix TCG temporary leaks in
- gen_slbia()
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200417090749.14310-1-f4bug@amsat.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <c1abbe1a-8ad9-1b1b-c45e-734773a3a314@kaod.org>
-Date: Fri, 17 Apr 2020 14:46:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jPQcW-0006DU-0s
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 09:01:25 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37655)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jPQcV-0006Cm-R8
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 09:01:23 -0400
+Received: by mail-wm1-x343.google.com with SMTP id z6so2908374wml.2
+ for <qemu-devel@nongnu.org>; Fri, 17 Apr 2020 06:01:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=eHgOKnVBd1q/xV2B17t9P7XW6l+5qu53Br1CJnfa0xc=;
+ b=hfvEnw/F29rCTvWYW/py5UVB9jxWeUHLh4eWq+ct2nu6PX3fwZbTK51t41/QJ4SwqB
+ h7SO5i4kmUkkdytu4BfEL2hQLbVdR6nDyN8viUZXhtdPBkfuNHc7M9cNMqxFo3g+ilSi
+ 0Lmsu3W2cuj9EmJw/dthEb4ahWQaHYV+T4rirQ4mniSfgyWbw8Zcotdx5PtccJeRZSDs
+ 5z6JI4qPmuA39vkU3uwQKVPyBmQMAFAdrFmiEdFBReEVpCjDaeWvsgpTZCYhAd/UzfU+
+ 9BzT//S+s66ukKX1Fb0A8jjpHbROF2UAPQvTzWfTSYXOFoHhJJ2Cw8C+a5u6gMmAa511
+ Mtkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=eHgOKnVBd1q/xV2B17t9P7XW6l+5qu53Br1CJnfa0xc=;
+ b=quWfvWQi3x15k2sCr23FUkCliiWisKMiwSsuDn0Wt9iIkhAOgIdaJqLNRb6XWZJ4py
+ 5Uh/75KKbm6pNntS70x/8Pht2La0JPjuKQVXR17arv0DsOIICgIxhyUUyzJkNDd3jDIu
+ u14Al0NBm41sUq2nfJCMsHeP5anDohSxmh4cubUUoBeIm4mtorw+bV6sTQFEMR6Q62pM
+ YEmSXIgVr6UokgY8VGxjcjJqSpVhchzOpULl+PK6e8GFBUu0j2gYyUcMEkZ8Qm5JspZf
+ NtjyXXOZtUEXGWy4vwJr21Nz/dO2gX2xzLWEH2661PkkJqEYd7e6NvolXoF7+mL7sTWX
+ 4RfA==
+X-Gm-Message-State: AGi0Puamd3gWsezpbIpG7DvycvFD5aVb5JHC/MhkCFnnN6nVmkYGP3L6
+ 2Ls//IdMIJdvOHnOb5+623LQllEfoKDItWI1hc0=
+X-Google-Smtp-Source: APiQypLs3t1sie2L5zs6WanPMRIZssjnDQJbU9dajyMG0TFXWAoAbTdYKEA1p1bUeDIzWwiSatqnmAmPlGgO3fS487g=
+X-Received: by 2002:a7b:c38b:: with SMTP id s11mr3299049wmj.55.1587128481803; 
+ Fri, 17 Apr 2020 06:01:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200417090749.14310-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Ovh-Tracer-Id: 11899917593337891701
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrfeejgdehiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuffhomhgrihhnpehmrghilhdqrghrtghhihhvvgdrtghomhenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejleejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+References: <1587126653-5839-1-git-send-email-sai.pavan.boddu@xilinx.com>
+In-Reply-To: <1587126653-5839-1-git-send-email-sai.pavan.boddu@xilinx.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 17 Apr 2020 15:01:09 +0200
+Message-ID: <CAJ+F1CKCjv6rY3t0Lk9sTUFcop2xgjf=TjmkEGM54AzWCwx-XQ@mail.gmail.com>
+Subject: Re: [PATCH] chardev/char-socket: Properly make qio connections non
+ blocking
+To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.75.45
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,54 +75,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Dennis Clarke <dclarke@blastwave.org>, qemu-ppc@nongnu.org,
- Nicholas Piggin <npiggin@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, edgari@xilinx.com,
+ QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/17/20 11:07 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> This fixes:
->=20
->   $ qemu-system-ppc64 \
->   -machine pseries-4.1 -cpu power9 \
->   -smp 4 -m 12G -accel tcg ...
->   ...
->   Quiescing Open Firmware ...
->   Booting Linux via __start() @ 0x0000000002000000 ...
->   Opcode 1f 12 0f 00 (7ce003e4) leaked temporaries
->   Opcode 1f 12 0f 00 (7ce003e4) leaked temporaries
->   Opcode 1f 12 0f 00 (7ce003e4) leaked temporaries
->=20
-> [*] https://www.mail-archive.com/qemu-discuss@nongnu.org/msg05400.html
->=20
-> Fixes: 0418bf78fe8 ("Fix ISA v3.0 (POWER9) slbia implementation")
-> Reported-by: Dennis Clarke <dclarke@blastwave.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Hi
 
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C.
-
+On Fri, Apr 17, 2020 at 2:38 PM Sai Pavan Boddu
+<sai.pavan.boddu@xilinx.com> wrote:
+>
+> In tcp_chr_sync_read function, there is a possibility of socket
+> disconnection during read, then tcp_chr_hup function would clean up
+> the qio channel pointers(i.e ioc, sioc).
+>
+> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 > ---
->  target/ppc/translate.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index b207fb5386..0136c7e3ff 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -5003,6 +5003,7 @@ static void gen_slbia(DisasContext *ctx)
->      CHK_SV;
-> =20
->      gen_helper_slbia(cpu_env, t0);
-> +    tcg_temp_free_i32(t0);
->  #endif /* defined(CONFIG_USER_ONLY) */
->  }
-> =20
->=20
+>  chardev/char-socket.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+> index 185fe38..30f2b2b 100644
+> --- a/chardev/char-socket.c
+> +++ b/chardev/char-socket.c
+> @@ -549,11 +549,13 @@ static int tcp_chr_sync_read(Chardev *chr, const ui=
+nt8_t *buf, int len)
+>
+>      qio_channel_set_blocking(s->ioc, true, NULL);
+>      size =3D tcp_chr_recv(chr, (void *) buf, len);
+> -    qio_channel_set_blocking(s->ioc, false, NULL);
 
+But here it calls tcp_chr_recv(). And I can't find cleanup there.
+Nevertheless, I think this patch should be harmless.
+
+I'd ask Daniel to have a second look.
+
+
+>      if (size =3D=3D 0) {
+>          /* connection closed */
+>          tcp_chr_disconnect(chr);
+> +        return 0;
+>      }
+> +    /* Connection is good */
+> +    qio_channel_set_blocking(s->ioc, false, NULL);
+>
+>      return size;
+>  }
+> --
+> 2.7.4
+>
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
