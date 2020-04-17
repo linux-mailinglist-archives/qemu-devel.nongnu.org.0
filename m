@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 863B31AD48C
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 04:37:26 +0200 (CEST)
-Received: from localhost ([::1]:41470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AA6A1AD48F
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 04:39:21 +0200 (CEST)
+Received: from localhost ([::1]:41488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPGsf-0006IO-LF
-	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 22:37:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41292)
+	id 1jPGuW-00009O-4x
+	for lists+qemu-devel@lfdr.de; Thu, 16 Apr 2020 22:39:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41268)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <farman@linux.ibm.com>) id 1jPGqA-0003ad-0B
+ (envelope-from <farman@linux.ibm.com>) id 1jPGq9-0003aX-CO
  for qemu-devel@nongnu.org; Thu, 16 Apr 2020 22:34:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <farman@linux.ibm.com>) id 1jPGq8-0002Ey-M1
+ (envelope-from <farman@linux.ibm.com>) id 1jPGq8-0002EK-7b
  for qemu-devel@nongnu.org; Thu, 16 Apr 2020 22:34:49 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:57108
- helo=mx0a-001b2d01.pphosted.com)
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:50230)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <farman@linux.ibm.com>)
- id 1jPGq8-0002EQ-Gc
+ id 1jPGq8-0002D5-0o
  for qemu-devel@nongnu.org; Thu, 16 Apr 2020 22:34:48 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 03H2YGwv002184
- for <qemu-devel@nongnu.org>; Thu, 16 Apr 2020 22:34:48 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0a-001b2d01.pphosted.com with ESMTP id 30f198khsf-1
+ 03H2XPwt050887
+ for <qemu-devel@nongnu.org>; Thu, 16 Apr 2020 22:34:46 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30f37agswq-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 16 Apr 2020 22:34:47 -0400
+ for <qemu-devel@nongnu.org>; Thu, 16 Apr 2020 22:34:45 -0400
 Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <farman@linux.ibm.com>;
- Fri, 17 Apr 2020 03:34:02 +0100
+ Fri, 17 Apr 2020 03:34:06 +0100
 Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 17 Apr 2020 03:33:58 +0100
+ Fri, 17 Apr 2020 03:34:05 +0100
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com
  (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
  by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 03H2YfSM28639338
+ 03H2Yf2p52756646
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 17 Apr 2020 02:34:41 GMT
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2F1DFA4062;
+ by IMSVA (Postfix) with ESMTP id 2A182A405F;
  Fri, 17 Apr 2020 02:34:41 +0000 (GMT)
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 17DC8A405B;
+ by IMSVA (Postfix) with ESMTP id 182DAA405C;
  Fri, 17 Apr 2020 02:34:41 +0000 (GMT)
 Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
  by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
  Fri, 17 Apr 2020 02:34:41 +0000 (GMT)
 Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 4958)
- id 7BE41E054B; Fri, 17 Apr 2020 04:34:40 +0200 (CEST)
+ id 7E7B0E05A7; Fri, 17 Apr 2020 04:34:40 +0200 (CEST)
 From: Eric Farman <farman@linux.ibm.com>
 To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
-Subject: [PATCH v3 5/7] vfio-ccw: Refactor ccw irq handler
-Date: Fri, 17 Apr 2020 04:34:38 +0200
+Subject: [PATCH v3 6/7] s390x/css: Refactor the css_queue_crw() routine
+Date: Fri, 17 Apr 2020 04:34:39 +0200
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200417023440.70514-1-farman@linux.ibm.com>
 References: <20200417023440.70514-1-farman@linux.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 20041702-0020-0000-0000-000003C93791
+x-cbid: 20041702-4275-0000-0000-000003C1422A
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20041702-0021-0000-0000-000022222147
-Message-Id: <20200417023440.70514-6-farman@linux.ibm.com>
+x-cbparentid: 20041702-4276-0000-0000-000038D6BE03
+Message-Id: <20200417023440.70514-7-farman@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
  definitions=2020-04-16_10:2020-04-14,
  2020-04-16 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxscore=0
- mlxlogscore=999 suspectscore=2 bulkscore=0 impostorscore=0 adultscore=0
- priorityscore=1501 lowpriorityscore=0 clxscore=1015 malwarescore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004170014
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+ mlxscore=0 spamscore=0
+ impostorscore=0 adultscore=0 priorityscore=1501 mlxlogscore=999
+ suspectscore=0 malwarescore=0 lowpriorityscore=0 phishscore=0 bulkscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004170019
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,146 +96,100 @@ Cc: Halil Pasic <pasic@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make it easier to add new ones in the future.
+We have a use case (vfio-ccw) where a CRW is already built and
+ready to use.  Rather than teasing out the components just to
+reassemble it later, let's rework this code so we can queue a
+fully-qualified CRW directly.
 
 Signed-off-by: Eric Farman <farman@linux.ibm.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 ---
+ hw/s390x/css.c         | 44 ++++++++++++++++++++++++++++--------------
+ include/hw/s390x/css.h |  1 +
+ 2 files changed, 30 insertions(+), 15 deletions(-)
 
-Notes:
-    v2->v3:
-     - Added Conny's r-b
-    
-    v1->v2:
-     - Make irq parameter unsigned [CH]
-     - Remove extraneous %m from error_report calls [CH]
-
- hw/vfio/ccw.c | 58 +++++++++++++++++++++++++++++++++++++--------------
- 1 file changed, 42 insertions(+), 16 deletions(-)
-
-diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-index db565b6f38..ee3415a64a 100644
---- a/hw/vfio/ccw.c
-+++ b/hw/vfio/ccw.c
-@@ -334,22 +334,36 @@ read_err:
-     css_inject_io_interrupt(sch);
+diff --git a/hw/s390x/css.c b/hw/s390x/css.c
+index a44faa3549..a72c09adbe 100644
+--- a/hw/s390x/css.c
++++ b/hw/s390x/css.c
+@@ -2170,30 +2170,23 @@ void css_subch_assign(uint8_t cssid, uint8_t ssid, uint16_t schid,
+     }
  }
  
--static void vfio_ccw_register_io_notifier(VFIOCCWDevice *vcdev, Error **errp)
-+static void vfio_ccw_register_irq_notifier(VFIOCCWDevice *vcdev,
-+                                           unsigned int irq,
-+                                           Error **errp)
+-void css_queue_crw(uint8_t rsc, uint8_t erc, int solicited,
+-                   int chain, uint16_t rsid)
++void css_queue_crw_cont(CRW crw)
  {
-     VFIODevice *vdev = &vcdev->vdev;
-     struct vfio_irq_info *irq_info;
-     size_t argsz;
-     int fd;
-+    EventNotifier *notifier;
-+    IOHandler *fd_read;
-+
-+    switch (irq) {
-+    case VFIO_CCW_IO_IRQ_INDEX:
-+        notifier = &vcdev->io_notifier;
-+        fd_read = vfio_ccw_io_notifier_handler;
-+        break;
-+    default:
-+        error_setg(errp, "vfio: Unsupported device irq(%d)", irq);
-+        return;
-+    }
+     CrwContainer *crw_cont;
  
--    if (vdev->num_irqs < VFIO_CCW_IO_IRQ_INDEX + 1) {
--        error_setg(errp, "vfio: unexpected number of io irqs %u",
-+    if (vdev->num_irqs < irq + 1) {
-+        error_setg(errp, "vfio: unexpected number of irqs %u",
-                    vdev->num_irqs);
+-    trace_css_crw(rsc, erc, rsid, chain ? "(chained)" : "");
++    trace_css_crw((crw.flags & CRW_FLAGS_MASK_RSC) >> 8,
++                  crw.flags & CRW_FLAGS_MASK_ERC,
++                  crw.rsid,
++                  (crw.flags & CRW_FLAGS_MASK_C) ? "(chained)" : "");
++
+     /* TODO: Maybe use a static crw pool? */
+     crw_cont = g_try_new0(CrwContainer, 1);
+     if (!crw_cont) {
+         channel_subsys.crws_lost = true;
          return;
      }
- 
-     argsz = sizeof(*irq_info);
-     irq_info = g_malloc0(argsz);
--    irq_info->index = VFIO_CCW_IO_IRQ_INDEX;
-+    irq_info->index = irq;
-     irq_info->argsz = argsz;
-     if (ioctl(vdev->fd, VFIO_DEVICE_GET_IRQ_INFO,
-               irq_info) < 0 || irq_info->count < 1) {
-@@ -357,37 +371,49 @@ static void vfio_ccw_register_io_notifier(VFIOCCWDevice *vcdev, Error **errp)
-         goto out_free_info;
-     }
- 
--    if (event_notifier_init(&vcdev->io_notifier, 0)) {
-+    if (event_notifier_init(notifier, 0)) {
-         error_setg_errno(errp, errno,
--                         "vfio: Unable to init event notifier for IO");
-+                         "vfio: Unable to init event notifier for irq (%d)",
-+                         irq);
-         goto out_free_info;
-     }
- 
--    fd = event_notifier_get_fd(&vcdev->io_notifier);
--    qemu_set_fd_handler(fd, vfio_ccw_io_notifier_handler, NULL, vcdev);
-+    fd = event_notifier_get_fd(notifier);
-+    qemu_set_fd_handler(fd, fd_read, NULL, vcdev);
- 
--    if (vfio_set_irq_signaling(vdev, VFIO_CCW_IO_IRQ_INDEX, 0,
-+    if (vfio_set_irq_signaling(vdev, irq, 0,
-                                VFIO_IRQ_SET_ACTION_TRIGGER, fd, errp)) {
-         qemu_set_fd_handler(fd, NULL, NULL, vcdev);
--        event_notifier_cleanup(&vcdev->io_notifier);
-+        event_notifier_cleanup(notifier);
-     }
- 
- out_free_info:
-     g_free(irq_info);
- }
- 
--static void vfio_ccw_unregister_io_notifier(VFIOCCWDevice *vcdev)
-+static void vfio_ccw_unregister_irq_notifier(VFIOCCWDevice *vcdev,
-+                                             unsigned int irq)
- {
-     Error *err = NULL;
-+    EventNotifier *notifier;
+-    crw_cont->crw.flags = (rsc << 8) | erc;
+-    if (solicited) {
+-        crw_cont->crw.flags |= CRW_FLAGS_MASK_S;
+-    }
+-    if (chain) {
+-        crw_cont->crw.flags |= CRW_FLAGS_MASK_C;
+-    }
+-    crw_cont->crw.rsid = rsid;
+-    if (channel_subsys.crws_lost) {
+-        crw_cont->crw.flags |= CRW_FLAGS_MASK_R;
+-        channel_subsys.crws_lost = false;
+-    }
 +
-+    switch (irq) {
-+    case VFIO_CCW_IO_IRQ_INDEX:
-+        notifier = &vcdev->io_notifier;
-+        break;
-+    default:
-+        error_report("vfio: Unsupported device irq(%d)", irq);
-+        return;
-+    }
++    crw_cont->crw = crw;
  
--    if (vfio_set_irq_signaling(&vcdev->vdev, VFIO_CCW_IO_IRQ_INDEX, 0,
-+    if (vfio_set_irq_signaling(&vcdev->vdev, irq, 0,
-                                VFIO_IRQ_SET_ACTION_TRIGGER, -1, &err)) {
-         error_reportf_err(err, VFIO_MSG_PREFIX, vcdev->vdev.name);
+     QTAILQ_INSERT_TAIL(&channel_subsys.pending_crws, crw_cont, sibling);
+ 
+@@ -2204,6 +2197,27 @@ void css_queue_crw(uint8_t rsc, uint8_t erc, int solicited,
      }
- 
--    qemu_set_fd_handler(event_notifier_get_fd(&vcdev->io_notifier),
-+    qemu_set_fd_handler(event_notifier_get_fd(notifier),
-                         NULL, NULL, vcdev);
--    event_notifier_cleanup(&vcdev->io_notifier);
-+    event_notifier_cleanup(notifier);
  }
  
- static void vfio_ccw_get_region(VFIOCCWDevice *vcdev, Error **errp)
-@@ -590,7 +616,7 @@ static void vfio_ccw_realize(DeviceState *dev, Error **errp)
-         goto out_region_err;
-     }
- 
--    vfio_ccw_register_io_notifier(vcdev, &err);
-+    vfio_ccw_register_irq_notifier(vcdev, VFIO_CCW_IO_IRQ_INDEX, &err);
-     if (err) {
-         goto out_notifier_err;
-     }
-@@ -619,7 +645,7 @@ static void vfio_ccw_unrealize(DeviceState *dev, Error **errp)
-     S390CCWDeviceClass *cdc = S390_CCW_DEVICE_GET_CLASS(cdev);
-     VFIOGroup *group = vcdev->vdev.group;
- 
--    vfio_ccw_unregister_io_notifier(vcdev);
-+    vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW_IO_IRQ_INDEX);
-     vfio_ccw_put_region(vcdev);
-     vfio_ccw_put_device(vcdev);
-     vfio_put_group(group);
++void css_queue_crw(uint8_t rsc, uint8_t erc, int solicited,
++                   int chain, uint16_t rsid)
++{
++    CRW crw;
++
++    crw.flags = (rsc << 8) | erc;
++    if (solicited) {
++        crw.flags |= CRW_FLAGS_MASK_S;
++    }
++    if (chain) {
++        crw.flags |= CRW_FLAGS_MASK_C;
++    }
++    crw.rsid = rsid;
++    if (channel_subsys.crws_lost) {
++        crw.flags |= CRW_FLAGS_MASK_R;
++        channel_subsys.crws_lost = false;
++    }
++
++    css_queue_crw_cont(crw);
++}
++
+ void css_generate_sch_crws(uint8_t cssid, uint8_t ssid, uint16_t schid,
+                            int hotplugged, int add)
+ {
+diff --git a/include/hw/s390x/css.h b/include/hw/s390x/css.h
+index 7e3a5e7433..1aa7b80f5b 100644
+--- a/include/hw/s390x/css.h
++++ b/include/hw/s390x/css.h
+@@ -205,6 +205,7 @@ void copy_scsw_to_guest(SCSW *dest, const SCSW *src);
+ void css_inject_io_interrupt(SubchDev *sch);
+ void css_reset(void);
+ void css_reset_sch(SubchDev *sch);
++void css_queue_crw_cont(CRW crw);
+ void css_queue_crw(uint8_t rsc, uint8_t erc, int solicited,
+                    int chain, uint16_t rsid);
+ void css_generate_sch_crws(uint8_t cssid, uint8_t ssid, uint16_t schid,
 -- 
 2.17.1
 
