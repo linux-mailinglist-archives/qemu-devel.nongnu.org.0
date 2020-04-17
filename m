@@ -2,65 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E771AE011
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 16:40:39 +0200 (CEST)
-Received: from localhost ([::1]:47998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 839951AE0F3
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 17:23:14 +0200 (CEST)
+Received: from localhost ([::1]:48452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPSAY-0002UA-Sy
-	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 10:40:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44903)
+	id 1jPSpl-00049b-KX
+	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 11:23:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51334)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jPS9f-0001rI-Bi
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 10:39:44 -0400
+ (envelope-from <ani.sinha@ani-sinha1.localdomain>)
+ id 1jPSof-00038B-B0
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 11:22:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jPS9d-00068i-U8
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 10:39:42 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:38442)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jPS9d-00068M-PJ
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 10:39:41 -0400
-Received: by mail-ot1-x344.google.com with SMTP id k21so1587884otl.5
- for <qemu-devel@nongnu.org>; Fri, 17 Apr 2020 07:39:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uxlKud17Uh/JE1mXX5DzuYbWjTMgUf6k6sjjaPtZFQA=;
- b=pDVKmx7CzzuK3velurjFZ7qL7BVAltivJG+weNzQqZG6yusty55C08F2PanVZc412V
- 4xw8b43K/W5B2ZwmnD/BfSdXw9w/g2XgC9SGMn6omMyvPYrS36mXQUL6zFqb9tFwLFEn
- 9EQHYtyWq9MnfqVWAcg/QfbgJ7kt8cx+I1LpwP3w/cUZ5nX9VNNFd5AXw1g1Uo0RQGWx
- 5PXUHiznIEhKwgD7f88quS6mcPqy8XP1ZLBitvlgXwBjaxvj2l1vfCj+3tTXweATbNIj
- u4TnZPsM8wjKxla1SEW3wVDl7ock7RxfDWRrUBf6uSUNiM1msFZtHyoFDYBVQttQ2y22
- 5qdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uxlKud17Uh/JE1mXX5DzuYbWjTMgUf6k6sjjaPtZFQA=;
- b=qUtQgCdVRr/yZCErlVPEAatd6wp+4vpN4lnjwi2WHJzqnqtNvZQV+Pxilp665BXZGo
- jLSMXvfA7XhGXg3LLtKfoUpkKoK15KymBVIt/YDKgdHMZEEmdrEiKVREbDu99vL5u67i
- DQbS3ZUdr5G63vLh8C42J9lOyNyATSUnI8pX4x5PDaCRGb4CNDHCNbiDdTiN6pFzXtwC
- CpHR+egcFQubXy1Bq56nHaAl0AMSZP3lKJ0+Py95U9DMG10fDh38K10Tht1TDWXjCcZ6
- PuSF5e0jA0nJ3A8EOiL0wCKDR2olgP53A6voY5rK0IoY/G/lQBVwb1nyh2V5OQTXePn1
- nxBQ==
-X-Gm-Message-State: AGi0PubAHxOxix/dH1MtPCJlMc3VWnvPzMjv9diy9Xf+uknTgsTcwLr7
- LfyrHuiQEZUQoQt4gMYjIZmuj1jLUnhq5om1eZyxBw==
-X-Google-Smtp-Source: APiQypIXtOnyIRMLdc2SUfGcx2e2IOTHbCs2+fMuzfNlTtc0sEdVWllrot6e5F3W9afSPI3WDu7MnqcgNHav2plG3BM=
-X-Received: by 2002:a9d:2c08:: with SMTP id f8mr2837226otb.135.1587134380882; 
- Fri, 17 Apr 2020 07:39:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200406135251.157596-1-damien.hedde@greensocs.com>
- <20200406135251.157596-2-damien.hedde@greensocs.com>
-In-Reply-To: <20200406135251.157596-2-damien.hedde@greensocs.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 17 Apr 2020 15:39:29 +0100
-Message-ID: <CAFEAcA8bA_WoNsT8GEO8ivpmywUPr68XWPHSEK5rXw5LS9Hk8A@mail.gmail.com>
-Subject: Re: [PATCH v9 1/9] hw/core/clock: introduce clock object
-To: Damien Hedde <damien.hedde@greensocs.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+ (envelope-from <ani.sinha@ani-sinha1.localdomain>)
+ id 1jPSoe-00012f-0T
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 11:22:05 -0400
+Received: from [192.146.154.243] (port=45985 helo=mcp01.nutanix.com)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <ani.sinha@ani-sinha1.localdomain>)
+ id 1jPSod-00012J-PI
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 11:22:03 -0400
+Received: from ani-sinha1.localdomain (ani-sinha1.dev.nutanix.com
+ [10.41.71.199])
+ by mcp01.nutanix.com (Postfix) with ESMTP id 92D42102FFD8;
+ Fri, 17 Apr 2020 15:13:44 +0000 (UTC)
+Received: by ani-sinha1.localdomain (Postfix, from userid 16671)
+ id 8D90B47C89; Fri, 17 Apr 2020 15:13:44 +0000 (UTC)
+From: Ani Sinha <ani.sinha@nutanix.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] Add a new PIIX option to control PCI hot unplugging of
+ devices on non-root buses
+Date: Fri, 17 Apr 2020 15:13:31 +0000
+Message-Id: <1587136411-200885-1-git-send-email-ani.sinha@nutanix.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 192.146.154.243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,71 +49,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Mark Burton <mark.burton@greensocs.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: ani.sinha@nutanix.com, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 6 Apr 2020 at 14:53, Damien Hedde <damien.hedde@greensocs.com> wrote:
->
-> This object may be used to represent a clock inside a clock tree.
->
-> A clock may be connected to another clock so that it receives update,
-> through a callback, whenever the source/parent clock is updated.
+A new option "use_acpi_unplug" is introduced for PIIX which will
+selectively only disable hot unplugging of both hot plugged and
+cold plugged PCI devices on non-root PCI buses. This will prevent
+hot unplugging of devices from Windows based guests from system
+tray but will not prevent devices from being hot plugged into the
+guest.
 
-> --- a/hw/core/trace-events
-> +++ b/hw/core/trace-events
-> @@ -27,3 +27,10 @@ resettable_phase_exit_begin(void *obj, const char *objtype, unsigned count, int
->  resettable_phase_exit_exec(void *obj, const char *objtype, int has_method) "obj=%p(%s) method=%d"
->  resettable_phase_exit_end(void *obj, const char *objtype, unsigned count) "obj=%p(%s) count=%d"
->  resettable_transitional_function(void *obj, const char *objtype) "obj=%p(%s)"
-> +
-> +# clock.c
-> +clock_set_source(const char *clk, const char *src) "'%s', src='%s'"
-> +clock_disconnect(const char *clk) "'%s'"
-> +clock_set(const char *clk, unsigned long long old, unsigned long long new) "'%s', ns=%llu->%llu"
-> +clock_propagate(const char *clk) "'%s'"
-> +clock_update(const char *clk, const char *src, unsigned long long val, int cb) "'%s', src='%s', ns=%llu, cb=%d"
+The patch is initial version and is a rough implementation. It has
+been tested on Windows guests.
 
-"unsigned long long" isn't a valid type to use in a trace event,
-it seems: a build with --enable-trace-backends=dtrace will
-produce the following warning:
+Signed-off-by: Ani Sinha <ani.sinha@nutanix.com>
+---
+ hw/acpi/piix4.c      |  3 +++
+ hw/i386/acpi-build.c | 40 ++++++++++++++++++++++++++--------------
+ 2 files changed, 29 insertions(+), 14 deletions(-)
 
-Warning: /usr/bin/dtrace:hw/core/trace-dtrace.dtrace:54: syntax error near:
-probe clock_disconnect
+diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+index d706360..dad1bf4 100644
+--- a/hw/acpi/piix4.c
++++ b/hw/acpi/piix4.c
+@@ -82,6 +82,7 @@ typedef struct PIIX4PMState {
+ 
+     AcpiPciHpState acpi_pci_hotplug;
+     bool use_acpi_pci_hotplug;
++    bool use_acpi_unplug;
+ 
+     uint8_t disable_s3;
+     uint8_t disable_s4;
+@@ -676,6 +677,8 @@ static Property piix4_pm_properties[] = {
+     DEFINE_PROP_UINT8(ACPI_PM_PROP_S4_VAL, PIIX4PMState, s4_val, 2),
+     DEFINE_PROP_BOOL("acpi-pci-hotplug-with-bridge-support", PIIX4PMState,
+                      use_acpi_pci_hotplug, true),
++    DEFINE_PROP_BOOL("acpi-pci-hotunplug-enable-bridge", PIIX4PMState,
++                     use_acpi_unplug, true),
+     DEFINE_PROP_BOOL("memory-hotplug-support", PIIX4PMState,
+                      acpi_memory_hotplug.is_enabled, true),
+     DEFINE_PROP_END_OF_LIST(),
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 2bc8117..526feb2 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -94,6 +94,7 @@ typedef struct AcpiPmInfo {
+     bool s3_disabled;
+     bool s4_disabled;
+     bool pcihp_bridge_en;
++    bool pcihup_bridge_en;
+     uint8_t s4_val;
+     AcpiFadtData fadt;
+     uint16_t cpu_hp_io_base;
+@@ -220,6 +221,9 @@ static void acpi_get_pm_info(AcpiPmInfo *pm)
+     pm->pcihp_bridge_en =
+         object_property_get_bool(obj, "acpi-pci-hotplug-with-bridge-support",
+                                  NULL);
++    pm->pcihup_bridge_en =
++        object_property_get_bool(obj, "acpi-pci-hotunplug-enable-bridge",
++                                 NULL);
+ }
+ 
+ static void acpi_get_misc_info(AcpiMiscInfo *info)
+@@ -430,7 +434,8 @@ static void build_append_pcihp_notify_entry(Aml *method, int slot)
+ }
+ 
+ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+-                                         bool pcihp_bridge_en)
++                                         bool pcihp_bridge_en,
++                                         bool pcihup_bridge_en)
+ {
+     Aml *dev, *notify_method = NULL, *method;
+     QObject *bsel;
+@@ -458,11 +463,14 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+                 dev = aml_device("S%.02X", PCI_DEVFN(slot, 0));
+                 aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
+                 aml_append(dev, aml_name_decl("_ADR", aml_int(slot << 16)));
+-                method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
+-                aml_append(method,
+-                    aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
+-                );
+-                aml_append(dev, method);
++                if (pcihup_bridge_en || pci_bus_is_root(bus)) {
++                    method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
++                    aml_append(method,
++                               aml_call2("PCEJ", aml_name("BSEL"),
++                                         aml_name("_SUN"))
++                        );
++                    aml_append(dev, method);
++                }
+                 aml_append(parent_scope, dev);
+ 
+                 build_append_pcihp_notify_entry(notify_method, slot);
+@@ -516,12 +524,14 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+             /* add _SUN/_EJ0 to make slot hotpluggable  */
+             aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
+ 
+-            method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
+-            aml_append(method,
+-                aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
+-            );
+-            aml_append(dev, method);
+-
++            if (pcihup_bridge_en || pci_bus_is_root(bus)) {
++                method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
++                aml_append(method,
++                           aml_call2("PCEJ", aml_name("BSEL"),
++                                     aml_name("_SUN"))
++                    );
++                aml_append(dev, method);
++            }
+             if (bsel) {
+                 build_append_pcihp_notify_entry(notify_method, slot);
+             }
+@@ -532,7 +542,8 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+              */
+             PCIBus *sec_bus = pci_bridge_get_sec_bus(PCI_BRIDGE(pdev));
+ 
+-            build_append_pci_bus_devices(dev, sec_bus, pcihp_bridge_en);
++            build_append_pci_bus_devices(dev, sec_bus, pcihp_bridge_en,
++                                         pcihup_bridge_en);
+         }
+         /* slot descriptor has been composed, add it into parent context */
+         aml_append(parent_scope, dev);
+@@ -2133,7 +2144,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         if (bus) {
+             Aml *scope = aml_scope("PCI0");
+             /* Scan all PCI buses. Generate tables to support hotplug. */
+-            build_append_pci_bus_devices(scope, bus, pm->pcihp_bridge_en);
++            build_append_pci_bus_devices(scope, bus, pm->pcihp_bridge_en,
++                                         pm->pcihup_bridge_en);
+ 
+             if (TPM_IS_TIS(tpm_find())) {
+                 dev = aml_device("ISA.TPM");
+-- 
+1.9.4
 
-Warning: Proceeding as if --no-pyparsing was given.
-
-Using fixed-width types is preferable anyway; squashing in
-this fixes it:
-
-diff --git a/hw/core/trace-events b/hw/core/trace-events
-index 39301621ce8..1ac60ede6b7 100644
---- a/hw/core/trace-events
-+++ b/hw/core/trace-events
-@@ -31,6 +31,6 @@ resettable_transitional_function(void *obj, const
-char *objtype) "obj=%p(%s)"
- # clock.c
- clock_set_source(const char *clk, const char *src) "'%s', src='%s'"
- clock_disconnect(const char *clk) "'%s'"
--clock_set(const char *clk, unsigned long long old, unsigned long long
-new) "'%s', ns=%llu->%llu"
-+clock_set(const char *clk, uint64_t old, uint64_t new) "'%s',
-ns=%"PRIu64"->%"PRIu64
- clock_propagate(const char *clk) "'%s'"
--clock_update(const char *clk, const char *src, unsigned long long
-val, int cb) "'%s', src='%s', ns=%llu, cb=%d"
-+clock_update(const char *clk, const char *src, uint64_t val, int cb)
-"'%s', src='%s', ns=%"PRIu64", cb=%d"
-
-thanks
--- PMM
 
