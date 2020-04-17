@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D30F1AD994
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 11:16:05 +0200 (CEST)
-Received: from localhost ([::1]:44394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BED61AD9A5
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 11:20:08 +0200 (CEST)
+Received: from localhost ([::1]:44422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPN6R-0003Fe-PJ
-	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 05:16:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56834)
+	id 1jPNAM-0006W2-Tc
+	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 05:20:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57406)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jPN5B-0002Zj-D0
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 05:14:47 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jPN9D-00065A-3T
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 05:18:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jPN59-0002MH-R3
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 05:14:44 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:33527 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1jPN9C-0002TC-1u
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 05:18:55 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:38953 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jPN58-0002Cs-Ui; Fri, 17 Apr 2020 05:14:43 -0400
+ id 1jPN9B-0002OK-NN; Fri, 17 Apr 2020 05:18:54 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 493Vlx3Knmz9sR4; Fri, 17 Apr 2020 19:14:37 +1000 (AEST)
+ id 493Vrp51qjz9sSM; Fri, 17 Apr 2020 19:18:50 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1587114877;
- bh=CE8hoR6yC4x6OU86espSc1c1jv2jb73U69leidC8bdk=;
+ d=gibson.dropbear.id.au; s=201602; t=1587115130;
+ bh=lItEv67cnf3x7aZX3FiD3AIyQkS2bJHdACixw7VtxrI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bIY9EJRaitUi5ZTI0PSAzw81DpSvYkcs+srXlnEgqaYcY4JKFxunhzIsnY2GdOHXa
- KGED+pyMh2by1CZE6kSArwpMZKEyJ6uQKd2W9tMdXIe/O7nWYQ23roXoWlRh2O5PG4
- L8CpY2a6PyKWYrc2Qq+bAomRhBiFmRlyUA30Py74=
-Date: Fri, 17 Apr 2020 19:14:31 +1000
+ b=Yu8TXgEHrSGf0++7RL2NyErVxG07MvdSESJ8dvoUnrVfIc2CVA2dHdvva2udi8+dG
+ BZayr1Azn5O7bfrtDzh6VhQ9jbDMR0qeRXp5RxCNx3DvU6/+T8eQPeWzXTShhpS7ys
+ rC0Srwv8lWW9lXMkVLMeYkzdCIgfSDgTO2TTzvUo=
+Date: Fri, 17 Apr 2020 19:18:12 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Peter Maydell <peter.maydell@linaro.org>
 Subject: Re: [PULL 0/3] ppc-for-5.0 queue 20200417
-Message-ID: <20200417091431.GC2102@umbus.fritz.box>
+Message-ID: <20200417091812.GE2102@umbus.fritz.box>
 References: <20200417050514.235060-1-david@gibson.dropbear.id.au>
  <CAFEAcA8qLznGS2YCFxz7QYrhbociZsqzEcxQPdp1rUy4OnnnFQ@mail.gmail.com>
+ <20200417091431.GC2102@umbus.fritz.box>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Md/poaVZ8hnGTzuv"
+ protocol="application/pgp-signature"; boundary="brEuL7wsLY8+TuWz"
 Content-Disposition: inline
-In-Reply-To: <CAFEAcA8qLznGS2YCFxz7QYrhbociZsqzEcxQPdp1rUy4OnnnFQ@mail.gmail.com>
+In-Reply-To: <20200417091431.GC2102@umbus.fritz.box>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2401:3900:2:1::2
@@ -61,45 +62,50 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Md/poaVZ8hnGTzuv
+--brEuL7wsLY8+TuWz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 17, 2020 at 09:28:46AM +0100, Peter Maydell wrote:
-> On Fri, 17 Apr 2020 at 06:05, David Gibson <david@gibson.dropbear.id.au> =
-wrote:
-> >
-> > The following changes since commit 20038cd7a8412feeb49c01f6ede89e36c899=
-5472:
-> >
-> >   Update version for v5.0.0-rc3 release (2020-04-15 20:51:54 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://github.com/dgibson/qemu.git tags/ppc-for-5.0-20200417
-> >
-> > for you to fetch changes up to 5ed195065cc6895f61b9d59bfa0a0536ed5ed51e:
-> >
-> >   target/ppc: Fix mtmsr(d) L=3D1 variant that loses interrupts (2020-04=
--17 10:39:03 +1000)
-> >
-> > ----------------------------------------------------------------
-> > ppc patch queue for 2020-04-17
-> >
-> > Here are a few late bugfixes for qemu-5.0 in the ppc target code.
-> > Unless some really nasty last minute bug shows up, I expect this to be
-> > the last ppc pull request for qemu-5.0.
-> >
+On Fri, Apr 17, 2020 at 07:14:31PM +1000, David Gibson wrote:
+> On Fri, Apr 17, 2020 at 09:28:46AM +0100, Peter Maydell wrote:
+> > On Fri, 17 Apr 2020 at 06:05, David Gibson <david@gibson.dropbear.id.au=
+> wrote:
+> > >
+> > > The following changes since commit 20038cd7a8412feeb49c01f6ede89e36c8=
+995472:
+> > >
+> > >   Update version for v5.0.0-rc3 release (2020-04-15 20:51:54 +0100)
+> > >
+> > > are available in the Git repository at:
+> > >
+> > >   git://github.com/dgibson/qemu.git tags/ppc-for-5.0-20200417
+> > >
+> > > for you to fetch changes up to 5ed195065cc6895f61b9d59bfa0a0536ed5ed5=
+1e:
+> > >
+> > >   target/ppc: Fix mtmsr(d) L=3D1 variant that loses interrupts (2020-=
+04-17 10:39:03 +1000)
+> > >
+> > > ----------------------------------------------------------------
+> > > ppc patch queue for 2020-04-17
+> > >
+> > > Here are a few late bugfixes for qemu-5.0 in the ppc target code.
+> > > Unless some really nasty last minute bug shows up, I expect this to be
+> > > the last ppc pull request for qemu-5.0.
+> > >
+> >=20
+> > We're past rc3 now, so I don't really want to do an rc4 unless we
+> > absolutely critically need to. How important are these bug fixes?
 >=20
-> We're past rc3 now, so I don't really want to do an rc4 unless we
-> absolutely critically need to. How important are these bug fixes?
+> Eh, probably not important enough.  They're not regressions AFAICT -
+> two fairly longstanding bugs, and one bug in a new feature.  It can
+> wait until 5.1.
+>=20
+> But, I guess throw them in if something else does force an rc4.
 
-Eh, probably not important enough.  They're not regressions AFAICT -
-two fairly longstanding bugs, and one bug in a new feature.  It can
-wait until 5.1.
-
-But, I guess throw them in if something else does force an rc4.
+Oof.  Such as, perhaps the TCG temp leak in slbia.  That one *is* a
+regression :(.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -107,25 +113,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Md/poaVZ8hnGTzuv
+--brEuL7wsLY8+TuWz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6Zc3QACgkQbDjKyiDZ
-s5KSpRAApQ6bTmzUB7C0RAh75RMhkwxXIqx9RbjUjgVx8L+C05Cr8TaP8nz5f23f
-UdnQOcJlPK/rmN4vRpeLpIfxbBMpSmcQxM+VlMACQZ4Pvo/8kWxDYpBh51iEDf3P
-OSfIvuAN31aNQwavariVKANt44sVzIgYVk0P/eVy97m/Nox/ZGrWs7jirYInC3Ln
-VvUxxzhTRae4FCyfeeDKdk2J7lYwGe7RFmNtwxG3Pw/v6KgafKHEZ39C4Y5veRQA
-kZtl7z4tCPQGYhlQDg3KAoPMZoxMvxASYlyCDB5Kw8Yfa5Kbbf4MWdfbzZyc9Omr
-nRdng7deuihnwX+jE7VydH30pwEuDwj8PcQVUNnELnuXEaAfXIXz+lVQc3OyNUtz
-b8BuTDkDTwG9Dyt72mHP18s5Zp6B/fgzB3aPtGtRxyBXo8kuREcX/BZTJso1lqLS
-qn7OR2r476hC3+T9PV04CANLLjNGd8M83LBqd5mMLH94hmtC8S8HK7t1/sOzMiZn
-ZgWfYMfDa/oADrpGsrzBTQmUy/TXkYEETTrpxyLLYBuyjdaqHEat4DHg/LXVslVR
-rXaNxkiVwHtzatkrUwWb9KiApSvyIMWONv642Gv4FlRqkEQBh8NQS4K3mAm3xjrx
-JGeVu2S62U8/aDY53Nf2kGCUwwx/5z+ni5fxPq0lv5jlHhOpD28=
-=J65M
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6ZdFQACgkQbDjKyiDZ
+s5KXcg/+PrDhyjMVTITIThpES0zU9jPHq0UqNswZRd95WM5vk8Kv6F2iYShCWEYR
+6z5N2K5uVwElTHrJ5kN5eFMLi5d8LmVTHQSSuQv2BrQG9EuR2iC1ZNHTLgm9iyRh
+kbvidLQo3hTw26T42fEbkfNKZHiN5bL4X2ipqk8VeAjSLX4l6NBvZfwFPiF+AJBa
+zIwl+RPVk8njWoc07R0wEXJ/p1Y7entz/M+1XMehDPTq6lDeIauAvRttGhfhZkCc
+qouiCNG0F+PM0caSkCTgyt4piw9y3JB50kSQhltedwLN8C9+tsHGbTXoCKV4kBJK
+SfHTv2/R+g79nAPKmGugq7GebzPv5QXOyaT7fdZ4ee0CvIYy+umikB8iMDvVNyID
+4BHwFy0LAg8dihyZ7sv0vtxcQCGYJvL4RtTvi6Bia/P1DbDZV3mUreX/u+XMmLEA
+PpiAgX/itDH1cLNcMTQXHZxcYJ8N2yrWXhUbq3pn3QazFVKDjprnmKpxWOkVarwY
+rjh397e6q1vsgwTrRo0WREmSP9v3/2K0ayV6iyIvkZSQ0VhUouZTZ0tGxtuIqzk2
+x2W6raPodAFB+f4K2N17mmYXLoya4vzEx7XgkK1mFXDB6aNKHgRsPIIP0HbnFaeE
+0c32ZjaPCi5ynO862wbtIAGTx+67Dm/QcCnNgnZ8gob4BlV+lhw=
+=6UnZ
 -----END PGP SIGNATURE-----
 
---Md/poaVZ8hnGTzuv--
+--brEuL7wsLY8+TuWz--
 
