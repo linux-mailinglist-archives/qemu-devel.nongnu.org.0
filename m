@@ -2,62 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A28641AE5B6
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 21:21:54 +0200 (CEST)
-Received: from localhost ([::1]:51084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 462401AE5AD
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 21:17:07 +0200 (CEST)
+Received: from localhost ([::1]:51014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPWYj-00051e-Gi
-	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 15:21:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38121)
+	id 1jPWU6-0000mk-An
+	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 15:17:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60170)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jPWXc-0004BH-Jh
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 15:20:46 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1jPWSV-0008FM-8Q
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 15:15:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jPWXa-0003FC-TK
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 15:20:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48560)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jPWXa-0003CF-NN
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 15:20:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jPWXZ-0002ML-2z
- for <qemu-devel@nongnu.org>; Fri, 17 Apr 2020 19:20:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 144242E8109
- for <qemu-devel@nongnu.org>; Fri, 17 Apr 2020 19:20:41 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 17 Apr 2020 19:15:13 -0000
+ (envelope-from <ehabkost@redhat.com>) id 1jPWST-000476-5m
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 15:15:26 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44845
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1jPWST-00045K-0O
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 15:15:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587150924;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MEhB/OyykWO2OkIVhBuDuZl5ra8QacGxxwL4NJe9+J0=;
+ b=QSV16RgRGA6+BhVph66JzR3ymkyQsqT1XIxYAdTLVoKasMYhgcsvdy8b70C2c58CQWEnNR
+ QJ+HTdAUqnfPFlniXKEoQHDKQnYKktaLQSnz/yKla2REKBbgNDsGQH01l88dIbSLUzeVWh
+ /44A8dkpsO8qqM4yAUTtxME9oARBhtw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-222-jn7c0a8IO1OQDCilsMgepw-1; Fri, 17 Apr 2020 15:15:16 -0400
+X-MC-Unique: jn7c0a8IO1OQDCilsMgepw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF046107ACC9;
+ Fri, 17 Apr 2020 19:15:14 +0000 (UTC)
+Received: from localhost (ovpn-114-67.phx2.redhat.com [10.3.114.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 799DC9E0D4;
+ Fri, 17 Apr 2020 19:15:14 +0000 (UTC)
+Date: Fri, 17 Apr 2020 15:15:13 -0400
 From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: babumoger e-philipp ehabkost imammedo
-X-Launchpad-Bug-Reporter: Philipp Eppelt (e-philipp)
-X-Launchpad-Bug-Modifier: Eduardo Habkost (ehabkost)
-References: <158643709116.17430.15995069125716778943.malonedeb@wampee.canonical.com>
- <20200417151432.46867.72601.stgit@localhost.localdomain>
-Message-Id: <20200417191513.GD4952@habkost.net>
-Subject: [Bug 1871842] Re: [PATCH] target/i386: Fix the CPUID leaf
- CPUID_Fn80000008
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 0753b4de3360b31d3275b883eecbc156c512e48f
+To: Babu Moger <babu.moger@amd.com>
+Subject: Re: [PATCH] target/i386: Fix the CPUID leaf CPUID_Fn80000008
+Message-ID: <20200417191513.GD4952@habkost.net>
+References: <20200417151432.46867.72601.stgit@localhost.localdomain>
+MIME-Version: 1.0
+In-Reply-To: <20200417151432.46867.72601.stgit@localhost.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,7 +71,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1871842 <1871842@bugs.launchpad.net>
+Cc: pbonzini@redhat.com, imammedo@redhat.com, 1871842@bugs.launchpad.net,
+ qemu-devel@nongnu.org, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -76,42 +82,35 @@ On Fri, Apr 17, 2020 at 10:14:32AM -0500, Babu Moger wrote:
 > CPUID leaf CPUID_Fn80000008_ECX provides information about the
 > number of threads supported by the processor. It was found that
 > the field ApicIdSize(bits 15-12) was not set correctly.
-> =
-
+>=20
 > ApicIdSize is defined as the number of bits required to represent
 > all the ApicId values within a package.
-> =
-
+>=20
 > Valid Values: Value Description
-> 3h-0h		Reserved.
-> 4h		up to 16 threads.
-> 5h		up to 32 threads.
-> 6h		up to 64 threads.
-> 7h		up to 128 threads.
-> Fh-8h		Reserved.
-> =
-
+> 3h-0h=09=09Reserved.
+> 4h=09=09up to 16 threads.
+> 5h=09=09up to 32 threads.
+> 6h=09=09up to 64 threads.
+> 7h=09=09up to 128 threads.
+> Fh-8h=09=09Reserved.
+>=20
 > Fix the bit appropriately.
-> =
-
+>=20
 > This came up during following thread.
 > https://lore.kernel.org/qemu-devel/158643709116.17430.1599506912571677894=
 3.malonedeb@wampee.canonical.com/#t
-> =
-
+>=20
 > Refer the Processor Programming Reference (PPR) for AMD Family 17h
 > Model 01h, Revision B1 Processors. The documentation is available
 > from the bugzilla Link below.
 > Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D206537
-> =
-
+>=20
 > Reported-by: Philipp Eppelt <1871842@bugs.launchpad.net>
 > Signed-off-by: Babu Moger <babu.moger@amd.com>
 > ---
 >  target/i386/cpu.c |   12 +++++++++---
 >  1 file changed, 9 insertions(+), 3 deletions(-)
-> =
-
+>=20
 > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
 > index 90ffc5f..68210f6 100644
 > --- a/target/i386/cpu.c
@@ -167,10 +166,8 @@ but the variable name seems misleading.
 >          break;
 >      case 0x8000000A:
 >          if (env->features[FEAT_8000_0001_ECX] & CPUID_EXT3_SVM) {
-> =
-
-> =
-
+>=20
+>=20
 
 References:
 
@@ -180,105 +177,7 @@ References:
     https://bugzilla.kernel.org/attachment.cgi?id=3D287395&action=3Dedit
 
 
--- =
-
+--=20
 Eduardo
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1871842
-
-Title:
-  AMD CPUID leaf 0x8000'0008 reported number of cores  inconsistent with
-  ACPI.MADT
-
-Status in QEMU:
-  New
-
-Bug description:
-  Setup:
-  CPU: AMD EPYC-v2 or host's EPYC cpu
-  Linux 64-bit fedora host; Kernel version 5.5.15-200.fc31
-  qemu version: self build
-  git-head: f3bac27cc1e303e1860cc55b9b6889ba39dee587
-  config: Configured with: '../configure' '--target-list=3Dx86_64-softmmu,m=
-ips64el-softmmu,mips64-softmmu,mipsel-softmmu,mips-softmmu,i386-softmmu,aar=
-ch64-softmmu,arm-softmmu' '--prefix=3D/opt/qemu-master'
-
-  Cmdline: =
-
-  qemu-system-x86_64 -kernel /home/peppelt/code/l4/internal/.build-x86_64/b=
-in/amd64_gen/bootstrap -append "" -initrd "./fiasco/.build-x86_64/fiasco , =
-... " -serial stdio -nographic -monitor none -nographic -monitor none -cpu =
-EPYC-v2 -m 4G -smp 4 =
-
-
-  Issue:
-  We are developing an microkernel operating system called L4Re. We recentl=
-y got an AMD EPYC server for testing and we couldn't execute SMP tests of o=
-ur system when running Linux + qemu + VM w/ L4Re.
-  In fact, the kernel did not recognize any APs at all. On AMD CPUs the ker=
-nel checks for the number of cores reported in CPUID leaf 0x8000_0008.ECX[N=
-C] or [ApicIdSize].  [0][1]
-
-  The physical machine reports for leaf 0x8000_0008:  EAX: 0x3030 EBX: 0x18=
-cf757 ECX: 0x703f EDX: 0x1000
-  The lower four bits of ECX are the [NC] field and all set.
-
-  When querying inside qemu with -enable-kvm -cpu host -smp 4 (basically as=
- replacement and addition to the above cmdline) the CPUID leaf shows: EAX: =
-0x3024, EBX: 0x1001000, ECX: 0x0, EDX: 0x0
-  Note, ECX is zero. Indicating that this is no SMP capabale CPU.
-
-  I'm debugging it using my local machine and the QEMU provided EPYC-v2
-  CPU model and it is reproducible there as well and reports:  EAX:
-  0x3028, EBX: 0x0, ECX: 0x0, EDX: 0x0
-
-  I checked other AMD based CPU models (phenom, opteron_g3/g5) and they beh=
-ave the same. [2] shows the CPUID 0x8000'0008 handling in the QEMU source.
-  I believe that behavior here is wrong as ECX[NC] should report the number=
- of cores per processor, as stated in the AMD manual [2] p.584. In my under=
-standing -smp 4 should then lead to ECX[NC] =3D 0x3.
-
-  The following table shows my findings with the -smp option:
-  Option | Qemu guest observed ECX value
-  -smp 4 | 0x0
-  -smp 4,cores=3D4  | 0x3
-  -smp 4,cores=3D2,thread=3D2 | 0x3
-  -smp 4,cores=3D4,threads=3D2 | QEMU boot error: topology false.
-
-  Now, I'm asking myself how the terminology of the AMD manual maps to QEMU=
-'s -smp option.
-  Obviously, nr_cores and nr_threads correspond to the cores and threads op=
-tions on the cmdline and cores * threads <=3D 4 (in this example), but what=
- corresponds the X in -smp X to?
-
-  Querying 0x8000'0008 on the physical processor results in different
-  reports than quering QEMU's model as does it with -enable-kvm -cpu
-  host.
-
-  Furthermore, the ACPI.MADT shows 4 local APICs to be present while the
-  CPU leave reports a single core processor.
-
-  This leads me to the conclusion that CPUID 0x8000'0008.ECX reports the
-  wrong number.
-
-  =
-
-  Please let me know, if you need more information from my side.
-
-  =
-
-  [0] https://github.com/kernkonzept/fiasco/blob/522ccc5f29ab120213cf02d713=
-28e2b879cbbd19/src/kern/ia32/kernel_thread-ia32.cpp#L109
-  [1] https://github.com/kernkonzept/fiasco/blob/522ccc5f29ab120213cf02d713=
-28e2b879cbbd19/src/kern/ia32/cpu-ia32.cpp#L1120
-  [2] https://github.com/qemu/qemu/blob/f2a8261110c32c4dccd84e774d8dd7a0524=
-e00fb/target/i386/cpu.c#L5835
-  [3] https://www.amd.com/system/files/TechDocs/24594.pdf
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1871842/+subscriptions
 
