@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC2111ADE65
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 15:33:41 +0200 (CEST)
-Received: from localhost ([::1]:47358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11E981ADE70
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Apr 2020 15:38:50 +0200 (CEST)
+Received: from localhost ([::1]:47430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPR7k-0005lg-KV
-	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 09:33:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36732)
+	id 1jPRCj-0007vs-3G
+	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 09:38:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37194)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jPR6n-0004rr-3r
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 09:32:42 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jPRBV-0006zV-U4
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 09:37:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jPR6l-0006SS-Te
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 09:32:40 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:41771)
+ (envelope-from <peter.maydell@linaro.org>) id 1jPRBU-0001tf-Tw
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 09:37:33 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:43241)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jPR6l-0006Rz-Ke
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 09:32:39 -0400
-Received: by mail-ot1-x342.google.com with SMTP id c3so1394878otp.8
- for <qemu-devel@nongnu.org>; Fri, 17 Apr 2020 06:32:39 -0700 (PDT)
+ id 1jPRBU-0001ss-Ka
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 09:37:32 -0400
+Received: by mail-oi1-x243.google.com with SMTP id j16so2042910oih.10
+ for <qemu-devel@nongnu.org>; Fri, 17 Apr 2020 06:37:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Fwc+6Mwwqh7DLXhvjwR3QXK3J1CjVqSulYYfvjFl8X4=;
- b=XC7Yj10K2YbNqP0Op42aczXxU2SVnP+I7j8RdrbXcaV5FrlnBhYCcPR0Sh738Wvr5G
- tX+0dH039S9FzwTiVSAsytcPCgzUcYYm76hyTG7zlmnv6059MBXCWiSawyE613uFITUK
- ZjhDl5JN181/yMQnE3hRDxqu0FTU8O/CDjX7fWz9SWilP1NDaMfgOeUgjWSZEmSP3dMw
- Q9TRLPFoewDvArnMtORImP9bSQsuGI99WIpd7zmv4XR6st2uUAKY8ji0FcfLFxqW/VKA
- wA5BW8HHlVZciS8/OWB8pkWP1SPZK7hKLzZQXE5RaM4lD6B0zmaViU50kAkIbzOlT7rU
- 4zgw==
+ :cc; bh=mF6t6DrxG448bVneKOHPIF3gBskDqsvioWPmNHSo5OY=;
+ b=lwgerN1qaufyGsE408recmf6KgtQlJhLlMhRDWET9+ATM32r1dPzC4OKp4g3sWqRfF
+ Dt/m2g/t5wuomW4h2UQ3AP3TIoLoqROepB77u33V++hCnVlLK8Zm/0hWVOYrE4gCXIJ5
+ ALWYwZlrY55VQtNPP3nP2FGU5Is7JkBaCYaRF4+GkJLXFPMyKLxf+qNqWqYgRu2BPYoL
+ CqKmRRgghADYljMEXRVu6EDWUxDDkg3Wb5ldMHw1eM8m+x5wuhJIPd3OOh3s4ltMo6hL
+ ScLMbQ0zGjhlVHfvpqTHubEleosPb9sImyl+v4XKWNhPvgz7F1NfsX+yRkgBLohmzp3P
+ KZBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Fwc+6Mwwqh7DLXhvjwR3QXK3J1CjVqSulYYfvjFl8X4=;
- b=MEWv9M62AUXpzCyOhA1a4h8JaM/Xw8gGYfWyJpblhd7y+FyjDgNIA0zijPI5yuXkom
- XHhsmZxyS5ePKAI7Z8kX52GP+f0/z3LS59wyUwtB1GCiwMyXxyNmyT7D3jNv3x5KBzhj
- 0pR2BH4Q1uFutGRl0qgESNYZy+TuQQVmzPfUsf99OITimLEIFCH+Mgsv/QeA3AfaPl5U
- y7srCmNdAW8j4mLBxtp9vVOY+fHqLdnLuiuyQKWEzW1Uciwo7pkPqt+J6QiDDJyJgzYt
- PvYPTFvMZjg47UQSEL0rNrzBpG9fBQzV9xIGyW6Uc6iuXYH39HuXBZ/2qh7pTjHp6vDC
- FznA==
-X-Gm-Message-State: AGi0PuZzezf4Y0ScTE7d9qEsHuyG8uAJZpSjjz42UDHYL2B34HgZzWhv
- nciyOdRmDpGMmYgOEgkM5uR4BCwnv7hoHJ8+tnhRRg==
-X-Google-Smtp-Source: APiQypJ1LUCZ73GGjz1B9eI/M746O3mpnpKIp/F2JG5itGR86qXuxUSBx5/6zNG8wtVspr+Jpg19hI9l1tzgcHwfQrk=
-X-Received: by 2002:a05:6830:1e4e:: with SMTP id
- e14mr2492560otj.91.1587130358818; 
- Fri, 17 Apr 2020 06:32:38 -0700 (PDT)
+ bh=mF6t6DrxG448bVneKOHPIF3gBskDqsvioWPmNHSo5OY=;
+ b=BSNghPWggn4UTupEQfjQDjhbF1neiO6kEyL/v72A21SdFzE4Jhu8PQhkPd0og/9xVb
+ XlMxVrlj31SM2QYZNpyapV6+ArPDaEDrOnjypOwlQaVVjZKOF/3aVJBZXBWXLTyL9MKl
+ etykHm7aOCcQeRlRN+eh7SelJH011oyDCHy40/Eihju0VYTyXPooPBZEfIG0FbEUwfRU
+ o0iCHpUtZwZx7nlGiFZGOzCIz057meeV1J76JqAOdrPdLiPcZolSUfEGWRIZTcZZyT1R
+ qdWO22KzpfDbYVp+uub0DaMzg975NHlhBcVNI7Xty8qbgfB2b67/gN4vuN3ToyAGXdLO
+ NWfA==
+X-Gm-Message-State: AGi0PuYO9kSNfFnXGvrwHXv490pT7jCJxhl0r5YodN+0stI6jTFEc4A3
+ KV/hbOXeJ79hkpoGyh3/SxLBIfZAYzXkMtT8HmNbAg==
+X-Google-Smtp-Source: APiQypKDaXqnwNqfpJ9oYIQxG/HuaUhrvoq5EeaXeJk/svXs3ZHilvIfwt0PBLnHtOTqmsyoXefI3936FyfRaUm//uc=
+X-Received: by 2002:aca:3a8a:: with SMTP id h132mr2047132oia.146.1587130651702; 
+ Fri, 17 Apr 2020 06:37:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200410114639.32844-1-gengdongjiu@huawei.com>
-In-Reply-To: <20200410114639.32844-1-gengdongjiu@huawei.com>
+References: <20200416090247.353414-1-rfried.dev@gmail.com>
+In-Reply-To: <20200416090247.353414-1-rfried.dev@gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 17 Apr 2020 14:32:27 +0100
-Message-ID: <CAFEAcA9oNuDf=bdSSE8mZWrB23+FegD5NeSAmu8dGWhB=adBQg@mail.gmail.com>
-Subject: Re: [PATCH v25 00/10] Add ARMv8 RAS virtualization support in QEMU
-To: Dongjiu Geng <gengdongjiu@huawei.com>
+Date: Fri, 17 Apr 2020 14:37:20 +0100
+Message-ID: <CAFEAcA8kZw_xd-Snogxavyxpo5nyjoExV6DPfyTa3=4RqpTJVA@mail.gmail.com>
+Subject: Re: [PATCH] Cadence: gem: fix wraparound in 64bit descriptors
+To: Ramon Fried <rfried.dev@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,39 +71,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- kvm-devel <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Linuxarm <linuxarm@huawei.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, Zheng Xiang <zhengxiang9@huawei.com>,
- qemu-arm <qemu-arm@nongnu.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 10 Apr 2020 at 12:46, Dongjiu Geng <gengdongjiu@huawei.com> wrote:
+On Thu, 16 Apr 2020 at 10:02, Ramon Fried <rfried.dev@gmail.com> wrote:
 >
-> In the ARMv8 platform, the CPU error types includes synchronous external abort(SEA)
-> and SError Interrupt (SEI). If exception happens in guest, host does not know the detailed
-> information of guest, so it is expected that guest can do the recovery. For example, if an
-> exception happens in a guest user-space application, host does not know which application
-> encounters errors, only guest knows it.
+> Wraparound of TX descriptor cyclic buffer only updated
+> the low 32 bits of the descriptor.
+> Fix that by checking if we're working with 64bit descriptors.
 >
-> For the ARMv8 SEA/SEI, KVM or host kernel delivers SIGBUS to notify userspace.
-> After user space gets the notification, it will record the CPER into guest GHES
-> buffer and inject an exception or IRQ to guest.
+> Signed-off-by: Ramon Fried <rfried.dev@gmail.com>
+> ---
+>  hw/net/cadence_gem.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 >
-> In the current implementation, if the type of SIGBUS is BUS_MCEERR_AR, we will
-> treat it as a synchronous exception, and notify guest with ARMv8 SEA
-> notification type after recording CPER into guest.
+> diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
+> index 51ec5a072d..b8ae21cc0d 100644
+> --- a/hw/net/cadence_gem.c
+> +++ b/hw/net/cadence_gem.c
+> @@ -1238,7 +1238,14 @@ static void gem_transmit(CadenceGEMState *s)
+>              /* read next descriptor */
+>              if (tx_desc_get_wrap(desc)) {
+>                  tx_desc_set_last(desc);
+> -                packet_desc_addr = s->regs[GEM_TXQBASE];
+> +
+> +            if (s->regs[GEM_DMACFG] & GEM_DMACFG_ADDR_64B) {
+> +                packet_desc_addr = s->regs[GEM_TBQPH];
+> +                packet_desc_addr <<= 32;
+> +            } else {
+> +                packet_desc_addr = 0;
+> +            }
+> +                packet_desc_addr |= s->regs[GEM_TXQBASE];
 
-Hi. I left a comment on patch 1. The other 3 patches unreviewed
-are 5, 6 and 8, which are all ACPI core code, so that's for
-MST, Igor or Shannon to review.
+The indentation seems to be off here.
 
-Once those have been reviewed, please ping me if you want this
-to go via target-arm.next.
+You could write this as:
+
+    packet_desc_addr = s->regs[GEM_TXQBASE];
+    if (s->regs[GEM_DMACFG] & GEM_DMACFG_ADDR_64B) {
+        packet_desc_addr |= (uint64_t)s->regs[GEM_TBQPH] << 32;
+    }
+
+which ends up as the same thing but matches the code used
+in tx_desc_get_buffer() to assemble an address that's
+32 or 64 bits depending on the ADDR_64B flag.
+
+>              } else {
+>                  packet_desc_addr += 4 * gem_get_desc_len(s, false);
+>              }
+> --
+> 2.26.0
 
 thanks
 -- PMM
