@@ -2,70 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 837101AF259
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Apr 2020 18:30:31 +0200 (CEST)
-Received: from localhost ([::1]:59806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A481AF2FE
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Apr 2020 20:03:26 +0200 (CEST)
+Received: from localhost ([::1]:60475 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPqMQ-0002xk-Ke
-	for lists+qemu-devel@lfdr.de; Sat, 18 Apr 2020 12:30:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50599)
+	id 1jProK-00009i-Ew
+	for lists+qemu-devel@lfdr.de; Sat, 18 Apr 2020 14:03:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36976)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jPqKz-0001Y4-BB
- for qemu-devel@nongnu.org; Sat, 18 Apr 2020 12:29:02 -0400
+ (envelope-from <josemartins90@gmail.com>) id 1jPrmm-0007gR-Gz
+ for qemu-devel@nongnu.org; Sat, 18 Apr 2020 14:01:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jPqKx-0006L1-VW
- for qemu-devel@nongnu.org; Sat, 18 Apr 2020 12:29:01 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:42956)
+ (envelope-from <josemartins90@gmail.com>) id 1jPrml-0006NS-B5
+ for qemu-devel@nongnu.org; Sat, 18 Apr 2020 14:01:48 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:39648)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jPqKx-0006HR-LP
- for qemu-devel@nongnu.org; Sat, 18 Apr 2020 12:28:59 -0400
-Received: by mail-pf1-x436.google.com with SMTP id r20so2687346pfh.9
- for <qemu-devel@nongnu.org>; Sat, 18 Apr 2020 09:28:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NursXVv/HRRUgUycsc5QQiTW037ba/6j60CDRbihF7Q=;
- b=XT2xetT/y+v6QI8mKKRFQiQ7k1Vjojb/Fbp1dCu4CPqRv1PTAZ71ihJyLwKxyaAitO
- 42xV6uyOSA9IcamrCn4ftPkmshoksp9xVcEAiHD3iMFBW5160N5XjfcLVA3A4gMg21eq
- c91zS9g4nSocJ/8uIvoP4Q0oNntDAjEhf5opPRSzbPPKMKsMM5yCYk8K+SnE87+s50Jd
- CkauYoJGbEkeD45HklZoOAFQp5qd/q/B2JYzIt567vESSNU0XXhMxjg0HIjUM7OIf3eM
- 1ulPQsQ+p/fbnBR5ZVil2q/MXG3yzTz/Facz6WgU/E3f82Y74D+xRsd8E5xQDuGRyY7x
- kaxg==
+ (Exim 4.71) (envelope-from <josemartins90@gmail.com>)
+ id 1jPrmi-0006MG-Md; Sat, 18 Apr 2020 14:01:44 -0400
+Received: by mail-io1-xd43.google.com with SMTP id e127so6133803iof.6;
+ Sat, 18 Apr 2020 11:01:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=WohNrsQPuTHTAitkS+Hsv10fCQyuOe669Z2kncG5j4w=;
+ b=kSgOVNvzJa7QXhH3jSVmmDt1R6Q6gEzRiUA5JS0iqhS3xt0nftZE1S2uapMM0AKwwS
+ Zw9Q7atE+G+Edz9DTi1rD8dG755FRm8s2ze4tQNpZtsa8dZV9H6KMmqd19+fbSUSMsjk
+ bvHkGMx3pNosnQK0Qi7i7497Y6zhxsp2qifm58dIbRJ8FFbauYHA/7+GXVTBurqjrqem
+ uUNFSrP/hRgnfmAIkfeFMVmKNQS+unVAqJTEefEl2jW3kxS+rc7cfWvq/lU91W1W3Bmw
+ GjLsj62iFI7A37L9Y1iip4cxZd5s8nkVEcDxSwRHPHFZp/34m4Y/te2pgvPrtc2f5T4h
+ LM/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NursXVv/HRRUgUycsc5QQiTW037ba/6j60CDRbihF7Q=;
- b=qMIL8htKQQsSEkS/1T+MLBADXe+9QuYfz2WfHaI1jth+8nUfT5ZNCL8z96RBWBIclB
- wYhRlsxT66u5ZQuH8qpnn8AFwF+uNDlWQYhdT1QeAToG0i2jlMhFaCfuKhoeHNMkEzJs
- qtfhsBR0Yieep8YzP+Jk7vVeiY9FNgen7xUP8kBXyDRtnTSuVAC1/I2ILR3JvImkDtIg
- XtmQA6SuXTKhfDls4j8DH886aljXoubgUqkQTOUJSOhRb8FSeXmt7CzbLPtpt+bJ+aqB
- o3vPcXQARX3ribhSim1NPTJczlvOEc4W9V+RhUa5LWgW54aj1Q2u8oF5a5S2RRhkAvRO
- xyVg==
-X-Gm-Message-State: AGi0PubxQiSLnSWV/teP46gZ4VUl9uiV4mpr2UNdlfuTkn8pViPrJhZM
- m2yWjLJ0OtMu9GM0+ZaeR5cHdivVLag=
-X-Google-Smtp-Source: APiQypIWXZOwArNjmvAoB0wVsXRP53mQSam9Bc8EHQr9XUmwiFzp3ARWIAW2lgEIboR7yeNpexzePg==
-X-Received: by 2002:aa7:9e10:: with SMTP id y16mr7057253pfq.236.1587227335550; 
- Sat, 18 Apr 2020 09:28:55 -0700 (PDT)
-Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
- [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id f99sm5636467pjg.22.2020.04.18.09.28.53
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Apr 2020 09:28:54 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tcg: Add load_dest parameter to GVecGen2
-Date: Sat, 18 Apr 2020 09:28:53 -0700
-Message-Id: <20200418162853.4779-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=WohNrsQPuTHTAitkS+Hsv10fCQyuOe669Z2kncG5j4w=;
+ b=GsrAjAuKdaLSL3cbLeSS1a/tyouC4x0mGnmu9QXAnuZOx2SoVXygpFC+Fh2L5O/Tfa
+ S57ok7u1nrfwQ9apN3psGKV6GFmfRQZrQ8yh6BLKO841HQCGPCx+cLLQEs47ATJozKaS
+ vItfPdLvY2nOgYNVZzp7zKy+g28t9WvwMYeOKCVWlr90/1CtCMT44T5cSrDYRLnv27jY
+ CZdXCvOawY0l2VFSIR6kiKAPU3DP5iCyXAsRKLQvCwDr+xTH75p0CpL0e+T47uLjXTNP
+ HPbkekOh0azTcVo+oslXVQZqyfuVvPZq8FgcplALOtHijutE0CalOB1H0WH9wIfAMtCt
+ OqEA==
+X-Gm-Message-State: AGi0PuZ8FqKrreUKiwENLTCiEPMZmaj96ZhfrWBLsyF6nofAQxN0vwlT
+ AA9giZqe93fPzZup8FFJ60JJ110trorCEHTvzP6go394UUE=
+X-Google-Smtp-Source: APiQypIABaBDgfJtQPhqVvjW8r/IrIvpJTEI+W6uqggnU4+TZqecXHnpiQGyHas8d8NtmG5FWZY4m92kti0V3aep/Aw=
+X-Received: by 2002:a05:6638:11a:: with SMTP id
+ x26mr2059966jao.89.1587232902698; 
+ Sat, 18 Apr 2020 11:01:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Jose Martins <josemartins90@gmail.com>
+Date: Sat, 18 Apr 2020 19:01:31 +0100
+Message-ID: <CAC41xo2O1k+cn7EO3Zu3U70qefFwGa5B1iNRNgRwLk7SGX=-Aw@mail.gmail.com>
+Subject: [PATCH 1/1] target/riscv: fix VS interrupts forwarding to HS
+To: qemu-riscv@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::436
+X-Received-From: 2607:f8b0:4864:20::d43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,149 +68,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: alistair.francis@wdc.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have this same parameter for GVecGen2i, GVecGen3,
-and GVecGen3i.  This will make some SVE2 insns easier
-to parameterize.
+When vs interrupts (2, 6, 10) are enabled, pending and not delegated
+in hideleg, they are not always forwarded to hs mode after a return to
+vs mode. This happens independently of the state of spie and sie on
+the hs-level sstatus before the return. Instead, the vs-level status
+sie state seems to be controlling if the interrupt is forward to hs or
+not. This is both because, in riscv_cpu_local_irq_pending, vs
+interrupts are ignored when checking for hs pending interrupts and
+also because hs interrupts might not be considered enabled after
+jumping to vs mode if the spie (which implicitly is copied to sie) is
+not set when sret is executed. From what I could gather, the spec does
+not preclude hs mode from receiving vs interrupts if they are not
+delegated in hideleg (although this is true for m mode, but guaranteed
+by hardwiring the corresponding bits in mideleg). Also, it clearly
+states that: "Interrupts for higher-privilege modes, y>x, are always
+globally enabled regardless of the setting of the global yIE bit for
+the higher-privilege mode.", so hs_mstatus_sie must be set whenever
+virt is enabled. After solving the previous issue, the problem remains
+that when such interrupts are delegated in hideleg, there is still the
+need to check it when calculating pending_hs_irq, otherwise, we're
+still "forcing an hs except" when the interrupt should be forwarded to
+vs. I believe the following patch will fix this issue:
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Jose Martins <josemartins90@gmail.com>
 ---
- include/tcg/tcg-op-gvec.h |  2 ++
- tcg/tcg-op-gvec.c         | 45 ++++++++++++++++++++++++++++-----------
- 2 files changed, 34 insertions(+), 13 deletions(-)
+ target/riscv/cpu_helper.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/include/tcg/tcg-op-gvec.h b/include/tcg/tcg-op-gvec.h
-index d89f91f40e..cea6497341 100644
---- a/include/tcg/tcg-op-gvec.h
-+++ b/include/tcg/tcg-op-gvec.h
-@@ -109,6 +109,8 @@ typedef struct {
-     uint8_t vece;
-     /* Prefer i64 to v64.  */
-     bool prefer_i64;
-+    /* Load dest as a 2nd source operand.  */
-+    bool load_dest;
- } GVecGen2;
- 
- typedef struct {
-diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
-index 43cac1a0bf..049a55e700 100644
---- a/tcg/tcg-op-gvec.c
-+++ b/tcg/tcg-op-gvec.c
-@@ -663,17 +663,22 @@ static void expand_clr(uint32_t dofs, uint32_t maxsz)
- 
- /* Expand OPSZ bytes worth of two-operand operations using i32 elements.  */
- static void expand_2_i32(uint32_t dofs, uint32_t aofs, uint32_t oprsz,
--                         void (*fni)(TCGv_i32, TCGv_i32))
-+                         bool load_dest, void (*fni)(TCGv_i32, TCGv_i32))
- {
-     TCGv_i32 t0 = tcg_temp_new_i32();
-+    TCGv_i32 t1 = tcg_temp_new_i32();
-     uint32_t i;
- 
-     for (i = 0; i < oprsz; i += 4) {
-         tcg_gen_ld_i32(t0, cpu_env, aofs + i);
--        fni(t0, t0);
--        tcg_gen_st_i32(t0, cpu_env, dofs + i);
-+        if (load_dest) {
-+            tcg_gen_ld_i32(t1, cpu_env, dofs + i);
-+        }
-+        fni(t1, t0);
-+        tcg_gen_st_i32(t1, cpu_env, dofs + i);
-     }
-     tcg_temp_free_i32(t0);
-+    tcg_temp_free_i32(t1);
- }
- 
- static void expand_2i_i32(uint32_t dofs, uint32_t aofs, uint32_t oprsz,
-@@ -793,17 +798,22 @@ static void expand_4_i32(uint32_t dofs, uint32_t aofs, uint32_t bofs,
- 
- /* Expand OPSZ bytes worth of two-operand operations using i64 elements.  */
- static void expand_2_i64(uint32_t dofs, uint32_t aofs, uint32_t oprsz,
--                         void (*fni)(TCGv_i64, TCGv_i64))
-+                         bool load_dest, void (*fni)(TCGv_i64, TCGv_i64))
- {
-     TCGv_i64 t0 = tcg_temp_new_i64();
-+    TCGv_i64 t1 = tcg_temp_new_i64();
-     uint32_t i;
- 
-     for (i = 0; i < oprsz; i += 8) {
-         tcg_gen_ld_i64(t0, cpu_env, aofs + i);
--        fni(t0, t0);
--        tcg_gen_st_i64(t0, cpu_env, dofs + i);
-+        if (load_dest) {
-+            tcg_gen_ld_i64(t1, cpu_env, dofs + i);
-+        }
-+        fni(t1, t0);
-+        tcg_gen_st_i64(t1, cpu_env, dofs + i);
-     }
-     tcg_temp_free_i64(t0);
-+    tcg_temp_free_i64(t1);
- }
- 
- static void expand_2i_i64(uint32_t dofs, uint32_t aofs, uint32_t oprsz,
-@@ -924,17 +934,23 @@ static void expand_4_i64(uint32_t dofs, uint32_t aofs, uint32_t bofs,
- /* Expand OPSZ bytes worth of two-operand operations using host vectors.  */
- static void expand_2_vec(unsigned vece, uint32_t dofs, uint32_t aofs,
-                          uint32_t oprsz, uint32_t tysz, TCGType type,
-+                         bool load_dest,
-                          void (*fni)(unsigned, TCGv_vec, TCGv_vec))
- {
-     TCGv_vec t0 = tcg_temp_new_vec(type);
-+    TCGv_vec t1 = tcg_temp_new_vec(type);
-     uint32_t i;
- 
-     for (i = 0; i < oprsz; i += tysz) {
-         tcg_gen_ld_vec(t0, cpu_env, aofs + i);
--        fni(vece, t0, t0);
--        tcg_gen_st_vec(t0, cpu_env, dofs + i);
-+        if (load_dest) {
-+            tcg_gen_ld_vec(t1, cpu_env, dofs + i);
-+        }
-+        fni(vece, t1, t0);
-+        tcg_gen_st_vec(t1, cpu_env, dofs + i);
-     }
-     tcg_temp_free_vec(t0);
-+    tcg_temp_free_vec(t1);
- }
- 
- /* Expand OPSZ bytes worth of two-vector operands and an immediate operand
-@@ -1088,7 +1104,8 @@ void tcg_gen_gvec_2(uint32_t dofs, uint32_t aofs,
-          * that e.g. size == 80 would be expanded with 2x32 + 1x16.
-          */
-         some = QEMU_ALIGN_DOWN(oprsz, 32);
--        expand_2_vec(g->vece, dofs, aofs, some, 32, TCG_TYPE_V256, g->fniv);
-+        expand_2_vec(g->vece, dofs, aofs, some, 32, TCG_TYPE_V256,
-+                     g->load_dest, g->fniv);
-         if (some == oprsz) {
-             break;
-         }
-@@ -1098,17 +1115,19 @@ void tcg_gen_gvec_2(uint32_t dofs, uint32_t aofs,
-         maxsz -= some;
-         /* fallthru */
-     case TCG_TYPE_V128:
--        expand_2_vec(g->vece, dofs, aofs, oprsz, 16, TCG_TYPE_V128, g->fniv);
-+        expand_2_vec(g->vece, dofs, aofs, oprsz, 16, TCG_TYPE_V128,
-+                     g->load_dest, g->fniv);
-         break;
-     case TCG_TYPE_V64:
--        expand_2_vec(g->vece, dofs, aofs, oprsz, 8, TCG_TYPE_V64, g->fniv);
-+        expand_2_vec(g->vece, dofs, aofs, oprsz, 8, TCG_TYPE_V64,
-+                     g->load_dest, g->fniv);
-         break;
- 
-     case 0:
-         if (g->fni8 && check_size_impl(oprsz, 8)) {
--            expand_2_i64(dofs, aofs, oprsz, g->fni8);
-+            expand_2_i64(dofs, aofs, oprsz, g->load_dest, g->fni8);
-         } else if (g->fni4 && check_size_impl(oprsz, 4)) {
--            expand_2_i32(dofs, aofs, oprsz, g->fni4);
-+            expand_2_i32(dofs, aofs, oprsz, g->load_dest, g->fni4);
-         } else {
-             assert(g->fno != NULL);
-             tcg_gen_gvec_2_ool(dofs, aofs, oprsz, maxsz, g->data, g->fno);
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index d3ba9efb02..9962ee4690 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -43,8 +43,7 @@ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
+     target_ulong mstatus_sie = get_field(env->mstatus, MSTATUS_SIE);
+     target_ulong hs_mstatus_sie = get_field(env->mstatus_hs, MSTATUS_SIE);
+
+-    target_ulong pending = env->mip & env->mie &
+-                               ~(MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
++    target_ulong pending = env->mip & env->mie;
+     target_ulong vspending = (env->mip & env->mie &
+                               (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP));
+
+@@ -52,11 +51,11 @@ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
+                           (env->priv == PRV_M && mstatus_mie);
+     target_ulong sie    = env->priv < PRV_S ||
+                           (env->priv == PRV_S && mstatus_sie);
+-    target_ulong hs_sie = env->priv < PRV_S ||
++    target_ulong hs_sie = riscv_cpu_virt_enabled(env) || env->priv < PRV_S ||
+                           (env->priv == PRV_S && hs_mstatus_sie);
+
+     if (riscv_cpu_virt_enabled(env)) {
+-        target_ulong pending_hs_irq = pending & -hs_sie;
++        target_ulong pending_hs_irq = pending & ~env->hideleg & -hs_sie;
+
+         if (pending_hs_irq) {
+             riscv_cpu_set_force_hs_excep(env, FORCE_HS_EXCEP);
 -- 
-2.20.1
-
+2.17.1
 
