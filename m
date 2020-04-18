@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 297751AF174
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Apr 2020 17:07:22 +0200 (CEST)
-Received: from localhost ([::1]:58616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07C031AF170
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Apr 2020 17:06:02 +0200 (CEST)
+Received: from localhost ([::1]:58576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPp3x-0002vs-7v
-	for lists+qemu-devel@lfdr.de; Sat, 18 Apr 2020 11:07:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36799)
+	id 1jPp2f-00009w-3O
+	for lists+qemu-devel@lfdr.de; Sat, 18 Apr 2020 11:06:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36814)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jPp10-00074W-Ic
- for qemu-devel@nongnu.org; Sat, 18 Apr 2020 11:04:19 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jPp12-000752-62
+ for qemu-devel@nongnu.org; Sat, 18 Apr 2020 11:04:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jPp0z-0002tT-Ef
- for qemu-devel@nongnu.org; Sat, 18 Apr 2020 11:04:18 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:54630)
+ (envelope-from <richard.henderson@linaro.org>) id 1jPp10-00034Z-SU
+ for qemu-devel@nongnu.org; Sat, 18 Apr 2020 11:04:20 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:39322)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jPp0z-0002r2-98
- for qemu-devel@nongnu.org; Sat, 18 Apr 2020 11:04:17 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id np9so2461424pjb.4
- for <qemu-devel@nongnu.org>; Sat, 18 Apr 2020 08:04:17 -0700 (PDT)
+ id 1jPp10-0002zt-Mq
+ for qemu-devel@nongnu.org; Sat, 18 Apr 2020 11:04:18 -0400
+Received: by mail-pl1-x642.google.com with SMTP id k18so2150947pll.6
+ for <qemu-devel@nongnu.org>; Sat, 18 Apr 2020 08:04:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ue3ApTgP6L6VKxS6HIrw/kMTvfYiGAHHp1z12K/l2mg=;
- b=omiHnhkA/VnHvkR2SY3N/6VDT35fIiTaelNs2hhwY0AdZ7g836ZyE1jvsqNpgVCRsi
- 9P071+92jRrY/tjjgewAmodUFs8aNU4IlHuBQn1ldoGH7hOXVnru2I2GIA9o+VAi5uKR
- VC19hzYnIq0J2g4oewaa8SkG8K/v5gFBb8L1myhkysOq49D2Cr/WZJe5FaJX2qF5qSLm
- IlBGXTe7q8VQWL++WUnr8QsovZSwAkXzSsRU5VKgw0wixJJbPNrpkJhyxDklGUL7c99r
- uCm7DJSyuiYxxTlxJI7xqAax1Kd2lrovVZ4y1/sGcM+7x0jQewtWKuQs/TmtyZrVSVYr
- ck5w==
+ bh=weSa2Q8xnocg4w6MPGqPbS35FDoC38Z4xsrq7F4gNiQ=;
+ b=i6bMv3znncAiRQ13CGtxAopsQubXS9ztyWPGXYdrTaZoUiyvX9g+JFbMuxlUE5Hsd0
+ WAV/2hfxdOZ8+mnvSAWwc3YrEtZ8xIXt4zQL0HUA9Nioc5drs4vLd9oQwg0XJWWyPjnP
+ fFtpvArEwAnEHUPuGXOUiZGjWYQK+c5cs14LSr65hbt01M0WC2BNMX1DRYZKSWcB8Jhw
+ i2f5O/M0ShP5dOynYUt+bVKzTW6CvnmkiD8gO80oq1pqRLUqZecXjCMlJPtbsD/cN57T
+ yxpO3qsOOPQOhyGCaGvafj8fMsiFp3FaodzryzRx6Dmp0CJLX7LekSuoHy+hgCWYv9yC
+ uGUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ue3ApTgP6L6VKxS6HIrw/kMTvfYiGAHHp1z12K/l2mg=;
- b=FT8A/F8eLgn0HoxxF1jPjgkCNbvQpTdBUpl3Z/2byteVPEcwUhGZ33m68tkfc5U1F/
- JfzWXCV1ePqEM8YfYHhzLHvucGKfcr5OI0KAyB28YagWtwBC5+pbYjDMQWTrNkMciiqX
- xK9Xcc00EGmmQEBvf3r4hxFlaXTE1Wt/yhPtJMiKuWcup8Ii2eeAA8/6/6GEtY3c+atg
- w9fFSNoJRubaC16WYSJ9YgwrhL4j+GjfS3fRp4TGszctRd6EdaFffGrjvkho3TnafXIX
- NvrHm5V4YiSeQ6M6iPT7w3MNX2lQdLeshp4L66NHnH2Ic9d7XOSDP9wvVhdGH9kLQgUq
- Wldg==
-X-Gm-Message-State: AGi0PuavY2qBcIxgRdrSQjiXwbJb+ddZlZ7MZffyCkTRWAl18S9VQBiP
- 13zDpih6OfcIP7BT6sH8qGFb/rCkHI4=
-X-Google-Smtp-Source: APiQypKkFbnXVqBI2Ztr97TMatv6qLURUAG10y8H9Y1rHGSe3cb/D0Xn1jLS3XrKBJtuW1n1iKip4g==
-X-Received: by 2002:a17:902:694a:: with SMTP id
- k10mr8969568plt.82.1587222255797; 
- Sat, 18 Apr 2020 08:04:15 -0700 (PDT)
+ bh=weSa2Q8xnocg4w6MPGqPbS35FDoC38Z4xsrq7F4gNiQ=;
+ b=bg1to5TuNXx3XWp9ssoqKB4EYq5iEtZABddFv2Y2upO8cgxTK7HbQKPACTbWOzZe5a
+ di0jsw8FCYpQo7uBiwOEEgq8q5RvrBz6Bz6AHPguCsnyei/MrbOL5Xwu5/VPLqbtevtL
+ Rbpbw3oT8JKBtCXzuG5BEJ6BA+829JKDt0aOFa+b6v7fxgzDDv0S2Ersa3Op3RtSnCjd
+ VryetacsoLsJ8p+7wGIgxs3sdcska2SyJcoHwW+UiAFbo/BlH+Z71LceSXKsxAE5IfBJ
+ Pas0TMVOEp1Ep1v3oF2Q7XbMjsiuxFHWjIiCuGpP9dIo/YWCkoVd1JNfmbhyxudQ3Dpx
+ yEGA==
+X-Gm-Message-State: AGi0PuZdZy56fhHMnNCNl6175aDS8xWyGp05VuVc5wrVhIbFY7UC+pbG
+ mDxa8zvcoMFMvKJ3kZgYTopuExKrsiE=
+X-Google-Smtp-Source: APiQypIYbmC8My8LepMhC5OWuuHU3GmevvJEP2T5KKngyBiLyEwbkcQPW1ebCiIbCdhotzH+dyCs3A==
+X-Received: by 2002:a17:90a:37a3:: with SMTP id
+ v32mr11230904pjb.2.1587222257316; 
+ Sat, 18 Apr 2020 08:04:17 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id t103sm8668601pjb.46.2020.04.18.08.04.14
+ by smtp.gmail.com with ESMTPSA id t103sm8668601pjb.46.2020.04.18.08.04.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Apr 2020 08:04:15 -0700 (PDT)
+ Sat, 18 Apr 2020 08:04:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/7] tcg: Add tcg_gen_gvec_dup_imm
-Date: Sat, 18 Apr 2020 08:04:05 -0700
-Message-Id: <20200418150411.1831-2-richard.henderson@linaro.org>
+Subject: [PATCH 2/7] target/s390x: Use tcg_gen_gvec_dup_imm
+Date: Sat, 18 Apr 2020 08:04:06 -0700
+Message-Id: <20200418150411.1831-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200418150411.1831-1-richard.henderson@linaro.org>
 References: <20200418150411.1831-1-richard.henderson@linaro.org>
@@ -67,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1042
+X-Received-From: 2607:f8b0:4864:20::642
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,48 +84,111 @@ Cc: peter.maydell@linaro.org, david@redhat.com, zhiwei_liu@c-sky.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a version of tcg_gen_dup_* that takes both immediate and
-a vector element size operand.  This will replace the set of
-tcg_gen_gvec_dup{8,16,32,64}i functions that encode the element
-size within the function name.
+The gen_gvec_dupi switch is unnecessarily with the new function.
+Replace it with a local gen_gvec_dup_imm that takes care of the
+register to offset conversion and length arguments.
+
+Drop zero_vec and use use gen_gvec_dup_imm with 0.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg-op-gvec.h | 2 ++
- tcg/tcg-op-gvec.c         | 7 +++++++
- 2 files changed, 9 insertions(+)
+ target/s390x/translate_vx.inc.c | 41 +++++++--------------------------
+ 1 file changed, 8 insertions(+), 33 deletions(-)
 
-diff --git a/include/tcg/tcg-op-gvec.h b/include/tcg/tcg-op-gvec.h
-index 74534e2480..eb0d47a42b 100644
---- a/include/tcg/tcg-op-gvec.h
-+++ b/include/tcg/tcg-op-gvec.h
-@@ -313,6 +313,8 @@ void tcg_gen_gvec_ors(unsigned vece, uint32_t dofs, uint32_t aofs,
- 
- void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dofs, uint32_t aofs,
-                           uint32_t s, uint32_t m);
-+void tcg_gen_gvec_dup_imm(unsigned vece, uint32_t dofs, uint32_t s,
-+                          uint32_t m, uint64_t imm);
- void tcg_gen_gvec_dup_i32(unsigned vece, uint32_t dofs, uint32_t s,
-                           uint32_t m, TCGv_i32);
- void tcg_gen_gvec_dup_i64(unsigned vece, uint32_t dofs, uint32_t s,
-diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
-index 327d9588e0..593bb4542e 100644
---- a/tcg/tcg-op-gvec.c
-+++ b/tcg/tcg-op-gvec.c
-@@ -1569,6 +1569,13 @@ void tcg_gen_gvec_dup8i(uint32_t dofs, uint32_t oprsz,
-     do_dup(MO_8, dofs, oprsz, maxsz, NULL, NULL, x);
+diff --git a/target/s390x/translate_vx.inc.c b/target/s390x/translate_vx.inc.c
+index 24558cce80..12347f8a03 100644
+--- a/target/s390x/translate_vx.inc.c
++++ b/target/s390x/translate_vx.inc.c
+@@ -231,8 +231,8 @@ static void get_vec_element_ptr_i64(TCGv_ptr ptr, uint8_t reg, TCGv_i64 enr,
+ #define gen_gvec_mov(v1, v2) \
+     tcg_gen_gvec_mov(0, vec_full_reg_offset(v1), vec_full_reg_offset(v2), 16, \
+                      16)
+-#define gen_gvec_dup64i(v1, c) \
+-    tcg_gen_gvec_dup64i(vec_full_reg_offset(v1), 16, 16, c)
++#define gen_gvec_dup_imm(es, v1, c) \
++    tcg_gen_gvec_dup_imm(es, vec_full_reg_offset(v1), 16, 16, c);
+ #define gen_gvec_fn_2(fn, es, v1, v2) \
+     tcg_gen_gvec_##fn(es, vec_full_reg_offset(v1), vec_full_reg_offset(v2), \
+                       16, 16)
+@@ -316,31 +316,6 @@ static void gen_gvec128_4_i64(gen_gvec128_4_i64_fn fn, uint8_t d, uint8_t a,
+         tcg_temp_free_i64(cl);
  }
  
-+void tcg_gen_gvec_dup_imm(unsigned vece, uint32_t dofs, uint32_t oprsz,
-+                          uint32_t maxsz, uint64_t x)
-+{
-+    check_size_align(oprsz, maxsz, dofs);
-+    do_dup(vece, dofs, oprsz, maxsz, NULL, NULL, x);
-+}
-+
- void tcg_gen_gvec_not(unsigned vece, uint32_t dofs, uint32_t aofs,
-                       uint32_t oprsz, uint32_t maxsz)
+-static void gen_gvec_dupi(uint8_t es, uint8_t reg, uint64_t c)
+-{
+-    switch (es) {
+-    case ES_8:
+-        tcg_gen_gvec_dup8i(vec_full_reg_offset(reg), 16, 16, c);
+-        break;
+-    case ES_16:
+-        tcg_gen_gvec_dup16i(vec_full_reg_offset(reg), 16, 16, c);
+-        break;
+-    case ES_32:
+-        tcg_gen_gvec_dup32i(vec_full_reg_offset(reg), 16, 16, c);
+-        break;
+-    case ES_64:
+-        gen_gvec_dup64i(reg, c);
+-        break;
+-    default:
+-        g_assert_not_reached();
+-    }
+-}
+-
+-static void zero_vec(uint8_t reg)
+-{
+-    tcg_gen_gvec_dup8i(vec_full_reg_offset(reg), 16, 16, 0);
+-}
+-
+ static void gen_addi2_i64(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 al, TCGv_i64 ah,
+                           uint64_t b)
  {
+@@ -396,8 +371,8 @@ static DisasJumpType op_vgbm(DisasContext *s, DisasOps *o)
+          * Masks for both 64 bit elements of the vector are the same.
+          * Trust tcg to produce a good constant loading.
+          */
+-        gen_gvec_dup64i(get_field(s, v1),
+-                        generate_byte_mask(i2 & 0xff));
++        gen_gvec_dup_imm(ES_64, get_field(s, v1),
++                         generate_byte_mask(i2 & 0xff));
+     } else {
+         TCGv_i64 t = tcg_temp_new_i64();
+ 
+@@ -432,7 +407,7 @@ static DisasJumpType op_vgm(DisasContext *s, DisasOps *o)
+         }
+     }
+ 
+-    gen_gvec_dupi(es, get_field(s, v1), mask);
++    gen_gvec_dup_imm(es, get_field(s, v1), mask);
+     return DISAS_NEXT;
+ }
+ 
+@@ -585,7 +560,7 @@ static DisasJumpType op_vllez(DisasContext *s, DisasOps *o)
+ 
+     t = tcg_temp_new_i64();
+     tcg_gen_qemu_ld_i64(t, o->addr1, get_mem_index(s), MO_TE | es);
+-    zero_vec(get_field(s, v1));
++    gen_gvec_dup_imm(es, get_field(s, v1), 0);
+     write_vec_element_i64(t, get_field(s, v1), enr, es);
+     tcg_temp_free_i64(t);
+     return DISAS_NEXT;
+@@ -892,7 +867,7 @@ static DisasJumpType op_vrepi(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+ 
+-    gen_gvec_dupi(es, get_field(s, v1), data);
++    gen_gvec_dup_imm(es, get_field(s, v1), data);
+     return DISAS_NEXT;
+ }
+ 
+@@ -1372,7 +1347,7 @@ static DisasJumpType op_vcksm(DisasContext *s, DisasOps *o)
+         read_vec_element_i32(tmp, get_field(s, v2), i, ES_32);
+         tcg_gen_add2_i32(tmp, sum, sum, sum, tmp, tmp);
+     }
+-    zero_vec(get_field(s, v1));
++    gen_gvec_dup_imm(ES_32, get_field(s, v1), 0);
+     write_vec_element_i32(sum, get_field(s, v1), 1, ES_32);
+ 
+     tcg_temp_free_i32(tmp);
 -- 
 2.20.1
 
