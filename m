@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CEE61AE9A6
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Apr 2020 05:32:26 +0200 (CEST)
-Received: from localhost ([::1]:54408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB691AE9B2
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Apr 2020 05:43:43 +0200 (CEST)
+Received: from localhost ([::1]:54512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPeDQ-0007zP-SI
-	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 23:32:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49602)
+	id 1jPeOM-0002t4-Ah
+	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 23:43:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60091)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jPe7q-0006O4-1n
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 23:26:39 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jPeHA-0001fa-HD
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 23:36:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jPe7o-0004bV-3b
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 23:26:37 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:40741)
+ (envelope-from <richard.henderson@linaro.org>) id 1jPeH8-0002Ii-8v
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 23:36:15 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:35463)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jPe7m-0004Ul-1V
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 23:26:35 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id a22so1857071pjk.5
- for <qemu-devel@nongnu.org>; Fri, 17 Apr 2020 20:26:28 -0700 (PDT)
+ id 1jPeH7-00026s-OW
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 23:36:14 -0400
+Received: by mail-pl1-x642.google.com with SMTP id f8so1707993plt.2
+ for <qemu-devel@nongnu.org>; Fri, 17 Apr 2020 20:36:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=4S5+MAzGOSfi/hcjNLQ8N1bIo2gE5EagUU9lnTXma3U=;
- b=KTMPEP8UruJWUkWgHeehierjPMZYwZs7QKLStALLUGGhV1VmGJOZyiAyDRYVTkfFWE
- ObfaKvK99rUX0t+pDYUms5vclJhuL7tfOEc5WwhQ41Lh1Svm1Ui0XINQ2JiVeYJRwXLi
- qo6M17lkHM7xRqXEPZp7D9NBbT8UzNpQv7jyZvDqI8jIYPmfmWEB4Bpxjv0xleN030s9
- Fd5IMEhz68TkoEmyTZUx1TUigPKA4W8MXdfBfJPPDG4ngkOzyMZnbcI0o5itRNU1R/RK
- /o7PPmE5sSSkrgZbcL46mT5vz6Wb3nhLHuK1oWM9oI4K9fPsqdfq0+n8LZYiI9pBv3+8
- PRhQ==
+ bh=7lm71FM8jAywewUQQ6iTxyvXW44ISzsx8AV54B1hpyI=;
+ b=v7LrDTgXAvniXET4W8lZzGr9UA5jT9DNT0w+vLs+it47vdpkw6FN5Q7JZwj482+ZGC
+ tvga5Jyvr1LI7PPvW7Cz1emtF8+4ebTWa8CBVsblhLxECS1/7uJLqNE3c3ohy/dqyQQb
+ 5XiqhW1CKV4V8G9IFxwfezGqxV7B05ibAJFXvS4tteH/QI43o50a3VLL7NWadgTvixYJ
+ QJE4NYmZkSscB+8J/pPp1dBhxVZtzL6vNMJhNEbxD6CJENcWQLe4RM2U85QQlecjEAtN
+ J9IFac/yGHXj8G1QyTyFCsw9tzfHyLsekz7ZWkcuLwfwdBLCH0jxpnA/+rsSFi3h9HG9
+ z4kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=4S5+MAzGOSfi/hcjNLQ8N1bIo2gE5EagUU9lnTXma3U=;
- b=hX5RbXa16ygyB6Hv5D2wWQngZy9PV7S/ton1raNQDWN0TKDa0MmIgGQLgTNtD0t2OU
- 31QwGsKP1OVDEL4X8zFzTqvZRdjTZeEALBYbpgt2gaJIc96XVE3oUGMYOBPdzenP6GcG
- CBYW1hpLNS4KkkeGnIBEfuZacTNrbZwzhvapSTxLZjXmUl+dzCU9+zN2NENmNXlPbPZh
- H/siYKNsGuIc95Pw+dx7A59liCxjH+RPHnqouXa0LkDhV72WLQtlsGIrZ1ePl0veWVOb
- 7+d5R29oW2mTGHJugvpDu5SLKRVngFjn9sAJjGfJ1MM/7VATzKwO9yLj2J9sBuImh5/h
- 6H5A==
-X-Gm-Message-State: AGi0Puaz/QZZINJb0N3HN41U5LNiaYvZNcFqWHbs1mwz4XhhI//nn+ME
- EDLGNvqM1i5rW76zvji291tEAQ==
-X-Google-Smtp-Source: APiQypLi//sjKQBOSAEDAleUuHXeLgnpN7R5PcM75+lth63JYZkwindhSF9eFrNJf7ZsFAc11NJuHQ==
-X-Received: by 2002:a17:90a:1503:: with SMTP id
- l3mr7798799pja.87.1587180387229; 
- Fri, 17 Apr 2020 20:26:27 -0700 (PDT)
+ bh=7lm71FM8jAywewUQQ6iTxyvXW44ISzsx8AV54B1hpyI=;
+ b=WDgSVhu+0elx+6pVj5PDBBCINEWH1CqRMCDenexvL1tvPlShD5O9WRdfCzi8O29Clc
+ uWMjp6/YjMhfpa//Cv7NHcIOdaIQV/sXxpFXNttibLoh8NH0wE/skOtzvWb0OZ5PoOFS
+ +aAYJGrMxI4hjSddODr7lCV9tW209JGNwdVeAnwZ59Fvm3d6Zngpednd/FMZsTposNYS
+ rSW1qyuLFWfDFQq6sP6/lNTE6XSWwim1AhSBKccI1vVkGjS4Xwq9eirlDWCqrscO93Fg
+ QIXE2/7z0S+US8u3EV5dfBtIa5fmqUExV63ulG4AYZsUHfb2iVsZLruUoGuzEaX9OUq+
+ 25oA==
+X-Gm-Message-State: AGi0PuZr+nnWCm4eqCVk1cu4HmjEWqiUbjpwyEmsgwBLbtiDJ1G7xz5/
+ welktkv4gpNrFxN2bRJPZgdqUg==
+X-Google-Smtp-Source: APiQypJx0O7VvgXOR82eZlCTzcbEqAd/8GIVYIKlMsTE7BAFpYNrJWzd8Vvtmai+q+dbFc1UhxB+Lw==
+X-Received: by 2002:a17:90a:3568:: with SMTP id
+ q95mr8369337pjb.47.1587180972138; 
+ Fri, 17 Apr 2020 20:36:12 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id x25sm18788027pfm.203.2020.04.17.20.26.26
+ by smtp.gmail.com with ESMTPSA id u24sm17456609pgo.65.2020.04.17.20.36.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Apr 2020 20:26:26 -0700 (PDT)
-Subject: Re: [PATCH 10/16] target/arm: Use SVEContLdSt for multi-register
- contiguous loads
+ Fri, 17 Apr 2020 20:36:11 -0700 (PDT)
+Subject: Re: [PATCH 11/16] target/arm: Update contiguous first-fault and
+ no-fault loads
 To: Peter Maydell <peter.maydell@linaro.org>
 References: <20200311064420.30606-1-richard.henderson@linaro.org>
- <20200311064420.30606-11-richard.henderson@linaro.org>
- <CAFEAcA91-jPRjasTfPiGaNPwiF0Mye-vUU1p8YG8tWyU4yC8fQ@mail.gmail.com>
+ <20200311064420.30606-12-richard.henderson@linaro.org>
+ <CAFEAcA_V09rpr4X_TTZgo+v5Dj1yZR4zA9-94q+C5xikkhM=BQ@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c9be891e-b5b3-c075-5c07-01fd913d3438@linaro.org>
-Date: Fri, 17 Apr 2020 20:26:24 -0700
+Message-ID: <ea6f727f-a4fc-1106-bb16-5f93c5fdd450@linaro.org>
+Date: Fri, 17 Apr 2020 20:36:09 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA91-jPRjasTfPiGaNPwiF0Mye-vUU1p8YG8tWyU4yC8fQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA_V09rpr4X_TTZgo+v5Dj1yZR4zA9-94q+C5xikkhM=BQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1043
+X-Received-From: 2607:f8b0:4864:20::642
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,33 +89,18 @@ Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/16/20 6:35 AM, Peter Maydell wrote:
-> On Wed, 11 Mar 2020 at 06:44, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>  target/arm/sve_helper.c | 223 ++++++++++++++--------------------------
->>  1 file changed, 79 insertions(+), 144 deletions(-)
+On 4/16/20 7:15 AM, Peter Maydell wrote:
+>> +     * While we do not have access to the memory attributes from the PTE
+>> +     * to tell Device memory from Normal memory, we can validly assume that
+>> +     * non-RAM has been mapped as Device memory.  Thus we indicate fault
+>> +     * on all MMIO.
 > 
-> 
->>  #define DO_LDN_1(N) \
->> -void QEMU_FLATTEN HELPER(sve_ld##N##bb_r) \
->> -    (CPUARMState *env, void *vg, target_ulong addr, uint32_t desc)  \
->> -{                                                                   \
->> -    sve_ld##N##_r(env, vg, addr, desc, 1, GETPC(), sve_ld1bb_tlb);  \
->> +void HELPER(sve_ld##N##bb_r)(CPUARMState *env, void *vg,        \
->> +                             target_ulong addr, uint32_t desc)  \
->> +{                                                               \
->> +    sve_ldN_r(env, vg, addr, desc, GETPC(), MO_8, MO_8, N,      \
->> +              sve_ld1bb_host, sve_ld1bb_tlb);                   \
->>  }
-> 
-> Deliberately losing the QEMU_FLATTEN here?
+> I don't think you can assume this; for instance a QEMU 'romd'
+> device might reasonably be mapped as Normal memory but currently
+> be in "send all accesses to my read/write functions" mode.
 
-Yes, the main helper is now marked QEMU_ALWAYS_INLINE, and there are further
-subroutines -- like sve_check_watchpoints -- that we do not necessarily want to
-inline.
+If that is so, then TLB_MMIO will be set in the tlb_entry comparator.  See
+accel/tcg/cputlb.c:882.
 
 
 r~
