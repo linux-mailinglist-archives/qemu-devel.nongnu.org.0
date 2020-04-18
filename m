@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EB691AE9B2
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Apr 2020 05:43:43 +0200 (CEST)
-Received: from localhost ([::1]:54512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 873491AE9B4
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Apr 2020 05:51:06 +0200 (CEST)
+Received: from localhost ([::1]:54544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPeOM-0002t4-Ah
-	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 23:43:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60091)
+	id 1jPeVV-0004xh-BD
+	for lists+qemu-devel@lfdr.de; Fri, 17 Apr 2020 23:51:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34717)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jPeHA-0001fa-HD
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 23:36:17 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jPeM9-0002qE-M4
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 23:41:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jPeH8-0002Ii-8v
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 23:36:15 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:35463)
+ (envelope-from <richard.henderson@linaro.org>) id 1jPeM0-0000Oz-Gq
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 23:41:18 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:38403)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jPeH7-00026s-OW
- for qemu-devel@nongnu.org; Fri, 17 Apr 2020 23:36:14 -0400
-Received: by mail-pl1-x642.google.com with SMTP id f8so1707993plt.2
- for <qemu-devel@nongnu.org>; Fri, 17 Apr 2020 20:36:13 -0700 (PDT)
+ id 1jPeLy-0000Dh-6T
+ for qemu-devel@nongnu.org; Fri, 17 Apr 2020 23:41:14 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id t40so1874919pjb.3
+ for <qemu-devel@nongnu.org>; Fri, 17 Apr 2020 20:41:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=7lm71FM8jAywewUQQ6iTxyvXW44ISzsx8AV54B1hpyI=;
- b=v7LrDTgXAvniXET4W8lZzGr9UA5jT9DNT0w+vLs+it47vdpkw6FN5Q7JZwj482+ZGC
- tvga5Jyvr1LI7PPvW7Cz1emtF8+4ebTWa8CBVsblhLxECS1/7uJLqNE3c3ohy/dqyQQb
- 5XiqhW1CKV4V8G9IFxwfezGqxV7B05ibAJFXvS4tteH/QI43o50a3VLL7NWadgTvixYJ
- QJE4NYmZkSscB+8J/pPp1dBhxVZtzL6vNMJhNEbxD6CJENcWQLe4RM2U85QQlecjEAtN
- J9IFac/yGHXj8G1QyTyFCsw9tzfHyLsekz7ZWkcuLwfwdBLCH0jxpnA/+rsSFi3h9HG9
- z4kA==
+ bh=kyXs52D+W8xKx80sHVX3U7UyTi/vLCOHtkNQK+UXwVs=;
+ b=q3B+2PQ8O4FNhku0/3V7OzCkEKHLlEYLQizS6tHtToz8GYgfCV/pR9ey5iscjJqs1V
+ YJmBg5aUQPfRIgmxC4l+7Ni3pC8hEJvyE5YDx1ssis0PpVzrkrKpu3jv2BVo7v8F6KdA
+ i+yHp1NiuauEJDlil60atk6qgL5ZkpjHgbGNMyHQkRq3Pg0hHVVG/6upDOmvD6KXbAJn
+ cWPlNaoNspkXdafPiyjc/hkbLBTIYrC7hxu6D9fY6ly68rMv+S16xVFlpVG4ISi+bSdh
+ LerFjBoyj6cB7AXCheq3zc69pRPHQ8Ul0GjpQuDjUJC7O+XvsHZGj6kVXVHLYn9CXdEV
+ 0jvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=7lm71FM8jAywewUQQ6iTxyvXW44ISzsx8AV54B1hpyI=;
- b=WDgSVhu+0elx+6pVj5PDBBCINEWH1CqRMCDenexvL1tvPlShD5O9WRdfCzi8O29Clc
- uWMjp6/YjMhfpa//Cv7NHcIOdaIQV/sXxpFXNttibLoh8NH0wE/skOtzvWb0OZ5PoOFS
- +aAYJGrMxI4hjSddODr7lCV9tW209JGNwdVeAnwZ59Fvm3d6Zngpednd/FMZsTposNYS
- rSW1qyuLFWfDFQq6sP6/lNTE6XSWwim1AhSBKccI1vVkGjS4Xwq9eirlDWCqrscO93Fg
- QIXE2/7z0S+US8u3EV5dfBtIa5fmqUExV63ulG4AYZsUHfb2iVsZLruUoGuzEaX9OUq+
- 25oA==
-X-Gm-Message-State: AGi0PuZr+nnWCm4eqCVk1cu4HmjEWqiUbjpwyEmsgwBLbtiDJ1G7xz5/
- welktkv4gpNrFxN2bRJPZgdqUg==
-X-Google-Smtp-Source: APiQypJx0O7VvgXOR82eZlCTzcbEqAd/8GIVYIKlMsTE7BAFpYNrJWzd8Vvtmai+q+dbFc1UhxB+Lw==
-X-Received: by 2002:a17:90a:3568:: with SMTP id
- q95mr8369337pjb.47.1587180972138; 
- Fri, 17 Apr 2020 20:36:12 -0700 (PDT)
+ bh=kyXs52D+W8xKx80sHVX3U7UyTi/vLCOHtkNQK+UXwVs=;
+ b=eq3gvazv5n516twz+U5g2q5WwqhkXF+npqDsOvlLJIs00fq1myoRORJsGJfS1g8FGi
+ LSgnleIFRODC7LAN7o/pNHUgzNePegARGiBNRWGMkcYaPtA0EyEThNlAk8wCRJc6T84Q
+ OjAAVxAZQfnsRdaMJDJisP79oqej6ReQhThAX2YswkdEkb3QqA6H0H9BnCUyJxP96yAv
+ m/kMahCDyvpIbSTL6dM4/62ayuNRSJK5Unc1XcWgl19mVzo8KtwLEd+XvXXSXX+y4BvY
+ w14YAGX0BeKjLZiI0Ztz0kMqq6+U5jZtG13Mx126zRNywuUw9yu/2kio9boicLx4licj
+ cQFg==
+X-Gm-Message-State: AGi0PuZO+vs69QL6hWrdKDZzet/HiIcjj59rgSid/MJ5nl0t98d4XZEJ
+ l4o4G5SSCNikTNl6RI2EOMS/rA==
+X-Google-Smtp-Source: APiQypJSw6NtoVd2sPZijlUM8mC9mIGktPyZZXfZXg4ubSp9+xfk8M5e3zVTWv1bMCApNluFzb7O0Q==
+X-Received: by 2002:a17:90a:f689:: with SMTP id
+ cl9mr8422457pjb.43.1587181270468; 
+ Fri, 17 Apr 2020 20:41:10 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id u24sm17456609pgo.65.2020.04.17.20.36.10
+ by smtp.gmail.com with ESMTPSA id k24sm20548440pfk.164.2020.04.17.20.41.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Apr 2020 20:36:11 -0700 (PDT)
-Subject: Re: [PATCH 11/16] target/arm: Update contiguous first-fault and
- no-fault loads
+ Fri, 17 Apr 2020 20:41:09 -0700 (PDT)
+Subject: Re: [PATCH 08/16] target/arm: Use SVEContLdSt in sve_ld1_r
 To: Peter Maydell <peter.maydell@linaro.org>
 References: <20200311064420.30606-1-richard.henderson@linaro.org>
- <20200311064420.30606-12-richard.henderson@linaro.org>
- <CAFEAcA_V09rpr4X_TTZgo+v5Dj1yZR4zA9-94q+C5xikkhM=BQ@mail.gmail.com>
+ <20200311064420.30606-9-richard.henderson@linaro.org>
+ <CAFEAcA-v9O6+iZu9_grS6iW=QhmJeLGVfnJ8BOe59KzaPMczzg@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ea6f727f-a4fc-1106-bb16-5f93c5fdd450@linaro.org>
-Date: Fri, 17 Apr 2020 20:36:09 -0700
+Message-ID: <ba2b5050-4d21-dfad-ae81-667438dbd89b@linaro.org>
+Date: Fri, 17 Apr 2020 20:41:07 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_V09rpr4X_TTZgo+v5Dj1yZR4zA9-94q+C5xikkhM=BQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA-v9O6+iZu9_grS6iW=QhmJeLGVfnJ8BOe59KzaPMczzg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::642
+X-Received-From: 2607:f8b0:4864:20::1043
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,18 +88,70 @@ Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/16/20 7:15 AM, Peter Maydell wrote:
->> +     * While we do not have access to the memory attributes from the PTE
->> +     * to tell Device memory from Normal memory, we can validly assume that
->> +     * non-RAM has been mapped as Device memory.  Thus we indicate fault
->> +     * on all MMIO.
+On 4/16/20 6:26 AM, Peter Maydell wrote:
+> On Wed, 11 Mar 2020 at 06:44, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> First use of the new helper functions, so we can remove the
+>> unused markup.  No longer need a scratch for user-only, as
+>> we completely probe the page set before reading; system mode
+>> still requires a scratch for MMIO.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > 
-> I don't think you can assume this; for instance a QEMU 'romd'
-> device might reasonably be mapped as Normal memory but currently
-> be in "send all accesses to my read/write functions" mode.
+>> +    /* The entire operation is in RAM, on valid pages. */
+>> +
+>> +    memset(vd, 0, reg_max);
+>> +    mem_off = info.mem_off_first[0];
+>> +    reg_off = info.reg_off_first[0];
+>> +    reg_last = info.reg_off_last[0];
+>> +    host = info.page[0].host;
+>> +
+>> +    while (reg_off <= reg_last) {
+>> +        uint64_t pg = vg[reg_off >> 6];
+>> +        do {
+>> +            if ((pg >> (reg_off & 63)) & 1) {
+>> +                host_fn(vd, reg_off, host + mem_off);
+>> +            }
+>> +            reg_off += 1 << esz;
+>> +            mem_off += 1 << msz;
+>> +        } while (reg_off <= reg_last && (reg_off & 63));
+>> +    }
+>> +
+>> +    /*
+>> +     * Use the slow path to manage the cross-page misalignment.
+>> +     * But we know this is RAM and cannot trap.
+>> +     */
+>> +    mem_off = info.mem_off_split;
+>> +    if (unlikely(mem_off >= 0)) {
+>> +        tlb_fn(env, vd, info.reg_off_split, addr + mem_off, retaddr);
+>> +    }
+>> +
+>> +    mem_off = info.mem_off_first[1];
+>> +    if (unlikely(mem_off >= 0)) {
+>> +        reg_off = info.reg_off_first[1];
+>> +        reg_last = info.reg_off_last[1];
+>> +        host = info.page[1].host;
+>> +
+>> +        do {
+>> +            uint64_t pg = vg[reg_off >> 6];
+>> +            do {
+>> +                if ((pg >> (reg_off & 63)) & 1) {
+>> +                    host_fn(vd, reg_off, host + mem_off);
+>> +                }
+>> +                reg_off += 1 << esz;
+>> +                mem_off += 1 << msz;
+>> +            } while (reg_off & 63);
+>> +        } while (reg_off <= reg_last);
+> 
+> Does this loop for the second page need to be phrased
+> differently than the loop for the first page was? I was
+> expecting the two chunks of code to be identical, and they
+> almost are, but not quite...
 
-If that is so, then TLB_MMIO will be set in the tlb_entry comparator.  See
-accel/tcg/cputlb.c:882.
+Yes, they do need to be different.  In particular, the first page may only have
+the one element that crosses the page boundary, so we may have reg_first >
+reg_last.  The second page is never has that problem.
 
 
 r~
