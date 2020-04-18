@@ -2,73 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DE041AEB02
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Apr 2020 10:53:59 +0200 (CEST)
-Received: from localhost ([::1]:56034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAA281AEB14
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Apr 2020 11:07:03 +0200 (CEST)
+Received: from localhost ([::1]:56112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPjEc-00083T-Dv
-	for lists+qemu-devel@lfdr.de; Sat, 18 Apr 2020 04:53:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50156)
+	id 1jPjRG-0004cX-Ck
+	for lists+qemu-devel@lfdr.de; Sat, 18 Apr 2020 05:07:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55841)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <rfried.dev@gmail.com>) id 1jPjD4-0007Ry-E1
- for qemu-devel@nongnu.org; Sat, 18 Apr 2020 04:52:23 -0400
+ (envelope-from <bounces@canonical.com>) id 1jPjQ9-00040d-Ll
+ for qemu-devel@nongnu.org; Sat, 18 Apr 2020 05:05:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rfried.dev@gmail.com>) id 1jPjD3-0003Hk-CL
- for qemu-devel@nongnu.org; Sat, 18 Apr 2020 04:52:22 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43774)
+ (envelope-from <bounces@canonical.com>) id 1jPjQ8-000860-Bk
+ for qemu-devel@nongnu.org; Sat, 18 Apr 2020 05:05:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34838)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <rfried.dev@gmail.com>)
- id 1jPjCy-0002ni-VS; Sat, 18 Apr 2020 04:52:17 -0400
-Received: by mail-wr1-x444.google.com with SMTP id i10so5639368wrv.10;
- Sat, 18 Apr 2020 01:52:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DVmUkRypS4yJb7fuz5VWblU8qv2S4JA+/u3qEKCQZHM=;
- b=WpbE5lcp2LmiFfZUub8cHiARORuIc1AmK5OwVi6DQbT+dgfKaVYeivVOSn00TqyHwa
- eXLrdE8FCxU+0bGHTjg7ew7xy1Q3BRTbf3dPBd3BmPw85EoeOU2fnB/UgP8R5vJ/FWuR
- o3kv7GDIx77lpaj9cw9oa5MgrLPJUH4KTmVuF6/g2issZ1o0dt2aL7f3UUVHHnT1AYk5
- wGTCif/9tC7inlWAIXyp4x+nivyRz4g7fnqtF1DF4W81CyzVaNamz/EXsuR0YuFX8HLJ
- L2q5wg5E3ufJz9Ha40McPICSbEI2e6bVP38S1et+LK8QAxQdsp69kBC4MauYbqBnN9mm
- g8Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DVmUkRypS4yJb7fuz5VWblU8qv2S4JA+/u3qEKCQZHM=;
- b=nEC0AvmHUtlWSzgL4qxE/a/HupkOAQS6gBxjR3pobWuCmPyKXy77nT+JBw2bAW3Axz
- uCz1o4gRhZHwmqVRCqozvlCvtY3AxLrfHEFQ3m6RWgX0TdQcF5shN/omRDRzu9eLz4fR
- HVC2+2jkJIErADSg0YEafzF6wZTJwWf+EZiA1PSGUPLeXjFqRHzDPt/His4AxXVXCEaa
- G89Pqz7ZZnWevC0o9Q1IS3AvzdcdAHtS7gOZC6feG1dLaHzF5qDXYUz6gWx1wFMyaSGa
- 5QvI7rf72lZHGEwW/HXVP5ojFQVYAfam+0YTRz2r3cPjIPh5hZzrVPwlY/KuPYKB+wmK
- RWcw==
-X-Gm-Message-State: AGi0Pua+5SKNqVIYiIaAxZ4oTguD4dAhF49HwaG6dCO8GW0gIgvZdbH9
- yatT43/zqYkr6rStXIwL8sQ=
-X-Google-Smtp-Source: APiQypJ+ONAKAulryAmi3EUwPeEnoJxp5UoUL+St5Fk0Df6f3oFcK532dI17auEeSo4f39XxzxXM/Q==
-X-Received: by 2002:a05:6000:12c7:: with SMTP id
- l7mr8368414wrx.239.1587199933676; 
- Sat, 18 Apr 2020 01:52:13 -0700 (PDT)
-Received: from localhost.localdomain ([37.142.6.51])
- by smtp.gmail.com with ESMTPSA id q8sm10790461wmg.22.2020.04.18.01.52.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Apr 2020 01:52:13 -0700 (PDT)
-From: Ramon Fried <rfried.dev@gmail.com>
-To: edgar.iglesias@gmail.com, alistair@alistair23.me, peter.maydell@linaro.org,
- jasowang@redhat.com, qemu-arm@nongnu.org
-Subject: [PATCH resend v2] net: cadence_gem: clear RX control descriptor
-Date: Sat, 18 Apr 2020 11:51:45 +0300
-Message-Id: <20200418085145.489726-1-rfried.dev@gmail.com>
-X-Mailer: git-send-email 2.26.0
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jPjQ8-000816-62
+ for qemu-devel@nongnu.org; Sat, 18 Apr 2020 05:05:52 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jPjQ5-0004Rn-Qh
+ for <qemu-devel@nongnu.org>; Sat, 18 Apr 2020 09:05:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C615E2E8108
+ for <qemu-devel@nongnu.org>; Sat, 18 Apr 2020 09:05:49 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 18 Apr 2020 08:58:22 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: docs
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: kekepower pmaydell
+X-Launchpad-Bug-Reporter: =?utf-8?q?Stig-=C3=98rjan_Smelror_=28kekepower=29?=
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <158654057369.6269.6354060003943218170.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158720030211.28516.14316652555102198837.malone@gac.canonical.com>
+Subject: [Bug 1872113] Re: qemu docs fails to build with Sphinx 3.0.x
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b4696177e890dcf094eeb426c9fcde89a46c44d1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,57 +66,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Ramon Fried <rfried.dev@gmail.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1872113 <1872113@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The RX ring descriptors control field is used for setting
-SOF and EOF (start of frame and end of frame).
-The SOF and EOF weren't cleared from the previous descriptors,
-causing inconsistencies in ring buffer.
-Fix that by clearing the control field of every descriptors we're
-processing.
+The upstream fix for this is now in 5.0-rc3 and will be in the final 5.0
+release.
 
-Signed-off-by: Ramon Fried <rfried.dev@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+** Changed in: qemu
+       Status: In Progress =3D> Fix Committed
 
----
-v2:
-  * change function name to rx_desc_clear_control as proposed by
-      Jason Wang
-  * Move the function call above the comment, as proposed by
-    Philippe Mathieu-Daudé
+-- =
 
- hw/net/cadence_gem.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1872113
 
-diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-index b7b7985bf2..22a0b1b1f9 100644
---- a/hw/net/cadence_gem.c
-+++ b/hw/net/cadence_gem.c
-@@ -411,6 +411,11 @@ static inline void rx_desc_set_sof(uint32_t *desc)
-     desc[1] |= DESC_1_RX_SOF;
- }
- 
-+static inline void rx_desc_clear_control(uint32_t *desc)
-+{
-+    desc[1]  = 0;
-+}
-+
- static inline void rx_desc_set_eof(uint32_t *desc)
- {
-     desc[1] |= DESC_1_RX_EOF;
-@@ -999,6 +1004,8 @@ static ssize_t gem_receive(NetClientState *nc, const uint8_t *buf, size_t size)
-         rxbuf_ptr += MIN(bytes_to_copy, rxbufsize);
-         bytes_to_copy -= MIN(bytes_to_copy, rxbufsize);
- 
-+        rx_desc_clear_control(s->rx_desc[q]);
-+
-         /* Update the descriptor.  */
-         if (first_desc) {
-             rx_desc_set_sof(s->rx_desc[q]);
--- 
-2.26.0
+Title:
+  qemu docs fails to build with Sphinx 3.0.x
 
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  We've just updated Sphinx to version 3.0.1 and qemu fails to build the
+  docs with this version.
+
+  Here's the relevant section in the build log.
+
+  CONFDIR=3D"/etc/qemu" /usr/bin/sphinx-build-3  -W -b html -D version=3D4.=
+2.92 -D release=3D"4.2.92 (qemu-5.0.0-0.rc2.0.1.mga8)" -d .doctrees/devel-h=
+tml /home/iurt/rpmbuild/BUILD/qemu-5.0.0-rc2/docs/devel docs/devel
+  Running Sphinx v3.0.1
+  making output directory... done
+  building [mo]: targets for 0 po files that are out of date
+  building [html]: targets for 14 source files that are out of date
+  updating environment: [new config] 14 added, 0 changed, 0 removed
+  reading sources... [  7%] bitops
+  reading sources... [ 14%] decodetree
+  reading sources... [ 21%] index
+  reading sources... [ 28%] kconfig
+  reading sources... [ 35%] loads-stores
+  reading sources... [ 42%] memory
+  reading sources... [ 50%] migration
+  reading sources... [ 57%] reset
+  reading sources... [ 64%] s390-dasd-ipl
+  reading sources... [ 71%] secure-coding-practices
+  reading sources... [ 78%] stable-process
+  reading sources... [ 85%] tcg
+  reading sources... [ 92%] tcg-plugins
+  reading sources... [100%] testing
+
+  Warning, treated as error:
+  /home/iurt/rpmbuild/BUILD/qemu-5.0.0-rc2/docs/../include/exec/memory.h:3:=
+Type must be either just a name or a typedef-like declaration.
+  If just a name:
+  =C2=A0=C2=A0Error in declarator or parameters
+  =C2=A0=C2=A0Invalid C declaration: Expected identifier in nested name, go=
+t keyword: struct [error at 6]
+  =C2=A0=C2=A0=C2=A0=C2=A0struct MemoryListener
+  =C2=A0=C2=A0=C2=A0=C2=A0------^
+  If typedef-like declaration:
+  =C2=A0=C2=A0Error in declarator or parameters
+  =C2=A0=C2=A0Invalid C declaration: Expected identifier in nested name. [e=
+rror at 21]
+  =C2=A0=C2=A0=C2=A0=C2=A0struct MemoryListener
+  =C2=A0=C2=A0=C2=A0=C2=A0---------------------^
+
+  make: *** [Makefile:1095: docs/devel/index.html] Error 2
+  make: *** Waiting for unfinished jobs....
+
+  I found this commit for memory.h that includes the section that faults.
+  https://github.com/qemu/qemu/commit/5d248213180749e674fbccbacc6ee9c38499a=
+bb3#diff-d892cbf314945b44699534cc1de4ebbd
+
+  You can see the whole build log here.
+  https://pkgsubmit.mageia.org/uploads/failure/cauldron/core/release/202004=
+10161120.tv.duvel.699/log/qemu-5.0.0-0.rc2.0.1.mga8/build.0.20200410161338.=
+log
+
+  System: Mageia Cauldron
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1872113/+subscriptions
 
