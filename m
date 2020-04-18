@@ -2,64 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACF581AED5C
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Apr 2020 15:51:40 +0200 (CEST)
-Received: from localhost ([::1]:58086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E9931AF16F
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Apr 2020 17:05:59 +0200 (CEST)
+Received: from localhost ([::1]:58572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPnsh-0003zB-Hi
-	for lists+qemu-devel@lfdr.de; Sat, 18 Apr 2020 09:51:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55600)
+	id 1jPp2b-0008UL-Py
+	for lists+qemu-devel@lfdr.de; Sat, 18 Apr 2020 11:05:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36783)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jPnri-0003Xc-Ot
- for qemu-devel@nongnu.org; Sat, 18 Apr 2020 09:50:39 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jPp0z-00074U-JD
+ for qemu-devel@nongnu.org; Sat, 18 Apr 2020 11:04:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jPnrh-0003uA-Gt
- for qemu-devel@nongnu.org; Sat, 18 Apr 2020 09:50:38 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33004)
+ (envelope-from <richard.henderson@linaro.org>) id 1jPp0y-0002pF-CN
+ for qemu-devel@nongnu.org; Sat, 18 Apr 2020 11:04:17 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:55224)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jPnrh-0003ok-BQ
- for qemu-devel@nongnu.org; Sat, 18 Apr 2020 09:50:37 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jPnrg-0006W9-4J
- for <qemu-devel@nongnu.org>; Sat, 18 Apr 2020 13:50:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1BC372E8104
- for <qemu-devel@nongnu.org>; Sat, 18 Apr 2020 13:50:36 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 18 Apr 2020 13:41:41 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1871798@bugs.launchpad.net>
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jPp0y-0002gs-1G
+ for qemu-devel@nongnu.org; Sat, 18 Apr 2020 11:04:16 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id np9so2461377pjb.4
+ for <qemu-devel@nongnu.org>; Sat, 18 Apr 2020 08:04:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zj7Xe5KhedYOrM0HTZGZ2+VwIj4DK41u2B9s2w/DIDY=;
+ b=CzrYleUz0ht/FAZttPYk/caViD+pEDtyOC+4+aYWjCYoVxlutTALccu+24zyukbw/T
+ oWHT6MRq2pjjKnwF2F0prVcd3/fafQGwPI20VmLCypVhUwGSPYwnXDIOWqMX3EayBezJ
+ 9YZvELpH1rj+u7sQmHf0zLKR2pK7BpOSxX/M3KVDv2duXTyVh9ydmDZeCP2Ka0nqYfzE
+ 1NY0ZHzz3k6AeqnfsQpR5r37Tkj2ZPqGp6PC7ulx+lkaVnd1yzpDL5Bhg5I+F6hAk8lF
+ ghohNx8Wbvr9M7EBauo2dcYHj2sQJJ44M22T7/8tL3yAWq66Q55vooXneq6CtbXoozJn
+ 2YUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zj7Xe5KhedYOrM0HTZGZ2+VwIj4DK41u2B9s2w/DIDY=;
+ b=rHfrwR7/Apd5rD7351QU5cPGwiJYxBI1ykVuxNh/aMCjQsmGhpjLswPrQDOntLl6je
+ 3XjEbJgv/X8/K4dtuCemHvl5hW3H2qk6qw8CLpUeh4fjXzs3PzqHkd+lZpJPyX8arXi0
+ yC4mq32i4WmgQROY6LJExZiesITcw+3a1KZFDza131VRsJQZrwKmCrsvU/ariqQjwpP7
+ iqKsdeA/d0uSCUH5AGlPV2aFVNzbIjhyQNU4XQNTi7taiutgiQu8MjYCFl38bU0j40lC
+ SubxbDBq5aLjtC4qsugWKbNdRigqAIRcSQybmO0HlrVeuZ/8LMyvzeX5KrkeEpiQitdB
+ r/WQ==
+X-Gm-Message-State: AGi0PuYytPVXdGtu3GgMVpOkaScXrdzx6mwnQEHrqs+WmVMjKK8DowgZ
+ f8Kmjx9fDN3VEE+yxI7dp+R7Tcrk3RY=
+X-Google-Smtp-Source: APiQypJPNggQ54sXkpIUxJXYYS6LfWNDLAgQ/BubLkZ1H576Xvz6J3Qb/2XmIYykVPrSJvpNQqG/mw==
+X-Received: by 2002:a17:90a:77cb:: with SMTP id
+ e11mr11217062pjs.0.1587222254153; 
+ Sat, 18 Apr 2020 08:04:14 -0700 (PDT)
+Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
+ [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id t103sm8668601pjb.46.2020.04.18.08.04.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 18 Apr 2020 08:04:12 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: configure pie windows
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee cat-7 chewi philmd
-X-Launchpad-Bug-Reporter: James Le Cuirot (chewi)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <158642182265.5805.199845175533907355.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158721730181.28623.702800325597432921.malone@gac.canonical.com>
-Subject: [Bug 1871798] Re: Fails to start on Windows host without explicit
- --disable-pie
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: b48d52a4e395cbf5dd9c2b9d124949772880e2c4
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+Subject: [PATCH 0/7] tcg: Clean up tcg_gen_gvec_dupi interface
+Date: Sat, 18 Apr 2020 08:04:04 -0700
+Message-Id: <20200418150411.1831-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::1035
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,34 +77,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1871798 <1871798@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org, david@redhat.com, zhiwei_liu@c-sky.com,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed in commit 469a788cdd3c618ef1b8a23a339510082b3eeea7.
+Replace 4 separate routines with a single routine taking a vece
+parameter.  This avoids several targets needing to create this
+interface internally.
 
-** Changed in: qemu
-       Status: Incomplete =3D> Fix Committed
+I noticed this in particular reviewing the riscv code; I'm not
+sure why it took three targets to notice.  ;-)
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1871798
+r~
 
-Title:
-  Fails to start on Windows host without explicit --disable-pie
 
-Status in QEMU:
-  Fix Committed
+Richard Henderson (7):
+  tcg: Add tcg_gen_gvec_dup_imm
+  target/s390x: Use tcg_gen_gvec_dup_imm
+  target/ppc: Use tcg_gen_gvec_dup_imm
+  target/arm: Use tcg_gen_gvec_dup_imm
+  tcg: Use tcg_gen_gvec_dup_imm in logical simplifications
+  tcg: Remove tcg_gen_gvec_dup{8,16,32,64}i
+  tcg: Add tcg_gen_gvec_dup_tl
 
-Bug description:
-  Since commit d2cd29e30736afd4a1e8cac3cf4da360bbc65978, which removed
-  the x86 conditional around PIE, QEMU completely fails to start on a
-  Windows host unless --disable-pie is explicitly given at build time.
-  Even just requesting the help text doesn't work. To make testing
-  easier, this can be replicated with Wine.
+ include/tcg/tcg-op-gvec.h           | 11 +++++---
+ target/arm/translate-a64.c          | 10 +++----
+ target/arm/translate-sve.c          | 12 ++++-----
+ target/arm/translate.c              |  9 ++++---
+ target/ppc/translate/vmx-impl.inc.c | 32 ++++++++++++----------
+ target/ppc/translate/vsx-impl.inc.c |  2 +-
+ target/s390x/translate_vx.inc.c     | 41 ++++++-----------------------
+ tcg/tcg-op-gvec.c                   | 35 +++++-------------------
+ 8 files changed, 57 insertions(+), 95 deletions(-)
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1871798/+subscriptions
+-- 
+2.20.1
+
 
