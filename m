@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B45D21AF171
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Apr 2020 17:06:12 +0200 (CEST)
-Received: from localhost ([::1]:58592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 648161AF179
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Apr 2020 17:10:57 +0200 (CEST)
+Received: from localhost ([::1]:58680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jPp2o-0000UC-Mg
-	for lists+qemu-devel@lfdr.de; Sat, 18 Apr 2020 11:06:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36878)
+	id 1jPp7Q-0006d8-Ge
+	for lists+qemu-devel@lfdr.de; Sat, 18 Apr 2020 11:10:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36895)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jPp18-0007Al-Dn
- for qemu-devel@nongnu.org; Sat, 18 Apr 2020 11:04:27 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jPp19-0007Bs-Jq
+ for qemu-devel@nongnu.org; Sat, 18 Apr 2020 11:04:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jPp17-0003a9-5Z
- for qemu-devel@nongnu.org; Sat, 18 Apr 2020 11:04:26 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:42380)
+ (envelope-from <richard.henderson@linaro.org>) id 1jPp18-0003gM-HD
+ for qemu-devel@nongnu.org; Sat, 18 Apr 2020 11:04:27 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:50705)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jPp16-0003WT-VB
- for qemu-devel@nongnu.org; Sat, 18 Apr 2020 11:04:25 -0400
-Received: by mail-pl1-x634.google.com with SMTP id v2so2144258plp.9
- for <qemu-devel@nongnu.org>; Sat, 18 Apr 2020 08:04:24 -0700 (PDT)
+ id 1jPp18-0003am-BX
+ for qemu-devel@nongnu.org; Sat, 18 Apr 2020 11:04:26 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id t9so341391pjw.0
+ for <qemu-devel@nongnu.org>; Sat, 18 Apr 2020 08:04:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iN3Z57PDGKinzIwPdadosHp6DxwbmBFlWcXBLF5XklA=;
- b=pnWtAoTCH0FaZCWLBk3fhwD6cWQBV1M6oIIe4T03Jc1utPtk3h7xl0HeJqbjb4fjYk
- MPFD+TDKft9IZBAER0AS5hR12lhztuEs2aJMRVpDr2xMZxmltPYaMWmK63YN63AjcxgD
- sIhKrGqxwNp4LH79hc3nM2CpRv2QMDJ3+5Y40T61Iwcy2uJifBw8nPT+GYtpnSoW7rr1
- ixq33fCb45sJVYdGF0dpC99c3tqfU8UeWynu96MrDKSej0gO7e3jmC3YSh3um9PxdORA
- YoCm4cG183ARbMlQtZiRmXq76vsiCrgVIqE4glWj6f5SU2n36Ic8C2kTg7jq4lre3mtw
- zxqg==
+ bh=Zg6kmbV/F10qD8ScMZSnJyiRBl2OgcABfr1ZRnLbG9o=;
+ b=zeLf60bF53jO7zHQIwcT/TTO5d7OXtDPeOyANNcBBPeM/DwRitPOG05u1VdhuSub7S
+ c1FFC3yzt8Ktm4n+u/ayzV21vj3eq/EVQASsBOoYzEBDXQOKiP+i+eehFMyb16MG4dss
+ oPd2NOHdz0bMTP8FPqpUJbbeJV27q6C5WLARZW1u1TJX8sl/T30EHyvlV4Vmj7bcWFZa
+ IpNvpqTR9G4l+KlZA+0qhJOtuq1k7gjNTib40vG8EH2dOFR6KLgpuXBUWTGWwgAQxxLz
+ EfWggHDBOpNlNdz1w4f1OCRB/q+9skcdi7c2arYGQD7d9zHUyWE+vBrE+tfTT3FF7FLe
+ 5hig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iN3Z57PDGKinzIwPdadosHp6DxwbmBFlWcXBLF5XklA=;
- b=U5RpouLrU5R96tmifxem/lbNdetd228jpCC28WCQAHmjOvXikYFf1gSipEwMsc0aYy
- VffyDZhBEBxSWzmajYLCGe7CTbqet1UUj8zCZWOY5isVfNnKn54UGLQnU0Ibxk5nfZTk
- vMA494Hsfy88rK8jkSlH1UvTanVZUEMLsqTUcxj9GXyUT5ZQRe0976nWT3X7wJbDtXkJ
- 0uY57XkI92P8Q3TOlYWysqFcZtb96G3U/njWeYcMy6g0t1juTxU0w131W/vHO9Qgszg0
- ytsZCtM6Q8EzdF3Rbr7hhynjexPlfHyQ80a0MwbYMNfBiLr+q21vc7VRGkgfZWBLLrV2
- wkeA==
-X-Gm-Message-State: AGi0PuZM+tuh1r55MhcpcDIUgnohP+tzuxORND7Gr/gU0u76erwUQf62
- qXxeS0nogCupzsJR6AHFPRs4+GA5RRg=
-X-Google-Smtp-Source: APiQypJ0s/B6jYmjTj1lvD5X0NlXKYPxcUc40xFlobsxJtcTB9jI31bCRwLMDHm2KRH6Ju1SbhtTaA==
-X-Received: by 2002:a17:902:ed03:: with SMTP id
- b3mr8161792pld.247.1587222263518; 
- Sat, 18 Apr 2020 08:04:23 -0700 (PDT)
+ bh=Zg6kmbV/F10qD8ScMZSnJyiRBl2OgcABfr1ZRnLbG9o=;
+ b=PsoOWHT3UPin6XR+SmSOk5ib46v2Dzt9nGIZvTuU1h6zqyHZdgc/+FNh9eIGHcsrM+
+ tn5N61iEDEXgpq1vNibT6vSSKQLuHeUiTQ7p9JHro5gzhPxUTRKVfHGyKVUM+BJHZlKP
+ HGR/tq1W6ZNKjcfGu3Piw2IAZKkLWKcdBeujdZPiRzt0bd3T7CFxdpbtYGOr+hcpNFdP
+ dOfFLXZci46HRzdM2GbVORJa7PprUq+XL83avhvlhTvA7TiQotTnEQdRyDhuoGklPQSt
+ TkxvYf0RaOhNzX2AgL32ad4itMoIGzY12LeMs0PD3UNNoYcAdQOWqnnCIHNwHtzFtK7o
+ zXiw==
+X-Gm-Message-State: AGi0PuaB0H1q6CNG+QGUQoi/9JvZqEmHIhlheNcOO+wDsaLMd8tVI4u9
+ dESFpqcaycCQHFLTJwvsJyrcl9wtuz0=
+X-Google-Smtp-Source: APiQypLzn+ToV7yeEmxlo+4D6XaHWfuH5DWEycsjzJERrv+n2iZ6dBkoXA+1zevHtmbLV/GOY+8xhg==
+X-Received: by 2002:a17:90a:c401:: with SMTP id
+ i1mr10561169pjt.131.1587222264775; 
+ Sat, 18 Apr 2020 08:04:24 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id t103sm8668601pjb.46.2020.04.18.08.04.22
+ by smtp.gmail.com with ESMTPSA id t103sm8668601pjb.46.2020.04.18.08.04.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Apr 2020 08:04:22 -0700 (PDT)
+ Sat, 18 Apr 2020 08:04:24 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 6/7] tcg: Remove tcg_gen_gvec_dup{8,16,32,64}i
-Date: Sat, 18 Apr 2020 08:04:10 -0700
-Message-Id: <20200418150411.1831-7-richard.henderson@linaro.org>
+Subject: [PATCH 7/7] tcg: Add tcg_gen_gvec_dup_tl
+Date: Sat, 18 Apr 2020 08:04:11 -0700
+Message-Id: <20200418150411.1831-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200418150411.1831-1-richard.henderson@linaro.org>
 References: <20200418150411.1831-1-richard.henderson@linaro.org>
@@ -67,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::634
+X-Received-From: 2607:f8b0:4864:20::1036
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,69 +84,31 @@ Cc: peter.maydell@linaro.org, david@redhat.com, zhiwei_liu@c-sky.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These interfaces are now unused.
+For use when a target needs to pass a configure-specific
+target_ulong value to duplicate.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg-op-gvec.h |  5 -----
- tcg/tcg-op-gvec.c         | 28 ----------------------------
- 2 files changed, 33 deletions(-)
+ include/tcg/tcg-op-gvec.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/include/tcg/tcg-op-gvec.h b/include/tcg/tcg-op-gvec.h
-index eb0d47a42b..fa8a0c8d03 100644
+index fa8a0c8d03..d89f91f40e 100644
 --- a/include/tcg/tcg-op-gvec.h
 +++ b/include/tcg/tcg-op-gvec.h
-@@ -320,11 +320,6 @@ void tcg_gen_gvec_dup_i32(unsigned vece, uint32_t dofs, uint32_t s,
+@@ -320,6 +320,12 @@ void tcg_gen_gvec_dup_i32(unsigned vece, uint32_t dofs, uint32_t s,
  void tcg_gen_gvec_dup_i64(unsigned vece, uint32_t dofs, uint32_t s,
                            uint32_t m, TCGv_i64);
  
--void tcg_gen_gvec_dup8i(uint32_t dofs, uint32_t s, uint32_t m, uint8_t x);
--void tcg_gen_gvec_dup16i(uint32_t dofs, uint32_t s, uint32_t m, uint16_t x);
--void tcg_gen_gvec_dup32i(uint32_t dofs, uint32_t s, uint32_t m, uint32_t x);
--void tcg_gen_gvec_dup64i(uint32_t dofs, uint32_t s, uint32_t m, uint64_t x);
--
++#if TARGET_LONG_BITS == 64
++# define tcg_gen_gvec_dup_tl  tcg_gen_gvec_dup_i64
++#else
++# define tcg_gen_gvec_dup_tl  tcg_gen_gvec_dup_i32
++#endif
++
  void tcg_gen_gvec_shli(unsigned vece, uint32_t dofs, uint32_t aofs,
                         int64_t shift, uint32_t oprsz, uint32_t maxsz);
  void tcg_gen_gvec_shri(unsigned vece, uint32_t dofs, uint32_t aofs,
-diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
-index de16c027b3..5a6cc19812 100644
---- a/tcg/tcg-op-gvec.c
-+++ b/tcg/tcg-op-gvec.c
-@@ -1541,34 +1541,6 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dofs, uint32_t aofs,
-     }
- }
- 
--void tcg_gen_gvec_dup64i(uint32_t dofs, uint32_t oprsz,
--                         uint32_t maxsz, uint64_t x)
--{
--    check_size_align(oprsz, maxsz, dofs);
--    do_dup(MO_64, dofs, oprsz, maxsz, NULL, NULL, x);
--}
--
--void tcg_gen_gvec_dup32i(uint32_t dofs, uint32_t oprsz,
--                         uint32_t maxsz, uint32_t x)
--{
--    check_size_align(oprsz, maxsz, dofs);
--    do_dup(MO_32, dofs, oprsz, maxsz, NULL, NULL, x);
--}
--
--void tcg_gen_gvec_dup16i(uint32_t dofs, uint32_t oprsz,
--                         uint32_t maxsz, uint16_t x)
--{
--    check_size_align(oprsz, maxsz, dofs);
--    do_dup(MO_16, dofs, oprsz, maxsz, NULL, NULL, x);
--}
--
--void tcg_gen_gvec_dup8i(uint32_t dofs, uint32_t oprsz,
--                         uint32_t maxsz, uint8_t x)
--{
--    check_size_align(oprsz, maxsz, dofs);
--    do_dup(MO_8, dofs, oprsz, maxsz, NULL, NULL, x);
--}
--
- void tcg_gen_gvec_dup_imm(unsigned vece, uint32_t dofs, uint32_t oprsz,
-                           uint32_t maxsz, uint64_t x)
- {
 -- 
 2.20.1
 
