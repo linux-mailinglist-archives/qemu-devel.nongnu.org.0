@@ -2,124 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B631A1AF928
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Apr 2020 11:59:48 +0200 (CEST)
-Received: from localhost ([::1]:39890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 593BA1AF920
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Apr 2020 11:52:38 +0200 (CEST)
+Received: from localhost ([::1]:39836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQ6jr-0005SY-AN
-	for lists+qemu-devel@lfdr.de; Sun, 19 Apr 2020 05:59:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38172)
+	id 1jQ6cv-0002oB-1b
+	for lists+qemu-devel@lfdr.de; Sun, 19 Apr 2020 05:52:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35232)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <saipava@xilinx.com>) id 1jQ6iu-0004xE-BJ
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 05:58:48 -0400
+ (envelope-from <chenhuacai@gmail.com>) id 1jQ6c2-00029p-Nq
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 05:51:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <saipava@xilinx.com>) id 1jQ6it-0000Fn-3t
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 05:58:47 -0400
-Received: from mail-eopbgr680067.outbound.protection.outlook.com
- ([40.107.68.67]:12773 helo=NAM04-BN3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1jQ6is-000063-MQ
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 05:58:46 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ikvxfmmvnRbGF1sJUInU2tT5hDAAVBW5D5GSPh7R18JWK+YTwjrPTzRwo5GTpnT2GuhwuKtetUJ2wm0JoM95j7o4+W7svs0MLNTdK2fg3MjXcwedq8GhbpOfCOx4hECiA9IQUa8UcldL5JMKP6ISQOCIu61wBRfcIYLZbsKPGGCsXwiFVxJzGOjxlETryuhAIalRDEuQYWYenYURIEBkWXaLoUve07Bzii/IUbRhydicTaJAn3Qrxm+GESptfREhbdv0Ris84x2Pzu1CW4qgVFRdk3Ncf4RsX7pDL9xZpmii9jKeFPZEkTU7Af2Lr2LMS3T5ETNzgIh4zdwjhktXjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C2g7JA+hVDuKyeqoWGcCVzJ5BqNNZwdwcJeSrejD++Y=;
- b=j2QiavJrKic+5ZhjfNHos6Klmw6QooDiHYHPwgu6Kc4vhlp16AEKCaDOQ3VTckSvlxHiQFTNHUGaMytgeLPc2EyP3DHSHp7YnHz1op2sgraKIT7lv+KnGm8tfwOXPvdVSaQs7s4FBU5IW4+SxEE/y8GLNsh9oidg4IIvpNVwYYmicdr2uELhHtOqotQ8P+vC9qw4b8MjTZuxfvL21JeCOjc/LwV8Ql+IdZB+R0qoZg6Pgz7mx62Cmz5uG1QA4tS9pIbzUjDuzk06bApM+rA8kHwaeitt9j83TPk+sSQYSKBLiLg6U5QTk9e18rTUwK6HtaCZzus5UGg4gFsEAp6hqA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=redhat.com smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C2g7JA+hVDuKyeqoWGcCVzJ5BqNNZwdwcJeSrejD++Y=;
- b=PPSLr+Z5yQfnFWrg0+Lc30EfxnjMpjmDbH1Idjg4be4ldYwDbzrRu1ZjkimI8Tqn9sq7NavYBix1wfgmqkeRi09KmHK3FN2HvDw1mJAUWk1j3PAAkL27FyDVwAoWlmKBsQsAx1MmIrhhRZS6yBw2FdLgnXMSwPyYTB9cv0YxBEY=
-Received: from BL0PR02CA0034.namprd02.prod.outlook.com (2603:10b6:207:3c::47)
- by DM5PR02MB3356.namprd02.prod.outlook.com (2603:10b6:4:61::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.27; Sun, 19 Apr
- 2020 09:58:43 +0000
-Received: from BL2NAM02FT028.eop-nam02.prod.protection.outlook.com
- (2603:10b6:207:3c:cafe::90) by BL0PR02CA0034.outlook.office365.com
- (2603:10b6:207:3c::47) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25 via Frontend
- Transport; Sun, 19 Apr 2020 09:58:43 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- BL2NAM02FT028.mail.protection.outlook.com (10.152.77.165) with Microsoft SMTP
- Server id 15.20.2921.25 via Frontend Transport; Sun, 19 Apr 2020 09:58:42
- +0000
-Received: from [149.199.38.66] (port=55609 helo=xsj-pvapsmtp01)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1jQ6hv-0006hm-N4; Sun, 19 Apr 2020 02:57:47 -0700
-Received: from [127.0.0.1] (helo=xsj-smtp-dlp2.xlnx.xilinx.com)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1jQ6io-0001b6-BX; Sun, 19 Apr 2020 02:58:42 -0700
-Received: from xsj-pvapsmtp01 (smtp2.xilinx.com [149.199.38.66])
- by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 03J9wfKH027686; 
- Sun, 19 Apr 2020 02:58:41 -0700
-Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <saipava@xhdsaipava40.xilinx.com>)
- id 1jQ6in-0001b0-9i; Sun, 19 Apr 2020 02:58:41 -0700
-Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
- id 8910C13C0A82; Sun, 19 Apr 2020 15:21:41 +0530 (IST)
-From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>
-Subject: [PATCH v2] chardev/char-socket: Properly make qio connections non
- blocking
-Date: Sun, 19 Apr 2020 15:21:40 +0530
-Message-Id: <1587289900-29485-1-git-send-email-sai.pavan.boddu@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFTY:;
- SFS:(10009020)(4636009)(376002)(346002)(396003)(136003)(39850400004)(46966005)(42186006)(316002)(2906002)(478600001)(81156014)(8676002)(8936002)(2616005)(336012)(110136005)(426003)(5660300002)(186003)(81166007)(26005)(107886003)(4326008)(70586007)(356005)(6266002)(70206006)(36756003)(47076004)(82740400003);
- DIR:OUT; SFP:1101; 
+ (envelope-from <chenhuacai@gmail.com>) id 1jQ6c1-0002Ra-BD
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 05:51:42 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:40471)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
+ id 1jQ6bz-0002Pf-OY
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 05:51:40 -0400
+Received: by mail-io1-f66.google.com with SMTP id w1so7435122iot.7
+ for <qemu-devel@nongnu.org>; Sun, 19 Apr 2020 02:51:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=C78ogdUfW7qV70BKM3ex51wwvG3GpdbbdVQdonYv3XI=;
+ b=KMLNvuKO2JWRAVVtdW/bV84mP/AYjcZkXz4hutDM7hweXHhX7c37KWoFz1dSBGzwaZ
+ aHTOTt65HqKaurheLQMpPBllDss4KBHQeVA5BvhV1N00Bd5UzLBUsg//30f0mv0PL9oh
+ G9JvRkqszrk4HhXtSeogQWIwNcpYFwt2FsR6FgF/pCqDfB0tsn3y0HWV+JvSwYEbooRY
+ WqEIzlyPi9yGkPFArItVF2N8ZceuIPXs5/PIbksfDWtOLoNM4sPTQ1adTxn2bPcD01NT
+ 8t+ZU1mAz6g0UUKNySfOklvqnsXMpsFpK4o2BPlKdO5y8BzHD+Sbzhca9VT+j9Fqg3Jd
+ g+Lw==
+X-Gm-Message-State: AGi0PuYn9EZbQvNhE+qMxg6sHgq5mI9Kt2EWqpj0AnGDCxPPFtKL6DQP
+ KO2lVLKFgEHGbXSJmYn4pYTLBuuxpJouqrPZvzA=
+X-Google-Smtp-Source: APiQypLWlkGic4fq2QUIwftMaNWDITb2pEAXDN0f/pQ9ikfZVQkZzmEhvokC3hW7Zn5ej9p01pkg3PWYJOeiveFCmBY=
+X-Received: by 2002:a02:966a:: with SMTP id c97mr11175432jai.106.1587289898371; 
+ Sun, 19 Apr 2020 02:51:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: eb92eb52-db84-41a6-ba5e-08d7e4483e2c
-X-MS-TrafficTypeDiagnostic: DM5PR02MB3356:
-X-Microsoft-Antispam-PRVS: <DM5PR02MB3356011B444F3C807B257FAACAD70@DM5PR02MB3356.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:475;
-X-Forefront-PRVS: 0378F1E47A
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZtXLSHWwan00xtGkFZ2/PbtPIHDeIDExT/z+SXkoBkchf36wYgugREsWFlKdu1hPbUk1Qcfkz/TinRMOVba0QvcY/5H5uvVE/IxDYI+hoIMk1Gk+2Jpd1qWgxmrHxpipehsDlzN3ekcMmEHMFFfmGLSHuN3QRKQ0n7fkNzIW29qcRfgn5+116Zp5W4J0FBKs6gJIeVak/yGCHEy5oq1HgbTBXH7xt1u08I8H4OZsiX53t7xQQ/5kF1fvEXSgg/nSnpAxsZzYO3g40KfoJ7heOCup++KwMzkm8XFv7ALVyfApvZNvDvriFViH+sTKvoOm3VK7nRGV1BKvS8KHN3b2TuqET9v/eKHgauyM8Sgqjm4FFtPzPnhqp2R5KUMkpbtkag0lpGERvs7hB9L0qOtzITT3Cx82o+Hq2Qa9FYS0+wkNRrEGY+NxDfdlPKF7unepuks4ZGAf+WF9lO64nrC7YMk+umObTrZ02F67Sc0Lyk/ePa1PBiH5PPiYNeT4dWv3Ih/eoMmVTtlYCivyooJx6w==
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2020 09:58:42.8021 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb92eb52-db84-41a6-ba5e-08d7e4483e2c
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR02MB3356
-Received-SPF: pass client-ip=40.107.68.67; envelope-from=saipava@xilinx.com;
- helo=NAM04-BN3-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
- [fuzzy]
-X-Received-From: 40.107.68.67
+References: <1586763024-12197-1-git-send-email-chenhc@lemote.com>
+ <1586763024-12197-14-git-send-email-chenhc@lemote.com>
+ <20200413191909.4e776272@flygoat-x1e>
+In-Reply-To: <20200413191909.4e776272@flygoat-x1e>
+From: Huacai Chen <chenhc@lemote.com>
+Date: Sun, 19 Apr 2020 17:58:54 +0800
+Message-ID: <CAAhV-H4quBvJzk5uJ1QxVvK4nVbbjpo9CFB5Wb0FDQ0ZA9hEQg@mail.gmail.com>
+Subject: Re: [PATCH 13/15] KVM: MIPS: Add CONFIG6 and DIAG registers emulation
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=209.85.166.66; envelope-from=chenhuacai@gmail.com;
+ helo=mail-io1-f66.google.com
+X-detected-operating-system: by eggs.gnu.org: Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 209.85.166.66
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -131,40 +65,297 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, edgari@xilinx.com,
- qemu-devel@nongnu.org
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, kvm@vger.kernel.org,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "open list:MIPS" <linux-mips@vger.kernel.org>,
+ Fuxin Zhang <zhangfx@lemote.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In tcp_chr_sync_read function, there is a possibility of socket
-disconnection during blocking read, then tcp_chr_hup function would clean up
-the qio channel pointers(i.e ioc, sioc).
+Hi, Jiaxun,
 
-Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
----
-Changes for V2:
-	Place the guard around 'qio_channel_set_blocking' call to check connection status
-	This fix is simpler than v1 and explains better about the issue.
+Thank you for your suggestion, in this patch and the 8th patch I will
+use CONFIG_CPU_LOONGSON64.
 
- chardev/char-socket.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Huacai
 
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index 185fe38..e56b2f0 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -549,7 +549,9 @@ static int tcp_chr_sync_read(Chardev *chr, const uint8_t *buf, int len)
- 
-     qio_channel_set_blocking(s->ioc, true, NULL);
-     size = tcp_chr_recv(chr, (void *) buf, len);
--    qio_channel_set_blocking(s->ioc, false, NULL);
-+    if (s->state != TCP_CHARDEV_STATE_DISCONNECTED) {
-+        qio_channel_set_blocking(s->ioc, false, NULL);
-+    }
-     if (size == 0) {
-         /* connection closed */
-         tcp_chr_disconnect(chr);
--- 
-2.7.4
-
+On Mon, Apr 13, 2020 at 7:19 PM Jiaxun Yang <jiaxun.yang@flygoat.com> wrote:
+>
+> On Mon, 13 Apr 2020 15:30:22 +0800
+> Huacai Chen <chenhc@lemote.com> wrote:
+>
+> > Loongson-3 has CONFIG6 and DIAG registers which need to be emulate.
+> > CONFIG6 is mostly used to enable/disable FTLB and SFB, while DIAG is
+> > mostly used to flush BTB, ITLB, DTLB, VTLB and FTLB.
+> >
+> > Signed-off-by: Huacai Chen <chenhc@lemote.com>
+> > Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>
+> It should be guarded by CONFIG_CPU_LOONGSON64 as well.
+>
+> Thanks.
+>
+> > ---
+> >  arch/mips/include/asm/kvm_host.h |  5 ++++
+> >  arch/mips/include/asm/mipsregs.h |  7 +++++
+> >  arch/mips/kvm/tlb.c              | 39 +++++++++++++++++++++++++++
+> >  arch/mips/kvm/vz.c               | 58
+> > +++++++++++++++++++++++++++++++++++++++- 4 files changed, 108
+> > insertions(+), 1 deletion(-)
+> >
+> > diff --git a/arch/mips/include/asm/kvm_host.h
+> > b/arch/mips/include/asm/kvm_host.h index c291767..3ef6ca8 100644
+> > --- a/arch/mips/include/asm/kvm_host.h
+> > +++ b/arch/mips/include/asm/kvm_host.h
+> > @@ -68,9 +68,11 @@
+> >  #define KVM_REG_MIPS_CP0_CONFIG3     MIPS_CP0_32(16, 3)
+> >  #define KVM_REG_MIPS_CP0_CONFIG4     MIPS_CP0_32(16, 4)
+> >  #define KVM_REG_MIPS_CP0_CONFIG5     MIPS_CP0_32(16, 5)
+> > +#define KVM_REG_MIPS_CP0_CONFIG6     MIPS_CP0_32(16, 6)
+> >  #define KVM_REG_MIPS_CP0_CONFIG7     MIPS_CP0_32(16, 7)
+> >  #define KVM_REG_MIPS_CP0_MAARI               MIPS_CP0_64(17, 2)
+> >  #define KVM_REG_MIPS_CP0_XCONTEXT    MIPS_CP0_64(20, 0)
+> > +#define KVM_REG_MIPS_CP0_DIAG                MIPS_CP0_32(22, 0)
+> >  #define KVM_REG_MIPS_CP0_ERROREPC    MIPS_CP0_64(30, 0)
+> >  #define KVM_REG_MIPS_CP0_KSCRATCH1   MIPS_CP0_64(31, 2)
+> >  #define KVM_REG_MIPS_CP0_KSCRATCH2   MIPS_CP0_64(31, 3)
+> > @@ -256,6 +258,7 @@ struct mips_coproc {
+> >  #define MIPS_CP0_WATCH_LO    18
+> >  #define MIPS_CP0_WATCH_HI    19
+> >  #define MIPS_CP0_TLB_XCONTEXT        20
+> > +#define MIPS_CP0_DIAG                22
+> >  #define MIPS_CP0_ECC         26
+> >  #define MIPS_CP0_CACHE_ERR   27
+> >  #define MIPS_CP0_TAG_LO              28
+> > @@ -927,6 +930,8 @@ void kvm_vz_save_guesttlb(struct kvm_mips_tlb
+> > *buf, unsigned int index, unsigned int count);
+> >  void kvm_vz_load_guesttlb(const struct kvm_mips_tlb *buf, unsigned
+> > int index, unsigned int count);
+> > +void kvm_loongson_clear_guest_vtlb(void);
+> > +void kvm_loongson_clear_guest_ftlb(void);
+> >  #endif
+> >
+> >  void kvm_mips_suspend_mm(int cpu);
+> > diff --git a/arch/mips/include/asm/mipsregs.h
+> > b/arch/mips/include/asm/mipsregs.h index 796fe47..ce40fbf 100644
+> > --- a/arch/mips/include/asm/mipsregs.h
+> > +++ b/arch/mips/include/asm/mipsregs.h
+> > @@ -674,6 +674,9 @@
+> >  #define MIPS_CONF5_CV                (_ULCAST_(1) << 29)
+> >  #define MIPS_CONF5_K         (_ULCAST_(1) << 30)
+> >
+> > +#define MIPS_CONF6_INTIMER   (_ULCAST_(1) << 6)
+> > +#define MIPS_CONF6_EXTIMER   (_ULCAST_(1) << 7)
+> > +#define MIPS_CONF6_SFBEN     (_ULCAST_(1) << 8)
+> >  #define MIPS_CONF6_SYND              (_ULCAST_(1) << 13)
+> >  /* proAptiv FTLB on/off bit */
+> >  #define MIPS_CONF6_FTLBEN    (_ULCAST_(1) << 15)
+> > @@ -993,6 +996,8 @@
+> >  /* Disable Branch Return Cache */
+> >  #define R10K_DIAG_D_BRC              (_ULCAST_(1) << 22)
+> >
+> > +/* Flush BTB */
+> > +#define LOONGSON_DIAG_BTB    (_ULCAST_(1) << 1)
+> >  /* Flush ITLB */
+> >  #define LOONGSON_DIAG_ITLB   (_ULCAST_(1) << 2)
+> >  /* Flush DTLB */
+> > @@ -2825,7 +2830,9 @@ __BUILD_SET_C0(status)
+> >  __BUILD_SET_C0(cause)
+> >  __BUILD_SET_C0(config)
+> >  __BUILD_SET_C0(config5)
+> > +__BUILD_SET_C0(config6)
+> >  __BUILD_SET_C0(config7)
+> > +__BUILD_SET_C0(diag)
+> >  __BUILD_SET_C0(intcontrol)
+> >  __BUILD_SET_C0(intctl)
+> >  __BUILD_SET_C0(srsmap)
+> > diff --git a/arch/mips/kvm/tlb.c b/arch/mips/kvm/tlb.c
+> > index 7cd9216..1efb9a0 100644
+> > --- a/arch/mips/kvm/tlb.c
+> > +++ b/arch/mips/kvm/tlb.c
+> > @@ -20,6 +20,7 @@
+> >
+> >  #include <asm/cpu.h>
+> >  #include <asm/bootinfo.h>
+> > +#include <asm/mipsregs.h>
+> >  #include <asm/mmu_context.h>
+> >  #include <asm/pgtable.h>
+> >  #include <asm/cacheflush.h>
+> > @@ -622,6 +623,44 @@ void kvm_vz_load_guesttlb(const struct
+> > kvm_mips_tlb *buf, unsigned int index, }
+> >  EXPORT_SYMBOL_GPL(kvm_vz_load_guesttlb);
+> >
+> > +void kvm_loongson_clear_guest_vtlb(void)
+> > +{
+> > +     int idx = read_gc0_index();
+> > +
+> > +     /* Set root GuestID for root probe and write of guest TLB
+> > entry */
+> > +     set_root_gid_to_guest_gid();
+> > +
+> > +     write_gc0_index(0);
+> > +     guest_tlbinvf();
+> > +     write_gc0_index(idx);
+> > +
+> > +     clear_root_gid();
+> > +     set_c0_diag(LOONGSON_DIAG_ITLB | LOONGSON_DIAG_DTLB);
+> > +}
+> > +EXPORT_SYMBOL_GPL(kvm_loongson_clear_guest_vtlb);
+> > +
+> > +void kvm_loongson_clear_guest_ftlb(void)
+> > +{
+> > +     int i;
+> > +     int idx = read_gc0_index();
+> > +
+> > +     /* Set root GuestID for root probe and write of guest TLB
+> > entry */
+> > +     set_root_gid_to_guest_gid();
+> > +
+> > +     for (i = current_cpu_data.tlbsizevtlb;
+> > +          i < (current_cpu_data.tlbsizevtlb +
+> > +                  current_cpu_data.tlbsizeftlbsets);
+> > +          i++) {
+> > +             write_gc0_index(i);
+> > +             guest_tlbinvf();
+> > +     }
+> > +     write_gc0_index(idx);
+> > +
+> > +     clear_root_gid();
+> > +     set_c0_diag(LOONGSON_DIAG_ITLB | LOONGSON_DIAG_DTLB);
+> > +}
+> > +EXPORT_SYMBOL_GPL(kvm_loongson_clear_guest_ftlb);
+> > +
+> >  #endif
+> >
+> >  /**
+> > diff --git a/arch/mips/kvm/vz.c b/arch/mips/kvm/vz.c
+> > index 0772565..2ea1f13 100644
+> > --- a/arch/mips/kvm/vz.c
+> > +++ b/arch/mips/kvm/vz.c
+> > @@ -127,6 +127,11 @@ static inline unsigned int
+> > kvm_vz_config5_guest_wrmask(struct kvm_vcpu *vcpu) return mask;
+> >  }
+> >
+> > +static inline unsigned int kvm_vz_config6_guest_wrmask(struct
+> > kvm_vcpu *vcpu) +{
+> > +     return MIPS_CONF6_INTIMER | MIPS_CONF6_EXTIMER |
+> > MIPS_CONF6_SYND; +}
+> > +
+> >  /*
+> >   * VZ optionally allows these additional Config bits to be written
+> > by root:
+> >   * Config:   M, [MT]
+> > @@ -181,6 +186,12 @@ static inline unsigned int
+> > kvm_vz_config5_user_wrmask(struct kvm_vcpu *vcpu) return
+> > kvm_vz_config5_guest_wrmask(vcpu) | MIPS_CONF5_MRP; }
+> >
+> > +static inline unsigned int kvm_vz_config6_user_wrmask(struct
+> > kvm_vcpu *vcpu) +{
+> > +     return kvm_vz_config6_guest_wrmask(vcpu) |
+> > +             MIPS_CONF6_SFBEN | MIPS_CONF6_FTLBEN |
+> > MIPS_CONF6_FTLBDIS; +}
+> > +
+> >  static gpa_t kvm_vz_gva_to_gpa_cb(gva_t gva)
+> >  {
+> >       /* VZ guest has already converted gva to gpa */
+> > @@ -930,7 +941,8 @@ static enum emulation_result
+> > kvm_vz_gpsi_cop0(union mips_instruction inst, (sel == 2 ||    /*
+> > SRSCtl */ sel == 3)) ||       /* SRSMap */
+> >                                  (rd == MIPS_CP0_CONFIG &&
+> > -                                 (sel == 7)) ||      /* Config7
+> > */
+> > +                                 (sel == 6 ||        /* Config6 */
+> > +                                  sel == 7)) ||      /* Config7
+> > */ (rd == MIPS_CP0_LLADDR &&
+> >                                   (sel == 2) &&       /* MAARI */
+> >                                   cpu_guest_has_maar &&
+> > @@ -938,6 +950,9 @@ static enum emulation_result
+> > kvm_vz_gpsi_cop0(union mips_instruction inst, (rd == MIPS_CP0_ERRCTL
+> > && (sel == 0))) {     /* ErrCtl */
+> >                               val = cop0->reg[rd][sel];
+> > +                     } else if (rd == MIPS_CP0_DIAG &&
+> > +                                (sel == 0)) {        /* Diag */
+> > +                             val = cop0->reg[rd][sel];
+> >                       } else {
+> >                               val = 0;
+> >                               er = EMULATE_FAIL;
+> > @@ -1000,9 +1015,38 @@ static enum emulation_result
+> > kvm_vz_gpsi_cop0(union mips_instruction inst, cpu_guest_has_maar &&
+> >                                  !cpu_guest_has_dyn_maar) {
+> >                               kvm_write_maari(vcpu, val);
+> > +                     } else if (rd == MIPS_CP0_CONFIG &&
+> > +                                (sel == 6)) {
+> > +                             cop0->reg[rd][sel] = (int)val;
+> >                       } else if (rd == MIPS_CP0_ERRCTL &&
+> >                                  (sel == 0)) {        /* ErrCtl */
+> >                               /* ignore the written value */
+> > +                     } else if (rd == MIPS_CP0_DIAG &&
+> > +                                (sel == 0)) {        /* Diag */
+> > +                             unsigned long flags;
+> > +
+> > +                             local_irq_save(flags);
+> > +                             if (val & LOONGSON_DIAG_BTB) {
+> > +                                     /* Flush BTB */
+> > +
+> > set_c0_diag(LOONGSON_DIAG_BTB);
+> > +                             }
+> > +                             if (val & LOONGSON_DIAG_ITLB) {
+> > +                                     /* Flush ITLB */
+> > +
+> > set_c0_diag(LOONGSON_DIAG_ITLB);
+> > +                             }
+> > +                             if (val & LOONGSON_DIAG_DTLB) {
+> > +                                     /* Flush DTLB */
+> > +
+> > set_c0_diag(LOONGSON_DIAG_DTLB);
+> > +                             }
+> > +                             if (val & LOONGSON_DIAG_VTLB) {
+> > +                                     /* Flush VTLB */
+> > +
+> > kvm_loongson_clear_guest_vtlb();
+> > +                             }
+> > +                             if (val & LOONGSON_DIAG_FTLB) {
+> > +                                     /* Flush FTLB */
+> > +
+> > kvm_loongson_clear_guest_ftlb();
+> > +                             }
+> > +                             local_irq_restore(flags);
+> >                       } else {
+> >                               er = EMULATE_FAIL;
+> >                       }
+> > @@ -1665,6 +1709,7 @@ static u64 kvm_vz_get_one_regs[] = {
+> >       KVM_REG_MIPS_CP0_CONFIG3,
+> >       KVM_REG_MIPS_CP0_CONFIG4,
+> >       KVM_REG_MIPS_CP0_CONFIG5,
+> > +     KVM_REG_MIPS_CP0_CONFIG6,
+> >  #ifdef CONFIG_64BIT
+> >       KVM_REG_MIPS_CP0_XCONTEXT,
+> >  #endif
+> > @@ -1992,6 +2037,9 @@ static int kvm_vz_get_one_reg(struct kvm_vcpu
+> > *vcpu, return -EINVAL;
+> >               *v = read_gc0_config5();
+> >               break;
+> > +     case KVM_REG_MIPS_CP0_CONFIG6:
+> > +             *v = kvm_read_sw_gc0_config6(cop0);
+> > +             break;
+> >       case KVM_REG_MIPS_CP0_MAAR(0) ...
+> > KVM_REG_MIPS_CP0_MAAR(0x3f): if (!cpu_guest_has_maar ||
+> > cpu_guest_has_dyn_maar) return -EINVAL;
+> > @@ -2261,6 +2309,14 @@ static int kvm_vz_set_one_reg(struct kvm_vcpu
+> > *vcpu, write_gc0_config5(v);
+> >               }
+> >               break;
+> > +     case KVM_REG_MIPS_CP0_CONFIG6:
+> > +             cur = kvm_read_sw_gc0_config6(cop0);
+> > +             change = (cur ^ v) &
+> > kvm_vz_config6_user_wrmask(vcpu);
+> > +             if (change) {
+> > +                     v = cur ^ change;
+> > +                     kvm_write_sw_gc0_config6(cop0, (int)v);
+> > +             }
+> > +             break;
+> >       case KVM_REG_MIPS_CP0_MAAR(0) ...
+> > KVM_REG_MIPS_CP0_MAAR(0x3f): if (!cpu_guest_has_maar ||
+> > cpu_guest_has_dyn_maar) return -EINVAL;
+>
 
