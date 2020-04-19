@@ -2,72 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D1E51AFBF0
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Apr 2020 18:29:07 +0200 (CEST)
-Received: from localhost ([::1]:44028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D28A51AFBF5
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Apr 2020 18:33:17 +0200 (CEST)
+Received: from localhost ([::1]:44104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQCoc-0008Kl-6r
-	for lists+qemu-devel@lfdr.de; Sun, 19 Apr 2020 12:29:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42292 helo=eggs1p.gnu.org)
+	id 1jQCse-0004bf-Ce
+	for lists+qemu-devel@lfdr.de; Sun, 19 Apr 2020 12:33:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43302 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jQCn9-0006vQ-GH
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 12:27:35 -0400
+ (envelope-from <philmd@redhat.com>) id 1jQCrS-0003Qu-B5
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 12:32:02 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jQCn9-0006mw-5V
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 12:27:35 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:44652)
- by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jQCn8-0006jH-PA; Sun, 19 Apr 2020 12:27:34 -0400
-Received: by mail-lf1-x141.google.com with SMTP id 131so5833339lfh.11;
- Sun, 19 Apr 2020 09:27:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=amT1mUeA8CgJ+fNQXmKD+MyQ372jkNh8S+OnBAOdBHA=;
- b=g65OAbpp5q6AX75HMC7olMHDiTTdW+R5IYHA2hOfUnv1Cma7UxINjtEVgmkgPAJkQj
- Qqf0bQ55xIw5Np/oSdeo4orsPOq94VoKWxEiW3g1lctklnthIpFeq6hCOykeEbTAdNzX
- BB8aGVZqDg3+bHpEhpuXSw5HGV2QPiTYw2BssmMbejFhf1jwtMJ5X3ALlWgEs8fKNm6a
- NpUAjkGQ3lctxxpodlL8Q5oOirGZmZeqsKn5kp4SjCZSCyABlSYR4+Egc1RJSFXpbmO1
- dRYSG2UkuQKwRwwXteIclv+ygDmvqPTOWEO33eHg9KjAK+yeKKz/rHMsWuUV51YdUqcJ
- I91g==
+ (envelope-from <philmd@redhat.com>) id 1jQCrQ-0007TU-GF
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 12:32:01 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54369
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jQCrP-0007OJ-Ke
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 12:31:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587313916;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pesQP7cRSpxsyS1fcfkJAP4LS9zAm+K6PXhY9VbHvhM=;
+ b=QtBpiElcjkIQifYyC38sjPFTNr7I5A9h13pBeA7lc+mbyIW7rQyYAMX7YF1Tjpt5bj5YFC
+ I84Ki35Vg1LTb7TsqfyHU3pS6dEEmFyNEZ59CIL2ItJQJO8h+5a0DvzUclbisFXHXPEkxz
+ Ba3S/o1oJkafoGuLOW0b0nWIBOKQLUM=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-162-ylny8ibTNeuACJT0ysbuww-1; Sun, 19 Apr 2020 12:31:52 -0400
+X-MC-Unique: ylny8ibTNeuACJT0ysbuww-1
+Received: by mail-ej1-f69.google.com with SMTP id k26so4515941ejx.6
+ for <qemu-devel@nongnu.org>; Sun, 19 Apr 2020 09:31:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=amT1mUeA8CgJ+fNQXmKD+MyQ372jkNh8S+OnBAOdBHA=;
- b=VPuImf0qqVkbBKQJBE3HNVPc4302yU9ln/aqEFKdWOkl+WFg/XvD0lZHrPQ/C+w5b+
- tM2DgW9nQCnzzAPUOcajbUnTS5zd9Vhyn4WjPmx0kDsh2uMoUolRojUVz8OVhL+Gzd8k
- LypGUJuMzUo6x8UNBogaJ52w8v0SaOutb80LG9V8DpmMnmGqCsVP3T/5D4IY8TfaC9XI
- Um0fS7/nlaZNhThfj08kPR2bUl0XPKm9nGN+rAuiIpB1CB7Qj1UdupFuxwkTI69w1V1J
- Fk3qnXpr/gVvCDgAYr0hYh5/llW1AhFgtXSslOMzu57Tiwn187+pD7amZxXKMMJ7Q8ZM
- swSQ==
-X-Gm-Message-State: AGi0PuZgqd4vVZG2h83N3+Iv6qk6olRpId/9jxFCzj9cEaz58X3gGvVD
- Ixq37IaZAtSl/kxB4DqxERYdPJKz2mY=
-X-Google-Smtp-Source: APiQypJN9NvhxTRvnVyxXEQVkZ024cG5jxyTzGznspLDCa/YYKRfORIGMigm1gOQHF+fMKVjlsTXOg==
-X-Received: by 2002:a19:4a03:: with SMTP id x3mr7836383lfa.159.1587313652464; 
- Sun, 19 Apr 2020 09:27:32 -0700 (PDT)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id v7sm4670854lfq.55.2020.04.19.09.27.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Apr 2020 09:27:31 -0700 (PDT)
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 3/3] hw/arm: xlnx-zcu102: Disable unsupported FDT firmware
- nodes
-Date: Sun, 19 Apr 2020 18:27:27 +0200
-Message-Id: <20200419162727.19148-4-edgar.iglesias@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200419162727.19148-1-edgar.iglesias@gmail.com>
-References: <20200419162727.19148-1-edgar.iglesias@gmail.com>
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mdx8uZoicdMAL3gsk4iw2tZTBBc5tNVnam1BJXq8JpA=;
+ b=hsV99FdYJA/HkPslrEf2Vah5Hs2zt+vdfctXEC/i6GVYPNhoT1UfXxBQzR/5UaF9O/
+ DRxcppWHkd3Jz1z7sgUi/JGFB/NtWbO/kGdrlH04joLSDCLlWzsVtOCYmPhum+j4yiu+
+ iSu00fM4a/jTmYu4oW7yOrV7xjVmJdnd/NaVo3kbF5wQ3MQFyziOsajJEw8KIzLAf6+p
+ btEl7uWi8QDq/FONz0QNpYoM8qNLjm6tu8BBYKwbfxauv3p2tzGzqWen4gskms3YyWoc
+ +zJvcDVXc5m8q2S8a3ssHOzhbr8RYAA75DsUqnhc5Iv7teIqxLBJAj55BsQjJVg2SB+v
+ 3VRw==
+X-Gm-Message-State: AGi0PuYPVD0BsmvbXeaeH0xIiRMNvq3N3pGW+BHF7rKj6K/Pa9WxFTmX
+ EZVGvSR5DwTxd58fU8j5Leihw5M+3sGxktwrgt7QzUzSjNzM4HMPRoTbTbxsenrWN1Hq4vGKTuG
+ 0mDd5NjwN0Do4nEQ=
+X-Received: by 2002:a17:906:2548:: with SMTP id
+ j8mr12206236ejb.378.1587313911278; 
+ Sun, 19 Apr 2020 09:31:51 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIGMVc28IzTxhaadVRoFY6tLBI6HBJuXp/EquYW22a4sqO/BslnxojkVnswkaba/ShOkJowLQ==
+X-Received: by 2002:a17:906:2548:: with SMTP id
+ j8mr12206211ejb.378.1587313910951; 
+ Sun, 19 Apr 2020 09:31:50 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id b8sm1799672edt.7.2020.04.19.09.31.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 19 Apr 2020 09:31:50 -0700 (PDT)
+Subject: Re: [PATCH v3 01/19] target/arm: Rename KVM set_feature() as
+ kvm_set_feature()
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20200316160634.3386-1-philmd@redhat.com>
+ <20200316160634.3386-2-philmd@redhat.com>
+ <cb3178f1-5a0c-b11c-a012-c41beeb66cd2@linaro.org>
+ <3dc0e645-05a5-938c-4277-38014e4a68a3@redhat.com>
+Message-ID: <f4ee109e-b6fc-8e1b-7110-41e045e58c30@redhat.com>
+Date: Sun, 19 Apr 2020 18:31:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::141;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x141.google.com
-X-detected-operating-system: by eggs1p.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::141
+In-Reply-To: <3dc0e645-05a5-938c-4277-38014e4a68a3@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs1p.gnu.org: Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,82 +98,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
- edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
- frasse.iglesias@gmail.com, alistair@alistair23.me,
- richard.henderson@linaro.org, frederic.konrad@adacore.com, qemu-arm@nongnu.org,
- philmd@redhat.com, luc.michel@greensocs.com, david@gibson.dropbear.id.au
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+On 3/17/20 10:09 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 3/16/20 9:16 PM, Richard Henderson wrote:
+>> On 3/16/20 9:06 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+>>> +++ b/target/arm/kvm32.c
+>>> @@ -22,7 +22,7 @@
+>>> =C2=A0 #include "internals.h"
+>>> =C2=A0 #include "qemu/log.h"
+>>> -static inline void set_feature(uint64_t *features, int feature)
+>>> +static inline void kvm_set_feature(uint64_t *features, int feature)
+>>
+>> Why, what's wrong with the existing name?
 
-Disable unsupported FDT firmware nodes if a user passes us
-a DTB with nodes enabled that the machine cannot support
-due to lack of EL3 or EL2 support.
+Peter suggested the rename here:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg641931.html
 
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
----
- hw/arm/xlnx-zcu102.c | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+>> Plus, with patch 2, you can just remove these.
 
-diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
-index 4eb117c755..3332630380 100644
---- a/hw/arm/xlnx-zcu102.c
-+++ b/hw/arm/xlnx-zcu102.c
-@@ -23,6 +23,7 @@
- #include "qemu/error-report.h"
- #include "qemu/log.h"
- #include "sysemu/qtest.h"
-+#include "sysemu/device_tree.h"
- 
- typedef struct XlnxZCU102 {
-     MachineState parent_obj;
-@@ -68,6 +69,35 @@ static void zcu102_set_virt(Object *obj, bool value, Error **errp)
-     s->virt = value;
- }
- 
-+static void zcu102_modify_dtb(const struct arm_boot_info *binfo, void *fdt)
-+{
-+    XlnxZCU102 *s = container_of(binfo, XlnxZCU102, binfo);
-+    bool method_is_hvc;
-+    char **node_path;
-+    const char *r;
-+    int prop_len;
-+    int i;
-+
-+    /* If EL3 is enabled, we keep all firmware nodes active.  */
-+    if (!s->secure) {
-+        node_path = qemu_fdt_node_path(fdt, NULL,
-+                                       (char *)"xlnx,zynqmp-firmware",
-+                                       &error_fatal);
-+
-+        for (i = 0; node_path && node_path[i]; i++) {
-+            r = qemu_fdt_getprop(fdt, node_path[i], "method", &prop_len, NULL);
-+            method_is_hvc = r && !strcmp("hvc", r);
-+
-+            /* Allow HVC based firmware if EL2 is enabled.  */
-+            if (method_is_hvc && s->virt) {
-+                continue;
-+            }
-+            qemu_fdt_setprop_string(fdt, node_path[i], "status", "disabled");
-+        }
-+        g_strfreev(node_path);
-+    }
-+}
-+
- static void xlnx_zcu102_init(MachineState *machine)
- {
-     XlnxZCU102 *s = ZCU102_MACHINE(machine);
-@@ -169,6 +199,7 @@ static void xlnx_zcu102_init(MachineState *machine)
- 
-     s->binfo.ram_size = ram_size;
-     s->binfo.loader_start = 0;
-+    s->binfo.modify_dtb = zcu102_modify_dtb;
-     arm_load_kernel(s->soc.boot_cpu_ptr, machine, &s->binfo);
- }
- 
--- 
-2.20.1
+Since they don't have the same prototype, they clash:
+
+target/arm/kvm64.c:450:20: error: conflicting types for =E2=80=98set_featur=
+e=E2=80=99
+  static inline void set_feature(uint64_t *features, int feature)
+                     ^~~~~~~~~~~
+In file included from target/arm/kvm64.c:30:0:
+target/arm/internals.h:30:20: note: previous definition of =E2=80=98set_fea=
+ture=E2=80=99=20
+was here
+  static inline void set_feature(CPUARMState *env, int feature)
+                     ^~~~~~~~~~~
+target/arm/kvm64.c:455:20: error: conflicting types for =E2=80=98unset_feat=
+ure=E2=80=99
+  static inline void unset_feature(uint64_t *features, int feature)
+                     ^~~~~~~~~~~~~
+In file included from target/arm/kvm64.c:30:0:
+target/arm/internals.h:35:20: note: previous definition of=20
+=E2=80=98unset_feature=E2=80=99 was here
+  static inline void unset_feature(CPUARMState *env, int feature)
+                     ^~~~~~~~~~~~~
+rules.mak:69: recipe for target 'target/arm/kvm64.o' failed
+make[1]: *** [target/arm/kvm64.o] Error 1
+
+>=20
+> The prototypes are different:
+>=20
+>  =C2=A0 void set_feature(uint64_t *features, int feature)
+>=20
+>  =C2=A0 void set_feature(CPUARMState *env, int feature)
+>=20
+> Anyway you are right, I'll use the later prototype instead, thanks.
+
+There are ~180 uses of set_feature(CPUARMState,...) and 10 of=20
+set_feature(uint64_t,...) (kvm32:4 kvm64:6).
+
+We are going to remove kvm32, so replacing 180 set_feature(env) by=20
+set_feature(env->features) seems a waste.
+
+If you prefer to avoid renaming as kvm_set_feature() another option is=20
+to move the declaration in a local "features.h" header that would not be=20
+included by kvm*.c.
+
+The main problem is the use of the ARMHostCPUFeatures structure which=20
+apparently was introduced similar to a CPUClass (commit a96c0514ab7)=20
+then lost this in commit c4487d76d52.
 
 
