@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C5B11AFBF2
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Apr 2020 18:29:13 +0200 (CEST)
-Received: from localhost ([::1]:44032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7CEC1AFBF1
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Apr 2020 18:29:10 +0200 (CEST)
+Received: from localhost ([::1]:44030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQCoi-00005Y-5V
-	for lists+qemu-devel@lfdr.de; Sun, 19 Apr 2020 12:29:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42264 helo=eggs1p.gnu.org)
+	id 1jQCof-0008Vk-U7
+	for lists+qemu-devel@lfdr.de; Sun, 19 Apr 2020 12:29:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42246 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jQCn8-0006t4-2w
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 12:27:34 -0400
-Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jQCn6-0006h6-82
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jQCn7-0006rk-3u
  for qemu-devel@nongnu.org; Sun, 19 Apr 2020 12:27:33 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:40812)
+Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jQCn6-0006iQ-LR
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 12:27:32 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:45104)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jQCn5-0006dt-Rq; Sun, 19 Apr 2020 12:27:31 -0400
-Received: by mail-lj1-x241.google.com with SMTP id y4so7233516ljn.7;
- Sun, 19 Apr 2020 09:27:30 -0700 (PDT)
+ id 1jQCn6-0006es-8k; Sun, 19 Apr 2020 12:27:32 -0400
+Received: by mail-lj1-x242.google.com with SMTP id n6so3890449ljg.12;
+ Sun, 19 Apr 2020 09:27:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Zea47P0jsAgl833i1uDDqFXtv2d7bbCrHYTlMItLIlg=;
- b=WwY83jKISA77naTEOAD0l2kyfpjxMpF4wWxWAyxlz0reRCT45GFXA5hLKpUI6hcZsX
- Ja7hW8YaR6UmNFkRZpur9zPnXfp3WdMyNkET2kvjjsGmHDKuITmlN+4hHDY4QGLxTtLs
- bnDhKUB+OoU4hW5hy2vD2NS2kcXm+4BJBA2uzLXmNyIMzyqbi6Y/1GPfTuhLzFJB2mWb
- qY87wlPwkgvYemkR4GGUdpRLczTljb+T/ayZUmxYnwACJ9L6+ZdIM9qumqE12xnYoSKW
- f4RvZHKyYwMz9u+3PWOGWniQ4NQ/15CFkgDB38Nh/T4e7V6xsYkIaRAgVXHnSmmfs14d
- 2f4Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=3HaUgFQJn75EXnF4xu27e05BkwttmkjB/KLaOVhe5Zc=;
+ b=kML072BvLIF/DC/wAPBh3bMx7Vg+4cwbVq3/M9/Emmqc9+lKzLijTccIZO8f21f5mX
+ /MpVlUhDyhLGad5Whetnd/jJ6g/Cl8miESQgcGDG3Y8APVj9izcGOLWsj/kXOS2+CSXt
+ sRNEtoaan+wwCHDwxsGcOHhsMoyL/cEJqwqWecRybcdXmfppkshlcsUT8E/ZxEbjiie5
+ 1rhs4ZEupEw1A5CfxbsMm3G12X7A+34piSTxmCF8Z65AAVDIofBPoe68LaektMZSEHLs
+ YCKBDovf6oERR+Le1eYBGLLoRA3kfgob4bBU9teC4hbLhHjxmP0svPOsE/Lsj72UPrrk
+ 4YVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Zea47P0jsAgl833i1uDDqFXtv2d7bbCrHYTlMItLIlg=;
- b=AJeS5BO3bwQ9yDCb8aiAwmXZYjTvW0yG+wyGuRXfp3SGFLDltaa4bO2gEszn2+95Hx
- 62fDfX51t0147uYt34/lLGT0w10X+N72+3cxwCBXdy0cOZcTO+37TWgRC6HV8fa+TKjH
- E8eVWrcYiKkyTWIw2/uMuw589myK6nhP1NrW6bmeYjXlMt33y9PPGzHJCdfr+VbJRyPv
- 0uBZpUGtsaC1ig6EpnbEYHPSjUqKgi8cEhCGvIebKvtyHrtHrtMk1KUg8LiD7Sb0EJuu
- /Ij1ciTnKUL+xIkT5Uv+Z9PkwE+ZKdmuKlsqk6HNWW4PknyOg8njxTazW9C24KWOCwMz
- eIsw==
-X-Gm-Message-State: AGi0PubtEqjkjqzaPDi+FGhofRjsPrRF/Gu/fEnJT5YNYCftWnriQroC
- hrGMFe5RESkHYj4NKGuMxGYk4/xoJYw=
-X-Google-Smtp-Source: APiQypINS+7dPeitakOd4rH5KrZa2lPDXfvPHhIjsZK056G+z568hM68mJl5puPpptU31Cq7V6wX6A==
-X-Received: by 2002:a2e:7e0b:: with SMTP id z11mr1436323ljc.284.1587313648503; 
- Sun, 19 Apr 2020 09:27:28 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=3HaUgFQJn75EXnF4xu27e05BkwttmkjB/KLaOVhe5Zc=;
+ b=dMjBZkvV1/0MW95H6PB03rypNZJUmFxpGwG3SU7wSsiWe2qlRYIfDdJRmVHXC0Rqh7
+ 0rT0tZ4ml7BUh9eyF2W+zSY4u4pRm7ke5VJdo0adrc+BRWdSCgGI3eVX3BPX0oxORufC
+ KJZH28oEqnTUNeOCZmihaKnh428atcxAFjEXdWblWkSN4etMAequKBLDa52PWAdtiGXq
+ D7U8OtC3Yi9DL/bFjFrUsUyPdFFPUGzug1279R6dsWIHP6DqWSxHmKF3SM+FepNDatAr
+ h1mqRWv5kxvy6NkJYr9KhuR7cqlzUtjZkHqeVvh8+T9qbdTZhQI0bLArwHcLQpcsPCT+
+ 1ndw==
+X-Gm-Message-State: AGi0PuaQy+3H8ifxoSApIe5u9Gyb1eWyStZWDz2PhQm7Trv5Rctb2N/h
+ mmAWn2kefjtGc1SlWNEgbida8vwSRgI=
+X-Google-Smtp-Source: APiQypLdAUV1SOIdla5KjoO1ezJrk0GnJBn0yO7KxR9x3PaWs30jOz+Yr7k/QZBkPUW+YyT5K5Z3uA==
+X-Received: by 2002:a2e:9455:: with SMTP id o21mr7735340ljh.245.1587313650037; 
+ Sun, 19 Apr 2020 09:27:30 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id j19sm24471954lfe.17.2020.04.19.09.27.27
+ by smtp.gmail.com with ESMTPSA id m13sm23341469lfk.12.2020.04.19.09.27.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Apr 2020 09:27:27 -0700 (PDT)
+ Sun, 19 Apr 2020 09:27:29 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 0/3] hw/arm: xlnx-zcu102: Disable unsupported FDT firmware
- nodes
-Date: Sun, 19 Apr 2020 18:27:24 +0200
-Message-Id: <20200419162727.19148-1-edgar.iglesias@gmail.com>
+Subject: [PATCH v1 1/3] device_tree: Allow name wildcards in
+ qemu_fdt_node_path()
+Date: Sun, 19 Apr 2020 18:27:25 +0200
+Message-Id: <20200419162727.19148-2-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200419162727.19148-1-edgar.iglesias@gmail.com>
+References: <20200419162727.19148-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::241;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x241.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::242;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x242.google.com
 X-detected-operating-system: by eggs1p.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::241
+X-Received-From: 2a00:1450:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,32 +89,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-When users try direct Linux runs on the ZynqMP models without enabling
-EL3 (and using appropriate FW) they run into trouble because the
-upstream kernel device-tree has EL3 based non-PSCI firmware nodes by default.
-PSCI firmware nodes work because we emulate the firmware in QEMU.
+Allow name wildcards in qemu_fdt_node_path(). This is useful
+to find all nodes with a given compatibility string.
 
-This series avoids that problem by disabling zynqmp-firmware nodes that the
-machine cannot support due to lack of EL3 or EL2 support.
+Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+---
+ device_tree.c                | 2 +-
+ include/sysemu/device_tree.h | 3 +++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-This means we can now (without manually editing DTBs) run the following
-in a current Linux tree:
-
-qemu-system-aarch64 -M xlnx-zcu102 -m 2G -dtb arch/arm64/boot/dts/xilinx/zynqmp-zcu102-rev1.0.dtb -serial mon:stdio -kernel arch/arm64/boot/Image -initrd zu-rootfs.cpio.gz -append rdinit=/bin/sh
-
-Cheers,
-Edgar
-
-Edgar E. Iglesias (3):
-  device_tree: Allow name wildcards in qemu_fdt_node_path()
-  hw/arm: xlnx-zcu102: Move arm_boot_info into XlnxZCU102
-  hw/arm: xlnx-zcu102: Disable unsupported FDT firmware nodes
-
- device_tree.c                |  2 +-
- hw/arm/xlnx-zcu102.c         | 40 ++++++++++++++++++++++++++++++++----
- include/sysemu/device_tree.h |  3 +++
- 3 files changed, 40 insertions(+), 5 deletions(-)
-
+diff --git a/device_tree.c b/device_tree.c
+index bba6cc2164..f5b4699aed 100644
+--- a/device_tree.c
++++ b/device_tree.c
+@@ -308,7 +308,7 @@ char **qemu_fdt_node_path(void *fdt, const char *name, char *compat,
+             offset = len;
+             break;
+         }
+-        if (!strcmp(iter_name, name)) {
++        if (!name || !strcmp(iter_name, name)) {
+             char *path;
+ 
+             path = g_malloc(path_len);
+diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
+index c16fd69bc0..7c53ef7634 100644
+--- a/include/sysemu/device_tree.h
++++ b/include/sysemu/device_tree.h
+@@ -39,6 +39,9 @@ void *load_device_tree_from_sysfs(void);
+  * NULL. If there is no error but no matching node was found, the
+  * returned array contains a single element equal to NULL. If an error
+  * was encountered when parsing the blob, the function returns NULL
++ *
++ * @name may be NULL to wildcard names and only match compatibility
++ * strings.
+  */
+ char **qemu_fdt_node_path(void *fdt, const char *name, char *compat,
+                           Error **errp);
 -- 
 2.20.1
 
