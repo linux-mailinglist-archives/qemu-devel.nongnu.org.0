@@ -2,78 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D338D1AF792
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Apr 2020 08:35:01 +0200 (CEST)
-Received: from localhost ([::1]:38186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 747C91AF923
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Apr 2020 11:55:45 +0200 (CEST)
+Received: from localhost ([::1]:39844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQ3Xg-0004OG-Go
-	for lists+qemu-devel@lfdr.de; Sun, 19 Apr 2020 02:35:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39408)
+	id 1jQ6fw-0003nT-8N
+	for lists+qemu-devel@lfdr.de; Sun, 19 Apr 2020 05:55:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36340)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcel.apfelbaum@gmail.com>) id 1jQ3We-0003RF-Tb
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 02:33:57 -0400
+ (envelope-from <saipava@xilinx.com>) id 1jQ6ey-0003O3-7G
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 05:54:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <marcel.apfelbaum@gmail.com>) id 1jQ3We-0008Jz-CX
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 02:33:56 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:41549)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1jQ3Wd-0008BS-Vi
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 02:33:56 -0400
-Received: by mail-wr1-x442.google.com with SMTP id g13so5932647wrb.8
- for <qemu-devel@nongnu.org>; Sat, 18 Apr 2020 23:33:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=zTELs4rhAikcbI2ea6NV6tKNEQiSLEKwsXtjhwGawfo=;
- b=MTXB/QgxoUKIOM0hlJ3J91anHWC893FzOSvavSbveKPXW8nbI8dveVjWG9cEzV3aVP
- 7NVkPF5SShLWNzi28+o4pMgHz+vapCIbbXVevmLtUgjoY6y/Tredx6DRPqNZSS5WM0+y
- Xlsmp5j7Jfs7h+28NT7O1ckGbPqtfSyrc2bPDVqxS7X4JkDZGistQ8W6kr1TJu8umEJ1
- LJbqo7oUSGRU2dcn5MWnqJyuVP+rgy/ouh6pB0kX1Ust/rfciCPQbfmeval2yEIK3Gts
- /GbqdjW5VKtYOsq+lKaY7KdG7Xmvi/OY24xNnjXkE6GWtQlcGs0qaudsU48ZLODyEKCi
- p/+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=zTELs4rhAikcbI2ea6NV6tKNEQiSLEKwsXtjhwGawfo=;
- b=qk+94Tnz9lDPRAO5YZZQX8/R2oL61+MXNKMh7njcomRteBvftX5fAkvsNEft2zv7Eo
- +bOiwBiM87t3K7+WaaxarinhSSuuh4Q7fW7WNRt2F/xnkZ616BCF22IHmyR8slN6lcUG
- bknX44RCyYNeCSoI42y/lEYtFd+pHqWCKOSHzwaeSbSmTKe0m9VAK13kR/jmJCo3NxBA
- Nq9fx3SS+XRwpv2Dm0dp+onniT2N9PQWpcXx5BAJ0s4LAzL6qHZeEtxzL1gOREY8de6Z
- yfOcHx4urCoCW6BccUU+mnCPHqcZn+uPquVShbObatUQxxnGg37RlqKkRDmKnupCTLID
- vu4A==
-X-Gm-Message-State: AGi0Puah/SGbq7UCmwA2XaSvxBKXDGEo1cwhjQW9hbmVvdrqUtOh5U7L
- 2ofu+TCNJUWhhCOhxUBz5kw=
-X-Google-Smtp-Source: APiQypLA6NSm9lOufXfBNj0Vo7QdIIWsWyZKrgqq86ezNWk1n2oCFArZSi+alUZhtnHZUCBYVeq7LQ==
-X-Received: by 2002:adf:f54c:: with SMTP id j12mr11585586wrp.183.1587278032150; 
- Sat, 18 Apr 2020 23:33:52 -0700 (PDT)
-Received: from [192.168.86.37] ([37.142.144.12])
- by smtp.gmail.com with ESMTPSA id h10sm41226986wrq.33.2020.04.18.23.33.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 18 Apr 2020 23:33:51 -0700 (PDT)
-Subject: Re: [PATCH v2] lockable: Replace locks with lock guard macros
-To: Julia Suvorova <jusual@mail.ru>
-References: <20200402065035.GA15477@simran-Inspiron-5558>
- <f0eec74a-387d-79ce-b23f-d7f16747f9ad@gmail.com>
- <CAMDeoFVipYBYCE_GTjytpXT_PvKt6xjTdtPyv=HyLYf4FkCDUQ@mail.gmail.com>
-From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Message-ID: <802550db-7e4d-549f-5358-a5ee25b969b4@gmail.com>
-Date: Sun, 19 Apr 2020 09:34:29 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+ (envelope-from <saipava@xilinx.com>) id 1jQ6ew-0007hz-Fu
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 05:54:43 -0400
+Received: from mail-eopbgr700041.outbound.protection.outlook.com
+ ([40.107.70.41]:44481 helo=NAM04-SN1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1jQ6ev-0007fa-VM
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 05:54:42 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=d8pmFiLKmUVSjzlPamJxz1w2grfEP7/ReXcfq6AmYnclJZyeeIqEBKi77U2k8LrFXVEZGhyPRrWOHVNVPi3E1ZlPpwqJ9PlcFSJ5Gqec0YHwBwP001/sFk7oYPr24LpJaIBW5EGrOzXges1cDvEbGQkw0Jp3F5p/sJ8hkaluBXtGGAUDi+/E8kGWYXppv6MzhcL1ZfohOC6NBKNkzhF+NCjMQg8/DcmQ5a2X+ZN9gPc/qNc5P0GCmWs2c1MkBoX+pYI/jmt4XtZ95Rtyq8TedWMH4otg/yIcvc2RYR9UrJQLUhpm6xtKuvG5Tmzpon5QECeoIoeXG0LhnOl8q3JNwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XMiMQt0nRaDhrTrjM4h9/GK2+eX5jDdMi6kl/5v1OBg=;
+ b=jAZZUr0pAwZQgl5Twn6iO2VslM+8jzwDmGCXdMGaPKh7dx7rsDG+cZScR2BsPTwKiVud/FK6KDxa9nEmlKkIW30DRDdlmoJ0JXRkf3qhhv+SRpdzk4l19EcAjTvoNzvjbTqJxJaBuV3HGYM4PPo/lNM0gxom4A7rZnqC/SfFGpBRn1gxvdHK3MNdyDnoy4a6p3z6ovbqXKuAWHBIUyyzQwEvkRplXW8nWZMhQ33qNtmx/Dlj6QQbMSUsFnUlHnaTJ90lLJDP3JVQef16o83GUMO5PgKxxQZ+zyXiYJTo4JTu7cRE/V7QevqE8pl77H9DxOFiUxgMhG/5jw0wWZ3j6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=redhat.com smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XMiMQt0nRaDhrTrjM4h9/GK2+eX5jDdMi6kl/5v1OBg=;
+ b=Z7oTGkBlpHx4Ixtw71tF2n2NNCoRh/Fmq2XGDvxhvf7GZSY59uIYSfZ2awfbRJ6d+D7tHwY2KZ1QQwFFqH8JZqMFXVzvbWObOQJYbHm+peLVcDM4B5G2L27cvPIsPnSqHxBi9swznL1XooQIe3bJYVSHxg4f6WlNHKBGp0bYNcg=
+Received: from BL0PR03CA0010.namprd03.prod.outlook.com (2603:10b6:208:2d::23)
+ by BN6PR02MB2434.namprd02.prod.outlook.com (2603:10b6:404:53::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.29; Sun, 19 Apr
+ 2020 09:40:55 +0000
+Received: from BL2NAM02FT017.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:208:2d:cafe::4f) by BL0PR03CA0010.outlook.office365.com
+ (2603:10b6:208:2d::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25 via Frontend
+ Transport; Sun, 19 Apr 2020 09:40:53 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ BL2NAM02FT017.mail.protection.outlook.com (10.152.77.174) with Microsoft SMTP
+ Server id 15.20.2921.25 via Frontend Transport; Sun, 19 Apr 2020 09:40:53
+ +0000
+Received: from [149.199.38.66] (port=40411 helo=xsj-pvapsmtp01)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1jQ6Qg-0006Nc-Bq; Sun, 19 Apr 2020 02:39:58 -0700
+Received: from [127.0.0.1] (helo=xsj-smtp-dlp1.xlnx.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1jQ6RY-0006sU-VX; Sun, 19 Apr 2020 02:40:53 -0700
+Received: from xsj-pvapsmtp01 (smtp2.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 03J9eps4022515; 
+ Sun, 19 Apr 2020 02:40:52 -0700
+Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <saipava@xhdsaipava40.xilinx.com>)
+ id 1jQ6RX-0006sM-LO; Sun, 19 Apr 2020 02:40:51 -0700
+Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
+ id E6C1713C1BB6; Sun, 19 Apr 2020 15:03:51 +0530 (IST)
+From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eric Blake <eblake@redhat.com>
+Subject: [QEMU][PATCH v2] chardev/char-socket: Properly make qio connections
+ non blocking
+Date: Sun, 19 Apr 2020 15:03:44 +0530
+Message-Id: <1587288824-17846-1-git-send-email-sai.pavan.boddu@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFTY:;
+ SFS:(10009020)(4636009)(136003)(396003)(39850400004)(376002)(346002)(46966005)(2906002)(4326008)(5660300002)(478600001)(82740400003)(186003)(26005)(36756003)(356005)(81166007)(426003)(2616005)(336012)(6666004)(70206006)(70586007)(47076004)(110136005)(8936002)(81156014)(8676002)(107886003)(6266002)(316002)(42186006);
+ DIR:OUT; SFP:1101; 
 MIME-Version: 1.0
-In-Reply-To: <CAMDeoFVipYBYCE_GTjytpXT_PvKt6xjTdtPyv=HyLYf4FkCDUQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=marcel.apfelbaum@gmail.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 01d0d8ab-d949-4601-1a9b-08d7e445c0ce
+X-MS-TrafficTypeDiagnostic: BN6PR02MB2434:|BN6PR02MB2434:|BN6PR02MB2434:|BN6PR02MB2434:
+X-Microsoft-Antispam-PRVS: <BN6PR02MB243436B2F22196CCE99AFC72CAD70@BN6PR02MB2434.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:475;
+X-Forefront-PRVS: 0378F1E47A
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Il7eS0KRAiyR1tZGsXFmPXZ2+L7qzLJB9kmcEW6UEtHYKnh8kZikeEz7T8mUgMJ1QNdegbnBSkfMD1+wDlFwlC4N2g9UrQZ55cM8ZsvIS09/0VOy1Xp8tkGcxbuW1uTM5DODccqMvDqCE3LE459zAmUPPNdJHxKnVN2VrLN8W4c7PAiaoINxuUOBRJeFJnOxwAUEmfhTkcYe6ij32p82Augd8l6aa4pKbTkS5GHxVqK/UN6uHupjx6LoRj79aXldoQKvwMXDbxB7NgSHcs99HWJiNKOd6O7U0ZwDBcAkpgEqoGiUPNsiw3+8Dwi1bxzuNoU460KwFBRO/4AeTyuRkvbu242RcZWE2bn6sDW+tn5DLvHURSt+XiihMuoJkuAXCrQGO5uc3AQUDaxJcs7ukltqjQZlKBUNSUsTYUaNp5I2JjPIqKkQnrwepo7M9YBVLKiAGgL20rpN5V1RbLzqNmS6zemNyWbwfhNQ+nex2szZqJlaZeoR070KtGtYd8nK4KSBqoNf0EhzsgRcefoJwQ==
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2020 09:40:53.4743 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01d0d8ab-d949-4601-1a9b-08d7e445c0ce
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR02MB2434
+X-MS-Exchange-Transport-Forked: True
+X-OriginatorOrg: xilinx.com
+Received-SPF: pass client-ip=40.107.70.41; envelope-from=saipava@xilinx.com;
+ helo=NAM04-SN1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
+ [fuzzy]
+X-Received-From: 40.107.70.41
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,68 +132,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>,
- Simran Singhal <singhalsimran0@gmail.com>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, rkagan@virtuozzo.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, edgari@xilinx.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Julia,
+In tcp_chr_sync_read function, there is a possibility of socket
+disconnection during read, then tcp_chr_hup function would clean up
+the qio channel pointers(i.e ioc, sioc).
 
-On 4/19/20 5:46 AM, Julia Suvorova wrote:
-> On Sat, Apr 18, 2020 at 2:03 PM Marcel Apfelbaum
-> <marcel.apfelbaum@gmail.com> wrote:
->> Hi Simran,
->>
->> On 4/2/20 9:50 AM, Simran Singhal wrote:
->>> Replace manual lock()/unlock() calls with lock guard macros
->>> (QEMU_LOCK_GUARD/WITH_QEMU_LOCK_GUARD).
->>>
->>> Signed-off-by: Simran Singhal <singhalsimran0@gmail.com>
->>> ---
->>> Changes in v2:
->>>           -Drop changes in file hw/rdma/rdma_utils.c
->>>
->>>    hw/hyperv/hyperv.c     | 15 ++++++-------
->>>    hw/rdma/rdma_backend.c | 50 +++++++++++++++++++++---------------------
->>>    hw/rdma/rdma_rm.c      |  3 +--
->>>    3 files changed, 33 insertions(+), 35 deletions(-)
->>>
->>> diff --git a/hw/hyperv/hyperv.c b/hw/hyperv/hyperv.c
->>> index 8ca3706f5b..4ddafe1de1 100644
->>> --- a/hw/hyperv/hyperv.c
->>> +++ b/hw/hyperv/hyperv.c
->>> @@ -15,6 +15,7 @@
->>>    #include "sysemu/kvm.h"
->>>    #include "qemu/bitops.h"
->>>    #include "qemu/error-report.h"
->>> +#include "qemu/lockable.h"
->>>    #include "qemu/queue.h"
->>>    #include "qemu/rcu.h"
->>>    #include "qemu/rcu_queue.h"
->>> @@ -491,7 +492,7 @@ int hyperv_set_msg_handler(uint32_t conn_id, HvMsgHandler handler, void *data)
->>>        int ret;
->>>        MsgHandler *mh;
->>>
->>> -    qemu_mutex_lock(&handlers_mutex);
->>> +    QEMU_LOCK_GUARD(&handlers_mutex);
->> It does not passes compilation:
->>       export ARCH=x86_64
->>       make docker-image-fedora V=1 NETWORK=1
->>       make docker-test-debug@fedora TARGET_LIST=x86_64-softmmu NETWORK=1
-> This is a problem with the macros themselves, not with this patch.
-> This is fixed (concat '##' problem and warnings) in
->    [PATCH v5 0/2] Replaced locks with lock guard macros
-> and the patch should be based on it.
+Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+---
+Changes for V2:
+	Simply guard the  'qio_channel_set_blocking' call to check connection status.
+	This is a simple fix than v1 and explains much better about the issue.
 
-Thanks for the pointer.
-I'll wait for the fix to be merged then.
+ chardev/char-socket.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Thanks,
-Marcel
-
->
-> Best regards, Julia Suvorova.
+diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+index 185fe38..e56b2f0 100644
+--- a/chardev/char-socket.c
++++ b/chardev/char-socket.c
+@@ -549,7 +549,9 @@ static int tcp_chr_sync_read(Chardev *chr, const uint8_t *buf, int len)
+ 
+     qio_channel_set_blocking(s->ioc, true, NULL);
+     size = tcp_chr_recv(chr, (void *) buf, len);
+-    qio_channel_set_blocking(s->ioc, false, NULL);
++    if (s->state != TCP_CHARDEV_STATE_DISCONNECTED) {
++        qio_channel_set_blocking(s->ioc, false, NULL);
++    }
+     if (size == 0) {
+         /* connection closed */
+         tcp_chr_disconnect(chr);
+-- 
+2.7.4
 
 
