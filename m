@@ -2,69 +2,124 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 759681AF900
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Apr 2020 11:36:28 +0200 (CEST)
-Received: from localhost ([::1]:39710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B631A1AF928
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Apr 2020 11:59:48 +0200 (CEST)
+Received: from localhost ([::1]:39890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQ6NH-0007Y6-5P
-	for lists+qemu-devel@lfdr.de; Sun, 19 Apr 2020 05:36:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56724)
+	id 1jQ6jr-0005SY-AN
+	for lists+qemu-devel@lfdr.de; Sun, 19 Apr 2020 05:59:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38172)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chenhuacai@gmail.com>) id 1jQ6MK-0006lk-VB
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 05:35:29 -0400
+ (envelope-from <saipava@xilinx.com>) id 1jQ6iu-0004xE-BJ
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 05:58:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <chenhuacai@gmail.com>) id 1jQ6MJ-0004Q5-Ih
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 05:35:28 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:46358)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
- id 1jQ6MJ-0004NE-3f
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 05:35:27 -0400
-Received: by mail-io1-xd43.google.com with SMTP id i3so7384625ioo.13
- for <qemu-devel@nongnu.org>; Sun, 19 Apr 2020 02:35:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0ifCEXwwU8W7gVbM6yZO1vYxfict7Lt94AKxJJRZLIg=;
- b=fv9753Jt8E8fPX/Ee7CMAhH/Emin1tEn2NOk49yzIwHiMFzWg0Vn8rsrIhdssC2oGD
- jLRY9VgNZ+pYhLFA88zNer3PwSy57GTZhwwuF/9rmy76plHV8fxCdFpEh5QGLx+PEJUo
- 4+bwta5w82/90/C6bfVmrO1SqBSNBuZiItdYtetSyVnuRiTBZVMcTxHvd1VKQOOqQOHU
- lpf0heU0etTJz0WtwkDvOFdolKehNfJpoGhGLtp8rlURjfk5pufbvk5sDl2De02ncH5B
- aWVYuZXcHzD2Ewub/JkKhZ8/dTE7G1gKeEDs9S2E2+ufFLedt8uGPjyqm0wroxYwv+yM
- +Rkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0ifCEXwwU8W7gVbM6yZO1vYxfict7Lt94AKxJJRZLIg=;
- b=FJHy13JUxjxqSKu1GVuvqbPcnYvahqfktdNbnwSfMIT+SRpXVfw1vGBbpSiPNi+Xo+
- DjpnPxDHXbhT+guo5pljBUuZfEumx4EfXSG7e5WK7ttG22hWWiXXP80eAOOa7rpzFtws
- yr6P9m005251ebBkzpAhnV8j9dJPl8uAfFZRCFQgeO4PvixBU9kghv0aCr3GoBO6cfDq
- OY8rftDUJYcNWiYB00IleNuhfpUdbcTcI2z6ldlHtyTiTtA2HKs/F45ibY6k3hHa/vqi
- 4l/8j2DwvUHpWmy091vtSH3689XOWnriq6laZPqytbfKMj5kEpjRxrpdjcthuu0TQxKG
- n1Tg==
-X-Gm-Message-State: AGi0PubKeB9AtPtDq2dEchnTrjd3jj2ARcyO8peHEP2D1b2rQCvHZmIN
- BEqWT0Eliwut5QIb5YVRkkw5WxeedEHdvssnBcA=
-X-Google-Smtp-Source: APiQypKrODPQCvtX30O5GZ0mt2fmmNk2aWstL6sC8lTi8uw9h0nbE9KVpREkCas6LhnruyKIKeUsPLHVLVLwrNCajUY=
-X-Received: by 2002:a5e:880b:: with SMTP id l11mr11081929ioj.42.1587288925427; 
- Sun, 19 Apr 2020 02:35:25 -0700 (PDT)
+ (envelope-from <saipava@xilinx.com>) id 1jQ6it-0000Fn-3t
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 05:58:47 -0400
+Received: from mail-eopbgr680067.outbound.protection.outlook.com
+ ([40.107.68.67]:12773 helo=NAM04-BN3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1jQ6is-000063-MQ
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 05:58:46 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ikvxfmmvnRbGF1sJUInU2tT5hDAAVBW5D5GSPh7R18JWK+YTwjrPTzRwo5GTpnT2GuhwuKtetUJ2wm0JoM95j7o4+W7svs0MLNTdK2fg3MjXcwedq8GhbpOfCOx4hECiA9IQUa8UcldL5JMKP6ISQOCIu61wBRfcIYLZbsKPGGCsXwiFVxJzGOjxlETryuhAIalRDEuQYWYenYURIEBkWXaLoUve07Bzii/IUbRhydicTaJAn3Qrxm+GESptfREhbdv0Ris84x2Pzu1CW4qgVFRdk3Ncf4RsX7pDL9xZpmii9jKeFPZEkTU7Af2Lr2LMS3T5ETNzgIh4zdwjhktXjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C2g7JA+hVDuKyeqoWGcCVzJ5BqNNZwdwcJeSrejD++Y=;
+ b=j2QiavJrKic+5ZhjfNHos6Klmw6QooDiHYHPwgu6Kc4vhlp16AEKCaDOQ3VTckSvlxHiQFTNHUGaMytgeLPc2EyP3DHSHp7YnHz1op2sgraKIT7lv+KnGm8tfwOXPvdVSaQs7s4FBU5IW4+SxEE/y8GLNsh9oidg4IIvpNVwYYmicdr2uELhHtOqotQ8P+vC9qw4b8MjTZuxfvL21JeCOjc/LwV8Ql+IdZB+R0qoZg6Pgz7mx62Cmz5uG1QA4tS9pIbzUjDuzk06bApM+rA8kHwaeitt9j83TPk+sSQYSKBLiLg6U5QTk9e18rTUwK6HtaCZzus5UGg4gFsEAp6hqA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=redhat.com smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C2g7JA+hVDuKyeqoWGcCVzJ5BqNNZwdwcJeSrejD++Y=;
+ b=PPSLr+Z5yQfnFWrg0+Lc30EfxnjMpjmDbH1Idjg4be4ldYwDbzrRu1ZjkimI8Tqn9sq7NavYBix1wfgmqkeRi09KmHK3FN2HvDw1mJAUWk1j3PAAkL27FyDVwAoWlmKBsQsAx1MmIrhhRZS6yBw2FdLgnXMSwPyYTB9cv0YxBEY=
+Received: from BL0PR02CA0034.namprd02.prod.outlook.com (2603:10b6:207:3c::47)
+ by DM5PR02MB3356.namprd02.prod.outlook.com (2603:10b6:4:61::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.27; Sun, 19 Apr
+ 2020 09:58:43 +0000
+Received: from BL2NAM02FT028.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:207:3c:cafe::90) by BL0PR02CA0034.outlook.office365.com
+ (2603:10b6:207:3c::47) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25 via Frontend
+ Transport; Sun, 19 Apr 2020 09:58:43 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ BL2NAM02FT028.mail.protection.outlook.com (10.152.77.165) with Microsoft SMTP
+ Server id 15.20.2921.25 via Frontend Transport; Sun, 19 Apr 2020 09:58:42
+ +0000
+Received: from [149.199.38.66] (port=55609 helo=xsj-pvapsmtp01)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1jQ6hv-0006hm-N4; Sun, 19 Apr 2020 02:57:47 -0700
+Received: from [127.0.0.1] (helo=xsj-smtp-dlp2.xlnx.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1jQ6io-0001b6-BX; Sun, 19 Apr 2020 02:58:42 -0700
+Received: from xsj-pvapsmtp01 (smtp2.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 03J9wfKH027686; 
+ Sun, 19 Apr 2020 02:58:41 -0700
+Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <saipava@xhdsaipava40.xilinx.com>)
+ id 1jQ6in-0001b0-9i; Sun, 19 Apr 2020 02:58:41 -0700
+Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
+ id 8910C13C0A82; Sun, 19 Apr 2020 15:21:41 +0530 (IST)
+From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eric Blake <eblake@redhat.com>
+Subject: [PATCH v2] chardev/char-socket: Properly make qio connections non
+ blocking
+Date: Sun, 19 Apr 2020 15:21:40 +0530
+Message-Id: <1587289900-29485-1-git-send-email-sai.pavan.boddu@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFTY:;
+ SFS:(10009020)(4636009)(376002)(346002)(396003)(136003)(39850400004)(46966005)(42186006)(316002)(2906002)(478600001)(81156014)(8676002)(8936002)(2616005)(336012)(110136005)(426003)(5660300002)(186003)(81166007)(26005)(107886003)(4326008)(70586007)(356005)(6266002)(70206006)(36756003)(47076004)(82740400003);
+ DIR:OUT; SFP:1101; 
 MIME-Version: 1.0
-References: <1586763024-12197-1-git-send-email-chenhc@lemote.com>
- <20200413161842.57ad8be4@flygoat-x1e>
- <bbbeb507-5692-5969-c320-57d04823edc7@loongson.cn>
- <20200414124458.4675125b@flygoat-x1e>
-In-Reply-To: <20200414124458.4675125b@flygoat-x1e>
-From: Huacai Chen <chenhuacai@gmail.com>
-Date: Sun, 19 Apr 2020 17:42:44 +0800
-Message-ID: <CAAhV-H70-n3zaVH789k8hnNYEaQ8sT36=+BbRZ0vZQSgKrxT7w@mail.gmail.com>
-Subject: Re: [PATCH 0/15] KVM: MIPS: Add Loongson-3 support (Host Side)
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
- envelope-from=chenhuacai@gmail.com; helo=mail-io1-xd43.google.com
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::d43
+Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: eb92eb52-db84-41a6-ba5e-08d7e4483e2c
+X-MS-TrafficTypeDiagnostic: DM5PR02MB3356:
+X-Microsoft-Antispam-PRVS: <DM5PR02MB3356011B444F3C807B257FAACAD70@DM5PR02MB3356.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:475;
+X-Forefront-PRVS: 0378F1E47A
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZtXLSHWwan00xtGkFZ2/PbtPIHDeIDExT/z+SXkoBkchf36wYgugREsWFlKdu1hPbUk1Qcfkz/TinRMOVba0QvcY/5H5uvVE/IxDYI+hoIMk1Gk+2Jpd1qWgxmrHxpipehsDlzN3ekcMmEHMFFfmGLSHuN3QRKQ0n7fkNzIW29qcRfgn5+116Zp5W4J0FBKs6gJIeVak/yGCHEy5oq1HgbTBXH7xt1u08I8H4OZsiX53t7xQQ/5kF1fvEXSgg/nSnpAxsZzYO3g40KfoJ7heOCup++KwMzkm8XFv7ALVyfApvZNvDvriFViH+sTKvoOm3VK7nRGV1BKvS8KHN3b2TuqET9v/eKHgauyM8Sgqjm4FFtPzPnhqp2R5KUMkpbtkag0lpGERvs7hB9L0qOtzITT3Cx82o+Hq2Qa9FYS0+wkNRrEGY+NxDfdlPKF7unepuks4ZGAf+WF9lO64nrC7YMk+umObTrZ02F67Sc0Lyk/ePa1PBiH5PPiYNeT4dWv3Ih/eoMmVTtlYCivyooJx6w==
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2020 09:58:42.8021 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb92eb52-db84-41a6-ba5e-08d7e4483e2c
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR02MB3356
+Received-SPF: pass client-ip=40.107.68.67; envelope-from=saipava@xilinx.com;
+ helo=NAM04-BN3-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
+ [fuzzy]
+X-Received-From: 40.107.68.67
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,122 +131,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, kvm@vger.kernel.org,
- "open list:MIPS" <linux-mips@vger.kernel.org>, maobibo <maobibo@loongson.cn>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Fuxin Zhang <zhangfx@lemote.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Xing Li <lixing@loongson.cn>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, edgari@xilinx.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, all,
+In tcp_chr_sync_read function, there is a possibility of socket
+disconnection during blocking read, then tcp_chr_hup function would clean up
+the qio channel pointers(i.e ioc, sioc).
 
-On Tue, Apr 14, 2020 at 12:45 PM Jiaxun Yang <jiaxun.yang@flygoat.com> wrote:
->
-> On Tue, 14 Apr 2020 09:40:26 +0800
-> maobibo <maobibo@loongson.cn> wrote:
->
-> > On 04/13/2020 04:18 PM, Jiaxun Yang wrote:
-> > > On Mon, 13 Apr 2020 15:30:09 +0800
-> > > Huacai Chen <chenhc@lemote.com> wrote:
-> > >
-> > >> We are preparing to add KVM support for Loongson-3. VZ extension is
-> > >> fully supported in Loongson-3A R4+, and we will not care about old
-> > >> CPUs (at least now). We already have a full functional Linux kernel
-> > >> (based on Linux-5.4.x LTS) and QEMU (based on 5.0.0-rc2) and their
-> > >> git repositories are here:
-> > >>
-> > >> QEMU: https://github.com/chenhuacai/qemu
-> > >> Kernel: https://github.com/chenhuacai/linux
-> > >>
-> > >> Of course these two repositories need to be rework and not suitable
-> > >> for upstream (especially the commits need to be splitted). We show
-> > >> them here is just to tell others what we have done, and how
-> > >> KVM/Loongson will look like.
-> > >>
-> > >> Our plan is make the KVM host side be upstream first, and after
-> > >> that, we will make the KVM guest side and QEMU emulator be
-> > >> upstream.
-> > >
-> > > + Aleksandar as QEMU/MIPS mainatiner
-> > >
-> > > I was involved in KVM/Loongson development a bit and also intend to
-> > > help with mainline these works.
-> > >
-> > > After dealing with basic LS7A PCH kernel support, I'm going to
-> > > cooperate with Huacai and anyone who interested in to deal with
-> > > following stuff:
-> > >
-> > > - Basic QEMU/TCG support for Loongson64 instructions.
-> > >     Well, it seems unrelated with KVM, but that would make
-> > >     development easier with cross ISA emulation. I'm not going
-> > > to implement all the features like Loongson's page table fast walk
-> > >     extension and binary translation extension but I'll ensure
-> > > any binary compiled with march=loongson3a can run flawlessly on
-> > >     TCG.
-> > >
-> > > - Design of Loongson-VIRT QEMU machine
-> > >     It is nearly impossible to bring a real Loongson system into
-> > >     QEMU. Both RS780E and LS7A PCH have tons of unreasonable
-> > > design that would make the emulation extremely complex, Loongson
-> > >     company's KVM implementation[1] has already proofed that,
-> > >     thay're now in the hell. So we all agreed that we should
-> > > build a machine from draft. I think we should reuse existing infra
-> > > as far as possible to reduce our work load. I'm planing to use
-> > >     pci-host-cam-generic together with VIRTIO PCI devices and a
-> > >     a strip down version of loongson,liointc-1.0a to build a
-> > > pure PCI based system. But if any one have better idea please just
-> > >     tell us, I'm still considering how to implement SMP-IPI and
-> > > ACPI stuff.
->
-> Hi Bibo,
-> Thanks for your response.
->
-> + Xing Li as I heard he is in charge of KVM from Loongson's news post.
->
-> > It is a good job to add kvm virtualization support on loongson64
-> > platform. I agree that we should define common virt machine hardware
-> > system, however the compiled kernel binary should be the same with
-> > host system, else it will bring out trouble for customers to
-> > differentiate them between guest system and host system.
->
-> I'm planing to use DeviceTree to pass device information between QEMU
-> and guest kernel. So we can upgrade VM design at any moment without
-> breaking Host Guest kernel compatibility.
->
->
-> > For pci host bridge emulation, I suggest that gpex pcie host bridge
-> > should be used, since it supports pcie hotplug and arm/riscv uses
-> > this pcie host bridge.
->
->
-> gpex is basically a pci-host-cam-generic at kernel point of view. I'm
-> planing to reuse it too.
-I agree to use GPEX, and the qemu in github is updated to use GPEX.
+Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+---
+Changes for V2:
+	Place the guard around 'qio_channel_set_blocking' call to check connection status
+	This fix is simpler than v1 and explains better about the issue.
 
->
-> >
-> > For virtual interrupt controller, it should support MSI/MSIX
-> > interrupt, irqchip in kernel, IRQFD, vhost/vfio etc. I have no idea
-> > how to define virtual interrupt controller now.
->
-> Yes, APIC from x86 and GIC from Arm are all bonded closely with their
-> architecture so we can't reuse them. Probably what we need is a
-> modified version of EXTIOI from Loongson-3A4000.
->
-> Does Loongson have a plan to implement hardware virtual irqchip? If so
-> we must align with it's design.
->
-> My plan is we can firstly implement a very simple IRQCHIP instead of
-> complex one which only handle UART and PCI INTx. That is enough to make
-> the system work. After that we can sit and discuss how to implement a
-> complicated version to archive more features.
->
-> >
-> >
-> > regards
-> > bibo,mao
-> >
-> [...]
+ chardev/char-socket.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+index 185fe38..e56b2f0 100644
+--- a/chardev/char-socket.c
++++ b/chardev/char-socket.c
+@@ -549,7 +549,9 @@ static int tcp_chr_sync_read(Chardev *chr, const uint8_t *buf, int len)
+ 
+     qio_channel_set_blocking(s->ioc, true, NULL);
+     size = tcp_chr_recv(chr, (void *) buf, len);
+-    qio_channel_set_blocking(s->ioc, false, NULL);
++    if (s->state != TCP_CHARDEV_STATE_DISCONNECTED) {
++        qio_channel_set_blocking(s->ioc, false, NULL);
++    }
+     if (size == 0) {
+         /* connection closed */
+         tcp_chr_disconnect(chr);
+-- 
+2.7.4
+
 
