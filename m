@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7CEC1AFBF1
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Apr 2020 18:29:10 +0200 (CEST)
-Received: from localhost ([::1]:44030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A4781AFBF4
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Apr 2020 18:30:53 +0200 (CEST)
+Received: from localhost ([::1]:44060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQCof-0008Vk-U7
-	for lists+qemu-devel@lfdr.de; Sun, 19 Apr 2020 12:29:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42246 helo=eggs1p.gnu.org)
+	id 1jQCqK-0002Pr-Cc
+	for lists+qemu-devel@lfdr.de; Sun, 19 Apr 2020 12:30:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42268 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jQCn7-0006rk-3u
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 12:27:33 -0400
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jQCn8-0006tG-7O
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 12:27:34 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jQCn6-0006iQ-LR
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 12:27:32 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:45104)
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jQCn7-0006k9-Oz
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 12:27:34 -0400
+Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:42193)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jQCn6-0006es-8k; Sun, 19 Apr 2020 12:27:32 -0400
-Received: by mail-lj1-x242.google.com with SMTP id n6so3890449ljg.12;
- Sun, 19 Apr 2020 09:27:31 -0700 (PDT)
+ id 1jQCn7-0006gj-C1; Sun, 19 Apr 2020 12:27:33 -0400
+Received: by mail-lf1-x142.google.com with SMTP id j14so5844123lfg.9;
+ Sun, 19 Apr 2020 09:27:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3HaUgFQJn75EXnF4xu27e05BkwttmkjB/KLaOVhe5Zc=;
- b=kML072BvLIF/DC/wAPBh3bMx7Vg+4cwbVq3/M9/Emmqc9+lKzLijTccIZO8f21f5mX
- /MpVlUhDyhLGad5Whetnd/jJ6g/Cl8miESQgcGDG3Y8APVj9izcGOLWsj/kXOS2+CSXt
- sRNEtoaan+wwCHDwxsGcOHhsMoyL/cEJqwqWecRybcdXmfppkshlcsUT8E/ZxEbjiie5
- 1rhs4ZEupEw1A5CfxbsMm3G12X7A+34piSTxmCF8Z65AAVDIofBPoe68LaektMZSEHLs
- YCKBDovf6oERR+Le1eYBGLLoRA3kfgob4bBU9teC4hbLhHjxmP0svPOsE/Lsj72UPrrk
- 4YVg==
+ bh=grTZvoXi/O+6VUNDWXexr0Pz9O2SUdhYMt8q6LVR+M0=;
+ b=EG6EdRwrIJTBkCWR+9HGy+WXJnoTk8i8dC96Gm8zEM94ROVQoKE/5EzvMuBUq9rofs
+ NAa+2SD4L2ZPsZPGqXzqY2Kp14iJNk3YoXi6A13aKwOUqzOCM14mZB/2m6fYbOicyhmy
+ D/lK5zxO1ar8N7ptdY0Oar4pHSRQVtwMaGOS97Njg1SuHH/PW5RW2jc/uULlJT3ITQ6O
+ S3+lGrlLN2LOC8GAVgYh3sLT6FBxX8zSYxPKs+i3PgG7vwqYMD0qpJNY8pE1zQUvHzCb
+ q+5C/L4A6W8KWsxEFHhWfLEnjMR/2h9vDnrXzxk3kp2cD6n+opjHFo/oovGLlAWl61mN
+ 4e5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3HaUgFQJn75EXnF4xu27e05BkwttmkjB/KLaOVhe5Zc=;
- b=dMjBZkvV1/0MW95H6PB03rypNZJUmFxpGwG3SU7wSsiWe2qlRYIfDdJRmVHXC0Rqh7
- 0rT0tZ4ml7BUh9eyF2W+zSY4u4pRm7ke5VJdo0adrc+BRWdSCgGI3eVX3BPX0oxORufC
- KJZH28oEqnTUNeOCZmihaKnh428atcxAFjEXdWblWkSN4etMAequKBLDa52PWAdtiGXq
- D7U8OtC3Yi9DL/bFjFrUsUyPdFFPUGzug1279R6dsWIHP6DqWSxHmKF3SM+FepNDatAr
- h1mqRWv5kxvy6NkJYr9KhuR7cqlzUtjZkHqeVvh8+T9qbdTZhQI0bLArwHcLQpcsPCT+
- 1ndw==
-X-Gm-Message-State: AGi0PuaQy+3H8ifxoSApIe5u9Gyb1eWyStZWDz2PhQm7Trv5Rctb2N/h
- mmAWn2kefjtGc1SlWNEgbida8vwSRgI=
-X-Google-Smtp-Source: APiQypLdAUV1SOIdla5KjoO1ezJrk0GnJBn0yO7KxR9x3PaWs30jOz+Yr7k/QZBkPUW+YyT5K5Z3uA==
-X-Received: by 2002:a2e:9455:: with SMTP id o21mr7735340ljh.245.1587313650037; 
- Sun, 19 Apr 2020 09:27:30 -0700 (PDT)
+ bh=grTZvoXi/O+6VUNDWXexr0Pz9O2SUdhYMt8q6LVR+M0=;
+ b=RMGgq1d4XA6n39Qrq3bqA85uX2R2c9Vvdh9HDJsE2alFMHKZphjT+TMWQhGB/gCxUj
+ BGp8y5Sq5BWuUfrU4Oigl5AOfGpj/iGr9yQQ+G00Jcu9413ZL4bOHk1GoxDXKND2KHXM
+ tjy+RSv8IPazfDfIJyk1cqWQHobRKRR7dB4iuokFQT+zLDrvQJPky+1+iH7eCAEu6Blp
+ TERsSGm1Wowd6zUkHztPGqrVnRyFfYXNA7M1vPjFjAc5Ni9ZLVRuR6LTQ2dR7lTRmMMT
+ fWW88VXzHr6KenEftv4gTWfW85oRaggHGrw09jhZEPg3oDRhhYQGBsyq22IINcY50COz
+ ++LA==
+X-Gm-Message-State: AGi0PuaEw+SGv0gC6CyGU17XmHLaD9R53he6LZv178cEDl31xChkrKp9
+ MdUGM3JxCU2VRbnhWCtxvrnaR79K/r8=
+X-Google-Smtp-Source: APiQypJiHPZ4ro1aCt59A7Gjs0fu6/p/hq6FuhJmZ0Hr0PTtu79+ujqFx2YtXyfF4q4rFTbdkVW32Q==
+X-Received: by 2002:ac2:46c4:: with SMTP id p4mr7848355lfo.37.1587313651207;
+ Sun, 19 Apr 2020 09:27:31 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id m13sm23341469lfk.12.2020.04.19.09.27.29
+ by smtp.gmail.com with ESMTPSA id j13sm23441337lfb.19.2020.04.19.09.27.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Apr 2020 09:27:29 -0700 (PDT)
+ Sun, 19 Apr 2020 09:27:30 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 1/3] device_tree: Allow name wildcards in
- qemu_fdt_node_path()
-Date: Sun, 19 Apr 2020 18:27:25 +0200
-Message-Id: <20200419162727.19148-2-edgar.iglesias@gmail.com>
+Subject: [PATCH v1 2/3] hw/arm: xlnx-zcu102: Move arm_boot_info into XlnxZCU102
+Date: Sun, 19 Apr 2020 18:27:26 +0200
+Message-Id: <20200419162727.19148-3-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200419162727.19148-1-edgar.iglesias@gmail.com>
 References: <20200419162727.19148-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::242;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x242.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::142;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x142.google.com
 X-detected-operating-system: by eggs1p.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::242
+X-Received-From: 2a00:1450:4864:20::142
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,42 +88,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Allow name wildcards in qemu_fdt_node_path(). This is useful
-to find all nodes with a given compatibility string.
+Move arm_boot_info into XlnxZCU102.
 
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- device_tree.c                | 2 +-
- include/sysemu/device_tree.h | 3 +++
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ hw/arm/xlnx-zcu102.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/device_tree.c b/device_tree.c
-index bba6cc2164..f5b4699aed 100644
---- a/device_tree.c
-+++ b/device_tree.c
-@@ -308,7 +308,7 @@ char **qemu_fdt_node_path(void *fdt, const char *name, char *compat,
-             offset = len;
-             break;
-         }
--        if (!strcmp(iter_name, name)) {
-+        if (!name || !strcmp(iter_name, name)) {
-             char *path;
+diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
+index bd645ad818..4eb117c755 100644
+--- a/hw/arm/xlnx-zcu102.c
++++ b/hw/arm/xlnx-zcu102.c
+@@ -31,13 +31,14 @@ typedef struct XlnxZCU102 {
  
-             path = g_malloc(path_len);
-diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
-index c16fd69bc0..7c53ef7634 100644
---- a/include/sysemu/device_tree.h
-+++ b/include/sysemu/device_tree.h
-@@ -39,6 +39,9 @@ void *load_device_tree_from_sysfs(void);
-  * NULL. If there is no error but no matching node was found, the
-  * returned array contains a single element equal to NULL. If an error
-  * was encountered when parsing the blob, the function returns NULL
-+ *
-+ * @name may be NULL to wildcard names and only match compatibility
-+ * strings.
-  */
- char **qemu_fdt_node_path(void *fdt, const char *name, char *compat,
-                           Error **errp);
+     bool secure;
+     bool virt;
++
++    struct arm_boot_info binfo;
+ } XlnxZCU102;
+ 
+ #define TYPE_ZCU102_MACHINE   MACHINE_TYPE_NAME("xlnx-zcu102")
+ #define ZCU102_MACHINE(obj) \
+     OBJECT_CHECK(XlnxZCU102, (obj), TYPE_ZCU102_MACHINE)
+ 
+-static struct arm_boot_info xlnx_zcu102_binfo;
+ 
+ static bool zcu102_get_secure(Object *obj, Error **errp)
+ {
+@@ -166,9 +167,9 @@ static void xlnx_zcu102_init(MachineState *machine)
+ 
+     /* TODO create and connect IDE devices for ide_drive_get() */
+ 
+-    xlnx_zcu102_binfo.ram_size = ram_size;
+-    xlnx_zcu102_binfo.loader_start = 0;
+-    arm_load_kernel(s->soc.boot_cpu_ptr, machine, &xlnx_zcu102_binfo);
++    s->binfo.ram_size = ram_size;
++    s->binfo.loader_start = 0;
++    arm_load_kernel(s->soc.boot_cpu_ptr, machine, &s->binfo);
+ }
+ 
+ static void xlnx_zcu102_machine_instance_init(Object *obj)
 -- 
 2.20.1
 
