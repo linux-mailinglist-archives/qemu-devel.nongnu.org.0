@@ -2,76 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10A91AFD36
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Apr 2020 20:49:13 +0200 (CEST)
-Received: from localhost ([::1]:46516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE3CD1AFE33
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Apr 2020 22:46:38 +0200 (CEST)
+Received: from localhost ([::1]:47554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQF0C-0006Qk-AY
-	for lists+qemu-devel@lfdr.de; Sun, 19 Apr 2020 14:49:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40606 helo=eggs1p.gnu.org)
+	id 1jQGpp-0005d3-B0
+	for lists+qemu-devel@lfdr.de; Sun, 19 Apr 2020 16:46:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40872 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jQEzH-0005x5-6A
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 14:48:15 -0400
+ (envelope-from <igotti@gmail.com>) id 1jQF0t-00074i-Tp
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 14:49:56 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jQEzG-0005nq-GA
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 14:48:14 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:45249)
+ (envelope-from <igotti@gmail.com>) id 1jQF0t-0003vX-C9
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 14:49:55 -0400
+Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131]:41638)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jQEzF-0005bD-Vc
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 14:48:14 -0400
-Received: by mail-pg1-x544.google.com with SMTP id w11so3910777pga.12
- for <qemu-devel@nongnu.org>; Sun, 19 Apr 2020 11:48:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OyeBkGtIkoGRqPrAYvVf7h8+XBsXT41Qh6d2p1IQw7c=;
- b=v4XFt+P1Qi0nmdnnsQJROQpOUoX1c8pP6yqHyutBzuCr0rJB14egCmr9173I8ICtQH
- ekFBBCTTG9aj3wnY14xef8HjvHw3tBWx1w584cJm8kHkl0JVAFIG8s0MWuwZjyTtTRqe
- 8XUxt3LNT5AQ6c6fMmx2oUB54wRpDl+34m2wNUcrK7mJWXRyOGF6/lsMkAKGXMMBfwog
- c8xuhZEu/8NKXew2/kKucyc0b5RiMacpznFtWbRvAmjfJdc2ck+bIupeyu9gqGKkpDNt
- JCIvwF//aOLKx9drkJHPesIcsULCF3sAOpviC5Zq0dgAtQbKkj5XizYqDwPMK5B/BHtV
- F12g==
+ (Exim 4.90_1) (envelope-from <igotti@gmail.com>) id 1jQF0s-0003lo-S4
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 14:49:55 -0400
+Received: by mail-lf1-x131.google.com with SMTP id u10so6031453lfo.8
+ for <qemu-devel@nongnu.org>; Sun, 19 Apr 2020 11:49:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=Z2LbNe/Tu+L4zwlPq2h4g7NIrXxdN73k1tz+wyfWJkk=;
+ b=DiZdRd6LZ+3BmHLHQrbigWntgPv9PIp7GEo7L+AZDuNVJ2ClpdVY1w1iNPl2LAf4MB
+ +wfN/eMFlJCU4B6XRg6afKmUPC7+m/wxFF4rs86DihF2/u9tCqWBGH60MjxhKA+UrDXu
+ Xhe9qiSu/mtm/Ju12GWuyyxsQYq+uDq8Q2b5wRF/NxMAGTiwsq4mQAZssb1KvCpZasoC
+ Xskc9yi/sz88bzjmuCpTH8FIz2GKJhV5/U4Xx5ZpnvH8EYerWar1AP7TO8d+3IFDNoA6
+ eK8dCzpJ8kdwP0NcbpGPVuqS2lzJp8Phu56IMsxU1twZJwj15+VJ3T2jRRc5aDYQCBWF
+ GbvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OyeBkGtIkoGRqPrAYvVf7h8+XBsXT41Qh6d2p1IQw7c=;
- b=nPbTxGdEU2HPuYzp0yLoIUknyCJQw3RWoHKp+1e9G15e5gfATnHcYG5RbtdM+cEFak
- bOB4cT3mBHAYsbRUlZF7WehSLlo7AHq6siRV1RNwudcYbqE5D1KyImK5qPsw8KOYKcka
- ivSjCfx0Q7JrmLSpwiKV5qq0z4/baQjif4sGoSPu8LQZkAirRnOUosQaxPmeczyQ98dq
- GetScTF9RH+aygq4hFekBiZsg+8H16eBd9AeoiEJuLHIjIPeBFDhRekmT058O1kmvSB5
- rL1nTgR+q33Tou+UCZlw+8OmZjaWDcXoXEhb+jFBVnZHFtRyjK5opW8R6azCf+MsrjpJ
- s50A==
-X-Gm-Message-State: AGi0PuYebJz3pJ1kY+0KW5p5VEfWrzimt6QKrlf/7bUaZaRmccHup5BB
- JRVR3cujZJ7KBtvCF8XevR/r9w==
-X-Google-Smtp-Source: APiQypK7SdODBJUaaMmqK4fpPWe3r5Qqkl3Rp971uqYlSpjYbiJAtJcEswH6SeFOY+hHVFusIJsYpg==
-X-Received: by 2002:a63:6bc4:: with SMTP id g187mr6233581pgc.75.1587322091844; 
- Sun, 19 Apr 2020 11:48:11 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id w75sm17531018pfc.156.2020.04.19.11.48.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 19 Apr 2020 11:48:10 -0700 (PDT)
-Subject: Re: [PATCH RFC v5] target/arm: Implement SVE2 HISTCNT, HISTSEG
-To: Stephen Long <steplong@quicinc.com>, qemu-devel@nongnu.org
-References: <20200416173109.8856-1-steplong@quicinc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <258026b9-a001-bdef-68ad-14da75e152e0@linaro.org>
-Date: Sun, 19 Apr 2020 11:48:09 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=Z2LbNe/Tu+L4zwlPq2h4g7NIrXxdN73k1tz+wyfWJkk=;
+ b=XSI73Zb8uFymPB0Dixa0AlFz0qhHwDryOuST2k9sR1f8cXePx2dK4kqe+EX/Z37gzR
+ GSXp8ZdiX5dUTqnazST2shqtYJfKYr6U4EeOiCqeM8wlJ9YOkb83/tKO/HjLXbO+ciw1
+ LgxD2aFmR03JZthwCFxir6jgbGj//WzXF1buXF2E4jRAFoGHsAt2FGR2MHU4Ln6+1tHa
+ V+saa1UB0rHBhaCJTJey2gOtFDng74+889G5gDz7pzmod0l02TMPDKk5bj0Pp/da0zu2
+ SvHOTcQVXyMrRxzuVYwjr2R4OPQx1x4CtgQFJrcVNAEGUSyshgXKOq2qv2X9SfbqEKNB
+ h8dg==
+X-Gm-Message-State: AGi0PuY6tzDrlw+ZHVLJVPOkpcCCchC9KWF0Vl6BrCYktDeayW9edPoM
+ HQVQJ/wp9galwbWUglWVuUU7ovGXaDhftIzcKKM=
+X-Google-Smtp-Source: APiQypJ6F8To8/Vqy8vewIS0DUDdMPqf+x+uihSeBL1g7Za2sisacc2grATXn2VB1czhgwf41GD5odRhmx762VvC+14=
+X-Received: by 2002:a19:f611:: with SMTP id x17mr8379668lfe.51.1587322192383; 
+ Sun, 19 Apr 2020 11:49:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200416173109.8856-1-steplong@quicinc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
+From: Nikolay Igotti <igotti@gmail.com>
+Date: Sun, 19 Apr 2020 21:49:41 +0300
+Message-ID: <CAEme+7GBNRc+Lc2QP894ZmYDaoC-hpDxvvUDx+mMuXGOfOxiNw@mail.gmail.com>
+Subject: several patches around Linux userland emulator
+To: riku.voipio@iki.fi, laurent@vivier.eu
+Content-Type: multipart/mixed; boundary="0000000000006c090205a3a93f6e"
+Received-SPF: pass client-ip=2a00:1450:4864:20::131;
+ envelope-from=igotti@gmail.com; helo=mail-lf1-x131.google.com
 X-detected-operating-system: by eggs1p.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+X-Received-From: 2a00:1450:4864:20::131
+X-Mailman-Approved-At: Sun, 19 Apr 2020 16:45:36 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,23 +70,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, apazos@quicinc.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/16/20 10:31 AM, Stephen Long wrote:
-> Signed-off-by: Stephen Long <steplong@quicinc.com>
-> ---
-> Made the fixes Richard noted.
-> 
->  target/arm/helper-sve.h    |   7 +++
->  target/arm/sve.decode      |   6 +++
->  target/arm/sve_helper.c    | 104 +++++++++++++++++++++++++++++++++++++
->  target/arm/translate-sve.c |  29 +++++++++++
->  4 files changed, 146 insertions(+)
+--0000000000006c090205a3a93f6e
+Content-Type: multipart/alternative; boundary="0000000000006c090105a3a93f6c"
 
-Applied to my SVE2 branch.  Thanks!
+--0000000000006c090105a3a93f6c
+Content-Type: text/plain; charset="UTF-8"
 
+   Hi,
 
-r~
+Attached 3 relatively trivial patches helping with running userland Linux
+emulation.
+
+  Best regards,
+    Nikolay
+
+--0000000000006c090105a3a93f6c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">=C2=A0 =C2=A0Hi,<div><br></div><div>Attached 3 relatively =
+trivial patches helping with running userland Linux emulation.</div><div><b=
+r></div><div>=C2=A0 Best regards,</div><div>=C2=A0 =C2=A0 Nikolay</div><div=
+>=C2=A0</div></div>
+
+--0000000000006c090105a3a93f6c--
+
+--0000000000006c090205a3a93f6e
+Content-Type: application/octet-stream; 
+	name="0001-plugins-avoid-failing-plugin-when-CPU-is-inited-seve.patch"
+Content-Disposition: attachment; 
+	filename="0001-plugins-avoid-failing-plugin-when-CPU-is-inited-seve.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_k97ellv40>
+X-Attachment-Id: f_k97ellv40
+
+RnJvbSA0MGE1NGY0ZThmMTcyNjYxMzdlZDUwYTQ4MzFkNDg0MDlhNGQ1ZjNkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBOaWtvbGF5IElnb3R0aSA8aWdvdHRpQGdtYWlsLmNvbT4KRGF0
+ZTogU3VuLCAxOSBBcHIgMjAyMCAyMTo0MzozNCArMDMwMApTdWJqZWN0OiBbUEFUQ0hdIHBsdWdp
+bnM6IGF2b2lkIGZhaWxpbmcgcGx1Z2luIHdoZW4gQ1BVIGlzIGluaXRlZCBzZXZlcmFsCiB0aW1l
+cwoKSW4gbGludXgtdXNlciBtdWx0aXRocmVhZGVkIHNjZW5hcmlvdXMgQ1BVIGNvdWxkIGJlIGlu
+aXRlZCBtYW55IHRpbWVzIHdpdGggdGhlIHNhbWUgaWQsCnNvIGF2b2lkIGFzc2VydGlvbnMgb24g
+YWxyZWFkeSBwcmVzZW50IGhhc2h0YWJsZSBlbnRyeS4KLS0tCiBwbHVnaW5zL2NvcmUuYyB8IDUg
+Ky0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgNCBkZWxldGlvbnMoLSkKCmRp
+ZmYgLS1naXQgYS9wbHVnaW5zL2NvcmUuYyBiL3BsdWdpbnMvY29yZS5jCmluZGV4IDUxYmZjOTQ3
+ODcuLjg4OWNjNjQ0MWEgMTAwNjQ0Ci0tLSBhL3BsdWdpbnMvY29yZS5jCisrKyBiL3BsdWdpbnMv
+Y29yZS5jCkBAIC0xOTYsMTMgKzE5NiwxMCBAQCBwbHVnaW5fcmVnaXN0ZXJfY2JfdWRhdGEocWVt
+dV9wbHVnaW5faWRfdCBpZCwgZW51bSBxZW11X3BsdWdpbl9ldmVudCBldiwKIAogdm9pZCBxZW11
+X3BsdWdpbl92Y3B1X2luaXRfaG9vayhDUFVTdGF0ZSAqY3B1KQogewotICAgIGJvb2wgc3VjY2Vz
+czsKLQogICAgIHFlbXVfcmVjX211dGV4X2xvY2soJnBsdWdpbi5sb2NrKTsKICAgICBwbHVnaW5f
+Y3B1X3VwZGF0ZV9fbG9ja2VkKCZjcHUtPmNwdV9pbmRleCwgTlVMTCwgTlVMTCk7Ci0gICAgc3Vj
+Y2VzcyA9IGdfaGFzaF90YWJsZV9pbnNlcnQocGx1Z2luLmNwdV9odCwgJmNwdS0+Y3B1X2luZGV4
+LAorICAgIGdfaGFzaF90YWJsZV9pbnNlcnQocGx1Z2luLmNwdV9odCwgJmNwdS0+Y3B1X2luZGV4
+LAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICZjcHUtPmNwdV9pbmRleCk7Ci0g
+ICAgZ19hc3NlcnQoc3VjY2Vzcyk7CiAgICAgcWVtdV9yZWNfbXV0ZXhfdW5sb2NrKCZwbHVnaW4u
+bG9jayk7CiAKICAgICBwbHVnaW5fdmNwdV9jYl9fc2ltcGxlKGNwdSwgUUVNVV9QTFVHSU5fRVZf
+VkNQVV9JTklUKTsKLS0gCjIuMjQuMiAoQXBwbGUgR2l0LTEyNykKCg==
+--0000000000006c090205a3a93f6e
+Content-Type: application/octet-stream; 
+	name="0001-linux-user-fix-page-table-trashing-when-mmap-munmap-.patch"
+Content-Disposition: attachment; 
+	filename="0001-linux-user-fix-page-table-trashing-when-mmap-munmap-.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_k97ellw82>
+X-Attachment-Id: f_k97ellw82
+
+RnJvbSAzNTYxMzIxMTFkNjkwYTRjOWVlNzQ0OTA4MDVlNmNmYjEzNGRiYTYzIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBOaWtvbGF5IElnb3R0aSA8aWdvdHRpQGdtYWlsLmNvbT4KRGF0
+ZTogU3VuLCAxOSBBcHIgMjAyMCAyMTozMTo0MSArMDMwMApTdWJqZWN0OiBbUEFUQ0hdIGxpbnV4
+LXVzZXI6IGZpeCBwYWdlIHRhYmxlIHRyYXNoaW5nIHdoZW4gbW1hcC9tdW5tYXAgY2FsbGVkCiBm
+cmVxdWVudGx5IG9uIGxhcmdlIHJlZ2lvbnMKClNvbWUgYXBwbGljYXRpb25zLCBmb3IgZXhhbXBs
+ZSBXYXNtZXIgV2ViQXNzZW1ibHkgVk0sIHBlcmZvcm0gZnJlcXVlbnQgbWFwL3VubWFwIG9mCmh1
+Z2UgKDZHKSByZWdpb25zLCBzbyB3aGVuIGV4ZWN1dGVkIHVuZGVyIGxpbnV4LXVzZXIgaXQgbGVh
+ZHMgdG8gY3JlYXRpb24gb2YgbWFueSBQVEUvUERFCmZvciB0aGUgcmVnaW9uLCBhbmQgdGhleSBu
+ZXZlciBnZXQgcmVjbGFpbWVkLiBBcyByZXN1bHQsIGVtdWxhdG9yIHByb2Nlc3MgY29uc3VtZXMg
+YSBsb3QKb2YgUkFNLiBUbyBmaXggdGhpcyBwcm9ibGVtIHdlIHRyeSB0byByZXVzZSBWTUEsIHdo
+ZW4gcG9zc2libGUuCi0tLQogbGludXgtdXNlci9tbWFwLmMgfCAyICsrCiAxIGZpbGUgY2hhbmdl
+ZCwgMiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvbGludXgtdXNlci9tbWFwLmMgYi9saW51
+eC11c2VyL21tYXAuYwppbmRleCBlMzc4MDMzNzk3Li5jMWQ2MTYzZDdhIDEwMDY0NAotLS0gYS9s
+aW51eC11c2VyL21tYXAuYworKysgYi9saW51eC11c2VyL21tYXAuYwpAQCAtNjUwLDYgKzY1MCw4
+IEBAIGludCB0YXJnZXRfbXVubWFwKGFiaV91bG9uZyBzdGFydCwgYWJpX3Vsb25nIGxlbikKICAg
+ICBpZiAocmV0ID09IDApIHsKICAgICAgICAgcGFnZV9zZXRfZmxhZ3Moc3RhcnQsIHN0YXJ0ICsg
+bGVuLCAwKTsKICAgICAgICAgdGJfaW52YWxpZGF0ZV9waHlzX3JhbmdlKHN0YXJ0LCBzdGFydCAr
+IGxlbik7CisgICAgICAgIGlmIChzdGFydCA8IG1tYXBfbmV4dF9zdGFydCkKKyAgICAgICAgICAg
+IG1tYXBfbmV4dF9zdGFydCA9IHN0YXJ0OwogICAgIH0KICAgICBtbWFwX3VubG9jaygpOwogICAg
+IHJldHVybiByZXQ7Ci0tIAoyLjI0LjIgKEFwcGxlIEdpdC0xMjcpCgo=
+--0000000000006c090205a3a93f6e
+Content-Type: application/octet-stream; 
+	name="0001-linux-user-strace-better-format-mmap-logs-support-mr.patch"
+Content-Disposition: attachment; 
+	filename="0001-linux-user-strace-better-format-mmap-logs-support-mr.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_k97ellw11>
+X-Attachment-Id: f_k97ellw11
+
+RnJvbSA3MGY5MTg2ZTMwYmU0YWYyMDZmZTg5Zjg4MmE4MGJiOTE0ZWIyZjJhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBOaWtvbGF5IElnb3R0aSA8aWdvdHRpQGdtYWlsLmNvbT4KRGF0
+ZTogU3VuLCAxOSBBcHIgMjAyMCAyMTo0MTowNCArMDMwMApTdWJqZWN0OiBbUEFUQ0hdIGxpbnV4
+LXVzZXI6IHN0cmFjZTogYmV0dGVyIGZvcm1hdCBtbWFwIGxvZ3MsIHN1cHBvcnQgbXJlbWFwCgpP
+biA2NC1iaXQgcGxhdGZvcm1zIHN0cmFjZSBlbnRyaWVzIHdlcmUgbm90IHByb3Blcmx5IGZvcm1h
+dHRlZCwgYWxzbyBzb21lIGFkZHJlc3NlcyB3ZXJlIHByaW50ZWQgYXMgaW50ZWdlcnMuCkFsc28g
+bXJlbWFwIHN5c2NhbGwgc3VwcG9ydCBpcyBhZGRlZC4KLS0tCiBsaW51eC11c2VyL3N0cmFjZS5j
+ICAgIHwgMzEgKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0tLQogbGludXgtdXNlci9zdHJh
+Y2UubGlzdCB8ICAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDI4IGluc2VydGlvbnMoKyksIDUgZGVs
+ZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvbGludXgtdXNlci9zdHJhY2UuYyBiL2xpbnV4LXVzZXIv
+c3RyYWNlLmMKaW5kZXggMGQ5MDk1YzY3NC4uM2U2NWZmZTM1NiAxMDA2NDQKLS0tIGEvbGludXgt
+dXNlci9zdHJhY2UuYworKysgYi9saW51eC11c2VyL3N0cmFjZS5jCkBAIC05NjksNiArOTY5LDE0
+IEBAIFVOVVNFRCBzdGF0aWMgc3RydWN0IGZsYWdzIG1tYXBfZmxhZ3NbXSA9IHsKICAgICBGTEFH
+X0VORCwKIH07CiAKKyNpZmRlZiBUQVJHRVRfTlJfbXJlbWFwCitVTlVTRUQgc3RhdGljIHN0cnVj
+dCBmbGFncyBtcmVtYXBfZmxhZ3NbXSA9IHsKKyAgICBGTEFHX0dFTkVSSUMoTVJFTUFQX01BWU1P
+VkUpLAorICAgIEZMQUdfR0VORVJJQyhNUkVNQVBfRklYRUQpLAorICAgIEZMQUdfRU5ELAorfTsK
+KyNlbmRpZgorCiBVTlVTRUQgc3RhdGljIHN0cnVjdCBmbGFncyBjbG9uZV9mbGFnc1tdID0gewog
+ICAgIEZMQUdfR0VORVJJQyhDTE9ORV9WTSksCiAgICAgRkxBR19HRU5FUklDKENMT05FX0ZTKSwK
+QEAgLTI2NTQsMTEgKzI2NjIsMTEgQEAgcHJpbnRfbW1hcChjb25zdCBzdHJ1Y3Qgc3lzY2FsbG5h
+bWUgKm5hbWUsCiB7CiAgICAgcHJpbnRfc3lzY2FsbF9wcm9sb2d1ZShuYW1lKTsKICAgICBwcmlu
+dF9wb2ludGVyKGFyZzAsIDApOwotICAgIHByaW50X3Jhd19wYXJhbSgiJWQiLCBhcmcxLCAwKTsK
+KyAgICBwcmludF9yYXdfcGFyYW0oIiVsbGQiLCAobG9uZyBsb25nKWFyZzEsIDApOwogICAgIHBy
+aW50X2ZsYWdzKG1tYXBfcHJvdF9mbGFncywgYXJnMiwgMCk7CiAgICAgcHJpbnRfZmxhZ3MobW1h
+cF9mbGFncywgYXJnMywgMCk7CiAgICAgcHJpbnRfcmF3X3BhcmFtKCIlZCIsIGFyZzQsIDApOwot
+ICAgIHByaW50X3Jhd19wYXJhbSgiJSN4IiwgYXJnNSwgMSk7CisgICAgcHJpbnRfcmF3X3BhcmFt
+KCIlI2xseCIsIChsb25nIGxvbmcpYXJnNSwgMSk7CiAgICAgcHJpbnRfc3lzY2FsbF9lcGlsb2d1
+ZShuYW1lKTsKIH0KICNkZWZpbmUgcHJpbnRfbW1hcDIgICAgIHByaW50X21tYXAKQEAgLTI2NzIs
+MTIgKzI2ODAsMjcgQEAgcHJpbnRfbXByb3RlY3QoY29uc3Qgc3RydWN0IHN5c2NhbGxuYW1lICpu
+YW1lLAogewogICAgIHByaW50X3N5c2NhbGxfcHJvbG9ndWUobmFtZSk7CiAgICAgcHJpbnRfcG9p
+bnRlcihhcmcwLCAwKTsKLSAgICBwcmludF9yYXdfcGFyYW0oIiVkIiwgYXJnMSwgMCk7CisgICAg
+cHJpbnRfcmF3X3BhcmFtKCIlbGxkIiwgKGxvbmcgbG9uZylhcmcxLCAwKTsKICAgICBwcmludF9m
+bGFncyhtbWFwX3Byb3RfZmxhZ3MsIGFyZzIsIDEpOwogICAgIHByaW50X3N5c2NhbGxfZXBpbG9n
+dWUobmFtZSk7CiB9CiAjZW5kaWYKIAorI2lmZGVmIFRBUkdFVF9OUl9tcmVtYXAKK3N0YXRpYyB2
+b2lkCitwcmludF9tcmVtYXAoY29uc3Qgc3RydWN0IHN5c2NhbGxuYW1lICpuYW1lLAorICAgIGFi
+aV9sb25nIGFyZzAsIGFiaV9sb25nIGFyZzEsIGFiaV9sb25nIGFyZzIsCisgICAgYWJpX2xvbmcg
+YXJnMywgYWJpX2xvbmcgYXJnNCwgYWJpX2xvbmcgYXJnNSkKK3sKKyAgICBwcmludF9zeXNjYWxs
+X3Byb2xvZ3VlKG5hbWUpOworICAgIHByaW50X3BvaW50ZXIoYXJnMCwgMCk7CisgICAgcHJpbnRf
+cmF3X3BhcmFtKCIlbGxkIiwgKGxvbmcgbG9uZylhcmcxLCAwKTsKKyAgICBwcmludF9yYXdfcGFy
+YW0oIiVsbGQiLCAobG9uZyBsb25nKWFyZzIsIDApOworICAgIHByaW50X2ZsYWdzKG1yZW1hcF9m
+bGFncywgYXJnMywgMSk7CisgICAgcHJpbnRfc3lzY2FsbF9lcGlsb2d1ZShuYW1lKTsKK30KKyNl
+bmRpZgorCiAjaWZkZWYgVEFSR0VUX05SX211bm1hcAogc3RhdGljIHZvaWQKIHByaW50X211bm1h
+cChjb25zdCBzdHJ1Y3Qgc3lzY2FsbG5hbWUgKm5hbWUsCkBAIC0yNjg2LDcgKzI3MDksNyBAQCBw
+cmludF9tdW5tYXAoY29uc3Qgc3RydWN0IHN5c2NhbGxuYW1lICpuYW1lLAogewogICAgIHByaW50
+X3N5c2NhbGxfcHJvbG9ndWUobmFtZSk7CiAgICAgcHJpbnRfcG9pbnRlcihhcmcwLCAwKTsKLSAg
+ICBwcmludF9yYXdfcGFyYW0oIiVkIiwgYXJnMSwgMSk7CisgICAgcHJpbnRfcmF3X3BhcmFtKCIl
+bGxkIiwgKGxvbmcgbG9uZylhcmcxLCAxKTsKICAgICBwcmludF9zeXNjYWxsX2VwaWxvZ3VlKG5h
+bWUpOwogfQogI2VuZGlmCmRpZmYgLS1naXQgYS9saW51eC11c2VyL3N0cmFjZS5saXN0IGIvbGlu
+dXgtdXNlci9zdHJhY2UubGlzdAppbmRleCBkNDlhMWU5MmE4Li5iM2JkMWM2MjI5IDEwMDY0NAot
+LS0gYS9saW51eC11c2VyL3N0cmFjZS5saXN0CisrKyBiL2xpbnV4LXVzZXIvc3RyYWNlLmxpc3QK
+QEAgLTYxMiw3ICs2MTIsNyBAQAogeyBUQVJHRVRfTlJfbXFfdW5saW5rLCAibXFfdW5saW5rIiAs
+IE5VTEwsIHByaW50X21xX3VubGluaywgTlVMTCB9LAogI2VuZGlmCiAjaWZkZWYgVEFSR0VUX05S
+X21yZW1hcAoteyBUQVJHRVRfTlJfbXJlbWFwLCAibXJlbWFwIiAsIE5VTEwsIE5VTEwsIE5VTEwg
+fSwKK3sgVEFSR0VUX05SX21yZW1hcCwgIm1yZW1hcCIgLCBOVUxMLCBwcmludF9tcmVtYXAsIHBy
+aW50X3N5c2NhbGxfcmV0X2FkZHIgfSwKICNlbmRpZgogI2lmZGVmIFRBUkdFVF9OUl9tc2djdGwK
+IHsgVEFSR0VUX05SX21zZ2N0bCwgIm1zZ2N0bCIgLCBOVUxMLCBOVUxMLCBOVUxMIH0sCi0tIAoy
+LjI0LjIgKEFwcGxlIEdpdC0xMjcpCgo=
+--0000000000006c090205a3a93f6e--
 
