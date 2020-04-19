@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A4781AFBF4
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Apr 2020 18:30:53 +0200 (CEST)
-Received: from localhost ([::1]:44060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1E51AFBF0
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Apr 2020 18:29:07 +0200 (CEST)
+Received: from localhost ([::1]:44028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQCqK-0002Pr-Cc
-	for lists+qemu-devel@lfdr.de; Sun, 19 Apr 2020 12:30:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42268 helo=eggs1p.gnu.org)
+	id 1jQCoc-0008Kl-6r
+	for lists+qemu-devel@lfdr.de; Sun, 19 Apr 2020 12:29:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42292 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jQCn8-0006tG-7O
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 12:27:34 -0400
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jQCn9-0006vQ-GH
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 12:27:35 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jQCn7-0006k9-Oz
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 12:27:34 -0400
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:42193)
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jQCn9-0006mw-5V
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 12:27:35 -0400
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:44652)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jQCn7-0006gj-C1; Sun, 19 Apr 2020 12:27:33 -0400
-Received: by mail-lf1-x142.google.com with SMTP id j14so5844123lfg.9;
- Sun, 19 Apr 2020 09:27:32 -0700 (PDT)
+ id 1jQCn8-0006jH-PA; Sun, 19 Apr 2020 12:27:34 -0400
+Received: by mail-lf1-x141.google.com with SMTP id 131so5833339lfh.11;
+ Sun, 19 Apr 2020 09:27:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=grTZvoXi/O+6VUNDWXexr0Pz9O2SUdhYMt8q6LVR+M0=;
- b=EG6EdRwrIJTBkCWR+9HGy+WXJnoTk8i8dC96Gm8zEM94ROVQoKE/5EzvMuBUq9rofs
- NAa+2SD4L2ZPsZPGqXzqY2Kp14iJNk3YoXi6A13aKwOUqzOCM14mZB/2m6fYbOicyhmy
- D/lK5zxO1ar8N7ptdY0Oar4pHSRQVtwMaGOS97Njg1SuHH/PW5RW2jc/uULlJT3ITQ6O
- S3+lGrlLN2LOC8GAVgYh3sLT6FBxX8zSYxPKs+i3PgG7vwqYMD0qpJNY8pE1zQUvHzCb
- q+5C/L4A6W8KWsxEFHhWfLEnjMR/2h9vDnrXzxk3kp2cD6n+opjHFo/oovGLlAWl61mN
- 4e5Q==
+ bh=amT1mUeA8CgJ+fNQXmKD+MyQ372jkNh8S+OnBAOdBHA=;
+ b=g65OAbpp5q6AX75HMC7olMHDiTTdW+R5IYHA2hOfUnv1Cma7UxINjtEVgmkgPAJkQj
+ Qqf0bQ55xIw5Np/oSdeo4orsPOq94VoKWxEiW3g1lctklnthIpFeq6hCOykeEbTAdNzX
+ BB8aGVZqDg3+bHpEhpuXSw5HGV2QPiTYw2BssmMbejFhf1jwtMJ5X3ALlWgEs8fKNm6a
+ NpUAjkGQ3lctxxpodlL8Q5oOirGZmZeqsKn5kp4SjCZSCyABlSYR4+Egc1RJSFXpbmO1
+ dRYSG2UkuQKwRwwXteIclv+ygDmvqPTOWEO33eHg9KjAK+yeKKz/rHMsWuUV51YdUqcJ
+ I91g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=grTZvoXi/O+6VUNDWXexr0Pz9O2SUdhYMt8q6LVR+M0=;
- b=RMGgq1d4XA6n39Qrq3bqA85uX2R2c9Vvdh9HDJsE2alFMHKZphjT+TMWQhGB/gCxUj
- BGp8y5Sq5BWuUfrU4Oigl5AOfGpj/iGr9yQQ+G00Jcu9413ZL4bOHk1GoxDXKND2KHXM
- tjy+RSv8IPazfDfIJyk1cqWQHobRKRR7dB4iuokFQT+zLDrvQJPky+1+iH7eCAEu6Blp
- TERsSGm1Wowd6zUkHztPGqrVnRyFfYXNA7M1vPjFjAc5Ni9ZLVRuR6LTQ2dR7lTRmMMT
- fWW88VXzHr6KenEftv4gTWfW85oRaggHGrw09jhZEPg3oDRhhYQGBsyq22IINcY50COz
- ++LA==
-X-Gm-Message-State: AGi0PuaEw+SGv0gC6CyGU17XmHLaD9R53he6LZv178cEDl31xChkrKp9
- MdUGM3JxCU2VRbnhWCtxvrnaR79K/r8=
-X-Google-Smtp-Source: APiQypJiHPZ4ro1aCt59A7Gjs0fu6/p/hq6FuhJmZ0Hr0PTtu79+ujqFx2YtXyfF4q4rFTbdkVW32Q==
-X-Received: by 2002:ac2:46c4:: with SMTP id p4mr7848355lfo.37.1587313651207;
- Sun, 19 Apr 2020 09:27:31 -0700 (PDT)
+ bh=amT1mUeA8CgJ+fNQXmKD+MyQ372jkNh8S+OnBAOdBHA=;
+ b=VPuImf0qqVkbBKQJBE3HNVPc4302yU9ln/aqEFKdWOkl+WFg/XvD0lZHrPQ/C+w5b+
+ tM2DgW9nQCnzzAPUOcajbUnTS5zd9Vhyn4WjPmx0kDsh2uMoUolRojUVz8OVhL+Gzd8k
+ LypGUJuMzUo6x8UNBogaJ52w8v0SaOutb80LG9V8DpmMnmGqCsVP3T/5D4IY8TfaC9XI
+ Um0fS7/nlaZNhThfj08kPR2bUl0XPKm9nGN+rAuiIpB1CB7Qj1UdupFuxwkTI69w1V1J
+ Fk3qnXpr/gVvCDgAYr0hYh5/llW1AhFgtXSslOMzu57Tiwn187+pD7amZxXKMMJ7Q8ZM
+ swSQ==
+X-Gm-Message-State: AGi0PuZgqd4vVZG2h83N3+Iv6qk6olRpId/9jxFCzj9cEaz58X3gGvVD
+ Ixq37IaZAtSl/kxB4DqxERYdPJKz2mY=
+X-Google-Smtp-Source: APiQypJN9NvhxTRvnVyxXEQVkZ024cG5jxyTzGznspLDCa/YYKRfORIGMigm1gOQHF+fMKVjlsTXOg==
+X-Received: by 2002:a19:4a03:: with SMTP id x3mr7836383lfa.159.1587313652464; 
+ Sun, 19 Apr 2020 09:27:32 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id j13sm23441337lfb.19.2020.04.19.09.27.30
+ by smtp.gmail.com with ESMTPSA id v7sm4670854lfq.55.2020.04.19.09.27.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Apr 2020 09:27:30 -0700 (PDT)
+ Sun, 19 Apr 2020 09:27:31 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 2/3] hw/arm: xlnx-zcu102: Move arm_boot_info into XlnxZCU102
-Date: Sun, 19 Apr 2020 18:27:26 +0200
-Message-Id: <20200419162727.19148-3-edgar.iglesias@gmail.com>
+Subject: [PATCH v1 3/3] hw/arm: xlnx-zcu102: Disable unsupported FDT firmware
+ nodes
+Date: Sun, 19 Apr 2020 18:27:27 +0200
+Message-Id: <20200419162727.19148-4-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200419162727.19148-1-edgar.iglesias@gmail.com>
 References: <20200419162727.19148-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::142;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x142.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::141;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x141.google.com
 X-detected-operating-system: by eggs1p.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::142
+X-Received-From: 2a00:1450:4864:20::141
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,46 +89,71 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Move arm_boot_info into XlnxZCU102.
+Disable unsupported FDT firmware nodes if a user passes us
+a DTB with nodes enabled that the machine cannot support
+due to lack of EL3 or EL2 support.
 
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- hw/arm/xlnx-zcu102.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ hw/arm/xlnx-zcu102.c | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
 diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
-index bd645ad818..4eb117c755 100644
+index 4eb117c755..3332630380 100644
 --- a/hw/arm/xlnx-zcu102.c
 +++ b/hw/arm/xlnx-zcu102.c
-@@ -31,13 +31,14 @@ typedef struct XlnxZCU102 {
+@@ -23,6 +23,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/log.h"
+ #include "sysemu/qtest.h"
++#include "sysemu/device_tree.h"
  
-     bool secure;
-     bool virt;
-+
-+    struct arm_boot_info binfo;
- } XlnxZCU102;
- 
- #define TYPE_ZCU102_MACHINE   MACHINE_TYPE_NAME("xlnx-zcu102")
- #define ZCU102_MACHINE(obj) \
-     OBJECT_CHECK(XlnxZCU102, (obj), TYPE_ZCU102_MACHINE)
- 
--static struct arm_boot_info xlnx_zcu102_binfo;
- 
- static bool zcu102_get_secure(Object *obj, Error **errp)
- {
-@@ -166,9 +167,9 @@ static void xlnx_zcu102_init(MachineState *machine)
- 
-     /* TODO create and connect IDE devices for ide_drive_get() */
- 
--    xlnx_zcu102_binfo.ram_size = ram_size;
--    xlnx_zcu102_binfo.loader_start = 0;
--    arm_load_kernel(s->soc.boot_cpu_ptr, machine, &xlnx_zcu102_binfo);
-+    s->binfo.ram_size = ram_size;
-+    s->binfo.loader_start = 0;
-+    arm_load_kernel(s->soc.boot_cpu_ptr, machine, &s->binfo);
+ typedef struct XlnxZCU102 {
+     MachineState parent_obj;
+@@ -68,6 +69,35 @@ static void zcu102_set_virt(Object *obj, bool value, Error **errp)
+     s->virt = value;
  }
  
- static void xlnx_zcu102_machine_instance_init(Object *obj)
++static void zcu102_modify_dtb(const struct arm_boot_info *binfo, void *fdt)
++{
++    XlnxZCU102 *s = container_of(binfo, XlnxZCU102, binfo);
++    bool method_is_hvc;
++    char **node_path;
++    const char *r;
++    int prop_len;
++    int i;
++
++    /* If EL3 is enabled, we keep all firmware nodes active.  */
++    if (!s->secure) {
++        node_path = qemu_fdt_node_path(fdt, NULL,
++                                       (char *)"xlnx,zynqmp-firmware",
++                                       &error_fatal);
++
++        for (i = 0; node_path && node_path[i]; i++) {
++            r = qemu_fdt_getprop(fdt, node_path[i], "method", &prop_len, NULL);
++            method_is_hvc = r && !strcmp("hvc", r);
++
++            /* Allow HVC based firmware if EL2 is enabled.  */
++            if (method_is_hvc && s->virt) {
++                continue;
++            }
++            qemu_fdt_setprop_string(fdt, node_path[i], "status", "disabled");
++        }
++        g_strfreev(node_path);
++    }
++}
++
+ static void xlnx_zcu102_init(MachineState *machine)
+ {
+     XlnxZCU102 *s = ZCU102_MACHINE(machine);
+@@ -169,6 +199,7 @@ static void xlnx_zcu102_init(MachineState *machine)
+ 
+     s->binfo.ram_size = ram_size;
+     s->binfo.loader_start = 0;
++    s->binfo.modify_dtb = zcu102_modify_dtb;
+     arm_load_kernel(s->soc.boot_cpu_ptr, machine, &s->binfo);
+ }
+ 
 -- 
 2.20.1
 
