@@ -2,87 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79C261B0554
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 11:14:43 +0200 (CEST)
-Received: from localhost ([::1]:60104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02F151B055D
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 11:15:58 +0200 (CEST)
+Received: from localhost ([::1]:60128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQSVm-0008P7-1K
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 05:14:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36052 helo=eggs1p.gnu.org)
+	id 1jQSWz-0001JC-1W
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 05:15:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36318 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jQSUg-0007Zr-Tg
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:13:35 -0400
+ (envelope-from <flosch@nutanix.com>) id 1jQSVJ-0008R1-Km
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:14:14 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jQSUf-0000h6-RP
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:13:34 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32678
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jQSUf-0000fx-9p
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:13:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587374011;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ubY2bmJgYQHcHmLxkew7vio3GmuwAAUYMniriQOb0x4=;
- b=ek8gpbx6JTFd6aCclqOMHnES+L+FDOKil0oq2fEu728kw5XfRPC6++B3xa1mw6HWaca5cT
- 8NVU3DjW5z6W58+jIMBfMIv2+BVixJTSvA9JG4yqEIjneit3XYdCY+qAokQLZHJFvcFvhz
- f38iObHzoxm5lZfHrHwS1KK85GrWxM0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-75-N5R3RApaMUCxNCsTiWId8w-1; Mon, 20 Apr 2020 05:13:27 -0400
-X-MC-Unique: N5R3RApaMUCxNCsTiWId8w-1
-Received: by mail-wm1-f70.google.com with SMTP id f128so3939888wmf.8
- for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 02:13:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ubY2bmJgYQHcHmLxkew7vio3GmuwAAUYMniriQOb0x4=;
- b=nP/Dek8O5YI21au8EqxPZe1v7ipb0I/XOtYJkPi+5nLgZ0QEtV3bm9lKXGeSl4F6s/
- uN+mZIxUFzgT6YAl0M1JEdp0D8ZdUWxsyCwOlv+06GVjduSXDKt+b6ilobsJH1jWOR93
- j1tLlmlkisTJlyJatxGLzCsE/ToXwxkM778jHicyNWOIQEBxf2hDXhNTYx9D6Qlz0nXe
- w1HqHs2FfKbXKsKwHwOp/6sY0TPAseFNi1HDEVhp3nLKQltnrts0PFFr1K5Lzgvbg2DP
- Y/8nL4jE9xcSlTMwnj4SbGEraqwom0ZcLkjiekIjXWQODR+Mmchln+wKNNsX6k/4vYVs
- a79g==
-X-Gm-Message-State: AGi0PubWdz+O4kRrU/kWMkd47UuIFq/l++7UtJ7Lf4Pd7lkQyY91gnT7
- mbRJi2cj+fyACZQQBheQ2Ustw0/h1n7tDJNbMo1jncdaB2qHDcpUWrCqhSrUuXB0nE9Wlv0Ojsz
- E66xTrV1ygGZWJHo=
-X-Received: by 2002:a1c:9c15:: with SMTP id f21mr16825341wme.139.1587374005646; 
- Mon, 20 Apr 2020 02:13:25 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLA5NHB9taU1vEcsSDxeATyJTJmGQc2TyjxdNTcpZsxVZkLIcLISYM+TgC0aYzssdBeSONA4w==
-X-Received: by 2002:a1c:9c15:: with SMTP id f21mr16825318wme.139.1587374005398; 
- Mon, 20 Apr 2020 02:13:25 -0700 (PDT)
-Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id t2sm538057wmt.15.2020.04.20.02.13.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Apr 2020 02:13:24 -0700 (PDT)
-Subject: Re: [PATCH v2] lockable: Replace locks with lock guard macros
-To: Simran Singhal <singhalsimran0@gmail.com>, qemu-devel@nongnu.org
-References: <20200402065035.GA15477@simran-Inspiron-5558>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <8ad94cef-d17b-8dde-c127-3be8e34508de@redhat.com>
-Date: Mon, 20 Apr 2020 11:13:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <flosch@nutanix.com>) id 1jQSVE-0001GN-Kj
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:14:12 -0400
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:37792)
+ by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <flosch@nutanix.com>)
+ id 1jQSVE-0001DJ-0E
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:14:08 -0400
+Received: from pps.filterd (m0127837.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 03K9CNbF012119
+ for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 02:14:04 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : subject
+ : date : message-id : content-type : content-id :
+ content-transfer-encoding : mime-version; s=proofpoint20171006;
+ bh=Wl/6Rg4aAuGAR5qC9JVJhO3sbMBYIIuechwPACACUU0=;
+ b=RgnjxmiJVXksS2iWHkPpQT4pvaCCw0ajKU1RCUzY7fqOYN7kl+8XFYidUSKzs5taOT88
+ bUtckSRYM3R7RgUr4A8tE/Oq4YMaL55b97jnA/aguyy/oA0A061TdIblEiWQ0rHeGp0K
+ nQ6dvXmC2gEDtHfHrOy97AtUTIzdFg6OhQkueAcRPS6aO8M8GE0qOunEIivWn8u6lFYg
+ OcVPsANx8azRY51mOEsTYgumYfB3eP+lircnv3TV0z8sl4s6QW4AKz4TEQ2QtqYWG00/
+ CSFitwt/AEInvI9C9Wcip/PnyGcWaMRn8DAGhOd1lYUGcuz9lgb6z9noocQDKmnMkvoV nA== 
+Received: from nam12-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12lp2174.outbound.protection.outlook.com [104.47.59.174])
+ by mx0a-002c1b01.pphosted.com with ESMTP id 30fwf8u5pf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 02:14:04 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FRBSDu4lwTEEg9rUq3PsICi7ZO38Nqx4bKeSPcjVaFj+IisV2dzup2qwXcC3H1H+8OkEqI2b+WUgmGzqGZ6ISZFn5QfQSfcFRjhIyX9eNoev+xPqq1U8XasRuBPAsOlWzEpG1UA0k63a7FIeCVhzbOrj1UAyYE1vYiWLqIxo0laIuVuFRZ8OHeP5d/ymZZa3JISIjio4oP97MKmCOvYDaFoZTKOjYAy/T0ItOrdSFr3CaUqDMwj9DddYi49CJh3FSvIYBr0Q8QK/FGLP3NUoa7UmmZqqKbzOq5FViHEXdTv+6OeHIa+CPZeMch12y199nvGqforVEf8sRPWfGtBD4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Wl/6Rg4aAuGAR5qC9JVJhO3sbMBYIIuechwPACACUU0=;
+ b=BkJCBgEKkPMI8um80d8FHD2+3ZM4R7+pvnjnchPfSWhj+IsctiyrYhQnqIWvdyB6KfD8ZF7nVT/2JbKTMr+TmGqbo6C4bPi4dmnLfT+tfub+rmfVdXyDI7hxnFQyLCLGycFzo6ru6+oOW9Qrr3lPr9SJdy/OQOE3UNEkrRidOL/9/xvm5xxFqy0Y8iNsi40Fz46ccx3B20n4dOTfctDBhpG4T1RqL1uWNGcx+tzclID3uOxHHv4gfouzowuxxWdL6ubEX19ALN1L9u1BOkmol/fQqWnCxCQKcLQoaNe7ZKg9agrrENjaFYE95rEqrOwsn4pe1DrstGxnaWUtT+e84Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from BYAPR02MB3976.namprd02.prod.outlook.com (2603:10b6:a02:ff::28)
+ by BYAPR02MB5544.namprd02.prod.outlook.com (2603:10b6:a03:9b::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25; Mon, 20 Apr
+ 2020 09:14:01 +0000
+Received: from BYAPR02MB3976.namprd02.prod.outlook.com
+ ([fe80::c91f:9a1a:2f57:715e]) by BYAPR02MB3976.namprd02.prod.outlook.com
+ ([fe80::c91f:9a1a:2f57:715e%5]) with mapi id 15.20.2921.030; Mon, 20 Apr 2020
+ 09:14:01 +0000
+From: Florian Schmidt <flosch@nutanix.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: Postcopy with different page sizes on source and destination
+Thread-Topic: Postcopy with different page sizes on source and destination
+Thread-Index: AQHWFvQHltlWlbypFkKdwAXcIZ7pnw==
+Date: Mon, 20 Apr 2020 09:14:01 +0000
+Message-ID: <3fd5a3b0-5b1c-e123-b3d7-e8f91e3871c1@nutanix.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [81.106.30.251]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a903c5e7-0814-4310-abf0-08d7e50b2a58
+x-ms-traffictypediagnostic: BYAPR02MB5544:
+x-microsoft-antispam-prvs: <BYAPR02MB554440D25B64FE3BF0A8C5C7D9D40@BYAPR02MB5544.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 03793408BA
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR02MB3976.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(10019020)(136003)(396003)(366004)(346002)(376002)(39860400002)(81156014)(8676002)(76116006)(91956017)(66946007)(26005)(5660300002)(316002)(64756008)(66556008)(66446008)(8936002)(478600001)(66476007)(6916009)(71200400001)(6486002)(31696002)(86362001)(36756003)(2616005)(186003)(31686004)(55236004)(6506007)(2906002)(6512007);
+ DIR:OUT; SFP:1102; 
+received-spf: None (protection.outlook.com: nutanix.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: bC+T3jfbzt8UpaF8KnmjlZTBXWKxqaJzxyicMvVY1E38Y9RfIHXTo89s9sfMgBIVElOl6L8wmTBncz3NvthDyihOfrAMr4Y3ExnnnK9eIiWg7zlu2CdTbO6819kLPcMaS7BCI1AzXCrAtOvLKrWAjPloeBcRGM4WALTfjaaDkjoM8FGjfDYgEvSnhU8fewqwvrqXa+cK7Vayony/MsqPyROxF0584AGFjWKPi9E1d+dTgGzhmacd8P0Jw38RVc0Fmd/l1RWlWsomVDVoI34aC9wo2tz84hvhGMFdlNFtxQnwg9ClMBLRRh9r/GIaXeLQjgl/SDxiT7bHAbIz7xxVR7UpKQlx5+gO2F5/xtRf81vfwBasJhHDnvdbgFNQMdf8Par7eBTZvXs7DuCLs9aP0/5csPiyYD/etBcpbN/tgBuZ9Ye7RGabKfy/GoKmeGBN
+x-ms-exchange-antispam-messagedata: kdVLxs/iuQxR5/dfbwMW7Q+FvGokqcvgp0zd7qNoaQxVXwD4oNVuzYvD4JqFmE5TmhE3kvGfCAvPYHknR1jnHlQGjFQAE7vaxKSSVr/r7Npl+S0YrLo29BNSlHpE8tND7FE5etWnNuxV/OFiBEu8eQ==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <5E8B0368DB8DF4498E7C6BB8FDB4AEB4@namprd02.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <20200402065035.GA15477@simran-Inspiron-5558>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a903c5e7-0814-4310-abf0-08d7e50b2a58
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Apr 2020 09:14:01.0511 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: D7gZg1q+vo+111PAUbv6To8T0nIIaXtGH97/7IN3HEhF/jMJdIfxY/mTqEgp0RhUfiKSBP1wmI92mUp2sH9jJZktoRrekPIogsXZz2eAAyM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5544
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
+ definitions=2020-04-20_03:2020-04-17,
+ 2020-04-20 signatures=0
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.151.68; envelope-from=flosch@nutanix.com;
+ helo=mx0a-002c1b01.pphosted.com
 X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
- 01:47:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+ 05:14:04
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Received-From: 148.163.151.68
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,194 +123,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, Julia Suvorova <jusual@mail.ru>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/2/20 8:50 AM, Simran Singhal wrote:
-> Replace manual lock()/unlock() calls with lock guard macros
-> (QEMU_LOCK_GUARD/WITH_QEMU_LOCK_GUARD).
-> 
-> Signed-off-by: Simran Singhal <singhalsimran0@gmail.com>
-> ---
-
-You can give a hint to reviewers by adding:
-
-This patch is based on:
-"Replace locks with lock guard macros"
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg694412.html
-
-Similar hint to build bots:
-Based-on: <20200404042108.389635-1-dnbrdsky@gmail.com>
-
-You should Cc Paolo Bonzini on your v3, since he'll likely queue the 
-base series.
-
-Patch looks good otherwise.
-
-> Changes in v2:
->          -Drop changes in file hw/rdma/rdma_utils.c
-> 
->   hw/hyperv/hyperv.c     | 15 ++++++-------
->   hw/rdma/rdma_backend.c | 50 +++++++++++++++++++++---------------------
->   hw/rdma/rdma_rm.c      |  3 +--
->   3 files changed, 33 insertions(+), 35 deletions(-)
-> 
-> diff --git a/hw/hyperv/hyperv.c b/hw/hyperv/hyperv.c
-> index 8ca3706f5b..4ddafe1de1 100644
-> --- a/hw/hyperv/hyperv.c
-> +++ b/hw/hyperv/hyperv.c
-> @@ -15,6 +15,7 @@
->   #include "sysemu/kvm.h"
->   #include "qemu/bitops.h"
->   #include "qemu/error-report.h"
-> +#include "qemu/lockable.h"
->   #include "qemu/queue.h"
->   #include "qemu/rcu.h"
->   #include "qemu/rcu_queue.h"
-> @@ -491,7 +492,7 @@ int hyperv_set_msg_handler(uint32_t conn_id, HvMsgHandler handler, void *data)
->       int ret;
->       MsgHandler *mh;
->   
-> -    qemu_mutex_lock(&handlers_mutex);
-> +    QEMU_LOCK_GUARD(&handlers_mutex);
->       QLIST_FOREACH(mh, &msg_handlers, link) {
->           if (mh->conn_id == conn_id) {
->               if (handler) {
-> @@ -501,7 +502,7 @@ int hyperv_set_msg_handler(uint32_t conn_id, HvMsgHandler handler, void *data)
->                   g_free_rcu(mh, rcu);
->                   ret = 0;
->               }
-> -            goto unlock;
-> +            return ret;
->           }
->       }
->   
-> @@ -515,8 +516,7 @@ int hyperv_set_msg_handler(uint32_t conn_id, HvMsgHandler handler, void *data)
->       } else {
->           ret = -ENOENT;
->       }
-> -unlock:
-> -    qemu_mutex_unlock(&handlers_mutex);
-> +
->       return ret;
->   }
->   
-> @@ -565,7 +565,7 @@ static int set_event_flag_handler(uint32_t conn_id, EventNotifier *notifier)
->       int ret;
->       EventFlagHandler *handler;
->   
-> -    qemu_mutex_lock(&handlers_mutex);
-> +    QEMU_LOCK_GUARD(&handlers_mutex);
->       QLIST_FOREACH(handler, &event_flag_handlers, link) {
->           if (handler->conn_id == conn_id) {
->               if (notifier) {
-> @@ -575,7 +575,7 @@ static int set_event_flag_handler(uint32_t conn_id, EventNotifier *notifier)
->                   g_free_rcu(handler, rcu);
->                   ret = 0;
->               }
-> -            goto unlock;
-> +            return ret;
->           }
->       }
->   
-> @@ -588,8 +588,7 @@ static int set_event_flag_handler(uint32_t conn_id, EventNotifier *notifier)
->       } else {
->           ret = -ENOENT;
->       }
-> -unlock:
-> -    qemu_mutex_unlock(&handlers_mutex);
-> +
->       return ret;
->   }
->   
-> diff --git a/hw/rdma/rdma_backend.c b/hw/rdma/rdma_backend.c
-> index 3dd39fe1a7..db7e5c8be5 100644
-> --- a/hw/rdma/rdma_backend.c
-> +++ b/hw/rdma/rdma_backend.c
-> @@ -95,36 +95,36 @@ static int rdma_poll_cq(RdmaDeviceResources *rdma_dev_res, struct ibv_cq *ibcq)
->       struct ibv_wc wc[2];
->       RdmaProtectedGSList *cqe_ctx_list;
->   
-> -    qemu_mutex_lock(&rdma_dev_res->lock);
-> -    do {
-> -        ne = ibv_poll_cq(ibcq, ARRAY_SIZE(wc), wc);
-> +    WITH_QEMU_LOCK_GUARD(&rdma_dev_res->lock) {
-> +        do {
-> +            ne = ibv_poll_cq(ibcq, ARRAY_SIZE(wc), wc);
->   
-> -        trace_rdma_poll_cq(ne, ibcq);
-> +            trace_rdma_poll_cq(ne, ibcq);
->   
-> -        for (i = 0; i < ne; i++) {
-> -            bctx = rdma_rm_get_cqe_ctx(rdma_dev_res, wc[i].wr_id);
-> -            if (unlikely(!bctx)) {
-> -                rdma_error_report("No matching ctx for req %"PRId64,
-> -                                  wc[i].wr_id);
-> -                continue;
-> -            }
-> +            for (i = 0; i < ne; i++) {
-> +                bctx = rdma_rm_get_cqe_ctx(rdma_dev_res, wc[i].wr_id);
-> +                if (unlikely(!bctx)) {
-> +                    rdma_error_report("No matching ctx for req %"PRId64,
-> +                                      wc[i].wr_id);
-> +                    continue;
-> +                }
->   
-> -            comp_handler(bctx->up_ctx, &wc[i]);
-> +                comp_handler(bctx->up_ctx, &wc[i]);
->   
-> -            if (bctx->backend_qp) {
-> -                cqe_ctx_list = &bctx->backend_qp->cqe_ctx_list;
-> -            } else {
-> -                cqe_ctx_list = &bctx->backend_srq->cqe_ctx_list;
-> -            }
-> +                if (bctx->backend_qp) {
-> +                    cqe_ctx_list = &bctx->backend_qp->cqe_ctx_list;
-> +                } else {
-> +                    cqe_ctx_list = &bctx->backend_srq->cqe_ctx_list;
-> +                }
->   
-> -            rdma_protected_gslist_remove_int32(cqe_ctx_list, wc[i].wr_id);
-> -            rdma_rm_dealloc_cqe_ctx(rdma_dev_res, wc[i].wr_id);
-> -            g_free(bctx);
-> -        }
-> -        total_ne += ne;
-> -    } while (ne > 0);
-> -    atomic_sub(&rdma_dev_res->stats.missing_cqe, total_ne);
-> -    qemu_mutex_unlock(&rdma_dev_res->lock);
-> +                rdma_protected_gslist_remove_int32(cqe_ctx_list, wc[i].wr_id);
-> +                rdma_rm_dealloc_cqe_ctx(rdma_dev_res, wc[i].wr_id);
-> +                g_free(bctx);
-> +            }
-> +            total_ne += ne;
-> +        } while (ne > 0);
-> +        atomic_sub(&rdma_dev_res->stats.missing_cqe, total_ne);
-> +    }
->   
->       if (ne < 0) {
->           rdma_error_report("ibv_poll_cq fail, rc=%d, errno=%d", ne, errno);
-> diff --git a/hw/rdma/rdma_rm.c b/hw/rdma/rdma_rm.c
-> index 7e9ea283c9..60957f88db 100644
-> --- a/hw/rdma/rdma_rm.c
-> +++ b/hw/rdma/rdma_rm.c
-> @@ -147,14 +147,13 @@ static inline void rdma_res_tbl_dealloc(RdmaRmResTbl *tbl, uint32_t handle)
->   {
->       trace_rdma_res_tbl_dealloc(tbl->name, handle);
->   
-> -    qemu_mutex_lock(&tbl->lock);
-> +    QEMU_LOCK_GUARD(&tbl->lock);
->   
->       if (handle < tbl->tbl_sz) {
->           clear_bit(handle, tbl->bitmap);
->           tbl->used--;
->       }
->   
-> -    qemu_mutex_unlock(&tbl->lock);
->   }
->   
->   int rdma_rm_alloc_pd(RdmaDeviceResources *dev_res, RdmaBackendDev *backend_dev,
-> 
-
+SGksDQoNCndpdGggcHJlY29weSBsaXZlIG1pZ3JhdGlvbiwgY2hhbmdlIGluIHBhZ2Ugc2l6ZSBv
+biBzb3VyY2UgYW5kIA0KZGVzdGluYXRpb24gaXMgcG9zc2libGU6IHVzaW5nIGh1Z2V0bGJmcyBt
+ZW1vcnkgYmFja2luZyBmb3IgdGhlIFZNIG9uIA0KdGhlIHNvdXJjZSBhbmQgYW5vbnltb3VzIG1l
+bW9yeSBvbiB0aGUgZGVzdGluYXRpb24sIGFuZCB2aWNlIHZlcnNhLiBGb3IgDQpwb3N0Y29weSBt
+aWdyYXRpb24sIHRoaXMgaXMgbm90IGFsbG93ZWQsIGFuZCBpbiBmYWN0IGNoZWNrZWQgZHVyaW5n
+IHRoZSANCmFkdmlzZSBzdGFnZS4NCg0KSXMgdGhlcmUgYW55IGZ1bmRhbWVudGFsIGxpbWl0YXRp
+b24gaW4gdGhlIGRlc2lnbiB0aGF0IHByZXZlbnRzIHRoaXMsIG9yIA0KaXMgaXQgbW9yZSB0aGF0
+IHRoaXMgaXMgYW4gYWRkaXRpb25hbCBjb21wbGljYXRpb24gdGhhdCBub2JvZHkgaGFzIA0KaW1w
+bGVtZW50ZWQgc28gZmFyIGJlY2F1c2UgdGhlcmUgd2FzIG5vIHN0cm9uZyBuZWVkIGZvciBpdD8N
+Cg0KSXQgc2VlbXMgdG8gbWUgbGlrZSB0aGlzIHNob3VsZCBiZSBwb3NzaWJsZSwgYW5kIHRoZSBj
+b21tZW50IGluIA0KbG9hZHZtX3Bvc3Rjb3B5X2hhbmRsZV9hZHZpc2UoKSAobWlncmF0aW9uL3Nh
+dmV2bS5jOjE2ODEpIGFsc28gc2VlbXMgdG8gDQpzdWdnZXN0IHRoYXQ7IHNvIEknbGwgYWRkIGEg
+KHZlcnkgcm91Z2gpIGZpcnN0IGlkZWEuIFBsZWFzZSB0ZWxsIG1lIGlmIA0KSSdtIG1pc3Npbmcg
+c29tZXRoaW5nIGltcG9ydGFudC4gVGhlICJiYWNrZ3JvdW5kIiBjb3B5IGlzIHNpbWlsYXIgdG8g
+DQpwcmVjb3B5LCBzbyB0aGUgbWFpbiBkaWZmZXJlbmNlIGlzIHRoZSB1c2VyZmF1bHRmZCBwYWdl
+IGZhdWx0IGhhbmRsaW5nIA0Kb24gdGhlIGRlc3RpbmF0aW9uLCBhbmQgcmVxdWVzdGluZyB0aGUg
+Y29ycmVjdCBtZW1vcnkgZnJvbSB0aGUgc291cmNlLg0KDQoxLiBJZiB0aGUgc291cmNlIGhhcyBo
+dWdlcGFnZXMgYW5kIHRoZSBkZXN0aW5hdGlvbiBkb2Vzbid0LCB0aGVuIGEgcGFnZSANCmZhdWx0
+IHdvdWxkIGxlYWQgdGhlIGRlc3RpbmF0aW9uIHRvIGFzayAiSSBuZWVkIHRoZXNlIDRrIG9mIG1l
+bW9yeSBmcm9tIA0KeW91IHRvIGZpbGwgbXkgcGFnZSBhbmQgaGFuZGxlIHRoZSBwYWdlIGZhdWx0
+Ii4gVGhlIHNvdXJjZSBjb3VsZCB0aGVuIA0KYW5zd2VyICJoZXJlIHlvdSBhcmUsIGFuZCBoZXJl
+IGFyZSB0aGVzZSBvdGhlciA1MTEgNGsgcGFnZXMgYXJvdW5kIGl0IA0KKHdoaWNoIGZvcm0gbXkg
+Mk0gcGFnZTsgc2ltaWxhcmx5IGZvciAxRyBwYWdlcyksIHBsZWFzZSBkZWFsIHdpdGggdGhlbSAN
+Cm5vdyIuIFRoYXQgd2F5LCBldmVuICJyZWxlYXNlLXJhbSIgd291bGQgc3RpbGwgd29yayBvbiBh
+IChodWdlKXBhZ2UgDQpncmFudWxhcml0eS4NCg0KMi4gSWYgdGhlIGRlc3RpbmF0aW9uIGhhcyBo
+dWdlcGFnZXMgYW5kIHRoZSBzb3VyY2UgZG9lc24ndCwgdGhlbiB0aGUgDQphYm92ZSB3b3JrcyBz
+aW1pbGFybHk6IG5vdyB0aGUgZGVzdGluYXRpb24sIG9uIGEgcGFnZSBmYXVsdCwgYXNrcyBmb3Ig
+YSANCmxhcmdlciBtZW1vcnkgYXJlYSB0aGF0IGNvcnJlc3BvbmRzIHRvIDUxMiAob3IgbW9yZSkg
+cGFnZXMgb24gdGhlIA0Kc291cmNlLiBUaGUgb25seSBpc3N1ZSBJIGNvdWxkIHNlZSBoZXJlIGlz
+IGR1cmluZyB0aGUgaW5pdGlhbCBwaGFzZSwgDQp3aGVuIHBvc3Rjb3B5IGlzIHN3aXRjaGVkIG9u
+LCB0byBtYWtlIHN1cmUgdGhhdCB0aGUgc291cmNlIGRvZXNuJ3QgDQpyZWxlYXNlIFJBTSB0aGF0
+IGl0IGhhcyBjb3BpZWQgYW5kIHRoaW5rcyBpcyBjbGVhbiwgYnV0IGl0IHBhcnQgb2YgYSANCmh1
+Z2VwYWdlIG9uIHRoZSBvdGhlciBzaWRlLiBUaGF0IHNlZW1zIGVhc3kgZW5vdWdoIHRvIHNvbHZl
+IHRob3VnaD8gQW5kIA0KaW5kZWVkIGlzIHByb2JhYmx5IGFscmVhZHkgaW1wbGVtZW50ZWQgZm9y
+IHByZWNvcHkgbWlncmF0aW9uIHRvIHdvcmsgDQp3aXRoIGRpZmZlcmVudCBwYWdlIHNpemVzIG9u
+IHNvdXJjZSBhbmQgZGVzdGluYXRpb24gYW5kIGNvdWxkIGJlIGFkYXB0ZWQgDQpoZXJlLg0KDQpD
+aGVlcnMsDQpGbG9yaWFuDQo=
 
