@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E61B1B0487
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 10:36:08 +0200 (CEST)
-Received: from localhost ([::1]:59654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC2231B047E
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 10:34:14 +0200 (CEST)
+Received: from localhost ([::1]:59610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQRuR-0008N0-2M
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 04:36:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56450 helo=eggs1p.gnu.org)
+	id 1jQRsb-0004c2-CR
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 04:34:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56470 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jQRrA-0002ss-K5
+ (envelope-from <armbru@redhat.com>) id 1jQRrB-0002t2-D6
  for qemu-devel@nongnu.org; Mon, 20 Apr 2020 04:32:45 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jQRr9-0006u8-IY
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 04:32:44 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39918
+ (envelope-from <armbru@redhat.com>) id 1jQRr9-0006um-SM
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 04:32:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49016
  helo=us-smtp-1.mimecast.com)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jQRr9-0006rn-5F
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jQRr9-0006sl-Fw
  for qemu-devel@nongnu.org; Mon, 20 Apr 2020 04:32:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587371561;
+ s=mimecast20190719; t=1587371562;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VfYN+TU+3RtiZ4Pa1zd3jj/XHqO17tt2OP3Q91CNoWs=;
- b=X6BIlsUreKhnusP6qQuVW9V/eEZoodqW/j4ddQvmO4PF/MQrtJLrxuohvv/Ig2iC6xfXQu
- 48T+Koa90QqnWxtbg6PvshvVZeOtUMOlNmuRN2pEBnZ6J3l19Bt0y5iYw1xnGxM4gp4qUY
- fYJeIVeX7tyzdjESAzt3P/vuRxid/7Q=
+ bh=m0+CdJL/XFx9gkbZZ3J1j8jHjkE2+5dpro1F7ap3j7s=;
+ b=hTY8IS3X6MHb8rW6lbPd/MwzpZeLXWL60hgniVbF0bHC8oF9wob3+OuKyvtOMQtay4YKP1
+ EWvQru6AiU0nrt9G8PppjSVGjRr8EAoZMvmM3w+HhxE8x2GDSPemUt3mwuS4nUlNYIY7xR
+ 3X8b3DcjBYArUl3T6kU65mdbAU7F3FQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-WkZyR802NJyUqnMCV0zhEQ-1; Mon, 20 Apr 2020 04:32:39 -0400
-X-MC-Unique: WkZyR802NJyUqnMCV0zhEQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-344-nI0LVKH_ONq4iQUgT3TR_w-1; Mon, 20 Apr 2020 04:32:41 -0400
+X-MC-Unique: nI0LVKH_ONq4iQUgT3TR_w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74AEF800D53
- for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 08:32:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F06FDDB22;
+ Mon, 20 Apr 2020 08:32:39 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 425F810027A8;
- Mon, 20 Apr 2020 08:32:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C1346A188B;
+ Mon, 20 Apr 2020 08:32:39 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A9A2A11358C0; Mon, 20 Apr 2020 10:32:36 +0200 (CEST)
+ id ACB4F11358C1; Mon, 20 Apr 2020 10:32:36 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/11] cpus: Proper range-checking for -icount shift=N
-Date: Mon, 20 Apr 2020 10:32:29 +0200
-Message-Id: <20200420083236.19309-5-armbru@redhat.com>
+Subject: [PATCH 05/11] arm/virt: Fix virt_machine_device_plug_cb() error API
+ violation
+Date: Mon, 20 Apr 2020 10:32:30 +0200
+Message-Id: <20200420083236.19309-6-armbru@redhat.com>
 In-Reply-To: <20200420083236.19309-1-armbru@redhat.com>
 References: <20200420083236.19309-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
- 03:29:18
+ 04:32:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,54 +77,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-timers_state.icount_time_shift must be in [0,63] to avoid undefined
-behavior when shifting by it, e.g. in cpu_icount_to_ns().
-icount_adjust() clamps it to [0,MAX_ICOUNT_SHIFT], with
-MAX_ICOUNT_SHIFT =3D 10.  configure_icount() doesn't.  Fix that.
+The Error ** argument must be NULL, &error_abort, &error_fatal, or a
+pointer to a variable containing NULL.  Passing an argument of the
+latter kind twice without clearing it in between is wrong: if the
+first call sets an error, it no longer points to NULL for the second
+call.
 
-Fixes: a8bfac37085c3372366d722f131a7e18d664ee4d
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+virt_machine_device_plug_cb() passes @errp to
+cryptodev_builtin_sym_close_session() in a loop.  Harmless, because
+cryptodev_builtin_sym_close_session() can't actually fail.  Fix by
+dropping its Error ** parameter.
+
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- cpus.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ hw/arm/virt.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/cpus.c b/cpus.c
-index 1b542b37f9..5670c96bcf 100644
---- a/cpus.c
-+++ b/cpus.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu/config-file.h"
-+#include "qemu/cutils.h"
- #include "migration/vmstate.h"
- #include "monitor/monitor.h"
- #include "qapi/error.h"
-@@ -801,7 +802,6 @@ void configure_icount(QemuOpts *opts, Error **errp)
-     bool sleep =3D qemu_opt_get_bool(opts, "sleep", true);
-     bool align =3D qemu_opt_get_bool(opts, "align", false);
-     long time_shift =3D -1;
--    char *rem_str =3D NULL;
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 7dc96abf72..cca5316256 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1186,7 +1186,7 @@ static void create_smmu(const VirtMachineState *vms,
+     g_free(node);
+ }
 =20
-     if (!option && qemu_opt_get(opts, "align")) {
-         error_setg(errp, "Please specify shift option when using align");
-@@ -814,9 +814,8 @@ void configure_icount(QemuOpts *opts, Error **errp)
+-static void create_virtio_iommu_dt_bindings(VirtMachineState *vms, Error *=
+*errp)
++static void create_virtio_iommu_dt_bindings(VirtMachineState *vms)
+ {
+     const char compat[] =3D "virtio,pci-iommu";
+     uint16_t bdf =3D vms->virtio_iommu_bdf;
+@@ -2118,7 +2118,7 @@ static void virt_machine_device_plug_cb(HotplugHandle=
+r *hotplug_dev,
+=20
+         vms->iommu =3D VIRT_IOMMU_VIRTIO;
+         vms->virtio_iommu_bdf =3D pci_get_bdf(pdev);
+-        create_virtio_iommu_dt_bindings(vms, errp);
++        create_virtio_iommu_dt_bindings(vms);
      }
+ }
 =20
-     if (strcmp(option, "auto") !=3D 0) {
--        errno =3D 0;
--        time_shift =3D strtol(option, &rem_str, 0);
--        if (errno !=3D 0 || *rem_str !=3D '\0' || !strlen(option)) {
-+        if (qemu_strtol(option, NULL, 0, &time_shift) < 0
-+            || time_shift < 0 || time_shift > MAX_ICOUNT_SHIFT) {
-             error_setg(errp, "icount: Invalid shift value");
-             return;
-         }
 --=20
 2.21.1
 
