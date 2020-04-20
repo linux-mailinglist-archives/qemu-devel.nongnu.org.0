@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7913E1B139E
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 19:55:00 +0200 (CEST)
-Received: from localhost ([::1]:39976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2900A1B13BD
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 19:58:57 +0200 (CEST)
+Received: from localhost ([::1]:40044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQadH-0000MG-Hv
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 13:54:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36592 helo=eggs1p.gnu.org)
+	id 1jQah5-0007QM-RR
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 13:58:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36578 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jQabU-0006vH-0i
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 13:53:08 -0400
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jQabR-0006n2-2H
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 13:53:05 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jQabM-00043m-Rw
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 13:53:07 -0400
-Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:44107)
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jQabO-00045a-4R
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 13:53:04 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:36172)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jQabM-00041d-Fc
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 13:53:00 -0400
-Received: by mail-lf1-x143.google.com with SMTP id 131so8709597lfh.11
- for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 10:53:00 -0700 (PDT)
+ id 1jQabN-00043N-Nm
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 13:53:01 -0400
+Received: by mail-lj1-x242.google.com with SMTP id u15so11023106ljd.3
+ for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 10:53:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2HDCg3KLDgunzJYC54IcgJKaF3QV6tINgDH3Q/dGrkM=;
- b=CR2EZtfbxLNJ2F8qXKNHrVTiMIFoOuOBuoQFotuEvEgF4KVCIiQrEvpUOQNKBpNBbi
- u2H60vi1UshSF9mg1+4BFrcft/Yk21jIN60glBQ6tAMAtIjEfeYVK6qIaztCcr3epa0t
- Sa9vTevJtRdvM5WRTGpEsMFdm04D+vZlzN3Pa1q7p96P0vicjeFHAnesclEGNA9vl45A
- TGnsnvJR7EpyTEM6BsDBtxeqTDKSl5eGjNYDfw1f5uMSJE3WpyNddjldCSR7YFgt92Yf
- vW51uWakc7lYVV4g/hohbIE7n5RgjtGYUdpyLmQvIO5J5o9hEk1jHU7qP5y8x9AhpkqN
- CnUA==
+ bh=/DrXlXCXCjcKxXaL3UynOI4aoP3LB9wkYq+IB5RRGYY=;
+ b=sbx3Uu148od2PhVUlI0IFX9GYw3j0gFxWulYVrKsBZT5ZfuB3gy0FAQqLL/uSrxahx
+ itYj7icQWe0XB8NqDOPySKW+9L/ljHuHHy+ketJOewy+t80v9wsOz0LhLrjiDEQT0Edp
+ E7vd/kSsyGSl8jgE5vRAydkfoChxWp4V+SEwrUvnADdYemz36AysBxlT/l8hEf3195cj
+ wUbsBqdbRQyrmphrdrMhMT7UL4Uh+d12yPGeotM8m48nA+bFP5egXRm3sDdonqe839TI
+ RdiW7b2ezv4mfDKClxga3h8W5oV8vYjkKRQug8CKSxzmsdA4wAsHBm2ekqrxqX3jIwDd
+ 9EEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2HDCg3KLDgunzJYC54IcgJKaF3QV6tINgDH3Q/dGrkM=;
- b=nmAU1tSekMyD5/9r7kUkM4b3D5coL31XzK5+sOtqtmNNZR9FxxTU3eiqe726IqvFMd
- OvIr1Ii+rSVBwLq9OmxfuwQIrwswvk9P8v09jri6PkAgY4JaeWR0XZqWC4grpeS0rkMq
- MFwuvCyRG43gevVTBMxYwdoZSaishrszX+QJ2Hf1tNrTQrhZoAU4tslHpyXvAbbEfm15
- 7f84CmIbMUZepZnvJDpJf+6k66Up4cf2V0nydHn+sIdEH21nUCkIU4/sZSPh4pr4NSd5
- 9MqATg+nP03dprOibQhFYuD6g0huZkgfAsvF8YI3QeP4944h5VBSmkwSIok5qPUS+QOd
- IFCg==
-X-Gm-Message-State: AGi0PuaEd1sr/kccPjeJR0X8nLanSE99hyqxOVsPaL1xektP/fDg9pHJ
- x93+wErTkE2fkKiz/L78viWx8hnpg0I=
-X-Google-Smtp-Source: APiQypKxOvwCTZMti5ipX7sxOF3DR/E6VK8ltmGjj7AYvxE2tl2unNlmKDCTSXGK4RbfnCpm8afonw==
-X-Received: by 2002:a19:f611:: with SMTP id x17mr11621650lfe.51.1587405178562; 
- Mon, 20 Apr 2020 10:52:58 -0700 (PDT)
+ bh=/DrXlXCXCjcKxXaL3UynOI4aoP3LB9wkYq+IB5RRGYY=;
+ b=UBbVoCOR2W/qCChPE8UI/YYBP81T//XL28z6Xqs2S/QpvyeoHeRPZZsFoZrAG4N6uW
+ jQmW15hnPC9Ba5A3vcStttm6AKYSwoJSUCU22mzvQpV7J0FYxHH3n23yJuvXCv0zjiAi
+ FjKn9p6Spn1xo5duPcRtQQfxd5UsvYbhW1nxZNcKRM8hHo4GxLo55pf7ZUHRRP3SGRH6
+ Tnqsy5RIF3rIpthKF73yQZRbhTRiyFKtMuRM15O59YINwOYZxZOPZhd02hr7G+5MpZ0N
+ 2vm1Sa5sxGoOaema7m+uHQFCIc6hxP4xHTcu48g7G0zFWxDkF8Lw4l4BTooUlIsoI/1L
+ L3FQ==
+X-Gm-Message-State: AGi0Puaf/qdfFa9DqxwEDeymOiUdfwQVQP2ik+0lr/1X0JncFVuLPPny
+ ZzGmsuxXX48deAsTmwrRS2J1kb4d6HY=
+X-Google-Smtp-Source: APiQypKq25z8WYE/aRkch683i5iyuTbIfI0TVx0ph7gblDlRnCgn3y7XwVWXOQBimhp3i069YWPgMw==
+X-Received: by 2002:a2e:9886:: with SMTP id b6mr11205677ljj.237.1587405179944; 
+ Mon, 20 Apr 2020 10:52:59 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id s30sm56768lfc.93.2020.04.20.10.52.57
+ by smtp.gmail.com with ESMTPSA id s7sm79548lfb.40.2020.04.20.10.52.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Apr 2020 10:52:57 -0700 (PDT)
+ Mon, 20 Apr 2020 10:52:59 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/6] target/microblaze: Add the pvr-user1 property
-Date: Mon, 20 Apr 2020 19:52:49 +0200
-Message-Id: <20200420175250.25777-6-edgar.iglesias@gmail.com>
+Subject: [PATCH v2 6/6] target/microblaze: Add the pvr-user2 property
+Date: Mon, 20 Apr 2020 19:52:50 +0200
+Message-Id: <20200420175250.25777-7-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200420175250.25777-1-edgar.iglesias@gmail.com>
 References: <20200420175250.25777-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::143;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x143.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::242;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x242.google.com
 X-detected-operating-system: by eggs1p.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::143
+X-Received-From: 2a00:1450:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,48 +90,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Add the pvr-user1 property to control the user-defined
-PVR0 User1 field.
+Add the pvr-user2 property to control the user-defined
+PVR1 User2 register.
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- target/microblaze/cpu.c | 4 +++-
+ target/microblaze/cpu.c | 2 ++
  target/microblaze/cpu.h | 1 +
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ 2 files changed, 3 insertions(+)
 
 diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index 10d90c64dd..53027846c4 100644
+index 53027846c4..22d08dc8cb 100644
 --- a/target/microblaze/cpu.c
 +++ b/target/microblaze/cpu.c
-@@ -193,7 +193,8 @@ static void mb_cpu_realizefn(DeviceState *dev, Error **errp)
-                         (cpu->cfg.use_mmu ? PVR0_USE_MMU_MASK : 0) |
-                         (cpu->cfg.endi ? PVR0_ENDI_MASK : 0) |
-                         (version_code << PVR0_VERSION_SHIFT) |
--                        (cpu->cfg.pvr == C_PVR_FULL ? PVR0_PVR_FULL_MASK : 0);
-+                        (cpu->cfg.pvr == C_PVR_FULL ? PVR0_PVR_FULL_MASK : 0) |
-+                        cpu->cfg.pvr_user1;
+@@ -196,6 +196,7 @@ static void mb_cpu_realizefn(DeviceState *dev, Error **errp)
+                         (cpu->cfg.pvr == C_PVR_FULL ? PVR0_PVR_FULL_MASK : 0) |
+                         cpu->cfg.pvr_user1;
  
++    env->pvr.regs[1] = cpu->cfg.pvr_user2;
      env->pvr.regs[2] |= (cpu->cfg.use_fpu ? PVR2_USE_FPU_MASK : 0) |
                          (cpu->cfg.use_fpu > 1 ? PVR2_USE_FPU2_MASK : 0) |
-@@ -292,6 +293,7 @@ static Property mb_properties[] = {
-                      cfg.opcode_0_illegal, false),
+                         (cpu->cfg.use_hw_mul ? PVR2_USE_HW_MUL_MASK : 0) |
+@@ -294,6 +295,7 @@ static Property mb_properties[] = {
      DEFINE_PROP_STRING("version", MicroBlazeCPU, cfg.version),
      DEFINE_PROP_UINT8("pvr", MicroBlazeCPU, cfg.pvr, C_PVR_FULL),
-+    DEFINE_PROP_UINT8("pvr-user1", MicroBlazeCPU, cfg.pvr_user1, 0),
+     DEFINE_PROP_UINT8("pvr-user1", MicroBlazeCPU, cfg.pvr_user1, 0),
++    DEFINE_PROP_UINT32("pvr-user2", MicroBlazeCPU, cfg.pvr_user2, 0),
      DEFINE_PROP_END_OF_LIST(),
  };
  
 diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index ef9081db40..7bb5a3d6c6 100644
+index 7bb5a3d6c6..a31134b65c 100644
 --- a/target/microblaze/cpu.h
 +++ b/target/microblaze/cpu.h
-@@ -307,6 +307,7 @@ struct MicroBlazeCPU {
-         bool opcode_0_illegal;
+@@ -308,6 +308,7 @@ struct MicroBlazeCPU {
          bool div_zero_exception;
          bool unaligned_exceptions;
-+        uint8_t pvr_user1;
+         uint8_t pvr_user1;
++        uint32_t pvr_user2;
          char *version;
          uint8_t pvr;
      } cfg;
