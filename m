@@ -2,72 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B5221B0F15
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 16:59:30 +0200 (CEST)
-Received: from localhost ([::1]:37362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 706AD1B0F2D
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 17:04:14 +0200 (CEST)
+Received: from localhost ([::1]:37448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQXtR-00050w-2d
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 10:59:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53812 helo=eggs1p.gnu.org)
+	id 1jQXy1-00089g-38
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 11:04:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54632 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jQXsV-0004aq-A4
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 10:58:31 -0400
+ (envelope-from <mst@redhat.com>) id 1jQXwW-00075u-73
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 11:02:40 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jQXsU-0000AO-VX
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 10:58:31 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48811
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1jQXwU-0005G4-Q7
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 11:02:39 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47609
+ helo=us-smtp-1.mimecast.com)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jQXsU-00008o-Ji
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 10:58:30 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jQXwU-0005DY-5D
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 11:02:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587394709;
+ s=mimecast20190719; t=1587394955;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Pf4U/emyFjdZsvfsPZgjqALA2IlrRZA2bYgis+tbI+I=;
- b=aZ1zKXPc2sNiuyTmDbqABu5Zs+k+hT69K//biw/FVzhGkZZTmhdxnFzWHSMVWadXz5YWII
- apxqAectlICdjhkHSjDz98skj+S//RsxuFd7YFtUkGxSEgPKa1A2zQZgrny0n7VcTKlwTv
- IVzRZ6irP9DHPiuUAFOlq8gi3QYY/b8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-360-4KohU0qfNO6VT5whKQuOvQ-1; Mon, 20 Apr 2020 10:58:23 -0400
-X-MC-Unique: 4KohU0qfNO6VT5whKQuOvQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4363CDBA6;
- Mon, 20 Apr 2020 14:58:22 +0000 (UTC)
-Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B5255DDA5;
- Mon, 20 Apr 2020 14:57:42 +0000 (UTC)
-Subject: Re: [RFC v2 1/6] qmp: add QMP command query-virtio
-To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
-References: <20200420104145.205297-1-lvivier@redhat.com>
- <20200420104145.205297-2-lvivier@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <a6db97cd-b3e0-9373-48db-5535322f5b10@redhat.com>
-Date: Mon, 20 Apr 2020 09:57:40 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ bh=WhxzKHPdkV1pT2x+QNIdjooBgExnpVNic7X72q3lm7Y=;
+ b=hZ2zeQ9TnYPTwtB/tGaG/xBAA2CfieYYT+l8tE37K8TkUJ339/uN5FZn2PwEZjZ13bNl7g
+ eKL2et2p6yeTFHR91k3e6AfKE7E4po4LwPtT9KSyLLVEY8GkADau5xCBGNdDZUvX2vPZVD
+ Xn2X38FnnBnaye81+st9GLVFoiGDdzc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-368-Unh29T-ZMU-KEgOnsK5BNA-1; Mon, 20 Apr 2020 11:02:27 -0400
+X-MC-Unique: Unh29T-ZMU-KEgOnsK5BNA-1
+Received: by mail-wm1-f72.google.com with SMTP id q5so4271253wmc.9
+ for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 08:02:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=QOBnP6nfqPIpxrE3ZWtBBWf3ETjn6TWCnm817oNCv48=;
+ b=kvnLblcPVwsC/IAT59SR7QOaKdJZ7zkPhJWieWTCj0+rswdeqNmxY621TFOlPar/m+
+ 7Yh6ml7knDTM/pCIoKhPcS6v+FOLivVBbp6YwD9FT9Bh7XtubEaZL7mFW0VV4RU8tkCP
+ lgaxkZ0zOf0xkIy8gLNMPpV7Nh7+v4OTVU124WXIbNsqw+vf+ftrWyhhlI0J0DosIVE0
+ hWImbuuIrpwyOT7fopxiwQW+pOGMt6M1Rv4YIh0CVXTb0ruegoWU+fWpnKnAZYN5RzVm
+ ToeA4+UvG1PO5O7hbqQzAQa9Ylhu774e+F27WIVcjQrpwKILFoc+Rc/N5iXqGDU1EuxZ
+ e72A==
+X-Gm-Message-State: AGi0PuYKlPpi2P+DlVCpAD0Fjh4VkpjiJtXHnEUJG+0yo700bGYJcdgL
+ 8rsN8p0k3579EZgrUOj1oiJsvE+amBPjL4duIgUPczgsrFmFGskVtAo1GMAxvm8gpcLQUoV9SD4
+ rrHRF5FUfK0YxWNo=
+X-Received: by 2002:adf:e711:: with SMTP id c17mr18168662wrm.334.1587394945807; 
+ Mon, 20 Apr 2020 08:02:25 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJjrD/Wwa9i3rCA6hNbPMWlLAnDlrcM/4SdFlxXkGRTyHW9h0Pv6k4VpGFZhm8QVwerR+5fhw==
+X-Received: by 2002:adf:e711:: with SMTP id c17mr18168635wrm.334.1587394945595; 
+ Mon, 20 Apr 2020 08:02:25 -0700 (PDT)
+Received: from redhat.com (bzq-79-183-51-3.red.bezeqint.net. [79.183.51.3])
+ by smtp.gmail.com with ESMTPSA id k8sm1486711wrm.52.2020.04.20.08.02.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Apr 2020 08:02:25 -0700 (PDT)
+Date: Mon, 20 Apr 2020 11:02:22 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH] Add a new PIIX option to control PCI hot unplugging of
+ devices on non-root buses
+Message-ID: <20200420105936-mutt-send-email-mst@kernel.org>
+References: <1587136411-200885-1-git-send-email-ani.sinha@nutanix.com>
+ <20200417112620-mutt-send-email-mst@kernel.org>
+ <2A13ACCD-BD24-41FB-B6EA-2804F7C1FF1D@nutanix.com>
+ <20200417120732-mutt-send-email-mst@kernel.org>
+ <20200420092459.GF346737@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200420104145.205297-2-lvivier@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200420092459.GF346737@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
- 09:01:45
+ 04:32:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,68 +96,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Amit Shah <amit@kernel.org>,
- David Hildenbrand <david@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Max Reitz <mreitz@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Ani Sinha <ani.sinha@nutanix.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>, Marcel Apfelbaum <marcel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/20/20 5:41 AM, Laurent Vivier wrote:
-> This new command lists all the instances of VirtIODevice with
-> their path and virtio type
-> 
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> ---
-> 
+On Mon, Apr 20, 2020 at 10:24:59AM +0100, Daniel P. Berrang=E9 wrote:
+> On Fri, Apr 17, 2020 at 12:09:00PM -0400, Michael S. Tsirkin wrote:
+> > On Fri, Apr 17, 2020 at 03:36:14PM +0000, Ani Sinha wrote:
+> > >=20
+> > >=20
+> > > > On Apr 17, 2020, at 8:57 PM, Michael S. Tsirkin <mst@redhat.com> wr=
+ote:
+> > > >=20
+> > > > Is there a real reason to do this? Can't we just limit the
+> > > > hotplug control to pcie ports? At some point I'd like us to
+> > > > start leaving piix alone..
+> > >=20
+> > > Yes we really need this feature as want to be able to hot plug device=
+s into the guest but prevent customers from hot unplugging them from say Wi=
+ndows system tray.
+> > >=20
+> > > ani
+> >=20
+> > Problem is, I think this is not something we can support with pcie or s=
+hpc.
+> > I'm reluctant to add features that only ACPI can support,
+> > we are trying to phase that out.
+>=20
+> >From the upstream POV, there's been no decision / agreement to phase
+> out PIIX,
 
-> +++ b/qapi/virtio.json
-> @@ -0,0 +1,68 @@
-> +##
-> +# = Virtio devices
-> +##
-> +
-> +##
-> +# @VirtioType:
-> +#
-> +# An enumeration of Virtio device types.
-> +#
-> +# Since: 5.1.0
+Phase out now.  But I for one would like to focus on keeping PIIX stable
+and focus development on q35.  Not bloating PIIX with lots of new
+features is IMHO a good way to do that.
 
-This is a less-frequent spelling,...
 
-> +##
-> +{ 'enum': 'VirtioType',
-> +  'data': [ 'unknown', 'virtio-9p', 'virtio-blk', 'virtio-serial',
-> +            'virtio-gpu', 'virtio-input', 'virtio-net', 'virtio-scsi',
-> +            'vhost-user-fs', 'vhost-vsock', 'virtio-balloon', 'virtio-crypto',
-> +            'virtio-iommu', 'virtio-pmem', 'virtio-rng' ]
-> +}
-> +
-> +##
-> +# @VirtioInfo:
-> +#
-> +# Information about a given VirtIODevice
-> +#
-> +# @path: VirtIO device canonical path.
-> +#
-> +# @type: VirtIO device type.
-> +#
-> +# Since: 5.1
 
-...and inconsistent with this more typical spelling.
+> this is purely a RHEL downstream decision & plan. If other
+> distros / users have a different POV, and find the feature useful, we
+> should accept the patch if it meets the normal QEMU patch requirements.
+>=20
+> Regards,
+> Daniel
 
-Otherwise, the interface looks reasonable to me.
+Orthogonality of features is important. It is tough to navigate our
+feature matrix as it is. Figuring things out if random features
+depend on other random features becomes impossible.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+
+> --=20
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
 
