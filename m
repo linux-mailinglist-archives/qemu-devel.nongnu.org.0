@@ -2,115 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 158AF1B02FF
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 09:31:27 +0200 (CEST)
-Received: from localhost ([::1]:58772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86BF71B0386
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 09:57:01 +0200 (CEST)
+Received: from localhost ([::1]:59224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQQtq-0005zD-3F
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 03:31:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45776 helo=eggs1p.gnu.org)
+	id 1jQRIa-0003pF-7d
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 03:57:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49528 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1jQQsg-0004qR-OG
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 03:30:15 -0400
+ (envelope-from <pannengyuan@huawei.com>) id 1jQRHa-0003O0-Jn
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 03:55:58 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1jQQsg-0006cx-6g
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 03:30:14 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:57657
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jQQsf-0006bm-OS
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 03:30:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587367812;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=on8ZVydbtBepFbrr8aFOmWZwPQzfo5aaSAU2lwFrxlQ=;
- b=GUEV8OM2eqFVva9l13rVS85yXOZkJSib6e+nqy9xzQV8KZxhlfUv84vohaU9+/yNQn6Dwu
- Wk34uF9WNGDYrkxhatnjciZiDPrJQ3X/D8XkoMT/l+yfMTuHs4MzBP76QZGE9FZl0kD5KF
- J0fYRS3uXjU9dW9+R43Svc/Z9/WAenc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-381-RU5rhQzjOGmUnJvXmL6Krw-1; Mon, 20 Apr 2020 03:30:11 -0400
-X-MC-Unique: RU5rhQzjOGmUnJvXmL6Krw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6E708017FD;
- Mon, 20 Apr 2020 07:30:09 +0000 (UTC)
-Received: from [10.36.114.7] (ovpn-114-7.ams2.redhat.com [10.36.114.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5CD1510027B8;
- Mon, 20 Apr 2020 07:30:08 +0000 (UTC)
-Subject: Re: [PATCH 7/7] tcg: Add tcg_gen_gvec_dup_tl
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200418150411.1831-1-richard.henderson@linaro.org>
- <20200418150411.1831-8-richard.henderson@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat GmbH
-Message-ID: <9dbf61fc-7689-605f-a4ee-0b17e852192a@redhat.com>
-Date: Mon, 20 Apr 2020 09:30:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <pannengyuan@huawei.com>) id 1jQRHZ-00008X-Fh
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 03:55:58 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:53364 helo=huawei.com)
+ by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pannengyuan@huawei.com>)
+ id 1jQRHY-0008G0-Jm
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 03:55:57 -0400
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 04BD9769E9D08C232EC0;
+ Mon, 20 Apr 2020 15:55:47 +0800 (CST)
+Received: from [10.184.39.213] (10.184.39.213) by smtp.huawei.com
+ (10.3.19.211) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 20 Apr
+ 2020 15:55:39 +0800
+Subject: Re: [PATCH v2] scsi-disk: define props in scsi_block_disk to avoid
+ memleaks
+From: Pan Nengyuan <pannengyuan@huawei.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, <fam@euphon.net>
+References: <20200114091634.60856-1-pannengyuan@huawei.com>
+ <5e875870-449e-3f65-60bc-79ba5190d2fb@redhat.com>
+ <a7f349b8-a06b-4eee-67a2-42f082f8c081@huawei.com>
+Message-ID: <e9cfc4f7-bbc4-61b9-ed99-480ed3caa08e@huawei.com>
+Date: Mon, 20 Apr 2020 15:55:40 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200418150411.1831-8-richard.henderson@linaro.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <a7f349b8-a06b-4eee-67a2-42f082f8c081@huawei.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+X-Originating-IP: [10.184.39.213]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.32;
+ envelope-from=pannengyuan@huawei.com; helo=huawei.com
 X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
- 01:47:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+ 03:55:47
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Received-From: 45.249.212.32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -122,40 +61,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, zhiwei_liu@c-sky.com, david@gibson.dropbear.id.au
+Cc: Euler Robot <euler.robot@huawei.com>, qemu-devel@nongnu.org,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18.04.20 17:04, Richard Henderson wrote:
-> For use when a target needs to pass a configure-specific
-> target_ulong value to duplicate.
+Hi Paolo,
+
+On 2/19/2020 3:52 PM, Pan Nengyuan wrote:
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/tcg/tcg-op-gvec.h | 6 ++++++
->  1 file changed, 6 insertions(+)
 > 
-> diff --git a/include/tcg/tcg-op-gvec.h b/include/tcg/tcg-op-gvec.h
-> index fa8a0c8d03..d89f91f40e 100644
-> --- a/include/tcg/tcg-op-gvec.h
-> +++ b/include/tcg/tcg-op-gvec.h
-> @@ -320,6 +320,12 @@ void tcg_gen_gvec_dup_i32(unsigned vece, uint32_t dofs, uint32_t s,
->  void tcg_gen_gvec_dup_i64(unsigned vece, uint32_t dofs, uint32_t s,
->                            uint32_t m, TCGv_i64);
->  
-> +#if TARGET_LONG_BITS == 64
-> +# define tcg_gen_gvec_dup_tl  tcg_gen_gvec_dup_i64
-> +#else
-> +# define tcg_gen_gvec_dup_tl  tcg_gen_gvec_dup_i32
-> +#endif
-> +
+> On 1/22/2020 1:05 AM, Paolo Bonzini wrote:
+>> On 14/01/20 10:16, pannengyuan@huawei.com wrote:
+>>> From: Pan Nengyuan <pannengyuan@huawei.com>
+>>>
+>>> scsi_block_realize() use scsi_realize() to init some props, but
+>>> these props is not defined in scsi_block_disk_properties, so they will
+>>> not be freed.
+>>>
+>>> This patch defines these prop in scsi_block_disk_properties and aslo
+>>> calls scsi_unrealize to avoid memleaks, the leak stack as
+>>> follow(it's easy to reproduce by attaching/detaching scsi-block-disks):
+>>>
+>>> =================================================================
+>>> ==qemu-system-x86_64==32195==ERROR: LeakSanitizer: detected memory leaks
+>>>
+>>> Direct leak of 57 byte(s) in 3 object(s) allocated from:
+>>>   #0 0x7f19f8bed768 (/lib64/libasan.so.5+0xef768)  ??:?
+>>>   #1 0x7f19f64d9445 (/lib64/libglib-2.0.so.0+0x52445)  ??:?
+>>>   #2 0x7f19f64f2d92 (/lib64/libglib-2.0.so.0+0x6bd92)  ??:?
+>>>   #3 0x55975366e596 (qemu-system-x86_64+0x35c0596)  /mnt/sdb/qemu/hw/scsi/scsi-disk.c:2399
+>>>   #4 0x559753671201 (emu-system-x86_64+0x35c3201)  /mnt/sdb/qemu/hw/scsi/scsi-disk.c:2681
+>>>   #5 0x559753687e3e (qemu-system-x86_64+0x35d9e3e)  /mnt/sdb/qemu/hw/scsi/scsi-bus.c:58
+>>>   #6 0x55975368ac44 (qemu-system-x86_64+0x35dcc44)  /mnt/sdb/qemu/hw/scsi/scsi-bus.c:216
+>>>   #7 0x5597532a7840 (qemu-system-x86_64+0x31f9840)  /mnt/sdb/qemu/hw/core/qdev.c:876
+>>>
+>>> Direct leak of 15 byte(s) in 3 object(s) allocated from:
+>>>   #0 0x7f19f8bed768 (/lib64/libasan.so.5+0xef768)  ??:?
+>>>   #1 0x7f19f64d9445 (/lib64/libglib-2.0.so.0+0x52445)  ??:?
+>>>   #2 0x7f19f64f2d92 (/lib64/libglib-2.0.so.0+0x6bd92)  ??:?
+>>>   #3 0x55975366e06f (qemu-system-x86_64+0x35c006f)  /mnt/sdb/qemu/hw/scsi/scsi-disk.c:2388
+>>>   #4 0x559753671201 (qemu-system-x86_64+0x35c3201)  /mnt/sdb/qemu/hw/scsi/scsi-disk.c:2681
+>>>   #5 0x559753687e3e (qemu-system-x86_64+0x35d9e3e)  /mnt/sdb/qemu/hw/scsi/scsi-bus.c:58
+>>>   #6 0x55975368ac44 (qemu-system-x86_64+0x35dcc44)  /mnt/sdb/qemu/hw/scsi/scsi-bus.c:216
+>>>
+>>> @@ -3079,9 +3080,8 @@ static const TypeInfo scsi_cd_info = {
+>>>  
+>>>  #ifdef __linux__
+>>>  static Property scsi_block_properties[] = {
+>>> -    DEFINE_BLOCK_ERROR_PROPERTIES(SCSIDiskState, qdev.conf),         \
+>>> +    DEFINE_SCSI_DISK_PROPERTIES(),.
+>> The properties defined there shouldn't apply to scsi-block.
+>>
+>> Can you explain what exactly is being leaked?
+> 
+> Ohh, I'm sorry, I missed this email and reply it so late.
+> 
+> When we attach a scsi-block disk, the props(version/vender/device_id) are malloced in scsi_realize() which it's called by scsi_block_realize(),
+> but we don't define these props in scsi_block_properties. So these props will not be released when we detach the scsi-block disk.
+> 
+> This patch will reuse scsi_disk_properties to define those props in scsi_block_properties to fix it.
+> Similarly to scsi_hd, this patch aslo set unrealize to call del_boot_device_lchs().
+> 
+> Thanks.
+> 
 
-Any user in mind?
+Maybe you missed this patch due to my late reply. Actually it will cause a memleak when we attach/detach a scsi-block disk.
 
+Reproducer:
+(qemu) device_add virtio-scsi-pci,id=scsi1,bus=pci.0,addr=0x7
+(qemu) drive_add 1 file=/dev/sdc,format=raw,if=none,id=drive-scsi1-0-0-12,cache=none,aio=native
+OK
+(qemu) device_add scsi-block,bus=scsi1.0,channel=0,scsi-id=0,lun=10,share-rw=on,drive=drive-scsi1-0-0-12,id=scsi1-0-0-10
+(qemu) device_del scsi1-0-0-10
+(qemu) drive_del drive-scsi1-0-0-12
 
--- 
-Thanks,
+I'm not sure why the properties defined shouldn't be applied, can you give some more suggestions?
 
-David / dhildenb
+Thanks.
 
+>>
+>> Paolo
+>>
+>> .
+>>
 
