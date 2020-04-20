@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A9D61B048F
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 10:37:39 +0200 (CEST)
-Received: from localhost ([::1]:59678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 195FF1B0480
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 10:34:18 +0200 (CEST)
+Received: from localhost ([::1]:59612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQRvu-0002jy-JI
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 04:37:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56454 helo=eggs1p.gnu.org)
+	id 1jQRsf-0004dQ-5k
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 04:34:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56462 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jQRrA-0002st-O1
+ (envelope-from <armbru@redhat.com>) id 1jQRrB-0002sv-1q
  for qemu-devel@nongnu.org; Mon, 20 Apr 2020 04:32:45 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jQRr9-0006uz-UL
+ (envelope-from <armbru@redhat.com>) id 1jQRrA-0006vp-Fb
  for qemu-devel@nongnu.org; Mon, 20 Apr 2020 04:32:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44613
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49518
  helo=us-smtp-1.mimecast.com)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jQRr9-0006sn-Gq
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 04:32:43 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jQRrA-0006u4-0J
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 04:32:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587371562;
+ s=mimecast20190719; t=1587371563;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Dc/ix8FdW6/SCJf2RneUwHtmQ4Mxt7ZATaDhXfEvU9A=;
- b=XTiHCN1rraW4/RpzDGOw8HIE+0uDyFpZBi6oJdzviCJOR635kXYVkMnLm4MMse5TzQCJOW
- +GclpDGrbssWZ03oja37Jdt5sjf63ImEjimgmDB7htqJoB9XDd3ny+OLnQpRDKBacXJFrX
- cicCLkOYatHNlQkwtsa6fp0b82Ts/q4=
+ bh=m2k6LewiTNFgf6Pzbdvr/rBx+uQJZq79kOGql1ICBkY=;
+ b=KcN+NZ8LeKoU554TPO+j3AHeScDzc9ety/wCTxrHfnVPjxx4UpnDPu3uTvJftVcvzBnST7
+ mDM5HImv3CS/rFh/4vgn5jHwNRtf/m3QvTJl0aq1iR2lo0LXxCPBYsthfGyYQ0qkDnpuKD
+ WTWa9Fl3Sck8gmJOpQ0y9Tp7KX0GwqA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-hz9251v_O1m0u_b__-Yiig-1; Mon, 20 Apr 2020 04:32:40 -0400
-X-MC-Unique: hz9251v_O1m0u_b__-Yiig-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-430-3Gt_UdSlNjGcTNTuRtt-WQ-1; Mon, 20 Apr 2020 04:32:41 -0400
+X-MC-Unique: 3Gt_UdSlNjGcTNTuRtt-WQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0983F107ACC9
- for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 08:32:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 378561005509;
+ Mon, 20 Apr 2020 08:32:40 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CCAF011E7E1;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EEEB296FB1;
  Mon, 20 Apr 2020 08:32:39 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BF11311358C6; Mon, 20 Apr 2020 10:32:36 +0200 (CEST)
+ id C251A11358C7; Mon, 20 Apr 2020 10:32:36 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/11] io: Fix qio_channel_socket_close() error handling
-Date: Mon, 20 Apr 2020 10:32:35 +0200
-Message-Id: <20200420083236.19309-11-armbru@redhat.com>
+Subject: [PATCH 11/11] migration/colo: Fix qmp_xen_colo_do_checkpoint() error
+ handling
+Date: Mon, 20 Apr 2020 10:32:36 +0200
+Message-Id: <20200420083236.19309-12-armbru@redhat.com>
 In-Reply-To: <20200420083236.19309-1-armbru@redhat.com>
 References: <20200420083236.19309-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
@@ -76,7 +77,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Zhang Chen <chen.zhang@intel.com>,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -86,43 +88,43 @@ latter kind twice without clearing it in between is wrong: if the
 first call sets an error, it no longer points to NULL for the second
 call.
 
-qio_channel_socket_close() passes @errp first to
-socket_listen_cleanup(), and then, if closesocket() fails, to
-error_setg_errno().  If socket_listen_cleanup() failed, this will trip
-the assertion in error_setv().
+qmp_xen_colo_do_checkpoint() passes @errp first to
+replication_do_checkpoint_all(), and then to
+colo_notify_filters_event().  If both fail, this will trip the
+assertion in error_setv().
 
-Fix by ignoring a second error.
+Similar code in secondary_vm_do_failover() calls
+colo_notify_filters_event() only after replication_do_checkpoint_all()
+succeeded.  Do the same here.
 
-Fixes: 73564c407caedf992a1c688b5fea776a8b56ba2a
-Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Fixes: 0e8818f023616677416840d6ddc880db8de3c967
+Cc: Zhang Chen <chen.zhang@intel.com>
+Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- io/channel-socket.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ migration/colo.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/io/channel-socket.c b/io/channel-socket.c
-index b74f5b92a0..e1b4667087 100644
---- a/io/channel-socket.c
-+++ b/io/channel-socket.c
-@@ -704,6 +704,7 @@ qio_channel_socket_close(QIOChannel *ioc,
+diff --git a/migration/colo.c b/migration/colo.c
+index a54ac84f41..1b3493729b 100644
+--- a/migration/colo.c
++++ b/migration/colo.c
+@@ -263,7 +263,13 @@ ReplicationStatus *qmp_query_xen_replication_status(Er=
+ror **errp)
+=20
+ void qmp_xen_colo_do_checkpoint(Error **errp)
  {
-     QIOChannelSocket *sioc =3D QIO_CHANNEL_SOCKET(ioc);
-     int rc =3D 0;
+-    replication_do_checkpoint_all(errp);
 +    Error *err =3D NULL;
-=20
-     if (sioc->fd !=3D -1) {
- #ifdef WIN32
-@@ -715,8 +716,8 @@ qio_channel_socket_close(QIOChannel *ioc,
-=20
-         if (closesocket(sioc->fd) < 0) {
-             sioc->fd =3D -1;
--            error_setg_errno(errp, errno,
--                             "Unable to close socket");
-+            error_setg_errno(&err, errno, "Unable to close socket");
-+            error_propagate(errp, err);
-             return -1;
-         }
-         sioc->fd =3D -1;
++
++    replication_do_checkpoint_all(&err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
+     /* Notify all filters of all NIC to do checkpoint */
+     colo_notify_filters_event(COLO_EVENT_CHECKPOINT, errp);
+ }
 --=20
 2.21.1
 
