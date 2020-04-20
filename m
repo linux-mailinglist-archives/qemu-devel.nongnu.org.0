@@ -2,54 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D391B05B2
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 11:32:05 +0200 (CEST)
-Received: from localhost ([::1]:60426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C82B91B05B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 11:33:42 +0200 (CEST)
+Received: from localhost ([::1]:60452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQSma-00084l-T6
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 05:32:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42174 helo=eggs1p.gnu.org)
+	id 1jQSo9-0001zN-Ta
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 05:33:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42188 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1jQSke-0006dU-2g
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:30:04 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1jQSkf-0006g9-RI
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:30:06 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1jQSka-00072x-PV
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:30:03 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42965
+ (envelope-from <mlevitsk@redhat.com>) id 1jQSkd-00076e-3K
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:30:05 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44036
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jQSka-00071r-Cx
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:30:00 -0400
+ id 1jQSkc-00073J-K2
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:30:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587374999;
+ s=mimecast20190719; t=1587375000;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=jD2JVeMkiJjDvHbWXSLL6iHcH/ZZBGgPqL1fR+bLXb8=;
- b=aCv4f985gehGN2AkNEP48AVOIoiyHgLNsJcUK2H38hYOxJvFilZyFLfiqwFNxIWvGVXgzU
- ZXEadXI66Q/gsln1YGOhs2f46NiSWhmO0+x4IUupLa0uu7SIcSXMNmi+7OUKCC18FQmPdk
- 8gVxtQAcr2gF5XKgseejNqkfqCm0BB8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SgqUnD+ml8yvE6jseWPXVGnW2zlVJAIY0McbGhWLCeI=;
+ b=SIjR7RWKeXuUXBOCJVjYsZ9WWfAmn+95cHmvRfFf0A9iFMBnAHlX+Xlqklvh8rSU0mxwTd
+ nMbJXDJ7AeMjL75MG9r4WTh9dz4Fe57hqP87IPYI1EkmMekDUfkauC2muYTARealteI8+W
+ SvoXEFdj95zwKM+nMQ8XSSKtPJm+uiY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-124-XiXcKFn2NvudfFLCTqxwfA-1; Mon, 20 Apr 2020 05:29:57 -0400
-X-MC-Unique: XiXcKFn2NvudfFLCTqxwfA-1
+ us-mta-138-xTffz-X5MLqL-LGEI7c8Mw-1; Mon, 20 Apr 2020 05:29:59 -0400
+X-MC-Unique: xTffz-X5MLqL-LGEI7c8Mw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56ED3A0CC1;
- Mon, 20 Apr 2020 09:29:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CD70107ACC9;
+ Mon, 20 Apr 2020 09:29:58 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.255])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2558F5D9CD;
- Mon, 20 Apr 2020 09:29:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B49B65D9CD;
+ Mon, 20 Apr 2020 09:29:56 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/1] LUKS: Fix error message when underlying fs don't
- support large enough files
-Date: Mon, 20 Apr 2020 12:29:50 +0300
-Message-Id: <20200420092951.24578-1-mlevitsk@redhat.com>
+Subject: [PATCH v2 1/1] block/crypto: better error message when creating too
+ large files
+Date: Mon, 20 Apr 2020 12:29:51 +0300
+Message-Id: <20200420092951.24578-2-mlevitsk@redhat.com>
+In-Reply-To: <20200420092951.24578-1-mlevitsk@redhat.com>
+References: <20200420092951.24578-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
@@ -78,21 +81,82 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a repost of the same trivial patch I already, which fell through th=
-e cracks.
-Could someone queue it up so I close the bugzilla I have for this?
+Currently if you attampt to create too large file with luks you
+get the following error message:
 
-V2: fixed usage of local_err
+Formatting 'test.luks', fmt=3Dluks size=3D17592186044416 key-secret=3Dsec0
+qemu-img: test.luks: Could not resize file: File too large
 
-Best regards,
-=09Maxim Levitsky
+While for raw format the error message is
+qemu-img: test.img: The image size is too large for file format 'raw'
 
-Maxim Levitsky (1):
-  block/crypto: better error message when creating too large files
 
+The reason for this is that qemu-img checks for errono of the failure,
+and presents the later error when it is -EFBIG
+
+However crypto generic code 'swallows' the errno and replaces it
+with -EIO.
+
+As an attempt to make it better, we can make luks driver,
+detect -EFBIG and in this case present a better error message,
+which is what this patch does
+
+The new error message is:
+
+qemu-img: error creating test.luks: The requested file size is too large
+
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1534898
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+---
  block/crypto.c | 25 +++++++++++++++++++++----
  1 file changed, 21 insertions(+), 4 deletions(-)
 
+diff --git a/block/crypto.c b/block/crypto.c
+index d577f89659..f9f5dc11a7 100644
+--- a/block/crypto.c
++++ b/block/crypto.c
+@@ -104,18 +104,35 @@ static ssize_t block_crypto_init_func(QCryptoBlock *b=
+lock,
+                                       Error **errp)
+ {
+     struct BlockCryptoCreateData *data =3D opaque;
++    Error *local_err =3D NULL;
++    int ret;
+=20
+     if (data->size > INT64_MAX || headerlen > INT64_MAX - data->size) {
+-        error_setg(errp, "The requested file size is too large");
+-        return -EFBIG;
++        ret =3D -EFBIG;
++        goto error;
+     }
+=20
+     /* User provided size should reflect amount of space made
+      * available to the guest, so we must take account of that
+      * which will be used by the crypto header
+      */
+-    return blk_truncate(data->blk, data->size + headerlen, false,
+-                        data->prealloc, errp);
++    ret =3D blk_truncate(data->blk, data->size + headerlen, false,
++                        data->prealloc, &local_err);
++
++    if (ret >=3D 0) {
++        return ret;
++    }
++
++error:
++    if (ret =3D=3D -EFBIG) {
++        /* Replace the error message with a better one */
++        error_free(local_err);
++        error_setg(errp, "The requested file size is too large");
++    } else {
++        error_propagate(errp, local_err);
++    }
++
++    return ret;
+ }
+=20
+=20
 --=20
 2.17.2
 
