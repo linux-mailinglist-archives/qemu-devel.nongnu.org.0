@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BDC21B0D0B
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 15:45:11 +0200 (CEST)
-Received: from localhost ([::1]:35970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 253A21B0D78
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 15:55:24 +0200 (CEST)
+Received: from localhost ([::1]:36194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQWjW-0007Fv-5V
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 09:45:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33184 helo=eggs1p.gnu.org)
+	id 1jQWtO-00077d-Df
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 09:55:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34570 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jQWZk-0007Pv-93
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:35:05 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jQWhA-0003oE-2t
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:42:44 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jQWZj-0000PL-Kz
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:35:04 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:42199)
+ (envelope-from <peter.maydell@linaro.org>) id 1jQWh8-0003ev-60
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:42:42 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:41744)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jQWZj-0000Ls-0C
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:35:03 -0400
-Received: by mail-wr1-x430.google.com with SMTP id j2so12165452wrs.9
- for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 06:35:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jQWh7-0003eR-QE
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:42:41 -0400
+Received: by mail-oi1-x244.google.com with SMTP id k9so8744198oia.8
+ for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 06:42:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=t5aCOcvr56XHS9qZa9KjXvG7frU1XUx0WSgEKCSykPw=;
- b=Txh+1q5y0xEa3jIbOpuCP7C4St3cxe2BD5svaKLjQaJLuR0yJCJa+8fXPkv5W5PNaC
- LgMUOCMenq5bHy/fKX3AhWEhV1IUctaprhyRooJyj6p34fi1QXKxFc+mN9asJggLmeXp
- tD2f5SCj9c3rIQVRu+8ApW42esfvHNKBOFCAM6/YZf7LaVMf8t1TH4SacEBLUnYaFeRC
- YRmaB1Gg1fa9eHuo7rO5Z6SlMsx634vhEzANngoekwJFCORcV+Cka6VvoNqHHzSpnBHS
- L+/xlgzDd7rOG0ODUUhPUx5+EqDM1nUJO6v6BvTCgtRZBvozh3Ig2Hla0qYM9JVXnUjk
- 1+vw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4Iq5bUMxxLJDAUnu4KbPQ4sg/NUtm752Qnhd5fySRDU=;
+ b=X2eclLwxSs4eb22eUyxRPOi/vm5DD8Doy3Y4WLIhvPnDJ4wt1xJxMsYR7DhCSy7fEy
+ NDZjkYCKtl0I6H3dKYYqbyuBhbx/LWgRY24uDiM71/xfTVRGYlCuAltFO37Bd+6zGXZp
+ s4CZD2rzbqs/WR5TDRImimMxPWECcM3x4X7CuWF9+5oQcQ0RSa/4kI7MvFU93AHEcbf+
+ j+WDQ8qIcfuSKaEeul/Ezd3VEJ+LJjZ2FsmD06SklfIsVKcdxJOwMV11b4OESdv0pGtm
+ qMCiJ7XpynKa2hTyyqvALOISJDbjb85QHT2xdM9uv9+6K1EH92nxvxK/h/jPTV9WIJOf
+ 3nQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=t5aCOcvr56XHS9qZa9KjXvG7frU1XUx0WSgEKCSykPw=;
- b=YUZjNS5zsl6DiZKryZ/czvdMj9eicztaqjSn8TT4qUYafRsWjQOPud4/SLeenV+vwd
- 5SzjdnySq9n6Kw7CXbtR6q0yXbQ+Geh9K/4s2aeuIeH34td8LvY0PhpflBfhhRSSqN2I
- hwJyNRE6ccEbSh4fGLXYUJUfqlufSS+l+8haV24XqqfOMPl372k3YXMgUmz1lVSOEsDw
- en7unWI8JzqX6pfXnnaa2M5EVjhuTDBexNBTT5FGXqFkdBXmZ6tErHQczSSGeuN8sAVb
- HWl//SDNGd8MldhQkzsxJy482IKyiqSECaVPDHYQbfd8JB4kzymHZr/IzNBC29XX/Sm6
- P8vA==
-X-Gm-Message-State: AGi0PuYtUA7cMnHg8qC02q93awgWuz8jdZ8WQrVq+Q/w5iC+eW8Ez4Kz
- VM2Ox3zoD72VHm/uQp4cBKBRbg==
-X-Google-Smtp-Source: APiQypKK0BQ5OLTRNKUfU+6f+lrFhpkgqEDAdPNntGut9qLLRXZ1VKw/lZZAzfScWECC6+yIv+acvw==
-X-Received: by 2002:adf:bc05:: with SMTP id s5mr18468026wrg.70.1587389701466; 
- Mon, 20 Apr 2020 06:35:01 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j4sm1161155wrm.85.2020.04.20.06.35.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Apr 2020 06:35:00 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F14481FF7E;
- Mon, 20 Apr 2020 14:34:59 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tests/tcg: use EXTRA_RUNS to run gdbtests
-Date: Mon, 20 Apr 2020 14:34:55 +0100
-Message-Id: <20200420133455.25401-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4Iq5bUMxxLJDAUnu4KbPQ4sg/NUtm752Qnhd5fySRDU=;
+ b=Omxn1CvoIvRe8yd6Pn0+135ZDJNom9eIR8IvLpPhS58pTxMhFayTatYKbkLSkQ87OT
+ 7Uv9WLmMWdLCs0zXcIMQAMiUhUI9e0aPDE2ocZAZhRFeyhQ9+6BTSSEeBCG77iTNA2d4
+ n4avFZg7vxnx2OhrB2zTlhJ/qkI5ORd3y8VHc4KQYfCK6QZO8pcMGQBnfUUV4ufh4nGn
+ sXp5TLc/4FAJ1w/Mfq0Rm/WJwyp2HdaMji4Tlr4f5caytYTBB237uu7xuHhYgz9XFPVl
+ IJKMbaUqwcY6OVJWNUvFgwi7q/0p1o+PZCA8wk0mz7CNQLNN9FG4nBK3lHAA2PdmfOc1
+ 3v2A==
+X-Gm-Message-State: AGi0PuZTU1uWAk1BcSfox1njW/aQ1IMv0QijhWi54ppmClPiLVpYs8lz
+ Ny1qlNtkb5LeDHTr63ioEEo73t8Y9WN/2hGy0JVl/w==
+X-Google-Smtp-Source: APiQypJQ4by6GZvkqOQ067+mIYg6KNqeHDs9Hh4Pc3VEEx3qiFiALljax1uBY4c/6p0ovCa8GGt2oTSG2qUB5q2prp8=
+X-Received: by 2002:aca:3a8a:: with SMTP id
+ h132mr10135139oia.146.1587390159511; 
+ Mon, 20 Apr 2020 06:42:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+References: <20200418062602.10776-1-kuhn.chenqun@huawei.com>
+In-Reply-To: <20200418062602.10776-1-kuhn.chenqun@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 20 Apr 2020 14:42:27 +0100
+Message-ID: <CAFEAcA9s5yyiqzC0pB4FL-0iM=QTtj2ju=DaCepkR4gU5TGeoQ@mail.gmail.com>
+Subject: Re: [PATCH] block/iscsi:fix heap-buffer-overflow in iscsi_aio_ioctl_cb
+To: Chen Qun <kuhn.chenqun@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x244.google.com
 X-detected-operating-system: by eggs1p.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::430
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,84 +75,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, richard.henderson@linaro.org,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ Qemu-block <qemu-block@nongnu.org>, "Michael S . Tsirkin" <mst@redhat.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>, Peter Lieven <pl@kamp.de>,
+ QEMU Developers <qemu-devel@nongnu.org>, Prasad J Pandit <ppandit@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Euler Robot <euler.robot@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With --enable-plugins the gdb tests confuse things somewhat as the
-plugin code attempts to enumerate tests with non-existent binaries.
-Fortunately we already have a mechanism for these extra tests that
-don't automatically include their own binaries. Use that mechanism and
-drop the unneeded .PHONY declarations.
+On Sat, 18 Apr 2020 at 07:30, Chen Qun <kuhn.chenqun@huawei.com> wrote:
+>
+> There is an overflow, the source 'datain.data[2]' is 100 bytes,
+>  but the 'ss' is 252 bytes.This may cause a security issue because
+>  we can access a lot of unrelated memory data.
+>
+> The len for sbp copy data should take the minimum of mx_sb_len and
+>  sb_len_wr, not the maximum.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/tcg/aarch64/Makefile.target   | 5 ++---
- tests/tcg/cris/Makefile.target      | 1 +
- tests/tcg/multiarch/Makefile.target | 5 ++---
- 3 files changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-index d99b2a9eced..312f36cde5f 100644
---- a/tests/tcg/aarch64/Makefile.target
-+++ b/tests/tcg/aarch64/Makefile.target
-@@ -54,9 +54,6 @@ sve-ioctls: CFLAGS+=-march=armv8.1-a+sve
- ifneq ($(HAVE_GDB_BIN),)
- GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
- 
--AARCH64_TESTS += gdbstub-sysregs gdbstub-sve-ioctls
--
--.PHONY: gdbstub-sysregs gdbstub-sve-ioctls
- run-gdbstub-sysregs: sysregs
- 	$(call run-test, $@, $(GDB_SCRIPT) \
- 		--gdb $(HAVE_GDB_BIN) \
-@@ -70,6 +67,8 @@ run-gdbstub-sve-ioctls: sve-ioctls
- 		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
- 		--bin $< --test $(AARCH64_SRC)/gdbstub/test-sve-ioctl.py, \
- 	"basic gdbstub SVE ZLEN support")
-+
-+EXTRA_RUNS += run-gdbstub-sysregs run-gdbstub-sve-ioctls
- endif
- 
- endif
-diff --git a/tests/tcg/cris/Makefile.target b/tests/tcg/cris/Makefile.target
-index 24c7f2e7616..e72d3cbdb23 100644
---- a/tests/tcg/cris/Makefile.target
-+++ b/tests/tcg/cris/Makefile.target
-@@ -23,6 +23,7 @@ CRIS_RUNS = $(patsubst %, run-%, $(CRIS_USABLE_TESTS))
- 
- # override the list of tests, as we can't build the multiarch tests
- TESTS = $(CRIS_USABLE_TESTS)
-+EXTRA_RUNS =
- VPATH = $(CRIS_SRC)
- 
- AS	= $(CC) -x assembler-with-cpp
-diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
-index 47fd675aba5..51fb75ecfdd 100644
---- a/tests/tcg/multiarch/Makefile.target
-+++ b/tests/tcg/multiarch/Makefile.target
-@@ -45,15 +45,14 @@ run-test-mmap-%: test-mmap
- ifneq ($(HAVE_GDB_BIN),)
- GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
- 
--MULTIARCH_TESTS += gdbstub-sha1
--
--.PHONY: gdbstub-sha1
- run-gdbstub-sha1: sha1
- 	$(call run-test, $@, $(GDB_SCRIPT) \
- 		--gdb $(HAVE_GDB_BIN) \
- 		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
- 		--bin $< --test $(MULTIARCH_SRC)/gdbstub/sha1.py, \
- 	"basic gdbstub support")
-+
-+EXTRA_RUNS += run-gdbstub-sha1
- endif
- 
- 
--- 
-2.20.1
+Thanks, applied to master for 5.0.
 
+-- PMM
 
