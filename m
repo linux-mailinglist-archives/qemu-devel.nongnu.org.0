@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EDF61B14DF
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 20:40:56 +0200 (CEST)
-Received: from localhost ([::1]:40680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E81B51B14F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 20:43:45 +0200 (CEST)
+Received: from localhost ([::1]:40708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQbLj-00065U-FY
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 14:40:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44842 helo=eggs1p.gnu.org)
+	id 1jQbOS-0008Gd-WA
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 14:43:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44900 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1jQbI2-0000uq-7w
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 14:37:09 -0400
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1jQbI9-0001Dj-09
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 14:37:13 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1jQbHz-0003w9-Fk
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 14:37:06 -0400
-Received: from relay.sw.ru ([185.231.240.75]:39796)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1jQbI3-00046L-JD
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 14:37:12 -0400
+Received: from relay.sw.ru ([185.231.240.75]:39798)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jQbHs-0003NL-0V; Mon, 20 Apr 2020 14:36:56 -0400
+ id 1jQbHr-0003NH-Vk; Mon, 20 Apr 2020 14:36:56 -0400
 Received: from dhcp-172-16-25-136.sw.ru ([172.16.25.136] helo=localhost.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jQbHi-0001xO-Vd; Mon, 20 Apr 2020 21:36:47 +0300
+ id 1jQbHj-0001xO-3b; Mon, 20 Apr 2020 21:36:47 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 1/7] block: prepare block-stream for using COR-filter
-Date: Mon, 20 Apr 2020 21:36:40 +0300
-Message-Id: <1587407806-109784-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH 2/7] stream: exclude a link to filter from freezing
+Date: Mon, 20 Apr 2020 21:36:41 +0300
+Message-Id: <1587407806-109784-3-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1587407806-109784-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1587407806-109784-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -55,41 +55,62 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch is the first one in the series where the COR-filter node
-will be hard-coded for using in the block-stream job. The job may
-be run with a block-commit job in parallel. Set the condition to
-avoid the job conflicts.
+A node above the base can be the filter of the concurrent job. In that
+case, the filter cannot be removed being a part of the frozen chain.
+Exclude the link to filter node from freezing and provide the safety
+check for a concurrent job.
 
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- blockdev.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ block/stream.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/blockdev.c b/blockdev.c
-index 758e0b5..72d28ce 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -3297,7 +3297,9 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+diff --git a/block/stream.c b/block/stream.c
+index bd4a351..d8b4bbe 100644
+--- a/block/stream.c
++++ b/block/stream.c
+@@ -244,7 +244,7 @@ void stream_start(const char *job_id, BlockDriverState *bs,
+          above_base = bdrv_filtered_bs(above_base))
+     {}
+ 
+-    if (bdrv_freeze_chain(bs, above_base, errp) < 0) {
++    if (bdrv_freeze_chain(bs, bottom_cow_node, errp) < 0) {
+         return;
      }
  
-     /* Check for op blockers in the whole chain between bs and base */
--    for (iter = bs; iter && iter != base_bs; iter = bdrv_filtered_bs(iter)) {
-+    for (iter = bdrv_skip_rw_filters(bs);
-+        iter && iter != bdrv_skip_rw_filters(base_bs);
-+        iter = bdrv_backing_chain_next(iter)) {
-         if (bdrv_op_is_blocked(iter, BLOCK_OP_TYPE_STREAM, errp)) {
-             goto out;
+@@ -257,6 +257,15 @@ void stream_start(const char *job_id, BlockDriverState *bs,
          }
-@@ -3455,7 +3457,8 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
+     }
  
-     assert(bdrv_get_aio_context(base_bs) == aio_context);
- 
--    for (iter = top_bs; iter != bdrv_filtered_bs(base_bs);
-+    for (iter = bdrv_skip_rw_filters(top_bs);
-+         iter != bdrv_filtered_bs(base_bs);
++    /*
++     * Check for an overlapping block-commit job that is not allowed.
++     */
++    if (bdrv_freeze_chain(bottom_cow_node, above_base, errp) < 0) {
++        goto fail;
++    } else {
++        bdrv_unfreeze_chain(bottom_cow_node, above_base);
++    }
++
+     /* Prevent concurrent jobs trying to modify the graph structure here, we
+      * already have our own plans. Also don't allow resize as the image size is
+      * queried only at the job start and then cached. */
+@@ -276,7 +285,8 @@ void stream_start(const char *job_id, BlockDriverState *bs,
+      * bdrv_reopen_set_read_only() due to parallel block jobs running.
+      */
+     base = bdrv_filtered_bs(above_base);
+-    for (iter = bdrv_filtered_bs(bs); iter && iter != base;
++    for (iter = bdrv_filtered_bs(bs);
++         iter && iter != base && iter->drv && !iter->drv->is_filter;
           iter = bdrv_filtered_bs(iter))
      {
-         if (bdrv_op_is_blocked(iter, BLOCK_OP_TYPE_COMMIT_TARGET, errp)) {
+         block_job_add_bdrv(&s->common, "intermediate node", iter, 0,
+@@ -298,5 +308,5 @@ fail:
+     if (bs_read_only) {
+         bdrv_reopen_set_read_only(bs, true, NULL);
+     }
+-    bdrv_unfreeze_chain(bs, above_base);
++    bdrv_unfreeze_chain(bs, bottom_cow_node);
+ }
 -- 
 1.8.3.1
 
