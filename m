@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FFD01B0CD8
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 15:37:40 +0200 (CEST)
-Received: from localhost ([::1]:35776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 827911B0CFB
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 15:41:59 +0200 (CEST)
+Received: from localhost ([::1]:35882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQWcF-0001fe-IQ
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 09:37:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60918 helo=eggs1p.gnu.org)
+	id 1jQWgQ-00016a-K3
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 09:41:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60958 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jQWXl-0004N8-FL
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:33:06 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jQWXp-0004Pi-3K
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:33:16 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jQWXd-0004iI-1H
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:33:01 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52509
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1jQWXl-0004y3-7c
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:33:04 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48369
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jQWXc-0004dw-Fv
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:32:52 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jQWXj-0004lu-4d
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:32:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587389570;
+ s=mimecast20190719; t=1587389575;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2XnrMwGu/xHrxu+4elEdDQvksopg+zhKpBMUt0ExzpQ=;
- b=IfpkXb8GGxFxILKvrDsCYM3qVtNem1FU2deZe7jY0KTr5ozHRhvbM5FwRB2EeYkWfMpq2u
- KjUi3ShMMPj+FoNjtzp7Q3fHz1YMIUAy8mzwViQEDPr6O9uMHhOvwCz6y1b3dDwKd9gA86
- 4cIgv1mKZAXeWhmidYGSqge2CN5o8Bw=
+ bh=TKgSYL+n34pyRoNUSwIA3YPeiaGgpSG5KHzV8/c4x7U=;
+ b=GhWeUVcI/FuxCAgw5/uUblCdAmPY1pQChngpVzRKqxh44rRQdJjGQZDD57zN4eZLNAr2WE
+ VXmAyU57jImpOkx/Xf7bUToCcpBQjG7/8d457ck26J9gnrMWsqkgcZyn+oimJ3qrt73i2x
+ ZJUYexzV+1kjR3GT9tgPh7sIzZ2Bpuk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-14-9U83nwtZMpGQUB-bF50CLA-1; Mon, 20 Apr 2020 09:32:48 -0400
-X-MC-Unique: 9U83nwtZMpGQUB-bF50CLA-1
+ us-mta-252-aoaIP0VRPVmVStry10J41g-1; Mon, 20 Apr 2020 09:32:50 -0400
+X-MC-Unique: aoaIP0VRPVmVStry10J41g-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C376DDBA9;
- Mon, 20 Apr 2020 13:32:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B729ADBA6;
+ Mon, 20 Apr 2020 13:32:49 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-38.ams2.redhat.com [10.36.114.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4B1ED118DF5;
- Mon, 20 Apr 2020 13:32:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 19851116D8B;
+ Mon, 20 Apr 2020 13:32:47 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 8/9] iotests: Filter testfiles out in img_info_log()
-Date: Mon, 20 Apr 2020 15:32:13 +0200
-Message-Id: <20200420133214.28921-9-kwolf@redhat.com>
+Subject: [PATCH v4 9/9] iotests: Test committing to short backing file
+Date: Mon, 20 Apr 2020 15:32:14 +0200
+Message-Id: <20200420133214.28921-10-kwolf@redhat.com>
 In-Reply-To: <20200420133214.28921-1-kwolf@redhat.com>
 References: <20200420133214.28921-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -57,12 +57,12 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
- 04:32:42
+ 09:01:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,145 +79,452 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This changes the output of some files where instead of filter_img_info()
-now filter_testfiles() takes precedence, so update the reference output.
-
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Tested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/iotests.py |  5 ++++-
- tests/qemu-iotests/206.out    | 12 ++++++------
- tests/qemu-iotests/242.out    | 12 ++++++------
- 3 files changed, 16 insertions(+), 13 deletions(-)
+ tests/qemu-iotests/274     | 152 ++++++++++++++++++++++++++++
+ tests/qemu-iotests/274.out | 202 +++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/group   |   1 +
+ 3 files changed, 355 insertions(+)
+ create mode 100755 tests/qemu-iotests/274
+ create mode 100644 tests/qemu-iotests/274.out
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 7bc4934cd2..3eaf29411b 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -152,7 +152,10 @@ def img_info_log(filename, filter_path=3DNone, imgopts=
-=3DFalse, extra_args=3D[]):
-     output =3D qemu_img_pipe(*args)
-     if not filter_path:
-         filter_path =3D filename
--    log(filter_img_info(output, filter_path))
+diff --git a/tests/qemu-iotests/274 b/tests/qemu-iotests/274
+new file mode 100755
+index 0000000000..30463e54e7
+--- /dev/null
++++ b/tests/qemu-iotests/274
+@@ -0,0 +1,152 @@
++#!/usr/bin/env python3
++#
++# Copyright (C) 2019 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++# Creator/Owner: Kevin Wolf <kwolf@redhat.com>
++#
++# Some tests for short backing files and short overlays
 +
-+    output =3D filter_testfiles(output)
-+    output =3D filter_img_info(output, filter_path)
-+    log(output)
-=20
- def qemu_io(*args):
-     '''Run qemu-io and return the stdout data'''
-diff --git a/tests/qemu-iotests/206.out b/tests/qemu-iotests/206.out
-index 61e7241e0b..adde82f9b8 100644
---- a/tests/qemu-iotests/206.out
-+++ b/tests/qemu-iotests/206.out
-@@ -12,7 +12,7 @@
- {"execute": "job-dismiss", "arguments": {"id": "job0"}}
- {"return": {}}
-=20
--image: TEST_IMG
-+image: TEST_DIR/PID-t.IMGFMT
- file format: IMGFMT
- virtual size: 128 MiB (134217728 bytes)
- cluster_size: 65536
-@@ -34,7 +34,7 @@ Format specific information:
- {"execute": "job-dismiss", "arguments": {"id": "job0"}}
- {"return": {}}
-=20
--image: TEST_IMG
-+image: TEST_DIR/PID-t.IMGFMT
- file format: IMGFMT
- virtual size: 64 MiB (67108864 bytes)
- cluster_size: 65536
-@@ -56,7 +56,7 @@ Format specific information:
- {"execute": "job-dismiss", "arguments": {"id": "job0"}}
- {"return": {}}
-=20
--image: TEST_IMG
-+image: TEST_DIR/PID-t.IMGFMT
- file format: IMGFMT
- virtual size: 32 MiB (33554432 bytes)
- cluster_size: 2097152
-@@ -78,11 +78,11 @@ Format specific information:
- {"execute": "job-dismiss", "arguments": {"id": "job0"}}
- {"return": {}}
-=20
--image: TEST_IMG
-+image: TEST_DIR/PID-t.IMGFMT
- file format: IMGFMT
- virtual size: 32 MiB (33554432 bytes)
- cluster_size: 512
--backing file: TEST_IMG.base
-+backing file: TEST_DIR/PID-t.IMGFMT.base
- backing file format: IMGFMT
- Format specific information:
-     compat: 0.10
-@@ -95,7 +95,7 @@ Format specific information:
- {"execute": "job-dismiss", "arguments": {"id": "job0"}}
- {"return": {}}
-=20
--image: TEST_IMG
-+image: TEST_DIR/PID-t.IMGFMT
- file format: IMGFMT
- virtual size: 32 MiB (33554432 bytes)
- encrypted: yes
-diff --git a/tests/qemu-iotests/242.out b/tests/qemu-iotests/242.out
-index 7ac8404d11..0cc3a78bb2 100644
---- a/tests/qemu-iotests/242.out
-+++ b/tests/qemu-iotests/242.out
-@@ -6,7 +6,7 @@ wrote 262144/262144 bytes at offset 0
-=20
- qemu-img info dump:
-=20
--image: TEST_IMG
-+image: TEST_DIR/PID-disk
- file format: IMGFMT
- virtual size: 1 MiB (1048576 bytes)
- cluster_size: 65536
-@@ -26,7 +26,7 @@ wrote 262144/262144 bytes at offset 262144
-=20
- qemu-img info dump:
-=20
--image: TEST_IMG
-+image: TEST_DIR/PID-disk
- file format: IMGFMT
- virtual size: 1 MiB (1048576 bytes)
- cluster_size: 65536
-@@ -58,7 +58,7 @@ wrote 262144/262144 bytes at offset 524288
-=20
- qemu-img info dump:
-=20
--image: TEST_IMG
-+image: TEST_DIR/PID-disk
- file format: IMGFMT
- virtual size: 1 MiB (1048576 bytes)
- cluster_size: 65536
-@@ -98,7 +98,7 @@ Test 4
- Checking "in-use" flag...
- qemu-img info dump:
-=20
--image: TEST_IMG
-+image: TEST_DIR/PID-disk
- file format: IMGFMT
- virtual size: 1 MiB (1048576 bytes)
- cluster_size: 65536
-@@ -143,11 +143,11 @@ Test 5
- {"execute": "block-dirty-bitmap-add", "arguments": {"disabled": false, "gr=
-anularity": 16384, "name": "bitmap-0", "node": "drive0", "persistent": true=
-}}
- {"return": {}}
- Write an unknown bitmap flag '0x4' into a new QCOW2 image at offset 327695
--qemu-img: Could not open 'TEST_IMG': Bitmap 'bitmap-0' doesn't satisfy the=
- constraints
-+qemu-img: Could not open 'TEST_DIR/PID-disk': Bitmap 'bitmap-0' doesn't sa=
-tisfy the constraints
-=20
- Unset the unknown bitmap flag '0x4' in the bitmap directory entry:
-=20
--image: TEST_IMG
-+image: TEST_DIR/PID-disk
- file format: IMGFMT
- virtual size: 1 MiB (1048576 bytes)
- cluster_size: 65536
++import iotests
++import os
++
++iotests.verify_image_format(supported_fmts=3D['qcow2'])
++iotests.verify_platform(['linux'])
++
++size_short =3D 1 * 1024 * 1024
++size_long =3D 2 * 1024 * 1024
++size_diff =3D size_long - size_short
++
++def create_chain():
++    iotests.qemu_img_log('create', '-f', iotests.imgfmt, base,
++                         str(size_long))
++    iotests.qemu_img_log('create', '-f', iotests.imgfmt, '-b', base, mid,
++                         str(size_short))
++    iotests.qemu_img_log('create', '-f', iotests.imgfmt, '-b', mid, top,
++                         str(size_long))
++
++    iotests.qemu_io_log('-c', 'write -P 1 0 %d' % size_long, base)
++
++def create_vm():
++    vm =3D iotests.VM()
++    vm.add_blockdev('file,filename=3D%s,node-name=3Dbase-file' % (base))
++    vm.add_blockdev('%s,file=3Dbase-file,node-name=3Dbase' % (iotests.imgf=
+mt))
++    vm.add_blockdev('file,filename=3D%s,node-name=3Dmid-file' % (mid))
++    vm.add_blockdev('%s,file=3Dmid-file,node-name=3Dmid,backing=3Dbase' % =
+(iotests.imgfmt))
++    vm.add_drive(top, 'backing=3Dmid,node-name=3Dtop')
++    return vm
++
++with iotests.FilePath('base') as base, \
++     iotests.FilePath('mid') as mid, \
++     iotests.FilePath('top') as top:
++
++    iotests.log('=3D=3D Commit tests =3D=3D')
++
++    create_chain()
++
++    iotests.log('=3D=3D=3D Check visible data =3D=3D=3D')
++
++    iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, top)
++    iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff),=
+ top)
++
++    iotests.log('=3D=3D=3D Checking allocation status =3D=3D=3D')
++
++    iotests.qemu_io_log('-c', 'alloc 0 %d' % size_short,
++                        '-c', 'alloc %d %d' % (size_short, size_diff),
++                        base)
++
++    iotests.qemu_io_log('-c', 'alloc 0 %d' % size_short,
++                        '-c', 'alloc %d %d' % (size_short, size_diff),
++                        mid)
++
++    iotests.qemu_io_log('-c', 'alloc 0 %d' % size_short,
++                        '-c', 'alloc %d %d' % (size_short, size_diff),
++                        top)
++
++    iotests.log('=3D=3D=3D Checking map =3D=3D=3D')
++
++    iotests.qemu_img_log('map', '--output=3Djson', base)
++    iotests.qemu_img_log('map', '--output=3Dhuman', base)
++    iotests.qemu_img_log('map', '--output=3Djson', mid)
++    iotests.qemu_img_log('map', '--output=3Dhuman', mid)
++    iotests.qemu_img_log('map', '--output=3Djson', top)
++    iotests.qemu_img_log('map', '--output=3Dhuman', top)
++
++    iotests.log('=3D=3D=3D Testing qemu-img commit (top -> mid) =3D=3D=3D'=
+)
++
++    iotests.qemu_img_log('commit', top)
++    iotests.img_info_log(mid)
++    iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, mid)
++    iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff),=
+ mid)
++
++    iotests.log('=3D=3D=3D Testing HMP commit (top -> mid) =3D=3D=3D')
++
++    create_chain()
++    with create_vm() as vm:
++        vm.launch()
++        vm.qmp_log('human-monitor-command', command_line=3D'commit drive0'=
+)
++
++    iotests.img_info_log(mid)
++    iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, mid)
++    iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff),=
+ mid)
++
++    iotests.log('=3D=3D=3D Testing QMP active commit (top -> mid) =3D=3D=
+=3D')
++
++    create_chain()
++    with create_vm() as vm:
++        vm.launch()
++        vm.qmp_log('block-commit', device=3D'top', base_node=3D'mid',
++                   job_id=3D'job0', auto_dismiss=3DFalse)
++        vm.run_job('job0', wait=3D5)
++
++    iotests.img_info_log(mid)
++    iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, mid)
++    iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff),=
+ mid)
++
++
++    iotests.log('=3D=3D Resize tests =3D=3D')
++
++    # Use different sizes for different allocation modes:
++    #
++    # We want to have at least one test where 32 bit truncation in the siz=
+e of
++    # the overlapping area becomes visible. This is covered by the
++    # prealloc=3D'off' case (1G to 6G is an overlap of 5G).
++    #
++    # However, we can only do this for modes that don't preallocate data
++    # because otherwise we might run out of space on the test host.
++    for (prealloc, base_size, top_size_old, top_size_new, off)  in [
++            ('off',       '6G',  '1G',  '8G',  '5G'),
++            ('metadata', '32G', '30G', '33G', '31G'),
++            ('falloc',   '10M',  '5M', '15M',  '9M'),
++            ('full',     '16M',  '8M', '12M', '11M')]:
++
++        iotests.log('=3D=3D=3D preallocation=3D%s =3D=3D=3D' % prealloc)
++        iotests.qemu_img_log('create', '-f', iotests.imgfmt, base, base_si=
+ze)
++        iotests.qemu_img_log('create', '-f', iotests.imgfmt, '-b', base, t=
+op,
++                             top_size_old)
++        iotests.qemu_io_log('-c', 'write -P 1 %s 64k' % off, base)
++
++        # After this, 0 to base_size should be allocated/zeroed
++        # base_size to top_size_new should be unallocated with
++        # preallocation=3Doff and allocated with preallocation enabled
++        iotests.qemu_img_log('resize', '-f', iotests.imgfmt,
++                             '--preallocation', prealloc, top, top_size_ne=
+w)
++        iotests.qemu_io_log('-c', 'read -P 0 %s 64k' % off, top)
++
++        # Metadata preallocation doesn't have a defined result on the file
++        # system level with respect to holes, so skip it here
++        iotests.qemu_io_log('-c', 'map', top)
++        if prealloc !=3D 'metadata':
++            iotests.qemu_img_log('map', '--output=3Djson', top)
+diff --git a/tests/qemu-iotests/274.out b/tests/qemu-iotests/274.out
+new file mode 100644
+index 0000000000..b11f8ad680
+--- /dev/null
++++ b/tests/qemu-iotests/274.out
+@@ -0,0 +1,202 @@
++=3D=3D Commit tests =3D=3D
++Formatting 'TEST_DIR/PID-base', fmt=3Dqcow2 size=3D2097152 cluster_size=3D=
+65536 lazy_refcounts=3Doff refcount_bits=3D16
++
++Formatting 'TEST_DIR/PID-mid', fmt=3Dqcow2 size=3D1048576 backing_file=3DT=
+EST_DIR/PID-base cluster_size=3D65536 lazy_refcounts=3Doff refcount_bits=3D=
+16
++
++Formatting 'TEST_DIR/PID-top', fmt=3Dqcow2 size=3D2097152 backing_file=3DT=
+EST_DIR/PID-mid cluster_size=3D65536 lazy_refcounts=3Doff refcount_bits=3D1=
+6
++
++wrote 2097152/2097152 bytes at offset 0
++2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++=3D=3D=3D Check visible data =3D=3D=3D
++read 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++read 1048576/1048576 bytes at offset 1048576
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++=3D=3D=3D Checking allocation status =3D=3D=3D
++1048576/1048576 bytes allocated at offset 0 bytes
++1048576/1048576 bytes allocated at offset 1 MiB
++
++0/1048576 bytes allocated at offset 0 bytes
++0/0 bytes allocated at offset 1 MiB
++
++0/1048576 bytes allocated at offset 0 bytes
++0/1048576 bytes allocated at offset 1 MiB
++
++=3D=3D=3D Checking map =3D=3D=3D
++[{ "start": 0, "length": 2097152, "depth": 0, "zero": false, "data": true,=
+ "offset": 327680}]
++
++Offset          Length          Mapped to       File
++0               0x200000        0x50000         TEST_DIR/PID-base
++
++[{ "start": 0, "length": 1048576, "depth": 1, "zero": false, "data": true,=
+ "offset": 327680}]
++
++Offset          Length          Mapped to       File
++0               0x100000        0x50000         TEST_DIR/PID-base
++
++[{ "start": 0, "length": 1048576, "depth": 2, "zero": false, "data": true,=
+ "offset": 327680},
++{ "start": 1048576, "length": 1048576, "depth": 0, "zero": true, "data": f=
+alse}]
++
++Offset          Length          Mapped to       File
++0               0x100000        0x50000         TEST_DIR/PID-base
++
++=3D=3D=3D Testing qemu-img commit (top -> mid) =3D=3D=3D
++Image committed.
++
++image: TEST_DIR/PID-mid
++file format: IMGFMT
++virtual size: 2 MiB (2097152 bytes)
++cluster_size: 65536
++backing file: TEST_DIR/PID-base
++Format specific information:
++    compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++
++read 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++read 1048576/1048576 bytes at offset 1048576
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++=3D=3D=3D Testing HMP commit (top -> mid) =3D=3D=3D
++Formatting 'TEST_DIR/PID-base', fmt=3Dqcow2 size=3D2097152 cluster_size=3D=
+65536 lazy_refcounts=3Doff refcount_bits=3D16
++
++Formatting 'TEST_DIR/PID-mid', fmt=3Dqcow2 size=3D1048576 backing_file=3DT=
+EST_DIR/PID-base cluster_size=3D65536 lazy_refcounts=3Doff refcount_bits=3D=
+16
++
++Formatting 'TEST_DIR/PID-top', fmt=3Dqcow2 size=3D2097152 backing_file=3DT=
+EST_DIR/PID-mid cluster_size=3D65536 lazy_refcounts=3Doff refcount_bits=3D1=
+6
++
++wrote 2097152/2097152 bytes at offset 0
++2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++{"execute": "human-monitor-command", "arguments": {"command-line": "commit=
+ drive0"}}
++{"return": ""}
++image: TEST_DIR/PID-mid
++file format: IMGFMT
++virtual size: 2 MiB (2097152 bytes)
++cluster_size: 65536
++backing file: TEST_DIR/PID-base
++Format specific information:
++    compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++
++read 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++read 1048576/1048576 bytes at offset 1048576
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++=3D=3D=3D Testing QMP active commit (top -> mid) =3D=3D=3D
++Formatting 'TEST_DIR/PID-base', fmt=3Dqcow2 size=3D2097152 cluster_size=3D=
+65536 lazy_refcounts=3Doff refcount_bits=3D16
++
++Formatting 'TEST_DIR/PID-mid', fmt=3Dqcow2 size=3D1048576 backing_file=3DT=
+EST_DIR/PID-base cluster_size=3D65536 lazy_refcounts=3Doff refcount_bits=3D=
+16
++
++Formatting 'TEST_DIR/PID-top', fmt=3Dqcow2 size=3D2097152 backing_file=3DT=
+EST_DIR/PID-mid cluster_size=3D65536 lazy_refcounts=3Doff refcount_bits=3D1=
+6
++
++wrote 2097152/2097152 bytes at offset 0
++2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++{"execute": "block-commit", "arguments": {"auto-dismiss": false, "base-nod=
+e": "mid", "device": "top", "job-id": "job0"}}
++{"return": {}}
++{"execute": "job-complete", "arguments": {"id": "job0"}}
++{"return": {}}
++{"data": {"device": "job0", "len": 0, "offset": 0, "speed": 0, "type": "co=
+mmit"}, "event": "BLOCK_JOB_READY", "timestamp": {"microseconds": "USECS", =
+"seconds": "SECS"}}
++{"data": {"device": "job0", "len": 0, "offset": 0, "speed": 0, "type": "co=
+mmit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USEC=
+S", "seconds": "SECS"}}
++{"execute": "job-dismiss", "arguments": {"id": "job0"}}
++{"return": {}}
++image: TEST_DIR/PID-mid
++file format: IMGFMT
++virtual size: 2 MiB (2097152 bytes)
++cluster_size: 65536
++backing file: TEST_DIR/PID-base
++Format specific information:
++    compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++
++read 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++read 1048576/1048576 bytes at offset 1048576
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++=3D=3D Resize tests =3D=3D
++=3D=3D=3D preallocation=3Doff =3D=3D=3D
++Formatting 'TEST_DIR/PID-base', fmt=3Dqcow2 size=3D6442450944 cluster_size=
+=3D65536 lazy_refcounts=3Doff refcount_bits=3D16
++
++Formatting 'TEST_DIR/PID-top', fmt=3Dqcow2 size=3D1073741824 backing_file=
+=3DTEST_DIR/PID-base cluster_size=3D65536 lazy_refcounts=3Doff refcount_bit=
+s=3D16
++
++wrote 65536/65536 bytes at offset 5368709120
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++Image resized.
++
++read 65536/65536 bytes at offset 5368709120
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++1 GiB (0x40000000) bytes not allocated at offset 0 bytes (0x0)
++7 GiB (0x1c0000000) bytes     allocated at offset 1 GiB (0x40000000)
++
++[{ "start": 0, "length": 1073741824, "depth": 1, "zero": true, "data": fal=
+se},
++{ "start": 1073741824, "length": 7516192768, "depth": 0, "zero": true, "da=
+ta": false}]
++
++=3D=3D=3D preallocation=3Dmetadata =3D=3D=3D
++Formatting 'TEST_DIR/PID-base', fmt=3Dqcow2 size=3D34359738368 cluster_siz=
+e=3D65536 lazy_refcounts=3Doff refcount_bits=3D16
++
++Formatting 'TEST_DIR/PID-top', fmt=3Dqcow2 size=3D32212254720 backing_file=
+=3DTEST_DIR/PID-base cluster_size=3D65536 lazy_refcounts=3Doff refcount_bit=
+s=3D16
++
++wrote 65536/65536 bytes at offset 33285996544
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++Image resized.
++
++read 65536/65536 bytes at offset 33285996544
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++30 GiB (0x780000000) bytes not allocated at offset 0 bytes (0x0)
++3 GiB (0xc0000000) bytes     allocated at offset 30 GiB (0x780000000)
++
++=3D=3D=3D preallocation=3Dfalloc =3D=3D=3D
++Formatting 'TEST_DIR/PID-base', fmt=3Dqcow2 size=3D10485760 cluster_size=
+=3D65536 lazy_refcounts=3Doff refcount_bits=3D16
++
++Formatting 'TEST_DIR/PID-top', fmt=3Dqcow2 size=3D5242880 backing_file=3DT=
+EST_DIR/PID-base cluster_size=3D65536 lazy_refcounts=3Doff refcount_bits=3D=
+16
++
++wrote 65536/65536 bytes at offset 9437184
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++Image resized.
++
++read 65536/65536 bytes at offset 9437184
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++5 MiB (0x500000) bytes not allocated at offset 0 bytes (0x0)
++10 MiB (0xa00000) bytes     allocated at offset 5 MiB (0x500000)
++
++[{ "start": 0, "length": 5242880, "depth": 1, "zero": true, "data": false}=
+,
++{ "start": 5242880, "length": 10485760, "depth": 0, "zero": true, "data": =
+false, "offset": 327680}]
++
++=3D=3D=3D preallocation=3Dfull =3D=3D=3D
++Formatting 'TEST_DIR/PID-base', fmt=3Dqcow2 size=3D16777216 cluster_size=
+=3D65536 lazy_refcounts=3Doff refcount_bits=3D16
++
++Formatting 'TEST_DIR/PID-top', fmt=3Dqcow2 size=3D8388608 backing_file=3DT=
+EST_DIR/PID-base cluster_size=3D65536 lazy_refcounts=3Doff refcount_bits=3D=
+16
++
++wrote 65536/65536 bytes at offset 11534336
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++Image resized.
++
++read 65536/65536 bytes at offset 11534336
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++8 MiB (0x800000) bytes not allocated at offset 0 bytes (0x0)
++4 MiB (0x400000) bytes     allocated at offset 8 MiB (0x800000)
++
++[{ "start": 0, "length": 8388608, "depth": 1, "zero": true, "data": false}=
+,
++{ "start": 8388608, "length": 4194304, "depth": 0, "zero": true, "data": f=
+alse, "offset": 327680}]
++
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index 435dccd5af..1710470e70 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -286,6 +286,7 @@
+ 270 rw backing quick
+ 272 rw
+ 273 backing quick
++274 rw backing
+ 277 rw quick
+ 279 rw backing quick
+ 280 rw migration quick
 --=20
 2.20.1
 
