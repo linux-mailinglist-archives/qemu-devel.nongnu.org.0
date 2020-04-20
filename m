@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BFDF1B0CB0
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 15:33:25 +0200 (CEST)
-Received: from localhost ([::1]:35618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C18991B0CAB
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 15:31:04 +0200 (CEST)
+Received: from localhost ([::1]:35554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQWY7-0003z6-Ov
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 09:33:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59620 helo=eggs1p.gnu.org)
+	id 1jQWVr-0001JJ-Rv
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 09:31:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59568 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jQWTV-0007Sh-T5
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:28:38 -0400
+ (envelope-from <armbru@redhat.com>) id 1jQWTT-0007Pw-2P
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:28:37 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jQWTS-0002sH-Kp
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:28:36 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26241
+ (envelope-from <armbru@redhat.com>) id 1jQWTR-0002o7-Vd
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:28:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58529
  helo=us-smtp-1.mimecast.com)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jQWTS-0002lX-2S
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:28:34 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jQWTR-0002hO-86
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:28:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587389312;
+ s=mimecast20190719; t=1587389311;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=DXpqKi3g09GVfDfB28U6QJGMtxJDpE9EYMqat2A2hhI=;
- b=JdUG3K1oR1HuJL/U+b2C1bxwxWgQ/wSxcp/CCxWroIxrTyHs+s+52mHXKnXQ3NJRZaDCjo
- tmdta1zyBeh8K/Adj9J/1T/IBAT4x7NSUoJFnJYc+GXOAK2EfOzhvArw5DPj23mMyHHzHm
- hvfns0W54mp0SxpSBfxrPEWqr++ikvI=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=09TJwsmOuS2nlb9BQG9YMwh8nZNuEZc4zt/gXYeOK3M=;
+ b=ZLWG7Wks3Q6v0+Gb+ZnvPG9STmrJIE4/nL2rlCmZYWGgUwi+eW9vn/JIDzvDfyOdqIieEj
+ EQyB3u+tJwp2xBwK42U2o9PzW5FZvQ/AxiMzVWneJgKSpt3frEIH9aVafwH3Qet+4XqPKH
+ ePOR4+lCn2APvPhVl+smHtjH+1tA7Vs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-DbemzOaxNBCuZSEFuslmAw-1; Mon, 20 Apr 2020 09:28:30 -0400
-X-MC-Unique: DbemzOaxNBCuZSEFuslmAw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-16-4-4F3Zd-OGqlF1O7b0-fYg-1; Mon, 20 Apr 2020 09:28:30 -0400
+X-MC-Unique: 4-4F3Zd-OGqlF1O7b0-fYg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A0A380256A;
- Mon, 20 Apr 2020 13:28:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7060107ACCD;
+ Mon, 20 Apr 2020 13:28:28 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C70838D;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C64F5DA76;
  Mon, 20 Apr 2020 13:28:27 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1AD8411358BC; Mon, 20 Apr 2020 15:28:26 +0200 (CEST)
+ id 1D36611358BD; Mon, 20 Apr 2020 15:28:26 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] Subject: [PATCH 0/4] smbus: SPD fixes
-Date: Mon, 20 Apr 2020 15:28:22 +0200
-Message-Id: <20200420132826.8879-1-armbru@redhat.com>
+Subject: [PATCH 1/4] sam460ex: Revert change to SPD memory type for <= 128 MiB
+Date: Mon, 20 Apr 2020 15:28:23 +0200
+Message-Id: <20200420132826.8879-2-armbru@redhat.com>
+In-Reply-To: <20200420132826.8879-1-armbru@redhat.com>
+References: <20200420132826.8879-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
- 03:29:13
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+ 04:32:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,23 +80,58 @@ Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PATCH 1 fixes a regression, but it's a rather old one: regressed in
-v4.0.0.  I doubt it needs to go into 5.0 at this stage.  But it's up
-to the maintainer(s).
+Requesting 32 or 64 MiB of RAM with the sam460ex machine type produces
+a useless warning:
 
-Markus Armbruster (4):
-  sam460ex: Revert change to SPD memory type for <=3D 128 MiB
-  smbus: Fix spd_data_generate() error API violation
-  bamboo, sam460ex: Tidy up error message for unsupported RAM size
-  smbus: Fix spd_data_generate() for number of banks > 2
+    qemu-system-ppc: warning: Memory size is too small for SDRAM type, adju=
+sting type
 
- include/hw/i2c/smbus_eeprom.h |  2 +-
- hw/i2c/smbus_eeprom.c         | 32 +++++---------------------------
- hw/mips/mips_fulong2e.c       | 10 ++--------
- hw/ppc/ppc4xx_devs.c          |  4 ++--
- hw/ppc/sam460ex.c             | 13 ++++---------
- 5 files changed, 14 insertions(+), 47 deletions(-)
+This is because sam460ex_init() asks spd_data_generate() for DDR2,
+which is impossible, so spd_data_generate() corrects it to DDR.
 
+The warning goes back to commit 08fd99179a "sam460ex: Clean up SPD
+EEPROM creation".  Turns out that commit changed memory type and
+number of banks to
+
+    RAM size    #banks  type    bank size
+     128 MiB         1   DDR2     128 MiB
+      64 MiB         2   DDR       32 MiB
+      32 MiB         1   DDR       32 MiB
+
+from
+
+    RAM size    #banks  type    bank size
+     128 MiB         2   SDR       64 MiB
+      64 MiB         2   SDR       32 MiB
+      32 MiB         2   SDR       16 MiB
+
+Reverting that change also gets rid of the warning.
+
+I doubt physical Sam460ex boards can take SDR or DDR modules, though.
+
+The commit changed SPD contents in other places, too.  So does commit
+fb1b0fcc03 "target/mips: fulong2e: Dynamically generate SPD EEPROM
+data" for machine type fulong2e.  I'm not reverting these changes.
+
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ hw/ppc/sam460ex.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+index 898453cf30..856bc0b5a3 100644
+--- a/hw/ppc/sam460ex.c
++++ b/hw/ppc/sam460ex.c
+@@ -335,7 +335,8 @@ static void sam460ex_init(MachineState *machine)
+     dev =3D sysbus_create_simple(TYPE_PPC4xx_I2C, 0x4ef600700, uic[0][2]);
+     i2c =3D PPC4xx_I2C(dev)->bus;
+     /* SPD EEPROM on RAM module */
+-    spd_data =3D spd_data_generate(DDR2, ram_sizes[0], &err);
++    spd_data =3D spd_data_generate(ram_sizes[0] < 256 * MiB ? SDR : DDR2,
++                                 ram_sizes[0], &err);
+     if (err) {
+         warn_report_err(err);
+     }
 --=20
 2.21.1
 
