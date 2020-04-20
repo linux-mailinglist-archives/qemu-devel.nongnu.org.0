@@ -2,73 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC4E11B19D4
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 00:57:34 +0200 (CEST)
-Received: from localhost ([::1]:43634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F5D51B19F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 01:11:54 +0200 (CEST)
+Received: from localhost ([::1]:43758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQfM5-0002y8-CG
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 18:57:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58048)
+	id 1jQfZw-0007YE-OO
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 19:11:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60202)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.williamson@redhat.com>) id 1jQfL2-0002J9-NP
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 18:56:29 -0400
+ (envelope-from <bounces@canonical.com>) id 1jQfZ5-000773-1P
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 19:10:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alex.williamson@redhat.com>) id 1jQfL0-0004pI-2t
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 18:56:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48304
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1jQfKz-0004mS-GD
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 18:56:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587423383;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+6rx/b7kvEOxDoffPYjKOUpjUAof+LX7RGvD23w8b8o=;
- b=dtcP6ZU7PmBX51pp4HjfZ2a31Ku3eORhOTmlpBCs7P7w3MsJaPgCoSITiaCwdsgb5wUPdb
- QXBbskuBrj3gL7YNuPRiviXFexHNNOvL/eyXvsFLIuqFLZVcy6lGl+Coy+LyrC0smCeEvi
- s8dyT95Cm9ai/asprb63qRuglOk79Hw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-33-vJCMrAUjOA-zQBEbwS3yOQ-1; Mon, 20 Apr 2020 18:56:19 -0400
-X-MC-Unique: vJCMrAUjOA-zQBEbwS3yOQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A529C8017F5;
- Mon, 20 Apr 2020 22:56:14 +0000 (UTC)
-Received: from w520.home (ovpn-112-162.phx2.redhat.com [10.3.112.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7990818A85;
- Mon, 20 Apr 2020 22:56:01 +0000 (UTC)
-Date: Mon, 20 Apr 2020 16:56:00 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Yan Zhao <yan.y.zhao@intel.com>
-Subject: Re: [PATCH v5 0/4] introduction of migration_version attribute for
- VFIO live migration
-Message-ID: <20200420165600.4951ae82@w520.home>
-In-Reply-To: <20200420012457.GE16688@joy-OptiPlex-7040>
-References: <20200413055201.27053-1-yan.y.zhao@intel.com>
- <20200417104450.2d2f2fa9.cohuck@redhat.com>
- <20200417095202.GD16688@joy-OptiPlex-7040>
- <20200417132457.45d91fe3.cohuck@redhat.com>
- <20200420012457.GE16688@joy-OptiPlex-7040>
+ (envelope-from <bounces@canonical.com>) id 1jQfZ4-0006Cy-47
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 19:10:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38356)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jQfZ3-0006Cn-N5
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 19:10:57 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jQfZ1-0008QK-LX
+ for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 23:10:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 93E082E8106
+ for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 23:10:55 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Received-SPF: pass client-ip=207.211.31.120;
- envelope-from=alex.williamson@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/20 18:07:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 20 Apr 2020 22:58:26 -0000
+From: Babu Moger <1856335@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: babumoger djdatte h-sieger
+X-Launchpad-Bug-Reporter: Damir (djdatte)
+X-Launchpad-Bug-Modifier: Babu Moger (babumoger)
+References: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
+Message-Id: <158742350692.19878.6882586493225306144.malone@gac.canonical.com>
+Subject: [Bug 1856335] Re: Cache Layout wrong on many Zen Arch CPUs
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 2ee37258dd9fdec4f6dc9af7fd7f9d106414ec20
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/20 19:00:58
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,171 +67,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "cjia@nvidia.com" <cjia@nvidia.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>,
- "Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
- "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
- "eauger@redhat.com" <eauger@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>,
- "Liu, Yi
- L" <yi.l.liu@intel.com>, "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
- Ziye" <ziye.yang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
- "felipe@nutanix.com" <felipe@nutanix.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
- "Tian, Kevin" <kevin.tian@intel.com>, "Zeng, Xin" <xin.zeng@intel.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
- "dinechin@redhat.com" <dinechin@redhat.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- "Liu, Changpeng" <changpeng.liu@intel.com>,
- "berrange@redhat.com" <berrange@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>,
- "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "He,
- Shaopeng" <shaopeng.he@intel.com>
+Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 19 Apr 2020 21:24:57 -0400
-Yan Zhao <yan.y.zhao@intel.com> wrote:
+Damir, Example of how to use numa configuration.
+-smp 16,maxcpus=3D16,cores=3D16,threads=3D1,sockets=3D1 -numa node,nodeid=
+=3D0,cpus=3D0-7 -numa node,nodeid=3D1,cpus=3D8-15
 
-> On Fri, Apr 17, 2020 at 07:24:57PM +0800, Cornelia Huck wrote:
-> > On Fri, 17 Apr 2020 05:52:02 -0400
-> > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> >   
-> > > On Fri, Apr 17, 2020 at 04:44:50PM +0800, Cornelia Huck wrote:  
-> > > > On Mon, 13 Apr 2020 01:52:01 -0400
-> > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> > > >     
-> > > > > This patchset introduces a migration_version attribute under sysfs of VFIO
-> > > > > Mediated devices.
-> > > > > 
-> > > > > This migration_version attribute is used to check migration compatibility
-> > > > > between two mdev devices.
-> > > > > 
-> > > > > Currently, it has two locations:
-> > > > > (1) under mdev_type node,
-> > > > >     which can be used even before device creation, but only for mdev
-> > > > >     devices of the same mdev type.
-> > > > > (2) under mdev device node,
-> > > > >     which can only be used after the mdev devices are created, but the src
-> > > > >     and target mdev devices are not necessarily be of the same mdev type
-> > > > > (The second location is newly added in v5, in order to keep consistent
-> > > > > with the migration_version node for migratable pass-though devices)    
-> > > > 
-> > > > What is the relationship between those two attributes?
-> > > >     
-> > > (1) is for mdev devices specifically, and (2) is provided to keep the same
-> > > sysfs interface as with non-mdev cases. so (2) is for both mdev devices and
-> > > non-mdev devices.
-> > > 
-> > > in future, if we enable vfio-pci vendor ops, (i.e. a non-mdev device
-> > > is binding to vfio-pci, but is able to register migration region and do
-> > > migration transactions from a vendor provided affiliate driver),
-> > > the vendor driver would export (2) directly, under device node.
-> > > It is not able to provide (1) as there're no mdev devices involved.  
-> > 
-> > Ok, creating an alternate attribute for non-mdev devices makes sense.
-> > However, wouldn't that rather be a case (3)? The change here only
-> > refers to mdev devices.
-> >  
-> as you pointed below, (3) and (2) serve the same purpose. 
-> and I think a possible usage is to migrate between a non-mdev device and
-> an mdev device. so I think it's better for them both to use (2) rather
-> than creating (3).
+This will help to put all the cores in correct L3 boundary. I strongly
+suggest to use the latest qemu release.
 
-An mdev type is meant to define a software compatible interface, so in
-the case of mdev->mdev migration, doesn't migrating to a different type
-fail the most basic of compatibility tests that we expect userspace to
-perform?  IOW, if two mdev types are migration compatible, it seems a
-prerequisite to that is that they provide the same software interface,
-which means they should be the same mdev type.
+-- =
 
-In the hybrid cases of mdev->phys or phys->mdev, how does a management
-tool begin to even guess what might be compatible?  Are we expecting
-libvirt to probe ever device with this attribute in the system?  Is
-there going to be a new class hierarchy created to enumerate all
-possible migrate-able devices?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856335
 
-I agree that there was a gap in the previous proposal for non-mdev
-devices, but I think this bring a lot of questions that we need to
-puzzle through and libvirt will need to re-evaluate how they might
-decide to pick a migration target device.  For example, I'm sure
-libvirt would reject any policy decisions regarding picking a physical
-device versus an mdev device.  Had we previously left it that only a
-layer above libvirt would select a target device and libvirt only tests
-compatibility to that target device?
+Title:
+  Cache Layout wrong on many Zen Arch CPUs
 
-We also need to consider that this expands the namespace.  If we no
-longer require matching types as the first level of comparison, then
-vendor migration strings can theoretically collide.  How do we
-coordinate that can't happen?  Thanks,
+Status in QEMU:
+  New
 
-Alex
+Bug description:
+  AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems
+  to always map Cache ass if it was an 4-Core per CCX CPU, which is
+  incorrect, and costs upwards 30% performance (more realistically 10%)
+  in L3 Cache Layout aware applications.
 
-> > > > Is existence (and compatibility) of (1) a pre-req for possible
-> > > > existence (and compatibility) of (2)?
-> > > >    
-> > > no. (2) does not reply on (1).  
-> > 
-> > Hm. Non-existence of (1) seems to imply "this type does not support
-> > migration". If an mdev created for such a type suddenly does support
-> > migration, it feels a bit odd.
-> >   
-> yes. but I think if the condition happens, it should be reported a bug
-> to vendor driver.
-> should I add a line in the doc like "vendor driver should ensure that the
-> migration compatibility from migration_version under mdev_type should be
-> consistent with that from migration_version under device node" ?
-> 
-> > (It obviously cannot be a prereq for what I called (3) above.)
-> >   
-> > >   
-> > > > Does userspace need to check (1) or can it completely rely on (2), if
-> > > > it so chooses?
-> > > >    
-> > > I think it can completely reply on (2) if compatibility check before
-> > > mdev creation is not required.
-> > >   
-> > > > If devices with a different mdev type are indeed compatible, it seems
-> > > > userspace can only find out after the devices have actually been
-> > > > created, as (1) does not apply?    
-> > > yes, I think so.   
-> > 
-> > How useful would it be for userspace to even look at (1) in that case?
-> > It only knows if things have a chance of working if it actually goes
-> > ahead and creates devices.
-> >  
-> hmm, is it useful for userspace to test the migration_version under mdev
-> type before it knows what mdev device to generate ?
-> like when the userspace wants to migrate an mdev device in src vm,
-> but it has not created target vm and the target mdev device.
-> 
-> > >   
-> > > > One of my worries is that the existence of an attribute with the same
-> > > > name in two similar locations might lead to confusion. But maybe it
-> > > > isn't a problem.
-> > > >    
-> > > Yes, I have the same feeling. but as (2) is for sysfs interface
-> > > consistency, to make it transparent to userspace tools like libvirt,
-> > > I guess the same name is necessary?  
-> > 
-> > What do we actually need here, I wonder? (1) and (2) seem to serve
-> > slightly different purposes, while (2) and what I called (3) have the
-> > same purpose. Is it important to userspace that (1) and (2) have the
-> > same name?  
-> so change (1) to migration_type_version and (2) to
-> migration_instance_version?
-> But as they are under different locations, could that location imply
-> enough information?
-> 
-> 
-> Thanks
-> Yan
-> 
-> 
+  Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
 
+  =C2=A0=C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'8' threads=3D'1'=
+/>
+
+  In windows, coreinfo reports correctly:
+
+  ****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  On a 3-CCX CPU (3960X /w 6 cores and no SMT):
+
+  =C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'6' threads=3D'1'=
+/>
+
+  in windows, coreinfo reports incorrectly:
+
+  ****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm.
+
+  With newer Qemu there is a fix (that does behave correctly) in using the =
+dies parameter:
+  =C2=A0<qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
+
+  The problem is that the dies are exposed differently than how AMD does
+  it natively, they are exposed to Windows as sockets, which means, that
+  if you are nto a business user, you can't ever have a machine with
+  more than two CCX (6 cores) as consumer versions of Windows only
+  supports two sockets. (Should this be reported as a separate bug?)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856335/+subscriptions
 
