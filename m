@@ -2,66 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B5521B14FA
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 20:45:18 +0200 (CEST)
-Received: from localhost ([::1]:40710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9F571B14B4
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 20:36:43 +0200 (CEST)
+Received: from localhost ([::1]:40570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQbPx-0000HN-9X
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 14:45:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45786 helo=eggs1p.gnu.org)
+	id 1jQbHe-0000Fp-BP
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 14:36:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44352 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jQbML-0007HL-TJ
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 14:41:34 -0400
+ (envelope-from <jsuvorov@redhat.com>) id 1jQbGR-0008Be-Iy
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 14:35:27 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jQbMK-00075S-Lj
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 14:41:33 -0400
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:44733)
- by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jQbMK-00071s-6b; Mon, 20 Apr 2020 14:41:32 -0400
-Received: by mail-il1-x141.google.com with SMTP id s10so10148385iln.11;
- Mon, 20 Apr 2020 11:41:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7+YxCbIxn/HBNbX3UwrQogGY+hAgxUxJbHlB4UXB1Xs=;
- b=BSvqZDAWzn0QxfPOaPP7XF+XOx0QsGBZmrPdgzehT7/c3LQ0n0k+D8Tm480F+PYUwn
- 7XunO7mQflvIvbuFwfuR0nELqG8rQgR5ycwSxfXdkLVqaZOo9WxJh0lc2iFgI4XLDlbn
- BjSgnqP5TpvL0smEx/26KNC2OiPCRF/uL+961RuthDZRdseQBjo0CrdoxPRWSG1grUjB
- FcUP3odmsrg/iXOpgyMukThocDbFmUn2LEn+wexuxTTu/Q9xj6wPn1LBmlIlhXdUzsoc
- iBF+1Kr3XO6aOtrYRcJkQQYyOC3k//cZtpOTqjqPPECQTeHsHq+F9U1mojX6GjR5onqq
- yNXg==
+ (envelope-from <jsuvorov@redhat.com>) id 1jQbGP-0000Sb-Kn
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 14:35:26 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36362
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
+ id 1jQbGP-0000Ol-60
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 14:35:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587407723;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=l4hf7Kq9UsvBGLZr0nrQMZDe0o+wls0D/tv+L0W7oDQ=;
+ b=FdGIm2WRM/0zwIQ6lFJGC67W3esVD0wuVqC90geo2JEgeXETSgp2fHYscxt3mpoQVbo9Rp
+ ArZ0jKVMVKpTf6eenW+cqzA2yHFPfj3pBMXgHfG5/g5MtnaPcIb3In761Jpc8mRRyX499O
+ /Nc/ahVuU2cOjTJ0GET3/t8MVsUf4Lw=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-512-TBfwIdBONbO8bIdx3l_2aQ-1; Mon, 20 Apr 2020 14:35:17 -0400
+X-MC-Unique: TBfwIdBONbO8bIdx3l_2aQ-1
+Received: by mail-lf1-f70.google.com with SMTP id v6so4555512lfi.6
+ for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 11:35:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7+YxCbIxn/HBNbX3UwrQogGY+hAgxUxJbHlB4UXB1Xs=;
- b=SZ8BxXuZPbEt+dS4SMlx9aztzSdybGHpIhbK/NOG43L5iPLv2ZGCR4pv8S0qEuElTZ
- F3IwjlhyFfUEoJiVQpc9kFHbWTtwj94Q0T2AIDrNZNWw1E2jGvRrAo5XFjZo/tfTE8gC
- jR2ZMmNQkk1Rl6m8qu3UaATgp3ZpBbzbT/VIC+u1JqSI+H1oGBA3sXuwmYsDH16XE7+g
- jCWqd7unBhiB4eEmMaautXmYgknysyPPuFI6xHWsV25ywgtwD/8q1GPgrLxOP1QaUuSM
- Om3LUwNNKfJR3Qp0Oldaconad1U0+vlCRqJeTfccBgpm+hP6dkNNzud/9xgXmFKzuEb4
- OtsQ==
-X-Gm-Message-State: AGi0Pub7d92kWDgEUCOqVcNVNesUtGcCo5yJONFOl0bYxNb4CDbMd0At
- udu8l/rZmVk9G4aM9Q/a3RfDZ02qfTJ4FILDGl8=
-X-Google-Smtp-Source: APiQypL2ccxq8x6AZ/Ccw3Y1qJioVqkoDBIc5RIFxDL+if36pk0o5hWD2myLzMtt9cAj958ziGZMxAUmfH1hQGDgsLk=
-X-Received: by 2002:a92:9a5c:: with SMTP id t89mr17736131ili.267.1587408090528; 
- Mon, 20 Apr 2020 11:41:30 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=l4hf7Kq9UsvBGLZr0nrQMZDe0o+wls0D/tv+L0W7oDQ=;
+ b=IT/SKCk7sBdIXoOghWqhQnZetcHQhVynxM1pRMlNDS+Ah58sZ2TCxRqVvE54E+1nvk
+ 0yFN2WSTBoPenJ8WO+fouo1UX5fajZTh2JjLqgUNvVkywLE1POOygplmLm2ZLARgGman
+ +Cz347879N2w6rt+XQFcxVExoGCGyxVTtqaochxR8eA6Fdnb7yQh693invcbeB9yTyS4
+ NjM+vcFMiFXHsAqTS0WNYVYhiZoZRDLJM1RoL5KOQ47BLnPJQbfmyIHohQLr1nnuJcVF
+ 0ovPggGS4xVLhZhhAvX/FBxlH28baTrsiR9N644CZtQHmqGqaha3KhRZ1CkNl1Zh5NxP
+ 2iDg==
+X-Gm-Message-State: AGi0PubfR+ref3qB4uTXTO937tkXYG6V5J5gXT9hFlcWNAMNBbIgJCi8
+ OTDaedKJzkG2czyYPVQEl6z5uFMSCopldNOSZiSBwowQmV3vHefksj/Hv1kqwfaZYEwNQ2Wb41e
+ u56/9HEwArYZanz0d4R8mdSPy5Y2CAb4=
+X-Received: by 2002:a05:6512:10c5:: with SMTP id
+ k5mr11740689lfg.0.1587407715529; 
+ Mon, 20 Apr 2020 11:35:15 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIaiwKwIRoNXigLlxcF3Vms0MA0xaP61Z8cGeUOFubr6MeJCDc8SOkYeMAAhh8mlIqLMPdMZADN8uOtqZzbx5s=
+X-Received: by 2002:a05:6512:10c5:: with SMTP id
+ k5mr11740668lfg.0.1587407715264; 
+ Mon, 20 Apr 2020 11:35:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <1587389038-1549-1-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1587389038-1549-1-git-send-email-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 20 Apr 2020 11:33:03 -0700
-Message-ID: <CAKmqyKMzUzHC1FhV6ccjswjRvQH_h6DuUwEWjte4CAEmxPOKDg@mail.gmail.com>
-Subject: Re: [PATCH] roms: opensbi: Upgrade from v0.6 to v0.7
-To: Bin Meng <bmeng.cn@gmail.com>
+References: <1587136411-200885-1-git-send-email-ani.sinha@nutanix.com>
+ <20200417112620-mutt-send-email-mst@kernel.org>
+ <2A13ACCD-BD24-41FB-B6EA-2804F7C1FF1D@nutanix.com>
+ <20200417120732-mutt-send-email-mst@kernel.org>
+ <56B4E13C-DCAA-4E40-A821-6C043844A253@nutanix.com>
+ <0e15c8e7-7b32-985e-c182-2868273a1bd7@redhat.com>
+ <AFEDBC1F-8536-4354-9C5E-9829C258B6E3@nutanix.com>
+ <67ca69f6-8d6b-8be0-72f2-b30a67edf200@gmail.com>
+ <24B1F6CD-14DD-4F28-9406-453D19CCAFCF@nutanix.com>
+ <315246A9-D4F1-4C92-A822-90809A171FAD@nutanix.com>
+In-Reply-To: <315246A9-D4F1-4C92-A822-90809A171FAD@nutanix.com>
+From: Julia Suvorova <jusual@redhat.com>
+Date: Mon, 20 Apr 2020 20:35:04 +0200
+Message-ID: <CAMDeoFXA=knXuwx4_mt7Hn9zymCrhk_fvoUhfH1=hp5sLXx+Gg@mail.gmail.com>
+Subject: Re: [PATCH] Add a new PIIX option to control PCI hot unplugging of
+ devices on non-root buses
+To: Ani Sinha <ani.sinha@nutanix.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
-X-detected-operating-system: by eggs1p.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::141
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsuvorov@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
+ 09:01:45
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,132 +98,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Laine Stump <laine@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Marcel Apfelbaum <marcel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 20, 2020 at 6:25 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Mon, Apr 20, 2020 at 5:38 PM Ani Sinha <ani.sinha@nutanix.com> wrote:
 >
-> Upgrade OpenSBI from v0.6 to v0.7 and the pre-built bios images.
 >
-> The v0.7 release includes the following commits:
 >
-> f64f4b9 lib: Add a new platform feature to bringup secondary harts
-> b677a9b lib: Implement hart hotplug
-> 5b48240 lib: Add possible hart status values
-> e3f69fc lib: Implement Hart State Management (HSM) SBI extension
-> 6704216 lib: Check MSIP bit after returning from WFI
-> 82ae8e8 makefile: Do setup of the install target more flexible
-> e1a5b73 platform: sifive: fu540: allow sv32 as an mmu-type
-> 8c83fb2 lib: Fix return type of sbi_hsm_hart_started()
-> 00d332b include: Move bits related defines and macros to sbi_bitops.h
-> a148996 include: sbi_bitops: More useful bit operations
-> 4a603eb platform: kendryte/k210: Set per-HART stack size to 8KB
-> 678c3c3 include: sbi_scratch: Set per-HART scratch size to 4KB
-> 2abc55b lib: Sort build objects in alphabetical order
-> 6e87507 platform: ae350: Sort build objects in alphabetical order
-> 650c0e5 lib: sbi: Fix coding style issues
-> 078686d lib: serial: Fix coding style issues
-> 3226bd9 lib: Simple bitmap library
-> c741abc include: Simple hartmask library
-> d6d7e18 lib: sbi_init: Don't allow HARTID greater than SBI_HARTMASK_MAX_BITS
-> a4a6a81 lib: Introduce SBI_TLB_INFO_INIT() helper macro
-> d963164 lib: sbi_tlb: Use sbi_hartmask in sbi_tlb_info
-> 71d2b83 lib: Move all coldboot wait APIs to sbi_init.c
-> 2b945fc lib: sbi_init: Use hartmask for coldboot wait
-> 44ce5b9 include: Remove disabled_hart_mask from sbi_platform
-> 2db381f lib: Introduce sbi_hsm_hart_started_mask() API
-> 61f7768 lib: sbi_ecall_legacy: Use sbi_hsm_hart_started_mask() API
-> 466fecb lib: sbi_system: Use sbi_hsm_hart_started_mask() API
-> 9aad831 lib: sbi_ipi: Use sbi_hsm_hart_started_mask() API
-> eede1aa lib: sbi_hart: Remove HART available mask and related APIs
-> 757bb44 docs: Remove out-of-date documentation
-> 86d37bb lib: sbi: Fix misaligned trap handling
-> ffdc858 platform: ariane-fpga: Change license for ariane-fpga from GPL-2.0 to BSD-2
-> 4b2f594 sbi: Add definitions for true/false
-> 0cfe49a libfdt: Add INT32_MAX and UINT32_MAX in libfdt_env.h
-> baac7e0 libfdt: Upgrade to v1.5.1 release
-> f92147c include: Make sbi_hart_id_to_scratch() as macro
-> eeae3d9 firmware: fw_base: Optimize _hartid_to_scratch() implementation
-> 16e7071 lib: sbi_hsm: Optimize sbi_hsm_hart_get_state() implementation
-> 823345e include: Make sbi_current_hartid() as macro in riscv_asm.h
-> 9aabba2 Makefile: Fix distclean make target
-> 9275ed3 platform: ariane-fpga: Set per-HART stack size to 8KB
-> 2343efd platform: Set per-HART stack size to 8KB in the template platform codes
-> 72a0628 platform: Use one unified per-HART stack size macro for all platforms
-> 327ba36 scripts: Cover sifive/fu540 in the 32-bit build
-> 5fbcd62 lib: sbi: Update pmp_get() to return decoded size directly
-> dce8846 libfdt: Compile fdt_addresses.c
-> fcb1ded lib: utils: Add a fdt_reserved_memory_fixup() helper
-> 666be6d platform: Clean up include header files
-> 6af5576 lib: utils: Move PLIC DT fix up codes to fdt_helper.c
-> e846ce1 platform: andes/ae350: Fix up DT for reserved memory
-> 8135520 platform: ariane-fpga: Fix up DT for reserved memory
-> c9a5268 platform: qemu/virt: Fix up DT for reserved memory
-> 6f9bb83 platform: sifive/fu540: Fix up DT for reserved memory
-> 1071f05 platform: sifive/fu540: Remove "stdout-path" fix-up
-> dd9439f lib: utils: Add a fdt_cpu_fixup() helper
-> 3f1c847 platform: sifive/fu540: Replace cpu0 node fix-up with the new helper
-> db6a2b5 lib: utils: Add a general device tree fix-up helper
-> 3f8d754 platform: Update to call general DT fix-up helper
-> 87a7ef7 lib: sbi_scratch: Introduce HART id to scratch table
-> e23d3ba include: Simplify HART id to scratch macro
-> 19bd531 lib: sbi_hsm: Simplify hart_get_state() and hart_started() APIs
-> 3ebfe0e lib: sbi_tlb: Simplify sbi_tlb_entry_process() function
-> 209134d lib: Handle failure of sbi_hartid_to_scratch() API
-> bd6ef02 include: sbi_platform: Improve sbi_platform_hart_disabled() API
-> c9f60fc lib: sbi_scratch: Don't set hartid_to_scratch table for disabled HART
-> 680b098 lib: sbi_hsm: Don't use sbi_platform_hart_count() API
-> db187d6 lib: sbi_hsm: Remove scratch parameter from hart_started_mask() API
-> 814f38d lib: sbi_hsm: Don't use sbi_platform_hart_disabled() API
-> 75eec9d lib: Don't use sbi_platform_hart_count() API
-> c51f02c include: sbi_platform: Introduce HART index to HART id table
-> 315a877 platform: sifive/fu540: Remove FU540_ENABLED_HART_MASK option
-> a0c88dd lib: Fix sbi_ecall_register_extension to prevent extension IDs overlap
-> 9a74a64 lib: Check MSIP bit after returning from WFI
-> 5968894 platform: Move ariane standalone fpga project to its own project
-> ed265b4 platform: fpga/ariane: Remove redundant plic address macros
-> fb84879 platform: Add OpenPiton platform support
-> d1d6560 platform: fpga/common: Add a fdt parsing helper functions
-> 040e4e2 lib: utils: Move fdt fixup helper routines to a different file
-> 4c37451 platform: openpiton: Read the device configurations from device tree
-> 4d93586 lib: prevent coldboot_lottery from overflowing
-> 550ba88 scripts: Extend create-binary-archive.sh for unified binary tar ball
-> 160c885 lib: utils: Improve fdt_cpu_fixup() implementation
-> 1de66d1 lib: Optimize unpriv load/store implementation
-> 626467c lib: Remove scratch parameter from unpriv load/store functions
-> cb78a48 lib: sbi_trap: Remove scratch parameter from sbi_trap_redirect()
-> d11c79c lib: sbi_emulate_csr: Remove scratch and hartid parameter
-> 5a7bd0c lib: sbi_illegal_insn: Remove mcause, scratch and hartid parameters
-> fe37d7d lib: sbi_misaligned_ldst: Remove mcause, scratch and hartid parameters
-> 7487116 lib: sbi_ecall: Remove mcause, scratch and hartid parameters
-> 40b221b lib: sbi_trap: Simplify sbi_trap_handler() API
-> 7b211ff include: sbi_platform: Remove priv parameter from hart_start() callback
-> 5b6957e include: Use more consistent name for atomic xchg() and cmpxchg()
-> dd0f21c lib: sbi_scratch: Introduce sbi_scratch_last_hartid() API
-> 54b2779 include: sbi_tlb: Remove scratch parameter from sbi_tlb_request()
-> 9e52a45 include: sbi_ipi: Remove scratch parameter from most functions
-> ec0d80f include: sbi_system: Remove scratch parameter and redundant functions
-> 0a28ea5 include: sbi_timer: Remove scratch parameter from most funcitons
-> 648507a include: sbi_console: Remove scratch parameter from sbi_dprintf()
-> e5a7f55 platform: thead/c910: Use HSM extension to boot secondary cores
-> f281de8 lib: irqchip/plic: Fix maximum priority threshold value
-> 6c7922e lib: Support vector extension
-> 615587c docs: Update README about supported SBI versions
-> 66d0184 lib: Allow overriding SBI implementation ID
-> 9f1b72c include: Bump-up version to 0.7
+> > On Apr 20, 2020, at 8:34 PM, Ani Sinha <ani.sinha@nutanix.com> wrote:
+> >
+> >
+> >
+> >> On Apr 18, 2020, at 6:18 PM, Marcel Apfelbaum <marcel.apfelbaum@gmail.=
+com> wrote:
+> >>
+> >> A PCIe Root Port or a PCI slot can or cannot support hot-plugging. Any=
+thing in the middle can't be done at PCIe/PCI level (as far as I know).
+> >
+> > Is it possible to dynamically set PCI_EXP_SLTCAP_HPC for a slot at runt=
+ime?
 >
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+> What I mean is, when a slot capability is set an initialization, is it se=
+t in stone or can the capabilities be revoked post initialization? I can =
+=E2=80=99t find anything related to this in PCIE spec.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+This bit is hardware initialized. This means that once initialized,
+it's fixed and can't be changed. It could be re-initialized after
+reset though.
 
-Can you share a git branch with this patch? From memory these binary
-patches don't apply well from emails.
+Best regards, Julia Suvorova.
 
-Alistair
 
