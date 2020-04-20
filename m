@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 745141B0D01
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 15:43:30 +0200 (CEST)
-Received: from localhost ([::1]:35942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADCBE1B0D16
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 15:46:13 +0200 (CEST)
+Received: from localhost ([::1]:36002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQWht-0004HD-Gl
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 09:43:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44082 helo=eggs1p.gnu.org)
+	id 1jQWkW-000059-Dq
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 09:46:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44086 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lulu@redhat.com>) id 1jQSpT-00040n-HV
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:35:03 -0400
+ (envelope-from <lulu@redhat.com>) id 1jQSpT-000414-Sk
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:35:04 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <lulu@redhat.com>) id 1jQSpS-0004Rs-Vx
+ (envelope-from <lulu@redhat.com>) id 1jQSpS-0004RH-SS
  for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:35:03 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27016
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53476
+ helo=us-smtp-1.mimecast.com)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jQSpS-0004Qu-JE
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jQSpS-0004Qs-EY
  for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:35:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587375302;
+ s=mimecast20190719; t=1587375301;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=moQA5ztc3Yw+N49069KRQBO7QJ36CZ0pzA0Cdh1gfLI=;
- b=ZeCtimIrh4hD+TRZpNZtOFA9tlHYq/mPTC4+CeQNhLjfQdHTFR/Jq4hjtK1XKjaRM8Z91S
- comgChy83mdG+3Jh+J5CN3jGD7qHcXwl6cynvzRK3be9Jv6IzvhqPe2AE8M4s9hBXkudNr
- 9/bJ4glQdS/L9ej3MQ/x6jIALv4clsQ=
+ bh=bJFKinKLHaZGvttsOWXRknWuJtcBwLotFDvA1gN9HN0=;
+ b=N311CnBfcbqdnWNTAHaMApVyE7M9xh2mC+f3uSdrnwxwmfrLv6IdK2SaPGTxanOp5u0t3I
+ L4TwO4zPrOfqlAt6APiHaY+cYU7UNORcHaTV9CJjLgpLoplN0VZONhC1qBO9a2xm2B59MV
+ cqn9io2KS37vvP6DJI+wq6tEQsE1tYM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-f4RZ7gWQPvWfQGERoX3QSA-1; Mon, 20 Apr 2020 05:33:31 -0400
-X-MC-Unique: f4RZ7gWQPvWfQGERoX3QSA-1
+ us-mta-174-u-HPlV3NN022kKgYdGuDCA-1; Mon, 20 Apr 2020 05:33:53 -0400
+X-MC-Unique: u-HPlV3NN022kKgYdGuDCA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29A3A1902EA2;
- Mon, 20 Apr 2020 09:33:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 985331005513;
+ Mon, 20 Apr 2020 09:33:50 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-12-243.pek2.redhat.com [10.72.12.243])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8D7E092FA1;
- Mon, 20 Apr 2020 09:33:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0CF0692FA1;
+ Mon, 20 Apr 2020 09:33:31 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: mst@redhat.com, armbru@redhat.com, eblake@redhat.com, cohuck@redhat.com,
  jasowang@redhat.com
-Subject: [RFC v1 1/4] net: Introduce qemu_get_peer
-Date: Mon, 20 Apr 2020 17:32:38 +0800
-Message-Id: <20200420093241.4238-2-lulu@redhat.com>
+Subject: [RFC v1 2/4] vhost-vdpa: introduce vhost-vdpa net client
+Date: Mon, 20 Apr 2020 17:32:39 +0800
+Message-Id: <20200420093241.4238-3-lulu@redhat.com>
 In-Reply-To: <20200420093241.4238-1-lulu@redhat.com>
 References: <20200420093241.4238-1-lulu@redhat.com>
 MIME-Version: 1.0
@@ -58,12 +58,12 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=lulu@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
- 01:47:04
+ 03:29:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-Mailman-Approved-At: Mon, 20 Apr 2020 09:36:04 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,107 +87,364 @@ Cc: mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a small function  that can get the peer from given NetClientState a=
-nd queue_index
+This patch set introduces a new net client type: vhost-vdpa.
+vhost-vdpa net client will set up a vDPA device which is svhostdevpecified
+by a "vhostdev" parameter.
 
+Author: Tiwei Bie
 Signed-off-by: Cindy Lu <lulu@redhat.com>
 ---
- hw/net/vhost_net.c | 16 ++++++++++------
- include/net/net.h  |  1 +
- net/net.c          |  6 ++++++
- 3 files changed, 17 insertions(+), 6 deletions(-)
+ include/net/vhost-vdpa.h |  18 ++++
+ include/net/vhost_net.h  |   1 +
+ net/Makefile.objs        |   2 +-
+ net/clients.h            |   2 +
+ net/net.c                |   1 +
+ net/vhost-vdpa.c         | 211 +++++++++++++++++++++++++++++++++++++++
+ qapi/net.json            |  21 +++-
+ 7 files changed, 253 insertions(+), 3 deletions(-)
+ create mode 100644 include/net/vhost-vdpa.h
+ create mode 100644 net/vhost-vdpa.c
 
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 6b82803fa7..4096d64aaf 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -306,7 +306,9 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *=
-ncs,
-     BusState *qbus =3D BUS(qdev_get_parent_bus(DEVICE(dev)));
-     VirtioBusState *vbus =3D VIRTIO_BUS(qbus);
-     VirtioBusClass *k =3D VIRTIO_BUS_GET_CLASS(vbus);
-+    struct vhost_net *net;
-     int r, e, i;
-+    NetClientState *peer;
+diff --git a/include/net/vhost-vdpa.h b/include/net/vhost-vdpa.h
+new file mode 100644
+index 0000000000..9ddd538dad
+--- /dev/null
++++ b/include/net/vhost-vdpa.h
+@@ -0,0 +1,18 @@
++/*
++ * vhost-vdpa.h
++ *
++ * Copyright(c) 2017 Intel Corporation. All rights reserved.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or late=
+r.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#ifndef VHOST_VDPA_H
++#define VHOST_VDPA_H
++
++struct vhost_net;
++struct vhost_net *vhost_vdpa_get_vhost_net(NetClientState *nc);
++uint64_t vhost_vdpa_get_acked_features(NetClientState *nc);
++
++#endif /* VHOST_VDPA_H */
+diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
+index 77e47398c4..6f3a624cf7 100644
+--- a/include/net/vhost_net.h
++++ b/include/net/vhost_net.h
+@@ -39,5 +39,6 @@ int vhost_set_vring_enable(NetClientState * nc, int enabl=
+e);
+ uint64_t vhost_net_get_acked_features(VHostNetState *net);
 =20
-     if (!k->set_guest_notifiers) {
-         error_report("binding does not support guest notifiers");
-@@ -314,9 +316,9 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *=
-ncs,
-     }
+ int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu);
++int vhost_set_state(NetClientState *nc, int state);
 =20
-     for (i =3D 0; i < total_queues; i++) {
--        struct vhost_net *net;
+ #endif
+diff --git a/net/Makefile.objs b/net/Makefile.objs
+index c5d076d19c..da459cfc19 100644
+--- a/net/Makefile.objs
++++ b/net/Makefile.objs
+@@ -26,7 +26,7 @@ tap-obj-$(CONFIG_SOLARIS) =3D tap-solaris.o
+ tap-obj-y ?=3D tap-stub.o
+ common-obj-$(CONFIG_POSIX) +=3D tap.o $(tap-obj-y)
+ common-obj-$(CONFIG_WIN32) +=3D tap-win32.o
+-
++common-obj-$(CONFIG_VHOST_KERNEL) +=3D vhost-vdpa.o
+ vde.o-libs =3D $(VDE_LIBS)
 =20
--        net =3D get_vhost_net(ncs[i].peer);
-+        peer =3D qemu_get_peer(ncs, i);
-+        net =3D get_vhost_net(peer);
-         vhost_net_set_vq_index(net, i * 2);
+ common-obj-$(CONFIG_CAN_BUS) +=3D can/
+diff --git a/net/clients.h b/net/clients.h
+index a6ef267e19..92f9b59aed 100644
+--- a/net/clients.h
++++ b/net/clients.h
+@@ -61,4 +61,6 @@ int net_init_netmap(const Netdev *netdev, const char *nam=
+e,
+ int net_init_vhost_user(const Netdev *netdev, const char *name,
+                         NetClientState *peer, Error **errp);
 =20
-         /* Suppress the masking guest notifiers on vhost user
-@@ -335,15 +337,16 @@ int vhost_net_start(VirtIODevice *dev, NetClientState=
- *ncs,
-     }
-=20
-     for (i =3D 0; i < total_queues; i++) {
--        r =3D vhost_net_start_one(get_vhost_net(ncs[i].peer), dev);
-+        peer =3D qemu_get_peer(ncs, i);
-+        r =3D vhost_net_start_one(get_vhost_net(peer), dev);
-=20
-         if (r < 0) {
-             goto err_start;
-         }
-=20
--        if (ncs[i].peer->vring_enable) {
-+        if (peer->vring_enable) {
-             /* restore vring enable state */
--            r =3D vhost_set_vring_enable(ncs[i].peer, ncs[i].peer->vring_e=
-nable);
-+            r =3D vhost_set_vring_enable(peer, peer->vring_enable);
-=20
-             if (r < 0) {
-                 goto err_start;
-@@ -355,7 +358,8 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *=
-ncs,
-=20
- err_start:
-     while (--i >=3D 0) {
--        vhost_net_stop_one(get_vhost_net(ncs[i].peer), dev);
-+        peer =3D qemu_get_peer(ncs , i);
-+        vhost_net_stop_one(get_vhost_net(peer), dev);
-     }
-     e =3D k->set_guest_notifiers(qbus->parent, total_queues * 2, false);
-     if (e < 0) {
-diff --git a/include/net/net.h b/include/net/net.h
-index e175ba9677..0a74324ccd 100644
---- a/include/net/net.h
-+++ b/include/net/net.h
-@@ -175,6 +175,7 @@ void hmp_info_network(Monitor *mon, const QDict *qdict)=
-;
- void net_socket_rs_init(SocketReadState *rs,
-                         SocketReadStateFinalize *finalize,
-                         bool vnet_hdr);
-+NetClientState *qemu_get_peer(NetClientState *nc, int queue_index);
-=20
- /* NIC info */
-=20
++int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
++                        NetClientState *peer, Error **errp);
+ #endif /* QEMU_NET_CLIENTS_H */
 diff --git a/net/net.c b/net/net.c
-index 84aa6d8d00..ac5080dda1 100644
+index ac5080dda1..2beb95388a 100644
 --- a/net/net.c
 +++ b/net/net.c
-@@ -324,6 +324,12 @@ void *qemu_get_nic_opaque(NetClientState *nc)
-=20
-     return nic->opaque;
- }
-+NetClientState *qemu_get_peer(NetClientState *nc, int queue_index)
+@@ -964,6 +964,7 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIV=
+ER__MAX])(
+         [NET_CLIENT_DRIVER_HUBPORT]   =3D net_init_hubport,
+ #ifdef CONFIG_VHOST_NET_USER
+         [NET_CLIENT_DRIVER_VHOST_USER] =3D net_init_vhost_user,
++        [NET_CLIENT_DRIVER_VHOST_VDPA] =3D net_init_vhost_vdpa,
+ #endif
+ #ifdef CONFIG_L2TPV3
+         [NET_CLIENT_DRIVER_L2TPV3]    =3D net_init_l2tpv3,
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+new file mode 100644
+index 0000000000..5daeba0b76
+--- /dev/null
++++ b/net/vhost-vdpa.c
+@@ -0,0 +1,211 @@
++/*
++ * vhost-vdpa.c
++ *
++ * Copyright(c) 2017-2018 Intel Corporation. All rights reserved.
++ * Copyright(c) 2020 Red Hat, Inc.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or late=
+r.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "clients.h"
++#include "net/vhost_net.h"
++#include "net/vhost-vdpa.h"
++#include "hw/virtio/vhost-vdpa.h"
++#include "chardev/char-fe.h"
++#include "qemu/config-file.h"
++#include "qemu/error-report.h"
++#include "qemu/option.h"
++#include "qapi/error.h"
++#include "trace.h"
++#include <linux/vfio.h>
++#include <sys/ioctl.h>
++#include <err.h>
++#include <linux/virtio_net.h>
++
++
++typedef struct VhostVDPAState {
++    NetClientState nc;
++    struct vhost_vdpa vhost_vdpa;
++    VHostNetState *vhost_net;
++    uint64_t acked_features;
++    bool started;
++} VhostVDPAState;
++
++VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
 +{
-+    NetClientState *ncs  =3D  nc + queue_index;
-+    assert(ncs !=3D NULL);
-+    return ncs->peer;
++    VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
++    assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
++    return s->vhost_net;
 +}
++
++uint64_t vhost_vdpa_get_acked_features(NetClientState *nc)
++{
++    VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
++    assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
++    return s->acked_features;
++}
++
++static void vhost_vdpa_stop(NetClientState *ncs)
++{
++    VhostVDPAState *s;
++
++    assert(ncs->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
++
++    s =3D DO_UPCAST(VhostVDPAState, nc, ncs);
++
++    if (s->vhost_net) {
++        /* save acked features */
++        uint64_t features =3D vhost_net_get_acked_features(s->vhost_net);
++        if (features) {
++            s->acked_features =3D features;
++         }
++        vhost_net_cleanup(s->vhost_net);
++    }
++}
++
++static int vhost_vdpa_start(NetClientState *ncs, void *be)
++{
++    VhostNetOptions options;
++    struct vhost_net *net =3D NULL;
++    VhostVDPAState *s;
++
++    options.backend_type =3D VHOST_BACKEND_TYPE_VDPA;
++
++    assert(ncs->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
++
++    s =3D DO_UPCAST(VhostVDPAState, nc, ncs);
++
++    options.net_backend =3D ncs;
++    options.opaque      =3D be;
++    options.busyloop_timeout =3D 0;
++    net =3D vhost_net_init(&options);
++    if (!net) {
++        error_report("failed to init vhost_net for queue");
++        goto err;
++     }
++
++     if (s->vhost_net) {
++        vhost_net_cleanup(s->vhost_net);
++        g_free(s->vhost_net);
++     }
++     s->vhost_net =3D net;
++
++    return 0;
++
++err:
++    if (net) {
++        vhost_net_cleanup(net);
++    }
++    vhost_vdpa_stop(ncs);
++    return -1;
++}
++static void vhost_vdpa_cleanup(NetClientState *nc)
++{
++    VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
++
++    if (s->vhost_net) {
++        vhost_net_cleanup(s->vhost_net);
++        g_free(s->vhost_net);
++        s->vhost_net =3D NULL;
++    }
++
++    qemu_purge_queued_packets(nc);
++}
++
++static bool vhost_vdpa_has_vnet_hdr(NetClientState *nc)
++{
++    assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
++
++    return true;
++}
++
++static bool vhost_vdpa_has_ufo(NetClientState *nc)
++{
++    assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
++    VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
++    uint64_t  features =3D 0;
++
++    features |=3D (1ULL << VIRTIO_NET_F_HOST_UFO);
++    features =3D vhost_net_get_features(s->vhost_net, features);
++    return !!(features & (1ULL << VIRTIO_NET_F_HOST_UFO));
++
++}
++
++static NetClientInfo net_vhost_vdpa_info =3D {
++        .type =3D NET_CLIENT_DRIVER_VHOST_VDPA,
++        .size =3D sizeof(VhostVDPAState),
++        .cleanup =3D vhost_vdpa_cleanup,
++        .has_vnet_hdr =3D vhost_vdpa_has_vnet_hdr,
++        .has_ufo =3D vhost_vdpa_has_ufo,
++};
++
++static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
++                               const char *name, const char *vhostdev)
++{
++    NetClientState *nc =3D NULL;
++    VhostVDPAState *s;
++    int vdpa_device_fd;
++    assert(name);
++
++    nc =3D qemu_new_net_client(&net_vhost_vdpa_info, peer, device, name);
++    snprintf(nc->info_str, sizeof(nc->info_str), "vhost-vdpa");
++    nc->queue_index =3D 0;
++
++    s =3D DO_UPCAST(VhostVDPAState, nc, nc);
++
++    vdpa_device_fd =3D open(vhostdev, O_RDWR);
++    if (vdpa_device_fd =3D=3D -1) {
++        return -errno;
++    }
++    s->vhost_vdpa.device_fd =3D vdpa_device_fd;
++    vhost_vdpa_start(nc, (void *)&s->vhost_vdpa);
++
++    assert(s->vhost_net);
++
++    return 0;
++}
++
++static int net_vhost_check_net(void *opaque, QemuOpts *opts, Error **errp)
++{
++    const char *name =3D opaque;
++    const char *driver, *netdev;
++
++    driver =3D qemu_opt_get(opts, "driver");
++    netdev =3D qemu_opt_get(opts, "netdev");
++
++    if (!driver || !netdev) {
++        return 0;
++    }
++
++    if (strcmp(netdev, name) =3D=3D 0 &&
++        !g_str_has_prefix(driver, "virtio-net-")) {
++        error_setg(errp, "vhost-vdpa requires frontend driver virtio-net-*=
+");
++        return -1;
++    }
++
++    return 0;
++}
++
++int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
++                        NetClientState *peer, Error **errp)
++{
++    const NetdevVhostVDPAOptions *vhost_vdpa_opts;
++
++    assert(netdev->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
++    vhost_vdpa_opts =3D &netdev->u.vhost_vdpa;
++
++    /* verify net frontend */
++    if (qemu_opts_foreach(qemu_find_opts("device"), net_vhost_check_net,
++                          (char *)name, errp)) {
++        return -1;
++    }
++
++
++    return net_vhost_vdpa_init(peer, "vhost_vdpa", name,
++                               vhost_vdpa_opts->vhostdev);
++
++    return 0;
++}
+diff --git a/qapi/net.json b/qapi/net.json
+index 335295be50..35a5ccee39 100644
+--- a/qapi/net.json
++++ b/qapi/net.json
+@@ -441,6 +441,22 @@
+     '*queues':        'int' } }
 =20
- static void qemu_cleanup_net_client(NetClientState *nc)
- {
+ ##
++# @NetdevVhostVDPAOptions:
++#
++# Vhost-vdpa network backend
++#
++# @vhostdev: name of a mdev dev path in sysfs
++#
++# @queues: number of queues to be created for multiqueue vhost-vdpa
++#          (default: 1) (Since 2.11)
++#
++# Since: 2.11
++##
++{ 'struct': 'NetdevVhostVDPAOptions',
++  'data': {
++    '*vhostdev':     'str',
++    '*queues':       'int' } }
++##
+ # @NetClientDriver:
+ #
+ # Available netdev drivers.
+@@ -451,7 +467,7 @@
+ ##
+ { 'enum': 'NetClientDriver',
+   'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
+-            'bridge', 'hubport', 'netmap', 'vhost-user' ] }
++            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa' ] }
+=20
+ ##
+ # @Netdev:
+@@ -479,7 +495,8 @@
+     'bridge':   'NetdevBridgeOptions',
+     'hubport':  'NetdevHubPortOptions',
+     'netmap':   'NetdevNetmapOptions',
+-    'vhost-user': 'NetdevVhostUserOptions' } }
++    'vhost-user': 'NetdevVhostUserOptions',
++    'vhost-vdpa': 'NetdevVhostVDPAOptions' } }
+=20
+ ##
+ # @NetLegacy:
 --=20
 2.21.1
 
