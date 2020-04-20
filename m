@@ -2,42 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84B881B0574
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 11:19:46 +0200 (CEST)
-Received: from localhost ([::1]:60214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E5CD1B057C
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 11:21:35 +0200 (CEST)
+Received: from localhost ([::1]:60266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQSaf-000663-JG
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 05:19:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37850 helo=eggs1p.gnu.org)
+	id 1jQScQ-0000J8-An
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 05:21:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38244 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jQSZJ-0004sX-KE
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:18:22 -0400
+ (envelope-from <pannengyuan@huawei.com>) id 1jQSaO-0006bb-C7
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:19:29 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jQSZG-0004jE-5h
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:18:21 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48540)
+ (envelope-from <pannengyuan@huawei.com>) id 1jQSaI-00064n-Jm
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:19:28 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:45050 helo=huawei.com)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jQSZF-0004hT-LR; Mon, 20 Apr 2020 05:18:17 -0400
-Received: from dptest2.qa.sw.ru ([10.94.4.71])
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jQSZ3-0006Q3-Qm; Mon, 20 Apr 2020 12:18:05 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v19 4/4] iotests: 287: add qcow2 compression type test
-Date: Mon, 20 Apr 2020 12:17:57 +0300
-Message-Id: <20200420091757.14102-5-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20200420091757.14102-1-dplotnikov@virtuozzo.com>
-References: <20200420091757.14102-1-dplotnikov@virtuozzo.com>
-Received-SPF: pass client-ip=185.231.240.75;
- envelope-from=dplotnikov@virtuozzo.com; helo=relay.sw.ru
+ (Exim 4.90_1) (envelope-from <pannengyuan@huawei.com>)
+ id 1jQSaH-0005vU-LT
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:19:22 -0400
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id AF04EDB3A2F3C8D8A9E3
+ for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 17:19:15 +0800 (CST)
+Received: from [10.184.39.213] (10.184.39.213) by smtp.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 20 Apr
+ 2020 17:18:45 +0800
+Subject: Re: [PATCH] op_helper: fix some compile warnings
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+References: <20200420054959.8082-1-pannengyuan@huawei.com>
+ <87o8rmv8vb.wl-ysato@users.sourceforge.jp>
+From: Pan Nengyuan <pannengyuan@huawei.com>
+Message-ID: <b55a0120-55bb-eb9b-208c-13a01fb8af06@huawei.com>
+Date: Mon, 20 Apr 2020 17:18:39 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <87o8rmv8vb.wl-ysato@users.sourceforge.jp>
+Content-Type: text/plain; charset="iso-8859-7"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.184.39.213]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.32;
+ envelope-from=pannengyuan@huawei.com; helo=huawei.com
 X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
- 05:18:12
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Received-From: 185.231.240.75
+ 03:55:47
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Received-From: 45.249.212.32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,268 +59,265 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
- qemu-block@nongnu.org, armbru@redhat.com, mreitz@redhat.com, den@openvz.org
+Cc: zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
+ euler.robot@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test checks fulfilling qcow2 requirements for the compression
-type feature and zstd compression type operability.
 
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
----
- tests/qemu-iotests/287     | 153 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/287.out |  67 ++++++++++++++++
- tests/qemu-iotests/group   |   1 +
- 3 files changed, 221 insertions(+)
- create mode 100755 tests/qemu-iotests/287
- create mode 100644 tests/qemu-iotests/287.out
 
-diff --git a/tests/qemu-iotests/287 b/tests/qemu-iotests/287
-new file mode 100755
-index 0000000000..44988bc14b
---- /dev/null
-+++ b/tests/qemu-iotests/287
-@@ -0,0 +1,153 @@
-+#!/usr/bin/env bash
-+#
-+# Test case for an image using zstd compression
-+#
-+# Copyright (c) 2020 Virtuozzo International GmbH
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=dplotnikov@virtuozzo.com
-+
-+seq="$(basename $0)"
-+echo "QA output created by $seq"
-+
-+status=1	# failure is the default!
-+
-+# standard environment
-+. ./common.rc
-+. ./common.filter
-+
-+# This tests qocw2-specific low-level functionality
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+
-+# Sanity check: our use of $RAND_FILE fails if $TEST_DIR contains spaces
-+# or other problems
-+case "$TEST_DIR" in
-+    *[^-_a-zA-Z0-9/]*)
-+        _notrun "Suspicious TEST_DIR='$TEST_DIR', cowardly refusing to run" ;;
-+esac
-+
-+COMPR_IMG="$TEST_IMG.compressed"
-+RAND_FILE="$TEST_DIR/rand_data"
-+
-+_cleanup()
-+{
-+	_cleanup_test_img
-+	rm -f "$COMPR_IMG"
-+	rm -f "$RAND_FILE"
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# for all the cases
-+CLUSTER_SIZE=65536
-+
-+# Check if we can run this test.
-+if IMGOPTS='compression_type=zstd' _make_test_img 64M |
-+    grep "Invalid parameter 'zstd'"; then
-+    _notrun "ZSTD is disabled"
-+fi
-+
-+echo
-+echo "=== Testing compression type incompatible bit setting for zstd ==="
-+echo
-+# use the zstd image created on the test runnable check above.
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+echo
-+echo "=== Testing compression type incompatible bit setting for zlib ==="
-+echo
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+echo
-+echo "=== Testing zlib with incompatible bit set ==="
-+echo
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-feature-bit incompatible 3
-+# to make sure the bit was actually set
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+if $QEMU_IMG info "$TEST_IMG" >/dev/null 2>&1 ; then
-+    echo "Error: The image opened successfully. The image must not be opened."
-+fi
-+
-+echo
-+echo "=== Testing zstd with incompatible bit unset ==="
-+echo
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-header incompatible_features 0
-+# to make sure the bit was actually unset
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+if $QEMU_IMG info "$TEST_IMG" >/dev/null 2>&1 ; then
-+    echo "Error: The image opened successfully. The image must not be opened."
-+fi
-+
-+echo
-+echo "=== Testing compression type values ==="
-+echo
-+# zlib=0
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+peek_file_be "$TEST_IMG" 104 1
-+echo
-+
-+# zstd=1
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+peek_file_be "$TEST_IMG" 104 1
-+echo
-+
-+echo
-+echo "=== Testing simple reading and writing with zstd ==="
-+echo
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$QEMU_IO -c "write -c -P 0xAC 64K 64K " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAC 64K 64K " "$TEST_IMG" | _filter_qemu_io
-+# read on the cluster boundaries
-+$QEMU_IO -c "read -v 131070 8 " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -v 65534 8" "$TEST_IMG" | _filter_qemu_io
-+
-+echo
-+echo "=== Testing adjacent clusters reading and writing with zstd ==="
-+echo
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$QEMU_IO -c "write -c -P 0xAB 0 64K " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "write -c -P 0xAC 64K 64K " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "write -c -P 0xAD 128K 64K " "$TEST_IMG" | _filter_qemu_io
-+
-+$QEMU_IO -c "read -P 0xAB 0 64k " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAC 64K 64k " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAD 128K 64k " "$TEST_IMG" | _filter_qemu_io
-+
-+echo
-+echo "=== Testing incompressible cluster processing with zstd ==="
-+echo
-+# create a 2M imgae and fill it with 1M likely incompressible data
-+# and 1M compressible data
-+dd if=/dev/urandom of="$RAND_FILE" bs=2M count=1
-+# rewrite the last 1M with compressible data
-+$QEMU_IO -f raw -c "write -P 0xFA 1M 1M" "$RAND_FILE" | _filter_qemu_io
-+$QEMU_IMG convert -f raw -O $IMGFMT -c "$RAND_FILE" "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IMG convert -O $IMGFMT -c -o compression_type=zstd \
-+                  "$TEST_IMG" "$COMPR_IMG"
-+$QEMU_IMG compare "$TEST_IMG" "$COMPR_IMG"
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/287.out b/tests/qemu-iotests/287.out
-new file mode 100644
-index 0000000000..4fc44bc1e6
---- /dev/null
-+++ b/tests/qemu-iotests/287.out
-@@ -0,0 +1,67 @@
-+QA output created by 287
-+
-+=== Testing compression type incompatible bit setting for zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing compression type incompatible bit setting for zlib ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing zlib with incompatible bit set  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zstd with incompatible bit unset  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type values  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   0
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   1
-+
-+=== Testing simple reading and writing with zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+wrote 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0001fffe:  ac ac 00 00 00 00 00 00  ........
-+read 8/8 bytes at offset 131070
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0000fffe:  00 00 ac ac ac ac ac ac  ........
-+read 8/8 bytes at offset 65534
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=== Testing adjacent clusters reading and writing with zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+wrote 65536/65536 bytes at offset 0
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 65536/65536 bytes at offset 131072
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 0
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 131072
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=== Testing incompressible cluster processing with zstd ===
-+
-+1+0 records in
-+1+0 records out
-+wrote 1048576/1048576 bytes at offset 1048576
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+Images are identical.
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 435dccd5af..3bbe02c88d 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -294,6 +294,7 @@
- 283 auto quick
- 284 rw
- 286 rw quick
-+287 auto quick
- 288 quick
- 289 rw quick
- 290 rw auto quick
--- 
-2.17.0
+On 4/20/2020 4:50 PM, Yoshinori Sato wrote:
+> On Mon, 20 Apr 2020 14:49:59 +0900,
+> Pan Nengyuan wrote:
+>>
+>> We got the following compile-time warnings(gcc7.3):
+>> /mnt/sdb//qemu/target/rx/op_helper.c: In function ¡helper_scmpu¢:
+>> /mnt/sdb/qemu/target/rx/op_helper.c:213:24: error: ¡tmp1¢ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>>      env->psw_c = (tmp0 >= tmp1);
+>>                   ~~~~~~^~~~~~~~
+>> /mnt/sdb/qemu/target/rx/op_helper.c:213:24: error: ¡tmp0¢ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>> /mnt/sdb/qemu/target/rx/op_helper.c: In function ¡helper_suntil¢:
+>> /mnt/sdb/qemu/target/rx/op_helper.c:299:23: error: ¡tmp¢ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>>      env->psw_c = (tmp <= env->regs[2]);
+>>                   ~~~~~^~~~~~~~~~~~~~~~
+>> /mnt/sdb/qemu/target/rx/op_helper.c: In function ¡helper_swhile¢:
+>> /mnt/sdb/qemu/target/rx/op_helper.c:318:23: error: ¡tmp¢ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>>      env->psw_c = (tmp <= env->regs[2]);
+>>
+>> Actually, it looks like a false-positive because it will enter the body of while loop and init it for the first time.
+>> Let's change 'while' to 'do .. while' to avoid it.
+> 
+> OK.
+> 
+>> Reported-by: Euler Robot <euler.robot@huawei.com>
+>> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+>> ---
+>>  target/rx/op_helper.c | 12 ++++++------
+>>  1 file changed, 6 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/target/rx/op_helper.c b/target/rx/op_helper.c
+>> index f89d294f2b..b612ab1da8 100644
+>> --- a/target/rx/op_helper.c
+>> +++ b/target/rx/op_helper.c
+>> @@ -201,14 +201,14 @@ void helper_scmpu(CPURXState *env)
+>>      if (env->regs[3] == 0) {
+>>          return;
+>>      }
+>> -    while (env->regs[3] != 0) {
+>> +    do {
+>>          tmp0 = cpu_ldub_data_ra(env, env->regs[1]++, GETPC());
+>>          tmp1 = cpu_ldub_data_ra(env, env->regs[2]++, GETPC());
+>>          env->regs[3]--;
+>>          if (tmp0 != tmp1 || tmp0 == '\0') {
+>>              break;
+>>          }
+>> -    }
+>> +    } while (env->regs[3] != 0);
+>>      env->psw_z = tmp0 - tmp1;
+>>      env->psw_c = (tmp0 >= tmp1);
+>>  }
+>> @@ -287,14 +287,14 @@ void helper_suntil(CPURXState *env, uint32_t sz)
+>>      if (env->regs[3] == 0) {
+>>          return ;
+>>      }
+>> -    while (env->regs[3] != 0) {
+>> +    do {
+>>          tmp = cpu_ldufn[sz](env, env->regs[1], GETPC());
+>>          env->regs[1] += 1 << sz;
+>>          env->regs[3]--;
+>>          if (tmp == env->regs[2]) {
+>>              break;
+>>          }
+>> -    }
+>> +    } while (env->regs[3] != 0);
+>>      env->psw_z = tmp - env->regs[2];
+>>      env->psw_c = (tmp <= env->regs[2]);
+>>  }
+>> @@ -306,14 +306,14 @@ void helper_swhile(CPURXState *env, uint32_t sz)
+>>      if (env->regs[3] == 0) {
+>>          return ;
+>>      }
+>> -    while (env->regs[3] != 0) {
+>> +    do {
+>>          tmp = cpu_ldufn[sz](env, env->regs[1], GETPC());
+>>          env->regs[1] += 1 << sz;
+>>          env->regs[3]--;
+>>          if (tmp != env->regs[2]) {
+>>              break;
+>>          }
+>> -    }
+>> +    } while (env->regs[3] != 0);
+>>      env->psw_z = env->regs[3];
+>>      env->psw_c = (tmp <= env->regs[2]);
+>>  }
+>> -- 
+>> 2.18.2
+>>
+>>
+> 
+> It looks different result in env->regs[3] is zero.
 
+If env->regs[3] is zero, it will return at the begin of these functions:
+
+  if (env->regs[3] == 0) {
+      return;
+  }
+
+Thus, the while loop will not be reached.
+In this case, I think 'while' and 'do .. while' will get the same result and it will disappear the warnings.
+
+> In such a case, nothing changes.
+> 
+> I think that the warning of the uninitialized variable
+> will disappear by fixing as follows.
+> 
+
+Yes, it also can fix these warnings.
+
+Thanks.
+
+>>From 5de0c54a970e01e96b41870252d0ea54ec61c540 Mon Sep 17 00:00:00 2001
+> From: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Date: Mon, 20 Apr 2020 17:41:04 +0900
+> Subject: [PATCH] target/rx/op_helper: Fix uninitialized warning.
+> 
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> ---
+>  target/rx/op_helper.c | 101 ++++++++++++++++++++----------------------
+>  1 file changed, 49 insertions(+), 52 deletions(-)
+> 
+> diff --git a/target/rx/op_helper.c b/target/rx/op_helper.c
+> index f89d294f2b..f84f6c706c 100644
+> --- a/target/rx/op_helper.c
+> +++ b/target/rx/op_helper.c
+> @@ -284,38 +284,36 @@ void helper_suntil(CPURXState *env, uint32_t sz)
+>  {
+>      uint32_t tmp;
+>      tcg_debug_assert(sz < 3);
+> -    if (env->regs[3] == 0) {
+> -        return ;
+> -    }
+> -    while (env->regs[3] != 0) {
+> -        tmp = cpu_ldufn[sz](env, env->regs[1], GETPC());
+> -        env->regs[1] += 1 << sz;
+> -        env->regs[3]--;
+> -        if (tmp == env->regs[2]) {
+> -            break;
+> +    if (env->regs[3] > 0) {
+> +        while (env->regs[3] != 0) {
+> +            tmp = cpu_ldufn[sz](env, env->regs[1], GETPC());
+> +            env->regs[1] += 1 << sz;
+> +            env->regs[3]--;
+> +            if (tmp == env->regs[2]) {
+> +                break;
+> +            }
+>          }
+> +        env->psw_z = tmp - env->regs[2];
+> +        env->psw_c = (tmp <= env->regs[2]);
+>      }
+> -    env->psw_z = tmp - env->regs[2];
+> -    env->psw_c = (tmp <= env->regs[2]);
+>  }
+>  
+>  void helper_swhile(CPURXState *env, uint32_t sz)
+>  {
+>      uint32_t tmp;
+>      tcg_debug_assert(sz < 3);
+> -    if (env->regs[3] == 0) {
+> -        return ;
+> -    }
+> -    while (env->regs[3] != 0) {
+> -        tmp = cpu_ldufn[sz](env, env->regs[1], GETPC());
+> -        env->regs[1] += 1 << sz;
+> -        env->regs[3]--;
+> -        if (tmp != env->regs[2]) {
+> -            break;
+> +    if (env->regs[3] > 0) {
+> +        while (env->regs[3] != 0) {
+> +            tmp = cpu_ldufn[sz](env, env->regs[1], GETPC());
+> +            env->regs[1] += 1 << sz;
+> +            env->regs[3]--;
+> +            if (tmp != env->regs[2]) {
+> +                break;
+> +            }
+>          }
+> +        env->psw_z = env->regs[3];
+> +        env->psw_c = (tmp <= env->regs[2]);
+>      }
+> -    env->psw_z = env->regs[3];
+> -    env->psw_c = (tmp <= env->regs[2]);
+>  }
+>  
+>  /* accumlator operations */
+> @@ -325,40 +323,39 @@ void helper_rmpa(CPURXState *env, uint32_t sz)
+>      int32_t result_h;
+>      int64_t tmp0, tmp1;
+>  
+> -    if (env->regs[3] == 0) {
+> -        return;
+> -    }
+> -    result_l = env->regs[5];
+> -    result_l <<= 32;
+> -    result_l |= env->regs[4];
+> -    result_h = env->regs[6];
+> -    env->psw_o = 0;
+> +    if (env->regs[3] > 0) {
+> +        result_l = env->regs[5];
+> +        result_l <<= 32;
+> +        result_l |= env->regs[4];
+> +        result_h = env->regs[6];
+> +        env->psw_o = 0;
+>  
+> -    while (env->regs[3] != 0) {
+> -        tmp0 = cpu_ldfn[sz](env, env->regs[1], GETPC());
+> -        tmp1 = cpu_ldfn[sz](env, env->regs[2], GETPC());
+> -        tmp0 *= tmp1;
+> -        prev = result_l;
+> -        result_l += tmp0;
+> -        /* carry / bollow */
+> -        if (tmp0 < 0) {
+> -            if (prev > result_l) {
+> -                result_h--;
+> -            }
+> -        } else {
+> -            if (prev < result_l) {
+> -                result_h++;
+> +        while (env->regs[3] != 0) {
+> +            tmp0 = cpu_ldfn[sz](env, env->regs[1], GETPC());
+> +            tmp1 = cpu_ldfn[sz](env, env->regs[2], GETPC());
+> +            tmp0 *= tmp1;
+> +            prev = result_l;
+> +            result_l += tmp0;
+> +            /* carry / bollow */
+> +            if (tmp0 < 0) {
+> +                if (prev > result_l) {
+> +                    result_h--;
+> +                }
+> +            } else {
+> +                if (prev < result_l) {
+> +                    result_h++;
+> +                }
+>              }
+> -        }
+>  
+> -        env->regs[1] += 1 << sz;
+> -        env->regs[2] += 1 << sz;
+> +            env->regs[1] += 1 << sz;
+> +            env->regs[2] += 1 << sz;
+> +        }
+> +        env->psw_s = result_h;
+> +        env->psw_o = (result_h != 0 && result_h != -1) << 31;
+> +        env->regs[6] = result_h;
+> +        env->regs[5] = result_l >> 32;
+> +        env->regs[4] = result_l & 0xffffffff;
+>      }
+> -    env->psw_s = result_h;
+> -    env->psw_o = (result_h != 0 && result_h != -1) << 31;
+> -    env->regs[6] = result_h;
+> -    env->regs[5] = result_l >> 32;
+> -    env->regs[4] = result_l & 0xffffffff;
+>  }
+>  
+>  void helper_racw(CPURXState *env, uint32_t imm)
+> 
 
