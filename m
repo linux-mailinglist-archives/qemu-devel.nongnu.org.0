@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 378721B1856
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 23:24:01 +0200 (CEST)
-Received: from localhost ([::1]:42632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1896B1B1862
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 23:25:38 +0200 (CEST)
+Received: from localhost ([::1]:42682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQdtY-0008ID-3L
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 17:24:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42064)
+	id 1jQdv7-0002Tq-4P
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 17:25:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42090)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jQdro-0006nR-5N
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 17:22:12 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jQdrp-0006nX-8M
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 17:22:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jQdrn-0006kG-Fw
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 17:22:11 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42853)
+ (envelope-from <peter.maydell@linaro.org>) id 1jQdro-0006my-JD
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 17:22:13 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35248)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jQdrn-0006gf-3o
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 17:22:11 -0400
-Received: by mail-wr1-x444.google.com with SMTP id j2so13992079wrs.9
- for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 14:22:10 -0700 (PDT)
+ id 1jQdro-0006k7-5z
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 17:22:12 -0400
+Received: by mail-wr1-x442.google.com with SMTP id x18so14047698wrq.2
+ for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 14:22:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jR1xP74Qc41hrsGlhwi6bPFQ+EgssQ3e/OSS6cjeibE=;
- b=VQoiLqSxqNcwNBHqL+X6tVNTcAUM0cvZnZ2mGUO1yLnBrYBVmmH5kmR85yWDlinRSp
- 0fj3+yknAVmi/8gUoE5C+HXd1vp5VcJnm+W24LJs/pO1ibHnbAaHsRslBsa1iuK6ejOT
- 0Zph/nMjQuP/d/urfsirDD9dNAE86en7AzpkwuSIf5CVKQO5PwujdKQVpXcQ4yeXflt0
- eKXJNDyTkDnrHkxH/Rt0anaGeKsG8BkT0KBIgiW84GtFNPOZkdkuqpRSlogPARlIyg/e
- wTOycxRSK6M1bwjsXhbqNw3tTf1TyvOuP/wFfRpA9o89mJVP0arxliIc+5KD5f2ugfgM
- oyNA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=g25xx+IbQ36/3S818ce09veNakgmIRGfyJNXoNjOE3o=;
+ b=lMhoM1trFpGPR441mTxkus+s2KnaNfFLUfBiME74Lrh2FIwePepyuJXydluRmH8zVf
+ 6dO6gS8jF1T5/vSZ9TM9XfzsEBbJ4/LobmAeR12tT3WKqVcxqd0LisvNRMplMbun8ZWm
+ GHUQwDDDtUrjBRbDCcGIL8mixkjmH/vnjgNGRd6n+0UDgbZYlDtXyRMAHlNi6ikPOXvc
+ eyBmQB/bc/QyXa3U9BoS7iWD4/tmnnBYPCxUWzbADcGnDMnBdDnYH08NxMAADzXmT6hy
+ RmWXFzch0+vMV0QPR4WaAAMzw5sgcVd8TCTkvkuj8uYrkQOx2uFKz0yn2pfk0muLLqdS
+ uqhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jR1xP74Qc41hrsGlhwi6bPFQ+EgssQ3e/OSS6cjeibE=;
- b=dzOV3dcf+5H+LOA+N5pLOp5pyVKQVEM7yZFphtDvq7MA3A+rd31hJe11bNWIQRIAfY
- M12xftinG/wI3f6kbxPRDlPolYSH3Gh0vBWK5cvRpshZkr0L9U1ppORs4GOHWsJ6S/6a
- bIftpJXNfWCpJDycaQutaS2zLyhSX6t045pVmtiEJGJaKilnygt9XPM0eZLpoYCzt7wC
- PAehG5/ZFePmFWv9kVUda+wWxgKKyqdCmrTGWsG3CXPXKqN/haq21E23NkJsrAEyg9c6
- IJjanhTWfVBfGwH7EiH46JgRcCzVSOiP/On4tuiBcU6FtR6Lu+nr7OfwtdrwxVTNQDW0
- aK+A==
-X-Gm-Message-State: AGi0PuZ4AGC8GzEf6HBbPbBfyDZrdGSiQAt20RGRlJdepRbKtuihEoy1
- yOFVV6EqyvHdSVxYgWJnhlNDBw==
-X-Google-Smtp-Source: APiQypJmE/Dxhu5iAMAogk/wYtPZ4kiAU43T6RwbljtmkMsWKOo03bsjJ7nOz75HIu2bGpo1EXwtaA==
-X-Received: by 2002:a05:6000:f:: with SMTP id
- h15mr20403789wrx.408.1587417729496; 
- Mon, 20 Apr 2020 14:22:09 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=g25xx+IbQ36/3S818ce09veNakgmIRGfyJNXoNjOE3o=;
+ b=I9HsS9wjv0NgElQnZco6cG6xmOGHVaMDQKBjc9Ptj1fl9mJmV9CEMPtDpodHRRsCzg
+ 0KxZs0fThNGVOwP6WzPb4bC6i26WVSjX3C7q4yei0tq1gX5VUb74bKtiZwA7if6R4q0X
+ m5rSusev/5TAcGJ+yhgNsIbQvtis52nUY//hzi86K67k4jFZvvskLaCzAHHA8r+F0dzs
+ LBAhhjFLgafaD5NXUz9OPIH3uLEpnEuX22Acg3ZMsvAXn6JI9s3VEV8DGplr+Mxfmv/T
+ ohWmtf87W8fIQV1+nFB1Lwfs2VKZzBRQnYWAq56CHaxtOhlNR5H29eZwN5YCJOcNyqaZ
+ 5jwg==
+X-Gm-Message-State: AGi0PuaHbHdTLiEITleoDU7QnSGe5n+G2y4W8JJjU52FVuWPwXUZGq47
+ A4VgWZr93nUC7m3SX/NzMr7f5A==
+X-Google-Smtp-Source: APiQypKgmdm6zB/NJ1cX+17Ujgca+HhU4wMKq/TJWubEN/8GWqgdqXGiMlIMPtdODC7e45/SyOj1Fw==
+X-Received: by 2002:adf:9cc8:: with SMTP id h8mr19974679wre.167.1587417730598; 
+ Mon, 20 Apr 2020 14:22:10 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j10sm823663wmi.18.2020.04.20.14.22.08
+ by smtp.gmail.com with ESMTPSA id j10sm823663wmi.18.2020.04.20.14.22.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Apr 2020 14:22:08 -0700 (PDT)
+ Mon, 20 Apr 2020 14:22:10 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 0/4] linux-user/arm: Fix BKPT, SVC immediate handling
-Date: Mon, 20 Apr 2020 22:22:02 +0100
-Message-Id: <20200420212206.12776-1-peter.maydell@linaro.org>
+Subject: [PATCH 1/4] linux-user/arm: BKPT should cause SIGTRAP,
+ not be a syscall
+Date: Mon, 20 Apr 2020 22:22:03 +0100
+Message-Id: <20200420212206.12776-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200420212206.12776-1-peter.maydell@linaro.org>
+References: <20200420212206.12776-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,34 +87,81 @@ Cc: omerg681@gmail.com, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchseries fixes issues with the code in linux-user/arm/cpu_loop.c:
- * it incorrectly thinks BKPT is a syscall instruction
-   (https://bugs.launchpad.net/qemu/+bug/1873898, reported via irc)
- * a stale line of code means we incorrectly NOP SVC #0xf0002
- * we don't implement the distinction between 0x9f0000..0x9f07ff
-   (should return -ENOSYS if not implemented) and higher numbers
-   (should cause a SIGILL)
- * we abort() for bad immediate values to SVC (ie not the 0 of EABI
-   or the >0x9f0000 of OABI); the kernel delivers a SIGILL for these
- * for Thumb mode, we never use the immediate value from the insn,
-   but we always read it anyway
+In linux-user/arm/cpu-loop.c we incorrectly treat EXCP_BKPT similarly
+to EXCP_SWI, which means that if the guest executes a BKPT insn then
+QEMU will perform a syscall for it (which syscall depends on what
+value happens to be in r7...). The correct behaviour is that the
+guest process should take a SIGTRAP.
 
-This patchseries fixes all those things. (I started out fixing the
-BKPT bug; everything else is problems I spotted along the way while
-I was reading this bit of code...)
+This code has been like this (more or less) since commit
+06c949e62a098f in 2006 which added BKPT in the first place.  This is
+probably because at the time the same code path was used to handle
+both Linux syscalls and semihosting calls, and (on M profile) BKPT
+with a suitable magic number is used for semihosting calls.  But
+these days we've moved handling of semihosting out to an entirely
+different codepath, so we can fix this bug by simply removing this
+handling of EXCP_BKPT and instead making it deliver a SIGTRAP like
+EXCP_DEBUG (as we do already on aarch64).
 
-thanks
--- PMM
+Reported-by: <omerg681@gmail.com>
+Fixes: https://bugs.launchpad.net/qemu/+bug/1873898
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ linux-user/arm/cpu_loop.c | 30 ++++++++----------------------
+ 1 file changed, 8 insertions(+), 22 deletions(-)
 
-Peter Maydell (4):
-  linux-user/arm: BKPT should cause SIGTRAP, not be a syscall
-  linux-user/arm: Remove bogus SVC 0xf0002 handling
-  linux-user/arm: Handle invalid arm-specific syscalls correctly
-  linux-user/arm: Fix identification of syscall numbers
-
- linux-user/arm/cpu_loop.c | 145 +++++++++++++++++++++-----------------
- 1 file changed, 81 insertions(+), 64 deletions(-)
-
+diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
+index cf618daa1ca..82d0dd3c312 100644
+--- a/linux-user/arm/cpu_loop.c
++++ b/linux-user/arm/cpu_loop.c
+@@ -295,32 +295,17 @@ void cpu_loop(CPUARMState *env)
+             }
+             break;
+         case EXCP_SWI:
+-        case EXCP_BKPT:
+             {
+                 env->eabi = 1;
+                 /* system call */
+-                if (trapnr == EXCP_BKPT) {
+-                    if (env->thumb) {
+-                        /* FIXME - what to do if get_user() fails? */
+-                        get_user_code_u16(insn, env->regs[15], env);
+-                        n = insn & 0xff;
+-                        env->regs[15] += 2;
+-                    } else {
+-                        /* FIXME - what to do if get_user() fails? */
+-                        get_user_code_u32(insn, env->regs[15], env);
+-                        n = (insn & 0xf) | ((insn >> 4) & 0xff0);
+-                        env->regs[15] += 4;
+-                    }
++                if (env->thumb) {
++                    /* FIXME - what to do if get_user() fails? */
++                    get_user_code_u16(insn, env->regs[15] - 2, env);
++                    n = insn & 0xff;
+                 } else {
+-                    if (env->thumb) {
+-                        /* FIXME - what to do if get_user() fails? */
+-                        get_user_code_u16(insn, env->regs[15] - 2, env);
+-                        n = insn & 0xff;
+-                    } else {
+-                        /* FIXME - what to do if get_user() fails? */
+-                        get_user_code_u32(insn, env->regs[15] - 4, env);
+-                        n = insn & 0xffffff;
+-                    }
++                    /* FIXME - what to do if get_user() fails? */
++                    get_user_code_u32(insn, env->regs[15] - 4, env);
++                    n = insn & 0xffffff;
+                 }
+ 
+                 if (n == ARM_NR_cacheflush) {
+@@ -396,6 +381,7 @@ void cpu_loop(CPUARMState *env)
+             }
+             break;
+         case EXCP_DEBUG:
++        case EXCP_BKPT:
+         excp_debug:
+             info.si_signo = TARGET_SIGTRAP;
+             info.si_errno = 0;
 -- 
 2.20.1
 
