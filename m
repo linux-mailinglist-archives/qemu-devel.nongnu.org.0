@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10FA01B0CAE
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 15:31:26 +0200 (CEST)
-Received: from localhost ([::1]:35562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D501B0CA2
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 15:30:57 +0200 (CEST)
+Received: from localhost ([::1]:35546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQWWD-0001oV-3Z
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 09:31:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59622 helo=eggs1p.gnu.org)
+	id 1jQWVj-0000yp-Sz
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 09:30:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59626 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jQWTV-0007Sv-Hj
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:28:37 -0400
+ (envelope-from <armbru@redhat.com>) id 1jQWTV-0007Sw-J0
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:28:38 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jQWTT-0002uS-Dk
+ (envelope-from <armbru@redhat.com>) id 1jQWTT-0002uw-I4
  for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:28:37 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:43393
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48424
+ helo=us-smtp-1.mimecast.com)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jQWTT-0002s6-14
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jQWTT-0002sA-5U
  for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:28:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1587389314;
@@ -27,45 +27,44 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FBvMs/dXtPNm3i2AJLw+p31L6gqvU7ODiUZUb2RuKsg=;
- b=iWuWbLdhf4uLHs+gDy/PxZTEdEFypsGPKTDilVx1pimQQRr3smUXPBuokxRl4zk/GGfIUm
- jSmUJo6NsFuxMdZSyx0wY5JkOUV14mSqUaVYCg9yp183kaKcnazKlEKaYw1bDtKhB07Ma8
- +dBovXMsmOCIqr1a5WjxgEHKbyxl+R8=
+ bh=ZMenhwkXU3W7qk+WShZLNVc7ADewiurDzFW6wwCy6vU=;
+ b=VtD3I0zb6pdfVj6Cp5io0ejJvZ4zZSXX/usj7QBISWS+LscYA0eZPeuCyZpA6mJu6a12tJ
+ XheCWtgeySCx/3ddFqy3AcOEQkUVAn0sIVyaphD2vHYvQWk0W2YH6AxScdw7rAm7DlwEby
+ XsVQeu3wspa0u5210RyBcMb4WieWPZQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-y_aUdheiPiOYg5H9NK48Aw-1; Mon, 20 Apr 2020 09:28:30 -0400
-X-MC-Unique: y_aUdheiPiOYg5H9NK48Aw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-476-hYc81HP3MCugVcw2KD_F5w-1; Mon, 20 Apr 2020 09:28:30 -0400
+X-MC-Unique: hYc81HP3MCugVcw2KD_F5w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89BE318B9FD8;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 893CF802569;
  Mon, 20 Apr 2020 13:28:29 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 48E723A0;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 48DE360C99;
  Mon, 20 Apr 2020 13:28:27 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 232B911358BF; Mon, 20 Apr 2020 15:28:26 +0200 (CEST)
+ id 266EC11358C0; Mon, 20 Apr 2020 15:28:26 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] bamboo,
- sam460ex: Tidy up error message for unsupported RAM size
-Date: Mon, 20 Apr 2020 15:28:25 +0200
-Message-Id: <20200420132826.8879-4-armbru@redhat.com>
+Subject: [PATCH 4/4] smbus: Fix spd_data_generate() for number of banks > 2
+Date: Mon, 20 Apr 2020 15:28:26 +0200
+Message-Id: <20200420132826.8879-5-armbru@redhat.com>
 In-Reply-To: <20200420132826.8879-1-armbru@redhat.com>
 References: <20200420132826.8879-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
- 09:01:45
+ 04:32:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,43 +80,63 @@ Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Improve
+spd_data_generate() splits @ram_size bytes into @nbanks RAM banks of
+1 << sz_log2 MiB each, like this:
 
-    $ ppc-softmmu/qemu-system-ppc -M sam460ex -m 4096
-    qemu-system-ppc: Max 1 banks of 2048 ,1024 ,512 ,256 ,128 ,64 ,32 MB DI=
-MM/bank supported
-    qemu-system-ppc: Possible valid RAM size: 2048
+    size =3D ram_size >> 20; /* work in terms of megabytes */
+    [...]
+    nbanks =3D 1;
+    while (sz_log2 > max_log2 && nbanks < 8) {
+        sz_log2--;
+        nbanks++;
+    }
 
-to
+Each iteration halves the size of a bank, and increments the number of
+banks.  Wrong: it should double the number of banks.
 
-    qemu-system-ppc: Max 1 banks of 2048, 1024, 512, 256, 128, 64, 32 MB DI=
-MM/bank supported
-    Possible valid RAM size: 2048
+The bug goes back all the way to commit b296b664ab "smbus: Add a
+helper to generate SPD EEPROM data".
+
+It can't bite because spd_data_generate()'s current users pass only
+@ram_size that result in *zero* iterations:
+
+    machine     RAM size    #banks  type    bank size
+    fulong2e     256 MiB         1   DDR      256 MiB
+    sam460ex    2048 MiB         1   DDR2    2048 MiB
+                1024 MiB         1   DDR2    1024 MiB
+                 512 MiB         1   DDR2     512 MiB
+                 256 MiB         1   DDR2     256 MiB
+                 128 MiB         1   SDR      128 MiB
+                  64 MiB         1   SDR       64 MiB
+                  32 MiB         1   SDR       32 MiB
+
+Apply the obvious, minimal fix.  I admit I'm tempted to rip out the
+unused (and obviously untested) feature instead, because YAGNI.
+
+Note that this is not the final result, as spd_data_generate() next
+increases #banks from 1 to 2 if possible.  This is done "to avoid a
+bug in MIPS Malta firmware".  We don't even use this function with
+machine type malta.  *Shrug*
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/ppc/ppc4xx_devs.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/i2c/smbus_eeprom.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-index 3376c43ff5..dea39546ad 100644
---- a/hw/ppc/ppc4xx_devs.c
-+++ b/hw/ppc/ppc4xx_devs.c
-@@ -716,11 +716,11 @@ void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_ban=
-ks,
-         for (i =3D 0; sdram_bank_sizes[i]; i++) {
-             g_string_append_printf(s, "%" PRIi64 "%s",
-                                    sdram_bank_sizes[i] / MiB,
--                                   sdram_bank_sizes[i + 1] ? " ," : "");
-+                                   sdram_bank_sizes[i + 1] ? ", " : "");
-         }
-         error_report("Max %d banks of %s MB DIMM/bank supported",
-             nr_banks, s->str);
--        error_report("Possible valid RAM size: %" PRIi64,
-+        error_printf("Possible valid RAM size: %" PRIi64 "\n",
-             used_size ? used_size / MiB : sdram_bank_sizes[i - 1] / MiB);
+diff --git a/hw/i2c/smbus_eeprom.c b/hw/i2c/smbus_eeprom.c
+index 07fbbf87f1..e199fc8678 100644
+--- a/hw/i2c/smbus_eeprom.c
++++ b/hw/i2c/smbus_eeprom.c
+@@ -229,7 +229,7 @@ uint8_t *spd_data_generate(enum sdram_type type, ram_ad=
+dr_t ram_size)
+     nbanks =3D 1;
+     while (sz_log2 > max_log2 && nbanks < 8) {
+         sz_log2--;
+-        nbanks++;
++        nbanks *=3D 2;
+     }
 =20
-         g_string_free(s, true);
+     assert(size =3D=3D (1ULL << sz_log2) * nbanks);
 --=20
 2.21.1
 
