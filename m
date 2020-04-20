@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 897601B14D3
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 20:39:06 +0200 (CEST)
-Received: from localhost ([::1]:40650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 823F11B14DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 20:39:34 +0200 (CEST)
+Received: from localhost ([::1]:40654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQbJx-0002wY-JJ
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 14:39:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44864 helo=eggs1p.gnu.org)
+	id 1jQbKP-0003jN-Ik
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 14:39:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44860 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1jQbI4-00011Z-Di
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 14:37:10 -0400
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1jQbI4-000118-9G
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 14:37:09 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1jQbI1-00040C-Ti
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1jQbI0-0003yW-SE
  for qemu-devel@nongnu.org; Mon, 20 Apr 2020 14:37:08 -0400
-Received: from relay.sw.ru ([185.231.240.75]:39784)
+Received: from relay.sw.ru ([185.231.240.75]:39812)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jQbHr-0003NE-Nc; Mon, 20 Apr 2020 14:36:55 -0400
+ id 1jQbHs-0003NI-R3; Mon, 20 Apr 2020 14:36:56 -0400
 Received: from dhcp-172-16-25-136.sw.ru ([172.16.25.136] helo=localhost.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jQbHj-0001xO-B4; Mon, 20 Apr 2020 21:36:47 +0300
+ id 1jQbHj-0001xO-GL; Mon, 20 Apr 2020 21:36:47 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 3/7] block: protect parallel jobs from overlapping
-Date: Mon, 20 Apr 2020 21:36:42 +0300
-Message-Id: <1587407806-109784-4-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH 4/7] copy-on-read: Support refreshing filename
+Date: Mon, 20 Apr 2020 21:36:43 +0300
+Message-Id: <1587407806-109784-5-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1587407806-109784-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1587407806-109784-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -55,48 +55,43 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When it comes to the check for the blocked operations, the node may be
-a filter linked to blk. In that case, do not miss to set blocked
-operations for the underlying node.
-
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- blockjob.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ block/copy-on-read.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/blockjob.c b/blockjob.c
-index 73d9f1b..2898929 100644
---- a/blockjob.c
-+++ b/blockjob.c
-@@ -189,7 +189,14 @@ void block_job_remove_all_bdrv(BlockJob *job)
-     GSList *l;
-     for (l = job->nodes; l; l = l->next) {
-         BdrvChild *c = l->data;
--        bdrv_op_unblock_all(c->bs, job->blocker);
-+        BlockDriverState *bs = c->bs;
-+        bdrv_op_unblock_all(bs, job->blocker);
-+        if (bs->drv && bs->drv->is_filter) {
-+            bs = bdrv_filtered_bs(bs);
-+            if (bs) {
-+                bdrv_op_unblock_all(bs, job->blocker);
-+            }
-+        }
-         bdrv_root_unref_child(c);
-     }
-     g_slist_free(job->nodes);
-@@ -230,6 +237,12 @@ int block_job_add_bdrv(BlockJob *job, const char *name, BlockDriverState *bs,
+diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+index ad6577d..e45eab9 100644
+--- a/block/copy-on-read.c
++++ b/block/copy-on-read.c
+@@ -21,6 +21,7 @@
+  */
  
-     job->nodes = g_slist_prepend(job->nodes, c);
-     bdrv_op_block_all(bs, job->blocker);
-+    if (bs->drv && bs->drv->is_filter) {
-+        bs = bdrv_filtered_bs(bs);
-+        if (bs) {
-+            bdrv_op_block_all(bs, job->blocker);
-+        }
-+    }
+ #include "qemu/osdep.h"
++#include "qemu/cutils.h"
+ #include "block/block_int.h"
+ #include "qemu/module.h"
  
-     return 0;
+@@ -141,6 +142,11 @@ static bool cor_recurse_is_first_non_filter(BlockDriverState *bs,
+     return bdrv_recurse_is_first_non_filter(bs->file->bs, candidate);
  }
+ 
++static void cor_refresh_filename(BlockDriverState *bs)
++{
++    pstrcpy(bs->exact_filename, sizeof(bs->exact_filename),
++            bs->file->bs->filename);
++}
+ 
+ static BlockDriver bdrv_copy_on_read = {
+     .format_name                        = "copy-on-read",
+@@ -161,6 +167,7 @@ static BlockDriver bdrv_copy_on_read = {
+     .bdrv_lock_medium                   = cor_lock_medium,
+ 
+     .bdrv_recurse_is_first_non_filter   = cor_recurse_is_first_non_filter,
++    .bdrv_refresh_filename              = cor_refresh_filename,
+ 
+     .has_variable_length                = true,
+     .is_filter                          = true,
 -- 
 1.8.3.1
 
