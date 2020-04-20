@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 813D51B053B
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 11:06:43 +0200 (CEST)
-Received: from localhost ([::1]:60032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F2D81B0555
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 11:14:44 +0200 (CEST)
+Received: from localhost ([::1]:60106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQSO2-0003r1-I7
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 05:06:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34226 helo=eggs1p.gnu.org)
+	id 1jQSVn-0008QV-MC
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 05:14:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36056 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jQSMs-0002y8-10
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:05:30 -0400
+ (envelope-from <igotti@gmail.com>) id 1jQSUh-0007Zu-6s
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:13:35 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jQSMo-0000nH-EU
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:05:29 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:33975)
+ (envelope-from <igotti@gmail.com>) id 1jQSUg-0000hg-FC
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:13:34 -0400
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:40397)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jQSMo-0000m1-1n
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:05:26 -0400
-Received: by mail-ot1-x342.google.com with SMTP id 72so988692otu.1
- for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 02:05:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=+aRwRBujFFd4qByOEjYnIjVKWb5J3NYVKXHhT+5ioFE=;
- b=pZerwcfb+c9gWQUCKLHgMGLstHQAduAUkLOLPKT05mCM9H8Q8qpDUZDJLHX5EhbTOv
- c4joO651dkDlxoJdCTrzHCaGQV6qnDPqz84omQQfggnbzZx+t9YykQP1w/8yJUmzOdBl
- rHa1RDmZQQMd6KePuvE2yq0ZZmDas+NgdODu+gyI2GCp/k1r5dQYoNi/RuuxfRJcQtKG
- 4ksEuJC6QkB06bnphOUpUJV9VnBG2XsZ4IQH/PayHYady+/NCXpTfdgBz2Bi+PazN3aw
- qTf71AQ1vYfb69fcS0WCYVrSjRMyIlj+eAeiSu/1O41wSoLv8RbISvKhd2dhEv9Mj6Ry
- WMVA==
+ (Exim 4.90_1) (envelope-from <igotti@gmail.com>) id 1jQSUg-0000gY-2N
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:13:34 -0400
+Received: by mail-lf1-x144.google.com with SMTP id 198so7295462lfo.7
+ for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 02:13:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=830PHLSjNWDFjxJWUW6hJD3TczdeIX6TKf/phEq9saU=;
+ b=uHOr3WmITo+rcsZeSBEFto9FVp5XTPxjZU6pMAFLoPTsIELxl73pHRtm3cALVJawdz
+ dCtJuT8n49PNLyhOzM+VhnHv7Qeqs7fnWO0nsu95jcpHsMRIQFfM1raJl1yfIWa1VwaD
+ lJQj/UBS295fWAfn+SnUIWzEFkf7H1xcy9EJLl+eYC7XUkijqB4PIvEXf3/JZkQU8AgS
+ QcB+agLmVTgXVrbWc4Kveu9a5JgwzDKR/hoUajHTX2hP+zNoPjrl2EMHqYB9rzuFEbjN
+ 0o8gNj2XlMCtcBOEmMBtocxIwVXVuUrxYFyM2QiNLOyYAXNhv3nrUpx0g3h8ZemhMjyu
+ U5wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=+aRwRBujFFd4qByOEjYnIjVKWb5J3NYVKXHhT+5ioFE=;
- b=MxPcs/MJjN1Y/p07PyJ33vb+agf5GytLdf3VRR3sywkvD+vM1SpT/KyFCqJAP1rsG3
- gpzbcN3h737FnLLqqYNs9JNrPiSE3lZ/1HaJt73JuCCOVcnBnoe6kkjr4l+UvXKB0e/2
- FwMxVmWLfvlBimchRBaa6rTw7Pf5uqy38H0iVMnHAGcBioyAQxiBTIDb/7M3Tzv8DWrv
- N60ea1+WUYEo4d/j3jHgsSIqPoImMwFlP1r/Rkg7ymCq8UO8LG+ANUvBungRQGLWskLu
- oTFRNtv9KvI/WQdhuah0cL/6Vsz0vj0chDiLax39sJFtwYeV0mCx7hgo4UkMRjiSBtZ/
- CH3g==
-X-Gm-Message-State: AGi0PuZ0kvKSgI2xQ4ZNFhfkZBKs3R/t0eBigXPw0giewZGzlb05dWqL
- CzH1EoYu2TZtAk/ZoWNM0fVhG2Y/F4M9vHsews79qaTsPU8=
-X-Google-Smtp-Source: APiQypJRy08gJhHNhhKtwmaY6YL0pezlaeoNOikFib90uXMlfQww9TZpROuUlhtQ3Bpj+CmD4gmaJnkH4WsYnvU7hR0=
-X-Received: by 2002:a9d:2c08:: with SMTP id f8mr8926514otb.135.1587373524829; 
- Mon, 20 Apr 2020 02:05:24 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=830PHLSjNWDFjxJWUW6hJD3TczdeIX6TKf/phEq9saU=;
+ b=CHLZxw5flhSPs5feJIXG2t0THlwrS4d/P8/CsLCSmdGwvG9yLDjKTUdTv00SaOHYwt
+ oM6LED/smkLdoX7+6Fywjr1NLyn25kYEiiEV5t/NI+cU3ORWwGF6YNZqJEPEAy0lRFEn
+ yyWf53pxWbK2cU+GlpzbJPxyCBSvSGvnqT1IwDDwTyKKhYukRUDQQmkaiNtNcNo7EP5I
+ /kF304YTcNtUTI09cFWE8TAX3g/+GM97trZkGpHbUocbs3YoVuFJPbsiQNFKDm7rmB1n
+ FJIOe6yhYvd1mzyYFugd1mZ9/J2VTALBIBM/HK+HxTD5WoKCmV7H5xUYzqtHamY4Ya6H
+ /iHg==
+X-Gm-Message-State: AGi0PuZMD6bjskHqmlWjhPI+/77CN25DM/cd3CRS3vrntBafDFXlPM11
+ liF60GK7UdHPOaOiOIpZDgo1wYNyvp2japXPGvY=
+X-Google-Smtp-Source: APiQypLta/Ng5uNe6QzbuRYodFVfu7kWCZ6b3eYTIa9s9Zi6HcTSyGfZrYwj+adI+36RAFPh+tSbanivSOPFRF97flY=
+X-Received: by 2002:a19:f611:: with SMTP id x17mr10227049lfe.51.1587374012040; 
+ Mon, 20 Apr 2020 02:13:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200418085145.489726-1-rfried.dev@gmail.com>
-In-Reply-To: <20200418085145.489726-1-rfried.dev@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 Apr 2020 10:05:13 +0100
-Message-ID: <CAFEAcA9ODtKo9K84wkArjvPWNKqD6NhuN8r6gt+ycLLXc_Bq4A@mail.gmail.com>
-Subject: Re: [PATCH resend v2] net: cadence_gem: clear RX control descriptor
-To: Ramon Fried <rfried.dev@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
+From: Nikolay Igotti <igotti@gmail.com>
+Date: Mon, 20 Apr 2020 12:13:20 +0300
+Message-ID: <CAEme+7HMBV=N21QNFLYOrL5QiHfxxA3qGny61h6taT78a2Vn_g@mail.gmail.com>
+Subject: [PATCH 1/3] linux-user: fix page table trashing when mmap/munmap
+ called frequently on large regions
+To: laurent@vivier.eu, riku.voipio@iki.fi
+Content-Type: multipart/alternative; boundary="0000000000001d0cd505a3b55075"
+Received-SPF: pass client-ip=2a00:1450:4864:20::144;
+ envelope-from=igotti@gmail.com; helo=mail-lf1-x144.google.com
 X-detected-operating-system: by eggs1p.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::342
+X-Received-From: 2a00:1450:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,28 +71,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 18 Apr 2020 at 09:52, Ramon Fried <rfried.dev@gmail.com> wrote:
->
-> The RX ring descriptors control field is used for setting
-> SOF and EOF (start of frame and end of frame).
-> The SOF and EOF weren't cleared from the previous descriptors,
-> causing inconsistencies in ring buffer.
-> Fix that by clearing the control field of every descriptors we're
-> processing.
->
-> Signed-off-by: Ramon Fried <rfried.dev@gmail.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+--0000000000001d0cd505a3b55075
+Content-Type: text/plain; charset="UTF-8"
+
+Some applications, for example Wasmer WebAssembly VM, perform frequent
+map/unmap of
+
+huge (6G) regions, so when executed under linux-user it leads to creation
+of many PTE/PDE
+
+for the region, and they never get reclaimed. As result, emulator process
+consumes a lot
+
+of RAM. To fix this problem we try to reuse VMA, when possible.
+
+
+Signed-off-by: Nikolay Igotti <igotti@gmail.com>
+
+---
+
+ linux-user/mmap.c | 2 ++
+
+ 1 file changed, 2 insertions(+)
+
+
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+
+index e378033797..c1d6163d7a 100644
+
+--- a/linux-user/mmap.c
+
++++ b/linux-user/mmap.c
+
+@@ -650,6 +650,8 @@ int target_munmap(abi_ulong start, abi_ulong len)
+
+     if (ret == 0) {
+
+         page_set_flags(start, start + len, 0);
+
+         tb_invalidate_phys_range(start, start + len);
+
++        if (start < mmap_next_start)
+
++            mmap_next_start = start;
+
+     }
+
+     mmap_unlock();
+
+     return ret;
+
+-- 
+
+2.24.2 (Apple Git-127)
+
+--0000000000001d0cd505a3b55075
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">
 
 
 
-Applied to target-arm.next for 5.1, thanks.
 
--- PMM
+
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures">Some applications, for example =
+Wasmer WebAssembly VM, perform frequent map/unmap of</span></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures">huge (6G) regions, so when exec=
+uted under linux-user it leads to creation of many PTE/PDE</span></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures">for the region, and they never =
+get reclaimed. As result, emulator process consumes a lot</span></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures">of RAM. To fix this problem we =
+try to reuse VMA, when possible.</span></p>
+<p class=3D"gmail-p2" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0);min-height:13px"><span class=3D"gma=
+il-s1" style=3D"font-variant-ligatures:no-common-ligatures"></span><br></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures">Signed-off-by: Nikolay Igotti &=
+lt;<a href=3D"mailto:igotti@gmail.com">igotti@gmail.com</a>&gt;</span></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures">---</span></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-conv=
+erted-space">=C2=A0</span>linux-user/mmap.c | 2 ++</span></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-conv=
+erted-space">=C2=A0</span>1 file changed, 2 insertions(+)</span></p>
+<p class=3D"gmail-p2" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0);min-height:13px"><span class=3D"gma=
+il-s1" style=3D"font-variant-ligatures:no-common-ligatures"></span><br></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures">diff --git a/linux-user/mmap.c =
+b/linux-user/mmap.c</span></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures">index e378033797..c1d6163d7a 10=
+0644</span></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures">--- a/linux-user/mmap.c</span><=
+/p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures">+++ b/linux-user/mmap.c</span><=
+/p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures">@@ -650,6 +650,8 @@ int target_=
+munmap(abi_ulong start, abi_ulong len)</span></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-conv=
+erted-space">=C2=A0=C2=A0 =C2=A0 </span>if (ret =3D=3D 0) {</span></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-conv=
+erted-space">=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 </span>page_set_flags(start,=
+ start + len, 0);</span></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-conv=
+erted-space">=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 </span>tb_invalidate_phys_ra=
+nge(start, start + len);</span></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures">+<span class=3D"gmail-Apple-con=
+verted-space">=C2=A0 =C2=A0 =C2=A0 =C2=A0 </span>if (start &lt; mmap_next_s=
+tart)</span></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures">+<span class=3D"gmail-Apple-con=
+verted-space">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 </span>mmap_next_st=
+art =3D start;</span></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-conv=
+erted-space">=C2=A0=C2=A0 =C2=A0 </span>}</span></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-conv=
+erted-space">=C2=A0=C2=A0 =C2=A0 </span>mmap_unlock();</span></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures"><span class=3D"gmail-Apple-conv=
+erted-space">=C2=A0=C2=A0 =C2=A0 </span>return ret;</span></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures">--<span class=3D"gmail-Apple-co=
+nverted-space">=C2=A0</span></span></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:11px;line-height:no=
+rmal;font-family:Menlo;color:rgb(0,0,0)"><span class=3D"gmail-s1" style=3D"=
+font-variant-ligatures:no-common-ligatures">2.24.2 (Apple Git-127)</span></=
+p></div>
+
+--0000000000001d0cd505a3b55075--
 
