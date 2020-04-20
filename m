@@ -2,68 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D00891B0CFC
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 15:42:22 +0200 (CEST)
-Received: from localhost ([::1]:35886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A8591B0708
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 13:06:12 +0200 (CEST)
+Received: from localhost ([::1]:33442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQWgn-0001kj-OS
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 09:42:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33214 helo=eggs1p.gnu.org)
+	id 1jQUFe-0002bt-QN
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 07:06:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33664 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <maxim.uvarov@linaro.org>) id 1jQUBI-0001LB-Ow
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 07:01:44 -0400
+ (envelope-from <pannengyuan@huawei.com>) id 1jQUEU-0001vo-Uw
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 07:04:59 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <maxim.uvarov@linaro.org>) id 1jQUBG-000752-TB
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 07:01:39 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:34092)
- by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
- id 1jQUBG-00071s-Gs
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 07:01:38 -0400
-Received: by mail-lj1-x243.google.com with SMTP id m8so9429821lji.1
- for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 04:01:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=90U7g6QRjcavx5MlRUxgpf0KQqMNtMFsmbd8Sg10FCw=;
- b=em5P/SqA9R+M0f/miql+iu4JbomjBshXY/wqlfYil5vKPIecPGprogSfbVhNG9ZOxQ
- 1AAA/qW9Pho9CHp0WQfdplM2ky+agN0gsUdGnO3Y67dyuf44hTeMEep/1iXdZ310XysT
- WJIDmTQmtVCBT8+ezfolgS3NWnd+QkM6jJUjT8BLcMJXIAzOfQmjy2bUj3rRAJB4jbAR
- 8NmEwDX1NK0vF8vcQudoDf3OlYPMKEMN8EeR2jUuoK5d7GvcPlU4tIB2KobislyugVPp
- /LhhWBN1mNrX/FraDctEoD6lAbAWznlPSrBkmdSWINATgLfzwLO5R3+JmQrvoKS/IT5n
- Xy9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=90U7g6QRjcavx5MlRUxgpf0KQqMNtMFsmbd8Sg10FCw=;
- b=YpVhNlHC9bjsbskFjUHtKo9ve6udH+m1WNOW8LbJ+ScQsYTh7Vm2zy3LOiH3BdtTDA
- 3S67G9hIhf5f7Xax1xnZ1PG7gvXSU2lwGNgSsrIl9CiJrOcIrwnnY7f2B22+DZ8OH7ST
- 1uoyZiayNAaeMx/OVBf47Ycnsov+06cZe3BnC9skeqwVxj5OfMgK80id/O60aSfGNUv/
- 2wc8paIHZ+M+hYbgvWHJHRsXVr7F9vHulIwv2QMXSv9BM4SfZFbml3Omu+4qxrvtvAlW
- R0MOkDNnn81wNhafWRarX4ZAx3tO/Rz+BqgM0IUSU6QJUqyZMRTXbDPKNYby/I6Lp9wY
- 0Nhw==
-X-Gm-Message-State: AGi0PuYzef1G1MXDHs/tylATD+1oI38ReUOznG1XYfaV2TyUc027uXzC
- lE9duCahZiP9sML0iUGMUD5+iWJ8qCc=
-X-Google-Smtp-Source: APiQypL8tsQM/Sd23FKj055h+9GMtF7pIJ6vUkQFQRldbzpoNXAk6i6Xejx3fMNHGvu0e2Qd15e0Rw==
-X-Received: by 2002:a2e:95da:: with SMTP id y26mr10066273ljh.26.1587380495767; 
- Mon, 20 Apr 2020 04:01:35 -0700 (PDT)
-Received: from localhost.localdomain ([176.59.41.106])
- by smtp.gmail.com with ESMTPSA id b28sm507531lfo.46.2020.04.20.04.01.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Apr 2020 04:01:35 -0700 (PDT)
-From: Maxim Uvarov <maxim.uvarov@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] add optee dts entry for secure machine
-Date: Mon, 20 Apr 2020 14:01:26 +0300
-Message-Id: <20200420110126.12693-1-maxim.uvarov@linaro.org>
-X-Mailer: git-send-email 2.17.1
-Received-SPF: pass client-ip=2a00:1450:4864:20::243;
- envelope-from=maxim.uvarov@linaro.org; helo=mail-lj1-x243.google.com
-X-detected-operating-system: by eggs1p.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::243
-X-Mailman-Approved-At: Mon, 20 Apr 2020 09:36:03 -0400
+ (envelope-from <pannengyuan@huawei.com>) id 1jQUET-00013F-IZ
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 07:04:58 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:47780 helo=huawei.com)
+ by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pannengyuan@huawei.com>)
+ id 1jQUES-0000tG-7y
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 07:04:57 -0400
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 8B9AE9FF1C31B10C1515
+ for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 19:04:47 +0800 (CST)
+Received: from [10.184.39.213] (10.184.39.213) by smtp.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 20 Apr
+ 2020 19:04:40 +0800
+Subject: Re: [PATCH] op_helper: fix some compile warnings
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+References: <20200420054959.8082-1-pannengyuan@huawei.com>
+ <87o8rmv8vb.wl-ysato@users.sourceforge.jp>
+ <b55a0120-55bb-eb9b-208c-13a01fb8af06@huawei.com>
+ <87mu76v65h.wl-ysato@users.sourceforge.jp>
+From: Pan Nengyuan <pannengyuan@huawei.com>
+Message-ID: <b2e34f27-7dcf-7aaf-6b74-00c5d354723f@huawei.com>
+Date: Mon, 20 Apr 2020 19:04:40 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <87mu76v65h.wl-ysato@users.sourceforge.jp>
+Content-Type: text/plain; charset="iso-8859-7"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.184.39.213]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.32;
+ envelope-from=pannengyuan@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
+ 03:55:47
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Received-From: 45.249.212.32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,54 +61,305 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Maxim Uvarov <maxim.uvarov@linaro.org>
+Cc: zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
+ euler.robot@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add optee compatible string for dtb to force linux
-to boot optee module.
 
-Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
----
- hw/arm/virt.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 656b008..7d712f3 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -1335,6 +1335,22 @@ static void create_platform_bus(VirtMachineState *vms)
-                                 sysbus_mmio_get_region(s, 0));
- }
- 
-+static void create_secure_tee(VirtMachineState *vms)
-+{
-+    char *firmware;
-+    char *optee;
-+
-+    firmware = g_strdup_printf("/firmware");
-+    qemu_fdt_add_subnode(vms->fdt, firmware);
-+
-+    optee = g_strdup_printf("/firmware/optee");
-+    qemu_fdt_add_subnode(vms->fdt, optee);
-+    qemu_fdt_setprop_string(vms->fdt, optee, "compatible", "linaro,optee-tz");
-+
-+    g_free(optee);
-+    g_free(firmware);
-+}
-+
- static void create_secure_ram(VirtMachineState *vms,
-                               MemoryRegion *secure_sysmem)
- {
-@@ -1720,6 +1736,7 @@ static void machvirt_init(MachineState *machine)
-     if (vms->secure) {
-         create_secure_ram(vms, secure_sysmem);
-         create_uart(vms, VIRT_SECURE_UART, secure_sysmem, serial_hd(1));
-+        create_secure_tee(vms);
-     }
- 
-     vms->highmem_ecam &= vms->highmem && (!firmware_loaded || aarch64);
--- 
-2.17.1
+On 4/20/2020 5:49 PM, Yoshinori Sato wrote:
+> On Mon, 20 Apr 2020 18:18:39 +0900,
+> Pan Nengyuan wrote:
+>>
+>>
+>>
+>> On 4/20/2020 4:50 PM, Yoshinori Sato wrote:
+>>> On Mon, 20 Apr 2020 14:49:59 +0900,
+>>> Pan Nengyuan wrote:
+>>>>
+>>>> We got the following compile-time warnings(gcc7.3):
+>>>> /mnt/sdb//qemu/target/rx/op_helper.c: In function ¡helper_scmpu¢:
+>>>> /mnt/sdb/qemu/target/rx/op_helper.c:213:24: error: ¡tmp1¢ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>>>>      env->psw_c = (tmp0 >= tmp1);
+>>>>                   ~~~~~~^~~~~~~~
+>>>> /mnt/sdb/qemu/target/rx/op_helper.c:213:24: error: ¡tmp0¢ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>>>> /mnt/sdb/qemu/target/rx/op_helper.c: In function ¡helper_suntil¢:
+>>>> /mnt/sdb/qemu/target/rx/op_helper.c:299:23: error: ¡tmp¢ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>>>>      env->psw_c = (tmp <= env->regs[2]);
+>>>>                   ~~~~~^~~~~~~~~~~~~~~~
+>>>> /mnt/sdb/qemu/target/rx/op_helper.c: In function ¡helper_swhile¢:
+>>>> /mnt/sdb/qemu/target/rx/op_helper.c:318:23: error: ¡tmp¢ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>>>>      env->psw_c = (tmp <= env->regs[2]);
+>>>>
+>>>> Actually, it looks like a false-positive because it will enter the body of while loop and init it for the first time.
+>>>> Let's change 'while' to 'do .. while' to avoid it.
+>>>
+>>> OK.
+>>>
+>>>> Reported-by: Euler Robot <euler.robot@huawei.com>
+>>>> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+>>>> ---
+>>>>  target/rx/op_helper.c | 12 ++++++------
+>>>>  1 file changed, 6 insertions(+), 6 deletions(-)
+>>>>
+>>>> diff --git a/target/rx/op_helper.c b/target/rx/op_helper.c
+>>>> index f89d294f2b..b612ab1da8 100644
+>>>> --- a/target/rx/op_helper.c
+>>>> +++ b/target/rx/op_helper.c
+>>>> @@ -201,14 +201,14 @@ void helper_scmpu(CPURXState *env)
+>>>>      if (env->regs[3] == 0) {
+>>>>          return;
+>>>>      }
+>>>> -    while (env->regs[3] != 0) {
+>>>> +    do {
+>>>>          tmp0 = cpu_ldub_data_ra(env, env->regs[1]++, GETPC());
+>>>>          tmp1 = cpu_ldub_data_ra(env, env->regs[2]++, GETPC());
+>>>>          env->regs[3]--;
+>>>>          if (tmp0 != tmp1 || tmp0 == '\0') {
+>>>>              break;
+>>>>          }
+>>>> -    }
+>>>> +    } while (env->regs[3] != 0);
+>>>>      env->psw_z = tmp0 - tmp1;
+>>>>      env->psw_c = (tmp0 >= tmp1);
+>>>>  }
+>>>> @@ -287,14 +287,14 @@ void helper_suntil(CPURXState *env, uint32_t sz)
+>>>>      if (env->regs[3] == 0) {
+>>>>          return ;
+>>>>      }
+>>>> -    while (env->regs[3] != 0) {
+>>>> +    do {
+>>>>          tmp = cpu_ldufn[sz](env, env->regs[1], GETPC());
+>>>>          env->regs[1] += 1 << sz;
+>>>>          env->regs[3]--;
+>>>>          if (tmp == env->regs[2]) {
+>>>>              break;
+>>>>          }
+>>>> -    }
+>>>> +    } while (env->regs[3] != 0);
+>>>>      env->psw_z = tmp - env->regs[2];
+>>>>      env->psw_c = (tmp <= env->regs[2]);
+>>>>  }
+>>>> @@ -306,14 +306,14 @@ void helper_swhile(CPURXState *env, uint32_t sz)
+>>>>      if (env->regs[3] == 0) {
+>>>>          return ;
+>>>>      }
+>>>> -    while (env->regs[3] != 0) {
+>>>> +    do {
+>>>>          tmp = cpu_ldufn[sz](env, env->regs[1], GETPC());
+>>>>          env->regs[1] += 1 << sz;
+>>>>          env->regs[3]--;
+>>>>          if (tmp != env->regs[2]) {
+>>>>              break;
+>>>>          }
+>>>> -    }
+>>>> +    } while (env->regs[3] != 0);
+>>>>      env->psw_z = env->regs[3];
+>>>>      env->psw_c = (tmp <= env->regs[2]);
+>>>>  }
+>>>> -- 
+>>>> 2.18.2
+>>>>
+>>>>
+>>>
+>>> It looks different result in env->regs[3] is zero.
+>>
+>> If env->regs[3] is zero, it will return at the begin of these functions:
+>>
+>>   if (env->regs[3] == 0) {
+>>       return;
+>>   }
+>>
+>> Thus, the while loop will not be reached.
+>> In this case, I think 'while' and 'do .. while' will get the same result and it will disappear the warnings.
+> 
+> Oh. Sorry. I misunderstood.
+> 
+> Since the pseudo code described in the manual uses while,
+> I think it's easier for everyone to understand by following
+> the description.
+> 
+>>> In such a case, nothing changes.
+>>>
+>>> I think that the warning of the uninitialized variable
+>>> will disappear by fixing as follows.
+>>>
+>>
+>> Yes, it also can fix these warnings.
 
+Oh, I'm sorry for my mistake, it can't disappear the warnings:
+
+/mnt/sdb/qemu/target/rx/op_helper.c: In function ¡helper_scmpu¢:
+/mnt/sdb/qemu/target/rx/op_helper.c:211:28: error: ¡tmp1¢ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+         env->psw_c = (tmp0 >= tmp1);
+                      ~~~~~~^~~~~~~~
+/mnt/sdb/qemu/target/rx/op_helper.c:211:28: error: ¡tmp0¢ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+  CC      ppc64abi32-linux-user/target/ppc/translate.o
+  CC      ppc64le-linux-user/target/ppc/translate.o
+  CC      ppc64-linux-user/target/ppc/translate.o
+  CC      ppc-linux-user/target/ppc/translate.o
+/mnt/sdb/qemu/target/rx/op_helper.c: In function ¡helper_suntil¢:
+/mnt/sdb/qemu/target/rx/op_helper.c:296:27: error: ¡tmp¢ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+         env->psw_c = (tmp <= env->regs[2]);
+                      ~~~~~^~~~~~~~~~~~~~~~
+/mnt/sdb/qemu/target/rx/op_helper.c: In function ¡helper_swhile¢:
+/mnt/sdb/qemu/target/rx/op_helper.c:314:27: error: ¡tmp¢ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+         env->psw_c = (tmp <= env->regs[2]);
+                      ~~~~~^~~~~~~~~~~~~~~~
+
+If we want to use 'while' as the pseudo code described in the manual, can we init the tmp variable at the beginning? like that:
+
+     uint32_t tmp = 0;
+
+> 
+> OK. Thanks.
+> 
+>> Thanks.
+>>
+>>> >From 5de0c54a970e01e96b41870252d0ea54ec61c540 Mon Sep 17 00:00:00 2001
+>>> From: Yoshinori Sato <ysato@users.sourceforge.jp>
+>>> Date: Mon, 20 Apr 2020 17:41:04 +0900
+>>> Subject: [PATCH] target/rx/op_helper: Fix uninitialized warning.
+>>>
+>>> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+>>> ---
+>>>  target/rx/op_helper.c | 101 ++++++++++++++++++++----------------------
+>>>  1 file changed, 49 insertions(+), 52 deletions(-)
+>>>
+>>> diff --git a/target/rx/op_helper.c b/target/rx/op_helper.c
+>>> index f89d294f2b..f84f6c706c 100644
+>>> --- a/target/rx/op_helper.c
+>>> +++ b/target/rx/op_helper.c
+>>> @@ -284,38 +284,36 @@ void helper_suntil(CPURXState *env, uint32_t sz)
+>>>  {
+>>>      uint32_t tmp;
+>>>      tcg_debug_assert(sz < 3);
+>>> -    if (env->regs[3] == 0) {
+>>> -        return ;
+>>> -    }
+>>> -    while (env->regs[3] != 0) {
+>>> -        tmp = cpu_ldufn[sz](env, env->regs[1], GETPC());
+>>> -        env->regs[1] += 1 << sz;
+>>> -        env->regs[3]--;
+>>> -        if (tmp == env->regs[2]) {
+>>> -            break;
+>>> +    if (env->regs[3] > 0) {
+>>> +        while (env->regs[3] != 0) {
+>>> +            tmp = cpu_ldufn[sz](env, env->regs[1], GETPC());
+>>> +            env->regs[1] += 1 << sz;
+>>> +            env->regs[3]--;
+>>> +            if (tmp == env->regs[2]) {
+>>> +                break;
+>>> +            }
+>>>          }
+>>> +        env->psw_z = tmp - env->regs[2];
+>>> +        env->psw_c = (tmp <= env->regs[2]);
+>>>      }
+>>> -    env->psw_z = tmp - env->regs[2];
+>>> -    env->psw_c = (tmp <= env->regs[2]);
+>>>  }
+>>>  
+>>>  void helper_swhile(CPURXState *env, uint32_t sz)
+>>>  {
+>>>      uint32_t tmp;
+>>>      tcg_debug_assert(sz < 3);
+>>> -    if (env->regs[3] == 0) {
+>>> -        return ;
+>>> -    }
+>>> -    while (env->regs[3] != 0) {
+>>> -        tmp = cpu_ldufn[sz](env, env->regs[1], GETPC());
+>>> -        env->regs[1] += 1 << sz;
+>>> -        env->regs[3]--;
+>>> -        if (tmp != env->regs[2]) {
+>>> -            break;
+>>> +    if (env->regs[3] > 0) {
+>>> +        while (env->regs[3] != 0) {
+>>> +            tmp = cpu_ldufn[sz](env, env->regs[1], GETPC());
+>>> +            env->regs[1] += 1 << sz;
+>>> +            env->regs[3]--;
+>>> +            if (tmp != env->regs[2]) {
+>>> +                break;
+>>> +            }
+>>>          }
+>>> +        env->psw_z = env->regs[3];
+>>> +        env->psw_c = (tmp <= env->regs[2]);
+>>>      }
+>>> -    env->psw_z = env->regs[3];
+>>> -    env->psw_c = (tmp <= env->regs[2]);
+>>>  }
+>>>  
+>>>  /* accumlator operations */
+>>> @@ -325,40 +323,39 @@ void helper_rmpa(CPURXState *env, uint32_t sz)
+>>>      int32_t result_h;
+>>>      int64_t tmp0, tmp1;
+>>>  
+>>> -    if (env->regs[3] == 0) {
+>>> -        return;
+>>> -    }
+>>> -    result_l = env->regs[5];
+>>> -    result_l <<= 32;
+>>> -    result_l |= env->regs[4];
+>>> -    result_h = env->regs[6];
+>>> -    env->psw_o = 0;
+>>> +    if (env->regs[3] > 0) {
+>>> +        result_l = env->regs[5];
+>>> +        result_l <<= 32;
+>>> +        result_l |= env->regs[4];
+>>> +        result_h = env->regs[6];
+>>> +        env->psw_o = 0;
+>>>  
+>>> -    while (env->regs[3] != 0) {
+>>> -        tmp0 = cpu_ldfn[sz](env, env->regs[1], GETPC());
+>>> -        tmp1 = cpu_ldfn[sz](env, env->regs[2], GETPC());
+>>> -        tmp0 *= tmp1;
+>>> -        prev = result_l;
+>>> -        result_l += tmp0;
+>>> -        /* carry / bollow */
+>>> -        if (tmp0 < 0) {
+>>> -            if (prev > result_l) {
+>>> -                result_h--;
+>>> -            }
+>>> -        } else {
+>>> -            if (prev < result_l) {
+>>> -                result_h++;
+>>> +        while (env->regs[3] != 0) {
+>>> +            tmp0 = cpu_ldfn[sz](env, env->regs[1], GETPC());
+>>> +            tmp1 = cpu_ldfn[sz](env, env->regs[2], GETPC());
+>>> +            tmp0 *= tmp1;
+>>> +            prev = result_l;
+>>> +            result_l += tmp0;
+>>> +            /* carry / bollow */
+>>> +            if (tmp0 < 0) {
+>>> +                if (prev > result_l) {
+>>> +                    result_h--;
+>>> +                }
+>>> +            } else {
+>>> +                if (prev < result_l) {
+>>> +                    result_h++;
+>>> +                }
+>>>              }
+>>> -        }
+>>>  
+>>> -        env->regs[1] += 1 << sz;
+>>> -        env->regs[2] += 1 << sz;
+>>> +            env->regs[1] += 1 << sz;
+>>> +            env->regs[2] += 1 << sz;
+>>> +        }
+>>> +        env->psw_s = result_h;
+>>> +        env->psw_o = (result_h != 0 && result_h != -1) << 31;
+>>> +        env->regs[6] = result_h;
+>>> +        env->regs[5] = result_l >> 32;
+>>> +        env->regs[4] = result_l & 0xffffffff;
+>>>      }
+>>> -    env->psw_s = result_h;
+>>> -    env->psw_o = (result_h != 0 && result_h != -1) << 31;
+>>> -    env->regs[6] = result_h;
+>>> -    env->regs[5] = result_l >> 32;
+>>> -    env->regs[4] = result_l & 0xffffffff;
+>>>  }
+>>>  
+>>>  void helper_racw(CPURXState *env, uint32_t imm)
+>>>
+> 
 
