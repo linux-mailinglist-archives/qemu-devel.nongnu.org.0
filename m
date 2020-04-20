@@ -2,53 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FB111B0CF6
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 15:40:18 +0200 (CEST)
-Received: from localhost ([::1]:35822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 745141B0D01
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 15:43:30 +0200 (CEST)
+Received: from localhost ([::1]:35942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQWen-0006ff-2H
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 09:40:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43866 helo=eggs1p.gnu.org)
+	id 1jQWht-0004HD-Gl
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 09:43:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44082 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lulu@redhat.com>) id 1jQSol-0003Po-41
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:34:20 -0400
+ (envelope-from <lulu@redhat.com>) id 1jQSpT-00040n-HV
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:35:03 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <lulu@redhat.com>) id 1jQSok-0003kJ-Kz
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:34:18 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50969
+ (envelope-from <lulu@redhat.com>) id 1jQSpS-0004Rs-Vx
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:35:03 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27016
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jQSoj-0003ia-2z
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:34:17 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jQSpS-0004Qu-JE
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:35:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587375255;
+ s=mimecast20190719; t=1587375302;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=w5/CTvaQFEHceba/wDxzrUQhITI0ORXe3srqGvOCTWs=;
- b=aND1+RojUBdPprMwts8Oko20/bqZbIWSUsUYdz9hAEr8ic366zswljD/hjnsSogLhmzTFi
- Ozk1AvnkWedpixT2tdh3hlk76rduPJEntL8MlxIDlM7qR/G/w/RRHbCK6j6I36GOl5b5ky
- ewMLV2slBNAGGGhCrpyg2yN4Ws9Ls5U=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=moQA5ztc3Yw+N49069KRQBO7QJ36CZ0pzA0Cdh1gfLI=;
+ b=ZeCtimIrh4hD+TRZpNZtOFA9tlHYq/mPTC4+CeQNhLjfQdHTFR/Jq4hjtK1XKjaRM8Z91S
+ comgChy83mdG+3Jh+J5CN3jGD7qHcXwl6cynvzRK3be9Jv6IzvhqPe2AE8M4s9hBXkudNr
+ 9/bJ4glQdS/L9ej3MQ/x6jIALv4clsQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-80-QUoif4QcPdqAtijbEISWAg-1; Mon, 20 Apr 2020 05:33:04 -0400
-X-MC-Unique: QUoif4QcPdqAtijbEISWAg-1
+ us-mta-13-f4RZ7gWQPvWfQGERoX3QSA-1; Mon, 20 Apr 2020 05:33:31 -0400
+X-MC-Unique: f4RZ7gWQPvWfQGERoX3QSA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A4961005513;
- Mon, 20 Apr 2020 09:33:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29A3A1902EA2;
+ Mon, 20 Apr 2020 09:33:29 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-12-243.pek2.redhat.com [10.72.12.243])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 914D992FA1;
- Mon, 20 Apr 2020 09:32:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8D7E092FA1;
+ Mon, 20 Apr 2020 09:33:11 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: mst@redhat.com, armbru@redhat.com, eblake@redhat.com, cohuck@redhat.com,
  jasowang@redhat.com
-Subject: [RFC v1 0/4] vDPA support in qemu
-Date: Mon, 20 Apr 2020 17:32:37 +0800
-Message-Id: <20200420093241.4238-1-lulu@redhat.com>
+Subject: [RFC v1 1/4] net: Introduce qemu_get_peer
+Date: Mon, 20 Apr 2020 17:32:38 +0800
+Message-Id: <20200420093241.4238-2-lulu@redhat.com>
+In-Reply-To: <20200420093241.4238-1-lulu@redhat.com>
+References: <20200420093241.4238-1-lulu@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
@@ -61,7 +64,7 @@ X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
  01:47:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Received-From: 207.211.31.81
-X-Mailman-Approved-At: Mon, 20 Apr 2020 09:36:03 -0400
+X-Mailman-Approved-At: Mon, 20 Apr 2020 09:36:04 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,45 +87,107 @@ Cc: mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vDPA device is a device that uses a datapath which complies with the
-virtio specifications with vendor specific control path. vDPA devices
-can be both physically located on the hardware or emulated by software.
-This RFC introduce the vDPA support in qemu
+This is a small function  that can get the peer from given NetClientState a=
+nd queue_index
 
-Cindy Lu (3):
-  net: Introduce qemu_get_peer
-  vhost-vdpa: introduce vhost-vdpa net client
-  vhost-vdpa: implement vhost-vdpa backend
+Signed-off-by: Cindy Lu <lulu@redhat.com>
+---
+ hw/net/vhost_net.c | 16 ++++++++++------
+ include/net/net.h  |  1 +
+ net/net.c          |  6 ++++++
+ 3 files changed, 17 insertions(+), 6 deletions(-)
 
-Jason Wang (1):
-  vhost: introduce vhost_set_vring_ready method
-
- hw/net/vhost_net-stub.c           |   5 +
- hw/net/vhost_net.c                |  75 +++++-
- hw/net/virtio-net.c               |   9 +
- hw/virtio/Makefile.objs           |   2 +-
- hw/virtio/vhost-backend.c         |   3 +
- hw/virtio/vhost-vdpa.c            | 376 ++++++++++++++++++++++++++++++
- hw/virtio/vhost.c                 |   5 +
- hw/virtio/virtio-pci.c            |  13 ++
- hw/virtio/virtio.c                |   6 +
- include/hw/virtio/vhost-backend.h |   8 +-
- include/hw/virtio/vhost-vdpa.h    |  14 ++
- include/hw/virtio/virtio-bus.h    |   4 +
- include/net/net.h                 |   1 +
- include/net/vhost-vdpa.h          |  18 ++
- include/net/vhost_net.h           |   2 +
- net/Makefile.objs                 |   2 +-
- net/clients.h                     |   2 +
- net/net.c                         |   7 +
- net/vhost-vdpa.c                  | 211 +++++++++++++++++
- qapi/net.json                     |  21 +-
- 20 files changed, 773 insertions(+), 11 deletions(-)
- create mode 100644 hw/virtio/vhost-vdpa.c
- create mode 100644 include/hw/virtio/vhost-vdpa.h
- create mode 100644 include/net/vhost-vdpa.h
- create mode 100644 net/vhost-vdpa.c
-
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index 6b82803fa7..4096d64aaf 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -306,7 +306,9 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *=
+ncs,
+     BusState *qbus =3D BUS(qdev_get_parent_bus(DEVICE(dev)));
+     VirtioBusState *vbus =3D VIRTIO_BUS(qbus);
+     VirtioBusClass *k =3D VIRTIO_BUS_GET_CLASS(vbus);
++    struct vhost_net *net;
+     int r, e, i;
++    NetClientState *peer;
+=20
+     if (!k->set_guest_notifiers) {
+         error_report("binding does not support guest notifiers");
+@@ -314,9 +316,9 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *=
+ncs,
+     }
+=20
+     for (i =3D 0; i < total_queues; i++) {
+-        struct vhost_net *net;
+=20
+-        net =3D get_vhost_net(ncs[i].peer);
++        peer =3D qemu_get_peer(ncs, i);
++        net =3D get_vhost_net(peer);
+         vhost_net_set_vq_index(net, i * 2);
+=20
+         /* Suppress the masking guest notifiers on vhost user
+@@ -335,15 +337,16 @@ int vhost_net_start(VirtIODevice *dev, NetClientState=
+ *ncs,
+     }
+=20
+     for (i =3D 0; i < total_queues; i++) {
+-        r =3D vhost_net_start_one(get_vhost_net(ncs[i].peer), dev);
++        peer =3D qemu_get_peer(ncs, i);
++        r =3D vhost_net_start_one(get_vhost_net(peer), dev);
+=20
+         if (r < 0) {
+             goto err_start;
+         }
+=20
+-        if (ncs[i].peer->vring_enable) {
++        if (peer->vring_enable) {
+             /* restore vring enable state */
+-            r =3D vhost_set_vring_enable(ncs[i].peer, ncs[i].peer->vring_e=
+nable);
++            r =3D vhost_set_vring_enable(peer, peer->vring_enable);
+=20
+             if (r < 0) {
+                 goto err_start;
+@@ -355,7 +358,8 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *=
+ncs,
+=20
+ err_start:
+     while (--i >=3D 0) {
+-        vhost_net_stop_one(get_vhost_net(ncs[i].peer), dev);
++        peer =3D qemu_get_peer(ncs , i);
++        vhost_net_stop_one(get_vhost_net(peer), dev);
+     }
+     e =3D k->set_guest_notifiers(qbus->parent, total_queues * 2, false);
+     if (e < 0) {
+diff --git a/include/net/net.h b/include/net/net.h
+index e175ba9677..0a74324ccd 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -175,6 +175,7 @@ void hmp_info_network(Monitor *mon, const QDict *qdict)=
+;
+ void net_socket_rs_init(SocketReadState *rs,
+                         SocketReadStateFinalize *finalize,
+                         bool vnet_hdr);
++NetClientState *qemu_get_peer(NetClientState *nc, int queue_index);
+=20
+ /* NIC info */
+=20
+diff --git a/net/net.c b/net/net.c
+index 84aa6d8d00..ac5080dda1 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -324,6 +324,12 @@ void *qemu_get_nic_opaque(NetClientState *nc)
+=20
+     return nic->opaque;
+ }
++NetClientState *qemu_get_peer(NetClientState *nc, int queue_index)
++{
++    NetClientState *ncs  =3D  nc + queue_index;
++    assert(ncs !=3D NULL);
++    return ncs->peer;
++}
+=20
+ static void qemu_cleanup_net_client(NetClientState *nc)
+ {
 --=20
 2.21.1
 
