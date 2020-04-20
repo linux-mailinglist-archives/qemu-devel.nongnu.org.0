@@ -2,95 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78FFF1B06DA
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 12:48:24 +0200 (CEST)
-Received: from localhost ([::1]:33200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEBD81B06E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 12:51:27 +0200 (CEST)
+Received: from localhost ([::1]:33250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQTyR-0002tV-Im
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 06:48:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58264 helo=eggs1p.gnu.org)
+	id 1jQU1O-0005dS-Og
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 06:51:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59016 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jQTuS-0006fB-1R
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 06:44:16 -0400
+ (envelope-from <philmd@redhat.com>) id 1jQU03-0004tc-Mn
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 06:50:04 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jQTuQ-0007Nz-8t
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 06:44:15 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22836
+ (envelope-from <philmd@redhat.com>) id 1jQTzu-0004AJ-Mz
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 06:50:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37971
  helo=us-smtp-1.mimecast.com)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jQTuP-0007Ll-RS
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 06:44:13 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jQTzu-00048B-9V
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 06:49:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587379449;
+ s=mimecast20190719; t=1587379792;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Bc6eIxxy3ZCmKxtQ46FNChc6DV2SqQpWx9zlOiSS+j0=;
- b=OELxCaZ/yP2MTucIbcCvTeTirwBkt1GZLM4wADZtMmu4NQ0XE+9nxtZ1+8cnM9N2CuQWIC
- jSWf396UCvSFOAYul7twh9JdCGOY7Gd1YfKgXNkCwYfx4NCPeLfhI/VfpLNIxy9jeTaY09
- xgyCH7WzeRDbyJUQ/QzOqV7LEuqeWVw=
+ bh=g5ZmDAwxxKcEK/Xod0AdLrgpUtUVRDMXm8mgD35N7qE=;
+ b=SsI2V/h5bmnqmwRe7WP+cma7AcjCi5kLh/YHZZmp2KfNMnLXc2/CFTL3RRWvW69Sy6dY9Y
+ LFgk/idK3YTp8tDDvmG8fIak7z5KWZ8vhEtz23m8goYhwqdind8lQsNFprPYde3iHpWN5t
+ t1Ra1cBT21LkOYgKQj1PsCfD1/31TsA=
 Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
  [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-5-SphKJCpxNb6kCXetDZxX7w-1; Mon, 20 Apr 2020 06:44:05 -0400
-X-MC-Unique: SphKJCpxNb6kCXetDZxX7w-1
-Received: by mail-ed1-f71.google.com with SMTP id v21so3464938edq.14
- for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 03:44:05 -0700 (PDT)
+ us-mta-7-_1z9arg3PFWbhu0FHS9r5Q-1; Mon, 20 Apr 2020 06:49:50 -0400
+X-MC-Unique: _1z9arg3PFWbhu0FHS9r5Q-1
+Received: by mail-ed1-f71.google.com with SMTP id cf15so2640177edb.20
+ for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 03:49:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=T/xjJsUgF778LpNzZZV/h2y2cV6lCn7Ce6da2WhB8fs=;
- b=n9bW3LAnWYzd8lX3JjOzEQdHjJ3jjmUIw7jmiYRnIp0W4z0GNbNP5vMEjOV03Pd2Ak
- Pu/Oir+VxQc5ZlA6FqTiEYCPgRJ78gCKedKtQQwDPfVrUMK+YhifNq46rrxHT7GIQGyJ
- Wsrcfy08UbyM/hxykPvKJzKwy1c0ZfczocWiVF9McwxdfePATHR3d3beXIfPOYQGsaLc
- z41uNN2dOWCQo8C4pvS1byTRl4p5TvIqrUhTg3mRMSg597cL8S+KQvn521OsvW3SJREL
- C5aoFqmHlW8yrR26BV/Kt0ZhFjg0JMYGPZ1j6QiqWzLPplbxCmH3BV4P3aGjFGBAU+Lh
- 2S6Q==
-X-Gm-Message-State: AGi0Pub4Xs4L8f8hfsgMD4CQcVc4RNieMGuvOC3FSaO5llkiWeD6f/z4
- R92TQqHtgl1w/LeMSYdes+JUeDGiPCapv8zUNorTJTrVc13sbfmbti3hhzovDf7pbbuwuHSePUJ
- fCik53MS6KEDCbK4=
-X-Received: by 2002:a17:906:298f:: with SMTP id
- x15mr15459766eje.380.1587379444245; 
- Mon, 20 Apr 2020 03:44:04 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKapnJbCH/Kuk3uuqBQKtd5dm/azVYbWC7aCH/L/nUed6lIVglsjt8ASpV3nhRhiQz38THiWA==
-X-Received: by 2002:a17:906:298f:: with SMTP id
- x15mr15459754eje.380.1587379444049; 
- Mon, 20 Apr 2020 03:44:04 -0700 (PDT)
+ bh=rtRzTRehi0O6bAYAyvwFPzRkMeZJfRli4FPebqPOExY=;
+ b=gg1K4HqhuCf7rBK75qirWvoURsuenFPPu3D4b1hH86r1WG04PXVDov34FyO5eQlaGI
+ 1L9ThUkQrw/ma+ilksIZS5W/b/3ZsSV/DfAG+ivcqRcU/3NErCj+68nO7iamEf4erMmL
+ NKUGJfJ6yiPSNxsct+fkRLRhRabKhNSiOy8Ly79YgkxA28+uYrruuWw+R8dloJj8vNPp
+ oBq19i0W1ZKKroZ2cJXm5oSwZ35x6LjdTu/g/cVgwOXc66L+BDcGfBuzB0LsT39syr72
+ O+5Q9XUjzOugTqIDQfI2FLZdKRd1KgADejcrydz34Kw9Y3nkvwk66eKB2xLIjr55+BZm
+ GOEA==
+X-Gm-Message-State: AGi0Pua4FoZDwWrIX8bwGeRC6JAFWm+DaY1ZWpM9FH9pdwHBfo0lanD5
+ xxfLQ0VlKD6rphcS7dTHO52ck6bezEx05Frx7KBkH0GDHqDbY2lkertVcRmvSncyBzWWl6wKwjN
+ MQGgBaRJEqh9pgyU=
+X-Received: by 2002:a50:d942:: with SMTP id u2mr13893158edj.116.1587379789817; 
+ Mon, 20 Apr 2020 03:49:49 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJztSB+Un3E4swJv9LDYUAgNj/8yk+tU0DtKAOnWSiOSTU8XCz+5yFKhkcH8st6qPWw5VQM9Q==
+X-Received: by 2002:a50:d942:: with SMTP id u2mr13893142edj.116.1587379789573; 
+ Mon, 20 Apr 2020 03:49:49 -0700 (PDT)
 Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id mj1sm107969ejb.6.2020.04.20.03.44.02
+ by smtp.gmail.com with ESMTPSA id gh8sm108359ejb.32.2020.04.20.03.49.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Apr 2020 03:44:03 -0700 (PDT)
-Subject: Re: [PATCH v3 01/19] target/arm: Rename KVM set_feature() as
- kvm_set_feature()
-To: Peter Maydell <peter.maydell@linaro.org>
+ Mon, 20 Apr 2020 03:49:49 -0700 (PDT)
+Subject: Re: [PATCH v3 05/19] target/arm: Restrict Virtualization Host
+ Extensions instructions to TCG
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20200316160634.3386-1-philmd@redhat.com>
- <20200316160634.3386-2-philmd@redhat.com>
- <cb3178f1-5a0c-b11c-a012-c41beeb66cd2@linaro.org>
- <3dc0e645-05a5-938c-4277-38014e4a68a3@redhat.com>
- <f4ee109e-b6fc-8e1b-7110-41e045e58c30@redhat.com>
- <CAFEAcA8z5t__ZQQSqx88nMcC26SHowa3AjtDaQQFaPn-p-FYYQ@mail.gmail.com>
+ <20200316160634.3386-6-philmd@redhat.com>
+ <9cff4a7a-e404-fcc4-eb04-fdbc48ceb7c2@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <7f49bc68-8c40-42b9-7810-fc1f9f6ff904@redhat.com>
-Date: Mon, 20 Apr 2020 12:44:02 +0200
+Message-ID: <ad90c620-8594-aac8-75f6-da342861211c@redhat.com>
+Date: Mon, 20 Apr 2020 12:49:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8z5t__ZQQSqx88nMcC26SHowa3AjtDaQQFaPn-p-FYYQ@mail.gmail.com>
+In-Reply-To: <9cff4a7a-e404-fcc4-eb04-fdbc48ceb7c2@linaro.org>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
- 01:47:04
+ 03:29:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,47 +97,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- kvm-devel <kvm@vger.kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org, qemu-arm@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/19/20 9:58 PM, Peter Maydell wrote:
-> On Sun, 19 Apr 2020 at 17:31, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
-com> wrote:
+On 3/16/20 9:17 PM, Richard Henderson wrote:
+> On 3/16/20 9:06 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+>> Under KVM the ARMv8.1-VHE instruction will trap.
 >>
->> On 3/17/20 10:09 AM, Philippe Mathieu-Daud=C3=A9 wrote:
->>> On 3/16/20 9:16 PM, Richard Henderson wrote:
->>>> On 3/16/20 9:06 AM, Philippe Mathieu-Daud=C3=A9 wrote:
->>>>> +++ b/target/arm/kvm32.c
->>>>> @@ -22,7 +22,7 @@
->>>>>    #include "internals.h"
->>>>>    #include "qemu/log.h"
->>>>> -static inline void set_feature(uint64_t *features, int feature)
->>>>> +static inline void kvm_set_feature(uint64_t *features, int feature)
->>>>
->>>> Why, what's wrong with the existing name?
->>
->> Peter suggested the rename here:
->> https://www.mail-archive.com/qemu-devel@nongnu.org/msg641931.html
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> ---
+>>   target/arm/helper.c | 22 ++++++++++++----------
+>>   1 file changed, 12 insertions(+), 10 deletions(-)
 >=20
-> In that message I suggest that if you move the set_feature()
-> function to cpu.h (which is included in lots of places) then
-> that is too generic a name to use for it. The function of
-> the same name here in kvm32.c is fine, because it's
-> 'static inline' and only visible in this file, so the bar
-> for naming is lower. (In fact, it's a demonstration of why
-> you don't want a generic name like 'set_feature' in a widely
-> included header file.)
+> What happened to the uses of these functions?
 
-And your suggestion is indeed obviously correct...
+Sincerely I don't remember... I got this branch working again without=20
+this patch, so I'll just drop it.
 
-Apparently after 19 months rebasing this work I'm not seeing clearly.
-
-Thanks again!
+>=20
+> r~
+>=20
+>>
+>> diff --git a/target/arm/helper.c b/target/arm/helper.c
+>> index a5280c091b..ce6778283d 100644
+>> --- a/target/arm/helper.c
+>> +++ b/target/arm/helper.c
+>> @@ -2897,16 +2897,6 @@ static void gt_virt_ctl_write(CPUARMState *env, c=
+onst ARMCPRegInfo *ri,
+>>       gt_ctl_write(env, ri, GTIMER_VIRT, value);
+>>   }
+>>  =20
+>> -static void gt_cntvoff_write(CPUARMState *env, const ARMCPRegInfo *ri,
+>> -                              uint64_t value)
+>> -{
+>> -    ARMCPU *cpu =3D env_archcpu(env);
+>> -
+>> -    trace_arm_gt_cntvoff_write(value);
+>> -    raw_write(env, ri, value);
+>> -    gt_recalc_timer(cpu, GTIMER_VIRT);
+>> -}
+>> -
+>>   static uint64_t gt_virt_redir_cval_read(CPUARMState *env,
+>>                                           const ARMCPRegInfo *ri)
+>>   {
+>> @@ -2949,6 +2939,17 @@ static void gt_virt_redir_ctl_write(CPUARMState *=
+env, const ARMCPRegInfo *ri,
+>>       gt_ctl_write(env, ri, timeridx, value);
+>>   }
+>>  =20
+>> +#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
+>> +static void gt_cntvoff_write(CPUARMState *env, const ARMCPRegInfo *ri,
+>> +                              uint64_t value)
+>> +{
+>> +    ARMCPU *cpu =3D env_archcpu(env);
+>> +
+>> +    trace_arm_gt_cntvoff_write(value);
+>> +    raw_write(env, ri, value);
+>> +    gt_recalc_timer(cpu, GTIMER_VIRT);
+>> +}
+>> +
+>>   static void gt_hyp_timer_reset(CPUARMState *env, const ARMCPRegInfo *r=
+i)
+>>   {
+>>       gt_timer_reset(env, ri, GTIMER_HYP);
+>> @@ -2976,6 +2977,7 @@ static void gt_hyp_ctl_write(CPUARMState *env, con=
+st ARMCPRegInfo *ri,
+>>   {
+>>       gt_ctl_write(env, ri, GTIMER_HYP, value);
+>>   }
+>> +#endif /* !CONFIG_USER_ONLY && CONFIG_TCG */
+>>  =20
+>>   static void gt_sec_timer_reset(CPUARMState *env, const ARMCPRegInfo *r=
+i)
+>>   {
+>>
+>=20
 
 
