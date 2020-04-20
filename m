@@ -2,77 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB561B1062
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 17:42:23 +0200 (CEST)
-Received: from localhost ([::1]:38064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 781DC1B1074
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 17:44:21 +0200 (CEST)
+Received: from localhost ([::1]:38080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQYYw-0001G9-89
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 11:42:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38554 helo=eggs1p.gnu.org)
+	id 1jQYap-0002XL-7i
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 11:44:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39506 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jQYWf-0008SH-Fs
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 11:40:01 -0400
+ (envelope-from <groug@kaod.org>) id 1jQYZC-0001vU-3R
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 11:42:38 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jQYWd-0000sX-Mj
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 11:40:00 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38896)
- by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jQYWd-0000os-9Z
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 11:39:59 -0400
-Received: by mail-wm1-x341.google.com with SMTP id g12so20590wmh.3
- for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 08:39:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=5ZzPYd75tQ3vMp0hx9EXDOrihpQ7Bi5inZTjOT6ib34=;
- b=pKWIi2wZrY0IeqCxFwsQmcSYm7tPKN4DNqRmzmQHGvQavvuIzeedgEtKgjBxonWKA6
- A5+oVJKuG0Ej5P+IHI8AlDhia3KunJ5D8J9FLkT4IFqM/YNoju+OEKLMWmGeAx4MYHGT
- g50LO3fQL8pjCRw24vdVRCuParVGjCchfs3CFXGYNI4bz/qkVGMtYHTlmjn2t9r0SexL
- 7Ld9hTJjj+HKHMxX5DQw6Twtmj4t1REPNN8qz467fSJ3F0NYxyKMEFx3YRtTkl5Q4XDn
- ohtpzxT06b5lsqEab7wZuWPn736g+6YhP+S6MubGdZqIwsZgTL0u9K1gTFLoyU0hgKPd
- HDvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=5ZzPYd75tQ3vMp0hx9EXDOrihpQ7Bi5inZTjOT6ib34=;
- b=GqPxvBJiZzcQHKmxxefhy6gFZih5BhkDSRqs0QoAqzI3acbknq9E3A68IlV99gGvzA
- /+T6BsvFH5yRVdWIVHI6r7mYymdW2A3ZAOVUp28Neg86D0Ja87PV4LzmptqO3GUE8oyT
- aM7rrkxCry1l8UgdtHiCNqPfFiL4Wlwmq4gj1HC5Ko6EgcFKDjB2vLOiK6w8oZiArDKq
- HWChebepueinnaqrVcXMaOvNz8mBSjm3nch4l9x45Pu81WPR8lrAT1fwe2Sdz9GA1J9p
- E92UkF6CUkdc7vcp96VYi+gE1tciuaiPI1XuRaBRQqzxSNkmRUQ83n6OfPh42iv/FYiu
- RbsA==
-X-Gm-Message-State: AGi0PuZDZetJ42OwsfABgHd4Z6a+ZCDV01w0siCdSd+keorhTs5WkmA/
- o4SxVib4K84VfNiPheLrpbI+uQ==
-X-Google-Smtp-Source: APiQypLE7KE3+0s7PTtMoghqcom102DHqYbpvNkkybfHLwqpXwgn577mVeAnNC05Vs36Ob31iinMcg==
-X-Received: by 2002:a1c:7c10:: with SMTP id x16mr17838780wmc.74.1587397196532; 
- Mon, 20 Apr 2020 08:39:56 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u7sm2002890wmg.41.2020.04.20.08.39.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Apr 2020 08:39:55 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E26B31FF7E;
- Mon, 20 Apr 2020 16:39:53 +0100 (BST)
-References: <20200418161914.4387-1-richard.henderson@linaro.org>
-User-agent: mu4e 1.4.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 00/16] tcg: Better handling of constants
-In-reply-to: <20200418161914.4387-1-richard.henderson@linaro.org>
-Date: Mon, 20 Apr 2020 16:39:53 +0100
-Message-ID: <87a736dv3q.fsf@linaro.org>
+ (envelope-from <groug@kaod.org>) id 1jQYZB-0003aF-Dr
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 11:42:37 -0400
+Received: from 13.mo4.mail-out.ovh.net ([178.33.251.8]:49962)
+ by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jQYZA-0003Ur-UQ
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 11:42:37 -0400
+Received: from player759.ha.ovh.net (unknown [10.108.35.185])
+ by mo4.mail-out.ovh.net (Postfix) with ESMTP id DAA32230D12
+ for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 17:42:31 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player759.ha.ovh.net (Postfix) with ESMTPSA id 1E8B3119A01C9;
+ Mon, 20 Apr 2020 15:42:30 +0000 (UTC)
+Date: Mon, 20 Apr 2020 17:42:26 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH] qemu-options.hx: 9p: clarify -virtfs vs. -fsdev
+Message-ID: <20200420174226.69807b11@bahia.lan>
+In-Reply-To: <208f1fceffce2feaf7c900b29e326b967dce7762.1585661532.git.qemu_oss@crudebyte.com>
+References: <208f1fceffce2feaf7c900b29e326b967dce7762.1585661532.git.qemu_oss@crudebyte.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs1p.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::341
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 14044193964349561152
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrgeefgdekjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejheelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=178.33.251.8; envelope-from=groug@kaod.org;
+ helo=13.mo4.mail-out.ovh.net
+X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
+ 11:42:32
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Received-From: 178.33.251.8
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,46 +63,49 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 31 Mar 2020 15:23:38 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+> The docs are ambiguous about the difference (or actually their
+> equality) between options '-virtfs' vs. '-fsdev'. So clarify that
+> '-virtfs' is actually just a convenience shortcut for its
+> generalized form '-fsdev' in conjunction with '-device virtio-9p-pci'.
+> 
+> And as we're at it, also be a bit more descriptive what 9pfs is
+> actually used for.
+> 
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
 
-> This promotes constants to full-fledged temporaries, which are then
-> hashed so we have only a single copy across the TB.  If an opcode
-> requires forcing one into a register, then we will only do this
-> once -- at least until the register is killed, e.g. by a function call.
->
-> While this is probably an modest improvement for integer code, it is
-> significant for SVE vector code.  In particular, where a generator functi=
-on
-> loads a constant for the operation, and then the generator function is
-> called N times for the N x 128-bit vector.  Previously we'd be loading
-> up the same constant N times and now we do so only once.
->
-> The existing tcg_const_{type}() functions are unchanged, allocating
-> a new temporary and initializing it.  The constant propagation pass
-> of the optimizer will generally remove the temporary when it turns
-> out not to be modified further.
->
-> This adds new tcg_constant_{type}() functions which produce a read-only
-> temporary containing the constant which need not be freed.  I have
-> updated the generic expanders to take advantage of this, but have not
-> touched the target front ends.
->
-> This also, in the end, allows the complete removal of the tcg opcodes
-> that create a constant: INDEX_op_movi_{i32,i64} and INDEX_op_dupi_vec.
-> Loading of constants into hard registers is completely controlled by
-> the register allocator.
->
->
-> r~
->
->
-> Richard Henderson (16):
->   tcg: Add temp_readonly
+Applied to 9p-next.
 
-The series failed to apply at the first patch. Should it be based on any
-other patches?
+>  qemu-options.hx | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
+> 
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 962a5ebaa6..fd3830c6cd 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -1542,9 +1542,17 @@ SRST
+>  ``-virtfs proxy,sock_fd=sock_fd,mount_tag=mount_tag [,writeout=writeout][,readonly]``
+>    \
+>  ``-virtfs synth,mount_tag=mount_tag``
+> -    Define a new filesystem device and expose it to the guest using a
+> -    virtio-9p-device. The general form of a Virtual File system
+> -    pass-through options are:
+> +    Define a new virtual filesystem device and expose it to the guest using
+> +    a virtio-9p-device (a.k.a. 9pfs), which essentially means that a certain
+> +    directory on host is made directly accessible by guest as a pass-through
+> +    file system by using the 9P network protocol for communication between
+> +    host and guests, if desired even accessible, shared by several guests
+> +    simultaniously.
+> +
+> +    Note that ``-virtfs`` is actually just a convenience shortcut for its
+> +    generalized form ``-fsdev -device virtio-9p-pci``.
+> +
+> +    The general form of pass-through file system options are:
+>  
+>      ``local``
+>          Accesses to the filesystem are done by QEMU.
 
---=20
-Alex Benn=C3=A9e
 
