@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 306981B0CEF
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 15:39:50 +0200 (CEST)
-Received: from localhost ([::1]:35818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 685131B0CBC
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 15:35:15 +0200 (CEST)
+Received: from localhost ([::1]:35722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQWeL-0005Yz-7I
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 09:39:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60934 helo=eggs1p.gnu.org)
+	id 1jQWZu-0006TB-AD
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 09:35:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60900 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jQWXn-0004Ny-5K
+ (envelope-from <kwolf@redhat.com>) id 1jQWXl-0004Mq-3s
  for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:33:06 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jQWXc-0004hv-Uy
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:33:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60206
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1jQWXc-0004he-Uf
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:32:59 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60680
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jQWXc-0004en-F7
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jQWXc-0004de-D6
  for qemu-devel@nongnu.org; Mon, 20 Apr 2020 09:32:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587389571;
+ s=mimecast20190719; t=1587389569;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qKXUZmlru6pmYggmL/tjU9HOqkL962sW3qnltYaDw5U=;
- b=FHSF/nxSPHNu/klvUb3yLqN+rmXNrhHjW2rbPFXBxepie/h5Nb9eFYCksoY2sCqZGnHoRE
- JwDUfFXmISKhHkFA/z63Gdtd/uBLESR3a53cdGc9iiv91NtO7WWsnoTr8MUKsYLgYEDLNu
- 92qU+hWmznFxpbSjOsetV2oUSjtXkw0=
+ bh=jcer1LVMtRqjIwUaiSpHPGpJOhvpyU4IPvZZtPti7wU=;
+ b=bl4i68jiOLrp0/5CnKKCZrRGdChYkeIwPXxbo+1PrzWTfuGdtMigSm0+o3JQlWLeh8RWV8
+ xtPcFYliAYXYThNTYt5A7dABCdlfbcxeOIlc7eca9d9Tr4ConhVdaE39JykQAVUndT/qRq
+ VsgfEK9HY72CtRYWfkWjNJtEO30KWSc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-414-JdqBXKGvNvyj_4wADwKdxQ-1; Mon, 20 Apr 2020 09:32:45 -0400
-X-MC-Unique: JdqBXKGvNvyj_4wADwKdxQ-1
+ us-mta-285--Ky8TvMcN5OXy8lUZS39mg-1; Mon, 20 Apr 2020 09:32:47 -0400
+X-MC-Unique: -Ky8TvMcN5OXy8lUZS39mg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32FC88024E5;
- Mon, 20 Apr 2020 13:32:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00CAA802570;
+ Mon, 20 Apr 2020 13:32:46 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-38.ams2.redhat.com [10.36.114.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9E117116D9F;
- Mon, 20 Apr 2020 13:32:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7A8CF116D9F;
+ Mon, 20 Apr 2020 13:32:44 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 6/9] file-posix: Support BDRV_REQ_ZERO_WRITE for truncate
-Date: Mon, 20 Apr 2020 15:32:11 +0200
-Message-Id: <20200420133214.28921-7-kwolf@redhat.com>
+Subject: [PATCH v4 7/9] block: truncate: Don't make backing file data visible
+Date: Mon, 20 Apr 2020 15:32:12 +0200
+Message-Id: <20200420133214.28921-8-kwolf@redhat.com>
 In-Reply-To: <20200420133214.28921-1-kwolf@redhat.com>
 References: <20200420133214.28921-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -57,12 +57,12 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
- 04:32:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ 01:47:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,31 +79,71 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For regular files, we always get BDRV_REQ_ZERO_WRITE behaviour from the
-OS, so we can advertise the flag and just ignore it.
+When extending the size of an image that has a backing file larger than
+its old size, make sure that the backing file data doesn't become
+visible in the guest, but the added area is properly zeroed out.
+
+Consider the following scenario where the overlay is shorter than its
+backing file:
+
+    base.qcow2:     AAAAAAAA
+    overlay.qcow2:  BBBB
+
+When resizing (extending) overlay.qcow2, the new blocks should not stay
+unallocated and make the additional As from base.qcow2 visible like
+before this patch, but zeros should be read.
+
+A similar case happens with the various variants of a commit job when an
+intermediate file is short (- for unallocated):
+
+    base.qcow2:     A-A-AAAA
+    mid.qcow2:      BB-B
+    top.qcow2:      C--C--C-
+
+After commit top.qcow2 to mid.qcow2, the following happens:
+
+    mid.qcow2:      CB-C00C0 (correct result)
+    mid.qcow2:      CB-C--C- (before this fix)
+
+Without the fix, blocks that previously read as zeros on top.qcow2
+suddenly turn into A.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/file-posix.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ block/io.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 53f475ed61..1dca220a81 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -702,6 +702,10 @@ static int raw_open_common(BlockDriverState *bs, QDict=
- *options,
- #endif
+diff --git a/block/io.c b/block/io.c
+index 795075954e..f149dff3ba 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -3394,6 +3394,20 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, =
+int64_t offset, bool exact,
+         goto out;
+     }
 =20
-     bs->supported_zero_flags =3D BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK=
-;
-+    if (S_ISREG(st.st_mode)) {
-+        /* When extending regular files, we get zeros from the OS */
-+        bs->supported_truncate_flags =3D BDRV_REQ_ZERO_WRITE;
++    /*
++     * If the image has a backing file that is large enough that it would
++     * provide data for the new area, we cannot leave it unallocated becau=
+se
++     * then the backing file content would become visible. Instead, zero-f=
+ill
++     * the area where backing file and new area overlap.
++     *
++     * Note that if the image has a backing file, but was opened without t=
+he
++     * backing file, taking care of keeping things consistent with that ba=
+cking
++     * file is the user's responsibility.
++     */
++    if (new_bytes && bs->backing) {
++        flags |=3D BDRV_REQ_ZERO_WRITE;
 +    }
-     ret =3D 0;
- fail:
-     if (filename && (bdrv_flags & BDRV_O_TEMPORARY)) {
++
+     if (drv->bdrv_co_truncate) {
+         if (flags & ~bs->supported_truncate_flags) {
+             error_setg(errp, "Block driver does not support requested flag=
+s");
 --=20
 2.20.1
 
