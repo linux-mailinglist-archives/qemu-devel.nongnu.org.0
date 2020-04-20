@@ -2,74 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57D651AFDE5
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Apr 2020 21:59:34 +0200 (CEST)
-Received: from localhost ([::1]:47188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E6351AFF93
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 03:35:53 +0200 (CEST)
+Received: from localhost ([::1]:55942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQG6H-0002tI-1F
-	for lists+qemu-devel@lfdr.de; Sun, 19 Apr 2020 15:59:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58612 helo=eggs1p.gnu.org)
+	id 1jQLLk-0005IJ-AM
+	for lists+qemu-devel@lfdr.de; Sun, 19 Apr 2020 21:35:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38726 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jQG57-0002Nm-F3
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 15:58:21 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1jQLKq-0004s1-S1
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 21:34:57 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jQG56-00085i-PL
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 15:58:21 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:42493)
- by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jQG56-00083R-8U
- for qemu-devel@nongnu.org; Sun, 19 Apr 2020 15:58:20 -0400
-Received: by mail-ot1-x343.google.com with SMTP id m18so6218546otq.9
- for <qemu-devel@nongnu.org>; Sun, 19 Apr 2020 12:58:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=8sgZNtHLVvuYw+5lDrqsN+Jm8FYYVijiJfjS9qHlDxA=;
- b=tcHo/oAdo+AaUr/nRWts65oNLNMeGWd5AIknQ0t3HEnEAdV4yG35Kk8yjSb3asyjWa
- iagFJhcl1bkDtx2phWa4bucjGe/x7IzojSIOvM8jTLUqVwfUMlExGIBFEXmlHGsx5Sdc
- CO+HdMvFiAxM+HfKBqJRXPupugrFmD8mF1GUWOmjS3x5pjlO0nrcT9m+kuxBgKZwxu7X
- pF4voaq7tIFkH+fvgSWGfwtka3hrMn/JXpnO+mXL+Heas4AHAfvarYypkXGnYplSyB7B
- zBpagAXgaVlLFQJ/KEQ38PyTCxL7tZBIdN1+sj+9XuQ5h1duPcpAy/N07H5U1wKe1S2b
- s9aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=8sgZNtHLVvuYw+5lDrqsN+Jm8FYYVijiJfjS9qHlDxA=;
- b=dIIvAPqFzhNfL5FtlmE7mRRBqEaGyKXC39LIc5dIAT7VsLX3IxRnqZMcydaAKvZUch
- gh2xu6uacJw23XZGPkqqgls8g9yzsyakP4l8jjkKmMkMmCbNmTi9aMcUb61F3blPK6ta
- rnERmWrn8YBjv0lwTjS6BLAQY0PdEgZq3owTrBocBa2AqMSzCFLdJ5UmwfmWGlfVIwoo
- L5C1askKoMVF80JJftHREiFNtaj544HgiVvQo9+hP7Nojl3v2OFgFbxVQ7NBdvQzqkeJ
- kk/qGKIT2JpubrHStXWDkfgI/QvE/qPmbBcmIYWx1Nsdm6I8KR5DNZSrPUcpUFGNkChA
- SF6g==
-X-Gm-Message-State: AGi0PuZMVgAONoroiAzaArE7PrWDh4uxfUUXcY8bZnBgbIZb5wJZN9l4
- 9hrHEaW1Rf7j3O4I5xplLPaQaLlYSdBT+UcekLi/4w==
-X-Google-Smtp-Source: APiQypI8UIJka580eXEMW8htEkYmryhOVDrQrkv7Gcep4mnLZqyA9aHRQgiiEQiubaTRr7VBz+Gkb5XrWvUDV5JbomI=
-X-Received: by 2002:a05:6830:1e4e:: with SMTP id
- e14mr6978758otj.91.1587326298321; 
- Sun, 19 Apr 2020 12:58:18 -0700 (PDT)
+ (envelope-from <yan.y.zhao@intel.com>) id 1jQLKp-0000up-Vc
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 21:34:56 -0400
+Received: from mga06.intel.com ([134.134.136.31]:58910)
+ by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jQLKp-0000SB-FG
+ for qemu-devel@nongnu.org; Sun, 19 Apr 2020 21:34:55 -0400
+IronPort-SDR: 036MwlCjKzO6P+z28hF1uL3robfZsMTbU52uh0YXRYe5ROtdMPMJJaXYEBRdqZ8BFK5aNB9Czv
+ BJiX6fmuul4g==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2020 18:34:44 -0700
+IronPort-SDR: mm9uYTLuqw3ULYhWUSIwaiLjiK6ca7daOboSjHKj+5Z0IuEY/WGDFtohzFWgugijJkXpwe1AdE
+ F3ggOZbj3jVQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,405,1580803200"; d="scan'208";a="428940295"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.16])
+ by orsmga005.jf.intel.com with ESMTP; 19 Apr 2020 18:34:37 -0700
+Date: Sun, 19 Apr 2020 21:24:57 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [PATCH v5 0/4] introduction of migration_version attribute for
+ VFIO live migration
+Message-ID: <20200420012457.GE16688@joy-OptiPlex-7040>
+References: <20200413055201.27053-1-yan.y.zhao@intel.com>
+ <20200417104450.2d2f2fa9.cohuck@redhat.com>
+ <20200417095202.GD16688@joy-OptiPlex-7040>
+ <20200417132457.45d91fe3.cohuck@redhat.com>
 MIME-Version: 1.0
-References: <20200316160634.3386-1-philmd@redhat.com>
- <20200316160634.3386-2-philmd@redhat.com>
- <cb3178f1-5a0c-b11c-a012-c41beeb66cd2@linaro.org>
- <3dc0e645-05a5-938c-4277-38014e4a68a3@redhat.com>
- <f4ee109e-b6fc-8e1b-7110-41e045e58c30@redhat.com>
-In-Reply-To: <f4ee109e-b6fc-8e1b-7110-41e045e58c30@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 19 Apr 2020 20:58:07 +0100
-Message-ID: <CAFEAcA8z5t__ZQQSqx88nMcC26SHowa3AjtDaQQFaPn-p-FYYQ@mail.gmail.com>
-Subject: Re: [PATCH v3 01/19] target/arm: Rename KVM set_feature() as
- kvm_set_feature()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
-X-detected-operating-system: by eggs1p.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200417132457.45d91fe3.cohuck@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=yan.y.zhao@intel.com;
+ helo=mga06.intel.com
+X-detected-operating-system: by eggs1p.gnu.org: FreeBSD 9.x or newer [fuzzy]
+X-Received-From: 134.134.136.31
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,42 +65,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- kvm-devel <kvm@vger.kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "cjia@nvidia.com" <cjia@nvidia.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ "Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
+ "eauger@redhat.com" <eauger@redhat.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ "felipe@nutanix.com" <felipe@nutanix.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
+ "Tian, Kevin" <kevin.tian@intel.com>, "Zeng, Xin" <xin.zeng@intel.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
+ "dinechin@redhat.com" <dinechin@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ "Liu, Changpeng" <changpeng.liu@intel.com>,
+ "berrange@redhat.com" <berrange@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "He,
+ Shaopeng" <shaopeng.he@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 19 Apr 2020 at 17:31, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
+On Fri, Apr 17, 2020 at 07:24:57PM +0800, Cornelia Huck wrote:
+> On Fri, 17 Apr 2020 05:52:02 -0400
+> Yan Zhao <yan.y.zhao@intel.com> wrote:
+> 
+> > On Fri, Apr 17, 2020 at 04:44:50PM +0800, Cornelia Huck wrote:
+> > > On Mon, 13 Apr 2020 01:52:01 -0400
+> > > Yan Zhao <yan.y.zhao@intel.com> wrote:
+> > >   
+> > > > This patchset introduces a migration_version attribute under sysfs of VFIO
+> > > > Mediated devices.
+> > > > 
+> > > > This migration_version attribute is used to check migration compatibility
+> > > > between two mdev devices.
+> > > > 
+> > > > Currently, it has two locations:
+> > > > (1) under mdev_type node,
+> > > >     which can be used even before device creation, but only for mdev
+> > > >     devices of the same mdev type.
+> > > > (2) under mdev device node,
+> > > >     which can only be used after the mdev devices are created, but the src
+> > > >     and target mdev devices are not necessarily be of the same mdev type
+> > > > (The second location is newly added in v5, in order to keep consistent
+> > > > with the migration_version node for migratable pass-though devices)  
+> > > 
+> > > What is the relationship between those two attributes?
+> > >   
+> > (1) is for mdev devices specifically, and (2) is provided to keep the same
+> > sysfs interface as with non-mdev cases. so (2) is for both mdev devices and
+> > non-mdev devices.
+> > 
+> > in future, if we enable vfio-pci vendor ops, (i.e. a non-mdev device
+> > is binding to vfio-pci, but is able to register migration region and do
+> > migration transactions from a vendor provided affiliate driver),
+> > the vendor driver would export (2) directly, under device node.
+> > It is not able to provide (1) as there're no mdev devices involved.
+> 
+> Ok, creating an alternate attribute for non-mdev devices makes sense.
+> However, wouldn't that rather be a case (3)? The change here only
+> refers to mdev devices.
 >
-> On 3/17/20 10:09 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > On 3/16/20 9:16 PM, Richard Henderson wrote:
-> >> On 3/16/20 9:06 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> >>> +++ b/target/arm/kvm32.c
-> >>> @@ -22,7 +22,7 @@
-> >>>   #include "internals.h"
-> >>>   #include "qemu/log.h"
-> >>> -static inline void set_feature(uint64_t *features, int feature)
-> >>> +static inline void kvm_set_feature(uint64_t *features, int feature)
-> >>
-> >> Why, what's wrong with the existing name?
+as you pointed below, (3) and (2) serve the same purpose. 
+and I think a possible usage is to migrate between a non-mdev device and
+an mdev device. so I think it's better for them both to use (2) rather
+than creating (3).
+> > 
+> > > Is existence (and compatibility) of (1) a pre-req for possible
+> > > existence (and compatibility) of (2)?
+> > >  
+> > no. (2) does not reply on (1).
+> 
+> Hm. Non-existence of (1) seems to imply "this type does not support
+> migration". If an mdev created for such a type suddenly does support
+> migration, it feels a bit odd.
+> 
+yes. but I think if the condition happens, it should be reported a bug
+to vendor driver.
+should I add a line in the doc like "vendor driver should ensure that the
+migration compatibility from migration_version under mdev_type should be
+consistent with that from migration_version under device node" ?
+
+> (It obviously cannot be a prereq for what I called (3) above.)
+> 
+> > 
+> > > Does userspace need to check (1) or can it completely rely on (2), if
+> > > it so chooses?
+> > >  
+> > I think it can completely reply on (2) if compatibility check before
+> > mdev creation is not required.
+> > 
+> > > If devices with a different mdev type are indeed compatible, it seems
+> > > userspace can only find out after the devices have actually been
+> > > created, as (1) does not apply?  
+> > yes, I think so. 
+> 
+> How useful would it be for userspace to even look at (1) in that case?
+> It only knows if things have a chance of working if it actually goes
+> ahead and creates devices.
 >
-> Peter suggested the rename here:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg641931.html
+hmm, is it useful for userspace to test the migration_version under mdev
+type before it knows what mdev device to generate ?
+like when the userspace wants to migrate an mdev device in src vm,
+but it has not created target vm and the target mdev device.
 
-In that message I suggest that if you move the set_feature()
-function to cpu.h (which is included in lots of places) then
-that is too generic a name to use for it. The function of
-the same name here in kvm32.c is fine, because it's
-'static inline' and only visible in this file, so the bar
-for naming is lower. (In fact, it's a demonstration of why
-you don't want a generic name like 'set_feature' in a widely
-included header file.)
+> > 
+> > > One of my worries is that the existence of an attribute with the same
+> > > name in two similar locations might lead to confusion. But maybe it
+> > > isn't a problem.
+> > >  
+> > Yes, I have the same feeling. but as (2) is for sysfs interface
+> > consistency, to make it transparent to userspace tools like libvirt,
+> > I guess the same name is necessary?
+> 
+> What do we actually need here, I wonder? (1) and (2) seem to serve
+> slightly different purposes, while (2) and what I called (3) have the
+> same purpose. Is it important to userspace that (1) and (2) have the
+> same name?
+so change (1) to migration_type_version and (2) to
+migration_instance_version?
+But as they are under different locations, could that location imply
+enough information?
 
-thanks
--- PMM
+
+Thanks
+Yan
+
+
 
