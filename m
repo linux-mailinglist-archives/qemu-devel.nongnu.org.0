@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC2A31B1AE2
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 02:45:49 +0200 (CEST)
-Received: from localhost ([::1]:44992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC4E11B19D4
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 00:57:34 +0200 (CEST)
+Received: from localhost ([::1]:43634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQh2q-0003o6-Cs
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 20:45:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57632)
+	id 1jQfM5-0002y8-CG
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 18:57:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58048)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dclarke@blastwave.org>) id 1jQfJ1-0001eK-Gv
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 18:54:23 -0400
+ (envelope-from <alex.williamson@redhat.com>) id 1jQfL2-0002J9-NP
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 18:56:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <dclarke@blastwave.org>) id 1jQfIx-0002LX-Qw
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 18:54:23 -0400
-Received: from mail.oetec.com ([108.160.241.186]:35162)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dclarke@blastwave.org>)
- id 1jQfIx-0002KE-8H; Mon, 20 Apr 2020 18:54:19 -0400
-X-oetec-MailScanner-From: dclarke@blastwave.org
-X-oetec-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
- score=-1.199, required 6, autolearn=not spam, ALL_TRUSTED -1.00,
- DKIM_SIGNED 0.10, DKIM_VALID -0.10, DKIM_VALID_AU -0.10,
- DKIM_VALID_EF -0.10, URIBL_BLOCKED 0.00)
-X-oetec-MailScanner: Found to be clean
-X-oetec-MailScanner-ID: 03KMrm7j027396
-X-oetec-MailScanner-Information: Please contact oetec for more information
-Received: from [172.16.35.3]
- (CPEf81d0f84cb23-CMf81d0f84cb20.cpe.net.cable.rogers.com [99.253.169.68])
- (authenticated bits=0)
- by mail.oetec.com (8.15.2/8.15.2/Debian-8) with ESMTPSA id 03KMrm7j027396
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Mon, 20 Apr 2020 18:53:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=blastwave.org;
- s=default; t=1587423231;
- bh=xUFLFB4oLr2+xK5cFnNJ+SO8T/HPIu5KGptj/l+/gp8=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=cO8dsXkPR3CY5qmv66aLQN6VsECsiPeRJ7dw/p4aCPumdsPzeefX9TdRd3HIAy0/t
- QcSm5pfHv+hHyFpmVSgrWdLtsRRFSjsCCgtFrDivbDJ98576GitlBh+wgJqZOGnzta
- b+AesXqlCNlBxDZ1cJMPbigtzYPftxiFsfWFBQvA2P23nT7rK5ivKYAT5Btun2RZ23
- my8Lh5E/srBsGjBJXkAXfxK2mWyi36wgkVEp0+4kk9BXNrqXk00/J7zt9Be3dJm2U9
- 8UmGwDSVbj9+RAIJBFU8kKNGM1CUDjUKoMb+zrBhpEwQmJIa1TB/PEPp1KcPxbdeKn
- ERPM6PzZEA/Ew==
-Subject: Re: [PATCH-for-5.0?] target/ppc: Fix TCG temporary leaks in
- gen_slbia()
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Nicholas Piggin <npiggin@gmail.com>, qemu-ppc <qemu-ppc@nongnu.org>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <20200417090749.14310-1-f4bug@amsat.org>
- <CAFEAcA-aj77=19d+8jmoWYXBDdm=U8eV8CsHpovMN8bE9uNSvg@mail.gmail.com>
-From: Dennis Clarke <dclarke@blastwave.org>
-Message-ID: <dcf67e87-da27-68ee-0dd8-5b94edb84291@blastwave.org>
-Date: Mon, 20 Apr 2020 22:53:48 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101
- Thunderbird/74.0
+ (envelope-from <alex.williamson@redhat.com>) id 1jQfL0-0004pI-2t
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 18:56:27 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48304
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1jQfKz-0004mS-GD
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 18:56:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587423383;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+6rx/b7kvEOxDoffPYjKOUpjUAof+LX7RGvD23w8b8o=;
+ b=dtcP6ZU7PmBX51pp4HjfZ2a31Ku3eORhOTmlpBCs7P7w3MsJaPgCoSITiaCwdsgb5wUPdb
+ QXBbskuBrj3gL7YNuPRiviXFexHNNOvL/eyXvsFLIuqFLZVcy6lGl+Coy+LyrC0smCeEvi
+ s8dyT95Cm9ai/asprb63qRuglOk79Hw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-33-vJCMrAUjOA-zQBEbwS3yOQ-1; Mon, 20 Apr 2020 18:56:19 -0400
+X-MC-Unique: vJCMrAUjOA-zQBEbwS3yOQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A529C8017F5;
+ Mon, 20 Apr 2020 22:56:14 +0000 (UTC)
+Received: from w520.home (ovpn-112-162.phx2.redhat.com [10.3.112.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7990818A85;
+ Mon, 20 Apr 2020 22:56:01 +0000 (UTC)
+Date: Mon, 20 Apr 2020 16:56:00 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Yan Zhao <yan.y.zhao@intel.com>
+Subject: Re: [PATCH v5 0/4] introduction of migration_version attribute for
+ VFIO live migration
+Message-ID: <20200420165600.4951ae82@w520.home>
+In-Reply-To: <20200420012457.GE16688@joy-OptiPlex-7040>
+References: <20200413055201.27053-1-yan.y.zhao@intel.com>
+ <20200417104450.2d2f2fa9.cohuck@redhat.com>
+ <20200417095202.GD16688@joy-OptiPlex-7040>
+ <20200417132457.45d91fe3.cohuck@redhat.com>
+ <20200420012457.GE16688@joy-OptiPlex-7040>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-aj77=19d+8jmoWYXBDdm=U8eV8CsHpovMN8bE9uNSvg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=108.160.241.186;
- envelope-from=dclarke@blastwave.org; helo=mail.oetec.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/20 18:54:15
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Received-From: 108.160.241.186
-X-Mailman-Approved-At: Mon, 20 Apr 2020 20:44:25 -0400
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Received-SPF: pass client-ip=207.211.31.120;
+ envelope-from=alex.williamson@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/20 18:07:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,99 +77,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "cjia@nvidia.com" <cjia@nvidia.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ "Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
+ "eauger@redhat.com" <eauger@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>,
+ "Liu, Yi
+ L" <yi.l.liu@intel.com>, "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ "felipe@nutanix.com" <felipe@nutanix.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
+ "Tian, Kevin" <kevin.tian@intel.com>, "Zeng, Xin" <xin.zeng@intel.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
+ "dinechin@redhat.com" <dinechin@redhat.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ "Liu, Changpeng" <changpeng.liu@intel.com>,
+ "berrange@redhat.com" <berrange@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "He,
+ Shaopeng" <shaopeng.he@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/20/20 6:56 PM, Peter Maydell wrote:
-> On Fri, 17 Apr 2020 at 10:08, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> This fixes:
->>
->>    $ qemu-system-ppc64 \
->>    -machine pseries-4.1 -cpu power9 \
->>    -smp 4 -m 12G -accel tcg ...
->>    ...
->>    Quiescing Open Firmware ...
->>    Booting Linux via __start() @ 0x0000000002000000 ...
->>    Opcode 1f 12 0f 00 (7ce003e4) leaked temporaries
->>    Opcode 1f 12 0f 00 (7ce003e4) leaked temporaries
->>    Opcode 1f 12 0f 00 (7ce003e4) leaked temporaries
->>
->> [*] https://www.mail-archive.com/qemu-discuss@nongnu.org/msg05400.html
->>
->> Fixes: 0418bf78fe8 ("Fix ISA v3.0 (POWER9) slbia implementation")
->> Reported-by: Dennis Clarke <dclarke@blastwave.org>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Sun, 19 Apr 2020 21:24:57 -0400
+Yan Zhao <yan.y.zhao@intel.com> wrote:
+
+> On Fri, Apr 17, 2020 at 07:24:57PM +0800, Cornelia Huck wrote:
+> > On Fri, 17 Apr 2020 05:52:02 -0400
+> > Yan Zhao <yan.y.zhao@intel.com> wrote:
+> >   
+> > > On Fri, Apr 17, 2020 at 04:44:50PM +0800, Cornelia Huck wrote:  
+> > > > On Mon, 13 Apr 2020 01:52:01 -0400
+> > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
+> > > >     
+> > > > > This patchset introduces a migration_version attribute under sysfs of VFIO
+> > > > > Mediated devices.
+> > > > > 
+> > > > > This migration_version attribute is used to check migration compatibility
+> > > > > between two mdev devices.
+> > > > > 
+> > > > > Currently, it has two locations:
+> > > > > (1) under mdev_type node,
+> > > > >     which can be used even before device creation, but only for mdev
+> > > > >     devices of the same mdev type.
+> > > > > (2) under mdev device node,
+> > > > >     which can only be used after the mdev devices are created, but the src
+> > > > >     and target mdev devices are not necessarily be of the same mdev type
+> > > > > (The second location is newly added in v5, in order to keep consistent
+> > > > > with the migration_version node for migratable pass-though devices)    
+> > > > 
+> > > > What is the relationship between those two attributes?
+> > > >     
+> > > (1) is for mdev devices specifically, and (2) is provided to keep the same
+> > > sysfs interface as with non-mdev cases. so (2) is for both mdev devices and
+> > > non-mdev devices.
+> > > 
+> > > in future, if we enable vfio-pci vendor ops, (i.e. a non-mdev device
+> > > is binding to vfio-pci, but is able to register migration region and do
+> > > migration transactions from a vendor provided affiliate driver),
+> > > the vendor driver would export (2) directly, under device node.
+> > > It is not able to provide (1) as there're no mdev devices involved.  
+> > 
+> > Ok, creating an alternate attribute for non-mdev devices makes sense.
+> > However, wouldn't that rather be a case (3)? The change here only
+> > refers to mdev devices.
+> >  
+> as you pointed below, (3) and (2) serve the same purpose. 
+> and I think a possible usage is to migrate between a non-mdev device and
+> an mdev device. so I think it's better for them both to use (2) rather
+> than creating (3).
+
+An mdev type is meant to define a software compatible interface, so in
+the case of mdev->mdev migration, doesn't migrating to a different type
+fail the most basic of compatibility tests that we expect userspace to
+perform?  IOW, if two mdev types are migration compatible, it seems a
+prerequisite to that is that they provide the same software interface,
+which means they should be the same mdev type.
+
+In the hybrid cases of mdev->phys or phys->mdev, how does a management
+tool begin to even guess what might be compatible?  Are we expecting
+libvirt to probe ever device with this attribute in the system?  Is
+there going to be a new class hierarchy created to enumerate all
+possible migrate-able devices?
+
+I agree that there was a gap in the previous proposal for non-mdev
+devices, but I think this bring a lot of questions that we need to
+puzzle through and libvirt will need to re-evaluate how they might
+decide to pick a migration target device.  For example, I'm sure
+libvirt would reject any policy decisions regarding picking a physical
+device versus an mdev device.  Had we previously left it that only a
+layer above libvirt would select a target device and libvirt only tests
+compatibility to that target device?
+
+We also need to consider that this expands the namespace.  If we no
+longer require matching types as the first level of comparison, then
+vendor migration strings can theoretically collide.  How do we
+coordinate that can't happen?  Thanks,
+
+Alex
+
+> > > > Is existence (and compatibility) of (1) a pre-req for possible
+> > > > existence (and compatibility) of (2)?
+> > > >    
+> > > no. (2) does not reply on (1).  
+> > 
+> > Hm. Non-existence of (1) seems to imply "this type does not support
+> > migration". If an mdev created for such a type suddenly does support
+> > migration, it feels a bit odd.
+> >   
+> yes. but I think if the condition happens, it should be reported a bug
+> to vendor driver.
+> should I add a line in the doc like "vendor driver should ensure that the
+> migration compatibility from migration_version under mdev_type should be
+> consistent with that from migration_version under device node" ?
 > 
-> I propose to apply this patch for 5.0 rc4 (as well as the
-> ppc pullreq already sent), since the iscsi bugfix means
-> we need an rc4 anyway. Any objections?
+> > (It obviously cannot be a prereq for what I called (3) above.)
+> >   
+> > >   
+> > > > Does userspace need to check (1) or can it completely rely on (2), if
+> > > > it so chooses?
+> > > >    
+> > > I think it can completely reply on (2) if compatibility check before
+> > > mdev creation is not required.
+> > >   
+> > > > If devices with a different mdev type are indeed compatible, it seems
+> > > > userspace can only find out after the devices have actually been
+> > > > created, as (1) does not apply?    
+> > > yes, I think so.   
+> > 
+> > How useful would it be for userspace to even look at (1) in that case?
+> > It only knows if things have a chance of working if it actually goes
+> > ahead and creates devices.
+> >  
+> hmm, is it useful for userspace to test the migration_version under mdev
+> type before it knows what mdev device to generate ?
+> like when the userspace wants to migrate an mdev device in src vm,
+> but it has not created target vm and the target mdev device.
 > 
-
-I have been running rc3 with this patch fine for some days now.  Both 
-with and without a debug enabled build wherein the performance 
-difference between the two is obvious.
-
-However, I do see warnings from 5.0.0-rc3 that worry me :
-
-$ /usr/local/bin/qemu-system-ppc64 \
- > -machine pseries-4.1 -cpu power9 -smp 4 -m 12G -accel tcg \
- > -drive file=/home/ppc64/ppc64le.qcow2 \
- > -device virtio-net-pci,netdev=usernet \
- > -netdev user,id=usernet,hostfwd=tcp::10000-:22 \
- > -serial stdio -display none -vga none
-qemu-system-ppc64: warning: TCG doesn't support requested feature, 
-cap-cfpc=workaround
-qemu-system-ppc64: warning: TCG doesn't support requested feature, 
-cap-sbbc=workaround
-qemu-system-ppc64: warning: TCG doesn't support requested feature, 
-cap-ibs=workaround
-
-
-SLOF **********************************************************************
-QEMU Starting
-  Build Date = Mar 27 2020 13:57:26
-  FW Version = git-8e012d6fddb62be8
-  Press "s" to enter Open Firmware.
-
-Populating /vdevice methods
-Populating /vdevice/vty@71000000
-Populating /vdevice/nvram@71000001
-Populating /vdevice/v-scsi@71000002
-        SCSI: Looking for devices
-           8000000000000000 DISK     : "QEMU     QEMU HARDDISK    2.5+"
-           8200000000000000 CD-ROM   : "QEMU     QEMU CD-ROM      2.5+"
-Populating /pci@800000020000000
-                      00 0000 (D) : 1af4 1000    virtio [ net ]
-No NVRAM common partition, re-initializing...
-Scanning USB
-Using default console: /vdevice/vty@71000000
-
-   Welcome to Open Firmware
-
-   Copyright (c) 2004, 2017 IBM Corporation All rights reserved.
-   This program and the accompanying materials are made available
-   under the terms of the BSD License available at
-   http://www.opensource.org/licenses/bsd-license.php
-
-
-Trying to load:  from: /vdevice/v-scsi@71000002/disk@8000000000000000 
-...   Successfully loaded
-
-
-etc etc etc
-
-What shall I do with "TCG doesn't support requested feature, 
-cap-cfpc=workaround" ??
-
--- 
-Dennis Clarke
-RISC-V/SPARC/PPC/ARM/CISC
-UNIX and Linux spoken
-GreyBeard and suspenders optional
-
-
-
-
+> > >   
+> > > > One of my worries is that the existence of an attribute with the same
+> > > > name in two similar locations might lead to confusion. But maybe it
+> > > > isn't a problem.
+> > > >    
+> > > Yes, I have the same feeling. but as (2) is for sysfs interface
+> > > consistency, to make it transparent to userspace tools like libvirt,
+> > > I guess the same name is necessary?  
+> > 
+> > What do we actually need here, I wonder? (1) and (2) seem to serve
+> > slightly different purposes, while (2) and what I called (3) have the
+> > same purpose. Is it important to userspace that (1) and (2) have the
+> > same name?  
+> so change (1) to migration_type_version and (2) to
+> migration_instance_version?
+> But as they are under different locations, could that location imply
+> enough information?
+> 
+> 
+> Thanks
+> Yan
+> 
+> 
 
 
