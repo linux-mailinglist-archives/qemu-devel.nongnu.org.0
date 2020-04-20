@@ -2,65 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A63F1B19E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 01:01:54 +0200 (CEST)
-Received: from localhost ([::1]:43668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC2A31B1AE2
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 02:45:49 +0200 (CEST)
+Received: from localhost ([::1]:44992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQfQG-0004im-MA
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 19:01:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58598)
+	id 1jQh2q-0003o6-Cs
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 20:45:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57632)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jQfPR-0004HZ-8w
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 19:01:01 -0400
+ (envelope-from <dclarke@blastwave.org>) id 1jQfJ1-0001eK-Gv
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 18:54:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jQfPQ-00080t-3I
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 19:01:00 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37656)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jQfPP-00080g-Kz
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 19:00:59 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jQfPO-0007de-6H
- for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 23:00:58 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1ED102E8106
- for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 23:00:58 +0000 (UTC)
+ (envelope-from <dclarke@blastwave.org>) id 1jQfIx-0002LX-Qw
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 18:54:23 -0400
+Received: from mail.oetec.com ([108.160.241.186]:35162)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dclarke@blastwave.org>)
+ id 1jQfIx-0002KE-8H; Mon, 20 Apr 2020 18:54:19 -0400
+X-oetec-MailScanner-From: dclarke@blastwave.org
+X-oetec-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
+ score=-1.199, required 6, autolearn=not spam, ALL_TRUSTED -1.00,
+ DKIM_SIGNED 0.10, DKIM_VALID -0.10, DKIM_VALID_AU -0.10,
+ DKIM_VALID_EF -0.10, URIBL_BLOCKED 0.00)
+X-oetec-MailScanner: Found to be clean
+X-oetec-MailScanner-ID: 03KMrm7j027396
+X-oetec-MailScanner-Information: Please contact oetec for more information
+Received: from [172.16.35.3]
+ (CPEf81d0f84cb23-CMf81d0f84cb20.cpe.net.cable.rogers.com [99.253.169.68])
+ (authenticated bits=0)
+ by mail.oetec.com (8.15.2/8.15.2/Debian-8) with ESMTPSA id 03KMrm7j027396
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Mon, 20 Apr 2020 18:53:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=blastwave.org;
+ s=default; t=1587423231;
+ bh=xUFLFB4oLr2+xK5cFnNJ+SO8T/HPIu5KGptj/l+/gp8=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=cO8dsXkPR3CY5qmv66aLQN6VsECsiPeRJ7dw/p4aCPumdsPzeefX9TdRd3HIAy0/t
+ QcSm5pfHv+hHyFpmVSgrWdLtsRRFSjsCCgtFrDivbDJ98576GitlBh+wgJqZOGnzta
+ b+AesXqlCNlBxDZ1cJMPbigtzYPftxiFsfWFBQvA2P23nT7rK5ivKYAT5Btun2RZ23
+ my8Lh5E/srBsGjBJXkAXfxK2mWyi36wgkVEp0+4kk9BXNrqXk00/J7zt9Be3dJm2U9
+ 8UmGwDSVbj9+RAIJBFU8kKNGM1CUDjUKoMb+zrBhpEwQmJIa1TB/PEPp1KcPxbdeKn
+ ERPM6PzZEA/Ew==
+Subject: Re: [PATCH-for-5.0?] target/ppc: Fix TCG temporary leaks in
+ gen_slbia()
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Nicholas Piggin <npiggin@gmail.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20200417090749.14310-1-f4bug@amsat.org>
+ <CAFEAcA-aj77=19d+8jmoWYXBDdm=U8eV8CsHpovMN8bE9uNSvg@mail.gmail.com>
+From: Dennis Clarke <dclarke@blastwave.org>
+Message-ID: <dcf67e87-da27-68ee-0dd8-5b94edb84291@blastwave.org>
+Date: Mon, 20 Apr 2020 22:53:48 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101
+ Thunderbird/74.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 20 Apr 2020 22:52:53 -0000
-From: ruthan <ruthan@email.cz>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jnsnow ruthan
-X-Launchpad-Bug-Reporter: ruthan (ruthan)
-X-Launchpad-Bug-Modifier: ruthan (ruthan)
-References: <158706562034.6027.11807874678540403888.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158742317355.19116.18196195509506144913.malone@gac.canonical.com>
-Subject: [Bug 1873338] Re: Dos on the fly CD image replacement is not Working
- with DOS
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: ab5b998ac3b1ce32fac221c876a695b6bc46a82a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/20 19:00:58
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Received-From: 91.189.90.7
+In-Reply-To: <CAFEAcA-aj77=19d+8jmoWYXBDdm=U8eV8CsHpovMN8bE9uNSvg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=108.160.241.186;
+ envelope-from=dclarke@blastwave.org; helo=mail.oetec.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/20 18:54:15
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Received-From: 108.160.241.186
+X-Mailman-Approved-At: Mon, 20 Apr 2020 20:44:25 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,83 +82,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1873338 <1873338@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Host: I tried both Windows (10 64bit 19.09) and Linux host (Mint 19.3
-64bit, kernel 5.40) system it really doesnt matters.
+On 4/20/20 6:56 PM, Peter Maydell wrote:
+> On Fri, 17 Apr 2020 at 10:08, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> This fixes:
+>>
+>>    $ qemu-system-ppc64 \
+>>    -machine pseries-4.1 -cpu power9 \
+>>    -smp 4 -m 12G -accel tcg ...
+>>    ...
+>>    Quiescing Open Firmware ...
+>>    Booting Linux via __start() @ 0x0000000002000000 ...
+>>    Opcode 1f 12 0f 00 (7ce003e4) leaked temporaries
+>>    Opcode 1f 12 0f 00 (7ce003e4) leaked temporaries
+>>    Opcode 1f 12 0f 00 (7ce003e4) leaked temporaries
+>>
+>> [*] https://www.mail-archive.com/qemu-discuss@nongnu.org/msg05400.html
+>>
+>> Fixes: 0418bf78fe8 ("Fix ISA v3.0 (POWER9) slbia implementation")
+>> Reported-by: Dennis Clarke <dclarke@blastwave.org>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+> I propose to apply this patch for 5.0 rc4 (as well as the
+> ppc pullreq already sent), since the iscsi bugfix means
+> we need an rc4 anyway. Any objections?
+> 
 
-Guest: Windows 98 - has integrated MS-DOS 7.1 you can boot into it through =
-boot menu, which could be set by meditation of MSDOS.SYS, but you can insta=
-ll MS-DOS 7.1 Standalone too, without Windows, its the same.
- https://winworldpc.com/product/ms-dos/7x
- What DOS is after set up through Autoexec.bat and config.sys files. =
+I have been running rc3 with this patch fine for some days now.  Both 
+with and without a debug enabled build wherein the performance 
+difference between the two is obvious.
 
- Using DOS 7.1 make sense, because its most modern and supporting FAT32 fil=
-e system.
+However, I do see warnings from 5.0.0-rc3 that worry me :
 
- There is Qemu starting line i doubt that it will help, you can simulate pr=
-oblem with any DOS machine.
-qemu-system-i386.exe ^
--m 64 ^
--hda HDDs\MS-DOS-Systen-5G.vmdk ^
--hdb HDDs\DosData20G.vmdk ^
--vga cirrus ^ =
+$ /usr/local/bin/qemu-system-ppc64 \
+ > -machine pseries-4.1 -cpu power9 -smp 4 -m 12G -accel tcg \
+ > -drive file=/home/ppc64/ppc64le.qcow2 \
+ > -device virtio-net-pci,netdev=usernet \
+ > -netdev user,id=usernet,hostfwd=tcp::10000-:22 \
+ > -serial stdio -display none -vga none
+qemu-system-ppc64: warning: TCG doesn't support requested feature, 
+cap-cfpc=workaround
+qemu-system-ppc64: warning: TCG doesn't support requested feature, 
+cap-sbbc=workaround
+qemu-system-ppc64: warning: TCG doesn't support requested feature, 
+cap-ibs=workaround
 
--soundhw sb16,adlib,pcspk ^
--net nic,model=3Drtl8139 ^
--net tap,ifname=3DTAP ^
--cdrom Isos\dos71cd.iso ^
--k en-us
 
- With Windows 98 - i run just commands in monitor.. open my computer and
-open cd drive - content of cd is changed.. its the same as in all later
-OSes XP- to Win10. Its working as expected.
+SLOF **********************************************************************
+QEMU Starting
+  Build Date = Mar 27 2020 13:57:26
+  FW Version = git-8e012d6fddb62be8
+  Press "s" to enter Open Firmware.
 
- DOS - i boot into dos with cd drive driver enabled (lest say MSCDEX).. i r=
-un monitor, change cd image.. a trying to access it lets say that is drive =
-E.. So i write "E:" <ENTER> to command line. I get error that drive is not =
-accessible.. (command line should be switched to E:\ and here i should be a=
-ble use "dir" to get list of files) but when i reboot machine, i see new ex=
-change cd content.. so its at least somehow working.
-  Problem is that some games and programs require change cd on the fly, so =
-reboot is not solution.
-  =
+Populating /vdevice methods
+Populating /vdevice/vty@71000000
+Populating /vdevice/nvram@71000001
+Populating /vdevice/v-scsi@71000002
+        SCSI: Looking for devices
+           8000000000000000 DISK     : "QEMU     QEMU HARDDISK    2.5+"
+           8200000000000000 CD-ROM   : "QEMU     QEMU CD-ROM      2.5+"
+Populating /pci@800000020000000
+                      00 0000 (D) : 1af4 1000    virtio [ net ]
+No NVRAM common partition, re-initializing...
+Scanning USB
+Using default console: /vdevice/vty@71000000
 
-   You can simulate right behavior with Vmware or Virtualbox machine.
+   Welcome to Open Firmware
 
-   Is you are not familar with MS-DOS, here are command to autoexec and con=
-fig for enable use of cd-rom drive:
-https://superuser.com/questions/778716/install-a-cd-rom-driver-on-ms-dos
+   Copyright (c) 2004, 2017 IBM Corporation All rights reserved.
+   This program and the accompanying materials are made available
+   under the terms of the BSD License available at
+   http://www.opensource.org/licenses/bsd-license.php
 
-  Problem is probably that present version of cd exchange simulation
-code is not good enough / compatible for MSCDEX or SHSUCDX DOS CD-ROM
-drivers.. to make same action as is exchange cd on physical computer.
 
-  Windows 98 and later are using other drivers for it of course..
+Trying to load:  from: /vdevice/v-scsi@71000002/disk@8000000000000000 
+...   Successfully loaded
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1873338
+etc etc etc
 
-Title:
-  Dos on the fly CD image replacement is not Working with DOS
+What shall I do with "TCG doesn't support requested feature, 
+cap-cfpc=workaround" ??
 
-Status in QEMU:
-  Incomplete
+-- 
+Dennis Clarke
+RISC-V/SPARC/PPC/ARM/CISC
+UNIX and Linux spoken
+GreyBeard and suspenders optional
 
-Bug description:
-  Im not able to exchange CD image on the fly (needed for some games). I
-  messed with command like - in console(ATL+CRTL+2) eject ide1-cd0 and
-  change ide-cd0 D:/Games/!Emulators/Dos-QEMU/ISOs/TestChangeISO.iso ,
-  but system so never able to find new CD data.. simply drive so empty..
-  but when i reboot virtual machine, new change image is now working.
 
-    Qemu 4.2.
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1873338/+subscriptions
+
+
 
