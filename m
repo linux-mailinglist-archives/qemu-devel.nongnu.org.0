@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F29C1B0497
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 10:39:19 +0200 (CEST)
-Received: from localhost ([::1]:59700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BBCC1B0481
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 10:34:22 +0200 (CEST)
+Received: from localhost ([::1]:59616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQRxW-0005cR-MK
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 04:39:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56484 helo=eggs1p.gnu.org)
+	id 1jQRsj-0004k1-50
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 04:34:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56440 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jQRrC-0002tj-EO
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 04:32:46 -0400
+ (envelope-from <armbru@redhat.com>) id 1jQRrA-0002sr-HL
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 04:32:45 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jQRrA-0006wX-Kl
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 04:32:46 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54063
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jQRrA-0006ue-7R
+ (envelope-from <armbru@redhat.com>) id 1jQRr9-0006tI-9X
  for qemu-devel@nongnu.org; Mon, 20 Apr 2020 04:32:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36321
+ helo=us-smtp-1.mimecast.com)
+ by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jQRr8-0006rb-O7
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 04:32:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587371563;
+ s=mimecast20190719; t=1587371560;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8IwJuUhdu7xVAnYSveDtWGbyVZ74+1IB1yT93ItMesU=;
- b=cW7hUOFznlHN6rY7Znw/lNlR+Z2iSCpsYBrE4o90YNa+6JaWIJngfqzABycHfduJI7ea6c
- gW3pqXDlf4Ie2fBGT31T8iZQybC/3H9Li0PcYmukIoRnM0+eGRhVzlEI/COz8q4sMbcagg
- 8FyRAqxCbuIJavVHET9l4blNaXhmv2o=
+ bh=fidAYO+9hszl7oApQssrrQ9tS5TjJYShG/nQrI4K8HU=;
+ b=dWg61J3v5x5QA99KFuhwXaykFc1vWBBQYlYNUP2O44VDYIEinA+hHCU/zaJ3p3mJxd/FrN
+ y+b7xsDDn3MFeTojvkElOBycRwJwQ9YTOWSCoxP0iX9sugtB5yse+6N0bBglQ+rEev3aM9
+ zQkJvYyEitX7NE5nUfpUPTN6avrMY1E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-DwqgQ15fM1WjDn9fWgMn0Q-1; Mon, 20 Apr 2020 04:32:41 -0400
-X-MC-Unique: DwqgQ15fM1WjDn9fWgMn0Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-433-CWf20Rd8PYKHZhVUN4Knrg-1; Mon, 20 Apr 2020 04:32:39 -0400
+X-MC-Unique: CWf20Rd8PYKHZhVUN4Knrg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02FA0DB21
- for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 08:32:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77854DB20
+ for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 08:32:38 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 424995D9CD;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 464EF60BE1;
  Mon, 20 Apr 2020 08:32:38 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A29ED11358BE; Mon, 20 Apr 2020 10:32:36 +0200 (CEST)
+ id A60F511358BF; Mon, 20 Apr 2020 10:32:36 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/11] block/file-posix: Fix check_cache_dropped() error
- handling
-Date: Mon, 20 Apr 2020 10:32:27 +0200
-Message-Id: <20200420083236.19309-3-armbru@redhat.com>
+Subject: [PATCH 03/11] cpus: Fix configure_icount() error API violation
+Date: Mon, 20 Apr 2020 10:32:28 +0200
+Message-Id: <20200420083236.19309-4-armbru@redhat.com>
 In-Reply-To: <20200420083236.19309-1-armbru@redhat.com>
 References: <20200420083236.19309-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
- 01:47:04
+ 03:29:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,7 +76,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -87,39 +86,97 @@ latter kind twice without clearing it in between is wrong: if the
 first call sets an error, it no longer points to NULL for the second
 call.
 
-check_cache_dropped() calls error_setg() in a loop.  It fails to break
-the loop in one instance.  If a subsequent iteration error_setg()s
-again, it trips error_setv()'s assertion.
+configure_icount() is wrong that way.  Harmless, because its @errp is
+always &error_abort or &error_fatal.
 
-Fix it to break the loop.
+Just as wrong (and just as harmless): when it fails, it can still
+update global state.
 
-Fixes: 31be8a2a97ecba7d31a82932286489cac318e9e9
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Fix all that.
+
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- block/file-posix.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ cpus.c | 51 ++++++++++++++++++++++++++++++---------------------
+ 1 file changed, 30 insertions(+), 21 deletions(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 7e19bbff5f..094e3b0212 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2691,10 +2691,13 @@ static void check_cache_dropped(BlockDriverState *b=
-s, Error **errp)
-         vec_end =3D DIV_ROUND_UP(length, page_size);
-         for (i =3D 0; i < vec_end; i++) {
-             if (vec[i] & 0x1) {
--                error_setg(errp, "page cache still in use!");
-                 break;
-             }
-         }
-+        if (i < vec_end) {
-+            error_setg(errp, "page cache still in use!");
-+            break;
-+        }
+diff --git a/cpus.c b/cpus.c
+index ef441bdf62..1b542b37f9 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -797,40 +797,49 @@ void cpu_ticks_init(void)
+=20
+ void configure_icount(QemuOpts *opts, Error **errp)
+ {
+-    const char *option;
++    const char *option =3D qemu_opt_get(opts, "shift");
++    bool sleep =3D qemu_opt_get_bool(opts, "sleep", true);
++    bool align =3D qemu_opt_get_bool(opts, "align", false);
++    long time_shift =3D -1;
+     char *rem_str =3D NULL;
+=20
+-    option =3D qemu_opt_get(opts, "shift");
+-    if (!option) {
+-        if (qemu_opt_get(opts, "align") !=3D NULL) {
+-            error_setg(errp, "Please specify shift option when using align=
+");
+-        }
++    if (!option && qemu_opt_get(opts, "align")) {
++        error_setg(errp, "Please specify shift option when using align");
+         return;
      }
 =20
-     if (window) {
+-    icount_sleep =3D qemu_opt_get_bool(opts, "sleep", true);
++    if (align && !sleep) {
++        error_setg(errp, "align=3Don and sleep=3Doff are incompatible");
++        return;
++    }
++
++    if (strcmp(option, "auto") !=3D 0) {
++        errno =3D 0;
++        time_shift =3D strtol(option, &rem_str, 0);
++        if (errno !=3D 0 || *rem_str !=3D '\0' || !strlen(option)) {
++            error_setg(errp, "icount: Invalid shift value");
++            return;
++        }
++    } else if (icount_align_option) {
++        error_setg(errp, "shift=3Dauto and align=3Don are incompatible");
++        return;
++    } else if (!icount_sleep) {
++        error_setg(errp, "shift=3Dauto and sleep=3Doff are incompatible");
++        return;
++    }
++
++    icount_sleep =3D sleep;
+     if (icount_sleep) {
+         timers_state.icount_warp_timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL=
+_RT,
+                                          icount_timer_cb, NULL);
+     }
+=20
+-    icount_align_option =3D qemu_opt_get_bool(opts, "align", false);
++    icount_align_option =3D align;
+=20
+-    if (icount_align_option && !icount_sleep) {
+-        error_setg(errp, "align=3Don and sleep=3Doff are incompatible");
+-    }
+-    if (strcmp(option, "auto") !=3D 0) {
+-        errno =3D 0;
+-        timers_state.icount_time_shift =3D strtol(option, &rem_str, 0);
+-        if (errno !=3D 0 || *rem_str !=3D '\0' || !strlen(option)) {
+-            error_setg(errp, "icount: Invalid shift value");
+-        }
++    if (time_shift >=3D 0) {
++        timers_state.icount_time_shift =3D time_shift;
+         use_icount =3D 1;
+         return;
+-    } else if (icount_align_option) {
+-        error_setg(errp, "shift=3Dauto and align=3Don are incompatible");
+-    } else if (!icount_sleep) {
+-        error_setg(errp, "shift=3Dauto and sleep=3Doff are incompatible");
+     }
+=20
+     use_icount =3D 2;
 --=20
 2.21.1
 
