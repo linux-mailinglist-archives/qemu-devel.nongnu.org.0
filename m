@@ -2,52 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 275891B05D6
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 11:41:15 +0200 (CEST)
-Received: from localhost ([::1]:60592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 452081B05E2
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 11:45:20 +0200 (CEST)
+Received: from localhost ([::1]:60640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQSvR-0006lk-K4
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 05:41:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45740 helo=eggs1p.gnu.org)
+	id 1jQSzP-0001d3-B5
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 05:45:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46690 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1jQSud-0006HP-CV
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:40:23 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jQSy3-0000jh-3n
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:43:55 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1jQSuc-0001Fb-N8
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:40:23 -0400
-Received: from 2.mo2.mail-out.ovh.net ([188.165.53.149]:34343)
- by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jQSuc-00013W-62
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:40:22 -0400
-Received: from player772.ha.ovh.net (unknown [10.108.54.36])
- by mo2.mail-out.ovh.net (Postfix) with ESMTP id 0033F1D06E1
- for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 11:40:06 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player772.ha.ovh.net (Postfix) with ESMTPSA id 708EF119DA7BE;
- Mon, 20 Apr 2020 09:40:02 +0000 (UTC)
-Date: Mon, 20 Apr 2020 11:39:59 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH] MAINTAINERS: Upgrade myself as 9pfs co-maintainer
-Message-ID: <20200420113959.2c98e63d@bahia.lan>
-In-Reply-To: <E1jEYz4-0004pt-Cs@lizzy.crudebyte.com>
-References: <E1jEYz4-0004pt-Cs@lizzy.crudebyte.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <alex.bennee@linaro.org>) id 1jQSy2-0005Gs-D7
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:43:54 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40044)
+ by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jQSy1-0005DD-PP
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:43:54 -0400
+Received: by mail-wr1-x441.google.com with SMTP id k13so10065579wrw.7
+ for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 02:43:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=9+dsfilT1MiwAKTltkD8m3FfB47hjRict92LqWOvi1k=;
+ b=OUx7ncRsDf5Xoq+LPQx5RkZlcz9Sk8m3uM8gfYzrZMbwSBPPDV4W9M4JZYQiim6D/w
+ ljA4/VPQMvBNasavQHh5eGfmsk8c9+o9buSnZa1sV8S9YC2OO1PY5WFemUOnBCEAx+x3
+ CNwn9MAReZQgK7Q4EJJIFid+GwmHQbwrz7x7lYy6CEhw1cmI2RvKkoT9+K81lInnHFCm
+ jrii4ry6slLgK/iDMlWslCTMhOhPgrzzM4AgKNY52a1pZyRSS55DthIhUoWF+DWKovc+
+ Za9Y6fZe7wyFc7X/WCBVh24jBBOzKY0mjiE318bWHXBcmtfzYfQkpSTtak1m78ImDefj
+ 76uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=9+dsfilT1MiwAKTltkD8m3FfB47hjRict92LqWOvi1k=;
+ b=krO03mqR0iJwS8AAiIUt/v2xN8SQPsKl+4/WfjwxtDwoDpl1i6KWtfC72pvngvweSV
+ bCClvPeY0T11Y9MPooUmKlvlZTE5RlBOGvaLWukMmP7/9PYkfeKq0GFC2zNr6xOU3gZn
+ HRx0SdB6xX+SZtO3CTlylRYTG8iSevfHqHzkBjZOZT2WfaG6khiU/hhx9E8BnDhjxc5f
+ PjaH22BhuTt0SrKIfebqWC4dNYe0LnJemNG1g/2fhJAiS8q+Iv7PCSedVTxbPmiYSZIa
+ fHYA5tkbfWG5A74SU1KSsqnfJ2/mcP1BemtLRUzpEu9Yfj+RWAtXRkYUSlUpX+uGfAZ/
+ DeGQ==
+X-Gm-Message-State: AGi0PuZSSESnA10OWDNM84ZLt1HEbeUJAfrtfiHNvgc0/Hlqr10JVOxA
+ Uz42jZ0YoUySEfySfI343wucWg==
+X-Google-Smtp-Source: APiQypI7rE9PwkETQyrDbjUmr1LDqgZ4wSb1RK4P5mTNjwwKshDlrkqTauBHu6hNHe72ccz4z+bI4g==
+X-Received: by 2002:a5d:4e02:: with SMTP id p2mr17772371wrt.302.1587375831476; 
+ Mon, 20 Apr 2020 02:43:51 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id b22sm4752099wmj.1.2020.04.20.02.43.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Apr 2020 02:43:50 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5E64C1FF7E;
+ Mon, 20 Apr 2020 10:43:49 +0100 (BST)
+References: <20200418150411.1831-1-richard.henderson@linaro.org>
+ <20200418150411.1831-2-richard.henderson@linaro.org>
+User-agent: mu4e 1.4.1; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 1/7] tcg: Add tcg_gen_gvec_dup_imm
+In-reply-to: <20200418150411.1831-2-richard.henderson@linaro.org>
+Date: Mon, 20 Apr 2020 10:43:49 +0100
+Message-ID: <87blnmfq5m.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 7923239123003283776
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrgeefgddujecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucffohhmrghinhepqhgvmhhurdhorhhgnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejjedvrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=188.165.53.149; envelope-from=groug@kaod.org;
- helo=2.mo2.mail-out.ovh.net
-X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
- 05:40:11
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Received-From: 188.165.53.149
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs1p.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,55 +85,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org,
+ david@gibson.dropbear.id.au, zhiwei_liu@c-sky.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Mar 2020 14:33:44 +0100
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-> As suggested by Greg, let's upgrade myself as co-maintainer of 9pfs.
-> 
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> Add a version of tcg_gen_dup_* that takes both immediate and
+> a vector element size operand.  This will replace the set of
+> tcg_gen_gvec_dup{8,16,32,64}i functions that encode the element
+> size within the function name.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
 > ---
+>  include/tcg/tcg-op-gvec.h | 2 ++
+>  tcg/tcg-op-gvec.c         | 7 +++++++
+>  2 files changed, 9 insertions(+)
+>
+> diff --git a/include/tcg/tcg-op-gvec.h b/include/tcg/tcg-op-gvec.h
+> index 74534e2480..eb0d47a42b 100644
+> --- a/include/tcg/tcg-op-gvec.h
+> +++ b/include/tcg/tcg-op-gvec.h
+> @@ -313,6 +313,8 @@ void tcg_gen_gvec_ors(unsigned vece, uint32_t dofs, u=
+int32_t aofs,
+>=20=20
+>  void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dofs, uint32_t aofs,
+>                            uint32_t s, uint32_t m);
+> +void tcg_gen_gvec_dup_imm(unsigned vece, uint32_t dofs, uint32_t s,
+> +                          uint32_t m, uint64_t imm);
+>  void tcg_gen_gvec_dup_i32(unsigned vece, uint32_t dofs, uint32_t s,
+>                            uint32_t m, TCGv_i32);
+>  void tcg_gen_gvec_dup_i64(unsigned vece, uint32_t dofs, uint32_t s,
+> diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+> index 327d9588e0..593bb4542e 100644
+> --- a/tcg/tcg-op-gvec.c
+> +++ b/tcg/tcg-op-gvec.c
+> @@ -1569,6 +1569,13 @@ void tcg_gen_gvec_dup8i(uint32_t dofs, uint32_t op=
+rsz,
+>      do_dup(MO_8, dofs, oprsz, maxsz, NULL, NULL, x);
+>  }
+>=20=20
+> +void tcg_gen_gvec_dup_imm(unsigned vece, uint32_t dofs, uint32_t oprsz,
+> +                          uint32_t maxsz, uint64_t x)
+> +{
+> +    check_size_align(oprsz, maxsz, dofs);
+> +    do_dup(vece, dofs, oprsz, maxsz, NULL, NULL, x);
+> +}
+> +
+>  void tcg_gen_gvec_not(unsigned vece, uint32_t dofs, uint32_t aofs,
+>                        uint32_t oprsz, uint32_t maxsz)
+>  {
 
-Applied to 9p-next.
 
-
-Hi Peter,
-
-Christian has been contributing to and reviewing 9pfs patches for some
-time now. I'm glad he's now volunteering for maintainership. The next
-step is to be able to send PRs that have a chance to be accepted by you.
-Christian told me he would need to start with a brand new GPG key. Because
-of the confinement, it is very unlikely he has a chance to get this key
-signed by anybody *in person* as described in [1]... if I try to make sure
-Christian's key fingerprint is valid in a "best effort" way, e.g. multiple
-messages using different media or channels, would it be acceptable for you
-that I'm the only signer for his key ?
-
-Cheers,
-
---
-Greg
-
-[1] https://wiki.qemu.org/Contribute/SubmitAPullRequest
-
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 7364af0d8b..8d9cd04ab5 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1630,7 +1630,7 @@ F: include/hw/virtio/
->  
->  virtio-9p
->  M: Greg Kurz <groug@kaod.org>
-> -R: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> +M: Christian Schoenebeck <qemu_oss@crudebyte.com>
->  S: Odd Fixes
->  F: hw/9pfs/
->  X: hw/9pfs/xen-9p*
-
+--=20
+Alex Benn=C3=A9e
 
