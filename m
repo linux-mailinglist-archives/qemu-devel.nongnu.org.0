@@ -2,64 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB4091B113F
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 18:16:48 +0200 (CEST)
-Received: from localhost ([::1]:38872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C52581B111A
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 18:06:06 +0200 (CEST)
+Received: from localhost ([::1]:38656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQZ6F-0001zB-UJ
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 12:16:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47024 helo=eggs1p.gnu.org)
+	id 1jQYvt-0001hZ-CM
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 12:06:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44268 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jQZ5J-00017C-UR
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 12:15:50 -0400
+ (envelope-from <stefanha@redhat.com>) id 1jQYrp-0005hN-Sf
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 12:01:54 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jQZ5I-00085o-VF
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 12:15:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40348)
- by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jQZ5I-00083u-GP
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 12:15:48 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jQZ5G-0007Am-7l
- for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 16:15:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C81AB2E8111
- for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 16:15:45 +0000 (UTC)
+ (envelope-from <stefanha@redhat.com>) id 1jQYro-0006Rj-Mb
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 12:01:53 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:57815
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jQYro-0006Ma-7R
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 12:01:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587398511;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rVo+R8JA7ZZDlaBiRKTQADwfvxjnr9FMonVS+DxwGdM=;
+ b=ScbB8YRVoeAnKGlkJXV5iWvz8DklYnkdJOuahsi6QkeqEFTaztawantmSpNzE5CIPDqeSn
+ ZlOZNNyW1XG1w2ed8LvNStwxQqDSPvfLHp+KoaLTqYZFQKiZHzYCydUCbkL8qywix/B0ml
+ 6YpiTOXwPpPdAeTMPCFiAPDHjOzJGRs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-461-ME6QpQWwPsKZRQXa91INVQ-1; Mon, 20 Apr 2020 12:01:47 -0400
+X-MC-Unique: ME6QpQWwPsKZRQXa91INVQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC028801A0E;
+ Mon, 20 Apr 2020 16:01:45 +0000 (UTC)
+Received: from localhost (ovpn-112-169.ams2.redhat.com [10.36.112.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 589395C578;
+ Mon, 20 Apr 2020 16:01:44 +0000 (UTC)
+Date: Mon, 20 Apr 2020 17:01:43 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 3/9] block/io: move flush and pdiscard stuff down
+Message-ID: <20200420160143.GC7321@stefanha-x1.localdomain>
+References: <20200408093051.9893-1-vsementsov@virtuozzo.com>
+ <20200408093051.9893-4-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 20 Apr 2020 16:00:54 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pmaydell
-X-Launchpad-Bug-Reporter: Peter Maydell (pmaydell)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-Message-Id: <158739845498.17284.14931679531130317910.malonedeb@wampee.canonical.com>
-Subject: [Bug 1873898] [NEW] arm linux-user: bkpt insn doesn't cause SIGTRAP
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: a21014275659ab90a05fd2ad1553caa1af93b810
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
+In-Reply-To: <20200408093051.9893-4-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="p2kqVDKq5asng8Dg"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
- 12:15:46
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Received-From: 91.189.90.7
+ 01:47:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,128 +76,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1873898 <1873898@bugs.launchpad.net>
+Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+--p2kqVDKq5asng8Dg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-QEMU's 32-bit arm linux-user mode doesn't correctly turn guest BKPT
-insns into SIGTRAP signals. Test case:
+On Wed, Apr 08, 2020 at 12:30:45PM +0300, Vladimir Sementsov-Ogievskiy wrot=
+e:
+> bdrv_co_flush and bdrv_co_pdiscard will become static in further patch,
+> move their usage down.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  block/io.c | 56 +++++++++++++++++++++++++++---------------------------
+>  1 file changed, 28 insertions(+), 28 deletions(-)
 
-=3D=3D=3Dbegin bkpt.c=3D=3D=3D
-/* test bkpt insn */
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-#include <stdlib.h>
-#include <stdio.h>
+--p2kqVDKq5asng8Dg
+Content-Type: application/pgp-signature; name="signature.asc"
 
-int main(void)
-{
-    printf("breakpoint\n");
-#ifdef __aarch64__
-    __asm__ volatile("brk 0x42\n");
-#else
-    __asm__ volatile("bkpt 0x42\n");
-#endif
-    printf("done\n");
-    return 0;
-}
-=3D=3D=3Dendit=3D=3D=3D
+-----BEGIN PGP SIGNATURE-----
 
-Compile with
-$ arm-linux-gnueabihf-gcc -g -Wall -o bkpt-aa32 bkpt.c
-$ aarch64-linux-gnu-gcc -g -Wall -o bkpt-aa64 bkpt.c
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6dx2cACgkQnKSrs4Gr
+c8h1LAgAqA8r7Tkttfg6efUn+eaFg2oPevZzuWHdr5IXkOQoPtZCj//Qg3vjnYYp
+zokHftAoyd08XzNz/H4prdFXaQtGdDxNBfvzkFSMfZWem11xe2yl6/3tTSMeMFCv
+DlmyKHO973MR4TTdrR952TMqYHYW4jELDCuco0NC5LeXSvSqzhCYKqBnPvhSDQyr
+tHkVwXCxJaNTMdLNmiEeIyIiN2robMoaY76ej4Q24bVlfWrL6Hz8x+2xIqFWjAZY
+i6ThayOsBQBTUTYUZ1p00md+kglyF6tA/qR+OMpkjgDNnsh0EVCCKZVn98NPFsdu
+dPd4tuQY2zOxIDPK9qcRPwwp393qZg==
+=f/ql
+-----END PGP SIGNATURE-----
 
-Contrast aarch64 which delivers the SIGTRAP and arm which doesn't:
+--p2kqVDKq5asng8Dg--
 
-$ qemu-aarch64 bkpt-aa64
-breakpoint
-qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-Trace/breakpoint trap (core dumped)
-$ qemu-arm bkpt-aa32
-breakpoint
-done
-
-This is because in linux-user/arm/cpu-loop.c we incorrectly treat
-EXCP_BKPT similarly to EXCP_SWI, which means that we actually perform a
-syscall (which one depends on what happens to be in r7...). This code
-has been like this (more or less) since commit 06c949e62a098f in 2006
-which added BKPT in the first place. This is probably because at the
-time the same code path was used to handle both Linux syscalls and
-semihosting calls, and (on M profile) BKPT does imply a semihosting
-call. But these days we've moved handling of semihosting out to an
-entirely different codepath, so we can fix this bug by simply removing
-this handling of EXCP_BKPT and instead making it deliver a SIGTRAP like
-EXCP_DEBUG (as we do already on aarch64).
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-
-** Tags: arm linux-user
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1873898
-
-Title:
-  arm linux-user: bkpt insn doesn't cause SIGTRAP
-
-Status in QEMU:
-  New
-
-Bug description:
-  QEMU's 32-bit arm linux-user mode doesn't correctly turn guest BKPT
-  insns into SIGTRAP signals. Test case:
-
-  =3D=3D=3Dbegin bkpt.c=3D=3D=3D
-  /* test bkpt insn */
-
-  #include <stdlib.h>
-  #include <stdio.h>
-
-  int main(void)
-  {
-      printf("breakpoint\n");
-  #ifdef __aarch64__
-      __asm__ volatile("brk 0x42\n");
-  #else
-      __asm__ volatile("bkpt 0x42\n");
-  #endif
-      printf("done\n");
-      return 0;
-  }
-  =3D=3D=3Dendit=3D=3D=3D
-
-  Compile with
-  $ arm-linux-gnueabihf-gcc -g -Wall -o bkpt-aa32 bkpt.c
-  $ aarch64-linux-gnu-gcc -g -Wall -o bkpt-aa64 bkpt.c
-
-  Contrast aarch64 which delivers the SIGTRAP and arm which doesn't:
-
-  $ qemu-aarch64 bkpt-aa64
-  breakpoint
-  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
-  Trace/breakpoint trap (core dumped)
-  $ qemu-arm bkpt-aa32
-  breakpoint
-  done
-
-  This is because in linux-user/arm/cpu-loop.c we incorrectly treat
-  EXCP_BKPT similarly to EXCP_SWI, which means that we actually perform
-  a syscall (which one depends on what happens to be in r7...). This
-  code has been like this (more or less) since commit 06c949e62a098f in
-  2006 which added BKPT in the first place. This is probably because at
-  the time the same code path was used to handle both Linux syscalls and
-  semihosting calls, and (on M profile) BKPT does imply a semihosting
-  call. But these days we've moved handling of semihosting out to an
-  entirely different codepath, so we can fix this bug by simply removing
-  this handling of EXCP_BKPT and instead making it deliver a SIGTRAP
-  like EXCP_DEBUG (as we do already on aarch64).
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1873898/+subscriptions
 
