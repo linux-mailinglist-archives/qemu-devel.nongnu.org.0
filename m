@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 852A71B05B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 11:32:20 +0200 (CEST)
-Received: from localhost ([::1]:60428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FB111B0CF6
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 15:40:18 +0200 (CEST)
+Received: from localhost ([::1]:35822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQSmp-0008NI-JJ
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 05:32:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42270 helo=eggs1p.gnu.org)
+	id 1jQWen-0006ff-2H
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 09:40:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43866 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jQSku-0006zL-LM
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:30:21 -0400
+ (envelope-from <lulu@redhat.com>) id 1jQSol-0003Po-41
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:34:20 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jQSkt-0007Jg-N1
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:30:20 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55903
+ (envelope-from <lulu@redhat.com>) id 1jQSok-0003kJ-Kz
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:34:18 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50969
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jQSkt-0007Il-8i
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:30:19 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jQSoj-0003ia-2z
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:34:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587375018;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jFHTuEtmnxWm9amjanotYZpATqfmz3SnM9J1vnaNilM=;
- b=SDdOaLs9UlHHC0L+VdsEuFXzS4B5dnP5QTADx6fsSqawHEQAYsUcg+4TEIduQOGrZ7eqaZ
- WfBOI/esJm0XS/zWjFNPu2qWhbE7027f9zVrT8XqoTjwN8cI45fXeumKeIUkbDtNAO2WP5
- qjSD5Tt3joKVWuiipbiY+1Qw0ZLyrq8=
+ s=mimecast20190719; t=1587375255;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=w5/CTvaQFEHceba/wDxzrUQhITI0ORXe3srqGvOCTWs=;
+ b=aND1+RojUBdPprMwts8Oko20/bqZbIWSUsUYdz9hAEr8ic366zswljD/hjnsSogLhmzTFi
+ Ozk1AvnkWedpixT2tdh3hlk76rduPJEntL8MlxIDlM7qR/G/w/RRHbCK6j6I36GOl5b5ky
+ ewMLV2slBNAGGGhCrpyg2yN4Ws9Ls5U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-100-yjSB-0njNiyTOyYkC31SvA-1; Mon, 20 Apr 2020 05:30:16 -0400
-X-MC-Unique: yjSB-0njNiyTOyYkC31SvA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-80-QUoif4QcPdqAtijbEISWAg-1; Mon, 20 Apr 2020 05:33:04 -0400
+X-MC-Unique: QUoif4QcPdqAtijbEISWAg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DEE6618FE862;
- Mon, 20 Apr 2020 09:30:14 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 72CC111A1FB;
- Mon, 20 Apr 2020 09:30:09 +0000 (UTC)
-Date: Mon, 20 Apr 2020 10:30:06 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Wei Wang <wei.w.wang@intel.com>
-Subject: Re: [PATCH v1 2/2] migration/xbzrle: add encoding rate
-Message-ID: <20200420093006.GI346737@redhat.com>
-References: <1587352003-3312-1-git-send-email-wei.w.wang@intel.com>
- <1587352003-3312-3-git-send-email-wei.w.wang@intel.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A4961005513;
+ Mon, 20 Apr 2020 09:33:02 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-12-243.pek2.redhat.com [10.72.12.243])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 914D992FA1;
+ Mon, 20 Apr 2020 09:32:44 +0000 (UTC)
+From: Cindy Lu <lulu@redhat.com>
+To: mst@redhat.com, armbru@redhat.com, eblake@redhat.com, cohuck@redhat.com,
+ jasowang@redhat.com
+Subject: [RFC v1 0/4] vDPA support in qemu
+Date: Mon, 20 Apr 2020 17:32:37 +0800
+Message-Id: <20200420093241.4238-1-lulu@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1587352003-3312-3-git-send-email-wei.w.wang@intel.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=lulu@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
- 03:29:18
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ 01:47:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
+X-Mailman-Approved-At: Mon, 20 Apr 2020 09:36:03 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,190 +73,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: kevin.tian@intel.com, quintela@redhat.com, qemu-devel@nongnu.org,
- peterx@redhat.com, dgilbert@redhat.com, gloryxiao@tencent.com,
- yi.y.sun@intel.com
+Cc: mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
+ saugatm@xilinx.com, lulu@redhat.com, hanand@xilinx.com, hch@infradead.org,
+ eperezma@redhat.com, jgg@mellanox.com, shahafs@mellanox.com,
+ kevin.tian@intel.com, parav@mellanox.com, vmireyno@marvell.com,
+ cunming.liang@intel.com, gdawar@xilinx.com, jiri@mellanox.com,
+ xiao.w.wang@intel.com, stefanha@redhat.com, zhihong.wang@intel.com,
+ aadam@redhat.com, rdunlap@infradead.org, maxime.coquelin@redhat.com,
+ lingshan.zhu@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 20, 2020 at 11:06:43AM +0800, Wei Wang wrote:
-> Users may need to check the xbzrle encoding rate to know if the guest
-> memory is xbzrle encoding-friendly, and dynamically turn off the
-> encoding if the encoding rate is low.
->=20
-> Signed-off-by: Yi Sun <yi.y.sun@intel.com>
-> Signed-off-by: Wei Wang <wei.w.wang@intel.com>
-> ---
->  migration/migration.c |  1 +
->  migration/ram.c       | 31 +++++++++++++++++++++++++++++--
->  monitor/hmp-cmds.c    |  2 ++
->  qapi/migration.json   |  5 ++++-
->  slirp                 |  2 +-
->  5 files changed, 37 insertions(+), 4 deletions(-)
->=20
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 8e7ee0d76b..84a556a4ac 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -930,6 +930,7 @@ static void populate_ram_info(MigrationInfo *info, Mi=
-grationState *s)
->          info->xbzrle_cache->pages =3D xbzrle_counters.pages;
->          info->xbzrle_cache->cache_miss =3D xbzrle_counters.cache_miss;
->          info->xbzrle_cache->cache_miss_rate =3D xbzrle_counters.cache_mi=
-ss_rate;
-> +        info->xbzrle_cache->encoding_rate =3D xbzrle_counters.encoding_r=
-ate;
->          info->xbzrle_cache->overflow =3D xbzrle_counters.overflow;
->      }
-> =20
-> diff --git a/migration/ram.c b/migration/ram.c
-> index bca5878f25..c87c38ec80 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -327,6 +327,10 @@ struct RAMState {
->      uint64_t num_dirty_pages_period;
->      /* xbzrle misses since the beginning of the period */
->      uint64_t xbzrle_cache_miss_prev;
-> +    /* Amount of xbzrle pages since the beginning of the period */
-> +    uint64_t xbzrle_pages_prev;
-> +    /* Amount of encoded bytes since the beginning of the period */
-> +    uint64_t encoded_size_prev;
-> =20
->      /* compression statistics since the beginning of the period */
->      /* amount of count that no free thread to compress data */
-> @@ -696,6 +700,18 @@ static int save_xbzrle_page(RAMState *rs, uint8_t **=
-current_data,
->          return -1;
->      }
-> =20
-> +    /*
-> +     * Reaching here means the page has hit the xbzrle cache, no matter =
-what
-> +     * encoding result it is (normal encoding, overflow or skipping the =
-page),
-> +     * count the page as encoded. This is used to caculate the encoding =
-rate.
-> +     *
-> +     * Example: 2 pages (8KB) being encoded, first page encoding generat=
-es 2KB,
-> +     * 2nd page turns out to be skipped (i.e. no new bytes written to th=
-e
-> +     * page), the overall encoding rate will be 8KB / 2KB =3D 4, which h=
-as the
-> +     * skipped page included. In this way, the encoding rate can tell if=
- the
-> +     * guest page is good for xbzrle encoding.
-> +     */
-> +    xbzrle_counters.pages++;
->      prev_cached_page =3D get_cached_data(XBZRLE.cache, current_addr);
-> =20
->      /* save current buffer into memory */
-> @@ -736,7 +752,6 @@ static int save_xbzrle_page(RAMState *rs, uint8_t **c=
-urrent_data,
->      qemu_put_be16(rs->f, encoded_size);
->      qemu_put_buffer(rs->f, XBZRLE.encoded_buf, encoded_size);
->      bytes_xbzrle +=3D encoded_size + 1 + 2;
-> -    xbzrle_counters.pages++;
->      xbzrle_counters.encoded_size +=3D encoded_size;
->      ram_counters.transferred +=3D bytes_xbzrle;
-> =20
-> @@ -859,7 +874,7 @@ uint64_t ram_get_total_transferred_pages(void)
->  static void migration_update_rates(RAMState *rs, int64_t end_time)
->  {
->      uint64_t page_count =3D rs->target_page_count - rs->target_page_coun=
-t_prev;
-> -    double compressed_size;
-> +    double compressed_size, encoded_size, unencoded_size;
-> =20
->      /* calculate period counters */
->      ram_counters.dirty_pages_rate =3D rs->num_dirty_pages_period * 1000
-> @@ -873,6 +888,18 @@ static void migration_update_rates(RAMState *rs, int=
-64_t end_time)
->          xbzrle_counters.cache_miss_rate =3D (double)(xbzrle_counters.cac=
-he_miss -
->              rs->xbzrle_cache_miss_prev) / page_count;
->          rs->xbzrle_cache_miss_prev =3D xbzrle_counters.cache_miss;
-> +        unencoded_size =3D (xbzrle_counters.pages - rs->xbzrle_pages_pre=
-v) *
-> +                         TARGET_PAGE_SIZE;
-> +        encoded_size =3D xbzrle_counters.encoded_size - rs->encoded_size=
-_prev;
-> +        if (xbzrle_counters.pages =3D=3D rs->xbzrle_pages_prev) {
-> +            xbzrle_counters.encoding_rate =3D 0;
-> +        } else if (!encoded_size) {
-> +            xbzrle_counters.encoding_rate =3D UINT64_MAX;
-> +        } else {
-> +            xbzrle_counters.encoding_rate =3D unencoded_size / encoded_s=
-ize;
-> +        }
-> +        rs->xbzrle_pages_prev =3D xbzrle_counters.pages;
-> +        rs->encoded_size_prev =3D xbzrle_counters.encoded_size;
->      }
-> =20
->      if (migrate_use_compression()) {
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index 6d3b35ca64..07f41e582f 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -303,6 +303,8 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdic=
-t)
->                         info->xbzrle_cache->cache_miss);
->          monitor_printf(mon, "xbzrle cache miss rate: %0.2f\n",
->                         info->xbzrle_cache->cache_miss_rate);
-> +        monitor_printf(mon, "xbzrle encoding rate: %0.2f\n",
-> +                       info->xbzrle_cache->encoding_rate);
->          monitor_printf(mon, "xbzrle overflow: %" PRIu64 "\n",
->                         info->xbzrle_cache->overflow);
->      }
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index bf195ff6ac..ee4513c565 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -70,6 +70,8 @@
->  #
->  # @cache-miss-rate: rate of cache miss (since 2.1)
->  #
-> +# @encoding-rate: rate of cache miss
-> +#
->  # @overflow: number of overflows
->  #
->  # Since: 1.2
-> @@ -77,7 +79,7 @@
->  { 'struct': 'XBZRLECacheStats',
->    'data': {'cache-size': 'int', 'encoded_size': 'int', 'pages': 'int',
->             'cache-miss': 'int', 'cache-miss-rate': 'number',
-> -           'overflow': 'int' } }
-> +           'encoding-rate': 'number', 'overflow': 'int' } }
-> =20
->  ##
->  # @CompressionStats:
-> @@ -337,6 +339,7 @@
->  #             "pages":2444343,
->  #             "cache-miss":2244,
->  #             "cache-miss-rate":0.123,
-> +#             "encoding-rate":80.1,
->  #             "overflow":34434
->  #          }
->  #       }
-> diff --git a/slirp b/slirp
-> index 55ab21c9a3..126c04acba 160000
-> --- a/slirp
-> +++ b/slirp
-> @@ -1 +1 @@
-> -Subproject commit 55ab21c9a36852915b81f1b41ebaf3b6509dd8ba
-> +Subproject commit 126c04acbabd7ad32c2b018fe10dfac2a3bc1210
+vDPA device is a device that uses a datapath which complies with the
+virtio specifications with vendor specific control path. vDPA devices
+can be both physically located on the hardware or emulated by software.
+This RFC introduce the vDPA support in qemu
 
-Accidental inclusion of submodule changes
+Cindy Lu (3):
+  net: Introduce qemu_get_peer
+  vhost-vdpa: introduce vhost-vdpa net client
+  vhost-vdpa: implement vhost-vdpa backend
 
-Regards,
-Daniel
+Jason Wang (1):
+  vhost: introduce vhost_set_vring_ready method
+
+ hw/net/vhost_net-stub.c           |   5 +
+ hw/net/vhost_net.c                |  75 +++++-
+ hw/net/virtio-net.c               |   9 +
+ hw/virtio/Makefile.objs           |   2 +-
+ hw/virtio/vhost-backend.c         |   3 +
+ hw/virtio/vhost-vdpa.c            | 376 ++++++++++++++++++++++++++++++
+ hw/virtio/vhost.c                 |   5 +
+ hw/virtio/virtio-pci.c            |  13 ++
+ hw/virtio/virtio.c                |   6 +
+ include/hw/virtio/vhost-backend.h |   8 +-
+ include/hw/virtio/vhost-vdpa.h    |  14 ++
+ include/hw/virtio/virtio-bus.h    |   4 +
+ include/net/net.h                 |   1 +
+ include/net/vhost-vdpa.h          |  18 ++
+ include/net/vhost_net.h           |   2 +
+ net/Makefile.objs                 |   2 +-
+ net/clients.h                     |   2 +
+ net/net.c                         |   7 +
+ net/vhost-vdpa.c                  | 211 +++++++++++++++++
+ qapi/net.json                     |  21 +-
+ 20 files changed, 773 insertions(+), 11 deletions(-)
+ create mode 100644 hw/virtio/vhost-vdpa.c
+ create mode 100644 include/hw/virtio/vhost-vdpa.h
+ create mode 100644 include/net/vhost-vdpa.h
+ create mode 100644 net/vhost-vdpa.c
+
 --=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+2.21.1
 
 
