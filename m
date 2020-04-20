@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DE0A1B184F
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 23:21:53 +0200 (CEST)
-Received: from localhost ([::1]:42548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 378721B1856
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 23:24:01 +0200 (CEST)
+Received: from localhost ([::1]:42632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQdrT-0006Dt-Ll
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 17:21:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41788)
+	id 1jQdtY-0008ID-3L
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 17:24:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42064)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jQdpr-0005Bi-KU
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 17:20:15 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jQdro-0006nR-5N
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 17:22:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jQdpq-0004Ec-JA
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 17:20:11 -0400
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:39389)
+ (envelope-from <peter.maydell@linaro.org>) id 1jQdrn-0006kG-Fw
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 17:22:11 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42853)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jQdpq-00048g-1N
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 17:20:10 -0400
-Received: by mail-ot1-x334.google.com with SMTP id m13so9456018otf.6
- for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 14:20:09 -0700 (PDT)
+ id 1jQdrn-0006gf-3o
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 17:22:11 -0400
+Received: by mail-wr1-x444.google.com with SMTP id j2so13992079wrs.9
+ for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 14:22:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nJctbm03MbPJ6if54rJMd7RKd6TCCC2JwT68CqeHvSM=;
- b=NHFBZmVpKLSvrw/NQ2hlDPkpCepzgHdSW7AooWwMh04Qi3SiTBAmosxk/yScyGqfC7
- W2LmaMhflEe+xcLLygseMriju0HzjUolGsxydHhokxYt0FaUq5ZeVIHUOuXGYkTsxksL
- 0Qa4GzFz3szTezm0ysw0t6vic1ipV35leu61kTTHUaWd6w8c8nEGd5K81wwEG1vbe39f
- DVJT/ozDg6GuqTAp/x22wvL0v5xsepyu7JOPQMuQgZ568ISZCdSCchmxkQny/lxifa7t
- H1KFuqkze0nDhhr783jf07GiXuiiYJ0CCVtSKUBPlTYLnpI66h5GlDe9MvS9eTY8xvry
- ymxw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jR1xP74Qc41hrsGlhwi6bPFQ+EgssQ3e/OSS6cjeibE=;
+ b=VQoiLqSxqNcwNBHqL+X6tVNTcAUM0cvZnZ2mGUO1yLnBrYBVmmH5kmR85yWDlinRSp
+ 0fj3+yknAVmi/8gUoE5C+HXd1vp5VcJnm+W24LJs/pO1ibHnbAaHsRslBsa1iuK6ejOT
+ 0Zph/nMjQuP/d/urfsirDD9dNAE86en7AzpkwuSIf5CVKQO5PwujdKQVpXcQ4yeXflt0
+ eKXJNDyTkDnrHkxH/Rt0anaGeKsG8BkT0KBIgiW84GtFNPOZkdkuqpRSlogPARlIyg/e
+ wTOycxRSK6M1bwjsXhbqNw3tTf1TyvOuP/wFfRpA9o89mJVP0arxliIc+5KD5f2ugfgM
+ oyNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nJctbm03MbPJ6if54rJMd7RKd6TCCC2JwT68CqeHvSM=;
- b=W3tIT4iE5m6Y/cux3iqSnt8kH0LwfLCOSTteBT5N+dCl53d2M0yY2ONPel4v4UT5De
- IvrfBvyFrNaYz6dXXkIU5LK980PMY2+nydvXIewvKNF1cRTSChpaocOZMt0cziQyDOc1
- 3b6+1q4CPngyUQ3JAQSXoB0NceCcfq7ahrSPn4fBYjbFARv0LEo+K0NYxt74D+Bzfk1W
- sgnlweQKeN6PfdAqVi96nwKIIZ396hsNyapkw54hU9HVB3zntI09knqQHYZskO4zVlKb
- cV6aYy7NaCOTB9ggQ8dW+2IbyjSssI1FgZ/vONvksJFv8WP1OscW6e4iXHqsZOKN8ylk
- t41w==
-X-Gm-Message-State: AGi0PubA8EynlaQQOHDhb6qoYye/bNFa9KgSYDxTB9W6S/ZgLzZnSSjG
- 1PjUnCHhaqLXS41BbubeXuGAJaweu71BgeSzVNdBcw==
-X-Google-Smtp-Source: APiQypLDAPsiLtqfuxQvyz+lf4h3G0dGx8rvl0eKKkk//bcfEFPcx0TdPRP+KdAC0jeG3UfYCWNwgufNv6fQ6y5ue4U=
-X-Received: by 2002:a05:6830:1e4e:: with SMTP id
- e14mr11039173otj.91.1587417607950; 
- Mon, 20 Apr 2020 14:20:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200417050514.235060-1-david@gibson.dropbear.id.au>
-In-Reply-To: <20200417050514.235060-1-david@gibson.dropbear.id.au>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jR1xP74Qc41hrsGlhwi6bPFQ+EgssQ3e/OSS6cjeibE=;
+ b=dzOV3dcf+5H+LOA+N5pLOp5pyVKQVEM7yZFphtDvq7MA3A+rd31hJe11bNWIQRIAfY
+ M12xftinG/wI3f6kbxPRDlPolYSH3Gh0vBWK5cvRpshZkr0L9U1ppORs4GOHWsJ6S/6a
+ bIftpJXNfWCpJDycaQutaS2zLyhSX6t045pVmtiEJGJaKilnygt9XPM0eZLpoYCzt7wC
+ PAehG5/ZFePmFWv9kVUda+wWxgKKyqdCmrTGWsG3CXPXKqN/haq21E23NkJsrAEyg9c6
+ IJjanhTWfVBfGwH7EiH46JgRcCzVSOiP/On4tuiBcU6FtR6Lu+nr7OfwtdrwxVTNQDW0
+ aK+A==
+X-Gm-Message-State: AGi0PuZ4AGC8GzEf6HBbPbBfyDZrdGSiQAt20RGRlJdepRbKtuihEoy1
+ yOFVV6EqyvHdSVxYgWJnhlNDBw==
+X-Google-Smtp-Source: APiQypJmE/Dxhu5iAMAogk/wYtPZ4kiAU43T6RwbljtmkMsWKOo03bsjJ7nOz75HIu2bGpo1EXwtaA==
+X-Received: by 2002:a05:6000:f:: with SMTP id
+ h15mr20403789wrx.408.1587417729496; 
+ Mon, 20 Apr 2020 14:22:09 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id j10sm823663wmi.18.2020.04.20.14.22.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Apr 2020 14:22:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 Apr 2020 22:19:56 +0100
-Message-ID: <CAFEAcA9+iT+CDV8ZeLXH2aNLsdhpneqpAP2nRR6JFjk8HaX4Ag@mail.gmail.com>
-Subject: Re: [PULL 0/3] ppc-for-5.0 queue 20200417
-To: David Gibson <david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x334.google.com
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 0/4] linux-user/arm: Fix BKPT, SVC immediate handling
+Date: Mon, 20 Apr 2020 22:22:02 +0100
+Message-Id: <20200420212206.12776-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::334
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,36 +80,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
- Greg Kurz <groug@kaod.org>, =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: omerg681@gmail.com, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 17 Apr 2020 at 06:05, David Gibson <david@gibson.dropbear.id.au> wrote:
->
-> The following changes since commit 20038cd7a8412feeb49c01f6ede89e36c8995472:
->
->   Update version for v5.0.0-rc3 release (2020-04-15 20:51:54 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/dgibson/qemu.git tags/ppc-for-5.0-20200417
->
-> for you to fetch changes up to 5ed195065cc6895f61b9d59bfa0a0536ed5ed51e:
->
->   target/ppc: Fix mtmsr(d) L=1 variant that loses interrupts (2020-04-17 10:39:03 +1000)
->
-> ----------------------------------------------------------------
-> ppc patch queue for 2020-04-17
->
-> Here are a few late bugfixes for qemu-5.0 in the ppc target code.
-> Unless some really nasty last minute bug shows up, I expect this to be
-> the last ppc pull request for qemu-5.0.
+This patchseries fixes issues with the code in linux-user/arm/cpu_loop.c:
+ * it incorrectly thinks BKPT is a syscall instruction
+   (https://bugs.launchpad.net/qemu/+bug/1873898, reported via irc)
+ * a stale line of code means we incorrectly NOP SVC #0xf0002
+ * we don't implement the distinction between 0x9f0000..0x9f07ff
+   (should return -ENOSYS if not implemented) and higher numbers
+   (should cause a SIGILL)
+ * we abort() for bad immediate values to SVC (ie not the 0 of EABI
+   or the >0x9f0000 of OABI); the kernel delivers a SIGILL for these
+ * for Thumb mode, we never use the immediate value from the insn,
+   but we always read it anyway
 
-Applied, thanks (since we needed an rc4 anyway).
+This patchseries fixes all those things. (I started out fixing the
+BKPT bug; everything else is problems I spotted along the way while
+I was reading this bit of code...)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
-
+thanks
 -- PMM
+
+Peter Maydell (4):
+  linux-user/arm: BKPT should cause SIGTRAP, not be a syscall
+  linux-user/arm: Remove bogus SVC 0xf0002 handling
+  linux-user/arm: Handle invalid arm-specific syscalls correctly
+  linux-user/arm: Fix identification of syscall numbers
+
+ linux-user/arm/cpu_loop.c | 145 +++++++++++++++++++++-----------------
+ 1 file changed, 81 insertions(+), 64 deletions(-)
+
+-- 
+2.20.1
+
 
