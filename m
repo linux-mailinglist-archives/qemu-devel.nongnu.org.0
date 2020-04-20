@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DAF81B02FB
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 09:30:39 +0200 (CEST)
-Received: from localhost ([::1]:58744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 008651B0307
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 09:32:10 +0200 (CEST)
+Received: from localhost ([::1]:58776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQQt4-0004hG-Bp
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 03:30:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45596 helo=eggs1p.gnu.org)
+	id 1jQQuX-0006nv-2n
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 03:32:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45640 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1jQQrq-0003lq-5B
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 03:29:22 -0400
+ (envelope-from <david@redhat.com>) id 1jQQs4-00043V-JW
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 03:29:36 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1jQQrp-0005Xn-GC
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 03:29:21 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48010
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <david@redhat.com>) id 1jQQs4-0005iQ-2m
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 03:29:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28740
+ helo=us-smtp-1.mimecast.com)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jQQro-0005VZ-10
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 03:29:21 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jQQs3-0005hk-Lr
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 03:29:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587367758;
+ s=mimecast20190719; t=1587367774;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=TBq3kjEW04zs2ut5gwdPknh5KDTDOCnJ0oxL1iYvTho=;
- b=MAhPUbKuUSUFDFEAI0naDiSzKzvnu1VcRJ/vm0s/hdo68dySzCHR0MabJD/MWy9fT3nuUp
- vZHbWZF9TcbxktbrrxHhoB5vnVCTEKyOTJ6cbUjQMffqxskazKunQvF8Ot7BYnJ0ohRCOj
- SvYav9+Kg7rOMoq5ItCDDD4XS2lECtw=
+ bh=M1IbG15GsUbTPkjODn83krDzE5ZERmLoAzU7XOyfMWo=;
+ b=CS0NcZdlYzmHzXrMWR2kAm2Yehmd64828AxaGa2oONNaweFEuEacalFOfv7/tZ/KLbmPST
+ ucIx1Whm9rSzIOpnvmWlsDVcCLqIW8ZgKlB9tPKpgindxyFAIK3qU1cO4BsipV0FQtFHmM
+ DSrDwvkpJm8JLw++AStmt+CNnLVF70Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314-gjZTYvsJORCUjXX5vEIvtA-1; Mon, 20 Apr 2020 03:29:16 -0400
-X-MC-Unique: gjZTYvsJORCUjXX5vEIvtA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-161-9t7VGohWMhCzXW0jQKoBkA-1; Mon, 20 Apr 2020 03:29:31 -0400
+X-MC-Unique: 9t7VGohWMhCzXW0jQKoBkA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFB778017FD;
- Mon, 20 Apr 2020 07:29:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B729C801A26;
+ Mon, 20 Apr 2020 07:29:30 +0000 (UTC)
 Received: from [10.36.114.7] (ovpn-114-7.ams2.redhat.com [10.36.114.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1789DA2920;
- Mon, 20 Apr 2020 07:29:12 +0000 (UTC)
-Subject: Re: [PATCH 1/7] tcg: Add tcg_gen_gvec_dup_imm
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6213E27BD8;
+ Mon, 20 Apr 2020 07:29:29 +0000 (UTC)
+Subject: Re: [PATCH 6/7] tcg: Remove tcg_gen_gvec_dup{8,16,32,64}i
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20200418150411.1831-1-richard.henderson@linaro.org>
- <20200418150411.1831-2-richard.henderson@linaro.org>
+ <20200418150411.1831-7-richard.henderson@linaro.org>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  mQINBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -93,24 +93,24 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  njnuI31KBiLUks+paRkHQlFcgS2N3gkRBzH7xSZ+t7Re3jvXdXEzKBbQ+dC3lpJB0wPnyMcX
  FOTT3aZT7IgePkt5iC/BKBk3hqKteTnJFeVIT7EC+a6YUFg=
 Organization: Red Hat GmbH
-Message-ID: <7e11045f-5032-79e7-0a33-da60b9833129@redhat.com>
-Date: Mon, 20 Apr 2020 09:29:12 +0200
+Message-ID: <5c85fe91-bfbf-2eaa-c835-50e3069d4f8d@redhat.com>
+Date: Mon, 20 Apr 2020 09:29:28 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200418150411.1831-2-richard.henderson@linaro.org>
+In-Reply-To: <20200418150411.1831-7-richard.henderson@linaro.org>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=david@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
- 03:29:18
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ 03:29:13
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -127,47 +127,68 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 18.04.20 17:04, Richard Henderson wrote:
-> Add a version of tcg_gen_dup_* that takes both immediate and
-> a vector element size operand.  This will replace the set of
-> tcg_gen_gvec_dup{8,16,32,64}i functions that encode the element
-> size within the function name.
+> These interfaces are now unused.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  include/tcg/tcg-op-gvec.h | 2 ++
->  tcg/tcg-op-gvec.c         | 7 +++++++
->  2 files changed, 9 insertions(+)
+>  include/tcg/tcg-op-gvec.h |  5 -----
+>  tcg/tcg-op-gvec.c         | 28 ----------------------------
+>  2 files changed, 33 deletions(-)
 > 
 > diff --git a/include/tcg/tcg-op-gvec.h b/include/tcg/tcg-op-gvec.h
-> index 74534e2480..eb0d47a42b 100644
+> index eb0d47a42b..fa8a0c8d03 100644
 > --- a/include/tcg/tcg-op-gvec.h
 > +++ b/include/tcg/tcg-op-gvec.h
-> @@ -313,6 +313,8 @@ void tcg_gen_gvec_ors(unsigned vece, uint32_t dofs, uint32_t aofs,
->  
->  void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dofs, uint32_t aofs,
->                            uint32_t s, uint32_t m);
-> +void tcg_gen_gvec_dup_imm(unsigned vece, uint32_t dofs, uint32_t s,
-> +                          uint32_t m, uint64_t imm);
->  void tcg_gen_gvec_dup_i32(unsigned vece, uint32_t dofs, uint32_t s,
->                            uint32_t m, TCGv_i32);
+> @@ -320,11 +320,6 @@ void tcg_gen_gvec_dup_i32(unsigned vece, uint32_t dofs, uint32_t s,
 >  void tcg_gen_gvec_dup_i64(unsigned vece, uint32_t dofs, uint32_t s,
+>                            uint32_t m, TCGv_i64);
+>  
+> -void tcg_gen_gvec_dup8i(uint32_t dofs, uint32_t s, uint32_t m, uint8_t x);
+> -void tcg_gen_gvec_dup16i(uint32_t dofs, uint32_t s, uint32_t m, uint16_t x);
+> -void tcg_gen_gvec_dup32i(uint32_t dofs, uint32_t s, uint32_t m, uint32_t x);
+> -void tcg_gen_gvec_dup64i(uint32_t dofs, uint32_t s, uint32_t m, uint64_t x);
+> -
+>  void tcg_gen_gvec_shli(unsigned vece, uint32_t dofs, uint32_t aofs,
+>                         int64_t shift, uint32_t oprsz, uint32_t maxsz);
+>  void tcg_gen_gvec_shri(unsigned vece, uint32_t dofs, uint32_t aofs,
 > diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
-> index 327d9588e0..593bb4542e 100644
+> index de16c027b3..5a6cc19812 100644
 > --- a/tcg/tcg-op-gvec.c
 > +++ b/tcg/tcg-op-gvec.c
-> @@ -1569,6 +1569,13 @@ void tcg_gen_gvec_dup8i(uint32_t dofs, uint32_t oprsz,
->      do_dup(MO_8, dofs, oprsz, maxsz, NULL, NULL, x);
+> @@ -1541,34 +1541,6 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dofs, uint32_t aofs,
+>      }
 >  }
 >  
-> +void tcg_gen_gvec_dup_imm(unsigned vece, uint32_t dofs, uint32_t oprsz,
-> +                          uint32_t maxsz, uint64_t x)
-> +{
-> +    check_size_align(oprsz, maxsz, dofs);
-> +    do_dup(vece, dofs, oprsz, maxsz, NULL, NULL, x);
-> +}
-> +
->  void tcg_gen_gvec_not(unsigned vece, uint32_t dofs, uint32_t aofs,
->                        uint32_t oprsz, uint32_t maxsz)
+> -void tcg_gen_gvec_dup64i(uint32_t dofs, uint32_t oprsz,
+> -                         uint32_t maxsz, uint64_t x)
+> -{
+> -    check_size_align(oprsz, maxsz, dofs);
+> -    do_dup(MO_64, dofs, oprsz, maxsz, NULL, NULL, x);
+> -}
+> -
+> -void tcg_gen_gvec_dup32i(uint32_t dofs, uint32_t oprsz,
+> -                         uint32_t maxsz, uint32_t x)
+> -{
+> -    check_size_align(oprsz, maxsz, dofs);
+> -    do_dup(MO_32, dofs, oprsz, maxsz, NULL, NULL, x);
+> -}
+> -
+> -void tcg_gen_gvec_dup16i(uint32_t dofs, uint32_t oprsz,
+> -                         uint32_t maxsz, uint16_t x)
+> -{
+> -    check_size_align(oprsz, maxsz, dofs);
+> -    do_dup(MO_16, dofs, oprsz, maxsz, NULL, NULL, x);
+> -}
+> -
+> -void tcg_gen_gvec_dup8i(uint32_t dofs, uint32_t oprsz,
+> -                         uint32_t maxsz, uint8_t x)
+> -{
+> -    check_size_align(oprsz, maxsz, dofs);
+> -    do_dup(MO_8, dofs, oprsz, maxsz, NULL, NULL, x);
+> -}
+> -
+>  void tcg_gen_gvec_dup_imm(unsigned vece, uint32_t dofs, uint32_t oprsz,
+>                            uint32_t maxsz, uint64_t x)
 >  {
 > 
 
