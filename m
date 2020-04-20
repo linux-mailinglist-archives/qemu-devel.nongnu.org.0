@@ -2,34 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12ADF1B14D4
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 20:39:19 +0200 (CEST)
-Received: from localhost ([::1]:40652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EDF61B14DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 20:40:56 +0200 (CEST)
+Received: from localhost ([::1]:40680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQbKA-0003BX-3N
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 14:39:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44850 helo=eggs1p.gnu.org)
+	id 1jQbLj-00065U-FY
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 14:40:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44842 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1jQbI2-0000vy-LL
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1jQbI2-0000uq-7w
  for qemu-devel@nongnu.org; Mon, 20 Apr 2020 14:37:09 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1jQbI0-0003wk-77
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1jQbHz-0003w9-Fk
  for qemu-devel@nongnu.org; Mon, 20 Apr 2020 14:37:06 -0400
-Received: from relay.sw.ru ([185.231.240.75]:39810)
+Received: from relay.sw.ru ([185.231.240.75]:39796)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jQbHs-0003NK-3F; Mon, 20 Apr 2020 14:36:56 -0400
+ id 1jQbHs-0003NL-0V; Mon, 20 Apr 2020 14:36:56 -0400
 Received: from dhcp-172-16-25-136.sw.ru ([172.16.25.136] helo=localhost.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jQbHi-0001xO-J8; Mon, 20 Apr 2020 21:36:46 +0300
+ id 1jQbHi-0001xO-Vd; Mon, 20 Apr 2020 21:36:47 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 0/7] Apply COR-filter to the block-stream permanently
-Date: Mon, 20 Apr 2020 21:36:39 +0300
-Message-Id: <1587407806-109784-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH 1/7] block: prepare block-stream for using COR-filter
+Date: Mon, 20 Apr 2020 21:36:40 +0300
+Message-Id: <1587407806-109784-2-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1587407806-109784-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+References: <1587407806-109784-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 Received-SPF: pass client-ip=185.231.240.75;
  envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay.sw.ru
 X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
@@ -53,39 +55,41 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Note: this series is based on the one "block: Deal with filters"
-      by Max Reitz that can be found in the branches:
+This patch is the first one in the series where the COR-filter node
+will be hard-coded for using in the block-stream job. The job may
+be run with a block-commit job in parallel. Set the condition to
+avoid the job conflicts.
 
-      https://git.xanclic.moe/XanClic/qemu child-access-functions-v6
-      https://github.com/XanClic/qemu child-access-functions-v6
+Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+---
+ blockdev.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-      When running iotests, apply "char-socket: Fix race condition"
-      to avoid sporadic segmentation faults.
-
-With this series, all the block-stream COR operations pass through
-the COR-filter.
-
-Andrey Shinkevich (7):
-  block: prepare block-stream for using COR-filter
-  stream: exclude a link to filter from freezing
-  block: protect parallel jobs from overlapping
-  copy-on-read: Support refreshing filename
-  qapi: add filter-node-name to block-stream
-  iotests: prepare 245 for using filter in block-stream
-  block: apply COR-filter to block-stream jobs
-
- block/copy-on-read.c       |   7 ++
- block/stream.c             | 170 +++++++++++++++++++++++++++++++++++++++------
- blockdev.c                 |  15 +++-
- blockjob.c                 |  15 +++-
- include/block/block_int.h  |   7 +-
- monitor/hmp-cmds.c         |   4 +-
- qapi/block-core.json       |   6 ++
- tests/qemu-iotests/030     |   6 +-
- tests/qemu-iotests/141.out |   2 +-
- tests/qemu-iotests/245     |  15 ++--
- 10 files changed, 210 insertions(+), 37 deletions(-)
-
+diff --git a/blockdev.c b/blockdev.c
+index 758e0b5..72d28ce 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -3297,7 +3297,9 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+     }
+ 
+     /* Check for op blockers in the whole chain between bs and base */
+-    for (iter = bs; iter && iter != base_bs; iter = bdrv_filtered_bs(iter)) {
++    for (iter = bdrv_skip_rw_filters(bs);
++        iter && iter != bdrv_skip_rw_filters(base_bs);
++        iter = bdrv_backing_chain_next(iter)) {
+         if (bdrv_op_is_blocked(iter, BLOCK_OP_TYPE_STREAM, errp)) {
+             goto out;
+         }
+@@ -3455,7 +3457,8 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
+ 
+     assert(bdrv_get_aio_context(base_bs) == aio_context);
+ 
+-    for (iter = top_bs; iter != bdrv_filtered_bs(base_bs);
++    for (iter = bdrv_skip_rw_filters(top_bs);
++         iter != bdrv_filtered_bs(base_bs);
+          iter = bdrv_filtered_bs(iter))
+     {
+         if (bdrv_op_is_blocked(iter, BLOCK_OP_TYPE_COMMIT_TARGET, errp)) {
 -- 
 1.8.3.1
 
