@@ -2,75 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB3921B0595
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 11:27:38 +0200 (CEST)
-Received: from localhost ([::1]:60346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 530671B05DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 11:42:14 +0200 (CEST)
+Received: from localhost ([::1]:60606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQSiI-0005ee-1D
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 05:27:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40726 helo=eggs1p.gnu.org)
+	id 1jQSwP-0007oN-EY
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 05:42:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45948 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jQSgz-0004uY-Lj
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:26:18 -0400
+ (envelope-from <bounces@canonical.com>) id 1jQSvP-000763-KS
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:41:11 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jQSgz-0003Xz-54
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:26:17 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29313
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jQSgy-0003X0-Ng
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:26:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587374775;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DNMCPgs2H1hCFQn+6uWtbBENPnuKBiumsZadFSWdcjc=;
- b=RKZNuKtX4F3ZKs9TGqR/XHuVFuVHlkJDff+zrsUIMDyD8JQciKg7il/VDuZOkOCzhynNPO
- WU6HfjqcZkLmYlYvrXivciZRP3WA8syVutEc7en8N9gXRrA+2Vk3DbZwQeAU0Kl3H4u2Uf
- MFMwEJTUc+FMBKmO1jQ50EGdRcIR+xQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-282-3gH7miqjMaunFfCqcG8ixQ-1; Mon, 20 Apr 2020 05:26:13 -0400
-X-MC-Unique: 3gH7miqjMaunFfCqcG8ixQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3D9018C43E1;
- Mon, 20 Apr 2020 09:26:11 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AC1FE28987;
- Mon, 20 Apr 2020 09:26:03 +0000 (UTC)
-Date: Mon, 20 Apr 2020 10:26:00 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Subject: Re: [PATCH v2] chardev/char-socket: Properly make qio connections
- non blocking
-Message-ID: <20200420092600.GG346737@redhat.com>
-References: <1587289900-29485-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ (envelope-from <bounces@canonical.com>) id 1jQSvN-00022F-Q3
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:41:10 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49680)
+ by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jQSvN-0001zv-B9
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 05:41:09 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jQSvI-000871-Dg
+ for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 09:41:04 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 669752E8110
+ for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 09:41:04 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1587289900-29485-1-git-send-email-sai.pavan.boddu@xilinx.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Date: Mon, 20 Apr 2020 09:28:13 -0000
+From: =?utf-8?q?Marko_=C5=A0tamcar?= <1873769@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: markostamcar
+X-Launchpad-Bug-Reporter: =?utf-8?q?Marko_=C5=A0tamcar_=28markostamcar=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Marko_=C5=A0tamcar_=28markostamcar=29?=
+Message-Id: <158737489336.27883.11672421823937229418.malonedeb@gac.canonical.com>
+Subject: [Bug 1873769] [NEW] SB16 audio playback freezes emulation in Windows
+ 95 guest
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2e26c9bbd21cdca248baaea29aeffb920afcc32a";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 7141e5918b7a463b406fb593ba1b01bd106479ea
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
 X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
- 03:29:18
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ 05:41:06
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,56 +68,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- edgari@xilinx.com, qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1873769 <1873769@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Apr 19, 2020 at 03:21:40PM +0530, Sai Pavan Boddu wrote:
-> In tcp_chr_sync_read function, there is a possibility of socket
-> disconnection during blocking read, then tcp_chr_hup function would clean=
- up
-> the qio channel pointers(i.e ioc, sioc).
->=20
-> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-> ---
-> Changes for V2:
-> =09Place the guard around 'qio_channel_set_blocking' call to check connec=
-tion status
-> =09This fix is simpler than v1 and explains better about the issue.
->=20
->  chardev/char-socket.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-> index 185fe38..e56b2f0 100644
-> --- a/chardev/char-socket.c
-> +++ b/chardev/char-socket.c
-> @@ -549,7 +549,9 @@ static int tcp_chr_sync_read(Chardev *chr, const uint=
-8_t *buf, int len)
-> =20
->      qio_channel_set_blocking(s->ioc, true, NULL);
->      size =3D tcp_chr_recv(chr, (void *) buf, len);
-> -    qio_channel_set_blocking(s->ioc, false, NULL);
-> +    if (s->state !=3D TCP_CHARDEV_STATE_DISCONNECTED) {
-> +        qio_channel_set_blocking(s->ioc, false, NULL);
-> +    }
->      if (size =3D=3D 0) {
->          /* connection closed */
->          tcp_chr_disconnect(chr);
+Public bug reported:
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+- QEMU 4.2.93 (v5.0.0-rc3) built from latest git master
+20038cd7a8412feeb49c01f6ede89e36c8995472 using MSYS2 on Windows 10 and
+launched on same Windows 10
 
+- Launched using "qemu-system-i386.exe -drive format=3Draw,file=3Dhdd-
+2gb.img -soundhw pcspk,sb16 -m 16 -cpu pentium -vga std -cdrom
+Windows_95.iso -boot c"
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+- I have attached video screen capture of the issue
 
+---
+
+I decided to make my first ever QEMU build after encountering the dsound
+issues using the latest 4.2.0 binary from https://qemu.weilnetz.de/w64/.
+In my 5.0.0-rc3 build the sound playback is working correctly, however
+the whole Windows 95 UI freezes while sound is playing.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Attachment added: "Video screen capture of the issue"
+   https://bugs.launchpad.net/bugs/1873769/+attachment/5357082/+files/win95=
+audio.mp4
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1873769
+
+Title:
+  SB16 audio playback freezes emulation in Windows 95 guest
+
+Status in QEMU:
+  New
+
+Bug description:
+  - QEMU 4.2.93 (v5.0.0-rc3) built from latest git master
+  20038cd7a8412feeb49c01f6ede89e36c8995472 using MSYS2 on Windows 10 and
+  launched on same Windows 10
+
+  - Launched using "qemu-system-i386.exe -drive format=3Draw,file=3Dhdd-
+  2gb.img -soundhw pcspk,sb16 -m 16 -cpu pentium -vga std -cdrom
+  Windows_95.iso -boot c"
+
+  - I have attached video screen capture of the issue
+
+  ---
+
+  I decided to make my first ever QEMU build after encountering the
+  dsound issues using the latest 4.2.0 binary from
+  https://qemu.weilnetz.de/w64/. In my 5.0.0-rc3 build the sound
+  playback is working correctly, however the whole Windows 95 UI freezes
+  while sound is playing.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1873769/+subscriptions
 
