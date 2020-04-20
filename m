@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9487D1B113C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 18:16:19 +0200 (CEST)
-Received: from localhost ([::1]:38854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 589311B116C
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 18:24:18 +0200 (CEST)
+Received: from localhost ([::1]:38990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQZ5m-00017p-Mx
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 12:16:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46712 helo=eggs1p.gnu.org)
+	id 1jQZDU-0004eJ-JN
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 12:24:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48372 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <igotti@gmail.com>) id 1jQZ4D-0008NJ-2u
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 12:14:41 -0400
+ (envelope-from <stefanha@redhat.com>) id 1jQZCN-00047x-4r
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 12:23:07 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <igotti@gmail.com>) id 1jQZ4B-0006h7-UW
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 12:14:40 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:37120)
- by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <igotti@gmail.com>) id 1jQZ4A-0006cd-D5
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 12:14:39 -0400
-Received: by mail-lf1-x144.google.com with SMTP id t11so8441394lfe.4
- for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 09:14:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oR/YrnRiRsFvWESr+qK9WAAMqj9qHFp/PdZb2SM57jU=;
- b=IBFIsCLmm+6qEXjGbmpWo0TfO3mHA686NEELmNM3CRaI8xKgokPzJ0mfVGnBAvNzRF
- o7nhLFZNedH3rZoFhzwHU1Gi1NnHDJ7ZZ34Sd1Bd2JA6ogb9BV+MFuLsQgVqXKfXySPP
- m4/iJQO386uYFAynuc2Yhh25SmrKoFEzg09VnjGHzSXLUuj0Ts37aTENV51ahfCikuV1
- 1PayJmpzhIzAw406veSs27ggHkdBRta9l2LJSPF2dlHOBK5jrekk4sOPANp6tIgxyaRX
- vSf83VH2PXG51SdHP1i38IxXXBvh2OSQX0NxLJQh8WVr0OaUhd2D7gi3mgCwXEp0krR3
- fx4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oR/YrnRiRsFvWESr+qK9WAAMqj9qHFp/PdZb2SM57jU=;
- b=VmhL+ThFpiAnIqCLSuFGkkQXSEHnJoBEbA0zqQGa7Wzo48iMIZ3l3UJ3e6jEeBxmL9
- y8drcU40k+SazKDrrLNPrMzV26j9nCFaebuYSO99gxpM2vwIfBO/tWb2fYS2QtHA0QM/
- 6/IKofwAzwZh9JpySdKDuSKAFXWj5iZtUrS2rLSs7veTG1qsmYDTPBsZh2E//+gVTVIb
- kciaJ20uQcaQHV/fMtXIv0qIC1/d16zFXxAYbxmsRjHVZx+gLuoinLSFNMkT4kh+kqXW
- MpgXtEyxr8VIR1vlMiG6vhdU39uFwPnxJRVDVnXk3wjDnaCA5pWlohH/I5E0OCL71ThH
- uSRA==
-X-Gm-Message-State: AGi0PuaH2e6zjujLb4LwJmVY7+tIF03lXZ1jReLYQbHS1T0eLHQ5xxLz
- IrvOgLhZ+OlE8cykYxl50i2H0M5uj74PJDrjK88=
-X-Google-Smtp-Source: APiQypJ+6JEBiDulaJDpitOP6gfharT6/Emw0GOeJYwu/nNWzg4/VdbVGEAFSnsUwBIo6DDOD5XgkFtabsxJIIa7bIc=
-X-Received: by 2002:a19:dc05:: with SMTP id t5mr11011249lfg.73.1587399276369; 
- Mon, 20 Apr 2020 09:14:36 -0700 (PDT)
+ (envelope-from <stefanha@redhat.com>) id 1jQZCM-0005Gl-PK
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 12:23:06 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51994
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jQZCM-0005GC-DQ
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 12:23:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587399785;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=v/7ONRnho5hgL0bAXCXHN41RKW9g1UdKFGuzd/aV3uk=;
+ b=Grt2UG6vWgiudfmGwzRgqpPCZYtVFAKJ9R9XlNZZ/IwnsZzEbEGYjAdTMAo4A6h1IXRZgQ
+ /N5vLDWUHApk0rFoa1YABvjrXrpHcbPU4rAV63MUnsXDylYoLetZF3Dy1LiZqq2ZtBTIoD
+ abt5cljid/fMipTzJl8UY1BFH4xkYF0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-354-zyxPovmgMsuYSEXjd2UsZQ-1; Mon, 20 Apr 2020 12:22:58 -0400
+X-MC-Unique: zyxPovmgMsuYSEXjd2UsZQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0A57107B274;
+ Mon, 20 Apr 2020 16:22:56 +0000 (UTC)
+Received: from localhost (ovpn-112-169.ams2.redhat.com [10.36.112.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2E9B45DA7C;
+ Mon, 20 Apr 2020 16:22:55 +0000 (UTC)
+Date: Mon, 20 Apr 2020 17:22:55 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 5/9] block/io: expand in_flight inc/dec section: simple
+ cases
+Message-ID: <20200420162255.GE7321@stefanha-x1.localdomain>
+References: <20200408093051.9893-1-vsementsov@virtuozzo.com>
+ <20200408093051.9893-6-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-References: <CAEme+7FPF+inSJSXQPmuv8Up3Eam0N7fT03zqM-RvcvKsxjfVQ@mail.gmail.com>
- <CAFEAcA9Yk53oK5YstN7DpCCq344+tbyjvDA6RaWcJCrL9QSjMw@mail.gmail.com>
- <87lfmqdwkx.fsf@linaro.org>
-In-Reply-To: <87lfmqdwkx.fsf@linaro.org>
-From: Nikolay Igotti <igotti@gmail.com>
-Date: Mon, 20 Apr 2020 19:14:24 +0300
-Message-ID: <CAEme+7GLKg_dNsHizzTKDymX9HyD+Ph2iZ=WKhOw2XG+zhViXg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] plugins: avoid failing plugin when CPU is inited
- several times
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: multipart/mixed; boundary="000000000000fc6bdb05a3bb310b"
-Received-SPF: pass client-ip=2a00:1450:4864:20::144;
- envelope-from=igotti@gmail.com; helo=mail-lf1-x144.google.com
-X-detected-operating-system: by eggs1p.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::144
+In-Reply-To: <20200408093051.9893-6-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="4Epv4kl9IRBfg3rk"
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
+ 09:01:45
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,189 +77,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000fc6bdb05a3bb310b
-Content-Type: multipart/alternative; boundary="000000000000fc6bd805a3bb3109"
-
---000000000000fc6bd805a3bb3109
-Content-Type: text/plain; charset="UTF-8"
+--4Epv4kl9IRBfg3rk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Sure, attached plugin and testcase where it fails.
+On Wed, Apr 08, 2020 at 12:30:47PM +0300, Vladimir Sementsov-Ogievskiy wrot=
+e:
+> It's safer to expand in_flight request to start before enter to
 
+Please explain what exeactly "safer" means.  If I understand correctly
+this is just a refactoring and does not fix bugs that have been hit in
+the real world.
 
-On Mon, Apr 20, 2020 at 6:08 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
+Is this just a generate attempt to avoid accidentally performing
+operations that need to happen as part of the request after the dec
+call?
 
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > On Mon, 20 Apr 2020 at 10:16, Nikolay Igotti <igotti@gmail.com> wrote:
-> >>
-> >> In linux-user multithreaded scenarious CPU could be inited many times
-> with the same id,
-> >>
-> >> so avoid assertions on already present hashtable entry.
-> >>
-> >>
-> >> Signed-off-by: Nikolay Igotti <igotti@gmail.com>
-> >
-> > Wouldn't it be better to make sure we remove the entry from
-> > the hashtable when the old thread that was using that CPU
-> > ID exits, or is that not feasible ?
->
-> I'm fairly sure that is exactly what should be happening via
-> qemu_plugin_vcpu_exit_hook(cpu) which should be a result of the
-> object_unref(OBJECT(cpu)) in thread exit.
->
-> Is there a test vase?
->
-> >
-> > thanks
-> > -- PMM
->
->
-> --
-> Alex Benn=C3=A9e
->
+> @@ -2718,17 +2746,18 @@ bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVe=
+ctor *qiov, int64_t pos,
+>              ret =3D drv->bdrv_save_vmstate(bs, qiov, pos);
+>          }
+>      } else if (bs->file) {
+> -        ret =3D bdrv_co_rw_vmstate(bs->file->bs, qiov, pos, is_read);
+> +        bdrv_inc_in_flight(bs->file->bs);
+> +        ret =3D bdrv_do_rw_vmstate(bs->file->bs, qiov, pos, is_read);
+> +        bdrv_dec_in_flight(bs->file->bs);
 
---000000000000fc6bd805a3bb3109
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Here we inc/dec...
 
-<div dir=3D"ltr">Sure, attached plugin and testcase=C2=A0where it fails.<di=
-v><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
-gmail_attr">On Mon, Apr 20, 2020 at 6:08 PM Alex Benn=C3=A9e &lt;<a href=3D=
-"mailto:alex.bennee@linaro.org">alex.bennee@linaro.org</a>&gt; wrote:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" target=3D"_bl=
-ank">peter.maydell@linaro.org</a>&gt; writes:<br>
-<br>
-&gt; On Mon, 20 Apr 2020 at 10:16, Nikolay Igotti &lt;<a href=3D"mailto:igo=
-tti@gmail.com" target=3D"_blank">igotti@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; In linux-user multithreaded scenarious CPU could be inited many ti=
-mes with the same id,<br>
-&gt;&gt;<br>
-&gt;&gt; so avoid assertions on already present hashtable entry.<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Nikolay Igotti &lt;<a href=3D"mailto:igotti@gmail.c=
-om" target=3D"_blank">igotti@gmail.com</a>&gt;<br>
-&gt;<br>
-&gt; Wouldn&#39;t it be better to make sure we remove the entry from<br>
-&gt; the hashtable when the old thread that was using that CPU<br>
-&gt; ID exits, or is that not feasible ?<br>
-<br>
-I&#39;m fairly sure that is exactly what should be happening via<br>
-qemu_plugin_vcpu_exit_hook(cpu) which should be a result of the<br>
-object_unref(OBJECT(cpu)) in thread exit.<br>
-<br>
-Is there a test vase?<br>
-<br>
-&gt;<br>
-&gt; thanks<br>
-&gt; -- PMM<br>
-<br>
-<br>
--- <br>
-Alex Benn=C3=A9e<br>
-</blockquote></div>
+>      }
+> =20
+> -    bdrv_dec_in_flight(bs);
+>      return ret;
+>  }
+> =20
+>  static void coroutine_fn bdrv_co_rw_vmstate_entry(void *opaque)
+>  {
+>      BdrvVmstateCo *co =3D opaque;
+> -    co->ret =3D bdrv_co_rw_vmstate(co->bs, co->qiov, co->pos, co->is_rea=
+d);
+> +    co->ret =3D bdrv_do_rw_vmstate(co->bs, co->qiov, co->pos, co->is_rea=
+d);
 
---000000000000fc6bd805a3bb3109--
+...here we don't.  The code is correct, but bdrv_co_rw_vmstate_entry()
+should also document that its caller must inc/dec.
 
---000000000000fc6bdb05a3bb310b
-Content-Type: application/octet-stream; name="counter.c"
-Content-Disposition: attachment; filename="counter.c"
-Content-Transfer-Encoding: base64
-Content-ID: <f_k98oiv5y1>
-X-Attachment-Id: f_k98oiv5y1
+> @@ -2950,7 +2994,7 @@ static void coroutine_fn bdrv_flush_co_entry(void *=
+opaque)
+>  {
+>      FlushCo *rwco =3D opaque;
+> =20
+> -    rwco->ret =3D bdrv_co_flush(rwco->bs);
+> +    rwco->ret =3D bdrv_do_flush(rwco->bs);
+>      aio_wait_kick();
+>  }
 
-I2luY2x1ZGUgPGFzc2VydC5oPgojaW5jbHVkZSA8cHRocmVhZC5oPgojaW5jbHVkZSA8c3RkaW8u
-aD4KI2luY2x1ZGUgPHN0ZGxpYi5oPgojaW5jbHVkZSA8c3RyaW5nLmg+CiNpbmNsdWRlIDx1bmlz
-dGQuaD4KCiNpbmNsdWRlIDxnbGliLmg+CgojaW5jbHVkZSA8cWVtdS1wbHVnaW4uaD4KClFFTVVf
-UExVR0lOX0VYUE9SVCBpbnQgcWVtdV9wbHVnaW5fdmVyc2lvbiA9IFFFTVVfUExVR0lOX1ZFUlNJ
-T047CgovLyBGaWxlcyB3aXRoIGRlc2NyaXB0b3JzIGFmdGVyIHRoaXMgb25lIGFyZSBpbnRlcmNl
-cHRlZCBmb3IgaW5zdHJ1Y3Rpb24gY291bnRpbmcgbWFya3MuCiNkZWZpbmUgQ0FUQ0hfQkFTRSAw
-eGNhZmViYWJlCgpzdGF0aWMgdWludDY0X3QgaW5zbl9jb3VudCA9IDA7CnN0YXRpYyBwdGhyZWFk
-X3QgY291bnRpbmcgPSBmYWxzZTsKc3RhdGljIHB0aHJlYWRfdCBjb3VudGluZ19mb3IgPSAwOwpz
-dGF0aWMgYm9vbCBvbl9ldmVyeV9jbG9zZSA9IGZhbHNlOwoKc3RhdGljIHZvaWQgdmNwdV9pbnNu
-X2V4ZWNfYmVmb3JlKHVuc2lnbmVkIGludCBjcHVfaW5kZXgsIHZvaWQgKnVkYXRhKQp7CiAgICBp
-ZiAoY291bnRpbmcgJiYgcHRocmVhZF9zZWxmKCkgPT0gY291bnRpbmdfZm9yKQogICAgICAgIGlu
-c25fY291bnQrKzsKfQoKc3RhdGljIHZvaWQgdmNwdV90Yl90cmFucyhxZW11X3BsdWdpbl9pZF90
-IGlkLCBzdHJ1Y3QgcWVtdV9wbHVnaW5fdGIgKnRiKQp7CiAgICBzaXplX3QgbiA9IHFlbXVfcGx1
-Z2luX3RiX25faW5zbnModGIpOwogICAgc2l6ZV90IGk7CgogICAgZm9yIChpID0gMDsgaSA8IG47
-IGkrKykgewogICAgICAgIHN0cnVjdCBxZW11X3BsdWdpbl9pbnNuICppbnNuID0gcWVtdV9wbHVn
-aW5fdGJfZ2V0X2luc24odGIsIGkpOwoKICAgICAgICAvLyBUT0RPOiBkbyB0aGlzIGNhbGwgb25s
-eSBvbiBmaXJzdCBpbnNuIGluIGJiLgogICAgICAgIHFlbXVfcGx1Z2luX3JlZ2lzdGVyX3ZjcHVf
-aW5zbl9leGVjX2NiKAogICAgICAgICAgICBpbnNuLCB2Y3B1X2luc25fZXhlY19iZWZvcmUsIFFF
-TVVfUExVR0lOX0NCX05PX1JFR1MsIE5VTEwpOwogICAgfQp9CgpzdGF0aWMgdm9pZCBwcmludF9p
-bnNuX2NvdW50KHZvaWQpIHsKICAgIGdfYXV0b2ZyZWUgZ2NoYXIgKm91dCA9IGdfc3RyZHVwX3By
-aW50ZigiZXhlY3V0ZWQgJSIgUFJJdTY0ICIgaW5zdHJ1Y3Rpb25zXG4iLCBpbnNuX2NvdW50KTsK
-ICAgIHFlbXVfcGx1Z2luX291dHMob3V0KTsKfQoKc3RhdGljIHZvaWQgdmNwdV9zeXNjYWxsKHFl
-bXVfcGx1Z2luX2lkX3QgaWQsIHVuc2lnbmVkIGludCB2Y3B1X2luZGV4LAogICAgICAgICAgICAg
-ICAgICAgICAgICBpbnQ2NF90IG51bSwgdWludDY0X3QgYTEsIHVpbnQ2NF90IGEyLAogICAgICAg
-ICAgICAgICAgICAgICAgICB1aW50NjRfdCBhMywgdWludDY0X3QgYTQsIHVpbnQ2NF90IGE1LAog
-ICAgICAgICAgICAgICAgICAgICAgICB1aW50NjRfdCBhNiwgdWludDY0X3QgYTcsIHVpbnQ2NF90
-IGE4KQp7CiAgICAvLyBXZSBwdXQgb3VyIGxpc3RlbmVyIG9uIGZkIHJlYWRzIGluIHJhbmdlIFtD
-QVRDSF9CQVNFLCBDQVRDSF9CQVNFICsgMV0KICAgIGlmIChudW0gPT0gMCkgeyAvLyBzeXNfcmVh
-ZAogICAgICAgIHN3aXRjaCAoYTEpCiAgICAgICAgewogICAgICAgICAgICBjYXNlIENBVENIX0JB
-U0UgKyAwOgogICAgICAgICAgICAgICAgY291bnRpbmcgPSB0cnVlOwogICAgICAgICAgICAgICAg
-Y291bnRpbmdfZm9yID0gcHRocmVhZF9zZWxmKCk7CiAgICAgICAgICAgICAgICBpbnNuX2NvdW50
-ID0gMDsKICAgICAgICAgICAgICAgIGJyZWFrOwogICAgICAgICAgICBjYXNlIENBVENIX0JBU0Ug
-KyAxOiB7CiAgICAgICAgICAgICAgICBjb3VudGluZyA9IGZhbHNlOwogICAgICAgICAgICAgICAg
-Y291bnRpbmdfZm9yID0gMDsKICAgICAgICAgICAgICAgIGlmIChhMyA9PSA4KSB7CiAgICAgICAg
-ICAgICAgICAgICAgLy8gSW4gY2FzZSBvZiB1c2VyIGVtdWxhdGlvbiBpbiBRRU1VLCBhZGRyZXNz
-ZXMgYXJlIDE6MSB0cmFuc2xhdGVkLCBzbyB3ZSBjYW4gdGVsbCB0aGUgY2FsbGVyCiAgICAgICAg
-ICAgICAgICAgICAgLy8gbnVtYmVyIG9mIGV4ZWN1dGVkIGluc3RydWN0aW9ucyBieSBqdXN0IHdy
-aXRpbmcgaW50byB0aGUgYnVmZmVyIGFyZ3VtZW50IG9mIHJlYWQuCiAgICAgICAgICAgICAgICAg
-ICAgKih1aW50NjRfdCopYTIgPSBpbnNuX2NvdW50OwogICAgICAgICAgICAgICAgfQogICAgICAg
-ICAgICAgICAgcHJpbnRfaW5zbl9jb3VudCgpOwogICAgICAgICAgICAgICAgYnJlYWs7CiAgICAg
-ICAgICAgIH0KICAgICAgICAgICAgZGVmYXVsdDoKICAgICAgICAgICAgICAgIGJyZWFrOwogICAg
-ICAgIH0KICAgIH0KICAgIGlmIChudW0gPT0gMyAmJiBvbl9ldmVyeV9jbG9zZSkgeyAvLyBzeXNf
-Y2xvc2UKICAgICAgICBwcmludF9pbnNuX2NvdW50KCk7CiAgICB9Cn0KClFFTVVfUExVR0lOX0VY
-UE9SVCBpbnQgcWVtdV9wbHVnaW5faW5zdGFsbChxZW11X3BsdWdpbl9pZF90IGlkLAogICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY29uc3QgcWVtdV9pbmZvX3QgKmlu
-Zm8sCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpbnQgYXJnYywg
-Y2hhciAqKmFyZ3YpCnsKICAgIGludCBpOwogICAgZm9yIChpID0gMDsgaSA8IGFyZ2M7IGkrKykg
-ewogICAgICAgIGlmICghc3RyY21wKGFyZ3ZbaV0sICJvbl9ldmVyeV9jbG9zZSIpKSB7CiAgICAg
-ICAgICAgIG9uX2V2ZXJ5X2Nsb3NlID0gdHJ1ZTsKICAgICAgICAgICAgY291bnRpbmcgPSB0cnVl
-OwogICAgICAgICAgICBjb3VudGluZ19mb3IgPSBwdGhyZWFkX3NlbGYoKTsKICAgICAgICB9CiAg
-ICB9CgogICAgcWVtdV9wbHVnaW5fcmVnaXN0ZXJfdmNwdV90Yl90cmFuc19jYihpZCwgdmNwdV90
-Yl90cmFucyk7CiAgICBxZW11X3BsdWdpbl9yZWdpc3Rlcl92Y3B1X3N5c2NhbGxfY2IoaWQsIHZj
-cHVfc3lzY2FsbCk7CiAgICByZXR1cm4gMDsKfQo=
---000000000000fc6bdb05a3bb310b
-Content-Type: application/octet-stream; name="test.c"
-Content-Disposition: attachment; filename="test.c"
-Content-Transfer-Encoding: base64
-Content-ID: <f_k98oiv5n0>
-X-Attachment-Id: f_k98oiv5n0
+This function should also document that the caller must inc/dec.
 
-I2luY2x1ZGUgPHN0ZGludC5oPgojaW5jbHVkZSA8c3RkaW8uaD4KI2luY2x1ZGUgPHN0ZGxpYi5o
-PgojaW5jbHVkZSA8dW5pc3RkLmg+CiNpbmNsdWRlIDxwdGhyZWFkLmg+CgojZGVmaW5lIENBVENI
-X0JBU0UgMHhjYWZlYmFiZQoKc3RhdGljIHZvaWQgc3RhcnRfY291bnRpbmcoKSB7CiAgICBjaGFy
-IGJ1ZjsKICAgIGludCBydiA9IHJlYWQoQ0FUQ0hfQkFTRSwgJmJ1ZiwgMSk7CiAgICAodm9pZCly
-djsKfQoKc3RhdGljIHZvaWQgZW5kX2NvdW50aW5nKCkgewogICAgdWludDY0X3QgY291bnRlciA9
-IDA7CiAgICBpbnQgcnYgPSByZWFkKENBVENIX0JBU0UgKyAxLCAmY291bnRlciwgc2l6ZW9mKGNv
-dW50ZXIpKTsKICAgICh2b2lkKXJ2OwogICAgcHJpbnRmKCJXZSBnb3QgJWxsZCBmcm9tIFRDR1xu
-IiwgY291bnRlcik7Cn0KCmludCBnbG9iYWwgPSAwOwoKdHlwZWRlZiBzdHJ1Y3QgewogICAgaW50
-IGRlbGF5Owp9IFRocmVhZEFyZzsKCnN0YXRpYyB2b2lkKiB0aHJlYWRfZm4odm9pZCogdmFyZykg
-IHsKICAgIFRocmVhZEFyZyogYXJnID0gdmFyZzsKICAgIHVzbGVlcChhcmctPmRlbGF5KTsKICAg
-IGZyZWUoYXJnKTsKICAgIHJldHVybiBOVUxMOwp9CgppbnQgbWFpbihpbnQgYXJnYywgY2hhcioq
-IGFyZ3YpIHsKICAgIGludCBpOwogICAgaW50IHJlcGVhdCA9IDEwMDsKI2RlZmluZSBUSFJFQURf
-TlVNIDEwCiAgICBwdGhyZWFkX3QgdGhyZWFkc1tUSFJFQURfTlVNXTsKCiAgICBpZiAoYXJnYyA+
-IDEpIHsKICAgICAgICByZXBlYXQgPSBhdG9pKGFyZ3ZbMV0pOwogICAgfQoKICAgIGZvciAoaSA9
-IDA7IGkgPCBUSFJFQURfTlVNOyBpKyspIHsKICAgICAgICBUaHJlYWRBcmcqIGFyZyA9IGNhbGxv
-YyhzaXplb2YoVGhyZWFkQXJnKSwgMSk7CiAgICAgICAgYXJnLT5kZWxheSA9IGkgKiAxMDA7CiAg
-ICAgICAgcHRocmVhZF9jcmVhdGUodGhyZWFkcyArIGksIE5VTEwsIHRocmVhZF9mbiwgYXJnKTsK
-ICAgIH0KCiAgICBzdGFydF9jb3VudGluZygpOwogICAgZm9yIChpID0gMDsgaSA8IHJlcGVhdDsg
-aSsrKSB7CiAgICAgICAgZ2xvYmFsICs9IGk7CiAgICB9CiAgICBlbmRfY291bnRpbmcoKTsKCiAg
-ICBmb3IgKGkgPSAwOyBpIDwgVEhSRUFEX05VTTsgaSsrKSB7CiAgICAgICAgcHRocmVhZF9qb2lu
-KHRocmVhZHNbaV0sIE5VTEwpOwogICAgfQoKICAgIHJldHVybiAwOwp9
---000000000000fc6bdb05a3bb310b--
+--4Epv4kl9IRBfg3rk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6dzF4ACgkQnKSrs4Gr
+c8ikQAf+I/Ipo63QbabB6PkX+wgDWdwBEcOqPLGCEq7EEMEIf5vY1MH/twuDJAqH
+cfXwgdpKvM75cwLTC/Wd9Bejqtb7I2dbbl6p7M2QNlHWHwgxqCLnomQ35jA6b0mh
+wdJY/FOC6iWgOGMV2JovRj/D9hBxrh/970vcDIwrZxGbUQNeuA6u/51IqZ2SwJrb
+L7tRuy3WUqa/Qd0BpusZjYo2BPp0qy/ppq//pfSa6HkIzOVsSON/EmQZ5RWAeAvb
+0ZRzZdpwD0mklR5LNb5n6R1SfoQbhIf5SSqh1KtlKDCMU2cX531Tkz6srcjBlFMJ
++mNSikXNuE4A/6nEzQRMzIK+RCELtQ==
+=Kchi
+-----END PGP SIGNATURE-----
+
+--4Epv4kl9IRBfg3rk--
+
 
