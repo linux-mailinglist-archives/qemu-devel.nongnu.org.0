@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE87F1B048E
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 10:37:29 +0200 (CEST)
-Received: from localhost ([::1]:59674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 513911B049E
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 10:40:37 +0200 (CEST)
+Received: from localhost ([::1]:59714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQRvk-0002cs-Qs
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 04:37:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56498 helo=eggs1p.gnu.org)
+	id 1jQRyl-00072b-9k
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 04:40:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56512 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jQRrC-0002ub-U1
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 04:32:47 -0400
+ (envelope-from <armbru@redhat.com>) id 1jQRrE-0002yM-5Y
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 04:32:48 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jQRrC-0006yh-8c
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 04:32:46 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49196
+ (envelope-from <armbru@redhat.com>) id 1jQRrD-000710-Iq
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 04:32:47 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28355
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jQRrB-0006xV-Q9
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 04:32:45 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jQRrD-0006zp-64
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 04:32:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587371565;
+ s=mimecast20190719; t=1587371566;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ng4XP2y3mf7/449QquLNdfmILQgJTAc5PN2KTsR1u7E=;
- b=cdOnArOle/L/LAMRSlBLsXLGmWw0LhFJExrw/z8XGzxda3U+4jRU2Gsk3LiANF41nHgTys
- cvl/2SAxnmWNjF0ES2BuX9f5ppKJP/qNikUHK2mqyVzozN0DaG0FEnzt2yIUXR9JE9T7Mx
- ykX9YTOQtfH2gc0snCqPVyR2zybVHVY=
+ bh=H67yUlCy/y0Sl74oiSkcXseZ2y18ZG7uO1JqanC1+vk=;
+ b=G6b2u27ztP2MUdqPaTkLbc5pVKOU/Equ0z3FyA2U6ttGnvFfOZ1KxLD45AykMlhJVzLNnl
+ Q+rJSf7kmmM0RLj8oBDpniFzWfS8pE5lSzut7fNCeoZvQP2aEc/Wit40vUIsEOHNZdacRm
+ zVBzmV2Fl4i4iyPQKS0anFSKUCO8WHU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-wmTxBLtvMf69cSMu2O5T9w-1; Mon, 20 Apr 2020 04:32:43 -0400
-X-MC-Unique: wmTxBLtvMf69cSMu2O5T9w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-65-KlhUBDb3NCekAEnO42wDZw-1; Mon, 20 Apr 2020 04:32:41 -0400
+X-MC-Unique: KlhUBDb3NCekAEnO42wDZw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91658DB20
- for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 08:32:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26D918017F3;
+ Mon, 20 Apr 2020 08:32:40 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BF6A611A1F6;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C89412B479;
  Mon, 20 Apr 2020 08:32:39 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B7B0311358C4; Mon, 20 Apr 2020 10:32:36 +0200 (CEST)
+ id BB20811358C5; Mon, 20 Apr 2020 10:32:36 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/11] virtio-net: Fix duplex=... and speed=... error handling
-Date: Mon, 20 Apr 2020 10:32:33 +0200
-Message-Id: <20200420083236.19309-9-armbru@redhat.com>
+Subject: [PATCH 09/11] xen/pt: Fix flawed conversion to realize()
+Date: Mon, 20 Apr 2020 10:32:34 +0200
+Message-Id: <20200420083236.19309-10-armbru@redhat.com>
 In-Reply-To: <20200420083236.19309-1-armbru@redhat.com>
 References: <20200420083236.19309-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -76,99 +76,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-virtio_net_device_realize() rejects invalid duplex and speed values.
-The error handling is broken:
+The conversion of xen_pt_initfn() to xen_pt_realize() blindly replaced
+XEN_PT_ERR() by error_setg().  Several error conditions that did not
+fail xen_pt_initfn() now fail xen_pt_realize().  Unsurprisingly, the
+cleanup on these errors looks highly suspicious.
 
-    $ ../qemu/bld-sani/x86_64-softmmu/qemu-system-x86_64 -S -display none -=
-monitor stdio
-    QEMU 4.2.93 monitor - type 'help' for more information
-    (qemu) device_add virtio-net,duplex=3Dx
-    Error: 'duplex' must be 'half' or 'full'
-    (qemu) c
-    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-    =3D=3D15654=3D=3DERROR: AddressSanitizer: heap-use-after-free on addres=
-s 0x62e000014590 at pc 0x560b75c8dc13 bp 0x7fffdf1a6950 sp 0x7fffdf1a6940
-    READ of size 8 at 0x62e000014590 thread T0
-=09#0 0x560b75c8dc12 in object_dynamic_cast_assert /work/armbru/qemu/qom/ob=
-ject.c:826
-=09#1 0x560b74c38ac0 in virtio_vmstate_change /work/armbru/qemu/hw/virtio/v=
-irtio.c:3210
-=09#2 0x560b74d9765e in vm_state_notify /work/armbru/qemu/softmmu/vl.c:1271
-=09#3 0x560b7494ba72 in vm_prepare_start /work/armbru/qemu/cpus.c:2156
-=09#4 0x560b7494bacd in vm_start /work/armbru/qemu/cpus.c:2162
-=09#5 0x560b75a7d890 in qmp_cont /work/armbru/qemu/monitor/qmp-cmds.c:160
-=09#6 0x560b75a8d70a in hmp_cont /work/armbru/qemu/monitor/hmp-cmds.c:1043
-=09#7 0x560b75a799f2 in handle_hmp_command /work/armbru/qemu/monitor/hmp.c:=
-1082
-    [...]
+Revert the inappropriate replacements.
 
-    0x62e000014590 is located 33168 bytes inside of 42288-byte region [0x62=
-e00000c400,0x62e000016930)
-    freed by thread T1 here:
-=09#0 0x7feadd39491f in __interceptor_free (/lib64/libasan.so.5+0x10d91f)
-=09#1 0x7feadcebcd7c in g_free (/lib64/libglib-2.0.so.0+0x55d7c)
-=09#2 0x560b75c8fd40 in object_unref /work/armbru/qemu/qom/object.c:1128
-=09#3 0x560b7498a625 in memory_region_unref /work/armbru/qemu/memory.c:1762
-=09#4 0x560b74999fa4 in do_address_space_destroy /work/armbru/qemu/memory.c=
-:2788
-=09#5 0x560b762362fc in call_rcu_thread /work/armbru/qemu/util/rcu.c:283
-=09#6 0x560b761c8884 in qemu_thread_start /work/armbru/qemu/util/qemu-threa=
-d-posix.c:519
-=09#7 0x7fead9be34bf in start_thread (/lib64/libpthread.so.0+0x84bf)
-
-    previously allocated by thread T0 here:
-=09#0 0x7feadd394d18 in __interceptor_malloc (/lib64/libasan.so.5+0x10dd18)
-=09#1 0x7feadcebcc88 in g_malloc (/lib64/libglib-2.0.so.0+0x55c88)
-=09#2 0x560b75c8cf8a in object_new /work/armbru/qemu/qom/object.c:699
-=09#3 0x560b75010ad9 in qdev_device_add /work/armbru/qemu/qdev-monitor.c:65=
-4
-=09#4 0x560b750120c2 in qmp_device_add /work/armbru/qemu/qdev-monitor.c:805
-=09#5 0x560b75012c1b in hmp_device_add /work/armbru/qemu/qdev-monitor.c:905
-    [...]
-    =3D=3D15654=3D=3DABORTING
-
-Cause: virtio_net_device_realize() neglects to bail out after setting
-the error.  Fix that.
-
-Fixes: 9473939ed7addcaaeb8fde5c093918fb7fa0919c
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Jason Wang <jasowang@redhat.com>
+Fixes: 5a11d0f7549e24a10e178a9dc8ff5e698031d9a6
+Cc: Stefano Stabellini <sstabellini@kernel.org>
+Cc: Anthony Perard <anthony.perard@citrix.com>
+Cc: Paul Durrant <paul@xen.org>
+Cc: xen-devel@lists.xenproject.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/net/virtio-net.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ hw/xen/xen_pt.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index a46e3b37a7..b52ff4ab63 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -2947,6 +2947,7 @@ static void virtio_net_device_realize(DeviceState *de=
-v, Error **errp)
-             n->net_conf.duplex =3D DUPLEX_FULL;
-         } else {
-             error_setg(errp, "'duplex' must be 'half' or 'full'");
-+            return;
-         }
-         n->host_features |=3D (1ULL << VIRTIO_NET_F_SPEED_DUPLEX);
-     } else {
-@@ -2955,7 +2956,9 @@ static void virtio_net_device_realize(DeviceState *de=
-v, Error **errp)
+diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
+index b91082cb8b..81d5ad8da7 100644
+--- a/hw/xen/xen_pt.c
++++ b/hw/xen/xen_pt.c
+@@ -858,8 +858,8 @@ static void xen_pt_realize(PCIDevice *d, Error **errp)
 =20
-     if (n->net_conf.speed < SPEED_UNKNOWN) {
-         error_setg(errp, "'speed' must be between 0 and INT_MAX");
--    } else if (n->net_conf.speed >=3D 0) {
-+        return;
-+    }
-+    if (n->net_conf.speed >=3D 0) {
-         n->host_features |=3D (1ULL << VIRTIO_NET_F_SPEED_DUPLEX);
-     }
+     rc =3D xc_physdev_map_pirq(xen_xc, xen_domid, machine_irq, &pirq);
+     if (rc < 0) {
+-        error_setg_errno(errp, errno, "Mapping machine irq %u to"
+-                         " pirq %i failed", machine_irq, pirq);
++        XEN_PT_ERR(d, "Mapping machine irq %u to pirq %i failed, (err: %d)=
+\n",
++                   machine_irq, pirq, errno);
 =20
+         /* Disable PCI intx assertion (turn on bit10 of devctl) */
+         cmd |=3D PCI_COMMAND_INTX_DISABLE;
+@@ -880,8 +880,8 @@ static void xen_pt_realize(PCIDevice *d, Error **errp)
+                                        PCI_SLOT(d->devfn),
+                                        e_intx);
+         if (rc < 0) {
+-            error_setg_errno(errp, errno, "Binding of interrupt %u failed"=
+,
+-                             e_intx);
++            XEN_PT_ERR(d, "Binding of interrupt %i failed! (err: %d)\n",
++                       e_intx, errno);
+=20
+             /* Disable PCI intx assertion (turn on bit10 of devctl) */
+             cmd |=3D PCI_COMMAND_INTX_DISABLE;
+@@ -889,8 +889,8 @@ static void xen_pt_realize(PCIDevice *d, Error **errp)
+=20
+             if (xen_pt_mapped_machine_irq[machine_irq] =3D=3D 0) {
+                 if (xc_physdev_unmap_pirq(xen_xc, xen_domid, machine_irq))=
+ {
+-                    error_setg_errno(errp, errno, "Unmapping of machine"
+-                            " interrupt %u failed", machine_irq);
++                    XEN_PT_ERR(d, "Unmapping of machine interrupt %i faile=
+d!"
++                               " (err: %d)\n", machine_irq, errno);
+                 }
+             }
+             s->machine_irq =3D 0;
 --=20
 2.21.1
 
