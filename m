@@ -2,53 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56EB41B0671
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 12:21:42 +0200 (CEST)
-Received: from localhost ([::1]:32836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DAED1B0227
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 09:04:32 +0200 (CEST)
+Received: from localhost ([::1]:58518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQTYb-0004uT-FF
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 06:21:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53830 helo=eggs1p.gnu.org)
+	id 1jQQTn-0005bQ-8b
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 03:04:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41676 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1jQTXS-00046l-2M
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 06:20:30 -0400
+ (envelope-from <pannengyuan@huawei.com>) id 1jQQSV-0005Bi-Ld
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 03:03:12 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1jQTXR-0004Q0-76
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 06:20:29 -0400
-Received: from 9.mo68.mail-out.ovh.net ([46.105.78.111]:38894)
+ (envelope-from <pannengyuan@huawei.com>) id 1jQQSU-0007me-M8
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 03:03:11 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:36580 helo=huawei.com)
  by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jQTXQ-0004If-Oq
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 06:20:28 -0400
-Received: from player693.ha.ovh.net (unknown [10.108.54.172])
- by mo68.mail-out.ovh.net (Postfix) with ESMTP id 18BA11623AA
- for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 12:20:23 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player693.ha.ovh.net (Postfix) with ESMTPSA id D53E81187BFE7;
- Mon, 20 Apr 2020 10:20:12 +0000 (UTC)
-Date: Mon, 20 Apr 2020 12:20:11 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Omar Sandoval <osandov@osandov.com>
-Subject: Re: [PATCH v2] 9pfs: local: ignore O_NOATIME if we don't have
- permissions
-Message-ID: <20200420122011.26ede955@bahia.lan>
-In-Reply-To: <e9bee604e8df528584693a4ec474ded6295ce8ad.1587149256.git.osandov@fb.com>
-References: <e9bee604e8df528584693a4ec474ded6295ce8ad.1587149256.git.osandov@fb.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <pannengyuan@huawei.com>)
+ id 1jQQSU-0007cw-22
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 03:03:10 -0400
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 5202F6D268063ED380CD;
+ Mon, 20 Apr 2020 15:03:02 +0800 (CST)
+Received: from opensource.huawei.com (10.175.104.212) by
+ DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 20 Apr 2020 15:02:45 +0800
+From: Pan Nengyuan <pannengyuan@huawei.com>
+To: <quintela@redhat.com>, <dgilbert@redhat.com>
+Subject: [PATCH] migration/rdma: fix a memleak on error path in
+ rdma_start_incoming_migration
+Date: Mon, 20 Apr 2020 06:27:27 -0400
+Message-ID: <20200420102727.17339-1-pannengyuan@huawei.com>
+X-Mailer: git-send-email 2.18.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 8603845614196070657
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrgeefgddvjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheileefrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=46.105.78.111; envelope-from=groug@kaod.org;
- helo=9.mo68.mail-out.ovh.net
+Content-Type: text/plain
+X-Originating-IP: [10.175.104.212]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35;
+ envelope-from=pannengyuan@huawei.com; helo=huawei.com
 X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
- 06:20:25
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Received-From: 46.105.78.111
+ 03:03:03
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Received-From: 45.249.212.35
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,72 +55,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+Cc: zhanghailiang@huawei.com, Pan Nengyuan <pannengyuan@huawei.com>,
+ qemu-devel@nongnu.org, euler.robot@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 17 Apr 2020 11:48:24 -0700
-Omar Sandoval <osandov@osandov.com> wrote:
+'rdma->host' is malloced in qemu_rdma_data_init, but forgot to free on the error
+path in rdma_start_incoming_migration(), this patch fix that.
 
-> From: Omar Sandoval <osandov@fb.com>
-> 
-> QEMU's local 9pfs server passes through O_NOATIME from the client. If
-> the QEMU process doesn't have permissions to use O_NOATIME (namely, it
-> does not own the file nor have the CAP_FOWNER capability), the open will
-> fail. This causes issues when from the client's point of view, it
-> believes it has permissions to use O_NOATIME (e.g., a process running as
-> root in the virtual machine). Additionally, overlayfs on Linux opens
-> files on the lower layer using O_NOATIME, so in this case a 9pfs mount
-> can't be used as a lower layer for overlayfs (cf.
-> https://github.com/osandov/drgn/blob/dabfe1971951701da13863dbe6d8a1d172ad9650/vmtest/onoatimehack.c
-> and https://github.com/NixOS/nixpkgs/issues/54509).
-> 
-> Luckily, O_NOATIME is effectively a hint, and is often ignored by, e.g.,
-> network filesystems. open(2) notes that O_NOATIME "may not be effective
-> on all filesystems. One example is NFS, where the server maintains the
-> access time." This means that we can honor it when possible but fall
-> back to ignoring it.
-> 
-> Acked-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> Signed-off-by: Omar Sandoval <osandov@fb.com>
-> ---
+The leak stack:
+Direct leak of 2 byte(s) in 1 object(s) allocated from:
+    #0 0x7fb7add18ae8 in __interceptor_malloc (/lib64/libasan.so.5+0xefae8)
+    #1 0x7fb7ad0df1d5 in g_malloc (/lib64/libglib-2.0.so.0+0x531d5)
+    #2 0x7fb7ad0f8b32 in g_strdup (/lib64/libglib-2.0.so.0+0x6cb32)
+    #3 0x55a0464a0f6f in qemu_rdma_data_init /mnt/sdb/qemu/migration/rdma.c:2647
+    #4 0x55a0464b0e76 in rdma_start_incoming_migration /mnt/sdb/qemu/migration/rdma.c:4020
+    #5 0x55a0463f898a in qemu_start_incoming_migration /mnt/sdb/qemu/migration/migration.c:365
+    #6 0x55a0458c75d3 in qemu_init /mnt/sdb/qemu/softmmu/vl.c:4438
+    #7 0x55a046a3d811 in main /mnt/sdb/qemu/softmmu/main.c:48
+    #8 0x7fb7a8417872 in __libc_start_main (/lib64/libc.so.6+0x23872)
+    #9 0x55a04536b26d in _start (/mnt/sdb/qemu/build/x86_64-softmmu/qemu-system-x86_64+0x286926d)
 
-Applied to 9p-next.
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+---
+ migration/rdma.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> Changes from v1:
-> 
-> * Add comment
-> * Add Christian's acked-by
-> 
->  hw/9pfs/9p-util.h | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-> index 79ed6b233e..546f46dc7d 100644
-> --- a/hw/9pfs/9p-util.h
-> +++ b/hw/9pfs/9p-util.h
-> @@ -37,9 +37,22 @@ static inline int openat_file(int dirfd, const char *name, int flags,
->  {
->      int fd, serrno, ret;
->  
-> +again:
->      fd = openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONBLOCK,
->                  mode);
->      if (fd == -1) {
-> +        if (errno == EPERM && (flags & O_NOATIME)) {
-> +            /*
-> +             * The client passed O_NOATIME but we lack permissions to honor it.
-> +             * Rather than failing the open, fall back without O_NOATIME. This
-> +             * doesn't break the semantics on the client side, as the Linux
-> +             * open(2) man page notes that O_NOATIME "may not be effective on
-> +             * all filesystems". In particular, NFS and other network
-> +             * filesystems ignore it entirely.
-> +             */
-> +            flags &= ~O_NOATIME;
-> +            goto again;
-> +        }
->          return -1;
->      }
->  
+diff --git a/migration/rdma.c b/migration/rdma.c
+index f61587891b..967fda5b0c 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -4056,6 +4056,7 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
+     return;
+ err:
+     error_propagate(errp, local_err);
++    g_free(rdma->host);
+     g_free(rdma);
+     g_free(rdma_return_path);
+ }
+-- 
+2.18.2
 
 
