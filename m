@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FF631B093C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 14:21:43 +0200 (CEST)
-Received: from localhost ([::1]:34544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DC5F1B0951
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Apr 2020 14:27:26 +0200 (CEST)
+Received: from localhost ([::1]:34628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQVQk-0003GQ-In
-	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 08:21:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46296 helo=eggs1p.gnu.org)
+	id 1jQVWG-00063L-Qz
+	for lists+qemu-devel@lfdr.de; Mon, 20 Apr 2020 08:27:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47308 helo=eggs1p.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jerome@forissier.org>) id 1jQVPY-0001lq-2x
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 08:20:28 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jQVVN-0005dH-V5
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 08:26:30 -0400
 Received: from Debian-exim by eggs1p.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <jerome@forissier.org>) id 1jQVPX-00012q-8v
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 08:20:27 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36513)
- by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jerome@forissier.org>)
- id 1jQVPW-00011E-Sy
- for qemu-devel@nongnu.org; Mon, 20 Apr 2020 08:20:26 -0400
-Received: by mail-wm1-x343.google.com with SMTP id u127so10030233wmg.1
- for <qemu-devel@nongnu.org>; Mon, 20 Apr 2020 05:20:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=forissier-org.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=aw73xtFklm/Xs1zT9ssg56PFA0LAMfEmVbDCKfcPWjo=;
- b=qnAXjfSnS4Oh2D7anbdo5atylx7dTzg4Y1ylNXoE6Izisclv3nHOZ8i2Mlch5roLic
- rI2D6U2t+zaD88qZnvmtSHHkGvZhgyg+mepxYeBfRd6/EESE2jWPcNbv83eiItPLK0FK
- wNTrsrUmUiYFIz6yFbq4mXIB/nAm+h79oI26BmOOjFaIbjZlih+NogbMQFIL1Kg/+6rI
- s9Ts9KyAeCCQbnXeNK0zRyDwMPW9dNGumvR70wB8jw/Fj7t3sMcdlAfZix7j5VEMF2S/
- kDudDvoE1LEhnJ/0SKFhyBlDRS1sk0LnCR0/Y3+duWfwB9s6Mkg/mrO7CL7zEY15DrRr
- a8tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=aw73xtFklm/Xs1zT9ssg56PFA0LAMfEmVbDCKfcPWjo=;
- b=KIFcJTxfwCVYMftOkABMo5fny485qJncW8xR/0gSTggwJdJWIRy1pkeo6ObMQ+W8SP
- wOB+YiuCHzLatIShbR7IYAYdqP/TG/+B9c2xGdqkSmHHoxrdjMxAuIHC4RNhQkXOKxx/
- AqWNdsdrebPoqe/p7qZD3Xpgz6n7TqXMXTS/3zPYLfWeps27noyJDamR4dvNqhLy3k8t
- wHfqYZLwmRmn7MjbRcm6LtyK4eeAg43QaBsleCcZSULPTU+Qv9tSKniMUHEG/D7MuV85
- uoVyOmIbpxwOnfrzwzrEeEmqgbGBXF8/wP4iWluWrfdhWmCQPWJ711OpjOeUElVa5mVz
- c05w==
-X-Gm-Message-State: AGi0PuaAZHH8PhfG2JgljdbaMZNjYkABAeRt9Rx8emV6LBDwZLFft1Ol
- yYSHJXtqFEH2K0IzKBlSbavKJQ==
-X-Google-Smtp-Source: APiQypKijinfrXBCyisJg7Uc6ifbJ+DVBD4HfhBLVeEKFjcImJuQ25fyS+20bjMSoO6gylLe2PAPlQ==
-X-Received: by 2002:a05:600c:2a52:: with SMTP id
- x18mr16903684wme.37.1587385225553; 
- Mon, 20 Apr 2020 05:20:25 -0700 (PDT)
-Received: from matebook.home ([2a01:e0a:3cb:7bb0:4826:2464:6688:71f6])
- by smtp.gmail.com with ESMTPSA id v16sm1127132wml.30.2020.04.20.05.20.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Apr 2020 05:20:24 -0700 (PDT)
-From: Jerome Forissier <jerome@forissier.org>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-arm@nongnu.org
-Subject: [PATCH v2 2/2] hw/arm/virt: dt: add kaslr-seed property
-Date: Mon, 20 Apr 2020 14:18:07 +0200
-Message-Id: <20200420121807.8204-3-jerome@forissier.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200420121807.8204-1-jerome@forissier.org>
-References: <20200420121807.8204-1-jerome@forissier.org>
+ (envelope-from <cohuck@redhat.com>) id 1jQVVM-0004eU-Lb
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 08:26:29 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27147
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs1p.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jQVVM-0004eF-9P
+ for qemu-devel@nongnu.org; Mon, 20 Apr 2020 08:26:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587385587;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IUM3uWxnumaI1UKP7AE2YiDCyzFdYkWFgc0vGoA3q/o=;
+ b=AJeXBr5w/I7PB48hN2TXuXx98t7DbZx5uKXKjmhk4dFRO7/I9/WV8ZrjPBvPYhytJWTnoh
+ 2t9MkhEnMEU5dv3+31UfODcWQIB8Y9/uhBpBrd6uxCOQIeorQynO/hl8gNHtFmgLg4ufKc
+ s426F9ofF/BWqyyvU9Du3VFWdH6MSEM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-357-P0sJ6mRMNY-oCwHinaD5FA-1; Mon, 20 Apr 2020 08:26:23 -0400
+X-MC-Unique: P0sJ6mRMNY-oCwHinaD5FA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15E25DB6A;
+ Mon, 20 Apr 2020 12:26:22 +0000 (UTC)
+Received: from gondolin (ovpn-112-224.ams2.redhat.com [10.36.112.224])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE65F129F87;
+ Mon, 20 Apr 2020 12:26:20 +0000 (UTC)
+Date: Mon, 20 Apr 2020 14:26:17 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Jared Rossi <jrossi@linux.ibm.com>
+Subject: Re: [PATCH 1/1] vfio-ccw: Enable transparent CCW IPL from DASD
+Message-ID: <20200420142617.5e255265.cohuck@redhat.com>
+In-Reply-To: <20200417183838.11796-2-jrossi@linux.ibm.com>
+References: <20200417183838.11796-1-jrossi@linux.ibm.com>
+ <20200417183838.11796-2-jrossi@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::343;
- envelope-from=jerome@forissier.org; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs1p.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::343
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs1p.gnu.org: First seen = 2020/04/20
+ 01:47:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,68 +76,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: tee-dev@lists.linaro.org, op-tee@lists.trustedfirmware.org,
- Jerome Forissier <jerome@forissier.org>, qemu-devel@nongnu.org
+Cc: Eric Farman <farman@linux.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Generate random seeds to be used by the non-secure and/or secure OSes
-for ASLR. The seeds are 64-bit random values exported via the DT
-properties /chosen/kaslr-seed [1] and /secure-chosen/kaslr-seed, the
-latter being used by OP-TEE [2].
+On Fri, 17 Apr 2020 14:38:38 -0400
+Jared Rossi <jrossi@linux.ibm.com> wrote:
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e5bc0c37c97e1
-[2] https://github.com/OP-TEE/optee_os/commit/ef262691fe0e
+> Remove the explicit prefetch check when using vfio-ccw devices.
+> This check is not needed as all Linux channel programs are intended
+> to use prefetch and will be executed in the same way regardless.
 
-Signed-off-by: Jerome Forissier <jerome@forissier.org>
----
- hw/arm/virt.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+As already commented on the Linux patch: Can we log something, so this
+is debuggable if this statement does not hold true in the future?
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index c3073b7cf19..1b6f3971bf7 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -77,6 +77,7 @@
- #include "hw/acpi/generic_event_device.h"
- #include "hw/virtio/virtio-iommu.h"
- #include "hw/char/pl011.h"
-+#include "qemu/guest-random.h"
- 
- #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
-     static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
-@@ -213,6 +214,18 @@ static bool cpu_type_valid(const char *cpu)
-     return false;
- }
- 
-+static void create_kaslr_seed(VirtMachineState *vms, const char *node)
-+{
-+    Error *err = NULL;
-+    uint64_t seed;
-+
-+    if (qemu_guest_getrandom(&seed, sizeof(seed), &err)) {
-+        error_free(err);
-+        return;
-+    }
-+    qemu_fdt_setprop_u64(vms->fdt, node, "kaslr-seed", seed);
-+}
-+
- static void create_fdt(VirtMachineState *vms)
- {
-     MachineState *ms = MACHINE(vms);
-@@ -233,9 +246,11 @@ static void create_fdt(VirtMachineState *vms)
- 
-     /* /chosen must exist for load_dtb to fill in necessary properties later */
-     qemu_fdt_add_subnode(fdt, "/chosen");
-+    create_kaslr_seed(vms, "/chosen");
- 
-     if (vms->secure) {
-         qemu_fdt_add_subnode(fdt, "/secure-chosen");
-+        create_kaslr_seed(vms, "/secure-chosen");
-     }
- 
-     /* Clock node, for the benefit of the UART. The kernel device tree
--- 
-2.20.1
+> 
+> Signed-off-by: Jared Rossi <jrossi@linux.ibm.com>
+> ---
+>  hw/vfio/ccw.c | 13 +++----------
+>  1 file changed, 3 insertions(+), 10 deletions(-)
+> 
+> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
+> index 50cc2ec75c..e649377b68 100644
+> --- a/hw/vfio/ccw.c
+> +++ b/hw/vfio/ccw.c
+> @@ -74,16 +74,9 @@ static IOInstEnding vfio_ccw_handle_request(SubchDev *sch)
+>      struct ccw_io_region *region = vcdev->io_region;
+>      int ret;
+>  
+> -    if (!(sch->orb.ctrl0 & ORB_CTRL0_MASK_PFCH)) {
+> -        if (!(vcdev->force_orb_pfch)) {
+> -            warn_once_pfch(vcdev, sch, "requires PFCH flag set");
+> -            sch_gen_unit_exception(sch);
+> -            css_inject_io_interrupt(sch);
+> -            return IOINST_CC_EXPECTED;
+> -        } else {
+> -            sch->orb.ctrl0 |= ORB_CTRL0_MASK_PFCH;
+> -            warn_once_pfch(vcdev, sch, "PFCH flag forced");
+> -        }
+> +    if (!(sch->orb.ctrl0 & ORB_CTRL0_MASK_PFCH) && vcdev->force_orb_pfch) {
+> +        sch->orb.ctrl0 |= ORB_CTRL0_MASK_PFCH;
+> +        warn_once_pfch(vcdev, sch, "PFCH flag forced");
+>      }
+
+What happens when you run it with an old kernel? I guess the I/O is
+only rejected later (after a trip into the kernel), but has that path
+ever been tested?
+
+>  
+>      QEMU_BUILD_BUG_ON(sizeof(region->orb_area) != sizeof(ORB));
 
 
