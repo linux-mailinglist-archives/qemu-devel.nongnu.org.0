@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF841B1FFC
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 09:38:32 +0200 (CEST)
-Received: from localhost ([::1]:52558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B741B2029
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 09:44:46 +0200 (CEST)
+Received: from localhost ([::1]:52666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQnUE-0007rH-90
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 03:38:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39790)
+	id 1jQnaH-0000io-VR
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 03:44:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39940)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jQnST-0006A3-Lq
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:36:42 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jQnSf-0006VZ-El
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:36:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jQnSS-00073Z-8b
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:36:41 -0400
-Received: from mail-db8eur05on2107.outbound.protection.outlook.com
- ([40.107.20.107]:47520 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jQnSe-0007Y1-1h
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:36:52 -0400
+Received: from mail-db8eur05on2093.outbound.protection.outlook.com
+ ([40.107.20.93]:57857 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jQnSJ-0006Xr-TS; Tue, 21 Apr 2020 03:36:31 -0400
+ id 1jQnSQ-0006mI-2P; Tue, 21 Apr 2020 03:36:38 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Wd+mTf9/xulteuY2vx8P/Da/I/A9eD/JJ/FtyXDO949rFz8j69XU5PU0uz30GcXHUFwPKNHHLrKUhoeomWlw3tZSZdluzTmJkrJ4rGe/sqy0viMXt1SI1lyFOUxcSJq0Htemh9vEU7DlK5m7rozXsITjdfteBa46LmOuodsVOMN7a0npGFNbo60SWoo98BZ8brBjR8yImAdzoE/s1UkzpfG41Lch51OFSNMI21E3pL9HjfpxXLt0Q5repMiaT60jHpiy1yDF5BnNchoscFVi5OzPCxdDmKQGLdYCgFSufJ2Oh/Hquwuc60F56Qho5Csu1cLA0HNZ1PWO2hXTwmcpgg==
+ b=GZhshJWuQ/Nre1ZFXEqqnBwST0j10bhSH7lahYmDifuccJLQ7MGLNBr8HikIR8iJ/UUz9bvs938TR+89VdDexBDYhmowoawCFuA2qhCv0w+XkOHiJdPZ+4EVsjhoxDu7fdMeJ7b6zzlmG9zn7AKGRo1ilFPfFa2R9rdoT+9gvjznIwmJwLFLQzQ8LhVQ/TW+bIpaBRmYVNa07OlOxs48IFQJLu/gmdTshz6XgwLzxnKxBNp9ixjtGBpe0DawIlhnktxDUGfQncnkR0NkTenyRe2/YMIonK6hQVI/KPamzyn4ozFll7lXfmyZWyY+QWaKuNP1PMplvVia3H9krq2uyg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yFSqr+V9MrdMh1Vq5MG6wYSjq8v3HnNE48NRAN/UPv8=;
- b=BZbDdBnNdz9FL4kfS/3/NeaCoGq7OvRSBoilZbOuKc4NhbH2jwzXA1vGz2yTSSNwAih6PYZF/ls0xYujfaFuUS3ItwUXhX0JQoHbah4QgDZQ1UtxEBW2ZMw7zIJ76YhRJY5HJSbtx4Qwv4Bgu/pcb7ckqOa3tuVh9R1l8oMoHU6aS22e+fmpFelw6GyLdhrrONObWHyLKis3V4aP4q8hGNrhmVqEX2tV9qGRG+z4QYpfiiFCC5Eys224hRYXaPVY1qCGEdmWeU59mqnArHTFaR0BGXiTy4znSBXXgNO1Ko47WgHLfJBo50+1msKx4xU3q/vsac/nLFC2WDuPF5oVUg==
+ bh=WhsV2blu3/8us3UokET5KbuNLkv+72YdsiDwQkLEgQ4=;
+ b=OuEN4DIxjXUtSjDm3XSqSxBUbnEOLfSrpN8AtWElNrrf2If3Y8zhXvCz0S2baqPGWJqiI4meZ3s8hcwILKJLn5XXBbtf/BGYnqSf5T+vrK5qUBvIdC0MxazIVlHSZCg/1R0aha59Yz1+nC0OUApr2iENh/QcV/KqAx+IhXSEaLAJBiv76ROSUbJlb6s8oPFTFUjz31K8Jh7dCk6XRQErMosMMDUbR1aV3dkPktFh1CVsBxfG6NS5PVvBnBjll5OheRuGa3Gf4LQSPsfUUFgJJfZzPhaDNgpi3xsPzXarT+JD7nvJzi83kx3ZIfI2a8YHQ/KVzJ1m1aMMqB8qD+3MzA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yFSqr+V9MrdMh1Vq5MG6wYSjq8v3HnNE48NRAN/UPv8=;
- b=U6X3EzDBh+7ko/IyTZnPIQJcfC6H5OLHD5NFI16GkdS8nmzdT/ukyNGou3/lQIe3BPD9Bn0QLiNIqw9biR2aGQYd72CVnSj4W4C/cMreIkEipOiDibaZvWIKW2NI/YHjGF44G61r4StHNNkijkQ/RV7QSimr/hX3750sqOFecoE=
+ bh=WhsV2blu3/8us3UokET5KbuNLkv+72YdsiDwQkLEgQ4=;
+ b=ezhdF/YSR/dZKs+GxRLO+eIoSvuktC3MFFGwSX51B7YLPdqgNCYhn7QP2wbGsXCuXasQzKKi2h0hte3WB8l6o2/jtuBR7N7cxUSDrdc+Bdy1XnI8b1LV//D58BqH3oNOpoUdRnIDCk4s+27ibeh+rgLIeTsgRop8Cn6mCLiAa8A=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=vsementsov@virtuozzo.com; 
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5397.eurprd08.prod.outlook.com (2603:10a6:20b:dd::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.27; Tue, 21 Apr
- 2020 07:36:30 +0000
+ 2020 07:36:34 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2921.027; Tue, 21 Apr 2020
- 07:36:30 +0000
+ 07:36:34 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 02/10] iotests: fix some whitespaces in test output files
-Date: Tue, 21 Apr 2020 10:35:53 +0300
-Message-Id: <20200421073601.28710-3-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 03/10] iotests/283: make executable
+Date: Tue, 21 Apr 2020 10:35:54 +0300
+Message-Id: <20200421073601.28710-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200421073601.28710-1-vsementsov@virtuozzo.com>
 References: <20200421073601.28710-1-vsementsov@virtuozzo.com>
@@ -65,41 +65,41 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.142) by
  AM3PR07CA0137.eurprd07.prod.outlook.com (2603:10a6:207:8::23) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2937.9 via Frontend Transport; Tue, 21 Apr 2020 07:36:28 +0000
+ 15.20.2937.9 via Frontend Transport; Tue, 21 Apr 2020 07:36:30 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.142]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ff174b21-6ab5-410b-4e05-08d7e5c6b52f
+X-MS-Office365-Filtering-Correlation-Id: 5680eb17-b273-4ac5-af63-08d7e5c6b774
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5397:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5397F44DE7128E62CA255437C1D50@AM7PR08MB5397.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:913;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB539736CDDEA81153396AB015C1D50@AM7PR08MB5397.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:989;
 X-Forefront-PRVS: 038002787A
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(10019020)(4636009)(346002)(396003)(376002)(39840400004)(136003)(366004)(36756003)(1076003)(6916009)(5660300002)(6666004)(6512007)(186003)(4326008)(316002)(2616005)(956004)(16526019)(69590400007)(66556008)(66476007)(66946007)(26005)(2906002)(8936002)(8676002)(81156014)(6506007)(6486002)(478600001)(86362001)(52116002);
+ SFS:(10019020)(4636009)(346002)(396003)(376002)(39840400004)(136003)(366004)(36756003)(1076003)(6916009)(5660300002)(6666004)(6512007)(186003)(4326008)(316002)(2616005)(956004)(16526019)(69590400007)(66556008)(66476007)(66946007)(26005)(2906002)(4744005)(8936002)(8676002)(81156014)(6506007)(6486002)(478600001)(86362001)(52116002);
  DIR:OUT; SFP:1102; 
 Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4fjIohvOHJ7edcd43+0F8uFsgskcFp9iFYaXbQcdXxfkauX9SAhxPO1OcSeCFLV9dsia1jfKAk41FrTQ/UPJXDNyPfM+ZALQCciX/IsNxl5xwKsBNh8U1fP23ChylHRGvANzcKR9b3pQNub2H491T3QNIq31uIVEBWisuPbQUCoNs0cR/NCVw5onPSv13BuUvrnfCjC5VDBl0esghbEi4wtv2p/oWL1CNs2YvKFkbFdswOF3G2gKBFN3kxjvGesHH6Dmq1WHQdIieUIKWLxziH6EazhpQwMS+/9iVbOnucrhDmRS33Xs6rfJdt4iK0LfeCoDHeYRJO/lsgqJq4WnhYiDDRn1y7DfHnSV7eX1p095CDxalb0n7d8BbFT+PpJWtIV9CvN6Wx8cmGvOOYwwlclrISzawn5DAfv4PfYXJSGxKiWtv8mLzip5vHMUs3bkICoB7l8Ip+MmtfSJUrazmxCe34BuCPjgz0P56bJcMZaza51j6aL2SzJMmOMDnWZP
-X-MS-Exchange-AntiSpam-MessageData: zh1gDGqZhea2rtKbrp3CfsCz87GE/N/13s6u1gliNzTXoGml12zySPO5WCLNdq1OobTjyjAKZl3tKyYac3Q2hfgfnu2+vJrkZ9WXL7HkvGsQzpZhRjugQhvneBYq18DUi4SOxYoqHOJGbWl7B3N8Xg==
+X-Microsoft-Antispam-Message-Info: uCZOxFVzqrMYfokWEHS5L4PjRmlund8MkVlZs8VJ+GovgcwUpisUjrxEteoHhzYorlJbwFwX083AXa+z3ChSbZNFcJpGF5UqJDsUa52qM1fez8fKcddQa6iS2GmODsyJsXmoKPyDjnuMX6qMAZh/uNEgg69BO8rVfQYY/LoxYMH5bc8LppeLNXEfgSP71Z9iV5FWFrWiEMQPwftUCbuUaR6A5YPYjopwxfTf1JzbToyu3QG//mr9AUlBLhUQunXE/cgK77zbZA2M7rM94/ftThv2PvwRI9WSsvNhXwE1WX9Np89NK5pot+tBfLLjKeDXg4fcLI+houM/EiCfk/S3SDLhVq93NWP8hUo7UTe/Q0qlraC6qy9I89voSFnlyLKWBWK8yrjxdcDBFhKm06O3D+pHRFeZZj8CtzjHm2m/2Mkpswq3FVxjrBuV4z5/TJ3jbx6IHewuqtUcM+IHUjQIDwrnbLDr0eAxWMNI/Jlfdwddv5jPtsQtZDZhBCj+g3dN
+X-MS-Exchange-AntiSpam-MessageData: EqRdlb3UYyEgh/9ZEWNYRgUoJF6i28NIwStRqJDDFooraL7Q3DwSSOzoYgmBOJ1dGlZioH/V8QjaRrwM6urX/uDej1UABbG6Ylax3ijH5lBcmhkJpYa3qtbsZntPIEaFDUaW3X6koDRGnE2TQSlSVw==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ff174b21-6ab5-410b-4e05-08d7e5c6b52f
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2020 07:36:30.4645 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5680eb17-b273-4ac5-af63-08d7e5c6b774
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2020 07:36:34.5365 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2xxnYh96o2u/XKMpwH2Q9k04vG2znzxHLFS4ikJkZLTGLSvPKbIY4hV72dtOEIbeIkjjqoHkgKjjfO49XLyl6gBQYt7hZES7xybMB8N2ABI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: OYejikzBHdIYS8jIQk+R9MuaS4UAEZB0hFRT685i5Dc7iNSef/MuNZRIn7gwReoFlkxDZ6HiKQwPn/m9TGWXirSn0zCavNA/BrIi7K2+Cqw=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5397
-Received-SPF: pass client-ip=40.107.20.107;
+Received-SPF: pass client-ip=40.107.20.93;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 03:36:27
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 03:36:35
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Received-From: 40.107.20.107
+X-Received-From: 40.107.20.93
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -116,150 +116,17 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to be stricter about comparing test result with .out
-files. So, fix some whitespaces now.
+All other test files are executable, except for this one. Fix that.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/175.out |  2 +-
- tests/qemu-iotests/267.out | 48 +++++++++++++++++++-------------------
- 2 files changed, 25 insertions(+), 25 deletions(-)
+ tests/qemu-iotests/283 | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ mode change 100644 => 100755 tests/qemu-iotests/283
 
-diff --git a/tests/qemu-iotests/175.out b/tests/qemu-iotests/175.out
-index 39c2ee0f62..40a5bd1ce6 100644
---- a/tests/qemu-iotests/175.out
-+++ b/tests/qemu-iotests/175.out
-@@ -23,4 +23,4 @@ size=4096, min allocation
- == resize empty image with block_resize ==
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=0
- size=1048576, min allocation
-- *** done
-+*** done
-diff --git a/tests/qemu-iotests/267.out b/tests/qemu-iotests/267.out
-index 8dddb4baa4..26ef5f64b9 100644
---- a/tests/qemu-iotests/267.out
-+++ b/tests/qemu-iotests/267.out
-@@ -33,8 +33,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) savevm snap0
- (qemu) info snapshots
- List of snapshots present on all disks:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
----        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG                     VM SIZE                DATE       VM CLOCK
-+--        snap0                      SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
- (qemu) loadvm snap0
- (qemu) quit
- 
-@@ -44,8 +44,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) savevm snap0
- (qemu) info snapshots
- List of snapshots present on all disks:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
----        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG                     VM SIZE                DATE       VM CLOCK
-+--        snap0                      SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
- (qemu) loadvm snap0
- (qemu) quit
- 
-@@ -69,8 +69,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) savevm snap0
- (qemu) info snapshots
- List of snapshots present on all disks:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
----        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG                     VM SIZE                DATE       VM CLOCK
-+--        snap0                      SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
- (qemu) loadvm snap0
- (qemu) quit
- 
-@@ -94,8 +94,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) savevm snap0
- (qemu) info snapshots
- List of snapshots present on all disks:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
----        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG                     VM SIZE                DATE       VM CLOCK
-+--        snap0                      SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
- (qemu) loadvm snap0
- (qemu) quit
- 
-@@ -105,8 +105,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) savevm snap0
- (qemu) info snapshots
- List of snapshots present on all disks:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
----        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG                     VM SIZE                DATE       VM CLOCK
-+--        snap0                      SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
- (qemu) loadvm snap0
- (qemu) quit
- 
-@@ -119,8 +119,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) savevm snap0
- (qemu) info snapshots
- List of snapshots present on all disks:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
----        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG                     VM SIZE                DATE       VM CLOCK
-+--        snap0                      SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
- (qemu) loadvm snap0
- (qemu) quit
- 
-@@ -134,8 +134,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) savevm snap0
- (qemu) info snapshots
- List of snapshots present on all disks:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
----        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG                     VM SIZE                DATE       VM CLOCK
-+--        snap0                      SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
- (qemu) loadvm snap0
- (qemu) quit
- 
-@@ -145,15 +145,15 @@ QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) savevm snap0
- (qemu) info snapshots
- List of snapshots present on all disks:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
----        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG                     VM SIZE                DATE       VM CLOCK
-+--        snap0                      SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
- (qemu) loadvm snap0
- (qemu) quit
- 
- Internal snapshots on overlay:
- Snapshot list:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
--1         snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG                     VM SIZE                DATE       VM CLOCK
-+1         snap0                      SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
- Internal snapshots on backing file:
- 
- === -blockdev with NBD server on the backing file ===
-@@ -166,17 +166,17 @@ QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) savevm snap0
- (qemu) info snapshots
- List of snapshots present on all disks:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
----        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG                     VM SIZE                DATE       VM CLOCK
-+--        snap0                      SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
- (qemu) loadvm snap0
- (qemu) quit
- 
- Internal snapshots on overlay:
- Snapshot list:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
--1         snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG                     VM SIZE                DATE       VM CLOCK
-+1         snap0                      SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
- Internal snapshots on backing file:
- Snapshot list:
--ID        TAG                 VM SIZE                DATE       VM CLOCK
--1         snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
-+ID        TAG                     VM SIZE                DATE       VM CLOCK
-+1         snap0                      SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
- *** done
+diff --git a/tests/qemu-iotests/283 b/tests/qemu-iotests/283
+old mode 100644
+new mode 100755
 -- 
 2.21.0
 
