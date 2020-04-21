@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66941B260C
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 14:30:06 +0200 (CEST)
-Received: from localhost ([::1]:57112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B58D61B25F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 14:27:17 +0200 (CEST)
+Received: from localhost ([::1]:57058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQs2P-0008SV-P5
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 08:30:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59406)
+	id 1jQrzg-0003t2-ET
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 08:27:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60158)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jQrpr-0005qW-VU
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:17:09 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jQruL-0004jE-DJ
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:21:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jQrpr-00071Y-B1
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:17:07 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46460)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jQrpp-0006xF-LR; Tue, 21 Apr 2020 08:17:06 -0400
-Received: by mail-wr1-x444.google.com with SMTP id f13so16187768wrm.13;
- Tue, 21 Apr 2020 05:17:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=6G+yfsnGl0+FoI1DVe5nG84rFUeB4gMvQlTXCcmvbGo=;
- b=P28zWxOhgj/kk2eFtgcOogIrmHhqvdVkBUxEqOBLZDSXbJR4aDlGb6OJRXrE+ucTJh
- /mRlRhNA6dRmFOJMVJfv5MFOCzuDlgPN3+gR2Ou1oquTSOnc3Rrd8oL87UrZnZmeTbJm
- JPqyRT7CxAnKjbn0EVfscA2FmaiFc4LEtUt93YLVIk4+XJfZTa2p+wUFebt7BtuLi1NN
- rZ8GSu823RJfkTcNOF4vbJkDeN2wx0uqeCi5rGee15YV2zBbGnXIIOUF7JEdE6IhzVVg
- ZoSBdKfiwpRkGXnWXC31/fvc0FCVJ3ETFghWKoHX+UrENu+gEQlM08Ei1Vt3V3PNnZfp
- U3Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=6G+yfsnGl0+FoI1DVe5nG84rFUeB4gMvQlTXCcmvbGo=;
- b=J+R47HTsYSC8ZgG6p/N4miLx59onvvZ8xOupaQSaH8cGlA03arjOB9GRn7ga0igM48
- FZMbfBcljbeAHuOmtcjMsT9dSZ8pnmfxi6nU1wpDfI//tQXYd16KRYHSKXXhjgpxLFc1
- OCTnJ8W2Uc3bcyfeOjX3S7SlUMlf4sxwNouZtQDobetFCvAEZ1lGrczRgc2DT5lCYeIG
- cH2wooYlHjvOPJg3GEHVnVS1bP8WUYARbE+YU2SrEB2ZJJB6fTKEvRNmVijMoWsA9dcg
- 2J/HkyXJssiVwDGqUoRm3KMoLTBY4oqJQBnBRmcCi7lWGp1TR/7PFZSgUaw+hxsR0D7W
- SKeg==
-X-Gm-Message-State: AGi0PuZ9CcROhWC+2lAnPa7vZjOqVw9BQ16rhB412Y9gypTZcfbx4DPT
- 7n1NxOp9YVv4s67cIMnumL6ZUudY1eY=
-X-Google-Smtp-Source: APiQypLT0kV7SUOMIsBIsPVtCVbLNbao9Mr8xhh/jELgIudFntr1gJk2fR+ozPEYlGZHrd/C8V+QMg==
-X-Received: by 2002:a5d:65cb:: with SMTP id e11mr23542319wrw.402.1587471421434; 
- Tue, 21 Apr 2020 05:17:01 -0700 (PDT)
-Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id z76sm3761140wmc.9.2020.04.21.05.16.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Apr 2020 05:17:00 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 17/17] tests/qtest/tmp105-test: Trivial test for
- TempSensorClass
-Date: Tue, 21 Apr 2020 14:16:26 +0200
-Message-Id: <20200421121626.23791-18-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200421121626.23791-1-f4bug@amsat.org>
-References: <20200421121626.23791-1-f4bug@amsat.org>
+ (envelope-from <cohuck@redhat.com>) id 1jQruG-0002da-OT
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:21:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22386
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jQruF-0002cU-PS
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:21:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587471697;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uZH0y2xLOznUr9wR0XfebXx3r72sbirepcM/6k1aKYk=;
+ b=IbcVW+50uERfWWdQa2dvJN6k5tHnAV1t4Z7r8gERs+vlsymO4EtHxlWux9X13rsrqv9Voc
+ lZt75WrkOg2nqw+Lc4W7MGY6m7437UN7YUKjxB0996jSz2yQz6s8hDJkzi/VX1nvx8xBdM
+ ATasZg7CtHGXI/6kw76WlT+tMEd90FM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-175-3P7uNxX2NvajR8RL3-ZGMA-1; Tue, 21 Apr 2020 08:21:35 -0400
+X-MC-Unique: 3P7uNxX2NvajR8RL3-ZGMA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62497DB60;
+ Tue, 21 Apr 2020 12:21:34 +0000 (UTC)
+Received: from gondolin (ovpn-112-226.ams2.redhat.com [10.36.112.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EE2F0B3A61;
+ Tue, 21 Apr 2020 12:21:30 +0000 (UTC)
+Date: Tue, 21 Apr 2020 14:21:28 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eric Farman <farman@linux.ibm.com>
+Subject: Re: [PATCH v3 4/7] vfio-ccw: Add support for the crw region
+Message-ID: <20200421142128.019f7e10.cohuck@redhat.com>
+In-Reply-To: <20200417023440.70514-5-farman@linux.ibm.com>
+References: <20200417023440.70514-1-farman@linux.ibm.com>
+ <20200417023440.70514-5-farman@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::444
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 04:54:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,70 +75,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, Markus Armbruster <armbru@redhat.com>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, John Snow <jsnow@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Halil Pasic <pasic@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>,
+ qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Jared Rossi <jrossi@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The qmp_tmp105_set_temperature() call will trigger
-TempSensorClass::set_temperature(), then hmp_info_temperature()
-triggers TempSensorClass::get_temperature().
+On Fri, 17 Apr 2020 04:34:37 +0200
+Eric Farman <farman@linux.ibm.com> wrote:
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- tests/qtest/tmp105-test.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+> From: Farhan Ali <alifm@linux.ibm.com>
+> 
+> The crw region can be used to obtain information about
+> Channel Report Words (CRW) from vfio-ccw driver.
+> 
+> Currently only channel path related CRWs are passed to
+> QEMU from vfio-ccw driver.
+> 
+> Signed-off-by: Farhan Ali <alifm@linux.ibm.com>
+> Signed-off-by: Eric Farman <farman@linux.ibm.com>
+> ---
+> 
+> Notes:
+>     v0->v1: [EF]
+>      - Fixed copy/paste error in error message (s/schib/CRW)
+> 
+>  hw/vfio/ccw.c | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
 
-diff --git a/tests/qtest/tmp105-test.c b/tests/qtest/tmp105-test.c
-index f930a96b83..db7e505cbe 100644
---- a/tests/qtest/tmp105-test.c
-+++ b/tests/qtest/tmp105-test.c
-@@ -41,11 +41,26 @@ static void qmp_tmp105_set_temperature(const char *id, int value)
-     qobject_unref(response);
- }
- 
-+static char *hmp_info_temperature(const char *id)
-+{
-+    QDict *response;
-+    char *output;
-+
-+    response = qmp("{'execute': 'human-monitor-command',"
-+                   " 'arguments': {'command-line': 'info temp'}}");
-+    g_assert(qdict_haskey(response, "return"));
-+    output = g_strdup(qdict_get_try_str(response, "return"));
-+    qobject_unref(response);
-+
-+    return output;
-+}
-+
- #define TMP105_PRECISION (1000/16)
- static void send_and_receive(void *obj, void *data, QGuestAllocator *alloc)
- {
-     uint16_t value;
-     QI2CDevice *i2cdev = (QI2CDevice *)obj;
-+    g_autofree char *s = NULL;
- 
-     value = qmp_tmp105_get_temperature(TMP105_TEST_ID);
-     g_assert_cmpuint(value, ==, 0);
-@@ -56,6 +71,9 @@ static void send_and_receive(void *obj, void *data, QGuestAllocator *alloc)
-     qmp_tmp105_set_temperature(TMP105_TEST_ID, 20000);
-     value = qmp_tmp105_get_temperature(TMP105_TEST_ID);
-     g_assert_cmpuint(value, ==, 20000);
-+    /* Test TempSensorClass via 'info temp' */
-+    s = hmp_info_temperature(TMP105_TEST_ID);
-+    g_assert(strstr(s, "tmp105-0                           20.00"));
- 
-     value = i2c_get16(i2cdev, TMP105_REG_TEMPERATURE);
-     g_assert_cmphex(value, ==, 0x1400);
--- 
-2.21.1
+Maybe merge this into patch 7? It is small enough.
+
+Patch looks sane to me.
 
 
