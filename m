@@ -2,68 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E4711B262F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 14:34:24 +0200 (CEST)
-Received: from localhost ([::1]:57256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 440A91B2634
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 14:35:38 +0200 (CEST)
+Received: from localhost ([::1]:57272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQs6Z-0006JP-Eg
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 08:34:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33298)
+	id 1jQs7l-00080j-A9
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 08:35:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34134)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jQs17-0007eQ-UY
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:28:46 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jQs62-0006JQ-Us
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:33:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jQs17-0008UH-9Y
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:28:45 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43283
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jQs16-0008SQ-QB
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:28:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587472124;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=R1Wvv/v68P5zT6J+Nxeap+2ELWlledQycb/9xEl3RDQ=;
- b=RzTQKZGt/H4dgv+pc2kU/kOmwUP///4YdQijMKOc83fcNprH59JjGIeUq0rpOeMnNa+8yL
- J1npCXYHWf8DUQlvwkTO/pLQbNvC9N9uLccgBGzu97csNHaZm5vqAK77gAwhM8AI0Oq8pC
- B3DyAQrbH+RqHnlVzWPWi6UBdc/gExA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-135-kEPbwe5gMPSFtod9Us8r6g-1; Tue, 21 Apr 2020 08:28:40 -0400
-X-MC-Unique: kEPbwe5gMPSFtod9Us8r6g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DC911853896;
- Tue, 21 Apr 2020 12:28:39 +0000 (UTC)
-Received: from gondolin (ovpn-112-226.ams2.redhat.com [10.36.112.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7A7F2B3A6B;
- Tue, 21 Apr 2020 12:28:37 +0000 (UTC)
-Date: Tue, 21 Apr 2020 14:28:34 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eric Farman <farman@linux.ibm.com>
-Subject: Re: [PATCH v3 6/7] s390x/css: Refactor the css_queue_crw() routine
-Message-ID: <20200421142834.16f5ea16.cohuck@redhat.com>
-In-Reply-To: <20200417023440.70514-7-farman@linux.ibm.com>
-References: <20200417023440.70514-1-farman@linux.ibm.com>
- <20200417023440.70514-7-farman@linux.ibm.com>
-Organization: Red Hat GmbH
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jQs61-0002aB-8L
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:33:49 -0400
+Received: from mail-db8eur05on2105.outbound.protection.outlook.com
+ ([40.107.20.105]:59330 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jQs60-0002ZW-QO; Tue, 21 Apr 2020 08:33:48 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SbvSxPKjPIKYlc0h50pePJxi7DIzxLJQGT+nH4y2hRHCgFu31zYjjIyqBppqYQev5i46FY/Ofzb2z7nMKxqtvj6zpQ9pFLYjXPhKsiKiDtTX8fbE1/yHO6e4RV3lfv/UlpgmBRAuUmeVkTS/7W9gOpYIGe0DGfSng7UQdJFKPBH7axUVxOvQbrlNkjriyIuPcJlMGBZ6K/i44IF+ZW5vrF3DEiSr3HISnQ8jOw58t3/w/fWHCYwdYrIcCvwZYbppS9eAFHEvcY1QGoA61/23h5nr/+Ml7lu+f7rfw/ZsXmkzVo6fXwoD5shdmdEtUGPccUGFv24nSmufgo9fXq6aCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T/ao4Sjnt/bfuImEbqEN7w08SAArXdEloFuHmlYCwmQ=;
+ b=DuJi2Q2nLPmc9mLy3oYA1AQFMrfua8+R2r6ag/bFZkfHP+FQJlThdkC/i1pgghZk9V7o2eeHv1x/ZnkiUcjZpSoZcbJ7H3AFrYoz8Ym68xC9NaVGtSqVtiA1DJKmGubogTNzJa1m3wA5TIKPhX+cnh7uGvspA+M+Kqr3xMelnbZdv5C/VfNQmTgO6UmNWA1xrOkeAYQ2+FRb/GwpATrTpSAkRXbOYkPkU5atEcOJjQcZOthaQswRUym4gTzdV+RS0dPYkaGz8ecY7P/8Wo8tHTcncrw8j00symE6B4IPEIsL70TnHXLrzlVow41qQXI9KIUbMKpKfsXUr6J48oa68g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T/ao4Sjnt/bfuImEbqEN7w08SAArXdEloFuHmlYCwmQ=;
+ b=UQkKBD9WSa/5Bs4FuBpaTu4naXWuXsc7z5jsAcWI5zZKexW2Va9/uO8fVAkT9/wFxf06fdSn1QIMpb7MBvONH/Uxsfl42CChI9U0tTZDXKGKexluw7GyBY9CKc/T7zSfFd2pfeuHdF4WXQRZFhfsOo4Uro9dGYG45UoExeYChGk=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5352.eurprd08.prod.outlook.com (2603:10a6:20b:10e::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.27; Tue, 21 Apr
+ 2020 12:33:46 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2921.027; Tue, 21 Apr 2020
+ 12:33:46 +0000
+Subject: Re: [PATCH 3/7] block: protect parallel jobs from overlapping
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
+References: <1587407806-109784-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1587407806-109784-4-git-send-email-andrey.shinkevich@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200421153343985
+Message-ID: <89ef6a1f-17d3-fe88-21a7-4e849bc54d9f@virtuozzo.com>
+Date: Tue, 21 Apr 2020 15:33:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <1587407806-109784-4-git-send-email-andrey.shinkevich@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 01:28:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+X-ClientProxiedBy: AM0PR01CA0129.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:168::34) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.142) by
+ AM0PR01CA0129.eurprd01.prod.exchangelabs.com (2603:10a6:208:168::34) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.27 via Frontend
+ Transport; Tue, 21 Apr 2020 12:33:45 +0000
+X-Tagtoolbar-Keys: D20200421153343985
+X-Originating-IP: [185.215.60.142]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 41e0b60a-5326-4c0a-7ddd-08d7e5f03c05
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5352:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5352B437F18990E7B63BC336C1D50@AM7PR08MB5352.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-Forefront-PRVS: 038002787A
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(10019020)(4636009)(39850400004)(366004)(346002)(376002)(396003)(136003)(478600001)(66946007)(66556008)(66476007)(81156014)(2906002)(8936002)(36756003)(16526019)(52116002)(107886003)(2616005)(86362001)(8676002)(26005)(956004)(186003)(6486002)(31686004)(4326008)(31696002)(316002)(16576012)(5660300002);
+ DIR:OUT; SFP:1102; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tfIY2R9GEb/gVmPEFP5qAiSJbYk0azQ7QKW8KMNvuym1JwGebXILWeJGWuoxcdp8Ir6cWf/FtN3I1m23SyQA+AyDiRTMpMr0ZSxs5jqf4QijYvk7mlI5u6JsZjgPPJRmhrApwJ+3a8UEWCdE+rmuAuBlL+WFwGjDi+v4Kp7rC+RaNnZ9qSVojRB0KKW5DyfSj8v01kVbg1XRkLOlFuZc3kghFvD8CTX4eQRmeOzleg4CXxAamyMajDVakiY+B2qyp0IOEPquHOzkBsqcnbbWPVme0MajqwaZooWzMPTkTuUC76jXVM2ePQcb4zs5RNDnpkRhqrWkQApaMGwzZopqfQJR31IEf3aG+mRoNgzFzIhD0obPD5AKkpgelbI2ZImDtuxEWdF8D6lQdmxiD4jFUxU6GJ1jDPBUPYhmLDw5/Zhs2HkYdXI8WoHhgV9FHr4y
+X-MS-Exchange-AntiSpam-MessageData: wnXUX9WHT3johULOC6Z4k1hb8bp0V8kQuvtKIcu4I2MnI0KnM/gNkzqnIRLRbUj3XI2aGHXhNUFRXj5Xfy59pSSywUFIJzFxsQyvJ3CgeBuAaLwYG2wKDFrzUf08YYGlDyipFzhQy8X/1ABo4iS/Cg==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 41e0b60a-5326-4c0a-7ddd-08d7e5f03c05
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2020 12:33:46.3097 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 08i6bsEP3JhfmR2T4s3NMmEJgqFKxKxF7/iCgGwk9gsInzNkKvyBiIq6cKAyyRYuVGv9NYd6jQ1goMDuhfQmaLr7EUaNtMMtuI79moAwUeA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5352
+Received-SPF: pass client-ip=40.107.20.105;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 08:33:47
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Received-From: 40.107.20.105
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,83 +116,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>,
- qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- Jared Rossi <jrossi@linux.ibm.com>
+Cc: kwolf@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org, den@openvz.org,
+ mreitz@redhat.com, jsnow@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 17 Apr 2020 04:34:39 +0200
-Eric Farman <farman@linux.ibm.com> wrote:
+20.04.2020 21:36, Andrey Shinkevich wrote:
+> When it comes to the check for the blocked operations, the node may be
+> a filter linked to blk.
 
-> We have a use case (vfio-ccw) where a CRW is already built and
-> ready to use.  Rather than teasing out the components just to
-> reassemble it later, let's rework this code so we can queue a
-> fully-qualified CRW directly.
+"blk" commonly refers to BlockBackend, which is unrelated here. You mean just a filter.
+
+> In that case, do not miss to set blocked
+> operations for the underlying node.
 > 
-> Signed-off-by: Eric Farman <farman@linux.ibm.com>
+> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 > ---
->  hw/s390x/css.c         | 44 ++++++++++++++++++++++++++++--------------
->  include/hw/s390x/css.h |  1 +
->  2 files changed, 30 insertions(+), 15 deletions(-)
+>   blockjob.c | 15 ++++++++++++++-
+>   1 file changed, 14 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/s390x/css.c b/hw/s390x/css.c
-> index a44faa3549..a72c09adbe 100644
-> --- a/hw/s390x/css.c
-> +++ b/hw/s390x/css.c
-> @@ -2170,30 +2170,23 @@ void css_subch_assign(uint8_t cssid, uint8_t ssid, uint16_t schid,
->      }
->  }
->  
-> -void css_queue_crw(uint8_t rsc, uint8_t erc, int solicited,
-> -                   int chain, uint16_t rsid)
-> +void css_queue_crw_cont(CRW crw)
+> diff --git a/blockjob.c b/blockjob.c
+> index 73d9f1b..2898929 100644
+> --- a/blockjob.c
+> +++ b/blockjob.c
+> @@ -189,7 +189,14 @@ void block_job_remove_all_bdrv(BlockJob *job)
+>       GSList *l;
+>       for (l = job->nodes; l; l = l->next) {
+>           BdrvChild *c = l->data;
+> -        bdrv_op_unblock_all(c->bs, job->blocker);
+> +        BlockDriverState *bs = c->bs;
+> +        bdrv_op_unblock_all(bs, job->blocker);
+> +        if (bs->drv && bs->drv->is_filter) {
+> +            bs = bdrv_filtered_bs(bs);
+> +            if (bs) {
+> +                bdrv_op_unblock_all(bs, job->blocker);
+> +            }
+> +        }
+>           bdrv_root_unref_child(c);
+>       }
+>       g_slist_free(job->nodes);
+> @@ -230,6 +237,12 @@ int block_job_add_bdrv(BlockJob *job, const char *name, BlockDriverState *bs,
+>   
+>       job->nodes = g_slist_prepend(job->nodes, c);
+>       bdrv_op_block_all(bs, job->blocker);
+> +    if (bs->drv && bs->drv->is_filter) {
+> +        bs = bdrv_filtered_bs(bs);
+> +        if (bs) {
+> +            bdrv_op_block_all(bs, job->blocker);
 
-Don't really like this name, as it makes me think of 'continuation'
-instead of 'container'.
+This will lead to setting op blocker twice, if there are filters inside backing chain. Is it safe?
 
-css_queue_crw_container?
-css_crw_add_to_queue?
+Still, I don't think it's correct thing. Job should add all it's nodes by hand. If it add some
+filter node, but don't add it's filtered node, it is definitely doing something wrong (see my
+answer to 1/7).
 
-Naming is hard :(
 
->  {
->      CrwContainer *crw_cont;
->  
-> -    trace_css_crw(rsc, erc, rsid, chain ? "(chained)" : "");
-> +    trace_css_crw((crw.flags & CRW_FLAGS_MASK_RSC) >> 8,
-> +                  crw.flags & CRW_FLAGS_MASK_ERC,
-> +                  crw.rsid,
-> +                  (crw.flags & CRW_FLAGS_MASK_C) ? "(chained)" : "");
-> +
->      /* TODO: Maybe use a static crw pool? */
->      crw_cont = g_try_new0(CrwContainer, 1);
->      if (!crw_cont) {
->          channel_subsys.crws_lost = true;
->          return;
+> +        }
+> +    }
+>   
+>       return 0;
+>   }
+> 
 
-Now that we actually pass something in, do we want to inform the caller
-whether the crw was queued or not?
 
->      }
-> -    crw_cont->crw.flags = (rsc << 8) | erc;
-> -    if (solicited) {
-> -        crw_cont->crw.flags |= CRW_FLAGS_MASK_S;
-> -    }
-> -    if (chain) {
-> -        crw_cont->crw.flags |= CRW_FLAGS_MASK_C;
-> -    }
-> -    crw_cont->crw.rsid = rsid;
-> -    if (channel_subsys.crws_lost) {
-> -        crw_cont->crw.flags |= CRW_FLAGS_MASK_R;
-> -        channel_subsys.crws_lost = false;
-> -    }
-> +
-> +    crw_cont->crw = crw;
->  
->      QTAILQ_INSERT_TAIL(&channel_subsys.pending_crws, crw_cont, sibling);
->  
-
-Generally, looks sane to me.
-
+-- 
+Best regards,
+Vladimir
 
