@@ -2,79 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41CDF1B2424
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 12:45:31 +0200 (CEST)
-Received: from localhost ([::1]:55544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 832C51B2461
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 12:51:51 +0200 (CEST)
+Received: from localhost ([::1]:55630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQqPC-0007uv-9U
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 06:45:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47138)
+	id 1jQqVK-0002mV-34
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 06:51:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48116)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jQqNy-00074R-75
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:44:14 -0400
+ (envelope-from <berto@igalia.com>) id 1jQqTz-0001yL-5y
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:50:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jQqNm-0006WN-O3
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:44:13 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:41567)
+ (envelope-from <berto@igalia.com>) id 1jQqTy-0005dm-HH
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:50:26 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:38923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jQqNm-0006TO-Bg
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:44:02 -0400
-Received: by mail-wr1-x442.google.com with SMTP id g13so13867321wrb.8
- for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 03:44:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=80hlV0Sh9Ka+anWigr63uCM/Wn3bkFpbqyYQySB9lT4=;
- b=uWx4oyGC5McPvO7ttrNerMAYOSghN+qV4XSGaKHw61UrnGGoAFHnxJ7oYC4m80s0hH
- RfGZhCz2bKXW5REGC1AAHkEhI/N2RGkTv1jrhMJOHVq/NUqc27p3ko1U0Jw/gh20wgDN
- IJAWN/E0nyOi7FJYMFpkKDzIS6sEuIv1HEeONQDj6qhLzZflRAo4nCFB8wrIPisXamSx
- gC4uvCBjhPXXkCwGZbrzC4PdGjPRITKSoQm1+IMaHoOOJp4ibj+cQpk36n1d2DzgNOiT
- WWBkWsz5yWunqqJfkD9faE7nCU1ePHWTCAKv66fEpT4qrlV2OoBpbYonLCBK4EFSmxzS
- Q8dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=80hlV0Sh9Ka+anWigr63uCM/Wn3bkFpbqyYQySB9lT4=;
- b=Yz31gqRmofamvL1o69dxcV5q1Z0W4+usb78DEOABgW4l2Ha1c/rfDPhVaeYn9z0e5r
- AByLMxyik4Vyi+/57oIHMNQRSiv5uNwC/OX6jo4qLGei4/DI9kYKOFT1pAdx6uXTPL29
- Uzkb6UFeoW/BeE8O+TNPyT+PAIk/ruW2IXtEuC0a31/Jwbgbj/R6RRJROeV2J1zhSrRg
- KabCQXxzr8TuD1YmitUaX0h7MiaTVDvD69Tc/KQ2F/fdO/ko3f9ThlYBZI7ZSn1cPxkU
- Ls1TDNg1vFMfLTukqHfGBzf8LaDdGBXVZ9hQeh9bTDNIl4gCYaCJiHs11F3sKC5EKOk9
- 2zng==
-X-Gm-Message-State: AGi0PuZ2X0zqwYcLzLznDKpUREKY9Z8uh77gS3ENR9aNOtFN0P5ffF2G
- Jf3uN4hcPll1YvL/C7NuUuwVIg==
-X-Google-Smtp-Source: APiQypIAujuEWun3HQ8G04MmS3vzXy1lUdVT7IxoAS6xdziWezOY6FSyK4ST8tqZ+Ggpyq4j/o2urg==
-X-Received: by 2002:a5d:4e45:: with SMTP id r5mr3024180wrt.26.1587465840943;
- Tue, 21 Apr 2020 03:44:00 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y9sm2865223wmm.26.2020.04.21.03.43.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Apr 2020 03:43:59 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1A34A1FF7E;
- Tue, 21 Apr 2020 11:43:59 +0100 (BST)
-References: <20200421094216.24927-1-f4bug@amsat.org>
- <20200421094216.24927-2-f4bug@amsat.org>
-User-agent: mu4e 1.4.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 1/4] MAINTAINERS: Cover the GDB Python scripts in the
- gdbstub section
-In-reply-to: <20200421094216.24927-2-f4bug@amsat.org>
-Date: Tue, 21 Apr 2020 11:43:59 +0100
-Message-ID: <87y2qpce4w.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1jQqTv-0005Ug-OF; Tue, 21 Apr 2020 06:50:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=/XBj2ERbCA3wEWvpzBXjprmAoIXTR8B9G0muKlXdN4w=; 
+ b=kTK+01z8gG1OZF3sJMBIaKBf2V/HfATbpb/5CwLw8amEVuzrWXZjhjIhi6VnJNQQPQA5zVvEUxAPKM5oluT59/bgPqiK7BkvVJslyB3jmDUlwWooCyqRCVPn5xhhZohC1vmP8zc8M8SvQTFtQu780ks71HEbsEkWrAsaOupQwgEtqbifR0rjiFIgOsOIJyEMo1DowRkZXJONRdO+AqTK1yR1AYJtPXd/ahDHviYTUQwpHWsjSZezvYUXpQyz0WYXz0t6FfBxjK5TXIJtw8YxoAnV2Fk24ZjhA8lPr3EYy8jCiehI/7AAsvHRT6aakBe0ISvnnCZ+Z0DhKmNwhweJoQ==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1jQqTo-0002k5-Rj; Tue, 21 Apr 2020 12:50:16 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1jQqTo-00036k-Hx; Tue, 21 Apr 2020 12:50:16 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Subject: Re: [PATCH v4 4/9] qcow2: Support BDRV_REQ_ZERO_WRITE for truncate
+In-Reply-To: <59085a98-338c-fb6c-db2b-0636a03d3190@virtuozzo.com>
+References: <20200420133214.28921-1-kwolf@redhat.com>
+ <20200420133214.28921-5-kwolf@redhat.com>
+ <59085a98-338c-fb6c-db2b-0636a03d3190@virtuozzo.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Tue, 21 Apr 2020 12:50:16 +0200
+Message-ID: <w51wo699kpj.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::442
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 06:35:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+X-Received-From: 178.60.130.6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,43 +61,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
-
-> Keep an eye on these "same same, but different" files.
+On Tue 21 Apr 2020 10:47:17 AM CEST, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
+>> +    if ((flags & BDRV_REQ_ZERO_WRITE) && offset > old_length) {
+>> +        ret = qcow2_cluster_zeroize(bs, old_length, offset - old_length, 0);
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
-> Cc: "Alex Benn=C3=A9e" <alex.bennee@linaro.org>
+> Hmm. As I understand, qcow2_cluster_zeroize is unprepared to
+> cluster-unaligned offset/size. I think we should handle it somehow.
 
-Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+You're right, it actually hits an assertion :-/
 
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8cbc1fac2b..7a7f2b9c31 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2083,6 +2083,7 @@ R: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->  S: Maintained
->  F: gdbstub*
->  F: gdb-xml/
-> +F: scripts/qemugdb/
->=20=20
->  Memory API
->  M: Paolo Bonzini <pbonzini@redhat.com>
+I suppose you can simply round the size up to the next cluster.
 
-
---=20
-Alex Benn=C3=A9e
+Berto
 
