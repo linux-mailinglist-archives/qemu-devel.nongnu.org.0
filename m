@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85CC61B25A5
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 14:11:10 +0200 (CEST)
-Received: from localhost ([::1]:56746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63ADA1B25C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 14:18:36 +0200 (CEST)
+Received: from localhost ([::1]:56828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQrk5-00037p-KR
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 08:11:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58178)
+	id 1jQrrH-0006tM-Dg
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 08:18:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58970)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kevin.tian@intel.com>) id 1jQrjH-0002bf-1x
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:10:19 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jQrpM-0004uk-Ky
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:16:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <kevin.tian@intel.com>) id 1jQrjF-0000n3-FE
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:10:18 -0400
-Received: from mga06.intel.com ([134.134.136.31]:34603)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevin.tian@intel.com>)
- id 1jQrjE-0000bI-Uf
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:10:17 -0400
-IronPort-SDR: eW5qxF9BcxdG38wUQ8ySXawh90n2b1a0pjbSH0S2/bmIXl78ECJWzZXM7MW7jSfvZFCBiD41CF
- EHKt7xtgUwrA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2020 05:10:09 -0700
-IronPort-SDR: 8VxAIGwySK5prjvHeIPeC8fZRtUkDn5qBKFzwHsR72++3pK9BIM1nETFu7DTcPjbGlQJJnkkMy
- eruHb2hIDYBQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,410,1580803200"; d="scan'208";a="429510291"
-Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
- by orsmga005.jf.intel.com with ESMTP; 21 Apr 2020 05:10:08 -0700
-Received: from fmsmsx156.amr.corp.intel.com (10.18.116.74) by
- fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 21 Apr 2020 05:08:53 -0700
-Received: from shsmsx152.ccr.corp.intel.com (10.239.6.52) by
- fmsmsx156.amr.corp.intel.com (10.18.116.74) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 21 Apr 2020 05:08:53 -0700
-Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.225]) by
- SHSMSX152.ccr.corp.intel.com ([169.254.6.209]) with mapi id 14.03.0439.000;
- Tue, 21 Apr 2020 20:08:49 +0800
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: "Zhao, Yan Y" <yan.y.zhao@intel.com>, Alex Williamson
- <alex.williamson@redhat.com>
-Subject: RE: [PATCH v5 0/4] introduction of migration_version attribute for
- VFIO live migration
-Thread-Topic: [PATCH v5 0/4] introduction of migration_version attribute for
- VFIO live migration
-Thread-Index: AQHWEVkQX2D3KsUjJk2k1DZCtXaM5qh8gBsAgAASxgCAABn2gIAED1uAgAFotwCAAD3VAIABIlKw
-Date: Tue, 21 Apr 2020 12:08:49 +0000
-Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D19D86DF06@SHSMSX104.ccr.corp.intel.com>
-References: <20200413055201.27053-1-yan.y.zhao@intel.com>
- <20200417104450.2d2f2fa9.cohuck@redhat.com>
- <20200417095202.GD16688@joy-OptiPlex-7040>
- <20200417132457.45d91fe3.cohuck@redhat.com>
- <20200420012457.GE16688@joy-OptiPlex-7040>
- <20200420165600.4951ae82@w520.home>
- <20200421023718.GA12111@joy-OptiPlex-7040>
-In-Reply-To: <20200421023718.GA12111@joy-OptiPlex-7040>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.40]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jQrpI-0005vZ-UR
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:16:36 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:40530)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jQrpI-0005rh-Eb; Tue, 21 Apr 2020 08:16:32 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id k13so15017456wrw.7;
+ Tue, 21 Apr 2020 05:16:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=huvSKrhwbgnnyBc8SFTyGesgTCOFYnJW8oU3B5ttXk0=;
+ b=iIjbl7cOzsklTG+yNcO4jW0X1JPwvYVJNIZwUhp1uGHocVcQnia//77Oo/Q9nss+GF
+ ZGovnobWbYyp2Bz0lbvG3xd1WaR1J5vMiGottxN7V23Rptwz3K7HzrLkr6Az7cIbWxF8
+ sLoCVuj2r59WGbT2ikrCVHBNebBqUPS9T12uLc4SrXCq1qFUQsq2fXYhXuCQPd/WpOYm
+ dmbJHi0ow6T+nhDbeMs1euBJ1SI1Yb2KRMtIkEpeQzkd2517IwyC2bfjeb1Rs62tOAuf
+ rooRt3reLDP9Rjb2LYjnk9ZlP45qeq/SEGuf6Sc/eoChneCfoXfeN/Fwj+IsRaMpb7aj
+ UQbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=huvSKrhwbgnnyBc8SFTyGesgTCOFYnJW8oU3B5ttXk0=;
+ b=AvTfKDr3gcvjNaExN8qxOO0UGctNGNxXRqSYQvnNzSOJNdhihSjO+z16vgoUUHFB77
+ ipd3HAwV0yzAdb7sZ0X4E0/6YfszSD8G0P/vpbJCjVacH0MuVCpV9KVTsd4L81F8nlIk
+ gpXkMVbzcsm5tifGu0Gqa90nJfyjaFvEBXbs06H2FjSMkj/YZxnviu6dm03sZE4OWLFq
+ 6X48OvxwHWpNLiVPNHyhJ6WN1+HU7S7aL21pmm3yhpe/AyYbhGUfIL+w6EY8NLxI7BOe
+ 2Ti/DIZgQZdsGYinK6Nn+lBJp16yvx8nIw9nx5iMNEOLxyl9LdJ3eqysiNXXEyogpFzs
+ 1+2g==
+X-Gm-Message-State: AGi0Pub/vrxaDMno+xh9Z1iIWA5LBmT2eVCXjA1pnj3bz9xHO138KKAY
+ FU2tfkWhvuWJHdu5wu0UMulvSW6g8CI=
+X-Google-Smtp-Source: APiQypKbLPg5jAwERC099E5WmYT+SzxtZFkeWcINgt/NfsldvPgF+bmSPcaHNuupechgDfhpPqDO9w==
+X-Received: by 2002:a5d:4dcb:: with SMTP id f11mr23469392wru.174.1587471389101; 
+ Tue, 21 Apr 2020 05:16:29 -0700 (PDT)
+Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id z76sm3761140wmc.9.2020.04.21.05.16.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Apr 2020 05:16:28 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 00/17] hw/misc: Introduce a temperature sensor interface
+Date: Tue, 21 Apr 2020 14:16:09 +0200
+Message-Id: <20200421121626.23791-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Received-SPF: pass client-ip=134.134.136.31; envelope-from=kevin.tian@intel.com;
- helo=mga06.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 08:10:09
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Received-From: 134.134.136.31
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::42c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,257 +81,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, "cjia@nvidia.com" <cjia@nvidia.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>,
- "Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
- "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
- "eauger@redhat.com" <eauger@redhat.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "corbet@lwn.net" <corbet@lwn.net>, "Yang, Ziye" <ziye.yang@intel.com>,
- "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
- "felipe@nutanix.com" <felipe@nutanix.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
- "Zeng, Xin" <xin.zeng@intel.com>, "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
- "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- "Liu, Changpeng" <changpeng.liu@intel.com>,
- "berrange@redhat.com" <berrange@redhat.com>,
- "eskultet@redhat.com" <eskultet@redhat.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, "dinechin@redhat.com" <dinechin@redhat.com>,
- "He, Shaopeng" <shaopeng.he@intel.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Joaquin de Andres <me@xcancerberox.com.ar>, Michael Tokarev <mjt@tls.msk.ru>,
+ Keith Busch <keith.busch@intel.com>, qemu-block@nongnu.org,
+ qemu-trivial@nongnu.org, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Guenter Roeck <linux@roeck-us.net>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> From: Yan Zhao
-> Sent: Tuesday, April 21, 2020 10:37 AM
->=20
-> On Tue, Apr 21, 2020 at 06:56:00AM +0800, Alex Williamson wrote:
-> > On Sun, 19 Apr 2020 21:24:57 -0400
-> > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> >
-> > > On Fri, Apr 17, 2020 at 07:24:57PM +0800, Cornelia Huck wrote:
-> > > > On Fri, 17 Apr 2020 05:52:02 -0400
-> > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> > > >
-> > > > > On Fri, Apr 17, 2020 at 04:44:50PM +0800, Cornelia Huck wrote:
-> > > > > > On Mon, 13 Apr 2020 01:52:01 -0400
-> > > > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> > > > > >
-> > > > > > > This patchset introduces a migration_version attribute under =
-sysfs
-> of VFIO
-> > > > > > > Mediated devices.
-> > > > > > >
-> > > > > > > This migration_version attribute is used to check migration
-> compatibility
-> > > > > > > between two mdev devices.
-> > > > > > >
-> > > > > > > Currently, it has two locations:
-> > > > > > > (1) under mdev_type node,
-> > > > > > >     which can be used even before device creation, but only f=
-or
-> mdev
-> > > > > > >     devices of the same mdev type.
-> > > > > > > (2) under mdev device node,
-> > > > > > >     which can only be used after the mdev devices are created=
-, but
-> the src
-> > > > > > >     and target mdev devices are not necessarily be of the sam=
-e
-> mdev type
-> > > > > > > (The second location is newly added in v5, in order to keep
-> consistent
-> > > > > > > with the migration_version node for migratable pass-though
-> devices)
-> > > > > >
-> > > > > > What is the relationship between those two attributes?
-> > > > > >
-> > > > > (1) is for mdev devices specifically, and (2) is provided to keep=
- the
-> same
-> > > > > sysfs interface as with non-mdev cases. so (2) is for both mdev
-> devices and
-> > > > > non-mdev devices.
-> > > > >
-> > > > > in future, if we enable vfio-pci vendor ops, (i.e. a non-mdev dev=
-ice
-> > > > > is binding to vfio-pci, but is able to register migration region =
-and do
-> > > > > migration transactions from a vendor provided affiliate driver),
-> > > > > the vendor driver would export (2) directly, under device node.
-> > > > > It is not able to provide (1) as there're no mdev devices involve=
-d.
-> > > >
-> > > > Ok, creating an alternate attribute for non-mdev devices makes sens=
-e.
-> > > > However, wouldn't that rather be a case (3)? The change here only
-> > > > refers to mdev devices.
-> > > >
-> > > as you pointed below, (3) and (2) serve the same purpose.
-> > > and I think a possible usage is to migrate between a non-mdev device =
-and
-> > > an mdev device. so I think it's better for them both to use (2) rathe=
-r
-> > > than creating (3).
-> >
-> > An mdev type is meant to define a software compatible interface, so in
-> > the case of mdev->mdev migration, doesn't migrating to a different type
-> > fail the most basic of compatibility tests that we expect userspace to
-> > perform?  IOW, if two mdev types are migration compatible, it seems a
-> > prerequisite to that is that they provide the same software interface,
-> > which means they should be the same mdev type.
-> >
-> > In the hybrid cases of mdev->phys or phys->mdev, how does a
-> management
-> > tool begin to even guess what might be compatible?  Are we expecting
-> > libvirt to probe ever device with this attribute in the system?  Is
-> > there going to be a new class hierarchy created to enumerate all
-> > possible migrate-able devices?
-> >
-> yes, management tool needs to guess and test migration compatible
-> between two devices. But I think it's not the problem only for
-> mdev->phys or phys->mdev. even for mdev->mdev, management tool needs
-> to
-> first assume that the two mdevs have the same type of parent devices
-> (e.g.their pciids are equal). otherwise, it's still enumerating
-> possibilities.
->=20
-> on the other hand, for two mdevs,
-> mdev1 from pdev1, its mdev_type is 1/2 of pdev1;
-> mdev2 from pdev2, its mdev_type is 1/4 of pdev2;
-> if pdev2 is exactly 2 times of pdev1, why not allow migration between
-> mdev1 <-> mdev2.
+Hi,
 
-How could the manage tool figure out that 1/2 of pdev1 is equivalent=20
-to 1/4 of pdev2? If we really want to allow such thing happen, the best
-choice is to report the same mdev type on both pdev1 and pdev2.
+This series is part of a bigger one I was preparing for a GSoC
+project, but unfortunately no student got interested.
 
-btw mdev<->phys just brings trouble to upper stack as Alex pointed out.=20
-Can we simplify the requirement by allowing only mdev<->mdev and=20
-phys<->phys migration? If an customer does want to migrate between a=20
-mdev and phys, he could wrap physical device into a wrapped mdev=20
-instance (with the same type as the source mdev) instead of using vendor=20
-ops. Doing so does add some burden but if mdev<->phys is not dominant=20
-usage then such tradeoff might be worthywhile...
+The idea is to allow device with temperature sensors to use a
+common API with temperature operations.
 
-Thanks
-Kevin
+While guest are running, you can modify the temperatures to check
+the guest reactions. Some devices can trigger IRQ when temperature
+pass thresholds. Somehow similar to inject NMI.
 
->=20
->=20
-> > I agree that there was a gap in the previous proposal for non-mdev
-> > devices, but I think this bring a lot of questions that we need to
-> > puzzle through and libvirt will need to re-evaluate how they might
-> > decide to pick a migration target device.  For example, I'm sure
-> > libvirt would reject any policy decisions regarding picking a physical
-> > device versus an mdev device.  Had we previously left it that only a
-> > layer above libvirt would select a target device and libvirt only tests
-> > compatibility to that target device?
-> I'm not sure if there's a layer above libvirt would select a target
-> device. but if there is such a layer (even it's human), we need to
-> provide an interface for them to know whether their decision is suitable
-> for migration. The migration_version interface provides a potential to
-> allow mdev->phys migration, even libvirt may currently reject it.
->=20
->=20
-> > We also need to consider that this expands the namespace.  If we no
-> > longer require matching types as the first level of comparison, then
-> > vendor migration strings can theoretically collide.  How do we
-> > coordinate that can't happen?  Thanks,
-> yes, it's indeed a problem.
-> could only allowing migration beteen devices from the same vendor be a
-> good
-> prerequisite?
->=20
-> Thanks
-> Yan
-> >
-> > > > > > Is existence (and compatibility) of (1) a pre-req for possible
-> > > > > > existence (and compatibility) of (2)?
-> > > > > >
-> > > > > no. (2) does not reply on (1).
-> > > >
-> > > > Hm. Non-existence of (1) seems to imply "this type does not support
-> > > > migration". If an mdev created for such a type suddenly does suppor=
-t
-> > > > migration, it feels a bit odd.
-> > > >
-> > > yes. but I think if the condition happens, it should be reported a bu=
-g
-> > > to vendor driver.
-> > > should I add a line in the doc like "vendor driver should ensure that=
- the
-> > > migration compatibility from migration_version under mdev_type should
-> be
-> > > consistent with that from migration_version under device node" ?
-> > >
-> > > > (It obviously cannot be a prereq for what I called (3) above.)
-> > > >
-> > > > >
-> > > > > > Does userspace need to check (1) or can it completely rely on (=
-2), if
-> > > > > > it so chooses?
-> > > > > >
-> > > > > I think it can completely reply on (2) if compatibility check bef=
-ore
-> > > > > mdev creation is not required.
-> > > > >
-> > > > > > If devices with a different mdev type are indeed compatible, it
-> seems
-> > > > > > userspace can only find out after the devices have actually bee=
-n
-> > > > > > created, as (1) does not apply?
-> > > > > yes, I think so.
-> > > >
-> > > > How useful would it be for userspace to even look at (1) in that ca=
-se?
-> > > > It only knows if things have a chance of working if it actually goe=
-s
-> > > > ahead and creates devices.
-> > > >
-> > > hmm, is it useful for userspace to test the migration_version under m=
-dev
-> > > type before it knows what mdev device to generate ?
-> > > like when the userspace wants to migrate an mdev device in src vm,
-> > > but it has not created target vm and the target mdev device.
-> > >
-> > > > >
-> > > > > > One of my worries is that the existence of an attribute with th=
-e
-> same
-> > > > > > name in two similar locations might lead to confusion. But mayb=
-e it
-> > > > > > isn't a problem.
-> > > > > >
-> > > > > Yes, I have the same feeling. but as (2) is for sysfs interface
-> > > > > consistency, to make it transparent to userspace tools like libvi=
-rt,
-> > > > > I guess the same name is necessary?
-> > > >
-> > > > What do we actually need here, I wonder? (1) and (2) seem to serve
-> > > > slightly different purposes, while (2) and what I called (3) have t=
-he
-> > > > same purpose. Is it important to userspace that (1) and (2) have th=
-e
-> > > > same name?
-> > > so change (1) to migration_type_version and (2) to
-> > > migration_instance_version?
-> > > But as they are under different locations, could that location imply
-> > > enough information?
-> > >
-> > >
-> > > Thanks
-> > > Yan
-> > >
-> > >
-> >
-> _______________________________________________
-> intel-gvt-dev mailing list
-> intel-gvt-dev@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gvt-dev
+Some devices could also modify their temperature regarding their
+workload.
+
+The tsc2xxxx devices are interesting but can't be converted as
+they predate QOM/QDev.
+
+Temperature changes rate is <1Hz (not enforced in this model) so
+using a QMP to get/set is acceptable.
+The query-temperature-sensors command is for informative purpose,
+also acceptable for QMP use.
+
+Next step might be to publish QMP events when temperature change.
+
+The original goal is to better interface ADCs with real world data.
+Here using QMP is not an option. Here the idea is to use the
+AudioState and audio_sample API from "audio.h" but it seems not
+very used, see: https://bugs.launchpad.net/qemu/+bug/1861677
+
+What is not clear yet to me is what's the best way to externally
+set a specific sensor temperature. The TMPxxx I2C sensors use
+object_property_set_int(). I could move that to the temp-sensor
+interface but it seems a bit overkill. Any simpler idea?
+
+Cc: Alex Bennée <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Keith Busch <keith.busch@intel.com>
+Cc: Cédric Le Goater <clg@kaod.org>
+Cc: Joel Stanley <joel@jms.id.au>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Cc: Joaquin de Andres <me@xcancerberox.com.ar>
+
+Philippe Mathieu-Daudé (17):
+  hw/misc: Introduce the temperature sensor interface
+  hw/misc/temp-sensor: Add 'query-temperature-sensors' QMP command
+  hw/misc/temp-sensor: Add 'info temp' HMP command
+  hw/misc/tmp105: Extract get_temp_mC() and set_temp_mC() helpers
+  hw/misc/tmp105: Implement the 'temperature-sensor' qdev interface
+  hw/misc/tmp421: Add definition for SENSORS_COUNT
+  hw/misc/tmp421: Extract get_temp_mC() helper
+  hw/misc/tmp421: Extract set_temp_mC() helper
+  hw/misc/tmp421: Implement the 'temperature-sensor' qdev interface
+  hw/misc/bcm2835_thermal: Hold the temperature in the device state
+  hw/misc/bcm2835_thermal: Implement the 'temperature-sensor' interface
+  hw/misc/bcm2835_property: Hold the temperature in the device state
+  hw/misc/bcm2835_property: Implement the 'temperature-sensor' interface
+  hw/display/ads7846: Implement the 'temperature-sensor' qdev interface
+  hw/ide/qdev: Implement the 'temperature-sensor' qdev interface
+  hw/misc/imx6ul_ccm: Implement the 'temperature-sensor' qdev interface
+  tests/qtest/tmp105-test: Trivial test for TempSensorClass
+
+ qapi/misc.json                     |  24 +++++++
+ include/hw/misc/bcm2835_property.h |   1 +
+ include/hw/misc/bcm2835_thermal.h  |   1 +
+ include/hw/misc/temp-sensor.h      |  69 +++++++++++++++++++
+ include/monitor/hmp.h              |   1 +
+ hw/display/ads7846.c               |  38 +++++++++++
+ hw/ide/qdev.c                      |  14 ++++
+ hw/misc/bcm2835_property.c         |  39 ++++++++++-
+ hw/misc/bcm2835_thermal.c          |  42 ++++++++++--
+ hw/misc/imx6ul_ccm.c               |   7 ++
+ hw/misc/temp-sensor.c              | 102 +++++++++++++++++++++++++++++
+ hw/misc/tmp105.c                   |  51 +++++++++++----
+ hw/misc/tmp421.c                   |  74 ++++++++++++++++-----
+ tests/qtest/tmp105-test.c          |  18 +++++
+ MAINTAINERS                        |   6 ++
+ hmp-commands-info.hx               |  11 ++++
+ hw/misc/Makefile.objs              |   1 +
+ 17 files changed, 463 insertions(+), 36 deletions(-)
+ create mode 100644 include/hw/misc/temp-sensor.h
+ create mode 100644 hw/misc/temp-sensor.c
+
+-- 
+2.21.1
+
 
