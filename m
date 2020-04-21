@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68A2B1B3055
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 21:29:17 +0200 (CEST)
-Received: from localhost ([::1]:35172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E361B306F
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 21:34:38 +0200 (CEST)
+Received: from localhost ([::1]:35272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQya3-0002KP-U3
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 15:29:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53790)
+	id 1jQyfF-00053B-0s
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 15:34:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54788)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jQyYu-0001rF-LR
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:28:04 -0400
+ (envelope-from <palmerdabbelt@google.com>) id 1jQydl-0004aU-D0
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:33:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jQyYu-0007ly-0k
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:28:04 -0400
-Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:43054)
+ (envelope-from <palmerdabbelt@google.com>) id 1jQydj-00056r-SJ
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:33:05 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:53435)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jQyYt-0007lK-Cw
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:28:03 -0400
-Received: by mail-oi1-x229.google.com with SMTP id j16so12987076oih.10
- for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 12:28:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UJOOxmMinqSKKEku91FQG3H/5a98axsYeH+hGvR5NGo=;
- b=hlNBCi3IlYyNBYQ/nI0+8yOP8nNGUVkb9RCoGzdQ9L4SKghcDE48hz4PsJpQNyDQvw
- fFbzP4WEzMGOPBoqSGWb7h0uRxPtLfNU0Beie7Q4nhTyv2ONmmKubtQJ8s+pTLdAU9ly
- 3VOvCUzI4eDfGZ4kcqx1OzZ+TJM6wPNS1hzvrSeLGmGJlnjLqGzejBgcQaWK9ZKWDT7F
- M2ksu/4WmYW2haz5wYlhA0DV0eMBsyRtBjrxj29DcrWZzwktsTkqSfAwg3lDbprKgsdT
- 2W0+nSwI9B27N7CGsuCjewVP5dtX5ErwR4PwXV2aws6Q6H0OvC0RGi8AZNyOLTMOagMO
- D8ZA==
+ (Exim 4.90_1) (envelope-from <palmerdabbelt@google.com>)
+ id 1jQydj-000541-EK
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:33:03 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id hi11so1799352pjb.3
+ for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 12:33:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HVse85FL1xmXxc9mv3/jgM4CIEFdCwr6uLhePKPC4Oo=;
+ b=oEpJ4gAnXuHDCtgsVDYhilZlrboJ6tYlIskAu6GezGijd4v1NLlZMDKa2UH7WIslmg
+ 5H8lCUuB+yWybPRy9KgEezfJzMf6MsDArDWrB2dGAkvpRojBCOeJ03Vr9KxfBXE8uNh1
+ grU19l9MDpOorc115vrjolPGfHInA2Cdlbm9bI3G28QqAh+wUXY6Q1ZzTvP0xFEYrYY9
+ RQzcVq2fjdeQIP9yJILB/p73BVX/fIDiejpCT1xKwNVSHuay2xqP8Fh9d7urKFDPDJLF
+ yIorjQ262wF3cimdNCnzhBiv8E0aAyWZkkfJXdCp2e/fxy9aVVYqcMRkb6lJaI18AK9K
+ ahHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UJOOxmMinqSKKEku91FQG3H/5a98axsYeH+hGvR5NGo=;
- b=OU0orOk+/01fX1bjY4DWGzUlAC18SG8hMWYYcDKiEjFODkTo8FV3peSFfNxCFV7w5R
- FnYR04gHk+j18svRUrhiwL/yYuIs+wOUlrkr6ETycgfw1Xb0fSShO61GiGg9AAJukdHI
- KJgPHwo4hSjzEv6UpCNPz18FAfJYqN0gjSfS9DWJ72wOxVTyGMVFjUpS1nQ4TqbvC/p2
- zRdmtpJsgxRI08jtFX5pUHD075eomJD0QpFRA5kRw/qUUCpvLvUXmDP+Mjj3OdexPGwe
- wiQW6rEKwn7ORf3BI0fZzookaW9EMZoIJ1hAaOS8EDKHlfVTS/zdQUERT02h1uqXLDxU
- we3Q==
-X-Gm-Message-State: AGi0PuZBg0G6e2ziifYHDeCx7hlf6bxXMSWJT0L+xpa+m+RB02ZF14hm
- yF8PBDSKYPQ5dWUg3gc0ktTQJkJGuR0+FerypWXUIA==
-X-Google-Smtp-Source: APiQypLfG330WBSuCDCtJMZ0fJBsu2WCRznwAWnWvfkEg5PrfpiCeWRxLOi9NVae/yYDSxWbue2FY/XEZBiyYppOwS8=
-X-Received: by 2002:aca:3a8a:: with SMTP id h132mr4153815oia.146.1587497281614; 
- Tue, 21 Apr 2020 12:28:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200421191001.92644-1-palmerdabbelt@google.com>
-In-Reply-To: <20200421191001.92644-1-palmerdabbelt@google.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Apr 2020 20:27:50 +0100
-Message-ID: <CAFEAcA9ZrLDnU1KLmoPBqhS1fYVG05TzN3bojEGherL7PRhwFg@mail.gmail.com>
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=HVse85FL1xmXxc9mv3/jgM4CIEFdCwr6uLhePKPC4Oo=;
+ b=qqWnk2E5tIMlWFsl4E8Rs1Zx+F3iyErU/MCDPnL+guU7uDqgX2OP5lFHKrrGodTQI7
+ nNhqRb/BEJ9uoM+1YNENUh6xECA1v8Lspb6XYxaDnziyx3e5R2M4N39BNRR6sLOdQW8V
+ +43d5rqlWmCsWZ5dd9OCkokHUTH0m/J6ADldEssewsWkUA6CMF49vfLiiLP7JhtLc/cj
+ g734bTvi0ouElilnx4IdlCbi8zOntPo28FKYZhLNfX9GYFjwmKeRk6PEPTeHQVvXRmqJ
+ zrUuAJPAgITKx9bzOJpC4niI6fTwLJvSR22mvcdyS6sYBiKsFPL3hz4FQMqokiVhDbTF
+ IYaA==
+X-Gm-Message-State: AGi0PuY+B9lBx00wPtTcXuMN3auHuM5jjXuclNzSsvQoJpjp//XrIinl
+ erCv5NvfCXi6vD6RsNnLCkR+2w==
+X-Google-Smtp-Source: APiQypLk5HW4wwxU9bnCj25Obqg7v8pjLpqSoty9FQrXFKiuKCr8alZC4ghmIvt+m9d4GNFCUcWgmQ==
+X-Received: by 2002:a17:902:5999:: with SMTP id
+ p25mr23911623pli.189.1587497580140; 
+ Tue, 21 Apr 2020 12:33:00 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
+ [76.210.143.223])
+ by smtp.gmail.com with ESMTPSA id g25sm3134065pfo.150.2020.04.21.12.32.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Apr 2020 12:32:59 -0700 (PDT)
+Date: Tue, 21 Apr 2020 12:32:59 -0700 (PDT)
+X-Google-Original-Date: Tue, 21 Apr 2020 12:32:55 PDT (-0700)
 Subject: Re: [PULL] RISC-V Patches for 5.0-rc4
-To: Palmer Dabbelt <palmerdabbelt@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x229.google.com
+In-Reply-To: <CAFEAcA9ZrLDnU1KLmoPBqhS1fYVG05TzN3bojEGherL7PRhwFg@mail.gmail.com>
+CC: Alistair Francis <Alistair.Francis@wdc.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+From: Palmer Dabbelt <palmerdabbelt@google.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <mhng-02e556f3-e3ba-477e-b579-7c70037177e1@palmerdabbelt-glaptop1>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=palmerdabbelt@google.com; helo=mail-pj1-x1041.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::229
+X-Received-From: 2607:f8b0:4864:20::1041
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,44 +84,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 Apr 2020 at 20:19, Palmer Dabbelt <palmerdabbelt@google.com> wrote:
-> ----------------------------------------------------------------
-> RISC-V Patches for 5.0-rc4
+On Tue, 21 Apr 2020 12:27:50 PDT (-0700), Peter Maydell wrote:
+> On Tue, 21 Apr 2020 at 20:19, Palmer Dabbelt <palmerdabbelt@google.com> wrote:
+>> ----------------------------------------------------------------
+>> RISC-V Patches for 5.0-rc4
+>>
+>> This contains handful of patches that I'd like to target for 5.0.  I know it's
+>> a bit late, I thought I'd already sent these out but must have managed to miss
+>> doing so.  The patches include:
+>>
+>> * A handful of fixes to PTE lookups related to H-mode support.
+>> * The addition of a serial number fo the SiFive U implementetaion, which allows
+>>   bootloaders to generate a sane MAC address.
+>>
+>> These pass "make check" and boot Linux for me.
+>>
+>> ----------------------------------------------------------------
+>> Peter: Sorry I dropped the ball here.  I can understand if it's too late for
+>> 5.0, but if there's still going to be an rc4 then I'd love to have these
+>> included.
+>> ----------------------------------------------------------------
 >
-> This contains handful of patches that I'd like to target for 5.0.  I know it's
-> a bit late, I thought I'd already sent these out but must have managed to miss
-> doing so.  The patches include:
+> Nope, sorry. rc4 has technically not been tagged yet, but especially
+> the serial-property stuff is too big a code change at this point
+> (it includes one "let's just refactor and rearrange some code"
+> patch which is really not rc4 material.)
+> Also these patches have been on the list for over a month -- if
+> they were 5.0-worthy there's been plenty of time for them to be
+> put in.
 >
-> * A handful of fixes to PTE lookups related to H-mode support.
-> * The addition of a serial number fo the SiFive U implementetaion, which allows
->   bootloaders to generate a sane MAC address.
->
-> These pass "make check" and boot Linux for me.
->
-> ----------------------------------------------------------------
-> Peter: Sorry I dropped the ball here.  I can understand if it's too late for
-> 5.0, but if there's still going to be an rc4 then I'd love to have these
-> included.
-> ----------------------------------------------------------------
+> Plus the last email from Alistair on the "target/riscv: Don't set
+> write permissions on dirty PTEs" patch thread is a note saying
+> it shouldn't be applied, unless I've got confused.
 
-Nope, sorry. rc4 has technically not been tagged yet, but especially
-the serial-property stuff is too big a code change at this point
-(it includes one "let's just refactor and rearrange some code"
-patch which is really not rc4 material.)
-Also these patches have been on the list for over a month -- if
-they were 5.0-worthy there's been plenty of time for them to be
-put in.
+OK, no problem.
 
-Plus the last email from Alistair on the "target/riscv: Don't set
-write permissions on dirty PTEs" patch thread is a note saying
-it shouldn't be applied, unless I've got confused.
-
-thanks
--- PMM
+>
+> thanks
+> -- PMM
 
