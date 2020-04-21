@@ -2,108 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3CA91B21FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 10:48:25 +0200 (CEST)
-Received: from localhost ([::1]:53888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A68921B2209
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 10:51:47 +0200 (CEST)
+Received: from localhost ([::1]:53976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQoZs-0000Gl-EQ
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 04:48:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55524)
+	id 1jQod8-0004Dj-PF
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 04:51:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55856)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jQoYu-00081K-Bm
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 04:47:24 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jQoa8-0000v5-He
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 04:48:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jQoYt-0007yt-8W
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 04:47:23 -0400
-Received: from mail-eopbgr20103.outbound.protection.outlook.com
- ([40.107.2.103]:36430 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jQoYs-0007xT-Gy; Tue, 21 Apr 2020 04:47:22 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QOr9Otr0xynzmTLpLRMXqNWwEfXASm0++8vL08puqpUb1S+dyBgqtrb4lMkDLy4EsMT9XXR5cpqGqOvEwDgWHtzNZ6EZK9MVP8jwcUIKSQop/NX0PEjFpsYdaSauWkEKhLhYpMikxtszg+CG1rzyQi5I8S7D/PVh05Y0cU8TCM2yjuSRSq53+WYcc00D0Iy2+dHXaQlNsMZ0Nsd6QcTDGEoup/Caf/fu3k5ThAvYDue92zLFxFNoUVDOI8L7V/87IdbX0ZFRzpyzQDqjsoWu4+aXJTZk+0gW+WsRohtb9dIgzDtbI3L17hP+lSIYB6NgUnDbnINzrHrZfja7JYvKaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/Xdhib2ES5jPrg8yA1EcJq2RR3UFtSCXPVf/iSGur5I=;
- b=e98LLCfLfUbh/h3KgLamxuIF/259CL9wOfWuJdqwdpEStwrpuLFiDbC8uO/70cvddehIXdcTqOwnd214wiclrsIf1KlMnw+Mrm32if7xLKf7BgXmQFEm0VqDchZRmUxpu3ZLowvNVIVQz046zlivRhW71f4dhKywgnrCpZ/ed6Sh6H02IHh38mqPctqglDbCJ5Iu+ispecpqeoNHQSQmOnpDmNaCK75qXP70VtWJ57EJRifm2h3LZRuXZv5imtYDLk524bXZBW2XAkXyxt3tF/ByKA+pSfu3EEC29SAhWs2XZs3UIp+CYd/lgkGMXeha5vLli0NBcxXIAkxz/4wGZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/Xdhib2ES5jPrg8yA1EcJq2RR3UFtSCXPVf/iSGur5I=;
- b=wcGIYjaFvMT4KJJGB6SZgFvqfJ7mb7QGPbtQAAbMxgCb3KrwldbC2c4D2Lcy/vBUy61oLhDZlTHX83cuHAqltwprHzcf9SaBxhH8xmkJRAAw0OKclSDsV1HDGIs4c+e446k3yM2iDueUSulah03/kr2cX5QScuFkzfKyrJU+82w=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5381.eurprd08.prod.outlook.com (2603:10a6:20b:105::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.29; Tue, 21 Apr
- 2020 08:47:19 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2921.027; Tue, 21 Apr 2020
- 08:47:19 +0000
-Subject: Re: [PATCH v4 4/9] qcow2: Support BDRV_REQ_ZERO_WRITE for truncate
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20200420133214.28921-1-kwolf@redhat.com>
- <20200420133214.28921-5-kwolf@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200421114717260
-Message-ID: <59085a98-338c-fb6c-db2b-0636a03d3190@virtuozzo.com>
-Date: Tue, 21 Apr 2020 11:47:17 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <20200420133214.28921-5-kwolf@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR01CA0137.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:168::42) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (envelope-from <peter.maydell@linaro.org>) id 1jQoa6-0001YL-Ag
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 04:48:39 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:46301)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jQoa5-0001TL-LH
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 04:48:37 -0400
+Received: by mail-io1-xd41.google.com with SMTP id i3so14142981ioo.13
+ for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 01:48:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=tKlYXusGO8+AF+t4nyiCrjf3f18bDU+5mXqYykkV59A=;
+ b=B10pYOq3OUMYwUl3gUq9LooijAfiYfXBFPwFZ8ze4C181muB65q/9gEn+/VoOhnsg2
+ UuG5oXe3Tn5PvICedKLBkK+0nhe6d42VArmmwNSp+F3PmIvaAtTBqOx3wGxrXHzPxfYF
+ 3mWh4ioPx3+dpSRTWPUNut3H/sqvGX+EfOnD+ygNUgM3mnEIx6pKnV+XJf2bN1pKlJI/
+ 7WExXCa+J3/ygSNoMEsIcyC8uLukU8YjPRm0emax4ShLgJ3NyZM3PY/oBcjULpU3hxr1
+ y1s1xs8kgf4NHsFlDpQD6BDq74cRor/N03JlVyt5ncV73WQ1BzZGCOlsP5yizs8VZ6Dd
+ 9ARQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=tKlYXusGO8+AF+t4nyiCrjf3f18bDU+5mXqYykkV59A=;
+ b=Czs9bFAq9pZAniqWQ43kHu2wBMZCFm6Ynj5TWjoqErM0G8cRr3/sQMVF5xOKdIRvqo
+ S5TrBZJfemYx6UlIs08egy8K+rsWnxuOXJquTfup+JKu+e4plh0YPCJuBVx95MvfFv0F
+ GGAc+5nkVid8hccYA3FNs67SqkDLnSuLbDSCcuaUR7+d297udJMC8WoJ6Vu9u30Mj07E
+ Zoi5r5NXvDF/kVgowq+hFguNNS1aGxg5toFDKU6MrOwdXEISOMepnnQALVhJ7FFuferJ
+ 7Sj08Exd+kJNFv18wvYpU8PCY6M4baTJaKgPaPA9JhMp7x6ih9htin6a9gZRgI86OL2Y
+ p07g==
+X-Gm-Message-State: AGi0PuZOZp14xlCc7ROvpi0PgNtipc4h9wrDng8+L0DV6RSsQy3F7GlY
+ aCuwScwJEaQ+IJcPtxekjxYcGCaCBz2u5uEdo70vUg==
+X-Google-Smtp-Source: APiQypI4Oo8E8d6fEhnuI5Hmq3rB1u1gIz5INwHJ+d+EB5Vmyc20KfNUIe+X7jQdpYLJ59ynadkhiZ3izyC8up6SOIQ=
+X-Received: by 2002:a5d:860b:: with SMTP id f11mr1110300iol.104.1587458916322; 
+ Tue, 21 Apr 2020 01:48:36 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.142) by
- AM0PR01CA0137.eurprd01.prod.exchangelabs.com (2603:10a6:208:168::42) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.26 via Frontend
- Transport; Tue, 21 Apr 2020 08:47:18 +0000
-X-Tagtoolbar-Keys: D20200421114717260
-X-Originating-IP: [185.215.60.142]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e70409e6-00bb-469a-e00d-08d7e5d0998e
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5381:
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5381AD63879E9FD4E5ED68A5C1D50@AM7PR08MB5381.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
-X-Forefront-PRVS: 038002787A
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10019020)(4636009)(396003)(39840400004)(376002)(366004)(136003)(346002)(52116002)(186003)(8936002)(316002)(86362001)(26005)(16526019)(6486002)(2616005)(36756003)(16576012)(956004)(2906002)(4326008)(478600001)(5660300002)(31696002)(66476007)(66556008)(8676002)(66946007)(81156014)(31686004);
- DIR:OUT; SFP:1102; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Yq0oEy8BETNn6odN6olvWFg7GSMjGb1uXnudijXiFlIk2ObWdevBgJb9X9VyemY4sAojjVvDOxS0gJFH7/sELW+6gxxf4Dj+fo4tIHbPNiqfUYYAM/R96Lhl2lFBMawWVcj5Aovi8CjCG+GHI3vpJTSPpMkOI3anMeG7R/y94YpYmyMyqUQLtIt+UMkvlb6V8N1D/c0tQYxXDpPdwdPYrJc/322ugMkSn1VHhv6eZ56Osde8NdjFXY8jQ17jKRLYppuAhMgnev55KEHYSy0kBG0veFrNpfJAvJa95zlVTz7AUClwbQ7sEG3uZIFFo1IqB3rVNG6RGKQCbrGhhbdg7CifEV20gWCXD0G67GEQUgBj2joThCBfN13x0TbfYNPjr+gIkt1HCREWm50F6V7a88yypDE+E9/0cfT3lCNrdnwJ2e2q1ABkBoK8Of6Fg8/m
-X-MS-Exchange-AntiSpam-MessageData: DDTWuM+L1rH7ButN7frdSz5Y1tbeMFhaezh6WOc3Kcac72igh1KqnZEsOYWaipW4JRIjeo8I17sAIWcr5n6s+nxT3PN6jtZ5lvsuMbuGPElipzqG9mhLNRgcC8Q6LobSrzuQh9MSYt9nfgwDEbzMGQ==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e70409e6-00bb-469a-e00d-08d7e5d0998e
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2020 08:47:18.9754 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HTAQVPRcEwrpGCFgAM3TGmcDJmOZDV/S8vygpRAO3XPoPCHveXNLNMljiPr1gCrIMFnLvJImIaaEFHRSDAH7wdMy82l7HtDInT5EHl9+ZL8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5381
-Received-SPF: pass client-ip=40.107.2.103;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-VE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 04:47:19
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Received-From: 40.107.2.103
+References: <20200420212206.12776-1-peter.maydell@linaro.org>
+ <20200420212206.12776-2-peter.maydell@linaro.org>
+ <66f1e3c3-13f3-cf66-68e8-281260e420e7@amsat.org>
+In-Reply-To: <66f1e3c3-13f3-cf66-68e8-281260e420e7@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 21 Apr 2020 09:48:23 +0100
+Message-ID: <CAFEAcA8M5n-_V_Zz8KWo55s-_Ca61dh2dg0KXKqngtr+8SBStA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] linux-user/arm: BKPT should cause SIGTRAP,
+ not be a syscall
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=peter.maydell@linaro.org; helo=mail-io1-xd41.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::d41
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -115,56 +79,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berto@igalia.com, qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: omerg681@gmail.com, qemu-arm <qemu-arm@nongnu.org>,
+ Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-20.04.2020 16:32, Kevin Wolf wrote:
-> If BDRV_REQ_ZERO_WRITE is set and we're extending the image, calling
-> qcow2_cluster_zeroize() with flags=0 does the right thing: It doesn't
-> undo any previous preallocation, but just adds the zero flag to all
-> relevant L2 entries. If an external data file is in use, a write_zeroes
-> request to the data file is made instead.
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->   block/qcow2.c | 9 +++++++++
->   1 file changed, 9 insertions(+)
-> 
-> diff --git a/block/qcow2.c b/block/qcow2.c
-> index 6c6d6101ce..7a70c1c090 100644
-> --- a/block/qcow2.c
-> +++ b/block/qcow2.c
-> @@ -1726,6 +1726,7 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
->   
->       bs->supported_zero_flags = header.version >= 3 ?
->                                  BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK : 0;
-> +    bs->supported_truncate_flags = BDRV_REQ_ZERO_WRITE;
->   
->       /* Repair image if dirty */
->       if (!(flags & (BDRV_O_CHECK | BDRV_O_INACTIVE)) && !bs->read_only &&
-> @@ -4213,6 +4214,14 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
->           g_assert_not_reached();
->       }
->   
-> +    if ((flags & BDRV_REQ_ZERO_WRITE) && offset > old_length) {
-> +        ret = qcow2_cluster_zeroize(bs, old_length, offset - old_length, 0);
+On Tue, 21 Apr 2020 at 08:48, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+> I couldn't find a git-diff option to display this change in an obvious wa=
+y.
 
-Hmm. As I understand, qcow2_cluster_zeroize is unprepared to cluster-unaligned offset/size. I think we should handle it somehow.
+Yeah, as a human you can say "it would be easier to read
+if the '} else {' line was not treated as unchanged", but the
+automatic diff output isn't totally awful. Sometimes you
+do just have to look at the resulting code...
 
-> +        if (ret < 0) {
-> +            error_setg_errno(errp, -ret, "Failed to zero out the new area");
-> +            goto fail;
-> +        }
-> +    }
-> +
->       if (prealloc != PREALLOC_MODE_OFF) {
->           /* Flush metadata before actually changing the image size */
->           ret = qcow2_write_caches(bs);
-> 
-
-
--- 
-Best regards,
-Vladimir
+thanks
+-- PMM
 
