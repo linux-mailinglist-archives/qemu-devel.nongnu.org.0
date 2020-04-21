@@ -2,54 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 974CC1B349E
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 03:43:12 +0200 (CEST)
-Received: from localhost ([::1]:39250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7613B1B31E1
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 23:23:54 +0200 (CEST)
+Received: from localhost ([::1]:36292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jR4Pu-0000M8-Kt
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 21:43:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58724)
+	id 1jR0Mz-000723-Fk
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 17:23:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58034)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sashal@kernel.org>) id 1jQz0D-0003uc-Di
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:56:17 -0400
+ (envelope-from <eblake@redhat.com>) id 1jR0Jp-0005Bh-85
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 17:20:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <sashal@kernel.org>) id 1jQz0D-00041u-1l
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:56:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59736)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sashal@kernel.org>) id 1jQz0C-00040k-HV
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:56:16 -0400
-Received: from localhost (unknown [137.135.114.1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (envelope-from <eblake@redhat.com>) id 1jR0Jl-0004W8-7l
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 17:20:35 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25782
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jR0Jj-0004Q2-6f
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 17:20:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587504028;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SNoubmq6zkWNrtgGq9h1cqhTiYO0TqjlC7DDr6vP8XE=;
+ b=gKskPDhwRU+7aDLZvyV+yayqW5D9SzewoPuQ6boh+bzWJip0beqY/RuAquMQ5BSTKXK1jq
+ XUWVOkSRc1g656ZuXBCpCcq8VQrxew8V8T7MSXf7TSf5XpJF/cQSF79wSQXxr9r6ftJfc8
+ elvxWgGHwlDXg5KOf20CjsJ8abtIaFI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-479-0Nd8vDjINKatpeahBSsgwg-1; Tue, 21 Apr 2020 17:20:21 -0400
+X-MC-Unique: 0Nd8vDjINKatpeahBSsgwg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CD4D1206D9;
- Tue, 21 Apr 2020 19:56:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1587498974;
- bh=xPugJXtBDtdc5k1y/O0zEVTc7QjdHvDoYHPn2VLQFFI=;
- h=Date:From:To:To:To:To:Cc:Cc:Cc:Subject:In-Reply-To:References:
- From;
- b=BylQYOJaqcJ3c3usRhV5MlZ8blrIP5jXMyuhzHbkxWfqr2NOtKUBiMR+IzSIEcTwe
- zvNrpqCqfnhkDW1jsCYwyxu/RT1Oyu8m9GXgMkJCLKRglRSMQHotgf4qF4TYrNsRTI
- 8DZeYfuBCzcZQJ7C+cKOZg4GyxdFzSRio6ZIIVMA=
-Date: Tue, 21 Apr 2020 19:56:12 +0000
-From: Sasha Levin <sashal@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-To: Huacai Chen <chenhc@lemote.com>
-To: Xing Li <lixing@loongson.cn>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 03/15] KVM: MIPS: Fix VPN2_MASK definition for variable
- cpu_vmbits
-In-Reply-To: <1586763024-12197-4-git-send-email-chenhc@lemote.com>
-References: <1586763024-12197-4-git-send-email-chenhc@lemote.com>
-Message-Id: <20200421195613.CD4D1206D9@mail.kernel.org>
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=sashal@kernel.org;
- helo=mail.kernel.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 15:56:11
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Received-From: 198.145.29.99
-X-Mailman-Approved-At: Tue, 21 Apr 2020 21:28:40 -0400
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2C5E1007268;
+ Tue, 21 Apr 2020 21:20:20 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D6667A18BC;
+ Tue, 21 Apr 2020 21:20:19 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/6] qemu-img: Add convert --bitmaps
+Date: Tue, 21 Apr 2020 16:20:13 -0500
+Message-Id: <20200421212019.170707-1-eblake@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 17:20:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,44 +70,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stable@vger.kernel.org, qemu-devel@nongnu.org, kvm@vger.kernel.org
+Cc: nsoffer@redhat.com, kwolf@redhat.com, jsnow@redhat.com,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+Without this series, the process for copying one qcow2 image to
+another including all of its bitmaps involves running qemu and doing
+the copying by hand with a series of QMP commands.  This makes the
+process a bit more convenient.
 
-[This is an automated email]
+Series can also be downloaded at:
+https://repo.or.cz/qemu/ericb.git/shortlog/refs/tags/qemu-img-bitmaps-v2
 
-This commit has been processed because it contains a -stable tag.
-The stable tag indicates that it's relevant for the following trees: all
+Since v1:
+- patches 1, 3 are new
+- patch 2 (old 1/3) moves more operations into new file
+- patch 4 no longer a separate thread (was at v2 in isolation)
+- patches 4, 6 rebased to take advantage of 3
+- patch 5, 6 (old 2-3/3) have other minor tweaks
 
-The bot has tested the following trees: v5.6.5, v5.5.18, v5.4.33, v4.19.116, v4.14.176, v4.9.219, v4.4.219.
+Eric Blake (6):
+  docs: Sort sections on qemu-img subcommand parameters
+  blockdev: Split off basic bitmap operations for qemu-img
+  qemu-img: Add bitmap sub-command
+  qcow2: Expose bitmaps' size during measure
+  qemu-img: Add convert --bitmaps option
+  iotests: Add test 291 to for qemu-img bitmap coverage
 
-v5.6.5: Build OK!
-v5.5.18: Build OK!
-v5.4.33: Build OK!
-v4.19.116: Build OK!
-v4.14.176: Build OK!
-v4.9.219: Build OK!
-v4.4.219: Failed to apply! Possible dependencies:
-    029499b47738 ("KVM: x86: MMU: Make mmu_set_spte() return emulate value")
-    19d194c62b25 ("MIPS: KVM: Simplify TLB_* macros")
-    403015b323a2 ("MIPS: KVM: Move non-TLB handling code out of tlb.c")
-    7ee0e5b29d27 ("KVM: x86: MMU: Remove unused parameter of __direct_map()")
-    9a99c4fd6586 ("KVM: MIPS: Define KVM_ENTRYHI_ASID to cpu_asid_mask(&boot_cpu_data)")
-    9fbfb06a4065 ("MIPS: KVM: Arrayify struct kvm_mips_tlb::tlb_lo*")
-    ba049e93aef7 ("kvm: rename pfn_t to kvm_pfn_t")
-    bdb7ed8608f8 ("MIPS: KVM: Convert headers to kernel sized types")
-    ca64c2beecd4 ("MIPS: KVM: Abstract guest ASID mask")
-    caa1faa7aba6 ("MIPS: KVM: Trivial whitespace and style fixes")
-    e6207bbea16c ("MIPS: KVM: Use MIPS_ENTRYLO_* defs from mipsregs.h")
+ docs/tools/qemu-img.rst    |  78 ++++++---
+ Makefile.objs              |   2 +-
+ qapi/block-core.json       |  15 +-
+ include/sysemu/blockdev.h  |  14 ++
+ block/crypto.c             |   2 +-
+ block/qcow2.c              |  29 +++-
+ block/raw-format.c         |   2 +-
+ blockbitmaps.c             | 324 +++++++++++++++++++++++++++++++++++++
+ blockdev.c                 | 293 ---------------------------------
+ qemu-img.c                 | 281 +++++++++++++++++++++++++++++++-
+ MAINTAINERS                |   1 +
+ qemu-img-cmds.hx           |  11 +-
+ tests/qemu-iotests/190     |  15 +-
+ tests/qemu-iotests/190.out |  13 +-
+ tests/qemu-iotests/291     | 103 ++++++++++++
+ tests/qemu-iotests/291.out |  78 +++++++++
+ tests/qemu-iotests/group   |   1 +
+ 17 files changed, 927 insertions(+), 335 deletions(-)
+ create mode 100644 blockbitmaps.c
+ create mode 100755 tests/qemu-iotests/291
+ create mode 100644 tests/qemu-iotests/291.out
 
+--=20
+2.26.2
 
-NOTE: The patch will not be queued to stable trees until it is upstream.
-
-How should we proceed with this patch?
-
--- 
-Thanks
-Sasha
 
