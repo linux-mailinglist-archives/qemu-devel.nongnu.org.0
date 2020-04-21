@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 308391B25DD
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 14:23:37 +0200 (CEST)
-Received: from localhost ([::1]:56960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB8AE1B25FC
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 14:28:28 +0200 (CEST)
+Received: from localhost ([::1]:57072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQrw8-0006s7-7P
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 08:23:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59344)
+	id 1jQs0p-0005qh-Mq
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 08:28:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59362)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jQrpm-0005hq-F3
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:17:03 -0400
+ id 1jQrpo-0005l8-AY
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:17:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jQrpk-0006uN-Qg
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:17:01 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:32897)
+ id 1jQrpm-0006x3-JA
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:17:03 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36235)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jQrpj-0006ig-HV; Tue, 21 Apr 2020 08:17:00 -0400
-Received: by mail-wm1-x341.google.com with SMTP id v8so2397450wma.0;
- Tue, 21 Apr 2020 05:16:58 -0700 (PDT)
+ id 1jQrpl-0006pL-3X; Tue, 21 Apr 2020 08:17:01 -0400
+Received: by mail-wm1-x342.google.com with SMTP id u127so3433073wmg.1;
+ Tue, 21 Apr 2020 05:16:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CYtLz8PPZg3PndLlvtgyHck5NW5BLfVBBR1hau+JN5c=;
- b=TZHkmtxxqAXN1pgT9h5BfTyJGo1J9DJ9gFdiRGyS64zCu8FenqR3yCc0/frBfAN/Uq
- I9SODa3i8jveF26QqNDklGK5M8KA0ETnVU+QMXmE3NqZjVVOhgtigcuo5dFkz6lOdXSO
- 3C5ehpy4nlJjwDLhW5tzq29XsnhakU54kkmGxLlPfDSf0yDYVvTgAEa0wWQpDX9v1JUp
- hctyrQZgt1gUZnYaOhca7BygS1I4J/cMhSUbqywrd11HjVzDp/ecqiCMwDkYePXMEW6g
- 8VZt0LA8OuIa0AtWdUIGh5Myau9HWA4zNNf23oW70cdykAreycg4YGcWVo0HtzMnPSM7
- Pg8Q==
+ bh=zOrL0Bw2XAb9sksyQa2AaC8LCpCTMRMx/mgWehci6Rg=;
+ b=qvMWhnmPkerQAXKEyBEg3wcrkLbAxN5Gm+OCD5CFWHErRv5J9TMYMyH0RmeO0r8U7G
+ QQ8sOnefZQZ8ENHxkwTwCUSfd6YrQKTVrkfHJJMAvXt1t6nQOR2yvb/0LyK/ksTcXEVx
+ /RaDHNvEtxeL+LmcSafDOOpZtUFNXIajcwCypfZX14Zb7Q5VTHEVRKs0M4ZMrfMok+SE
+ tzMszs5Gkhxk1NvP8UFrLye5G66xtiLuGbuhE3YPTOwT8zKHJLi21G2ZrvpW/t1MJ3dA
+ 8b08MhvOzdXEQiN/U6hPfw0TMwQycQXQkb08FnTTb1UI49p96Psxh0KhNxmul7iU/OTn
+ mQbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=CYtLz8PPZg3PndLlvtgyHck5NW5BLfVBBR1hau+JN5c=;
- b=XDj7ZG6lqF/Cl0fqCOGHu1jNwJIUrv0F8Mp0gvtgfasYX4nLhOIG78wdGGXHK/whOB
- IYPn5kWamjiTSRPDFlUlu3ckHC5MShs2Snu9k44pRpdxYHYVANRoFwVIc1lLETeSbSFK
- WebujdahxsBMEuTCHAEUtoaeuCybjwGlVp3V5NbRwf7LJ5TW/XCbBHRT59Gi6IwVXrjh
- k/IiuPEskn5mtbRkDjCnsB2rdbZLkzgVn4Ah7U6URNruzwJHaLwx8UersxxY2JpOWHpG
- a4TywZoviAPJ0E7/4EQKxsrRgUzvCOvB7sXNG2purczcORIPwzfUX74fGLmerveNgd0v
- d9pA==
-X-Gm-Message-State: AGi0PuYqyipsRARAmyXvyhPQ/WBoCpwaFQFPkde1h2g6eRubCJZIkv6m
- ZxPbtBvuesA/TZ6ryEIPWBJgND7TwS0=
-X-Google-Smtp-Source: APiQypIzhC2Noi2yk8BmmqC+or1z3xXHBvrSGm8/5GIfDfg3z2sJYuOa8clDfbYT8fmdP1lTZUC3HA==
-X-Received: by 2002:a7b:c8cc:: with SMTP id f12mr4385077wml.7.1587471415949;
- Tue, 21 Apr 2020 05:16:55 -0700 (PDT)
+ bh=zOrL0Bw2XAb9sksyQa2AaC8LCpCTMRMx/mgWehci6Rg=;
+ b=aFy2zNVAGdBdG0azm2ssoXUgy2T1fhfPQ5aCOSMfgf9JPqAO6BAhBqM3wQ0JVonTMo
+ V01zI6HSQUuX5G6ZJmhN0FrpGLPbWGbEF1X0ctiu1FKrVsndEKwXo6Vxw+XoqUzmJpMa
+ OKdU6iBbQ9pTYfAFuE3EV3k1YR8/HkKiFH7HA61R5HFGuzKia1e6C4TimYfYhISx9Abj
+ UVqoDhChFUIpmxjkIJ3ln1DCFETVoFKWIWAihV14ZOK/beboXIDfmxOa9WnFxBbY1oZY
+ GRoRL3r/XYNeqIrKuC3sa4UFgBbyiFTG3DnOnPErFFWbsZVuuZwIp3etD89kCpBRSWwj
+ 5eGw==
+X-Gm-Message-State: AGi0PuZs5l+RZE6CI/EBex6YCG3a9FoHXGJZuWzL6MC8Ws9Cv64kEQIz
+ 8/b8CIRbq3tPEohJw5/fCAZZaT0fVIk=
+X-Google-Smtp-Source: APiQypIYPDgFFpBFbwESXHwQ6Kj5g/rORzJTF60JCbZ+SPujuhkgh5XcYcVJIhSZF/Fa54CYeUTeKQ==
+X-Received: by 2002:a1c:3986:: with SMTP id g128mr4586515wma.8.1587471417858; 
+ Tue, 21 Apr 2020 05:16:57 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id z76sm3761140wmc.9.2020.04.21.05.16.54
+ by smtp.gmail.com with ESMTPSA id z76sm3761140wmc.9.2020.04.21.05.16.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Apr 2020 05:16:55 -0700 (PDT)
+ Tue, 21 Apr 2020 05:16:57 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 14/17] hw/display/ads7846: Implement the
- 'temperature-sensor' qdev interface
-Date: Tue, 21 Apr 2020 14:16:23 +0200
-Message-Id: <20200421121626.23791-15-f4bug@amsat.org>
+Subject: [RFC PATCH 15/17] hw/ide/qdev: Implement the 'temperature-sensor'
+ qdev interface
+Date: Tue, 21 Apr 2020 14:16:24 +0200
+Message-Id: <20200421121626.23791-16-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200421121626.23791-1-f4bug@amsat.org>
 References: <20200421121626.23791-1-f4bug@amsat.org>
@@ -68,12 +68,12 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,91 +98,66 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 4-wire ADS7846 Touch Screen Controller is able to report a
-pair of temperatures.  Let it implement the 'temperature-sensor'
+IDE drives exposing a SMART interface report the air flow
+temperature. Let them implement the 'temperature-sensor'
 interface.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/display/ads7846.c | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+ hw/ide/qdev.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/hw/display/ads7846.c b/hw/display/ads7846.c
-index 9228b40b1a..e37e99f5ec 100644
---- a/hw/display/ads7846.c
-+++ b/hw/display/ads7846.c
-@@ -16,6 +16,7 @@
- #include "migration/vmstate.h"
- #include "qemu/module.h"
- #include "ui/console.h"
+diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
+index c22afdb8ee..144d6ab533 100644
+--- a/hw/ide/qdev.c
++++ b/hw/ide/qdev.c
+@@ -32,6 +32,7 @@
+ #include "sysemu/sysemu.h"
+ #include "sysemu/runstate.h"
+ #include "qapi/visitor.h"
 +#include "hw/misc/temp-sensor.h"
  
- typedef struct {
-     SSISlave ssidev;
-@@ -53,6 +54,12 @@ typedef struct {
- #define ADS_Z1POS(x, y)	600
- #define ADS_Z2POS(x, y)	(600 + 6000 / ADS_XPOS(x, y))
+ /* --------------------------------- */
  
-+/* TI Datasheet SBAS125H "TEMP DIODE VOLTAGE vs TEMPERATURE (2.7V SUPPLY)" */
-+#define ADS_TEMP0_OFS_MILLIV    666.f
-+#define ADS_TEMP1_OFS_MILLIV    761.f
-+#define ADS_TEMP0_COEFF         2.08f
-+#define ADS_TEMP1_COEFF         1.60f
-+
- static void ads7846_int_update(ADS7846State *s)
- {
-     if (s->interrupt)
-@@ -157,12 +164,39 @@ static void ads7846_realize(SSISlave *d, Error **errp)
-     vmstate_register(NULL, VMSTATE_INSTANCE_ID_ANY, &vmstate_ads7846, s);
+@@ -270,6 +271,12 @@ static void ide_dev_instance_init(Object *obj)
+     object_property_set_int(obj, -1, "bootindex", NULL);
  }
  
-+static float ads7846_get_temp(TempSensor *obj, unsigned sensor_id)
++static float ide_hd_get_temp(TempSensor *obj, unsigned sensor_id)
 +{
-+    ADS7846State *s = (ADS7846State *)obj;
-+
-+    if (sensor_id) {
-+        return (ADS_TEMP1_OFS_MILLIV - s->input[7]) / ADS_TEMP1_COEFF;
-+    } else {
-+        return (ADS_TEMP0_OFS_MILLIV - s->input[0]) / ADS_TEMP0_COEFF;
-+    }
++    /* See airflow-temperature-celsius in smart_attributes[] */
++    return 100.f - 0x45;
 +}
 +
-+static void ads7846_set_temp(TempSensor *obj, unsigned sensor_id,
-+                             float temp_C, Error **errp)
-+{
-+    ADS7846State *s = (ADS7846State *)obj;
-+
-+    if (sensor_id) {
-+        s->input[7] = ADS_TEMP1_OFS_MILLIV - ADS_TEMP1_COEFF * temp_C;
-+    } else {
-+        s->input[0] = ADS_TEMP0_OFS_MILLIV - ADS_TEMP0_COEFF * temp_C;
-+    }
-+}
-+
- static void ads7846_class_init(ObjectClass *klass, void *data)
+ static void ide_hd_realize(IDEDevice *dev, Error **errp)
  {
-     SSISlaveClass *k = SSI_SLAVE_CLASS(klass);
+     ide_dev_initfn(dev, IDE_HD, errp);
+@@ -315,11 +322,14 @@ static void ide_hd_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     IDEDeviceClass *k = IDE_DEVICE_CLASS(klass);
 +    TempSensorClass *tc = TEMPSENSOR_INTERFACE_CLASS(klass);
  
-     k->realize = ads7846_realize;
-     k->transfer = ads7846_transfer;
-+    tc->sensor_count = 2;
-+    tc->set_temperature = ads7846_set_temp;
-+    tc->get_temperature = ads7846_get_temp;
+     k->realize  = ide_hd_realize;
+     dc->fw_name = "drive";
+     dc->desc    = "virtual IDE disk";
+     device_class_set_props(dc, ide_hd_properties);
++    tc->sensor_count = 1;
++    tc->get_temperature = ide_hd_get_temp;
  }
  
- static const TypeInfo ads7846_info = {
-@@ -170,6 +204,10 @@ static const TypeInfo ads7846_info = {
-     .parent        = TYPE_SSI_SLAVE,
-     .instance_size = sizeof(ADS7846State),
-     .class_init    = ads7846_class_init,
+ static const TypeInfo ide_hd_info = {
+@@ -327,6 +337,10 @@ static const TypeInfo ide_hd_info = {
+     .parent        = TYPE_IDE_DEVICE,
+     .instance_size = sizeof(IDEDrive),
+     .class_init    = ide_hd_class_init,
 +    .interfaces = (InterfaceInfo[]) {
 +        { TYPE_TEMPSENSOR_INTERFACE },
 +        { }
 +    },
  };
  
- static void ads7846_register_types(void)
+ static Property ide_cd_properties[] = {
 -- 
 2.21.1
 
