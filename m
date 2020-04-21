@@ -2,109 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B92E1B2032
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 09:46:25 +0200 (CEST)
-Received: from localhost ([::1]:52704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3690C1B2041
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 09:48:41 +0200 (CEST)
+Received: from localhost ([::1]:52728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQnbs-0002Yh-5B
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 03:46:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40694)
+	id 1jQne4-0005OP-AE
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 03:48:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41122)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jQnWL-0004JH-7P
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:40:41 -0400
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jQnYZ-0007xJ-OG
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:43:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jQnWJ-0006iW-Sg
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:40:40 -0400
-Received: from mail-eopbgr60095.outbound.protection.outlook.com
- ([40.107.6.95]:34373 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jQnWJ-0006aV-E4; Tue, 21 Apr 2020 03:40:39 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gpTLEUETIeWgchMpt1VysTqZdlbBl8hIaHn6kyvbI94xK1IIcV5kcvfjSnq4RnJxGnPcwbAgVOCo+3vZHOvfX45LyXvuRT7FmM6bvuL+nG7J7oFvRrn4SwKagV3fvxaQfQZjp489ER1shGJQgceaB/Aw1NDGIFZyS3o1ukO9BR5NWNIM2Qre3zrrh4aw0G5ho0VIQZmgA+bbHm7XywXVJlmk9PQ/8pv1KUpuA6krb+3IrydMTSnPLlZz13DBU6C3vixaBgK3uNtYkWOAOtHbOUedaRZORqKqpRm/YF8WeMTDCjWZC2CTlz438UztSPfkBYbWJwdQIlENNm+xjvBsyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RCA2Ykko1IQfvJu+Z0ri0ghZdTgPJW/emg0IvcrOL04=;
- b=KoBFaXeGtwLkYG1veYoMMTuS9MtoE05VZmJb6Mrtxa3cShrxxB4ixOpOSf5RRRdMLG4II8tHXywig9aQ1mF4CyomRNMrGCZrTbxA01GgBULiuwCYFhnc19yw5bFMgkwMyWyxIlqLAHA97Q7JxE5PfSXwv4ede3np7+vY30D3VfqnrO4SmiFp1Dehdqo7Xq5O7ezq6w/TAwmC3LvGhx7/U+U2Au5o5Lkz7yLABvgYnVhyCEWJqfQ7ItmVLOoT7i3sYLlSmm24NwYf52Mhc0pNy1IhM9S+pt6/efjNtOz2eJ5IzEO9GU4kjwW+WbjHqBzlhyVe0ScwzZwdGaV2ESP+hA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RCA2Ykko1IQfvJu+Z0ri0ghZdTgPJW/emg0IvcrOL04=;
- b=fKORvXA+UbD61LE1TCnab1k8sxyLpPvZD1WjX/U9sno4Epa3hGtVs4nGnJFoHbSlAe/+hsqi4dKuPbLcduLyymfl889uI+hUrHkl8Lh6p0FC2ycb+ZhZCohz1wIMNlEBRfl2Eru+Y4auPKjFBKGLHK2uuvCqYUj3jdgGpvdmMLs=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5351.eurprd08.prod.outlook.com (2603:10a6:20b:dc::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.28; Tue, 21 Apr
- 2020 07:40:37 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2921.027; Tue, 21 Apr 2020
- 07:40:37 +0000
-Subject: Re: [PATCH v3 09/10] iotests: rewrite check into python
-To: qemu-block@nongnu.org
-References: <20200421073601.28710-1-vsementsov@virtuozzo.com>
- <20200421073601.28710-10-vsementsov@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200421104026294
-Message-ID: <817c0dd1-3e51-f1d3-f0d2-227d77c09f9d@virtuozzo.com>
-Date: Tue, 21 Apr 2020 10:40:26 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <20200421073601.28710-10-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR10CA0040.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:150::20) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jQnYZ-0001QZ-9W
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:42:59 -0400
+Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:37900)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1jQnYS-0001Bp-Bp; Tue, 21 Apr 2020 03:42:52 -0400
+Received: by mail-lf1-x142.google.com with SMTP id l11so10332255lfc.5;
+ Tue, 21 Apr 2020 00:42:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=PoHAvL2iCKmot5udpgodEB2iOjbkXVlGxcTV18LUAR0=;
+ b=GXf1KwLRSofQFMxNrviqYfP8CnPz8/t53mfaVv8o3XhFVbxe8iMWxWNY46HQ+ppFlj
+ nNaymFg4ZSbJhpP2afBJ/k5RJz7UmiIJIMQRHn3DrEtMFkgFWSOumUZBry+jfdPxnx/h
+ YLVvW+0HVslaCw+CFibAYlihLIvbbdKOuyh9Rgzw3ubDVgjZlDZCmq329YSc+uE2/3pM
+ G4wB6w9mcKPVbycL/a/Q7jVE8C1DB1c9jD75VNvrjPPZOlKyydE8Yd4ceDeCnHuOvTgB
+ kNdkADs9LonB6T+p0wYPG8T+Q2CodQXrs1IQwUn0sdSlCIP94hBsn0LnZvhEGIxUPJUN
+ H0Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=PoHAvL2iCKmot5udpgodEB2iOjbkXVlGxcTV18LUAR0=;
+ b=ogmxSNAqBe52L+gCIqCABhSD/Zb4zm9cNY5XSjQAc1eDVyqnGrTpouHqonDP0uatMb
+ eUglciXeLxwzyLb91XcNVY6iregeeKxviFiWHYFeVLoNZMk8Y5GdpOrmiDpg8JR+JkhN
+ xymfyF2ur+Q7XS/beN555RDzo1sDSANeLlLP+5/qUNeQqqiReBeOk1QeI5B/ilr5Plxs
+ MuPVLvU04QqAeMu27xYQ7LGebmo9/Mbidmdw9ckoyeKTojqEvXxTRj+taxJskxAo0580
+ k6LdRzwR1ovjVJDwtvGU+78wfTIMDZRztdWhHPXo6MZmv8V/ScYdLnz+z71SlkrZ9DOl
+ IepA==
+X-Gm-Message-State: AGi0PuYSbVWV26yYnxvkdqGuvsY60QNt+mXwGItc0sOJDTHEeovYAA6A
+ HiD8VteYR/XAlBaNw5ZU8Uw=
+X-Google-Smtp-Source: APiQypJlEMPuQKLZgu6JI3FLY/HBPTZIMN3KBXMGenrDsG+zDv9Xdiq6VXVNxqv9SA6s1TZZeMfZ1Q==
+X-Received: by 2002:a19:9109:: with SMTP id t9mr13144357lfd.10.1587454970061; 
+ Tue, 21 Apr 2020 00:42:50 -0700 (PDT)
+Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id c21sm1423114lfh.16.2020.04.21.00.42.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Apr 2020 00:42:49 -0700 (PDT)
+Date: Tue, 21 Apr 2020 09:44:00 +0200
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 3/4] linux-user/arm: Handle invalid arm-specific syscalls
+ correctly
+Message-ID: <20200421074400.GE2669@toto>
+References: <20200420212206.12776-1-peter.maydell@linaro.org>
+ <20200420212206.12776-4-peter.maydell@linaro.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.142) by
- AM0PR10CA0040.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:150::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25 via Frontend
- Transport; Tue, 21 Apr 2020 07:40:32 +0000
-X-Tagtoolbar-Keys: D20200421104026294
-X-Originating-IP: [185.215.60.142]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 98ead604-5101-453f-f773-08d7e5c74852
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5351:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5351F0C5255BAD34ED405435C1D50@AM7PR08MB5351.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
-X-Forefront-PRVS: 038002787A
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10019020)(4636009)(39850400004)(376002)(396003)(346002)(366004)(136003)(66946007)(186003)(66556008)(2906002)(26005)(81156014)(36756003)(478600001)(16526019)(4326008)(6486002)(31686004)(66476007)(8936002)(316002)(16576012)(8676002)(6666004)(956004)(5660300002)(2616005)(6916009)(31696002)(86362001)(52116002);
- DIR:OUT; SFP:1102; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kfpld2HCGWhjTsEwt8gsQ+aO3tc6/63rZKuneaDEuOlLpUtEUwk6WSwmeWdhF7rbQjJGYl3kW63sBjGlnROO9FnxzG6Oj4ThTmQ6eYBXeaofL8UFQSZ8GGSUdhxcYM8gakplG2RJFLhJ8KHjG4Ka4HOH74sH5FOANfnw3/NaQQIzl2PrOactiS+31OhiSFvDDYsAaO0zxT4c7uWC6AhebjCq3x0j2YfyXUu5NXNY7A5sM0l2t56jn46X7v6FcciEKcyEJot8i6BnQNxwCKUgSfpXVC4p19OefB5d+EDY6QcCxhSnSedoOW2eFCJ3JjM4a3cYTLHgY/OUplsOdQ1+zruihK5FSIOcxjyb40BRPSO5Wi4QFJ5SxxE6ZsgE5H3YX1S5HuNKZ7oucVm64zI4KQ755eeQtrNnRyU61EvF+12dk252aZJFl1dWdAEN+rLf
-X-MS-Exchange-AntiSpam-MessageData: QSfRiMMYsHZzR0e4YhGMY0zAdxNLE8n7rKsEmt9WGreTGFlJ3G4uVkc6bmopJReUqdOifUTwDziRgmvxJbpeZgCJajsSa+xlCd6N1o06O21Zwc74v+BSdSNng3ulnZcPTauwEaeeGNDL+LH4C1ov6w==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 98ead604-5101-453f-f773-08d7e5c74852
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2020 07:40:37.1710 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: I/D+eL/8Wu5e5jZBni8v0SrUBCpXDrhezygkj4lF5fB4RvbLEmwHHS8S9AHlm/vmsUwUk96ONfJokbIswwU+rEwntdNEJ+WHEL8ZhT5hZ6s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5351
-Received-SPF: pass client-ip=40.107.6.95;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 03:40:37
-X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.6.95
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200420212206.12776-4-peter.maydell@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::142;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x142.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::142
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -116,44 +82,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org,
- jsnow@redhat.com
+Cc: omerg681@gmail.com, qemu-arm@nongnu.org, Riku Voipio <riku.voipio@iki.fi>,
+ qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-21.04.2020 10:36, Vladimir Sementsov-Ogievskiy wrote:
-> Just use classes introduced in previous three commits. Behavior
-> difference is described in these three commits.
+On Mon, Apr 20, 2020 at 10:22:05PM +0100, Peter Maydell wrote:
+> The kernel has different handling for syscalls with invalid
+> numbers that are in the "arm-specific" range 0x9f0000 and up:
+>  * 0x9f0000..0x9f07ff return -ENOSYS if not implemented
+>  * other out of range syscalls cause a SIGILL
+> (see the kernel's arch/arm/kernel/traps.c:arm_syscall())
 > 
-> Drop group file, as it becomes unused.
+> Implement this distinction. (Note that our code doesn't look
+> quite like the kernel's, because we have removed the
+> 0x900000 prefix by this point, whereas the kernel retains
+> it in arm_syscall().)
 > 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   tests/qemu-iotests/check | 965 ++-------------------------------------
->   tests/qemu-iotests/group | 299 ------------
->   2 files changed, 28 insertions(+), 1236 deletions(-)
->   delete mode 100644 tests/qemu-iotests/group
+>  linux-user/arm/cpu_loop.c | 30 ++++++++++++++++++++++++++----
+>  1 file changed, 26 insertions(+), 4 deletions(-)
 > 
-> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-> index 03016e1e91..4cb6fd5113 100755
-> --- a/tests/qemu-iotests/check
-> +++ b/tests/qemu-iotests/check
-> @@ -1,7 +1,8 @@
-> -#!/usr/bin/env bash
-> +#!/usr/bin/env python3
->   #
-> -# Copyright (C) 2009 Red Hat, Inc.
-> -# Copyright (c) 2000-2002,2006 Silicon Graphics, Inc.  All Rights Reserved.
+> diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
+> index 025887d6b86..f042108b0be 100644
+> --- a/linux-user/arm/cpu_loop.c
+> +++ b/linux-user/arm/cpu_loop.c
+> @@ -332,10 +332,32 @@ void cpu_loop(CPUARMState *env)
+>                              env->regs[0] = cpu_get_tls(env);
+>                              break;
+>                          default:
+> -                            qemu_log_mask(LOG_UNIMP,
+> -                                          "qemu: Unsupported ARM syscall: 0x%x\n",
+> -                                          n);
+> -                            env->regs[0] = -TARGET_ENOSYS;
+> +                            if (n < 0xf0800) {
+> +                                /*
+> +                                 * Syscalls 0xf0000..0xf07ff (or 0x9f0000..
+> +                                 * 0x9f07ff in OABI numbering) are defined
+> +                                 * to return -ENOSYS rather than raising
+> +                                 * SIGILL. Note that we have already
+> +                                 * removed the 0x900000 prefix.
+> +                                 */
+> +                                qemu_log_mask(LOG_UNIMP,
+> +                                    "qemu: Unsupported ARM syscall: 0x%x\n",
+> +                                              n);
+> +                                env->regs[0] = -TARGET_ENOSYS;
+> +                            } else {
+> +                                /* Otherwise SIGILL */
+> +                                info.si_signo = TARGET_SIGILL;
+> +                                info.si_errno = 0;
+> +                                info.si_code = TARGET_ILL_ILLTRP;
+> +                                info._sifields._sigfault._addr = env->regs[15];
+> +                                if (env->thumb) {
+> +                                    info._sifields._sigfault._addr -= 2;
+> +                                } else {
+> +                                    info._sifields._sigfault._addr -= 2;
+> +                                }
 
-I've dropped old copyrights. If someone think that I should keep them here
-or in a new testenv.py/testfinder.py/testrunner.py, please let me know.
 
-> +# Configure environment and run group of tests in it.
-> +#
-> +# Copyright (c) 2020 Virtuozzo International GmbH
+Am I missing some detail or are both branches of the if-else doing the
+same thing?
+
+Cheers,
+Edgar
 
 
--- 
-Best regards,
-Vladimir
+
+> +                                queue_signal(env, info.si_signo,
+> +                                             QEMU_SI_FAULT, &info);
+> +                            }
+>                              break;
+>                          }
+>                      } else {
+> -- 
+> 2.20.1
+> 
+> 
 
