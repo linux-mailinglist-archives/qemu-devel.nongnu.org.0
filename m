@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 239191B2E81
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 19:43:41 +0200 (CEST)
-Received: from localhost ([::1]:33782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A31981B2E98
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 19:51:55 +0200 (CEST)
+Received: from localhost ([::1]:33862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQwvr-00055k-Nb
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 13:43:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37492)
+	id 1jQx3q-0001Z3-5c
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 13:51:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38392)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jQwuS-0003zH-PU
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 13:42:13 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jQx2k-0000qw-JT
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 13:50:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jQwuQ-0002zD-Vt
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 13:42:12 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:39676)
+ (envelope-from <richard.henderson@linaro.org>) id 1jQx2V-00031s-Ot
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 13:50:46 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:39762)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jQwuQ-0002x2-IZ
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 13:42:10 -0400
-Received: by mail-pl1-x643.google.com with SMTP id k18so5509995pll.6
- for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 10:42:09 -0700 (PDT)
+ id 1jQx2V-0002z3-9l
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 13:50:31 -0400
+Received: by mail-pg1-x544.google.com with SMTP id o10so3871496pgb.6
+ for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 10:50:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=X4z+AKfq0+UWGtv24j1yk/qNn7FI9ECJ0STdJw3q7/A=;
- b=Y9m4CD85qkEBHqmbO1B0mBiSArURI9ZbKBK3l5zKht0ufkbANdwHjELxI8PwY0vTmh
- bIh8uUkDYsZCEiXDPBWkCQFqFlKq3QmhoY1emmxflWvc4IKFawmhVP8HR2nd/d1i1O2k
- ozKxIcJCfF0S5/FGX8G6zxHvCS32Nxg35d3jqKqfSG6gud9nYeG0QgOlUvQYFx+IvqT6
- HXlOFdlNxXv2Pnl5f0pYeqkK4fgNpLQ5L/s8zD/Iv04gJOMhrnJZsv3xhmYy0w5jCtVC
- WpAZz3402lkfzVRTIDGMX0VUK5Kk82H72Rh7weZJqs8gXKM1IZr38y6I82yzOcuGwD3d
- V3jA==
+ bh=jjTBpe+N8kwhwYaR4vyHJeWZqdLLUK+lLBHqXqykPug=;
+ b=OzeEDKvMw/QwqrGX4ioM+ECf+ELb6foDlF5JEEwlFL2evqeqhMuGx49wCcxEKpOb/n
+ b+XTI7jdSb+kWmyRRAPm+X2DGccQKdIm123dq2xdpRM3kRP7NQ0qwXa7+tT7IoKifm0i
+ WHoUFV0bmUxPqZ2+AKBNhT2jZeTFs+F/n25hNZxGsWcGNB5KF86nk66rF/nY+dwe7iOO
+ M0xHwXBZYBTuPjptoYNXPSJQWc/flcPRjSeRx3QByBY+wijlNI4NoHAGdoT2C4LXRaYG
+ IftkRtshpheMGlOhTw/06UeuWPIk3y5KhidvsY9eb3YAYZKKyph9YTanyfYNWJn97MQ/
+ ABsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=X4z+AKfq0+UWGtv24j1yk/qNn7FI9ECJ0STdJw3q7/A=;
- b=Rse4co/LsRf4LvCTaHCC+oEcsr+DRauBRLX1OzOAXBct9H+D3EobINae9Yg/0iZvjT
- AoB3MoghLYYkBcBQftpCM07AXk5dxSgkh+UwhEsonySy/fQcNL2LAHkUuM8xVicGLHHf
- khQ/FetFFN2oXUm5sulKC59ZMc+1w0EUyt3tNR3fZmYcHgoqGz5a8ShzjcKAEMcW7LmA
- 2hJOX1Oxj+ymLWCX9ZrdxfH+htLc8EgNvr5jSoE+3abqSgFPucqaPG5OQcKIy4Np+/eC
- z1rtcRWi2XbAgHDDuxOSYORkaQbjKxpb5Yt4TgbomUWSOZxZcnQyMG0QxLY4o6YGD9Ki
- 01mQ==
-X-Gm-Message-State: AGi0PuZRAVlLuqis0O0w7206gGaUt45PKddPNLNJmngw0lXf4fW56GRZ
- pBoh0KJizkLH0LD1+/0MjrXJJA==
-X-Google-Smtp-Source: APiQypIepJ0vb23WkPJq+rcMOpZSBWVyORcjmyFMw5Z4CByHFf4EGbbocnBShuDiDmqPxlUJ2LQfQg==
-X-Received: by 2002:a17:90a:f418:: with SMTP id
- ch24mr6873878pjb.68.1587490928509; 
- Tue, 21 Apr 2020 10:42:08 -0700 (PDT)
+ bh=jjTBpe+N8kwhwYaR4vyHJeWZqdLLUK+lLBHqXqykPug=;
+ b=VODEFWgLGWM5XLzjNnUdzmMzYUBywWJqmsX3+v21y2Uxa93huT3eqRPCXEvaiGC8HP
+ f8qHEV9yJ3ZY9ZJy2qzylVi+UH9vi1cI61p8IILpsbokUihQTPNvmtMxaJibBrDwAU7j
+ H1t3/ioOO2ZsCo6gkzFkO+T+tbhzEIvgNPOJDToJX4lI0EwwwiqWVT1whQ8nZQfGNKly
+ mrDyoEB/hujJQtZ0QC2vLjCrPs2RgQ3gTbrQlt018KGB/aPVfzfdXNTLFPyS9kr0XrfU
+ yJCx0IfyqlCd3iF5RDTxuwySlU80FR1bw9cd281hTsyL8MpbmaVv2xpJk5aaJ57AYMPM
+ ku5g==
+X-Gm-Message-State: AGi0PuZTEDFNsrMEWmP/uzB7USKE7/tfVqx05ajNVH2Ad7EMC5okA0a4
+ uyikNEJ5UKO25w8pb8ZNLXBkZr766UA=
+X-Google-Smtp-Source: APiQypJwA3Qe3Hq5HUBmR380hPBYarYmgleHuqR8SFeN9HlA1WizIhbZHw5wYk1MilTw8Mnci1lilg==
+X-Received: by 2002:a63:5a5f:: with SMTP id k31mr22869876pgm.109.1587491428669; 
+ Tue, 21 Apr 2020 10:50:28 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id e66sm2930152pfa.69.2020.04.21.10.42.07
+ by smtp.gmail.com with ESMTPSA id d17sm2830708pgk.5.2020.04.21.10.50.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Apr 2020 10:42:07 -0700 (PDT)
-Subject: Re: [PATCH] tests/tcg: use EXTRA_RUNS to run gdbtests
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20200420133455.25401-1-alex.bennee@linaro.org>
+ Tue, 21 Apr 2020 10:50:27 -0700 (PDT)
+Subject: Re: [PATCH 3/7] target/ppc: Use tcg_gen_gvec_dup_imm
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20200418150411.1831-1-richard.henderson@linaro.org>
+ <20200418150411.1831-4-richard.henderson@linaro.org>
+ <87368yfntf.fsf@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <96764801-30e7-ccd7-2387-643a2703d335@linaro.org>
-Date: Tue, 21 Apr 2020 10:42:05 -0700
+Message-ID: <81b5dff6-b7f3-a536-87a0-778ec26d20cb@linaro.org>
+Date: Tue, 21 Apr 2020 10:50:25 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200420133455.25401-1-alex.bennee@linaro.org>
+In-Reply-To: <87368yfntf.fsf@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::643
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,27 +86,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org,
+ david@gibson.dropbear.id.au, zhiwei_liu@c-sky.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/20/20 6:34 AM, Alex Bennée wrote:
-> With --enable-plugins the gdb tests confuse things somewhat as the
-> plugin code attempts to enumerate tests with non-existent binaries.
-> Fortunately we already have a mechanism for these extra tests that
-> don't automatically include their own binaries. Use that mechanism and
-> drop the unneeded .PHONY declarations.
+On 4/20/20 3:34 AM, Alex Bennée wrote:
+>> +GEN_VXFORM_VSPLTI(vspltisb, MO_8, 6, 12);
+>> +GEN_VXFORM_VSPLTI(vspltish, MO_16, 6, 13);
+>> +GEN_VXFORM_VSPLTI(vspltisw, MO_32, 6, 14);
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  tests/tcg/aarch64/Makefile.target   | 5 ++---
->  tests/tcg/cris/Makefile.target      | 1 +
->  tests/tcg/multiarch/Makefile.target | 5 ++---
->  3 files changed, 5 insertions(+), 6 deletions(-)
+> There are unused parameters opc2/opc3 parameters here.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Yes, but all of the other GEN_* macros retain them as well.
+Without looking at the actual history, I'd say once upon a time they were
+actually used, but we've now split opcode from implementation.
+
+> With the removed extra unused macro params:
+> 
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+
+I wouldn't do that without David's approval.  And possibly stripping out the
+opcodes everywhere else.
+
 
 r~
 
