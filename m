@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17DC11B2C8E
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 18:23:10 +0200 (CEST)
-Received: from localhost ([::1]:32780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 648331B2CA1
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 18:28:26 +0200 (CEST)
+Received: from localhost ([::1]:32934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQvfx-0002Gd-4B
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 12:23:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54062)
+	id 1jQvl3-0001Rp-E1
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 12:28:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54084)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jQveP-0000xz-GJ
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:21:33 -0400
+ (envelope-from <peterx@redhat.com>) id 1jQveR-00011J-8m
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:21:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jQveN-0004Ce-RH
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:21:33 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34482
+ (envelope-from <peterx@redhat.com>) id 1jQveQ-0004DU-Lb
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:21:35 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22107
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jQveN-0004C4-Cf
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:21:31 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jQveQ-0004Cz-7Y
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:21:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587486090;
+ s=mimecast20190719; t=1587486093;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=122YOYw144hc6vkPSvZo4NtonS9ahelmjBfjzv+fw7s=;
- b=FrUmBqap3sIw5NYm891rFQr1iuSJHUOWoKeuxFpGU25HjRbnISyXNcL3VGrJTXmBCTVQYY
- ht1LDo547WMCDHT38DrFW1kmYWNRvW12p0eWeYYiUa/ODCbQitqbT4Xx8MtZ3KXigL9gaY
- z0YaME+xt5QUbwPEXHuacyiLlfe6RqI=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-ULJNS5A2NWu3yyjC7oTesg-1; Tue, 21 Apr 2020 12:21:28 -0400
-X-MC-Unique: ULJNS5A2NWu3yyjC7oTesg-1
-Received: by mail-qt1-f199.google.com with SMTP id z3so1824873qtb.6
- for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 09:21:28 -0700 (PDT)
+ bh=OK+DIsPslG72w2IO6pbi47ldoAbHvOu1kXaqnZ0hY+0=;
+ b=JnMIJDw9A3YKQa2ndHEPLR++TcJ9mdxdtTEF5OwBsvsR1VRuJkcEehg/HiKzFowssE4dYT
+ MftHRWYpcuXEBbWtHXrDbjepj31Q5LngMGVr9xKKyra9AYz2vodoDwc+jipumK+z1VxWAO
+ rtdSEDtKE37XPNkbiqJ69foN/uISabc=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-169-mbqNGD1CO82q49E-ozeCcw-1; Tue, 21 Apr 2020 12:21:31 -0400
+X-MC-Unique: mbqNGD1CO82q49E-ozeCcw-1
+Received: by mail-qv1-f70.google.com with SMTP id f4so14336537qvu.19
+ for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 09:21:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Hc5q36gUSYxDngylBJ7eysmU7ygS+hXagQQ/ZJe8Efk=;
- b=rqgArRHfBX7ox2+g4/xFjbPVqTtE0/mkviTrI6qgTgWDnVBPKPGWjBBfhAlXFiu3V8
- 7FmzTucszjMjVjYTCKk/D9LlBF8KECdh804p08v2Z7zH3L+vncM1x+IUnq5iLKlRyYNS
- t6t7oy5CsPWVv79AI9GQd6wln/F+y+a1b6SS/YGxiX99QznJhYsY6DShuY46ID4se/Mb
- lcnFBFtzBr5TTwoNVItvfjsWnb3vHnwk/2dVNK7RwIPuriPKmvC79UKxMBE+WN2ey+sp
- gQLWI96y8q9mKZxWA3+G4uMY4oTRLfRv04FjQ73YUPxcF5ABoJIG7jlzeX+BRX+seIUi
- HLZQ==
-X-Gm-Message-State: AGi0PuYI5H31jBSvbmb/aJHn7h7IWCbaD5yNZakzC0tkIR9x1DXrKG4j
- TRTFAYbn0clg2wIamPd0ECHVNXhD3C7aTshtNI9Pj6FSbdh7Zk5RE8IGKW/qaqpeVBDAnMfROKO
- GAVBa45QIO67hdmY=
-X-Received: by 2002:aed:3445:: with SMTP id w63mr21724892qtd.183.1587486087444; 
- Tue, 21 Apr 2020 09:21:27 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIxIGg6zFdz3rLUrny1hQomxwk+/LiFR4emedwHUM5IUYKXKRVTDERRA5i9cgwnIjDks1GIng==
-X-Received: by 2002:aed:3445:: with SMTP id w63mr21724869qtd.183.1587486087133; 
- Tue, 21 Apr 2020 09:21:27 -0700 (PDT)
+ bh=fRMHDItsx9hNNfR+euE1kI/dNdII4x7dwM+Q4RAjUSc=;
+ b=aVuDdUIqcN5kUkxHEuGAopMeOYoCJ56OalqXqvTU/Y4cjIIcsu5VlGmHxl5GJCLCFM
+ pMfT8Xm6CbrevRG2K0Hq7bHE6knFMIZsk+36bNb3h0FqVaXrn0bN+9DLLI54+MhOXUwi
+ QB2DJgXDl7O42CEC8qv9suqh5Fpacr5anjRI1AlIcPtHrmPvps/vlCzpXapDV2E4/hEm
+ 3ToEOv9LbtJQ6+VyNPB5Ru/CoBWcWQWVpKwVbljvS2ICXEfF+HUiwXEozHLNENVd6rGY
+ WMjueYHWP7M0ImsVijsLYcD8UbZkKc8G3B++H1YAPRkzxxy2TDnNULZXSdpbiqiLKrIS
+ HNgw==
+X-Gm-Message-State: AGi0Pub68w5TH4iqy85YFSiNtUh91f2zGh6B/A9Jb2OlFh7HvT1u+DuM
+ EQdcAjI0XHC4S+IcbzpVXvbaqJf30WZe5FsIvsWpe02mnELEOYycZLTAPnKBL9fFiaDtm3nAlDw
+ D4d0UmN1r/FwvN2g=
+X-Received: by 2002:a0c:f70c:: with SMTP id w12mr21187007qvn.28.1587486090495; 
+ Tue, 21 Apr 2020 09:21:30 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLkeQXvii5i6XbB/9MmopgbcRFNkqUjk07cE6Av4jZKy9ipmw+U72L7n+JYe6pzAUEgj1z44A==
+X-Received: by 2002:a0c:f70c:: with SMTP id w12mr21186980qvn.28.1587486090289; 
+ Tue, 21 Apr 2020 09:21:30 -0700 (PDT)
 Received: from xz-x1.redhat.com ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id r128sm2002105qke.95.2020.04.21.09.21.26
+ by smtp.gmail.com with ESMTPSA id n10sm1888503qkk.105.2020.04.21.09.21.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Apr 2020 09:21:26 -0700 (PDT)
+ Tue, 21 Apr 2020 09:21:29 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/8] cpus: Remove the mutex parameter from do_run_on_cpu()
-Date: Tue, 21 Apr 2020 12:21:05 -0400
-Message-Id: <20200421162108.594796-6-peterx@redhat.com>
+Subject: [PATCH 6/8] cpus: Introduce qemu_mutex_unlock_iothread_prepare()
+Date: Tue, 21 Apr 2020 12:21:06 -0400
+Message-Id: <20200421162108.594796-7-peterx@redhat.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200421162108.594796-1-peterx@redhat.com>
 References: <20200421162108.594796-1-peterx@redhat.com>
@@ -73,11 +73,11 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 03:31:23
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 01:28:51
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,77 +94,48 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, peterx@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We must use the BQL for do_run_on_cpu() without much choice, it means the
-parameter is helpless.  Remove it.  Meanwhile use the newly introduced
-qemu_cond_wait_iothread() in do_run_on_cpu().
+The prepare function before unlocking BQL.  There're only three places that=
+ can
+release the BQL: unlock(), cond_wait() or cond_timedwait().
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- cpus-common.c         | 5 ++---
- cpus.c                | 2 +-
- include/hw/core/cpu.h | 4 +---
- 3 files changed, 4 insertions(+), 7 deletions(-)
+ cpus.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/cpus-common.c b/cpus-common.c
-index eaf590cb38..4fc11b4e1c 100644
---- a/cpus-common.c
-+++ b/cpus-common.c
-@@ -121,8 +121,7 @@ static void queue_work_on_cpu(CPUState *cpu, struct qem=
-u_work_item *wi)
-     qemu_cpu_kick(cpu);
- }
-=20
--void do_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data da=
-ta,
--                   QemuMutex *mutex)
-+void do_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data da=
-ta)
- {
-     struct qemu_work_item wi;
-=20
-@@ -141,7 +140,7 @@ void do_run_on_cpu(CPUState *cpu, run_on_cpu_func func,=
- run_on_cpu_data data,
-     while (!atomic_mb_read(&wi.done)) {
-         CPUState *self_cpu =3D current_cpu;
-=20
--        qemu_cond_wait(&qemu_work_cond, mutex);
-+        qemu_cond_wait_iothread(&qemu_work_cond);
-         current_cpu =3D self_cpu;
-     }
- }
 diff --git a/cpus.c b/cpus.c
-index 263eddc8b0..5cbc3f30de 100644
+index 5cbc3f30de..48aa295fea 100644
 --- a/cpus.c
 +++ b/cpus.c
-@@ -1140,7 +1140,7 @@ void qemu_init_cpu_loop(void)
-=20
- void run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data)
- {
--    do_run_on_cpu(cpu, func, data, &qemu_global_mutex);
-+    do_run_on_cpu(cpu, func, data);
+@@ -1832,20 +1832,27 @@ void qemu_mutex_lock_iothread_impl(const char *file=
+, int line)
+     iothread_locked =3D true;
  }
 =20
- static void qemu_kvm_destroy_vcpu(CPUState *cpu)
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 5bf94d28cf..b26fdb5ab8 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -734,12 +734,10 @@ bool cpu_is_stopped(CPUState *cpu);
-  * @cpu: The vCPU to run on.
-  * @func: The function to be executed.
-  * @data: Data to pass to the function.
-- * @mutex: Mutex to release while waiting for @func to run.
-  *
-  * Used internally in the implementation of run_on_cpu.
-  */
--void do_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data da=
-ta,
--                   QemuMutex *mutex);
-+void do_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data da=
-ta);
++static void qemu_mutex_unlock_iothread_prepare(void)
++{
++}
++
+ void qemu_mutex_unlock_iothread(void)
+ {
+     g_assert(qemu_mutex_iothread_locked());
+     iothread_locked =3D false;
++    qemu_mutex_unlock_iothread_prepare();
+     qemu_mutex_unlock(&qemu_global_mutex);
+ }
 =20
- /**
-  * run_on_cpu:
+ void qemu_cond_wait_iothread(QemuCond *cond)
+ {
++    qemu_mutex_unlock_iothread_prepare();
+     qemu_cond_wait(cond, &qemu_global_mutex);
+ }
+=20
+ void qemu_cond_timedwait_iothread(QemuCond *cond, int ms)
+ {
++    qemu_mutex_unlock_iothread_prepare();
+     qemu_cond_timedwait(cond, &qemu_global_mutex, ms);
+ }
+=20
 --=20
 2.24.1
 
