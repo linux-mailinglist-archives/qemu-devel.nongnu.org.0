@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E8911B2712
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 15:04:31 +0200 (CEST)
-Received: from localhost ([::1]:57966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E121B271C
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 15:06:36 +0200 (CEST)
+Received: from localhost ([::1]:58020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQsZi-0001vk-6Z
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 09:04:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44612)
+	id 1jQsbk-0005F9-2X
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 09:06:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44670)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1jQsXW-0007zt-Ll
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:02:16 -0400
+ id 1jQsXb-00085I-PI
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:02:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
  (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1jQsXV-00023P-Oh
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:02:14 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3674 helo=huawei.com)
+ id 1jQsXa-0002Fc-QX
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:02:19 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3745 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1jQsXT-0001i7-9k; Tue, 21 Apr 2020 09:02:11 -0400
+ id 1jQsXW-0001py-Vr; Tue, 21 Apr 2020 09:02:16 -0400
 Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 26B1A5D3203E16C96B98;
- Tue, 21 Apr 2020 21:01:59 +0800 (CST)
+ by Forcepoint Email with ESMTP id 282EDB33DE35D86207BE;
+ Tue, 21 Apr 2020 21:02:04 +0800 (CST)
 Received: from S00345302A-PC.china.huawei.com (10.47.91.160) by
  DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 21 Apr 2020 21:01:51 +0800
+ 14.3.487.0; Tue, 21 Apr 2020 21:01:55 +0800
 From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
  <imammedo@redhat.com>
-Subject: [PATCH v4 0/7] ARM virt: Add NVDIMM support
-Date: Tue, 21 Apr 2020 13:59:27 +0100
-Message-ID: <20200421125934.14952-1-shameerali.kolothum.thodi@huawei.com>
+Subject: [PATCH v4 1/7] hw/acpi/nvdimm: Fix for NVDIMM incorrect DSM output
+ buffer length
+Date: Tue, 21 Apr 2020 13:59:28 +0100
+Message-ID: <20200421125934.14952-2-shameerali.kolothum.thodi@huawei.com>
 X-Mailer: git-send-email 2.12.0.windows.1
+In-Reply-To: <20200421125934.14952-1-shameerali.kolothum.thodi@huawei.com>
+References: <20200421125934.14952-1-shameerali.kolothum.thodi@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.47.91.160]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
+Received-SPF: pass client-ip=45.249.212.191;
  envelope-from=shameerali.kolothum.thodi@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 09:01:59
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 09:02:04
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Received-From: 45.249.212.190
+X-Received-From: 45.249.212.191
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,86 +64,101 @@ Cc: peter.maydell@linaro.org, xiaoguangrong.eric@gmail.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series adds NVDIMM support to arm/virt platform.
-The series reuses some of the patches posted by Eric
-in his earlier attempt here[1].
+As per ACPI spec 6.3, Table 19-419 Object Conversion Rules, if
+the Buffer Field <= to the size of an Integer (in bits), it will
+be treated as an integer. Moreover, the integer size depends on
+DSDT tables revision number. If revision number is < 2, integer
+size is 32 bits, otherwise it is 64 bits. Current NVDIMM common
+DSM aml code (NCAL) uses CreateField() for creating DSM output
+buffer. This creates an issue in arm/virt platform where DSDT
+revision number is 2 and results in DSM buffer with a wrong
+size(8 bytes) gets returned when actual length is < 8 bytes.
+This causes guest kernel to report,
 
-This series previously had few fixes to qemu in general
-which were discovered while adding nvdimm support to arm/virt.
-Those were sent out seperately[2] and are now part of Qemu.
+"nfit ACPI0012:00: found a zero length table '0' parsing nfit"
 
-Patch #1 is another fix to the nvdimm aml issue discussed
-here[3].
+In order to fix this, aml code is now modified such that it builds
+the DSM output buffer in a byte by byte fashion when length is
+smaller than Integer size.
 
-I have done a basic sanity testing of NVDIMM devices
-with Guest booting with ACPI. Further testing is always
-welcome.
+Suggested-by: Igor Mammedov <imammedo@redhat.com>
+Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+---
+ hw/acpi/nvdimm.c                            | 40 +++++++++++++++++++--
+ tests/qtest/bios-tables-test-allowed-diff.h |  2 ++
+ 2 files changed, 39 insertions(+), 3 deletions(-)
 
-Please let me know your feedback.
-
-Thanks,
-Shameer
-
-[1] https://patchwork.kernel.org/cover/10830777/
-[2] https://patchwork.kernel.org/cover/11472501/
-[3] https://patchwork.kernel.org/cover/11174959/#23020961
-
-v3 --> v4
- -Removed patches #1 to #3 from v3 as they are now part of Qemu.
- -Addressed comments from Igor(#6) and Shannon(#4).
- -Added R-by from Igor(#1,#2,#3).
-
-v2 --> v3
- - Added patch #1 and # 2 to fix the inconsistency in acpi
-   table memory region sizes during migration. Thanks to
-   David H.
- - The fix for qemu_ram_resize() callback was modified to
-   the one in patch #3. Again thanks to David H.
- - Addressed comments from MST and Eric on tests added.
- - Addressed comments from Igor/MST on Integer size in patch #4
- - Added Eric's R-by to patch #7.
-
-v1 --> v2
- -Reworked patch #1 and now fix is inside qemu_ram_resize().
- -Added patch #2 to fix the nvdim aml issue.
- -Dropped support to DT cold plug.
- -Updated test_acpi_virt_tcg_memhp() with pc-dimm and nvdimms(patch #7)
-
-Kwangwoo Lee (2):
-  nvdimm: Use configurable ACPI IO base and size
-  hw/arm/virt: Add nvdimm hot-plug infrastructure
-
-Shameer Kolothum (5):
-  hw/acpi/nvdimm: Fix for NVDIMM incorrect DSM output buffer length
-  hw/arm/virt: Add nvdimm hotplug support
-  tests: Update ACPI tables list for upcoming arm/virt test changes
-  bios-tables-test: test pc-dimm and nvdimm coldplug for arm/virt
-  tests/acpi: add expected tables for bios-tables-test
-
- docs/specs/acpi_hw_reduced_hotplug.rst |   3 +-
- hw/acpi/generic_event_device.c         |  15 +++++-
- hw/acpi/nvdimm.c                       |  72 ++++++++++++++++++++-----
- hw/arm/Kconfig                         |   1 +
- hw/arm/virt-acpi-build.c               |   6 +++
- hw/arm/virt.c                          |  35 ++++++++++--
- hw/i386/acpi-build.c                   |   6 +++
- hw/i386/acpi-build.h                   |   3 ++
- hw/i386/pc_piix.c                      |   2 +
- hw/i386/pc_q35.c                       |   2 +
- hw/mem/Kconfig                         |   2 +-
- include/hw/acpi/generic_event_device.h |   1 +
- include/hw/arm/virt.h                  |   1 +
- include/hw/mem/nvdimm.h                |   3 ++
- tests/data/acpi/pc/SSDT.dimmpxm        | Bin 685 -> 734 bytes
- tests/data/acpi/q35/SSDT.dimmpxm       | Bin 685 -> 734 bytes
- tests/data/acpi/virt/DSDT.memhp        | Bin 6644 -> 6668 bytes
- tests/data/acpi/virt/NFIT.memhp        | Bin 0 -> 224 bytes
- tests/data/acpi/virt/SSDT.memhp        | Bin 0 -> 736 bytes
- tests/qtest/bios-tables-test.c         |   9 +++-
- 20 files changed, 138 insertions(+), 23 deletions(-)
- create mode 100644 tests/data/acpi/virt/NFIT.memhp
- create mode 100644 tests/data/acpi/virt/SSDT.memhp
-
+diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
+index eb6a37b14e..df0790719a 100644
+--- a/hw/acpi/nvdimm.c
++++ b/hw/acpi/nvdimm.c
+@@ -938,6 +938,7 @@ static void nvdimm_build_common_dsm(Aml *dev)
+     Aml *method, *ifctx, *function, *handle, *uuid, *dsm_mem, *elsectx2;
+     Aml *elsectx, *unsupport, *unpatched, *expected_uuid, *uuid_invalid;
+     Aml *pckg, *pckg_index, *pckg_buf, *field, *dsm_out_buf, *dsm_out_buf_size;
++    Aml *whilectx, *offset;
+     uint8_t byte_list[1];
+ 
+     method = aml_method(NVDIMM_COMMON_DSM, 5, AML_SERIALIZED);
+@@ -1091,13 +1092,46 @@ static void nvdimm_build_common_dsm(Aml *dev)
+     /* RLEN is not included in the payload returned to guest. */
+     aml_append(method, aml_subtract(aml_name(NVDIMM_DSM_OUT_BUF_SIZE),
+                aml_int(4), dsm_out_buf_size));
++
++    /*
++     * As per ACPI spec 6.3, Table 19-419 Object Conversion Rules, if
++     * the Buffer Field <= to the size of an Integer (in bits), it will
++     * be treated as an integer. Moreover, the integer size depends on
++     * DSDT tables revision number. If revision number is < 2, integer
++     * size is 32 bits, otherwise it is 64 bits.
++     * Because of this CreateField() canot be used if RLEN < Integer Size.
++     *
++     * Also please note that APCI ASL operator SizeOf() doesn't support
++     * Integer and there isn't any other way to figure out the Integer
++     * size. Hence we assume 8 byte as Integer size and if RLEN < 8 bytes,
++     * build dsm_out_buf byte by byte.
++     */
++    ifctx = aml_if(aml_lless(dsm_out_buf_size, aml_int(8)));
++    offset = aml_local(2);
++    aml_append(ifctx, aml_store(aml_int(0), offset));
++    aml_append(ifctx, aml_name_decl("TBUF", aml_buffer(1, NULL)));
++    aml_append(ifctx, aml_store(aml_buffer(0, NULL), dsm_out_buf));
++
++    whilectx = aml_while(aml_lless(offset, dsm_out_buf_size));
++    /* Copy 1 byte at offset from ODAT to temporary buffer(TBUF). */
++    aml_append(whilectx, aml_store(aml_derefof(aml_index(
++                                   aml_name(NVDIMM_DSM_OUT_BUF), offset)),
++                                   aml_index(aml_name("TBUF"), aml_int(0))));
++    aml_append(whilectx, aml_concatenate(dsm_out_buf, aml_name("TBUF"),
++                                         dsm_out_buf));
++    aml_append(whilectx, aml_increment(offset));
++    aml_append(ifctx, whilectx);
++
++    aml_append(ifctx, aml_return(dsm_out_buf));
++    aml_append(method, ifctx);
++
++    /* If RLEN >= Integer size, just use CreateField() operator */
+     aml_append(method, aml_store(aml_shiftleft(dsm_out_buf_size, aml_int(3)),
+                                  dsm_out_buf_size));
+     aml_append(method, aml_create_field(aml_name(NVDIMM_DSM_OUT_BUF),
+                aml_int(0), dsm_out_buf_size, "OBUF"));
+-    aml_append(method, aml_concatenate(aml_buffer(0, NULL), aml_name("OBUF"),
+-                                       dsm_out_buf));
+-    aml_append(method, aml_return(dsm_out_buf));
++    aml_append(method, aml_return(aml_name("OBUF")));
++
+     aml_append(dev, method);
+ }
+ 
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..eb8bae1407 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,3 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/pc/SSDT.dimmpxm",
++"tests/data/acpi/q35/SSDT.dimmpxm",
 -- 
 2.17.1
 
