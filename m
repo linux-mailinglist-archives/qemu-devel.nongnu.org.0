@@ -2,77 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DE131B2318
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 11:44:37 +0200 (CEST)
-Received: from localhost ([::1]:54786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E0A01B232C
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 11:48:17 +0200 (CEST)
+Received: from localhost ([::1]:54882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQpSG-0007kg-Jq
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 05:44:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37510)
+	id 1jQpVo-0004QI-7S
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 05:48:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37780)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jQpQC-0005jQ-7B
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 05:42:29 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jQpRc-0008Dx-Gq
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 05:43:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jQpQB-0004iP-OX
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 05:42:28 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38567)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jQpQ9-0004ch-Mm; Tue, 21 Apr 2020 05:42:25 -0400
-Received: by mail-wm1-x343.google.com with SMTP id g12so2897316wmh.3;
- Tue, 21 Apr 2020 02:42:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=QMzOijh8unN2JXd6IzCqKunT7wI91R5lL1fMI9L6xjM=;
- b=hc7b2PyV0e7acRjt0cLEIaIEJqVuKDYHHIojepJgqpEN4THKAZEb+QWr3vjLcYUN3t
- PB3a6MbYiHF4gorq5sogB5gid3woci6a3f9DCiXftabBWj4mpOMiZnvFan7wl3EYh61b
- WIH9DOOerVjuUbfxFLS5RlHywmx3qkp+OEup3viM74yMSPbeTi9H6PURRrxWN9OVJyqZ
- 8kM3OLhx4MOTmtjmpWli3xioRohyspA/h+4LQTBljU9wHBrTH5H5Ap2ZZcpETkmdzuyM
- QamxYHYh23qDy4spyFSDMOFcODiAs0TuMYUrJGF7uNy1fwjGTsHS+DPMkZaPsKgEmOHJ
- t0Dw==
+ (envelope-from <pbonzini@redhat.com>) id 1jQpRb-0007DY-GI
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 05:43:55 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38971
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jQpRa-0007Aa-K9
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 05:43:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587462233;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mSqYInGpJbvW/mUlZGZlFFf6h09Y8xtolF7wNSACTjc=;
+ b=C9MEB7tp0Epo+AzQMDgCoRxG36bvNKU0quEV/S+TrxxoksMoyUzcryCV746Oo2gjx78zVC
+ xE0FE7I5d4jYMc5RlvEsmVXoMIgHR7/2Fu4KkCra2YKIm8ZsVh8VLlgvufgQ7moHGCt2Pi
+ /ViuSlDC+Rs89tpUrgV73a46KY0zLvo=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-351-ASwET7svPuinlH9LsJbdnA-1; Tue, 21 Apr 2020 05:43:51 -0400
+X-MC-Unique: ASwET7svPuinlH9LsJbdnA-1
+Received: by mail-wr1-f69.google.com with SMTP id o12so7256417wra.14
+ for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 02:43:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=QMzOijh8unN2JXd6IzCqKunT7wI91R5lL1fMI9L6xjM=;
- b=fyT732SyP9p5ZCYG8a229RbmhuZ9AyG0/mo0cFmGYMxLXcwMi3pZOzVgeq+EEMX+do
- TB7uMcawQHTn0N+DDdsMoQLul3uj0hWh767CC5gm3LF1G+A/Mg2Zyxr1xNZIfpLe+F2n
- NwNXlNNzaOcmgwep5CpTAKdXFGj4cRSl+g6BKstbQ98QKcfnCW7GMxZmeQLw+8xgyHYI
- SVm5FtP96/+WAD2e7GI1Om56FKFAlASxMhHRoKNBRlE+Euoa3YSWwYTQ5CL3xZsPAnsi
- 1kDl+7dTqTyRSM9J6n+gCbReVTxgaXfZVTw11Bo8lgBYt89mM5TUjGyicuKcuIWJKOmB
- /s1A==
-X-Gm-Message-State: AGi0PuayEw3DSJkRY2JsGdbUEe03m+QN80GKFS6ek7PY1Hqcw/Jx6gOm
- +mXb5GpLfxCi20BhuFtCW8UMx+bD/Bs=
-X-Google-Smtp-Source: APiQypKdDNJdDaUcRArzHf5icPAQsTD3WR5sADtf3cFCaeLzhHoRYpb4IyhYJC48Pjb9KWVMAwR8iQ==
-X-Received: by 2002:a1c:4144:: with SMTP id o65mr4233872wma.78.1587462143456; 
- Tue, 21 Apr 2020 02:42:23 -0700 (PDT)
-Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id b22sm3082814wmj.1.2020.04.21.02.42.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Apr 2020 02:42:22 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] scripts/qmp: Fix QEMU Python scripts path
-Date: Tue, 21 Apr 2020 11:42:16 +0200
-Message-Id: <20200421094216.24927-5-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200421094216.24927-1-f4bug@amsat.org>
-References: <20200421094216.24927-1-f4bug@amsat.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mSqYInGpJbvW/mUlZGZlFFf6h09Y8xtolF7wNSACTjc=;
+ b=GLKXGqS7yIIE8Ant9XLMazYy3mpNDAWNa54yDEEH3t9HLGHMk24k45SH+vc+sRv+9Z
+ 7XXTl1ya94LHaEIz/Ds71Imq0rW/SBvTJY0kmTzV+jmzN/b2egp/I8+y5EMieSOrIWVy
+ 2PCn3gs4hPUpGa+GyzK4hejZyx1GOMtJ99WLAQmjjYSS4pDpGmqAkUIAZXnOSH9FCvjZ
+ CAa4uT3E7WUCVWhLLOGjhtXL732KvNU7NeSXzyaeiTUOnHB3pRqhJBUk1O0ZBizBBVWX
+ Pjdo8aq5Bizh/OoZVzd3cd8JJxt2OYIh2mUQdjERD2iCFm+ozFwdEQQ05z0gDtMteolx
+ ZZSQ==
+X-Gm-Message-State: AGi0PuYnAYeXkZ/8qJirgYMgbPtqXTNK7yHGBzv+wEd13+9tCVi3i+if
+ lGQMyMkZ/HX8cZhPpzHXVnh7be7MTpqj2mvGpmEb4BMCtLTcwOUb4jkSAcsAhFARDiGQMxmRjpI
+ BVvc2qBVgPzG9qfw=
+X-Received: by 2002:a1c:80c3:: with SMTP id b186mr4322717wmd.117.1587462230640; 
+ Tue, 21 Apr 2020 02:43:50 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKiBZxErgylGBcPSEBsUwVoc9iAtcOO0ay5XfGWu0+o6W6xySWiHLcVN4yeWGKa09J9tItWzw==
+X-Received: by 2002:a1c:80c3:: with SMTP id b186mr4322696wmd.117.1587462230386; 
+ Tue, 21 Apr 2020 02:43:50 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:d0a0:f143:e9e4:2926?
+ ([2001:b07:6468:f312:d0a0:f143:e9e4:2926])
+ by smtp.gmail.com with ESMTPSA id 1sm2843322wmi.0.2020.04.21.02.43.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Apr 2020 02:43:49 -0700 (PDT)
+Subject: Re: Question on memory commit during MR finalize()
+To: Peter Xu <peterx@redhat.com>
+References: <20200420210049.GA420399@xz-x1>
+ <fe73a74b-2324-68a5-a37f-530a6bb03ebc@redhat.com>
+ <20200420233115.GB420399@xz-x1>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <5ed295a3-9e4a-0dca-adc6-5361dc78a83c@redhat.com>
+Date: Tue, 21 Apr 2020 11:43:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::343
+In-Reply-To: <20200420233115.GB420399@xz-x1>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 01:28:51
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,121 +96,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ QEMU Devel Mailing List <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU Python scripts have been moved in commit 8f8fd9edba4 ("Introduce
-Python module structure"). Use the same sys.path modification used
-in the referenced commit to be able to use these scripts again.
+On 21/04/20 01:31, Peter Xu wrote:
+>>
+>> However, instead of memory_region_transaction_commit,
+>> memory_region_finalize probably should do something like
+>>
+>>     --memory_region_transaction_depth;
+>>     assert (memory_region_transaction_depth ||
+>> 	    (!memory_region_update_pending &&
+>>              !ioeventfd_update_pending));
+> Ah I see; this makes sense.
+> 
+> And finally I found the problem, which is indeed the bug in my own tree - I
+> forgot to remove the previous changes to flush the dirty ring during mem
+> removal (basically that's run_on_cpu() called during a memory commit, that will
+> wrongly release the BQL without being noticed).
+> 
+> Besides above assert, I'm thinking maybe we can also assert on something like:
+> 
+>   !(memory_region_transaction_depth || memory_region_update_pending ||
+>     ioeventfd_update_pending)
+> 
+> When releasing BQL (unlock, or qemu_cond_wait() on BQL, which should cover
+> run_on_cpu()), so that we can identify misuse of BQL easier like this.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- scripts/qmp/qmp      | 4 +++-
- scripts/qmp/qom-fuse | 4 +++-
- scripts/qmp/qom-get  | 4 +++-
- scripts/qmp/qom-list | 4 +++-
- scripts/qmp/qom-set  | 4 +++-
- scripts/qmp/qom-tree | 4 +++-
- 6 files changed, 18 insertions(+), 6 deletions(-)
+Asserting invariants around lock release are an interesting concept, but
+I'm not sure where to insert them exactly.  But it would be great if you
+would like to introduce an assert_empty_memory_transaction() function
+with the assertion I quoted above.
 
-diff --git a/scripts/qmp/qmp b/scripts/qmp/qmp
-index 0625fc2aba..8e52e4a54d 100755
---- a/scripts/qmp/qmp
-+++ b/scripts/qmp/qmp
-@@ -11,7 +11,9 @@
- # See the COPYING file in the top-level directory.
- 
- import sys, os
--from qmp import QEMUMonitorProtocol
-+
-+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
-+from qemu.qmp import QEMUMonitorProtocol
- 
- def print_response(rsp, prefix=[]):
-     if type(rsp) == list:
-diff --git a/scripts/qmp/qom-fuse b/scripts/qmp/qom-fuse
-index 6bada2c33d..5fa6b3bf64 100755
---- a/scripts/qmp/qom-fuse
-+++ b/scripts/qmp/qom-fuse
-@@ -15,7 +15,9 @@ import fuse, stat
- from fuse import Fuse
- import os, posix
- from errno import *
--from qmp import QEMUMonitorProtocol
-+
-+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
-+from qemu.qmp import QEMUMonitorProtocol
- 
- fuse.fuse_python_api = (0, 2)
- 
-diff --git a/scripts/qmp/qom-get b/scripts/qmp/qom-get
-index 72ccd79330..59090069dc 100755
---- a/scripts/qmp/qom-get
-+++ b/scripts/qmp/qom-get
-@@ -13,7 +13,9 @@
- 
- import sys
- import os
--from qmp import QEMUMonitorProtocol
-+
-+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
-+from qemu.qmp import QEMUMonitorProtocol
- 
- cmd, args = sys.argv[0], sys.argv[1:]
- socket_path = None
-diff --git a/scripts/qmp/qom-list b/scripts/qmp/qom-list
-index 5b8f9fd855..c5d0c8127d 100755
---- a/scripts/qmp/qom-list
-+++ b/scripts/qmp/qom-list
-@@ -13,7 +13,9 @@
- 
- import sys
- import os
--from qmp import QEMUMonitorProtocol
-+
-+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
-+from qemu.qmp import QEMUMonitorProtocol
- 
- cmd, args = sys.argv[0], sys.argv[1:]
- socket_path = None
-diff --git a/scripts/qmp/qom-set b/scripts/qmp/qom-set
-index b475e397fc..e9d7e0b054 100755
---- a/scripts/qmp/qom-set
-+++ b/scripts/qmp/qom-set
-@@ -13,7 +13,9 @@
- 
- import sys
- import os
--from qmp import QEMUMonitorProtocol
-+
-+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
-+from qemu.qmp import QEMUMonitorProtocol
- 
- cmd, args = sys.argv[0], sys.argv[1:]
- socket_path = None
-diff --git a/scripts/qmp/qom-tree b/scripts/qmp/qom-tree
-index 86233fa211..d96b17256e 100755
---- a/scripts/qmp/qom-tree
-+++ b/scripts/qmp/qom-tree
-@@ -15,7 +15,9 @@
- 
- import sys
- import os
--from qmp import QEMUMonitorProtocol
-+
-+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
-+from qemu.qmp import QEMUMonitorProtocol
- 
- cmd, args = sys.argv[0], sys.argv[1:]
- socket_path = None
--- 
-2.21.1
+Thanks!
+
+Paolo
 
 
