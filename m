@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12BCB1B2C74
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 18:19:31 +0200 (CEST)
-Received: from localhost ([::1]:60958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C90971B2C8F
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 18:24:25 +0200 (CEST)
+Received: from localhost ([::1]:32812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQvcP-0007jv-M9
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 12:19:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53420)
+	id 1jQvhA-0004ac-Rz
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 12:24:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54000)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1jQvb2-0006yD-Ph
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:18:05 -0400
+ (envelope-from <peterx@redhat.com>) id 1jQveF-0000lC-Ol
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:21:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1jQvb1-00027M-3R
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:18:03 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:57416
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <peterx@redhat.com>) id 1jQveA-00045T-Qt
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:21:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55997
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jQvb0-000245-JI
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:18:02 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jQveA-00043t-Dc
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:21:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587485880;
+ s=mimecast20190719; t=1587486075;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s9RUa2+/PnIlhp2nZsCbYs49UgwZWbk4dDDEzyLojno=;
- b=MzLR6DwjDmwSSjBi8Dw0E9+p6T9Hde9N68Qfhrz1ixczmKbrJZ/qy0q80W2JEZTrLL/Ftx
- yO/brdxIHP7BjCnOa9CE9Sa3b5B+qMYIvYdhWWez3Y7No4eFjBKsJPDl9KNhmozA/OHOJS
- VhW6HX2+025TKRE6+kcnY+42idbo2nc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-25-Zm8i_iK6OcS_vimrTrt8Gw-1; Tue, 21 Apr 2020 12:17:58 -0400
-X-MC-Unique: Zm8i_iK6OcS_vimrTrt8Gw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D7C58017F3;
- Tue, 21 Apr 2020 16:17:57 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5FC61B3A70;
- Tue, 21 Apr 2020 16:17:54 +0000 (UTC)
-Message-ID: <35f02c3252a0db2292344f7a3946aca606d9af5f.camel@redhat.com>
-Subject: Re: [PATCH v2 16/16] nvme: factor out controller identify setup
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
-Date: Tue, 21 Apr 2020 19:17:53 +0300
-In-Reply-To: <20200415130159.611361-17-its@irrelevant.dk>
-References: <20200415130159.611361-1-its@irrelevant.dk>
- <20200415130159.611361-17-its@irrelevant.dk>
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dytfVvl8cVtUWQSCTnW2pyLGwH37x9vBssVjcyN1zFg=;
+ b=BV37/YtIG8thVgq9DyD9kXwjhsZQQskH6TSioF0Rl9JkDgsfLppEU56ji/60w6BmSQLK/5
+ 9TRVm7WsT+Ca7ka0G2Z/zwLUXSI+gXwBE2Tf0rOAv4HJ0SFtjL3D1T/kgbLUZrlYuT+m3N
+ oNqtlERKEi5FDnA4CvFjxa6jSkIrSVI=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-244-SzFgKnNRPm23dd8ZxNORUQ-1; Tue, 21 Apr 2020 12:21:11 -0400
+X-MC-Unique: SzFgKnNRPm23dd8ZxNORUQ-1
+Received: by mail-qk1-f200.google.com with SMTP id d15so14656200qkg.1
+ for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 09:21:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hsoqA2dLDfxYMxPVALk1kTnKU72E+7GRAZddtBNh06o=;
+ b=dPdqm8Nfs0vYGQ538l/TzhPNgB+7RjHTapf682GDThNtZj3qMj0X/+MJNdaezMu2uh
+ GnZb7VXWQzdfSf8WCqEbnP7QvyuObxHR596zZ7lTYVbWEQnY30giU1Bsi3Qw2J++ts8Z
+ fZ8kY8iowjTGZSvh6aiTx/qBVg9ptpNO/j1ELd7LlUHCshEMlWhsSp755Sqj9YVHxNDx
+ 345DsueJ2iabw1WLyr4bCdFfGmMVvyckBvuReCZRoiPephPj6dtvAbjDB6sySG94/4//
+ kASkOszXPuD/zySG9lcW1Uv83Ka+PoN5DQJqW1qO8epC5yjzcvKUTMeSRlzM9v+bDVxW
+ aAbw==
+X-Gm-Message-State: AGi0PuZLyhk4dmBNDakQHlWKvcN9dgINjqNjPKzcjezyYSyaWc+fU555
+ 5osIpecBZc7yid1oPkIyVXxy3lhh6CFMmYU8yuukZbbjBRXlk5MSLlEE31hS7m8WFPd6ZFE+b8i
+ u4b+MZ+QfOj+rZcs=
+X-Received: by 2002:ac8:51cd:: with SMTP id d13mr22020810qtn.174.1587486070885; 
+ Tue, 21 Apr 2020 09:21:10 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKoMv4pRnTMUTOHP15hrRags4Hbgg/9WL8RgzlRX4709/5HfFLXqiAU0d5bUVfEHuTyPd+apw==
+X-Received: by 2002:ac8:51cd:: with SMTP id d13mr22020788qtn.174.1587486070599; 
+ Tue, 21 Apr 2020 09:21:10 -0700 (PDT)
+Received: from xz-x1.redhat.com ([2607:9880:19c0:32::2])
+ by smtp.gmail.com with ESMTPSA id u5sm2034393qkm.116.2020.04.21.09.21.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Apr 2020 09:21:09 -0700 (PDT)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/8] memory: Sanity checks memory transaction when releasing
+ BQL
+Date: Tue, 21 Apr 2020 12:21:00 -0400
+Message-Id: <20200421162108.594796-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.24.1
+MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mlevitsk@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 01:28:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=peterx@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 11:47:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,102 +87,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Javier Gonzalez <javier.gonz@samsung.com>,
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, peterx@redhat.com,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2020-04-15 at 15:01 +0200, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
->=20
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/block/nvme.c | 52 +++++++++++++++++++++++++++----------------------
->  1 file changed, 29 insertions(+), 23 deletions(-)
->=20
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index 4c28d75e0fc8..804f24719dce 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -1422,32 +1422,11 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevice =
-*pci_dev)
->      }
->  }
-> =20
-> -static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-> +static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
->  {
-> -    NvmeCtrl *n =3D NVME(pci_dev);
->      NvmeIdCtrl *id =3D &n->id_ctrl;
-> -    Error *err =3D NULL;
-> +    uint8_t *pci_conf =3D pci_dev->config;
-> =20
-> -    int i;
-> -    uint8_t *pci_conf;
-> -
-> -    nvme_check_constraints(n, &err);
-> -    if (err) {
-> -        error_propagate(errp, err);
-> -        return;
-> -    }
-> -
-> -    nvme_init_state(n);
-> -
-> -    nvme_init_blk(n, &err);
-> -    if (err) {
-> -        error_propagate(errp, err);
-> -        return;
-> -    }
-> -
-> -    nvme_init_pci(n, pci_dev);
-> -
-> -    pci_conf =3D pci_dev->config;
->      id->vid =3D cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
->      id->ssvid =3D cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VEND=
-OR_ID));
->      strpadcpy((char *)id->mn, sizeof(id->mn), "QEMU NVMe Ctrl", ' ');
-> @@ -1481,6 +1460,33 @@ static void nvme_realize(PCIDevice *pci_dev, Error=
- **errp)
->      n->bar.vs =3D 0x00010200;
->      n->bar.intmc =3D n->bar.intms =3D 0;
-> =20
-> +
-> +}
-> +
-> +static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-> +{
-> +    NvmeCtrl *n =3D NVME(pci_dev);
-> +    Error *err =3D NULL;
-> +
-> +    int i;
-> +
-> +    nvme_check_constraints(n, &err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    }
-> +
-> +
-> +    nvme_init_state(n);
-> +    nvme_init_blk(n, &err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    }
-> +
-> +    nvme_init_pci(n, pci_dev);
-> +    nvme_init_ctrl(n, pci_dev);
-> +
->      for (i =3D 0; i < n->num_namespaces; i++) {
->          nvme_init_namespace(n, &n->namespaces[i], &err);
->          if (err) {
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+This is a continuous work of previous discussion on memory transactions [1]=
+.
+It should be helpful to fail QEMU far earlier if there's misuse of BQL agai=
+nst
+the QEMU memory model.
 
-Best regards,
-=09Maxim Levitsky
+One example is run_on_cpu() during memory commit.  That'll work previously,=
+ but
+it'll fail with very strange errors (like KVM ioctl failure due to memslot
+already existed, and it's not guaranteed to trigger constantly).  Now it'll
+directly fail when run_on_cpu() is called.
+
+Please have a look, thanks.
+
+[1] https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg03205.html
+
+Peter Xu (8):
+  memory: Introduce memory_region_transaction_{push|pop}()
+  memory: Don't do topology update in memory finalize()
+  cpus: Use qemu_cond_wait_iothread() where proper
+  cpus: Introduce qemu_cond_timedwait_iothread()
+  cpus: Remove the mutex parameter from do_run_on_cpu()
+  cpus: Introduce qemu_mutex_unlock_iothread_prepare()
+  memory: Assert on no ongoing memory transaction before release BQL
+  memory: Delay the transaction pop() until commit completed
+
+ cpus-common.c                  |  5 ++--
+ cpus.c                         | 32 ++++++++++++++------
+ include/exec/memory-internal.h |  1 +
+ include/hw/core/cpu.h          |  4 +--
+ include/qemu/main-loop.h       |  7 +++++
+ memory.c                       | 53 ++++++++++++++++++++++++++++++----
+ 6 files changed, 81 insertions(+), 21 deletions(-)
+
+--=20
+2.24.1
 
 
