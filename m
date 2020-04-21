@@ -2,79 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3981E1B2125
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 10:11:49 +0200 (CEST)
-Received: from localhost ([::1]:53064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ADBE1B212C
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 10:13:11 +0200 (CEST)
+Received: from localhost ([::1]:53102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQo0R-00037u-RK
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 04:11:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45726)
+	id 1jQo1m-0004yH-GE
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 04:13:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45888)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lulu@redhat.com>) id 1jQnzb-0002gs-9B
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 04:10:55 -0400
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1jQo0g-0003as-SL
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 04:12:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <lulu@redhat.com>) id 1jQnzZ-00010C-WE
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 04:10:54 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28525
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jQnzZ-0000x0-Fs
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 04:10:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587456651;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3WoxBgNnHThdsyXCAwuM6AX+ZCfqjRMnE64vmF3PyAc=;
- b=A9H+TJT1xhJIF/n2pX5hmYopw7lav1WZd4vpKMGuyRZzJRXjkAWxq2QgAmJnwTPBuV8wDB
- WX+UUucjEjrQPeFaQO7yriBP9ztx9WNjYbUcO7XXi/iQs2ExKUgneUhkmdJnbOF7JyvHnP
- pk3XqmmA8BgdcKfz/FM+75N3u9nE+PA=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-GsumtLs9OH6Z8A_sO0TrMw-1; Tue, 21 Apr 2020 04:10:49 -0400
-X-MC-Unique: GsumtLs9OH6Z8A_sO0TrMw-1
-Received: by mail-pl1-f200.google.com with SMTP id n18so7287144plp.17
- for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 01:10:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3WoxBgNnHThdsyXCAwuM6AX+ZCfqjRMnE64vmF3PyAc=;
- b=L9kFaASpV9ev8uYJGghaZxOSWJpbJxgsKuKpXixIkFVifJbguxiDglk0xprTZiL5OU
- y5U5y4nlAgkjRrkcvpwICEi8XlRau6GgvNZnFtC0a3XOMPMK98rjKTIN9iA+dIwQIGxd
- uvxzQMOVVC3ZjfLq6VEHmsx/UAYfHMjEXMjkHmrO5L+TIBTM7Wyo0ZM+trk+yf+LVy2G
- 178BJY3e31p9AIaXP93J7bVi3cO3+8pRd+wV3RBREWoB2aXvw2E5HWyXHZrLaTnZyCRa
- dd/EwP6i3ll+HmiTTZShUGFOlQCgYjM1jBqyRV0l6lRofFoQVewRapDbZwrYemj1/ivI
- rjxg==
-X-Gm-Message-State: AGi0PuaX/DyxoitQNv0AND5YGVgr+pF1C8Xc6FqBodifSmtBU/aAkByW
- yGhj4aEFTuxcRjWfLa+6NNKzWP3LynP/eDtMMP+rzPmC4+GEGAaAUxN6rNbOxOcJHEb0msUtNr2
- u+QsBDV6PXX5NTBJS+Xxt9FPmMt+0Cxk=
-X-Received: by 2002:a05:6a00:2a6:: with SMTP id
- q6mr19932915pfs.23.1587456648004; 
- Tue, 21 Apr 2020 01:10:48 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIeaUF7JN/EZRvSggX3ru7HH3fWKJiNHiTKhVsMAuEGIagHVK10bFdwpNxHFtPA5XpMRzAyBzOJj+/WLhp6nog=
-X-Received: by 2002:a05:6a00:2a6:: with SMTP id
- q6mr19932889pfs.23.1587456647717; 
- Tue, 21 Apr 2020 01:10:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200420093241.4238-1-lulu@redhat.com>
- <20200420093241.4238-2-lulu@redhat.com>
- <33ec31c6-d0e6-0da1-407c-9efe2aa45470@redhat.com>
-In-Reply-To: <33ec31c6-d0e6-0da1-407c-9efe2aa45470@redhat.com>
-From: Cindy Lu <lulu@redhat.com>
-Date: Tue, 21 Apr 2020 16:10:36 +0800
-Message-ID: <CACLfguXRaFqteZ0vM3FEv6Zf+wrN6ybvzyTLY+SqrM+Q02_xgA@mail.gmail.com>
-Subject: Re: [RFC v1 1/4] net: Introduce qemu_get_peer
-To: Jason Wang <jasowang@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000957dcb05a3c88dae"
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 03:31:23
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1jQo0e-0001Ix-1I
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 04:12:02 -0400
+Received: from relay.sw.ru ([185.231.240.75]:37036)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1jQo0d-0001HK-LA; Tue, 21 Apr 2020 04:11:59 -0400
+Received: from dptest2.qa.sw.ru ([10.94.4.71])
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1jQo0R-0005vI-U2; Tue, 21 Apr 2020 11:11:48 +0300
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v20 0/4] qcow2: Implement zstd cluster compression methodi
+Date: Tue, 21 Apr 2020 11:11:13 +0300
+Message-Id: <20200421081117.7595-1-dplotnikov@virtuozzo.com>
+X-Mailer: git-send-email 2.17.0
+Received-SPF: pass client-ip=185.231.240.75;
+ envelope-from=dplotnikov@virtuozzo.com; helo=relay.sw.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 04:11:56
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,321 +46,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: rdunlap@infradead.org, Michael Tsirkin <mst@redhat.com>,
- mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
- saugatm@xilinx.com, armbru@redhat.com, hch@infradead.org,
- Eugenio Perez Martin <eperezma@redhat.com>, jgg@mellanox.com,
- shahafs@mellanox.com, kevin.tian@intel.com, parav@mellanox.com,
- vmireyno@marvell.com, "Liang, Cunming" <cunming.liang@intel.com>,
- gdawar@xilinx.com, jiri@mellanox.com, xiao.w.wang@intel.com,
- stefanha@redhat.com, "Wang, Zhihong" <zhihong.wang@intel.com>,
- maxime.coquelin@redhat.com, Ariel Adam <aadam@redhat.com>, cohuck@redhat.com,
- hanand@xilinx.com, "Zhu, Lingshan" <lingshan.zhu@intel.com>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
+ qemu-block@nongnu.org, armbru@redhat.com, mreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000957dcb05a3c88dae
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+v20:
+   04: fix a number of flaws [Vladimir]
+       * don't use $RAND_FILE passing to qemu-io,
+         so check $TEST_DIR is redundant
+       * re-arrage $RAND_FILE writing
+       * fix a typo
 
-On Tue, Apr 21, 2020 at 11:23 AM Jason Wang <jasowang@redhat.com> wrote:
+v19:
+   04: fix a number of flaws [Eric]
+       * remove rudundant test case descriptions
+       * fix stdout redirect
+       * don't use (())
+       * use peek_file_be instead of od
+       * check $TEST_DIR for spaces and other before using
+       * use $RAND_FILE safer
 
->
-> On 2020/4/20 =E4=B8=8B=E5=8D=885:32, Cindy Lu wrote:
-> > This is a small function  that can get the peer from given
-> NetClientState and queue_index
->
->
-> Unnecessary space  between 'function' and 'that'.
->
->
-> >
-> > Signed-off-by: Cindy Lu <lulu@redhat.com>
->
->
-> Please split this patch into two parts:
->
-> 1) introduce the function
-> 2) the actual user for this fucntion
->
->
-> sure, I will fix this problem.
+v18:
+   * 04: add quotes to all file name variables [Vladimir] 
+   * 04: add Vladimir's comment according to "qemu-io write -s"
+         option issue.
 
-> > ---
-> >   hw/net/vhost_net.c | 16 ++++++++++------
-> >   include/net/net.h  |  1 +
-> >   net/net.c          |  6 ++++++
-> >   3 files changed, 17 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> > index 6b82803fa7..4096d64aaf 100644
-> > --- a/hw/net/vhost_net.c
-> > +++ b/hw/net/vhost_net.c
-> > @@ -306,7 +306,9 @@ int vhost_net_start(VirtIODevice *dev,
-> NetClientState *ncs,
-> >       BusState *qbus =3D BUS(qdev_get_parent_bus(DEVICE(dev)));
-> >       VirtioBusState *vbus =3D VIRTIO_BUS(qbus);
-> >       VirtioBusClass *k =3D VIRTIO_BUS_GET_CLASS(vbus);
-> > +    struct vhost_net *net;
-> >       int r, e, i;
-> > +    NetClientState *peer;
-> >
-> >       if (!k->set_guest_notifiers) {
-> >           error_report("binding does not support guest notifiers");
-> > @@ -314,9 +316,9 @@ int vhost_net_start(VirtIODevice *dev,
-> NetClientState *ncs,
-> >       }
-> >
-> >       for (i =3D 0; i < total_queues; i++) {
-> > -        struct vhost_net *net;
-> >
-> > -        net =3D get_vhost_net(ncs[i].peer);
-> > +        peer =3D qemu_get_peer(ncs, i);
-> > +        net =3D get_vhost_net(peer);
-> >           vhost_net_set_vq_index(net, i * 2);
-> >
-> >           /* Suppress the masking guest notifiers on vhost user
-> > @@ -335,15 +337,16 @@ int vhost_net_start(VirtIODevice *dev,
-> NetClientState *ncs,
-> >       }
-> >
-> >       for (i =3D 0; i < total_queues; i++) {
-> > -        r =3D vhost_net_start_one(get_vhost_net(ncs[i].peer), dev);
-> > +        peer =3D qemu_get_peer(ncs, i);
-> > +        r =3D vhost_net_start_one(get_vhost_net(peer), dev);
-> >
-> >           if (r < 0) {
-> >               goto err_start;
-> >           }
-> >
-> > -        if (ncs[i].peer->vring_enable) {
-> > +        if (peer->vring_enable) {
-> >               /* restore vring enable state */
-> > -            r =3D vhost_set_vring_enable(ncs[i].peer,
-> ncs[i].peer->vring_enable);
-> > +            r =3D vhost_set_vring_enable(peer, peer->vring_enable);
-> >
-> >               if (r < 0) {
-> >                   goto err_start;
-> > @@ -355,7 +358,8 @@ int vhost_net_start(VirtIODevice *dev,
-> NetClientState *ncs,
-> >
-> >   err_start:
-> >       while (--i >=3D 0) {
-> > -        vhost_net_stop_one(get_vhost_net(ncs[i].peer), dev);
-> > +        peer =3D qemu_get_peer(ncs , i);
-> > +        vhost_net_stop_one(get_vhost_net(peer), dev);
-> >       }
-> >       e =3D k->set_guest_notifiers(qbus->parent, total_queues * 2, fals=
-e);
-> >       if (e < 0) {
-> > diff --git a/include/net/net.h b/include/net/net.h
-> > index e175ba9677..0a74324ccd 100644
-> > --- a/include/net/net.h
-> > +++ b/include/net/net.h
-> > @@ -175,6 +175,7 @@ void hmp_info_network(Monitor *mon, const QDict
-> *qdict);
-> >   void net_socket_rs_init(SocketReadState *rs,
-> >                           SocketReadStateFinalize *finalize,
-> >                           bool vnet_hdr);
-> > +NetClientState *qemu_get_peer(NetClientState *nc, int queue_index);
-> >
-> >   /* NIC info */
-> >
-> > diff --git a/net/net.c b/net/net.c
-> > index 84aa6d8d00..ac5080dda1 100644
-> > --- a/net/net.c
-> > +++ b/net/net.c
-> > @@ -324,6 +324,12 @@ void *qemu_get_nic_opaque(NetClientState *nc)
-> >
-> >       return nic->opaque;
-> >   }
-> > +NetClientState *qemu_get_peer(NetClientState *nc, int queue_index)
-> > +{
-> > +    NetClientState *ncs  =3D  nc + queue_index;
->
->
-> Unnecessary space around '=3D'.
->
-> Thanks
->
->
-> Will correct this
+v17:
+   * 03: remove incorrect comment in zstd decompress [Vladimir]
+   * 03: remove "paraniod" and rewrite the comment on decompress [Vladimir]
+   * 03: fix dead assignment [Vladimir]
+   * 04: add and remove quotes [Vladimir]
+   * 04: replace long offset form with the short one [Vladimir]
 
-> +    assert(ncs !=3D NULL);
-> > +    return ncs->peer;
-> > +}
-> >
-> >   static void qemu_cleanup_net_client(NetClientState *nc)
-> >   {
->
->
+v16:
+   * 03: ssize_t for ret, size_t for zstd_ret [Vladimir]
+   * 04: small fixes according to the comments [Vladimir] 
 
---000000000000957dcb05a3c88dae
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+v15:
+   * 01: aiming qemu 5.1 [Eric]
+   * 03: change zstd_res definition place [Vladimir]
+   * 04: add two new test cases [Eric]
+         1. test adjacent cluster compression with zstd
+         2. test incompressible cluster processing
+   * 03, 04: many rewording and gramma fixing [Eric]
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, Apr 21, 2020 at 11:23 AM Jason Wa=
-ng &lt;<a href=3D"mailto:jasowang@redhat.com" target=3D"_blank">jasowang@re=
-dhat.com</a>&gt; wrote:<br></div><div dir=3D"ltr"><div class=3D"gmail_quote=
-"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-On 2020/4/20 =E4=B8=8B=E5=8D=885:32, Cindy Lu wrote:<br>
-&gt; This is a small function=C2=A0 that can get the peer from given NetCli=
-entState and queue_index<br>
-<br>
-<br>
-Unnecessary space=C2=A0 between &#39;function&#39; and &#39;that&#39;.<br>
-<br>
-<br>
-&gt;<br>
-&gt; Signed-off-by: Cindy Lu &lt;<a href=3D"mailto:lulu@redhat.com" target=
-=3D"_blank">lulu@redhat.com</a>&gt;<br>
-<br>
-<br>
-Please split this patch into two parts:<br>
-<br>
-1) introduce the function<br>
-2) the actual user for this fucntion<br>
-<br>
-<br></blockquote><div>sure, I will fix this problem.=C2=A0</div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0hw/net/vhost_net.c | 16 ++++++++++------<br>
-&gt;=C2=A0 =C2=A0include/net/net.h=C2=A0 |=C2=A0 1 +<br>
-&gt;=C2=A0 =C2=A0net/net.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 6 ++++=
-++<br>
-&gt;=C2=A0 =C2=A03 files changed, 17 insertions(+), 6 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c<br>
-&gt; index 6b82803fa7..4096d64aaf 100644<br>
-&gt; --- a/hw/net/vhost_net.c<br>
-&gt; +++ b/hw/net/vhost_net.c<br>
-&gt; @@ -306,7 +306,9 @@ int vhost_net_start(VirtIODevice *dev, NetClientSt=
-ate *ncs,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0BusState *qbus =3D BUS(qdev_get_parent_bus(D=
-EVICE(dev)));<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0VirtioBusState *vbus =3D VIRTIO_BUS(qbus);<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0VirtioBusClass *k =3D VIRTIO_BUS_GET_CLASS(v=
-bus);<br>
-&gt; +=C2=A0 =C2=A0 struct vhost_net *net;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0int r, e, i;<br>
-&gt; +=C2=A0 =C2=A0 NetClientState *peer;<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!k-&gt;set_guest_notifiers) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_report(&quot;binding doe=
-s not support guest notifiers&quot;);<br>
-&gt; @@ -314,9 +316,9 @@ int vhost_net_start(VirtIODevice *dev, NetClientSt=
-ate *ncs,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; total_queues; i++) {<br=
->
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct vhost_net *net;<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 net =3D get_vhost_net(ncs[i].peer);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 peer =3D qemu_get_peer(ncs, i);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 net =3D get_vhost_net(peer);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vhost_net_set_vq_index(net, i =
-* 2);<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Suppress the masking guest =
-notifiers on vhost user<br>
-&gt; @@ -335,15 +337,16 @@ int vhost_net_start(VirtIODevice *dev, NetClient=
-State *ncs,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; total_queues; i++) {<br=
->
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D vhost_net_start_one(get_vhost_net(n=
-cs[i].peer), dev);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 peer =3D qemu_get_peer(ncs, i);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D vhost_net_start_one(get_vhost_net(p=
-eer), dev);<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (r &lt; 0) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err_start;<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ncs[i].peer-&gt;vring_enable) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (peer-&gt;vring_enable) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* restore vring=
- enable state */<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D vhost_set_vring_enabl=
-e(ncs[i].peer, ncs[i].peer-&gt;vring_enable);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D vhost_set_vring_enabl=
-e(peer, peer-&gt;vring_enable);<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (r &lt; 0) {<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0go=
-to err_start;<br>
-&gt; @@ -355,7 +358,8 @@ int vhost_net_start(VirtIODevice *dev, NetClientSt=
-ate *ncs,<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0err_start:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0while (--i &gt;=3D 0) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 vhost_net_stop_one(get_vhost_net(ncs[i].p=
-eer), dev);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 peer =3D qemu_get_peer(ncs , i);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 vhost_net_stop_one(get_vhost_net(peer), d=
-ev);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0e =3D k-&gt;set_guest_notifiers(qbus-&gt;par=
-ent, total_queues * 2, false);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (e &lt; 0) {<br>
-&gt; diff --git a/include/net/net.h b/include/net/net.h<br>
-&gt; index e175ba9677..0a74324ccd 100644<br>
-&gt; --- a/include/net/net.h<br>
-&gt; +++ b/include/net/net.h<br>
-&gt; @@ -175,6 +175,7 @@ void hmp_info_network(Monitor *mon, const QDict *q=
-dict);<br>
-&gt;=C2=A0 =C2=A0void net_socket_rs_init(SocketReadState *rs,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0SocketReadStateFinalize *finalize,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0bool vnet_hdr);<br>
-&gt; +NetClientState *qemu_get_peer(NetClientState *nc, int queue_index);<b=
-r>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0/* NIC info */<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; diff --git a/net/net.c b/net/net.c<br>
-&gt; index 84aa6d8d00..ac5080dda1 100644<br>
-&gt; --- a/net/net.c<br>
-&gt; +++ b/net/net.c<br>
-&gt; @@ -324,6 +324,12 @@ void *qemu_get_nic_opaque(NetClientState *nc)<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return nic-&gt;opaque;<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt; +NetClientState *qemu_get_peer(NetClientState *nc, int queue_index)<br=
->
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 NetClientState *ncs=C2=A0 =3D=C2=A0 nc + queue_index;<b=
-r>
-<br>
-<br>
-Unnecessary space around &#39;=3D&#39;.<br>
-<br>
-Thanks<br>
-<br>
-<br></blockquote><div>Will correct=C2=A0this=C2=A0=C2=A0</div><div><br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">
-&gt; +=C2=A0 =C2=A0 assert(ncs !=3D NULL);<br>
-&gt; +=C2=A0 =C2=A0 return ncs-&gt;peer;<br>
-&gt; +}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0static void qemu_cleanup_net_client(NetClientState *nc)<br=
->
-&gt;=C2=A0 =C2=A0{<br>
-<br>
-</blockquote></div></div>
-</div>
+v14:
+   * fix bug on compression - looping until compress == 0 [Me]
+   * apply reworked Vladimir's suggestions:
+      1. not mixing ssize_t with size_t
+      2. safe check for ENOMEM in compression part - avoid overflow
+      3. tolerate sanity check allow zstd to make progress only
+         on one of the buffers
+v13:
+   * 03: add progress sanity check to decompression loop [Vladimir]
+     03: add successful decompression check [Me]
 
---000000000000957dcb05a3c88dae--
+v12:
+   * 03: again, rework compression and decompression loops
+         to make them more correct [Vladimir]
+     03: move assert in compression to more appropriate place
+             [Vladimir]
+v11:
+   * 03: the loops don't need "do{}while" form anymore and
+         the they were buggy (missed "do" in the beginning)
+         replace them with usual "while(){}" loops [Vladimir]
+v10:
+   * 03: fix zstd (de)compressed loops for multi-frame
+         cases [Vladimir]
+v9:
+   * 01: fix error checking and reporting in qcow2_amend compression type part [Vladimir]
+   * 03: replace asserts with -EIO in qcow2_zstd_decompression [Vladimir, Alberto]
+   * 03: reword/amend/add comments, fix typos [Vladimir]
+
+v8:
+   * 03: switch zstd API from simple to stream [Eric]
+         No need to state a special cluster layout for zstd
+         compressed clusters.
+v7:
+   * use qapi_enum_parse instead of the open-coding [Eric]
+   * fix wording, typos and spelling [Eric]
+
+v6:
+   * "block/qcow2-threads: fix qcow2_decompress" is removed from the series
+      since it has been accepted by Max already
+   * add compile time checking for Qcow2Header to be a multiple of 8 [Max, Alberto]
+   * report error on qcow2 amending when the compression type is actually chnged [Max]
+   * remove the extra space and the extra new line [Max]
+   * re-arrange acks and signed-off-s [Vladimir]
+
+v5:
+   * replace -ENOTSUP with abort in qcow2_co_decompress [Vladimir]
+   * set cluster size for all test cases in the beginning of the 287 test
+
+v4:
+   * the series is rebased on top of 01 "block/qcow2-threads: fix qcow2_decompress"
+   * 01 is just a no-change resend to avoid extra dependencies. Still, it may be merged in separate
+
+v3:
+   * remove redundant max compression type value check [Vladimir, Eric]
+     (the switch below checks everything)
+   * prevent compression type changing on "qemu-img amend" [Vladimir]
+   * remove zstd config setting, since it has been added already by
+     "migration" patches [Vladimir]
+   * change the compression type error message [Vladimir] 
+   * fix alignment and 80-chars exceeding [Vladimir]
+
+v2:
+   * rework compression type setting [Vladimir]
+   * squash iotest changes to the compression type introduction patch [Vladimir, Eric]
+   * fix zstd availability checking in zstd iotest [Vladimir]
+   * remove unnecessry casting [Eric]
+   * remove rudundant checks [Eric]
+   * fix compressed cluster layout in qcow2 spec [Vladimir]
+   * fix wording [Eric, Vladimir]
+   * fix compression type filtering in iotests [Eric]
+
+v1:
+   the initial series
+
+Denis Plotnikov (4):
+  qcow2: introduce compression type feature
+  qcow2: rework the cluster compression routine
+  qcow2: add zstd cluster compression
+  iotests: 287: add qcow2 compression type test
+
+ docs/interop/qcow2.txt           |   1 +
+ configure                        |   2 +-
+ qapi/block-core.json             |  23 +++-
+ block/qcow2.h                    |  20 ++-
+ include/block/block_int.h        |   1 +
+ block/qcow2-threads.c            | 228 +++++++++++++++++++++++++++++--
+ block/qcow2.c                    | 120 ++++++++++++++++
+ tests/qemu-iotests/031.out       |  14 +-
+ tests/qemu-iotests/036.out       |   4 +-
+ tests/qemu-iotests/049.out       | 102 +++++++-------
+ tests/qemu-iotests/060.out       |   1 +
+ tests/qemu-iotests/061.out       |  34 +++--
+ tests/qemu-iotests/065           |  28 ++--
+ tests/qemu-iotests/080           |   2 +-
+ tests/qemu-iotests/144.out       |   4 +-
+ tests/qemu-iotests/182.out       |   2 +-
+ tests/qemu-iotests/242.out       |   5 +
+ tests/qemu-iotests/255.out       |   8 +-
+ tests/qemu-iotests/287           | 146 ++++++++++++++++++++
+ tests/qemu-iotests/287.out       |  67 +++++++++
+ tests/qemu-iotests/common.filter |   3 +-
+ tests/qemu-iotests/group         |   1 +
+ 22 files changed, 708 insertions(+), 108 deletions(-)
+ create mode 100755 tests/qemu-iotests/287
+ create mode 100644 tests/qemu-iotests/287.out
+
+-- 
+2.17.0
 
 
