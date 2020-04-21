@@ -2,93 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0D711B2722
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 15:08:03 +0200 (CEST)
-Received: from localhost ([::1]:58056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D8721B2743
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 15:13:24 +0200 (CEST)
+Received: from localhost ([::1]:58128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQsd8-0000BZ-OE
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 09:08:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45462)
+	id 1jQsiJ-0006bE-Gw
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 09:13:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46836)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <farman@linux.ibm.com>) id 1jQsaE-000442-VR
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:05:04 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jQsh8-0005fV-Sl
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:12:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <farman@linux.ibm.com>) id 1jQsaD-0004HB-HR
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:05:02 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:26048
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jQsh7-0000f8-8m
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:12:09 -0400
+Received: from mail-eopbgr60122.outbound.protection.outlook.com
+ ([40.107.6.122]:32578 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1jQsaD-0004Dy-2A; Tue, 21 Apr 2020 09:05:01 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 03LD4KWw017839; Tue, 21 Apr 2020 09:04:58 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 30hycnbu61-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Apr 2020 09:04:58 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 03LD4ds7019784;
- Tue, 21 Apr 2020 09:04:57 -0400
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0b-001b2d01.pphosted.com with ESMTP id 30hycnbu4s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Apr 2020 09:04:57 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 03LD4m34031970;
- Tue, 21 Apr 2020 13:04:55 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma02dal.us.ibm.com with ESMTP id 30fs66qmdv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Apr 2020 13:04:55 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 03LD4sAF50659690
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 21 Apr 2020 13:04:54 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F4001C6059;
- Tue, 21 Apr 2020 13:04:53 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 03C72C605B;
- Tue, 21 Apr 2020 13:04:52 +0000 (GMT)
-Received: from [9.65.251.67] (unknown [9.65.251.67])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 21 Apr 2020 13:04:52 +0000 (GMT)
-Subject: Re: [PATCH v3 6/7] s390x/css: Refactor the css_queue_crw() routine
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20200417023440.70514-1-farman@linux.ibm.com>
- <20200417023440.70514-7-farman@linux.ibm.com>
- <20200421142834.16f5ea16.cohuck@redhat.com>
-From: Eric Farman <farman@linux.ibm.com>
-Message-ID: <ecd45274-0116-72b4-44f5-818032e14ebf@linux.ibm.com>
-Date: Tue, 21 Apr 2020 09:04:52 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
-MIME-Version: 1.0
-In-Reply-To: <20200421142834.16f5ea16.cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jQsh6-0000eA-Fx; Tue, 21 Apr 2020 09:12:08 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SNlCiObzRUZRHlw/kBEyE7fMEWki2+7Sh0AlLBv9R/cwL2r4ts0pZ5ZFVAefnFMb6InXzdICOeXes/HD6tAbPExr2TcTRpw8UegRNO0xImYwMQEm4UFYIAxokykzA05ob639SaRRL3ESEvEpf0XW9VcJ+3cn73KQIkbIzn3/sqrwyo7Y/7KUrbVrwfW9SXOjRCbJnS99mDTQZTYmGoCcqmVxe4rCpk61PDfVFi0V4XW+/caw5VQccgr9OpgyWEmZdDKec/xYnv0fcD2PnRv6V882VexxerRAyT5Nfq4DJHqLZ/v/UIoUhAJPdjFTWRY2XD5reKt9k8UueKJvw23RSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sPtJ/uM7J1EG9YhfPlhoCyn/qgNBjgg8asKcDxOqYxk=;
+ b=EWTrh+Rdu71wmZmo3l4+IAZJOS/fy6ZtfAZ4fSqEf08jeW4A68rtctL2KBbTplcuTTeNHcINl30a6OLT7JrmVt/OneHxQ9ilNqIlAi8q0vmfTYbAERxkjqu/ksfWAERSUE9yp+OKh8NPZknnqf2FiOuwuEqbFmEBJhSQKqVGNTt/XalHKKsmUsbqwArCZxZFuS3O79WO6z0Ubnx1rkBjRWrC9VyuCNPXQ41QQ8CG23ezHHEOWqUMFaRVdNk2jTF/2lPNhjrL2o25+dBQzVoVNfQop7w5PSjFNaw1xbJ7qRnGLwHfkOHZcgJOYGVlg0ro0Q/f1EW1nLnU4sN3fjhWXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sPtJ/uM7J1EG9YhfPlhoCyn/qgNBjgg8asKcDxOqYxk=;
+ b=Xn6RzJqU561NdLVFuV8EWF9hKAVL2kfn1OD2yhNi1n74G3UR2W3lw11ZLVy4cu4xQd0lM4Iw6709lcs7TvBPUu8ChE1TS/c+0/xuqyidvWrHQdz3c7sHigMW2JbhdMHXIIbQGDoOuOWvZ7r69eEu6Dp2CWWLJEF0fTUCuuwN0mc=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5495.eurprd08.prod.outlook.com (2603:10a6:20b:104::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.26; Tue, 21 Apr
+ 2020 13:12:05 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2921.027; Tue, 21 Apr 2020
+ 13:12:05 +0000
+Subject: Re: [PATCH 0/7] Apply COR-filter to the block-stream permanently
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
+References: <1587407806-109784-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200421161203483
+Message-ID: <f91a8d20-b60b-7fe9-443a-875b6232af46@virtuozzo.com>
+Date: Tue, 21 Apr 2020 16:12:03 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <1587407806-109784-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-04-21_05:2020-04-20,
- 2020-04-21 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- spamscore=0 clxscore=1015 impostorscore=0 bulkscore=0 adultscore=0
- malwarescore=0 lowpriorityscore=0 mlxlogscore=999 priorityscore=1501
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004210100
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 09:04:58
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+X-ClientProxiedBy: FR2P281CA0025.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:14::12) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.142) by
+ FR2P281CA0025.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2921.27 via Frontend Transport; Tue, 21 Apr 2020 13:12:04 +0000
+X-Tagtoolbar-Keys: D20200421161203483
+X-Originating-IP: [185.215.60.142]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a69148f5-ce2b-45e3-a57a-08d7e5f596c4
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5495:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5495102A4EEA5AEA15E5A870C1D50@AM7PR08MB5495.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Forefront-PRVS: 038002787A
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(10019020)(4636009)(39850400004)(396003)(376002)(346002)(136003)(366004)(31686004)(966005)(5660300002)(26005)(52116002)(8936002)(66556008)(81156014)(8676002)(16576012)(86362001)(66476007)(16526019)(31696002)(66946007)(478600001)(186003)(316002)(6486002)(4326008)(107886003)(2616005)(2906002)(956004)(36756003);
+ DIR:OUT; SFP:1102; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hXW9mlprWPDQwVCs8SibQPHy6D100OQ1IxnXDHKjgn0N1Isymh6d5SqM/LClcjsb+diS8dRuOLy6Z3KtSLOPou59w+TJZV2/T6ubhkU22BRfofdUErKs3X9os6CxxeVGTzWfeE+G1emrJ25OtRt2UiEvdYA6amlOgPvAgx/XlWunPyXdvGSBXHUYg4hR+kVtrXmjSEPTDchSypc1/HljCpjvoSu13KQf8AmKWCktEbD0FyzwvAy2c6p748xTLuoNTrDiuxiloT7olvMCRDcn0OJxWb3rZO0L+tOpSMXgIuEmjjCPRbZLFeSBVyldRADzruAIPt43L8u2lzcv2HmaYgMzbsirMin8Gg5duT8jnLyQGMTxjNy9ngQcddkNCZZgi8/lnPPjRK198qoTaIr/liDh+xliTNmvRhCSuBqE9cV8x9x2+lkowQwW9/5DzmR/KQYIS3iNEOA2J8VWYVcG/USB6T4Tll483BzlLd4eyKf1wIyTGkuR34pgKjIlZ+3Z
+X-MS-Exchange-AntiSpam-MessageData: 6NkOthY8XuiaTVoscX+G1xZWMwHCAHKhUcnnYnveN/H08FRY7zRjw6WdoUJw5/A6cb59pyDQth+alF9ISBoV8PRwKV+K+MA0PHuJZUvKa1U8Z0OO7X4W8VIIP2cliKcvk973IGacLBuT0RRGsiHYAQ==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a69148f5-ce2b-45e3-a57a-08d7e5f596c4
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2020 13:12:05.7244 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: z0IKajJrGcJYeDUohOVodYrOiqrsmZJgc/DheguMErDOZ/E1mepEIGvkAVjb2L8Znl+1lXe1Y67YIruh5tZnimoLekYQDEtLorsy9/wIG7o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5495
+Received-SPF: pass client-ip=40.107.6.122;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 09:12:06
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.6.122
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,97 +114,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>,
- qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- Jared Rossi <jrossi@linux.ibm.com>
+Cc: kwolf@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org, den@openvz.org,
+ mreitz@redhat.com, jsnow@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+20.04.2020 21:36, Andrey Shinkevich wrote:
+> Note: this series is based on the one "block: Deal with filters"
+>        by Max Reitz that can be found in the branches:
+> 
+>        https://git.xanclic.moe/XanClic/qemu child-access-functions-v6
+>        https://github.com/XanClic/qemu child-access-functions-v6
 
-
-On 4/21/20 8:28 AM, Cornelia Huck wrote:
-> On Fri, 17 Apr 2020 04:34:39 +0200
-> Eric Farman <farman@linux.ibm.com> wrote:
-> 
->> We have a use case (vfio-ccw) where a CRW is already built and
->> ready to use.  Rather than teasing out the components just to
->> reassemble it later, let's rework this code so we can queue a
->> fully-qualified CRW directly.
->>
->> Signed-off-by: Eric Farman <farman@linux.ibm.com>
->> ---
->>  hw/s390x/css.c         | 44 ++++++++++++++++++++++++++++--------------
->>  include/hw/s390x/css.h |  1 +
->>  2 files changed, 30 insertions(+), 15 deletions(-)
->>
->> diff --git a/hw/s390x/css.c b/hw/s390x/css.c
->> index a44faa3549..a72c09adbe 100644
->> --- a/hw/s390x/css.c
->> +++ b/hw/s390x/css.c
->> @@ -2170,30 +2170,23 @@ void css_subch_assign(uint8_t cssid, uint8_t ssid, uint16_t schid,
->>      }
->>  }
->>  
->> -void css_queue_crw(uint8_t rsc, uint8_t erc, int solicited,
->> -                   int chain, uint16_t rsid)
->> +void css_queue_crw_cont(CRW crw)
-> 
-> Don't really like this name, as it makes me think of 'continuation'
-> instead of 'container'.
-> 
-> css_queue_crw_container?
-> css_crw_add_to_queue?
-> 
-> Naming is hard :(
-
-Yeah, I don't like it either.  Just took it from the variable "crw_cont"
-in the original code, but it does seem more like a continuation.  Since
-the "container" is something built in that routine, maybe the
-"add_to_queue" variant fits better.
+Would be very good to not make a dependency and keep the series parallel. I believe, that we can proceed with this series taking a small subset of Max's series.
 
 > 
->>  {
->>      CrwContainer *crw_cont;
->>  
->> -    trace_css_crw(rsc, erc, rsid, chain ? "(chained)" : "");
->> +    trace_css_crw((crw.flags & CRW_FLAGS_MASK_RSC) >> 8,
->> +                  crw.flags & CRW_FLAGS_MASK_ERC,
->> +                  crw.rsid,
->> +                  (crw.flags & CRW_FLAGS_MASK_C) ? "(chained)" : "");
->> +
->>      /* TODO: Maybe use a static crw pool? */
->>      crw_cont = g_try_new0(CrwContainer, 1);
->>      if (!crw_cont) {
->>          channel_subsys.crws_lost = true;
->>          return;
+>        When running iotests, apply "char-socket: Fix race condition"
+>        to avoid sporadic segmentation faults.
 > 
-> Now that we actually pass something in, do we want to inform the caller
-> whether the crw was queued or not?
+> With this series, all the block-stream COR operations pass through
+> the COR-filter.
+> 
+> Andrey Shinkevich (7):
+>    block: prepare block-stream for using COR-filter
+>    stream: exclude a link to filter from freezing
+>    block: protect parallel jobs from overlapping
+>    copy-on-read: Support refreshing filename
+>    qapi: add filter-node-name to block-stream
+>    iotests: prepare 245 for using filter in block-stream
+>    block: apply COR-filter to block-stream jobs
+> 
+>   block/copy-on-read.c       |   7 ++
+>   block/stream.c             | 170 +++++++++++++++++++++++++++++++++++++++------
+>   blockdev.c                 |  15 +++-
+>   blockjob.c                 |  15 +++-
+>   include/block/block_int.h  |   7 +-
+>   monitor/hmp-cmds.c         |   4 +-
+>   qapi/block-core.json       |   6 ++
+>   tests/qemu-iotests/030     |   6 +-
+>   tests/qemu-iotests/141.out |   2 +-
+>   tests/qemu-iotests/245     |  15 ++--
+>   10 files changed, 210 insertions(+), 37 deletions(-)
+> 
 
-Hrm...  Well I guess we could use it to break out of our loop in patch
-7.  But for the existing callers of css_queue_crw(), it doesn't provide
-much value to anyone but css_generate_css_crws().  I'll poke at this a bit.
 
-> 
->>      }
->> -    crw_cont->crw.flags = (rsc << 8) | erc;
->> -    if (solicited) {
->> -        crw_cont->crw.flags |= CRW_FLAGS_MASK_S;
->> -    }
->> -    if (chain) {
->> -        crw_cont->crw.flags |= CRW_FLAGS_MASK_C;
->> -    }
->> -    crw_cont->crw.rsid = rsid;
->> -    if (channel_subsys.crws_lost) {
->> -        crw_cont->crw.flags |= CRW_FLAGS_MASK_R;
->> -        channel_subsys.crws_lost = false;
->> -    }
->> +
->> +    crw_cont->crw = crw;
->>  
->>      QTAILQ_INSERT_TAIL(&channel_subsys.pending_crws, crw_cont, sibling);
->>  
-> 
-> Generally, looks sane to me.
-> 
+-- 
+Best regards,
+Vladimir
 
