@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 277551B3039
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 21:21:13 +0200 (CEST)
-Received: from localhost ([::1]:34950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF1F1B3037
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 21:21:06 +0200 (CEST)
+Received: from localhost ([::1]:34946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQySG-00014B-2i
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 15:21:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52078)
+	id 1jQyS9-0000ri-Dn
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 15:21:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52072)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmerdabbelt@google.com>) id 1jQyQZ-0007hA-RY
+ (envelope-from <palmerdabbelt@google.com>) id 1jQyQZ-0007h7-Ag
  for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:19:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <palmerdabbelt@google.com>) id 1jQyQY-0007gc-Ad
+ (envelope-from <palmerdabbelt@google.com>) id 1jQyQY-0007gV-8y
  for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:19:27 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:42382)
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:40326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmerdabbelt@google.com>)
- id 1jQyQX-0007dW-Sx
+ id 1jQyQX-0007dt-Nx
  for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:19:25 -0400
-Received: by mail-pl1-x643.google.com with SMTP id v2so5622102plp.9
- for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 12:19:23 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id a22so1815499pjk.5
+ for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 12:19:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=subject:date:message-id:mime-version:content-transfer-encoding:cc
- :from:to; bh=d2aQTDRAnh1W1uDd73pKIcIBYgis36iQt06EI8YmDrs=;
- b=pN2E2m6qSoaom/4RWEWGJIAiKglZBsnOOAJkYLDW0TFi0GRqtF+NL5qzXlwGjA8g43
- M3ulH0EpM/ibrYAnNsEhiK8fDYXxIqH0lWxbhmRq+CosYiW8seSWR/0hHHPe0AK0//GQ
- PnF+Q/b6MdjHym2cb6K92xGz4EiNquim42F0XMbQOTOU6BgaTqrFi4b8F8GVX/hbRh48
- NFjRJNYr4FX6k/mmmXqjYfBEbigeCbXTvdp3DnOwkCmPtUW50t0BPkWyqFgulMZ7UkjX
- sLWavhJ8/0BacVDd8weZH0RYey2sfjeJOVRiaeP5RnUIy5KJuWxEhNAt3joNM7JBOV24
- nrhg==
+ h=subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding:cc:from:to;
+ bh=BbK4N9sLahlO51Mgo2mcAZi2nlNHOPi2T0wGJXMXDaM=;
+ b=BP6HrcMbpOlN+yaS+74o5Ot0RAWCQ7pQGbDt83XmI9+ayd6LJpyTNHVJlpTMVc22X8
+ P5QMSZ8K9yE92pIg0Qh4cWtKY0guKLYHqcxY0jT7b/CvSHxWtVXZzQTS6oMmVUwmo6UM
+ CtkOu8LbNwRN9uhvfClfL6sCKViIdZTe/sVCmiasz1qunuR8OfN5G22jw2b9TjC/UwFv
+ Xy8r1k/HKwH6qU3iOPEo7Vd9CibE7Z/N4o/0DShFhI5FaAbuGVWUx22Rg8rNEJmQ7nmo
+ /rmnzSih58sNjygZVVcfpMCBCKRFZoUXNmMF2Y4/Z/omXGctmiNiWq2tdLMHGEq/rfB4
+ mf5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:date:message-id:mime-version
- :content-transfer-encoding:cc:from:to;
- bh=d2aQTDRAnh1W1uDd73pKIcIBYgis36iQt06EI8YmDrs=;
- b=er7nrCXGXkLODcotofz3vb+nOu2Uq+WR9VEBaHkTyFJM6bU7H925hWf5v/d5eyuOiH
- k+CO3KmxDV2UPKuo+1ETt7rW0yEJp+PLai8/15eY17W/TgHrdsOQsHQlbyC5mbrjpYVe
- knRpM9zk+plZe9kgn04rSIzsVSfr3uUBx2ShdfwXbIFiK2LV91vhZpuTjokRbYxznaO8
- FHMmcEnZm8Ji0o+85/hU/Kapvz71ZUJmFo+3iyMXOf2/4HNsLXB0D9sgbTFH7dG6YhbU
- LH8ZgbC8ZbqodJ7nTq6EtB97FrS89xHop/tjhuJRdF+pyTff+hjSjCBtlpTndShVE4BW
- GDVg==
-X-Gm-Message-State: AGi0PubQlG1RNLuY+V839LHgd936yxlWOsPUEdAfIZR/V5KB4N0rAsNx
- KtskHxgSTUMRmpXeFZCXO7iiug==
-X-Google-Smtp-Source: APiQypLI5c5Cdk+yBJuabxDSseVYoNfNLx75Kl68Jw+Bwvhm+JFcUoaBmn2gMpXS6O7U2JMQmYBSsw==
-X-Received: by 2002:a17:902:7886:: with SMTP id
- q6mr23086848pll.237.1587496761677; 
- Tue, 21 Apr 2020 12:19:21 -0700 (PDT)
+ h=x-gm-message-state:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding:cc:from:to;
+ bh=BbK4N9sLahlO51Mgo2mcAZi2nlNHOPi2T0wGJXMXDaM=;
+ b=cCmILgAcnRO5t1ZQTetTxRn3x4BxbMFMLuHplsE77KyqPsn+EZ1BPLBGzOtdVOD/9E
+ t3wTnyYnk6qJfVqhAX90upU6DY2FuoPQrXrpIjw3uD+A87W+sHSxidQdyt/9WGWSKgAn
+ CfgmtS2Wbmo2ZyRSku8TGPKGvJf57AmCV1wh28jwQSxvxVGLxtUw1Rj88uD0k3naSMDb
+ pZZrpnADDXEFHuE1bedO86BHrhRA1zjUpWXGPIHw/nC64JX7waC1CJwX2/EceSb0o6ui
+ 1WDERF8j25TVLlfsYpCLUODDk6aYV5qljsNrflso7bncttGJtxQgGOfbn7I648Y0pwPL
+ eIkQ==
+X-Gm-Message-State: AGi0Pua9Eh4f7ibnfLgE55oB46ClMpa++00RyVxpRJRA8o1iYhvUyHSf
+ hNt8AvSe/qoHkr13tKYUH5T1RA==
+X-Google-Smtp-Source: APiQypIzTiDBeHoAdJWi/KobMJYe++LprBBpDZIRQvFvxrp6Wue7bah+j6pdDL+b/UjzBRjsUMgF4g==
+X-Received: by 2002:a17:902:7b95:: with SMTP id
+ w21mr5096217pll.25.1587496763218; 
+ Tue, 21 Apr 2020 12:19:23 -0700 (PDT)
 Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
  [76.210.143.223])
- by smtp.gmail.com with ESMTPSA id y187sm3193810pfg.16.2020.04.21.12.19.20
+ by smtp.gmail.com with ESMTPSA id e29sm2884850pgn.57.2020.04.21.12.19.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Apr 2020 12:19:21 -0700 (PDT)
-Subject: [PULL] RISC-V Patches for 5.0-rc4
-Date: Tue, 21 Apr 2020 12:09:55 -0700
-Message-Id: <20200421191001.92644-1-palmerdabbelt@google.com>
+ Tue, 21 Apr 2020 12:19:22 -0700 (PDT)
+Subject: [PULL 1/6] target/riscv: Don't set write permissions on dirty PTEs
+Date: Tue, 21 Apr 2020 12:09:56 -0700
+Message-Id: <20200421191001.92644-2-palmerdabbelt@google.com>
 X-Mailer: git-send-email 2.26.1.301.g55bc3eb7cb9-goog
+In-Reply-To: <20200421191001.92644-1-palmerdabbelt@google.com>
+References: <20200421191001.92644-1-palmerdabbelt@google.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Palmer Dabbelt <palmerdabbelt@google.com>
 From: Palmer Dabbelt <palmerdabbelt@google.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=palmerdabbelt@google.com; helo=mail-pl1-x643.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=palmerdabbelt@google.com; helo=mail-pj1-x1030.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::643
+X-Received-From: 2607:f8b0:4864:20::1030
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,49 +88,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 20038cd7a8412feeb49c01f6ede89e36c8995472:
+From: Alistair Francis <alistair.francis@wdc.com>
 
-  Update version for v5.0.0-rc3 release (2020-04-15 20:51:54 +0100)
+The RISC-V spec specifies that when a write happens and the D bit is
+clear the implementation will set the bit in the PTE. It does not
+describe that the PTE being dirty means that we should provide write
+access. This patch removes the write access granted to pages when the
+dirty bit is set.
 
-are available in the Git repository at:
+Following the prot variable we can see that it affects all of these
+functions:
+ riscv_cpu_tlb_fill()
+   tlb_set_page()
+     tlb_set_page_with_attrs()
+       address_space_translate_for_iotlb()
 
-  git@github.com:palmer-dabbelt/qemu.git tags/riscv-for-master-5.0-rc4
+Looking at the cputlb code (tlb_set_page_with_attrs() and
+address_space_translate_for_iotlb()) it looks like the main affect of
+setting write permissions is that the page can be marked as TLB_NOTDIRTY.
 
-for you to fetch changes up to 8a7ce6ac908a8ef30d6a81fe8334c3c942670949:
+I don't see any other impacts (related to the dirty bit) for giving a
+page write permissions.
 
-  riscv/sifive_u: Add a serial property to the sifive_u machine (2020-04-21 10:54:59 -0700)
+Setting write permission on dirty PTEs results in userspace inside a
+Hypervisor guest (VU) becoming corrupted. This appears to be because it
+ends up with write permission in the second stage translation in cases
+where we aren't doing a store.
 
-----------------------------------------------------------------
-RISC-V Patches for 5.0-rc4
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Signed-off-by: Palmer Dabbelt <palmerdabbelt@google.com>
+---
+ target/riscv/cpu_helper.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-This contains handful of patches that I'd like to target for 5.0.  I know it's
-a bit late, I thought I'd already sent these out but must have managed to miss
-doing so.  The patches include:
-
-* A handful of fixes to PTE lookups related to H-mode support.
-* The addition of a serial number fo the SiFive U implementetaion, which allows
-  bootloaders to generate a sane MAC address.
-
-These pass "make check" and boot Linux for me.
-
-----------------------------------------------------------------
-Peter: Sorry I dropped the ball here.  I can understand if it's too late for
-5.0, but if there's still going to be an rc4 then I'd love to have these
-included.
-----------------------------------------------------------------
-Alistair Francis (5):
-      target/riscv: Don't set write permissions on dirty PTEs
-      riscv: Don't use stage-2 PTE lookup protection flags
-      riscv: AND stage-1 and stage-2 protection flags
-      riscv/sifive_u: Fix up file ordering
-      riscv/sifive_u: Add a serial property to the sifive_u SoC
-
-Bin Meng (1):
-      riscv/sifive_u: Add a serial property to the sifive_u machine
-
- hw/riscv/sifive_u.c         | 137 ++++++++++++++++++++++++++------------------
- include/hw/riscv/sifive_u.h |   3 +
- target/riscv/cpu_helper.c   |  17 +++---
- 3 files changed, 94 insertions(+), 63 deletions(-)
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index d3ba9efb02..e2da2a4787 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -572,10 +572,8 @@ restart:
+             if ((pte & PTE_X)) {
+                 *prot |= PAGE_EXEC;
+             }
+-            /* add write permission on stores or if the page is already dirty,
+-               so that we TLB miss on later writes to update the dirty bit */
+-            if ((pte & PTE_W) &&
+-                    (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
++            /* add write permission on stores */
++            if ((pte & PTE_W) && (access_type == MMU_DATA_STORE)) {
+                 *prot |= PAGE_WRITE;
+             }
+             return TRANSLATE_SUCCESS;
+-- 
+2.26.1.301.g55bc3eb7cb9-goog
 
 
