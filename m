@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A871B26D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 14:55:27 +0200 (CEST)
-Received: from localhost ([::1]:57702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F35D51B26D3
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 14:56:13 +0200 (CEST)
+Received: from localhost ([::1]:57734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQsQw-0002Ls-D1
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 08:55:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42018)
+	id 1jQsRh-0003g6-2l
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 08:56:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42560)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jQsPw-0001Mv-Jr
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:54:25 -0400
+ (envelope-from <eblake@redhat.com>) id 1jQsQo-0002pA-DL
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:55:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jQsPv-0001qE-0R
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:54:24 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26109
+ (envelope-from <eblake@redhat.com>) id 1jQsQn-0002l9-VF
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:55:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37672
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jQsPu-0001np-D4
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:54:22 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jQsQn-0002ih-Ht
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:55:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587473661;
+ s=mimecast20190719; t=1587473716;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YYI0vty0r8MgMQ6+Z8aCvBCFr5zHIMshM26h6y2pO28=;
- b=D19ci51ds361aiB7VRXkhXc/EGhJIBDW3RDdq/gzuwYBmasIJ8PUKafpWT392ardF61KuQ
- eiZ9LQJe5q5xOlQ4x0XiBWNf1Jy0LHTiZYfuqk4SB17u/WHd9L47uepZYQszg5cXG73TWJ
- CpWxQhbp3X2L1cBt0IcmYG6/ttz1EBU=
+ bh=8sGy+26zjqt++ziLT6bencP3YRtPp2CafwNnKk4xqkw=;
+ b=ed7ir5Cf6pdF4lBSAxuDDudnX/J0NvCamWW5wO0ryuCm8jw2xTeLAIiixDAQ3GWRzcA1jl
+ yWUdOMq5nHA+9Eu1hDkyZnpdH+de3VtUV58P2d+ewMJNIUBKxFde7Tol9XmFE8Fj6OH3uG
+ gHuc7z9vjQh8dXn1rPDv4J7x41RNBOU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-AW5dIUBPNt282wCUWFE84A-1; Tue, 21 Apr 2020 08:54:09 -0400
-X-MC-Unique: AW5dIUBPNt282wCUWFE84A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-260-jcssdksuMn2VV-aIc3uIIQ-1; Tue, 21 Apr 2020 08:55:14 -0400
+X-MC-Unique: jcssdksuMn2VV-aIc3uIIQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29C6E18CA244;
- Tue, 21 Apr 2020 12:54:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80F5A1088383;
+ Tue, 21 Apr 2020 12:55:13 +0000 (UTC)
 Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BD316B3A6B;
- Tue, 21 Apr 2020 12:54:06 +0000 (UTC)
-Subject: Re: [PATCH v3 01/10] iotests/277: use dot slash for
- nbd-fault-injector.py running
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7BF085C29A;
+ Tue, 21 Apr 2020 12:55:12 +0000 (UTC)
+Subject: Re: [PATCH v3 03/10] iotests/283: make executable
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20200421073601.28710-1-vsementsov@virtuozzo.com>
- <20200421073601.28710-2-vsementsov@virtuozzo.com>
+ <20200421073601.28710-4-vsementsov@virtuozzo.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <80af4905-332c-228c-cf3d-0b00d098a7d3@redhat.com>
-Date: Tue, 21 Apr 2020 07:54:05 -0500
+Message-ID: <171869d4-7405-7279-4e75-18178eeaa781@redhat.com>
+Date: Tue, 21 Apr 2020 07:55:11 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200421073601.28710-2-vsementsov@virtuozzo.com>
+In-Reply-To: <20200421073601.28710-4-vsementsov@virtuozzo.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 04:54:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 03:31:23
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,45 +85,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/21/20 2:35 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Somehow, this doesn't work if you just call ./277. But check 277 works.
-> We are going to new iotests running framework, which will consider test
-> files as self-executable, so let's just change it now.
-
-This is a rather vague explanation.  I'd prefer something a bit more 
-forthcoming, maybe:
-
-If you run './check 277', check includes common.config which adjusts 
-$PATH to include '.' first, and therefore finds nbd-fault-injector.py on 
-PATH.  But if you run './277' directly, there is nothing to adjust PATH, 
-and if '.' is not already on your PATH by other means, the test fails 
-because the executable is not found.  Adjust how we invoke the helper 
-executable to avoid needing a PATH search in the first place.
-
-
-At any rate, while the commit message could be improved, the fix itself 
-is reasonable.
+> All other test files are executable, except for this one. Fix that.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   tests/qemu-iotests/283 | 0
+>   1 file changed, 0 insertions(+), 0 deletions(-)
+>   mode change 100644 => 100755 tests/qemu-iotests/283
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
 > 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   tests/qemu-iotests/277 | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tests/qemu-iotests/277 b/tests/qemu-iotests/277
-> index 04aa15a3d5..a4ef1a38c6 100755
-> --- a/tests/qemu-iotests/277
-> +++ b/tests/qemu-iotests/277
-> @@ -40,7 +40,7 @@ def make_conf_file(event):
->   def start_server_NBD(event):
->       make_conf_file(event)
->   
-> -    srv = subprocess.Popen(['nbd-fault-injector.py', '--classic-negotiation',
-> +    srv = subprocess.Popen(['./nbd-fault-injector.py', '--classic-negotiation',
->                              nbd_sock, conf_file], stdout=subprocess.PIPE,
->                              stderr=subprocess.STDOUT, universal_newlines=True)
->       line = srv.stdout.readline()
+> diff --git a/tests/qemu-iotests/283 b/tests/qemu-iotests/283
+> old mode 100644
+> new mode 100755
 > 
 
 -- 
