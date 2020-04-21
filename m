@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3690C1B2041
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 09:48:41 +0200 (CEST)
-Received: from localhost ([::1]:52728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B33851B2048
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 09:50:28 +0200 (CEST)
+Received: from localhost ([::1]:52750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQne4-0005OP-AE
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 03:48:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41122)
+	id 1jQnfn-0007gO-Nx
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 03:50:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41814)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jQnYZ-0007xJ-OG
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:43:00 -0400
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jQncl-0004cm-Uk
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:47:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jQnYZ-0001QZ-9W
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:42:59 -0400
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:37900)
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jQncl-0003HP-Ft
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:47:19 -0400
+Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:36791)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jQnYS-0001Bp-Bp; Tue, 21 Apr 2020 03:42:52 -0400
-Received: by mail-lf1-x142.google.com with SMTP id l11so10332255lfc.5;
- Tue, 21 Apr 2020 00:42:51 -0700 (PDT)
+ id 1jQnci-00039Q-Jt; Tue, 21 Apr 2020 03:47:16 -0400
+Received: by mail-lf1-x143.google.com with SMTP id w145so10320166lff.3;
+ Tue, 21 Apr 2020 00:47:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=PoHAvL2iCKmot5udpgodEB2iOjbkXVlGxcTV18LUAR0=;
- b=GXf1KwLRSofQFMxNrviqYfP8CnPz8/t53mfaVv8o3XhFVbxe8iMWxWNY46HQ+ppFlj
- nNaymFg4ZSbJhpP2afBJ/k5RJz7UmiIJIMQRHn3DrEtMFkgFWSOumUZBry+jfdPxnx/h
- YLVvW+0HVslaCw+CFibAYlihLIvbbdKOuyh9Rgzw3ubDVgjZlDZCmq329YSc+uE2/3pM
- G4wB6w9mcKPVbycL/a/Q7jVE8C1DB1c9jD75VNvrjPPZOlKyydE8Yd4ceDeCnHuOvTgB
- kNdkADs9LonB6T+p0wYPG8T+Q2CodQXrs1IQwUn0sdSlCIP94hBsn0LnZvhEGIxUPJUN
- H0Rw==
+ bh=xfhIKdHs7m1jDBOFfnAgfme0YalFSd3WwpqXIfEBcCI=;
+ b=TmtFLLSo5SWPYL7dDh2qYQSqtq4Z8KVaLrIAA1uewvBIDFBHW+RUJ3uIL8S7dgF5K/
+ kU82DWFGXGy+AhNSMW5TIteeHxGvEJSX/3ov7bnI1O3TPlckFUeKJ/7RnfeXqa/wBG0t
+ hjFnNwLR8Gd5dlQwOhLZBYYDBphCGO+ihiiczhKvMWxpLXlZAeSV2rgAV30wd9Sqg37T
+ 5AtOr6B0QGV+NIfoi9gPkkiu6k7P3iEUF+6NWpGlWxH6NqYyFYgbSAcBeSAhXf/kFK+F
+ TnvsyGTdkXeaLKmdWmy84qhYkSkSFU9wN63C2CDlZiZtWjPhtAEwwCC9EpIgcLzRSFRb
+ 1bUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=PoHAvL2iCKmot5udpgodEB2iOjbkXVlGxcTV18LUAR0=;
- b=ogmxSNAqBe52L+gCIqCABhSD/Zb4zm9cNY5XSjQAc1eDVyqnGrTpouHqonDP0uatMb
- eUglciXeLxwzyLb91XcNVY6iregeeKxviFiWHYFeVLoNZMk8Y5GdpOrmiDpg8JR+JkhN
- xymfyF2ur+Q7XS/beN555RDzo1sDSANeLlLP+5/qUNeQqqiReBeOk1QeI5B/ilr5Plxs
- MuPVLvU04QqAeMu27xYQ7LGebmo9/Mbidmdw9ckoyeKTojqEvXxTRj+taxJskxAo0580
- k6LdRzwR1ovjVJDwtvGU+78wfTIMDZRztdWhHPXo6MZmv8V/ScYdLnz+z71SlkrZ9DOl
- IepA==
-X-Gm-Message-State: AGi0PuYSbVWV26yYnxvkdqGuvsY60QNt+mXwGItc0sOJDTHEeovYAA6A
- HiD8VteYR/XAlBaNw5ZU8Uw=
-X-Google-Smtp-Source: APiQypJlEMPuQKLZgu6JI3FLY/HBPTZIMN3KBXMGenrDsG+zDv9Xdiq6VXVNxqv9SA6s1TZZeMfZ1Q==
-X-Received: by 2002:a19:9109:: with SMTP id t9mr13144357lfd.10.1587454970061; 
- Tue, 21 Apr 2020 00:42:50 -0700 (PDT)
+ bh=xfhIKdHs7m1jDBOFfnAgfme0YalFSd3WwpqXIfEBcCI=;
+ b=HPcN8MLpg/JfqFPTSRJVkgkPvkQgOhoXaxLiV0+r2xeSVoWqRjAv8psD5+TwklZcCC
+ /L/3zotTH6e+Bl93F3bSoj+sX5AE4JGJoYfLDVEcYUliXhCVB20vsQzxntM5cfAEdaeC
+ sYtY9mUe+xOq2r5RDE3K3+g9I/OmA1cbpphfXAwg3bbtmIA/C/8ImElZ52zNKnqvUu/2
+ A+xiowBzlNkAJUZjFFlz7z7Y50dwn1xiaoLIdo8a1PLRsoB6hxL2oJfN0bdw4v4BOHRf
+ 3LfeZrfwT5JGgksptMHQhmbgBgvumPvFycfc5d8N4ElF02nNLeCOBvF8KqTH/Ln5ujAM
+ A30w==
+X-Gm-Message-State: AGi0PuaJTuG60H6oawtRMsTy0zPm1sra5EnrfPfgiGylUp2yNWMAXw9w
+ txweGXLzOlAzCGvN6DqtoC4=
+X-Google-Smtp-Source: APiQypKMnATv5pSEAbDCPdUMbsUxR5lxSDv0hy2ZkfEAMHQxTWcxh/voN+vNsxlbwnrjKhVgHAxrcA==
+X-Received: by 2002:ac2:4187:: with SMTP id z7mr12941684lfh.113.1587455234510; 
+ Tue, 21 Apr 2020 00:47:14 -0700 (PDT)
 Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id c21sm1423114lfh.16.2020.04.21.00.42.49
+ by smtp.gmail.com with ESMTPSA id t8sm1475806lfe.31.2020.04.21.00.47.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Apr 2020 00:42:49 -0700 (PDT)
-Date: Tue, 21 Apr 2020 09:44:00 +0200
+ Tue, 21 Apr 2020 00:47:13 -0700 (PDT)
+Date: Tue, 21 Apr 2020 09:48:24 +0200
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 3/4] linux-user/arm: Handle invalid arm-specific syscalls
- correctly
-Message-ID: <20200421074400.GE2669@toto>
+Subject: Re: [PATCH 1/4] linux-user/arm: BKPT should cause SIGTRAP, not be a
+ syscall
+Message-ID: <20200421074824.GF2669@toto>
 References: <20200420212206.12776-1-peter.maydell@linaro.org>
- <20200420212206.12776-4-peter.maydell@linaro.org>
+ <20200420212206.12776-2-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200420212206.12776-4-peter.maydell@linaro.org>
+In-Reply-To: <20200420212206.12776-2-peter.maydell@linaro.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::142;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x142.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::143;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x143.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::142
+X-Received-From: 2a00:1450:4864:20::143
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,74 +87,87 @@ Cc: omerg681@gmail.com, qemu-arm@nongnu.org, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 20, 2020 at 10:22:05PM +0100, Peter Maydell wrote:
-> The kernel has different handling for syscalls with invalid
-> numbers that are in the "arm-specific" range 0x9f0000 and up:
->  * 0x9f0000..0x9f07ff return -ENOSYS if not implemented
->  * other out of range syscalls cause a SIGILL
-> (see the kernel's arch/arm/kernel/traps.c:arm_syscall())
+On Mon, Apr 20, 2020 at 10:22:03PM +0100, Peter Maydell wrote:
+> In linux-user/arm/cpu-loop.c we incorrectly treat EXCP_BKPT similarly
+> to EXCP_SWI, which means that if the guest executes a BKPT insn then
+> QEMU will perform a syscall for it (which syscall depends on what
+> value happens to be in r7...). The correct behaviour is that the
+> guest process should take a SIGTRAP.
 > 
-> Implement this distinction. (Note that our code doesn't look
-> quite like the kernel's, because we have removed the
-> 0x900000 prefix by this point, whereas the kernel retains
-> it in arm_syscall().)
+> This code has been like this (more or less) since commit
+> 06c949e62a098f in 2006 which added BKPT in the first place.  This is
+> probably because at the time the same code path was used to handle
+> both Linux syscalls and semihosting calls, and (on M profile) BKPT
+> with a suitable magic number is used for semihosting calls.  But
+> these days we've moved handling of semihosting out to an entirely
+> different codepath, so we can fix this bug by simply removing this
+> handling of EXCP_BKPT and instead making it deliver a SIGTRAP like
+> EXCP_DEBUG (as we do already on aarch64).
 > 
+> Reported-by: <omerg681@gmail.com>
+> Fixes: https://bugs.launchpad.net/qemu/+bug/1873898
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+
+
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+
+
 > ---
->  linux-user/arm/cpu_loop.c | 30 ++++++++++++++++++++++++++----
->  1 file changed, 26 insertions(+), 4 deletions(-)
+>  linux-user/arm/cpu_loop.c | 30 ++++++++----------------------
+>  1 file changed, 8 insertions(+), 22 deletions(-)
 > 
 > diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
-> index 025887d6b86..f042108b0be 100644
+> index cf618daa1ca..82d0dd3c312 100644
 > --- a/linux-user/arm/cpu_loop.c
 > +++ b/linux-user/arm/cpu_loop.c
-> @@ -332,10 +332,32 @@ void cpu_loop(CPUARMState *env)
->                              env->regs[0] = cpu_get_tls(env);
->                              break;
->                          default:
-> -                            qemu_log_mask(LOG_UNIMP,
-> -                                          "qemu: Unsupported ARM syscall: 0x%x\n",
-> -                                          n);
-> -                            env->regs[0] = -TARGET_ENOSYS;
-> +                            if (n < 0xf0800) {
-> +                                /*
-> +                                 * Syscalls 0xf0000..0xf07ff (or 0x9f0000..
-> +                                 * 0x9f07ff in OABI numbering) are defined
-> +                                 * to return -ENOSYS rather than raising
-> +                                 * SIGILL. Note that we have already
-> +                                 * removed the 0x900000 prefix.
-> +                                 */
-> +                                qemu_log_mask(LOG_UNIMP,
-> +                                    "qemu: Unsupported ARM syscall: 0x%x\n",
-> +                                              n);
-> +                                env->regs[0] = -TARGET_ENOSYS;
-> +                            } else {
-> +                                /* Otherwise SIGILL */
-> +                                info.si_signo = TARGET_SIGILL;
-> +                                info.si_errno = 0;
-> +                                info.si_code = TARGET_ILL_ILLTRP;
-> +                                info._sifields._sigfault._addr = env->regs[15];
-> +                                if (env->thumb) {
-> +                                    info._sifields._sigfault._addr -= 2;
-> +                                } else {
-> +                                    info._sifields._sigfault._addr -= 2;
-> +                                }
-
-
-Am I missing some detail or are both branches of the if-else doing the
-same thing?
-
-Cheers,
-Edgar
-
-
-
-> +                                queue_signal(env, info.si_signo,
-> +                                             QEMU_SI_FAULT, &info);
-> +                            }
->                              break;
->                          }
->                      } else {
+> @@ -295,32 +295,17 @@ void cpu_loop(CPUARMState *env)
+>              }
+>              break;
+>          case EXCP_SWI:
+> -        case EXCP_BKPT:
+>              {
+>                  env->eabi = 1;
+>                  /* system call */
+> -                if (trapnr == EXCP_BKPT) {
+> -                    if (env->thumb) {
+> -                        /* FIXME - what to do if get_user() fails? */
+> -                        get_user_code_u16(insn, env->regs[15], env);
+> -                        n = insn & 0xff;
+> -                        env->regs[15] += 2;
+> -                    } else {
+> -                        /* FIXME - what to do if get_user() fails? */
+> -                        get_user_code_u32(insn, env->regs[15], env);
+> -                        n = (insn & 0xf) | ((insn >> 4) & 0xff0);
+> -                        env->regs[15] += 4;
+> -                    }
+> +                if (env->thumb) {
+> +                    /* FIXME - what to do if get_user() fails? */
+> +                    get_user_code_u16(insn, env->regs[15] - 2, env);
+> +                    n = insn & 0xff;
+>                  } else {
+> -                    if (env->thumb) {
+> -                        /* FIXME - what to do if get_user() fails? */
+> -                        get_user_code_u16(insn, env->regs[15] - 2, env);
+> -                        n = insn & 0xff;
+> -                    } else {
+> -                        /* FIXME - what to do if get_user() fails? */
+> -                        get_user_code_u32(insn, env->regs[15] - 4, env);
+> -                        n = insn & 0xffffff;
+> -                    }
+> +                    /* FIXME - what to do if get_user() fails? */
+> +                    get_user_code_u32(insn, env->regs[15] - 4, env);
+> +                    n = insn & 0xffffff;
+>                  }
+>  
+>                  if (n == ARM_NR_cacheflush) {
+> @@ -396,6 +381,7 @@ void cpu_loop(CPUARMState *env)
+>              }
+>              break;
+>          case EXCP_DEBUG:
+> +        case EXCP_BKPT:
+>          excp_debug:
+>              info.si_signo = TARGET_SIGTRAP;
+>              info.si_errno = 0;
 > -- 
 > 2.20.1
 > 
