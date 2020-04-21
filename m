@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA1991B2789
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 15:21:19 +0200 (CEST)
-Received: from localhost ([::1]:58284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E441F1B2797
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 15:23:05 +0200 (CEST)
+Received: from localhost ([::1]:58316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQspy-0002eH-Ey
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 09:21:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48362)
+	id 1jQsrg-0005ND-Vi
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 09:23:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48378)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jQsoM-0000vR-FD
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:19:38 -0400
+ (envelope-from <philmd@redhat.com>) id 1jQsoO-0000wD-3T
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:19:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jQsoK-0007FZ-FF
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:19:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59754
+ (envelope-from <philmd@redhat.com>) id 1jQsoN-0007NK-GP
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:19:39 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58837
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jQsoJ-0007Df-W5
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:19:36 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jQsoN-0007LR-3X
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:19:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587475174;
+ s=mimecast20190719; t=1587475178;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+3dL7HK3IprfglwxQAI6iAJf43RxdhDjeGz0/Y+AVYw=;
- b=H4R6WnOqJyVAJRGD+UQfxcbDYTLct+5RcMcWVOESAClRyGE16aQnr6kxEfSmkktGDtv4SK
- +9gelKm7KrSEIl/qYLBv7U51/mIDKbM27+XCVb7IPQ58iphMI7N/gQxYxD+058x0OlFMQR
- HYpybTw3Znr0BDA9mODFlUrbISwO/VU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-f4hzrM5xPZ-Ea-AmUVDcBw-1; Tue, 21 Apr 2020 09:19:30 -0400
-X-MC-Unique: f4hzrM5xPZ-Ea-AmUVDcBw-1
-Received: by mail-wr1-f72.google.com with SMTP id e5so7444561wrs.23
- for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 06:19:30 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uMFN46GGJRGQBe/rYYHHm3lwuDss4tLS+w7l4aZddpQ=;
+ b=Ob69b3JNJIcAnudEgSWXy2wp9EPlceo+q9763wIYBcks0f9Q/EMhXTzGomztgVbS+DynLv
+ T+ADxmsEf9v/EVP6/Z264aCEqQA6R2Q6H1EIGmbnJBJje5iYYX2wP1fKsntmx0qinaUPBf
+ Opl0dAqCd3QjFPKJDYU3rhzdCvRaUnk=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-466-QbP3bM4lOXm6WTdX5T33ow-1; Tue, 21 Apr 2020 09:19:35 -0400
+X-MC-Unique: QbP3bM4lOXm6WTdX5T33ow-1
+Received: by mail-wr1-f71.google.com with SMTP id p16so7470949wro.16
+ for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 06:19:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WpjSjga3RuM/g/+6VzdeggLnv5t7E2VEFN3uiqBE20A=;
- b=IeZuj6mUgndLbvd7HaSLb5jJugT0WVF/pVpnTU38St5OjTbRMHyxJi1YHnVLyES58f
- TrR2/uBmA6E2LkHpqERZ6IiiL+9qcLMvPgvbCUa7lKYWKBkhENEvU/CJKVx2XPej8+0S
- UockXtUlqleJ5xs9O6MGCieLJhcu4nZkALY0MuxxL39mJ+qUQd5AsE/yahs6X2Z68QlM
- xmsbVJHQ9v1NOjFSnu010vxuh0w4XTmCZSB7Thf/MENLkszdwpjKaIMwGxPWsKJRlVFD
- 0Xz5JYjy3jdil0CxH+igUPu8VWaZlVm7J7Z9upxVezFGHxkIoT+GXU/49IeLEF4cBmm5
- cUMg==
-X-Gm-Message-State: AGi0Pubcukf/Tpj0+tA7hyoKPYCUhf75RlH/0zx4PdyZScEHNIkzEjvn
- WSBE84vXrDEtoPGx5C0yJib7u97qpadsDWQPLJNMDOlQ2MqeAVHdHpDrNkJaLl2SbNfMnOdOquy
- IwFgeg0pygUoNvsU=
-X-Received: by 2002:adf:fac8:: with SMTP id a8mr15975709wrs.311.1587475169198; 
- Tue, 21 Apr 2020 06:19:29 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKpajtsaLumU84NBykAs/oFg060Jnjwmn8lICLqR06VAGCLG+2ARPu/jQCZOYqpBfAlqwhLfg==
-X-Received: by 2002:adf:fac8:: with SMTP id a8mr15975698wrs.311.1587475168992; 
- Tue, 21 Apr 2020 06:19:28 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Ae/4+1sN6db4JUzTalWSGb//t3m1oKTsE7xQyTnypSQ=;
+ b=MzEIGQbfxbT2SfQ22eMLX+F92EsUmStTfq42Icx4kRg6TDSHrPRsL4tBWQWCnhz9aF
+ UYCDy6hGtv0KG2EyNaD4S7T4HpvrWIJEXOoOsiEhF+yKVmovZUXZom4vZX5MW1Tq5+BG
+ nzmgwDaeoAgYxxcIPLbRakg4VNSevch/1/KXwWlux7oKj/G1k61Awlz1561r8RVwesa0
+ ZKAsjWkxq4IfDp9rTUgwzMQalVo5CvFK+pYeSGBGlPEkh2kOkC6v/u41rOiKeYZdAgiz
+ U61saXgz9GVyvdVaJqCuWDookqoZWmhPkydGWylfSpx5Sy4zoPoJEH2GGtlt7lnHUKEs
+ HBLw==
+X-Gm-Message-State: AGi0PubiSyG9wq22C/pDQRBYXW8pbHFiqxq+Zh8oRoBFH/MRkyvTmuvx
+ F/CF93sqzu/pI4RTgcMckCjvvkM0JA6uFJWqweqisrnguStB8ePAQaGm6lKDHetGSP1HbRiYkS5
+ pcVBOZgOvv8sYroI=
+X-Received: by 2002:a1c:154:: with SMTP id 81mr4819469wmb.48.1587475173853;
+ Tue, 21 Apr 2020 06:19:33 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLHPuElbADy4mspBGKtfKCwZM91kYTJTe3uodBw9u/qXg53Z5lnxWy+W/ZDj504BwBLoLYMkQ==
+X-Received: by 2002:a1c:154:: with SMTP id 81mr4819454wmb.48.1587475173622;
+ Tue, 21 Apr 2020 06:19:33 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id u3sm3538698wrt.93.2020.04.21.06.19.27
+ by smtp.gmail.com with ESMTPSA id t16sm4307074wrb.8.2020.04.21.06.19.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Apr 2020 06:19:28 -0700 (PDT)
+ Tue, 21 Apr 2020 06:19:33 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/6] target/arm: Restrict TCG cpus to TCG accel
-Date: Tue, 21 Apr 2020 15:19:20 +0200
-Message-Id: <20200421131926.12116-1-philmd@redhat.com>
+Subject: [PATCH 1/6] target/arm: Restric the Address Translate write operation
+ to TCG accel
+Date: Tue, 21 Apr 2020 15:19:21 +0200
+Message-Id: <20200421131926.12116-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200421131926.12116-1-philmd@redhat.com>
+References: <20200421131926.12116-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
@@ -93,40 +98,104 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These are the uncontroversial patches from "Support disabling
-TCG on ARM (part 2)"
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg689168.html
+Under KVM these registers are written by the hardware.
+Restrict the writefn handlers to TCG to avoid when building
+without TCG:
 
-The other patches are blocked by the "accel: Allow targets to
-use Kconfig" series:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg689024.html
+      LINK    aarch64-softmmu/qemu-system-aarch64
+    target/arm/helper.o: In function `do_ats_write':
+    target/arm/helper.c:3524: undefined reference to `raise_exception'
 
-Sending this series now for review for 5.1.
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+Better explanation:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg689388.html
+---
+ target/arm/helper.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-Regards,
-
-Phil.
-
-Philippe Mathieu-Daud=C3=A9 (4):
-  target/arm: Restric the Address Translate write operation to TCG accel
-  target/arm/cpu: Use ARRAY_SIZE() to iterate over ARMCPUInfo[]
-  target/arm/cpu: Update coding style to make checkpatch.pl happy
-  target/arm: Restrict TCG cpus to TCG accel
-
-Thomas Huth (2):
-  target/arm: Make set_feature() available for other files
-  target/arm: Make cpu_register() available for other files
-
- target/arm/cpu-qom.h     |   9 +-
- target/arm/cpu.h         |  10 +
- target/arm/cpu.c         | 657 +-------------------------------------
- target/arm/cpu64.c       |  27 +-
- target/arm/cpu_tcg.c     | 663 +++++++++++++++++++++++++++++++++++++++
- target/arm/helper.c      |  17 +
- target/arm/Makefile.objs |   1 +
- 7 files changed, 708 insertions(+), 676 deletions(-)
- create mode 100644 target/arm/cpu_tcg.c
-
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 7e9ea5d20f..dfefb9b3d9 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -3442,6 +3442,7 @@ static CPAccessResult ats_access(CPUARMState *env, co=
+nst ARMCPRegInfo *ri,
+     return CP_ACCESS_OK;
+ }
+=20
++#ifdef CONFIG_TCG
+ static uint64_t do_ats_write(CPUARMState *env, uint64_t value,
+                              MMUAccessType access_type, ARMMMUIdx mmu_idx)
+ {
+@@ -3602,9 +3603,11 @@ static uint64_t do_ats_write(CPUARMState *env, uint6=
+4_t value,
+     }
+     return par64;
+ }
++#endif /* CONFIG_TCG */
+=20
+ static void ats_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t v=
+alue)
+ {
++#ifdef CONFIG_TCG
+     MMUAccessType access_type =3D ri->opc2 & 1 ? MMU_DATA_STORE : MMU_DATA=
+_LOAD;
+     uint64_t par64;
+     ARMMMUIdx mmu_idx;
+@@ -3664,17 +3667,26 @@ static void ats_write(CPUARMState *env, const ARMCP=
+RegInfo *ri, uint64_t value)
+     par64 =3D do_ats_write(env, value, access_type, mmu_idx);
+=20
+     A32_BANKED_CURRENT_REG_SET(env, par, par64);
++#else
++    /* Handled by hardware accelerator. */
++    g_assert_not_reached();
++#endif /* CONFIG_TCG */
+ }
+=20
+ static void ats1h_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                         uint64_t value)
+ {
++#ifdef CONFIG_TCG
+     MMUAccessType access_type =3D ri->opc2 & 1 ? MMU_DATA_STORE : MMU_DATA=
+_LOAD;
+     uint64_t par64;
+=20
+     par64 =3D do_ats_write(env, value, access_type, ARMMMUIdx_E2);
+=20
+     A32_BANKED_CURRENT_REG_SET(env, par, par64);
++#else
++    /* Handled by hardware accelerator. */
++    g_assert_not_reached();
++#endif /* CONFIG_TCG */
+ }
+=20
+ static CPAccessResult at_s1e2_access(CPUARMState *env, const ARMCPRegInfo =
+*ri,
+@@ -3689,6 +3701,7 @@ static CPAccessResult at_s1e2_access(CPUARMState *env=
+, const ARMCPRegInfo *ri,
+ static void ats_write64(CPUARMState *env, const ARMCPRegInfo *ri,
+                         uint64_t value)
+ {
++#ifdef CONFIG_TCG
+     MMUAccessType access_type =3D ri->opc2 & 1 ? MMU_DATA_STORE : MMU_DATA=
+_LOAD;
+     ARMMMUIdx mmu_idx;
+     int secure =3D arm_is_secure_below_el3(env);
+@@ -3728,6 +3741,10 @@ static void ats_write64(CPUARMState *env, const ARMC=
+PRegInfo *ri,
+     }
+=20
+     env->cp15.par_el[1] =3D do_ats_write(env, value, access_type, mmu_idx)=
+;
++#else
++    /* Handled by hardware accelerator. */
++    g_assert_not_reached();
++#endif /* CONFIG_TCG */
+ }
+ #endif
+=20
 --=20
 2.21.1
 
