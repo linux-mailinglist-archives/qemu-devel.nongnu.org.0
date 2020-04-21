@@ -2,74 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9708D1B23F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 12:35:38 +0200 (CEST)
-Received: from localhost ([::1]:55388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D8A1B23F3
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 12:37:25 +0200 (CEST)
+Received: from localhost ([::1]:55430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQqFd-00020M-Mg
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 06:35:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45852)
+	id 1jQqHM-0003eB-PC
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 06:37:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46118)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jQqEU-0001Ca-RI
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:34:27 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1jQqGI-0002lp-Lp
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:36:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jQqEU-0001nG-AT
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:34:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31607
+ (envelope-from <mlevitsk@redhat.com>) id 1jQqG3-0004Zv-KA
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:36:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29693
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jQqET-0001mS-UH
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:34:25 -0400
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1jQqG3-0004YK-8N
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:36:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587465264;
+ s=mimecast20190719; t=1587465362;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O7Z0BEhxEHOClIjMvM+8OFwt0QLum+hiy+VNfXoB5aY=;
- b=KSYhSmFSzWimC0AOhyZgpX0jfQ5x9ux/WfVoNRTOcdnh+bwCA3wBqq7sx9RuYcONU8Nvaz
- acwzC+WBOnyZynxuJrDx2rMXGzH1reBLwU7LxS6tQDClEgmaHU9vtphE2ELpCyHK0tNi6D
- HbALAEKF4ay2cBzhteETG/5DKryig60=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469-wmWrI4tNPECdVq83s_WT9Q-1; Tue, 21 Apr 2020 06:34:23 -0400
-X-MC-Unique: wmWrI4tNPECdVq83s_WT9Q-1
-Received: by mail-wm1-f72.google.com with SMTP id o26so1219431wmh.1
- for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 03:34:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=O7Z0BEhxEHOClIjMvM+8OFwt0QLum+hiy+VNfXoB5aY=;
- b=FlfLM+UIuUeGakZaYSFKK4U3v45uomWxGZVzYVR+9xv5s3IZeWdN55wkv4WwjTrVSc
- p5Ap/YJfadnmCACvVRifkjPhAcDITGiyabh7DrMUUw1v+oXubRWSRu2yWX1VvYCyDkja
- vNma14GZ2yYZlBWyuzH9+2j77vHcQIApDpObtqV9DdSE++DaqRFl2h4VF9DQL5L76WeT
- gWzfPx3Mhwh1rsclchk4C8FWW+Z5WtoDaCtFMsIglRigz44qawX7wz4VsZYZgyBk2abb
- j9Vq6QnAsIojIMBwB+JlbJwrzILnWjTVW/mWoHNc7B8uyluiQMqs2Kv4pQcU3/gyyibV
- yRbg==
-X-Gm-Message-State: AGi0Pubn1r6GBjKBzJuJn7Z5fhYhKAB9BClMqj5UTRPfsA18GI6d8vlx
- hHPU7FWA64+6i1M7SIVF71AHGvs8trUVSys6LbotUbAAfu2IgFTmt7/+h9QpF58js2QsCVuArps
- VahU2I3YxS9yB9E4/0lLNrI0a7OMqq9s=
-X-Received: by 2002:adf:f508:: with SMTP id q8mr25151618wro.117.1587465262005; 
- Tue, 21 Apr 2020 03:34:22 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJP64+TAfap5Rj8pQy4f/mTNgi14Fih9zEdUlBUJ7Z/lSIcNufVwMm3M0c7LVLZ+1g5zccrgt2fLBjRqgj1K1M=
-X-Received: by 2002:adf:f508:: with SMTP id q8mr25151596wro.117.1587465261773; 
- Tue, 21 Apr 2020 03:34:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAP+75-UisNwFqedDPfuGt=HFEEnPSO7sNq9JxpUuLPVdYDryuw@mail.gmail.com>
- <CAJ+F1C+YnbgCkYN1+7zpq0XvZYb2LWL6kbQXRSybJew1JnBgQQ@mail.gmail.com>
-In-Reply-To: <CAJ+F1C+YnbgCkYN1+7zpq0XvZYb2LWL6kbQXRSybJew1JnBgQQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Date: Tue, 21 Apr 2020 12:34:10 +0200
-Message-ID: <CAP+75-Xi0gWywnGahJ6KRxp28tPkrr0T5a7LzzkVbTDufyDWpg@mail.gmail.com>
-Subject: Re: SLiRP: use-afte-free in ip_reass() [CVE-2020-1983]
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+ bh=MszpWOKEk8wwkPNPLSP88+n5co/NKsoBQSqzypn3SuA=;
+ b=Pk+3E3zXfD7d1Z5sFSZUo/pV54I9kJUmyULbutkiq4lrcyNhd9WB0nblVa2NyUC9goHF/B
+ 8jmzMm1JPgq8h5CxTFDn1+rR56ZTFvOU9jd6nHKeBdZsVjyYFseQV0+FxTJ9+AI8Xx1UQO
+ zlHkHeCLJKm6ZVzuiqTWo15gBAotDXw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-37-9zVOCOYYM9q5k9d7HP7vKg-1; Tue, 21 Apr 2020 06:35:58 -0400
+X-MC-Unique: 9zVOCOYYM9q5k9d7HP7vKg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C82B8017FC;
+ Tue, 21 Apr 2020 10:35:57 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CA7BC9DD8A;
+ Tue, 21 Apr 2020 10:35:54 +0000 (UTC)
+Message-ID: <ba7b701f8cb35265400451480e1e2485886c7d99.camel@redhat.com>
+Subject: Re: [PATCH v2 06/16] nvme: refactor nvme_addr_read
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
+Date: Tue, 21 Apr 2020 13:35:53 +0300
+In-Reply-To: <20200415130159.611361-7-its@irrelevant.dk>
+References: <20200415130159.611361-1-its@irrelevant.dk>
+ <20200415130159.611361-7-its@irrelevant.dk>
+Mime-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mlevitsk@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 04:54:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -85,36 +75,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Javier Gonzalez <javier.gonz@samsung.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 21, 2020 at 12:22 PM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
->
-> Hi
->
-> On Tue, Apr 21, 2020 at 11:18 AM Philippe Mathieu-Daud=C3=A9
-> <philmd@redhat.com> wrote:
-> >
-> > Hi Samuel and Marc-Andr=C3=A9,
-> >
-> > Peter is going to tag 5.0-rc4 (final before release) today.
-> > Do you have plans to send a last minute pull-request to fix CVE-2020-19=
-83?
-> >
-> > https://gitlab.freedesktop.org/slirp/libslirp/-/commit/9ac0371bb
->
-> libslirp is not following qemu release schedule. The master branch has
-> a few changes that shouldn't be added to the release. We could create
-> version/stable/qemu branches, but then between each version, we would
-> end up with the submodule jumping between branches (with a non-linear
-> history). Is that the only option?
+On Wed, 2020-04-15 at 15:01 +0200, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+>=20
+> Pull the controller memory buffer check to its own function. The check
+> will be used on its own in later patches.
+>=20
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> Acked-by: Keith Busch <kbusch@kernel.org>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  hw/block/nvme.c | 16 ++++++++++++----
+>  1 file changed, 12 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 563cccae6795..d026985f62d0 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -55,14 +55,22 @@
+> =20
+>  static void nvme_process_sq(void *opaque);
+> =20
+> +static bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr)
+> +{
+> +    hwaddr low =3D n->ctrl_mem.addr;
+> +    hwaddr hi  =3D n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size);
+> +
+> +    return addr >=3D low && addr < hi;
+> +}
+> +
+>  static void nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size=
+)
+>  {
+> -    if (n->cmbsz && addr >=3D n->ctrl_mem.addr &&
+> -                addr < (n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size=
+))) {
+> +    if (n->cmbsz && nvme_addr_is_cmb(n, addr)) {
+>          memcpy(buf, (void *)&n->cmbuf[addr - n->ctrl_mem.addr], size);
+> -    } else {
+> -        pci_dma_read(&n->parent_obj, addr, buf, size);
+> +        return;
+>      }
+> +
+> +    pci_dma_read(&n->parent_obj, addr, buf, size);
+>  }
+> =20
+>  static int nvme_check_sqid(NvmeCtrl *n, uint16_t sqid)
 
-I'm not sure this is the only option, but thinking about the
-qemu-stable release process, this sounds like a good option.
-Stable tags are sterile leaves and don't get further development.
+Looks like I forgot to add reviewed-by to the patch from V6,
+but it looks all right after our discussion so,
+
+
+Reviewed-by: Maxim Levitsky <mlevitsky@redhat.com>
+
+Best regards,
+=09Maxim Levitsky
 
 
