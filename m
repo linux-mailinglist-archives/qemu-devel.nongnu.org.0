@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC6A1B3038
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 21:21:09 +0200 (CEST)
-Received: from localhost ([::1]:34949 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEA851B303D
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 21:23:05 +0200 (CEST)
+Received: from localhost ([::1]:34998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQySC-0000tK-G0
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 15:21:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52086)
+	id 1jQyU4-0004vb-Ru
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 15:23:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52136)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmerdabbelt@google.com>) id 1jQyQa-0007hJ-Bb
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:19:30 -0400
+ (envelope-from <palmerdabbelt@google.com>) id 1jQyQj-0007wE-HG
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:19:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <palmerdabbelt@google.com>) id 1jQyQZ-0007h6-05
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:19:28 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:39335)
+ (envelope-from <palmerdabbelt@google.com>) id 1jQyQb-0007il-Bx
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:19:37 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:37288)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmerdabbelt@google.com>)
- id 1jQyQY-0007g6-Iy
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:19:26 -0400
-Received: by mail-pf1-x436.google.com with SMTP id 18so3404980pfx.6
- for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 12:19:26 -0700 (PDT)
+ id 1jQyQa-0007hc-UL
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:19:28 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id r4so7233670pgg.4
+ for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 12:19:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding:cc:from:to;
- bh=cZPeewRwiJVRdUYRTxdn8RCJkKDKnsBX9QxOz+unSto=;
- b=BnQAf2Cad4prW/7YASlz4IQP8J4m59IwwQM1M3NugT8rHkZNle+/H6Ca7hYcgQHikQ
- 8cnw69rrJ5FI9um8qbM6LCAEso8OtkcKhg+8A+ThoCriciEY9xunauxfmE+r1gq4B/VZ
- EWZhaSNiw/Mxo10hotzTPYSR54k5KwjxZLYqSJaKwVIQnmA8K+Z5ID9vOK8HD7wQoNAN
- LloUCa4qQVCN8IB6sP8E3ePSTYHKYJ83pasRrRvwWKPge058uhXgQwJBSHtxZeiZIt2G
- evNxzd3liYc5hUC6LIjpljZPyXkC62BDJQUJkFIQLfwEUOwbMMUF+3Wk8xSO6DI042Q7
- 2L2Q==
+ bh=W51JHFyaTyJrjYrazYNfQIZabEagIWPjqp7ng1YyDdQ=;
+ b=MCSqbfMaY9XlGDdHqDkV8cNh7RpJK3QZRrgH03UWu34P2RLJQSCsVsJGX5XmPVsHnz
+ ui2J8RWFDnDnyTyuE+ni/dOMrTHh8lds78tddli9Dp7BCDlpDrR+mOrh+GVqqSyAPEIG
+ kxE8iEk1LSjHGljsHqIwuhG+z1m+z5Wr/zuzDXdRsXkl4Zxe2gwXv8jsa3f5jfvx8oBz
+ nrhz/zQJoRNgXGpPaEd8CQGuXOnbMJMFd4qCLhH7Lsq5mWYixKP2/lPOibmOF7VskBAf
+ aM2j1Te4VtNJ8OsSQ9UFL+5bOYFKbnuiKOIGPUWZIwFAKtXVhnBgY9TbOTaKSZsYkEUd
+ jyAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=cZPeewRwiJVRdUYRTxdn8RCJkKDKnsBX9QxOz+unSto=;
- b=A2NYfP0ob4bhvzh7pd5lqHmSupN/DJDaevUWMxJweFxSEnSJj/WJPDdm0kJcYf8Gbn
- r1vC8mF+5uIfeJVO4ZgVbNiyZmzex7E+A1i//2jru4hvJFCg5xLfubG12+AzYFg3h1oK
- tRF7Tt0SkQCapH5qGvFUxzMwFZOODHnR4KYpl84LV/9O/4MjGXjQLykPPmAl7dU4Stsd
- TRafj4cqVsDN/IBMXAvR49M053+MHVGj6cCWgTJLGCBNT46gMZQcay91H+PqnZy1LsqT
- 9z7SimCTT5RcrQuht37sYSW/9rwPeymbKsAidctRwr0o1ff5eBJG9LTncZpjSGZF64OC
- BApg==
-X-Gm-Message-State: AGi0PubIf0d1n+p+75xtZUXSzGt26Jd8gYKEALfa9Qks92WP8nbpDRlM
- 5skToM7J4LtoB6j/YnO5g6H7zA==
-X-Google-Smtp-Source: APiQypLVvMwxS5H7oRV02Lz94Xw0U0xOwQWypvN2+mi7Irq6BjAZTB9R4ob1fJ/r+zDWzCyhSTFyIA==
-X-Received: by 2002:a62:5c07:: with SMTP id q7mr23741046pfb.200.1587496765135; 
- Tue, 21 Apr 2020 12:19:25 -0700 (PDT)
+ bh=W51JHFyaTyJrjYrazYNfQIZabEagIWPjqp7ng1YyDdQ=;
+ b=qvrBGU6r6AeSpbTALGCrlinnDPo/ARNUC0twSyoHCV7U0U5i4QPMYbJ3b69ZL9AX8u
+ rjmiPyubmdRkvc32HlxB/GqhzQRrhh3QvGRjuOIxtuZiwgzHGFaI0UiAEkZ35cJ1BULI
+ o57MJZLLD+Y/DYu0/qarN7uRkYt0zQOux6QI3EDSA0BobanHw/By3d4zYCYYR6yBWc8V
+ Q7F7Ud7NT91TIpbBR+5VdHz64wGHH4eODYHD2QlK4FG8KQY41ErwGIbEtqh6+pv7AdV5
+ 1/n7E8A9tcRyg6dcSGgrMmwJXMFWHQLDh0DMqDen6srGthjnSOVZKgXQavmCVz2AMc8l
+ i/wg==
+X-Gm-Message-State: AGi0PuZoowruZ1gG16q1j0b3FjLljBPb7zx77Qmv1wCfrZD1wSBOaK5m
+ DR8i5sHg1gvCzLIFPQYATnPslgUN7OM=
+X-Google-Smtp-Source: APiQypL7WwLurdTFoKDi63Ah0mmzCoqtZ3tek4cwlsAoV91RMq2KiD0VhEfDwSUGotJ6XDnElJYnFw==
+X-Received: by 2002:a62:d458:: with SMTP id u24mr21771891pfl.275.1587496767342; 
+ Tue, 21 Apr 2020 12:19:27 -0700 (PDT)
 Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
  [76.210.143.223])
- by smtp.gmail.com with ESMTPSA id o11sm2928763pgh.78.2020.04.21.12.19.24
+ by smtp.gmail.com with ESMTPSA id t80sm3259016pfc.23.2020.04.21.12.19.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Apr 2020 12:19:24 -0700 (PDT)
-Subject: [PULL 2/6] riscv: Don't use stage-2 PTE lookup protection flags
-Date: Tue, 21 Apr 2020 12:09:57 -0700
-Message-Id: <20200421191001.92644-3-palmerdabbelt@google.com>
+ Tue, 21 Apr 2020 12:19:26 -0700 (PDT)
+Subject: [PULL 3/6] riscv: AND stage-1 and stage-2 protection flags
+Date: Tue, 21 Apr 2020 12:09:58 -0700
+Message-Id: <20200421191001.92644-4-palmerdabbelt@google.com>
 X-Mailer: git-send-email 2.26.1.301.g55bc3eb7cb9-goog
 In-Reply-To: <20200421191001.92644-1-palmerdabbelt@google.com>
 References: <20200421191001.92644-1-palmerdabbelt@google.com>
@@ -68,12 +68,12 @@ Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
  Palmer Dabbelt <palmerdabbelt@google.com>
 From: Palmer Dabbelt <palmerdabbelt@google.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=palmerdabbelt@google.com; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=palmerdabbelt@google.com; helo=mail-pg1-x52e.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::436
+X-Received-From: 2607:f8b0:4864:20::52e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,34 +90,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-When doing the fist of a two stage lookup (Hypervisor extensions) don't
-set the current protection flags from the second stage lookup of the
-base address PTE.
+Take the result of stage-1 and stage-2 page table walks and AND the two
+protection flags together. This way we require both to set permissions
+instead of just stage-2.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Palmer Dabbelt <palmerdabbelt@google.com>
 ---
- target/riscv/cpu_helper.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/riscv/cpu_helper.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index e2da2a4787..48e112808b 100644
+index 48e112808b..700ef052b0 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -452,10 +452,11 @@ restart:
-         hwaddr pte_addr;
+@@ -705,7 +705,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+ #ifndef CONFIG_USER_ONLY
+     vaddr im_address;
+     hwaddr pa = 0;
+-    int prot;
++    int prot, prot2;
+     bool pmp_violation = false;
+     bool m_mode_two_stage = false;
+     bool hs_mode_two_stage = false;
+@@ -755,13 +755,15 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+             /* Second stage lookup */
+             im_address = pa;
  
-         if (two_stage && first_stage) {
-+            int vbase_prot;
-             hwaddr vbase;
+-            ret = get_physical_address(env, &pa, &prot, im_address,
++            ret = get_physical_address(env, &pa, &prot2, im_address,
+                                        access_type, mmu_idx, false, true);
  
-             /* Do the second stage translation on the base PTE address. */
--            get_physical_address(env, &vbase, prot, base, access_type,
-+            get_physical_address(env, &vbase, &vbase_prot, base, access_type,
-                                  mmu_idx, false, true);
+             qemu_log_mask(CPU_LOG_MMU,
+                     "%s 2nd-stage address=%" VADDR_PRIx " ret %d physical "
+                     TARGET_FMT_plx " prot %d\n",
+-                    __func__, im_address, ret, pa, prot);
++                    __func__, im_address, ret, pa, prot2);
++
++            prot &= prot2;
  
-             pte_addr = vbase + idx * ptesize;
+             if (riscv_feature(env, RISCV_FEATURE_PMP) &&
+                 (ret == TRANSLATE_SUCCESS) &&
 -- 
 2.26.1.301.g55bc3eb7cb9-goog
 
