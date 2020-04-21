@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1EE81B303F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 21:23:11 +0200 (CEST)
-Received: from localhost ([::1]:35002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77D171B3057
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 21:30:45 +0200 (CEST)
+Received: from localhost ([::1]:35212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQyUA-0005Aw-Tj
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 15:23:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52026)
+	id 1jQybU-0003SC-GH
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 15:30:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54038)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jQyQU-0007fk-M2
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:19:35 -0400
+ (envelope-from <alistair23@gmail.com>) id 1jQyaJ-0002pO-FF
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:29:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jQyQT-0007bT-Dr
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:19:22 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:38549)
+ (envelope-from <alistair23@gmail.com>) id 1jQyaJ-0000dC-3I
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:29:31 -0400
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:46965)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jQyQS-0007Zj-Sg
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:19:21 -0400
-Received: by mail-ot1-x342.google.com with SMTP id g19so2046173otk.5
- for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 12:19:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jQyaH-0000bb-E5; Tue, 21 Apr 2020 15:29:29 -0400
+Received: by mail-il1-x143.google.com with SMTP id x2so13182767ilp.13;
+ Tue, 21 Apr 2020 12:29:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=LtahMI0PchBod6dZ0xcNxfzDoxWSqDr8ZNAgukecsFE=;
- b=e9PVpOMhSjqbHU9QRO1WFfI+wA0H1EjhnGLc9m7xW8wPP9EnKBXiq+jKQ6MiwaYZWh
- yi19R9SVfEOUF02L5ANL6IDUJMSJf0ejjQa/CXnjJzxWpI04NQ5MMJiFuxehGSVrw0CG
- uM4IHtAuTZkTAVsNdaOe2ZMcM7wrYZR7a3GI8qvkif4M2F5NG1CRDFQSfpORuJs+iQyC
- VEHmbdvVVYZMmXKmzghL1oOSWpe6vMOdAfOxAO19ysVxTh0xgZqz8pExTd2gT8fXYfb3
- F4cjlj2DGtc6WEhzrWUo1mp3WAFUY1amwYSQRjouj1+Au9QlLrdUItP+tUWuiHHocQkV
- cDbg==
+ :cc; bh=RX/aPZ+fHoPj+Zbkc6eE+LublHh2w6galhL9tc5FP1o=;
+ b=FeboyHPWJU3pvBob5ljHXUS2ifdtlzu97efc5aIbwTkAFxLvDe3msHKkSggRxKr4+Y
+ g6GwWpL3KJxa4X+ClUDfC/P+B271qR7mjVtVx8UO0Mr+HurDqoYMfKApxAk2ubUjg9uA
+ DB3yBaJ9ubEi3oX/iD+XvJMr3gZTnllx5TkUJnDGBVYo6fgCcmxkf41+HCe6uAX4FXid
+ LL2N+4sg0OJwKKrP5ycs6WcUcgEaFMJLxxZZeS5gSiMGXe/+94jw24HMAB48yI66N7f4
+ ig7t3zJP7jecOotIa/gLW0f7f2YljCCI3z/Wy//q/Fci6pwjSWwJMuPnRymQf466oLad
+ G/Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=LtahMI0PchBod6dZ0xcNxfzDoxWSqDr8ZNAgukecsFE=;
- b=sWmpkGkltbk6kh0RvmBJ0pa7i3c2oOKACoNImBS45y8oDmoKVDCTpR3C+QkYlUuRUq
- DqpXMJE3ezYEQL2RqH5xYHNk7FydHDmyDehM4siZ1DXdSwwHFcArhL6Qr1I4LtrtSqp1
- t807aFrgNZN3eFow6eAo8lqD/6sSCgNobgp593NPqccozqj6WNxkG1B31uyrJmo3rQap
- if+6WwuH6bjjKwbDfBPAJVdREWig8h/MzwbTCbLp0orBHWFZ0HyByFvdFvCp3GLMey2n
- /HcAYXGHJtkR5X2rykE5l+RgPZc6I9Lk8+1Xpy4LwX0E6G7nFUubuSvkGL6Y9Qa3vJeN
- 7tAA==
-X-Gm-Message-State: AGi0PuZDgcCETWOaTi6y56YegL9vzzgrU4V6a7Rt2vrKqikaaitBBs3f
- XyuveAIHilcx+MxZR8EdKH+KU4kr0hVowBEzmx9g2j8nMYw=
-X-Google-Smtp-Source: APiQypJTEYOQzZBYA0TmdnNo1YXE2jV7/SD4I19C+bWvgkOQsez1r1vMj3cvpMEwsKuKXObKabix6XrW8DnaP543cS4=
-X-Received: by 2002:a05:6830:22dc:: with SMTP id
- q28mr14064744otc.221.1587496758338; 
- Tue, 21 Apr 2020 12:19:18 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=RX/aPZ+fHoPj+Zbkc6eE+LublHh2w6galhL9tc5FP1o=;
+ b=Ya26g01YogpyB82bmC/7T0uG9eorNELW9FSRD/WK5cgzgpfJQ/J4DfCapPPRxL6oFe
+ qYTXgzDBLADw/jwLwOOrcAyvF5qS7B1NxVqR5R0o8JZtIbs9P7lsU5IlkLIesCPMkDDn
+ vW0mD85d6dKICkYnI1IfJJhqujb2MVyAU+KMEuPudvl/EbeBDqJTpq81Ut/t6gfiX3h4
+ N5eYuzLVWYtpoRLK1x73M1D1j303XZJCpz7+wxfkb/UsKtN/LIeI7j8Qk33c0Py/nu9B
+ F5+Y5iWuuzZnD/PmYE7REywhCl1iVCFkwKAxRqoWHC9lOmCPjvQPH6FfKOJF91WG4gcD
+ LFnw==
+X-Gm-Message-State: AGi0PuaAexiwsuRpEAmpS2mIC+huXMcKJQwHxwgKqUtv+WrGLkAH8jTZ
+ Xfp5kR8VATin5yShwHU+JVs8K+BcKpdFuwbBfJQ=
+X-Google-Smtp-Source: APiQypKu9h4VaafNUPmM9Z3ueR8iNro9/MjgQ9yXEHOK7ZbBeBhBNWEO7HHy2bvrvR7WclSlHHUyxm7k/EBBqu+2YCk=
+X-Received: by 2002:a92:bbd8:: with SMTP id x85mr23326894ilk.40.1587497367393; 
+ Tue, 21 Apr 2020 12:29:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200421170227.843555-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20200421170227.843555-1-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Apr 2020 20:19:07 +0100
-Message-ID: <CAFEAcA85GEfDiwo8a9r00x1e6a5d6UDw6LJiYPkm0EstMtccOQ@mail.gmail.com>
-Subject: Re: [PATCH for-5.0?] slirp: update to fix CVE-2020-1983
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+References: <20200421191001.92644-1-palmerdabbelt@google.com>
+ <20200421191001.92644-2-palmerdabbelt@google.com>
+In-Reply-To: <20200421191001.92644-2-palmerdabbelt@google.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 21 Apr 2020 12:20:58 -0700
+Message-ID: <CAKmqyKM=mYL7U+SkzdDc6BuXFPC55aaWPnhKJbF5cqumNqSiBw@mail.gmail.com>
+Subject: Re: [PULL 1/6] target/riscv: Don't set write permissions on dirty PTEs
+To: Palmer Dabbelt <palmerdabbelt@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::342
+X-Received-From: 2607:f8b0:4864:20::143
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,36 +74,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 Apr 2020 at 18:03, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
+On Tue, Apr 21, 2020 at 12:19 PM Palmer Dabbelt
+<palmerdabbelt@google.com> wrote:
 >
-> This is an update on the stable-4.2 branch of libslirp.git:
+> From: Alistair Francis <alistair.francis@wdc.com>
 >
-> git shortlog 55ab21c9a3..2faae0f778f81
+> The RISC-V spec specifies that when a write happens and the D bit is
+> clear the implementation will set the bit in the PTE. It does not
+> describe that the PTE being dirty means that we should provide write
+> access. This patch removes the write access granted to pages when the
+> dirty bit is set.
 >
-> Marc-Andr=C3=A9 Lureau (1):
->       Fix use-afte-free in ip_reass() (CVE-2020-1983)
+> Following the prot variable we can see that it affects all of these
+> functions:
+>  riscv_cpu_tlb_fill()
+>    tlb_set_page()
+>      tlb_set_page_with_attrs()
+>        address_space_translate_for_iotlb()
 >
-> CVE-2020-1983 is actually a follow up fix for commit
-> 126c04acbabd7ad32c2b018fe10dfac2a3bc1210 ("Fix heap overflow in
-> ip_reass on big packet input") which was was included in qemu
-> v4.1 (commit e1a4a24d262ba5ac74ea1795adb3ab1cd574c7fb "slirp: update
-> with CVE-2019-14378 fix").
+> Looking at the cputlb code (tlb_set_page_with_attrs() and
+> address_space_translate_for_iotlb()) it looks like the main affect of
+> setting write permissions is that the page can be marked as TLB_NOTDIRTY.
 >
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> I don't see any other impacts (related to the dirty bit) for giving a
+> page write permissions.
+>
+> Setting write permission on dirty PTEs results in userspace inside a
+> Hypervisor guest (VU) becoming corrupted. This appears to be because it
+> ends up with write permission in the second stage translation in cases
+> where we aren't doing a store.
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> Signed-off-by: Palmer Dabbelt <palmerdabbelt@google.com>
 
-Hi; thanks for putting together this stable-branch update.
-I've run it through my test setup and it's fine; I'm just
-going to wait a little until I push it to master just in case
-anybody wants to speak up with an opinion/objection.
-I'll do that tomorrow afternoon UK time and then tag rc4.
+This commit is wrong. Please do not apply this.
 
-thanks
--- PMM
+Alistair
+
+> ---
+>  target/riscv/cpu_helper.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index d3ba9efb02..e2da2a4787 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -572,10 +572,8 @@ restart:
+>              if ((pte & PTE_X)) {
+>                  *prot |= PAGE_EXEC;
+>              }
+> -            /* add write permission on stores or if the page is already dirty,
+> -               so that we TLB miss on later writes to update the dirty bit */
+> -            if ((pte & PTE_W) &&
+> -                    (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
+> +            /* add write permission on stores */
+> +            if ((pte & PTE_W) && (access_type == MMU_DATA_STORE)) {
+>                  *prot |= PAGE_WRITE;
+>              }
+>              return TRANSLATE_SUCCESS;
+> --
+> 2.26.1.301.g55bc3eb7cb9-goog
+>
+>
 
