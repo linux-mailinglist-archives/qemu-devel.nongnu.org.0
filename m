@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91291B25C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 14:18:34 +0200 (CEST)
-Received: from localhost ([::1]:56826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E3A81B25C7
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 14:18:39 +0200 (CEST)
+Received: from localhost ([::1]:56830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQrrF-0006kh-Gl
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 08:18:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58978)
+	id 1jQrrK-00070w-Jd
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 08:18:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58976)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jQrpM-0004um-M1
+ id 1jQrpM-0004ul-LS
  for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:16:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jQrpK-00060R-VK
+ id 1jQrpM-00061h-12
  for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:16:36 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46454)
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jQrpK-0005uh-J9; Tue, 21 Apr 2020 08:16:34 -0400
-Received: by mail-wr1-x444.google.com with SMTP id f13so16186135wrm.13;
- Tue, 21 Apr 2020 05:16:33 -0700 (PDT)
+ id 1jQrpL-0005xi-IO; Tue, 21 Apr 2020 08:16:35 -0400
+Received: by mail-wr1-x443.google.com with SMTP id g13so14174001wrb.8;
+ Tue, 21 Apr 2020 05:16:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AJMOOz4bJ3+OgFhuoPiLJoOi2hKQD09s1vZajzHfQC8=;
- b=giN1sWjor02EMrv2H9rfe7w9wa98wrXgTTv80o7asNr554AiJSZRMu0vUMM6Envwwo
- yPwPNgZqesaJAJFTx0TkyvLJE/GCowes3Ylz5MPxvuTt5/jmjdMoJ0cvgb5Nj26FrZRj
- omRkiGlVsnbs/LLNorsvFJuF1L3jlqz/2my5RfIu1O49FydcMdhI+ULU26vCur9wsy0i
- xcQA3fHSgcby9rbXRyufWsZq8uDPLNHCTrR+64nTDqSbcT3FcstB4RxMZdwYxFM5LzLD
- mExK5NENeHWjTiyggyqfJ6iHyfYY1XUwltRC5aBY2s/KUKBcIq1zAjjdCvY80S0LS54r
- skvg==
+ bh=pxZXRr/t+7MI95fs3rvnz7JJgfY9Pqjebw0FQlRcGhQ=;
+ b=Kq9/xM/KdnHhh/5l7k/q4Kgxpj9smFhRnSyIAIpFH5FmbrklQeyZSNMkaBW288RDcL
+ U+esiByhvgylUDSTCpApvY8au8YMbHb91j5s1ods4QhZClq7fnvcUewjMJMn4WOiAugV
+ t9BiHC/0WT3AMSOwD0Mnvkem6LjJ4XIYvbIQiX4NGOPd9u5QB8iqhnNTni00w2fe39vZ
+ mEpgiVSQWQJCaVkRME78sqz+UWmyvx0k8+lLVf+VjInPBAyyVPOhdiVlZcosteP/tvza
+ QCUsArSEV3zAMsQNtmuYh+F4np7dTsdAldgS+O8YDkANjt4psIkjrBHslyOMkNOKM1va
+ 2E/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=AJMOOz4bJ3+OgFhuoPiLJoOi2hKQD09s1vZajzHfQC8=;
- b=kOqv0Oqqgm4rfR4okjkzdKfAxDsZOXC9Oqd47w9tt1wPpSBQBhvhfrOo2WoBAi4kO1
- 3PEsKxCVlSEpG9Hh7eD12XYBARD+9RtyT+BPqRA8oV6/AA5Y/MgmpaGyzzYSKqlESFDW
- /OMlQYcyqp2WVgs3sXpC8SFS5VEP7G4zrnKkInDOyZ5MiDoZC+Z/k+VNtMIrOvml7cZ3
- 9fU0mFFX9QBw+/baJxgpgawEKN//sRUHu3fUtWLJtfKg2gYT/9KOYP7f+3bC1aqMz/Td
- YMzmL8BTHheifGNg5HEtjcK4SuauBG2g9FVH5LD3IHP9GfYQPur8ZLNuoWjLBNOjfaYv
- CADA==
-X-Gm-Message-State: AGi0Pubj9EFt3txuXIfHX/digCb9SQ6oijmZKGSkMCWNWdwcY6qDvGB2
- k0xrTh0ydP4iBSsVEroHfRlL98py+tw=
-X-Google-Smtp-Source: APiQypIKn7o5GdcqxEx2zReJwzXACEhuJIE+ufUILwU9CmNAtdoLnhHSTojkPIKI8CZ2qIcvn2KlvQ==
-X-Received: by 2002:a5d:4404:: with SMTP id z4mr23451072wrq.316.1587471390955; 
- Tue, 21 Apr 2020 05:16:30 -0700 (PDT)
+ bh=pxZXRr/t+7MI95fs3rvnz7JJgfY9Pqjebw0FQlRcGhQ=;
+ b=VjY6Oipc3YIGA652vfoF6m5R9KCr25Y35Cmy6wescHp4p3+tz7s6U9uXC2+/HnrFvG
+ cHVpL6jm9aoE48hXNtRGleWWPBc43wp/QicgXnMiPORYqkRzSAikZYXSjXrnSApzndLi
+ 5x6RVex+xYmG0M89YJshz+RF6mb9pzoapXQe8XqJ2efoB37WP+Uh+/G2PztEyUNhNvYy
+ s/5dVeI+Q2CP9EH1l48rM2inaMn2umH6HQYVcp6MpjXeg3ds4juRXcCIBzHYaDQlirqj
+ KSOh4Qz6O3ld75+8UpfQSxAPUrLE/Ss9IM7Q3TyoMaxnlwx39xD1KTbj76hgMuSL+bWm
+ rMHA==
+X-Gm-Message-State: AGi0Pua+eokTui8UjQePbFAUS9t3vux4upcyCGm8sIKSnwoMlCTQL5/u
+ P0WhMLs7BQCwBI5IDbi5P6sLbK1Rg4U=
+X-Google-Smtp-Source: APiQypJPTU+ujufDQvfXppous//hnvsbKH//+MP3cDatjnRx8MpSFSCUuYPuLjiejiKiGIAtL935Gw==
+X-Received: by 2002:adf:f844:: with SMTP id d4mr23343754wrq.362.1587471392926; 
+ Tue, 21 Apr 2020 05:16:32 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id z76sm3761140wmc.9.2020.04.21.05.16.29
+ by smtp.gmail.com with ESMTPSA id z76sm3761140wmc.9.2020.04.21.05.16.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Apr 2020 05:16:30 -0700 (PDT)
+ Tue, 21 Apr 2020 05:16:32 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 01/17] hw/misc: Introduce the temperature sensor interface
-Date: Tue, 21 Apr 2020 14:16:10 +0200
-Message-Id: <20200421121626.23791-2-f4bug@amsat.org>
+Subject: [RFC PATCH 02/17] hw/misc/temp-sensor: Add
+ 'query-temperature-sensors' QMP command
+Date: Tue, 21 Apr 2020 14:16:11 +0200
+Message-Id: <20200421121626.23791-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200421121626.23791-1-f4bug@amsat.org>
 References: <20200421121626.23791-1-f4bug@amsat.org>
@@ -67,12 +68,12 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,153 +98,120 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce an interface to set and get temperature from devices.
+Add a command to query current temperature from all sensors able
+to report it:
 
-A device can have multiple temperature sensors.
-Each sensor might have a custom name.
+  { "execute": "query-temperature-sensors" }
+  {
+      "return": [
+          {
+              "temperature": 25,
+              "name": "videocore"
+          },
+          {
+              "temperature": 25,
+              "name": "bcm2835-thermal-0"
+          }
+      ]
+  }
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/misc/temp-sensor.h | 69 +++++++++++++++++++++++++++++++++++
- hw/misc/temp-sensor.c         | 25 +++++++++++++
- MAINTAINERS                   |  6 +++
- hw/misc/Makefile.objs         |  1 +
- 4 files changed, 101 insertions(+)
- create mode 100644 include/hw/misc/temp-sensor.h
- create mode 100644 hw/misc/temp-sensor.c
+ qapi/misc.json        | 24 ++++++++++++++++++++++
+ hw/misc/temp-sensor.c | 48 +++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 72 insertions(+)
 
-diff --git a/include/hw/misc/temp-sensor.h b/include/hw/misc/temp-sensor.h
-new file mode 100644
-index 0000000000..3067b1dd2e
---- /dev/null
-+++ b/include/hw/misc/temp-sensor.h
-@@ -0,0 +1,69 @@
-+/*
-+ * Generic interface for temperature sensors
-+ *
-+ * Copyright (c) 2020 Philippe Mathieu-Daudé
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#ifndef HW_MISC_TEMP_SENSOR_H
-+#define HW_MISC_TEMP_SENSOR_H
+diff --git a/qapi/misc.json b/qapi/misc.json
+index 99b90ac80b..51881931e2 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -1550,3 +1550,27 @@
+ ##
+ { 'command': 'query-vm-generation-id', 'returns': 'GuidInfo' }
+ 
++##
++# @TemperatureSensor:
++#
++# Temperature sensor information.
++#
++# @name: the name of the sensor
++#
++# @temperature: the current temperature of the sensor (in C)
++#
++# Since: 5.1
++##
++{ 'struct': 'TemperatureSensor',
++  'data': { 'name': 'str',
++            'temperature': 'number' } }
 +
-+#include "qom/object.h"
-+
-+#define TYPE_TEMPSENSOR_INTERFACE "temp-sensor-interface"
-+#define TEMPSENSOR_INTERFACE(obj) \
-+    INTERFACE_CHECK(TempSensor, (obj), TYPE_TEMPSENSOR_INTERFACE)
-+#define TEMPSENSOR_INTERFACE_CLASS(class) \
-+    OBJECT_CLASS_CHECK(TempSensorClass, (class), TYPE_TEMPSENSOR_INTERFACE)
-+#define TEMPSENSOR_INTERFACE_GET_CLASS(class) \
-+    OBJECT_GET_CLASS(TempSensorClass, (class), TYPE_TEMPSENSOR_INTERFACE)
-+
-+typedef struct TempSensor TempSensor;
-+
-+typedef struct TempSensorClass {
-+    /* <private> */
-+    InterfaceClass parent;
-+    /* <public> */
-+
-+    /** Number of temperature sensors */
-+    size_t sensor_count;
-+
-+    /**
-+     * get_name:
-+     * @obj: opaque pointer to Object
-+     * @sensor_id: sensor index
-+     *
-+     * Returns: name of a temperature sensor.
-+     */
-+    const char *(*get_name)(TempSensor *obj, unsigned sensor_id);
-+
-+    /**
-+     * set_temperature:
-+     * @obj: opaque pointer to Object
-+     * @sensor_id: sensor index
-+     * @temp_C: sensor temperature, in degree Celsius
-+     * @errp: pointer to a NULL-initialized error object
-+     *
-+     * Set a sensor temperature.
-+     *
-+     * If an error occurs @errp will contain the details
-+     * (likely temperature out of range).
-+     */
-+    void (*set_temperature)(TempSensor *obj,
-+                            unsigned sensor_id, float temp_C, Error **errp);
-+
-+    /**
-+     * get_temperature:
-+     * @obj: opaque pointer to Object
-+     * @sensor_id: sensor index
-+     *
-+     * Get a sensor temperature.
-+     *
-+     * Returns: sensor temperature in °C.
-+     */
-+    float (*get_temperature)(TempSensor *obj, unsigned sensor_id);
-+} TempSensorClass;
-+
-+#endif /* HW_MISC_TEMP_SENSOR_H */
++##
++# @query-temperature-sensors:
++#
++# Return a list of TemperatureSensor for devices that support
++# the TYPE_TEMPSENSOR_INTERFACE.
++#
++# Since: 5.1
++##
++{ 'command': 'query-temperature-sensors', 'returns': ['TemperatureSensor']}
 diff --git a/hw/misc/temp-sensor.c b/hw/misc/temp-sensor.c
-new file mode 100644
-index 0000000000..b7c1eb2d87
---- /dev/null
+index b7c1eb2d87..27750c533d 100644
+--- a/hw/misc/temp-sensor.c
 +++ b/hw/misc/temp-sensor.c
-@@ -0,0 +1,25 @@
-+/*
-+ * Generic interface for temperature sensors
-+ *
-+ * Copyright (c) 2020 Philippe Mathieu-Daudé
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
+@@ -10,6 +10,54 @@
+ 
+ #include "qemu/osdep.h"
+ #include "hw/misc/temp-sensor.h"
++#include "qapi/qapi-commands-misc.h"
++#include "qapi/error.h"
 +
-+#include "qemu/osdep.h"
-+#include "hw/misc/temp-sensor.h"
-+
-+static TypeInfo tempsensor_interface_type_info = {
-+    .name = TYPE_TEMPSENSOR_INTERFACE,
-+    .parent = TYPE_INTERFACE,
-+    .class_size = sizeof(TempSensorClass),
-+};
-+
-+static void tempsensor_register_types(void)
++static int query_temperature_sensors_foreach(Object *obj, void *opaque)
 +{
-+    type_register_static(&tempsensor_interface_type_info);
++    TemperatureSensorList **list = opaque;
++    TempSensor *sensor;
++    TempSensorClass *k;
++
++    if (!object_dynamic_cast(obj, TYPE_TEMPSENSOR_INTERFACE)) {
++        return 0;
++    }
++
++    k = TEMPSENSOR_INTERFACE_GET_CLASS(obj);
++    if (!k->get_temperature) {
++        return 0;
++    }
++
++    sensor = TEMPSENSOR_INTERFACE(obj);
++    for (size_t i = 0; i < k->sensor_count; i++) {
++        TemperatureSensorList *info = g_malloc0(sizeof(*info));
++        TemperatureSensor *value = g_malloc0(sizeof(*value));
++
++        if (k->get_name) {
++            value->name = g_strdup(k->get_name(sensor, i));
++        } else {
++            value->name = g_strdup_printf("%s-%zu",
++                                          object_get_typename(obj), i);
++        }
++        value->temperature = k->get_temperature(sensor, i);
++
++        info->value = value;
++        info->next = *list;
++        *list = info;
++    }
++
++    return 0;
 +}
 +
-+type_init(tempsensor_register_types)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8cbc1fac2b..5559110c56 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1575,6 +1575,12 @@ F: hw/sd/sd*
- F: hw/sd/ssi-sd.c
- F: tests/qtest/sd*
- 
-+Temperature Sensors
-+M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+S: Odd Fixes
-+F: hw/misc/temp-sensor.c
-+F: include/hw/misc/temp-sensor.h
++TemperatureSensorList *qmp_query_temperature_sensors(Error **errp)
++{
++    TemperatureSensorList *list = NULL;
 +
- USB
- M: Gerd Hoffmann <kraxel@redhat.com>
- S: Maintained
-diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
-index 68aae2eabb..4f90efb06d 100644
---- a/hw/misc/Makefile.objs
-+++ b/hw/misc/Makefile.objs
-@@ -90,3 +90,4 @@ common-obj-$(CONFIG_NRF51_SOC) += nrf51_rng.o
- obj-$(CONFIG_MAC_VIA) += mac_via.o
++    object_child_foreach_recursive(object_get_root(),
++                                   query_temperature_sensors_foreach,
++                                   &list);
++    return list;
++}
  
- common-obj-$(CONFIG_GRLIB) += grlib_ahb_apb_pnp.o
-+common-obj-y += temp-sensor.o
+ static TypeInfo tempsensor_interface_type_info = {
+     .name = TYPE_TEMPSENSOR_INTERFACE,
 -- 
 2.21.1
 
