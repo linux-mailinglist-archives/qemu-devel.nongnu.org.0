@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024B21B31E8
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 23:25:55 +0200 (CEST)
-Received: from localhost ([::1]:36318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DC041B31E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 23:23:58 +0200 (CEST)
+Received: from localhost ([::1]:36296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jR0Ov-0001It-Ua
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 17:25:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58502)
+	id 1jR0N3-0007DG-7z
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 17:23:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58660)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jR0K1-0005JU-VZ
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 17:21:01 -0400
+ (envelope-from <eblake@redhat.com>) id 1jR0K8-0005NH-Rm
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 17:21:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jR0Jq-0004dP-JK
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 17:20:48 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31725
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1jR0Jt-0004jC-Bc
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 17:20:56 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28186
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jR0Jm-0004Ub-DU
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 17:20:34 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jR0Jo-0004ZS-Px
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 17:20:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587504031;
+ s=mimecast20190719; t=1587504034;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FfAA0Jb7QuNan7uKzWGnFWZynmSGfPXfc7CqpnCzqgQ=;
- b=ObairFKoCD39qgQJHYGUneLLLXg+rmT+qxaLzXyNjGd15TSBmt9uGG+YkqGWhxV4qm6Jc7
- KunlfUO73W0yajvdVz/70D/AcYrouyVDnTRSqpHfrur7ZSH/ND9FSi/2nsNVo847gZRG7U
- C4PQKxf/R6zhO0uIAFuyiAcu7k27ydU=
+ bh=tyNwNlAI3/UdDqYJZEEjujm56+3KWTXeD6WEShYsXQA=;
+ b=Mdd9vVhp8iE8ItFRe+Tio+lNjWeQ45x/HNOKYXbrLRVWhQV0QsVS/FR+vAaVjETW+a+48l
+ F6SpUkrdStOseamKIujKJ6ICzkqZmf4O9oiXLEC4COl/3PcdDJ7wHjVVLKgdP2u/l/gPHP
+ b1NJAXaHtvWYGh14d+4j5TIG//qI0AA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-12-EPqmGf_eN0C4vvb_PMSBdw-1; Tue, 21 Apr 2020 17:20:29 -0400
-X-MC-Unique: EPqmGf_eN0C4vvb_PMSBdw-1
+ us-mta-55-ScnwtlOKOW2q3x_BJBXpvA-1; Tue, 21 Apr 2020 17:20:30 -0400
+X-MC-Unique: ScnwtlOKOW2q3x_BJBXpvA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2879118C35A2;
- Tue, 21 Apr 2020 21:20:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F601800D53;
+ Tue, 21 Apr 2020 21:20:29 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 122F2A18B6;
- Tue, 21 Apr 2020 21:20:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 71D69A18BC;
+ Tue, 21 Apr 2020 21:20:28 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/6] qcow2: Expose bitmaps' size during measure
-Date: Tue, 21 Apr 2020 16:20:17 -0500
-Message-Id: <20200421212019.170707-5-eblake@redhat.com>
+Subject: [PATCH v2 5/6] qemu-img: Add convert --bitmaps option
+Date: Tue, 21 Apr 2020 16:20:18 -0500
+Message-Id: <20200421212019.170707-6-eblake@redhat.com>
 In-Reply-To: <20200421212019.170707-1-eblake@redhat.com>
 References: <20200421212019.170707-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -57,11 +57,11 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 15:21:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 17:20:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,261 +73,255 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- nsoffer@redhat.com, jsnow@redhat.com
+Cc: nsoffer@redhat.com, kwolf@redhat.com, jsnow@redhat.com,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's useful to know how much space can be occupied by qcow2 persistent
-bitmaps, even though such metadata is unrelated to the guest-visible
-data.  Report this value as an additional field.  Update iotest 190 to
-cover it and a portion of the just-added qemu-img bitmap command.
+Make it easier to copy all the persistent bitmaps of a source image
+along with the contents, by adding a boolean flag for use with
+qemu-img convert.  This is basically shorthand, as the same effect
+could be accomplished with a series of 'qemu-img bitmap --add' and
+'qemu-img bitmap --merge -b source' commands, or by QMP commands.
 
-The addition of a new field demonstrates why we should always
-zero-initialize qapi C structs; while the qcow2 driver still fully
-populates all fields, the raw and crypto drivers had to be tweaked.
+See also https://bugzilla.redhat.com/show_bug.cgi?id=3D1779893
 
-See also: https://bugzilla.redhat.com/1779904
-
-Reported-by: Nir Soffer <nsoffer@redhat.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- qapi/block-core.json       | 15 ++++++++++-----
- block/crypto.c             |  2 +-
- block/qcow2.c              | 29 ++++++++++++++++++++++++++++-
- block/raw-format.c         |  2 +-
- qemu-img.c                 |  3 +++
- tests/qemu-iotests/190     | 15 +++++++++++++--
- tests/qemu-iotests/190.out | 13 ++++++++++++-
- 7 files changed, 68 insertions(+), 11 deletions(-)
+ docs/tools/qemu-img.rst |  6 +++-
+ qemu-img.c              | 80 +++++++++++++++++++++++++++++++++++++++--
+ qemu-img-cmds.hx        |  4 +--
+ 3 files changed, 84 insertions(+), 6 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 943df1926a91..b47c6d69ba27 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -633,18 +633,23 @@
- # efficiently so file size may be smaller than virtual disk size.
- #
- # The values are upper bounds that are guaranteed to fit the new image fil=
-e.
--# Subsequent modification, such as internal snapshot or bitmap creation, m=
-ay
--# require additional space and is not covered here.
-+# Subsequent modification, such as internal snapshot or further bitmap
-+# creation, may require additional space and is not covered here.
- #
--# @required: Size required for a new image file, in bytes.
-+# @required: Size required for a new image file, in bytes, when copying ju=
-st
-+#            guest-visible contents.
- #
- # @fully-allocated: Image file size, in bytes, once data has been written
--#                   to all sectors.
-+#                   to all sectors, when copying just guest-visible conten=
-ts.
-+#
-+# @bitmaps: Additional size required for bitmap metadata not directly used
-+#           for guest contents, when that metadata can be copied in additi=
-on
-+#           to guest contents. (since 5.1)
- #
- # Since: 2.10
- ##
- { 'struct': 'BlockMeasureInfo',
--  'data': {'required': 'int', 'fully-allocated': 'int'} }
-+  'data': {'required': 'int', 'fully-allocated': 'int', '*bitmaps': 'int'}=
- }
+diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
+index 4f3b0e2c9ace..430fb5b46e43 100644
+--- a/docs/tools/qemu-img.rst
++++ b/docs/tools/qemu-img.rst
+@@ -162,6 +162,10 @@ Parameters to convert subcommand:
 
- ##
- # @query-block:
-diff --git a/block/crypto.c b/block/crypto.c
-index d577f89659fa..4e0f3ec97f0e 100644
---- a/block/crypto.c
-+++ b/block/crypto.c
-@@ -535,7 +535,7 @@ static BlockMeasureInfo *block_crypto_measure(QemuOpts =
-*opts,
-      * Unallocated blocks are still encrypted so allocation status makes n=
-o
-      * difference to the file size.
-      */
--    info =3D g_new(BlockMeasureInfo, 1);
-+    info =3D g_new0(BlockMeasureInfo, 1);
-     info->fully_allocated =3D luks_payload_size + size;
-     info->required =3D luks_payload_size + size;
-     return info;
-diff --git a/block/qcow2.c b/block/qcow2.c
-index b524b0c53f84..9fd650928016 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -4657,6 +4657,7 @@ static BlockMeasureInfo *qcow2_measure(QemuOpts *opts=
-, BlockDriverState *in_bs,
-     PreallocMode prealloc;
-     bool has_backing_file;
-     bool has_luks;
-+    uint64_t bitmaps_size =3D 0; /* size occupied by bitmaps in in_bs */
+ .. program:: qemu-img-convert
 
-     /* Parse image creation options */
-     cluster_size =3D qcow2_opt_get_cluster_size_del(opts, &local_err);
-@@ -4732,6 +4733,8 @@ static BlockMeasureInfo *qcow2_measure(QemuOpts *opts=
-, BlockDriverState *in_bs,
-
-     /* Account for input image */
-     if (in_bs) {
-+        BdrvDirtyBitmap *bm;
-+        size_t bitmap_overhead =3D 0;
-         int64_t ssize =3D bdrv_getlength(in_bs);
-         if (ssize < 0) {
-             error_setg_errno(&local_err, -ssize,
-@@ -4739,6 +4742,28 @@ static BlockMeasureInfo *qcow2_measure(QemuOpts *opt=
-s, BlockDriverState *in_bs,
-             goto err;
-         }
-
-+        FOR_EACH_DIRTY_BITMAP(in_bs, bm) {
-+            if (bdrv_dirty_bitmap_get_persistence(bm)) {
-+                const char *name =3D bdrv_dirty_bitmap_name(bm);
-+                uint32_t granularity =3D bdrv_dirty_bitmap_granularity(bm)=
-;
-+                uint64_t bmbits =3D DIV_ROUND_UP(bdrv_dirty_bitmap_size(bm=
-),
-+                                               granularity);
-+                uint64_t bmclusters =3D DIV_ROUND_UP(DIV_ROUND_UP(bmbits,
-+                                                                CHAR_BIT),
-+                                                   cluster_size);
++.. option:: --bitmaps
 +
-+                /* Assume the entire bitmap is allocated */
-+                bitmaps_size +=3D bmclusters * cluster_size;
-+                /* Also reserve space for the bitmap table entries */
-+                bitmaps_size +=3D ROUND_UP(bmclusters * sizeof(uint64_t),
-+                                         cluster_size);
-+                /* Guess at contribution to bitmap directory size */
-+                bitmap_overhead +=3D ROUND_UP(strlen(name) + 24,
-+                                            sizeof(uint64_t));
-+            }
-+        }
-+        bitmaps_size +=3D ROUND_UP(bitmap_overhead, cluster_size);
++  Additionally copy all bitmaps
 +
-         virtual_size =3D ROUND_UP(ssize, cluster_size);
+ .. option:: -n
 
-         if (has_backing_file) {
-@@ -4785,7 +4810,7 @@ static BlockMeasureInfo *qcow2_measure(QemuOpts *opts=
-, BlockDriverState *in_bs,
-         required =3D virtual_size;
-     }
+   Skip the creation of the target volume
+@@ -397,7 +401,7 @@ Command description:
+   4
+     Error on reading data
 
--    info =3D g_new(BlockMeasureInfo, 1);
-+    info =3D g_new0(BlockMeasureInfo, 1);
-     info->fully_allocated =3D
-         qcow2_calc_prealloc_size(virtual_size, cluster_size,
-                                  ctz32(refcount_bits)) + luks_payload_size=
-;
-@@ -4795,6 +4820,8 @@ static BlockMeasureInfo *qcow2_measure(QemuOpts *opts=
-, BlockDriverState *in_bs,
-      * still counted.
-      */
-     info->required =3D info->fully_allocated - virtual_size + required;
-+    info->has_bitmaps =3D !!bitmaps_size;
-+    info->bitmaps =3D bitmaps_size;
-     return info;
+-.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-op=
+ts] [--target-is-zero] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-=
+T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l SNAPSHOT_PA=
+RAM] [-S SPARSE_SIZE] [-m NUM_COROUTINES] [-W] FILENAME [FILENAME2 [...]] O=
+UTPUT_FILENAME
++.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-op=
+ts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [=
+-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l=
+ SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-m NUM_COROUTINES] [-W] FILENAME [FILENA=
+ME2 [...]] OUTPUT_FILENAME
 
- err:
-diff --git a/block/raw-format.c b/block/raw-format.c
-index 93b25e1b6b0b..4bb54f4ac6c5 100644
---- a/block/raw-format.c
-+++ b/block/raw-format.c
-@@ -346,7 +346,7 @@ static BlockMeasureInfo *raw_measure(QemuOpts *opts, Bl=
-ockDriverState *in_bs,
-                             BDRV_SECTOR_SIZE);
-     }
-
--    info =3D g_new(BlockMeasureInfo, 1);
-+    info =3D g_new0(BlockMeasureInfo, 1);
-     info->required =3D required;
-
-     /* Unallocated sectors count towards the file size in raw images */
+   Convert the disk image *FILENAME* or a snapshot *SNAPSHOT_PARAM*
+   to disk image *OUTPUT_FILENAME* using format *OUTPUT_FMT*. It can
 diff --git a/qemu-img.c b/qemu-img.c
-index 02ebd870faa1..e1127273f21e 100644
+index e1127273f21e..6cfc1f52ef98 100644
 --- a/qemu-img.c
 +++ b/qemu-img.c
-@@ -5207,6 +5207,9 @@ static int img_measure(int argc, char **argv)
-     if (output_format =3D=3D OFORMAT_HUMAN) {
-         printf("required size: %" PRIu64 "\n", info->required);
-         printf("fully allocated size: %" PRIu64 "\n", info->fully_allocate=
-d);
-+        if (info->has_bitmaps) {
-+            printf("bitmaps size: %" PRIu64 "\n", info->bitmaps);
+@@ -78,6 +78,7 @@ enum {
+     OPTION_ENABLE =3D 272,
+     OPTION_DISABLE =3D 273,
+     OPTION_MERGE =3D 274,
++    OPTION_BITMAPS =3D 275,
+ };
+
+ typedef enum OutputFormat {
+@@ -183,6 +184,7 @@ static void QEMU_NORETURN help(void)
+            "       hiding corruption that has already occurred.\n"
+            "\n"
+            "Parameters to convert subcommand:\n"
++           "  '--bitmaps' copies all persistent bitmaps to destination\n"
+            "  '-m' specifies how many coroutines work in parallel during t=
+he convert\n"
+            "       process (defaults to 8)\n"
+            "  '-W' allow to write to the target out of order rather than s=
+equential\n"
+@@ -2061,6 +2063,47 @@ static int convert_do_copy(ImgConvertState *s)
+     return s->ret;
+ }
+
++static int convert_copy_bitmaps(BlockDriverState *src, BlockDriverState *d=
+st)
++{
++    BdrvDirtyBitmap *bm;
++    Error *err =3D NULL;
++    BlockDirtyBitmapMergeSource *merge;
++    BlockDirtyBitmapMergeSourceList *list;
++
++    FOR_EACH_DIRTY_BITMAP(src, bm) {
++        const char *name;
++
++        if (!bdrv_dirty_bitmap_get_persistence(bm)) {
++            continue;
 +        }
-     } else {
-         dump_json_block_measure_info(info);
++        name =3D bdrv_dirty_bitmap_name(bm);
++        qmp_block_dirty_bitmap_add(dst->node_name, name,
++                                   true, bdrv_dirty_bitmap_granularity(bm)=
+,
++                                   true, true,
++                                   true, !bdrv_dirty_bitmap_enabled(bm),
++                                   &err);
++        if (err) {
++            error_reportf_err(err, "Failed to create bitmap %s: ", name);
++            return -1;
++        }
++
++        merge =3D g_new0(BlockDirtyBitmapMergeSource, 1);
++        merge->type =3D QTYPE_QDICT;
++        merge->u.external.node =3D g_strdup(src->node_name);
++        merge->u.external.name =3D g_strdup(name);
++        list =3D g_new0(BlockDirtyBitmapMergeSourceList, 1);
++        list->value =3D merge;
++        qmp_block_dirty_bitmap_merge(dst->node_name, name, list, &err);
++        qapi_free_BlockDirtyBitmapMergeSourceList(list);
++        if (err) {
++            error_reportf_err(err, "Failed to populate bitmap %s: ", name)=
+;
++            return -1;
++        }
++    }
++
++    return 0;
++}
++
+ #define MAX_BUF_SECTORS 32768
+
+ static int img_convert(int argc, char **argv)
+@@ -2082,6 +2125,8 @@ static int img_convert(int argc, char **argv)
+     int64_t ret =3D -EINVAL;
+     bool force_share =3D false;
+     bool explict_min_sparse =3D false;
++    bool bitmaps =3D false;
++    size_t nbitmaps =3D 0;
+
+     ImgConvertState s =3D (ImgConvertState) {
+         /* Need at least 4k of zeros for sparse detection */
+@@ -2101,6 +2146,7 @@ static int img_convert(int argc, char **argv)
+             {"target-image-opts", no_argument, 0, OPTION_TARGET_IMAGE_OPTS=
+},
+             {"salvage", no_argument, 0, OPTION_SALVAGE},
+             {"target-is-zero", no_argument, 0, OPTION_TARGET_IS_ZERO},
++            {"bitmaps", no_argument, 0, OPTION_BITMAPS},
+             {0, 0, 0, 0}
+         };
+         c =3D getopt_long(argc, argv, ":hf:O:B:Cco:l:S:pt:T:qnm:WU",
+@@ -2232,6 +2278,9 @@ static int img_convert(int argc, char **argv)
+              */
+             s.has_zero_init =3D true;
+             break;
++        case OPTION_BITMAPS:
++            bitmaps =3D true;
++            break;
+         }
      }
-diff --git a/tests/qemu-iotests/190 b/tests/qemu-iotests/190
-index 6d41650438e1..cae643149a01 100755
---- a/tests/qemu-iotests/190
-+++ b/tests/qemu-iotests/190
-@@ -2,7 +2,7 @@
- #
- # qemu-img measure sub-command tests on huge qcow2 files
- #
--# Copyright (C) 2017 Red Hat, Inc.
-+# Copyright (C) 2017-2020 Red Hat, Inc.
- #
- # This program is free software; you can redistribute it and/or modify
- # it under the terms of the GNU General Public License as published by
-@@ -42,7 +42,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- _supported_fmt qcow2
- _supported_proto file
 
--echo "=3D=3D Huge file =3D=3D"
-+echo "=3D=3D Huge file without bitmaps =3D=3D"
- echo
+@@ -2293,7 +2342,6 @@ static int img_convert(int argc, char **argv)
+         goto fail_getopt;
+     }
 
- _make_test_img -o 'cluster_size=3D2M' 2T
-@@ -51,6 +51,17 @@ $QEMU_IMG measure -O raw -f qcow2 "$TEST_IMG"
- $QEMU_IMG measure -O qcow2 -o cluster_size=3D64k -f qcow2 "$TEST_IMG"
- $QEMU_IMG measure -O qcow2 -o cluster_size=3D2M -f qcow2 "$TEST_IMG"
+-
+     /* ret is still -EINVAL until here */
+     ret =3D bdrv_parse_cache_mode(src_cache, &src_flags, &src_writethrough=
+);
+     if (ret < 0) {
+@@ -2453,6 +2501,28 @@ static int img_convert(int argc, char **argv)
+         }
+     }
 
-+echo
-+echo "=3D=3D Huge file with bitmaps =3D=3D"
-+echo
++    /* Determine how many bitmaps need copying */
++    if (bitmaps) {
++        BdrvDirtyBitmap *bm;
 +
-+$QEMU_IMG bitmap --add --granularity 512 -f qcow2 "$TEST_IMG" b1
-+$QEMU_IMG bitmap --add -g 2M -f qcow2 "$TEST_IMG" b2
++        if (s.src_num > 1) {
++            error_report("Copying bitmaps only possible with single source=
+");
++            ret =3D -1;
++            goto out;
++        }
++        FOR_EACH_DIRTY_BITMAP(blk_bs(s.src[0]), bm) {
++            if (bdrv_dirty_bitmap_get_persistence(bm)) {
++                nbitmaps++;
++            }
++        }
++        if (nbitmaps > 0 && drv && !drv->bdrv_co_can_store_new_dirty_bitma=
+p) {
++            error_report("Format driver '%s' does not support bitmaps",
++                         out_fmt);
++            ret =3D -1;
++            goto out;
++        }
++    }
 +
-+$QEMU_IMG measure -O raw -f qcow2 "$TEST_IMG"
-+$QEMU_IMG measure -O qcow2 -o cluster_size=3D64k -f qcow2 "$TEST_IMG"
-+$QEMU_IMG measure -O qcow2 -o cluster_size=3D2M -f qcow2 "$TEST_IMG"
-+
- # success, all done
- echo "*** done"
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/190.out b/tests/qemu-iotests/190.out
-index d001942002db..11962f972429 100644
---- a/tests/qemu-iotests/190.out
-+++ b/tests/qemu-iotests/190.out
-@@ -1,5 +1,5 @@
- QA output created by 190
--=3D=3D Huge file =3D=3D
-+=3D=3D Huge file without bitmaps =3D=3D
+     /*
+      * The later open call will need any decryption secrets, and
+      * bdrv_create() will purge "opts", so extract them now before
+@@ -2461,9 +2531,7 @@ static int img_convert(int argc, char **argv)
+     if (!skip_create) {
+         open_opts =3D qdict_new();
+         qemu_opt_foreach(opts, img_add_key_secrets, open_opts, &error_abor=
+t);
+-    }
 
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D2199023255552
- required size: 2199023255552
-@@ -8,4 +8,15 @@ required size: 335806464
- fully allocated size: 2199359062016
- required size: 18874368
- fully allocated size: 2199042129920
+-    if (!skip_create) {
+         /* Create the new image */
+         ret =3D bdrv_create(drv, out_filename, opts, &local_err);
+         if (ret < 0) {
+@@ -2560,6 +2628,12 @@ static int img_convert(int argc, char **argv)
+     }
+
+     ret =3D convert_do_copy(&s);
 +
-+=3D=3D Huge file with bitmaps =3D=3D
++    /* Now copy the bitmaps */
++    if (nbitmaps > 0 && ret =3D=3D 0) {
++        ret =3D convert_copy_bitmaps(blk_bs(s.src[0]), out_bs);
++    }
 +
-+required size: 2199023255552
-+fully allocated size: 2199023255552
-+required size: 335806464
-+fully allocated size: 2199359062016
-+bitmaps size: 537198592
-+required size: 18874368
-+fully allocated size: 2199042129920
-+bitmaps size: 545259520
- *** done
+ out:
+     if (!ret) {
+         qemu_progress_print(100, 0);
+diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
+index bf0035e226c8..cf574792bd99 100644
+--- a/qemu-img-cmds.hx
++++ b/qemu-img-cmds.hx
+@@ -46,9 +46,9 @@ SRST
+ ERST
+
+ DEF("convert", img_convert,
+-    "convert [--object objectdef] [--image-opts] [--target-image-opts] [--=
+target-is-zero] [-U] [-C] [-c] [-p] [-q] [-n] [-f fmt] [-t cache] [-T src_c=
+ache] [-O output_fmt] [-B backing_file] [-o options] [-l snapshot_param] [-=
+S sparse_size] [-m num_coroutines] [-W] [--salvage] filename [filename2 [..=
+.]] output_filename")
++    "convert [--object objectdef] [--image-opts] [--target-image-opts] [--=
+target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f fmt] [-t cach=
+e] [-T src_cache] [-O output_fmt] [-B backing_file] [-o options] [-l snapsh=
+ot_param] [-S sparse_size] [-m num_coroutines] [-W] [--salvage] filename [f=
+ilename2 [...]] output_filename")
+ SRST
+-.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-op=
+ts] [--target-is-zero] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-=
+T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l SNAPSHOT_PA=
+RAM] [-S SPARSE_SIZE] [-m NUM_COROUTINES] [-W] [--salvage] FILENAME [FILENA=
+ME2 [...]] OUTPUT_FILENAME
++.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-op=
+ts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [=
+-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l=
+ SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-m NUM_COROUTINES] [-W] [--salvage] FILE=
+NAME [FILENAME2 [...]] OUTPUT_FILENAME
+ ERST
+
+ DEF("create", img_create,
 --=20
 2.26.2
 
