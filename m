@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C4D81B27F2
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 15:31:48 +0200 (CEST)
-Received: from localhost ([::1]:58492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C41521B287A
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 15:52:01 +0200 (CEST)
+Received: from localhost ([::1]:58726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQt06-00044u-Jf
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 09:31:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50820)
+	id 1jQtJg-0002Ex-Ao
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 09:52:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54062)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jQsz7-0003dt-RY
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:30:46 -0400
+ (envelope-from <bounces@canonical.com>) id 1jQtIZ-0001kv-Ns
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:50:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jQsz7-0006h0-9B
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:30:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58250)
+ (envelope-from <bounces@canonical.com>) id 1jQtIY-0001S3-VM
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:50:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34934)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jQsz6-0006d8-Qz
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:30:44 -0400
+ id 1jQtIY-0001P8-GQ
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:50:50 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jQsz5-0003L8-3s
- for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 13:30:43 +0000
+ id 1jQtIW-0006A8-Tp
+ for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 13:50:48 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1A9242E8024
- for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 13:30:43 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E02522E8106
+ for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 13:50:48 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 21 Apr 2020 13:25:28 -0000
-From: Martin Liska <mliska@suse.cz>
+Date: Tue, 21 Apr 2020 13:37:11 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mliska
+X-Launchpad-Bug-Commenters: mliska pmaydell
 X-Launchpad-Bug-Reporter: Martin Liska (mliska)
-X-Launchpad-Bug-Modifier: Martin Liska (mliska)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
 References: <158747496330.1952.6391008472811579405.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158747552835.1516.4790256663779687885.malone@chaenomeles.canonical.com>
+Message-Id: <158747623130.28289.6404973646535012866.malone@wampee.canonical.com>
 Subject: [Bug 1874073] Re: openrisc_sim.c:87:42: error: 'cpu_irqs[0]' may be
  used uninitialized in this function [-Werror=maybe-uninitialized]
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -52,7 +52,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="aad6b57d58e2f621954298e262c1cc904860f5d2";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: c778f7de7902148a5f085b48a08b143e63ff849c
+X-Launchpad-Hash: d4adc17971d7ef8a462fa924ab5f50e284cee115
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 07:50:41
@@ -72,21 +72,9 @@ Reply-To: Bug 1874073 <1874073@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Suggested patch:
-
-diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
-index 79e7049..724dcd0 100644
---- a/hw/openrisc/openrisc_sim.c
-+++ b/hw/openrisc/openrisc_sim.c
-@@ -129,7 +129,7 @@ static void openrisc_sim_init(MachineState *machine)
-     const char *kernel_filename =3D machine->kernel_filename;
-     OpenRISCCPU *cpu =3D NULL;
-     MemoryRegion *ram;
--    qemu_irq *cpu_irqs[2];
-+    qemu_irq *cpu_irqs[2] =3D {};
-     qemu_irq serial_irq;
-     int n;
-     unsigned int smp_cpus =3D machine->smp.cpus;
+I'm not sure why the compiler thinks it might be uninitialized here --
+is it just that it's not aware that smp_cpus can't be zero and so the
+loop will always initialize cpu_irqs[0] ?
 
 -- =
 
