@@ -2,123 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B7971B2A6E
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 16:46:55 +0200 (CEST)
-Received: from localhost ([::1]:59322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 791AE1B2A88
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 16:54:43 +0200 (CEST)
+Received: from localhost ([::1]:59480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQuAo-0002Uo-4R
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 10:46:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37486)
+	id 1jQuIM-0005aw-0h
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 10:54:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39302)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ani.sinha@nutanix.com>) id 1jQu9B-0001Rm-5Q
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 10:45:13 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1jQuHU-00057i-4R
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 10:53:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <ani.sinha@nutanix.com>) id 1jQu99-0007RY-Es
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 10:45:12 -0400
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:5160)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani.sinha@nutanix.com>)
- id 1jQu98-0007Pt-A7
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 10:45:11 -0400
-Received: from pps.filterd (m0127837.ppops.net [127.0.0.1])
- by mx0a-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 03LEgYau017646; Tue, 21 Apr 2020 07:45:06 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version;
- s=proofpoint20171006; bh=WtCLQJm3mWSmRwl+gzDArmbL13MilwMoWvyt7V97hQk=;
- b=Ps3u7P+7XvVkm1z7ggkJswzsQFANZRoTg9SXOk3sPA0D1wJa3nC38b90VUX8tS/nTbuK
- noAxyoNsyieajgiHwx4jxVBM+dALvAU5XfUJFDNk2YUpH0+vEwN4rt0eij8Cfe5W8i+e
- diAGH35bA2PDIV0rRVjL5KiPV+Oz2zPm29Fn/XMQPowQ4ZVeKAs2pJbpf383Y1QkVWQn
- ik7hjFq3K/u7/tqP5xH5QJdo2hMAqsEJkg42T1gDipsBlFW2E9BLdL3kykA1ELc6WNVF
- Zrcn69R3CVpl/H7g01ZQc3vp2j3zSCW2parh/7zz59A7WbCuMOs7w644tf2PSeph3JEz YQ== 
-Received: from nam12-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2175.outbound.protection.outlook.com [104.47.59.175])
- by mx0a-002c1b01.pphosted.com with ESMTP id 30fwf8xfkv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Apr 2020 07:45:06 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X/mwiNN3LMI4GzQhnR8LH+zks/PC8u5OOryZUaVx1qPp51QPzViLFkbQaUOsSpCeY9T0y1slL6to8ZU9gKh2uSSDH/7nzV1RzKtBkd5hDSm4aqVXOCKlVqXbsTLvjpskfmlwIRu+pvR4Q3m5AbAgXN5C8Ycf1rMyOHpxYIrWCfckcxT7mWFGyOsN0hukm2vlinIA+IvDjeGJFgTlLwsuig9rm/ukSX2aO+7BfEJWfEfo46Mx0KzsPvrMAEJjfVDoAOXksDEWlMRAnXljtz5a12jxPI1vmLJzwm1PLkfq+ceMgNth2fi6zoRMYEFZqhiDoTGaka5llzZzskcW8Ze9HQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WtCLQJm3mWSmRwl+gzDArmbL13MilwMoWvyt7V97hQk=;
- b=SwLvH3f5qmx2dzyBtinaMJiRPH2HfDcFnfMxO+10b2p6+Lcl3ebszxjHf7bWKVm1XIyibE0MxId/H8CC+Vo8WfIuVM8rGaVMOJzXlC3e7XCPBkk+V/ezidfa8F+5AyTwIIdOCRliKu01qbpL3IyB8y1MtNcBUXgR0wvOpDvoRnkabn0j6Qjy4wdYQJ2ORzy9MXqIP8kSRUovjvwYwouUJLhEXxF7NZrxx2c73d9C6fcYesoXyV9zlTs+t+m02d5XSCbzUuVSmjYYVh0jQVz7dJ6J+tNjkZbYxB7RWqkhEReKmvlNyKyorYM4eM8U8INmjuyMGIWWMqDWxyBgelrNWA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from MN2PR02MB5742.namprd02.prod.outlook.com (2603:10b6:208:10d::27)
- by MN2PR02MB6640.namprd02.prod.outlook.com (2603:10b6:208:1d0::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.27; Tue, 21 Apr
- 2020 14:45:04 +0000
-Received: from MN2PR02MB5742.namprd02.prod.outlook.com
- ([fe80::200c:b06c:d8c6:42a]) by MN2PR02MB5742.namprd02.prod.outlook.com
- ([fe80::200c:b06c:d8c6:42a%7]) with mapi id 15.20.2921.030; Tue, 21 Apr 2020
- 14:45:04 +0000
-From: Ani Sinha <ani.sinha@nutanix.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH] Add a new PIIX option to control PCI hot unplugging of
- devices on non-root buses
-Thread-Topic: [PATCH] Add a new PIIX option to control PCI hot unplugging of
- devices on non-root buses
-Thread-Index: AQHWFMrLeCs/JzKNrUaCDY3Nn1YJmqh9b9kAgAACaICAAAksAIAERh2AgABeQwCAAY19AA==
-Date: Tue, 21 Apr 2020 14:45:04 +0000
-Message-ID: <07BC06B8-34F6-4C46-ACCE-DD7A4CBA9BC7@nutanix.com>
-References: <1587136411-200885-1-git-send-email-ani.sinha@nutanix.com>
- <20200417112620-mutt-send-email-mst@kernel.org>
- <2A13ACCD-BD24-41FB-B6EA-2804F7C1FF1D@nutanix.com>
- <20200417120732-mutt-send-email-mst@kernel.org>
- <20200420092459.GF346737@redhat.com>
- <20200420105936-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200420105936-mutt-send-email-mst@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [115.110.205.84]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b3baadbf-9bb3-4914-9cb8-08d7e60293f2
-x-ms-traffictypediagnostic: MN2PR02MB6640:
-x-microsoft-antispam-prvs: <MN2PR02MB664077C17C580949120B8645F1D50@MN2PR02MB6640.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:5516;
-x-forefront-prvs: 038002787A
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR02MB5742.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10019020)(136003)(39860400002)(396003)(376002)(346002)(366004)(6916009)(66946007)(2616005)(81156014)(8676002)(478600001)(4326008)(2906002)(53546011)(26005)(71200400001)(8936002)(44832011)(54906003)(6506007)(186003)(86362001)(316002)(6512007)(33656002)(76116006)(66476007)(64756008)(66446008)(6486002)(66556008)(91956017)(5660300002)(36756003)(558084003);
- DIR:OUT; SFP:1102; 
-received-spf: None (protection.outlook.com: nutanix.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 591lkB/h85eLEOLY8I84+rEBf//drNdgNw3lQaxlxm2pNQMcW0cx0f3AMY+ig23GDW2rA2Y8M9DOI5QF2uiir/Gq8FXUZMOO8WU4VOvRzAA7w9OjPV3qBU5Z4fhrW+ggclStwOM4Gk3agFyioA7aAB4fWUE7gLGWli2xcEOpnajV3mqB/Btx0VAONdBNPk6fcxRsHA5bZzgcPpykOUgUtrrbUytXpEy/mocfwIb3C4nWQdHWlU3lGzBhkHlcbim6vP9cxFtj4A6yGMIwjTouoNu7ZBdf7JqnQdXNndlisUnIzXDHPa6k++BlGDDbKlZg73QGPpwpMj1QM3XzWiAwObG6dECFciBfMjeS2g5kDhpYpC+WF9iUp1QjBrBJCMdLsgtV0SYqq/XzE3+xxfGM8BwE0D+m6GwwpW2/b6EcFMsV/W/poEYZDS0sTwb2+/CO
-x-ms-exchange-antispam-messagedata: XZPyPtVZR3yJscyRFvX3lvRfc/YM3PkFHSygSrR6+aiMpgBQ+CicM0GNFA1fuRYpss/RfBZA70aX9RYWKXn6QLlHzKD3wP2N5jnzt7c6AqrXIZpidUZ6NEPOsBnauyagrbLHAw/tLtAJAqwAWH0oPA==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <66ED181E7F638A49922349EE1707E1E6@namprd02.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3baadbf-9bb3-4914-9cb8-08d7e60293f2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Apr 2020 14:45:04.1958 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0jEw8tHga6pZ24hRsS7jTLI/K0mseCTO9GOIdIRHoXm62CmBbWTmhy81QJ3Hpfl9HtmJuQChRD7na/3HxIwkcQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6640
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-04-21_05:2020-04-20,
- 2020-04-21 signatures=0
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.151.68;
- envelope-from=ani.sinha@nutanix.com; helo=mx0a-002c1b01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 10:45:06
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Received-From: 148.163.151.68
+ (envelope-from <mlevitsk@redhat.com>) id 1jQuHS-0002Ii-Vf
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 10:53:47 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:56052
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1jQuHS-0002Gm-I6
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 10:53:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587480825;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7nZNy2NSBYOHPp5qbtVJz+EjLDAIPGtrG8yJzY91myw=;
+ b=UIP4vI/rJmuY6lZz7eu9zVvvItwUiTE6hgGofIhobhiqQ0v+g1XFgSqvytpA+LMuK5LMQl
+ SY1limGqWnAaZHh+8hqoSjzrj4oEqrlgKkTgMsKyp6fSSaKZMau/X3jd/mbqnb/4HFcv8U
+ sdA/Ct/5UUuu3+5ThhymiLmqSDwq/Vk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-494-uHdKHWYZMDqUFQ8woSFeSA-1; Tue, 21 Apr 2020 10:53:36 -0400
+X-MC-Unique: uHdKHWYZMDqUFQ8woSFeSA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF2FFDB2E;
+ Tue, 21 Apr 2020 14:53:34 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BB5615DA83;
+ Tue, 21 Apr 2020 14:53:31 +0000 (UTC)
+Message-ID: <5dbf8e4cefbbcbf9c0bab3eb7e314124be8385d8.camel@redhat.com>
+Subject: Re: [PATCH v2 09/16] nvme: factor out property/constraint checks
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
+Date: Tue, 21 Apr 2020 17:53:30 +0300
+In-Reply-To: <20200415130159.611361-10-its@irrelevant.dk>
+References: <20200415130159.611361-1-its@irrelevant.dk>
+ <20200415130159.611361-10-its@irrelevant.dk>
+Mime-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 03:31:23
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -130,21 +75,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?iso-8859-1?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>, Marcel Apfelbaum <marcel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Javier Gonzalez <javier.gonz@samsung.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 2020-04-15 at 15:01 +0200, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>  hw/block/nvme.c | 43 ++++++++++++++++++++++++++++---------------
+>  1 file changed, 28 insertions(+), 15 deletions(-)
+> 
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 44856e873fd1..5f9ebbd6a1d5 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -1311,24 +1311,19 @@ static const MemoryRegionOps nvme_cmb_ops = {
+>      },
+>  };
+>  
+> -static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+> +static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
+>  {
+> -    NvmeCtrl *n = NVME(pci_dev);
+> -    NvmeIdCtrl *id = &n->id_ctrl;
+> +    NvmeParams *params = &n->params;
+>  
+> -    int i;
+> -    int64_t bs_size;
+> -    uint8_t *pci_conf;
+> -
+> -    if (n->params.num_queues) {
+> +    if (params->num_queues) {
+>          warn_report("num_queues is deprecated; please use max_ioqpairs "
+>                      "instead");
+>  
+> -        n->params.max_ioqpairs = n->params.num_queues - 1;
+> +        params->max_ioqpairs = params->num_queues - 1;
+>      }
+>  
+> -    if (n->params.max_ioqpairs < 1 ||
+> -        n->params.max_ioqpairs > PCI_MSIX_FLAGS_QSIZE) {
+> +    if (params->max_ioqpairs < 1 ||
+> +        params->max_ioqpairs > PCI_MSIX_FLAGS_QSIZE) {
+>          error_setg(errp, "max_ioqpairs must be between 1 and %d",
+>                     PCI_MSIX_FLAGS_QSIZE);
+>          return;
+> @@ -1339,16 +1334,34 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+>          return;
+>      }
+>  
+> +    if (!params->serial) {
+> +        error_setg(errp, "serial property not set");
+> +        return;
+> +    }
+> +}
+> +
+> +static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+> +{
+> +    NvmeCtrl *n = NVME(pci_dev);
+> +    NvmeIdCtrl *id = &n->id_ctrl;
+> +    Error *err = NULL;
+Yep, lets name it indeed local_err.
+> +
+> +    int i;
+> +    int64_t bs_size;
+> +    uint8_t *pci_conf;
+> +
+> +    nvme_check_constraints(n, &err);
+> +    if (err) {
+> +        error_propagate(errp, err);
+> +        return;
+> +    }
+> +
+>      bs_size = blk_getlength(n->conf.blk);
+>      if (bs_size < 0) {
+>          error_setg(errp, "could not get backing file size");
+>          return;
+>      }
+>  
+> -    if (!n->params.serial) {
+> -        error_setg(errp, "serial property not set");
+> -        return;
+> -    }
+>      blkconf_blocksizes(&n->conf);
+>      if (!blkconf_apply_backend_options(&n->conf, blk_is_read_only(n->conf.blk),
+>                                         false, errp)) {
+ 
 
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 
-> On Apr 20, 2020, at 8:32 PM, Michael S. Tsirkin <mst@redhat.com> wrote:
->=20
-> But I for one would like to focus on keeping PIIX stable
-> and focus development on q35.  Not bloating PIIX with lots of new
-> features is IMHO a good way to do that.
+Best regards,
+	Maxim Levitsky
 
-Does this mean this patch is a no-go then? :(
 
