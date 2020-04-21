@@ -2,63 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 659B31B27C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 15:27:13 +0200 (CEST)
-Received: from localhost ([::1]:58420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA1991B2789
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 15:21:19 +0200 (CEST)
+Received: from localhost ([::1]:58284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQsvf-0001Cw-Tm
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 09:27:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49940)
+	id 1jQspy-0002eH-Ey
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 09:21:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48362)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jQsuJ-0000W1-7L
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:25:47 -0400
+ (envelope-from <philmd@redhat.com>) id 1jQsoM-0000vR-FD
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:19:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jQsuI-0007Ri-I7
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:25:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57270)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jQsuI-0007Po-3T
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:25:46 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jQsuG-0002es-2b
- for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 13:25:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 11E572E8108
- for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 13:25:44 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1jQsoK-0007FZ-FF
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:19:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59754
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jQsoJ-0007Df-W5
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:19:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587475174;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+3dL7HK3IprfglwxQAI6iAJf43RxdhDjeGz0/Y+AVYw=;
+ b=H4R6WnOqJyVAJRGD+UQfxcbDYTLct+5RcMcWVOESAClRyGE16aQnr6kxEfSmkktGDtv4SK
+ +9gelKm7KrSEIl/qYLBv7U51/mIDKbM27+XCVb7IPQ58iphMI7N/gQxYxD+058x0OlFMQR
+ HYpybTw3Znr0BDA9mODFlUrbISwO/VU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-300-f4hzrM5xPZ-Ea-AmUVDcBw-1; Tue, 21 Apr 2020 09:19:30 -0400
+X-MC-Unique: f4hzrM5xPZ-Ea-AmUVDcBw-1
+Received: by mail-wr1-f72.google.com with SMTP id e5so7444561wrs.23
+ for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 06:19:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WpjSjga3RuM/g/+6VzdeggLnv5t7E2VEFN3uiqBE20A=;
+ b=IeZuj6mUgndLbvd7HaSLb5jJugT0WVF/pVpnTU38St5OjTbRMHyxJi1YHnVLyES58f
+ TrR2/uBmA6E2LkHpqERZ6IiiL+9qcLMvPgvbCUa7lKYWKBkhENEvU/CJKVx2XPej8+0S
+ UockXtUlqleJ5xs9O6MGCieLJhcu4nZkALY0MuxxL39mJ+qUQd5AsE/yahs6X2Z68QlM
+ xmsbVJHQ9v1NOjFSnu010vxuh0w4XTmCZSB7Thf/MENLkszdwpjKaIMwGxPWsKJRlVFD
+ 0Xz5JYjy3jdil0CxH+igUPu8VWaZlVm7J7Z9upxVezFGHxkIoT+GXU/49IeLEF4cBmm5
+ cUMg==
+X-Gm-Message-State: AGi0Pubcukf/Tpj0+tA7hyoKPYCUhf75RlH/0zx4PdyZScEHNIkzEjvn
+ WSBE84vXrDEtoPGx5C0yJib7u97qpadsDWQPLJNMDOlQ2MqeAVHdHpDrNkJaLl2SbNfMnOdOquy
+ IwFgeg0pygUoNvsU=
+X-Received: by 2002:adf:fac8:: with SMTP id a8mr15975709wrs.311.1587475169198; 
+ Tue, 21 Apr 2020 06:19:29 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKpajtsaLumU84NBykAs/oFg060Jnjwmn8lICLqR06VAGCLG+2ARPu/jQCZOYqpBfAlqwhLfg==
+X-Received: by 2002:adf:fac8:: with SMTP id a8mr15975698wrs.311.1587475168992; 
+ Tue, 21 Apr 2020 06:19:28 -0700 (PDT)
+Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id u3sm3538698wrt.93.2020.04.21.06.19.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Apr 2020 06:19:28 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/6] target/arm: Restrict TCG cpus to TCG accel
+Date: Tue, 21 Apr 2020 15:19:20 +0200
+Message-Id: <20200421131926.12116-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 21 Apr 2020 13:16:03 -0000
-From: Martin Liska <mliska@suse.cz>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mliska
-X-Launchpad-Bug-Reporter: Martin Liska (mliska)
-X-Launchpad-Bug-Modifier: Martin Liska (mliska)
-Message-Id: <158747496330.1952.6391008472811579405.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1874073] [NEW] openrisc_sim.c:87:42: error: 'cpu_irqs[0]' may be
- used uninitialized in this function [-Werror=maybe-uninitialized]
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="aad6b57d58e2f621954298e262c1cc904860f5d2";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 1b253de2183bf46c8e6113b3f8dd757ea73650a4
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 07:50:41
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Received-From: 91.189.90.7
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 03:31:23
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,57 +87,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1874073 <1874073@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+These are the uncontroversial patches from "Support disabling
+TCG on ARM (part 2)"
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg689168.html
 
-I see the warning since gcc10:
+The other patches are blocked by the "accel: Allow targets to
+use Kconfig" series:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg689024.html
 
-static void openrisc_sim_init(MachineState *machine):
-...
-    qemu_irq *cpu_irqs[2];
-...
+Sending this series now for review for 5.1.
 
+Regards,
 
-    serial_mm_init(get_system_memory(), 0x90000000, 0, serial_irq,
-                   115200, serial_hd(0), DEVICE_NATIVE_ENDIAN);
+Phil.
 
-I would initialize cpu_irqs[2] with {}.
+Philippe Mathieu-Daud=C3=A9 (4):
+  target/arm: Restric the Address Translate write operation to TCG accel
+  target/arm/cpu: Use ARRAY_SIZE() to iterate over ARMCPUInfo[]
+  target/arm/cpu: Update coding style to make checkpatch.pl happy
+  target/arm: Restrict TCG cpus to TCG accel
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+Thomas Huth (2):
+  target/arm: Make set_feature() available for other files
+  target/arm: Make cpu_register() available for other files
 
--- =
+ target/arm/cpu-qom.h     |   9 +-
+ target/arm/cpu.h         |  10 +
+ target/arm/cpu.c         | 657 +-------------------------------------
+ target/arm/cpu64.c       |  27 +-
+ target/arm/cpu_tcg.c     | 663 +++++++++++++++++++++++++++++++++++++++
+ target/arm/helper.c      |  17 +
+ target/arm/Makefile.objs |   1 +
+ 7 files changed, 708 insertions(+), 676 deletions(-)
+ create mode 100644 target/arm/cpu_tcg.c
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1874073
+--=20
+2.21.1
 
-Title:
-  openrisc_sim.c:87:42: error: 'cpu_irqs[0]' may be used uninitialized
-  in this function [-Werror=3Dmaybe-uninitialized]
-
-Status in QEMU:
-  New
-
-Bug description:
-  I see the warning since gcc10:
-
-  static void openrisc_sim_init(MachineState *machine):
-  ...
-      qemu_irq *cpu_irqs[2];
-  ...
-
-  =
-
-      serial_mm_init(get_system_memory(), 0x90000000, 0, serial_irq,
-                     115200, serial_hd(0), DEVICE_NATIVE_ENDIAN);
-
-  I would initialize cpu_irqs[2] with {}.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1874073/+subscriptions
 
