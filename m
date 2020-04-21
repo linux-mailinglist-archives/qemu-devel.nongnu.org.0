@@ -2,51 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A211B26D8
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 14:57:47 +0200 (CEST)
-Received: from localhost ([::1]:57754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74BCC1B270C
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 15:03:12 +0200 (CEST)
+Received: from localhost ([::1]:57922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQsTC-0004sa-5o
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 08:57:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43126)
+	id 1jQsYR-0008Fc-1U
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 09:03:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44304)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mjt@tls.msk.ru>) id 1jQsST-0004JJ-CO
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:57:01 -0400
+ (envelope-from <farman@linux.ibm.com>) id 1jQsWX-0007AD-MH
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:01:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mjt@tls.msk.ru>) id 1jQsSS-0004eE-Ci
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:57:01 -0400
-Received: from isrv.corpit.ru ([86.62.121.231]:54461)
+ (envelope-from <farman@linux.ibm.com>) id 1jQsWX-00014g-3p
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 09:01:13 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1jQsSR-0004XA-TB
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 08:57:00 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id C791240230;
- Tue, 21 Apr 2020 15:56:48 +0300 (MSK)
-Received: from [192.168.177.99] (mjt.vpn.tls.msk.ru [192.168.177.99])
- by tsrv.corpit.ru (Postfix) with ESMTP id 7559C28E;
- Tue, 21 Apr 2020 15:53:27 +0300 (MSK)
-Subject: Re: SLiRP: use-afte-free in ip_reass() [CVE-2020-1983]
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-References: <CAP+75-UisNwFqedDPfuGt=HFEEnPSO7sNq9JxpUuLPVdYDryuw@mail.gmail.com>
- <CAJ+F1C+YnbgCkYN1+7zpq0XvZYb2LWL6kbQXRSybJew1JnBgQQ@mail.gmail.com>
- <20200421103307.GB479771@redhat.com>
-From: Michael Tokarev <mjt@tls.msk.ru>
-Message-ID: <7d5f9b13-0181-bd82-a643-a62f19f4c9d0@msgid.tls.msk.ru>
-Date: Tue, 21 Apr 2020 15:56:48 +0300
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1jQsWW-00082T-J6; Tue, 21 Apr 2020 09:01:12 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 03LCxgZF072456; Tue, 21 Apr 2020 08:59:46 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30gmuykkxs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Apr 2020 08:59:44 -0400
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 03LCxM0v071913;
+ Tue, 21 Apr 2020 08:59:23 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30gmuykjv4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Apr 2020 08:59:23 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 03LCtfN6020231;
+ Tue, 21 Apr 2020 12:57:05 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma03dal.us.ibm.com with ESMTP id 30fs66qey3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Apr 2020 12:57:05 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 03LCv3fF19464464
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 21 Apr 2020 12:57:03 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A42EBC6055;
+ Tue, 21 Apr 2020 12:57:03 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C75B9C6059;
+ Tue, 21 Apr 2020 12:57:01 +0000 (GMT)
+Received: from [9.65.251.67] (unknown [9.65.251.67])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue, 21 Apr 2020 12:57:01 +0000 (GMT)
+Subject: Re: [PATCH v3 4/7] vfio-ccw: Add support for the crw region
+To: Cornelia Huck <cohuck@redhat.com>
+References: <20200417023440.70514-1-farman@linux.ibm.com>
+ <20200417023440.70514-5-farman@linux.ibm.com>
+ <20200421142128.019f7e10.cohuck@redhat.com>
+From: Eric Farman <farman@linux.ibm.com>
+Message-ID: <3b8ff55a-a9d4-40f6-4346-542cbc4f9e08@linux.ibm.com>
+Date: Tue, 21 Apr 2020 08:57:00 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200421103307.GB479771@redhat.com>
+In-Reply-To: <20200421142128.019f7e10.cohuck@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 08:56:49
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 86.62.121.231
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
+ definitions=2020-04-21_05:2020-04-20,
+ 2020-04-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 adultscore=0 malwarescore=0
+ suspectscore=0 phishscore=0 spamscore=0 bulkscore=0 mlxlogscore=999
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004210100
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farman@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 08:59:46
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,26 +99,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Halil Pasic <pasic@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>,
+ qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Jared Rossi <jrossi@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-21.04.2020 13:33, Daniel P. Berrangé wrote:
-[]
-> Admittedly this may be troublesome for Debian which, AFAICT, does not
-> add new packages to pre-existing stable releases. Presumably someone
-> can add it to the "backports" release archive if this is too hard to
-> get into a stable release ? Failing that, users would have to build
-> slirp themselves.
 
-This wont be a problem for Debian really, exactly due to the reason you
-mentioned - backports.  I'm backporting libslirp and current qemu right
-now.
 
-Thanks!
+On 4/21/20 8:21 AM, Cornelia Huck wrote:
+> On Fri, 17 Apr 2020 04:34:37 +0200
+> Eric Farman <farman@linux.ibm.com> wrote:
+> 
+>> From: Farhan Ali <alifm@linux.ibm.com>
+>>
+>> The crw region can be used to obtain information about
+>> Channel Report Words (CRW) from vfio-ccw driver.
+>>
+>> Currently only channel path related CRWs are passed to
+>> QEMU from vfio-ccw driver.
+>>
+>> Signed-off-by: Farhan Ali <alifm@linux.ibm.com>
+>> Signed-off-by: Eric Farman <farman@linux.ibm.com>
+>> ---
+>>
+>> Notes:
+>>     v0->v1: [EF]
+>>      - Fixed copy/paste error in error message (s/schib/CRW)
+>>
+>>  hw/vfio/ccw.c | 18 ++++++++++++++++++
+>>  1 file changed, 18 insertions(+)
+> 
+> Maybe merge this into patch 7? It is small enough.
 
-/mjt
+Yeah, doesn't make much sense on its own.  Done.
+
+> 
+> Patch looks sane to me.
+> 
 
