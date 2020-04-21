@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC051B23F2
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 12:37:08 +0200 (CEST)
-Received: from localhost ([::1]:55426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABE891B240F
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 12:42:04 +0200 (CEST)
+Received: from localhost ([::1]:55490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQqH5-0003EX-CV
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 06:37:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46072)
+	id 1jQqLr-0005aW-Ck
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 06:42:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46704)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1jQqG2-0002ad-Ic
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:36:02 -0400
+ (envelope-from <berto@igalia.com>) id 1jQqKv-00055i-FV
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:41:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1jQqG0-0004Ts-9O
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:36:01 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:47579)
+ (envelope-from <berto@igalia.com>) id 1jQqKr-0003m8-LE
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:41:05 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:36421)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>) id 1jQqFz-0004Mr-9F
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:35:59 -0400
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1jQqKq-0003jg-Tk; Tue, 21 Apr 2020 06:41:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:To:From;
- bh=kv+2wD/YocAsLmzwvLaldiYbhcvS5dqkZiOZxeWuRg4=; 
- b=e3mHWt7emIxLWMYOnAATrH4zeJtBaK9HZ2Jb/HW0U23qkPfkfV8EbkQCIHMwfUwVeBsY5h80vO+nP+vTdAu8oxMB4XyZZGRgFCx9F2rPne4AZwqpRsxEUVasAf1wsGnrCLcx2JhDWZsncal6NiZUpHfZ+vNLdlRtIKuiTkUPkgd1Isvymf/p4WgpFSgSB+rWwyWZ6RnaJWlEG7BtQt7J3YuxSP/MMc6RoPA1rEc+9LZZuXyflJTGqdONzaEnkdnflGaxITDAi+w2d+ftDgkJYxlkZlBeCSzJSRsn1sbfsSpqU6LKOF6Aad0o2N3QinjlDy6QH3qhTDG8umj8iqh8hw==;
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=LRDYyK2Vqu7cmJLr8qjV0EjAnATp34KSqhJbIBCS9K8=; 
+ b=hDZlvLGlXU0G646i6BTuD3Mb6ZbhTAUW97MSJftlisDQIAkr/bZ1DUMpsNPQlhazXy7joSjym6eL3Q7Ggcaz8MVlSvSmEpnI7y/356nRQeU0+6TexM395fLS19WiO6cbDuMSb98cDsMBYvPkNB9S+nM4MHCWpfVdQ/STUQS/MD69lwArehpFr7MthQYa9SASSKdtiZM4AdlIl5BPNfs4CTiSbnaJZgTxo8tFQ2Jek7EOZ4TdD2vQLbhJ3DwjAGx70Asst4/nEIOKVfb+zr9pXTPJi3yuImC3I0J4DqFd0KTnKRCl2B9CIeuhwoauCP3NR9lFHy5irU581KOkc5qNgA==;
 Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
  by fanzine.igalia.com with esmtps 
  (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1jQqFu-0001LJ-Um; Tue, 21 Apr 2020 12:35:54 +0200
+ id 1jQqKm-0001py-Rq; Tue, 21 Apr 2020 12:40:56 +0200
 Received: from berto by mail.igalia.com with local (Exim)
- id 1jQqFu-0002MG-LZ; Tue, 21 Apr 2020 12:35:54 +0200
+ id 1jQqKm-0002c6-IO; Tue, 21 Apr 2020 12:40:56 +0200
 From: Alberto Garcia <berto@igalia.com>
-To: Derek Su <dereksu@qnap.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 00/30] Add subcluster allocation to qcow2
-In-Reply-To: <d27d16e3-f6c7-a960-5531-d3ed71b5b92a@qnap.com>
-References: <cover.1584468723.git.berto@igalia.com>
- <d27d16e3-f6c7-a960-5531-d3ed71b5b92a@qnap.com>
+To: Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v20 1/4] qcow2: introduce compression type feature
+In-Reply-To: <20200421081117.7595-2-dplotnikov@virtuozzo.com>
+References: <20200421081117.7595-1-dplotnikov@virtuozzo.com>
+ <20200421081117.7595-2-dplotnikov@virtuozzo.com>
 User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
  (i586-pc-linux-gnu)
-Date: Tue, 21 Apr 2020 12:35:54 +0200
-Message-ID: <w51368xazxx.fsf@maestria.local.igalia.com>
+Date: Tue, 21 Apr 2020 12:40:56 +0200
+Message-ID: <w51zhb59l53.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
@@ -59,26 +59,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
+ armbru@redhat.com, mreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue 21 Apr 2020 07:06:42 AM CEST, Derek Su <dereksu@qnap.com> wrote:
-> Hello,
+On Tue 21 Apr 2020 10:11:14 AM CEST, Denis Plotnikov <dplotnikov@virtuozzo.com> wrote:
+> The patch adds some preparation parts for incompatible compression type
+> feature to qcow2 allowing the use different compression methods for
+> image clusters (de)compressing.
 >
-> This work is promising and interesting.
-> I'd like to try this new feature.
-> Could you please export a branch because the patches cannot be applied
-> to current master?
+> It is implied that the compression type is set on the image creation and
+> can be changed only later by image conversion, thus compression type
+> defines the only compression algorithm used for the image, and thus,
+> for all image clusters.
+>
+> The goal of the feature is to add support of other compression methods
+> to qcow2. For example, ZSTD which is more effective on compression than ZLIB.
+>
+> The default compression is ZLIB. Images created with ZLIB compression type
+> are backward compatible with older qemu versions.
+>
+> Adding of the compression type breaks a number of tests because now the
+> compression type is reported on image creation and there are some changes
+> in the qcow2 header in size and offsets.
+>
+> The tests are fixed in the following ways:
+>     * filter out compression_type for many tests
+>     * fix header size, feature table size and backing file offset
+>       affected tests: 031, 036, 061, 080
+>       header_size +=8: 1 byte compression type
+>                        7 bytes padding
+>       feature_table += 48: incompatible feature compression type
+>       backing_file_offset += 56 (8 + 48 -> header_change + feature_table_change)
+>     * add "compression type" for test output matching when it isn't filtered
+>       affected tests: 049, 060, 061, 065, 144, 182, 242, 255
+>
+> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> QAPI part:
+> Acked-by: Markus Armbruster <armbru@redhat.com>
 
-Hi,
-
-you can apply v4 on top of 3189e9d38c82266ea5750a81255fd229c7ddf1e6
-
-I also plan to publish v5 this week.
-
-Any feedback is very much appreciated.
-
-Thanks!
+Reviewed-by: Alberto Garcia <berto@igalia.com>
 
 Berto
 
