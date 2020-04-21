@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C9621B2007
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 09:40:49 +0200 (CEST)
-Received: from localhost ([::1]:52588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 538741B1FFB
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 09:38:11 +0200 (CEST)
+Received: from localhost ([::1]:52556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQnWS-00037M-BA
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 03:40:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39802)
+	id 1jQnTt-0007ax-KS
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 03:38:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39752)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jQnSV-0006BG-0t
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:36:43 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jQnSM-00063E-KF
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:36:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jQnST-00077x-Vx
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:36:42 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jQnSM-0006jh-Ag
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:36:34 -0400
 Received: from mail-db8eur05on2107.outbound.protection.outlook.com
  ([40.107.20.107]:47520 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jQnSH-0006Xr-B5; Tue, 21 Apr 2020 03:36:29 -0400
+ id 1jQnSI-0006Xr-NR; Tue, 21 Apr 2020 03:36:31 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LoASxwS9S7EBEsbL1MF+q4sGT9NblXverv7u/KAFkF7+9H5EueHCXuBqyeSA1gPgeN5L053WirAmejoiBYPR9lKfXovGX0C4z7AGydI0wSrI3Xny9pkuLU5AvkIeXLz8OteTKTL1FT/+my7AZuV/8apax5DnbGhijlRh9Ys0p1EmeU4LqXw01nomjA9L5kUztOXhAy73+y4J0Vc/z491IbeGRenVJ2WQrWgddP3MqdOSb3308RHjkHITTQPzvIDqT3H9DXOTUlXZhzMEf+q6bZ/X2w6aTxwXmPD0ScuuGug30lPbUotv2Vw7HKQFMLe7crbRMDmbaW1xUaYrrETJmQ==
+ b=gE221m0FML6WyD/jkZRdQATEOC3087mvEuWMHD8G4b3HJ3UNgpeJy0HPLmM8p0Ywo5IwS0kCeTnw1f7ZPGbMR+J8PiGCJwH7EuqgeYTF4nzCt2udRI1gaqfw9By/fFMPHjfooPir+JR2xLtFzQADoRruDXolMdeGhKes3NCf+brT2vjRQK+XxkxzthmNf/TDCV7Rf9YsX0NXAX7R0cAfSLcc51cAHmJAtBBQskzCmp1ilQ1wO1d3yJ1V1JeQY5L17R6XrlLHsGqclhg2zfvXnVN0ET0KpZtuDIKLimZqQ7UINr9ZsA/FfCTOzXf7OovfcC+KvIP2YHlhJBzdGwzfxQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fMw6YYnxDt+5EUStQOqOSF7YwuagnE5NW14l6OIYrpg=;
- b=dc+QAcfFMEwEjlo7iAq83nW4i0OvGZ5ZDomQ7ozdAFE2oT1FY/FY3unofVMcZK5lYzQLGHghHBy1K/KPY1F2zBwL1OoA7WcKtoxRBZRq1eNWviqPj1Z9rKZZLby0Wr96lV4e2z08d4Upq/Ig8F1S5DeCwne84s1CtayuPfG+FyoMjZZQG0xuMt4qrWhB/35TUMHD8iAtzzpuCvaDM/hyFbhmsJnkwqaLnN7UEk8KVYVdokVhYlSYcpGD7mv1FpTuxUa2GiKs9atONsdKRiYi4iNygKrF7QieSTXK1rqBI0UPtf91pFeYisHWOOPjmvfXIR/PCNN+RxyarI86zBCIZQ==
+ bh=a3kpuNXgJNYvzwNfZ+HpmEadCpsjCdeTpOSyvOFsTAA=;
+ b=YH9rwaMO3vss4sVbyFtOMUo8G6ULzUJg5GGP7p9pWShhWb21BAiVXItw4dEg4vBNj/+4bAFDvIYifWwA6239uvnX88P0ypTQIN5RlV/UCjqouRO/B1d6iyhEGoG8tvw8DeME9gHc62F/P5zA8UA1Ov6gq+MpFwTi2T0l2uY12XOeoafIUciKXKVovGQoC+JxndXutzn6nqiDT1+BpIkff+TSr/YohDEdlxOMINReAhcGL6lYgfnO+rF+f4hWvVQBxP+DurqC2He/jgddv0roKqm3dRMWvsDWHXWzR4tcSr7ipB/3a6rr+cuwOT5JbLTqype7ZguqUta3yQ4mLLPFTg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fMw6YYnxDt+5EUStQOqOSF7YwuagnE5NW14l6OIYrpg=;
- b=LlabGQeND5rTFLWTje/vMXihcEa+2RW2QM+u4YZhbxQ06bZQzNWsAmgWdJ18FekABBK3CAp+DweSfTwpkxyAoMhMmtRZIVAW3+OA2o/6aehs1wdQAoe5BcDzpSy38wAp7tSD13c6Ij007zwNbFP3AOYJ0Z0E1n8fwxGY/I5Xa2I=
+ bh=a3kpuNXgJNYvzwNfZ+HpmEadCpsjCdeTpOSyvOFsTAA=;
+ b=uDGidpkOOnfl/Doe5r0JZcUqTrdXtAWADAxmLaAMx6oXLIPlQU+QvNUpoSSKUlKCOT2+RPzt+hchSFeAtuXrnQWWZQBwF8n/b8k6uV9ZlETB4289H+WSZoKFVAXBS/4xSOR0tb5VEPTBLz9YldBq6P8fm2v2fVr+UYn1lL1rFWE=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=vsementsov@virtuozzo.com; 
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5397.eurprd08.prod.outlook.com (2603:10a6:20b:dd::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.27; Tue, 21 Apr
- 2020 07:36:26 +0000
+ 2020 07:36:28 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2921.027; Tue, 21 Apr 2020
- 07:36:26 +0000
+ 07:36:28 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 00/10] Rework iotests/check
-Date: Tue, 21 Apr 2020 10:35:51 +0300
-Message-Id: <20200421073601.28710-1-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 01/10] iotests/277: use dot slash for nbd-fault-injector.py
+ running
+Date: Tue, 21 Apr 2020 10:35:52 +0300
+Message-Id: <20200421073601.28710-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200421073601.28710-1-vsementsov@virtuozzo.com>
+References: <20200421073601.28710-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: AM3PR07CA0137.eurprd07.prod.outlook.com
@@ -63,34 +66,34 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.142) by
  AM3PR07CA0137.eurprd07.prod.outlook.com (2603:10a6:207:8::23) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2937.9 via Frontend Transport; Tue, 21 Apr 2020 07:36:24 +0000
+ 15.20.2937.9 via Frontend Transport; Tue, 21 Apr 2020 07:36:26 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.142]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 76cb50b5-8034-4643-51d9-08d7e5c6b28e
+X-MS-Office365-Filtering-Correlation-Id: 1881dcb9-fa2f-49a8-5423-08d7e5c6b3c8
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5397:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB53971BB3450FE9148E65BBE2C1D50@AM7PR08MB5397.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5397F50113727791BC2BF487C1D50@AM7PR08MB5397.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:345;
 X-Forefront-PRVS: 038002787A
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(10019020)(4636009)(346002)(396003)(376002)(39840400004)(136003)(366004)(36756003)(1076003)(6916009)(5660300002)(6666004)(6512007)(186003)(4326008)(316002)(2616005)(956004)(16526019)(69590400007)(66556008)(66476007)(66946007)(26005)(2906002)(8936002)(8676002)(81156014)(6506007)(6486002)(478600001)(86362001)(52116002);
+ SFS:(10019020)(4636009)(346002)(396003)(376002)(39840400004)(136003)(366004)(36756003)(1076003)(6916009)(5660300002)(6666004)(6512007)(186003)(4326008)(316002)(2616005)(956004)(16526019)(69590400007)(66556008)(66476007)(66946007)(26005)(2906002)(4744005)(8936002)(8676002)(81156014)(6506007)(6486002)(478600001)(86362001)(52116002);
  DIR:OUT; SFP:1102; 
 Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6y2p3Kw1X3t2gywVtbx7bNI3y+2Q2Q4C4X4OADl6HFrIRXWfjoUnCI+6rqLln38ZCP2Z2xp1HvemJU4CEx0XnNh+IXpbO2z9Vw0sVYrVf67qaaT6HnEJMqvPPTRMn9jyKj1ScRzWMH9YSfjnbVSwQpjoPLqQ58z4nAbksSb/7EtptSA5stfGWvc/eOwXfY1b8Xjtz8t8ogt7PNgFvkoX7LnRzMUWAc+0ajrIP/kgr0Huzbtgnt9nvjWmFgrrJ3eKNLJuutoL5EGWK0WlZ68DXkUG0sN1GhJ0YfsMJoZ6Vdow1BIjvqu54+XNPQIymmqA3GegcflkIoRFZ8u/ul4Ctc2SSxWe75qkObJsPTG8eCZpMaEUK6HRtZ6/e03vU/BSXlHHQy9nuObOIKLFQQVm/s1IY0Is8ndlViZvweBCBxg7ANwNfOf4IFKE2SGpGXmblsyJ5FEnu5KT5xcORgFtu9RN4vJUPtI+EGaVlubpUhCuVEC8U9ipcVViIpaYdgR5
-X-MS-Exchange-AntiSpam-MessageData: RAfElM98MQZA2HSo3otj77neNyYLGSFtNeS9WsJHczMWe1tvTMbYR7rmNN7uhjJRri7pwsAUBBV8P6iXGGFuKm1R3pJJDdKWypU6LCYfK0U/hoXFPQVy041YCaLJGFHjgjDoT+e5GCrr9Z/pnLjybg==
+X-Microsoft-Antispam-Message-Info: ibt/dk3aFv5RWNcktTlwNklWBdjMbFAWF9xtULh37vfCi0oWYSRpBG9pe7fQkJyrW4YlQS+RPqcGwn+7brSag1bYQg5UDDFVWwEoaac26/jILRTuxiB4vY1mtYBZRxNtqTCdJdq4Ot97ED+g1lNbFXCP2GKQfxeRe41G8ZG8aAOzT7ar1DD6SjWi4rLvc0sTbUS5jFdcSpSGvdVJ33IeQpiBrfHmRm+aCSiuk/FhU+BDZx6ouP3BpydXr/dgky9IbGQb9WoWcwvax5rik4iZOYeMG9Mwao/dDL/xBELljijOOHEyW4vlkevzB0SiDmrYiBnrszS2J2A0CzWnP5zh+vIN+S0kY1KfjxKnGlIfgQyin71J6BgOl+rAD5zYuaMtdvecYxicCShrOwddE5OyhaES+oEhO/Xd99pnjveBxP07iH3LMVcXlD8fyBZAcEFWMj/S0YMgXjc4xV7xyOwtUWU1XABodeNTOdTLd8jUpzk0TO5MXVKoejM4XUYbYwBZ
+X-MS-Exchange-AntiSpam-MessageData: 9TkQcCKo22+qZHvoR8w4ahyRqJHxSQu/eP+v3DMt4oaqG2h6gYNRTG0v84CjcRF64OnY3aYYFaLmfyej3tWP4tWipSWt9OEIilxj43qEE7MyZNEHV4LTj94g+FWP+xe52oG2divpizPGQlO5c6iOdw==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 76cb50b5-8034-4643-51d9-08d7e5c6b28e
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2020 07:36:26.3119 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1881dcb9-fa2f-49a8-5423-08d7e5c6b3c8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2020 07:36:28.1776 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: J2qj2MfsLRGj5mvX+szG698UTpM1Amizd2F9dDShdEhE/zE33umzmTU511FBvqOtL0oTveF4uNDJYLo1/pAM7DS8vVU6CnH2ltR8njeuwdg=
+X-MS-Exchange-CrossTenant-UserPrincipalName: YPMaht6n4EvDQwxG9rfm0NkJwSPVLzzlD7vPy81UQs/CR+hhhXqIGZeFEYw5TEauDOvL6Td1zrSEP1v/U9e6fd8W+AV7ZYvcsUxImeRsumw=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5397
 Received-SPF: pass client-ip=40.107.20.107;
  envelope-from=vsementsov@virtuozzo.com;
@@ -114,321 +117,28 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+Somehow, this doesn't work if you just call ./277. But check 277 works.
+We are going to new iotests running framework, which will consider test
+files as self-executable, so let's just change it now.
 
-This is a continuation for "[PATCH v2 0/2] Rework iotests finding",
-so main user-visible feature here is removing tests/qemu-iotests/group
-file, define groups in tests and allow human-readable names for iotests.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ tests/qemu-iotests/277 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-While being here, rewrite check into python :) I tried to keep most of
-its behavior, still some changes are made and described in three main
-commits 06-08.
-
-Vladimir Sementsov-Ogievskiy (10):
-  iotests/277: use dot slash for nbd-fault-injector.py running
-  iotests: fix some whitespaces in test output files
-  iotests/283: make executable
-  iotests/check: move QEMU_VXHS_PROG to common.rc
-  iotests: define group in each iotest
-  iotests: add testfinder.py
-  iotests: add testenv.py
-  iotests: add testrunner.py
-  iotests: rewrite check into python
-  iotests: rename 169 and 199
-
- docs/devel/testing.rst                        |  52 +-
- tests/qemu-iotests/001                        |   1 +
- tests/qemu-iotests/002                        |   1 +
- tests/qemu-iotests/003                        |   1 +
- tests/qemu-iotests/004                        |   1 +
- tests/qemu-iotests/005                        |   1 +
- tests/qemu-iotests/007                        |   1 +
- tests/qemu-iotests/008                        |   1 +
- tests/qemu-iotests/009                        |   1 +
- tests/qemu-iotests/010                        |   1 +
- tests/qemu-iotests/011                        |   1 +
- tests/qemu-iotests/012                        |   1 +
- tests/qemu-iotests/013                        |   1 +
- tests/qemu-iotests/014                        |   1 +
- tests/qemu-iotests/015                        |   1 +
- tests/qemu-iotests/017                        |   1 +
- tests/qemu-iotests/018                        |   1 +
- tests/qemu-iotests/019                        |   1 +
- tests/qemu-iotests/020                        |   1 +
- tests/qemu-iotests/021                        |   1 +
- tests/qemu-iotests/022                        |   1 +
- tests/qemu-iotests/023                        |   1 +
- tests/qemu-iotests/024                        |   1 +
- tests/qemu-iotests/025                        |   1 +
- tests/qemu-iotests/026                        |   1 +
- tests/qemu-iotests/027                        |   1 +
- tests/qemu-iotests/028                        |   1 +
- tests/qemu-iotests/029                        |   1 +
- tests/qemu-iotests/030                        |   1 +
- tests/qemu-iotests/031                        |   1 +
- tests/qemu-iotests/032                        |   1 +
- tests/qemu-iotests/033                        |   1 +
- tests/qemu-iotests/034                        |   1 +
- tests/qemu-iotests/035                        |   1 +
- tests/qemu-iotests/036                        |   1 +
- tests/qemu-iotests/037                        |   1 +
- tests/qemu-iotests/038                        |   1 +
- tests/qemu-iotests/039                        |   1 +
- tests/qemu-iotests/040                        |   1 +
- tests/qemu-iotests/041                        |   1 +
- tests/qemu-iotests/042                        |   1 +
- tests/qemu-iotests/043                        |   1 +
- tests/qemu-iotests/044                        |   1 +
- tests/qemu-iotests/045                        |   1 +
- tests/qemu-iotests/046                        |   1 +
- tests/qemu-iotests/047                        |   1 +
- tests/qemu-iotests/048                        |   1 +
- tests/qemu-iotests/049                        |   1 +
- tests/qemu-iotests/050                        |   1 +
- tests/qemu-iotests/051                        |   1 +
- tests/qemu-iotests/052                        |   1 +
- tests/qemu-iotests/053                        |   1 +
- tests/qemu-iotests/054                        |   1 +
- tests/qemu-iotests/055                        |   1 +
- tests/qemu-iotests/056                        |   1 +
- tests/qemu-iotests/057                        |   1 +
- tests/qemu-iotests/058                        |   1 +
- tests/qemu-iotests/059                        |   1 +
- tests/qemu-iotests/060                        |   1 +
- tests/qemu-iotests/061                        |   1 +
- tests/qemu-iotests/062                        |   1 +
- tests/qemu-iotests/063                        |   1 +
- tests/qemu-iotests/064                        |   1 +
- tests/qemu-iotests/065                        |   1 +
- tests/qemu-iotests/066                        |   1 +
- tests/qemu-iotests/067                        |   1 +
- tests/qemu-iotests/068                        |   1 +
- tests/qemu-iotests/069                        |   1 +
- tests/qemu-iotests/070                        |   1 +
- tests/qemu-iotests/071                        |   1 +
- tests/qemu-iotests/072                        |   1 +
- tests/qemu-iotests/073                        |   1 +
- tests/qemu-iotests/074                        |   1 +
- tests/qemu-iotests/075                        |   1 +
- tests/qemu-iotests/076                        |   1 +
- tests/qemu-iotests/077                        |   1 +
- tests/qemu-iotests/078                        |   1 +
- tests/qemu-iotests/079                        |   1 +
- tests/qemu-iotests/080                        |   1 +
- tests/qemu-iotests/081                        |   1 +
- tests/qemu-iotests/082                        |   1 +
- tests/qemu-iotests/083                        |   1 +
- tests/qemu-iotests/084                        |   1 +
- tests/qemu-iotests/085                        |   1 +
- tests/qemu-iotests/086                        |   1 +
- tests/qemu-iotests/087                        |   1 +
- tests/qemu-iotests/088                        |   1 +
- tests/qemu-iotests/089                        |   1 +
- tests/qemu-iotests/090                        |   1 +
- tests/qemu-iotests/091                        |   1 +
- tests/qemu-iotests/092                        |   1 +
- tests/qemu-iotests/093                        |   1 +
- tests/qemu-iotests/094                        |   1 +
- tests/qemu-iotests/095                        |   1 +
- tests/qemu-iotests/096                        |   1 +
- tests/qemu-iotests/097                        |   1 +
- tests/qemu-iotests/098                        |   1 +
- tests/qemu-iotests/099                        |   1 +
- tests/qemu-iotests/101                        |   1 +
- tests/qemu-iotests/102                        |   1 +
- tests/qemu-iotests/103                        |   1 +
- tests/qemu-iotests/104                        |   1 +
- tests/qemu-iotests/105                        |   1 +
- tests/qemu-iotests/106                        |   1 +
- tests/qemu-iotests/107                        |   1 +
- tests/qemu-iotests/108                        |   1 +
- tests/qemu-iotests/109                        |   1 +
- tests/qemu-iotests/110                        |   1 +
- tests/qemu-iotests/111                        |   1 +
- tests/qemu-iotests/112                        |   1 +
- tests/qemu-iotests/113                        |   1 +
- tests/qemu-iotests/114                        |   1 +
- tests/qemu-iotests/115                        |   1 +
- tests/qemu-iotests/116                        |   1 +
- tests/qemu-iotests/117                        |   1 +
- tests/qemu-iotests/118                        |   1 +
- tests/qemu-iotests/119                        |   1 +
- tests/qemu-iotests/120                        |   1 +
- tests/qemu-iotests/121                        |   1 +
- tests/qemu-iotests/122                        |   1 +
- tests/qemu-iotests/123                        |   1 +
- tests/qemu-iotests/124                        |   1 +
- tests/qemu-iotests/125                        |   1 +
- tests/qemu-iotests/126                        |   1 +
- tests/qemu-iotests/127                        |   1 +
- tests/qemu-iotests/128                        |   1 +
- tests/qemu-iotests/129                        |   1 +
- tests/qemu-iotests/130                        |   1 +
- tests/qemu-iotests/131                        |   1 +
- tests/qemu-iotests/132                        |   1 +
- tests/qemu-iotests/133                        |   1 +
- tests/qemu-iotests/134                        |   1 +
- tests/qemu-iotests/135                        |   1 +
- tests/qemu-iotests/136                        |   1 +
- tests/qemu-iotests/137                        |   1 +
- tests/qemu-iotests/138                        |   1 +
- tests/qemu-iotests/139                        |   1 +
- tests/qemu-iotests/140                        |   1 +
- tests/qemu-iotests/141                        |   1 +
- tests/qemu-iotests/143                        |   1 +
- tests/qemu-iotests/144                        |   1 +
- tests/qemu-iotests/145                        |   1 +
- tests/qemu-iotests/146                        |   1 +
- tests/qemu-iotests/147                        |   1 +
- tests/qemu-iotests/148                        |   1 +
- tests/qemu-iotests/149                        |   1 +
- tests/qemu-iotests/150                        |   1 +
- tests/qemu-iotests/151                        |   1 +
- tests/qemu-iotests/152                        |   1 +
- tests/qemu-iotests/153                        |   1 +
- tests/qemu-iotests/154                        |   1 +
- tests/qemu-iotests/155                        |   1 +
- tests/qemu-iotests/156                        |   1 +
- tests/qemu-iotests/157                        |   1 +
- tests/qemu-iotests/158                        |   1 +
- tests/qemu-iotests/159                        |   1 +
- tests/qemu-iotests/160                        |   1 +
- tests/qemu-iotests/161                        |   1 +
- tests/qemu-iotests/162                        |   1 +
- tests/qemu-iotests/163                        |   1 +
- tests/qemu-iotests/165                        |   1 +
- tests/qemu-iotests/170                        |   1 +
- tests/qemu-iotests/171                        |   1 +
- tests/qemu-iotests/172                        |   1 +
- tests/qemu-iotests/173                        |   1 +
- tests/qemu-iotests/174                        |   1 +
- tests/qemu-iotests/175                        |   1 +
- tests/qemu-iotests/175.out                    |   2 +-
- tests/qemu-iotests/176                        |   1 +
- tests/qemu-iotests/177                        |   1 +
- tests/qemu-iotests/178                        |   1 +
- tests/qemu-iotests/179                        |   1 +
- tests/qemu-iotests/181                        |   1 +
- tests/qemu-iotests/182                        |   1 +
- tests/qemu-iotests/183                        |   1 +
- tests/qemu-iotests/184                        |   1 +
- tests/qemu-iotests/185                        |   1 +
- tests/qemu-iotests/186                        |   1 +
- tests/qemu-iotests/187                        |   1 +
- tests/qemu-iotests/188                        |   1 +
- tests/qemu-iotests/189                        |   1 +
- tests/qemu-iotests/190                        |   1 +
- tests/qemu-iotests/191                        |   1 +
- tests/qemu-iotests/192                        |   1 +
- tests/qemu-iotests/194                        |   1 +
- tests/qemu-iotests/195                        |   1 +
- tests/qemu-iotests/196                        |   1 +
- tests/qemu-iotests/197                        |   1 +
- tests/qemu-iotests/198                        |   1 +
- tests/qemu-iotests/200                        |   1 +
- tests/qemu-iotests/201                        |   1 +
- tests/qemu-iotests/202                        |   1 +
- tests/qemu-iotests/203                        |   1 +
- tests/qemu-iotests/204                        |   1 +
- tests/qemu-iotests/205                        |   1 +
- tests/qemu-iotests/206                        |   1 +
- tests/qemu-iotests/207                        |   1 +
- tests/qemu-iotests/208                        |   1 +
- tests/qemu-iotests/209                        |   1 +
- tests/qemu-iotests/210                        |   1 +
- tests/qemu-iotests/211                        |   1 +
- tests/qemu-iotests/212                        |   1 +
- tests/qemu-iotests/213                        |   1 +
- tests/qemu-iotests/214                        |   1 +
- tests/qemu-iotests/215                        |   1 +
- tests/qemu-iotests/216                        |   1 +
- tests/qemu-iotests/217                        |   1 +
- tests/qemu-iotests/218                        |   1 +
- tests/qemu-iotests/219                        |   1 +
- tests/qemu-iotests/220                        |   1 +
- tests/qemu-iotests/221                        |   1 +
- tests/qemu-iotests/222                        |   1 +
- tests/qemu-iotests/223                        |   1 +
- tests/qemu-iotests/224                        |   1 +
- tests/qemu-iotests/225                        |   1 +
- tests/qemu-iotests/226                        |   1 +
- tests/qemu-iotests/227                        |   1 +
- tests/qemu-iotests/228                        |   1 +
- tests/qemu-iotests/229                        |   1 +
- tests/qemu-iotests/231                        |   1 +
- tests/qemu-iotests/232                        |   1 +
- tests/qemu-iotests/233                        |   1 +
- tests/qemu-iotests/234                        |   1 +
- tests/qemu-iotests/235                        |   1 +
- tests/qemu-iotests/236                        |   1 +
- tests/qemu-iotests/237                        |   1 +
- tests/qemu-iotests/238                        |   1 +
- tests/qemu-iotests/239                        |   1 +
- tests/qemu-iotests/240                        |   1 +
- tests/qemu-iotests/241                        |   1 +
- tests/qemu-iotests/242                        |   1 +
- tests/qemu-iotests/243                        |   1 +
- tests/qemu-iotests/244                        |   1 +
- tests/qemu-iotests/245                        |   1 +
- tests/qemu-iotests/246                        |   1 +
- tests/qemu-iotests/247                        |   1 +
- tests/qemu-iotests/248                        |   1 +
- tests/qemu-iotests/249                        |   1 +
- tests/qemu-iotests/250                        |   1 +
- tests/qemu-iotests/251                        |   1 +
- tests/qemu-iotests/252                        |   1 +
- tests/qemu-iotests/253                        |   1 +
- tests/qemu-iotests/254                        |   1 +
- tests/qemu-iotests/255                        |   1 +
- tests/qemu-iotests/256                        |   1 +
- tests/qemu-iotests/257                        |   1 +
- tests/qemu-iotests/258                        |   1 +
- tests/qemu-iotests/259                        |   1 +
- tests/qemu-iotests/260                        |   1 +
- tests/qemu-iotests/261                        |   1 +
- tests/qemu-iotests/262                        |   1 +
- tests/qemu-iotests/263                        |   1 +
- tests/qemu-iotests/264                        |   1 +
- tests/qemu-iotests/265                        |   1 +
- tests/qemu-iotests/266                        |   1 +
- tests/qemu-iotests/267                        |   1 +
- tests/qemu-iotests/267.out                    |  48 +-
- tests/qemu-iotests/268                        |   1 +
- tests/qemu-iotests/270                        |   1 +
- tests/qemu-iotests/272                        |   1 +
- tests/qemu-iotests/273                        |   1 +
- tests/qemu-iotests/277                        |   3 +-
- tests/qemu-iotests/279                        |   1 +
- tests/qemu-iotests/280                        |   1 +
- tests/qemu-iotests/281                        |   1 +
- tests/qemu-iotests/282                        |   1 +
- tests/qemu-iotests/283                        |   1 +
- tests/qemu-iotests/284                        |   1 +
- tests/qemu-iotests/286                        |   1 +
- tests/qemu-iotests/288                        |   1 +
- tests/qemu-iotests/289                        |   1 +
- tests/qemu-iotests/290                        |   1 +
- tests/qemu-iotests/check                      | 980 +-----------------
- tests/qemu-iotests/common.rc                  |  14 +
- tests/qemu-iotests/group                      | 299 ------
- .../{199 => migrate-bitmaps-postcopy-test}    |   1 +
- ....out => migrate-bitmaps-postcopy-test.out} |   0
- .../{169 => migrate-bitmaps-test}             |   1 +
- .../{169.out => migrate-bitmaps-test.out}     |   0
- tests/qemu-iotests/testenv.py                 | 332 ++++++
- tests/qemu-iotests/testfinder.py              | 167 +++
- tests/qemu-iotests/testrunner.py              | 334 ++++++
- 282 files changed, 1223 insertions(+), 1278 deletions(-)
- mode change 100644 => 100755 tests/qemu-iotests/283
- delete mode 100644 tests/qemu-iotests/group
- rename tests/qemu-iotests/{199 => migrate-bitmaps-postcopy-test} (99%)
- rename tests/qemu-iotests/{199.out => migrate-bitmaps-postcopy-test.out} (100%)
- rename tests/qemu-iotests/{169 => migrate-bitmaps-test} (99%)
- rename tests/qemu-iotests/{169.out => migrate-bitmaps-test.out} (100%)
- create mode 100755 tests/qemu-iotests/testenv.py
- create mode 100755 tests/qemu-iotests/testfinder.py
- create mode 100644 tests/qemu-iotests/testrunner.py
-
+diff --git a/tests/qemu-iotests/277 b/tests/qemu-iotests/277
+index 04aa15a3d5..a4ef1a38c6 100755
+--- a/tests/qemu-iotests/277
++++ b/tests/qemu-iotests/277
+@@ -40,7 +40,7 @@ def make_conf_file(event):
+ def start_server_NBD(event):
+     make_conf_file(event)
+ 
+-    srv = subprocess.Popen(['nbd-fault-injector.py', '--classic-negotiation',
++    srv = subprocess.Popen(['./nbd-fault-injector.py', '--classic-negotiation',
+                            nbd_sock, conf_file], stdout=subprocess.PIPE,
+                            stderr=subprocess.STDOUT, universal_newlines=True)
+     line = srv.stdout.readline()
 -- 
 2.21.0
 
