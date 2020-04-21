@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90971B2C8F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 18:24:25 +0200 (CEST)
-Received: from localhost ([::1]:32812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CBD51B2C8C
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 18:22:57 +0200 (CEST)
+Received: from localhost ([::1]:32776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQvhA-0004ac-Rz
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 12:24:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54000)
+	id 1jQvfk-0001x8-IH
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 12:22:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54004)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jQveF-0000lC-Ol
+ (envelope-from <peterx@redhat.com>) id 1jQveG-0000mZ-O7
  for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:21:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jQveA-00045T-Qt
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:21:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55997
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <peterx@redhat.com>) id 1jQveB-00045y-Tw
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:21:24 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28741
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jQveA-00043t-Dc
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:21:18 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jQveB-00045G-IM
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:21:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587486075;
+ s=mimecast20190719; t=1587486078;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=dytfVvl8cVtUWQSCTnW2pyLGwH37x9vBssVjcyN1zFg=;
- b=BV37/YtIG8thVgq9DyD9kXwjhsZQQskH6TSioF0Rl9JkDgsfLppEU56ji/60w6BmSQLK/5
- 9TRVm7WsT+Ca7ka0G2Z/zwLUXSI+gXwBE2Tf0rOAv4HJ0SFtjL3D1T/kgbLUZrlYuT+m3N
- oNqtlERKEi5FDnA4CvFjxa6jSkIrSVI=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-SzFgKnNRPm23dd8ZxNORUQ-1; Tue, 21 Apr 2020 12:21:11 -0400
-X-MC-Unique: SzFgKnNRPm23dd8ZxNORUQ-1
-Received: by mail-qk1-f200.google.com with SMTP id d15so14656200qkg.1
- for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 09:21:11 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=I0YrSfJZG3OCin0XwLpQsE2WSkg0EXuV6HT6X0zjKVY=;
+ b=IXMbUQeAyP0w2hQa/+ubzem/zA6rxKSMwAFUp9qBFzj3/69c//7yBAnujJsAxPeRNgxMWm
+ tAiPhJkSCDIGBf9U09R4DROXAA1dIEKnFy5r4IQKIdnAwjXHXnQyFb6DLsKFby9mR/SOBK
+ 78ixMGIrWaaYwuhvry9juDV0F5uVHRg=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-305-bTONjKJXMB-TwcXF8KhEnQ-1; Tue, 21 Apr 2020 12:21:16 -0400
+X-MC-Unique: bTONjKJXMB-TwcXF8KhEnQ-1
+Received: by mail-qt1-f197.google.com with SMTP id f56so15324186qte.18
+ for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 09:21:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hsoqA2dLDfxYMxPVALk1kTnKU72E+7GRAZddtBNh06o=;
- b=dPdqm8Nfs0vYGQ538l/TzhPNgB+7RjHTapf682GDThNtZj3qMj0X/+MJNdaezMu2uh
- GnZb7VXWQzdfSf8WCqEbnP7QvyuObxHR596zZ7lTYVbWEQnY30giU1Bsi3Qw2J++ts8Z
- fZ8kY8iowjTGZSvh6aiTx/qBVg9ptpNO/j1ELd7LlUHCshEMlWhsSp755Sqj9YVHxNDx
- 345DsueJ2iabw1WLyr4bCdFfGmMVvyckBvuReCZRoiPephPj6dtvAbjDB6sySG94/4//
- kASkOszXPuD/zySG9lcW1Uv83Ka+PoN5DQJqW1qO8epC5yjzcvKUTMeSRlzM9v+bDVxW
- aAbw==
-X-Gm-Message-State: AGi0PuZLyhk4dmBNDakQHlWKvcN9dgINjqNjPKzcjezyYSyaWc+fU555
- 5osIpecBZc7yid1oPkIyVXxy3lhh6CFMmYU8yuukZbbjBRXlk5MSLlEE31hS7m8WFPd6ZFE+b8i
- u4b+MZ+QfOj+rZcs=
-X-Received: by 2002:ac8:51cd:: with SMTP id d13mr22020810qtn.174.1587486070885; 
- Tue, 21 Apr 2020 09:21:10 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKoMv4pRnTMUTOHP15hrRags4Hbgg/9WL8RgzlRX4709/5HfFLXqiAU0d5bUVfEHuTyPd+apw==
-X-Received: by 2002:ac8:51cd:: with SMTP id d13mr22020788qtn.174.1587486070599; 
- Tue, 21 Apr 2020 09:21:10 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ZpjWesWQtez4RVwbFQXrjywWOT0CDQMzNzTMHASVusg=;
+ b=O01WSumiTLzz4EHYyFzd+jU9zEALDwNITCMz2rzZXwPA9v7LhB+Ow3uTM3yuGhDDnA
+ 7PPnlT0JqcjytwSocnlkFztftYwuBMZMU9DrqgMJN+cSNh722Ya+Q/Z0YKV+ebWtTyEh
+ m+MC+90SgKvs2ptpxNWrX/VXWWW1GlF6ANE6XFcc1o6qp0Kk5FAke0GUuTo4GsaZFZPw
+ 9DxSusHic3kuJhMLW560rqSgiRFSVhxUie8z+YVaQF1AyKpbnCkTC12ing+PPRve34do
+ Af5MknXR0FgtoGpxmDDinJWeBh2hPGVTlBRuyJBnevcBa19nqe0i03tpa778s/bcV/yS
+ HJqQ==
+X-Gm-Message-State: AGi0PubE/OE5EvKp9tCyF+CycSTxhgPIsSc7iI7O63Ecw+p//JhJFyAx
+ yB92KX15NOS9SHwryW6PrF17UWa28f1PgsWlBoWNcPcZPmRoDb3iJhFqAliWfmNafu42WJF3QqZ
+ wbJQkSfQ30BB4gjw=
+X-Received: by 2002:a0c:f883:: with SMTP id u3mr20841115qvn.86.1587486075659; 
+ Tue, 21 Apr 2020 09:21:15 -0700 (PDT)
+X-Google-Smtp-Source: APiQypI4ZYxDlkw7lZXId1vwb0Snhu5C16MYvVeIRWGMGcHSua539raQFqse1kuOWbXHqS8a+pp4MQ==
+X-Received: by 2002:a0c:f883:: with SMTP id u3mr20841022qvn.86.1587486074472; 
+ Tue, 21 Apr 2020 09:21:14 -0700 (PDT)
 Received: from xz-x1.redhat.com ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id u5sm2034393qkm.116.2020.04.21.09.21.09
+ by smtp.gmail.com with ESMTPSA id k43sm2111531qtk.67.2020.04.21.09.21.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Apr 2020 09:21:09 -0700 (PDT)
+ Tue, 21 Apr 2020 09:21:13 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/8] memory: Sanity checks memory transaction when releasing
- BQL
-Date: Tue, 21 Apr 2020 12:21:00 -0400
-Message-Id: <20200421162108.594796-1-peterx@redhat.com>
+Subject: [PATCH 1/8] memory: Introduce memory_region_transaction_{push|pop}()
+Date: Tue, 21 Apr 2020 12:21:01 -0400
+Message-Id: <20200421162108.594796-2-peterx@redhat.com>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200421162108.594796-1-peterx@redhat.com>
+References: <20200421162108.594796-1-peterx@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=peterx@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 11:47:46
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 01:28:51
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,40 +94,53 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, peterx@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a continuous work of previous discussion on memory transactions [1]=
-.
-It should be helpful to fail QEMU far earlier if there's misuse of BQL agai=
-nst
-the QEMU memory model.
+memory_region_transaction_{begin|commit}() could be too big when finalizing=
+ a
+memory region.  E.g., we should never attempt to update address space topol=
+ogy
+during the finalize() of a memory region.  Provide helpers for further use.
 
-One example is run_on_cpu() during memory commit.  That'll work previously,=
- but
-it'll fail with very strange errors (like KVM ioctl failure due to memslot
-already existed, and it's not guaranteed to trigger constantly).  Now it'll
-directly fail when run_on_cpu() is called.
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ memory.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-Please have a look, thanks.
-
-[1] https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg03205.html
-
-Peter Xu (8):
-  memory: Introduce memory_region_transaction_{push|pop}()
-  memory: Don't do topology update in memory finalize()
-  cpus: Use qemu_cond_wait_iothread() where proper
-  cpus: Introduce qemu_cond_timedwait_iothread()
-  cpus: Remove the mutex parameter from do_run_on_cpu()
-  cpus: Introduce qemu_mutex_unlock_iothread_prepare()
-  memory: Assert on no ongoing memory transaction before release BQL
-  memory: Delay the transaction pop() until commit completed
-
- cpus-common.c                  |  5 ++--
- cpus.c                         | 32 ++++++++++++++------
- include/exec/memory-internal.h |  1 +
- include/hw/core/cpu.h          |  4 +--
- include/qemu/main-loop.h       |  7 +++++
- memory.c                       | 53 ++++++++++++++++++++++++++++++----
- 6 files changed, 81 insertions(+), 21 deletions(-)
-
+diff --git a/memory.c b/memory.c
+index 601b749906..e5d634d648 100644
+--- a/memory.c
++++ b/memory.c
+@@ -1054,10 +1054,20 @@ static void address_space_update_topology(AddressSp=
+ace *as)
+     address_space_set_flatview(as);
+ }
+=20
++static void memory_region_transaction_push(void)
++{
++    memory_region_transaction_depth++;
++}
++
++static void memory_region_transaction_pop(void)
++{
++    memory_region_transaction_depth--;
++}
++
+ void memory_region_transaction_begin(void)
+ {
+     qemu_flush_coalesced_mmio_buffer();
+-    ++memory_region_transaction_depth;
++    memory_region_transaction_push();
+ }
+=20
+ void memory_region_transaction_commit(void)
+@@ -1067,7 +1077,7 @@ void memory_region_transaction_commit(void)
+     assert(memory_region_transaction_depth);
+     assert(qemu_mutex_iothread_locked());
+=20
+-    --memory_region_transaction_depth;
++    memory_region_transaction_pop();
+     if (!memory_region_transaction_depth) {
+         if (memory_region_update_pending) {
+             flatviews_reset();
 --=20
 2.24.1
 
