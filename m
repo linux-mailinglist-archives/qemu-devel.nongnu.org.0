@@ -2,85 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60F291B2423
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 12:44:57 +0200 (CEST)
-Received: from localhost ([::1]:55540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 747DF1B242C
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 12:46:17 +0200 (CEST)
+Received: from localhost ([::1]:55578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQqOe-0007B3-DT
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 06:44:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47020)
+	id 1jQqPw-0000ZN-IC
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 06:46:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47046)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jQqNT-0006W8-GH
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:43:43 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jQqNa-0006cU-5F
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:43:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jQqNR-0005qv-TB
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:43:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22417
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jQqNR-0005m3-Cq
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:43:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587465819;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kH/F0axOrC/o+aiFlg2n2ZV58NVvWjU2DpJUR2+XN+8=;
- b=caeA6dutoTIwKsepQgkzCi99gGHkntXAJE3L4tEepouJeJzTHuAm5E1geZ6U7Sh8Rq+zAr
- LJyo5m1Dc9G4cJd0kldbYp2swdVem62Phai18x54T/D/UvvI61TlGhQMU0u+a+uVhTKah+
- nLV996kmY0jD4Dt7BuKPZxCdV3yo6Jo=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-SvskckoVMdeHzyUbBmmU6Q-1; Tue, 21 Apr 2020 06:43:37 -0400
-X-MC-Unique: SvskckoVMdeHzyUbBmmU6Q-1
-Received: by mail-qk1-f198.google.com with SMTP id i2so7183095qkl.5
- for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 03:43:37 -0700 (PDT)
+ (envelope-from <alex.bennee@linaro.org>) id 1jQqNZ-00066a-4q
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:43:49 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40949)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jQqNY-00062w-Ms
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:43:48 -0400
+Received: by mail-wr1-x442.google.com with SMTP id k13so14707295wrw.7
+ for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 03:43:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=9GAsn5FGRD24k96jq5Eq8w9dxag0MtLH5Ga85ZNCR3I=;
+ b=IlsNxUeEc84twfXN+HebcbiTaXURZFISq5MlqabMOfxkofncjTovm9PH+bKXFQZUz5
+ a8L6mr4CfJQlo2hEMybbBrrKsAA2Q3nNmILwE5+WYPq7nhkkKUfa3/nSzVBJXzq365uv
+ aNOKjBVEZ4KPvrT3A1DEDXDiBGcUbPxbvWk6fL/G2NkGzxGfkTXeO7RKhUXQveAiKRMV
+ Ijzuuv1peu0ZN/sQBdw45HAI9Uk0KQj2PZMqip2wMiOgFxsxqbLXa8gdCY2BPuLgYm3W
+ GrESgNn1rhQZG+YY5YNkFE1sXDsG2qyeWulBAXROXhHhrZkO4DUY+9tRCe8K6+oUSgfD
+ E0ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ELz7qIcneEuECgFv7IAnbU8vwsmSq1t1SLmxdkwXQYk=;
- b=gZA9Tf7f6/Bgj8BxnlLDn5ZuObpW9O7ssKGYRhFO2rgMHoHdDu/S73rjGVAKC2B/sX
- j2Sd557vIUwjtxMfvDouvsB7Oc2KYx5mFX9iajJnixCd6ZGW2zrikaMaLB+57Fpn0opR
- WEPDiAISmOiKpn5jU4JALOfOh2YLgtIknhrIzKGdJ+HjESD30Y0G8z3Pu0K+0PgFc7DE
- z3Ubva7H+2IeLJmcgfWyfG4z7fZgHt5w0QI+noDdHMBl7Imm/eUyleca5b68FyIbCaB5
- 4qY7flX5b28xwSePKmtv9GB6mFjWxPfqJcjA2iYBwkuh1w+/21X3Yu/rfDwZrTLaHTnr
- b3IA==
-X-Gm-Message-State: AGi0PuYBuDuNLXvr+mN49zPtMfk61jWN+O6qUGe5+5CqbZJZe9aiv3CE
- njTGSXW/5PVRt7h0Bx4WFhmmcTvdOUJCHBeJ48FlTlirLLc7UMoQs+Uv0DJ1Obbaof72vu61jel
- JlhP8ci9k+AM7CPQ=
-X-Received: by 2002:a0c:ba83:: with SMTP id x3mr20073652qvf.83.1587465817435; 
- Tue, 21 Apr 2020 03:43:37 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIlkyaQ5VTbEH1zvGTcOL8186o8zbgMXKehohvdWN4GRBnk1baM/wfWSmbkc++/Eh1H6Q1+Zg==
-X-Received: by 2002:a0c:ba83:: with SMTP id x3mr20073631qvf.83.1587465817201; 
- Tue, 21 Apr 2020 03:43:37 -0700 (PDT)
-Received: from xz-x1 ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id q6sm1508266qte.72.2020.04.21.03.43.36
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=9GAsn5FGRD24k96jq5Eq8w9dxag0MtLH5Ga85ZNCR3I=;
+ b=PualmQ18virHmKyO3x+am8VXPfpolWI68rvJJ3ERbcwMT5OEaDE2gVld5j7LSUEoZY
+ jyxe+Cky6K+2wl4qZjl+W0P8DilryyG72+zNoa6d8eITrPL70EoWMaAW8TClPPWrNstC
+ HSdflAEAG7ohbO8qb7lZyTkvzoTd/in6Ldvrk0UkOexJ1rCFCAbZejBQf5hOSRcWI2Iy
+ LzQAdt4brascVlJIKvMvTi1xzlR2FjJRsmRv5u4noed+Y+SkrTDpXPir3BaVqeXrzP4K
+ Nk70NvfLMwPnTYK3CY4x713nADtgBYcYDAMZnDMqg1eXXCMixCC8qkxlT3fLdv0hGUde
+ imKg==
+X-Gm-Message-State: AGi0PubazXz+he4bGqLF1435zs2O6NZi5a0GH0iCBqO60Mvb6VoFZhK7
+ zcIZ+tupAZuA8Fcs9lXZWX7cDQ==
+X-Google-Smtp-Source: APiQypIvCViB+2cammKn32B+F4ftiz8j8+L6GTnn4E9PpP0MudeITRhQsRuIxm7alsD0Flo8j2cQEQ==
+X-Received: by 2002:adf:b344:: with SMTP id k4mr22684870wrd.76.1587465826066; 
+ Tue, 21 Apr 2020 03:43:46 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 74sm3231946wrk.30.2020.04.21.03.43.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Apr 2020 03:43:36 -0700 (PDT)
-Date: Tue, 21 Apr 2020 06:43:34 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: Question on memory commit during MR finalize()
-Message-ID: <20200421104334.GC420399@xz-x1>
-References: <20200420210049.GA420399@xz-x1>
- <fe73a74b-2324-68a5-a37f-530a6bb03ebc@redhat.com>
- <20200420233115.GB420399@xz-x1>
- <5ed295a3-9e4a-0dca-adc6-5361dc78a83c@redhat.com>
+ Tue, 21 Apr 2020 03:43:44 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id F1EBA1FF7E;
+ Tue, 21 Apr 2020 11:43:43 +0100 (BST)
+References: <20200421094216.24927-1-f4bug@amsat.org>
+ <20200421094216.24927-3-f4bug@amsat.org>
+User-agent: mu4e 1.4.1; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 2/4] scripts/qemugdb: Remove shebang header
+In-reply-to: <20200421094216.24927-3-f4bug@amsat.org>
+Date: Tue, 21 Apr 2020 11:43:43 +0100
+Message-ID: <871rohdsps.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <5ed295a3-9e4a-0dca-adc6-5361dc78a83c@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=peterx@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 03:31:23
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,49 +85,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>,
- QEMU Devel Mailing List <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 21, 2020 at 11:43:36AM +0200, Paolo Bonzini wrote:
-> On 21/04/20 01:31, Peter Xu wrote:
-> >>
-> >> However, instead of memory_region_transaction_commit,
-> >> memory_region_finalize probably should do something like
-> >>
-> >>     --memory_region_transaction_depth;
-> >>     assert (memory_region_transaction_depth ||
-> >> =09    (!memory_region_update_pending &&
-> >>              !ioeventfd_update_pending));
-> > Ah I see; this makes sense.
-> >=20
-> > And finally I found the problem, which is indeed the bug in my own tree=
- - I
-> > forgot to remove the previous changes to flush the dirty ring during me=
-m
-> > removal (basically that's run_on_cpu() called during a memory commit, t=
-hat will
-> > wrongly release the BQL without being noticed).
-> >=20
-> > Besides above assert, I'm thinking maybe we can also assert on somethin=
-g like:
-> >=20
-> >   !(memory_region_transaction_depth || memory_region_update_pending ||
-> >     ioeventfd_update_pending)
-> >=20
-> > When releasing BQL (unlock, or qemu_cond_wait() on BQL, which should co=
-ver
-> > run_on_cpu()), so that we can identify misuse of BQL easier like this.
->=20
-> Asserting invariants around lock release are an interesting concept, but
-> I'm not sure where to insert them exactly.  But it would be great if you
-> would like to introduce an assert_empty_memory_transaction() function
-> with the assertion I quoted above.
 
-Let me give it a shot later today. :)
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+
+> These scripts are loaded as plugin by GDB (and they don't
+> have any __main__ entry point). Remove the shebang header.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+
+Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  scripts/qemugdb/__init__.py  | 3 +--
+>  scripts/qemugdb/aio.py       | 3 +--
+>  scripts/qemugdb/coroutine.py | 3 +--
+>  scripts/qemugdb/mtree.py     | 4 +---
+>  scripts/qemugdb/tcg.py       | 1 -
+>  5 files changed, 4 insertions(+), 10 deletions(-)
+>
+> diff --git a/scripts/qemugdb/__init__.py b/scripts/qemugdb/__init__.py
+> index 969f552b26..da8ff612e5 100644
+> --- a/scripts/qemugdb/__init__.py
+> +++ b/scripts/qemugdb/__init__.py
+> @@ -1,5 +1,4 @@
+> -#!/usr/bin/python
+> -
+> +#
+>  # GDB debugging support
+>  #
+>  # Copyright (c) 2015 Linaro Ltd
+> diff --git a/scripts/qemugdb/aio.py b/scripts/qemugdb/aio.py
+> index 2ba00c4444..d7c1ba0c28 100644
+> --- a/scripts/qemugdb/aio.py
+> +++ b/scripts/qemugdb/aio.py
+> @@ -1,5 +1,4 @@
+> -#!/usr/bin/python
+> -
+> +#
+>  # GDB debugging support: aio/iohandler debug
+>  #
+>  # Copyright (c) 2015 Red Hat, Inc.
+> diff --git a/scripts/qemugdb/coroutine.py b/scripts/qemugdb/coroutine.py
+> index 41e079d0e2..db61389022 100644
+> --- a/scripts/qemugdb/coroutine.py
+> +++ b/scripts/qemugdb/coroutine.py
+> @@ -1,5 +1,4 @@
+> -#!/usr/bin/python
+> -
+> +#
+>  # GDB debugging support
+>  #
+>  # Copyright 2012 Red Hat, Inc. and/or its affiliates
+> diff --git a/scripts/qemugdb/mtree.py b/scripts/qemugdb/mtree.py
+> index 3030a60d3f..8fe42c3c12 100644
+> --- a/scripts/qemugdb/mtree.py
+> +++ b/scripts/qemugdb/mtree.py
+> @@ -1,5 +1,4 @@
+> -#!/usr/bin/python
+> -
+> +#
+>  # GDB debugging support
+>  #
+>  # Copyright 2012 Red Hat, Inc. and/or its affiliates
+> @@ -84,4 +83,3 @@ def print_item(self, ptr, offset =3D gdb.Value(0), leve=
+l =3D 0):
+>          while not isnull(subregion):
+>              self.print_item(subregion, addr, level)
+>              subregion =3D subregion['subregions_link']['tqe_next']
+> -
+> diff --git a/scripts/qemugdb/tcg.py b/scripts/qemugdb/tcg.py
+> index 18880fc9a7..16c03c06a9 100644
+> --- a/scripts/qemugdb/tcg.py
+> +++ b/scripts/qemugdb/tcg.py
+> @@ -1,4 +1,3 @@
+> -#!/usr/bin/python
+>  # -*- coding: utf-8 -*-
+>  #
+>  # GDB debugging support, TCG status
+
 
 --=20
-Peter Xu
-
+Alex Benn=C3=A9e
 
