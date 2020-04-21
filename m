@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71EB21B2C8B
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 18:22:57 +0200 (CEST)
-Received: from localhost ([::1]:32778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F09471B2C92
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 18:24:28 +0200 (CEST)
+Received: from localhost ([::1]:32814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQvfk-0001xM-2B
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 12:22:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54008)
+	id 1jQvhD-0004d8-VZ
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 12:24:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54024)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jQveI-0000mf-Gl
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:21:26 -0400
+ (envelope-from <peterx@redhat.com>) id 1jQveK-0000oe-Dh
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:21:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jQveD-00046X-EP
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:21:26 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55633
+ (envelope-from <peterx@redhat.com>) id 1jQveI-00049U-NT
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:21:28 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50373
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jQveD-00046F-2x
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:21:21 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jQveI-00048k-B0
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 12:21:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587486080;
+ s=mimecast20190719; t=1587486084;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZWARAODmBStGiYrFPvbCFJNkPOytrLfsKcpWRULN7JI=;
- b=PSRR2OhwcWkW6Ig5qrCmQqUmw9Ac/ckFRA0kCEzHQybdY8/xo05oyNDTV5Vb4jnozQAaVC
- oyQsHd57ppccsob/okAC5uGDvZbJmYc8+H+qRp4RnnjkATWIJkCktiUjGCMruZBhcfpoBH
- NrO/6YOXTItzhD7ARi88LTZHPC6lJ54=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-w_v2Gy5NPiOCpfR1i78Bcg-1; Tue, 21 Apr 2020 12:21:18 -0400
-X-MC-Unique: w_v2Gy5NPiOCpfR1i78Bcg-1
-Received: by mail-qk1-f200.google.com with SMTP id a187so14579401qkg.18
- for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 09:21:18 -0700 (PDT)
+ bh=2H+OgQwZ9zhEE73FazNnzT/qTkBaiVyceFFMEZU4064=;
+ b=VYFfWuw2pFDRNumAr6ffiBj0dqZT02auMWrKQ1J7qyVynIHh5oDTjPIdm3XqIVX/xvv8J8
+ IYS5ZxnNnkOcQMxzpmFEWljHpOM1AXCYbCQL+wof0XI9/uHbGtY5mrcodKUH+YBJvkhIKE
+ RSZsVtQlsXzrm9pL1SWZEJbAo8dyNT4=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-428-8khLdJz-PnKbUjBtPie0tg-1; Tue, 21 Apr 2020 12:21:23 -0400
+X-MC-Unique: 8khLdJz-PnKbUjBtPie0tg-1
+Received: by mail-qv1-f72.google.com with SMTP id b4so14286828qvt.15
+ for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 09:21:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=O9l/BvBydUlEJUjD9a9P0sgBp3L6+LGe0OTTKmSjbXg=;
- b=bKus1GnmzFSuur0nj5DTS/UNgZAA/uxRJ7jz8BTSXQpPdLulOPNlpPQ7kjTeU9eNdL
- glomsxa7cEvz9IIxiKfEZ3GYalr7lZUo3IcaAeKeFOUZmwXqIWhO5z1w6TQaATTRZhiB
- k21wGwWtVrS6/Qd3iq84XGkXCgEMz6e56Aft7dLX1O/o4SXHZtmfDx+EGWuTCa4oIZe2
- X1OrUNd3fRW3/M7sTBAVD7AO8MbJzNqKgg3aBoq5iNNPwb0sXE+EjN4fBnil0FI4rQ0G
- MFihFhX7UzmYmXMWX+gA2fxq2QJvtrQZD2TMo881Le4dHr/i/l2I0oqbgmVzZ+kUOqiI
- lwUw==
-X-Gm-Message-State: AGi0PuYvhzRjHxr6tERzUGOBoJosO6wJ+aleRSD3RFUB21ccq28p8/4a
- FE6XnI8KzsZQkptwyNduuCdSVI9gOdAdJJ8fOdw27GFDLbZtS5fUUBMEv0Fq36EfwFtBBscVdch
- 8Qu0kamf5GLA8PjI=
-X-Received: by 2002:a05:620a:228:: with SMTP id
- u8mr22773764qkm.309.1587486077885; 
- Tue, 21 Apr 2020 09:21:17 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJwmIMZM1MbMcC9Qf5/Wp3f7cgLATEQeVTID+i/5dJRNXJOjG/HWTnMlDs5xF3EQ1P+tlfhWA==
-X-Received: by 2002:a05:620a:228:: with SMTP id
- u8mr22773736qkm.309.1587486077630; 
- Tue, 21 Apr 2020 09:21:17 -0700 (PDT)
+ bh=fpjhpsaQQavZP0ghK24+JAch3X5MLywrjyWB4EFaOlI=;
+ b=nnEA5R8NTTxzYz+umJ1vDaIbXFXdJke9xvuCkK/vdGnP3tobDS0FHuhbhJdOWZXkEp
+ JK8whT4tbo0HYHjLw+lm5CxP5DdMKEQT6jzpR1esay6Xtbu1YNnbvtafXZ5hevuJ06lw
+ ltedjZOG8PESo3ogHy/b5doqfpImEbrRNDQI82q4AcbFuqdPEMlyZWMkiRjoCuloTtYS
+ X26eqHFUVzXmVxJvzAJyKOUcQOKaq2G7vQAza5ivy1pbvLCv+ez+4pN7iIiQEhhGQfWr
+ imBlM8uPL5JzsBxVSGIhuamPpkLu5J88y6UjWTgu1UCbmOcdkVQZi7oo3xUNwuAaOKNo
+ dJwg==
+X-Gm-Message-State: AGi0PuaBQDRM95mYuOABjvHsr3sljOPmI+QmPAu+eI1krysJz8dtridZ
+ wzit/5QEDI20KPgDVY+UbJCSUjPiaEQWSHS7VNnakpK2w3anqgBvhk0HuBYOkeccnJ6I60FhxZK
+ hWeZcHucxTZzg+Qc=
+X-Received: by 2002:a37:b1c6:: with SMTP id a189mr6410919qkf.26.1587486081405; 
+ Tue, 21 Apr 2020 09:21:21 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJG0ZnaQW+4qLEUi/pIe4a8e0cOZs8o9iKVUeXHPVefP/RG9yitb3JSU42cQomONHKXU0IAag==
+X-Received: by 2002:a37:b1c6:: with SMTP id a189mr6410897qkf.26.1587486081179; 
+ Tue, 21 Apr 2020 09:21:21 -0700 (PDT)
 Received: from xz-x1.redhat.com ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id h2sm2043688qkh.91.2020.04.21.09.21.16
+ by smtp.gmail.com with ESMTPSA id s15sm2110604qtc.31.2020.04.21.09.21.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Apr 2020 09:21:17 -0700 (PDT)
+ Tue, 21 Apr 2020 09:21:20 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/8] memory: Don't do topology update in memory finalize()
-Date: Tue, 21 Apr 2020 12:21:02 -0400
-Message-Id: <20200421162108.594796-3-peterx@redhat.com>
+Subject: [PATCH 3/8] cpus: Use qemu_cond_wait_iothread() where proper
+Date: Tue, 21 Apr 2020 12:21:03 -0400
+Message-Id: <20200421162108.594796-4-peterx@redhat.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200421162108.594796-1-peterx@redhat.com>
 References: <20200421162108.594796-1-peterx@redhat.com>
@@ -96,72 +94,73 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, peterx@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Topology update could be wrongly triggered in memory region finalize() if
-there's bug somewhere else.  It'll be a very confusing stack when it
-happens (e.g., sending KVM ioctl within the RCU thread, and we'll observe i=
-t
-only until it fails!).
+The helper is introduced but we've still got plenty of places that are dire=
+ctly
+referencing the qemu_global_mutex itself.  Spread the usage.
 
-Instead of that, we use the push()/pop() helper to avoid memory transaction
-commit, at the same time we use assertions to make sure there's no pending
-updates or it's a nested transaction, so it could fail even earlier and in =
-a
-more explicit way.
-
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- memory.c | 23 +++++++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
+ cpus.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/memory.c b/memory.c
-index e5d634d648..fea427f43f 100644
---- a/memory.c
-+++ b/memory.c
-@@ -171,6 +171,12 @@ struct MemoryRegionIoeventfd {
-     EventNotifier *e;
- };
+diff --git a/cpus.c b/cpus.c
+index ef441bdf62..00f6e361af 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -1181,7 +1181,7 @@ static void qemu_tcg_rr_wait_io_event(void)
 =20
-+/* Returns whether there's any pending memory updates */
-+static bool memory_region_has_pending_update(void)
-+{
-+    return memory_region_update_pending || ioeventfd_update_pending;
-+}
-+
- static bool memory_region_ioeventfd_before(MemoryRegionIoeventfd *a,
-                                            MemoryRegionIoeventfd *b)
- {
-@@ -1730,12 +1736,25 @@ static void memory_region_finalize(Object *obj)
-      * and cause an infinite loop.
-      */
-     mr->enabled =3D false;
--    memory_region_transaction_begin();
-+
-+    /*
-+     * Use push()/pop() instead of begin()/commit() to make sure below blo=
-ck
-+     * won't trigger any topology update (which should never happen, but i=
-t's
-+     * still a safety belt).
-+     */
-+    memory_region_transaction_push();
-     while (!QTAILQ_EMPTY(&mr->subregions)) {
-         MemoryRegion *subregion =3D QTAILQ_FIRST(&mr->subregions);
-         memory_region_del_subregion(mr, subregion);
+     while (all_cpu_threads_idle()) {
+         stop_tcg_kick_timer();
+-        qemu_cond_wait(first_cpu->halt_cond, &qemu_global_mutex);
++        qemu_cond_wait_iothread(first_cpu->halt_cond);
      }
--    memory_region_transaction_commit();
-+    memory_region_transaction_pop();
-+
-+    /*
-+     * Make sure we're either in a nested transaction or there must have n=
-o
-+     * pending updates due to memory_region_del_subregion() above.
-+     */
-+    assert(memory_region_transaction_depth ||
-+           !memory_region_has_pending_update());
 =20
-     mr->destructor(mr);
-     memory_region_clear_coalescing(mr);
+     start_tcg_kick_timer();
+@@ -1200,7 +1200,7 @@ static void qemu_wait_io_event(CPUState *cpu)
+             slept =3D true;
+             qemu_plugin_vcpu_idle_cb(cpu);
+         }
+-        qemu_cond_wait(cpu->halt_cond, &qemu_global_mutex);
++        qemu_cond_wait_iothread(cpu->halt_cond);
+     }
+     if (slept) {
+         qemu_plugin_vcpu_resume_cb(cpu);
+@@ -1456,7 +1456,7 @@ static void *qemu_tcg_rr_cpu_thread_fn(void *arg)
+=20
+     /* wait for initial kick-off after machine start */
+     while (first_cpu->stopped) {
+-        qemu_cond_wait(first_cpu->halt_cond, &qemu_global_mutex);
++        qemu_cond_wait_iothread(first_cpu->halt_cond);
+=20
+         /* process any pending work */
+         CPU_FOREACH(cpu) {
+@@ -1657,7 +1657,7 @@ static void *qemu_whpx_cpu_thread_fn(void *arg)
+             }
+         }
+         while (cpu_thread_is_idle(cpu)) {
+-            qemu_cond_wait(cpu->halt_cond, &qemu_global_mutex);
++            qemu_cond_wait_iothread(cpu->halt_cond);
+         }
+         qemu_wait_io_event_common(cpu);
+     } while (!cpu->unplug || cpu_can_run(cpu));
+@@ -1877,7 +1877,7 @@ void pause_all_vcpus(void)
+     replay_mutex_unlock();
+=20
+     while (!all_vcpus_paused()) {
+-        qemu_cond_wait(&qemu_pause_cond, &qemu_global_mutex);
++        qemu_cond_wait_iothread(&qemu_pause_cond);
+         CPU_FOREACH(cpu) {
+             qemu_cpu_kick(cpu);
+         }
+@@ -2087,7 +2087,7 @@ void qemu_init_vcpu(CPUState *cpu)
+     }
+=20
+     while (!cpu->created) {
+-        qemu_cond_wait(&qemu_cpu_cond, &qemu_global_mutex);
++        qemu_cond_wait_iothread(&qemu_cpu_cond);
+     }
+ }
+=20
 --=20
 2.24.1
 
