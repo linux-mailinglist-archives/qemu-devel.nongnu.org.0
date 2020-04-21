@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D04531B349B
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 03:41:13 +0200 (CEST)
-Received: from localhost ([::1]:39180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 974CC1B349E
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 03:43:12 +0200 (CEST)
+Received: from localhost ([::1]:39250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jR4O0-00061H-9d
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 21:41:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58718)
+	id 1jR4Pu-0000M8-Kt
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 21:43:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58724)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sashal@kernel.org>) id 1jQz0C-0003uU-PD
+ (envelope-from <sashal@kernel.org>) id 1jQz0D-0003uc-Di
  for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:56:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <sashal@kernel.org>) id 1jQz0C-00041f-9H
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:56:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59626)
+ (envelope-from <sashal@kernel.org>) id 1jQz0D-00041u-1l
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:56:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sashal@kernel.org>) id 1jQz0B-0003yw-Qy
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:56:15 -0400
+ (Exim 4.90_1) (envelope-from <sashal@kernel.org>) id 1jQz0C-00040k-HV
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:56:16 -0400
 Received: from localhost (unknown [137.135.114.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 49A4A206E9;
- Tue, 21 Apr 2020 19:56:11 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id CD4D1206D9;
+ Tue, 21 Apr 2020 19:56:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1587498971;
- bh=MIuUvRsQS/pjEavYXQkOzkbkWEuTlz5TzrePUxaCn7E=;
+ s=default; t=1587498974;
+ bh=xPugJXtBDtdc5k1y/O0zEVTc7QjdHvDoYHPn2VLQFFI=;
  h=Date:From:To:To:To:To:Cc:Cc:Cc:Subject:In-Reply-To:References:
  From;
- b=EgnQiGs/VMWAcz6PNBJupyR3UhUoeCCJzkcfJrrC1WlDYE6uRUZab1J1nxfQvCNgu
- HmHZ8OkJ13XSHuFCt3rJx4kZTjnjjjwj29yMbst0nWGkTZq3MvF9BwQZtYAjEGD6no
- f0WppJe6Y4mKvD6KN9NLSWnseF3CunjAWYN2cPxk=
-Date: Tue, 21 Apr 2020 19:56:10 +0000
+ b=BylQYOJaqcJ3c3usRhV5MlZ8blrIP5jXMyuhzHbkxWfqr2NOtKUBiMR+IzSIEcTwe
+ zvNrpqCqfnhkDW1jsCYwyxu/RT1Oyu8m9GXgMkJCLKRglRSMQHotgf4qF4TYrNsRTI
+ 8DZeYfuBCzcZQJ7C+cKOZg4GyxdFzSRio6ZIIVMA=
+Date: Tue, 21 Apr 2020 19:56:12 +0000
 From: Sasha Levin <sashal@kernel.org>
 To: Sasha Levin <sashal@kernel.org>
 To: Huacai Chen <chenhc@lemote.com>
 To: Xing Li <lixing@loongson.cn>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 02/15] KVM: MIPS: Define KVM_ENTRYHI_ASID to
- cpu_asid_mask(&boot_cpu_data)
-In-Reply-To: <1586763024-12197-3-git-send-email-chenhc@lemote.com>
-References: <1586763024-12197-3-git-send-email-chenhc@lemote.com>
-Message-Id: <20200421195611.49A4A206E9@mail.kernel.org>
+Subject: Re: [PATCH 03/15] KVM: MIPS: Fix VPN2_MASK definition for variable
+ cpu_vmbits
+In-Reply-To: <1586763024-12197-4-git-send-email-chenhc@lemote.com>
+References: <1586763024-12197-4-git-send-email-chenhc@lemote.com>
+Message-Id: <20200421195613.CD4D1206D9@mail.kernel.org>
 Received-SPF: pass client-ip=198.145.29.99; envelope-from=sashal@kernel.org;
  helo=mail.kernel.org
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 15:56:11
@@ -85,6 +85,7 @@ v4.4.219: Failed to apply! Possible dependencies:
     19d194c62b25 ("MIPS: KVM: Simplify TLB_* macros")
     403015b323a2 ("MIPS: KVM: Move non-TLB handling code out of tlb.c")
     7ee0e5b29d27 ("KVM: x86: MMU: Remove unused parameter of __direct_map()")
+    9a99c4fd6586 ("KVM: MIPS: Define KVM_ENTRYHI_ASID to cpu_asid_mask(&boot_cpu_data)")
     9fbfb06a4065 ("MIPS: KVM: Arrayify struct kvm_mips_tlb::tlb_lo*")
     ba049e93aef7 ("kvm: rename pfn_t to kvm_pfn_t")
     bdb7ed8608f8 ("MIPS: KVM: Convert headers to kernel sized types")
