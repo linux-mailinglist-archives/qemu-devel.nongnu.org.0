@@ -2,107 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84EF71B1FA7
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 09:19:05 +0200 (CEST)
-Received: from localhost ([::1]:52218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C9621B2007
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 09:40:49 +0200 (CEST)
+Received: from localhost ([::1]:52588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQnBQ-0001dm-1M
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 03:19:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36408)
+	id 1jQnWS-00037M-BA
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 03:40:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39802)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jQnAG-00017M-OT
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:17:53 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jQnSV-0006BG-0t
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:36:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jQnAF-00061m-8f
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:17:51 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43804)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jQnAD-0005uf-4r; Tue, 21 Apr 2020 03:17:49 -0400
-Received: by mail-wr1-x444.google.com with SMTP id i10so15165879wrv.10;
- Tue, 21 Apr 2020 00:17:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=UGRsIZp9V1QUY9cbupvYe647v8o+mrR0MEP8yx0xYQk=;
- b=Ly1PlnZXb/YSIofjdPLW9LHn0PFLieVn3y9+/NYIMtvNqZsB7QdJ2x/T4w5v0hy3d5
- wa/qqNZtqzucq4AZgkj08L2ahE+Lmmvw4NJJO2BYprDO3lQkDui5fn8/bc4amJhLwVyk
- MKJFu951/ONazGyOefH6TAEgX/XvtD3y3rXvpY7sFAP6MKwtJdnfjuqw2nH02jqRUxcO
- yFe93dYUKlDmpQdItngon2QPiHgd2ZNQBwNXggX2WS3XZ+QHOQm6lfTft+n1lDFBUgTR
- yL9yXCoTYy5/60Rr22GOaDL9F4G3gTw8D+vTppEFE2Ws+tWu9XH31Mq6cJ5WP1JGIkEH
- SYGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=UGRsIZp9V1QUY9cbupvYe647v8o+mrR0MEP8yx0xYQk=;
- b=cTaR5hql6RfhAr29xkUSSGUebH27X0ih3rBxJqSV+u0o1FEVojS4vess2L3V0T5tWy
- LizJximTanA5VDWaJSIjMJW6E/Niw3lMNcutm4Vdl4OSiRwANlYWN+a5hP6S453zk+AE
- sgxyKItBHOaBWdU+qbK/zts+nl+5Nciq00aH3GPbRGhn2p2Hm667jCSfDh3wlw0sRTxg
- ah4W+s1VaczLwuqqggU2xqp74JrsRC2X0nyOHU6R/Ub2rPlpKf9sOo2rQ6Qcrif6RiyK
- A3ebnS+lr91gFAHIgAdjxL2hyD9n0lz1EKpm+/o6VCBP+VA1wYN3fZM3zYpcDqzzloNb
- Sotw==
-X-Gm-Message-State: AGi0PubD1d5wN2p/Qesai3XKhqTCFYo0WkwMwjRwbiMFN7WrRfHH9uh7
- 1SeHrO5yNoUIZGrTs4lT2X8=
-X-Google-Smtp-Source: APiQypJtpjNM01NqWt2jWuRLS2uvcyzy0nBDUbMyBsU6pasCJg6aiCbn+xR83Q6klzUpz4oBfxbYrA==
-X-Received: by 2002:a5d:5391:: with SMTP id d17mr21879446wrv.215.1587453466983; 
- Tue, 21 Apr 2020 00:17:46 -0700 (PDT)
-Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id u7sm2520581wmg.41.2020.04.21.00.17.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Apr 2020 00:17:46 -0700 (PDT)
-Subject: Re: [PATCH-for-5.0?] target/ppc: Fix TCG temporary leaks in
- gen_slbia()
-To: Dennis Clarke <dclarke@blastwave.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20200417090749.14310-1-f4bug@amsat.org>
- <CAFEAcA-aj77=19d+8jmoWYXBDdm=U8eV8CsHpovMN8bE9uNSvg@mail.gmail.com>
- <dcf67e87-da27-68ee-0dd8-5b94edb84291@blastwave.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Autocrypt: addr=f4bug@amsat.org; keydata=
- mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
- u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
- HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
- YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
- ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
- dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
- ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
- Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
- HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
- Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
- CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
- klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
- jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
- 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
- loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
- sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
- JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
- 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
- K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
- n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
- CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
-Message-ID: <1918bd79-2e30-a578-c34e-683eab724c67@amsat.org>
-Date: Tue, 21 Apr 2020 09:17:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <dcf67e87-da27-68ee-0dd8-5b94edb84291@blastwave.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jQnST-00077x-Vx
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:36:42 -0400
+Received: from mail-db8eur05on2107.outbound.protection.outlook.com
+ ([40.107.20.107]:47520 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jQnSH-0006Xr-B5; Tue, 21 Apr 2020 03:36:29 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LoASxwS9S7EBEsbL1MF+q4sGT9NblXverv7u/KAFkF7+9H5EueHCXuBqyeSA1gPgeN5L053WirAmejoiBYPR9lKfXovGX0C4z7AGydI0wSrI3Xny9pkuLU5AvkIeXLz8OteTKTL1FT/+my7AZuV/8apax5DnbGhijlRh9Ys0p1EmeU4LqXw01nomjA9L5kUztOXhAy73+y4J0Vc/z491IbeGRenVJ2WQrWgddP3MqdOSb3308RHjkHITTQPzvIDqT3H9DXOTUlXZhzMEf+q6bZ/X2w6aTxwXmPD0ScuuGug30lPbUotv2Vw7HKQFMLe7crbRMDmbaW1xUaYrrETJmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fMw6YYnxDt+5EUStQOqOSF7YwuagnE5NW14l6OIYrpg=;
+ b=dc+QAcfFMEwEjlo7iAq83nW4i0OvGZ5ZDomQ7ozdAFE2oT1FY/FY3unofVMcZK5lYzQLGHghHBy1K/KPY1F2zBwL1OoA7WcKtoxRBZRq1eNWviqPj1Z9rKZZLby0Wr96lV4e2z08d4Upq/Ig8F1S5DeCwne84s1CtayuPfG+FyoMjZZQG0xuMt4qrWhB/35TUMHD8iAtzzpuCvaDM/hyFbhmsJnkwqaLnN7UEk8KVYVdokVhYlSYcpGD7mv1FpTuxUa2GiKs9atONsdKRiYi4iNygKrF7QieSTXK1rqBI0UPtf91pFeYisHWOOPjmvfXIR/PCNN+RxyarI86zBCIZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fMw6YYnxDt+5EUStQOqOSF7YwuagnE5NW14l6OIYrpg=;
+ b=LlabGQeND5rTFLWTje/vMXihcEa+2RW2QM+u4YZhbxQ06bZQzNWsAmgWdJ18FekABBK3CAp+DweSfTwpkxyAoMhMmtRZIVAW3+OA2o/6aehs1wdQAoe5BcDzpSy38wAp7tSD13c6Ij007zwNbFP3AOYJ0Z0E1n8fwxGY/I5Xa2I=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5397.eurprd08.prod.outlook.com (2603:10a6:20b:dd::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.27; Tue, 21 Apr
+ 2020 07:36:26 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2921.027; Tue, 21 Apr 2020
+ 07:36:26 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v3 00/10] Rework iotests/check
+Date: Tue, 21 Apr 2020 10:35:51 +0300
+Message-Id: <20200421073601.28710-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::444
+Content-Type: text/plain
+X-ClientProxiedBy: AM3PR07CA0137.eurprd07.prod.outlook.com
+ (2603:10a6:207:8::23) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (185.215.60.142) by
+ AM3PR07CA0137.eurprd07.prod.outlook.com (2603:10a6:207:8::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2937.9 via Frontend Transport; Tue, 21 Apr 2020 07:36:24 +0000
+X-Mailer: git-send-email 2.21.0
+X-Originating-IP: [185.215.60.142]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 76cb50b5-8034-4643-51d9-08d7e5c6b28e
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5397:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB53971BB3450FE9148E65BBE2C1D50@AM7PR08MB5397.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
+X-Forefront-PRVS: 038002787A
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(10019020)(4636009)(346002)(396003)(376002)(39840400004)(136003)(366004)(36756003)(1076003)(6916009)(5660300002)(6666004)(6512007)(186003)(4326008)(316002)(2616005)(956004)(16526019)(69590400007)(66556008)(66476007)(66946007)(26005)(2906002)(8936002)(8676002)(81156014)(6506007)(6486002)(478600001)(86362001)(52116002);
+ DIR:OUT; SFP:1102; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6y2p3Kw1X3t2gywVtbx7bNI3y+2Q2Q4C4X4OADl6HFrIRXWfjoUnCI+6rqLln38ZCP2Z2xp1HvemJU4CEx0XnNh+IXpbO2z9Vw0sVYrVf67qaaT6HnEJMqvPPTRMn9jyKj1ScRzWMH9YSfjnbVSwQpjoPLqQ58z4nAbksSb/7EtptSA5stfGWvc/eOwXfY1b8Xjtz8t8ogt7PNgFvkoX7LnRzMUWAc+0ajrIP/kgr0Huzbtgnt9nvjWmFgrrJ3eKNLJuutoL5EGWK0WlZ68DXkUG0sN1GhJ0YfsMJoZ6Vdow1BIjvqu54+XNPQIymmqA3GegcflkIoRFZ8u/ul4Ctc2SSxWe75qkObJsPTG8eCZpMaEUK6HRtZ6/e03vU/BSXlHHQy9nuObOIKLFQQVm/s1IY0Is8ndlViZvweBCBxg7ANwNfOf4IFKE2SGpGXmblsyJ5FEnu5KT5xcORgFtu9RN4vJUPtI+EGaVlubpUhCuVEC8U9ipcVViIpaYdgR5
+X-MS-Exchange-AntiSpam-MessageData: RAfElM98MQZA2HSo3otj77neNyYLGSFtNeS9WsJHczMWe1tvTMbYR7rmNN7uhjJRri7pwsAUBBV8P6iXGGFuKm1R3pJJDdKWypU6LCYfK0U/hoXFPQVy041YCaLJGFHjgjDoT+e5GCrr9Z/pnLjybg==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 76cb50b5-8034-4643-51d9-08d7e5c6b28e
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2020 07:36:26.3119 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: J2qj2MfsLRGj5mvX+szG698UTpM1Amizd2F9dDShdEhE/zE33umzmTU511FBvqOtL0oTveF4uNDJYLo1/pAM7DS8vVU6CnH2ltR8njeuwdg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5397
+Received-SPF: pass client-ip=40.107.20.107;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 03:36:27
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Received-From: 40.107.20.107
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -114,103 +109,327 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Nicholas Piggin <npiggin@gmail.com>,
- qemu-ppc <qemu-ppc@nongnu.org>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/21/20 12:53 AM, Dennis Clarke wrote:
-> On 4/20/20 6:56 PM, Peter Maydell wrote:
->> On Fri, 17 Apr 2020 at 10:08, Philippe Mathieu-Daudé <f4bug@amsat.org>
->> wrote:
->>>
->>> This fixes:
->>>
->>>    $ qemu-system-ppc64 \
->>>    -machine pseries-4.1 -cpu power9 \
->>>    -smp 4 -m 12G -accel tcg ...
->>>    ...
->>>    Quiescing Open Firmware ...
->>>    Booting Linux via __start() @ 0x0000000002000000 ...
->>>    Opcode 1f 12 0f 00 (7ce003e4) leaked temporaries
->>>    Opcode 1f 12 0f 00 (7ce003e4) leaked temporaries
->>>    Opcode 1f 12 0f 00 (7ce003e4) leaked temporaries
->>>
->>> [*] https://www.mail-archive.com/qemu-discuss@nongnu.org/msg05400.html
->>>
->>> Fixes: 0418bf78fe8 ("Fix ISA v3.0 (POWER9) slbia implementation")
->>> Reported-by: Dennis Clarke <dclarke@blastwave.org>
->>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>
->> I propose to apply this patch for 5.0 rc4 (as well as the
->> ppc pullreq already sent), since the iscsi bugfix means
->> we need an rc4 anyway. Any objections?
->>
-> 
-> I have been running rc3 with this patch fine for some days now.  Both
-> with and without a debug enabled build wherein the performance
-> difference between the two is obvious.
+Hi all!
 
-Thanks for testing it! Can we use your:
+This is a continuation for "[PATCH v2 0/2] Rework iotests finding",
+so main user-visible feature here is removing tests/qemu-iotests/group
+file, define groups in tests and allow human-readable names for iotests.
 
-Tested-by: Dennis Clarke <dclarke@blastwave.org>
+While being here, rewrite check into python :) I tried to keep most of
+its behavior, still some changes are made and described in three main
+commits 06-08.
 
-tag?
+Vladimir Sementsov-Ogievskiy (10):
+  iotests/277: use dot slash for nbd-fault-injector.py running
+  iotests: fix some whitespaces in test output files
+  iotests/283: make executable
+  iotests/check: move QEMU_VXHS_PROG to common.rc
+  iotests: define group in each iotest
+  iotests: add testfinder.py
+  iotests: add testenv.py
+  iotests: add testrunner.py
+  iotests: rewrite check into python
+  iotests: rename 169 and 199
 
-> 
-> However, I do see warnings from 5.0.0-rc3 that worry me :
-> 
-> $ /usr/local/bin/qemu-system-ppc64 \
->> -machine pseries-4.1 -cpu power9 -smp 4 -m 12G -accel tcg \
->> -drive file=/home/ppc64/ppc64le.qcow2 \
->> -device virtio-net-pci,netdev=usernet \
->> -netdev user,id=usernet,hostfwd=tcp::10000-:22 \
->> -serial stdio -display none -vga none
-> qemu-system-ppc64: warning: TCG doesn't support requested feature,
-> cap-cfpc=workaround
-> qemu-system-ppc64: warning: TCG doesn't support requested feature,
-> cap-sbbc=workaround
-> qemu-system-ppc64: warning: TCG doesn't support requested feature,
-> cap-ibs=workaround
-> 
-> 
-> SLOF **********************************************************************
-> QEMU Starting
->  Build Date = Mar 27 2020 13:57:26
->  FW Version = git-8e012d6fddb62be8
->  Press "s" to enter Open Firmware.
-> 
-> Populating /vdevice methods
-> Populating /vdevice/vty@71000000
-> Populating /vdevice/nvram@71000001
-> Populating /vdevice/v-scsi@71000002
->        SCSI: Looking for devices
->           8000000000000000 DISK     : "QEMU     QEMU HARDDISK    2.5+"
->           8200000000000000 CD-ROM   : "QEMU     QEMU CD-ROM      2.5+"
-> Populating /pci@800000020000000
->                      00 0000 (D) : 1af4 1000    virtio [ net ]
-> No NVRAM common partition, re-initializing...
-> Scanning USB
-> Using default console: /vdevice/vty@71000000
-> 
->   Welcome to Open Firmware
-> 
->   Copyright (c) 2004, 2017 IBM Corporation All rights reserved.
->   This program and the accompanying materials are made available
->   under the terms of the BSD License available at
->   http://www.opensource.org/licenses/bsd-license.php
-> 
-> 
-> Trying to load:  from: /vdevice/v-scsi@71000002/disk@8000000000000000
-> ...   Successfully loaded
-> 
-> 
-> etc etc etc
-> 
-> What shall I do with "TCG doesn't support requested feature,
-> cap-cfpc=workaround" ??
-> 
+ docs/devel/testing.rst                        |  52 +-
+ tests/qemu-iotests/001                        |   1 +
+ tests/qemu-iotests/002                        |   1 +
+ tests/qemu-iotests/003                        |   1 +
+ tests/qemu-iotests/004                        |   1 +
+ tests/qemu-iotests/005                        |   1 +
+ tests/qemu-iotests/007                        |   1 +
+ tests/qemu-iotests/008                        |   1 +
+ tests/qemu-iotests/009                        |   1 +
+ tests/qemu-iotests/010                        |   1 +
+ tests/qemu-iotests/011                        |   1 +
+ tests/qemu-iotests/012                        |   1 +
+ tests/qemu-iotests/013                        |   1 +
+ tests/qemu-iotests/014                        |   1 +
+ tests/qemu-iotests/015                        |   1 +
+ tests/qemu-iotests/017                        |   1 +
+ tests/qemu-iotests/018                        |   1 +
+ tests/qemu-iotests/019                        |   1 +
+ tests/qemu-iotests/020                        |   1 +
+ tests/qemu-iotests/021                        |   1 +
+ tests/qemu-iotests/022                        |   1 +
+ tests/qemu-iotests/023                        |   1 +
+ tests/qemu-iotests/024                        |   1 +
+ tests/qemu-iotests/025                        |   1 +
+ tests/qemu-iotests/026                        |   1 +
+ tests/qemu-iotests/027                        |   1 +
+ tests/qemu-iotests/028                        |   1 +
+ tests/qemu-iotests/029                        |   1 +
+ tests/qemu-iotests/030                        |   1 +
+ tests/qemu-iotests/031                        |   1 +
+ tests/qemu-iotests/032                        |   1 +
+ tests/qemu-iotests/033                        |   1 +
+ tests/qemu-iotests/034                        |   1 +
+ tests/qemu-iotests/035                        |   1 +
+ tests/qemu-iotests/036                        |   1 +
+ tests/qemu-iotests/037                        |   1 +
+ tests/qemu-iotests/038                        |   1 +
+ tests/qemu-iotests/039                        |   1 +
+ tests/qemu-iotests/040                        |   1 +
+ tests/qemu-iotests/041                        |   1 +
+ tests/qemu-iotests/042                        |   1 +
+ tests/qemu-iotests/043                        |   1 +
+ tests/qemu-iotests/044                        |   1 +
+ tests/qemu-iotests/045                        |   1 +
+ tests/qemu-iotests/046                        |   1 +
+ tests/qemu-iotests/047                        |   1 +
+ tests/qemu-iotests/048                        |   1 +
+ tests/qemu-iotests/049                        |   1 +
+ tests/qemu-iotests/050                        |   1 +
+ tests/qemu-iotests/051                        |   1 +
+ tests/qemu-iotests/052                        |   1 +
+ tests/qemu-iotests/053                        |   1 +
+ tests/qemu-iotests/054                        |   1 +
+ tests/qemu-iotests/055                        |   1 +
+ tests/qemu-iotests/056                        |   1 +
+ tests/qemu-iotests/057                        |   1 +
+ tests/qemu-iotests/058                        |   1 +
+ tests/qemu-iotests/059                        |   1 +
+ tests/qemu-iotests/060                        |   1 +
+ tests/qemu-iotests/061                        |   1 +
+ tests/qemu-iotests/062                        |   1 +
+ tests/qemu-iotests/063                        |   1 +
+ tests/qemu-iotests/064                        |   1 +
+ tests/qemu-iotests/065                        |   1 +
+ tests/qemu-iotests/066                        |   1 +
+ tests/qemu-iotests/067                        |   1 +
+ tests/qemu-iotests/068                        |   1 +
+ tests/qemu-iotests/069                        |   1 +
+ tests/qemu-iotests/070                        |   1 +
+ tests/qemu-iotests/071                        |   1 +
+ tests/qemu-iotests/072                        |   1 +
+ tests/qemu-iotests/073                        |   1 +
+ tests/qemu-iotests/074                        |   1 +
+ tests/qemu-iotests/075                        |   1 +
+ tests/qemu-iotests/076                        |   1 +
+ tests/qemu-iotests/077                        |   1 +
+ tests/qemu-iotests/078                        |   1 +
+ tests/qemu-iotests/079                        |   1 +
+ tests/qemu-iotests/080                        |   1 +
+ tests/qemu-iotests/081                        |   1 +
+ tests/qemu-iotests/082                        |   1 +
+ tests/qemu-iotests/083                        |   1 +
+ tests/qemu-iotests/084                        |   1 +
+ tests/qemu-iotests/085                        |   1 +
+ tests/qemu-iotests/086                        |   1 +
+ tests/qemu-iotests/087                        |   1 +
+ tests/qemu-iotests/088                        |   1 +
+ tests/qemu-iotests/089                        |   1 +
+ tests/qemu-iotests/090                        |   1 +
+ tests/qemu-iotests/091                        |   1 +
+ tests/qemu-iotests/092                        |   1 +
+ tests/qemu-iotests/093                        |   1 +
+ tests/qemu-iotests/094                        |   1 +
+ tests/qemu-iotests/095                        |   1 +
+ tests/qemu-iotests/096                        |   1 +
+ tests/qemu-iotests/097                        |   1 +
+ tests/qemu-iotests/098                        |   1 +
+ tests/qemu-iotests/099                        |   1 +
+ tests/qemu-iotests/101                        |   1 +
+ tests/qemu-iotests/102                        |   1 +
+ tests/qemu-iotests/103                        |   1 +
+ tests/qemu-iotests/104                        |   1 +
+ tests/qemu-iotests/105                        |   1 +
+ tests/qemu-iotests/106                        |   1 +
+ tests/qemu-iotests/107                        |   1 +
+ tests/qemu-iotests/108                        |   1 +
+ tests/qemu-iotests/109                        |   1 +
+ tests/qemu-iotests/110                        |   1 +
+ tests/qemu-iotests/111                        |   1 +
+ tests/qemu-iotests/112                        |   1 +
+ tests/qemu-iotests/113                        |   1 +
+ tests/qemu-iotests/114                        |   1 +
+ tests/qemu-iotests/115                        |   1 +
+ tests/qemu-iotests/116                        |   1 +
+ tests/qemu-iotests/117                        |   1 +
+ tests/qemu-iotests/118                        |   1 +
+ tests/qemu-iotests/119                        |   1 +
+ tests/qemu-iotests/120                        |   1 +
+ tests/qemu-iotests/121                        |   1 +
+ tests/qemu-iotests/122                        |   1 +
+ tests/qemu-iotests/123                        |   1 +
+ tests/qemu-iotests/124                        |   1 +
+ tests/qemu-iotests/125                        |   1 +
+ tests/qemu-iotests/126                        |   1 +
+ tests/qemu-iotests/127                        |   1 +
+ tests/qemu-iotests/128                        |   1 +
+ tests/qemu-iotests/129                        |   1 +
+ tests/qemu-iotests/130                        |   1 +
+ tests/qemu-iotests/131                        |   1 +
+ tests/qemu-iotests/132                        |   1 +
+ tests/qemu-iotests/133                        |   1 +
+ tests/qemu-iotests/134                        |   1 +
+ tests/qemu-iotests/135                        |   1 +
+ tests/qemu-iotests/136                        |   1 +
+ tests/qemu-iotests/137                        |   1 +
+ tests/qemu-iotests/138                        |   1 +
+ tests/qemu-iotests/139                        |   1 +
+ tests/qemu-iotests/140                        |   1 +
+ tests/qemu-iotests/141                        |   1 +
+ tests/qemu-iotests/143                        |   1 +
+ tests/qemu-iotests/144                        |   1 +
+ tests/qemu-iotests/145                        |   1 +
+ tests/qemu-iotests/146                        |   1 +
+ tests/qemu-iotests/147                        |   1 +
+ tests/qemu-iotests/148                        |   1 +
+ tests/qemu-iotests/149                        |   1 +
+ tests/qemu-iotests/150                        |   1 +
+ tests/qemu-iotests/151                        |   1 +
+ tests/qemu-iotests/152                        |   1 +
+ tests/qemu-iotests/153                        |   1 +
+ tests/qemu-iotests/154                        |   1 +
+ tests/qemu-iotests/155                        |   1 +
+ tests/qemu-iotests/156                        |   1 +
+ tests/qemu-iotests/157                        |   1 +
+ tests/qemu-iotests/158                        |   1 +
+ tests/qemu-iotests/159                        |   1 +
+ tests/qemu-iotests/160                        |   1 +
+ tests/qemu-iotests/161                        |   1 +
+ tests/qemu-iotests/162                        |   1 +
+ tests/qemu-iotests/163                        |   1 +
+ tests/qemu-iotests/165                        |   1 +
+ tests/qemu-iotests/170                        |   1 +
+ tests/qemu-iotests/171                        |   1 +
+ tests/qemu-iotests/172                        |   1 +
+ tests/qemu-iotests/173                        |   1 +
+ tests/qemu-iotests/174                        |   1 +
+ tests/qemu-iotests/175                        |   1 +
+ tests/qemu-iotests/175.out                    |   2 +-
+ tests/qemu-iotests/176                        |   1 +
+ tests/qemu-iotests/177                        |   1 +
+ tests/qemu-iotests/178                        |   1 +
+ tests/qemu-iotests/179                        |   1 +
+ tests/qemu-iotests/181                        |   1 +
+ tests/qemu-iotests/182                        |   1 +
+ tests/qemu-iotests/183                        |   1 +
+ tests/qemu-iotests/184                        |   1 +
+ tests/qemu-iotests/185                        |   1 +
+ tests/qemu-iotests/186                        |   1 +
+ tests/qemu-iotests/187                        |   1 +
+ tests/qemu-iotests/188                        |   1 +
+ tests/qemu-iotests/189                        |   1 +
+ tests/qemu-iotests/190                        |   1 +
+ tests/qemu-iotests/191                        |   1 +
+ tests/qemu-iotests/192                        |   1 +
+ tests/qemu-iotests/194                        |   1 +
+ tests/qemu-iotests/195                        |   1 +
+ tests/qemu-iotests/196                        |   1 +
+ tests/qemu-iotests/197                        |   1 +
+ tests/qemu-iotests/198                        |   1 +
+ tests/qemu-iotests/200                        |   1 +
+ tests/qemu-iotests/201                        |   1 +
+ tests/qemu-iotests/202                        |   1 +
+ tests/qemu-iotests/203                        |   1 +
+ tests/qemu-iotests/204                        |   1 +
+ tests/qemu-iotests/205                        |   1 +
+ tests/qemu-iotests/206                        |   1 +
+ tests/qemu-iotests/207                        |   1 +
+ tests/qemu-iotests/208                        |   1 +
+ tests/qemu-iotests/209                        |   1 +
+ tests/qemu-iotests/210                        |   1 +
+ tests/qemu-iotests/211                        |   1 +
+ tests/qemu-iotests/212                        |   1 +
+ tests/qemu-iotests/213                        |   1 +
+ tests/qemu-iotests/214                        |   1 +
+ tests/qemu-iotests/215                        |   1 +
+ tests/qemu-iotests/216                        |   1 +
+ tests/qemu-iotests/217                        |   1 +
+ tests/qemu-iotests/218                        |   1 +
+ tests/qemu-iotests/219                        |   1 +
+ tests/qemu-iotests/220                        |   1 +
+ tests/qemu-iotests/221                        |   1 +
+ tests/qemu-iotests/222                        |   1 +
+ tests/qemu-iotests/223                        |   1 +
+ tests/qemu-iotests/224                        |   1 +
+ tests/qemu-iotests/225                        |   1 +
+ tests/qemu-iotests/226                        |   1 +
+ tests/qemu-iotests/227                        |   1 +
+ tests/qemu-iotests/228                        |   1 +
+ tests/qemu-iotests/229                        |   1 +
+ tests/qemu-iotests/231                        |   1 +
+ tests/qemu-iotests/232                        |   1 +
+ tests/qemu-iotests/233                        |   1 +
+ tests/qemu-iotests/234                        |   1 +
+ tests/qemu-iotests/235                        |   1 +
+ tests/qemu-iotests/236                        |   1 +
+ tests/qemu-iotests/237                        |   1 +
+ tests/qemu-iotests/238                        |   1 +
+ tests/qemu-iotests/239                        |   1 +
+ tests/qemu-iotests/240                        |   1 +
+ tests/qemu-iotests/241                        |   1 +
+ tests/qemu-iotests/242                        |   1 +
+ tests/qemu-iotests/243                        |   1 +
+ tests/qemu-iotests/244                        |   1 +
+ tests/qemu-iotests/245                        |   1 +
+ tests/qemu-iotests/246                        |   1 +
+ tests/qemu-iotests/247                        |   1 +
+ tests/qemu-iotests/248                        |   1 +
+ tests/qemu-iotests/249                        |   1 +
+ tests/qemu-iotests/250                        |   1 +
+ tests/qemu-iotests/251                        |   1 +
+ tests/qemu-iotests/252                        |   1 +
+ tests/qemu-iotests/253                        |   1 +
+ tests/qemu-iotests/254                        |   1 +
+ tests/qemu-iotests/255                        |   1 +
+ tests/qemu-iotests/256                        |   1 +
+ tests/qemu-iotests/257                        |   1 +
+ tests/qemu-iotests/258                        |   1 +
+ tests/qemu-iotests/259                        |   1 +
+ tests/qemu-iotests/260                        |   1 +
+ tests/qemu-iotests/261                        |   1 +
+ tests/qemu-iotests/262                        |   1 +
+ tests/qemu-iotests/263                        |   1 +
+ tests/qemu-iotests/264                        |   1 +
+ tests/qemu-iotests/265                        |   1 +
+ tests/qemu-iotests/266                        |   1 +
+ tests/qemu-iotests/267                        |   1 +
+ tests/qemu-iotests/267.out                    |  48 +-
+ tests/qemu-iotests/268                        |   1 +
+ tests/qemu-iotests/270                        |   1 +
+ tests/qemu-iotests/272                        |   1 +
+ tests/qemu-iotests/273                        |   1 +
+ tests/qemu-iotests/277                        |   3 +-
+ tests/qemu-iotests/279                        |   1 +
+ tests/qemu-iotests/280                        |   1 +
+ tests/qemu-iotests/281                        |   1 +
+ tests/qemu-iotests/282                        |   1 +
+ tests/qemu-iotests/283                        |   1 +
+ tests/qemu-iotests/284                        |   1 +
+ tests/qemu-iotests/286                        |   1 +
+ tests/qemu-iotests/288                        |   1 +
+ tests/qemu-iotests/289                        |   1 +
+ tests/qemu-iotests/290                        |   1 +
+ tests/qemu-iotests/check                      | 980 +-----------------
+ tests/qemu-iotests/common.rc                  |  14 +
+ tests/qemu-iotests/group                      | 299 ------
+ .../{199 => migrate-bitmaps-postcopy-test}    |   1 +
+ ....out => migrate-bitmaps-postcopy-test.out} |   0
+ .../{169 => migrate-bitmaps-test}             |   1 +
+ .../{169.out => migrate-bitmaps-test.out}     |   0
+ tests/qemu-iotests/testenv.py                 | 332 ++++++
+ tests/qemu-iotests/testfinder.py              | 167 +++
+ tests/qemu-iotests/testrunner.py              | 334 ++++++
+ 282 files changed, 1223 insertions(+), 1278 deletions(-)
+ mode change 100644 => 100755 tests/qemu-iotests/283
+ delete mode 100644 tests/qemu-iotests/group
+ rename tests/qemu-iotests/{199 => migrate-bitmaps-postcopy-test} (99%)
+ rename tests/qemu-iotests/{199.out => migrate-bitmaps-postcopy-test.out} (100%)
+ rename tests/qemu-iotests/{169 => migrate-bitmaps-test} (99%)
+ rename tests/qemu-iotests/{169.out => migrate-bitmaps-test.out} (100%)
+ create mode 100755 tests/qemu-iotests/testenv.py
+ create mode 100755 tests/qemu-iotests/testfinder.py
+ create mode 100644 tests/qemu-iotests/testrunner.py
+
+-- 
+2.21.0
+
 
