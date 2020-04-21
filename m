@@ -2,100 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 157701B2F42
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 20:39:47 +0200 (CEST)
-Received: from localhost ([::1]:34362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 277551B3039
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 21:21:13 +0200 (CEST)
+Received: from localhost ([::1]:34950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQxo9-0003rk-Kl
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 14:39:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44326)
+	id 1jQySG-00014B-2i
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 15:21:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52078)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1jQxmJ-0002aD-Uj
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 14:38:04 -0400
+ (envelope-from <palmerdabbelt@google.com>) id 1jQyQZ-0007hA-RY
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:19:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1jQxmI-0001as-Gk
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 14:37:51 -0400
-Received: from mail-dm6nam12on2104.outbound.protection.outlook.com
- ([40.107.243.104]:9184 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jQxmH-0001Zx-7v
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 14:37:50 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TKDCjHTheBgManGCvw6PsjHHRybj/dfmreoMixUBMSfSO7CMrax31PCTFXo/jNoq1OHLthZaLYTIjmCiuTyGZkEP1wwCdMP5NEik7A5KRdNdKvW2GYRi2FEsPe8GMqrGO8edUxXAcwpcKwJ9VcuyV9iipsyXPEh5xI4CZ/tB6yYGZOxq+ZfZMd+C9hc3g9MtZ+ga3+V4rabhoxwRXJJdmCHaNsAF1ZmvCJgvavWseBsVxy+p1vWkFqUSwwccUXc/BBXrocu/O3gdeZzzBLLf3gBMFN8uAJ4cQwFKfOCc+zGP8O560s2TUNjkudhcWVcqzBo6wxOlh5cAAiN5HPImIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oJh7POinFxOKrlCb+sVefUd8xHNMZS69SJYrcAgJZ3Q=;
- b=OmurEXXC7N0Wh24YZuTV4SkDJjFv0lL7qYkb+if95xo1QYRQ+5xGjF6zwtL+R5SXBTuUtDkKL3qaleH0ycfn4kqoiycnnu6gTZcOxeENG1O/252GCvHXLJNtfTp/qj4QwsJc0YYHLDZLOlYmc8f+ewTsEHfL9KQFX4o3CRzZGkFa0NQaqwNA1iiLGJZMojcGhTDO2yen4ADjTvPjoPg+tWWQFSI/4JRX9hlrJmQOknWVdEI6jEFz+1fiatAh24RHPfvUmboNs41JgjOM2MMwQz9J6QufB1PhUcnnQn9z2Ei9GJNbRtcuxdIyQruaMUTbGwTChVzSOco1+nfz5oleBg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
- header.d=bu.edu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oJh7POinFxOKrlCb+sVefUd8xHNMZS69SJYrcAgJZ3Q=;
- b=Jick/49llloJgU7CSsv8znjHY0EIrMo8tiFDr4f/awRPgp4dv0dBesweedfwRmYzGE00uhYC2c9F0SzniqBFcJ8QCAG+RrT/hp0cFnKCYsKOPToPE4n5a8FwW7ri59TiLA6xg0D09ZosFQvc3nbLXnv85uMpKHwq8kI7fEnLcYc=
-Authentication-Results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
- by SN6PR03MB3999.namprd03.prod.outlook.com (2603:10b6:805:c2::24)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.29; Tue, 21 Apr
- 2020 18:22:43 +0000
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::640a:1123:37c1:42db]) by SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::640a:1123:37c1:42db%3]) with mapi id 15.20.2921.027; Tue, 21 Apr 2020
- 18:22:43 +0000
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] fuzz: select fuzz target using executable name
-Date: Tue, 21 Apr 2020 14:22:30 -0400
-Message-Id: <20200421182230.6313-1-alxndr@bu.edu>
-X-Mailer: git-send-email 2.25.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MN2PR04CA0026.namprd04.prod.outlook.com
- (2603:10b6:208:d4::39) To SN6PR03MB3871.namprd03.prod.outlook.com
- (2603:10b6:805:6d::32)
+ (envelope-from <palmerdabbelt@google.com>) id 1jQyQY-0007gc-Ad
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:19:27 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:42382)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <palmerdabbelt@google.com>)
+ id 1jQyQX-0007dW-Sx
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 15:19:25 -0400
+Received: by mail-pl1-x643.google.com with SMTP id v2so5622102plp.9
+ for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 12:19:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=subject:date:message-id:mime-version:content-transfer-encoding:cc
+ :from:to; bh=d2aQTDRAnh1W1uDd73pKIcIBYgis36iQt06EI8YmDrs=;
+ b=pN2E2m6qSoaom/4RWEWGJIAiKglZBsnOOAJkYLDW0TFi0GRqtF+NL5qzXlwGjA8g43
+ M3ulH0EpM/ibrYAnNsEhiK8fDYXxIqH0lWxbhmRq+CosYiW8seSWR/0hHHPe0AK0//GQ
+ PnF+Q/b6MdjHym2cb6K92xGz4EiNquim42F0XMbQOTOU6BgaTqrFi4b8F8GVX/hbRh48
+ NFjRJNYr4FX6k/mmmXqjYfBEbigeCbXTvdp3DnOwkCmPtUW50t0BPkWyqFgulMZ7UkjX
+ sLWavhJ8/0BacVDd8weZH0RYey2sfjeJOVRiaeP5RnUIy5KJuWxEhNAt3joNM7JBOV24
+ nrhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:date:message-id:mime-version
+ :content-transfer-encoding:cc:from:to;
+ bh=d2aQTDRAnh1W1uDd73pKIcIBYgis36iQt06EI8YmDrs=;
+ b=er7nrCXGXkLODcotofz3vb+nOu2Uq+WR9VEBaHkTyFJM6bU7H925hWf5v/d5eyuOiH
+ k+CO3KmxDV2UPKuo+1ETt7rW0yEJp+PLai8/15eY17W/TgHrdsOQsHQlbyC5mbrjpYVe
+ knRpM9zk+plZe9kgn04rSIzsVSfr3uUBx2ShdfwXbIFiK2LV91vhZpuTjokRbYxznaO8
+ FHMmcEnZm8Ji0o+85/hU/Kapvz71ZUJmFo+3iyMXOf2/4HNsLXB0D9sgbTFH7dG6YhbU
+ LH8ZgbC8ZbqodJ7nTq6EtB97FrS89xHop/tjhuJRdF+pyTff+hjSjCBtlpTndShVE4BW
+ GDVg==
+X-Gm-Message-State: AGi0PubQlG1RNLuY+V839LHgd936yxlWOsPUEdAfIZR/V5KB4N0rAsNx
+ KtskHxgSTUMRmpXeFZCXO7iiug==
+X-Google-Smtp-Source: APiQypLI5c5Cdk+yBJuabxDSseVYoNfNLx75Kl68Jw+Bwvhm+JFcUoaBmn2gMpXS6O7U2JMQmYBSsw==
+X-Received: by 2002:a17:902:7886:: with SMTP id
+ q6mr23086848pll.237.1587496761677; 
+ Tue, 21 Apr 2020 12:19:21 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
+ [76.210.143.223])
+ by smtp.gmail.com with ESMTPSA id y187sm3193810pfg.16.2020.04.21.12.19.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Apr 2020 12:19:21 -0700 (PDT)
+Subject: [PULL] RISC-V Patches for 5.0-rc4
+Date: Tue, 21 Apr 2020 12:09:55 -0700
+Message-Id: <20200421191001.92644-1-palmerdabbelt@google.com>
+X-Mailer: git-send-email 2.26.1.301.g55bc3eb7cb9-goog
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mozz.bu.edu (128.197.127.33) by
- MN2PR04CA0026.namprd04.prod.outlook.com (2603:10b6:208:d4::39) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2921.27 via Frontend Transport; Tue, 21 Apr 2020 18:22:42 +0000
-X-Mailer: git-send-email 2.25.0
-X-Originating-IP: [128.197.127.33]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7672f39f-0447-4fcb-ebcd-08d7e620fba3
-X-MS-TrafficTypeDiagnostic: SN6PR03MB3999:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR03MB399966811BDDD337D827454CBAD50@SN6PR03MB3999.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:159;
-X-Forefront-PRVS: 038002787A
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10019020)(4636009)(396003)(39860400002)(376002)(366004)(346002)(136003)(6666004)(54906003)(66476007)(6916009)(75432002)(4326008)(316002)(7696005)(786003)(26005)(6486002)(956004)(2616005)(52116002)(186003)(16526019)(86362001)(8936002)(66556008)(36756003)(81156014)(478600001)(8676002)(5660300002)(66946007)(1076003)(2906002);
- DIR:OUT; SFP:1102; 
-Received-SPF: None (protection.outlook.com: bu.edu does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VPukrlC3Og0ADD3BEpV91WErGQHuqy5yMZQDn7gdlMD4zArOWS3/mP3dED/gTTjHJykfQp1EjGFu5Tlwqz9V9D9hbBL0rzCND4trQcd1fflHD5vNcIuyUSwektvxC7OkpBNbCW0dSsRu0r+5nuE+XlDW1KuPZEvcINFvIL5eEE4jQk42nprgXeqGWRI+8UacgZxmyHHAvdG5SVOfbax74UWtZFO6aN30fNak7KsYsRHXQpF/RYGCrQeY15EhGvB3VjF8IwqdfytYp/Z7VTfruoPHXwZlAwkKyUWw9d0I+9AhqWo8MxMf4VjH9RNY8av5dWO2J+VlpsK+PnxtaZIPGpNEJm7Nyy0hgCZxsqT7GPodFChD+Tv3ZOhS4oiSMWJrUz90ZSdJx4HJIulqtQB5QuDDyPQ/5SmoLmZ9/JFC5RA0ZbuyZXqFxaIGma7k9mva
-X-MS-Exchange-AntiSpam-MessageData: Jx/nGtwsAB4wPshOkss8KDZ+3PNE3//rLdllW0t5VH+ltqqXPd80ghOhCxRCDXvJHiBDsv1MeG1jiQGSrMma9JTH/tpHJndRDc7z2RgIHHMM9m0UI/4hMbUz4vd0fsvtRtRp8jOwKFRijkfaj/6ssQ==
-X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7672f39f-0447-4fcb-ebcd-08d7e620fba3
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2020 18:22:43.5288 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V0zyIGe5J66BtO5/wZY8oI4tX6wBSv3GGIDTlpi+bsMQ/RboSTDIVOAWIK0iq3y9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3999
-Received-SPF: pass client-ip=40.107.243.104; envelope-from=alxndr@bu.edu;
- helo=NAM12-DM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 14:37:47
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Received-From: 40.107.243.104
+Content-Transfer-Encoding: 8bit
+Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org
+From: Palmer Dabbelt <palmerdabbelt@google.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
+ envelope-from=palmerdabbelt@google.com; helo=mail-pl1-x643.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::643
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -107,67 +80,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The fuzzers are built into a binary (e.g. qemu-fuzz-i386). To select the
-device to fuzz/fuzz target, we usually use the --fuzz-target= argument.
-This commit allows the fuzz-target to be specified using the name of the
-executable. If the executable name ends with -target-FUZZ_TARGET, then
-we select the fuzz target based on this name, rather than the
---fuzz-target argument. This is useful for systems such as oss-fuzz
-where we don't have control of the arguments passed to the fuzzer.
+The following changes since commit 20038cd7a8412feeb49c01f6ede89e36c8995472:
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- tests/qtest/fuzz/fuzz.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+  Update version for v5.0.0-rc3 release (2020-04-15 20:51:54 +0100)
 
-diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
-index 0d78ac8d36..c6932cec4a 100644
---- a/tests/qtest/fuzz/fuzz.c
-+++ b/tests/qtest/fuzz/fuzz.c
-@@ -91,6 +91,7 @@ static void usage(char *path)
-         printf(" * %s  : %s\n", tmp->target->name,
-                 tmp->target->description);
-     }
-+    printf("Alternatively, add -target-FUZZ_TARGET to the executable name\n");
-     exit(0);
- }
- 
-@@ -143,18 +144,20 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
-     module_call_init(MODULE_INIT_QOM);
-     module_call_init(MODULE_INIT_LIBQOS);
- 
--    if (*argc <= 1) {
-+    target_name = strstr(**argv, "-target-");
-+    if (target_name) {        /* The binary name specifies the target */
-+                target_name += strlen("-target-");
-+    } else if (*argc > 1) {  /* The target is specified as an argument */
-+        target_name = (*argv)[1];
-+        if (!strstr(target_name, "--fuzz-target=")) {
-+            usage(**argv);
-+        }
-+        target_name += strlen("--fuzz-target=");
-+    } else {
-         usage(**argv);
-     }
- 
-     /* Identify the fuzz target */
--    target_name = (*argv)[1];
--    if (!strstr(target_name, "--fuzz-target=")) {
--        usage(**argv);
--    }
--
--    target_name += strlen("--fuzz-target=");
--
-     fuzz_target = fuzz_get_target(target_name);
-     if (!fuzz_target) {
-         usage(**argv);
--- 
-2.25.0
+are available in the Git repository at:
+
+  git@github.com:palmer-dabbelt/qemu.git tags/riscv-for-master-5.0-rc4
+
+for you to fetch changes up to 8a7ce6ac908a8ef30d6a81fe8334c3c942670949:
+
+  riscv/sifive_u: Add a serial property to the sifive_u machine (2020-04-21 10:54:59 -0700)
+
+----------------------------------------------------------------
+RISC-V Patches for 5.0-rc4
+
+This contains handful of patches that I'd like to target for 5.0.  I know it's
+a bit late, I thought I'd already sent these out but must have managed to miss
+doing so.  The patches include:
+
+* A handful of fixes to PTE lookups related to H-mode support.
+* The addition of a serial number fo the SiFive U implementetaion, which allows
+  bootloaders to generate a sane MAC address.
+
+These pass "make check" and boot Linux for me.
+
+----------------------------------------------------------------
+Peter: Sorry I dropped the ball here.  I can understand if it's too late for
+5.0, but if there's still going to be an rc4 then I'd love to have these
+included.
+----------------------------------------------------------------
+Alistair Francis (5):
+      target/riscv: Don't set write permissions on dirty PTEs
+      riscv: Don't use stage-2 PTE lookup protection flags
+      riscv: AND stage-1 and stage-2 protection flags
+      riscv/sifive_u: Fix up file ordering
+      riscv/sifive_u: Add a serial property to the sifive_u SoC
+
+Bin Meng (1):
+      riscv/sifive_u: Add a serial property to the sifive_u machine
+
+ hw/riscv/sifive_u.c         | 137 ++++++++++++++++++++++++++------------------
+ include/hw/riscv/sifive_u.h |   3 +
+ target/riscv/cpu_helper.c   |  17 +++---
+ 3 files changed, 94 insertions(+), 63 deletions(-)
 
 
