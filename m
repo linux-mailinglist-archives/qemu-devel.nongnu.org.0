@@ -2,60 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FA011B2338
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 11:50:05 +0200 (CEST)
-Received: from localhost ([::1]:54912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B069F1B23AE
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 12:23:36 +0200 (CEST)
+Received: from localhost ([::1]:55238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQpXY-0006X8-9K
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 05:50:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38460)
+	id 1jQq3z-0006uu-0R
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 06:23:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43890)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frederic.konrad@adacore.com>) id 1jQpVT-0004s2-Nx
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 05:47:56 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jQq2m-0006C9-BM
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:22:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <frederic.konrad@adacore.com>) id 1jQpVP-000461-GS
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 05:47:55 -0400
-Received: from mel.act-europe.fr ([194.98.77.210]:46258
- helo=smtp.eu.adacore.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frederic.konrad@adacore.com>)
- id 1jQpVO-000430-ST
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 05:47:51 -0400
-Received: from localhost (localhost [127.0.0.1])
- by filtered-smtp.eu.adacore.com (Postfix) with ESMTP id 632E181339;
- Tue, 21 Apr 2020 11:47:47 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at eu.adacore.com
-Received: from smtp.eu.adacore.com ([127.0.0.1])
- by localhost (smtp.eu.adacore.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bFXyb7h4Xy9W; Tue, 21 Apr 2020 11:47:47 +0200 (CEST)
-Received: from localhost.localdomain (lfbn-tou-1-1471-22.w90-89.abo.wanadoo.fr
- [90.89.4.22])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp.eu.adacore.com (Postfix) with ESMTPSA id 18308812EF;
- Tue, 21 Apr 2020 11:47:47 +0200 (CEST)
-Subject: Re: [PATCH v1] target/m68k: fix gdb for m68xxx
-To: Laurent Vivier <laurent@vivier.eu>
-References: <1587391275-12748-1-git-send-email-frederic.konrad@adacore.com>
- <429d6d9c-fff7-d64d-3dfb-917d1985ec90@vivier.eu>
- <268c0a26-9ed2-4812-a985-1321e35eb00a@adacore.com>
- <16709c4c-afe1-f6d6-8535-a0717483cc88@vivier.eu>
-From: KONRAD Frederic <frederic.konrad@adacore.com>
-Message-ID: <68a84047-113e-bec4-7f25-800b83c5c5d0@adacore.com>
-Date: Tue, 21 Apr 2020 11:47:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jQq2l-0002rq-3L
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:22:20 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:36875)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jQq2k-0002qU-Ld
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 06:22:18 -0400
+Received: by mail-wm1-x330.google.com with SMTP id z6so3057894wml.2
+ for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 03:22:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=4cQqO6E8Og1xwYBrubCAay+Q2ib6q0EYIgpBDWHI1ug=;
+ b=KNL+1P5DvJua2J4AeHjJNOzi+MsW+7PqiEQR2UPpx/3Ljf6ySKu4cU5DOsd8XuKTgh
+ eixJYYa0w1Pxc47drn1q3u2eOT40XxoOLw6ADc/fp5PKCFcVzKzA/UWzWHTFbVBB34kT
+ hmYCl0JVfWUK+Xl7qu2KfzUE3cuwUnhDJi/ZYSsRWt26h89G0ZStQW75f9EZGwmCEXh0
+ g8thouSa42LCBr68X/jVroExl4lKpbYTdk2axjMid1K07yZNak2YZ9C1yrKuuQDxnCHq
+ OyCL53N5ry2eAGw0ni3k9Qz/kOoxkoJcApWOibbCabboynXv30L95czCIeJC3DXNnFrl
+ tRGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=4cQqO6E8Og1xwYBrubCAay+Q2ib6q0EYIgpBDWHI1ug=;
+ b=Af5qLHgItXHbLwg2zeGoBVdGqvQLkJz+QFSAerdVK7lzSJw599lUu0n9Z9oLrMUWGW
+ fhCd0keDG4R3Gs6vVbSy1PtD6v2sqBkRxBsvks0y2DWa99OgqaEe1j8MjukiK/NCF7va
+ Z/3xLz9vR2wYl382akZ9+vMhT9ZSnTbwS6qa4zAiE2ttSblKRK+MLBboRUqcYHxhg4TJ
+ 7Wk0oVMvqncSVghFica7RKO1552T/yOlmL4A44Z/lW/vztbd1ZxreoXG6DYs22icZ0FM
+ Mxw/wta37vLnUkGzvLr2me9kzocXB7tWa5OZ1RijJhdWAmPsj6WIKj9/G2xP6gsHVDkN
+ ocxg==
+X-Gm-Message-State: AGi0PuZZrbt++ClBVuF+9Lv719L8J315tL3ehJrgxBSxSACZ/Eo65vAY
+ R7udiKJtO3v03ZQOwxzjHKoZSqtOBvUjttMz38A=
+X-Google-Smtp-Source: APiQypJIffWRcDwkr/NMjHAYqvMm8WyBNqjUH4DGJUpeJ6/FZJgyriXwSZkpSnudObzUeEnxMzQxCpTcG0TRW0QxBnM=
+X-Received: by 2002:a1c:e284:: with SMTP id z126mr4416265wmg.32.1587464537039; 
+ Tue, 21 Apr 2020 03:22:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <16709c4c-afe1-f6d6-8535-a0717483cc88@vivier.eu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=194.98.77.210;
- envelope-from=frederic.konrad@adacore.com; helo=smtp.eu.adacore.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 05:47:47
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Received-From: 194.98.77.210
+References: <CAP+75-UisNwFqedDPfuGt=HFEEnPSO7sNq9JxpUuLPVdYDryuw@mail.gmail.com>
+In-Reply-To: <CAP+75-UisNwFqedDPfuGt=HFEEnPSO7sNq9JxpUuLPVdYDryuw@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 21 Apr 2020 12:22:05 +0200
+Message-ID: <CAJ+F1C+YnbgCkYN1+7zpq0XvZYb2LWL6kbQXRSybJew1JnBgQQ@mail.gmail.com>
+Subject: Re: SLiRP: use-afte-free in ip_reass() [CVE-2020-1983]
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x330.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::330
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,256 +76,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: huth@tuxfamily.org, alex.bennee@linaro.org, f4bug@amsat.org,
- qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- pierre@freepascal.org
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi
 
+On Tue, Apr 21, 2020 at 11:18 AM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+>
+> Hi Samuel and Marc-Andr=C3=A9,
+>
+> Peter is going to tag 5.0-rc4 (final before release) today.
+> Do you have plans to send a last minute pull-request to fix CVE-2020-1983=
+?
+>
+> https://gitlab.freedesktop.org/slirp/libslirp/-/commit/9ac0371bb
 
-Le 4/20/20 à 10:43 PM, Laurent Vivier a écrit :
-> Le 20/04/2020 à 21:08, KONRAD Frederic a écrit :
->>
->>
->> Le 4/20/20 à 5:46 PM, Laurent Vivier a écrit :
->>> Le 20/04/2020 à 16:01, frederic.konrad@adacore.com a écrit :
->>>> From: KONRAD Frederic <frederic.konrad@adacore.com>
->>>>
->>>> Currently "cf-core.xml" is sent to GDB when using any m68k flavor.
->>>> Thing is
->>>> it uses the "org.gnu.gdb.coldfire.core" feature name and gdb 8.3 then
->>>> expects
->>>> a coldfire FPU instead of the default m68881 FPU.
->>>
->>>
->>> I checked in gdb sources and there is no cf definition.
->>>
->>> Moreover if I change only the cf to m68k in QEMU it seems to work in
->>> both cases:
->>>
->>> diff --git a/gdb-xml/cf-core.xml b/gdb-xml/cf-core.xml
->>> index b90af3042c..5b092d26de 100644
->>> --- a/gdb-xml/cf-core.xml
->>> +++ b/gdb-xml/cf-core.xml
->>> @@ -5,7 +5,7 @@
->>>         are permitted in any medium without royalty provided the copyright
->>>         notice and this notice are preserved.  -->
->>>    <!DOCTYPE feature SYSTEM "gdb-target.dtd">
->>> -<feature name="org.gnu.gdb.coldfire.core">
->>> +<feature name="org.gnu.gdb.m68k.core">
->>>      <reg name="d0" bitsize="32"/>
->>>      <reg name="d1" bitsize="32"/>
->>>      <reg name="d2" bitsize="32"/>
->>
->> Doesn't that break gdb with coldfire?
->>
->>> diff --git a/gdb-xml/m68k-fp.xml b/gdb-xml/m68k-fp.xml
->>> index 64290d1630..0ef74f7488 100644
->>> --- a/gdb-xml/m68k-fp.xml
->>> +++ b/gdb-xml/m68k-fp.xml
->>> @@ -5,7 +5,7 @@
->>>         are permitted in any medium without royalty provided the copyright
->>>         notice and this notice are preserved.  -->
->>>    <!DOCTYPE feature SYSTEM "gdb-target.dtd">
->>> -<feature name="org.gnu.gdb.coldfire.fp">
->>> +<feature name="org.gnu.gdb.m68k.fp">
->>>      <reg name="fp0" bitsize="96" type="float" group="float"/>
->>>      <reg name="fp1" bitsize="96" type="float" group="float"/>
->>>      <reg name="fp2" bitsize="96" type="float" group="float"/>
->>>
->>> As I have not checked the gdb sources for that, I'd like to have your
->>> opinion.
->>
->> In the GDB 8.3 sources: m68k-tdep.c:1091:
->>
->>        feature = tdesc_find_feature (info.target_desc,
->>                      "org.gnu.gdb.m68k.core");
->>        if (feature == NULL)
->>      {
->>        feature = tdesc_find_feature (info.target_desc,
->>                      "org.gnu.gdb.coldfire.core");
->>        if (feature != NULL)
->>          flavour = m68k_coldfire_flavour;
->>      }
->>
->> Hence the change I suggested.  Little later it has also:
->>
->>        feature = tdesc_find_feature (info.target_desc,
->>                      "org.gnu.gdb.coldfire.fp");
->>        if (feature != NULL)
->>      {
->>        valid_p = 1;
->>        for (i = M68K_FP0_REGNUM; i <= M68K_FPI_REGNUM; i++)
->>          valid_p &= tdesc_numbered_register (feature, tdesc_data, i,
->>                          m68k_register_names[i]);
->>        if (!valid_p)
->>          {
->>            tdesc_data_cleanup (tdesc_data);
->>            return NULL;
->>          }
->>      }
->>        else
->>      has_fp = 0;
->>
->> Which is why I didn't made the change you suggested about the
->> m68k-fp.xml but I
->> just tried with this additional change and it doesn't seem to hurt.
-> 
-> Thank you for your analysis, it seems a simpler patch works with
-> coldfire and m68k.
+libslirp is not following qemu release schedule. The master branch has
+a few changes that shouldn't be added to the release. We could create
+version/stable/qemu branches, but then between each version, we would
+end up with the submodule jumping between branches (with a non-linear
+history). Is that the only option?
 
-Hi Laurent,
-
-Arg sorry I though I said that in an other email but apparently I forgot to hit
-the send button.  The issue with this simpler patch is that GDB will not set:
-
-   flavour = m68k_coldfire_flavour
-
-when we are running coldfire emulation, and that might break the ABI within GDB.
-According to the comments there, float are returned within D0 for ColdFire and
-not the other one.  That's why I cared to keep them separate ie: send the right
-"feature name" for the right cpu we are modelling.
-
-> 
-> diff --git a/configure b/configure
-> index 23b5e93752..b3be6d9c4b 100755
-> --- a/configure
-> +++ b/configure
-> @@ -7825,7 +7825,7 @@ case "$target_name" in
->     ;;
->     m68k)
->       bflt="yes"
-> -    gdb_xml_files="cf-core.xml cf-fp.xml m68k-fp.xml"
-> +    gdb_xml_files="m68k-core.xml cf-fp.xml m68k-fp.xml"
->       TARGET_SYSTBL_ABI=common
->     ;;
->     microblaze|microblazeel)
-> diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-> index 9445fcd6df..4e942a0a8e 100644
-> --- a/target/m68k/cpu.c
-> +++ b/target/m68k/cpu.c
-> @@ -292,7 +292,7 @@ static void m68k_cpu_class_init(ObjectClass *c, void
-> *data)
->       cc->tcg_initialize = m68k_tcg_init;
-> 
->       cc->gdb_num_core_regs = 18;
-> -    cc->gdb_core_xml_file = "cf-core.xml";
-> +    cc->gdb_core_xml_file = "m68k-core.xml";
-> 
->       dc->vmsd = &vmstate_m68k_cpu;
->   }
-> diff --git a/gdb-xml/cf-core.xml b/gdb-xml/m68k-core.xml
-> similarity index 96%
-> rename from gdb-xml/cf-core.xml
-> rename to gdb-xml/m68k-core.xml
-> index b90af3042c..5b092d26de 100644
-> --- a/gdb-xml/cf-core.xml
-> +++ b/gdb-xml/m68k-core.xml
-> @@ -5,7 +5,7 @@
->        are permitted in any medium without royalty provided the copyright
->        notice and this notice are preserved.  -->
->   <!DOCTYPE feature SYSTEM "gdb-target.dtd">
-> -<feature name="org.gnu.gdb.coldfire.core">
-> +<feature name="org.gnu.gdb.m68k.core">
->     <reg name="d0" bitsize="32"/>
->     <reg name="d1" bitsize="32"/>
->     <reg name="d2" bitsize="32"/>
-> diff --git a/gdb-xml/m68k-fp.xml b/gdb-xml/m68k-fp.xml
-> index 64290d1630..0ef74f7488 100644
-> --- a/gdb-xml/m68k-fp.xml
-> +++ b/gdb-xml/m68k-fp.xml
-> @@ -5,7 +5,7 @@
->        are permitted in any medium without royalty provided the copyright
->        notice and this notice are preserved.  -->
->   <!DOCTYPE feature SYSTEM "gdb-target.dtd">
-> -<feature name="org.gnu.gdb.coldfire.fp">
-> +<feature name="org.gnu.gdb.m68k.fp">
->     <reg name="fp0" bitsize="96" type="float" group="float"/>
->     <reg name="fp1" bitsize="96" type="float" group="float"/>
->     <reg name="fp2" bitsize="96" type="float" group="float"/>
-> 
-> I have tested with both architectures:
-> 
-> * -M q800:
-> 
-> (gdb) info float
-> fp0            nan(0xffffffffffffffff) (raw 0x7fff0000ffffffffffffffff)
-> fp1            nan(0xffffffffffffffff) (raw 0x7fff0000ffffffffffffffff)
-> fp2            nan(0xffffffffffffffff) (raw 0x7fff0000ffffffffffffffff)
-> fp3            nan(0xffffffffffffffff) (raw 0x7fff0000ffffffffffffffff)
-> fp4            nan(0xffffffffffffffff) (raw 0x7fff0000ffffffffffffffff)
-> fp5            nan(0xffffffffffffffff) (raw 0x7fff0000ffffffffffffffff)
-> fp6            nan(0xffffffffffffffff) (raw 0x7fff0000ffffffffffffffff)
-> fp7            nan(0xffffffffffffffff) (raw 0x7fff0000ffffffffffffffff)
-> fpcontrol      0x0                 0
-> fpstatus       0x0                 0
-> fpiaddr        0x0                 0x0
-> (gdb) info registers
-> d0             0x0                 0
-> d1             0x2                 2
-> d2             0x462a0             287392
-> d3             0x40                64
-> d4             0x0                 0
-> d5             0x0                 0
-> d6             0x0                 0
-> d7             0x0                 0
-> a0             0x3e0000            0x3e0000
-> a1             0x3e351c            0x3e351c
-> a2             0x3e351c            0x3e351c
-> a3             0x3e0000            0x3e0000
-> a4             0x46390             0x46390
-> a5             0x2eed7e            0x2eed7e
-> fp             0x2c65c             0x2c65c
-> sp             0x3e1fa4            0x3e1fa4
-> ps             0x2000              8192
-> pc             0x2f00              0x2f00
-> fpcontrol      0x0                 0
-> fpstatus       0x0                 0
-> fpiaddr        0x0                 0x0
-> 
-> * -cpu cfv4e
-> 
-> (gdb) info registers
-> d0             0x0                 0
-> d1             0x401c0b40          1075579712
-> d2             0x0                 0
-> d3             0x0                 0
-> d4             0x0                 0
-> d5             0x0                 0
-> d6             0x0                 0
-> d7             0x0                 0
-> a0             0x4015c008          0x4015c008
-> a1             0x40151092          0x40151092
-> a2             0x401146c8          0x401146c8
-> a3             0x4016b189          0x4016b189
-> a4             0x400ac60a          0x400ac60a
-> a5             0x40017078          0x40017078
-> fp             0x4015cff8          0x4015cff8
-> sp             0x4015cfcc          0x4015cfcc
-> ps             0x2000              8192
-> pc             0x40010a2a          0x40010a2a
-> fpcontrol      0x0                 0
-> fpstatus       0x0                 0
-> fpiaddr        0x0                 0x0
-> (gdb) info float
-> fp0            nan(0xfffffffffffff) (raw 0x7fffffffffffffff)
-> fp1            nan(0xfffffffffffff) (raw 0x7fffffffffffffff)
-> fp2            nan(0xfffffffffffff) (raw 0x7fffffffffffffff)
-> fp3            nan(0xfffffffffffff) (raw 0x7fffffffffffffff)
-> fp4            nan(0xfffffffffffff) (raw 0x7fffffffffffffff)
-> fp5            nan(0xfffffffffffff) (raw 0x7fffffffffffffff)
-> fp6            nan(0xfffffffffffff) (raw 0x7fffffffffffffff)
-> fp7            nan(0xfffffffffffff) (raw 0x7fffffffffffffff)
-> fpcontrol      0x0                 0
-> fpstatus       0x0                 0
-> fpiaddr        0x0                 0x0
-> 
-> 
-> All with a native GDB from debian/sid (GNU gdb (Debian 9.1-3) 9.1).
-> 
-> Thanks,
-> Laurent
-> 
+--=20
+Marc-Andr=C3=A9 Lureau
 
