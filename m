@@ -2,105 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD5D1B2044
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 09:49:46 +0200 (CEST)
-Received: from localhost ([::1]:52746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B92E1B2032
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Apr 2020 09:46:25 +0200 (CEST)
+Received: from localhost ([::1]:52704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jQnf7-0006Yx-Tj
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 03:49:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40346)
+	id 1jQnbs-0002Yh-5B
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 03:46:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40694)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jQnUx-00020L-B1
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:39:27 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jQnWL-0004JH-7P
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:40:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jQnUw-0002dF-Qe
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:39:15 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:40001)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jQnUw-0002Xt-9u; Tue, 21 Apr 2020 03:39:14 -0400
-Received: by mail-wm1-x342.google.com with SMTP id u16so2461480wmc.5;
- Tue, 21 Apr 2020 00:39:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/MQG4xsj6uyqf1WR9HI/UGL2KbiMtfmovPkUPXitTwc=;
- b=s1zo8FekJ1efuOSUoEqcRkQU2n5oubFA1FnFJb6LLP3g3tPp8vweBO9iKRUfzcohsa
- 7aqgbMzKBiZEjhjKrSWk0nnb6MbYexCxYnHU5IojT8jCZ3UYjuwKlSfKjX6UpDkrUlWE
- Mry1bzF2rOF4+RS1ZNewNDbTOgHXBmcgAl+0xgWjGqvPZCGtsJYbZJvDUslNGSVqfV6M
- GDQEGmXuLo/ZOQ+l5CQT7B27FgFCargE85sRj19h5GISu7Ju4Q8gGJwC1MwEdzm9y3Q1
- oT3/Lq6L0qaKGNX0iNpbSvETlDROn17LPvTMi0DZY0T9RpNBVvubEJJ9Yg8ZCGoC/0Lh
- qWEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=/MQG4xsj6uyqf1WR9HI/UGL2KbiMtfmovPkUPXitTwc=;
- b=Ry6c1vY7/kPxnAjgqQLjnPGFEJtIwhzJBlhPf3yj+Fud9wKs1EejNIZ5iBdrDYP13X
- q29BBs3X4kZc0OzJth8Z9pHYl0DFCwaF8gBQOZAdzDhHutuM+dQHCi2LqypmKnkCJts3
- 9buU+oHPIkyVMjTGE8WKm5PtX2w0+D5e4WzJ60pid8ifqN+FhLITaEK2jW2xHqeg1Hh6
- KrJQY5+bQqNH5NSEIOgwadYk2TFGtO+nn6N7VDQOJZj/7KUKv3rr7TGQh+VRCAJbBuz9
- Sqb6NPDNXKFEh+XGMw0fQqoSGKTmtO5VJcye6DurA6p8kRuZMYh5A/iYj2n+9ei5ik9T
- 7NnQ==
-X-Gm-Message-State: AGi0PuagNazJj3TuWvH2pagcxGq6Sf6d/LuFlvGuE83rwFoaKw2EjNG0
- ewTFD1s9HSxmcNoXjWsZlAU=
-X-Google-Smtp-Source: APiQypJ042gSOffZeIO1m2SV9/lTahIQEog2oxSDnye3v/dP4AMOie6BZSJFuTcZrceEnDiftpICzA==
-X-Received: by 2002:a1c:9a16:: with SMTP id c22mr3340186wme.38.1587454752358; 
- Tue, 21 Apr 2020 00:39:12 -0700 (PDT)
-Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id k23sm2339779wmi.46.2020.04.21.00.39.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Apr 2020 00:39:11 -0700 (PDT)
-Subject: Re: [PATCH 2/4] linux-user/arm: Remove bogus SVC 0xf0002 handling
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20200420212206.12776-1-peter.maydell@linaro.org>
- <20200420212206.12776-3-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Autocrypt: addr=f4bug@amsat.org; keydata=
- mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
- u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
- HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
- YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
- ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
- dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
- ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
- Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
- HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
- Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
- CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
- klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
- jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
- 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
- loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
- sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
- JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
- 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
- K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
- n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
- CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
-Message-ID: <ac5152f5-be5e-0c07-aa36-0ce326981bb7@amsat.org>
-Date: Tue, 21 Apr 2020 09:39:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <20200420212206.12776-3-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jQnWJ-0006iW-Sg
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 03:40:40 -0400
+Received: from mail-eopbgr60095.outbound.protection.outlook.com
+ ([40.107.6.95]:34373 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jQnWJ-0006aV-E4; Tue, 21 Apr 2020 03:40:39 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gpTLEUETIeWgchMpt1VysTqZdlbBl8hIaHn6kyvbI94xK1IIcV5kcvfjSnq4RnJxGnPcwbAgVOCo+3vZHOvfX45LyXvuRT7FmM6bvuL+nG7J7oFvRrn4SwKagV3fvxaQfQZjp489ER1shGJQgceaB/Aw1NDGIFZyS3o1ukO9BR5NWNIM2Qre3zrrh4aw0G5ho0VIQZmgA+bbHm7XywXVJlmk9PQ/8pv1KUpuA6krb+3IrydMTSnPLlZz13DBU6C3vixaBgK3uNtYkWOAOtHbOUedaRZORqKqpRm/YF8WeMTDCjWZC2CTlz438UztSPfkBYbWJwdQIlENNm+xjvBsyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RCA2Ykko1IQfvJu+Z0ri0ghZdTgPJW/emg0IvcrOL04=;
+ b=KoBFaXeGtwLkYG1veYoMMTuS9MtoE05VZmJb6Mrtxa3cShrxxB4ixOpOSf5RRRdMLG4II8tHXywig9aQ1mF4CyomRNMrGCZrTbxA01GgBULiuwCYFhnc19yw5bFMgkwMyWyxIlqLAHA97Q7JxE5PfSXwv4ede3np7+vY30D3VfqnrO4SmiFp1Dehdqo7Xq5O7ezq6w/TAwmC3LvGhx7/U+U2Au5o5Lkz7yLABvgYnVhyCEWJqfQ7ItmVLOoT7i3sYLlSmm24NwYf52Mhc0pNy1IhM9S+pt6/efjNtOz2eJ5IzEO9GU4kjwW+WbjHqBzlhyVe0ScwzZwdGaV2ESP+hA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RCA2Ykko1IQfvJu+Z0ri0ghZdTgPJW/emg0IvcrOL04=;
+ b=fKORvXA+UbD61LE1TCnab1k8sxyLpPvZD1WjX/U9sno4Epa3hGtVs4nGnJFoHbSlAe/+hsqi4dKuPbLcduLyymfl889uI+hUrHkl8Lh6p0FC2ycb+ZhZCohz1wIMNlEBRfl2Eru+Y4auPKjFBKGLHK2uuvCqYUj3jdgGpvdmMLs=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5351.eurprd08.prod.outlook.com (2603:10a6:20b:dc::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.28; Tue, 21 Apr
+ 2020 07:40:37 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2921.027; Tue, 21 Apr 2020
+ 07:40:37 +0000
+Subject: Re: [PATCH v3 09/10] iotests: rewrite check into python
+To: qemu-block@nongnu.org
+References: <20200421073601.28710-1-vsementsov@virtuozzo.com>
+ <20200421073601.28710-10-vsementsov@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200421104026294
+Message-ID: <817c0dd1-3e51-f1d3-f0d2-227d77c09f9d@virtuozzo.com>
+Date: Tue, 21 Apr 2020 10:40:26 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <20200421073601.28710-10-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::342
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR10CA0040.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:20b:150::20) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.142) by
+ AM0PR10CA0040.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:150::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25 via Frontend
+ Transport; Tue, 21 Apr 2020 07:40:32 +0000
+X-Tagtoolbar-Keys: D20200421104026294
+X-Originating-IP: [185.215.60.142]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 98ead604-5101-453f-f773-08d7e5c74852
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5351:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5351F0C5255BAD34ED405435C1D50@AM7PR08MB5351.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
+X-Forefront-PRVS: 038002787A
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(10019020)(4636009)(39850400004)(376002)(396003)(346002)(366004)(136003)(66946007)(186003)(66556008)(2906002)(26005)(81156014)(36756003)(478600001)(16526019)(4326008)(6486002)(31686004)(66476007)(8936002)(316002)(16576012)(8676002)(6666004)(956004)(5660300002)(2616005)(6916009)(31696002)(86362001)(52116002);
+ DIR:OUT; SFP:1102; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kfpld2HCGWhjTsEwt8gsQ+aO3tc6/63rZKuneaDEuOlLpUtEUwk6WSwmeWdhF7rbQjJGYl3kW63sBjGlnROO9FnxzG6Oj4ThTmQ6eYBXeaofL8UFQSZ8GGSUdhxcYM8gakplG2RJFLhJ8KHjG4Ka4HOH74sH5FOANfnw3/NaQQIzl2PrOactiS+31OhiSFvDDYsAaO0zxT4c7uWC6AhebjCq3x0j2YfyXUu5NXNY7A5sM0l2t56jn46X7v6FcciEKcyEJot8i6BnQNxwCKUgSfpXVC4p19OefB5d+EDY6QcCxhSnSedoOW2eFCJ3JjM4a3cYTLHgY/OUplsOdQ1+zruihK5FSIOcxjyb40BRPSO5Wi4QFJ5SxxE6ZsgE5H3YX1S5HuNKZ7oucVm64zI4KQ755eeQtrNnRyU61EvF+12dk252aZJFl1dWdAEN+rLf
+X-MS-Exchange-AntiSpam-MessageData: QSfRiMMYsHZzR0e4YhGMY0zAdxNLE8n7rKsEmt9WGreTGFlJ3G4uVkc6bmopJReUqdOifUTwDziRgmvxJbpeZgCJajsSa+xlCd6N1o06O21Zwc74v+BSdSNng3ulnZcPTauwEaeeGNDL+LH4C1ov6w==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98ead604-5101-453f-f773-08d7e5c74852
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2020 07:40:37.1710 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: I/D+eL/8Wu5e5jZBni8v0SrUBCpXDrhezygkj4lF5fB4RvbLEmwHHS8S9AHlm/vmsUwUk96ONfJokbIswwU+rEwntdNEJ+WHEL8ZhT5hZ6s=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5351
+Received-SPF: pass client-ip=40.107.6.95;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 03:40:37
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.6.95
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,54 +116,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: omerg681@gmail.com, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/20/20 11:22 PM, Peter Maydell wrote:
-> We incorrectly treat SVC 0xf0002 as a cacheflush request (which is a
-> NOP for QEMU).  This is the wrong syscall number, because in the
-> svc-immediate OABI syscall numbers are all offset by the
-> ARM_SYSCALL_BASE value and so the correct insn is SVC 0x9f0002.
-> (This is handled further down in the code with the other Arm-specific
-> syscalls like NR_breakpoint.)
+21.04.2020 10:36, Vladimir Sementsov-Ogievskiy wrote:
+> Just use classes introduced in previous three commits. Behavior
+> difference is described in these three commits.
 > 
-> When this code was initially added in commit 6f1f31c069b20611 in
-> 2004, ARM_NR_cacheflush was defined as (ARM_SYSCALL_BASE + 0xf0000 + 2)
-> so the value in the comparison took account of the extra 0x900000
-> offset. In commit fbb4a2e371f2fa7 in 2008, the ARM_SYSCALL_BASE
-> was removed from the definition of ARM_NR_cacheflush and handling
-> for this group of syscalls was added below the point where we subtract
-> ARM_SYSCALL_BASE from the SVC immediate value. However that commit
-> forgot to remove the now-obsolete earlier handling code.
-
-I imagine you wrote this patch wearing an archeologist hat =)
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
+> Drop group file, as it becomes unused.
 > 
-> Remove the spurious ARM_NR_cacheflush condition.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
 > ---
->  linux-user/arm/cpu_loop.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+>   tests/qemu-iotests/check | 965 ++-------------------------------------
+>   tests/qemu-iotests/group | 299 ------------
+>   2 files changed, 28 insertions(+), 1236 deletions(-)
+>   delete mode 100644 tests/qemu-iotests/group
 > 
-> diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
-> index 82d0dd3c312..025887d6b86 100644
-> --- a/linux-user/arm/cpu_loop.c
-> +++ b/linux-user/arm/cpu_loop.c
-> @@ -308,9 +308,7 @@ void cpu_loop(CPUARMState *env)
->                      n = insn & 0xffffff;
->                  }
->  
-> -                if (n == ARM_NR_cacheflush) {
-> -                    /* nop */
-> -                } else if (n == 0 || n >= ARM_SYSCALL_BASE || env->thumb) {
-> +                if (n == 0 || n >= ARM_SYSCALL_BASE || env->thumb) {
->                      /* linux syscall */
->                      if (env->thumb || n == 0) {
->                          n = env->regs[7];
-> 
+> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+> index 03016e1e91..4cb6fd5113 100755
+> --- a/tests/qemu-iotests/check
+> +++ b/tests/qemu-iotests/check
+> @@ -1,7 +1,8 @@
+> -#!/usr/bin/env bash
+> +#!/usr/bin/env python3
+>   #
+> -# Copyright (C) 2009 Red Hat, Inc.
+> -# Copyright (c) 2000-2002,2006 Silicon Graphics, Inc.  All Rights Reserved.
+
+I've dropped old copyrights. If someone think that I should keep them here
+or in a new testenv.py/testfinder.py/testrunner.py, please let me know.
+
+> +# Configure environment and run group of tests in it.
+> +#
+> +# Copyright (c) 2020 Virtuozzo International GmbH
+
+
+-- 
+Best regards,
+Vladimir
 
