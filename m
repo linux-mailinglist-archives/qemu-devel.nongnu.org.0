@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332E91B4FAD
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 23:56:37 +0200 (CEST)
-Received: from localhost ([::1]:58571 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83B3F1B4FC4
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 00:04:18 +0200 (CEST)
+Received: from localhost ([::1]:58640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRNMC-0005Hy-1F
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 17:56:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55062)
+	id 1jRNTc-0007gT-Vw
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 18:04:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59040)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anthoine.bourgeois@gmail.com>) id 1jRNKs-0004Oa-Ec
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 17:55:14 -0400
+ (envelope-from <anthoine.bourgeois@gmail.com>) id 1jRNST-0007G3-26
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 18:03:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <anthoine.bourgeois@gmail.com>) id 1jRNKr-0004tx-Tn
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 17:55:14 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42255)
+ (envelope-from <anthoine.bourgeois@gmail.com>) id 1jRNSS-0002IM-1L
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 18:03:04 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <anthoine.bourgeois@gmail.com>)
- id 1jRNKr-0004p8-GG
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 17:55:13 -0400
-Received: by mail-wr1-x444.google.com with SMTP id j2so4416046wrs.9
- for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 14:55:12 -0700 (PDT)
+ id 1jRNSR-0002DE-Kt
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 18:03:03 -0400
+Received: by mail-wr1-x443.google.com with SMTP id k13so4450008wrw.7
+ for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 15:03:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=dZG0n0VaLA7h/AbQlU3LwFM0V8Gn36yk9h6GHXolsbM=;
- b=e8FrvArZrmR+VkQhvNf3+hxicTA/HgvIBTcSNG+dwQWDYXh6eAg9io3692b3zwubHL
- qYsFV8ErKJO3M3VcYFbA7pz7176okwVM6nsjddxqxHPlAqxF39b8aIgiHCwpYDdWAAZw
- aVRW0biuVzFRPeNkUMrWrdgV+0V4/uoOXX3qUBbakeir3iMGERc6ikFodNSge/RxD9ol
- mxuD5QCStaOXosyrhGYKI7JOSlg2zMISrVFa2NSCPhLV1zSRxc+FLlQMrKYy9NizHxM4
- UVCs6GNh4xmUjLeF45meGcOq1ziG6NETiJgouI8ulayz9uiYpBtxD5c6Ug/pqbvgVw0j
- HOwA==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=1u1uCjEwWDSciclXAdwZl8LcamUjIYmXboaSy5WJT5U=;
+ b=nKHC1p+A0bcXC1z8bUS4VVGDUE6rW8auvy1JZkA1qXu0J3FtUiQjV/JmfqfCCZ8dGd
+ 6RXqBh7Ygx/Gp3a8BKiBXxQ5vVGGtGi+Jgblc/AHlbwYZXqNdfM40FEmxNjJG9eTiZTY
+ L7LMOdOZlH9dIv1uHKV4PVLxiXer99SvY8a9MQ8hqtpw7a5PM1llIAawjylv702Xugnk
+ pZMHJ4MwHj6x79eAWySD//2hSsi62ZgWm44nKFRz2uOM8ZnE+dcJi9L+vjxGP3Hij6cS
+ 5kE5RuERv1QAdIbhUugBsVKb3+5JsyDEQIxG1Iuc5+D1Y0jiuoGITOqCwL4vFo/pyCOB
+ SKpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dZG0n0VaLA7h/AbQlU3LwFM0V8Gn36yk9h6GHXolsbM=;
- b=euAEb4qWBfzgt7iNCTDqzVC3z0lqAL4QzXM6WQzgMq0X6ljmr6f15BUZU+HKDba5Zp
- sKFcKnKqoOj3bNiHWtda97Y5wv+l1bQpps1IOwi6aGG6UAuT8dTL0gDcsGABkdt1Y536
- eJFoeBCH2Dhjd4/ASiXyIsLKrOGE9nKKAj/EW6ZPfwcC2HHPaWGnzyiVxn2vU5c3dLOe
- J2sV0NacM0DXzAkemyi/Tw0AE3keKnZYrflyoQ5/ZTdKPIVKUa4FX/xC55uG6hhuyawD
- JeywRlvPsnjlZVuSeqEMcvyYfBFGhnyZu3JbGSzWv7zSJxiaDt+ui4yh1FP0cj5+4J8o
- IQ7g==
-X-Gm-Message-State: AGi0PubdovlEsRS2SNo7OOD/NdBE5ZYltj2JkJKUh9YGWuHKHdj7ZTbY
- HRllX5eNObr0W2Aw4WYQSKImpFElY4U=
-X-Google-Smtp-Source: APiQypIFLSc43SIGEMHD6Se+b2F6jt8CxvQXQzWUDWKCa2BNhlv8aZ2DikOmTd/BqAZBk3TpuxjYYQ==
-X-Received: by 2002:adf:e8c4:: with SMTP id k4mr1162715wrn.209.1587592511538; 
- Wed, 22 Apr 2020 14:55:11 -0700 (PDT)
-Received: from hobbes.blade-group.net
- ([2a01:e35:2fb2:a0d0:6d28:3d72:693e:c474])
- by smtp.gmail.com with ESMTPSA id c190sm874243wme.10.2020.04.22.14.55.11
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=1u1uCjEwWDSciclXAdwZl8LcamUjIYmXboaSy5WJT5U=;
+ b=bN4ifybcIx+yCayNh7IeOliFmNLn4SXZv7Hw3rLGmn6DqIv0IdmbO3GvDQESLwivAx
+ U0Qzc2TGZ6c/85TGZ0ah+/ZWd5C4m73xGksEnaV5UZskL/+0pdmLMfX21Xg9RKSoB17y
+ oHNiRreUXZIe95KjmdATgWZtdpF8L/GtzzJahNNTyiPO5av4MN3pJCNrJQM1sq/dCrav
+ 2OirH8YXbsU3wmviWwr57pmKGNLHwhXBF9vjsSdAOaW4/Tb6wPzXC0mqZ0vshZy+fZ3p
+ Wjgm+X0qpq4dl3svz/X3dQxGs2Udjlx/N4UB2/R8diTQ9a+9SLNEgb8HADoe8jq1emDA
+ U3FA==
+X-Gm-Message-State: AGi0PubFCFsvCzwBlzTslEvQPg0O/6TuYqay2CDDNCayla3KAL6mOVFj
+ cjRKN+H9MX/rKndAc3InnSY=
+X-Google-Smtp-Source: APiQypJJ2qIpax03DizOdAKy/thSLv+qJ5t6Z5rnM0j6tJLnt65Wv/+v2Zuec1zS0QP13xmMB0TDDw==
+X-Received: by 2002:adf:f8c6:: with SMTP id f6mr1381792wrq.276.1587592981984; 
+ Wed, 22 Apr 2020 15:03:01 -0700 (PDT)
+Received: from gmail.com ([2a01:e35:2fb2:a0d0:6d28:3d72:693e:c474])
+ by smtp.gmail.com with ESMTPSA id f18sm812043wrq.29.2020.04.22.15.03.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Apr 2020 14:55:11 -0700 (PDT)
+ Wed, 22 Apr 2020 15:03:01 -0700 (PDT)
+Date: Thu, 23 Apr 2020 00:02:58 +0200
 From: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>
-To: "Michael S . Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2 2/2] virtio-pci: update virtio pci bar layout documentation
-Date: Wed, 22 Apr 2020 23:54:55 +0200
-Message-Id: <20200422215455.10244-2-anthoine.bourgeois@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200422215455.10244-1-anthoine.bourgeois@gmail.com>
-References: <20200422215455.10244-1-anthoine.bourgeois@gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH] virtio-vga: fix virtio-vga bar ordering
+Message-ID: <20200422220257.GA17009@gmail.com>
+References: <20200421214853.14412-1-anthoine.bourgeois@gmail.com>
+ <20200422104657.4fnzkp66l2c2m2cw@sirius.home.kraxel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=anthoine.bourgeois@gmail.com; helo=mail-wr1-x444.google.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20200422104657.4fnzkp66l2c2m2cw@sirius.home.kraxel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=anthoine.bourgeois@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,30 +82,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The modern io bar was never documented.
+On Wed, Apr 22, 2020 at 12:46:57PM +0200, Gerd Hoffmann wrote:
+>> This fix exchange the modern io bar with the modern memory bar,
+>> replacing the msix bar that is never impacted anyway.
+>
+>Well, msix was placed in bar 4 intentionally.  That keeps bar 1 (default
+>msix location) free, so we have the option to turn bar 0 (vga compat
+>vram) into a 64bit bar without shuffling around things.
 
-Signed-off-by: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>
----
- hw/virtio/virtio-pci.c | 1 +
- 1 file changed, 1 insertion(+)
+That's a really good reason I didn't think of.
+Just a question, why didn't we choose the virtio-vga order to avoid
+shuffling from the beginning? Vga came after and we keep the
+compatibility ?
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 4cb784389c..d028c17c24 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1705,6 +1705,7 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
-      *
-      *   region 0   --  virtio legacy io bar
-      *   region 1   --  msi-x bar
-+     *   region 2   --  virtio modern io bar (off by default)
-      *   region 4+5 --  virtio modern memory (64bit) bar
-      *
-      */
--- 
-2.20.1
+>
+>> -    vpci_dev->msix_bar_idx = 4;
+>
+>Please don't.
+>
+>> +    vpci_dev->modern_io_bar_idx = 4;
+>
+>We can use bar 5 instead.
+>
+>Alternatively just throw an error saying that modern-pio-notify is not
+>supported.
+
+As you like. I sent a v2 with modern_io_bar_idx to 5 but I can do a v3
+with an error thrown.
+
+>
+>> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+>> index 4cb784389c..9c5efaa06e 100644
+>> --- a/hw/virtio/virtio-pci.c
+>> +++ b/hw/virtio/virtio-pci.c
+>> @@ -1705,6 +1705,7 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
+>>       *
+>>       *   region 0   --  virtio legacy io bar
+>>       *   region 1   --  msi-x bar
+>> +     *   region 2   --  virtio modern io bar
+>>       *   region 4+5 --  virtio modern memory (64bit) bar
+>
+>Separate patch please.  Also worth noting that the modern io bar is off
+>by default.
+
+Done.
+
+Thank you,
+Anthoine
 
 
