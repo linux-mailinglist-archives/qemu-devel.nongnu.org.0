@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F811B3479
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 03:25:27 +0200 (CEST)
-Received: from localhost ([::1]:38756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DD231B347C
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 03:27:21 +0200 (CEST)
+Received: from localhost ([::1]:38820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jR48j-0005qQ-Kf
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 21:25:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34912)
+	id 1jR4Aa-0000q3-6X
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 21:27:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35000)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jR41K-0001ZV-Vi
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 21:17:47 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jR41M-0001bv-4U
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 21:17:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jR41I-0001ng-JL
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 21:17:46 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:35014)
+ (envelope-from <richard.henderson@linaro.org>) id 1jR41K-0001r2-9l
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 21:17:47 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:43158)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jR41I-0001lj-5p
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 21:17:44 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id ms17so163357pjb.0
- for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 18:17:43 -0700 (PDT)
+ id 1jR41J-0001oB-Qm
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 21:17:45 -0400
+Received: by mail-pl1-x642.google.com with SMTP id z6so234432plk.10
+ for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 18:17:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jnoGz1Jnxdfh+y+NorE/kRAs3qyr4Q4Rbpyv23cxSxY=;
- b=xzlDTfQHDWl9Yl7ipMplJS61jujecIZge+sbAyrqCY41SxvC17wz6gQpEyk3ZERa6A
- n361T43vn6yQVjP1aRlea0iHn6h8wcScNj1xE+4c+u+wFZMP1b2AWvSZkCUfrwakcO4i
- YtR2zOUWt5j8Bd4oXVNGBEH+uXRbTbHds6Qq34daqnGcCxN1fuo6bLTgFJXBbOVe6j6p
- KcK9g+OzUi6pS9PNZe/GF/zDB/0YEljmtb9fKMDkf5KR4RYsVI2cCKJIbm0gM1V8G5XT
- R/ZEuILsuZmc7FA6FK8J/SAW5J8e3/o4xsEpzqF8cs96XWWZERgr3ZrKmofvxmiezRTH
- Gm3g==
+ bh=UBTvpXnQhX/NB3BncFrtFDo86VAuYzf/XHrJqnCZIJI=;
+ b=FhGuXJye0m/BZIY4rGguPzeFQd9KrcWszqS5AkTA5QHbiddacWhI472vPqiFhMYTRt
+ jgsjXSZODUDEheEs1TnJcEQbMM/bs+ZPaJPjYMxO3ry32p5XzgoslFX3MPU/aVuDx/if
+ IQSab1PEV/PKocitl+GFh1JxWaeJC9KHQ44bBooDKGPvK6mG+qZH3UM6zGTek1mcV74x
+ r/dt2RvNAB1m2fce913ZIG7Uzz7IWa6vV+C+3PTSB7cz7nkK8MDZYUPBZXflZtWNwnmo
+ McpJREqx2XlK3CBuOvVpYvqKuJi+R/YK+apmSBaGkLj5ITCY92HgJzHE5QlO3ct6HT/I
+ vgDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jnoGz1Jnxdfh+y+NorE/kRAs3qyr4Q4Rbpyv23cxSxY=;
- b=YXC+D9SYlQPcYGI/L/74+SjJSjcvloQ0voZQA7MhIvtq0H416BUg3sUBbZGKdcyxw5
- ZLunb3z+HacLPEQZuDEEeHIS0Gi2q8KxGZasZ2FKvxKQd3ggCsFsNolz9MkuUvi/u2H4
- CzUJm1p20jXCfmp/S6oCQy8Iz6Hi3Nq85uuikocE1U9LSxz66eCf66eiale2mrrUe/mc
- I6PJWgntO3nIzQTrkEXjstDlmud4XWfrXjR8LujirZfIKtguNpzRrBjo+GWmIc2DhhCk
- RUTETKT+LSVBc4KcT01Kfd89Y/rLrovr8CR1Z+smakHyQRjdYG/jKc2MLWwoOgEhqxri
- A+Kg==
-X-Gm-Message-State: AGi0PuZ+RscMzztc/CqOo/VkphXfeB6SsV6JJP6TEMAIfJEJ5R/P59qx
- 1K6Iz9vgJsThex90SDh7Ciwyucd0u8I=
-X-Google-Smtp-Source: APiQypJ/wfUhgQnHzC3y1opTWlTnuWD2a/OnBcsItV1xp5XwbiEDGQND0+M8TjxbOceJRpeaAeXLyQ==
-X-Received: by 2002:a17:902:8e8b:: with SMTP id
- bg11mr22995354plb.139.1587518262405; 
- Tue, 21 Apr 2020 18:17:42 -0700 (PDT)
+ bh=UBTvpXnQhX/NB3BncFrtFDo86VAuYzf/XHrJqnCZIJI=;
+ b=Legbtxq0itrceqWaO64uu+PVgQMaAVDzZfB2wBU94YbBtYHiDE4OyeaQJpEDMETUAZ
+ fTb1+x2lz7U2T4u4tAsaP0nrmjQ9G4j5vpDmkex1PC5NYsLjJicKF8DuxiYDAmA6IHvD
+ Aucjy1LjlWOXYb6XR8NlV//F0xzWLCAGSlzuLP8Re4z2qPrVfOVCBmaAt8VJwYqmcioF
+ 3S+CedT5r6S2gL/giAFmPFl0M4gMzzZspb98BwcmnxwM0YLmYRQRB2IQRmnyA0xMGGEN
+ pyfFgrGuXbQ6vHUCUuurtw7FSP6h9zALO3nQaO4lnpFEiyGqoK/g9rhOA6DBbWzmCBi3
+ wajw==
+X-Gm-Message-State: AGi0PuZ3sMnEMs7VKuPtOyYXYrjbE+QFPTjF0MZa43Yjg95lg0tqt4M5
+ dtFVRY4ROMPoM+xJjG6L85FnX58dGmc=
+X-Google-Smtp-Source: APiQypKxfVvj/Yi80V9QoskVJ1E9ywXqMi3FL1h2MijZRjK2oU+BMIUswsJJm7JfJtDAJ2p36ECn5Q==
+X-Received: by 2002:a17:902:ed13:: with SMTP id
+ b19mr24802958pld.254.1587518263528; 
+ Tue, 21 Apr 2020 18:17:43 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id m4sm3673561pfm.26.2020.04.21.18.17.41
+ by smtp.gmail.com with ESMTPSA id m4sm3673561pfm.26.2020.04.21.18.17.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Apr 2020 18:17:41 -0700 (PDT)
+ Tue, 21 Apr 2020 18:17:42 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/36] tcg: Use tcg_constant_{i32,
- vec} with tcg vec expanders
-Date: Tue, 21 Apr 2020 18:17:00 -0700
-Message-Id: <20200422011722.13287-15-richard.henderson@linaro.org>
+Subject: [PATCH v2 15/36] tcg: Use tcg_constant_{i32,i64} with tcg plugins
+Date: Tue, 21 Apr 2020 18:17:01 -0700
+Message-Id: <20200422011722.13287-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200422011722.13287-1-richard.henderson@linaro.org>
 References: <20200422011722.13287-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::1042
+X-Received-From: 2607:f8b0:4864:20::642
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,120 +88,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg-op-vec.c | 63 ++++++++++++++++++++++++++----------------------
- 1 file changed, 34 insertions(+), 29 deletions(-)
+ accel/tcg/plugin-gen.c | 49 +++++++++++++++++++-----------------------
+ 1 file changed, 22 insertions(+), 27 deletions(-)
 
-diff --git a/tcg/tcg-op-vec.c b/tcg/tcg-op-vec.c
-index f3927089a7..655b3ae32d 100644
---- a/tcg/tcg-op-vec.c
-+++ b/tcg/tcg-op-vec.c
-@@ -233,25 +233,17 @@ void tcg_gen_mov_vec(TCGv_vec r, TCGv_vec a)
-     }
+diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
+index 51580d51a0..e5dc9d0ca9 100644
+--- a/accel/tcg/plugin-gen.c
++++ b/accel/tcg/plugin-gen.c
+@@ -284,8 +284,8 @@ static TCGOp *copy_extu_i32_i64(TCGOp **begin_op, TCGOp *op)
+     if (TCG_TARGET_REG_BITS == 32) {
+         /* mov_i32 */
+         op = copy_op(begin_op, op, INDEX_op_mov_i32);
+-        /* movi_i32 */
+-        op = copy_op(begin_op, op, INDEX_op_movi_i32);
++        /* mov_i32 w/ $0 */
++        op = copy_op(begin_op, op, INDEX_op_mov_i32);
+     } else {
+         /* extu_i32_i64 */
+         op = copy_op(begin_op, op, INDEX_op_extu_i32_i64);
+@@ -306,39 +306,34 @@ static TCGOp *copy_mov_i64(TCGOp **begin_op, TCGOp *op)
+     return op;
  }
  
--#define MO_REG  (TCG_TARGET_REG_BITS == 64 ? MO_64 : MO_32)
--
--static void do_dupi_vec(TCGv_vec r, unsigned vece, TCGArg a)
+-static TCGOp *copy_movi_i64(TCGOp **begin_op, TCGOp *op, uint64_t v)
 -{
--    TCGTemp *rt = tcgv_vec_temp(r);
--    vec_gen_2(INDEX_op_dupi_vec, rt->base_type, vece, temp_arg(rt), a);
+-    if (TCG_TARGET_REG_BITS == 32) {
+-        /* 2x movi_i32 */
+-        op = copy_op(begin_op, op, INDEX_op_movi_i32);
+-        op->args[1] = v;
+-
+-        op = copy_op(begin_op, op, INDEX_op_movi_i32);
+-        op->args[1] = v >> 32;
+-    } else {
+-        /* movi_i64 */
+-        op = copy_op(begin_op, op, INDEX_op_movi_i64);
+-        op->args[1] = v;
+-    }
+-    return op;
 -}
 -
- TCGv_vec tcg_const_zeros_vec(TCGType type)
+ static TCGOp *copy_const_ptr(TCGOp **begin_op, TCGOp *op, void *ptr)
  {
-     TCGv_vec ret = tcg_temp_new_vec(type);
--    do_dupi_vec(ret, MO_REG, 0);
-+    tcg_gen_mov_vec(ret, tcg_constant_vec(type, MO_8, 0));
-     return ret;
- }
- 
- TCGv_vec tcg_const_ones_vec(TCGType type)
- {
-     TCGv_vec ret = tcg_temp_new_vec(type);
--    do_dupi_vec(ret, MO_REG, -1);
-+    tcg_gen_mov_vec(ret, tcg_constant_vec(type, MO_8, -1));
-     return ret;
- }
- 
-@@ -267,37 +259,50 @@ TCGv_vec tcg_const_ones_vec_matching(TCGv_vec m)
-     return tcg_const_ones_vec(t->base_type);
- }
- 
--void tcg_gen_dup64i_vec(TCGv_vec r, uint64_t a)
-+void tcg_gen_dupi_vec(unsigned vece, TCGv_vec dest, uint64_t val)
- {
--    if (TCG_TARGET_REG_BITS == 32 && a == deposit64(a, 32, 32, a)) {
--        do_dupi_vec(r, MO_32, a);
--    } else if (TCG_TARGET_REG_BITS == 64 || a == (uint64_t)(int32_t)a) {
--        do_dupi_vec(r, MO_64, a);
--    } else {
--        TCGv_i64 c = tcg_const_i64(a);
--        tcg_gen_dup_i64_vec(MO_64, r, c);
--        tcg_temp_free_i64(c);
-+    TCGType type = tcgv_vec_temp(dest)->base_type;
-+
-+    /*
-+     * For MO_64 constants that can't be represented in tcg_target_long,
-+     * we must use INDEX_op_dup2_vec.
-+     */
-+    if (TCG_TARGET_REG_BITS == 32) {
-+        val = dup_const(vece, val);
-+        if (val != deposit64(val, 32, 32, val) &&
-+            val != (uint64_t)(int32_t)val) {
-+            uint32_t vl = extract64(val, 0, 32);
-+            uint32_t vh = extract64(val, 32, 32);
-+            TCGArg al = tcgv_i32_arg(tcg_constant_i32(vl));
-+            TCGArg ah = tcgv_i32_arg(tcg_constant_i32(vh));
-+            TCGArg di = tcgv_vec_arg(dest);
-+
-+            vec_gen_3(INDEX_op_dup2_vec, type, MO_64, di, al, ah);
-+            return;
-+        }
+     if (UINTPTR_MAX == UINT32_MAX) {
+-        /* movi_i32 */
+-        op = copy_op(begin_op, op, INDEX_op_movi_i32);
+-        op->args[1] = (uintptr_t)ptr;
++        /* mov_i32 */
++        op = copy_op(begin_op, op, INDEX_op_mov_i32);
++        op->args[1] = tcgv_i32_arg(tcg_constant_i32((uintptr_t)ptr));
+     } else {
+-        /* movi_i64 */
+-        op = copy_movi_i64(begin_op, op, (uint64_t)(uintptr_t)ptr);
++        /* mov_i64 */
++        op = copy_op(begin_op, op, INDEX_op_mov_i64);
++        op->args[1] = tcgv_i64_arg(tcg_constant_i64((uintptr_t)ptr));
      }
-+
-+    tcg_gen_mov_vec(dest, tcg_constant_vec(type, vece, val));
+     return op;
  }
  
--void tcg_gen_dup32i_vec(TCGv_vec r, uint32_t a)
-+void tcg_gen_dup64i_vec(TCGv_vec dest, uint64_t val)
+ static TCGOp *copy_const_i64(TCGOp **begin_op, TCGOp *op, uint64_t v)
  {
--    do_dupi_vec(r, MO_REG, dup_const(MO_32, a));
-+    tcg_gen_dupi_vec(MO_64, dest, val);
+-    return copy_movi_i64(begin_op, op, v);
++    if (TCG_TARGET_REG_BITS == 32) {
++        /* 2x mov_i32 */
++        op = copy_op(begin_op, op, INDEX_op_mov_i32);
++        op->args[1] = tcgv_i32_arg(tcg_constant_i32(v));
++        op = copy_op(begin_op, op, INDEX_op_mov_i32);
++        op->args[1] = tcgv_i32_arg(tcg_constant_i32(v >> 32));
++    } else {
++        /* mov_i64 */
++        op = copy_op(begin_op, op, INDEX_op_mov_i64);
++        op->args[1] = tcgv_i64_arg(tcg_constant_i64(v));
++    }
++    return op;
  }
  
--void tcg_gen_dup16i_vec(TCGv_vec r, uint32_t a)
-+void tcg_gen_dup32i_vec(TCGv_vec dest, uint32_t val)
- {
--    do_dupi_vec(r, MO_REG, dup_const(MO_16, a));
-+    tcg_gen_dupi_vec(MO_32, dest, val);
- }
+ static TCGOp *copy_extu_tl_i64(TCGOp **begin_op, TCGOp *op)
+@@ -486,8 +481,8 @@ static TCGOp *append_mem_cb(const struct qemu_plugin_dyn_cb *cb,
  
--void tcg_gen_dup8i_vec(TCGv_vec r, uint32_t a)
-+void tcg_gen_dup16i_vec(TCGv_vec dest, uint32_t val)
- {
--    do_dupi_vec(r, MO_REG, dup_const(MO_8, a));
-+    tcg_gen_dupi_vec(MO_16, dest, val);
- }
+     tcg_debug_assert(type == PLUGIN_GEN_CB_MEM);
  
--void tcg_gen_dupi_vec(unsigned vece, TCGv_vec r, uint64_t a)
-+void tcg_gen_dup8i_vec(TCGv_vec dest, uint32_t val)
- {
--    do_dupi_vec(r, MO_REG, dup_const(vece, a));
-+    tcg_gen_dupi_vec(MO_8, dest, val);
- }
+-    /* const_i32 == movi_i32 ("info", so it remains as is) */
+-    op = copy_op(&begin_op, op, INDEX_op_movi_i32);
++    /* const_i32 == mov_i32 ("info", so it remains as is) */
++    op = copy_op(&begin_op, op, INDEX_op_mov_i32);
  
- void tcg_gen_dup_i64_vec(unsigned vece, TCGv_vec r, TCGv_i64 a)
-@@ -502,8 +507,8 @@ void tcg_gen_abs_vec(unsigned vece, TCGv_vec r, TCGv_vec a)
-             if (tcg_can_emit_vec_op(INDEX_op_sari_vec, type, vece) > 0) {
-                 tcg_gen_sari_vec(vece, t, a, (8 << vece) - 1);
-             } else {
--                do_dupi_vec(t, MO_REG, 0);
--                tcg_gen_cmp_vec(TCG_COND_LT, vece, t, a, t);
-+                tcg_gen_cmp_vec(TCG_COND_LT, vece, t, a,
-+                                tcg_constant_vec(type, vece, 0));
-             }
-             tcg_gen_xor_vec(vece, r, a, t);
-             tcg_gen_sub_vec(vece, r, r, t);
+     /* const_ptr */
+     op = copy_const_ptr(&begin_op, op, cb->userp);
 -- 
 2.20.1
 
