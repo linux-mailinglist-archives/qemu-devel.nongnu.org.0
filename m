@@ -2,51 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE3801B4C2E
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 19:53:22 +0200 (CEST)
-Received: from localhost ([::1]:55288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E033F1B4B79
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 19:20:21 +0200 (CEST)
+Received: from localhost ([::1]:54758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRJYn-0003Ct-O7
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 13:53:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35592)
+	id 1jRJ2q-0003e4-ER
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 13:20:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32770)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jonathan.derrick@intel.com>) id 1jRJCC-00076R-2r
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:30:00 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jRJ1O-0002uh-6w
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:18:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <jonathan.derrick@intel.com>) id 1jRJCB-0003K1-HL
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:29:59 -0400
-Received: from mga12.intel.com ([192.55.52.136]:36972)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.derrick@intel.com>)
- id 1jRJCA-0003HZ-Sr
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:29:59 -0400
-IronPort-SDR: l73XXTj78eNpHra02Y8R7oNf/gm7MNYFnMRfXYA2YzLyF63wCsOLThyHThIb7R54bo1HppC8PP
- lI8+9umNb82A==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Apr 2020 10:29:56 -0700
-IronPort-SDR: EiEq+kTDM6tei4m+yriecOUR7/nl9gUyjwZa8YQ1eFsTnL1I1Aba9k3y0wferZufB6GAqnyARO
- kY7Gz/RrR2xQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,304,1583222400"; d="scan'208";a="402622629"
-Received: from unknown (HELO localhost.lm.intel.com) ([10.232.116.40])
- by orsmga004.jf.intel.com with ESMTP; 22 Apr 2020 10:29:56 -0700
-From: Jon Derrick <jonathan.derrick@intel.com>
-To: Bjorn Helgaas <helgaas@kernel.org>,
-	qemu-devel@nongnu.org
-Subject: [PATCH 0/1] KVM support for VMD devices
-Date: Wed, 22 Apr 2020 13:14:44 -0400
-Message-Id: <20200422171444.10992-1-jonathan.derrick@intel.com>
-X-Mailer: git-send-email 2.18.1
-Received-SPF: pass client-ip=192.55.52.136;
- envelope-from=jonathan.derrick@intel.com; helo=mga12.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 13:29:57
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Received-From: 192.55.52.136
-X-Mailman-Approved-At: Wed, 22 Apr 2020 13:49:16 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jRJ1N-0006aK-D6
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:18:49 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39832)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jRJ1M-0006V3-OZ
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:18:49 -0400
+Received: by mail-wr1-x444.google.com with SMTP id b11so3384148wrs.6
+ for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 10:18:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=KjfUcKAu5MJaAOBUufPb+3StkezbjQxTmGeikHkgi/A=;
+ b=E5WZKjUl02g/fTi8o1//TSzQmcNVITW5+NWdlJmB/Ib0XOiOZOHnWiwF23p8AEhS5V
+ Lb/sJFOTGxuf4Rh5mazlIwQkLZPB8pHMr2xV7KbILgzfAk5FKOQ650DbRjHuZDmpIfF7
+ kcFQGk4uHuRT15Ba1q1S1RrE8M/DK2d9AIj58NMaYjYcjrlMHzvh/IBh5oZReQsAdCnb
+ js+U0IXoyV26ZP9F30nrPGarO+wFn59mGVw2oXK0tc8iAXqF1CuGvJD3OZBUE25GNXsw
+ a0ppxm/fCADCWDg0df5K+jE5UZrO+jTv4STUMNKpluZ9CrkwWHH63BgipkUIhazXXCks
+ EmwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=KjfUcKAu5MJaAOBUufPb+3StkezbjQxTmGeikHkgi/A=;
+ b=PPzLkynodz2iJjLn+5mlkKnpkXPzylGirsJNSWf2iB2IdLQjAgksd9xibUg+11PsKK
+ a2BKPaMjXtMZh0U/vpd6nc8xGAfSGZbnUw8fw7PfFPg0jQNrPoUEdQZNf8+vfnLJHmi7
+ i0+seu3LDjm+dq3x7GLylw7K1HVHdX9ETC7Y2uYjyBT+K1kl8kq3dB2HpsJ7TBto0e7N
+ Zl70Kidhaew2r/ttGsQW2WaC6NSZrYzzYHecXIFE4mBmfRBYk2ZUf3+ScQLtju063Z43
+ TOaGqVbVpOisGGi46NrQJX+vrOY9rVXoCvXAP2E9+YfZYcGiJb8jiZPpOKH+7E64einK
+ HqWA==
+X-Gm-Message-State: AGi0PuYKLwfezYzb8sIEvkQT5Mv55SpqicCWyhSDC/wKeykubHg1pXkH
+ QgOU+NubTfG33P2w26D6B3XMxA==
+X-Google-Smtp-Source: APiQypJrh6UNtAYd+6MJVfDZsO1PzJiEFErFm1BLntiyUXBUX+H/eVLrr/dIcqIxTcVj76Lu+5w1+w==
+X-Received: by 2002:adf:e88d:: with SMTP id d13mr35057wrm.375.1587575926656;
+ Wed, 22 Apr 2020 10:18:46 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id l6sm9159041wrb.75.2020.04.22.10.18.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Apr 2020 10:18:44 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D516E1FF7E;
+ Wed, 22 Apr 2020 18:18:43 +0100 (BST)
+References: <20200422011722.13287-1-richard.henderson@linaro.org>
+ <20200422011722.13287-16-richard.henderson@linaro.org>
+User-agent: mu4e 1.4.1; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 15/36] tcg: Use tcg_constant_{i32, i64} with tcg plugins
+In-reply-to: <20200422011722.13287-16-richard.henderson@linaro.org>
+Date: Wed, 22 Apr 2020 18:18:43 +0100
+Message-ID: <87eesfcubw.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,30 +85,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linux-pci@vger.kernel.org, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Andrzej Jakowski <andrzej.jakowski@intel.com>,
- Jon Derrick <jonathan.derrick@intel.com>,
- virtualization@lists.linux-foundation.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The two patches (Linux & QEMU) add support for passthrough VMD devices
-in QEMU/KVM. VMD device 28C0 already supports passthrough natively by
-providing the Host Physical Address in a shadow register to the guest
-for correct bridge programming.
 
-The QEMU patch emulates the 28C0 mode by creating a shadow register and
-advertising its support by using QEMU's subsystem vendor/id.
-The Linux patch matches the QEMU subsystem vendor/id to use the shadow
-register.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Jon Derrick (1):
-  pci: vmd: Use Shadow MEMBAR registers for QEMU/KVM guests
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
- drivers/pci/controller/vmd.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
--- 
-2.18.1
+> ---
+>  accel/tcg/plugin-gen.c | 49 +++++++++++++++++++-----------------------
+>  1 file changed, 22 insertions(+), 27 deletions(-)
+>
+> diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
+> index 51580d51a0..e5dc9d0ca9 100644
+> --- a/accel/tcg/plugin-gen.c
+> +++ b/accel/tcg/plugin-gen.c
+> @@ -284,8 +284,8 @@ static TCGOp *copy_extu_i32_i64(TCGOp **begin_op, TCG=
+Op *op)
+>      if (TCG_TARGET_REG_BITS =3D=3D 32) {
+>          /* mov_i32 */
+>          op =3D copy_op(begin_op, op, INDEX_op_mov_i32);
+> -        /* movi_i32 */
+> -        op =3D copy_op(begin_op, op, INDEX_op_movi_i32);
+> +        /* mov_i32 w/ $0 */
+> +        op =3D copy_op(begin_op, op, INDEX_op_mov_i32);
+>      } else {
+>          /* extu_i32_i64 */
+>          op =3D copy_op(begin_op, op, INDEX_op_extu_i32_i64);
+> @@ -306,39 +306,34 @@ static TCGOp *copy_mov_i64(TCGOp **begin_op, TCGOp =
+*op)
+>      return op;
+>  }
+>=20=20
+> -static TCGOp *copy_movi_i64(TCGOp **begin_op, TCGOp *op, uint64_t v)
+> -{
+> -    if (TCG_TARGET_REG_BITS =3D=3D 32) {
+> -        /* 2x movi_i32 */
+> -        op =3D copy_op(begin_op, op, INDEX_op_movi_i32);
+> -        op->args[1] =3D v;
+> -
+> -        op =3D copy_op(begin_op, op, INDEX_op_movi_i32);
+> -        op->args[1] =3D v >> 32;
+> -    } else {
+> -        /* movi_i64 */
+> -        op =3D copy_op(begin_op, op, INDEX_op_movi_i64);
+> -        op->args[1] =3D v;
+> -    }
+> -    return op;
+> -}
+> -
+>  static TCGOp *copy_const_ptr(TCGOp **begin_op, TCGOp *op, void *ptr)
+>  {
+>      if (UINTPTR_MAX =3D=3D UINT32_MAX) {
+> -        /* movi_i32 */
+> -        op =3D copy_op(begin_op, op, INDEX_op_movi_i32);
+> -        op->args[1] =3D (uintptr_t)ptr;
+> +        /* mov_i32 */
+> +        op =3D copy_op(begin_op, op, INDEX_op_mov_i32);
+> +        op->args[1] =3D tcgv_i32_arg(tcg_constant_i32((uintptr_t)ptr));
+>      } else {
+> -        /* movi_i64 */
+> -        op =3D copy_movi_i64(begin_op, op, (uint64_t)(uintptr_t)ptr);
+> +        /* mov_i64 */
+> +        op =3D copy_op(begin_op, op, INDEX_op_mov_i64);
+> +        op->args[1] =3D tcgv_i64_arg(tcg_constant_i64((uintptr_t)ptr));
+>      }
+>      return op;
+>  }
+>=20=20
+>  static TCGOp *copy_const_i64(TCGOp **begin_op, TCGOp *op, uint64_t v)
+>  {
+> -    return copy_movi_i64(begin_op, op, v);
+> +    if (TCG_TARGET_REG_BITS =3D=3D 32) {
+> +        /* 2x mov_i32 */
+> +        op =3D copy_op(begin_op, op, INDEX_op_mov_i32);
+> +        op->args[1] =3D tcgv_i32_arg(tcg_constant_i32(v));
+> +        op =3D copy_op(begin_op, op, INDEX_op_mov_i32);
+> +        op->args[1] =3D tcgv_i32_arg(tcg_constant_i32(v >> 32));
+> +    } else {
+> +        /* mov_i64 */
+> +        op =3D copy_op(begin_op, op, INDEX_op_mov_i64);
+> +        op->args[1] =3D tcgv_i64_arg(tcg_constant_i64(v));
+> +    }
+> +    return op;
+>  }
+>=20=20
+>  static TCGOp *copy_extu_tl_i64(TCGOp **begin_op, TCGOp *op)
+> @@ -486,8 +481,8 @@ static TCGOp *append_mem_cb(const struct qemu_plugin_=
+dyn_cb *cb,
+>=20=20
+>      tcg_debug_assert(type =3D=3D PLUGIN_GEN_CB_MEM);
+>=20=20
+> -    /* const_i32 =3D=3D movi_i32 ("info", so it remains as is) */
+> -    op =3D copy_op(&begin_op, op, INDEX_op_movi_i32);
+> +    /* const_i32 =3D=3D mov_i32 ("info", so it remains as is) */
+> +    op =3D copy_op(&begin_op, op, INDEX_op_mov_i32);
+>=20=20
+>      /* const_ptr */
+>      op =3D copy_const_ptr(&begin_op, op, cb->userp);
 
+
+--=20
+Alex Benn=C3=A9e
 
