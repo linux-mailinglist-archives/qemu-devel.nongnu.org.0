@@ -2,52 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50C391B4C23
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 19:51:11 +0200 (CEST)
-Received: from localhost ([::1]:55272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE3801B4C2E
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 19:53:22 +0200 (CEST)
+Received: from localhost ([::1]:55288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRJWf-0001EA-Nx
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 13:51:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35258)
+	id 1jRJYn-0003Ct-O7
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 13:53:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35592)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jonathan.derrick@intel.com>) id 1jRJAr-0005Zd-Mr
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:28:37 -0400
+ (envelope-from <jonathan.derrick@intel.com>) id 1jRJCC-00076R-2r
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:30:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <jonathan.derrick@intel.com>) id 1jRJAq-0001Tn-0C
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:28:37 -0400
-Received: from mga17.intel.com ([192.55.52.151]:13773)
+ (envelope-from <jonathan.derrick@intel.com>) id 1jRJCB-0003K1-HL
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:29:59 -0400
+Received: from mga12.intel.com ([192.55.52.136]:36972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.derrick@intel.com>)
- id 1jRJAm-00019H-Hr
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:28:34 -0400
-IronPort-SDR: jP9xqfCzVRfse7ulb0o7vdKLlBGwGYqF1lcr7YHbDIkd7Z/7GUoXNInfhprJ2MMrlyir7mahr9
- E09jOaLWVVoQ==
+ id 1jRJCA-0003HZ-Sr
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:29:59 -0400
+IronPort-SDR: l73XXTj78eNpHra02Y8R7oNf/gm7MNYFnMRfXYA2YzLyF63wCsOLThyHThIb7R54bo1HppC8PP
+ lI8+9umNb82A==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Apr 2020 10:28:18 -0700
-IronPort-SDR: GIoBfjkDeD7w2hdiabPdW2SOdEki+l8ydPDm/m266t8HN5f/JoVFcTG/1OWHUbyg+4vRY8ADXc
- LmqU3ff6uroA==
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2020 10:29:56 -0700
+IronPort-SDR: EiEq+kTDM6tei4m+yriecOUR7/nl9gUyjwZa8YQ1eFsTnL1I1Aba9k3y0wferZufB6GAqnyARO
+ kY7Gz/RrR2xQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,304,1583222400"; d="scan'208";a="429999418"
+X-IronPort-AV: E=Sophos;i="5.73,304,1583222400"; d="scan'208";a="402622629"
 Received: from unknown (HELO localhost.lm.intel.com) ([10.232.116.40])
- by orsmga005.jf.intel.com with ESMTP; 22 Apr 2020 10:28:18 -0700
+ by orsmga004.jf.intel.com with ESMTP; 22 Apr 2020 10:29:56 -0700
 From: Jon Derrick <jonathan.derrick@intel.com>
 To: Bjorn Helgaas <helgaas@kernel.org>,
 	qemu-devel@nongnu.org
-Subject: [PATCH 1/1] pci: vmd: Use Shadow MEMBAR registers for QEMU/KVM guests
-Date: Wed, 22 Apr 2020 13:13:05 -0400
-Message-Id: <20200422171305.10923-2-jonathan.derrick@intel.com>
+Subject: [PATCH 0/1] KVM support for VMD devices
+Date: Wed, 22 Apr 2020 13:14:44 -0400
+Message-Id: <20200422171444.10992-1-jonathan.derrick@intel.com>
 X-Mailer: git-send-email 2.18.1
-In-Reply-To: <20200422171305.10923-1-jonathan.derrick@intel.com>
-References: <20200422171305.10923-1-jonathan.derrick@intel.com>
-Received-SPF: pass client-ip=192.55.52.151;
- envelope-from=jonathan.derrick@intel.com; helo=mga17.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 13:28:18
+Received-SPF: pass client-ip=192.55.52.136;
+ envelope-from=jonathan.derrick@intel.com; helo=mga12.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 13:29:57
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Received-From: 192.55.52.151
+X-Received-From: 192.55.52.136
 X-Mailman-Approved-At: Wed, 22 Apr 2020 13:49:16 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,51 +65,22 @@ Cc: linux-pci@vger.kernel.org, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VMD device 28C0 provides native guest passthrough of the VMD endpoint
-through the use of shadow registers that provide Host Physical Addresses
-to correctly assign bridge windows. A quirk has been added to QEMU's
-VFIO quirks to emulate the shadow registers for VMD devices which don't
-support this mode natively in hardware.
+The two patches (Linux & QEMU) add support for passthrough VMD devices
+in QEMU/KVM. VMD device 28C0 already supports passthrough natively by
+providing the Host Physical Address in a shadow register to the guest
+for correct bridge programming.
 
-The VFIO quirk assigns the VMD a subsystem vendor/device ID using the
-standard QEMU vendor/device, which are typically only used for emulation
-and not VFIO. There are no plans for an emulated VMD controller, but if
-one is developed in the future, support for this mode can be added by
-emulating the VMD VMLOCK and Shadow MEMBAR registers
+The QEMU patch emulates the 28C0 mode by creating a shadow register and
+advertising its support by using QEMU's subsystem vendor/id.
+The Linux patch matches the QEMU subsystem vendor/id to use the shadow
+register.
 
-Signed-off-by: Jon Derrick <jonathan.derrick@intel.com>
----
+Jon Derrick (1):
+  pci: vmd: Use Shadow MEMBAR registers for QEMU/KVM guests
+
  drivers/pci/controller/vmd.c | 8 +++++++-
  1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/pci/controller/vmd.c b/drivers/pci/controller/vmd.c
-index dac91d60701d..764404b45ebb 100644
---- a/drivers/pci/controller/vmd.c
-+++ b/drivers/pci/controller/vmd.c
-@@ -598,6 +598,7 @@ static irqreturn_t vmd_irq(int irq, void *data)
- static int vmd_probe(struct pci_dev *dev, const struct pci_device_id *id)
- {
- 	struct vmd_dev *vmd;
-+	unsigned long features = id->driver_data;
- 	int i, err;
- 
- 	if (resource_size(&dev->resource[VMD_CFGBAR]) < (1 << 20))
-@@ -648,9 +649,14 @@ static int vmd_probe(struct pci_dev *dev, const struct pci_device_id *id)
- 			return err;
- 	}
- 
-+	/* VFIO-quirked VMD controllers emulate the Shadow MEMBAR feature */
-+	if (dev->subsystem_vendor == PCI_SUBVENDOR_ID_REDHAT_QUMRANET &&
-+	    dev->subsystem_device == PCI_SUBDEVICE_ID_QEMU)
-+		features |= VMD_FEAT_HAS_MEMBAR_SHADOW;
-+
- 	spin_lock_init(&vmd->cfg_lock);
- 	pci_set_drvdata(dev, vmd);
--	err = vmd_enable_domain(vmd, (unsigned long) id->driver_data);
-+	err = vmd_enable_domain(vmd, features);
- 	if (err)
- 		return err;
- 
 -- 
 2.18.1
 
