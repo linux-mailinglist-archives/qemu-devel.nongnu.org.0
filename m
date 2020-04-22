@@ -2,111 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB611B4C27
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 19:51:34 +0200 (CEST)
-Received: from localhost ([::1]:55274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92FAF1B4C47
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 19:55:13 +0200 (CEST)
+Received: from localhost ([::1]:55320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRJX3-0001OF-C5
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 13:51:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40252)
+	id 1jRJaa-0005gK-CZ
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 13:55:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42352)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jRJRs-0006BJ-TF
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:46:13 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jRJYv-0004ME-RW
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:53:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jRJRd-0001cF-Gy
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:46:11 -0400
-Received: from mail-eopbgr30108.outbound.protection.outlook.com
- ([40.107.3.108]:30273 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jRJRc-0001Uu-JF; Wed, 22 Apr 2020 13:45:57 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ks6Bpi3t3wRZAS7dFra5GG5bTsadE5hI50ebPaHXC6jACQNfdec2jbyqDdVock9FHOk1LPUWmP5HgaMSt860itrgracAc+OLsaPNrEQN/uyQb9YUogQGhA4d6JuD5suq3Sm7Xc31rfsUlNlFyDSza289qOHm/IggGmDUztBF11UJKsZ51b7Eon/D8fyXtDqBWh2GMMs1eH2zQBgHx0bQwUk/V5/Vr3RatYTJqGtJDYec7zyEu4uhyCcLEodkCtRM2HHgbjZS0mCyq+56Be7X4rY5sWuB1sJ7MPEE3pRVdRp30jq5gbWTvivguzNmdn5dV0/VwK9EDlrfXua0sCwFTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nNzseyZuNtySWjOeBlxaJDF3cNg8RZE21TS3z8hVECo=;
- b=jhgrQA0extxmzap3n9kz+sjmBRQ99aUhUZb7JkQ2rqvNYNhr2Fe21xuN2usaQQSY/vkcTAWY3C6JZ9S1ColWf1PMzKmvsEdttl8vsqn+RxUx95TOFm5//kB0EO7uy6j9snANs0iLJ885r46jMu4K9PcEX7mshbASbxa1ZOCnkblW0UdGwy0lCMgPXtIrI0kqhwoFDCOMdCQ8IyvbkBaJZLoR6NSSLBmaRxo/I9WMxif7O3DOLbDXiIlOJZ+iEbEkYePHAqu2dfzohVtZMGcq7kOpMhhm4wg1u61WM+hW6DikeXLNYZeGGTFiLRY8iQi5bo6vk73axzbw7j4a1wpXAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nNzseyZuNtySWjOeBlxaJDF3cNg8RZE21TS3z8hVECo=;
- b=ONEx79xMqNlCQdxYkEmaunZ015f1xsPiPB/tgo06HcMKjaybibZBX7JJ7VG4yDwioIecL+2NF2tdG0mysuShaiurLWxiHUuSpp3WKPPcX6k7pxpx2dwlFLTWhICsrfsSxEdAKsp90Fj7P64+g2XM8TQiw4jOe7NjEI2Zi0INRiw=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5526.eurprd08.prod.outlook.com (2603:10a6:20b:108::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.29; Wed, 22 Apr
- 2020 17:45:53 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.012; Wed, 22 Apr 2020
- 17:45:53 +0000
-Subject: Re: [PATCH 2/3] block/io: convert generic io path to use int64_t
- parameters
-To: Stefan Hajnoczi <stefanha@gmail.com>
-References: <20200330141818.31294-1-vsementsov@virtuozzo.com>
- <20200330141818.31294-3-vsementsov@virtuozzo.com>
- <20200422155003.GE47385@stefanha-x1.localdomain>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200422204550845
-Message-ID: <efcc7865-45a8-5a8b-25f3-301fbc6dab08@virtuozzo.com>
-Date: Wed, 22 Apr 2020 20:45:50 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <20200422155003.GE47385@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM4PR0202CA0007.eurprd02.prod.outlook.com
- (2603:10a6:200:89::17) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (envelope-from <alex.bennee@linaro.org>) id 1jRJYu-0002sL-Ky
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:53:29 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44298)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jRJYu-0002nX-76
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:53:28 -0400
+Received: by mail-wr1-x444.google.com with SMTP id d17so3506269wrg.11
+ for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 10:53:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=lL23JNais+S1Wv4htiWPpsaEuqFsq39lDCTDj5GHckA=;
+ b=edA1MqOQZMedMcqC5NqYMdIu2uJ853NKsBHNkUQu2Gxz0IkEWmDq2SjKNf36DTVyQQ
+ dp2wj4XX2F03fULidtOcXJom7JbPyJ2JpyW7L+mM41wQYUUqVEvEGj5ZlnTF4C10UH5R
+ 340n/MhT89NJXZ34nTPGbF42214TnF1ffXgzij4vIwhzZzc4yQJmjzj8juWqcukhFEVQ
+ TAPLJ1h6UipzNRsDfIOCH7kMkL8U1dnS0u5YgH+0NrXZM5k/gpLR02jByQOfnbRjzXET
+ T5friyR3BERYAgkQi1Lqy2EuM8Iog3c4FT0+G8D+anyr9z0W7WMnpo5aQDCSicQ17Trj
+ btrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=lL23JNais+S1Wv4htiWPpsaEuqFsq39lDCTDj5GHckA=;
+ b=VMqDFpGtm0UArBvwoCPuN0P9U8pWx3N9wVOQtsHWPd303GwwWY7NVj0Uot+ykoW15a
+ 6wAU9c6Mur2HE6f9ngqtF7NDsoMSJyHvRWoItl/4egHrqY8Q9x5QnaCKHYIttPqf1O0t
+ XRzjm6dt+GKaGZG5cEao6r82wbMuTbEZIyqmkosVq4tFK9pSI0rSLbpgY3VJdCeqWGzA
+ f72nXDzH78HEPTgVGqlsRTCEntJssbADfZAAfattr9A07m9wfA+JAEaJtX9tEcgA0E1p
+ n28YPNorN4gSaNKN/LZ9BR5BIFT36Y2K0lAaF+o/JG0Oxw+Ui1G3vM89jfUTpt8Z09Pn
+ OlcQ==
+X-Gm-Message-State: AGi0PubkDSL1R5+rvFH87qLixxHqrODUhi33rEkrSzBdikbqZisN61lK
+ NnehEbJh1Y6GP5cyt0VLb80zDQ==
+X-Google-Smtp-Source: APiQypJIzDNv4P9V9/EgbHsbcAYG5M8Kg19XlHTSGN8lWc1+wTGWsYNny+XXEMhtKbf/QkX/RhY1tQ==
+X-Received: by 2002:a05:6000:1044:: with SMTP id
+ c4mr228588wrx.57.1587578005637; 
+ Wed, 22 Apr 2020 10:53:25 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 145sm71292wma.1.2020.04.22.10.53.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Apr 2020 10:53:24 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3FAAD1FF7E;
+ Wed, 22 Apr 2020 18:53:23 +0100 (BST)
+References: <20200422011722.13287-1-richard.henderson@linaro.org>
+ <20200422011722.13287-18-richard.henderson@linaro.org>
+User-agent: mu4e 1.4.1; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 17/36] tcg/optimize: Adjust TempOptInfo allocation
+In-reply-to: <20200422011722.13287-18-richard.henderson@linaro.org>
+Date: Wed, 22 Apr 2020 18:53:23 +0100
+Message-ID: <878sincsq4.fsf@linaro.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.157) by
- AM4PR0202CA0007.eurprd02.prod.outlook.com (2603:10a6:200:89::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13 via Frontend
- Transport; Wed, 22 Apr 2020 17:45:52 +0000
-X-Tagtoolbar-Keys: D20200422204550845
-X-Originating-IP: [185.215.60.157]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3acbd90c-afb9-48ae-0d23-08d7e6e500d6
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5526:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5526EE329137E0D7132E784BC1D20@AM7PR08MB5526.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-Forefront-PRVS: 03818C953D
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10019020)(4636009)(346002)(396003)(366004)(39840400004)(376002)(136003)(478600001)(86362001)(5660300002)(7416002)(31696002)(2906002)(6916009)(81156014)(36756003)(8676002)(8936002)(16526019)(16576012)(6486002)(66476007)(66946007)(66556008)(4326008)(31686004)(26005)(956004)(2616005)(186003)(52116002)(316002)(41533002);
- DIR:OUT; SFP:1102; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lnqYYllDA3+/jM2qpfAkYP32DzxtJNLNVQiAJJ/8eurKvOtPgRYcTrJcib7keQrZ+O1MWb+SJRbbPMxguJaYb632aCJMvnsMoVyFEpQN+myrICGV8yQZX6wQu8dK8YK9lTe72QyfooPL4WP1Dbs55mGbMD2av4gvQrSteWqkiMFMBYyWZEaSnmnvZ48I91Sh2ru+PIWZgbkfzl1YUkzgsEHl7ZbzKbJgRLZkcXZ7mHNIAWYwwJcH2J0CVluIIdlZBXLCt17+2ooNAlC0YnOtlSnRT7H+L5gD4LLkNcMZXW/RR4HU3Crq+15R1sT+Y5oxD8XIrI36Kz5Uru0ZtRXBAidAyRVYEAoTR6n3VmcBtwb9qtNYjssYnPlwc0vcw0GeBEix6bVOsBf7A+IJUBaNOMhlOvEVL2FaqqC3KD4lqAKfKh6UC/z8wYcoC25JBLhyNmLsHTAYy//+9+6CeJvQgl8L1OeJclkKAGAn5iIbbZ0gJOdtiS5YWSOKIJnr617x
-X-MS-Exchange-AntiSpam-MessageData: s+mCmjtX249fJBuPuHUzw88/bc74C8ahcGO8EpxV+zJaAeo4xXdu0/epShcdcJmDzA9/tL/XJiQA3H6SWWav/mF/+Vs5XredTWHq/2T8iYxzKPVJt/RwrzUcBhaLvPwijHMiIU2+gQtbvZGcfO9hIw==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3acbd90c-afb9-48ae-0d23-08d7e6e500d6
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2020 17:45:53.3804 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Uut3RK58e8nt4QbI1rcnoheQM8uqBoLJFzcIAjYdibLx6u50Di+4r/Xsz5XHYmCrNLSoeqIB8Ie9g3IfrGKPd9zs6SWyOnXLBMxv4uGi/ek=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5526
-Received-SPF: pass client-ip=40.107.3.108;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-AM5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 13:45:54
-X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.3.108
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -118,88 +86,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, berto@igalia.com,
- pavel.dovgaluk@ispras.ru, qemu-block@nongnu.org, dillaman@redhat.com,
- sw@weilnetz.de, pl@kamp.de, qemu-devel@nongnu.org, mreitz@redhat.com,
- ari@tuxera.com, stefanha@redhat.com, pbonzini@redhat.com, den@openvz.org,
- jsnow@redhat.com, ronniesahlberg@gmail.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-22.04.2020 18:50, Stefan Hajnoczi wrote:
-> On Mon, Mar 30, 2020 at 05:18:17PM +0300, Vladimir Sementsov-Ogievskiy wrote:
->> @@ -875,9 +875,9 @@ static bool coroutine_fn bdrv_wait_serialising_requests(BdrvTrackedRequest *self
->>   }
->>   
->>   static int bdrv_check_byte_request(BlockDriverState *bs, int64_t offset,
->> -                                   size_t size)
->> +                                   int64_t bytes)
->>   {
->> -    if (size > BDRV_REQUEST_MAX_BYTES) {
->> +    if (offset < 0 || bytes < 0 || bytes > BDRV_REQUEST_MAX_BYTES) {
->>           return -EIO;
->>       }
->>   
->> @@ -885,10 +885,6 @@ static int bdrv_check_byte_request(BlockDriverState *bs, int64_t offset,
->>           return -ENOMEDIUM;
->>       }
->>   
->> -    if (offset < 0) {
->> -        return -EIO;
->> -    }
->> -
->>       return 0;
->>   }
-> 
-> Moving this if statement was unnecessary.  I'm not sure if there are
-> cases where callers will now see EIO instead of ENOMEDIUM and change
-> their behavior :(.
-> 
-> More conservative code changes are easier to review and merge because
-> they are less risky.
 
-Hmm, would be a bit strange to just add "bytes < 0" to the first "if" keeping "offset < 0" in the third.
-And strange to keep "bytes > BDRV_REQUEST_MAX_BYTES" in the first, if add "bytes < 0" to the third..
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> 
->> @@ -1743,7 +1740,7 @@ int coroutine_fn bdrv_co_preadv_part(BdrvChild *child,
->>   }
->>   
->>   static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
->> -    int64_t offset, int bytes, BdrvRequestFlags flags)
->> +    int64_t offset, int64_t bytes, BdrvRequestFlags flags)
->>   {
->>       BlockDriver *drv = bs->drv;
->>       QEMUIOVector qiov;
->> @@ -1773,7 +1770,7 @@ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
->>       assert(max_write_zeroes >= bs->bl.request_alignment);
->>   
->>       while (bytes > 0 && !ret) {
->> -        int num = bytes;
->> +        int64_t num = bytes;
->>   
->>           /* Align request.  Block drivers can expect the "bulk" of the request
->>            * to be aligned, and that unaligned requests do not cross cluster
->> @@ -1799,6 +1796,7 @@ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
->>           ret = -ENOTSUP;
->>           /* First try the efficient write zeroes operation */
->>           if (drv->bdrv_co_pwrite_zeroes) {
->> +            assert(num <= INT_MAX);
-> 
-> max_write_zeroes already enforces this, so the assertion is always
-> false:
-> 
->    int max_write_zeroes = MIN_NON_ZERO(bs->bl.max_pwrite_zeroes, INT_MAX);
->    ...
->          /* limit request size */
->          if (num > max_write_zeroes) {
->              num = max_write_zeroes;
+> Do not allocate a large block for indexing.  Instead, allocate
+> for each temporary as they are seen.
+>
+> In general, this will use less memory, if we consider that most
+> TBs do not touch every target register.  This also allows us to
+> allocate TempOptInfo for new temps created during optimization.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  tcg/optimize.c | 60 ++++++++++++++++++++++++++++----------------------
+>  1 file changed, 34 insertions(+), 26 deletions(-)
+>
+> diff --git a/tcg/optimize.c b/tcg/optimize.c
+> index b86bf3d707..d36d7e1d7f 100644
+> --- a/tcg/optimize.c
+> +++ b/tcg/optimize.c
+> @@ -89,35 +89,41 @@ static void reset_temp(TCGArg arg)
+>  }
+>=20=20
+>  /* Initialize and activate a temporary.  */
+> -static void init_ts_info(TempOptInfo *infos,
+> -                         TCGTempSet *temps_used, TCGTemp *ts)
+> +static void init_ts_info(TCGTempSet *temps_used, TCGTemp *ts)
+>  {
+>      size_t idx =3D temp_idx(ts);
+> -    if (!test_bit(idx, temps_used->l)) {
+> -        TempOptInfo *ti =3D &infos[idx];
+> +    TempOptInfo *ti;
+>=20=20
+> +    if (test_bit(idx, temps_used->l)) {
+> +        return;
+> +    }
+> +    set_bit(idx, temps_used->l);
+> +
+> +    ti =3D ts->state_ptr;
+> +    if (ti =3D=3D NULL) {
+> +        ti =3D tcg_malloc(sizeof(TempOptInfo));
+>          ts->state_ptr =3D ti;
+> -        ti->next_copy =3D ts;
+> -        ti->prev_copy =3D ts;
+> -        if (ts->kind =3D=3D TEMP_CONST) {
+> -            ti->is_const =3D true;
+> -            ti->val =3D ti->mask =3D ts->val;
+> -            if (TCG_TARGET_REG_BITS > 32 && ts->type =3D=3D TCG_TYPE_I32=
+) {
+> -                /* High bits of a 32-bit quantity are garbage.  */
+> -                ti->mask |=3D ~0xffffffffull;
+> -            }
+> -        } else {
+> -            ti->is_const =3D false;
+> -            ti->mask =3D -1;
+> +    }
+> +
+> +    ti->next_copy =3D ts;
+> +    ti->prev_copy =3D ts;
+> +    if (ts->kind =3D=3D TEMP_CONST) {
+> +        ti->is_const =3D true;
+> +        ti->val =3D ts->val;
+> +        ti->mask =3D ts->val;
+> +        if (TCG_TARGET_REG_BITS > 32 && ts->type =3D=3D TCG_TYPE_I32) {
+> +            /* High bits of a 32-bit quantity are garbage.  */
+> +            ti->mask |=3D ~0xffffffffull;
 >          }
-> 
+> -        set_bit(idx, temps_used->l);
+> +    } else {
+> +        ti->is_const =3D false;
+> +        ti->mask =3D -1;
+>      }
+>  }
+>=20=20
+> -static void init_arg_info(TempOptInfo *infos,
+> -                          TCGTempSet *temps_used, TCGArg arg)
+> +static void init_arg_info(TCGTempSet *temps_used, TCGArg arg)
+>  {
+> -    init_ts_info(infos, temps_used, arg_temp(arg));
+> +    init_ts_info(temps_used, arg_temp(arg));
+>  }
+>=20=20
+>  static TCGTemp *find_better_copy(TCGContext *s, TCGTemp *ts)
+> @@ -603,9 +609,8 @@ static bool swap_commutative2(TCGArg *p1, TCGArg *p2)
+>  /* Propagate constants and copies, fold constant expressions. */
+>  void tcg_optimize(TCGContext *s)
+>  {
+> -    int nb_temps, nb_globals;
+> +    int nb_temps, nb_globals, i;
+>      TCGOp *op, *op_next, *prev_mb =3D NULL;
+> -    TempOptInfo *infos;
+>      TCGTempSet temps_used;
+>=20=20
+>      /* Array VALS has an element for each temp.
+> @@ -615,12 +620,15 @@ void tcg_optimize(TCGContext *s)
+>=20=20
+>      nb_temps =3D s->nb_temps;
+>      nb_globals =3D s->nb_globals;
+> +
+>      bitmap_zero(temps_used.l, nb_temps);
+> -    infos =3D tcg_malloc(sizeof(TempOptInfo) * nb_temps);
+> +    for (i =3D 0; i < nb_temps; ++i) {
+> +        s->temps[i].state_ptr =3D NULL;
+> +    }
+>=20=20
+>      QTAILQ_FOREACH_SAFE(op, &s->ops, link, op_next) {
+>          tcg_target_ulong mask, partmask, affected;
+> -        int nb_oargs, nb_iargs, i;
+> +        int nb_oargs, nb_iargs;
+>          TCGArg tmp;
+>          TCGOpcode opc =3D op->opc;
+>          const TCGOpDef *def =3D &tcg_op_defs[opc];
+> @@ -633,14 +641,14 @@ void tcg_optimize(TCGContext *s)
+>              for (i =3D 0; i < nb_oargs + nb_iargs; i++) {
+>                  TCGTemp *ts =3D arg_temp(op->args[i]);
+>                  if (ts) {
+> -                    init_ts_info(infos, &temps_used, ts);
+> +                    init_ts_info(&temps_used, ts);
+>                  }
+>              }
+>          } else {
+>              nb_oargs =3D def->nb_oargs;
+>              nb_iargs =3D def->nb_iargs;
+>              for (i =3D 0; i < nb_oargs + nb_iargs; i++) {
+> -                init_arg_info(infos, &temps_used, op->args[i]);
+> +                init_arg_info(&temps_used, op->args[i]);
+>              }
+>          }
 
-You are right, I'll drop it.
 
--- 
-Best regards,
-Vladimir
+--=20
+Alex Benn=C3=A9e
 
