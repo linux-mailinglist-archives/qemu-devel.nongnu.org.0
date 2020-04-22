@@ -2,78 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DF4C1B4B7A
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 19:21:00 +0200 (CEST)
-Received: from localhost ([::1]:54764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 255631B4BC8
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 19:28:44 +0200 (CEST)
+Received: from localhost ([::1]:54908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRJ3T-0004JC-GT
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 13:20:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32870)
+	id 1jRJAx-0004tK-7P
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 13:28:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34220)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jRJ1i-0003AK-Ge
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:19:10 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jRJ6U-0006yu-Dc
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:24:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jRJ1h-00078c-TP
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:19:10 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35258)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jRJ1h-00077a-G2
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:19:09 -0400
-Received: by mail-wm1-x343.google.com with SMTP id r26so3370638wmh.0
- for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 10:19:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=0XkqcUDwg+MMEHdNHb35JIm7+KgpsQO567biYIBqyUo=;
- b=Q1bNQD1t3G5da1EdzzJwBYuT3CY6IDSoCfjwBmB4qyxArS81tQrBwuxGeseriUFwas
- BO/kzV5otPjE147I+YOliEecJkph4jDaoTQfR1kmHj4SRGGRI18+KCCQfrwmfiE9rvY3
- G739Ovwakm73FdNp3S60VTMjxIuXCSnsBg2nH6Pxe0z59GT1Qlwzl1qECBp+i5fgXoZ9
- FAHU0kRcvGW/QdRL8tZUtbqu6OXMfafO11m1kEIVvxIotlwYD/E9f3Q57m1SlIA9NRwd
- aeqqiLQ5hRhmKy5+E8Hi8MRTyZjvmxK4RQOTIhUohzo6vufstT202WnsuTlJ8FM5KuMy
- oYOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=0XkqcUDwg+MMEHdNHb35JIm7+KgpsQO567biYIBqyUo=;
- b=cdGqKbqpykQxTxBudW+19801UQxs6T1MJrq/9wk6ERH1spAZ5OdynZnAvNlAWjRBee
- 3fgfl+kYuGLqgm4CzmLhLJxbfov5eKmHHV6di4dkC+xSHLUCA3g6OfidNjScFNrRKyHH
- Fqh3QMTCtR4rwOKoKDYni+qY98imV9xxnTGxIA7f94ExZvdbqYEvqDc6ZPaDRS3RVcSy
- UknPr7WivNLG7yCzfS24tMV8ynPLYfstQ9SyLJtu0mSQbzVO4fXrj4G/tEFU+PWnVfC2
- dNHTdYG0EXsRiXp+GRddogog06GeTbZ1tuYE+7Qm9BzKCkocshWgDYBp53QRkLIIL/sq
- CV0A==
-X-Gm-Message-State: AGi0PuaGa2Ojbhges1YEW+aEJwxzKLcxyuPNB/DiTegqtZ+LLWTZ5hl4
- 4Yi2jYBG1n38iylQ+IfwuEx9mw==
-X-Google-Smtp-Source: APiQypKdxaZ74jKUu1INoir3xTTzObXNXUtK9I0uElL14/CzWtWvznWRMb37onADIqVrQSpPtFPnVA==
-X-Received: by 2002:a1c:4946:: with SMTP id w67mr12134600wma.38.1587575947938; 
- Wed, 22 Apr 2020 10:19:07 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 145sm9155513wma.1.2020.04.22.10.19.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Apr 2020 10:19:06 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 398771FF7E;
- Wed, 22 Apr 2020 18:19:06 +0100 (BST)
-References: <20200422011722.13287-1-richard.henderson@linaro.org>
- <20200422011722.13287-17-richard.henderson@linaro.org>
-User-agent: mu4e 1.4.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 16/36] tcg: Rename struct tcg_temp_info to TempOptInfo
-In-reply-to: <20200422011722.13287-17-richard.henderson@linaro.org>
-Date: Wed, 22 Apr 2020 18:19:06 +0100
-Message-ID: <87blnjcub9.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <pbonzini@redhat.com>) id 1jRJ6Q-0004Mn-5e
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:24:06 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46966
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jRJ6P-0004HU-OA
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:24:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587576237;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xlNrq2Tb8WbiWsAlU80j8YtQWYybFIPf9j0sLO+2Ess=;
+ b=DUustaVLhbx5o81AMLhmbzDgY2cDEQ8cqlkhqPi+jhfDKvAWiUquGsqfOPqN7C6fHSqqWf
+ HEZsySC+wTwQfS9ED93oRvxdbw93/z4FXqOCPi9cksRoLsfk7aImpUjYqdwCzh1MxgBTXA
+ hKNtHnHCxzm+alHgnHCcKFuzoY+Oksk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-411-LkXPM9_1ORiJaqLGuQNDaQ-1; Wed, 22 Apr 2020 13:23:54 -0400
+X-MC-Unique: LkXPM9_1ORiJaqLGuQNDaQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E86A41005510;
+ Wed, 22 Apr 2020 17:23:52 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5D2B86084B;
+ Wed, 22 Apr 2020 17:23:52 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/8] run-coverity-scan: misc improvements,
+ especially for docker mode
+Date: Wed, 22 Apr 2020 13:23:43 -0400
+Message-Id: <20200422172351.26583-1-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::343
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 09:07:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,144 +72,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+These include:
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+1) podman support through tests/docker/docker.py
 
-> Fix this name vs our coding style.
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+2) avoiding repeated downloading of the tools in the container, by
+   sharing the cache with the host
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+3) support for --update-tools-only --docker (though unlike regular
+   --update-tools-only it must be run from within a QEMU source tree)
 
-> ---
->  tcg/optimize.c | 32 ++++++++++++++++----------------
->  1 file changed, 16 insertions(+), 16 deletions(-)
->
-> diff --git a/tcg/optimize.c b/tcg/optimize.c
-> index effb47eefd..b86bf3d707 100644
-> --- a/tcg/optimize.c
-> +++ b/tcg/optimize.c
-> @@ -35,20 +35,20 @@
->          glue(glue(case INDEX_op_, x), _i64):    \
->          glue(glue(case INDEX_op_, x), _vec)
->=20=20
-> -struct tcg_temp_info {
-> +typedef struct TempOptInfo {
->      bool is_const;
->      TCGTemp *prev_copy;
->      TCGTemp *next_copy;
->      tcg_target_ulong val;
->      tcg_target_ulong mask;
-> -};
-> +} TempOptInfo;
->=20=20
-> -static inline struct tcg_temp_info *ts_info(TCGTemp *ts)
-> +static inline TempOptInfo *ts_info(TCGTemp *ts)
->  {
->      return ts->state_ptr;
->  }
->=20=20
-> -static inline struct tcg_temp_info *arg_info(TCGArg arg)
-> +static inline TempOptInfo *arg_info(TCGArg arg)
->  {
->      return ts_info(arg_temp(arg));
->  }
-> @@ -71,9 +71,9 @@ static inline bool ts_is_copy(TCGTemp *ts)
->  /* Reset TEMP's state, possibly removing the temp for the list of copies=
-.  */
->  static void reset_ts(TCGTemp *ts)
->  {
-> -    struct tcg_temp_info *ti =3D ts_info(ts);
-> -    struct tcg_temp_info *pi =3D ts_info(ti->prev_copy);
-> -    struct tcg_temp_info *ni =3D ts_info(ti->next_copy);
-> +    TempOptInfo *ti =3D ts_info(ts);
-> +    TempOptInfo *pi =3D ts_info(ti->prev_copy);
-> +    TempOptInfo *ni =3D ts_info(ti->next_copy);
->=20=20
->      ni->prev_copy =3D ti->prev_copy;
->      pi->next_copy =3D ti->next_copy;
-> @@ -89,12 +89,12 @@ static void reset_temp(TCGArg arg)
->  }
->=20=20
->  /* Initialize and activate a temporary.  */
-> -static void init_ts_info(struct tcg_temp_info *infos,
-> +static void init_ts_info(TempOptInfo *infos,
->                           TCGTempSet *temps_used, TCGTemp *ts)
->  {
->      size_t idx =3D temp_idx(ts);
->      if (!test_bit(idx, temps_used->l)) {
-> -        struct tcg_temp_info *ti =3D &infos[idx];
-> +        TempOptInfo *ti =3D &infos[idx];
->=20=20
->          ts->state_ptr =3D ti;
->          ti->next_copy =3D ts;
-> @@ -114,7 +114,7 @@ static void init_ts_info(struct tcg_temp_info *infos,
->      }
->  }
->=20=20
-> -static void init_arg_info(struct tcg_temp_info *infos,
-> +static void init_arg_info(TempOptInfo *infos,
->                            TCGTempSet *temps_used, TCGArg arg)
->  {
->      init_ts_info(infos, temps_used, arg_temp(arg));
-> @@ -177,7 +177,7 @@ static void tcg_opt_gen_movi(TCGContext *s, TCGOp *op=
-, TCGArg dst, TCGArg val)
->      const TCGOpDef *def;
->      TCGOpcode new_op;
->      tcg_target_ulong mask;
-> -    struct tcg_temp_info *di =3D arg_info(dst);
-> +    TempOptInfo *di =3D arg_info(dst);
->=20=20
->      def =3D &tcg_op_defs[op->opc];
->      if (def->flags & TCG_OPF_VECTOR) {
-> @@ -208,8 +208,8 @@ static void tcg_opt_gen_mov(TCGContext *s, TCGOp *op,=
- TCGArg dst, TCGArg src)
->      TCGTemp *dst_ts =3D arg_temp(dst);
->      TCGTemp *src_ts =3D arg_temp(src);
->      const TCGOpDef *def;
-> -    struct tcg_temp_info *di;
-> -    struct tcg_temp_info *si;
-> +    TempOptInfo *di;
-> +    TempOptInfo *si;
->      tcg_target_ulong mask;
->      TCGOpcode new_op;
->=20=20
-> @@ -242,7 +242,7 @@ static void tcg_opt_gen_mov(TCGContext *s, TCGOp *op,=
- TCGArg dst, TCGArg src)
->      di->mask =3D mask;
->=20=20
->      if (src_ts->type =3D=3D dst_ts->type) {
-> -        struct tcg_temp_info *ni =3D ts_info(si->next_copy);
-> +        TempOptInfo *ni =3D ts_info(si->next_copy);
->=20=20
->          di->next_copy =3D si->next_copy;
->          di->prev_copy =3D src_ts;
-> @@ -605,7 +605,7 @@ void tcg_optimize(TCGContext *s)
->  {
->      int nb_temps, nb_globals;
->      TCGOp *op, *op_next, *prev_mb =3D NULL;
-> -    struct tcg_temp_info *infos;
-> +    TempOptInfo *infos;
->      TCGTempSet temps_used;
->=20=20
->      /* Array VALS has an element for each temp.
-> @@ -616,7 +616,7 @@ void tcg_optimize(TCGContext *s)
->      nb_temps =3D s->nb_temps;
->      nb_globals =3D s->nb_globals;
->      bitmap_zero(temps_used.l, nb_temps);
-> -    infos =3D tcg_malloc(sizeof(struct tcg_temp_info) * nb_temps);
-> +    infos =3D tcg_malloc(sizeof(TempOptInfo) * nb_temps);
->=20=20
->      QTAILQ_FOREACH_SAFE(op, &s->ops, link, op_next) {
->          tcg_target_ulong mask, partmask, affected;
+4) not related to docker mode, but used by it, a new --no-update-tools
+   option that does not check for tool updates
 
+5) the ability to get the Coverity token from git configuration, and
+   also to have email from git configuration if it is not equal to
+   user.email.
+
+Patches 1 and 2 are tweaks to tests/docker/docker.py, while the others
+are for run-coverity-scan.
+
+Paolo Bonzini (8):
+  docker.py/build: support -t and -f arguments
+  docker.py/build: support binary files in --extra-files
+  run-coverity-scan: get Coverity token and email from special git
+    config section
+  run-coverity-scan: use docker.py
+  run-coverity-scan: add --no-update-tools option
+  run-coverity-scan: use --no-update-tools in docker run
+  run-coverity-scan: download tools outside the container
+  run-coverity-scan: support --update-tools-only --docker
+
+ scripts/coverity-scan/coverity-scan.docker |   3 +-
+ scripts/coverity-scan/run-coverity-scan    | 126 +++++++++++++--------
+ tests/docker/Makefile.include              |   2 +-
+ tests/docker/docker.py                     |  14 ++-
+ 4 files changed, 88 insertions(+), 57 deletions(-)
 
 --=20
-Alex Benn=C3=A9e
+2.18.2
+
 
