@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1D2C1B45F6
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 15:10:43 +0200 (CEST)
-Received: from localhost ([::1]:50278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7DA71B4607
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 15:14:02 +0200 (CEST)
+Received: from localhost ([::1]:50348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRF9G-0008Lt-Uc
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 09:10:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46950)
+	id 1jRFCT-0005Be-Rh
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 09:14:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47204)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRF6D-0003v4-EG
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:07:36 -0400
+ (envelope-from <armbru@redhat.com>) id 1jRF6Q-00047H-Mi
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:07:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRF6A-0003wD-Ds
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:07:33 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55158
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1jRF6A-0003x1-JB
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:07:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52203
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jRF69-0003u7-ST
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jRF6A-0003uF-3E
  for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:07:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1587560849;
@@ -27,43 +27,44 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tOpA4vKhF0E/s3TXOxfOc3XODiJpn13TNPnTc0IUeNc=;
- b=hVHF8PZ+STPdA+pGil2Qq2WJGGnE0RPXvxsaIwruNfXzVxPK1G6qm65SJwqMQpuzpWPy/n
- PNYthuex8HyOkx42VWeqJ1EuwQULYZ/GM9qo00TpIc2kbM41Wi3t9gIe3XqLqcWwCs16FV
- LFUwVeRHuXmqkVWHplayVHJs4b3yKUc=
+ bh=P4KVJJRj1MDcAz5rSwyrh0wdoPM26+UDuMR2Ulp1pEs=;
+ b=Cv0xr3a8gV90hJ4XnMLCyO/nJro2nLYi5/gWoS9S8bjgA9qcYyGqApqoZT6Zn+C5DEv5zj
+ NwoIJOrB+DUNstTESOPwVx4jpdNzeMaXUjN3WoZElfKAYhc1mIuXl/f5KUnliooXeMs59z
+ uIniAQLSU/Vso76L8cuokDL4K8U+920=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-MN0mvPpIMmSQmRAdONPk_g-1; Wed, 22 Apr 2020 09:07:25 -0400
-X-MC-Unique: MN0mvPpIMmSQmRAdONPk_g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-358-eCgbFUccPFeyGtEDeGnZIA-1; Wed, 22 Apr 2020 09:07:25 -0400
+X-MC-Unique: eCgbFUccPFeyGtEDeGnZIA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B71AD107ACCA;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCE7DA0CBF;
  Wed, 22 Apr 2020 13:07:24 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 84FE6600E8;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8AF3160C87;
  Wed, 22 Apr 2020 13:07:24 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 385E411358CA; Wed, 22 Apr 2020 15:07:20 +0200 (CEST)
+ id 3DFA011358CB; Wed, 22 Apr 2020 15:07:20 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/14] qga: Fix qmp_guest_get_memory_blocks() error handling
-Date: Wed, 22 Apr 2020 15:07:18 +0200
-Message-Id: <20200422130719.28225-14-armbru@redhat.com>
+Subject: [PATCH v2 14/14] qga: Fix qmp_guest_suspend_{disk,
+ ram}() error handling
+Date: Wed, 22 Apr 2020 15:07:19 +0200
+Message-Id: <20200422130719.28225-15-armbru@redhat.com>
 In-Reply-To: <20200422130719.28225-1-armbru@redhat.com>
 References: <20200422130719.28225-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 02:12:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 04:15:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,35 +84,58 @@ The Error ** argument must be NULL, &error_abort, &error_fatal, or a
 pointer to a variable containing NULL.  Passing an argument of the
 latter kind twice without clearing it in between is wrong: if the
 first call sets an error, it no longer points to NULL for the second
-call.
 
-qmp_guest_get_memory_blocks() passes &local_err to
-transfer_memory_block() in a loop.  If this fails in more than one
-iteration, it can trip error_setv()'s assertion.
+qmp_guest_suspend_disk() and qmp_guest_suspend_ram() pass @local_err
+first to check_suspend_mode(), then to acquire_privilege(), then to
+execute_async().  Continuing after errors here can only end in tears.
+For instance, we risk tripping error_setv()'s assertion.
 
-Fix it to break the loop.
-
+Fixes: aa59637ea1c6a4c83430933f9c44c43e6c3f1b69
+Fixes: f54603b6aa765514b2519e74114a2f417759d727
 Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qga/commands-posix.c | 3 +++
- 1 file changed, 3 insertions(+)
+ qga/commands-win32.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index a52af0315f..ae1348dc8f 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -2518,6 +2518,9 @@ GuestMemoryBlockList *qmp_guest_get_memory_blocks(Err=
-or **errp)
-         mem_blk->phys_index =3D strtoul(&de->d_name[6], NULL, 10);
-         mem_blk->has_can_offline =3D true; /* lolspeak ftw */
-         transfer_memory_block(mem_blk, true, NULL, &local_err);
-+        if (local_err) {
-+            break;
-+        }
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index 9717a8d52d..5ba56327dd 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -1322,9 +1322,16 @@ void qmp_guest_suspend_disk(Error **errp)
 =20
-         entry =3D g_malloc0(sizeof *entry);
-         entry->value =3D mem_blk;
+     *mode =3D GUEST_SUSPEND_MODE_DISK;
+     check_suspend_mode(*mode, &local_err);
++    if (local_err) {
++        goto out;
++    }
+     acquire_privilege(SE_SHUTDOWN_NAME, &local_err);
++    if (local_err) {
++        goto out;
++    }
+     execute_async(do_suspend, mode, &local_err);
+=20
++out:
+     if (local_err) {
+         error_propagate(errp, local_err);
+         g_free(mode);
+@@ -1338,9 +1345,16 @@ void qmp_guest_suspend_ram(Error **errp)
+=20
+     *mode =3D GUEST_SUSPEND_MODE_RAM;
+     check_suspend_mode(*mode, &local_err);
++    if (local_err) {
++        goto out;
++    }
+     acquire_privilege(SE_SHUTDOWN_NAME, &local_err);
++    if (local_err) {
++        goto out;
++    }
+     execute_async(do_suspend, mode, &local_err);
+=20
++out:
+     if (local_err) {
+         error_propagate(errp, local_err);
+         g_free(mode);
 --=20
 2.21.1
 
