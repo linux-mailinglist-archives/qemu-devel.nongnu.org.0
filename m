@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2327C1B388E
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 09:12:31 +0200 (CEST)
-Received: from localhost ([::1]:45264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF4F1B38A5
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 09:15:29 +0200 (CEST)
+Received: from localhost ([::1]:45306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jR9Yc-0005ZM-5n
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 03:12:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39534)
+	id 1jR9bU-0000ZS-40
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 03:15:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39540)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jR9Vv-0000dE-1u
+ (envelope-from <its@irrelevant.dk>) id 1jR9Vv-0000dj-7I
  for qemu-devel@nongnu.org; Wed, 22 Apr 2020 03:09:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jR9Vu-0007Jl-0Z
+ (envelope-from <its@irrelevant.dk>) id 1jR9Vu-0007Jv-AK
  for qemu-devel@nongnu.org; Wed, 22 Apr 2020 03:09:42 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:60258)
+Received: from charlie.dont.surf ([128.199.63.193]:60274)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jR9Vq-0007DE-8F; Wed, 22 Apr 2020 03:09:38 -0400
+ id 1jR9Vq-0007EH-Nt; Wed, 22 Apr 2020 03:09:38 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 9C319BFD4F;
- Wed, 22 Apr 2020 07:09:36 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id 09A52BF5D9;
+ Wed, 22 Apr 2020 07:09:37 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 08/16] nvme: remove redundant cmbloc/cmbsz members
-Date: Wed, 22 Apr 2020 09:09:19 +0200
-Message-Id: <20200422070927.373048-9-its@irrelevant.dk>
+Subject: [PATCH v3 09/16] nvme: factor out property/constraint checks
+Date: Wed, 22 Apr 2020 09:09:20 +0200
+Message-Id: <20200422070927.373048-10-its@irrelevant.dk>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200422070927.373048-1-its@irrelevant.dk>
 References: <20200422070927.373048-1-its@irrelevant.dk>
@@ -67,55 +67,89 @@ Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/block/nvme.c | 7 ++-----
- hw/block/nvme.h | 2 --
- 2 files changed, 2 insertions(+), 7 deletions(-)
+ hw/block/nvme.c | 48 ++++++++++++++++++++++++++++++------------------
+ 1 file changed, 30 insertions(+), 18 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 4450d8473361..c9dddc6c803a 100644
+index c9dddc6c803a..658d20e9448a 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -77,7 +77,7 @@ static bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr)
+@@ -1352,24 +1352,19 @@ static const MemoryRegionOps nvme_cmb_ops = {
+     },
+ };
  
- static void nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size)
+-static void nvme_realize(PCIDevice *pci_dev, Error **errp)
++static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
  {
--    if (n->cmbsz && nvme_addr_is_cmb(n, addr)) {
-+    if (n->bar.cmbsz && nvme_addr_is_cmb(n, addr)) {
-         memcpy(buf, (void *)&n->cmbuf[addr - n->ctrl_mem.addr], size);
+-    NvmeCtrl *n = NVME(pci_dev);
+-    NvmeIdCtrl *id = &n->id_ctrl;
++    NvmeParams *params = &n->params;
+ 
+-    int i;
+-    int64_t bs_size;
+-    uint8_t *pci_conf;
+-
+-    if (n->params.num_queues) {
++    if (params->num_queues) {
+         warn_report("num_queues is deprecated; please use max_ioqpairs "
+                     "instead");
+ 
+-        n->params.max_ioqpairs = n->params.num_queues - 1;
++        params->max_ioqpairs = params->num_queues - 1;
+     }
+ 
+-    if (n->params.max_ioqpairs < 1 ||
+-        n->params.max_ioqpairs > PCI_MSIX_FLAGS_QSIZE) {
++    if (params->max_ioqpairs < 1 ||
++        params->max_ioqpairs > PCI_MSIX_FLAGS_QSIZE) {
+         error_setg(errp, "max_ioqpairs must be between 1 and %d",
+                    PCI_MSIX_FLAGS_QSIZE);
+         return;
+@@ -1380,13 +1375,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
          return;
      }
-@@ -171,7 +171,7 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
-     if (unlikely(!prp1)) {
-         trace_pci_nvme_err_invalid_prp();
-         return NVME_INVALID_FIELD | NVME_DNR;
--    } else if (n->cmbsz && prp1 >= n->ctrl_mem.addr &&
-+    } else if (n->bar.cmbsz && prp1 >= n->ctrl_mem.addr &&
-                prp1 < n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size)) {
-         qsg->nsg = 0;
-         qemu_iovec_init(iov, num_prps);
-@@ -1483,9 +1483,6 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-         NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2); /* MBs */
-         NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->params.cmb_size_mb);
  
--        n->cmbloc = n->bar.cmbloc;
--        n->cmbsz = n->bar.cmbsz;
+-    bs_size = blk_getlength(n->conf.blk);
+-    if (bs_size < 0) {
+-        error_setg(errp, "could not get backing file size");
+-        return;
+-    }
 -
-         n->cmbuf = g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
-         memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_cmb_ops, n,
-                               "nvme-cmb", NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 215896191988..c1bb2a4994b6 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -90,8 +90,6 @@ typedef struct NvmeCtrl {
-     uint32_t    num_namespaces;
-     uint32_t    max_q_ents;
-     uint64_t    ns_size;
--    uint32_t    cmbsz;
--    uint32_t    cmbloc;
-     uint8_t     *cmbuf;
-     uint64_t    irq_status;
-     uint64_t    host_timestamp;                 /* Timestamp sent by the host */
+-    if (!n->params.serial) {
++    if (!params->serial) {
+         error_setg(errp, "serial property not set");
+         return;
+     }
+@@ -1406,6 +1395,29 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+ 
+         host_memory_backend_set_mapped(n->pmrdev, true);
+     }
++}
++
++static void nvme_realize(PCIDevice *pci_dev, Error **errp)
++{
++    NvmeCtrl *n = NVME(pci_dev);
++    NvmeIdCtrl *id = &n->id_ctrl;
++    Error *local_err = NULL;
++
++    int i;
++    int64_t bs_size;
++    uint8_t *pci_conf;
++
++    nvme_check_constraints(n, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return;
++    }
++
++    bs_size = blk_getlength(n->conf.blk);
++    if (bs_size < 0) {
++        error_setg(errp, "could not get backing file size");
++        return;
++    }
+ 
+     blkconf_blocksizes(&n->conf);
+     if (!blkconf_apply_backend_options(&n->conf, blk_is_read_only(n->conf.blk),
 -- 
 2.26.2
 
