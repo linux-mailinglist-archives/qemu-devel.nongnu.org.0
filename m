@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 620841B3BC4
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 11:52:06 +0200 (CEST)
-Received: from localhost ([::1]:46982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED2DA1B3C1E
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 12:04:05 +0200 (CEST)
+Received: from localhost ([::1]:47090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRC32-0006qS-VL
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 05:52:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33354)
+	id 1jRCEe-0003or-Mt
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 06:04:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40864)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1jRC22-00061K-51
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 05:51:05 -0400
+ (envelope-from <kraxel@redhat.com>) id 1jRCD3-0002O9-Nr
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:02:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1jRC21-0004Op-G0
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 05:51:01 -0400
-Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:39265)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1jRC1w-0003om-Ea; Wed, 22 Apr 2020 05:50:56 -0400
-Received: by mail-yb1-xb42.google.com with SMTP id h205so866929ybg.6;
- Wed, 22 Apr 2020 02:50:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=vCGKSikB8D27wNRtSYvzPVc7FAOx9psLBPWO7a1IF5w=;
- b=e0voYnOoVNefUOci216v9TGAk0mtegRRHiF4a7iseODkYmtMEf//2iz4B2S5+BiE40
- rxnXFA6vqqdnWjSxz1PJzci/SB4+3DMI/6qJTHgLSIeytQQro4g9cq4JRx/3+FcXfAf0
- 5/TqR0cAyAjsXYzceyAgn3arD0mABzyfRZkfHnLvFL7ajCDENTB+DbXnK5eAQLVliBBj
- XSgFEqN46nMERNZqtNSgKXmbZ7JmWjRp5662hrc3PyUCHB0nkqcyMlP3jwEUswYwfjta
- WeS4HVIEQrm8yixuo2kfZbnpzc2zjWb2fqnz1NgRoK86SOUYsAxnPmkjFbmsBqz/K4bo
- 76vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=vCGKSikB8D27wNRtSYvzPVc7FAOx9psLBPWO7a1IF5w=;
- b=sst27IpZypGHVCuCeAij5FfNHsi1OBARZBsyj2Mx7jiJymrkjyM5PRYZCmStkpNCJF
- RCCJtBDOvrkdKMmRbv6IKrqC4G82ezV1derKM953pkvNb92qXhzgCil39C0z51g/2+Ch
- mQgLv8P7a1aQScwv6HCmznt1l4siBhGh6Lx80N/u5WmH2YotgqUB1svaZnev+twCH7w4
- kkz8s02mUAj4OPwciKZYu1/EOrSBeVR+TvG5hcHsBNnE6gJ1HdxSOQHycnv9HlUHr6aH
- TYZQa0WryLt/6gsYDFJGhuTs9JPwKgZttqQSyW99CEPLrKTedxThfvpOd3+RrXUQqIfB
- qJfw==
-X-Gm-Message-State: AGi0Pub8+kZLATYjRO7xTzUG8fXmVl07kdxcOqT3lAq06wjVNK4R4/Ob
- DwnKsBNB+1y063R2k4H07Q5L/IrExpo7kSR+IRY=
-X-Google-Smtp-Source: APiQypLWDD8yJODVA4FZ5xQp44cm3IYxQH91RnPUM6BJ6TrHX4gsVx7moS1u+pr1v9lhn97zlOHr3OhpPdigGR87/8M=
-X-Received: by 2002:a25:738a:: with SMTP id o132mr4991773ybc.490.1587549053747; 
- Wed, 22 Apr 2020 02:50:53 -0700 (PDT)
+ (envelope-from <kraxel@redhat.com>) id 1jRCD2-0004Qa-RZ
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:02:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34344
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jRCD2-0004FH-CV
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:02:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587549741;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ZPI/kpbw0SuDSmjh3Z1786Q+w0y2K7Co1J7wLXi4kSo=;
+ b=NClnH6chNksAry9yv9BmH2/yx6INU/sVyN6hAkEaPT6c/C0k3+kOIFhsUjBi29M+FzQ7Ik
+ aFvJp/TYs+cAnB8lXNc81qzWeDATOF1OtmjbsTZMq4x5r96lsK2tGLRBlF0VUsTeGvS2kN
+ 5KKrX1GX6dhAq2qPQ3QIqVpx4ccZsMc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-339-ksFo-PiKO6iPmiztXRNYLA-1; Wed, 22 Apr 2020 06:02:19 -0400
+X-MC-Unique: ksFo-PiKO6iPmiztXRNYLA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DBF0800685;
+ Wed, 22 Apr 2020 10:02:18 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
+ [10.36.113.193])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C7594385;
+ Wed, 22 Apr 2020 10:02:12 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id C25F617532; Wed, 22 Apr 2020 12:02:11 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/5] ramfb: a bunch of reverts and fixes
+Date: Wed, 22 Apr 2020 12:02:06 +0200
+Message-Id: <20200422100211.30614-1-kraxel@redhat.com>
 MIME-Version: 1.0
-References: <1587389038-1549-1-git-send-email-bmeng.cn@gmail.com>
- <CAKmqyKMzUzHC1FhV6ccjswjRvQH_h6DuUwEWjte4CAEmxPOKDg@mail.gmail.com>
- <CAEUhbmUTEVPF6f91SqrXL-_M-G_Jg2D29cBjbCs1YBGm2fk6QA@mail.gmail.com>
- <CAEUhbmWsNmTTTFz66M4sK-pEtEMOhfoYzCHYVyEF4AJ2X02twA@mail.gmail.com>
- <bd7da39b-4ece-7e72-a0a0-1d401c3b8c34@redhat.com>
-In-Reply-To: <bd7da39b-4ece-7e72-a0a0-1d401c3b8c34@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 22 Apr 2020 17:50:42 +0800
-Message-ID: <CAEUhbmWCNGTn34wGSUvbwAbuY15VeDPPnFF2em4=XKEH5kReKw@mail.gmail.com>
-Subject: Re: [PATCH] roms: opensbi: Upgrade from v0.6 to v0.7
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>, 
- Anup Patel <anup.patel@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b42;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb42.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::b42
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 02:04:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,88 +73,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Alistair Francis <alistair23@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, lersek@redhat.com,
+ hqm03ster@gmail.com, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 22, 2020 at 4:15 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> On 4/22/20 3:30 AM, Bin Meng wrote:
-> > Hi Alistair,
-> >
-> > On Tue, Apr 21, 2020 at 9:34 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >>
-> >> Hi Alistair,
-> >>
-> >> On Tue, Apr 21, 2020 at 2:41 AM Alistair Francis <alistair23@gmail.com=
-> wrote:
-> >>>
-> >>> On Mon, Apr 20, 2020 at 6:25 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >>>>
-> >>>> Upgrade OpenSBI from v0.6 to v0.7 and the pre-built bios images.
-> >>>>
-> >>>> The v0.7 release includes the following commits:
-> >>>>
-> >>>> f64f4b9 lib: Add a new platform feature to bringup secondary harts
-> >>>> b677a9b lib: Implement hart hotplug
-> >>>> 5b48240 lib: Add possible hart status values
-> >>>> e3f69fc lib: Implement Hart State Management (HSM) SBI extension
-> >>>> 6704216 lib: Check MSIP bit after returning from WFI
-> [...]
-> >>>> 6c7922e lib: Support vector extension
-> >>>> 615587c docs: Update README about supported SBI versions
-> >>>> 66d0184 lib: Allow overriding SBI implementation ID
-> >>>> 9f1b72c include: Bump-up version to 0.7
->
-> The git-short-log in the commit message is very appreciated, thanks.
->
-> >>>>
-> >>>> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> >>>
-> >>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> >>>
-> >>> Can you share a git branch with this patch? From memory these binary
-> >>> patches don't apply well from emails.
->
-> Indeed. These patches are good candidate to use the 'git-format-patch
-> --no-binary' option with a link to a git repository to fetch the full
-> commit:
->
+Even though these are bugfixes this is probably 5.1 material
+at this point ...
 
-Some other project mailing lists do not prevent binary patch mails. If
-this is QEMU convention, I suggest we document this in
-https://wiki.qemu.org/Contribute/SubmitAPatch.
+Gerd Hoffmann (5):
+  Revert "hw/display/ramfb: initialize fw-config space with xres/ yres"
+  Revert "hw/display/ramfb: lock guest resolution after it's set"
+  ramfb: don't update RAMFBState on errors
+  ramfb: add sanity checks to ramfb_create_display_surface
+  ramfb: drop leftover debug message
 
->    --no-binary
->      Do not output contents of changes in binary files,
->      instead display a notice that those files changed.
->      Patches generated using this option cannot be applied
->      properly, but they are still useful for code review.
->
-> >>
-> >> Sure. Please grab the bits from http://github.com/lbmeng/qemu opensbi =
-branch.
-> >>
-> >> You can also use patchwork to help with your custodian work.
-> >> http://patchwork.ozlabs.org/project/qemu-devel/patch/1587389038-1549-1=
--git-send-email-bmeng.cn@gmail.com/
-> >>
-> >> Click on the "mbox" button to download the patch and apply it.
-> >
-> > Will this be 5.0, or 5.1?
->
-> Unlikely 5.1, too late.
+ include/hw/display/ramfb.h    |  2 +-
+ hw/display/ramfb-standalone.c | 12 +------
+ hw/display/ramfb.c            | 59 +++++++++++------------------------
+ hw/vfio/display.c             |  4 +--
+ stubs/ramfb.c                 |  2 +-
+ 5 files changed, 24 insertions(+), 55 deletions(-)
 
-I am fine. Just wanted to know the strategy of which QEMU release to
-ship which OpenSBI release. +Anup in case he has some comments.
+-- 
+2.18.2
 
-Regards,
-Bin
 
