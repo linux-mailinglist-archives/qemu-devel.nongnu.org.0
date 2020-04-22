@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FC461B4658
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 15:37:36 +0200 (CEST)
-Received: from localhost ([::1]:50798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF71C1B4650
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 15:35:04 +0200 (CEST)
+Received: from localhost ([::1]:50740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRFZH-0004qt-6v
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 09:37:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59362)
+	id 1jRFWp-0000eP-P7
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 09:35:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59402)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jRFUM-0006S5-KL
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:32:33 -0400
+ (envelope-from <philmd@redhat.com>) id 1jRFUP-0006VL-ON
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:32:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jRFUK-00031Y-7C
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:32:30 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22577
+ (envelope-from <philmd@redhat.com>) id 1jRFUM-00036i-AB
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:32:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21864
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jRFUJ-0002v5-Ge
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:32:27 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jRFUL-00032c-Rn
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:32:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587562345;
+ s=mimecast20190719; t=1587562348;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CAm/ELJG3BqWeqIODV3zHLDQPYZpESaEVU+juqiMjnQ=;
- b=Wi5Ir4TGg/OKQafn7WFKdbZ3wl6P34dMQZkuI8VgHQN9ZmBza4x06Xq0ii4E6it57fHpsV
- voxOwKl1cjGIqjORWstwF+LXdu+3Xc2jrmfTQHUt9928m0EQeEH3w8hteOTutA8PhtWOm0
- BmQWiiFZv2uIPZwteso651FbXRGyhds=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-33-KqyylhFFPWmGyJuae1secA-1; Wed, 22 Apr 2020 09:32:21 -0400
-X-MC-Unique: KqyylhFFPWmGyJuae1secA-1
-Received: by mail-wr1-f69.google.com with SMTP id v9so1044138wrt.7
- for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 06:32:21 -0700 (PDT)
+ bh=Flbegfe+XvQdIALgmwjud+bmSRqDw+xWJxrHvvD5T5c=;
+ b=iNiwjnjl37XE94rLwo8a2bZjfZOMwhUClEss3Kvi318ESsk3t/fycrV6g8rjDkCYBGAVwZ
+ 3H7VhucekKB6IGQQzKoNao5Utnqwx8UiHG0rhufdXL1/Cp+uYoJt7gVhKJObNtwqcSEF38
+ Pr/rVhAI6dVMhmsxYrckPBxxtIg8lMU=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-360-MJLkgs73OHGSiNB18O8OKQ-1; Wed, 22 Apr 2020 09:32:26 -0400
+X-MC-Unique: MJLkgs73OHGSiNB18O8OKQ-1
+Received: by mail-wr1-f70.google.com with SMTP id m5so1038733wru.15
+ for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 06:32:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2FKpjcCgxFkJLIX2UQN4Z0uyrzf8czNZGVSlJzZoMlE=;
- b=bqy0LuSTsID8qs2k8Nvs/82R8m+OC342tC5ZDlulHTDVYpq2QjTJgqSwdeEL8fvdc/
- kRmWFk/Y3D0N8DLq98MXy2AeOzCSoQ/R2/OodJn53Vq6VuBfoI/Rp2oMDuYViMUiyG9x
- 0lBlEA2PyWit7E8oF/70oOs++E+ZUKXnxraWaV3GOej2/hpDFHPDEnrMH3ndvG9ywNTk
- PF5ImDyHW4WJDbTn8NNd69tGgC7686EssuO87jzWLpeqGllRIDAwWvxW0a+QDTowyBFX
- C9um77WHzMLbHovVwVtCOhSp+gikjpeKpmnfefTAbOUHs+MNCfCS9WcFcIOeSTJ7nYcV
- DTcw==
-X-Gm-Message-State: AGi0Pua2DHG6OhcGYgO3zrK15jxl3jrguKtSs2hvx65Sx280K79Df5j7
- FVgUAIybvUnS5Fwl51wCyVAWcNEHm6hxiW0Vv/NlUcn58wFkbnRxTuvlLMT6Odav3MxzNDpm+nR
- m85TKMA79evKfUXc=
-X-Received: by 2002:a05:600c:2255:: with SMTP id
- a21mr10753410wmm.150.1587562339896; 
- Wed, 22 Apr 2020 06:32:19 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKBHCxVFL6Ws9hQAYww/uSUD16SaeWprZDoQADn+KRz09ut8eE6N/X1REGfFk5aEplfb6ksWA==
-X-Received: by 2002:a05:600c:2255:: with SMTP id
- a21mr10753390wmm.150.1587562339737; 
- Wed, 22 Apr 2020 06:32:19 -0700 (PDT)
+ bh=IDUYtKOADkWG3CN25Uq5JJobV9Wdj+VxIMt3IxDdn/o=;
+ b=JglobhJhsqNJJ+WooicgLoDMJ0rYCbc+R0S4XooRxjs8tmvlWg8kSd4biQnGO/qTZQ
+ xuqZMya/sB4wGfhP/x4PQsp9EjVFb02HiG3q4BOdPfUlpFtRTffgWi/SOxLoia0GxDoJ
+ LTZnPyB/NZfOOp7/lJ0rW5VSF9rkzd5KyZGGhgZ0xmd/JciR9V/qLqvS5cp3ip8nN3DO
+ 5tJs1etl3zP/uKI2MLKtSBJ3kNyhMihG6lrOl8sb6fzSn8CKV43UeM4dyN1V6M9Jr9Xt
+ JjpOP7kKtbK8r+UuxC/VABTruPn3op+vMfuIZkUC8ssqIVFIYRZsxwSRvTyuDxQQLvwz
+ HgsQ==
+X-Gm-Message-State: AGi0PuahOTq8owNYO9StUbChMPfP3VT0FxF78xxyR54FF4JIP3uZrEbZ
+ bW6O2ak5sQoJSkgrdKB26iNt0ao3s3sKSMBt+vRLGo83uTke4TPNaggGFvE97kbQtQzKtUf6FhN
+ VGSlRm0oRL9V4llc=
+X-Received: by 2002:a05:600c:2941:: with SMTP id
+ n1mr10810675wmd.25.1587562344696; 
+ Wed, 22 Apr 2020 06:32:24 -0700 (PDT)
+X-Google-Smtp-Source: APiQypK7XDTD/6gL7xOy+W7IIyAp8MGKyH7Nh9z0DkzZBiiFlF4pLRNLxX+BVWqJa70s13YF7ZBNHA==
+X-Received: by 2002:a05:600c:2941:: with SMTP id
+ n1mr10810659wmd.25.1587562344515; 
+ Wed, 22 Apr 2020 06:32:24 -0700 (PDT)
 Received: from x1w.redhat.com (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id y7sm8374745wmb.43.2020.04.22.06.32.18
+ by smtp.gmail.com with ESMTPSA id z1sm7749395wmf.15.2020.04.22.06.32.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Apr 2020 06:32:19 -0700 (PDT)
+ Wed, 22 Apr 2020 06:32:23 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 5/9] hw/ide/sii3112: Remove dead assignment
-Date: Wed, 22 Apr 2020 15:31:48 +0200
-Message-Id: <20200422133152.16770-6-philmd@redhat.com>
+Subject: [PATCH v3 6/9] hw/isa/i82378: Remove dead assignment
+Date: Wed, 22 Apr 2020 15:31:49 +0200
+Message-Id: <20200422133152.16770-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200422133152.16770-1-philmd@redhat.com>
 References: <20200422133152.16770-1-philmd@redhat.com>
@@ -77,11 +77,11 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 09:07:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 04:15:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,61 +93,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:IDE" <qemu-block@nongnu.org>, qemu-trivial@nongnu.org,
+Cc: qemu-trivial@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ "open list:PReP" <qemu-ppc@nongnu.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "open list:sam460ex" <qemu-ppc@nongnu.org>, John Snow <jsnow@redhat.com>
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix warning reported by Clang static code analyzer:
+Rename the unique variable assigned as 'pit' which better
+represents what it holds, to fix a warning reported by the
+Clang static code analyzer:
 
-    CC      hw/ide/sii3112.o
-  hw/ide/sii3112.c:204:9: warning: Value stored to 'val' is never read
-          val =3D 0;
-          ^     ~
+    CC      hw/isa/i82378.o
+  hw/isa/i82378.c:108:5: warning: Value stored to 'isa' is never read
+      isa =3D isa_create_simple(isabus, "i82374");
+      ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Fixes: a9dd6604
 Reported-by: Clang Static Analyzer
-Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
-Acked-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/ide/sii3112.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/isa/i82378.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/ide/sii3112.c b/hw/ide/sii3112.c
-index d69079c3d9..94d2b57f95 100644
---- a/hw/ide/sii3112.c
-+++ b/hw/ide/sii3112.c
-@@ -42,7 +42,7 @@ static uint64_t sii3112_reg_read(void *opaque, hwaddr add=
-r,
-                                 unsigned int size)
- {
-     SiI3112PCIState *d =3D opaque;
--    uint64_t val =3D 0;
-+    uint64_t val;
+diff --git a/hw/isa/i82378.c b/hw/isa/i82378.c
+index dcb6b479ea..d9e6c7fa00 100644
+--- a/hw/isa/i82378.c
++++ b/hw/isa/i82378.c
+@@ -67,7 +67,7 @@ static void i82378_realize(PCIDevice *pci, Error **errp)
+     I82378State *s =3D I82378(dev);
+     uint8_t *pci_conf;
+     ISABus *isabus;
+-    ISADevice *isa;
++    ISADevice *pit;
 =20
-     switch (addr) {
-     case 0x00:
-@@ -126,6 +126,7 @@ static uint64_t sii3112_reg_read(void *opaque, hwaddr a=
-ddr,
-         break;
-     default:
-         val =3D 0;
-+        break;
-     }
-     trace_sii3112_read(size, addr, val);
-     return val;
-@@ -201,7 +202,7 @@ static void sii3112_reg_write(void *opaque, hwaddr addr=
-,
-         d->regs[1].sien =3D (val >> 16) & 0x3eed;
-         break;
-     default:
--        val =3D 0;
-+        break;
-     }
+     pci_conf =3D pci->config;
+     pci_set_word(pci_conf + PCI_COMMAND,
+@@ -99,13 +99,13 @@ static void i82378_realize(PCIDevice *pci, Error **errp=
+)
+     isa_bus_irqs(isabus, s->i8259);
+=20
+     /* 1 82C54 (pit) */
+-    isa =3D i8254_pit_init(isabus, 0x40, 0, NULL);
++    pit =3D i8254_pit_init(isabus, 0x40, 0, NULL);
+=20
+     /* speaker */
+-    pcspk_init(isabus, isa);
++    pcspk_init(isabus, pit);
+=20
+     /* 2 82C37 (dma) */
+-    isa =3D isa_create_simple(isabus, "i82374");
++    isa_create_simple(isabus, "i82374");
  }
 =20
+ static void i82378_init(Object *obj)
 --=20
 2.21.1
 
