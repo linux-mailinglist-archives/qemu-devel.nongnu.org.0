@@ -2,111 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 556501B4C84
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 20:14:27 +0200 (CEST)
-Received: from localhost ([::1]:55596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6DF1B4C97
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 20:22:55 +0200 (CEST)
+Received: from localhost ([::1]:55696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRJtB-0001Kd-SR
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 14:14:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46666)
+	id 1jRK1N-00060G-W5
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 14:22:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50782)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jRJpC-0006hJ-Pj
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 14:10:19 -0400
+ (envelope-from <alexander.duyck@gmail.com>) id 1jRJzU-0004vS-J2
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 14:20:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jRJpC-0007E7-51
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 14:10:18 -0400
-Received: from mail-eopbgr40113.outbound.protection.outlook.com
- ([40.107.4.113]:41953 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jRJot-0006uH-SM; Wed, 22 Apr 2020 14:10:00 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EAq2mtHs5id3sZPf2ttX2LyocKPU4gYv3lBjiB/lLMRsgUAspbT0BZRnNuAildgqJAg/W9+byEQBE70GEiL1mC1Rbk30wHbPaeh2b/QGAnOzOxqoBdPKCPiGkZb1vjO23Hk3FJ3wLltY70HZMt0oBxHu7C1in3llsvKJjIywsuNCehkguczhz7G/nTHnBk3y489HmoQ9lLmeY6QeGi8W+zk3fsWgaCF49wn5bjZea9iNnLzleeMI95oPAgQo1mP+yXbjSS+3NaSUag3IuA6oSc0dNyRaXV+ZFRbN5P+niA7Fb9O0lHcVNovsxijJ4se/UuL0s0YJxMbg0td3J42M2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6vVCtJGYDHyhfA598Ym8WXc5ATEAEKPhYy08aE6oVS0=;
- b=UqqHazC43EtVc6eVmmyPwgRkuW47mydRmOrSIuRMpQFF5sltROYD8ld+pA1r9362T18Jy+x+CzNrGpmd1axakfBPvWg6QQCw3hmJxwrYeY3hmnLClZAF2ZCQ6D/6He4WNyaqXI9Ma8grsfTNQPtch+WcmpYqD9Stbuh7/5bDwY2JeYYMOCsINRqU2E7Yk/Q0L+aqbX2rBFjeNqRNPIuj1x28A+dVOo6WvoAaRS8U/9/n/9QuRywsk3Yyf2GWD5wpZ0bPU2J5KWkOQfQkB5CwusIE8nfQKnU0uC7lEt69wwSrdzehBUZp0qo9qBp11C+CIjazLixsGbZEWPAff/eRoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6vVCtJGYDHyhfA598Ym8WXc5ATEAEKPhYy08aE6oVS0=;
- b=bDMfOSWzSUuwxqdSNb1DL+dIaehRAzH9n8Ilgy0mb1iJsZOmDv1w7yBnFGFjDD2SP8lLzuwfTwGxzF2U7BggUgABPI5dxwhRtLl20dEmtWk2ebJAAqXLpqVlGi7YYZ7rs/RmhxCCNXw3ddjxBkQN1IKTUkBorrhzNxvDI7We3wo=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5334.eurprd08.prod.outlook.com (2603:10a6:20b:10b::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Wed, 22 Apr
- 2020 18:09:55 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.012; Wed, 22 Apr 2020
- 18:09:55 +0000
-Subject: Re: [PATCH v4 20/30] qcow2: Add subcluster support to
- discard_in_l2_slice()
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-References: <cover.1584468723.git.berto@igalia.com>
- <99b45e3beb4a38b17eb50fcde1e09cdefdb99724.1584468723.git.berto@igalia.com>
- <2f284a39-64b8-ca64-4465-12f9f0f8f7e5@virtuozzo.com>
- <w51o8rjs9gj.fsf@maestria.local.igalia.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200422210953409
-Message-ID: <7de731d4-c78e-b533-8bbb-dae57ba24c46@virtuozzo.com>
-Date: Wed, 22 Apr 2020 21:09:53 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <w51o8rjs9gj.fsf@maestria.local.igalia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0035.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:14::22) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (envelope-from <alexander.duyck@gmail.com>) id 1jRJzT-0001jP-TD
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 14:20:56 -0400
+Received: from mail-qv1-xf42.google.com ([2607:f8b0:4864:20::f42]:38826)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
+ id 1jRJzT-0001ds-D3
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 14:20:55 -0400
+Received: by mail-qv1-xf42.google.com with SMTP id t8so1399273qvw.5
+ for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 11:20:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:from:to:cc:date:message-id:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=/Zs9OmZianAaaUzo9zN00eGQ9xYS/iIR1p2LN3oNe0A=;
+ b=LlGg2cAPGYp7xksYqBtzoRvXXA/FZMs69DFpXHGqkQbS3racb6InLVMM/A5FnzFhNn
+ uE892zWGWEbFfa7uY4ao3NwMm36Ru6lDcOUk7/idHgg1Nrsp6MKc3FiRNY/GVDUWz0BC
+ z29greYh76y6lYuIyeZpPeYxVypw7pCk2T2T+Cf7R3bfCQbzx48JE//KPXyAqORU7SBI
+ SzkInLxUE817ISSo7etWvDuBP6IMw6rX/0YQKXJIvq8jc6UW5NMH+XYgmhOkxYmT2Pi0
+ yDuyyAj+pL2dx8zLI2nBbRrJGFCRFnseWv5Fi8ScdBxNFOTrO6LG1nttCOdioMqe3gIm
+ rdQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:date:message-id:user-agent
+ :mime-version:content-transfer-encoding;
+ bh=/Zs9OmZianAaaUzo9zN00eGQ9xYS/iIR1p2LN3oNe0A=;
+ b=QJucqomtxjCTiL0GyHw1e8IqANWZbnYyJXhHAR0g0nVWvIa4VRXyX1BI37T8ulE0Ll
+ Tli2iutMTnwXEWIMxMpzm40KwiSgifJ5WKAQU8VU77Dd44CCJq0ZlMh9S1IItceMNdOE
+ rYq6/1h6Dj1hzzTgwl6cNbzvLbCMvDhNzDIl7A5SSPI4kLQy022k/XjuCypYmS7w4I0P
+ KnD3sztYakB5yqfPuWjD76cz8G6ibNQHjf3d4VsqADRHsZ3UxWl2vpkM6HucwdcrYOCV
+ jp1yMzE1ftbb7AQK1vN9luREtNeWu7FD2Mj59AwO0+qYvjJAEPCkGg+lVX67fVqdlY9n
+ g6WA==
+X-Gm-Message-State: AGi0PuaCfD509PZP1qeiHxKKjyOGC3hZaofvIdLw5fDeBdNv4C148+1O
+ mA4rTdzfwLHKsMdIo6/W6mU=
+X-Google-Smtp-Source: APiQypKS6RlLXFK5MegYBW4SWlQb6Y8j7VLWgK0X5Fs8vYnZlleYFNPoRip94wyl9pmmnplKSc0JYg==
+X-Received: by 2002:a0c:e786:: with SMTP id x6mr213813qvn.11.1587579653704;
+ Wed, 22 Apr 2020 11:20:53 -0700 (PDT)
+Received: from localhost.localdomain ([2001:470:b:9c3:9e5c:8eff:fe4f:f2d0])
+ by smtp.gmail.com with ESMTPSA id o13sm4491143qke.77.2020.04.22.11.20.52
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 22 Apr 2020 11:20:53 -0700 (PDT)
+Subject: [PATCH v21 QEMU 0/5] virtio-balloon: add support for free page
+ reporting
+From: Alexander Duyck <alexander.duyck@gmail.com>
+To: david@redhat.com, mst@redhat.com
+Date: Wed, 22 Apr 2020 11:20:51 -0700
+Message-ID: <20200422181649.12258.37077.stgit@localhost.localdomain>
+User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.157) by
- FR2P281CA0035.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2937.13 via Frontend Transport; Wed, 22 Apr 2020 18:09:54 +0000
-X-Tagtoolbar-Keys: D20200422210953409
-X-Originating-IP: [185.215.60.157]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cc9b457a-e83d-42bf-2928-08d7e6e85c68
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5334:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB53340D7CD3C5D2ED08A786C8C1D20@AM7PR08MB5334.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
-X-Forefront-PRVS: 03818C953D
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(346002)(376002)(136003)(39840400004)(396003)(86362001)(52116002)(31696002)(2616005)(16526019)(26005)(8936002)(81156014)(8676002)(186003)(36756003)(956004)(16576012)(316002)(54906003)(2906002)(478600001)(4326008)(66556008)(6486002)(66476007)(66946007)(31686004)(107886003)(5660300002);
- DIR:OUT; SFP:1102; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uesssIKkMVcTCyKjwssyHAhwdVs+qEJileUNxKKv5Rh2as+IiWTLkoe77Pl/hs5N6YbMxTYWhQnwkTPrvJfU+KrcPdsA5TSim1WiMu/3mvb55IDHRte3uXRHRla8LkoJReEeyVytvmyOqNBQhbAcXEZmLslg3Q4eGkvzrblag6tW66iaUFxGzjl0gaY6sVY2+Xx8cs/Mvk5bsonBqXicy9PTSEgpum65oTce+vPejkk1vz08f9i8NkUlo9YxyenZc11w6V9s8D0YpJ/o+pn0v8k87NfQsgmRHk2TINJFYKdDzl+D3xSmbz1415oHI34ZigXp/1Qq2l9mIu4LwD726F+Sl0APJo3Xuqk/UGqaoK9B1GSIcVb/aV0vn3w/o5r/d94VQ59jg1bkhwKj/Ygov56yumJEDf6IxjNx0EqOfnI+BSktrcHYRetpRmeOCB8n
-X-MS-Exchange-AntiSpam-MessageData: wJ/FJoaaC2cEXnP9+JkWAObKtIh2edhVlfggjFrYHd15Iqmna1Cxxv/LXyIRE20aFWocQ3f85sIEtPJQazgfmaZogQNZz/Jm7GdHKGqqYfVtVsjMqezPJJ33YiCtNSVMZSTgctA9PxueTnPuz/xRkg==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc9b457a-e83d-42bf-2928-08d7e6e85c68
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2020 18:09:55.4679 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /+rPKkRjt0DydvU+7Kv0cuBybIF1QA0EQk9SrG7scecNa5Ayy2iuNFJnoArno2LXhHLFWC3jq1B21nVqdVNRFxIjC8yqD0bxQ52sOg0nGOE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5334
-Received-SPF: pass client-ip=40.107.4.113;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-DB5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 14:09:56
-X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.4.113
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f42;
+ envelope-from=alexander.duyck@gmail.com; helo=mail-qv1-xf42.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::f42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -118,115 +80,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- "Denis V . Lunev" <den@openvz.org>
+Cc: virtio-dev@lists.oasis-open.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-22.04.2020 20:42, Alberto Garcia wrote:
-> On Wed 22 Apr 2020 01:35:25 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
->> 17.03.2020 21:16, Alberto Garcia wrote:
->>> Two changes are needed in this function:
->>>
->>> 1) A full discard deallocates a cluster so we can skip the operation if
->>>      it is already unallocated. With extended L2 entries however if any
->>>      of the subclusters has the 'all zeroes' bit set then we have to
->>>      clear it.
->>>
->>> 2) Setting the QCOW_OFLAG_ZERO bit of the L2 entry is forbidden if an
->>>      image has extended L2 entries. Instead, the individual 'all zeroes'
->>>      bits must be used.
->>>
->>> Signed-off-by: Alberto Garcia <berto@igalia.com>
->>> ---
->>>    block/qcow2-cluster.c | 18 +++++++++++++++---
->>>    1 file changed, 15 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
->>> index 746006a117..824c710760 100644
->>> --- a/block/qcow2-cluster.c
->>> +++ b/block/qcow2-cluster.c
->>> @@ -1790,12 +1790,20 @@ static int discard_in_l2_slice(BlockDriverState *bs, uint64_t offset,
->>>             * TODO We might want to use bdrv_block_status(bs) here, but we're
->>>             * holding s->lock, so that doesn't work today.
->>>             *
->>> -         * If full_discard is true, the sector should not read back as zeroes,
->>> +         * If full_discard is true, the cluster should not read back as zeroes,
->>>             * but rather fall through to the backing file.
->>>             */
->>>            switch (qcow2_get_cluster_type(bs, old_l2_entry)) {
->>>            case QCOW2_CLUSTER_UNALLOCATED:
->>> -            if (full_discard || !bs->backing) {
->>> +            if (full_discard) {
->>> +                /* If the image has extended L2 entries we can only
->>> +                 * skip this operation if the L2 bitmap is zero. */
->>> +                uint64_t bitmap = has_subclusters(s) ?
->>> +                    get_l2_bitmap(s, l2_slice, l2_index + i) : 0;
->>> +                if (bitmap == 0) {
->>> +                    continue;
->>> +                }
->>> +            } else if (!bs->backing) {
->>>                    continue;
->>>                }
->>
->> Hmm, so you do continue if full_discard is false AND bitmap != 0 &
->> !bs->backing,
-> 
->> but you do not continue if full_discard is true AND bitmap != 0 &
->> !bs->backing (as you will not go to "else") branch.
-> 
-> 1. If full_discard is true it means that the entry and the bitmap should
->     always be set to 0, regardless of whether there's a backing file or
->     any other consideration.
-> 
->     This is used e.g when shrinking an image, or by qcow2_make_empty().
-> 
->     We can only skip this operation if both the entry and the bitmap are
->     already 0 (the former we know because of QCOW2_CLUSTER_UNALLOCATED).
+This series provides an asynchronous means of reporting free guest pages
+to QEMU through virtio-balloon so that the memory associated with those
+pages can be dropped and reused by other processes and/or guests on the
+host. Using this it is possible to avoid unnecessary I/O to disk and
+greatly improve performance in the case of memory overcommit on the host.
 
-Ah, understand, sorry. I thought that behavior was changed accidentally, but it is for purpose. With old code cluster is already unallocated, but with subclusters we may have some ZERO_PLAIN subclusters.
+As of April 7th this functionality has been enabled in Linus's kernel
+tree[1] and so I am submitting the QEMU pieces for inclusion.
 
-> 
-> 2. If full_discard is false it means that we must ensure that the
->     cluster reads back as zeroes, but there's no need to clear the bitmap
->     (in fact we must set QCOW_OFLAG_ZERO or QCOW_L2_BITMAP_ALL_ZEROES
->     depending on the type of image).
-> 
->     We can skip this operation if there's no backing file and the cluster
->     is already unallocated (because then we know that it already reads as
->     zeroes).
-> 
->     One optimization would be to skip the operation also if the image has
->     subclusters and the bitmap is QCOW_L2_BITMAP_ALL_ZEROES, I can do
->     that for the next version.
-> 
->> In case QCOW2_CLUSTER_ZERO_PLAIN, worth assert !has_subclusters(s) or
->> mark image corrupted ?
-> 
-> I think that should be handled directly in qcow2_get_cluster_type().
-> 
-> There's currently an inconsistency now that I think of it: if an image
-> has subclusters and QCOW_OFLAG_ZERO set then qcow2_get_cluster_type()
-> returns QCOW2_CLUSTER_ZERO_* but qcow2_get_subcluster_type() returns
-> QCOW2_SUBCLUSTER_INVALID.
-> 
-> Two alternatives:
-> 
->    - We add QCOW2_CLUSTER_INVALID so we get an error in both
->      cases. Problem: any function that calls qcow2_get_cluster_type()
->      should be modified to handle that.
-> 
->    - We ignore QCOW_OFLAG_ZERO. Simpler, and it would allow us to use
->      that bit in the future if we wanted.
-> 
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b0c504f154718904ae49349147e3b7e6ae91ffdc
 
-Hmm. Actually we don't check other reserved bits. But ZERO bit is risky, we may miss data corruptions during transmission to the qcow2-subclusters world. So I'm for the first variant if it's not too huge.
+Changes from v17:
+Fixed typo in patch 1 title
+Addressed white-space issues reported via checkpatch
+Added braces {} for two if statements to match expected coding style
+
+Changes from v18:
+Updated patches 2 and 3 based on input from dhildenb
+Added comment to patch 2 describing what keeps us from reporting a bad page
+Added patch to address issue with ROM devices being directly writable
+
+Changes from v19:
+Added std-headers change to match changes pushed for linux kernel headers
+Added patch to remove "report" from page hinting code paths
+Updated comment to better explain why we disable hints w/ page poisoning
+Removed code that was modifying config size for poison vs hinting
+Dropped x-page-poison property
+Added code to bounds check the reported region vs the RAM block
+Dropped patch for ROM devices as that was already pulled in by Paolo
+
+Changes from v20:
+Rearranged patches to push Linux header sync patches to front
+Removed association between free page hinting and VIRTIO_BALLOON_F_PAGE_POISON
+Added code to enable VIRTIO_BALLOON_F_PAGE_POISON if page reporting is enabled
+Fixed possible resource leak if poison or qemu_balloon_is_inhibited return true
+Updated cover page comments
+
+---
+
+Alexander Duyck (5):
+      linux-headers: Update to allow renaming of free_page_report_cmd_id
+      linux-headers: update to contain virito-balloon free page reporting
+      virtio-balloon: Replace free page hinting references to 'report' with 'hint'
+      virtio-balloon: Implement support for page poison tracking feature
+      virtio-balloon: Provide an interface for free page reporting
 
 
+ hw/virtio/virtio-balloon.c                      |  151 +++++++++++++++++------
+ include/hw/virtio/virtio-balloon.h              |   23 ++--
+ include/standard-headers/linux/virtio_balloon.h |   12 ++
+ 3 files changed, 136 insertions(+), 50 deletions(-)
 
-
--- 
-Best regards,
-Vladimir
+--
 
