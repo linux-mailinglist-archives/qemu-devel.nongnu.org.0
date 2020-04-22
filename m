@@ -2,63 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 509611B4EA2
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 22:55:19 +0200 (CEST)
-Received: from localhost ([::1]:57822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56DE21B505B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 00:30:37 +0200 (CEST)
+Received: from localhost ([::1]:58948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRMOq-0006RF-Qg
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 16:55:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34002)
+	id 1jRNt5-0007oQ-VQ
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 18:30:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52194)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jRMNl-0005v7-B0
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 16:54:10 -0400
+ (envelope-from <andrzej.jakowski@intel.com>) id 1jRMbn-0001Q0-Pn
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 17:08:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jRMNj-00072h-Vc
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 16:54:08 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39485
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jRMNj-0006wz-Fh
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 16:54:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587588844;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=m3QSbvBkVclO98K0Rs9Ea8ilwlKvpe1JLvl3aA+2kz8=;
- b=PzUYicVxrBP5t7yQUvSSzuS2Soof7HYeyhCvtJp5Gb17jfTQuZOc0rPmTIqP9KliVIkxpY
- MgeXwU8mfNy+y/a/6gH9ui/gMqwRktXNIWNVTY59n+9gEDbagkWSuQE85zvxhODQ6kGSEw
- nb9/SsdyBD0MWpXkJSaC0Wb/yn9vnWo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-eh74VYqLN2iFoXALVKHmdA-1; Wed, 22 Apr 2020 16:54:00 -0400
-X-MC-Unique: eh74VYqLN2iFoXALVKHmdA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 995021934100;
- Wed, 22 Apr 2020 20:53:59 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 89F0419C70;
- Wed, 22 Apr 2020 20:53:58 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qcow2: Allow resize of images with internal snapshots
-Date: Wed, 22 Apr 2020 15:53:55 -0500
-Message-Id: <20200422205355.274706-1-eblake@redhat.com>
+ (envelope-from <andrzej.jakowski@intel.com>) id 1jRMbm-0003wm-6O
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 17:08:39 -0400
+Received: from mga17.intel.com ([192.55.52.151]:27665)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrzej.jakowski@intel.com>)
+ id 1jRMbl-0003sW-Fx
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 17:08:37 -0400
+IronPort-SDR: xk0TsccGKGyEcgA+il11xJka10qnkFFfAifzxntLopVMVj1rZmfkzAw+OJt38D0oGH2AvjfQoR
+ VKRRbUG/wbCw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2020 14:08:29 -0700
+IronPort-SDR: Ql8gjccgQx4EibkTTP+5ephPyUCu7w5Aoeamr8ssHPR2wevNX66BoG1Xxi0k3pWSLbVLPyAJoS
+ DDBp1HUlPEmA==
+X-IronPort-AV: E=Sophos;i="5.73,304,1583222400"; d="scan'208";a="280164059"
+Received: from ajakowsk-mobl1.amr.corp.intel.com (HELO localhost.localdomain)
+ ([10.251.238.252])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2020 14:08:28 -0700
+Subject: Re: [PATCH for QEMU] hw/vfio: Add VMD Passthrough Quirk
+To: Jon Derrick <jonathan.derrick@intel.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, qemu-devel@nongnu.org
+References: <20200422171305.10923-1-jonathan.derrick@intel.com>
+From: Andrzej Jakowski <andrzej.jakowski@intel.com>
+Message-ID: <513cfa85-2b93-68b9-4422-aafbcba92e23@intel.com>
+Date: Wed, 22 Apr 2020 14:08:26 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 02:57:52
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+In-Reply-To: <20200422171305.10923-1-jonathan.derrick@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=192.55.52.151;
+ envelope-from=andrzej.jakowski@intel.com; helo=mga17.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 17:08:29
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Received-From: 192.55.52.151
+X-Mailman-Approved-At: Wed, 22 Apr 2020 18:29:34 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,339 +66,213 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "open list:qcow2" <qemu-block@nongnu.org>,
- mreitz@redhat.com
+Cc: linux-pci@vger.kernel.org, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ virtualization@lists.linux-foundation.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We originally refused to allow resize of images with internal
-snapshots because the v2 image format did not require the tracking of
-snapshot size, making it impossible to safely revert to a snapshot
-with a different size than the current view of the image.  But the
-snapshot size tracking was rectified in v3, and our recent fixes to
-qemu-img amend (see 0a85af35) guarantee that we always have a valid
-snapshot size.  Thus, we no longer need to artificially limit image
-resizes, but it does become one more thing that would prevent a
-downgrade back to v2.  And now that we support different-sized
-snapshots, it's also easy to fix reverting to a snapshot to apply the
-new size.
+On 4/22/20 10:13 AM, Jon Derrick wrote:
+> The VMD endpoint provides a real PCIe domain to the guest, including
+> bridges and endpoints. The IOMMU performs Host Physical Address to Guest
+> Physical Address translation when assigning downstream endpoint BARs and
+> when translating MMIO addresses.
+>
+> This translation is not desired when assigning bridge windows. When MMIO
+> goes to an endpoint after being translated to HPA, the bridge will
+> reject the HPA transaction because the bridge window has been programmed
+> with translated GPAs.
+>
+> VMD device 28C0 natively supports passthrough by providing the Host
+> Physical Address in shadow registers accessible to the guest for bridge
+> window assignment. The shadow registers are valid if bit 1 is set in VMD
+> VMLOCK config register 0x70.
+>
+> This quirk emulates the VMLOCK and HPA shadow registers for all VMD
+> device ids which don't natively offer this feature. The Linux VMD driver
+> is updated to match the QEMU subsystem id to enable this feature.
+>
+> Signed-off-by: Jon Derrick <jonathan.derrick@intel.com>
+> ---
+>  hw/vfio/pci-quirks.c | 119 +++++++++++++++++++++++++++++++++++++++++++
+>  hw/vfio/pci.c        |   7 +++
+>  hw/vfio/pci.h        |   2 +
+>  hw/vfio/trace-events |   4 ++
+>  4 files changed, 132 insertions(+)
+>
+> diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
+> index 2d348f8237..2fd27cc8f6 100644
+> --- a/hw/vfio/pci-quirks.c
+> +++ b/hw/vfio/pci-quirks.c
+> @@ -1709,3 +1709,122 @@ free_exit:
+>  
+>      return ret;
+>  }
+> +
+> +/*
+> + * The VMD endpoint provides a real PCIe domain to the guest. The IOMMU
+> + * performs Host Physical Address to Guest Physical Address translation when
+> + * assigning downstream endpoint BARs and when translating MMIO addresses.
+> + * However this translation is not desired when assigning bridge windows. When
+> + * MMIO goes to an endpoint after being translated to HPA, the bridge rejects
+> + * the transaction because the window has been programmed with translated GPAs.
+> + *
+> + * VMD uses the Host Physical Address in order to correctly program the bridge
+> + * windows in its PCIe domain. VMD device 28C0 has HPA shadow registers located
+> + * at offset 0x2000 in MEMBAR2 (BAR 4). The shadow registers are valid if bit 1
+> + * is set in the VMD VMLOCK config register 0x70.
+> + *
+> + * This quirk emulates the VMLOCK and HPA shadow registers for all VMD device
+> + * ids which don't natively offer this feature. The subsystem vendor/device
+> + * id is set to the QEMU subsystem vendor/device id, where the driver matches
+> + * the id to enable this feature.
+> + */
+> +typedef struct VFIOVMDQuirk {
+> +    VFIOPCIDevice *vdev;
+> +    uint64_t membar_phys[2];
+> +} VFIOVMDQuirk;
+> +
+> +static uint64_t vfio_vmd_quirk_read(void *opaque, hwaddr addr, unsigned size)
+> +{
+> +    VFIOVMDQuirk *data = opaque;
+> +    uint64_t val = 0;
+> +
+> +    memcpy(&val, (void *)data->membar_phys + addr, size);
+> +    return val;
+> +}
+> +
+> +static const MemoryRegionOps vfio_vmd_quirk = {
+> +    .read = vfio_vmd_quirk_read,
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +};
+> +
+> +#define VMD_VMLOCK  0x70
+> +#define VMD_SHADOW  0x2000
+> +#define VMD_MEMBAR2 4
+> +
+> +static int vfio_vmd_emulate_shadow_registers(VFIOPCIDevice *vdev)
+> +{
+> +    VFIOQuirk *quirk;
+> +    VFIOVMDQuirk *data;
+> +    PCIDevice *pdev = &vdev->pdev;
+> +    int ret;
+> +
+> +    data = g_malloc0(sizeof(*data));
+> +    ret = pread(vdev->vbasedev.fd, data->membar_phys, 16,
+> +                vdev->config_offset + PCI_BASE_ADDRESS_2);
+> +    if (ret != 16) {
+> +        error_report("VMD %s cannot read MEMBARs (%d)",
+> +                     vdev->vbasedev.name, ret);
+> +        g_free(data);
+> +        return -EFAULT;
+> +    }
+> +
+> +    quirk = vfio_quirk_alloc(1);
+> +    quirk->data = data;
+> +    data->vdev = vdev;
+> +
+> +    /* Emulate Shadow Registers */
+> +    memory_region_init_io(quirk->mem, OBJECT(vdev), &vfio_vmd_quirk, data,
+> +                          "vfio-vmd-quirk", sizeof(data->membar_phys));
+> +    memory_region_add_subregion_overlap(vdev->bars[VMD_MEMBAR2].region.mem,
+> +                                        VMD_SHADOW, quirk->mem, 1);
+> +    memory_region_set_readonly(quirk->mem, true);
+> +    memory_region_set_enabled(quirk->mem, true);
+> +
+> +    QLIST_INSERT_HEAD(&vdev->bars[VMD_MEMBAR2].quirks, quirk, next);
+> +
+> +    trace_vfio_pci_vmd_quirk_shadow_regs(vdev->vbasedev.name,
+> +                                         data->membar_phys[0],
+> +                                         data->membar_phys[1]);
+> +
+> +    /* Advertise Shadow Register support */
+> +    pci_byte_test_and_set_mask(pdev->config + VMD_VMLOCK, 0x2);
+> +    pci_set_byte(pdev->wmask + VMD_VMLOCK, 0);
+> +    pci_set_byte(vdev->emulated_config_bits + VMD_VMLOCK, 0x2);
+> +
+> +    trace_vfio_pci_vmd_quirk_vmlock(vdev->vbasedev.name,
+> +                                    pci_get_byte(pdev->config + VMD_VMLOCK));
+> +
+> +    /* Drivers can match the subsystem vendor/device id */
+> +    pci_set_word(pdev->config + PCI_SUBSYSTEM_VENDOR_ID,
+> +                 PCI_SUBVENDOR_ID_REDHAT_QUMRANET);
+> +    pci_set_word(vdev->emulated_config_bits + PCI_SUBSYSTEM_VENDOR_ID, ~0);
+> +
+> +    pci_set_word(pdev->config + PCI_SUBSYSTEM_ID, PCI_SUBDEVICE_ID_QEMU);
+> +    pci_set_word(vdev->emulated_config_bits + PCI_SUBSYSTEM_ID, ~0);
+> +
+> +    trace_vfio_pci_vmd_quirk_subsystem(vdev->vbasedev.name,
+> +                           vdev->sub_vendor_id, vdev->sub_device_id,
+> +                           pci_get_word(pdev->config + PCI_SUBSYSTEM_VENDOR_ID),
+> +                           pci_get_word(pdev->config + PCI_SUBSYSTEM_ID));
+> +
+> +    return 0;
+> +}
+> +
+> +int vfio_pci_vmd_init(VFIOPCIDevice *vdev)
+> +{
+> +    int ret = 0;
+> +
+> +    switch (vdev->device_id) {
+> +    case 0x28C0: /* Native passthrough support */
+> +        break;
+> +    /* Emulates Native passthrough support */
+> +    case 0x201D:
+> +    case 0x467F:
+> +    case 0x4C3D:
+> +    case 0x9A0B:
+> +        ret = vfio_vmd_emulate_shadow_registers(vdev);
+> +        break;
+> +    }
+> +
+> +    return ret;
+> +}
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index 5e75a95129..85425a1a6f 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -3024,6 +3024,13 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+>          }
+>      }
+>  
+> +    if (vdev->vendor_id == PCI_VENDOR_ID_INTEL) {
+> +        ret = vfio_pci_vmd_init(vdev);
+> +        if (ret) {
+> +            error_report("Failed to setup VMD");
+> +        }
+> +    }
+> +
+>      vfio_register_err_notifier(vdev);
+>      vfio_register_req_notifier(vdev);
+>      vfio_setup_resetfn_quirk(vdev);
+> diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+> index 0da7a20a7e..e8632d806b 100644
+> --- a/hw/vfio/pci.h
+> +++ b/hw/vfio/pci.h
+> @@ -217,6 +217,8 @@ int vfio_pci_igd_opregion_init(VFIOPCIDevice *vdev,
+>  int vfio_pci_nvidia_v100_ram_init(VFIOPCIDevice *vdev, Error **errp);
+>  int vfio_pci_nvlink2_init(VFIOPCIDevice *vdev, Error **errp);
+>  
+> +int vfio_pci_vmd_init(VFIOPCIDevice *vdev);
+> +
+>  void vfio_display_reset(VFIOPCIDevice *vdev);
+>  int vfio_display_probe(VFIOPCIDevice *vdev, Error **errp);
+>  void vfio_display_finalize(VFIOPCIDevice *vdev);
+> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> index b1ef55a33f..aabbd2693a 100644
+> --- a/hw/vfio/trace-events
+> +++ b/hw/vfio/trace-events
+> @@ -90,6 +90,10 @@ vfio_pci_nvidia_gpu_setup_quirk(const char *name, uint64_t tgt, uint64_t size) "
+>  vfio_pci_nvlink2_setup_quirk_ssatgt(const char *name, uint64_t tgt, uint64_t size) "%s tgt=0x%"PRIx64" size=0x%"PRIx64
+>  vfio_pci_nvlink2_setup_quirk_lnkspd(const char *name, uint32_t link_speed) "%s link_speed=0x%x"
+>  
+> +vfio_pci_vmd_quirk_shadow_regs(const char *name, uint64_t mb1, uint64_t mb2) "%s membar1_phys=0x%"PRIx64" membar2_phys=0x%"PRIx64"
+> +vfio_pci_vmd_quirk_vmlock(const char *name, uint8_t vmlock) "%s vmlock=0x%x"
+> +vfio_pci_vmd_quirk_subsystem(const char *name, uint16_t old_svid, uint16_t old_sdid, uint16_t new_svid, uint16_t new_sdid) "%s subsystem id 0x%04x:0x%04x -> 0x%04x:0x%04x"
+> +
+>  # common.c
+>  vfio_region_write(const char *name, int index, uint64_t addr, uint64_t data, unsigned size) " (%s:region%d+0x%"PRIx64", 0x%"PRIx64 ", %d)"
+>  vfio_region_read(char *name, int index, uint64_t addr, unsigned size, uint64_t data) " (%s:region%d+0x%"PRIx64", %d) = 0x%"PRIx64
 
-Upgrade iotest 61 to cover this (we previously had NO coverage of
-refusal to resize while snapshots exist).  Note that the amend process
-can fail but still have effects: in particular, since we break things
-into upgrade, resize, downgrade, if a failure does not happen until a
-later phase (such as the downgrade attempt), earlier steps are still
-visible (a truncation and downgrade attempt will fail, but only after
-truncating data).  But even before this patch, an attempt to upgrade
-and resize would fail but only after changing the image to v3.  In
-some sense, partial image changes on failure are inevitible, since we
-can't avoid a mid-change EIO (if you are trying to amend more than one
-thing at once, but something fails, I hope you have a backup image).
-
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- block/qcow2-snapshot.c     |  21 ++++--
- block/qcow2.c              |  31 ++++++--
- tests/qemu-iotests/061     |  23 ++++++
- tests/qemu-iotests/061.out | 144 +++++++++++++++++++++++++++++++++++++
- 4 files changed, 211 insertions(+), 8 deletions(-)
-
-diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
-index 82c32d4c9b08..3f9e48738d0b 100644
---- a/block/qcow2-snapshot.c
-+++ b/block/qcow2-snapshot.c
-@@ -23,6 +23,7 @@
-  */
-
- #include "qemu/osdep.h"
-+#include "sysemu/block-backend.h"
- #include "qapi/error.h"
- #include "qcow2.h"
- #include "qemu/bswap.h"
-@@ -775,10 +776,22 @@ int qcow2_snapshot_goto(BlockDriverState *bs, const c=
-har *snapshot_id)
-     }
-
-     if (sn->disk_size !=3D bs->total_sectors * BDRV_SECTOR_SIZE) {
--        error_report("qcow2: Loading snapshots with different disk "
--            "size is not implemented");
--        ret =3D -ENOTSUP;
--        goto fail;
-+        BlockBackend *blk =3D blk_new(bdrv_get_aio_context(bs),
-+                                    BLK_PERM_RESIZE, BLK_PERM_ALL);
-+        ret =3D blk_insert_bs(blk, bs, &local_err);
-+        if (ret < 0) {
-+            blk_unref(blk);
-+            error_report_err(local_err);
-+            goto fail;
-+        }
-+
-+        ret =3D blk_truncate(blk, sn->disk_size, true, PREALLOC_MODE_OFF,
-+                           &local_err);
-+        blk_unref(blk);
-+        if (ret < 0) {
-+            error_report_err(local_err);
-+            goto fail;
-+        }
-     }
-
-     /*
-diff --git a/block/qcow2.c b/block/qcow2.c
-index b524b0c53f84..29047c33b7e5 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -3988,14 +3988,21 @@ static int coroutine_fn qcow2_co_truncate(BlockDriv=
-erState *bs, int64_t offset,
-
-     qemu_co_mutex_lock(&s->lock);
-
--    /* cannot proceed if image has snapshots */
--    if (s->nb_snapshots) {
--        error_setg(errp, "Can't resize an image which has snapshots");
-+    /*
-+     * Even though we store snapshot size for all images, it was not
-+     * required until v3, so it is not safe to proceed for v2.
-+     */
-+    if (s->nb_snapshots && s->qcow_version < 3) {
-+        error_setg(errp, "Can't resize a v2 image which has snapshots");
-         ret =3D -ENOTSUP;
-         goto fail;
-     }
-
--    /* cannot proceed if image has bitmaps */
-+    /*
-+     * For now, it's easier to not proceed if image has bitmaps, even
-+     * though we could resize bitmaps, because it is not obvious
-+     * whether new bits should be set or clear.
-+     */
-     if (qcow2_truncate_bitmaps_check(bs, errp)) {
-         ret =3D -ENOTSUP;
-         goto fail;
-@@ -4952,6 +4959,7 @@ static int qcow2_downgrade(BlockDriverState *bs, int =
-target_version,
-     BDRVQcow2State *s =3D bs->opaque;
-     int current_version =3D s->qcow_version;
-     int ret;
-+    int i;
-
-     /* This is qcow2_downgrade(), not qcow2_upgrade() */
-     assert(target_version < current_version);
-@@ -4969,6 +4977,21 @@ static int qcow2_downgrade(BlockDriverState *bs, int=
- target_version,
-         return -ENOTSUP;
-     }
-
-+    /*
-+     * If any internal snapshot has a different size than the current
-+     * image size, or VM state size that exceeds 32 bits, downgrading
-+     * is unsafe.  Even though we would still use v3-compliant output
-+     * to preserve that data, other v2 programs might not realize
-+     * those optional fields are important.
-+     */
-+    for (i =3D 0; i < s->nb_snapshots; i++) {
-+        if (s->snapshots[i].vm_state_size > UINT32_MAX ||
-+            s->snapshots[i].disk_size !=3D bs->total_sectors * BDRV_SECTOR=
-_SIZE) {
-+            error_setg(errp, "Internal snapshots prevent downgrade of imag=
-e");
-+            return -ENOTSUP;
-+        }
-+    }
-+
-     /* clear incompatible features */
-     if (s->incompatible_features & QCOW2_INCOMPAT_DIRTY) {
-         ret =3D qcow2_mark_clean(bs);
-diff --git a/tests/qemu-iotests/061 b/tests/qemu-iotests/061
-index ce285d308408..fdfb8fab5fb6 100755
---- a/tests/qemu-iotests/061
-+++ b/tests/qemu-iotests/061
-@@ -111,6 +111,29 @@ $PYTHON qcow2.py "$TEST_IMG" dump-header
- $QEMU_IO -c "read -P 0x2a 42M 64k" "$TEST_IMG" | _filter_qemu_io
- _check_test_img
-
-+echo
-+echo "=3D=3D=3D Testing resize with snapshots =3D=3D=3D"
-+echo
-+_make_test_img -o "compat=3D0.10" 32M
-+$QEMU_IO -c "write -P 0x2a 24M 64k" "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IMG snapshot -c foo "$TEST_IMG"
-+$QEMU_IMG resize "$TEST_IMG" 64M                         # fails
-+$PYTHON qcow2.py "$TEST_IMG" dump-header
-+$QEMU_IMG amend -o "compat=3D1.1,size=3D128M" "$TEST_IMG"    # succeeds
-+$PYTHON qcow2.py "$TEST_IMG" dump-header
-+$QEMU_IMG snapshot -c bar "$TEST_IMG"
-+$QEMU_IMG resize --shrink "$TEST_IMG" 64M                # succeeds
-+$PYTHON qcow2.py "$TEST_IMG" dump-header
-+$QEMU_IMG amend -o "compat=3D0.10,size=3D32M" "$TEST_IMG"    # fails, imag=
-e left v3
-+$PYTHON qcow2.py "$TEST_IMG" dump-header
-+$QEMU_IMG snapshot -a bar "$TEST_IMG"                    # succeeds
-+$PYTHON qcow2.py "$TEST_IMG" dump-header
-+$QEMU_IMG snapshot -d bar "$TEST_IMG"
-+$QEMU_IMG amend -o "compat=3D0.10,size=3D32M" "$TEST_IMG"    # succeeds
-+$PYTHON qcow2.py "$TEST_IMG" dump-header
-+_check_test_img
-+
-+
- echo
- echo "=3D=3D=3D Testing dirty lazy_refcounts=3Doff =3D=3D=3D"
- echo
-diff --git a/tests/qemu-iotests/061.out b/tests/qemu-iotests/061.out
-index 413cc4e0f4ab..0035210c9ae0 100644
---- a/tests/qemu-iotests/061.out
-+++ b/tests/qemu-iotests/061.out
-@@ -271,6 +271,150 @@ read 65536/65536 bytes at offset 44040192
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- No errors were found on the image.
-
-+=3D=3D=3D Testing resize with snapshots =3D=3D=3D
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D33554432
-+wrote 65536/65536 bytes at offset 25165824
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+qemu-img: Can't resize a v2 image which has snapshots
-+magic                     0x514649fb
-+version                   2
-+backing_file_offset       0x0
-+backing_file_size         0x0
-+cluster_bits              16
-+size                      33554432
-+crypt_method              0
-+l1_size                   1
-+l1_table_offset           0x30000
-+refcount_table_offset     0x10000
-+refcount_table_clusters   1
-+nb_snapshots              1
-+snapshot_offset           0x70000
-+incompatible_features     []
-+compatible_features       []
-+autoclear_features        []
-+refcount_order            4
-+header_length             72
-+
-+magic                     0x514649fb
-+version                   3
-+backing_file_offset       0x0
-+backing_file_size         0x0
-+cluster_bits              16
-+size                      134217728
-+crypt_method              0
-+l1_size                   1
-+l1_table_offset           0x30000
-+refcount_table_offset     0x10000
-+refcount_table_clusters   1
-+nb_snapshots              1
-+snapshot_offset           0x70000
-+incompatible_features     []
-+compatible_features       []
-+autoclear_features        []
-+refcount_order            4
-+header_length             104
-+
-+Header extension:
-+magic                     0x6803f857
-+length                    288
-+data                      <binary>
-+
-+Image resized.
-+magic                     0x514649fb
-+version                   3
-+backing_file_offset       0x0
-+backing_file_size         0x0
-+cluster_bits              16
-+size                      67108864
-+crypt_method              0
-+l1_size                   1
-+l1_table_offset           0x30000
-+refcount_table_offset     0x10000
-+refcount_table_clusters   1
-+nb_snapshots              2
-+snapshot_offset           0x90000
-+incompatible_features     []
-+compatible_features       []
-+autoclear_features        []
-+refcount_order            4
-+header_length             104
-+
-+Header extension:
-+magic                     0x6803f857
-+length                    288
-+data                      <binary>
-+
-+qemu-img: Internal snapshots prevent downgrade of image
-+magic                     0x514649fb
-+version                   3
-+backing_file_offset       0x0
-+backing_file_size         0x0
-+cluster_bits              16
-+size                      33554432
-+crypt_method              0
-+l1_size                   1
-+l1_table_offset           0x30000
-+refcount_table_offset     0x10000
-+refcount_table_clusters   1
-+nb_snapshots              2
-+snapshot_offset           0x90000
-+incompatible_features     []
-+compatible_features       []
-+autoclear_features        []
-+refcount_order            4
-+header_length             104
-+
-+Header extension:
-+magic                     0x6803f857
-+length                    288
-+data                      <binary>
-+
-+magic                     0x514649fb
-+version                   3
-+backing_file_offset       0x0
-+backing_file_size         0x0
-+cluster_bits              16
-+size                      134217728
-+crypt_method              0
-+l1_size                   1
-+l1_table_offset           0x30000
-+refcount_table_offset     0x10000
-+refcount_table_clusters   1
-+nb_snapshots              2
-+snapshot_offset           0x90000
-+incompatible_features     []
-+compatible_features       []
-+autoclear_features        []
-+refcount_order            4
-+header_length             104
-+
-+Header extension:
-+magic                     0x6803f857
-+length                    288
-+data                      <binary>
-+
-+magic                     0x514649fb
-+version                   2
-+backing_file_offset       0x0
-+backing_file_size         0x0
-+cluster_bits              16
-+size                      33554432
-+crypt_method              0
-+l1_size                   1
-+l1_table_offset           0x30000
-+refcount_table_offset     0x10000
-+refcount_table_clusters   1
-+nb_snapshots              1
-+snapshot_offset           0x70000
-+incompatible_features     []
-+compatible_features       []
-+autoclear_features        []
-+refcount_order            4
-+header_length             72
-+
-+No errors were found on the image.
-+
- =3D=3D=3D Testing dirty lazy_refcounts=3Doff =3D=3D=3D
-
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
---=20
-2.26.2
+Reviewed-by: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
 
 
