@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED2DA1B3C1E
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 12:04:05 +0200 (CEST)
-Received: from localhost ([::1]:47090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F34C11B3C66
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 12:05:49 +0200 (CEST)
+Received: from localhost ([::1]:47114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRCEe-0003or-Mt
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 06:04:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40864)
+	id 1jRCGK-0005de-Qr
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 06:05:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40892)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jRCD3-0002O9-Nr
+ (envelope-from <kraxel@redhat.com>) id 1jRCD4-0002OI-5P
  for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:02:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jRCD2-0004Qa-RZ
+ (envelope-from <kraxel@redhat.com>) id 1jRCD2-0004RK-Td
  for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:02:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34344
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23422
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jRCD2-0004FH-CV
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jRCD2-0004F6-9t
  for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:02:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1587549741;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ZPI/kpbw0SuDSmjh3Z1786Q+w0y2K7Co1J7wLXi4kSo=;
- b=NClnH6chNksAry9yv9BmH2/yx6INU/sVyN6hAkEaPT6c/C0k3+kOIFhsUjBi29M+FzQ7Ik
- aFvJp/TYs+cAnB8lXNc81qzWeDATOF1OtmjbsTZMq4x5r96lsK2tGLRBlF0VUsTeGvS2kN
- 5KKrX1GX6dhAq2qPQ3QIqVpx4ccZsMc=
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3J8pPcuhS23IWtytmG7wvtEEgU47Agbr5ox09wa5pSE=;
+ b=cQ7NtwtmHSpssMqlmfH9/xBY/mZ2rnpw/355lBv6ddsMWdjGv6rBSmX39mjh7e4Olrb9Hp
+ hXFNTbi9u1sIXySyPT3Lirb6MN8nbb9HXdMgVjsafZ+Hqs5NW/3+lUeAWWY113mJVcF9MG
+ zTbf2IqScYTtZylYKHVkP/mRLZj8YhI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-ksFo-PiKO6iPmiztXRNYLA-1; Wed, 22 Apr 2020 06:02:19 -0400
-X-MC-Unique: ksFo-PiKO6iPmiztXRNYLA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-472-nFqpcQ71P6KZV6PPP0N2Tw-1; Wed, 22 Apr 2020 06:02:19 -0400
+X-MC-Unique: nFqpcQ71P6KZV6PPP0N2Tw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DBF0800685;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA9EF8015CB;
  Wed, 22 Apr 2020 10:02:18 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
  [10.36.113.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C7594385;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CBBFD6084A;
  Wed, 22 Apr 2020 10:02:12 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C25F617532; Wed, 22 Apr 2020 12:02:11 +0200 (CEST)
+ id CFCE19D99; Wed, 22 Apr 2020 12:02:11 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/5] ramfb: a bunch of reverts and fixes
-Date: Wed, 22 Apr 2020 12:02:06 +0200
-Message-Id: <20200422100211.30614-1-kraxel@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Subject: [PATCH 1/5] Revert "hw/display/ramfb: initialize fw-config space with
+ xres/ yres"
+Date: Wed, 22 Apr 2020 12:02:07 +0200
+Message-Id: <20200422100211.30614-2-kraxel@redhat.com>
+In-Reply-To: <20200422100211.30614-1-kraxel@redhat.com>
+References: <20200422100211.30614-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 02:04:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 04:15:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,24 +82,171 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Even though these are bugfixes this is probably 5.1 material
-at this point ...
+This reverts commit f79081b4b71b72640bedd40a7cd76f864c8287f1.
 
-Gerd Hoffmann (5):
-  Revert "hw/display/ramfb: initialize fw-config space with xres/ yres"
-  Revert "hw/display/ramfb: lock guest resolution after it's set"
-  ramfb: don't update RAMFBState on errors
-  ramfb: add sanity checks to ramfb_create_display_surface
-  ramfb: drop leftover debug message
+Patch has broken byteorder handling: RAMFBCfg fields are in bigendian
+byteorder, the reset function doesn't care so native byteorder is used
+instead.  Given this went unnoticed so far the feature is obviously
+unused, so just revert the patch.
 
+Cc: Hou Qiming <hqm03ster@gmail.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
  include/hw/display/ramfb.h    |  2 +-
- hw/display/ramfb-standalone.c | 12 +------
- hw/display/ramfb.c            | 59 +++++++++++------------------------
- hw/vfio/display.c             |  4 +--
+ hw/display/ramfb-standalone.c | 12 +-----------
+ hw/display/ramfb.c            | 16 +---------------
+ hw/vfio/display.c             |  4 ++--
  stubs/ramfb.c                 |  2 +-
- 5 files changed, 24 insertions(+), 55 deletions(-)
+ 5 files changed, 6 insertions(+), 30 deletions(-)
 
--- 
+diff --git a/include/hw/display/ramfb.h b/include/hw/display/ramfb.h
+index f6c2de93b222..b33a2c467b28 100644
+--- a/include/hw/display/ramfb.h
++++ b/include/hw/display/ramfb.h
+@@ -4,7 +4,7 @@
+ /* ramfb.c */
+ typedef struct RAMFBState RAMFBState;
+ void ramfb_display_update(QemuConsole *con, RAMFBState *s);
+-RAMFBState *ramfb_setup(DeviceState *dev, Error **errp);
++RAMFBState *ramfb_setup(Error **errp);
+=20
+ /* ramfb-standalone.c */
+ #define TYPE_RAMFB_DEVICE "ramfb"
+diff --git a/hw/display/ramfb-standalone.c b/hw/display/ramfb-standalone.c
+index d76a9d0fe2c9..b18db97eeb1b 100644
+--- a/hw/display/ramfb-standalone.c
++++ b/hw/display/ramfb-standalone.c
+@@ -3,7 +3,6 @@
+ #include "qemu/module.h"
+ #include "hw/loader.h"
+ #include "hw/qdev-properties.h"
+-#include "hw/isa/isa.h"
+ #include "hw/display/ramfb.h"
+ #include "ui/console.h"
+=20
+@@ -13,8 +12,6 @@ typedef struct RAMFBStandaloneState {
+     SysBusDevice parent_obj;
+     QemuConsole *con;
+     RAMFBState *state;
+-    uint32_t xres;
+-    uint32_t yres;
+ } RAMFBStandaloneState;
+=20
+ static void display_update_wrapper(void *dev)
+@@ -37,22 +34,15 @@ static void ramfb_realizefn(DeviceState *dev, Error **e=
+rrp)
+     RAMFBStandaloneState *ramfb =3D RAMFB(dev);
+=20
+     ramfb->con =3D graphic_console_init(dev, 0, &wrapper_ops, dev);
+-    ramfb->state =3D ramfb_setup(dev, errp);
++    ramfb->state =3D ramfb_setup(errp);
+ }
+=20
+-static Property ramfb_properties[] =3D {
+-    DEFINE_PROP_UINT32("xres", RAMFBStandaloneState, xres, 0),
+-    DEFINE_PROP_UINT32("yres", RAMFBStandaloneState, yres, 0),
+-    DEFINE_PROP_END_OF_LIST(),
+-};
+-
+ static void ramfb_class_initfn(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
+=20
+     set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
+     dc->realize =3D ramfb_realizefn;
+-    device_class_set_props(dc, ramfb_properties);
+     dc->desc =3D "ram framebuffer standalone device";
+     dc->user_creatable =3D true;
+ }
+diff --git a/hw/display/ramfb.c b/hw/display/ramfb.c
+index 7ba07c80f6e1..bd4746dc1768 100644
+--- a/hw/display/ramfb.c
++++ b/hw/display/ramfb.c
+@@ -13,7 +13,6 @@
+=20
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qemu/option.h"
+ #include "hw/loader.h"
+ #include "hw/display/ramfb.h"
+ #include "ui/console.h"
+@@ -31,7 +30,6 @@ struct QEMU_PACKED RAMFBCfg {
+ struct RAMFBState {
+     DisplaySurface *ds;
+     uint32_t width, height;
+-    uint32_t starting_width, starting_height;
+     struct RAMFBCfg cfg;
+     bool locked;
+ };
+@@ -117,11 +115,9 @@ static void ramfb_reset(void *opaque)
+     RAMFBState *s =3D (RAMFBState *)opaque;
+     s->locked =3D false;
+     memset(&s->cfg, 0, sizeof(s->cfg));
+-    s->cfg.width =3D s->starting_width;
+-    s->cfg.height =3D s->starting_height;
+ }
+=20
+-RAMFBState *ramfb_setup(DeviceState* dev, Error **errp)
++RAMFBState *ramfb_setup(Error **errp)
+ {
+     FWCfgState *fw_cfg =3D fw_cfg_find();
+     RAMFBState *s;
+@@ -133,16 +129,6 @@ RAMFBState *ramfb_setup(DeviceState* dev, Error **errp=
+)
+=20
+     s =3D g_new0(RAMFBState, 1);
+=20
+-    const char *s_fb_width =3D qemu_opt_get(dev->opts, "xres");
+-    const char *s_fb_height =3D qemu_opt_get(dev->opts, "yres");
+-    if (s_fb_width) {
+-        s->cfg.width =3D atoi(s_fb_width);
+-        s->starting_width =3D s->cfg.width;
+-    }
+-    if (s_fb_height) {
+-        s->cfg.height =3D atoi(s_fb_height);
+-        s->starting_height =3D s->cfg.height;
+-    }
+     s->locked =3D false;
+=20
+     rom_add_vga("vgabios-ramfb.bin");
+diff --git a/hw/vfio/display.c b/hw/vfio/display.c
+index f4977c66e1b5..a57a22674d62 100644
+--- a/hw/vfio/display.c
++++ b/hw/vfio/display.c
+@@ -353,7 +353,7 @@ static int vfio_display_dmabuf_init(VFIOPCIDevice *vdev=
+, Error **errp)
+                                           &vfio_display_dmabuf_ops,
+                                           vdev);
+     if (vdev->enable_ramfb) {
+-        vdev->dpy->ramfb =3D ramfb_setup(DEVICE(vdev), errp);
++        vdev->dpy->ramfb =3D ramfb_setup(errp);
+     }
+     vfio_display_edid_init(vdev);
+     return 0;
+@@ -479,7 +479,7 @@ static int vfio_display_region_init(VFIOPCIDevice *vdev=
+, Error **errp)
+                                           &vfio_display_region_ops,
+                                           vdev);
+     if (vdev->enable_ramfb) {
+-        vdev->dpy->ramfb =3D ramfb_setup(DEVICE(vdev), errp);
++        vdev->dpy->ramfb =3D ramfb_setup(errp);
+     }
+     return 0;
+ }
+diff --git a/stubs/ramfb.c b/stubs/ramfb.c
+index 0799093a5d6e..48143f33542f 100644
+--- a/stubs/ramfb.c
++++ b/stubs/ramfb.c
+@@ -6,7 +6,7 @@ void ramfb_display_update(QemuConsole *con, RAMFBState *s)
+ {
+ }
+=20
+-RAMFBState *ramfb_setup(DeviceState* dev, Error **errp)
++RAMFBState *ramfb_setup(Error **errp)
+ {
+     error_setg(errp, "ramfb support not available");
+     return NULL;
+--=20
 2.18.2
 
 
