@@ -2,79 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 052391B4A3A
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 18:21:11 +0200 (CEST)
-Received: from localhost ([::1]:53900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC8451B4A67
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 18:25:27 +0200 (CEST)
+Received: from localhost ([::1]:54004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRI7W-000206-6X
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 12:21:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60100)
+	id 1jRIBh-00078L-95
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 12:25:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35656)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jRI5T-0000CW-Rm
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 12:19:00 -0400
+ (envelope-from <philmd@redhat.com>) id 1jRIAT-0006DZ-Ut
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 12:24:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jRI5S-00057o-TC
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 12:18:59 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43726)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jRI5S-0004qV-Ej
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 12:18:58 -0400
-Received: by mail-wr1-x444.google.com with SMTP id i10so3110377wrv.10
- for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 09:18:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=hpgsEjy9MMe1+3vn6+bFysJu3O8VbUl3PxUk99MjPis=;
- b=A35fbFmGdEec21EWyCrihDNfQVrCB4bW5dbm/HFw1nCe0xB9ZUNwAB8uTj33z2DPbD
- bAElOSK1X/oiluKFTgFp65KvtSiputIxHdN/iwocs2hYTmaC2aRC8/OFAzlqCJxUE7jI
- qDWnmtDpy6JKBDnNEaX+IOeQnje7gaEJR28SUgn1J4lPm75+/Fa68K5UxBDDC4Y8V/Lb
- VNX7+U4V1brbEdsJTeApvQhTYEIOznEsa1YrJ/qTiTY0BODoVSS3o7yhIQ/e1NwLweBY
- rQaZ+PfoyvQSpQ/UkP72PkIxnQfQdPcQQ/bqRr2K+hY95ULUK2cScqojH5mMJoONA2sZ
- HE+g==
+ (envelope-from <philmd@redhat.com>) id 1jRIAS-00030F-Bz
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 12:24:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42144
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jRIAO-0002V6-AY
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 12:24:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587572642;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=35qdBk7jI1Uo9ppP5dIhgF2Y+LAOFocWgucYcFjzavE=;
+ b=IXHQm6ZAe/e0XGk2Uy7J2iXHzvybRgrItHJ/+93bi5cb0JlrLEuqnu+04+ygQuFdWUXAHq
+ VKF7YwVxF9qxH5m8Wu92kBeyXQq8lBtp5XfWN/dqVamKneSxIk82tIWwKnYfywCTM7XHGe
+ +vthTaNPJvfrjo52Wf1bw1iItnNyGOU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-431-7dGxoKHsMny-6p8GDYXWbg-1; Wed, 22 Apr 2020 12:24:01 -0400
+X-MC-Unique: 7dGxoKHsMny-6p8GDYXWbg-1
+Received: by mail-wm1-f70.google.com with SMTP id n17so1061346wmi.3
+ for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 09:24:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=hpgsEjy9MMe1+3vn6+bFysJu3O8VbUl3PxUk99MjPis=;
- b=jLwKMKxfd3YhuPEJelEyIHr4geuMY1app9+fzTo9gKCLDF1dSUuG9bcYLjv8LDELQB
- V0o9Y5P95aPvCY9+IYiKPDxEdAIs6+9IQATqeJ7VK6qzVLRDtobLe7+HIvfOwI6O/Sod
- jJRsj/eN1T9IPM+/SvU8ocK7Oe5zkEt9gafzvxTRr9ev/n+hAaYC7d1CDB/HmS08f9o4
- XDZq6q8jHkytZIi68EgChESlv7e0cIMuqcJfUXAbypinzd0x3VhkTfk/WfaY++CTUJHt
- ozi0x7dfH2MYHg7YiGrvh6UvVRrON5k+MTH88xOWWk3WpuM9HDtX7o1S1N9y+st9ql7x
- T67w==
-X-Gm-Message-State: AGi0Pua8tie4Rm0SePPkvQIWJtN+zX6Vs6EhnZgWbustrHtfN+v11P9F
- c7ZJ019Cr1TEw4+ZtW6L+sKIQI5binY=
-X-Google-Smtp-Source: APiQypIfEtIae3DrcGRWcpuPA1o5XJdPJacC3GE7HwqV2C00aNR6Y1jai+vy7q13KBxJky45k9ZcFQ==
-X-Received: by 2002:a5d:4246:: with SMTP id s6mr30804148wrr.421.1587572336743; 
- Wed, 22 Apr 2020 09:18:56 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j4sm8919469wrm.85.2020.04.22.09.18.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Apr 2020 09:18:55 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C64661FF7E;
- Wed, 22 Apr 2020 17:18:54 +0100 (BST)
-References: <20200422011722.13287-1-richard.henderson@linaro.org>
- <20200422011722.13287-14-richard.henderson@linaro.org>
-User-agent: mu4e 1.4.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 13/36] tcg: Use tcg_constant_{i32,i64} with tcg int
- expanders
-In-reply-to: <20200422011722.13287-14-richard.henderson@linaro.org>
-Date: Wed, 22 Apr 2020 17:18:54 +0100
-Message-ID: <87k127cx3l.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=p/gx0VDGZL7TB4UuCbzyfM7cMOTYJDsxwFrh5uA0Gj4=;
+ b=RDTGqH2JqM2iYwUuV5y0kNpr3MTkmJWPredRzoS64nQOwkzqjnjKvwZn4iF+Nl9alx
+ pUKgTRrh3vzrxrPzFYSVlERte5wmi6guLrLRKH3So/wzfV4nUOqoSjMvDkkpqnGItWQp
+ +/tF6eX92sKK8jsOlQXyGOQcSIASyVaHnipNBL6z8l/uLmp1nVGk/N5L44ZnnsX9hM8A
+ QbZ+vGuT95tZXpChhz/gx63X2U0g1M+mGWbMwF5GatGhSbyGGzIGHxMNIoaqQGlOYTu7
+ ATODAT+OdVQ5m+wfyAC0K1ZktyMYIclS77VqPxA5L4Zou+ZDJV+aSa4iZxUzKttiE6nP
+ oJ9Q==
+X-Gm-Message-State: AGi0Pubkx/xjWrn4/1ZcBJdlf97D6x2cKA0feDGUEs5JPXDF/H1Dq9BU
+ ZThs2aZ7R6TDHoub6+2ZEWPGYQL8MRXA7eSKd7lKvGPMGtJExb5OO2WBTRMov2fUZVS7xL7AYkR
+ vZZTNPFN4UcTF5vg=
+X-Received: by 2002:adf:ee4c:: with SMTP id w12mr33811708wro.347.1587572639411; 
+ Wed, 22 Apr 2020 09:23:59 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLe+zOZg6zQ4RQpFgsEA36VG7QCbuUkgVLhOMVEWkLKX3/i5neH2eQLmBoPs51BcYxCA8dOEw==
+X-Received: by 2002:adf:ee4c:: with SMTP id w12mr33811681wro.347.1587572639176; 
+ Wed, 22 Apr 2020 09:23:59 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id f2sm9173599wro.59.2020.04.22.09.23.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Apr 2020 09:23:58 -0700 (PDT)
+Subject: Re: qemu 4.2.0 audiodev soundhw
+To: Jakob Bohm <jb-gnumlists@wisemo.com>, qemu-discuss@nongnu.org
+References: <CA+enFJ=UmKNam-7T5J6UM6JGY7wy492MNm-d_-qKf7rLa818TQ@mail.gmail.com>
+ <CAFEAcA_GqNAS-5+081vhpvn=Zk4qbD-SJz5SmN8s5_1_zerpAA@mail.gmail.com>
+ <20200420144433.upkagl3qi3nc2lsj@sirius.home.kraxel.org>
+ <CA+enFJkFN7B=-6k44Sb8XC2yAy2EGWoLCDMW0tA=GwwaxaspyA@mail.gmail.com>
+ <d6c04095-8ea7-30c2-29f1-61c26aed835a@wisemo.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <7a90dead-ff67-589c-81a9-826c4d0bd86e@redhat.com>
+Date: Wed, 22 Apr 2020 18:23:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <d6c04095-8ea7-30c2-29f1-61c26aed835a@wisemo.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::444
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 09:07:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,56 +97,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Jakob,
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+On 4/21/20 12:06 AM, Jakob Bohm wrote:
+[...]
+>=20
+> In fact, over the years, I have found it excruciatingly difficult to find
+> valid qemu documentation, as each feature effort tends to leave behind
+> half-updated pages and a bunch of uncoordinated messages about what may o=
+r
+> may not have been implemented in unspecified versions.
+I feel your pain and agree.
 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/tcg/tcg-op.h |  13 +--
->  tcg/tcg-op.c         | 216 ++++++++++++++++++++-----------------------
->  2 files changed, 100 insertions(+), 129 deletions(-)
->
-> diff --git a/include/tcg/tcg-op.h b/include/tcg/tcg-op.h
-> index 230db6e022..11ed9192f7 100644
-> --- a/include/tcg/tcg-op.h
-> +++ b/include/tcg/tcg-op.h
-<snip>
-> @@ -1468,12 +1441,17 @@ void tcg_gen_brcond_i64(TCGCond cond, TCGv_i64 ar=
-g1, TCGv_i64 arg2, TCGLabel *l)
->=20=20
->  void tcg_gen_brcondi_i64(TCGCond cond, TCGv_i64 arg1, int64_t arg2, TCGL=
-abel *l)
->  {
-> -    if (cond =3D=3D TCG_COND_ALWAYS) {
-> +    if (TCG_TARGET_REG_BITS =3D=3D 64) {
-> +        tcg_gen_brcond_i64(cond, arg1, tcg_constant_i64(arg2), l);
-> +    } else if (cond =3D=3D TCG_COND_ALWAYS) {
->          tcg_gen_br(l);
->      } else if (cond !=3D TCG_COND_NEVER) {
-> -        TCGv_i64 t0 =3D tcg_const_i64(arg2);
-> -        tcg_gen_brcond_i64(cond, arg1, t0, l);
-> -        tcg_temp_free_i64(t0);
-> +        l->refs++;
+How can this get improved?
 
-Hmm is this a separate fix?
+Keeping the command line backward compatible is not an easy task.
 
-> +        tcg_gen_op6ii_i32(INDEX_op_brcond2_i32,
-> +                          TCGV_LOW(arg1), TCGV_HIGH(arg1),
-> +                          tcg_constant_i32(arg2),
-> +                          tcg_constant_i32(arg2 >> 32),
-> +                          cond, label_arg(l));
->      }
->  }
-<snip>
+There is a quite important effort in progress to improve the documentation.
 
-otherwise lgtm:
+Users reporting bad/incomplete/outdated documentation would help and=20
+motivate developers to fix it. That would reduce the gap between=20
+developers implementing features and users.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Do you other have suggestions about what should be improved?
 
---=20
-Alex Benn=C3=A9e
+Thanks,
+
+Phil.
+
+>=20
+> On 20/04/2020 19:54, Idar Lund wrote:
+>> Hi,
+>>
+>> Thanks for your response!
+>>
+>> Yes, I agree with you on the options. If you guys decide on (3), I=20
+>> would suggest to make it dynamically like this; "-soundhw=20
+>> hda,audiodev=3Dsound1". This would then copy the 'audiodev' (and=20
+>> possible other) parameter(s) to the '-device' option.
+>>
+>> My personal preference would be to recommend option number 1.
+>> The reason for this is that maintaining a shortcut like this makes it=20
+>> hard to maintain for developers when adding features and fixes bugs on=
+=20
+>> other options. And of course documentation maintainers :)
+>> The second reason as I see it is that people tend to create a .sh=20
+>> script or similar to start their qemu virtual machines if they don't=20
+>> use libvirt/xml schema. And for that, a more verbose command would=20
+>> actually be easier to maintain for users since we then know where to=20
+>> put parameters like this.
+>>
+>> -Idar
+>>
+>> On Mon, Apr 20, 2020 at 4:44 PM Gerd Hoffmann <kraxel@redhat.com=20
+>> <mailto:kraxel@redhat.com>> wrote:
+>>
+>> =C2=A0=C2=A0=C2=A0 On Fri, Apr 17, 2020 at 12:15:30PM +0100, Peter Mayde=
+ll wrote:
+>> =C2=A0=C2=A0=C2=A0 > On Fri, 17 Apr 2020 at 12:08, Idar Lund <idarlund@g=
+mail.com
+>> =C2=A0=C2=A0=C2=A0 <mailto:idarlund@gmail.com>> wrote:
+>> =C2=A0=C2=A0=C2=A0 > > I'm using qemu-system-x86_64 with the following o=
+ptions:
+>> =C2=A0=C2=A0=C2=A0 > > -audiodev pa,id=3Dsound1,server=3D/run/user/1000/=
+pulse/native \
+>> =C2=A0=C2=A0=C2=A0 > > -soundhw hda
+>> =C2=A0=C2=A0=C2=A0 > >
+>> =C2=A0=C2=A0=C2=A0 > > After upgrade to 4.2.0 (qemu-4.2.0-7.fc32) I get =
+the following
+>> =C2=A0=C2=A0=C2=A0 warning:
+>> =C2=A0=C2=A0=C2=A0 > > (qemu) audio: Device hda: audiodev default parame=
+ter is
+>> =C2=A0=C2=A0=C2=A0 deprecated, please specify audiodev=3Dsound1
+>> =C2=A0=C2=A0=C2=A0 > >
+>> =C2=A0=C2=A0=C2=A0 > > The documentation `man qemu-system-x86_64` seems =
+to not
+>> =C2=A0=C2=A0=C2=A0 reflect this.
+>> =C2=A0=C2=A0=C2=A0 > > How am I supposed to use audiodev and soundhw?
+>> =C2=A0=C2=A0=C2=A0 >
+>> =C2=A0=C2=A0=C2=A0 > This looks like another question for you, Gerd...
+>>
+>> =C2=A0=C2=A0=C2=A0 Hmm, good question how to proceed here best ...
+>>
+>> =C2=A0=C2=A0=C2=A0 "-soundhw hda" is a shortcut for "-device intel-hda -=
+device
+>> =C2=A0=C2=A0=C2=A0 hda-duplex"
+>>
+>> =C2=A0=C2=A0=C2=A0 You can use "-device intel-hda -device hda-duplex,aud=
+iodev=3Dsound1" to
+>> =C2=A0=C2=A0=C2=A0 make the warning go away.=C2=A0 That is pretty verbos=
+e when compared to
+>> =C2=A0=C2=A0=C2=A0 "-soundhw hda" though ...
+>>
+>> =C2=A0=C2=A0=C2=A0 So the options I see are:
+>>
+>> =C2=A0=C2=A0=C2=A0 =C2=A0 (1) deprecate the -soundhw shortcut, expect us=
+ers to use -device
+>> =C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 instead.
+>> =C2=A0=C2=A0=C2=A0 =C2=A0 (2) have -soundhw lookup the audiodev and add =
+it automatically.
+>> =C2=A0=C2=A0=C2=A0 Works
+>> =C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 only with a single audiodev, but=
+ that isn't different from what
+>> =C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 we have today.=C2=A0 If you want=
+ do more complicated things you
+>> =C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 already have to use the more ver=
+bose -device command line.
+>> =C2=A0=C2=A0=C2=A0 =C2=A0 (3) add audiodev option to -soundhw.
+>>
+>> =C2=A0=C2=A0=C2=A0 I don't like (3) much, our command line is already me=
+ssy enough.
+>> =C2=A0=C2=A0=C2=A0 So my
+>> =C2=A0=C2=A0=C2=A0 personal preference would be (1) or (2) ...
+>>
+>=20
+> Enjoy
+>=20
+> Jakob
+
 
