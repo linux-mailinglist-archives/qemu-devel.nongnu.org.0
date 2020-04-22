@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3515C1B4619
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 15:17:51 +0200 (CEST)
-Received: from localhost ([::1]:50414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6E681B45FC
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 15:12:21 +0200 (CEST)
+Received: from localhost ([::1]:50312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRFG9-0001fp-VN
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 09:17:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46880)
+	id 1jRFAq-0002a9-VP
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 09:12:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46836)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRF6A-0003ol-8M
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:07:32 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRF68-0003sv-V9
+ (envelope-from <armbru@redhat.com>) id 1jRF68-0003lU-Le
  for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:07:29 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:25361
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
+ (envelope-from <armbru@redhat.com>) id 1jRF67-0003oA-IW
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:07:28 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32027
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jRF68-0003qv-F7
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:07:28 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jRF67-0003kE-14
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:07:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587560847;
+ s=mimecast20190719; t=1587560846;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wYKIi3HEA0GUP+kQcT/vivYitUM0GVQKFCyq6ffCeAY=;
- b=DVstdFt70r+OnTAccIwCoPjL6aNOLjOl634SoN/nzzd2iohkrtuPBlkzWumn3NASaxCnYP
- NKlYYN+p3Cwc35La8ZZWhbRJ5EkYrIL6fZQzednwIKLtgWH8ZlfO9QGOzderYrbTjRekd3
- 3bHjw6oK7sSmyJdLS/+e+HaeTr8YSUk=
+ bh=5H2M8bjsIlcLctdaefUgx2egEhpey1ae4R76ADCSuTc=;
+ b=Yz9rG6WQDHRlzUder9OOCHuEs576ulVnVfEwWdvOyUIoS00mvplgOZJkm/LEoPUd2VSJoc
+ iFvaQSXlzTJ5xOfZTZVC3OdaJYD2WGyHSgwxzNttRsXPcOYjUx0TeY9IGV+XRH5UeSl0pi
+ N1J/TzNRb4ashA5ICuMEoZsdzldZUtw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-443-ArvIrDTaP3aKxzBiV66TAA-1; Wed, 22 Apr 2020 09:07:26 -0400
-X-MC-Unique: ArvIrDTaP3aKxzBiV66TAA-1
+ us-mta-459-Kh-KxkYeM2eRoz8o7Vp1eg-1; Wed, 22 Apr 2020 09:07:24 -0400
+X-MC-Unique: Kh-KxkYeM2eRoz8o7Vp1eg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7E5F8017F6;
- Wed, 22 Apr 2020 13:07:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BDE7107ACC9
+ for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 13:07:23 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6DCC75D715;
- Wed, 22 Apr 2020 13:07:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D50B5D715
+ for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 13:07:23 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2A4E911358C7; Wed, 22 Apr 2020 15:07:20 +0200 (CEST)
+ id 31C8E11358C8; Wed, 22 Apr 2020 15:07:20 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 11/14] migration/colo: Fix qmp_xen_colo_do_checkpoint()
- error handling
-Date: Wed, 22 Apr 2020 15:07:16 +0200
-Message-Id: <20200422130719.28225-12-armbru@redhat.com>
+Subject: [PATCH v2 12/14] tests/test-logging: Fix test for -dfilter
+ 0..0xffffffffffffffff
+Date: Wed, 22 Apr 2020 15:07:17 +0200
+Message-Id: <20200422130719.28225-13-armbru@redhat.com>
 In-Reply-To: <20200422130719.28225-1-armbru@redhat.com>
 References: <20200422130719.28225-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
@@ -76,58 +76,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Error ** argument must be NULL, &error_abort, &error_fatal, or a
-pointer to a variable containing NULL.  Passing an argument of the
-latter kind twice without clearing it in between is wrong: if the
-first call sets an error, it no longer points to NULL for the second
-call.
-
-qmp_xen_colo_do_checkpoint() passes @errp first to
-replication_do_checkpoint_all(), and then to
-colo_notify_filters_event().  If both fail, this will trip the
-assertion in error_setv().
-
-Similar code in secondary_vm_do_failover() calls
-colo_notify_filters_event() only after replication_do_checkpoint_all()
-succeeded.  Do the same here.
-
-Fixes: 0e8818f023616677416840d6ddc880db8de3c967
-Cc: Zhang Chen <chen.zhang@intel.com>
-Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>
+Fixes: 58e19e6e7914354242a67442d0006f9e31684d1a
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Zhang Chen <chen.zhang@intel.com>
 ---
- migration/colo.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ tests/test-logging.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/migration/colo.c b/migration/colo.c
-index a54ac84f41..1b3493729b 100644
---- a/migration/colo.c
-+++ b/migration/colo.c
-@@ -263,7 +263,13 @@ ReplicationStatus *qmp_query_xen_replication_status(Er=
-ror **errp)
+diff --git a/tests/test-logging.c b/tests/test-logging.c
+index 6387e4933f..8580b82420 100644
+--- a/tests/test-logging.c
++++ b/tests/test-logging.c
+@@ -73,10 +73,10 @@ static void test_parse_range(void)
+     g_assert(qemu_log_in_addr_range(UINT64_MAX));
+     g_assert_false(qemu_log_in_addr_range(UINT64_MAX - 1));
 =20
- void qmp_xen_colo_do_checkpoint(Error **errp)
- {
--    replication_do_checkpoint_all(errp);
-+    Error *err =3D NULL;
+-    qemu_set_dfilter_ranges("0..0xffffffffffffffff", &err);
++    qemu_set_dfilter_ranges("0..0xffffffffffffffff", &error_abort);
+     g_assert(qemu_log_in_addr_range(0));
+     g_assert(qemu_log_in_addr_range(UINT64_MAX));
+-=20
 +
-+    replication_do_checkpoint_all(&err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-     /* Notify all filters of all NIC to do checkpoint */
-     colo_notify_filters_event(COLO_EVENT_CHECKPOINT, errp);
- }
+     qemu_set_dfilter_ranges("2..1", &err);
+     error_free_or_abort(&err);
+=20
 --=20
 2.21.1
 
