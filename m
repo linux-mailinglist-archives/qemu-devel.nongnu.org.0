@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F0581B3495
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 03:37:44 +0200 (CEST)
-Received: from localhost ([::1]:39068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 151971B349D
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 03:43:06 +0200 (CEST)
+Received: from localhost ([::1]:39242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jR4Kd-0000XU-B2
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 21:37:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36586)
+	id 1jR4Po-00006s-Qx
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 21:43:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48134)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jR41o-0002Mi-Oz
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 21:18:17 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1jR4Dp-0007K4-OY
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 21:30:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jR41m-0002tl-8i
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 21:18:16 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:46721)
+ (envelope-from <bmeng.cn@gmail.com>) id 1jR4Do-0000XD-7H
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 21:30:41 -0400
+Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:37146)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jR41i-0002qj-OA
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 21:18:10 -0400
-Received: by mail-pg1-x543.google.com with SMTP id j7so237694pgj.13
- for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 18:18:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=CAaXlaeCbYzCudlBaA6sfoD14Yf3D0yL19dplfxIkw0=;
- b=oW2ZX0qaOHUft7B2x7GxjHuHRAwnpPJeIS8znuZuVkB5nzygOVmk9SJuham3j95+vH
- sW+cgydiUesKd9dbXGxJ9/NU8cp5KGTXjV/YspGYwh08eTzYUC1hx16Ot2JhaRtOIT3l
- Lnk8JZvl6JeHKCC4uBlWsnGuAW7nmX6EuHFC/wddaYY359OQtkoxC/KFDqWHHUi2iY+g
- Q+swQQedd1KpuJ1Tg/h3X7nPS4NXJunxbQklXw3KnuVQxxgbCXyEHEDz/HMREcaw7tK7
- PgMUUja0vn4wZCPx4BJ5VlP/BTLd97UjTmjRvRhLn1tIcyYTE4SYWz+45xpoEVfXjDm/
- WKLA==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1jR4Dn-0000Og-Ny; Tue, 21 Apr 2020 21:30:39 -0400
+Received: by mail-yb1-xb42.google.com with SMTP id n2so352574ybg.4;
+ Tue, 21 Apr 2020 18:30:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZLGjRnZu+oD/sCX0wDyiF3WkJOwq69ZHhRb0c02f+JE=;
+ b=e+oSotHjhL562U/Djy89ja+CE1S3hj04uG/bvFybiYutZD9cEdtZd0+zaZDHY6V7s1
+ 06Qurr6REjn18aqXNJrM6kqMeVTLtGDzH3+2WwswtRyOG7EytS+bIFzkEyCPtmJZMMOE
+ WYR25D8ab7CEWcVSXfeuATmKknu+DtO6STBNNmLTFeCs5h3itbr5jN5cjHatLrEs03Tg
+ Hg8nz6Y+23dsuCuzmTE90V7QOTSL51ddacbT261PkAqu02MRd0W10dTQxuUmz5HeAW4u
+ eOnaUrVp31XYxT6Yh0zbuiI/MpPZB+msLhHiCLWWSHl1GoKo9wBDDmlFwN4CnMSwAlNM
+ 7mGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=CAaXlaeCbYzCudlBaA6sfoD14Yf3D0yL19dplfxIkw0=;
- b=aoWIBhX1y98y0jn7Ypr9IdKeiFY46ioGIGameZ5Ak30j1vrXQgCU2Jtm1+sSd+e2ZJ
- lMrz8wccHTGshbtk4pM3QFvZZiu6lllALA94jiXZSgAX5n9mbs3qtT8yhjeNqRadbme8
- hKvYEn4OeplHgQMx6swi0ghnlN8BskSWIswydbBWrX1pswjBqXxT8zO/2HwaI9XB0zWc
- haSfrWmpaXBwrwtxRXR3bl6T0O96WMUsCmrC51mo2VnpSDR8bN+7DEszRVlFW/XXdYH0
- QTQZZaGeu7YwFvwlD0diyvBMlg+UIpIYd8EqP8sSsv9cAKZ8I/KBErcNOQsMVewQkR7I
- dseA==
-X-Gm-Message-State: AGi0Pua5LIhoUw8D1sYu1jcFrX5DnS6KZE3z3xmbdcKfNEOh1BBcehGA
- 6jRZQR4QLfak6Z14wpIrEbu84hbLqnY=
-X-Google-Smtp-Source: APiQypJ9wlBHkJmBmR71eFxf/Ay2bSsgvQnbnCBISoORyDNphAccoD4FtkWfujs0U9zgMrr5gtht7g==
-X-Received: by 2002:aa7:8ecd:: with SMTP id b13mr13567353pfr.191.1587518288974; 
- Tue, 21 Apr 2020 18:18:08 -0700 (PDT)
-Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
- [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id m4sm3673561pfm.26.2020.04.21.18.18.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Apr 2020 18:18:08 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 36/36] target/s390x: Use tcg_gen_gvec_rotl{i,s,v}
-Date: Tue, 21 Apr 2020 18:17:22 -0700
-Message-Id: <20200422011722.13287-37-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200422011722.13287-1-richard.henderson@linaro.org>
-References: <20200422011722.13287-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZLGjRnZu+oD/sCX0wDyiF3WkJOwq69ZHhRb0c02f+JE=;
+ b=gm3taXeMSVMGOtFS3wFM2Ljf/kNu6MJnzvyvK8cLTmSwMUG+PQtrApz4YZRK7SK0cl
+ z54sje2UFE4eS1Sy6yOQg3YoRs+PCLJeVdWPzeIzICi5w47pZzM7wutHhyKCFhCpIhOO
+ EEWwqmDaNqt5vSwEmbA361OciNDE0mW68awuveWREAw6WJFa6OmfKJVajjr7itPCxE7m
+ i/Bm0D4+kqhH3xVhYC7eOrbrLu5ZJekDgll+89207NCYeXjXYEC1r1FbH5KqReSZ6KYd
+ h+vVKM4OzCbqWxUczCeB2MPUT+LBvfAN7vtTxHVO1Z/dtBff9gsfyDhZTH/r9LtTLvaE
+ 3vgQ==
+X-Gm-Message-State: AGi0PuYgw0lj4GT2Kt8bNgbLgUUbZaV32+GCtN0pQwb/iyYPgnKQ4nKg
+ KgiRtpm2RG8COb1YSlYGn8vurXSAgsDQ52U1mEc=
+X-Google-Smtp-Source: APiQypIy8ICyL+Fv9a3ZORkkMjmuX5T64Yu+bOtvOdAFmVOvHjuNrkM2gTLVvuRfb/9tBDsIPYLSziO8i1BB53nXzCY=
+X-Received: by 2002:a25:d646:: with SMTP id n67mr30622571ybg.65.1587519037261; 
+ Tue, 21 Apr 2020 18:30:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
+References: <1587389038-1549-1-git-send-email-bmeng.cn@gmail.com>
+ <CAKmqyKMzUzHC1FhV6ccjswjRvQH_h6DuUwEWjte4CAEmxPOKDg@mail.gmail.com>
+ <CAEUhbmUTEVPF6f91SqrXL-_M-G_Jg2D29cBjbCs1YBGm2fk6QA@mail.gmail.com>
+In-Reply-To: <CAEUhbmUTEVPF6f91SqrXL-_M-G_Jg2D29cBjbCs1YBGm2fk6QA@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 22 Apr 2020 09:30:25 +0800
+Message-ID: <CAEUhbmWsNmTTTFz66M4sK-pEtEMOhfoYzCHYVyEF4AJ2X02twA@mail.gmail.com>
+Subject: Re: [PATCH] roms: opensbi: Upgrade from v0.6 to v0.7
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b42;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb42.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::543
+X-Received-From: 2607:f8b0:4864:20::b42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,193 +75,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, David Hildenbrand <david@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Merge VERLL and VERLLV into op_vesv and op_ves, alongside
-all of the other vector shift operations.
+Hi Alistair,
 
-Cc: David Hildenbrand <david@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/s390x/helper.h           |  4 --
- target/s390x/translate_vx.inc.c | 66 +++++----------------------------
- target/s390x/vec_int_helper.c   | 31 ----------------
- target/s390x/insn-data.def      |  4 +-
- 4 files changed, 11 insertions(+), 94 deletions(-)
+On Tue, Apr 21, 2020 at 9:34 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> Hi Alistair,
+>
+> On Tue, Apr 21, 2020 at 2:41 AM Alistair Francis <alistair23@gmail.com> wrote:
+> >
+> > On Mon, Apr 20, 2020 at 6:25 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >
+> > > Upgrade OpenSBI from v0.6 to v0.7 and the pre-built bios images.
+> > >
+> > > The v0.7 release includes the following commits:
+> > >
+> > > f64f4b9 lib: Add a new platform feature to bringup secondary harts
+> > > b677a9b lib: Implement hart hotplug
+> > > 5b48240 lib: Add possible hart status values
+> > > e3f69fc lib: Implement Hart State Management (HSM) SBI extension
+> > > 6704216 lib: Check MSIP bit after returning from WFI
+> > > 82ae8e8 makefile: Do setup of the install target more flexible
+> > > e1a5b73 platform: sifive: fu540: allow sv32 as an mmu-type
+> > > 8c83fb2 lib: Fix return type of sbi_hsm_hart_started()
+> > > 00d332b include: Move bits related defines and macros to sbi_bitops.h
+> > > a148996 include: sbi_bitops: More useful bit operations
+> > > 4a603eb platform: kendryte/k210: Set per-HART stack size to 8KB
+> > > 678c3c3 include: sbi_scratch: Set per-HART scratch size to 4KB
+> > > 2abc55b lib: Sort build objects in alphabetical order
+> > > 6e87507 platform: ae350: Sort build objects in alphabetical order
+> > > 650c0e5 lib: sbi: Fix coding style issues
+> > > 078686d lib: serial: Fix coding style issues
+> > > 3226bd9 lib: Simple bitmap library
+> > > c741abc include: Simple hartmask library
+> > > d6d7e18 lib: sbi_init: Don't allow HARTID greater than SBI_HARTMASK_MAX_BITS
+> > > a4a6a81 lib: Introduce SBI_TLB_INFO_INIT() helper macro
+> > > d963164 lib: sbi_tlb: Use sbi_hartmask in sbi_tlb_info
+> > > 71d2b83 lib: Move all coldboot wait APIs to sbi_init.c
+> > > 2b945fc lib: sbi_init: Use hartmask for coldboot wait
+> > > 44ce5b9 include: Remove disabled_hart_mask from sbi_platform
+> > > 2db381f lib: Introduce sbi_hsm_hart_started_mask() API
+> > > 61f7768 lib: sbi_ecall_legacy: Use sbi_hsm_hart_started_mask() API
+> > > 466fecb lib: sbi_system: Use sbi_hsm_hart_started_mask() API
+> > > 9aad831 lib: sbi_ipi: Use sbi_hsm_hart_started_mask() API
+> > > eede1aa lib: sbi_hart: Remove HART available mask and related APIs
+> > > 757bb44 docs: Remove out-of-date documentation
+> > > 86d37bb lib: sbi: Fix misaligned trap handling
+> > > ffdc858 platform: ariane-fpga: Change license for ariane-fpga from GPL-2.0 to BSD-2
+> > > 4b2f594 sbi: Add definitions for true/false
+> > > 0cfe49a libfdt: Add INT32_MAX and UINT32_MAX in libfdt_env.h
+> > > baac7e0 libfdt: Upgrade to v1.5.1 release
+> > > f92147c include: Make sbi_hart_id_to_scratch() as macro
+> > > eeae3d9 firmware: fw_base: Optimize _hartid_to_scratch() implementation
+> > > 16e7071 lib: sbi_hsm: Optimize sbi_hsm_hart_get_state() implementation
+> > > 823345e include: Make sbi_current_hartid() as macro in riscv_asm.h
+> > > 9aabba2 Makefile: Fix distclean make target
+> > > 9275ed3 platform: ariane-fpga: Set per-HART stack size to 8KB
+> > > 2343efd platform: Set per-HART stack size to 8KB in the template platform codes
+> > > 72a0628 platform: Use one unified per-HART stack size macro for all platforms
+> > > 327ba36 scripts: Cover sifive/fu540 in the 32-bit build
+> > > 5fbcd62 lib: sbi: Update pmp_get() to return decoded size directly
+> > > dce8846 libfdt: Compile fdt_addresses.c
+> > > fcb1ded lib: utils: Add a fdt_reserved_memory_fixup() helper
+> > > 666be6d platform: Clean up include header files
+> > > 6af5576 lib: utils: Move PLIC DT fix up codes to fdt_helper.c
+> > > e846ce1 platform: andes/ae350: Fix up DT for reserved memory
+> > > 8135520 platform: ariane-fpga: Fix up DT for reserved memory
+> > > c9a5268 platform: qemu/virt: Fix up DT for reserved memory
+> > > 6f9bb83 platform: sifive/fu540: Fix up DT for reserved memory
+> > > 1071f05 platform: sifive/fu540: Remove "stdout-path" fix-up
+> > > dd9439f lib: utils: Add a fdt_cpu_fixup() helper
+> > > 3f1c847 platform: sifive/fu540: Replace cpu0 node fix-up with the new helper
+> > > db6a2b5 lib: utils: Add a general device tree fix-up helper
+> > > 3f8d754 platform: Update to call general DT fix-up helper
+> > > 87a7ef7 lib: sbi_scratch: Introduce HART id to scratch table
+> > > e23d3ba include: Simplify HART id to scratch macro
+> > > 19bd531 lib: sbi_hsm: Simplify hart_get_state() and hart_started() APIs
+> > > 3ebfe0e lib: sbi_tlb: Simplify sbi_tlb_entry_process() function
+> > > 209134d lib: Handle failure of sbi_hartid_to_scratch() API
+> > > bd6ef02 include: sbi_platform: Improve sbi_platform_hart_disabled() API
+> > > c9f60fc lib: sbi_scratch: Don't set hartid_to_scratch table for disabled HART
+> > > 680b098 lib: sbi_hsm: Don't use sbi_platform_hart_count() API
+> > > db187d6 lib: sbi_hsm: Remove scratch parameter from hart_started_mask() API
+> > > 814f38d lib: sbi_hsm: Don't use sbi_platform_hart_disabled() API
+> > > 75eec9d lib: Don't use sbi_platform_hart_count() API
+> > > c51f02c include: sbi_platform: Introduce HART index to HART id table
+> > > 315a877 platform: sifive/fu540: Remove FU540_ENABLED_HART_MASK option
+> > > a0c88dd lib: Fix sbi_ecall_register_extension to prevent extension IDs overlap
+> > > 9a74a64 lib: Check MSIP bit after returning from WFI
+> > > 5968894 platform: Move ariane standalone fpga project to its own project
+> > > ed265b4 platform: fpga/ariane: Remove redundant plic address macros
+> > > fb84879 platform: Add OpenPiton platform support
+> > > d1d6560 platform: fpga/common: Add a fdt parsing helper functions
+> > > 040e4e2 lib: utils: Move fdt fixup helper routines to a different file
+> > > 4c37451 platform: openpiton: Read the device configurations from device tree
+> > > 4d93586 lib: prevent coldboot_lottery from overflowing
+> > > 550ba88 scripts: Extend create-binary-archive.sh for unified binary tar ball
+> > > 160c885 lib: utils: Improve fdt_cpu_fixup() implementation
+> > > 1de66d1 lib: Optimize unpriv load/store implementation
+> > > 626467c lib: Remove scratch parameter from unpriv load/store functions
+> > > cb78a48 lib: sbi_trap: Remove scratch parameter from sbi_trap_redirect()
+> > > d11c79c lib: sbi_emulate_csr: Remove scratch and hartid parameter
+> > > 5a7bd0c lib: sbi_illegal_insn: Remove mcause, scratch and hartid parameters
+> > > fe37d7d lib: sbi_misaligned_ldst: Remove mcause, scratch and hartid parameters
+> > > 7487116 lib: sbi_ecall: Remove mcause, scratch and hartid parameters
+> > > 40b221b lib: sbi_trap: Simplify sbi_trap_handler() API
+> > > 7b211ff include: sbi_platform: Remove priv parameter from hart_start() callback
+> > > 5b6957e include: Use more consistent name for atomic xchg() and cmpxchg()
+> > > dd0f21c lib: sbi_scratch: Introduce sbi_scratch_last_hartid() API
+> > > 54b2779 include: sbi_tlb: Remove scratch parameter from sbi_tlb_request()
+> > > 9e52a45 include: sbi_ipi: Remove scratch parameter from most functions
+> > > ec0d80f include: sbi_system: Remove scratch parameter and redundant functions
+> > > 0a28ea5 include: sbi_timer: Remove scratch parameter from most funcitons
+> > > 648507a include: sbi_console: Remove scratch parameter from sbi_dprintf()
+> > > e5a7f55 platform: thead/c910: Use HSM extension to boot secondary cores
+> > > f281de8 lib: irqchip/plic: Fix maximum priority threshold value
+> > > 6c7922e lib: Support vector extension
+> > > 615587c docs: Update README about supported SBI versions
+> > > 66d0184 lib: Allow overriding SBI implementation ID
+> > > 9f1b72c include: Bump-up version to 0.7
+> > >
+> > > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+> >
+> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > Can you share a git branch with this patch? From memory these binary
+> > patches don't apply well from emails.
+>
+> Sure. Please grab the bits from http://github.com/lbmeng/qemu opensbi branch.
+>
+> You can also use patchwork to help with your custodian work.
+> http://patchwork.ozlabs.org/project/qemu-devel/patch/1587389038-1549-1-git-send-email-bmeng.cn@gmail.com/
+>
+> Click on the "mbox" button to download the patch and apply it.
 
-diff --git a/target/s390x/helper.h b/target/s390x/helper.h
-index b5813c2ac2..b7887b552b 100644
---- a/target/s390x/helper.h
-+++ b/target/s390x/helper.h
-@@ -198,10 +198,6 @@ DEF_HELPER_FLAGS_4(gvec_vmlo16, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
- DEF_HELPER_FLAGS_4(gvec_vmlo32, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
- DEF_HELPER_FLAGS_3(gvec_vpopct8, TCG_CALL_NO_RWG, void, ptr, cptr, i32)
- DEF_HELPER_FLAGS_3(gvec_vpopct16, TCG_CALL_NO_RWG, void, ptr, cptr, i32)
--DEF_HELPER_FLAGS_4(gvec_verllv8, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
--DEF_HELPER_FLAGS_4(gvec_verllv16, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
--DEF_HELPER_FLAGS_4(gvec_verll8, TCG_CALL_NO_RWG, void, ptr, cptr, i64, i32)
--DEF_HELPER_FLAGS_4(gvec_verll16, TCG_CALL_NO_RWG, void, ptr, cptr, i64, i32)
- DEF_HELPER_FLAGS_4(gvec_verim8, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
- DEF_HELPER_FLAGS_4(gvec_verim16, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
- DEF_HELPER_FLAGS_4(gvec_vsl, TCG_CALL_NO_RWG, void, ptr, cptr, i64, i32)
-diff --git a/target/s390x/translate_vx.inc.c b/target/s390x/translate_vx.inc.c
-index 12347f8a03..eb767f5288 100644
---- a/target/s390x/translate_vx.inc.c
-+++ b/target/s390x/translate_vx.inc.c
-@@ -1825,63 +1825,6 @@ static DisasJumpType op_vpopct(DisasContext *s, DisasOps *o)
-     return DISAS_NEXT;
- }
- 
--static void gen_rll_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b)
--{
--    TCGv_i32 t0 = tcg_temp_new_i32();
--
--    tcg_gen_andi_i32(t0, b, 31);
--    tcg_gen_rotl_i32(d, a, t0);
--    tcg_temp_free_i32(t0);
--}
--
--static void gen_rll_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b)
--{
--    TCGv_i64 t0 = tcg_temp_new_i64();
--
--    tcg_gen_andi_i64(t0, b, 63);
--    tcg_gen_rotl_i64(d, a, t0);
--    tcg_temp_free_i64(t0);
--}
--
--static DisasJumpType op_verllv(DisasContext *s, DisasOps *o)
--{
--    const uint8_t es = get_field(s, m4);
--    static const GVecGen3 g[4] = {
--        { .fno = gen_helper_gvec_verllv8, },
--        { .fno = gen_helper_gvec_verllv16, },
--        { .fni4 = gen_rll_i32, },
--        { .fni8 = gen_rll_i64, },
--    };
--
--    if (es > ES_64) {
--        gen_program_exception(s, PGM_SPECIFICATION);
--        return DISAS_NORETURN;
--    }
--
--    gen_gvec_3(get_field(s, v1), get_field(s, v2),
--               get_field(s, v3), &g[es]);
--    return DISAS_NEXT;
--}
--
--static DisasJumpType op_verll(DisasContext *s, DisasOps *o)
--{
--    const uint8_t es = get_field(s, m4);
--    static const GVecGen2s g[4] = {
--        { .fno = gen_helper_gvec_verll8, },
--        { .fno = gen_helper_gvec_verll16, },
--        { .fni4 = gen_rll_i32, },
--        { .fni8 = gen_rll_i64, },
--    };
--
--    if (es > ES_64) {
--        gen_program_exception(s, PGM_SPECIFICATION);
--        return DISAS_NORETURN;
--    }
--    gen_gvec_2s(get_field(s, v1), get_field(s, v3), o->addr1,
--                &g[es]);
--    return DISAS_NEXT;
--}
--
- static void gen_rim_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b, int32_t c)
- {
-     TCGv_i32 t = tcg_temp_new_i32();
-@@ -1946,6 +1889,9 @@ static DisasJumpType op_vesv(DisasContext *s, DisasOps *o)
-     case 0x70:
-         gen_gvec_fn_3(shlv, es, v1, v2, v3);
-         break;
-+    case 0x73:
-+        gen_gvec_fn_3(rotlv, es, v1, v2, v3);
-+        break;
-     case 0x7a:
-         gen_gvec_fn_3(sarv, es, v1, v2, v3);
-         break;
-@@ -1977,6 +1923,9 @@ static DisasJumpType op_ves(DisasContext *s, DisasOps *o)
-         case 0x30:
-             gen_gvec_fn_2i(shli, es, v1, v3, d2);
-             break;
-+        case 0x33:
-+            gen_gvec_fn_2i(rotli, es, v1, v3, d2);
-+            break;
-         case 0x3a:
-             gen_gvec_fn_2i(sari, es, v1, v3, d2);
-             break;
-@@ -1994,6 +1943,9 @@ static DisasJumpType op_ves(DisasContext *s, DisasOps *o)
-         case 0x30:
-             gen_gvec_fn_2s(shls, es, v1, v3, shift);
-             break;
-+        case 0x33:
-+            gen_gvec_fn_2s(rotls, es, v1, v3, shift);
-+            break;
-         case 0x3a:
-             gen_gvec_fn_2s(sars, es, v1, v3, shift);
-             break;
-diff --git a/target/s390x/vec_int_helper.c b/target/s390x/vec_int_helper.c
-index 0d6bc13dd6..5561b3ed90 100644
---- a/target/s390x/vec_int_helper.c
-+++ b/target/s390x/vec_int_helper.c
-@@ -515,37 +515,6 @@ void HELPER(gvec_vpopct##BITS)(void *v1, const void *v2, uint32_t desc)        \
- DEF_VPOPCT(8)
- DEF_VPOPCT(16)
- 
--#define DEF_VERLLV(BITS)                                                       \
--void HELPER(gvec_verllv##BITS)(void *v1, const void *v2, const void *v3,       \
--                               uint32_t desc)                                  \
--{                                                                              \
--    int i;                                                                     \
--                                                                               \
--    for (i = 0; i < (128 / BITS); i++) {                                       \
--        const uint##BITS##_t a = s390_vec_read_element##BITS(v2, i);           \
--        const uint##BITS##_t b = s390_vec_read_element##BITS(v3, i);           \
--                                                                               \
--        s390_vec_write_element##BITS(v1, i, rol##BITS(a, b));                  \
--    }                                                                          \
--}
--DEF_VERLLV(8)
--DEF_VERLLV(16)
--
--#define DEF_VERLL(BITS)                                                        \
--void HELPER(gvec_verll##BITS)(void *v1, const void *v2, uint64_t count,        \
--                              uint32_t desc)                                   \
--{                                                                              \
--    int i;                                                                     \
--                                                                               \
--    for (i = 0; i < (128 / BITS); i++) {                                       \
--        const uint##BITS##_t a = s390_vec_read_element##BITS(v2, i);           \
--                                                                               \
--        s390_vec_write_element##BITS(v1, i, rol##BITS(a, count));              \
--    }                                                                          \
--}
--DEF_VERLL(8)
--DEF_VERLL(16)
--
- #define DEF_VERIM(BITS)                                                        \
- void HELPER(gvec_verim##BITS)(void *v1, const void *v2, const void *v3,        \
-                               uint32_t desc)                                   \
-diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
-index 2bc77f0871..91ddaedd84 100644
---- a/target/s390x/insn-data.def
-+++ b/target/s390x/insn-data.def
-@@ -1147,8 +1147,8 @@
- /* VECTOR POPULATION COUNT */
-     F(0xe750, VPOPCT,  VRR_a, V,   0, 0, 0, 0, vpopct, 0, IF_VEC)
- /* VECTOR ELEMENT ROTATE LEFT LOGICAL */
--    F(0xe773, VERLLV,  VRR_c, V,   0, 0, 0, 0, verllv, 0, IF_VEC)
--    F(0xe733, VERLL,   VRS_a, V,   la2, 0, 0, 0, verll, 0, IF_VEC)
-+    F(0xe773, VERLLV,  VRR_c, V,   0, 0, 0, 0, vesv, 0, IF_VEC)
-+    F(0xe733, VERLL,   VRS_a, V,   la2, 0, 0, 0, ves, 0, IF_VEC)
- /* VECTOR ELEMENT ROTATE AND INSERT UNDER MASK */
-     F(0xe772, VERIM,   VRI_d, V,   0, 0, 0, 0, verim, 0, IF_VEC)
- /* VECTOR ELEMENT SHIFT LEFT */
--- 
-2.20.1
+Will this be 5.0, or 5.1?
 
+Regards,
+Bin
 
