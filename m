@@ -2,74 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AE791B487B
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 17:22:27 +0200 (CEST)
-Received: from localhost ([::1]:52600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A008E1B4889
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 17:25:40 +0200 (CEST)
+Received: from localhost ([::1]:52708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRHCj-00021I-Hh
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 11:22:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34202)
+	id 1jRHFr-00073q-Mw
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 11:25:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34922)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRH9y-0000C7-I8
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 11:19:35 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jRHC2-0002fZ-Oq
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 11:21:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRH9x-0005IM-8p
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 11:19:33 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51915
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1jRHC1-0002yM-Ps
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 11:21:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31704
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jRH9w-0005Cj-Op
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 11:19:32 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jRHC1-0002u6-Ak
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 11:21:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587568770;
+ s=mimecast20190719; t=1587568900;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qx4pw8kBq4tb2J8PGZGMaM3Bf18uCecJJoWmN0tqpt8=;
- b=DT4lZSKDWoSJBQcHObgwsV7aCGBwhzzOVPCHnM8VmpZYC+W4P1FybACBqFJ1wDaS4JE2qG
- oWR3AIwtBcHMDQvtP7GzLfMkMJ1ZDe/TqoZ5NuXi/+ILzDVC1eeiGLG1a7JpmjiBqB4c7e
- oUtKOMEsDHC38ll6g6RQlefEIyGy5ks=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=3A2dCr8u16UNODUaHAbJKXzQdF/k0I/8RbGkL4OBkYE=;
+ b=YA2saP7njb2LIAGt7ty14sV4Zs2grtzUK/Wa95Mn1zgoOnctFyLSQ+Fh/AIeudmjFN1pqC
+ VjB/uoRu06hM/go5coBOSQQ6useFf1HnulbdqCzzEwesxthpe6oFCSmSI2stWHQvsj0MRI
+ wLA5g+CAEL3JoBECYnK8vx6QKkYpXV8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-QfQ3MqMWMGSCdjYpyqK9zg-1; Wed, 22 Apr 2020 11:19:23 -0400
-X-MC-Unique: QfQ3MqMWMGSCdjYpyqK9zg-1
+ us-mta-278-z1h1XdjBMqWGqSTV96kHXQ-1; Wed, 22 Apr 2020 11:21:38 -0400
+X-MC-Unique: z1h1XdjBMqWGqSTV96kHXQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74D4114E3
- for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 15:19:22 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 42E52600D2;
- Wed, 22 Apr 2020 15:19:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AF45F11358BC; Wed, 22 Apr 2020 17:19:20 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 12/14] tests/test-logging: Fix test for -dfilter
- 0..0xffffffffffffffff
-References: <20200422130719.28225-1-armbru@redhat.com>
- <20200422130719.28225-13-armbru@redhat.com>
- <8b72369a-482c-a32f-648d-050c22dadf2e@redhat.com>
-Date: Wed, 22 Apr 2020 17:19:20 +0200
-In-Reply-To: <8b72369a-482c-a32f-648d-050c22dadf2e@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Wed, 22 Apr 2020 15:35:06
- +0200")
-Message-ID: <87v9lrv98n.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B8E3107ACCC;
+ Wed, 22 Apr 2020 15:21:37 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-114-212.ams2.redhat.com
+ [10.36.114.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 84285600D2;
+ Wed, 22 Apr 2020 15:21:35 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v5 0/9] block: Fix resize (extending) of short overlays
+Date: Wed, 22 Apr 2020 17:21:20 +0200
+Message-Id: <20200422152129.167074-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 02:12:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 04:15:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,47 +71,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+v5:
+- Fixed file-win32 [Patchew]
+- Fixed zeroing in qcow2 for unaligned requests + tests [Vladimir]
+- Made raw-format code more consistent [Eric]
+- Leave output for existing iotests cases unchanged [Vladimir]
 
-> Hi Markus,
->
-> On 4/22/20 3:07 PM, Markus Armbruster wrote:
->> Fixes: 58e19e6e7914354242a67442d0006f9e31684d1a
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>   tests/test-logging.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/tests/test-logging.c b/tests/test-logging.c
->> index 6387e4933f..8580b82420 100644
->> --- a/tests/test-logging.c
->> +++ b/tests/test-logging.c
->> @@ -73,10 +73,10 @@ static void test_parse_range(void)
->>       g_assert(qemu_log_in_addr_range(UINT64_MAX));
->>       g_assert_false(qemu_log_in_addr_range(UINT64_MAX - 1));
->>   -    qemu_set_dfilter_ranges("0..0xffffffffffffffff", &err);
->> +    qemu_set_dfilter_ranges("0..0xffffffffffffffff", &error_abort);
->
-> Why sometime use this form, ...
->
->>       g_assert(qemu_log_in_addr_range(0));
->>       g_assert(qemu_log_in_addr_range(UINT64_MAX));
->> -
->> +
->>       qemu_set_dfilter_ranges("2..1", &err);
->>       error_free_or_abort(&err);
->
-> ... and then this other form?
+v4:
+- Rewrote the series to move the actual zeroing to the block drivers so
+  that error paths can work correctly and potentially long-running
+  fallback to writing explicit zeroes is avoided.
+- Fixed output filtering order in the test case [Max]
 
-The first form crashes when the function sets an error.
+v3:
+- Don't allow blocking the monitor for a zero write in block_resize
+  (even though we can already blockfor other reasons there). This is
+  mainly responsible for the increased complexity compared to v2.
+  Personally, I think this is not an improvement over v2, but if this is
+  what it takes to fix a corruption issue in 4.2... [Max]
+- Don't use huge image files in the test case [Vladimir]
 
-The second from crashes when the function doesn't set an error, or else
-frees the error.
+v2:
+- Switched order of bs->total_sectors update and zero write [Vladimir]
+- Fixed coding style [Vladimir]
+- Changed the commit message to contain what was in the cover letter
+- Test all preallocation modes
+- Test allocation status with qemu-io 'map' [Vladimir]
 
-All clear?
+Kevin Wolf (9):
+  block: Add flags to BlockDriver.bdrv_co_truncate()
+  block: Add flags to bdrv(_co)_truncate()
+  block-backend: Add flags to blk_truncate()
+  qcow2: Support BDRV_REQ_ZERO_WRITE for truncate
+  raw-format: Support BDRV_REQ_ZERO_WRITE for truncate
+  file-posix: Support BDRV_REQ_ZERO_WRITE for truncate
+  block: truncate: Don't make backing file data visible
+  iotests: Filter testfiles out in filter_img_info()
+  iotests: Test committing to short backing file
+
+ include/block/block.h          |   5 +-
+ include/block/block_int.h      |  10 +-
+ include/sysemu/block-backend.h |   2 +-
+ block.c                        |   3 +-
+ block/block-backend.c          |   4 +-
+ block/commit.c                 |   4 +-
+ block/crypto.c                 |   7 +-
+ block/file-posix.c             |   6 +-
+ block/file-win32.c             |   2 +-
+ block/gluster.c                |   1 +
+ block/io.c                     |  32 +++-
+ block/iscsi.c                  |   2 +-
+ block/mirror.c                 |   2 +-
+ block/nfs.c                    |   3 +-
+ block/parallels.c              |   6 +-
+ block/qcow.c                   |   4 +-
+ block/qcow2-refcount.c         |   2 +-
+ block/qcow2.c                  |  51 +++++--
+ block/qed.c                    |   3 +-
+ block/raw-format.c             |   6 +-
+ block/rbd.c                    |   1 +
+ block/sheepdog.c               |   4 +-
+ block/ssh.c                    |   2 +-
+ block/vdi.c                    |   2 +-
+ block/vhdx-log.c               |   2 +-
+ block/vhdx.c                   |   6 +-
+ block/vmdk.c                   |   8 +-
+ block/vpc.c                    |   2 +-
+ blockdev.c                     |   2 +-
+ qemu-img.c                     |   2 +-
+ qemu-io-cmds.c                 |   2 +-
+ tests/test-block-iothread.c    |   9 +-
+ tests/qemu-iotests/iotests.py  |   5 +-
+ tests/qemu-iotests/274         | 157 ++++++++++++++++++++
+ tests/qemu-iotests/274.out     | 260 +++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/group       |   1 +
+ 36 files changed, 558 insertions(+), 62 deletions(-)
+ create mode 100755 tests/qemu-iotests/274
+ create mode 100644 tests/qemu-iotests/274.out
+
+--=20
+2.25.3
 
 
