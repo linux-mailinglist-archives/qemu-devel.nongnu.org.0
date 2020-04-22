@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7DA71B4607
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 15:14:02 +0200 (CEST)
-Received: from localhost ([::1]:50348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A9DF1B4627
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 15:23:07 +0200 (CEST)
+Received: from localhost ([::1]:50480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRFCT-0005Be-Rh
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 09:14:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47204)
+	id 1jRFLG-0007MQ-Bv
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 09:23:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47096)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRF6Q-00047H-Mi
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:07:47 -0400
+ (envelope-from <maxim.uvarov@linaro.org>) id 1jRF6L-00043N-2P
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:07:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRF6A-0003x1-JB
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:07:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52203
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jRF6A-0003uF-3E
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:07:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587560849;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=P4KVJJRj1MDcAz5rSwyrh0wdoPM26+UDuMR2Ulp1pEs=;
- b=Cv0xr3a8gV90hJ4XnMLCyO/nJro2nLYi5/gWoS9S8bjgA9qcYyGqApqoZT6Zn+C5DEv5zj
- NwoIJOrB+DUNstTESOPwVx4jpdNzeMaXUjN3WoZElfKAYhc1mIuXl/f5KUnliooXeMs59z
- uIniAQLSU/Vso76L8cuokDL4K8U+920=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-358-eCgbFUccPFeyGtEDeGnZIA-1; Wed, 22 Apr 2020 09:07:25 -0400
-X-MC-Unique: eCgbFUccPFeyGtEDeGnZIA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCE7DA0CBF;
- Wed, 22 Apr 2020 13:07:24 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8AF3160C87;
- Wed, 22 Apr 2020 13:07:24 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3DFA011358CB; Wed, 22 Apr 2020 15:07:20 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
+ (envelope-from <maxim.uvarov@linaro.org>) id 1jRF6I-0004Jz-SD
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:07:40 -0400
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:39016)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
+ id 1jRF6I-0004DA-9w
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:07:38 -0400
+Received: by mail-lj1-x244.google.com with SMTP id u6so2189797ljl.6
+ for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 06:07:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=gPyv6GKjQYuumQwDy0Zbk4FJLRJiznTbr7kAayBXHTQ=;
+ b=qju0864vBOrjbCqF0MyqJopoPEZNqy91x32J0DkdohwDOKJXIdpLBGCWwDI22fzrgu
+ d88z2REHE9wp6khs0HiSZKBtXANqWyUu2Hs9psbDd8k4ZxGKy8zQTeX/YzjSZLAJzYee
+ EZ0yaD/eZBq885Zo0Vja6EMqiemoCHZH9adtz+CnTB0K47hNGpreAf0TjhHOfGE06YLr
+ JGpRLbVHjBKAOu6HH28kwSkJO9jF7kDGaQWoZpxFPCws7qIUZHlQb8Imz1yGFuSrDeYf
+ YUf7JXBpYmbUtd+rQKe/sHadpVSfa3fBfaFcAyA0BWpjJCo6puVrjItAVwaXiXl703Gn
+ egTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=gPyv6GKjQYuumQwDy0Zbk4FJLRJiznTbr7kAayBXHTQ=;
+ b=kYgywx8kywtfqmYOHknAWkyKA8VuOUlBVD/G90daI4blKLVkUL9ZWt4KqwJWK7cWRl
+ fJmPuCzdcCb5xiL/R6uhgjUZMdI0zFHO3c3HlgKboypRDBtmH5Kd2iO/bYv9omn3Rr+Z
+ fgwHv8+KSxPAWxsDydXLU0z73/8vJyFoXjTGuQHAlFWnRf9d+tsE1yuyEKg7IkLby93U
+ uh7HP+OGWNLfrPxBYVx2y6oO+kAkWwqtTAzpHwZabQxJ3pEsL7b7p+AVyYqHpsmMsOxi
+ KflOrLYcUSSVhJ/HWhjo1N0tOQCn8TL0mWsFE2MtFJuhMOmBuAOq/dMFN7ZtPIBNfuv9
+ bAWg==
+X-Gm-Message-State: AGi0Pub1Mfq3PTje0dMkCpbq7+pjEAU5PfWr203wnl3nMWEoXl/s4PJN
+ grcZtKrRC7pUt0sui7t1Y2s51vZBpDI=
+X-Google-Smtp-Source: APiQypK8Y4bXQF6wduqwu8CS22KV11OqNPG07Wt4Fy6sSaVOazvmQHeBV7wQOT8Jrlxb+eqt274rQw==
+X-Received: by 2002:a2e:9048:: with SMTP id n8mr5298695ljg.122.1587560854725; 
+ Wed, 22 Apr 2020 06:07:34 -0700 (PDT)
+Received: from localhost.localdomain ([176.59.41.106])
+ by smtp.gmail.com with ESMTPSA id u13sm4516564lji.27.2020.04.22.06.07.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Apr 2020 06:07:34 -0700 (PDT)
+From: Maxim Uvarov <maxim.uvarov@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/14] qga: Fix qmp_guest_suspend_{disk,
- ram}() error handling
-Date: Wed, 22 Apr 2020 15:07:19 +0200
-Message-Id: <20200422130719.28225-15-armbru@redhat.com>
-In-Reply-To: <20200422130719.28225-1-armbru@redhat.com>
-References: <20200422130719.28225-1-armbru@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 04:15:03
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Subject: [PATCHv2] add optee dts entry for secure machine
+Date: Wed, 22 Apr 2020 16:07:24 +0300
+Message-Id: <20200422130724.3581-1-maxim.uvarov@linaro.org>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::244;
+ envelope-from=maxim.uvarov@linaro.org; helo=mail-lj1-x244.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,67 +74,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Maxim Uvarov <maxim.uvarov@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Error ** argument must be NULL, &error_abort, &error_fatal, or a
-pointer to a variable containing NULL.  Passing an argument of the
-latter kind twice without clearing it in between is wrong: if the
-first call sets an error, it no longer points to NULL for the second
+Add optee compatible string for dtb to force linux
+to boot optee module.
 
-qmp_guest_suspend_disk() and qmp_guest_suspend_ram() pass @local_err
-first to check_suspend_mode(), then to acquire_privilege(), then to
-execute_async().  Continuing after errors here can only end in tears.
-For instance, we risk tripping error_setv()'s assertion.
-
-Fixes: aa59637ea1c6a4c83430933f9c44c43e6c3f1b69
-Fixes: f54603b6aa765514b2519e74114a2f417759d727
-Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
 ---
- qga/commands-win32.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ v2: added method.
+ hw/arm/virt.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index 9717a8d52d..5ba56327dd 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -1322,9 +1322,16 @@ void qmp_guest_suspend_disk(Error **errp)
-=20
-     *mode =3D GUEST_SUSPEND_MODE_DISK;
-     check_suspend_mode(*mode, &local_err);
-+    if (local_err) {
-+        goto out;
-+    }
-     acquire_privilege(SE_SHUTDOWN_NAME, &local_err);
-+    if (local_err) {
-+        goto out;
-+    }
-     execute_async(do_suspend, mode, &local_err);
-=20
-+out:
-     if (local_err) {
-         error_propagate(errp, local_err);
-         g_free(mode);
-@@ -1338,9 +1345,16 @@ void qmp_guest_suspend_ram(Error **errp)
-=20
-     *mode =3D GUEST_SUSPEND_MODE_RAM;
-     check_suspend_mode(*mode, &local_err);
-+    if (local_err) {
-+        goto out;
-+    }
-     acquire_privilege(SE_SHUTDOWN_NAME, &local_err);
-+    if (local_err) {
-+        goto out;
-+    }
-     execute_async(do_suspend, mode, &local_err);
-=20
-+out:
-     if (local_err) {
-         error_propagate(errp, local_err);
-         g_free(mode);
---=20
-2.21.1
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 656b008..c937a82 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1335,6 +1335,23 @@ static void create_platform_bus(VirtMachineState *vms)
+                                 sysbus_mmio_get_region(s, 0));
+ }
+ 
++static void create_secure_tee(VirtMachineState *vms)
++{
++    char *firmware;
++    char *optee;
++
++    firmware = g_strdup_printf("/firmware");
++    qemu_fdt_add_subnode(vms->fdt, firmware);
++
++    optee = g_strdup_printf("/firmware/optee");
++    qemu_fdt_add_subnode(vms->fdt, optee);
++    qemu_fdt_setprop_string(vms->fdt, optee, "compatible", "linaro,optee-tz");
++    qemu_fdt_setprop_string(vms->fdt, optee, "method", "smc");
++
++    g_free(optee);
++    g_free(firmware);
++}
++
+ static void create_secure_ram(VirtMachineState *vms,
+                               MemoryRegion *secure_sysmem)
+ {
+@@ -1720,6 +1737,7 @@ static void machvirt_init(MachineState *machine)
+     if (vms->secure) {
+         create_secure_ram(vms, secure_sysmem);
+         create_uart(vms, VIRT_SECURE_UART, secure_sysmem, serial_hd(1));
++        create_secure_tee(vms);
+     }
+ 
+     vms->highmem_ecam &= vms->highmem && (!firmware_loaded || aarch64);
+-- 
+2.17.1
 
 
