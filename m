@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E99F1B3563
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 05:08:03 +0200 (CEST)
-Received: from localhost ([::1]:40166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C7511B3522
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 04:47:38 +0200 (CEST)
+Received: from localhost ([::1]:40036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jR5k1-0005UV-Vx
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 23:08:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43340)
+	id 1jR5QH-00006a-79
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 22:47:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35794)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liuzwnan@163.com>) id 1jR5jA-00054X-5e
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 23:07:09 -0400
+ (envelope-from <wei.w.wang@intel.com>) id 1jR5OI-0007mh-M0
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 22:45:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <liuzwnan@163.com>) id 1jR5iw-000499-Tt
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 23:07:07 -0400
-Received: from m12-15.163.com ([220.181.12.15]:43157)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <liuzwnan@163.com>)
- id 1jR5ir-0002Ph-6O; Tue, 21 Apr 2020 23:06:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Subject:From:Message-ID:Date:MIME-Version; bh=2oxoH
- tq9PZYqYLwQaOi1NQyPrMBVH6kT96nkKq5jzvE=; b=TQU2jwV784bJ7CsJZgmUT
- u/k/4NdBa5BrHXZLTY7dLgtTXgKe+kDoLVm/YGpZnvnwdpk5wpvfM81ZJHlcx8rU
- eMowyD2eGDNLlnE7jo1PBltMwhhX7ltPlFWeUH5KP6d9YCnA9jILaOlDlOzIGs4F
- Rt97TQNiQsSe9I6NEPWdKs=
-Received: from [30.225.208.25] (unknown [42.120.72.89])
- by smtp11 (Coremail) with SMTP id D8CowABXXBgZsZ9eYGIhEQ--.22S2;
- Wed, 22 Apr 2020 10:51:13 +0800 (CST)
-Subject: Re: [PATCH for-5.1 00/31] target/arm: SVE2, part 1
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200326230838.31112-1-richard.henderson@linaro.org>
-From: LIU Zhiwei <liuzwnan@163.com>
-Message-ID: <eb7eea48-ecb8-f64d-83cd-66463a61d5a6@163.com>
-Date: Wed, 22 Apr 2020 10:51:05 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (envelope-from <wei.w.wang@intel.com>) id 1jR5OF-0002ZX-5i
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 22:45:31 -0400
+Received: from mga17.intel.com ([192.55.52.151]:7912)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1jR5OC-0007kS-AV
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 22:45:30 -0400
+IronPort-SDR: 3qeiQc+PRVCWb2kMUQpdVp1lCwyEFqILBXjjWFZEJc8cf6GfF7r970Z4OtmUyWLU8MEN6jYiGW
+ BZHHF25PMtEA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2020 19:45:16 -0700
+IronPort-SDR: z1hnA+FJhYl0ZXneM9TZ9IcpZPu5qG73NhPQriM2zrVqt9h+KN3buTByCOe6FVwTuuPQ/8VqkH
+ E0c4g3ramFWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,412,1580803200"; d="scan'208";a="244367199"
+Received: from unknown (HELO [10.239.13.113]) ([10.239.13.113])
+ by orsmga007.jf.intel.com with ESMTP; 21 Apr 2020 19:45:13 -0700
+Message-ID: <5E9FB148.3060906@intel.com>
+Date: Wed, 22 Apr 2020 10:51:52 +0800
+From: Wei Wang <wei.w.wang@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+ rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200326230838.31112-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: D8CowABXXBgZsZ9eYGIhEQ--.22S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxGF1ftw43uF1xWrW5Gr1Dtrb_yoWrZFW8pF
- W5KFZxKr4Utay3WasayF1UXwn8Xw18KryUCw1xtw1fXw13tryDXr1Dta4SgFyUKFy7uF47
- JF1IyF15uw45XrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jR38nUUUUU=
-X-Originating-IP: [42.120.72.89]
-X-CM-SenderInfo: xolx64xqdqqiywtou0bp/1tbiRAIOElSIfSuM5AAAs4
-Received-SPF: pass client-ip=220.181.12.15; envelope-from=liuzwnan@163.com;
- helo=m12-15.163.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 22:51:17
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Received-From: 220.181.12.15
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v1 1/2] migration/xbzrle: replace transferred xbzrle bytes
+ with encoded bytes
+References: <1587352003-3312-1-git-send-email-wei.w.wang@intel.com>
+ <1587352003-3312-2-git-send-email-wei.w.wang@intel.com>
+ <20200421192106.GM3029@work-vm>
+In-Reply-To: <20200421192106.GM3029@work-vm>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=wei.w.wang@intel.com;
+ helo=mga17.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/21 22:45:16
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Received-From: 192.55.52.151
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,107 +65,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: rajav@quicinc.com, qemu-arm@nongnu.org, apazos@quicinc.com
+Cc: kevin.tian@intel.com, quintela@redhat.com, qemu-devel@nongnu.org,
+ peterx@redhat.com, gloryxiao@tencent.com, yi.y.sun@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+On 04/22/2020 03:21 AM, Dr. David Alan Gilbert wrote:
+> * Wei Wang (wei.w.wang@intel.com) wrote:
+>> Like compressed_size which indicates how many bytes are compressed, we
+>> need encoded_size to understand how many bytes are encoded with xbzrle
+>> during migration.
+>>
+>> Replace the old xbzrle_counter.bytes, instead of adding a new counter,
+>> because we don't find a usage of xbzrle_counter.bytes currently, which
+>> includes 3 more bytes of the migration transfer protocol header (in
+>> addition to the encoding header). The encoded_size will further be used
+>> to calculate the encoding rate.
+>>
+>> Signed-off-by: Yi Sun <yi.y.sun@intel.com>
+>> Signed-off-by: Wei Wang <wei.w.wang@intel.com>
+> Can you explain why these 3 bytes matter?  Certainly the 2 bytes of the
+> encoded_len are an overhead that's a cost of using XBZRLE; so if you're
+> trying to figure out whether xbzrle is worth it, then you should include
+> those 2 bytes in the cost.
+> That other byte, that holds ENCODING_FLAG_XBZRLE also seems to be pure
+> oerhead of XBZRLE; so your cost of using XBZRLE really does include
+> those 3 bytes.
+>
+> SO to me it makes sense to include the 3 bytes as it currently does.
+>
+> Dave
 
-I find BF16 is included in the ISA.  Will you extend  the softfpu in 
-this patch set?
+Thanks Dave for sharing your thoughts.
 
-Zhiwei
+We hope to do a fair comparison of compression rate and xbzrle encoding 
+rate.
+The current compression_rate doesn't include the migration flag overhead 
+(please see
+update_compress thread_counts() ). So for xbzrle encoding rate, we 
+wanted it not include the migration
+protocol flags as well (but the 2 bytes xbzrle encoding overhead is kept 
+there, as the compression rate
+includes the compression header overhead).
 
-On 2020/3/27 7:08, Richard Henderson wrote:
-> Posting this for early review.  It's based on some other patch
-> sets that I have posted recently that also touch SVE, listed
-> below.  But it might just be easier to clone the devel tree [2].
-> While the branch itself will rebase frequently for development,
-> I've also created a tag, post-sve2-20200326, for this posting.
->
-> This is mostly untested, as the most recently released Foundation
-> Model does not support SVE2.  Some of the new instructions overlap
-> with old fashioned NEON, and I can verify that those have not
-> broken, and show that SVE2 will use the same code path.  But the
-> predicated insns and bottom/top interleaved insns are not yet
-> RISU testable, as I have nothing to compare against.
->
-> The patches are in general arranged so that one complete group
-> of insns are added at once.  The groups within the manual [1]
-> have so far been small-ish.
->
->
-> r~
->
-> ---
->
-> [1] ISA manual: https://static.docs.arm.com/ddi0602/d/ISA_A64_xml_futureA-2019-12_OPT.pdf
->
-> [2] Devel tree: https://github.com/rth7680/qemu/tree/tgt-arm-sve-2
->
-> Based-on: http://patchwork.ozlabs.org/project/qemu-devel/list/?series=163610
-> ("target/arm: sve load/store improvements")
->
-> Based-on: http://patchwork.ozlabs.org/project/qemu-devel/list/?series=164500
-> ("target/arm: Use tcg_gen_gvec_5_ptr for sve FMLA/FCMLA")
->
-> Based-on: http://patchwork.ozlabs.org/project/qemu-devel/list/?series=164048
-> ("target/arm: Implement ARMv8.5-MemTag, system mode")
->
-> Richard Henderson (31):
->    target/arm: Add ID_AA64ZFR0 fields and isar_feature_aa64_sve2
->    target/arm: Implement SVE2 Integer Multiply - Unpredicated
->    target/arm: Implement SVE2 integer pairwise add and accumulate long
->    target/arm: Remove fp_status from helper_{recpe,rsqrte}_u32
->    target/arm: Implement SVE2 integer unary operations (predicated)
->    target/arm: Split out saturating/rounding shifts from neon
->    target/arm: Implement SVE2 saturating/rounding bitwise shift left
->      (predicated)
->    target/arm: Implement SVE2 integer halving add/subtract (predicated)
->    target/arm: Implement SVE2 integer pairwise arithmetic
->    target/arm: Implement SVE2 saturating add/subtract (predicated)
->    target/arm: Implement SVE2 integer add/subtract long
->    target/arm: Implement SVE2 integer add/subtract interleaved long
->    target/arm: Implement SVE2 integer add/subtract wide
->    target/arm: Implement SVE2 integer multiply long
->    target/arm: Implement PMULLB and PMULLT
->    target/arm: Tidy SVE tszimm shift formats
->    target/arm: Implement SVE2 bitwise shift left long
->    target/arm: Implement SVE2 bitwise exclusive-or interleaved
->    target/arm: Implement SVE2 bitwise permute
->    target/arm: Implement SVE2 complex integer add
->    target/arm: Implement SVE2 integer absolute difference and accumulate
->      long
->    target/arm: Implement SVE2 integer add/subtract long with carry
->    target/arm: Create arm_gen_gvec_[us]sra
->    target/arm: Create arm_gen_gvec_{u,s}{rshr,rsra}
->    target/arm: Implement SVE2 bitwise shift right and accumulate
->    target/arm: Create arm_gen_gvec_{sri,sli}
->    target/arm: Tidy handle_vec_simd_shri
->    target/arm: Implement SVE2 bitwise shift and insert
->    target/arm: Vectorize SABD/UABD
->    target/arm: Vectorize SABA/UABA
->    target/arm: Implement SVE2 integer absolute difference and accumulate
->
->   target/arm/cpu.h           |  31 ++
->   target/arm/helper-sve.h    | 345 +++++++++++++++++
->   target/arm/helper.h        |  81 +++-
->   target/arm/translate-a64.h |   9 +
->   target/arm/translate.h     |  24 +-
->   target/arm/vec_internal.h  | 161 ++++++++
->   target/arm/sve.decode      | 217 ++++++++++-
->   target/arm/helper.c        |   3 +-
->   target/arm/kvm64.c         |   2 +
->   target/arm/neon_helper.c   | 515 ++++---------------------
->   target/arm/sve_helper.c    | 757 ++++++++++++++++++++++++++++++++++---
->   target/arm/translate-a64.c | 557 +++++++++++++++++++++++----
->   target/arm/translate-sve.c | 557 +++++++++++++++++++++++++++
->   target/arm/translate.c     | 626 ++++++++++++++++++++++--------
->   target/arm/vec_helper.c    | 411 ++++++++++++++++++++
->   target/arm/vfp_helper.c    |   4 +-
->   16 files changed, 3532 insertions(+), 768 deletions(-)
->   create mode 100644 target/arm/vec_internal.h
->
+Or would you think it is necessary to add the migration flag (8 bytes) 
+for compression
+when calculating the compression rate?
 
-
+Best,
+Wei
 
