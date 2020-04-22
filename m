@@ -2,80 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9330F1B4B45
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 19:05:26 +0200 (CEST)
-Received: from localhost ([::1]:54600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F891B4C33
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 19:53:36 +0200 (CEST)
+Received: from localhost ([::1]:55290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRIoP-0003Nr-4S
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 13:05:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56048)
+	id 1jRJZ1-0003hs-Jy
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 13:53:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35250)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jRIlu-0000wU-KR
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:02:52 -0400
+ (envelope-from <jonathan.derrick@intel.com>) id 1jRJAq-0005Yf-Gw
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:28:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jRIlt-0003Me-Na
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:02:50 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:37587)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jRIlt-0003CK-An
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:02:49 -0400
-Received: by mail-pg1-x544.google.com with SMTP id r4so1400723pgg.4
- for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 10:02:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=V6wCUFgTe+VWscykJK3oZCRRAChfccvJ/WybncX0PoM=;
- b=pWTCahGJ9jAS/mLwdf8fcCU+57Bxxi7ci26YH48WOQ+LhaUVMkA41m5xN7+rtn7pf3
- rtg2Q7l8pypSVHb6NxvCcgUxkElKOz5Jibucld6JC7njqchELrIgHq7ovzTB6jDRsTgd
- xXpPv8BXcJ+LAdWvObLOC0hsi5LMGxeOu52KyQVjRJh7CObPI+wW2XzSSFROG9hTNYop
- N9KF8Lw8pmgOdFY81420HRs5MNgHX20yysa49dNMrgzFzBxz8KOpNmXyq3tcow62kn6e
- b7Z/iOwWbsr91cSoh5yq6xjHv+tjIBJuFJxMUmcDVsuUJDU7ugqV2Q5AxOflzEvHcs5p
- lv2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=V6wCUFgTe+VWscykJK3oZCRRAChfccvJ/WybncX0PoM=;
- b=q/3pEWLxRIHVdE9GZHD3iMpqSLSaORRIIxfM4aYtl0uAGQcWbXA9MDIeGrab3R7fEL
- iGkWnCqKsC5+2414wxtimPplNbY1iGf3IqDt0NT8SwRzU5WAfvBYuxyz9+kH299ecpjm
- O/htLzyaXN+PbB8zrf3tegHN8XFPWuN/a+8C3KG548XRzzNvRu3WILil/4N0xg27SFT1
- SoP1zj4N+xI4AnHdB8sZc9p93eAp75Prp5PVKZBKp+ikF7UM+k/PfqwvV6+s0eoSsmQy
- ck+DkuTNcv4RTX5YYPbdCrbGRINyGTDYdUjvcA6MkYlS/7tU8P2/9lDnef0PRZJBZuu9
- efWw==
-X-Gm-Message-State: AGi0PuZXmw4CHjUzI0Jobv/w2YbX/G6ASEsSmXIxTY2Kwu87BmYd3GHi
- MtGTymgmDnhCB9aOEVv8E2DkuY4MHk0=
-X-Google-Smtp-Source: APiQypJwftw5amSqAPuVAc/GlMWlS20YIrvH/xIsbCQP6tPWcg4THJt9VGIya66CuYCu6RwYPEMudQ==
-X-Received: by 2002:a63:1c50:: with SMTP id c16mr27044651pgm.255.1587574963008; 
- Wed, 22 Apr 2020 10:02:43 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id p2sm4898905pgh.25.2020.04.22.10.02.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Apr 2020 10:02:42 -0700 (PDT)
-Subject: Re: [PATCH v2 13/36] tcg: Use tcg_constant_{i32,i64} with tcg int
- expanders
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20200422011722.13287-1-richard.henderson@linaro.org>
- <20200422011722.13287-14-richard.henderson@linaro.org>
- <87k127cx3l.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b0e95ae2-657d-8d74-686d-17375c090e02@linaro.org>
-Date: Wed, 22 Apr 2020 10:02:40 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <87k127cx3l.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::544
+ (envelope-from <jonathan.derrick@intel.com>) id 1jRJAl-0001QY-Vs
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:28:35 -0400
+Received: from mga17.intel.com ([192.55.52.151]:13773)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.derrick@intel.com>)
+ id 1jRJAk-00019H-Al
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:28:30 -0400
+IronPort-SDR: 7PYZ3FmQ+BCrZCy/EGl1EHRclOCleZ4EmRpksIRzscNyeR1OxLABwJdTK9D73FfDONT2fwE+DP
+ 23qS7GZnl+ng==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2020 10:28:18 -0700
+IronPort-SDR: HxdrDDUmCxodUNlCPZE1se1ZGE6slvBsrzZL0UvifA4nUA8lKBkKc7fz5sYeIhg0653ocxP4FY
+ fXu9PD0aT3fw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,304,1583222400"; d="scan'208";a="429999410"
+Received: from unknown (HELO localhost.lm.intel.com) ([10.232.116.40])
+ by orsmga005.jf.intel.com with ESMTP; 22 Apr 2020 10:28:17 -0700
+From: Jon Derrick <jonathan.derrick@intel.com>
+To: Bjorn Helgaas <helgaas@kernel.org>,
+	qemu-devel@nongnu.org
+Subject: [PATCH for QEMU] hw/vfio: Add VMD Passthrough Quirk
+Date: Wed, 22 Apr 2020 13:13:04 -0400
+Message-Id: <20200422171305.10923-1-jonathan.derrick@intel.com>
+X-Mailer: git-send-email 2.18.1
+Received-SPF: pass client-ip=192.55.52.151;
+ envelope-from=jonathan.derrick@intel.com; helo=mga17.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 13:28:18
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Received-From: 192.55.52.151
+X-Mailman-Approved-At: Wed, 22 Apr 2020 13:49:16 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,37 +58,214 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: linux-pci@vger.kernel.org, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Andrzej Jakowski <andrzej.jakowski@intel.com>,
+ Jon Derrick <jonathan.derrick@intel.com>,
+ virtualization@lists.linux-foundation.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/22/20 9:18 AM, Alex Bennée wrote:
->>  void tcg_gen_brcondi_i64(TCGCond cond, TCGv_i64 arg1, int64_t arg2, TCGLabel *l)
->>  {
->> -    if (cond == TCG_COND_ALWAYS) {
->> +    if (TCG_TARGET_REG_BITS == 64) {
->> +        tcg_gen_brcond_i64(cond, arg1, tcg_constant_i64(arg2), l);
->> +    } else if (cond == TCG_COND_ALWAYS) {
->>          tcg_gen_br(l);
->>      } else if (cond != TCG_COND_NEVER) {
->> -        TCGv_i64 t0 = tcg_const_i64(arg2);
->> -        tcg_gen_brcond_i64(cond, arg1, t0, l);
->> -        tcg_temp_free_i64(t0);
->> +        l->refs++;
-> 
-> Hmm is this a separate fix?
+The VMD endpoint provides a real PCIe domain to the guest, including
+bridges and endpoints. The IOMMU performs Host Physical Address to Guest
+Physical Address translation when assigning downstream endpoint BARs and
+when translating MMIO addresses.
 
-No, it's expanding what tcg_gen_brcond_i64 would do for TCG_TARGET_REG_BITS == 32.
+This translation is not desired when assigning bridge windows. When MMIO
+goes to an endpoint after being translated to HPA, the bridge will
+reject the HPA transaction because the bridge window has been programmed
+with translated GPAs.
 
->> +        tcg_gen_op6ii_i32(INDEX_op_brcond2_i32,
->> +                          TCGV_LOW(arg1), TCGV_HIGH(arg1),
->> +                          tcg_constant_i32(arg2),
->> +                          tcg_constant_i32(arg2 >> 32),
->> +                          cond, label_arg(l));
+VMD device 28C0 natively supports passthrough by providing the Host
+Physical Address in shadow registers accessible to the guest for bridge
+window assignment. The shadow registers are valid if bit 1 is set in VMD
+VMLOCK config register 0x70.
 
-Because we have two separate TCGv_i32, from tcg_constant_i32(), which cannot be
-packaged up with TCGV_HIGH/LOW.
+This quirk emulates the VMLOCK and HPA shadow registers for all VMD
+device ids which don't natively offer this feature. The Linux VMD driver
+is updated to match the QEMU subsystem id to enable this feature.
 
+Signed-off-by: Jon Derrick <jonathan.derrick@intel.com>
+---
+ hw/vfio/pci-quirks.c | 119 +++++++++++++++++++++++++++++++++++++++++++
+ hw/vfio/pci.c        |   7 +++
+ hw/vfio/pci.h        |   2 +
+ hw/vfio/trace-events |   4 ++
+ 4 files changed, 132 insertions(+)
 
-r~
+diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
+index 2d348f8237..2fd27cc8f6 100644
+--- a/hw/vfio/pci-quirks.c
++++ b/hw/vfio/pci-quirks.c
+@@ -1709,3 +1709,122 @@ free_exit:
+ 
+     return ret;
+ }
++
++/*
++ * The VMD endpoint provides a real PCIe domain to the guest. The IOMMU
++ * performs Host Physical Address to Guest Physical Address translation when
++ * assigning downstream endpoint BARs and when translating MMIO addresses.
++ * However this translation is not desired when assigning bridge windows. When
++ * MMIO goes to an endpoint after being translated to HPA, the bridge rejects
++ * the transaction because the window has been programmed with translated GPAs.
++ *
++ * VMD uses the Host Physical Address in order to correctly program the bridge
++ * windows in its PCIe domain. VMD device 28C0 has HPA shadow registers located
++ * at offset 0x2000 in MEMBAR2 (BAR 4). The shadow registers are valid if bit 1
++ * is set in the VMD VMLOCK config register 0x70.
++ *
++ * This quirk emulates the VMLOCK and HPA shadow registers for all VMD device
++ * ids which don't natively offer this feature. The subsystem vendor/device
++ * id is set to the QEMU subsystem vendor/device id, where the driver matches
++ * the id to enable this feature.
++ */
++typedef struct VFIOVMDQuirk {
++    VFIOPCIDevice *vdev;
++    uint64_t membar_phys[2];
++} VFIOVMDQuirk;
++
++static uint64_t vfio_vmd_quirk_read(void *opaque, hwaddr addr, unsigned size)
++{
++    VFIOVMDQuirk *data = opaque;
++    uint64_t val = 0;
++
++    memcpy(&val, (void *)data->membar_phys + addr, size);
++    return val;
++}
++
++static const MemoryRegionOps vfio_vmd_quirk = {
++    .read = vfio_vmd_quirk_read,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++#define VMD_VMLOCK  0x70
++#define VMD_SHADOW  0x2000
++#define VMD_MEMBAR2 4
++
++static int vfio_vmd_emulate_shadow_registers(VFIOPCIDevice *vdev)
++{
++    VFIOQuirk *quirk;
++    VFIOVMDQuirk *data;
++    PCIDevice *pdev = &vdev->pdev;
++    int ret;
++
++    data = g_malloc0(sizeof(*data));
++    ret = pread(vdev->vbasedev.fd, data->membar_phys, 16,
++                vdev->config_offset + PCI_BASE_ADDRESS_2);
++    if (ret != 16) {
++        error_report("VMD %s cannot read MEMBARs (%d)",
++                     vdev->vbasedev.name, ret);
++        g_free(data);
++        return -EFAULT;
++    }
++
++    quirk = vfio_quirk_alloc(1);
++    quirk->data = data;
++    data->vdev = vdev;
++
++    /* Emulate Shadow Registers */
++    memory_region_init_io(quirk->mem, OBJECT(vdev), &vfio_vmd_quirk, data,
++                          "vfio-vmd-quirk", sizeof(data->membar_phys));
++    memory_region_add_subregion_overlap(vdev->bars[VMD_MEMBAR2].region.mem,
++                                        VMD_SHADOW, quirk->mem, 1);
++    memory_region_set_readonly(quirk->mem, true);
++    memory_region_set_enabled(quirk->mem, true);
++
++    QLIST_INSERT_HEAD(&vdev->bars[VMD_MEMBAR2].quirks, quirk, next);
++
++    trace_vfio_pci_vmd_quirk_shadow_regs(vdev->vbasedev.name,
++                                         data->membar_phys[0],
++                                         data->membar_phys[1]);
++
++    /* Advertise Shadow Register support */
++    pci_byte_test_and_set_mask(pdev->config + VMD_VMLOCK, 0x2);
++    pci_set_byte(pdev->wmask + VMD_VMLOCK, 0);
++    pci_set_byte(vdev->emulated_config_bits + VMD_VMLOCK, 0x2);
++
++    trace_vfio_pci_vmd_quirk_vmlock(vdev->vbasedev.name,
++                                    pci_get_byte(pdev->config + VMD_VMLOCK));
++
++    /* Drivers can match the subsystem vendor/device id */
++    pci_set_word(pdev->config + PCI_SUBSYSTEM_VENDOR_ID,
++                 PCI_SUBVENDOR_ID_REDHAT_QUMRANET);
++    pci_set_word(vdev->emulated_config_bits + PCI_SUBSYSTEM_VENDOR_ID, ~0);
++
++    pci_set_word(pdev->config + PCI_SUBSYSTEM_ID, PCI_SUBDEVICE_ID_QEMU);
++    pci_set_word(vdev->emulated_config_bits + PCI_SUBSYSTEM_ID, ~0);
++
++    trace_vfio_pci_vmd_quirk_subsystem(vdev->vbasedev.name,
++                           vdev->sub_vendor_id, vdev->sub_device_id,
++                           pci_get_word(pdev->config + PCI_SUBSYSTEM_VENDOR_ID),
++                           pci_get_word(pdev->config + PCI_SUBSYSTEM_ID));
++
++    return 0;
++}
++
++int vfio_pci_vmd_init(VFIOPCIDevice *vdev)
++{
++    int ret = 0;
++
++    switch (vdev->device_id) {
++    case 0x28C0: /* Native passthrough support */
++        break;
++    /* Emulates Native passthrough support */
++    case 0x201D:
++    case 0x467F:
++    case 0x4C3D:
++    case 0x9A0B:
++        ret = vfio_vmd_emulate_shadow_registers(vdev);
++        break;
++    }
++
++    return ret;
++}
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 5e75a95129..85425a1a6f 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -3024,6 +3024,13 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+         }
+     }
+ 
++    if (vdev->vendor_id == PCI_VENDOR_ID_INTEL) {
++        ret = vfio_pci_vmd_init(vdev);
++        if (ret) {
++            error_report("Failed to setup VMD");
++        }
++    }
++
+     vfio_register_err_notifier(vdev);
+     vfio_register_req_notifier(vdev);
+     vfio_setup_resetfn_quirk(vdev);
+diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+index 0da7a20a7e..e8632d806b 100644
+--- a/hw/vfio/pci.h
++++ b/hw/vfio/pci.h
+@@ -217,6 +217,8 @@ int vfio_pci_igd_opregion_init(VFIOPCIDevice *vdev,
+ int vfio_pci_nvidia_v100_ram_init(VFIOPCIDevice *vdev, Error **errp);
+ int vfio_pci_nvlink2_init(VFIOPCIDevice *vdev, Error **errp);
+ 
++int vfio_pci_vmd_init(VFIOPCIDevice *vdev);
++
+ void vfio_display_reset(VFIOPCIDevice *vdev);
+ int vfio_display_probe(VFIOPCIDevice *vdev, Error **errp);
+ void vfio_display_finalize(VFIOPCIDevice *vdev);
+diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+index b1ef55a33f..aabbd2693a 100644
+--- a/hw/vfio/trace-events
++++ b/hw/vfio/trace-events
+@@ -90,6 +90,10 @@ vfio_pci_nvidia_gpu_setup_quirk(const char *name, uint64_t tgt, uint64_t size) "
+ vfio_pci_nvlink2_setup_quirk_ssatgt(const char *name, uint64_t tgt, uint64_t size) "%s tgt=0x%"PRIx64" size=0x%"PRIx64
+ vfio_pci_nvlink2_setup_quirk_lnkspd(const char *name, uint32_t link_speed) "%s link_speed=0x%x"
+ 
++vfio_pci_vmd_quirk_shadow_regs(const char *name, uint64_t mb1, uint64_t mb2) "%s membar1_phys=0x%"PRIx64" membar2_phys=0x%"PRIx64"
++vfio_pci_vmd_quirk_vmlock(const char *name, uint8_t vmlock) "%s vmlock=0x%x"
++vfio_pci_vmd_quirk_subsystem(const char *name, uint16_t old_svid, uint16_t old_sdid, uint16_t new_svid, uint16_t new_sdid) "%s subsystem id 0x%04x:0x%04x -> 0x%04x:0x%04x"
++
+ # common.c
+ vfio_region_write(const char *name, int index, uint64_t addr, uint64_t data, unsigned size) " (%s:region%d+0x%"PRIx64", 0x%"PRIx64 ", %d)"
+ vfio_region_read(char *name, int index, uint64_t addr, unsigned size, uint64_t data) " (%s:region%d+0x%"PRIx64", %d) = 0x%"PRIx64
+-- 
+2.18.1
+
 
