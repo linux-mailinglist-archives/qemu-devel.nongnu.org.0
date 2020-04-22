@@ -2,90 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09DF91B49B7
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 18:09:19 +0200 (CEST)
-Received: from localhost ([::1]:53640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 617F91B4A0C
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 18:17:42 +0200 (CEST)
+Received: from localhost ([::1]:53858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRHw5-0006dN-2A
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 12:09:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53104)
+	id 1jRI4C-0006Ia-5c
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 12:17:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57966)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jRHuD-0005Fn-6E
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 12:07:21 -0400
+ (envelope-from <eblake@redhat.com>) id 1jRI1B-0003Ve-CM
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 12:14:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jRHuC-0002X8-8c
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 12:07:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27618
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1jRI1A-0004So-M0
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 12:14:33 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52851
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jRHuB-0002Uf-RL
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 12:07:19 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jRI1A-0004IV-76
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 12:14:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587571638;
+ s=mimecast20190719; t=1587572071;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TS42zkEFD9MPLtoabZdAfk7BbLTxXYVeYdDeJyaw8b4=;
- b=VAzlDUUeWGA/yCmrjzX+8Xi0nGpS6CVrHR7il8ChbdR/ywkitXie7/4YwMgFV3wK46/SbV
- myXrMuhKYIgMbYFlVSwgC40+eH3qYARm+/uG8++NMH0vbDNHyd1r2ZQW3lNntjiMw9dlJx
- oTfcIWodBsGZC84cdzLXzBVO78SQOQ4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-avty3GKSNTWclZOBPNGVvw-1; Wed, 22 Apr 2020 12:07:15 -0400
-X-MC-Unique: avty3GKSNTWclZOBPNGVvw-1
-Received: by mail-wr1-f72.google.com with SMTP id j16so1267048wrw.20
- for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 09:07:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SFyGl6ZxHrzwcX5Pr/G7aRSbIdQMdMe0LW144w9zs04=;
- b=F8hmS60lNESksLA5sAGcSLJCfo7ClSI5Q2hNCazZuUgxaAvbsF6TlKTJwJEtZeHsRg
- 9JKpw/S7YU/984XMch4Qx1kWwBfrwjtK0Pu+ROfkpCPjDANTL6CvbQm9UMis4AfXptsH
- W40B1MDDP2sz4SF+8OU25NGjaXrg6LGsIlTFlCriPI/EloxHqOx5y5bimaHo5Oa+Z/DJ
- f1ANDzevxbfGv7YbrBkcw56bLQejFbwBaQCERp+cVcACdrd3abEQ2S0c93yj5H1FTXH0
- pUimqs8oQFTM2FueWKZw5ujmQ+DNR3nO/7EjeP1fMcCNSJ2z2XyHJYb65kJDveKPQeY8
- MRPw==
-X-Gm-Message-State: AGi0PubJR18EtbSICiDeMsv87NyLNMpzpl8qCSVj8rWR9L4og+NWEvyP
- 2PborzZd1FXEP8XIWKcAIu2Tal9Ezeqbd7zcH9S64awmmfMzNiCbc4DzFGJg2PJsI3cyv9LxLKe
- GU7vOk4pVXX+ILxw=
-X-Received: by 2002:a5d:4cc2:: with SMTP id c2mr13377567wrt.130.1587571633772; 
- Wed, 22 Apr 2020 09:07:13 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLV0fdqcgyl9DbTuqcPzgMvu+4+L1tsYDyCrmThVFbSHQAG1rIOHE+OpVJx7wzBcMMGVihYRQ==
-X-Received: by 2002:a5d:4cc2:: with SMTP id c2mr13377549wrt.130.1587571633549; 
- Wed, 22 Apr 2020 09:07:13 -0700 (PDT)
-Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id f63sm8059837wma.47.2020.04.22.09.07.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Apr 2020 09:07:09 -0700 (PDT)
-Subject: Re: [PATCH v2 14/14] qga: Fix qmp_guest_suspend_{disk, ram}() error
- handling
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200422130719.28225-1-armbru@redhat.com>
- <20200422130719.28225-15-armbru@redhat.com>
- <ccf97c71-744d-1d0a-f961-bb3d71c1c64a@redhat.com>
- <87zhb3v9c4.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0cabb08f-b53a-ac6b-bd14-1aed2b88e848@redhat.com>
-Date: Wed, 22 Apr 2020 18:07:04 +0200
+ bh=KO7RMM3PauNN+PRJAliJJqxjVKn2lt92tzsxUz6ovVM=;
+ b=Hbe3mPTrO0Sr++gNBw7c6dzHBuchKmGi9uq/ivfOzphhc/z/EzFr/frQwwDOfTAuktOrH1
+ Mq1gtMEa8ZaIkz7K0TIubIlyHSXedsXXGxU90XDIdlVZzVRatROpDkJZDzTEscwP3V1Lw/
+ 8phdaXr7hLlJsO8RM1HgGXdGIv9DxBk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-207-RJ_z4rgwPE-mqoi-GOh1nA-1; Wed, 22 Apr 2020 12:14:26 -0400
+X-MC-Unique: RJ_z4rgwPE-mqoi-GOh1nA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A2A8100CC89;
+ Wed, 22 Apr 2020 16:14:25 +0000 (UTC)
+Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E37160610;
+ Wed, 22 Apr 2020 16:14:12 +0000 (UTC)
+Subject: Re: [PATCH v5 4/9] qcow2: Support BDRV_REQ_ZERO_WRITE for truncate
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20200422152129.167074-1-kwolf@redhat.com>
+ <20200422152129.167074-5-kwolf@redhat.com>
+ <84c6ca49-aef3-adf4-2efe-68357dd20ce8@redhat.com>
+ <20200422155835.GC7155@linux.fritz.box>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <20d12788-2d62-12a4-0949-f29594054026@redhat.com>
+Date: Wed, 22 Apr 2020 11:14:11 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <87zhb3v9c4.fsf@dusky.pond.sub.org>
+In-Reply-To: <20200422155835.GC7155@linux.fritz.box>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 04:15:03
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 02:12:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,108 +80,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: vsementsov@virtuozzo.com, berto@igalia.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/22/20 5:17 PM, Markus Armbruster wrote:
-> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
->=20
->> On 4/22/20 3:07 PM, Markus Armbruster wrote:
->>> The Error ** argument must be NULL, &error_abort, &error_fatal, or a
->>> pointer to a variable containing NULL.  Passing an argument of the
->>> latter kind twice without clearing it in between is wrong: if the
->>> first call sets an error, it no longer points to NULL for the second
->>>
->>> qmp_guest_suspend_disk() and qmp_guest_suspend_ram() pass @local_err
->>> first to check_suspend_mode(), then to acquire_privilege(), then to
->>> execute_async().  Continuing after errors here can only end in tears.
->>> For instance, we risk tripping error_setv()'s assertion.
->>>
->>> Fixes: aa59637ea1c6a4c83430933f9c44c43e6c3f1b69
->>> Fixes: f54603b6aa765514b2519e74114a2f417759d727
->>> Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
->>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->>> ---
->>>    qga/commands-win32.c | 14 ++++++++++++++
->>>    1 file changed, 14 insertions(+)
->>>
->>> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
->>> index 9717a8d52d..5ba56327dd 100644
->>> --- a/qga/commands-win32.c
->>> +++ b/qga/commands-win32.c
->>> @@ -1322,9 +1322,16 @@ void qmp_guest_suspend_disk(Error **errp)
->>>          *mode =3D GUEST_SUSPEND_MODE_DISK;
->>>        check_suspend_mode(*mode, &local_err);
->>> +    if (local_err) {
->>> +        goto out;
->>> +    }
->>>        acquire_privilege(SE_SHUTDOWN_NAME, &local_err);
->>> +    if (local_err) {
->>> +        goto out;
->>> +    }
->>>        execute_async(do_suspend, mode, &local_err);
->>>    +out:
->>>        if (local_err) {
+On 4/22/20 10:58 AM, Kevin Wolf wrote:
+
+>>> @@ -4214,6 +4215,35 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
+>>>            g_assert_not_reached();
+>>>        }
+>>> +    if ((flags & BDRV_REQ_ZERO_WRITE) && offset > old_length) {
+>>> +        uint64_t zero_start = QEMU_ALIGN_UP(old_length, s->cluster_size);
+>>> +        uint64_t zero_end = QEMU_ALIGN_UP(offset, s->cluster_size);
 >>
->> https://www.mail-archive.com/qemu-devel@nongnu.org/msg695647.html is
->> slightly different by removing the if() check.
->=20
-> It frees @mode unconditionally (marked --> below) I believe that's
-> wrong.  execute_async() runs do_suspend() in a new thread, and passes it
-> @mode.  do_suspend() frees it.
+>> This rounds up beyond the new size...
+>>
+>>> +
+>>> +        /* Use zero clusters as much as we can */
+>>> +        ret = qcow2_cluster_zeroize(bs, zero_start, zero_end - zero_start, 0);
+>>
+>> and then requests that the extra be zeroed.  Does that always work, even
+>> when it results in pdrv_co_pwrite_zeroes beyond the end of s->data_file?
+> 
+> You mean the data_file_is_raw() path in qcow2_cluster_zeroize()? It's
+> currently not a code path that is run because we only set
+> BDRV_REQ_ZERO_WRITE for truncate if the image has a backing file, and
+> data_file_is_raw() doesn't work with backing files.
 
-Oops I missed that, good catch!
+Good point.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> 
+> But hypothetically, if someone called truncate with BDRV_REQ_ZERO_WRITE
+> for such a file, I think it would fail.
+> 
+>> If so,
+>>
+>> Reviewed-by: Eric Blake <eblake@redhat.com>
+>>
+>> otherwise, you may have to treat the tail specially, the same way you
+>> treated an unaligned head.
+> 
+> Actually, do I even need to round the tail?
+> 
+>      /* Caller must pass aligned values, except at image end */
+>      assert(QEMU_IS_ALIGNED(offset, s->cluster_size));
+>      assert(QEMU_IS_ALIGNED(end_offset, s->cluster_size) ||
+>             end_offset == bs->total_sectors << BDRV_SECTOR_BITS);
+> 
+> So qcow2_cluster_zeroize() seems to accept the unaligned tail. It would
+> still set the zero flag for the partial last cluster and for the
+> external data file, bdrv_co_pwrite_zeroes() would have the correct size.
 
->=20
->>>            error_propagate(errp, local_err);
->>>            g_free(mode);
->>> @@ -1338,9 +1345,16 @@ void qmp_guest_suspend_ram(Error **errp)
->>>          *mode =3D GUEST_SUSPEND_MODE_RAM;
->>>        check_suspend_mode(*mode, &local_err);
->>> +    if (local_err) {
->>> +        goto out;
->>> +    }
->>>        acquire_privilege(SE_SHUTDOWN_NAME, &local_err);
->>> +    if (local_err) {
->>> +        goto out;
->>> +    }
->>>        execute_async(do_suspend, mode, &local_err);
->>>    +out:
->>>        if (local_err) {
->>>            error_propagate(errp, local_err);
->>>            g_free(mode);
->>>
->=20
->     diff --git a/qga/commands-win32.c b/qga/commands-win32.c
->     index b49920e201..8b66098056 100644
->     --- a/qga/commands-win32.c
->     +++ b/qga/commands-win32.c
->     @@ -1341,13 +1341,18 @@ void qmp_guest_suspend_disk(Error **errp)
->=20
->          *mode =3D GUEST_SUSPEND_MODE_DISK;
->          check_suspend_mode(*mode, &local_err);
->     +    if (local_err) {
->     +        goto out;
->     +    }
->          acquire_privilege(SE_SHUTDOWN_NAME, &local_err);
->     +    if (local_err) {
->     +        goto out;
->     +    }
->          execute_async(do_suspend, mode, &local_err);
->=20
->     -    if (local_err) {
->     -        error_propagate(errp, local_err);
->     -        g_free(mode);
->     -    }
->     +out:
->     +    error_propagate(errp, local_err);
-> -->+    g_free(mode);
->      }
->=20
->      void qmp_guest_suspend_ram(Error **errp)
->=20
+Then I'm in favor of NOT rounding the tail.  That's an easy enough 
+change and we've now justified that it does what we want, so R-b stands 
+with that one-line tweak.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
