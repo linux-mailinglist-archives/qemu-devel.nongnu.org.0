@@ -2,80 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55C691B4C15
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 19:45:57 +0200 (CEST)
-Received: from localhost ([::1]:55194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FB611B4C27
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 19:51:34 +0200 (CEST)
+Received: from localhost ([::1]:55274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRJRc-00050d-0y
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 13:45:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39698)
+	id 1jRJX3-0001OF-C5
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 13:51:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40252)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jRJPR-0003QH-ON
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:43:42 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jRJRs-0006BJ-TF
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:46:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jRJPR-00072h-Bb
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:43:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38722
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jRJPQ-00070E-Lh
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:43:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587577419;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hHXTQbHTk/GqfkhzXqY9YnXuAZpapaywKPSFwdmxyTg=;
- b=DKc7O0QVv6kI2UuePwT5wNWlaMDiZ4IW8xKg9Bp+LCunth1d7V8lHSnkS3W9WomZ7wZrVq
- cqY6Y2U5xz4r7y9NVCp7ZkVVCWMicRUxcyB0Jvp4yh6gdekxf3kEKFElMLB0/kDfqU0O8k
- zGetGnE24GpkkATyghI3h+YfL35YYkg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-456-FoXZ856OOf6DKArPIps_Mg-1; Wed, 22 Apr 2020 13:43:34 -0400
-X-MC-Unique: FoXZ856OOf6DKArPIps_Mg-1
-Received: by mail-wr1-f70.google.com with SMTP id j22so1439862wrb.4
- for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 10:43:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=hHXTQbHTk/GqfkhzXqY9YnXuAZpapaywKPSFwdmxyTg=;
- b=f9LQPEHznRhiFbZgB/0kBrsxwlWDuR0NNeYAnkRQftyISXOf0vtoy7GOk1xKhoX7fC
- ohNzM2F3Yg/G4SWCCfvR5ci5BHdD/hCF2rR5aSxlnvjGuA3SvbBWzkZJu87HpEIU/lMw
- moCDOvquUncjw5hZqg2a0roGhKt/q+9ivKcmi4cLmdBEakRXSzlwwWOfqA+C5Ab6SRe+
- hfa5Dj2V1a5nS7Cz/PtjMPt5i2RWAF4NEK/rkM/YSFGSrd6qp0soQRodJCJk7L2wGnsB
- y3Vx0i8Xk2pOHGEGncTP7lmH7OHu2VKWwlNxENiQbE5SmN1hLt6aMCkrxEsh4KwX4VLf
- ct0A==
-X-Gm-Message-State: AGi0PuY72F9rlZjurdMSglR6O04gf7JYKHZgVLwA+zto+YY0pS6Ed3d3
- OrgePgEt3QiKiTw2QMztzFydMTQ9z7MRDaCTVQsgJFqjqPBzXcgryJXgXoktKbBL0m6OHdyMnyk
- aNf6Qfs1QAomZPsM80DaafKNVxhbtJVU=
-X-Received: by 2002:adf:9d8d:: with SMTP id p13mr169764wre.17.1587577412864;
- Wed, 22 Apr 2020 10:43:32 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLHIdZNTA5Qo+6qhgM1s9lyQlpGuMsfi4PD4zsnP047Ln0xS15IabvKhmK0Xti7hmzli09KMbXlB7GzQhF2S4A=
-X-Received: by 2002:adf:9d8d:: with SMTP id p13mr169751wre.17.1587577412671;
- Wed, 22 Apr 2020 10:43:32 -0700 (PDT)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jRJRd-0001cF-Gy
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 13:46:11 -0400
+Received: from mail-eopbgr30108.outbound.protection.outlook.com
+ ([40.107.3.108]:30273 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jRJRc-0001Uu-JF; Wed, 22 Apr 2020 13:45:57 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ks6Bpi3t3wRZAS7dFra5GG5bTsadE5hI50ebPaHXC6jACQNfdec2jbyqDdVock9FHOk1LPUWmP5HgaMSt860itrgracAc+OLsaPNrEQN/uyQb9YUogQGhA4d6JuD5suq3Sm7Xc31rfsUlNlFyDSza289qOHm/IggGmDUztBF11UJKsZ51b7Eon/D8fyXtDqBWh2GMMs1eH2zQBgHx0bQwUk/V5/Vr3RatYTJqGtJDYec7zyEu4uhyCcLEodkCtRM2HHgbjZS0mCyq+56Be7X4rY5sWuB1sJ7MPEE3pRVdRp30jq5gbWTvivguzNmdn5dV0/VwK9EDlrfXua0sCwFTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nNzseyZuNtySWjOeBlxaJDF3cNg8RZE21TS3z8hVECo=;
+ b=jhgrQA0extxmzap3n9kz+sjmBRQ99aUhUZb7JkQ2rqvNYNhr2Fe21xuN2usaQQSY/vkcTAWY3C6JZ9S1ColWf1PMzKmvsEdttl8vsqn+RxUx95TOFm5//kB0EO7uy6j9snANs0iLJ885r46jMu4K9PcEX7mshbASbxa1ZOCnkblW0UdGwy0lCMgPXtIrI0kqhwoFDCOMdCQ8IyvbkBaJZLoR6NSSLBmaRxo/I9WMxif7O3DOLbDXiIlOJZ+iEbEkYePHAqu2dfzohVtZMGcq7kOpMhhm4wg1u61WM+hW6DikeXLNYZeGGTFiLRY8iQi5bo6vk73axzbw7j4a1wpXAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nNzseyZuNtySWjOeBlxaJDF3cNg8RZE21TS3z8hVECo=;
+ b=ONEx79xMqNlCQdxYkEmaunZ015f1xsPiPB/tgo06HcMKjaybibZBX7JJ7VG4yDwioIecL+2NF2tdG0mysuShaiurLWxiHUuSpp3WKPPcX6k7pxpx2dwlFLTWhICsrfsSxEdAKsp90Fj7P64+g2XM8TQiw4jOe7NjEI2Zi0INRiw=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5526.eurprd08.prod.outlook.com (2603:10a6:20b:108::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.29; Wed, 22 Apr
+ 2020 17:45:53 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.012; Wed, 22 Apr 2020
+ 17:45:53 +0000
+Subject: Re: [PATCH 2/3] block/io: convert generic io path to use int64_t
+ parameters
+To: Stefan Hajnoczi <stefanha@gmail.com>
+References: <20200330141818.31294-1-vsementsov@virtuozzo.com>
+ <20200330141818.31294-3-vsementsov@virtuozzo.com>
+ <20200422155003.GE47385@stefanha-x1.localdomain>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200422204550845
+Message-ID: <efcc7865-45a8-5a8b-25f3-301fbc6dab08@virtuozzo.com>
+Date: Wed, 22 Apr 2020 20:45:50 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <20200422155003.GE47385@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM4PR0202CA0007.eurprd02.prod.outlook.com
+ (2603:10a6:200:89::17) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <20200422124501.28015-1-peter.maydell@linaro.org>
- <b6dd8d4a-ec38-84c5-eb94-cf25bfa4cf4a@redhat.com>
-In-Reply-To: <b6dd8d4a-ec38-84c5-eb94-cf25bfa4cf4a@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Date: Wed, 22 Apr 2020 19:43:21 +0200
-Message-ID: <CAP+75-XS1Xo0HCEADP6ppKNbKNz6Se9n_8vWQ9OaoNDtGw0D0A@mail.gmail.com>
-Subject: Re: [PATCH for-5.0?] target/arm: Fix ID_MMFR4 value on AArch64 'max'
- CPU
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>, 
- QEMU Developers <qemu-devel@nongnu.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 04:15:03
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.157) by
+ AM4PR0202CA0007.eurprd02.prod.outlook.com (2603:10a6:200:89::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13 via Frontend
+ Transport; Wed, 22 Apr 2020 17:45:52 +0000
+X-Tagtoolbar-Keys: D20200422204550845
+X-Originating-IP: [185.215.60.157]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3acbd90c-afb9-48ae-0d23-08d7e6e500d6
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5526:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5526EE329137E0D7132E784BC1D20@AM7PR08MB5526.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Forefront-PRVS: 03818C953D
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(10019020)(4636009)(346002)(396003)(366004)(39840400004)(376002)(136003)(478600001)(86362001)(5660300002)(7416002)(31696002)(2906002)(6916009)(81156014)(36756003)(8676002)(8936002)(16526019)(16576012)(6486002)(66476007)(66946007)(66556008)(4326008)(31686004)(26005)(956004)(2616005)(186003)(52116002)(316002)(41533002);
+ DIR:OUT; SFP:1102; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lnqYYllDA3+/jM2qpfAkYP32DzxtJNLNVQiAJJ/8eurKvOtPgRYcTrJcib7keQrZ+O1MWb+SJRbbPMxguJaYb632aCJMvnsMoVyFEpQN+myrICGV8yQZX6wQu8dK8YK9lTe72QyfooPL4WP1Dbs55mGbMD2av4gvQrSteWqkiMFMBYyWZEaSnmnvZ48I91Sh2ru+PIWZgbkfzl1YUkzgsEHl7ZbzKbJgRLZkcXZ7mHNIAWYwwJcH2J0CVluIIdlZBXLCt17+2ooNAlC0YnOtlSnRT7H+L5gD4LLkNcMZXW/RR4HU3Crq+15R1sT+Y5oxD8XIrI36Kz5Uru0ZtRXBAidAyRVYEAoTR6n3VmcBtwb9qtNYjssYnPlwc0vcw0GeBEix6bVOsBf7A+IJUBaNOMhlOvEVL2FaqqC3KD4lqAKfKh6UC/z8wYcoC25JBLhyNmLsHTAYy//+9+6CeJvQgl8L1OeJclkKAGAn5iIbbZ0gJOdtiS5YWSOKIJnr617x
+X-MS-Exchange-AntiSpam-MessageData: s+mCmjtX249fJBuPuHUzw88/bc74C8ahcGO8EpxV+zJaAeo4xXdu0/epShcdcJmDzA9/tL/XJiQA3H6SWWav/mF/+Vs5XredTWHq/2T8iYxzKPVJt/RwrzUcBhaLvPwijHMiIU2+gQtbvZGcfO9hIw==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3acbd90c-afb9-48ae-0d23-08d7e6e500d6
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2020 17:45:53.3804 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Uut3RK58e8nt4QbI1rcnoheQM8uqBoLJFzcIAjYdibLx6u50Di+4r/Xsz5XHYmCrNLSoeqIB8Ie9g3IfrGKPd9zs6SWyOnXLBMxv4uGi/ek=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5526
+Received-SPF: pass client-ip=40.107.3.108;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR03-AM5-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 13:45:54
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.3.108
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,56 +118,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Desnogues <laurent.desnogues@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: fam@euphon.net, kwolf@redhat.com, berto@igalia.com,
+ pavel.dovgaluk@ispras.ru, qemu-block@nongnu.org, dillaman@redhat.com,
+ sw@weilnetz.de, pl@kamp.de, qemu-devel@nongnu.org, mreitz@redhat.com,
+ ari@tuxera.com, stefanha@redhat.com, pbonzini@redhat.com, den@openvz.org,
+ jsnow@redhat.com, ronniesahlberg@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 22, 2020 at 7:41 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> On 4/22/20 2:45 PM, Peter Maydell wrote:
-> > In commit 41a4bf1feab098da4cd the added code to set the CNP
-> > field in ID_MMFR4 for the AArch64 'max' CPU had a typo
-> > where it used the wrong variable name, resulting in ID_MMFR4
-> > fields AC2, XNX and LSM being wrong. Fix the typo.
-> >
-> > Fixes: 41a4bf1feab098da4cd
-> > Reported-by: Laurent Desnogues <laurent.desnogues@gmail.com>
->
-> Nice testing/catch Laurent!
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> > maybe 5.0 just because it's so trivial. I dunno...
+22.04.2020 18:50, Stefan Hajnoczi wrote:
+> On Mon, Mar 30, 2020 at 05:18:17PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+>> @@ -875,9 +875,9 @@ static bool coroutine_fn bdrv_wait_serialising_requests(BdrvTrackedRequest *self
+>>   }
+>>   
+>>   static int bdrv_check_byte_request(BlockDriverState *bs, int64_t offset,
+>> -                                   size_t size)
+>> +                                   int64_t bytes)
+>>   {
+>> -    if (size > BDRV_REQUEST_MAX_BYTES) {
+>> +    if (offset < 0 || bytes < 0 || bytes > BDRV_REQUEST_MAX_BYTES) {
+>>           return -EIO;
+>>       }
+>>   
+>> @@ -885,10 +885,6 @@ static int bdrv_check_byte_request(BlockDriverState *bs, int64_t offset,
+>>           return -ENOMEDIUM;
+>>       }
+>>   
+>> -    if (offset < 0) {
+>> -        return -EIO;
+>> -    }
+>> -
+>>       return 0;
+>>   }
+> 
+> Moving this if statement was unnecessary.  I'm not sure if there are
+> cases where callers will now see EIO instead of ENOMEDIUM and change
+> their behavior :(.
+> 
+> More conservative code changes are easier to review and merge because
+> they are less risky.
 
-BTW FWIW LGTM...
+Hmm, would be a bit strange to just add "bytes < 0" to the first "if" keeping "offset < 0" in the third.
+And strange to keep "bytes > BDRV_REQUEST_MAX_BYTES" in the first, if add "bytes < 0" to the third..
 
-> >
-> > There's also an error where we use the uint32_t u variable
-> > to update the 64-bit ID_AA64DFR0 register, but that's harmless
-> > because as it happens the top 32 bits of that register are
-> > all zeroes anyway, so we can just fix that in 5.1.
-> >
-> >   target/arm/cpu64.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-> > index 62d36f9e8d3..95d0c8c101a 100644
-> > --- a/target/arm/cpu64.c
-> > +++ b/target/arm/cpu64.c
-> > @@ -705,7 +705,7 @@ static void aarch64_max_initfn(Object *obj)
-> >           u =3D cpu->isar.id_mmfr4;
-> >           u =3D FIELD_DP32(u, ID_MMFR4, HPDS, 1); /* AA32HPD */
-> >           u =3D FIELD_DP32(u, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
-> > -        u =3D FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
-> > +        u =3D FIELD_DP32(u, ID_MMFR4, CNP, 1); /* TTCNP */
-> >           cpu->isar.id_mmfr4 =3D u;
-> >
-> >           u =3D cpu->isar.id_aa64dfr0;
-> >
+> 
+>> @@ -1743,7 +1740,7 @@ int coroutine_fn bdrv_co_preadv_part(BdrvChild *child,
+>>   }
+>>   
+>>   static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
+>> -    int64_t offset, int bytes, BdrvRequestFlags flags)
+>> +    int64_t offset, int64_t bytes, BdrvRequestFlags flags)
+>>   {
+>>       BlockDriver *drv = bs->drv;
+>>       QEMUIOVector qiov;
+>> @@ -1773,7 +1770,7 @@ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
+>>       assert(max_write_zeroes >= bs->bl.request_alignment);
+>>   
+>>       while (bytes > 0 && !ret) {
+>> -        int num = bytes;
+>> +        int64_t num = bytes;
+>>   
+>>           /* Align request.  Block drivers can expect the "bulk" of the request
+>>            * to be aligned, and that unaligned requests do not cross cluster
+>> @@ -1799,6 +1796,7 @@ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
+>>           ret = -ENOTSUP;
+>>           /* First try the efficient write zeroes operation */
+>>           if (drv->bdrv_co_pwrite_zeroes) {
+>> +            assert(num <= INT_MAX);
+> 
+> max_write_zeroes already enforces this, so the assertion is always
+> false:
+> 
+>    int max_write_zeroes = MIN_NON_ZERO(bs->bl.max_pwrite_zeroes, INT_MAX);
+>    ...
+>          /* limit request size */
+>          if (num > max_write_zeroes) {
+>              num = max_write_zeroes;
+>          }
+> 
 
+You are right, I'll drop it.
+
+-- 
+Best regards,
+Vladimir
 
