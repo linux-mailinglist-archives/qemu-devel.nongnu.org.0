@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 217211B49B6
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 18:09:18 +0200 (CEST)
-Received: from localhost ([::1]:53638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20E391B49C4
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 18:09:42 +0200 (CEST)
+Received: from localhost ([::1]:53654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRHw4-0006c1-LX
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 12:09:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52320)
+	id 1jRHwT-00077s-6A
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 12:09:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52920)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1jRHsJ-0002oe-Vs
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 12:05:24 -0400
+ (envelope-from <stefanha@gmail.com>) id 1jRHth-0004j6-IU
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 12:06:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1jRHsF-0007ly-Qy
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 12:05:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23645
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jRHsF-0007eR-B8
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 12:05:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587571517;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FD61kM4prKv0MRX0jf7+d+FRsN10wugBezZK7ZM89gg=;
- b=OyzklpD6O2zVJI+vbRvDNybqD+FM3egnVDcmWkhmCYg86o1lELwXikGLxXp05aTy5jNTQq
- Nks3AXh/E29ijy44Qq/5plVU5cIHwS033vx8biT+qQeU0zIdTG8sfXzXoy3i8w8IcE8MyB
- 0bCYqfI/sTL19sCgjc4yTy45UurN8hw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-4YAN2_xxOUqf0rIhvNqcYQ-1; Wed, 22 Apr 2020 12:05:15 -0400
-X-MC-Unique: 4YAN2_xxOUqf0rIhvNqcYQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E86B18C8C22;
- Wed, 22 Apr 2020 16:05:14 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-154.ams2.redhat.com
- [10.36.113.154])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E06A19756;
- Wed, 22 Apr 2020 16:05:07 +0000 (UTC)
-Subject: Re: [edk2-discuss] Load Option passing. Either bugs or my confusion.
-To: Hou Qiming <hqm03ster@gmail.com>
-References: <623b1855-285c-cce3-c806-c17e5fd217ea@redhat.com>
- <5211.1586899245384995995@groups.io>
- <a972450d-8834-ae87-e4e3-5263a41d1735@redhat.com>
- <20200420141303.dxjqgvmzglrjtsly@sirius.home.kraxel.org>
- <9aed493a-2187-cacd-5631-54fb9973509c@redhat.com>
- <CABSdmrm2qp=nMdu7N7kxxS9PVA25_pfnK_F3EimLuq8twPKjgg@mail.gmail.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <de03e16a-df14-c18b-31a0-ec025e7b2b65@redhat.com>
-Date: Wed, 22 Apr 2020 18:05:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (envelope-from <stefanha@gmail.com>) id 1jRHth-0001cY-83
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 12:06:49 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53940)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jRHtc-0001Qv-5V; Wed, 22 Apr 2020 12:06:44 -0400
+Received: by mail-wm1-x342.google.com with SMTP id t63so2993371wmt.3;
+ Wed, 22 Apr 2020 09:06:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=1lna5gTgWOeZGs1DR8Skjzz0QrxTfKJV0wqCOhQXZ4c=;
+ b=DLJPYhHXbT3xCL3USFzv412GGy9LcukZLGXEKCKvT6Dy1JXAOoo7VOLV+DdtFAmPUN
+ KecacajBw3GF+2PmaBxGVlzkNY2JiY0NV2mcNQUlZ+0NzGLLkRjmQCNieTy3n+ObV8Ig
+ v2+byD51HT1xt7ofH9bf2V+Q3YeUrdqqSjKgcQiDOtb1WPmSTUcvpbBWGt2MSHMzHaYk
+ uiZU8M8un4c3BofNUcPl8w7AdBIqCdCaLsjZniCU2Y/xdNj/hopoIydOD41BiW1FA6p/
+ cFVRLwn/Pgmx7vFrcp6t4LYb6y6bRUdJDePJKmv46Cs+yer5Is6LoYZX4/1GCuyNJAIQ
+ 29Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=1lna5gTgWOeZGs1DR8Skjzz0QrxTfKJV0wqCOhQXZ4c=;
+ b=EKpbAbN+eyPRHLhkhzwWvgXes2/BUhJSeEetWg/FpyWKZ/r0MmIW18hhyZZfiupvW/
+ hPcJKOzJ7yBVfC2kjNGIcOTd3cIn+xuy/UL3Q7C8C3lI0pCV5HM1hvWaD2v3HepdFb3T
+ 3J5B/jbNS1+ZXCac10AStHPsO6PgTThnUSAfYk7s7xfS4D4hzkNs80wtTW6LyB4Vx1Le
+ 87O1CA68fPVNUdDzf9k4V4D/ew0IjbNH8zLs7fE9JhXn/Y3WFCqJcrAIxMFIvnexPSTQ
+ 3CJyPxL1fs7A/3o7pFtDx7LimfrUS6DGQ0rsxzmffiY6lHoaKzm0G5zED3xIZ06EKv0r
+ q7bw==
+X-Gm-Message-State: AGi0PuZ+5dbLM2FnhD4bnIqvScEIRXppG0E+5lTe5mPIrhJhFIvgMwxf
+ tWnzjOfcQwVxt7fiXhDGDw0=
+X-Google-Smtp-Source: APiQypKKanCqyxkGPe/DxZAERzdXd+j4Hcsplcw5hOSIJX1t6mlggznvRNTFZ4Q48CXYiwYwj1ggmQ==
+X-Received: by 2002:a1c:154:: with SMTP id 81mr11160414wmb.48.1587571601839;
+ Wed, 22 Apr 2020 09:06:41 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id 74sm9283731wrk.30.2020.04.22.09.06.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Apr 2020 09:06:40 -0700 (PDT)
+Date: Wed, 22 Apr 2020 17:06:39 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 5/9] block/io: expand in_flight inc/dec section: simple
+ cases
+Message-ID: <20200422160639.GH47385@stefanha-x1.localdomain>
+References: <20200408093051.9893-1-vsementsov@virtuozzo.com>
+ <20200408093051.9893-6-vsementsov@virtuozzo.com>
+ <20200420162255.GE7321@stefanha-x1.localdomain>
+ <67b95ad8-2a19-5698-d683-f799c024cb01@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <CABSdmrm2qp=nMdu7N7kxxS9PVA25_pfnK_F3EimLuq8twPKjgg@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=lersek@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 04:15:03
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="EemXnrF2ob+xzFeB"
+Content-Disposition: inline
+In-Reply-To: <67b95ad8-2a19-5698-d683-f799c024cb01@virtuozzo.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=stefanha@gmail.com; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,40 +84,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edk2-devel-groups-io <devel@edk2.groups.io>,
- qemu devel list <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- discuss@edk2.groups.io, valerij zaporogeci <vlrzprgts@gmail.com>
+Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/22/20 09:42, Hou Qiming wrote:
-> A little off topic thing: isn't the default resolution supposed to be
-> 1024x768?
 
-No.
+--EemXnrF2ob+xzFeB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> This is the Microsoft regulation which all my physical devices
-> seem to follow:
-> 
-> https://docs.microsoft.com/en-us/windows-hardware/test/hlk/testref/6afc8979-df62-4d86-8f6a-99f05bbdc7f3
+On Wed, Apr 22, 2020 at 04:47:07PM +0300, Vladimir Sementsov-Ogievskiy wrot=
+e:
+> 20.04.2020 19:22, Stefan Hajnoczi wrote:
+> > On Wed, Apr 08, 2020 at 12:30:47PM +0300, Vladimir Sementsov-Ogievskiy =
+wrote:
+> > > It's safer to expand in_flight request to start before enter to
+> >=20
+> > Please explain what exeactly "safer" means.  If I understand correctly
+> > this is just a refactoring and does not fix bugs that have been hit in
+> > the real world.
+> >=20
+> > Is this just a generate attempt to avoid accidentally performing
+> > operations that need to happen as part of the request after the dec
+> > call?
+>=20
+> Consider write.
+>=20
+> It's possible, that qemu_coroutine_enter only schedules execution, assume=
+ such case.
+> Then we may possibly have the following:
+>=20
+> 1. Somehow check that we are not in drained section in outer code
+>=20
+> 2. call bdrv_pwritev(), assuming that it will increse in_flight, which wi=
+ll protect us from starting drained section
+>=20
+> 3. it calls bdrv_prwv_co -> bdrv_coroutine_enter (not yet increased in_fl=
+ight)
+>=20
+> 4. assume coroutine not yet actually entered, only scheduled, and we go t=
+o some code, which starts drained section (as in_flight is zero)
+>=20
+> 5. scheduled coroutine starts, and blindly increases in_flight, and we ar=
+e in drained section with in_flight request.
+>=20
+> The series does the same thing for block/io.c like Kevin's "block: Fix bl=
+k->in_flight during blk_wait_while_drained()" for blk layer.
 
-Key term being "Microsoft regulation".
+Please include this in the commit description.  Thanks!
 
-The UEFI spec requires discrete ("plug-in") graphics devices to support
-at least either 800x600x32 or 640x480x32.
+Stefan
 
-And the edk2 (not just OVMF) default for the console resolution is
-800x600. (See PcdVideoHorizontalResolution and
-PcdVideoVerticalResolution in "MdeModulePkg/MdeModulePkg.dec".)
+--EemXnrF2ob+xzFeB
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> And when the user provides an EDID one should parse it and set the default
-> resolution to match it. But that's a less important feature.
+-----BEGIN PGP SIGNATURE-----
 
-It's more complex than you might think, and (to me personally) it seems
-to require more time than its importance justifies.
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6ga48ACgkQnKSrs4Gr
+c8gqwQf+N51Jvfl6eeRMeFLHsXfB+G/Tq4yFcN2qZlfq+Ztzj2wggtKYpudMbsmC
+evyTErRCKS1/DpvmmJMwjAFyX2A/DnujVhefrY3ELjZnTUzpNAYO3IMHvstPegGw
+6NoeRMILfFs0zYU3hn1ta5miZ0K1YvniUGMlbmQGf4E3VN9PczaQY/hQsIfNMp+X
+ZcHVAGNDc4ZWblUz5G7ZVpgULdh4hR9n700ofYe+kSOSzvA3F82EjGE/DdeTE6Y/
+DFsS6nAo9Kf7bgCzjtK3bZpXAgQkpm/3sPr5nMwiOXc8LZANreRZfJ2H43EXdnZ1
+fHCW9IvvEYgPNZnZsdZym5Lgc+9+tg==
+=sqNn
+-----END PGP SIGNATURE-----
 
-https://bugzilla.redhat.com/show_bug.cgi?id=1749250
-
-Laszlo
-
+--EemXnrF2ob+xzFeB--
 
