@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D79F1B3C98
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 12:07:16 +0200 (CEST)
-Received: from localhost ([::1]:47144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E137E1B3C1D
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 12:04:05 +0200 (CEST)
+Received: from localhost ([::1]:47092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRCHj-0007ct-Du
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 06:07:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40908)
+	id 1jRCEe-0003pn-Dm
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 06:04:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40874)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jRCD5-0002Oh-4K
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:02:28 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jRCD4-0004aF-MW
+ (envelope-from <kraxel@redhat.com>) id 1jRCD3-0002OC-Nn
  for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:02:26 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32452
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
+ (envelope-from <kraxel@redhat.com>) id 1jRCD2-0004Qf-RI
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:02:25 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:25689
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jRCD4-0004SP-5q
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:02:26 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jRCD2-0004HE-Bz
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:02:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587549744;
+ s=mimecast20190719; t=1587549742;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c4+U+IFAQKG2D0+8CRwtUCE59kHFkczepZEFwLCC2K8=;
- b=S3Awnl1/yxsG7ab/siJ8ybbWHw0aojTSrSg0fr/SpWSVzXJVnhyoK/14i/JCFifI6oJZmY
- DoR8OkgHdIQYwWDv6XjAsVckt811dYaN94fF+tkoyjHhkhUGoAiaPn5kZZFhKW4Kll45Sh
- XwHtC/XUtAtxSd/DeDxJJCRhL3UmdY8=
+ bh=j+sx8e7RqLsFNXEP5CtlRYH6haipWbEa+wPrC7e/3pA=;
+ b=JG34LizkRkd5/bd+hnhnahRdk1eXFSUeYiJ5ZfIE2xJnJ5/vUKrM5m5RCIAQn5SKNLB047
+ 6gI83Tv2lDeL5oUVhqpovaOJ6rq6kjOoHkMLeEEr4fDPxk2ncwToIOPaXoKyCVUVvnhsc4
+ VVkIOCCEw2JNuzLEzxKJKLuxysQXLDk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-kp7trzsTOxy_h0srseXFww-1; Wed, 22 Apr 2020 06:02:23 -0400
-X-MC-Unique: kp7trzsTOxy_h0srseXFww-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-153-sAjro906PlClybH0ge5fEQ-1; Wed, 22 Apr 2020 06:02:19 -0400
+X-MC-Unique: sAjro906PlClybH0ge5fEQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A6258017F5;
- Wed, 22 Apr 2020 10:02:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C760318C35A0;
+ Wed, 22 Apr 2020 10:02:18 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
  [10.36.113.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B166F600D2;
- Wed, 22 Apr 2020 10:02:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D44E95DA85;
+ Wed, 22 Apr 2020 10:02:12 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D83369D9B; Wed, 22 Apr 2020 12:02:11 +0200 (CEST)
+ id E085F9D9C; Wed, 22 Apr 2020 12:02:11 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] Revert "hw/display/ramfb: lock guest resolution after
- it's set"
-Date: Wed, 22 Apr 2020 12:02:08 +0200
-Message-Id: <20200422100211.30614-3-kraxel@redhat.com>
+Subject: [PATCH 3/5] ramfb: don't update RAMFBState on errors
+Date: Wed, 22 Apr 2020 12:02:09 +0200
+Message-Id: <20200422100211.30614-4-kraxel@redhat.com>
 In-Reply-To: <20200422100211.30614-1-kraxel@redhat.com>
 References: <20200422100211.30614-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 02:57:52
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 02:12:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,91 +81,57 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit a9e0cb67b7f4c485755659f9b764c38b5f970de4.
+Store width & height & surface in local variables.  Update RAMFBState
+with the new values only in case the ramfb_create_display_surface() call
+succeeds.
 
-This breaks OVMF.  Reproducer: Just hit 'ESC' at early boot to enter
-firmware setup.  OVMF wants switch from (default) 800x600 to 640x480 for
-that, and this patch blocks it.
-
-Cc: Hou Qiming <hqm03ster@gmail.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/ramfb.c | 26 ++++----------------------
- 1 file changed, 4 insertions(+), 22 deletions(-)
+ hw/display/ramfb.c | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
 
 diff --git a/hw/display/ramfb.c b/hw/display/ramfb.c
-index bd4746dc1768..9d41c2ad2868 100644
+index 9d41c2ad2868..fbe959147dc9 100644
 --- a/hw/display/ramfb.c
 +++ b/hw/display/ramfb.c
-@@ -31,7 +31,6 @@ struct RAMFBState {
-     DisplaySurface *ds;
-     uint32_t width, height;
-     struct RAMFBCfg cfg;
--    bool locked;
- };
-=20
- static void ramfb_unmap_display_surface(pixman_image_t *image, void *unuse=
-d)
-@@ -72,25 +71,18 @@ static DisplaySurface *ramfb_create_display_surface(int=
+@@ -71,20 +71,27 @@ static DisplaySurface *ramfb_create_display_surface(int=
  width, int height,
  static void ramfb_fw_cfg_write(void *dev, off_t offset, size_t len)
  {
      RAMFBState *s =3D dev;
--    uint32_t fourcc, format, width, height;
-+    uint32_t fourcc, format;
+-    uint32_t fourcc, format;
++    DisplaySurface *surface;
++    uint32_t fourcc, format, width, height;
      hwaddr stride, addr;
 =20
--    width     =3D be32_to_cpu(s->cfg.width);
--    height    =3D be32_to_cpu(s->cfg.height);
-+    s->width  =3D be32_to_cpu(s->cfg.width);
-+    s->height =3D be32_to_cpu(s->cfg.height);
-     stride    =3D be32_to_cpu(s->cfg.stride);
-     fourcc    =3D be32_to_cpu(s->cfg.fourcc);
-     addr      =3D be64_to_cpu(s->cfg.addr);
-     format    =3D qemu_drm_format_to_pixman(fourcc);
+-    s->width  =3D be32_to_cpu(s->cfg.width);
+-    s->height =3D be32_to_cpu(s->cfg.height);
+-    stride    =3D be32_to_cpu(s->cfg.stride);
+-    fourcc    =3D be32_to_cpu(s->cfg.fourcc);
+-    addr      =3D be64_to_cpu(s->cfg.addr);
+-    format    =3D qemu_drm_format_to_pixman(fourcc);
++    width  =3D be32_to_cpu(s->cfg.width);
++    height =3D be32_to_cpu(s->cfg.height);
++    stride =3D be32_to_cpu(s->cfg.stride);
++    fourcc =3D be32_to_cpu(s->cfg.fourcc);
++    addr   =3D be64_to_cpu(s->cfg.addr);
++    format =3D qemu_drm_format_to_pixman(fourcc);
 =20
      fprintf(stderr, "%s: %dx%d @ 0x%" PRIx64 "\n", __func__,
--            width, height, addr);
--    if (s->locked) {
--        fprintf(stderr, "%s: resolution locked, change rejected\n", __func=
-__);
--        return;
--    }
--    s->locked =3D true;
--    s->width =3D width;
--    s->height =3D height;
-+            s->width, s->height, addr);
-     s->ds =3D ramfb_create_display_surface(s->width, s->height,
-                                          format, stride, addr);
- }
-@@ -110,13 +102,6 @@ void ramfb_display_update(QemuConsole *con, RAMFBState=
- *s)
-     dpy_gfx_update_full(con);
+             s->width, s->height, addr);
+-    s->ds =3D ramfb_create_display_surface(s->width, s->height,
+-                                         format, stride, addr);
++    surface =3D ramfb_create_display_surface(width, height,
++                                           format, stride, addr);
++    if (!surface)
++        return;
++
++    s->width =3D width;
++    s->height =3D height;
++    s->ds =3D surface;
  }
 =20
--static void ramfb_reset(void *opaque)
--{
--    RAMFBState *s =3D (RAMFBState *)opaque;
--    s->locked =3D false;
--    memset(&s->cfg, 0, sizeof(s->cfg));
--}
--
- RAMFBState *ramfb_setup(Error **errp)
- {
-     FWCfgState *fw_cfg =3D fw_cfg_find();
-@@ -129,12 +114,9 @@ RAMFBState *ramfb_setup(Error **errp)
-=20
-     s =3D g_new0(RAMFBState, 1);
-=20
--    s->locked =3D false;
--
-     rom_add_vga("vgabios-ramfb.bin");
-     fw_cfg_add_file_callback(fw_cfg, "etc/ramfb",
-                              NULL, ramfb_fw_cfg_write, s,
-                              &s->cfg, sizeof(s->cfg), false);
--    qemu_register_reset(ramfb_reset, s);
-     return s;
- }
+ void ramfb_display_update(QemuConsole *con, RAMFBState *s)
 --=20
 2.18.2
 
