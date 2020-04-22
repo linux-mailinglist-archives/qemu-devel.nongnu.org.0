@@ -2,91 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B549E1B3C99
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 12:07:16 +0200 (CEST)
-Received: from localhost ([::1]:47146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B27CA1B3DDD
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 12:20:44 +0200 (CEST)
+Received: from localhost ([::1]:47352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRCHj-0007ej-Nz
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 06:07:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42142)
+	id 1jRCUl-0005fn-Dk
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 06:20:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50722)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jRCFe-0005Rw-DU
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:05:06 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jRCTH-00054X-NZ
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:19:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jRCFZ-0007u1-G7
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:05:05 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:49443
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jRCFZ-0007n1-2G
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:05:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587549899;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9EcqVeYqvigPiSD6IPipYSy7lwBCN6HkO6NYflX4Yfw=;
- b=SJsj4zfwXJDsVQOgrVaR478QBJPM6SAOvYYiE40H2I42EdR7y4rWBMeeVbXhfrluBTsPZc
- NdhWuK0sk+/3ScwpifHBU4Zy81FsECyHTPciQL3YQ6gqTNmKWK/t3E4HOa4rHsCaWMhDVX
- Jt9yWrnmZbN3pG0nAInZXCY8d4Nli8g=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-202-SuNDiRb2MreMArY9fX0tKQ-1; Wed, 22 Apr 2020 06:04:51 -0400
-X-MC-Unique: SuNDiRb2MreMArY9fX0tKQ-1
-Received: by mail-wr1-f71.google.com with SMTP id o12so796873wra.14
- for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 03:04:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jRCTG-0003eL-Hf
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:19:11 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:34967)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jRCTG-00037v-40
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:19:10 -0400
+Received: by mail-wm1-x344.google.com with SMTP id r26so1708549wmh.0
+ for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 03:19:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:autocrypt:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=V9rIBjaXCVFb+27MgqipRdDkydXyWxQTqrdeF3j3K7Q=;
- b=h+NvNrV7KS9QhDTqf/qThzCyVqO7X6h0gwVTy8iLJehwP3QIGRz+qVb7uDOGkzOhpV
- GjQ79rexLbfdedwbPKwJHHS9mpywOlgec1UqWKmkU4rX64NjE6bndJPbfAmZTZC9bOGY
- MJD7s5ZulO0gk/09w3a1A5mrNNM0XweUS7VqaKekrKaEEfrhq5Ta1Oxe+T/ZgJmzWytc
- CmdVWDDCS71zIWFZAFrBjcSVV1t6qFU+zaFTXIXlyZLoGD5R1z3dorysL1PR2keV4eHj
- JmNuD2noRhroptFsezt5zJI4Suw1bUe4Ef0WxwF2z3qgTOnW5GkmxZHNKu8O112f+Sv5
- 7esA==
-X-Gm-Message-State: AGi0PuZDyzILdhw6O+gfhXeF8C54YVNKAO1HFEwKUahNbtt+dfxysKtf
- WS9WwhFEfeGLN5ipksN0OPKUF0SLBvDQQnEJr50uaUXqjjXhAQWm8uQASX5dsq/IGs00Nbz8F5u
- xmmChL6wj/UMm0K0=
-X-Received: by 2002:a5d:4ccb:: with SMTP id c11mr16266462wrt.122.1587549889935; 
- Wed, 22 Apr 2020 03:04:49 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJi1/Ccx2CyW2jaEpUD/YDxYboR6/Ttj/sE06nbKuydu66J+exL8QRn6ZXkPtrJKKB7n6VejA==
-X-Received: by 2002:a5d:4ccb:: with SMTP id c11mr16266445wrt.122.1587549889695; 
- Wed, 22 Apr 2020 03:04:49 -0700 (PDT)
+ bh=/grsPV6SgvDHL8f+iOpbOXBjOaAr1dX7NVRkmfRx7Xc=;
+ b=ojlpQwmz1NEHgm9sPrOKX+dfWx81GSkl+t6F8MWJOR93B7qxzDAYG5oMQekJCTU0e6
+ tp+DyfC8UYLPXwh6IRAT/jsSP161CCO22Xjdm3fpiSSUjqqPetu+sgza0rixEP2G6A6O
+ ZotwRXSnaUh06z9FIDXq3cIelr/gD4aPd6gNl9rxuMKRVRd3t4K3rRMRRO1jyNp6/S1H
+ SeF9C5VF0a+EVnDOXLJNWz+KPNp2X5BZkHWQP3ELcFNE3CGyOnwyf0vI0TLrq+ac2tcR
+ fi9JFfnq21nr9wc2wAckQWiJ4S3PUy9M6Ahp6vHYrF1ADPdnJ7hh9QO7S7Fy2DXynJGC
+ HCUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=/grsPV6SgvDHL8f+iOpbOXBjOaAr1dX7NVRkmfRx7Xc=;
+ b=tBDPhQvfZOddlwYAY1UqD8g6vKppUlev+2YGrwvsnmsJH5CPkcwZDSEO9t3OBD+b1u
+ X/6Gl8Bax5uPk7f069KVT3ramzsqrFg92GmTFJETCdajpTUGCnaqp6/vadm9Zy32LP2G
+ LElYgoH5G5FN7D6OOWi9rWwGXV37hjpHyud78YgY09qj1od0hUReYq9kjj3rqDErw/jt
+ MEypJEayT2GuI+3WighuI71hXSqNkCynFRP0lR94B3oVOjBIj7mTAN5A11mP0Qo6nfYC
+ RDn1w7To3hK3iP6zpyY8mPi2pFtII1muPkwWHWXVCpAcOCHrhwI8bAGfvr2fWbnfSDDI
+ +Mxw==
+X-Gm-Message-State: AGi0PuaKZp4s1JwM8cIZ/b28mr7lKW1pX1HtmrU3mcPKDt3AZZICeZmM
+ SE+T6Mg22xrG4easvTJrtU0=
+X-Google-Smtp-Source: APiQypIBjGv3NkqBJw83+YaBwSFDM8sQz8tJ4ae1T43O2RW8burFfJcgjTzV1Fi3/bjIWyKsESxhzQ==
+X-Received: by 2002:a1c:c302:: with SMTP id t2mr10024179wmf.85.1587550748041; 
+ Wed, 22 Apr 2020 03:19:08 -0700 (PDT)
 Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id h16sm8364071wrw.36.2020.04.22.03.04.48
+ by smtp.gmail.com with ESMTPSA id 17sm6955082wmo.2.2020.04.22.03.19.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Apr 2020 03:04:49 -0700 (PDT)
-Subject: Re: [PATCH] roms: opensbi: Upgrade from v0.6 to v0.7
-To: Bin Meng <bmeng.cn@gmail.com>, Anup Patel <anup.patel@wdc.com>
-References: <1587389038-1549-1-git-send-email-bmeng.cn@gmail.com>
- <CAKmqyKMzUzHC1FhV6ccjswjRvQH_h6DuUwEWjte4CAEmxPOKDg@mail.gmail.com>
- <CAEUhbmUTEVPF6f91SqrXL-_M-G_Jg2D29cBjbCs1YBGm2fk6QA@mail.gmail.com>
- <CAEUhbmWsNmTTTFz66M4sK-pEtEMOhfoYzCHYVyEF4AJ2X02twA@mail.gmail.com>
- <bd7da39b-4ece-7e72-a0a0-1d401c3b8c34@redhat.com>
- <CAEUhbmWCNGTn34wGSUvbwAbuY15VeDPPnFF2em4=XKEH5kReKw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <f70626ab-3527-475e-de97-b399cc1d378c@redhat.com>
-Date: Wed, 22 Apr 2020 12:04:47 +0200
+ Wed, 22 Apr 2020 03:19:07 -0700 (PDT)
+Subject: Re: [PATCH v2 27/36] tcg: Fix integral argument type to
+ tcg_gen_rot[rl]i_i{32, 64}
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20200422011722.13287-1-richard.henderson@linaro.org>
+ <20200422011722.13287-28-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Autocrypt: addr=f4bug@amsat.org; keydata=
+ mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
+ u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
+ HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
+ YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
+ ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
+ dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
+ ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
+ Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
+ HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
+ Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
+ CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
+ klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
+ jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
+ 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
+ loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
+ sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
+ JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
+ 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
+ K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
+ n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
+ CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
+Message-ID: <f6dadf97-b4a6-f0d9-abb7-01741a0612ad@amsat.org>
+Date: Wed, 22 Apr 2020 12:19:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAEUhbmWCNGTn34wGSUvbwAbuY15VeDPPnFF2em4=XKEH5kReKw@mail.gmail.com>
+In-Reply-To: <20200422011722.13287-28-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 02:57:52
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,109 +113,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Alistair Francis <alistair23@gmail.com>
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/22/20 11:50 AM, Bin Meng wrote:
-> On Wed, Apr 22, 2020 at 4:15 PM Philippe Mathieu-Daud=C3=A9
-> <philmd@redhat.com> wrote:
->>
->> On 4/22/20 3:30 AM, Bin Meng wrote:
->>> Hi Alistair,
->>>
->>> On Tue, Apr 21, 2020 at 9:34 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->>>>
->>>> Hi Alistair,
->>>>
->>>> On Tue, Apr 21, 2020 at 2:41 AM Alistair Francis <alistair23@gmail.com=
-> wrote:
->>>>>
->>>>> On Mon, Apr 20, 2020 at 6:25 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->>>>>>
->>>>>> Upgrade OpenSBI from v0.6 to v0.7 and the pre-built bios images.
->>>>>>
->>>>>> The v0.7 release includes the following commits:
->>>>>>
->>>>>> f64f4b9 lib: Add a new platform feature to bringup secondary harts
->>>>>> b677a9b lib: Implement hart hotplug
->>>>>> 5b48240 lib: Add possible hart status values
->>>>>> e3f69fc lib: Implement Hart State Management (HSM) SBI extension
->>>>>> 6704216 lib: Check MSIP bit after returning from WFI
->> [...]
->>>>>> 6c7922e lib: Support vector extension
->>>>>> 615587c docs: Update README about supported SBI versions
->>>>>> 66d0184 lib: Allow overriding SBI implementation ID
->>>>>> 9f1b72c include: Bump-up version to 0.7
->>
->> The git-short-log in the commit message is very appreciated, thanks.
->>
->>>>>>
->>>>>> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
->>>>>
->>>>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->>>>>
->>>>> Can you share a git branch with this patch? From memory these binary
->>>>> patches don't apply well from emails.
->>
->> Indeed. These patches are good candidate to use the 'git-format-patch
->> --no-binary' option with a link to a git repository to fetch the full
->> commit:
->>
->=20
-> Some other project mailing lists do not prevent binary patch mails. If
-> this is QEMU convention, I suggest we document this in
-> https://wiki.qemu.org/Contribute/SubmitAPatch.
+On 4/22/20 3:17 AM, Richard Henderson wrote:
+> For the benefit of compatibility of function pointer types,
+> we have standardized on int32_t and int64_t as the integral
+> argument to tcg expanders.
+> 
+> We converted most of them in 474b2e8f0f7, but missed the rotates.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  include/tcg/tcg-op.h |  8 ++++----
+>  tcg/tcg-op.c         | 16 ++++++++--------
+>  2 files changed, 12 insertions(+), 12 deletions(-)
 
-This is not a convention, but a personal suggestion. QEMU mailing list=20
-don't have this limitation AFAIK. However some MTA do weird things when=20
-relaying encoded binaries, and the result is patch are simply not=20
-applicable.
-Also such large (broken) mails are a pain when your mailbox has quota.
-
-I added this entry:
-https://wiki.qemu.org/Contribute/SubmitAPatch#Avoid_posting_large_binary_bl=
-ob
-
->=20
->>     --no-binary
->>       Do not output contents of changes in binary files,
->>       instead display a notice that those files changed.
->>       Patches generated using this option cannot be applied
->>       properly, but they are still useful for code review.
->>
->>>>
->>>> Sure. Please grab the bits from http://github.com/lbmeng/qemu opensbi =
-branch.
->>>>
->>>> You can also use patchwork to help with your custodian work.
->>>> http://patchwork.ozlabs.org/project/qemu-devel/patch/1587389038-1549-1=
--git-send-email-bmeng.cn@gmail.com/
->>>>
->>>> Click on the "mbox" button to download the patch and apply it.
->>>
->>> Will this be 5.0, or 5.1?
->>
->> Unlikely 5.1, too late.
->=20
-> I am fine. Just wanted to know the strategy of which QEMU release to
-> ship which OpenSBI release. +Anup in case he has some comments.
-
-Well I'm not taking any decision here, I'm simply sharing the impression=20
-I have after reading the thread between Palmer and Peter:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg697142.html
-You can still ask Alistair to insist to Peter, but you'd need a strong=20
-reason :)
-
->=20
-> Regards,
-> Bin
->=20
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
