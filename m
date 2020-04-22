@@ -2,87 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEA601B3E25
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 12:25:55 +0200 (CEST)
-Received: from localhost ([::1]:47404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80FD71B3E69
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 12:28:19 +0200 (CEST)
+Received: from localhost ([::1]:47484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRCZm-0007Ph-Eh
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 06:25:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53962)
+	id 1jRCc6-0000eD-6E
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 06:28:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55380)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jRCYK-0006w6-L7
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:24:27 -0400
+ (envelope-from <philmd@redhat.com>) id 1jRCad-0008PM-1B
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:26:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jRCYH-00046c-Uk
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:24:22 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58768
+ (envelope-from <philmd@redhat.com>) id 1jRCac-0001dq-4v
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:26:46 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44266
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jRCYF-0003Vj-AI
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:24:21 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jRCab-0001Wk-Ny
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 06:26:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587551056;
+ s=mimecast20190719; t=1587551204;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A+Wogbxk/VVrJOpIcLw2lf+my99B1s6Taagpl40mLH0=;
- b=Szwxu1FzVHR2PiiL3rtR/j/u4Namak6RxbXp+t2cye7GEZJMzlG0J0eJQok7MKhi93gG+O
- XomeoZBIFNoPDzf2NFzwWtLhChp1zIcowNZObpEQZVtuCaG7U5FDU4tJWVwxchSJQyg1Me
- Rp4N9O8kI5EehrucfFjFDgobt/JEEU4=
+ bh=Vu4GZGPqpWaVXTxSTo+lfJSeFZFnJF3Y9FIwDSRzpwk=;
+ b=QTK7vaBrukEmnimHMNcU6rKGgIeqM5X76uR6bK1zL8TvBnOtMa225ikTLNmTWc9N2uYU+m
+ 2fvDGif+FYPzr6ZpRJU4W7qNMwZb/+HaeqlpENpDlEDkHVmQt76cIiBgnM9t4Prh2nGL66
+ GTAX6TIJe902SYfsXGN2pKB/nEZ5vn8=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-NoOySuE2P22udfIhG8sY9A-1; Wed, 22 Apr 2020 06:24:14 -0400
-X-MC-Unique: NoOySuE2P22udfIhG8sY9A-1
-Received: by mail-wr1-f72.google.com with SMTP id g7so808270wrw.18
- for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 03:24:14 -0700 (PDT)
+ us-mta-65--mEeEXWvPNeU97DNtTIdbg-1; Wed, 22 Apr 2020 06:26:42 -0400
+X-MC-Unique: -mEeEXWvPNeU97DNtTIdbg-1
+Received: by mail-wr1-f72.google.com with SMTP id q10so822594wrv.10
+ for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 03:26:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=fzOcVI63pForZzMnv1X9WWlF9VyAZA6u7GXEergTrb0=;
- b=LIpcScxMpXhHHo/n1dEB/Y8AK12Za0A8lsUUGuGNkipWh9uiRbvu25KJ8Bi+MrznZs
- zg5HmrEPwqkGb5YrCbrV91WQdIUF60hLOPNchvXVGv/2BjnHAVwbnIG3eFiidKkG/php
- c/gW8sQ/u22HEjWnbnDeK76LKKaW5lXv22639tEY2WYf+eUeIxaVKTKvqWlrnEcN3fnj
- FpNKU1+KhO/h2RCZfidH+hhFtHLyaoztJFsYCkR2ajqwhzVEnfreqpdHZk41+gCAE+Oi
- 39QMGm3ZmHJzWAIrYcNPVhxbINimoazIMZj/28gSJqXV9qoXaXkAoVofxRTYDv9NK7OM
- Vk0Q==
-X-Gm-Message-State: AGi0PuZRD01y8Nnl9wo465wgfu3Lia4fk3EWNWm5NbEjgaGrh3SJ3JPx
- NUyBQbnvJTYEhJ53n+P8FZjyPmvBw8doMuDAJRiBPGyRjRO6J/ZQC6sOSONe+6RNr89Nho9f7pw
- 6fUe3JYOirXvEmqo=
-X-Received: by 2002:adf:fd0a:: with SMTP id e10mr28339082wrr.160.1587551053514; 
- Wed, 22 Apr 2020 03:24:13 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJZAl6nJONSI+ByWFmWF8DLMpIoX8wPwbeFBceOPuwqInemrFTxE3Xa5ZnfuMS3vDfVotwUVw==
-X-Received: by 2002:adf:fd0a:: with SMTP id e10mr28339057wrr.160.1587551053236; 
- Wed, 22 Apr 2020 03:24:13 -0700 (PDT)
+ bh=Wp+lKFgC006ZVm8r4AYLF2fJZc45QuAbKLEBEcG3USI=;
+ b=T8no9lGDUaiwHnm/YP5WaIiAJNA52tQ0UKIZfTGTEuYxnwyUEVSqyH1soNK3/F2W+z
+ VCuwQTXL0MStvD3UHWZrcHyTFs4I/u4pNkTXNSnnekKNCR685eSY3SbXAtb4CpLkDM1N
+ PqSfHslHOW3S6YzZfpnw01xXcGisqyWNALZYJwqR+Gs0AJl3XuQJy4QttfXIQHVAL1PD
+ zxg941rBUXey9iL43vU/HIBz6E7wzLERxIfXslILQRb7FG2FSjuBx0aQgVX1lVA4bjq9
+ b5buigvGW2nxtmiBVVKfWtJHQpyX79zzoV81OBz/VVkTpsaj//QkLA1R+3CrZfeEZs6k
+ 2vWA==
+X-Gm-Message-State: AGi0Pubvqn9fHRQAQG4VjH/DnlZR4qWhxSLfxXI+Zvdab3wqtmqqZV0i
+ aWTwvunFjMtBTlQOzUmAlh+ImDuYUozq5RgtSBI2RKMARtJCVN2fueoCrW56G8xva7KoXqv98VM
+ r32zmWS3Lq9cad+w=
+X-Received: by 2002:a1c:9c0a:: with SMTP id f10mr9801501wme.139.1587551201598; 
+ Wed, 22 Apr 2020 03:26:41 -0700 (PDT)
+X-Google-Smtp-Source: APiQypICUGiSzIP8nb6GBh2ks4XA7flGckzQaJZ9GJikW/vrXW0aFMfKfPAb7sH7UXDKRfUBHj0wOQ==
+X-Received: by 2002:a1c:9c0a:: with SMTP id f10mr9801471wme.139.1587551201209; 
+ Wed, 22 Apr 2020 03:26:41 -0700 (PDT)
 Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id o3sm1460264wru.68.2020.04.22.03.24.12
+ by smtp.gmail.com with ESMTPSA id 5sm6793423wmg.34.2020.04.22.03.26.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Apr 2020 03:24:12 -0700 (PDT)
-Subject: Re: [PATCH 3/5] ramfb: don't update RAMFBState on errors
+ Wed, 22 Apr 2020 03:26:40 -0700 (PDT)
+Subject: Re: [PATCH 5/5] ramfb: drop leftover debug message
 To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 References: <20200422100211.30614-1-kraxel@redhat.com>
- <20200422100211.30614-4-kraxel@redhat.com>
+ <20200422100211.30614-6-kraxel@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <dc32383f-af2b-d052-b9fb-fa7ef1622424@redhat.com>
-Date: Wed, 22 Apr 2020 12:24:11 +0200
+Message-ID: <9cd1b1be-7caf-c41c-c143-c1cc0855a062@redhat.com>
+Date: Wed, 22 Apr 2020 12:26:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200422100211.30614-4-kraxel@redhat.com>
+In-Reply-To: <20200422100211.30614-6-kraxel@redhat.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 02:57:52
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 02:12:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,58 +101,29 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/22/20 12:02 PM, Gerd Hoffmann wrote:
-> Store width & height & surface in local variables.  Update RAMFBState
-> with the new values only in case the ramfb_create_display_surface() call
-> succeeds.
->=20
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > ---
->   hw/display/ramfb.c | 25 ++++++++++++++++---------
->   1 file changed, 16 insertions(+), 9 deletions(-)
+>   hw/display/ramfb.c | 2 --
+>   1 file changed, 2 deletions(-)
 >=20
 > diff --git a/hw/display/ramfb.c b/hw/display/ramfb.c
-> index 9d41c2ad2868..fbe959147dc9 100644
+> index d1b1cb9bb294..be884c9ea837 100644
 > --- a/hw/display/ramfb.c
 > +++ b/hw/display/ramfb.c
-> @@ -71,20 +71,27 @@ static DisplaySurface *ramfb_create_display_surface(i=
-nt width, int height,
->   static void ramfb_fw_cfg_write(void *dev, off_t offset, size_t len)
->   {
->       RAMFBState *s =3D dev;
-> -    uint32_t fourcc, format;
-> +    DisplaySurface *surface;
-> +    uint32_t fourcc, format, width, height;
->       hwaddr stride, addr;
+> @@ -88,8 +88,6 @@ static void ramfb_fw_cfg_write(void *dev, off_t offset,=
+ size_t len)
+>       addr   =3D be64_to_cpu(s->cfg.addr);
+>       format =3D qemu_drm_format_to_pixman(fourcc);
 >  =20
-> -    s->width  =3D be32_to_cpu(s->cfg.width);
-> -    s->height =3D be32_to_cpu(s->cfg.height);
-> -    stride    =3D be32_to_cpu(s->cfg.stride);
-> -    fourcc    =3D be32_to_cpu(s->cfg.fourcc);
-> -    addr      =3D be64_to_cpu(s->cfg.addr);
-> -    format    =3D qemu_drm_format_to_pixman(fourcc);
-> +    width  =3D be32_to_cpu(s->cfg.width);
-> +    height =3D be32_to_cpu(s->cfg.height);
-> +    stride =3D be32_to_cpu(s->cfg.stride);
-> +    fourcc =3D be32_to_cpu(s->cfg.fourcc);
-> +    addr   =3D be64_to_cpu(s->cfg.addr);
-> +    format =3D qemu_drm_format_to_pixman(fourcc);
->  =20
->       fprintf(stderr, "%s: %dx%d @ 0x%" PRIx64 "\n", __func__,
->               s->width, s->height, addr);
-> -    s->ds =3D ramfb_create_display_surface(s->width, s->height,
-> -                                         format, stride, addr);
-> +    surface =3D ramfb_create_display_surface(width, height,
-> +                                           format, stride, addr);
-> +    if (!surface)
-> +        return;
-> +
-> +    s->width =3D width;
-> +    s->height =3D height;
-> +    s->ds =3D surface;
->   }
->  =20
->   void ramfb_display_update(QemuConsole *con, RAMFBState *s)
+> -    fprintf(stderr, "%s: %dx%d @ 0x%" PRIx64 "\n", __func__,
+> -            s->width, s->height, addr);
+>       surface =3D ramfb_create_display_surface(width, height,
+>                                              format, stride, addr);
+>       if (!surface)
 >=20
+
+I'd move this before patch #3/5 "ramfb: don't update RAMFBState on=20
+errors". Anyway,
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
