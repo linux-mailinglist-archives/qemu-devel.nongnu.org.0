@@ -2,69 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446691B3677
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 06:42:52 +0200 (CEST)
-Received: from localhost ([::1]:41540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 956271B36BD
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 07:15:55 +0200 (CEST)
+Received: from localhost ([::1]:42178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jR7Dn-0007S1-9l
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 00:42:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50914)
+	id 1jR7jm-0003jT-6H
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 01:15:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55508)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zltjiangshi@gmail.com>) id 1jR74t-00018S-SS
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 00:33:43 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jR7iO-00036q-Hk
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 01:14:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <zltjiangshi@gmail.com>) id 1jR74q-0006Cz-0E
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 00:33:39 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:44792)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1jR74p-0005xD-DF
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 00:33:35 -0400
-Received: by mail-lj1-x241.google.com with SMTP id z26so776049ljz.11
- for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 21:33:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6A/JSt/lvhm1/8jW+5g+pqNVCFB1Ru0tyfuhWz6X1oI=;
- b=c7TcHPII2iQm7OBzps9DhQIcRy0VU/z4odqOV8MmTZ9JAzqe0NiJrrV8B79WMKAXGR
- em1ZWTe8oMnSaNd//LpkmCLn6VF6IbfDfbYPA2EMuVGS3VV3mS16Ul4MhWCTDzl4+iOL
- x7hMai51AWj2ruoy3BXtBtD3jwzBA4k+YE7RTuUByAvx1CvKe6Gv108C5cJF//UJaa54
- xpDlgv5F+fnt0RXGflvd+YNYM8ic519NHiuqL+ZNbqMcCTHY9X1tqbzfoXXThyVNY5DP
- OslJUR1fTRdrXW/A1/QEIANJd6IXUXLsPB4hoej9nICxg6o9ri1Fphd3P93K6fXWQlvg
- L/cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6A/JSt/lvhm1/8jW+5g+pqNVCFB1Ru0tyfuhWz6X1oI=;
- b=YP0xM11JxA0+UlrmGwqTk539ZWxM2rAniJfacJlk8MO0h+GP5GmWCSfWZaHcs3vxGd
- QdYmRj+CHUdOBTdQ57wvITPmwsD8W41WUq3P+o/md31oNzjX3H0uub0PXDtI5HIlBLF4
- 0w+5b82e73ja5FOBLLcrZOh51xdmAp9+m3ViwEFcoQgBLd/Qpilkl05QWJzNCeAug9zL
- 0tNNFCLV+FEJySQz+tdt3uYkzgCqog2d6MzpLamVnEWfCVvaI8El4KhbPcGnVfSOW/I7
- 9RzDnVSR/bANzhD/xcRZv82gR11tB47NFOcNvdrZsb+hWUTIPLoPjD1xInJrAbaTeLiT
- /lDg==
-X-Gm-Message-State: AGi0Pua+qQQKhrJCQUK5CMDje3STxCgWa8RiHBT0DwiWPMpr+iraJFdL
- UpNw2j6mMMak+l9UVvFGHxOzE0pVQ4jTtUBLWCc=
-X-Google-Smtp-Source: APiQypJCzQXTwcVDAsol0GJSsiyf/YRGJPA1BCsaylnkBqP8rfc2a3FzDvddKmzBEi+evnZScUHUz2AZvsuoEtD4s5M=
-X-Received: by 2002:a2e:87d3:: with SMTP id v19mr5744807ljj.176.1587530012019; 
- Tue, 21 Apr 2020 21:33:32 -0700 (PDT)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jR7iN-0005pW-56
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 01:14:27 -0400
+Received: from mail-vi1eur05on2106.outbound.protection.outlook.com
+ ([40.107.21.106]:41056 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jR7iM-0005cd-Ci; Wed, 22 Apr 2020 01:14:26 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mz1SyWnVidUoxkeVjXp0ujKumJWdc2r/ZcMJdUs8EbJDjfLqwfeuI6dBfVA9fo3RuOvDsUzXdSpfa1Nbd+5ZEGSIjadjUaQ8polsuMsAjox8LiaaOBNPHJqco71xVBaiJq9SZjULoK7EeK0ud1AZohgF/b0u97G8+srB/7l7rQgN2hPRSQycQA215zMll1g+tl1rk4rNahFH7OnzgVOjKXnOSXCDGiX74OJt3tCWiLpfLp0w1T3MaEyTP92IGTYjvIbpLiVd3dqT5OolnZvdQbWDnpj0UEzw944R0+P3JWHpX05x459/kKZw9EtphdebfbNJVE8DXvCstAb/cUYumg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lzf0qjMbLMnQ7Bhx0+IHZcLFy4UgHaa7SUD5Wp0HQPw=;
+ b=RpYE82oUs1JDMY+ITFYPWFYtO/XPrC1EvY2d3rxXwrVwSoDUFPJfuPQV+y32/TXmqWs8SMIVtOOGuvZctPv3WjwuD9eo6qNu9RZ0OddnHPC1L6ESbjTSzPO4ixQSmF3AO+ASVl/824pRHCmvkcDFouHsDROjaAaMzhttULQ1fsPw1F/FeSN2ZTqPlsz8SBAyVmGnDX05W3LVZelQ3veSySxyKu/XxKjviOlCnXzC/B83PdMqODY2jywpiHRpTG9Y/CnqAulZFGfy7OOcekIe6RC3xIUHHiWn4hyCt+36B2rGFGjqOo7NvZojiKm1UwYHX2xPbZOmaMrTqxQ2hfoDSQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lzf0qjMbLMnQ7Bhx0+IHZcLFy4UgHaa7SUD5Wp0HQPw=;
+ b=GSNixXAjHexyrYH6zDJy5Clom6DPQ6Dpirsd4FXEgy7DZn3ANA/uPKx/zaKYf2qsbr8HxfI2Nay50dFujUnlzs+CkhonJRRXZenyIloC45lD++oxiBmZvVmmTU0vBmkuF5b1daXcNyzz5YqM+AoqCAqPYnStbG5Yx/E0UhZqkok=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5320.eurprd08.prod.outlook.com (2603:10a6:20b:103::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Wed, 22 Apr
+ 2020 05:14:22 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.012; Wed, 22 Apr 2020
+ 05:14:22 +0000
+Subject: Re: [PATCH v3 04/10] iotests/check: move QEMU_VXHS_PROG to common.rc
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20200421073601.28710-1-vsementsov@virtuozzo.com>
+ <20200421073601.28710-5-vsementsov@virtuozzo.com>
+ <20200421160335.GD22440@linux.fritz.box>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200422081420266
+Message-ID: <6af6c36e-fb81-f304-b3a4-d5d8f3921580@virtuozzo.com>
+Date: Wed, 22 Apr 2020 08:14:20 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <20200421160335.GD22440@linux.fritz.box>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM3PR07CA0068.eurprd07.prod.outlook.com
+ (2603:10a6:207:4::26) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <1586763024-12197-4-git-send-email-chenhc@lemote.com>
- <20200421195613.CD4D1206D9@mail.kernel.org>
-In-Reply-To: <20200421195613.CD4D1206D9@mail.kernel.org>
-From: chen huacai <zltjiangshi@gmail.com>
-Date: Wed, 22 Apr 2020 12:40:53 +0800
-Message-ID: <CABDp7VoErMhsmG4QepXd-vJgtUiWRYCt77KdjpjwGhpmq3MLZg@mail.gmail.com>
-Subject: Re: [PATCH 03/15] KVM: MIPS: Fix VPN2_MASK definition for variable
- cpu_vmbits
-To: Sasha Levin <sashal@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::241;
- envelope-from=zltjiangshi@gmail.com; helo=mail-lj1-x241.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::241
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.157) by
+ AM3PR07CA0068.eurprd07.prod.outlook.com (2603:10a6:207:4::26) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2937.6 via Frontend Transport; Wed, 22 Apr 2020 05:14:21 +0000
+X-Tagtoolbar-Keys: D20200422081420266
+X-Originating-IP: [185.215.60.157]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 821348fa-2f39-4cfd-ace2-08d7e67c0450
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5320:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5320B6714FCEFAE665DB6FFFC1D20@AM7PR08MB5320.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-Forefront-PRVS: 03818C953D
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(366004)(39830400003)(136003)(376002)(346002)(396003)(6486002)(4744005)(4326008)(66946007)(66476007)(66556008)(5660300002)(86362001)(36756003)(8936002)(81156014)(8676002)(26005)(31686004)(52116002)(16526019)(316002)(16576012)(6916009)(478600001)(956004)(186003)(2906002)(2616005)(31696002);
+ DIR:OUT; SFP:1102; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: STiA2E0y8wDfkeqvhtylI2XqpXaEqpvaBVCBr01k7gkWKkU1T9bDi0Cwao9Uzt5lOZrPyRFTIjPJKq7sMjOAGDYrWdiKSDZS7+olfSwZSbgFvJ69tG4438ezNLnbMP35AH6TNowaB1qwSuRzZyn+MmxnaH8IIUWCdGBIJDKXbVud3Z0GEpBZbv24dSn+nDqN36fhpyNHsSifrEbGXZIkElCH1EDlJwm1tFkXuui7vTr09FvMUGbWv5gC5dgfdZO9uAFnDlZjudw7B+n0L7rkVZDd66IuNq8JpJIDxlpbm/e+mUofuV2fc2ypECstddIP2ZKBHBMgesKwqhEbwiu8e/3V6bYFys/W14JS0Fna1MPcjplqX0eLFad1VphAyQMlTJEBfiDOtal403aIFys2NspAHdW1xWHA3XxEYO59vC4LOQLBXXnJePk2Rjdw0ggJ
+X-MS-Exchange-AntiSpam-MessageData: eYBkZ6t/G24ExnwRDMxzjIQopE1I9880MPRu7P3fSnW+cKi4EIxtG0TYZ030PzshKWNJta86UcV/OaXXp63na+VuBE4hBVm0XOayRvfYWIzWwlnU9gcZPp4/5tsXa9/UCcVF0hwtWxTNjq+wLRGy+A==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 821348fa-2f39-4cfd-ace2-08d7e67c0450
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2020 05:14:22.2896 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rWgTB1fwRzpOQ3oCKhsN2ZPhdvakvSmjMf+MgOm1ezbMtOsKvEWgqQf/Vbdikiol5zblSyjc4M2ml4UEblxAGqIY0C/R/VX6VmgC16x+Qlw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5320
+Received-SPF: pass client-ip=40.107.21.106;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 01:14:23
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Received-From: 40.107.21.106
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,57 +116,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, qemu-level <qemu-devel@nongnu.org>,
- stable@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Huacai Chen <chenhc@lemote.com>, Xing Li <lixing@loongson.cn>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+ den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Sasha,
+21.04.2020 19:03, Kevin Wolf wrote:
+> Am 21.04.2020 um 09:35 hat Vladimir Sementsov-Ogievskiy geschrieben:
+>> QEMU_VXHS_PROG is used only in common.rc. So, move it to common.rc,
+>> simplifying a bit further conversion of check into python
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> 
+> This feels inconsistent when every other QEMU_*_PROG stays in check. Is
+> QEMU_VXHS_PROG really so different?
+> 
 
-On Wed, Apr 22, 2020 at 9:42 AM Sasha Levin <sashal@kernel.org> wrote:
->
-> Hi
->
-> [This is an automated email]
->
-> This commit has been processed because it contains a -stable tag.
-> The stable tag indicates that it's relevant for the following trees: all
->
-> The bot has tested the following trees: v5.6.5, v5.5.18, v5.4.33, v4.19.116, v4.14.176, v4.9.219, v4.4.219.
->
-> v5.6.5: Build OK!
-> v5.5.18: Build OK!
-> v5.4.33: Build OK!
-> v4.19.116: Build OK!
-> v4.14.176: Build OK!
-> v4.9.219: Build OK!
-> v4.4.219: Failed to apply! Possible dependencies:
->     029499b47738 ("KVM: x86: MMU: Make mmu_set_spte() return emulate value")
->     19d194c62b25 ("MIPS: KVM: Simplify TLB_* macros")
->     403015b323a2 ("MIPS: KVM: Move non-TLB handling code out of tlb.c")
->     7ee0e5b29d27 ("KVM: x86: MMU: Remove unused parameter of __direct_map()")
->     9a99c4fd6586 ("KVM: MIPS: Define KVM_ENTRYHI_ASID to cpu_asid_mask(&boot_cpu_data)")
->     9fbfb06a4065 ("MIPS: KVM: Arrayify struct kvm_mips_tlb::tlb_lo*")
->     ba049e93aef7 ("kvm: rename pfn_t to kvm_pfn_t")
->     bdb7ed8608f8 ("MIPS: KVM: Convert headers to kernel sized types")
->     ca64c2beecd4 ("MIPS: KVM: Abstract guest ASID mask")
->     caa1faa7aba6 ("MIPS: KVM: Trivial whitespace and style fixes")
->     e6207bbea16c ("MIPS: KVM: Use MIPS_ENTRYLO_* defs from mipsregs.h")
->
->
-> NOTE: The patch will not be queued to stable trees until it is upstream.
->
-> How should we proceed with this patch?
-Please ignore this patch in linux-4.4 branch and even below.
+Hmm, I was just too lazy to understand set_prog_path logic :) If you think it worth it, I'll try.
 
->
-> --
-> Thanks
-> Sasha
->
++set_prog_path()
++{
++    p=$(command -v $1 2> /dev/null)
++    if [ -n "$p" -a -x "$p" ]; then
++        type -p "$p"
++    else
++        return 1
++    fi
++}
+
+Aha. It just tries to get path to the command and check that it is executable.
+
+So, in python, it probably should look like simply
+
+p = shutil.which(command)
+return p if os.access(p, os.X_OK) else None
+
+OK, I'll add it in next version.
 
 
 -- 
-Huacai Chen
+Best regards,
+Vladimir
 
