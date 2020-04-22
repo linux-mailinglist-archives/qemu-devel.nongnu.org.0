@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D0431B460D
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 15:15:28 +0200 (CEST)
-Received: from localhost ([::1]:50378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D1FF1B4625
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 15:21:26 +0200 (CEST)
+Received: from localhost ([::1]:50468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRFDr-0007Y2-3k
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 09:15:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46868)
+	id 1jRFJd-0006BQ-DU
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 09:21:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47098)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRF69-0003n5-Gd
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:07:30 -0400
+ (envelope-from <armbru@redhat.com>) id 1jRF6K-00043W-UZ
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:07:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRF66-0003jx-0O
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:07:29 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33734
+ (envelope-from <armbru@redhat.com>) id 1jRF65-0003jb-RA
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:07:40 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55916
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jRF65-0003fv-IG
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jRF65-0003fz-DQ
  for qemu-devel@nongnu.org; Wed, 22 Apr 2020 09:07:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1587560844;
@@ -27,30 +27,30 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fidAYO+9hszl7oApQssrrQ9tS5TjJYShG/nQrI4K8HU=;
- b=QuUhs/xRtgmJeM4s7dM5LsUitr5ZMqAr0oKUE4lb2WgT43mQ9Pg3OIUX6xxevnuH5sazpO
- S5A8WlrhfkWAQhUN2tw6uyr9nEHUKic/q+Fpt0uOHm1UyM1jRvFgPFYflJbzRcY3vc1IdQ
- /yw6vREOwWqn2uNXx5wNy3t/6w+Tpyk=
+ bh=VfYN+TU+3RtiZ4Pa1zd3jj/XHqO17tt2OP3Q91CNoWs=;
+ b=dOMOPRY1yVJRYlS9L3MbuGev7n9s5dTHXYfMefXXut/Juq7u3YZs8FCTcvPd1FSZTs9O9n
+ OvI8ALHkE4hIEkVnQZH4BOOPLyUQZwpSPnp4vUULHvxjQfOqyi19bEvnONpMcDcMMQ2xk+
+ sCwFo5FGd5AM5LZR9ghcya+WSfrnlTg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-Fv6SnpdwPb2ugqxmOswErw-1; Wed, 22 Apr 2020 09:07:22 -0400
-X-MC-Unique: Fv6SnpdwPb2ugqxmOswErw-1
+ us-mta-234-MBZJOojGPgqV0JcqchcQGg-1; Wed, 22 Apr 2020 09:07:22 -0400
+X-MC-Unique: MBZJOojGPgqV0JcqchcQGg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6FBC18CA247
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB2521084431
  for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 13:07:21 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 945DA60C88;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 97AFD60C99;
  Wed, 22 Apr 2020 13:07:21 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0795211358BF; Wed, 22 Apr 2020 15:07:20 +0200 (CEST)
+ id 0ADCF11358C0; Wed, 22 Apr 2020 15:07:20 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/14] cpus: Fix configure_icount() error API violation
-Date: Wed, 22 Apr 2020 15:07:08 +0200
-Message-Id: <20200422130719.28225-4-armbru@redhat.com>
+Subject: [PATCH v2 04/14] cpus: Proper range-checking for -icount shift=N
+Date: Wed, 22 Apr 2020 15:07:09 +0200
+Message-Id: <20200422130719.28225-5-armbru@redhat.com>
 In-Reply-To: <20200422130719.28225-1-armbru@redhat.com>
 References: <20200422130719.28225-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -59,11 +59,11 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 02:12:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 02:57:52
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,103 +79,50 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Error ** argument must be NULL, &error_abort, &error_fatal, or a
-pointer to a variable containing NULL.  Passing an argument of the
-latter kind twice without clearing it in between is wrong: if the
-first call sets an error, it no longer points to NULL for the second
-call.
+timers_state.icount_time_shift must be in [0,63] to avoid undefined
+behavior when shifting by it, e.g. in cpu_icount_to_ns().
+icount_adjust() clamps it to [0,MAX_ICOUNT_SHIFT], with
+MAX_ICOUNT_SHIFT =3D 10.  configure_icount() doesn't.  Fix that.
 
-configure_icount() is wrong that way.  Harmless, because its @errp is
-always &error_abort or &error_fatal.
-
-Just as wrong (and just as harmless): when it fails, it can still
-update global state.
-
-Fix all that.
-
+Fixes: a8bfac37085c3372366d722f131a7e18d664ee4d
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- cpus.c | 51 ++++++++++++++++++++++++++++++---------------------
- 1 file changed, 30 insertions(+), 21 deletions(-)
+ cpus.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/cpus.c b/cpus.c
-index ef441bdf62..1b542b37f9 100644
+index 1b542b37f9..5670c96bcf 100644
 --- a/cpus.c
 +++ b/cpus.c
-@@ -797,40 +797,49 @@ void cpu_ticks_init(void)
+@@ -25,6 +25,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu-common.h"
+ #include "qemu/config-file.h"
++#include "qemu/cutils.h"
+ #include "migration/vmstate.h"
+ #include "monitor/monitor.h"
+ #include "qapi/error.h"
+@@ -801,7 +802,6 @@ void configure_icount(QemuOpts *opts, Error **errp)
+     bool sleep =3D qemu_opt_get_bool(opts, "sleep", true);
+     bool align =3D qemu_opt_get_bool(opts, "align", false);
+     long time_shift =3D -1;
+-    char *rem_str =3D NULL;
 =20
- void configure_icount(QemuOpts *opts, Error **errp)
- {
--    const char *option;
-+    const char *option =3D qemu_opt_get(opts, "shift");
-+    bool sleep =3D qemu_opt_get_bool(opts, "sleep", true);
-+    bool align =3D qemu_opt_get_bool(opts, "align", false);
-+    long time_shift =3D -1;
-     char *rem_str =3D NULL;
-=20
--    option =3D qemu_opt_get(opts, "shift");
--    if (!option) {
--        if (qemu_opt_get(opts, "align") !=3D NULL) {
--            error_setg(errp, "Please specify shift option when using align=
-");
--        }
-+    if (!option && qemu_opt_get(opts, "align")) {
-+        error_setg(errp, "Please specify shift option when using align");
-         return;
+     if (!option && qemu_opt_get(opts, "align")) {
+         error_setg(errp, "Please specify shift option when using align");
+@@ -814,9 +814,8 @@ void configure_icount(QemuOpts *opts, Error **errp)
      }
 =20
--    icount_sleep =3D qemu_opt_get_bool(opts, "sleep", true);
-+    if (align && !sleep) {
-+        error_setg(errp, "align=3Don and sleep=3Doff are incompatible");
-+        return;
-+    }
-+
-+    if (strcmp(option, "auto") !=3D 0) {
-+        errno =3D 0;
-+        time_shift =3D strtol(option, &rem_str, 0);
-+        if (errno !=3D 0 || *rem_str !=3D '\0' || !strlen(option)) {
-+            error_setg(errp, "icount: Invalid shift value");
-+            return;
-+        }
-+    } else if (icount_align_option) {
-+        error_setg(errp, "shift=3Dauto and align=3Don are incompatible");
-+        return;
-+    } else if (!icount_sleep) {
-+        error_setg(errp, "shift=3Dauto and sleep=3Doff are incompatible");
-+        return;
-+    }
-+
-+    icount_sleep =3D sleep;
-     if (icount_sleep) {
-         timers_state.icount_warp_timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL=
-_RT,
-                                          icount_timer_cb, NULL);
-     }
-=20
--    icount_align_option =3D qemu_opt_get_bool(opts, "align", false);
-+    icount_align_option =3D align;
-=20
--    if (icount_align_option && !icount_sleep) {
--        error_setg(errp, "align=3Don and sleep=3Doff are incompatible");
--    }
--    if (strcmp(option, "auto") !=3D 0) {
+     if (strcmp(option, "auto") !=3D 0) {
 -        errno =3D 0;
--        timers_state.icount_time_shift =3D strtol(option, &rem_str, 0);
+-        time_shift =3D strtol(option, &rem_str, 0);
 -        if (errno !=3D 0 || *rem_str !=3D '\0' || !strlen(option)) {
--            error_setg(errp, "icount: Invalid shift value");
--        }
-+    if (time_shift >=3D 0) {
-+        timers_state.icount_time_shift =3D time_shift;
-         use_icount =3D 1;
-         return;
--    } else if (icount_align_option) {
--        error_setg(errp, "shift=3Dauto and align=3Don are incompatible");
--    } else if (!icount_sleep) {
--        error_setg(errp, "shift=3Dauto and sleep=3Doff are incompatible");
-     }
-=20
-     use_icount =3D 2;
++        if (qemu_strtol(option, NULL, 0, &time_shift) < 0
++            || time_shift < 0 || time_shift > MAX_ICOUNT_SHIFT) {
+             error_setg(errp, "icount: Invalid shift value");
+             return;
+         }
 --=20
 2.21.1
 
