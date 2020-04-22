@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B45CD1B4729
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 16:25:46 +0200 (CEST)
-Received: from localhost ([::1]:51720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E16461B474A
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 16:26:53 +0200 (CEST)
+Received: from localhost ([::1]:51758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRGJt-0001ve-QU
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 10:25:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57418)
+	id 1jRGKy-0003CX-U5
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 10:26:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58002)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jRGIx-0001C2-UT
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 10:24:48 -0400
+ (envelope-from <mst@redhat.com>) id 1jRGJm-0002BU-K2
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 10:25:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jRGIw-0003ZP-NX
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 10:24:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35837
+ (envelope-from <mst@redhat.com>) id 1jRGJm-00058g-5w
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 10:25:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23823
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jRGIw-0003Xt-AZ
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 10:24:46 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jRGJl-00056H-NK
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 10:25:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587565485;
+ s=mimecast20190719; t=1587565536;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Dqqa9vO9xE1PCMBMxhYsxe/Mw/Bsir9iDpk9fNriRDA=;
- b=RmsV/1WbCLXn27IfcOWn5wX8FTjzyMn/yYCJB99Mxsv+/MTxoTNm7DFS/viae0pwCjj2Cg
- XvdvxtvfIiFpa6+pJEOGSZ3WRTzsnTuPmzJJOrujakuY/CehJOz8trECmrtckr5q2Evi4i
- d3ii3xV4667Ullt/e4PspKMnNMkIl+I=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-247-FcmTG0M2PgGrUiFQ8pYqZA-1; Wed, 22 Apr 2020 10:24:43 -0400
-X-MC-Unique: FcmTG0M2PgGrUiFQ8pYqZA-1
-Received: by mail-wr1-f70.google.com with SMTP id y10so1133917wrn.5
- for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 07:24:42 -0700 (PDT)
+ bh=8eUZC5T50/0DAtR8iXBX8bpbAwXqG7Tyi/wpZVAJ68s=;
+ b=HDTcN14afIn+Uccz1DR0BVWhpwuZjHTMTGZFgmP6aKaKtauM/dVKPIQOvscI41Zek7pDWM
+ 3VLhfb4vfX3rCo5y0dq7NYyohl3jTXVPARmbtOgzDilZJC7ERLOPiKDFbFw5se4e9LaCnu
+ Om6k0tNyRWXYYfb/ixSUct2ey5KfMk4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-409-KFvNeRGVPFG_G80asSI9MQ-1; Wed, 22 Apr 2020 10:25:35 -0400
+X-MC-Unique: KFvNeRGVPFG_G80asSI9MQ-1
+Received: by mail-wm1-f71.google.com with SMTP id f81so888767wmf.2
+ for <qemu-devel@nongnu.org>; Wed, 22 Apr 2020 07:25:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=DAx54VJ2SwDHXQid7fK/MG+Q6XdS2U3nOW0hE/q5FNo=;
- b=gCzbQx2u4XIkAdqhRjW8rHp7CZePQQ/mF4G6Jc8jg9houzvjSj5BGWzQsWZAnUf/Xx
- BNeE1ANBnGrQIPDvIhuGG5XHDyCx4oZKIShm1YpC0RQW4i8iGc7roDl38wvdKs6zHyBG
- N+Gio7lOoqydXQHxydePtpxc1Hev2lQcRzeXJhpAB1nSVTE8JRea0m/dCtv6+kHDPBB1
- gVGgqAqZxWJMyPld8a1oOh/sak7ZurXeR45WDYfoQCD/o9tRSbGLzKch+at7BH0EByYA
- +2Z1OLM7Y5069I/TeUO6KclDHGAnn+mfQn2pi9G2DY17rW/O0B8O4q6VRT9vCwSvp+Kk
- SVQA==
-X-Gm-Message-State: AGi0PubaZ8vCjYdKziW1t5CUaL2/6FPheKDAop9m7T/mgCE3FcnVgWSW
- ixbCQhQd8iAIyBL992DHSX7oQY/mET1uy5b+M3OvAGkeMe4NbKbW+WaqP0sS5bcKIuuU5+AcKgv
- 82aRPPsApnFzscKc=
-X-Received: by 2002:a5d:6302:: with SMTP id i2mr19414648wru.80.1587565481983; 
- Wed, 22 Apr 2020 07:24:41 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLWRjQbVYbcX4Rd6HtD+drGIWXvarbV2KRjQnp2cvwp5xSN2OM1FsiKrci6XN/uVb+V0XeqIg==
-X-Received: by 2002:a5d:6302:: with SMTP id i2mr19414624wru.80.1587565481719; 
- Wed, 22 Apr 2020 07:24:41 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=6WOvLtuHBMKEZgjFhOYEvQecHZA07otUIaySV1IVLrs=;
+ b=GZDA7qhVCXv2KRvpJM8vMo/iClb7ZbTs+z6ri9SxIVcuKXEyujik/D5lObn3wRNC6o
+ cQqTEWFNOeHQpP8IkeXvJLgY4WyMa7Bu147VnRC2XdhsQAXEHBvfimmtQI/TLytw+pSS
+ QPHQL79v3qX5D+fiZ41bvhxshH3Yr2Z57bDrtwxLZ2mTgPAwr/LlRmiMHCWpKrsCN215
+ 7ZSGZ5gQf/C4oAt3+oDyxV/WfWksF1sQPFGTImIFFpltpGRY0ndxXa0FZw5hwoiiauzW
+ 6H475iRafc9Y3B04uCC47Kt4HNvaLsITpG4Mrl9T5fiIZDZrwL41wrim2mQA0aUVrcNt
+ RW3g==
+X-Gm-Message-State: AGi0PuZMK2+HBBzITIDMt7ng8f5OvYNMHljdHBlQwpuV0L+5pIToZ/Qa
+ 9/CN+dYAwicQI1PpDwPHSm6md6uN3QQXboDcTaiOdra30dZ1WqBnfqktwY9/qAfcwqfroJfpoEx
+ Y6a4fWKOT+KXVNWg=
+X-Received: by 2002:a1c:5403:: with SMTP id i3mr11518916wmb.10.1587565533738; 
+ Wed, 22 Apr 2020 07:25:33 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLJMJ0NSZJtiYvI+h0qM6qzDjsioNRL5ibiLWzTtvrbZ0ouUz8LTRrSFVg8VBE+Y42jQZXoOA==
+X-Received: by 2002:a1c:5403:: with SMTP id i3mr11518900wmb.10.1587565533557; 
+ Wed, 22 Apr 2020 07:25:33 -0700 (PDT)
 Received: from redhat.com (bzq-79-183-51-3.red.bezeqint.net. [79.183.51.3])
- by smtp.gmail.com with ESMTPSA id 138sm8467323wmb.14.2020.04.22.07.24.40
+ by smtp.gmail.com with ESMTPSA id m15sm7771861wmc.35.2020.04.22.07.25.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Apr 2020 07:24:41 -0700 (PDT)
-Date: Wed, 22 Apr 2020 10:24:39 -0400
+ Wed, 22 Apr 2020 07:25:33 -0700 (PDT)
+Date: Wed, 22 Apr 2020 10:25:31 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v2 08/14] virtio-net: Fix duplex=... and speed=... error
- handling
-Message-ID: <20200422102422-mutt-send-email-mst@kernel.org>
-References: <20200422130719.28225-1-armbru@redhat.com>
- <20200422130719.28225-9-armbru@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH] virtio-vga: fix virtio-vga bar ordering
+Message-ID: <20200422102504-mutt-send-email-mst@kernel.org>
+References: <20200421214853.14412-1-anthoine.bourgeois@gmail.com>
+ <20200422020354-mutt-send-email-mst@kernel.org>
+ <20200422104941.qp4lkblm7txlglm2@sirius.home.kraxel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200422130719.28225-9-armbru@redhat.com>
+In-Reply-To: <20200422104941.qp4lkblm7txlglm2@sirius.home.kraxel.org>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
@@ -92,115 +91,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 22, 2020 at 03:07:13PM +0200, Markus Armbruster wrote:
-> virtio_net_device_realize() rejects invalid duplex and speed values.
-> The error handling is broken:
+On Wed, Apr 22, 2020 at 12:49:41PM +0200, Gerd Hoffmann wrote:
+> On Wed, Apr 22, 2020 at 02:04:36AM -0400, Michael S. Tsirkin wrote:
+> > On Tue, Apr 21, 2020 at 11:48:53PM +0200, Anthoine Bourgeois wrote:
+> > > With virtio-vga, pci bar are reordered. Bar #2 is used for compatibil=
+ity
+> > > with stdvga. By default, bar #2 is used by virtio modern io bar.
+> > > This bar is the last one introduce in the virtio pci bar layout and i=
+t's
+> > > crushed by the virtio-vga reordering. So virtio-vga and
+> > > modern-pio-notify are incompatible because virtio-vga failed to
+> > > initialize with this option.
+> > >=20
+> > > This fix exchange the modern io bar with the modern memory bar,
+> > > replacing the msix bar that is never impacted anyway.
+> > >=20
+> > > Signed-off-by: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>
+> >=20
+> > Such changes generally need to be tied to machine version.
 >=20
->     $ ../qemu/bld-sani/x86_64-softmmu/qemu-system-x86_64 -S -display none=
- -monitor stdio
->     QEMU 4.2.93 monitor - type 'help' for more information
->     (qemu) device_add virtio-net,duplex=3Dx
->     Error: 'duplex' must be 'half' or 'full'
->     (qemu) c
->     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->     =3D=3D15654=3D=3DERROR: AddressSanitizer: heap-use-after-free on addr=
-ess 0x62e000014590 at pc 0x560b75c8dc13 bp 0x7fffdf1a6950 sp 0x7fffdf1a6940
->     READ of size 8 at 0x62e000014590 thread T0
-> =09#0 0x560b75c8dc12 in object_dynamic_cast_assert /work/armbru/qemu/qom/=
-object.c:826
-> =09#1 0x560b74c38ac0 in virtio_vmstate_change /work/armbru/qemu/hw/virtio=
-/virtio.c:3210
-> =09#2 0x560b74d9765e in vm_state_notify /work/armbru/qemu/softmmu/vl.c:12=
-71
-> =09#3 0x560b7494ba72 in vm_prepare_start /work/armbru/qemu/cpus.c:2156
-> =09#4 0x560b7494bacd in vm_start /work/armbru/qemu/cpus.c:2162
-> =09#5 0x560b75a7d890 in qmp_cont /work/armbru/qemu/monitor/qmp-cmds.c:160
-> =09#6 0x560b75a8d70a in hmp_cont /work/armbru/qemu/monitor/hmp-cmds.c:104=
-3
-> =09#7 0x560b75a799f2 in handle_hmp_command /work/armbru/qemu/monitor/hmp.=
-c:1082
->     [...]
+> Given that modern-pio-notify is off by default and
+> virtio-vga,modern-pio-notify=3Don is broken I think we don't need to worr=
+y
+> about compatibility in this specific case (assuming the patch is updated
+> to not shuffle around the msix bar, see other reply).
 >=20
->     0x62e000014590 is located 33168 bytes inside of 42288-byte region [0x=
-62e00000c400,0x62e000016930)
->     freed by thread T1 here:
-> =09#0 0x7feadd39491f in __interceptor_free (/lib64/libasan.so.5+0x10d91f)
-> =09#1 0x7feadcebcd7c in g_free (/lib64/libglib-2.0.so.0+0x55d7c)
-> =09#2 0x560b75c8fd40 in object_unref /work/armbru/qemu/qom/object.c:1128
-> =09#3 0x560b7498a625 in memory_region_unref /work/armbru/qemu/memory.c:17=
-62
-> =09#4 0x560b74999fa4 in do_address_space_destroy /work/armbru/qemu/memory=
-.c:2788
-> =09#5 0x560b762362fc in call_rcu_thread /work/armbru/qemu/util/rcu.c:283
-> =09#6 0x560b761c8884 in qemu_thread_start /work/armbru/qemu/util/qemu-thr=
-ead-posix.c:519
-> =09#7 0x7fead9be34bf in start_thread (/lib64/libpthread.so.0+0x84bf)
->=20
->     previously allocated by thread T0 here:
-> =09#0 0x7feadd394d18 in __interceptor_malloc (/lib64/libasan.so.5+0x10dd1=
-8)
-> =09#1 0x7feadcebcc88 in g_malloc (/lib64/libglib-2.0.so.0+0x55c88)
-> =09#2 0x560b75c8cf8a in object_new /work/armbru/qemu/qom/object.c:699
-> =09#3 0x560b75010ad9 in qdev_device_add /work/armbru/qemu/qdev-monitor.c:=
-654
-> =09#4 0x560b750120c2 in qmp_device_add /work/armbru/qemu/qdev-monitor.c:8=
-05
-> =09#5 0x560b75012c1b in hmp_device_add /work/armbru/qemu/qdev-monitor.c:9=
-05
->     [...]
->     =3D=3D15654=3D=3DABORTING
->=20
-> Cause: virtio_net_device_realize() neglects to bail out after setting
-> the error.  Fix that.
->=20
-> Fixes: 9473939ed7addcaaeb8fde5c093918fb7fa0919c
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Jason Wang <jasowang@redhat.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> cheers,
+>   Gerd
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-
-Feel free to merge with the rest of the patchset.
-
-> ---
->  hw/net/virtio-net.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->=20
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index a46e3b37a7..b52ff4ab63 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -2947,6 +2947,7 @@ static void virtio_net_device_realize(DeviceState *=
-dev, Error **errp)
->              n->net_conf.duplex =3D DUPLEX_FULL;
->          } else {
->              error_setg(errp, "'duplex' must be 'half' or 'full'");
-> +            return;
->          }
->          n->host_features |=3D (1ULL << VIRTIO_NET_F_SPEED_DUPLEX);
->      } else {
-> @@ -2955,7 +2956,9 @@ static void virtio_net_device_realize(DeviceState *=
-dev, Error **errp)
-> =20
->      if (n->net_conf.speed < SPEED_UNKNOWN) {
->          error_setg(errp, "'speed' must be between 0 and INT_MAX");
-> -    } else if (n->net_conf.speed >=3D 0) {
-> +        return;
-> +    }
-> +    if (n->net_conf.speed >=3D 0) {
->          n->host_features |=3D (1ULL << VIRTIO_NET_F_SPEED_DUPLEX);
->      }
-> =20
-> --=20
-> 2.21.1
+OK, just worth documenting that this will break cross-version
+migration if modern-pio-notify is enabled.
 
 
