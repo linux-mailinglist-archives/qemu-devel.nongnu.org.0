@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38DBA1B48D8
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 17:37:05 +0200 (CEST)
-Received: from localhost ([::1]:52940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F4F71B48E4
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 17:38:22 +0200 (CEST)
+Received: from localhost ([::1]:52988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRHQu-0005wu-Ab
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 11:37:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39908)
+	id 1jRHS9-0007W6-MN
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 11:38:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41182)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jRHOa-00032G-IF
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 11:34:40 -0400
+ (envelope-from <stefanha@gmail.com>) id 1jRHRH-0006tD-0m
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 11:37:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jRHOY-0007rC-Pp
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 11:34:40 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27191
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jRHOY-0007pk-CT
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 11:34:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587569677;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=870oJoJDFzJrFyjWZyHnmRVFhVHRsgNfsOmVS94dRao=;
- b=LTnfebjN0MjKX7zHzNcrRrJrQ8mB8Ee6ZTOGQHIle/K//lBn4X4S9mW/q9e1LcZ5CJIMlB
- EqXEP0As9W85gOs3ohRmMnt1wx/kKGdudb93YIuu9ZumbtlVbxEnKlDMSZpp/wKvsrbskc
- 0gcN5xJ0gMcq9tILaoNjC1pAZVQdOL4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-114-1jMNyvMJNgqbARxxCHbZJA-1; Wed, 22 Apr 2020 11:34:35 -0400
-X-MC-Unique: 1jMNyvMJNgqbARxxCHbZJA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C90D100CCCE;
- Wed, 22 Apr 2020 15:34:34 +0000 (UTC)
-Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 912205C1D4;
- Wed, 22 Apr 2020 15:34:33 +0000 (UTC)
-Subject: Re: [PATCH v5 5/9] raw-format: Support BDRV_REQ_ZERO_WRITE for
- truncate
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20200422152129.167074-1-kwolf@redhat.com>
- <20200422152129.167074-6-kwolf@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <5dd11860-6a13-3f7a-db3b-1286cf9f4207@redhat.com>
-Date: Wed, 22 Apr 2020 10:34:32 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (envelope-from <stefanha@gmail.com>) id 1jRHRG-0005gl-Kp
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 11:37:26 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40846)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jRHRF-0005Qr-09; Wed, 22 Apr 2020 11:37:25 -0400
+Received: by mail-wm1-x341.google.com with SMTP id u16so2907790wmc.5;
+ Wed, 22 Apr 2020 08:37:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=IwF9K0dMPQeUU9IVlN/o/KXLfjpUlazL+/rfRsoXZBI=;
+ b=Mv+mF416YQoaCYGmPjulCRmhEZLxEb9SkvaJ79rhNckekcYOykVQc2urjxMwGDVMtL
+ K1zl+3ApSEM4hVITlI8zq16DTbe89v0lv+IHMSaVLZvEHd08zHhX7vpwI1VlaQ6/S8zW
+ YshtpI11dVVBQ4uPVcypsGNPRcvm4x0siTpxYX2DODE1zravqFsmvJXLOjYhNgOUapnN
+ Wm+hG33pBgY2fTvzZpuxe3E6b8Q0v6AOx9r+pgVyApreSmzyIEG8jZNlCLN4wtsRfbLt
+ uQG7LTLyrEcWp0Zqb55VkChimzxahY/3Y86+t6bME8FrK8H5sLgrdJcf8ELVS2FSzlDX
+ HULw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=IwF9K0dMPQeUU9IVlN/o/KXLfjpUlazL+/rfRsoXZBI=;
+ b=pcbzGd0NGSFeB1h2PnqRRdSFhsRVo6FCAh+Py2lQDk1kQ4sfJIxLDlejJM4+MwYBPf
+ Q5Kal/5r6NMCQOv4B6S7nMa22JxWEri3qdRI/m0tAYIYvMpJsM8NgpyVCkhUydaJcj92
+ 4j0ytSJjQRBBdzu/ugxvt2lOJcT1uIwnkymlaqpFemdqSETYjbqg2XFBrtGy9dmKZR9r
+ TMF9+sIM1tMO0m6xqpZJZbt7vuAdfr5+q5P8xGRYoQARXEKCYjb2VDRn54vdasG45Mbg
+ beNdu5/Fy8yR2MfTRXcZatpEfG61KrXDO3+21VOsaVaDftiJi0evq/putvnhpQ6/OdfZ
+ P4Ow==
+X-Gm-Message-State: AGi0PuZNKUbXWjJv4ZooMtz9l18vAT6VjtEGEGV8YD8olDYsNJGw3/2J
+ efpO9vecx7EF/RHG/NbcbvU=
+X-Google-Smtp-Source: APiQypIjDTuPYo96AWgGZmjMcKfTkBu9QxfRaTaZMxBWjhmKbao7zEyfRKuv8dUb2Kf/ESz1c5VRCg==
+X-Received: by 2002:a1c:a512:: with SMTP id o18mr10826862wme.138.1587569842917; 
+ Wed, 22 Apr 2020 08:37:22 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id n2sm9694928wrq.74.2020.04.22.08.37.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Apr 2020 08:37:21 -0700 (PDT)
+Date: Wed, 22 Apr 2020 16:37:20 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 1/3] block: use int64_t as bytes type in tracked requests
+Message-ID: <20200422153720.GD47385@stefanha-x1.localdomain>
+References: <20200330141818.31294-1-vsementsov@virtuozzo.com>
+ <20200330141818.31294-2-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20200422152129.167074-6-kwolf@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 04:15:03
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Q0rSlbzrZN6k9QnT"
+Content-Disposition: inline
+In-Reply-To: <20200330141818.31294-2-vsementsov@virtuozzo.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=stefanha@gmail.com; helo=mail-wm1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,50 +81,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, berto@igalia.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
+Cc: fam@euphon.net, kwolf@redhat.com, pavel.dovgaluk@ispras.ru,
+ qemu-block@nongnu.org, sw@weilnetz.de, pl@kamp.de, qemu-devel@nongnu.org,
+ mreitz@redhat.com, stefanha@redhat.com, pbonzini@redhat.com, den@openvz.org,
+ ronniesahlberg@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/22/20 10:21 AM, Kevin Wolf wrote:
-> The raw format driver can simply forward the flag and let its bs->file
-> child take care of actually providing the zeros.
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+
+--Q0rSlbzrZN6k9QnT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Mar 30, 2020 at 05:18:16PM +0300, Vladimir Sementsov-Ogievskiy wrot=
+e:
+> We are generally moving to int64_t for both offset and bytes paramaters
+> on all io paths. Convert tracked requests now.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->   block/raw-format.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-> 
+>  include/block/block_int.h |  4 ++--
+>  block/io.c                | 11 ++++++-----
+>  2 files changed, 8 insertions(+), 7 deletions(-)
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-> diff --git a/block/raw-format.c b/block/raw-format.c
-> index 3465c9a865..351f2d91c6 100644
-> --- a/block/raw-format.c
-> +++ b/block/raw-format.c
-> @@ -387,7 +387,7 @@ static int coroutine_fn raw_co_truncate(BlockDriverState *bs, int64_t offset,
->   
->       s->size = offset;
->       offset += s->offset;
-> -    return bdrv_co_truncate(bs->file, offset, exact, prealloc, 0, errp);
-> +    return bdrv_co_truncate(bs->file, offset, exact, prealloc, flags, errp);
->   }
->   
->   static void raw_eject(BlockDriverState *bs, bool eject_flag)
-> @@ -445,6 +445,8 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
->       bs->supported_zero_flags = BDRV_REQ_WRITE_UNCHANGED |
->           ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
->               bs->file->bs->supported_zero_flags);
-> +    bs->supported_truncate_flags = bs->file->bs->supported_truncate_flags &
-> +                                   BDRV_REQ_ZERO_WRITE;
->   
->       if (bs->probed && !bdrv_is_read_only(bs)) {
->           bdrv_refresh_filename(bs->file->bs);
-> 
+--Q0rSlbzrZN6k9QnT
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6gZLAACgkQnKSrs4Gr
+c8gPUwf+NRZ5gSJpq082P5lczNwuHyAB2LPxZg4HDGYpiz1XC9LwVqSgFMYlZ3TR
+vpXyTYraCrrjoHhCXqQPkiGJTRTvhMQ1z+eWChqieoux/GCn89fyzSIeEGHZaT4Q
+rdVuxADnCPCvOzqICbVOTcRDa3BzPLqAi7q3qzaRvisZOSuFl6w6/NR2Lgj+ci/7
+j2Di3Bz3PS11fhDchJl+k89HVnI9uwxUKLMv8qIDRU90Bm61Sf07HvCIUD//usy3
+wkaVgiOPNSCoJCJaQjDyIWZV9SNtR6VFBmSk4cpKR1RhODVk/08Z+1YAcuwK0j1s
+GG6/y3ZiKBvYnevhE5S+2P9hf7+H8A==
+=adHK
+-----END PGP SIGNATURE-----
+
+--Q0rSlbzrZN6k9QnT--
 
