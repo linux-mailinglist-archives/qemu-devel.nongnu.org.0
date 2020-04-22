@@ -2,120 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AB811B46FF
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 16:17:28 +0200 (CEST)
-Received: from localhost ([::1]:51590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EFD91B471D
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 16:22:40 +0200 (CEST)
+Received: from localhost ([::1]:51654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRGBr-0003Z1-96
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 10:17:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53728)
+	id 1jRGGt-0005wU-3u
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 10:22:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55652)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steplong@quicinc.com>) id 1jRGAi-0002Wd-F4
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 10:16:17 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1jRGFB-0004lK-Lw
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 10:20:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <steplong@quicinc.com>) id 1jRGAh-00081q-P6
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 10:16:16 -0400
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:14272)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <steplong@quicinc.com>)
- id 1jRGAh-0007vq-6g; Wed, 22 Apr 2020 10:16:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1587564975; x=1619100975;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=h6v9y1cj+6U/a4dGz//GeXuvQz/rb3gVH3KUNV539sA=;
- b=fT58dQo4SAb1IZTNBSDMv+wcp5jOcjYGE2KjtsTDNBXqdOwlZzJw7R6x
- ET4KeI8s7CKmRLt8hRigCbc3cc9F0zO/VlQ8s6G5l1w6LX5+6djGP+FRo
- G7K4sByZzSQzR3WpiIKegbotzoSAhALgzAn/WEJdKXabkVf0yPWVn6k4H I=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 22 Apr 2020 07:16:12 -0700
-Received: from nasanexm03d.na.qualcomm.com ([10.85.0.91])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 22 Apr 2020 07:16:12 -0700
-Received: from apsanexr02b.ap.qualcomm.com (10.85.0.27) by
- nasanexm03d.na.qualcomm.com (10.85.0.91) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 22 Apr 2020 07:16:11 -0700
-Received: from NASANEXM01D.na.qualcomm.com (10.85.0.84) by
- apsanexr02b.ap.qualcomm.com (10.85.0.27) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 22 Apr 2020 07:16:10 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (199.106.107.6)
- by NASANEXM01D.na.qualcomm.com (10.85.0.84) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2 via Frontend Transport; Wed, 22 Apr 2020 07:16:09 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JvZDGxyFxfmXctLVZbibWH4zusbOr44vGSQyNKJVhoxPSp7ptk3tjfGzc0nEdSpNkRZ3k0U6OZHV/P94dnCaiIr8nqeO5CJkiSyikYRyKQYGhUZ8HDjct82O+1L9qdhXnf4o/o7osOiAKS/Jj4KRcTT/c033jfZ5zCFY0/igR6nXkpqtjLuFw0NZapaiAucso5vu81TSW2OVxVNrsIv7NMIrQbEocuG7eduTE330iJiBs6eP0U5u5UwXQJ0Ugqg2JSQSa57XddX5k+eCtvklDgbRlY9AcLdUqP1+zI5WcqywGjCtIjwgPVJHXGjU4VVnyod4sPoXn6ho31jRNqv7Ew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wG2egIhf3BnLcVDdMkEzYOeJsfq60SQgxAN+lea+4r0=;
- b=Sd7G1A14J7A91aiMxdaGUYB5HQpkQ7RkkypNdxECPwFUOeoLfyLVhEd/4EWSbaTt9gyKrHbPEkInBXrW4bmPROYchyCZUP2bkcr5i+FnbJ5Nq7lzIyJu6eFq+PmYAwG3IikJdQ+6z3xJoIoGa8ZD2DmHGMHYukE8/vV+rupBQlrO8STaCMjUPGDGg60juqvFvn0/N7ooWSzy7LzN0qbrCt0lgo/h7vY5LkFHvs14N+b7BypZUwqAtYkL+OsM9/0GX3t9xdgjeRUKek0HQVC7xrcK9eYbjRJwk/+Py/8GbD2W12kyTp7/JudOr0qsjCh4GDrsQ9ezIn7bXR1R5Ctd6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wG2egIhf3BnLcVDdMkEzYOeJsfq60SQgxAN+lea+4r0=;
- b=cUzRRUz2rt49jvx+IWNckCcn36sw0WzNoOj+x6XR8MFIqFMK+2OKPLthjcdbF8aj4XqFRFFxZE6oluv+qTglAPJrZDTrrWoc5nN6Dxg8oD6z+z1RkBsirwCzPJeMnf3eLN9rvA+FLESvT9mMp2Mv4LH1B/TLtR1Y85FqwHKCSEU=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=steplong@quicinc.com; 
-Received: from MWHPR0201MB3547.namprd02.prod.outlook.com
- (2603:10b6:301:7b::24) by MWHPR0201MB3500.namprd02.prod.outlook.com
- (2603:10b6:301:80::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.29; Wed, 22 Apr
- 2020 14:16:08 +0000
-Received: from MWHPR0201MB3547.namprd02.prod.outlook.com
- ([fe80::10ad:5df5:d575:1f37]) by MWHPR0201MB3547.namprd02.prod.outlook.com
- ([fe80::10ad:5df5:d575:1f37%3]) with mapi id 15.20.2921.030; Wed, 22 Apr 2020
- 14:16:08 +0000
-From: Stephen Long <steplong@quicinc.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v2] target/arm: Implement SVE2 scatter store insns
-Date: Wed, 22 Apr 2020 10:15:52 -0400
-Message-ID: <20200422141553.8037-1-steplong@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-Content-Type: text/plain
-X-ClientProxiedBy: BL0PR1501CA0003.namprd15.prod.outlook.com
- (2603:10b6:207:17::16) To MWHPR0201MB3547.namprd02.prod.outlook.com
- (2603:10b6:301:7b::24)
+ (envelope-from <balaton@eik.bme.hu>) id 1jRGF9-00061c-Sw
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 10:20:52 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:58948)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jRGF9-0005xu-DN; Wed, 22 Apr 2020 10:20:51 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 7677E746331;
+ Wed, 22 Apr 2020 16:20:47 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 58D71746324; Wed, 22 Apr 2020 16:20:47 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 57819746333;
+ Wed, 22 Apr 2020 16:20:47 +0200 (CEST)
+Date: Wed, 22 Apr 2020 16:20:47 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2 3/4] bamboo, sam460ex: Tidy up error message for
+ unsupported RAM size
+In-Reply-To: <20200422134815.1584-4-armbru@redhat.com>
+Message-ID: <alpine.BSF.2.22.395.2004221620020.19234@zero.eik.bme.hu>
+References: <20200422134815.1584-1-armbru@redhat.com>
+ <20200422134815.1584-4-armbru@redhat.com>
+User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from DESKTOP-L2LA14H.localdomain (108.176.222.2) by
- BL0PR1501CA0003.namprd15.prod.outlook.com (2603:10b6:207:17::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13 via Frontend
- Transport; Wed, 22 Apr 2020 14:16:07 +0000
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [108.176.222.2]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 98b33b71-ee06-4f5b-7e6e-08d7e6c7b362
-X-MS-TrafficTypeDiagnostic: MWHPR0201MB3500:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MWHPR0201MB35000D70E03C9A42B86B07CDC7D20@MWHPR0201MB3500.namprd02.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:311;
-X-Forefront-PRVS: 03818C953D
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR0201MB3547.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10019020)(366004)(346002)(39860400002)(136003)(396003)(376002)(956004)(81156014)(2906002)(6666004)(6916009)(107886003)(8936002)(26005)(1076003)(6506007)(316002)(8676002)(478600001)(86362001)(6486002)(5660300002)(4326008)(36756003)(2616005)(186003)(16526019)(66946007)(52116002)(66556008)(66476007)(6512007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FDUue5kKEXncTyJ9Cp3qTnC6YzpHEDqUrhFlS2NzPabSqS8khc9ZCvO6M+eunkm8fqgktl0o/HU3MWS7EbyHzvWFL/TX7FNe+ClPtZcDqCOYd3jau3RChIapwb1rCD22x65fhRO3/iYd7h9KQf1YZD9die1hV9D1tR6M5Q9hj1dupsaH5vwfRkPI2f8O4xhj2q5p5q2QxAFnkwIqY1iWBHZU7ZsAZyrBJrYb6rYHNQcW5msk8N4YgUL6QLQ8UAZ+6+S60IetS0nksP19sSm14gLwkqxYyRjA/y9xLCeRc/On1zSLEzpdF6pp/E5vwFZXVzyhqQu2tvbhL07iz6eWZ0N9TkqGNfb/FR6QIT/QpO8pD/oLuBAAqvm+Hb7a79f0LgZV6VyK2nueAlbY66IUi2LUSCqR48FtxRt2oyB1aoNgzz49/Jwe1EFpIVK7ltU/
-X-MS-Exchange-AntiSpam-MessageData: zZUAj+nH0vORW3IiV8gZRP6GiBd+7JKUPSfPWclzHlMtZurSqhNsi+0HKy0/Uxy+6FC3oaafeFaaL3WabJPtD2duH/iUxpoNxE8ngtipiVP1Get/5i5xRxqHQ1lMz9yK5gn0l70hRmbO7qClti4zzg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 98b33b71-ee06-4f5b-7e6e-08d7e6c7b362
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2020 14:16:08.0370 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CIJB7J8SJ7iRg1bL/F5CMOWlpmbFGxATzTKm5HMZwrO3y5GWMDq+BaqAZOFFrKxUh40a4eo21DTvQVLsvuwn8g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR0201MB3500
-X-OriginatorOrg: quicinc.com
-Received-SPF: pass client-ip=199.106.114.39; envelope-from=steplong@quicinc.com;
- helo=alexa-out-sd-02.qualcomm.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 10:16:12
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Received-From: 199.106.114.39
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2001:738:2001:2001::2001
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -127,70 +57,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, richard.henderson@linaro.org, apazos@quicinc.com
+Cc: philmd@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add decoding logic for SVE2 64-bit/32-bit scatter non-temporal store
-insns.
+On Wed, 22 Apr 2020, Markus Armbruster wrote:
+> Improve
+>
+>    $ ppc-softmmu/qemu-system-ppc -M sam460ex -m 4096
+>    qemu-system-ppc: Max 1 banks of 2048 ,1024 ,512 ,256 ,128 ,64 ,32 MB DIMM/bank supported
+>    qemu-system-ppc: Possible valid RAM size: 2048
+>
+> to
+>
+>    qemu-system-ppc: at most 1 bank of 2048, 1024, 512, 256, 128, 64, 32 MiB each supported
+>    Possible valid RAM size: 1024 MiB
+>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-64-bit
-* STNT1B (vector plus scalar)
-* STNT1H (vector plus scalar)
-* STNT1W (vector plus scalar)
-* STNT1D (vector plus scalar)
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
 
-32-bit
-* STNT1B (vector plus scalar)
-* STNT1H (vector plus scalar)
-* STNT1W (vector plus scalar)
-
-Signed-off-by: Stephen Long <steplong@quicinc.com>
-
-Cool, it seemed to typedef correctly.
----
- target/arm/sve.decode      | 10 ++++++++++
- target/arm/translate-sve.c |  8 ++++++++
- 2 files changed, 18 insertions(+)
-
-diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index dd987da648..ef5dd281a6 100644
---- a/target/arm/sve.decode
-+++ b/target/arm/sve.decode
-@@ -1387,3 +1387,13 @@ SQRDCMLAH_zzzz  01000100 esz:2 0 rm:5 0011 rot:2 rn:5 rd:5  ra=%reg_movprfx
- ### SVE2 floating point matrix multiply accumulate
- 
- FMMLA           01100100 .. 1 ..... 111001 ..... .....  @rda_rn_rm
-+
-+### SVE2 Memory Store Group
-+
-+# SVE2 64-bit scatter non-temporal store (vector plus scalar)
-+STNT1_zprz      1110010 .. 00 ..... 001 ... ..... ..... \
-+                @rprr_scatter_store xs=2 esz=3 scale=0
-+
-+# SVE2 32-bit scatter non-temporal store (vector plus scalar)
-+STNT1_zprz      1110010 .. 10 ..... 001 ... ..... ..... \
-+                @rprr_scatter_store xs=0 esz=2 scale=0
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 29532424c1..4873e25182 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -6038,6 +6038,14 @@ static bool trans_ST1_zpiz(DisasContext *s, arg_ST1_zpiz *a)
-     return true;
- }
- 
-+static bool trans_STNT1_zprz(DisasContext *s, arg_ST1_zprz *a)
-+{
-+    if (!dc_isar_feature(aa64_sve2, s)) {
-+        return false;
-+    }
-+    return trans_ST1_zprz(s, a);
-+}
-+
- /*
-  * Prefetches
-  */
--- 
-2.17.1
-
+> ---
+> hw/ppc/ppc4xx_devs.c | 8 ++++----
+> 1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+> index 3376c43ff5..f1651e04d9 100644
+> --- a/hw/ppc/ppc4xx_devs.c
+> +++ b/hw/ppc/ppc4xx_devs.c
+> @@ -716,11 +716,11 @@ void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
+>         for (i = 0; sdram_bank_sizes[i]; i++) {
+>             g_string_append_printf(s, "%" PRIi64 "%s",
+>                                    sdram_bank_sizes[i] / MiB,
+> -                                   sdram_bank_sizes[i + 1] ? " ," : "");
+> +                                   sdram_bank_sizes[i + 1] ? ", " : "");
+>         }
+> -        error_report("Max %d banks of %s MB DIMM/bank supported",
+> -            nr_banks, s->str);
+> -        error_report("Possible valid RAM size: %" PRIi64,
+> +        error_report("at most %d bank%s of %s MiB each supported",
+> +                     nr_banks, nr_banks == 1 ? "" : "s", s->str);
+> +        error_printf("Possible valid RAM size: %" PRIi64 " MiB \n",
+>             used_size ? used_size / MiB : sdram_bank_sizes[i - 1] / MiB);
+>
+>         g_string_free(s, true);
+>
 
