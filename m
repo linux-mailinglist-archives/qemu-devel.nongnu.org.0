@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92BA71B346F
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 03:21:15 +0200 (CEST)
-Received: from localhost ([::1]:38634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C38D21B3472
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 03:23:14 +0200 (CEST)
+Received: from localhost ([::1]:38700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jR44g-0006hA-I9
-	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 21:21:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34150)
+	id 1jR46b-0001qV-Pl
+	for lists+qemu-devel@lfdr.de; Tue, 21 Apr 2020 21:23:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34274)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jR41A-0001EK-Pf
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 21:17:37 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jR41C-0001Ha-Au
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 21:17:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jR41A-0001T0-6E
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 21:17:36 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:41537)
+ (envelope-from <richard.henderson@linaro.org>) id 1jR41B-0001XV-LE
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 21:17:38 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:43440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jR419-0001QO-O0
- for qemu-devel@nongnu.org; Tue, 21 Apr 2020 21:17:35 -0400
-Received: by mail-pg1-x529.google.com with SMTP id h69so248095pgc.8
- for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 18:17:35 -0700 (PDT)
+ id 1jR41B-0001Tk-7S
+ for qemu-devel@nongnu.org; Tue, 21 Apr 2020 21:17:37 -0400
+Received: by mail-pg1-x541.google.com with SMTP id x26so243884pgc.10
+ for <qemu-devel@nongnu.org>; Tue, 21 Apr 2020 18:17:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NV6lL8g5TLJgWVXBQ3cW0c77O/M78yXELJw+3HhuoJg=;
- b=nBy7+FcRzgMRoTxKgdfaIZHCF1SI8fiXB7VxHNAuFh1eBlF5E1H5nmRBHqd/QiRP0m
- R+kDS5bkJa47cGt57QKpt2qkKDGGt1GPYjoC3+8jXswL8Xv5i3m+i/HBfcKY+Zdb45ZJ
- 8jGTai1iic5OSIm1c0HAgtOIXqIFR0TTzhHFYOdGyWbScRgcOwSpYTG2HtVXoGjfK8wc
- yhwOqIVkOGA8/os4p/DwWTEWOja0tYRbU6+i1OGnFbcpzWXe5SR0nDKSUDSES3QT8yuq
- W2xpzZUIMgHVkJ1t9b+ChPSMVG6+k8M11XGnarP1znAE/z1t/MorcWj8JEeH+PB9Ljzd
- eRsA==
+ bh=5T7KJt0fc54mlBnT3n+g8HKCVqPFI5bG2HmAN7UzeMM=;
+ b=D4aQBiReHKCm6EPUrCryo4Crtrgmkupl+usryWlE2/4M1ExkdNjFRRFZdBIj/elXw9
+ bTEHeWc0UmtHUlT3Evg6gOjX/q9jrgEaaZ/Fmn94DixVlEfrvmOhsaWWtqMKoA1yTtpS
+ xiOnzrNlw3qCdQZX2oTEQcx6nY3cve9NiP54vz5PR7Eu6zBEHN8432xiCDPrc4txmusi
+ ++UY4YEJLJk1e5WNAnBPTTSQWWJ2hXKx20pIXHfPZ3y3STUhOXmZikTglIv1x3PzB44f
+ ecqlRjFIaYrv0ksXxnRdgR9PgnJPaXVTYAhj5cyWYaZaK2BAcoea+RCzfYfkwG5Uv23M
+ LaWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NV6lL8g5TLJgWVXBQ3cW0c77O/M78yXELJw+3HhuoJg=;
- b=i+as9VmeiQZ+60gFgWV1+MrjCAWkCNzhqa2CweczsjIxYHY3px8vkaXmRi9pGE81mC
- zwNP0HSL/bGPv7DR9BmK40wVoL5M965AoWD7iIP5RhN3U7soy5xKmytww+6cVpoycWIL
- 5kEr59u6ayOx5AFpgtZBFCWLrq+ezVH54WaLm36VYH4NwzyiuUmaFZV7Yszc56dpRvbF
- xdsV0o/voRtFzdNJJk6NrB5ihG7XSTlcqtq3Hq+hhWl5ZW3sVTNSeQtDGacB9xpZTWXU
- ltWnImzPY87MEQft/slJsJ6hg6RpnQbGaKnv/w2cHlSiYBKW573W1+17IUfHVZ/U3O4e
- 5e8g==
-X-Gm-Message-State: AGi0PubuNffszlYOPQoug5fJrXUv34/oUG+3YeUxN4vj9XcA/dUCTQ21
- mnMQpZcU/wonBEUV3nH4CwJ9LC8LATo=
-X-Google-Smtp-Source: APiQypIuDdKF59vtjKbckrAfT0VZZWEZ3yz0T5nV9CEVRioTFaH/JxsMh2b4KFozkn5AdKWCwi80iA==
-X-Received: by 2002:a63:2e03:: with SMTP id u3mr24561951pgu.121.1587518253576; 
- Tue, 21 Apr 2020 18:17:33 -0700 (PDT)
+ bh=5T7KJt0fc54mlBnT3n+g8HKCVqPFI5bG2HmAN7UzeMM=;
+ b=dArKF/B+akgNDOsXeWYTkZMrvk1RGnZcnyK7su0cgBxzxSMm64PoImBkYLw83Xk/uY
+ Rin9ilZnbJUkUsGM1bxZ01/5R9gpZWid6+Im8Wvb1QhFhVproCXq5UiY0/Zg4pmsyVAi
+ IyetVbhOXOs+7Ag2vaq9ryoFkVKTHywsu+AhGZJqUqruj2c71yCkqKwGqV8+Ef9+VTGp
+ PPFOHgJy2RYP+7qGgTA4XjO5JlPyI+4pQijfTLCkSaMmnrNYzecZuZZ6S8ywXn4zcm5+
+ TEal7ejCZldSyIS/+r8Wpx3gL/H5vjYtTfki8zLuljvQEvxlNU+Wn2khKBgrNJ8C5ddb
+ QNSQ==
+X-Gm-Message-State: AGi0PubZ+6E8n9IV+eyxi1MfqsDtolqxAtjQa1ViwvPpzPT6ljqaYa7a
+ RElbnIx84cnbWretwozkUOKxjiqIFIA=
+X-Google-Smtp-Source: APiQypIQsG5TXLr9qpb49NqcTBHfXnDZWgU3MI5FY88G2fgdPDHor3b27DVaNmavEOkXUk3RgDdt8Q==
+X-Received: by 2002:a63:230f:: with SMTP id j15mr24083965pgj.393.1587518255524; 
+ Tue, 21 Apr 2020 18:17:35 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id m4sm3673561pfm.26.2020.04.21.18.17.32
+ by smtp.gmail.com with ESMTPSA id m4sm3673561pfm.26.2020.04.21.18.17.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Apr 2020 18:17:32 -0700 (PDT)
+ Tue, 21 Apr 2020 18:17:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/36] tcg: Add tcg_gen_gvec_dup_tl
-Date: Tue, 21 Apr 2020 18:16:53 -0700
-Message-Id: <20200422011722.13287-8-richard.henderson@linaro.org>
+Subject: [PATCH v2 08/36] tcg: Improve vector tail clearing
+Date: Tue, 21 Apr 2020 18:16:54 -0700
+Message-Id: <20200422011722.13287-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200422011722.13287-1-richard.henderson@linaro.org>
 References: <20200422011722.13287-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::529
+X-Received-From: 2607:f8b0:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,39 +82,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, LIU Zhiwei <zhiwei_liu@c-sky.com>,
- David Hildenbrand <david@redhat.com>
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For use when a target needs to pass a configure-specific
-target_ulong value to duplicate.
+Better handling of non-power-of-2 tails as seen with Arm 8-byte
+vector operations.
 
-Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg-op-gvec.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+ tcg/tcg-op-gvec.c | 82 ++++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 63 insertions(+), 19 deletions(-)
 
-diff --git a/include/tcg/tcg-op-gvec.h b/include/tcg/tcg-op-gvec.h
-index fa8a0c8d03..d89f91f40e 100644
---- a/include/tcg/tcg-op-gvec.h
-+++ b/include/tcg/tcg-op-gvec.h
-@@ -320,6 +320,12 @@ void tcg_gen_gvec_dup_i32(unsigned vece, uint32_t dofs, uint32_t s,
- void tcg_gen_gvec_dup_i64(unsigned vece, uint32_t dofs, uint32_t s,
-                           uint32_t m, TCGv_i64);
- 
-+#if TARGET_LONG_BITS == 64
-+# define tcg_gen_gvec_dup_tl  tcg_gen_gvec_dup_i64
-+#else
-+# define tcg_gen_gvec_dup_tl  tcg_gen_gvec_dup_i32
-+#endif
+diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+index 5a6cc19812..43cac1a0bf 100644
+--- a/tcg/tcg-op-gvec.c
++++ b/tcg/tcg-op-gvec.c
+@@ -326,11 +326,34 @@ void tcg_gen_gvec_5_ptr(uint32_t dofs, uint32_t aofs, uint32_t bofs,
+    in units of LNSZ.  This limits the expansion of inline code.  */
+ static inline bool check_size_impl(uint32_t oprsz, uint32_t lnsz)
+ {
+-    if (oprsz % lnsz == 0) {
+-        uint32_t lnct = oprsz / lnsz;
+-        return lnct >= 1 && lnct <= MAX_UNROLL;
++    uint32_t q, r;
 +
- void tcg_gen_gvec_shli(unsigned vece, uint32_t dofs, uint32_t aofs,
-                        int64_t shift, uint32_t oprsz, uint32_t maxsz);
- void tcg_gen_gvec_shri(unsigned vece, uint32_t dofs, uint32_t aofs,
++    if (oprsz < lnsz) {
++        return false;
+     }
+-    return false;
++
++    q = oprsz / lnsz;
++    r = oprsz % lnsz;
++    tcg_debug_assert((r & 7) == 0);
++
++    if (lnsz < 16) {
++        /* For sizes below 16, accept no remainder. */
++        if (r != 0) {
++            return false;
++        }
++    } else {
++        /*
++         * Recall that ARM SVE allows vector sizes that are not a
++         * power of 2, but always a multiple of 16.  The intent is
++         * that e.g. size == 80 would be expanded with 2x32 + 1x16.
++         * In addition, expand_clr needs to handle a multiple of 8.
++         * Thus we can handle the tail with one more operation per
++         * diminishing power of 2.
++         */
++        q += ctpop32(r);
++    }
++
++    return q <= MAX_UNROLL;
+ }
+ 
+ static void expand_clr(uint32_t dofs, uint32_t maxsz);
+@@ -402,22 +425,31 @@ static void gen_dup_i64(unsigned vece, TCGv_i64 out, TCGv_i64 in)
+ static TCGType choose_vector_type(const TCGOpcode *list, unsigned vece,
+                                   uint32_t size, bool prefer_i64)
+ {
+-    if (TCG_TARGET_HAS_v256 && check_size_impl(size, 32)) {
+-        /*
+-         * Recall that ARM SVE allows vector sizes that are not a
+-         * power of 2, but always a multiple of 16.  The intent is
+-         * that e.g. size == 80 would be expanded with 2x32 + 1x16.
+-         * It is hard to imagine a case in which v256 is supported
+-         * but v128 is not, but check anyway.
+-         */
+-        if (tcg_can_emit_vecop_list(list, TCG_TYPE_V256, vece)
+-            && (size % 32 == 0
+-                || tcg_can_emit_vecop_list(list, TCG_TYPE_V128, vece))) {
+-            return TCG_TYPE_V256;
+-        }
++    /*
++     * Recall that ARM SVE allows vector sizes that are not a
++     * power of 2, but always a multiple of 16.  The intent is
++     * that e.g. size == 80 would be expanded with 2x32 + 1x16.
++     * It is hard to imagine a case in which v256 is supported
++     * but v128 is not, but check anyway.
++     * In addition, expand_clr needs to handle a multiple of 8.
++     */
++    if (TCG_TARGET_HAS_v256 &&
++        check_size_impl(size, 32) &&
++        tcg_can_emit_vecop_list(list, TCG_TYPE_V256, vece) &&
++        (!(size & 16) ||
++         (TCG_TARGET_HAS_v128 &&
++          tcg_can_emit_vecop_list(list, TCG_TYPE_V128, vece))) &&
++        (!(size & 8) ||
++         (TCG_TARGET_HAS_v64 &&
++          tcg_can_emit_vecop_list(list, TCG_TYPE_V64, vece)))) {
++        return TCG_TYPE_V256;
+     }
+-    if (TCG_TARGET_HAS_v128 && check_size_impl(size, 16)
+-        && tcg_can_emit_vecop_list(list, TCG_TYPE_V128, vece)) {
++    if (TCG_TARGET_HAS_v128 &&
++        check_size_impl(size, 16) &&
++        tcg_can_emit_vecop_list(list, TCG_TYPE_V128, vece) &&
++        (!(size & 8) ||
++         (TCG_TARGET_HAS_v64 &&
++          tcg_can_emit_vecop_list(list, TCG_TYPE_V64, vece)))) {
+         return TCG_TYPE_V128;
+     }
+     if (TCG_TARGET_HAS_v64 && !prefer_i64 && check_size_impl(size, 8)
+@@ -432,6 +464,18 @@ static void do_dup_store(TCGType type, uint32_t dofs, uint32_t oprsz,
+ {
+     uint32_t i = 0;
+ 
++    tcg_debug_assert(oprsz >= 8);
++
++    /*
++     * This may be expand_clr for the tail of an operation, e.g.
++     * oprsz == 8 && maxsz == 64.  The first 8 bytes of this store
++     * are misaligned wrt the maximum vector size, so do that first.
++     */
++    if (dofs & 8) {
++        tcg_gen_stl_vec(t_vec, cpu_env, dofs + i, TCG_TYPE_V64);
++        i += 8;
++    }
++
+     switch (type) {
+     case TCG_TYPE_V256:
+         /*
 -- 
 2.20.1
 
