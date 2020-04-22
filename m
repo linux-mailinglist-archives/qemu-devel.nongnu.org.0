@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C105A1B48C4
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 17:35:34 +0200 (CEST)
-Received: from localhost ([::1]:52910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38DBA1B48D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Apr 2020 17:37:05 +0200 (CEST)
+Received: from localhost ([::1]:52940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRHPR-0003j8-S7
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 11:35:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39598)
+	id 1jRHQu-0005wu-Ab
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 11:37:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39908)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jRHNX-0001wc-UA
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 11:33:39 -0400
+ (envelope-from <eblake@redhat.com>) id 1jRHOa-00032G-IF
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 11:34:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jRHNX-0006IJ-DX
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 11:33:35 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20322
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1jRHOY-0007rC-Pp
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 11:34:40 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27191
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jRHNW-0006Fm-WF
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 11:33:35 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jRHOY-0007pk-CT
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 11:34:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587569614;
+ s=mimecast20190719; t=1587569677;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MNTvpnxmpvg/ukbCJQ71DC8JDazmmNF4hvooQE2wAlk=;
- b=RrGze3NyDED6wyN2EFDUQ7PvAQY7i5mb/4ld7ibauy2SIpcpykBl+t12Th2OF2wfg7mkRb
- jGiqlomJtuikNA+fZWPms8e+DWNky3Ft64TK1AxWwgW6d/cScBmxVwMYvUQgfXAUVMR/Th
- kOKzUaFbUvnX+37HbOvLLGDy5d91ZzI=
+ bh=870oJoJDFzJrFyjWZyHnmRVFhVHRsgNfsOmVS94dRao=;
+ b=LTnfebjN0MjKX7zHzNcrRrJrQ8mB8Ee6ZTOGQHIle/K//lBn4X4S9mW/q9e1LcZ5CJIMlB
+ EqXEP0As9W85gOs3ohRmMnt1wx/kKGdudb93YIuu9ZumbtlVbxEnKlDMSZpp/wKvsrbskc
+ 0gcN5xJ0gMcq9tILaoNjC1pAZVQdOL4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-117-K8UrEQyfMICSJmGLZgm4Pw-1; Wed, 22 Apr 2020 11:33:29 -0400
-X-MC-Unique: K8UrEQyfMICSJmGLZgm4Pw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-114-1jMNyvMJNgqbARxxCHbZJA-1; Wed, 22 Apr 2020 11:34:35 -0400
+X-MC-Unique: 1jMNyvMJNgqbARxxCHbZJA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC798107ACC7;
- Wed, 22 Apr 2020 15:33:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C90D100CCCE;
+ Wed, 22 Apr 2020 15:34:34 +0000 (UTC)
 Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 20FFD5DA66;
- Wed, 22 Apr 2020 15:33:26 +0000 (UTC)
-Subject: Re: [PATCH v5 4/9] qcow2: Support BDRV_REQ_ZERO_WRITE for truncate
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 912205C1D4;
+ Wed, 22 Apr 2020 15:34:33 +0000 (UTC)
+Subject: Re: [PATCH v5 5/9] raw-format: Support BDRV_REQ_ZERO_WRITE for
+ truncate
 To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 References: <20200422152129.167074-1-kwolf@redhat.com>
- <20200422152129.167074-5-kwolf@redhat.com>
+ <20200422152129.167074-6-kwolf@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <84c6ca49-aef3-adf4-2efe-68357dd20ce8@redhat.com>
-Date: Wed, 22 Apr 2020 10:33:25 -0500
+Message-ID: <5dd11860-6a13-3f7a-db3b-1286cf9f4207@redhat.com>
+Date: Wed, 22 Apr 2020 10:34:32 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200422152129.167074-5-kwolf@redhat.com>
+In-Reply-To: <20200422152129.167074-6-kwolf@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 02:12:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 04:15:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,40 +85,40 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/22/20 10:21 AM, Kevin Wolf wrote:
-> If BDRV_REQ_ZERO_WRITE is set and we're extending the image, calling
-> qcow2_cluster_zeroize() with flags=0 does the right thing: It doesn't
-> undo any previous preallocation, but just adds the zero flag to all
-> relevant L2 entries. If an external data file is in use, a write_zeroes
-> request to the data file is made instead.
+> The raw format driver can simply forward the flag and let its bs->file
+> child take care of actually providing the zeros.
 > 
 > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->   block/qcow2.c | 30 ++++++++++++++++++++++++++++++
->   1 file changed, 30 insertions(+)
+>   block/raw-format.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-
-> @@ -4214,6 +4215,35 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
->           g_assert_not_reached();
->       }
->   
-> +    if ((flags & BDRV_REQ_ZERO_WRITE) && offset > old_length) {
-> +        uint64_t zero_start = QEMU_ALIGN_UP(old_length, s->cluster_size);
-> +        uint64_t zero_end = QEMU_ALIGN_UP(offset, s->cluster_size);
-
-This rounds up beyond the new size...
-
-> +
-> +        /* Use zero clusters as much as we can */
-> +        ret = qcow2_cluster_zeroize(bs, zero_start, zero_end - zero_start, 0);
-
-and then requests that the extra be zeroed.  Does that always work, even 
-when it results in pdrv_co_pwrite_zeroes beyond the end of s->data_file? 
-  If so,
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
-otherwise, you may have to treat the tail specially, the same way you 
-treated an unaligned head.
+> diff --git a/block/raw-format.c b/block/raw-format.c
+> index 3465c9a865..351f2d91c6 100644
+> --- a/block/raw-format.c
+> +++ b/block/raw-format.c
+> @@ -387,7 +387,7 @@ static int coroutine_fn raw_co_truncate(BlockDriverState *bs, int64_t offset,
+>   
+>       s->size = offset;
+>       offset += s->offset;
+> -    return bdrv_co_truncate(bs->file, offset, exact, prealloc, 0, errp);
+> +    return bdrv_co_truncate(bs->file, offset, exact, prealloc, flags, errp);
+>   }
+>   
+>   static void raw_eject(BlockDriverState *bs, bool eject_flag)
+> @@ -445,6 +445,8 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
+>       bs->supported_zero_flags = BDRV_REQ_WRITE_UNCHANGED |
+>           ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
+>               bs->file->bs->supported_zero_flags);
+> +    bs->supported_truncate_flags = bs->file->bs->supported_truncate_flags &
+> +                                   BDRV_REQ_ZERO_WRITE;
+>   
+>       if (bs->probed && !bdrv_is_read_only(bs)) {
+>           bdrv_refresh_filename(bs->file->bs);
+> 
 
 -- 
 Eric Blake, Principal Software Engineer
