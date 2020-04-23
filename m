@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2691B5A97
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 13:33:35 +0200 (CEST)
-Received: from localhost ([::1]:41414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C71881B5AA3
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 13:40:44 +0200 (CEST)
+Received: from localhost ([::1]:41502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRa6o-0001w0-Hc
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 07:33:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44674)
+	id 1jRaDj-0004iC-9g
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 07:40:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45788)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jRa5Y-00013x-T5
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 07:32:17 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jRaCg-0004Ii-Fj
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 07:39:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jRa5Y-0006We-Em
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 07:32:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22864
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jRa5X-0006Vf-Vj
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 07:32:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587641535;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kwMQKyUMVvxkAGWWVCnEsR/cW4s03175dR//OY/P81I=;
- b=EybvxTS7hAZm8H2cluynH3HMh5vQtu1WBpjhorLrjLEoYWPx5y5S7XzB76AQwmFT9Nj1gR
- r8EMtfET2K3ZPad79Awuo+VkWPsB9hmiMmQtwDwFLPBesEg8850Mt6yDIKjmxa2y89aLKq
- GBCMD3tz2neWGtJA+HNWEWSyMA9i1vw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-425-Z4zzOSuMNh-2gC6EhHbu4w-1; Thu, 23 Apr 2020 07:32:13 -0400
-X-MC-Unique: Z4zzOSuMNh-2gC6EhHbu4w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B79D100CCD0;
- Thu, 23 Apr 2020 11:32:12 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
- [10.36.113.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 07D505C1BD;
- Thu, 23 Apr 2020 11:32:05 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 4F40B1753B; Thu, 23 Apr 2020 13:32:04 +0200 (CEST)
-Date: Thu, 23 Apr 2020 13:32:04 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>
-Subject: Re: [PATCH v2 2/2] virtio-pci: update virtio pci bar layout
- documentation
-Message-ID: <20200423113204.mwkj5x3jryuxz6c5@sirius.home.kraxel.org>
-References: <20200422215455.10244-1-anthoine.bourgeois@gmail.com>
- <20200422215455.10244-2-anthoine.bourgeois@gmail.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1jRaCf-0002Wq-Bh
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 07:39:38 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:33008)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jRaCe-0002Wa-Tv
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 07:39:37 -0400
+Received: by mail-ot1-x342.google.com with SMTP id j26so5465633ots.0
+ for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 04:39:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=oF4b1qKUX09s91W3vY8eqc/v5kcgDFIgZ1EbTD6sq9g=;
+ b=da2GwoiY7NW9ARcqq3rGr9NaPi0G4Q5HIfObafNHGlSFZyYvSARF5EnuMcaFpy+Qf3
+ ypm0p38RmXbZyG9/COp+8OUFCQ6U1iaqMtLEAudgKtp9tNk6qOT8IE37MIZMq4mBfFyU
+ tfJFzImbXXD7FPy5HFXCrguH9mDYgvkCds5gmTmOjOO6aFneSTVpKp+iXNhF9A8PFxWM
+ ITd2NVyGfWhPRtZQirus7KIHhPcpFeq/+jKUIiwWf/e3280EXRKY2imtQmIFstewu6m1
+ aQ4bGoXjS2qVkAhrmBMAyUC4R2wNhmR/Uc1mn7/aGl4uZEqdPjHuGdVNuSGDODPkw9EH
+ Ap3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oF4b1qKUX09s91W3vY8eqc/v5kcgDFIgZ1EbTD6sq9g=;
+ b=ShUSZRjkGSK7LK5Wxz708y1ICybYgZRT1F8MdAx4buQbTXu853wsBShC1C398+CRlb
+ VR29OvRHjt4yU6pLKqp6YHIrVexphrkAtOVBreZTQ49nxqh3i/UCknHeCQU1dOMRrVsE
+ RZU2o5UlOa0hlfAuwkI4DgYK6O2BeWlTui+jTeCa02xqB/aN3QZk5hzTgvCDXqqB1KTN
+ jyKVmLa/7l7WKRFLf9AXUTbHWbpXVDOxi3qFtl2O72iVH1HEprxm7reXllrpGUSmMe85
+ SvktfK5Ukx9VpTGDyqR+cZvmbyT0HaXcfvyK4maM/FjcKaQIvX9DJux2HinBFN9Z+YXB
+ UgZw==
+X-Gm-Message-State: AGi0Pua5AZyd7+hz7fs1i7Er9Ew0Rusr8Pd4+7lPksKhQMHmZEAHyeGd
+ 9jjguSSipRGI4Az8A7nN2l0ePTNHU+c8bnR2UspboQ==
+X-Google-Smtp-Source: APiQypJrywb5CGkIsWTL61xXFm7uZE2U1aH8BF5/H1oLGIUaQ9E/cHyBdatkBwil2tdq0KDcaT0nhBAPuhL3nt/mVVo=
+X-Received: by 2002:aca:dc56:: with SMTP id t83mr2477252oig.48.1587641975609; 
+ Thu, 23 Apr 2020 04:39:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200422215455.10244-2-anthoine.bourgeois@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 06:43:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+References: <20200418162808.4680-1-richard.henderson@linaro.org>
+In-Reply-To: <20200418162808.4680-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 Apr 2020 12:39:23 +0100
+Message-ID: <CAFEAcA8EV5vRBOCDqNc78zEGt8jnpMk3_68WstUY_R567wV_4g@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Vectorize integer comparison vs zero
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,36 +74,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 22, 2020 at 11:54:55PM +0200, Anthoine Bourgeois wrote:
-> The modern io bar was never documented.
->=20
-> Signed-off-by: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>
-> ---
->  hw/virtio/virtio-pci.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> index 4cb784389c..d028c17c24 100644
-> --- a/hw/virtio/virtio-pci.c
-> +++ b/hw/virtio/virtio-pci.c
-> @@ -1705,6 +1705,7 @@ static void virtio_pci_realize(PCIDevice *pci_dev, =
-Error **errp)
->       *
->       *   region 0   --  virtio legacy io bar
->       *   region 1   --  msi-x bar
-> +     *   region 2   --  virtio modern io bar (off by default)
->       *   region 4+5 --  virtio modern memory (64bit) bar
+On Sat, 18 Apr 2020 at 17:28, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> These instructions are often used in glibc's string routines.
+> They were the final uses of the 32-bit at a time neon helpers.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+Applied to target-arm.next, thanks. Luckily my decodetree
+conversion for Neon had not yet got to any of the 2-reg
+insns :-)
 
->       *
->       */
-> --=20
-> 2.20.1
->=20
-
+-- PMM
 
