@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F1AD1B53A9
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 06:34:22 +0200 (CEST)
-Received: from localhost ([::1]:35792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBAFE1B539C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 06:27:23 +0200 (CEST)
+Received: from localhost ([::1]:35626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRTZ7-0004VR-NW
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 00:34:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50602)
+	id 1jRTSM-0003Xq-Q9
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 00:27:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49662)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1jRTIb-0003wm-8s
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 00:17:17 -0400
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1jRTGi-0000pj-RK
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 00:15:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1jRTIa-0003An-Ew
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 00:17:17 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:43006)
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1jRTGi-0007mP-8Q
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 00:15:20 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:55050)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1jRTIZ-000388-Tj
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 00:17:16 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03N4CfZ8131612;
- Thu, 23 Apr 2020 04:17:10 GMT
+ id 1jRTGh-0007kE-Lb
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 00:15:19 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03N4CXat064323;
+ Thu, 23 Apr 2020 04:15:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2020-01-29;
- bh=XdNUX8o0Pj4GaUp7pnqfv9fVKxYs7oYCIODxuqAvhPc=;
- b=Vbfp/5ZKpq5RjLw3ZmjAhHSSAhHP47rqjhf43RNBYnx7HBko98xLuBBORnNsuAW3mjva
- PH5Q5ftoVChxzLGzRin+9JUhvHuNj61zPi0XkB8UJ1jgl5IOM0zG+QVepVBlojllyxW/
- UgRYR5m7OqCKe1/SAbkft0pHnOLWNN9L1NDIfXFR9IM5c6lATOI/FjQuUUaIyDEjTQ7P
- s+FdppOaHMeMP8TxwGZFnRMw8v3prwhcebrwagUVwiaep5ulJCmhjmXW49x2c2dQVkUD
- NXuQkSIa/jzsa0xE0au1/yEYg95oCQWoa1CYvO8+ghnb85tnCYHiHq1uLZ35YCOWnXQh lA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 30jvq4s94x-1
+ bh=Mg2o+E+zRN6NZYHSVJt2/lIDIZG5d4FQVlpm0ayOgWA=;
+ b=Dv+IM/6LbDMXa9E32I6Dg4yTE17myiahLbsHhDCN3C4cqwVRCuouHZxtbHcxl9Hbn9MQ
+ TGFVqSx6l/HCbLcIi+hdy4dgojf9CmdX5TJQTVFGG0etTZf6bt7OtwNxzAkUxmMsyS0e
+ 58tSlXeceoh1jJhclLFcT5v3JhCHxkbawrEaL2ftWYiF6cBAAFv13Zpdp5NG0TaDVsDl
+ Ip/AxJ8jaDkX72j9YXXyYDO2jOcS+R84jePBWhewjuP4zcVDYTXQLZJcXSL7hg3GQYeH
+ ak6SaKCh4vKPW2NK+dtxbL3I46fPP1C2CIiDQWTEKgfGP+Xoek4Gg6/xPkYAP04uiILg CA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2130.oracle.com with ESMTP id 30grpgtrtr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 23 Apr 2020 04:17:10 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03N4Cadq156956;
- Thu, 23 Apr 2020 04:15:09 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3020.oracle.com with ESMTP id 30gbbjtyc7-1
+ Thu, 23 Apr 2020 04:15:12 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03N4DW2v168898;
+ Thu, 23 Apr 2020 04:15:12 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3020.oracle.com with ESMTP id 30gb942h92-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 23 Apr 2020 04:15:09 +0000
+ Thu, 23 Apr 2020 04:15:12 +0000
 Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 03N4F8gk017915;
- Thu, 23 Apr 2020 04:15:09 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 03N4FAsP026661;
+ Thu, 23 Apr 2020 04:15:10 GMT
 Received: from flaka.hsd1.ca.comcast.net (/67.180.143.163)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 22 Apr 2020 21:15:08 -0700
+ with ESMTP ; Wed, 22 Apr 2020 21:15:10 -0700
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH RESEND v6 24/36] multi-process: Retrieve PCI info from remote
- process
-Date: Wed, 22 Apr 2020 21:13:59 -0700
-Message-Id: <edd1d0741c6be69831dbaa8f9ef2321bce3169e3.1587614626.git.elena.ufimtseva@oracle.com>
+Subject: [PATCH RESEND v6 25/36] multi-process: Introduce build flags to
+ separate remote process code
+Date: Wed, 22 Apr 2020 21:14:00 -0700
+Message-Id: <288caac3e25a2a34bd067d8f524da6a8162000f1.1587614626.git.elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.25.GIT
 In-Reply-To: <cover.1587614626.git.elena.ufimtseva@oracle.com>
 References: <cover.1587614626.git.elena.ufimtseva@oracle.com>
@@ -64,24 +64,24 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9599
  signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- malwarescore=0
- suspectscore=3 mlxlogscore=999 adultscore=0 mlxscore=0 phishscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ adultscore=0
+ bulkscore=0 suspectscore=1 malwarescore=0 phishscore=0 spamscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2003020000 definitions=main-2004230027
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9599
  signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 malwarescore=0
- mlxscore=0 adultscore=0 mlxlogscore=999 phishscore=0 impostorscore=0
- clxscore=1015 bulkscore=0 spamscore=0 priorityscore=1501 suspectscore=3
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ mlxscore=0
+ lowpriorityscore=0 adultscore=0 suspectscore=1 bulkscore=0 clxscore=1015
+ malwarescore=0 phishscore=0 spamscore=0 priorityscore=1501 impostorscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
  definitions=main-2004230027
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=elena.ufimtseva@oracle.com; helo=aserp2120.oracle.com
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=elena.ufimtseva@oracle.com; helo=userp2130.oracle.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 00:14:28
 X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Received-From: 141.146.126.78
+X-Received-From: 156.151.31.86
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,209 +104,47 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jagannathan Raman <jag.raman@oracle.com>
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-Retrieve PCI configuration info about the remote device and
-configure the Proxy PCI object based on the returned information
+Introduce SCSI_PROCESS & REMOTE_PROCESS build flags to separate
+code that applies only to remote processes.
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- hw/proxy/qemu-proxy.c    | 84 ++++++++++++++++++++++++++++++++++++++++
- include/io/mpqemu-link.h | 10 +++++
- remote/remote-main.c     | 21 ++++++++++
- 3 files changed, 115 insertions(+)
+ Makefile.target | 4 ++++
+ rules.mak       | 2 +-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/hw/proxy/qemu-proxy.c b/hw/proxy/qemu-proxy.c
-index a78694736b..730e28483e 100644
---- a/hw/proxy/qemu-proxy.c
-+++ b/hw/proxy/qemu-proxy.c
-@@ -19,6 +19,8 @@
- #include "sysemu/kvm.h"
- #include "util/event_notifier-posix.c"
+diff --git a/Makefile.target b/Makefile.target
+index b956ab24f6..adc76886f8 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -269,6 +269,10 @@ ifdef CONFIG_DARWIN
+ 	$(call quiet-command,SetFile -a C $@,"SETFILE","$(TARGET_DIR)$@")
+ endif
  
-+static void probe_pci_info(PCIDevice *dev);
++ifdef CONFIG_MPQEMU
++$(SCSI_DEV_BUILD): REMOTE_FLAGS = -DREMOTE_PROCESS -DSCSI_PROCESS
++endif
 +
- static int config_op_send(PCIProxyDev *dev, uint32_t addr, uint32_t *val, int l,
-                           unsigned int op)
- {
-@@ -182,8 +184,12 @@ static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
- {
-     PCIProxyDev *dev = PCI_PROXY_DEV(device);
-     PCIProxyDevClass *k = PCI_PROXY_DEV_GET_CLASS(dev);
-+    uint8_t *pci_conf = device->config;
-     Error *local_err = NULL;
+ $(SCSI_DEV_BUILD): $(all-remote-lsi-obj-y) $(COMMON_LDADDS)
+ 	$(call LINK, $(filter-out %.mak, $^))
+ ifdef CONFIG_DARWIN
+diff --git a/rules.mak b/rules.mak
+index 694865b63e..257f07e322 100644
+--- a/rules.mak
++++ b/rules.mak
+@@ -67,7 +67,7 @@ expand-objs = $(strip $(sort $(filter %.o,$1)) \
  
-+    pci_conf[PCI_LATENCY_TIMER] = 0xff;
-+    pci_conf[PCI_INTERRUPT_PIN] = 0x01;
-+
-     if (k->realize) {
-         k->realize(dev, &local_err);
-         if (local_err) {
-@@ -196,6 +202,8 @@ static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
-     configure_memory_sync(dev->sync, dev->mpqemu_link);
- 
-     setup_irqfd(dev);
-+
-+    probe_pci_info(PCI_DEVICE(dev));
- }
- 
- static void pci_proxy_dev_class_init(ObjectClass *klass, void *data)
-@@ -291,3 +299,79 @@ const MemoryRegionOps proxy_default_ops = {
-         .max_access_size = 1,
-     },
- };
-+
-+static void probe_pci_info(PCIDevice *dev)
-+{
-+    PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(dev);
-+    DeviceClass *dc = DEVICE_CLASS(pc);
-+    PCIProxyDev *pdev = PCI_PROXY_DEV(dev);
-+    MPQemuLinkState *mpqemu_link = pdev->mpqemu_link;
-+    MPQemuMsg msg, ret;
-+    uint32_t orig_val, new_val, class;
-+    uint8_t type;
-+    int i, size;
-+    char *name;
-+
-+    memset(&msg, 0, sizeof(MPQemuMsg));
-+    msg.bytestream = 0;
-+    msg.size = 0;
-+    msg.cmd = GET_PCI_INFO;
-+    mpqemu_msg_send(&msg, mpqemu_link->dev);
-+
-+    mpqemu_msg_recv(&ret, mpqemu_link->dev);
-+
-+    pc->vendor_id = ret.data1.ret_pci_info.vendor_id;
-+    pc->device_id = ret.data1.ret_pci_info.device_id;
-+    pc->class_id = ret.data1.ret_pci_info.class_id;
-+    pc->subsystem_id = ret.data1.ret_pci_info.subsystem_id;
-+
-+    config_op_send(pdev, 11, &class, 1, PCI_CONFIG_READ);
-+    switch (class) {
-+    case PCI_BASE_CLASS_BRIDGE:
-+        set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-+        break;
-+    case PCI_BASE_CLASS_STORAGE:
-+        set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-+        break;
-+    case PCI_BASE_CLASS_NETWORK:
-+        set_bit(DEVICE_CATEGORY_NETWORK, dc->categories);
-+        break;
-+    case PCI_BASE_CLASS_INPUT:
-+        set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
-+        break;
-+    case PCI_BASE_CLASS_DISPLAY:
-+        set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
-+        break;
-+    case PCI_BASE_CLASS_PROCESSOR:
-+        set_bit(DEVICE_CATEGORY_CPU, dc->categories);
-+        break;
-+    default:
-+        set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+        break;
-+    }
-+
-+    for (i = 0; i < 6; i++) {
-+        config_op_send(pdev, 0x10 + (4 * i), &orig_val, 4, PCI_CONFIG_READ);
-+        new_val = 0xffffffff;
-+        config_op_send(pdev, 0x10 + (4 * i), &new_val, 4, PCI_CONFIG_WRITE);
-+        config_op_send(pdev, 0x10 + (4 * i), &new_val, 4, PCI_CONFIG_READ);
-+        size = (~(new_val & 0xFFFFFFF0)) + 1;
-+        config_op_send(pdev, 0x10 + (4 * i), &orig_val, 4, PCI_CONFIG_WRITE);
-+        type = (new_val & 0x1) ?
-+                   PCI_BASE_ADDRESS_SPACE_IO : PCI_BASE_ADDRESS_SPACE_MEMORY;
-+
-+        if (size) {
-+            pdev->region[i].dev = pdev;
-+            pdev->region[i].present = true;
-+            if (type == PCI_BASE_ADDRESS_SPACE_MEMORY) {
-+                pdev->region[i].memory = true;
-+            }
-+            name = g_strdup_printf("bar-region-%d", i);
-+            memory_region_init_io(&pdev->region[i].mr, OBJECT(pdev),
-+                                  &proxy_default_ops, &pdev->region[i],
-+                                  name, size);
-+            pci_register_bar(dev, i, type, &pdev->region[i].mr);
-+            g_free(name);
-+        }
-+    }
-+}
-diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
-index 14e4be2bd0..102c736705 100644
---- a/include/io/mpqemu-link.h
-+++ b/include/io/mpqemu-link.h
-@@ -48,6 +48,8 @@ typedef enum {
-     BAR_WRITE,
-     BAR_READ,
-     SET_IRQFD,
-+    GET_PCI_INFO,
-+    RET_PCI_INFO,
-     MAX,
- } mpqemu_cmd_t;
- 
-@@ -70,6 +72,13 @@ typedef struct {
-     bool memory;
- } bar_access_msg_t;
- 
-+typedef struct {
-+    uint16_t vendor_id;
-+    uint16_t device_id;
-+    uint16_t class_id;
-+    uint16_t subsystem_id;
-+} ret_pci_info_msg_t;
-+
- /**
-  * MPQemuMsg:
-  * @cmd: The remote command
-@@ -98,6 +107,7 @@ typedef struct {
-         sync_sysmem_msg_t sync_sysmem;
-         bar_access_msg_t bar_access;
-         set_irqfd_msg_t set_irqfd;
-+        ret_pci_info_msg_t ret_pci_info;
-     } data1;
- 
-     int fds[REMOTE_MAX_FDS];
-diff --git a/remote/remote-main.c b/remote/remote-main.c
-index 7cc1a60c3d..f5a479e9b2 100644
---- a/remote/remote-main.c
-+++ b/remote/remote-main.c
-@@ -188,6 +188,24 @@ fail:
-     PUT_REMOTE_WAIT(wait);
- }
- 
-+static void process_get_pci_info_msg(MPQemuLinkState *link, MPQemuMsg *msg)
-+{
-+    PCIDevice *pci_dev = LINK_TO_DEV(link);
-+    PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(pci_dev);
-+    MPQemuMsg ret = { 0 };
-+
-+    ret.cmd = RET_PCI_INFO;
-+
-+    ret.data1.ret_pci_info.vendor_id = pc->vendor_id;
-+    ret.data1.ret_pci_info.device_id = pc->device_id;
-+    ret.data1.ret_pci_info.class_id = pc->class_id;
-+    ret.data1.ret_pci_info.subsystem_id = pc->subsystem_id;
-+
-+    ret.size = sizeof(ret.data1);
-+
-+    mpqemu_msg_send(&ret, link->dev);
-+}
-+
- static void process_msg(GIOCondition cond, MPQemuLinkState *link,
-                         MPQemuChannel *chan)
- {
-@@ -246,6 +264,9 @@ static void process_msg(GIOCondition cond, MPQemuLinkState *link,
-     case SET_IRQFD:
-         process_set_irqfd_msg(LINK_TO_DEV(link), msg);
-         break;
-+    case GET_PCI_INFO:
-+        process_get_pci_info_msg(link, msg);
-+        break;
-     default:
-         error_setg(&err, "Unknown command in %s", print_pid_exec(pid_exec));
-         goto finalize_loop;
+ %.o: %.c
+ 	$(call quiet-command,$(CC) $(QEMU_LOCAL_INCLUDES) $(QEMU_INCLUDES) \
+-	       $(QEMU_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) $($@-cflags) \
++	       $(QEMU_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) $($@-cflags) $(REMOTE_FLAGS) \
+ 	       -c -o $@ $<,"CC","$(TARGET_DIR)$@")
+ %.o: %.rc
+ 	$(call quiet-command,$(WINDRES) -I. -o $@ $<,"RC","$(TARGET_DIR)$@")
 -- 
 2.25.GIT
 
