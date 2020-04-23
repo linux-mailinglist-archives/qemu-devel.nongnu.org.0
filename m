@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 013E61B65CF
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 22:55:22 +0200 (CEST)
-Received: from localhost ([::1]:41660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71ED31B65CA
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 22:53:32 +0200 (CEST)
+Received: from localhost ([::1]:41486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRisT-0000eW-1J
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 16:55:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32918)
+	id 1jRiqh-0005mT-Ew
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 16:53:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33928)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jRilH-0001fi-EB
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:47:55 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jRipI-0004f8-89
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:52:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jRilD-0007St-IK
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:47:55 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:40378)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jRipG-0003vP-KF
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:52:04 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:56250)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jRilD-0007RT-1f
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:47:51 -0400
-Received: by mail-ot1-x342.google.com with SMTP id i27so8572618ota.7
- for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 13:47:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jRipG-0003uX-4m
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:52:02 -0400
+Received: by mail-wm1-x341.google.com with SMTP id e26so8118061wmk.5
+ for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 13:52:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=yuRNKYOyrXq31eODqoSQA8Il9L22mdjCutxbVpqukMo=;
- b=HYxBO9IocyV36w6tRGQlKtMJmW0UhLb9qOx9X2XuLJZu2XFkDJVvo0ZgLSoknvtt6v
- wCFLvSs7lsksmQB+zEJGHDFgjzFzgu2qb2SYZritGipdlRspy3HoxEvqSki9X2PXpmET
- wvp1ke/3ovYrBMJcQx3KBbj32aYU0RgXTkAgBcIBu8dONQSBNCXm+djdSrNQq9qW0SuM
- Z9V2RYOHgJPyQrWIH4+5syBL6QDntfDPPfb4XuaNjtYX8VjhqvoSHMRY0ZWK/23Xm2xQ
- +1kuGWtKMf0aGFckBieoRIFWgWY27oIdAgxc3wAUOrPaqWVY4AogdeQ6Ay/gZaSL21uC
- KuSQ==
+ bh=xI/7UGSbUDidCuMybls+r4oADxm2z0eT7aFVuZj77jI=;
+ b=W4xSaQRb1jl0QgtKxrzF7AZRwR2iffCAsln4yffvb/tkMnfW6bCJIk8Ql4r+jUeGGa
+ 6pCkn8Kw4ELqbaamPvpo/rJ09f+UKS9DAak8HWBZBtqmPILAFn4B+2UHy9jSfMflDbha
+ HEbmsyRe4Zjh0BVvkdDG7i2yDHYG7hqclm2fY+GHraYlgAHe8ABk8HobSC34og9+nveD
+ H+CS1KjWH1Ohlgk08DEWaCl10037ay+mAp4vbc6gcAMa9ARETdsZ3L2zu9Z21PgkHxi3
+ BJ+hzUdmP3pObvGqoTLPGyrJFpOfE65eS2aRZd2OguhErrF6TgwiUe2a5ITmRbE0LxSM
+ RwIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=yuRNKYOyrXq31eODqoSQA8Il9L22mdjCutxbVpqukMo=;
- b=bN2yBEWs6UPG22/16sB/ovKdrna5r01A+5u9jPjdgTwz0LV+VaY/kRmVs/3RVOZRZd
- x47zfhU3bgRIDGIsB305eOVwPRGE4tIFz5CtddwizLdIRqvgG393qvdIvowl/R4bvOjE
- dzjvpJXTI8ssaYOvI/Mw5u7LLWTwTvTnoBvgP4QBU6dWvOIF3ZWBXWd04s/2hG/K1C7h
- Jq1uop4OYVEbLUxN/xeQlyuOwlRft24fvCy4cU7ECJf6oIR5GhiRutbwdFwemLFvEQUe
- UJjkeKgJIIkP3drwhxf3Y7IbmnzgYYZPZRUsMP0Cxd3Fq74nmy0E4y79MtB0sy2pOP30
- tn5A==
-X-Gm-Message-State: AGi0PuaIl4/4kLNNHFurSC484H+J8wSwt0sPkz4OeKJpCa5fJjh7w7f6
- vu7Qkz/GYXccSar7OeeBfQ2ag2CTiifVb1CrtAsIFg==
-X-Google-Smtp-Source: APiQypLLJB0eckpV1phYkzfJtZrxZDdfSfHj5Q1EzFGoIucRTfYxasmJHAIVrrjNWAlKc6ajxzlXo4zHSXt2Sxy7xHA=
-X-Received: by 2002:aca:3441:: with SMTP id b62mr3172454oia.146.1587674869774; 
- Thu, 23 Apr 2020 13:47:49 -0700 (PDT)
+ bh=xI/7UGSbUDidCuMybls+r4oADxm2z0eT7aFVuZj77jI=;
+ b=jYGYrxkMjPzThHMtozTmg8fFL3drvkq26hyzkhUnCXYZWpsjsb53cQS3LHJYaD1aAI
+ 0DZ73J8N287o3krd20XcSTZOyQhKlKSAyrhxEd10uR9+gM4a3JRvfhKNcQRFN/VWHErS
+ 7PfFPFYheImKp82ipwvmnLKCIYpaxFaBECe/znQOG/ioAH7Wfr1lWxNe8MfowwTw+IZ/
+ 9cUqe1wZNhTd1L9jsismXuDTObX97eLCK6l8NAWiWz94XquqNHCmtzw98f5SbyG1ZiwS
+ u3zc899C+xutjtsw5La7r9MCDDb8hAM7z4h0z4+Nx6lzfitKqa7qNmCaB4LmrQO3/ocK
+ 2LCA==
+X-Gm-Message-State: AGi0PuY5GqQ4qx6A3igNez+5G3fd3nBxxhz5szENprqVkAXNXszeq5D6
+ n22lK10Rwmyb76sh+vYPag7O9bGGpTeEZ71Dh40=
+X-Google-Smtp-Source: APiQypL93iFO65FNrvRaRIY9OtO4OY9+gRPEV3xNSp3U0yKrOc1/W9RVA5QLDAB2RNBlnlwD99JyIUYLHxeGVYjnQAg=
+X-Received: by 2002:a1c:7301:: with SMTP id d1mr6470936wmb.26.1587675118538;
+ Thu, 23 Apr 2020 13:51:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200423202011.32686-1-peter.maydell@linaro.org>
- <d9e2c1cf-30e5-a889-3e87-eed6480610ab@redhat.com>
-In-Reply-To: <d9e2c1cf-30e5-a889-3e87-eed6480610ab@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Apr 2020 21:47:38 +0100
-Message-ID: <CAFEAcA8XBsfZvxsjXVFbcHwcBYx3ohyfhntAKTTEWKcCw9xSCg@mail.gmail.com>
-Subject: Re: [PATCH] elf_ops: Don't try to g_mapped_file_unref(NULL)
+References: <20200423202112.644-1-philmd@redhat.com>
+ <20200423202112.644-4-philmd@redhat.com>
+In-Reply-To: <20200423202112.644-4-philmd@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 23 Apr 2020 22:51:46 +0200
+Message-ID: <CAJ+F1CJpdU=S6zQg5J=8gYDzR1GmgbzDZqVFkaigd-vbSLbPsw@mail.gmail.com>
+Subject: Re: [PATCH 3/7] chardev: Restrict msmouse / wctablet / testdev to
+ system emulation
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::342
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,27 +78,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Randy Yates <yates@ieee.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, QEMU <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 Apr 2020 at 21:25, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
+On Thu, Apr 23, 2020 at 10:22 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
 >
-> On 4/23/20 10:20 PM, Peter Maydell wrote:
-> > This will fix the assertion; for the specific case of the generic
-> > loader it will then fall back from "guess this is an ELF file" to
-> > "maybe it's a uImage or a hex file" and eventually to "just load as
-> > a raw data file".
+> The msmouse / wctablet / testdev character devices are only
+> used by system emulation. Remove them from user mode and tools.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-Thanks; as a side note "let me just load this as a raw data file"
-is not a very user-friendly way to report issues with the ELF
-file like "seems to be truncated" or "has no program headers".
-Not sure what to do about that...
 
-thanks
--- PMM
+> ---
+>  chardev/Makefile.objs | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/chardev/Makefile.objs b/chardev/Makefile.objs
+> index d68e1347f9..15ee7f47da 100644
+> --- a/chardev/Makefile.objs
+> +++ b/chardev/Makefile.objs
+> @@ -17,7 +17,7 @@ chardev-obj-y +=3D char-udp.o
+>  chardev-obj-$(CONFIG_WIN32) +=3D char-win.o
+>  chardev-obj-$(CONFIG_WIN32) +=3D char-win-stdio.o
+>
+> -common-obj-y +=3D msmouse.o wctablet.o testdev.o
+> +common-obj-$(CONFIG_SOFTMMU) +=3D msmouse.o wctablet.o testdev.o
+>  common-obj-$(CONFIG_BRLAPI) +=3D baum.o
+>  baum.o-cflags :=3D $(SDL_CFLAGS)
+>  baum.o-libs :=3D $(BRLAPI_LIBS)
+> --
+> 2.21.1
+>
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
