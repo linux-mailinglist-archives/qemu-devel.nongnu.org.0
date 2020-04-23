@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5143B1B63F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 20:44:56 +0200 (CEST)
-Received: from localhost ([::1]:36826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 790EF1B6461
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 21:18:54 +0200 (CEST)
+Received: from localhost ([::1]:37964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRgqF-0007mW-Ac
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 14:44:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33040)
+	id 1jRhN7-0005hh-2c
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 15:18:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40638)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jRgmd-0002SV-8Z
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 14:41:11 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jRhL3-0004V6-Fd
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 15:16:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jRgmc-00052e-4t
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 14:41:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45297
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jRgmb-00050z-N7
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 14:41:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587667268;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O4EIJSuztfpcvY4tqwExUY3ZWzpUtoYZpgz41/iurrQ=;
- b=eomMk6WOR6TEJ8CGNAqvaeEFSgqyWpTmF+LR21lgT7PoTPIyJawEniDu4CHRZqabweAAAZ
- zQpYkguEGTIAnuEgWc3UcCJgcpkt+2ato/Z1ucRdK2Ho3WEpLyfC6ZrsBgj5fJxosr9GSR
- qhCvpdPw2rQjndZ6vdi6kGC/IpXC69U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-70-jrDioyWzOwCCcvp4Dlr97g-1; Thu, 23 Apr 2020 14:41:06 -0400
-X-MC-Unique: jrDioyWzOwCCcvp4Dlr97g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C769460;
- Thu, 23 Apr 2020 18:41:05 +0000 (UTC)
-Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CF9D760CD1;
- Thu, 23 Apr 2020 18:41:01 +0000 (UTC)
-Subject: Re: [PATCH 13/13] qom: Simplify object_property_get_enum()
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200423160036.7048-1-armbru@redhat.com>
- <20200423160036.7048-14-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <7be10bcd-97ba-5f01-60a0-e83c0c69ceba@redhat.com>
-Date: Thu, 23 Apr 2020 13:40:55 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jRhL1-000231-Ib
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 15:16:44 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:34917)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jRhL0-0001oE-84; Thu, 23 Apr 2020 15:16:42 -0400
+Received: by mail-wm1-x341.google.com with SMTP id r26so7818883wmh.0;
+ Thu, 23 Apr 2020 12:16:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=+wyQ2QGtkYVcNx6dUqs2SNql04F92a4RgpaY4RSL3Y0=;
+ b=cfSV9XXhtIKuZGjFpjWZtBtsK9Q461Qd1ufwShCNlDz5vm3E6yNE6M6yfruWfyZsRt
+ uIDNaLEgFi3cNYB2eOQNL/BWPqbRPZG4WWgWoZ/N6ERYd1U0fld3b8dUYl/xi0WIli8d
+ aRQc93Y+csa0nrMT2OzJgAGhi3MhSl9EglYKTPJdIUKFScGTwhn5mBhz/mMP4Cxanf+/
+ fXXXGgxyUY+PB49aUzE+Muuf6n42zhNIk75LoYQBIZsd9U/Bkpg4c/mrQepnnMG5TyNR
+ rYY3JaAfdQrm1hgi7fwDmoN1o6PxxGON16aJpRmv7u3USZxyggvTy9MOHFaaqcChx4gV
+ IxYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+wyQ2QGtkYVcNx6dUqs2SNql04F92a4RgpaY4RSL3Y0=;
+ b=G9ABf+cOViZ7VXapEVaoqIRMK2S/IGkdG2SxIv/9+JakMrOZWuEZDsWqg+zYTlzLtt
+ S3TPXBGfLD3AYWOPwsO+NX2ad4u7nlKFMeQRL+TCSvvp/MzT+XAgCooSdjVX7pNCxVzN
+ fJyWwyGhyPA+Dej9uib+0cl0vyYCVpuVOzhXB32/7DXL6rMqoDT5KPEwnYVKMBhP7beV
+ xd0duKo/weL9p+w3HV/Jawx6pCn5KH217NdkyBaMKOHgkoRkWtCbKQ5/3C3ycdL01u1c
+ mJWqNZmwQvyIxHZlkcIM0UiRxzVo+zbDAaJWeulSFZ/wxYralCvpGi5KotrzhFOWo/v2
+ qq/A==
+X-Gm-Message-State: AGi0Puajn0Z6TfdmxpZdbGClawlidiUf9aplvekRXTUd+xRwUoSt9rjs
+ vRhhkv/eDDwfUtpv8kEcRNvzF6GmP+OYPhqntGE=
+X-Google-Smtp-Source: APiQypIWX7F/+C1ZJyLntoqRAp0DFZbo6QM+mkUEFA+K1ZXmNw2PXr+Ho6coszQX13cvbjfqUhn2nR3uhoEy3qfvjGw=
+X-Received: by 2002:a1c:1bcb:: with SMTP id b194mr5946395wmb.4.1587669396897; 
+ Thu, 23 Apr 2020 12:16:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200423160036.7048-14-armbru@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 05:42:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+References: <cover.1587667007.git.dimastep@yandex-team.ru>
+ <23b36a73ce1150cc501f436684ca558608de3322.1587667007.git.dimastep@yandex-team.ru>
+In-Reply-To: <23b36a73ce1150cc501f436684ca558608de3322.1587667007.git.dimastep@yandex-team.ru>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 23 Apr 2020 21:16:24 +0200
+Message-ID: <CAJ+F1CJgzqSDnU==Fi4-fQ3Fh97BgEnNd_GZOg8n9i1C4xsOmw@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 3/7] char-socket: initialize reconnect timer only
+ if close is emitted
+To: Dima Stepanov <dimastep@yandex-team.ru>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,22 +77,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mdroth@linux.vnet.ibm.com
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Gonglei <arei.gonglei@huawei.com>, Li Feng <fengli@smartx.com>,
+ yc-core@yandex-team.ru, Paolo Bonzini <pbonzini@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/23/20 11:00 AM, Markus Armbruster wrote:
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Hi
+
+On Thu, Apr 23, 2020 at 8:41 PM Dima Stepanov <dimastep@yandex-team.ru> wro=
+te:
+>
+> During vhost-user reconnect functionality testing the following assert
+> was hit:
+>   qemu-system-x86_64: chardev/char-socket.c:125:
+>   qemu_chr_socket_restart_timer: Assertion `!s->reconnect_timer' failed.
+>   Aborted (core dumped)
+
+That looks related to "[PATCH 3/4] char-socket: avoid double call
+tcp_chr_free_connection"
+
+> This is observed only if the connection is closed by the vhost-user-blk
+> daemon during the initialization routine. In this case the
+> tcp_chr_disconnect_locked() routine is called twice. First time it is
+> called in the tcp_chr_write() routine, after getting the SIGPIPE signal.
+> Second time it is called when vhost_user_blk_connect() routine return
+> error. In general it looks correct, because the initialization routine
+> can return error in many cases.
+> The tcp_chr_disconnect_locked() routine could be fixed. The timer will
+> be restarted only if the close event is emitted.
+>
+> Signed-off-by: Dima Stepanov <dimastep@yandex-team.ru>
 > ---
->   qom/object.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
-> 
+>  chardev/char-socket.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+> index c128cca..83ca4d9 100644
+> --- a/chardev/char-socket.c
+> +++ b/chardev/char-socket.c
+> @@ -476,7 +476,7 @@ static void update_disconnected_filename(SocketCharde=
+v *s)
+>  static void tcp_chr_disconnect_locked(Chardev *chr)
+>  {
+>      SocketChardev *s =3D SOCKET_CHARDEV(chr);
+> -    bool emit_close =3D s->state =3D=3D TCP_CHARDEV_STATE_CONNECTED;
+> +    bool was_connected =3D s->state =3D=3D TCP_CHARDEV_STATE_CONNECTED;
+>
+>      tcp_chr_free_connection(chr);
+>
+> @@ -485,11 +485,11 @@ static void tcp_chr_disconnect_locked(Chardev *chr)
+>                                                chr, NULL, chr->gcontext);
+>      }
+>      update_disconnected_filename(s);
+> -    if (emit_close) {
+> +    if (was_connected) {
+>          qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
+> -    }
+> -    if (s->reconnect_time) {
+> -        qemu_chr_socket_restart_timer(chr);
+> +        if (s->reconnect_time) {
+> +            qemu_chr_socket_restart_timer(chr);
+> +        }
+>      }
+>  }
+>
+> --
+> 2.7.4
+>
+>
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+--=20
+Marc-Andr=C3=A9 Lureau
 
