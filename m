@@ -2,67 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDB451B61EB
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 19:27:14 +0200 (CEST)
-Received: from localhost ([::1]:45872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E14DF1B617F
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 19:01:43 +0200 (CEST)
+Received: from localhost ([::1]:45952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRe22-00083C-1J
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 11:44:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56642)
+	id 1jRe51-0004lZ-R9
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 11:47:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57342)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jRe0d-0006Sd-5C
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:43:27 -0400
+ (envelope-from <berto@igalia.com>) id 1jRe32-0002vR-Mx
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:45:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jRe0c-0006kC-CP
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:43:26 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48542
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jRe0b-0006hF-TK
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:43:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587656603;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qeTfP2cM7MCBf5OXy+2ynocPkpCFpQ8COaK1bkjIdTk=;
- b=a1zXKZmpFs4p28IpwT4kmyEfJ5POnOf+mYvmSnNlg8LeBsXIz5kxNNbeKWvOJrT8n8grfl
- U+hc/7/iGJwAjl+s1aqTt7Gl6skseDSZboqfF1x8+aVGE6KUP2n/2Cn2AhU+9yxJ2MM5C6
- jlLl4DiNnkzq8UQegbMc6zplhvgQNhw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-94-4b7SC-qUMw2GSDyBn4ljPw-1; Thu, 23 Apr 2020 11:43:20 -0400
-X-MC-Unique: 4b7SC-qUMw2GSDyBn4ljPw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73F1E835B4F;
- Thu, 23 Apr 2020 15:43:18 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-28.ams2.redhat.com [10.36.114.28])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AD4E25C1BD;
- Thu, 23 Apr 2020 15:43:05 +0000 (UTC)
-Date: Thu, 23 Apr 2020 17:43:04 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [RFC 0/3] 64bit block-layer part I
-Message-ID: <20200423154304.GD23654@linux.fritz.box>
-References: <20200330141818.31294-1-vsementsov@virtuozzo.com>
+ (envelope-from <berto@igalia.com>) id 1jRe31-0006qS-ST
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:45:56 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:40917)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1jRe30-0006bN-WD; Thu, 23 Apr 2020 11:45:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=ThxkYpu0m025sAoAV+c74k1GqC7O9yRA28t0Rb56NTQ=; 
+ b=Wf+CkQgFaH9amzvgmBQz/BXB/vnZrejnE1UQSZ6tZ2tKMdWtOEI8dMhRQU5t1P4e2cbXnkq61Ru8sLIMQhPVuab8Gq8tbIq1mv6YBrP+R539lCXO0uN5rUnXaf9O0lQvDBIt6IfqqG+3Uwh920Wt/NVjAW2UolIf0ZQAs8ddKmbhyAIT2vskmCZayY6xGUPChIusmt4ll0GFQtocBtlK+xiSerAIrAkVX0Xglb/sSMetWACylh/lQXnkfvmq52a3LGidqSjJpb0Rlk57eMdXrpzMAewuZ+icCuNZJXsZHOwlJKI2RwEmboeIDaeQWyxuoWq54U0ONa7SlBWc51AalA==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1jRe2v-00087I-4K; Thu, 23 Apr 2020 17:45:49 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1jRe2u-0005tH-RF; Thu, 23 Apr 2020 17:45:48 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 21/30] qcow2: Add subcluster support to
+ check_refcounts_l2()
+In-Reply-To: <9972aadc-dcc8-9fce-019b-e23d2b7dcad8@virtuozzo.com>
+References: <cover.1584468723.git.berto@igalia.com>
+ <ef2a1699095c04e954665aba591dd055c3bddb63.1584468723.git.berto@igalia.com>
+ <9972aadc-dcc8-9fce-019b-e23d2b7dcad8@virtuozzo.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Thu, 23 Apr 2020 17:45:48 +0200
+Message-ID: <w51y2qm5hoz.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <20200330141818.31294-1-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 03:23:21
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 10:18:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+X-Received-From: 178.60.130.6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,87 +62,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berto@igalia.com, stefanha@redhat.com,
- qemu-block@nongnu.org, dillaman@redhat.com, pavel.dovgaluk@ispras.ru,
- sw@weilnetz.de, pl@kamp.de, qemu-devel@nongnu.org, mreitz@redhat.com,
- jsnow@redhat.com, ronniesahlberg@gmail.com, den@openvz.org,
- pbonzini@redhat.com, ari@tuxera.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 30.03.2020 um 16:18 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> Hi all!
->=20
-> There is an idea to make NBD protocol extension to support 64bit
-> write-zero/discard/block-status commands (commands, which doesn't
-> transfer user data). It's needed to increase performance of zeroing
-> large ranges (up to the whole image). Zeroing of the whole image is used
-> as first step of mirror job, qemu-img convert, it should be also used at
-> start of backup actually..
->=20
-> We need to support it in block-layer, so we want 64bit write_zeros.
-> Currently driver handler now have int bytes parameter.
->=20
-> write_zeros path goes through normal pwritev, so we need 64bit write,
-> and then we need 64bit read for symmetry, and better, let's make all io
-> path work with 64bit bytes parameter.
->=20
-> Actually most of block-layer already have 64bit parameters: offset is
-> sometimes int64_t and sometimes uint64_t. bytes parameter is one of
-> int64_t, uint64_t, int, unsigned int...
->=20
-> I think we need one type for all of this, and this one type is int64_t.
-> Signed int64_t is a bit better than uint64_t: you can use same variable
-> to get some result (including error < 0) and than reuse it as an
-> argument without any type conversion.
->=20
-> So, I propose, as a first step, convert all uint64_t parameters to
-> int64_t.
->=20
-> Still, I don't have good idea of how to split this into more than 3
-> patches, so, this is an RFC.
+On Wed 22 Apr 2020 02:06:56 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
+> 17.03.2020 21:16, Alberto Garcia wrote:
+>> Setting the QCOW_OFLAG_ZERO bit of the L2 entry is forbidden if an
+>> image has subclusters. Instead, the individual 'all zeroes' bits must
+>> be used.
+>> 
+>> Signed-off-by: Alberto Garcia <berto@igalia.com>
+>> Reviewed-by: Max Reitz <mreitz@redhat.com>
+>
+> Patch itself seems correct.. Still, would be good also to check, is
+> QCOW_OFLAG_ZERO set in subclustres case and add corresponding
+> corruptions++, and may be even fix (by using
+> QCOW_L2_BITMAP_ALL_ZEROES instead)
 
-I think the split in three patches isn't too bad because it's not a
-whole lot of code. But of course, it is little code that has lots of
-implications which does make it hard to review. If we think that we
-might bisect a bug in the series later, maybe it would be better to
-split it into more patches.
+I'll add it to my TODO list for a later patch.
 
-write/write_zeroes has to be a single thing, I'm afraid. But I guess
-read could be a separate patch, as could be copy_range. Not sure about
-discard.
-
-> What's next?
->=20
-> Converting write_zero and discard is not as simple: we can't just
-> s/int/uint64_t/, as some functions may use some int variables for
-> calculations and this will be broken by something larger than int.
->=20
-> So, I think the simplest way is to add .bdrv_co_pwritev_zeros64 and
-> .bdrv_co_pdiscard64 and update drivers one-by-one. If at some point all
-> drivers updated - drop unused 32bit functions, and then drop "64" suffix
-> from API. If not - we'll live with both APIs.
-
-We already have too many unfinished conversions in QEMU, let's not add
-one more.
-
-Fortunately, we already have a tool that could help us here: Things like
-bs->bl.max_pwrite_zeroes. We could make BDRV_REQUEST_MAX_BYTES the
-default value and only drivers that override it can get bigger requests.
-
-> Another thing to do is updating default limiting of request (currently
-> they are limited to INT_MAX).
-
-As above, I wouldn't update the default, but rather enable drivers to
-overload the default with a larger value. This will involve changing
-some places where we use MIN() between INT_MAX and the driver's value.
-
-> Then we may move some drivers to 64bit discard/write_zero: I think about
-> qcow2, file-posix and nbd (as a proof-of-concept for already proposed
-> NBD extension).
-
-Makes sense to me.
-
-Kevin
-
+Berto
 
