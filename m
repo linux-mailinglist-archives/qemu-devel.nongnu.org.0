@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 388E61B63EA
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 20:42:41 +0200 (CEST)
-Received: from localhost ([::1]:36610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F7F1B63F4
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 20:44:54 +0200 (CEST)
+Received: from localhost ([::1]:36812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRgo4-0003RW-6C
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 14:42:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32804)
+	id 1jRgqD-0007Yv-8s
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 14:44:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32864)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dimastep@yandex-team.ru>) id 1jRgm2-0001Bz-CN
+ (envelope-from <dimastep@yandex-team.ru>) id 1jRgm6-0001Ey-Fq
  for qemu-devel@nongnu.org; Thu, 23 Apr 2020 14:40:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <dimastep@yandex-team.ru>) id 1jRgm0-00048y-Sd
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 14:40:33 -0400
-Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:50932)
+ (envelope-from <dimastep@yandex-team.ru>) id 1jRgm5-0004H3-Co
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 14:40:38 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:59726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
- id 1jRglv-00041N-3k; Thu, 23 Apr 2020 14:40:28 -0400
-Received: from mxbackcorp1g.mail.yandex.net (mxbackcorp1g.mail.yandex.net
- [IPv6:2a02:6b8:0:1402::301])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 6C43D2E1586;
- Thu, 23 Apr 2020 21:40:23 +0300 (MSK)
+ id 1jRglz-00047x-DX; Thu, 23 Apr 2020 14:40:32 -0400
+Received: from mxbackcorp2j.mail.yandex.net (mxbackcorp2j.mail.yandex.net
+ [IPv6:2a02:6b8:0:1619::119])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id D93A42E15A0;
+ Thu, 23 Apr 2020 21:40:28 +0300 (MSK)
 Received: from vla5-58875c36c028.qloud-c.yandex.net
  (vla5-58875c36c028.qloud-c.yandex.net [2a02:6b8:c18:340b:0:640:5887:5c36])
- by mxbackcorp1g.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
- giirV3zZcH-eKQes9BR; Thu, 23 Apr 2020 21:40:23 +0300
+ by mxbackcorp2j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ 4Q2WEpocS5-ePHG0SlV; Thu, 23 Apr 2020 21:40:28 +0300
 Precedence: bulk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1587667223; bh=JRPA2qRfYLHHvtZ6OpHLn9WZva7jBBpSVFlB6entX5Y=;
+ t=1587667228; bh=B7N/2dA22AZAvZEuIRWbfaStgxBZh00/dxecx4k5Xoo=;
  h=In-Reply-To:In-Reply-To:Message-Id:References:References:Date:
  Subject:To:From:Cc;
- b=egp/1UxuO06glmcXb+S5IRXikEW/vosv7gz24c8OCQWXGyqMJFGdNmIT7NjPP/53f
- jr3wA2MWyZFJ4YHYK0Gkiod6TrfpwMDRMtaqs9V5YV3QjXk9HPvVxx9HlZckHjK2X9
- rNttMD3WRlADluHQB5IuKmYrquHt7oFKveHNWeaU=
-Authentication-Results: mxbackcorp1g.mail.yandex.net;
+ b=aNH86gMKIwBn1nP3+YXa+yUgGPoCL0SrDDFS/SoBX9HI/loBxTiScvTv/fv5mTivg
+ OFdCdMBPeM3fhQZlz4G8S0vct+OiIakflnp7JN/vqUbpS5DZrXkdzgC6jObzBKPGxt
+ mYOHEq7nSoVUPGhNwxTOd1XIzyWZXltIa9mOVlxQ=
+Authentication-Results: mxbackcorp2j.mail.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
  [2a02:6b8:b081:1313::1:e])
  by vla5-58875c36c028.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 7hClKENKMK-eKXe8ef2; Thu, 23 Apr 2020 21:40:20 +0300
+ 7hClKENKMK-ePXeQsK8; Thu, 23 Apr 2020 21:40:25 +0300
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (Client certificate not present)
 From: Dima Stepanov <dimastep@yandex-team.ru>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v1 1/7] contrib/vhost-user-blk: add option to simulate
- disconnect on init
-Date: Thu, 23 Apr 2020 21:39:32 +0300
-Message-Id: <52a4ae2d18ee0d810355d84ab83623a2e9ffa405.1587667007.git.dimastep@yandex-team.ru>
+Subject: [RFC PATCH v1 2/7] char-socket: return -1 in case of disconnect
+ during tcp_chr_write
+Date: Thu, 23 Apr 2020 21:39:33 +0300
+Message-Id: <045f356cec6f07300819d28457a2bb8876d1c887.1587667007.git.dimastep@yandex-team.ru>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1587667007.git.dimastep@yandex-team.ru>
 References: <cover.1587667007.git.dimastep@yandex-team.ru>
 In-Reply-To: <cover.1587667007.git.dimastep@yandex-team.ru>
 References: <cover.1587667007.git.dimastep@yandex-team.ru>
-Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
+Received-SPF: pass client-ip=95.108.205.193;
  envelope-from=dimastep@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a02:6b8:0:1a2d::193
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 14:40:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 95.108.205.193
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -80,156 +79,74 @@ Cc: fam@euphon.net, kwolf@redhat.com, yc-core@yandex-team.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add "--simulate-disconnect-stage" option for the testing purposes.
-This option can be used to test the vhost-user reconnect functionality:
-  ./vhost-user-blk ... --simulate-disconnect-stage=<CASENUM>
-In this case the daemon will "crash" in the middle of the VHOST comands
-communication. Case nums are as follows:
-  1 - make assert in the handler of the SET_VRING_CALL command
-  2 - make assert in the handler of the SET_VRING_NUM command
-Main purpose is to test QEMU reconnect functionality. Such fail
-injection should not lead to QEMU crash and should be handled
-successfully.
-Also update the "GOptionEntry entries" definition with the final NULL
-item according to API.
+During testing of the vhost-user-blk reconnect functionality the qemu
+SIGSEGV was triggered:
+ start qemu as:
+ x86_64-softmmu/qemu-system-x86_64 -m 1024M -M q35 \
+   -object memory-backend-file,id=ram-node0,size=1024M,mem-path=/dev/shm/qemu,share=on \
+   -numa node,cpus=0,memdev=ram-node0 \
+   -chardev socket,id=chardev0,path=./vhost.sock,noserver,reconnect=1 \
+   -device vhost-user-blk-pci,chardev=chardev0,num-queues=4 --enable-kvm
+ start vhost-user-blk daemon:
+ ./vhost-user-blk -s ./vhost.sock -b test-img.raw
+
+If vhost-user-blk will be killed during the vhost initialization
+process, for instance after getting VHOST_SET_VRING_CALL command, then
+QEMU will fail with the following backtrace:
+
+Thread 1 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
+0x00005555559272bb in vhost_user_read (dev=0x7fffef2d53e0, msg=0x7fffffffd5b0)
+    at ./hw/virtio/vhost-user.c:260
+260         CharBackend *chr = u->user->chr;
+
+ #0  0x00005555559272bb in vhost_user_read (dev=0x7fffef2d53e0, msg=0x7fffffffd5b0)
+    at ./hw/virtio/vhost-user.c:260
+ #1  0x000055555592acb8 in vhost_user_get_config (dev=0x7fffef2d53e0, config=0x7fffef2d5394 "", config_len=60)
+    at ./hw/virtio/vhost-user.c:1645
+ #2  0x0000555555925525 in vhost_dev_get_config (hdev=0x7fffef2d53e0, config=0x7fffef2d5394 "", config_len=60)
+    at ./hw/virtio/vhost.c:1490
+ #3  0x00005555558cc46b in vhost_user_blk_device_realize (dev=0x7fffef2d51a0, errp=0x7fffffffd8f0)
+    at ./hw/block/vhost-user-blk.c:429
+ #4  0x0000555555920090 in virtio_device_realize (dev=0x7fffef2d51a0, errp=0x7fffffffd948)
+    at ./hw/virtio/virtio.c:3615
+ #5  0x0000555555a9779c in device_set_realized (obj=0x7fffef2d51a0, value=true, errp=0x7fffffffdb88)
+    at ./hw/core/qdev.c:891
+ ...
+
+The problem is that vhost_user_write doesn't get an error after
+disconnect and try to call vhost_user_read(). The tcp_chr_write()
+routine should return -1 in case of disconnect. Indicate the EIO error
+if this routine is called in the disconnected state.
 
 Signed-off-by: Dima Stepanov <dimastep@yandex-team.ru>
 ---
- contrib/libvhost-user/libvhost-user.c   | 30 ++++++++++++++++++++++++++++++
- contrib/libvhost-user/libvhost-user.h   | 13 +++++++++++++
- contrib/vhost-user-blk/vhost-user-blk.c | 14 +++++++++++++-
- 3 files changed, 56 insertions(+), 1 deletion(-)
+ chardev/char-socket.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
-index 3bca996..5215214 100644
---- a/contrib/libvhost-user/libvhost-user.c
-+++ b/contrib/libvhost-user/libvhost-user.c
-@@ -73,6 +73,14 @@
- #define VHOST_USER_VERSION 1
- #define LIBVHOST_USER_DEBUG 0
+diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+index 185fe38..c128cca 100644
+--- a/chardev/char-socket.c
++++ b/chardev/char-socket.c
+@@ -175,14 +175,16 @@ static int tcp_chr_write(Chardev *chr, const uint8_t *buf, int len)
+         if (ret < 0 && errno != EAGAIN) {
+             if (tcp_chr_read_poll(chr) <= 0) {
+                 tcp_chr_disconnect_locked(chr);
+-                return len;
++                /* Return an error since we made a disconnect. */
++                return ret;
+             } /* else let the read handler finish it properly */
+         }
  
-+/*
-+ * Inject fail in different places in daemon. This will trigger different
-+ * paths in QEMU. Main purpose is to test the reconnect functionality
-+ * during vhost initialization step.
-+ */
-+#define VHOST_SDISCONNECT_SET_VRING_CALL 1
-+#define VHOST_SDISCONNECT_SET_VRING_NUM 2
-+
- #define DPRINT(...)                             \
-     do {                                        \
-         if (LIBVHOST_USER_DEBUG) {              \
-@@ -861,6 +869,11 @@ vu_set_vring_num_exec(VuDev *dev, VhostUserMsg *vmsg)
-     DPRINT("State.index: %d\n", index);
-     DPRINT("State.num:   %d\n", num);
-     dev->vq[index].vring.num = num;
-+    if (dev->simulate_init_disconnect == VHOST_SDISCONNECT_SET_VRING_NUM) {
-+        DPRINT("Simulate vhost daemon crash during initialization.\n");
-+        assert(0);
-+        return false;
-+    }
- 
-     return false;
- }
-@@ -1161,6 +1174,13 @@ vu_set_vring_call_exec(VuDev *dev, VhostUserMsg *vmsg)
- 
-     DPRINT("u64: 0x%016"PRIx64"\n", vmsg->payload.u64);
- 
-+    /* Simulate crash during initialization. */
-+    if (dev->simulate_init_disconnect == VHOST_SDISCONNECT_SET_VRING_CALL) {
-+        DPRINT("Simulate vhost daemon crash during initialization.\n");
-+        assert(0);
-+        return false;
-+    }
-+
-     if (!vu_check_queue_msg_file(dev, vmsg)) {
-         return false;
+         return ret;
+     } else {
+-        /* XXX: indicate an error ? */
+-        return len;
++        /* Indicate an error. */
++        errno = EIO;
++        return -1;
      }
-@@ -2073,6 +2093,16 @@ vu_queue_empty(VuDev *dev, VuVirtq *vq)
-     return vring_avail_idx(vq) == vq->last_avail_idx;
  }
  
-+/*
-+ * Set the flag to simulate the vhost-user daemon crash during
-+ * initialization. This is used to test reconnect functionality.
-+ */
-+void
-+vu_simulate_init_disconnect(VuDev *dev, int should_simulate)
-+{
-+    dev->simulate_init_disconnect = should_simulate;
-+}
-+
- static bool
- vring_notify(VuDev *dev, VuVirtq *vq)
- {
-diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/libvhost-user.h
-index f30394f..9f75e86 100644
---- a/contrib/libvhost-user/libvhost-user.h
-+++ b/contrib/libvhost-user/libvhost-user.h
-@@ -388,6 +388,9 @@ struct VuDev {
-     /* Postcopy data */
-     int postcopy_ufd;
-     bool postcopy_listening;
-+
-+    /* Fields to simulate test cases. */
-+    int simulate_init_disconnect;
- };
- 
- typedef struct VuVirtqElement {
-@@ -645,4 +648,14 @@ void vu_queue_get_avail_bytes(VuDev *vdev, VuVirtq *vq, unsigned int *in_bytes,
- bool vu_queue_avail_bytes(VuDev *dev, VuVirtq *vq, unsigned int in_bytes,
-                           unsigned int out_bytes);
- 
-+/**
-+ * vu_simulate_init_disconnect:
-+ * @dev: a VuDev context
-+ * @should_simulate: expected simulation behaviour (true or false)
-+ *
-+ * Set the flag to simulate the vhost-user daemon crash during
-+ * initialization. This is used to test reconnect functionality.
-+ */
-+void vu_simulate_init_disconnect(VuDev *dev, int should_simulate);
-+
- #endif /* LIBVHOST_USER_H */
-diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
-index 6fd91c7..6ac37ca 100644
---- a/contrib/vhost-user-blk/vhost-user-blk.c
-+++ b/contrib/vhost-user-blk/vhost-user-blk.c
-@@ -581,6 +581,7 @@ static char *opt_socket_path;
- static char *opt_blk_file;
- static gboolean opt_print_caps;
- static gboolean opt_read_only;
-+static gboolean opt_simulate_disconnect;
- 
- static GOptionEntry entries[] = {
-     { "print-capabilities", 'c', 0, G_OPTION_ARG_NONE, &opt_print_caps,
-@@ -592,7 +593,14 @@ static GOptionEntry entries[] = {
-     {"blk-file", 'b', 0, G_OPTION_ARG_FILENAME, &opt_blk_file,
-      "block device or file path", "PATH"},
-     { "read-only", 'r', 0, G_OPTION_ARG_NONE, &opt_read_only,
--      "Enable read-only", NULL }
-+      "Enable read-only", NULL },
-+    { "simulate-disconnect-stage", 0, 0, G_OPTION_ARG_INT,
-+      &opt_simulate_disconnect,
-+      "Simulate disconnect during initialization for the testing purposes.\n"
-+      "\t1 - make assert in the handler of the SET_VRING_CALL command\n"
-+      "\t2 - make assert in the handler of the SET_VRING_NUM command\n",
-+      "CASENUM" },
-+    { NULL },
- };
- 
- int main(int argc, char **argv)
-@@ -656,6 +664,10 @@ int main(int argc, char **argv)
-         exit(EXIT_FAILURE);
-     }
- 
-+    /* Set testing flags. */
-+    vu_simulate_init_disconnect(&vdev_blk->parent.parent,
-+            opt_simulate_disconnect);
-+
-     g_main_loop_run(vdev_blk->loop);
-     g_main_loop_unref(vdev_blk->loop);
-     g_option_context_free(context);
 -- 
 2.7.4
 
