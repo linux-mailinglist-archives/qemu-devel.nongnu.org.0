@@ -2,66 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9945E1B66AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 00:19:16 +0200 (CEST)
-Received: from localhost ([::1]:43060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95D841B66CB
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 00:29:47 +0200 (CEST)
+Received: from localhost ([::1]:43452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRkBf-0000rI-Ji
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 18:19:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49088)
+	id 1jRkLp-0008In-Nm
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 18:29:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51168)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jRk9w-0007Yt-Kg
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 18:17:31 -0400
+ (envelope-from <no-reply@patchew.org>) id 1jRkKR-0007dN-Gl
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 18:28:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jRk9u-0006pz-Fh
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 18:17:28 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53287
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <no-reply@patchew.org>) id 1jRkKP-0002Jx-Vb
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 18:28:18 -0400
+Resent-Date: Thu, 23 Apr 2020 18:28:18 -0400
+Resent-Message-Id: <E1jRkKP-0002Jx-Vb@eggs.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21396)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jRk9q-0006iO-4i
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 18:17:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587680240;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cG4/wuUjGLtOs3lRBBHGqT0ewVHOwKkACcYzE9xIwJU=;
- b=J2KZE0BimAThLEDc987wSY2SdYQcrOXNNetESQ9JATHiEKPLuObAYJe0RDC/1p5M7EMS7y
- vc5NOwIp4tobRwf/DaFLl3GinPO6uSEbBr5Et6eK3+3I43lbACIdarcXsNB96f6qdLncMl
- yUtxCMUBKuaTMfhJNXIbxHJ+qmksaPM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-0kwcC8SsMmOcgj_nhLWDDA-1; Thu, 23 Apr 2020 18:17:18 -0400
-X-MC-Unique: 0kwcC8SsMmOcgj_nhLWDDA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D8E480B70A;
- Thu, 23 Apr 2020 22:17:17 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E791A1C94D;
- Thu, 23 Apr 2020 22:17:16 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] qcow2: Tweak comment about bitmaps vs. resize
-Date: Thu, 23 Apr 2020 17:17:07 -0500
-Message-Id: <20200423221707.477404-4-eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jRkKP-00027M-Af; Thu, 23 Apr 2020 18:28:17 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1587680890; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=lyXdpUHVcwzhe8dnHES0dw0df44xCmvrFqAPCC1m5WlaVlKwQIxFvEiWxwmo2izjoASWs3s1X9BC9P1tC4ckL2OUCtYbt/kNYB0AmGCLCLAFna6/4uzvLar45v5OQ/E5+X7jFl2ljqy6EcSsAP6wObogpQIRfi4w0kHi5+7BB9o=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1587680890;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=EiLxSjIy1XkBYcLdKx9/2vS7TM6CgxCQL6g/vG+nOwc=; 
+ b=kPSLfbS3oeMGWA902IbztdvRsBuYVSaeYV78HoZXsjJHp0qcsk/sc+sKot1doXhqqDL84aIT99/wdoLW0R5+b2nKfXMuV4UlFmmGXeLg33fAxnjY8WDqXsz7Vts0ar+M8GDfd2SPlbwRjgoPv1uq5SbEmhuRQkAYhheWyYaIcRc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1587680887576812.2974059021717;
+ Thu, 23 Apr 2020 15:28:07 -0700 (PDT)
 In-Reply-To: <20200423221707.477404-1-eblake@redhat.com>
-References: <20200423221707.477404-1-eblake@redhat.com>
+Subject: Re: [PATCH v2 0/3] qcow2: Allow resize of images with internal
+ snapshots
+Message-ID: <158768088631.10590.10570101292453550828@39012742ff91>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 16:21:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: eblake@redhat.com
+Date: Thu, 23 Apr 2020 15:28:07 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 18:28:14
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Received-From: 136.143.188.53
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,34 +65,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, mreitz@redhat.com
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Our comment did not actually match the code.  Rewrite the comment to
-be less sensitive to any future changes to qcow2-bitmap.c that might
-implement scenarios that we currently reject.
-
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- block/qcow2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 34888a793354..6b6d1c3fa8b9 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -3997,7 +3997,7 @@ static int coroutine_fn qcow2_co_truncate(BlockDriver=
-State *bs, int64_t offset,
-         goto fail;
-     }
-
--    /* cannot proceed if image has bitmaps */
-+    /* See qcow2-bitmap.c for which bitmap scenarios prevent a resize. */
-     if (qcow2_truncate_bitmaps_check(bs, errp)) {
-         ret =3D -ENOTSUP;
-         goto fail;
---=20
-2.26.2
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDQyMzIyMTcwNy40Nzc0
+MDQtMS1lYmxha2VAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGFz
+YW4gYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29tbWFuZHMgYW5kCnRoZWly
+IG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxlZCwgeW91IGNhbiBwcm9i
+YWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEv
+YmluL2Jhc2gKZXhwb3J0IEFSQ0g9eDg2XzY0Cm1ha2UgZG9ja2VyLWltYWdlLWZlZG9yYSBWPTEg
+TkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1kZWJ1Z0BmZWRvcmEgVEFSR0VUX0xJU1Q9
+eDg2XzY0LXNvZnRtbXUgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAg
+Q0MgICAgICBibG9jay9xY293Mi1jbHVzdGVyLm8KICBDQyAgICAgIGJsb2NrL3Fjb3cyLXNuYXBz
+aG90Lm8KICBDQyAgICAgIGJsb2NrL3Fjb3cyLWNhY2hlLm8KL3RtcC9xZW11LXRlc3Qvc3JjL2Js
+b2NrL3Fjb3cuYzo4NTQ6OTogZXJyb3I6IHZhcmlhYmxlICdyZXQnIGlzIHVzZWQgdW5pbml0aWFs
+aXplZCB3aGVuZXZlciAnaWYnIGNvbmRpdGlvbiBpcyB0cnVlIFstV2Vycm9yLC1Xc29tZXRpbWVz
+LXVuaW5pdGlhbGl6ZWRdCiAgICBpZiAoIXFjb3dfYmxrKSB7CiAgICAgICAgXn5+fn5+fn5+Ci90
+bXAvcWVtdS10ZXN0L3NyYy9ibG9jay9xY293LmM6OTMzOjEyOiBub3RlOiB1bmluaXRpYWxpemVk
+IHVzZSBvY2N1cnMgaGVyZQotLS0KICAgICAgICAgICBeCiAgICAgICAgICAgID0gMAoxIGVycm9y
+IGdlbmVyYXRlZC4KbWFrZTogKioqIFsvdG1wL3FlbXUtdGVzdC9zcmMvcnVsZXMubWFrOjY5OiBi
+bG9jay9xY293Lm9dIEVycm9yIDEKbWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9i
+cy4uLi4KL3RtcC9xZW11LXRlc3Qvc3JjL2Jsb2NrL3Fjb3cyLmM6MzQwOTo5OiBlcnJvcjogdmFy
+aWFibGUgJ3JldCcgaXMgdXNlZCB1bmluaXRpYWxpemVkIHdoZW5ldmVyICdpZicgY29uZGl0aW9u
+IGlzIHRydWUgWy1XZXJyb3IsLVdzb21ldGltZXMtdW5pbml0aWFsaXplZF0KICAgIGlmICghYmxr
+KSB7CiAgICAgICAgXn5+fgovdG1wL3FlbXUtdGVzdC9zcmMvYmxvY2svcWNvdzIuYzozNTc0OjEy
+OiBub3RlOiB1bmluaXRpYWxpemVkIHVzZSBvY2N1cnMgaGVyZQotLS0KICAgICAgICAgICBeCiAg
+ICAgICAgICAgID0gMAoxIGVycm9yIGdlbmVyYXRlZC4KbWFrZTogKioqIFsvdG1wL3FlbXUtdGVz
+dC9zcmMvcnVsZXMubWFrOjY5OiBibG9jay9xY293Mi5vXSBFcnJvciAxClRyYWNlYmFjayAobW9z
+dCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICIuL3Rlc3RzL2RvY2tlci9kb2NrZXIucHkiLCBs
+aW5lIDY2NCwgaW4gPG1vZHVsZT4KICAgIHN5cy5leGl0KG1haW4oKSkKLS0tCiAgICByYWlzZSBD
+YWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NF
+cnJvcjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4nLCAnLS1sYWJlbCcs
+ICdjb20ucWVtdS5pbnN0YW5jZS51dWlkPWRkMDg3ZWY3MzUzODQ0YmNiNjA0ZGZhNDdjNmIwOTYz
+JywgJy11JywgJzEwMDEnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11bmNvbmZpbmVkJywg
+Jy0tcm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9eDg2XzY0LXNvZnRtbXUnLCAnLWUnLCAnRVhUUkFf
+Q09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9JywgJy1lJywgJ0o9MTQnLCAnLWUnLCAnREVCVUc9
+JywgJy1lJywgJ1NIT1dfRU5WPScsICctZScsICdDQ0FDSEVfRElSPS92YXIvdG1wL2NjYWNoZScs
+ICctdicsICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90bXAv
+Y2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLV8wdWRkM252L3Ny
+Yy9kb2NrZXItc3JjLjIwMjAtMDQtMjMtMTguMjQuMDUuMTc2ODY6L3Zhci90bXAvcWVtdTp6LHJv
+JywgJ3FlbXU6ZmVkb3JhJywgJy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3QtZGVidWcnXScgcmV0
+dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVyPWxhYmVsPWNvbS5x
+ZW11Lmluc3RhbmNlLnV1aWQ9ZGQwODdlZjczNTM4NDRiY2I2MDRkZmE0N2M2YjA5NjMKbWFrZVsx
+XTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcgZGlyZWN0b3J5IGAv
+dmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtXzB1ZGQzbnYvc3JjJwptYWtlOiAqKiogW2RvY2tl
+ci1ydW4tdGVzdC1kZWJ1Z0BmZWRvcmFdIEVycm9yIDIKCnJlYWwgICAgM201OS45MDhzCnVzZXIg
+ICAgMG04LjQ1MXMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3
+Lm9yZy9sb2dzLzIwMjAwNDIzMjIxNzA3LjQ3NzQwNC0xLWVibGFrZUByZWRoYXQuY29tL3Rlc3Rp
+bmcuYXNhbi8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkg
+YnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRi
+YWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
