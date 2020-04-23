@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB2AB1B59B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 12:55:47 +0200 (CEST)
-Received: from localhost ([::1]:40856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C55D51B59C6
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 12:58:44 +0200 (CEST)
+Received: from localhost ([::1]:40900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRZWE-0007ws-Sv
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 06:55:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36560)
+	id 1jRZZ5-0001GU-SZ
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 06:58:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37160)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jRZVI-0006yr-Qm
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 06:54:49 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jRZYA-0000l5-2m
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 06:57:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jRZVE-0001Yf-D4
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 06:54:48 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38359
+ (envelope-from <mreitz@redhat.com>) id 1jRZY9-00063a-0O
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 06:57:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41361
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jRZVE-0001XH-0I
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 06:54:44 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jRZY8-00062a-KW
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 06:57:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587639283;
+ s=mimecast20190719; t=1587639464;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=i8twpZWb5TSVHiMb/2RVXBsf8arzmfkLd/bCa3h4rPo=;
- b=KddgUOv5+DXqFrD+9BtQzGKi9BULKCkkvAeL3q61Nfx90eHne36wsTEYPq1WMAwEnD0Sre
- uEEVbe62NP0ASA/0PPPlvcrYZT2b1dTwx7l8lxA7uiS/yAudP5EQrcVM88pbXCwlZQmEYl
- jRFIRE169bsvH/sPMzYclrcAudPlzD4=
+ bh=wPlEl9BMmUaAVz/e18cgOQHPNa+r4Dq7h2Z+5aNL1tk=;
+ b=bSTFKs/adIz6XyY1F7X3XmvELh5vVDHVgMceJSGuaLY75g1ouknal/w4j2p8dROIjkAewG
+ jbxM/BFT5/RjV/67JQA6tz7fYiRRkWADyZL0c2o5vVlYeoITpICOjl3Yr4/Zl3I/YEthzq
+ Z7gwQ6jFlpDgUSKiJwxZhxdyJf2Oqug=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-IcTstAOoPliOonaf7sWOtA-1; Thu, 23 Apr 2020 06:54:41 -0400
-X-MC-Unique: IcTstAOoPliOonaf7sWOtA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-294-zWlJP2VtMH-M-Y9P93M3Kg-1; Thu, 23 Apr 2020 06:57:41 -0400
+X-MC-Unique: zWlJP2VtMH-M-Y9P93M3Kg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5EE1100CCC0;
- Thu, 23 Apr 2020 10:54:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F01C13FA;
+ Thu, 23 Apr 2020 10:57:40 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-113-212.ams2.redhat.com
  [10.36.113.212])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C306605CB;
- Thu, 23 Apr 2020 10:54:37 +0000 (UTC)
-Subject: Re: [PATCH v5 5/9] raw-format: Support BDRV_REQ_ZERO_WRITE for
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B3D21002380;
+ Thu, 23 Apr 2020 10:57:38 +0000 (UTC)
+Subject: Re: [PATCH v5 6/9] file-posix: Support BDRV_REQ_ZERO_WRITE for
  truncate
 To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 References: <20200422152129.167074-1-kwolf@redhat.com>
- <20200422152129.167074-6-kwolf@redhat.com>
+ <20200422152129.167074-7-kwolf@redhat.com>
 From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -74,18 +74,18 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <11702e5c-4a4d-cf6f-1ad9-573c383eaee7@redhat.com>
-Date: Thu, 23 Apr 2020 12:54:36 +0200
+Message-ID: <642a93a7-beec-0287-7643-1215f0f197b2@redhat.com>
+Date: Thu, 23 Apr 2020 12:57:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200422152129.167074-6-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20200422152129.167074-7-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="Bv6bwaMaW5u9jM55Ve3Zc7IUU692EDr1E"
+ boundary="oHrRkIAWPeAibw3AtqDUm3Wqgi6OJaEqG"
 Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 05:42:05
@@ -107,45 +107,47 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Bv6bwaMaW5u9jM55Ve3Zc7IUU692EDr1E
-Content-Type: multipart/mixed; boundary="sBnFL2KNFrJcpjMf6DEVlfCEjVmZJ6PIF"
+--oHrRkIAWPeAibw3AtqDUm3Wqgi6OJaEqG
+Content-Type: multipart/mixed; boundary="BXR2001YcwirvfUq2An95NvjBhgLQtD8Z"
 
---sBnFL2KNFrJcpjMf6DEVlfCEjVmZJ6PIF
+--BXR2001YcwirvfUq2An95NvjBhgLQtD8Z
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 22.04.20 17:21, Kevin Wolf wrote:
-> The raw format driver can simply forward the flag and let its bs->file
-> child take care of actually providing the zeros.
+> For regular files, we always get BDRV_REQ_ZERO_WRITE behaviour from the
+> OS, so we can advertise the flag and just ignore it.
 >=20
 > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Alberto Garcia <berto@igalia.com>
 > ---
->  block/raw-format.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  block/file-posix.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 
 
---sBnFL2KNFrJcpjMf6DEVlfCEjVmZJ6PIF--
+--BXR2001YcwirvfUq2An95NvjBhgLQtD8Z--
 
---Bv6bwaMaW5u9jM55Ve3Zc7IUU692EDr1E
+--oHrRkIAWPeAibw3AtqDUm3Wqgi6OJaEqG
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6hc+wACgkQ9AfbAGHV
-z0Be+Qf+OTwhr3k9GsIw7qvWHFBYo/MiBsOQTV9oNRNIBxC5LpKAdgt0wZ+NIyhH
-4LHXvjoqGVYC6yWnpFWOdmL6ygxK88F0nynSH5RSfugSXyl+HVVkG/HxBZ9WzfkY
-sIWioql5/0rt/v61RUCqEo2xIHZWXcvdVcWotyN/VURBp7xIauK+ITUybXTFiCsq
-vQTGKm9OBndk7a+JQ7GOPyMmOH/Iotaevx7IYosSxgXPMiGpXpZKeYfl8gsbG8TV
-g1MMmxkanr4o3fUrN41p4FuLHdwD6UQHZwwcY+7ydMZt3NzZAh/ZAi/W0qkePeOT
-r1B8shMuTZCBmuQ/SSsgwE7dSL6gPg==
-=JvOk
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6hdKAACgkQ9AfbAGHV
+z0CI1wf9Fc6VonA78B2/yY0WoMbWYJdJNy3jxmgOOas2PCOQrYKfBOfkYJKwjHAy
+MZvGFZMh1h7VuVqe9kMZmzyGc4UHsEuQjDV4JXsnSIrz92o7cHMTZJJzE381AaVc
+Fiz12otx/IWgQdJOMQwVhvlDcJFssnKcB1m6VivY0X3atq9F/bYixDVVAQforKYE
+uKppSmHWKXf9UsGXQ+AWQBkuAuUTmCW46WksS3egJlzVgNriIkfW/e3Oc/QYVfEU
+58RyB/vG4pXnTqVeAE0D7ALxHZyl5XIkmSg9vHFRTEEOb74iTq59U3hbZEFENTW7
+y5xnZow8FGApq2OQufEhXQvNZLFzxw==
+=pQTP
 -----END PGP SIGNATURE-----
 
---Bv6bwaMaW5u9jM55Ve3Zc7IUU692EDr1E--
+--oHrRkIAWPeAibw3AtqDUm3Wqgi6OJaEqG--
 
 
