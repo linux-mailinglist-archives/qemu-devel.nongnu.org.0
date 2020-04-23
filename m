@@ -2,107 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBE6F1B65B3
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 22:47:11 +0200 (CEST)
-Received: from localhost ([::1]:41224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 013E61B65CF
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 22:55:22 +0200 (CEST)
+Received: from localhost ([::1]:41660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRikX-0000Ds-Un
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 16:47:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60440)
+	id 1jRisT-0000eW-1J
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 16:55:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32918)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jRiiU-0007mL-Nc
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:45:03 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jRilH-0001fi-EB
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:47:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jRiiT-00054H-IW
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:45:02 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45511)
+ (envelope-from <peter.maydell@linaro.org>) id 1jRilD-0007St-IK
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:47:55 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:40378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jRiiT-00052p-5j
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:45:01 -0400
-Received: by mail-wr1-x442.google.com with SMTP id t14so8232132wrw.12
- for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 13:44:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nw7m+QtqQ68L20g6rF5jyp/MkzoNexySjUrYPBeIGuE=;
- b=h4LfPsZHBjL26FooeyLMYHnfhYQbn/zbTUee7X3agl0r2/A4f1XhLcmINa3sspWL+T
- 5Ipg5VaSQH73EWy1FcglyR13qQUINb8QCT49TTok/9qg712FA9ejuGxQXZAMpnlyx+ru
- CNC8QGODF0hhcAxd6MUGI+YZwYUlY6V1WnAGbUsedl0deOLY35RDKOQAHLCVwY8qWqrc
- lrvuxJPNoSIEmO5agGP96Yk69YxYURMffjuS/Vn4/lupa/7Wf1YEoqjDmdaXz3Z960vw
- 2o3eeSzEiZIpc02Ex2XtiHIvrQoiZSQ1/Xv/Sak1gZYg5ewH4JWI2A1dbvqCHe44g93+
- +nRA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jRilD-0007RT-1f
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:47:51 -0400
+Received: by mail-ot1-x342.google.com with SMTP id i27so8572618ota.7
+ for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 13:47:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=yuRNKYOyrXq31eODqoSQA8Il9L22mdjCutxbVpqukMo=;
+ b=HYxBO9IocyV36w6tRGQlKtMJmW0UhLb9qOx9X2XuLJZu2XFkDJVvo0ZgLSoknvtt6v
+ wCFLvSs7lsksmQB+zEJGHDFgjzFzgu2qb2SYZritGipdlRspy3HoxEvqSki9X2PXpmET
+ wvp1ke/3ovYrBMJcQx3KBbj32aYU0RgXTkAgBcIBu8dONQSBNCXm+djdSrNQq9qW0SuM
+ Z9V2RYOHgJPyQrWIH4+5syBL6QDntfDPPfb4XuaNjtYX8VjhqvoSHMRY0ZWK/23Xm2xQ
+ +1kuGWtKMf0aGFckBieoRIFWgWY27oIdAgxc3wAUOrPaqWVY4AogdeQ6Ay/gZaSL21uC
+ KuSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=nw7m+QtqQ68L20g6rF5jyp/MkzoNexySjUrYPBeIGuE=;
- b=NPKUTdceSsyIdjNiOrqn7VaQH1dwCoBDh6KqNzj95t42NUlbCxwrFPrZpnRSGTJ9l8
- ACTSO56qonHGwqDpW74iXewXvugd4of3a8Yct8P2G8JOpIU+7Hq0paaPwfLiZHGhS5s8
- 7hUF49eGl1+gFgyDK/HrxCnu2LV2zRRAnSfMeaOFoqWmPy/OpvJJNISvHQxuiK7ys1XI
- kCObIhJryDAABCfkyQkSG8OXbs2QYb0KBK2mzQDq9K0StQRxuUguWHbfKCoZy5+mo9dD
- 4UJd3CdeaKI+DMiSxw3pb0O0NI4MnZEi6luPSHftU05rF3Odf3amuUcfVNwfn9o7IpGx
- ttBg==
-X-Gm-Message-State: AGi0PuaA7VNmE6jXvrXEmPXkgjcc6x5zJZ+7hZf6SYvjOvNxriUVBE/i
- hvq55umyOqtV0qEEBA/gnqG9NB28
-X-Google-Smtp-Source: APiQypLeYmXftCcszY1nYS7/ARXWgeWmHsJdPmykc0V8ak1gzgKcgMBU49pAJrHYyb0iK8+GIbBgLg==
-X-Received: by 2002:a5d:60ca:: with SMTP id x10mr6824420wrt.407.1587674698270; 
- Thu, 23 Apr 2020 13:44:58 -0700 (PDT)
-Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id l5sm4946231wmi.22.2020.04.23.13.44.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Apr 2020 13:44:57 -0700 (PDT)
-Subject: Re: Need BT support in qemu for Zephyr
-To: Dan Christian <dchristian@cardinalpeak.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <CADxL6wUGWZO0U=G7UTAebG57m6tG58hoMf_-TCC+0qReUB0G6w@mail.gmail.com>
- <20200423141112.GE1077680@redhat.com>
- <CADxL6wX-0Lt_LKT9pQMiK3Y1L0tdrF9G23dfYU=9FXgFZB-4Fw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Autocrypt: addr=f4bug@amsat.org; keydata=
- mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
- u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
- HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
- YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
- ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
- dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
- ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
- Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
- HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
- Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
- CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
- klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
- jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
- 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
- loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
- sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
- JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
- 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
- K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
- n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
- CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
-Message-ID: <455cf375-fe21-f5c4-6086-4413bf710d33@amsat.org>
-Date: Thu, 23 Apr 2020 22:44:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=yuRNKYOyrXq31eODqoSQA8Il9L22mdjCutxbVpqukMo=;
+ b=bN2yBEWs6UPG22/16sB/ovKdrna5r01A+5u9jPjdgTwz0LV+VaY/kRmVs/3RVOZRZd
+ x47zfhU3bgRIDGIsB305eOVwPRGE4tIFz5CtddwizLdIRqvgG393qvdIvowl/R4bvOjE
+ dzjvpJXTI8ssaYOvI/Mw5u7LLWTwTvTnoBvgP4QBU6dWvOIF3ZWBXWd04s/2hG/K1C7h
+ Jq1uop4OYVEbLUxN/xeQlyuOwlRft24fvCy4cU7ECJf6oIR5GhiRutbwdFwemLFvEQUe
+ UJjkeKgJIIkP3drwhxf3Y7IbmnzgYYZPZRUsMP0Cxd3Fq74nmy0E4y79MtB0sy2pOP30
+ tn5A==
+X-Gm-Message-State: AGi0PuaIl4/4kLNNHFurSC484H+J8wSwt0sPkz4OeKJpCa5fJjh7w7f6
+ vu7Qkz/GYXccSar7OeeBfQ2ag2CTiifVb1CrtAsIFg==
+X-Google-Smtp-Source: APiQypLLJB0eckpV1phYkzfJtZrxZDdfSfHj5Q1EzFGoIucRTfYxasmJHAIVrrjNWAlKc6ajxzlXo4zHSXt2Sxy7xHA=
+X-Received: by 2002:aca:3441:: with SMTP id b62mr3172454oia.146.1587674869774; 
+ Thu, 23 Apr 2020 13:47:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CADxL6wX-0Lt_LKT9pQMiK3Y1L0tdrF9G23dfYU=9FXgFZB-4Fw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+References: <20200423202011.32686-1-peter.maydell@linaro.org>
+ <d9e2c1cf-30e5-a889-3e87-eed6480610ab@redhat.com>
+In-Reply-To: <d9e2c1cf-30e5-a889-3e87-eed6480610ab@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 Apr 2020 21:47:38 +0100
+Message-ID: <CAFEAcA8XBsfZvxsjXVFbcHwcBYx3ohyfhntAKTTEWKcCw9xSCg@mail.gmail.com>
+Subject: Re: [PATCH] elf_ops: Don't try to g_mapped_file_unref(NULL)
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -114,31 +77,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Randy Yates <yates@ieee.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/23/20 4:40 PM, Dan Christian wrote:
-> I'm new to trying to use qemu+bt (via btproxy) and haven't managed to
-> get anything working.
-> 
-> btproxy is launched first, then Zephyr launches qemu via it's west
-> tool.  The commands look like:
-> sudo tools/btproxy -u -i 0 -d # in a separate window
-> x86_64-pokysdk-linux/usr/bin/qemu-system-aarch64 -cpu cortex-a53
-> -nographic -machine virt -
-> net none -pidfile qemu.pid -chardev stdio,id=con,mux=on -serial
-> chardev:con -mon chardev=con,mode=readline -serial
-> unix:/tmp/bt-server-bredr -kernel
-> /home/dchristian/share-fb/zephyrproject/zephy
-> r/build/zephyr/zephyr.elf
-> 
-> It's failing with a device busy when btproxy tries to bind to the
-> adapter.  I don't think this is a quemu issue.
-> 
-> Zephyr packages it's own qemu:  QEMU emulator version 4.2.0 (v4.2.0-dirty)
+On Thu, 23 Apr 2020 at 21:25, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+>
+> On 4/23/20 10:20 PM, Peter Maydell wrote:
+> > This will fix the assertion; for the specific case of the generic
+> > loader it will then fall back from "guess this is an ELF file" to
+> > "maybe it's a uImage or a hex file" and eventually to "just load as
+> > a raw data file".
 
-If you just want to test/use BT, you might be luckier with an older
-version of QEMU supposed to work with BT, such QEMU v1.0. You won't have
-support for Cortex-A53 although.
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+Thanks; as a side note "let me just load this as a raw data file"
+is not a very user-friendly way to report issues with the ELF
+file like "seems to be truncated" or "has no program headers".
+Not sure what to do about that...
+
+thanks
+-- PMM
 
