@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA1EB1B655B
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 22:25:33 +0200 (CEST)
-Received: from localhost ([::1]:40042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30D311B6558
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 22:24:00 +0200 (CEST)
+Received: from localhost ([::1]:39870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRiPc-0004B3-Bz
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 16:25:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55526)
+	id 1jRiO7-0000Se-6B
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 16:23:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55394)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jRiN0-0007Xc-W2
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:22:51 -0400
+ (envelope-from <philmd@redhat.com>) id 1jRiM9-00056e-2k
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:21:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jRiN0-0004rp-8A
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:22:50 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44488
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jRiM8-0003da-BW
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:21:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44439
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jRiMz-0004qt-RG
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:22:49 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jRiM7-0003dT-W2
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:21:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587673369;
+ s=mimecast20190719; t=1587673314;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QpPT5lIf6zF9LbEYpSRYY+8MZQS9JkDT9x3dN4aa87o=;
- b=N3np2N7skDwY0yVAzqLTPMegYqOllfBLu1+l+VeL+zKBDl51bTO5VkCWwhn9TtOlvwb+Rx
- 2Eb1GEjX5+68AqpZxuUBEqjLg03j1nOfGtKU9pr5RWcauNoYvX25GqKs4x7pbn7PK7Tkp7
- cwlSdSHOYfjJoyZ52Xzsm5GJRq9Lxs4=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-75-bq2d1Ty9O-ubaDZvI6SIqQ-1; Thu, 23 Apr 2020 16:22:47 -0400
-X-MC-Unique: bq2d1Ty9O-ubaDZvI6SIqQ-1
-Received: by mail-ed1-f72.google.com with SMTP id y6so2174671edo.18
- for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 13:22:47 -0700 (PDT)
+ bh=aOyVErqFCmyf9pd+Nr+epVzmP7eWXaoL84ISysXFv0Q=;
+ b=Zln9NDJphptNcX3TP8SNVTX5xwA2AhSk8Z4d3viMP3xpCVfi4griM5C434x/eEHdIyrAze
+ glBMYYh6XDAdWf8pXOZZPSWXGBoG1P5UEUQCFSq/BRfYa+JH8VKY8H8vUYI73qXhswRrnQ
+ zOujGeDw+8o9RMi4R5iBmYfCbnnCDvc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-271-Jw5aTiasMhqOwhfWO5B5eA-1; Thu, 23 Apr 2020 16:21:53 -0400
+X-MC-Unique: Jw5aTiasMhqOwhfWO5B5eA-1
+Received: by mail-wr1-f72.google.com with SMTP id v9so3380384wrt.7
+ for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 13:21:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=O4g/2sbaFjmdI3zEPcvvgzI0jd27H8+2xG/e85GYdg0=;
- b=iCvqtAbY6SsTtl2+qxg89uZWL4wy+y9yxtN0P7Ml0iVmfD1AcRciMgBUnUuPtjG7fa
- tat9Q4d13jV2PzX6tK/UfB3Q5syFiIiGwQWjI4CI3JqGUOq2HEXFbyJQAqlCZBr//K+H
- mFtQuF39rQz1XY2BOXMYdgQIEx56Pa3mv94CqhP27mov15rNIfGmRisrp0/8vL3lhlGO
- ni61jhIyNOEHmvGNV7baZUr3+FaqqrxqnFjkq0qqhA3rE0P/KNYPAa6ZigmTK5lyE5QY
- c4tAneiOROvGcBXsUkoY5+NJwA0b4yro3mODjF8LUYBQvDZBHZHKpvoVrXziYxxe2bg4
- Pokw==
-X-Gm-Message-State: AGi0PuYkcc55qNDm5OAIisy2TLI7k//BdCHV4Njqkr2wETRtCENnLxCJ
- hIf/BrMsdVRN7IqYWti9hqvcDeV2zZgNa6AxB96JjusiaI8/9CXs1zxgx++evvu+/ow+4mr7s3s
- bsDPrlB7/HmzE/0A=
-X-Received: by 2002:a17:906:c839:: with SMTP id
- dd25mr4141143ejb.164.1587673306036; 
- Thu, 23 Apr 2020 13:21:46 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLGILeUrGeze+VvQL1M1zY20TcBmLlQafL6JtfodiPIPxXw6eiMzeaQ1ML/0P357kwWFH7UVQ==
-X-Received: by 2002:a17:906:c839:: with SMTP id
- dd25mr4141118ejb.164.1587673305665; 
- Thu, 23 Apr 2020 13:21:45 -0700 (PDT)
+ bh=8gYfBqFeTywo96T3GTdB1ETByq33AuAVSUY1XmaFyaw=;
+ b=LgYPmQxL4iyho6dE3VUMLdfZYNnnu6rUQ64GGSeQCjRt1/ZRRc9Hx2tlQMd2ytGHPl
+ /mNtEwHp7hp6c1Bd2hJq8Uh3Gvl8u1yMTLvwzq5WeG+C3W/BlKU1QdF0Ep3hSx27dfPL
+ FaOGx8FSnSINrletJoIfxXavy+Zq+j0orrd8Ir5mA8JqOUkWEtVSfu4R0rh0Bx1qM2PV
+ ZS25gcRVJIOInFPJI0OQrgjl9p4tQj1+lhOr2exLb4cKo0L0WPX+sZWmY1FiqVdYoJb1
+ 4wrX+/YH+UbLHMNzOtKexRj/36s/olKWkwd+OiArOzKuQOijp7o+ir4PncJqJPYzNloa
+ EDgg==
+X-Gm-Message-State: AGi0PubdnMNwPUKed84HGtqS60SdD2YSLH5WzMvq3z9JEiPdCZBHcJ4r
+ e4fSwQoY5rpajs61IgCgrza+CMkcO7Fhn2RFbAJfWyNvTK6RltWBL91KhmyioN13FDornmfqnYJ
+ S74ZQuqYwuS8YOB0=
+X-Received: by 2002:a7b:c7d2:: with SMTP id z18mr6191719wmk.72.1587673311684; 
+ Thu, 23 Apr 2020 13:21:51 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLrHSHmXL1n+qmnOhiwmPwsBhOEScKtOKHLfqMligKeD1o9ZGj3ONDh33mP0lG3nxN3nRqrUw==
+X-Received: by 2002:a7b:c7d2:: with SMTP id z18mr6191700wmk.72.1587673311445; 
+ Thu, 23 Apr 2020 13:21:51 -0700 (PDT)
 Received: from localhost.localdomain (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id h2sm289026edw.63.2020.04.23.13.21.44
+ by smtp.gmail.com with ESMTPSA id a67sm5423740wmc.30.2020.04.23.13.21.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Apr 2020 13:21:45 -0700 (PDT)
+ Thu, 23 Apr 2020 13:21:50 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/7] chardev: Extract system emulation specific code
-Date: Thu, 23 Apr 2020 22:21:10 +0200
-Message-Id: <20200423202112.644-6-philmd@redhat.com>
+Subject: [PATCH 6/7] stubs: Split machine-init-done as machine-init and
+ machine-notify
+Date: Thu, 23 Apr 2020 22:21:11 +0200
+Message-Id: <20200423202112.644-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200423202112.644-1-philmd@redhat.com>
 References: <20200423202112.644-1-philmd@redhat.com>
@@ -77,11 +76,11 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 02:14:02
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 16:21:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,196 +103,59 @@ Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split out code only used during system emulation,
-to reduce code pulled in user emulation and tools.
+As the machine notify handlers are only used in system emulation,
+split the current file in two, and only build the notifier when
+system emulation is used.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- chardev/chardev-internal.h |  3 ++
- chardev/char.c             | 35 +------------------
- chardev/chardev-sysemu.c   | 69 ++++++++++++++++++++++++++++++++++++++
- chardev/Makefile.objs      |  1 +
- 4 files changed, 74 insertions(+), 34 deletions(-)
- create mode 100644 chardev/chardev-sysemu.c
+ stubs/machine-init.c                            | 4 ++++
+ stubs/{machine-init-done.c =3D> machine-notify.c} | 2 --
+ stubs/Makefile.objs                             | 3 ++-
+ 3 files changed, 6 insertions(+), 3 deletions(-)
+ create mode 100644 stubs/machine-init.c
+ rename stubs/{machine-init-done.c =3D> machine-notify.c} (78%)
 
-diff --git a/chardev/chardev-internal.h b/chardev/chardev-internal.h
-index e0264ac349..f4d0429763 100644
---- a/chardev/chardev-internal.h
-+++ b/chardev/chardev-internal.h
-@@ -26,6 +26,7 @@
-=20
- #include "chardev/char.h"
- #include "chardev/char-fe.h"
-+#include "qom/object.h"
-=20
- #define MAX_MUX 4
- #define MUX_BUFFER_SIZE 32 /* Must be a power of 2.  */
-@@ -59,4 +60,6 @@ typedef struct MuxChardev {
- void mux_set_focus(Chardev *chr, int focus);
- void mux_chr_send_all_event(Chardev *chr, QEMUChrEvent event);
-=20
-+Object *get_chardevs_root(void);
-+
- #endif /* CHAR_MUX_H */
-diff --git a/chardev/char.c b/chardev/char.c
-index b672a41150..555bb0448e 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -44,7 +44,7 @@
- /***********************************************************/
- /* character device */
-=20
--static Object *get_chardevs_root(void)
-+Object *get_chardevs_root(void)
- {
-     return container_get(object_get_root(), "/chardevs");
- }
-@@ -300,33 +300,6 @@ static const TypeInfo char_type_info =3D {
-     .class_init =3D char_class_init,
- };
-=20
--static int chardev_machine_done_notify_one(Object *child, void *opaque)
--{
--    Chardev *chr =3D (Chardev *)child;
--    ChardevClass *class =3D CHARDEV_GET_CLASS(chr);
--
--    if (class->chr_machine_done) {
--        return class->chr_machine_done(chr);
--    }
--
--    return 0;
--}
--
--static void chardev_machine_done_hook(Notifier *notifier, void *unused)
--{
--    int ret =3D object_child_foreach(get_chardevs_root(),
--                                   chardev_machine_done_notify_one, NULL);
--
--    if (ret) {
--        error_report("Failed to call chardev machine_done hooks");
--        exit(1);
--    }
--}
--
--static Notifier chardev_machine_done_notify =3D {
--    .notify =3D chardev_machine_done_hook,
--};
--
- static bool qemu_chr_is_busy(Chardev *s)
- {
-     if (CHARDEV_IS_MUX(s)) {
-@@ -1187,12 +1160,6 @@ void qemu_chr_cleanup(void)
- static void register_types(void)
- {
-     type_register_static(&char_type_info);
--
--    /* this must be done after machine init, since we register FEs with mu=
-xes
--     * as part of realize functions like serial_isa_realizefn when -nograp=
-hic
--     * is specified
--     */
--    qemu_add_machine_init_done_notifier(&chardev_machine_done_notify);
- }
-=20
- type_init(register_types);
-diff --git a/chardev/chardev-sysemu.c b/chardev/chardev-sysemu.c
+diff --git a/stubs/machine-init.c b/stubs/machine-init.c
 new file mode 100644
-index 0000000000..eecdc615ee
+index 0000000000..7622930ee0
 --- /dev/null
-+++ b/chardev/chardev-sysemu.c
-@@ -0,0 +1,69 @@
-+/*
-+ * QEMU System Emulator
-+ *
-+ * Copyright (c) 2003-2008 Fabrice Bellard
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a=
- copy
-+ * of this software and associated documentation files (the "Software"), t=
-o deal
-+ * in the Software without restriction, including without limitation the r=
-ights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or se=
-ll
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included=
- in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS=
- OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY=
-,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OT=
-HER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING=
- FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS =
-IN
-+ * THE SOFTWARE.
-+ */
-+
++++ b/stubs/machine-init.c
+@@ -0,0 +1,4 @@
 +#include "qemu/osdep.h"
 +#include "sysemu/sysemu.h"
-+#include "chardev/char.h"
-+#include "qemu/error-report.h"
-+#include "chardev-internal.h"
 +
-+static int chardev_machine_done_notify_one(Object *child, void *opaque)
-+{
-+    Chardev *chr =3D (Chardev *)child;
-+    ChardevClass *class =3D CHARDEV_GET_CLASS(chr);
-+
-+    if (class->chr_machine_done) {
-+        return class->chr_machine_done(chr);
-+    }
-+
-+    return 0;
-+}
-+
-+static void chardev_machine_done_hook(Notifier *notifier, void *unused)
-+{
-+    int ret =3D object_child_foreach(get_chardevs_root(),
-+                                   chardev_machine_done_notify_one, NULL);
-+
-+    if (ret) {
-+        error_report("Failed to call chardev machine_done hooks");
-+        exit(1);
-+    }
-+}
-+
-+
-+static Notifier chardev_machine_done_notify =3D {
-+    .notify =3D chardev_machine_done_hook,
-+};
-+
-+static void register_types(void)
-+{
-+    /*
-+     * This must be done after machine init, since we register FEs with mu=
-xes
-+     * as part of realize functions like serial_isa_realizefn when -nograp=
-hic
-+     * is specified.
-+     */
-+    qemu_add_machine_init_done_notifier(&chardev_machine_done_notify);
-+}
-+
-+type_init(register_types);
-diff --git a/chardev/Makefile.objs b/chardev/Makefile.objs
-index 15ee7f47da..a10acbc2b8 100644
---- a/chardev/Makefile.objs
-+++ b/chardev/Makefile.objs
-@@ -1,4 +1,5 @@
- chardev-obj-y +=3D char.o
-+chardev-obj-$(CONFIG_SOFTMMU) +=3D chardev-sysemu.o
- chardev-obj-$(CONFIG_WIN32) +=3D char-console.o
- chardev-obj-$(CONFIG_POSIX) +=3D char-fd.o
- chardev-obj-y +=3D char-fe.o
++bool machine_init_done =3D true;
+diff --git a/stubs/machine-init-done.c b/stubs/machine-notify.c
+similarity index 78%
+rename from stubs/machine-init-done.c
+rename to stubs/machine-notify.c
+index cd8e81392d..d164ecccb9 100644
+--- a/stubs/machine-init-done.c
++++ b/stubs/machine-notify.c
+@@ -1,8 +1,6 @@
+ #include "qemu/osdep.h"
+ #include "sysemu/sysemu.h"
+=20
+-bool machine_init_done =3D true;
+-
+ void qemu_add_machine_init_done_notifier(Notifier *notify)
+ {
+ }
+diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
+index 45be5dc0ed..765659a3f9 100644
+--- a/stubs/Makefile.objs
++++ b/stubs/Makefile.objs
+@@ -15,7 +15,8 @@ stub-obj-y +=3D iothread-lock.o
+ stub-obj-y +=3D is-daemonized.o
+ stub-obj-$(CONFIG_LINUX_AIO) +=3D linux-aio.o
+ stub-obj-$(CONFIG_LINUX_IO_URING) +=3D io_uring.o
+-stub-obj-y +=3D machine-init-done.o
++stub-obj-y +=3D machine-init.o
++stub-obj-$(CONFIG_SOFTMMU) +=3D machine-notify.o
+ stub-obj-y +=3D migr-blocker.o
+ stub-obj-y +=3D change-state-handler.o
+ stub-obj-y +=3D monitor.o
 --=20
 2.21.1
 
