@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C0F41B619E
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 19:09:22 +0200 (CEST)
-Received: from localhost ([::1]:60676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A53E1B6194
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 19:07:44 +0200 (CEST)
+Received: from localhost ([::1]:60488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRfLk-00088B-V6
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 13:09:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44604)
+	id 1jRfKB-0003Y5-2E
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 13:07:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44634)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jRfIf-0000yi-4g
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:06:09 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jRfIg-00013y-MI
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:06:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jRfIe-0005Ul-H4
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:06:08 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37069)
+ (envelope-from <alex.bennee@linaro.org>) id 1jRfIf-0005Ve-Rr
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:06:10 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:33411)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jRfIe-0005TY-3p
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:06:08 -0400
-Received: by mail-wr1-x432.google.com with SMTP id k1so7728570wrx.4
- for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 10:06:07 -0700 (PDT)
+ id 1jRfIf-0005Uh-Az
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:06:09 -0400
+Received: by mail-wm1-x333.google.com with SMTP id v8so7927696wma.0
+ for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 10:06:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zg2dR+/RlCjvNQhC4AT2xzR1UuuQk7HaGZ9Y5groXFk=;
- b=pNCYiAY00eT6Apf7e5j30GROa+d8kski7hPFKxOATF3bumu1NIEVn4DsiEXLq4TJoI
- oR4AoEJWoxk2mKt1+30SaBLO+oXNzRMefh9OddYie9ipFJNSOHC/RcY24cIZRFQ+XCC0
- yHZhAhArqLosynIsJP+jg0vOtLiol2h0iUkVTxEklirzXYYZIQVdx2WdM1wmT3zHdTh5
- 4Z/Z3n0FYMGXSlCuRvPlg18wcT9P89MXqBViOGfA9Bgrc/gGk+PccaPPdNZhYVeo08fQ
- 36GfUsVfMGcSDKCLBkHzrJuhTqG0ltNWkvUhER2YXh5JO96EytVudziMtpf3C3VMdrx+
- bYdA==
+ bh=0Xn/wGLfgFLD46kRhQwU2daT/QhgqlaCuFRqlRFnVf8=;
+ b=DRPoJNbCfoD7YP8g55X7LdkmXphvibqng/WH+lcvTZr++fsfa7LlEL87NiZHdtHceP
+ P16Op08PVs+04nxv069zTiCW/i6g92cjHmPryOVuhZVaymEhzKS/slqeZuNfSBtNT5Mt
+ Nb8F9+lLHLdE0TvVKBzcklCs3cFgFvWQ3vgUGRVFT4emayoEYSrd/zlJvoG4PlXjhnen
+ D6SRCldiWgcCaXEKAf6Js1jwY/HTIZ99zuOWTTTRslL/VHVUnFmEITjKiL2j8UqrJX/U
+ gDUUYlpqEk0dTPv/J91iK695XdFkYNH7APz/d2yh2RHH7a6pStfzZWZoXD6s0jCty9Pq
+ F9HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zg2dR+/RlCjvNQhC4AT2xzR1UuuQk7HaGZ9Y5groXFk=;
- b=D6dQfQfiHhiuNNJ4P/pxhX5VuklshFatDqh8/z4eZrRobgBJIUe55msV+hcG87cPlg
- VbZGXGxwKFm9RaC3qcwL6RW4hkO6rvWLYa5G6ESp5gbhInI63EfHNub8bpnlwf70rep0
- +fLHxWVV0DvqdwMOQsnWB2o1xz+QwcY4RVG+4b1L68KVaEJ3tpwYiZcZKiim2Hvqu4pw
- kpo+SDM4TJdcDE5pVy+MyOvyaT/prC++mi/IfPodR4AuzJ68IPq1lup108d4sulB6R2Y
- Ezf+XICoku39x/B7O8F3VT2BWqL2ZoxFlnRX2dqMgKozc7rCYIuFxz+1MJNuARW6fH7h
- HBPw==
-X-Gm-Message-State: AGi0PuYPJZZWcVCHphGxn3K2v90rRrJwnKSWfTx7vWEPZ76yDyWqpUrt
- fQU/jmMJ4kIgVBN3LZnMIEtLXA==
-X-Google-Smtp-Source: APiQypJrQcq3yP9hrTkwIkZ7MP7B8mIwkQReH7h5u2/WQZnB1GT3u1JmgLLrOH1SvSFl3oZfrdMvbQ==
-X-Received: by 2002:adf:9d8d:: with SMTP id p13mr5874329wre.17.1587661566668; 
- Thu, 23 Apr 2020 10:06:06 -0700 (PDT)
+ bh=0Xn/wGLfgFLD46kRhQwU2daT/QhgqlaCuFRqlRFnVf8=;
+ b=F3KjE2rrGLI3UCew3XlLb9viGnv0IUWAuG7+P6htVKuDR0SUGATdHHgOSEeEdvY0No
+ N4M4A++cE5VlSGorBQpcG6MEI1dKPvQbUKLPr9ubyKOrm6+3wb1tm2HPDVtgq8Matyis
+ 6S20QCl8KiyjurDof63/3Bm2xkBJnlpVV2RvRm3Uz4VqMj3OJdSFNYWToyq1CCs1krut
+ uCIeEQuEMLOBRnAdQ3wXqoWBQyT0YLSnRr/yjze4qXjNw0EjOgxWjW5cV2dw4juk3dDl
+ khTmzEc+qBYUeIElQECAq98aE43zORKZlGyiijqHK8/PFzyb8f750KWG/a1TcbA+74RB
+ Qnog==
+X-Gm-Message-State: AGi0PuYicFLjZjAGRRA9QQ2QmutLnYhbcNoHCo481Ndw8h7ZH7KYPOD7
+ Qj14KEz6MFIrThToFUvHmmLxzA==
+X-Google-Smtp-Source: APiQypLTfhET4THTUfXTrQhY9awvWcuDGyj6UjnRXZXRA1vR9OKC5Iv4eGwPQwAWdHvCwq4seh9Pmw==
+X-Received: by 2002:a05:600c:22d3:: with SMTP id
+ 19mr5348534wmg.110.1587661567859; 
+ Thu, 23 Apr 2020 10:06:07 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w11sm4369417wmi.32.2020.04.23.10.06.00
+ by smtp.gmail.com with ESMTPSA id 17sm4396657wmo.2.2020.04.23.10.06.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 23 Apr 2020 10:06:04 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CADAE1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id E34F61FF93;
  Thu, 23 Apr 2020 18:05:57 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 06/14] gdbstub: Introduce gdb_get_float64() to get 64-bit
- float registers
-Date: Thu, 23 Apr 2020 18:05:49 +0100
-Message-Id: <20200423170557.31106-7-alex.bennee@linaro.org>
+Subject: [PATCH  v1 07/14] tests/tcg: better trap gdb failures
+Date: Thu, 23 Apr 2020 18:05:50 +0100
+Message-Id: <20200423170557.31106-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200423170557.31106-1-alex.bennee@linaro.org>
 References: <20200423170557.31106-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::432
+X-Received-From: 2a00:1450:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,104 +85,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+It seems older and non-multiarach aware GDBs might not fail gracefully
+when faced with something they don't know. For example when faced with
+a target XML for s390x the Ubuntu 18.04 gdb will generate an internal
+fault and prompt for a core dump.
 
-When converted to use GByteArray in commits 462474d760c and
-a010bdbe719, the call to stfq_p() was removed. This call
-serialize a float.
-Since we now use a GByteArray, we can not use stfq_p() directly.
-Introduce the gdb_get_float64() helper to load a float64 register.
+Work around this by invoking GDB in a more batch orientated way and
+then trying to filter out between test failures and gdb failures.
 
-Fixes: 462474d760c ("target/m68k: use gdb_get_reg helpers")
-Fixes: a010bdbe719 ("extend GByteArray to read register helpers")
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200414163853.12164-3-philmd@redhat.com>
 ---
- include/exec/gdbstub.h          | 11 +++++++++++
- target/m68k/helper.c            |  3 ++-
- target/ppc/gdbstub.c            |  4 ++--
- target/ppc/translate_init.inc.c |  2 +-
- 4 files changed, 16 insertions(+), 4 deletions(-)
+ tests/guest-debug/run-test.py               | 19 ++++++++++++++++++-
+ tests/tcg/aarch64/gdbstub/test-sve-ioctl.py |  1 -
+ tests/tcg/aarch64/gdbstub/test-sve.py       |  1 -
+ 3 files changed, 18 insertions(+), 3 deletions(-)
 
-diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
-index 20e1072692..4a2b8e3089 100644
---- a/include/exec/gdbstub.h
-+++ b/include/exec/gdbstub.h
-@@ -134,6 +134,17 @@ static inline int gdb_get_float32(GByteArray *array, float32 val)
+diff --git a/tests/guest-debug/run-test.py b/tests/guest-debug/run-test.py
+index 8c49ee2f22..2bbb8fbaa3 100755
+--- a/tests/guest-debug/run-test.py
++++ b/tests/guest-debug/run-test.py
+@@ -50,8 +50,25 @@ if __name__ == '__main__':
+     inferior = subprocess.Popen(shlex.split(cmd))
  
-     return sizeof(buf);
- }
+     # Now launch gdb with our test and collect the result
+-    gdb_cmd = "%s %s -ex 'target remote localhost:1234' -x %s" % (args.gdb, args.binary, args.test)
++    gdb_cmd = "%s %s" % (args.gdb, args.binary)
++    # run quietly and ignore .gdbinit
++    gdb_cmd += " -q -n -batch"
++    # disable prompts in case of crash
++    gdb_cmd += " -ex 'set confirm off'"
++    # connect to remote
++    gdb_cmd += " -ex 'target remote localhost:1234'"
++    # finally the test script itself
++    gdb_cmd += " -x %s" % (args.test)
 +
-+static inline int gdb_get_float64(GByteArray *array, float64 val)
-+{
-+    uint8_t buf[sizeof(CPU_DoubleU)];
++    print("GDB CMD: %s" % (gdb_cmd))
+ 
+     result = subprocess.call(gdb_cmd, shell=True);
+ 
++    # A negative result is the result of an internal gdb failure like
++    # a crash. We force a return of 0 so we don't fail the test on
++    # account of broken external tools.
++    if result < 0:
++        print("GDB crashed? SKIPPING")
++        exit(0)
 +
-+    stfq_p(buf, val);
-+    g_byte_array_append(array, buf, sizeof(buf));
-+
-+    return sizeof(buf);
-+}
-+
- static inline int gdb_get_zeroes(GByteArray *array, size_t len)
- {
-     guint oldlen = array->len;
-diff --git a/target/m68k/helper.c b/target/m68k/helper.c
-index cad4083895..79b0b10ea9 100644
---- a/target/m68k/helper.c
-+++ b/target/m68k/helper.c
-@@ -72,7 +72,8 @@ static int cf_fpu_gdb_get_reg(CPUM68KState *env, GByteArray *mem_buf, int n)
- {
-     if (n < 8) {
-         float_status s;
--        return gdb_get_reg64(mem_buf, floatx80_to_float64(env->fregs[n].d, &s));
-+        return gdb_get_float64(mem_buf,
-+                               floatx80_to_float64(env->fregs[n].d, &s));
-     }
-     switch (n) {
-     case 8: /* fpcontrol */
-diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
-index eb362dd9ae..5c11c88b2a 100644
---- a/target/ppc/gdbstub.c
-+++ b/target/ppc/gdbstub.c
-@@ -130,7 +130,7 @@ int ppc_cpu_gdb_read_register(CPUState *cs, GByteArray *buf, int n)
-         gdb_get_regl(buf, env->gpr[n]);
-     } else if (n < 64) {
-         /* fprs */
--        gdb_get_reg64(buf, *cpu_fpr_ptr(env, n - 32));
-+        gdb_get_float64(buf, *cpu_fpr_ptr(env, n - 32));
-     } else {
-         switch (n) {
-         case 64:
-@@ -184,7 +184,7 @@ int ppc_cpu_gdb_read_register_apple(CPUState *cs, GByteArray *buf, int n)
-         gdb_get_reg64(buf, env->gpr[n]);
-     } else if (n < 64) {
-         /* fprs */
--        gdb_get_reg64(buf, *cpu_fpr_ptr(env, n - 32));
-+        gdb_get_float64(buf, *cpu_fpr_ptr(env, n - 32));
-     } else if (n < 96) {
-         /* Altivec */
-         gdb_get_reg64(buf, n - 64);
-diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
-index e853164a86..d825cb5975 100644
---- a/target/ppc/translate_init.inc.c
-+++ b/target/ppc/translate_init.inc.c
-@@ -9881,7 +9881,7 @@ static int gdb_get_float_reg(CPUPPCState *env, GByteArray *buf, int n)
- {
-     uint8_t *mem_buf;
-     if (n < 32) {
--        gdb_get_reg64(buf, *cpu_fpr_ptr(env, n));
-+        gdb_get_float64(buf, *cpu_fpr_ptr(env, n));
-         mem_buf = gdb_get_reg_ptr(buf, 8);
-         ppc_maybe_bswap_register(env, mem_buf, 8);
-         return 8;
+     exit(result)
+diff --git a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
+index 984fbeb277..387b2fc20a 100644
+--- a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
++++ b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
+@@ -70,7 +70,6 @@ except (gdb.error, AttributeError):
+ try:
+     # These are not very useful in scripts
+     gdb.execute("set pagination off")
+-    gdb.execute("set confirm off")
+ 
+     # Run the actual tests
+     run_test()
+diff --git a/tests/tcg/aarch64/gdbstub/test-sve.py b/tests/tcg/aarch64/gdbstub/test-sve.py
+index dbe7f2aa93..5995689625 100644
+--- a/tests/tcg/aarch64/gdbstub/test-sve.py
++++ b/tests/tcg/aarch64/gdbstub/test-sve.py
+@@ -71,7 +71,6 @@ except (gdb.error, AttributeError):
+ try:
+     # These are not very useful in scripts
+     gdb.execute("set pagination off")
+-    gdb.execute("set confirm off")
+ 
+     # Run the actual tests
+     run_test()
 -- 
 2.20.1
 
