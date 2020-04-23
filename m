@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B36C1B6080
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 18:14:52 +0200 (CEST)
-Received: from localhost ([::1]:58686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C0211B6090
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 18:18:02 +0200 (CEST)
+Received: from localhost ([::1]:58998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jReV1-0003YQ-EM
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 12:14:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34126)
+	id 1jReY5-000873-K5
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 12:18:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35310)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jean-philippe@linaro.org>) id 1jReQR-0005Un-95
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 12:10:08 -0400
+ (envelope-from <eblake@redhat.com>) id 1jReVi-00065m-S1
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 12:15:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <jean-philippe@linaro.org>) id 1jReQP-0006EI-Iu
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 12:10:07 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:33340)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1jReQP-0006Dj-44
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 12:10:05 -0400
-Received: by mail-wm1-x341.google.com with SMTP id v8so7814619wma.0
- for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 09:10:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=nWdrkLY2zpQLK8W8mhoILd295IuGxGR8r2Xr8cPPU94=;
- b=e5s1hPavrfSiCmJgMHv0mbKBd/Bwu4d819eQJh2hCEvQDPJxjxf2rZIPLmCKBM6NBL
- UYBCVLagLkSzJg49Zp3la5FWmj4PmwoHzLiTY4Ge7Mk4RtZ8wYVsRSQezf5ce1h6BYoi
- u9h7KWxmfIPdNG3NOjmq6ZBuoskGDLXXcgRV5Wuw1I2T992wIiRnMPOw26zF0laek5+6
- L9XxY7I159lEdFopP8rSX90u0iQNviJqgSAjf9j+eHSfzR3ULugrEM1FaKIq7V7XIV2N
- Hx3NkMPuJhxMfBo3sG4cZur71E+Hu0efWbdJ0BoZaPSCLcKvu4Jj5CT+riyrOBgpgAvA
- GSJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=nWdrkLY2zpQLK8W8mhoILd295IuGxGR8r2Xr8cPPU94=;
- b=PMG8k9/xUygMi5TU+wwHSfFTRtrwB3Z1m2XmRwxhrlXaoTx/LFwDTIR770G3Q6PvCR
- ZbR+iVfAqMnXZfdtD5J4M2TdY+bkBDRLq0e9TCtini9nZzAQtDN/6Jrl74pT2/uuX1JY
- 2kT6/fy3iXaoLNCYzKU7FMdfJHq/bFmakj8SEoV0a8stSxa7RE7MyJKBOPJirW/O3XWv
- GAWDubviy5c1NcCJMQsS6ci2+BsA1hpfuhwivM6nNRm7gKuLEZ/MWGQga8/gWV0q60Dp
- Pt4ZzsO+7bCvevvnBwXjBK0l8CLkMsTZPne+Bbps2zVjAdBWxLUBP+RvAs/kKjetESVt
- 2L9g==
-X-Gm-Message-State: AGi0PuZSF5Xqq+45Wz+90iMjAOS+1gO1LPgfywPhzgaoz4sDXWOiDKrJ
- ilJ9izl2IK97rPDlEoQHk/M9ig==
-X-Google-Smtp-Source: APiQypJw0+nBFJOP59uOa9Rl9R1vLUGo5q9v6ObA5iN21ruHs5JbgtKYCLY2/mv2tFLtEsdVdnoerQ==
-X-Received: by 2002:a1c:7d90:: with SMTP id y138mr5195666wmc.121.1587658202498; 
- Thu, 23 Apr 2020 09:10:02 -0700 (PDT)
-Received: from myrica ([2001:171b:226b:54a0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id t20sm11032225wmi.2.2020.04.23.09.10.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Apr 2020 09:10:01 -0700 (PDT)
-Date: Thu, 23 Apr 2020 18:09:52 +0200
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Bharat Bhushan <bbhushan2@marvell.com>
-Subject: Re: [PATCH v9 8/9] virtio-iommu: Implement probe request
-Message-ID: <20200423160952.GB645865@myrica>
-References: <20200323084617.1782-1-bbhushan2@marvell.com>
- <20200323084617.1782-9-bbhushan2@marvell.com>
+ (envelope-from <eblake@redhat.com>) id 1jReVg-0003W9-Ll
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 12:15:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54853
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jReVg-0003US-7o
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 12:15:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587658530;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=z1OkTWa8W1NRHorM6rYgNiwHC1gBxCrPR8uLUg+jWHc=;
+ b=VoKgrLZEPSoX12wNZqYGfbfOuo+8j4Aug0A8C4kHMi8MYn9wpPt7sjgjqW7jnWbWrQjXrq
+ 3k18OSaxkCupDK+aLSG1ioW1bEFFjnhn9kuWgABAqPhflc2OkDNYY2MSrQ3PkSE+Ohdpm+
+ Sip1OXf7OnJgVaQ5T7iK7z+DXH0bzXY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-264-FQFzZ5fTN0GwiS3kfX7vTA-1; Thu, 23 Apr 2020 12:15:17 -0400
+X-MC-Unique: FQFzZ5fTN0GwiS3kfX7vTA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BC84463;
+ Thu, 23 Apr 2020 16:15:16 +0000 (UTC)
+Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 315E65C1BD;
+ Thu, 23 Apr 2020 16:15:15 +0000 (UTC)
+Subject: Re: [PATCH v6 10/10] qcow2: Forward ZERO_WRITE flag for full
+ preallocation
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20200423150127.142609-1-kwolf@redhat.com>
+ <20200423150127.142609-11-kwolf@redhat.com>
+ <fca340c2-5bee-b287-e43e-28dc679ea372@redhat.com>
+ <20200423160410.GF23654@linux.fritz.box>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <61610f75-0e2c-3b59-573e-e2944ae02ad1@redhat.com>
+Date: Thu, 23 Apr 2020 11:15:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200323084617.1782-9-bbhushan2@marvell.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::341
+In-Reply-To: <20200423160410.GF23654@linux.fritz.box>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 05:42:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,326 +81,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, peter.maydell@linaro.org, kevin.tian@intel.com,
- tnowicki@marvell.com, mst@redhat.com, drjones@redhat.com, peterx@redhat.com,
- qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
- alex.williamson@redhat.com, qemu-arm@nongnu.org, bharatb.linux@gmail.com,
- linuc.decode@gmail.com, eric.auger.pro@gmail.com
+Cc: vsementsov@virtuozzo.com, berto@igalia.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Bharat,
+On 4/23/20 11:04 AM, Kevin Wolf wrote:
 
-A few more things found while rebasing
-
-On Mon, Mar 23, 2020 at 02:16:16PM +0530, Bharat Bhushan wrote:
-> This patch implements the PROBE request. Currently supported
-> page size mask per endpoint is returned. Also append a NONE
-> property in the end.
+>> Hmm.  When we get block status, it is very easy to tell that something reads
+>> as zero when the qcow2 file has the zero bit set, but when the qcow2 file
+>> does not have the zero bit set, we have to then query the format layer
+>> whether it reads as zeros (which is expensive enough for some format layers
+>> that we no longer report things as reading as zero). I'm worried that
+>> optimizing this case could penalize later block status.
 > 
-> Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> ---
->  include/standard-headers/linux/virtio_iommu.h |   6 +
->  hw/virtio/virtio-iommu.c                      | 161 +++++++++++++++++-
->  hw/virtio/trace-events                        |   2 +
->  3 files changed, 166 insertions(+), 3 deletions(-)
+> That's just how preallocation works. If you don't want that, you need
+> preallocation=off.
+
+Good point. And if I recall, didn't we already have a discussion (or 
+even patches) to optimize whether querying the format layer during block 
+status was even worth the effort, depending on heuristics of the size of 
+the format layer which in turn is based on whether there was 
+preallocation?  So not a show-stopper.
+
 > 
-> diff --git a/include/standard-headers/linux/virtio_iommu.h b/include/standard-headers/linux/virtio_iommu.h
-> index b9443b83a1..8a0d47b907 100644
-> --- a/include/standard-headers/linux/virtio_iommu.h
-> +++ b/include/standard-headers/linux/virtio_iommu.h
-> @@ -111,6 +111,7 @@ struct virtio_iommu_req_unmap {
->  
->  #define VIRTIO_IOMMU_PROBE_T_NONE		0
->  #define VIRTIO_IOMMU_PROBE_T_RESV_MEM		1
-> +#define VIRTIO_IOMMU_PROBE_T_PAGE_SIZE_MASK	2
->  
->  #define VIRTIO_IOMMU_PROBE_T_MASK		0xfff
->  
-> @@ -130,6 +131,11 @@ struct virtio_iommu_probe_resv_mem {
->  	uint64_t					end;
->  };
->  
-> +struct virtio_iommu_probe_pgsize_mask {
-> +	struct virtio_iommu_probe_property      head;
-> +	uint64_t				pgsize_bitmap;
-> +};
-> +
->  struct virtio_iommu_req_probe {
->  	struct virtio_iommu_req_head		head;
->  	uint32_t					endpoint;
-> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-> index 747e3cf1da..63fbacdcdc 100644
-> --- a/hw/virtio/virtio-iommu.c
-> +++ b/hw/virtio/virtio-iommu.c
-> @@ -38,6 +38,10 @@
->  
->  /* Max size */
->  #define VIOMMU_DEFAULT_QUEUE_SIZE 256
-> +#define VIOMMU_PROBE_SIZE 512
-> +
-> +#define SUPPORTED_PROBE_PROPERTIES (\
-> +    1 << VIRTIO_IOMMU_PROBE_T_PAGE_SIZE_MASK)
->  
->  typedef struct VirtIOIOMMUDomain {
->      uint32_t id;
-> @@ -62,6 +66,13 @@ typedef struct VirtIOIOMMUMapping {
->      uint32_t flags;
->  } VirtIOIOMMUMapping;
->  
-> +typedef struct VirtIOIOMMUPropBuffer {
-> +    VirtIOIOMMUEndpoint *endpoint;
-> +    size_t filled;
-> +    uint8_t *start;
-> +    bool error;
-
-It doesn't seem like bufstate->error gets used anywhere
-
-> +} VirtIOIOMMUPropBuffer;
-> +
->  static inline uint16_t virtio_iommu_get_bdf(IOMMUDevice *dev)
->  {
->      return PCI_BUILD_BDF(pci_bus_num(dev->bus), dev->devfn);
-> @@ -490,6 +501,114 @@ static int virtio_iommu_unmap(VirtIOIOMMU *s,
->      return ret;
->  }
->  
-> +static int virtio_iommu_fill_none_prop(VirtIOIOMMUPropBuffer *bufstate)
-> +{
-> +    struct virtio_iommu_probe_property *prop;
-> +
-> +    prop = (struct virtio_iommu_probe_property *)
-> +                (bufstate->start + bufstate->filled);
-> +    prop->type = 0;
-> +    prop->length = 0;
-> +    bufstate->filled += sizeof(*prop);
-> +    trace_virtio_iommu_fill_none_property(bufstate->endpoint->id);
-> +    return 0;
-> +}
-> +
-> +static int virtio_iommu_fill_page_size_mask(VirtIOIOMMUPropBuffer *bufstate)
-> +{
-> +    struct virtio_iommu_probe_pgsize_mask *page_size_mask;
-> +    size_t prop_size = sizeof(*page_size_mask);
-> +    VirtIOIOMMUEndpoint *ep = bufstate->endpoint;
-> +    VirtIOIOMMU *s = ep->viommu;
-> +    IOMMUDevice *sdev;
-> +
-> +    if (bufstate->filled + prop_size >= VIOMMU_PROBE_SIZE) {
-> +        bufstate->error = true;
-> +        /* get the traversal stopped by returning true */
-> +        return true;
-> +    }
-> +
-> +    page_size_mask = (struct virtio_iommu_probe_pgsize_mask *)
-> +                     (bufstate->start + bufstate->filled);
-> +
-> +    page_size_mask->head.type = VIRTIO_IOMMU_PROBE_T_PAGE_SIZE_MASK;
-> +    page_size_mask->head.length = prop_size;
-> +    QLIST_FOREACH(sdev, &s->notifiers_list, next) {
-> +        if (ep->id == sdev->devfn) {
-> +            page_size_mask->pgsize_bitmap = sdev->page_size_mask;
-
-Do we need a cpu_to_le64 here?
-
-> +	}
-> +    }
-> +    bufstate->filled += sizeof(*page_size_mask);
-> +    trace_virtio_iommu_fill_pgsize_mask_property(bufstate->endpoint->id,
-> +                                                 page_size_mask->pgsize_bitmap,
-> +                                                 bufstate->filled);
-> +    return false;
-> +}
-> +
-> +/* Fill the properties[] buffer with properties of type @type */
-> +static int virtio_iommu_fill_property(int type,
-> +                                      VirtIOIOMMUPropBuffer *bufstate)
-> +{
-> +    int ret = -ENOSPC;
-> +
-> +    if (bufstate->filled + sizeof(struct virtio_iommu_probe_property)
-> +            >= VIOMMU_PROBE_SIZE) {
-> +        /* no space left for the header */
-> +        bufstate->error = true;
-> +        goto out;
-> +    }
-> +
-> +    switch (type) {
-> +    case VIRTIO_IOMMU_PROBE_T_NONE:
-> +        ret = virtio_iommu_fill_none_prop(bufstate);
-> +        break;
-> +    case VIRTIO_IOMMU_PROBE_T_PAGE_SIZE_MASK:
-> +    {
-> +        ret = virtio_iommu_fill_page_size_mask(bufstate);
-> +	break;
-> +    }
-> +    default:
-> +        ret = -ENOENT;
-> +        break;
-> +    }
-> +out:
-> +    if (ret) {
-> +        error_report("%s property of type=%d could not be filled (%d),"
-> +                     " remaining size = 0x%lx",
-> +                     __func__, type, ret, bufstate->filled);
-> +    }
-> +    return ret;
-> +}
-> +
-> +/**
-> + * virtio_iommu_probe - Fill the probe request buffer with all
-> + * the properties the device is able to return and add a NONE
-> + * property at the end. @buf points to properties[].
-> + */
-> +static int virtio_iommu_probe(VirtIOIOMMU *s,
-> +                              struct virtio_iommu_req_probe *req,
-> +                              uint8_t *buf)
-> +{
-> +    uint32_t ep_id = le32_to_cpu(req->endpoint);
-> +    VirtIOIOMMUEndpoint *ep = virtio_iommu_get_endpoint(s, ep_id);
-> +    int16_t prop_types = SUPPORTED_PROBE_PROPERTIES, type;
-> +    VirtIOIOMMUPropBuffer bufstate = {.start = buf, .filled = 0,
-> +                                       .error = false, .endpoint = ep};
-
-Probably need to check if ep is valid before going further
-
-> +
-> +    while ((type = ctz32(prop_types)) != 32) {
-> +        if (virtio_iommu_fill_property(type, &bufstate)) {
-> +            goto failure;
-> +        }
-> +        prop_types &= ~(1 << type);
-> +    }
-> +    if (virtio_iommu_fill_property(VIRTIO_IOMMU_PROBE_T_NONE, &bufstate)) {
-> +        goto failure;
-> +    }
-
-We got rid of the NONE property in the spec, now there is: 
-
- "If the device doesn’t fill all probe_size bytes with properties, it
-  SHOULD fill the remaining bytes of properties with zeroes."
-
-So I think you can get rid of virtio_iommu_fill_none_prop() and fill the
-rest of the buffer with zeroes here instead.
-
-Thanks,
-Jean
-
-> +    return VIRTIO_IOMMU_S_OK;
-> +failure:
-> +    return VIRTIO_IOMMU_S_INVAL;
-> +}
-> +
->  static int virtio_iommu_iov_to_req(struct iovec *iov,
->                                     unsigned int iov_cnt,
->                                     void *req, size_t req_sz)
-> @@ -519,6 +638,17 @@ virtio_iommu_handle_req(detach)
->  virtio_iommu_handle_req(map)
->  virtio_iommu_handle_req(unmap)
->  
-> +static int virtio_iommu_handle_probe(VirtIOIOMMU *s,
-> +                                     struct iovec *iov,
-> +                                     unsigned int iov_cnt,
-> +                                     uint8_t *buf)
-> +{
-> +    struct virtio_iommu_req_probe req;
-> +    int ret = virtio_iommu_iov_to_req(iov, iov_cnt, &req, sizeof(req));
-> +
-> +    return ret ? ret : virtio_iommu_probe(s, &req, buf);
-> +}
-> +
->  static void virtio_iommu_handle_command(VirtIODevice *vdev, VirtQueue *vq)
->  {
->      VirtIOIOMMU *s = VIRTIO_IOMMU(vdev);
-> @@ -564,17 +694,33 @@ static void virtio_iommu_handle_command(VirtIODevice *vdev, VirtQueue *vq)
->          case VIRTIO_IOMMU_T_UNMAP:
->              tail.status = virtio_iommu_handle_unmap(s, iov, iov_cnt);
->              break;
-> +        case VIRTIO_IOMMU_T_PROBE:
-> +        {
-> +            struct virtio_iommu_req_tail *ptail;
-> +            uint8_t *buf = g_malloc0(s->config.probe_size + sizeof(tail));
-> +
-> +            ptail = (struct virtio_iommu_req_tail *)
-> +                        (buf + s->config.probe_size);
-> +            ptail->status = virtio_iommu_handle_probe(s, iov, iov_cnt, buf);
-> +
-> +            sz = iov_from_buf(elem->in_sg, elem->in_num, 0,
-> +                              buf, s->config.probe_size + sizeof(tail));
-> +            g_free(buf);
-> +            assert(sz == s->config.probe_size + sizeof(tail));
-> +            goto push;
-> +        }
->          default:
->              tail.status = VIRTIO_IOMMU_S_UNSUPP;
->          }
-> -        qemu_mutex_unlock(&s->mutex);
->  
->  out:
->          sz = iov_from_buf(elem->in_sg, elem->in_num, 0,
->                            &tail, sizeof(tail));
->          assert(sz == sizeof(tail));
->  
-> -        virtqueue_push(vq, elem, sizeof(tail));
-> +push:
-> +        qemu_mutex_unlock(&s->mutex);
-> +        virtqueue_push(vq, elem, sz);
->          virtio_notify(vdev, vq);
->          g_free(elem);
->      }
-> @@ -634,16 +780,23 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
->      VirtIOIOMMUEndpoint *ep;
->      uint32_t sid, flags;
->      bool bypass_allowed;
-> +    hwaddr addr_mask;
->      bool found;
->  
->      interval.low = addr;
->      interval.high = addr + 1;
->  
-> +    if (sdev->page_size_mask) {
-> +        addr_mask = (1 << ctz32(sdev->page_size_mask)) - 1;
-> +    } else {
-> +        addr_mask = (1 << ctz32(s->config.page_size_mask)) - 1;
-> +    }
-> +
->      IOMMUTLBEntry entry = {
->          .target_as = &address_space_memory,
->          .iova = addr,
->          .translated_addr = addr,
-> -        .addr_mask = (1 << ctz32(s->config.page_size_mask)) - 1,
-> +        .addr_mask = addr_mask,
->          .perm = IOMMU_NONE,
->      };
->  
-> @@ -831,6 +984,7 @@ static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
->      s->config.page_size_mask = TARGET_PAGE_MASK;
->      s->config.input_range.end = -1UL;
->      s->config.domain_range.end = 32;
-> +    s->config.probe_size = VIOMMU_PROBE_SIZE;
->  
->      virtio_add_feature(&s->features, VIRTIO_RING_F_EVENT_IDX);
->      virtio_add_feature(&s->features, VIRTIO_RING_F_INDIRECT_DESC);
-> @@ -840,6 +994,7 @@ static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
->      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MAP_UNMAP);
->      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_BYPASS);
->      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MMIO);
-> +    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_PROBE);
->  
->      qemu_mutex_init(&s->mutex);
->  
-> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> index 8bae651191..b0a6e4bda3 100644
-> --- a/hw/virtio/trace-events
-> +++ b/hw/virtio/trace-events
-> @@ -76,3 +76,5 @@ virtio_iommu_report_fault(uint8_t reason, uint32_t flags, uint32_t endpoint, uin
->  virtio_iommu_notify_map(const char *name, uint64_t iova, uint64_t paddr, uint64_t map_size) "mr=%s iova=0x%"PRIx64" pa=0x%" PRIx64" size=0x%"PRIx64
->  virtio_iommu_notify_unmap(const char *name, uint64_t iova, uint64_t map_size) "mr=%s iova=0x%"PRIx64" size=0x%"PRIx64
->  virtio_iommu_remap(uint64_t iova, uint64_t pa, uint64_t size) "iova=0x%"PRIx64" pa=0x%" PRIx64" size=0x%"PRIx64""
-> +virtio_iommu_fill_none_property(uint32_t devid) "devid=%d"
-> +virtio_iommu_fill_pgsize_mask_property(uint32_t devid, uint64_t pgsize_mask, size_t filled) "dev= %d, pgsize_mask=0x%"PRIx64" filled=0x%lx"
-> -- 
-> 2.17.1
+>> We already can tell the difference between a cluster that has the zero bit
+>> set but is not preallocated, vs. has the zero bit set and is preallocated.
+>> Are we really forcing a copy-on-write to a cluster that is marked zero but
+>> preallocated?  Is the problem that we don't have a way to distinguish
+>> between 'reads as zeroes, allocated, but we don't know state of format
+>> layer' and 'reads as zeroes, allocated, and we know format layer reads as
+>> zeroes'?
 > 
+> Basically, yes. If we had this, we could have a type of cluster where
+> writing to it still involves a metadata update (to clear the zero flag),
+> but never copy-on-write, even for partial writes.
+> 
+> I'm not sure if this would cover a very relevant case, though.
+
+I also wonder if Berto's subcluster patches might play into this scenario.
+
+>>
+>> Hmm - just noticing things: how does this series interplay with the existing
+>> bdrv_has_zero_init_truncate?  Should this series automatically handle
+>> BDRV_REQ_ZERO_WRITE on a bdrv_co_truncate(PREALLOC_NONE) request for all
+>> drivers that report true, even if that driver does not advertise support for
+>> the BDRV_REQ_ZERO_WRITE flag?
+> 
+> Hmm... It feels risky to me.
+
+Or worded differently, is bdrv_has_zero_init_truncate even still 
+necessary (when it is documented only to cover the PREALLOC_NONE case), 
+or should we get rid of it in favor of using BDRV_REQ_ZERO_WRITE 
+everywhere instead?  (Which in turn involves visiting all drivers that 
+previously advertised bdrv_has_zero_init_truncate... but I already have 
+work in my tree trying to do that as part of preparing to add an 
+autoclear bit to qcow2 to make it faster to report when a qcow2 image is 
+known all-zero content...)
+
+Looks like I'll be rebasing my work on top of this series.
+
+> 
+>>> +        } else {
+>>> +            ret = -1;
+>>> +        }
+>>
+>> Here, ret == -1 does not imply whether errp is set - but annoyingly, errp
+>> CAN be set if bdrv_co_truncate() failed.
+>>
+>>> +        if (ret < 0) {
+>>> +            ret = bdrv_co_truncate(bs->file, new_file_size, false, prealloc, 0,
+>>> +                                   errp);
+>>
+>> And here, you are passing a possibly-set errp back to bdrv_co_truncate().
+>> That is a bug that can abort.  You need to pass NULL to the first
+>> bdrv_co_truncate() call or else clear errp prior to trying a fallback to
+>> this second bdrv_co_truncate() call.
+> 
+> Yes, you're right. If nothing else comes up, I'll fix this while
+> applying.
+> 
+> Kevin
+> 
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
