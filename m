@@ -2,71 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BD421B65C9
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 22:52:34 +0200 (CEST)
-Received: from localhost ([::1]:41430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBE6F1B65B3
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 22:47:11 +0200 (CEST)
+Received: from localhost ([::1]:41224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRipl-0004bw-KL
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 16:52:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60032)
+	id 1jRikX-0000Ds-Un
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 16:47:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60440)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jRigz-0007St-KC
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:43:30 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jRiiU-0007mL-Nc
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:45:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jRigk-0003fC-Fk
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:43:29 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:56171)
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jRiiT-00054H-IW
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:45:02 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jRigk-0003bY-11
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:43:14 -0400
-Received: by mail-wm1-x341.google.com with SMTP id e26so8093722wmk.5
- for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 13:43:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jRiiT-00052p-5j
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:45:01 -0400
+Received: by mail-wr1-x442.google.com with SMTP id t14so8232132wrw.12
+ for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 13:44:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=zp4Q+x86Gu3y75i2SV75beEga6P0Ez8SPwHhkxLlBv8=;
- b=GcDO49uXByJs9niokG90uSKRL0r+CZaFXXlXJDr5NNfgy3GfyUt33/77S6JNzPnk+e
- 7A51oA0V6B1u+X46tnkd6KiC+gWIBhc35DuojWSo5GbeFv7Vzt0QEJpLpQiCAofQoAkO
- RZxE/06T+QpoDF5sWvoW90Uh36g6Px9aSit3Sk2+38LhVilf7HayAfXkZitSRFSrGqCh
- KFw6bfcmxxl0ZAHCgnjRXnHWPXzL9njFj98H9b6ei0Jv+SyyuzlBG9nKAcvPJLC57VJu
- U98UD/c6oWJEyIDUaxDUOpz1yPfkW8oP2FRlIvdhbuas9EEqs4JOxZSoBQraAQ+jVRD8
- jHOA==
+ h=sender:subject:to:cc:references:from:autocrypt:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nw7m+QtqQ68L20g6rF5jyp/MkzoNexySjUrYPBeIGuE=;
+ b=h4LfPsZHBjL26FooeyLMYHnfhYQbn/zbTUee7X3agl0r2/A4f1XhLcmINa3sspWL+T
+ 5Ipg5VaSQH73EWy1FcglyR13qQUINb8QCT49TTok/9qg712FA9ejuGxQXZAMpnlyx+ru
+ CNC8QGODF0hhcAxd6MUGI+YZwYUlY6V1WnAGbUsedl0deOLY35RDKOQAHLCVwY8qWqrc
+ lrvuxJPNoSIEmO5agGP96Yk69YxYURMffjuS/Vn4/lupa/7Wf1YEoqjDmdaXz3Z960vw
+ 2o3eeSzEiZIpc02Ex2XtiHIvrQoiZSQ1/Xv/Sak1gZYg5ewH4JWI2A1dbvqCHe44g93+
+ +nRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=zp4Q+x86Gu3y75i2SV75beEga6P0Ez8SPwHhkxLlBv8=;
- b=lSX7SfR2XIMrmr+W28rYbYvJ/YTjMPyUPSzAi9zRAQC3h/WNDTCtI4Tw0fWtThbBAT
- Wllii9HHlC2ZKkmdySG+IZBKsdXkbp3V3aMP2exMSR9FXKNr9MnSV3CUGFrAw2ehHvT5
- XhWY0DB0NwC23x+HSWvRZ3FrN7os95nj98EnUESK0C/ouZaWWx1asDO3jGuQvoyPtRoc
- P+0PN26OS9CIppalSp0Latp6kfO/A6obfB+jsXWP+pOpEwSomPv67fkhGBowgEawOMz+
- iIdQmyPHV2gTD8kgVWTp66nK4GpYGtP6p9C6tpN6kP4idyvNVtby0FXvfQ7Zz+DOTxWz
- fkwg==
-X-Gm-Message-State: AGi0PuYV4Zp3m0p34CcgvZ3Bv2r2iqRUhGSU3ZOW92Bbardmd6DAcaP1
- uZfeH+zFV76FyeUhEU8UjxEK0/tqZUwDuMRzO64=
-X-Google-Smtp-Source: APiQypIC0KZjdJ/Ni9Aon4dvkIL1aEy0Bc/tBoOpfgb1vxpvNils7IJRaVnvPTBdKDMQJ6XVXzY/AgDGQpnoNjoGejw=
-X-Received: by 2002:a1c:e284:: with SMTP id z126mr6370699wmg.32.1587674592455; 
- Thu, 23 Apr 2020 13:43:12 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=nw7m+QtqQ68L20g6rF5jyp/MkzoNexySjUrYPBeIGuE=;
+ b=NPKUTdceSsyIdjNiOrqn7VaQH1dwCoBDh6KqNzj95t42NUlbCxwrFPrZpnRSGTJ9l8
+ ACTSO56qonHGwqDpW74iXewXvugd4of3a8Yct8P2G8JOpIU+7Hq0paaPwfLiZHGhS5s8
+ 7hUF49eGl1+gFgyDK/HrxCnu2LV2zRRAnSfMeaOFoqWmPy/OpvJJNISvHQxuiK7ys1XI
+ kCObIhJryDAABCfkyQkSG8OXbs2QYb0KBK2mzQDq9K0StQRxuUguWHbfKCoZy5+mo9dD
+ 4UJd3CdeaKI+DMiSxw3pb0O0NI4MnZEi6luPSHftU05rF3Odf3amuUcfVNwfn9o7IpGx
+ ttBg==
+X-Gm-Message-State: AGi0PuaA7VNmE6jXvrXEmPXkgjcc6x5zJZ+7hZf6SYvjOvNxriUVBE/i
+ hvq55umyOqtV0qEEBA/gnqG9NB28
+X-Google-Smtp-Source: APiQypLeYmXftCcszY1nYS7/ARXWgeWmHsJdPmykc0V8ak1gzgKcgMBU49pAJrHYyb0iK8+GIbBgLg==
+X-Received: by 2002:a5d:60ca:: with SMTP id x10mr6824420wrt.407.1587674698270; 
+ Thu, 23 Apr 2020 13:44:58 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id l5sm4946231wmi.22.2020.04.23.13.44.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Apr 2020 13:44:57 -0700 (PDT)
+Subject: Re: Need BT support in qemu for Zephyr
+To: Dan Christian <dchristian@cardinalpeak.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <CADxL6wUGWZO0U=G7UTAebG57m6tG58hoMf_-TCC+0qReUB0G6w@mail.gmail.com>
+ <20200423141112.GE1077680@redhat.com>
+ <CADxL6wX-0Lt_LKT9pQMiK3Y1L0tdrF9G23dfYU=9FXgFZB-4Fw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Autocrypt: addr=f4bug@amsat.org; keydata=
+ mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
+ u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
+ HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
+ YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
+ ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
+ dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
+ ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
+ Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
+ HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
+ Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
+ CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
+ klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
+ jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
+ 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
+ loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
+ sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
+ JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
+ 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
+ K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
+ n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
+ CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
+Message-ID: <455cf375-fe21-f5c4-6086-4413bf710d33@amsat.org>
+Date: Thu, 23 Apr 2020 22:44:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200423202112.644-1-philmd@redhat.com>
- <20200423202112.644-7-philmd@redhat.com>
-In-Reply-To: <20200423202112.644-7-philmd@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 23 Apr 2020 22:43:00 +0200
-Message-ID: <CAJ+F1C+TkuCeSwO8Mm5k-+2JJtuph_BiPVDQFYJ2q_+DL8X37g@mail.gmail.com>
-Subject: Re: [PATCH 6/7] stubs: Split machine-init-done as machine-init and
- machine-notify
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x341.google.com
+In-Reply-To: <CADxL6wX-0Lt_LKT9pQMiK3Y1L0tdrF9G23dfYU=9FXgFZB-4Fw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,80 +114,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>, QEMU <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 23, 2020 at 10:22 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> As the machine notify handlers are only used in system emulation,
-> split the current file in two, and only build the notifier when
-> system emulation is used.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On 4/23/20 4:40 PM, Dan Christian wrote:
+> I'm new to trying to use qemu+bt (via btproxy) and haven't managed to
+> get anything working.
+> 
+> btproxy is launched first, then Zephyr launches qemu via it's west
+> tool.  The commands look like:
+> sudo tools/btproxy -u -i 0 -d # in a separate window
+> x86_64-pokysdk-linux/usr/bin/qemu-system-aarch64 -cpu cortex-a53
+> -nographic -machine virt -
+> net none -pidfile qemu.pid -chardev stdio,id=con,mux=on -serial
+> chardev:con -mon chardev=con,mode=readline -serial
+> unix:/tmp/bt-server-bredr -kernel
+> /home/dchristian/share-fb/zephyrproject/zephy
+> r/build/zephyr/zephyr.elf
+> 
+> It's failing with a device busy when btproxy tries to bind to the
+> adapter.  I don't think this is a quemu issue.
+> 
+> Zephyr packages it's own qemu:  QEMU emulator version 4.2.0 (v4.2.0-dirty)
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-
-> ---
->  stubs/machine-init.c                            | 4 ++++
->  stubs/{machine-init-done.c =3D> machine-notify.c} | 2 --
->  stubs/Makefile.objs                             | 3 ++-
->  3 files changed, 6 insertions(+), 3 deletions(-)
->  create mode 100644 stubs/machine-init.c
->  rename stubs/{machine-init-done.c =3D> machine-notify.c} (78%)
->
-> diff --git a/stubs/machine-init.c b/stubs/machine-init.c
-> new file mode 100644
-> index 0000000000..7622930ee0
-> --- /dev/null
-> +++ b/stubs/machine-init.c
-> @@ -0,0 +1,4 @@
-> +#include "qemu/osdep.h"
-> +#include "sysemu/sysemu.h"
-> +
-> +bool machine_init_done =3D true;
-> diff --git a/stubs/machine-init-done.c b/stubs/machine-notify.c
-> similarity index 78%
-> rename from stubs/machine-init-done.c
-> rename to stubs/machine-notify.c
-> index cd8e81392d..d164ecccb9 100644
-> --- a/stubs/machine-init-done.c
-> +++ b/stubs/machine-notify.c
-> @@ -1,8 +1,6 @@
->  #include "qemu/osdep.h"
->  #include "sysemu/sysemu.h"
->
-> -bool machine_init_done =3D true;
-> -
->  void qemu_add_machine_init_done_notifier(Notifier *notify)
->  {
->  }
-> diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-> index 45be5dc0ed..765659a3f9 100644
-> --- a/stubs/Makefile.objs
-> +++ b/stubs/Makefile.objs
-> @@ -15,7 +15,8 @@ stub-obj-y +=3D iothread-lock.o
->  stub-obj-y +=3D is-daemonized.o
->  stub-obj-$(CONFIG_LINUX_AIO) +=3D linux-aio.o
->  stub-obj-$(CONFIG_LINUX_IO_URING) +=3D io_uring.o
-> -stub-obj-y +=3D machine-init-done.o
-> +stub-obj-y +=3D machine-init.o
-> +stub-obj-$(CONFIG_SOFTMMU) +=3D machine-notify.o
->  stub-obj-y +=3D migr-blocker.o
->  stub-obj-y +=3D change-state-handler.o
->  stub-obj-y +=3D monitor.o
-> --
-> 2.21.1
->
->
-
-
---=20
-Marc-Andr=C3=A9 Lureau
+If you just want to test/use BT, you might be luckier with an older
+version of QEMU supposed to work with BT, such QEMU v1.0. You won't have
+support for Cortex-A53 although.
 
