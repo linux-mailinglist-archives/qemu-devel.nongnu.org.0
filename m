@@ -2,69 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F17AA1B5E6C
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 16:57:22 +0200 (CEST)
-Received: from localhost ([::1]:44980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 490C31B5E92
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 17:05:13 +0200 (CEST)
+Received: from localhost ([::1]:45120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRdI1-0002a8-Fw
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 10:57:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40106)
+	id 1jRdPc-0000LT-8N
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 11:05:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40920)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jRdGg-0001rV-NO
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 10:56:13 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jRdMN-00050h-NS
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:01:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jRdGf-0002l6-W5
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 10:55:58 -0400
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:42569)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jRdGf-0002kd-Iz
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 10:55:57 -0400
-Received: by mail-ot1-x334.google.com with SMTP id m18so6472744otq.9
- for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 07:55:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4o6wEIcbD62prZrs0B3Uwa18U9uB2CFd1FYvHXkJpI4=;
- b=HYZwoA6elXL2sVHS4mrNWmtrHbDwwbsDGJC8BhA+r/KBzIqtgn4mbcHZOj0LIJkxao
- gw33cXVjYCLdiZarG6RlILpBAYB7Si1JoitZE8Okv6m6BHaU8SHNs1Xl2hYd5HEjRtC/
- EW3zXx3r7yINvg4ZqjkoEvQLwumv2ijg6i2KTq7W7ZJXeN8C87n2OiIT8aAyyqHyOAf/
- 8EpEP0dKMDMOhquwFlxVmf837Hqqyi6fdljZ7z9gjhabUlLvv3JSKJwdUV/h4ip4PvjE
- xQem7a+GQJwrq67g6YO6w7IhPZzXwYHVnEeKrFGeb6WafAUA6Sentkz2FaoGRuEVG9fE
- 3U4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4o6wEIcbD62prZrs0B3Uwa18U9uB2CFd1FYvHXkJpI4=;
- b=ryd5omcwCxkbP942nSMSRT9axa0ZSoJ7WHpWqhUJ2+pAF4jW8TZPtB3RysCIt4676a
- pK7qCM7VLL+eWR5GaaBRAg/J8+D5irLeXD5pBIZ1cCJUsVLGHkSdLBrylX3wPDVy5V9d
- g3n4XjV1jNGg5KnOrgRAmKVGOM8Jrn32yDNJosTM0HCQOTPkzt5cqhFkddYh1bR+Hskb
- 2oZFjDbnzs9l4K91vQWpa3g8V8Tmqkez/krW/muCBHi2HotopDxXnMQ/b1sM8hdM/n0w
- 7mWbqrGjFwXWSdpFxoiiaox72RghUPwF6Pcn2lI18JVxdvOLnXmBJpHNi+1hrBjYxExD
- 48QA==
-X-Gm-Message-State: AGi0Pua7StEaEushrpCFQa1PJSOCcuCQA17qE39RiIT/+fFFYOVMbYQa
- hlJiTv9T1offEZZLPzN3FcW3iMn5IREtrPU3TCWWkw==
-X-Google-Smtp-Source: APiQypIV6bi57T9+sC9kKz00MTozmyIBYvFb40Uf4Oa2eGhgvfTKWlvDOnaxq+p9psdk7HKlc4ub9+l/11w9os6q9Xo=
-X-Received: by 2002:aca:3441:: with SMTP id b62mr1945019oia.146.1587653755989; 
- Thu, 23 Apr 2020 07:55:55 -0700 (PDT)
+ (envelope-from <kwolf@redhat.com>) id 1jRdMI-0005bT-Co
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:01:51 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47345
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jRdMH-0005a0-Rn
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:01:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587654104;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=H3+wNyWOSH6j8FrHMR9tlc7HrSv0Q/nGxI8BHHbr4cI=;
+ b=Xaf8voayG0pWpcFNQ1coPLqaSP0GxPS5Q3EQz+VNShIOZAIrlRUfddUHOKayGO+eupLKMf
+ nJ7MAvaUvUYzJTN5+UtcxNwOceqYgQF5d6+nHkOf1mI50vicmpMhrX5jMwOuxagp7ApsDJ
+ omGlWZHCc0V9rukywn5tlEzNlNREX+I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-428-h50f5R9QOQGaZbUW1p8Tzw-1; Thu, 23 Apr 2020 11:01:38 -0400
+X-MC-Unique: h50f5R9QOQGaZbUW1p8Tzw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3530E463;
+ Thu, 23 Apr 2020 15:01:37 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-114-28.ams2.redhat.com [10.36.114.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 60F4860C81;
+ Thu, 23 Apr 2020 15:01:35 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v6 00/10] block: Fix resize (extending) of short overlays
+Date: Thu, 23 Apr 2020 17:01:17 +0200
+Message-Id: <20200423150127.142609-1-kwolf@redhat.com>
 MIME-Version: 1.0
-References: <CADxL6wUGWZO0U=G7UTAebG57m6tG58hoMf_-TCC+0qReUB0G6w@mail.gmail.com>
- <20200423141112.GE1077680@redhat.com>
- <CADxL6wX-0Lt_LKT9pQMiK3Y1L0tdrF9G23dfYU=9FXgFZB-4Fw@mail.gmail.com>
-In-Reply-To: <CADxL6wX-0Lt_LKT9pQMiK3Y1L0tdrF9G23dfYU=9FXgFZB-4Fw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Apr 2020 15:55:44 +0100
-Message-ID: <CAFEAcA_cq=2pDwsGzNn0TG40sYQpgPU-iBd1prF+-JpTU56SBQ@mail.gmail.com>
-Subject: Re: Need BT support in qemu for Zephyr
-To: Dan Christian <dchristian@cardinalpeak.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x334.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::334
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 03:23:21
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,28 +70,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 Apr 2020 at 15:41, Dan Christian <dchristian@cardinalpeak.com> wrote:
-> I'm new to trying to use qemu+bt (via btproxy) and haven't managed to get anything working.
+v6:
+- qcow2: Don't round up end offset [Eric]
+- qcow2: Use different error messages for different error paths
+- Request BDRV_REQ_ZERO_WRITE only if the backing file actually covers
+  (part of) the new area (fix regression from v3) [Max]
+- New patch: Forward ZERO_WRITE flag for full preallocation [Max]
 
-As Dan notes, your command line isn't trying to use any of
-QEMU's bluetooth support code. More generally, from the
-point of view of the deprecation-and-deletion we were much
-more interested in "I am already using this and it works for
-me" reports (which we had none of) than in "in theory I might
-be interested in bluetooth-emulation-in-QEMU but I'm not
-actually using it" reports. Since we had none of the former (and
-only one or two of the latter) our current belief is that
-the code we removed was in fact broken and nobody was using
-it so nobody noticed; if that's true then helping out people
-in the "maybe I could use this" camp would require not just
-undoing the code removal but actually trying to fix the
-bugs and brokenness in it.
+v5:
+- Fixed file-win32 [Patchew]
+- Fixed zeroing in qcow2 for unaligned requests + tests [Vladimir]
+- Made raw-format code more consistent [Eric]
+- Leave output for existing iotests cases unchanged [Vladimir]
 
-thanks
--- PMM
+v4:
+- Rewrote the series to move the actual zeroing to the block drivers so
+  that error paths can work correctly and potentially long-running
+  fallback to writing explicit zeroes is avoided.
+- Fixed output filtering order in the test case [Max]
+
+v3:
+- Don't allow blocking the monitor for a zero write in block_resize
+  (even though we can already blockfor other reasons there). This is
+  mainly responsible for the increased complexity compared to v2.
+  Personally, I think this is not an improvement over v2, but if this is
+  what it takes to fix a corruption issue in 4.2... [Max]
+- Don't use huge image files in the test case [Vladimir]
+
+v2:
+- Switched order of bs->total_sectors update and zero write [Vladimir]
+- Fixed coding style [Vladimir]
+- Changed the commit message to contain what was in the cover letter
+- Test all preallocation modes
+- Test allocation status with qemu-io 'map' [Vladimir]
+
+*** BLURB HERE ***
+
+Kevin Wolf (10):
+  block: Add flags to BlockDriver.bdrv_co_truncate()
+  block: Add flags to bdrv(_co)_truncate()
+  block-backend: Add flags to blk_truncate()
+  qcow2: Support BDRV_REQ_ZERO_WRITE for truncate
+  raw-format: Support BDRV_REQ_ZERO_WRITE for truncate
+  file-posix: Support BDRV_REQ_ZERO_WRITE for truncate
+  block: truncate: Don't make backing file data visible
+  iotests: Filter testfiles out in filter_img_info()
+  iotests: Test committing to short backing file
+  qcow2: Forward ZERO_WRITE flag for full preallocation
+
+ include/block/block.h          |   5 +-
+ include/block/block_int.h      |  10 +-
+ include/sysemu/block-backend.h |   2 +-
+ block.c                        |   3 +-
+ block/block-backend.c          |   4 +-
+ block/commit.c                 |   4 +-
+ block/crypto.c                 |   7 +-
+ block/file-posix.c             |   6 +-
+ block/file-win32.c             |   2 +-
+ block/gluster.c                |   1 +
+ block/io.c                     |  42 +++++-
+ block/iscsi.c                  |   2 +-
+ block/mirror.c                 |   2 +-
+ block/nfs.c                    |   3 +-
+ block/parallels.c              |   6 +-
+ block/qcow.c                   |   4 +-
+ block/qcow2-cluster.c          |   2 +-
+ block/qcow2-refcount.c         |   2 +-
+ block/qcow2.c                  |  72 +++++++--
+ block/qed.c                    |   3 +-
+ block/raw-format.c             |   6 +-
+ block/rbd.c                    |   1 +
+ block/sheepdog.c               |   4 +-
+ block/ssh.c                    |   2 +-
+ block/vdi.c                    |   2 +-
+ block/vhdx-log.c               |   2 +-
+ block/vhdx.c                   |   6 +-
+ block/vmdk.c                   |   8 +-
+ block/vpc.c                    |   2 +-
+ blockdev.c                     |   2 +-
+ qemu-img.c                     |   2 +-
+ qemu-io-cmds.c                 |   2 +-
+ tests/test-block-iothread.c    |   9 +-
+ tests/qemu-iotests/iotests.py  |   5 +-
+ tests/qemu-iotests/274         | 157 ++++++++++++++++++++
+ tests/qemu-iotests/274.out     | 260 +++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/group       |   1 +
+ 37 files changed, 589 insertions(+), 64 deletions(-)
+ create mode 100755 tests/qemu-iotests/274
+ create mode 100644 tests/qemu-iotests/274.out
+
+--=20
+2.25.3
+
 
