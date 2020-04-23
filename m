@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F7F1B63F4
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 20:44:54 +0200 (CEST)
-Received: from localhost ([::1]:36812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A81601B63E9
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 20:42:40 +0200 (CEST)
+Received: from localhost ([::1]:36608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRgqD-0007Yv-8s
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 14:44:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32864)
+	id 1jRgo3-0003Ps-DZ
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 14:42:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32868)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dimastep@yandex-team.ru>) id 1jRgm6-0001Ey-Fq
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 14:40:38 -0400
+ (envelope-from <dimastep@yandex-team.ru>) id 1jRgm6-0001FF-RO
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 14:40:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <dimastep@yandex-team.ru>) id 1jRgm5-0004H3-Co
+ (envelope-from <dimastep@yandex-team.ru>) id 1jRgm6-0004KE-FK
  for qemu-devel@nongnu.org; Thu, 23 Apr 2020 14:40:38 -0400
-Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:59726)
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:45238)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
- id 1jRglz-00047x-DX; Thu, 23 Apr 2020 14:40:32 -0400
-Received: from mxbackcorp2j.mail.yandex.net (mxbackcorp2j.mail.yandex.net
- [IPv6:2a02:6b8:0:1619::119])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id D93A42E15A0;
- Thu, 23 Apr 2020 21:40:28 +0300 (MSK)
+ id 1jRgm2-00048m-TR; Thu, 23 Apr 2020 14:40:36 -0400
+Received: from mxbackcorp1g.mail.yandex.net (mxbackcorp1g.mail.yandex.net
+ [IPv6:2a02:6b8:0:1402::301])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 65C3C2E150C;
+ Thu, 23 Apr 2020 21:40:32 +0300 (MSK)
 Received: from vla5-58875c36c028.qloud-c.yandex.net
  (vla5-58875c36c028.qloud-c.yandex.net [2a02:6b8:c18:340b:0:640:5887:5c36])
- by mxbackcorp2j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
- 4Q2WEpocS5-ePHG0SlV; Thu, 23 Apr 2020 21:40:28 +0300
+ by mxbackcorp1g.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ GEhWYPOk17-eUQmj5PB; Thu, 23 Apr 2020 21:40:32 +0300
 Precedence: bulk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1587667228; bh=B7N/2dA22AZAvZEuIRWbfaStgxBZh00/dxecx4k5Xoo=;
+ t=1587667232; bh=6AUSdMRun+4uomw8GjlwQJKUpFkMPJnEm3m4a1og08I=;
  h=In-Reply-To:In-Reply-To:Message-Id:References:References:Date:
  Subject:To:From:Cc;
- b=aNH86gMKIwBn1nP3+YXa+yUgGPoCL0SrDDFS/SoBX9HI/loBxTiScvTv/fv5mTivg
- OFdCdMBPeM3fhQZlz4G8S0vct+OiIakflnp7JN/vqUbpS5DZrXkdzgC6jObzBKPGxt
- mYOHEq7nSoVUPGhNwxTOd1XIzyWZXltIa9mOVlxQ=
-Authentication-Results: mxbackcorp2j.mail.yandex.net;
+ b=YiqtKcBHfLkbWDYhZ0Vcu+Ouj4kWCtgKHPx5Q2WwYgmVXB6mef08ag3YYDDzdlG63
+ 2Z/PaAXBnSbhxgkqPrtC2hXs3Tv382XV4PAshynUzX1kbqhklJFRFCGqTWns+C6c78
+ fjaBdB3LtScf2B/NeHdQHtIl7tsKD5mlb6l5gPeA=
+Authentication-Results: mxbackcorp1g.mail.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
  [2a02:6b8:b081:1313::1:e])
  by vla5-58875c36c028.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 7hClKENKMK-ePXeQsK8; Thu, 23 Apr 2020 21:40:25 +0300
+ 7hClKENKMK-eUXeJJgf; Thu, 23 Apr 2020 21:40:30 +0300
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (Client certificate not present)
 From: Dima Stepanov <dimastep@yandex-team.ru>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v1 2/7] char-socket: return -1 in case of disconnect
- during tcp_chr_write
-Date: Thu, 23 Apr 2020 21:39:33 +0300
-Message-Id: <045f356cec6f07300819d28457a2bb8876d1c887.1587667007.git.dimastep@yandex-team.ru>
+Subject: [RFC PATCH v1 3/7] char-socket: initialize reconnect timer only if
+ close is emitted
+Date: Thu, 23 Apr 2020 21:39:34 +0300
+Message-Id: <23b36a73ce1150cc501f436684ca558608de3322.1587667007.git.dimastep@yandex-team.ru>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1587667007.git.dimastep@yandex-team.ru>
 References: <cover.1587667007.git.dimastep@yandex-team.ru>
 In-Reply-To: <cover.1587667007.git.dimastep@yandex-team.ru>
 References: <cover.1587667007.git.dimastep@yandex-team.ru>
-Received-SPF: pass client-ip=95.108.205.193;
- envelope-from=dimastep@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 14:40:28
+Received-SPF: pass client-ip=77.88.29.217;
+ envelope-from=dimastep@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 14:40:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 95.108.205.193
+X-Received-From: 77.88.29.217
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -79,71 +79,52 @@ Cc: fam@euphon.net, kwolf@redhat.com, yc-core@yandex-team.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-During testing of the vhost-user-blk reconnect functionality the qemu
-SIGSEGV was triggered:
- start qemu as:
- x86_64-softmmu/qemu-system-x86_64 -m 1024M -M q35 \
-   -object memory-backend-file,id=ram-node0,size=1024M,mem-path=/dev/shm/qemu,share=on \
-   -numa node,cpus=0,memdev=ram-node0 \
-   -chardev socket,id=chardev0,path=./vhost.sock,noserver,reconnect=1 \
-   -device vhost-user-blk-pci,chardev=chardev0,num-queues=4 --enable-kvm
- start vhost-user-blk daemon:
- ./vhost-user-blk -s ./vhost.sock -b test-img.raw
-
-If vhost-user-blk will be killed during the vhost initialization
-process, for instance after getting VHOST_SET_VRING_CALL command, then
-QEMU will fail with the following backtrace:
-
-Thread 1 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
-0x00005555559272bb in vhost_user_read (dev=0x7fffef2d53e0, msg=0x7fffffffd5b0)
-    at ./hw/virtio/vhost-user.c:260
-260         CharBackend *chr = u->user->chr;
-
- #0  0x00005555559272bb in vhost_user_read (dev=0x7fffef2d53e0, msg=0x7fffffffd5b0)
-    at ./hw/virtio/vhost-user.c:260
- #1  0x000055555592acb8 in vhost_user_get_config (dev=0x7fffef2d53e0, config=0x7fffef2d5394 "", config_len=60)
-    at ./hw/virtio/vhost-user.c:1645
- #2  0x0000555555925525 in vhost_dev_get_config (hdev=0x7fffef2d53e0, config=0x7fffef2d5394 "", config_len=60)
-    at ./hw/virtio/vhost.c:1490
- #3  0x00005555558cc46b in vhost_user_blk_device_realize (dev=0x7fffef2d51a0, errp=0x7fffffffd8f0)
-    at ./hw/block/vhost-user-blk.c:429
- #4  0x0000555555920090 in virtio_device_realize (dev=0x7fffef2d51a0, errp=0x7fffffffd948)
-    at ./hw/virtio/virtio.c:3615
- #5  0x0000555555a9779c in device_set_realized (obj=0x7fffef2d51a0, value=true, errp=0x7fffffffdb88)
-    at ./hw/core/qdev.c:891
- ...
-
-The problem is that vhost_user_write doesn't get an error after
-disconnect and try to call vhost_user_read(). The tcp_chr_write()
-routine should return -1 in case of disconnect. Indicate the EIO error
-if this routine is called in the disconnected state.
+During vhost-user reconnect functionality testing the following assert
+was hit:
+  qemu-system-x86_64: chardev/char-socket.c:125:
+  qemu_chr_socket_restart_timer: Assertion `!s->reconnect_timer' failed.
+  Aborted (core dumped)
+This is observed only if the connection is closed by the vhost-user-blk
+daemon during the initialization routine. In this case the
+tcp_chr_disconnect_locked() routine is called twice. First time it is
+called in the tcp_chr_write() routine, after getting the SIGPIPE signal.
+Second time it is called when vhost_user_blk_connect() routine return
+error. In general it looks correct, because the initialization routine
+can return error in many cases.
+The tcp_chr_disconnect_locked() routine could be fixed. The timer will
+be restarted only if the close event is emitted.
 
 Signed-off-by: Dima Stepanov <dimastep@yandex-team.ru>
 ---
- chardev/char-socket.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ chardev/char-socket.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index 185fe38..c128cca 100644
+index c128cca..83ca4d9 100644
 --- a/chardev/char-socket.c
 +++ b/chardev/char-socket.c
-@@ -175,14 +175,16 @@ static int tcp_chr_write(Chardev *chr, const uint8_t *buf, int len)
-         if (ret < 0 && errno != EAGAIN) {
-             if (tcp_chr_read_poll(chr) <= 0) {
-                 tcp_chr_disconnect_locked(chr);
--                return len;
-+                /* Return an error since we made a disconnect. */
-+                return ret;
-             } /* else let the read handler finish it properly */
-         }
+@@ -476,7 +476,7 @@ static void update_disconnected_filename(SocketChardev *s)
+ static void tcp_chr_disconnect_locked(Chardev *chr)
+ {
+     SocketChardev *s = SOCKET_CHARDEV(chr);
+-    bool emit_close = s->state == TCP_CHARDEV_STATE_CONNECTED;
++    bool was_connected = s->state == TCP_CHARDEV_STATE_CONNECTED;
  
-         return ret;
-     } else {
--        /* XXX: indicate an error ? */
--        return len;
-+        /* Indicate an error. */
-+        errno = EIO;
-+        return -1;
+     tcp_chr_free_connection(chr);
+ 
+@@ -485,11 +485,11 @@ static void tcp_chr_disconnect_locked(Chardev *chr)
+                                               chr, NULL, chr->gcontext);
+     }
+     update_disconnected_filename(s);
+-    if (emit_close) {
++    if (was_connected) {
+         qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
+-    }
+-    if (s->reconnect_time) {
+-        qemu_chr_socket_restart_timer(chr);
++        if (s->reconnect_time) {
++            qemu_chr_socket_restart_timer(chr);
++        }
      }
  }
  
