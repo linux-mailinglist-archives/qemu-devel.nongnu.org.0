@@ -2,88 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF32D1B6563
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 22:29:17 +0200 (CEST)
-Received: from localhost ([::1]:40368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00A2C1B6568
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 22:30:31 +0200 (CEST)
+Received: from localhost ([::1]:40486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRiTE-000297-Vz
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 16:29:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56332)
+	id 1jRiUP-0004Kr-WF
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 16:30:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56430)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jRiRj-00012C-Pp
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:27:44 -0400
+ (envelope-from <philmd@redhat.com>) id 1jRiSE-0001VP-B3
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:28:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jRiRj-0007yP-5U
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:27:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44369
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jRiSD-0008Kj-Pw
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:28:14 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35168
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jRiRi-0007y8-Ce
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:27:42 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jRiSD-0008Hl-C9
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:28:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587673660;
+ s=mimecast20190719; t=1587673692;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pQct0pwx3JfGqar2KIqYJDVyz6Fj01QYnz9MGugPYcc=;
- b=WGOrBashJjI6yiziqVHqIytidPaPSbo3eMJFoVRtOrAH9o2RjC3qKfHyuf5RTndUStoorM
- JVGCk7JNWyaLeEMLazt404mfVxpRJiib4SPuOXGw1Ob3EduNZQo56wr6g1WsqK7zNT8eXk
- c3lpFBivrD+Xc2ZSlFgDLmsM9nhtlOQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-G7S2rl2cPEWcNQ-NYjBYGg-1; Thu, 23 Apr 2020 16:27:39 -0400
-X-MC-Unique: G7S2rl2cPEWcNQ-NYjBYGg-1
-Received: by mail-wr1-f72.google.com with SMTP id x15so3428006wrn.0
- for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 13:27:38 -0700 (PDT)
+ bh=baPPwrzNTDJ6+3bcSFtDWAegoRJD1dWcpXdLL8AC5P8=;
+ b=HxCFeVXvPegiRvsGownGznFchse7BxD5twDD19IsBzeCnwvSrydimlAS5X12HM12Zkv1xL
+ mae6ph97BPRAwvz3/N3/6gJMzEGVHpKvKOARJmCq1YkdMG+9LZP/Bp3zwY9DZ+JEo8LsFL
+ /CjFMG0pDDryEf5ePsBs82zz+TiZ4ws=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-50-TpSdp77PP02qLsjOl-0f4w-1; Thu, 23 Apr 2020 16:28:10 -0400
+X-MC-Unique: TpSdp77PP02qLsjOl-0f4w-1
+Received: by mail-wr1-f69.google.com with SMTP id o8so2952621wrm.11
+ for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 13:28:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Y0v4wJNHMwTtP9V72XYJxG2CitATSXoE85yjjnLIW3w=;
- b=sdzQ5K+D2tmD5UewuUymTq0L6vWHSf2fI7xPUwiEadboXcxvjfP1LvUyssInMpDY6P
- ihlaqrFfWVEN8Hz0+Yh+ifciQNLxndw1lcmW++LiOV4duLulVdI+WiyR8FianxI9onTa
- 09/KqqM9BTxksvGkf/51H0PCiPU0exFflxDYfXV9RBtzYKhf9StFMQDaBpgd1+/7jAe4
- LZgSYh3DAuKGFoC0fF+Ta4uUtSeJKKWmwFjY8pSl6h/gQjE36/Er1zQuMka6+g60dJeP
- shlN7R3c1tOCFzoINLkk9RwftudLoThFL2iUR3V8PM3p6PnD0q3ki8fEWQj6h3hRl6mK
- NeEg==
-X-Gm-Message-State: AGi0PuYWNO/9L7uYHxjrWavZ8tUNilFUsCyXRJV/74ZmP6yqF8jpnoxD
- Zq3VwCg03R1iiskiLva+KbE/YqpF93QomE4B2vAbb6U07Um7nlR4Uqh5GkICxlce8RdvU71vkum
- dRmX801+k9IuHpEM=
-X-Received: by 2002:a7b:c858:: with SMTP id c24mr6339753wml.51.1587673658000; 
- Thu, 23 Apr 2020 13:27:38 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKfvC17Jb8r/3aZrankHxqTYcUDoeGYqGCIMzZgw22qswndHtlpAwslGaibQrEB9GAKog/3Lg==
-X-Received: by 2002:a7b:c858:: with SMTP id c24mr6339732wml.51.1587673657786; 
- Thu, 23 Apr 2020 13:27:37 -0700 (PDT)
+ bh=WLrOSvaYgsgoIhCLb1NvPYqf9dYuqLdl1DXO+3FeeNs=;
+ b=E7pAaYhesNTsSG+LJIVFjSePy9nxbaXZO/svCOQ65yn0nDWgDFa8U4L3F+42H7AeCK
+ YptFsxPrLLEQV9Ke78hZH/Gci6JgEEGWNhnIUX/G6DdbKLrO02a7Ehuf7jtn6iZfprhA
+ OTwOZ4lSgvoQD+Nd6CxQagOTqtK7kURYBLh2MUb2LWMOGArabKa96WRZkCZiBj42Sij2
+ RXJ8y+eBgvVve3pM/2MfDu7XptqGOtQiCnUK22ImqZCDYVES49lZGQuoglydi5SVRAjF
+ nt83ksNBdFKe/q9iLEyIAHTuIVw5JboL0+nq4lsXDmyCRZu7dDpdUiQ6LrJb+WZYAOzD
+ QjpA==
+X-Gm-Message-State: AGi0PuYthaV7YiMxsUPdXQ+D+xzREiBU+1EM54W496NJqKVGnqPPxc0m
+ SpvrUaWuEIdYblX0GU2HzC4TSf+qtMsJm2QCsunhOqupavb9lZtAcUKjbXAU85Wh7XtmmY25T5K
+ JD8fHZzJDZbbqFLY=
+X-Received: by 2002:a1c:2042:: with SMTP id g63mr6012233wmg.70.1587673689439; 
+ Thu, 23 Apr 2020 13:28:09 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKXv5wdhfh3cFt6np3BaglROlSM5Du1lBZxVDM5IG/06RR9yBjTsGs4UDG14RP6ZY8vPa6k6g==
+X-Received: by 2002:a1c:2042:: with SMTP id g63mr6012216wmg.70.1587673689162; 
+ Thu, 23 Apr 2020 13:28:09 -0700 (PDT)
 Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id s9sm5653186wrg.27.2020.04.23.13.27.36
+ by smtp.gmail.com with ESMTPSA id h188sm5694878wme.8.2020.04.23.13.28.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Apr 2020 13:27:37 -0700 (PDT)
-Subject: Re: [PATCH v1 13/14] .travis.yml: show free disk space at end of run
+ Thu, 23 Apr 2020 13:28:08 -0700 (PDT)
+Subject: Re: [PATCH v1 14/14] .travis.yml: drop MacOSX
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20200423170557.31106-1-alex.bennee@linaro.org>
- <20200423170557.31106-14-alex.bennee@linaro.org>
+ <20200423170557.31106-15-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <2288595c-d747-c076-875a-7934f292fbc2@redhat.com>
-Date: Thu, 23 Apr 2020 22:27:36 +0200
+Message-ID: <dacef34d-244e-e57b-da97-afab11b8401d@redhat.com>
+Date: Thu, 23 Apr 2020 22:28:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200423170557.31106-14-alex.bennee@linaro.org>
+In-Reply-To: <20200423170557.31106-15-alex.bennee@linaro.org>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 16:21:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 16:25:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,29 +100,71 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/23/20 7:05 PM, Alex Benn=C3=A9e wrote:
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->   .travis.yml | 1 +
->   1 file changed, 1 insertion(+)
->=20
-> diff --git a/.travis.yml b/.travis.yml
-> index 2fd63eceaa..a4c3c6c805 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -113,6 +113,7 @@ script:
->           $(exit $BUILD_RC);
->       fi
->   after_script:
-> +  - df -h
+> This keeps breaking on Travis so lets just fall back to the Cirrus CI
+> builds which seem to be better maintained. Fix up the comments while
+> we are doing this as we never had a windows build.
 
-Well, I suppose it helps to realize we didn't break the runner, it was=20
-already dying...
+I certainly vouch this.
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
->     - if command -v ccache ; then ccache --show-stats ; fi
+>=20
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>   .travis.yml | 28 +---------------------------
+>   1 file changed, 1 insertion(+), 27 deletions(-)
+>=20
+> diff --git a/.travis.yml b/.travis.yml
+> index a4c3c6c805..49267b73b3 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -9,9 +9,8 @@ compiler:
+>   cache:
+>     # There is one cache per branch and compiler version.
+>     # characteristics of each job are used to identify the cache:
+> -  # - OS name (currently, linux, osx, or windows)
+> +  # - OS name (currently only linux)
+>     # - OS distribution (for Linux, xenial, trusty, or precise)
+> -  # - macOS image name (e.g., xcode7.2)
+>     # - Names and values of visible environment variables set in .travis.=
+yml or Settings panel
+>     timeout: 1200
+>     ccache: true
+> @@ -271,31 +270,6 @@ jobs:
+>           - TEST_CMD=3D""
 >  =20
 >  =20
+> -    # MacOSX builds - cirrus.yml also tests some MacOS builds including =
+latest Xcode
+> -
+> -    - name: "OSX Xcode 10.3"
+> -      env:
+> -        - BASE_CONFIG=3D"--disable-docs --enable-tools"
+> -        - CONFIG=3D"--target-list=3Di386-softmmu,ppc-softmmu,ppc64-softm=
+mu,m68k-softmmu,x86_64-softmmu"
+> -      os: osx
+> -      osx_image: xcode10.3
+> -      compiler: clang
+> -      addons:
+> -        homebrew:
+> -          packages:
+> -            - ccache
+> -            - glib
+> -            - pixman
+> -            - gnu-sed
+> -            - python
+> -          update: true
+> -      before_script:
+> -        - brew link --overwrite python
+> -        - export PATH=3D"/usr/local/opt/ccache/libexec:$PATH"
+> -        - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
+> -        - ${SRC_DIR}/configure ${BASE_CONFIG} ${CONFIG} || { cat config.=
+log && exit 1; }
+> -
+> -
+>       # Python builds
+>       - name: "GCC Python 3.5 (x86_64-softmmu)"
+>         env:
 >=20
 
 
