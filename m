@@ -2,70 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0CB31B615B
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 18:56:47 +0200 (CEST)
-Received: from localhost ([::1]:59710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F3AB1B6188
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 19:05:41 +0200 (CEST)
+Received: from localhost ([::1]:60216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRf9a-0008NE-6x
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 12:56:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41510)
+	id 1jRfIB-0008UX-Pc
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 13:05:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44070)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jRf7x-0006IM-61
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 12:55:05 -0400
+ (envelope-from <crosa@redhat.com>) id 1jRfGv-0007ni-2f
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:04:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jRf6q-0004ya-FI
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 12:54:00 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:38174)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jRf6p-0004y2-U2
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 12:53:56 -0400
-Received: by mail-ot1-x342.google.com with SMTP id g19so7241012otk.5
- for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 09:53:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=dtBSQxjwFqFI0MaxLVnMkfDcettJ4P4UbXRA41Rtpmo=;
- b=Q5Bd/s3GWvHzMlBhFaC6nOvg+QTy4zkvnD9zKGxdSQLQ5c2mDV0lWs/byVbr8wiyA5
- o1q/qIM7IZDbwiRjRBb4voyTXFpHg+QL6foVI0ASN41f17c3X5fGKE+QI9rblJnaunrf
- FJnPEm7UAxk9fumSGf97D1TaN1Zn1rHispFdzaPEPL4KJ+F0jNDkuPEm8uGIZPmu+tbF
- jfD/sZ5RYXVEANXUUaYJdQkIaRtNEZTNgmHWhtbqEuPm1SsjlIGlIyfE00GQ6CLpD8np
- wibCH/pguEmFF2nob+3F1yxUo31xhBKH1DK7sJUnrA39aJ3d/UNtf75p0DvkD9DZpa/0
- Y1DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=dtBSQxjwFqFI0MaxLVnMkfDcettJ4P4UbXRA41Rtpmo=;
- b=WRdvpMDh5XLMMCtNBVcSNiPla+IW1iZBYXSrDCQ6pCcIGl47+BLEx/RMIFkF+uWLBX
- cmYP2XH20BYpcvvYbr2jFDbvad7ypt7uXKdr75aeU+VgGkWYBoN/9xR6/jXjXNuWmpEz
- aTXIKI6UucTEjfmhlBO0WqKxJ60zAQCXa6YHkn9ygpdXx4dtt/f60X4+2BvWGPlA1moN
- EHPLAXjS3kWDtpCKLROxplt0OCpHSNJNW7emy4t4tlmWGZvbsoWe8QVHdq7nocQDMo50
- fcTeF0AVzov2Irzjy4jp/m0y92oPLLmwS4NPgOHa2Txr+hfL04uuVmYW0SxKF93IEgnZ
- ppdQ==
-X-Gm-Message-State: AGi0PuaIjMwaEWl/TtH3cpNZNTg0t/oG/ReUYrtjKgRXtfEqEKVs1z+w
- xzwhKTjDq/3E7qEXA7fJl4yJ9M4a4fUKC4RiJ1ezmw==
-X-Google-Smtp-Source: APiQypIli4NGUgQsOT+6g73kT2MpSOlIQdY+L58A+VienvTIV77PiG6H8yqV38Unecq8xNGHfLog+gYGcyVFB3zFjyE=
-X-Received: by 2002:a05:6830:1e4e:: with SMTP id
- e14mr4143012otj.91.1587660834548; 
- Thu, 23 Apr 2020 09:53:54 -0700 (PDT)
+ (envelope-from <crosa@redhat.com>) id 1jRfGt-0003oK-HV
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:04:20 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51998
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1jRfGt-0003jF-0f
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:04:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587661456;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iNfHwH1+Ntuses6bMhYLuFNVchgVKHdXMKnAo9rwcDk=;
+ b=EzUnXeBg/RKkgSS+DyL/uvD9klFam3wmPa6IEVBEo+pGdUf4kLmh5P1r8XPxgwHDWMK9mT
+ nrmIrZvgmBqQpXkeAykCamwIsdFdegG4mBmT1WqtxOnLNoa/KzIv1LZtIEWW8zz61idgkb
+ AEenQ8Fu+vyrr3LAZnssty7BoqkXnL8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-234-lWmj-__kOHOFEpmDk6xBgg-1; Thu, 23 Apr 2020 13:04:14 -0400
+X-MC-Unique: lWmj-__kOHOFEpmDk6xBgg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 969EE87308E;
+ Thu, 23 Apr 2020 17:04:13 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+ (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A8BB5C1D2;
+ Thu, 23 Apr 2020 17:04:13 +0000 (UTC)
+Received: from zmail17.collab.prod.int.phx2.redhat.com
+ (zmail17.collab.prod.int.phx2.redhat.com [10.5.83.19])
+ by colo-mx.corp.redhat.com (Postfix) with ESMTP id 513791809541;
+ Thu, 23 Apr 2020 17:04:13 +0000 (UTC)
+Date: Thu, 23 Apr 2020 13:04:13 -0400 (EDT)
+From: Cleber Rosa <crosa@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <529508877.9650370.1587661453005.JavaMail.zimbra@redhat.com>
+In-Reply-To: <CAFEAcA_dcVneQ4Hj61GAkYRCUSMrA=QjwnAXccoBwjUjOE-wSQ@mail.gmail.com>
+References: <20200312193616.438922-1-crosa@redhat.com>
+ <CAFEAcA8Lw94_=kY+Fv-cFW2Tk5RD62EjODjKdGf2-mLdDw7FuQ@mail.gmail.com>
+ <1182067639.1655516.1584421185287.JavaMail.zimbra@redhat.com>
+ <CAFEAcA-zRw7kzwzXxPmLaUqwOrQLwW9BymOJ34iJOOTCUAf=xg@mail.gmail.com>
+ <20200317141257.GA5724@localhost.localdomain>
+ <CAFEAcA9W4KXN6dcT0CNyD_mQ3xY5wDmJ7i0wowhaG2XPmyMYng@mail.gmail.com>
+ <87sgi49uf6.fsf@dusky.pond.sub.org>
+ <CAFEAcA_dcVneQ4Hj61GAkYRCUSMrA=QjwnAXccoBwjUjOE-wSQ@mail.gmail.com>
+Subject: Re: [PATCH 0/5] QEMU Gating CI
 MIME-Version: 1.0
-References: <CAJhHMCAcA2CMEbV+DcOjM_LhJ4KSob=F2=hrDT0zwrMZ7Wj=oA@mail.gmail.com>
-In-Reply-To: <CAJhHMCAcA2CMEbV+DcOjM_LhJ4KSob=F2=hrDT0zwrMZ7Wj=oA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Apr 2020 17:53:43 +0100
-Message-ID: <CAFEAcA-3iBYNxC=ZqsAG6je90w=pcCa8=HjBxM+rVSjsMwEpJw@mail.gmail.com>
-Subject: Re: Warnings with GCC 9.3
-To: Pranith Kumar <bobby.prani@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [10.10.112.178, 10.4.195.26]
+Thread-Topic: QEMU Gating CI
+Thread-Index: DgfSa9udgyRTKA+gpMmc7tBfgATwNw==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::342
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 03:23:21
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,32 +88,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Wainer Moschetta <wmoschet@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 Apr 2020 at 17:19, Pranith Kumar <bobby.prani@gmail.com> wrote:
->
-> Hello,
->
-> I keep seeing these warnings on the latest master with GCC 9.3:
->
-> /home/pranith/qemu/hw/block/pflash_cfi01.c: In function =E2=80=98pflash_m=
-em_read_with_attrs=E2=80=99:
-> /home/pranith/qemu/hw/block/pflash_cfi01.c:667:20: note: parameter passin=
-g for argument of type =E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct Me=
-mTxAttrs=E2=80=99} changed in GCC 9.1
->   667 | static MemTxResult pflash_mem_read_with_attrs(void *opaque, hwadd=
-r addr, uint64_t *value,
->       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
->
-> Are there any patches in queue to fix this before the release?
 
-No. This bug report is at least a week too late for a fix to
-get into the 5.0 release... (but it's not too critical,
-because releases always disable the -Werror flag, so they
-don't make the build fail).
 
-thanks
--- PMM
+----- Original Message -----
+> From: "Peter Maydell" <peter.maydell@linaro.org>
+> To: "Markus Armbruster" <armbru@redhat.com>
+> Cc: "Fam Zheng" <fam@euphon.net>, "Thomas Huth" <thuth@redhat.com>, "Bera=
+ldo Leal" <bleal@redhat.com>, "Erik
+> Skultety" <eskultet@redhat.com>, "Alex Benn=C3=A9e" <alex.bennee@linaro.o=
+rg>, "Wainer Moschetta" <wmoschet@redhat.com>,
+> "QEMU Developers" <qemu-devel@nongnu.org>, "Wainer dos Santos Moschetta" =
+<wainersm@redhat.com>, "Willian Rampazzo"
+> <wrampazz@redhat.com>, "Cleber Rosa" <crosa@redhat.com>, "Philippe Mathie=
+u-Daud=C3=A9" <philmd@redhat.com>, "Eduardo
+> Habkost" <ehabkost@redhat.com>
+> Sent: Tuesday, April 21, 2020 8:53:49 AM
+> Subject: Re: [PATCH 0/5] QEMU Gating CI
+>=20
+> On Thu, 19 Mar 2020 at 16:33, Markus Armbruster <armbru@redhat.com> wrote=
+:
+> > Peter Maydell <peter.maydell@linaro.org> writes:
+> > > I think we should start by getting the gitlab setup working
+> > > for the basic "x86 configs" first. Then we can try adding
+> > > a runner for s390 (that one's logistically easiest because
+> > > it is a project machine, not one owned by me personally or
+> > > by Linaro) once the basic framework is working, and expand
+> > > from there.
+> >
+> > Makes sense to me.
+> >
+> > Next steps to get this off the ground:
+> >
+> > * Red Hat provides runner(s) for x86 stuff we care about.
+> >
+> > * If that doesn't cover 'basic "x86 configs" in your judgement, we
+> >   fill the gaps as described below under "Expand from there".
+> >
+> > * Add an s390 runner using the project machine you mentioned.
+> >
+> > * Expand from there: identify the remaining gaps, map them to people /
+> >   organizations interested in them, and solicit contributions from thes=
+e
+> >   guys.
+> >
+> > A note on contributions: we need both hardware and people.  By people I
+> > mean maintainers for the infrastructure, the tools and all the runners.
+> > Cleber & team are willing to serve for the infrastructure, the tools an=
+d
+> > the Red Hat runners.
+>=20
+> So, with 5.0 nearly out the door it seems like a good time to check
+> in on this thread again to ask where we are progress-wise with this.
+> My impression is that this patchset provides most of the scripting
+> and config side of the first step, so what we need is for RH to provide
+> an x86 runner machine and tell the gitlab CI it exists. I appreciate
+> that the whole coronavirus and working-from-home situation will have
+> upended everybody's plans, especially when actual hardware might
+> be involved, but how's it going ?
+>=20
+
+Hi Peter,
+
+You hit the nail in the head here.  We were affected indeed with our abilit=
+y
+to move some machines from one lab to another (across the country), but we'=
+re
+actively working on it.
+
+From now on, I'll give you an update every time a significant event occurs =
+on
+our side.
+
+> thanks
+> -- PMM
+>=20
+>=20
+
+Thanks for checking in!
+- Cleber.
+
 
