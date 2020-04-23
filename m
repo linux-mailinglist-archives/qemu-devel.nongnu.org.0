@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30D311B6558
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 22:24:00 +0200 (CEST)
-Received: from localhost ([::1]:39870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5BE01B655F
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 22:26:32 +0200 (CEST)
+Received: from localhost ([::1]:40152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRiO7-0000Se-6B
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 16:23:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55394)
+	id 1jRiQZ-0006UC-UJ
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 16:26:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55416)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jRiM9-00056e-2k
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:21:57 -0400
+ (envelope-from <philmd@redhat.com>) id 1jRiMF-0005Oi-Hj
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:22:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jRiM8-0003da-BW
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:21:56 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44439
+ (envelope-from <philmd@redhat.com>) id 1jRiME-0003gI-Nk
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:22:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29778
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jRiM7-0003dT-W2
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:21:56 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jRiME-0003g9-8H
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:22:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587673314;
+ s=mimecast20190719; t=1587673321;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aOyVErqFCmyf9pd+Nr+epVzmP7eWXaoL84ISysXFv0Q=;
- b=Zln9NDJphptNcX3TP8SNVTX5xwA2AhSk8Z4d3viMP3xpCVfi4griM5C434x/eEHdIyrAze
- glBMYYh6XDAdWf8pXOZZPSWXGBoG1P5UEUQCFSq/BRfYa+JH8VKY8H8vUYI73qXhswRrnQ
- zOujGeDw+8o9RMi4R5iBmYfCbnnCDvc=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-Jw5aTiasMhqOwhfWO5B5eA-1; Thu, 23 Apr 2020 16:21:53 -0400
-X-MC-Unique: Jw5aTiasMhqOwhfWO5B5eA-1
-Received: by mail-wr1-f72.google.com with SMTP id v9so3380384wrt.7
- for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 13:21:52 -0700 (PDT)
+ bh=wq10tdmagP4bZ/4I285kBZFNlh6YBL1XlJbyw1tLKw8=;
+ b=UNyTq1hmKiPhlS3CMetjre/NIQ5MO29MOYNfVjbUqKPHykIkRMQWsDfj9jVxCNCaK98W8K
+ 5CP8yt8eqed2vdIBlku7QdW9dSAkBLH/0HK/6tVnpVR+PtQRjiQ0Iw9cW32T5xmwUXQODg
+ e3UhkNr6M1qu0/D8kGXFP+WKnkBG1n4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-152-Q4yM1LQNNliAFdsg53b8pQ-1; Thu, 23 Apr 2020 16:21:59 -0400
+X-MC-Unique: Q4yM1LQNNliAFdsg53b8pQ-1
+Received: by mail-wr1-f71.google.com with SMTP id r11so3381938wrx.21
+ for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 13:21:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8gYfBqFeTywo96T3GTdB1ETByq33AuAVSUY1XmaFyaw=;
- b=LgYPmQxL4iyho6dE3VUMLdfZYNnnu6rUQ64GGSeQCjRt1/ZRRc9Hx2tlQMd2ytGHPl
- /mNtEwHp7hp6c1Bd2hJq8Uh3Gvl8u1yMTLvwzq5WeG+C3W/BlKU1QdF0Ep3hSx27dfPL
- FaOGx8FSnSINrletJoIfxXavy+Zq+j0orrd8Ir5mA8JqOUkWEtVSfu4R0rh0Bx1qM2PV
- ZS25gcRVJIOInFPJI0OQrgjl9p4tQj1+lhOr2exLb4cKo0L0WPX+sZWmY1FiqVdYoJb1
- 4wrX+/YH+UbLHMNzOtKexRj/36s/olKWkwd+OiArOzKuQOijp7o+ir4PncJqJPYzNloa
- EDgg==
-X-Gm-Message-State: AGi0PubdnMNwPUKed84HGtqS60SdD2YSLH5WzMvq3z9JEiPdCZBHcJ4r
- e4fSwQoY5rpajs61IgCgrza+CMkcO7Fhn2RFbAJfWyNvTK6RltWBL91KhmyioN13FDornmfqnYJ
- S74ZQuqYwuS8YOB0=
-X-Received: by 2002:a7b:c7d2:: with SMTP id z18mr6191719wmk.72.1587673311684; 
- Thu, 23 Apr 2020 13:21:51 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLrHSHmXL1n+qmnOhiwmPwsBhOEScKtOKHLfqMligKeD1o9ZGj3ONDh33mP0lG3nxN3nRqrUw==
-X-Received: by 2002:a7b:c7d2:: with SMTP id z18mr6191700wmk.72.1587673311445; 
- Thu, 23 Apr 2020 13:21:51 -0700 (PDT)
+ bh=Ar7WwMHZ0+CpcbAoGEZSCSPIuYugOvcLGHNI+3InVx8=;
+ b=WG8apG2vb9yTobcNlK5oIZn+S/6/AcV1VgKzxWf1qOPIL2MOmVeK/+hgiIY5MGGNsr
+ hy1hldMcTZ/yM094UKK7s89ufrMwoHFKZQqVDf7II50Ece0NDFlnDJX4LZ2iB7iVMuQ3
+ lnyhFsK6YocjjgzNPozK9V4vlSzw8xPZsTk+LtGljYibfO+4fHGF/7EqmpUlO2Pc3tFR
+ zq55VcoftG2v/mTbQf9dr4TfVeaBX/CSAIcVanrk1wWFgrMdX/uEpsLuf5ScO2F0PDUU
+ x9qLRJ5ZORSHfFY1vUZ823idZ/nugbWckUUFox/hXOpm8hQMJlUTvyIskIz7bar8CFSg
+ ckfg==
+X-Gm-Message-State: AGi0PuZGO5al6sbVaqkdmYGZbvgcRRL8oUT5i6BLtLejZNw0K4XAvIcj
+ ILcyUSi4U/QkF7agesvnNYIYiMtMKdGTlaXBT7APwnmN+VMt2AEwQ9cUTsDNAXsc15eAiDuHbys
+ AxOTX5SfPl66mwUg=
+X-Received: by 2002:adf:8284:: with SMTP id 4mr6877019wrc.6.1587673318048;
+ Thu, 23 Apr 2020 13:21:58 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKH9YSaJ+JDgC9pahB+sDTq8Y4XOMtZ0jb+bccjXtPa7WsvKEEXtoqjOLwM/WnoOqI7V7U0Bg==
+X-Received: by 2002:adf:8284:: with SMTP id 4mr6876984wrc.6.1587673317711;
+ Thu, 23 Apr 2020 13:21:57 -0700 (PDT)
 Received: from localhost.localdomain (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id a67sm5423740wmc.30.2020.04.23.13.21.49
+ by smtp.gmail.com with ESMTPSA id c1sm5402925wrc.4.2020.04.23.13.21.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Apr 2020 13:21:50 -0700 (PDT)
+ Thu, 23 Apr 2020 13:21:57 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 6/7] stubs: Split machine-init-done as machine-init and
- machine-notify
-Date: Thu, 23 Apr 2020 22:21:11 +0200
-Message-Id: <20200423202112.644-7-philmd@redhat.com>
+Subject: [PATCH 7/7] multi-process: Refactor machine_init and exit notifiers
+Date: Thu, 23 Apr 2020 22:21:12 +0200
+Message-Id: <20200423202112.644-8-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200423202112.644-1-philmd@redhat.com>
 References: <20200423202112.644-1-philmd@redhat.com>
@@ -76,11 +75,11 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 16:21:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 05:42:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -103,59 +102,233 @@ Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As the machine notify handlers are only used in system emulation,
-split the current file in two, and only build the notifier when
-system emulation is used.
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
+Relocate machine_int and exit notifiers into common code
+
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+[PMD: Removed NotifierList machine_init_done_notifiers stub]
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- stubs/machine-init.c                            | 4 ++++
- stubs/{machine-init-done.c =3D> machine-notify.c} | 2 --
- stubs/Makefile.objs                             | 3 ++-
- 3 files changed, 6 insertions(+), 3 deletions(-)
- create mode 100644 stubs/machine-init.c
- rename stubs/{machine-init-done.c =3D> machine-notify.c} (78%)
+ Makefile.objs           |  1 +
+ include/sysemu/sysemu.h |  2 ++
+ softmmu/vl.c            | 42 -------------------------
+ stubs/machine-notify.c  |  4 +++
+ util/machine-notify.c   | 69 +++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS             |  1 +
+ 6 files changed, 77 insertions(+), 42 deletions(-)
+ create mode 100644 util/machine-notify.c
 
-diff --git a/stubs/machine-init.c b/stubs/machine-init.c
-new file mode 100644
-index 0000000000..7622930ee0
---- /dev/null
-+++ b/stubs/machine-init.c
-@@ -0,0 +1,4 @@
-+#include "qemu/osdep.h"
-+#include "sysemu/sysemu.h"
-+
-+bool machine_init_done =3D true;
-diff --git a/stubs/machine-init-done.c b/stubs/machine-notify.c
-similarity index 78%
-rename from stubs/machine-init-done.c
-rename to stubs/machine-notify.c
-index cd8e81392d..d164ecccb9 100644
---- a/stubs/machine-init-done.c
-+++ b/stubs/machine-notify.c
-@@ -1,8 +1,6 @@
- #include "qemu/osdep.h"
- #include "sysemu/sysemu.h"
+diff --git a/Makefile.objs b/Makefile.objs
+index a7c967633a..bfb9271862 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -79,6 +79,7 @@ qemu-seccomp.o-libs :=3D $(SECCOMP_LIBS)
+ common-obj-$(CONFIG_FDT) +=3D device_tree.o
 =20
--bool machine_init_done =3D true;
+ common-obj-y +=3D qapi/
++common-obj-y +=3D util/machine-notify.o
+=20
+ endif # CONFIG_SOFTMMU
+=20
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index ef81302e1a..2438dd7bea 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -17,11 +17,13 @@ extern bool qemu_uuid_set;
+=20
+ void qemu_add_exit_notifier(Notifier *notify);
+ void qemu_remove_exit_notifier(Notifier *notify);
++void qemu_run_exit_notifiers(void);
+=20
+ extern bool machine_init_done;
+=20
+ void qemu_add_machine_init_done_notifier(Notifier *notify);
+ void qemu_remove_machine_init_done_notifier(Notifier *notify);
++void qemu_run_machine_init_done_notifiers(void);
+=20
+ extern int autostart;
+=20
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 32c0047889..39cbb6b50d 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -172,12 +172,6 @@ int icount_align_option;
+ QemuUUID qemu_uuid;
+ bool qemu_uuid_set;
+=20
+-static NotifierList exit_notifiers =3D
+-    NOTIFIER_LIST_INITIALIZER(exit_notifiers);
 -
+-static NotifierList machine_init_done_notifiers =3D
+-    NOTIFIER_LIST_INITIALIZER(machine_init_done_notifiers);
+-
+ bool xen_allowed;
+ uint32_t xen_domid;
+ enum xen_mode xen_mode =3D XEN_EMULATE;
+@@ -2325,21 +2319,6 @@ static MachineClass *machine_parse(const char *name,=
+ GSList *machines)
+     return mc;
+ }
+=20
+-void qemu_add_exit_notifier(Notifier *notify)
+-{
+-    notifier_list_add(&exit_notifiers, notify);
+-}
+-
+-void qemu_remove_exit_notifier(Notifier *notify)
+-{
+-    notifier_remove(notify);
+-}
+-
+-static void qemu_run_exit_notifiers(void)
+-{
+-    notifier_list_notify(&exit_notifiers, NULL);
+-}
+-
+ static const char *pid_file;
+ static Notifier qemu_unlink_pidfile_notifier;
+=20
+@@ -2350,27 +2329,6 @@ static void qemu_unlink_pidfile(Notifier *n, void *d=
+ata)
+     }
+ }
+=20
+-bool machine_init_done;
+-
+-void qemu_add_machine_init_done_notifier(Notifier *notify)
+-{
+-    notifier_list_add(&machine_init_done_notifiers, notify);
+-    if (machine_init_done) {
+-        notify->notify(notify, NULL);
+-    }
+-}
+-
+-void qemu_remove_machine_init_done_notifier(Notifier *notify)
+-{
+-    notifier_remove(notify);
+-}
+-
+-static void qemu_run_machine_init_done_notifiers(void)
+-{
+-    machine_init_done =3D true;
+-    notifier_list_notify(&machine_init_done_notifiers, NULL);
+-}
+-
+ static const QEMUOption *lookup_opt(int argc, char **argv,
+                                     const char **poptarg, int *poptind)
+ {
+diff --git a/stubs/machine-notify.c b/stubs/machine-notify.c
+index d164ecccb9..71eba45b0f 100644
+--- a/stubs/machine-notify.c
++++ b/stubs/machine-notify.c
+@@ -4,3 +4,7 @@
  void qemu_add_machine_init_done_notifier(Notifier *notify)
  {
  }
-diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index 45be5dc0ed..765659a3f9 100644
---- a/stubs/Makefile.objs
-+++ b/stubs/Makefile.objs
-@@ -15,7 +15,8 @@ stub-obj-y +=3D iothread-lock.o
- stub-obj-y +=3D is-daemonized.o
- stub-obj-$(CONFIG_LINUX_AIO) +=3D linux-aio.o
- stub-obj-$(CONFIG_LINUX_IO_URING) +=3D io_uring.o
--stub-obj-y +=3D machine-init-done.o
-+stub-obj-y +=3D machine-init.o
-+stub-obj-$(CONFIG_SOFTMMU) +=3D machine-notify.o
- stub-obj-y +=3D migr-blocker.o
- stub-obj-y +=3D change-state-handler.o
- stub-obj-y +=3D monitor.o
++
++void qemu_remove_machine_init_done_notifier(Notifier *notify)
++{
++}
+diff --git a/util/machine-notify.c b/util/machine-notify.c
+new file mode 100644
+index 0000000000..718af79335
+--- /dev/null
++++ b/util/machine-notify.c
+@@ -0,0 +1,69 @@
++/*
++ * Machine notifiers.
++ *
++ * Copyright (c) 2003-2008 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a=
+ copy
++ * of this software and associated documentation files (the "Software"), t=
+o deal
++ * in the Software without restriction, including without limitation the r=
+ights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or se=
+ll
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included=
+ in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS=
+ OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY=
+,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OT=
+HER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING=
+ FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS =
+IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/notify.h"
++#include "sysemu/sysemu.h"
++
++static NotifierList machine_init_done_notifiers =3D
++    NOTIFIER_LIST_INITIALIZER(machine_init_done_notifiers);
++
++static NotifierList exit_notifiers =3D
++    NOTIFIER_LIST_INITIALIZER(exit_notifiers);
++
++bool machine_init_done;
++
++void qemu_add_machine_init_done_notifier(Notifier *notify)
++{
++    notifier_list_add(&machine_init_done_notifiers, notify);
++    if (machine_init_done) {
++        notify->notify(notify, NULL);
++    }
++}
++
++void qemu_remove_machine_init_done_notifier(Notifier *notify)
++{
++    notifier_remove(notify);
++}
++
++void qemu_run_machine_init_done_notifiers(void)
++{
++    machine_init_done =3D true;
++    notifier_list_notify(&machine_init_done_notifiers, NULL);
++}
++
++void qemu_add_exit_notifier(Notifier *notify)
++{
++    notifier_list_add(&exit_notifiers, notify);
++}
++
++void qemu_remove_exit_notifier(Notifier *notify)
++{
++    notifier_remove(notify);
++}
++
++void qemu_run_exit_notifiers(void)
++{
++    notifier_list_notify(&exit_notifiers, NULL);
++}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8cbc1fac2b..04b19ac56c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2133,6 +2133,7 @@ F: util/qemu-timer.c
+ F: softmmu/vl.c
+ F: softmmu/main.c
+ F: qapi/run-state.json
++F: util/machine-notify.c
+=20
+ Human Monitor (HMP)
+ M: Dr. David Alan Gilbert <dgilbert@redhat.com>
 --=20
 2.21.1
 
