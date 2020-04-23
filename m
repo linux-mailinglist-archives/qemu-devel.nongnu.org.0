@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E0121B5D42
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 16:05:45 +0200 (CEST)
-Received: from localhost ([::1]:44074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A43CC1B5D66
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 16:13:02 +0200 (CEST)
+Received: from localhost ([::1]:44170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRcU4-00085H-Hj
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 10:05:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51168)
+	id 1jRcb7-0003e7-LF
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 10:13:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54094)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jRcSO-000760-Dl
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 10:04:00 -0400
+ (envelope-from <berrange@redhat.com>) id 1jRcZZ-000394-6B
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 10:11:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jRcSN-0004x1-Tv
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 10:04:00 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49244
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <berrange@redhat.com>) id 1jRcZW-00083c-Di
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 10:11:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31664
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jRcSN-0004wf-Bl
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 10:03:59 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jRcZV-0007vi-Ti
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 10:11:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587650638;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1587651080;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BzMgDRFUeMxJPseBr+Cs7fZP2+yKHotgq+3nvwBlsic=;
- b=U/Tl9S4/aFdoFGe3LDMx6axTv1fVi+kOdylbzcSX3DSa/IiRnzPPTDFTNvu5uWWjxv+TiF
- vgDW0lg2jnGcdx2tsB4drB1Y6J3p16X+yNJyh4GGKOwy6RWDl+F0XQyMRwn4CdIRmXdrLM
- mmD38HUotEcFV/jHClVTUNPTWn31xRQ=
+ bh=v/JwLv7qTwZXb7WOzHZf4Qay65ANMY13MybZa5aupOw=;
+ b=RN1Qf+/ct+X2poB/T9dTsEuPv1lHFk6j2zdvYgQNvIQ1ByFy+co68QAChlnkfIgqdRTpJi
+ qwib1h6jjnJJasoTBEowLIu8d0rqNs8dETmEVx+8pvNdJaMOrJRLoEl9AlVuxj91YgC184
+ 8bKAm0Qjp7FUkc3X5eZGH47nh2xFF2s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-Ybluly46PKi-NntDMU6XHg-1; Thu, 23 Apr 2020 10:03:56 -0400
-X-MC-Unique: Ybluly46PKi-NntDMU6XHg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-243-fOBYjE2fM1ey-LYIUmAmXg-1; Thu, 23 Apr 2020 10:11:17 -0400
+X-MC-Unique: fOBYjE2fM1ey-LYIUmAmXg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF3FE10082EA;
- Thu, 23 Apr 2020 14:03:55 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
- [10.36.113.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CADBA600F5;
- Thu, 23 Apr 2020 14:03:51 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 050401753B; Thu, 23 Apr 2020 16:03:51 +0200 (CEST)
-Date: Thu, 23 Apr 2020 16:03:50 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v2 1/2] virtio-vga: fix virtio-vga bar ordering
-Message-ID: <20200423140350.tlsfvoktrbb7zamx@sirius.home.kraxel.org>
-References: <20200422215455.10244-1-anthoine.bourgeois@gmail.com>
- <20200423085202-mutt-send-email-mst@kernel.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46B13A0BDA;
+ Thu, 23 Apr 2020 14:11:16 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 07B6726324;
+ Thu, 23 Apr 2020 14:11:14 +0000 (UTC)
+Date: Thu, 23 Apr 2020 15:11:12 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Dan Christian <dchristian@cardinalpeak.com>
+Subject: Re: Need BT support in qemu for Zephyr
+Message-ID: <20200423141112.GE1077680@redhat.com>
+References: <CADxL6wUGWZO0U=G7UTAebG57m6tG58hoMf_-TCC+0qReUB0G6w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200423085202-mutt-send-email-mst@kernel.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <CADxL6wUGWZO0U=G7UTAebG57m6tG58hoMf_-TCC+0qReUB0G6w@mail.gmail.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 03:23:21
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 06:43:51
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,34 +77,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>, qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 23, 2020 at 08:52:58AM -0400, Michael S. Tsirkin wrote:
-> On Wed, Apr 22, 2020 at 11:54:54PM +0200, Anthoine Bourgeois wrote:
-> > With virtio-vga, pci bar are reordered. Bar #2 is used for compatibilit=
-y
-> > with stdvga. By default, bar #2 is used by virtio modern io bar.
-> > This bar is the last one introduce in the virtio pci bar layout and it'=
-s
-> > crushed by the virtio-vga reordering. So virtio-vga and
-> > modern-pio-notify are incompatible because virtio-vga failed to
-> > initialize with this option.
-> >=20
-> > This fix sets the modern io bar to the bar #5 to avoid conflict.
-> >=20
-> > Signed-off-by: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>
+On Thu, Apr 23, 2020 at 07:33:37AM -0600, Dan Christian wrote:
+> There was a note about BT support being deprecated.
 >=20
-> Gerd, would you say it's required for 5.0?
+> Having it makes developing/testing Zephyr
+> <https://github.com/zephyrproject-rtos/zephyr> bluetooth vastly easier.
+>=20
+> I hope it will be retained.
 
-Given that modern-pio-notify is off by default I wouldn't classify this
-as release blocker, i.e. I wouldn't delay the release for that.
+Unfortunately it has already been deleted and so will be gone in the 5.0
+release of QEMU for certain. In theory it could be brought back to life
+in future releases, but it would require someone to step forward as an
+active maintainer and fix the problems it had.
 
-We are at -rc4 (last rc) already, so I'd tend to say no.  Maybe if we
-need -rc5 for other reasons.
+The big driving reason for deleting it was that it appeared to be largely
+broken / crashing as explained in the commit removing it:
 
-cheers,
-  Gerd
+commit 1d4ffe8dc77cbc9aafe8bcf514ca0e43f85aaae3
+Author: Thomas Huth <thuth@redhat.com>
+Date:   Wed Nov 20 10:10:13 2019 +0100
+
+    Remove the core bluetooth code
+   =20
+    It's been deprecated since QEMU v3.1. We've explicitly asked in the
+    deprecation message that people should speak up on qemu-devel in case
+    they are still actively using the bluetooth part of QEMU, but nobody
+    ever replied that they are really still using it.
+   =20
+    I've tried it on my own to use this bluetooth subsystem for one of my
+    guests, but I was also not able to get it running anymore: When I was
+    trying to pass-through a real bluetooth device, either the guest did
+    not see the device at all, or the guest crashed.
+   =20
+    Even worse for the emulated device: When running
+   =20
+     qemu-system-x86_64 -bt device:keyboard
+   =20
+    QEMU crashes once you hit a key.
+   =20
+    So it seems like the bluetooth stack is not only neglected, it is
+    completely bitrotten, as far as I can tell. The only attention that
+    this code got during the past years were some CVEs that have been
+    spotted there. So this code is a burden for the developers, without
+    any real benefit anymore. Time to remove it.
+   =20
+    Note: hw/bt/Kconfig only gets cleared but not removed here yet.
+    Otherwise there is a problem with the *-softmmu/config-devices.mak.d
+    dependency files - they still contain a reference to this file which
+    gets evaluated first on some build hosts, before the file gets
+    properly recreated. To avoid breaking these builders, we still need
+    the file around for some time. It will get removed in a couple of
+    weeks instead.
+   =20
+    Message-Id: <20191120091014.16883-4-thuth@redhat.com>
+    Reviewed-by: J=C3=A1n Tomko <jtomko@redhat.com>
+    Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+    Signed-off-by: Thomas Huth <thuth@redhat.com>
+
+
+Can you give more details about what specific QEMU configuration you are
+using with Bluetooth - eg what QEMU command line args are you passing
+and how functional was the result? Also what QEMU versions have you
+succesfully used BT with ?
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
