@@ -2,55 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B61051B601C
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 18:03:20 +0200 (CEST)
-Received: from localhost ([::1]:46070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 193451B6004
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 17:59:31 +0200 (CEST)
+Received: from localhost ([::1]:47946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRe8q-0004Ia-Pr
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 11:51:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58308)
+	id 1jReGA-00033Z-5k
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 11:59:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59238)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1jRe7J-0001mI-T3
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:50:22 -0400
+ (envelope-from <philmd@redhat.com>) id 1jReEz-0001s7-AU
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:58:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1jRe7J-0003De-CR
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:50:21 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:51591)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jRe7I-00031T-QI; Thu, 23 Apr 2020 11:50:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=drErQEP5JvS9q3AIfet3ApdE8eT1M9t66sO/KV2VWz0=; 
- b=GS0h1mYpSUJrUOVL4Yoy6TRqltGXW109do9PqfdyRZ8GEuOPV8w1mzm+fpal+TzQtm8tseZAy/HB6LPSbrmLKaucSCn7Y/76kKL4xY2vTguLn4yK2jqgjajCX7RnEc0JtE0CUGBMsWVKGj6/sZp1vTYV51mDEQfLxsm0RuB2JIvH1shfHN+8grNT0VvPNcqKju55gyRl5eGb0Od/terz9sP+ptYFZF8OJ8YZBvtSgujtuv2H0C0SunG92mXqzQLWjxwFU8TQJnDz4vGwRfzMh1ee3aVg06htTj9DRcCddkVnIBSkw8mLU3e1Its0A48yWVc9E79CWkalot0yKQ8vxg==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1jRe7F-00008v-JD; Thu, 23 Apr 2020 17:50:17 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1jRe7F-00067B-9I; Thu, 23 Apr 2020 17:50:17 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 22/30] qcow2: Fix offset calculation in
- handle_dependencies()
-In-Reply-To: <35b102b8-d443-ec4e-ddf2-e2528ebd145a@virtuozzo.com>
-References: <cover.1584468723.git.berto@igalia.com>
- <46d9ec6dca0b054a529ee776d1c04b002098c127.1584468723.git.berto@igalia.com>
- <35b102b8-d443-ec4e-ddf2-e2528ebd145a@virtuozzo.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Thu, 23 Apr 2020 17:50:17 +0200
-Message-ID: <w51v9lq5hhi.fsf@maestria.local.igalia.com>
+ (envelope-from <philmd@redhat.com>) id 1jReEy-0000eO-4s
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:58:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23895
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jReEx-0000dj-J2
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:58:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587657494;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aVhZKRLVOacYyjJl14HA11Tb74iIOkYd2CYw3GS5o8o=;
+ b=Cyttt7J9EwwX8bltbpLY+wwZZX0yRcexkNQCrmwqd40UdwTpZFCXQnxd6sW1k1IyYDUnTf
+ 6tFfLvIXL6RBXofN7OYYVUBuFNBFY5wlLzMSTbUSsgLJlpZZxNQ1QVomowTrYJeGzChwA/
+ 1KOM74kET9mQDu1ZdTHKqIkPzBo29PY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-372-sUDwRd6FOL-1YgX3tOxIiA-1; Thu, 23 Apr 2020 11:58:12 -0400
+X-MC-Unique: sUDwRd6FOL-1YgX3tOxIiA-1
+Received: by mail-wr1-f69.google.com with SMTP id s11so3093946wru.6
+ for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 08:58:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iMt8jG3w6p3v3A4cVNT+8mC6wu129q04neC8fMe7oGs=;
+ b=DPEQMXorqjQELcuvKL3kaw0XtIl8150ZCodypcYdSHgf8goDuY3pthe5khOAjr5jyb
+ L9maKVz2jAqr6NTr3pBf0sgfzJpU4WEF1SsYSrT3QF58v79FK+sS8MWt7IxsuueK4jct
+ gNty00bSP+dzNo3lYtIS6bqGVLouBTmq9PmDxxOLsumXqoJqJA7KFK0CR2dESsBRGIOM
+ 6Eqo/HhqRdZlXG7nVm8XC42/VxttDHhqBmpVwiDx9lG4KRlc1/p4jkAbJ5b54Q5bZ+c6
+ O3WcD5m3++S8UdsBCqhCc5FZtHd/3aB/fo1cTlHIr2oNgC8szxo/FFZQPU4zBznwJPdn
+ wW2g==
+X-Gm-Message-State: AGi0PuaORpsvl973iIbtge6wkhpOcAPOV3lI6A+va4YzuAT8LwuNAFVK
+ TAblISqJXFSchc1/0/+3fcXusf3TkFVNsjuG1w3aK3+w/TttzrmtJGP6MzxQHLEZowCRVRClsXr
+ lW9mrj24r/eAQ7Fo=
+X-Received: by 2002:a5d:42c7:: with SMTP id t7mr5598379wrr.336.1587657491019; 
+ Thu, 23 Apr 2020 08:58:11 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKopCcl7n7qdIBvdj5fJQFzGMn15uroFw/6nMfKAHmPmFh6cUYELmOfLvg5VnNwVX6h7Tq6Dw==
+X-Received: by 2002:a5d:42c7:: with SMTP id t7mr5598341wrr.336.1587657490798; 
+ Thu, 23 Apr 2020 08:58:10 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id s11sm4573001wrw.71.2020.04.23.08.58.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Apr 2020 08:58:09 -0700 (PDT)
+Subject: Re: [PATCH RESEND v6 06/36] monitor: destaticize HMP commands
+To: Jag Raman <jag.raman@oracle.com>
+References: <cover.1587614626.git.elena.ufimtseva@oracle.com>
+ <3dc3603df5b83576c7ec65589f144d44419cee52.1587614626.git.elena.ufimtseva@oracle.com>
+ <3cca22d6-349c-10e0-c0ff-9c75f32e56e2@redhat.com>
+ <517D1E24-5BA3-4ADB-B1A2-5B083C9201A2@oracle.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <57ba9576-b599-e36b-3655-ab63ddd32413@redhat.com>
+Date: Thu, 23 Apr 2020 17:58:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 10:18:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+In-Reply-To: <517D1E24-5BA3-4ADB-B1A2-5B083C9201A2@oracle.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 05:42:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,35 +96,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- "Denis V . Lunev" <den@openvz.org>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, fam@euphon.net,
+ swapnil.ingle@nutanix.com, john.g.johnson@oracle.com, qemu-devel@nongnu.org,
+ kraxel@redhat.com, quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ liran.alon@oracle.com, stefanha@redhat.com, pbonzini@redhat.com,
+ rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
+ thanos.makatos@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed 22 Apr 2020 02:38:54 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
-> 17.03.2020 21:16, Alberto Garcia wrote:
->> l2meta_cow_start() and l2meta_cow_end() are not necessarily
->> cluster-aligned if the image has subclusters, so update the
->> calculation of old_start and old_end to guarantee that no two requests
->> try to write on the same cluster.
->> 
->> Signed-off-by: Alberto Garcia <berto@igalia.com>
->> Reviewed-by: Max Reitz <mreitz@redhat.com>
->
-> Somehow, this patch say me "hey, there may be a lot of other small
-> places, which we forget to fix about subclusters, and you have no
-> idea, how to find and check them all" :) Probably the only way is
-> reviewing the whole qcow2 code, but it's too huge task.. [this is just
-> thinking out loud]
+On 4/23/20 5:07 PM, Jag Raman wrote:
+>> On Apr 23, 2020, at 10:14 AM, Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
+.com> wrote:
+>>
+>> Why 'destaticize HMP commands=E2=80=99?
+>=20
+> Hi Philippe,
+>=20
+> Both QEMU & the remote process links the QMP code. QEMU uses
+> all of the QMP commands, whereas, the remote process only uses a
+> subset of this. Therefore, the =E2=80=98static=E2=80=99 functions which d=
+on=E2=80=99t have a
+> reference cause build errors (like defined but not used). Therefore,
+> we decided to destaticize the ones that are causing the build failure.
 
-:-)
+If you explain it, it is understandable. Worth a note in the commit=20
+description then :)
 
-> Actually, you call it "Fix", and it seems to be a fix for your "[PATCH
-> v4 17/30] qcow2: Add subcluster support to
-> calculate_l2_meta()". Shouldn't it be squashed in?
+>=20
+> On a different note, Dave had previously suggested destacizing only the
+> HMP functions used by the remote process. However, we found out that this=
+ is
+> not possible because without all these functions, the build error still r=
+eproduces.
+> We did confirm that all the functions we have destaticized are necessary =
+to
+> help with build of the remote process.
+>=20
+> Thank you very much!
+> --
+> Jag
+>=20
+>>
+>> On 4/23/20 6:13 AM, elena.ufimtseva@oracle.com wrote:
+>>> From: Jagannathan Raman <jag.raman@oracle.com>
+>>> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+>>> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+>>> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+>>> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>>> ---
+>>>   hmp-commands.hx            |  4 +-
+>>>   monitor/misc.c             | 76 +++++++++++++++++++------------------=
+-
+>>>   monitor/monitor-internal.h | 38 +++++++++++++++++++
+>>>   3 files changed, 78 insertions(+), 40 deletions(-)
+>>
+>=20
 
-Maybe it't not a bad idea... I'll have a look.
-
-Berto
 
