@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 490C31B5E92
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 17:05:13 +0200 (CEST)
-Received: from localhost ([::1]:45120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B1841B5EA0
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 17:06:39 +0200 (CEST)
+Received: from localhost ([::1]:45166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRdPc-0000LT-8N
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 11:05:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40920)
+	id 1jRdR0-0002ij-18
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 11:06:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40942)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jRdMN-00050h-NS
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:01:53 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jRdMO-00051F-NE
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:01:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jRdMI-0005bT-Co
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:01:51 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47345
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1jRdMI-0005ba-FL
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:01:52 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52064
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jRdMH-0005a0-Rn
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jRdMI-0005aJ-1o
  for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:01:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1587654104;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=H3+wNyWOSH6j8FrHMR9tlc7HrSv0Q/nGxI8BHHbr4cI=;
- b=Xaf8voayG0pWpcFNQ1coPLqaSP0GxPS5Q3EQz+VNShIOZAIrlRUfddUHOKayGO+eupLKMf
- nJ7MAvaUvUYzJTN5+UtcxNwOceqYgQF5d6+nHkOf1mI50vicmpMhrX5jMwOuxagp7ApsDJ
- omGlWZHCc0V9rukywn5tlEzNlNREX+I=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QQt0Ok5y40ND1PCdx1vAXmRMTUiQj/1RX1oHGeozQQU=;
+ b=DMvUnLNMrqbkYtMOZzBP7856agcmYAPC/mzdJUNvckRyD8ed7nm7g2Q1nOjtoJzX9htmH1
+ IooJuDGAu3htUV7ezIpfLwJSG+BV4mhnZt6SDWcLeKhCvwHYAikGp7GEilow3jtmTOrcDV
+ 6tKlMKNrTOV7GdlC+MdqDnFHM3C0sM8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-428-h50f5R9QOQGaZbUW1p8Tzw-1; Thu, 23 Apr 2020 11:01:38 -0400
-X-MC-Unique: h50f5R9QOQGaZbUW1p8Tzw-1
+ us-mta-365-VubHSUl1NQyphjW6g8vBug-1; Thu, 23 Apr 2020 11:01:40 -0400
+X-MC-Unique: VubHSUl1NQyphjW6g8vBug-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3530E463;
- Thu, 23 Apr 2020 15:01:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70ABF835B41;
+ Thu, 23 Apr 2020 15:01:39 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-28.ams2.redhat.com [10.36.114.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 60F4860C81;
- Thu, 23 Apr 2020 15:01:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 844996109E;
+ Thu, 23 Apr 2020 15:01:37 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v6 00/10] block: Fix resize (extending) of short overlays
-Date: Thu, 23 Apr 2020 17:01:17 +0200
-Message-Id: <20200423150127.142609-1-kwolf@redhat.com>
+Subject: [PATCH v6 01/10] block: Add flags to BlockDriver.bdrv_co_truncate()
+Date: Thu, 23 Apr 2020 17:01:18 +0200
+Message-Id: <20200423150127.142609-2-kwolf@redhat.com>
+In-Reply-To: <20200423150127.142609-1-kwolf@redhat.com>
+References: <20200423150127.142609-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 03:23:21
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 06:43:51
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,95 +78,304 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v6:
-- qcow2: Don't round up end offset [Eric]
-- qcow2: Use different error messages for different error paths
-- Request BDRV_REQ_ZERO_WRITE only if the backing file actually covers
-  (part of) the new area (fix regression from v3) [Max]
-- New patch: Forward ZERO_WRITE flag for full preallocation [Max]
+This adds a new BdrvRequestFlags parameter to the .bdrv_co_truncate()
+driver callbacks, and a supported_truncate_flags field in
+BlockDriverState that allows drivers to advertise support for request
+flags in the context of truncate.
 
-v5:
-- Fixed file-win32 [Patchew]
-- Fixed zeroing in qcow2 for unaligned requests + tests [Vladimir]
-- Made raw-format code more consistent [Eric]
-- Leave output for existing iotests cases unchanged [Vladimir]
+For now, we always pass 0 and no drivers declare support for any flag.
 
-v4:
-- Rewrote the series to move the actual zeroing to the block drivers so
-  that error paths can work correctly and potentially long-running
-  fallback to writing explicit zeroes is avoided.
-- Fixed output filtering order in the test case [Max]
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+---
+ include/block/block_int.h   | 10 +++++++++-
+ block/crypto.c              |  3 ++-
+ block/file-posix.c          |  2 +-
+ block/file-win32.c          |  2 +-
+ block/gluster.c             |  1 +
+ block/io.c                  |  8 +++++++-
+ block/iscsi.c               |  2 +-
+ block/nfs.c                 |  3 ++-
+ block/qcow2.c               |  2 +-
+ block/qed.c                 |  1 +
+ block/raw-format.c          |  2 +-
+ block/rbd.c                 |  1 +
+ block/sheepdog.c            |  4 ++--
+ block/ssh.c                 |  2 +-
+ tests/test-block-iothread.c |  3 ++-
+ 15 files changed, 33 insertions(+), 13 deletions(-)
 
-v3:
-- Don't allow blocking the monitor for a zero write in block_resize
-  (even though we can already blockfor other reasons there). This is
-  mainly responsible for the increased complexity compared to v2.
-  Personally, I think this is not an improvement over v2, but if this is
-  what it takes to fix a corruption issue in 4.2... [Max]
-- Don't use huge image files in the test case [Vladimir]
-
-v2:
-- Switched order of bs->total_sectors update and zero write [Vladimir]
-- Fixed coding style [Vladimir]
-- Changed the commit message to contain what was in the cover letter
-- Test all preallocation modes
-- Test allocation status with qemu-io 'map' [Vladimir]
-
-*** BLURB HERE ***
-
-Kevin Wolf (10):
-  block: Add flags to BlockDriver.bdrv_co_truncate()
-  block: Add flags to bdrv(_co)_truncate()
-  block-backend: Add flags to blk_truncate()
-  qcow2: Support BDRV_REQ_ZERO_WRITE for truncate
-  raw-format: Support BDRV_REQ_ZERO_WRITE for truncate
-  file-posix: Support BDRV_REQ_ZERO_WRITE for truncate
-  block: truncate: Don't make backing file data visible
-  iotests: Filter testfiles out in filter_img_info()
-  iotests: Test committing to short backing file
-  qcow2: Forward ZERO_WRITE flag for full preallocation
-
- include/block/block.h          |   5 +-
- include/block/block_int.h      |  10 +-
- include/sysemu/block-backend.h |   2 +-
- block.c                        |   3 +-
- block/block-backend.c          |   4 +-
- block/commit.c                 |   4 +-
- block/crypto.c                 |   7 +-
- block/file-posix.c             |   6 +-
- block/file-win32.c             |   2 +-
- block/gluster.c                |   1 +
- block/io.c                     |  42 +++++-
- block/iscsi.c                  |   2 +-
- block/mirror.c                 |   2 +-
- block/nfs.c                    |   3 +-
- block/parallels.c              |   6 +-
- block/qcow.c                   |   4 +-
- block/qcow2-cluster.c          |   2 +-
- block/qcow2-refcount.c         |   2 +-
- block/qcow2.c                  |  72 +++++++--
- block/qed.c                    |   3 +-
- block/raw-format.c             |   6 +-
- block/rbd.c                    |   1 +
- block/sheepdog.c               |   4 +-
- block/ssh.c                    |   2 +-
- block/vdi.c                    |   2 +-
- block/vhdx-log.c               |   2 +-
- block/vhdx.c                   |   6 +-
- block/vmdk.c                   |   8 +-
- block/vpc.c                    |   2 +-
- blockdev.c                     |   2 +-
- qemu-img.c                     |   2 +-
- qemu-io-cmds.c                 |   2 +-
- tests/test-block-iothread.c    |   9 +-
- tests/qemu-iotests/iotests.py  |   5 +-
- tests/qemu-iotests/274         | 157 ++++++++++++++++++++
- tests/qemu-iotests/274.out     | 260 +++++++++++++++++++++++++++++++++
- tests/qemu-iotests/group       |   1 +
- 37 files changed, 589 insertions(+), 64 deletions(-)
- create mode 100755 tests/qemu-iotests/274
- create mode 100644 tests/qemu-iotests/274.out
-
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 4c3587ea19..92335f33c7 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -355,7 +355,7 @@ struct BlockDriver {
+      */
+     int coroutine_fn (*bdrv_co_truncate)(BlockDriverState *bs, int64_t off=
+set,
+                                          bool exact, PreallocMode prealloc=
+,
+-                                         Error **errp);
++                                         BdrvRequestFlags flags, Error **e=
+rrp);
+=20
+     int64_t (*bdrv_getlength)(BlockDriverState *bs);
+     bool has_variable_length;
+@@ -847,6 +847,14 @@ struct BlockDriverState {
+     /* Flags honored during pwrite_zeroes (so far: BDRV_REQ_FUA,
+      * BDRV_REQ_MAY_UNMAP, BDRV_REQ_WRITE_UNCHANGED) */
+     unsigned int supported_zero_flags;
++    /*
++     * Flags honoured during truncate (so far: BDRV_REQ_ZERO_WRITE).
++     *
++     * If BDRV_REQ_ZERO_WRITE is given, the truncate operation must make s=
+ure
++     * that any added space reads as all zeros. If this can't be guarantee=
+d,
++     * the operation must fail.
++     */
++    unsigned int supported_truncate_flags;
+=20
+     /* the following member gives a name to every node on the bs graph. */
+     char node_name[32];
+diff --git a/block/crypto.c b/block/crypto.c
+index d577f89659..3721a8495c 100644
+--- a/block/crypto.c
++++ b/block/crypto.c
+@@ -299,7 +299,8 @@ static int block_crypto_co_create_generic(BlockDriverSt=
+ate *bs,
+=20
+ static int coroutine_fn
+ block_crypto_co_truncate(BlockDriverState *bs, int64_t offset, bool exact,
+-                         PreallocMode prealloc, Error **errp)
++                         PreallocMode prealloc, BdrvRequestFlags flags,
++                         Error **errp)
+ {
+     BlockCrypto *crypto =3D bs->opaque;
+     uint64_t payload_offset =3D
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 7e19bbff5f..53f475ed61 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2080,7 +2080,7 @@ raw_regular_truncate(BlockDriverState *bs, int fd, in=
+t64_t offset,
+=20
+ static int coroutine_fn raw_co_truncate(BlockDriverState *bs, int64_t offs=
+et,
+                                         bool exact, PreallocMode prealloc,
+-                                        Error **errp)
++                                        BdrvRequestFlags flags, Error **er=
+rp)
+ {
+     BDRVRawState *s =3D bs->opaque;
+     struct stat st;
+diff --git a/block/file-win32.c b/block/file-win32.c
+index 15859839a1..a6b0dda5c3 100644
+--- a/block/file-win32.c
++++ b/block/file-win32.c
+@@ -469,7 +469,7 @@ static void raw_close(BlockDriverState *bs)
+=20
+ static int coroutine_fn raw_co_truncate(BlockDriverState *bs, int64_t offs=
+et,
+                                         bool exact, PreallocMode prealloc,
+-                                        Error **errp)
++                                        BdrvRequestFlags flags, Error **er=
+rp)
+ {
+     BDRVRawState *s =3D bs->opaque;
+     LONG low, high;
+diff --git a/block/gluster.c b/block/gluster.c
+index 0aa1f2cda4..d06df900f6 100644
+--- a/block/gluster.c
++++ b/block/gluster.c
+@@ -1228,6 +1228,7 @@ static coroutine_fn int qemu_gluster_co_truncate(Bloc=
+kDriverState *bs,
+                                                  int64_t offset,
+                                                  bool exact,
+                                                  PreallocMode prealloc,
++                                                 BdrvRequestFlags flags,
+                                                  Error **errp)
+ {
+     BDRVGlusterState *s =3D bs->opaque;
+diff --git a/block/io.c b/block/io.c
+index aba67f66b9..04ac5cf023 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -3344,6 +3344,7 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, i=
+nt64_t offset, bool exact,
+     BlockDriverState *bs =3D child->bs;
+     BlockDriver *drv =3D bs->drv;
+     BdrvTrackedRequest req;
++    BdrvRequestFlags flags =3D 0;
+     int64_t old_size, new_bytes;
+     int ret;
+=20
+@@ -3394,7 +3395,12 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, =
+int64_t offset, bool exact,
+     }
+=20
+     if (drv->bdrv_co_truncate) {
+-        ret =3D drv->bdrv_co_truncate(bs, offset, exact, prealloc, errp);
++        if (flags & ~bs->supported_truncate_flags) {
++            error_setg(errp, "Block driver does not support requested flag=
+s");
++            ret =3D -ENOTSUP;
++            goto out;
++        }
++        ret =3D drv->bdrv_co_truncate(bs, offset, exact, prealloc, flags, =
+errp);
+     } else if (bs->file && drv->is_filter) {
+         ret =3D bdrv_co_truncate(bs->file, offset, exact, prealloc, errp);
+     } else {
+diff --git a/block/iscsi.c b/block/iscsi.c
+index 0b4b7210df..914a1de9fb 100644
+--- a/block/iscsi.c
++++ b/block/iscsi.c
+@@ -2124,7 +2124,7 @@ static void iscsi_reopen_commit(BDRVReopenState *reop=
+en_state)
+=20
+ static int coroutine_fn iscsi_co_truncate(BlockDriverState *bs, int64_t of=
+fset,
+                                           bool exact, PreallocMode preallo=
+c,
+-                                          Error **errp)
++                                          BdrvRequestFlags flags, Error **=
+errp)
+ {
+     IscsiLun *iscsilun =3D bs->opaque;
+     int64_t cur_length;
+diff --git a/block/nfs.c b/block/nfs.c
+index cc2413d5ab..2393fbfe6b 100644
+--- a/block/nfs.c
++++ b/block/nfs.c
+@@ -755,7 +755,8 @@ static int64_t nfs_get_allocated_file_size(BlockDriverS=
+tate *bs)
+=20
+ static int coroutine_fn
+ nfs_file_co_truncate(BlockDriverState *bs, int64_t offset, bool exact,
+-                     PreallocMode prealloc, Error **errp)
++                     PreallocMode prealloc, BdrvRequestFlags flags,
++                     Error **errp)
+ {
+     NFSClient *client =3D bs->opaque;
+     int ret;
+diff --git a/block/qcow2.c b/block/qcow2.c
+index b524b0c53f..0b406b22fb 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -3964,7 +3964,7 @@ fail:
+=20
+ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t of=
+fset,
+                                           bool exact, PreallocMode preallo=
+c,
+-                                          Error **errp)
++                                          BdrvRequestFlags flags, Error **=
+errp)
+ {
+     BDRVQcow2State *s =3D bs->opaque;
+     uint64_t old_length;
+diff --git a/block/qed.c b/block/qed.c
+index 1af9b3cb1d..fb6100bd20 100644
+--- a/block/qed.c
++++ b/block/qed.c
+@@ -1467,6 +1467,7 @@ static int coroutine_fn bdrv_qed_co_truncate(BlockDri=
+verState *bs,
+                                              int64_t offset,
+                                              bool exact,
+                                              PreallocMode prealloc,
++                                             BdrvRequestFlags flags,
+                                              Error **errp)
+ {
+     BDRVQEDState *s =3D bs->opaque;
+diff --git a/block/raw-format.c b/block/raw-format.c
+index 93b25e1b6b..9331368f43 100644
+--- a/block/raw-format.c
++++ b/block/raw-format.c
+@@ -371,7 +371,7 @@ static void raw_refresh_limits(BlockDriverState *bs, Er=
+ror **errp)
+=20
+ static int coroutine_fn raw_co_truncate(BlockDriverState *bs, int64_t offs=
+et,
+                                         bool exact, PreallocMode prealloc,
+-                                        Error **errp)
++                                        BdrvRequestFlags flags, Error **er=
+rp)
+ {
+     BDRVRawState *s =3D bs->opaque;
+=20
+diff --git a/block/rbd.c b/block/rbd.c
+index e637639a07..f2d52091c7 100644
+--- a/block/rbd.c
++++ b/block/rbd.c
+@@ -1108,6 +1108,7 @@ static int coroutine_fn qemu_rbd_co_truncate(BlockDri=
+verState *bs,
+                                              int64_t offset,
+                                              bool exact,
+                                              PreallocMode prealloc,
++                                             BdrvRequestFlags flags,
+                                              Error **errp)
+ {
+     int r;
+diff --git a/block/sheepdog.c b/block/sheepdog.c
+index 59f7ebb171..ef0a6e743e 100644
+--- a/block/sheepdog.c
++++ b/block/sheepdog.c
+@@ -2288,7 +2288,7 @@ static int64_t sd_getlength(BlockDriverState *bs)
+=20
+ static int coroutine_fn sd_co_truncate(BlockDriverState *bs, int64_t offse=
+t,
+                                        bool exact, PreallocMode prealloc,
+-                                       Error **errp)
++                                       BdrvRequestFlags flags, Error **err=
+p)
+ {
+     BDRVSheepdogState *s =3D bs->opaque;
+     int ret, fd;
+@@ -2604,7 +2604,7 @@ static coroutine_fn int sd_co_writev(BlockDriverState=
+ *bs, int64_t sector_num,
+=20
+     assert(!flags);
+     if (offset > s->inode.vdi_size) {
+-        ret =3D sd_co_truncate(bs, offset, false, PREALLOC_MODE_OFF, NULL)=
+;
++        ret =3D sd_co_truncate(bs, offset, false, PREALLOC_MODE_OFF, 0, NU=
+LL);
+         if (ret < 0) {
+             return ret;
+         }
+diff --git a/block/ssh.c b/block/ssh.c
+index 84e92821c0..9eb33df859 100644
+--- a/block/ssh.c
++++ b/block/ssh.c
+@@ -1298,7 +1298,7 @@ static int64_t ssh_getlength(BlockDriverState *bs)
+=20
+ static int coroutine_fn ssh_co_truncate(BlockDriverState *bs, int64_t offs=
+et,
+                                         bool exact, PreallocMode prealloc,
+-                                        Error **errp)
++                                        BdrvRequestFlags flags, Error **er=
+rp)
+ {
+     BDRVSSHState *s =3D bs->opaque;
+=20
+diff --git a/tests/test-block-iothread.c b/tests/test-block-iothread.c
+index 0c861809f0..2f3b76323d 100644
+--- a/tests/test-block-iothread.c
++++ b/tests/test-block-iothread.c
+@@ -46,7 +46,8 @@ static int coroutine_fn bdrv_test_co_pdiscard(BlockDriver=
+State *bs,
+=20
+ static int coroutine_fn
+ bdrv_test_co_truncate(BlockDriverState *bs, int64_t offset, bool exact,
+-                      PreallocMode prealloc, Error **errp)
++                      PreallocMode prealloc, BdrvRequestFlags flags,
++                      Error **errp)
+ {
+     return 0;
+ }
 --=20
 2.25.3
 
