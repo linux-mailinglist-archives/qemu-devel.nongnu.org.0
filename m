@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E52781B55B4
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 09:33:15 +0200 (CEST)
-Received: from localhost ([::1]:38230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1AD1B55C1
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 09:36:30 +0200 (CEST)
+Received: from localhost ([::1]:38296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRWMF-0004St-09
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 03:33:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46080)
+	id 1jRWPN-0006lz-BE
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 03:36:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46780)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chen.zhang@intel.com>) id 1jRWL3-0003kL-8s
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 03:32:01 -0400
+ (envelope-from <philmd@redhat.com>) id 1jRWNG-0004yf-Tj
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 03:34:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <chen.zhang@intel.com>) id 1jRWL2-0002dT-JM
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 03:32:01 -0400
-Received: from mga18.intel.com ([134.134.136.126]:54982)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jRWL2-0002dF-0x
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 03:32:00 -0400
-IronPort-SDR: 3CoRTV5wm2bQbP9kgZchOQpvzYUsGjYwStUsLTEydqZ2h934vFmmnBd6zqrzjV4AKWC971NU3v
- FAu/rO09Svlw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Apr 2020 00:31:57 -0700
-IronPort-SDR: LQhTALs2N6Rk6UW56h8RD10Xa97bL+Qb6AAXSDdH954K6Yq4lvYMbGK/RKStm1GHbHKbRYd9Uz
- VHcV5cQoP46A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,306,1583222400"; d="scan'208";a="291099544"
-Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
- by fmsmga002.fm.intel.com with ESMTP; 23 Apr 2020 00:31:56 -0700
-Received: from shsmsx604.ccr.corp.intel.com (10.109.6.214) by
- FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 23 Apr 2020 00:31:29 -0700
-Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
- SHSMSX604.ccr.corp.intel.com (10.109.6.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 23 Apr 2020 15:31:27 +0800
-Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
- SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.1713.004;
- Thu, 23 Apr 2020 15:31:27 +0800
-From: "Zhang, Chen" <chen.zhang@intel.com>
-To: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>
-Subject: RE: [PATCH 0/2] net/colo-compare.c: Expose "max_queue_size" to users
- and clean up
-Thread-Topic: [PATCH 0/2] net/colo-compare.c: Expose "max_queue_size" to users
- and clean up
-Thread-Index: AQHWD7P+xm/8Bq9SCE2KY4WVvkZ5vqiCyuwQ
-Date: Thu, 23 Apr 2020 07:31:27 +0000
-Message-ID: <716ca2bcd9e64c37a79509c468e18485@intel.com>
-References: <20200411033824.19389-1-chen.zhang@intel.com>
-In-Reply-To: <20200411033824.19389-1-chen.zhang@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.36]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <philmd@redhat.com>) id 1jRWN9-0006cW-Cq
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 03:34:18 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51473)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jRWN8-0006ZS-Qj
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 03:34:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587627249;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Ct7jMKth8vWbm+2CUvy6qe7DTi6gbSwkWjtezFIRh9c=;
+ b=YnjnrTWj3iBDW993nN0fi585Yj8N4pAxeojbz3V/gBak7IasEjluNjtWUEGG5s65scLHL8
+ HF2acvx6AT+l3ThyexkUoMwOjPEBc6Ed2n1MYoKw0mgfOunTMp1R7JdK425XjOgeAUJKyn
+ Em4Cgk5wpadhl9AQRQjIyEmQvahkMuA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-22-yWgtRDPEOkmyOFvsMqtT1A-1; Thu, 23 Apr 2020 03:34:04 -0400
+X-MC-Unique: yWgtRDPEOkmyOFvsMqtT1A-1
+Received: by mail-wr1-f70.google.com with SMTP id d17so2405878wrr.17
+ for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 00:34:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oLonGkIJTHbG03JF1+Ssy7OAaXsd0W1f3V8ZSYCW5BI=;
+ b=ancDYvdGi2EvSxITqRp8UAB+2DmBNKgQW0YG/KS662R8BzgRS7723eoY999uM4BVk4
+ jlFfSXb605qLkgh2tGK7/1+QlAXZfMt5jFgc54MT5lmYZ+aQi3Cx6+81Nq/o9d4p6CQ7
+ 4XroM/jRvNjh24O8bi8t8JV1Xh36Q3wf7uXFrkut5RC6Z4PwbV/NNAahIL3EYAW/ZKag
+ W+YkJqQwJJJztyij7RMzcW8PREes6IyoE4rzhCnLpskcTIkf+7ovZcqIPHFG4oc6Hdjd
+ MQTm/I9bMi2gzXj2jvF+D6Hblc3MFlVV95AJjGEnpTEvhTuSHAVR46Xb+IsmxEb3sYmj
+ 7UcQ==
+X-Gm-Message-State: AGi0PubgbK8k01Oaqfg2hCHMw3CUBzXdXmAhYAww+O/SgHcb1S99abwu
+ sIEuWSSD4uhTfiTh9OodcpKiHkJgHvJ3pa3ONScu7k3oUfAohMVCyb3ziTagGbDIZ/niZCbYw9U
+ FmRDkSiiBEaz440M=
+X-Received: by 2002:adf:bbca:: with SMTP id z10mr3483609wrg.288.1587627243517; 
+ Thu, 23 Apr 2020 00:34:03 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJXwtXv2tdl4JoAyKUwkzS0wPwGL5YmaqH3RUQIR8hiPfgeBECoBznyNjj4lSUc9HpxFWswIw==
+X-Received: by 2002:adf:bbca:: with SMTP id z10mr3483586wrg.288.1587627243281; 
+ Thu, 23 Apr 2020 00:34:03 -0700 (PDT)
+Received: from localhost.localdomain (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id o18sm2366000wrp.23.2020.04.23.00.34.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Apr 2020 00:34:02 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/5] target/arm: Restrict TCG cpus to TCG accel
+Date: Thu, 23 Apr 2020 09:33:53 +0200
+Message-Id: <20200423073358.27155-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=chen.zhang@intel.com; helo=mga18.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 03:31:58
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Received-From: 134.134.136.126
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 03:23:21
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,43 +86,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <zhangckid@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Jason,
+These are the uncontroversial patches from "Support disabling
+TCG on ARM (part 2)"
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg689168.html
 
-Please review this series when you free.
+The other patches are blocked by the "accel: Allow targets to
+use Kconfig" series:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg689024.html
 
-Thanks
-Zhang Chen
+All patches reviewed.
 
-> -----Original Message-----
-> From: Zhang, Chen <chen.zhang@intel.com>
-> Sent: Saturday, April 11, 2020 11:38 AM
-> To: Jason Wang <jasowang@redhat.com>; qemu-dev <qemu-
-> devel@nongnu.org>
-> Cc: Zhang Chen <zhangckid@gmail.com>; Zhang, Chen
-> <chen.zhang@intel.com>
-> Subject: [PATCH 0/2] net/colo-compare.c: Expose "max_queue_size" to
-> users and clean up
->=20
-> From: Zhang Chen <chen.zhang@intel.com>
->=20
-> This series make a way to config COLO "max_queue_size" parameters
-> according to user's scenarios and environments and do some clean up for
-> descriptions.
->=20
-> Zhang Chen (2):
->   net/colo-compare.c: Expose compare "max_queue_size" to users
->   qemu-options.hx: Clean up and fix typo for colo-compare
->=20
->  net/colo-compare.c | 43
-> ++++++++++++++++++++++++++++++++++++++++++-
->  qemu-options.hx    | 33 +++++++++++++++++----------------
->  2 files changed, 59 insertions(+), 17 deletions(-)
->=20
-> --
-> 2.17.1
+Since v1:
+- Dropped 'Make set_feature() available for other files' patch
+  which fails to build with KVM only, see:
+https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg03843.html
+
+Many thanks to Richard Henderson for his patience!
+
+Regards,
+
+Phil.
+
+Philippe Mathieu-Daud=C3=A9 (4):
+  target/arm: Restric the Address Translate write operation to TCG accel
+  target/arm/cpu: Use ARRAY_SIZE() to iterate over ARMCPUInfo[]
+  target/arm/cpu: Update coding style to make checkpatch.pl happy
+  target/arm: Restrict TCG cpus to TCG accel
+
+Thomas Huth (1):
+  target/arm: Make cpu_register() available for other files
+
+ target/arm/cpu-qom.h     |   9 +-
+ target/arm/cpu.c         | 647 +-------------------------------------
+ target/arm/cpu64.c       |  16 +-
+ target/arm/cpu_tcg.c     | 664 +++++++++++++++++++++++++++++++++++++++
+ target/arm/helper.c      |  17 +
+ target/arm/Makefile.objs |   1 +
+ 6 files changed, 698 insertions(+), 656 deletions(-)
+ create mode 100644 target/arm/cpu_tcg.c
+
+--=20
+2.21.1
 
 
