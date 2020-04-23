@@ -2,58 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47DCB1B5C97
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 15:31:03 +0200 (CEST)
-Received: from localhost ([::1]:43369 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B05A1B5D41
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 16:05:36 +0200 (CEST)
+Received: from localhost ([::1]:44070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRbwU-0007iV-77
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 09:31:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43752)
+	id 1jRcTv-0007rP-CN
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 10:05:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45346)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jRbv8-00066T-26
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 09:29:38 -0400
+ (envelope-from <dchristian@cardinalpeak.com>) id 1jRbzE-0003ca-MK
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 09:33:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jRbv7-0006fs-JL
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 09:29:37 -0400
-Resent-Date: Thu, 23 Apr 2020 09:29:37 -0400
-Resent-Message-Id: <E1jRbv7-0006fs-JL@eggs.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21326)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jRbv7-0006cJ-1p; Thu, 23 Apr 2020 09:29:37 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1587648569; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=W3+QhayLc/L7OvHB25cR/dqUPkowjIxkDgWRGsAHwNZogo44xPsu5TqBqNcy4J4WlbF8qKTooSkyn8wf1sXlB/pUP4Z8sRwckaWXYLFRptCoAU3HDFZ8+758D4qYr7g7h7hQZ8x50yyWQqn1p0Y6j7+PleLWG+ET87H6yrfFRGQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1587648569;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=N0mbElxuE25wID2H1dJW+He3lrXa8zXWDPs/ORJYI6k=; 
- b=FMTEXhxQgprrMjJEJq2KNmS1OQ4c3117bQOjCfx85c1UVvagM1KpdTuo6wt7d74ihUAb4nXyo7xGCy2PANJQvFP46pjQOxvv9/LR7HWD4Zq8QhPFIghOnfHkUfZ/kPksjs49F0lcgWW1ga46ZI0rG2jyldcIGQCo5VydCp2MsKg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1587648567658811.4739422473675;
- Thu, 23 Apr 2020 06:29:27 -0700 (PDT)
-In-Reply-To: <20200423124305.14718-1-f4bug@amsat.org>
-Subject: Re: [PATCH] target/arm: Use correct variable for setting 'max' cpu's
- MIDR_EL1
-Message-ID: <158764856650.10590.13077926961387104800@39012742ff91>
+ (envelope-from <dchristian@cardinalpeak.com>) id 1jRbzE-0006qJ-4K
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 09:33:52 -0400
+Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129]:36397)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dchristian@cardinalpeak.com>)
+ id 1jRbzD-0006hp-Kg
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 09:33:51 -0400
+Received: by mail-lf1-x129.google.com with SMTP id w145so4771406lff.3
+ for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 06:33:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cardinalpeak-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=+I4rrNom2aBCICQIS2qgXOAkXonODvEb3O5YBdkDnW8=;
+ b=fl3O8ctxAxSDWXTTyGcFUzM9Qz3PNX7b2cx8yNnpGFOzurkwZlgG+glqAKBbDDseeC
+ 7Pmc2r5PXuj0pVdzL1OXO2IzZiqx3J+3D6miB6HjYHDrcwwKbAhDEsoIt8NQur2ZoT6t
+ GJioZE5PRzY11nXUlHezlVv64grbFObmDV/CvvkNsx4gehwyjCz9eAVMr+/nZMdJ9whz
+ Hl3l8ZsxuKPp/tYVe+xxTEH/jBw4YFG6mTGK7sBziECnKWYoojnvanIyEicFOBTCaSLb
+ oInsobBAEgoZUpcv5UDH7mOaepRkTlUca7VncGzqbOsdIVYC4420OeBnX9jjWW8hBZ4i
+ kcLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=+I4rrNom2aBCICQIS2qgXOAkXonODvEb3O5YBdkDnW8=;
+ b=aW9t3jRBDukJ9XmHL0k8CiSm64HYgvkqJk4ySgVvdA2jeGqE+vBQaXt0NI0Q/+798u
+ WxuW3LVjtAOAz2j80I6tk4H+dNHKzmvS3U+Th4e9JaId+8BQ13G07RDBzZR2dxOAdFn+
+ mzWPOr2SsAnEsV02mOAlOaA0i2GAQx32QEwDRlm++GRWJ8zIYSbMc19AT+39uAJ0jZCU
+ qeRyEapsE5w/ec16j1oowGh9W4ZyCntwd4bIaBCXA2pqOuJ50aqQ8G4DX+kS5oIVO/nD
+ CZrAFK6WD5I8itznzBnb1IOPwRA5g+L66ez6WYKuaDtMm3fmNgwnsky3XiB5lWUxTX1Z
+ Ck6w==
+X-Gm-Message-State: AGi0Pua+m8nLSIva4EeBZW82NUY3OCfPsFYfOBoQhGMqJzlh3hdqjxL9
+ U5nAtJmYZzcKcz6TDmbtwNTNE6vF0kejbMCTgtbIdu9E
+X-Google-Smtp-Source: APiQypJaUsB4o4ostPG3t7AJqAgyLAJSHNQ5UH63Dy/y6gwNfeCj1adxMXG5MDWlzI+ujWE1ZQg6W0Y5lqbKt0DTshM=
+X-Received: by 2002:ac2:4546:: with SMTP id j6mr2490313lfm.203.1587648828509; 
+ Thu, 23 Apr 2020 06:33:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: f4bug@amsat.org
-Date: Thu, 23 Apr 2020 06:29:27 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 09:27:50
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Received-From: 136.143.188.53
+From: Dan Christian <dchristian@cardinalpeak.com>
+Date: Thu, 23 Apr 2020 07:33:37 -0600
+Message-ID: <CADxL6wUGWZO0U=G7UTAebG57m6tG58hoMf_-TCC+0qReUB0G6w@mail.gmail.com>
+Subject: Need BT support in qemu for Zephyr
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="00000000000073d2ed05a3f54ca2"
+Received-SPF: none client-ip=2a00:1450:4864:20::129;
+ envelope-from=dchristian@cardinalpeak.com; helo=mail-lf1-x129.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::129
+X-Mailman-Approved-At: Thu, 23 Apr 2020 10:03:55 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,23 +73,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDQyMzEyNDMwNS4xNDcx
-OC0xLWY0YnVnQGFtc2F0Lm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRvY2tl
-ci1taW5nd0BmZWRvcmEgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29tbWFu
-ZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxlZCwg
-eW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQVCBC
-RUdJTiA9PT0KIyEgL2Jpbi9iYXNoCmV4cG9ydCBBUkNIPXg4Nl82NAptYWtlIGRvY2tlci1pbWFn
-ZS1mZWRvcmEgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtbWluZ3dAZmVkb3Jh
-IEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgoKCgpUaGUgZnVsbCBsb2cg
-aXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwNDIzMTI0MzA1LjE0
-NzE4LTEtZjRidWdAYW1zYXQub3JnL3Rlc3RpbmcuZG9ja2VyLW1pbmd3QGZlZG9yYS8/dHlwZT1t
-ZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0
-cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXct
-ZGV2ZWxAcmVkaGF0LmNvbQ==
+--00000000000073d2ed05a3f54ca2
+Content-Type: text/plain; charset="UTF-8"
+
+There was a note about BT support being deprecated.
+
+Having it makes developing/testing Zephyr
+<https://github.com/zephyrproject-rtos/zephyr> bluetooth vastly easier.
+
+I hope it will be retained.
+
+Thanks,
+Dan
+
+--00000000000073d2ed05a3f54ca2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">There was a note about BT support being deprecated.<div><b=
+r></div><div>Having it makes developing/testing <a href=3D"https://github.c=
+om/zephyrproject-rtos/zephyr">Zephyr</a>=C2=A0bluetooth vastly easier.</div=
+><div><br></div><div>I hope it will be retained.</div><div><br></div><div>T=
+hanks,</div><div>Dan</div><div><br></div></div>
+
+--00000000000073d2ed05a3f54ca2--
 
