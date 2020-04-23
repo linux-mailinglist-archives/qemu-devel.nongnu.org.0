@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61CBB1B61A8
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 19:13:31 +0200 (CEST)
-Received: from localhost ([::1]:32924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E24181B61CF
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 19:19:09 +0200 (CEST)
+Received: from localhost ([::1]:33378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRfPm-0000Cz-EX
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 13:13:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44700)
+	id 1jRfVE-0008Kf-Mp
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 13:19:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46362)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jRfIn-0001O4-Sa
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:06:18 -0400
+ (envelope-from <berrange@redhat.com>) id 1jRfPw-0001WX-TM
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:13:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jRfIn-0005dU-47
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:06:17 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:56110)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jRfIm-0005bm-M2
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:06:16 -0400
-Received: by mail-wm1-x336.google.com with SMTP id e26so7201991wmk.5
- for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 10:06:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=dbl7vz/2JDzRYFnfm6XKsckDvoap7FMNqmtKMQ9jX5c=;
- b=B68PIvhBuzDpuVi5b+BMq2qJcbrpy6e4xqEXDQJaax7k7sNBDQsfGbcdSpOmEAgao/
- AMfOdaRFRyXmB0ox7BC/CCA1irRIhWFdCoUdBosO8jp2dA7XQPq5kFvWc8SlkBThwwsf
- +Ar1AlSmciDlTjPM3Dpyl6UOnYmV8b+QlyDVWOB4Sq/BjPcN5PGW4T8iGEkG5DwGYADQ
- CwLHb/IdS370Iou3j/WIIFPO3d96z9FyFR6obnRu7QUrq118SONEqqDUiVE886743TON
- DF6wSlDjhdb90BpLJhXo+SysiJGi3izd4qtW2ig83synYoofSNMjNWkX+3pzmsmugsP8
- bseQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dbl7vz/2JDzRYFnfm6XKsckDvoap7FMNqmtKMQ9jX5c=;
- b=LrkR0PtBVWC45eotHrej/rvGVmTK3pvpWcdIZBx3zTDx6SwYncRR05ZFtK6eKqW9h9
- f7j9KU+u5wedgKpwIuaP1br/C4x0R/aygRIT2piy4lKY3TpE0NdYg8kdDJkkzak0EHRF
- EqQxrig3ngWagpwIK70eDR2FwI2W3smfLsrjKZgK14UJ3r1XdH3icwSI1dBWkxaE4jXv
- eSqXT1WjnjPY9qMy3tVL/0aRUAvLsApqy2ODS2yJKsUmuQbphUlaavRht89KHt8JOTji
- Qdoxoq5RwO1qWFJsr6BREjRyUYmfaCdXUIZ9dUen3MgCJuLIJwyMoX2N7U56SNJ9Vzlo
- tFBw==
-X-Gm-Message-State: AGi0PuZYThDRYy5ZdoThMYGVCn7ebTA3ErkUDdYylzfR5wJ3j4q85B2s
- d2N7Md1r1bsFN97xUQiKGlsXHA==
-X-Google-Smtp-Source: APiQypLLEwf8gv4qKB0E9rmKIHX6F44e+69r0xk3AfuM6oPKgHC1K1eChDUfDwkqc6iTrrAlbcgieA==
-X-Received: by 2002:a1c:a344:: with SMTP id m65mr5238332wme.20.1587661574908; 
- Thu, 23 Apr 2020 10:06:14 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a67sm4735296wmc.30.2020.04.23.10.06.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Apr 2020 10:06:11 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 911391FF9D;
- Thu, 23 Apr 2020 18:05:58 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 14/14] .travis.yml: drop MacOSX
-Date: Thu, 23 Apr 2020 18:05:57 +0100
-Message-Id: <20200423170557.31106-15-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200423170557.31106-1-alex.bennee@linaro.org>
-References: <20200423170557.31106-1-alex.bennee@linaro.org>
+ (envelope-from <berrange@redhat.com>) id 1jRfPv-0000KP-Fy
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:13:40 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34963
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jRfPv-0000K0-0Q
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:13:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587662017;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eBTMgvWVqB+Rl6glkU5oLmh8M/ZNcy9xnUh7AtdAXmE=;
+ b=THX+L/y0QlXTlGfPd7+ON0XGCjVzP1aEgoZ+wCVzFKvafy+3xcH3OZFdvjmkDmoxM5oehZ
+ MGCUMHdr0IecKk8MkP/65xMrBvpd1aEDQ4abt3rXRKsEWdH1mLC5go36bJ10rytt73p1yf
+ efsEtUxQ4B1VMMveU6XI5pVjVuv7PZE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-252-zL14Dy02OOulEU_CarG5wg-1; Thu, 23 Apr 2020 13:13:33 -0400
+X-MC-Unique: zL14Dy02OOulEU_CarG5wg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CB9E18A076B;
+ Thu, 23 Apr 2020 17:13:32 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 83A1F101E678;
+ Thu, 23 Apr 2020 17:13:25 +0000 (UTC)
+Date: Thu, 23 Apr 2020 18:13:22 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Cleber Rosa <crosa@redhat.com>
+Subject: Re: [PATCH 0/5] QEMU Gating CI
+Message-ID: <20200423171322.GJ1077680@redhat.com>
+References: <20200312193616.438922-1-crosa@redhat.com>
+ <CAFEAcA8Lw94_=kY+Fv-cFW2Tk5RD62EjODjKdGf2-mLdDw7FuQ@mail.gmail.com>
+ <1182067639.1655516.1584421185287.JavaMail.zimbra@redhat.com>
+ <CAFEAcA-zRw7kzwzXxPmLaUqwOrQLwW9BymOJ34iJOOTCUAf=xg@mail.gmail.com>
+ <20200317141257.GA5724@localhost.localdomain>
+ <CAFEAcA9W4KXN6dcT0CNyD_mQ3xY5wDmJ7i0wowhaG2XPmyMYng@mail.gmail.com>
+ <87sgi49uf6.fsf@dusky.pond.sub.org>
+ <CAFEAcA_dcVneQ4Hj61GAkYRCUSMrA=QjwnAXccoBwjUjOE-wSQ@mail.gmail.com>
+ <529508877.9650370.1587661453005.JavaMail.zimbra@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::336
+In-Reply-To: <529508877.9650370.1587661453005.JavaMail.zimbra@redhat.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 05:42:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,69 +85,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Erik Skultety <eskultet@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Wainer Moschetta <wmoschet@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This keeps breaking on Travis so lets just fall back to the Cirrus CI
-builds which seem to be better maintained. Fix up the comments while
-we are doing this as we never had a windows build.
+On Thu, Apr 23, 2020 at 01:04:13PM -0400, Cleber Rosa wrote:
+>=20
+>=20
+> ----- Original Message -----
+> > From: "Peter Maydell" <peter.maydell@linaro.org>
+> > To: "Markus Armbruster" <armbru@redhat.com>
+> > Cc: "Fam Zheng" <fam@euphon.net>, "Thomas Huth" <thuth@redhat.com>, "Be=
+raldo Leal" <bleal@redhat.com>, "Erik
+> > Skultety" <eskultet@redhat.com>, "Alex Benn=C3=A9e" <alex.bennee@linaro=
+.org>, "Wainer Moschetta" <wmoschet@redhat.com>,
+> > "QEMU Developers" <qemu-devel@nongnu.org>, "Wainer dos Santos Moschetta=
+" <wainersm@redhat.com>, "Willian Rampazzo"
+> > <wrampazz@redhat.com>, "Cleber Rosa" <crosa@redhat.com>, "Philippe Math=
+ieu-Daud=C3=A9" <philmd@redhat.com>, "Eduardo
+> > Habkost" <ehabkost@redhat.com>
+> > Sent: Tuesday, April 21, 2020 8:53:49 AM
+> > Subject: Re: [PATCH 0/5] QEMU Gating CI
+> >=20
+> > On Thu, 19 Mar 2020 at 16:33, Markus Armbruster <armbru@redhat.com> wro=
+te:
+> > > Peter Maydell <peter.maydell@linaro.org> writes:
+> > > > I think we should start by getting the gitlab setup working
+> > > > for the basic "x86 configs" first. Then we can try adding
+> > > > a runner for s390 (that one's logistically easiest because
+> > > > it is a project machine, not one owned by me personally or
+> > > > by Linaro) once the basic framework is working, and expand
+> > > > from there.
+> > >
+> > > Makes sense to me.
+> > >
+> > > Next steps to get this off the ground:
+> > >
+> > > * Red Hat provides runner(s) for x86 stuff we care about.
+> > >
+> > > * If that doesn't cover 'basic "x86 configs" in your judgement, we
+> > >   fill the gaps as described below under "Expand from there".
+> > >
+> > > * Add an s390 runner using the project machine you mentioned.
+> > >
+> > > * Expand from there: identify the remaining gaps, map them to people =
+/
+> > >   organizations interested in them, and solicit contributions from th=
+ese
+> > >   guys.
+> > >
+> > > A note on contributions: we need both hardware and people.  By people=
+ I
+> > > mean maintainers for the infrastructure, the tools and all the runner=
+s.
+> > > Cleber & team are willing to serve for the infrastructure, the tools =
+and
+> > > the Red Hat runners.
+> >=20
+> > So, with 5.0 nearly out the door it seems like a good time to check
+> > in on this thread again to ask where we are progress-wise with this.
+> > My impression is that this patchset provides most of the scripting
+> > and config side of the first step, so what we need is for RH to provide
+> > an x86 runner machine and tell the gitlab CI it exists. I appreciate
+> > that the whole coronavirus and working-from-home situation will have
+> > upended everybody's plans, especially when actual hardware might
+> > be involved, but how's it going ?
+> >=20
+>=20
+> Hi Peter,
+>=20
+> You hit the nail in the head here.  We were affected indeed with our abil=
+ity
+> to move some machines from one lab to another (across the country), but w=
+e're
+> actively working on it.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- .travis.yml | 28 +---------------------------
- 1 file changed, 1 insertion(+), 27 deletions(-)
+For x86, do we really need to be using custom runners ?
 
-diff --git a/.travis.yml b/.travis.yml
-index a4c3c6c805..49267b73b3 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -9,9 +9,8 @@ compiler:
- cache:
-   # There is one cache per branch and compiler version.
-   # characteristics of each job are used to identify the cache:
--  # - OS name (currently, linux, osx, or windows)
-+  # - OS name (currently only linux)
-   # - OS distribution (for Linux, xenial, trusty, or precise)
--  # - macOS image name (e.g., xcode7.2)
-   # - Names and values of visible environment variables set in .travis.yml or Settings panel
-   timeout: 1200
-   ccache: true
-@@ -271,31 +270,6 @@ jobs:
-         - TEST_CMD=""
- 
- 
--    # MacOSX builds - cirrus.yml also tests some MacOS builds including latest Xcode
--
--    - name: "OSX Xcode 10.3"
--      env:
--        - BASE_CONFIG="--disable-docs --enable-tools"
--        - CONFIG="--target-list=i386-softmmu,ppc-softmmu,ppc64-softmmu,m68k-softmmu,x86_64-softmmu"
--      os: osx
--      osx_image: xcode10.3
--      compiler: clang
--      addons:
--        homebrew:
--          packages:
--            - ccache
--            - glib
--            - pixman
--            - gnu-sed
--            - python
--          update: true
--      before_script:
--        - brew link --overwrite python
--        - export PATH="/usr/local/opt/ccache/libexec:$PATH"
--        - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
--        - ${SRC_DIR}/configure ${BASE_CONFIG} ${CONFIG} || { cat config.log && exit 1; }
--
--
-     # Python builds
-     - name: "GCC Python 3.5 (x86_64-softmmu)"
-       env:
--- 
-2.20.1
+With GitLab if someone forks the repo to their personal namespace, they
+cannot use any custom runners setup by the origin project. So if we use
+custom runners for x86, people forking won't be able to run the GitLab
+CI jobs.
+
+As a sub-system maintainer I wouldn't like this, because I ideally want
+to be able to run the same jobs on my staging tree, that Peter will run
+at merge time for the PULL request I send.
+
+Thus my strong preference would be to use the GitLab runners in every
+scenario where they are viable to use. Only use custom runners in the
+cases where GitLab runners are clearly inadequate for our needs.
+
+Based on what we've setup in GitLab for libvirt,  the shared runners
+they have work fine for x86. Just need the environments you are testing
+to be provided as Docker containers (you can actually build and cache
+the container images during your CI job too).  IOW, any Linux distro
+build and test jobs should be able to use shared runners on x86, and
+likewise mingw builds. Custom runners should only be needed if the
+jobs need todo *BSD / macOS builds, and/or have access to specific
+hardware devices for some reason.
+
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
