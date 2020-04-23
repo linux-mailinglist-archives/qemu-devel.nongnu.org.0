@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD0BA1B5E90
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 17:04:15 +0200 (CEST)
-Received: from localhost ([::1]:45108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D231B5EA6
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 17:07:29 +0200 (CEST)
+Received: from localhost ([::1]:45176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRdOg-00074l-Nr
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 11:04:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40982)
+	id 1jRdRo-0004II-Mr
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 11:07:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40972)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jRdMR-00052x-3z
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:01:59 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jRdMQ-00052W-ST
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:01:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jRdMO-0005eo-Fn
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:01:53 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55028
+ (envelope-from <kwolf@redhat.com>) id 1jRdMO-0005fD-GY
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:01:54 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46469
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jRdMN-0005bl-HI
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jRdMN-0005cB-IL
  for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:01:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587654106;
+ s=mimecast20190719; t=1587654108;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AagP1Sx3NHYQApbadnbiNBy5PVNn7Y8DOqgpyVmkFls=;
- b=gI09oIdOwLcCgfSMJx2uYRA5Sh3Atk4Dh+0fhnWhdIC//+G5hP9MbDwc2o3jqWu+4LVFSI
- jaZTP0Mlt9W4S+9U40exmV0GK+hVI2jQBvYkC32QKkd7bOQ199m802S0ap+l+jGt4bb1hU
- R1rk1Ydumrmn31igQUYPbO4oH0LdesU=
+ bh=fSzpbwFqcetssAHV7O9Qdmxy1jcL+ITFbiKVQpjaoHo=;
+ b=JR2C35Qf4i2ywxhJySU1ISu2QG/UM98NaaZHo9ZAdZN6bJAQWqoxG03yqAWiuLILJ1mfzQ
+ FpeI3GrBN5GoZvKAmTcXDu06z2cP5vIi90IEhbBAiqdy1EXwih1zuQVJ7oL1FIQJY3kCoS
+ MT0Q81aCJVgd7TEWPpcsvkNKvPrVOqU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-95T7x79eN82O5YdLI8zzAw-1; Thu, 23 Apr 2020 11:01:44 -0400
-X-MC-Unique: 95T7x79eN82O5YdLI8zzAw-1
+ us-mta-444-NyWkPPTyNHKQf5K4sLl5Fg-1; Thu, 23 Apr 2020 11:01:46 -0400
+X-MC-Unique: NyWkPPTyNHKQf5K4sLl5Fg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60DCC100CCC5;
- Thu, 23 Apr 2020 15:01:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51528800FC7;
+ Thu, 23 Apr 2020 15:01:45 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-28.ams2.redhat.com [10.36.114.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BEB89619C8;
- Thu, 23 Apr 2020 15:01:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A870660C81;
+ Thu, 23 Apr 2020 15:01:43 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v6 03/10] block-backend: Add flags to blk_truncate()
-Date: Thu, 23 Apr 2020 17:01:20 +0200
-Message-Id: <20200423150127.142609-4-kwolf@redhat.com>
+Subject: [PATCH v6 04/10] qcow2: Support BDRV_REQ_ZERO_WRITE for truncate
+Date: Thu, 23 Apr 2020 17:01:21 +0200
+Message-Id: <20200423150127.142609-5-kwolf@redhat.com>
 In-Reply-To: <20200423150127.142609-1-kwolf@redhat.com>
 References: <20200423150127.142609-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -78,314 +78,93 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that node level interface bdrv_truncate() supports passing request
-flags to the block driver, expose this on the BlockBackend level, too.
+If BDRV_REQ_ZERO_WRITE is set and we're extending the image, calling
+qcow2_cluster_zeroize() with flags=3D0 does the right thing: It doesn't
+undo any previous preallocation, but just adds the zero flag to all
+relevant L2 entries. If an external data file is in use, a write_zeroes
+request to the data file is made instead.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Alberto Garcia <berto@igalia.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- include/sysemu/block-backend.h | 2 +-
- block.c                        | 3 ++-
- block/block-backend.c          | 4 ++--
- block/commit.c                 | 4 ++--
- block/crypto.c                 | 2 +-
- block/mirror.c                 | 2 +-
- block/qcow2.c                  | 4 ++--
- block/qed.c                    | 2 +-
- block/vdi.c                    | 2 +-
- block/vhdx.c                   | 4 ++--
- block/vmdk.c                   | 6 +++---
- block/vpc.c                    | 2 +-
- blockdev.c                     | 2 +-
- qemu-img.c                     | 2 +-
- qemu-io-cmds.c                 | 2 +-
- 15 files changed, 22 insertions(+), 21 deletions(-)
+ block/qcow2-cluster.c |  2 +-
+ block/qcow2.c         | 33 +++++++++++++++++++++++++++++++++
+ 2 files changed, 34 insertions(+), 1 deletion(-)
 
-diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.=
-h
-index 9bbdbd63d7..34de7faa81 100644
---- a/include/sysemu/block-backend.h
-+++ b/include/sysemu/block-backend.h
-@@ -237,7 +237,7 @@ int coroutine_fn blk_co_pwrite_zeroes(BlockBackend *blk=
-, int64_t offset,
- int blk_pwrite_compressed(BlockBackend *blk, int64_t offset, const void *b=
-uf,
-                           int bytes);
- int blk_truncate(BlockBackend *blk, int64_t offset, bool exact,
--                 PreallocMode prealloc, Error **errp);
-+                 PreallocMode prealloc, BdrvRequestFlags flags, Error **er=
-rp);
- int blk_pdiscard(BlockBackend *blk, int64_t offset, int bytes);
- int blk_save_vmstate(BlockBackend *blk, const uint8_t *buf,
-                      int64_t pos, int size);
-diff --git a/block.c b/block.c
-index 2e3905c99e..03cc5813a2 100644
---- a/block.c
-+++ b/block.c
-@@ -548,7 +548,8 @@ static int64_t create_file_fallback_truncate(BlockBacke=
-nd *blk,
-     int64_t size;
-     int ret;
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index 17f1363279..4b5fc8c4a7 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -1795,7 +1795,7 @@ int qcow2_cluster_zeroize(BlockDriverState *bs, uint6=
+4_t offset,
+     /* Caller must pass aligned values, except at image end */
+     assert(QEMU_IS_ALIGNED(offset, s->cluster_size));
+     assert(QEMU_IS_ALIGNED(end_offset, s->cluster_size) ||
+-           end_offset =3D=3D bs->total_sectors << BDRV_SECTOR_BITS);
++           end_offset >=3D bs->total_sectors << BDRV_SECTOR_BITS);
 =20
--    ret =3D blk_truncate(blk, minimum_size, false, PREALLOC_MODE_OFF, &loc=
-al_err);
-+    ret =3D blk_truncate(blk, minimum_size, false, PREALLOC_MODE_OFF, 0,
-+                       &local_err);
-     if (ret < 0 && ret !=3D -ENOTSUP) {
-         error_propagate(errp, local_err);
-         return ret;
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 8be20060d3..17ed6d8c5b 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -2137,14 +2137,14 @@ int blk_pwrite_compressed(BlockBackend *blk, int64_=
-t offset, const void *buf,
- }
-=20
- int blk_truncate(BlockBackend *blk, int64_t offset, bool exact,
--                 PreallocMode prealloc, Error **errp)
-+                 PreallocMode prealloc, BdrvRequestFlags flags, Error **er=
-rp)
- {
-     if (!blk_is_available(blk)) {
-         error_setg(errp, "No medium inserted");
-         return -ENOMEDIUM;
-     }
-=20
--    return bdrv_truncate(blk->root, offset, exact, prealloc, 0, errp);
-+    return bdrv_truncate(blk->root, offset, exact, prealloc, flags, errp);
- }
-=20
- int blk_save_vmstate(BlockBackend *blk, const uint8_t *buf,
-diff --git a/block/commit.c b/block/commit.c
-index 8e672799af..87f6096d90 100644
---- a/block/commit.c
-+++ b/block/commit.c
-@@ -133,7 +133,7 @@ static int coroutine_fn commit_run(Job *job, Error **er=
-rp)
-     }
-=20
-     if (base_len < len) {
--        ret =3D blk_truncate(s->base, len, false, PREALLOC_MODE_OFF, NULL)=
-;
-+        ret =3D blk_truncate(s->base, len, false, PREALLOC_MODE_OFF, 0, NU=
-LL);
-         if (ret) {
-             goto out;
-         }
-@@ -458,7 +458,7 @@ int bdrv_commit(BlockDriverState *bs)
-      * grow the backing file image if possible.  If not possible,
-      * we must return an error */
-     if (length > backing_length) {
--        ret =3D blk_truncate(backing, length, false, PREALLOC_MODE_OFF,
-+        ret =3D blk_truncate(backing, length, false, PREALLOC_MODE_OFF, 0,
-                            &local_err);
-         if (ret < 0) {
-             error_report_err(local_err);
-diff --git a/block/crypto.c b/block/crypto.c
-index ab33545c92..e02f343590 100644
---- a/block/crypto.c
-+++ b/block/crypto.c
-@@ -115,7 +115,7 @@ static ssize_t block_crypto_init_func(QCryptoBlock *blo=
-ck,
-      * which will be used by the crypto header
-      */
-     return blk_truncate(data->blk, data->size + headerlen, false,
--                        data->prealloc, errp);
-+                        data->prealloc, 0, errp);
- }
-=20
-=20
-diff --git a/block/mirror.c b/block/mirror.c
-index c26fd9260d..aca95c9bc9 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -900,7 +900,7 @@ static int coroutine_fn mirror_run(Job *job, Error **er=
-rp)
-=20
-         if (s->bdev_length > base_length) {
-             ret =3D blk_truncate(s->target, s->bdev_length, false,
--                               PREALLOC_MODE_OFF, NULL);
-+                               PREALLOC_MODE_OFF, 0, NULL);
-             if (ret < 0) {
-                 goto immediate_exit;
-             }
+     /* The zero flag is only supported by version 3 and newer */
+     if (s->qcow_version < 3) {
 diff --git a/block/qcow2.c b/block/qcow2.c
-index c5b0711357..9cfbdfc939 100644
+index 9cfbdfc939..ad621fe404 100644
 --- a/block/qcow2.c
 +++ b/block/qcow2.c
-@@ -3511,7 +3511,7 @@ qcow2_co_create(BlockdevCreateOptions *create_options=
-, Error **errp)
+@@ -1726,6 +1726,7 @@ static int coroutine_fn qcow2_do_open(BlockDriverStat=
+e *bs, QDict *options,
 =20
-     /* Okay, now that we have a valid image, let's give it the right size =
-*/
-     ret =3D blk_truncate(blk, qcow2_opts->size, false, qcow2_opts->preallo=
-cation,
--                       errp);
-+                       0, errp);
-     if (ret < 0) {
-         error_prepend(errp, "Could not resize image: ");
-         goto out;
-@@ -5374,7 +5374,7 @@ static int qcow2_amend_options(BlockDriverState *bs, =
-QemuOpts *opts,
-          * Amending image options should ensure that the image has
-          * exactly the given new values, so pass exact=3Dtrue here.
-          */
--        ret =3D blk_truncate(blk, new_size, true, PREALLOC_MODE_OFF, errp)=
+     bs->supported_zero_flags =3D header.version >=3D 3 ?
+                                BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK :=
+ 0;
++    bs->supported_truncate_flags =3D BDRV_REQ_ZERO_WRITE;
+=20
+     /* Repair image if dirty */
+     if (!(flags & (BDRV_O_CHECK | BDRV_O_INACTIVE)) && !bs->read_only &&
+@@ -4214,6 +4215,38 @@ static int coroutine_fn qcow2_co_truncate(BlockDrive=
+rState *bs, int64_t offset,
+         g_assert_not_reached();
+     }
+=20
++    if ((flags & BDRV_REQ_ZERO_WRITE) && offset > old_length) {
++        uint64_t zero_start =3D QEMU_ALIGN_UP(old_length, s->cluster_size)=
 ;
-+        ret =3D blk_truncate(blk, new_size, true, PREALLOC_MODE_OFF, 0, er=
-rp);
-         blk_unref(blk);
-         if (ret < 0) {
-             return ret;
-diff --git a/block/qed.c b/block/qed.c
-index fb6100bd20..b0fdb8f565 100644
---- a/block/qed.c
-+++ b/block/qed.c
-@@ -677,7 +677,7 @@ static int coroutine_fn bdrv_qed_co_create(BlockdevCrea=
-teOptions *opts,
-      * The QED format associates file length with allocation status,
-      * so a new file (which is empty) must have a length of 0.
-      */
--    ret =3D blk_truncate(blk, 0, true, PREALLOC_MODE_OFF, errp);
-+    ret =3D blk_truncate(blk, 0, true, PREALLOC_MODE_OFF, 0, errp);
-     if (ret < 0) {
-         goto out;
-     }
-diff --git a/block/vdi.c b/block/vdi.c
-index e1a11f2aa0..0c7835ae70 100644
---- a/block/vdi.c
-+++ b/block/vdi.c
-@@ -875,7 +875,7 @@ static int coroutine_fn vdi_co_do_create(BlockdevCreate=
-Options *create_options,
-=20
-     if (image_type =3D=3D VDI_TYPE_STATIC) {
-         ret =3D blk_truncate(blk, offset + blocks * block_size, false,
--                           PREALLOC_MODE_OFF, errp);
-+                           PREALLOC_MODE_OFF, 0, errp);
-         if (ret < 0) {
-             error_prepend(errp, "Failed to statically allocate file");
-             goto exit;
-diff --git a/block/vhdx.c b/block/vhdx.c
-index 5dfbb2029a..21497f7318 100644
---- a/block/vhdx.c
-+++ b/block/vhdx.c
-@@ -1703,13 +1703,13 @@ static int vhdx_create_bat(BlockBackend *blk, BDRVV=
-HDXState *s,
-         /* All zeroes, so we can just extend the file - the end of the BAT
-          * is the furthest thing we have written yet */
-         ret =3D blk_truncate(blk, data_file_offset, false, PREALLOC_MODE_O=
-FF,
--                           errp);
-+                           0, errp);
-         if (ret < 0) {
-             goto exit;
-         }
-     } else if (type =3D=3D VHDX_TYPE_FIXED) {
-         ret =3D blk_truncate(blk, data_file_offset + image_size, false,
--                           PREALLOC_MODE_OFF, errp);
-+                           PREALLOC_MODE_OFF, 0, errp);
-         if (ret < 0) {
-             goto exit;
-         }
-diff --git a/block/vmdk.c b/block/vmdk.c
-index 5de99fe813..8ec18f35a5 100644
---- a/block/vmdk.c
-+++ b/block/vmdk.c
-@@ -2118,7 +2118,7 @@ static int vmdk_init_extent(BlockBackend *blk,
-     int gd_buf_size;
-=20
-     if (flat) {
--        ret =3D blk_truncate(blk, filesize, false, PREALLOC_MODE_OFF, errp=
++
++        /*
++         * Use zero clusters as much as we can. qcow2_cluster_zeroize()
++         * requires a cluster-aligned start. The end may be unaligned if i=
+t is
++         * at the end of the image (which it is here).
++         */
++        ret =3D qcow2_cluster_zeroize(bs, zero_start, offset - zero_start,=
+ 0);
++        if (ret < 0) {
++            error_setg_errno(errp, -ret, "Failed to zero out new clusters"=
 );
-+        ret =3D blk_truncate(blk, filesize, false, PREALLOC_MODE_OFF, 0, e=
-rrp);
-         goto exit;
-     }
-     magic =3D cpu_to_be32(VMDK4_MAGIC);
-@@ -2182,7 +2182,7 @@ static int vmdk_init_extent(BlockBackend *blk,
-     }
-=20
-     ret =3D blk_truncate(blk, le64_to_cpu(header.grain_offset) << 9, false=
-,
--                       PREALLOC_MODE_OFF, errp);
-+                       PREALLOC_MODE_OFF, 0, errp);
-     if (ret < 0) {
-         goto exit;
-     }
-@@ -2523,7 +2523,7 @@ static int coroutine_fn vmdk_co_do_create(int64_t siz=
-e,
-     /* bdrv_pwrite write padding zeros to align to sector, we don't need t=
-hat
-      * for description file */
-     if (desc_offset =3D=3D 0) {
--        ret =3D blk_truncate(blk, desc_len, false, PREALLOC_MODE_OFF, errp=
-);
-+        ret =3D blk_truncate(blk, desc_len, false, PREALLOC_MODE_OFF, 0, e=
-rrp);
-         if (ret < 0) {
-             goto exit;
-         }
-diff --git a/block/vpc.c b/block/vpc.c
-index d8141b52da..2d1eade146 100644
---- a/block/vpc.c
-+++ b/block/vpc.c
-@@ -898,7 +898,7 @@ static int create_fixed_disk(BlockBackend *blk, uint8_t=
- *buf,
-     /* Add footer to total size */
-     total_size +=3D HEADER_SIZE;
-=20
--    ret =3D blk_truncate(blk, total_size, false, PREALLOC_MODE_OFF, errp);
-+    ret =3D blk_truncate(blk, total_size, false, PREALLOC_MODE_OFF, 0, err=
-p);
-     if (ret < 0) {
-         return ret;
-     }
-diff --git a/blockdev.c b/blockdev.c
-index 5faddaa705..fbe3a06dbf 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -2741,7 +2741,7 @@ void qmp_block_resize(bool has_device, const char *de=
-vice,
-     }
-=20
-     bdrv_drained_begin(bs);
--    ret =3D blk_truncate(blk, size, false, PREALLOC_MODE_OFF, errp);
-+    ret =3D blk_truncate(blk, size, false, PREALLOC_MODE_OFF, 0, errp);
-     bdrv_drained_end(bs);
-=20
- out:
-diff --git a/qemu-img.c b/qemu-img.c
-index 821cbf610e..7f52742ef2 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -3866,7 +3866,7 @@ static int img_resize(int argc, char **argv)
-      * resizing, so pass @exact=3Dtrue.  It is of no use to report
-      * success when the image has not actually been resized.
-      */
--    ret =3D blk_truncate(blk, total_size, true, prealloc, &err);
-+    ret =3D blk_truncate(blk, total_size, true, prealloc, 0, &err);
-     if (!ret) {
-         qprintf(quiet, "Image resized.\n");
-     } else {
-diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-index 1b7e700020..851f07e8f8 100644
---- a/qemu-io-cmds.c
-+++ b/qemu-io-cmds.c
-@@ -1715,7 +1715,7 @@ static int truncate_f(BlockBackend *blk, int argc, ch=
-ar **argv)
-      * exact=3Dtrue.  It is better to err on the "emit more errors" side
-      * than to be overly permissive.
-      */
--    ret =3D blk_truncate(blk, offset, true, PREALLOC_MODE_OFF, &local_err)=
-;
-+    ret =3D blk_truncate(blk, offset, true, PREALLOC_MODE_OFF, 0, &local_e=
-rr);
-     if (ret < 0) {
-         error_report_err(local_err);
-         return ret;
++            goto fail;
++        }
++
++        /* Write explicit zeros for the unaligned head */
++        if (zero_start > old_length) {
++            uint8_t *buf =3D qemu_blockalign0(bs, s->cluster_size);
++            QEMUIOVector qiov;
++            qemu_iovec_init_buf(&qiov, buf, zero_start - old_length);
++
++            qemu_co_mutex_unlock(&s->lock);
++            ret =3D qcow2_co_pwritev_part(bs, old_length, qiov.size, &qiov=
+, 0, 0);
++            qemu_co_mutex_lock(&s->lock);
++
++            qemu_vfree(buf);
++            if (ret < 0) {
++                error_setg_errno(errp, -ret, "Failed to zero out the new a=
+rea");
++                goto fail;
++            }
++        }
++    }
++
+     if (prealloc !=3D PREALLOC_MODE_OFF) {
+         /* Flush metadata before actually changing the image size */
+         ret =3D qcow2_write_caches(bs);
 --=20
 2.25.3
 
