@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3895A1B62D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 19:57:37 +0200 (CEST)
-Received: from localhost ([::1]:35114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A8F1B62D4
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 19:58:24 +0200 (CEST)
+Received: from localhost ([::1]:35176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRg6R-0001yS-Jy
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 13:57:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54348)
+	id 1jRg7D-0003DM-5w
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 13:58:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54460)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jRg5Q-00013S-WA
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:56:33 -0400
+ (envelope-from <eblake@redhat.com>) id 1jRg6I-0002Jq-PD
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:57:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jRg5P-0006xD-T9
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:56:32 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23890
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1jRg6I-0007Up-Bg
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:57:26 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50633
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jRg5P-0006uu-DC
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:56:31 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jRg6H-0007T6-Un
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:57:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587664590;
+ s=mimecast20190719; t=1587664645;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NliOtH3eRX+7FlzqE0XEQ1VWutMVs3I/iFICAy4XcsI=;
- b=fy2JVAiYhGvzQvJSFyuMn8K1kNs/aGriWcwvRwVnj3HIzmhIqblYGGfNMWFhCLL9gKQGee
- cNOmEhUeNoM2PxumUi5gsJb3m1dn2Q8myYNc1jyCTZqRTNdw+GMO3XzfhvtMqKvp7bZ0Wa
- 89DUoBjHedcu/vKy2z/e30ZjnxMQKXw=
+ bh=pGiqD6OHqx311nYM00rq7FffVYFeD2H+NhxVilhTBhs=;
+ b=UJdwAsTpHcrIcQUKNiu/T6Lpt/qvNoYuzpwdf+ZUmufVRtIladRMKwkZG/lwQjPej8Gx1F
+ sYC9XSqn5C3fptDPXBp2aZhcZPIimyfpGEO2LK+hqyRced9nZ5ORXTnJfD0+LnYfG7SP+8
+ 3AzxR+sJheJ46rKR+Aouq47n1iv6Oxk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-22-rvoYCYlWPyi7i5KvRV_JhA-1; Thu, 23 Apr 2020 13:56:20 -0400
-X-MC-Unique: rvoYCYlWPyi7i5KvRV_JhA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-62-P0qPGQUcOia_ICSmJuWnww-1; Thu, 23 Apr 2020 13:57:22 -0400
+X-MC-Unique: P0qPGQUcOia_ICSmJuWnww-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B3851800D51;
- Thu, 23 Apr 2020 17:56:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCA84461;
+ Thu, 23 Apr 2020 17:57:21 +0000 (UTC)
 Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B4ABA60CD1;
- Thu, 23 Apr 2020 17:56:18 +0000 (UTC)
-Subject: Re: [PATCH 08/13] qapi: Assert output visitors see only valid enum
- values
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 607CD5D70A;
+ Thu, 23 Apr 2020 17:57:21 +0000 (UTC)
+Subject: Re: [PATCH 09/13] qapi: Assert non-input visitors see only valid
+ narrow integers
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20200423160036.7048-1-armbru@redhat.com>
- <20200423160036.7048-9-armbru@redhat.com>
+ <20200423160036.7048-10-armbru@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <75ecc321-7301-3c4c-c3be-741855d13e14@redhat.com>
-Date: Thu, 23 Apr 2020 12:56:17 -0500
+Message-ID: <e866fcf7-4ffc-69f9-7548-e15c0aaac259@redhat.com>
+Date: Thu, 23 Apr 2020 12:57:20 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200423160036.7048-9-armbru@redhat.com>
+In-Reply-To: <20200423160036.7048-10-armbru@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 03:23:21
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.61
@@ -84,37 +84,21 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/23/20 11:00 AM, Markus Armbruster wrote:
-> output_type_enum() fails when *obj is not a valid value of the enum
-> type.  Should not happen.  Drop the check, along with its unit tests.
-> qapi_enum_lookup()'s assertion still guards.
+> visit_type_intN() and visit_type_uintN() fail when the value is out of
+> bounds.
+> 
+> This is appropriate with an input visitor: the value comes from input,
+> and input may be bad.
+> 
+> It should never happen with the other visitors: the value comes from
+> the caller, and callers must keep it within bounds.  Assert that.
 > 
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->   qapi/qapi-visit-core.c              |  9 -------
->   tests/test-qobject-output-visitor.c | 39 -----------------------------
->   tests/test-string-output-visitor.c  | 19 --------------
->   3 files changed, 67 deletions(-)
-
-Nice cleanup.
-
-The commit message implies adding an assertion; but in reality, the 
-change is deleting dead code (because we already have the assertion in 
-place).  Maybe it's worth updating the subject?
-
+>   qapi/qapi-visit-core.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
+> 
 Reviewed-by: Eric Blake <eblake@redhat.com>
-
-> -    /*
-> -     * TODO why is this an error, not an assertion?  If assertion:
-> -     * delete, and rely on qapi_enum_lookup()
-> -     */
-> -    if (value < 0 || value >= lookup->size) {
-> -        error_setg(errp, QERR_INVALID_PARAMETER, name ? name : "null");
-> -        return;
-> -    }
-
-The comment being deleted is what points out the assertion that already 
-exists.
-
 
 -- 
 Eric Blake, Principal Software Engineer
