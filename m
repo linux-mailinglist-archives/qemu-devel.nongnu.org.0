@@ -2,55 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E14DF1B617F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 19:01:43 +0200 (CEST)
-Received: from localhost ([::1]:45952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BFBF1B6077
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 18:13:19 +0200 (CEST)
+Received: from localhost ([::1]:46004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRe51-0004lZ-R9
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 11:47:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57342)
+	id 1jRe7P-0000dz-QW
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 11:50:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58014)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1jRe32-0002vR-Mx
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:45:56 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jRe5u-0007D9-2x
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:48:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1jRe31-0006qS-ST
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:45:56 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:40917)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jRe30-0006bN-WD; Thu, 23 Apr 2020 11:45:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=ThxkYpu0m025sAoAV+c74k1GqC7O9yRA28t0Rb56NTQ=; 
- b=Wf+CkQgFaH9amzvgmBQz/BXB/vnZrejnE1UQSZ6tZ2tKMdWtOEI8dMhRQU5t1P4e2cbXnkq61Ru8sLIMQhPVuab8Gq8tbIq1mv6YBrP+R539lCXO0uN5rUnXaf9O0lQvDBIt6IfqqG+3Uwh920Wt/NVjAW2UolIf0ZQAs8ddKmbhyAIT2vskmCZayY6xGUPChIusmt4ll0GFQtocBtlK+xiSerAIrAkVX0Xglb/sSMetWACylh/lQXnkfvmq52a3LGidqSjJpb0Rlk57eMdXrpzMAewuZ+icCuNZJXsZHOwlJKI2RwEmboeIDaeQWyxuoWq54U0ONa7SlBWc51AalA==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1jRe2v-00087I-4K; Thu, 23 Apr 2020 17:45:49 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1jRe2u-0005tH-RF; Thu, 23 Apr 2020 17:45:48 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 21/30] qcow2: Add subcluster support to
- check_refcounts_l2()
-In-Reply-To: <9972aadc-dcc8-9fce-019b-e23d2b7dcad8@virtuozzo.com>
-References: <cover.1584468723.git.berto@igalia.com>
- <ef2a1699095c04e954665aba591dd055c3bddb63.1584468723.git.berto@igalia.com>
- <9972aadc-dcc8-9fce-019b-e23d2b7dcad8@virtuozzo.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Thu, 23 Apr 2020 17:45:48 +0200
-Message-ID: <w51y2qm5hoz.fsf@maestria.local.igalia.com>
+ (envelope-from <kwolf@redhat.com>) id 1jRe5t-0001m0-Mu
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:48:53 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43551
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jRe5t-0001jy-2m
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:48:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587656932;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UZyr8aq0wFC0KaPX01AX5MSXRFLmJJ3H2ULg9hbJC5g=;
+ b=FSd9bntpiaNO6QyxQWGyxYY0bwww5sVecgv2RfZRsYCfs49/6aX8q+BKkrBaMj61+JvG0B
+ ZT3O8yTvnduW03njxSW9aKfzCwVSLeTLLvvuoP/RbSGI1v3Z4RszIopjVi1nyr/h2KmmM9
+ I1apR1a2n9uybx31iLx95Vx0VnQXXkI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-16-SSPOay-JNEWb46_TM1tEDw-1; Thu, 23 Apr 2020 11:48:48 -0400
+X-MC-Unique: SSPOay-JNEWb46_TM1tEDw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2220E100CC8F;
+ Thu, 23 Apr 2020 15:48:47 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-28.ams2.redhat.com [10.36.114.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8985F196AE;
+ Thu, 23 Apr 2020 15:48:45 +0000 (UTC)
+Date: Thu, 23 Apr 2020 17:48:44 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v6 04/10] qcow2: Support BDRV_REQ_ZERO_WRITE for truncate
+Message-ID: <20200423154844.GE23654@linux.fritz.box>
+References: <20200423150127.142609-1-kwolf@redhat.com>
+ <20200423150127.142609-5-kwolf@redhat.com>
+ <b9d97ddb-b13d-637a-1848-1d93a2d44736@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 10:18:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+In-Reply-To: <b9d97ddb-b13d-637a-1848-1d93a2d44736@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 05:42:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,27 +76,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- "Denis V . Lunev" <den@openvz.org>
+Cc: vsementsov@virtuozzo.com, berto@igalia.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed 22 Apr 2020 02:06:56 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
-> 17.03.2020 21:16, Alberto Garcia wrote:
->> Setting the QCOW_OFLAG_ZERO bit of the L2 entry is forbidden if an
->> image has subclusters. Instead, the individual 'all zeroes' bits must
->> be used.
->> 
->> Signed-off-by: Alberto Garcia <berto@igalia.com>
->> Reviewed-by: Max Reitz <mreitz@redhat.com>
->
-> Patch itself seems correct.. Still, would be good also to check, is
-> QCOW_OFLAG_ZERO set in subclustres case and add corresponding
-> corruptions++, and may be even fix (by using
-> QCOW_L2_BITMAP_ALL_ZEROES instead)
+Am 23.04.2020 um 17:18 hat Eric Blake geschrieben:
+> On 4/23/20 10:01 AM, Kevin Wolf wrote:
+> > If BDRV_REQ_ZERO_WRITE is set and we're extending the image, calling
+> > qcow2_cluster_zeroize() with flags=3D0 does the right thing: It doesn't
+> > undo any previous preallocation, but just adds the zero flag to all
+> > relevant L2 entries. If an external data file is in use, a write_zeroes
+> > request to the data file is made instead.
+> >=20
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > Reviewed-by: Max Reitz <mreitz@redhat.com>
+> > ---
+> >   block/qcow2-cluster.c |  2 +-
+> >   block/qcow2.c         | 33 +++++++++++++++++++++++++++++++++
+> >   2 files changed, 34 insertions(+), 1 deletion(-)
+> >=20
+>=20
+> > +    if ((flags & BDRV_REQ_ZERO_WRITE) && offset > old_length) {
+> > +        uint64_t zero_start =3D QEMU_ALIGN_UP(old_length, s->cluster_s=
+ize);
+> > +
+> > +        /*
+> > +         * Use zero clusters as much as we can. qcow2_cluster_zeroize(=
+)
+> > +         * requires a cluster-aligned start. The end may be unaligned =
+if it is
+> > +         * at the end of the image (which it is here).
+> > +         */
+> > +        ret =3D qcow2_cluster_zeroize(bs, zero_start, offset - zero_st=
+art, 0);
+> > +        if (ret < 0) {
+> > +            error_setg_errno(errp, -ret, "Failed to zero out new clust=
+ers");
+> > +            goto fail;
+> > +        }
+> > +
+> > +        /* Write explicit zeros for the unaligned head */
+> > +        if (zero_start > old_length) {
+> > +            uint8_t *buf =3D qemu_blockalign0(bs, s->cluster_size);
+> > +            QEMUIOVector qiov;
+> > +            qemu_iovec_init_buf(&qiov, buf, zero_start - old_length);
+> > +
+> > +            qemu_co_mutex_unlock(&s->lock);
+> > +            ret =3D qcow2_co_pwritev_part(bs, old_length, qiov.size, &=
+qiov, 0, 0);
+>=20
+> This works, but would it be any more efficient to use
+> qcow2_co_pwrite_zeroes?  If the head of the cluster is already zero, then
+> qcow2_co_pwrite_zeroes can turn into qcow2_cluster_zeroize for this clust=
+er,
+> while qcow2_co_pwritev_part cannot.
 
-I'll add it to my TODO list for a later patch.
+The problem is that qcow2_co_pwrite_zeroes() will return -ENOTSUP if the
+request is still unaligned after this optimisation. I would have to go
+through the generic bdrv_co_pwrite_zeroes() to get the fallback, but I
+can't do that because bs->total_sectors isn't updated yet.
 
-Berto
+Kevin
+
 
