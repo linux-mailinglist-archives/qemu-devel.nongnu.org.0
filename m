@@ -2,56 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D17751B603D
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 18:04:31 +0200 (CEST)
-Received: from localhost ([::1]:57766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B6EE1B6055
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 18:07:16 +0200 (CEST)
+Received: from localhost ([::1]:57972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jReL0-0001Zd-QU
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 12:04:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59886)
+	id 1jReNf-00063Q-9q
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 12:07:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59882)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jReHl-00063I-NP
+ (envelope-from <armbru@redhat.com>) id 1jReHk-00063G-OX
  for qemu-devel@nongnu.org; Thu, 23 Apr 2020 12:01:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jReHS-00025A-FU
+ (envelope-from <armbru@redhat.com>) id 1jReHQ-00022u-Jw
  for qemu-devel@nongnu.org; Thu, 23 Apr 2020 12:01:08 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53822
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30683
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jReHQ-0001xI-7n
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 12:00:50 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jReHQ-0001wp-2T
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 12:00:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1587657641;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=1ck46pRGrxkDVzNz1NGlYykwF+gi6Gl4IlxLMz7lgHw=;
- b=IQiwgLJtmBfk/pp1/1osBSPq0emKLB0gHNO0kfYFGnYJvAScjZnHO5la8pc6eBMTYnpvHs
- +xxhnywxsHH/EVq9FRNT9kEGdvzZJWeaIinBQzRAhT44hxrZgfxkQrfGvpeh6d0faKmhOa
- cFQDhCpfFejfSyHt3/OlEp1eKIUbzj8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AorLotF1j7RvB12PFYX5lxGkv3DttGRrYNfU+YHZZZg=;
+ b=JCIAFKbTbq9t3sVN+hSP/l6IYtpFCRPBZp34sTjSln3Tt9nKxZdvZtFUoI1G2DMg93chUX
+ R2nAuKFo5zND1POeRwYV4fXtJfj5V4z7TxwYURPGcqkFE3f1HcSM4u9RqFx+/SZvngBwzE
+ w/12bCDYomu2GUwQd9cxiWe/xNjAuwU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-yfXW17f7Pjed5Vw-cVR-_A-1; Thu, 23 Apr 2020 12:00:39 -0400
-X-MC-Unique: yfXW17f7Pjed5Vw-cVR-_A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-509-XuheM1CpN7KzkaZ0w8P_pQ-1; Thu, 23 Apr 2020 12:00:39 -0400
+X-MC-Unique: XuheM1CpN7KzkaZ0w8P_pQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 207648005A7;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 242BD180F105;
  Thu, 23 Apr 2020 16:00:38 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E20EC60605;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E218810016EB;
  Thu, 23 Apr 2020 16:00:37 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 54FF411358BC; Thu, 23 Apr 2020 18:00:36 +0200 (CEST)
+ id 574A211358BD; Thu, 23 Apr 2020 18:00:36 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/13] qapi: Spring cleaning
-Date: Thu, 23 Apr 2020 18:00:23 +0200
-Message-Id: <20200423160036.7048-1-armbru@redhat.com>
+Subject: [PATCH 01/13] qapi: Belatedly update visitor.h's big comment for QAPI
+ modules
+Date: Thu, 23 Apr 2020 18:00:24 +0200
+Message-Id: <20200423160036.7048-2-armbru@redhat.com>
+In-Reply-To: <20200423160036.7048-1-armbru@redhat.com>
+References: <20200423160036.7048-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -76,36 +80,45 @@ Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster (13):
-  qapi: Belatedly update visitor.h's big comment for QAPI modules
-  qapi: Fix the virtual walk example in visitor.h's big comment
-  qapi: Fix typo in visit_start_list()'s contract
-  qapi: Document @errp usage more thoroughly in visitor.h
-  qapi: Polish prose in visitor.h
-  qapi: Assert incomplete object occurs only in dealloc visitor
-  qapi: Fix Visitor contract for start_alternate()
-  qapi: Assert output visitors see only valid enum values
-  qapi: Assert non-input visitors seeg only valid narrow integers
-  qapi: Clean up visitor's recovery from input with invalid type
-  qapi: Assert non-input visitors see only valid alternate tags
-  qapi: Only input visitors can actually fail
-  qom: Simplify object_property_get_enum()
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ include/qapi/visitor.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
- include/qapi/visitor-impl.h         |   9 +-
- include/qapi/visitor.h              | 192 ++++++++++++++++------------
- block.c                             |   9 +-
- block/sheepdog.c                    |   9 +-
- blockdev.c                          |  16 +--
- hw/core/machine-hmp-cmds.c          |   2 +-
- monitor/hmp-cmds.c                  |   3 +-
- qapi/qapi-dealloc-visitor.c         |   7 -
- qapi/qapi-visit-core.c              |  20 +--
- qom/object.c                        |   4 +-
- tests/test-qobject-output-visitor.c |  39 ------
- tests/test-string-output-visitor.c  |  19 ---
- scripts/qapi/visit.py               |   7 +-
- 13 files changed, 141 insertions(+), 195 deletions(-)
-
+diff --git a/include/qapi/visitor.h b/include/qapi/visitor.h
+index c5b23851a1..f8a0fc1ea9 100644
+--- a/include/qapi/visitor.h
++++ b/include/qapi/visitor.h
+@@ -58,7 +58,7 @@
+  *
+  * where T is FOO for scalar types, and FOO * otherwise.  The scalar
+  * visitors are declared here; the remaining visitors are generated in
+- * qapi-visit.h.
++ * qapi-visit-MODULE.h.
+  *
+  * The @name parameter of visit_type_FOO() describes the relation
+  * between this QAPI value and its parent container.  When visiting
+@@ -86,16 +86,16 @@
+  * by manual construction.
+  *
+  * For the QAPI object types (structs, unions, and alternates), there
+- * is an additional generated function in qapi-visit.h compatible
+- * with:
++ * is an additional generated function in qapi-visit-MODULE.h
++ * compatible with:
+  *
+  * void visit_type_FOO_members(Visitor *v, FOO *obj, Error **errp);
+  *
+  * for visiting the members of a type without also allocating the QAPI
+  * struct.
+  *
+- * Additionally, in qapi-types.h, all QAPI pointer types (structs,
+- * unions, alternates, and lists) have a generated function compatible
++ * Additionally, QAPI pointer types (structs, unions, alternates, and
++ * lists) have a generated function in qapi-types-MODULE.h compatible
+  * with:
+  *
+  * void qapi_free_FOO(FOO *obj);
 --=20
 2.21.1
 
