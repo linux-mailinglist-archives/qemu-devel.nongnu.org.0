@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 680F11B57AD
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 11:04:16 +0200 (CEST)
-Received: from localhost ([::1]:39252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C3381B57B4
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 11:06:26 +0200 (CEST)
+Received: from localhost ([::1]:39316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRXmJ-0002sF-FE
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 05:04:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36076)
+	id 1jRXoP-0006aF-7n
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 05:06:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36102)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geert@linux-m68k.org>) id 1jRXje-0000lt-CL
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 05:01:41 -0400
+ (envelope-from <geert@linux-m68k.org>) id 1jRXjh-0000qD-46
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 05:01:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <geert@linux-m68k.org>) id 1jRXjb-0001Dl-Ep
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 05:01:30 -0400
-Received: from xavier.telenet-ops.be ([2a02:1800:120:4::f00:14]:36688)
+ (envelope-from <geert@linux-m68k.org>) id 1jRXjb-0001E1-HM
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 05:01:32 -0400
+Received: from andre.telenet-ops.be ([2a02:1800:120:4::f00:15]:34528)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <geert@linux-m68k.org>)
- id 1jRXja-0001BX-2J
+ id 1jRXja-0001Bd-5S
  for qemu-devel@nongnu.org; Thu, 23 Apr 2020 05:01:26 -0400
 Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:89cc:efc7:85ce:4669])
- by xavier.telenet-ops.be with bizsmtp
- id W91L2200R1RvcFS0191LFF; Thu, 23 Apr 2020 11:01:21 +0200
+ by andre.telenet-ops.be with bizsmtp
+ id W91L2200k1RvcFS0191LLq; Thu, 23 Apr 2020 11:01:21 +0200
 Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
  (envelope-from <geert@linux-m68k.org>)
- id 1jRXjU-0006kH-Bt; Thu, 23 Apr 2020 11:01:20 +0200
+ id 1jRXjU-0006kJ-Cn; Thu, 23 Apr 2020 11:01:20 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
  (envelope-from <geert@linux-m68k.org>)
- id 1jRXjU-0002vd-Aq; Thu, 23 Apr 2020 11:01:20 +0200
+ id 1jRXjU-0002vg-BT; Thu, 23 Apr 2020 11:01:20 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Alexander Graf <graf@amazon.com>,
  Linus Walleij <linus.walleij@linaro.org>,
  Bartosz Golaszewski <bartekgola@gmail.com>,
  Magnus Damm <magnus.damm@gmail.com>
-Subject: [PATCH QEMU v2 4/5] ARM: PL061: Add gpiodev support
-Date: Thu, 23 Apr 2020 11:01:17 +0200
-Message-Id: <20200423090118.11199-5-geert+renesas@glider.be>
+Subject: [PATCH QEMU v2 5/5] hw/arm/virt: Add dynamic PL061 GPIO support
+Date: Thu, 23 Apr 2020 11:01:18 +0200
+Message-Id: <20200423090118.11199-6-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200423090118.11199-1-geert+renesas@glider.be>
 References: <20200423090118.11199-1-geert+renesas@glider.be>
-Received-SPF: none client-ip=2a02:1800:120:4::f00:14;
- envelope-from=geert@linux-m68k.org; helo=xavier.telenet-ops.be
+Received-SPF: none client-ip=2a02:1800:120:4::f00:15;
+ envelope-from=geert@linux-m68k.org; helo=andre.telenet-ops.be
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a02:1800:120:4::f00:14
+X-Received-From: 2a02:1800:120:4::f00:15
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,114 +65,73 @@ Cc: linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make the PL061 GPIO controller user-creatable, and allow the user to tie
-a newly created instance to a gpiochip on the host.
-
-To create a new GPIO controller, the QEMU command line must be augmented
-with:
-
-    -device pl061,host=<gpiochip>
-
-with <gpiochip> the name or label of the gpiochip on the host.
+Add support for dynamically instantiating PL061 GPIO controller
+instances in ARM virt.  Device tree nodes are created dynamically.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v2:
   - New.
 ---
- hw/gpio/pl061.c | 35 +++++++++++++++++++++++++++++++++++
- qemu-options.hx |  9 +++++++++
- 2 files changed, 44 insertions(+)
+ hw/arm/sysbus-fdt.c | 18 ++++++++++++++++++
+ hw/arm/virt.c       |  1 +
+ 2 files changed, 19 insertions(+)
 
-diff --git a/hw/gpio/pl061.c b/hw/gpio/pl061.c
-index 74ba733a8a5e8ca5..98204f9a586ae8c8 100644
---- a/hw/gpio/pl061.c
-+++ b/hw/gpio/pl061.c
-@@ -12,11 +12,14 @@
- #include "hw/arm/fdt.h"
- #include "hw/gpio/pl061.h"
- #include "hw/irq.h"
-+#include "hw/qdev-properties.h"
- #include "hw/sysbus.h"
- #include "migration/vmstate.h"
-+#include "qapi/error.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
+diff --git a/hw/arm/sysbus-fdt.c b/hw/arm/sysbus-fdt.c
+index 6b6906f4cfc36198..493583218d176d0a 100644
+--- a/hw/arm/sysbus-fdt.c
++++ b/hw/arm/sysbus-fdt.c
+@@ -32,6 +32,7 @@
  #include "sysemu/device_tree.h"
-+#include "sysemu/gpiodev.h"
- 
- //#define DEBUG_PL061 1
- 
-@@ -41,6 +44,9 @@ static const uint8_t pl061_id_luminary[12] =
- typedef struct PL061State {
-     SysBusDevice parent_obj;
- 
-+#ifdef CONFIG_GPIODEV
-+    char *host;
-+#endif
-     MemoryRegion iomem;
-     uint32_t locked;
-     uint32_t data;
-@@ -370,10 +376,39 @@ static void pl061_init(Object *obj)
-     qdev_init_gpio_out(dev, s->out, 8);
+ #include "sysemu/tpm.h"
+ #include "hw/platform-bus.h"
++#include "hw/gpio/pl061.h"
+ #include "hw/vfio/vfio-platform.h"
+ #include "hw/vfio/vfio-calxeda-xgmac.h"
+ #include "hw/vfio/vfio-amd-xgbe.h"
+@@ -468,6 +469,22 @@ static int add_tpm_tis_fdt_node(SysBusDevice *sbdev, void *opaque)
+     return 0;
  }
  
-+#ifdef CONFIG_GPIODEV
-+static Property pl061_properties[] = {
-+    DEFINE_PROP_STRING("host", PL061State, host),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void pl061_realize(DeviceState *dev, Error **errp)
++/*
++ * add_pl061_node: Create a DT node for a PL061 GPIO controller
++ */
++static int add_pl061_node(SysBusDevice *sbdev, void *opaque)
 +{
-+    PL061State *s = PL061(dev);
++    PlatformBusFDTData *data = opaque;
++    PlatformBusDevice *pbus = data->pbus;
++    void *fdt = data->fdt;
 +
-+    if (!dev->opts) {
-+        /* Not created by user */
-+        return;
-+    }
-+
-+    if (!s->host) {
-+        error_setg(errp, "'host' property is required");
-+        return;
-+    }
-+
-+    qemu_gpiodev_add(dev, s->host, 8, errp);
++    pl061_create_fdt(fdt, data->pbus_node_name, 1,
++                     platform_bus_get_mmio_addr(pbus, sbdev, 0), 0x1000,
++                     platform_bus_get_irqn(pbus, sbdev, 0) + data->irq_start,
++                     qemu_fdt_get_phandle(fdt, "/apb-pclk"));
++    return 0;
 +}
-+#endif /* CONFIG_GPIODEV */
 +
- static void pl061_class_init(ObjectClass *klass, void *data)
+ static int no_fdt_node(SysBusDevice *sbdev, void *opaque)
  {
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-+#ifdef CONFIG_GPIODEV
-+    device_class_set_props(dc, pl061_properties);
-+    dc->realize = pl061_realize;
-+    dc->user_creatable = true;
-+#endif
-     dc->vmsd = &vmstate_pl061;
-     dc->reset = &pl061_reset;
- }
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 292d4e7c0cef6097..182de7fb63923b38 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -875,6 +875,15 @@ SRST
- ``-device isa-ipmi-bt,bmc=id[,ioport=val][,irq=val]``
-     Like the KCS interface, but defines a BT interface. The default port
-     is 0xe4 and the default interrupt is 5.
-+
-+#ifdef CONFIG_GPIODEV
-+``-device pl061,host=gpiochip``
-+    Add a PL061 GPIO controller, and map its virtual GPIO lines to a GPIO
-+    controller on the host.
-+
-+    ``host=gpiochip``
-+        The name or label of the GPIO controller on the host.
-+#endif
- ERST
- 
- DEF("name", HAS_ARG, QEMU_OPTION_name,
+     return 0;
+@@ -489,6 +506,7 @@ static const BindingEntry bindings[] = {
+     VFIO_PLATFORM_BINDING("amd,xgbe-seattle-v1a", add_amd_xgbe_fdt_node),
+ #endif
+     TYPE_BINDING(TYPE_TPM_TIS_SYSBUS, add_tpm_tis_fdt_node),
++    TYPE_BINDING(TYPE_PL061, add_pl061_node),
+     TYPE_BINDING(TYPE_RAMFB_DEVICE, no_fdt_node),
+     TYPE_BINDING("", NULL), /* last element */
+ };
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index c88c8850fbe00bdb..191594db09422d54 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2178,6 +2178,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
+     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_VFIO_PLATFORM);
+     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_TPM_TIS_SYSBUS);
++    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_PL061);
+     mc->block_default_type = IF_VIRTIO;
+     mc->no_cdrom = 1;
+     mc->pci_allow_0_address = true;
 -- 
 2.17.1
 
