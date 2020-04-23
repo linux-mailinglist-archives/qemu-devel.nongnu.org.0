@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F1861B6551
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 22:23:15 +0200 (CEST)
-Received: from localhost ([::1]:39766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A4DB1B6559
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 22:24:49 +0200 (CEST)
+Received: from localhost ([::1]:39972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRiNO-0006sP-DE
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 16:23:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55288)
+	id 1jRiOu-0002YZ-6F
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 16:24:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55306)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jRiLf-000491-7n
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:21:27 -0400
+ (envelope-from <philmd@redhat.com>) id 1jRiLh-0004Dr-Eg
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:21:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jRiLe-00036m-59
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:21:26 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41033
+ (envelope-from <philmd@redhat.com>) id 1jRiLh-00039L-15
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:21:29 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:39235
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jRiLd-000354-Fi
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:21:25 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jRiLg-00037x-JP
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:21:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587673282;
+ s=mimecast20190719; t=1587673287;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=9OiKYEiXObyyvdBrn5ZU7rEjNuUJXTXkgfrEwy77Qf8=;
- b=hQBZg7QWDoFJO+tJ3XxQEtfpKLvGFc9omLcK4RiDVIs52uy1nMOpNnEoaIijFSA+N8/nza
- w/6EWMTGB8O1XLJUo1175MpB/wIsqmKfMkQhxb/ry3io+fdKYVEWWto3DkVzXgE0zrQoRX
- /t/aK9KrTS+xlOHd4FLwcaKYCWVEpoA=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=S2Q0WaBSBkpjANrVvA4jiA2ezW8UXrcA1fVgJIOFZvQ=;
+ b=XdJnSv+iPPXSST8+wokTdOG5VZCot4aQBlF6aB8WZkbxS/VjlS91xGYNpJD/JRgWf4OgEF
+ 0F8y01B6s/kTQquxcalPuzcPUD/d0V8pQX9fdPGlkKRiODhzoolC+qf67Lge3+kO3DvN9e
+ F0okTGUUycWpFlrP2tpNMm4xfmeEOTM=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-NYl-vv8ENfWcWES064Hzmg-1; Thu, 23 Apr 2020 16:21:20 -0400
-X-MC-Unique: NYl-vv8ENfWcWES064Hzmg-1
-Received: by mail-wr1-f72.google.com with SMTP id e5so3364748wrs.23
- for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 13:21:20 -0700 (PDT)
+ us-mta-145-C7nkpQpRPCWsD3CgZsnJDQ-1; Thu, 23 Apr 2020 16:21:24 -0400
+X-MC-Unique: C7nkpQpRPCWsD3CgZsnJDQ-1
+Received: by mail-wr1-f72.google.com with SMTP id 11so3408818wrc.3
+ for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 13:21:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=g16r6Dl+yK2+wuLRwMGXGvj619Nq/tXVscJSs4aI4dk=;
- b=ZS88kna4ubtJqQXxFgKVuOmT/kunbcvyZhfHDYrO6WMd7rJJoE38deKHN/WVRSvbbu
- HwCSLd6whjzLmAix8b03JjCkML44KreCgxk/wRwD2zQrjZ4ypiya6SEE52Ow0A89pKDL
- y9KKG0v3p45uSWMnspLZENFMKz9Qj48HRSVO+C1Om4W7mWwjtpz7hj/5sQBQg3bU+zuG
- wlZVr09ZiI3fMWJiOIj7fodyVqquJkXbEUoGOdoLl7GE4R73rVwTvrjvnMWTkaWTYeKR
- 7ginMmOR6HsEb3sSgn+vAsnnMgdc3AUfNb/w6MdhYIx7kAp53oVNiS9hXm5eEJdW/XiK
- IAtw==
-X-Gm-Message-State: AGi0PuaoS3I7av7gnPg4FP0Y6N56ylK8B3+0bqtwqLpHSGLsdkjl3tqB
- 7poenrYuBjyJ78QDWUEG15KhMks809jET0UsYjgE0fu7Zg8BU+12nVa7eaAYkkpkNlvH9Di0CQF
- Vb9NgyaVbwhX8RfE=
-X-Received: by 2002:a1c:1bcb:: with SMTP id b194mr6218886wmb.4.1587673276548; 
- Thu, 23 Apr 2020 13:21:16 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJXIL3Yh44jjBNt18MBCNIr/1uygsc5WV3Zp1pTm/oCwcAbLjo3a0k9eTwrGK5QjeypSFckLg==
-X-Received: by 2002:a1c:1bcb:: with SMTP id b194mr6218865wmb.4.1587673276328; 
- Thu, 23 Apr 2020 13:21:16 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=HbSxa+gqPU1dU/akvu1eihUlexpvtYzyR1urxcHvdYY=;
+ b=FM/HiyfQWs/RzIu6CKzSjM1bFOsU55aPaL5qUCztEGa+OTXC+vB056Ygvdu8B3UF4B
+ 44ZFWVG3aJul/2lhHr1LKYkRKZxkDer6LB4KpJLmQB4D0kxdPUfwqrExelWTTcZr7Hrk
+ s5jXo8OPUJ3F5wnb71VjOEpJ8pq+KBG8fyeCkpK582vkHDV0MhvqMu9s5H33ecY4GUpg
+ vd4FfCCxawiE7nHhV5kYg6wJ5osHhA7L++thK1f2Q5kJWXuO+D0O/8NtusHeVJLwA3IA
+ zVifu+qMlQctLvfLwnjk8vOQcZ5aPzG/5dXmcdv7nGJGHw7430wtlQhMRBLWLd4hTicL
+ P9dA==
+X-Gm-Message-State: AGi0Pua2FtuKLx9b9otSobFwbTceDYKan2QoezAOl0GZpfqQU6GPaWzv
+ jHC+ix3lSDyy+dQlWedAgtQzTGNqggvjiwXfQnW+ai97UD82jEM3N1Y3n9XXFJBmipKagB5covi
+ HhQcDypNxytzcbGw=
+X-Received: by 2002:adf:9168:: with SMTP id j95mr6544230wrj.145.1587673283459; 
+ Thu, 23 Apr 2020 13:21:23 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKZVmUrEqf34guRgk0dkUhfGUUHDiH7C7fb4PPRk7aNxChVOqxRsfieuSPmthntO4XDgosofQ==
+X-Received: by 2002:adf:9168:: with SMTP id j95mr6544119wrj.145.1587673281803; 
+ Thu, 23 Apr 2020 13:21:21 -0700 (PDT)
 Received: from localhost.localdomain (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id g6sm5175029wrw.34.2020.04.23.13.21.14
+ by smtp.gmail.com with ESMTPSA id b2sm5961345wrn.6.2020.04.23.13.21.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Apr 2020 13:21:15 -0700 (PDT)
+ Thu, 23 Apr 2020 13:21:21 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/7] chardev: Reduce system emulation specific code
-Date: Thu, 23 Apr 2020 22:21:05 +0200
-Message-Id: <20200423202112.644-1-philmd@redhat.com>
+Subject: [PATCH 1/7] monitor/misc: Remove unused "chardev/char-mux.h" include
+Date: Thu, 23 Apr 2020 22:21:06 +0200
+Message-Id: <20200423202112.644-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200423202112.644-1-philmd@redhat.com>
+References: <20200423202112.644-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
@@ -98,44 +102,25 @@ Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-chardev cleanup while reviewing 'Refactor machine_init and exit
-notifiers' from the multi-process series:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg697510.html
+monitor/misc.c never required "chardev/char-mux.h", remove it.
 
-Elena Ufimtseva (1):
-  multi-process: Refactor machine_init and exit notifiers
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ monitor/misc.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Philippe Mathieu-Daud=C3=A9 (6):
-  monitor/misc: Remove unused "chardev/char-mux.h" include
-  tests/test-char: Remove unused "chardev/char-mux.h" include
-  chardev: Restrict msmouse / wctablet / testdev to system emulation
-  chardev: Reduce "char-mux.h" scope, rename it "chardev-internal.h"
-  chardev: Extract system emulation specific code
-  stubs: Split machine-init-done as machine-init and machine-notify
-
- Makefile.objs                                 |  1 +
- .../char-mux.h =3D> chardev/chardev-internal.h  | 10 ++-
- include/sysemu/sysemu.h                       |  2 +
- chardev/char-fe.c                             |  2 +-
- chardev/char-mux.c                            |  2 +-
- chardev/char.c                                | 37 +---------
- chardev/chardev-sysemu.c                      | 69 +++++++++++++++++++
- monitor/misc.c                                |  1 -
- softmmu/vl.c                                  | 42 -----------
- stubs/machine-init.c                          |  4 ++
- .../{machine-init-done.c =3D> machine-notify.c} |  6 +-
- tests/test-char.c                             |  1 -
- util/machine-notify.c                         | 69 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- chardev/Makefile.objs                         |  3 +-
- stubs/Makefile.objs                           |  3 +-
- 16 files changed, 165 insertions(+), 88 deletions(-)
- rename include/chardev/char-mux.h =3D> chardev/chardev-internal.h (93%)
- create mode 100644 chardev/chardev-sysemu.c
- create mode 100644 stubs/machine-init.c
- rename stubs/{machine-init-done.c =3D> machine-notify.c} (63%)
- create mode 100644 util/machine-notify.c
-
+diff --git a/monitor/misc.c b/monitor/misc.c
+index 6c45fa490f..5d68026a7f 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -33,7 +33,6 @@
+ #include "exec/gdbstub.h"
+ #include "net/net.h"
+ #include "net/slirp.h"
+-#include "chardev/char-mux.h"
+ #include "ui/qemu-spice.h"
+ #include "qemu/config-file.h"
+ #include "qemu/ctype.h"
 --=20
 2.21.1
 
