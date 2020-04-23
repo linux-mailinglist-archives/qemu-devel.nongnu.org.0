@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 162E01B6860
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 01:14:49 +0200 (CEST)
-Received: from localhost ([::1]:44620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C38D1B6922
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 01:20:56 +0200 (CEST)
+Received: from localhost ([::1]:44860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRl3Q-0006Ml-2m
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 19:14:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43092)
+	id 1jRl9L-0002zb-Ap
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 19:20:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51336)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jRl2D-0005aw-Cy
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 19:13:34 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jRl5T-0007EE-SY
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 19:17:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jRl2C-00015o-Ff
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 19:13:33 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:38863)
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jRl5Q-0006m4-V1
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 19:16:55 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:33994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jRl2B-00012P-So
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 19:13:32 -0400
-Received: by mail-pl1-x643.google.com with SMTP id w3so3021055plz.5
- for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 16:13:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OX4b+QNcL22+ozwOoFSapKccX6ob5fxurJmJf+QKPjI=;
- b=EdbmF4tkSxpqf37l0+m9l/lC44aWzLB1PPQZPCd6GyPYtkno6ackCslv+VGfPxC+3o
- V7TUjp7fBr9ibr4iFbM5sNiXdI2e4TYmAv0/2Y3t4L6kvx+H0zQhS7xp4MhoPtSxHJvR
- mmRcM5cobLXFNoeNbahhqB71xsBQAGY+/CiiiOApTDZMUZI/lTiRHA0YICLii6b6hg+Q
- 7B+I9/JiKWH64HJ+Tbw1WLVr/TjrrHt015mBCRDPIMISQsI/P4VO3T9qsFovyXTwOzFP
- da9Xxw3ZjMEdfuYLG4ZJHMYSPbpSkIjO8cvBkyp9DVaaO9L++hL3x8nytJ1ySqd2VcjK
- CVbQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jRl5Q-0006hr-Di
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 19:16:52 -0400
+Received: by mail-wm1-x341.google.com with SMTP id v4so8619282wme.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 16:16:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QqFmL+6vdmx3ikkSn1UPbShh4FBtsVBnq85SLDvukMk=;
+ b=N0Ndjrcte/v7qdQCBfP5LkQ8uR3QbS/wNMljE0hfH+W9BVxeabWhDZMnHDvK8PwTqW
+ UIql89qVW9dFvfmTqROeIxkgyAr4tOrH8+Yn5/SPqxMcLlOeYq3hquiUdRJkYsXGhHh2
+ 4z6/HpEysA38/BLspl0iZyjKrshVs5VTiPXPoXIz0oYDwY3cZjHeI76FXeT4HORDhYTs
+ 2auBmp/w7JsbEDeifAeINqbwaj1KpH6+cQL3fcW6vo1kjgrYNY8nZc5WPfuL5VrlgHle
+ EL7pwxV36R9W0TSpTtwTE4KLHeqJBIG0zFoR4DJIBz7x0Sd0Yw8sCE1Qd9LH1cvWacFi
+ tdYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OX4b+QNcL22+ozwOoFSapKccX6ob5fxurJmJf+QKPjI=;
- b=BZrBlYLnWffljt6Vez+8OcnsZYSFxGwOBs0uu64TwP3lXBhWKuj9sYvZqzoYILS1j/
- LPVzXBKn51ZjaSK903HZwL5fhDTcAbNTOHQKcVZ4/II7r6YRDlTMovAoCaAGoYRPESz3
- SYbN3nB+jtAgnARyvRBnRM3LPfaMl73UatWYZLpt9f7wZukRvHTdz3kJFRLKIwdJxLD+
- mI31AVlSi0xhtBCNEWDgBXch3cPFu+K0W/d17IJUVIbW7S6wcIP+yy8TkjivP8ubM9Gh
- WMKbNaeNy6elvJ2Ctk466yvG5DgL/RUum9yImuWJt7Sz7XM/pZRsoMcIFIYfkLBtk+2G
- b4OA==
-X-Gm-Message-State: AGi0PuZwI29f4vbG2mVkzBvbtS8JHkchs6Ay5tQnfE+xTGqV8mG5SYSN
- omRYlR+QI7Cwv4fNQi5V1Z1jFhxBcIQ=
-X-Google-Smtp-Source: APiQypIFWntDssHP3Q7yQH5dACFu4SAutOgZ6p5tIb455lL04SuoPT/JZ4rfKTFimf7Jry2FdKkUdQ==
-X-Received: by 2002:a17:902:d203:: with SMTP id
- t3mr6040976ply.136.1587683610076; 
- Thu, 23 Apr 2020 16:13:30 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id v127sm3572197pfv.77.2020.04.23.16.13.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Apr 2020 16:13:29 -0700 (PDT)
-Subject: Re: [PATCH v2 13/36] tcg: Use tcg_constant_{i32,i64} with tcg int
- expanders
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20200422011722.13287-1-richard.henderson@linaro.org>
- <20200422011722.13287-14-richard.henderson@linaro.org>
- <87ftcvb82k.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <df8292e5-5b27-31eb-1e4a-3e8f835481fc@linaro.org>
-Date: Thu, 23 Apr 2020 16:13:27 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=QqFmL+6vdmx3ikkSn1UPbShh4FBtsVBnq85SLDvukMk=;
+ b=jm19uGkJCnmi9wmiePa7yqNDXSo+jGKLJpczDTcRrfNS5qoKjQ8p72Cfvdd3UDiMT5
+ 3FK2KxeUPb6wclG2we3N3atg5NRSsKMI7iQn1UQHi096Lov8xbBFhrEfIxyDJkT6nH7f
+ htBQPWwfQQ86AsmrWSxG2dkzlWdn6lndmPKaawVTEO9hiGA/e7LeUUf8WsCwvS5Mu3vX
+ f41h4d9pV4FVFhwnhKeSsE6fruXuZGyXmD7eAkI8WjcDzQjdNurHizAcUkk8P/FPDsrq
+ 0HfekP45BE9K6o5upVVTgln6SDcLNiTtWy/xgEUbia/OTHlkO614brsW7oAWZQ1lmrdj
+ 4NiA==
+X-Gm-Message-State: AGi0PuYYjknJBWh0JHu5pYsjIQx1/NXB4U3hOT3xRpKkFIDEuB1EzFP8
+ kcfVfujGxgHbS1J4eabSQQuC+EUo
+X-Google-Smtp-Source: APiQypJdFwEQP0fcuCpfJ75w3QPfWghMaevN+a/j+ZJ3n0CK+S65261E4H2Ice5ehcxWaXrDIx6vfw==
+X-Received: by 2002:a1c:9cca:: with SMTP id f193mr6497385wme.71.1587683807312; 
+ Thu, 23 Apr 2020 16:16:47 -0700 (PDT)
+Received: from localhost.localdomain (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id h13sm5498122wrs.22.2020.04.23.16.16.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Apr 2020 16:16:46 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 0/3] hw/net/tulip: Fix LP#1874539
+Date: Fri, 24 Apr 2020 01:16:41 +0200
+Message-Id: <20200423231644.15786-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-In-Reply-To: <87ftcvb82k.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::643
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,42 +82,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>,
+ Jason Wang <jasowang@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/22/20 1:04 PM, Alex Bennée wrote:
-> 
-> Richard Henderson <richard.henderson@linaro.org> writes:
-> 
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> 
-> We have a regression. Setting up a build dir with:
-> 
->   ../../configure --disable-tools --disable-docs --target-list=sparc-softmmu,sparc64-softmmu
->   make -j30 && make check-acceptance
-> 
-> And then running a bisect between HEAD and master:
-> 
->   git bisect run /bin/sh -c "cd builds/bisect && make -j30 && ./tests/venv/bin/avocado run ./tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_sparc_ss20"
-> 
-> Fingers:
-> 
->   a4d42b76dd29818e4f393c4c3eb59601b0015b2f is the first bad commit
->   commit a4d42b76dd29818e4f393c4c3eb59601b0015b2f
->   Author: Richard Henderson <richard.henderson@linaro.org>
->   Date:   Tue Apr 21 18:16:59 2020 -0700
-> 
->       tcg: Use tcg_constant_{i32,i64} with tcg int expanders
-> 
->       Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->       Message-Id: <20200422011722.13287-14-richard.henderson@linaro.org>
+Attempt to fix the launchpad bug filled by Helge:
 
-Ho hum.  I can reproduce this, but after a day of debugging I'm no closer to
-figuring out what's wrong than when I started.
+  In a qemu-system-hppa system, qemu release v5.0.0-rc,
+  the tulip nic driver is broken.  The tulip nic is detected,
+  even getting DHCP info does work.  But when trying to
+  download bigger files via network, the tulip driver gets
+  stuck.
 
-I'm going to put this whole section of TEMP_CONST to the side for now.
+Philippe Mathieu-Daudé (3):
+  hw/net/tulip: Fix 'Descriptor Error' definition
+  hw/net/tulip: Log descriptor overflows
+  hw/net/tulip: Set descriptor error bit when lenght is incorrect
 
+ hw/net/tulip.h |  2 +-
+ hw/net/tulip.c | 32 ++++++++++++++++++++++++++++----
+ 2 files changed, 29 insertions(+), 5 deletions(-)
 
-r~
+-- 
+2.21.1
+
 
