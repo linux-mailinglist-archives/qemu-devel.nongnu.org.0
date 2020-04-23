@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C38D1B6922
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 01:20:56 +0200 (CEST)
-Received: from localhost ([::1]:44860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AAFB1B68DC
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 01:19:04 +0200 (CEST)
+Received: from localhost ([::1]:44738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRl9L-0002zb-Ap
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 19:20:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51336)
+	id 1jRl7W-0000Hc-QF
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 19:19:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51406)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jRl5T-0007EE-SY
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 19:17:13 -0400
+ id 1jRl5V-0007EL-0g
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 19:16:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jRl5Q-0006m4-V1
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 19:16:55 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:33994)
+ id 1jRl5R-0006m9-0n
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 19:16:56 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36570)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jRl5Q-0006hr-Di
+ id 1jRl5Q-0006iY-Em
  for qemu-devel@nongnu.org; Thu, 23 Apr 2020 19:16:52 -0400
-Received: by mail-wm1-x341.google.com with SMTP id v4so8619282wme.1
- for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 16:16:49 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id u127so8649371wmg.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 16:16:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QqFmL+6vdmx3ikkSn1UPbShh4FBtsVBnq85SLDvukMk=;
- b=N0Ndjrcte/v7qdQCBfP5LkQ8uR3QbS/wNMljE0hfH+W9BVxeabWhDZMnHDvK8PwTqW
- UIql89qVW9dFvfmTqROeIxkgyAr4tOrH8+Yn5/SPqxMcLlOeYq3hquiUdRJkYsXGhHh2
- 4z6/HpEysA38/BLspl0iZyjKrshVs5VTiPXPoXIz0oYDwY3cZjHeI76FXeT4HORDhYTs
- 2auBmp/w7JsbEDeifAeINqbwaj1KpH6+cQL3fcW6vo1kjgrYNY8nZc5WPfuL5VrlgHle
- EL7pwxV36R9W0TSpTtwTE4KLHeqJBIG0zFoR4DJIBz7x0Sd0Yw8sCE1Qd9LH1cvWacFi
- tdYg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Zzy57pNEhs2f791KQEcET9NOuU+baFBolmqcxp5hb4k=;
+ b=KRjyv3Flp2igbZSFmZiPHBeSM9+NjI0IJFxBnHnVhzkhlcqyMYXUiqaAt1GU1Lu8Iv
+ 13wtjVOIqrLxi05OwHTlPXubU2zB1xYRoiH2IXUtIivHXNPAkGi21qasrcbZv4ACS0Ro
+ kEHQu3N/XrhEo+5fmnXrU7VccYECtUsQOLQaoKAlcslrx2R1SWLNaxADR3v+tmUeYVxP
+ 2TuXpCW5ySY84ZDinSsU4D74MM09ZRKwAvm5JQ0hBhz3BFOGBSdo210z2gPI6DKKUcCR
+ +YFXKHS50qM1W79y/zBKjdwSigsTmE8tWonvHXHVc129936Uc9aFtQ+78JeG5I05dfiI
+ 3Lkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=QqFmL+6vdmx3ikkSn1UPbShh4FBtsVBnq85SLDvukMk=;
- b=jm19uGkJCnmi9wmiePa7yqNDXSo+jGKLJpczDTcRrfNS5qoKjQ8p72Cfvdd3UDiMT5
- 3FK2KxeUPb6wclG2we3N3atg5NRSsKMI7iQn1UQHi096Lov8xbBFhrEfIxyDJkT6nH7f
- htBQPWwfQQ86AsmrWSxG2dkzlWdn6lndmPKaawVTEO9hiGA/e7LeUUf8WsCwvS5Mu3vX
- f41h4d9pV4FVFhwnhKeSsE6fruXuZGyXmD7eAkI8WjcDzQjdNurHizAcUkk8P/FPDsrq
- 0HfekP45BE9K6o5upVVTgln6SDcLNiTtWy/xgEUbia/OTHlkO614brsW7oAWZQ1lmrdj
- 4NiA==
-X-Gm-Message-State: AGi0PuYYjknJBWh0JHu5pYsjIQx1/NXB4U3hOT3xRpKkFIDEuB1EzFP8
- kcfVfujGxgHbS1J4eabSQQuC+EUo
-X-Google-Smtp-Source: APiQypJdFwEQP0fcuCpfJ75w3QPfWghMaevN+a/j+ZJ3n0CK+S65261E4H2Ice5ehcxWaXrDIx6vfw==
-X-Received: by 2002:a1c:9cca:: with SMTP id f193mr6497385wme.71.1587683807312; 
- Thu, 23 Apr 2020 16:16:47 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=Zzy57pNEhs2f791KQEcET9NOuU+baFBolmqcxp5hb4k=;
+ b=Ng2PUFiYsAqxuUeEsExeP4VjMVMOQ9jkCA7la37kOSwGX5e0ovzz8nPA4fuo92sb2b
+ IpG6KnHH7OkugZdHqA2GC6zpP4SoU26M/U7ZTBKq73CYy/8iL216Ta2qm0z6Zzbi46kn
+ 4T4irX6Q2gJgWTqC4BbvwAvWyK1xAUu5Z7ZjbcGS7lh9UCW3+/9kGYNUDOQRgN1054lB
+ obeXZJ3uObcw2XzhTq/lnZw51VTxTLfPXLx8VOZpe/fOKELNhPj0K2/bbNKojdvG90VD
+ dPgxVXZOAvjMfJOi+ZZ4oCFGw01UsbOVLINvVucOq157zn2rtlKFjaqZZVolrvu66NgA
+ 47JQ==
+X-Gm-Message-State: AGi0Puanqp27oj+NTsecVsk3yr89RSJ+zdd4wzxKYVJaFb8QcVDz167W
+ Bh5okcocDFtANlbY8EZh+CVDC5/L
+X-Google-Smtp-Source: APiQypKNLaXSB8e5qYj2hk2DCTpxJNPC9nfi+qUSHaCMWnOGZTCnysYwtvi1lEr8G6pI/qGYLAGm8g==
+X-Received: by 2002:a05:600c:2214:: with SMTP id
+ z20mr7172214wml.189.1587683808667; 
+ Thu, 23 Apr 2020 16:16:48 -0700 (PDT)
 Received: from localhost.localdomain (116.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.116])
- by smtp.gmail.com with ESMTPSA id h13sm5498122wrs.22.2020.04.23.16.16.45
+ by smtp.gmail.com with ESMTPSA id h13sm5498122wrs.22.2020.04.23.16.16.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Apr 2020 16:16:46 -0700 (PDT)
+ Thu, 23 Apr 2020 16:16:48 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 0/3] hw/net/tulip: Fix LP#1874539
-Date: Fri, 24 Apr 2020 01:16:41 +0200
-Message-Id: <20200423231644.15786-1-f4bug@amsat.org>
+Subject: [RFC PATCH 1/3] hw/net/tulip: Fix 'Descriptor Error' definition
+Date: Fri, 24 Apr 2020 01:16:42 +0200
+Message-Id: <20200423231644.15786-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200423231644.15786-1-f4bug@amsat.org>
+References: <20200423231644.15786-1-f4bug@amsat.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,23 +92,32 @@ Cc: Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Attempt to fix the launchpad bug filled by Helge:
+Bit #14 is "DE" for 'Descriptor Error':
 
-  In a qemu-system-hppa system, qemu release v5.0.0-rc,
-  the tulip nic driver is broken.  The tulip nic is detected,
-  even getting DHCP info does work.  But when trying to
-  download bigger files via network, the tulip driver gets
-  stuck.
+  When set, indicates a frame truncation caused by a frame
+  that does not fit within the current descriptor buffers,
+  and that the 21143 does not own the next descriptor.
 
-Philippe Mathieu-Daudé (3):
-  hw/net/tulip: Fix 'Descriptor Error' definition
-  hw/net/tulip: Log descriptor overflows
-  hw/net/tulip: Set descriptor error bit when lenght is incorrect
+  [Table 4-1. RDES0 Bit Fields Description]
 
- hw/net/tulip.h |  2 +-
- hw/net/tulip.c | 32 ++++++++++++++++++++++++++++----
- 2 files changed, 29 insertions(+), 5 deletions(-)
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/net/tulip.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/hw/net/tulip.h b/hw/net/tulip.h
+index 97521b21db..5271aad8d5 100644
+--- a/hw/net/tulip.h
++++ b/hw/net/tulip.h
+@@ -211,7 +211,7 @@
+ #define RDES0_RF         BIT(11)
+ #define RDES0_DT_SHIFT   12
+ #define RDES0_DT_MASK    3
+-#define RDES0_LE         BIT(14)
++#define RDES0_DE         BIT(14)
+ #define RDES0_ES         BIT(15)
+ #define RDES0_FL_SHIFT   16
+ #define RDES0_FL_MASK    0x3fff
 -- 
 2.21.1
 
