@@ -2,120 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90CFF1B5199
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 03:00:08 +0200 (CEST)
-Received: from localhost ([::1]:60166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB7871B522B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 03:56:38 +0200 (CEST)
+Received: from localhost ([::1]:60666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRQDn-00016V-JK
-	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 21:00:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52396)
+	id 1jRR6S-0005Br-TP
+	for lists+qemu-devel@lfdr.de; Wed, 22 Apr 2020 21:56:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41364)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fnuv@xilinx.com>) id 1jRQAg-0006eD-JL
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 20:57:05 -0400
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jRR5O-0004fs-C1
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 21:55:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <fnuv@xilinx.com>) id 1jRQAe-0000pW-87
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 20:56:54 -0400
-Received: from mail-mw2nam10on2057.outbound.protection.outlook.com
- ([40.107.94.57]:6181 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jRR5M-0005Dk-DZ
+ for qemu-devel@nongnu.org; Wed, 22 Apr 2020 21:55:29 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:44275)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1jRQAd-0000ci-QC
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 20:56:51 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jM0OChTY1yByfeC3QI89IyrYURWaBLv1Qry4I+hDtUEr/PnvdHFm4jfFeCH0vlTuJn+31Ur9GG3+r5xdnCRnmC8rMyPChJQIiRJQbd1+4x/9LqI8jS39TBH18s4LEUC1PVDHTAUOYaHvKdVO4cwPsJY2Z0sIN26SfcmjMHWNTS0B2Z1XlutfADobKhV4nkrHd4C7xbhy3Zs44daau9HelGmfGLmIpRj2P7sqsmZlfPghFHngSExZWcNO1vixb+ox1lPnS1lBAJZL/y0gf5OeltaW/+XhWEdk8pX7MrGkp0JTginJDFJHLuFGfLew2e3U1Bepcl6gutzM2uZDAthvGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iLfKK3vT9MElE8nlum6/ghxTQmdbg1Y4zcJKAHDFOwI=;
- b=atRuZnIx8AIev40Z14m6qc2TZco+axo/EYtBjoFIXf4MGE7k2HATorlk4DFOD5LlJxelEvSb/1XyI4PfgYnHsi2p21N3wCRWfrmFaFiy2exas4YVFU/Zigbw6TQ/pQtgXwKfarnUNYPkM6uQDnDEQG9cR7MyFp3CQ9jOK2Njdqx4GPgfcyMQvm7Dqi7htF6VWjq2SL/B8wjo4VrlXMNT+2EYYg/3mc1o17q8ZBSA3cD6Lc5lGHkuELzXNKVnFEO5n+di6RKtR/Bp9LIkS50lOBkvUWaqNlwPOYYA6BO3Xdoi98jAoPK19YjdQPFRREssHIAr+qYk6iLcQbjZ4HLeRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iLfKK3vT9MElE8nlum6/ghxTQmdbg1Y4zcJKAHDFOwI=;
- b=adxCKTz8mrAOC+CBpB8qyPJER6omoAmvKLFueR8pj9cKK/81WpuVaRbwjkuMo4UXd4t8av30mBOX+8Rkn9rVqPdYwpVYy6wJgKu9HA04Zq+axP8i4M+DHaLT6OQDP5uB7D+OGUhBTgAiCLITY23LNHMWJD8vJYWPu5yt/JAkvXg=
-Received: from DM6PR03CA0029.namprd03.prod.outlook.com (2603:10b6:5:40::42) by
- BYAPR02MB4821.namprd02.prod.outlook.com (2603:10b6:a03:4c::14) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2937.13; Thu, 23 Apr 2020 00:56:48 +0000
-Received: from SN1NAM02FT052.eop-nam02.prod.protection.outlook.com
- (2603:10b6:5:40:cafe::33) by DM6PR03CA0029.outlook.office365.com
- (2603:10b6:5:40::42) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13 via Frontend
- Transport; Thu, 23 Apr 2020 00:56:47 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- SN1NAM02FT052.mail.protection.outlook.com (10.152.72.146) with Microsoft SMTP
- Server id 15.20.2921.25 via Frontend Transport; Thu, 23 Apr 2020 00:56:47
- +0000
-Received: from [149.199.38.66] (port=51916 helo=xsj-pvapsmtp01)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <fnu.vikram@xilinx.com>) id 1jRQ9V-0004Jc-Ll
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 17:55:41 -0700
-Received: from [127.0.0.1] (helo=localhost)
- by xsj-pvapsmtp01 with smtp (Exim 4.63)
- (envelope-from <fnu.vikram@xilinx.com>) id 1jRQAZ-0007tD-4o
- for qemu-devel@nongnu.org; Wed, 22 Apr 2020 17:56:47 -0700
-Received: from xsj-pvapsmtp01 (xsj-pvapsmtp01.xilinx.com [149.199.38.66])
- by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 03N0uhFv013711; 
- Wed, 22 Apr 2020 17:56:43 -0700
-Received: from [172.19.2.115] (helo=xsjfnuv50.xilinx.com)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <fnu.vikram@xilinx.com>)
- id 1jRQAV-0007oW-6E; Wed, 22 Apr 2020 17:56:43 -0700
-From: Vikram Garhwal <fnu.vikram@xilinx.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/4] MAINTAINERS: Add maintainer entry for Xilinx ZynqMP CAN
-Date: Wed, 22 Apr 2020 17:56:09 -0700
-Message-Id: <1587603369-14644-5-git-send-email-fnu.vikram@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1587603369-14644-1-git-send-email-fnu.vikram@xilinx.com>
-References: <1587603369-14644-1-git-send-email-fnu.vikram@xilinx.com>
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(396003)(39860400002)(346002)(376002)(46966005)(186003)(9786002)(336012)(426003)(5660300002)(8936002)(81156014)(26005)(478600001)(7696005)(36756003)(316002)(2906002)(81166007)(82310400002)(356005)(47076004)(82740400003)(6916009)(2616005)(70586007)(4326008)(6666004)(107886003)(70206006)(4744005)(8676002);
- DIR:OUT; SFP:1101; 
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jRR5L-0004YO-OM; Wed, 22 Apr 2020 21:55:28 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07659078|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.122069-0.00291788-0.875013;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e01a16384; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=9; RT=9; SR=0; TI=SMTPD_---.HMAxgBk_1587606913; 
+Received: from 30.225.208.25(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.HMAxgBk_1587606913)
+ by smtp.aliyun-inc.com(10.147.44.118);
+ Thu, 23 Apr 2020 09:55:17 +0800
+Subject: Re: [PATCH] linux-user/riscv: fix up struct target_ucontext definition
+To: Richard Henderson <richard.henderson@linaro.org>
+References: <20200412020830.607-1-zhiwei_liu@c-sky.com>
+ <f6dc4fa7-fed5-28a1-5922-68e9a0510de5@c-sky.com>
+ <bf6b46c3-cc39-1b4a-4ae4-9de894721f04@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <07931c1c-c7b3-510a-d3cf-5fb6bc877e87@c-sky.com>
+Date: Thu, 23 Apr 2020 09:55:13 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5127a4af-d89e-48e7-cdb5-08d7e7213325
-X-MS-TrafficTypeDiagnostic: BYAPR02MB4821:
-X-Microsoft-Antispam-PRVS: <BYAPR02MB482139E574DF428FC49ED3A8BCD30@BYAPR02MB4821.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:390;
-X-Forefront-PRVS: 03827AF76E
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: M61aEfYBLvzD3/dZOK+SLfsbeBthEc/kvgngEQf4QUUAbUxsuNsAmf88r2ZjY/Y4ImHur/sk4fHO4cg2nc0yGz1PTyuMnSm/ADhSdFl7E8RSJM+rXvOEHRUJ9lhM16BiEoH4k/7J4PivvJd1ZgdYFjdzA2pP4pcPBcFAZaBiUw0DIKpE6s+bmW2QpNy4SMi6x2AkWRd1Y1uiKziI4cmmJU9qRWGZYJxZ0e2/nFXcM1xFkh4SVUef8/aKQrfSJNAQmVFMvk2KLKV6QsSQOUt6l+vpOGlLt41QxULeUqLousOMGgrs817Lj83iS8D8fQTszRwzdFKQ7PDM5WUy77yr5BTPCQsVA166TJZlmF9DJqyz9wNIuNfKKCw4gO3KPiNfl60cOEkxmUlBw12KgrHAQuvbSbFufmyTUe507RFEL7aLhBHaVe2qfs10pQ4az4kVqc3vWYD9h/KMikkWIZ7So6YntfX5qc6FF0Hx3Kjt4vkhXnNAMvEKVoUwq2q1/unBs50BFPHsIDGRT2B/T/xxeA==
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2020 00:56:47.4237 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5127a4af-d89e-48e7-cdb5-08d7e7213325
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4821
-Received-SPF: pass client-ip=40.107.94.57; envelope-from=fnuv@xilinx.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 20:56:50
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Received-From: 40.107.94.57
+In-Reply-To: <bf6b46c3-cc39-1b4a-4ae4-9de894721f04@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: none client-ip=121.197.200.217;
+ envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/22 21:55:18
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Received-From: 121.197.200.217
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -127,36 +60,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vikram Garhwal <fnu.vikram@xilinx.com>
+Cc: qemu-riscv@nongnu.org, riku.voipio@iki.fi, laurent@vivier.eu,
+ wxy194768@alibaba-inc.com,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wenmeng_zhang@c-sky.com, palmer@dabbelt.com,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add myself as Xilinx CAN maintainer.
 
-Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
----
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8cbc1fa..6223573 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1433,6 +1433,13 @@ F: hw/net/opencores_eth.c
- 
- Devices
- -------
-+Xilinx CAN
-+M: Vikram Garhwal <fnu.vikram@xilinx.com>
-+S: Maintained
-+F: hw/net/can/xlnx-*
-+F: include/hw/net/xlnx-*
-+F: tests/qtest/xlnx-can-test*
-+
- EDU
- M: Jiri Slaby <jslaby@suse.cz>
- S: Maintained
--- 
-2.7.4
+On 2020/4/22 12:10, Richard Henderson wrote:
+> On 4/21/20 7:34 PM, LIU Zhiwei wrote:
+>> Ping.
+>>
+>> When I port RISU, I find this bug. I can't get the correct registers from the
+>> struct ucontext_t parameter in the signal handler.
+> The RISC-V Linux ABI will need to be extended to handle RVV state.
+>
+> There is room in your sigcontext structure:
+>
+>> struct __riscv_q_ext_state {
+>>          __u64 f[64] __attribute__((aligned(16)));
+>>          __u32 fcsr;
+>>          /*
+>>           * Reserved for expansion of sigcontext structure.  Currently zeroed
+>>           * upon signal, and must be zero upon sigreturn.
+>>           */
+>>          __u32 reserved[3];
+>> };
+> in uc->uc_mcontext.sc_fpregs.q.
+>
+> That reserved field is going to have to be used in some way.
+>
+> My suggestion is to use some sort of extendable record list, akin to AArch64:
+>
+> struct _aarch64_ctx {
+>          __u32 magic;
+>          __u32 size;
+> };
+>
+> One of the 3 zeros could be the total size of the extensions, so that it's easy
+> to validate the size or memcpy the lot without parsing each individual record.
+>   The other two zeros could be the first header of the next record.  Which in
+> this case also allows the payload of that first record to be aligned mod 16,
+> which could come in handy.
+>
+> Talk to the risc-v kernel engineers and come up with a plan that includes room
+> for the next architecture extension as well.  They may have already done so,
+> but I'm not monitoring the correct mailing list to know.
+Hi Richard,
+
+As far as I know, Guo Ren and Greentime are supporting RVV on Linux, 
+based on the v0.7.1 QEMU implementation.
+The main problem is that VLEN is not a  fixed number.
+
+Thanks for your advice. I will communicate with them.
+
+When the Linux kernel released with RVV, I will push a new sigcontext 
+structure here.
+
+Zhiwei
+>
+> r~
 
 
