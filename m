@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71ED31B65CA
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 22:53:32 +0200 (CEST)
-Received: from localhost ([::1]:41486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C34DD1B65CE
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 22:54:54 +0200 (CEST)
+Received: from localhost ([::1]:41608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRiqh-0005mT-Ew
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 16:53:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33928)
+	id 1jRis1-00083B-RE
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 16:54:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33970)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jRipI-0004f8-89
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:52:04 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jRipT-0004sR-0K
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:52:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jRipG-0003vP-KF
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:52:04 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:56250)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jRipS-0004DG-Gt
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:52:14 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:32880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jRipG-0003uX-4m
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:52:02 -0400
-Received: by mail-wm1-x341.google.com with SMTP id e26so8118061wmk.5
- for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 13:52:00 -0700 (PDT)
+ id 1jRipS-00045k-3m
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 16:52:14 -0400
+Received: by mail-wr1-x442.google.com with SMTP id s10so8300585wrr.0
+ for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 13:52:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=xI/7UGSbUDidCuMybls+r4oADxm2z0eT7aFVuZj77jI=;
- b=W4xSaQRb1jl0QgtKxrzF7AZRwR2iffCAsln4yffvb/tkMnfW6bCJIk8Ql4r+jUeGGa
- 6pCkn8Kw4ELqbaamPvpo/rJ09f+UKS9DAak8HWBZBtqmPILAFn4B+2UHy9jSfMflDbha
- HEbmsyRe4Zjh0BVvkdDG7i2yDHYG7hqclm2fY+GHraYlgAHe8ABk8HobSC34og9+nveD
- H+CS1KjWH1Ohlgk08DEWaCl10037ay+mAp4vbc6gcAMa9ARETdsZ3L2zu9Z21PgkHxi3
- BJ+hzUdmP3pObvGqoTLPGyrJFpOfE65eS2aRZd2OguhErrF6TgwiUe2a5ITmRbE0LxSM
- RwIw==
+ bh=CRlpL+X7G1JQjETZfk+jaD5KsaIpRIoUjlQnXUV98TU=;
+ b=PYdyQLhySUR1/uJhzhxX0aRV5UxRjcyO6OjO1gZJnW5VghzaZZysWtzzIxtZf1Vpp+
+ RtYhzUdixiCSWfPVuEEv93BUBJ94Jm02VLljpbozIVn5/vApnTiRXH9cIGepmk8V2str
+ zFJ7DEH/8NVcKhFKyHxgdnD0w2iiMP0JxXMgE2gHEMgeQnP3KmejoajbMXS8nXZBHXuv
+ DxJjzklSOe1T0i0/iugnlT0iO7BG4K7R9NxAdR9wrsx+nd9gJdITLGOoJmKv+SqoOrXh
+ 3ycTTOOv/LwhhubdB1P0rUiJ5K652GXAv8vY0JKk8d7ZLEt8PmNAr7Il+Q89Mk5HiqpM
+ zBZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=xI/7UGSbUDidCuMybls+r4oADxm2z0eT7aFVuZj77jI=;
- b=jYGYrxkMjPzThHMtozTmg8fFL3drvkq26hyzkhUnCXYZWpsjsb53cQS3LHJYaD1aAI
- 0DZ73J8N287o3krd20XcSTZOyQhKlKSAyrhxEd10uR9+gM4a3JRvfhKNcQRFN/VWHErS
- 7PfFPFYheImKp82ipwvmnLKCIYpaxFaBECe/znQOG/ioAH7Wfr1lWxNe8MfowwTw+IZ/
- 9cUqe1wZNhTd1L9jsismXuDTObX97eLCK6l8NAWiWz94XquqNHCmtzw98f5SbyG1ZiwS
- u3zc899C+xutjtsw5La7r9MCDDb8hAM7z4h0z4+Nx6lzfitKqa7qNmCaB4LmrQO3/ocK
- 2LCA==
-X-Gm-Message-State: AGi0PuY5GqQ4qx6A3igNez+5G3fd3nBxxhz5szENprqVkAXNXszeq5D6
- n22lK10Rwmyb76sh+vYPag7O9bGGpTeEZ71Dh40=
-X-Google-Smtp-Source: APiQypL93iFO65FNrvRaRIY9OtO4OY9+gRPEV3xNSp3U0yKrOc1/W9RVA5QLDAB2RNBlnlwD99JyIUYLHxeGVYjnQAg=
-X-Received: by 2002:a1c:7301:: with SMTP id d1mr6470936wmb.26.1587675118538;
- Thu, 23 Apr 2020 13:51:58 -0700 (PDT)
+ bh=CRlpL+X7G1JQjETZfk+jaD5KsaIpRIoUjlQnXUV98TU=;
+ b=it+iPgEAputVfTfx4JCf/L5tN8Nw/qA8ReSTD81s+3J1cUVM+re4hfR/TKToniX1ac
+ mH7xP3F6ff8ALaPhkeBG6V/M5AFXzEUsqFUiIBSweTF5954NwnDCaPzvRPzFSs5lChPM
+ W2W+hrB/SxY6XrobR4rSXLmapIujbfxyF15F6JfWvx/jBXVZ76nAkEF53Y6xpCIdCYqJ
+ C0KIljAPVV9zHoGnDW3s0q5+JKZ2ZK5lqIsti4dz79PW9r6tM3TYjhGG8tegG3WofTf7
+ 5jbX7IYx6YcJLp5ZT7slG1p4Rct0PYfGTEAo2qHtfd1e6L+GQQkg+eKj9wj66XpHl9tl
+ gbeA==
+X-Gm-Message-State: AGi0Pub7Sa/H9kcS8IuQ8n9/jGM13816N6rznAwykqYyeNRpZfMrEp90
+ +1AJnxGncGR9VFGx3qKI/KMDu+lj9agcfJQOHmA=
+X-Google-Smtp-Source: APiQypIDD1ezVZ+G70F7wgKR3hQlFokOcMV8xNFT8jGfqN6aOe5IziGT/Ga53b/lfgDocdJqfZMXS/HMhlauPyua6G8=
+X-Received: by 2002:adf:ff82:: with SMTP id j2mr7203379wrr.96.1587675131736;
+ Thu, 23 Apr 2020 13:52:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200423202112.644-1-philmd@redhat.com>
- <20200423202112.644-4-philmd@redhat.com>
-In-Reply-To: <20200423202112.644-4-philmd@redhat.com>
+ <20200423202112.644-3-philmd@redhat.com>
+In-Reply-To: <20200423202112.644-3-philmd@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 23 Apr 2020 22:51:46 +0200
-Message-ID: <CAJ+F1CJpdU=S6zQg5J=8gYDzR1GmgbzDZqVFkaigd-vbSLbPsw@mail.gmail.com>
-Subject: Re: [PATCH 3/7] chardev: Restrict msmouse / wctablet / testdev to
- system emulation
+Date: Thu, 23 Apr 2020 22:51:58 +0200
+Message-ID: <CAJ+F1C+mfwWv=LJNtKugaXZ41Ah4wnNG4iLveme31onuU2sB0w@mail.gmail.com>
+Subject: Re: [PATCH 2/7] tests/test-char: Remove unused "chardev/char-mux.h"
+ include
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,8 +89,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Thu, Apr 23, 2020 at 10:22 PM Philippe Mathieu-Daud=C3=A9
 <philmd@redhat.com> wrote:
 >
-> The msmouse / wctablet / testdev character devices are only
-> used by system emulation. Remove them from user mode and tools.
+> This test never required "chardev/char-mux.h", remove it.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
@@ -98,22 +97,21 @@ Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
 > ---
->  chardev/Makefile.objs | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  tests/test-char.c | 1 -
+>  1 file changed, 1 deletion(-)
 >
-> diff --git a/chardev/Makefile.objs b/chardev/Makefile.objs
-> index d68e1347f9..15ee7f47da 100644
-> --- a/chardev/Makefile.objs
-> +++ b/chardev/Makefile.objs
-> @@ -17,7 +17,7 @@ chardev-obj-y +=3D char-udp.o
->  chardev-obj-$(CONFIG_WIN32) +=3D char-win.o
->  chardev-obj-$(CONFIG_WIN32) +=3D char-win-stdio.o
->
-> -common-obj-y +=3D msmouse.o wctablet.o testdev.o
-> +common-obj-$(CONFIG_SOFTMMU) +=3D msmouse.o wctablet.o testdev.o
->  common-obj-$(CONFIG_BRLAPI) +=3D baum.o
->  baum.o-cflags :=3D $(SDL_CFLAGS)
->  baum.o-libs :=3D $(BRLAPI_LIBS)
+> diff --git a/tests/test-char.c b/tests/test-char.c
+> index 3afc9b1b8d..f08a39790e 100644
+> --- a/tests/test-char.c
+> +++ b/tests/test-char.c
+> @@ -6,7 +6,6 @@
+>  #include "qemu/option.h"
+>  #include "qemu/sockets.h"
+>  #include "chardev/char-fe.h"
+> -#include "chardev/char-mux.h"
+>  #include "sysemu/sysemu.h"
+>  #include "qapi/error.h"
+>  #include "qapi/qapi-commands-char.h"
 > --
 > 2.21.1
 >
