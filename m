@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7B8F1B62C1
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 19:54:39 +0200 (CEST)
-Received: from localhost ([::1]:34970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3895A1B62D0
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 19:57:37 +0200 (CEST)
+Received: from localhost ([::1]:35114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRg3a-0007kh-L0
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 13:54:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53882)
+	id 1jRg6R-0001yS-Jy
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 13:57:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54348)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jRg2i-0006Zs-DQ
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:53:44 -0400
+ (envelope-from <eblake@redhat.com>) id 1jRg5Q-00013S-WA
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:56:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jRg2h-000392-VZ
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:53:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58707
+ (envelope-from <eblake@redhat.com>) id 1jRg5P-0006xD-T9
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:56:32 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23890
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jRg2h-00038v-IK
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:53:43 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jRg5P-0006uu-DC
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:56:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587664422;
+ s=mimecast20190719; t=1587664590;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bHp2jD1k7L3vPPgzkBK3DMv6OfK3jEGTMpRjKbREQdE=;
- b=bOP01vT331J/hYWkEtK7luOGNL2Z0pm+Q6jOPhSrfg1WezXCv6xTiU5HQfNLtq0YlUvDEx
- Z4xgzXf+39v5hU39XXVXVgGxk/VaEIrZTLZ2mSAAyQVcjbCsfwUfJ3o92IEsVKLygieHfz
- sHgfhcqShFbyY7ILJkn/mzgXfPk2WvQ=
+ bh=NliOtH3eRX+7FlzqE0XEQ1VWutMVs3I/iFICAy4XcsI=;
+ b=fy2JVAiYhGvzQvJSFyuMn8K1kNs/aGriWcwvRwVnj3HIzmhIqblYGGfNMWFhCLL9gKQGee
+ cNOmEhUeNoM2PxumUi5gsJb3m1dn2Q8myYNc1jyCTZqRTNdw+GMO3XzfhvtMqKvp7bZ0Wa
+ 89DUoBjHedcu/vKy2z/e30ZjnxMQKXw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-79-Yh-GZgaKMF63Czl8n-F81g-1; Thu, 23 Apr 2020 13:53:40 -0400
-X-MC-Unique: Yh-GZgaKMF63Czl8n-F81g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-22-rvoYCYlWPyi7i5KvRV_JhA-1; Thu, 23 Apr 2020 13:56:20 -0400
+X-MC-Unique: rvoYCYlWPyi7i5KvRV_JhA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F4A48005BA;
- Thu, 23 Apr 2020 17:53:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B3851800D51;
+ Thu, 23 Apr 2020 17:56:19 +0000 (UTC)
 Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BC15E600F5;
- Thu, 23 Apr 2020 17:53:38 +0000 (UTC)
-Subject: Re: [PATCH 07/13] qapi: Fix Visitor contract for start_alternate()
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B4ABA60CD1;
+ Thu, 23 Apr 2020 17:56:18 +0000 (UTC)
+Subject: Re: [PATCH 08/13] qapi: Assert output visitors see only valid enum
+ values
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20200423160036.7048-1-armbru@redhat.com>
- <20200423160036.7048-8-armbru@redhat.com>
+ <20200423160036.7048-9-armbru@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <72289119-180a-30b5-f909-ffefc7eedd45@redhat.com>
-Date: Thu, 23 Apr 2020 12:53:37 -0500
+Message-ID: <75ecc321-7301-3c4c-c3be-741855d13e14@redhat.com>
+Date: Thu, 23 Apr 2020 12:56:17 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200423160036.7048-8-armbru@redhat.com>
+In-Reply-To: <20200423160036.7048-9-armbru@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 06:43:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 03:23:21
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,19 +84,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/23/20 11:00 AM, Markus Armbruster wrote:
-> The contract demands v->start_alternate() for input and dealloc
-> visitors, but visit_start_alternate() actually requires it for input
-> and clone visitors.  Fix the contract, and delete superfluous
-> qapi_dealloc_start_alternate().
+> output_type_enum() fails when *obj is not a valid value of the enum
+> type.  Should not happen.  Drop the check, along with its unit tests.
+> qapi_enum_lookup()'s assertion still guards.
 > 
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->   include/qapi/visitor-impl.h | 5 ++---
->   qapi/qapi-dealloc-visitor.c | 7 -------
->   2 files changed, 2 insertions(+), 10 deletions(-)
-> 
+>   qapi/qapi-visit-core.c              |  9 -------
+>   tests/test-qobject-output-visitor.c | 39 -----------------------------
+>   tests/test-string-output-visitor.c  | 19 --------------
+>   3 files changed, 67 deletions(-)
+
+Nice cleanup.
+
+The commit message implies adding an assertion; but in reality, the 
+change is deleting dead code (because we already have the assertion in 
+place).  Maybe it's worth updating the subject?
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
+
+> -    /*
+> -     * TODO why is this an error, not an assertion?  If assertion:
+> -     * delete, and rely on qapi_enum_lookup()
+> -     */
+> -    if (value < 0 || value >= lookup->size) {
+> -        error_setg(errp, QERR_INVALID_PARAMETER, name ? name : "null");
+> -        return;
+> -    }
+
+The comment being deleted is what points out the assertion that already 
+exists.
+
 
 -- 
 Eric Blake, Principal Software Engineer
