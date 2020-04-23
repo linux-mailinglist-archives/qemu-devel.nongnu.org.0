@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54D431B5AEF
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 14:00:33 +0200 (CEST)
-Received: from localhost ([::1]:41756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CE0C1B5B20
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 14:13:08 +0200 (CEST)
+Received: from localhost ([::1]:42170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRaWt-0006px-RC
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 08:00:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49352)
+	id 1jRaj4-0003Uc-Js
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 08:13:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51982)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jRaVx-0006Q1-6H
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 07:59:33 -0400
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jRahN-00024Y-D9
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 08:11:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jRaVw-0005kH-Fo
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 07:59:32 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:33379)
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jRahN-00085q-1P
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 08:11:21 -0400
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:46452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jRaVv-0005h0-ST
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 07:59:32 -0400
-Received: by mail-ot1-x343.google.com with SMTP id j26so5549091ots.0
- for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 04:59:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kVkD1mu2q4zWkJZGvnGFY675V6vmWpwLJ9w5whZqQjM=;
- b=xxE5dzfiaeoVCqCOlr2UIAdxaT4Yo8Cise29yx4QfocFKt9Wl5ABsEup5y3T9Kh1tg
- E/DRNBPR3mGJPJUOK8f3rCQaEwOV9/ogaWG/Wu7Bh6DpkM/5lUeGEuLTNiuVfDf9rVMK
- rbRnZneVaLlyGqwPnHhtuea9ln+/H9VF10RPaND2HgLkz8bkNcsRIJiQneA4v61Vgn9b
- eKc7URT5WdQu/aR3xCOMsuCbI1DDT+rTi0Vhi8WfYiqq65vCThlfMjGNITzJt8e5s2IL
- bmEETUkCHgeL2JNrTefHFIwevQiTrkINBESzkaC5L2rNss0DI/47s1boIZZ4CEeGO5Rq
- moxg==
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1jRahM-00084u-Ke; Thu, 23 Apr 2020 08:11:20 -0400
+Received: by mail-lf1-x144.google.com with SMTP id g10so4510826lfj.13;
+ Thu, 23 Apr 2020 05:11:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZXHuJLnfVKlM3eLt5lleezX6bddMyflnOWtIAO7U7a8=;
+ b=fwfhtOXq0fpq/HCyBVyXBNdwzozudu965KbJ6pjtxaTNH7V9SAYdK58yAzuE6NUMqZ
+ /4OD032rX9dw5D3z73AfCXBggcCb0Y0J2ZkS86ePrmlTJxHrE9JcRcNpEc/TsIK9IgXF
+ z0+/IOBQtwZRDT/uqZE/GtObJEjEmXzRx3iabl590cVHlGm1uX9F9qAcktzEGNrGtNF6
+ qPrMGQ7w1ZDaKJSiROeGN07kk4t9Aj+G+zogPsXgdiw8cqro1a6TJ8cdFI5WjklwcEto
+ m1ewwwNu62QPTTr/d8ZY+2900Kkg9hVns7nS8I1mm5I5z6LeBBZAi2RPOfk+GOv9wzNV
+ plJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kVkD1mu2q4zWkJZGvnGFY675V6vmWpwLJ9w5whZqQjM=;
- b=ik0naty+hTxyApyEtf8iZpSC44BoaJK7J8osdEsWMctvzjQVU/gcQCNeCQ3UgXnnPN
- 08+x8hNhOTxzUi0vWpf7lvzZUfzomYrlfee7ah2bqYrTQ+3zo7UbuhwJ8+lq1n0Ie44I
- SvB/R5/U9Ij/W7PTMyFDExlr/H1pDMIq9c+7v8ocEB/ujBT/BRw5RfIsM7QVdhAp0rPi
- T5rFE/jM2sR7N/SEApCRsaSSWIaocF1T3lSq90gccRFRkpRcr860JoLLUQcLXle6HmGZ
- Muq6V/CpfRzT/It+sydV0Skj3iwVKvjHasESDK3U7eQ6TpCLWbecYRNgGbK2SRvjwtrU
- SM/Q==
-X-Gm-Message-State: AGi0PuYMoTEQnzXK+yhYbFucL/azR0+5ScuuVyDGThzooLo42uTQM/bn
- tJgahbzf4IXvTn0XUIPlv0SsMUJKbzxDj1FYcyIgew==
-X-Google-Smtp-Source: APiQypLFWG0CRN7zBx3JWQtDgQKh08SlwMtoTKKGDZCjnWSF4baHV7ljiRs4xfhBjuYeI3OQJlic0/yWsshZmLdgVio=
-X-Received: by 2002:a05:6830:22dc:: with SMTP id
- q28mr2901832otc.221.1587643170278; 
- Thu, 23 Apr 2020 04:59:30 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZXHuJLnfVKlM3eLt5lleezX6bddMyflnOWtIAO7U7a8=;
+ b=lwr8Y+0iLXqU5qavjkEA3RvE7IaQnyJF9xU6UYFcT/wK61CP91DjgslCRMGFV0/eU9
+ ZthHBjAprNqEmbWa9gIeZpx4+wj+UXx3o5VY9jMC+rAVJSx6bz+DCWtIRNuWd/b/bUoO
+ dlzEkcgcF1owzmK5T3QHBCvQzng24PEBkgDGS6wz/g7FjXHupQs5Xgo5rxn/83oNnHYJ
+ h+2Picl6yGjlkFPaf2m9EzQcHimUc4jZwizfCjvoed8VBCgFwMAM24SrQmElKH9LHupl
+ 9NJnfCR4QcHhJ4AIFUNTLtqd4ezdZ6s3fFUiiluk4htlGNyWIBhGO1CsjuZzxsDbYutc
+ Pqng==
+X-Gm-Message-State: AGi0PuaEfgUSxgrSpm3fdyytXTYfG/6AWwSazNEnO/Ur9TpbZ0J6h20L
+ Y4qJWQg7vkxcuA3YtYd5+ceFQ2kwIq4=
+X-Google-Smtp-Source: APiQypIOVTL/UkehtEQGbPX1a21ZuXiM7FkbCZ3WHyelf/mS0Hlvwlrh47/4nA4XegStdlnWdSsBUQ==
+X-Received: by 2002:a19:48c3:: with SMTP id v186mr2210409lfa.194.1587643875276; 
+ Thu, 23 Apr 2020 05:11:15 -0700 (PDT)
+Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id q125sm1635708ljb.34.2020.04.23.05.11.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Apr 2020 05:11:14 -0700 (PDT)
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/4] hw/arm: xlnx-zcu102: Disable unsupported FDT firmware
+ nodes
+Date: Thu, 23 Apr 2020 14:11:10 +0200
+Message-Id: <20200423121114.4274-1-edgar.iglesias@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200420121807.8204-1-jerome@forissier.org>
-In-Reply-To: <20200420121807.8204-1-jerome@forissier.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Apr 2020 12:59:18 +0100
-Message-ID: <CAFEAcA_q58Yk_7b0DViWse1v7sRMR05FKjSbtFtgHasY7fYWYw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] hw/arm/virt: dt: add kaslr-seed property
-To: Jerome Forissier <jerome@forissier.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::144;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x144.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::343
+X-Received-From: 2a00:1450:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,29 +78,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: tee-dev@lists.linaro.org, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, op-tee@lists.trustedfirmware.org
+Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
+ edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
+ frasse.iglesias@gmail.com, alistair@alistair23.me,
+ richard.henderson@linaro.org, frederic.konrad@adacore.com, qemu-arm@nongnu.org,
+ philmd@redhat.com, luc.michel@greensocs.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 20 Apr 2020 at 13:20, Jerome Forissier <jerome@forissier.org> wrote:
->
-> This patchset creates the DT property /chosen/kaslr-seed which is used
-> by the OS for Address Space Layout Randomization. If the machine is
-> secure, a similar property is created under /secure-chosen.
->
-> Changes since v1:
->  - Move creation of /secure-chosen to create_fdt()
->  - Use qemu_guest_getrandom() instead of qcrypto_random_bytes()
->  - Create kaslr-seed for the non-secure OS too
->
-> Jerome Forissier (2):
->   hw/arm/virt: dt: move creation of /secure-chosen to create_fdt()
->   hw/arm/virt: dt: add kaslr-seed property
+From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
+When users try direct Linux runs on the ZynqMP models without enabling
+EL3 (and using appropriate FW) they run into trouble because the
+upstream kernel device-tree has EL3 based firmware nodes by default.
+PSCI firmware nodes work because we emulate the firmware in QEMU.
 
+This series avoids that problem by disabling firmware nodes that the
+machine cannot support due to lack of EL3 or EL2 support.
 
-Applied to target-arm.next, thanks.
+This means we can now (without manually editing DTBs) run the following
+in a current Linux tree:
 
--- PMM
+qemu-system-aarch64 -M xlnx-zcu102 -m 2G -dtb arch/arm64/boot/dts/xilinx/zynqmp-zcu102-rev1.0.dtb -serial mon:stdio -kernel arch/arm64/boot/Image -initrd zu-rootfs.cpio.gz -append rdinit=/bin/sh
+
+Cheers,
+Edgar
+
+ChangeLog:
+
+v1 -> v2:
+* Constify compat in qemu_fdt_node_path().
+
+Edgar E. Iglesias (4):
+  device_tree: Allow name wildcards in qemu_fdt_node_path()
+  device_tree: Constify compat in qemu_fdt_node_path()
+  hw/arm: xlnx-zcu102: Move arm_boot_info into XlnxZCU102
+  hw/arm: xlnx-zcu102: Disable unsupported FDT firmware nodes
+
+ device_tree.c                |  4 ++--
+ hw/arm/xlnx-zcu102.c         | 39 ++++++++++++++++++++++++++++++++----
+ include/sysemu/device_tree.h |  5 ++++-
+ 3 files changed, 41 insertions(+), 7 deletions(-)
+
+-- 
+2.20.1
+
 
