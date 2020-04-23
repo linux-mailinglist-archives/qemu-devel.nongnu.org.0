@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D0841B5F79
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 17:37:30 +0200 (CEST)
-Received: from localhost ([::1]:45772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64A591B61DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 19:20:57 +0200 (CEST)
+Received: from localhost ([::1]:45820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRduq-00026o-Mk
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 11:37:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53818)
+	id 1jRdz6-00049O-LM
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 11:41:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55522)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jRdtx-0001gY-6C
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:36:33 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jRdxZ-0003No-Lt
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:40:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jRdtw-0007Ru-7B
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:36:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58608
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jRdtu-0007LQ-NS
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:36:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587656189;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iizc3MEBI1kFVhveD5Vny+dqyQrqDqh2G/5yCYHmFVg=;
- b=gGlREDK6mVwH75PN6YlkvaslEem8hlrvA/k5VtHZtKFMcD4iJEyp/P1HtmNxFxGnV/eHS6
- vtk9sFwsW2TDlfuJfMPk85c5qLnuqVMONwFgJLBarmW8IIp1VnD2sbjMjfm4KRStMd3ILD
- d30tDzn+iXpeyeoxwyhRhsTIbtHIUQ0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-296-N2LhN3WLM5O_FSCk2y8euQ-1; Thu, 23 Apr 2020 11:36:25 -0400
-X-MC-Unique: N2LhN3WLM5O_FSCk2y8euQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A874460;
- Thu, 23 Apr 2020 15:36:24 +0000 (UTC)
-Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 10D885D9CC;
- Thu, 23 Apr 2020 15:36:22 +0000 (UTC)
-Subject: Re: [PATCH v6 10/10] qcow2: Forward ZERO_WRITE flag for full
- preallocation
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20200423150127.142609-1-kwolf@redhat.com>
- <20200423150127.142609-11-kwolf@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <fca340c2-5bee-b287-e43e-28dc679ea372@redhat.com>
-Date: Thu, 23 Apr 2020 10:36:21 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1jRdxY-0008Un-DJ
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:40:16 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:33395)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jRdxX-0008MP-VH
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:40:16 -0400
+Received: by mail-pf1-x444.google.com with SMTP id x77so3145329pfc.0
+ for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 08:40:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ga+RaqdsdYTpSWo9IsrGnPuPsN6RyBMc11hGLkS1Xcc=;
+ b=zUBDuxifGtZ+1lxLrxxYIbVqDiU2GHZqhjyK5Ek+9b7c/V7KhdmwioFQIQ79ViOx98
+ vG6HvJSGSWzDpiRy76q5ikjpvjghNnaDiV0SHLL3PY8sbrdoqr8yuos81N5xS295Qdu+
+ eqLjVETS7fjsjprVCltlzVafL1bmE3QtCOeIq6qcHwnZ8mJYUHPhHHLebOSoe5lFoBRB
+ SjugPy93lMiMqnneO5CabdOY5HjVV4z32RIBJ0J93+c/tFcSaoSuM+U0Ond9ix/++Atq
+ 52oABT5L7jO5lpt27yv6KtZ9DPiqhITQhOVO9T1deXSUXDroqJH8nVCFQIXY6WfaHkeJ
+ 7uGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ga+RaqdsdYTpSWo9IsrGnPuPsN6RyBMc11hGLkS1Xcc=;
+ b=fGYfHYDx/Dxb9gxedL/wN4xdEyOMcm15tUvEG/mHk11JSSTWY6KdIbJF+IMdUfdDxp
+ MM4Qf0f6aX8nsrNzc8TKn3CJ8KTdJenBlD1iudF6SjnLjxS07YduxPtggCeGOPR7lNKs
+ pGaA7GhHB1r04YsIuZdvQtHgjpa8MnPRj1xt4DmCX5CHPOOy8+ta1meLH8WU8UkEY7QX
+ 7FUGpkWYytwBDBU7UOz+RZ0CpJ2+AjhcZN0GTvI/2VCHd4gqnwHfTw2Q1UYom6HA83Hd
+ s4g5LShppQQhuhNJtOZ/dhiMOiIlcZquAIZO7GP36eFawZr0C0lse6hBk1VjXbWJnBrU
+ gOMA==
+X-Gm-Message-State: AGi0PuYwsPChcYnCwi86uUJeQ7NMmuwAj/ScTUQH53xB3Lb2uwWNsY2Z
+ UuH/4M5tMJVrOzM7btRmhxiW6+ZJTM0=
+X-Google-Smtp-Source: APiQypJvyoOtpvcEl9iaDOK9F6rfVkbIdKyBXoFTZ2nngRkhSui+lAoBpxaIu2xyqXfHsIMMzvm32A==
+X-Received: by 2002:a63:8ac4:: with SMTP id y187mr4535481pgd.294.1587656413417; 
+ Thu, 23 Apr 2020 08:40:13 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id w11sm2851617pfq.100.2020.04.23.08.40.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Apr 2020 08:40:12 -0700 (PDT)
+Subject: Re: [PATCH v2 09/36] tcg: Consolidate 3 bits into enum TCGTempKind
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+References: <20200422011722.13287-1-richard.henderson@linaro.org>
+ <20200422011722.13287-10-richard.henderson@linaro.org>
+ <CAHiYmc7eFG5FSa8z1gEv0Cdi+eBvOx-Y4_2qFCM-EYNZBPqd6A@mail.gmail.com>
+ <a3133ba4-9146-bd1a-98be-c41077a18eca@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <574ccd10-74a3-49e9-5301-015c0a93df1e@linaro.org>
+Date: Thu, 23 Apr 2020 08:40:10 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200423150127.142609-11-kwolf@redhat.com>
+In-Reply-To: <a3133ba4-9146-bd1a-98be-c41077a18eca@amsat.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 05:42:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,96 +88,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, berto@igalia.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/23/20 10:01 AM, Kevin Wolf wrote:
-> The BDRV_REQ_ZERO_WRITE is currently implemented in a way that first the
-> image is possibly preallocated and then the zero flag is added to all
-> clusters. This means that a copy-on-write operation may be needed when
-> writing to these clusters, despite having used preallocation, negating
-> one of the major benefits of preallocation.
+On 4/23/20 2:00 AM, Philippe Mathieu-Daudé wrote:
+>>> @@ -1885,12 +1896,17 @@ static char *tcg_get_arg_str_ptr(TCGContext *s, char *buf, int buf_size,
+>>>  {
+>>>      int idx = temp_idx(ts);
+>>>
+>>> -    if (ts->temp_global) {
+>>> +    switch (ts->kind) {
+>>> +    case TEMP_FIXED:
+>>> +    case TEMP_GLOBAL:
+>>>          pstrcpy(buf, buf_size, ts->name);
+>>> -    } else if (ts->temp_local) {
+>>> +        break;
+>>> +    case TEMP_LOCAL:
+>>>          snprintf(buf, buf_size, "loc%d", idx - s->nb_globals);
+>>> -    } else {
+>>> +        break;
+>>> +    case TEMP_NORMAL:
+>>>          snprintf(buf, buf_size, "tmp%d", idx - s->nb_globals);
+>>> +        break;
+>>>      }
+>>
+>> Hmm, why this switch doesn't have:
+>>
+>>         default:
+>>             g_assert_not_reached();
+>>
+>> like the other ones?
 > 
-> Instead, try to forward the BDRV_REQ_ZERO_WRITE to the protocol driver,
-> and if the protocol driver can ensure that the new area reads as zeros,
-> we can skip setting the zero flag in the qcow2 layer.
+> ... then all switch should have a default case, as noticed Aleksandar.
 
-Hmm.  When we get block status, it is very easy to tell that something 
-reads as zero when the qcow2 file has the zero bit set, but when the 
-qcow2 file does not have the zero bit set, we have to then query the 
-format layer whether it reads as zeros (which is expensive enough for 
-some format layers that we no longer report things as reading as zero). 
-I'm worried that optimizing this case could penalize later block status.
+There's a bit of a conflict between wanting to use -Werror -Wswitch, and making
+sure every switch has a default.
 
-We already can tell the difference between a cluster that has the zero 
-bit set but is not preallocated, vs. has the zero bit set and is 
-preallocated.  Are we really forcing a copy-on-write to a cluster that 
-is marked zero but preallocated?  Is the problem that we don't have a 
-way to distinguish between 'reads as zeroes, allocated, but we don't 
-know state of format layer' and 'reads as zeroes, allocated, and we know 
-format layer reads as zeroes'?
+With the former, you get a compiler error of the form
 
-> 
-> Unfortunately, the same approach doesn't work for metadata
-> preallocation, so we'll still set the zero flag there.
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->   block/qcow2.c              | 22 +++++++++++++++++++---
->   tests/qemu-iotests/274.out |  4 ++--
->   2 files changed, 21 insertions(+), 5 deletions(-)
-> 
-> diff --git a/block/qcow2.c b/block/qcow2.c
-> index ad621fe404..b28e588942 100644
-> --- a/block/qcow2.c
-> +++ b/block/qcow2.c
-> @@ -4170,9 +4170,25 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
->           /* Allocate the data area */
->           new_file_size = allocation_start +
->                           nb_new_data_clusters * s->cluster_size;
-> -        /* Image file grows, so @exact does not matter */
-> -        ret = bdrv_co_truncate(bs->file, new_file_size, false, prealloc, 0,
-> -                               errp);
-> +        /*
-> +         * Image file grows, so @exact does not matter.
-> +         *
-> +         * If we need to zero out the new area, try first whether the protocol
-> +         * driver can already take care of this.
-> +         */
-> +        if (flags & BDRV_REQ_ZERO_WRITE) {
-> +            ret = bdrv_co_truncate(bs->file, new_file_size, false, prealloc,
-> +                                   BDRV_REQ_ZERO_WRITE, errp);
-> +            if (ret >= 0) {
-> +                flags &= ~BDRV_REQ_ZERO_WRITE;
-> +            }
+error: enumeration value ‘FOO’ not handled in switch
 
-Hmm - just noticing things: how does this series interplay with the 
-existing bdrv_has_zero_init_truncate?  Should this series automatically 
-handle BDRV_REQ_ZERO_WRITE on a bdrv_co_truncate(PREALLOC_NONE) request 
-for all drivers that report true, even if that driver does not advertise 
-support for the BDRV_REQ_ZERO_WRITE flag?
+which lets you easily find places that need adjustment enumerators are added.
 
-> +        } else {
-> +            ret = -1;
-> +        }
+With the latter, you only get a runtime failure, which can be more difficult to
+find if you've missed one.
 
-Here, ret == -1 does not imply whether errp is set - but annoyingly, 
-errp CAN be set if bdrv_co_truncate() failed.
+We do not always have the option of relying on -Wswitch, if there are other
+compounding warnings such as uninitialized variables.
 
-> +        if (ret < 0) {
-> +            ret = bdrv_co_truncate(bs->file, new_file_size, false, prealloc, 0,
-> +                                   errp);
+In this instance, we can rely on -Wswitch, and I see no reason to add a default
+case.
 
-And here, you are passing a possibly-set errp back to 
-bdrv_co_truncate().  That is a bug that can abort.  You need to pass 
-NULL to the first bdrv_co_truncate() call or else clear errp prior to 
-trying a fallback to this second bdrv_co_truncate() call.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+r~
 
