@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C74D01B5EF9
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 17:19:44 +0200 (CEST)
-Received: from localhost ([::1]:45462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D21FB1B5F00
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 17:22:29 +0200 (CEST)
+Received: from localhost ([::1]:45518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRdde-00021y-9C
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 11:19:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47160)
+	id 1jRdgK-0004Qc-U1
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 11:22:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48124)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jonathan.derrick@intel.com>) id 1jRdcG-0000mG-Dj
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:18:16 -0400
+ (envelope-from <eblake@redhat.com>) id 1jRdfQ-0003vG-Pl
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:21:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <jonathan.derrick@intel.com>) id 1jRdcF-0003xr-F1
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:18:15 -0400
-Received: from mga18.intel.com ([134.134.136.126]:15939)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.derrick@intel.com>)
- id 1jRdcE-0003oI-Kp
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:18:15 -0400
-IronPort-SDR: kguTZ79BJUYgBC+dvi8yqJxGXvkBG64kPK/d9WbG6sVzrkbHw/pTSsFlSepC5GMwzA7stQQn/V
- c4tSh8yIxVlw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Apr 2020 08:18:10 -0700
-IronPort-SDR: zYEizug2f5pEgxBz0iBF5IN2GkdmOTUfaVcntlAZ2uiPCMykRTIFm63MPB9b9M9RfzEfWF0+6J
- NErz0qlayTWQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,307,1583222400"; d="scan'208";a="430357474"
-Received: from orsmsx101.amr.corp.intel.com ([10.22.225.128])
- by orsmga005.jf.intel.com with ESMTP; 23 Apr 2020 08:18:10 -0700
-Received: from orsmsx111.amr.corp.intel.com (10.22.240.12) by
- ORSMSX101.amr.corp.intel.com (10.22.225.128) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 23 Apr 2020 08:18:10 -0700
-Received: from orsmsx101.amr.corp.intel.com ([169.254.8.204]) by
- ORSMSX111.amr.corp.intel.com ([169.254.12.140]) with mapi id 14.03.0439.000;
- Thu, 23 Apr 2020 08:18:10 -0700
-From: "Derrick, Jonathan" <jonathan.derrick@intel.com>
-To: "hch@infradead.org" <hch@infradead.org>
-Subject: Re: [PATCH 0/1] KVM support for VMD devices
-Thread-Topic: [PATCH 0/1] KVM support for VMD devices
-Thread-Index: AQHWGMupFPgnPdV8d0yMVvPmd3oXgKiGsTeAgACXUwA=
-Date: Thu, 23 Apr 2020 15:18:10 +0000
-Message-ID: <f58982d0d37f86c8cf4d8769d42bea284e0c2825.camel@intel.com>
-References: <20200422171444.10992-1-jonathan.derrick@intel.com>
- <20200423061631.GA12688@infradead.org>
-In-Reply-To: <20200423061631.GA12688@infradead.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.255.1.180]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <2693A69249AB774DABEBE1A7DBFD60BC@intel.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <eblake@redhat.com>) id 1jRdfH-00082y-7Y
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:21:32 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60506
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jRdfG-00082r-RW
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 11:21:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587655282;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=p8oCYnX8h4Qa23lIkvOI01SCOwUCby4qOJAPcCDoDvA=;
+ b=JH/Pav5VSdz8tCQO/WN1bnO0RwPc1TdK9sS0ZCGy0g/hiSoEQS0Ly6OleXdkfqOmEtfv79
+ czABeR/6sOU4x6uSpD229Vt/f36MGj3UFHksHaeIKJF+QNzoDky8wwDiA3vAMMV3xDvbHc
+ PjmVvpZbBQP0WTXGJ0qPGD/5GeYlRLI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-242-UQeMHysDPPC3UpJElo1AKA-1; Thu, 23 Apr 2020 11:21:18 -0400
+X-MC-Unique: UQeMHysDPPC3UpJElo1AKA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40EC456B32;
+ Thu, 23 Apr 2020 15:21:17 +0000 (UTC)
+Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 67A035D9D3;
+ Thu, 23 Apr 2020 15:21:16 +0000 (UTC)
+Subject: Re: [PATCH v6 07/10] block: truncate: Don't make backing file data
+ visible
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20200423150127.142609-1-kwolf@redhat.com>
+ <20200423150127.142609-8-kwolf@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <8685fe45-1c38-adbb-3394-86fb0dfb12f9@redhat.com>
+Date: Thu, 23 Apr 2020 10:21:15 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=jonathan.derrick@intel.com; helo=mga18.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 11:18:11
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Received-From: 134.134.136.126
+In-Reply-To: <20200423150127.142609-8-kwolf@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 03:23:21
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,30 +79,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>,
- "helgaas@kernel.org" <helgaas@kernel.org>, "Jakowski,
- Andrzej" <andrzej.jakowski@intel.com>
+Cc: vsementsov@virtuozzo.com, berto@igalia.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gV2VkLCAyMDIwLTA0LTIyIGF0IDIzOjE2IC0wNzAwLCBDaHJpc3RvcGggSGVsbHdpZyB3cm90
-ZToNCj4gT24gV2VkLCBBcHIgMjIsIDIwMjAgYXQgMDE6MTQ6NDRQTSAtMDQwMCwgSm9uIERlcnJp
-Y2sgd3JvdGU6DQo+ID4gVGhlIHR3byBwYXRjaGVzIChMaW51eCAmIFFFTVUpIGFkZCBzdXBwb3J0
-IGZvciBwYXNzdGhyb3VnaCBWTUQgZGV2aWNlcw0KPiA+IGluIFFFTVUvS1ZNLiBWTUQgZGV2aWNl
-IDI4QzAgYWxyZWFkeSBzdXBwb3J0cyBwYXNzdGhyb3VnaCBuYXRpdmVseSBieQ0KPiA+IHByb3Zp
-ZGluZyB0aGUgSG9zdCBQaHlzaWNhbCBBZGRyZXNzIGluIGEgc2hhZG93IHJlZ2lzdGVyIHRvIHRo
-ZSBndWVzdA0KPiA+IGZvciBjb3JyZWN0IGJyaWRnZSBwcm9ncmFtbWluZy4NCj4gPiANCj4gPiBU
-aGUgUUVNVSBwYXRjaCBlbXVsYXRlcyB0aGUgMjhDMCBtb2RlIGJ5IGNyZWF0aW5nIGEgc2hhZG93
-IHJlZ2lzdGVyIGFuZA0KPiA+IGFkdmVydGlzaW5nIGl0cyBzdXBwb3J0IGJ5IHVzaW5nIFFFTVUn
-cyBzdWJzeXN0ZW0gdmVuZG9yL2lkLg0KPiA+IFRoZSBMaW51eCBwYXRjaCBtYXRjaGVzIHRoZSBR
-RU1VIHN1YnN5c3RlbSB2ZW5kb3IvaWQgdG8gdXNlIHRoZSBzaGFkb3cNCj4gPiByZWdpc3Rlci4N
-Cj4gDQo+IFBsZWFzZSBwaWNrIGEgZGlmZmVyZW50IFBDSSBJRCBmb3IgUWVtdSB2cyByZWFsIGhh
-cmR3YXJlIHNvIHRoYXQgd2UNCj4gY2FuIHByb3Blcmx5IHF1aXJrIHRoZW0gaWYgdGhleSBlbmQg
-dXAgYmVoYXZpbmcgZGlmZmVyZW50bHkgZHVlIHRvDQo+IGhhcmR3YXJlIG9yIHNvZnR3YXJlIGJ1
-Z3MuDQoNClN1cmUuIFdpbGwgbG9vayBpbnRvIHRoYXQuDQpUaGFua3MgQ2hyaXN0b3BoDQoNCkpv
-bg0K
+On 4/23/20 10:01 AM, Kevin Wolf wrote:
+> When extending the size of an image that has a backing file larger than
+> its old size, make sure that the backing file data doesn't become
+> visible in the guest, but the added area is properly zeroed out.
+> 
+> Consider the following scenario where the overlay is shorter than its
+> backing file:
+> 
+>      base.qcow2:     AAAAAAAA
+>      overlay.qcow2:  BBBB
+> 
+> When resizing (extending) overlay.qcow2, the new blocks should not stay
+> unallocated and make the additional As from base.qcow2 visible like
+> before this patch, but zeros should be read.
+> 
+> A similar case happens with the various variants of a commit job when an
+> intermediate file is short (- for unallocated):
+> 
+>      base.qcow2:     A-A-AAAA
+>      mid.qcow2:      BB-B
+>      top.qcow2:      C--C--C-
+> 
+> After commit top.qcow2 to mid.qcow2, the following happens:
+> 
+>      mid.qcow2:      CB-C00C0 (correct result)
+>      mid.qcow2:      CB-C--C- (before this fix)
+> 
+> Without the fix, blocks that previously read as zeros on top.qcow2
+> suddenly turn into A.
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> Reviewed-by: Alberto Garcia <berto@igalia.com>
+> ---
+>   block/io.c | 24 ++++++++++++++++++++++++
+>   1 file changed, 24 insertions(+)
+> 
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
