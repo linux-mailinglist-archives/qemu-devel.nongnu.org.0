@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7DFB1B62B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 19:52:17 +0200 (CEST)
-Received: from localhost ([::1]:34742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 709E01B62BF
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Apr 2020 19:53:49 +0200 (CEST)
+Received: from localhost ([::1]:34874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRg1I-0003H6-9k
-	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 13:52:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53472)
+	id 1jRg2m-0005px-CL
+	for lists+qemu-devel@lfdr.de; Thu, 23 Apr 2020 13:53:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53604)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jRg09-00021o-3H
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:51:05 -0400
+ (envelope-from <eblake@redhat.com>) id 1jRg0n-0003DI-Me
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:51:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jRg05-0000gy-5Y
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:51:04 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:34703)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jRg04-0000gZ-OA
- for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:51:00 -0400
-Received: by mail-ot1-x344.google.com with SMTP id 72so7622051otu.1
- for <qemu-devel@nongnu.org>; Thu, 23 Apr 2020 10:51:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QBl/1uXw+Q2w6cFkx/zgJOnbYRA+7r+ZtVCu0o5uRxQ=;
- b=r9p5K7skW9BshD2lRFrJfNdhPg8sR0iCp8Lb7aHME0oDOKDoZ1gAngzORYFePjsJO0
- 3ihpaXA69VQISGLP/+YWWe9vgPq0Z9dfD9VXm1lmb8IxeQTSBxKvbjeuQUiQPUsDFH/h
- UV4HWoem8CY1gMtba71umMU+TlDcHO/DwU4JaxvyEWUy6RF7VVIHYmyIEX0rsitkTgf2
- QscXqb1DU3xinJ1JZ8fKn9HaVvBd1Ck6zVfeB5He8Fh+zl0XGQpVtrvhhG8nl7EGq10h
- Hj9FdD6Gx5/yYEU/3R3wkZ9KpB/VR1y+DyJQEPbLcuX3qLfmSn4vQDOAaJ4yHfddYtVi
- IFIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QBl/1uXw+Q2w6cFkx/zgJOnbYRA+7r+ZtVCu0o5uRxQ=;
- b=ZjyfA3FZ1KzYLpqeVo292QihpxcXjtQAfJht0Riwn+hByN8jZfHKh7zqCaMu3eEMbU
- ezrHEW80W2N0AnVc5VIMTkway8DULJfmxlbQkDsNH7j813X3fV/YQKHTW8S3WmuBAggP
- pvGLxsJAnykUAyDm4/+/3AZwo7umaLYThuLU5I20Z+a7coIW8IBDoOie5O4/SfU4JiEZ
- aRDlviV+QScNCEdV9u7UITTCNXrgSze+OA4ULHO+FUruY1MQ6hr+P2TST8gxcdO9htr+
- yefFYJ58+t8pwU+zYgCdhYvHUADLFARLg3kESGo+ZJzkM6gcix9Ki5ct2jsk28DFgXJS
- SnCw==
-X-Gm-Message-State: AGi0PuY1GkDtj9kMB9B0tE2na/+E77vs1aW0BH2olqb2DZJmsmCRcOUs
- 10suk60UoFdXBzRRwYaE2J41T7MS29XhC43/VslJUQ==
-X-Google-Smtp-Source: APiQypIXpq2bnk3+QERWRoTO0+IY5IZEA71/iVVWjk01YgDtkWbykP9veAd9kj3tNvR9SSDN4cu4mgQ317Jj+JqCuws=
-X-Received: by 2002:aca:3441:: with SMTP id b62mr2586894oia.146.1587664259273; 
- Thu, 23 Apr 2020 10:50:59 -0700 (PDT)
+ (envelope-from <eblake@redhat.com>) id 1jRg0m-0001Ha-H4
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:51:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38558
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jRg0m-0001Gv-2S
+ for qemu-devel@nongnu.org; Thu, 23 Apr 2020 13:51:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587664302;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=i6a1R/GW4qQXHuRkD2fyliNOczpnpkRQvpYU8zmexvs=;
+ b=LoxannpDbiPBa0OY/1ycIZfsBKcFKx5vhHXG4gqp3UGv2p4MdM9D2+TV5ZHPI9IHCU01Ov
+ DQERK0yDcyVPsrUprj8GqULIQVhLR/bC8heCkyxHJLjvaoInmQumSIEY+/4K9SlmTxwJIK
+ Nq5xdf7UoDTKQOWiRYk8VH6Jx56C9a0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-313-vJfwltsqNw2Dhvhxo4_B_Q-1; Thu, 23 Apr 2020 13:51:40 -0400
+X-MC-Unique: vJfwltsqNw2Dhvhxo4_B_Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E20F100CD02;
+ Thu, 23 Apr 2020 17:51:39 +0000 (UTC)
+Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 79E7E5C1BE;
+ Thu, 23 Apr 2020 17:51:38 +0000 (UTC)
+Subject: Re: [PATCH 05/13] qapi: Polish prose in visitor.h
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200423160036.7048-1-armbru@redhat.com>
+ <20200423160036.7048-6-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <30b25f69-8052-b778-3aed-05b2b09e91a9@redhat.com>
+Date: Thu, 23 Apr 2020 12:51:37 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200312193616.438922-1-crosa@redhat.com>
- <CAFEAcA-zRw7kzwzXxPmLaUqwOrQLwW9BymOJ34iJOOTCUAf=xg@mail.gmail.com>
- <20200317141257.GA5724@localhost.localdomain>
- <CAFEAcA9W4KXN6dcT0CNyD_mQ3xY5wDmJ7i0wowhaG2XPmyMYng@mail.gmail.com>
- <87sgi49uf6.fsf@dusky.pond.sub.org>
- <CAFEAcA_dcVneQ4Hj61GAkYRCUSMrA=QjwnAXccoBwjUjOE-wSQ@mail.gmail.com>
- <529508877.9650370.1587661453005.JavaMail.zimbra@redhat.com>
- <20200423171322.GJ1077680@redhat.com>
- <348064782.9653447.1587663408130.JavaMail.zimbra@redhat.com>
-In-Reply-To: <348064782.9653447.1587663408130.JavaMail.zimbra@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Apr 2020 18:50:47 +0100
-Message-ID: <CAFEAcA_mytLVYUNSOJMUZfSwWXER_x=EPvT0vd3txdTpMhwjPA@mail.gmail.com>
-Subject: Re: [PATCH 0/5] QEMU Gating CI
-To: Cleber Rosa <crosa@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::344
+In-Reply-To: <20200423160036.7048-6-armbru@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/23 06:43:51
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,32 +78,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Wainer Moschetta <wmoschet@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 Apr 2020 at 18:37, Cleber Rosa <crosa@redhat.com> wrote:
-> We're already using the shared x86 runners, but with a different goal.  The
-> goal of the "Gating CI" is indeed to expand on non-x86 environments.  We're
-> in a "chicken and egg" kind of situation, because we'd like to prove that
-> GitLab CI will allow QEMU to expand to very different runners and jobs, while
-> not really having all that hardware setup and publicly available at this time.
+On 4/23/20 11:00 AM, Markus Armbruster wrote:
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>   include/qapi/visitor.h | 104 +++++++++++++++++++++--------------------
+>   1 file changed, 54 insertions(+), 50 deletions(-)
+> 
 
-We do have the S390 machine that IBM kindly made available to
-the project -- that is not a personal or Linaro machine, so
-there are no issues with giving you a login on that so you
-can set it up as a CI runner. Drop me an email if you want
-access to it.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-thanks
--- PMM
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
