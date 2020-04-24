@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58C3C1B7617
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 14:59:55 +0200 (CEST)
-Received: from localhost ([::1]:35958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 534CB1B7630
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 15:06:46 +0200 (CEST)
+Received: from localhost ([::1]:36514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRxvu-00085l-8y
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 08:59:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43270)
+	id 1jRy2W-0008Ra-TH
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 09:06:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46370)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1jRxsQ-0000hh-6D
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 08:56:18 -0400
+ (envelope-from <stefanha@redhat.com>) id 1jRxyr-0005vl-Ms
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 09:02:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1jRxsP-0006vK-IP
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 08:56:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46118
+ (envelope-from <stefanha@redhat.com>) id 1jRxyj-00035x-9P
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 09:02:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21045
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jRxsP-0006ru-27
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 08:56:17 -0400
+ id 1jRxyi-000314-Rx
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 09:02:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587732976;
+ s=mimecast20190719; t=1587733367;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=NPfeiv8Eg3qK1qqCHb17WUOMOlNmOqPDQsQ9YGUtLyo=;
- b=HdMEixW/VG8HghIv7Pf60boiWM2rKgEfBDPPdLJqlzJxvgfipZ6e5hJGwO8Lw/nkpsnu+0
- 6HahSjgU1tAII42pDKuuQ6yKcUonpc480NL7vW/SZXz+aOvxfoWgrVKbtEaRK5EvdmL+QL
- 4PBgQYSBkESLEncYM+9zZEbfooQcXuk=
+ bh=u4BjcDj3IoACNwYNQ/YaFwY27vmgR4wkG7R5Hih9xyI=;
+ b=IH4ZlZ7aHBw4/wH5OobKNC2YxPBLsKjP/URGt6GAQbLx9NStCkuZ/zcGxB+Dyela86ARdQ
+ ATig/Oy6Pzsai7Rs+ZbKhtWiOjfCYePgtSu8j8jDN1tavtx9+Vl1RgHtaBmMm19ISj6/gC
+ SVCpOdjHoSnZ7CbbYsVQampKk87TBOU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-129-bF8cqahRORilzOpj0ZKiEw-1; Fri, 24 Apr 2020 08:56:09 -0400
-X-MC-Unique: bF8cqahRORilzOpj0ZKiEw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-367--ws9ioAEMxKierCQllLc4A-1; Fri, 24 Apr 2020 09:02:45 -0400
+X-MC-Unique: -ws9ioAEMxKierCQllLc4A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F9FF460;
- Fri, 24 Apr 2020 12:56:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 680B4180F107;
+ Fri, 24 Apr 2020 13:02:43 +0000 (UTC)
 Received: from localhost (ovpn-114-136.ams2.redhat.com [10.36.114.136])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 23CFA605CF;
- Fri, 24 Apr 2020 12:56:00 +0000 (UTC)
-Date: Fri, 24 Apr 2020 13:55:59 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D6E51002380;
+ Fri, 24 Apr 2020 13:02:37 +0000 (UTC)
+Date: Fri, 24 Apr 2020 14:02:36 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: elena.ufimtseva@oracle.com
-Subject: Re: [PATCH RESEND v6 03/36] command-line: refractor parser code
-Message-ID: <20200424125559.GD189569@stefanha-x1.localdomain>
+Subject: Re: [PATCH RESEND v6 05/36] multi-process: Refactor monitor
+ functions out of vl.c
+Message-ID: <20200424130236.GE189569@stefanha-x1.localdomain>
 References: <cover.1587614626.git.elena.ufimtseva@oracle.com>
- <d425a6164b01693940fb505002ccebbac7b54dbb.1587614626.git.elena.ufimtseva@oracle.com>
+ <22a91b836f4105dc314f24536e96f883c0ad638c.1587614626.git.elena.ufimtseva@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <d425a6164b01693940fb505002ccebbac7b54dbb.1587614626.git.elena.ufimtseva@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <22a91b836f4105dc314f24536e96f883c0ad638c.1587614626.git.elena.ufimtseva@oracle.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="XvKFcGCOAo53UbWW"
+ protocol="application/pgp-signature"; boundary="G6nVm6DDWH/FONJq"
 Content-Disposition: inline
 Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
  helo=us-smtp-1.mimecast.com
@@ -86,70 +87,175 @@ Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---XvKFcGCOAo53UbWW
-Content-Type: text/plain; charset=iso-8859-1
+--G6nVm6DDWH/FONJq
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 22, 2020 at 09:13:38PM -0700, elena.ufimtseva@oracle.com wrote:
+On Wed, Apr 22, 2020 at 09:13:40PM -0700, elena.ufimtseva@oracle.com wrote:
 > From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 >=20
-> Refactor command-line parser code so that it could be used by
-> other processes as well.
+> Some of the initialization helper functions w.r.t monitor
+> in vl.c are also used by the remote process. Therefore, these functions
+> are refactored into shared files that both QEMU & remote process
+> could use.
+>=20
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  include/monitor/monitor.h |  3 +++
+>  monitor/monitor.c         | 37 +++++++++++++++++++++++++++++++++++++
+>  softmmu/vl.c              | 35 -----------------------------------
+>  3 files changed, 40 insertions(+), 35 deletions(-)
 
-How will qemu-options-wrapper.h be handled for other processes?  At the
-moment qemu-parse.c cannot be reused because it includes this file for
-the options list.
+Kevin Wolf recently had to solve a similar problem when introducing
+qemu-storage-daemon.
 
-> diff --git a/include/qemu-parse.h b/include/qemu-parse.h
-> new file mode 100644
-> index 0000000000..156b238db6
-> --- /dev/null
-> +++ b/include/qemu-parse.h
-> @@ -0,0 +1,42 @@
-> +/*
-> + * Copyright =A9 2018, 2020 Oracle and/or its affiliates.
+qemu-storage-daemon.c open-codes the command-line parsing instead of
+trying to reuse vl.c's code.  The vl.c code is old and not very neat,
+unless other code depends on it I would suggest writing modern clean
+code like Kevin did instead of trying to keep using vl.c code.
 
-This code is extracted from vl.c so the copyright should be preserved
-and not replaced with yours.
-
-You can add yours for changes that have been made.
-
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-> + * See the COPYING file in the top-level directory.
-> + *
-> + */
+>=20
+> diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
+> index 1018d754a6..3803e904f2 100644
+> --- a/include/monitor/monitor.h
+> +++ b/include/monitor/monitor.h
+> @@ -48,4 +48,7 @@ int monitor_fdset_dup_fd_add(int64_t fdset_id, int dup_=
+fd);
+>  void monitor_fdset_dup_fd_remove(int dup_fd);
+>  int64_t monitor_fdset_dup_fd_find(int dup_fd);
+> =20
+> +int mon_init_func(void *opaque, QemuOpts *opts, Error **errp);
+> +void monitor_parse(const char *optarg, const char *mode, bool pretty);
 > +
-> +#ifndef VL_H
-> +#define VL_H
-
-#define QEMU_PARSE_H
-
+>  #endif /* MONITOR_H */
+> diff --git a/monitor/monitor.c b/monitor/monitor.c
+> index 125494410a..88423b38b6 100644
+> --- a/monitor/monitor.c
+> +++ b/monitor/monitor.c
+> @@ -35,6 +35,8 @@
+>  #include "sysemu/qtest.h"
+>  #include "sysemu/sysemu.h"
+>  #include "trace.h"
+> +#include "qemu/cutils.h"
+> +#include "qemu/config-file.h"
+> =20
+>  /*
+>   * To prevent flooding clients, events can be throttled. The
+> @@ -611,6 +613,41 @@ void monitor_init_globals_core(void)
+>                                     NULL);
+>  }
+> =20
+> +int mon_init_func(void *opaque, QemuOpts *opts, Error **errp)
+> +{
+> +    return monitor_init_opts(opts, errp);
+> +}
 > +
-> +int drive_init_func(void *opaque, QemuOpts *opts, Error **errp);
+> +void monitor_parse(const char *optarg, const char *mode, bool pretty)
+> +{
+> +    static int monitor_device_index;
+> +    QemuOpts *opts;
+> +    const char *p;
+> +    char label[32];
 > +
-> +int device_init_func(void *opaque, QemuOpts *opts, Error **errp);
+> +    if (strstart(optarg, "chardev:", &p)) {
+> +        snprintf(label, sizeof(label), "%s", p);
+> +    } else {
+> +        snprintf(label, sizeof(label), "compat_monitor%d",
+> +                 monitor_device_index);
+> +        opts =3D qemu_chr_parse_compat(label, optarg, true);
+> +        if (!opts) {
+> +            error_report("parse error: %s", optarg);
+> +            exit(1);
+> +        }
+> +    }
+> +
+> +    opts =3D qemu_opts_create(qemu_find_opts("mon"), label, 1, &error_fa=
+tal);
+> +    qemu_opt_set(opts, "mode", mode, &error_abort);
+> +    qemu_opt_set(opts, "chardev", label, &error_abort);
+> +    if (!strcmp(mode, "control")) {
+> +        qemu_opt_set_bool(opts, "pretty", pretty, &error_abort);
+> +    } else {
+> +        assert(pretty =3D=3D false);
+> +    }
+> +    monitor_device_index++;
+> +}
+> +
+>  int monitor_init(MonitorOptions *opts, bool allow_hmp, Error **errp)
+>  {
+>      Chardev *chr;
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 6e35f3787d..abc746c1b5 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -2045,41 +2045,6 @@ static int fsdev_init_func(void *opaque, QemuOpts =
+*opts, Error **errp)
+>  }
+>  #endif
+> =20
+> -static int mon_init_func(void *opaque, QemuOpts *opts, Error **errp)
+> -{
+> -    return monitor_init_opts(opts, errp);
+> -}
+> -
+> -static void monitor_parse(const char *optarg, const char *mode, bool pre=
+tty)
+> -{
+> -    static int monitor_device_index =3D 0;
+> -    QemuOpts *opts;
+> -    const char *p;
+> -    char label[32];
+> -
+> -    if (strstart(optarg, "chardev:", &p)) {
+> -        snprintf(label, sizeof(label), "%s", p);
+> -    } else {
+> -        snprintf(label, sizeof(label), "compat_monitor%d",
+> -                 monitor_device_index);
+> -        opts =3D qemu_chr_parse_compat(label, optarg, true);
+> -        if (!opts) {
+> -            error_report("parse error: %s", optarg);
+> -            exit(1);
+> -        }
+> -    }
+> -
+> -    opts =3D qemu_opts_create(qemu_find_opts("mon"), label, 1, &error_fa=
+tal);
+> -    qemu_opt_set(opts, "mode", mode, &error_abort);
+> -    qemu_opt_set(opts, "chardev", label, &error_abort);
+> -    if (!strcmp(mode, "control")) {
+> -        qemu_opt_set_bool(opts, "pretty", pretty, &error_abort);
+> -    } else {
+> -        assert(pretty =3D=3D false);
+> -    }
+> -    monitor_device_index++;
+> -}
+> -
+>  struct device_config {
+>      enum {
+>          DEV_USB,       /* -usbdevice     */
+> --=20
+> 2.25.GIT
+>=20
 
-What do drive_init_func() and device_init_func() have to do with
-lookup_opt()?  I wouldn't expect to see them in this header file.
-
---XvKFcGCOAo53UbWW
+--G6nVm6DDWH/FONJq
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6i4d8ACgkQnKSrs4Gr
-c8j2twgAmxvJPzt2jtS76joOyek7mBFqYi4xPuhq+cFf6RTie64Wg3b8Rz8fKRKa
-qGvv5wAKdxt+EKGSsz2a1qeEAPIwCGC4H5gsugdPQF7hGSfGKSq2sk7/eZFnB67H
-veUuKcd9m6NXAZ+nwJ2VM0iJYACrBh3noyI8fwISeSf05y8Hz+CVs01qVpYlRnvP
-rZ1V74+1pnsVEcMGhLRJwk9kln7aRMBytUuQOc7+N8qT5e/cJdPEfBuAyj5BWunW
-z+OIe85QXcFRGO4kY0z+oRJmzw7+7nNC1v+oglruxjjeMeOIckkZBCr4Xqeij8d3
-l/Ufm9rWcAyq+iKt3XMomAcd/KY6Bg==
-=SALd
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6i42wACgkQnKSrs4Gr
+c8hwXgf8DmQzMlbnuy0nEUVal0PQvPoHGfmzLiYFObdbJA5mFpCraWsLT8QGUZef
+2rdQ3+EtuvzjU3wtY0OZEgbpAO7mDP2KNIVuUWl8kavBqAz/5BlzDf7d+l26t3Wy
+/VyEAcQVXUJn9Lc7dZ6w9jD/TMi3nBTVPivNGDQSdDgqbVKBSkJJ1rdVvFqkqZcB
+Op4DyOeZG0k0Cx3Q/gDgWzC/dCEJs+k9EmYWREYN7n/MTvH3aAMrzEgMfPiyjVvH
+Wu4kNkv/w1JQYRDzojv+DNLrO5dNGLczf2qrueSPo5V0L3VVHkxBzH7IB5ttI7YE
+AHvJqJ/q8Iceqq0xRgUnekb+f3gMUA==
+=2NuK
 -----END PGP SIGNATURE-----
 
---XvKFcGCOAo53UbWW--
+--G6nVm6DDWH/FONJq--
 
 
