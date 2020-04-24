@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C0D1B81CB
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 23:59:37 +0200 (CEST)
-Received: from localhost ([::1]:53870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E67321B81C6
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 23:52:28 +0200 (CEST)
+Received: from localhost ([::1]:53688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jS6MC-0004x2-Mw
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 17:59:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50118)
+	id 1jS6FH-0000m8-Eb
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 17:52:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50294)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jS6Cp-0008F9-Uv
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 17:49:56 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jS6DX-0008SW-PM
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 17:50:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jS6Co-0007M9-9o
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 17:49:54 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:44695)
+ (envelope-from <richard.henderson@linaro.org>) id 1jS6DX-0001E1-9u
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 17:50:39 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:37076)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jS6Cn-0007Fl-PB
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 17:49:53 -0400
-Received: by mail-pg1-x544.google.com with SMTP id q18so5251185pgm.11
- for <qemu-devel@nongnu.org>; Fri, 24 Apr 2020 14:49:53 -0700 (PDT)
+ id 1jS6DW-00018K-Sq
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 17:50:38 -0400
+Received: by mail-pf1-x444.google.com with SMTP id d184so5459408pfd.4
+ for <qemu-devel@nongnu.org>; Fri, 24 Apr 2020 14:50:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=/dSm7a0eb+jHHfF9pMuOwiHXLslj0mvOfuKqqBKISPk=;
- b=mVqrZWpBvLP+Vgz7GO5RGcPi1aH8nwtt2FTjyREtyhtI6tU9w3g7lYFcJvvRv5t/ns
- KCYmZKuwijPWy+ekxAl+hAZAcjJRs/SssiQx5cMx1pnYuu+WDhWNRT5JXhuhLZIQjiDr
- SDLL2mu+HFhx8iGYzYFw24mIxQOBs5F+yytAaialRCCgR5qHqkPspUHqbFFyI5RgG+/F
- pjfsY8unxkmDpP4SOQfgfEWvs1F7X73JR0N4MheFpQZUGD5edZy0oLRGohLmwQXngD5L
- 6YKLCwyvon1XCM0rCjS46R9i4RCcR2JFl2a0eNrFK+Je+kVQuuidkiKXxJzhT36bwFhw
- EzNw==
+ bh=FLj5+Vs3rr8r5/wssKn4ZLoBooiRpYDp48ov4gVCtZ4=;
+ b=spUzlX8HhmYJfwA/eseJ2KGHwLr2cTxRbf5EBWvYLVd6JpuFjD3E0iAS5bBc73GdXd
+ jsxRkTWevxsbvUVOJdL9659vaWaUb8ukYFXIH+thHcjvXNMYZwxGuqp8Zy2TWT4ScQiE
+ 1Sk/mMNXYsZC/YTdyuyGAUzhKkI0SPbBF6Grxwhxk5aJe0bbVGYctZE6dSmaEfVIDQjY
+ jJ8r2eq2NtKhlbvL0Rbeq7qhXEN9Lrk71PdM8lmaL3cPult7cWWI36sZOsroOCTnvAuN
+ 7SjTHCf9UEc/eLUz+6+jdfxkzQlC/VFMOEQlWCnmYEWunDgZpHj2G3dLb1w7yNxDWo5E
+ vvlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/dSm7a0eb+jHHfF9pMuOwiHXLslj0mvOfuKqqBKISPk=;
- b=Q+ttS8jYX3fALnaEQtHyaLCzFZXMrWEhBPAqDnTmaeDXyHtE03qT5leVgaQCF5qKaE
- bSY8J+4fvpSxDr8agFijity7rrJqojrQ/IxwXGWdog6i++G+stWqL/8yKynkMgIRXVuV
- Y7311P/vkfAEVmbZkyyDQ9Ja098Jjss+7rBUpDHxFFW/PXBViaTtpzSp/jGqKC7+/qxs
- gtHZdz+H5yMkLrpExIdgzrN1pklIgyagzTypyu1yIABA/denCVN67vT2KL97VSgOqGCA
- vjtfUEvm2BsppNKWZ1P6ccd3lAcglpuGypvZh2TpJF8gSEBFQJz0Chv5ohW99QrDHszz
- Fzww==
-X-Gm-Message-State: AGi0PuYJzBF6GO4fugGfXWoGN3KBO3GRXGHLub2uXlbz88cWd+hfCuBE
- XQsTsF1291zrhyUiditwokQnyPfRzVQ=
-X-Google-Smtp-Source: APiQypIW24ggZ2rmd87dB3vLfOHneNxSYjLUCanN0dseiFzRjzJv93b8AsMWBzaOXr7ZgOUlyE+rdg==
-X-Received: by 2002:a63:f46:: with SMTP id 6mr11375223pgp.367.1587764991815;
- Fri, 24 Apr 2020 14:49:51 -0700 (PDT)
+ bh=FLj5+Vs3rr8r5/wssKn4ZLoBooiRpYDp48ov4gVCtZ4=;
+ b=lMfHAXteZ1yo8nm51I5bjOGTpn/yzpnzUSHwQ2eWbgtmBKsPlKfIY8hOoD6n12tOXf
+ z1gr3XEct9S6Xdt0ZR1ouUWd8OUAi+/96QLgl6FnRrl4G+Zs9U/n5L3O3wNyNAb7F5Uq
+ 3Bjlog6krp/GwIn+e5kshl59D7CQQ68QvaejWUa+AgToB2smsqVzVuVeVJkTYPkpU6Ee
+ uZFBdiwTC6WxWZiw9UjowWRSOaHvW68wMqKbxr4oTK+kmrq92ROpA1jpNbUEHDp3FTEu
+ 1IvllbgtC7J8TP1Jht48lNS9hikUjy2GSLBL4NZBOveKJ8mVFI5vvt5mnmTvpEafORz/
+ spTw==
+X-Gm-Message-State: AGi0PuZ0HP2H9YyWe7H47xkeJGTjld5NHYbr5bnJnXbhlafakhKrxrX9
+ O3hHijlMxK7CJih+91oJnymhJbWs59Y=
+X-Google-Smtp-Source: APiQypL4hn5K/cVznrMjLv+EFKzKmMHFSeJeielHzN3wRVQFcf22YeWEcI3/n6FmJRBzq+IzeLnbVQ==
+X-Received: by 2002:a63:1e5a:: with SMTP id p26mr11134535pgm.233.1587765035848; 
+ Fri, 24 Apr 2020 14:50:35 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id c10sm5746066pgh.48.2020.04.24.14.49.50
+ by smtp.gmail.com with ESMTPSA id b140sm6514959pfb.119.2020.04.24.14.50.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Apr 2020 14:49:51 -0700 (PDT)
-Subject: Re: [PATCH] linux-user: Drop open-coded fcntl flags conversion in
- eventfd2 syscall
+ Fri, 24 Apr 2020 14:50:35 -0700 (PDT)
+Subject: Re: [PATCH] linux-user: Add support for /proc/cpuinfo on hppa platform
 To: Helge Deller <deller@gmx.de>, Riku Voipio <riku.voipio@iki.fi>,
  Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20200424204858.GA26164@ls3530.fritz.box>
+References: <20200424210648.GA26715@ls3530.fritz.box>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <76c818fa-fb77-5cb8-0ae3-76aa3805166e@linaro.org>
-Date: Fri, 24 Apr 2020 14:49:48 -0700
+Message-ID: <8492cb36-d9b4-49e3-f54d-1771d8325709@linaro.org>
+Date: Fri, 24 Apr 2020 14:50:33 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200424204858.GA26164@ls3530.fritz.box>
+In-Reply-To: <20200424210648.GA26715@ls3530.fritz.box>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::544
+X-Received-From: 2607:f8b0:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,10 +88,11 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/24/20 1:48 PM, Helge Deller wrote:
-> Drop the open-coded fcntl flags conversion in the eventfd2 syscall and
-> replace it with the built-in conversion with fcntl_flags_tbl.
-> 
+On 4/24/20 2:06 PM, Helge Deller wrote:
+> Provide an own /proc/cpuinfo file for the hppa (parisc) platform.
+
+"our own" perhaps?
+
 > Signed-off-by: Helge Deller <deller@gmx.de>
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
