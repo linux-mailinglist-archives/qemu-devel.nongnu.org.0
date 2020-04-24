@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1D971B7429
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 14:24:54 +0200 (CEST)
-Received: from localhost ([::1]:34180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13DFB1B7582
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 14:37:15 +0200 (CEST)
+Received: from localhost ([::1]:34672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRxO1-0005ve-7B
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 08:24:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46294)
+	id 1jRxZx-00065H-TX
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 08:37:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53898)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1jRxMs-0004mA-NA
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 08:23:43 -0400
+ (envelope-from <arilou@gmail.com>) id 1jRxXq-0003Ug-Pc
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 08:35:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1jRxMr-0006yC-VA
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 08:23:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31506
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jRxMr-0006pW-EX
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 08:23:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587731019;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UcVsxGcgXx7A6ZhTXDf1tAfwoUEvLV3TtbJmLK5AwMI=;
- b=b+sJPsmok1YZxvZxSIg9ztiSgc7j/0HmuSGFwtYeiaJrNdVPjwNRuCrvh9xHjTrir+Ebj6
- j5c7eNt/Sz4M11QCU71eqmGxfhyE/0NcWdzYOUZJcWm+/tK3bb6C2Jepl0EavxDMjzO2+p
- TicOEUzrI8L0sqD7Fa1EPSs3z8iHjc8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-PR_3oo61N-SDlrMPkYWMEw-1; Fri, 24 Apr 2020 08:23:37 -0400
-X-MC-Unique: PR_3oo61N-SDlrMPkYWMEw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8817419057DA;
- Fri, 24 Apr 2020 12:23:35 +0000 (UTC)
-Received: from localhost (ovpn-114-136.ams2.redhat.com [10.36.114.136])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 73CE1605E0;
- Fri, 24 Apr 2020 12:23:28 +0000 (UTC)
-Date: Fri, 24 Apr 2020 13:23:27 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v2 1/3] block: Add blk_new_with_bs() helper
-Message-ID: <20200424122327.GE188259@stefanha-x1.localdomain>
-References: <20200423221707.477404-1-eblake@redhat.com>
- <20200423221707.477404-2-eblake@redhat.com>
+ (envelope-from <arilou@gmail.com>) id 1jRxXq-0003cV-84
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 08:35:02 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34623)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1jRxXp-0003SW-GI
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 08:35:01 -0400
+Received: by mail-wr1-x444.google.com with SMTP id j1so10610155wrt.1
+ for <qemu-devel@nongnu.org>; Fri, 24 Apr 2020 05:35:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AYduD8BFucHITVXns6NONWWuT+ECorIb4Ylboy8K0CI=;
+ b=rjWCgy7sMtWspYq2ap2B3w3O32Ao/7lgbJHtMq9KZPAU3MuvvUkT+wHXKljxfzzDIr
+ 4mCpu9M5cytMOx/DCqJbLFBrdgqY8LjyhDqOODYD0BTh95/3918riLlTR8xehbz2EolJ
+ 5M8lq/f0DKtEAMhst1kgNo/qYZ3wq9FIOOuoBvi/RAg0x/R/Q0NGqByPAAzwC9s1S8dK
+ 37Ep2bSwyFfqtgeM2Axfh3X6hKKjzIG8s7jk2mZQrPv2lnmK4JhDRKPYqqQAG3hw8uqI
+ I23ag1gF//jVFyqctIkLwPB+ioFwrRe8LIwBvxPxeivBz4rID92Sb7wYJqAWPwJooBJv
+ +iSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AYduD8BFucHITVXns6NONWWuT+ECorIb4Ylboy8K0CI=;
+ b=ZVLf1IfwNwiNC+rHzBh7EE1LFQoLh8cFGD08d8Bz3f2BvhuRP599lsJHr3XcgArDV0
+ A4G0PN5QGn3xhC5iW7yml/woKB10FGhQzBZpkJW0fVKVjYZxAONXWOCjPEjamoUyqRjY
+ fG00FlxVDAiG82X83PFrBfv0abcUYhvA/As4aGtmgY9iwWqOZoTs8JGVAfFKLNkVsUD7
+ v0OzioUwX4eTPl0xj7CJ3U6VA+mtbDuIg9rHPEBKGafppOScupEhLb8OB0km7Jm4pvp0
+ S+hKF/om1nMLvqQvRyK+XRrgNK/gXbmI+rZKhP9/XCbMoYHoXo4bZd4PguaRK3OR/V6N
+ d/hA==
+X-Gm-Message-State: AGi0PubQFIq3YkDdR7mUIKuEgGeUUPXxc14rLPJiwi+qZ5Mt9jq2wWS9
+ +ZthbX8KCdrKPfEAaT/fBs0yPEKsR0Jzvw==
+X-Google-Smtp-Source: APiQypIGWNzGQfERwd0pvyHSbg6Ef1zaboFZ6fFaD8faxgd+Eoh8zhVyNMzyZw5LAUGe46YzwnVyKw==
+X-Received: by 2002:adf:e9cb:: with SMTP id l11mr10706492wrn.24.1587731699001; 
+ Fri, 24 Apr 2020 05:34:59 -0700 (PDT)
+Received: from jondnuc.lan (IGLD-84-229-154-20.inter.net.il. [84.229.154.20])
+ by smtp.gmail.com with ESMTPSA id
+ 91sm8462859wra.37.2020.04.24.05.34.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Apr 2020 05:34:58 -0700 (PDT)
+From: Jon Doron <arilou@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/6] hyperv: VMBus implementation
+Date: Fri, 24 Apr 2020 15:34:38 +0300
+Message-Id: <20200424123444.3481728-1-arilou@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200423221707.477404-2-eblake@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qFgkTsE6LiHkLPZw"
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 03:07:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=arilou@gmail.com; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,61 +78,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Fam Zheng <fam@euphon.net>,
- "open list:Sheepdog" <sheepdog@lists.wpkg.org>, qemu-block@nongnu.org,
- Jeff Cody <codyprime@gmail.com>, Stefan Weil <sw@weilnetz.de>,
- qemu-devel@nongnu.org, mreitz@redhat.com, Liu Yuan <namei.unix@gmail.com>,
- "Denis V. Lunev" <den@openvz.org>, John Snow <jsnow@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: mail@maciej.szmigiero.name, eyakovlev@virtuozzo.com, ehabkost@redhat.com,
+ rvkagan@gmail.com, liran.alon@oracle.com, pbonzini@redhat.com,
+ vkuznets@redhat.com, Jon Doron <arilou@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---qFgkTsE6LiHkLPZw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is a rebase of the old patchset from Roman for HyperV VMBus
+implementation.
 
-On Thu, Apr 23, 2020 at 05:17:05PM -0500, Eric Blake wrote:
-> There are several callers that need to create a new block backend from
-> an existing BDS; make the task slightly easier with a common helper
-> routine.
->=20
-> Suggested-by: Max Reitz <mreitz@redhat.com>
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
->  include/sysemu/block-backend.h |  2 ++
->  block/block-backend.c          | 23 +++++++++++++++++++++++
->  block/crypto.c                 |  8 +++-----
->  block/parallels.c              |  7 +++----
->  block/qcow.c                   |  7 +++----
->  block/qcow2.c                  | 15 ++++++---------
->  block/qed.c                    |  7 +++----
->  block/sheepdog.c               |  9 ++++-----
->  block/vdi.c                    |  7 +++----
->  block/vhdx.c                   |  7 +++----
->  block/vmdk.c                   |  9 ++++-----
->  block/vpc.c                    |  7 +++----
->  blockdev.c                     |  8 +++-----
->  blockjob.c                     |  7 ++-----
->  14 files changed, 65 insertions(+), 58 deletions(-)
+How to use:
+-device vmbus-bridge
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Later on new paravirtualized devices can be implemented on top of it
+(Network/SCSI/etc.)
 
---qFgkTsE6LiHkLPZw
-Content-Type: application/pgp-signature; name="signature.asc"
+VMBus is a collection of technologies.  At its lowest layer, it's a message
+passing and signaling mechanism, allowing efficient passing of messages to and
+from guest VMs.  A layer higher, it's a mechanism for defining channels of
+communication, where each channel is tagged with a type (which implies a
+protocol) and a instance ID.  A layer higher than that, it's a bus driver,
+serving as the basis of device enumeration within a VM, where a channel can
+optionally be exposed as a paravirtual device.  When a server-side (paravirtual
+back-end) component wishes to offer a channel to a guest VM, it does so by
+specifying a channel type, a mode, and an instance ID.  VMBus then exposes this
+in the guest.
 
------BEGIN PGP SIGNATURE-----
+More information about VMBus can be found in the file
+vmbuskernelmodeclientlibapi.h in Microsoft's WDK.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6i2j4ACgkQnKSrs4Gr
-c8gRIwf/QrnuU48tqV5gVDwvCAvsgYLOvYPFdA3RzGYyqLfU+awh158S9bfHIlJ2
-33tLGNXBhWWqvIX5odfBq6I4NbNDqM9hgT6pylB86dCxaQzXPwn2ZRqI9L/BOMrr
-EDEk0Mkz8CcXzHMI77s+9y1Ec5qZU/6RnyJgIiVIvaOsL6cEqRjGDgRCzm4DcThE
-ifGbmn/a2kZPkkZnWizA8HDwkVXgXLBgFpS8k0IfVxllS618YbqkNlB7UYhFnGGs
-z33dnPtgiOnorkXb9JUFGCkhUvEWW9tE1FJIpH+TZutSdpTLVI1SEgg7tQonzRoP
-+b+GTqHzy8CGsuYTV3lz2ZGl+/QCQQ==
-=4EmP
------END PGP SIGNATURE-----
+v4:
+Decided to ditch the patch that envolves handling of EOM as there is
+still a discussion going on with it in the KVM mailing list.
 
---qFgkTsE6LiHkLPZw--
+v3:
+Fixed an error asan
+
+v2:
+Rebased on top of latest patchset from Roman and Maciej
+
+Jon Doron (6):
+  hyperv: expose API to determine if synic is enabled
+  vmbus: add vmbus protocol definitions
+  vmbus: vmbus implementation
+  i386:pc: whitelist dynamic vmbus-bridge
+  i386: Hyper-V VMBus ACPI DSDT entry
+  vmbus: add infrastructure to save/load vmbus requests
+
+ Makefile.objs                    |    1 +
+ hw/hyperv/Kconfig                |    5 +
+ hw/hyperv/Makefile.objs          |    1 +
+ hw/hyperv/hyperv.c               |    8 +
+ hw/hyperv/trace-events           |   18 +
+ hw/hyperv/vmbus.c                | 2778 ++++++++++++++++++++++++++++++
+ hw/i386/acpi-build.c             |   43 +
+ hw/i386/pc_piix.c                |    2 +
+ hw/i386/pc_q35.c                 |    2 +
+ include/hw/hyperv/hyperv.h       |    1 +
+ include/hw/hyperv/vmbus-bridge.h |   35 +
+ include/hw/hyperv/vmbus-proto.h  |  222 +++
+ include/hw/hyperv/vmbus.h        |  230 +++
+ 13 files changed, 3346 insertions(+)
+ create mode 100644 hw/hyperv/trace-events
+ create mode 100644 hw/hyperv/vmbus.c
+ create mode 100644 include/hw/hyperv/vmbus-bridge.h
+ create mode 100644 include/hw/hyperv/vmbus-proto.h
+ create mode 100644 include/hw/hyperv/vmbus.h
+
+-- 
+2.24.1
 
 
