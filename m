@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 980711B7E02
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 20:42:29 +0200 (CEST)
-Received: from localhost ([::1]:48282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0824B1B7E4F
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 20:52:03 +0200 (CEST)
+Received: from localhost ([::1]:48666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jS3HQ-0003Pd-C7
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 14:42:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42806)
+	id 1jS3Qg-00030E-2W
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 14:52:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46210)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1jS3GJ-0002AR-Bp
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 14:41:19 -0400
+ (envelope-from <bounces@canonical.com>) id 1jS3PN-0002TG-B3
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 14:50:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1jS3GI-0003O0-R5
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 14:41:19 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:36255)
+ (envelope-from <bounces@canonical.com>) id 1jS3PM-0005NP-EP
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 14:50:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47882)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jS3GI-0003KK-9W; Fri, 24 Apr 2020 14:41:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=OqaxqUTc753QtjLloI/nimYGhMIk7My7mLj3f13xTcA=; 
- b=ps+G3tC6UozSNQU9c6nWdcFuSLXOEljFYoC3rsz6w7NlfPhNxj/hmpHpt7XmIC76PNOOJa8U7TXuqgAgoSiEap/AGboJ2Pg8YNysgqLyMMf//o3v85/6Ugl2qlXZBhqrxblxRN4WtHfGeZhJJNT74cllsSWbONWnUD0peuWMjZj0yHGm8sXBno8yE8xgr/ySH+FqL/drdzLYpGkOWKClhqxTnBQExEUkKjEXgv54ZCsvUwlhPoG+Fwb5HgYnecx5g2y4Ii8ZkmMWu0Gzn364jmcfGHWFBZD3Kp6SVMx6Zv1xP+MCAYe7dv+LfQ1wqySiZ4bXPSW7ZVvGtOeSb0IH9A==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1jS3GD-0003ur-AT; Fri, 24 Apr 2020 20:41:13 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1jS3GD-0008H6-0u; Fri, 24 Apr 2020 20:41:13 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 24/30] qcow2: Clear the L2 bitmap when allocating a
- compressed cluster
-In-Reply-To: <971a6e4b-ba44-4280-89fa-d454cddf12e1@virtuozzo.com>
-References: <cover.1584468723.git.berto@igalia.com>
- <6d596d82ed62615a8565b661691a06bfaf32237e.1584468723.git.berto@igalia.com>
- <w51r1wcn7eu.fsf@maestria.local.igalia.com>
- <1606ecb5-98ea-fefb-bb98-2ecda1d65f5c@redhat.com>
- <w51o8rgn6j6.fsf@maestria.local.igalia.com>
- <57ac1a2f-1632-1a00-b18d-1fc2169175b6@redhat.com>
- <971a6e4b-ba44-4280-89fa-d454cddf12e1@virtuozzo.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Fri, 24 Apr 2020 20:41:12 +0200
-Message-ID: <w51ftcsn2uv.fsf@maestria.local.igalia.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jS3PL-0005Cl-VP
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 14:50:40 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jS3PI-00041W-6A
+ for <qemu-devel@nongnu.org>; Fri, 24 Apr 2020 18:50:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 2C2032E8047
+ for <qemu-devel@nongnu.org>; Fri, 24 Apr 2020 18:50:36 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 13:02:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 24 Apr 2020 18:44:18 -0000
+From: Konstantin <1874888@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: skotik
+X-Launchpad-Bug-Reporter: Konstantin (skotik)
+X-Launchpad-Bug-Modifier: Konstantin (skotik)
+Message-Id: <158775385817.8537.12364422091879172270.malonedeb@gac.canonical.com>
+Subject: [Bug 1874888] [NEW] certain programs make QEMU crash with "tcg fatal
+ error"
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="486bbbd6cb608f8eb468ed0d08689a349dfabe49";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: ca1c4f5f622caafd53eef846b8163ec752981048
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 14:50:36
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,28 +67,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Denis V . Lunev" <den@openvz.org>,
- Anton Nefedov <anton.nefedov@virtuozzo.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1874888 <1874888@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri 24 Apr 2020 08:15:04 PM CEST, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
-> AFAIK, now compressed clusters can't be used in scenarios with guest,
-> as qcow2 driver doesn't support rewriting them.
+Public bug reported:
 
-You can write to those images just fine, it's just not efficient because
-you have to COW the compressed clusters.
+The following code snippet crashes qemu with
 
-> Or am I wrong? And we normally don't combine normal and compressed
-> clusters together in one image.
+.../tcg/tcg.c:3279: tcg fatal error
+qemu-x86_64: /usr/local/google/home/kostik/qemu-5.0.0-rc4/accel/tcg/cpu-exe=
+c.c:701: int cpu_exec(CPUState *): Assertion `!have_mmap_lock()' failed.
 
-As soon as you start writing to an image with compressed clusters you'll
-have a combination of both.
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+int main() {
+  /*
+00000000 <.data>:
+   0:   2e 45 71 ff             cs rex.RB jno 0x3
+   4:   e9 00 00 f0 00          jmp    0xf00009
+   9:   c4 42 7d 31 3e          vpmovzxbd ymm15,QWORD PTR [r14]
+   e:   c4 a3 7d 08 64 82 44    vroundps ymm4,YMMWORD PTR [rdx+r8*4+0x44],0=
+x0
+  15:   00 =
 
-But it's true that you don't have an image with compressed clusters if
-what you're looking for is performance. So I wouldn't add support for
-this if it complicates things too much.
+  16:   0f 1e 0a                nop    DWORD PTR [rdx]
+  19:   43 0f ec 20             rex.XB paddsb mm4,QWORD PTR [r8]
+  1d:   66 47 0f 3a 0c 3d 00    rex.RXB blendps xmm15,XMMWORD PTR [rip+0x80=
+00],0x0        # 0x8028
+  24:   80 00 00 00 =
 
-Berto
+  28:   c4 e3 f9 df 5f 86 0d    vaeskeygenassist xmm3,XMMWORD PTR [rdi-0x7a=
+],0xd
+  2f:   c4 e2 55 92 74 fc 0a    vgatherdps ymm6,DWORD PTR [rsp+ymm7*8+0xa],=
+ymm5
+  36:   c4 e2 f9 17 9a 01 00    vptest xmm3,XMMWORD PTR [rdx+0x1]
+  3d:   00 00 =
+
+*/
+  char buf[] =3D {
+    0x2E, 0x45, 0x71, 0xFF, 0xE9, 0x00, 0x00, 0xF0, 0x00, 0xC4, 0x42, 0x7D,=
+ 0x31, 0x3E, 0xC4, 0xA3, 0x7D, 0x08, 0x64, 0x82, 0x44, 0x00, 0x0F, 0x1E, 0x=
+0A, 0x43, 0x0F, 0xEC, 0x20, 0x66, 0x47, 0x0F, 0x3A, 0x0C, 0x3D, 0x00, 0x80,=
+ 0x00, 0x00, 0x00, 0xC4, 0xE3, 0xF9, 0xDF, 0x5F, 0x86, 0x0D, 0xC4, 0xE2, 0x=
+55, 0x92, 0x74, 0xFC, 0x0A, 0xC4, 0xE2, 0xF9, 0x17, 0x9A, 0x01, 0x00, 0x00,=
+ 0x00
+  };
+  void (*f)(void) =3D (void (*) (void))buf;
+  f();
+  return 0;
+}
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Steps to reproduce:
+1) clang -static repro.c -o repro
+2) qemu-x86_64-static repro
+
+Tested with 4.2.0 and 5.0.0-rc4. Both -user and -system variants are
+affected.
+
+A few more snippets that cause the same sort of behavior:
+1) 0x64, 0x46, 0x7D, 0xFF, 0xDF, 0x27, 0x46, 0x0F, 0xD4, 0x83, 0x5E, 0x00, =
+0x00, 0x00, 0x3E, 0x0F, 0x6A, 0xEF, 0x0F, 0x05, 0xC4, 0x42, 0xFD, 0x1E, 0xC=
+F, 0x46, 0x18, 0xE3, 0x47, 0xCD, 0x4E, 0x6E, 0x0F, 0x0F, 0x16, 0x8A
+
+2) 0x67, 0x45, 0xDB, 0xD0, 0xAA, 0xC4, 0xE2, 0xB1, 0x01, 0x57, 0x00,
+0xF3, 0x6F, 0xF3, 0x42, 0x0F, 0x1E, 0xFD, 0x64, 0x2E, 0xF2, 0x45, 0xD9,
+0xC4, 0x3E, 0xF3, 0x0F, 0xAE, 0xF4, 0x3E, 0x47, 0x0F, 0x1C, 0x22, 0x42,
+0x73, 0xFF, 0xD9, 0xFD
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1874888
+
+Title:
+  certain programs make QEMU crash with "tcg fatal error"
+
+Status in QEMU:
+  New
+
+Bug description:
+  The following code snippet crashes qemu with
+
+  .../tcg/tcg.c:3279: tcg fatal error
+  qemu-x86_64: /usr/local/google/home/kostik/qemu-5.0.0-rc4/accel/tcg/cpu-e=
+xec.c:701: int cpu_exec(CPUState *): Assertion `!have_mmap_lock()' failed.
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  int main() {
+    /*
+  00000000 <.data>:
+     0:   2e 45 71 ff             cs rex.RB jno 0x3
+     4:   e9 00 00 f0 00          jmp    0xf00009
+     9:   c4 42 7d 31 3e          vpmovzxbd ymm15,QWORD PTR [r14]
+     e:   c4 a3 7d 08 64 82 44    vroundps ymm4,YMMWORD PTR [rdx+r8*4+0x44]=
+,0x0
+    15:   00 =
+
+    16:   0f 1e 0a                nop    DWORD PTR [rdx]
+    19:   43 0f ec 20             rex.XB paddsb mm4,QWORD PTR [r8]
+    1d:   66 47 0f 3a 0c 3d 00    rex.RXB blendps xmm15,XMMWORD PTR [rip+0x=
+8000],0x0        # 0x8028
+    24:   80 00 00 00 =
+
+    28:   c4 e3 f9 df 5f 86 0d    vaeskeygenassist xmm3,XMMWORD PTR [rdi-0x=
+7a],0xd
+    2f:   c4 e2 55 92 74 fc 0a    vgatherdps ymm6,DWORD PTR [rsp+ymm7*8+0xa=
+],ymm5
+    36:   c4 e2 f9 17 9a 01 00    vptest xmm3,XMMWORD PTR [rdx+0x1]
+    3d:   00 00 =
+
+  */
+    char buf[] =3D {
+      0x2E, 0x45, 0x71, 0xFF, 0xE9, 0x00, 0x00, 0xF0, 0x00, 0xC4, 0x42, 0x7=
+D, 0x31, 0x3E, 0xC4, 0xA3, 0x7D, 0x08, 0x64, 0x82, 0x44, 0x00, 0x0F, 0x1E, =
+0x0A, 0x43, 0x0F, 0xEC, 0x20, 0x66, 0x47, 0x0F, 0x3A, 0x0C, 0x3D, 0x00, 0x8=
+0, 0x00, 0x00, 0x00, 0xC4, 0xE3, 0xF9, 0xDF, 0x5F, 0x86, 0x0D, 0xC4, 0xE2, =
+0x55, 0x92, 0x74, 0xFC, 0x0A, 0xC4, 0xE2, 0xF9, 0x17, 0x9A, 0x01, 0x00, 0x0=
+0, 0x00
+    };
+    void (*f)(void) =3D (void (*) (void))buf;
+    f();
+    return 0;
+  }
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  Steps to reproduce:
+  1) clang -static repro.c -o repro
+  2) qemu-x86_64-static repro
+
+  Tested with 4.2.0 and 5.0.0-rc4. Both -user and -system variants are
+  affected.
+
+  A few more snippets that cause the same sort of behavior:
+  1) 0x64, 0x46, 0x7D, 0xFF, 0xDF, 0x27, 0x46, 0x0F, 0xD4, 0x83, 0x5E, 0x00=
+, 0x00, 0x00, 0x3E, 0x0F, 0x6A, 0xEF, 0x0F, 0x05, 0xC4, 0x42, 0xFD, 0x1E, 0=
+xCF, 0x46, 0x18, 0xE3, 0x47, 0xCD, 0x4E, 0x6E, 0x0F, 0x0F, 0x16, 0x8A
+
+  2) 0x67, 0x45, 0xDB, 0xD0, 0xAA, 0xC4, 0xE2, 0xB1, 0x01, 0x57, 0x00,
+  0xF3, 0x6F, 0xF3, 0x42, 0x0F, 0x1E, 0xFD, 0x64, 0x2E, 0xF2, 0x45,
+  0xD9, 0xC4, 0x3E, 0xF3, 0x0F, 0xAE, 0xF4, 0x3E, 0x47, 0x0F, 0x1C,
+  0x22, 0x42, 0x73, 0xFF, 0xD9, 0xFD
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1874888/+subscriptions
 
