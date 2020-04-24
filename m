@@ -2,108 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 644741B7016
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 10:55:07 +0200 (CEST)
-Received: from localhost ([::1]:55606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 089561B7039
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 11:04:44 +0200 (CEST)
+Received: from localhost ([::1]:56062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRu70-0006V9-Bs
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 04:55:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41644)
+	id 1jRuGI-0006Bz-JG
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 05:04:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46976)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jRu5q-0005E7-TZ
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:53:55 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jRuFC-0005GR-BQ
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 05:03:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jRu5o-0002Sy-Tl
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:53:54 -0400
-Received: from mail-eopbgr50123.outbound.protection.outlook.com
- ([40.107.5.123]:20351 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jRu5o-0002Qk-5R; Fri, 24 Apr 2020 04:53:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nZbUu2JeY4k3mAivk+6Y1tE/IVANHUKY4iJIu+9MbHw7loYEN+UqELcwknpozJzcrQDlkEA7EIxds/Ldpxueb8sPAF+wNYIpbjaoeOzbslWxEAKUI2Ke5r7dMnK3w/ixosUvFGzDKvQQxdOxszctOiyKD+kHKfDPpjRCeJ/BPPY7Zut1mEa2eQxukR6c2mENW/ExH1ycr/epOCxJi334F8kFZIw5xjLQmJfUHRIJSBbrq8VnYWcwGK/sJ92Ywz+ndU5zJvn1t0F8LH3vFBH5POsCY5BvFRWKTn3DxCqEdiXiqM8d2UsDlm3L4Qd/9BDVt6o+T/no3Ck/GViXhNJbtA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UcfQbjN4qCdNVXPB9zcs1KG6/isexyOegU3mb/TksVc=;
- b=F5fqfAWTWnzPz/f0X33GPjk49WYvVWj0N0G6vf/8OKDcIWz0ovWur8T5E1FLPh2FXnpmGdFwh36Ve8b2SbNxlsqH+gHk47wNnOiq2hphSXkKQLYFNznKeVxYr3CEjhLY9nOovres/54wHi///VvpY+0RlqMY1cHCmMt9BOsddrxUOACwrEYNvjXCf3oZectMVAwhNfGrRgZ4JM7gzr9se1jNqvFJ7pcE9aCucxLNZJB/CdCvl+ad62eCAIn3u7bZNdozrxHhhzISvmOub+aYi8xdRNPstqBcf9RaZ+nzEoXBN711Irsed46IL4uQbQjxhAvvpPKoJ5kGW7zIXiWmHw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UcfQbjN4qCdNVXPB9zcs1KG6/isexyOegU3mb/TksVc=;
- b=dkdSo6voTg9PtVWuF3ZV6CxITlzF3CBsxe07EY0TnCZI+swvVDTNtDPXJR/DiFW/tltHp3PkigS8J3n4zcp3BJU63O9k27UOuqhs1AVDm/qPUsRQP5tuJ00c+XTr4WhmHAMnLMFLi7zQulQ+xOZzc6lFbETJVtuJ68CrQNUof7o=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5301.eurprd08.prod.outlook.com (2603:10a6:20b:dd::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.22; Fri, 24 Apr
- 2020 08:53:48 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.012; Fri, 24 Apr 2020
- 08:53:48 +0000
-Subject: Re: [PATCH v6 09/10] iotests: Test committing to short backing file
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20200423150127.142609-1-kwolf@redhat.com>
- <20200423150127.142609-10-kwolf@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200424115344207
-Message-ID: <ef721906-8ea7-b86e-f47e-31a85122d1b5@virtuozzo.com>
-Date: Fri, 24 Apr 2020 11:53:44 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <20200423150127.142609-10-kwolf@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR10CA0034.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:150::14) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (envelope-from <cohuck@redhat.com>) id 1jRuFB-0005JD-CI
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 05:03:34 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58161
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jRuF9-0005E7-MZ
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 05:03:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587719008;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6U2rzUlOkf0vsj1al/PPdjPoH81uzBo5LIRE8RJ8g/0=;
+ b=NEBqxurT6YcPAMW0lvpE6CHVhlreBi2kTcuOXrgGX4dsw4nExlyGADtVu0iixxEWUn5QKj
+ qOt2JeUXLR1dXPEzZQGdN2qBcc37l3a0UtdL0bKh06tqlCcf9pOQKsyKRsITFicW5iczxc
+ l1hGH0LL6zLobv2HF6sU2iAx/5EawEU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-445-5dEwdAcbPxiKXLPSWK_YYQ-1; Fri, 24 Apr 2020 05:03:24 -0400
+X-MC-Unique: 5dEwdAcbPxiKXLPSWK_YYQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FDAD800D24;
+ Fri, 24 Apr 2020 09:03:22 +0000 (UTC)
+Received: from localhost (ovpn-112-240.ams2.redhat.com [10.36.112.240])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B53966084A;
+ Fri, 24 Apr 2020 09:03:18 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: [PATCH] hw: add compat machines for 5.1
+Date: Fri, 24 Apr 2020 11:03:14 +0200
+Message-Id: <20200424090314.544-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.145) by
- AM0PR10CA0034.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:150::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13 via Frontend
- Transport; Fri, 24 Apr 2020 08:53:47 +0000
-X-Tagtoolbar-Keys: D20200424115344207
-X-Originating-IP: [185.215.60.145]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e915fcd0-bafb-44b5-0472-08d7e82d00da
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5301:
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5301058FEA5F541B68DCECC4C1D00@AM7PR08MB5301.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:565;
-X-Forefront-PRVS: 03838E948C
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(396003)(376002)(366004)(346002)(39850400004)(136003)(5660300002)(66946007)(478600001)(66556008)(31696002)(36756003)(6486002)(66476007)(6666004)(86362001)(8936002)(52116002)(4326008)(2616005)(956004)(186003)(2906002)(81156014)(16526019)(16576012)(316002)(8676002)(31686004)(26005)(2004002);
- DIR:OUT; SFP:1102; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hnAqMGggzgDgcyvV+pKC0F8VESVi9RhhlJHX9zIQOEIjGo6BY23z61uorSiwuyDqw8upEby2rftcpSP9ivCbtD4E327Hb4oBXxVQ08NddWw4nici690uAekhuhyRRg4BcuSkD5Hi/q0K/TEvT850You36yzmSYyfHgtZbYknHO5JN7TLKdFvvYzW6vAbRAjQA9QiTxoFvnm4R9n/rKI1F6/hnHg3y6XN9Zb5dYZHOVVP2L+Lzb1TxEf6L07qq7GJxuspiF6XVDHVqqdBGKXtBJBXdIifyBLJieMQsa+Amwi4l7kReA0mXa94eYDglSn9Wcl0viDoy8ouoHli3uHZzBKlgO9NYzUXXuTRAbwnok+toa2KOzuQi+5MdHDm51hchLespMCg58q0bBDKj8FH4iom3UvSUsUEItEkzjzKUTqaJ3s2TU36x2edSLOrQF4xwbiL4g8ECxanWfCYPq2pL0CthVFk2wAd5vOoS6UAN2Qla1NL8Avl8ajGhN3W7933cumyK3lJrhLiR5El8sQGnL85x9OIE5JxA7Xz/UWRAAcwaHXmIZ0n1hiifywwIoYc
-X-MS-Exchange-AntiSpam-MessageData: gc9LmXwuT1b0TfU3Rm//E4Rds1HvXuwHk2N4+gvCYklXupZamycsGyBhOqG8ue7ulAQEGmdcMXxfWPYuTmwXpmd1d5DEQN2l3dwGvZ3HLmI/NZFwK48XCvoxDFi0AhdmWC62Hdx2NJCVjTVn02p5hw==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e915fcd0-bafb-44b5-0472-08d7e82d00da
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2020 08:53:48.2978 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kEuBeS9tjjWpXTPiPz/ruBgsQVL6TY4qhLOlLCXA7oq9+avONuTeC9/lbyRwToTvDbNyiIDkrqxwyaL8mN+ZUKtkK0IKIqVWG6d6nBak82c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5301
-Received-SPF: pass client-ip=40.107.5.123;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-VE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 04:53:49
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Received-From: 40.107.5.123
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 03:11:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -115,208 +76,252 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berto@igalia.com, qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Cornelia Huck <cohuck@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-23.04.2020 18:01, Kevin Wolf wrote:
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> Reviewed-by: Max Reitz <mreitz@redhat.com>
-> ---
->   tests/qemu-iotests/274     | 157 ++++++++++++++++++++++
->   tests/qemu-iotests/274.out | 260 +++++++++++++++++++++++++++++++++++++
->   tests/qemu-iotests/group   |   1 +
->   3 files changed, 418 insertions(+)
->   create mode 100755 tests/qemu-iotests/274
->   create mode 100644 tests/qemu-iotests/274.out
-> 
-> diff --git a/tests/qemu-iotests/274 b/tests/qemu-iotests/274
-> new file mode 100755
-> index 0000000000..8bf7ff3122
-> --- /dev/null
-> +++ b/tests/qemu-iotests/274
-> @@ -0,0 +1,157 @@
-> +#!/usr/bin/env python3
-> +#
-> +# Copyright (C) 2019 Red Hat, Inc.
-> +#
-> +# This program is free software; you can redistribute it and/or modify
-> +# it under the terms of the GNU General Public License as published by
-> +# the Free Software Foundation; either version 2 of the License, or
-> +# (at your option) any later version.
-> +#
-> +# This program is distributed in the hope that it will be useful,
-> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +# GNU General Public License for more details.
-> +#
-> +# You should have received a copy of the GNU General Public License
-> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-> +#
-> +# Creator/Owner: Kevin Wolf <kwolf@redhat.com>
-> +#
-> +# Some tests for short backing files and short overlays
-> +
-> +import iotests
-> +import os
+Add 5.1 machine types for arm/i440fx/q35/s390x/spapr.
 
-unused import
-
-> +
-> +iotests.verify_image_format(supported_fmts=['qcow2'])
-> +iotests.verify_platform(['linux'])
-> +
-> +size_short = 1 * 1024 * 1024
-> +size_long = 2 * 1024 * 1024
-> +size_diff = size_long - size_short
-> +
-> +def create_chain():
-> +    iotests.qemu_img_log('create', '-f', iotests.imgfmt, base,
-> +                         str(size_long))
-> +    iotests.qemu_img_log('create', '-f', iotests.imgfmt, '-b', base, mid,
-> +                         str(size_short))
-> +    iotests.qemu_img_log('create', '-f', iotests.imgfmt, '-b', mid, top,
-> +                         str(size_long))
-> +
-> +    iotests.qemu_io_log('-c', 'write -P 1 0 %d' % size_long, base)
-> +
-> +def create_vm():
-> +    vm = iotests.VM()
-> +    vm.add_blockdev('file,filename=%s,node-name=base-file' % (base))
-> +    vm.add_blockdev('%s,file=base-file,node-name=base' % (iotests.imgfmt))
-> +    vm.add_blockdev('file,filename=%s,node-name=mid-file' % (mid))
-> +    vm.add_blockdev('%s,file=mid-file,node-name=mid,backing=base' % (iotests.imgfmt))
-
-over-79 line
-
-> +    vm.add_drive(top, 'backing=mid,node-name=top')
-> +    return vm
-> +
-> +with iotests.FilePath('base') as base, \
-> +     iotests.FilePath('mid') as mid, \
-> +     iotests.FilePath('top') as top:
-> +
-> +    iotests.log('== Commit tests ==')
-> +
-> +    create_chain()
-> +
-> +    iotests.log('=== Check visible data ===')
-> +
-> +    iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, top)
-> +    iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff), top)
-> +
-> +    iotests.log('=== Checking allocation status ===')
-> +
-> +    iotests.qemu_io_log('-c', 'alloc 0 %d' % size_short,
-> +                        '-c', 'alloc %d %d' % (size_short, size_diff),
-> +                        base)
-> +
-> +    iotests.qemu_io_log('-c', 'alloc 0 %d' % size_short,
-> +                        '-c', 'alloc %d %d' % (size_short, size_diff),
-> +                        mid)
-> +
-> +    iotests.qemu_io_log('-c', 'alloc 0 %d' % size_short,
-> +                        '-c', 'alloc %d %d' % (size_short, size_diff),
-> +                        top)
-> +
-> +    iotests.log('=== Checking map ===')
-> +
-> +    iotests.qemu_img_log('map', '--output=json', base)
-> +    iotests.qemu_img_log('map', '--output=human', base)
-> +    iotests.qemu_img_log('map', '--output=json', mid)
-> +    iotests.qemu_img_log('map', '--output=human', mid)
-> +    iotests.qemu_img_log('map', '--output=json', top)
-> +    iotests.qemu_img_log('map', '--output=human', top)
-> +
-> +    iotests.log('=== Testing qemu-img commit (top -> mid) ===')
-> +
-> +    iotests.qemu_img_log('commit', top)
-> +    iotests.img_info_log(mid)
-> +    iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, mid)
-> +    iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff), mid)
-> +
-> +    iotests.log('=== Testing HMP commit (top -> mid) ===')
-> +
-> +    create_chain()
-> +    with create_vm() as vm:
-> +        vm.launch()
-> +        vm.qmp_log('human-monitor-command', command_line='commit drive0')
-> +
-> +    iotests.img_info_log(mid)
-> +    iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, mid)
-> +    iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff), mid)
-> +
-> +    iotests.log('=== Testing QMP active commit (top -> mid) ===')
-> +
-> +    create_chain()
-> +    with create_vm() as vm:
-> +        vm.launch()
-> +        vm.qmp_log('block-commit', device='top', base_node='mid',
-> +                   job_id='job0', auto_dismiss=False)
-> +        vm.run_job('job0', wait=5)
-> +
-> +    iotests.img_info_log(mid)
-> +    iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, mid)
-> +    iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff), mid)
-> +
-> +
-> +    iotests.log('== Resize tests ==')
-> +
-> +    # Use different sizes for different allocation modes:
-> +    #
-> +    # We want to have at least one test where 32 bit truncation in the size of
-> +    # the overlapping area becomes visible. This is covered by the
-> +    # prealloc='off' case (1G to 6G is an overlap of 5G).
-> +    #
-> +    # However, we can only do this for modes that don't preallocate data
-> +    # because otherwise we might run out of space on the test host.
-> +    #
-> +    # We also want to test some unaligned combinations.
-> +    for (prealloc, base_size, top_size_old, top_size_new, off)  in [
-
-extra space before "in"
-
-> +            ('off',       '6G',    '1G',   '8G',   '5G'),
-> +            ('metadata', '32G',   '30G',  '33G',  '31G'),
-> +            ('falloc',   '10M',    '5M',  '15M',   '9M'),
-> +            ('full',     '16M',    '8M',  '12M',  '11M'),
-> +            ('off',      '384k', '253k', '512k', '253k'),
-> +            ('off',      '400k', '256k', '512k', '336k'),
-> +            ('off',      '512k', '256k', '500k', '436k')]:
-> +
-> +        iotests.log('=== preallocation=%s ===' % prealloc)
-> +        iotests.qemu_img_log('create', '-f', iotests.imgfmt, base, base_size)
-> +        iotests.qemu_img_log('create', '-f', iotests.imgfmt, '-b', base, top,
-> +                             top_size_old)
-> +        iotests.qemu_io_log('-c', 'write -P 1 %s 64k' % off, base)
-> +
-> +        # After this, 0 to base_size should be allocated/zeroed
-> +        # base_size to top_size_new should be unallocated with
-
-the comment is outdated. base_size to top_size_new is allocated zero too.
-
-> +        # preallocation=off and allocated with preallocation enabled
-> +        iotests.qemu_img_log('resize', '-f', iotests.imgfmt,
-> +                             '--preallocation', prealloc, top, top_size_new)
-> +        iotests.qemu_io_log('-c', 'read -P 0 %s 64k' % off, top)
-> +
-> +        # Metadata preallocation doesn't have a defined result on the file
-> +        # system level with respect to holes, so skip it here
-
-this is outdated too, as we should have zeroes for any case now.
-
-> +        iotests.qemu_io_log('-c', 'map', top)
-> +        if prealloc != 'metadata':
-
-so, we may drop the condition and print 'map' always.
-
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
 
-I've looked through img/io "map" outputs, they look correct.
+Still keeping the default cpu model version on x86 at v1.
 
+I'll queue this to my s390-next branch, as I'm planning to send a pull
+req as soon as 5.0 is out; if someone else wants to queue this, we'll
+figure it out :)
 
+---
+ hw/arm/virt.c              |  9 ++++++++-
+ hw/core/machine.c          |  3 +++
+ hw/i386/pc.c               |  3 +++
+ hw/i386/pc_piix.c          | 14 +++++++++++++-
+ hw/i386/pc_q35.c           | 13 ++++++++++++-
+ hw/ppc/spapr.c             | 15 +++++++++++++--
+ hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
+ include/hw/boards.h        |  3 +++
+ include/hw/i386/pc.h       |  3 +++
+ 9 files changed, 71 insertions(+), 6 deletions(-)
 
--- 
-Best regards,
-Vladimir
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 7dc96abf72cf..5e84c09402dd 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2309,15 +2309,22 @@ static void machvirt_machine_init(void)
+ }
+ type_init(machvirt_machine_init);
+=20
++static void virt_machine_5_1_options(MachineClass *mc)
++{
++}
++DEFINE_VIRT_MACHINE_AS_LATEST(5, 1)
++
+ static void virt_machine_5_0_options(MachineClass *mc)
+ {
+     static GlobalProperty compat[] =3D {
+         { TYPE_TPM_TIS_SYSBUS, "ppi", "false" },
+     };
+=20
++    virt_machine_5_1_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_5_0, hw_compat_5_0_len);
+     compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
+ }
+-DEFINE_VIRT_MACHINE_AS_LATEST(5, 0)
++DEFINE_VIRT_MACHINE(5, 0)
+=20
+ static void virt_machine_4_2_options(MachineClass *mc)
+ {
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index c1a444cb7558..7a50dd518f4c 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -28,6 +28,9 @@
+ #include "hw/mem/nvdimm.h"
+ #include "migration/vmstate.h"
+=20
++GlobalProperty hw_compat_5_0[] =3D {};
++const size_t hw_compat_5_0_len =3D G_N_ELEMENTS(hw_compat_5_0);
++
+ GlobalProperty hw_compat_4_2[] =3D {
+     { "virtio-blk-device", "queue-size", "128"},
+     { "virtio-scsi-device", "virtqueue_size", "128"},
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 5143c516531e..13e1d18cd758 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -94,6 +94,9 @@
+ #include "fw_cfg.h"
+ #include "trace.h"
+=20
++GlobalProperty pc_compat_5_0[] =3D {};
++const size_t pc_compat_5_0_len =3D G_N_ELEMENTS(pc_compat_5_0);
++
+ GlobalProperty pc_compat_4_2[] =3D {
+     { "mch", "smbase-smram", "off" },
+ };
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 22dee0e76c62..921caa502b85 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -419,7 +419,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
+     machine_class_allow_dynamic_sysbus_dev(m, TYPE_RAMFB_DEVICE);
+ }
+=20
+-static void pc_i440fx_5_0_machine_options(MachineClass *m)
++static void pc_i440fx_5_1_machine_options(MachineClass *m)
+ {
+     PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);
+     pc_i440fx_machine_options(m);
+@@ -428,6 +428,18 @@ static void pc_i440fx_5_0_machine_options(MachineClass=
+ *m)
+     pcmc->default_cpu_version =3D 1;
+ }
+=20
++DEFINE_I440FX_MACHINE(v5_1, "pc-i440fx-5.1", NULL,
++                      pc_i440fx_5_1_machine_options);
++
++static void pc_i440fx_5_0_machine_options(MachineClass *m)
++{
++    pc_i440fx_5_1_machine_options(m);
++    m->alias =3D NULL;
++    m->is_default =3D false;
++    compat_props_add(m->compat_props, hw_compat_5_0, hw_compat_5_0_len);
++    compat_props_add(m->compat_props, pc_compat_5_0, pc_compat_5_0_len);
++}
++
+ DEFINE_I440FX_MACHINE(v5_0, "pc-i440fx-5.0", NULL,
+                       pc_i440fx_5_0_machine_options);
+=20
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index d37c425e2236..253688a9b8f3 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -349,7 +349,7 @@ static void pc_q35_machine_options(MachineClass *m)
+     m->max_cpus =3D 288;
+ }
+=20
+-static void pc_q35_5_0_machine_options(MachineClass *m)
++static void pc_q35_5_1_machine_options(MachineClass *m)
+ {
+     PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);
+     pc_q35_machine_options(m);
+@@ -357,6 +357,17 @@ static void pc_q35_5_0_machine_options(MachineClass *m=
+)
+     pcmc->default_cpu_version =3D 1;
+ }
+=20
++DEFINE_Q35_MACHINE(v5_1, "pc-q35-5.1", NULL,
++                   pc_q35_5_1_machine_options);
++
++static void pc_q35_5_0_machine_options(MachineClass *m)
++{
++    pc_q35_5_1_machine_options(m);
++    m->alias =3D NULL;
++    compat_props_add(m->compat_props, hw_compat_5_0, hw_compat_5_0_len);
++    compat_props_add(m->compat_props, pc_compat_5_0, pc_compat_5_0_len);
++}
++
+ DEFINE_Q35_MACHINE(v5_0, "pc-q35-5.0", NULL,
+                    pc_q35_5_0_machine_options);
+=20
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 9a2bd501aa6e..fd5bfd11a84c 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -4599,15 +4599,26 @@ static void spapr_machine_latest_class_options(Mach=
+ineClass *mc)
+     }                                                                \
+     type_init(spapr_machine_register_##suffix)
+=20
++/*
++ * pseries-5.1
++ */
++static void spapr_machine_5_1_class_options(MachineClass *mc)
++{
++    /* Defaults for the latest behaviour inherited from the base class */
++}
++
++DEFINE_SPAPR_MACHINE(5_1, "5.1", true);
++
+ /*
+  * pseries-5.0
+  */
+ static void spapr_machine_5_0_class_options(MachineClass *mc)
+ {
+-    /* Defaults for the latest behaviour inherited from the base class */
++    spapr_machine_5_1_class_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_5_0, hw_compat_5_0_len);
+ }
+=20
+-DEFINE_SPAPR_MACHINE(5_0, "5.0", true);
++DEFINE_SPAPR_MACHINE(5_0, "5.0", false);
+=20
+ /*
+  * pseries-4.2
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index 0fa00a9fff3d..967a6de9683b 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -672,14 +672,26 @@ bool css_migration_enabled(void)
+     }                                                                     =
+    \
+     type_init(ccw_machine_register_##suffix)
+=20
++static void ccw_machine_5_1_instance_options(MachineState *machine)
++{
++}
++
++static void ccw_machine_5_1_class_options(MachineClass *mc)
++{
++}
++DEFINE_CCW_MACHINE(5_1, "5.1", true);
++
+ static void ccw_machine_5_0_instance_options(MachineState *machine)
+ {
++    ccw_machine_5_1_instance_options(machine);
+ }
+=20
+ static void ccw_machine_5_0_class_options(MachineClass *mc)
+ {
++    ccw_machine_5_1_class_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_5_0, hw_compat_5_0_len);
+ }
+-DEFINE_CCW_MACHINE(5_0, "5.0", true);
++DEFINE_CCW_MACHINE(5_0, "5.0", false);
+=20
+ static void ccw_machine_4_2_instance_options(MachineState *machine)
+ {
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index fd4d62b5010f..18815d9be24f 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -318,6 +318,9 @@ struct MachineState {
+     } \
+     type_init(machine_initfn##_register_types)
+=20
++extern GlobalProperty hw_compat_5_0[];
++extern const size_t hw_compat_5_0_len;
++
+ extern GlobalProperty hw_compat_4_2[];
+ extern const size_t hw_compat_4_2_len;
+=20
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 6ab6eda046fd..15b9294dac38 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -204,6 +204,9 @@ void pc_system_firmware_init(PCMachineState *pcms, Memo=
+ryRegion *rom_memory);
+ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+                        const CPUArchIdList *apic_ids, GArray *entry);
+=20
++extern GlobalProperty pc_compat_5_0[];
++extern const size_t pc_compat_5_0_len;
++
+ extern GlobalProperty pc_compat_4_2[];
+ extern const size_t pc_compat_4_2_len;
+=20
+--=20
+2.21.1
+
 
