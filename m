@@ -2,97 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8C881B7145
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 11:55:21 +0200 (CEST)
-Received: from localhost ([::1]:57970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D5631B71AD
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 12:12:51 +0200 (CEST)
+Received: from localhost ([::1]:58782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRv3I-0001bE-Ai
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 05:55:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34012)
+	id 1jRvKE-0000w5-Ge
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 06:12:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47120)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jRv2A-0000tL-CL
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 05:54:10 -0400
+ (envelope-from <bounces@canonical.com>) id 1jRvIV-0007WN-Iy
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 06:11:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jRv29-0005ux-A1
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 05:54:09 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33662
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jRv28-0005tW-TO
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 05:54:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587722047;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=na8Uco6vBdMIJFhRndOs9BZnbm3JxO27wGQ9kTFDxBo=;
- b=jBp2QZzg48RFaFDXJI/2kFSNTtURB9qPsqRlEw596Qcd/cyDTk5rXpxdxdXONm6Et21W54
- Yes6Y6TlR3HYogUgd/heVN4UssENX7R+HfH4FN/6RaZcl3it+dazttEyfd11tZ66m3CCgg
- itXFKN3c0Oe2/7c+nTozeusJBQK5V8s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-jIV8A1YAO4yz0DEnc_YCWg-1; Fri, 24 Apr 2020 05:54:03 -0400
-X-MC-Unique: jIV8A1YAO4yz0DEnc_YCWg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55741100A61D;
- Fri, 24 Apr 2020 09:54:01 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-192.ams2.redhat.com
- [10.36.113.192])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AB643610EC;
- Fri, 24 Apr 2020 09:53:55 +0000 (UTC)
-Subject: Re: [PATCH v2 1/3] block: Add blk_new_with_bs() helper
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20200423221707.477404-1-eblake@redhat.com>
- <20200423221707.477404-2-eblake@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <307f7619-5e4a-10c1-7d49-8ee6bb8d650c@redhat.com>
-Date: Fri, 24 Apr 2020 11:53:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <bounces@canonical.com>) id 1jRvIV-0002er-5W
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 06:11:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39630)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jRvIU-0002Y5-LS
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 06:11:02 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jRvIS-0001t4-KH
+ for <qemu-devel@nongnu.org>; Fri, 24 Apr 2020 10:11:00 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 91EDE2E80E7
+ for <qemu-devel@nongnu.org>; Fri, 24 Apr 2020 10:11:00 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200423221707.477404-2-eblake@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="XaEhnGMv8OFo0H6qMzueRSP7oK7WM5IN6"
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 03:11:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 24 Apr 2020 09:55:42 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1874676@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
+ assignee=philmd@redhat.com; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+Message-Id: <158772214298.26171.14045550676291595233.malonedeb@soybean.canonical.com>
+Subject: [Bug 1874676] [NEW] [Feature request] MDIO bus
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="486bbbd6cb608f8eb468ed0d08689a349dfabe49";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: dadaed40bee9ae7aa3af9204e81c0df0eb5f941f
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 06:00:55
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -101,102 +69,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Fam Zheng <fam@euphon.net>,
- "open list:Sheepdog" <sheepdog@lists.wpkg.org>, qemu-block@nongnu.org,
- Jeff Cody <codyprime@gmail.com>, Stefan Weil <sw@weilnetz.de>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Liu Yuan <namei.unix@gmail.com>, "Denis V. Lunev" <den@openvz.org>,
- John Snow <jsnow@redhat.com>
+Reply-To: Bug 1874676 <1874676@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---XaEhnGMv8OFo0H6qMzueRSP7oK7WM5IN6
-Content-Type: multipart/mixed; boundary="jBY9NwVpLWFjDOJmUXxQvc4ACnvyJ6ZUP"
+Public bug reported:
 
---jBY9NwVpLWFjDOJmUXxQvc4ACnvyJ6ZUP
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Various network devices open-code a MDIO bus with a dedicated PHY.
+Introduce a new MDIO subsystem to
+- reuse various duplicated components
+- be able to interchange PHYs
+- have common tracing
+- use libqos to test all the PHYs from different NICs
 
-On 24.04.20 00:17, Eric Blake wrote:
-> There are several callers that need to create a new block backend from
-> an existing BDS; make the task slightly easier with a common helper
-> routine.
->=20
-> Suggested-by: Max Reitz <mreitz@redhat.com>
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
->  include/sysemu/block-backend.h |  2 ++
->  block/block-backend.c          | 23 +++++++++++++++++++++++
->  block/crypto.c                 |  8 +++-----
->  block/parallels.c              |  7 +++----
->  block/qcow.c                   |  7 +++----
->  block/qcow2.c                  | 15 ++++++---------
->  block/qed.c                    |  7 +++----
->  block/sheepdog.c               |  9 ++++-----
->  block/vdi.c                    |  7 +++----
->  block/vhdx.c                   |  7 +++----
->  block/vmdk.c                   |  9 ++++-----
->  block/vpc.c                    |  7 +++----
->  blockdev.c                     |  8 +++-----
->  blockjob.c                     |  7 ++-----
->  14 files changed, 65 insertions(+), 58 deletions(-)
+** Affects: qemu
+     Importance: Undecided
+     Assignee: Philippe Mathieu-Daud=C3=A9 (philmd)
+         Status: New
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Philippe Mathieu-Daud=C3=A9 (philmd)
 
-> diff --git a/blockdev.c b/blockdev.c
-> index 5faddaa7052f..f43426ed5fbc 100644
-> --- a/blockdev.c
-> +++ b/blockdev.c
+-- =
 
-[...]
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1874676
 
-> @@ -2734,14 +2733,13 @@ void qmp_block_resize(bool has_device, const char=
- *device,
->          goto out;
->      }
->=20
-> -    blk =3D blk_new(bdrv_get_aio_context(bs), BLK_PERM_RESIZE, BLK_PERM_=
-ALL);
-> -    ret =3D blk_insert_bs(blk, bs, errp);
-> -    if (ret < 0) {
-> +    blk =3D blk_new_with_bs(bs, BLK_PERM_RESIZE, BLK_PERM_ALL, errp);
-> +    if (!blk) {
->          goto out;
->      }
->=20
->      bdrv_drained_begin(bs);
-> -    ret =3D blk_truncate(blk, size, false, PREALLOC_MODE_OFF, errp);
-> +    blk_truncate(blk, size, false, PREALLOC_MODE_OFF, errp);
+Title:
+  [Feature request] MDIO bus
 
-This is also addressed by
-https://lists.nongnu.org/archive/html/qemu-devel/2020-04/msg03656.html,
-but it does make sense to fix it here, too.  Well, whichever lands first
-lands first, I suppose (so @ret can be dropped).
+Status in QEMU:
+  New
 
-Max
+Bug description:
+  Various network devices open-code a MDIO bus with a dedicated PHY.
+  Introduce a new MDIO subsystem to
+  - reuse various duplicated components
+  - be able to interchange PHYs
+  - have common tracing
+  - use libqos to test all the PHYs from different NICs
 
-
---jBY9NwVpLWFjDOJmUXxQvc4ACnvyJ6ZUP--
-
---XaEhnGMv8OFo0H6qMzueRSP7oK7WM5IN6
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6itzEACgkQ9AfbAGHV
-z0D6EQf/dji1jPMvn98JpYCjfpx4rVD1/Qji3rvRS6PeAjcG0udu2SNRSOzY4C+S
-4+4+e1RCq7lVxIwf0at585ZutpYHbjvb+mMGKmROiJao5gpvWZnuG6rVoitKG1/D
-J+UPjjYMROaQ8OBhaGKrm+XS325rGtDO3wu3H3EupD2rwxwLQS0wHeulRTVow+2V
-MSd2syquFU3ddqBuunt1mTZHd3ZbeNFUCwMNZ7+u/zDmi+uKdGVTBXrkJj0aC7zi
-qyZxkZwWGLH9fk9WY8lFoPw6itIYG4VyAxOvkUctAoNHZ/wI7jlCIlkm9c9XMpQS
-2rNt1GzAIJpSLHxrbXsbKC0LJ699Qg==
-=lU7c
------END PGP SIGNATURE-----
-
---XaEhnGMv8OFo0H6qMzueRSP7oK7WM5IN6--
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1874676/+subscriptions
 
