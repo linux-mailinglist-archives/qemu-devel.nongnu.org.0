@@ -2,58 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF0771B7190
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 12:07:59 +0200 (CEST)
-Received: from localhost ([::1]:58578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD6A1B71CD
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 12:15:36 +0200 (CEST)
+Received: from localhost ([::1]:58904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRvFW-00049V-EO
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 06:07:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43242)
+	id 1jRvMt-0003AX-73
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 06:15:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50450)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jRvEk-0003aw-OC
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 06:07:11 -0400
+ (envelope-from <philmd@redhat.com>) id 1jRvLY-00025J-Lz
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 06:14:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jRvEj-0000jx-Dw
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 06:07:10 -0400
-Resent-Date: Fri, 24 Apr 2020 06:07:10 -0400
-Resent-Message-Id: <E1jRvEj-0000jx-Dw@eggs.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21363)
+ (envelope-from <philmd@redhat.com>) id 1jRvLX-0002u9-Ik
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 06:14:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49365
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jRvEi-0000Q4-Rj
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 06:07:09 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1587722816; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=jYcqyunJKQZ1BfnP1sZiA+KT5vm/o7zacPQdksyW9GRdlL+RZWJ+1qgQMHoGgNJ1hODstbVDZpVIznTYXIcIhnWtvqiDU6dWjt+YIe0EpasZS/bVyq7uwvJ4I6bjOqMyY2PyKFz6bxFJsr+xQfAR9mhYz+mMRXAcsRE2JERZTXA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1587722816;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=h5R6Mz0JqM6ees9/BUtFNN4m6jQ/z6HmYQ9amWSFQ+4=; 
- b=VELKbGdmp33eT2ZJ+1qXBF/j+dPlyE4GHAK+eASc6a9V1KQyZ+mEjk3yeflP6OI27vJcb48FyzcEKYdbMfUzjpo2eDZQH69TnR88VDFXWGbgMBEShAFR+CXjw9KkIPIYj2BhQ8uu1XcsAaiHCpABoLyQTcl6nNd5S4ek9Byf5jc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 158772281457837.099511810757804;
- Fri, 24 Apr 2020 03:06:54 -0700 (PDT)
-In-Reply-To: <20200424084338.26803-1-armbru@redhat.com>
-Subject: Re: [PATCH v2 00/15] qapi: Spring cleaning
-Message-ID: <158772281333.22435.14973289862380467538@39012742ff91>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jRvLX-0002pL-2b
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 06:14:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587723249;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=63D2xrbzfDfeap0RkPGGOz7/mJzQqDcDBzsopTOsES0=;
+ b=f+qJSUzOQcn2zdrS9kAyKbs7dBO9yDcfsgdJRJB8+Pp/imHaBEMQql/bg7oNBY5eHxAV8B
+ X8ApnfybE6UiPcQNi+nzvyuwn3TOGmtGvtOkPJfChm+/lSJqDQVXPzJTZZeW+P6BT1XZ3N
+ buXpiscFoy7I6qXBxp2HbbqNS4Or/B8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-411--djxaBBdMJSuBldvhCXx9Q-1; Fri, 24 Apr 2020 06:14:03 -0400
+X-MC-Unique: -djxaBBdMJSuBldvhCXx9Q-1
+Received: by mail-wr1-f70.google.com with SMTP id a3so4545312wro.1
+ for <qemu-devel@nongnu.org>; Fri, 24 Apr 2020 03:14:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fgU6Gydgw23BHBALbtBFWugmWXi6XtBwuJE4RkleHs8=;
+ b=F3uqEyLHxkrGvFDbRVx/AdC2ULSZv/CpfG3Py8axHpkg4BbkHHe2paMs4d37I7xpBa
+ 5IotHfMIzTYqF4wCrpQFfdgycdg2nmv+lvHCXyp+bcJemXxG5LcHx0rj6sE7LIIxVWlW
+ +WWmu410yGzrRMJkrDVM26555wZ42jYVF50jxxO3ZkNbHpEe3ztoAZ8CjPAyDLKtLh8B
+ vL4Ied07Lzg0e72+90set4BkAq574pGv4HdQMJwBeeK/86oSwmfuq3wvKyHLvs8nGEOz
+ 3dgPpTV662SdZrV3gg37KO/MStJeR2vcMjOcDo1GAugcCva8CbrswZlnZVnCWbCtkpqI
+ Ytyw==
+X-Gm-Message-State: AGi0PubyyDcqwezInYHmJAzEm3LrmGyypW6SKPKCVNBnxPr9NC78QFLY
+ rcwdI4s8FqvCN6jAd7MTytgfPvB4nLAA39ml2SGtPo5JqtSuAnznw+TXpt319pVXTQ2b+S3utPj
+ 98Zcdc/aUloFnolk=
+X-Received: by 2002:adf:f350:: with SMTP id e16mr9739108wrp.332.1587723242166; 
+ Fri, 24 Apr 2020 03:14:02 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIX5k4Fasb85M3Jdny3fxbt72njeOT6Q72VSaaSSn+hNFlB1XYPxTvRqwgwKor1nMmO6Slwdw==
+X-Received: by 2002:adf:f350:: with SMTP id e16mr9739071wrp.332.1587723241828; 
+ Fri, 24 Apr 2020 03:14:01 -0700 (PDT)
+Received: from [192.168.1.39] (116.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.116])
+ by smtp.gmail.com with ESMTPSA id c10sm7313717wru.48.2020.04.24.03.14.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Apr 2020 03:14:01 -0700 (PDT)
+Subject: Re: [PATCH v2 13/16] nvme: factor out namespace setup
+To: Klaus Birkelund Jensen <its@irrelevant.dk>
+References: <20200415130159.611361-1-its@irrelevant.dk>
+ <20200415130159.611361-14-its@irrelevant.dk>
+ <b05fdbb7-2f74-be05-e108-36b14abce0be@redhat.com>
+ <20200415132004.zei3gqxg5l6r5c6y@apples.localdomain>
+ <075d6fbf-f4a0-fa71-f8c0-978b262b5d63@redhat.com>
+ <20200416060330.46nqnva2azi3yhev@apples.localdomain>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <7a13ab39-3d61-e8f3-b058-1ba224cdb767@redhat.com>
+Date: Fri, 24 Apr 2020 12:13:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: armbru@redhat.com
-Date: Fri, 24 Apr 2020 03:06:54 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 06:07:02
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Received-From: 136.143.188.53
+In-Reply-To: <20200416060330.46nqnva2azi3yhev@apples.localdomain>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 03:07:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,52 +98,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDQyNDA4NDMzOC4yNjgw
-My0xLWFybWJydUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9j
-a2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29t
-bWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxl
-ZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQ
-VCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEgTkVU
-V09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEgSj0x
-NCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCi0uLi4uLi4uLi4uLi4uLi4uLi4u
-Li4uLi4uLi4KKy4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLkUuLgorPT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQorRVJS
-T1I6IHRlc3Rfc3RyZWFtX3BhdXNlIChfX21haW5fXy5UZXN0U2luZ2xlRHJpdmUpCistLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tCitUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6CisgIEZpbGUgIjAzMCIs
-IGxpbmUgOTMsIGluIHRlc3Rfc3RyZWFtX3BhdXNlCi0tLQogUmFuIDI3IHRlc3RzCiAKLU9LCitG
-QUlMRUQgKGVycm9ycz0xKQpDb3VsZCBub3QgYWNjZXNzIEtWTSBrZXJuZWwgbW9kdWxlOiBObyBz
-dWNoIGZpbGUgb3IgZGlyZWN0b3J5CnFlbXUtc3lzdGVtLXg4Nl82NDogLWFjY2VsIGt2bTogZmFp
-bGVkIHRvIGluaXRpYWxpemUga3ZtOiBObyBzdWNoIGZpbGUgb3IgZGlyZWN0b3J5CnFlbXUtc3lz
-dGVtLXg4Nl82NDogZmFsbGluZyBiYWNrIHRvIHRjZwotLS0KTm90IHJ1bjogMjU5CkZhaWx1cmVz
-OiAwMzAKRmFpbGVkIDEgb2YgMTE3IGlvdGVzdHMKbWFrZTogKioqIFtjaGVjay10ZXN0cy9jaGVj
-ay1ibG9jay5zaF0gRXJyb3IgMQpUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6CiAg
-RmlsZSAiLi90ZXN0cy9kb2NrZXIvZG9ja2VyLnB5IiwgbGluZSA2NjQsIGluIDxtb2R1bGU+CiAg
-ICBzeXMuZXhpdChtYWluKCkpCi0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNv
-ZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3Vkbycs
-ICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVp
-ZD1hNjVjY2E0Y2ZiMGY0N2Q2YWZiMDE0NjAwOGNmZGEzNicsICctdScsICcxMDAxJywgJy0tc2Vj
-dXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9M
-SVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAn
-Sj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScsICctZScsICdDQ0FDSEVf
-RElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11LWRv
-Y2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10
-ZXN0ZXItdG1wLWV5b2x5MV9zL3NyYy9kb2NrZXItc3JjLjIwMjAtMDQtMjQtMDUuNTIuMTMuMzg5
-MDovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdTpjZW50b3M3JywgJy92YXIvdG1wL3FlbXUvcnVu
-JywgJ3Rlc3QtcXVpY2snXScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVy
-PS0tZmlsdGVyPWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9YTY1Y2NhNGNmYjBmNDdkNmFm
-YjAxNDYwMDhjZmRhMzYKbWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2VbMV06
-IExlYXZpbmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtZXlvbHkxX3Mv
-c3JjJwptYWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1xdWlja0BjZW50b3M3XSBFcnJvciAyCgpy
-ZWFsICAgIDE0bTQxLjMyMXMKdXNlciAgICAwbTkuMjM1cwoKClRoZSBmdWxsIGxvZyBpcyBhdmFp
-bGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA0MjQwODQzMzguMjY4MDMtMS1h
-cm1icnVAcmVkaGF0LmNvbS90ZXN0aW5nLmRvY2tlci1xdWlja0BjZW50b3M3Lz90eXBlPW1lc3Nh
-Z2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczov
-L3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZl
-bEByZWRoYXQuY29t
+On 4/16/20 8:03 AM, Klaus Birkelund Jensen wrote:
+> On Apr 15 15:26, Philippe Mathieu-Daud=C3=A9 wrote:
+>> On 4/15/20 3:20 PM, Klaus Birkelund Jensen wrote:
+>>>
+>>> I'll get the v1.3 series ready next.
+>>>
+>>
+>> Cool. What really matters (to me) is seeing tests. If we can merge tests
+>> (without multiple namespaces) before the rest of your series, even bette=
+r.
+>> Tests give reviewers/maintainers confidence that code isn't breaking ;)
+>>
+>=20
+> The patches that I contribute have been pretty extensively tested by
+> various means in a "host setting" (e.g. blktests and some internal
+> tools), which really exercise the device by doing heavy I/O, testing for
+> compliance and also just being mean to it (e.g. tripping bus mastering
+> while doing I/O).
+>=20
+> Don't misunderstand me as trying to weasel my way out of writing tests,
+> but I just want to understand the scope of the tests that you are
+> looking for? I believe (hope!) that you are not asking me to implement a
+> user-space NVMe driver in the test, so I assume the tests should varify
+> more low level details?
+
+I was thinking about something rather simple.
+
+So you are adding the "multiple namespaces" feature, we want to test it.
+
+If you can demonstrate it works with few I/O calls you could try with=20
+qtest, such:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg695421.html
+
+If it requires complex commands, since the user-space tools already=20
+exist, you can use an acceptance test booting Linux, installing the NVMe=20
+tools and use them. See tests/acceptance/linux_ssh_mips_malta.py or
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg656319.html
+
+Regards,
+
+Phil.
+
 
