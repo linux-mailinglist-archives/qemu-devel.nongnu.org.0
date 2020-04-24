@@ -2,81 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E63F1B7E40
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 20:49:39 +0200 (CEST)
-Received: from localhost ([::1]:48600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CE191B7EA1
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 21:11:32 +0200 (CEST)
+Received: from localhost ([::1]:49128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jS3OM-0001IC-58
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 14:49:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45244)
+	id 1jS3jX-0004KD-Dd
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 15:11:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50374)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jS3Mj-0000cn-TK
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 14:47:58 -0400
+ (envelope-from <eblake@redhat.com>) id 1jS3hM-0001LR-HB
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 15:09:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jS3Mf-0002zI-Lv
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 14:47:57 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49351
+ (envelope-from <eblake@redhat.com>) id 1jS3hL-0007T8-Eg
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 15:09:15 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:29965
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jS3Mf-0002s0-8O
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 14:47:53 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jS3hK-0007Rb-Um
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 15:09:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587754071;
+ s=mimecast20190719; t=1587755353;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+z5IQ9TwG74B+44pf0KetfGs9tKwqTSUFXB0YerezyA=;
- b=UQo16P5inoNTvRU9lKv25JWgMAV2YQvKdEiCTm2p8kXxBtOwDVvxyI3yqvLjHofW6uF9Oq
- /tGAfT91JL5UnuImOaVF8kKUX/m71kzn2M1Q+oC5ZBRz7KEgNTvJURWKOQfcjdV9ctEsqX
- 4j4cdL5rHgWWymFblYSsjH8JU9Kw6mc=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=65OKKoI/pKsqm6NI9kEtTLS+aiPjHvw24e+mrsVACtk=;
+ b=JeujU3cN0zIFS8r0zEu9y4MgWwQYsciQMj0C+hL6f0pFx5FG2K3glb69Bx8jyDA8kXkxEu
+ v+2DSMG6SSf11t6Cqp3x+XemcuT+KNQt+/m5YJutNozJxvFwq4I4l1X4QYRS/G93eTrDQi
+ aOlJJbQYYhp5wmBbUbqaxejuOYGdYq0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404--Ct8WvtdN1OzwLUwGgEbSA-1; Fri, 24 Apr 2020 14:47:43 -0400
-X-MC-Unique: -Ct8WvtdN1OzwLUwGgEbSA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-139-0BMNBMffNUiSxigQhYyNow-1; Fri, 24 Apr 2020 15:09:12 -0400
+X-MC-Unique: 0BMNBMffNUiSxigQhYyNow-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 240941005510;
- Fri, 24 Apr 2020 18:47:42 +0000 (UTC)
-Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F36205C1D0;
- Fri, 24 Apr 2020 18:47:39 +0000 (UTC)
-Subject: Re: [PATCH v4 24/30] qcow2: Clear the L2 bitmap when allocating a
- compressed cluster
-To: Alberto Garcia <berto@igalia.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <cover.1584468723.git.berto@igalia.com>
- <6d596d82ed62615a8565b661691a06bfaf32237e.1584468723.git.berto@igalia.com>
- <w51r1wcn7eu.fsf@maestria.local.igalia.com>
- <1606ecb5-98ea-fefb-bb98-2ecda1d65f5c@redhat.com>
- <w51o8rgn6j6.fsf@maestria.local.igalia.com>
- <57ac1a2f-1632-1a00-b18d-1fc2169175b6@redhat.com>
- <w51lfmkn4ws.fsf@maestria.local.igalia.com>
- <2ed917cb-edf1-faeb-532b-ad5edb39d293@virtuozzo.com>
- <w51imhon30t.fsf@maestria.local.igalia.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01EFB1009451;
+ Fri, 24 Apr 2020 19:09:11 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B9F545D9CC;
+ Fri, 24 Apr 2020 19:09:07 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <cc3301dc-14e0-1b1c-fb97-4f4b8a520dfd@redhat.com>
-Date: Fri, 24 Apr 2020 13:47:39 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/3] qcow2: Allow resize of images with internal snapshots
+Date: Fri, 24 Apr 2020 14:09:00 -0500
+Message-Id: <20200424190903.522087-1-eblake@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <w51imhon30t.fsf@maestria.local.igalia.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 02:57:59
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 13:45:13
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,54 +70,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Denis V . Lunev" <den@openvz.org>,
- Anton Nefedov <anton.nefedov@virtuozzo.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: stefanha@redhat.com, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/24/20 1:37 PM, Alberto Garcia wrote:
-> On Fri 24 Apr 2020 08:25:45 PM CEST, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
->>>> Reading the entire cluster will be interesting - you'll have to
->>>> decompress the entire memory, then overwrite the zeroed portions.
->>>
->>> I don't think so, qcow2_get_host_offset() would detect the number of
->>> contiguous subclusters of the same type at the given offset. In this
->>> case they would be _ZERO subclusters so there's no need to decompress
->>> anything, or even read it (it works the same with uncompressed
->>> clusters).
->>
->> But if at least one of subclusters to read is not _ZERO, you'll have
->> to decompress the whole cluster, and after decompression rewrite
->> zero-subclusters by zeroes, as Eric says.. Or I lost the thread:)
-> 
-> I don't see why you would need to rewrite anything... you do have to
-> decompress the whole cluster, and the uncompressed cluster in memory
-> would have stale data, but you never need to use that data for anything,
-> let alone to return it to the guest.
-> 
-> Even if there's a COW, the new cluster would inherit the compressed
-> cluster's bitmap so the zeroized subclusters still read as zeroes.
-> 
-> It's the same with normal clusters, 'write -P 0xff 0 64k' followed by
-> 'write -z 16k 16k'. The host cluster on disk still reads as 0xff but the
-> L2 entry indicates that part of it is just zeroes.
+In v3:
+- patch 1: fix error returns [patchew, Max], R-b dropped
+- patch 2,3: unchanged, so add R-b
 
-The point is this:  Consider 'write -P 0xff 0 64k', then 'write -z 16k 
-16k', then 'read 0 64k'.  For normal clusters, we can just do a 
-scatter-gather iov read of read 0-16k and 32-64k, plus a memset of 
-16-32k.  But for compressed clusters, we have to read and decompress the 
-entire 64k, AND also memset 16k-32k.  But if zeroing after reading is 
-not that expensive, then the same technique for normal clusters is fine 
-(instead of a scatter-gather read of 48k, just read the whole 64k 
-cluster before doing the memset).  So the question at hand is not what 
-happens in writing, but in reading, and whether we are penalizing reads 
-from a compressed cluster or even from regular clusters, when reading 
-from a cluster where subclusters have different status.
+Eric Blake (3):
+  block: Add blk_new_with_bs() helper
+  qcow2: Allow resize of images with internal snapshots
+  qcow2: Tweak comment about bitmaps vs. resize
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+ include/sysemu/block-backend.h |  2 ++
+ block/block-backend.c          | 23 +++++++++++++++++
+ block/crypto.c                 | 10 +++-----
+ block/parallels.c              |  8 +++---
+ block/qcow.c                   |  8 +++---
+ block/qcow2-snapshot.c         | 20 ++++++++++++---
+ block/qcow2.c                  | 45 +++++++++++++++++++++++-----------
+ block/qed.c                    |  9 +++----
+ block/sheepdog.c               | 11 ++++-----
+ block/vdi.c                    |  8 +++---
+ block/vhdx.c                   |  9 +++----
+ block/vmdk.c                   |  9 +++----
+ block/vpc.c                    |  8 +++---
+ blockdev.c                     |  8 +++---
+ blockjob.c                     |  7 ++----
+ tests/qemu-iotests/061         | 35 ++++++++++++++++++++++++++
+ tests/qemu-iotests/061.out     | 28 +++++++++++++++++++++
+ 17 files changed, 177 insertions(+), 71 deletions(-)
+
+--=20
+2.26.2
 
 
