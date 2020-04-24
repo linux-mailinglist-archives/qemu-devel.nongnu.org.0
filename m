@@ -2,96 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4660E1B778C
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 15:53:21 +0200 (CEST)
-Received: from localhost ([::1]:37756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECA981B7795
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 15:55:02 +0200 (CEST)
+Received: from localhost ([::1]:38000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRylc-0004xv-4w
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 09:53:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39316)
+	id 1jRynG-0001TP-1Z
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 09:55:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40546)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jRybH-0008MB-B8
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 09:42:39 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jRyf4-0000qg-BA
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 09:46:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jRybB-0000mF-Sb
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 09:42:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28341
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1jRyf3-0006No-T1
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 09:46:34 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46114
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jRybB-0000j3-F7
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 09:42:33 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jRyf3-0006Hy-G9
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 09:46:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587735751;
+ s=mimecast20190719; t=1587735991;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=h6EdEaT0yTg1aFhvV5+hvZHr7Hkpw4R0DlKQgg2u/kg=;
- b=Yqbi8ARK/v3cGGDIDbAL4CW4Q/EH5x/0BZe/JVYIHZ7Rja3Ewl0UvreK2NItKvizCtFXgk
- TesjwvSK7iAy3Dm+Rsyo98QKDix8o83wlexG+/e7M5bDSaAr+VIOmqg0ks6oaGT92ELRE7
- zCdzFTawFqczzdrDZXGmffYGBviFk0c=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=7baQuGzOMCTDE2fIMrgSRgkBAfdpdc29YxIGXt3InpM=;
+ b=dWH1wDeQpa0fJl2SnOw3ZlqGGWImvNtjtBEaHNPQvGLT5JqYIW60f2ch6UJAcGq1+2TGdK
+ 9448wqQIt+OFI45kXNvlo0MxmjBfV6lNFSEJzYHtLOib4q9kEMNYrIgGI80oQLuPaXuMYe
+ 0Qng629og+4Svo27G1UnIKqgSKueUhs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-403-qxjHqFLOPFujohkCasfGAQ-1; Fri, 24 Apr 2020 09:42:24 -0400
-X-MC-Unique: qxjHqFLOPFujohkCasfGAQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-92-XllVg-1AM0OQ9PFfe5IDjg-1; Fri, 24 Apr 2020 09:46:29 -0400
+X-MC-Unique: XllVg-1AM0OQ9PFfe5IDjg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1DFE8015D2;
- Fri, 24 Apr 2020 13:42:21 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-192.ams2.redhat.com
- [10.36.113.192])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BC70F605D1;
- Fri, 24 Apr 2020 13:42:08 +0000 (UTC)
-Subject: Re: [PATCH RESEND v6 00/36] Initial support for multi-process qemu
-To: Eric Blake <eblake@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- elena.ufimtseva@oracle.com
-References: <cover.1587614626.git.elena.ufimtseva@oracle.com>
- <20200424124823.GC189569@stefanha-x1.localdomain>
- <00786792-33e1-38cc-3d4c-1cee1e786c9e@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B28F1107ACCA;
+ Fri, 24 Apr 2020 13:46:28 +0000 (UTC)
+Received: from localhost (ovpn-113-192.ams2.redhat.com [10.36.113.192])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 51908610EC;
+ Fri, 24 Apr 2020 13:46:28 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <7bc48ca0-a2da-0e3a-3c8a-d22ec1c58c28@redhat.com>
-Date: Fri, 24 Apr 2020 15:42:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+To: qemu-block@nongnu.org
+Subject: [PATCH] iotests/041: Fix NBD socket path
+Date: Fri, 24 Apr 2020 15:46:26 +0200
+Message-Id: <20200424134626.78945-1-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <00786792-33e1-38cc-3d4c-1cee1e786c9e@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="agck1fOs6HuWv0D4aWpYVHUsnCjxGUGP3"
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 03:07:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 02:57:59
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -103,91 +70,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
- mst@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com, jag.raman@oracle.com,
- quintela@redhat.com, armbru@redhat.com, kanth.ghatraju@oracle.com,
- felipe@nutanix.com, thuth@redhat.com, ehabkost@redhat.com,
- konrad.wilk@oracle.com, dgilbert@redhat.com, liran.alon@oracle.com,
- pbonzini@redhat.com, rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
- thanos.makatos@nutanix.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---agck1fOs6HuWv0D4aWpYVHUsnCjxGUGP3
-Content-Type: multipart/mixed; boundary="jhdPvmVUDGCPnnytgj1kGpLJUBvFsxg66"
+We should put all UNIX socket files into the sock_dir, not test_dir.
 
---jhdPvmVUDGCPnnytgj1kGpLJUBvFsxg66
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Reported-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ tests/qemu-iotests/041 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 24.04.20 14:53, Eric Blake wrote:
-> On 4/24/20 7:48 AM, Stefan Hajnoczi wrote:
->> On Wed, Apr 22, 2020 at 09:13:35PM -0700, elena.ufimtseva@oracle.com
->> wrote:
->>> There is an error in travis-ci build test which does not get reproduced=
-.
->>>
->>> =A0 TEST=A0=A0=A0 iotest-qcow2: 041 [fail]
->>> QEMU=A0=A0=A0=A0=A0=A0=A0=A0=A0 --
->>> "/home/travis/build/elena-ufimtseva/qemu-multiprocess/out-of-tree/build=
-/dir/tests/qemu-iotests/../../x86_64-softmmu/qemu-system-x86_64"
->>> -nodefaults -display none -accel qtest
->=20
->>> +Traceback (most recent call last):
->>> +=A0 File "041", line 1049, in test_with_other_parent
->>> +=A0=A0=A0 self.assert_qmp(result, 'return', {})
->>> +=A0 File
->>> "/home/travis/build/elena-ufimtseva/qemu-multiprocess/tests/qemu-iotest=
-s/iotests.py",
->>> line 821, in assert_qmp
->>> +=A0=A0=A0 result =3D self.dictpath(d, path)
->>> +=A0 File
->>> "/home/travis/build/elena-ufimtseva/qemu-multiprocess/tests/qemu-iotest=
-s/iotests.py",
->>> line 797, in dictpath
->>> +=A0=A0=A0 self.fail('failed path traversal for "%s" in "%s"' % (path,
->>> str(d)))
->>> +AssertionError: failed path traversal for "return" in "{'error':
->>> {'class': 'GenericError', 'desc': "UNIX socket path
->>> '/home/travis/build/elena-ufimtseva/qemu-multiprocess/out-of-tree/build=
-/dir/tests/qemu-iotests/scratch/nbd.sock'
->>> is too long"}}"
->>
->> UNIX Domain Socket paths have to be 108 characters or less.=A0 The path =
-in
->> the failed test case is 110 characters long.=A0 You could rename your
->> branch to "mpqemu" to solve this failure.
->=20
-> We recently fixed the iotests to prefer sticking NBD sockets under
-> $SOCK_DIR (see commits f0e24942 and friends); did we miss test 41?
-
-Looks more like I broke it.  Oops.  Will fix.
-
-Max
-
-
---jhdPvmVUDGCPnnytgj1kGpLJUBvFsxg66--
-
---agck1fOs6HuWv0D4aWpYVHUsnCjxGUGP3
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6i7K8ACgkQ9AfbAGHV
-z0C16QgAs0ns9lS4maYkKwWuUMjxmZv+0e/GvVV8z7QkXPLZd8yoPjEnw8N2edbk
-7F2AvFtgTA3VmGRN0vNlUne7whxqxzJ1EH9frnWtVtLQuO9tQyIB+hHLAQQ569mi
-WxrxvHCRyHjaGLb+D9QMPJjzc7FGrdQyJ8/E4ZEBSblKxf/OA7GEwdGm1krn1b2a
-s0FW+mDfWzXzH/lCgUI35hUtn0NTJ37Zx9Z4Oh++MGqW6D82DT6rGoxLeyT/I4BO
-ah25Q+nNvCd/lL61zNeTRR+RurdO0q6J3mT7zhJr5dTtxMdEkEsi2v6SEMbFuD+r
-T0a4KBOC6XlSA9JvHWniRqng+UmWBg==
-=jC8y
------END PGP SIGNATURE-----
-
---agck1fOs6HuWv0D4aWpYVHUsnCjxGUGP3--
+diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
+index 5d67bf14bf..46bf1f6c81 100755
+--- a/tests/qemu-iotests/041
++++ b/tests/qemu-iotests/041
+@@ -35,7 +35,7 @@ quorum_img3 =3D os.path.join(iotests.test_dir, 'quorum3.i=
+mg')
+ quorum_repair_img =3D os.path.join(iotests.test_dir, 'quorum_repair.img')
+ quorum_snapshot_file =3D os.path.join(iotests.test_dir, 'quorum_snapshot.i=
+mg')
+=20
+-nbd_sock_path =3D os.path.join(iotests.test_dir, 'nbd.sock')
++nbd_sock_path =3D os.path.join(iotests.sock_dir, 'nbd.sock')
+=20
+ class TestSingleDrive(iotests.QMPTestCase):
+     image_len =3D 1 * 1024 * 1024 # MB
+--=20
+2.25.3
 
 
