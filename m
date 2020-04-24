@@ -2,90 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 744B21B779B
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 15:56:13 +0200 (CEST)
-Received: from localhost ([::1]:38064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E167D1B7777
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 15:49:55 +0200 (CEST)
+Received: from localhost ([::1]:37604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRyoO-0002nt-Hf
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 09:56:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41142)
+	id 1jRyiI-0001wV-Gv
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 09:49:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41076)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1jRygr-0001Nu-Mw
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 09:48:26 -0400
+ (envelope-from <stefanha@redhat.com>) id 1jRygg-0001GB-DC
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 09:48:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1jRygo-0008P9-NQ
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 09:48:23 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:45664)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1jRygo-0008N3-4F
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 09:48:22 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03ODh0Dx172270;
- Fri, 24 Apr 2020 13:48:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=content-type :
- mime-version : subject : from : in-reply-to : date : cc :
- content-transfer-encoding : message-id : references : to;
- s=corp-2020-01-29; bh=Wd/smEppnf474sQHCdla3T0v+XT8d6uGdWuvSv6Gy4M=;
- b=Hl5LLiY42P5iE1H4kiV9eNJGZ/Kp1L4V7jQB7nueQEQUtyYigndE5shrBrej8d3479VD
- N9M76F/WiHafZIwl6fhhOYNa7RgYLTofPjNZ8LlauksD9TMY2WzruhWkDB4H92pRQEEc
- IhR5eoc5/eF+Zo/bzlnmWs1HPcgkFZW9TX1NNFm+wQ47RNAut/jINU+TEihzAvvXY5lK
- dC5lUkbPYIQxzuv+ukf0ojZ+N6gwMCsYhJqdtH4Xqqg3+Is1WjvxIseIS3mAftrvxGqx
- FHK/cSuQ9CLrz8R0EBnAgZZ3SExSsLgTi+s7nqhTZxyMPq/R7J4Me8pK4mJktLDtA02H /w== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2120.oracle.com with ESMTP id 30k7qe6x2e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 24 Apr 2020 13:48:04 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03ODfcNx155719;
- Fri, 24 Apr 2020 13:48:04 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3020.oracle.com with ESMTP id 30k7qx6dm0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 24 Apr 2020 13:48:03 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 03ODm0C3031809;
- Fri, 24 Apr 2020 13:48:00 GMT
-Received: from dhcp-10-39-221-180.vpn.oracle.com (/10.39.221.180)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 24 Apr 2020 06:47:59 -0700
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.1\))
-Subject: Re: [PATCH RESEND v6 08/36] multi-process: Add stub functions to
- facilitate build of multi-process
-From: Jag Raman <jag.raman@oracle.com>
-In-Reply-To: <20200424131230.GA190507@stefanha-x1.localdomain>
-Date: Fri, 24 Apr 2020 09:47:56 -0400
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <A0E83A03-3B01-4863-949A-F5DDC328A387@oracle.com>
+ (envelope-from <stefanha@redhat.com>) id 1jRygf-0008GX-V9
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 09:48:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50636
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jRygf-0008DT-Ip
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 09:48:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587736092;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=siRy6QkQI4XDHW16JQqO2FyNdLsb4fS1K+Kq1bt7Av8=;
+ b=iP9bdHx5qQAqBMzXm5MqbRifYDCDHtArDDxB9iOupuzimXyyJ7/RhoJGPtc/8ixNwJ8Smj
+ xjsD/noR/sjtcJ5nVFYaxJrN7wPr+Kyfjcm6s88ggO9VeaGa+l7bWbgGp0hUWn6mGKpgFF
+ XWaP4aBguqR7X56/wQ0EdH4vaH0aWYk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-299-pMokidWyPASf7GO0S5XjgQ-1; Fri, 24 Apr 2020 09:48:09 -0400
+X-MC-Unique: pMokidWyPASf7GO0S5XjgQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA078107ACF3;
+ Fri, 24 Apr 2020 13:48:06 +0000 (UTC)
+Received: from localhost (ovpn-114-136.ams2.redhat.com [10.36.114.136])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 694BB610D6;
+ Fri, 24 Apr 2020 13:48:00 +0000 (UTC)
+Date: Fri, 24 Apr 2020 14:47:59 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: elena.ufimtseva@oracle.com
+Subject: Re: [PATCH RESEND v6 09/36] multi-process: Add config option for
+ multi-process QEMU
+Message-ID: <20200424134759.GB190507@stefanha-x1.localdomain>
 References: <cover.1587614626.git.elena.ufimtseva@oracle.com>
- <647fa5bf70dbea7d2b4e47d2084dea3a66385433.1587614626.git.elena.ufimtseva@oracle.com>
- <20200424131230.GA190507@stefanha-x1.localdomain>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-X-Mailer: Apple Mail (2.3445.9.1)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9600
- signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- spamscore=0 mlxlogscore=999
- adultscore=0 suspectscore=4 bulkscore=0 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2004240110
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9600
- signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- lowpriorityscore=0
- priorityscore=1501 suspectscore=4 mlxlogscore=999 phishscore=0
- impostorscore=0 mlxscore=0 clxscore=1015 malwarescore=0 adultscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004240110
-Received-SPF: pass client-ip=156.151.31.85; envelope-from=jag.raman@oracle.com;
- helo=userp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 09:48:20
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.85
+ <c926e2e8a90c02c623f5ced8c1353b2dc277ec35.1587614626.git.elena.ufimtseva@oracle.com>
+MIME-Version: 1.0
+In-Reply-To: <c926e2e8a90c02c623f5ced8c1353b2dc277ec35.1587614626.git.elena.ufimtseva@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="FkmkrVfFsRoUs1wW"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 03:07:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,97 +76,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, fam@euphon.net,
- swapnil.ingle@nutanix.com, John G Johnson <john.g.johnson@oracle.com>,
- qemu-devel@nongnu.org, kraxel@redhat.com, quintela@redhat.com, mst@redhat.com,
- armbru@redhat.com, kanth.ghatraju@oracle.com, felipe@nutanix.com,
- thuth@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
- dgilbert@redhat.com, liran.alon@oracle.com, pbonzini@redhat.com,
- rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
- thanos.makatos@nutanix.com
+Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
+ mst@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com, jag.raman@oracle.com,
+ quintela@redhat.com, armbru@redhat.com, kanth.ghatraju@oracle.com,
+ felipe@nutanix.com, thuth@redhat.com, ehabkost@redhat.com,
+ konrad.wilk@oracle.com, dgilbert@redhat.com, liran.alon@oracle.com,
+ thanos.makatos@nutanix.com, rth@twiddle.net, kwolf@redhat.com,
+ berrange@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
+ marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--FkmkrVfFsRoUs1wW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-
-> On Apr 24, 2020, at 9:12 AM, Stefan Hajnoczi <stefanha@redhat.com> =
-wrote:
+On Wed, Apr 22, 2020 at 09:13:44PM -0700, elena.ufimtseva@oracle.com wrote:
+> From: Jagannathan Raman <jag.raman@oracle.com>
 >=20
-> On Wed, Apr 22, 2020 at 09:13:43PM -0700, elena.ufimtseva@oracle.com =
-wrote:
->> diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
->> index f884bb6180..f74c7e927b 100644
->> --- a/stubs/Makefile.objs
->> +++ b/stubs/Makefile.objs
->> @@ -20,6 +20,7 @@ stub-obj-y +=3D migr-blocker.o
->> stub-obj-y +=3D change-state-handler.o
->> stub-obj-y +=3D monitor.o
->> stub-obj-y +=3D monitor-core.o
->> +stub-obj-y +=3D get-fd.o
->> stub-obj-y +=3D notify-event.o
->> stub-obj-y +=3D qtest.o
->> stub-obj-y +=3D replay.o
+> Add a configuration option to separate multi-process code
 >=20
-> audio.c, vl-stub.c, and xen-mapcache.c are added by this patch but not
-> added to Makefile.objs?  Can they be removed?
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> ---
+>  configure | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 
-Hey Stefan,
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Sorry it=E2=80=99s not clear. but these files are referenced in =
-Makefile.target.
+--FkmkrVfFsRoUs1wW
+Content-Type: application/pgp-signature; name="signature.asc"
 
->=20
-> This entire patch requires justification.  Stubs exist so that common
-> code can be linked without optional features.
->=20
-> For example, common code may call into kvm but that callback isn't
-> relevant when building with kvm accelerator support (e.g. say =
-qemu-nbd).
-> That's where the stub function comes in.  It fulfills the dependency
-> without dragging in the actual kvm accelerator code.
->=20
-> Adding lots of stubs suggests you are building QEMU in a new way that
-> wasn't done before (this is true and expected for this patch series).  =
-I
-> would like to understand the reason for these stubs though.  For
-> example, why do you need to stub audio?
+-----BEGIN PGP SIGNATURE-----
 
-These stub functions are only used by the remote process, and not by
-QEMU itself.
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6i7g8ACgkQnKSrs4Gr
+c8h2Cwf+N1XdtwglRe9ABvkyurMk27V6WoSY2K8hUue9rVMyr5rSlEyvRtge7wnI
+OW4KHwfV2yRHRenfWfgLpokqHJ2rIRU33fJGxZ1sYe6909NSapxneFemRE3HIlIM
+yUiIkk+UeW1IC4wT4/CV3X9EJFQPeLZ5shHpZdnqH5ZlWi9p0lolFo+aKpVoozsx
+s4CrVQT/V8t5oBrhixZUnO0Nz2PpGOYVACDyWD89tr340Y8viLyP4d/45Cen7l42
+8zg64jf8WtzuTikrDO/Y+Q3nM3SCZ3kwkykfozAqtBtabjVbbQ5dobazJzZPplHO
+UFLlwyGZ23zSYpITIun3vMz8qrX+fA==
+=2NNw
+-----END PGP SIGNATURE-----
 
-Our goal is to ensure that the remote process is building the smallest
-set of files necessary and these stub functions are necessary to meet
-that goal.
-
-For example, the remote process needs to build some of the functions
-defined in =E2=80=9Chw/core/qdev-properties-system.c=E2=80=9D. However, =
-this file
-depends on audio.c (references audio_state_by_name()), which is not
-needed for the remote process. The alternative to stub functions would
-be to compile audio.c into the remote process, but that was not =
-necessary
-in our judgement. When the project started out, we spent a lot of time
-figuring out which functions/files are necessary for the remote process, =
-and
-we stubbed out the ones which are needed to resolve dependency during
-compilation, but not needed for functionality.
-
-audio.c is just an example of tens of other places where we needed to
-make similar judgements.
-
-Would you prefer if we moved these stub functions into a separate
-library (instead of stub-obj-y) which is only linked by the remote =
-process?
-
---
-Jag
-
->=20
-> Without a reason for each of these stubs we have no way of knowing if
-> they are actually used/needed.  Maybe an earlier version of the code
-> needed it but the latest version of the patch no longer does...
->=20
-> Stefan
+--FkmkrVfFsRoUs1wW--
 
 
