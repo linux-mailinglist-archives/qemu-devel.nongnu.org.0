@@ -2,48 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC021B7A5A
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 17:45:03 +0200 (CEST)
-Received: from localhost ([::1]:42046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE5D1B7B3C
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 18:13:23 +0200 (CEST)
+Received: from localhost ([::1]:43668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jS0Vi-0003xe-GX
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 11:45:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58578)
+	id 1jS0x8-0003AQ-HG
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 12:13:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40926)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1jS0To-00033N-6V
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 11:43:04 -0400
+ (envelope-from <alistair23@gmail.com>) id 1jS0w9-00028X-Op
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 12:12:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1jS0Tm-0000UB-C0
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 11:43:03 -0400
-Received: from relay68.bu.edu ([128.197.228.73]:54819)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jS0Tl-0000Kq-PN
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 11:43:02 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 03OFfkTZ014735
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Fri, 24 Apr 2020 11:41:48 -0400
-Date: Fri, 24 Apr 2020 11:41:46 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 1/3] Makefile: Drop unused, broken target recurse-fuzz
-Message-ID: <20200424154146.47exheu7wknq47ki@mozz.bu.edu>
-References: <20200424071142.3525-1-armbru@redhat.com>
- <20200424071142.3525-2-armbru@redhat.com>
+ (envelope-from <alistair23@gmail.com>) id 1jS0w5-0002QV-KF
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 12:12:21 -0400
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:38351)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jS0w5-0002Mf-6h; Fri, 24 Apr 2020 12:12:17 -0400
+Received: by mail-il1-x144.google.com with SMTP id u5so9792369ilb.5;
+ Fri, 24 Apr 2020 09:12:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vnS1xMxlQ4q45LRVxXqTXJ2TAoqMdjMxBJhULLriIWI=;
+ b=Fh2OMCo7bNBNrNHOPzJwUF7JJZS2kiAWhCCPBSbQy4501QHAu8qUhnJCzkOySj0q9m
+ TWVL/1WM1RbwPsipP6SFzz4sTLE3hukTrCN280dFyR5zRPZaN68VHYVzD+bmBMrb5QF5
+ qjVUVguRVYOUa+AkD+u98swyQpNHDpSSmvCPlw3L9ErlBQ3JMxoTXr0G6yHGKNQ48XTj
+ eskOMs6IjRgCij3E4AjbrD87DJROu7uPGiyOkj/Art+IN23F70u8bd2UVgilwImmMZr2
+ KoWb735Z/EwvyQ2bYQ2Pu1stxH3LnWy/H1/BQojseQ7pHc0JPeaFuqH0jDmDxtjys0dc
+ yUrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vnS1xMxlQ4q45LRVxXqTXJ2TAoqMdjMxBJhULLriIWI=;
+ b=Gjf9Yu0wzCll6HwGSu3q1B7poXpeZxamcwjaCy05woiKFjhADquroKs09lWamMFmWE
+ K+OQgHI+tPX/1WlNPXnrD+720JCZCBs2DkflT3dZeGKp6uKT3SSSQPckMXKAAfd6jn67
+ XBZLgV8B9dXc8U77KsWo53aePq0Fjsv5U9UQFYqFFbvvRqzhTaayYGlBHORUSbV/lgki
+ fPkMlInsTYUxmjjjXdlEnp23cOZ8b2sJotMyxwMlHRn7hIScexBvsZY7gGXZN+fJIHqJ
+ e7GBRF5W4E30buwNle1G6KGTk/PNh5wtbaWUe/BPC1VbE5/D7PUYF+6PlibD0SLAjvLF
+ hb5g==
+X-Gm-Message-State: AGi0PubK2tA2NzZCSD5D+2lYgAAD+NR10EKCmslugKv51lZ1hHHm4JsM
+ Uc+fScu9+gWWZeBvb4i2QA03x5JbepozNNko4as=
+X-Google-Smtp-Source: APiQypJqbIiKXLG7j6zoCJkgktVpkmZGCfcIcWqg4HMQ73fC/UwJqgipBdKCPkGMB7FG2tQs+2MbQMbs5J9qJyrnNCU=
+X-Received: by 2002:a92:ad09:: with SMTP id w9mr9761771ilh.177.1587744735084; 
+ Fri, 24 Apr 2020 09:12:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200424071142.3525-2-armbru@redhat.com>
-User-Agent: NeoMutt/20180716
-Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
- helo=relay68.bu.edu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 11:42:43
-X-ACL-Warn: Detected OS   = Linux 2.6.x
-X-Received-From: 128.197.228.73
+References: <20200313193429.8035-1-coreyw7@fb.com>
+ <20200313193429.8035-2-coreyw7@fb.com>
+In-Reply-To: <20200313193429.8035-2-coreyw7@fb.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 24 Apr 2020 09:03:41 -0700
+Message-ID: <CAKmqyKNGLOE_UKWVuJzrBDRkRXj74XfOace+K5ab4-5HTWg_KA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] riscv: sifive_e: Support changing CPU type
+To: Corey Wharton <coreyw7@fb.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,36 +74,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, qemu-devel@nongnu.org, bsd@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 200424 0911, Markus Armbruster wrote:
-> Target recurse-fuzz depends on pc-bios/optionrom/fuzz, which can't be
-> made.  It's not used anywhere.  Added in commit c621dc3e01c, looks
-> like cargo cult.  Delete.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
+On Fri, Mar 13, 2020 at 12:35 PM Corey Wharton <coreyw7@fb.com> wrote:
+>
+> Allows the CPU to be changed from the default via the -cpu command
+> line option.
+>
+> Signed-off-by: Corey Wharton <coreyw7@fb.com>
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Thanks for the patch.
+
+Unfortunately this fails `make check`.
+
+The problem is that the machine has the `default_cpu_type` set but
+then you set "cpu-type" from the SoC.
+
+This diff fixes the make check failure for me:
+
+diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+index 1fd08f325c..b53109521e 100644
+--- a/hw/riscv/sifive_e.c
++++ b/hw/riscv/sifive_e.c
+@@ -123,8 +123,6 @@ static void riscv_sifive_e_soc_init(Object *obj)
+     object_initialize_child(obj, "cpus", &s->cpus,
+                             sizeof(s->cpus), TYPE_RISCV_HART_ARRAY,
+                             &error_abort, NULL);
+-    object_property_set_str(OBJECT(&s->cpus), ms->cpu_type, "cpu-type",
+-                            &error_abort);
+     object_property_set_int(OBJECT(&s->cpus), ms->smp.cpus, "num-harts",
+                             &error_abort);
+     sysbus_init_child_obj(obj, "riscv.sifive.e.gpio0",
+@@ -141,6 +139,8 @@ static void riscv_sifive_e_soc_realize(DeviceState
+*dev, Error **errp)
+     SiFiveESoCState *s = RISCV_E_SOC(dev);
+     MemoryRegion *sys_mem = get_system_memory();
+
++    object_property_set_str(OBJECT(&s->cpus), ms->cpu_type, "cpu-type",
++                            &error_abort);
+     object_property_set_bool(OBJECT(&s->cpus), true, "realized",
+                             &error_abort);
+
+
+I'm happy to just squash that into the patch. Let me know if you don't
+want me to do that and I'll drop these patches and let you re-send
+them.
+
+Alistair
 
 > ---
->  Makefile | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 8a9113e666..34275f57c9 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -582,7 +582,6 @@ $(ROM_DIRS_RULES):
->  
->  .PHONY: recurse-all recurse-clean recurse-install
->  recurse-all: $(addsuffix /all, $(TARGET_DIRS) $(ROM_DIRS))
-> -recurse-fuzz: $(addsuffix /fuzz, $(TARGET_DIRS) $(ROM_DIRS))
->  recurse-clean: $(addsuffix /clean, $(TARGET_DIRS) $(ROM_DIRS))
->  recurse-install: $(addsuffix /install, $(TARGET_DIRS))
->  $(addsuffix /install, $(TARGET_DIRS)): all
-> -- 
+>  hw/riscv/sifive_e.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+> index a254cad489..b0a611adb9 100644
+> --- a/hw/riscv/sifive_e.c
+> +++ b/hw/riscv/sifive_e.c
+> @@ -123,7 +123,7 @@ static void riscv_sifive_e_soc_init(Object *obj)
+>      object_initialize_child(obj, "cpus", &s->cpus,
+>                              sizeof(s->cpus), TYPE_RISCV_HART_ARRAY,
+>                              &error_abort, NULL);
+> -    object_property_set_str(OBJECT(&s->cpus), SIFIVE_E_CPU, "cpu-type",
+> +    object_property_set_str(OBJECT(&s->cpus), ms->cpu_type, "cpu-type",
+>                              &error_abort);
+>      object_property_set_int(OBJECT(&s->cpus), ms->smp.cpus, "num-harts",
+>                              &error_abort);
+> @@ -220,6 +220,7 @@ static void riscv_sifive_e_machine_init(MachineClass *mc)
+>      mc->desc = "RISC-V Board compatible with SiFive E SDK";
+>      mc->init = riscv_sifive_e_init;
+>      mc->max_cpus = 1;
+> +    mc->default_cpu_type = SIFIVE_E_CPU;
+>  }
+>
+>  DEFINE_MACHINE("sifive_e", riscv_sifive_e_machine_init)
+> --
 > 2.21.1
-> 
+>
+>
 
