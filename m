@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C98E1B7EDB
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 21:28:29 +0200 (CEST)
-Received: from localhost ([::1]:50346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E761B7EC8
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 21:22:27 +0200 (CEST)
+Received: from localhost ([::1]:49684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jS3zw-0004SH-Mc
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 15:28:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52980)
+	id 1jS3u6-00066R-K9
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 15:22:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53020)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jS3sM-0003SO-Te
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 15:20:39 -0400
+ (envelope-from <armbru@redhat.com>) id 1jS3sV-0003jv-9X
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 15:20:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jS3sM-000459-E8
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 15:20:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53813
+ (envelope-from <armbru@redhat.com>) id 1jS3sQ-00047P-T4
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 15:20:47 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37774
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jS3sL-00044v-U3
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 15:20:37 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jS3sQ-00045q-Et
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 15:20:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587756037;
+ s=mimecast20190719; t=1587756040;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oDUiKxCdN8lQeoLqT7wRkl74k2K9BI/Rksj2jl+zr0c=;
- b=R5bvyxsCC5W2X239XYrOSmcGJ0qYD+7bGQ3EULG2Go4s2jS06A6Ect4O9Oa8PPzeAnSTbv
- MjbOw7MWuEApLlMxW/nTRqiFjhZNrNP4pLuAmVq6Bm4U3VG6xuTJv2OObFMaMkd/opguMr
- eDKR21kVHbfzAmDvaAmrLy4eUwIOwxk=
+ bh=zGcQGQv7zwGHGWcukN+1+avvdcKa5eSElFpuJg26zW8=;
+ b=P/7nO099HFEXPbABQFI/M5guWmeEQnKbDe5ed+oIcNccj8pUNAxzXlXv4pIC/QBUqtFJ0w
+ i8QzyyZVjQzO3CpYvmtax9y8diyhnx736uscgJcnTijkFSEFOL2NUJhhWKEcOJAzew73Sx
+ 4yvagofrqYvE1I4NUTypHZMYzOR0xuQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-CL6UVSlANBCdUlQpOWxpJw-1; Fri, 24 Apr 2020 15:20:33 -0400
-X-MC-Unique: CL6UVSlANBCdUlQpOWxpJw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-314-IOZPIz37MWaWNTbYOZcO3A-1; Fri, 24 Apr 2020 15:20:35 -0400
+X-MC-Unique: IOZPIz37MWaWNTbYOZcO3A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 482E7107ACF2;
- Fri, 24 Apr 2020 19:20:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 443E684B8A3;
+ Fri, 24 Apr 2020 19:20:34 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CA43510002AA;
- Fri, 24 Apr 2020 19:20:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F14BA5D715;
+ Fri, 24 Apr 2020 19:20:33 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 48E5011358C6; Fri, 24 Apr 2020 21:20:27 +0200 (CEST)
+ id 4C2CF11358C7; Fri, 24 Apr 2020 21:20:27 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/11] arm/sabrelite: Consistently use &error_fatal in
- sabrelite_init()
-Date: Fri, 24 Apr 2020 21:20:26 +0200
-Message-Id: <20200424192027.11404-11-armbru@redhat.com>
+Subject: [PATCH 11/11] i386: Fix x86_cpu_load_model() error API violation
+Date: Fri, 24 Apr 2020 21:20:27 +0200
+Message-Id: <20200424192027.11404-12-armbru@redhat.com>
 In-Reply-To: <20200424192027.11404-1-armbru@redhat.com>
 References: <20200424192027.11404-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -76,44 +75,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Jean-Christophe Dubois <jcd@tribudubois.net>
+The Error ** argument must be NULL, &error_abort, &error_fatal, or a
+pointer to a variable containing NULL.  Passing an argument of the
+latter kind twice without clearing it in between is wrong: if the
+first call sets an error, it no longer points to NULL for the second
+call.
+
+x86_cpu_load_model() is wrong that way.  Harmless, because its @errp
+is always &error_abort.  To fix, cut out the @errp middleman.
+
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/arm/sabrelite.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ target/i386/cpu.c | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
 
-diff --git a/hw/arm/sabrelite.c b/hw/arm/sabrelite.c
-index e31694bb92..04f4b96591 100644
---- a/hw/arm/sabrelite.c
-+++ b/hw/arm/sabrelite.c
-@@ -41,7 +41,6 @@ static void sabrelite_reset_secondary(ARMCPU *cpu,
- static void sabrelite_init(MachineState *machine)
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 90ffc5f3b1..3f09fd2321 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5078,7 +5078,7 @@ static void x86_cpu_apply_version_props(X86CPU *cpu, =
+X86CPUModel *model)
+=20
+ /* Load data from X86CPUDefinition into a X86CPU object
+  */
+-static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model, Error **er=
+rp)
++static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
  {
-     FslIMX6State *s;
--    Error *err =3D NULL;
+     X86CPUDefinition *def =3D model->cpudef;
+     CPUX86State *env =3D &cpu->env;
+@@ -5092,13 +5092,19 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUM=
+odel *model, Error **errp)
+      */
 =20
-     /* Check the amount of memory is compatible with the SOC */
-     if (machine->ram_size > FSL_IMX6_MMDC_SIZE) {
-@@ -52,11 +51,7 @@ static void sabrelite_init(MachineState *machine)
+     /* CPU models only set _minimum_ values for level/xlevel: */
+-    object_property_set_uint(OBJECT(cpu), def->level, "min-level", errp);
+-    object_property_set_uint(OBJECT(cpu), def->xlevel, "min-xlevel", errp)=
+;
++    object_property_set_uint(OBJECT(cpu), def->level, "min-level",
++                             &error_abort);
++    object_property_set_uint(OBJECT(cpu), def->xlevel, "min-xlevel",
++                             &error_abort);
 =20
-     s =3D FSL_IMX6(object_new(TYPE_FSL_IMX6));
-     object_property_add_child(OBJECT(machine), "soc", OBJECT(s), &error_fa=
-tal);
--    object_property_set_bool(OBJECT(s), true, "realized", &err);
--    if (err !=3D NULL) {
--        error_report("%s", error_get_pretty(err));
--        exit(1);
--    }
-+    object_property_set_bool(OBJECT(s), true, "realized", &error_fatal);
+-    object_property_set_int(OBJECT(cpu), def->family, "family", errp);
+-    object_property_set_int(OBJECT(cpu), def->model, "model", errp);
+-    object_property_set_int(OBJECT(cpu), def->stepping, "stepping", errp);
+-    object_property_set_str(OBJECT(cpu), def->model_id, "model-id", errp);
++    object_property_set_int(OBJECT(cpu), def->family, "family",
++                            &error_abort);
++    object_property_set_int(OBJECT(cpu), def->model, "model",
++                            &error_abort);
++    object_property_set_int(OBJECT(cpu), def->stepping, "stepping",
++                            &error_abort);
++    object_property_set_str(OBJECT(cpu), def->model_id, "model-id",
++                            &error_abort);
+     for (w =3D 0; w < FEATURE_WORDS; w++) {
+         env->features[w] =3D def->features[w];
+     }
+@@ -5135,7 +5141,8 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUMod=
+el *model, Error **errp)
+         vendor =3D host_vendor;
+     }
 =20
-     memory_region_add_subregion(get_system_memory(), FSL_IMX6_MMDC_ADDR,
-                                 machine->ram);
+-    object_property_set_str(OBJECT(cpu), vendor, "vendor", errp);
++    object_property_set_str(OBJECT(cpu), vendor, "vendor",
++                            &error_abort);
+=20
+     x86_cpu_apply_version_props(cpu, model);
+ }
+@@ -6981,7 +6988,7 @@ static void x86_cpu_initfn(Object *obj)
+     object_property_add_alias(obj, "sse4_2", obj, "sse4.2", &error_abort);
+=20
+     if (xcc->model) {
+-        x86_cpu_load_model(cpu, xcc->model, &error_abort);
++        x86_cpu_load_model(cpu, xcc->model);
+     }
+ }
+=20
 --=20
 2.21.1
 
