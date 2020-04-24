@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68BD61B7D21
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 19:40:45 +0200 (CEST)
-Received: from localhost ([::1]:45954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4435F1B7D35
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 19:46:24 +0200 (CEST)
+Received: from localhost ([::1]:46076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jS2Jf-00073t-T8
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 13:40:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48216)
+	id 1jS2P9-0000m7-93
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 13:46:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50966)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jS2IT-0006Ox-RU
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 13:39:30 -0400
+ (envelope-from <eblake@redhat.com>) id 1jS2O3-0008Nc-05
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 13:45:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jS2IS-00063w-Jj
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 13:39:29 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42351)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jS2IS-0005xl-5z
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 13:39:28 -0400
-Received: by mail-wr1-x444.google.com with SMTP id j2so11899857wrs.9
- for <qemu-devel@nongnu.org>; Fri, 24 Apr 2020 10:39:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UYYv1cklqi3lKfo2WFxkU8h/TgF0pb3Dq/qwxKtV6C4=;
- b=j3ivlIzMwDtxULJmUnH0RYPeUPbLlVvrW7SUUzhUxUB+1yWUYdgiz5zkXHO+/YExqM
- urXhfuk3khuh5p3hIeXiUmHOPUcOL1mqGJQnn4jOMs9eEmC1zqjI4SwBagpKPzJjTl/w
- HfSsLFQ6ihkkExHNYPu6vj69FNp9yBE/d0CUJ7E/MI+eblRSWbOiypZpEsbVoymRADxK
- 7H2E+InYUlDILXxgRUF5XhOkzzDUMkYrNju0OXKIpcCMU+wS8gNzxOhmnJcNczLzpUYw
- cVYb+t5m0h2ViqUHOSsc1Osqx8BIqgI4fgKBVaj2vFsJJ8O0JkfleTSBAGhNmNONNxSb
- pSTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UYYv1cklqi3lKfo2WFxkU8h/TgF0pb3Dq/qwxKtV6C4=;
- b=Z9iR1rmYTbvm0UZHQqpA22eG/lj2G56Cb+qr/a+Kv3Yh4//F8o7TSmc62gJMqDbF5I
- XarNO15tSxI7J7SF969zvrsHa8sNMbu1Bw67myAx6zXOt2J+QnU4DFGzI6/JiNukLk5Z
- mTQ4LcHbGSoDk0lYfBRMCa0baagBsoBjDqezOS+xU5ucAmPXdYV1HtVmGfSp4DprUta0
- DOGR38qp35Muwka+1U/cr9zN5OmbvdgqIKIu24r8bt8Es3ydOs+B04Sx6fZ4zd+V0EAY
- nvXDVevnMiOihYKc5P59NPNplxXElapzaXUrPXpWfVcX2LodJDZmrILGQBIHMnIbEOP7
- iZTg==
-X-Gm-Message-State: AGi0Puaqayw/7/y9A3e8BmVz5zCQ3M8XOG20SVNRHYq0NYKPiWGcKs32
- yJ1LIjo2LvghEPcsYgg2+/ONow==
-X-Google-Smtp-Source: APiQypJ/GVNCyK1gsBIxnaGRe4vkTH/l8V9gJD9S4MIkGu3xK+Ifw3KHahfPHBcdQRB2yWfmBu3d1A==
-X-Received: by 2002:adf:e5c8:: with SMTP id a8mr13402753wrn.56.1587749965861; 
- Fri, 24 Apr 2020 10:39:25 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y5sm9713493wru.15.2020.04.24.10.39.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Apr 2020 10:39:24 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C74841FF7E;
- Fri, 24 Apr 2020 18:39:23 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] translate-all: include guest address in out_asm output
-Date: Fri, 24 Apr 2020 18:39:14 +0100
-Message-Id: <20200424173914.2957-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (envelope-from <eblake@redhat.com>) id 1jS2O1-0005J9-OF
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 13:45:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38844
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jS2O1-0005H4-8v
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 13:45:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587750311;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6mTrbPjCr9EATC4yIGlUG/AhG1AcBHC93jbADmsTDXE=;
+ b=gqSG9E2dSSIRZnsaDHvCI/NesZWUBc7HOLsLmEc76w/bQs9x6rUGkcu6kq11jbrTVol2PG
+ bcdEo4I6OAVfhBFStoAu2TNmhqmAxkU4o8PL71N1bgAtwHUzP1oouD7aYRUaF485TMGWSo
+ VHuNiBtvOZgoS0WEul2QX+XnrEgznPE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-157-i4_jQy2rOj-AzmvbTR5ldg-1; Fri, 24 Apr 2020 13:45:07 -0400
+X-MC-Unique: i4_jQy2rOj-AzmvbTR5ldg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 223B48018A7;
+ Fri, 24 Apr 2020 17:44:37 +0000 (UTC)
+Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D028B5D9CA;
+ Fri, 24 Apr 2020 17:44:34 +0000 (UTC)
+Subject: Re: [PATCH v4 24/30] qcow2: Clear the L2 bitmap when allocating a
+ compressed cluster
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <cover.1584468723.git.berto@igalia.com>
+ <6d596d82ed62615a8565b661691a06bfaf32237e.1584468723.git.berto@igalia.com>
+ <w51r1wcn7eu.fsf@maestria.local.igalia.com>
+ <1606ecb5-98ea-fefb-bb98-2ecda1d65f5c@redhat.com>
+ <w51o8rgn6j6.fsf@maestria.local.igalia.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <57ac1a2f-1632-1a00-b18d-1fc2169175b6@redhat.com>
+Date: Fri, 24 Apr 2020 12:44:33 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::444
+In-Reply-To: <w51o8rgn6j6.fsf@maestria.local.igalia.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 13:45:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,82 +82,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, richard.henderson@linaro.org,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a slightly hackish Friday afternoon attempt to include the
-guest address in our out_asm output in an effort to make it a little
-easier to see what is generating what final assembly.
+On 4/24/20 12:21 PM, Alberto Garcia wrote:
+> On Fri 24 Apr 2020 07:11:08 PM CEST, Eric Blake <eblake@redhat.com> wrote:
+>>> 'write -c 0 64k' followed by 'write -z 16k 16k' would not need to do any
+>>> copy on write. The compressed data would remain untouched on disk but
+>>> some of the subclusters would have the 'all zeroes' bit set, exactly
+>>> like what happens with normal clusters.
+>>
+>> It's a special case that avoids COW for write zeroes, but not for
+>> anything else. The moment you write any data (whether to the
+>> zero-above-compressed or the regular compressed portion), the entire
+>> cluster has to be rewritten.
+> 
+> That's right but you can still write zeroes without having to rewrite
+> anything, and read back the zeroes without having to decompress the
+> data.
+> 
+>> at the same time, I can see where you're coming from in stating that
+>> if it makes management of extended L2 easier to allow zero subclusters
+>> on top of a compressed cluster, then there's no reason to forbid it.
+> 
+> I'm not sure if it makes it easier. Some operations are definitely going
+> to be easier but maybe we have to add and handle _ZERO_COMPRESSED in
+> addition to _ZERO_PLAIN and _ZERO_ALLOC (the same for unallocated
+> subclusters). Or maybe replace QCow2SubclusterType with something
+> else. I need to evaluate that.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- accel/tcg/translate-all.c | 38 ++++++++++++++++++++++++++++++++------
- 1 file changed, 32 insertions(+), 6 deletions(-)
+Reading the entire cluster will be interesting - you'll have to 
+decompress the entire memory, then overwrite the zeroed portions.  The 
+savings in reading occur only when your read is limited to just the 
+subclusters that are zeroed.
 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 9924e66d1f..31711de938 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1789,14 +1789,42 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-     if (qemu_loglevel_mask(CPU_LOG_TB_OUT_ASM) &&
-         qemu_log_in_addr_range(tb->pc)) {
-         FILE *logfile = qemu_log_lock();
-+        size_t code_size, data_size = 0;
-+        size_t insn_start;
-+        int insn = 0;
-         qemu_log("OUT: [size=%d]\n", gen_code_size);
-         if (tcg_ctx->data_gen_ptr) {
--            size_t code_size = tcg_ctx->data_gen_ptr - tb->tc.ptr;
--            size_t data_size = gen_code_size - code_size;
--            size_t i;
-+            code_size = tcg_ctx->data_gen_ptr - tb->tc.ptr;
-+            data_size = gen_code_size - code_size;
-+        } else {
-+            code_size = gen_code_size;
-+        }
-+
-+        /* first dump prologue */
-+        insn_start = tcg_ctx->gen_insn_end_off[0];
-+        if (insn_start > 0) {
-+            qemu_log("  prologue: [size=%ld]\n", insn_start);
-+            log_disas(tb->tc.ptr, insn_start);
-+        }
-+
-+        do {
-+            size_t insn_end;
-+            if (insn < (tb->icount - 1)) {
-+                insn_end = tcg_ctx->gen_insn_end_off[insn + 1];
-+            } else {
-+                insn_end = code_size;
-+            }
-+            qemu_log("  for guest addr: " TARGET_FMT_lx ":\n",
-+                     tcg_ctx->gen_insn_data[insn][0]);
-+
-+            log_disas(tb->tc.ptr + insn_start, insn_end - insn_start);
- 
--            log_disas(tb->tc.ptr, code_size);
-+            insn_start = insn_end;
-+        } while (++insn < tb->icount && insn_start < code_size);
- 
-+        if (data_size) {
-+            int i;
-+            qemu_log("  data: [size=%ld]\n", data_size);
-             for (i = 0; i < data_size; i += sizeof(tcg_target_ulong)) {
-                 if (sizeof(tcg_target_ulong) == 8) {
-                     qemu_log("0x%08" PRIxPTR ":  .quad  0x%016" PRIx64 "\n",
-@@ -1808,8 +1836,6 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-                              *(uint32_t *)(tcg_ctx->data_gen_ptr + i));
-                 }
-             }
--        } else {
--            log_disas(tb->tc.ptr, gen_code_size);
-         }
-         qemu_log("\n");
-         qemu_log_flush();
+But then again, even on a regular cluster, read has to pay attention to 
+which subclusters are zeroed, so you already have the workhorse in read 
+for detecting whether a normal read is sufficient or if you have to 
+follow up with piecing together zeroed sections.
+
 -- 
-2.20.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
