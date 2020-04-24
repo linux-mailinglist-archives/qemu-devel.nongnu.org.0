@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E17901B7017
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 10:55:41 +0200 (CEST)
-Received: from localhost ([::1]:55642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B50601B7004
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 10:49:15 +0200 (CEST)
+Received: from localhost ([::1]:55192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRu7Y-0007Lj-VR
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 04:55:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36754)
+	id 1jRu1K-00069K-Kq
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 04:49:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36722)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRtw4-0005hh-Ej
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:50 -0400
+ (envelope-from <armbru@redhat.com>) id 1jRtw3-0005fm-E1
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRtw2-0002BT-9j
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:48 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21854
+ (envelope-from <armbru@redhat.com>) id 1jRtw2-0002BD-6s
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:47 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58615
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jRtw1-00026C-Ko
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jRtw1-00026i-L9
  for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1587717824;
@@ -27,35 +27,34 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r2bTsOPYHrwb9n0OKeIzU4fn75r1gih2+vUSm1+9v/E=;
- b=gTzJ5DW8Dtap9+/nsu04rH5GaoBBzdnJm0DiSkG2zqkJChUQMai5cctlXbus10UiQDXlJx
- UIeykoN/lyDG6H1GoHN8RlIPdkLG+ih2Vjt0I1o6QnWqmgJX1fXJSyY4T4xWZICiMWnQfZ
- cuXIRygRxsf4u6abVv92VeNHiGN1IQw=
+ bh=nlhIBE9wCreqoJev7C2ceZoOivO0fBd4IhEJP3CNvNw=;
+ b=NRpaZ+ezPHHIOYNcW7wxvp2jaw8BfFiaRLbwKgsg4waOFty01ZNcAslCen9MwbjWyPfEZo
+ UgJ22XY3tM6PDaplFkxTZfjI+Fj/c8DRcfHf8c4moOHsOjwVPLwJlma2v2hYVrPjelP0nv
+ z82W13W5gcu1BTy2VhEDebdFgZxZq/I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-171-rDDnzSXoNPi7MH0Hl1DAFQ-1; Fri, 24 Apr 2020 04:43:43 -0400
-X-MC-Unique: rDDnzSXoNPi7MH0Hl1DAFQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-317-cRRtKpGVOsiEfhs9985E6w-1; Fri, 24 Apr 2020 04:43:43 -0400
+X-MC-Unique: cRRtKpGVOsiEfhs9985E6w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21EF745F;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 255D5107ACCA;
  Fri, 24 Apr 2020 08:43:42 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E663A5D70B;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EA017600EF;
  Fri, 24 Apr 2020 08:43:41 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E2AEF11358C2; Fri, 24 Apr 2020 10:43:38 +0200 (CEST)
+ id E5FED11358C3; Fri, 24 Apr 2020 10:43:38 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 06/15] qapi: Assert incomplete object occurs only in
- dealloc visitor
-Date: Fri, 24 Apr 2020 10:43:29 +0200
-Message-Id: <20200424084338.26803-7-armbru@redhat.com>
+Subject: [PATCH v2 07/15] qapi: Fix Visitor contract for start_alternate()
+Date: Fri, 24 Apr 2020 10:43:30 +0200
+Message-Id: <20200424084338.26803-8-armbru@redhat.com>
 In-Reply-To: <20200424084338.26803-1-armbru@redhat.com>
 References: <20200424084338.26803-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -80,87 +79,65 @@ Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The contract demands v->start_alternate() for input and dealloc
+visitors, but visit_start_alternate() actually requires it for input
+and clone visitors.  Fix the contract, and delete superfluous
+qapi_dealloc_start_alternate().
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- docs/devel/qapi-code-gen.txt | 2 ++
- include/qapi/visitor.h       | 5 +++++
- qapi/qapi-visit-core.c       | 5 +++++
- scripts/qapi/visit.py        | 4 ++++
- 4 files changed, 16 insertions(+)
+ include/qapi/visitor-impl.h | 5 ++---
+ qapi/qapi-dealloc-visitor.c | 7 -------
+ 2 files changed, 2 insertions(+), 10 deletions(-)
 
-diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-index 1967adfa92..c6dd1891c3 100644
---- a/docs/devel/qapi-code-gen.txt
-+++ b/docs/devel/qapi-code-gen.txt
-@@ -1446,6 +1446,8 @@ Example:
-             goto out;
-         }
-         if (!*obj) {
-+            /* incomplete */
-+            assert(visit_is_dealloc(v));
-             goto out_obj;
-         }
-         visit_type_UserDefOne_members(v, *obj, &err);
-diff --git a/include/qapi/visitor.h b/include/qapi/visitor.h
-index a425ea514c..2d40d2fe0f 100644
---- a/include/qapi/visitor.h
-+++ b/include/qapi/visitor.h
-@@ -479,6 +479,11 @@ void visit_type_enum(Visitor *v, const char *name, int=
- *obj,
-  */
- bool visit_is_input(Visitor *v);
+diff --git a/include/qapi/visitor-impl.h b/include/qapi/visitor-impl.h
+index 8ccb3b6c20..252206dc0d 100644
+--- a/include/qapi/visitor-impl.h
++++ b/include/qapi/visitor-impl.h
+@@ -67,13 +67,12 @@ struct Visitor
+     /* Must be set */
+     void (*end_list)(Visitor *v, void **list);
 =20
-+/*
-+ * Check if visitor is a dealloc visitor.
-+ */
-+bool visit_is_dealloc(Visitor *v);
-+
- /*** Visiting built-in types ***/
+-    /* Must be set by input and dealloc visitors to visit alternates;
+-     * optional for output visitors. */
++    /* Must be set by input and clone visitors to visit alternates */
+     void (*start_alternate)(Visitor *v, const char *name,
+                             GenericAlternate **obj, size_t size,
+                             Error **errp);
 =20
- /*
-diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
-index 5365561b07..d4aac206cf 100644
---- a/qapi/qapi-visit-core.c
-+++ b/qapi/qapi-visit-core.c
-@@ -142,6 +142,11 @@ bool visit_is_input(Visitor *v)
-     return v->type =3D=3D VISITOR_INPUT;
+-    /* Optional, needed for dealloc visitor */
++    /* Optional */
+     void (*end_alternate)(Visitor *v, void **obj);
+=20
+     /* Must be set */
+diff --git a/qapi/qapi-dealloc-visitor.c b/qapi/qapi-dealloc-visitor.c
+index d192724b13..2239fc6417 100644
+--- a/qapi/qapi-dealloc-visitor.c
++++ b/qapi/qapi-dealloc-visitor.c
+@@ -34,12 +34,6 @@ static void qapi_dealloc_end_struct(Visitor *v, void **o=
+bj)
+     }
  }
 =20
-+bool visit_is_dealloc(Visitor *v)
-+{
-+    return v->type =3D=3D VISITOR_DEALLOC;
-+}
-+
- void visit_type_int(Visitor *v, const char *name, int64_t *obj, Error **er=
-rp)
+-static void qapi_dealloc_start_alternate(Visitor *v, const char *name,
+-                                         GenericAlternate **obj, size_t si=
+ze,
+-                                         Error **errp)
+-{
+-}
+-
+ static void qapi_dealloc_end_alternate(Visitor *v, void **obj)
  {
-     assert(obj);
-diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index 23d9194aa4..e3467b770b 100644
---- a/scripts/qapi/visit.py
-+++ b/scripts/qapi/visit.py
-@@ -189,6 +189,8 @@ void visit_type_%(c_name)s(Visitor *v, const char *name=
-, %(c_name)s **obj, Error
-         goto out;
-     }
-     if (!*obj) {
-+        /* incomplete */
-+        assert(visit_is_dealloc(v));
-         goto out_obj;
-     }
-     switch ((*obj)->type) {
-@@ -260,6 +262,8 @@ void visit_type_%(c_name)s(Visitor *v, const char *name=
-, %(c_name)s **obj, Error
-         goto out;
-     }
-     if (!*obj) {
-+        /* incomplete */
-+        assert(visit_is_dealloc(v));
-         goto out_obj;
-     }
-     visit_type_%(c_name)s_members(v, *obj, &err);
+     if (obj) {
+@@ -123,7 +117,6 @@ Visitor *qapi_dealloc_visitor_new(void)
+     v->visitor.type =3D VISITOR_DEALLOC;
+     v->visitor.start_struct =3D qapi_dealloc_start_struct;
+     v->visitor.end_struct =3D qapi_dealloc_end_struct;
+-    v->visitor.start_alternate =3D qapi_dealloc_start_alternate;
+     v->visitor.end_alternate =3D qapi_dealloc_end_alternate;
+     v->visitor.start_list =3D qapi_dealloc_start_list;
+     v->visitor.next_list =3D qapi_dealloc_next_list;
 --=20
 2.21.1
 
