@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F01C01B7026
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 10:58:02 +0200 (CEST)
-Received: from localhost ([::1]:55842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E17901B7017
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 10:55:41 +0200 (CEST)
+Received: from localhost ([::1]:55642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRu9q-0002dP-06
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 04:58:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36918)
+	id 1jRu7Y-0007Lj-VR
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 04:55:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36754)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRtwE-00062f-HH
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:59 -0400
+ (envelope-from <armbru@redhat.com>) id 1jRtw4-0005hh-Ej
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRtw2-0002B0-9b
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43913
+ (envelope-from <armbru@redhat.com>) id 1jRtw2-0002BT-9j
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21854
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jRtw1-00026M-Lr
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jRtw1-00026C-Ko
  for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1587717824;
@@ -27,30 +27,31 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zgFMq8bQpgJdbXdZXsZY6rZNQAS4ggeYICAj4u3G42c=;
- b=izQVrZoWqrvKqKFgWirGAzzTBpDo9/aK6re1M9eLkHrC2gpiTEkNN1xx6wAPtkdBKPndaH
- +uQpUD8Thinmli8i0I3EddnRiOxHukB2DPdRPpBdGmyuFHMr5pO3s/a9m72VUNr1Y37PGG
- uS8DiK3JIxLt+eYqRE7M/xUCmcmEzY8=
+ bh=r2bTsOPYHrwb9n0OKeIzU4fn75r1gih2+vUSm1+9v/E=;
+ b=gTzJ5DW8Dtap9+/nsu04rH5GaoBBzdnJm0DiSkG2zqkJChUQMai5cctlXbus10UiQDXlJx
+ UIeykoN/lyDG6H1GoHN8RlIPdkLG+ih2Vjt0I1o6QnWqmgJX1fXJSyY4T4xWZICiMWnQfZ
+ cuXIRygRxsf4u6abVv92VeNHiGN1IQw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-B_g4EV3rM7uM_O_2LePAhg-1; Fri, 24 Apr 2020 04:43:43 -0400
-X-MC-Unique: B_g4EV3rM7uM_O_2LePAhg-1
+ us-mta-171-rDDnzSXoNPi7MH0Hl1DAFQ-1; Fri, 24 Apr 2020 04:43:43 -0400
+X-MC-Unique: rDDnzSXoNPi7MH0Hl1DAFQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A2738005B7;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21EF745F;
  Fri, 24 Apr 2020 08:43:42 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E6DA35D70C;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E663A5D70B;
  Fri, 24 Apr 2020 08:43:41 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DF49611358C1; Fri, 24 Apr 2020 10:43:38 +0200 (CEST)
+ id E2AEF11358C2; Fri, 24 Apr 2020 10:43:38 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 05/15] qapi: Polish prose in visitor.h
-Date: Fri, 24 Apr 2020 10:43:28 +0200
-Message-Id: <20200424084338.26803-6-armbru@redhat.com>
+Subject: [PATCH v2 06/15] qapi: Assert incomplete object occurs only in
+ dealloc visitor
+Date: Fri, 24 Apr 2020 10:43:29 +0200
+Message-Id: <20200424084338.26803-7-armbru@redhat.com>
 In-Reply-To: <20200424084338.26803-1-armbru@redhat.com>
 References: <20200424084338.26803-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -81,180 +82,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- include/qapi/visitor.h | 104 +++++++++++++++++++++--------------------
- 1 file changed, 54 insertions(+), 50 deletions(-)
+ docs/devel/qapi-code-gen.txt | 2 ++
+ include/qapi/visitor.h       | 5 +++++
+ qapi/qapi-visit-core.c       | 5 +++++
+ scripts/qapi/visit.py        | 4 ++++
+ 4 files changed, 16 insertions(+)
 
+diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
+index 1967adfa92..c6dd1891c3 100644
+--- a/docs/devel/qapi-code-gen.txt
++++ b/docs/devel/qapi-code-gen.txt
+@@ -1446,6 +1446,8 @@ Example:
+             goto out;
+         }
+         if (!*obj) {
++            /* incomplete */
++            assert(visit_is_dealloc(v));
+             goto out_obj;
+         }
+         visit_type_UserDefOne_members(v, *obj, &err);
 diff --git a/include/qapi/visitor.h b/include/qapi/visitor.h
-index 09df7099c6..a425ea514c 100644
+index a425ea514c..2d40d2fe0f 100644
 --- a/include/qapi/visitor.h
 +++ b/include/qapi/visitor.h
-@@ -25,19 +25,21 @@
-  * for doing work at each node of a QAPI graph; it can also be used
-  * for a virtual walk, where there is no actual QAPI C struct.
-  *
-- * There are four kinds of visitor classes: input visitors (QObject,
-- * string, and QemuOpts) parse an external representation and build
-- * the corresponding QAPI graph, output visitors (QObject and string) take
-- * a completed QAPI graph and generate an external representation, the
-- * dealloc visitor can take a QAPI graph (possibly partially
-- * constructed) and recursively free its resources, and the clone
-- * visitor performs a deep clone of one QAPI object to another.  While
-- * the dealloc and QObject input/output visitors are general, the string,
-- * QemuOpts, and clone visitors have some implementation limitations;
-- * see the documentation for each visitor for more details on what it
-- * supports.  Also, see visitor-impl.h for the callback contracts
-- * implemented by each visitor, and docs/devel/qapi-code-gen.txt for more
-- * about the QAPI code generator.
-+ * There are four kinds of visitors: input visitors (QObject, string,
-+ * and QemuOpts) parse an external representation and build the
-+ * corresponding QAPI object, output visitors (QObject and string)
-+ * take a QAPI object and generate an external representation, the
-+ * dealloc visitor takes a QAPI object (possibly partially
-+ * constructed) and recursively frees it, and the clone visitor
-+ * performs a deep clone of a QAPI object.
-+ *
-+ * While the dealloc and QObject input/output visitors are general,
-+ * the string, QemuOpts, and clone visitors have some implementation
-+ * limitations; see the documentation for each visitor for more
-+ * details on what it supports.  Also, see visitor-impl.h for the
-+ * callback contracts implemented by each visitor, and
-+ * docs/devel/qapi-code-gen.txt for more about the QAPI code
-+ * generator.
-  *
-  * All of the visitors are created via:
-  *
-@@ -45,11 +47,15 @@
-  *
-  * A visitor should be used for exactly one top-level visit_type_FOO()
-  * or virtual walk; if that is successful, the caller can optionally
-- * call visit_complete() (for now, useful only for output visits, but
-- * safe to call on all visits).  Then, regardless of success or
-- * failure, the user should call visit_free() to clean up resources.
-- * It is okay to free the visitor without completing the visit, if
-- * some other error is detected in the meantime.
-+ * call visit_complete() (useful only for output visits, but safe to
-+ * call on all visits).  Then, regardless of success or failure, the
-+ * user should call visit_free() to clean up resources.  It is okay to
-+ * free the visitor without completing the visit, if some other error
-+ * is detected in the meantime.
-+ *
-+ * The clone and dealloc visitor should not be used directly outside
-+ * of QAPI code.  Use the qapi_free_FOO() and QAPI_CLONE() instead,
-+ * described below.
-  *
-  * All QAPI types have a corresponding function with a signature
-  * roughly compatible with this:
-@@ -68,22 +74,26 @@
-  * alternate, @name should equal the name used for visiting the
-  * alternate.
-  *
-- * The visit_type_FOO() functions expect a non-null @obj argument;
-- * they allocate *@obj during input visits, leave it unchanged on
-- * output visits, and recursively free any resources during a dealloc
-- * visit.  Each function also takes the customary @errp argument (see
-+ * The visit_type_FOO() functions take a non-null @obj argument; they
-+ * allocate *@obj during input visits, leave it unchanged during
-+ * output and clone visits, and free it (recursively) during a dealloc
-+ * visit.
-+ *
-+ * Each function also takes the customary @errp argument (see
-  * qapi/error.h for details), for reporting any errors (such as if a
-  * member @name is not present, or is present but not the specified
-  * type).
-  *
-  * If an error is detected during visit_type_FOO() with an input
-- * visitor, then *@obj will be NULL for pointer types, and left
-- * unchanged for scalar types.  Using an output or clone visitor with
-- * an incomplete object has undefined behavior (other than a special
-- * case for visit_type_str() treating NULL like ""), while the dealloc
-- * visitor safely handles incomplete objects.  Since input visitors
-- * never produce an incomplete object, such an object is possible only
-- * by manual construction.
-+ * visitor, then *@obj will be set to NULL for pointer types, and left
-+ * unchanged for scalar types.
-+ *
-+ * Using an output or clone visitor with an incomplete object has
-+ * undefined behavior (other than a special case for visit_type_str()
-+ * treating NULL like ""), while the dealloc visitor safely handles
-+ * incomplete objects.  Since input visitors never produce an
-+ * incomplete object, such an object is possible only by manual
-+ * construction.
-  *
-  * For the QAPI object types (structs, unions, and alternates), there
-  * is an additional generated function in qapi-visit-MODULE.h
-@@ -100,23 +110,20 @@
-  *
-  * void qapi_free_FOO(FOO *obj);
-  *
-- * where behaves like free() in that @obj may be NULL.  Such objects
-- * may also be used with the following macro, provided alongside the
-- * clone visitor:
-+ * Does nothing when @obj is NULL.
-+ *
-+ * Such objects may also be used with macro
-  *
-  * Type *QAPI_CLONE(Type, src);
-  *
-- * in order to perform a deep clone of @src.  Because of the generated
-- * qapi_free functions and the QAPI_CLONE() macro, the clone and
-- * dealloc visitor should not be used directly outside of QAPI code.
-+ * in order to perform a deep clone of @src.
-  *
-- * QAPI types can also inherit from a base class; when this happens, a
-- * function is generated for easily going from the derived type to the
-- * base type:
-+ * For QAPI types can that inherit from a base type, a function is
-+ * generated for going from the derived type to the base type:
-  *
-  * BASE *qapi_CHILD_base(CHILD *obj);
-  *
-- * For a real QAPI struct, typical input usage involves:
-+ * Typical input visitor usage involves:
-  *
-  * <example>
-  *  Foo *f;
-@@ -153,7 +160,7 @@
-  *  qapi_free_FooList(l);
-  * </example>
-  *
-- * Similarly, typical output usage is:
-+ * Typical output visitor usage:
-  *
-  * <example>
-  *  Foo *f =3D ...obtain populated object...
-@@ -172,17 +179,8 @@
-  *  visit_free(v);
-  * </example>
-  *
-- * When visiting a real QAPI struct, this file provides several
-- * helpers that rely on in-tree information to control the walk:
-- * visit_optional() for the 'has_member' field associated with
-- * optional 'member' in the C struct; and visit_next_list() for
-- * advancing through a FooList linked list.  Similarly, the
-- * visit_is_input() helper makes it possible to write code that is
-- * visitor-agnostic everywhere except for cleanup.  Only the generated
-- * visit_type functions need to use these helpers.
-- *
-  * It is also possible to use the visitors to do a virtual walk, where
-- * no actual QAPI struct is present.  In this situation, decisions
-+ * no actual QAPI object is present.  In this situation, decisions
-  * about what needs to be walked are made by the calling code, and
-  * structured visits are split between pairs of start and end methods
-  * (where the end method must be called if the start function
-@@ -227,6 +225,12 @@
-  * out:
-  *  visit_free(v);
-  * </example>
-+ *
-+ * This file provides helpers for use by the generated
-+ * visit_type_FOO(): visit_optional() for the 'has_member' field
-+ * associated with optional 'member' in the C struct,
-+ * visit_next_list() for advancing through a FooList linked list, and
-+ * visit_is_input() for cleaning up on failure.
+@@ -479,6 +479,11 @@ void visit_type_enum(Visitor *v, const char *name, int=
+ *obj,
   */
+ bool visit_is_input(Visitor *v);
 =20
- /*** Useful types ***/
++/*
++ * Check if visitor is a dealloc visitor.
++ */
++bool visit_is_dealloc(Visitor *v);
++
+ /*** Visiting built-in types ***/
+=20
+ /*
+diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
+index 5365561b07..d4aac206cf 100644
+--- a/qapi/qapi-visit-core.c
++++ b/qapi/qapi-visit-core.c
+@@ -142,6 +142,11 @@ bool visit_is_input(Visitor *v)
+     return v->type =3D=3D VISITOR_INPUT;
+ }
+=20
++bool visit_is_dealloc(Visitor *v)
++{
++    return v->type =3D=3D VISITOR_DEALLOC;
++}
++
+ void visit_type_int(Visitor *v, const char *name, int64_t *obj, Error **er=
+rp)
+ {
+     assert(obj);
+diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+index 23d9194aa4..e3467b770b 100644
+--- a/scripts/qapi/visit.py
++++ b/scripts/qapi/visit.py
+@@ -189,6 +189,8 @@ void visit_type_%(c_name)s(Visitor *v, const char *name=
+, %(c_name)s **obj, Error
+         goto out;
+     }
+     if (!*obj) {
++        /* incomplete */
++        assert(visit_is_dealloc(v));
+         goto out_obj;
+     }
+     switch ((*obj)->type) {
+@@ -260,6 +262,8 @@ void visit_type_%(c_name)s(Visitor *v, const char *name=
+, %(c_name)s **obj, Error
+         goto out;
+     }
+     if (!*obj) {
++        /* incomplete */
++        assert(visit_is_dealloc(v));
+         goto out_obj;
+     }
+     visit_type_%(c_name)s_members(v, *obj, &err);
 --=20
 2.21.1
 
