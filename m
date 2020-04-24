@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 839D91B793C
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 17:16:57 +0200 (CEST)
-Received: from localhost ([::1]:41216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF321B78F2
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 17:10:29 +0200 (CEST)
+Received: from localhost ([::1]:40910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jS04W-0007DZ-IU
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 11:16:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48026)
+	id 1jRzyF-00026O-Vh
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 11:10:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46866)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jS01f-0005W9-UK
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 11:14:00 -0400
+ (envelope-from <josemartins90@gmail.com>) id 1jRzxC-0001Rf-Mv
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 11:09:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jS01f-0003De-El
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 11:13:59 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53087
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jS01f-000380-1b
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 11:13:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587741236;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=TYmNuSOn4IDoELOcOBARb8fVRorxxX2PkhsGkPDGRZA=;
- b=XhzOLkHwz1aXmtmDspTE3WRUjBDyMBP3LBOHLVfk29D1TaSTx3BovUmFKOxOD91You9tQu
- 7H0s9zIeeBxe4ZPnOWL3MYhBhTRac6/sVzAN/U8/JmJsqg1VJ897lik+DXEVlrGOE6HmLT
- iQu9Zn4PZ4MRzQ4+cKiJ0Rh5+acDs08=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-wwlMvF8tNb60uCveNaYckA-1; Fri, 24 Apr 2020 11:13:54 -0400
-X-MC-Unique: wwlMvF8tNb60uCveNaYckA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2FFB18B644B;
- Fri, 24 Apr 2020 15:13:51 +0000 (UTC)
-Received: from catbus.gsslab.fab.redhat.com (mustard.gsslab.fab.redhat.com
- [10.33.8.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 65DAC5D76D;
- Fri, 24 Apr 2020 15:13:49 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] travis: explicitly include gnutls to ensure it is updated
-Date: Fri, 24 Apr 2020 16:08:27 +0100
-Message-Id: <20200424150827.3453162-1-berrange@redhat.com>
+ (envelope-from <josemartins90@gmail.com>) id 1jRzxB-0005bW-IR
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 11:09:22 -0400
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:33529)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <josemartins90@gmail.com>)
+ id 1jRzx9-0005Nh-26; Fri, 24 Apr 2020 11:09:20 -0400
+Received: by mail-il1-x141.google.com with SMTP id q10so9576576ile.0;
+ Fri, 24 Apr 2020 08:09:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=uSkPVDChwZc8xxyCwwHERfg3imtvy6OvSKH/C59zyPg=;
+ b=QdXvDE0PdpQa0Ug6WIDVv3I44GCMxubGTJNph4O9Y6sQMMC6QA1vNJUiIALgkY/nnt
+ iC6NQFPOkK58H71MYs8rORCJ+oVjlQz0A5lYQHmvQZWqopPKdBqiIltRP1+TKT9PsSGL
+ /IV4J1RwD/+jQo4B5anZJ+mzhH6p3Xa3zOc20QG/7E5ohr5h2if2zhvAuY2vAlFyWvdB
+ 6zYjb3IArmiNe0ah4SOEIHjoYmbt0Vz9tT+Nsno+SPBkCkXkbsjgGGXlQ0OoU8plUZZa
+ rwLJ6F1CSVGoc7FXTZtmC7eNBPO2sZPSlCCTstxVX8G4k18s4vm7LKvlwM2hTihsZD4b
+ 5CJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=uSkPVDChwZc8xxyCwwHERfg3imtvy6OvSKH/C59zyPg=;
+ b=lvRgOG6/iZkedOkKsxoRmbnqbqpE9BI9N0962QVzbgYFvusKpCDwkYHQvLeDaznLu9
+ MH8q2j7misOKtoYuXJ3WqyION+d1dmkjMH7XFQjjnF9lBmUAfPJilanPYGMQtozB1LEs
+ CEMjHCPX5PfSjSkjePZDIunXdDPfby8uTwBvExY2SVjZ7HGObRDfba4DpMQe31LZnrxj
+ xNcVAuI4ldKQcT57+HJSpvLP+RlmZRKdvum143JCp/EOJm4B74TI2J37Ut6B3xTP8Cm6
+ MEJTeW1e2h75TxkqkGtzlqRoYbFUZ+zJg5cz3owiJyWc6wQsF9bhcph1lXI+OzhJrHkO
+ v0Vg==
+X-Gm-Message-State: AGi0PuY6FmDaTY6q9O7erXsyf/a5UHhqqhjeikuwEMy1Szoj35jkN6Nm
+ /3NQTGpIw6w5+c5bpXpQBb+X+zvKEKxg+iRuiW4DdMHHdvw=
+X-Google-Smtp-Source: APiQypLdIGRc1Yep6wQI72lRKBR/RorX+6dMSvKQJDFIUvCm24ZEyYrci3TcPwUfqJpwFi+jTOs3Esx2G68f5BA+OeI=
+X-Received: by 2002:a92:985d:: with SMTP id l90mr9346296ili.108.1587740956159; 
+ Fri, 24 Apr 2020 08:09:16 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 03:11:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+From: Jose Martins <josemartins90@gmail.com>
+Date: Fri, 24 Apr 2020 16:09:04 +0100
+Message-ID: <CAC41xo2LfTQZnor5haAgBg=h34qv50xf8Bs1bgSeGESfr-E2ng@mail.gmail.com>
+Subject: [PATCH] target/riscv: fix check of guest pa top bits
+To: qemu-riscv@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
+ envelope-from=josemartins90@gmail.com; helo=mail-il1-x141.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::141
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,46 +70,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: alistair.francis@wdc.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Travis includes gnutls in the default package set, but it is
-an outdated version linkng to an incompatible libffi version.
-The 'update: true' stanza causes the brew toolchain to be
-updated but not the installed formula. It is possible to
-run 'brew upgrade' to update installed formula, but this is
-very slow adding more than 5 minutes to the build time.
-Listing the gnutls package explicitly causes it to be updated
-without extending the build time.
+The spec states that on sv39x4 guest physical  "address bits 63:41
+must all be zeros, or else a guest-page-fault exception occurs.".
+However, the check performed for these top bits of the virtual address
+on the second stage is the same as the one performed for virtual
+addresses on the first stage except with the 2-bit extension,
+effectively creating the same kind of "hole" in the guest's physical
+address space. I believe the following patch fixes this issue:
 
-Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Signed-off-by: Jose Martins <josemartins90@gmail.com>
 ---
+ target/riscv/cpu_helper.c | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-Note in testing this I got past the libffi.6.dylib error, but
-eventually hit the Travis 50 minute timeout. So we need to
-do more to minimize what we build on macOS, splitting the job
-into two I guess.
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index d3ba9efb02..da879f5656 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -421,15 +421,21 @@ static int get_physical_address(CPURISCVState
+*env, hwaddr *physical,
+     int va_bits = PGSHIFT + levels * ptidxbits + widened;
+     target_ulong mask, masked_msbs;
 
- .travis.yml | 1 +
- 1 file changed, 1 insertion(+)
+-    if (TARGET_LONG_BITS > (va_bits - 1)) {
+-        mask = (1L << (TARGET_LONG_BITS - (va_bits - 1))) - 1;
++    if(!first_stage){
++        if ((addr >> va_bits) != 0) {
++            return TRANSLATE_FAIL;
++        }
+     } else {
+-        mask = 0;
+-    }
+-    masked_msbs = (addr >> (va_bits - 1)) & mask;
++        if (TARGET_LONG_BITS > (va_bits - 1)) {
++            mask = (1L << (TARGET_LONG_BITS - (va_bits - 1))) - 1;
++        } else {
++            mask = 0;
++        }
++        masked_msbs = (addr >> (va_bits - 1)) & mask;
 
-diff --git a/.travis.yml b/.travis.yml
-index 2fd63eceaa..afbb070082 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -287,6 +287,7 @@ jobs:
-             - pixman
-             - gnu-sed
-             - python
-+            - gnutls
-           update: true
-       before_script:
-         - brew link --overwrite python
---=20
-2.24.1
+-    if (masked_msbs != 0 && masked_msbs != mask) {
+-        return TRANSLATE_FAIL;
++        if (masked_msbs != 0 && masked_msbs != mask) {
++            return TRANSLATE_FAIL;
++        }
+     }
 
+     int ptshift = (levels - 1) * ptidxbits;
+-- 
+2.17.1
+
+Jose
 
