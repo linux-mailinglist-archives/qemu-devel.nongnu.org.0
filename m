@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB5B61B7003
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 10:49:15 +0200 (CEST)
-Received: from localhost ([::1]:55182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A9011B6FF6
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 10:45:27 +0200 (CEST)
+Received: from localhost ([::1]:54874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRu1K-00064y-Kr
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 04:49:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36688)
+	id 1jRtxe-0007Ql-84
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 04:45:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36652)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRtw2-0005eM-8J
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:47 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRtw0-00025U-Rn
+ (envelope-from <armbru@redhat.com>) id 1jRtw1-0005e7-1j
  for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:45 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:31880)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jRtw0-00024G-DI
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
+ (envelope-from <armbru@redhat.com>) id 1jRtw0-00024f-7t
  for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:44 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35935
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jRtvz-000248-QK
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1587717823;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=YzoP0f4qQghPFn1ZUI+LYJoUQ8pE8QelTZal343lE/Y=;
- b=OG4Cyzj2AYTK/ZI2ryq9zlVTitjzSla76aIYNg+RWPLH0zIkm+m66Wqd/aZZc+F39vLe0F
- B7aGCovgnLf6F9IdiXcBjVt1esfnylsa2j3jIJLFrxk8L9f5P6VeaqVS1Tv1ymeFksoJU4
- JlqBgtdy7eexstuNhfx96sPleff0ks8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zdGuvNgNJoclIQOb6lRaWN64KeTwHmGMWZV8PD3OfaY=;
+ b=Ar2V6T3ZVOdpMfIzy4TB37bYXmjuRouvvqcKbDhwDf4h3xoxQYMJOEtzq6/9R3x2Vh0pA7
+ Ga48Sj6zy7w5E2/CUcjaEAQ8BaQA6jvo6wV1J0LsNHDtZdqzY7m7AeRoLctJFjmOsRdZXr
+ IF95YfkRUHsk+rKjxfmnQy8bnVQRNAk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-5-VtisW6pYMHebS20C6ahauQ-1; Fri, 24 Apr 2020 04:43:41 -0400
-X-MC-Unique: VtisW6pYMHebS20C6ahauQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-478-S9UZDmLtOxmslWbeUivCMQ-1; Fri, 24 Apr 2020 04:43:41 -0400
+X-MC-Unique: S9UZDmLtOxmslWbeUivCMQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A14DD80B70D;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7B4A18FE861;
  Fri, 24 Apr 2020 08:43:40 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 58E4B5C1D2;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5AFA95D70B;
  Fri, 24 Apr 2020 08:43:40 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id CFE4211358BC; Fri, 24 Apr 2020 10:43:38 +0200 (CEST)
+ id D214311358BD; Fri, 24 Apr 2020 10:43:38 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/15] qapi: Spring cleaning
-Date: Fri, 24 Apr 2020 10:43:23 +0200
-Message-Id: <20200424084338.26803-1-armbru@redhat.com>
+Subject: [PATCH v2 01/15] qapi: Belatedly update visitor.h's big comment for
+ QAPI modules
+Date: Fri, 24 Apr 2020 10:43:24 +0200
+Message-Id: <20200424084338.26803-2-armbru@redhat.com>
+In-Reply-To: <20200424084338.26803-1-armbru@redhat.com>
+References: <20200424084338.26803-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 03:11:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 02:57:59
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,49 +80,46 @@ Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2:
-* PATCH 10: Redone to avoid memory leak [Eric]
-* PATCH 14+15: New
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+---
+ include/qapi/visitor.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Since PATCH 14 depends on "[PATCH 2/3] fuzz: Simplify how we compute
-available machines and types":
-Based-on: <20200424071142.3525-1-armbru@redhat.com>
-
-Markus Armbruster (15):
-  qapi: Belatedly update visitor.h's big comment for QAPI modules
-  qapi: Fix the virtual walk example in visitor.h's big comment
-  qapi: Fix typo in visit_start_list()'s contract
-  qapi: Document @errp usage more thoroughly in visitor.h
-  qapi: Polish prose in visitor.h
-  qapi: Assert incomplete object occurs only in dealloc visitor
-  qapi: Fix Visitor contract for start_alternate()
-  qapi: Assert output visitors see only valid enum values
-  qapi: Assert non-input visitors see only valid narrow integers
-  qapi: Clean up visitor's recovery from input with invalid type
-  qapi: Assert non-input visitors see only valid alternate tags
-  qapi: Only input visitors can actually fail
-  qom: Simplify object_property_get_enum()
-  qapi: Disallow qmp_marshal_FOO(NULL, ...)
-  qapi: Generate simpler marshalling code when no arguments
-
- docs/devel/qapi-code-gen.txt        |   4 +-
- include/qapi/visitor-impl.h         |   9 +-
- include/qapi/visitor.h              | 192 ++++++++++++++++------------
- block.c                             |   9 +-
- block/sheepdog.c                    |   9 +-
- blockdev.c                          |  16 +--
- hw/core/machine-hmp-cmds.c          |   2 +-
- monitor/hmp-cmds.c                  |   3 +-
- monitor/qmp.c                       |   5 +-
- qapi/qapi-dealloc-visitor.c         |   7 -
- qapi/qapi-visit-core.c              |  20 +--
- qom/object.c                        |   4 +-
- tests/test-qobject-output-visitor.c |  39 ------
- tests/test-string-output-visitor.c  |  19 ---
- scripts/qapi/commands.py            |  62 ++++-----
- scripts/qapi/visit.py               |   8 ++
- 16 files changed, 174 insertions(+), 234 deletions(-)
-
+diff --git a/include/qapi/visitor.h b/include/qapi/visitor.h
+index c5b23851a1..f8a0fc1ea9 100644
+--- a/include/qapi/visitor.h
++++ b/include/qapi/visitor.h
+@@ -58,7 +58,7 @@
+  *
+  * where T is FOO for scalar types, and FOO * otherwise.  The scalar
+  * visitors are declared here; the remaining visitors are generated in
+- * qapi-visit.h.
++ * qapi-visit-MODULE.h.
+  *
+  * The @name parameter of visit_type_FOO() describes the relation
+  * between this QAPI value and its parent container.  When visiting
+@@ -86,16 +86,16 @@
+  * by manual construction.
+  *
+  * For the QAPI object types (structs, unions, and alternates), there
+- * is an additional generated function in qapi-visit.h compatible
+- * with:
++ * is an additional generated function in qapi-visit-MODULE.h
++ * compatible with:
+  *
+  * void visit_type_FOO_members(Visitor *v, FOO *obj, Error **errp);
+  *
+  * for visiting the members of a type without also allocating the QAPI
+  * struct.
+  *
+- * Additionally, in qapi-types.h, all QAPI pointer types (structs,
+- * unions, alternates, and lists) have a generated function compatible
++ * Additionally, QAPI pointer types (structs, unions, alternates, and
++ * lists) have a generated function in qapi-types-MODULE.h compatible
+  * with:
+  *
+  * void qapi_free_FOO(FOO *obj);
 --=20
 2.21.1
 
