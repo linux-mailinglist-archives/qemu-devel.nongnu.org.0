@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDFCF1B818E
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 23:15:14 +0200 (CEST)
-Received: from localhost ([::1]:52812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB3D1B819F
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 23:26:34 +0200 (CEST)
+Received: from localhost ([::1]:53156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jS5fF-0002Aa-Pj
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 17:15:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45026)
+	id 1jS5qD-00009Y-9g
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 17:26:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46824)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jS5dF-0001Ba-GQ
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 17:13:10 -0400
+ (envelope-from <eblake@redhat.com>) id 1jS5ov-0007Ry-O9
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 17:25:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jS5dB-0001XG-NE
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 17:13:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39108
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1jS5ot-00040L-SK
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 17:25:13 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21979
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jS5dB-0001Rd-6S
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 17:13:05 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jS5os-0003mH-Sj
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 17:25:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587762783;
+ s=mimecast20190719; t=1587763509;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=npEaqXurWEGtB8NqxirVKVI3LG7velqWZrb0mGUA5ZA=;
- b=IkUN3cwjds0/9lIzEGr0pzcExP1WbgFylVNry0e/jrMGJ8UoyERQl+gM4OW3ld91FLdx0J
- FfTLhJgee3b0OX5oGKsUcI5INNkpHrXVqpQ/+OWqAt4J3CwWLer5Hf4jjshgfWuFIbJwIN
- XqGIJNIQp9x6bIO7WV/kOAf4g3mizGY=
+ bh=eY9B9SRLnhvWtyvbtdlRb9FcMjhsCxf4urFuKbSFtLk=;
+ b=Wu3OdeOU7ycqMif21a1xhE0eDI3/E4vts9tg2qKTePNQU69FbWDmpbq9GHzHVS8SGOyI6R
+ R0LGpJd87nMyPqctzDA2UhqlaXZvT5aMG4D3mCKHicXHjP4Mk4Nhlzdqi1UcCaX0hcIcSe
+ Rql2RvNVgJmp9o3ydPWmElhBNvdo0yo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-R0gSi7F_OBuRDMYwB4aa0Q-1; Fri, 24 Apr 2020 17:12:58 -0400
-X-MC-Unique: R0gSi7F_OBuRDMYwB4aa0Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-192-FquNBG__OB6iOoShdhvTGg-1; Fri, 24 Apr 2020 17:25:07 -0400
+X-MC-Unique: FquNBG__OB6iOoShdhvTGg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B89545F;
- Fri, 24 Apr 2020 21:12:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA2351895A28;
+ Fri, 24 Apr 2020 21:25:05 +0000 (UTC)
 Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 172EA60C05;
- Fri, 24 Apr 2020 21:12:55 +0000 (UTC)
-Subject: Re: [RFC patch v1 1/3] qemu-file: introduce current buffer
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CAA5560606;
+ Fri, 24 Apr 2020 21:25:04 +0000 (UTC)
+Subject: Re: [RFC patch v1 2/3] qemu-file: add buffered mode
 To: Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org
 References: <1586776334-641239-1-git-send-email-dplotnikov@virtuozzo.com>
- <1586776334-641239-2-git-send-email-dplotnikov@virtuozzo.com>
+ <1586776334-641239-3-git-send-email-dplotnikov@virtuozzo.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <3bc64dd3-780c-47c1-5f35-12d4bcafc92c@redhat.com>
-Date: Fri, 24 Apr 2020 16:12:55 -0500
+Message-ID: <9bb27377-49e5-75de-fc7e-4846f05478e2@redhat.com>
+Date: Fri, 24 Apr 2020 16:25:03 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <1586776334-641239-2-git-send-email-dplotnikov@virtuozzo.com>
+In-Reply-To: <1586776334-641239-3-git-send-email-dplotnikov@virtuozzo.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 15:11:23
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 17:25:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,99 +83,206 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/13/20 6:12 AM, Denis Plotnikov wrote:
-> To approach async wrtiting in the further commits, the buffer
-
-writing
-
-> allocated in QEMUFile struct is replaced with the link to the
-> current buffer. We're going to use many buffers to write the
-> qemu file stream to the unerlying storage asynchronously. The
-
-underlying
-
-> current buffer points out to the buffer is currently filled
-> with data.
-
-This sentence is confusing.  I'd suggest: The current_buf pointer tracks 
-which buffer is currently filled with data.
-
+> The patch adds ability to qemu-file to write the data
+> asynchronously to improve the performance on writing.
+> Before, only synchronous writing was supported.
 > 
-> This patch doesn't add any features to qemu-file and doesn't
-> change any qemu-file behavior.
+> Enabling of the asyncronous mode is managed by new
+
+asynchronous
+
+> "enabled_buffered" callback.
+
+The term "enabled_buffered" does not appear in the patch.  Did you mean...
+
 > 
 > Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
 > ---
 >   include/qemu/typedefs.h |   1 +
->   migration/qemu-file.c   | 156 +++++++++++++++++++++++++++++-------------------
->   2 files changed, 95 insertions(+), 62 deletions(-)
+>   migration/qemu-file.c   | 351 +++++++++++++++++++++++++++++++++++++++++++++---
+>   migration/qemu-file.h   |   9 ++
+>   3 files changed, 339 insertions(+), 22 deletions(-)
 > 
-> diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-> index 375770a..88dce54 100644
-> --- a/include/qemu/typedefs.h
-> +++ b/include/qemu/typedefs.h
-> @@ -97,6 +97,7 @@ typedef struct QDict QDict;
->   typedef struct QEMUBH QEMUBH;
->   typedef struct QemuConsole QemuConsole;
->   typedef struct QEMUFile QEMUFile;
-> +typedef struct QEMUFileBuffer QEMUFileBuffer;
->   typedef struct QemuLockable QemuLockable;
->   typedef struct QemuMutex QemuMutex;
->   typedef struct QemuOpt QemuOpt;
-> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-> index 1c3a358..285c6ef 100644
-> --- a/migration/qemu-file.c
-> +++ b/migration/qemu-file.c
-> @@ -33,6 +33,17 @@
->   #define IO_BUF_SIZE 32768
->   #define MAX_IOV_SIZE MIN(IOV_MAX, 64)
->   
-> +QEMU_BUILD_BUG_ON(!QEMU_IS_ALIGNED(IO_BUF_SIZE, 512));
-> +
-> +struct QEMUFileBuffer {
-> +    int buf_index;
-> +    int buf_size; /* 0 when writing */
-> +    uint8_t *buf;
-> +    unsigned long *may_free;
 
-Do we really want something that compiles differently on 32- vs. 64-bit?
-/me reads ahead...
+> @@ -60,6 +66,22 @@ struct QEMUFile {
+>       bool shutdown;
+>       /* currently used buffer */
+>       QEMUFileBuffer *current_buf;
+> +    /*
+> +     * with buffered_mode enabled all the data copied to 512 byte
+> +     * aligned buffer, including iov data. Then the buffer is passed
+> +     * to writev_buffer callback.
+> +     */
+> +    bool buffered_mode;
 
-> +    struct iovec *iov;
-> +    unsigned int iovcnt;
+..."Asynchronous mode is managed by setting the new buffered_mode flag"? 
+  ...
+
+
+> +    /* for async buffer writing */
+> +    AioTaskPool *pool;
+> +    /* the list of free buffers, currently used on is NOT there */
+
+s/on/one/
+
+> +    QLIST_HEAD(, QEMUFileBuffer) free_buffers;
 > +};
 > +
->   struct QEMUFile {
->       const QEMUFileOps *ops;
->       const QEMUFileHooks *hooks;
-> @@ -43,18 +54,12 @@ struct QEMUFile {
->   
->       int64_t pos; /* start of buffer when writing, end of buffer
->                       when reading */
-> -    int buf_index;
-> -    int buf_size; /* 0 when writing */
-> -    uint8_t buf[IO_BUF_SIZE];
-> -
-> -    DECLARE_BITMAP(may_free, MAX_IOV_SIZE);
-
-...ah, you're replacing a bitmap, and our bitmap code _does_ use 'long' 
-as its core for optimum speed (which overcomes the fact that it does 
-mean annoying differences on 32- vs. 64-bit).
-
-> -    struct iovec iov[MAX_IOV_SIZE];
-> -    unsigned int iovcnt;
-> -
->       int last_error;
->       Error *last_error_obj;
->       /* has the file has been shutdown */
->       bool shutdown;
-> +    /* currently used buffer */
-> +    QEMUFileBuffer *current_buf;
+> +struct QEMUFileAioTask {
+> +    AioTask task;
+> +    QEMUFile *f;
+> +    QEMUFileBuffer *fb;
 >   };
 >   
+>   /*
+> @@ -115,10 +137,42 @@ QEMUFile *qemu_fopen_ops(void *opaque, const QEMUFileOps *ops)
+>       f->opaque = opaque;
+>       f->ops = ops;
+>   
+> -    f->current_buf = g_new0(QEMUFileBuffer, 1);
+> -    f->current_buf->buf = g_malloc(IO_BUF_SIZE);
+> -    f->current_buf->iov = g_new0(struct iovec, MAX_IOV_SIZE);
+> -    f->current_buf->may_free = bitmap_new(MAX_IOV_SIZE);
+> +    if (f->ops->enable_buffered) {
+> +        f->buffered_mode = f->ops->enable_buffered(f->opaque);
 
-Most of the patch is mechanical conversion to the rearranged struct.
+...ah, you meant 'enable_buffered'.  But still, why do we need a 
+callback function?  Is it not sufficient to just have a bool flag?
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+
+> +static size_t get_buf_free_size(QEMUFile *f)
+> +{
+> +    QEMUFileBuffer *fb = f->current_buf;
+> +    /* buf_index can't be greated than buf_size */
+
+greater
+
+> +    assert(fb->buf_size >= fb->buf_index);
+> +    return fb->buf_size - fb->buf_index;
+> +}
+> +
+
+> +static int write_task_fn(AioTask *task)
+> +{
+
+> +    /*
+> +     * Increment file position.
+> +     * This needs to be here before calling writev_buffer, because
+> +     * writev_buffer is asynchronous and there could be more than one
+> +     * writev_buffer started simultaniously. Each writev_buffer should
+
+simultaneously
+
+> +     * use its own file pos to write to. writev_buffer may write less
+> +     * than buf_index bytes but we treat this situation as an error.
+> +     * If error appeared, further file using is meaningless.
+
+s/using/use/
+
+> +     * We expect that, the most of the time the full buffer is written,
+> +     * (when buf_size == buf_index). The only case when the non-full
+> +     * buffer is written (buf_size != buf_index) is file close,
+> +     * when we need to flush the rest of the buffer content.
+
+We expect that most of the time, the full buffer will be written 
+(buf_size == buf_index), with the exception at file close where we need 
+to flush the final partial buffer.
+
+> +     */
+> +    f->pos += fb->buf_index;
+> +
+> +    ret = f->ops->writev_buffer(f->opaque, &v, 1, pos, &local_error);
+> +
+> +    /* return the just written buffer to the free list */
+> +    QLIST_INSERT_HEAD(&f->free_buffers, fb, link);
+> +
+> +    /* check that we have written everything */
+> +    if (ret != fb->buf_index) {
+> +        qemu_file_set_error_obj(f, ret < 0 ? ret : -EIO, local_error);
+> +    }
+> +
+> +    /*
+> +     * always return 0 - don't use task error handling, relay on
+
+rely
+
+> +     * qemu file error handling
+> +     */
+> +    return 0;
+> +}
+> +
+> +static void qemu_file_switch_current_buf(QEMUFile *f)
+> +{
+> +    /*
+> +     * if the list is empty, wait until some task returns a buffer
+> +     * to the list of free buffers.
+> +     */
+> +    if (QLIST_EMPTY(&f->free_buffers)) {
+> +        aio_task_pool_wait_slot(f->pool);
+> +    }
+> +
+> +    /*
+> +     * sanity check that the list isn't empty
+> +     * if the free list was empty, we waited for a task complition,
+
+completion
+
+> +     * and the pompleted task must return a buffer to a list of free buffers
+
+completed
+
+> +     */
+> +    assert(!QLIST_EMPTY(&f->free_buffers));
+> +
+> +    /* set the current buffer for using from the free list */
+> +    f->current_buf = QLIST_FIRST(&f->free_buffers);
+> +    reset_buf(f);
+> +
+> +    QLIST_REMOVE(f->current_buf, link);
+> +}
+> +
+
+>   
+>   /*
+> + * Copy an external buffer to the intenal current buffer.
+
+internal
+
+> + */
+> +static void copy_buf(QEMUFile *f, const uint8_t *buf, size_t size,
+> +                     bool may_free)
+> +{
+
+> +++ b/migration/qemu-file.h
+> @@ -103,6 +103,14 @@ typedef QEMUFile *(QEMURetPathFunc)(void *opaque);
+>   typedef int (QEMUFileShutdownFunc)(void *opaque, bool rd, bool wr,
+>                                      Error **errp);
+>   
+> +/*
+> + * Enables or disables the buffered mode
+> + * Existing blocking reads/writes must be woken
+> + * Returns true if the buffered mode has to be enabled,
+> + * false if it has to be disabled.
+> + */
+> +typedef bool (QEMUFileEnableBufferedFunc)(void *opaque);
+
+If this never gets called outside of initial creation of the QemuFile 
+(that is, it is not dynamic), then making it a straight flag instead of 
+a callback function is simpler.
+
+> +
+>   typedef struct QEMUFileOps {
+>       QEMUFileGetBufferFunc *get_buffer;
+>       QEMUFileCloseFunc *close;
+> @@ -110,6 +118,7 @@ typedef struct QEMUFileOps {
+>       QEMUFileWritevBufferFunc *writev_buffer;
+>       QEMURetPathFunc *get_return_path;
+>       QEMUFileShutdownFunc *shut_down;
+> +    QEMUFileEnableBufferedFunc *enable_buffered;
+>   } QEMUFileOps;
+>   
+>   typedef struct QEMUFileHooks {
+> 
 
 -- 
 Eric Blake, Principal Software Engineer
