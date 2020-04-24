@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D8D1B6FF9
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 10:47:12 +0200 (CEST)
-Received: from localhost ([::1]:55044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D32C61B701B
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 10:56:44 +0200 (CEST)
+Received: from localhost ([::1]:55732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRtzK-0002YR-Tm
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 04:47:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36828)
+	id 1jRu8Z-0000MT-TQ
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 04:56:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36806)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRtw6-0005nE-Uv
+ (envelope-from <armbru@redhat.com>) id 1jRtw6-0005lC-3l
  for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRtw2-0002BI-9M
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:50 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:28111
+ (envelope-from <armbru@redhat.com>) id 1jRtw3-0002FX-N5
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:49 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29048
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jRtw1-00026S-Kp
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:45 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jRtw3-0002CV-6y
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587717824;
+ s=mimecast20190719; t=1587717826;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7BqaGAKuD0af63A1Fb4ex1OM+gdx0nvrdX9IZS1/a24=;
- b=V9eSQwZtureHUzP/luHGtTCp84qjSbgKxfcKOC/QGaxqjinHQglVXxGIiGYme3+tFUIrgk
- +144qNjaOiD3MoSYjZ1xx6yhlzkby5EsRzTNQqPinnO7comsn4wP5PwBrx+5P2Y11WTewo
- Ow3gwXtEVNyQf9C1MHoz88qnc/oZtTI=
+ bh=+ZGh1VRdSb0WLd0ve8k2eIZ69HGOaNSTJcy03Z6W6YM=;
+ b=ZTERLUlJe+ViN/ifJA/lYqz/NogJDxh1dalhl8tx3Jp+O8dejLT7tkxK9a9Rd6B6UbFWWB
+ Xv2pVqveRAxgkIT8KwuABfLfJrXHq41YylGmLFlX7suThwUolN35MQfN2eMt6arNB8kHhe
+ 1UYDLWVxj/9ZZKS3QRAAgZfeH2+M+zU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-rtscwCKTMB69GSLVxGVr-Q-1; Fri, 24 Apr 2020 04:43:43 -0400
-X-MC-Unique: rtscwCKTMB69GSLVxGVr-Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-474-V38DvYHtNKK42K9lQv_vUw-1; Fri, 24 Apr 2020 04:43:44 -0400
+X-MC-Unique: V38DvYHtNKK42K9lQv_vUw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54A5A100A61F;
- Fri, 24 Apr 2020 08:43:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98A41107ACF2;
+ Fri, 24 Apr 2020 08:43:43 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 23D8A1002388;
- Fri, 24 Apr 2020 08:43:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 65FC86084A;
+ Fri, 24 Apr 2020 08:43:43 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 07EC811358CB; Fri, 24 Apr 2020 10:43:39 +0200 (CEST)
+ id 0B38C11358CC; Fri, 24 Apr 2020 10:43:39 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/15] qapi: Disallow qmp_marshal_FOO(NULL, ...)
-Date: Fri, 24 Apr 2020 10:43:37 +0200
-Message-Id: <20200424084338.26803-15-armbru@redhat.com>
+Subject: [PATCH v2 15/15] qapi: Generate simpler marshalling code when no
+ arguments
+Date: Fri, 24 Apr 2020 10:43:38 +0200
+Message-Id: <20200424084338.26803-16-armbru@redhat.com>
 In-Reply-To: <20200424084338.26803-1-armbru@redhat.com>
 References: <20200424084338.26803-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -79,122 +80,109 @@ Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For QMP commands without arguments, gen_marshal() laboriously
-generates a qmp_marshal_FOO() that copes with null @args.  Turns
-there's just one caller that passes null instead of an empty QDict.
-Adjust that caller, and simplify gen_marshal().
+When command FOO has no arguments, its generated qmp_marshal_FOO() is
+a bit confusing.  Make it simpler:
+
+     visit_start_struct(v, NULL, NULL, 0, &err);
+     if (err) {
+         goto out;
+     }
+-
+-    if (!err) {
+-        visit_check_struct(v, &err);
+-    }
++    visit_check_struct(v, &err);
+     visit_end_struct(v, NULL);
+     if (err) {
+         goto out;
+     }
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- docs/devel/qapi-code-gen.txt |  2 +-
- monitor/qmp.c                |  5 ++++-
- scripts/qapi/commands.py     | 26 ++------------------------
- 3 files changed, 7 insertions(+), 26 deletions(-)
+ scripts/qapi/commands.py | 40 ++++++++++++++++++++++++----------------
+ 1 file changed, 24 insertions(+), 16 deletions(-)
 
-diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-index c6dd1891c3..a7794ef658 100644
---- a/docs/devel/qapi-code-gen.txt
-+++ b/docs/devel/qapi-code-gen.txt
-@@ -1579,8 +1579,8 @@ Example:
-     void qmp_marshal_my_command(QDict *args, QObject **ret, Error **errp)
-     {
-         Error *err =3D NULL;
--        UserDefOne *retval;
-         Visitor *v;
-+        UserDefOne *retval;
-         q_obj_my_command_arg arg =3D {0};
-=20
-         v =3D qobject_input_visitor_new(QOBJECT(args));
-diff --git a/monitor/qmp.c b/monitor/qmp.c
-index f89e7daf27..d433ceae5b 100644
---- a/monitor/qmp.c
-+++ b/monitor/qmp.c
-@@ -322,9 +322,12 @@ static QDict *qmp_greeting(MonitorQMP *mon)
- {
-     QList *cap_list =3D qlist_new();
-     QObject *ver =3D NULL;
-+    QDict *args;
-     QMPCapability cap;
-=20
--    qmp_marshal_query_version(NULL, &ver, NULL);
-+    args =3D qdict_new();
-+    qmp_marshal_query_version(args, &ver, NULL);
-+    qobject_unref(args);
-=20
-     for (cap =3D 0; cap < QMP_CAPABILITY__MAX; cap++) {
-         if (mon->capab_offered[cap]) {
 diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index bc30876c88..f545903567 100644
+index f545903567..6809b0fb6e 100644
 --- a/scripts/qapi/commands.py
 +++ b/scripts/qapi/commands.py
-@@ -104,6 +104,7 @@ def gen_marshal(name, arg_type, boxed, ret_type):
- %(proto)s
- {
-     Error *err =3D NULL;
-+    Visitor *v;
- ''',
-                 proto=3Dbuild_marshal_proto(name))
+@@ -115,14 +115,10 @@ def gen_marshal(name, arg_type, boxed, ret_type):
+                      c_type=3Dret_type.c_type())
 =20
-@@ -117,21 +118,14 @@ def gen_marshal(name, arg_type, boxed, ret_type):
-         visit_members =3D ('visit_type_%s_members(v, &arg, &err);'
-                          % arg_type.c_name())
+     if have_args:
+-        visit_members =3D ('visit_type_%s_members(v, &arg, &err);'
+-                         % arg_type.c_name())
          ret +=3D mcgen('''
--    Visitor *v;
      %(c_name)s arg =3D {0};
--
  ''',
                       c_name=3Darg_type.c_name())
-     else:
-         visit_members =3D ''
--        ret +=3D mcgen('''
--    Visitor *v =3D NULL;
--
--    if (args) {
--''')
--        push_indent()
+-    else:
+-        visit_members =3D ''
 =20
      ret +=3D mcgen('''
-+
-     v =3D qobject_input_visitor_new(QOBJECT(args));
-     visit_start_struct(v, NULL, NULL, 0, &err);
-     if (err) {
-@@ -148,12 +142,6 @@ def gen_marshal(name, arg_type, boxed, ret_type):
- ''',
-                  visit_members=3Dvisit_members)
 =20
--    if not have_args:
--        pop_indent()
--        ret +=3D mcgen('''
--    }
--''')
--
+@@ -131,16 +127,27 @@ def gen_marshal(name, arg_type, boxed, ret_type):
+     if (err) {
+         goto out;
+     }
+-    %(visit_members)s
++''')
++
++    if have_args:
++        ret +=3D mcgen('''
++    visit_type_%(c_arg_type)s_members(v, &arg, &err);
+     if (!err) {
+         visit_check_struct(v, &err);
+     }
++''',
++                     c_arg_type=3Darg_type.c_name())
++    else:
++        ret +=3D mcgen('''
++    visit_check_struct(v, &err);
++''')
++
++    ret +=3D mcgen('''
+     visit_end_struct(v, NULL);
+     if (err) {
+         goto out;
+     }
+-''',
+-                 visit_members=3Dvisit_members)
++''')
+=20
      ret +=3D gen_call(name, arg_type, boxed, ret_type)
 =20
-     ret +=3D mcgen('''
-@@ -168,10 +156,6 @@ out:
-                          % arg_type.c_name())
-     else:
-         visit_members =3D ''
--        ret +=3D mcgen('''
--    if (args) {
--''')
--        push_indent()
+@@ -151,20 +158,21 @@ out:
+     visit_free(v);
+ ''')
 =20
-     ret +=3D mcgen('''
-     v =3D qapi_dealloc_visitor_new();
-@@ -182,12 +166,6 @@ out:
- ''',
-                  visit_members=3Dvisit_members)
-=20
--    if not have_args:
--        pop_indent()
--        ret +=3D mcgen('''
--    }
--''')
+-    if have_args:
+-        visit_members =3D ('visit_type_%s_members(v, &arg, NULL);'
+-                         % arg_type.c_name())
+-    else:
+-        visit_members =3D ''
 -
      ret +=3D mcgen('''
+     v =3D qapi_dealloc_visitor_new();
+     visit_start_struct(v, NULL, NULL, 0, NULL);
+-    %(visit_members)s
++''')
++
++    if have_args:
++        ret +=3D mcgen('''
++    visit_type_%(c_arg_type)s_members(v, &arg, NULL);
++''',
++                     c_arg_type=3Darg_type.c_name())
++
++    ret +=3D mcgen('''
+     visit_end_struct(v, NULL);
+     visit_free(v);
+-''',
+-                 visit_members=3Dvisit_members)
++''')
+=20
+     ret +=3D mcgen('''
  }
- ''')
 --=20
 2.21.1
 
