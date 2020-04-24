@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B17A1B712D
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 11:49:26 +0200 (CEST)
-Received: from localhost ([::1]:57614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06D6F1B7164
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 12:02:27 +0200 (CEST)
+Received: from localhost ([::1]:58318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRuxZ-0006c6-BC
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 05:49:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58958)
+	id 1jRvA9-0006zn-Gv
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 06:02:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40398)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jRuvu-0005rj-C7
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 05:47:45 -0400
+ (envelope-from <bounces@canonical.com>) id 1jRv8l-0006O7-23
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 06:00:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jRuvh-0007V2-7Q
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 05:47:42 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:31362
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jRuvf-0007Js-P6
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 05:47:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587721640;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WbXO+WrIZmcaduygM4duLY7N8yR/xVq7u2IDbmFWwoY=;
- b=eRsFsIOUDyGJNtZ5dsAvQ0M+zPpSr3V04AAYGqY774kB+1gD/iW8trPV/oQv2D2mHG8W8w
- MSyyf5XbzZnuhOFmKVJOUhzoItBEiHOBweWQP34oBBaCFg9xuWt990auzpr3h7W8Jb9QiW
- JbPUhvjaeZrGZGQWGahB/DSSyQBJxXY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-5A30o7qbPmSieeV1Yvx9kA-1; Fri, 24 Apr 2020 05:47:16 -0400
-X-MC-Unique: 5A30o7qbPmSieeV1Yvx9kA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D587180F12F;
- Fri, 24 Apr 2020 09:47:01 +0000 (UTC)
-Received: from work-vm (ovpn-113-179.ams2.redhat.com [10.36.113.179])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D45EB5D9CC;
- Fri, 24 Apr 2020 09:46:59 +0000 (UTC)
-Date: Fri, 24 Apr 2020 10:46:57 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Pan Nengyuan <pannengyuan@huawei.com>
-Subject: Re: [PATCH] migration/rdma: fix a memleak on error path in
- rdma_start_incoming_migration
-Message-ID: <20200424094657.GC3106@work-vm>
-References: <20200420102727.17339-1-pannengyuan@huawei.com>
+ (envelope-from <bounces@canonical.com>) id 1jRv8k-00037w-5G
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 06:00:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33992)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jRv8j-00034V-9O
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 06:00:57 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jRv8h-0007qR-CL
+ for <qemu-devel@nongnu.org>; Fri, 24 Apr 2020 10:00:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 599462E8047
+ for <qemu-devel@nongnu.org>; Fri, 24 Apr 2020 10:00:55 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200420102727.17339-1-pannengyuan@huawei.com>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 03:11:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+Date: Fri, 24 Apr 2020 09:51:02 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1874674@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+Message-Id: <158772186217.18152.387783445327371928.malonedeb@wampee.canonical.com>
+Subject: [Bug 1874674] [NEW] [Feature request] acceptance test class to run
+ user-mode binaries
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="486bbbd6cb608f8eb468ed0d08689a349dfabe49";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b7a882a71c8cd8b5699084dfc7d38d1f7b8c7137
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 06:00:55
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,63 +69,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>, euler.robot@huawei.com,
- qemu-devel@nongnu.org, quintela@redhat.com
+Reply-To: Bug 1874674 <1874674@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Pan Nengyuan (pannengyuan@huawei.com) wrote:
-> 'rdma->host' is malloced in qemu_rdma_data_init, but forgot to free on th=
-e error
-> path in rdma_start_incoming_migration(), this patch fix that.
->=20
-> The leak stack:
-> Direct leak of 2 byte(s) in 1 object(s) allocated from:
->     #0 0x7fb7add18ae8 in __interceptor_malloc (/lib64/libasan.so.5+0xefae=
-8)
->     #1 0x7fb7ad0df1d5 in g_malloc (/lib64/libglib-2.0.so.0+0x531d5)
->     #2 0x7fb7ad0f8b32 in g_strdup (/lib64/libglib-2.0.so.0+0x6cb32)
->     #3 0x55a0464a0f6f in qemu_rdma_data_init /mnt/sdb/qemu/migration/rdma=
-.c:2647
->     #4 0x55a0464b0e76 in rdma_start_incoming_migration /mnt/sdb/qemu/migr=
-ation/rdma.c:4020
->     #5 0x55a0463f898a in qemu_start_incoming_migration /mnt/sdb/qemu/migr=
-ation/migration.c:365
->     #6 0x55a0458c75d3 in qemu_init /mnt/sdb/qemu/softmmu/vl.c:4438
->     #7 0x55a046a3d811 in main /mnt/sdb/qemu/softmmu/main.c:48
->     #8 0x7fb7a8417872 in __libc_start_main (/lib64/libc.so.6+0x23872)
->     #9 0x55a04536b26d in _start (/mnt/sdb/qemu/build/x86_64-softmmu/qemu-=
-system-x86_64+0x286926d)
->=20
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+Public bug reported:
 
-Thanks,
+Currently the acceptance test framework only target system-mode emulation.
+It would be useful to test user-mode too.
 
+Ref: https://www.mail-archive.com/qemu-devel@nongnu.org/msg626610.html
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-> ---
->  migration/rdma.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/migration/rdma.c b/migration/rdma.c
-> index f61587891b..967fda5b0c 100644
-> --- a/migration/rdma.c
-> +++ b/migration/rdma.c
-> @@ -4056,6 +4056,7 @@ void rdma_start_incoming_migration(const char *host=
-_port, Error **errp)
->      return;
->  err:
->      error_propagate(errp, local_err);
-> +    g_free(rdma->host);
->      g_free(rdma);
->      g_free(rdma_return_path);
->  }
-> --=20
-> 2.18.2
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1874674
+
+Title:
+  [Feature request] acceptance test class to run user-mode binaries
+
+Status in QEMU:
+  New
+
+Bug description:
+  Currently the acceptance test framework only target system-mode emulation.
+  It would be useful to test user-mode too.
+
+  Ref: https://www.mail-archive.com/qemu-devel@nongnu.org/msg626610.html
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1874674/+subscriptions
 
