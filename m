@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABF601B6FF7
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 10:45:30 +0200 (CEST)
-Received: from localhost ([::1]:54880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D8D1B6FF9
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 10:47:12 +0200 (CEST)
+Received: from localhost ([::1]:55044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRtxh-0007W8-Iq
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 04:45:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36768)
+	id 1jRtzK-0002YR-Tm
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 04:47:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36828)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRtw4-0005iY-TO
+ (envelope-from <armbru@redhat.com>) id 1jRtw6-0005nE-Uv
  for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRtw3-0002D1-5M
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:48 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53563
+ (envelope-from <armbru@redhat.com>) id 1jRtw2-0002BI-9M
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:50 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:28111
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jRtw2-00028c-Nl
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:46 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jRtw1-00026S-Kp
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587717825;
+ s=mimecast20190719; t=1587717824;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dlIFOtfhVbhNxqOwZVLcK02Url4cj+xwTmU++3lC+So=;
- b=eFeM0FZ8ceWEzeePDpqB9oVQEsg+xFIzOr/raSc3p5eoHzZLnQhIHki4Sgly/xyIi2ETdu
- mKZjv470DD92jq+TP4kc9hstPXGOprxl1tN+LbIBB3NXAOpusvEyItHWGhWwCkdc4z9FRJ
- bZA5op4NRV7jHIvjDueq7v8ocD+YCPw=
+ bh=7BqaGAKuD0af63A1Fb4ex1OM+gdx0nvrdX9IZS1/a24=;
+ b=V9eSQwZtureHUzP/luHGtTCp84qjSbgKxfcKOC/QGaxqjinHQglVXxGIiGYme3+tFUIrgk
+ +144qNjaOiD3MoSYjZ1xx6yhlzkby5EsRzTNQqPinnO7comsn4wP5PwBrx+5P2Y11WTewo
+ Ow3gwXtEVNyQf9C1MHoz88qnc/oZtTI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-QHp4NYsvOYiy3-RJe8Oc0g-1; Fri, 24 Apr 2020 04:43:43 -0400
-X-MC-Unique: QHp4NYsvOYiy3-RJe8Oc0g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-194-rtscwCKTMB69GSLVxGVr-Q-1; Fri, 24 Apr 2020 04:43:43 -0400
+X-MC-Unique: rtscwCKTMB69GSLVxGVr-Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4904380B70B;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54A5A100A61F;
  Fri, 24 Apr 2020 08:43:42 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1827599CF;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 23D8A1002388;
  Fri, 24 Apr 2020 08:43:42 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 04D2111358CA; Fri, 24 Apr 2020 10:43:39 +0200 (CEST)
+ id 07EC811358CB; Fri, 24 Apr 2020 10:43:39 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/15] qom: Simplify object_property_get_enum()
-Date: Fri, 24 Apr 2020 10:43:36 +0200
-Message-Id: <20200424084338.26803-14-armbru@redhat.com>
+Subject: [PATCH v2 14/15] qapi: Disallow qmp_marshal_FOO(NULL, ...)
+Date: Fri, 24 Apr 2020 10:43:37 +0200
+Message-Id: <20200424084338.26803-15-armbru@redhat.com>
 In-Reply-To: <20200424084338.26803-1-armbru@redhat.com>
 References: <20200424084338.26803-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 03:11:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 02:57:59
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,30 +79,122 @@ Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
----
- qom/object.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+For QMP commands without arguments, gen_marshal() laboriously
+generates a qmp_marshal_FOO() that copes with null @args.  Turns
+there's just one caller that passes null instead of an empty QDict.
+Adjust that caller, and simplify gen_marshal().
 
-diff --git a/qom/object.c b/qom/object.c
-index 1812f79224..be700e831f 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -1550,11 +1550,9 @@ int object_property_get_enum(Object *obj, const char=
- *name,
-     }
-     visit_complete(v, &str);
-     visit_free(v);
--    v =3D string_input_visitor_new(str);
--    visit_type_enum(v, name, &ret, enumprop->lookup, errp);
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ docs/devel/qapi-code-gen.txt |  2 +-
+ monitor/qmp.c                |  5 ++++-
+ scripts/qapi/commands.py     | 26 ++------------------------
+ 3 files changed, 7 insertions(+), 26 deletions(-)
+
+diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
+index c6dd1891c3..a7794ef658 100644
+--- a/docs/devel/qapi-code-gen.txt
++++ b/docs/devel/qapi-code-gen.txt
+@@ -1579,8 +1579,8 @@ Example:
+     void qmp_marshal_my_command(QDict *args, QObject **ret, Error **errp)
+     {
+         Error *err =3D NULL;
+-        UserDefOne *retval;
+         Visitor *v;
++        UserDefOne *retval;
+         q_obj_my_command_arg arg =3D {0};
 =20
-+    ret =3D qapi_enum_parse(enumprop->lookup, str, -1, errp);
-     g_free(str);
--    visit_free(v);
+         v =3D qobject_input_visitor_new(QOBJECT(args));
+diff --git a/monitor/qmp.c b/monitor/qmp.c
+index f89e7daf27..d433ceae5b 100644
+--- a/monitor/qmp.c
++++ b/monitor/qmp.c
+@@ -322,9 +322,12 @@ static QDict *qmp_greeting(MonitorQMP *mon)
+ {
+     QList *cap_list =3D qlist_new();
+     QObject *ver =3D NULL;
++    QDict *args;
+     QMPCapability cap;
 =20
-     return ret;
+-    qmp_marshal_query_version(NULL, &ver, NULL);
++    args =3D qdict_new();
++    qmp_marshal_query_version(args, &ver, NULL);
++    qobject_unref(args);
+=20
+     for (cap =3D 0; cap < QMP_CAPABILITY__MAX; cap++) {
+         if (mon->capab_offered[cap]) {
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index bc30876c88..f545903567 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -104,6 +104,7 @@ def gen_marshal(name, arg_type, boxed, ret_type):
+ %(proto)s
+ {
+     Error *err =3D NULL;
++    Visitor *v;
+ ''',
+                 proto=3Dbuild_marshal_proto(name))
+=20
+@@ -117,21 +118,14 @@ def gen_marshal(name, arg_type, boxed, ret_type):
+         visit_members =3D ('visit_type_%s_members(v, &arg, &err);'
+                          % arg_type.c_name())
+         ret +=3D mcgen('''
+-    Visitor *v;
+     %(c_name)s arg =3D {0};
+-
+ ''',
+                      c_name=3Darg_type.c_name())
+     else:
+         visit_members =3D ''
+-        ret +=3D mcgen('''
+-    Visitor *v =3D NULL;
+-
+-    if (args) {
+-''')
+-        push_indent()
+=20
+     ret +=3D mcgen('''
++
+     v =3D qobject_input_visitor_new(QOBJECT(args));
+     visit_start_struct(v, NULL, NULL, 0, &err);
+     if (err) {
+@@ -148,12 +142,6 @@ def gen_marshal(name, arg_type, boxed, ret_type):
+ ''',
+                  visit_members=3Dvisit_members)
+=20
+-    if not have_args:
+-        pop_indent()
+-        ret +=3D mcgen('''
+-    }
+-''')
+-
+     ret +=3D gen_call(name, arg_type, boxed, ret_type)
+=20
+     ret +=3D mcgen('''
+@@ -168,10 +156,6 @@ out:
+                          % arg_type.c_name())
+     else:
+         visit_members =3D ''
+-        ret +=3D mcgen('''
+-    if (args) {
+-''')
+-        push_indent()
+=20
+     ret +=3D mcgen('''
+     v =3D qapi_dealloc_visitor_new();
+@@ -182,12 +166,6 @@ out:
+ ''',
+                  visit_members=3Dvisit_members)
+=20
+-    if not have_args:
+-        pop_indent()
+-        ret +=3D mcgen('''
+-    }
+-''')
+-
+     ret +=3D mcgen('''
  }
+ ''')
 --=20
 2.21.1
 
