@@ -2,81 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC5401B76E2
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 15:24:14 +0200 (CEST)
-Received: from localhost ([::1]:36986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DC6D1B7711
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 15:37:13 +0200 (CEST)
+Received: from localhost ([::1]:37304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRyJR-0007mv-Oz
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 09:24:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54552)
+	id 1jRyVz-0005Dl-ER
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 09:37:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35870)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jRyIS-0006yu-Jw
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 09:23:13 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jRyUN-0003es-Tq
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 09:35:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jRyIR-0006uv-N7
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 09:23:12 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45549)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jRyIR-0006qf-1t
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 09:23:11 -0400
-Received: by mail-wr1-x442.google.com with SMTP id t14so10762081wrw.12
- for <qemu-devel@nongnu.org>; Fri, 24 Apr 2020 06:23:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=wixBzal9tsivTqUJhXcbaIrRxfzuIbR6n5EuseLtOO0=;
- b=ivlctq7ijYC++HGgPI5VBV4KK/aVmdUT0RXzcbqEP4JXSgODjcwWq/J95mupmosoKz
- qniWi6T9mq3zBRcgJ/OO7kssqgCjQyqPAgCmZxpIl2AaQmjThUD/O9hzjFFO183sPRmQ
- nZ1DFFhRXGjvFyep7+UMUKJ8K2WhoYCBzTErfYZEwNFKkGL6LLg4OKk9Qyn1+aHmIWli
- yFtqFa84eFg5dPcFBoXMF6zsg33aGzgFWfiNgG/p/IkW6jHeprSN7Vej4dk0WS/YIHF8
- jWkIyeSrRs/n3gPMCadydImu76Zqj20sIiq9lyNcLcNXeaBoaLIeTsPOnayd0RKldQQW
- CPSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=wixBzal9tsivTqUJhXcbaIrRxfzuIbR6n5EuseLtOO0=;
- b=D8iaMEORMgVt/aQ2PbR4/v7J3eFBSG1OiOJb0k9Yez3PMthOoUMXp5tOz965tv5T8b
- ZWVKb00RyeU4VAPTj1ZPa4gQvuQUZmfc05lhDQHtIw1F4/WcwsyW6QPNBVYYXmXKnTnh
- uGlPXNZC6L67+M6cBmxtrK1bqdLDWY1mkocah+OFTT+vMpq5jaJK9P2Ap+/+xNAnyUgZ
- e8nyqZC1mluvPgZNyYwq1FgcAPx4GaSea/nKNvhogGSZYgtGeJzKbrcK+bNLwsIBv13b
- s6/4nH8fTsBUklDxxm5YV5pO9OyZ4A9m10z29bVwuhVE105ditmn14efZlZyeDYvtWF8
- 18mA==
-X-Gm-Message-State: AGi0PuZ8317F/Ei+r2lC0ScGtKPyeIss4lEVYbo8e8P7cLEzQIrwB9hT
- 3gk+htvYCjOhw0gBqdnQNjf+qQ==
-X-Google-Smtp-Source: APiQypI/j5bo6/ivgE3U0AvPBLpA1kT6dh4GNBPvtNcjWLYOYn/Onq6E+YGKLgGEZ1v331kC2GTn6w==
-X-Received: by 2002:a5d:6b85:: with SMTP id n5mr11284855wrx.370.1587734589007; 
- Fri, 24 Apr 2020 06:23:09 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l9sm8266488wrq.83.2020.04.24.06.23.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Apr 2020 06:23:07 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A25D01FF7E;
- Fri, 24 Apr 2020 14:23:06 +0100 (BST)
-References: <20200422011722.13287-1-richard.henderson@linaro.org>
- <20200422011722.13287-14-richard.henderson@linaro.org>
- <87ftcvb82k.fsf@linaro.org>
- <df8292e5-5b27-31eb-1e4a-3e8f835481fc@linaro.org>
-User-agent: mu4e 1.4.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 13/36] tcg: Use tcg_constant_{i32,i64} with tcg int
- expanders
-In-reply-to: <df8292e5-5b27-31eb-1e4a-3e8f835481fc@linaro.org>
-Date: Fri, 24 Apr 2020 14:23:06 +0100
-Message-ID: <87d07x9fwl.fsf@linaro.org>
+ (envelope-from <mreitz@redhat.com>) id 1jRyUL-0007B9-I8
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 09:35:31 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56995
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jRyUK-0006it-Vd
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 09:35:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587735327;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=H35A06aOlsEf9qHfDyeyhud8DoeFwaciJSvFKClnzKY=;
+ b=dKl/pTueXVEoWhe1sVkiS5ezDNAhuJQEQRzaiOq2NAcH+x18CR/CqXmjiNhuiTh0hg0bRu
+ Lid2DLQx8eHEqOQzAe1nT2IRgogVtRCJxm1nJAnWeYEbM1OdWBIpq8YNfZsqhUIa8BJt8C
+ abVaCQ2c4LdT//jBrJYNKLmeW0qmqDk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-165-CheSiA_7Nuyqqs1CRGOclw-1; Fri, 24 Apr 2020 09:35:25 -0400
+X-MC-Unique: CheSiA_7Nuyqqs1CRGOclw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D47B835B51
+ for <qemu-devel@nongnu.org>; Fri, 24 Apr 2020 13:35:24 +0000 (UTC)
+Received: from localhost (ovpn-113-192.ams2.redhat.com [10.36.113.192])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D1F45D714;
+ Fri, 24 Apr 2020 13:35:18 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] virtiofsd: Show submounts
+Date: Fri, 24 Apr 2020 15:35:16 +0200
+Message-Id: <20200424133516.73077-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::442
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 03:07:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,151 +70,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: virtio-fs@redhat.com, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Currently, setup_mounts() bind-mounts the shared directory without
+MS_REC.  This makes all submounts disappear.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Pass MS_REC so that the guest can see submounts again.
 
-> On 4/22/20 1:04 PM, Alex Benn=C3=A9e wrote:
->>=20
->> Richard Henderson <richard.henderson@linaro.org> writes:
->>=20
->>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>=20
->> We have a regression. Setting up a build dir with:
->>=20
->>   ../../configure --disable-tools --disable-docs --target-list=3Dsparc-s=
-oftmmu,sparc64-softmmu
->>   make -j30 && make check-acceptance
->>=20
->> And then running a bisect between HEAD and master:
->>=20
->>   git bisect run /bin/sh -c "cd builds/bisect && make -j30 && ./tests/ve=
-nv/bin/avocado run ./tests/acceptance/boot_linux_console.py:BootLinuxConsol=
-e.test_sparc_ss20"
->>=20
->> Fingers:
->>=20
->>   a4d42b76dd29818e4f393c4c3eb59601b0015b2f is the first bad commit
->>   commit a4d42b76dd29818e4f393c4c3eb59601b0015b2f
->>   Author: Richard Henderson <richard.henderson@linaro.org>
->>   Date:   Tue Apr 21 18:16:59 2020 -0700
->>=20
->>       tcg: Use tcg_constant_{i32,i64} with tcg int expanders
->>=20
->>       Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>       Message-Id: <20200422011722.13287-14-richard.henderson@linaro.org>
->
-> Ho hum.  I can reproduce this, but after a day of debugging I'm no closer=
- to
-> figuring out what's wrong than when I started.
->
-> I'm going to put this whole section of TEMP_CONST to the side for now.
+Fixes: 3ca8a2b1c83eb185c232a4e87abbb65495263756
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ tools/virtiofsd/passthrough_ll.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-From my own poking around I can say the hang occurs when you first
-introduce just:
-
-  void tcg_gen_movi_i32(TCGv_i32 ret, int32_t arg)
-  {
-      tcg_gen_mov_i32(ret, tcg_constant_i32(arg));
-  }
-
-and nothing else. Which indicates the problem has to be in the core
-plumbing itself. This is odd because all the other architectures are
-fine. I wonder if there is something special about sparc's constant
-generation?
-
-Eyeballing the numbers it does seem like sparc generates more negative
-numbers than ARM does - although ARM does generate some. I thought I'd
-just have a check to see what happens so I looked at the first
-occurrence in the sparc test:
-
-  0x00006224:  sethi  %hi(0xffdcf000), %g6
-  0x00006228:  mov  %g6, %g6      ! 0xffdcf000
-  0x0000622c:  sethi  %hi(0xffd00000), %g4
-  0x00006230:  mov  %g4, %g4      ! 0xffd00000
-  0x00006234:  sub  %g6, %g4, %g6
-  0x00006238:  sub  %g1, %g6, %g3
-  0x0000623c:  sethi  %hi(0x1000), %g5
-  0x00006240:  sub  %g3, %g5, %g3
-  0x00006244:  sub  %g3, %g5, %g3
-
-Which seems to be translated into ops ok:
-
-   ---- 00006224 00006228
-   mov_i32 g6,$0xffdcf000
-
-   ---- 00006228 0000622c
-
-   ---- 0000622c 00006230
-   mov_i32 g4,$0xffd00000
-
-   ---- 00006230 00006234
-
-   ---- 00006234 00006238
-   sub_i32 tmp0,g6,g4
-   mov_i32 g6,tmp0
-
-   ---- 00006238 0000623c
-   sub_i32 tmp0,g1,g6
-   mov_i32 g3,tmp0
-
-   ---- 0000623c 00006240
-   mov_i32 g5,$0x1000
-
-   ---- 00006240 00006244
-   sub_i32 tmp0,g3,g5
-   mov_i32 g3,tmp0
-
-   ---- 00006244 00006248
-   sub_i32 tmp0,g3,g5
-   mov_i32 g3,tmp0
-
-and looks like its doing the expected constant folding here.
-
-   ---- 00006224 00006228
-
-   ---- 00006228 0000622c
-
-   ---- 0000622c 00006230
-
-   ---- 00006230 00006234
-
-   ---- 00006234 00006238
-   movi_i32 tmp0,$0xcf000                   pref=3D0xffff
-   mov_i32 g6,tmp0                          dead: 1  pref=3D0xffff
-
-   ---- 00006238 0000623c
-   sub_i32 tmp0,g1,g6                       dead: 1 2  pref=3D0xffff
-   mov_i32 g3,tmp0                          dead: 1  pref=3D0xffff
-
-   ---- 0000623c 00006240
-   mov_i32 g5,$0x1000                       sync: 0  dead: 0  pref=3D0xffff
-
-   ---- 00006240 00006244
-   sub_i32 tmp0,g3,$0x1000                  dead: 1  pref=3D0xffff
-   mov_i32 g3,tmp0                          dead: 1  pref=3D0xffff
-
-   ---- 00006244 00006248
-   sub_i32 tmp0,g3,$0x1000                  dead: 1  pref=3D0xffff
-   mov_i32 g3,tmp0                          sync: 0  dead: 1  pref=3D0xf038
-
-
-One other data point is it is certainly in the optimisation phase that
-things go wrong because:
-
-  //#define USE_TCG_OPTIMIZATIONS
-
-means the test passes.
-
-
->
->
-> r~
-
-
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index 4c35c95b25..9d7f863e66 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -2643,7 +2643,7 @@ static void setup_mounts(const char *source)
+     int oldroot;
+     int newroot;
+=20
+-    if (mount(source, source, NULL, MS_BIND, NULL) < 0) {
++    if (mount(source, source, NULL, MS_BIND | MS_REC, NULL) < 0) {
+         fuse_log(FUSE_LOG_ERR, "mount(%s, %s, MS_BIND): %m\n", source, sou=
+rce);
+         exit(1);
+     }
 --=20
-Alex Benn=C3=A9e
+2.25.3
+
 
