@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B50601B7004
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 10:49:15 +0200 (CEST)
-Received: from localhost ([::1]:55192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE8F91B700A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 10:51:01 +0200 (CEST)
+Received: from localhost ([::1]:55342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jRu1K-00069K-Kq
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 04:49:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36722)
+	id 1jRu32-0000b3-N4
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 04:51:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36822)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRtw3-0005fm-E1
+ (envelope-from <armbru@redhat.com>) id 1jRtw6-0005mm-PD
  for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jRtw2-0002BD-6s
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58615
+ (envelope-from <armbru@redhat.com>) id 1jRtw4-0002JN-3H
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:50 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53346
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jRtw1-00026i-L9
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:45 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jRtw3-0002Cx-In
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 04:43:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587717824;
+ s=mimecast20190719; t=1587717826;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nlhIBE9wCreqoJev7C2ceZoOivO0fBd4IhEJP3CNvNw=;
- b=NRpaZ+ezPHHIOYNcW7wxvp2jaw8BfFiaRLbwKgsg4waOFty01ZNcAslCen9MwbjWyPfEZo
- UgJ22XY3tM6PDaplFkxTZfjI+Fj/c8DRcfHf8c4moOHsOjwVPLwJlma2v2hYVrPjelP0nv
- z82W13W5gcu1BTy2VhEDebdFgZxZq/I=
+ bh=EC1eBNlA151Lmref6Ha1Xz2fSZDp1v6NUj8i4iaXwd8=;
+ b=gfuNEKCCUN3P9QoriNFqTVc+u4+2dillQgmt49gz0WJj7DmeUTBRMY0cwgyHXUaF4nauAb
+ /qnzn0rSfFXduTaCjiG7CZTtwrvO6FoXzol0SNm21G5nTh4P02ozcBrDODZQNDt2IsIl+A
+ 4mRkv826XeHkdWWD6JigUojTBWQY6oQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-317-cRRtKpGVOsiEfhs9985E6w-1; Fri, 24 Apr 2020 04:43:43 -0400
-X-MC-Unique: cRRtKpGVOsiEfhs9985E6w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-59-Ac1Kzeb-O4Ch8UBAAgrNbw-1; Fri, 24 Apr 2020 04:43:45 -0400
+X-MC-Unique: Ac1Kzeb-O4Ch8UBAAgrNbw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 255D5107ACCA;
- Fri, 24 Apr 2020 08:43:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 856E6107ACF4;
+ Fri, 24 Apr 2020 08:43:44 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EA017600EF;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EABD510016DA;
  Fri, 24 Apr 2020 08:43:41 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E5FED11358C3; Fri, 24 Apr 2020 10:43:38 +0200 (CEST)
+ id E921111358C4; Fri, 24 Apr 2020 10:43:38 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/15] qapi: Fix Visitor contract for start_alternate()
-Date: Fri, 24 Apr 2020 10:43:30 +0200
-Message-Id: <20200424084338.26803-8-armbru@redhat.com>
+Subject: [PATCH v2 08/15] qapi: Assert output visitors see only valid enum
+ values
+Date: Fri, 24 Apr 2020 10:43:31 +0200
+Message-Id: <20200424084338.26803-9-armbru@redhat.com>
 In-Reply-To: <20200424084338.26803-1-armbru@redhat.com>
 References: <20200424084338.26803-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -79,65 +80,158 @@ Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The contract demands v->start_alternate() for input and dealloc
-visitors, but visit_start_alternate() actually requires it for input
-and clone visitors.  Fix the contract, and delete superfluous
-qapi_dealloc_start_alternate().
+output_type_enum() fails when *obj is not a valid value of the enum
+type.  Should not happen.  Drop the check, along with its unit tests.
+qapi_enum_lookup()'s assertion still guards.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- include/qapi/visitor-impl.h | 5 ++---
- qapi/qapi-dealloc-visitor.c | 7 -------
- 2 files changed, 2 insertions(+), 10 deletions(-)
+ qapi/qapi-visit-core.c              |  9 -------
+ tests/test-qobject-output-visitor.c | 39 -----------------------------
+ tests/test-string-output-visitor.c  | 19 --------------
+ 3 files changed, 67 deletions(-)
 
-diff --git a/include/qapi/visitor-impl.h b/include/qapi/visitor-impl.h
-index 8ccb3b6c20..252206dc0d 100644
---- a/include/qapi/visitor-impl.h
-+++ b/include/qapi/visitor-impl.h
-@@ -67,13 +67,12 @@ struct Visitor
-     /* Must be set */
-     void (*end_list)(Visitor *v, void **list);
+diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
+index d4aac206cf..80ca83bcb9 100644
+--- a/qapi/qapi-visit-core.c
++++ b/qapi/qapi-visit-core.c
+@@ -341,15 +341,6 @@ static void output_type_enum(Visitor *v, const char *n=
+ame, int *obj,
+     int value =3D *obj;
+     char *enum_str;
 =20
--    /* Must be set by input and dealloc visitors to visit alternates;
--     * optional for output visitors. */
-+    /* Must be set by input and clone visitors to visit alternates */
-     void (*start_alternate)(Visitor *v, const char *name,
-                             GenericAlternate **obj, size_t size,
-                             Error **errp);
-=20
--    /* Optional, needed for dealloc visitor */
-+    /* Optional */
-     void (*end_alternate)(Visitor *v, void **obj);
-=20
-     /* Must be set */
-diff --git a/qapi/qapi-dealloc-visitor.c b/qapi/qapi-dealloc-visitor.c
-index d192724b13..2239fc6417 100644
---- a/qapi/qapi-dealloc-visitor.c
-+++ b/qapi/qapi-dealloc-visitor.c
-@@ -34,12 +34,6 @@ static void qapi_dealloc_end_struct(Visitor *v, void **o=
-bj)
+-    /*
+-     * TODO why is this an error, not an assertion?  If assertion:
+-     * delete, and rely on qapi_enum_lookup()
+-     */
+-    if (value < 0 || value >=3D lookup->size) {
+-        error_setg(errp, QERR_INVALID_PARAMETER, name ? name : "null");
+-        return;
+-    }
+-
+     enum_str =3D (char *)qapi_enum_lookup(lookup, value);
+     visit_type_str(v, name, &enum_str, errp);
+ }
+diff --git a/tests/test-qobject-output-visitor.c b/tests/test-qobject-outpu=
+t-visitor.c
+index d7761ebf84..1c856d9bd2 100644
+--- a/tests/test-qobject-output-visitor.c
++++ b/tests/test-qobject-output-visitor.c
+@@ -141,21 +141,6 @@ static void test_visitor_out_enum(TestOutputVisitorDat=
+a *data,
      }
  }
 =20
--static void qapi_dealloc_start_alternate(Visitor *v, const char *name,
--                                         GenericAlternate **obj, size_t si=
-ze,
--                                         Error **errp)
+-static void test_visitor_out_enum_errors(TestOutputVisitorData *data,
+-                                         const void *unused)
 -{
+-    EnumOne i, bad_values[] =3D { ENUM_ONE__MAX, -1 };
+-
+-    for (i =3D 0; i < ARRAY_SIZE(bad_values) ; i++) {
+-        Error *err =3D NULL;
+-
+-        visit_type_EnumOne(data->ov, "unused", &bad_values[i], &err);
+-        error_free_or_abort(&err);
+-        visitor_reset(data);
+-    }
 -}
 -
- static void qapi_dealloc_end_alternate(Visitor *v, void **obj)
+-
+ static void test_visitor_out_struct(TestOutputVisitorData *data,
+                                     const void *unused)
  {
-     if (obj) {
-@@ -123,7 +117,6 @@ Visitor *qapi_dealloc_visitor_new(void)
-     v->visitor.type =3D VISITOR_DEALLOC;
-     v->visitor.start_struct =3D qapi_dealloc_start_struct;
-     v->visitor.end_struct =3D qapi_dealloc_end_struct;
--    v->visitor.start_alternate =3D qapi_dealloc_start_alternate;
-     v->visitor.end_alternate =3D qapi_dealloc_end_alternate;
-     v->visitor.start_list =3D qapi_dealloc_start_list;
-     v->visitor.next_list =3D qapi_dealloc_next_list;
+@@ -234,26 +219,6 @@ static void test_visitor_out_struct_nested(TestOutputV=
+isitorData *data,
+     qapi_free_UserDefTwo(ud2);
+ }
+=20
+-static void test_visitor_out_struct_errors(TestOutputVisitorData *data,
+-                                           const void *unused)
+-{
+-    EnumOne bad_values[] =3D { ENUM_ONE__MAX, -1 };
+-    UserDefOne u =3D {0};
+-    UserDefOne *pu =3D &u;
+-    int i;
+-
+-    for (i =3D 0; i < ARRAY_SIZE(bad_values) ; i++) {
+-        Error *err =3D NULL;
+-
+-        u.has_enum1 =3D true;
+-        u.enum1 =3D bad_values[i];
+-        visit_type_UserDefOne(data->ov, "unused", &pu, &err);
+-        error_free_or_abort(&err);
+-        visitor_reset(data);
+-    }
+-}
+-
+-
+ static void test_visitor_out_list(TestOutputVisitorData *data,
+                                   const void *unused)
+ {
+@@ -821,14 +786,10 @@ int main(int argc, char **argv)
+                             &out_visitor_data, test_visitor_out_no_string)=
+;
+     output_visitor_test_add("/visitor/output/enum",
+                             &out_visitor_data, test_visitor_out_enum);
+-    output_visitor_test_add("/visitor/output/enum-errors",
+-                            &out_visitor_data, test_visitor_out_enum_error=
+s);
+     output_visitor_test_add("/visitor/output/struct",
+                             &out_visitor_data, test_visitor_out_struct);
+     output_visitor_test_add("/visitor/output/struct-nested",
+                             &out_visitor_data, test_visitor_out_struct_nes=
+ted);
+-    output_visitor_test_add("/visitor/output/struct-errors",
+-                            &out_visitor_data, test_visitor_out_struct_err=
+ors);
+     output_visitor_test_add("/visitor/output/list",
+                             &out_visitor_data, test_visitor_out_list);
+     output_visitor_test_add("/visitor/output/any",
+diff --git a/tests/test-string-output-visitor.c b/tests/test-string-output-=
+visitor.c
+index 1be1540767..3bd732222c 100644
+--- a/tests/test-string-output-visitor.c
++++ b/tests/test-string-output-visitor.c
+@@ -203,19 +203,6 @@ static void test_visitor_out_enum(TestOutputVisitorDat=
+a *data,
+     }
+ }
+=20
+-static void test_visitor_out_enum_errors(TestOutputVisitorData *data,
+-                                         const void *unused)
+-{
+-    EnumOne i, bad_values[] =3D { ENUM_ONE__MAX, -1 };
+-
+-    for (i =3D 0; i < ARRAY_SIZE(bad_values) ; i++) {
+-        Error *err =3D NULL;
+-
+-        visit_type_EnumOne(data->ov, "unused", &bad_values[i], &err);
+-        error_free_or_abort(&err);
+-    }
+-}
+-
+ static void
+ output_visitor_test_add(const char *testpath,
+                         TestOutputVisitorData *data,
+@@ -260,12 +247,6 @@ int main(int argc, char **argv)
+                             &out_visitor_data, test_visitor_out_enum, fals=
+e);
+     output_visitor_test_add("/string-visitor/output/enum-human",
+                             &out_visitor_data, test_visitor_out_enum, true=
+);
+-    output_visitor_test_add("/string-visitor/output/enum-errors",
+-                            &out_visitor_data, test_visitor_out_enum_error=
+s,
+-                            false);
+-    output_visitor_test_add("/string-visitor/output/enum-errors-human",
+-                            &out_visitor_data, test_visitor_out_enum_error=
+s,
+-                            true);
+     output_visitor_test_add("/string-visitor/output/intList",
+                             &out_visitor_data, test_visitor_out_intList, f=
+alse);
+     output_visitor_test_add("/string-visitor/output/intList-human",
 --=20
 2.21.1
 
