@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2637E1B7F1E
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 21:40:36 +0200 (CEST)
-Received: from localhost ([::1]:50742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E08521B7F57
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 21:49:52 +0200 (CEST)
+Received: from localhost ([::1]:51110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jS4Bf-0002uf-5L
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 15:40:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57212)
+	id 1jS4Kd-0006vI-Vn
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 15:49:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59184)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jS4An-0002EY-Gn
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 15:39:41 -0400
+ (envelope-from <alistair23@gmail.com>) id 1jS4Jm-0006HF-AJ
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 15:48:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jS4Ai-0008EJ-OC
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 15:39:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32588
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jS4Ai-00082M-7v
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 15:39:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587757174;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g6AQ+DvP0Ry1hyj2KXj08/u5Fuvqf5Fn5tw16bVmQHk=;
- b=brMnYuJWBy1Wvd/fuYgNoWuRsmPaWEjgWaycn9SolS1PMNCX+CtrjDsGyWJKfqiC9qJF5h
- JTuhNmsHyoNWwrKkQwmkaA7eEN7fDkBcdWwNPUfRHl5HqdBKkers+rwjS6NM2NUKCpvwXV
- Rd5O5w6eMDZKrk2oPJKuvzv9D4ejS54=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-495-U7i8sIqAPhKrCb48fwb9SQ-1; Fri, 24 Apr 2020 15:39:29 -0400
-X-MC-Unique: U7i8sIqAPhKrCb48fwb9SQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF78D1005510;
- Fri, 24 Apr 2020 19:39:27 +0000 (UTC)
-Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 47E9E5C1D4;
- Fri, 24 Apr 2020 19:39:26 +0000 (UTC)
-Subject: Re: [PATCH v4 23/30] qcow2: Update L2 bitmap in
- qcow2_alloc_cluster_link_l2()
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-References: <cover.1584468723.git.berto@igalia.com>
- <6ffd3ee7ca1e53272705ad34d2ea7ac10b50ade0.1584468723.git.berto@igalia.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <15b848ef-3e86-91f4-4ef6-5adde7ac750d@redhat.com>
-Date: Fri, 24 Apr 2020 14:39:25 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (envelope-from <alistair23@gmail.com>) id 1jS4Jl-0006H3-Ic
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 15:48:58 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:37968)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jS4Jl-00063Z-4c; Fri, 24 Apr 2020 15:48:57 -0400
+Received: by mail-io1-xd41.google.com with SMTP id f19so11674161iog.5;
+ Fri, 24 Apr 2020 12:48:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8oWQyn3T8uEIiBympa2dHQYjh07eo0K68oyO4QJfaVM=;
+ b=vcPD7yXaEPztQX2DZvG8c6S2YSdzTAOfrTdJroe9EfLav2kHFhE/SCcSiJmR6aR7m2
+ 9G76usSbsvg8QK3+BLp2D6QJJCekXKRLIY0ScIVrOVImFw8VLQfXTMoeR+1cIs87aVgC
+ +mZqvGKirDr3R2gaKZ5zkr0v61mQi6Eubx3rNGyI6dAHbtr5HNl3Sy3O2hDQMNRtiqZk
+ sGhztI/1scxPdx3lywFZz6gqp39yqlvp9SRrxpRIHoUlaQjzvkjGnWpiJkOnLrdnliQ/
+ dPrCVvHivm1AFPPLGZ+mMA/KpMBzh/Gveld5FiqwghJPPYz69j8ShStZnpYeh1pcP3gW
+ Oz+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8oWQyn3T8uEIiBympa2dHQYjh07eo0K68oyO4QJfaVM=;
+ b=g3RoV6XVuIvHj7tsKXKd8oKjTKbwi3FSwaGnl1QI50u8d9SnmqPv+4GNWX860Y5BZe
+ K6bCAasF9yvdBkl1bblxkHuu+rmxk4EZ2wr25kjC2jU6zEL2KEuv97ESzjesl2UxdvCc
+ cy4h+zfxJtUZOl5+fvDTsQoa00KyS8ns70U84SQvBhl60J7X2M9Mnb6QaR1HKIlcsMD4
+ DqgvhdnTCco7WCK1egXTClOvtl1ScnLbpOlLN2AgN2lWJh5amvvIgkKmf71CE96FzGEo
+ UckUhQSXYNE6szuud6ojt75N4JdmRJzOM7UEHL+yzda6jwwQFfBHWnZUboYQpbfEapGS
+ frYA==
+X-Gm-Message-State: AGi0PuZw1XpO9lbnBZFfTgTOuWSQtf5XzK02qQxUPVP6Wz+UQ4ZbpdMr
+ 7eTNGZRdw0aaAcT+wxbFNlZuita3Iel6JWJYqow=
+X-Google-Smtp-Source: APiQypKjY0OtyR7z55PcjV3bDv3PGzO/jJNIvt8HiYR+rptil40T2kEllT9huF0+BXVmE0T1JD2v6ihiXK9fQV4Pr+Q=
+X-Received: by 2002:a6b:bf83:: with SMTP id
+ p125mr10212817iof.118.1587757735627; 
+ Fri, 24 Apr 2020 12:48:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <6ffd3ee7ca1e53272705ad34d2ea7ac10b50ade0.1584468723.git.berto@igalia.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 13:45:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+References: <20200313193429.8035-1-coreyw7@fb.com>
+ <20200313193429.8035-2-coreyw7@fb.com>
+ <CAKmqyKNGLOE_UKWVuJzrBDRkRXj74XfOace+K5ab4-5HTWg_KA@mail.gmail.com>
+ <MW3PR15MB4041DC49872DE4C92E982FE993D00@MW3PR15MB4041.namprd15.prod.outlook.com>
+In-Reply-To: <MW3PR15MB4041DC49872DE4C92E982FE993D00@MW3PR15MB4041.namprd15.prod.outlook.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 24 Apr 2020 12:40:22 -0700
+Message-ID: <CAKmqyKPvt7ae7T0VLnriwk4HYxiCTsuDp2yTHPQ5p16oQtL6Hw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] riscv: sifive_e: Support changing CPU type
+To: Corey Wharton <coreyw7@fb.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::d41
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,77 +77,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Denis V . Lunev" <den@openvz.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/17/20 1:16 PM, Alberto Garcia wrote:
-> The L2 bitmap needs to be updated after each write to indicate what
-> new subclusters are now allocated.
-> 
-> This needs to happen even if the cluster was already allocated and the
-> L2 entry was otherwise valid.
-> 
-> Signed-off-by: Alberto Garcia <berto@igalia.com>
-> Reviewed-by: Max Reitz <mreitz@redhat.com>
-> ---
->   block/qcow2-cluster.c | 17 +++++++++++++++++
->   1 file changed, 17 insertions(+)
-> 
-> diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-> index ceacd91ea3..dfd8b66958 100644
-> --- a/block/qcow2-cluster.c
-> +++ b/block/qcow2-cluster.c
-> @@ -1006,6 +1006,23 @@ int qcow2_alloc_cluster_link_l2(BlockDriverState *bs, QCowL2Meta *m)
->           assert((offset & L2E_OFFSET_MASK) == offset);
->   
->           set_l2_entry(s, l2_slice, l2_index + i, offset | QCOW_OFLAG_COPIED);
-> +
-> +        /* Update bitmap with the subclusters that were just written */
-> +        if (has_subclusters(s)) {
-> +            unsigned written_from = m->cow_start.offset;
-> +            unsigned written_to = m->cow_end.offset + m->cow_end.nb_bytes ?:
-> +                m->nb_clusters << s->cluster_bits;
-> +            uint64_t l2_bitmap = get_l2_bitmap(s, l2_slice, l2_index + i);
-> +            int sc;
-> +            for (sc = 0; sc < s->subclusters_per_cluster; sc++) {
-> +                int sc_off = i * s->cluster_size + sc * s->subcluster_size;
-> +                if (sc_off >= written_from && sc_off < written_to) {
-> +                    l2_bitmap |= QCOW_OFLAG_SUB_ALLOC(sc);
-> +                    l2_bitmap &= ~QCOW_OFLAG_SUB_ZERO(sc);
-> +                }
-> +            }
+On Fri, Apr 24, 2020 at 12:12 PM Corey Wharton <coreyw7@fb.com> wrote:
+>
+>
+>
+> > -----Original Message-----
+> > From: Alistair Francis <alistair23@gmail.com>
+> > Sent: Friday, April 24, 2020 9:04 AM
+> > To: Corey Wharton <coreyw7@fb.com>
+> > Cc: qemu-devel@nongnu.org Developers <qemu-devel@nongnu.org>; open
+> > list:RISC-V <qemu-riscv@nongnu.org>; Sagar Karandikar
+> > <sagark@eecs.berkeley.edu>; Bastian Koppelmann <kbastian@mail.uni-
+> > paderborn.de>; Alistair Francis <alistair.francis@wdc.com>; Palmer Dabbelt
+> > <palmer@dabbelt.com>; Bin Meng <bmeng.cn@gmail.com>
+> > Subject: Re: [PATCH v2 1/2] riscv: sifive_e: Support changing CPU type
+> >
+> > On Fri, Mar 13, 2020 at 12:35 PM Corey Wharton <coreyw7@fb.com> wrote:
+> > >
+> > > Allows the CPU to be changed from the default via the -cpu command
+> > > line option.
+> > >
+> > > Signed-off-by: Corey Wharton <coreyw7@fb.com>
+> > > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> > > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > Thanks for the patch.
+> >
+> > Unfortunately this fails `make check`.
+> >
+> > The problem is that the machine has the `default_cpu_type` set but then you
+> > set "cpu-type" from the SoC.
+> >
+> > This diff fixes the make check failure for me:
+> >
+> > diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c index
+> > 1fd08f325c..b53109521e 100644
+> > --- a/hw/riscv/sifive_e.c
+> > +++ b/hw/riscv/sifive_e.c
+> > @@ -123,8 +123,6 @@ static void riscv_sifive_e_soc_init(Object *obj)
+> >      object_initialize_child(obj, "cpus", &s->cpus,
+> >                              sizeof(s->cpus), TYPE_RISCV_HART_ARRAY,
+> >                              &error_abort, NULL);
+> > -    object_property_set_str(OBJECT(&s->cpus), ms->cpu_type, "cpu-type",
+> > -                            &error_abort);
+> >      object_property_set_int(OBJECT(&s->cpus), ms->smp.cpus, "num-harts",
+> >                              &error_abort);
+> >      sysbus_init_child_obj(obj, "riscv.sifive.e.gpio0", @@ -141,6 +139,8 @@
+> > static void riscv_sifive_e_soc_realize(DeviceState
+> > *dev, Error **errp)
+> >      SiFiveESoCState *s = RISCV_E_SOC(dev);
+> >      MemoryRegion *sys_mem = get_system_memory();
+> >
+> > +    object_property_set_str(OBJECT(&s->cpus), ms->cpu_type, "cpu-type",
+> > +                            &error_abort);
+> >      object_property_set_bool(OBJECT(&s->cpus), true, "realized",
+> >                              &error_abort);
+> >
+> >
+> > I'm happy to just squash that into the patch. Let me know if you don't want
+> > me to do that and I'll drop these patches and let you re-send them.
+> >
+> > Alistair
+> >
+>
+> Thanks for fixing this issue. I tested your patch and it seems to work as
+> Intended and  I'm fine with you squashing it into the patch.
 
-Are there more efficient ways to set this series of bits than iterating 
-one bit at a time, while still remaining legible?  For example, what if 
-we had something like:
+Great!
 
-l2_bitmap = get_l2_bitmap(...);
-int sc_from = OFFSET_TO_SC(written_from);
-int sc_to = OFFSET_TO_SC(written_to - 1);
-l2_bitmap |= QCOW_OFLAG_SUB_ALLOC_RANGE(sc_from, sc_to);
-l2_bitmap &= ~QCOW_OFLAG_SUB_ZERO_RANGE(sc_from, sc_to);
+I'll send this patch as part of the PR after 5.0 then.
 
-which would require macros:
+I also realised that my justification was wrong. It's not because of
+the machine/SoC split, but because of the order between init/realise.
 
-#define OFFSET_TO_SC(offset) (offset >> (s->cluster_bits - 6))
-#define QCOW_OFLAG_SUB_ALLOC_RANGE(from, to) \
-   deposit64(0, (from), (len) - (from), -1)
-#define QCOW_OFLAG_SUB_ZERO_RANGE(from, to) \
-   deposit64(0, (from) + 32, (len) - (from) + 32, -1)
+Alistair
 
-
-> +            set_l2_bitmap(s, l2_slice, l2_index + i, l2_bitmap);
-
-I'm hoping this function doesn't cause redundant I/O if the L2 entry 
-didn't actually change.  But that's not the concern for this patch.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+>
+> Corey
+>
+> > > ---
+> > >  hw/riscv/sifive_e.c | 3 ++-
+> > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c index
+> > > a254cad489..b0a611adb9 100644
+> > > --- a/hw/riscv/sifive_e.c
+> > > +++ b/hw/riscv/sifive_e.c
+> > > @@ -123,7 +123,7 @@ static void riscv_sifive_e_soc_init(Object *obj)
+> > >      object_initialize_child(obj, "cpus", &s->cpus,
+> > >                              sizeof(s->cpus), TYPE_RISCV_HART_ARRAY,
+> > >                              &error_abort, NULL);
+> > > -    object_property_set_str(OBJECT(&s->cpus), SIFIVE_E_CPU, "cpu-type",
+> > > +    object_property_set_str(OBJECT(&s->cpus), ms->cpu_type,
+> > > + "cpu-type",
+> > >                              &error_abort);
+> > >      object_property_set_int(OBJECT(&s->cpus), ms->smp.cpus, "num-
+> > harts",
+> > >                              &error_abort); @@ -220,6 +220,7 @@ static
+> > > void riscv_sifive_e_machine_init(MachineClass *mc)
+> > >      mc->desc = "RISC-V Board compatible with SiFive E SDK";
+> > >      mc->init = riscv_sifive_e_init;
+> > >      mc->max_cpus = 1;
+> > > +    mc->default_cpu_type = SIFIVE_E_CPU;
+> > >  }
+> > >
+> > >  DEFINE_MACHINE("sifive_e", riscv_sifive_e_machine_init)
+> > > --
+> > > 2.21.1
+> > >
+> > >
 
