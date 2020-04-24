@@ -2,120 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD5801B79C1
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 17:38:43 +0200 (CEST)
-Received: from localhost ([::1]:41906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BB781B7A8B
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Apr 2020 17:49:20 +0200 (CEST)
+Received: from localhost ([::1]:42102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jS0Pa-0001Hu-Sp
-	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 11:38:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54746)
+	id 1jS0Zq-0004qY-E9
+	for lists+qemu-devel@lfdr.de; Fri, 24 Apr 2020 11:49:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57566)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1jS0Lo-0008F8-VM
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 11:34:52 -0400
+ (envelope-from <bounces@canonical.com>) id 1jS0Rp-0002W2-E7
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 11:41:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1jS0Ln-00069N-9z
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 11:34:48 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37145
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jS0Lm-00064s-MX
- for qemu-devel@nongnu.org; Fri, 24 Apr 2020 11:34:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587742484;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=L/lUUv5S0Gh7y7z3XAb70IfxuscfylwxErZ26kfkqsY=;
- b=XnMkp+5qPgMK04KE4yPkVQHfTl1cQXB7fhFMZ2HwdCpf1KM7+wAJooY/euxShlGwBC3zLW
- mMmB1/HX0dJvH423+b28R6oIxbs/pJRkbjZCrA7JQlZBVA5TvxChYGplKbbYVZem/bCsZ6
- CyXw8kmmX1WsC22IGn4gpW+/eTleR7I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-tJpIF7wHMYermhDrPXY2Iw-1; Fri, 24 Apr 2020 11:34:42 -0400
-X-MC-Unique: tJpIF7wHMYermhDrPXY2Iw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B83F5462;
- Fri, 24 Apr 2020 15:34:41 +0000 (UTC)
-Received: from [10.36.113.138] (ovpn-113-138.ams2.redhat.com [10.36.113.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2532760605;
- Fri, 24 Apr 2020 15:34:37 +0000 (UTC)
-Subject: Re: [PATCH v21 QEMU 5/5] virtio-balloon: Provide an interface for
- free page reporting
-To: Alexander Duyck <alexander.duyck@gmail.com>
-References: <20200422181649.12258.37077.stgit@localhost.localdomain>
- <20200422182127.12258.26300.stgit@localhost.localdomain>
- <a2183a2f-e10d-1e19-52d9-a9cd71fa2655@redhat.com>
- <CAKgT0Ud1WVUV5VNCCBqJtYPSLCZTq5oXGUyvqHmXdnTQUko6qQ@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat GmbH
-Message-ID: <6f7f970f-9188-726e-39da-6e0954ab9fdf@redhat.com>
-Date: Fri, 24 Apr 2020 17:34:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (envelope-from <bounces@canonical.com>) id 1jS0Ro-0001oW-P4
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 11:41:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59766)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jS0Ro-0001iD-AQ
+ for qemu-devel@nongnu.org; Fri, 24 Apr 2020 11:41:00 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jS0Rm-0002Ht-2x
+ for <qemu-devel@nongnu.org>; Fri, 24 Apr 2020 15:40:58 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DB0082E8076
+ for <qemu-devel@nongnu.org>; Fri, 24 Apr 2020 15:40:57 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAKgT0Ud1WVUV5VNCCBqJtYPSLCZTq5oXGUyvqHmXdnTQUko6qQ@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 03:11:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+Date: Fri, 24 Apr 2020 15:35:05 -0000
+From: Helge Deller <deller@gmx.de>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 8-deller philmd
+X-Launchpad-Bug-Reporter: Helge Deller (8-deller)
+X-Launchpad-Bug-Modifier: Helge Deller (8-deller)
+References: <158767392171.23001.17996085062254045820.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158774250536.17144.8266268746457869041.malone@wampee.canonical.com>
+Subject: [Bug 1874539] Re: tulip driver broken in v5.0.0-rc4
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="486bbbd6cb608f8eb468ed0d08689a349dfabe49";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 7d4371dd4aa3d431c9c4931b44f2f5290fd0c184
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/24 11:40:58
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -124,61 +67,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-dev@lists.oasis-open.org, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Reply-To: Bug 1874539 <1874539@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
->> Also, I do wonder if we want to default-enable it. It can still have a
->> negative performance impact and some people might not want that.
->=20
-> The negative performance impact should be minimal. At this point the
-> hinting process ends up being very light since it only processes a
-> small chunk of the memory before it shuts down for a couple seconds.
-> In my original data the only time any significant performance
-> regression was seen was with page shuffling enabled, and that was
-> before I put limits on how many pages we could process per pass and
-> how frequently we would make a pass through memory. My thought is that
-> we are much better having it enabled by default rather than having it
-> disabled by default. In the worst case scenario we have a little bit
-> of extra thread noise from it popping up running for a few
-> milliseconds and then sleeping for about two seconds, but the benefit
-> side is that the VMs will do us a favor and restrict themselves to a
-> much smaller idle footprint until such time as the memory is actually
-> needed in the guest.
-
-While I agree that the impact is small, there *is* a noticeable
-performance impact. One of the main users is memory overcommit.
-
-Also, imagine the following scenarios:
-- RT workload in the guest. Just because you have a virtio-balloon
-  device defined would mean something is suddenly active and
-  discarding/trying to discard pages.
-- vfio: free page reporting is completely useless right now and
-  *only* overhead.
-- prealloc does not expect that pages get suddenly discarded
-- s390x, which has CMM and might not benefit at all (except when using
-  huge pages as backing storage)
-
-No, I don't think it's acceptable to enable this as default. I remember
-that it is quite common to just define a balloon device but never use it.
-
-E.g., "A virtual memory balloon device is added to all Xen and KVM/QEMU
-guest virtual machines. It will be seen as <memballoon> element" [1].
-
-I think we should let upper layers decide (just as we do for free page
-hinting, for example).
+Attached trivial patch fixes it.
 
 
-[1]
-https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/ht=
-ml/virtualization_administration_guide/section-libvirt-dom-xml-memory-baloo=
-n-device
+** Attachment added: "patch to fix tulip rx hangs"
+   https://bugs.launchpad.net/qemu/+bug/1874539/+attachment/5359564/+files/=
+p2
 
---=20
-Thanks,
+-- =
 
-David / dhildenb
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1874539
 
+Title:
+  tulip driver broken in v5.0.0-rc4
+
+Status in QEMU:
+  New
+
+Bug description:
+  In a qemu-system-hppa system, qemu release v5.0.0-rc, the tulip nic drive=
+r is broken.
+  The tulip nic is detected, even getting DHCP info does work.
+  But when trying to download bigger files via network, the tulip driver ge=
+ts stuck.
+
+  For example when trying to download a 100MB file:
+
+  root@debian:~# wget https://speed.hetzner.de/100MB.bin
+  --2020-04-23 20:26:43--  https://speed.hetzner.de/100MB.bin
+  Resolving speed.hetzner.de (speed.hetzner.de)... 88.198.248.254, 2a01:4f8=
+:0:59ed::2
+  Connecting to speed.hetzner.de (speed.hetzner.de)|88.198.248.254|:443... =
+connected.
+  <waiting and stuck here>
+
+  When reverting this commit, everything works again:
+  commit 8ffb7265af64ec81748335ec8f20e7ab542c3850
+  Author: Prasad J Pandit <pjp@fedoraproject.org>
+  Date:   Tue Mar 24 22:57:22 2020 +0530
+  PATCH: net: tulip: check frame size and r/w data length
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1874539/+subscriptions
 
