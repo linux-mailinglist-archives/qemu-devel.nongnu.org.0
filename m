@@ -2,91 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 579DF1B853F
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Apr 2020 11:28:42 +0200 (CEST)
-Received: from localhost ([::1]:33250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5B971B8548
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Apr 2020 11:32:48 +0200 (CEST)
+Received: from localhost ([::1]:33364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSH73-0005xr-04
-	for lists+qemu-devel@lfdr.de; Sat, 25 Apr 2020 05:28:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56076)
+	id 1jSHB1-0008HT-Pc
+	for lists+qemu-devel@lfdr.de; Sat, 25 Apr 2020 05:32:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56676)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jSH5E-0005E3-80
- for qemu-devel@nongnu.org; Sat, 25 Apr 2020 05:26:49 -0400
+ (envelope-from <dimastep@yandex-team.ru>) id 1jSH9C-0007XX-VR
+ for qemu-devel@nongnu.org; Sat, 25 Apr 2020 05:31:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jSH4z-0006h2-4z
- for qemu-devel@nongnu.org; Sat, 25 Apr 2020 05:26:48 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59853
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jSH4y-0006fj-Kx
- for qemu-devel@nongnu.org; Sat, 25 Apr 2020 05:26:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587806790;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EcIayTYvRSnN3LHp4TWg4vfwCvPsVctRGypt1w6ru+g=;
- b=Ii2Q4ZvbwG1jR2LsrUckfTBdsSRwq4nFcjVvPUSeO7eH1yyKPIo0Ta3AUhkYzdcHEwt1pV
- CcM6fs6cnQUd6mE2mkdYitM6L/PznjyulOIgP6r5R6Emdtn0GwRpINf57lxiKD7wjeOjb1
- 8UEwhBz4qu6fUrzDXnRA/UI+j+CnxlA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-uvjJvTidM3yhvzuHZOBBVg-1; Sat, 25 Apr 2020 05:26:28 -0400
-X-MC-Unique: uvjJvTidM3yhvzuHZOBBVg-1
-Received: by mail-wr1-f72.google.com with SMTP id v9so6406507wrt.7
- for <qemu-devel@nongnu.org>; Sat, 25 Apr 2020 02:26:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=EcIayTYvRSnN3LHp4TWg4vfwCvPsVctRGypt1w6ru+g=;
- b=XlobDA9216Y8y/AfAbmRoYo6CEQh/o70q1bKbxHes0f/7sIbcoensyMIity8GcXIH5
- kDjB5DD0gysk1ekdHkmCmArQnLb81DT7VNPd2AglpY3ZvUFWlM7N4Gd43vke0otAOqtX
- G3aSiMk6j90dDD+9RjWFYlZ/tkEgIkoVmvv0kVD+mJd6QV3lvqpHXXV/o3KNrJxJdOYG
- y8MutDPohlDFuw2aFhqbNRpoiu0aLwG5VfFlBkLAzCDaCpTzwEqynv9WJhv0PEoVkcq5
- 0NckPZgk2q4UDn/1GCPa6NXbaGPm9DAkS16QxkpPfoIVoJLfVUUM2M3/1VAaCStuu8T+
- 9OiA==
-X-Gm-Message-State: AGi0PuYhJ4sKXRmVY7I/Pis1N6WADVj2iJDgvdGQ6eFax1YICO31AfAm
- trAf+tR9OVj/ihXNNIeE5FYD0VjKGfnsOqrd8qSMGAxHPIeSU6+tJ9UblYS6fKPHUOz4RTfgFPG
- podhh/JW0qVQ3Cqo=
-X-Received: by 2002:a5d:6148:: with SMTP id y8mr15777243wrt.236.1587806787031; 
- Sat, 25 Apr 2020 02:26:27 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJrEPwo8PqkSy+AwbDGziqW7HxlTyJldn8EHJDzRKu+Q7IPdJOabx47EoCj6fSXW6f/LRnEmQ==
-X-Received: by 2002:a5d:6148:: with SMTP id y8mr15777218wrt.236.1587806786753; 
- Sat, 25 Apr 2020 02:26:26 -0700 (PDT)
-Received: from [192.168.10.150] ([93.56.170.5])
- by smtp.gmail.com with ESMTPSA id j13sm11628472wro.51.2020.04.25.02.26.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 25 Apr 2020 02:26:26 -0700 (PDT)
-Subject: Re: [PATCH v4 1/2] target/arm: kvm: Handle DABT with no valid ISS
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>
-References: <20200323113227.3169-1-beata.michalska@linaro.org>
- <20200323113227.3169-2-beata.michalska@linaro.org>
- <CAFEAcA_uWS+cVRk=BKra8AhsD+B1syVzhXeCMttSKwQDdo=j3w@mail.gmail.com>
- <20200417131032.lcyunbjwofsn2nzz@kamzik.brq.redhat.com>
- <20200424121633.GF3106@work-vm>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <d6f4b17c-1202-3aef-320a-247dc0295277@redhat.com>
-Date: Sat, 25 Apr 2020 11:24:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <dimastep@yandex-team.ru>) id 1jSH99-00084Z-IJ
+ for qemu-devel@nongnu.org; Sat, 25 Apr 2020 05:30:52 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:55504)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
+ id 1jSH98-0007kU-LH
+ for qemu-devel@nongnu.org; Sat, 25 Apr 2020 05:30:51 -0400
+Received: from mxbackcorp1g.mail.yandex.net (mxbackcorp1g.mail.yandex.net
+ [IPv6:2a02:6b8:0:1402::301])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id AA7882E1574;
+ Sat, 25 Apr 2020 12:30:42 +0300 (MSK)
+Received: from vla1-81430ab5870b.qloud-c.yandex.net
+ (vla1-81430ab5870b.qloud-c.yandex.net [2a02:6b8:c0d:35a1:0:640:8143:ab5])
+ by mxbackcorp1g.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ qGq5qR0xVI-UfQC9cD9; Sat, 25 Apr 2020 12:30:42 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1587807042; bh=95wksq+DOqFTqSI3eN3YwPwKQPhqsS9ut077EjmfilM=;
+ h=In-Reply-To:Message-ID:Subject:To:From:References:Date:Cc;
+ b=Z8gHRUoOzAoli/QOfRvQ7H3N0YdPgaOHnqDCgjT7bvijZ71/VPAQFqmHGAv4DkMSD
+ T9TsHndgYRa/jq7LjWEf8itZE+MQUiiOPGEsi2daZRweBGw8WesmlfFzZmOLuqZzwQ
+ c87QWwVAei5+RNP4QERweORmtFRTzgUbx7OjnY10=
+Authentication-Results: mxbackcorp1g.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b080:7607::1:7])
+ by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ fgHhaeMJ2Z-UfXeBAJC; Sat, 25 Apr 2020 12:30:41 +0300
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client certificate not present)
+Date: Sat, 25 Apr 2020 12:30:40 +0300
+From: Dima Stepanov <dimastep@yandex-team.ru>
+To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [RFC PATCH v1 1/7] contrib/vhost-user-blk: add option to
+ simulate disconnect on init
+Message-ID: <20200425093030.GA28992@dimastep-nix>
+References: <cover.1587667007.git.dimastep@yandex-team.ru>
+ <52a4ae2d18ee0d810355d84ab83623a2e9ffa405.1587667007.git.dimastep@yandex-team.ru>
+ <20200422160206.GA30919@localhost.localdomain>
+ <CAMxuvaxaOTO3gmCfNjFRDk-MXfcK20d2aaN+zUHUhtRFN=pPsw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200424121633.GF3106@work-vm>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/25 05:26:30
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMxuvaxaOTO3gmCfNjFRDk-MXfcK20d2aaN+zUHUhtRFN=pPsw@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=dimastep@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/25 05:30:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 95.108.205.193
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,58 +76,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Beata Michalska <beata.michalska@linaro.org>, quintela@redhat.com,
- Christoffer Dall <Christoffer.Dall@arm.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- kvmarm@lists.cs.columbia.edu
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/04/20 14:16, Dr. David Alan Gilbert wrote:
->>> I was trying to work out whether we need to migrate this state,
->>> and I'm not sure. Andrew, do you know? I think this comes down
->>> to "at what points in QEMU's kvm run loop can migration kick in",
->>> and specifically if we get a KVM_EXIT_ARM_NISV do we definitely
->>> go round the loop and KVM_RUN again without ever checking
->>> to see if we should do a migration ?
->>>
->> I'd prefer a migration expert confirm this, so I've CC'ed David and Juan,
->> but afaict there's no way to break out of the KVM_RUN loop after a
->> successful (ret=0) call to kvm_arch_handle_exit() until after the next
->> KVM_RUN ioctl. This is because even if migration kicks the vcpus between
->> kvm_arch_handle_exit() and the next run, the signal won't do anything
->> other than prepare the vcpu for an immediate exit.
+On Fri, Apr 24, 2020 at 12:17:54PM +0200, Marc-André Lureau wrote:
+> Hi
+> 
+> On Fri, Apr 24, 2020 at 4:32 AM Raphael Norwitz
+> <raphael.norwitz@nutanix.com> wrote:
+> >
+> > I’m not opposed to adding this kind of debugging functionality to the
+> > vhost-user-blk sample. It could be helpful to easily test these cases
+> > in the future.
+> >
+> > That said, I'm not sure how others will feel about adding these kind
+> > of debugging capabilities to libvhost-user. Marc-Andre, thoughts?
+> 
+> Maybe we should only enable this code if LIBVHOST_USER_DEBUG is set?
+> 
+> And to make logging silent by default, we shouldn't print them unless
+> VHOST_USER_DEBUG env is set?
+Yes, it is a good idea to move this code under LIBVHOST_USER_DEBUG.
+Agree. Will update it in version 2, but need more feedback on other
+patches first.
 
-As far as QEMU is concerned, this should be enough for Beata's patch to
-be safe.  If the signal causes KVM to exit before KVM_EXIT_ARM_NISV,
-it's of course okay.  If you get a KVM_EXIT_ARM_NISV, however, KVM_RUN
-will exit with return code 0 and kvm_cpu_exec will:
-
-- set env->ext_dabt_pending
-
-- go round the loop again
-
-- notice cpu->exit_request and schedule an immediate exit
-
-- call kvm_arch_put_registers
-
-- call KVM_RUN again, which will exit with -EINTR
-
-- exit the loop and allow migration to proceed
-
-However, I'm not sure that it's a good idea to
-
-+        /* Clear instantly if the call was successful */
-+        env->ext_dabt_pending = 0;
-
-Rather, this should be done by the next kvm_arch_get_registers when it
-calls KVM_GET_VCPU_EVENTS.  It's also possible to add an assertion in
-kvm_get_vcpu_events that it you always get zero, to justify that the
-field is not migrated.
-
-Thanks,
-
-Paolo
-
+> 
+> >
+> > If we go this route I would prefer to add the debugging options to the
+> > vhost-user-blk sample in a separate patch.
+> >
+> > On Thu, Apr 23, 2020 at 09:39:32PM +0300, Dima Stepanov wrote:
+> > >
+> > > Add "--simulate-disconnect-stage" option for the testing purposes.
+> > > This option can be used to test the vhost-user reconnect functionality:
+> > >   ./vhost-user-blk ... --simulate-disconnect-stage=<CASENUM>
+> > > In this case the daemon will "crash" in the middle of the VHOST comands
+> > > communication. Case nums are as follows:
+> > >   1 - make assert in the handler of the SET_VRING_CALL command
+> > >   2 - make assert in the handler of the SET_VRING_NUM command
+> > > Main purpose is to test QEMU reconnect functionality. Such fail
+> > > injection should not lead to QEMU crash and should be handled
+> > > successfully.
+> > > Also update the "GOptionEntry entries" definition with the final NULL
+> > > item according to API.
+> > >
+> > > Signed-off-by: Dima Stepanov <dimastep@yandex-team.ru>
+> > > ---
+> > >  contrib/libvhost-user/libvhost-user.c   | 30 ++++++++++++++++++++++++++++++
+> > >  contrib/libvhost-user/libvhost-user.h   | 13 +++++++++++++
+> > >  contrib/vhost-user-blk/vhost-user-blk.c | 14 +++++++++++++-
+> > >  3 files changed, 56 insertions(+), 1 deletion(-)
+> >
+> 
 
