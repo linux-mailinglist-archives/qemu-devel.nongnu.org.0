@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E11D51B889A
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Apr 2020 20:50:22 +0200 (CEST)
-Received: from localhost ([::1]:45206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE24F1B88B6
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Apr 2020 21:01:41 +0200 (CEST)
+Received: from localhost ([::1]:45406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSPsb-0005qL-FD
-	for lists+qemu-devel@lfdr.de; Sat, 25 Apr 2020 14:50:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47452)
+	id 1jSQ3Y-0001av-AR
+	for lists+qemu-devel@lfdr.de; Sat, 25 Apr 2020 15:01:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49806)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jSPro-0005JH-Gz
- for qemu-devel@nongnu.org; Sat, 25 Apr 2020 14:49:32 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jSQ2G-0000nb-Ju
+ for qemu-devel@nongnu.org; Sat, 25 Apr 2020 15:00:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jSPrk-0003NU-0E
- for qemu-devel@nongnu.org; Sat, 25 Apr 2020 14:49:32 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:34730)
+ (envelope-from <richard.henderson@linaro.org>) id 1jSQ2E-0004u6-Vc
+ for qemu-devel@nongnu.org; Sat, 25 Apr 2020 15:00:20 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:41622)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jSPrj-0003NH-Fh
- for qemu-devel@nongnu.org; Sat, 25 Apr 2020 14:49:27 -0400
-Received: by mail-pg1-x530.google.com with SMTP id o15so6350501pgi.1
- for <qemu-devel@nongnu.org>; Sat, 25 Apr 2020 11:49:27 -0700 (PDT)
+ id 1jSQ2E-0004ri-Dc
+ for qemu-devel@nongnu.org; Sat, 25 Apr 2020 15:00:18 -0400
+Received: by mail-pf1-x431.google.com with SMTP id 18so5305785pfv.8
+ for <qemu-devel@nongnu.org>; Sat, 25 Apr 2020 12:00:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
+ h=subject:from:to:cc:references:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=KMg9u5ehDVdDTEzdNRyC+vwZGTwgqWQFH0etykPUyEg=;
- b=qZdHuo5/uAusFkzgnRwqB9g9VJWYJS1acnNmIdH1IeNzlK0GVwMi8At1cIeg6ZIezq
- AWPVuVFRBfgLVZAiYLZMi3m4Bt0WrNCnVXM4P0n1NC4OyMe87g1JkZEb/XJ1ji6QwGvF
- jKpBkMsL0MRFKGORmZA6Ro5dsYWZGmyDi1H+tGsxde8znFmHgc0JrNhXwnzvDRlFaGY0
- DPUw6+WpJedUP5IhIoddGLsdOWQlRLvWq5EK9C5Tc3OBX4ScU1Qaj2azPDBfZfYnteZc
- RQaA/2l6PZ5ahZvqmAW/eBZ8B3BPPUqar+glW6BRyicx9I6o90CJXEwnqxGp1FUAbl7o
- BH4g==
+ bh=2yzfaR388T/3E3RNFSli0kuLnKDuKMC0a1kBW6RqCI8=;
+ b=b7V1/fI/lJ/JGuRQq14/Y4EBSfINR3FARzXZrfKfsExg+Cs4V4vrDMAMKH03NSFeNz
+ fTIrRKxTWzVzbfeIQ0XgACE/cWUX+Wp2W3+MwWNbB9fATX0QfwcJmikR14lWZNoXAB5+
+ wbZkctR1IE5uwFYZyiWKvff7x6aOITXWdZ1L37N3fSRH8mp+aUi3JbHkRn4BoW8bEiyf
+ 5xGSFdnqSTHx9haoOjLZKZOab5AVYjCKYsWVly032cTdDMDWwhyg65468e+KssuV1RS7
+ H0evfo8QjZABofVS2wnuNCxFNwoXzyzZW/TBM0Fg/B/x0r/SM8xdcBdmDcIvHsipynuq
+ z9BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=KMg9u5ehDVdDTEzdNRyC+vwZGTwgqWQFH0etykPUyEg=;
- b=jUrwnRYtMV58e0/BM4uHkVYfMq9HNixhywKS0/otx1pX6YeMEuBhigAmtq7OaMYLDv
- EShbBTJFkDpocZVUPSdSEV3086Yhb1xJRivXKLB18JSGbdtuQ8KOcXqcs+khs5ABXlCX
- 1NXfg6X6ua5adRWoHQUvTUAPDWqiYHYuxBeL54DBrOrL9GPUV+tDwfy0e15akiBY+1gV
- 211A9W3/kHAg9A2FuypyniyFpLAG3cya3zxbp85GUvleZTkna1ovuoi+sqah5W5ZtrSW
- RUJDywG3jldRswE3f3+/9r5da8Hg8khB9X4/3qojxPBH8lGvKNCj2nlvHWPci8ZhMIjR
- rJKw==
-X-Gm-Message-State: AGi0PuZsRnPMnJ2Jx9RH7KBu77W3dWVicDFEo9kSPvfVj2h6NCJNnuih
- SpAghCdp3sdPQFf55Rwa+bRPN5pUX8A=
-X-Google-Smtp-Source: APiQypLYXdPeTd4iPSEio/zmwbiMXyw8LgoX9Mkc2qiQGJ8ttCIjVIt0JH9TmP1T7LOXiyTT3ONpng==
-X-Received: by 2002:aa7:9a52:: with SMTP id x18mr15714990pfj.139.1587840565379; 
- Sat, 25 Apr 2020 11:49:25 -0700 (PDT)
+ bh=2yzfaR388T/3E3RNFSli0kuLnKDuKMC0a1kBW6RqCI8=;
+ b=VivlICY4lhDsIb+inorzk/NJtMTG59ebZuWfGrXuTgvZ2bhSICxk6sj1KmylbXGmVx
+ 4aH0/E4wJEWlL7u2A98OxqCfHRljWAHYkP5v3fS3xtRL+8kJ0j7N6HF9FIarAwqflSVM
+ Ag1+bxSfeR5TAGYC/mfEEHXu6O3Y1dt58VVb7o98TjhLtK+lnflO/A57C7D/rUaV0HFu
+ 5uuD7m+h68GgLsFZk4RSRRYuhl2QVJgiY6EhQNOvsIMbwrN/rye3DOs8+V+CPRb9A9Bu
+ 94aZhuatZu1VR6xV2PC50q+VkUasAMl/4c+HyMhDsVuQ8C2PQa2ndj4Ev46QXpyFkRW4
+ 5ZjA==
+X-Gm-Message-State: AGi0PuaC7uWGlbmm8jWopfFW2veh/woCV4UK0sm3/2/9D6Nc758o+RVe
+ fpxaBUQ3voqGLa+6noPDMhNSl2d43cQ=
+X-Google-Smtp-Source: APiQypKPpzURBtmOKm/vXpAqNp919a4hbz/eQpoJOyl9oXaceoT5HMq9iu+x552LcwaKS0KdvRzhqw==
+X-Received: by 2002:a62:1ccb:: with SMTP id
+ c194mr15518912pfc.325.1587841216341; 
+ Sat, 25 Apr 2020 12:00:16 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id 14sm7983759pjd.36.2020.04.25.11.49.23
+ by smtp.gmail.com with ESMTPSA id n34sm2905589pgl.43.2020.04.25.12.00.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 25 Apr 2020 11:49:24 -0700 (PDT)
+ Sat, 25 Apr 2020 12:00:15 -0700 (PDT)
 Subject: Re: ARM SVE issues with non "standard" vector lengths
+From: Richard Henderson <richard.henderson@linaro.org>
 To: Laurent Desnogues <laurent.desnogues@gmail.com>
 References: <CABoDooMSCvi4sxWS-a3cQksD3V5tnHCUbGPsxW69Ou4d1rpQZQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <082800aa-0cab-f331-c9af-2e59f5d5897c@linaro.org>
-Date: Sat, 25 Apr 2020 11:49:22 -0700
+ <082800aa-0cab-f331-c9af-2e59f5d5897c@linaro.org>
+Message-ID: <f8de973c-96a1-139f-2ba2-6c07a88f790e@linaro.org>
+Date: Sat, 25 Apr 2020 12:00:13 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <CABoDooMSCvi4sxWS-a3cQksD3V5tnHCUbGPsxW69Ou4d1rpQZQ@mail.gmail.com>
+In-Reply-To: <082800aa-0cab-f331-c9af-2e59f5d5897c@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::530
+X-Received-From: 2607:f8b0:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,23 +90,24 @@ Cc: qemu-arm <qemu-arm@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/23/20 6:59 AM, Laurent Desnogues wrote:
-> 2. sve_zip_p
+On 4/25/20 11:49 AM, Richard Henderson wrote:
+> On 4/23/20 6:59 AM, Laurent Desnogues wrote:
+>> 2. sve_zip_p
+>>
+>> This generates extraneous data in the higher part of the result.
+>>
+>> I hit this when I got a wrong result on an instruction that ends up
+>> using sve_cntp which counts all bits set in each 64-bit chunk. There
+>> might be some other instructions beyond ZIP that generate extra data
+>> that would break sve_cntp.  So perhaps it'd be easier to fix sve_cmtp
+>> (and hope that it's the only function that uses bits beyond vector
+>> length...).
 > 
-> This generates extraneous data in the higher part of the result.
-> 
-> I hit this when I got a wrong result on an instruction that ends up
-> using sve_cntp which counts all bits set in each 64-bit chunk. There
-> might be some other instructions beyond ZIP that generate extra data
-> that would break sve_cntp.  So perhaps it'd be easier to fix sve_cmtp
-> (and hope that it's the only function that uses bits beyond vector
-> length...).
+> I don't see how sve_zip_p can set high bits.  If vl is not a multiple of 512,
+> it writes in units of uint16_t.  This cannot produce values outside range.
 
-I don't see how sve_zip_p can set high bits.  If vl is not a multiple of 512,
-it writes in units of uint16_t.  This cannot produce values outside range.
-
-Are you certain that the high bits were not set and left over by some previous
-buggy operation, since the uint16_t writes would not clear any extra bits?
+Bah.  I was looking at zip2 first.  zip1 uses the uint64_t path.
+I see the problem now.
 
 
 r~
