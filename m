@@ -2,89 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A8501B85C1
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Apr 2020 12:47:59 +0200 (CEST)
-Received: from localhost ([::1]:34480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39AF91B920F
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 19:25:50 +0200 (CEST)
+Received: from localhost ([::1]:39576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSILl-00030c-V2
-	for lists+qemu-devel@lfdr.de; Sat, 25 Apr 2020 06:47:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40618)
+	id 1jSl2K-0003Hf-Po
+	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 13:25:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57746)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jSIKR-0002Tw-SM
- for qemu-devel@nongnu.org; Sat, 25 Apr 2020 06:46:36 -0400
+ (envelope-from <alistair@alistair23.me>) id 1jSl1E-0002es-Qt
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 13:24:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jSIKR-0000wF-2q
- for qemu-devel@nongnu.org; Sat, 25 Apr 2020 06:46:35 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59997
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jSIKQ-0000od-F2
- for qemu-devel@nongnu.org; Sat, 25 Apr 2020 06:46:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587811592;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=a4A+lrdI1dFhVegHcBQe60sNI1hR1+hKm0XsksZ6haE=;
- b=ZE/6JJ25gF2GHZrgxAAMaPSojtqWCZtrBVNYO0Ged0bpNAgu0PfPsLPgojlzVl5xVrQbno
- xEGNIcNItSlXst0H9RkvUuq1nMsoJCPGFTmZ2O7c/0oQsTsDMSSHpxktpMy3HQEftpJYo5
- Ic/ru0VSbbo0WQJqiNYrtYZtyrSEgg4=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-79-ctXrWRzpPbG7aWeB6Fkq7A-1; Sat, 25 Apr 2020 06:46:31 -0400
-X-MC-Unique: ctXrWRzpPbG7aWeB6Fkq7A-1
-Received: by mail-wr1-f69.google.com with SMTP id u4so6534336wrm.13
- for <qemu-devel@nongnu.org>; Sat, 25 Apr 2020 03:46:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zutJsnXkVSIqotkfhzRuC9WUfFnFfS8YcXLnqr/eb9g=;
- b=MvVkJAiNhKa+2cxpLv4BBb9HS9fq5z6fKsVPX36NdxFgKzcwihQpXwLOTYqYw+G1m/
- vPR9mP+r8wFHS8i4sq/x+KX4Uyr2ndNUi1y+TpcYIunrF1j6zBpc8GLdqcuaMOg1NPDf
- fvrAgEbJEpRwM2v/ZMBaVURbyF0KojS4zokaXJvmL+LCiEBnwwwwtmm+0fbyLXTnslZW
- LUSR/qqMwSxFmG4O8FH19Nsvel+/IgW6Skpk89XTbKM9y/c8eq0Gm3LGTJK7/K3pqHik
- rKw+OS0cy4KmzdM/XC3OoefJTutERgfLZ6+HkBEG3OXNBON7T7qBR5bA0nBSjzKBy0/u
- dPNw==
-X-Gm-Message-State: AGi0PubIWJ4O9lLXlZQCat6dofGAtPz0i/7nUTNR9AnWg8c9LlmkqtWP
- CScflWCyk3VSXM50QBArdP2siF7sO1zWPa/jiG2xrVv4Dvu/wsrm1JWv9vBl6VzcyigKD7jmbAs
- YkkMQ4FF62IqAP7E=
-X-Received: by 2002:a1c:8049:: with SMTP id b70mr15489929wmd.162.1587811589912; 
- Sat, 25 Apr 2020 03:46:29 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJiCPU199ACMbNMeMy4dwd/mmbtcic4pJKRGyLmUyGPtsYAgvcDuntTjY0J5dKz8uovYH3qUw==
-X-Received: by 2002:a1c:8049:: with SMTP id b70mr15489915wmd.162.1587811589699; 
- Sat, 25 Apr 2020 03:46:29 -0700 (PDT)
-Received: from [192.168.10.150] ([93.56.170.5])
- by smtp.gmail.com with ESMTPSA id c190sm6789166wme.4.2020.04.25.03.46.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 25 Apr 2020 03:46:28 -0700 (PDT)
-Subject: Re: [PATCH v2] chardev/char-socket: Properly make qio connections non
- blocking
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-References: <1587289900-29485-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <20200420092600.GG346737@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <09893acf-ce13-ce30-79fd-669eded3b7ab@redhat.com>
-Date: Sat, 25 Apr 2020 12:46:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <alistair@alistair23.me>) id 1jSl1D-0004ZT-Fi
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 13:24:40 -0400
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:44229)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alistair@alistair23.me>)
+ id 1jSl1C-0004ZI-Nz; Sun, 26 Apr 2020 13:24:39 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id DA2C448F;
+ Sun, 26 Apr 2020 13:24:34 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Sun, 26 Apr 2020 13:24:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm3; bh=hwtx02kkvPK5B
+ V7M6kav5ZTdZRn0A1eYTzwE3O+v0ss=; b=L+YEJbTV0jO0Jb49SWJJxIUNulhGv
+ h3nwAAyQnWWkllty8a9p9j2t6Ywi1QaLrmJO3wuwVZO2BQcK00jGE3Cjzqi+5Yoe
+ 0BTkg+PNH2LK3WjdZhhbWLFG9TCkn10psHNHyrLpWq6+VdxAEUbjsRwQjtR4AlN2
+ XnjsORj70cJHexN1fBiTKIYb4Dx2HTSR12px50QElVt3HYTYY3cXARPiou2V0sEi
+ ImXI8+pbx2cXJSeIjJ6PRKvBMaKN6zjuUZKjfF9yk8PXlxP4Lf4kzXUCHPclrq/H
+ s4kvgvLsTQ2Pyt0DsXpd8yAYor73/roTiUXHchVNOpILz+RObhV0mp0wQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; bh=hwtx02kkvPK5BV7M6kav5ZTdZRn0A1eYTzwE3O+v0ss=; b=L56BvZTh
+ avDSt/hO8B/r9eGHQDX5s9BRBDOWLJ2y1CEYXo27xydc8xdybLco410UxfJ8/HY0
+ eVVYmuipC8f2C7ZNupc2Ai4y86fi1cI/Ol5lZYhoKeNFRZ1NsObfwWuCdjw0tFo+
+ B1uj1hsmsxTi5OTQGaWpDANrcIoiZWmb4z/9vdyDsObrBT0JPB2jDz2hP3f7cUIF
+ X8wLjNWWkXRJqJGhBl83n8JV6XXa+vaLXtCUVTbbpupOKapr0CkFPTo47cvlwo3C
+ oUUB/n5SedkXIZ1HhHaGvoZWit3juua1o/mlWHEfWlX7yA6UV0RNjVOjBzibFkw2
+ xxTLqxSb9o9WzA==
+X-ME-Sender: <xms:0cOlXtSENYYoBAXGEVnp-yS4zpeR_TQPTSudew-GiThJWvFYso8vsQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrheejgdduudefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
+ dtredttdenucfhrhhomheptehlihhsthgrihhrucfhrhgrnhgtihhsuceorghlihhsthgr
+ ihhrsegrlhhishhtrghirhdvfedrmhgvqeenucfkphepjeefrdelfedrkeegrddvtdekne
+ cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghlihhs
+ thgrihhrsegrlhhishhtrghirhdvfedrmhgv
+X-ME-Proxy: <xmx:0cOlXnW6QJgztDHZ_I5NGJSTuTZiXTKywBzba0SK11qOmqdTTzHVpQ>
+ <xmx:0cOlXuOUAsCjFdP59I1Vjoxwt16vrfrMVcglb2kTNEDBNTurFTDwqA>
+ <xmx:0cOlXnpju243zG2XUnCkMOf8RSmvH2Uz276wxMMkynOkOXAlw68YEQ>
+ <xmx:0sOlXtmvdu2y9htjjWZ_9yAyhq_ayCPsKX0qKdlFlbvSAxSDHofdWQ>
+Received: from ThinkpadX1Yoga3.localdomain (c-73-93-84-208.hsd1.ca.comcast.net
+ [73.93.84.208])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 25C4A3065E2B;
+ Sun, 26 Apr 2020 13:24:33 -0400 (EDT)
+From: Alistair Francis <alistair@alistair23.me>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v1 15/15] target/riscv: Support the v0.6 Hypervisor extension
+ CRSs
+Date: Sat, 25 Apr 2020 03:50:52 -0700
+Message-Id: <9ff1ce7ccc2b257bec95152fea3ebf1d66e2e43f.1587918096.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1587918096.git.alistair.francis@wdc.com>
+References: <cover.1587918096.git.alistair.francis@wdc.com>
 MIME-Version: 1.0
-In-Reply-To: <20200420092600.GG346737@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/25 06:29:31
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=64.147.123.20;
+ envelope-from=alistair@alistair23.me; helo=wout4-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 13:24:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 64.147.123.20
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,54 +89,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- edgari@xilinx.com, qemu-devel@nongnu.org
+Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/04/20 11:26, Daniel P. Berrang=C3=A9 wrote:
-> On Sun, Apr 19, 2020 at 03:21:40PM +0530, Sai Pavan Boddu wrote:
->> In tcp_chr_sync_read function, there is a possibility of socket
->> disconnection during blocking read, then tcp_chr_hup function would clea=
-n up
->> the qio channel pointers(i.e ioc, sioc).
->>
->> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
->> ---
->> Changes for V2:
->> =09Place the guard around 'qio_channel_set_blocking' call to check conne=
-ction status
->> =09This fix is simpler than v1 and explains better about the issue.
->>
->>  chardev/char-socket.c | 4 +++-
->>  1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
->> index 185fe38..e56b2f0 100644
->> --- a/chardev/char-socket.c
->> +++ b/chardev/char-socket.c
->> @@ -549,7 +549,9 @@ static int tcp_chr_sync_read(Chardev *chr, const uin=
-t8_t *buf, int len)
->> =20
->>      qio_channel_set_blocking(s->ioc, true, NULL);
->>      size =3D tcp_chr_recv(chr, (void *) buf, len);
->> -    qio_channel_set_blocking(s->ioc, false, NULL);
->> +    if (s->state !=3D TCP_CHARDEV_STATE_DISCONNECTED) {
->> +        qio_channel_set_blocking(s->ioc, false, NULL);
->> +    }
->>      if (size =3D=3D 0) {
->>          /* connection closed */
->>          tcp_chr_disconnect(chr);
->=20
-> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->=20
->=20
-> Regards,
-> Daniel
->=20
+From: Alistair Francis <alistair.francis@wdc.com>
 
-Queued, thanks.
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/cpu_bits.h |  3 +++
+ target/riscv/csr.c      | 40 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 43 insertions(+)
 
-Paolo
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 8a145e0a32..690f327828 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -182,9 +182,12 @@
+ #define CSR_HIDELEG         0x603
+ #define CSR_HIE             0x604
+ #define CSR_HCOUNTEREN      0x606
++#define CSR_HGEIE           0x607
+ #define CSR_HTVAL           0x643
++#define CSR_HVIP            0x645
+ #define CSR_HIP             0x644
+ #define CSR_HTINST          0x64A
++#define CSR_HGEIP           0xE12
+ #define CSR_HGATP           0x680
+ #define CSR_HTIMEDELTA      0x605
+ #define CSR_HTIMEDELTAH     0x615
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 04f3471f2e..3eb6ddd061 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -901,12 +901,25 @@ static int write_hideleg(CPURISCVState *env, int csrno, target_ulong val)
+     return 0;
+ }
+ 
++static int rmw_hvip(CPURISCVState *env, int csrno, target_ulong *ret_value,
++                   target_ulong new_value, target_ulong write_mask)
++{
++    int ret = rmw_mip(env, 0, ret_value, new_value,
++                      write_mask & hip_writable_mask);
++
++    *ret_value &= hip_writable_mask;
++
++    return ret;
++}
++
+ static int rmw_hip(CPURISCVState *env, int csrno, target_ulong *ret_value,
+                    target_ulong new_value, target_ulong write_mask)
+ {
+     int ret = rmw_mip(env, 0, ret_value, new_value,
+                       write_mask & hip_writable_mask);
+ 
++    *ret_value &= hip_writable_mask;
++
+     return ret;
+ }
+ 
+@@ -934,6 +947,18 @@ static int write_hcounteren(CPURISCVState *env, int csrno, target_ulong val)
+     return 0;
+ }
+ 
++static int read_hgeie(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
++    return 0;
++}
++
++static int write_hgeie(CPURISCVState *env, int csrno, target_ulong val)
++{
++    qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
++    return 0;
++}
++
+ static int read_htval(CPURISCVState *env, int csrno, target_ulong *val)
+ {
+     *val = env->htval;
+@@ -957,6 +982,18 @@ static int write_htinst(CPURISCVState *env, int csrno, target_ulong val)
+     return 0;
+ }
+ 
++static int read_hgeip(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
++    return 0;
++}
++
++static int write_hgeip(CPURISCVState *env, int csrno, target_ulong val)
++{
++    qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
++    return 0;
++}
++
+ static int read_hgatp(CPURISCVState *env, int csrno, target_ulong *val)
+ {
+     *val = env->hgatp;
+@@ -1356,11 +1393,14 @@ static riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     [CSR_HSTATUS] =             { hmode,   read_hstatus,     write_hstatus    },
+     [CSR_HEDELEG] =             { hmode,   read_hedeleg,     write_hedeleg    },
+     [CSR_HIDELEG] =             { hmode,   read_hideleg,     write_hideleg    },
++    [CSR_HVIP] =                { hmode,   NULL,     NULL,     rmw_hvip       },
+     [CSR_HIP] =                 { hmode,   NULL,     NULL,     rmw_hip        },
+     [CSR_HIE] =                 { hmode,   read_hie,         write_hie        },
+     [CSR_HCOUNTEREN] =          { hmode,   read_hcounteren,  write_hcounteren },
++    [CSR_HGEIE] =               { hmode,   read_hgeie,       write_hgeie      },
+     [CSR_HTVAL] =               { hmode,   read_htval,       write_htval      },
+     [CSR_HTINST] =              { hmode,   read_htinst,      write_htinst     },
++    [CSR_HGEIP] =               { hmode,   read_hgeip,       write_hgeip      },
+     [CSR_HGATP] =               { hmode,   read_hgatp,       write_hgatp      },
+     [CSR_HTIMEDELTA] =          { hmode,   read_htimedelta,  write_htimedelta },
+ #if defined(TARGET_RISCV32)
+-- 
+2.26.2
 
 
