@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24CD1B92AF
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 20:15:09 +0200 (CEST)
-Received: from localhost ([::1]:41424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB7A1B866D
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Apr 2020 14:17:56 +0200 (CEST)
+Received: from localhost ([::1]:35998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSlo4-0007Xi-O9
-	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 14:15:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33746)
+	id 1jSJkp-0004EQ-Fa
+	for lists+qemu-devel@lfdr.de; Sat, 25 Apr 2020 08:17:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37908)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair@alistair23.me>) id 1jSlca-0008Ej-QZ
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 14:03:17 -0400
+ (envelope-from <bounces@canonical.com>) id 1jSJj7-0003ac-LY
+ for qemu-devel@nongnu.org; Sat, 25 Apr 2020 08:16:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alistair@alistair23.me>) id 1jSlca-0008AY-A0
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 14:03:16 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:39553)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair@alistair23.me>)
- id 1jSlcZ-0008AA-ST; Sun, 26 Apr 2020 14:03:15 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 2695A5C00A4;
- Sun, 26 Apr 2020 14:03:14 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Sun, 26 Apr 2020 14:03:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=UU0FRAkADueGV
- GnvDO1YKP2XHBjzPc0YVUe1BTNexo0=; b=Pvgf6rUjAKZHDZvOuGN8Ustrl+1w2
- uhIppfGTv+ASbSX7QEWbzQw6YC17VP2r+ffcc8tIukIBleOqgWY5lItJSco7qCR9
- +01NpYaEfs8AkklQbAxRqkvl5pWbVo5GVWrraYX6vGVruMhuGlNxM+Qu6XOVzQ24
- HoDroFtD792g81BhkGfbJ/tEeEe0kPzHvgsj4htpc4gV6/EOVNVtVrSl5g3NbrM4
- ZfIRB2EdYOK3jj51R4QcavMiwTpsjuW+EJ1Xxm8D9wowHXuuVhDtx3U8Ally88np
- Qi/lqQBNWQzUWoM1XLT+FTA2NaBCRM5Dlcml3yVgZSgMUxf7D0j6x8SMg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=UU0FRAkADueGVGnvDO1YKP2XHBjzPc0YVUe1BTNexo0=; b=UBWmyRJ7
- bsJrEMsYqTIBR2BSq19Q5wOl9vicr+xoyCRAxT31CZMLU5Kjrm/+kdIRHE2SsOI8
- nY025FUyK+564umY5ybBNZ/AjUT4oMZCa5hwjsCPISe1JKaPLKwrc5+yOoKCkLHm
- kW0QCceaoybvYsl/Gf25mXZG+D2QJ8ZknOqluprXVvhKcQLZGbLvfO8O3vhFeSUT
- 9cVfBr1SZayo0yT2f+fxg42ug0z2XT0utrpwCxjngT1Td2XSf+jszOd2kcSl4A5W
- lXIrf9nQxJASRYvMMM6E+l+XEzG3IwHyPX71OCs0oDJQyOAzbBzQPwFj4fqJEVb8
- dbH1a4gEiKB1fg==
-X-ME-Sender: <xms:4sylXioF-fMYhrtXKzOjqX93Hr6zkrEHq0Yb2c_YZgo_DyJrTaemkA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrheejgdduvdduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
- dtredttdenucfhrhhomheptehlihhsthgrihhrucfhrhgrnhgtihhsuceorghlihhsthgr
- ihhrsegrlhhishhtrghirhdvfedrmhgvqeenucfkphepjeefrdelfedrkeegrddvtdekne
- cuvehluhhsthgvrhfuihiivgepheenucfrrghrrghmpehmrghilhhfrhhomheprghlihhs
- thgrihhrsegrlhhishhtrghirhdvfedrmhgv
-X-ME-Proxy: <xmx:4sylXmpmZaNW5cZKSFIpdmXQkiB2RH6V_FqUebMEaB9dkZwM7iBlGg>
- <xmx:4sylXiBAqJWBMuIq1Ov85sFgApZe7nlPVUAd-t-t8TWh8M8wQLmT3g>
- <xmx:4sylXkseMoJP2Zfa34TtGM5gqF4fOZorGVBJx7hnCEaXV74mQabKqg>
- <xmx:4sylXtDilGeWoDsVAoC6M0ltQEkvnBWa3hnCg2wWWAmEEm5c2uPkKg>
-Received: from ThinkpadX1Yoga3.localdomain (c-73-93-84-208.hsd1.ca.comcast.net
- [73.93.84.208])
- by mail.messagingengine.com (Postfix) with ESMTPA id 594063065E37;
- Sun, 26 Apr 2020 14:03:13 -0400 (EDT)
-From: Alistair Francis <alistair@alistair23.me>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v1 9/9] target/riscv: Use a smaller guess size for no-MMU PMP
-Date: Sat, 25 Apr 2020 04:29:33 -0700
-Message-Id: <e5aa799cb3d51513c7b7700e89625d4108e2fe66.1587920572.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1587920572.git.alistair.francis@wdc.com>
-References: <cover.1587920572.git.alistair.francis@wdc.com>
+ (envelope-from <bounces@canonical.com>) id 1jSJix-0001Rf-Fn
+ for qemu-devel@nongnu.org; Sat, 25 Apr 2020 08:16:09 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33040)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jSJiw-00017d-Vy
+ for qemu-devel@nongnu.org; Sat, 25 Apr 2020 08:15:59 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jSJiu-0005mE-Rs
+ for <qemu-devel@nongnu.org>; Sat, 25 Apr 2020 12:15:56 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CF33D2E80E7
+ for <qemu-devel@nongnu.org>; Sat, 25 Apr 2020 12:15:56 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=66.111.4.29; envelope-from=alistair@alistair23.me;
- helo=out5-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 14:02:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 66.111.4.29
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 25 Apr 2020 11:58:05 -0000
+From: Juerg Haefliger <1875012@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
+ component=main; status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=New; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: juergh
+X-Launchpad-Bug-Reporter: Juerg Haefliger (juergh)
+X-Launchpad-Bug-Modifier: Juerg Haefliger (juergh)
+Message-Id: <158781588544.26077.10592453455728808856.malonedeb@soybean.canonical.com>
+Subject: [Bug 1875012] [NEW] KVM internal error. Suberror: 1 -- emulation
+ failure
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="486bbbd6cb608f8eb468ed0d08689a349dfabe49";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: ec6af8669dac22af16f8a4bdd5e7029731b17135
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/25 08:15:57
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,49 +73,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
+Reply-To: Bug 1875012 <1875012@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>
+Public bug reported:
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/pmp.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+Trying to boot a core20 amd64 image on an amd64 Eoan or Focal host via
+libvirt leads to:
 
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index 0e6b640fbd..5aba4d13ea 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -233,12 +233,21 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-         return true;
-     }
- 
--    /*
--     * if size is unknown (0), assume that all bytes
--     * from addr to the end of the page will be accessed.
--     */
-     if (size == 0) {
--        pmp_size = -(addr | TARGET_PAGE_MASK);
-+        if (!riscv_feature(env, RISCV_FEATURE_MMU)) {
-+            /*
-+             * if size is unknown (0), assume that all bytes
-+             * from addr to the end of the page will be accessed.
-+             */
-+            pmp_size = -(addr | TARGET_PAGE_MASK);
-+        } else {
-+            /*
-+             * If size is unknown (0) and we don't have an MMU,
-+             * just guess the size as the xlen as we don't want to
-+             * access an entire page worth.
-+             */
-+            pmp_size = sizeof(target_ulong);
-+        }
-     } else {
-         pmp_size = size;
-     }
--- 
-2.26.2
+KVM internal error. Suberror: 1
+emulation failure
+RAX=3D0000000000000000 RBX=3D000000003bdcd5c0 RCX=3D000000003ff1d030 RDX=3D=
+00000000000019a0
+RSI=3D00000000000000ff RDI=3D000000003bd73ee0 RBP=3D000000003bd73e40 RSP=3D=
+000000003ff1d1f8
+R8 =3D000000003df52168 R9 =3D0000000000000000 R10=3Dffffffffffffffff R11=3D=
+000000003bd44c40
+R12=3D000000003bd76500 R13=3D000000003bd73e00 R14=3D0000000000020002 R15=3D=
+000000003df4b483
+RIP=3D00000000000b0000 RFL=3D00210246 [---Z-P-] CPL=3D0 II=3D0 A20=3D1 SMM=
+=3D0 HLT=3D0
+ES =3D0030 0000000000000000 ffffffff 00c09300 DPL=3D0 DS   [-WA]
+CS =3D0038 0000000000000000 ffffffff 00a09b00 DPL=3D0 CS64 [-RA]
+SS =3D0030 0000000000000000 ffffffff 00c09300 DPL=3D0 DS   [-WA]
+DS =3D0030 0000000000000000 ffffffff 00c09300 DPL=3D0 DS   [-WA]
+FS =3D0030 0000000000000000 ffffffff 00c09300 DPL=3D0 DS   [-WA]
+GS =3D0030 0000000000000000 ffffffff 00c09300 DPL=3D0 DS   [-WA]
+LDT=3D0000 0000000000000000 0000ffff 00008200 DPL=3D0 LDT
+TR =3D0000 0000000000000000 0000ffff 00008b00 DPL=3D0 TSS64-busy
+GDT=3D     000000003fbee698 00000047
+IDT=3D     000000003f2d8018 00000fff
+CR0=3D80010033 CR2=3D0000000000000000 CR3=3D000000003fc01000 CR4=3D00000668
+DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=3D=
+0000000000000000 =
 
+DR6=3D00000000ffff0ff0 DR7=3D0000000000000400
+EFER=3D0000000000000d00
+Code=3D00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 <ff> ff =
+ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff =
+ff ff ff
+
+** Affects: qemu (Ubuntu)
+     Importance: Undecided
+         Status: New
+
+** Affects: qemu (Ubuntu Eoan)
+     Importance: Undecided
+         Status: New
+
+** Affects: qemu (Ubuntu Focal)
+     Importance: Undecided
+         Status: New
+
+** Also affects: qemu (Ubuntu)
+   Importance: Undecided
+       Status: New
+
+** No longer affects: qemu
+
+** Also affects: qemu (Ubuntu Focal)
+   Importance: Undecided
+       Status: New
+
+** Also affects: qemu (Ubuntu Eoan)
+   Importance: Undecided
+       Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1875012
+
+Title:
+  KVM internal error. Suberror: 1 -- emulation failure
+
+Status in qemu package in Ubuntu:
+  New
+Status in qemu source package in Eoan:
+  New
+Status in qemu source package in Focal:
+  New
+
+Bug description:
+  Trying to boot a core20 amd64 image on an amd64 Eoan or Focal host via
+  libvirt leads to:
+
+  KVM internal error. Suberror: 1
+  emulation failure
+  RAX=3D0000000000000000 RBX=3D000000003bdcd5c0 RCX=3D000000003ff1d030 RDX=
+=3D00000000000019a0
+  RSI=3D00000000000000ff RDI=3D000000003bd73ee0 RBP=3D000000003bd73e40 RSP=
+=3D000000003ff1d1f8
+  R8 =3D000000003df52168 R9 =3D0000000000000000 R10=3Dffffffffffffffff R11=
+=3D000000003bd44c40
+  R12=3D000000003bd76500 R13=3D000000003bd73e00 R14=3D0000000000020002 R15=
+=3D000000003df4b483
+  RIP=3D00000000000b0000 RFL=3D00210246 [---Z-P-] CPL=3D0 II=3D0 A20=3D1 SM=
+M=3D0 HLT=3D0
+  ES =3D0030 0000000000000000 ffffffff 00c09300 DPL=3D0 DS   [-WA]
+  CS =3D0038 0000000000000000 ffffffff 00a09b00 DPL=3D0 CS64 [-RA]
+  SS =3D0030 0000000000000000 ffffffff 00c09300 DPL=3D0 DS   [-WA]
+  DS =3D0030 0000000000000000 ffffffff 00c09300 DPL=3D0 DS   [-WA]
+  FS =3D0030 0000000000000000 ffffffff 00c09300 DPL=3D0 DS   [-WA]
+  GS =3D0030 0000000000000000 ffffffff 00c09300 DPL=3D0 DS   [-WA]
+  LDT=3D0000 0000000000000000 0000ffff 00008200 DPL=3D0 LDT
+  TR =3D0000 0000000000000000 0000ffff 00008b00 DPL=3D0 TSS64-busy
+  GDT=3D     000000003fbee698 00000047
+  IDT=3D     000000003f2d8018 00000fff
+  CR0=3D80010033 CR2=3D0000000000000000 CR3=3D000000003fc01000 CR4=3D000006=
+68
+  DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=
+=3D0000000000000000 =
+
+  DR6=3D00000000ffff0ff0 DR7=3D0000000000000400
+  EFER=3D0000000000000d00
+  Code=3D00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 <ff> f=
+f ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff f=
+f ff ff ff
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1875012/+subscriptions
 
