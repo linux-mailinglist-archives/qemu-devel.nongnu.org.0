@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 258901B92A7
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 20:11:28 +0200 (CEST)
-Received: from localhost ([::1]:41050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E3621B92A1
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 20:09:01 +0200 (CEST)
+Received: from localhost ([::1]:40846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSlkT-0008OY-US
-	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 14:11:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33704)
+	id 1jSli7-0004I1-HS
+	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 14:09:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33714)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair@alistair23.me>) id 1jSlcU-000865-M0
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 14:03:14 -0400
+ (envelope-from <alistair@alistair23.me>) id 1jSlcV-000873-O5
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 14:03:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alistair@alistair23.me>) id 1jSlcR-00088p-28
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 14:03:10 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:51841)
+ (envelope-from <alistair@alistair23.me>) id 1jSlcV-00089R-78
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 14:03:11 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:58669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair@alistair23.me>)
- id 1jSlcQ-00088a-LY; Sun, 26 Apr 2020 14:03:06 -0400
+ id 1jSlcU-000897-PV; Sun, 26 Apr 2020 14:03:10 -0400
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id EE6DB5C00BB;
- Sun, 26 Apr 2020 14:03:05 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 1550A5C00A4;
+ Sun, 26 Apr 2020 14:03:10 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Sun, 26 Apr 2020 14:03:05 -0400
+ by compute3.internal (MEProxy); Sun, 26 Apr 2020 14:03:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=qGAuUT0QYUH2o
- KtLsKqioh2WmzIjcYIxHqe+R5Isl2I=; b=KV0hD3ICgdFio0A2tTMJdRKB7gU+Q
- kJ7/jXRBBpNvzdk5eYPlkloj7aXC4DTu5LOwjNYUH1AWBogbgYa8pEO5CjqfnHT/
- lt38NXtM8iNJfD3+ha4s6geSb+tLKDCKBHpd6fhkWf1cythmLnLyQTAuWkfuCzTi
- dojzrV46IAgCi46U5TtYMkQutGiB3kHM0Ad6iJhGR3jbFh52mB+dlW81Z7GlFWbS
- dtiCZ9ahbLp5w3P09IB2Y77l+yi8DqMrxuI4P4I/7X+QS1mT6Ph3fu714cjxoY2i
- KP1lunJo05Giosjy1t+6WLT2zN4TQ6vp8NlaSTE4LslrUmOPUfoO/udSg==
+ :mime-version:content-transfer-encoding; s=fm3; bh=K28qojJl+cpo/
+ xLCUcWQv5uPEPvCRgaTFEEkbG3cNmE=; b=I10OQoXYZZ8Ktg9kF8Jwx5EUcazww
+ MSZ3gQQzuX/KyF0HQFSqBGNozL187KV2iH/3bA7m4iFQMrl5UcMIHJjkgodNX0GG
+ wvZbK+1L+4jGKY9ESr2Ojkp4YWweeB6vu87lNpR1/x/Lp2cOGcCnienr29H5+wvM
+ Mtj0hRqQTfPGlGaUgfZUrfThNGecc3/hTAUogTF/jB0Z9cEKhaewnqaUggAxDoDd
+ feX8fucxCqo/93C96yD726+OMlK2ncYFe6XKJMZ57L/tDuD3GvrhyyD+w5MQsMai
+ jCgzkC+m8X3agWr9hE0cSGi0uhMalY8hnE7/cbNxczUsFzNzToSblAKtg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=qGAuUT0QYUH2oKtLsKqioh2WmzIjcYIxHqe+R5Isl2I=; b=xaqjgGId
- 9KGFWD7avCBvo6aIrJPxIByMMzMp8rAMeUZ2uzC5zHU5KRpSoHz3EhdY9I5gEWfu
- RRcXPwmlyLdXnxgCKclIz5NtzoBoakvYBrfGhRPr3lnzklG+G+Xzbj9s90LrBXdf
- UUs2MecYEjEEZA9bUGx0IQK48fFH64waxT0NC3uGC3GDLOvxUjHEtzBF8HmwHUOr
- 9iWPehXVt5GsqSSNdCEahB0VXEVN4whkHzUSReydJH9t6dtrRpj4Uhumv9EJdMIt
- NREmyM4XAmcyqUoZDGOHGybdmzvbggfhwNX2HCdztDSFGDkOoT85PmB/s3/kEDlE
- wWLxY0M3JHRp7w==
-X-ME-Sender: <xms:2cylXvvryqXuUqlTlMgD0Ugnqos_2RhqubH6QvqNeHtoVsf-JmGYog>
+ fm2; bh=K28qojJl+cpo/xLCUcWQv5uPEPvCRgaTFEEkbG3cNmE=; b=HCqW9FSl
+ 3q2s/IlDpqs02622AaqNGng6AuKrxiqVoZZqyE/CYUeGC8qhwpswIGIFmTfPHkOQ
+ fuMmhPu046qvnuiP9ivex7+GNRYr/cg6PQ5HeO/FOqXUM5kV5XALUMCFbkczWfY/
+ 15fjMb2UFGr3AD9K6GWQwJ6RdjQUolM5mmm2bjLdFX/rL8VPcmxwKidegO5MriVd
+ z6OnDWXRRJ987q1JT1Q/z22EhbYV+s9BcMnhlpv117Hml3GhaGfMCq/U5X96/OB8
+ 3rvrYf/OEJDCHLgSd8El7oRQLuuCwKy0BUftcLvYPvu4d6a0paFafoTD2M/dH+gg
+ mMqIeLNyssdD0Q==
+X-ME-Sender: <xms:3cylXgOIe207dZsq8LValc5Wz8ndkhOaf1SFF_w7EzhJQLJor2Rwvw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrheejgdduvdduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
  dtredttdenucfhrhhomheptehlihhsthgrihhrucfhrhgrnhgtihhsuceorghlihhsthgr
  ihhrsegrlhhishhtrghirhdvfedrmhgvqeenucfkphepjeefrdelfedrkeegrddvtdekne
- cuvehluhhsthgvrhfuihiivgepfeenucfrrghrrghmpehmrghilhhfrhhomheprghlihhs
+ cuvehluhhsthgvrhfuihiivgepgeenucfrrghrrghmpehmrghilhhfrhhomheprghlihhs
  thgrihhrsegrlhhishhtrghirhdvfedrmhgv
-X-ME-Proxy: <xmx:2cylXg2w3OYYAcL-TmatwC2wLeg6gnbEnp5SgFg2ls6WA6n8S3jdyQ>
- <xmx:2cylXj6x2KK_m4WHZwhZk0DJMdDDh8s6FuSy_UMyq91p4o6MQpUjDA>
- <xmx:2cylXqPcesy-G1IL-6wM6kpzIA5Z1FCtMG0nvWYwqEovj_2m8mUPJg>
- <xmx:2cylXoJUfSdEz1wGYual5cPE9GNQ4L64g9TaukeRtgvVEDXP0hGySA>
+X-ME-Proxy: <xmx:3cylXrOQtDffHKPkaZpmcsEiL03FEQAd7LKjwo5ugsubrRIXxqxC0A>
+ <xmx:3cylXiRbkVL8SAwAsFQ6noV8ueSg5LLRfPcNXAhlSkOZcVSqoWE_XQ>
+ <xmx:3cylXtAv9Qtyc_rdIEcTwtO2lKM9fZn6krONoHaPVeeinfaVJTEbxA>
+ <xmx:3sylXl9NNPzejUBPpLZN3U08ZBQgcu5iU8-SQHqJg24JGKbBSHFHhg>
 Received: from ThinkpadX1Yoga3.localdomain (c-73-93-84-208.hsd1.ca.comcast.net
  [73.93.84.208])
- by mail.messagingengine.com (Postfix) with ESMTPA id 448B33065E36;
- Sun, 26 Apr 2020 14:03:05 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 4D21F3065E3B;
+ Sun, 26 Apr 2020 14:03:09 -0400 (EDT)
 From: Alistair Francis <alistair@alistair23.me>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v1 7/9] riscv/opentitan: Connect the PLIC device
-Date: Sat, 25 Apr 2020 04:29:25 -0700
-Message-Id: <7c8a355c06198dbcc70eb487ef397be8e19a7dbc.1587920572.git.alistair.francis@wdc.com>
+Subject: [PATCH v1 8/9] riscv/opentitan: Connect the UART device
+Date: Sat, 25 Apr 2020 04:29:29 -0700
+Message-Id: <147e9843aa6e2f2f450ddc2324a420b9b0229a50.1587920572.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1587920572.git.alistair.francis@wdc.com>
 References: <cover.1587920572.git.alistair.francis@wdc.com>
@@ -96,89 +96,88 @@ From: Alistair Francis <alistair.francis@wdc.com>
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/opentitan.c         | 19 +++++++++++++++++--
- include/hw/riscv/opentitan.h |  3 +++
- 2 files changed, 20 insertions(+), 2 deletions(-)
+ hw/riscv/opentitan.c         | 24 ++++++++++++++++++++++--
+ include/hw/riscv/opentitan.h | 13 +++++++++++++
+ 2 files changed, 35 insertions(+), 2 deletions(-)
 
 diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index 1f9f4a8dd0..3a845fbb7b 100644
+index 3a845fbb7b..81cd835e8b 100644
 --- a/hw/riscv/opentitan.c
 +++ b/hw/riscv/opentitan.c
-@@ -25,6 +25,7 @@
- #include "hw/misc/unimp.h"
- #include "hw/riscv/boot.h"
- #include "exec/address-spaces.h"
-+#include "sysemu/sysemu.h"
+@@ -96,6 +96,9 @@ static void riscv_lowrisc_ibex_soc_init(Object *obj)
  
- static const struct MemmapEntry {
-     hwaddr base;
-@@ -92,6 +93,9 @@ static void riscv_lowrisc_ibex_soc_init(Object *obj)
-     object_initialize_child(obj, "cpus", &s->cpus,
-                             sizeof(s->cpus), TYPE_RISCV_HART_ARRAY,
-                             &error_abort, NULL);
+     sysbus_init_child_obj(obj, "plic", &s->plic,
+                           sizeof(s->plic), TYPE_IBEX_PLIC);
 +
-+    sysbus_init_child_obj(obj, "plic", &s->plic,
-+                          sizeof(s->plic), TYPE_IBEX_PLIC);
++    sysbus_init_child_obj(obj, "uart", &s->uart,
++                          sizeof(s->uart), TYPE_IBEX_UART);
  }
  
  static void riscv_lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
-@@ -100,6 +104,9 @@ static void riscv_lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
-     MachineState *ms = MACHINE(qdev_get_machine());
-     LowRISCIbexSoCState *s = RISCV_IBEX_SOC(dev_soc);
-     MemoryRegion *sys_mem = get_system_memory();
-+    DeviceState *dev;
-+    SysBusDevice *busdev;
-+    Error *err = NULL;
+@@ -137,8 +140,25 @@ static void riscv_lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+     busdev = SYS_BUS_DEVICE(dev);
+     sysbus_mmio_map(busdev, 0, memmap[IBEX_PLIC].base);
  
-     object_property_set_str(OBJECT(&s->cpus), ms->cpu_type, "cpu-type",
-                             &error_abort);
-@@ -120,6 +127,16 @@ static void riscv_lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
-     memory_region_add_subregion(sys_mem, memmap[IBEX_FLASH].base,
-                                 &s->flash_mem);
- 
-+    /* PLIC */
-+    dev = DEVICE(&s->plic);
-+    object_property_set_bool(OBJECT(&s->plic), true, "realized", &err);
+-    create_unimplemented_device("riscv.lowrisc.ibex.uart",
+-        memmap[IBEX_UART].base, memmap[IBEX_UART].size);
++    /* UART */
++    dev = DEVICE(&(s->uart));
++    qdev_prop_set_chr(dev, "chardev", serial_hd(0));
++    object_property_set_bool(OBJECT(&s->uart), true, "realized", &err);
 +    if (err != NULL) {
 +        error_propagate(errp, err);
 +        return;
 +    }
 +    busdev = SYS_BUS_DEVICE(dev);
-+    sysbus_mmio_map(busdev, 0, memmap[IBEX_PLIC].base);
++    sysbus_mmio_map(busdev, 0, memmap[IBEX_UART].base);
++    sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(DEVICE(&s->plic),
++                       IBEX_UART_TX_WATERMARK_IRQ));
++    sysbus_connect_irq(busdev, 1, qdev_get_gpio_in(DEVICE(&s->plic),
++                       IBEX_UART_RX_WATERMARK_IRQ));
++    sysbus_connect_irq(busdev, 2, qdev_get_gpio_in(DEVICE(&s->plic),
++                       IBEX_UART_TX_EMPTY_IRQ));
++    sysbus_connect_irq(busdev, 3, qdev_get_gpio_in(DEVICE(&s->plic),
++                       IBEX_UART_RX_OVERFLOW_IRQ));
 +
-     create_unimplemented_device("riscv.lowrisc.ibex.uart",
-         memmap[IBEX_UART].base, memmap[IBEX_UART].size);
      create_unimplemented_device("riscv.lowrisc.ibex.gpio",
-@@ -134,8 +151,6 @@ static void riscv_lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
-         memmap[IBEX_AES].base, memmap[IBEX_AES].size);
-     create_unimplemented_device("riscv.lowrisc.ibex.hmac",
-         memmap[IBEX_HMAC].base, memmap[IBEX_HMAC].size);
--    create_unimplemented_device("riscv.lowrisc.ibex.plic",
--        memmap[IBEX_PLIC].base, memmap[IBEX_PLIC].size);
-     create_unimplemented_device("riscv.lowrisc.ibex.pinmux",
-         memmap[IBEX_PINMUX].base, memmap[IBEX_PINMUX].size);
-     create_unimplemented_device("riscv.lowrisc.ibex.alert_handler",
+         memmap[IBEX_GPIO].base, memmap[IBEX_GPIO].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.spi",
 diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
-index 15a3d87ed0..8d6a09b696 100644
+index 8d6a09b696..825a3610bc 100644
 --- a/include/hw/riscv/opentitan.h
 +++ b/include/hw/riscv/opentitan.h
-@@ -20,6 +20,7 @@
- #define HW_OPENTITAN_H
+@@ -21,6 +21,7 @@
  
  #include "hw/riscv/riscv_hart.h"
-+#include "hw/intc/ibex_plic.h"
+ #include "hw/intc/ibex_plic.h"
++#include "hw/char/ibex_uart.h"
  
  #define TYPE_RISCV_IBEX_SOC "riscv.lowrisc.ibex.soc"
  #define RISCV_IBEX_SOC(obj) \
-@@ -31,6 +32,8 @@ typedef struct LowRISCIbexSoCState {
- 
+@@ -33,6 +34,7 @@ typedef struct LowRISCIbexSoCState {
      /*< public >*/
      RISCVHartArrayState cpus;
-+    IbexPlicState plic;
-+
+     IbexPlicState plic;
++    IbexUartState uart;
+ 
      MemoryRegion flash_mem;
      MemoryRegion rom;
- } LowRISCIbexSoCState;
+@@ -63,4 +65,15 @@ enum {
+     IBEX_USBDEV,
+ };
+ 
++enum {
++    IBEX_UART_RX_PARITY_ERR_IRQ = 0x28,
++    IBEX_UART_RX_TIMEOUT_IRQ = 0x27,
++    IBEX_UART_RX_BREAK_ERR_IRQ = 0x26,
++    IBEX_UART_RX_FRAME_ERR_IRQ = 0x25,
++    IBEX_UART_RX_OVERFLOW_IRQ = 0x24,
++    IBEX_UART_TX_EMPTY_IRQ = 0x23,
++    IBEX_UART_RX_WATERMARK_IRQ = 0x22,
++    IBEX_UART_TX_WATERMARK_IRQ = 0x21
++};
++
+ #endif
 -- 
 2.26.2
 
