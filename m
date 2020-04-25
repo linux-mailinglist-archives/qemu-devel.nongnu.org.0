@@ -2,87 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF6331B85E1
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Apr 2020 12:58:27 +0200 (CEST)
-Received: from localhost ([::1]:34866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE1D01B929F
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 20:06:30 +0200 (CEST)
+Received: from localhost ([::1]:40718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSIVu-0002u9-Vm
-	for lists+qemu-devel@lfdr.de; Sat, 25 Apr 2020 06:58:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42706)
+	id 1jSlfh-0001td-UT
+	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 14:06:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33550)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jSIUn-0001ij-B4
- for qemu-devel@nongnu.org; Sat, 25 Apr 2020 06:57:17 -0400
+ (envelope-from <alistair@alistair23.me>) id 1jSlc1-0007Uz-HS
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 14:02:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jSIUm-0006tl-MY
- for qemu-devel@nongnu.org; Sat, 25 Apr 2020 06:57:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27571
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jSIUm-0006ta-8y
- for qemu-devel@nongnu.org; Sat, 25 Apr 2020 06:57:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587812235;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TDRGRr8h59lZ16agr8SC+2jl+L8bVIn7v1sbPGjDyXA=;
- b=C0Z+cKDFW/TnNG0TvubjbLqaftB59EAgWCoVA+5bY15YYPUKQ6QOesBoBg7BpKzBd8uLLL
- TonBUhHZgfjniPrabpDiU1ZU24bE+95S6lBJ6m2Z1CUxpRMUuTRv0r3ZojbEHcYORktDa9
- ogpHiXTtenvWKqXsiPU+Sl/poJkXVfo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-dxVraxnnNz2NUbRmUYNRYA-1; Sat, 25 Apr 2020 06:57:13 -0400
-X-MC-Unique: dxVraxnnNz2NUbRmUYNRYA-1
-Received: by mail-wm1-f69.google.com with SMTP id h6so5046502wmi.7
- for <qemu-devel@nongnu.org>; Sat, 25 Apr 2020 03:57:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TDRGRr8h59lZ16agr8SC+2jl+L8bVIn7v1sbPGjDyXA=;
- b=jAq8GPt826gRESr8LUmg8U9xv7Wa/S8dnWRHcZYG3crcJot+l7b/PxRxU8/EQgbEXY
- GfQ7aReK7vyMIBdOy8Z+OGbBAHfQfu3orFo86bmQ/yqvU/fhfVgw/yFpuV6AINKlxmR0
- gdBJ8Ur6guTKeqJBTUWhWCgHxrL8z+4hGSy8RPgURfXZpZvFffA0iQqXo1RpZkqZS7NZ
- oZtXlvF/xg9rTE8ZBQDtvRIZgjdpqovRktvr+ctuhm7X6L2Zc9CMv+7UKF+7B4Q0z+M0
- G6L8YMT1ss8+R9BmFUFuSg2UHwaXjcEY2Asb1ONBKDLo4q1xkJ8l9CSU5JMG0StNIFuM
- lLDw==
-X-Gm-Message-State: AGi0PubpHR1CGKTEVP+PWJ6Vnz/o3ODvLB+UOQgTx2SVCQuWW8LjH3Ox
- qoRho57yTxF/C8vcnzLFIp1a9o1zKlhT9Zyz0nXcXlD3jHIf2lEOnD7i3upPlnGpLk767TwDI2d
- A9tjIylOR5r2V5j8=
-X-Received: by 2002:adf:e487:: with SMTP id i7mr16288650wrm.393.1587812232169; 
- Sat, 25 Apr 2020 03:57:12 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLBNrFKM3EVL8/OnYaANvo5NG7irgs9xXi0el8M2Naneml4tGzfMJQ7J0QBi6Oqgg2HiNcwtw==
-X-Received: by 2002:adf:e487:: with SMTP id i7mr16288634wrm.393.1587812231947; 
- Sat, 25 Apr 2020 03:57:11 -0700 (PDT)
-Received: from [192.168.10.150] ([93.56.170.5])
- by smtp.gmail.com with ESMTPSA id h2sm6852369wmf.34.2020.04.25.03.57.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 25 Apr 2020 03:57:11 -0700 (PDT)
-Subject: Re: [PATCH] hw/i386/amd_iommu: Fix the reserved bits definition of
- IOMMU commands
-To: Wei Huang <wei.huang2@amd.com>, qemu-devel@nongnu.org
-References: <20200418042845.596457-1-wei.huang2@amd.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <fa1c1635-88f4-5bb5-6030-8dec941bf99c@redhat.com>
-Date: Sat, 25 Apr 2020 12:57:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <alistair@alistair23.me>) id 1jSlbz-0007Wu-Tc
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 14:02:40 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:46781)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alistair@alistair23.me>)
+ id 1jSlbz-0007W6-AU; Sun, 26 Apr 2020 14:02:39 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 28E0C5C00E3;
+ Sun, 26 Apr 2020 14:02:38 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Sun, 26 Apr 2020 14:02:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=S65C8AGToF/dNNOvMyyM+fwvZj
+ 8b5XGM2SrQ2cG8EFY=; b=WG5GLO/KTcD6IsMcLglaEpIyyvM77g8NCwFfiQKCPT
+ rPdhMSWNFMUT635TZXy/JHOKKaAhefShuDVQ+s72echpr2ZCHC8SxqrksH1Vn2aU
+ kuCoYqNznwDVz/ATR0hAJ+hI/9sWSzBvjaqlujmNlxptNT3MweXMIBeEk0gnefWa
+ Lmm7fKf1lyZ5Frx+yaIK4e75n6XU8L4weocuzXc8iLJ1y1bvOktPDl38dlrvgRzW
+ QWW8HHCKxpe4g8Ja9NhpbMbn/QlxexWTZ7oNbDYlah7/wGyynjloT5lT+cfc59zb
+ e88CGSvreBjPQ0Y8ZkZD66SsRSOZ+vsKxH8W5lPRE1XQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=S65C8AGToF/dNNOvM
+ yyM+fwvZj8b5XGM2SrQ2cG8EFY=; b=vWKzfFFnLdW33gbzP6eH2vlykWk7chwTN
+ vNC7RS4QkS9MbxLFow/InWUYJlKzBIbOZG0LTncPrJbHjihyIcXS5U6/x33iHnc0
+ akb93G+LocwxV84xckgKys4J1FWw1OWhfKKJ4N2qwveErWKtjkvbErm1ZqOBQ30R
+ UpUim6daHtnEAV+tkubg5T7zhO8Qc0BywWAjGsQsDTn+Xs0P/cf0YkFPKbIz+oug
+ aWflEeKf3xsNhOKyAxv5zKvdBjKtZHy3Uuqr8JgUvkNprtuWSOFYEoQRfakIFDI0
+ cz+TszLIiy//FM/LY5qZNEv3t7I+h/ewtlRtYK5hFDE5Ud6tLmgpA==
+X-ME-Sender: <xms:vcylXm8gHj6siDym8e2XE_l8fznGB0RIFgwx8cI4wLg1-HEjI_r6ZQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrheejgdduvdduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+ dttdenucfhrhhomheptehlihhsthgrihhrucfhrhgrnhgtihhsuceorghlihhsthgrihhr
+ segrlhhishhtrghirhdvfedrmhgvqeenucffohhmrghinhepohhpvghnthhithgrnhdroh
+ hrghenucfkphepjeefrdelfedrkeegrddvtdeknecuvehluhhsthgvrhfuihiivgeptden
+ ucfrrghrrghmpehmrghilhhfrhhomheprghlihhsthgrihhrsegrlhhishhtrghirhdvfe
+ drmhgv
+X-ME-Proxy: <xmx:vcylXqZD6kKw7tJ2IWtQTk673w8vx_yTs6TRHM2ZopRkiyCSeXhXjA>
+ <xmx:vcylXnH_3z2gp4eTpTr1GVExjvI3By5zmF5NYRbtacppyvWvFP3xLg>
+ <xmx:vcylXr4ohM3JE6nV4sBuUW6tFfYm5J4Jxds2sDtF_aAHOnn5REvIiw>
+ <xmx:vsylXpg5d9F-K4BDeEwesph_p7oDf0LjSg1uI20JhF4f5Vi1ndt8SQ>
+Received: from ThinkpadX1Yoga3.localdomain (c-73-93-84-208.hsd1.ca.comcast.net
+ [73.93.84.208])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 2D5BD3065E36;
+ Sun, 26 Apr 2020 14:02:37 -0400 (EDT)
+From: Alistair Francis <alistair@alistair23.me>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v1 0/9]  RISC-V Add the OpenTitan Machine
+Date: Sat, 25 Apr 2020 04:28:57 -0700
+Message-Id: <cover.1587920572.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200418042845.596457-1-wei.huang2@amd.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/25 05:12:59
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=66.111.4.29; envelope-from=alistair@alistair23.me;
+ helo=out5-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 14:02:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 66.111.4.29
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,98 +86,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/04/20 06:28, Wei Huang wrote:
-> Many reserved bits of amd_iommu commands are defined incorrectly in QEMU.
-> Because of it, QEMU incorrectly injects lots of illegal commands into guest
-> VM's IOMMU event log.
-> 
-> Signed-off-by: Wei Huang <wei.huang2@amd.com>
-> ---
->  hw/i386/amd_iommu.c | 19 ++++++++++---------
->  1 file changed, 10 insertions(+), 9 deletions(-)
-> 
-> diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
-> index fd75cae02437..4346060e6223 100644
-> --- a/hw/i386/amd_iommu.c
-> +++ b/hw/i386/amd_iommu.c
-> @@ -370,7 +370,7 @@ static void amdvi_completion_wait(AMDVIState *s, uint64_t *cmd)
->      hwaddr addr = cpu_to_le64(extract64(cmd[0], 3, 49)) << 3;
->      uint64_t data = cpu_to_le64(cmd[1]);
->  
-> -    if (extract64(cmd[0], 51, 8)) {
-> +    if (extract64(cmd[0], 52, 8)) {
->          amdvi_log_illegalcom_error(s, extract64(cmd[0], 60, 4),
->                                     s->cmdbuf + s->cmdbuf_head);
->      }
-> @@ -395,7 +395,7 @@ static void amdvi_inval_devtab_entry(AMDVIState *s, uint64_t *cmd)
->      uint16_t devid = cpu_to_le16((uint16_t)extract64(cmd[0], 0, 16));
->  
->      /* This command should invalidate internal caches of which there isn't */
-> -    if (extract64(cmd[0], 15, 16) || cmd[1]) {
-> +    if (extract64(cmd[0], 16, 44) || cmd[1]) {
->          amdvi_log_illegalcom_error(s, extract64(cmd[0], 60, 4),
->                                     s->cmdbuf + s->cmdbuf_head);
->      }
-> @@ -405,9 +405,9 @@ static void amdvi_inval_devtab_entry(AMDVIState *s, uint64_t *cmd)
->  
->  static void amdvi_complete_ppr(AMDVIState *s, uint64_t *cmd)
->  {
-> -    if (extract64(cmd[0], 15, 16) ||  extract64(cmd[0], 19, 8) ||
-> +    if (extract64(cmd[0], 16, 16) ||  extract64(cmd[0], 52, 8) ||
->          extract64(cmd[1], 0, 2) || extract64(cmd[1], 3, 29)
-> -        || extract64(cmd[1], 47, 16)) {
-> +        || extract64(cmd[1], 48, 16)) {
->          amdvi_log_illegalcom_error(s, extract64(cmd[0], 60, 4),
->                                     s->cmdbuf + s->cmdbuf_head);
->      }
-> @@ -438,8 +438,8 @@ static void amdvi_inval_pages(AMDVIState *s, uint64_t *cmd)
->  {
->      uint16_t domid = cpu_to_le16((uint16_t)extract64(cmd[0], 32, 16));
->  
-> -    if (extract64(cmd[0], 20, 12) || extract64(cmd[0], 16, 12) ||
-> -        extract64(cmd[0], 3, 10)) {
-> +    if (extract64(cmd[0], 20, 12) || extract64(cmd[0], 48, 12) ||
-> +        extract64(cmd[1], 3, 9)) {
->          amdvi_log_illegalcom_error(s, extract64(cmd[0], 60, 4),
->                                     s->cmdbuf + s->cmdbuf_head);
->      }
-> @@ -451,7 +451,7 @@ static void amdvi_inval_pages(AMDVIState *s, uint64_t *cmd)
->  
->  static void amdvi_prefetch_pages(AMDVIState *s, uint64_t *cmd)
->  {
-> -    if (extract64(cmd[0], 16, 8) || extract64(cmd[0], 20, 8) ||
-> +    if (extract64(cmd[0], 16, 8) || extract64(cmd[0], 52, 8) ||
->          extract64(cmd[1], 1, 1) || extract64(cmd[1], 3, 1) ||
->          extract64(cmd[1], 5, 7)) {
->          amdvi_log_illegalcom_error(s, extract64(cmd[0], 60, 4),
-> @@ -463,7 +463,7 @@ static void amdvi_prefetch_pages(AMDVIState *s, uint64_t *cmd)
->  
->  static void amdvi_inval_inttable(AMDVIState *s, uint64_t *cmd)
->  {
-> -    if (extract64(cmd[0], 16, 16) || cmd[1]) {
-> +    if (extract64(cmd[0], 16, 44) || cmd[1]) {
->          amdvi_log_illegalcom_error(s, extract64(cmd[0], 60, 4),
->                                     s->cmdbuf + s->cmdbuf_head);
->          return;
-> @@ -479,7 +479,8 @@ static void iommu_inval_iotlb(AMDVIState *s, uint64_t *cmd)
->  {
->  
->      uint16_t devid = extract64(cmd[0], 0, 16);
-> -    if (extract64(cmd[1], 1, 1) || extract64(cmd[1], 3, 9)) {
-> +    if (extract64(cmd[1], 1, 1) || extract64(cmd[1], 3, 1) ||
-> +        extract64(cmd[1], 6, 6)) {
->          amdvi_log_illegalcom_error(s, extract64(cmd[0], 60, 4),
->                                     s->cmdbuf + s->cmdbuf_head);
->          return;
-> 
+From: Alistair Francis <alistair.francis@wdc.com>
 
-Queued, thanks.
+OpenTitan is an open source silicon Root of Trust (RoT) project. This
+series adds initial support for the OpenTitan machine to QEMU.
 
-Paolo
+This series add the Ibex CPU to the QEMU RISC-V target. It then adds the
+OpenTitan machine, the Ibex UART and the Ibex PLIC.
+
+The UART has been tested sending data, but not receiving as there is
+currently no UART receiving support in Tock.
+
+With this series QEMU can boot the OpenTitan ROM, Tock OS and a Tock
+userspace app.
+
+The Ibex PLIC is similar to the RISC-V PLIC (and is based on the QEMU
+implementation) with some differences. The hope is that the Ibex PLIC
+will converge to follow the RISC-V spec. As that happens I want to
+update the QEMU Ibex PLIC and hopefully eventually replace the current
+PLIC as the implementation is a little overlay complex.
+
+For more details on OpenTitan, see here: https://docs.opentitan.org/
+
+
+
+Alistair Francis (9):
+  riscv/boot: Add a missing header include
+  target/riscv: Don't overwrite the reset vector
+  target/riscv: Add the lowRISC Ibex CPU
+  riscv: Initial commit of OpenTitan machine
+  hw/char: Initial commit of Ibex UART
+  hw/intc: Initial commit of lowRISC Ibex PLIC
+  riscv/opentitan: Connect the PLIC device
+  riscv/opentitan: Connect the UART device
+  target/riscv: Use a smaller guess size for no-MMU PMP
+
+ MAINTAINERS                         |  14 +
+ default-configs/riscv32-softmmu.mak |   1 +
+ default-configs/riscv64-softmmu.mak |  11 +-
+ hw/char/Makefile.objs               |   1 +
+ hw/char/ibex_uart.c                 | 487 ++++++++++++++++++++++++++++
+ hw/intc/Makefile.objs               |   1 +
+ hw/intc/ibex_plic.c                 | 261 +++++++++++++++
+ hw/riscv/Kconfig                    |   9 +
+ hw/riscv/Makefile.objs              |   1 +
+ hw/riscv/opentitan.c                | 204 ++++++++++++
+ include/hw/char/ibex_uart.h         | 110 +++++++
+ include/hw/intc/ibex_plic.h         |  63 ++++
+ include/hw/riscv/boot.h             |   1 +
+ include/hw/riscv/opentitan.h        |  79 +++++
+ target/riscv/cpu.c                  |  30 +-
+ target/riscv/cpu.h                  |   1 +
+ target/riscv/pmp.c                  |  19 +-
+ 17 files changed, 1278 insertions(+), 15 deletions(-)
+ create mode 100644 hw/char/ibex_uart.c
+ create mode 100644 hw/intc/ibex_plic.c
+ create mode 100644 hw/riscv/opentitan.c
+ create mode 100644 include/hw/char/ibex_uart.h
+ create mode 100644 include/hw/intc/ibex_plic.h
+ create mode 100644 include/hw/riscv/opentitan.h
+
+-- 
+2.26.2
 
 
