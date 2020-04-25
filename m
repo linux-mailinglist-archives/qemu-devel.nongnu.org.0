@@ -2,82 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39AF91B920F
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 19:25:50 +0200 (CEST)
-Received: from localhost ([::1]:39576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E358F1B85DD
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Apr 2020 12:56:50 +0200 (CEST)
+Received: from localhost ([::1]:34754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSl2K-0003Hf-Po
-	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 13:25:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57746)
+	id 1jSIUL-00007U-Fj
+	for lists+qemu-devel@lfdr.de; Sat, 25 Apr 2020 06:56:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42450)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair@alistair23.me>) id 1jSl1E-0002es-Qt
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 13:24:41 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jSITH-0007Ji-Fx
+ for qemu-devel@nongnu.org; Sat, 25 Apr 2020 06:55:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alistair@alistair23.me>) id 1jSl1D-0004ZT-Fi
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 13:24:40 -0400
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:44229)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair@alistair23.me>)
- id 1jSl1C-0004ZI-Nz; Sun, 26 Apr 2020 13:24:39 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id DA2C448F;
- Sun, 26 Apr 2020 13:24:34 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Sun, 26 Apr 2020 13:24:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=hwtx02kkvPK5B
- V7M6kav5ZTdZRn0A1eYTzwE3O+v0ss=; b=L+YEJbTV0jO0Jb49SWJJxIUNulhGv
- h3nwAAyQnWWkllty8a9p9j2t6Ywi1QaLrmJO3wuwVZO2BQcK00jGE3Cjzqi+5Yoe
- 0BTkg+PNH2LK3WjdZhhbWLFG9TCkn10psHNHyrLpWq6+VdxAEUbjsRwQjtR4AlN2
- XnjsORj70cJHexN1fBiTKIYb4Dx2HTSR12px50QElVt3HYTYY3cXARPiou2V0sEi
- ImXI8+pbx2cXJSeIjJ6PRKvBMaKN6zjuUZKjfF9yk8PXlxP4Lf4kzXUCHPclrq/H
- s4kvgvLsTQ2Pyt0DsXpd8yAYor73/roTiUXHchVNOpILz+RObhV0mp0wQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=hwtx02kkvPK5BV7M6kav5ZTdZRn0A1eYTzwE3O+v0ss=; b=L56BvZTh
- avDSt/hO8B/r9eGHQDX5s9BRBDOWLJ2y1CEYXo27xydc8xdybLco410UxfJ8/HY0
- eVVYmuipC8f2C7ZNupc2Ai4y86fi1cI/Ol5lZYhoKeNFRZ1NsObfwWuCdjw0tFo+
- B1uj1hsmsxTi5OTQGaWpDANrcIoiZWmb4z/9vdyDsObrBT0JPB2jDz2hP3f7cUIF
- X8wLjNWWkXRJqJGhBl83n8JV6XXa+vaLXtCUVTbbpupOKapr0CkFPTo47cvlwo3C
- oUUB/n5SedkXIZ1HhHaGvoZWit3juua1o/mlWHEfWlX7yA6UV0RNjVOjBzibFkw2
- xxTLqxSb9o9WzA==
-X-ME-Sender: <xms:0cOlXtSENYYoBAXGEVnp-yS4zpeR_TQPTSudew-GiThJWvFYso8vsQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrheejgdduudefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
- dtredttdenucfhrhhomheptehlihhsthgrihhrucfhrhgrnhgtihhsuceorghlihhsthgr
- ihhrsegrlhhishhtrghirhdvfedrmhgvqeenucfkphepjeefrdelfedrkeegrddvtdekne
- cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghlihhs
- thgrihhrsegrlhhishhtrghirhdvfedrmhgv
-X-ME-Proxy: <xmx:0cOlXnW6QJgztDHZ_I5NGJSTuTZiXTKywBzba0SK11qOmqdTTzHVpQ>
- <xmx:0cOlXuOUAsCjFdP59I1Vjoxwt16vrfrMVcglb2kTNEDBNTurFTDwqA>
- <xmx:0cOlXnpju243zG2XUnCkMOf8RSmvH2Uz276wxMMkynOkOXAlw68YEQ>
- <xmx:0sOlXtmvdu2y9htjjWZ_9yAyhq_ayCPsKX0qKdlFlbvSAxSDHofdWQ>
-Received: from ThinkpadX1Yoga3.localdomain (c-73-93-84-208.hsd1.ca.comcast.net
- [73.93.84.208])
- by mail.messagingengine.com (Postfix) with ESMTPA id 25C4A3065E2B;
- Sun, 26 Apr 2020 13:24:33 -0400 (EDT)
-From: Alistair Francis <alistair@alistair23.me>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v1 15/15] target/riscv: Support the v0.6 Hypervisor extension
- CRSs
-Date: Sat, 25 Apr 2020 03:50:52 -0700
-Message-Id: <9ff1ce7ccc2b257bec95152fea3ebf1d66e2e43f.1587918096.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1587918096.git.alistair.francis@wdc.com>
-References: <cover.1587918096.git.alistair.francis@wdc.com>
+ (envelope-from <pbonzini@redhat.com>) id 1jSITG-0006Fp-8g
+ for qemu-devel@nongnu.org; Sat, 25 Apr 2020 06:55:42 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44569
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jSITF-0006CU-L1
+ for qemu-devel@nongnu.org; Sat, 25 Apr 2020 06:55:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587812140;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lfYKOQB4N8lkU1r8Bt/203i2dcSBDjyhT2qENujEKOQ=;
+ b=NobU/7s0YrhHlDDJ9fwtAt2N0E9cVhbChz5MNzsysVENvmSpAaLxLU/N+ToGKP+0EuWIly
+ N6L0dobQydfp/S7aEMkwWruFCUbYBtls7gLTDT04+elu4tQTVv5ekXkLaNifKqEFlyFptA
+ o/h/weha49uj7NlH/P2imk+QkrW13Sc=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-209-AP2OW4T_M-Gl_7EAT5og3g-1; Sat, 25 Apr 2020 06:55:36 -0400
+X-MC-Unique: AP2OW4T_M-Gl_7EAT5og3g-1
+Received: by mail-wr1-f69.google.com with SMTP id x15so6567156wrn.0
+ for <qemu-devel@nongnu.org>; Sat, 25 Apr 2020 03:55:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UkNkwH1h9FNQTUqw8hiaZiNU6J0NADal0uC+ptQ926M=;
+ b=YEgXgEVT5XXeIQKe05atRB8oWRSOtNv7uXxIcnR15mp8pZ6VzZ/T+4PfkMcuCZzv6W
+ bl0FPtw/nJX89dNBmfplQFHJ1VUAUcaEnNamk6vV6wHSEzO+DsUJ4vcrmEe2pbvFXWGT
+ XsaEtmlzoPhKenosFP8WhcqRjdsK6ab9GanJtna4o7cizsgpduhUZs1rqd2/CQ1ANa0n
+ 7TXd831FIG0aWvMRxY53cPITsd08TTfq1S7eOyazhXrngsW1xQIl31J7AZZKaiOcIY9a
+ CgcymlZqjsXxs3cPCY5+D4IASLmJYtXpo48aLJKCgDMOwYpAsgp+mJMSrz3Zsz8ej86N
+ GEaQ==
+X-Gm-Message-State: AGi0PuYoNtHkxEXrxXDR+6JpqcwxjRvC5qrXbUknk96XfHMX8hfmFJGt
+ /ZMbOz2BoB5yykk0FdiGxLua1j2Db4Ji/+uK+MLWi/Ja5g6ZYWesNSYI5G59f4qAUW7ZUUyb/jP
+ rqUfHkToZYKzUqSw=
+X-Received: by 2002:a5d:408d:: with SMTP id o13mr17747261wrp.249.1587812135775; 
+ Sat, 25 Apr 2020 03:55:35 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKN385hJz+PY8CdCgS7+RkbP1imzLRunxAViQ0px9eGdZHOkQ6cB7eddz0X05OG0jc5X2Lm9w==
+X-Received: by 2002:a5d:408d:: with SMTP id o13mr17747245wrp.249.1587812135578; 
+ Sat, 25 Apr 2020 03:55:35 -0700 (PDT)
+Received: from [192.168.10.150] ([93.56.170.5])
+ by smtp.gmail.com with ESMTPSA id m15sm6617897wmc.35.2020.04.25.03.55.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 25 Apr 2020 03:55:35 -0700 (PDT)
+Subject: Re: [PATCH v4 1/3] memory: drop guest writes to read-only ram device
+ regions
+To: Yan Zhao <yan.y.zhao@intel.com>, alex.williamson@redhat.com
+References: <20200417074437.28526-1-yan.y.zhao@intel.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <f96581ca-055e-ecc6-4a44-6bd26396bfc0@redhat.com>
+Date: Sat, 25 Apr 2020 12:55:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=64.147.123.20;
- envelope-from=alistair@alistair23.me; helo=wout4-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 13:24:35
+In-Reply-To: <20200417074437.28526-1-yan.y.zhao@intel.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/25 06:29:31
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 64.147.123.20
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,119 +94,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
+Cc: xin.zeng@intel.com, philmd@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>
+On 17/04/20 09:44, Yan Zhao wrote:
+> for ram device regions, drop guest writes if the regions is read-only.
+>=20
+> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
+> Signed-off-by: Xin Zeng <xin.zeng@intel.com>
+> ---
+>  memory.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>=20
+> diff --git a/memory.c b/memory.c
+> index 601b749906..9576dd6807 100644
+> --- a/memory.c
+> +++ b/memory.c
+> @@ -34,6 +34,7 @@
+>  #include "sysemu/accel.h"
+>  #include "hw/boards.h"
+>  #include "migration/vmstate.h"
+> +#include "qemu/log.h"
+> =20
+>  //#define DEBUG_UNASSIGNED
+> =20
+> @@ -1313,6 +1314,12 @@ static void memory_region_ram_device_write(void *o=
+paque, hwaddr addr,
+>      MemoryRegion *mr =3D opaque;
+> =20
+>      trace_memory_region_ram_device_write(get_cpu_index(), mr, addr, data=
+, size);
+> +    if (mr->readonly) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "Invalid write to read only ram device region 0x%"
+> +                       HWADDR_PRIx" size %u\n", addr, size);
+> +        return;
+> +    }
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu_bits.h |  3 +++
- target/riscv/csr.c      | 40 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 43 insertions(+)
+As mentioned in the review of v1, memory_region_ram_device_write should
+be changed to a .write_with_attrs operation, so that it can return
+MEMTX_ERROR.
 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 8a145e0a32..690f327828 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -182,9 +182,12 @@
- #define CSR_HIDELEG         0x603
- #define CSR_HIE             0x604
- #define CSR_HCOUNTEREN      0x606
-+#define CSR_HGEIE           0x607
- #define CSR_HTVAL           0x643
-+#define CSR_HVIP            0x645
- #define CSR_HIP             0x644
- #define CSR_HTINST          0x64A
-+#define CSR_HGEIP           0xE12
- #define CSR_HGATP           0x680
- #define CSR_HTIMEDELTA      0x605
- #define CSR_HTIMEDELTAH     0x615
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 04f3471f2e..3eb6ddd061 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -901,12 +901,25 @@ static int write_hideleg(CPURISCVState *env, int csrno, target_ulong val)
-     return 0;
- }
- 
-+static int rmw_hvip(CPURISCVState *env, int csrno, target_ulong *ret_value,
-+                   target_ulong new_value, target_ulong write_mask)
-+{
-+    int ret = rmw_mip(env, 0, ret_value, new_value,
-+                      write_mask & hip_writable_mask);
-+
-+    *ret_value &= hip_writable_mask;
-+
-+    return ret;
-+}
-+
- static int rmw_hip(CPURISCVState *env, int csrno, target_ulong *ret_value,
-                    target_ulong new_value, target_ulong write_mask)
- {
-     int ret = rmw_mip(env, 0, ret_value, new_value,
-                       write_mask & hip_writable_mask);
- 
-+    *ret_value &= hip_writable_mask;
-+
-     return ret;
- }
- 
-@@ -934,6 +947,18 @@ static int write_hcounteren(CPURISCVState *env, int csrno, target_ulong val)
-     return 0;
- }
- 
-+static int read_hgeie(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
-+    return 0;
-+}
-+
-+static int write_hgeie(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
-+    return 0;
-+}
-+
- static int read_htval(CPURISCVState *env, int csrno, target_ulong *val)
- {
-     *val = env->htval;
-@@ -957,6 +982,18 @@ static int write_htinst(CPURISCVState *env, int csrno, target_ulong val)
-     return 0;
- }
- 
-+static int read_hgeip(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
-+    return 0;
-+}
-+
-+static int write_hgeip(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
-+    return 0;
-+}
-+
- static int read_hgatp(CPURISCVState *env, int csrno, target_ulong *val)
- {
-     *val = env->hgatp;
-@@ -1356,11 +1393,14 @@ static riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     [CSR_HSTATUS] =             { hmode,   read_hstatus,     write_hstatus    },
-     [CSR_HEDELEG] =             { hmode,   read_hedeleg,     write_hedeleg    },
-     [CSR_HIDELEG] =             { hmode,   read_hideleg,     write_hideleg    },
-+    [CSR_HVIP] =                { hmode,   NULL,     NULL,     rmw_hvip       },
-     [CSR_HIP] =                 { hmode,   NULL,     NULL,     rmw_hip        },
-     [CSR_HIE] =                 { hmode,   read_hie,         write_hie        },
-     [CSR_HCOUNTEREN] =          { hmode,   read_hcounteren,  write_hcounteren },
-+    [CSR_HGEIE] =               { hmode,   read_hgeie,       write_hgeie      },
-     [CSR_HTVAL] =               { hmode,   read_htval,       write_htval      },
-     [CSR_HTINST] =              { hmode,   read_htinst,      write_htinst     },
-+    [CSR_HGEIP] =               { hmode,   read_hgeip,       write_hgeip      },
-     [CSR_HGATP] =               { hmode,   read_hgatp,       write_hgatp      },
-     [CSR_HTIMEDELTA] =          { hmode,   read_htimedelta,  write_htimedelta },
- #if defined(TARGET_RISCV32)
--- 
-2.26.2
+Otherwise this looks good.
+
+Paolo
 
 
