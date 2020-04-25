@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E3621B92A1
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 20:09:01 +0200 (CEST)
-Received: from localhost ([::1]:40846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C24CD1B92AF
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 20:15:09 +0200 (CEST)
+Received: from localhost ([::1]:41424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSli7-0004I1-HS
-	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 14:09:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33714)
+	id 1jSlo4-0007Xi-O9
+	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 14:15:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33746)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair@alistair23.me>) id 1jSlcV-000873-O5
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 14:03:12 -0400
+ (envelope-from <alistair@alistair23.me>) id 1jSlca-0008Ej-QZ
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 14:03:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alistair@alistair23.me>) id 1jSlcV-00089R-78
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 14:03:11 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:58669)
+ (envelope-from <alistair@alistair23.me>) id 1jSlca-0008AY-A0
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 14:03:16 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:39553)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair@alistair23.me>)
- id 1jSlcU-000897-PV; Sun, 26 Apr 2020 14:03:10 -0400
+ id 1jSlcZ-0008AA-ST; Sun, 26 Apr 2020 14:03:15 -0400
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 1550A5C00A4;
- Sun, 26 Apr 2020 14:03:10 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 2695A5C00A4;
+ Sun, 26 Apr 2020 14:03:14 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Sun, 26 Apr 2020 14:03:10 -0400
+ by compute3.internal (MEProxy); Sun, 26 Apr 2020 14:03:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=K28qojJl+cpo/
- xLCUcWQv5uPEPvCRgaTFEEkbG3cNmE=; b=I10OQoXYZZ8Ktg9kF8Jwx5EUcazww
- MSZ3gQQzuX/KyF0HQFSqBGNozL187KV2iH/3bA7m4iFQMrl5UcMIHJjkgodNX0GG
- wvZbK+1L+4jGKY9ESr2Ojkp4YWweeB6vu87lNpR1/x/Lp2cOGcCnienr29H5+wvM
- Mtj0hRqQTfPGlGaUgfZUrfThNGecc3/hTAUogTF/jB0Z9cEKhaewnqaUggAxDoDd
- feX8fucxCqo/93C96yD726+OMlK2ncYFe6XKJMZ57L/tDuD3GvrhyyD+w5MQsMai
- jCgzkC+m8X3agWr9hE0cSGi0uhMalY8hnE7/cbNxczUsFzNzToSblAKtg==
+ :mime-version:content-transfer-encoding; s=fm3; bh=UU0FRAkADueGV
+ GnvDO1YKP2XHBjzPc0YVUe1BTNexo0=; b=Pvgf6rUjAKZHDZvOuGN8Ustrl+1w2
+ uhIppfGTv+ASbSX7QEWbzQw6YC17VP2r+ffcc8tIukIBleOqgWY5lItJSco7qCR9
+ +01NpYaEfs8AkklQbAxRqkvl5pWbVo5GVWrraYX6vGVruMhuGlNxM+Qu6XOVzQ24
+ HoDroFtD792g81BhkGfbJ/tEeEe0kPzHvgsj4htpc4gV6/EOVNVtVrSl5g3NbrM4
+ ZfIRB2EdYOK3jj51R4QcavMiwTpsjuW+EJ1Xxm8D9wowHXuuVhDtx3U8Ally88np
+ Qi/lqQBNWQzUWoM1XLT+FTA2NaBCRM5Dlcml3yVgZSgMUxf7D0j6x8SMg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=K28qojJl+cpo/xLCUcWQv5uPEPvCRgaTFEEkbG3cNmE=; b=HCqW9FSl
- 3q2s/IlDpqs02622AaqNGng6AuKrxiqVoZZqyE/CYUeGC8qhwpswIGIFmTfPHkOQ
- fuMmhPu046qvnuiP9ivex7+GNRYr/cg6PQ5HeO/FOqXUM5kV5XALUMCFbkczWfY/
- 15fjMb2UFGr3AD9K6GWQwJ6RdjQUolM5mmm2bjLdFX/rL8VPcmxwKidegO5MriVd
- z6OnDWXRRJ987q1JT1Q/z22EhbYV+s9BcMnhlpv117Hml3GhaGfMCq/U5X96/OB8
- 3rvrYf/OEJDCHLgSd8El7oRQLuuCwKy0BUftcLvYPvu4d6a0paFafoTD2M/dH+gg
- mMqIeLNyssdD0Q==
-X-ME-Sender: <xms:3cylXgOIe207dZsq8LValc5Wz8ndkhOaf1SFF_w7EzhJQLJor2Rwvw>
+ fm2; bh=UU0FRAkADueGVGnvDO1YKP2XHBjzPc0YVUe1BTNexo0=; b=UBWmyRJ7
+ bsJrEMsYqTIBR2BSq19Q5wOl9vicr+xoyCRAxT31CZMLU5Kjrm/+kdIRHE2SsOI8
+ nY025FUyK+564umY5ybBNZ/AjUT4oMZCa5hwjsCPISe1JKaPLKwrc5+yOoKCkLHm
+ kW0QCceaoybvYsl/Gf25mXZG+D2QJ8ZknOqluprXVvhKcQLZGbLvfO8O3vhFeSUT
+ 9cVfBr1SZayo0yT2f+fxg42ug0z2XT0utrpwCxjngT1Td2XSf+jszOd2kcSl4A5W
+ lXIrf9nQxJASRYvMMM6E+l+XEzG3IwHyPX71OCs0oDJQyOAzbBzQPwFj4fqJEVb8
+ dbH1a4gEiKB1fg==
+X-ME-Sender: <xms:4sylXioF-fMYhrtXKzOjqX93Hr6zkrEHq0Yb2c_YZgo_DyJrTaemkA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrheejgdduvdduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
  dtredttdenucfhrhhomheptehlihhsthgrihhrucfhrhgrnhgtihhsuceorghlihhsthgr
  ihhrsegrlhhishhtrghirhdvfedrmhgvqeenucfkphepjeefrdelfedrkeegrddvtdekne
- cuvehluhhsthgvrhfuihiivgepgeenucfrrghrrghmpehmrghilhhfrhhomheprghlihhs
+ cuvehluhhsthgvrhfuihiivgepheenucfrrghrrghmpehmrghilhhfrhhomheprghlihhs
  thgrihhrsegrlhhishhtrghirhdvfedrmhgv
-X-ME-Proxy: <xmx:3cylXrOQtDffHKPkaZpmcsEiL03FEQAd7LKjwo5ugsubrRIXxqxC0A>
- <xmx:3cylXiRbkVL8SAwAsFQ6noV8ueSg5LLRfPcNXAhlSkOZcVSqoWE_XQ>
- <xmx:3cylXtAv9Qtyc_rdIEcTwtO2lKM9fZn6krONoHaPVeeinfaVJTEbxA>
- <xmx:3sylXl9NNPzejUBPpLZN3U08ZBQgcu5iU8-SQHqJg24JGKbBSHFHhg>
+X-ME-Proxy: <xmx:4sylXmpmZaNW5cZKSFIpdmXQkiB2RH6V_FqUebMEaB9dkZwM7iBlGg>
+ <xmx:4sylXiBAqJWBMuIq1Ov85sFgApZe7nlPVUAd-t-t8TWh8M8wQLmT3g>
+ <xmx:4sylXkseMoJP2Zfa34TtGM5gqF4fOZorGVBJx7hnCEaXV74mQabKqg>
+ <xmx:4sylXtDilGeWoDsVAoC6M0ltQEkvnBWa3hnCg2wWWAmEEm5c2uPkKg>
 Received: from ThinkpadX1Yoga3.localdomain (c-73-93-84-208.hsd1.ca.comcast.net
  [73.93.84.208])
- by mail.messagingengine.com (Postfix) with ESMTPA id 4D21F3065E3B;
- Sun, 26 Apr 2020 14:03:09 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 594063065E37;
+ Sun, 26 Apr 2020 14:03:13 -0400 (EDT)
 From: Alistair Francis <alistair@alistair23.me>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v1 8/9] riscv/opentitan: Connect the UART device
-Date: Sat, 25 Apr 2020 04:29:29 -0700
-Message-Id: <147e9843aa6e2f2f450ddc2324a420b9b0229a50.1587920572.git.alistair.francis@wdc.com>
+Subject: [PATCH v1 9/9] target/riscv: Use a smaller guess size for no-MMU PMP
+Date: Sat, 25 Apr 2020 04:29:33 -0700
+Message-Id: <e5aa799cb3d51513c7b7700e89625d4108e2fe66.1587920572.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1587920572.git.alistair.francis@wdc.com>
 References: <cover.1587920572.git.alistair.francis@wdc.com>
@@ -96,88 +96,40 @@ From: Alistair Francis <alistair.francis@wdc.com>
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/opentitan.c         | 24 ++++++++++++++++++++++--
- include/hw/riscv/opentitan.h | 13 +++++++++++++
- 2 files changed, 35 insertions(+), 2 deletions(-)
+ target/riscv/pmp.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index 3a845fbb7b..81cd835e8b 100644
---- a/hw/riscv/opentitan.c
-+++ b/hw/riscv/opentitan.c
-@@ -96,6 +96,9 @@ static void riscv_lowrisc_ibex_soc_init(Object *obj)
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index 0e6b640fbd..5aba4d13ea 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -233,12 +233,21 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+         return true;
+     }
  
-     sysbus_init_child_obj(obj, "plic", &s->plic,
-                           sizeof(s->plic), TYPE_IBEX_PLIC);
-+
-+    sysbus_init_child_obj(obj, "uart", &s->uart,
-+                          sizeof(s->uart), TYPE_IBEX_UART);
- }
- 
- static void riscv_lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
-@@ -137,8 +140,25 @@ static void riscv_lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
-     busdev = SYS_BUS_DEVICE(dev);
-     sysbus_mmio_map(busdev, 0, memmap[IBEX_PLIC].base);
- 
--    create_unimplemented_device("riscv.lowrisc.ibex.uart",
--        memmap[IBEX_UART].base, memmap[IBEX_UART].size);
-+    /* UART */
-+    dev = DEVICE(&(s->uart));
-+    qdev_prop_set_chr(dev, "chardev", serial_hd(0));
-+    object_property_set_bool(OBJECT(&s->uart), true, "realized", &err);
-+    if (err != NULL) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+    busdev = SYS_BUS_DEVICE(dev);
-+    sysbus_mmio_map(busdev, 0, memmap[IBEX_UART].base);
-+    sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(DEVICE(&s->plic),
-+                       IBEX_UART_TX_WATERMARK_IRQ));
-+    sysbus_connect_irq(busdev, 1, qdev_get_gpio_in(DEVICE(&s->plic),
-+                       IBEX_UART_RX_WATERMARK_IRQ));
-+    sysbus_connect_irq(busdev, 2, qdev_get_gpio_in(DEVICE(&s->plic),
-+                       IBEX_UART_TX_EMPTY_IRQ));
-+    sysbus_connect_irq(busdev, 3, qdev_get_gpio_in(DEVICE(&s->plic),
-+                       IBEX_UART_RX_OVERFLOW_IRQ));
-+
-     create_unimplemented_device("riscv.lowrisc.ibex.gpio",
-         memmap[IBEX_GPIO].base, memmap[IBEX_GPIO].size);
-     create_unimplemented_device("riscv.lowrisc.ibex.spi",
-diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
-index 8d6a09b696..825a3610bc 100644
---- a/include/hw/riscv/opentitan.h
-+++ b/include/hw/riscv/opentitan.h
-@@ -21,6 +21,7 @@
- 
- #include "hw/riscv/riscv_hart.h"
- #include "hw/intc/ibex_plic.h"
-+#include "hw/char/ibex_uart.h"
- 
- #define TYPE_RISCV_IBEX_SOC "riscv.lowrisc.ibex.soc"
- #define RISCV_IBEX_SOC(obj) \
-@@ -33,6 +34,7 @@ typedef struct LowRISCIbexSoCState {
-     /*< public >*/
-     RISCVHartArrayState cpus;
-     IbexPlicState plic;
-+    IbexUartState uart;
- 
-     MemoryRegion flash_mem;
-     MemoryRegion rom;
-@@ -63,4 +65,15 @@ enum {
-     IBEX_USBDEV,
- };
- 
-+enum {
-+    IBEX_UART_RX_PARITY_ERR_IRQ = 0x28,
-+    IBEX_UART_RX_TIMEOUT_IRQ = 0x27,
-+    IBEX_UART_RX_BREAK_ERR_IRQ = 0x26,
-+    IBEX_UART_RX_FRAME_ERR_IRQ = 0x25,
-+    IBEX_UART_RX_OVERFLOW_IRQ = 0x24,
-+    IBEX_UART_TX_EMPTY_IRQ = 0x23,
-+    IBEX_UART_RX_WATERMARK_IRQ = 0x22,
-+    IBEX_UART_TX_WATERMARK_IRQ = 0x21
-+};
-+
- #endif
+-    /*
+-     * if size is unknown (0), assume that all bytes
+-     * from addr to the end of the page will be accessed.
+-     */
+     if (size == 0) {
+-        pmp_size = -(addr | TARGET_PAGE_MASK);
++        if (!riscv_feature(env, RISCV_FEATURE_MMU)) {
++            /*
++             * if size is unknown (0), assume that all bytes
++             * from addr to the end of the page will be accessed.
++             */
++            pmp_size = -(addr | TARGET_PAGE_MASK);
++        } else {
++            /*
++             * If size is unknown (0) and we don't have an MMU,
++             * just guess the size as the xlen as we don't want to
++             * access an entire page worth.
++             */
++            pmp_size = sizeof(target_ulong);
++        }
+     } else {
+         pmp_size = size;
+     }
 -- 
 2.26.2
 
