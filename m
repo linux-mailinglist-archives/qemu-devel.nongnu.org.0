@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7CDC1B929E
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 20:05:55 +0200 (CEST)
-Received: from localhost ([::1]:40666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 692141B92AC
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 20:13:32 +0200 (CEST)
+Received: from localhost ([::1]:41248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSlf8-00016J-9o
-	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 14:05:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33662)
+	id 1jSlmV-0004LQ-Eu
+	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 14:13:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33720)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair@alistair23.me>) id 1jSlcK-0007qw-Lm
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 14:03:01 -0400
+ (envelope-from <alistair@alistair23.me>) id 1jSlcW-00088N-Bc
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 14:03:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alistair@alistair23.me>) id 1jSlcJ-0007yz-4l
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 14:03:00 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:33581)
+ (envelope-from <alistair@alistair23.me>) id 1jSlcN-00081Y-4z
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 14:03:12 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:54539)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair@alistair23.me>)
- id 1jSlcI-0007um-Lq; Sun, 26 Apr 2020 14:02:58 -0400
+ id 1jSlcM-00081L-NC; Sun, 26 Apr 2020 14:03:02 -0400
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id EBD5E5C00DE;
- Sun, 26 Apr 2020 14:02:57 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 142D25C00BB;
+ Sun, 26 Apr 2020 14:03:02 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Sun, 26 Apr 2020 14:02:57 -0400
+ by compute3.internal (MEProxy); Sun, 26 Apr 2020 14:03:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=n7/IkdRGcZXl2
- GFpSdQVnpk3LUVqmoSLt3a9GXGcPC4=; b=YzaL7JxEMkfXnaDQZr6/zeBWAITOs
- LBeYlnR9iZDI1htc8v6qipCYhboCErHld+NOa8jnd7m7JR7nVKqEcI8hSpHndjaH
- sI7B/2WJyyLyGAhEzEMP94W0147363bARxl2i2q9Kz5CwFehQwS8NmuCfIALSbnS
- 3PQoTw7PLliuwK1jDBDyuQBLjIzo5oo1ycLWDMJWEPs9ok4XoiN8wTGOHrgPY8Oh
- I02bbwnRx3/qJ3BQPg9jDWetBbovbZ4j+Y8SDPSjlmdbQJqLIRKsCW0X5+Xk63Zl
- HIr+iffnWza21dUAmSCKxnslVKKU4KNrZ2tFIPYihFSnO1uY2my450rTw==
+ :mime-version:content-transfer-encoding; s=fm3; bh=ML5fXT/vFBVys
+ 6kX/ZO+mITxtS+ljVJIqvCwp9fW43o=; b=MzuWVW8s/w83FzC3fqNZUCH8L+Crg
+ d86EWllPkhPLSuKwK3XmH8xGCdarTZNhFJdnoU5djg6XZVuXrxNXGq/qQJp5hX/J
+ la0e9jEf6bhSgitCXdaz5/0LzyTAAnr6HI7dQCDSPe9TUIUK9xtPY+RYMnQdO8It
+ NPd/G5RoJWqFSl66PKB4vQkVePq23xNDi4W7orqO94MqQnXHtmgnEmQHxQbW7J5J
+ pdrXLMUBlTpPOSNUMMZSEeJ30En8vfFw9eYEu5AYYju1UqLh0IMnGFMCzPBlVPCL
+ 9LCqQa6yeBABuuRVJbsylTymNEgxhWAJWz7nPRCLpDjiWLf0b+oqoOwWg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=n7/IkdRGcZXl2GFpSdQVnpk3LUVqmoSLt3a9GXGcPC4=; b=UL2SFxeu
- 5RyWx4Oc0QRhNAg246ovwZ8qEj/gxYtpdsfrduhLoKKthycI1sPoc9HNiRIj6pkh
- LYfTbATM1Ar4fySwPv6Ax74F+SbcmAqfpSi90fkA2w9KDUSV39jkLCNdOm4z7Wz/
- S0x1Ovrg45Eo/5CKxdDze5C1Imtx+RTQ4lS0XW9kZy17ggaaYyQMjvqvjUrrWl11
- yq6SGL6CRefBa7UlqkMzQhbyL0+Bem2znCxIyBqtrDkJt4PsYp/9gC/umR6X1qac
- xFFLhXTmog15UttDC/OZEPLt1f84MOcrs5J2r823/pKm+eXGD5rNrJ0Vt7Aw1/V8
- WrbdHF3gzNmACQ==
-X-ME-Sender: <xms:0cylXgVMs8pYHJDtqglTK7r5hhzQqRfa3I6sX_8yI39hNt6pcon-dw>
+ fm2; bh=ML5fXT/vFBVys6kX/ZO+mITxtS+ljVJIqvCwp9fW43o=; b=R7efb4qg
+ 0j2rbv0mYBloVwgPm4B1p+obGUyA+9kKxFuG4LnkGlSvuDstW6ZMUteazu5vE/CK
+ M7tD2TPRX35/Z3JuPmeZYfFzEMTqGDWERrM9HJ9hP6cxkeRRXGKLwPf3dHdNcFC6
+ 6aV35KXAap1Lw2daNRfckWOhrBpUb3GJnXQUN+667G5gFbtlZ/L7vHepyuAOGdK5
+ rMrLX0JHW26kHsr+GwkqY0g8o9gmpWvK4rH89Ya0rzAsGZbtXjnC7ta/7DpjtLuA
+ WjrqP7J+dF6r96BPh/+KwHJtFuuXlw//YCLaUxqMtegiodghI4E6AGA+Sbkjw4cD
+ FZbUmMq5Jl1uAQ==
+X-ME-Sender: <xms:1cylXomvEzYOepOXWM8lmrJTUi2CRxQ84Oscag9mr1lO5ip-SgDinQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrheejgdduvdduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
  dtredttdenucfhrhhomheptehlihhsthgrihhrucfhrhgrnhgtihhsuceorghlihhsthgr
  ihhrsegrlhhishhtrghirhdvfedrmhgvqeenucffohhmrghinhepohhpvghnthhithgrnh
- drohhrghenucfkphepjeefrdelfedrkeegrddvtdeknecuvehluhhsthgvrhfuihiivgep
- tdenucfrrghrrghmpehmrghilhhfrhhomheprghlihhsthgrihhrsegrlhhishhtrghirh
- dvfedrmhgv
-X-ME-Proxy: <xmx:0cylXhNk5ocaq_8ERvGg4uh7nbYNM6pVBGfKRcUHmj5FSOaplgajAQ>
- <xmx:0cylXoAIy-JPz7iv43sMOu4F70ti29GP4fNAJnokUfbe2xySyPIlmw>
- <xmx:0cylXlc1FQDIOR4oKi1CzQl-GlPGf0C82pcLGElghbZA5oOXWQgviw>
- <xmx:0cylXrADa3CMzrP0N2_svj1oTRiwGQ9h-5gBOx_frPcikBSPCH2kRw>
+ drohhrghdpghhnuhdrohhrghenucfkphepjeefrdelfedrkeegrddvtdeknecuvehluhhs
+ thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghlihhsthgrihhrse
+ grlhhishhtrghirhdvfedrmhgv
+X-ME-Proxy: <xmx:1cylXgzIFDw6tgEf_5BRyUqeTwtfi8jjz1Mws235ViLgtwz1ZUB4Jw>
+ <xmx:1cylXvYaIHrN8YPte2sJT0ZpvhSNILMpowFkkMsn_Ihs4n25mtTjuw>
+ <xmx:1cylXnuZNjGZSE7P3dkfKO9Vfw15Qqd2DTzaKivRnePuSBabpHKeCg>
+ <xmx:1sylXm5nF-rTgu9oVcZtMUg3EKfP6aesAKXYK5dgCb4OdKV_czuBrQ>
 Received: from ThinkpadX1Yoga3.localdomain (c-73-93-84-208.hsd1.ca.comcast.net
  [73.93.84.208])
- by mail.messagingengine.com (Postfix) with ESMTPA id 25E863065E36;
- Sun, 26 Apr 2020 14:02:57 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 3F4CD3065E2A;
+ Sun, 26 Apr 2020 14:03:01 -0400 (EDT)
 From: Alistair Francis <alistair@alistair23.me>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v1 5/9] hw/char: Initial commit of Ibex UART
-Date: Sat, 25 Apr 2020 04:29:17 -0700
-Message-Id: <c796ba76c4d92f824ce73647a2e5571f9fd542db.1587920572.git.alistair.francis@wdc.com>
+Subject: [PATCH v1 6/9] hw/intc: Initial commit of lowRISC Ibex PLIC
+Date: Sat, 25 Apr 2020 04:29:21 -0700
+Message-Id: <0fccd4c01cf5f977345218ba4745bcbefe0a50b5.1587920572.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1587920572.git.alistair.francis@wdc.com>
 References: <cover.1587920572.git.alistair.francis@wdc.com>
@@ -95,680 +95,385 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-This is the initial commit of the Ibex UART device. Serial TX is
-working, while RX has been implemeneted but untested.
+The Ibex core contains a PLIC that although similar to the RISC-V spec
+is not RISC-V spec compliant.
 
-This is based on the documentation from:
-https://docs.opentitan.org/hw/ip/uart/doc/
+This patch implements a Ibex PLIC in a somewhat generic way.
+
+As the current RISC-V PLIC needs tidying up, my hope is that as the Ibex
+PLIC move towards spec compliance this PLIC implementation can be
+updated until it can replace the current PLIC.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
  MAINTAINERS                 |   2 +
- hw/char/Makefile.objs       |   1 +
- hw/char/ibex_uart.c         | 487 ++++++++++++++++++++++++++++++++++++
- hw/riscv/Kconfig            |   4 +
- include/hw/char/ibex_uart.h | 110 ++++++++
- 5 files changed, 604 insertions(+)
- create mode 100644 hw/char/ibex_uart.c
- create mode 100644 include/hw/char/ibex_uart.h
+ hw/intc/Makefile.objs       |   1 +
+ hw/intc/ibex_plic.c         | 261 ++++++++++++++++++++++++++++++++++++
+ include/hw/intc/ibex_plic.h |  63 +++++++++
+ 4 files changed, 327 insertions(+)
+ create mode 100644 hw/intc/ibex_plic.c
+ create mode 100644 include/hw/intc/ibex_plic.h
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 3cd9fc0898..f5b6766efd 100644
+index f5b6766efd..dd673c5b45 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1232,7 +1232,9 @@ M: Alistair Francis <Alistair.Francis@wdc.com>
- L: qemu-riscv@nongnu.org
+@@ -1233,8 +1233,10 @@ L: qemu-riscv@nongnu.org
  S: Supported
  F: hw/riscv/opentitan.c
-+F: hw/char/ibex_uart.c
+ F: hw/char/ibex_uart.c
++F: hw/intc/ibex_plic.c
  F: include/hw/riscv/opentitan.h
-+F: include/hw/char/ibex_uart.h
+ F: include/hw/char/ibex_uart.h
++F: include/hw/intc/ibex_plic.h
  
  
  SH4 Machines
-diff --git a/hw/char/Makefile.objs b/hw/char/Makefile.objs
-index 9e9a6c1aff..633996be5b 100644
---- a/hw/char/Makefile.objs
-+++ b/hw/char/Makefile.objs
-@@ -12,6 +12,7 @@ common-obj-$(CONFIG_VIRTIO_SERIAL) += virtio-console.o
- common-obj-$(CONFIG_XILINX) += xilinx_uartlite.o
- common-obj-$(CONFIG_XEN) += xen_console.o
- common-obj-$(CONFIG_CADENCE) += cadence_uart.o
-+common-obj-$(CONFIG_IBEX) += ibex_uart.o
- 
- common-obj-$(CONFIG_EXYNOS4) += exynos4210_uart.o
- common-obj-$(CONFIG_COLDFIRE) += mcf_uart.o
-diff --git a/hw/char/ibex_uart.c b/hw/char/ibex_uart.c
+diff --git a/hw/intc/Makefile.objs b/hw/intc/Makefile.objs
+index f726d87532..a61e6728fe 100644
+--- a/hw/intc/Makefile.objs
++++ b/hw/intc/Makefile.objs
+@@ -49,3 +49,4 @@ obj-$(CONFIG_ARM_GIC) += arm_gicv3_cpuif.o
+ obj-$(CONFIG_MIPS_CPS) += mips_gic.o
+ obj-$(CONFIG_NIOS2) += nios2_iic.o
+ obj-$(CONFIG_OMPIC) += ompic.o
++obj-$(CONFIG_IBEX) += ibex_plic.o
+diff --git a/hw/intc/ibex_plic.c b/hw/intc/ibex_plic.c
 new file mode 100644
-index 0000000000..70a241d515
+index 0000000000..35c52d9d16
 --- /dev/null
-+++ b/hw/char/ibex_uart.c
-@@ -0,0 +1,487 @@
++++ b/hw/intc/ibex_plic.c
+@@ -0,0 +1,261 @@
 +/*
-+ * QEMU lowRISC Ibex UART device
++ * QEMU RISC-V lowRISC Ibex PLIC
 + *
 + * Copyright (c) 2020 Western Digital
 + *
-+ * For details check the documentation here:
-+ *    https://docs.opentitan.org/hw/ip/uart/doc/
++ * Documentation avaliable: https://docs.opentitan.org/hw/ip/rv_plic/doc/
 + *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
 + *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
 + *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
 + */
 +
 +#include "qemu/osdep.h"
-+#include "hw/char/ibex_uart.h"
-+#include "hw/irq.h"
-+#include "hw/qdev-properties.h"
-+#include "migration/vmstate.h"
 +#include "qemu/log.h"
-+#include "qemu/module.h"
++#include "hw/qdev-properties.h"
++#include "hw/core/cpu.h"
++#include "hw/boards.h"
++#include "hw/pci/msi.h"
++#include "target/riscv/cpu_bits.h"
++#include "target/riscv/cpu.h"
++#include "hw/intc/ibex_plic.h"
 +
-+static void ibex_uart_update_irqs(IbexUartState *s)
++static bool addr_between(uint32_t addr, uint32_t base, uint32_t num)
 +{
-+    if (s->uart_intr_state & s->uart_intr_enable & INTR_STATE_TX_WATERMARK) {
-+        qemu_set_irq(s->tx_watermark, 1);
-+    } else {
-+        qemu_set_irq(s->tx_watermark, 0);
++    uint32_t end = base + (num * 0x04);
++
++    if (addr >= base && addr < end) {
++        return true;
 +    }
 +
-+    if (s->uart_intr_state & s->uart_intr_enable & INTR_STATE_RX_WATERMARK) {
-+        qemu_set_irq(s->rx_watermark, 1);
-+    } else {
-+        qemu_set_irq(s->rx_watermark, 0);
-+    }
-+
-+    if (s->uart_intr_state & s->uart_intr_enable & INTR_STATE_TX_EMPTY) {
-+        qemu_set_irq(s->tx_empty, 1);
-+    } else {
-+        qemu_set_irq(s->tx_empty, 0);
-+    }
-+
-+    if (s->uart_intr_state & s->uart_intr_enable & INTR_STATE_RX_OVERFLOW) {
-+        qemu_set_irq(s->rx_overflow, 1);
-+    } else {
-+        qemu_set_irq(s->rx_overflow, 0);
-+    }
++    return false;
 +}
 +
-+static int ibex_uart_can_receive(void *opaque)
++static void ibex_plic_irqs_set_pending(IbexPlicState *s, int irq, bool level)
 +{
-+    IbexUartState *s = opaque;
++    int pending_num = irq / 32;
 +
-+    if (s->uart_ctrl & UART_CTRL_RX_ENABLE) {
-+        return 1;
++    s->pending[pending_num] |= level << (irq % 32);
++}
++
++static bool ibex_plic_irqs_pending(IbexPlicState *s, uint32_t context)
++{
++    int i;
++
++    for (i = 0; i < s->pending_num; i++) {
++        uint32_t irq_num = ctz64(s->pending[i]) + (i * 32);
++
++        if (!(s->pending[i] & s->enable[i])) {
++            /* No pending and enabled IRQ */
++            continue;
++        }
++
++        if (s->priority[irq_num] > s->threshold) {
++            if (!s->claim) {
++                s->claim = irq_num;
++            }
++            return true;
++        }
 +    }
 +
 +    return 0;
 +}
 +
-+static void ibex_uart_receive(void *opaque, const uint8_t *buf, int size)
++static void ibex_plic_update(IbexPlicState *s)
 +{
-+    IbexUartState *s = opaque;
-+    uint8_t rx_fifo_level = (s->uart_fifo_ctrl & FIFO_CTRL_RXILVL)
-+                            >> FIFO_CTRL_RXILVL_SHIFT;
++    CPUState *cpu;
++    int level, i;
 +
-+    s->uart_rdata = *buf;
++    for (i = 0; i < s->num_cpus; i++) {
++        cpu = qemu_get_cpu(i);
 +
-+    s->uart_status &= ~UART_STATUS_RXIDLE;
-+    s->uart_status &= ~UART_STATUS_RXEMPTY;
-+
-+    if (size > rx_fifo_level) {
-+        s->uart_intr_state |= INTR_STATE_RX_WATERMARK;
-+    }
-+
-+    ibex_uart_update_irqs(s);
-+}
-+
-+static gboolean ibex_uart_xmit(GIOChannel *chan, GIOCondition cond,
-+                               void *opaque)
-+{
-+    IbexUartState *s = opaque;
-+    uint8_t tx_fifo_level = (s->uart_fifo_ctrl & FIFO_CTRL_TXILVL)
-+                            >> FIFO_CTRL_TXILVL_SHIFT;
-+    int ret;
-+
-+    /* instant drain the fifo when there's no back-end */
-+    if (!qemu_chr_fe_backend_connected(&s->chr)) {
-+        s->tx_level = 0;
-+        return FALSE;
-+    }
-+
-+    if (!s->tx_level) {
-+        s->uart_status &= UART_STATUS_TXFULL;
-+        s->uart_status |= UART_STATUS_TXEMPTY;
-+        s->uart_intr_state |= INTR_STATE_TX_EMPTY;
-+        s->uart_intr_state &= ~INTR_STATE_TX_WATERMARK;
-+        ibex_uart_update_irqs(s);
-+        return FALSE;
-+    }
-+
-+    ret = qemu_chr_fe_write(&s->chr, s->tx_fifo, s->tx_level);
-+
-+    if (ret >= 0) {
-+        s->tx_level -= ret;
-+        memmove(s->tx_fifo, s->tx_fifo + ret, s->tx_level);
-+    }
-+
-+    if (s->tx_level) {
-+        guint r = qemu_chr_fe_add_watch(&s->chr, G_IO_OUT | G_IO_HUP,
-+                                        ibex_uart_xmit, s);
-+        if (!r) {
-+            s->tx_level = 0;
-+            return FALSE;
++        if (!cpu) {
++            continue;
 +        }
-+    }
 +
-+    /* Clear the TX Full bit */
-+    if (s->tx_level != IBEX_UART_TX_FIFO_SIZE) {
-+        s->uart_status &= ~UART_STATUS_TXFULL;
-+    }
++        level = ibex_plic_irqs_pending(s, 0);
 +
-+    /* Disable the TX_WATERMARK IRQ */
-+    if (s->tx_level < tx_fifo_level) {
-+        s->uart_intr_state &= ~INTR_STATE_TX_WATERMARK;
++        riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_MEIP, BOOL_TO_MASK(level));
 +    }
-+
-+    /* Set TX empty */
-+    if (s->tx_level == 0) {
-+        s->uart_status |= UART_STATUS_TXEMPTY;
-+        s->uart_intr_state |= INTR_STATE_TX_EMPTY;
-+    }
-+
-+    ibex_uart_update_irqs(s);
-+    return FALSE;
 +}
 +
-+static void uart_write_tx_fifo(IbexUartState *s, const uint8_t *buf,
-+                               int size)
++static void ibex_plic_reset(DeviceState *dev)
 +{
-+    uint64_t current_time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    uint8_t tx_fifo_level = (s->uart_fifo_ctrl & FIFO_CTRL_TXILVL)
-+                            >> FIFO_CTRL_TXILVL_SHIFT;
++    IbexPlicState *s = IBEX_PLIC(dev);
 +
-+    if (size > IBEX_UART_TX_FIFO_SIZE - s->tx_level) {
-+        size = IBEX_UART_TX_FIFO_SIZE - s->tx_level;
-+        qemu_log_mask(LOG_GUEST_ERROR, "ibex_uart: TX FIFO overflow");
-+    }
-+
-+    memcpy(s->tx_fifo + s->tx_level, buf, size);
-+    s->tx_level += size;
-+
-+    if (s->tx_level > 0) {
-+        s->uart_status &= ~UART_STATUS_TXEMPTY;
-+    }
-+
-+    if (s->tx_level >= tx_fifo_level) {
-+        s->uart_intr_state |= INTR_STATE_TX_WATERMARK;
-+        ibex_uart_update_irqs(s);
-+    }
-+
-+    if (s->tx_level == IBEX_UART_TX_FIFO_SIZE) {
-+        s->uart_status |= UART_STATUS_TXFULL;
-+    }
-+
-+    timer_mod(s->fifo_trigger_handle, current_time +
-+              (s->char_tx_time * 4));
++    s->threshold = 0x00000000;
++    s->claim = 0x00000000;
 +}
 +
-+static void ibex_uart_reset(DeviceState *dev)
++static uint64_t ibex_plic_read(void *opaque, hwaddr addr,
++                               unsigned int size)
 +{
-+    IbexUartState *s = IBEX_UART(dev);
++    IbexPlicState *s = opaque;
++    int offset;
++    uint32_t ret = 0;
 +
-+    s->uart_intr_state = 0x00000000;
-+    s->uart_intr_state = 0x00000000;
-+    s->uart_intr_enable = 0x00000000;
-+    s->uart_ctrl = 0x00000000;
-+    s->uart_status = 0x0000003c;
-+    s->uart_rdata = 0x00000000;
-+    s->uart_fifo_ctrl = 0x00000000;
-+    s->uart_fifo_status = 0x00000000;
-+    s->uart_ovrd = 0x00000000;
-+    s->uart_val = 0x00000000;
-+    s->uart_timeout_ctrl = 0x00000000;
-+
-+    s->tx_level = 0;
-+
-+    s->char_tx_time = (NANOSECONDS_PER_SECOND / 230400) * 10;
-+
-+    ibex_uart_update_irqs(s);
-+}
-+
-+static uint64_t ibex_uart_read(void *opaque, hwaddr addr,
-+                                       unsigned int size)
-+{
-+    IbexUartState *s = opaque;
-+    uint64_t retvalue = 0;
-+
-+    switch (addr) {
-+    case IBEX_UART_INTR_STATE:
-+        retvalue = s->uart_intr_state;
-+        break;
-+    case IBEX_UART_INTR_ENABLE:
-+        retvalue = s->uart_intr_enable;
-+        break;
-+    case IBEX_UART_INTR_TEST:
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: wdata is write only\n", __func__);
-+        break;
-+
-+    case IBEX_UART_CTRL:
-+        retvalue = s->uart_ctrl;
-+        break;
-+    case IBEX_UART_STATUS:
-+        retvalue = s->uart_status;
-+        break;
-+
-+    case IBEX_UART_RDATA:
-+        retvalue = s->uart_rdata;
-+        if (s->uart_ctrl & UART_CTRL_RX_ENABLE) {
-+            qemu_chr_fe_accept_input(&s->chr);
-+        }
-+        break;
-+    case IBEX_UART_WDATA:
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: wdata is write only\n", __func__);
-+        break;
-+
-+    case IBEX_UART_FIFO_CTRL:
-+        retvalue = s->uart_fifo_ctrl;
-+        break;
-+    case IBEX_UART_FIFO_STATUS:
-+        retvalue = s->uart_fifo_status;
-+
-+        retvalue |= s->tx_level & 0x1F;
-+
++    if (addr_between(addr, s->pending_base, s->pending_num)) {
++        offset = (addr - s->pending_base) / 4;
++        ret = s->pending[offset];
++    } else if (addr_between(addr, s->source_base, s->source_num)) {
 +        qemu_log_mask(LOG_UNIMP,
-+                      "%s: RX fifos are not supported\n", __func__);
-+        break;
++                      "%s: Interrupt source mode not supported\n", __func__);
++    } else if (addr_between(addr, s->priority_base, s->priority_num)) {
++        offset = (addr - s->priority_base) / 4;
++        ret = s->priority[offset];
++    } else if (addr_between(addr, s->enable_base, s->enable_num)) {
++        offset = (addr - s->enable_base) / 4;
++        ret = s->enable[offset];
++    } else if (addr_between(addr, s->threshold_base, 1)) {
++        ret = s->threshold;
++    } else if (addr_between(addr, s->claim_base, 1)) {
++        int pending_num = s->claim / 32;
++        s->pending[pending_num] &= ~(1 << (s->claim % 32));
 +
-+    case IBEX_UART_OVRD:
-+        retvalue = s->uart_ovrd;
-+        qemu_log_mask(LOG_UNIMP,
-+                      "%s: ovrd is not supported\n", __func__);
-+        break;
-+    case IBEX_UART_VAL:
-+        retvalue = s->uart_val;
-+        qemu_log_mask(LOG_UNIMP,
-+                      "%s: val is not supported\n", __func__);
-+        break;
-+    case IBEX_UART_TIMEOUT_CTRL:
-+        retvalue = s->uart_timeout_ctrl;
-+        qemu_log_mask(LOG_UNIMP,
-+                      "%s: timeout_ctrl is not supported\n", __func__);
-+        break;
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: Bad offset 0x%"HWADDR_PRIx"\n", __func__, addr);
-+        return 0;
++        ret = s->claim;
 +    }
 +
-+    return retvalue;
++    return ret;
 +}
 +
-+static void ibex_uart_write(void *opaque, hwaddr addr,
-+                                  uint64_t val64, unsigned int size)
++static void ibex_plic_write(void *opaque, hwaddr addr,
++                            uint64_t value, unsigned int size)
 +{
-+    IbexUartState *s = opaque;
-+    uint32_t value = val64;
++    IbexPlicState *s = opaque;
 +
-+    switch (addr) {
-+    case IBEX_UART_INTR_STATE:
-+        /* Write 1 clear */
-+        s->uart_intr_state &= ~value;
-+        ibex_uart_update_irqs(s);
-+        break;
-+    case IBEX_UART_INTR_ENABLE:
-+        s->uart_intr_enable = value;
-+        ibex_uart_update_irqs(s);
-+        break;
-+    case IBEX_UART_INTR_TEST:
-+        s->uart_intr_state |= value;
-+        ibex_uart_update_irqs(s);
-+        break;
-+
-+    case IBEX_UART_CTRL:
-+        s->uart_ctrl = value;
-+
-+        if (value & UART_CTRL_NF) {
-+            qemu_log_mask(LOG_UNIMP,
-+                          "%s: UART_CTRL_NF is not supported\n", __func__);
-+        }
-+        if (value & UART_CTRL_SLPBK) {
-+            qemu_log_mask(LOG_UNIMP,
-+                          "%s: UART_CTRL_SLPBK is not supported\n", __func__);
-+        }
-+        if (value & UART_CTRL_LLPBK) {
-+            qemu_log_mask(LOG_UNIMP,
-+                          "%s: UART_CTRL_LLPBK is not supported\n", __func__);
-+        }
-+        if (value & UART_CTRL_PARITY_EN) {
-+            qemu_log_mask(LOG_UNIMP,
-+                          "%s: UART_CTRL_PARITY_EN is not supported\n",
-+                          __func__);
-+        }
-+        if (value & UART_CTRL_PARITY_ODD) {
-+            qemu_log_mask(LOG_UNIMP,
-+                          "%s: UART_CTRL_PARITY_ODD is not supported\n",
-+                          __func__);
-+        }
-+        if (value & UART_CTRL_RXBLVL) {
-+            qemu_log_mask(LOG_UNIMP,
-+                          "%s: UART_CTRL_RXBLVL is not supported\n", __func__);
-+        }
-+        if (value & UART_CTRL_NCO) {
-+            uint64_t baud = ((value & UART_CTRL_NCO) >> 16);
-+            baud *= 1000;
-+            baud /= 2 ^ 20;
-+
-+            s->char_tx_time = (NANOSECONDS_PER_SECOND / baud) * 10;
-+        }
-+        break;
-+    case IBEX_UART_STATUS:
++    if (addr_between(addr, s->pending_base, s->pending_num)) {
 +        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: status is read only\n", __func__);
-+        break;
-+
-+    case IBEX_UART_RDATA:
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: rdata is read only\n", __func__);
-+        break;
-+    case IBEX_UART_WDATA:
-+        uart_write_tx_fifo(s, (uint8_t *) &value, 1);
-+        break;
-+
-+    case IBEX_UART_FIFO_CTRL:
-+        s->uart_fifo_ctrl = value;
-+
-+        if (value & FIFO_CTRL_RXRST) {
-+            qemu_log_mask(LOG_UNIMP,
-+                          "%s: RX fifos are not supported\n", __func__);
-+        }
-+        if (value & FIFO_CTRL_TXRST) {
-+            s->tx_level = 0;
-+        }
-+        break;
-+    case IBEX_UART_FIFO_STATUS:
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: fifo_status is read only\n", __func__);
-+        break;
-+
-+    case IBEX_UART_OVRD:
-+        s->uart_ovrd = value;
++                      "%s: Pending registers are read only\n", __func__);
++    } else if (addr_between(addr, s->source_base, s->source_num)) {
 +        qemu_log_mask(LOG_UNIMP,
-+                      "%s: ovrd is not supported\n", __func__);
-+        break;
-+    case IBEX_UART_VAL:
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: val is read only\n", __func__);
-+        break;
-+    case IBEX_UART_TIMEOUT_CTRL:
-+        s->uart_timeout_ctrl = value;
-+        qemu_log_mask(LOG_UNIMP,
-+                      "%s: timeout_ctrl is not supported\n", __func__);
-+        break;
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: Bad offset 0x%"HWADDR_PRIx"\n", __func__, addr);
++                      "%s: Interrupt source mode not supported\n", __func__);
++    } else if (addr_between(addr, s->priority_base, s->priority_num)) {
++        uint32_t irq = ((addr - s->priority_base) >> 2) + 1;
++        s->priority[irq] = value & 7;
++    } else if (addr_between(addr, s->enable_base, s->enable_num)) {
++        uint32_t enable_reg = (addr - s->enable_base) / 4;
++
++        s->enable[enable_reg] = value;
++    } else if (addr_between(addr, s->threshold_base, 1)) {
++        s->threshold = value & 3;
++    } else if (addr_between(addr, s->claim_base, 1)) {
++        if (s->claim == value) {
++            /* Interrupt was completed */
++            s->claim = 0;
++        }
 +    }
++
++    ibex_plic_update(s);
 +}
 +
-+static void fifo_trigger_update(void *opaque)
-+{
-+    IbexUartState *s = opaque;
-+
-+    if (s->uart_ctrl & UART_CTRL_TX_ENABLE) {
-+        ibex_uart_xmit(NULL, G_IO_OUT, s);
-+    }
-+}
-+
-+static const MemoryRegionOps ibex_uart_ops = {
-+    .read = ibex_uart_read,
-+    .write = ibex_uart_write,
++static const MemoryRegionOps ibex_plic_ops = {
++    .read = ibex_plic_read,
++    .write = ibex_plic_write,
 +    .endianness = DEVICE_NATIVE_ENDIAN,
-+};
-+
-+static int cadence_uart_post_load(void *opaque, int version_id)
-+{
-+    IbexUartState *s = opaque;
-+
-+    ibex_uart_update_irqs(s);
-+    return 0;
-+}
-+
-+static const VMStateDescription vmstate_ibex_uart = {
-+    .name = TYPE_IBEX_UART,
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .post_load = cadence_uart_post_load,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT8_ARRAY(tx_fifo, IbexUartState,
-+                            IBEX_UART_TX_FIFO_SIZE),
-+        VMSTATE_UINT32(tx_level, IbexUartState),
-+        VMSTATE_UINT64(char_tx_time, IbexUartState),
-+        VMSTATE_TIMER_PTR(fifo_trigger_handle, IbexUartState),
-+        VMSTATE_UINT32(uart_intr_state, IbexUartState),
-+        VMSTATE_UINT32(uart_intr_enable, IbexUartState),
-+        VMSTATE_UINT32(uart_ctrl, IbexUartState),
-+        VMSTATE_UINT32(uart_status, IbexUartState),
-+        VMSTATE_UINT32(uart_rdata, IbexUartState),
-+        VMSTATE_UINT32(uart_fifo_ctrl, IbexUartState),
-+        VMSTATE_UINT32(uart_fifo_status, IbexUartState),
-+        VMSTATE_UINT32(uart_ovrd, IbexUartState),
-+        VMSTATE_UINT32(uart_val, IbexUartState),
-+        VMSTATE_UINT32(uart_timeout_ctrl, IbexUartState),
-+        VMSTATE_END_OF_LIST()
++    .valid = {
++        .min_access_size = 4,
++        .max_access_size = 4
 +    }
 +};
 +
-+static Property ibex_uart_properties[] = {
-+    DEFINE_PROP_CHR("chardev", IbexUartState, chr),
++static void ibex_plic_irq_request(void *opaque, int irq, int level)
++{
++    IbexPlicState *s = opaque;
++
++    ibex_plic_irqs_set_pending(s, irq, level > 0);
++    ibex_plic_update(s);
++}
++
++static Property ibex_plic_properties[] = {
++    DEFINE_PROP_UINT32("num-cpus", IbexPlicState, num_cpus, 1),
++    DEFINE_PROP_UINT32("num-sources", IbexPlicState, num_sources, 80),
++
++    DEFINE_PROP_UINT32("pending-base", IbexPlicState, pending_base, 0),
++    DEFINE_PROP_UINT32("pending-num", IbexPlicState, pending_num, 3),
++
++    DEFINE_PROP_UINT32("source-base", IbexPlicState, source_base, 0x0c),
++    DEFINE_PROP_UINT32("source-num", IbexPlicState, source_num, 3),
++
++    DEFINE_PROP_UINT32("priority-base", IbexPlicState, priority_base, 0x18),
++    DEFINE_PROP_UINT32("priority-num", IbexPlicState, priority_num, 80),
++
++    DEFINE_PROP_UINT32("enable-base", IbexPlicState, enable_base, 0x200),
++    DEFINE_PROP_UINT32("enable-num", IbexPlicState, enable_num, 3),
++
++    DEFINE_PROP_UINT32("threshold-base", IbexPlicState, threshold_base, 0x20c),
++
++    DEFINE_PROP_UINT32("claim-base", IbexPlicState, claim_base, 0x210),
 +    DEFINE_PROP_END_OF_LIST(),
 +};
 +
-+static void ibex_uart_init(Object *obj)
++static void ibex_plic_init(Object *obj)
 +{
-+    IbexUartState *s = IBEX_UART(obj);
++    IbexPlicState *s = IBEX_PLIC(obj);
 +
-+    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->tx_watermark);
-+    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->rx_watermark);
-+    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->tx_empty);
-+    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->rx_overflow);
-+
-+    memory_region_init_io(&s->mmio, obj, &ibex_uart_ops, s,
-+                          TYPE_IBEX_UART, 0x400);
++    memory_region_init_io(&s->mmio, obj, &ibex_plic_ops, s,
++                          TYPE_IBEX_PLIC, 0x400);
 +    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
 +}
 +
-+static void ibex_uart_realize(DeviceState *dev, Error **errp)
++static void ibex_plic_realize(DeviceState *dev, Error **errp)
 +{
-+    IbexUartState *s = IBEX_UART(dev);
++    IbexPlicState *s = IBEX_PLIC(dev);
++    int i;
 +
-+    s->fifo_trigger_handle = timer_new_ns(QEMU_CLOCK_VIRTUAL,
-+                                          fifo_trigger_update, s);
++    s->pending = g_new0(uint32_t, s->pending_num);
++    s->source = g_new0(uint32_t, s->source_num);
++    s->priority = g_new0(uint32_t, s->priority_num);
++    s->enable = g_new0(uint32_t, s->enable_num);
 +
-+    qemu_chr_fe_set_handlers(&s->chr, ibex_uart_can_receive,
-+                             ibex_uart_receive, NULL, NULL,
-+                             s, NULL, true);
++    qdev_init_gpio_in(dev, ibex_plic_irq_request, s->num_sources);
++
++    /*
++     * We can't allow the supervisor to control SEIP as this would allow the
++     * supervisor to clear a pending external interrupt which will result in
++     * a lost interrupt in the case a PLIC is attached. The SEIP bit must be
++     * hardware controlled when a PLIC is attached.
++     */
++    MachineState *ms = MACHINE(qdev_get_machine());
++    unsigned int smp_cpus = ms->smp.cpus;
++    for (i = 0; i < smp_cpus; i++) {
++        RISCVCPU *cpu = RISCV_CPU(qemu_get_cpu(i));
++        if (riscv_cpu_claim_interrupts(cpu, MIP_SEIP) < 0) {
++            error_report("SEIP already claimed");
++            exit(1);
++        }
++    }
++
++    msi_nonbroken = true;
 +}
 +
-+static void ibex_uart_class_init(ObjectClass *klass, void *data)
++static void ibex_plic_class_init(ObjectClass *klass, void *data)
 +{
 +    DeviceClass *dc = DEVICE_CLASS(klass);
 +
-+    dc->reset = ibex_uart_reset;
-+    dc->realize = ibex_uart_realize;
-+    dc->vmsd = &vmstate_ibex_uart;
-+    device_class_set_props(dc, ibex_uart_properties);
++    dc->reset = ibex_plic_reset;
++    device_class_set_props(dc, ibex_plic_properties);
++    dc->realize = ibex_plic_realize;
 +}
 +
-+static const TypeInfo ibex_uart_info = {
-+    .name          = TYPE_IBEX_UART,
++static const TypeInfo ibex_plic_info = {
++    .name          = TYPE_IBEX_PLIC,
 +    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(IbexUartState),
-+    .instance_init = ibex_uart_init,
-+    .class_init    = ibex_uart_class_init,
++    .instance_size = sizeof(IbexPlicState),
++    .instance_init = ibex_plic_init,
++    .class_init    = ibex_plic_class_init,
 +};
 +
-+static void ibex_uart_register_types(void)
++static void ibex_plic_register_types(void)
 +{
-+    type_register_static(&ibex_uart_info);
++    type_register_static(&ibex_plic_info);
 +}
 +
-+type_init(ibex_uart_register_types)
-diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index 94d19571f7..28947ef3e0 100644
---- a/hw/riscv/Kconfig
-+++ b/hw/riscv/Kconfig
-@@ -4,6 +4,9 @@ config HTIF
- config HART
-     bool
- 
-+config IBEX
-+    bool
-+
- config SIFIVE
-     bool
-     select MSI_NONBROKEN
-@@ -29,6 +32,7 @@ config SPIKE
- 
- config OPENTITAN
-     bool
-+    select IBEX
-     select HART
-     select UNIMP
- 
-diff --git a/include/hw/char/ibex_uart.h b/include/hw/char/ibex_uart.h
++type_init(ibex_plic_register_types)
+diff --git a/include/hw/intc/ibex_plic.h b/include/hw/intc/ibex_plic.h
 new file mode 100644
-index 0000000000..2bec772615
+index 0000000000..ddc7909903
 --- /dev/null
-+++ b/include/hw/char/ibex_uart.h
-@@ -0,0 +1,110 @@
++++ b/include/hw/intc/ibex_plic.h
+@@ -0,0 +1,63 @@
 +/*
-+ * QEMU lowRISC Ibex UART device
++ * QEMU RISC-V lowRISC Ibex PLIC
 + *
 + * Copyright (c) 2020 Western Digital
 + *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
 + *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
 + *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef HW_IBEX_UART_H
-+#define HW_IBEX_UART_H
++#ifndef HW_IBEX_PLIC_H
++#define HW_IBEX_PLIC_H
 +
 +#include "hw/sysbus.h"
-+#include "chardev/char-fe.h"
-+#include "qemu/timer.h"
 +
-+#define IBEX_UART_INTR_STATE   0x00
-+    #define INTR_STATE_TX_WATERMARK (1 << 0)
-+    #define INTR_STATE_RX_WATERMARK (1 << 1)
-+    #define INTR_STATE_TX_EMPTY     (1 << 2)
-+    #define INTR_STATE_RX_OVERFLOW  (1 << 3)
-+#define IBEX_UART_INTR_ENABLE  0x04
-+#define IBEX_UART_INTR_TEST    0x08
++#define TYPE_IBEX_PLIC "ibex-plic"
++#define IBEX_PLIC(obj) \
++    OBJECT_CHECK(IbexPlicState, (obj), TYPE_IBEX_PLIC)
 +
-+#define IBEX_UART_CTRL         0x0c
-+    #define UART_CTRL_TX_ENABLE     (1 << 0)
-+    #define UART_CTRL_RX_ENABLE     (1 << 1)
-+    #define UART_CTRL_NF            (1 << 2)
-+    #define UART_CTRL_SLPBK         (1 << 4)
-+    #define UART_CTRL_LLPBK         (1 << 5)
-+    #define UART_CTRL_PARITY_EN     (1 << 6)
-+    #define UART_CTRL_PARITY_ODD    (1 << 7)
-+    #define UART_CTRL_RXBLVL        (3 << 8)
-+    #define UART_CTRL_NCO           (0xFFFF << 16)
-+
-+#define IBEX_UART_STATUS       0x10
-+    #define UART_STATUS_TXFULL  (1 << 0)
-+    #define UART_STATUS_RXFULL  (1 << 1)
-+    #define UART_STATUS_TXEMPTY (1 << 2)
-+    #define UART_STATUS_RXIDLE  (1 << 4)
-+    #define UART_STATUS_RXEMPTY (1 << 5)
-+
-+#define IBEX_UART_RDATA        0x14
-+#define IBEX_UART_WDATA        0x18
-+
-+#define IBEX_UART_FIFO_CTRL    0x1c
-+    #define FIFO_CTRL_RXRST          (1 << 0)
-+    #define FIFO_CTRL_TXRST          (1 << 1)
-+    #define FIFO_CTRL_RXILVL         (7 << 2)
-+    #define FIFO_CTRL_RXILVL_SHIFT   (2)
-+    #define FIFO_CTRL_TXILVL         (3 << 5)
-+    #define FIFO_CTRL_TXILVL_SHIFT   (5)
-+
-+#define IBEX_UART_FIFO_STATUS  0x20
-+#define IBEX_UART_OVRD         0x24
-+#define IBEX_UART_VAL          0x28
-+#define IBEX_UART_TIMEOUT_CTRL 0x2c
-+
-+#define IBEX_UART_TX_FIFO_SIZE 16
-+
-+#define TYPE_IBEX_UART "ibex-uart"
-+#define IBEX_UART(obj) \
-+    OBJECT_CHECK(IbexUartState, (obj), TYPE_IBEX_UART)
-+
-+typedef struct {
-+    /* <private> */
++typedef struct IbexPlicState {
++    /*< private >*/
 +    SysBusDevice parent_obj;
 +
-+    /* <public> */
++    /*< public >*/
 +    MemoryRegion mmio;
 +
-+    uint8_t tx_fifo[IBEX_UART_TX_FIFO_SIZE];
-+    uint32_t tx_level;
++    uint32_t *pending;
++    uint32_t *source;
++    uint32_t *priority;
++    uint32_t *enable;
++    uint32_t threshold;
++    uint32_t claim;
 +
-+    QEMUTimer *fifo_trigger_handle;
-+    uint64_t char_tx_time;
++    /* config */
++    uint32_t num_cpus;
++    uint32_t num_sources;
 +
-+    uint32_t uart_intr_state;
-+    uint32_t uart_intr_enable;
-+    uint32_t uart_ctrl;
-+    uint32_t uart_status;
-+    uint32_t uart_rdata;
-+    uint32_t uart_fifo_ctrl;
-+    uint32_t uart_fifo_status;
-+    uint32_t uart_ovrd;
-+    uint32_t uart_val;
-+    uint32_t uart_timeout_ctrl;
++    uint32_t pending_base;
++    uint32_t pending_num;
 +
-+    CharBackend chr;
-+    qemu_irq tx_watermark;
-+    qemu_irq rx_watermark;
-+    qemu_irq tx_empty;
-+    qemu_irq rx_overflow;
-+} IbexUartState;
-+#endif /* HW_IBEX_UART_H */
++    uint32_t source_base;
++    uint32_t source_num;
++
++    uint32_t priority_base;
++    uint32_t priority_num;
++
++    uint32_t enable_base;
++    uint32_t enable_num;
++
++    uint32_t threshold_base;
++
++    uint32_t claim_base;
++} IbexPlicState;
++
++#endif /* HW_IBEX_PLIC_H */
 -- 
 2.26.2
 
