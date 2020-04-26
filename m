@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C86BA1B93AE
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 21:39:28 +0200 (CEST)
-Received: from localhost ([::1]:43702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB6F51B93C6
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 21:53:01 +0200 (CEST)
+Received: from localhost ([::1]:44126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSn7d-0005K8-Fv
-	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 15:39:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47706)
+	id 1jSnKl-0006SU-W8
+	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 15:53:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47700)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lukasstraub2@web.de>) id 1jSmud-0001Cu-Rz
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 15:26:00 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <lukasstraub2@web.de>) id 1jSmud-0005nJ-Cz
+ (envelope-from <lukasstraub2@web.de>) id 1jSmud-0001Ce-9R
  for qemu-devel@nongnu.org; Sun, 26 Apr 2020 15:25:59 -0400
-Received: from mout.web.de ([217.72.192.78]:42417)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
+ (envelope-from <lukasstraub2@web.de>) id 1jSmuc-0005kf-QG
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 15:25:59 -0400
+Received: from mout.web.de ([212.227.15.4]:55933)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jSmuc-0005iC-P7
+ id 1jSmuc-0005h4-7d
  for qemu-devel@nongnu.org; Sun, 26 Apr 2020 15:25:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1587929140;
- bh=6pc9YXNKhuW8jIo+3vRiEjlLgHIMsoHErd6rjWBDDRk=;
+ s=dbaedf251592; t=1587929144;
+ bh=SxlQe2CwqaYOqz1vCvbqvBcqvHod26E6TNFCs9tSaPk=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=YwWoBmLJDlw2wpSHh/fJOU8LgyEgfCctJzFNUz2fLQgmQDjWXa4p2VbSWVTfp79sn
- Zn/beSM+eQDSPpP5nlMHUJ43SMiIykmao5frkaFpmGjgtokJK8/4n0zdSUL3b7i4uY
- xnWDGDHZpn+z/cnkp3tKiC5Uf6dMRPYyTEJLen3E=
+ b=OF9jbFvc4e23YG2KLX13/j8t1ExuQPQ3kC+4Fnq0bUtvBDyxLd+CT8i4KGwbwEaTC
+ D6Io6/bylklu7p5y6hXLNioI3LlrslPWAyGTdqoWo7zcfa34t7YyTYdHkfSPPAH2mR
+ Ty2coWoDT49oDIY0a43Q6A6gSO5mMQDDikTVjxq0=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([89.247.255.95]) by smtp.web.de (mrweb102
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0M09dQ-1jC62K0IlY-00uKv9; Sun, 26
- Apr 2020 21:25:40 +0200
-Date: Sun, 26 Apr 2020 21:25:38 +0200
+Received: from luklap ([89.247.255.95]) by smtp.web.de (mrweb003
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MeBEk-1jqOrW1Pna-00PuwV; Sun, 26
+ Apr 2020 21:25:44 +0200
+Date: Sun, 26 Apr 2020 21:25:42 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v2 1/6] net/colo-compare.c: Create event_bh with the right
- AioContext
-Message-ID: <dc7c5716e1e3367dc96f8496c52490ce7578a678.1587927878.git.lukasstraub2@web.de>
+Subject: [PATCH v2 2/6] chardev/char.c: Use qemu_co_sleep_ns if in coroutine
+Message-ID: <be38e52e55c46e7de8ec23924e4f1a0071969f6f.1587927878.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1587927878.git.lukasstraub2@web.de>
 References: <cover.1587927878.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/x=njM09_KyZCR5NOU5o5MQ_";
+Content-Type: multipart/signed; boundary="Sig_/Aqe2/2N_.tbJ4e=37ffi_AM";
  protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:JlkzBR+7HxwSYRWS4OUWJUhDmB/2kMywrHnAnQ7UBqYh9h9TwMY
- OSN0sM3cSjIbv5pVtUHzVzfsUryRTwkgSOAANyr3ZvMtH3ljmxQpqqLecn5B/C3Mvk141SK
- ifaZBVe+AtJMC1568mz5q32eBGocLXzs2bTCnfPUur13xebqsi+Jp0KZXXdtIn/c7HmpoeH
- 0F/C6zP3GV9imHhGfVdZw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6xeLxWDG2qU=:5pgQqo9w8wXgC8tnJlxFYC
- /dWZ6e+qeO2jBe/nxW4tG2AQ/uebqafJwMlowJUgSnh5cDtIOGBEahxSSjd/6bb7rbs+xfPVo
- 2aSC2pGBrlrXZRiXYSqSa07XIi8XLWJ3WUVd5i8wzth3lyPRYzYvX1uWrfDf3AloC5K6upfsr
- jDYE1OAlqhGm9x5qSMUfkZwBEm7Y4pcuGYkit5WTqpdr8VdQsero4L7YF2IbLVFlpVEXLgooH
- 6pTR6shmTyNuyt/t41GoJdZLKXdQ7bdDUYHxuBmh8O37w4bCs7A/zAy121OzI1KLLaRFrf5VX
- 0ylqlCSmYVrgoWbYaiAfdYxjiY3+PR9hSwu21gObkX9yUdrY7+8lWCxN6zsMJ+rXPXCco+iuf
- PhfluGigjxxo9Yx/FLuffR2YzcAITs5S4yearA5GRy9GNaVd3AjaE4sDLmbqWGiZUVeuF8Ico
- 13LlgvHfZ800BzHYMy/vpYXkC3F3VUSdDoDTFb9vy50/CFh3NW/ZuddyHFu/tcwUIszTnyj6m
- s4fiQvHSN12EVW8bH47eNCxyLw9LL/mg4hrFQzd4QsOUKpWsVRzN7ga4NIQgdtqQbe2jJF1nm
- 96Rq5ONiVqDZjaoJ5GSBTU19jWJ5sJmP0Jv9kej/8TvA4znxz2LnCodHIr7ZKjl4zBSZBs9rj
- foXikZLuNDr68GBLUMdKHVt74Ptj1GKVi2ACmVh+DNtZbhcTnYrE8KL5W1U/b7T8SkCey98AA
- Dz6Q2RiDp/z6hoToPjkA3RdVvBtQO35+XH8vjvhPqifjhnaHp/CpfZH0osvcFlPgvSPHTYthx
- e1YRN3zv4tV7e+m+ws0Z9hXrgiJHguflMMSs65V0HHVCoKG0s2YeJnrbA0OPOjUkeXxJxhj/B
- 9MZbqhAbLmIS2ZecFQZfftwrQdE42PjooyOtwIPLHv8Gj+Z06J55sMgctmYGRBPO4k5L6xZ8U
- x3m8+kSeFY8nkCxj5I8HAsOV1ER/n2MkncXiAa0biW9Yby/wuE01UrZ/KGAPTegP4riMkzY0v
- k/S6b7W7vJjvnWdLx+RxT8PcNY83Eu3DhkOW2/ja9SuenoFP+OPHZINlkaQZgflVquqvjOGXm
- ZY9GHH33bhLyW0xERNjVN3XICCbmh7MH1Z9C6/3wPjy37XQoFftpv1zCSp3BUZS48SBIfm2K9
- iXPTQFpeB/YNZ/q3Ot8tkbL28saenzB4uJR2oajld0iq6lmQQXnnV1fT6iMjD018a+MwAbpiT
- 7hrqexU+pyMGsAB6s
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:2g0REWAPIPYjxMb5/6MrQGa6gM7ymM0942qnJLo/vDtcq9ytUOf
+ JZIY4Pu4IGkbb2C8CQzatm8pyRGfHVN1RctNP/lXH8qlAy0jfxsD45NSY8xe7wnFjCfwwKX
+ /vKE9jx05JOeHKjv6CCzrs68XEsO8N8Z5UekYICXk73TLHoLm/XmSKHELSaj+A87BRxW7Ye
+ ESphm3Ud7zopK+0jZaN6Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:TIi3+7IszWQ=:b43BOh/4dXD+72dOzSJtbo
+ BTsnTbVYbsdbyIApiBvg4wMGhtLc4nktV/8bZER5Ifh9/Mahhg6Pb3V4Hg3PGOuRyKYo3jpSr
+ G1iFF371ncDL9r90f4un+i4Ra8suINGT0K6F5BGMEOVK255wRdRC9OTaebr2sCo8QUjxj+T0N
+ fbm//ej+8pFhZdYZHRSHuAh1fLho227Yagr3U/OPaDDMniM+z8bHXpXxgcjlVfzBV2n97UmnQ
+ t7TnuPJXfTeIHUtRX1Ci5+b6CS47PEt8yeZ+8qDGqLdB9Lh4EkxjN6mDc4N3zax35l4V8J7uf
+ a0pKbg60i29EO5Y3G30f5KMFd+ct/oTOI4HNIstIx+d+RDAd5CBlZCpuTRz9N61Gu8Ns/vcJF
+ s6/8zYkvdqkxLmpvgzm2vn79HPSQT2push3tY6VgHkGM8WSMHIcG44Rvl2LVCeqJ/EWhp1DXE
+ rcfa7/+IjMUW0O7CIliDt9toOaJjfiV7r+XmTWu4fBdO3B3LcPGib1SVQewT6aIum0ABNEIMD
+ zbG6cmh65lLN6VI6HGNyfmiQ9GBTddFRqPlGAUw5NgF1OKUqwLBf7UfSSF+bCqyiO7gHC2rw3
+ Xm7cLdwlWj3WQ23dAH8inGt8+AkPHLzFjGprZsvDDID5Iigrtwl1UmmoV0Xe2IZRQ1hI3rzet
+ 5m8lXqzW2yLWjQqMtaBY/DNDkAlZDz4ZtU21vdbjX0HBh6V38KXMpvB1ROBkPs/SgP1ccYPvY
+ VDK27iVPYw/k+ySn5Y/jEElNL+rCPmhbVLSBsYvXQyfoifCU+NkketYP5akiaNu6SYGFy55Dg
+ eiRcSq1IcGuCfHDywMAO3KRW/FmsuKsG/uWM1nVNlggEjOflvKXKFLbqblbulleyp6Vcipp9W
+ jmEBcKEvvA+UPCSFxWVWjFNOOxDXd8mDW6dEDpn8r5ApigZ5aZZFzfkUspq3BuoRrpeDqdtv9
+ YJvFzXemDwrmQ4GkLMSqUt6OBuqKCo0Zv37w8h0JkbsgmTfILQ4vOWoLx2SUxU8D9FauL6QEb
+ 9A3qQoDlCH6hbOFrl5NiD6ycam3i1LWjR943e5eaaKXDuOsi0duaD2Lk3gBPG1rpj0pO2CK5j
+ exx5Tdr/UCMkoTcR/kpxl61NxYZXh96evMHk/JPcuPMC+DLhkTflgtTy0tKbeZfVTOa5Ojltp
+ kTxNV5Q4a7PC2/lCVOgo4IXg645d5owcWGC9tFvU0cpI0kWq01SacdWjVpYs+ysM7HPb7yTT+
+ qa8LO2vE9yn0PWYFd
+Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 15:25:57
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 15:25:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.78
+X-Received-From: 212.227.15.4
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,72 +87,68 @@ Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/x=njM09_KyZCR5NOU5o5MQ_
-Content-Type: text/plain; charset=US-ASCII
+--Sig_/Aqe2/2N_.tbJ4e=37ffi_AM
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-qemu_bh_new will set the bh to be executed in the main
-loop. This causes crashes as colo_compare_handle_event assumes
-that it has exclusive access the queues, which are also
-concurrently accessed in the iothread.
-
-Create the bh with the AioContext of the iothread to fulfill
-these assumptions and fix the crashes. This is safe, because
-the bh already takes the appropriate locks.
+This will be needed in the next patch.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Zhang Chen <chen.zhang@intel.com>
-Reviewed-by: Derek Su <dereksu@qnap.com>
-Tested-by: Derek Su <dereksu@qnap.com>
 ---
- net/colo-compare.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ chardev/char.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 10c0239f9d..1de4220fe2 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -890,6 +890,7 @@ static void colo_compare_handle_event(void *opaque)
+diff --git a/chardev/char.c b/chardev/char.c
+index e77564060d..5c8014199f 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -38,6 +38,7 @@
+ #include "qemu/module.h"
+ #include "qemu/option.h"
+ #include "qemu/id.h"
++#include "qemu/coroutine.h"
 =20
- static void colo_compare_iothread(CompareState *s)
- {
-+    AioContext *ctx =3D iothread_get_aio_context(s->iothread);
-     object_ref(OBJECT(s->iothread));
-     s->worker_context =3D iothread_get_g_main_context(s->iothread);
+ #include "chardev/char-mux.h"
 =20
-@@ -906,7 +907,7 @@ static void colo_compare_iothread(CompareState *s)
-     }
+@@ -119,7 +120,11 @@ static int qemu_chr_write_buffer(Chardev *s,
+     retry:
+         res =3D cc->chr_write(s, buf + *offset, len - *offset);
+         if (res < 0 && errno =3D=3D EAGAIN && write_all) {
+-            g_usleep(100);
++            if (qemu_in_coroutine()) {
++                qemu_co_sleep_ns(QEMU_CLOCK_REALTIME, 100000);
++            } else {
++                g_usleep(100);
++            }
+             goto retry;
+         }
 =20
-     colo_compare_timer_init(s);
--    s->event_bh =3D qemu_bh_new(colo_compare_handle_event, s);
-+    s->event_bh =3D aio_bh_new(ctx, colo_compare_handle_event, s);
- }
-=20
- static char *compare_get_pri_indev(Object *obj, Error **errp)
 --=20
 2.20.1
 
 
---Sig_/x=njM09_KyZCR5NOU5o5MQ_
+--Sig_/Aqe2/2N_.tbJ4e=37ffi_AM
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl6l4DIACgkQNasLKJxd
-sli/Qw//ck9gGY1Er61CekXwYNaF89ZkAUNCiSrCM0bX2rKoV5exbreMgV1Vx3wa
-MpCJqDcOsIk8izknKGxnmRj5XAFVy9XoLmegx1Agy/9leBO9kGhiDFjdyDTcDLuG
-v4F+ttgO46w3F1yLUm1o01GkH6kna5BjBcH8Q2qH8Ue5Z5eZiaz/oZNVfSgd+V1o
-s488UobY8bCgKX95hhfhauF/wcmOdxNuAuAbSvK9EJNC7u3ClX+65L9urfUcAzjk
-Usb2bjelVfx0g+xyVMs6hhWG4AjKFFhttyz3tl9MM9QVyl45cgY24zDiPALFY7hN
-wUIR2W2KzyWa/KE8nZh5KaLENv4KKuxjnXNifIlfXPkDxWqOGQgq1FmUXX/UHN0P
-3LHGoSD88CoeCH8QIfoLUK8jAMlCh6ne8qe9thxyw6TlQvKAhuCn1DBQwQgAE1JR
-bP2AiX0+9nitcS7MGbTcBfCslQYRxL5CWhh+X99O9vBr97kzoFLVVC50smOi8HNm
-Th+JQ5X5uQHIZU0aPPH1FGdA/dS6xuZVi8EJSiP37Ma/O6intGADXs3azbeceiKg
-QrpjdFIqAevF+TQVsgcgS9vG0X2E1yYgavsjf1qu+YG2yxyK6dySAxH2NF6/oQTL
-IjHverPi3dIX8823boOO/tKPlvqvVu2DbGaGJlK/Har5KdcqrM4=
-=UUtZ
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl6l4DYACgkQNasLKJxd
+slg8vg/+IrcyluLr3HlgdEpvcoJbdb0bZYpQ/v3Utb+ElmpZaEqjrLtXMRUPd1c1
+PS6y8CIt+F3D2iXvRKPtlT3Z698XS7WbiKNTafT19oyxEOHvta7zmps3iPuDXrz6
+LFnhO14zhloajoZcsX104ZsIye/xzXtUUc+rIAgGkXaN/DQwp19M0fGPAPmYfgWl
+BkQSChiRr+o4MzKKXS2tGmi4Shc7CTsclcYpYDkVzL4gAadWEPePilZAoH8k7BTi
+cCNVRVB5soCTY2xFSMwktY20inwddOwwRyty4nuCCfSdFuX9qw3U3/8TyKfxgQh2
+9v/k/UaUGUxtgCP330mLPMQ5gW405f0e+cp0aVpjEm1B2xuUvXrQW2/3xCh7Uynj
+2ed6BccdA7kMfUh0BnFOn1IjLf3V3P7ISedj9jnHYC8e4lA7gR/M+CjzPALk3L/G
+yYdtl0+HVAchx2CL/Li6etogVMwkSzdxmEL5KkwCDfuezx5ZNQzP0OGVucZ8VVn9
+FvNnk1Huzgo5irnrI4J47GiI8NXzhOS8vwfbHb8QW9mchaC3FwPYmI80D2gZnwiV
+U4OEJH3ckCq1ndXJNckZvOhHFlrsxNwo526fo95xr8ZdiWAYmDTYgx8wHw9HsAhZ
+wHQacLSmYAINTx6LMlgDcXdco4z+3WRyPNo9F/JGvqe1ZSzHEIw=
+=mqPJ
 -----END PGP SIGNATURE-----
 
---Sig_/x=njM09_KyZCR5NOU5o5MQ_--
+--Sig_/Aqe2/2N_.tbJ4e=37ffi_AM--
 
