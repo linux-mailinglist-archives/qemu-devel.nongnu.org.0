@@ -2,59 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47E741B90E2
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 16:35:11 +0200 (CEST)
-Received: from localhost ([::1]:60554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E026D1B91BE
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 18:32:07 +0200 (CEST)
+Received: from localhost ([::1]:35410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSiNB-0007RF-PI
-	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 10:35:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58692)
+	id 1jSkCH-0002ve-9J
+	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 12:32:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44314)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <teachk@foxmail.com>) id 1jSiM5-0006aR-1i
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 10:34:01 -0400
+ (envelope-from <prvs=378a396a1=alistair.francis@wdc.com>)
+ id 1jSk7t-0004MG-Gz
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 12:27:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <teachk@foxmail.com>) id 1jSiM2-00053X-HJ
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 10:34:00 -0400
-Received: from out203-205-221-205.mail.qq.com ([203.205.221.205]:52526
- helo=qq.com)
+ (envelope-from <prvs=378a396a1=alistair.francis@wdc.com>)
+ id 1jSk7s-0004GU-5K
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 12:27:28 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:30869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <teachk@foxmail.com>)
- id 1jSiLz-0004Wf-O0
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 10:33:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
- t=1587911627; bh=jvIG8j//AbEeqMWpFi5xJu/UZ8C/QeSTeZTr2Onp2nA=;
- h=From:To:Cc:Subject:Date;
- b=LQ7c7xfMH5jl8IkcL0k62TPs1Q7wqtRVHYcJDIIFZeMe4mORV4+OVH/mti79jlhM7
- lOrvPYze4HjvwkK7C7lCSFI5jCGCGDKZAzbK6NDxVFJhxPJszI5ZwVJiNJH6ln9MQt
- iSuh0yLyfh4PvNl8keoB44kI7gPU/txLRYzMbqlg=
-Received: from localhost.localdomain ([123.185.180.85])
- by newxmesmtplogicsvrszc7.qq.com (NewEsmtp) with SMTP
- id 820A4664; Sun, 26 Apr 2020 22:32:32 +0800
-X-QQ-mid: xmsmtpt1587911552tqus51fs6
-X-QQ-XMAILINFO: MRtgQJ5r0UjaRway8WzWfKMoY4HLJYIto90evLlR7jg5NV+aiWj/hx/UndnMox
- pd9dZVfneArug+EDF5iRggh1XMSlSIaoRJ7nwFpmTE2vDQlJtO3MSJgK26zfFhbT248DbXRgVgQS
- lyEBqETdyfparn6nK6knRsdN40qeEVi/JT2V7PaQjvpPvktZVqffEDmymmbX/GyqnsxMl4+K2JZJ
- z2toF3vh1gUqLxCtS+Y4iE+mpVT6cb8honm28U/+Oakvbas8sdjcQvtjT5rLuG/Ctxvs8QLmLxmK
- d1chPN6TW+p32GEQwglRjgBotsTr4SLWYBE+oFb0HxO+UWzrDdmIB7Fn+ievnAMn0EEoVv2zg4CU
- HYq0G4+pLSyNIcXtdnQJO07DhY9VMGNs2JCZ9Wz2pp4NGAJrqt+8+MB+RtZ+/wTuHaxmo2eC47oi
- gbc6vkRvG2u91eZAhLOfIiFNGdR5HwMMtpvBSOoUHhBthpoUHLYA5db31gya6hnI4A2Wc1c2C5dc
- Lhxl3RTsIvV46FsP5Bggi1nSddjBk9XpnZbTDWZx3T0YgZtTt41LH+4Omy/hev9rFiydnDz1R+0J
- trPIoOybgmJMzkwUxXRCMpDtqHh5tPo1zGlabFajPEYLasRoGNEwGZGIAfxwREoGtWXDPF1cuP5j
- +/vw==
-From: teachk <teachk@foxmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] Convert DPRINTF() to trace event
-Date: Sun, 26 Apr 2020 22:32:17 +0800
-Message-Id: <20200426143217.1962-1-teachk@foxmail.com>
-X-Mailer: git-send-email 2.22.0.windows.1
+ (Exim 4.90_1)
+ (envelope-from <prvs=378a396a1=alistair.francis@wdc.com>)
+ id 1jSk7r-00044P-5H; Sun, 26 Apr 2020 12:27:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1587918447; x=1619454447;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=CzMEq7wJwKeWlJSDtGSqQMMtu2h3E4OJwzh8OjO7gWU=;
+ b=LFu64r3KOxf6FmS5jHVt1WhKwTeVsKqLHZvFP+vVxbMVtKLVmAS2Bj7s
+ bLVsjWNPSJC4zFzFvCQZyEZagc/NEvqENt5cUokoOGSaRkthfMzDdE4D8
+ sqa4kA8CbooRk64iTcKJ8BqqXp/gz4eUX7l8SVRLwj7qOuhVlZZNTESLo
+ e3Rb/KJqyMiBu38GG/61ppGm4xfgTnGL4EezpSo7woAGn6TR8POTrmOPV
+ UFMyzH/Tfwl+Ulz8N+Oxm/2bziUsYWjZat3jcI2WX9IqJezaHo+/nla35
+ sEjySMFF1dCFa+efXviqovC7FCuy262/yvZjQpVDOhK8PLHAq3ZAy3OFo Q==;
+IronPort-SDR: IXurWE4fPpqiBuH2cpDjKKN/bJn8/tHz6/XE2UuU3EKxJzRVlWWdN0hyNnlNROdcBd/v428mv9
+ DxC9dDPldDNW83HLrXG390W9N8CXrOxX82r9RZJQS3yVyF8+kP9BEIjOENxzSpRK8Lm5amKUtO
+ vFquwafmSGamWoO+Ny+djOQMs8Whoel/egbe8WOSZjNuSNTsqweeLAFp4X/mzOUMJEzFcWgJtf
+ SjhyarRYU1HVSp+arLg43IOMQ9bULLzd7UFjaGTdfKgyVYBMbD4xCiq9dT2BEzdoiFOfmAONLu
+ yfc=
+X-IronPort-AV: E=Sophos;i="5.73,320,1583164800"; d="scan'208";a="136193234"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 27 Apr 2020 00:27:21 +0800
+IronPort-SDR: TXVfx+/fCAsIygIgYsyvOOm8JNPR9/aO/3Ea126Gz1riU8MGH3yWUOfO2TO6y7IFtc4nVGI3XT
+ cEVY0bWJ14R9RXVszAnNb7wGzBY1UEgAg=
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2020 09:17:31 -0700
+IronPort-SDR: nPxOJ6r3/EbNZYpQcSkjxovvS2+BcaNU3/4NhW+caaXqDp4rRlZYnaCMPb7hMyetMZnZHEuG8B
+ Fa5xqEe65Clw==
+WDCIronportException: Internal
+Received: from wdthnc17-0189.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.56.50])
+ by uls-op-cesaip02.wdc.com with ESMTP; 26 Apr 2020 09:27:21 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v1 00/15]  RISC-V: Update the Hypervisor spec to v0.6
+Date: Sun, 26 Apr 2020 09:19:11 -0700
+Message-Id: <cover.1587917657.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=203.205.221.205; envelope-from=teachk@foxmail.com;
- helo=qq.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 10:33:48
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10
-X-Received-From: 203.205.221.205
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.154.42;
+ envelope-from=prvs=378a396a1=alistair.francis@wdc.com;
+ helo=esa4.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 12:27:21
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Received-From: 216.71.154.42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,190 +81,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arei.gonglei@huawei.com, Halloween <halloweenwx@163.com>, mst@redhat.com
+Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Halloween <halloweenwx@163.com>=0D
+This series updates the experimental QEMU RISC-V Hypervisor spec to the
+v0.6 draft implementation.
 
-Signed-off-by: Halloween <halloweenwx@163.com>=0D
----=0D
- hw/virtio/trace-events            | 12 ++++++++++++=0D
- hw/virtio/virtio-crypto.c         | 29 ++++++++++++++++-------------=0D
- include/hw/virtio/virtio-crypto.h | 11 -----------=0D
- 3 files changed, 28 insertions(+), 24 deletions(-)=0D
-=0D
-diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events=0D
-index e83500bee9..f7c20f211a 100644=0D
---- a/hw/virtio/trace-events=0D
-+++ b/hw/virtio/trace-events=0D
-@@ -73,3 +73,15 @@ virtio_iommu_get_domain(uint32_t domain_id) "Alloc domai=
-n=3D%d"=0D
- virtio_iommu_put_domain(uint32_t domain_id) "Free domain=3D%d"=0D
- virtio_iommu_translate_out(uint64_t virt_addr, uint64_t phys_addr, uint32_=
-t sid) "0x%"PRIx64" -> 0x%"PRIx64 " for sid=3D%d"=0D
- virtio_iommu_report_fault(uint8_t reason, uint32_t flags, uint32_t endpoin=
-t, uint64_t addr) "FAULT reason=3D%d flags=3D%d endpoint=3D%d address =3D0x=
-%"PRIx64=0D
-+=0D
-+# virtio-crypto.c=0D
-+virtio_crypto_cipher_session_helper_cipher_alg_and_direction(uint32_t ciph=
-er_alg, uint8_t direction) "cipher_alg=3D%" PRIu32 ", info->direction=3D%" =
-PRIu32=0D
-+virtio_crypto_cipher_session_helper_keylen(uint32_t keylen) "keylen=3D%" P=
-RIu32=0D
-+virtio_crypto_create_sym_session_auth_keylen(uint32_t auth_keylen) "auth_k=
-eylen=3D%" PRIu32=0D
-+virtio_crypto_create_sym_session_session_id(int64_t session_id) "create se=
-ssion_id=3D%" PRIu64 " successfully"=0D
-+virtio_crypto_sym_op_helper_src_len(uint32_t src_len) "src_len=3D%" PRIu32=
-=0D
-+virtio_crypto_sym_op_helper_dst_len(uint32_t dst_len) "dst_len=3D%" PRIu32=
-=0D
-+virtio_crypto_sym_op_helper_hash_result_len(uint32_t hash_result_len) "has=
-h_result_len=3D%" PRIu32=0D
-+virtio_crypto_handle_close_session(uint64_t session_id) "close session id =
-%" PRIu64=0D
-+virtio_crypto_sym_op_helper_iv_len(uint32_t iv_len) "iv_len %" PRIu32=0D
-+virtio_crypto_sym_op_helper_aad_len(uint32_t aad_len) "aad_len %" PRIu32=0D
-diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c=0D
-index 4c65114de5..f816db2fca 100644=0D
---- a/hw/virtio/virtio-crypto.c=0D
-+++ b/hw/virtio/virtio-crypto.c=0D
-@@ -25,6 +25,8 @@=0D
- #include "standard-headers/linux/virtio_ids.h"=0D
- #include "sysemu/cryptodev-vhost.h"=0D
- =0D
-+#include "trace.h"=0D
-+=0D
- #define VIRTIO_CRYPTO_VM_VERSION 1=0D
- =0D
- /*=0D
-@@ -49,8 +51,8 @@ virtio_crypto_cipher_session_helper(VirtIODevice *vdev,=0D
-     info->cipher_alg =3D ldl_le_p(&cipher_para->algo);=0D
-     info->key_len =3D ldl_le_p(&cipher_para->keylen);=0D
-     info->direction =3D ldl_le_p(&cipher_para->op);=0D
--    DPRINTF("cipher_alg=3D%" PRIu32 ", info->direction=3D%" PRIu32 "\n",=0D
--             info->cipher_alg, info->direction);=0D
-+    trace_virtio_crypto_cipher_session_helper_cipher_alg_and_direction(\=0D
-+    info->cipher_alg, info->direction);=0D
- =0D
-     if (info->key_len > vcrypto->conf.max_cipher_key_len) {=0D
-         error_report("virtio-crypto length of cipher key is too big: %u",=
-=0D
-@@ -60,7 +62,7 @@ virtio_crypto_cipher_session_helper(VirtIODevice *vdev,=0D
-     /* Get cipher key */=0D
-     if (info->key_len > 0) {=0D
-         size_t s;=0D
--        DPRINTF("keylen=3D%" PRIu32 "\n", info->key_len);=0D
-+        trace_virtio_crypto_cipher_session_helper_keylen(info->key_len);=0D
- =0D
-         info->cipher_key =3D g_malloc(info->key_len);=0D
-         s =3D iov_to_buf(*iov, num, 0, info->cipher_key, info->key_len);=0D
-@@ -130,7 +132,9 @@ virtio_crypto_create_sym_session(VirtIOCrypto *vcrypto,=
-=0D
-             }=0D
-             /* get auth key */=0D
-             if (info.auth_key_len > 0) {=0D
--                DPRINTF("auth_keylen=3D%" PRIu32 "\n", info.auth_key_len);=
-=0D
-+                trace_virtio_crypto_create_sym_session_auth_keylen(\=0D
-+                info.auth_key_len);=0D
-+=0D
-                 info.auth_key =3D g_malloc(info.auth_key_len);=0D
-                 s =3D iov_to_buf(iov, out_num, 0, info.auth_key,=0D
-                                info.auth_key_len);=0D
-@@ -165,9 +169,7 @@ virtio_crypto_create_sym_session(VirtIOCrypto *vcrypto,=
-=0D
-                                      vcrypto->cryptodev,=0D
-                                      &info, queue_index, &local_err);=0D
-     if (session_id >=3D 0) {=0D
--        DPRINTF("create session_id=3D%" PRIu64 " successfully\n",=0D
--                session_id);=0D
--=0D
-+        trace_virtio_crypto_create_sym_session_session_id(session_id);=0D
-         ret =3D session_id;=0D
-     } else {=0D
-         if (local_err) {=0D
-@@ -193,7 +195,7 @@ virtio_crypto_handle_close_session(VirtIOCrypto *vcrypt=
-o,=0D
-     Error *local_err =3D NULL;=0D
- =0D
-     session_id =3D ldq_le_p(&close_sess_req->session_id);=0D
--    DPRINTF("close session, id=3D%" PRIu64 "\n", session_id);=0D
-+    trace_virtio_crypto_handle_close_session(session_id);=0D
- =0D
-     ret =3D cryptodev_backend_sym_close_session(=0D
-               vcrypto->cryptodev, session_id, queue_id, &local_err);=0D
-@@ -474,7 +476,8 @@ virtio_crypto_sym_op_helper(VirtIODevice *vdev,=0D
-     op_info->len_to_cipher =3D len_to_cipher;=0D
-     /* Handle the initilization vector */=0D
-     if (op_info->iv_len > 0) {=0D
--        DPRINTF("iv_len=3D%" PRIu32 "\n", op_info->iv_len);=0D
-+        trace_virtio_crypto_sym_op_helper_iv_len(op_info->iv_len);=0D
-+=0D
-         op_info->iv =3D op_info->data + curr_size;=0D
- =0D
-         s =3D iov_to_buf(iov, out_num, 0, op_info->iv, op_info->iv_len);=0D
-@@ -488,7 +491,7 @@ virtio_crypto_sym_op_helper(VirtIODevice *vdev,=0D
- =0D
-     /* Handle additional authentication data if exists */=0D
-     if (op_info->aad_len > 0) {=0D
--        DPRINTF("aad_len=3D%" PRIu32 "\n", op_info->aad_len);=0D
-+        trace_virtio_crypto_sym_op_helper_aad_len(op_info->aad_len);=0D
-         op_info->aad_data =3D op_info->data + curr_size;=0D
- =0D
-         s =3D iov_to_buf(iov, out_num, 0, op_info->aad_data, op_info->aad_=
-len);=0D
-@@ -503,7 +506,7 @@ virtio_crypto_sym_op_helper(VirtIODevice *vdev,=0D
- =0D
-     /* Handle the source data */=0D
-     if (op_info->src_len > 0) {=0D
--        DPRINTF("src_len=3D%" PRIu32 "\n", op_info->src_len);=0D
-+        trace_virtio_crypto_sym_op_helper_src_len(op_info->src_len);=0D
-         op_info->src =3D op_info->data + curr_size;=0D
- =0D
-         s =3D iov_to_buf(iov, out_num, 0, op_info->src, op_info->src_len);=
-=0D
-@@ -520,11 +523,11 @@ virtio_crypto_sym_op_helper(VirtIODevice *vdev,=0D
-     op_info->dst =3D op_info->data + curr_size;=0D
-     curr_size +=3D op_info->dst_len;=0D
- =0D
--    DPRINTF("dst_len=3D%" PRIu32 "\n", op_info->dst_len);=0D
-+    trace_virtio_crypto_sym_op_helper_dst_len(op_info->dst_len);=0D
- =0D
-     /* Handle the hash digest result */=0D
-     if (hash_result_len > 0) {=0D
--        DPRINTF("hash_result_len=3D%" PRIu32 "\n", hash_result_len);=0D
-+        trace_virtio_crypto_sym_op_helper_hash_result_len(hash_result_len)=
-;=0D
-         op_info->digest_result =3D op_info->data + curr_size;=0D
-     }=0D
- =0D
-diff --git a/include/hw/virtio/virtio-crypto.h b/include/hw/virtio/virtio-c=
-rypto.h=0D
-index ffe2391ece..f59f91f11e 100644=0D
---- a/include/hw/virtio/virtio-crypto.h=0D
-+++ b/include/hw/virtio/virtio-crypto.h=0D
-@@ -19,17 +19,6 @@=0D
- #include "sysemu/iothread.h"=0D
- #include "sysemu/cryptodev.h"=0D
- =0D
--=0D
--#define DEBUG_VIRTIO_CRYPTO 0=0D
--=0D
--#define DPRINTF(fmt, ...) \=0D
--do { \=0D
--    if (DEBUG_VIRTIO_CRYPTO) { \=0D
--        fprintf(stderr, "virtio_crypto: " fmt, ##__VA_ARGS__); \=0D
--    } \=0D
--} while (0)=0D
--=0D
--=0D
- #define TYPE_VIRTIO_CRYPTO "virtio-crypto-device"=0D
- #define VIRTIO_CRYPTO(obj) \=0D
-         OBJECT_CHECK(VirtIOCrypto, (obj), TYPE_VIRTIO_CRYPTO)=0D
---=0D
-2.17.1=0D
-=0D
+THis includes support for the new 2-stage lookup instructions and the new
+CSRs.
+
+This was tested by running 32-bit and 64-bit Xvisor on QEMU and starting
+Linux guests.
+
+
+
+Alistair Francis (15):
+  target/riscv: Set access as data_load when validating stage-2 PTEs
+  target/riscv: Report errors validating 2nd-stage PTEs
+  target/riscv: Move the hfence instructions to the rvh decode
+  target/riscv: Implement checks for hfence
+  target/riscv: Allow setting a two-stage lookup in the virt status
+  target/riscv: Allow generating hlv/hlvx/hsv instructions
+  target/riscv: Do two-stage lookups on hlv/hlvx/hsv instructions
+  target/riscv: Don't allow guest to write to htinst
+  target/riscv: Convert MSTATUS MTL to GVA
+  target/riscv: Fix the interrupt cause code
+  target/riscv: Update the Hypervisor trap return/entry
+  target/riscv: Update the CSRs to the v0.6 Hyp extension
+  target/riscv: Only support a single VSXL length
+  target/riscv: Only support little endian guests
+  target/riscv: Support the v0.6 Hypervisor extension CRSs
+
+ target/riscv/cpu.h                            |   2 +
+ target/riscv/cpu_bits.h                       |  19 +-
+ target/riscv/cpu_helper.c                     | 114 +++---
+ target/riscv/csr.c                            |  61 ++-
+ target/riscv/helper.h                         |   8 +
+ target/riscv/insn32-64.decode                 |   5 +
+ target/riscv/insn32.decode                    |  17 +-
+ .../riscv/insn_trans/trans_privileged.inc.c   |  40 --
+ target/riscv/insn_trans/trans_rvh.inc.c       | 377 ++++++++++++++++++
+ target/riscv/op_helper.c                      | 135 ++++++-
+ target/riscv/translate.c                      |  11 +-
+ 11 files changed, 674 insertions(+), 115 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvh.inc.c
+
+-- 
+2.26.2
+
 
