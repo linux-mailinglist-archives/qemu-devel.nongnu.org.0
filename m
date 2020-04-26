@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F6E51B909D
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 15:29:01 +0200 (CEST)
-Received: from localhost ([::1]:58854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E741B90E2
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 16:35:11 +0200 (CEST)
+Received: from localhost ([::1]:60554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jShL9-0001wf-Mq
-	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 09:28:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45108)
+	id 1jSiNB-0007RF-PI
+	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 10:35:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58692)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <teachk@foxmail.com>) id 1jShJm-0000qu-2V
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 09:27:35 -0400
+ (envelope-from <teachk@foxmail.com>) id 1jSiM5-0006aR-1i
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 10:34:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <teachk@foxmail.com>) id 1jShJj-0000iY-IA
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 09:27:33 -0400
-Received: from out203-205-251-53.mail.qq.com ([203.205.251.53]:51993
+ (envelope-from <teachk@foxmail.com>) id 1jSiM2-00053X-HJ
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 10:34:00 -0400
+Received: from out203-205-221-205.mail.qq.com ([203.205.221.205]:52526
  helo=qq.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <teachk@foxmail.com>)
- id 1jShJi-0000SU-1U
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 09:27:31 -0400
+ id 1jSiLz-0004Wf-O0
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 10:33:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
- t=1587907639; bh=Xk7vLMcFLYO8IlldDtMUK/Cimt/kOUdLpqq2nlxbRTc=;
+ t=1587911627; bh=jvIG8j//AbEeqMWpFi5xJu/UZ8C/QeSTeZTr2Onp2nA=;
  h=From:To:Cc:Subject:Date;
- b=ywcdlagMhAhiSCaJyZHharBexAYzs3Nq8+DBLqyOASTTok3H1HqP1tpYbo2SR7FBA
- mNSpPcCYATWIJ2RRIgA66B3A8XKPQnSkzv36da/VnlWZkIPGN1QbSBLXXubP9Aumvs
- MVw9gK1qesF0T/uibmHl3i1C9amqx+R5OfFdURkc=
+ b=LQ7c7xfMH5jl8IkcL0k62TPs1Q7wqtRVHYcJDIIFZeMe4mORV4+OVH/mti79jlhM7
+ lOrvPYze4HjvwkK7C7lCSFI5jCGCGDKZAzbK6NDxVFJhxPJszI5ZwVJiNJH6ln9MQt
+ iSuh0yLyfh4PvNl8keoB44kI7gPU/txLRYzMbqlg=
 Received: from localhost.localdomain ([123.185.180.85])
- by newxmesmtplogicsvrszc9.qq.com (NewEsmtp) with SMTP
- id 67A08CDD; Sun, 26 Apr 2020 21:25:58 +0800
-X-QQ-mid: xmsmtpt1587907558tnzmcu8hn
-X-QQ-XMAILINFO: MJ821Z9Y0Tu0lHvyMuh2JxW/C43oEDp7vrdGDJO/4dzN2jOi02vXogghsWFQKA
- pR6TFvpBiIlZzlRu7sguyaw6EKE4+nfPM1QMFjfWPTs1awPerKCvNC4dD0v2b6FZnVOHrLAGMvko
- 63nRSlU088gnkTmfxnyYMxATMQMV13b3fMnD3r2rE3XM3ZZEgEQiW7WhQCxqnOBjLBPQRR0Vy2a/
- tp1Z7gZtnE95RCFD5PuugZggDphiLpj3t0OmqsPi+w0b0AYzO6KTv+nw4ViDaLsinOjrE2pvrfxz
- RqzkzaNEMhb40TK/sPFtV/AJ93ybW3zSa6yV7fO0GyMuUl9hLU0ULcpXRkvRJ32kZPRyl0JcDutg
- ybdCMRGIHgVdDd2QDX8ND0VKYJ9Mb/i7Uq20y8W1GGRkUjR1MWv6S5tNfpEo1CtjNA0bg5nLCMDE
- QhVtc5p/B9U/aAG/0Gu1mtuEFQkfPjMy+xZqQmzgJK13hI72dKYqygp/aO8IxB73CkK7MASmK3Fm
- hRFveCI4p2q/GjBptGve3ivHsDb+ybAzMDG+osqsWBnoDoRBoBvXtD7Leh+FNYi4WjXoHzDqlIeu
- WVzhAx0cLn3T1cR0GcvrnfAKzZkv1tNGsuMm4DXzNYesIhXy7xgEZqpPkynxPhvKACI9/Z42hpiq
- X8cg==
+ by newxmesmtplogicsvrszc7.qq.com (NewEsmtp) with SMTP
+ id 820A4664; Sun, 26 Apr 2020 22:32:32 +0800
+X-QQ-mid: xmsmtpt1587911552tqus51fs6
+X-QQ-XMAILINFO: MRtgQJ5r0UjaRway8WzWfKMoY4HLJYIto90evLlR7jg5NV+aiWj/hx/UndnMox
+ pd9dZVfneArug+EDF5iRggh1XMSlSIaoRJ7nwFpmTE2vDQlJtO3MSJgK26zfFhbT248DbXRgVgQS
+ lyEBqETdyfparn6nK6knRsdN40qeEVi/JT2V7PaQjvpPvktZVqffEDmymmbX/GyqnsxMl4+K2JZJ
+ z2toF3vh1gUqLxCtS+Y4iE+mpVT6cb8honm28U/+Oakvbas8sdjcQvtjT5rLuG/Ctxvs8QLmLxmK
+ d1chPN6TW+p32GEQwglRjgBotsTr4SLWYBE+oFb0HxO+UWzrDdmIB7Fn+ievnAMn0EEoVv2zg4CU
+ HYq0G4+pLSyNIcXtdnQJO07DhY9VMGNs2JCZ9Wz2pp4NGAJrqt+8+MB+RtZ+/wTuHaxmo2eC47oi
+ gbc6vkRvG2u91eZAhLOfIiFNGdR5HwMMtpvBSOoUHhBthpoUHLYA5db31gya6hnI4A2Wc1c2C5dc
+ Lhxl3RTsIvV46FsP5Bggi1nSddjBk9XpnZbTDWZx3T0YgZtTt41LH+4Omy/hev9rFiydnDz1R+0J
+ trPIoOybgmJMzkwUxXRCMpDtqHh5tPo1zGlabFajPEYLasRoGNEwGZGIAfxwREoGtWXDPF1cuP5j
+ +/vw==
 From: teachk <teachk@foxmail.com>
 To: qemu-devel@nongnu.org
 Subject: [PATCH] Convert DPRINTF() to trace event
-Date: Sun, 26 Apr 2020 21:24:46 +0800
-Message-Id: <20200426132446.1187-1-teachk@foxmail.com>
+Date: Sun, 26 Apr 2020 22:32:17 +0800
+Message-Id: <20200426143217.1962-1-teachk@foxmail.com>
 X-Mailer: git-send-email 2.22.0.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=203.205.251.53; envelope-from=teachk@foxmail.com;
+Received-SPF: pass client-ip=203.205.221.205; envelope-from=teachk@foxmail.com;
  helo=qq.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 09:27:19
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Received-From: 203.205.251.53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 10:33:48
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10
+X-Received-From: 203.205.221.205
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -249,7 +249,7 @@ index ffe2391ece..f59f91f11e 100644=0D
  #define TYPE_VIRTIO_CRYPTO "virtio-crypto-device"=0D
  #define VIRTIO_CRYPTO(obj) \=0D
          OBJECT_CHECK(VirtIOCrypto, (obj), TYPE_VIRTIO_CRYPTO)=0D
--- =0D
+--=0D
 2.17.1=0D
 =0D
 
