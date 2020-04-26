@@ -2,78 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D34521B8D26
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 09:05:05 +0200 (CEST)
-Received: from localhost ([::1]:53604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A5701B8DF9
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 10:36:30 +0200 (CEST)
+Received: from localhost ([::1]:55024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSbLc-0002i1-DJ
-	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 03:05:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45546)
+	id 1jScm4-0003Zz-N2
+	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 04:36:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51676)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1jSbIu-0000pw-T6
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 03:02:17 -0400
+ (envelope-from <bounces@canonical.com>) id 1jSbkw-0000zQ-5j
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 03:31:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1jSbIt-0004tq-3q
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 03:02:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24012
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jSbIs-0004s3-Mc
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 03:02:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587884533;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qJty0LKEeiXJKmTzKszEc1uSZHzf8nlUYXITNsARy9I=;
- b=TWoy/SKHYXg508OslRj3zdeha6LaOb6JIBKYXklfEdhkQ/vTKCQlAp00fmC74jTHvktiff
- s0K+CrBIJYhtNzgd6FwEir3YkAnEIk7PdHfGffC89Rb2OYHxbBqdP+LIP9YsjD4WeX2AYf
- CX9uIJmns8uMK8WObm1oUsMMUbx2uCA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-345-L239sqTQPFqmm6tTZZIjug-1; Sun, 26 Apr 2020 03:02:09 -0400
-X-MC-Unique: L239sqTQPFqmm6tTZZIjug-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D69B6800688;
- Sun, 26 Apr 2020 07:02:07 +0000 (UTC)
-Received: from [10.72.13.103] (ovpn-13-103.pek2.redhat.com [10.72.13.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8F2B910016E8;
- Sun, 26 Apr 2020 07:02:05 +0000 (UTC)
-Subject: Re: hw/net/cadence_gem: TX checksum offload does not work for
- fragmented packets
-To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "Peter A. G. Crosthwaite" <peter.crosthwaite@petalogix.com>,
- John Linn <john.linn@xilinx.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-References: <CAEUhbmUuRCDWMKZdgNNX43G4wfLvzgHcMuT=36JO_q8LnAVisg@mail.gmail.com>
- <CAEUhbmXPXT4MRs1bZTMFUWv5Bhe20ZJcO12UUs7Pa4RQBragnA@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <7eb62193-bb90-3b16-a9fa-2937a21ac6f1@redhat.com>
-Date: Sun, 26 Apr 2020 15:02:04 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (envelope-from <bounces@canonical.com>) id 1jSbkr-0005TD-Pw
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 03:31:13 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36978)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jSbkr-0005MC-9I
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 03:31:09 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jSbkp-0003ZT-Mf
+ for <qemu-devel@nongnu.org>; Sun, 26 Apr 2020 07:31:07 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id AA0982E80E7
+ for <qemu-devel@nongnu.org>; Sun, 26 Apr 2020 07:31:07 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAEUhbmXPXT4MRs1bZTMFUWv5Bhe20ZJcO12UUs7Pa4RQBragnA@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=jasowang@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 02:29:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+Date: Sun, 26 Apr 2020 07:17:47 -0000
+From: chenhao <563278383@qq.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 563278383-t duanev miki4242 mkdolata vvaltchev
+X-Launchpad-Bug-Reporter: Alain Kalker (miki4242)
+X-Launchpad-Bug-Modifier: chenhao (563278383-t)
+References: <20170425183112.19801.4371.malonedeb@soybean.canonical.com>
+Message-Id: <158788546766.17636.572314808145068160.malone@wampee.canonical.com>
+Subject: [Bug 1686170] Re: qemu-system-x86_64+gdb: unable to correctly
+ disassemble "real mode" (i8086) instructions after attaching to QEMU started
+ with "-S -s" options
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="486bbbd6cb608f8eb468ed0d08689a349dfabe49";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 4e8f82b037f803277bb2e3e472b9d85e9d97757d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 03:30:53
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Sun, 26 Apr 2020 04:35:31 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,43 +70,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Reply-To: Bug 1686170 <1686170@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I had the same problem when I tried to run
+[boot.asm](https://github.com/yifengyou/The-design-and-implementation-
+of-a-64-bit-os/blob/master/code/c03/1/boot.asm).
 
-On 2020/4/26 =E4=B8=8B=E5=8D=882:57, Bin Meng wrote:
-> Hi Jason,
->
-> On Tue, Apr 21, 2020 at 10:31 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->> Hi,
->>
->> The cadence_gem does the TX checksum offload by:
->>
->>                  /* Is checksum offload enabled? */
->>                  if (s->regs[GEM_DMACFG] & GEM_DMACFG_TXCSUM_OFFL) {
->>                      net_checksum_calculate(tx_packet, total_bytes);
->>                  }
->>
->> However this will only work for non-fragmented packets. For fragmented
->> packets, it just corrupts the packets by inserting wrong checksum to
->> the fist fragment, or corrupts the data to be sent in other fragments
->> than the first one.
->>
->> Any idea of how to solve this cleanly?
-> I suspect this is a common issue for all NIC models in QEMU. Could you
-> please comment?
->
-> Regards,
-> Bin
+i tested `qemu-system-x86_64` and `qemu-system-i386` with
+[gdb_init_real_mode.txt](https://github.com/mhugo/gdb_init_real_mode/blob/m=
+aster/gdbinit_real_mode.txt)
+and
+[target.xml](https://gist.githubusercontent.com/MatanShahar/1441433e19637cf=
+1bb46b1aa38a90815/raw/2687fb5daf60cf6aa8435efc8450d89f1ccf2205/target.xml),
+all faild.
 
+my env:
+1. deepin 15.11 x86_64
 
-I think maybe you can have a look at how it was done by e1000e which=20
-uses NetTxPkt structure. (E.g net_tx_pkt_update_ip_checksum()).
+    - qemu: QEMU emulator version 4.2.94 // qemu 5.0.0-rc4
+    - gdb: GNU gdb (Debian 7.12-6) 7.12.0.20161007-git
+1. ubuntu 20.04
 
-In the future, we may consider to convert the metadata that just uses=20
-NetTxPkt structure, but it's a non-trivial changes.
+    - qemu: QEMU emulator version 4.2.0 (Debian 1:4.2-3ubuntu6)
+    - gdb: GNU gdb (Ubuntu 9.1-0ubuntu1) 9.1
 
-Thanks
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1686170
+
+Title:
+  qemu-system-x86_64+gdb: unable to correctly disassemble "real mode"
+  (i8086) instructions after attaching to QEMU started with "-S -s"
+  options
+
+Status in QEMU:
+  New
+
+Bug description:
+  OS: Void Linux x86_64 (glibc)
+  QEMU version: 2.9.0
+  GDB version: 7.12.1
+
+  Problem description:
+
+  After I updated QEMU from version 2.8.1 to 2.9.0, I found that when I try=
+ to connect GDB to a running QEMU and try to debug Real mode machine code, =
+I can no longer set architecture to 'i8086'.
+  To be able to connect to QEMU from GDB at all, I have to specify one of t=
+he 64 bit architectures, which among other things leads to incorrect disass=
+embly listings. This makes debugging Real mode bootloaders, bootsectors and=
+ BIOS code much more difficult.
+
+  Steps to reproduce:
+
+  - Run QEMU
+  - In another terminal, run GDB
+  - In GDB, connect to QEMU
+  - In GDB, disassemble some Real mode machine code.
+
+  Expected results (from QEMU version 2.8.1):
+
+      [terminal #1]
+      $ qemu-system-x86_64 -S -s
+
+      [terminal #2]
+      (gdb) set architecture i8086
+      warning: A handler for the OS ABI "GNU/Linux" is not built =
+
+      into this configuration
+      of GDB.  Attempting to continue with the default i8086 settings.
+
+      The target architecture is assumed to be i8086
+      (gdb) target remote :1234
+      Remote debugging using :1234
+      warning: No executable has been specified and target does not support
+      determining executable automatically.  Try using the "file" command.
+      0x0000fff0 in ?? ()
+      (gdb) x/i $cs*16+$eip
+         0xffff0:	ljmp   $0xf000,$0xe05b
+
+  Actual results:
+
+      [terminal #1]
+      $ qemu-system-x86_64 -S -s
+
+      [terminal #2]
+      $ gdb -q
+      (gdb) set architecture i8086 =
+
+      warning: A handler for the OS ABI "GNU/Linux" is not built into this =
+configuration
+      of GDB.  Attempting to continue with the default i8086 settings.
+
+      The target architecture is assumed to be i8086
+      (gdb) target remote :1234
+      Remote debugging using :1234
+      warning: No executable has been specified and target does not support
+      determining executable automatically.  Try using the "file" command.
+      Remote 'g' packet reply is too long: =
+
+      [..snip..]
+
+  Workarounds tried:
+
+    - Try different architecures
+      (gdb) set architecture i386:intel
+      The target architecture is assumed to be i386:intel
+      (gdb) target remote :1234
+      Remote debugging using :1234
+      warning: No executable has been specified and target does not support
+      determining executable automatically.  Try using the "file" command.
+      Remote 'g' packet reply is too long: =
+
+      [..snip..]
+      (gdb) set architecture i386:x86-64
+      The target architecture is assumed to be i386:x86-64
+      (gdb) target remote :1234
+      Remote debugging using :1234
+      warning: No executable has been specified and target does not support
+      determining executable automatically.  Try using the "file" command.
+      0x000000000000fff0 in ?? ()
+
+  The last try finally allowed me to connect to QEMU, but as can be
+  expected from using an incorrect architecture setting, disassembly
+  output is complete gibberish:
+
+      (gdb) x/10i $cs*16+$rip
+         0xffff0:	(bad)  =
+
+         0xffff1:	pop    %rbx
+         0xffff2:	loopne 0xffff4
+         0xffff4:	lock xor %dh,(%rsi)
+         0xffff7:	(bad)  =
+
+         0xffff8:	xor    (%rbx),%dh
+         0xffffa:	(bad)  =
+
+         0xffffb:	cmp    %edi,(%rcx)
+         0xffffd:	add    %bh,%ah
+         0xfffff:	add    %al,(%rax)
+
+  Discussion:
+
+  I think I've traced the problem to the following commit: "x86: Fix x86_64=
+ 'g' packet response to gdb from 32-bit mode."[1].
+  While I admire the effort to make life for people using GDB to debug QEMU=
+ VMs, I think the problem here is with GDB and can't be fixed entirely from=
+ the side of QEMU without breaking other features.
+
+  In fact, there is a well-known workaround to this problem published on
+  OSDev Wiki (Workaround #1)[2] which doesn't require patching either
+  QEMU or GDB. This workaround has worked for me using several previous
+  versions of QEMU.
+
+      $ gdb -q
+      (gdb) set architecture i8086
+      (gdb) target remote :1234
+      (gdb) break some_breakpoint_in_32_bit_or_64_bit_code
+      (gdb) continue
+      [...]
+      Remote 'g' packet reply is too long: [...]
+      (gdb) disconnect # IMPORTANT STEP #1
+      (gdb) set architecture i386:x86-64
+      (gdb) target remote :1234 # IMPORTANT STEP #2
+      (gdb) continue
+
+  [1]: http://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3De3592bc9d841c397eed=
+a87f0019fab94ff71004b
+  [2]: http://wiki.osdev.org/QEMU_and_GDB_in_long_mode#Workaround_1:_Reconn=
+ecting
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1686170/+subscriptions
 
