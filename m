@@ -2,65 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1B651B93BC
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 21:45:02 +0200 (CEST)
-Received: from localhost ([::1]:43950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 299B21B93AD
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 21:39:15 +0200 (CEST)
+Received: from localhost ([::1]:43684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSnD2-0003VK-HZ
-	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 15:45:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37262)
+	id 1jSn7P-0004ra-6Y
+	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 15:39:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47672)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <padmajain967@gmail.com>) id 1jSm0X-0000vl-Un
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 14:28:02 -0400
+ (envelope-from <lukasstraub2@web.de>) id 1jSmuU-0001Ae-Ic
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 15:25:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <padmajain967@gmail.com>) id 1jSm0X-00027Y-I9
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 14:28:01 -0400
-Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:34940)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <padmajain967@gmail.com>)
- id 1jSm0X-0001v8-4k
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 14:28:01 -0400
-Received: by mail-ot1-x330.google.com with SMTP id e26so22334025otr.2
- for <qemu-devel@nongnu.org>; Sun, 26 Apr 2020 11:28:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=3Sm+JEsJpgl1XG6pD0HAYad3hoxUAyH0k78tXN487UA=;
- b=c4aFQQFcnk+Wf0xKBYKlgW+vz5/lsDWf1H4oMl1uEDHHYQkStWFkDNlEhB7b8TsVgu
- 6iLk2sDF747F8rL0pv1tCiaE7TrvqY2V2lSWxIFbkycHgGZiaN62I38WldccjlCPxc2q
- GSl3vGfMolmImvS9/eGL/FRDh2eNbzUUT0pBJXhurKxISnmnu65p396Pt+j7JH0DHN4K
- jeMy7187hwJAB8v5yB9ZVOrlFDRBQa9liLgsoKL1jDBOR9nb5QdWfGGIbtbfE6gvd+yV
- WzMbgt3inwWCAr9Yj+tjVSgZTOPRwhSY6wycUT330GibOYDOE29lBHv97Msv3lTktS4V
- WF3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=3Sm+JEsJpgl1XG6pD0HAYad3hoxUAyH0k78tXN487UA=;
- b=rp/lWn/Q9rIWY9mzkj7IrxITD+ORycD98zSMVfIjvCF3weTa8r1IS3UPhMSqYb/a/T
- IUasz+Ug28zH/UPsmHtZQfc9FmWBi+o23zndlZLMRquO3QOaSO4/Gnu463fnI2Nm6l6j
- 78yPakoSArQX3l8n0oV2qt9iON77sCIbIfc42jLxHRC1Z+jRqri3VTIl9PIC+bU1IEcm
- 4cgSw27HS5EkHG1uiYEIpKSPVuI94q+zrsRe5opkLk9CpvMznKjtA+w1C2dh90FREDra
- GbyFEBr92/ukoFBxyvvmAVUz7ZS83Vdm1PbVHwONyKBQMf9hOAErsHVPu1DBphMvR//5
- FdXQ==
-X-Gm-Message-State: AGi0PubRT6FN5rIcZLGcfAr4qac8LcaE4EVQJEbuYQ1/H0/8iKodKCKH
- b//eAnN2/MGj9GquhvPlWTfQl/5DnZa/H4U/0nFp3w==
-X-Google-Smtp-Source: APiQypI4TLoYBigOE34BeQcoGL/HFI/bMc3hq3jNaSvSaRVNp2JMRreoJ+h16L+Nm1VXzglPrxInmtPi+9mmwjzjRb8=
-X-Received: by 2002:aca:b6c5:: with SMTP id g188mr13012232oif.25.1587925679350; 
- Sun, 26 Apr 2020 11:27:59 -0700 (PDT)
+ (envelope-from <lukasstraub2@web.de>) id 1jSmuT-0005cZ-VM
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 15:25:50 -0400
+Received: from mout.web.de ([212.227.15.3]:57637)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jSmuT-0005b4-8X
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 15:25:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1587929135;
+ bh=mkZVV6LtsoPFVdmtzzWwTA750eKiRLqCznFGLokBVh0=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=LJIOm0FKp1Cl+vzwtLBlT34AcEQM7JPeTDu9Du8A5jW8lxquDJkv/H4tbv3aLDqla
+ j4+iyDCexjXBSMOeokKONMkk5bcRyWjmcOqON4TadCLi8PG7FAt/sK/dlb0r71+rIJ
+ UWnVjcLygug+k1XFCB1CCONRH+CpwDSrQ2WIETOs=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([89.247.255.95]) by smtp.web.de (mrweb002
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0LfidG-1irnSG30O2-00pN31; Sun, 26
+ Apr 2020 21:25:34 +0200
+Date: Sun, 26 Apr 2020 21:25:23 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH v2 0/6] colo-compare bugfixes
+Message-ID: <cover.1587927878.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-From: padma jain <padmajain967@gmail.com>
-Date: Sun, 26 Apr 2020 23:57:47 +0530
-Message-ID: <CAO9fdnZ=MH5LrxWS4F7QLySKhTvqOR-X78eTWdMMXFJ-q8pOzg@mail.gmail.com>
-Subject: HDMI issue with GPU passthrough
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000000c270d05a435c28b"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
- envelope-from=padmajain967@gmail.com; helo=mail-ot1-x330.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::330
-X-Mailman-Approved-At: Sun, 26 Apr 2020 15:36:15 -0400
+Content-Type: multipart/signed; boundary="Sig_/K.d8fToMrkxjLIuiwbrWwR5";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Provags-ID: V03:K1:UpEPzzjDZjy+eWo+B6899hOCYyrT4IYf8To0DiOrDxESXWQUml5
+ o3ylY2mStQ3kDZu3s4eg0oTNxgF/BirQS5cUZYfsN9giPm4STNwZHnJtv0+b0GYTFfwX+gp
+ X5fl+TD0RjbbYGJg3rmygLgohq1TWDODS9v1kc+atYHHgUghZ5fy//xZbwXRqGFuPjEJB/z
+ lXfuWRWYK84S5icyJ3QOg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:evVsrSQZP7o=:t5tCtEdjm2kh5oGtRnBbs4
+ MqUBROos5v3S9pZLWOSprwl5RqqC8bIT3YIdcnbGdbI31W+5KCUGa2IDoDBDy3+0EtvKSDfhP
+ 5OdsKKyRNk0cTTIKLg14PxdlQA/M2KOOSc1CyzhYcLrAlCLCmXISIigDIYYLd5xvxJJGbtZMs
+ ytJ5ISRVY7CaEqTBZvTFgVNe+T4xaBPr5XE2iXm+dvtzVoFiScaqEHCw/27XyR8pxPRw/E1z5
+ NRieiZDQeEBsH0nQneDIfWGBQAUDZPvCce3CBYziClEsmnhlDNSLb3kfSnru9v0pTLUpT9OZv
+ wveHmE9Cobgi/yKoYbAn6GrgGcFHZT73yYjlRfX0DB34C2eCrWgXcOuo8besg9mVTeSy419Zl
+ TAXi1+ZreNIFtuKQfhYaOgEfyb/z4cgdfcz4W8po1L5oFWN6GvQngNPdfDMrNupcfLxcv/8W3
+ /1BhfRwK1GO3PZMopv7hjA250paHINyOVMIqXlXpV4plxKm8JXLj4iq7NC90ChYbUuTIsn4va
+ gMJ829VjGg8JroM4pn+14AI5A2of25sVc8ih4Q2umJnpnrwardyLZwkRMK9MrB5CjIaKX26eq
+ pyyTyUywi8kE6EvuBDjH2c8OEr9LMWPMTk2H4lyzIRWuJXMI1Czi0qujnYpZ3oUS3ESZRLmRs
+ 0mOFLuE6cMqz+AQZeD8kfsV1FbsSme8NJ+oa8FsAQtMPcYYQyz0bKjhVppO/eaSHbqo0ZPQX8
+ rYk9WgydtU0fwhODwTIU3mzY8/HkdvpcBH8x4W5TgIgRuMAmpEo4y7loiiv1p+jsJZjpNvvYW
+ LCg31c4koJlmFgCrN97PByJ9NMy7xlq4aadMq+/xOQOp99zco3dSkDU0SsJUoChNzRKcJclP6
+ YyzwZ3ozKPxz6KgeZxukr/XCK+cImGGJuVNn1iTXCVOb6AOWt1eAf/DvnhoepO2QqLA2BC0nj
+ oQUsoNeisFUzRTlIVXqLViVESG9eyB638YUfutTTSiT+JBuhZfKNeV/ZfJOjV0vH7s0zTntVE
+ lFw6rCuvCsNmebtoyuGzyuPqBsLVbth7Wg9CN/IhxdVUIJ8FX/IcMIGUcMafYnNBexkvNeTx1
+ 5p4M7ItdLN3lL7/h00pEV+ZICycDfhtpedAVyJ9B2oMfB/+rcHUUbI5NdXaNZYqjNwTK0Ip4d
+ qwCN/3fY3ZDvIMHrLbdBUC0o4HN5r4FkLaal3ociIkp3Ppf/tfC/u5y5dwr3NrQlNmdLgGcIi
+ LpIhdFryQrzzuRp43
+Received-SPF: pass client-ip=212.227.15.3; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 15:25:46
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Received-From: 212.227.15.3
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,34 +79,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Li Zhijian <lizhijian@cn.fujitsu.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000c270d05a435c28b
-Content-Type: text/plain; charset="UTF-8"
-
-Hi all,
-
-      I am trying to make GPU and Audio PCI passthrough to VM using qemu.
-display and audio is working fine except HDMI audio. HDMI audio data is
-going to HDMI but not able to be heard in hdmi. Here i am passing pci-id's
-of VGA and Audio to the qemu with vfio. Anything else to be done? am i
-missing something?
-
-Thanks
-Padma
-
---0000000000000c270d05a435c28b
-Content-Type: text/html; charset="UTF-8"
+--Sig_/K.d8fToMrkxjLIuiwbrWwR5
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi all,<div><br><div>=C2=A0 =C2=A0 <i>=C2=A0 </i>I am tryi=
-ng to make GPU and Audio PCI passthrough to VM using qemu. display and audi=
-o is working fine except HDMI audio. HDMI audio data is going to HDMI but n=
-ot able to be heard in hdmi. Here i am passing pci-id&#39;s of VGA and Audi=
-o to the qemu with vfio. Anything else to be done? am i missing=C2=A0someth=
-ing?</div><div><br></div><div>Thanks</div><div>Padma</div><div><br></div></=
-div></div>
+Hello Everyone,
+The performance-regression in patch 3 "net/colo-compare.c: Fix deadlock in
+compare_chr_send", has been fixed in this version by putting the packets in=
+ a
+queue instead of returning error. I also found and fixed some more bugs.
 
---0000000000000c270d05a435c28b--
+Benchmark results:
+Client-to-server tcp:
+without patch: ~63 Mbit/s
+with patch: ~66 Mbit/s
+Server-to-client tcp:
+without patch: ~771 Kbit/s
+with patch: ~702 Kbit/s
+
+Regards,
+Lukas Straub
+
+Changes in v2:
+ -better wording
+ -fix performance-regression in patch 3 "net/colo-compare.c: Fix deadlock i=
+n compare_chr_send"
+ -add more bugfixes
+
+Lukas Straub (6):
+  net/colo-compare.c: Create event_bh with the right AioContext
+  chardev/char.c: Use qemu_co_sleep_ns if in coroutine
+  net/colo-compare.c: Fix deadlock in compare_chr_send
+  net/colo-compare.c: Only hexdump packets if tracing is enabled
+  net/colo-compare.c, softmmu/vl.c: Check that colo-compare is active
+  net/colo-compare.c: Correct ordering in complete and finalize
+
+ chardev/char.c     |   7 +-
+ net/colo-compare.c | 237 +++++++++++++++++++++++++++++++++------------
+ net/colo-compare.h |   1 +
+ softmmu/vl.c       |   2 +
+ 4 files changed, 184 insertions(+), 63 deletions(-)
+
+--=20
+2.20.1
+
+--Sig_/K.d8fToMrkxjLIuiwbrWwR5
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl6l4CQACgkQNasLKJxd
+sliaXQ//dX2KdL/3yj7Hu/pVat2UirI0HirD54PfhEAjDiz4CYtP9uflVSDAGdX6
+LJ66A1m3w0gvdnhRRpQmuUwaiej/Ri1pGyrkojBTUNtPgibtD2gMGMKr/9sp1onS
+8MHcJcMnduGi5DdqSy1DkmFhw/9A0PcBroteOXye/jj9PFrSaxqow/1YphZxWtv1
+cCjA67AzQTadkt1wdX3LfPZJ7j3yfL0BUo3mYtg2B2GiEHkAyVJtYdvFU2e2FGID
+4YTC0MJcPC6mEmecxM5wkaXjNyuqE1J8Zc7WDTugHqzFsXU2gPaYc9wNqq/R7+MJ
+Es7zBFTCUU8kclDWupgaK+PpxcG7uPiIn5NyQGd1pboMfA5Gh8xYVy+Q6g6D72lI
++R+8ydO/F09bdoTrAxoyxxgeqOSlnWiLGbUwm3ivBlNvze5ysSA4rO8HsoahYaWe
+eI58lhDO/V4THUR2D1JgTeHwCPqvlFS5xSwOw0sDVTHOiDVBk8/noh+nkgYSFhDX
+ItxafvPllfq2iO+92bw8+Pe0fy7/ILFtl3eqt3FZzCGXpz5dXnrwEY72EdvY5VvW
+b4FxYB+uo7QcbcJtBjBsLKYGk9nMwlkN+CVFJYvupeHJtdMucoJUnEsQnDJvtByW
+a4pn6+cMKHWIaC4N84ry7NfEmiGXfB+4tgkldAWNt/Ty+zQZinM=
+=ZR75
+-----END PGP SIGNATURE-----
+
+--Sig_/K.d8fToMrkxjLIuiwbrWwR5--
 
