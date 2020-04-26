@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D5421B93D4
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 22:04:10 +0200 (CEST)
-Received: from localhost ([::1]:44408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95CE61B93AF
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 21:39:35 +0200 (CEST)
+Received: from localhost ([::1]:43704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSnVW-00048k-OO
-	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 16:04:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47724)
+	id 1jSn7m-0005PM-GJ
+	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 15:39:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47732)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lukasstraub2@web.de>) id 1jSmuk-0001F2-1H
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 15:26:06 -0400
+ (envelope-from <lukasstraub2@web.de>) id 1jSmum-0001Fo-2G
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 15:26:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <lukasstraub2@web.de>) id 1jSmuj-0005yW-LS
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 15:26:05 -0400
-Received: from mout.web.de ([212.227.15.14]:42449)
+ (envelope-from <lukasstraub2@web.de>) id 1jSmul-0005ys-Gl
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 15:26:07 -0400
+Received: from mout.web.de ([212.227.17.12]:40077)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jSmuj-0005wu-4I
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 15:26:05 -0400
+ id 1jSmuk-0005yb-VS
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 15:26:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1587929151;
- bh=6+6MZT8Ab+jZgOaD9X6OGDmKx94FIwONlN3kC0VukBU=;
+ s=dbaedf251592; t=1587929155;
+ bh=B9XY0V6HG/toYTYIEUFnzTvAwLVvOsgRzhHhxFxq1Xk=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=ElEB1RDhB/vBAqotmLPzwiJJEexTvPemiTihzpa0kChZcZq7ci818uyljehMBABP6
- BS5cH5oFTztRwV1AyVVa35b9pnQ5dWyykxhWBvRLp2YPYakACUGAXqQ1atTdGyLuS/
- UGPlSHYI73ojYitHrke52n/7DRNOUmt2GaDYc6PA=
+ b=cGSJkMsFmBDBtdDVqFRt09CcjauLL/Ew0xJl1i9Qi3TVKQNgH/E7ShYSIhW/qUaij
+ VZZXPHREWD3vvxKSJk1VX/jCqBsGFqnysfiz+K171wLwAAMB2Xp0tcqy4icw6DGaak
+ UbenyxpO5zw3ewUtNFVnf7tIcUmFaYHfDS3pwh3E=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([89.247.255.95]) by smtp.web.de (mrweb002
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0M9GcY-1jLcQb2ATG-00Cixk; Sun, 26
- Apr 2020 21:25:51 +0200
-Date: Sun, 26 Apr 2020 21:25:50 +0200
+Received: from luklap ([89.247.255.95]) by smtp.web.de (mrweb102
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0LyDph-1j5CGU14C5-015bYx; Sun, 26
+ Apr 2020 21:25:55 +0200
+Date: Sun, 26 Apr 2020 21:25:54 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v2 4/6] net/colo-compare.c: Only hexdump packets if tracing
- is enabled
-Message-ID: <e0e3f058620cce728ec5cb18d136f2f2b475b5ec.1587927878.git.lukasstraub2@web.de>
+Subject: [PATCH v2 5/6] net/colo-compare.c, softmmu/vl.c: Check that
+ colo-compare is active
+Message-ID: <9cfb9136badd63804dab1331658803cf70d0cc3d.1587927878.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1587927878.git.lukasstraub2@web.de>
 References: <cover.1587927878.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/cM6k0gq=PlFfK0vyhPpQgAu";
+Content-Type: multipart/signed; boundary="Sig_/Vu=4iky4fZqke8Lw3.hGaZ7";
  protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:n/rkiTd5GDj8kGwOKPJTmNnVLS3yb9EWFozZ2/lP9XJJeeqlxmE
- t/bSY9rkkFJ2cQVrtmHnFDtgtpAsq6iZGH13igU013IO1JeGtTXANejP0do8YKawR/YQzo7
- OUrn2+7fnrBMlazTKhPKCY2gTzF6kd3PNWVHWuuPev/rsfqRkh4zD6czHfwyDxQuzR73Z44
- USb8DcuxwhxG42N8CFkyQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:rKjFoMJHE5w=:KQImwCN4slNzRykidLG3Iv
- YB/R34hhoU8ezdQiaf7MZYcrQk7u2+eoEwD0i5v28yB3sGD1Dt+Vhog7dj1uaGWcLArGW9A8Z
- Yg974fgmvG04mD7vJFbYgJlMsz5gujUGS9jOCyguw8sQ1DToIKuhOkSF6P2OljSZAeY8k7poE
- V0Y3T81Neg1LTVCdZEbarwIw00KgJTpcYpWrAHiamnG3/4dw1XTeBF54U2il3CovvOSgCMDyP
- XBVGLI45aIRvoQkS8CBnkSOPSzZ1jbBnQ/OxX/J2Htkhgzpa72uKMbuLXCkpt1E5dxLBk+gH+
- sDfJNpJsljy8Wv8/BcB1LO5tU/PkT83Ou/RdxrjfTmTYG9/4UIe1leCmpNQ66Nd9Lwc39j5nH
- 1qW/+DvXVZSB85H4c6ozXXvfNUkqcBbOStQNvN/mmJsGIe4CVjZlj4FPefzw2RZbfoUn2QaYx
- C5r2LQ5qGlXaz6UNoRwHxMvlebMLIFApzBmd0c/H1MlelE/v0cOxGKtfxwQVGs40/8i6kqc1p
- 6CVf4pO46ICX+maS7b+1FGQdzgSmC9XGH8o00uM4SLZ3iOLiMr970HdW++XYKa4++Qwp5P4ug
- mJyjpKYY4QnxKW5IDVzil/VNmTJ7bBd0QD7zUJyyytb8XyuASsYzO8P/6hnv2dABPCUAk27k1
- Bs+YDSfMOvQQfj0k0bajPw7JG1GjB6lXgLwyC7Qe9BiDW3pUvM8uILVTR4GAwRf/AxxngyQk5
- 8crI0jEyGtx+CBVloNpox+53MBhDQaoe7y+XPrn6sT05oKS++L3HWAxWVEOJNIVYRuw6RQRq7
- ZlZilYCwKEU09UAnDu7KsKNJYuBlJ6LMINvRtHrMSqnrJFOa8uWst6mjGqcTMyoFLXaBv/3Tq
- whnNAKsRMISPCrE8OvZXlvAfoWpUaqxZz/eHR7XkClwOmoQVUI5nhCvNfC5Gbyk5AB5mGyolF
- rCaKPli9Fay1TQPvZgVB+B4BBdFRBpvAawUQhZkdgR530w+wGH8jFBsXLnTQQZv4UT5V/R8il
- n09LdSfBuc7gg61wfqs4wBbVLYMPoXM29Y20f/rgsRjXU0iW/JkI1rcuAgsoixs2dJXNEnVzZ
- 06JgJAp1eQLL6Zf5DWauGuswkUtifFLpSJ/XjAaGBQQE7hksHcyrX3WW6HSWrlyuFKE7orm6R
- AMQo1We1QSw9/AAf/UG54kBHYmhkiII5i8mwJQ3hghMaVcSmcTMw88qe8S8sNUiZsE0z6ckPX
- zb2bw4DQ1+2zhcN66
-Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:gTmJjSM3VizveceaIutLKB2t+8lYiqnFCFpGJpxZznR5WCtttvJ
+ AFwabXg/wIsmkDIa4IIg6T15As+NhlAZx1wWMtCXHFn04PhL2SZLe1fJfUID/3GubncPCLJ
+ FfSkq0G9bA54hnR4/Ytuj7/sLc/ZwPugHsTNTbRfTneAxIqtbYFtRBEbVKscQJ3MaUxNDv+
+ PhBFlxVDpnJ79S5zJJydw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:MAonEhhG66E=:LgLEuOyOngMPhKtIwkbRTR
+ SxN6fLCrzJkFj9RaEJ1ySBDFQViFW08BQhRaDjU4Y6QnH10AuO6m/MeQDrNEAbh1xHygcX9ZH
+ RJF5U//5i8km2b79RMMTnpSEdQkVw8wia292qh1FTQaF+bzhh2bXizPQ4kw3Q4GOY1/MIvpC7
+ xP2N/2PVOtumQJzbQAI80emzwneBQeBdh7E8MDnW1E5gmQpYkh/keCCJAWJ6OiITLGwk/grsq
+ Xqd7+890nyv51na6tHRG9fy0pvIc9+PkIKGiwZ4Z+hNbqhiIMlsGWs236ZdjrhR4HpLbn15yS
+ 617UgMJD1mT07zIwBZ56R1k7rbqI1lXyh507mNvfx9W/hfW1ed4po3N6CvEgp0RwsrUiqaQep
+ xcq/CSpjwp7MU5EXhp2J41tIuwx3rtuuj16a5GinrKdG4pJLCw/hLt/qezvFMojSG6zUX7SgL
+ p3bpHU25IPLLzhNo/F7UgPCoryLprWAX0V1q54afrX7eBwADtbjcUfn6VuVOhy4IMYqEAVAKP
+ tayMHrCOAq2jNnf79RtokvNJaVfSdygiKf+Lraloz1nZQ1/t66Vtob9W702WsX3F0KpM3o2H+
+ SZwqIuZoukDOyJJhxFI2d2wsnGwI7TzxS0NgmKmjycSBl3QoG6loH5kI9TSvgbBWeSyOBl6Fp
+ htx6mkPi1NGLxaQ/We3hZWU2YE0eQ/6HJs+3x7uC+0Zhg8dmxqEvH+nOMDM4S0smyih/GlYlS
+ FfiRJ3T8rhJOi/UVZqpKqH4HSUELanQx/2fD/tLkZIE15BQZNbdtIf8mQo1wZXP7XAx6ZVhpp
+ KuBBcQh5wqybXeZ35v4U8STiPqg5v4GB3Owrr7t3MG4OYqonvIaMTZrdjAOyRh8sF/R4GckYY
+ nstaxWRoGNjwrNLt5RMmBGi7E9wvtuyN9B5Es6XJD6rUG0RjADHAdcf7iJbzQTQkmmn55Y3X+
+ BOMlwlXAqdXMPuppIS33OIqxv/wxvzEC1/fFtlucgNQIfWHlS8WFtzi5vc3oHOZhr0p6WYRA+
+ wfBkqQdRP5MdjqCe4uxe44pGHxYzIgsoMVGaUZeNsixp/1xiJimpN8vQPE1c6OZ/lZXciXh+Y
+ gqX4jfMQkXCKEu4/Muo0YMnrUGICss6MzZovTnIO3xjyNXVaM4UzEYmFSK6PYe06WNDBBzU/U
+ g5AjCK6XJuzZvaqwoJA445RKLuDGcsoKtDDaFA0Y/3EeJZHILN7y0hBeoyTr9AoW50l1gMkjY
+ 2yc1vIHDNMKdwK6HE
+Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 15:26:03
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 15:26:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.15.14
+X-Received-From: 212.227.17.12
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,64 +88,190 @@ Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/cM6k0gq=PlFfK0vyhPpQgAu
+--Sig_/Vu=4iky4fZqke8Lw3.hGaZ7
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Else the log will be flooded if there is a lot of network
-traffic.
+If the colo-compare object is removed before failover and a
+checkpoint happens, qemu crashes because it tries to lock
+the destroyed event_mtx in colo_notify_compares_event.
+
+Fix this by checking if everything is initialized by
+introducing a new variable colo_compare_active which
+is protected by a new mutex colo_compare_mutex. The new mutex
+also protects against concurrent access of the net_compares
+list and makes sure that colo_notify_compares_event isn't
+active while we destroy event_mtx and event_complete_cond.
+
+With this it also is again possible to use colo without
+colo-compare (periodic mode) and to use multiple colo-compare
+for multiple network interfaces.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 ---
- net/colo-compare.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ net/colo-compare.c | 34 ++++++++++++++++++++++++++++------
+ net/colo-compare.h |  1 +
+ softmmu/vl.c       |  2 ++
+ 3 files changed, 31 insertions(+), 6 deletions(-)
 
 diff --git a/net/colo-compare.c b/net/colo-compare.c
-index ff6a740284..6634911770 100644
+index 6634911770..a82bb27a67 100644
 --- a/net/colo-compare.c
 +++ b/net/colo-compare.c
-@@ -479,10 +479,12 @@ sec:
-         g_queue_push_head(&conn->primary_list, ppkt);
-         g_queue_push_head(&conn->secondary_list, spkt);
+@@ -54,6 +54,8 @@ static NotifierList colo_compare_notifiers =3D
+ #define REGULAR_PACKET_CHECK_MS 3000
+ #define DEFAULT_TIME_OUT_MS 3000
 =20
--        qemu_hexdump((char *)ppkt->data, stderr,
--                     "colo-compare ppkt", ppkt->size);
--        qemu_hexdump((char *)spkt->data, stderr,
--                     "colo-compare spkt", spkt->size);
-+        if (trace_event_get_state_backends(TRACE_COLO_COMPARE_MISCOMPARE))=
++static QemuMutex colo_compare_mutex;
++static bool colo_compare_active =3D false;
+ static QemuMutex event_mtx;
+ static QemuCond event_complete_cond;
+ static int event_unhandled_count;
+@@ -912,6 +914,12 @@ static void check_old_packet_regular(void *opaque)
+ void colo_notify_compares_event(void *opaque, int event, Error **errp)
  {
-+            qemu_hexdump((char *)ppkt->data, stderr,
-+                        "colo-compare ppkt", ppkt->size);
-+            qemu_hexdump((char *)spkt->data, stderr,
-+                        "colo-compare spkt", spkt->size);
-+        }
+     CompareState *s;
++    qemu_mutex_lock(&colo_compare_mutex);
++
++    if (!colo_compare_active) {
++        qemu_mutex_unlock(&colo_compare_mutex);
++        return;
++    }
 =20
-         colo_compare_inconsistency_notify(s);
+     qemu_mutex_lock(&event_mtx);
+     QTAILQ_FOREACH(s, &net_compares, next) {
+@@ -925,6 +933,7 @@ void colo_notify_compares_event(void *opaque, int event=
+, Error **errp)
      }
+=20
+     qemu_mutex_unlock(&event_mtx);
++    qemu_mutex_unlock(&colo_compare_mutex);
+ }
+=20
+ static void colo_compare_timer_init(CompareState *s)
+@@ -1278,16 +1287,20 @@ static void colo_compare_complete(UserCreatable *uc=
+, Error **errp)
+                            s->vnet_hdr);
+     }
+=20
++    qemu_mutex_lock(&colo_compare_mutex);
++    if (!colo_compare_active) {
++        qemu_mutex_init(&event_mtx);
++        qemu_cond_init(&event_complete_cond);
++        colo_compare_active =3D true;
++    }
+     QTAILQ_INSERT_TAIL(&net_compares, s, next);
++    qemu_mutex_unlock(&colo_compare_mutex);
+=20
+     s->sendco.done =3D true;
+     g_queue_init(&s->sendco.send_list);
+=20
+     g_queue_init(&s->conn_list);
+=20
+-    qemu_mutex_init(&event_mtx);
+-    qemu_cond_init(&event_complete_cond);
+-
+     s->connection_track_table =3D g_hash_table_new_full(connection_key_has=
+h,
+                                                       connection_key_equal,
+                                                       g_free,
+@@ -1382,12 +1395,19 @@ static void colo_compare_finalize(Object *obj)
+=20
+     qemu_bh_delete(s->event_bh);
+=20
++    qemu_mutex_lock(&colo_compare_mutex);
+     QTAILQ_FOREACH(tmp, &net_compares, next) {
+         if (tmp =3D=3D s) {
+             QTAILQ_REMOVE(&net_compares, s, next);
+             break;
+         }
+     }
++    if (QTAILQ_EMPTY(&net_compares)) {
++        colo_compare_active =3D false;
++        qemu_mutex_destroy(&event_mtx);
++        qemu_cond_destroy(&event_complete_cond);
++    }
++    qemu_mutex_unlock(&colo_compare_mutex);
+=20
+     /* Release all unhandled packets after compare thead exited */
+     g_queue_foreach(&s->conn_list, colo_flush_packets, s);
+@@ -1403,15 +1423,17 @@ static void colo_compare_finalize(Object *obj)
+         object_unref(OBJECT(s->iothread));
+     }
+=20
+-    qemu_mutex_destroy(&event_mtx);
+-    qemu_cond_destroy(&event_complete_cond);
+-
+     g_free(s->pri_indev);
+     g_free(s->sec_indev);
+     g_free(s->outdev);
+     g_free(s->notify_dev);
+ }
+=20
++void colo_compare_init_globals(void)
++{
++    qemu_mutex_init(&colo_compare_mutex);
++}
++
+ static const TypeInfo colo_compare_info =3D {
+     .name =3D TYPE_COLO_COMPARE,
+     .parent =3D TYPE_OBJECT,
+diff --git a/net/colo-compare.h b/net/colo-compare.h
+index 22ddd512e2..eb483ac586 100644
+--- a/net/colo-compare.h
++++ b/net/colo-compare.h
+@@ -17,6 +17,7 @@
+ #ifndef QEMU_COLO_COMPARE_H
+ #define QEMU_COLO_COMPARE_H
+=20
++void colo_compare_init_globals(void);
+ void colo_notify_compares_event(void *opaque, int event, Error **errp);
+ void colo_compare_register_notifier(Notifier *notify);
+ void colo_compare_unregister_notifier(Notifier *notify);
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 32c0047889..a913ed5469 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -112,6 +112,7 @@
+ #include "qapi/qmp/qerror.h"
+ #include "sysemu/iothread.h"
+ #include "qemu/guest-random.h"
++#include "net/colo-compare.h"
+=20
+ #define MAX_VIRTIO_CONSOLES 1
+=20
+@@ -2906,6 +2907,7 @@ void qemu_init(int argc, char **argv, char **envp)
+     precopy_infrastructure_init();
+     postcopy_infrastructure_init();
+     monitor_init_globals();
++    colo_compare_init_globals();
+=20
+     if (qcrypto_init(&err) < 0) {
+         error_reportf_err(err, "cannot initialize crypto: ");
 --=20
 2.20.1
 
 
---Sig_/cM6k0gq=PlFfK0vyhPpQgAu
+--Sig_/Vu=4iky4fZqke8Lw3.hGaZ7
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl6l4D4ACgkQNasLKJxd
-sljQZw/+LB6oAtGmXKkiq7p37XOUdTRV4q6F//YHQ2i+AupyBZGDno2iUg9O66qv
-ZRgR7Nel76XGLDKRFZP/Ign54qHaYQE7VagkmEbvjcVNa7A5HLAgSK61980EPXss
-4+EMGQ6tZpZLtwq+WY/SDicnXugIv+qj9s6RMZgErXlrfRuJNH6lTzli3gfC47RF
-AIYBhuNIM0mRgIup66124qWqPVwR8jlC93foBhSm3nQqVJJLwHJUtX3dNeh+ZiuT
-MktHfo0sftxMadSsABuHsnn8woX4nYoVW/pfwao1JYX4VvP64b0NoVWnZC7P3xVk
-YuEDtw4yo0nl/mCG2hrmpwzS1pU1DNgzIcPS+PztsU2k/nOtEKloxjdTaLb/hNzb
-gIdFTwrJtyj19VC3qle0B6Ec2Xn4HkJDCQspVAY0NQav2adlwFRmM85YE3tgOuEx
-FrIWX+Y+75lZF19ALagKvBQ80rbsEtwtGKyAwNczVRBt5KyZabEFjG1XdqllsMYl
-1y+wPtbHO6bnhKdgd86HCc3+TR3GAc/o75iF7rCCo2pUmQyXfZqSxnRonHmUQ5fh
-JK09JKhCufZK49Rm3EJq4jwBeRZFTD3391oOrItnPLINg3KkBMkGJ0FayBqasTg6
-kdXBYfrIExcldFKLf9psh5FjPaSjsVfoZDvVwQyEFtT/O/ZLh2k=
-=14Ux
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl6l4EIACgkQNasLKJxd
+sliOohAAgOgrkZ3qi8Oo4iy6n88/GJGJVI5fBWasZ/g6gG9uvqHYAb+e+2hJNP/C
+3q+9hXRYUjnAFRyocSnJoYjik9wOj5wPwQOkoz7ZVgQq6ZIcBtkHX9S83H5hCC73
+IFkCKdmOj/cAiIJY+1LWPsWpCK1SeYXPpasp2ok5ZCmrwjEeQLlxmAQQ69RO27Hu
+ZQ0bMzluwYg/AEMblNkeVEK7It4rMUACqpUemW3vhWVweOtrAUcZsmAoTY8qQiGO
+EOB5nzRCbmGPheoj5xLy5KW8pYf1P/ZCcXwvtfb/3m6r0cB+ZtvE3yJXJVNruYl7
+1arP05wA4p1tcpCrnvoClKIYAMuZfGx2WeKw2Lv8HBRmkApfYNr8m6nFvYn17vey
+Z1xag12mPPxX24egTU7BUy5vYe8GhvM5QYbjP3286YYoBhIPoLhHHzqb7pMjWZKE
+odiLqvbzPxueCNh4vk3eYX1yYoChtBIRyrCbmfdT8Ekbze0cUq5XWkAApYbFzIZf
+02nW0SmEFfFTbfCDbDCBRCpi4D8PrCyuouts8Y8Zeswhzv6efGFRlEV9fu0CbbYn
+0mzUWkyn6Oq2zhZO0F5d/7HhjzFBZdUeJDxA6Qgz9PJZos6dS3lX/z+gEIlTBM09
+iFSf55zVdvjvA5ec+JN17/Kh2DGddFmO/kRqevAVhJB14VfrVtg=
+=h3B6
 -----END PGP SIGNATURE-----
 
---Sig_/cM6k0gq=PlFfK0vyhPpQgAu--
+--Sig_/Vu=4iky4fZqke8Lw3.hGaZ7--
 
