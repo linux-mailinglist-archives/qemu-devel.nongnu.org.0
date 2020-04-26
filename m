@@ -2,75 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AC061B93CA
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 21:57:48 +0200 (CEST)
-Received: from localhost ([::1]:44234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA7B1B9407
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 22:51:48 +0200 (CEST)
+Received: from localhost ([::1]:45608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSnPM-0008Ew-R6
-	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 15:57:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47744)
+	id 1jSoFf-0007ut-4H
+	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 16:51:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57744)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lukasstraub2@web.de>) id 1jSmuo-0001HY-NW
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 15:26:11 -0400
+ (envelope-from <no-reply@patchew.org>) id 1jSoEn-00071O-Lx
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 16:50:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <lukasstraub2@web.de>) id 1jSmuo-00068A-9i
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 15:26:10 -0400
-Received: from mout.web.de ([212.227.15.14]:35121)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jSmun-000615-NZ
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 15:26:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1587929159;
- bh=bn07OABEnP65wBkyNehkeefl/TDdh0u0fLf89mgd5jA=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=eoVUWUY3kz4SXk663FqDpQN3bNYwCjYShVVQnY47dc/VIqbNpI+JMrQ50bodTMV68
- WQY/fC8SXldRfDl2aIFplqrv0V1W5t96Zl+mE84vE5PziuOSgu4OqJGM19LZ/W7cXx
- 0gtv6UcHozb0HIdJdY56Sgis2fYgiQ3MevOxrXMs=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([89.247.255.95]) by smtp.web.de (mrweb002
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MZliY-1jlyzR0G8U-00LUN2; Sun, 26
- Apr 2020 21:25:59 +0200
-Date: Sun, 26 Apr 2020 21:25:58 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v2 6/6] net/colo-compare.c: Correct ordering in complete and
- finalize
-Message-ID: <1f8588fc862c9a96006239f82431775c60953250.1587927878.git.lukasstraub2@web.de>
+ (envelope-from <no-reply@patchew.org>) id 1jSoEm-0004au-AK
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 16:50:53 -0400
+Resent-Date: Sun, 26 Apr 2020 16:50:53 -0400
+Resent-Message-Id: <E1jSoEm-0004au-AK@eggs.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21383)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jSoEl-0004Zd-P2
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 16:50:51 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1587934224; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=KCTgy0c4k93f8NdJC4AS9/XhuIyVKmaszDyxBsCHV/nZ906ZXtAMLicVLDPo6nibFNDSsDD2PUh11qRasO4yu583WSmNSUndTIqjEG4Y+t0yykKZTtgH2hhHxc14etrEAqQuYgjmNqbbEydTUNFuMAg1wQ1JphbKEWVlYyxfqn4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1587934224;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=Ra++Lfzl+aDE5HWHqtaRBYdM8XQ5qeZhq4/MhqNukCM=; 
+ b=jigPAf5LmFG9FRYbwgFDcoY8vvaNCcyn2YM7dKWSPPeEe4tvK6lBauiNUNtuwanb0vQAykqLp7OpJMasY63CpwYk99no8mLsg5tjdcBrJ1NcEZtscdGzSaBaiwtckStP0CK8iAPdBAmnV2YAbl8wrxAJrdOWlYCGa8on0Six2Yw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1587934223103468.54290461415906;
+ Sun, 26 Apr 2020 13:50:23 -0700 (PDT)
 In-Reply-To: <cover.1587927878.git.lukasstraub2@web.de>
-References: <cover.1587927878.git.lukasstraub2@web.de>
+Subject: Re: [PATCH v2 0/6] colo-compare bugfixes
+Message-ID: <158793422156.15667.16331499518898766324@39012742ff91>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/O5t4FLcDeKV6n0DOYDTr1s.";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:eMORE7rslF06fO7KdwJI3wW43+RE9wizYdPzOVgtGkBOpY7IajJ
- jBh4Hl+mvToQseJbBIY0qpRePwdwqRvYahar9WqJOQ9tFJON//CfrvReo1u6jvNkluT6cMP
- 3mETCRew66Mq+g/AnXp2DBW/GiSf4HWVLRJs++aZ46zAqhSdFz1tl4Hz2hXjbs6EC4NAhw9
- izBHf52mMs4UjcfjZkX7Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gwtfQ+v7ngE=:BIyVkOdN8xUVlFFcbHxhR+
- 6i2LgrpWI1LkyhYfi57QM7H0bnlF+kZ6rGnQacKdG4Mr2dEzcvE4y/KMZoOBwt51bRlp9Hpw4
- YB3IQ+FhdBSlZxnHUGeakdiSnw7gQQwYieku/k50KcCtHx9IYo2LCVm4FASqNkOMfa6I+0IAy
- d6KTHpFSmn5awGGqjljk7/WfOu7YGEXRZXGCgb0BtqePSapG8FsJjsZmDNrGkIShQOawvINpI
- YMQ3xQAf1QDBnFoWAc9LHgvHnh5omK288XBB1FhZAl4vfZ/Ov9UWQgxJLhCxDHbh5VZe+/2bw
- cOllSNtOFnkCdTc3Ky42JnBCvaIOh4z2Ka9pTCf/YU3yLWrd+8vuwwGEIr7H+Xn+QnRtOkaoW
- f27++BjM+wpJmUF9TpmQxK3Ift94T27g45uE8Y6jX9VdV5/Pd3A3KNKUqxTIYoP54BkWn9Kd4
- wRAGpzrUd31zL0kCD1kVQBdst71412siMXA1uqXpBYGSTIEdB5Nzalf2tlzO1XG03Pwe/ny2d
- zmLKIHN2OZIOL+YSvf8msrgBwJmxHMVsLQeZFClW7Fbyh/f5DaMlfedx9W5fTXkX6zVwTrIRK
- hgksOhKcy2V/9P9wrkzH/yWNbJL1jOd2sTkmqWYqH8tBeBth8kZgdEEyTF3uB/R0F6vvwZ6qM
- TCYspUJwsMPB6u3uiMw+FrkC/G1IpLUQf6ykhkUFPAAYJt9QsrEw6vHrhOl2PnFA8LjC+4P1e
- XDTK6vvnQiLbNV8Q0WH32vx5i3mDty1wifvcEVKTbvtE/HSvPOZ/Af2xkeusvduTvdVBzbsbx
- keRutN6XAlKQ6q9ctqjH/YeCN5tGPV2D+Jq95fSLu0R74nscWKeYqM2n0iwwZzsRrMbvHZ016
- 6zI+oTbNOVx/xywbuMGuwThJBWDZI3oHI5bf+MWLqwLyEtz4w56zO4HgLjK0owg2uFcAs512U
- HwvBfcOyc/XP4Rhj9a9OY7XfKxKWEWvcaZofSrDKAr9e2gDne5jG7ZHLMv7XQnJ+aH5avzZhx
- sR/dE4gkqfUJYFR6O2WJfHuBF/A2545bQlaGmWmxVYwkHIGZn/1NGVgbn6xN9pLc57qu9P18v
- yjtkfcuF71vPSvnBSbRbmlNqEC1FohbTxvZvUWjBCa6FThTcPJ8rNRZTUMEvJSImDQ+vsp7Mn
- 93cTjSRE4VKszu/X6AhU0vYNeMBPgUepbBexe017e8QwJA7TiMfa5Xrd7mKgtPDOECBhJ2Ho/
- g+NY+s5OeuH7MRGtB
-Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 15:26:03
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.15.14
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: lukasstraub2@web.de
+Date: Sun, 26 Apr 2020 13:50:23 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 16:50:47
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Received-From: 136.143.188.53
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,130 +65,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Li Zhijian <lizhijian@cn.fujitsu.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: lizhijian@cn.fujitsu.com, jasowang@redhat.com, qemu-devel@nongnu.org,
+ chen.zhang@intel.com, pbonzini@redhat.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/O5t4FLcDeKV6n0DOYDTr1s.
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-In colo_compare_complete, insert CompareState into net_compares
-only after everything has been initialized.
-In colo_compare_finalize, remove CompareState from net_compares
-before anything is deinitialized.
-
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
----
- net/colo-compare.c | 47 +++++++++++++++++++++++-----------------------
- 1 file changed, 24 insertions(+), 23 deletions(-)
-
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index a82bb27a67..53cc145a84 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -1287,15 +1287,6 @@ static void colo_compare_complete(UserCreatable *uc,=
- Error **errp)
-                            s->vnet_hdr);
-     }
-=20
--    qemu_mutex_lock(&colo_compare_mutex);
--    if (!colo_compare_active) {
--        qemu_mutex_init(&event_mtx);
--        qemu_cond_init(&event_complete_cond);
--        colo_compare_active =3D true;
--    }
--    QTAILQ_INSERT_TAIL(&net_compares, s, next);
--    qemu_mutex_unlock(&colo_compare_mutex);
--
-     s->sendco.done =3D true;
-     g_queue_init(&s->sendco.send_list);
-=20
-@@ -1307,6 +1298,16 @@ static void colo_compare_complete(UserCreatable *uc,=
- Error **errp)
-                                                       connection_destroy);
-=20
-     colo_compare_iothread(s);
-+
-+    qemu_mutex_lock(&colo_compare_mutex);
-+    if (!colo_compare_active) {
-+        qemu_mutex_init(&event_mtx);
-+        qemu_cond_init(&event_complete_cond);
-+        colo_compare_active =3D true;
-+    }
-+    QTAILQ_INSERT_TAIL(&net_compares, s, next);
-+    qemu_mutex_unlock(&colo_compare_mutex);
-+
-     return;
- }
-=20
-@@ -1377,6 +1378,20 @@ static void colo_compare_finalize(Object *obj)
-     CompareState *s =3D COLO_COMPARE(obj);
-     CompareState *tmp =3D NULL;
-=20
-+    qemu_mutex_lock(&colo_compare_mutex);
-+    QTAILQ_FOREACH(tmp, &net_compares, next) {
-+        if (tmp =3D=3D s) {
-+            QTAILQ_REMOVE(&net_compares, s, next);
-+            break;
-+        }
-+    }
-+    if (QTAILQ_EMPTY(&net_compares)) {
-+        colo_compare_active =3D false;
-+        qemu_mutex_destroy(&event_mtx);
-+        qemu_cond_destroy(&event_complete_cond);
-+    }
-+    qemu_mutex_unlock(&colo_compare_mutex);
-+
-     AioContext *ctx =3D iothread_get_aio_context(s->iothread);
-     aio_context_acquire(ctx);
-     AIO_WAIT_WHILE(ctx, !s->sendco.done);
-@@ -1395,20 +1410,6 @@ static void colo_compare_finalize(Object *obj)
-=20
-     qemu_bh_delete(s->event_bh);
-=20
--    qemu_mutex_lock(&colo_compare_mutex);
--    QTAILQ_FOREACH(tmp, &net_compares, next) {
--        if (tmp =3D=3D s) {
--            QTAILQ_REMOVE(&net_compares, s, next);
--            break;
--        }
--    }
--    if (QTAILQ_EMPTY(&net_compares)) {
--        colo_compare_active =3D false;
--        qemu_mutex_destroy(&event_mtx);
--        qemu_cond_destroy(&event_complete_cond);
--    }
--    qemu_mutex_unlock(&colo_compare_mutex);
--
-     /* Release all unhandled packets after compare thead exited */
-     g_queue_foreach(&s->conn_list, colo_flush_packets, s);
-=20
---=20
-2.20.1
-
---Sig_/O5t4FLcDeKV6n0DOYDTr1s.
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl6l4EYACgkQNasLKJxd
-slimEBAAg5PC99qWg0eeZJjXBGtqMqXQtZOyImnJ5/INDnosM6bbr7Ux5uPud92s
-ti0vDIs0ocp5VVNgJ25uthYY58noGVgoZ4bPO8YyOZpys1Zp9HGA110d2vii8tlZ
-eByLPsroGPf2oaLp10MoufxGzRIUkxQXBJz74Ewy2DrBJ9sKoELgV54tDQ7r0jgA
-K/+kBPCtNltXyZy1uOqbPXTaT/SklAZxREdCrBQG9QFEn3dN6Dr9czqyPDB8Leb0
-b+t8WT+P5vgSSrTNULoj1sVzMXf8AQDjMhy1ZPo6uGFAYZ4qMTr/tHrt7c04ovo+
-myGSB/a/rxNMtLPQZpGfSLv+2bTE8tyntXuSlyuT/42BUpCMOI2O0ecPDbZHJirC
-kpvYwKvBEUG8a2rPD7UL+nrBjfy2NMSPtqeDf97j25hf/cura7jb9jD0QydayXJp
-Uwa45eqYwERgolT+L4dAiuXBdj+u4ihru2AeFnCUye8q1XN7bKzFqdeMzsTQ0Pz+
-0+3E1p+1WPuO0D703IVgRFoOPxYaHhNTEAqMn0sR+FlTwM5ic9hNxBP+b79X25a1
-sUhhkYSBQPoI/XGg6HOUYuUzuYPXoY0X48S3oldwu5W/SM4NDLmKUz7gwnI3IqA6
-GjXGu6AlVDs1JjUmU6Nnx7ayx/xwtUIeNmsBvqST0Ku0dpxo4Y0=
-=v9KF
------END PGP SIGNATURE-----
-
---Sig_/O5t4FLcDeKV6n0DOYDTr1s.--
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS9jb3Zlci4xNTg3OTI3ODc4Lmdp
+dC5sdWthc3N0cmF1YjJAd2ViLmRlLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
+c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
+b3JtYXRpb246CgpTdWJqZWN0OiBbUEFUQ0ggdjIgMC82XSBjb2xvLWNvbXBhcmUgYnVnZml4ZXMK
+TWVzc2FnZS1pZDogY292ZXIuMTU4NzkyNzg3OC5naXQubHVrYXNzdHJhdWIyQHdlYi5kZQpUeXBl
+OiBzZXJpZXMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1w
+YXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5y
+ZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29u
+ZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNo
+LnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpTd2l0Y2hlZCB0
+byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmM4ZmQ2ODEgbmV0L2NvbG8tY29tcGFyZS5jOiBDb3JyZWN0
+IG9yZGVyaW5nIGluIGNvbXBsZXRlIGFuZCBmaW5hbGl6ZQphZmI2MDgwIG5ldC9jb2xvLWNvbXBh
+cmUuYywgc29mdG1tdS92bC5jOiBDaGVjayB0aGF0IGNvbG8tY29tcGFyZSBpcyBhY3RpdmUKZTRl
+OGVlZCBuZXQvY29sby1jb21wYXJlLmM6IE9ubHkgaGV4ZHVtcCBwYWNrZXRzIGlmIHRyYWNpbmcg
+aXMgZW5hYmxlZAoxZTY5MmZiIG5ldC9jb2xvLWNvbXBhcmUuYzogRml4IGRlYWRsb2NrIGluIGNv
+bXBhcmVfY2hyX3NlbmQKZDkxZDRkOSBjaGFyZGV2L2NoYXIuYzogVXNlIHFlbXVfY29fc2xlZXBf
+bnMgaWYgaW4gY29yb3V0aW5lCmU0MzY5NjIgbmV0L2NvbG8tY29tcGFyZS5jOiBDcmVhdGUgZXZl
+bnRfYmggd2l0aCB0aGUgcmlnaHQgQWlvQ29udGV4dAoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS82
+IENoZWNraW5nIGNvbW1pdCBlNDM2OTYyZWVmY2YgKG5ldC9jb2xvLWNvbXBhcmUuYzogQ3JlYXRl
+IGV2ZW50X2JoIHdpdGggdGhlIHJpZ2h0IEFpb0NvbnRleHQpCjIvNiBDaGVja2luZyBjb21taXQg
+ZDkxZDRkOTcxMDg5IChjaGFyZGV2L2NoYXIuYzogVXNlIHFlbXVfY29fc2xlZXBfbnMgaWYgaW4g
+Y29yb3V0aW5lKQozLzYgQ2hlY2tpbmcgY29tbWl0IDFlNjkyZmJhOGM2MiAobmV0L2NvbG8tY29t
+cGFyZS5jOiBGaXggZGVhZGxvY2sgaW4gY29tcGFyZV9jaHJfc2VuZCkKNC82IENoZWNraW5nIGNv
+bW1pdCBlNGU4ZWVkMTdlOWYgKG5ldC9jb2xvLWNvbXBhcmUuYzogT25seSBoZXhkdW1wIHBhY2tl
+dHMgaWYgdHJhY2luZyBpcyBlbmFibGVkKQo1LzYgQ2hlY2tpbmcgY29tbWl0IGFmYjYwODA5ZTNl
+NSAobmV0L2NvbG8tY29tcGFyZS5jLCBzb2Z0bW11L3ZsLmM6IENoZWNrIHRoYXQgY29sby1jb21w
+YXJlIGlzIGFjdGl2ZSkKRVJST1I6IGRvIG5vdCBpbml0aWFsaXNlIHN0YXRpY3MgdG8gMCBvciBO
+VUxMCiMzNDogRklMRTogbmV0L2NvbG8tY29tcGFyZS5jOjU4Ogorc3RhdGljIGJvb2wgY29sb19j
+b21wYXJlX2FjdGl2ZSA9IGZhbHNlOwoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAxMTAg
+bGluZXMgY2hlY2tlZAoKUGF0Y2ggNS82IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmll
+dy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhl
+bSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo2LzYg
+Q2hlY2tpbmcgY29tbWl0IGM4ZmQ2ODFiMzU4NSAobmV0L2NvbG8tY29tcGFyZS5jOiBDb3JyZWN0
+IG9yZGVyaW5nIGluIGNvbXBsZXRlIGFuZCBmaW5hbGl6ZSkKPT09IE9VVFBVVCBFTkQgPT09CgpU
+ZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFi
+bGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvY292ZXIuMTU4NzkyNzg3OC5naXQubHVrYXNz
+dHJhdWIyQHdlYi5kZS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWls
+IGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcv
+XS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
