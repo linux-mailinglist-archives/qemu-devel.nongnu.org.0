@@ -2,65 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95B271B8AE6
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 03:47:24 +0200 (CEST)
-Received: from localhost ([::1]:50254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 927AF1B8AF5
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 04:08:00 +0200 (CEST)
+Received: from localhost ([::1]:50466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSWOB-00055a-7Y
-	for lists+qemu-devel@lfdr.de; Sat, 25 Apr 2020 21:47:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54602)
+	id 1jSWi7-00015o-CV
+	for lists+qemu-devel@lfdr.de; Sat, 25 Apr 2020 22:07:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57090)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yan.y.zhao@intel.com>) id 1jSWNC-0004XO-M4
- for qemu-devel@nongnu.org; Sat, 25 Apr 2020 21:46:23 -0400
+ (envelope-from <zxq_yx_007@163.com>) id 1jSWhA-0000WX-5Y
+ for qemu-devel@nongnu.org; Sat, 25 Apr 2020 22:07:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <yan.y.zhao@intel.com>) id 1jSWNA-0001oz-ES
- for qemu-devel@nongnu.org; Sat, 25 Apr 2020 21:46:21 -0400
-Received: from mga04.intel.com ([192.55.52.120]:19520)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1jSWN9-0001gy-PN
- for qemu-devel@nongnu.org; Sat, 25 Apr 2020 21:46:20 -0400
-IronPort-SDR: HJXJg90tU3AMVJQvFBl9pCAvg2TypKjrML9AjxPJTZQBaZHUybEjCCM56WLAbhUN9MsoiWeH/q
- gbucyNh/YvRQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2020 18:46:17 -0700
-IronPort-SDR: 7GmRIgK7x2Kbas227+PDDiYTBegGBzK/gXul/3TpbgOJZ9JlbqXdloRBnHw0dPc81j3kRHqRcA
- z9zvbht08Irg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,318,1583222400"; d="scan'208";a="245692941"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.16])
- by orsmga007.jf.intel.com with ESMTP; 25 Apr 2020 18:46:10 -0700
-Date: Sat, 25 Apr 2020 21:36:28 -0400
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v5 0/4] introduction of migration_version attribute for
- VFIO live migration
-Message-ID: <20200426013628.GC12879@joy-OptiPlex-7040>
-References: <20200413055201.27053-1-yan.y.zhao@intel.com>
- <20200417104450.2d2f2fa9.cohuck@redhat.com>
- <20200417095202.GD16688@joy-OptiPlex-7040>
- <20200417132457.45d91fe3.cohuck@redhat.com>
- <20200420012457.GE16688@joy-OptiPlex-7040>
- <20200420165600.4951ae82@w520.home>
- <20200421023718.GA12111@joy-OptiPlex-7040>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D86DF06@SHSMSX104.ccr.corp.intel.com>
- <20200422073628.GA12879@joy-OptiPlex-7040>
- <20200424191049.GU3106@work-vm>
+ (envelope-from <zxq_yx_007@163.com>) id 1jSWh7-0003E7-7h
+ for qemu-devel@nongnu.org; Sat, 25 Apr 2020 22:06:58 -0400
+Received: from m12-14.163.com ([220.181.12.14]:53363)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <zxq_yx_007@163.com>)
+ id 1jSWh5-0002pp-FJ
+ for qemu-devel@nongnu.org; Sat, 25 Apr 2020 22:06:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Subject:From:Message-ID:Date:MIME-Version; bh=9+HjG
+ 9s5C1njWgOEeVRsZvdUZqRBBgHzhULSthw4fFM=; b=UUE6u3iwHxWppmxkt+0cK
+ 33oZff9fJiyX5GUcmZa2Fx95AFGTTloKQO86qyO+prz9lndux5QvukcbJOkggAOR
+ IKjsMKw7dpR5h0QqnRSecb9mCB9BDd/eqrjcWGxaAPxocATz8z5rDtF6uw5XVLTF
+ dzf1o0lS9gHc70WF7mX7vc=
+Received: from [10.11.32.40] (unknown [39.155.168.46])
+ by smtp10 (Coremail) with SMTP id DsCowAAnMFSw7KRecl_7Bw--.15142S2;
+ Sun, 26 Apr 2020 10:06:40 +0800 (CST)
+Subject: Re: [PATCH v2] qemu-sockets: add abstract UNIX domain socket support
+From: "xiaoqiang.zhao" <zxq_yx_007@163.com>
+To: eblake@redhat.com, armbru@redhat.com
+References: <20200423035640.29202-1-zxq_yx_007@163.com>
+ <20200423090006.GA1077680@redhat.com>
+ <b3f0ebc4-08f5-22e2-ead8-e8651d4b5798@163.com>
+Message-ID: <9459558f-8c90-9bcb-2775-bd87f3f9c2d9@163.com>
+Date: Sun, 26 Apr 2020 10:06:39 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200424191049.GU3106@work-vm>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=192.55.52.120; envelope-from=yan.y.zhao@intel.com;
- helo=mga04.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/25 21:46:17
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Received-From: 192.55.52.120
+In-Reply-To: <b3f0ebc4-08f5-22e2-ead8-e8651d4b5798@163.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: DsCowAAnMFSw7KRecl_7Bw--.15142S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxGFy8Cr1rGr17Kw4xAFWkJFb_yoWrCry7pa
+ y5Ka1DK397Jr409rsY9w45JrWSyr4rJ3yUCwn8J3sYkws0gF1I9F12q3WY9ry7JrW5G347
+ trWYkrW7Z3Z8Ar7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jl6wZUUUUU=
+X-Originating-IP: [39.155.168.46]
+X-CM-SenderInfo: 520ts5t0bqili6rwjhhfrp/1tbiqBASxlc7OwboLwAAs6
+Received-SPF: pass client-ip=220.181.12.14; envelope-from=zxq_yx_007@163.com;
+ helo=m12-14.163.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/25 22:06:41
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Received-From: 220.181.12.14
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,304 +68,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: Cornelia Huck <cohuck@redhat.com>, "cjia@nvidia.com" <cjia@nvidia.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>,
- "Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
- "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
- "eauger@redhat.com" <eauger@redhat.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "corbet@lwn.net" <corbet@lwn.net>, "Yang, Ziye" <ziye.yang@intel.com>,
- "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
- "felipe@nutanix.com" <felipe@nutanix.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
- "Tian, Kevin" <kevin.tian@intel.com>, "Zeng, Xin" <xin.zeng@intel.com>,
- "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
- "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- "Liu, Changpeng" <changpeng.liu@intel.com>,
- "berrange@redhat.com" <berrange@redhat.com>,
- "eskultet@redhat.com" <eskultet@redhat.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, "dinechin@redhat.com" <dinechin@redhat.com>,
- "He, Shaopeng" <shaopeng.he@intel.com>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Apr 25, 2020 at 03:10:49AM +0800, Dr. David Alan Gilbert wrote:
-> * Yan Zhao (yan.y.zhao@intel.com) wrote:
-> > On Tue, Apr 21, 2020 at 08:08:49PM +0800, Tian, Kevin wrote:
-> > > > From: Yan Zhao
-> > > > Sent: Tuesday, April 21, 2020 10:37 AM
-> > > > 
-> > > > On Tue, Apr 21, 2020 at 06:56:00AM +0800, Alex Williamson wrote:
-> > > > > On Sun, 19 Apr 2020 21:24:57 -0400
-> > > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> > > > >
-> > > > > > On Fri, Apr 17, 2020 at 07:24:57PM +0800, Cornelia Huck wrote:
-> > > > > > > On Fri, 17 Apr 2020 05:52:02 -0400
-> > > > > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> > > > > > >
-> > > > > > > > On Fri, Apr 17, 2020 at 04:44:50PM +0800, Cornelia Huck wrote:
-> > > > > > > > > On Mon, 13 Apr 2020 01:52:01 -0400
-> > > > > > > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> > > > > > > > >
-> > > > > > > > > > This patchset introduces a migration_version attribute under sysfs
-> > > > of VFIO
-> > > > > > > > > > Mediated devices.
-> > > > > > > > > >
-> > > > > > > > > > This migration_version attribute is used to check migration
-> > > > compatibility
-> > > > > > > > > > between two mdev devices.
-> > > > > > > > > >
-> > > > > > > > > > Currently, it has two locations:
-> > > > > > > > > > (1) under mdev_type node,
-> > > > > > > > > >     which can be used even before device creation, but only for
-> > > > mdev
-> > > > > > > > > >     devices of the same mdev type.
-> > > > > > > > > > (2) under mdev device node,
-> > > > > > > > > >     which can only be used after the mdev devices are created, but
-> > > > the src
-> > > > > > > > > >     and target mdev devices are not necessarily be of the same
-> > > > mdev type
-> > > > > > > > > > (The second location is newly added in v5, in order to keep
-> > > > consistent
-> > > > > > > > > > with the migration_version node for migratable pass-though
-> > > > devices)
-> > > > > > > > >
-> > > > > > > > > What is the relationship between those two attributes?
-> > > > > > > > >
-> > > > > > > > (1) is for mdev devices specifically, and (2) is provided to keep the
-> > > > same
-> > > > > > > > sysfs interface as with non-mdev cases. so (2) is for both mdev
-> > > > devices and
-> > > > > > > > non-mdev devices.
-> > > > > > > >
-> > > > > > > > in future, if we enable vfio-pci vendor ops, (i.e. a non-mdev device
-> > > > > > > > is binding to vfio-pci, but is able to register migration region and do
-> > > > > > > > migration transactions from a vendor provided affiliate driver),
-> > > > > > > > the vendor driver would export (2) directly, under device node.
-> > > > > > > > It is not able to provide (1) as there're no mdev devices involved.
-> > > > > > >
-> > > > > > > Ok, creating an alternate attribute for non-mdev devices makes sense.
-> > > > > > > However, wouldn't that rather be a case (3)? The change here only
-> > > > > > > refers to mdev devices.
-> > > > > > >
-> > > > > > as you pointed below, (3) and (2) serve the same purpose.
-> > > > > > and I think a possible usage is to migrate between a non-mdev device and
-> > > > > > an mdev device. so I think it's better for them both to use (2) rather
-> > > > > > than creating (3).
-> > > > >
-> > > > > An mdev type is meant to define a software compatible interface, so in
-> > > > > the case of mdev->mdev migration, doesn't migrating to a different type
-> > > > > fail the most basic of compatibility tests that we expect userspace to
-> > > > > perform?  IOW, if two mdev types are migration compatible, it seems a
-> > > > > prerequisite to that is that they provide the same software interface,
-> > > > > which means they should be the same mdev type.
-> > > > >
-> > > > > In the hybrid cases of mdev->phys or phys->mdev, how does a
-> > > > management
-> > > > > tool begin to even guess what might be compatible?  Are we expecting
-> > > > > libvirt to probe ever device with this attribute in the system?  Is
-> > > > > there going to be a new class hierarchy created to enumerate all
-> > > > > possible migrate-able devices?
-> > > > >
-> > > > yes, management tool needs to guess and test migration compatible
-> > > > between two devices. But I think it's not the problem only for
-> > > > mdev->phys or phys->mdev. even for mdev->mdev, management tool needs
-> > > > to
-> > > > first assume that the two mdevs have the same type of parent devices
-> > > > (e.g.their pciids are equal). otherwise, it's still enumerating
-> > > > possibilities.
-> > > > 
-> > > > on the other hand, for two mdevs,
-> > > > mdev1 from pdev1, its mdev_type is 1/2 of pdev1;
-> > > > mdev2 from pdev2, its mdev_type is 1/4 of pdev2;
-> > > > if pdev2 is exactly 2 times of pdev1, why not allow migration between
-> > > > mdev1 <-> mdev2.
-> > > 
-> > > How could the manage tool figure out that 1/2 of pdev1 is equivalent 
-> > > to 1/4 of pdev2? If we really want to allow such thing happen, the best
-> > > choice is to report the same mdev type on both pdev1 and pdev2.
-> > I think that's exactly the value of this migration_version interface.
-> > the management tool can take advantage of this interface to know if two
-> > devices are migration compatible, no matter they are mdevs, non-mdevs,
-> > or mix.
-> > 
-> > as I know, (please correct me if not right), current libvirt still
-> > requires manually generating mdev devices, and it just duplicates src vm
-> > configuration to the target vm.
-> > for libvirt, currently it's always phys->phys and mdev->mdev (and of the
-> > same mdev type).
-> > But it does not justify that hybrid cases should not be allowed. otherwise,
-> > why do we need to introduce this migration_version interface and leave
-> > the judgement of migration compatibility to vendor driver? why not simply
-> > set the criteria to something like "pciids of parent devices are equal,
-> > and mdev types are equal" ?
-> > 
-> > 
-> > > btw mdev<->phys just brings trouble to upper stack as Alex pointed out. 
-> > could you help me understand why it will bring trouble to upper stack?
-> > 
-> > I think it just needs to read src migration_version under src dev node,
-> > and test it in target migration version under target dev node. 
-> > 
-> > after all, through this interface we just help the upper layer
-> > knowing available options through reading and testing, and they decide
-> > to use it or not.
-> > 
-> > > Can we simplify the requirement by allowing only mdev<->mdev and 
-> > > phys<->phys migration? If an customer does want to migrate between a 
-> > > mdev and phys, he could wrap physical device into a wrapped mdev 
-> > > instance (with the same type as the source mdev) instead of using vendor 
-> > > ops. Doing so does add some burden but if mdev<->phys is not dominant 
-> > > usage then such tradeoff might be worthywhile...
-> > >
-> > If the interfaces for phys<->phys and mdev<->mdev are consistent, it makes no
-> > difference to phys<->mdev, right?
-> > I think the vendor string for a mdev device is something like:
-> > "Parent PCIID + mdev type + software version", and
-> > that for a phys device is something like:
-> > "PCIID + software version".
-> > as long as we don't migrate between devices from different vendors, it's
-> > easy for vendor driver to tell if a phys device is migration compatible
-> > to a mdev device according it supports it or not.
-> 
-> It surprises me that the PCIID matching is a requirement; I'd assumed
-> with this clever mdev name setup that you could migrate between two
-> different models in a series, or to a newer model, as long as they
-> both supported the same mdev view.
-> 
-hi Dave
-the migration_version string is transparent to userspace, and is
-completely defined by vendor driver.
-I put it there just as an example of how vendor driver may implement it.
-e.g.
-the src migration_version string is "src PCIID + src software version", 
-then when this string is write to target migration_version node,
-the vendor driver in the target device will compare it with its own
-device info and software version.
-If different models are allowed, the write just succeeds even
-PCIIDs in src and target are different.
+Eric , Markus, any comments ?
 
-so, it is the vendor driver to define whether two devices are able to
-migrate, no matter their PCIIDs, mdev types, software versions..., which
-provides vendor driver full flexibility.
+在 2020/4/23 下午6:51, xiaoqiang.zhao 写道:
+> 在 2020/4/23 下午5:00, Daniel P. Berrangé 写道:
+>> Adding Eric & Markus for QAPI modelling questions
+>>
+>> On Thu, Apr 23, 2020 at 11:56:40AM +0800, xiaoqiang zhao wrote:
+>>> unix_connect_saddr now support abstract address type
+>>>
+>>> By default qemu does not support abstract UNIX domain
+>>> socket address. Add this ability to make qemu handy
+>>> when abstract address is needed.
+>> Was that a specific app you're using with QEMU that needs this ?
+>
+> Thanks for your reply !
+>
+> I once use qemu to connect a unix domain socket server (with abstract 
+> type address written by android java code)
+>
+>>> Abstract address is marked by prefixing the address name with a '@'.
+>> For full support of the abstract namespace we would ned to allow
+>> the "sun_path" to contain an arbitrary mix of NULs and non-NULs
+>> characters, and allow connect() @addrlen to be an arbitrary size.
+>>
+>> This patch only allows a single initial NUL, and reqiures @addrlen
+>> to be the full size of sun_path, padding with trailing NULs. This
+>> limitation is impossible to lift with QEMU's current approach to
+>> UNIX sockets, as it relies on passing around a NULL terminated
+>> string, so there's no way to have embedded NULs. Since there's
+>> no explicit length, we have to chooose between forcing the full
+>> sun_path size as @addrlen, or forcing the string length as the
+>> @addrlen value.
+>>
+>> IIUC, socat makes the latter decision by default, but has a
+>> flag to switch to the former.
+>>
+>>    [man socat]
+>>    unix-tightsocklen=[0|1]
+>>    On  socket  operations,  pass  a  socket  address  length that 
+>> does not
+>>    include the whole struct sockaddr_un record but (besides other  
+>> compo‐
+>>    nents)  only  the  relevant  part  of  the filename or abstract 
+>> string.
+>>    Default is 1.
+>>    [/man]
+>>
+>> This actually is supported for both abstract and non-abstract
+>> sockets, though IIUC this doesn't make a semantic difference
+>> for non-abstract sockets.
+>>
+>> The point is we have four possible combinations
+>>
+>>   NON-ABSTRACT + FULL SIZE
+>>   NON-ABSTRACT + MINIMAL SIZE  (default)
+>>   ABSTRACT + FULL SIZE
+>>   ABSTRACT + MINIMAL SIZE  (default)
+>>
+>> With your patch doing the latter, it means QEMU supports
+>> only two combinations
+>>
+>>    NON+ABSTRACT + FULL SIZE
+>>    ABSTRACT + MINIMAL SIZE
+>>
+>> and also can't use "@somerealpath" for a non-abstract
+>> socket, though admittedly this is unlikely.
+>>
+>> Socat uses a special option to request use of abstract
+>> sockets. eg ABSTRACT:somepath, and automatically adds
+>> the leading NUL, so there's no need for a special "@"
+>> character. This means that UNIX:@somepath still resolves
+>> to a filesystem path and not a abstract socket path.
+>>
+>> Finally, the patch as only added support for connect()
+>> not listen(). I think if QEMU wants to support abstract
+>> sockets we must do both, and also have unit tests added
+>> to tests/test-util-sockets.c
+> Yes , I missed these parts.
+>>
+>>
+>> The question is whether we're ok with this simple
+>> approach in QEMU, or should do a full approach with
+>> more explicit modelling.
+> Agree,  more comments is welcome.
+>>
+>> ie should we change QAPI thus:
+>>
+>> { 'struct': 'UnixSocketAddress',
+>>    'data': {
+>>      'path': 'str',
+>>      'tight': 'bool',
+>>      'abstract': 'bool' } }
+>>
+>> where 'tight' is a flag indicating whether to set @addrlen
+>> to the minimal string length, or the maximum sun_path length.
+>> And 'abstract' indicates that we automagically add a leading
+>> NUL.
+>>
+>> This would *not* allow for NULs in the middle of path,
+>> but I'm not so bothered about that, since I can't see that
+>> being widely used. If we really did need that it could be
+>> added via a 'base64': 'bool' flag, to indicate that @path
+>> is base64 encoded and thus may contain NULs
+>>
+>>  From a CLI POV, this could be mapped to QAPI thus
+>>
+>>   *  -chardev unix:somepath
+>>
+>>        @path==somepath
+>>        @tight==false
+>>        @abstract==false
+>>
+>>   *  -chardev unix:somepath,tight
+>>
+>>        @path==somepath
+>>        @tight==true
+>>        @abstract==false
+>>
+>>   *  -chardev unix-abstract:somepath
+>>
+>>        @path==somepath
+>>        @tight==false
+>>        @abstract==true
+>>
+>>   *  -chardev unix-abstract:somepath,tight
+>>
+>>        @path==somepath
+>>        @tight==true
+>>        @abstract==true
+>>
+>>
+>>
+>> Regards,
+>> Daniel
 
-do you think it's good?
-
-Thanks
-Yan
-
-> 
-> > 
-> > Thanks
-> > Yan
-> > > 
-> > > > 
-> > > > 
-> > > > > I agree that there was a gap in the previous proposal for non-mdev
-> > > > > devices, but I think this bring a lot of questions that we need to
-> > > > > puzzle through and libvirt will need to re-evaluate how they might
-> > > > > decide to pick a migration target device.  For example, I'm sure
-> > > > > libvirt would reject any policy decisions regarding picking a physical
-> > > > > device versus an mdev device.  Had we previously left it that only a
-> > > > > layer above libvirt would select a target device and libvirt only tests
-> > > > > compatibility to that target device?
-> > > > I'm not sure if there's a layer above libvirt would select a target
-> > > > device. but if there is such a layer (even it's human), we need to
-> > > > provide an interface for them to know whether their decision is suitable
-> > > > for migration. The migration_version interface provides a potential to
-> > > > allow mdev->phys migration, even libvirt may currently reject it.
-> > > > 
-> > > > 
-> > > > > We also need to consider that this expands the namespace.  If we no
-> > > > > longer require matching types as the first level of comparison, then
-> > > > > vendor migration strings can theoretically collide.  How do we
-> > > > > coordinate that can't happen?  Thanks,
-> > > > yes, it's indeed a problem.
-> > > > could only allowing migration beteen devices from the same vendor be a
-> > > > good
-> > > > prerequisite?
-> > > > 
-> > > > Thanks
-> > > > Yan
-> > > > >
-> > > > > > > > > Is existence (and compatibility) of (1) a pre-req for possible
-> > > > > > > > > existence (and compatibility) of (2)?
-> > > > > > > > >
-> > > > > > > > no. (2) does not reply on (1).
-> > > > > > >
-> > > > > > > Hm. Non-existence of (1) seems to imply "this type does not support
-> > > > > > > migration". If an mdev created for such a type suddenly does support
-> > > > > > > migration, it feels a bit odd.
-> > > > > > >
-> > > > > > yes. but I think if the condition happens, it should be reported a bug
-> > > > > > to vendor driver.
-> > > > > > should I add a line in the doc like "vendor driver should ensure that the
-> > > > > > migration compatibility from migration_version under mdev_type should
-> > > > be
-> > > > > > consistent with that from migration_version under device node" ?
-> > > > > >
-> > > > > > > (It obviously cannot be a prereq for what I called (3) above.)
-> > > > > > >
-> > > > > > > >
-> > > > > > > > > Does userspace need to check (1) or can it completely rely on (2), if
-> > > > > > > > > it so chooses?
-> > > > > > > > >
-> > > > > > > > I think it can completely reply on (2) if compatibility check before
-> > > > > > > > mdev creation is not required.
-> > > > > > > >
-> > > > > > > > > If devices with a different mdev type are indeed compatible, it
-> > > > seems
-> > > > > > > > > userspace can only find out after the devices have actually been
-> > > > > > > > > created, as (1) does not apply?
-> > > > > > > > yes, I think so.
-> > > > > > >
-> > > > > > > How useful would it be for userspace to even look at (1) in that case?
-> > > > > > > It only knows if things have a chance of working if it actually goes
-> > > > > > > ahead and creates devices.
-> > > > > > >
-> > > > > > hmm, is it useful for userspace to test the migration_version under mdev
-> > > > > > type before it knows what mdev device to generate ?
-> > > > > > like when the userspace wants to migrate an mdev device in src vm,
-> > > > > > but it has not created target vm and the target mdev device.
-> > > > > >
-> > > > > > > >
-> > > > > > > > > One of my worries is that the existence of an attribute with the
-> > > > same
-> > > > > > > > > name in two similar locations might lead to confusion. But maybe it
-> > > > > > > > > isn't a problem.
-> > > > > > > > >
-> > > > > > > > Yes, I have the same feeling. but as (2) is for sysfs interface
-> > > > > > > > consistency, to make it transparent to userspace tools like libvirt,
-> > > > > > > > I guess the same name is necessary?
-> > > > > > >
-> > > > > > > What do we actually need here, I wonder? (1) and (2) seem to serve
-> > > > > > > slightly different purposes, while (2) and what I called (3) have the
-> > > > > > > same purpose. Is it important to userspace that (1) and (2) have the
-> > > > > > > same name?
-> > > > > > so change (1) to migration_type_version and (2) to
-> > > > > > migration_instance_version?
-> > > > > > But as they are under different locations, could that location imply
-> > > > > > enough information?
-> > > > > >
-> > > > > >
-> > > > > > Thanks
-> > > > > > Yan
-> > > > > >
-> > > > > >
-> > > > >
-> > > > _______________________________________________
-> > > > intel-gvt-dev mailing list
-> > > > intel-gvt-dev@lists.freedesktop.org
-> > > > https://lists.freedesktop.org/mailman/listinfo/intel-gvt-dev
-> > 
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
 
