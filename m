@@ -2,58 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DA7B1B9407
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 22:51:48 +0200 (CEST)
-Received: from localhost ([::1]:45608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 094BA1B946C
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 00:19:58 +0200 (CEST)
+Received: from localhost ([::1]:47822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSoFf-0007ut-4H
-	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 16:51:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57744)
+	id 1jSpcy-0006sk-He
+	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 18:19:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60712)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jSoEn-00071O-Lx
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 16:50:54 -0400
+ (envelope-from <dottedmag@dottedmag.net>) id 1jSoZf-0000Bi-QQ
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 17:12:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jSoEm-0004au-AK
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 16:50:53 -0400
-Resent-Date: Sun, 26 Apr 2020 16:50:53 -0400
-Resent-Message-Id: <E1jSoEm-0004au-AK@eggs.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21383)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jSoEl-0004Zd-P2
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 16:50:51 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1587934224; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=KCTgy0c4k93f8NdJC4AS9/XhuIyVKmaszDyxBsCHV/nZ906ZXtAMLicVLDPo6nibFNDSsDD2PUh11qRasO4yu583WSmNSUndTIqjEG4Y+t0yykKZTtgH2hhHxc14etrEAqQuYgjmNqbbEydTUNFuMAg1wQ1JphbKEWVlYyxfqn4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1587934224;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Ra++Lfzl+aDE5HWHqtaRBYdM8XQ5qeZhq4/MhqNukCM=; 
- b=jigPAf5LmFG9FRYbwgFDcoY8vvaNCcyn2YM7dKWSPPeEe4tvK6lBauiNUNtuwanb0vQAykqLp7OpJMasY63CpwYk99no8mLsg5tjdcBrJ1NcEZtscdGzSaBaiwtckStP0CK8iAPdBAmnV2YAbl8wrxAJrdOWlYCGa8on0Six2Yw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1587934223103468.54290461415906;
- Sun, 26 Apr 2020 13:50:23 -0700 (PDT)
-In-Reply-To: <cover.1587927878.git.lukasstraub2@web.de>
-Subject: Re: [PATCH v2 0/6] colo-compare bugfixes
-Message-ID: <158793422156.15667.16331499518898766324@39012742ff91>
+ (envelope-from <dottedmag@dottedmag.net>) id 1jSoZf-00061a-4M
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 17:12:27 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:38145)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dottedmag@dottedmag.net>)
+ id 1jSoZe-00061P-GD; Sun, 26 Apr 2020 17:12:26 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id D11FC5C0118;
+ Sun, 26 Apr 2020 17:12:23 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Sun, 26 Apr 2020 17:12:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dottedmag.net;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm2; bh=zgV7/9k3Hto6rUVeJ6s8ZLt/qf
+ Ekaj7t1R0wnIL3X6o=; b=PeZEBz7+eJbhoBUDGw9nt13MTe6nMKvZ2hxgCNRYfL
+ Y7is5YTkSymjYSYwWcmiz5s3zeJuFGu3/xccky738FMhjGHD0WjF1M4lhrU1PpDn
+ RnuK8sR8USmeLsayBjMpowYavI/NX0vJxOflwwGV2NqgcYLZ7aFpWe6fT9lT5bFl
+ gPsN+SZCFJmG0pNFqPHJ0479f20NyE8FWlQGJIo/uNXcGRV9JzSJHgy+Fh4ZWQTF
+ F344rF9Em6T6sUbktWra53duMGA9E3/j5sKZa8NVMaxywg0PcpGODKCLE5jCkQ11
+ L6iL+ELZ2kgtOF1GEoOHreAzQwbeU6d/IM1GyPtgD4KQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=zgV7/9k3Hto6rUVeJ
+ 6s8ZLt/qfEkaj7t1R0wnIL3X6o=; b=mkWyZJMQhA9Xzp9PlXDax5ssqYKu3jkAC
+ QNPDoMD7U/qyLLInkOlTWYC5un7hmEF1yJyEz1AfHh/zzszM3esdujoSSBjovXAc
+ CrYwmIBAizCYjTEyyE3kyzfNZvorSwbaa/3Ag709aM5vIlnLGSfozSjk2sKagsX0
+ z619rrCnU9GXgAFkVZCNnBJeUHec5eIMaaQe/Lco9aAKGoKDK7gGlXx2ZFocfYMA
+ g5oDPD+d00o/GUiTeswIUAfEzXZz1IEcMeaAB4Cr1/Rr+wjCiUdfU65Oh56klnYQ
+ nzDxP0nG0OIlU5TdplGHz14Qfz+ThrBtZX1Hlz5/yA2WfzDe7BJWw==
+X-ME-Sender: <xms:N_mlXsmhcShj0Rv8CKKE8FmBZrdqB-6nA3Rqvtpn5kdo3cljtsKF4w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrheejgdduheelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+ dttdenucfhrhhomhepofhikhhhrghilhcuifhushgrrhhovhcuoeguohhtthgvughmrghg
+ seguohhtthgvughmrghgrdhnvghtqeenucfkphepledvrddvhedurdefgedrvddvkeenuc
+ evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpeguohhtthgv
+ ughmrghgseguohhtthgvughmrghgrdhnvght
+X-ME-Proxy: <xmx:N_mlXtZ0D4x3Q0oXR_H3sK4N8jwmuoXpNzY8-6m9SIq1OLKJqaY7Kw>
+ <xmx:N_mlXg_qoEaUCYaAw23ZDPeEYaHUxcNGMDIZtVrOblxZYoCdoe4YFw>
+ <xmx:N_mlXkZbR-CBSG-CM24d51GYXyHEJ9afbhmVxq0ZBQEjGu3AL26Epw>
+ <xmx:N_mlXnE5qU_NvmRTytefv_tplM4yLGsUa8Zp-aZV0sM5Du8Tq34LOA>
+Received: from newton.malta.dottedmag.net (c34-228.i07-9.onvol.net
+ [92.251.34.228])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 566AE3280067;
+ Sun, 26 Apr 2020 17:12:23 -0400 (EDT)
+Received: by newton.malta.dottedmag.net (Postfix, from userid 501)
+ id 2654F2CE1CF5; Sun, 26 Apr 2020 23:12:20 +0200 (CEST)
+From: Mikhail Gusarov <dottedmag@dottedmag.net>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] chardev: Add macOS to list of OSes that support -chardev
+ serial
+Date: Sun, 26 Apr 2020 23:09:58 +0200
+Message-Id: <20200426210956.17324-1-dottedmag@dottedmag.net>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: lukasstraub2@web.de
-Date: Sun, 26 Apr 2020 13:50:23 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 16:50:47
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Received-From: 136.143.188.53
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=dottedmag@dottedmag.net;
+ helo=out1-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 17:12:23
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 66.111.4.25
+X-Mailman-Approved-At: Sun, 26 Apr 2020 18:16:21 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,49 +88,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: lizhijian@cn.fujitsu.com, jasowang@redhat.com, qemu-devel@nongnu.org,
- chen.zhang@intel.com, pbonzini@redhat.com, marcandre.lureau@redhat.com
+Cc: qemu-trivial@nongnu.org, Mikhail Gusarov <dottedmag@dottedmag.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS9jb3Zlci4xNTg3OTI3ODc4Lmdp
-dC5sdWthc3N0cmF1YjJAd2ViLmRlLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
-c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
-b3JtYXRpb246CgpTdWJqZWN0OiBbUEFUQ0ggdjIgMC82XSBjb2xvLWNvbXBhcmUgYnVnZml4ZXMK
-TWVzc2FnZS1pZDogY292ZXIuMTU4NzkyNzg3OC5naXQubHVrYXNzdHJhdWIyQHdlYi5kZQpUeXBl
-OiBzZXJpZXMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1w
-YXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5y
-ZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29u
-ZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNo
-LnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpTd2l0Y2hlZCB0
-byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmM4ZmQ2ODEgbmV0L2NvbG8tY29tcGFyZS5jOiBDb3JyZWN0
-IG9yZGVyaW5nIGluIGNvbXBsZXRlIGFuZCBmaW5hbGl6ZQphZmI2MDgwIG5ldC9jb2xvLWNvbXBh
-cmUuYywgc29mdG1tdS92bC5jOiBDaGVjayB0aGF0IGNvbG8tY29tcGFyZSBpcyBhY3RpdmUKZTRl
-OGVlZCBuZXQvY29sby1jb21wYXJlLmM6IE9ubHkgaGV4ZHVtcCBwYWNrZXRzIGlmIHRyYWNpbmcg
-aXMgZW5hYmxlZAoxZTY5MmZiIG5ldC9jb2xvLWNvbXBhcmUuYzogRml4IGRlYWRsb2NrIGluIGNv
-bXBhcmVfY2hyX3NlbmQKZDkxZDRkOSBjaGFyZGV2L2NoYXIuYzogVXNlIHFlbXVfY29fc2xlZXBf
-bnMgaWYgaW4gY29yb3V0aW5lCmU0MzY5NjIgbmV0L2NvbG8tY29tcGFyZS5jOiBDcmVhdGUgZXZl
-bnRfYmggd2l0aCB0aGUgcmlnaHQgQWlvQ29udGV4dAoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS82
-IENoZWNraW5nIGNvbW1pdCBlNDM2OTYyZWVmY2YgKG5ldC9jb2xvLWNvbXBhcmUuYzogQ3JlYXRl
-IGV2ZW50X2JoIHdpdGggdGhlIHJpZ2h0IEFpb0NvbnRleHQpCjIvNiBDaGVja2luZyBjb21taXQg
-ZDkxZDRkOTcxMDg5IChjaGFyZGV2L2NoYXIuYzogVXNlIHFlbXVfY29fc2xlZXBfbnMgaWYgaW4g
-Y29yb3V0aW5lKQozLzYgQ2hlY2tpbmcgY29tbWl0IDFlNjkyZmJhOGM2MiAobmV0L2NvbG8tY29t
-cGFyZS5jOiBGaXggZGVhZGxvY2sgaW4gY29tcGFyZV9jaHJfc2VuZCkKNC82IENoZWNraW5nIGNv
-bW1pdCBlNGU4ZWVkMTdlOWYgKG5ldC9jb2xvLWNvbXBhcmUuYzogT25seSBoZXhkdW1wIHBhY2tl
-dHMgaWYgdHJhY2luZyBpcyBlbmFibGVkKQo1LzYgQ2hlY2tpbmcgY29tbWl0IGFmYjYwODA5ZTNl
-NSAobmV0L2NvbG8tY29tcGFyZS5jLCBzb2Z0bW11L3ZsLmM6IENoZWNrIHRoYXQgY29sby1jb21w
-YXJlIGlzIGFjdGl2ZSkKRVJST1I6IGRvIG5vdCBpbml0aWFsaXNlIHN0YXRpY3MgdG8gMCBvciBO
-VUxMCiMzNDogRklMRTogbmV0L2NvbG8tY29tcGFyZS5jOjU4Ogorc3RhdGljIGJvb2wgY29sb19j
-b21wYXJlX2FjdGl2ZSA9IGZhbHNlOwoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAxMTAg
-bGluZXMgY2hlY2tlZAoKUGF0Y2ggNS82IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmll
-dy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhl
-bSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo2LzYg
-Q2hlY2tpbmcgY29tbWl0IGM4ZmQ2ODFiMzU4NSAobmV0L2NvbG8tY29tcGFyZS5jOiBDb3JyZWN0
-IG9yZGVyaW5nIGluIGNvbXBsZXRlIGFuZCBmaW5hbGl6ZSkKPT09IE9VVFBVVCBFTkQgPT09CgpU
-ZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFi
-bGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvY292ZXIuMTU4NzkyNzg3OC5naXQubHVrYXNz
-dHJhdWIyQHdlYi5kZS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWls
-IGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcv
-XS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+macOS API for dealing with serial ports/ttys is identical to BSDs.
+
+Signed-off-by: Mikhail Gusarov <dottedmag@dottedmag.net>
+---
+
+Note that the same file has a line
+> #endif /* linux || sun */
+that is severely out of date.
+
+ chardev/char-serial.c | 2 +-
+ include/qemu/osdep.h  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/chardev/char-serial.c b/chardev/char-serial.c
+index 5b833ea077..7c3d84ae24 100644
+--- a/chardev/char-serial.c
++++ b/chardev/char-serial.c
+@@ -53,7 +53,7 @@ static void qmp_chardev_open_serial(Chardev *chr,
+ 
+ #elif defined(__linux__) || defined(__sun__) || defined(__FreeBSD__)      \
+     || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__) \
+-    || defined(__GLIBC__)
++    || defined(__GLIBC__) || defined(__APPLE__)
+ 
+ static void tty_serial_init(int fd, int speed,
+                             int parity, int data_bits, int stop_bits)
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 20f5c5f197..ff7c17b857 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -379,7 +379,7 @@ void qemu_anon_ram_free(void *ptr, size_t size);
+ #define HAVE_CHARDEV_SERIAL 1
+ #elif defined(__linux__) || defined(__sun__) || defined(__FreeBSD__)    \
+     || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__) \
+-    || defined(__GLIBC__)
++    || defined(__GLIBC__) || defined(__APPLE__)
+ #define HAVE_CHARDEV_SERIAL 1
+ #endif
+ 
+-- 
+2.19.1
+
 
