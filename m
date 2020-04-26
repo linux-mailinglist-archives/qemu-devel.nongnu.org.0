@@ -2,64 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A5701B8DF9
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 10:36:30 +0200 (CEST)
-Received: from localhost ([::1]:55024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A321B8D75
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 09:32:26 +0200 (CEST)
+Received: from localhost ([::1]:53990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jScm4-0003Zz-N2
-	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 04:36:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51676)
+	id 1jSbm5-0001Mf-LB
+	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 03:32:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51608)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jSbkw-0000zQ-5j
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 03:31:14 -0400
+ (envelope-from <bounces@canonical.com>) id 1jSbke-0000n7-Ch
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 03:30:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jSbkr-0005TD-Pw
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 03:31:13 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36978)
+ (envelope-from <bounces@canonical.com>) id 1jSbkd-00051D-Bi
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 03:30:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36410)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jSbkr-0005MC-9I
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 03:31:09 -0400
+ id 1jSbkc-0004xd-TE
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 03:30:55 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jSbkp-0003ZT-Mf
- for <qemu-devel@nongnu.org>; Sun, 26 Apr 2020 07:31:07 +0000
+ id 1jSbkb-0003Kj-3Y
+ for <qemu-devel@nongnu.org>; Sun, 26 Apr 2020 07:30:53 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AA0982E80E7
- for <qemu-devel@nongnu.org>; Sun, 26 Apr 2020 07:31:07 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E421D2E8110
+ for <qemu-devel@nongnu.org>; Sun, 26 Apr 2020 07:30:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 26 Apr 2020 07:17:47 -0000
-From: chenhao <563278383@qq.com>
+Date: Sun, 26 Apr 2020 07:24:53 -0000
+From: A van Schie <1875139@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 563278383-t duanev miki4242 mkdolata vvaltchev
-X-Launchpad-Bug-Reporter: Alain Kalker (miki4242)
-X-Launchpad-Bug-Modifier: chenhao (563278383-t)
-References: <20170425183112.19801.4371.malonedeb@soybean.canonical.com>
-Message-Id: <158788546766.17636.572314808145068160.malone@wampee.canonical.com>
-Subject: [Bug 1686170] Re: qemu-system-x86_64+gdb: unable to correctly
- disassemble "real mode" (i8086) instructions after attaching to QEMU started
- with "-S -s" options
+X-Launchpad-Bug-Commenters: avschie
+X-Launchpad-Bug-Reporter: A van Schie (avschie)
+X-Launchpad-Bug-Modifier: A van Schie (avschie)
+Message-Id: <158788589324.18152.6333525201430073299.malonedeb@wampee.canonical.com>
+Subject: [Bug 1875139] [NEW] Domain fails to start when 'readonly' device not
+ writable
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="486bbbd6cb608f8eb468ed0d08689a349dfabe49";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 4e8f82b037f803277bb2e3e472b9d85e9d97757d
+X-Launchpad-Hash: c0904baf893c65b81ffe5fe87a2771c62c1d8852
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 03:30:53
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Received-From: 91.189.90.7
-X-Mailman-Approved-At: Sun, 26 Apr 2020 04:35:31 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -70,180 +67,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1686170 <1686170@bugs.launchpad.net>
+Reply-To: Bug 1875139 <1875139@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I had the same problem when I tried to run
-[boot.asm](https://github.com/yifengyou/The-design-and-implementation-
-of-a-64-bit-os/blob/master/code/c03/1/boot.asm).
+Public bug reported:
 
-i tested `qemu-system-x86_64` and `qemu-system-i386` with
-[gdb_init_real_mode.txt](https://github.com/mhugo/gdb_init_real_mode/blob/m=
-aster/gdbinit_real_mode.txt)
-and
-[target.xml](https://gist.githubusercontent.com/MatanShahar/1441433e19637cf=
-1bb46b1aa38a90815/raw/2687fb5daf60cf6aa8435efc8450d89f1ccf2205/target.xml),
-all faild.
+This issue is introduced in QEMU 4.2.0 (4.1.0 is working fine)
 
-my env:
-1. deepin 15.11 x86_64
+My root disk is a LVM2 volume thin snapshot that is marked as read-only
+But when I try to start the domain (using virt-manager) I get the following=
+ error:
 
-    - qemu: QEMU emulator version 4.2.94 // qemu 5.0.0-rc4
-    - gdb: GNU gdb (Debian 7.12-6) 7.12.0.20161007-git
-1. ubuntu 20.04
+Error starting domain: internal error: process exited while connecting
+to monitor: 2020-04-26T06:55:06.342700Z qemu-system-x86_64: -blockdev
+{"driver":"host_device","filename":"/dev/vg/vmroot-20200425","aio":"native
+","node-name":"libvirt-3-storage","cache":{"direct":true,"no-
+flush":false},"auto-read-only":true,"discard":"unmap"} The device is not
+writable: Permission denied
 
-    - qemu: QEMU emulator version 4.2.0 (Debian 1:4.2-3ubuntu6)
-    - gdb: GNU gdb (Ubuntu 9.1-0ubuntu1) 9.1
+Changing the lvm snapshot to writeable allows me to start the domain.
+(Making it changes possible during domain is running)
+
+I don't think QEMU should fail when it can't open a (block) device when the=
+ read-only option is set.
+(why is write access needed?)
+
+Reproduce steps:
+* Create LVM read-only volume (I don't think any data is needed)
+* Create domain with read-only volume as block device
+* Try to start the domain
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1686170
+https://bugs.launchpad.net/bugs/1875139
 
 Title:
-  qemu-system-x86_64+gdb: unable to correctly disassemble "real mode"
-  (i8086) instructions after attaching to QEMU started with "-S -s"
-  options
+  Domain fails to start when 'readonly' device not writable
 
 Status in QEMU:
   New
 
 Bug description:
-  OS: Void Linux x86_64 (glibc)
-  QEMU version: 2.9.0
-  GDB version: 7.12.1
+  This issue is introduced in QEMU 4.2.0 (4.1.0 is working fine)
 
-  Problem description:
+  My root disk is a LVM2 volume thin snapshot that is marked as read-only
+  But when I try to start the domain (using virt-manager) I get the followi=
+ng error:
 
-  After I updated QEMU from version 2.8.1 to 2.9.0, I found that when I try=
- to connect GDB to a running QEMU and try to debug Real mode machine code, =
-I can no longer set architecture to 'i8086'.
-  To be able to connect to QEMU from GDB at all, I have to specify one of t=
-he 64 bit architectures, which among other things leads to incorrect disass=
-embly listings. This makes debugging Real mode bootloaders, bootsectors and=
- BIOS code much more difficult.
+  Error starting domain: internal error: process exited while connecting
+  to monitor: 2020-04-26T06:55:06.342700Z qemu-system-x86_64: -blockdev
+  {"driver":"host_device","filename":"/dev/vg/vmroot-20200425","aio":"native
+  ","node-name":"libvirt-3-storage","cache":{"direct":true,"no-
+  flush":false},"auto-read-only":true,"discard":"unmap"} The device is
+  not writable: Permission denied
 
-  Steps to reproduce:
+  Changing the lvm snapshot to writeable allows me to start the domain.
+  (Making it changes possible during domain is running)
 
-  - Run QEMU
-  - In another terminal, run GDB
-  - In GDB, connect to QEMU
-  - In GDB, disassemble some Real mode machine code.
+  I don't think QEMU should fail when it can't open a (block) device when t=
+he read-only option is set.
+  (why is write access needed?)
 
-  Expected results (from QEMU version 2.8.1):
-
-      [terminal #1]
-      $ qemu-system-x86_64 -S -s
-
-      [terminal #2]
-      (gdb) set architecture i8086
-      warning: A handler for the OS ABI "GNU/Linux" is not built =
-
-      into this configuration
-      of GDB.  Attempting to continue with the default i8086 settings.
-
-      The target architecture is assumed to be i8086
-      (gdb) target remote :1234
-      Remote debugging using :1234
-      warning: No executable has been specified and target does not support
-      determining executable automatically.  Try using the "file" command.
-      0x0000fff0 in ?? ()
-      (gdb) x/i $cs*16+$eip
-         0xffff0:	ljmp   $0xf000,$0xe05b
-
-  Actual results:
-
-      [terminal #1]
-      $ qemu-system-x86_64 -S -s
-
-      [terminal #2]
-      $ gdb -q
-      (gdb) set architecture i8086 =
-
-      warning: A handler for the OS ABI "GNU/Linux" is not built into this =
-configuration
-      of GDB.  Attempting to continue with the default i8086 settings.
-
-      The target architecture is assumed to be i8086
-      (gdb) target remote :1234
-      Remote debugging using :1234
-      warning: No executable has been specified and target does not support
-      determining executable automatically.  Try using the "file" command.
-      Remote 'g' packet reply is too long: =
-
-      [..snip..]
-
-  Workarounds tried:
-
-    - Try different architecures
-      (gdb) set architecture i386:intel
-      The target architecture is assumed to be i386:intel
-      (gdb) target remote :1234
-      Remote debugging using :1234
-      warning: No executable has been specified and target does not support
-      determining executable automatically.  Try using the "file" command.
-      Remote 'g' packet reply is too long: =
-
-      [..snip..]
-      (gdb) set architecture i386:x86-64
-      The target architecture is assumed to be i386:x86-64
-      (gdb) target remote :1234
-      Remote debugging using :1234
-      warning: No executable has been specified and target does not support
-      determining executable automatically.  Try using the "file" command.
-      0x000000000000fff0 in ?? ()
-
-  The last try finally allowed me to connect to QEMU, but as can be
-  expected from using an incorrect architecture setting, disassembly
-  output is complete gibberish:
-
-      (gdb) x/10i $cs*16+$rip
-         0xffff0:	(bad)  =
-
-         0xffff1:	pop    %rbx
-         0xffff2:	loopne 0xffff4
-         0xffff4:	lock xor %dh,(%rsi)
-         0xffff7:	(bad)  =
-
-         0xffff8:	xor    (%rbx),%dh
-         0xffffa:	(bad)  =
-
-         0xffffb:	cmp    %edi,(%rcx)
-         0xffffd:	add    %bh,%ah
-         0xfffff:	add    %al,(%rax)
-
-  Discussion:
-
-  I think I've traced the problem to the following commit: "x86: Fix x86_64=
- 'g' packet response to gdb from 32-bit mode."[1].
-  While I admire the effort to make life for people using GDB to debug QEMU=
- VMs, I think the problem here is with GDB and can't be fixed entirely from=
- the side of QEMU without breaking other features.
-
-  In fact, there is a well-known workaround to this problem published on
-  OSDev Wiki (Workaround #1)[2] which doesn't require patching either
-  QEMU or GDB. This workaround has worked for me using several previous
-  versions of QEMU.
-
-      $ gdb -q
-      (gdb) set architecture i8086
-      (gdb) target remote :1234
-      (gdb) break some_breakpoint_in_32_bit_or_64_bit_code
-      (gdb) continue
-      [...]
-      Remote 'g' packet reply is too long: [...]
-      (gdb) disconnect # IMPORTANT STEP #1
-      (gdb) set architecture i386:x86-64
-      (gdb) target remote :1234 # IMPORTANT STEP #2
-      (gdb) continue
-
-  [1]: http://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3De3592bc9d841c397eed=
-a87f0019fab94ff71004b
-  [2]: http://wiki.osdev.org/QEMU_and_GDB_in_long_mode#Workaround_1:_Reconn=
-ecting
+  Reproduce steps:
+  * Create LVM read-only volume (I don't think any data is needed)
+  * Create domain with read-only volume as block device
+  * Try to start the domain
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1686170/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1875139/+subscriptions
 
