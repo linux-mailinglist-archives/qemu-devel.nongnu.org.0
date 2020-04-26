@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E026D1B91BE
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 18:32:07 +0200 (CEST)
-Received: from localhost ([::1]:35410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF651B91B2
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 18:29:06 +0200 (CEST)
+Received: from localhost ([::1]:35158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSkCH-0002ve-9J
-	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 12:32:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44314)
+	id 1jSk9Q-0006RK-IA
+	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 12:29:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44326)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=378a396a1=alistair.francis@wdc.com>)
- id 1jSk7t-0004MG-Gz
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 12:27:29 -0400
+ id 1jSk7t-0004MK-T6
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 12:27:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
  (envelope-from <prvs=378a396a1=alistair.francis@wdc.com>)
- id 1jSk7s-0004GU-5K
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 12:27:28 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:30869)
+ id 1jSk7s-0004GP-4r
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 12:27:29 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:30871)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=378a396a1=alistair.francis@wdc.com>)
- id 1jSk7r-00044P-5H; Sun, 26 Apr 2020 12:27:27 -0400
+ id 1jSk7r-00044e-84; Sun, 26 Apr 2020 12:27:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1587918447; x=1619454447;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=CzMEq7wJwKeWlJSDtGSqQMMtu2h3E4OJwzh8OjO7gWU=;
- b=LFu64r3KOxf6FmS5jHVt1WhKwTeVsKqLHZvFP+vVxbMVtKLVmAS2Bj7s
- bLVsjWNPSJC4zFzFvCQZyEZagc/NEvqENt5cUokoOGSaRkthfMzDdE4D8
- sqa4kA8CbooRk64iTcKJ8BqqXp/gz4eUX7l8SVRLwj7qOuhVlZZNTESLo
- e3Rb/KJqyMiBu38GG/61ppGm4xfgTnGL4EezpSo7woAGn6TR8POTrmOPV
- UFMyzH/Tfwl+Ulz8N+Oxm/2bziUsYWjZat3jcI2WX9IqJezaHo+/nla35
- sEjySMFF1dCFa+efXviqovC7FCuy262/yvZjQpVDOhK8PLHAq3ZAy3OFo Q==;
-IronPort-SDR: IXurWE4fPpqiBuH2cpDjKKN/bJn8/tHz6/XE2UuU3EKxJzRVlWWdN0hyNnlNROdcBd/v428mv9
- DxC9dDPldDNW83HLrXG390W9N8CXrOxX82r9RZJQS3yVyF8+kP9BEIjOENxzSpRK8Lm5amKUtO
- vFquwafmSGamWoO+Ny+djOQMs8Whoel/egbe8WOSZjNuSNTsqweeLAFp4X/mzOUMJEzFcWgJtf
- SjhyarRYU1HVSp+arLg43IOMQ9bULLzd7UFjaGTdfKgyVYBMbD4xCiq9dT2BEzdoiFOfmAONLu
- yfc=
-X-IronPort-AV: E=Sophos;i="5.73,320,1583164800"; d="scan'208";a="136193234"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=MpFVhcEu4J169WZoNIifAq8VxH2DNU9wLFGwC30GIIM=;
+ b=h8H24tidxCWuKAOvu1v+3xYt8cOrMILRaOU2vGFbHoBTsb2cCUA0ToEr
+ BxLCPj3WyaYQ0O7X3wKN1jnBZ9YGsjOU1UpD1PZrOO1hRif7ZuuyA9jyU
+ y964nh+uVV9dY5VVkzke2Gk9rVNVBZOFjujt+gnzHIqZFpupadhtbRIWV
+ 14ruQyMvUwimVbac5W8OvjMFBsTJ15oFW1xnlMUWmdX3HRkCACG9ngs7G
+ 0no7oN2L+0Zt4+4uRTuWobIuYsUoLl3kiSwa0dCcBkcyEs6zS1bh6a9L3
+ b99gcsxkm/bHGmv35Zv7Oq7Z2AD6ASvjX14n4jq9d0TSYyJrBQeKtClKU g==;
+IronPort-SDR: 3qrxOErDbmD/qPf7l2boHNqicUhpULpuzUSUyj7sHrC6YKY3aq5IT9r3KmVnAFFCqkxqCsUOR3
+ D9fAMI4D6YEgsKwQAUj3Jt00F8lPCA05TIfKXTDl1QYTsP+sQHZ8xUNqVUi2I8JJFxj9D8RatU
+ DutHQqYC7snqKSgqVFJnmMoBh31gs+4TGI8ZeVCXQ+rejj+Ld6CKzmR2oQKypz6HK80FEcrDbu
+ ZNuBFi2nRp/P+z06trrTsxWXzXUZRamzXMb+JTKq7Hti0TLZGT14XCkfoafvW14RXtIROYC9W9
+ BiQ=
+X-IronPort-AV: E=Sophos;i="5.73,320,1583164800"; d="scan'208";a="136193235"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 27 Apr 2020 00:27:21 +0800
-IronPort-SDR: TXVfx+/fCAsIygIgYsyvOOm8JNPR9/aO/3Ea126Gz1riU8MGH3yWUOfO2TO6y7IFtc4nVGI3XT
- cEVY0bWJ14R9RXVszAnNb7wGzBY1UEgAg=
+ by ob1.hgst.iphmx.com with ESMTP; 27 Apr 2020 00:27:23 +0800
+IronPort-SDR: ZFfVokcthCJu2+Ighx9T2FcOCMvjqiS8OgfK8yewhqrMhwBgaSZ/ZM4FhKbdPfY7XKAq+pQ4Dy
+ VQP7SYpY4gWZuxBs5MfyLA5DCE8xTOuzY=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2020 09:17:31 -0700
-IronPort-SDR: nPxOJ6r3/EbNZYpQcSkjxovvS2+BcaNU3/4NhW+caaXqDp4rRlZYnaCMPb7hMyetMZnZHEuG8B
- Fa5xqEe65Clw==
+ 26 Apr 2020 09:17:34 -0700
+IronPort-SDR: T9xmxh18iyx9qAJVVXbPVqJq0eILJKO1tokq25yXY+d6QWCDo471crfyrf4iaIQjesscY91H5K
+ 9ow8Q3jqC/Ug==
 WDCIronportException: Internal
 Received: from wdthnc17-0189.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.56.50])
- by uls-op-cesaip02.wdc.com with ESMTP; 26 Apr 2020 09:27:21 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 26 Apr 2020 09:27:24 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v1 00/15]  RISC-V: Update the Hypervisor spec to v0.6
-Date: Sun, 26 Apr 2020 09:19:11 -0700
-Message-Id: <cover.1587917657.git.alistair.francis@wdc.com>
+Subject: [PATCH v1 01/15] target/riscv: Set access as data_load when
+ validating stage-2 PTEs
+Date: Sun, 26 Apr 2020 09:19:13 -0700
+Message-Id: <39013fc4929146e1d64b107c4e1be1801d51adcc.1587917657.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1587917657.git.alistair.francis@wdc.com>
+References: <cover.1587917657.git.alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.154.42;
@@ -85,48 +88,24 @@ Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series updates the experimental QEMU RISC-V Hypervisor spec to the
-v0.6 draft implementation.
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/cpu_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-THis includes support for the new 2-stage lookup instructions and the new
-CSRs.
-
-This was tested by running 32-bit and 64-bit Xvisor on QEMU and starting
-Linux guests.
-
-
-
-Alistair Francis (15):
-  target/riscv: Set access as data_load when validating stage-2 PTEs
-  target/riscv: Report errors validating 2nd-stage PTEs
-  target/riscv: Move the hfence instructions to the rvh decode
-  target/riscv: Implement checks for hfence
-  target/riscv: Allow setting a two-stage lookup in the virt status
-  target/riscv: Allow generating hlv/hlvx/hsv instructions
-  target/riscv: Do two-stage lookups on hlv/hlvx/hsv instructions
-  target/riscv: Don't allow guest to write to htinst
-  target/riscv: Convert MSTATUS MTL to GVA
-  target/riscv: Fix the interrupt cause code
-  target/riscv: Update the Hypervisor trap return/entry
-  target/riscv: Update the CSRs to the v0.6 Hyp extension
-  target/riscv: Only support a single VSXL length
-  target/riscv: Only support little endian guests
-  target/riscv: Support the v0.6 Hypervisor extension CRSs
-
- target/riscv/cpu.h                            |   2 +
- target/riscv/cpu_bits.h                       |  19 +-
- target/riscv/cpu_helper.c                     | 114 +++---
- target/riscv/csr.c                            |  61 ++-
- target/riscv/helper.h                         |   8 +
- target/riscv/insn32-64.decode                 |   5 +
- target/riscv/insn32.decode                    |  17 +-
- .../riscv/insn_trans/trans_privileged.inc.c   |  40 --
- target/riscv/insn_trans/trans_rvh.inc.c       | 377 ++++++++++++++++++
- target/riscv/op_helper.c                      | 135 ++++++-
- target/riscv/translate.c                      |  11 +-
- 11 files changed, 674 insertions(+), 115 deletions(-)
- create mode 100644 target/riscv/insn_trans/trans_rvh.inc.c
-
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index bc80aa87cf..ed64190386 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -456,7 +456,7 @@ restart:
+             hwaddr vbase;
+ 
+             /* Do the second stage translation on the base PTE address. */
+-            get_physical_address(env, &vbase, &vbase_prot, base, access_type,
++            get_physical_address(env, &vbase, &vbase_prot, base, MMU_DATA_LOAD,
+                                  mmu_idx, false, true);
+ 
+             pte_addr = vbase + idx * ptesize;
 -- 
 2.26.2
 
