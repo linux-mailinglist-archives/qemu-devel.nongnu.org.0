@@ -2,50 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F0421B9B18
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 10:57:13 +0200 (CEST)
-Received: from localhost ([::1]:60608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C2E11B9947
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 10:03:57 +0200 (CEST)
+Received: from localhost ([::1]:55762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSzZg-0002KV-AZ
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 04:57:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55358)
+	id 1jSyk7-0007gh-Li
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 04:03:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42166)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wei.w.wang@intel.com>) id 1jSzYd-0001Ap-Oj
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 04:56:09 -0400
+ (envelope-from <david@redhat.com>) id 1jSyif-0006t7-R1
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 04:02:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <wei.w.wang@intel.com>) id 1jSzYc-00051F-BL
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 04:56:07 -0400
-Received: from mga18.intel.com ([134.134.136.126]:26126)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
- id 1jSzYb-0004mM-QW
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 04:56:06 -0400
-IronPort-SDR: e0hGNsEEI4zfWmCnLV9458TQ9aiKg5my2wmP+D6QHNO7G4UCHde0NF4aSvtU5SUHlZ7hs4/yAn
- 9Kax3pzxCLcg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2020 01:56:01 -0700
-IronPort-SDR: WBq3pKZGlZPPY81xWUFmEUvUr9PlXyWM+qFeyhOzYx5M2AitzBTB6bjS1CRjyuv1KTGRreFdxz
- xqAzIYVJZFhA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,323,1583222400"; d="scan'208";a="257172570"
-Received: from devel-ww.sh.intel.com ([10.239.48.118])
- by orsmga003.jf.intel.com with ESMTP; 27 Apr 2020 01:55:58 -0700
-From: Wei Wang <wei.w.wang@intel.com>
-To: qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
- peterx@redhat.com
-Subject: [PATCH v2] migration/xbzrle: add encoding rate
-Date: Mon, 27 Apr 2020 16:01:51 +0800
-Message-Id: <1587974511-14953-1-git-send-email-wei.w.wang@intel.com>
-X-Mailer: git-send-email 2.7.4
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=wei.w.wang@intel.com; helo=mga18.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 04:56:01
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Received-From: 134.134.136.126
+ (envelope-from <david@redhat.com>) id 1jSyie-00041d-WB
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 04:02:25 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31421
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jSyie-00041P-CV
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 04:02:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587974542;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=G0UYXSlLdf99Xqgjj7u8q3PxYAWQagBhfL013+x8aho=;
+ b=YvfYhJcvUlH5Nnhfmj8U00i5+o/CImkDUw3LcK9p56oKyGkUZvn9FWxmeQbbHKHqaimvrU
+ z3MFxMwEtRE4ZshNe1OJi2mmXZUk/YZc8TQ65bamZhgZoad6EUmbZGa8bbOgLCjHdmanZE
+ TM8dLvaCxlnSmueeQkVlNT2gKYUkJuU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-442-Ksk_S8ptOUWqI1h_KsWPZg-1; Mon, 27 Apr 2020 04:02:18 -0400
+X-MC-Unique: Ksk_S8ptOUWqI1h_KsWPZg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A8B0800685
+ for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 08:02:18 +0000 (UTC)
+Received: from [10.36.114.127] (ovpn-114-127.ams2.redhat.com [10.36.114.127])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F24D660C84;
+ Mon, 27 Apr 2020 08:02:16 +0000 (UTC)
+Subject: Re: [PATCH 03/11] s390x/cpumodel: Fix harmless misuse of
+ visit_check_struct()
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200424192027.11404-1-armbru@redhat.com>
+ <20200424192027.11404-4-armbru@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <57392357-7422-180f-d965-3f7bf3e657c2@redhat.com>
+Date: Mon, 27 Apr 2020 10:02:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <20200424192027.11404-4-armbru@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 23:32:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,159 +122,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevin.tian@intel.com, berrange@redhat.com, yi.y.sun@intel.com,
- gloryxiao@tencent.com, wei.w.wang@intel.com
+Cc: Cornelia Huck <cohuck@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Users may need to check the xbzrle encoding rate to know if the guest
-memory is xbzrle encoding-friendly, and dynamically turn off the
-encoding if the encoding rate is low.
+On 24.04.20 21:20, Markus Armbruster wrote:
+> Commit e47970f51d "s390x/cpumodel: Fix query-cpu-model-FOO error API
+> violations" neglected to change visit_end_struct()'s Error ** argument
+> along with the others.  If visit_end_struct() failed, we'd take the
 
-Signed-off-by: Yi Sun <yi.y.sun@intel.com>
-Signed-off-by: Wei Wang <wei.w.wang@intel.com>
----
- migration/migration.c |  1 +
- migration/ram.c       | 38 ++++++++++++++++++++++++++++++++++++--
- monitor/hmp-cmds.c    |  2 ++
- qapi/migration.json   |  5 ++++-
- 4 files changed, 43 insertions(+), 3 deletions(-)
+s/visit_end_struct/visit_check_struct/ ?
 
-ChangeLog:
-- include the 3 bytes (ENCODING_FLAG_XBZRLE flag and encoded_len) when
-  calculating the encoding rate. Similar to the compress rate
-  calculation, the 8 byte RAM_SAVE_FLAG_CONTINUE flag isn't included in
-  the calculation.
+> success path.  Fortunately, it can't fail here:
+> qobject_input_check_struct() checks we consumed the whole dictionary,
+> and to get here, we did.  Fix it anyway.
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 187ac04..e404213 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -930,6 +930,7 @@ static void populate_ram_info(MigrationInfo *info, MigrationState *s)
-         info->xbzrle_cache->pages = xbzrle_counters.pages;
-         info->xbzrle_cache->cache_miss = xbzrle_counters.cache_miss;
-         info->xbzrle_cache->cache_miss_rate = xbzrle_counters.cache_miss_rate;
-+        info->xbzrle_cache->encoding_rate = xbzrle_counters.encoding_rate;
-         info->xbzrle_cache->overflow = xbzrle_counters.overflow;
-     }
- 
-diff --git a/migration/ram.c b/migration/ram.c
-index 04f13fe..f46ab96 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -327,6 +327,10 @@ struct RAMState {
-     uint64_t num_dirty_pages_period;
-     /* xbzrle misses since the beginning of the period */
-     uint64_t xbzrle_cache_miss_prev;
-+    /* Amount of xbzrle pages since the beginning of the period */
-+    uint64_t xbzrle_pages_prev;
-+    /* Amount of xbzrle encoded bytes since the beginning of the period */
-+    uint64_t xbzrle_bytes_prev;
- 
-     /* compression statistics since the beginning of the period */
-     /* amount of count that no free thread to compress data */
-@@ -696,6 +700,18 @@ static int save_xbzrle_page(RAMState *rs, uint8_t **current_data,
-         return -1;
-     }
- 
-+    /*
-+     * Reaching here means the page has hit the xbzrle cache, no matter what
-+     * encoding result it is (normal encoding, overflow or skipping the page),
-+     * count the page as encoded. This is used to caculate the encoding rate.
-+     *
-+     * Example: 2 pages (8KB) being encoded, first page encoding generates 2KB,
-+     * 2nd page turns out to be skipped (i.e. no new bytes written to the
-+     * page), the overall encoding rate will be 8KB / 2KB = 4, which has the
-+     * skipped page included. In this way, the encoding rate can tell if the
-+     * guest page is good for xbzrle encoding.
-+     */
-+    xbzrle_counters.pages++;
-     prev_cached_page = get_cached_data(XBZRLE.cache, current_addr);
- 
-     /* save current buffer into memory */
-@@ -736,8 +752,12 @@ static int save_xbzrle_page(RAMState *rs, uint8_t **current_data,
-     qemu_put_be16(rs->f, encoded_len);
-     qemu_put_buffer(rs->f, XBZRLE.encoded_buf, encoded_len);
-     bytes_xbzrle += encoded_len + 1 + 2;
--    xbzrle_counters.pages++;
--    xbzrle_counters.bytes += bytes_xbzrle;
-+    /*
-+     * Like compressed_size (please see update_compress_thread_counts),
-+     * the xbzrle encoded bytes don't count the 8 byte header with
-+     * RAM_SAVE_FLAG_CONTINUE.
-+     */
-+    xbzrle_counters.bytes += bytes_xbzrle - 8;
-     ram_counters.transferred += bytes_xbzrle;
- 
-     return 1;
-@@ -870,9 +890,23 @@ static void migration_update_rates(RAMState *rs, int64_t end_time)
-     }
- 
-     if (migrate_use_xbzrle()) {
-+        double encoded_size, unencoded_size;
-+
-         xbzrle_counters.cache_miss_rate = (double)(xbzrle_counters.cache_miss -
-             rs->xbzrle_cache_miss_prev) / page_count;
-         rs->xbzrle_cache_miss_prev = xbzrle_counters.cache_miss;
-+        unencoded_size = (xbzrle_counters.pages - rs->xbzrle_pages_prev) *
-+                         TARGET_PAGE_SIZE;
-+        encoded_size = xbzrle_counters.bytes - rs->xbzrle_bytes_prev;
-+        if (xbzrle_counters.pages == rs->xbzrle_pages_prev) {
-+            xbzrle_counters.encoding_rate = 0;
-+        } else if (!encoded_size) {
-+            xbzrle_counters.encoding_rate = UINT64_MAX;
-+        } else {
-+            xbzrle_counters.encoding_rate = unencoded_size / encoded_size;
-+        }
-+        rs->xbzrle_pages_prev = xbzrle_counters.pages;
-+        rs->xbzrle_bytes_prev = xbzrle_counters.bytes;
-     }
- 
-     if (migrate_use_compression()) {
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 9b94e67..c2a3a66 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -303,6 +303,8 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
-                        info->xbzrle_cache->cache_miss);
-         monitor_printf(mon, "xbzrle cache miss rate: %0.2f\n",
-                        info->xbzrle_cache->cache_miss_rate);
-+        monitor_printf(mon, "xbzrle encoding rate: %0.2f\n",
-+                       info->xbzrle_cache->encoding_rate);
-         monitor_printf(mon, "xbzrle overflow: %" PRIu64 "\n",
-                        info->xbzrle_cache->overflow);
-     }
-diff --git a/qapi/migration.json b/qapi/migration.json
-index eca2981..358e402 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -70,6 +70,8 @@
- #
- # @cache-miss-rate: rate of cache miss (since 2.1)
- #
-+# @encoding-rate: rate of encoded bytes (since 5.1)
-+#
- # @overflow: number of overflows
- #
- # Since: 1.2
-@@ -77,7 +79,7 @@
- { 'struct': 'XBZRLECacheStats',
-   'data': {'cache-size': 'int', 'bytes': 'int', 'pages': 'int',
-            'cache-miss': 'int', 'cache-miss-rate': 'number',
--           'overflow': 'int' } }
-+           'encoding-rate': 'number', 'overflow': 'int' } }
- 
- ##
- # @CompressionStats:
-@@ -337,6 +339,7 @@
- #             "pages":2444343,
- #             "cache-miss":2244,
- #             "cache-miss-rate":0.123,
-+#             "encoding-rate":80.1,
- #             "overflow":34434
- #          }
- #       }
--- 
-1.8.3.1
+AFAIKs, if visit_check_struct() failed, we'd still do the memcopy, but
+also report the error. Not nice, not bad.
+
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
+>=20
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Cornelia Huck <cohuck@redhat.com>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  target/s390x/cpu_models.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+> index 7c32180269..87a8028ad3 100644
+> --- a/target/s390x/cpu_models.c
+> +++ b/target/s390x/cpu_models.c
+> @@ -524,7 +524,7 @@ static void cpu_model_from_info(S390CPUModel *model, =
+const CpuModelInfo *info,
+>              }
+>          }
+>          if (!err) {
+> -            visit_check_struct(visitor, errp);
+> +            visit_check_struct(visitor, &err);
+>          }
+>          visit_end_struct(visitor, NULL);
+>          visit_free(visitor);
+>=20
+
+
+--=20
+Thanks,
+
+David / dhildenb
 
 
