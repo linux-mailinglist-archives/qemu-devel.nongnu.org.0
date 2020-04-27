@@ -2,72 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39F8B1BAC9C
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 20:28:52 +0200 (CEST)
-Received: from localhost ([::1]:58188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9F581BAC93
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 20:26:48 +0200 (CEST)
+Received: from localhost ([::1]:57978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jT8Ut-0003ZM-7p
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 14:28:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35004)
+	id 1jT8St-0007M2-RW
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 14:26:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35960)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jT8JY-0000Uz-5p
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 14:17:08 -0400
+ (envelope-from <jusual@redhat.com>) id 1jT8RA-00056G-2U
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 14:25:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jT8JX-0005kX-PD
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 14:17:07 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:34733)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jT8JX-0005e5-AQ; Mon, 27 Apr 2020 14:17:07 -0400
-Received: by mail-lf1-x141.google.com with SMTP id x23so14677237lfq.1;
- Mon, 27 Apr 2020 11:17:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=IO/HE1kipWi5FHLRIjyeawlGTVZf+4xugUQIEPlWh94=;
- b=toXSP+F+waDi3RQf5149MZr7JFTlgP62W3Wzfo1bk49VL4dLwh/2mwfZGRW7aPt/oT
- 3Km7cWIWRXPO0AfFuvqdr+8Gbs9U33idImnCOJ8g8ssfASOpsSuHdmVsWo8QOn0u3eUC
- dOI4F3zG2nj2LpixJ7L/yUyxHt7tp/ABSWd7Fz3gGmb2w4nZJRcZIiqPw4SmP41ILfBw
- pkohmeI5rCK3FlmzscMZFEfIm64mP/TO4Jka1XyCL+VNyrBMo80DHM2Bp1wV6RSj9Xji
- FQFAXTs13vkHMjUa3Lp2B43mzoGuwVCTTM1A+CQb+He8mW8G20IgOTdfvG/cWx8Eu7IZ
- RW4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=IO/HE1kipWi5FHLRIjyeawlGTVZf+4xugUQIEPlWh94=;
- b=CtptbjDBLXxWbBCvXsZvn/R3NxSMKO5bzJE/QHgLs/sG22rnDyKgnDCg34BrcJocJO
- R9zCJ7BcXfGUQH5DxjTRoQqAz1z3nMf9dusdvjxGlPMvDtAZ10bnDR5AYwAamMpq19PB
- oR5gD6963CufbjZBQjv05mJcc51sg6aSkTkqkDL/LvzL1gJeLwsB3uG8EFd/gFoDU7Jr
- QLbbwsKSrW7FYsOHdrpCG4ZXOGCdaUwp7QXMhgCo7/qQ/DXlQhSXNR9TducfGKSr1Ny4
- cJuNbEIPGYgflmOSUPXAqapNJixYlhXHPL3pBBLfAEM9KebAo3OjtuM/rkRtV+vBrgG3
- c2Jw==
-X-Gm-Message-State: AGi0PuYsKVFVYq5+9cx9KRQlje3uQTOLqbkzGQ3u2Rcs8bYDRowj4/nf
- cT0aOTqPJd0tQ/htx4Dhzw8sEJ3U2/Y=
-X-Google-Smtp-Source: APiQypJUVcbHdSVdA+OV6TH4x4UBPCQwZiUcLC/vHvSEhuNSFSqZMM1vILJSvh0sYYqxrRClFSapmA==
-X-Received: by 2002:ac2:420c:: with SMTP id y12mr16234487lfh.26.1588011425204; 
- Mon, 27 Apr 2020 11:17:05 -0700 (PDT)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id v26sm10394371lji.43.2020.04.27.11.17.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Apr 2020 11:17:04 -0700 (PDT)
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+ (envelope-from <jusual@redhat.com>) id 1jT8R8-0003c2-R0
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 14:24:59 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23622
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1jT8R8-0003bp-Ad
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 14:24:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588011896;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sj8ZlIM++JR95A400lV2osHGW2nSG4WJryur6UhnQmc=;
+ b=ZkKS3WNA9d/L2XguX0Oon9X23J5xsGg4rG1NJt3Pg04T4i4ewphFFCm77GkQPsLmFHHUt2
+ OSgrLviXq0PSc+pe4unySu9B42rJMMp33iD6acAIqyhEJzsgmzwM+OfA4H0BYc1biglIc7
+ WWBcCnjfSRvNNMcd6gp2sGNKPDzrZM4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-239-pn8Yk5XIN4iBawRObRq4qw-1; Mon, 27 Apr 2020 14:24:54 -0400
+X-MC-Unique: pn8Yk5XIN4iBawRObRq4qw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D0911895910;
+ Mon, 27 Apr 2020 18:24:53 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.40.192.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 980C360BE2;
+ Mon, 27 Apr 2020 18:24:46 +0000 (UTC)
+From: Julia Suvorova <jusual@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 11/11] hw/arm: versal-virt: Add support for the RTC
-Date: Mon, 27 Apr 2020 20:16:49 +0200
-Message-Id: <20200427181649.26851-12-edgar.iglesias@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200427181649.26851-1-edgar.iglesias@gmail.com>
-References: <20200427181649.26851-1-edgar.iglesias@gmail.com>
+Subject: [PATCH v2 0/2] hw/pci/pcie: Forbid hot-plug if it's disabled on the
+ slot
+Date: Mon, 27 Apr 2020 20:24:38 +0200
+Message-Id: <20200427182440.92433-1-jusual@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::141;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x141.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::141
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=jusual@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 23:33:12
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,64 +71,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
- edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
- frasse.iglesias@gmail.com, alistair@alistair23.me,
- richard.henderson@linaro.org, frederic.konrad@adacore.com, qemu-arm@nongnu.org,
- philmd@redhat.com, luc.michel@greensocs.com
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Julia Suvorova <jusual@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+Julia Suvorova (2):
+  hw/pci/pcie: Forbid hot-plug if it's disabled on the slot
+  hw/pci/pcie: Replace PCI_DEVICE() casts with existing variable
 
-Add support for the RTC.
+ hw/pci/pcie.c | 25 ++++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
----
- hw/arm/xlnx-versal-virt.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
-
-diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
-index 0afee48672..7e749e1926 100644
---- a/hw/arm/xlnx-versal-virt.c
-+++ b/hw/arm/xlnx-versal-virt.c
-@@ -283,6 +283,27 @@ static void fdt_add_sd_nodes(VersalVirt *s)
-     }
- }
- 
-+static void fdt_add_rtc_node(VersalVirt *s)
-+{
-+    const char compat[] = "xlnx,zynqmp-rtc";
-+    const char interrupt_names[] = "alarm\0sec";
-+    char *name = g_strdup_printf("/rtc@%x", MM_PMC_RTC);
-+
-+    qemu_fdt_add_subnode(s->fdt, name);
-+
-+    qemu_fdt_setprop_cells(s->fdt, name, "interrupts",
-+                           GIC_FDT_IRQ_TYPE_SPI, VERSAL_RTC_ALARM_IRQ,
-+                           GIC_FDT_IRQ_FLAGS_LEVEL_HI,
-+                           GIC_FDT_IRQ_TYPE_SPI, VERSAL_RTC_SECONDS_IRQ,
-+                           GIC_FDT_IRQ_FLAGS_LEVEL_HI);
-+    qemu_fdt_setprop(s->fdt, name, "interrupt-names",
-+                     interrupt_names, sizeof(interrupt_names));
-+    qemu_fdt_setprop_sized_cells(s->fdt, name, "reg",
-+                                 2, MM_PMC_RTC, 2, MM_PMC_RTC_SIZE);
-+    qemu_fdt_setprop(s->fdt, name, "compatible", compat, sizeof(compat));
-+    g_free(name);
-+}
-+
- static void fdt_nop_memory_nodes(void *fdt, Error **errp)
- {
-     Error *err = NULL;
-@@ -496,6 +517,7 @@ static void versal_virt_init(MachineState *machine)
-     fdt_add_timer_nodes(s);
-     fdt_add_zdma_nodes(s);
-     fdt_add_sd_nodes(s);
-+    fdt_add_rtc_node(s);
-     fdt_add_cpu_nodes(s, psci_conduit);
-     fdt_add_clk_node(s, "/clk125", 125000000, s->phandle.clk_125Mhz);
-     fdt_add_clk_node(s, "/clk25", 25000000, s->phandle.clk_25Mhz);
--- 
-2.20.1
+--=20
+2.25.3
 
 
