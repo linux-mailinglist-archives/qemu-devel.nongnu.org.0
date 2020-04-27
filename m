@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45ED31BA808
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 17:32:21 +0200 (CEST)
-Received: from localhost ([::1]:51478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 131E31BA815
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 17:37:51 +0200 (CEST)
+Received: from localhost ([::1]:51802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jT5k4-0002IW-3T
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 11:32:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38068)
+	id 1jT5pN-0000qp-WA
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 11:37:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38056)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steplong@quicinc.com>) id 1jT5hQ-0007jh-6X
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 11:29:41 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <steplong@quicinc.com>) id 1jT5hP-0004jJ-J7
+ (envelope-from <steplong@quicinc.com>) id 1jT5hP-0007hs-45
  for qemu-devel@nongnu.org; Mon, 27 Apr 2020 11:29:35 -0400
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:49212)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
+ (envelope-from <steplong@quicinc.com>) id 1jT5hO-0004hW-DX
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 11:29:34 -0400
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:38127)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <steplong@quicinc.com>)
- id 1jT5hK-0004Sx-Bd; Mon, 27 Apr 2020 11:29:30 -0400
+ id 1jT5hL-0004Wf-DZ; Mon, 27 Apr 2020 11:29:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1588001370; x=1619537370;
+ t=1588001371; x=1619537371;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version;
- bh=F3VMx/q3+546b5b+V4Rcp26Ncrbd/UAUaG1D9yRnUpY=;
- b=QZWSzltZIOkdFH297lWBW88SfsG4c8ZLOvBIngH6YQ4L3xiVNhn95q/U
- F64btod6dJgarLjbfUm+bFFWJ9Isr2rbtixlPZ/9nvP4uar2il+5IBqlJ
- X69fy+AkASWWmBVU/9T5I9mRvqa9WXZo87Pr0mwO59mxn6T0pLvGaR8KM 0=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 27 Apr 2020 08:29:22 -0700
-Received: from nasanexm03e.na.qualcomm.com ([10.85.0.48])
- by ironmsg01-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 27 Apr 2020 08:29:22 -0700
+ bh=g8l6B1zIFDuTpgYf1S8P91HgRdw8FXTxLMiLq+hZN5k=;
+ b=O4VaJ7KJSQPb+c5aoyig5p1ihHHK0v4ewCc2r7IA1HYxQBHkj5S1yRfk
+ m7In+qQf1aV2E1mQ6cz7pPFHMOjt846XEbuIEeTI6goHlcYN4V7WOp6Pp
+ Jk/kOAZs4u06Y5ChxV9JHn/bjsvvM18B9qrnZ5AK1dxHaIjuk0CKcp01i s=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 27 Apr 2020 08:29:27 -0700
+Received: from nasanexm01a.na.qualcomm.com ([10.85.0.81])
+ by ironmsg03-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 27 Apr 2020 08:29:23 -0700
 Received: from nasanexm01a.na.qualcomm.com (10.85.0.81) by
- nasanexm03e.na.qualcomm.com (10.85.0.48) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 27 Apr 2020 08:29:21 -0700
+ nasanexm01a.na.qualcomm.com (10.85.0.81) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 27 Apr 2020 08:29:22 -0700
 Received: from NAM10-DM6-obe.outbound.protection.outlook.com (199.106.107.6)
  by nasanexm01a.na.qualcomm.com (10.85.0.81) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2 via Frontend Transport; Mon, 27 Apr 2020 08:29:21 -0700
+ id 15.0.1497.2 via Frontend Transport; Mon, 27 Apr 2020 08:29:22 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NcEkkaksS+/iGM1muHNAvAtUdqV3CI00xLCZ3SZ7/eBBK1LLtp3yqkJB6fy7iX/kEnBCAvkYUYnVRx/nY3Kd2Itw2nJJt7ogdDrA0g77WxHeU72/14ThW485rywdcRgQ8NxeWstSvndX+hxpsBGQ4VQb7SLvTo2XBrPb4juDkUndCFYGRKj5PuubK0U/rmAr6y3nQRi5AKKl+5nW9H/uahQAKT7rAT52NrsG3w4mnQNVA75A/wEhy/Dp0PDHuzROZnrnrC9ByK2bt4ULyZoI+F8cPieEuAQ/cGMtlmQcp+bArfuto91lm5aO0WlzsyRERX6r7Rw1++AE7ERdjSXSbg==
+ b=XpgbyvW+zsNiZTFhGl6i1vZ7Wlfnf76GFS6hnJB/HoPat4sB5NX54lNsvVRpQ/gEcktB84eB9oFOpVVHEojuDvGQuxV2mlMOK85eVmdkx0JoHuztcGhbAK2I+pRDZIAp6UXHOcRbx3cJB9a16GC8xECTLnxjHi8qTPHVD8ClvlMUZJt/yr/t4F2lQo7S/aPOGcHhM6rX9STxrN9JGJ9rmHtplGi+8SC0tVIP6c6uBzLw3UDaYsU9I7zT+WQP7277yNZsNSCM3eTtmseuEQpqXJEK4h5MxiSjWxFsG7Yw7LxAcJdAAGcEjgqLRhSPpz+IJMFjxsr6ULtjCqFwl/2zFQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=f+HA7B7t/m+LQpWl91cYVNPPygkF0u8diLcFRD41xTE=;
- b=LiG9cjjUEXk+rU2gG3szvMU5JOfA8JxoGyoJDrzrBfG2a1jh2WyHLk9E2+WQEW3l1IKWSmdAETIWM14U+maEGq2M5CyW+uBIyC3qz4xavJ6yNCNI4U+92TK/cbFXvxiJ6ODolDQvJjUbCBKHIEI3aXb+4uYZdwNGUwtkG8xWbKet8M3k7bE9V/ZvAheX6hpyfLOXl1KMKUir0Ar0+JQBNMEIyq4xYZifoR1IWb/iZzkXAUJRWruEItHIRfQhBWD50Vxwh+6Q3U6d8Jnxe4R6FgSPN/4RdVXUuQJ7QjA8h2t5b0nlTzK+QlO3rBYTR29+xUUFNSONQbZEDcjoTlcNLg==
+ bh=t+gURTTa5FWZndFRSTGgyOCn0ZSl1mfL0/jj8lXw9CU=;
+ b=HnWJM9AHxacHDB2cgnly68xzmgVQ2Px6DQK7ZOfOOrz313jFVITHoCibSR95s67ki5NQG+Mca5KYuH7CPl+hWH1eJhFJwgyfTNMWLPPkRm73wSSDRC2D53+EyyO9wG3WPRAM7LkiPMsqz9oXfz2rGaR9j0/bjtj4IvmLfaDqztjyyNJteJnPYeNTu3LrX7UZ1GOhW0Z5mwkUppw8mAWbpmZqxKpd+xKrvwfdcr4Qcxje6CnHffYw/gCxwZk851ItEdU0cSfjQQmBkcPCqS9kc7EXXlTB7EYcpoZPpzNcaeZjzKwVPY5UYWnMxHYl403azXPIf5DqxH1XNgXMQTG83g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
  dkim=pass header.d=quicinc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=f+HA7B7t/m+LQpWl91cYVNPPygkF0u8diLcFRD41xTE=;
- b=ScRI8yAbOK+4sCEQuVqdzzHKKdn3LtlyNk06B6nwOGczYGUGLfck7UvSeEY6EA7cwPYjttX7lpXwWc4Vr3Gl9I77TuF0RrJaqoLE0Ctsivu13Sbrtp+4OGPSdZ1XoftXs3m/VDT8Ylkxt83uCkhXqv5107a2NqGPL7ReCJ0BGJo=
+ bh=t+gURTTa5FWZndFRSTGgyOCn0ZSl1mfL0/jj8lXw9CU=;
+ b=Jwc1niWifdbXjfG6AkTJCRAE5CAHgYZG7+k3HkO8g/JTHfG5DbkSZ/EEOf4x1X/AzV4QBD7JZvwzsyxouasyVkdgXIbmtpRQirMDrs4Co2g5I6TuO45Hf+ZmeMLtIcfrAWTDgUxBl8rrIr3eI+Hik4acaincvcy1wrzIRtue0SE=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=steplong@quicinc.com; 
 Received: from MWHPR0201MB3547.namprd02.prod.outlook.com
  (2603:10b6:301:7b::24) by MWHPR0201MB3465.namprd02.prod.outlook.com
  (2603:10b6:301:76::26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Mon, 27 Apr
- 2020 15:29:20 +0000
+ 2020 15:29:21 +0000
 Received: from MWHPR0201MB3547.namprd02.prod.outlook.com
  ([fe80::10ad:5df5:d575:1f37]) by MWHPR0201MB3547.namprd02.prod.outlook.com
  ([fe80::10ad:5df5:d575:1f37%3]) with mapi id 15.20.2937.023; Mon, 27 Apr 2020
- 15:29:20 +0000
+ 15:29:21 +0000
 From: Stephen Long <steplong@quicinc.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH RFC v2 2/3] target/arm: Implement SVE2 AESE, AESD, SM4E
-Date: Mon, 27 Apr 2020 08:29:03 -0700
-Message-ID: <20200427152904.14768-3-steplong@quicinc.com>
+Subject: [PATCH RFC v2 3/3] target/arm: Implement SVE2 SM4EKEY, RAX1
+Date: Mon, 27 Apr 2020 08:29:04 -0700
+Message-ID: <20200427152904.14768-4-steplong@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200427152904.14768-1-steplong@quicinc.com>
 References: <20200427152904.14768-1-steplong@quicinc.com>
@@ -83,15 +83,15 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from STEPLONG.qualcomm.com (108.176.222.2) by
  MN2PR02CA0025.namprd02.prod.outlook.com (2603:10b6:208:fc::38) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2937.13 via Frontend Transport; Mon, 27 Apr 2020 15:29:19 +0000
+ 15.20.2937.13 via Frontend Transport; Mon, 27 Apr 2020 15:29:20 +0000
 X-Mailer: git-send-email 2.17.1
 X-Originating-IP: [108.176.222.2]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8b36838a-926e-4e69-c87e-08d7eabfc162
+X-MS-Office365-Filtering-Correlation-Id: 6bab7e3c-dc50-4e8b-f161-08d7eabfc1fe
 X-MS-TrafficTypeDiagnostic: MWHPR0201MB3465:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MWHPR0201MB3465B6DA2BDDD6844AB3B471C7AF0@MWHPR0201MB3465.namprd02.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:32;
+X-Microsoft-Antispam-PRVS: <MWHPR0201MB34653923C9689F00566764F5C7AF0@MWHPR0201MB3465.namprd02.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:28;
 X-Forefront-PRVS: 0386B406AA
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MWHPR0201MB3547.namprd02.prod.outlook.com; PTR:; CAT:NONE;
@@ -100,21 +100,21 @@ X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mZpkhu60Jlg8GxfoUYfM0utL9DjcMtyKznfy8vnH17e2NoKZEkEMBUiJfGtvnTAKFdg0c9dGhe5Fla2dOOZmRAnO9BO4Q58bapSbOdjXHDCffowrZWeqc3Ge5TrA8GUu5bCe6576ehd4JR5/+SWz3Ox8O1g0woAZRQmPR98f7SbmmSIo8GfG8aq6QWuRTWVc3TyzR9axCH80upGzbiO8DSMXUsOrjqTSobjq627K3RYCcCBPCDbVRcfqJkXV30GAX23kAgsxGmdq71kFaO8osjLRv7aOJIcCufUy+W7m32T0AcJRfamEad6uO4GfFScOwLSuA5+Rjmb8ZqSqX1hjz6VDGlAB/2kiOWJp/pMyVhl1Jbrs2BJCB/TQIquEiXqm+l/gWXCs/+kywAOvMx+SatxJ81z0TPpcINYGFjRxo3FDddnrbZIMnmD1gaRM7NG4jwvjFV4sBDz5Xi/QsTGmmO4jJb466AUDXkead8R1atw=
-X-MS-Exchange-AntiSpam-MessageData: SpNfGcQnitbSlge/TKTfYEnoTQz1kiB/G0c4JHQAoyUi5b0bpvUHZBz/TAE7pMCGK8RYGZzo/hc4OklLVrRXHPHx6bPL+NFvwnG0D5F8rzvEfWXP6X0ryegiEuVt+/gm9JsWjaVFYJs2q+SyX4nYNi6TXQl9Gdk3gNhVClIN6oahGDLpjjVfBqinXP6JzIjkivZfAskt8/ZNyjoDziPzIxlFXqJOJB+9mbmeCYS/3S2hyPFTsbMyA6cKSIPVuKCOJQ4nFzVDP2qxZxVPuRtgVh2zSwh1RgVmQ55PH1461kwISCEHviB72/mRDUwUm89IvaGJS47XU/LoZnZLDAORdqd2OfdPu9ZvSB3dgFSObYZIuol8SqDwYfpQjBFvv4UjXUX/JED3ulWk1LXGbNX3Tc9hSquKkFTbz9yFEtT6/+/llqOBTLxfZ9b44WmrCCjEU/6pg57ls5FAYdVSsN7n7txAzo7ajD4XkwOJcBxcFLRitO/GG/kmElv2vAwalfXXbxqQB/fbCz7fRg2PrROvO0GzV+M+LaGe2+NFuSdZoSmQSsdpd2G1DOKhIr0Ku2JV44kmITggiOdiHw+q15pmNK80viAlFL4RKjmQchvXJ+LtTtq5vCrG1nLof8z0+6g3EZ/GYOGe1zuKK4+ZxCun8OdFYOvR8bbHYgkmrxN1F2JowjQS6U+ErbSZaftDMtAf61yWYOp/3jseSS0m9w2BD3OVwM4ozIw37vYc5MjCMN9yDALvKFg6TXLuaDNMKuGPZZKR8uboifQKYMw5pbNSuz9hcFHoLJI7w5Z21S8hVQ8=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b36838a-926e-4e69-c87e-08d7eabfc162
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2020 15:29:20.2293 (UTC)
+X-Microsoft-Antispam-Message-Info: THCYS9KIZRKpi20baAPDv2PEMtdYkOp/Y0XtDEgO6tcuQKM9w2yaxCogTJDQSJDaG/zMTWIJaw5oqknluKxaqe27iPIENeI7wHjWHhifIoKXRh2EWhE6XvhwrtkpPg4Y7YguLLTCX7PmJO8rUlRYTpbvLqdnWh8rmDzU2IXtgbVkJQbjpWmVK9aZVmxhZqLLrkjMyoLjpKfsX6LPWP8jWfnhAlcs1KCfOHNTPi+sDmSyuxd2o/ngTRpK9mYiR0yxZtcxuRVwpPDEP+aRBw4YW+37jZIBXWnLuhoHqkvigHYua6qlERX6kDdwxfWK3OI3YzPxGRop17U8b0W0qgCsAo0H/6n/84WZJyFGZ2iCUbg7CBnZe0pYg0ucssl6MeiB+fvp3APlL58RQ85FW74Q3rhiBM2ceEtMG7wJsVMI87nceEiG6KmMyQNtXvEKHmi3guOxmi/amJMjbbIJoVyWZcgMBF2g0/kubAvM5nl6eM8tn+BdFleTdhlVChxIccvA
+X-MS-Exchange-AntiSpam-MessageData: +EiTdo8BhG6Fvdx59fi8M7GVWtVkfctTP/wYHsHA+rm1kIIr34qkQ0ih2OCyY/9PDxn4UuUPPOgyJ3SMxO19tzj73v6O/DC+4SKk5pV4rcESp5UWokch37ctqqh+WcMUyt+VBGd/eiUYRbsbRw9BSJZJVVDOJR/nLUa5wmZK/TCDpCfUHZ/10UTLLzyoBdPgn1s3i6XwdJU+lVVwHeKveQsMZbDuaSkQdUVZekVcx8DpRtv9QrLWnLrABLGzwXOlNHbunW+HKxnHRIuEdUNLkzOSEif96BrneGmfjwcFvpC3GNbvGBnuWa8AQXmS/VB6yfY5efRDShda7J0ENhp3AHjPLkMV1swT8v3Eq/9KPvFsLEcIyfI+u8Se2zdRgXrqIdKMzzsJHDHsob0YY7OB0a3qpScmGKx8MzHxFnEDB+0CPl6jD7iyOHYy1VbnT4arWixypo4B8PkWSWVIAZJzt/cUvwijP2cj4P4LJh+fOI4lFSVA39Yg0sZGhTI1qa5/NpyUvgIokhcS2fHyccp6xNhtVl1xTBmtzGGYHCN+Ra1JJ0bPp5eDWzeJdolohIndr1oBwk9I3XaA2xySQzAPFDcBTM1DY5/Ct0xipWlusjFzI4QDE5KXCK177KMHOvLIP8AYCDn2/PEwHMXrlb2D+tB5eDJaj8I07MRM299NVjfi2BigwCrwNT/XKenwl4fXUl32juahcc++0ighBDk8mV2QoxLT1mbZpQhT0Rn1k7YihyKLQswFjt7+2S1zif1jO6i5D2huP21R/s41ICMX4jAaMRP9brwOuUTUo4e8kBU=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6bab7e3c-dc50-4e8b-f161-08d7eabfc1fe
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2020 15:29:21.2477 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hiKp/2TPunPqLQOq2jdh7BTdkkKCRhkOrT1ugsqEb4qedkpqiCMxZlZCyzmEalHEAMUm11TE2aaDDoyDmdpA1A==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9YYgYH+TTjD4qUFn22FHbsSKPJf5a/P8lfUd5aWTWLy85F1MC/NcCJdcGp6nepY9BaqWl3WBoHJf6u8w+bj0Fg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR0201MB3465
 X-OriginatorOrg: quicinc.com
-Received-SPF: pass client-ip=199.106.114.39; envelope-from=steplong@quicinc.com;
- helo=alexa-out-sd-02.qualcomm.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 11:29:22
+Received-SPF: pass client-ip=199.106.114.38; envelope-from=steplong@quicinc.com;
+ helo=alexa-out-sd-01.qualcomm.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 11:29:29
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Received-From: 199.106.114.39
+X-Received-From: 199.106.114.38
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -132,103 +132,98 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Stephen Long <steplong@quicinc.com>
 ---
- target/arm/cpu.h           |  5 +++++
- target/arm/helper-sve.h    |  4 ++++
- target/arm/sve.decode      |  6 ++++++
- target/arm/sve_helper.c    | 11 +++++++++++
- target/arm/translate-sve.c | 16 ++++++++++++++++
- 5 files changed, 42 insertions(+)
+ target/arm/helper-sve.h    |  3 +++
+ target/arm/sve.decode      |  4 ++++
+ target/arm/sve_helper.c    | 20 ++++++++++++++++++++
+ target/arm/translate-sve.c | 30 ++++++++++++++++++++++++++++++
+ 4 files changed, 57 insertions(+)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index d41c4a08c0..8b1dc38b9c 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3880,6 +3880,11 @@ static inline bool isar_feature_aa64_sve2_f64mm(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, F64MM) != 0;
- }
- 
-+static inline bool isar_feature_aa64_sve2_sm4(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, SM4) != 0;
-+}
-+
- /*
-  * Feature tests for "does this exist in either 32-bit or 64-bit?"
-  */
 diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
-index 340fe07801..6cd6fdfae1 100644
+index 6cd6fdfae1..e509137e4a 100644
 --- a/target/arm/helper-sve.h
 +++ b/target/arm/helper-sve.h
-@@ -2693,3 +2693,7 @@ DEF_HELPER_FLAGS_6(fmmla_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, ptr, i32)
- 
- DEF_HELPER_FLAGS_3(sve2_aesmc, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
- DEF_HELPER_FLAGS_3(sve2_aesimc, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
+@@ -2697,3 +2697,6 @@ DEF_HELPER_FLAGS_3(sve2_aesimc, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_3(sve2_aese, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_3(sve2_aesd, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_3(sve2_sm4e, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
 +
-+DEF_HELPER_FLAGS_3(sve2_aese, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_3(sve2_aesd, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_3(sve2_sm4e, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(sve2_sm4ekey, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(sve2_rax1, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
 diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index f58eb04d11..1cb5792bb1 100644
+index 1cb5792bb1..278530ca83 100644
 --- a/target/arm/sve.decode
 +++ b/target/arm/sve.decode
-@@ -98,6 +98,7 @@
- 
- # Two operand with unused vector element size
- @pd_pn_e0       ........ ........ ....... rn:4 . rd:4           &rr_esz esz=0
-+@pd5_pn5_e0     ........ ........ ...... rn:5 rd:5              &rr_esz esz=0
- 
- # Two operand
- @pd_pn          ........ esz:2 .. .... ....... rn:4 . rd:4      &rr_esz
-@@ -1429,3 +1430,8 @@ STNT1_zprz      1110010 .. 10 ..... 001 ... ..... ..... \
- ## SVE2 crypto unary operations
- AESMC           01000101 00 10000011100 0 00000 .....   @rdn_e0
- AESIMC          01000101 00 10000011100 1 00000 .....   @rdn_e0
+@@ -1435,3 +1435,7 @@ AESIMC          01000101 00 10000011100 1 00000 .....   @rdn_e0
+ AESE            01000101 00 10001 0 11100 0 ..... .....  @pd5_pn5_e0
+ AESD            01000101 00 10001 0 11100 1 ..... .....  @pd5_pn5_e0
+ SM4E            01000101 00 10001 1 11100 0 ..... .....  @pd5_pn5_e0
 +
-+## SVE2 crpyto destructive binary operations
-+AESE            01000101 00 10001 0 11100 0 ..... .....  @pd5_pn5_e0
-+AESD            01000101 00 10001 0 11100 1 ..... .....  @pd5_pn5_e0
-+SM4E            01000101 00 10001 1 11100 0 ..... .....  @pd5_pn5_e0
++## SVE2 crypto constructive binary operations
++SM4EKEY         01000101 00 1 ..... 11110 0 ..... .....  @rd_rn_rm_e0
++RAX1            01000101 00 1 ..... 11110 1 ..... .....  @rd_rn_rm_e0
 diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 5c3dee048d..4204659276 100644
+index 4204659276..8307abc401 100644
 --- a/target/arm/sve_helper.c
 +++ b/target/arm/sve_helper.c
-@@ -7530,4 +7530,15 @@ void HELPER(NAME)(void *vd, void *vn, uint32_t desc)            \
- DO_SVE2_AES_CRYPTO(sve2_aesmc, crypto_aesmc);
- DO_SVE2_AES_CRYPTO(sve2_aesimc, crypto_aesmc);
- 
-+DO_SVE2_AES_CRYPTO(sve2_aese, crypto_aese);
-+DO_SVE2_AES_CRYPTO(sve2_aesd, crypto_aese);
+@@ -7542,3 +7542,23 @@ void HELPER(sve2_sm4e)(void *vd, void *vn, uint32_t desc)
+         HELPER(crypto_sm4e)(vd + i, vn + i);
+     }
+ }
 +
- #undef DO_SVE2_AES_CRYPTO
-+
-+void HELPER(sve2_sm4e)(void *vd, void *vn, uint32_t desc)
++void HELPER(sve2_sm4ekey)(void *vd, void *vn, void *vm, uint32_t desc)
 +{
 +    intptr_t i, opr_sz = simd_oprsz(desc);
 +    for (i = 0; i < opr_sz; i += 16) {
-+        HELPER(crypto_sm4e)(vd + i, vn + i);
++        HELPER(crypto_sm4ekey)(vd + i, vn + i, vm + i);
++    }
++}
++
++void HELPER(sve2_rax1)(void *vd, void *vn, void *vm, uint32_t desc)
++{
++    intptr_t i, opr_sz = simd_oprsz(desc) / 8;
++    uint64_t *d = vd, *n = vn, *m = vm;
++
++    for (i = 0; i < opr_sz; ++i) {
++        uint64_t nn = n[i];
++        uint64_t mm = m[i];
++        d[i] = nn ^ rol64(mm, 1);
 +    }
 +}
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index f70b7f44e3..6b26d8c512 100644
+index 6b26d8c512..2baa51b2b2 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -7974,3 +7974,19 @@ static bool trans_##NAME(DisasContext *s, arg_rr_esz *a)                \
- 
- DO_SVE2_AES_CRYPTO(AESMC, aesmc, 0)
- DO_SVE2_AES_CRYPTO(AESIMC, aesimc, 1)
-+DO_SVE2_AES_CRYPTO(AESE, aese, 0)
-+DO_SVE2_AES_CRYPTO(AESD, aesd, 1)
+@@ -7990,3 +7990,33 @@ static bool trans_SM4E(DisasContext *s, arg_rr_esz *a)
+     }
+     return true;
+ }
 +
-+static bool trans_SM4E(DisasContext *s, arg_rr_esz *a)
++static bool trans_SM4EKEY(DisasContext *s, arg_rrr_esz *a)
 +{
 +    if (!dc_isar_feature(aa64_sve2_sm4, s)) {
 +        return false;
 +    }
 +    if (sve_access_check(s)) {
 +        unsigned vsz = vec_full_reg_size(s);
-+        tcg_gen_gvec_2_ool(vec_full_reg_offset(s, a->rd),
++        tcg_gen_gvec_3_ool(vec_full_reg_offset(s, a->rd),
 +                           vec_full_reg_offset(s, a->rn),
-+                           vsz, vsz, 0, gen_helper_sve2_sm4e);
++                           vec_full_reg_offset(s, a->rm),
++                           vsz, vsz, 0, gen_helper_sve2_sm4ekey);
++    }
++    return true;
++}
++
++static bool trans_RAX1(DisasContext *s, arg_rrr_esz *a)
++{
++    if (!dc_isar_feature(aa64_sve2_sm4, s)) {
++        return false;
++    }
++    if (sve_access_check(s)) {
++        unsigned vsz = vec_full_reg_size(s);
++        tcg_gen_gvec_3_ool(vec_full_reg_offset(s, a->rd),
++                           vec_full_reg_offset(s, a->rn),
++                           vec_full_reg_offset(s, a->rm),
++                           vsz, vsz, 0, gen_helper_sve2_rax1);
 +    }
 +    return true;
 +}
