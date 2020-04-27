@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E9581BA036
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 11:43:40 +0200 (CEST)
-Received: from localhost ([::1]:35086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A9211BA05D
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 11:50:06 +0200 (CEST)
+Received: from localhost ([::1]:35354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jT0Id-0003fp-Gs
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 05:43:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35724)
+	id 1jT0Or-0000K4-Gp
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 05:50:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36172)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jT0Ho-0002zf-5X
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:42:48 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jT0LW-0005UY-0I
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:46:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jT0Hm-0006GA-Le
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:42:47 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:55735)
+ (envelope-from <peter.maydell@linaro.org>) id 1jT0LE-0000YM-Dz
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:46:34 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:36691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jT0Hm-0005zW-7W
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:42:46 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id e26so18785215wmk.5
- for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 02:42:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jT0LD-0000Xs-Pc
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:46:20 -0400
+Received: by mail-ot1-x342.google.com with SMTP id b13so25126516oti.3
+ for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 02:46:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=k97sNWzU0RUQ8HcGwHD7exutFNaktf7X81U7Sn1Qaz8=;
- b=vfxAZ9n6GyCCEBlkyBb0DkFkESFNehVBODGXPz17lf6ZiXV/ZL4h3Fp1fcF5PEE8fm
- 7avTXo5Err2S4bbUVssbTw573UoW+sOO4BVwZkNkQTYv8278o3mdNn7phm2TTwSkwcEI
- 1uWeeoPanBmm2KJx7ZTHNZ2jgGwdodd1ImL3jH7+LY245YGLHyzOL4CitHqnP0iPcun+
- C8+o6B/7Oarx3r/oJYnVPzNED8My2k6GpEipxLgHTAzi0062101eJEXq+IkkttcSmIUx
- e9UzObA9ds8jVw1WMjwnS7TUTA6UJcjL06YxD15LJuDOqQOn2TeKeq9G2qZO0hhfh1Zu
- WkNA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qLLozm+WjNC4qFdEhxcPREzCwkfElD1ZJ3jbX1lYfPE=;
+ b=uwbvparharVA5hoFzvO40fNXV5cTWJnRqNBopiR0Aw2l2Bk4mk4AoyZkq8AbMvXLEL
+ mE4/BBkGO4tSWyHePkOSQ9zKRvYXwO/dSk2KQF2nFsgu5DTgYT7qf/bJWcXo7ztFTn6p
+ TU+8LC8Ifo9q/AwmngWW5DLVRZvZgdRqLCC9WOnkYje2gJA2xuOK69hxPOyQ4k6fXYJV
+ 35Y5wZnPtgdVDu2jaqTg3lcIcK8RIXN3UugC6lX5u2KG8wVw42BKk3zrdERkGxcxXmvt
+ Wh2Q474+M5mb9IoIOOkrBYJG2S7yuEWcnz2RHw9dWNBIuV8uF1u/BGb7buYKEuNTL119
+ zB2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=k97sNWzU0RUQ8HcGwHD7exutFNaktf7X81U7Sn1Qaz8=;
- b=mK2ijGUVna4UVhCkwwpVVxTlHX+6wONXZmp4LTQjwc42P+TPr1nZBA72vK6KO7z70m
- DqqpDYLUKT/PeNWUqZ7bQfAUlMZJB6wrZLOwJS+1941wmwEq+cJr79fd10C5soNPi3Vj
- iLFj7F6/pV2R8CQBxj/QSwl69L9zGbMzul+ONmUuIIJlfDKzRN40ZsPak0tbCIgheS+6
- 3c9TW1z2fx+Rtty4xAkt6ltnx0oS71MASl8LbR76XIMJ0Be8VHF8BGc+wQo3q2t9EHVJ
- 9JZgVjCwKjlrXYSJjVL1kgLbm8/1BvmUsDV5PDdRYfxiNVMtg5HU0lbCDpQxloxqO1Lt
- ktYg==
-X-Gm-Message-State: AGi0PubsmY4L8SkKz9WQzWrMc7Ni1BR3K2ZEzYiFanMCMhio6yuunyZp
- ts5AsWm8SRXIARKVMsEiUerpXQ==
-X-Google-Smtp-Source: APiQypK+u4h3WJP2VO8XRM+wZU3KD5xiSZuELeC34LAH2KxauhWE4DeO+m4OjRqidi76d13xv3C6AQ==
-X-Received: by 2002:a7b:c755:: with SMTP id w21mr24619073wmk.120.1587980563697; 
- Mon, 27 Apr 2020 02:42:43 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h188sm16121265wme.8.2020.04.27.02.42.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Apr 2020 02:42:42 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C59FC1FF7E;
- Mon, 27 Apr 2020 10:42:41 +0100 (BST)
-References: <CAE2XoE-ZSgtceSe5wYDm3cXf8+hTvJhD5PqZSrrFW5625LcSWg@mail.gmail.com>
-User-agent: mu4e 1.4.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: luoyonggang@gmail.com
-Subject: Re: About hardfloat in ppc
-In-reply-to: <CAE2XoE-ZSgtceSe5wYDm3cXf8+hTvJhD5PqZSrrFW5625LcSWg@mail.gmail.com>
-Date: Mon, 27 Apr 2020 10:42:41 +0100
-Message-ID: <87lfmhl0xa.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qLLozm+WjNC4qFdEhxcPREzCwkfElD1ZJ3jbX1lYfPE=;
+ b=lBM7Y7rQ8hRgBFGYkEFueQJy4YoIblYp/7HQ/1qbM3pFboduH01M+rBnr5aofcf9fY
+ LE5PlHx/v82gKNYPfwFDEq6tJKS5Yr83HIFl2/byP7p5lloQ28HQmQcD8qZhuWJ0Auh4
+ g9XRQvHjy88uLDNX2pWRbULkZBwoJo3GhD58vi/OfdNTeXliRKOYGun7QSqb2Uq++CPq
+ 3jY51RzOw/VaxBwDShWZ9n1RS198mrzMHDfHIj337X//j28O18rvvsfEQshvazic9Wsb
+ dqupSTn2rkShEKRtRnfJj7UL84cZ22pYkvCNbiP3ntPB2J4Z/07aa6R5ZiVAgBnm+xPD
+ I95A==
+X-Gm-Message-State: AGi0PubGoXHyVJe9dHZVjE5++i5xvtf261I6md8J75fazup74HR33QQb
+ Xcsmz2iFBGTCG61U03KPG6VB5xwLeEHeG8ct11Z1S/YAuWY=
+X-Google-Smtp-Source: APiQypLYS7sqwv2FjRe4d5kzcjCicRe1+7e/OsNVbIe3b5h1Lx86iA0jPZafssRCu4TR+HAQSUMB+3R1RkGaCaz4dis=
+X-Received: by 2002:a9d:2c08:: with SMTP id f8mr18044018otb.135.1587980777230; 
+ Mon, 27 Apr 2020 02:46:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+References: <20200422043309.18430-1-richard.henderson@linaro.org>
+ <20200422043309.18430-6-richard.henderson@linaro.org>
+In-Reply-To: <20200422043309.18430-6-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 27 Apr 2020 10:46:06 +0100
+Message-ID: <CAFEAcA_nX69ppW-w3Fs99b4yqfQ-mfjBQHU2PrAHsU6Wam1Zqg@mail.gmail.com>
+Subject: Re: [PATCH v3 05/18] accel/tcg: Add endian-specific cpu_{ld,
+ st}* operations
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::32f
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,29 +76,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 22 Apr 2020 at 05:33, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> We currently have target-endian versions of these operations,
+> but no easy way to force a specific endianness.  This can be
+> helpful if the target has endian-specific operations, or a mode
+> that swaps endianness.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  docs/devel/loads-stores.rst |  39 +++--
+>  include/exec/cpu_ldst.h     | 277 +++++++++++++++++++++++++++---------
+>  accel/tcg/cputlb.c          | 236 ++++++++++++++++++++++--------
+>  accel/tcg/user-exec.c       | 211 ++++++++++++++++++++++-----
+>  4 files changed, 587 insertions(+), 176 deletions(-)
+>
+> diff --git a/docs/devel/loads-stores.rst b/docs/devel/loads-stores.rst
+> index 0d99eb24c1..9a944ef1af 100644
+> --- a/docs/devel/loads-stores.rst
+> +++ b/docs/devel/loads-stores.rst
+> @@ -97,9 +97,9 @@ function, which is a return address into the generated code.
+>
+>  Function names follow the pattern:
+>
+> -load: ``cpu_ld{sign}{size}_mmuidx_ra(env, ptr, mmuidx, retaddr)``
+> +load: ``cpu_ld{sign}{size}{end}_mmuidx_ra(env, ptr, mmuidx, retaddr)``
+>
+> -store: ``cpu_st{size}_mmuidx_ra(env, ptr, val, mmuidx, retaddr)``
+> +store: ``cpu_st{size}{end}_mmuidx_ra(env, ptr, val, mmuidx, retaddr)``
+>
+>  ``sign``
+>   - (empty) : for 32 or 64 bit sizes
+> @@ -112,9 +112,14 @@ store: ``cpu_st{size}_mmuidx_ra(env, ptr, val, mmuidx, retaddr)``
+>   - ``l`` : 32 bits
+>   - ``q`` : 64 bits
+>
+> +``end``
+> + - (empty) : for target endian, or 8 bit sizes
+> + - ``_be`` : big endian
+> + - ``_le`` : little endian
+> +
+>  Regexes for git grep:
+> - - ``\<cpu_ld[us]\?[bwlq]_mmuidx_ra\>``
+> - - ``\<cpu_st[bwlq]_mmuidx_ra\>``
+> + - ``\<cpu_ld[us]\?[bwlq](_[bl]e)\?_mmuidx_ra\>``
+> + - ``\<cpu_st[bwlq](_[bl]e)\?_mmuidx_ra\>``
+>
+>  ``cpu_{ld,st}*_data_ra``
+>  ~~~~~~~~~~~~~~~~~~~~~~~~
+> @@ -129,9 +134,9 @@ be performed with a context other than the default.
+>
+>  Function names follow the pattern:
+>
+> -load: ``cpu_ld{sign}{size}_data_ra(env, ptr, ra)``
+> +load: ``cpu_ld{sign}{size}{end}_data_ra(env, ptr, ra)``
+>
+> -store: ``cpu_st{size}_data_ra(env, ptr, val, ra)``
+> +store: ``cpu_st{size}{end}_data_ra(env, ptr, val, ra)``
+>
+>  ``sign``
+>   - (empty) : for 32 or 64 bit sizes
+> @@ -144,9 +149,14 @@ store: ``cpu_st{size}_data_ra(env, ptr, val, ra)``
+>   - ``l`` : 32 bits
+>   - ``q`` : 64 bits
+>
+> +``end``
+> + - (empty) : for target endian, or 8 bit sizes
+> + - ``_be`` : big endian
+> + - ``_le`` : little endian
+> +
+>  Regexes for git grep:
+> - - ``\<cpu_ld[us]\?[bwlq]_data_ra\>``
+> - - ``\<cpu_st[bwlq]_data_ra\>``
+> + - ``\<cpu_ld[us]\?[bwlq](_[bl]e)\?_data_ra\>``
+> + - ``\<cpu_st[bwlq](_[bl]e)\?_data_ra\>``
+>
+>  ``cpu_{ld,st}*_data``
+>  ~~~~~~~~~~~~~~~~~~~~~
+> @@ -163,9 +173,9 @@ the CPU state anyway.
+>
+>  Function names follow the pattern:
+>
+> -load: ``cpu_ld{sign}{size}_data(env, ptr)``
+> +load: ``cpu_ld{sign}{size}{end}_data(env, ptr)``
+>
+> -store: ``cpu_st{size}_data(env, ptr, val)``
+> +store: ``cpu_st{size}{end}_data(env, ptr, val)``
+>
+>  ``sign``
+>   - (empty) : for 32 or 64 bit sizes
+> @@ -178,9 +188,14 @@ store: ``cpu_st{size}_data(env, ptr, val)``
+>   - ``l`` : 32 bits
+>   - ``q`` : 64 bits
+>
+> +``end``
+> + - (empty) : for target endian, or 8 bit sizes
+> + - ``_be`` : big endian
+> + - ``_le`` : little endian
+> +
+>  Regexes for git grep
+> - - ``\<cpu_ld[us]\?[bwlq]_data\>``
+> - - ``\<cpu_st[bwlq]_data\+\>``
+> + - ``\<cpu_ld[us]\?[bwlq](_[bl]e)\?_data\>``
+> + - ``\<cpu_st[bwlq](_[bl]e)\?_data\+\>``
+>
+>  ``cpu_ld*_code``
+>  ~~~~~~~~~~~~~~~~
+> diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
+> index 53de19753a..1ba515bfcc 100644
+> --- a/include/exec/cpu_ldst.h
+> +++ b/include/exec/cpu_ldst.h
+> @@ -26,12 +26,18 @@
+>   * The syntax for the accessors is:
+>   *
+>   * load:  cpu_ld{sign}{size}_{mmusuffix}(env, ptr)
+> + *        cpu_ld{sign}{size}{end}_{mmusuffix}(env, ptr)
+>   *        cpu_ld{sign}{size}_{mmusuffix}_ra(env, ptr, retaddr)
+> + *        cpu_ld{sign}{size}{end}_{mmusuffix}_ra(env, ptr, retaddr)
+>   *        cpu_ld{sign}{size}_mmuidx_ra(env, ptr, mmu_idx, retaddr)
+> + *        cpu_ld{sign}{size}{end}_mmuidx_ra(env, ptr, mmu_idx, retaddr)
+>   *
+>   * store: cpu_st{size}_{mmusuffix}(env, ptr, val)
+> + *        cpu_st{size}{end}_{mmusuffix}(env, ptr, val)
+>   *        cpu_st{size}_{mmusuffix}_ra(env, ptr, val, retaddr)
+> + *        cpu_st{size}{end}_{mmusuffix}_ra(env, ptr, val, retaddr)
+>   *        cpu_st{size}_mmuidx_ra(env, ptr, val, mmu_idx, retaddr)
+> + *        cpu_st{size}{end}_mmuidx_ra(env, ptr, val, mmu_idx, retaddr)
 
-=E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) <luoyonggang@gmail.com> writes:
+Since '{end}' can be the empty string, these new lines should
+replace the old ones, not just be added. (The other changes
+in this doc do the right thing.)
 
-> Because ppc fpu-helper are always clearing float_flag_inexact,
-> So is that possible to optimize the performance when  float_flag_inexact
-> are cleared?
+>   *
+>   * sign is:
+>   * (empty): for 32 and 64 bit sizes
+> @@ -44,6 +50,11 @@
+>   *   l: 32 bits
+>   *   q: 64 bits
+>   *
+> + * end is:
+> + * (empty): for target native endian, or for 8 bit access
+> + *     _be: for forced big endian
+> + *     _le: for forced little endian
+> + *
+>   * mmusuffix is one of the generic suffixes "data" or "code", or "mmuidx".
+>   * The "mmuidx" suffix carries an extra mmu_idx argument that specifies
+>   * the index to use; the "data" and "code" suffixes take the index from
 
-There was some discussion about this in the last thread about enabling
-hardfloat for PPC. See the thread:
+Otherwise
 
-  Subject: [RFC PATCH v2] target/ppc: Enable hardfloat for PPC
-  Date: Tue, 18 Feb 2020 18:10:16 +0100
-  Message-Id: <20200218171702.979F074637D@zero.eik.bme.hu>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-However in short the problem is if the float_flag_inexact is clear you
-must use softfloat so you can properly calculate the inexact status. We
-can't take advantage of the inexact stickiness without loosing the
-fidelity of the calculation.
-
---=20
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
