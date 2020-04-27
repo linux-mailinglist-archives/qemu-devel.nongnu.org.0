@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96FB01BA807
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 17:32:13 +0200 (CEST)
-Received: from localhost ([::1]:51466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 855731BA80F
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 17:35:31 +0200 (CEST)
+Received: from localhost ([::1]:51678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jT5jv-00023k-O9
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 11:32:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38034)
+	id 1jT5n7-0006WN-Ty
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 11:35:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38052)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steplong@quicinc.com>) id 1jT5hO-0007gu-MQ
+ (envelope-from <steplong@quicinc.com>) id 1jT5hO-0007hj-Ts
  for qemu-devel@nongnu.org; Mon, 27 Apr 2020 11:29:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <steplong@quicinc.com>) id 1jT5hI-0004Rp-NT
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 11:29:33 -0400
+ (envelope-from <steplong@quicinc.com>) id 1jT5hO-0004hR-DD
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 11:29:34 -0400
 Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:49183)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <steplong@quicinc.com>)
- id 1jT5hH-0004QT-HR; Mon, 27 Apr 2020 11:29:28 -0400
+ id 1jT5hK-0004QT-Ht; Mon, 27 Apr 2020 11:29:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1588001367; x=1619537367;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=ukVOBhRuoyuJdxJJZaT28IUT9HZ+mtnFzCtlL4lL88w=;
- b=PgBWZPreroc9o/f0qqWQEzAeFAsRoJJvDK1A1rbDTTot4wLdGS0ppON2
- VdlPMIuNrSS//PCLsy/Ub4niR+X+Xrwd68fel6/8JtseHcPwDywezh7ff
- 8ZQUVrDJvLanc98Jw9NaqqVcLmSQqVuCQDViyfeWXCayOj4eFaUfPBZ+g 0=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ t=1588001370; x=1619537370;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version;
+ bh=/QGDZc6wsjQsb0uQJjfLNJH7SYwQ6LpmqAKWSATOt+I=;
+ b=EiixK3+lnINzeJxDzllVoiN8MuKrnQHkQuDoF2IpbKkCWWXcm8MZDL50
+ FQMdV1iH5lbKJ7BrDcB2VUULr8dwScuQCTbiRjANqcr9w+Hsbj+ea9TvY
+ UATo4YThhyD865BYeD8TmhjbE1kZsKkfO7OVLV3f+ehEmHs894L1/KKcC M=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
  by alexa-out-sd-02.qualcomm.com with ESMTP; 27 Apr 2020 08:29:21 -0700
-Received: from nasanexm01a.na.qualcomm.com ([10.85.0.81])
- by ironmsg04-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
+Received: from nasanexm03a.na.qualcomm.com ([10.85.0.103])
+ by ironmsg01-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
  27 Apr 2020 08:29:21 -0700
-Received: from apsanexr02a.ap.qualcomm.com (10.85.0.26) by
- nasanexm01a.na.qualcomm.com (10.85.0.81) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 27 Apr 2020 08:29:21 -0700
 Received: from nasanexm01a.na.qualcomm.com (10.85.0.81) by
- apsanexr02a.ap.qualcomm.com (10.85.0.26) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 27 Apr 2020 08:29:19 -0700
+ nasanexm03a.na.qualcomm.com (10.85.0.103) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 27 Apr 2020 08:29:21 -0700
 Received: from NAM10-DM6-obe.outbound.protection.outlook.com (199.106.107.6)
  by nasanexm01a.na.qualcomm.com (10.85.0.81) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2 via Frontend Transport; Mon, 27 Apr 2020 08:29:19 -0700
+ id 15.0.1497.2 via Frontend Transport; Mon, 27 Apr 2020 08:29:21 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I9EboTcsqKM7RwI0jTpHNgBzwo6sW/QfPEzPD0ZndjOCifY/41f0LttxwIY83TMbQzGBlfrh7QYc8mqA2v5rNtMqr+fIXxl4lCyID2z2DuicX6fpwKhd8+mHKl6rxXkEdekFAuBCiME7wNhzXnTXIvGst8Ks+2fqnXfFhUz6UG6JThE1b3D4SQSWyG8QBq7qnN5X3Kwbtv8BdsDtDp3+WyNg8Zs+JuhKN7OmfI2BPvH3/jiSgFgY5+xa4uIbhNXsrOMXOOtiR/3ZeyapuH8hLoBkVBpK4jC5UWtducCTxqYy561J7jOeSIINIsHIUs633f1h46THg2cEnEr+GnNNOQ==
+ b=e1cbQmTTpj78V67nxf65fNBaiygJ2tltxAFygDKKBTYGVFFNcEpjJWSRlnnu4ytBdG7fPpDwZZYFagr4dktyQ/avB8dTC5id81PF6My7KWBTL18NNIHHSXzwPlcIqYz8FQA5T0CclZd5kwKaEuSF5a1gJynBDY4n+oitJ5TvwdR0Db3877Gn3ARRmkZu65XDnFZAChPLSrOLdbA1JVKfRxfNYX3ZxfQ3KazclFs0avCtdwBdEeV8qLkNkgkuEyBtYq/uY13xFANqZIqkwTnQVYN3fl4poO2hRUOtA9Q95BuE3e+NXfYsxGRKEncEDuu6m55FnKkvXcriGYHTfxc5Qw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=03LS1Ff55y/QZyCSr8zNOLrdlDMgX6lLrnr35BoL6+g=;
- b=j2fiK03sYYWSIOXbnBZT76GQOVxBGwkMgCv5gBhuJ3/1yncNp7Fq0g8SkrcUDZ82wCSmslM3C7WpiwJvH5tBeCfEcUqTssp2MdOJygrDIHoCSkEsVHlOUjdtHjH5qFP1neaNWC2h/Ep9jDquSS38EayzCPDrFmCrxTAFt5be2Ju958av/zbmMmFujxQTHZEYcC0rVmc5ds31qRtAXz5liuurT2aZyq/DEFyGN3kZpm25nVtq0lbiulToBjRck4fiJD3bqy7LnVdZhkHLoEVlO8u5hlEz3nkH+b7gnmedF8UGm/9Qc+Ck2tBV0LBkjs8hZ3XkFEoZmsRAbXynwfnWLw==
+ bh=SIoMq+afIEvOn/f+ZqlnZzN9RP8yjwBZ+DGXhN/SQcA=;
+ b=P3aquxz1Hq1y/YruW4X0S1F8HUM8oUYU9vfScwKLUBW3M8CqroLmz4LXpxg3I9HZXAFOkX+pWXGLcobLoTKYg421TgZXUCBeC/13ED+XIWSwqkzhxr2Opbo2KdIhiNnDxV4DQjRuc4opjy3/LMTnUFcEvw2bmLPtQkvspokLMB1LhW1UebxS3v8e5PVRBDtuw0pcIQJplR4ryL9ZRbV3+rMM8b3iWhuA6GFs4dImYUXwF3du7qfuMdIPHpkVOkgfSDa5oRnfOVVFl3oJfAsflS/ZLSfji6fm+nOe0XHhzVNiX7MWYbuzHLUeMpTU8qQO/SbvTF8Q5gAcVpoQt1E3IA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
  dkim=pass header.d=quicinc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=03LS1Ff55y/QZyCSr8zNOLrdlDMgX6lLrnr35BoL6+g=;
- b=AbSv/OZuRiC8JibhzzRbMqMxMtfDvmKpbDlpeYlWpC/UnJjnjIo+LZM0hfV4L5guSeKRUVLrwLt6p1n4/UjgYKQoLhWSq5erEGZ5XY1zYBfqTyJjHAwYSKEd8FU1DfTFTAaNaXYfh19Fz50mea6l1PW6xljaJqJz8hpU8jC7Rns=
+ bh=SIoMq+afIEvOn/f+ZqlnZzN9RP8yjwBZ+DGXhN/SQcA=;
+ b=bN6mNI/geb6pJLB780wafwitcpbZ8QBa1RntnVTP9KlK1gt3D5Db8gDlSQBXwM1MIN/oepQxElULMx4QeW5EQZRE31DKNRgU948tPvvobBz+8+DkvRLsBy+YyB9/l0BsbAMO5d0dtdvpN0Yoz6JDCrHeogQ3dsrDwv3RQPwsgPA=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=steplong@quicinc.com; 
 Received: from MWHPR0201MB3547.namprd02.prod.outlook.com
  (2603:10b6:301:7b::24) by MWHPR0201MB3465.namprd02.prod.outlook.com
  (2603:10b6:301:76::26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Mon, 27 Apr
- 2020 15:29:18 +0000
+ 2020 15:29:19 +0000
 Received: from MWHPR0201MB3547.namprd02.prod.outlook.com
  ([fe80::10ad:5df5:d575:1f37]) by MWHPR0201MB3547.namprd02.prod.outlook.com
  ([fe80::10ad:5df5:d575:1f37%3]) with mapi id 15.20.2937.023; Mon, 27 Apr 2020
- 15:29:18 +0000
+ 15:29:19 +0000
 From: Stephen Long <steplong@quicinc.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH RFC v2 0/3] target/arm: Implement SVE2 Crypto Extensions
-Date: Mon, 27 Apr 2020 08:29:01 -0700
-Message-ID: <20200427152904.14768-1-steplong@quicinc.com>
+Subject: [PATCH RFC v2 1/3] target/arm: Implement SVE2 AESMC, AESIMC
+Date: Mon, 27 Apr 2020 08:29:02 -0700
+Message-ID: <20200427152904.14768-2-steplong@quicinc.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200427152904.14768-1-steplong@quicinc.com>
+References: <20200427152904.14768-1-steplong@quicinc.com>
 Content-Type: text/plain
 X-ClientProxiedBy: MN2PR02CA0025.namprd02.prod.outlook.com
  (2603:10b6:208:fc::38) To MWHPR0201MB3547.namprd02.prod.outlook.com
@@ -83,31 +83,31 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from STEPLONG.qualcomm.com (108.176.222.2) by
  MN2PR02CA0025.namprd02.prod.outlook.com (2603:10b6:208:fc::38) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2937.13 via Frontend Transport; Mon, 27 Apr 2020 15:29:17 +0000
+ 15.20.2937.13 via Frontend Transport; Mon, 27 Apr 2020 15:29:18 +0000
 X-Mailer: git-send-email 2.17.1
 X-Originating-IP: [108.176.222.2]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2dc623b4-fd00-4610-3e6a-08d7eabfc029
+X-MS-Office365-Filtering-Correlation-Id: e631edee-d868-40c4-4d06-08d7eabfc0c8
 X-MS-TrafficTypeDiagnostic: MWHPR0201MB3465:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MWHPR0201MB3465A1FF511AEE5F0CD9FFC8C7AF0@MWHPR0201MB3465.namprd02.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-Microsoft-Antispam-PRVS: <MWHPR0201MB34659EECD87199E5279E610DC7AF0@MWHPR0201MB3465.namprd02.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:221;
 X-Forefront-PRVS: 0386B406AA
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MWHPR0201MB3547.namprd02.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(39860400002)(346002)(376002)(396003)(366004)(136003)(2906002)(6916009)(107886003)(6666004)(6506007)(66476007)(316002)(66946007)(26005)(8676002)(2616005)(52116002)(81156014)(4326008)(4744005)(8936002)(6486002)(478600001)(956004)(5660300002)(186003)(1076003)(36756003)(16526019)(66556008)(86362001)(6512007);
+ SFS:(39860400002)(346002)(376002)(396003)(366004)(136003)(2906002)(6916009)(107886003)(6666004)(6506007)(66476007)(316002)(66946007)(26005)(8676002)(2616005)(52116002)(81156014)(4326008)(8936002)(6486002)(478600001)(956004)(5660300002)(186003)(1076003)(36756003)(16526019)(66556008)(86362001)(6512007);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oMUqDOtrpw9kje8a7Od4mpBRG2i8erT3ikM3r/ivdw6fpxxJiyTfZJb5MerUkCs7PdAxsKyDysvsMX4mT+JMlilFoRUjD/TXSO7m93yCjWl9MSmY8FelA/sxLwxPU7RdF3hK5r7vbrFCo8QFJlPHmqZHEgzngFOYRZQeWYwMxHfAOuMhT0/CFTLodi3blEW4fA/kN1C4EQBhSnpzRtuuto9v03IcVWR9NNqSTQey98JvtBtE/ICy9V8I3FFWKFUHeyw6KDc6ZUY/M78uMitqdtUZ4T0PO3J5Y9+xK+RW27HHy2oJhN4xtJCjTR7OOmOO9gTiYNyL35VLO4QA0nQ2xt0u8QolVdfHapWIprn27dR9Ui8Qsyn7IrZBUd/N1GHTrB10iiN8O9xIlLbMOnZVeWDV2TCZqZlhA1iH7u+j7LIh6qj+nJwwL9AZCil0ZOQS
-X-MS-Exchange-AntiSpam-MessageData: GJAhHFslPlHpU7OmbJXJXGKcHzms/HBpfUlkWqD2e7mJCZyCiw29JRLmJn7xL4s5vcirQuGkcV22vfEsQhbgZ1cbM4232n3o/XmYmbflFrU+LkJbJ371nq+jXrqpjmE7b6XfzExSklRDvjOxGa9MGxMhHazf3LwtrvFeyUB13Z9Mn2S2Cw3UcajBcwbNzN57ijYCOyI++vHtw1JvV7XLcpgZef5+D9nLdYedOICU4A/BRWL4jSYQ6onKUEXQcTh20jOrPLr1StdQB3ycQQ7Jsm3AcVLfbb49me4nsYXbR1rf+b3uUW1KizgMzpATiWP/JoZlBR5FDb/PUPajiZzaYxRdHRqtyX3YuKhaWWLUQfHA0Q5zrESjtHUB5ijmjtiLXQDW+i2ptJwl9OqYqqpn4XxTjE+gyteTjzAM/MT7rtcvoWEwFkZ2PmwPeUzwBRAapAKTRcGXu9tOCMo7l2rNEPX3kZJOBWf5KEwiPC5BHTekGlNYk3MKok/C+KjKwjtHtne3kTXBfGTrXm6SqiPZm7ENwbituUdwSf29yRTNdQbHmSAXgEJMrZpmnygn8rQniHCo+os5lzo91vYftDPS6Lsi9vNV3pkAh6EjKpJLmieufrapkq8cB9MohxTA/PJqooCZuY7MV/VEifWPdm2uSeOpiOCn26Ns9aWB7TBsF8sqXFnTdyRL7qFogBt6BJhX8ATYpdC3EtpUC1KjSTI2mZaGSwBPB/v//UtudhuyP6xiPPx+IAUIiUFAq5DzNpgYjgjt3dGTW9PIG6vletVOAlJwnR1phkvXkgf3rILbgtQ=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2dc623b4-fd00-4610-3e6a-08d7eabfc029
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2020 15:29:18.2204 (UTC)
+X-Microsoft-Antispam-Message-Info: SXco0f+fDg9D+3CT4kYujvOQWX1cj1TKlXdYW0aUI1TVqHK2aetZmElAab0HxR/w+gjm9DFzPbjDzSsRfa+bHjGkkYEaymbM0kN/62U0ixFlvvvbLTAzyr+A9JvLj99mxFk9IPg1TwzXwIJfZHxIA2tri4YDOutYX6xz4KeGw+YBlJbf43J/zprmEBZ4D0pmw51u8vTgo3Wra3HOKLVixAfDFkwqIOg37euumwq2EdGHVKyyw7YfN6Nku4sBj+fOUQxakXGv9hRipKefgHomPTObERwusb8+0R7kKKHTXmbfi6y9fWct6dwlvk7R+nYh/QiIxPXWCO/FZaDzOl4QWT0KNUG4+3IKYzoLet1ky11TlNpiV9DqrZCPjU6glvXjnvkByozuXO75W7WXk+RaA92Z2jKbBhlHUvMKM9FulJfZaunYL07MLXctDVFKXO66
+X-MS-Exchange-AntiSpam-MessageData: wWuJWUkGalGnzpsrpyMMcft+z1y3aLxP1/Xdfie8h3UKI2ayZQ0PsY4+VieaeDaATFDKMOBxFyK/l6t67CroAl106Katbyj8+ckFmYRMsoRqZsgWc/Yrn/90XrVZ6OW6AiPukHxw48Yh31LEtXFAhS4JCXMgF5m5Drv7OLlIF2EuJDfss7LsK7ITgkOky3ChpzclKX4jBOx7VpTpDb+2n3f2WPYZEdbrSxo/oXyTxvGR4emY+jFgJUj7TJf0LQSAN4B56JlePvXFe8kniEf+3Y+EkgtOp28Ozj+EjcGIVX/PXCnGENL6NrRBQnao1wSxBftbbgRhv/TTsWOAEwSSqJLCgTnnw/5IuM2szuiDDRBKn/LDTXsNUnXS3hCTXIUU9h0MPXCgOQSmBtTnkvmJxDg43O4lesSBq+Z0jVlGW27TOSTqi76nGrTgORkkSNkz7CfBmAo33/JCR0Sz4vKJTGcroEzhgSZy3PZVaogO/5Oxi4rp4221mlu6LcWHHUnWC0GhgFf2WwmXnQKbOf7zzh6nlkRs5eufRCVtxqVSJ0wVgtNIZ4vmL13byLq9Zq/IS6Nh/gXE2Msrb41/YfwUnX+RNluqwmme9eQJeHB7go8mn8T679JWplqkILqt9JskGUhIxoIO+UGjmokSEGwTQpc309jRLTKZ/T4bSTTuLcEi+myjb9RxBw/Q0qqO9+rDSq6o5zvHIvGtcDUBgmPJapwIOijdSaNJzqiQK+y0BDb+KF/KcXV4bKF1EFFBF6kBVvNEDxE8tQO8nZOx0eraU8j4xbJHUBplBHB8C0l+qkE=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e631edee-d868-40c4-4d06-08d7eabfc0c8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2020 15:29:19.2258 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sQQxUT5XQrx5CqN+HtQd98YEb6e2WCI/u7Hod70w0Oqmog5brFnTWMueKrnYLOhamJJq+AeVgkkcinlm+NoRyg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: beS7V3kyK5Y0iBv7ERQcAFHhqqZur06/0r1120uENvZ6feYiDcWFJ7uDLTIV3B12FSa6eFGLDz6FBK1Avyx4RA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR0201MB3465
 X-OriginatorOrg: quicinc.com
 Received-SPF: pass client-ip=199.106.114.39; envelope-from=steplong@quicinc.com;
@@ -130,24 +130,99 @@ Cc: qemu-arm@nongnu.org, richard.henderson@linaro.org, apazos@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Used one macro to cover the helper functions for
-SVE2 AESC, AESIMC, AESE, AESD.
+Signed-off-by: Stephen Long <steplong@quicinc.com>
+---
+ target/arm/helper-sve.h    |  3 +++
+ target/arm/sve.decode      | 10 ++++++++++
+ target/arm/sve_helper.c    | 15 +++++++++++++++
+ target/arm/translate-sve.c | 18 ++++++++++++++++++
+ 4 files changed, 46 insertions(+)
 
-No macro was used to implement the helper functions for
-SM4E, SM4EKEY, RAX1.
-
-Stephen Long (3):
-  target/arm: Implement SVE2 AESMC, AESIMC
-  target/arm: Implement SVE2 AESE, AESD, SM4E
-  target/arm: Implement SVE2 SM4EKEY, RAX1
-
- target/arm/cpu.h           |  5 +++
- target/arm/helper-sve.h    | 10 ++++++
- target/arm/sve.decode      | 20 ++++++++++++
- target/arm/sve_helper.c    | 46 +++++++++++++++++++++++++++
- target/arm/translate-sve.c | 64 ++++++++++++++++++++++++++++++++++++++
- 5 files changed, 145 insertions(+)
-
+diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
+index 51ad60e5c3..340fe07801 100644
+--- a/target/arm/helper-sve.h
++++ b/target/arm/helper-sve.h
+@@ -2690,3 +2690,6 @@ DEF_HELPER_FLAGS_5(sve2_sqrdcmlah_zzzz_d, TCG_CALL_NO_RWG,
+ 
+ DEF_HELPER_FLAGS_6(fmmla_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_6(fmmla_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, ptr, i32)
++
++DEF_HELPER_FLAGS_3(sve2_aesmc, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
++DEF_HELPER_FLAGS_3(sve2_aesimc, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
+diff --git a/target/arm/sve.decode b/target/arm/sve.decode
+index de3768c24a..f58eb04d11 100644
+--- a/target/arm/sve.decode
++++ b/target/arm/sve.decode
+@@ -92,6 +92,10 @@
+ # Named instruction formats.  These are generally used to
+ # reduce the amount of duplication between instruction patterns.
+ 
++# One operand with unused vector element size
++@rdn_e0         ........ .. ........... . ..... rd:5 \
++                &rr_esz rn=%reg_movprfx esz=0
++
+ # Two operand with unused vector element size
+ @pd_pn_e0       ........ ........ ....... rn:4 . rd:4           &rr_esz esz=0
+ 
+@@ -1419,3 +1423,9 @@ STNT1_zprz      1110010 .. 00 ..... 001 ... ..... ..... \
+ # SVE2 32-bit scatter non-temporal store (vector plus scalar)
+ STNT1_zprz      1110010 .. 10 ..... 001 ... ..... ..... \
+                 @rprr_scatter_store xs=0 esz=2 scale=0
++
++#### SVE2 Crypto Extensions
++
++## SVE2 crypto unary operations
++AESMC           01000101 00 10000011100 0 00000 .....   @rdn_e0
++AESIMC          01000101 00 10000011100 1 00000 .....   @rdn_e0
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index cd5c6f7fb0..5c3dee048d 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -7516,3 +7516,18 @@ void HELPER(fmmla_d)(void *vd, void *va, void *vn, void *vm,
+         d[3] = float64_add(a[3], float64_add(p0, p1, status), status);
+     }
+ }
++
++#define DO_SVE2_AES_CRYPTO(NAME, FN)                            \
++void HELPER(NAME)(void *vd, void *vn, uint32_t desc)            \
++{                                                               \
++    intptr_t i, opr_sz = simd_oprsz(desc);                      \
++    intptr_t decrypt = simd_data(desc);                         \
++    for (i = 0; i < opr_sz; i += 16) {                          \
++        HELPER(FN)(vd + i, vn + i, decrypt);                    \
++    }                                                           \
++}
++
++DO_SVE2_AES_CRYPTO(sve2_aesmc, crypto_aesmc);
++DO_SVE2_AES_CRYPTO(sve2_aesimc, crypto_aesmc);
++
++#undef DO_SVE2_AES_CRYPTO
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 86c3d0ed11..f70b7f44e3 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -7956,3 +7956,21 @@ static bool trans_SQRDCMLAH_zzzz(DisasContext *s, arg_CMLA_zzzz *a)
+     };
+     return do_sve2_zzzz_fn(s, a->rd, a->rn, a->rm, a->ra, fns[a->esz], a->rot);
+ }
++
++#define DO_SVE2_AES_CRYPTO(NAME, name, DECRYPT)                         \
++static bool trans_##NAME(DisasContext *s, arg_rr_esz *a)                \
++{                                                                       \
++    if (!dc_isar_feature(aa64_sve2_aes, s)) {                           \
++        return false;                                                   \
++    }                                                                   \
++    if (sve_access_check(s)) {                                          \
++        unsigned vsz = vec_full_reg_size(s);                            \
++        tcg_gen_gvec_2_ool(vec_full_reg_offset(s, a->rd),               \
++                           vec_full_reg_offset(s, a->rn),               \
++                           vsz, vsz, DECRYPT, gen_helper_sve2_##name);  \
++    }                                                                   \
++    return true;                                                        \
++}
++
++DO_SVE2_AES_CRYPTO(AESMC, aesmc, 0)
++DO_SVE2_AES_CRYPTO(AESIMC, aesimc, 1)
 -- 
 2.17.1
 
