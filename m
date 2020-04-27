@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78F6B1BB181
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 00:28:26 +0200 (CEST)
-Received: from localhost ([::1]:35374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E4BB1BB184
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 00:29:32 +0200 (CEST)
+Received: from localhost ([::1]:35480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTCEj-0006hs-BJ
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 18:28:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40690)
+	id 1jTCFn-0000dX-K0
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 18:29:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40808)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jTCDA-0005Qu-Dn
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 18:26:52 -0400
+ (envelope-from <alistair23@gmail.com>) id 1jTCE0-0006fo-CI
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 18:27:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jTCD9-0004fD-Kb
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 18:26:48 -0400
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:33822)
+ (envelope-from <alistair23@gmail.com>) id 1jTCDy-0007aE-A0
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 18:27:40 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:40348)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jTCD9-0004YC-7y; Mon, 27 Apr 2020 18:26:47 -0400
-Received: by mail-io1-xd42.google.com with SMTP id f3so20783992ioj.1;
- Mon, 27 Apr 2020 15:26:46 -0700 (PDT)
+ id 1jTCDx-0007Xh-Rb; Mon, 27 Apr 2020 18:27:37 -0400
+Received: by mail-io1-xd44.google.com with SMTP id c2so5929811iow.7;
+ Mon, 27 Apr 2020 15:27:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nnkbYLVpGs1sFMwOsT/+QgsmLFUVwaH3mRyqwZfJivs=;
- b=e6bk27EbsY/USbF0g7LDxKCaqwTWnyee+u3EQY74ofARNQ2MUVSbQ3wrA4lBuqiVlA
- MpAdi5+ExhnYPToRmMIDYT4sYA4eCMRBdAQVJg0H2CSwwoHGuESmBuO7JKMP8QZRNOxA
- OMvfQfFizivK5SIG/zzRZsz8iDJ/0TmDkNjBgaJpfrs0QHOQPUz1YrQVI6rNtP29Vnq5
- fjqvXnnzDAHX5qf74US5nzqwISgY5dwU/uEzBNgCyJ93PiA0BITiZRsNp8Xjb8/sO+Uw
- Ada4f6JafNvSwtn56iPngfKSsRupDTe/mmHGB4iNgQPfjJSotwpUq9ALeBeFYiBsnCPq
- 7yUg==
+ :cc; bh=WQM2n6BQJXvmiGOMpmg/Y0umjMvBSvK9gNucictt/rI=;
+ b=AmsT0c37ypMfhNCItH/4nExXPnQhSp59GdEd2+8P8m5JvCvL8bT7cG44YUrDS1IUvr
+ 9mTypBdFZKzQ+9bJ+dO9TSGPh5awOP/+MWaKUm+E0NbJfZpqPztJvugN1/pnD5t9jyHN
+ T/jD9kp5l4rpiXh1N7QOrzyBG9X29S9swLcTa3HzPGz494ucouf628AdXCDw1ciAXcBH
+ HkRpEQQ2ZfljaM7uqUCPliQ4jpU1g2aVbGyCqWCMaZTRJyZpp9aSQe+tLLxX8mQCAKij
+ lfSeNYhNlv8b+/y1+TLJyOMG2ajFv7IZtSfz94MYp0r9quSuhCPCEESWbRHtucmPFemA
+ 74pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=nnkbYLVpGs1sFMwOsT/+QgsmLFUVwaH3mRyqwZfJivs=;
- b=rwaJpJ3LPCBLhZ2PaPYdE6oeVHhaBnqV1OEjFH2Nyrdpv7XB6FvGcOCieCdm2AKEhl
- pP9/HhnlYrK/7fYZtqhYemx3pf4Z/d6ONeEvRy3He5rM48fxpBsBNwX/ohKPQltZ8pZC
- LhhusfR+HF6XdsJCioEfwSOzT92fu+Ctw9vBrA39XlmAFp1aVNyOrtO5rdTy07TZ0+3N
- cbTcylWqm39DqKTsNYtZ480UEop7UhI+4WZhZNDq4Rh6lvFr0dVcuIm4Fqs1bXiry6PJ
- vTU537Ba5QwbJtlGqDt4kvH9mlqFCVrYKL/eQgc+Iswox4X/UnJYjCw9GmcMsv57KQ8y
- n88Q==
-X-Gm-Message-State: AGi0PuZt3ebBNVCJQ37o3kFK/CNw7L0t86HawPxXmvPJ+8u94TJONIl+
- 4rQYhCvdydby/KnDuotFOAbHzxzI4l2O6NKNWkM=
-X-Google-Smtp-Source: APiQypIsxlpK6UjqdMIKy+Di8bHp+JNDbUDFqs+PHFsEzLLzsub07xzW7fVXhrnix91ukckz+i0PUMPWFPiddQYmJ4o=
-X-Received: by 2002:a5e:880b:: with SMTP id l11mr23372252ioj.42.1588026405744; 
- Mon, 27 Apr 2020 15:26:45 -0700 (PDT)
+ bh=WQM2n6BQJXvmiGOMpmg/Y0umjMvBSvK9gNucictt/rI=;
+ b=MLjoqpbVZvbXWgO9VpeYYEomsF2EtV0ICseAQYlZOKOmpALrWiEl/YpcUbMGJZqoMM
+ ZyeG7qvB3MLhXNBLutQ0y8ZIRv/FMssiG0nQ/dG5cTlPw2klbJgGuMPHVtUDy3HkmETC
+ npSmAh6d/mngUaGiBzFBy/cuqKseyG3K0KSdbsjEJwS2mes0qc+1EUbdwbY1c4Y91Ffj
+ yS8RxXsIkWDV1cjg0RO1mCwn0d5l3fCF7GUaVJmPrY5q6qRMHXifU1NK1k3aR0aprTC6
+ qxPoWCEZQe2YwBbgM40ZX2uvQqZchLOTnEhWF/2bGpb8SZiSkfSElZcH4HSpaU6fnQEX
+ boow==
+X-Gm-Message-State: AGi0PuZjGrqvEjxbOO+nSx6Tk9n1obKhbmQiySLj6cI9AJR9fexPvfEC
+ e+3PIhhsOPoVVZf4fv4phL0jXJTwNVFuWq61iVk=
+X-Google-Smtp-Source: APiQypI1s8Sq1s163Sa1GrqA1gpO6cegL/0fHqh/+44f9j4Rd/PWYs2R0WDv+Z5i2l399gC5A+G065lQ+oDKCiMOkmM=
+X-Received: by 2002:a02:6243:: with SMTP id d64mr21929041jac.135.1588026455835; 
+ Mon, 27 Apr 2020 15:27:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200427181649.26851-1-edgar.iglesias@gmail.com>
- <20200427181649.26851-4-edgar.iglesias@gmail.com>
-In-Reply-To: <20200427181649.26851-4-edgar.iglesias@gmail.com>
+ <20200427181649.26851-7-edgar.iglesias@gmail.com>
+In-Reply-To: <20200427181649.26851-7-edgar.iglesias@gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 27 Apr 2020 15:18:05 -0700
-Message-ID: <CAKmqyKMMt1ZzKcFDYphQ59jtowWdTLmtnFOQJaMO_3x+WyWpAg@mail.gmail.com>
-Subject: Re: [PATCH v1 03/11] hw/arm: versal-virt: Fix typo xlnx-ve ->
- xlnx-versal
+Date: Mon, 27 Apr 2020 15:18:57 -0700
+Message-ID: <CAKmqyKN4JBcQ7=fJ9tckm+MQiiG3S5LrB+ff-3GDM6k80wXPCA@mail.gmail.com>
+Subject: Re: [PATCH v1 06/11] hw/arm: versal: Embedd the ADMAs into the SoC
+ type
 To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::d42
+X-Received-From: 2607:f8b0:4864:20::d44
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,13 +89,14 @@ Cc: figlesia@xilinx.com, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 27, 2020 at 11:20 AM Edgar E. Iglesias
+On Mon, Apr 27, 2020 at 11:22 AM Edgar E. Iglesias
 <edgar.iglesias@gmail.com> wrote:
 >
 > From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 >
-> Fix typo xlnx-ve -> xlnx-versal.
+> Embedd the ADMAs into the SoC type.
 >
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
@@ -103,22 +104,61 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  hw/arm/xlnx-versal-virt.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/arm/xlnx-versal.c         | 14 +++++++-------
+>  include/hw/arm/xlnx-versal.h |  3 ++-
+>  2 files changed, 9 insertions(+), 8 deletions(-)
 >
-> diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
-> index 878a275140..8a608074d1 100644
-> --- a/hw/arm/xlnx-versal-virt.c
-> +++ b/hw/arm/xlnx-versal-virt.c
-> @@ -440,7 +440,7 @@ static void versal_virt_init(MachineState *machine)
->          psci_conduit = QEMU_PSCI_CONDUIT_SMC;
+> diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
+> index e424aa789e..ebd2dc51be 100644
+> --- a/hw/arm/xlnx-versal.c
+> +++ b/hw/arm/xlnx-versal.c
+> @@ -203,18 +203,18 @@ static void versal_create_admas(Versal *s, qemu_irq *pic)
+>          DeviceState *dev;
+>          MemoryRegion *mr;
+>
+> -        dev = qdev_create(NULL, "xlnx.zdma");
+> -        s->lpd.iou.adma[i] = SYS_BUS_DEVICE(dev);
+> -        object_property_set_int(OBJECT(s->lpd.iou.adma[i]), 128, "bus-width",
+> -                                &error_abort);
+> -        object_property_add_child(OBJECT(s), name, OBJECT(dev), &error_fatal);
+> +        sysbus_init_child_obj(OBJECT(s), name,
+> +                              &s->lpd.iou.adma[i], sizeof(s->lpd.iou.adma[i]),
+> +                              TYPE_XLNX_ZDMA);
+> +        dev = DEVICE(&s->lpd.iou.adma[i]);
+> +        object_property_set_int(OBJECT(dev), 128, "bus-width", &error_abort);
+>          qdev_init_nofail(dev);
+>
+> -        mr = sysbus_mmio_get_region(s->lpd.iou.adma[i], 0);
+> +        mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
+>          memory_region_add_subregion(&s->mr_ps,
+>                                      MM_ADMA_CH0 + i * MM_ADMA_CH0_SIZE, mr);
+>
+> -        sysbus_connect_irq(s->lpd.iou.adma[i], 0, pic[VERSAL_ADMA_IRQ_0 + i]);
+> +        sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic[VERSAL_ADMA_IRQ_0 + i]);
+>          g_free(name);
 >      }
+>  }
+> diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
+> index 01da736a5b..94b7826fd4 100644
+> --- a/include/hw/arm/xlnx-versal.h
+> +++ b/include/hw/arm/xlnx-versal.h
+> @@ -16,6 +16,7 @@
+>  #include "hw/arm/boot.h"
+>  #include "hw/intc/arm_gicv3.h"
+>  #include "hw/char/pl011.h"
+> +#include "hw/dma/xlnx-zdma.h"
+>  #include "hw/net/cadence_gem.h"
 >
-> -    sysbus_init_child_obj(OBJECT(machine), "xlnx-ve", &s->soc,
-> +    sysbus_init_child_obj(OBJECT(machine), "xlnx-versal", &s->soc,
->                            sizeof(s->soc), TYPE_XLNX_VERSAL);
->      object_property_set_link(OBJECT(&s->soc), OBJECT(machine->ram),
->                               "ddr", &error_abort);
+>  #define TYPE_XLNX_VERSAL "xlnx-versal"
+> @@ -53,7 +54,7 @@ typedef struct Versal {
+>          struct {
+>              PL011State uart[XLNX_VERSAL_NR_UARTS];
+>              CadenceGEMState gem[XLNX_VERSAL_NR_GEMS];
+> -            SysBusDevice *adma[XLNX_VERSAL_NR_ADMAS];
+> +            XlnxZDMA adma[XLNX_VERSAL_NR_ADMAS];
+>          } iou;
+>      } lpd;
+>
 > --
 > 2.20.1
 >
