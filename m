@@ -2,73 +2,119 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A6D1BA705
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 16:56:00 +0200 (CEST)
-Received: from localhost ([::1]:49658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96FB01BA807
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 17:32:13 +0200 (CEST)
+Received: from localhost ([::1]:51466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jT5At-0000Kl-Bv
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 10:55:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59998)
+	id 1jT5jv-00023k-O9
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 11:32:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38034)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrew@daynix.com>) id 1jT59G-0007Dk-RU
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 10:54:19 -0400
+ (envelope-from <steplong@quicinc.com>) id 1jT5hO-0007gu-MQ
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 11:29:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <andrew@daynix.com>) id 1jT59F-0003aa-MG
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 10:54:18 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:38922)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jT59F-0003ZN-5N
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 10:54:17 -0400
-Received: by mail-lf1-x144.google.com with SMTP id m2so14060049lfo.6
- for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 07:54:16 -0700 (PDT)
+ (envelope-from <steplong@quicinc.com>) id 1jT5hI-0004Rp-NT
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 11:29:33 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:49183)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <steplong@quicinc.com>)
+ id 1jT5hH-0004QT-HR; Mon, 27 Apr 2020 11:29:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1588001367; x=1619537367;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=ukVOBhRuoyuJdxJJZaT28IUT9HZ+mtnFzCtlL4lL88w=;
+ b=PgBWZPreroc9o/f0qqWQEzAeFAsRoJJvDK1A1rbDTTot4wLdGS0ppON2
+ VdlPMIuNrSS//PCLsy/Ub4niR+X+Xrwd68fel6/8JtseHcPwDywezh7ff
+ 8ZQUVrDJvLanc98Jw9NaqqVcLmSQqVuCQDViyfeWXCayOj4eFaUfPBZ+g 0=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 27 Apr 2020 08:29:21 -0700
+Received: from nasanexm01a.na.qualcomm.com ([10.85.0.81])
+ by ironmsg04-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 27 Apr 2020 08:29:21 -0700
+Received: from apsanexr02a.ap.qualcomm.com (10.85.0.26) by
+ nasanexm01a.na.qualcomm.com (10.85.0.81) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 27 Apr 2020 08:29:21 -0700
+Received: from nasanexm01a.na.qualcomm.com (10.85.0.81) by
+ apsanexr02a.ap.qualcomm.com (10.85.0.26) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 27 Apr 2020 08:29:19 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (199.106.107.6)
+ by nasanexm01a.na.qualcomm.com (10.85.0.81) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2 via Frontend Transport; Mon, 27 Apr 2020 08:29:19 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I9EboTcsqKM7RwI0jTpHNgBzwo6sW/QfPEzPD0ZndjOCifY/41f0LttxwIY83TMbQzGBlfrh7QYc8mqA2v5rNtMqr+fIXxl4lCyID2z2DuicX6fpwKhd8+mHKl6rxXkEdekFAuBCiME7wNhzXnTXIvGst8Ks+2fqnXfFhUz6UG6JThE1b3D4SQSWyG8QBq7qnN5X3Kwbtv8BdsDtDp3+WyNg8Zs+JuhKN7OmfI2BPvH3/jiSgFgY5+xa4uIbhNXsrOMXOOtiR/3ZeyapuH8hLoBkVBpK4jC5UWtducCTxqYy561J7jOeSIINIsHIUs633f1h46THg2cEnEr+GnNNOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=03LS1Ff55y/QZyCSr8zNOLrdlDMgX6lLrnr35BoL6+g=;
+ b=j2fiK03sYYWSIOXbnBZT76GQOVxBGwkMgCv5gBhuJ3/1yncNp7Fq0g8SkrcUDZ82wCSmslM3C7WpiwJvH5tBeCfEcUqTssp2MdOJygrDIHoCSkEsVHlOUjdtHjH5qFP1neaNWC2h/Ep9jDquSS38EayzCPDrFmCrxTAFt5be2Ju958av/zbmMmFujxQTHZEYcC0rVmc5ds31qRtAXz5liuurT2aZyq/DEFyGN3kZpm25nVtq0lbiulToBjRck4fiJD3bqy7LnVdZhkHLoEVlO8u5hlEz3nkH+b7gnmedF8UGm/9Qc+Ck2tBV0LBkjs8hZ3XkFEoZmsRAbXynwfnWLw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Ju5oSkgNe0d4rH2rLCOydGzpRFUJq7Gmr1xQg3XTncc=;
- b=wHKj/viNCHxtS7KBtjbui0syCpDaZOh4gFhrCD5op+W1x8B46SQ8AKjJiByisXnwQt
- kmpBxggbef+IPOgk/fXqGZvRQNZsHvJJOonOjX/7RJsthh9lvlVTB7OXW+VehhvgNaZl
- aK0td6ODaZVyWiheaMil+vN8GJdDI2HUAa6OBWRZSXBX6kygmLzQTonBOll1Z2dRcFQu
- AiDWWZQVgGpXxkzZklspkL/HmYErU29CQlOFKhUMau8ybfrqLAM+v+LKN3G0CalEZSeu
- nU7ieA0o/s5YBx1Pd4niV6X6DJfoUeQdpLRJ5oYUjBNUWI9vn45Nk8wIOg/IhWN26DB3
- j+9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Ju5oSkgNe0d4rH2rLCOydGzpRFUJq7Gmr1xQg3XTncc=;
- b=VniunUxZy7JXHOobB1mqPaZ/KZ3CX53RD2xtKJHeAKmyOv5TW0ZyJkmIdUBxnUj3Yr
- 921ZthxTjt+1IfA3yo7NT/cobeSFAyPaZfQ2YsBzxNhriz8n7LmuDZIRqGQMYM1y3lXw
- 4y2hkJDoSuzeygfEpR8Eu4dxiHW4xfB7BL1DAJIjgFfrFHuNvJMSwgdM3pOW6whpVq2c
- ByYBu7pcVcMrk22Z9asWeI4kyJhpQgQMTRsnwnidkPaoG2x6/j25KoRbf4MoHPGFESt4
- i2PZyQRps1rOEmlJpUGUbSZ2smk+IAViLrWwS2wYp4VRiMW7LTWGKoyWDxCqdbXurrXQ
- YnVQ==
-X-Gm-Message-State: AGi0Pua2Zyg5HzNu6RMvOgF6Awrn/ZY5yMLKCvqYvErzJdB0pob/6BS/
- a0ZDgriFKqCVljs18Yso+j7epVZVaBPYJg==
-X-Google-Smtp-Source: APiQypLq6Y1NfKj+sqH0VhesCI88YSYJ6yFebL4T6vvjtBFEtcDg9sPe/49oRMNdTQuq6TGEhGWubQ==
-X-Received: by 2002:a05:6512:10c5:: with SMTP id
- k5mr15928359lfg.0.1587999254288; 
- Mon, 27 Apr 2020 07:54:14 -0700 (PDT)
-Received: from navi.cosmonova.net.ua ([95.67.24.131])
- by smtp.gmail.com with ESMTPSA id i14sm904527lfl.21.2020.04.27.07.54.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Apr 2020 07:54:13 -0700 (PDT)
-From: andrew@daynix.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH] e1000e: Added ICR clearing by corresponding IMS bit.
-Date: Mon, 27 Apr 2020 18:21:48 +0300
-Message-Id: <20200427152148.283771-1-andrew@daynix.com>
-X-Mailer: git-send-email 2.24.1
+ d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=03LS1Ff55y/QZyCSr8zNOLrdlDMgX6lLrnr35BoL6+g=;
+ b=AbSv/OZuRiC8JibhzzRbMqMxMtfDvmKpbDlpeYlWpC/UnJjnjIo+LZM0hfV4L5guSeKRUVLrwLt6p1n4/UjgYKQoLhWSq5erEGZ5XY1zYBfqTyJjHAwYSKEd8FU1DfTFTAaNaXYfh19Fz50mea6l1PW6xljaJqJz8hpU8jC7Rns=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=steplong@quicinc.com; 
+Received: from MWHPR0201MB3547.namprd02.prod.outlook.com
+ (2603:10b6:301:7b::24) by MWHPR0201MB3465.namprd02.prod.outlook.com
+ (2603:10b6:301:76::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Mon, 27 Apr
+ 2020 15:29:18 +0000
+Received: from MWHPR0201MB3547.namprd02.prod.outlook.com
+ ([fe80::10ad:5df5:d575:1f37]) by MWHPR0201MB3547.namprd02.prod.outlook.com
+ ([fe80::10ad:5df5:d575:1f37%3]) with mapi id 15.20.2937.023; Mon, 27 Apr 2020
+ 15:29:18 +0000
+From: Stephen Long <steplong@quicinc.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH RFC v2 0/3] target/arm: Implement SVE2 Crypto Extensions
+Date: Mon, 27 Apr 2020 08:29:01 -0700
+Message-ID: <20200427152904.14768-1-steplong@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: MN2PR02CA0025.namprd02.prod.outlook.com
+ (2603:10b6:208:fc::38) To MWHPR0201MB3547.namprd02.prod.outlook.com
+ (2603:10b6:301:7b::24)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::144;
- envelope-from=andrew@daynix.com; helo=mail-lf1-x144.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::144
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from STEPLONG.qualcomm.com (108.176.222.2) by
+ MN2PR02CA0025.namprd02.prod.outlook.com (2603:10b6:208:fc::38) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2937.13 via Frontend Transport; Mon, 27 Apr 2020 15:29:17 +0000
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [108.176.222.2]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2dc623b4-fd00-4610-3e6a-08d7eabfc029
+X-MS-TrafficTypeDiagnostic: MWHPR0201MB3465:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MWHPR0201MB3465A1FF511AEE5F0CD9FFC8C7AF0@MWHPR0201MB3465.namprd02.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-Forefront-PRVS: 0386B406AA
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR0201MB3547.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(39860400002)(346002)(376002)(396003)(366004)(136003)(2906002)(6916009)(107886003)(6666004)(6506007)(66476007)(316002)(66946007)(26005)(8676002)(2616005)(52116002)(81156014)(4326008)(4744005)(8936002)(6486002)(478600001)(956004)(5660300002)(186003)(1076003)(36756003)(16526019)(66556008)(86362001)(6512007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: oMUqDOtrpw9kje8a7Od4mpBRG2i8erT3ikM3r/ivdw6fpxxJiyTfZJb5MerUkCs7PdAxsKyDysvsMX4mT+JMlilFoRUjD/TXSO7m93yCjWl9MSmY8FelA/sxLwxPU7RdF3hK5r7vbrFCo8QFJlPHmqZHEgzngFOYRZQeWYwMxHfAOuMhT0/CFTLodi3blEW4fA/kN1C4EQBhSnpzRtuuto9v03IcVWR9NNqSTQey98JvtBtE/ICy9V8I3FFWKFUHeyw6KDc6ZUY/M78uMitqdtUZ4T0PO3J5Y9+xK+RW27HHy2oJhN4xtJCjTR7OOmOO9gTiYNyL35VLO4QA0nQ2xt0u8QolVdfHapWIprn27dR9Ui8Qsyn7IrZBUd/N1GHTrB10iiN8O9xIlLbMOnZVeWDV2TCZqZlhA1iH7u+j7LIh6qj+nJwwL9AZCil0ZOQS
+X-MS-Exchange-AntiSpam-MessageData: GJAhHFslPlHpU7OmbJXJXGKcHzms/HBpfUlkWqD2e7mJCZyCiw29JRLmJn7xL4s5vcirQuGkcV22vfEsQhbgZ1cbM4232n3o/XmYmbflFrU+LkJbJ371nq+jXrqpjmE7b6XfzExSklRDvjOxGa9MGxMhHazf3LwtrvFeyUB13Z9Mn2S2Cw3UcajBcwbNzN57ijYCOyI++vHtw1JvV7XLcpgZef5+D9nLdYedOICU4A/BRWL4jSYQ6onKUEXQcTh20jOrPLr1StdQB3ycQQ7Jsm3AcVLfbb49me4nsYXbR1rf+b3uUW1KizgMzpATiWP/JoZlBR5FDb/PUPajiZzaYxRdHRqtyX3YuKhaWWLUQfHA0Q5zrESjtHUB5ijmjtiLXQDW+i2ptJwl9OqYqqpn4XxTjE+gyteTjzAM/MT7rtcvoWEwFkZ2PmwPeUzwBRAapAKTRcGXu9tOCMo7l2rNEPX3kZJOBWf5KEwiPC5BHTekGlNYk3MKok/C+KjKwjtHtne3kTXBfGTrXm6SqiPZm7ENwbituUdwSf29yRTNdQbHmSAXgEJMrZpmnygn8rQniHCo+os5lzo91vYftDPS6Lsi9vNV3pkAh6EjKpJLmieufrapkq8cB9MohxTA/PJqooCZuY7MV/VEifWPdm2uSeOpiOCn26Ns9aWB7TBsF8sqXFnTdyRL7qFogBt6BJhX8ATYpdC3EtpUC1KjSTI2mZaGSwBPB/v//UtudhuyP6xiPPx+IAUIiUFAq5DzNpgYjgjt3dGTW9PIG6vletVOAlJwnR1phkvXkgf3rILbgtQ=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2dc623b4-fd00-4610-3e6a-08d7eabfc029
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2020 15:29:18.2204 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sQQxUT5XQrx5CqN+HtQd98YEb6e2WCI/u7Hod70w0Oqmog5brFnTWMueKrnYLOhamJJq+AeVgkkcinlm+NoRyg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR0201MB3465
+X-OriginatorOrg: quicinc.com
+Received-SPF: pass client-ip=199.106.114.39; envelope-from=steplong@quicinc.com;
+ helo=alexa-out-sd-02.qualcomm.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 11:29:22
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Received-From: 199.106.114.39
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,55 +126,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, dmitry.fleytman@gmail.com
+Cc: qemu-arm@nongnu.org, richard.henderson@linaro.org, apazos@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew Melnychenko <andrew@daynix.com>
+Used one macro to cover the helper functions for
+SVE2 AESC, AESIMC, AESE, AESD.
 
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1707441
-Added ICR clearing if there is IMS bit - according to the note by
-section 13.3.27 of the 8257X developers manual.
+No macro was used to implement the helper functions for
+SM4E, SM4EKEY, RAX1.
 
-Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
----
- hw/net/e1000e_core.c | 9 +++++++++
- hw/net/trace-events  | 1 +
- 2 files changed, 10 insertions(+)
+Stephen Long (3):
+  target/arm: Implement SVE2 AESMC, AESIMC
+  target/arm: Implement SVE2 AESE, AESD, SM4E
+  target/arm: Implement SVE2 SM4EKEY, RAX1
 
-diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index d5676871fa..8878b7ef00 100644
---- a/hw/net/e1000e_core.c
-+++ b/hw/net/e1000e_core.c
-@@ -2624,6 +2624,15 @@ e1000e_mac_icr_read(E1000ECore *core, int index)
-         e1000e_clear_ims_bits(core, core->mac[IAM]);
-     }
- 
-+    /*
-+     * PCIe* GbE Controllers Open Source Software Developer’s Manual
-+     * 13.3.27 Interrupt Cause Read Register
-+     */
-+    if (core->mac[ICR] & core->mac[IMS]) {
-+        trace_e1000e_irq_icr_clear_icr_bit_ims(core->mac[ICR], core->mac[IMS]);
-+        core->mac[ICR] = 0;
-+    }
-+
-     trace_e1000e_irq_icr_read_exit(core->mac[ICR]);
-     e1000e_update_interrupt_state(core);
-     return ret;
-diff --git a/hw/net/trace-events b/hw/net/trace-events
-index e18f883cfd..46e40fcfa9 100644
---- a/hw/net/trace-events
-+++ b/hw/net/trace-events
-@@ -237,6 +237,7 @@ e1000e_irq_icr_read_entry(uint32_t icr) "Starting ICR read. Current ICR: 0x%x"
- e1000e_irq_icr_read_exit(uint32_t icr) "Ending ICR read. Current ICR: 0x%x"
- e1000e_irq_icr_clear_zero_ims(void) "Clearing ICR on read due to zero IMS"
- e1000e_irq_icr_clear_iame(void) "Clearing ICR on read due to IAME"
-+e1000e_irq_icr_clear_icr_bit_ims(uint32_t icr, uint32_t ims) "Clearing ICR on read due corresponding IMS bit: 0x%x & 0x%x"
- e1000e_irq_iam_clear_eiame(uint32_t iam, uint32_t cause) "Clearing IMS due to EIAME, IAM: 0x%X, cause: 0x%X"
- e1000e_irq_icr_clear_eiac(uint32_t icr, uint32_t eiac) "Clearing ICR bits due to EIAC, ICR: 0x%X, EIAC: 0x%X"
- e1000e_irq_ims_clear_set_imc(uint32_t val) "Clearing IMS bits due to IMC write 0x%x"
+ target/arm/cpu.h           |  5 +++
+ target/arm/helper-sve.h    | 10 ++++++
+ target/arm/sve.decode      | 20 ++++++++++++
+ target/arm/sve_helper.c    | 46 +++++++++++++++++++++++++++
+ target/arm/translate-sve.c | 64 ++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 145 insertions(+)
+
 -- 
-2.24.1
+2.17.1
 
 
