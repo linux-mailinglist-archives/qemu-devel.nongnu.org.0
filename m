@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F4001BA6AC
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 16:41:42 +0200 (CEST)
-Received: from localhost ([::1]:48591 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4370C1BA6DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 16:49:19 +0200 (CEST)
+Received: from localhost ([::1]:49128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jT4x2-0001ph-NP
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 10:41:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56842)
+	id 1jT54Q-00071D-Aa
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 10:49:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56890)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jT4v4-00089L-AM
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 10:39:40 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jT4v8-0008GE-EJ
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 10:39:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jT4v3-0007kR-Ri
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 10:39:38 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jT4v5-0007lY-N0
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 10:39:42 -0400
 Received: from mail-eopbgr40124.outbound.protection.outlook.com
  ([40.107.4.124]:49833 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jT4v1-0007iT-9D; Mon, 27 Apr 2020 10:39:35 -0400
+ id 1jT4v2-0007iT-IO; Mon, 27 Apr 2020 10:39:36 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Yx2DnubE9R6Rlt7g/9roIxuOhmC/icVy7glRoD9KcFZrqtb/nNz9DZK9hLQSJvNkDtzHuhg04pqsmvwY899cKCFSr0148PcSVeCbyDKCvN6a+Be3zTyNv2LoEsww4hWA4mWVvZN/os8NVg76NSaqIkC/RE73DJ3bVuA0PjuCindWlJmbGq9WYvC3r8wf6SNQkdNEpYbI+RLlE2quicNp8q7gOt24q6Bp9j/3+wqAjcLn1n0wYCvZ2jfoJxkd9mXyUz6rR04Qxc5UoBL4+5ahMaLIjChekLf1PIEzJ46ii4HquQu1/2LTVawssTSCsS1UROh0dNhrz7GtOi5boVDVGA==
+ b=DaGiq1hvFR483fjKru53lCl9xT3zDWwx5HyuPT20YZ4xrwHs5jjlLuapOKqX2ond2BcJtWU6VdxU7BrpKlU/lfgtLekEbUmQEJYpV7wVqh2QqeSqtu+TPnD0kUxY61oCrrUWyq8DIXTgX3vggbVwM7gE8SUJY3lbtgVkMIIXAEjEZIlLoQDutP887qhVUsdwzGFuntNpjaeQIw9PhL8b5RckyDhMBv4CS9fsDIwtgJzWF0/D6i/VhuWZn7h2P0bN7ZkVbJsNzO10PEEVB/K1BSbW7Cj0Je4UIXx7zJWm3JuXYkXlTt7edIi5C79PRfQRqx0obiD4X/HdXvNjcEyj7Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+Tp/lNrp4pa6NXDHRAe0wN6lAiaVRIBuOBnYuWH7cs4=;
- b=nu1zKfZUlnNlt0euh6np8R/gTH0+yUbz8zN/tNw10qyd6WvshOliscp0jww8VxD17zuuEOzfOS1GCItN5OKnRrPqM81ClNl/LqTkuSNyHsTzrgPPuuzZDzRp9enJV+q26aL0JoHo8wciSluzw2rf+IoX6DsxuzyM7oFPdWOKjCzJDMZRK/V+xHD2UCpwbPHmwAybu6DRvVdo29NGfQFjNU3eqYfU/7mou8LG13L3ciztwzDQ5njWvcsgX3fwy0tBt0CNIhxq+invelz10oj5//SKIEa+MFohAMVLnraqWS1I5NrWHYlH51R0PTFVXnyHSiJZefXHUplwjz3HXJ3dZw==
+ bh=9ihRWiLKIJVJgQeWrd0GmjsDZuY3P9UqMYNUt5RqTKw=;
+ b=ZJLrWjRXrwTh1pVFNosHmV41yqboxPpQvIaqOGWttyF58Z84g/jUKAwDVorSJJyi1/UG/wEwt9PvtA2ZOaBvKEJZJMdaMK1ZgDQjtCxNgTa07W1Zq/nawZLvYRTe26QJ4s4QN8rbp3eMnImonAOZntY1n4BAs2H6L4JltrqAYTSwv7dsOrnmeH3GVpoq7INk6NEihxeQQKz1n59GNslt4b+8Tmh7czsPFFkfJT2j17DrBKR2vsSVPVqfJMQPXH7I+gvd3gKg/1/cSbc1UaFjcmtBTUvp/EzDJtwuzODBCTeecqlZs38ErGx3aOKWjZ+Rmd8MSMTwh2TekejsF8UBkw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+Tp/lNrp4pa6NXDHRAe0wN6lAiaVRIBuOBnYuWH7cs4=;
- b=YS9ow0G/RtWp+W7QANmuBdRvVm61I0G+rkbVGv9yUfoRXsje+QChu7y5NDm+HJ/urpxU4lI9HWK0Eazhx0nTYsRKNJnE5CIAOz80VTxxs37uzx34O8vhNiQgXu4AMeZDT9OVj9js36nOfOJj+oOXb24Viivopgq7zK7Y+JJfaKk=
+ bh=9ihRWiLKIJVJgQeWrd0GmjsDZuY3P9UqMYNUt5RqTKw=;
+ b=iahpMOvMVPG4FxTyCbmsvck9AD6ydIbQaOn+OwythTPnjiGDDBDwUeYqg1IgoZDwgyIsct/Sr4J+35OtvtMCz+b8sfmEw7T1rS9uyx6jxeoxv9M4w6C9YRzsVzpyrOGDX7CDP11/mFL5UmMhyi+S0G9vt/JGm2BZ2sYpFYlAr3E=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=vsementsov@virtuozzo.com; 
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
@@ -49,9 +49,9 @@ Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  14:39:33 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 3/9] block/io: move flush and pdiscard stuff down
-Date: Mon, 27 Apr 2020 17:39:01 +0300
-Message-Id: <20200427143907.5710-4-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 4/9] block/io: move bdrv_rw_co_entry and friends down
+Date: Mon, 27 Apr 2020 17:39:02 +0300
+Message-Id: <20200427143907.5710-5-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200427143907.5710-1-vsementsov@virtuozzo.com>
 References: <20200427143907.5710-1-vsementsov@virtuozzo.com>
@@ -65,15 +65,15 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.182) by
  FRYP281CA0010.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::20) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2937.13 via Frontend Transport; Mon, 27 Apr 2020 14:39:32 +0000
+ 15.20.2937.13 via Frontend Transport; Mon, 27 Apr 2020 14:39:33 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.182]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 47d9a031-ffe9-41a5-1196-08d7eab8cce0
+X-MS-Office365-Filtering-Correlation-Id: 3ec3f310-36f2-459f-b11a-08d7eab8cd4c
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5336:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5336B4281475886033EDF1DFC1AF0@AM7PR08MB5336.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:248;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5336AEDFF864632F2620CEE0C1AF0@AM7PR08MB5336.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-Forefront-PRVS: 0386B406AA
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
@@ -84,15 +84,15 @@ Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Zz7KO/VoX7ZtrOij+B5VMurGtIXXRzIFDeqmkWwedfoUpqoMB7gDGylA2BHU3mn+p9evtNUz0qphe8Hpj9mjDEtpWZUsUWEKBLuryr8wsTxHC2we3a9nH23p1Gj9uW1sh2pHf+CDkccVJ7U2llQu9KWVJHXc12SqLEYniQrWSTQ8XY2wQ4/TtnR0y4kH+r4qYlJCFovj3wQxDhgwlM/QgZ8A9r4GuCgoVqe+9UPD/RE1fSG7+5UrJ4qMqkrw8tK9ruMnuYfiUyddGSoG4Fys5kBw+lTX/evpUDESWp1oajo9eIJlKlMHicGrPpWm6Lu0R6++DVwiGLbuRkRlkGKbDN2i8fSGiKmZ0aeST3x2iTS+YSx50lrVq2Asp1uKx2EcKqOgcwiVtK2TZw1pJsruXd02tZYcYXUSj3KXPHcJ34yNGAoU/GvmPAU3yczvxX/ycm1f5i5JDJLxHJATqcy2UrqrS5IoQvS2yJm4Cb7MT9PidLKEifp9oTO6B1cfdXQN
-X-MS-Exchange-AntiSpam-MessageData: hJNu7Muxmr5Ihve8CMMcUuZZxbEpNJsFLOXWFrMuH43gZFlztc/CCwLUIoA2itsev7HgR+1Za4zqGWvB2cwcvb1tYyyVmv9HzmrZLized5oRfLXi59/FdTZvCZ+BzRkMQ4lCtsDbs1Y3mQJgZF1+vPQxknI3KtO6NjkoU7WpJrufXZsvJr14TzyAx+wBVoXfb/tx9BH1lppRzxBIDt69KhWtLnjZbrpmbPwgBN9179Fsj6daAPZmfS2hph18m/k1WAiolWA44EPU9Gjee3DlOGdrpXuEIzZjr2bUZw96quIYx0sr+9S23Fs7lfcJtSvMKtRMiF7umfjdc1bSue98/HXCP5nbtxbqNNfpkrPzqyoT14cYkQiU5YrUKaYk4hueD82dC8HlkyeDTVdL8A2w9rpxrbrw+gH2BmttDXol8DGRWZTbJ64uD4agFNxtUUf4xkq7yXzWzvrDSPHzE3FYqlgdteroel3t0adzsDllu6XhQgAJG4HE8Dyv9RUciWksCSj+qFu2ikUx6620FyEXnFIEazERkF5wftCB0b4WylfZzpSNgtMhR60nu9VsATfY//moWXJ65bxwwKo5JvZLwLRcmrsIv3itrd75/wRayfT/ZmoOCLB01kvq8toLPrd+RlhisaJUpDeZGJG7M3teYnIdN6pR4X1YvMGZ2Wm2OFtwEnNkR8tUn2aw5ir5JcEDoxbnyIaUUMcJOYyc6W0Te5TFzXQgEH7wy7OU1oRu+DX4s9CixXlIbaJwmIM47INShFo6+6sZnboG2DYvvWkentSw+Sk8Y9YxeCE3oP1P1LM=
+X-Microsoft-Antispam-Message-Info: cz3wntPHU6kNhlmNTUKfofIA0jh7LM55vkKeNQQMKXlm5ZptByKcE9FjripJLyBLxJpttZbIyljaagiwsNIjZMtEoN1dU+3MRhtkqOVuuQpf0eL1RiXVpgtpOnfSzV0PE09Puizg1w2RRZ345fwwnBIy2i8oR5JkXjRnxEsOdgPclZBZCQIlveK+Az6wzqyFDVuYaSXYia/xkuHQvYi6avjXs+Tq0N5ue4ENW/7+bF6RSJW/qOY//HxUvNMy84NqNhCrYwnz5q6CtPzdpS1JOI/I2BkjQo+TH++CqdxnQp7e0a0xGcvyPYEZPT0EADTJm3Rfw99tkYQM8FjGr7XewbsuVzjWnSjikTKQRS7E3NYi5RleoU/V7e9ln9lAqUeYQuEV6+FWvAyCcKNPxUkgp4DhR9UYX23SqgD4GpT3LYBKdYI2ktjPwd4tcCF/oJyXQCChfvypsbeWkcfF+49MiDWQq/C4ABm/CfW1216/vip47nPznhzXey52MKYFHxT8
+X-MS-Exchange-AntiSpam-MessageData: RVueGdoIEr5xfkTqq5L2IV6Ll2uHqj0kZxEbJoe7Qemn+f9cQsLl2sSRGmlJGQrhssPPzthHQ55NO87oy8S5Laps9Ftd8uqQgoshnIBtEetY99pUGWazpiB6hzQjzKS461oetuwJz+z26piPN5CAQe7JFJiiJQt4HASWWRWN616QOaNzu0wiaVt5aa8X5xg6g3vPV79KUOYM0bZ2oBzat6ctYgf/TReMGrLIrbnjNE38W0vtVFOHpgfY+atcjEbbK3LgiFDtF0TRi6VPkQ0lRO9K/xfXpFq0Q8LBrF0ZLyiXk12w/dafX5z5CsfDjDwvBwoowYl0vTOG/pkAKgy/ycpXS2Zenk+ZQiijRrvgmzbkescd6XAfgRuu43ZmhwCG502IokhgYSbJd1rTNpyjTUsIuYSHBsd7t5YxMe1tgoO8pN3Pfn7zrDopMSiBNiONiMOCxlEkY5sV/+wQB+acs5POft+ReQJY98oZ8b5KIN8c3qwAVdwRp0g1TIlUM4XJbxEeR65RDBfz16N2sk+eNkqL32PilspMC+NFxayY/cYGhBHsNuxFvLGTjYUQ1I9ZvyOOtCUxwXVlCFNGBU+kum8LOnhPuO5jIXPTWwHkMnXR+IEFQK4rBrltZlnCmOYOg8BMGMj7EBuwMt7lR/zuksyMLolNyJSB5mAkTmKWSH1r0KsArTWiKQTjqfTbkB6vy7yPe7r0U89EQ1y6nC5Njz260JiwB3vWa0UlTXXQQPS0TyuFfzjQ8dwmuveP1WDJY9eN5mK6jI+yozJV2biuCbf9ZQn8Nk04i4KjMSZCL9I=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 47d9a031-ffe9-41a5-1196-08d7eab8cce0
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2020 14:39:32.9667 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3ec3f310-36f2-459f-b11a-08d7eab8cd4c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2020 14:39:33.7721 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BCoDqRyiPGSE9CVzxTXuZsK2s+ce7FRkzaBGfhHZ5cijP4RRa+ejQ9/Khor/2Vmq74+3kl83cEL4edci31m4VvTzTjwaMUKOg3iyyjSRFaw=
+X-MS-Exchange-CrossTenant-UserPrincipalName: aweXqm4nqMIOtj9JvRcs2VkvAWv3mWeDZP55MxGEJA0osL4L3CVQgeiGOyL+69a+NS/gWmkFENkPtEW19qpehxFmHb7/K/wXmh5HIU/NmEw=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5336
 Received-SPF: pass client-ip=40.107.4.124;
  envelope-from=vsementsov@virtuozzo.com;
@@ -116,103 +116,397 @@ Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bdrv_co_flush and bdrv_co_pdiscard will become static in further patch,
-move their usage down.
+We are going to use bdrv_co_pwritev_part and bdrv_co_preadv_part in
+bdrv_rw_co_entry, so move it down.
+
+Note: Comment formatting was changed to conform to coding style and
+function order was changed. Otherwise the code is unmodified.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block/io.c | 56 +++++++++++++++++++++++++++---------------------------
- 1 file changed, 28 insertions(+), 28 deletions(-)
+ block/io.c | 361 +++++++++++++++++++++++++++--------------------------
+ 1 file changed, 181 insertions(+), 180 deletions(-)
 
 diff --git a/block/io.c b/block/io.c
-index 880871e691..1134f8144a 100644
+index 1134f8144a..061f3f2590 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -2827,20 +2827,6 @@ void bdrv_aio_cancel_async(BlockAIOCB *acb)
- /**************************************************************/
- /* Coroutine block device emulation */
- 
--typedef struct FlushCo {
--    BlockDriverState *bs;
--    int ret;
--} FlushCo;
--
--
--static void coroutine_fn bdrv_flush_co_entry(void *opaque)
--{
--    FlushCo *rwco = opaque;
--
--    rwco->ret = bdrv_co_flush(rwco->bs);
--    aio_wait_kick();
--}
--
- int coroutine_fn bdrv_co_flush(BlockDriverState *bs)
- {
-     int current_gen;
-@@ -2953,6 +2939,19 @@ early_exit:
-     return ret;
+@@ -891,186 +891,6 @@ static int bdrv_check_byte_request(BlockDriverState *bs, int64_t offset,
+     return 0;
  }
  
-+typedef struct FlushCo {
-+    BlockDriverState *bs;
-+    int ret;
-+} FlushCo;
-+
-+static void coroutine_fn bdrv_flush_co_entry(void *opaque)
-+{
-+    FlushCo *rwco = opaque;
-+
-+    rwco->ret = bdrv_co_flush(rwco->bs);
-+    aio_wait_kick();
-+}
-+
- int bdrv_flush(BlockDriverState *bs)
- {
-     Coroutine *co;
-@@ -2973,20 +2972,6 @@ int bdrv_flush(BlockDriverState *bs)
-     return flush_co.ret;
- }
- 
--typedef struct DiscardCo {
+-typedef struct RwCo {
 -    BdrvChild *child;
 -    int64_t offset;
--    int64_t bytes;
+-    QEMUIOVector *qiov;
+-    bool is_write;
 -    int ret;
--} DiscardCo;
--static void coroutine_fn bdrv_pdiscard_co_entry(void *opaque)
--{
--    DiscardCo *rwco = opaque;
+-    BdrvRequestFlags flags;
+-} RwCo;
 -
--    rwco->ret = bdrv_co_pdiscard(rwco->child, rwco->offset, rwco->bytes);
+-static void coroutine_fn bdrv_rw_co_entry(void *opaque)
+-{
+-    RwCo *rwco = opaque;
+-
+-    if (!rwco->is_write) {
+-        rwco->ret = bdrv_co_preadv(rwco->child, rwco->offset,
+-                                   rwco->qiov->size, rwco->qiov,
+-                                   rwco->flags);
+-    } else {
+-        rwco->ret = bdrv_co_pwritev(rwco->child, rwco->offset,
+-                                    rwco->qiov->size, rwco->qiov,
+-                                    rwco->flags);
+-    }
 -    aio_wait_kick();
 -}
 -
- int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset,
-                                   int64_t bytes)
- {
-@@ -3101,6 +3086,21 @@ out:
-     return ret;
+-/*
+- * Process a vectored synchronous request using coroutines
+- */
+-static int bdrv_prwv_co(BdrvChild *child, int64_t offset,
+-                        QEMUIOVector *qiov, bool is_write,
+-                        BdrvRequestFlags flags)
+-{
+-    Coroutine *co;
+-    RwCo rwco = {
+-        .child = child,
+-        .offset = offset,
+-        .qiov = qiov,
+-        .is_write = is_write,
+-        .ret = NOT_DONE,
+-        .flags = flags,
+-    };
+-
+-    if (qemu_in_coroutine()) {
+-        /* Fast-path if already in coroutine context */
+-        bdrv_rw_co_entry(&rwco);
+-    } else {
+-        co = qemu_coroutine_create(bdrv_rw_co_entry, &rwco);
+-        bdrv_coroutine_enter(child->bs, co);
+-        BDRV_POLL_WHILE(child->bs, rwco.ret == NOT_DONE);
+-    }
+-    return rwco.ret;
+-}
+-
+-int bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset,
+-                       int bytes, BdrvRequestFlags flags)
+-{
+-    QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, NULL, bytes);
+-
+-    return bdrv_prwv_co(child, offset, &qiov, true,
+-                        BDRV_REQ_ZERO_WRITE | flags);
+-}
+-
+-/*
+- * Completely zero out a block device with the help of bdrv_pwrite_zeroes.
+- * The operation is sped up by checking the block status and only writing
+- * zeroes to the device if they currently do not return zeroes. Optional
+- * flags are passed through to bdrv_pwrite_zeroes (e.g. BDRV_REQ_MAY_UNMAP,
+- * BDRV_REQ_FUA).
+- *
+- * Returns < 0 on error, 0 on success. For error codes see bdrv_write().
+- */
+-int bdrv_make_zero(BdrvChild *child, BdrvRequestFlags flags)
+-{
+-    int ret;
+-    int64_t target_size, bytes, offset = 0;
+-    BlockDriverState *bs = child->bs;
+-
+-    target_size = bdrv_getlength(bs);
+-    if (target_size < 0) {
+-        return target_size;
+-    }
+-
+-    for (;;) {
+-        bytes = MIN(target_size - offset, BDRV_REQUEST_MAX_BYTES);
+-        if (bytes <= 0) {
+-            return 0;
+-        }
+-        ret = bdrv_block_status(bs, offset, bytes, &bytes, NULL, NULL);
+-        if (ret < 0) {
+-            return ret;
+-        }
+-        if (ret & BDRV_BLOCK_ZERO) {
+-            offset += bytes;
+-            continue;
+-        }
+-        ret = bdrv_pwrite_zeroes(child, offset, bytes, flags);
+-        if (ret < 0) {
+-            return ret;
+-        }
+-        offset += bytes;
+-    }
+-}
+-
+-int bdrv_preadv(BdrvChild *child, int64_t offset, QEMUIOVector *qiov)
+-{
+-    int ret;
+-
+-    ret = bdrv_prwv_co(child, offset, qiov, false, 0);
+-    if (ret < 0) {
+-        return ret;
+-    }
+-
+-    return qiov->size;
+-}
+-
+-/* See bdrv_pwrite() for the return codes */
+-int bdrv_pread(BdrvChild *child, int64_t offset, void *buf, int bytes)
+-{
+-    QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, bytes);
+-
+-    if (bytes < 0) {
+-        return -EINVAL;
+-    }
+-
+-    return bdrv_preadv(child, offset, &qiov);
+-}
+-
+-int bdrv_pwritev(BdrvChild *child, int64_t offset, QEMUIOVector *qiov)
+-{
+-    int ret;
+-
+-    ret = bdrv_prwv_co(child, offset, qiov, true, 0);
+-    if (ret < 0) {
+-        return ret;
+-    }
+-
+-    return qiov->size;
+-}
+-
+-/* Return no. of bytes on success or < 0 on error. Important errors are:
+-  -EIO         generic I/O error (may happen for all errors)
+-  -ENOMEDIUM   No media inserted.
+-  -EINVAL      Invalid offset or number of bytes
+-  -EACCES      Trying to write a read-only device
+-*/
+-int bdrv_pwrite(BdrvChild *child, int64_t offset, const void *buf, int bytes)
+-{
+-    QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, bytes);
+-
+-    if (bytes < 0) {
+-        return -EINVAL;
+-    }
+-
+-    return bdrv_pwritev(child, offset, &qiov);
+-}
+-
+-/*
+- * Writes to the file and ensures that no writes are reordered across this
+- * request (acts as a barrier)
+- *
+- * Returns 0 on success, -errno in error cases.
+- */
+-int bdrv_pwrite_sync(BdrvChild *child, int64_t offset,
+-                     const void *buf, int count)
+-{
+-    int ret;
+-
+-    ret = bdrv_pwrite(child, offset, buf, count);
+-    if (ret < 0) {
+-        return ret;
+-    }
+-
+-    ret = bdrv_flush(child->bs);
+-    if (ret < 0) {
+-        return ret;
+-    }
+-
+-    return 0;
+-}
+-
+ typedef struct CoroutineIOCompletion {
+     Coroutine *coroutine;
+     int ret;
+@@ -2185,6 +2005,187 @@ int coroutine_fn bdrv_co_pwrite_zeroes(BdrvChild *child, int64_t offset,
+                            BDRV_REQ_ZERO_WRITE | flags);
  }
  
-+typedef struct DiscardCo {
++typedef struct RwCo {
 +    BdrvChild *child;
 +    int64_t offset;
-+    int64_t bytes;
++    QEMUIOVector *qiov;
++    bool is_write;
 +    int ret;
-+} DiscardCo;
++    BdrvRequestFlags flags;
++} RwCo;
 +
-+static void coroutine_fn bdrv_pdiscard_co_entry(void *opaque)
++static void coroutine_fn bdrv_rw_co_entry(void *opaque)
 +{
-+    DiscardCo *rwco = opaque;
++    RwCo *rwco = opaque;
 +
-+    rwco->ret = bdrv_co_pdiscard(rwco->child, rwco->offset, rwco->bytes);
++    if (!rwco->is_write) {
++        rwco->ret = bdrv_co_preadv(rwco->child, rwco->offset,
++                                   rwco->qiov->size, rwco->qiov,
++                                   rwco->flags);
++    } else {
++        rwco->ret = bdrv_co_pwritev(rwco->child, rwco->offset,
++                                    rwco->qiov->size, rwco->qiov,
++                                    rwco->flags);
++    }
 +    aio_wait_kick();
 +}
 +
- int bdrv_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes)
- {
-     Coroutine *co;
++/*
++ * Process a vectored synchronous request using coroutines
++ */
++static int bdrv_prwv_co(BdrvChild *child, int64_t offset,
++                        QEMUIOVector *qiov, bool is_write,
++                        BdrvRequestFlags flags)
++{
++    Coroutine *co;
++    RwCo rwco = {
++        .child = child,
++        .offset = offset,
++        .qiov = qiov,
++        .is_write = is_write,
++        .ret = NOT_DONE,
++        .flags = flags,
++    };
++
++    if (qemu_in_coroutine()) {
++        /* Fast-path if already in coroutine context */
++        bdrv_rw_co_entry(&rwco);
++    } else {
++        co = qemu_coroutine_create(bdrv_rw_co_entry, &rwco);
++        bdrv_coroutine_enter(child->bs, co);
++        BDRV_POLL_WHILE(child->bs, rwco.ret == NOT_DONE);
++    }
++    return rwco.ret;
++}
++
++int bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset,
++                       int bytes, BdrvRequestFlags flags)
++{
++    QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, NULL, bytes);
++
++    return bdrv_prwv_co(child, offset, &qiov, true,
++                        BDRV_REQ_ZERO_WRITE | flags);
++}
++
++/* See bdrv_pwrite() for the return codes */
++int bdrv_pread(BdrvChild *child, int64_t offset, void *buf, int bytes)
++{
++    QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, bytes);
++
++    if (bytes < 0) {
++        return -EINVAL;
++    }
++
++    return bdrv_preadv(child, offset, &qiov);
++}
++
++int bdrv_pwritev(BdrvChild *child, int64_t offset, QEMUIOVector *qiov)
++{
++    int ret;
++
++    ret = bdrv_prwv_co(child, offset, qiov, true, 0);
++    if (ret < 0) {
++        return ret;
++    }
++
++    return qiov->size;
++}
++
++/*
++ * Return no. of bytes on success or < 0 on error. Important errors are:
++ * -EIO         generic I/O error (may happen for all errors)
++ * -ENOMEDIUM   No media inserted.
++ * -EINVAL      Invalid offset or number of bytes
++ * -EACCES      Trying to write a read-only device
++ */
++int bdrv_pwrite(BdrvChild *child, int64_t offset, const void *buf, int bytes)
++{
++    QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, bytes);
++
++    if (bytes < 0) {
++        return -EINVAL;
++    }
++
++    return bdrv_pwritev(child, offset, &qiov);
++}
++
++/*
++ * Writes to the file and ensures that no writes are reordered across this
++ * request (acts as a barrier)
++ *
++ * Returns 0 on success, -errno in error cases.
++ */
++int bdrv_pwrite_sync(BdrvChild *child, int64_t offset,
++                     const void *buf, int count)
++{
++    int ret;
++
++    ret = bdrv_pwrite(child, offset, buf, count);
++    if (ret < 0) {
++        return ret;
++    }
++
++    ret = bdrv_flush(child->bs);
++    if (ret < 0) {
++        return ret;
++    }
++
++    return 0;
++}
++
++/*
++ * Completely zero out a block device with the help of bdrv_pwrite_zeroes.
++ * The operation is sped up by checking the block status and only writing
++ * zeroes to the device if they currently do not return zeroes. Optional
++ * flags are passed through to bdrv_pwrite_zeroes (e.g. BDRV_REQ_MAY_UNMAP,
++ * BDRV_REQ_FUA).
++ *
++ * Returns < 0 on error, 0 on success. For error codes see bdrv_write().
++ */
++int bdrv_make_zero(BdrvChild *child, BdrvRequestFlags flags)
++{
++    int ret;
++    int64_t target_size, bytes, offset = 0;
++    BlockDriverState *bs = child->bs;
++
++    target_size = bdrv_getlength(bs);
++    if (target_size < 0) {
++        return target_size;
++    }
++
++    for (;;) {
++        bytes = MIN(target_size - offset, BDRV_REQUEST_MAX_BYTES);
++        if (bytes <= 0) {
++            return 0;
++        }
++        ret = bdrv_block_status(bs, offset, bytes, &bytes, NULL, NULL);
++        if (ret < 0) {
++            return ret;
++        }
++        if (ret & BDRV_BLOCK_ZERO) {
++            offset += bytes;
++            continue;
++        }
++        ret = bdrv_pwrite_zeroes(child, offset, bytes, flags);
++        if (ret < 0) {
++            return ret;
++        }
++        offset += bytes;
++    }
++}
++
++int bdrv_preadv(BdrvChild *child, int64_t offset, QEMUIOVector *qiov)
++{
++    int ret;
++
++    ret = bdrv_prwv_co(child, offset, qiov, false, 0);
++    if (ret < 0) {
++        return ret;
++    }
++
++    return qiov->size;
++}
++
+ /*
+  * Flush ALL BDSes regardless of if they are reachable via a BlkBackend or not.
+  */
 -- 
 2.21.0
 
