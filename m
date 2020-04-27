@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CD7D1BA7AD
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 17:15:49 +0200 (CEST)
-Received: from localhost ([::1]:50560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 365CB1BA76A
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 17:10:30 +0200 (CEST)
+Received: from localhost ([::1]:50082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jT5U3-00030W-TA
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 11:15:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35304)
+	id 1jT5Ou-0000sj-OD
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 11:10:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34274)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jT5SQ-0000Sz-CR
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 11:14:06 -0400
+ (envelope-from <alexander.duyck@gmail.com>) id 1jT5NY-0007DE-NN
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 11:09:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jT5SQ-000418-1D
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 11:14:06 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:45412)
+ (envelope-from <alexander.duyck@gmail.com>) id 1jT5NY-0000h6-93
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 11:09:04 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:43005)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jT5SO-00040i-H3; Mon, 27 Apr 2020 11:14:04 -0400
-Received: by mail-io1-xd43.google.com with SMTP id i19so19200394ioh.12;
- Mon, 27 Apr 2020 08:14:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
+ id 1jT5NX-0000gb-Sr
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 11:09:03 -0400
+Received: by mail-io1-xd42.google.com with SMTP id e9so19162817iok.9
+ for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 08:09:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vSl9tFxLX/n9X0hlCbc09Op8WwsbwBcotpw6NVs2uME=;
- b=gbGdtWbMLCKQsltGJv0+BIU8wymvD2/hnHRQ/gJeLPvihBGwgyILUMIruXcRDbouSQ
- cIKXsX8fbG9wO/SjIoP36Ap7rkPaHW8SygQc/j1OahRcJkSMLJHuB7lCvdJfMVg3gbyP
- HQPwV4SItgdHlCfxjFOrn4FyanQaOm+RnRbpXgR3LYb2dmiLnbnQxv2E73xQ8f9B01r+
- A2rh6kzpPX6GwD8M/t4g70Ji+ZqQEHppAc8MP7JsMZb7SQ883JsLvbJXvuGh8G6DWGIJ
- wcvMq13CIU9pM5CtAjUtkN6of7yyuNzEvUZDSg5Jjo4aCEpn0TQxDb9UbgtkIAiVssY+
- dUNA==
+ :cc; bh=pEGq9PrL7zbSXkhH6KswIJDAa4K0ZLmP28/6kqX8Rl8=;
+ b=ZwYAEa1CZmtXOrzTiXeqUjDBjSoAIvUCRzY2z6WFw/+3i4FhfHyWRyLM0rv+R8gBAV
+ f+ZhArWmddrDLEGwO959KDKXS/tw9FgzQTJ8td/XJpVlxlg9tR/kuIKU0NZONeNp6uXJ
+ YEnv+grplVjq7afpoULvryt/2UF80/D3kfJCCgIDkfrCz1Pdcup8fEfD57g1BSmMhWCw
+ RI3l/ICY4TkU4xZ0DFw2RPHJGJ4Q+gnvXE9lI0T+giWP1tDdSrcJ00xkuJccYnjvM9y1
+ 662eq7ZAgtu1LHheunsn3leeK6ELkwBVgabLvwFbsWSqxRH34SPB03zn2OZ67Hw+V4vp
+ 76nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=vSl9tFxLX/n9X0hlCbc09Op8WwsbwBcotpw6NVs2uME=;
- b=mGMQXmR8lcr7XTsUYSlnfok2sPZ9PObCpDB6CI2INxs+0k0YoZYRCI4V3UURfPYoCg
- COFyvwHb0oFsKIxkMLS4d6NPDQ6MtceAlRTCmiLX4V/QrHDzlNBw0/jFkF3r8HjwWR75
- 201xnQNnrh5ADMQU65e9gd7isd4SPYLvAWVFt4Eh+kCJTKbQahYHrh46p7EJOJLcpZH2
- DKbeRRG0DHKPn+h5dba4axpep/NXJh9mPnDLib/87F22thvxU0sqZ3zZ/OTHp4lS/Hhm
- OPmiVAqh9wmhkL4A2Qg0djzyAJCNQumI10YuAjOaWXqf0TxznzLqSdL8VgkpjT8ASQ8A
- mX0g==
-X-Gm-Message-State: AGi0PuY9QpQHsDXrEF4G26otgWz15fYIK5GyUEemPEM/uHwYo7KJJpIj
- sEIlLQGVci0+KQxYLwf2gpmN7KZitUzqAaunppI=
-X-Google-Smtp-Source: APiQypI1qfgdKIvtNopqmpO+EAg3QK+XgTz0w7yepJIA01cMWMrz0Y4/o2fVLBWbf+pOuPTsM3r9sHKux9Z7UO+g5G8=
-X-Received: by 2002:a5d:984b:: with SMTP id p11mr21296857ios.175.1588000443029; 
- Mon, 27 Apr 2020 08:14:03 -0700 (PDT)
+ bh=pEGq9PrL7zbSXkhH6KswIJDAa4K0ZLmP28/6kqX8Rl8=;
+ b=r4qvggQB0hHFEdIoqHW2mQluHGHawHF8nAvpYPuxoMuNDKNcSf5Ud+8xnFhw3bu3Ht
+ 1muFVHq7PobAGOEaZZbqOGVkLN2NKWqEJHavQ4Oz/ZblAqCWqiSv0sdd9fSqFcaDMFLJ
+ POkjg4BEEyP+NGvljBVI08cEyLEht0DWZIApJgyMs0kSAC4+laUeQNrPls2IMhqfEtxO
+ SlxDJs3gvDyA1cz3hNC00NkDinRSa4wA7v62yNORckttLHOdV6pN25Q1SRtoTJedmq4J
+ BqtsH91HprXQ3aDI+SPRoUvF8B9QycsWmHNDotTjAs0fdrILt4SHUImGQ19teUMYXgVD
+ L/mQ==
+X-Gm-Message-State: AGi0PubfKKTh3L2rOliSrcLiobc3IsxLbZsnSGZWoIBpEkYXorIK3zmU
+ l/s0Vu7SmhjzbIWplnjOjfjtOgKcrU0bk3iNMz4=
+X-Google-Smtp-Source: APiQypLzAFa5zF3d2yfgxqOK3wSkkvc0Hku0Pq8UbpgbbhPDH2606QnnNlRC0xpBYS5kKNdpnCqSrXE0GiGIMNTSM6I=
+X-Received: by 2002:a6b:8dc2:: with SMTP id
+ p185mr21621429iod.138.1588000142317; 
+ Mon, 27 Apr 2020 08:09:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200427080644.168461-1-anup.patel@wdc.com>
-In-Reply-To: <20200427080644.168461-1-anup.patel@wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 27 Apr 2020 08:05:24 -0700
-Message-ID: <CAKmqyKPb52FQ5NWLVGLBgJqSXXyeReJ-Di--+TwkeQcpJ4H3HQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] RISC-V Spike machine improvements
-To: Anup Patel <anup.patel@wdc.com>
+References: <20200424164239.10723.58352.stgit@localhost.localdomain>
+ <20200424165021.10723.14111.stgit@localhost.localdomain>
+ <7ce2bcde-7466-2764-7248-36f67bb9b573@redhat.com>
+In-Reply-To: <7ce2bcde-7466-2764-7248-36f67bb9b573@redhat.com>
+From: Alexander Duyck <alexander.duyck@gmail.com>
+Date: Mon, 27 Apr 2020 08:08:51 -0700
+Message-ID: <CAKgT0Uckr4uN=WCvGtp5GtXRZjfR+x1BR7L5b=RvnT7CHwtsMw@mail.gmail.com>
+Subject: Re: [PATCH v22 QEMU 3/5] virtio-balloon: Replace free page hinting
+ references to 'report' with 'hint'
+To: David Hildenbrand <david@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=alexander.duyck@gmail.com; helo=mail-io1-xd42.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::d43
+X-Received-From: 2607:f8b0:4864:20::d42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,46 +78,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: virtio-dev@lists.oasis-open.org, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 27, 2020 at 1:07 AM Anup Patel <anup.patel@wdc.com> wrote:
+On Mon, Apr 27, 2020 at 1:15 AM David Hildenbrand <david@redhat.com> wrote:
 >
-> This series improves QEMU Spike machine to:
-> 1. Allow loading OpenBI firmware using -bios option
-> 2. Allow more than one CPUs
+> There is only one wrong comment remaining I think. Something like
 >
-> Changes since v2:
->  - Rebased on QEMU v5.0-rc4
->
-> Changes since v1:
->  - Rebased on QEMU master (commit 2ac031d171ccd18c973014d9978b4a63f0ad5fb0)
+> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+> index a1d6fb52c8..1b2127c04c 100644
+> --- a/hw/virtio/virtio-balloon.c
+> +++ b/hw/virtio/virtio-balloon.c
+> @@ -554,8 +554,8 @@ static void virtio_balloon_free_page_stop(VirtIOBalloon *s)
+>           */
+>          qemu_mutex_lock(&s->free_page_lock);
+>          /*
+> -         * The guest hasn't done the reporting, so host sends a notification
+> -         * to the guest to actively stop the reporting.
+> +         * The guest isn't done with hinting, so the host sends a notification
+> +         * to the guest to actively stop the hinting.
 
-Applied to the RISC-V tree for 5.1.
+I'll probably tweak it slightly and drop the "with". So the comment will read:
+        /*
+         * The guest isn't done hinting, so host sends a notification
+         * to the guest to actively stop the hinting.
+         */
 
-Alistair
-
->
-> Anup Patel (3):
->   hw/riscv: Add optional symbol callback ptr to riscv_load_firmware()
->   hw/riscv/spike: Allow loading firmware separately using -bios option
->   hw/riscv/spike: Allow more than one CPUs
->
->  hw/riscv/boot.c         | 13 ++++++++-----
->  hw/riscv/sifive_u.c     |  2 +-
->  hw/riscv/spike.c        | 26 ++++++++++++++++++++++++--
->  hw/riscv/virt.c         |  2 +-
->  include/hw/riscv/boot.h |  6 ++++--
->  5 files changed, 38 insertions(+), 11 deletions(-)
->
-> --
-> 2.25.1
->
->
+There is one other spot left which is support for migration. The name
+for the VMStateDescription is
+"virtio-balloon-device/free-page-report". I am assuming I cannot
+rename that. Otherwise all other references to report on the balloon
+interface refer to reporting errors from what I can tell.
 
