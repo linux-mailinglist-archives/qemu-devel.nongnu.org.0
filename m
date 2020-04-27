@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44B581BA171
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 12:36:20 +0200 (CEST)
-Received: from localhost ([::1]:37876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93E5C1BA182
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 12:39:37 +0200 (CEST)
+Received: from localhost ([::1]:38110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jT17b-0000au-Am
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 06:36:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44682)
+	id 1jT1Am-0004jC-LK
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 06:39:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45506)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jT165-0007ee-AH
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 06:34:45 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jT19x-0004AQ-Dm
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 06:38:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jT163-00054R-7d
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 06:34:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36852
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1jT19w-000101-S6
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 06:38:45 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44326
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jT162-000541-R5
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 06:34:42 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jT19w-0000t1-E8
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 06:38:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587983681;
+ s=mimecast20190719; t=1587983923;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xCCB4xG0cAD1wS6RprzUT4lC5ZjbIZ3Z7qxKh+Me/Fc=;
- b=dxU82bqpRaZIJb0UDhemAvnDTxGLLOrElj0tCSGT29KLrr9ESY2P6vRzPa/QFR4VfNM8Tb
- Vkb/Xx7HbgTP5dUxsscQDnd1BFlDHaRrC1FjOBpLSwoQZjGG+3yLWAxSo9ai4FhFaX+694
- IABBEVZwGA1MI11jImLvzvSAV47E+Nw=
+ bh=XUulwsEpKevjayz1bGYj31B0m/S9LzkEBVzf57YWmiU=;
+ b=UwC1sFZkqlQRhKQIHIGcYGXPskTUcoy9kCZoKvJi/zqX10A59oBt5N70/5U/GLXHVztkho
+ 8QQb0JBsNFf0haQx4HwMF0k8dbkrEAgYbPY/i0urYYCsAmBJ2BXnpMQp2oXgRIUF4KHWt/
+ De0bM1ICm+slDLNopSkouQRdFIK1Egg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-U6vPChFLMHKXxFyD9zySQg-1; Mon, 27 Apr 2020 06:34:37 -0400
-X-MC-Unique: U6vPChFLMHKXxFyD9zySQg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-100-JlzHdqquMDSd1AWUpAvV0g-1; Mon, 27 Apr 2020 06:38:41 -0400
+X-MC-Unique: JlzHdqquMDSd1AWUpAvV0g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AFAD107ACCA;
- Mon, 27 Apr 2020 10:34:36 +0000 (UTC)
-Received: from work-vm (ovpn-114-175.ams2.redhat.com [10.36.114.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 170A919C4F;
- Mon, 27 Apr 2020 10:34:34 +0000 (UTC)
-Date: Mon, 27 Apr 2020 11:34:32 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Lukas Straub <lukasstraub2@web.de>
-Subject: Re: colo: qemu 4.2.0 vs. qemu 5.0.0-rc2 performance regression
-Message-ID: <20200427103432.GH2923@work-vm>
-References: <20200411191655.0365532d@luklap> <20200413153432.224e46b6@luklap>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3031A45F;
+ Mon, 27 Apr 2020 10:38:40 +0000 (UTC)
+Received: from gondolin (ovpn-112-184.ams2.redhat.com [10.36.112.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5C65161374;
+ Mon, 27 Apr 2020 10:38:36 +0000 (UTC)
+Date: Mon, 27 Apr 2020 12:38:33 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Yuri Benditovich <yuri.benditovich@daynix.com>
+Subject: Re: VIRTIO_NET_HDR_F_RSC_INFO in virtio-net vs headers update
+Message-ID: <20200427123833.52ef442a.cohuck@redhat.com>
+In-Reply-To: <CAOEp5OdSnxMO-BY+8NLwntjpr3CGvfh0ECHHB0w7PVAZ7OArog@mail.gmail.com>
+References: <20200427093345.4111acd9.cohuck@redhat.com>
+ <8a559698-fb15-1f38-2fad-ee5db27f81f4@redhat.com>
+ <20200427111029.703f8703.cohuck@redhat.com>
+ <20200427051713-mutt-send-email-mst@kernel.org>
+ <CAOEp5OdSnxMO-BY+8NLwntjpr3CGvfh0ECHHB0w7PVAZ7OArog@mail.gmail.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20200413153432.224e46b6@luklap>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 01:12:26
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 23:32:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,71 +78,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>, qemu-devel@nongnu.org,
- quintela@redhat.com
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Lukas Straub (lukasstraub2@web.de) wrote:
-> On Sat, 11 Apr 2020 19:16:54 +0200
-> Lukas Straub <lukasstraub2@web.de> wrote:
->=20
-> > Hello Everyone,
-> > I did some Benchmarking with iperf3 and memtester (to dirty some guest =
-memory)
-> > of colo performance in qemu 4.2.0 and in qemu 5.0.0-rc2
-> > with my bugfixes on top.( https://lists.nongnu.org/archive/html/qemu-de=
-vel/2020-04/msg01432.html )
-> >=20
-> > I have taken the average over 4 runs.
-> > Client-to-server tcp bandwidth rose slightly from ~83.98 Mbit/s to ~89.=
-40 Mbits.
-> > Server-to-client tcp bandwidth fell from ~9.73 Mbit/s to ~1.79 Mbit/s.
-> > Client-to-server udp bandwidth stayed the same at 1.05 Mbit/s
-> > and jitter rose from ~5.12 ms to ~10.77 ms.
-> > Server-to-client udp bandwidth fell from ~380.5 Kbit/s to ~33.6 Kbit/s
-> > and jitter rose from ~41.74 ms to ~83976.15 ms (!).
-> >=20
-> > I haven't looked closely into it, but i think
-> > 0393031a16735835a441b6d6e0495a1bd14adb90 "COLO: Optimize memory back-up=
- process"
-> > is the culprint as it reduces vm downtime for the checkpoints but incre=
-ases
-> > the overall checkpoint time and we can only release miscompared primary=
- packets
-> > after the checkpoint is completely finished.
-> >=20
-> > Another thing that I noticed: With 4.2.0, the secondary qemu uses thric=
-e
-> > the amount of gest memory. With 5.0.0-rc2 it's just double the amount o=
-f
-> > guest memory. So maybe the ram cache isn't working properly?
-> >=20
-> > Regards,
-> > Lukas Straub
->=20
-> Hmm,
-> I looked at my test again and saw that the results where very noisy, so q=
-emu 5.0.0-rc2
-> being slower was just a coincidence. I did increase the test time and the=
- results are=20
-> more meaningful now. Now qemu 5.0.0-rc2 is around the same speed and stil=
-l faster
-> in the client-to-server tcp case.
->=20
-> Sorry for the noise.
+On Mon, 27 Apr 2020 12:52:26 +0300
+Yuri Benditovich <yuri.benditovich@daynix.com> wrote:
 
-Is it back to using 3x RAM in the secondary?
+> I'd suggest to do the single change in virtio-net.c with RSC definitions
+> from updated linux headers.
+> I can send respective patch if you want
 
-Dave
-
->=20
-> Regards,
-> Lukas Straub
-
-
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Hm, I already sent something out before I saw your mail... can you
+please look at that one?
 
 
