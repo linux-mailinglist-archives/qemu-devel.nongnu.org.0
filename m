@@ -2,105 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 976A21B9FB9
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 11:21:57 +0200 (CEST)
-Received: from localhost ([::1]:33486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D29921B9FD6
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 11:27:46 +0200 (CEST)
+Received: from localhost ([::1]:33728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSzxc-0001pn-Lt
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 05:21:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59762)
+	id 1jT03F-0005k0-SY
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 05:27:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60320)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jSzwg-0001GA-3V
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:20:58 -0400
+ (envelope-from <philmd@redhat.com>) id 1jT01k-0004Ad-CA
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:26:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jSzwf-0006zK-IT
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:20:57 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37445)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jSzwf-0006yd-5i
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:20:57 -0400
-Received: by mail-wr1-x441.google.com with SMTP id k1so19677257wrx.4
- for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 02:20:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=h9gPIvg/cbjU8nzOKMB07hvh34O0JoW+0lGv6FfMUvo=;
- b=O+q2i8XEiVvICWK52dCkVCWnht3XpOWliGwJhiSZHzt+kAJukUb2cQ9ybjvBJAr/gx
- t0v8aWHx/zH1nSjyVA3WfQKkhhTeqUpoAS6m0eJbqigvKKFi36BZQcbeJkzBgPDGjXzu
- codYS/MeoY1YvLiasQtleYbMjL9+zTadNw0sSwcTExTdeBGouSM6tqPNihbj+711obyS
- DjWh2pZP/8X+IJqp2imacTGH13Q4K2LAiQjpwQL1l1pVqGRTmoEkvr53FpRaKrB4SX6c
- WA94KBAKHM2CWA0/mchbmdhsz5hsz6TTEGs/6CMv7cpSoWE+s/TlFKQwEXyCjP/qe8YR
- oEsA==
+ (envelope-from <philmd@redhat.com>) id 1jT01j-0000BG-Qr
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:26:12 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36612
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jT01j-0000Ah-Di
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:26:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587979570;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=epUTa2MIRGdX/uvZ0IaFVVPsfxco/ySJO/z0SKYTNgs=;
+ b=RGgE9pRkeDBDKl3P6OEirha2m+9Q6DYguOOfnMyStInAq2PJahlp43MEQJ3EMtj1NMkN1t
+ b3Zx/CAlZk5uHtnn0rshYg06s3sBtp8CmfuryuM0d+NWjIo+oiV77j+nT6nq4eOpUV991S
+ gfiWfDTwbs7FhSHj9DggDKpcAh8mfF8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-203-oSekIaODMn-zEGOl3OiUtg-1; Mon, 27 Apr 2020 05:26:08 -0400
+X-MC-Unique: oSekIaODMn-zEGOl3OiUtg-1
+Received: by mail-wr1-f71.google.com with SMTP id t8so10160801wrq.22
+ for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 02:26:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=h9gPIvg/cbjU8nzOKMB07hvh34O0JoW+0lGv6FfMUvo=;
- b=qHkk4wo/NdojAzTbXKmRwefz/iAkwVk73FCWw3iaUIwW2AuhYpJXO0kVsKfph8rx5I
- wG2mqc/6UIA86rO5E8gEsbyETUn9HqTNmZ7HmhN0u0Q+jBZVBUQcqoqafTFpMjBKJffn
- ncQLrpzMgbpJjVR+CZlVvSAzOXyOC/9B8NIMVCRh/oAGLyugoD37gwbLVD3EjUkBMdCK
- SfPq/JrQ5u/kQD9hcqVdQzCpISAMjD/GNmpNaekqc6v3LNNzcmOBZchI6DRL8JF+jOlt
- a6TEi/j24owGg7dMJsNpvrlGUi2sVB4V+h4u7R9SS8VkA2sdbxls433MwAvB5ypAezXU
- QkCA==
-X-Gm-Message-State: AGi0PuYebSzl5fNEqDA8IRTdj5OmaPQgfQTrxNL+wchC5mj+2Na9Ps6S
- xEi9n5DeK2vV+7Tvb8FaXoI=
-X-Google-Smtp-Source: APiQypIDKkbB7y+etZESC0cix6ghxnmD8uKL/J1HD6otKRrAbjORMmPW0rDOSb9rVS5O0xNX4Mpzmg==
-X-Received: by 2002:adf:fa03:: with SMTP id m3mr26467779wrr.68.1587979255632; 
- Mon, 27 Apr 2020 02:20:55 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=07A1UyANoB0u87LLRsgkeyZU3XBlx4tklbutM7v/vm8=;
+ b=Wqbq3g1OruZB0GBTxFKvPwwYEDK2b/5Exb8iajglhu4nGnJBk3u963D61nG7bd7lWj
+ t85IAL0Gv50BhWe/7udvSPVaG+StBmlX14S8sWWS6+zEknBtpDOrqlwWbJl168W+bwRp
+ WVkrX12C0e8mvDNz0tZf5ziSQ7xR3v42Gexxq6QbWxDHQ35AJTXYUK7T5oHLrz3s18wQ
+ fllxg9lil2BLp8AMlWXi9Ma6/8NOVZU/3rQ38+mXbhZddozIiJ5kZs3NJEHdJqzubNBv
+ YRM9o+orjgoNXAnfIlXN1qtngnEFvugvoIfPW5j6aQCxTOUmECPNDdksh32SDvjk+v0u
+ o8gA==
+X-Gm-Message-State: AGi0PuYf7z5SE2iQeBpEulXTnjg/3uAJ+rkDtvNl5tq0Tw4zhRtwGXmM
+ sOv8havONgXoBu3CigMPInsbbbonB84Oqo2RVFNvLO1sRWmsowtR+YL90p6iB3cZo5oLxpwYKsE
+ T3OZT2vf0eoo5awc=
+X-Received: by 2002:adf:94a6:: with SMTP id 35mr25788594wrr.420.1587979567078; 
+ Mon, 27 Apr 2020 02:26:07 -0700 (PDT)
+X-Google-Smtp-Source: APiQypI+xgqfXlEZQNDSrLUp/2xs3Ij7GTD3DLivz5zrMDhiFOzPG2wOJMyFT/1tY+OxJAudZkm2zA==
+X-Received: by 2002:adf:94a6:: with SMTP id 35mr25788574wrr.420.1587979566871; 
+ Mon, 27 Apr 2020 02:26:06 -0700 (PDT)
 Received: from [192.168.1.39] (137.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.137])
- by smtp.gmail.com with ESMTPSA id 74sm21134765wrk.30.2020.04.27.02.20.54
+ by smtp.gmail.com with ESMTPSA id n25sm9855897wmk.9.2020.04.27.02.26.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Apr 2020 02:20:55 -0700 (PDT)
-Subject: Re: [PATCH 07/11] mips/malta: Fix create_cps() error handling
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+ Mon, 27 Apr 2020 02:26:06 -0700 (PDT)
+Subject: Re: [PATCH 06/11] error: Use error_reportf_err() where appropriate
+To: Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>
 References: <20200424192027.11404-1-armbru@redhat.com>
- <20200424192027.11404-8-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Autocrypt: addr=f4bug@amsat.org; keydata=
- mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
- u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
- HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
- YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
- ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
- dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
- ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
- Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
- HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
- Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
- CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
- klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
- jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
- 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
- loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
- sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
- JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
- 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
- K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
- n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
- CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
-Message-ID: <75dc4fbc-2b39-c8ef-8030-370672621c2f@amsat.org>
-Date: Mon, 27 Apr 2020 11:20:53 +0200
+ <20200424192027.11404-7-armbru@redhat.com>
+ <44cf6721-88fa-acd3-b051-43e81b37506a@redhat.com>
+ <87o8rdia2o.fsf@dusky.pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <3b9745bf-56df-7e83-3ecb-13eeef56306f@redhat.com>
+Date: Mon, 27 Apr 2020 11:26:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200424192027.11404-8-armbru@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <87o8rdia2o.fsf@dusky.pond.sub.org>
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::441
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 23:33:12
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,62 +96,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/24/20 9:20 PM, Markus Armbruster wrote:
-> The Error ** argument must be NULL, &error_abort, &error_fatal, or a
-> pointer to a variable containing NULL.  Passing an argument of the
-> latter kind twice without clearing it in between is wrong: if the
-> first call sets an error, it no longer points to NULL for the second
-> 
-> create_cps() is wrong that way.  The last calls treats an error as
-> fatal.  Do that for the prior ones, too.
-> 
-> Fixes: bff384a4fbd5d0e86939092e74e766ef0f5f592c
-> Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> Cc: "Philippe Mathieu-Daudé" <philmd@redhat.com>
-> Cc: Aurelien Jarno <aurelien@aurel32.net>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  hw/mips/mips_malta.c | 15 ++++++---------
->  1 file changed, 6 insertions(+), 9 deletions(-)
-> 
-> diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-> index e4c4de1b4e..17bf41616b 100644
-> --- a/hw/mips/mips_malta.c
-> +++ b/hw/mips/mips_malta.c
-> @@ -1185,17 +1185,14 @@ static void create_cpu_without_cps(MachineState *ms,
->  static void create_cps(MachineState *ms, MaltaState *s,
->                         qemu_irq *cbus_irq, qemu_irq *i8259_irq)
->  {
-> -    Error *err = NULL;
-> -
->      sysbus_init_child_obj(OBJECT(s), "cps", OBJECT(&s->cps), sizeof(s->cps),
->                            TYPE_MIPS_CPS);
-> -    object_property_set_str(OBJECT(&s->cps), ms->cpu_type, "cpu-type", &err);
-> -    object_property_set_int(OBJECT(&s->cps), ms->smp.cpus, "num-vp", &err);
-> -    object_property_set_bool(OBJECT(&s->cps), true, "realized", &err);
-> -    if (err != NULL) {
-> -        error_report("%s", error_get_pretty(err));
+On 4/27/20 10:53 AM, Markus Armbruster wrote:
+> Eric Blake <eblake@redhat.com> writes:
+>=20
+>> On 4/24/20 2:20 PM, Markus Armbruster wrote:
+>>> Replace
+>>>
+>>>       error_report("...: %s", ..., error_get_pretty(err));
+>>>
+>>> by
+>>>
+>>>       error_reportf_err(err, "...: ", ...);
+>>
+>> Reviewed-by: Eric Blake <eblake@redhat.com>
+>>
+>>>
+>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>>> ---
+>>>    chardev/char-socket.c | 5 +++--
+>>>    hw/sd/pxa2xx_mmci.c   | 4 ++--
+>>>    hw/sd/sd.c            | 4 ++--
+>>>    hw/usb/dev-mtp.c      | 9 +++++----
+>>>    qemu-nbd.c            | 7 +++----
+>>>    scsi/qemu-pr-helper.c | 4 ++--
+>>>    6 files changed, 17 insertions(+), 16 deletions(-)
+>>
+>> Although it touches NBD, I'm happy for this to go through your tree
+>> with the larger series.
+>>
+>>> +++ b/qemu-nbd.c
+>>> @@ -856,8 +856,7 @@ int main(int argc, char **argv)
+>>>            }
+>>>            tlscreds =3D nbd_get_tls_creds(tlscredsid, list, &local_err)=
+;
+>>>            if (local_err) {
+>>> -            error_report("Failed to get TLS creds %s",
+>>> -                         error_get_pretty(local_err));
+>>> +            error_reportf_err(local_err, "Failed to get TLS creds ");
+>>
+>> Odd one out for not using ':' in the message, but that's independent
+>> of this patch.
+>=20
+> The patch is short enough to deviate from "purely mechanical" and stick
+> in ':' here.  Your choice.
 
-In https://www.mail-archive.com/qemu-devel@nongnu.org/msg695645.html I
-also remove "qemu/error-report.h" which is not needed once you remove
-this call.
+Let's deviate, else we might forget about it.
 
-> -        exit(1);
-> -    }
-> +    object_property_set_str(OBJECT(&s->cps), ms->cpu_type, "cpu-type",
-> +                            &error_fatal);
-> +    object_property_set_int(OBJECT(&s->cps), ms->smp.cpus, "num-vp",
-> +                            &error_fatal);
-> +    object_property_set_bool(OBJECT(&s->cps), true, "realized",
-> +                             &error_fatal);
->  
->      sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->cps), 0, 0, 1);
->  
-> 
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
 
