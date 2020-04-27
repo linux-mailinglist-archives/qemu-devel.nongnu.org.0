@@ -2,94 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D52C01BA0B8
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 12:04:33 +0200 (CEST)
-Received: from localhost ([::1]:35960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A2B1BA0C5
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 12:07:29 +0200 (CEST)
+Received: from localhost ([::1]:36270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jT0cq-0004cZ-LJ
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 06:04:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37836)
+	id 1jT0ff-0001CT-Sk
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 06:07:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38576)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jT0Z6-0001s0-0Y
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 06:00:40 -0400
+ (envelope-from <no-reply@patchew.org>) id 1jT0cL-0005Bo-E4
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 06:04:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jT0Z5-0002x0-9T
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 06:00:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38430
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <no-reply@patchew.org>) id 1jT0cK-0007IN-Vy
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 06:04:01 -0400
+Resent-Date: Mon, 27 Apr 2020 06:04:01 -0400
+Resent-Message-Id: <E1jT0cK-0007IN-Vy@eggs.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21341)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jT0Z4-0002ny-Qk
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 06:00:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587981637;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Y2K1egNj1eZMS0R8opccvSLZR0exQ4pvyVmp/4rOIv0=;
- b=bcgeqFhUYZPocGVbJ3OlFnF+/aI58aC1hpuKzBkYnvW0judtrCJodom8XmjNB5DcdFnk7e
- V4qpTKOXA55HQ7iUjiC0aqrDJpB1lsbKwoMuoW5WBudnjEn35s3DdYCFtwHbHmPszVedj7
- VNfv6PV8BQSRUlmSUcZABklLHhY1+wk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-9O-PSGJgP96XcR--jR28vA-1; Mon, 27 Apr 2020 06:00:34 -0400
-X-MC-Unique: 9O-PSGJgP96XcR--jR28vA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B5F11005510;
- Mon, 27 Apr 2020 10:00:28 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-29.ams2.redhat.com
- [10.36.114.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E17B5C1D6;
- Mon, 27 Apr 2020 10:00:12 +0000 (UTC)
-Subject: Re: [PATCH v3 1/3] block: Add blk_new_with_bs() helper
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20200424190903.522087-1-eblake@redhat.com>
- <20200424190903.522087-2-eblake@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <ba31b83c-538a-0f3f-9bab-7aadb2f99ea9@redhat.com>
-Date: Mon, 27 Apr 2020 12:00:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jT0cI-00075d-R6; Mon, 27 Apr 2020 06:03:58 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1587981768; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=MsJl0o/nr3mYfu3O/U789uhzmvpn6oVdAARtZwKAiz34cY+hD46OeyQY5+vkY5iNTgQWkCDVsY8s4gITFI382mlWt89LZrXJSBKVYXBW8CK0bH6Sf9su3v3hE8qA7yKS9lMn80isjEHYRyPgmEr1Cy9JzNA+aWDISP+Mu9QlUW0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1587981768;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=bfexMSzgZ6jIW1AOvihFrjnY4h5iMJl1MhbG71Le7XE=; 
+ b=UiJ9+DSQXHZhAHNQeH2LORXPwxrPdBTyPfty8Oc+lDUPqm6sS2xgYxFst+5QFaiT5KYms8+RWcWrmpM7NkwbQTTpWOTnZ8c6DoSEkyiVZJtHyoEk/qEh4Sw2HSwlafbbBo5GWr1Lk2/0qICXHReKE4IXocyAlgVqcXW9gEtE1bU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 158798176545878.03813021157896;
+ Mon, 27 Apr 2020 03:02:45 -0700 (PDT)
+In-Reply-To: <20200427082325.10414-1-vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v2 00/17] 64bit block-layer
+Message-ID: <158798176277.15667.14901963611957609957@39012742ff91>
 MIME-Version: 1.0
-In-Reply-To: <20200424190903.522087-2-eblake@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="xEhqSYEW8v88T08h11wOrhpB6WnrQnVsQ"
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 01:12:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: vsementsov@virtuozzo.com
+Date: Mon, 27 Apr 2020 03:02:45 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 05:31:20
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Received-From: 136.143.188.53
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,153 +64,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- "open list:Sheepdog" <sheepdog@lists.wpkg.org>, qemu-block@nongnu.org,
- Jeff Cody <codyprime@gmail.com>, Stefan Weil <sw@weilnetz.de>,
- Markus Armbruster <armbru@redhat.com>, stefanha@redhat.com,
- Liu Yuan <namei.unix@gmail.com>, "Denis V. Lunev" <den@openvz.org>,
- John Snow <jsnow@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, fam@euphon.net, pbonzini@redhat.com,
+ integration@gluster.org, berto@igalia.com, ronniesahlberg@gmail.com,
+ qemu-block@nongnu.org, sw@weilnetz.de, stefanha@redhat.com, pl@kamp.de,
+ qemu-devel@nongnu.org, mreitz@redhat.com, jsnow@redhat.com,
+ sheepdog@lists.wpkg.org, vsementsov@virtuozzo.com, pavel.dovgaluk@ispras.ru,
+ namei.unix@gmail.com, den@openvz.org, dillaman@redhat.com, ari@tuxera.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---xEhqSYEW8v88T08h11wOrhpB6WnrQnVsQ
-Content-Type: multipart/mixed; boundary="WxyYo912wrh8eXyU9mtlMnuwoO7xchuxq"
-
---WxyYo912wrh8eXyU9mtlMnuwoO7xchuxq
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 24.04.20 21:09, Eric Blake wrote:
-> There are several callers that need to create a new block backend from
-> an existing BDS; make the task slightly easier with a common helper
-> routine.
->=20
-> Suggested-by: Max Reitz <mreitz@redhat.com>
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
->  include/sysemu/block-backend.h |  2 ++
->  block/block-backend.c          | 23 +++++++++++++++++++++++
->  block/crypto.c                 | 10 ++++------
->  block/parallels.c              |  8 ++++----
->  block/qcow.c                   |  8 ++++----
->  block/qcow2.c                  | 18 ++++++++----------
->  block/qed.c                    |  9 ++++-----
->  block/sheepdog.c               | 11 +++++------
->  block/vdi.c                    |  8 ++++----
->  block/vhdx.c                   |  9 ++++-----
->  block/vmdk.c                   |  9 ++++-----
->  block/vpc.c                    |  8 ++++----
->  blockdev.c                     |  8 +++-----
->  blockjob.c                     |  7 ++-----
->  14 files changed, 75 insertions(+), 63 deletions(-)
-
-[...]
-
-> diff --git a/block/crypto.c b/block/crypto.c
-> index d577f89659fa..a4d77f07fe8c 100644
-> --- a/block/crypto.c
-> +++ b/block/crypto.c
-> @@ -256,16 +256,14 @@ static int block_crypto_co_create_generic(BlockDriv=
-erState *bs,
->                                            PreallocMode prealloc,
->                                            Error **errp)
->  {
-> -    int ret;
-> +    int ret =3D -EPERM;
-
-I=E2=80=99m not sure I=E2=80=99m a fan of this, because I feel like it make=
-s the code
-harder to read, due to having to look in three places (here, around the
-blk_new_with_bs() call, and under the cleanup label) instead of in two
-(not here) to verify that the error handling code is correct.
-
-There=E2=80=99s also the fact that this is not really a default return valu=
-e,
-but one very specific error code for if one very specific function call
-fails.
-
-I suppose it comes down to whether one considers LoC a complexity
-problem.  (I don=E2=80=99t, necessarily.)
-
-(Also I realize it seems rather common in the kernel to set error return
-variables before the function call, but I think the more common pattern
-in qemu is to set it in the error path.)
-
-[...]
-
-> diff --git a/block/qed.c b/block/qed.c
-> index 1af9b3cb1db1..7a31495d293b 100644
-> --- a/block/qed.c
-> +++ b/block/qed.c
-> @@ -610,7 +610,7 @@ static int coroutine_fn bdrv_qed_co_create(BlockdevCr=
-eateOptions *opts,
->      QEDHeader le_header;
->      uint8_t *l1_table =3D NULL;
->      size_t l1_size;
-> -    int ret =3D 0;
-> +    int ret =3D -EPERM;
-
-(Same here; well, especially here, because there is so much other code
-between the initialization and the =E2=80=9Cgoto out=E2=80=9D this is for)
-
-[...]
-
-> diff --git a/block/sheepdog.c b/block/sheepdog.c
-> index 59f7ebb1710f..2b53cd950d20 100644
-> --- a/block/sheepdog.c
-> +++ b/block/sheepdog.c
-> @@ -1801,14 +1801,13 @@ static int sd_prealloc(BlockDriverState *bs, int6=
-4_t old_size, int64_t new_size,
->      uint32_t idx, max_idx;
->      uint32_t object_size;
->      void *buf =3D NULL;
-> -    int ret;
-> +    int ret =3D -EPERM;
-
-(and here)
-
-[...]
-
-> diff --git a/block/vhdx.c b/block/vhdx.c
-> index 33e57cd6567a..bdf5d05cc018 100644
-> --- a/block/vhdx.c
-> +++ b/block/vhdx.c
-> @@ -1891,7 +1891,7 @@ static int coroutine_fn vhdx_co_create(BlockdevCrea=
-teOptions *opts,
->      BlockBackend *blk =3D NULL;
->      BlockDriverState *bs =3D NULL;
->=20
-> -    int ret =3D 0;
-> +    int ret =3D -EPERM;
-
-(and again especially here)
-
-But it does look like you got all cases covered this time.
-
-Max
-
-
---WxyYo912wrh8eXyU9mtlMnuwoO7xchuxq--
-
---xEhqSYEW8v88T08h11wOrhpB6WnrQnVsQ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6mrSoACgkQ9AfbAGHV
-z0DF0QgAlwF8q97t2YwURC5eQfzisHutYFVZpTHJJecqGVvhtW2PZAb7YF3xuTW1
-r2IzVIhTJzLtcxHVW3IkM0010eFV86c6sdLsHm5m63q81QsMq09PqV7JBCIr93RN
-7N9c1Sxx0+OxtKQNISoOgNLtBWjRQbpDcLW4HoW4JDqmjALGkBskcxp8rowcpgK6
-YFfTvD4xbUJ3vbc3yuFlhp+b8ehLNbL4ZZRBSrV09FM7f0q+lZTlSasQ//MdoUUU
-jmwWL19V38ePeTBf2ZvgDkv4QtZemWkxgih/ULiGQsNadDgC+B/DSJQQglt49Goc
-GLgkHR5KO3eLo+IsXod2ywKHE77RoA==
-=rgV6
------END PGP SIGNATURE-----
-
---xEhqSYEW8v88T08h11wOrhpB6WnrQnVsQ--
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDQyNzA4MjMyNS4xMDQx
+NC0xLXZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQg
+dGhlIGRvY2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0
+aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBp
+bnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVT
+VCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRvczcg
+Vj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9XX0VO
+Vj0xIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIENDICAgICAgdGVz
+dHMvdGVzdC1xaHQubwogIENDICAgICAgdGVzdHMvdGVzdC1xaHQtcGFyLm8KICBDQyAgICAgIHRl
+c3RzL3FodC1iZW5jaC5vCi90bXAvcWVtdS10ZXN0L3NyYy90ZXN0cy90ZXN0LWJsb2NrLWlvdGhy
+ZWFkLmM6Njg6NTogZXJyb3I6IGluaXRpYWxpemF0aW9uIGZyb20gaW5jb21wYXRpYmxlIHBvaW50
+ZXIgdHlwZSBbLVdlcnJvcl0KICAgICAuYmRydl9jb19wcmVhZHYgICAgICAgICA9IGJkcnZfdGVz
+dF9jb19wcnd2LAogICAgIF4KL3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL3Rlc3QtYmxvY2staW90
+aHJlYWQuYzo2ODo1OiBlcnJvcjogKG5lYXIgaW5pdGlhbGl6YXRpb24gZm9yICdiZHJ2X3Rlc3Qu
+YmRydl9jb19wcmVhZHYnKSBbLVdlcnJvcl0KL3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL3Rlc3Qt
+YmxvY2staW90aHJlYWQuYzo2OTo1OiBlcnJvcjogaW5pdGlhbGl6YXRpb24gZnJvbSBpbmNvbXBh
+dGlibGUgcG9pbnRlciB0eXBlIFstV2Vycm9yXQogICAgIC5iZHJ2X2NvX3B3cml0ZXYgICAgICAg
+ID0gYmRydl90ZXN0X2NvX3Byd3YsCiAgICAgXgovdG1wL3FlbXUtdGVzdC9zcmMvdGVzdHMvdGVz
+dC1ibG9jay1pb3RocmVhZC5jOjY5OjU6IGVycm9yOiAobmVhciBpbml0aWFsaXphdGlvbiBmb3Ig
+J2JkcnZfdGVzdC5iZHJ2X2NvX3B3cml0ZXYnKSBbLVdlcnJvcl0KL3RtcC9xZW11LXRlc3Qvc3Jj
+L3Rlc3RzL3Rlc3QtYmxvY2staW90aHJlYWQuYzo3MDo1OiBlcnJvcjogaW5pdGlhbGl6YXRpb24g
+ZnJvbSBpbmNvbXBhdGlibGUgcG9pbnRlciB0eXBlIFstV2Vycm9yXQogICAgIC5iZHJ2X2NvX3Bk
+aXNjYXJkICAgICAgID0gYmRydl90ZXN0X2NvX3BkaXNjYXJkLAogICAgIF4KL3RtcC9xZW11LXRl
+c3Qvc3JjL3Rlc3RzL3Rlc3QtYmxvY2staW90aHJlYWQuYzo3MDo1OiBlcnJvcjogKG5lYXIgaW5p
+dGlhbGl6YXRpb24gZm9yICdiZHJ2X3Rlc3QuYmRydl9jb19wZGlzY2FyZCcpIFstV2Vycm9yXQpj
+YzE6IGFsbCB3YXJuaW5ncyBiZWluZyB0cmVhdGVkIGFzIGVycm9ycwptYWtlOiAqKiogW3Rlc3Rz
+L3Rlc3QtYmxvY2staW90aHJlYWQub10gRXJyb3IgMQptYWtlOiAqKiogV2FpdGluZyBmb3IgdW5m
+aW5pc2hlZCBqb2JzLi4uLgpUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6CiAgRmls
+ZSAiLi90ZXN0cy9kb2NrZXIvZG9ja2VyLnB5IiwgbGluZSA2NjQsIGluIDxtb2R1bGU+Ci0tLQog
+ICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxs
+ZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3VkbycsICctbicsICdkb2NrZXInLCAncnVuJywg
+Jy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVpZD05NTc0Nzk1NDBmYzc0MjIxYjU1OWE5
+OGUyMDczNDE4OScsICctdScsICcxMDAxJywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5j
+b25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9MSVNUPScsICctZScsICdFWFRSQV9DT05G
+SUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAnSj0xNCcsICctZScsICdERUJVRz0nLCAn
+LWUnLCAnU0hPV19FTlY9MScsICctZScsICdDQ0FDSEVfRElSPS92YXIvdG1wL2NjYWNoZScsICct
+dicsICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90bXAvY2Nh
+Y2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLWRfemowaGlkL3NyYy9k
+b2NrZXItc3JjLjIwMjAtMDQtMjctMDUuNTUuMzYuMTQxMjg6L3Zhci90bXAvcWVtdTp6LHJvJywg
+J3FlbXU6Y2VudG9zNycsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LXF1aWNrJ10nIHJldHVy
+bmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVt
+dS5pbnN0YW5jZS51dWlkPTk1NzQ3OTU0MGZjNzQyMjFiNTU5YTk4ZTIwNzM0MTg5Cm1ha2VbMV06
+ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zh
+ci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLWRfemowaGlkL3NyYycKbWFrZTogKioqIFtkb2NrZXIt
+cnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3IgMgoKcmVhbCAgICA3bTkuNDYxcwp1c2VyICAg
+IDBtOS4zNjVzCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5v
+cmcvbG9ncy8yMDIwMDQyNzA4MjMyNS4xMDQxNC0xLXZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbS90
+ZXN0aW5nLmRvY2tlci1xdWlja0BjZW50b3M3Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5l
+cmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBs
+ZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
