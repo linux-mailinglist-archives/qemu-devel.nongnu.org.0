@@ -2,57 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD5C31BA0D5
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 12:10:47 +0200 (CEST)
-Received: from localhost ([::1]:36540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98E581BA0FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 12:21:35 +0200 (CEST)
+Received: from localhost ([::1]:37060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jT0is-0003yx-MP
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 06:10:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39910)
+	id 1jT0tK-00056l-L5
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 06:21:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41774)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jT0hx-0002pr-3i
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 06:09:52 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1jT0rV-0003H8-Te
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 06:19:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jT0hw-00033z-Ht
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 06:09:48 -0400
-Resent-Date: Mon, 27 Apr 2020 06:09:48 -0400
-Resent-Message-Id: <E1jT0hw-00033z-Ht@eggs.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21343)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jT0hu-0002yz-GL; Mon, 27 Apr 2020 06:09:46 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1587982125; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=aej1LbiNSVjvJknSv39EXAs23rUceDR9KzY4XwZ6C9gqgp0vJJ6vO5+GHpatOiL075T3Rb1LOlyroAvh8IJoUJdcxxWimNXM+V6wGMRy857sZuDyuepXRklqkCqUy2oqbssP7LhZHZwrsDVDNRbIYsXE8Uih3d3TODrP24oUEGA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1587982125;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=UKucbskUtM8lp7dITO3CkRVdlOJ7T61rVZGOsyRpXLo=; 
- b=jU/Uu7zxpjy6tJsWrytUnyBspPQwC1XKnQDxJ6CVO00oHZAjPWyo6h0nlMBVxdAmxZZNd0U3QIiUoDqHrSWxWy0V5RcmCs0hhvhkncAZWGRFf2DbI8fS2gNH2xhd8zo3QQEEqF0M0m41R688hgwf7706HwXHiRTh7SCi6s+ZV3U=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1587982123452206.69111462718752;
- Mon, 27 Apr 2020 03:08:43 -0700 (PDT)
-In-Reply-To: <20200427082325.10414-1-vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v2 00/17] 64bit block-layer
-Message-ID: <158798212061.15667.17116964778178970715@39012742ff91>
+ (envelope-from <yan.y.zhao@intel.com>) id 1jT0rU-0007y7-23
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 06:19:40 -0400
+Received: from mga04.intel.com ([192.55.52.120]:52299)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jT0rT-0007lJ-Gj
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 06:19:39 -0400
+IronPort-SDR: c0NgftxyyWR4AbJDkboz8NSspGLxP+tcVFT051L8GhRdfhv4uJRBG/onYDv8CO/gRev1OoGYpq
+ Yyp/W+o//cnw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Apr 2020 03:19:35 -0700
+IronPort-SDR: aTfWKO9Q/7Nf9LaCSjnUX9ITsyLjAX+qvLkZKBFptfpMqVtyyawFYeljq7DlMYUN3P1jYnveHw
+ tQzlc2KusnMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,323,1583222400"; d="scan'208";a="458319038"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.16])
+ by fmsmga005.fm.intel.com with ESMTP; 27 Apr 2020 03:19:34 -0700
+Date: Mon, 27 Apr 2020 06:09:52 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v4 1/3] memory: drop guest writes to read-only ram device
+ regions
+Message-ID: <20200427100951.GI12879@joy-OptiPlex-7040>
+References: <20200417074437.28526-1-yan.y.zhao@intel.com>
+ <f96581ca-055e-ecc6-4a44-6bd26396bfc0@redhat.com>
+ <20200426010430.GB12879@joy-OptiPlex-7040>
+ <20200427091545.GH12879@joy-OptiPlex-7040>
+ <85cb56a3-882a-05af-5714-e51174aa995a@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: vsementsov@virtuozzo.com
-Date: Mon, 27 Apr 2020 03:08:43 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 05:31:20
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Received-From: 136.143.188.53
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <85cb56a3-882a-05af-5714-e51174aa995a@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=192.55.52.120; envelope-from=yan.y.zhao@intel.com;
+ helo=mga04.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 06:19:36
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Received-From: 192.55.52.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,111 +68,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, fam@euphon.net, pbonzini@redhat.com,
- integration@gluster.org, berto@igalia.com, ronniesahlberg@gmail.com,
- qemu-block@nongnu.org, sw@weilnetz.de, stefanha@redhat.com, pl@kamp.de,
- qemu-devel@nongnu.org, mreitz@redhat.com, jsnow@redhat.com,
- sheepdog@lists.wpkg.org, vsementsov@virtuozzo.com, pavel.dovgaluk@ispras.ru,
- namei.unix@gmail.com, den@openvz.org, dillaman@redhat.com, ari@tuxera.com
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>, "Zeng,
+ Xin" <xin.zeng@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDQyNzA4MjMyNS4xMDQx
-NC0xLXZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQg
-dGhlIGRvY2tlci1taW5nd0BmZWRvcmEgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3Rp
-bmcgY29tbWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGlu
-c3RhbGxlZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNU
-IFNDUklQVCBCRUdJTiA9PT0KIyEgL2Jpbi9iYXNoCmV4cG9ydCBBUkNIPXg4Nl82NAptYWtlIGRv
-Y2tlci1pbWFnZS1mZWRvcmEgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtbWlu
-Z3dAZmVkb3JhIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIENDICAg
-ICAgYmxvY2svc2hlZXBkb2cubwogIENDICAgICAgYmxvY2svYWNjb3VudGluZy5vCiAgQ0MgICAg
-ICBibG9jay9kaXJ0eS1iaXRtYXAubwovdG1wL3FlbXUtdGVzdC9zcmMvYmxvY2svZmlsZS13aW4z
-Mi5jOjY0MzoyNzogZXJyb3I6IGluaXRpYWxpemF0aW9uIG9mICdCbG9ja0FJT0NCICogKCopKEJs
-b2NrRHJpdmVyU3RhdGUgKiwgaW50NjRfdCwgIGludDY0X3QsICBRRU1VSU9WZWN0b3IgKiwgaW50
-LCAgdm9pZCAoKikodm9pZCAqLCBpbnQpLCB2b2lkICopJyB7YWthICdzdHJ1Y3QgQmxvY2tBSU9D
-QiAqICgqKShzdHJ1Y3QgQmxvY2tEcml2ZXJTdGF0ZSAqLCBsb25nIGxvbmcgaW50LCAgbG9uZyBs
-b25nIGludCwgIHN0cnVjdCBRRU1VSU9WZWN0b3IgKiwgaW50LCAgdm9pZCAoKikodm9pZCAqLCBp
-bnQpLCB2b2lkICopJ30gZnJvbSBpbmNvbXBhdGlibGUgcG9pbnRlciB0eXBlICdCbG9ja0FJT0NC
-ICogKCopKEJsb2NrRHJpdmVyU3RhdGUgKiwgdWludDY0X3QsICB1aW50NjRfdCwgIFFFTVVJT1Zl
-Y3RvciAqLCBpbnQsICB2b2lkICgqKSh2b2lkICosIGludCksIHZvaWQgKiknIHtha2EgJ3N0cnVj
-dCBCbG9ja0FJT0NCICogKCopKHN0cnVjdCBCbG9ja0RyaXZlclN0YXRlICosIGxvbmcgbG9uZyB1
-bnNpZ25lZCBpbnQsICBsb25nIGxvbmcgdW5zaWduZWQgaW50LCAgc3RydWN0IFFFTVVJT1ZlY3Rv
-ciAqLCBpbnQsICB2b2lkICgqKSh2b2lkICosIGludCksIHZvaWQgKiknfSBbLVdlcnJvcj1pbmNv
-bXBhdGlibGUtcG9pbnRlci10eXBlc10KICAgICAuYmRydl9haW9fcHJlYWR2ICAgID0gcmF3X2Fp
-b19wcmVhZHYsCiAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+Ci90bXAv
-cWVtdS10ZXN0L3NyYy9ibG9jay9maWxlLXdpbjMyLmM6NjQzOjI3OiBub3RlOiAobmVhciBpbml0
-aWFsaXphdGlvbiBmb3IgJ2JkcnZfZmlsZS5iZHJ2X2Fpb19wcmVhZHYnKQovdG1wL3FlbXUtdGVz
-dC9zcmMvYmxvY2svZmlsZS13aW4zMi5jOjY0NDoyNzogZXJyb3I6IGluaXRpYWxpemF0aW9uIG9m
-ICdCbG9ja0FJT0NCICogKCopKEJsb2NrRHJpdmVyU3RhdGUgKiwgaW50NjRfdCwgIGludDY0X3Qs
-ICBRRU1VSU9WZWN0b3IgKiwgaW50LCAgdm9pZCAoKikodm9pZCAqLCBpbnQpLCB2b2lkICopJyB7
-YWthICdzdHJ1Y3QgQmxvY2tBSU9DQiAqICgqKShzdHJ1Y3QgQmxvY2tEcml2ZXJTdGF0ZSAqLCBs
-b25nIGxvbmcgaW50LCAgbG9uZyBsb25nIGludCwgIHN0cnVjdCBRRU1VSU9WZWN0b3IgKiwgaW50
-LCAgdm9pZCAoKikodm9pZCAqLCBpbnQpLCB2b2lkICopJ30gZnJvbSBpbmNvbXBhdGlibGUgcG9p
-bnRlciB0eXBlICdCbG9ja0FJT0NCICogKCopKEJsb2NrRHJpdmVyU3RhdGUgKiwgdWludDY0X3Qs
-ICB1aW50NjRfdCwgIFFFTVVJT1ZlY3RvciAqLCBpbnQsICB2b2lkICgqKSh2b2lkICosIGludCks
-IHZvaWQgKiknIHtha2EgJ3N0cnVjdCBCbG9ja0FJT0NCICogKCopKHN0cnVjdCBCbG9ja0RyaXZl
-clN0YXRlICosIGxvbmcgbG9uZyB1bnNpZ25lZCBpbnQsICBsb25nIGxvbmcgdW5zaWduZWQgaW50
-LCAgc3RydWN0IFFFTVVJT1ZlY3RvciAqLCBpbnQsICB2b2lkICgqKSh2b2lkICosIGludCksIHZv
-aWQgKiknfSBbLVdlcnJvcj1pbmNvbXBhdGlibGUtcG9pbnRlci10eXBlc10KICAgICAuYmRydl9h
-aW9fcHdyaXRldiAgID0gcmF3X2Fpb19wd3JpdGV2LAogICAgICAgICAgICAgICAgICAgICAgICAg
-ICBefn5+fn5+fn5+fn5+fn4KL3RtcC9xZW11LXRlc3Qvc3JjL2Jsb2NrL2ZpbGUtd2luMzIuYzo2
-NDQ6Mjc6IG5vdGU6IChuZWFyIGluaXRpYWxpemF0aW9uIGZvciAnYmRydl9maWxlLmJkcnZfYWlv
-X3B3cml0ZXYnKQovdG1wL3FlbXUtdGVzdC9zcmMvYmxvY2svZmlsZS13aW4zMi5jOjgxMjoyNzog
-ZXJyb3I6IGluaXRpYWxpemF0aW9uIG9mICdCbG9ja0FJT0NCICogKCopKEJsb2NrRHJpdmVyU3Rh
-dGUgKiwgaW50NjRfdCwgIGludDY0X3QsICBRRU1VSU9WZWN0b3IgKiwgaW50LCAgdm9pZCAoKiko
-dm9pZCAqLCBpbnQpLCB2b2lkICopJyB7YWthICdzdHJ1Y3QgQmxvY2tBSU9DQiAqICgqKShzdHJ1
-Y3QgQmxvY2tEcml2ZXJTdGF0ZSAqLCBsb25nIGxvbmcgaW50LCAgbG9uZyBsb25nIGludCwgIHN0
-cnVjdCBRRU1VSU9WZWN0b3IgKiwgaW50LCAgdm9pZCAoKikodm9pZCAqLCBpbnQpLCB2b2lkICop
-J30gZnJvbSBpbmNvbXBhdGlibGUgcG9pbnRlciB0eXBlICdCbG9ja0FJT0NCICogKCopKEJsb2Nr
-RHJpdmVyU3RhdGUgKiwgdWludDY0X3QsICB1aW50NjRfdCwgIFFFTVVJT1ZlY3RvciAqLCBpbnQs
-ICB2b2lkICgqKSh2b2lkICosIGludCksIHZvaWQgKiknIHtha2EgJ3N0cnVjdCBCbG9ja0FJT0NC
-ICogKCopKHN0cnVjdCBCbG9ja0RyaXZlclN0YXRlICosIGxvbmcgbG9uZyB1bnNpZ25lZCBpbnQs
-ICBsb25nIGxvbmcgdW5zaWduZWQgaW50LCAgc3RydWN0IFFFTVVJT1ZlY3RvciAqLCBpbnQsICB2
-b2lkICgqKSh2b2lkICosIGludCksIHZvaWQgKiknfSBbLVdlcnJvcj1pbmNvbXBhdGlibGUtcG9p
-bnRlci10eXBlc10KICAgICAuYmRydl9haW9fcHJlYWR2ICAgID0gcmF3X2Fpb19wcmVhZHYsCiAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+Ci90bXAvcWVtdS10ZXN0L3Ny
-Yy9ibG9jay9maWxlLXdpbjMyLmM6ODEyOjI3OiBub3RlOiAobmVhciBpbml0aWFsaXphdGlvbiBm
-b3IgJ2JkcnZfaG9zdF9kZXZpY2UuYmRydl9haW9fcHJlYWR2JykKL3RtcC9xZW11LXRlc3Qvc3Jj
-L2Jsb2NrL2ZpbGUtd2luMzIuYzo4MTM6Mjc6IGVycm9yOiBpbml0aWFsaXphdGlvbiBvZiAnQmxv
-Y2tBSU9DQiAqICgqKShCbG9ja0RyaXZlclN0YXRlICosIGludDY0X3QsICBpbnQ2NF90LCAgUUVN
-VUlPVmVjdG9yICosIGludCwgIHZvaWQgKCopKHZvaWQgKiwgaW50KSwgdm9pZCAqKScge2FrYSAn
-c3RydWN0IEJsb2NrQUlPQ0IgKiAoKikoc3RydWN0IEJsb2NrRHJpdmVyU3RhdGUgKiwgbG9uZyBs
-b25nIGludCwgIGxvbmcgbG9uZyBpbnQsICBzdHJ1Y3QgUUVNVUlPVmVjdG9yICosIGludCwgIHZv
-aWQgKCopKHZvaWQgKiwgaW50KSwgdm9pZCAqKSd9IGZyb20gaW5jb21wYXRpYmxlIHBvaW50ZXIg
-dHlwZSAnQmxvY2tBSU9DQiAqICgqKShCbG9ja0RyaXZlclN0YXRlICosIHVpbnQ2NF90LCAgdWlu
-dDY0X3QsICBRRU1VSU9WZWN0b3IgKiwgaW50LCAgdm9pZCAoKikodm9pZCAqLCBpbnQpLCB2b2lk
-ICopJyB7YWthICdzdHJ1Y3QgQmxvY2tBSU9DQiAqICgqKShzdHJ1Y3QgQmxvY2tEcml2ZXJTdGF0
-ZSAqLCBsb25nIGxvbmcgdW5zaWduZWQgaW50LCAgbG9uZyBsb25nIHVuc2lnbmVkIGludCwgIHN0
-cnVjdCBRRU1VSU9WZWN0b3IgKiwgaW50LCAgdm9pZCAoKikodm9pZCAqLCBpbnQpLCB2b2lkICop
-J30gWy1XZXJyb3I9aW5jb21wYXRpYmxlLXBvaW50ZXItdHlwZXNdCiAgICAgLmJkcnZfYWlvX3B3
-cml0ZXYgICA9IHJhd19haW9fcHdyaXRldiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+
-fn5+fn5+fn5+fn5+Ci90bXAvcWVtdS10ZXN0L3NyYy9ibG9jay9maWxlLXdpbjMyLmM6ODEzOjI3
-OiBub3RlOiAobmVhciBpbml0aWFsaXphdGlvbiBmb3IgJ2JkcnZfaG9zdF9kZXZpY2UuYmRydl9h
-aW9fcHdyaXRldicpCmNjMTogYWxsIHdhcm5pbmdzIGJlaW5nIHRyZWF0ZWQgYXMgZXJyb3JzCm1h
-a2U6ICoqKiBbL3RtcC9xZW11LXRlc3Qvc3JjL3J1bGVzLm1hazo2OTogYmxvY2svZmlsZS13aW4z
-Mi5vXSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uClRy
-YWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICIuL3Rlc3RzL2RvY2tlci9k
-b2NrZXIucHkiLCBsaW5lIDY2NCwgaW4gPG1vZHVsZT4KLS0tCiAgICByYWlzZSBDYWxsZWRQcm9j
-ZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29t
-bWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4nLCAnLS1sYWJlbCcsICdjb20ucWVt
-dS5pbnN0YW5jZS51dWlkPWUzZmNjNTg1YTQyYjRiZmE4YWNkMTExMzBmOGQxNjVlJywgJy11Jywg
-JzEwMDEnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0nLCAn
-LWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICctZScs
-ICdWPScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScsICctZScsICdTSE9XX0VOVj0nLCAn
-LWUnLCAnQ0NBQ0hFX0RJUj0vdmFyL3RtcC9jY2FjaGUnLCAnLXYnLCAnL2hvbWUvcGF0Y2hldy8u
-Y2FjaGUvcWVtdS1kb2NrZXItY2NhY2hlOi92YXIvdG1wL2NjYWNoZTp6JywgJy12JywgJy92YXIv
-dG1wL3BhdGNoZXctdGVzdGVyLXRtcC00aHluNWwyMC9zcmMvZG9ja2VyLXNyYy4yMDIwLTA0LTI3
-LTA2LjA0LjI4LjI2NjkxOi92YXIvdG1wL3FlbXU6eixybycsICdxZW11OmZlZG9yYScsICcvdmFy
-L3RtcC9xZW11L3J1bicsICd0ZXN0LW1pbmd3J10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3Rh
-dHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPWUzZmNj
-NTg1YTQyYjRiZmE4YWNkMTExMzBmOGQxNjVlCm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJy
-b3IgMQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXIt
-dG1wLTRoeW41bDIwL3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3QtbWluZ3dAZmVkb3Jh
-XSBFcnJvciAyCgpyZWFsICAgIDRtMTQuMTkzcwp1c2VyICAgIDBtOS4zNzZzCgoKVGhlIGZ1bGwg
-bG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDQyNzA4MjMy
-NS4xMDQxNC0xLXZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbS90ZXN0aW5nLmRvY2tlci1taW5nd0Bm
-ZWRvcmEvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5
-IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFj
-ayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On Mon, Apr 27, 2020 at 05:31:48PM +0800, Philippe Mathieu-Daudé wrote:
+> On 4/27/20 11:15 AM, Yan Zhao wrote:
+> > On Sun, Apr 26, 2020 at 09:04:31AM +0800, Yan Zhao wrote:
+> >> On Sat, Apr 25, 2020 at 06:55:33PM +0800, Paolo Bonzini wrote:
+> >>> On 17/04/20 09:44, Yan Zhao wrote:
+> >>>> for ram device regions, drop guest writes if the regions is read-only.
+> >>>>
+> >>>> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+> >>>> Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
+> >>>> Signed-off-by: Xin Zeng <xin.zeng@intel.com>
+> >>>> ---
+> >>>>   memory.c | 7 +++++++
+> >>>>   1 file changed, 7 insertions(+)
+> >>>>
+> >>>> diff --git a/memory.c b/memory.c
+> >>>> index 601b749906..9576dd6807 100644
+> >>>> --- a/memory.c
+> >>>> +++ b/memory.c
+> >>>> @@ -34,6 +34,7 @@
+> >>>>   #include "sysemu/accel.h"
+> >>>>   #include "hw/boards.h"
+> >>>>   #include "migration/vmstate.h"
+> >>>> +#include "qemu/log.h"
+> >>>>   
+> >>>>   //#define DEBUG_UNASSIGNED
+> >>>>   
+> >>>> @@ -1313,6 +1314,12 @@ static void memory_region_ram_device_write(void *opaque, hwaddr addr,
+> >>>>       MemoryRegion *mr = opaque;
+> >>>>   
+> >>>>       trace_memory_region_ram_device_write(get_cpu_index(), mr, addr, data, size);
+> >>>> +    if (mr->readonly) {
+> >>>> +        qemu_log_mask(LOG_GUEST_ERROR,
+> >>>> +                      "Invalid write to read only ram device region 0x%"
+> >>>> +                       HWADDR_PRIx" size %u\n", addr, size);
+> >>>> +        return;
+> >>>> +    }
+> >>>
+> >>> As mentioned in the review of v1, memory_region_ram_device_write should
+> >>> be changed to a .write_with_attrs operation, so that it can return
+> >>> MEMTX_ERROR.
+> >>>
+> > hi Paolo and Alex,
+> > need I also change vfio_region_write() in patch 2 to a .write_with_attrs
+> > operation?
+> > vfio_region_read() is also possible to fail, so should I change it to a
+> > .read_with_attrs, too?
+> 
+> Yes.
+> 
+> Please submit your series as a thread, with a cover letter:
+> https://wiki.qemu.org/Contribute/SubmitAPatch#Include_a_meaningful_cover_letter
+>
+hi Philippe
+thanks for pointing out this issue.
+I just realized this version of patches were sent separately, though I did send
+a cover letter. not sure what happened. maybe I just forgot to add an
+-in-reply-to before sending out.
+will pay attention to it next time.
+
+Thanks
+Yan
+
+> > 
+> > Thanks
+> > Yan
+> > 
+> >>> Otherwise this looks good.
+> >>>
+> >> hi Paolo,
+> >> thanks for pointing it out again!
+> >> I didn't get your meaning in v1. will update the patch!
+> >>
+> >> Thanks
+> >> Yan
+> >>>
+> >>
+> > 
+> 
 
