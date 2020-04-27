@@ -2,95 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8AC61B9FF8
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 11:33:32 +0200 (CEST)
-Received: from localhost ([::1]:34234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F1A01BA050
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 11:48:28 +0200 (CEST)
+Received: from localhost ([::1]:35256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jT08p-0004uQ-HS
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 05:33:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33692)
+	id 1jT0NH-0006eJ-7t
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 05:48:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36108)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jT07M-0003D9-IT
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:32:03 -0400
+ (envelope-from <bounces@canonical.com>) id 1jT0LA-0005LH-KP
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:46:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jT07K-0004Vb-Qm
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:32:00 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54542
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jT07K-0004V8-D7
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:31:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587979916;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ORwgqUNxyWJx4g7rcsgXveOEL21jJCo2pNi3fBY+n2w=;
- b=M2GaKTpxnO+kT+WE6AtfDXldT03vYr9qiBOWFROsOpV68CAe1YzUq63VIIv413rxsD7zd2
- CCzgDVz/8q9uGLPsvydC1so3BpxmwDdZiKheNQ0sIU6o5qoJFH5vl7C5M4Nu422yd4rRdG
- 4t6F4QqnjroUC652MrcwC4DPboTFWjU=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-280-KME0tiPYNFuBunz3LQq4Tw-1; Mon, 27 Apr 2020 05:31:52 -0400
-X-MC-Unique: KME0tiPYNFuBunz3LQq4Tw-1
-Received: by mail-ej1-f70.google.com with SMTP id v3so10688777ejx.8
- for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 02:31:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=EiU5WiM4xowKm7j0q3FEjpHE0HVtdXQ9VwcrLa3Q/QE=;
- b=uCW+B4eckMbUUFxfDPi9Y5bh05Se/p9W1wjTpx5oHbp150NFxFMNXOPg1xNKRGvZDY
- +50hHdfAFLI9qV522zrPap7rvq2+ssOrqfEovlRVGGXHbkAICqNwxwvp/mxCBA5E7inY
- N7aze9eutzLNB0BQOTY6S0LjTdvQmezCiUYsCJ65yJnY5hUxg4yNUZMcKIXFRl7QkoVs
- aOiDCeK/n98q/ggIwDeK4JhPIzpHE4D5gQunk2nRnqh5O5YXJFqgq1zCbWavbjhHqwCg
- NH7aEi96kHgYm/yH3d7j0/KB9Cn+khPweb4wqd/T1VaWy0mVGbjWYkZlu2HkZq8IwLWg
- Tjmw==
-X-Gm-Message-State: AGi0PuY35YZH7g43pYfQQfJadP1sPmvw41+6b9Ht4ADqH//VbjwGBUzr
- YVhSgJ/dm1TsTn1FCXRixuc+n2yxqVybwG1g/5wA2JrmzI+urm5OCLK20oGYZ6JhYZ/X4J/Ztw2
- 2VFC9940bzAi4miI=
-X-Received: by 2002:a17:906:8282:: with SMTP id
- h2mr3423926ejx.250.1587979910418; 
- Mon, 27 Apr 2020 02:31:50 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKPhfPOHgrsbAV+a2y/DeuHATp43qsHxQVLPyPzUUxKKoxG+lbeiwiu0KxQkI0One1+aAeDNg==
-X-Received: by 2002:a17:906:8282:: with SMTP id
- h2mr3423903ejx.250.1587979910160; 
- Mon, 27 Apr 2020 02:31:50 -0700 (PDT)
-Received: from [192.168.1.39] (137.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.137])
- by smtp.gmail.com with ESMTPSA id z16sm2024759edq.23.2020.04.27.02.31.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Apr 2020 02:31:49 -0700 (PDT)
-Subject: Re: [PATCH v4 1/3] memory: drop guest writes to read-only ram device
- regions
-To: Yan Zhao <yan.y.zhao@intel.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20200417074437.28526-1-yan.y.zhao@intel.com>
- <f96581ca-055e-ecc6-4a44-6bd26396bfc0@redhat.com>
- <20200426010430.GB12879@joy-OptiPlex-7040>
- <20200427091545.GH12879@joy-OptiPlex-7040>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <85cb56a3-882a-05af-5714-e51174aa995a@redhat.com>
-Date: Mon, 27 Apr 2020 11:31:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <bounces@canonical.com>) id 1jT0L9-0000XX-CP
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:46:16 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56838)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jT0L8-0000XG-UA
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:46:15 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jT0L5-0004Lk-Nl
+ for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 09:46:11 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B2D4B2E8029
+ for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 09:46:11 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200427091545.GH12879@joy-OptiPlex-7040>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 23:32:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Date: Mon, 27 Apr 2020 09:32:17 -0000
+From: Daniel Berrange <1875139@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: avschie berrange
+X-Launchpad-Bug-Reporter: A van Schie (avschie)
+X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
+References: <158788589324.18152.6333525201430073299.malonedeb@wampee.canonical.com>
+Message-Id: <158797993725.17831.13213290853647082757.malone@wampee.canonical.com>
+Subject: [Bug 1875139] Re: Domain fails to start when 'readonly' device not
+ writable
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="486bbbd6cb608f8eb468ed0d08689a349dfabe49";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 36ec1156d397decc58b20bcc941db8c18f5304a7
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 05:15:42
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -99,80 +68,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "alex.williamson@redhat.com" <alex.williamson@redhat.com>, "Zeng,
- Xin" <xin.zeng@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Reply-To: Bug 1875139 <1875139@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/20 11:15 AM, Yan Zhao wrote:
-> On Sun, Apr 26, 2020 at 09:04:31AM +0800, Yan Zhao wrote:
->> On Sat, Apr 25, 2020 at 06:55:33PM +0800, Paolo Bonzini wrote:
->>> On 17/04/20 09:44, Yan Zhao wrote:
->>>> for ram device regions, drop guest writes if the regions is read-only.
->>>>
->>>> Cc: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
->>>> Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
->>>> Signed-off-by: Xin Zeng <xin.zeng@intel.com>
->>>> ---
->>>>   memory.c | 7 +++++++
->>>>   1 file changed, 7 insertions(+)
->>>>
->>>> diff --git a/memory.c b/memory.c
->>>> index 601b749906..9576dd6807 100644
->>>> --- a/memory.c
->>>> +++ b/memory.c
->>>> @@ -34,6 +34,7 @@
->>>>   #include "sysemu/accel.h"
->>>>   #include "hw/boards.h"
->>>>   #include "migration/vmstate.h"
->>>> +#include "qemu/log.h"
->>>>  =20
->>>>   //#define DEBUG_UNASSIGNED
->>>>  =20
->>>> @@ -1313,6 +1314,12 @@ static void memory_region_ram_device_write(void=
- *opaque, hwaddr addr,
->>>>       MemoryRegion *mr =3D opaque;
->>>>  =20
->>>>       trace_memory_region_ram_device_write(get_cpu_index(), mr, addr, =
-data, size);
->>>> +    if (mr->readonly) {
->>>> +        qemu_log_mask(LOG_GUEST_ERROR,
->>>> +                      "Invalid write to read only ram device region 0=
-x%"
->>>> +                       HWADDR_PRIx" size %u\n", addr, size);
->>>> +        return;
->>>> +    }
->>>
->>> As mentioned in the review of v1, memory_region_ram_device_write should
->>> be changed to a .write_with_attrs operation, so that it can return
->>> MEMTX_ERROR.
->>>
-> hi Paolo and Alex,
-> need I also change vfio_region_write() in patch 2 to a .write_with_attrs
-> operation?
-> vfio_region_read() is also possible to fail, so should I change it to a
-> .read_with_attrs, too?
+> This issue is introduced in QEMU 4.2.0 (4.1.0 is working fine)
 
-Yes.
+That's not neccessarily the case - with QEMU 4.2.0, libvirt switched
+over to using the new -blockdev command line syntax. When you were
+testing with 4.1.0, it would have been using the legacy -drive syntax.
+So the change in behaviour is more likely related to the usage of
+-blockdev, than any bug introduced in QEMU.
 
-Please submit your series as a thread, with a cover letter:
-https://wiki.qemu.org/Contribute/SubmitAPatch#Include_a_meaningful_cover_le=
-tter
+-- =
 
->=20
-> Thanks
-> Yan
->=20
->>> Otherwise this looks good.
->>>
->> hi Paolo,
->> thanks for pointing it out again!
->> I didn't get your meaning in v1. will update the patch!
->>
->> Thanks
->> Yan
->>>
->>
->=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1875139
 
+Title:
+  Domain fails to start when 'readonly' device not writable
+
+Status in QEMU:
+  New
+
+Bug description:
+  This issue is introduced in QEMU 4.2.0 (4.1.0 is working fine)
+
+  My root disk is a LVM2 volume thin snapshot that is marked as read-only
+  But when I try to start the domain (using virt-manager) I get the followi=
+ng error:
+
+  Error starting domain: internal error: process exited while connecting
+  to monitor: 2020-04-26T06:55:06.342700Z qemu-system-x86_64: -blockdev
+  {"driver":"host_device","filename":"/dev/vg/vmroot-20200425","aio":"native
+  ","node-name":"libvirt-3-storage","cache":{"direct":true,"no-
+  flush":false},"auto-read-only":true,"discard":"unmap"} The device is
+  not writable: Permission denied
+
+  Changing the lvm snapshot to writeable allows me to start the domain.
+  (Making it changes possible during domain is running)
+
+  I don't think QEMU should fail when it can't open a (block) device when t=
+he read-only option is set.
+  (why is write access needed?)
+
+  Reproduce steps:
+  * Create LVM read-only volume (I don't think any data is needed)
+  * Create domain with read-only volume as block device
+  * Try to start the domain
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1875139/+subscriptions
 
