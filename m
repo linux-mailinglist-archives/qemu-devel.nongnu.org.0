@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5517D1BAC79
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 20:24:27 +0200 (CEST)
-Received: from localhost ([::1]:57720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77DF31BAC58
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 20:21:58 +0200 (CEST)
+Received: from localhost ([::1]:57500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jT8Qc-0002vy-BA
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 14:24:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34916)
+	id 1jT8OD-0006n2-BK
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 14:21:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34932)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jT8JR-0000EA-O8
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 14:17:02 -0400
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jT8JT-0000IM-5j
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 14:17:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jT8JR-0005J6-9t
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 14:17:01 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:40650)
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jT8JS-0005Nt-La
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 14:17:02 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:44778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jT8JQ-0005Hx-S4; Mon, 27 Apr 2020 14:17:00 -0400
-Received: by mail-lj1-x243.google.com with SMTP id y4so18658652ljn.7;
- Mon, 27 Apr 2020 11:17:00 -0700 (PDT)
+ id 1jT8JS-0005Iw-6a; Mon, 27 Apr 2020 14:17:02 -0400
+Received: by mail-lj1-x243.google.com with SMTP id a21so15743264ljj.11;
+ Mon, 27 Apr 2020 11:17:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GPC7muRhlUGu2WX8H12OYbV9Y7LEMhxX59INi0Q7t54=;
- b=U9kYsAVVwzkiI1exgIr0cy8osthl3OdGielMlmp0Vht9kBiTJugNpsF7HJCJFwdWR5
- rfSAXPrDafPlelWD8B6Ho1u24R9HBM575eTV0aOlFZZO5e0b1OMLMM4BNnWFm5yfvZVM
- NF0jksQEgMdmUoiX93nP5hx7XPZu5RafE7cF5cgAv8b3HcAhU+fHwpHMOSc3AxRlQCAc
- Xu+g14ilWTXaq2XBkYumAQK9COn6Upp/rWZciZQTezpz8fTRv8YAgExIRzM67uLzuFmV
- DRtEMg+A4B31LDx5nEGRTgQdn7V4wwKgYPkyJt42Oy5hZqGHv/E+bJ1sCGuJ/9G4Mt/A
- 50Gg==
+ bh=ppDFNV0HS5PGl+N0yG8aeZ7r5RAGOOBwmZI9oUukmYs=;
+ b=dwvxhXQOT+G38pYEQIAHeXbXYOWFA03bEal1MB0n5lJD1XIP4f73hB3MOkEmZtEKxK
+ XLqXhznW1lqlhKES2YCgz9K4QHdK89cOUjtdbQ6wCnUcHupEP/w57taV1Xy32RzkpFIl
+ bocjoWmAlvTgUlHcEl8yhClz9EHgwSd7FRbBuJgobqX9i/z7ddz4g2pHuPCX8GG/uBr6
+ A5S6u/T/EqXKbjViv5JCdqmkP1ns9QcG8HZTV+6bzoHgwmgjhx4wGSiTbQtYgCCfTXX5
+ WmsFoJ1Mspkjt17r/EkPTyCF6ubfnF2J/TOcnimQVoIdT5YlJqKF4eq/5FK2CanHCHQg
+ 543w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GPC7muRhlUGu2WX8H12OYbV9Y7LEMhxX59INi0Q7t54=;
- b=ZXB19sUEdy1CXHSFEIesplEjxVz3mL4fS7VcIot9JE8hDk0tCzt36dTJe1P4pdy/ll
- n4M/NM8ApfFaC57/FDxnDP1IEQ92XS399lx+aRWrw1DtPNKVxPRQVdrjj6xeXO9OLNPJ
- yreX2asWsRJxfIDPPIuGRPkHj/DqFeJt8vCGknsn4RYluHMtVfUT/bgA930ncG6W8mmZ
- 9E7c6s4uranhGC/D/CXpH1Dm5rTPeCvK0AtSJdf06K/LXT5shg9LGvFVrvmoipUofxav
- o/+bBR9TeYr8yTXTClQ4pv1IwMQYGR+RwfhHDQeRjBStroG6r0YiIVoOU7adi7HeKwx/
- OtnA==
-X-Gm-Message-State: AGi0PuYt1YS7kXSRjWznKlWqyaLFLaTC57kwfUi5Qrrj2JSlhTNSl+ud
- Sq7aBHWNiUEFuyAEKv15fP3kkeLxHZc=
-X-Google-Smtp-Source: APiQypJCaBHkW8FZ1HPMuZz1uaC5LffyzFBjah6EV8gQQsoDf1n+DSYzPJSAfFLTRhvUcFNdsnLaGg==
-X-Received: by 2002:a2e:8999:: with SMTP id c25mr15312182lji.73.1588011418770; 
- Mon, 27 Apr 2020 11:16:58 -0700 (PDT)
+ bh=ppDFNV0HS5PGl+N0yG8aeZ7r5RAGOOBwmZI9oUukmYs=;
+ b=NV1ThWYTFsc6XDX5aihKiVT+4g6de5yPaDa6Gt2gGNZvlOapsY8hJUp7f0Bdvenayr
+ Oew+bhYpCFY9S6b28pnc1ING7eTReMotagIghQS4i2jXa6IAUMK1+EA21BIq/VMPJby2
+ nhWbzY+jupB0HeN40R9cXccOLpxpbd35bgY192VIa8QOMOghKBYENdbAYayXrHA81Mzz
+ gx7USYCjHmpWK21FhMCngv7TeFYMWnch+HUGBEcSEcFLd8VeOzG6b64RsB/yhjxsmn1V
+ WG2VsbIhIp4S3v68p/3J4eyQkvzSQrhUojnESrOLSsVXFgZDbRBCqAobgk1q4M608jVL
+ zqmA==
+X-Gm-Message-State: AGi0PuYkjQakbrgHotLs5ybd7IpbF6DvztyaJHrObgnz6V773R78b8Vh
+ nA+zBc4z0/xkyVOmZi4m9DBYuTFpBaY=
+X-Google-Smtp-Source: APiQypJeNSDwuZbrkgLApxqx9DKVFovq5rGjhGZtnhNkjxlZDyqpIj9Oaasv73gjDTjkIh3eNk1D3w==
+X-Received: by 2002:a2e:b17a:: with SMTP id a26mr14138623ljm.215.1588011419970; 
+ Mon, 27 Apr 2020 11:16:59 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id q19sm10470021ljj.84.2020.04.27.11.16.58
+ by smtp.gmail.com with ESMTPSA id 14sm11458578lfz.8.2020.04.27.11.16.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Apr 2020 11:16:58 -0700 (PDT)
+ Mon, 27 Apr 2020 11:16:59 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 06/11] hw/arm: versal: Embedd the ADMAs into the SoC type
-Date: Mon, 27 Apr 2020 20:16:44 +0200
-Message-Id: <20200427181649.26851-7-edgar.iglesias@gmail.com>
+Subject: [PATCH v1 07/11] hw/arm: versal: Embedd the APUs into the SoC type
+Date: Mon, 27 Apr 2020 20:16:45 +0200
+Message-Id: <20200427181649.26851-8-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200427181649.26851-1-edgar.iglesias@gmail.com>
 References: <20200427181649.26851-1-edgar.iglesias@gmail.com>
@@ -89,66 +89,90 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Embedd the ADMAs into the SoC type.
+Embedd the APUs into the SoC type.
 
 Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- hw/arm/xlnx-versal.c         | 14 +++++++-------
- include/hw/arm/xlnx-versal.h |  3 ++-
- 2 files changed, 9 insertions(+), 8 deletions(-)
+ hw/arm/xlnx-versal-virt.c    |  4 ++--
+ hw/arm/xlnx-versal.c         | 19 +++++--------------
+ include/hw/arm/xlnx-versal.h |  2 +-
+ 3 files changed, 8 insertions(+), 17 deletions(-)
 
+diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
+index 8a608074d1..d7be1ad494 100644
+--- a/hw/arm/xlnx-versal-virt.c
++++ b/hw/arm/xlnx-versal-virt.c
+@@ -469,9 +469,9 @@ static void versal_virt_init(MachineState *machine)
+     s->binfo.get_dtb = versal_virt_get_dtb;
+     s->binfo.modify_dtb = versal_virt_modify_dtb;
+     if (machine->kernel_filename) {
+-        arm_load_kernel(s->soc.fpd.apu.cpu[0], machine, &s->binfo);
++        arm_load_kernel(&s->soc.fpd.apu.cpu[0], machine, &s->binfo);
+     } else {
+-        AddressSpace *as = arm_boot_address_space(s->soc.fpd.apu.cpu[0],
++        AddressSpace *as = arm_boot_address_space(&s->soc.fpd.apu.cpu[0],
+                                                   &s->binfo);
+         /* Some boot-loaders (e.g u-boot) don't like blobs at address 0 (NULL).
+          * Offset things by 4K.  */
 diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-index e424aa789e..ebd2dc51be 100644
+index ebd2dc51be..c8a296e2e0 100644
 --- a/hw/arm/xlnx-versal.c
 +++ b/hw/arm/xlnx-versal.c
-@@ -203,18 +203,18 @@ static void versal_create_admas(Versal *s, qemu_irq *pic)
-         DeviceState *dev;
-         MemoryRegion *mr;
+@@ -31,19 +31,11 @@ static void versal_create_apu_cpus(Versal *s)
  
--        dev = qdev_create(NULL, "xlnx.zdma");
--        s->lpd.iou.adma[i] = SYS_BUS_DEVICE(dev);
--        object_property_set_int(OBJECT(s->lpd.iou.adma[i]), 128, "bus-width",
--                                &error_abort);
--        object_property_add_child(OBJECT(s), name, OBJECT(dev), &error_fatal);
-+        sysbus_init_child_obj(OBJECT(s), name,
-+                              &s->lpd.iou.adma[i], sizeof(s->lpd.iou.adma[i]),
-+                              TYPE_XLNX_ZDMA);
-+        dev = DEVICE(&s->lpd.iou.adma[i]);
-+        object_property_set_int(OBJECT(dev), 128, "bus-width", &error_abort);
-         qdev_init_nofail(dev);
+     for (i = 0; i < ARRAY_SIZE(s->fpd.apu.cpu); i++) {
+         Object *obj;
+-        char *name;
+-
+-        obj = object_new(XLNX_VERSAL_ACPU_TYPE);
+-        if (!obj) {
+-            error_report("Unable to create apu.cpu[%d] of type %s",
+-                         i, XLNX_VERSAL_ACPU_TYPE);
+-            exit(EXIT_FAILURE);
+-        }
+-
+-        name = g_strdup_printf("apu-cpu[%d]", i);
+-        object_property_add_child(OBJECT(s), name, obj, &error_fatal);
+-        g_free(name);
  
--        mr = sysbus_mmio_get_region(s->lpd.iou.adma[i], 0);
-+        mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
-         memory_region_add_subregion(&s->mr_ps,
-                                     MM_ADMA_CH0 + i * MM_ADMA_CH0_SIZE, mr);
- 
--        sysbus_connect_irq(s->lpd.iou.adma[i], 0, pic[VERSAL_ADMA_IRQ_0 + i]);
-+        sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic[VERSAL_ADMA_IRQ_0 + i]);
-         g_free(name);
++        object_initialize_child(OBJECT(s), "apu-cpu[*]",
++                                &s->fpd.apu.cpu[i], sizeof(s->fpd.apu.cpu[i]),
++                                XLNX_VERSAL_ACPU_TYPE, &error_abort, NULL);
++        obj = OBJECT(&s->fpd.apu.cpu[i]);
+         object_property_set_int(obj, s->cfg.psci_conduit,
+                                 "psci-conduit", &error_abort);
+         if (i) {
+@@ -57,7 +49,6 @@ static void versal_create_apu_cpus(Versal *s)
+         object_property_set_link(obj, OBJECT(&s->fpd.apu.mr), "memory",
+                                  &error_abort);
+         object_property_set_bool(obj, true, "realized", &error_fatal);
+-        s->fpd.apu.cpu[i] = ARM_CPU(obj);
      }
  }
+ 
+@@ -95,7 +86,7 @@ static void versal_create_apu_gic(Versal *s, qemu_irq *pic)
+     }
+ 
+     for (i = 0; i < nr_apu_cpus; i++) {
+-        DeviceState *cpudev = DEVICE(s->fpd.apu.cpu[i]);
++        DeviceState *cpudev = DEVICE(&s->fpd.apu.cpu[i]);
+         int ppibase = XLNX_VERSAL_NR_IRQS + i * GIC_INTERNAL + GIC_NR_SGIS;
+         qemu_irq maint_irq;
+         int ti;
 diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
-index 01da736a5b..94b7826fd4 100644
+index 94b7826fd4..426b66449d 100644
 --- a/include/hw/arm/xlnx-versal.h
 +++ b/include/hw/arm/xlnx-versal.h
-@@ -16,6 +16,7 @@
- #include "hw/arm/boot.h"
- #include "hw/intc/arm_gicv3.h"
- #include "hw/char/pl011.h"
-+#include "hw/dma/xlnx-zdma.h"
- #include "hw/net/cadence_gem.h"
- 
- #define TYPE_XLNX_VERSAL "xlnx-versal"
-@@ -53,7 +54,7 @@ typedef struct Versal {
+@@ -36,7 +36,7 @@ typedef struct Versal {
+     struct {
          struct {
-             PL011State uart[XLNX_VERSAL_NR_UARTS];
-             CadenceGEMState gem[XLNX_VERSAL_NR_GEMS];
--            SysBusDevice *adma[XLNX_VERSAL_NR_ADMAS];
-+            XlnxZDMA adma[XLNX_VERSAL_NR_ADMAS];
-         } iou;
-     } lpd;
- 
+             MemoryRegion mr;
+-            ARMCPU *cpu[XLNX_VERSAL_NR_ACPUS];
++            ARMCPU cpu[XLNX_VERSAL_NR_ACPUS];
+             GICv3State gic;
+         } apu;
+     } fpd;
 -- 
 2.20.1
 
