@@ -2,92 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23A241BAF46
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 22:22:08 +0200 (CEST)
-Received: from localhost ([::1]:60812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 146D91BAF90
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 22:33:21 +0200 (CEST)
+Received: from localhost ([::1]:60915 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTAGV-0005sH-6D
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 16:22:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50758)
+	id 1jTARL-0001M0-KP
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 16:33:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51564)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanb@linux.ibm.com>) id 1jTAFb-0005Au-1w
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 16:21:11 -0400
+ (envelope-from <alistair23@gmail.com>) id 1jTAQ2-000090-93
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 16:31:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <stefanb@linux.ibm.com>) id 1jTAFa-0004DO-1E
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 16:21:10 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:20684)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1jTAFY-0004Ar-Ik; Mon, 27 Apr 2020 16:21:08 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 03RK3asR052845; Mon, 27 Apr 2020 16:21:05 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 30mfhdbs9h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Apr 2020 16:21:05 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 03RKI7o4092526;
- Mon, 27 Apr 2020 16:21:04 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 30mfhdbs96-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Apr 2020 16:21:04 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 03RKKBlC006270;
- Mon, 27 Apr 2020 20:21:03 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma04dal.us.ibm.com with ESMTP id 30mcu6bhcb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Apr 2020 20:21:03 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 03RKL34354329676
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 27 Apr 2020 20:21:03 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 082AAAE063;
- Mon, 27 Apr 2020 20:21:03 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E949DAE05F;
- Mon, 27 Apr 2020 20:21:02 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon, 27 Apr 2020 20:21:02 +0000 (GMT)
-Subject: Re: [PATCH 0/2] virt: Set tpm-tis-device ppi property to off by
- default
-To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org,
- cohuck@redhat.com
-References: <20200427143145.16251-1-eric.auger@redhat.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <a5bb0ccb-2dc4-67e2-f0df-98c349e6e94f@linux.ibm.com>
-Date: Mon, 27 Apr 2020 16:21:02 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <alistair23@gmail.com>) id 1jTAQ1-0003fl-PH
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 16:31:58 -0400
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:39991)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jTAQ1-0003fW-C4
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 16:31:57 -0400
+Received: by mail-il1-x144.google.com with SMTP id e8so18063974ilm.7
+ for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 13:31:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=t9QkHlohjVzswOM4gFAcFrhaecvR1YRMYTqzfioKbLY=;
+ b=HrjfK5R6wZ7+zmjoC7jt4DWElz68K0CrU4vDaqzWffNTet1RhL4m971WJS56YWgGPi
+ cPVh13ty3Lhst340/E8yGF+pBS+Pfid0KWa+pMVS43GOnXRXfVWkDRXuDFbxmx1yd4KT
+ XeWlstPNMouIgkodQA7+gwe8YzkfZ9npij8okyuFbJiU9od7GSK+S0Fsu7exjg4LWNnU
+ k4WywobzxN+hHgakwucCzcqB1mQ4LJMvy2gHT41sdDBDePekw+HHO3r5C4yWETXsHpMI
+ vXxlqEYYZ07OuIa4WS76dDGGn++fi5u0ynz4QlAGMPKCG74LWcD3BAerPgGUdJB861Hb
+ V0bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=t9QkHlohjVzswOM4gFAcFrhaecvR1YRMYTqzfioKbLY=;
+ b=t0nFmk1m0IqYxlOw55QHAQArTrzsmrx7JV7bWRfQuWJYdJnxT09T+T7uj7GIVRMp6U
+ DOP7kMKtHpfOqn7Lq23h2p+XOJoPWa65agG5BlUveGaAKmDugd2phEIq90Lik7bTp20t
+ FJ3uE9EZiCXxOxip2nZgv276vE/QJaSnD7caA8tD8cDBTlMduE0LWq+iNBXjFOLAjpX0
+ I828nF7a0xuNTYZ3EyNDXD9aS6Y12Wos8GJkFW0f+omQunFvnmahvLFDid/oVixY2OYK
+ 3h60NYnkqy5JAULSMCRjLSCquTJu4poyv4enq3HrR6wVjiIDQc0By75fT27E++2Vk5qB
+ Fq9g==
+X-Gm-Message-State: AGi0PuY8LcX0UOV/c4ZpttQGbA+3NNuYdghfph8IlOOJdiHZUxmFK9Hr
+ RN0fvBzbNHZ90jbKFADPeZeGmFh1aV7TaSKxm1k=
+X-Google-Smtp-Source: APiQypIwMjdIvDKNdefgxmxIwVy8SARL9Kt/faOdn7mjA7pBw5IMWEr13N1pfkkTPJw0n3CCBb3R39xpvlaLTvI4gmw=
+X-Received: by 2002:a92:aa07:: with SMTP id j7mr3811682ili.40.1588019516370;
+ Mon, 27 Apr 2020 13:31:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200427143145.16251-1-eric.auger@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-04-27_14:2020-04-27,
- 2020-04-27 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- phishscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0 mlxlogscore=999
- malwarescore=0 impostorscore=0 clxscore=1011 priorityscore=1501
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004270163
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 16:21:06
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+References: <20200427201120.1500504-1-amanieu@gmail.com>
+In-Reply-To: <20200427201120.1500504-1-amanieu@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 27 Apr 2020 13:23:18 -0700
+Message-ID: <CAKmqyKOnG6Q2g0KGcPRO51UKuDiCaXu_Z3_Une2SM24obrnEew@mail.gmail.com>
+Subject: Re: [PATCH] linux-user/riscv: Fix target_ucontext and
+ target_sigcontext
+To: "Amanieu d'Antras" <amanieu@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,21 +75,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: drjones@redhat.com
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/20 10:31 AM, Eric Auger wrote:
-> Instead of using a compat in the mach-virt machine to force
-> PPI off for all virt machines (PPI not supported by the
-> tpm-tis-device device), let's simply change the default value
-> in the sysbus device.
+On Mon, Apr 27, 2020 at 1:11 PM Amanieu d'Antras <amanieu@gmail.com> wrote:
+>
+> These now match the field layout used by the kernel.
+>
+> Signed-off-by: Amanieu d'Antras <amanieu@gmail.com>
 
-There is no change in behavior on any arm machine due to this patch, 
-right? So backporting would not be necessary?
+Thanks for the patch!
 
+Unfortunately this fixed has already been applied to the RISC-V tree
+(https://github.com/alistair23/qemu/tree/riscv-to-apply) and will be
+merged once the 5.1 development window opens up.
 
-    Stefan
+Alistair
 
-
+> ---
+>  linux-user/riscv/signal.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/linux-user/riscv/signal.c b/linux-user/riscv/signal.c
+> index 83ecc6f799..2b15e32a7b 100644
+> --- a/linux-user/riscv/signal.c
+> +++ b/linux-user/riscv/signal.c
+> @@ -32,7 +32,7 @@
+>  struct target_sigcontext {
+>      abi_long pc;
+>      abi_long gpr[31]; /* x0 is not present, so all offsets must be -1 */
+> -    uint64_t fpr[32];
+> +    uint64_t fpr[32] __attribute__((aligned(16)));
+>      uint32_t fcsr;
+>  }; /* cf. riscv-linux:arch/riscv/include/uapi/asm/ptrace.h */
+>
+> @@ -40,8 +40,9 @@ struct target_ucontext {
+>      unsigned long uc_flags;
+>      struct target_ucontext *uc_link;
+>      target_stack_t uc_stack;
+> -    struct target_sigcontext uc_mcontext;
+>      target_sigset_t uc_sigmask;
+> +    char __unused[1024 / 8 - sizeof(target_sigset_t)];
+> +    struct target_sigcontext uc_mcontext;
+>  };
+>
+>  struct target_rt_sigframe {
+> --
+> 2.26.1
+>
+>
 
