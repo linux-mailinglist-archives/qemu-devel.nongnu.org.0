@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E11A1BA1E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 13:04:23 +0200 (CEST)
-Received: from localhost ([::1]:39092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2F5F1BA1E8
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 13:06:55 +0200 (CEST)
+Received: from localhost ([::1]:39378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jT1Yk-0007R5-Ar
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 07:04:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48328)
+	id 1jT1bC-000300-Np
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 07:06:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48930)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jT1V2-0004jT-RV
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 07:00:34 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jT1Yb-0008MS-C6
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 07:04:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jT1Uy-0002Ag-Bc
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 07:00:31 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41318)
+ (envelope-from <peter.maydell@linaro.org>) id 1jT1Ya-0003Ay-BE
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 07:04:13 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:41378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jT1Ux-00026T-Nr
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 07:00:27 -0400
-Received: by mail-ot1-x344.google.com with SMTP id c3so25362340otp.8
- for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 04:00:26 -0700 (PDT)
+ id 1jT1YZ-00033O-Tw
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 07:04:11 -0400
+Received: by mail-ot1-x343.google.com with SMTP id c3so25379699otp.8
+ for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 04:04:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VJq+mgb4XrzJF0lylAvz3yr03alybFogbUMfHKlJVxk=;
- b=QwGeyyH4BSISwo4j2POX2WlJeMi38MJ2SIfHC0TeoaBF7qoTjkwWoNBCjbdtDzjpEI
- kfkUSOGy9gBbQJDoBSndx3JFKlo9G+ejxGG5f+wj+qh9ZpasfnqhKAQ+Md5QYwt8AKCk
- o2NuhFh6zQ11IUvUklaoq/YGN+/NJceusAn6ecx74PUhKdLX9smrMGlQ6FPrQtzj1XrY
- M1KlwbS5bbxQs6BHcF+aH/9QWf/xZbAcX4rdeFG3MGFiGI/cg9HXbL2V0UbcTuaJXBiN
- 4DZc5Fr74eIt3MG/zVFP6E877MyA/WkACvwVW7KY8cq0BMUKK9qcEL8EdOqa5Xm6VIyl
- 68wg==
+ :cc; bh=HvlQefAiz25NF63fuWVIv5v7xOmESVGyuHEcJqxJtyI=;
+ b=xIOiYKIGU9uUamWZ8nUVsg8mnsF6WiZ/ngYXzhb0MxLOiYDehDliPwevgVLLQ0cTvC
+ N+GkUorL+6eFsKbauyhxeQtFtGp1Ah2T6G4Y/I3Zn1uA8R7ALKbOA8Xry4TjAgI3xzfL
+ eYs2Eu3dGgrnWktHd8odzURzXqKS70sIdVYUTFSFM2wqRFwmrGwvlrANRjAHGEj3Huh3
+ z844aZaubBxGY65XZ4G0mqX/FM4H+xFNJtIyV7NMl9JudPmFwVQVmqnJ/NDLMvRcgxyU
+ hNV0KnMW7smmILgQMFjnCb4JfzS+aDSR58RUqa5XtUc3Su43whBN/3I+cCGLhOXfAS6o
+ jHSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=VJq+mgb4XrzJF0lylAvz3yr03alybFogbUMfHKlJVxk=;
- b=f25GDLymZPEi/kIcpP4neVBpQhq1WlJtz/U6JZ6uCF8VOld9xIskn9LjnAOlNCINQq
- Ei0i4OsmLugxz5Xo5O0AooIbJYi+isyyAKfaiWEe2z5NwiKSMJcwiwSJWyxYfZTq6bPH
- ZD8pP/jO46Kcii4UARMhR52SvfmSXbEP7o3k5q1w9yPhOTSmtPVE4M3ImfievckLT3o8
- wm3CDqDze52mMaK9DMauXItMG5WviVGowiUEBu9ArzkloG4AGM8WUN5LXGOa9p2xOq0L
- i4mMLCeHiasQ89Y4nupWTY0BjUzeArPl4CcEM7eHkmuf+9pQCRla9grM1JnTagy5I++Y
- kd+w==
-X-Gm-Message-State: AGi0PuZN2Y58hvP4NQqj2Wre7+nhLH7vOhrHaVUwVxZFgl94tKixkVIp
- zydVzVSvTpfmYmPgBkwV8P3y91de9XsC5qMYZ9z4Yg==
-X-Google-Smtp-Source: APiQypLn+DfZsQqNDDokxLPnxEof3YmqiZ6u1D5bX9RxZc96DF5Z2GWzmSDRB7mRrDFcwYQRtpWUWNY4Q2cdbsTT82E=
-X-Received: by 2002:a05:6830:1e4e:: with SMTP id
- e14mr17470258otj.91.1587985225067; 
- Mon, 27 Apr 2020 04:00:25 -0700 (PDT)
+ bh=HvlQefAiz25NF63fuWVIv5v7xOmESVGyuHEcJqxJtyI=;
+ b=g3TJ5qCnmnCxVO5Wvmp9QT7YV2rxZ4EOhMAfvQtet8iehIosxtY07YzPGSWZPWKYBm
+ j4yD4ZDcBmltullDuLG+867V8sQijaMerAvI/2OZE/vJqhJfuFbFobrH/TSgXF8vquBQ
+ oZJiup2XWG0em+P1GyzfzI085KQzs9pYDpYqaSbM/s0jgf3dzk1msGcVcpLl1+TFYqxw
+ JEQdOuSdKSQGhbxOrALEhTzbExfMEwV1XhiesVeMciUw+IMyOO6nQWIjyEjGWnQDxfAi
+ YF74DdXZn6mL6yTduArHhKs/0Ue9kiaa/h67Hq9v676YGsxSTqLeORwu+agRvlGQkVOd
+ D7YA==
+X-Gm-Message-State: AGi0Pua5oQewhDiHs7BWnAbzjQER+KHB4W8E74IJ7qBBeFCMTPEUGA6G
+ 8anznP5kXGSjDOxLZev5zFtXox9CiIwZjV84EC7MKw==
+X-Google-Smtp-Source: APiQypJ91BHYsRh/KA0PtJSm326Bn0HgKwqH1Va5bC+x5Q3V80ai3wxXKaS7IiT1PCDHKfccQdPE1gXV4gBhFj5ZekI=
+X-Received: by 2002:aca:c751:: with SMTP id x78mr15440249oif.163.1587985450446; 
+ Mon, 27 Apr 2020 04:04:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200422043309.18430-1-richard.henderson@linaro.org>
- <20200422043309.18430-9-richard.henderson@linaro.org>
-In-Reply-To: <20200422043309.18430-9-richard.henderson@linaro.org>
+ <20200422043309.18430-14-richard.henderson@linaro.org>
+In-Reply-To: <20200422043309.18430-14-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 27 Apr 2020 12:00:13 +0100
-Message-ID: <CAFEAcA-TT3Omxk6B601bUxyXLR9m_y0O18ivR9FX5CEsoK+Smg@mail.gmail.com>
-Subject: Re: [PATCH v3 08/18] target/arm: Add sve infrastructure for page
- lookup
+Date: Mon, 27 Apr 2020 12:03:59 +0100
+Message-ID: <CAFEAcA8oWP9XGzD+pb_VhDth8zx8j1Gz4vwiK+dArpw8x1BmqA@mail.gmail.com>
+Subject: Re: [PATCH v3 13/18] target/arm: Update contiguous first-fault and
+ no-fault loads
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::344
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,21 +83,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Wed, 22 Apr 2020 at 05:33, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> For contiguous predicated memory operations, we want to
-> minimize the number of tlb lookups performed.  We have
-> open-coded this for sve_ld1_r, but for correctness with
-> MTE we will need this for all of the memory operations.
->
-> Create a structure that holds the bounds of active elements,
-> and metadata for two pages.  Add routines to find those
-> active elements, lookup the pages, and run watchpoints
-> for those pages.
->
-> Temporarily mark the functions unused to avoid Werror.
+> With sve_cont_ldst_pages, the differences between first-fault and no-fault
+> are minimal, so unify the routines.  With cpu_probe_watchpoint, we are able
+> to make progress through pages with TLB_WATCHPOINT set when the watchpoint
+> does not actually fire.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+>      /*
+> -     * Perform one normal read, which will fault or not.
+> -     * But it is likely to bring the page into the tlb.
+> +     * From this point on, all memory operations are MemSingleNF.
+> +     *
+> +     * Per the MemSingleNF pseudocode, a no-fault load from Device memory
+> +     * must not actually hit the bus -- it returns (UNKNOWN, FAULT) instead.
+> +     * If you map non-RAM with Normal memory attributes and do a NF
+> +     * load then it should access the bus -- but doing so is illegal.
+> +     *
+> +     * While we do not have access to the memory attributes from the PTE
+> +     * to tell Device memory from Normal memory, we can validly assume that
+> +     * non-RAM has been mapped as Device memory.  Thus we indicate fault
+> +     * on all MMIO.
+
+I still don't understand why this is right. All non-RAM is MMIO
+but not all MMIO is non-RAM; so you might have something that's
+MMIO (at least for the moment) and has been mapped Normal. That
+shouldn't fault.
+
+> +     *
+> +     * Similarly, CPU_BP breakpoints would raise exceptions, and so
+> +     * return (UNKNOWN, FAULT).  For simplicity, we consider gdb and
+> +     * architectural breakpoints the same.
+>       */
+> -    tlb_fn(env, vd, reg_off, addr + mem_off, retaddr);
+> +    if (unlikely(flags & TLB_MMIO)) {
+> +        goto do_fault;
+> +    }
 
 thanks
 -- PMM
