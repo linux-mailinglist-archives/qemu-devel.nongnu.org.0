@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57F891BA7D8
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 17:22:27 +0200 (CEST)
-Received: from localhost ([::1]:50953 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A6D1BA705
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 16:56:00 +0200 (CEST)
+Received: from localhost ([::1]:49658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jT5aU-00028G-C7
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 11:22:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36636)
+	id 1jT5At-0000Kl-Bv
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 10:55:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59998)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jT5Z8-0000a3-7V
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 11:21:05 -0400
+ (envelope-from <andrew@daynix.com>) id 1jT59G-0007Dk-RU
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 10:54:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jT5Z2-0003px-QT
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 11:21:01 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42900
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jT5Z2-0003ON-CS
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 11:20:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588000851;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9RfsftBIQkIbPtPvwLFbQ9i7OHhaqSTHoPEQ1dSEY0c=;
- b=A8zWcjVAAakeDvtIJ9dI1mBdva3Ine92qDO1EcSahmz+5NXWpRSNAuDluZJ7bm0r0JuP2b
- /FRB6RHKnokkqOYrqZxJ9gO3Wvs+hBR3IHjFMKP8XdrJKbrh1SVcfOmFFSsSY2/Y6W+VVx
- nceKz9AJlEwfNqMNj3YMesmEQVu+n0U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-OC2cYvWtMDiyU3iobR1SlA-1; Mon, 27 Apr 2020 11:20:47 -0400
-X-MC-Unique: OC2cYvWtMDiyU3iobR1SlA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D070546B;
- Mon, 27 Apr 2020 15:20:46 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.23])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B1B919C58;
- Mon, 27 Apr 2020 15:20:39 +0000 (UTC)
-Date: Mon, 27 Apr 2020 16:20:36 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 0/5] QEMU Gating CI
-Message-ID: <20200427152036.GI1244803@redhat.com>
-References: <CAFEAcA9W4KXN6dcT0CNyD_mQ3xY5wDmJ7i0wowhaG2XPmyMYng@mail.gmail.com>
- <87sgi49uf6.fsf@dusky.pond.sub.org>
- <CAFEAcA_dcVneQ4Hj61GAkYRCUSMrA=QjwnAXccoBwjUjOE-wSQ@mail.gmail.com>
- <529508877.9650370.1587661453005.JavaMail.zimbra@redhat.com>
- <20200423171322.GJ1077680@redhat.com>
- <69e77a6e-8db8-f617-bfe6-1c8f39ec81b4@redhat.com>
- <20200427011210.745db351@redhat.com>
- <05670290-5ba0-8be0-624b-da1c95f3e820@redhat.com>
- <20200427102835.6f625859@redhat.com>
- <48b0d8e6-3b9d-981d-c6a3-bdee5580f701@redhat.com>
+ (envelope-from <andrew@daynix.com>) id 1jT59F-0003aa-MG
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 10:54:18 -0400
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:38922)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jT59F-0003ZN-5N
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 10:54:17 -0400
+Received: by mail-lf1-x144.google.com with SMTP id m2so14060049lfo.6
+ for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 07:54:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Ju5oSkgNe0d4rH2rLCOydGzpRFUJq7Gmr1xQg3XTncc=;
+ b=wHKj/viNCHxtS7KBtjbui0syCpDaZOh4gFhrCD5op+W1x8B46SQ8AKjJiByisXnwQt
+ kmpBxggbef+IPOgk/fXqGZvRQNZsHvJJOonOjX/7RJsthh9lvlVTB7OXW+VehhvgNaZl
+ aK0td6ODaZVyWiheaMil+vN8GJdDI2HUAa6OBWRZSXBX6kygmLzQTonBOll1Z2dRcFQu
+ AiDWWZQVgGpXxkzZklspkL/HmYErU29CQlOFKhUMau8ybfrqLAM+v+LKN3G0CalEZSeu
+ nU7ieA0o/s5YBx1Pd4niV6X6DJfoUeQdpLRJ5oYUjBNUWI9vn45Nk8wIOg/IhWN26DB3
+ j+9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Ju5oSkgNe0d4rH2rLCOydGzpRFUJq7Gmr1xQg3XTncc=;
+ b=VniunUxZy7JXHOobB1mqPaZ/KZ3CX53RD2xtKJHeAKmyOv5TW0ZyJkmIdUBxnUj3Yr
+ 921ZthxTjt+1IfA3yo7NT/cobeSFAyPaZfQ2YsBzxNhriz8n7LmuDZIRqGQMYM1y3lXw
+ 4y2hkJDoSuzeygfEpR8Eu4dxiHW4xfB7BL1DAJIjgFfrFHuNvJMSwgdM3pOW6whpVq2c
+ ByYBu7pcVcMrk22Z9asWeI4kyJhpQgQMTRsnwnidkPaoG2x6/j25KoRbf4MoHPGFESt4
+ i2PZyQRps1rOEmlJpUGUbSZ2smk+IAViLrWwS2wYp4VRiMW7LTWGKoyWDxCqdbXurrXQ
+ YnVQ==
+X-Gm-Message-State: AGi0Pua2Zyg5HzNu6RMvOgF6Awrn/ZY5yMLKCvqYvErzJdB0pob/6BS/
+ a0ZDgriFKqCVljs18Yso+j7epVZVaBPYJg==
+X-Google-Smtp-Source: APiQypLq6Y1NfKj+sqH0VhesCI88YSYJ6yFebL4T6vvjtBFEtcDg9sPe/49oRMNdTQuq6TGEhGWubQ==
+X-Received: by 2002:a05:6512:10c5:: with SMTP id
+ k5mr15928359lfg.0.1587999254288; 
+ Mon, 27 Apr 2020 07:54:14 -0700 (PDT)
+Received: from navi.cosmonova.net.ua ([95.67.24.131])
+ by smtp.gmail.com with ESMTPSA id i14sm904527lfl.21.2020.04.27.07.54.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Apr 2020 07:54:13 -0700 (PDT)
+From: andrew@daynix.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH] e1000e: Added ICR clearing by corresponding IMS bit.
+Date: Mon, 27 Apr 2020 18:21:48 +0300
+Message-Id: <20200427152148.283771-1-andrew@daynix.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <48b0d8e6-3b9d-981d-c6a3-bdee5580f701@redhat.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 01:12:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2a00:1450:4864:20::144;
+ envelope-from=andrew@daynix.com; helo=mail-lf1-x144.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,135 +80,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Erik Skultety <eskultet@redhat.com>, Wainer Moschetta <wmoschet@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: jasowang@redhat.com, dmitry.fleytman@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 27, 2020 at 04:41:38PM +0200, Philippe Mathieu-Daud=C3=A9 wrote=
-:
-> On 4/27/20 4:28 PM, Cleber Rosa wrote:
-> > On Mon, 27 Apr 2020 12:51:36 +0200
-> > Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
-> >=20
-> > > On 4/27/20 7:12 AM, Cleber Rosa wrote:
-> > > > On Thu, 23 Apr 2020 23:28:21 +0200
-> > > > Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
-> > > [...]
-> > > > > In some cases custom runners are acceptable. These runners won't =
-be
-> > > > > "gating" but can post informative log and status.
-> > > > >=20
-> > > >=20
-> > > > Well, I have the feeling that some people maintaining those runners
-> > > > will *not* want to have them as "informational" only.  If they
-> > > > invest a good amount of time on them, I believe they'll want to
-> > > > reap the benefits such as other not breaking the code they rely on.
-> > > >   If their system is not gating, they lose that and may find
-> > > > breakage that CI did not catch.  Again, I don't think "easily
-> > > > accessible" hardware should be the only criteria for
-> > > > gating/non-gating status.
-> > > >=20
-> > > > For instance, would you consider, say, a "Raspberry Pi 4 Model
-> > > > B", running KVM jobs to be a reproducible runner?  Would you blame =
-a
-> > > > developer that breaks a Gating CI job on such a platform and says
-> > > > that he can not reproduce it?
-> > >=20
-> > > I'm not sure I understood the problem, as I'd answer "yes" but I
-> > > guess you expect me to say "no"?
-> > >=20
-> >=20
-> > What I mean is: would you blame such a developer for *not* having a
-> > machine himself/herself that he/she can try to reproduce the failure?
-> > And would you consider a "Raspberry Pi 4 Model B" an easily available
-> > hardware?
->=20
-> My view on this is if someone merged code in mainstream QEMU and maintain=
-s
-> it, and if it is not easy to reproduce the setup (for a bug reported by a=
- CI
-> script), then it is the responsibility of the maintainer to resolve it.
-> Either by providing particular access to the hardware, or be ready to spe=
-nd
-> a long debugging session over email and multiple time zones.
->=20
-> If it is not possible, then this specific code/setup can not claim for
-> gating CI, and eventually mainstream isn't the best place for it.
+From: Andrew Melnychenko <andrew@daynix.com>
 
-I'd caution to be wary about using gating CI as a big stick for hitting
-contributors with. The more rules we put in place whicih contributors
-have to follow before their work gets accepted for merge, the less likely
-someone is to have a positive experiance contributing to the project, or
-even be willing to try. This view of gating CI requirements was a negative
-aspect of contributing to the OpenStack project, which drove people away.
-There was pushback against contributing work because it lacked CI, but
-there was often no viable way for to actually provide CI in a feasible
-timeframe, especially for stuff only testable in physical hardware and
-not VMs. Even if you work for a big company, it doesn't make it easy to
-magic up money to spend on hardware & hosting to provide CI, as corporate
-beaurcracy & priorities will get in your way.
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1707441
+Added ICR clearing if there is IMS bit - according to the note by
+section 13.3.27 of the 8257X developers manual.
 
-I'd really encourage the more nuanced approach of thinking in terms of
-tiered support levels:
+Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+---
+ hw/net/e1000e_core.c | 9 +++++++++
+ hw/net/trace-events  | 1 +
+ 2 files changed, 10 insertions(+)
 
-  - Tier 1: features that we have gating CI tests for. Will always work.
-
-  - Tier 2: features that we have non-gating CI test for. Should work at
-            time of release, but may be broken for periods in git master.
-=09   =20
-  - Tier 3: features that we don't have CI tests for. Compile tested only,
-            relying on end user manual testing, so may or may not work
-=09    at any time or in release.
-
-Obviously tier 1 is the gold standard that we would like everything to
-achieve but we'll never achieve that reality unless we cull 90% of QEMU's
-code. I don't think that's in the best interests of our users, because
-clearly stuff in Tier 2 and Tier 3 is still useful for a large portion of
-our end users - not least because Tier 3 is the level everything is at
-right now in QEMU unless using a downstream vendor's packages.
-
-The tier levels and CI are largely around setting reasonable quality
-expectations. Right now we often have a problem that poeople want to
-re-factor code but are afraid of breaking existing functionality that
-guests rely on. This causes delays in merging code or causes people to
-not even attempt the refactoring in the first place. This harms our
-forward progress in QEMU.
-
-With gating CI, we are declaring that contributors should feel free to
-refactor anything as long as it passes gating CI. IOW, contributors only
-have to care about Tier 1 features continuing to work. It would be nice
-if refactoring does not breaks stuff in Tier 2 / 3, but if it does, then
-that is acceptable collatoral damage. We would not block the merge on
-stuff that is Tier 2 / 3.
-
-Based on what I experianced in OpenStack the other big challenge is
-deciding when something can be promoted from Tier 2 to Tier 1. They
-had the official gating CI (for Tier 1) being maintained by the core
-project infrastructure team. Any CI provided by third party companies
-was non-gating (Tier 2) (at least in the time I was involved) because
-they did not want code merge blocked on ability to communicate with
-third party companies who were often hard to contact when CI broke.
-So the only real path from Tier 2 to Tier 1 was to give the project
-direct access to the CI hardware, instead of having the providing
-company self-manage it.
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index d5676871fa..8878b7ef00 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -2624,6 +2624,15 @@ e1000e_mac_icr_read(E1000ECore *core, int index)
+         e1000e_clear_ims_bits(core, core->mac[IAM]);
+     }
+ 
++    /*
++     * PCIe* GbE Controllers Open Source Software Developer’s Manual
++     * 13.3.27 Interrupt Cause Read Register
++     */
++    if (core->mac[ICR] & core->mac[IMS]) {
++        trace_e1000e_irq_icr_clear_icr_bit_ims(core->mac[ICR], core->mac[IMS]);
++        core->mac[ICR] = 0;
++    }
++
+     trace_e1000e_irq_icr_read_exit(core->mac[ICR]);
+     e1000e_update_interrupt_state(core);
+     return ret;
+diff --git a/hw/net/trace-events b/hw/net/trace-events
+index e18f883cfd..46e40fcfa9 100644
+--- a/hw/net/trace-events
++++ b/hw/net/trace-events
+@@ -237,6 +237,7 @@ e1000e_irq_icr_read_entry(uint32_t icr) "Starting ICR read. Current ICR: 0x%x"
+ e1000e_irq_icr_read_exit(uint32_t icr) "Ending ICR read. Current ICR: 0x%x"
+ e1000e_irq_icr_clear_zero_ims(void) "Clearing ICR on read due to zero IMS"
+ e1000e_irq_icr_clear_iame(void) "Clearing ICR on read due to IAME"
++e1000e_irq_icr_clear_icr_bit_ims(uint32_t icr, uint32_t ims) "Clearing ICR on read due corresponding IMS bit: 0x%x & 0x%x"
+ e1000e_irq_iam_clear_eiame(uint32_t iam, uint32_t cause) "Clearing IMS due to EIAME, IAM: 0x%X, cause: 0x%X"
+ e1000e_irq_icr_clear_eiac(uint32_t icr, uint32_t eiac) "Clearing ICR bits due to EIAC, ICR: 0x%X, EIAC: 0x%X"
+ e1000e_irq_ims_clear_set_imc(uint32_t val) "Clearing IMS bits due to IMC write 0x%x"
+-- 
+2.24.1
 
 
