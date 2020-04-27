@@ -2,105 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 592E31BA0EE
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 12:19:28 +0200 (CEST)
-Received: from localhost ([::1]:36896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B2681BA10B
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 12:25:53 +0200 (CEST)
+Received: from localhost ([::1]:37322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jT0rG-00025D-PJ
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 06:19:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41432)
+	id 1jT0xT-00014J-Vf
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 06:25:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43072)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jT0pO-00018I-Ch
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 06:17:30 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jT0w6-0000EB-UU
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 06:24:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jT0pN-0001mK-W3
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 06:17:30 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44189)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jT0pH-0001Ax-A8; Mon, 27 Apr 2020 06:17:23 -0400
-Received: by mail-wr1-x443.google.com with SMTP id d17so19857291wrg.11;
- Mon, 27 Apr 2020 03:17:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yxwzn8F5oHtItWkeR1/MbHSJihRf/baZIBBiplF6lsg=;
- b=NMovLMUwfO31whS2CE202jpOPT0TO/s5YwSsABm7XY29BP/i9G9w4CW07W/QGZap2R
- DFCEpe3q+DgxCXFwL6RW/AQcUF1NVnlXeHc9h/OMVGrbPy1ktDm5OxghQ2mlq5iZHj+E
- 0IseGg04VK2GJhFilMCxErx2eYHnfKpT9MN4KQ2rqXFOFMQZAVM2D0FJ7VDyhBCrYo51
- 1Ogar0ao/3k9m8zxU3TVy5ODL3CZQyjkdbd+1HZi2tJWExxNDzPmgA7B1BLyhQjeRN8W
- xIWADfv2OHXURTy3frJWtpvbXUcsMJmKo0iT5vwedvF2e1zMhqEDElc2/tPvgPOJIqlF
- 4P+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=yxwzn8F5oHtItWkeR1/MbHSJihRf/baZIBBiplF6lsg=;
- b=ZqSVY670uJZnQjXK9YVeMLG/moon88cX55I8BFr7AbpaLX4JH1tMryInrN5xn/Ln6K
- HXTdr7MkNYGSbQC0jDBHmzR126EbnDFtbJhcADxoenbtIXH1w6hU3fNp42p6LTo5lNNO
- tpCDogeXgArzhU5yiJs+tGvIeqFay+Ly5DkjHeussZTtbeq3U0fEl7hCtsoK8G4LVTlN
- 0avsLBepN7Fl2Fn4uLdlCjc1JQJiSZMmZOkz3j78mpUOeVbNIuom1XnYPlDSwhl6LufI
- +WQFhvwzW/WjUtGyBmTfDBx1gXzgAJCNGF6Oej9UGcE+b5kTUwZpryEJQ+o6Fq3pmJEn
- REMg==
-X-Gm-Message-State: AGi0PuYD+l6s4zZ4dcmviGwI5ICS9HoGzKIJL8Cj/lXA6ZgL0kxNpIO+
- DGhHrLlk5CshyECI15MS+5Ec/JLf
-X-Google-Smtp-Source: APiQypLrHHZDM6S7v8nYYYQqmnT74Nb59LgiX30ZQP53e/NHgyE9EJ6/KxwjcejfqhJOe+p2kOQ+pg==
-X-Received: by 2002:a05:6000:8f:: with SMTP id
- m15mr26680151wrx.19.1587982640861; 
- Mon, 27 Apr 2020 03:17:20 -0700 (PDT)
-Received: from [192.168.1.39] (137.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.137])
- by smtp.gmail.com with ESMTPSA id k14sm20813049wrp.53.2020.04.27.03.17.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Apr 2020 03:17:20 -0700 (PDT)
-Subject: Re: [PATCH] chardev: Add macOS to list of OSes that support -chardev
- serial
-To: Mikhail Gusarov <dottedmag@dottedmag.net>, qemu-devel@nongnu.org
-References: <20200426210956.17324-1-dottedmag@dottedmag.net>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Autocrypt: addr=f4bug@amsat.org; keydata=
- mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
- u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
- HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
- YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
- ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
- dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
- ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
- Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
- HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
- Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
- CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
- klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
- jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
- 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
- loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
- sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
- JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
- 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
- K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
- n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
- CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
-Message-ID: <4e9edcaf-d623-b5c6-fdf9-0d649ef8ba2d@amsat.org>
-Date: Mon, 27 Apr 2020 12:17:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <cohuck@redhat.com>) id 1jT0w5-0005ee-Ts
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 06:24:26 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33202
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jT0w5-0005eV-H8
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 06:24:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587983064;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=j6g9s5XUflybaheUo/IGc4BDyuX36qLojgvo/hs4cHE=;
+ b=E3hO16AfP9djMzjrz3PFSqiFU35OUFF1ntHMd7hD6m8ZBUNrlAJZvhAcrhuEoBPJznn1Yv
+ mxorZZpFzU1gk7T/HztYfHLCdUgHaxICI66B5g48j8uCx7d8GhGcnOorXV6it7YVQ5vhuC
+ FrS9k3Rwjp8EKUjgB5CSvuidQ2nJ0qI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-401-xaTwFezrOT6bAh4pz573xw-1; Mon, 27 Apr 2020 06:24:23 -0400
+X-MC-Unique: xaTwFezrOT6bAh4pz573xw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55D4F107ACF3;
+ Mon, 27 Apr 2020 10:24:22 +0000 (UTC)
+Received: from localhost (ovpn-112-184.ams2.redhat.com [10.36.112.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DCEB127CCA;
+ Mon, 27 Apr 2020 10:24:19 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH 0/3] headers update and virtio-net fixup
+Date: Mon, 27 Apr 2020 12:24:12 +0200
+Message-Id: <20200427102415.10915-1-cohuck@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200426210956.17324-1-dottedmag@dottedmag.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::443
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 02:05:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,52 +71,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/26/20 11:09 PM, Mikhail Gusarov wrote:
-> macOS API for dealing with serial ports/ttys is identical to BSDs.
-> 
-> Signed-off-by: Mikhail Gusarov <dottedmag@dottedmag.net>
-> ---
-> 
-> Note that the same file has a line
->> #endif /* linux || sun */
-> that is severely out of date.
-> 
->  chardev/char-serial.c | 2 +-
->  include/qemu/osdep.h  | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/chardev/char-serial.c b/chardev/char-serial.c
-> index 5b833ea077..7c3d84ae24 100644
-> --- a/chardev/char-serial.c
-> +++ b/chardev/char-serial.c
-> @@ -53,7 +53,7 @@ static void qmp_chardev_open_serial(Chardev *chr,
->  
->  #elif defined(__linux__) || defined(__sun__) || defined(__FreeBSD__)      \
->      || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__) \
-> -    || defined(__GLIBC__)
-> +    || defined(__GLIBC__) || defined(__APPLE__)
->  
->  static void tty_serial_init(int fd, int speed,
->                              int parity, int data_bits, int stop_bits)
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index 20f5c5f197..ff7c17b857 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -379,7 +379,7 @@ void qemu_anon_ram_free(void *ptr, size_t size);
->  #define HAVE_CHARDEV_SERIAL 1
->  #elif defined(__linux__) || defined(__sun__) || defined(__FreeBSD__)    \
->      || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__) \
-> -    || defined(__GLIBC__)
-> +    || defined(__GLIBC__) || defined(__APPLE__)
->  #define HAVE_CHARDEV_SERIAL 1
->  #endif
->  
-> 
+This updates the headers to Linux 5.7-rc3. Doing so exposes
+a problem in virtio-net (the #define for compat covers too much),
+fix it.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Note 1: I'd like this to go through s390-next so that I can go
+        ahead with protected virtualization, which needs a headers
+        update.
+
+Note 2: Why has the feature been merged in the first place without the
+        kernel part being upstream yet?
+
+Cornelia Huck (3):
+  virtio-net: fix rsc_ext compat handling
+  linux-headers: update against Linux 5.7-rc3
+  virtio-net: remove VIRTIO_NET_HDR_F_RSC_INFO compat handling
+
+ hw/net/virtio-net.c                           |   8 --
+ include/standard-headers/linux/ethtool.h      |  10 +-
+ .../linux/input-event-codes.h                 |   5 +-
+ include/standard-headers/linux/pci_regs.h     |   2 +
+ include/standard-headers/linux/vhost_types.h  |   8 ++
+ .../standard-headers/linux/virtio_balloon.h   |  12 ++-
+ include/standard-headers/linux/virtio_ids.h   |   1 +
+ include/standard-headers/linux/virtio_net.h   | 102 +++++++++++++++++-
+ linux-headers/COPYING                         |   2 +
+ linux-headers/asm-x86/kvm.h                   |   1 +
+ linux-headers/asm-x86/unistd_32.h             |   1 +
+ linux-headers/asm-x86/unistd_64.h             |   1 +
+ linux-headers/asm-x86/unistd_x32.h            |   1 +
+ linux-headers/linux/kvm.h                     |  47 +++++++-
+ linux-headers/linux/mman.h                    |   5 +-
+ linux-headers/linux/userfaultfd.h             |  40 +++++--
+ linux-headers/linux/vfio.h                    |  37 +++++++
+ linux-headers/linux/vhost.h                   |  24 +++++
+ 18 files changed, 280 insertions(+), 27 deletions(-)
+
+--=20
+2.21.1
+
 
