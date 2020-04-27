@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D591B9A4E
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 10:33:19 +0200 (CEST)
-Received: from localhost ([::1]:59026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05A2F1B9A28
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 10:28:19 +0200 (CEST)
+Received: from localhost ([::1]:58480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSzCY-0003l9-4P
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 04:33:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48840)
+	id 1jSz7h-000204-Lw
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 04:28:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48834)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jSz3a-0002Ml-Ic
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 04:24:09 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jSz3a-0002Lk-9h
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 04:24:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jSz3Z-0007ap-2J
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jSz3Z-0007c8-Sd
  for qemu-devel@nongnu.org; Mon, 27 Apr 2020 04:24:02 -0400
 Received: from mail-eopbgr70114.outbound.protection.outlook.com
  ([40.107.7.114]:29366 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jSz3X-0007Ta-Aq; Mon, 27 Apr 2020 04:23:59 -0400
+ id 1jSz3Y-0007Ta-AL; Mon, 27 Apr 2020 04:24:00 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eOSFqYuKdThJwPW5ZeY6q40sdhu9P3R/KC89BsjbHkZ/gZiggT5yLrrdI1VByBa49Gx/2gOH3SCyIrzJyFZclD4UozHIsEsv5ZkcNcemKVzIJqGtaSdKrDtFE47U92jJStwi+efQ4zBvRtQW27pWwwR62t5ePZLr4IHXLuzRmC+MFAlYa0ghch1K4j6b5jl7dguQLZqEwTiZ+3Tz6SpRXSK50AJy2GIwhM0OlZm5DlkRQH5PgRZOG0MqVqx3qruES/HbFhDLiChEYnsVUDHpU4ygw2710vbUyTesU4vSsOUT+ORydZb2GAn9PJrtd/3ATk9HTvu6Mwu6KHeeH0Jw3g==
+ b=NulXxudmuznZ1PXaOA2nqVV8IEEDLO8qbK5fwXKsxv8x/QdiaUe+7+uQrFfYkAjwKbgdpg/JwYUofj5+oeTFIX+ouTNBLpWLpYxg57vK7UJZGeeS+PupmTYwyGPsKB3P3QvcKReaBeniG/BUUlglfdvKZo7TuKMo5mIFUvhqn+/Hlmw3dMoQx2lb8vcGxhYM83jlj6Op4mBCjvcANYREPDBvlk9QsDJec/T2Ze8KSwGHlk5VvW+IOZ/eKEY4zIXaZZfbtSChPp/mQMLgg90oYEtg//K7yb3mw7m/gfQK4l2VFnxb98e47l9TFUqkAnoZ/UiRkp6q9sEvNK5T9YLbdA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yy3xXl85nwGEzmT9kVH+IntKelWJt78/C09WVYkUlHA=;
- b=ejWaTpb+JWbiFpCZkqzUo2UKyWm65kY1/4hLeq3VoRd+iYpXJXVO7UMA1XOeAq7E18/zo62u6ijmej6OpHKi2qXC4xbcmTDWa9WB5ykEihdytnqA8R7IWEx8pWK678YYvCktHC0hIw491EUH+dLDWqTbVSgofsnH7lYGzDWQIzs+dZZmRltH/IfQscosr08WC3Ya/9uOZdthVqmtfDPmAcngKMI1k1WbkvGf8AiJFreCC3i4Vx1mg26JKDVO9hq6WX3b0/l0AtcI3m5/falEkJuUs5/DvtnJDCsFaqhOWT6m2s6ZQ4G+wxyPMxyKp2oByds3wiy+cVtBpCuAQX2dew==
+ bh=AHVe5q0aGJGJfuUaocbrIbtM4T0kS9ZgXQhC/F+MQMI=;
+ b=fxZV1bD1OLpusck5DC+CpI+uiNM9/pN7cS7uwZlKy1Alo3LVoA7pDHG81SkCKel1cvNXFX3N6QBEWsoBUEuys5wyM5dE5Hs8piiudJkGkao9VzbbEHKTfcpPNdRMZysbHBF7d98atD0FkoW6dkcjvdYEDYB12PfzMWZ8vQrw/e3DZjfIHvPd0Vnl1Laz2oeGCirtDymb+BHvDBwvCrJrPUZb9lPzx79nDlTVdFYs6rB9nuPtrYS4sGDnSHKNaz98EFyRdd5FoQlN3TTvsVmK21GPsSKXM7IUb8ndB5lSXafoV2lGrWrrAX3GvCWFqr16ANXWJ039q3JZI+IHJ3+uow==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yy3xXl85nwGEzmT9kVH+IntKelWJt78/C09WVYkUlHA=;
- b=OrFG1Z02xrQMl6a3Pbfky2WWSJ9+EsygzOU3NmvDkwVkh4qQyXkDDiq+3PUVTJh5/YXg6/yf5DCQdddECScetn+hldg+SfBgrZiXAYgUGSioWhtDrXPFzZGmBea0C8WR+vgXcKR/lxB/mRHhkjRO9rIx1FnE1U6OmhGQ1b9Ux+I=
+ bh=AHVe5q0aGJGJfuUaocbrIbtM4T0kS9ZgXQhC/F+MQMI=;
+ b=qf/dXi42x4dHUwAMA8Ex+obSk7c8SNPZ/im6gGz9UEimRDfCJ7uNR45AwGjX4c4U6+gXkI7svJySQ6+YAWekwDmWN8m7r/MFXXaChau/SX2EUg6L1QbAGc25v5YBJ/UWHfbpQwWFY2kZHjqUuBcWvLzaXlRMeDshJIyLJ7jw+p4=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=vsementsov@virtuozzo.com; 
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5463.eurprd08.prod.outlook.com (2603:10a6:20b:106::7)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.22; Mon, 27 Apr
- 2020 08:23:57 +0000
+ 2020 08:23:58 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.020; Mon, 27 Apr 2020
- 08:23:57 +0000
+ 08:23:58 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 04/17] block/io: use int64_t bytes in driver wrappers
-Date: Mon, 27 Apr 2020 11:23:12 +0300
-Message-Id: <20200427082325.10414-5-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 05/17] block/io: support int64_t bytes in
+ bdrv_co_do_pwrite_zeroes()
+Date: Mon, 27 Apr 2020 11:23:13 +0300
+Message-Id: <20200427082325.10414-6-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200427082325.10414-1-vsementsov@virtuozzo.com>
 References: <20200427082325.10414-1-vsementsov@virtuozzo.com>
@@ -65,15 +66,15 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.182) by
  FR2P281CA0004.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:a::14) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2937.13 via Frontend Transport; Mon, 27 Apr 2020 08:23:56 +0000
+ 15.20.2937.13 via Frontend Transport; Mon, 27 Apr 2020 08:23:57 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.182]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c3599ac7-f9e4-44a9-a52a-08d7ea84548d
+X-MS-Office365-Filtering-Correlation-Id: 79763d41-7f40-4e60-1ae6-08d7ea845568
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5463:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB54636A55400A876506CACE4AC1AF0@AM7PR08MB5463.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:923;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB54637CE9FFD5A3AE69A945D9C1AF0@AM7PR08MB5463.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
 X-Forefront-PRVS: 0386B406AA
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
@@ -84,15 +85,15 @@ Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3suxYrpxirDY9boeVuHXGv8LtfEsENxsE62J7uQNEM1kOEhDIwwiZbcBikUH+xX3sIxiZqouCNPQ3UbDegQfjABTbZwzGw95IH5AYZobLsaiW/A9qSWBTuXQjdvIt4aCaglHpDvbgCYKZbapi+y2x5ngCg8WdH3wG3fagW7bmSdE8aAhuuAJXiVG4REYRZMV69Ll8ZRM7zMy8imARogEA3Ev3aD6tIH1jA8+tE3KCtjwrasJBIwHmxnbwkXPZDh6+ZEuRAjLT+ImWi+Jm50Is7jSgApp/FOHXotJhneibUM87Pw1A2KquE/ibDdrpxAD1nzXW1OjzX7rmk5xPi6WKytLn00EQM6m6PjQlCVNq6POfwZOFBz8TcLBIaAjwubjXVHLNBN8Is2gGUjpG5xvGUJSOnrFpX7/FPdVEjlAoknKsTKVm3DYHlRAJyMcODSppHdgalhvlG1piRystglVim8wjJMH50l+ojZYRc2c2cyM9Lbnb3t740A3h0DEIPUG
-X-MS-Exchange-AntiSpam-MessageData: oeOi2QN7DdxV09FOTbqKuBdR161HC7rm5NYJEOmNmdrRtHO2pfY2SR+o3aoqxIVnxGxmg501OooSj740Bb+8veSP/1TTTa25MffXyHWcbNYT3Jr43McDWXs1b4Be/wo8Vxegj1Pm3BziCKTquHIMs0YOC/S8zACHPCC9eF/jKj5EwgJnjjd6hzFz4LUVnCD/i/Fjize9h2AU8tNL32G2eeTDcRqX4iXWIe/d9UtRvHff3P5GbkLxUIeHAV+hWrJ+RKBdYSYcxRjHxKLEXqgYqqqS9uxnKvtYKl5prp5icfNpaN0m2bxws7I2XL8A7zbPlV8EiLZ9oX+bkjhv16HGkxEPeSBD+EAVgVQxuw32vxZAXzakMBORpcjfHIchfuyk8jlIpmJpwCuhkqLDocTPz26Eon3WU4kafAhItuUUdA9TuuuK2aeiF6SzGrJUNA/6j7J3FRhsRAs4Ki9XnDdkPgs95tV7Rqz5Cwr0YFlSkHMOYRV2b4ktXcx9gkVFTHuBXYWAGnUvZKdI0KYLkzvtXLXiVtyH2fishfPSqVyI6RapH5lQC/+l0oxp/LsiIEORzHbvKCKU9nbRE26FgJq0cmm5MofiQG6O7rrubEnBmggt1+CfTLqDkfQ6UkuCWmX4LH7oR4xyXpEAKbRh++QTDSBEOzMB1PIczzRF15HMpWJBr2rHWxonCzInzG21K/UBiQVOf+DiKyc8V+TzUxNPjT4n3nKSYPPZpHoGcVgwNmsyVq6ou/7ERdd9R7CO1yW6lj+eDqI54FnbefE8Xx5JJFVKALhGXyGs+zuMYu4Dar8=
+X-Microsoft-Antispam-Message-Info: wWPN3bEWDGohtZn7lGwOJ7q8I886SkFe0t+yIWNQSKO7roVaqhKeP33DVTSd4mnOysvEIZV5fOXy6sFECwB+ZZurkxzo8dEUjMeFILyatz3DSHAWzqNoq5FzFa26blUScy4XmI7SOvFs/a6bz91ulZSZyO2D0NEar0BRKeNG0jOQ9XIMR+QnIpMvQkYCkhBa52CAyDJRRQ0HIwttmSwiyxOXFjiq9DlfM0Eu24/9ffXzUrsGA8e0wrKOmjPMJxj5U+9R8aTcYXpnOlhDagq9RsBszAqL+LUi22csJVi+Xj26gOTgtidEWN2JvWJB9Xiobc07uavdeae9jcmvAlXZwXpETAWQQx40JSX8EIPnv1k0tSvdo8fxswCpgmd8S4TKCb7rFuw8uVrGytfLFYCGyfu453me3/oNo5E605yQImETA7oGw7po88PsRNSbs9UrsxbUnvuVXGT7kygq2NBYJZ1LopQH0scXEEz1YWVg1s4ELpAd+IvJ2lm2eJnxgGUo
+X-MS-Exchange-AntiSpam-MessageData: WpiRm/8UoEzJhweIXb2EczVw94CdtrGVeVyg1UEjTkKM9kUHbfIS7cWLKWkChuCbrbCdMA9irQLbjSO3XunqvVftUQtY+6tGV6bAxo5ia1QGXl4CZjolgSQ6EZda/FgEyGjP7SVif+M+mAyLPFIWk2UMV5fOaqlYlKWVNTiFRv3Xo4IGyFn9vdN7eufZuuuy4fYL0iAUT9c925lpOsndKDFGjexnoUIEng5aED4K8+aqUZ8cKmRynkn6MypUvK/R0RyX6BKIHzXvjpbQc4e9HWEuvSnm0QPQppRWoLlTuqe/R5IUYz3yue8u4akFlWw4REz4T9KTxDnMeeRc5ZmMAkbL9c/I6+5vt2P3KMqmQLzGKmJ3vPNKuyAzmUGxHtbn9lDqds5ScDiDvAEEOB0ReoGiutx7MDWeujFOaobJuVBUgIQ/RzOcw7X3Bb4DGhIeOfQvOU8TROnNuZ6ohv+ZkWPRy6sCjv8TgWa5KBZ3mJYkmN9bP2AkBCY4QFC+NF1bQ9uic/YTuoKNT0CgkI4/vBZQkdJqc2vl3GEbTmB/G86idZ0ZLdwU/SBKhAhbkBe6ZY/PrgSaFukdjadt+loBXU9cSE7ApOucMM0ChD09coAQIWXe3Iu0DHrfXHuZz5oO1ZF3cgGlqbEpmdR2OcyeK6bjSMdMj4XGEnuEcwrMVNmI+XIpvbnRYdusn9PUVEiSg2c0LXHTiMvNst2RiokEF2y80GpSdhdPftXgqAOuuz8wT45HMQn0bdxaENQgwcQxlaSImrw/mF1PDotz1WKMCwXu+hTbNfRuUYtpw8T1CeU=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3599ac7-f9e4-44a9-a52a-08d7ea84548d
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2020 08:23:57.3208 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 79763d41-7f40-4e60-1ae6-08d7ea845568
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2020 08:23:58.7465 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LxDplzNqwvjjvHXouxIFwf7KAN9+rBhMOr/SZGRY1gP4EdCdTpo3QXGfpKfNv7D5M7pGija/GKahOOyvOPk91NVt97U74h8ircM4SzLqcAI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: /+ab1dOd2VqxgOxM8xDMwlQModz7TxYunA4oQ+XShhvPyE2yBaCQ/qtitSxnz6VE5rc1jcNeRG9q7btS3l9fEy02pP2gJyDQivjGaYZxtIk=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5463
 Received-SPF: pass client-ip=40.107.7.114;
  envelope-from=vsementsov@virtuozzo.com;
@@ -121,47 +122,44 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 We are generally moving to int64_t for both offset and bytes parameters
-on all io paths. Convert driver wrappers parameters which are
-already 64bit to signed type.
+on all io paths. Prepare bdrv_co_do_pwrite_zeroes() now.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/io.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ block/io.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/block/io.c b/block/io.c
-index 1267918def..4796476835 100644
+index 4796476835..c8c30e3699 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -1086,7 +1086,7 @@ static void bdrv_co_io_em_complete(void *opaque, int ret)
+@@ -42,7 +42,7 @@
+ 
+ static void bdrv_parent_cb_resize(BlockDriverState *bs);
+ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
+-    int64_t offset, int bytes, BdrvRequestFlags flags);
++    int64_t offset, int64_t bytes, BdrvRequestFlags flags);
+ 
+ static void bdrv_parent_drained_begin(BlockDriverState *bs, BdrvChild *ignore,
+                                       bool ignore_bds_parents)
+@@ -1743,7 +1743,7 @@ int coroutine_fn bdrv_co_preadv_part(BdrvChild *child,
  }
  
- static int coroutine_fn bdrv_driver_preadv(BlockDriverState *bs,
--                                           uint64_t offset, uint64_t bytes,
-+                                           int64_t offset, int64_t bytes,
-                                            QEMUIOVector *qiov,
-                                            size_t qiov_offset, int flags)
- {
-@@ -1155,7 +1155,7 @@ out:
- }
- 
- static int coroutine_fn bdrv_driver_pwritev(BlockDriverState *bs,
--                                            uint64_t offset, uint64_t bytes,
-+                                            int64_t offset, int64_t bytes,
-                                             QEMUIOVector *qiov,
-                                             size_t qiov_offset, int flags)
- {
-@@ -1235,8 +1235,8 @@ emulate_flags:
- }
- 
- static int coroutine_fn
--bdrv_driver_pwritev_compressed(BlockDriverState *bs, uint64_t offset,
--                               uint64_t bytes, QEMUIOVector *qiov,
-+bdrv_driver_pwritev_compressed(BlockDriverState *bs, int64_t offset,
-+                               int64_t bytes, QEMUIOVector *qiov,
-                                size_t qiov_offset)
+ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
+-    int64_t offset, int bytes, BdrvRequestFlags flags)
++    int64_t offset, int64_t bytes, BdrvRequestFlags flags)
  {
      BlockDriver *drv = bs->drv;
+     QEMUIOVector qiov;
+@@ -1773,7 +1773,7 @@ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
+     assert(max_write_zeroes >= bs->bl.request_alignment);
+ 
+     while (bytes > 0 && !ret) {
+-        int num = bytes;
++        int64_t num = bytes;
+ 
+         /* Align request.  Block drivers can expect the "bulk" of the request
+          * to be aligned, and that unaligned requests do not cross cluster
 -- 
 2.21.0
 
