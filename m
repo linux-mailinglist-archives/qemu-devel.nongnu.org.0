@@ -2,122 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88F081BB0B0
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 23:43:27 +0200 (CEST)
-Received: from localhost ([::1]:34458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6434C1BB0C5
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 23:50:37 +0200 (CEST)
+Received: from localhost ([::1]:34700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTBXC-0001fC-Cv
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 17:43:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33218)
+	id 1jTBe8-000737-6W
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 17:50:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34480)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steplong@quicinc.com>) id 1jTBV6-0006tX-Nk
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 17:41:18 -0400
+ (envelope-from <alistair23@gmail.com>) id 1jTBd8-0006O2-LM
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 17:49:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <steplong@quicinc.com>) id 1jTBV4-0003Zl-SG
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 17:41:16 -0400
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:18991)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <steplong@quicinc.com>)
- id 1jTBV2-0003YO-Sf; Mon, 27 Apr 2020 17:41:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1588023672; x=1619559672;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version;
- bh=aoQf92eHwqYMv8cxGNlQBVaqX3vePWiIEIionsrUU3I=;
- b=cnIBnEruXw0ITRfITyDAU9U+FUiAx7KGzzpvzNlnAFZXSJPsN9tJQbJc
- prjPpheAbhRHoAGeDyg5shChqvpis270EC1nqewoGIVXbKVI2KIOZtMr+
- We1mylwtd5ytanNjxPVkUiC/K8ghUe3hpyiwA1YCT/ccS8JDH5L6P9p0y c=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 27 Apr 2020 14:41:10 -0700
-Received: from nasanexm03a.na.qualcomm.com ([10.85.0.103])
- by ironmsg01-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 27 Apr 2020 14:41:10 -0700
-Received: from APSANEXR01F.ap.qualcomm.com (10.85.0.39) by
- nasanexm03a.na.qualcomm.com (10.85.0.103) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 27 Apr 2020 14:41:10 -0700
-Received: from NASANEXM01H.na.qualcomm.com (10.85.0.34) by
- APSANEXR01F.ap.qualcomm.com (10.85.0.39) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 27 Apr 2020 14:41:06 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (199.106.107.6)
- by NASANEXM01H.na.qualcomm.com (10.85.0.34) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2 via Frontend Transport; Mon, 27 Apr 2020 14:41:06 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=laqgWYJl3eCB+2+hHLhOrnfabsI87wKNEKNOPeOVGhQclAh4kiDADkJl1F43GK9PErEtwmPT01Lyh2oZgumEHTuPG8D10VqHSsAzjWrdydmqUvE1Ch8jF928KHeNWkC49ebHENO9E1nICleam0R25OFN1XUU0QfktK5FGfta6Co1yy5vUmi2iOdyVmVe+4CfycLshSd0Eg+51e5y8HNepWD7rMH3wYYLvw3D5jNDnRwYMqBFgftKuhZMXtSGNz+D2CjnWrFicA4Mm/Kmc9MPmQtfU8jFwPEbOPE4DsIeg0jIKCnkLAEjhBkDrXsVpJzVSZCC5yVK1dlWVbq/FECh/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GCfjUJiBIpgM03wVzwpqm4VIMtdKavH/mALDd28rSfU=;
- b=PrPXf+n2q5QYgzShHnFIYid0R0KaoS3vAPece3/Eg2y/ZFto/CSPGwtlFY4PafjRygdgON1/Uz9DUzYFN+to8d6oc7G5mXjhWnpTJpRItJkLbgc4z9P/LquDaIRewfh+d4Q3GGxCDWtinuzaXWjaXi10clxmmpWTF4rq2Af1VUtQ5sF20tJhDfUF8ZL+Cu+dpognM+LOAGWBV/ecrCPS6+xQiLByvdbMR/X+SWS1xdd0sLH4QWMEkGkXQHpXmEu7vKU812RPCNnLP1/Q3mCaML9w1VSNqQQbLeGydPpAjG7o4UJLc7988dYz03F/DsJZSuJqfgTQNXZiMTI3ejPPUg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GCfjUJiBIpgM03wVzwpqm4VIMtdKavH/mALDd28rSfU=;
- b=WYrc+TnTZcUZvMGVzp7/iswKgiMUNu3FWFoS0oQtdUf8e4992btFzOv4ajyLb1/5n2Gbln1eUuWMGrv3FWX33RiULMdNFx+U5tJckFeqHyuij+GABr/m9QfbqDDZkrAy88OyllSrYJiWFK8re+2H9MwBfFEGIdmCx93+8manx9s=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=steplong@quicinc.com; 
-Received: from MWHPR0201MB3547.namprd02.prod.outlook.com
- (2603:10b6:301:7b::24) by MWHPR0201MB3577.namprd02.prod.outlook.com
- (2603:10b6:301:76::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.22; Mon, 27 Apr
- 2020 21:41:06 +0000
-Received: from MWHPR0201MB3547.namprd02.prod.outlook.com
- ([fe80::10ad:5df5:d575:1f37]) by MWHPR0201MB3547.namprd02.prod.outlook.com
- ([fe80::10ad:5df5:d575:1f37%3]) with mapi id 15.20.2937.023; Mon, 27 Apr 2020
- 21:41:06 +0000
-From: Stephen Long <steplong@quicinc.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH RFC v3 3/3] target/arm: Implement SVE2 SM4EKEY, RAX1
-Date: Mon, 27 Apr 2020 14:40:46 -0700
-Message-ID: <20200427214046.31401-4-steplong@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200427214046.31401-1-steplong@quicinc.com>
-References: <20200427214046.31401-1-steplong@quicinc.com>
-Content-Type: text/plain
-X-ClientProxiedBy: MN2PR12CA0014.namprd12.prod.outlook.com
- (2603:10b6:208:a8::27) To MWHPR0201MB3547.namprd02.prod.outlook.com
- (2603:10b6:301:7b::24)
+ (envelope-from <alistair23@gmail.com>) id 1jTBd8-0007SY-3G
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 17:49:34 -0400
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:41566)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jTBd2-0007Rh-AD; Mon, 27 Apr 2020 17:49:29 -0400
+Received: by mail-il1-x144.google.com with SMTP id f82so18233121ilh.8;
+ Mon, 27 Apr 2020 14:49:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+KeBG7zAWzP1ss9bkDLyH8S2VP+wc99+OjPv1vvRscI=;
+ b=n6NDe53RxXnIwY3vBQRpjBf83DehT0wAQL9dtqww3R7d12C4KWPCifmq19yyi32hOJ
+ SConuSzLICq4/cZV0CdrbE7Gqp1wqWOSyLl2s5Da6mRJmjCtWGV/WawolnjcM9mc0eRg
+ tXR46V0420NgVbHeN9rgWHsU8gd+LMsYGmwF/lggfgfcXGqH6vZmgfHTF2wOdo2v4Foh
+ wVNPEMdexnSbrAl2GKMu5Uv3OHlEIjFZyhF1Qc6I2NaB/MdSBnqRVpu104cYZWsNB8T7
+ MESUVT3zmGF5cIiuiimLdV1BepePAmuqipeyEG9hRQKTocRlDaO2i+bZwaB9h4ijGoTz
+ Pirg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+KeBG7zAWzP1ss9bkDLyH8S2VP+wc99+OjPv1vvRscI=;
+ b=N4gC9Qf/B8s7fFtwNeMBLxeCxefRZQgVB79Lx8JG3ke6STfo7GTruG8Cil5TewRFeg
+ REDdLZFFb2UvLynhPS+rD5emASiYmy0JLlZAiJbTh5/YDj+nGwGVkTeI/7h8cfSIYVol
+ Db6naovHbRHAZqt+U0OC9F/uFx/Ud8RN07isL4biSKo8mDowhyZsEzpWG8gW6T5bBryY
+ bf8hFyAc3450FrujNXLsviGbESFdTGVA+MA2Xk01+rsKXHqBJ0ZG/4SlU0owaApN5pzU
+ UrRDqzyzvuWcCg2L0lV35gi+I1Qpff9BjEwLFlpOIyy2FCMuNdjh0RWKqC8HI85Pnx5B
+ ZgIQ==
+X-Gm-Message-State: AGi0Puac+qhqg98t9LY1qnYPujhb7XxjPjrplo3arkifwiYp1OwKgjLf
+ Da4QmENrdAQBRcllR+uiPjo78mtVO+zce6tp2jo=
+X-Google-Smtp-Source: APiQypLgq4Eo+NxlQ1wxrvheCGEJhhVwc2VnUGg8bDp7rfSAac4dp6PLtkIyzvfXFiACalecUF2taQnWIwH1bc/FexY=
+X-Received: by 2002:a92:aa07:: with SMTP id j7mr4118299ili.40.1588024166685;
+ Mon, 27 Apr 2020 14:49:26 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from STEPLONG.qualcomm.com (108.176.222.2) by
- MN2PR12CA0014.namprd12.prod.outlook.com (2603:10b6:208:a8::27) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2937.13 via Frontend Transport; Mon, 27 Apr 2020 21:41:04 +0000
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [108.176.222.2]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 741754b0-e3d6-4865-2000-08d7eaf3b0b8
-X-MS-TrafficTypeDiagnostic: MWHPR0201MB3577:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MWHPR0201MB3577E3D8DD7A40C8017C3C2BC7AF0@MWHPR0201MB3577.namprd02.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:28;
-X-Forefront-PRVS: 0386B406AA
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR0201MB3547.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(39860400002)(376002)(366004)(346002)(396003)(136003)(6666004)(2616005)(478600001)(36756003)(6512007)(107886003)(66556008)(2906002)(66946007)(6486002)(66476007)(4326008)(316002)(1076003)(86362001)(6506007)(8936002)(81156014)(26005)(8676002)(16526019)(956004)(186003)(52116002)(5660300002)(6916009)(32563001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TjRIhQxQMt8GCj1fNKR9TXa5Iu0mNhcHo8QjzeObsMb8m+pZIxa46Nlmc4us7DvDF9oQL4A13nZIOg1eSSy+J4excPO7h082TGzuiCc0hwV+aNbGXKaJGjF9Ql7WFkzpLAo2Bw/A0C84GaJewbFL41sQD952YP+O6Jmg46aMcWrMziGVAxtrsvwxt14U+NEHL2cruh+zjoo1Kgxo1xi/wuXeDMDM9cF7DaJrfQEzGSyfCehvRtuH7M1avoNoBY5OralCTyd8eJTfuSNhiFmYm+7ttofl0dN9ehEukZHORcUZ1QN2Ead9/sluWIlZRUb8nigCh2LuMzlXrUmo3LEFdl+50RbDns0tgKKsOXsqoUwj15V676BuHbQo1D+QTMZiVhU+cFVBkR82jbojXRIn33Zr7fV/1gD5DfIizlBohReYNFOC8LWo6xY8fiNzhNX+nf658yxbXI+DsZ/tXyfOl8EieXj+vpxNJbAYMQeavJ9dXiIKoTmfVt79GDM9XM7s
-X-MS-Exchange-AntiSpam-MessageData: oxf7ZMpklpO/3gp7w9MpdNVftj2hSi089eMJCKF8j1FJcnzPlGs+6WF1IfrIX2A7h0iAib+J6pkZ8if93wCDG8e5I5zG8QeZzbiZFVFxvktEUIwADdD9W3lV4KVontFm0N0NLNB/W2ddoqPekfDW8hVybUd0z7oDLyJosz4HDiKx4CkURq7O7DBSVAt4kn/VAmkCZcgNunnctwKfgZ5XEcKrAEjHkoYCFvUbeWvSvbt2EU2HmRXgOtvhBRSAQbj9LpHxYYqQQ4oXeusJvkh4uissbBtYDxTI/KTGSn2Jpdm8OM8+rDtDCk9t8NRoZT9kHLDRWwONmuysFjrLOYseAq1MdGVqVhstt5pzKjSBwXiwnjSTz1n2IhebIVfhC/6RJ/urNdSa2fDfZO2bx0TpsbE4rHeVCKGUVzq1GZ6wSCNfXSt6jSHaQbQPitV/3lwGxr7VOYjkQnNu+sNuO0Kw1UDGZg4txeRHK4N+msZnmGEL+GN6ZI1MYxIoc/8w3t1d3wFRjwAA1rSe/4ymM+gJsT0HAq7VGaSxoeIpRqQnRl+SKKx3UmwMIMtDpUdE7G5N9WCn6+vcb5yg7pkLshAymHBxGaI0+kL2ii5uJrf7XCkfW/2fGBDjINpdSReDxkOuvlCmskFu++HSaKZxc124wfJnSCkJ2ipXiihAFo5C4GxTU68Qny9gYYA9NTDua2mugdULKvO5XmZsfuXeycmbjxl3x//nu6mkwDeK3nKljvRrS0F6NgARB90uSaU/kJmEPdRHDDUrs2G21OYL1yW0iIrm8tV4/cYxwu2M2qIGcmY=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 741754b0-e3d6-4865-2000-08d7eaf3b0b8
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2020 21:41:06.1112 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pEgrk+N6vt0P9ptrsg+0uFk01rzivsP3xFrNXX6ba5PmrJP36Xr6hITw0VPcI67/skc4BR8fpPkYDnHNca4mVA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR0201MB3577
-X-OriginatorOrg: quicinc.com
-Received-SPF: pass client-ip=199.106.114.38; envelope-from=steplong@quicinc.com;
- helo=alexa-out-sd-01.qualcomm.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 17:41:06
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Received-From: 199.106.114.38
+References: <CAC41xo2O1k+cn7EO3Zu3U70qefFwGa5B1iNRNgRwLk7SGX=-Aw@mail.gmail.com>
+In-Reply-To: <CAC41xo2O1k+cn7EO3Zu3U70qefFwGa5B1iNRNgRwLk7SGX=-Aw@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 27 Apr 2020 14:40:48 -0700
+Message-ID: <CAKmqyKPDzusVqzCFwCJ+2gY0qchguhR57zHNkE-0MTeffKs_OA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] target/riscv: fix VS interrupts forwarding to HS
+To: Jose Martins <josemartins90@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -129,129 +73,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, richard.henderson@linaro.org, apazos@quicinc.com
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Stephen Long <steplong@quicinc.com>
----
- target/arm/crypto_helper.c | 12 ++++++++++++
- target/arm/helper-sve.h    |  1 +
- target/arm/helper.h        |  2 ++
- target/arm/sve.decode      |  4 ++++
- target/arm/sve_helper.c    |  8 ++++++++
- target/arm/translate-sve.c | 30 ++++++++++++++++++++++++++++++
- 6 files changed, 57 insertions(+)
+On Sat, Apr 18, 2020 at 11:01 AM Jose Martins <josemartins90@gmail.com> wrote:
+>
+> When vs interrupts (2, 6, 10) are enabled, pending and not delegated
+> in hideleg, they are not always forwarded to hs mode after a return to
+> vs mode. This happens independently of the state of spie and sie on
+> the hs-level sstatus before the return. Instead, the vs-level status
+> sie state seems to be controlling if the interrupt is forward to hs or
+> not. This is both because, in riscv_cpu_local_irq_pending, vs
+> interrupts are ignored when checking for hs pending interrupts and
+> also because hs interrupts might not be considered enabled after
+> jumping to vs mode if the spie (which implicitly is copied to sie) is
+> not set when sret is executed. From what I could gather, the spec does
+> not preclude hs mode from receiving vs interrupts if they are not
+> delegated in hideleg (although this is true for m mode, but guaranteed
+> by hardwiring the corresponding bits in mideleg). Also, it clearly
+> states that: "Interrupts for higher-privilege modes, y>x, are always
+> globally enabled regardless of the setting of the global yIE bit for
+> the higher-privilege mode.", so hs_mstatus_sie must be set whenever
+> virt is enabled. After solving the previous issue, the problem remains
+> that when such interrupts are delegated in hideleg, there is still the
+> need to check it when calculating pending_hs_irq, otherwise, we're
+> still "forcing an hs except" when the interrupt should be forwarded to
+> vs. I believe the following patch will fix this issue:
+>
+> Signed-off-by: Jose Martins <josemartins90@gmail.com>
 
-diff --git a/target/arm/crypto_helper.c b/target/arm/crypto_helper.c
-index 45740c1bfd..0720b3b98f 100644
---- a/target/arm/crypto_helper.c
-+++ b/target/arm/crypto_helper.c
-@@ -705,3 +705,15 @@ void HELPER(crypto_sm4ekey)(void *vd, void *vn, void* vm)
-     rd[0] = d.l[0];
-     rd[1] = d.l[1];
- }
-+
-+void HELPER(crypto_rax1)(void *vd, void *vn, void *vm, uint32_t desc)
-+{
-+    intptr_t i, opr_sz = simd_oprsz(desc) / 8;
-+    uint64_t *d = vd, *n = vn, *m = vm;
-+
-+    for (i = 0; i < opr_sz; ++i) {
-+        uint64_t nn = n[i];
-+        uint64_t mm = m[i];
-+        d[i] = nn ^ rol64(mm, 1);
-+    }
-+}
-diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
-index 7eef4eb476..059003c26e 100644
---- a/target/arm/helper-sve.h
-+++ b/target/arm/helper-sve.h
-@@ -2692,3 +2692,4 @@ DEF_HELPER_FLAGS_6(fmmla_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_6(fmmla_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, ptr, i32)
- 
- DEF_HELPER_FLAGS_3(sve2_sm4e, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sve2_sm4ekey, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-diff --git a/target/arm/helper.h b/target/arm/helper.h
-index 37f489412c..c74cea76a2 100644
---- a/target/arm/helper.h
-+++ b/target/arm/helper.h
-@@ -537,6 +537,8 @@ DEF_HELPER_FLAGS_3(crypto_sm3partw2, TCG_CALL_NO_RWG, void, ptr, ptr, ptr)
- DEF_HELPER_FLAGS_2(crypto_sm4e, TCG_CALL_NO_RWG, void, ptr, ptr)
- DEF_HELPER_FLAGS_3(crypto_sm4ekey, TCG_CALL_NO_RWG, void, ptr, ptr, ptr)
- 
-+DEF_HELPER_FLAGS_4(crypto_rax1, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+
- DEF_HELPER_FLAGS_3(crc32, TCG_CALL_NO_RWG_SE, i32, i32, i32, i32)
- DEF_HELPER_FLAGS_3(crc32c, TCG_CALL_NO_RWG_SE, i32, i32, i32, i32)
- 
-diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 1cb5792bb1..278530ca83 100644
---- a/target/arm/sve.decode
-+++ b/target/arm/sve.decode
-@@ -1435,3 +1435,7 @@ AESIMC          01000101 00 10000011100 1 00000 .....   @rdn_e0
- AESE            01000101 00 10001 0 11100 0 ..... .....  @pd5_pn5_e0
- AESD            01000101 00 10001 0 11100 1 ..... .....  @pd5_pn5_e0
- SM4E            01000101 00 10001 1 11100 0 ..... .....  @pd5_pn5_e0
-+
-+## SVE2 crypto constructive binary operations
-+SM4EKEY         01000101 00 1 ..... 11110 0 ..... .....  @rd_rn_rm_e0
-+RAX1            01000101 00 1 ..... 11110 1 ..... .....  @rd_rn_rm_e0
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index b3a7594981..3b560e702a 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -7524,3 +7524,11 @@ void HELPER(sve2_sm4e)(void *vd, void *vn, uint32_t desc)
-         HELPER(crypto_sm4e)(vd + i, vn + i);
-     }
- }
-+
-+void HELPER(sve2_sm4ekey)(void *vd, void *vn, void *vm, uint32_t desc)
-+{
-+    intptr_t i, opr_sz = simd_oprsz(desc);
-+    for (i = 0; i < opr_sz; i += 16) {
-+        HELPER(crypto_sm4ekey)(vd + i, vn + i, vm + i);
-+    }
-+}
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 4253955471..affe41779b 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -7990,3 +7990,33 @@ static bool trans_SM4E(DisasContext *s, arg_rr_esz *a)
-     }
-     return true;
- }
-+
-+static bool trans_SM4EKEY(DisasContext *s, arg_rrr_esz *a)
-+{
-+    if (!dc_isar_feature(aa64_sve2_sm4, s)) {
-+        return false;
-+    }
-+    if (sve_access_check(s)) {
-+        unsigned vsz = vec_full_reg_size(s);
-+        tcg_gen_gvec_3_ool(vec_full_reg_offset(s, a->rd),
-+                           vec_full_reg_offset(s, a->rn),
-+                           vec_full_reg_offset(s, a->rm),
-+                           vsz, vsz, 0, gen_helper_sve2_sm4ekey);
-+    }
-+    return true;
-+}
-+
-+static bool trans_RAX1(DisasContext *s, arg_rrr_esz *a)
-+{
-+    if (!dc_isar_feature(aa64_sve2_sm4, s)) {
-+        return false;
-+    }
-+    if (sve_access_check(s)) {
-+        unsigned vsz = vec_full_reg_size(s);
-+        tcg_gen_gvec_3_ool(vec_full_reg_offset(s, a->rd),
-+                           vec_full_reg_offset(s, a->rn),
-+                           vec_full_reg_offset(s, a->rm),
-+                           vsz, vsz, 0, gen_helper_crypto_rax1);
-+    }
-+    return true;
-+}
--- 
-2.17.1
+Thanks for the patch!
 
+I'm a little confused, do you mind explaining some things to me below.
+
+> ---
+>  target/riscv/cpu_helper.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+>
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index d3ba9efb02..9962ee4690 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -43,8 +43,7 @@ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
+>      target_ulong mstatus_sie = get_field(env->mstatus, MSTATUS_SIE);
+>      target_ulong hs_mstatus_sie = get_field(env->mstatus_hs, MSTATUS_SIE);
+>
+> -    target_ulong pending = env->mip & env->mie &
+> -                               ~(MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
+> +    target_ulong pending = env->mip & env->mie;
+
+If the Hypervisor sets the V* interrupts why does it then want to
+receive the interrupt itself?
+
+>      target_ulong vspending = (env->mip & env->mie &
+>                                (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP));
+>
+> @@ -52,11 +51,11 @@ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
+>                            (env->priv == PRV_M && mstatus_mie);
+>      target_ulong sie    = env->priv < PRV_S ||
+>                            (env->priv == PRV_S && mstatus_sie);
+> -    target_ulong hs_sie = env->priv < PRV_S ||
+> +    target_ulong hs_sie = riscv_cpu_virt_enabled(env) || env->priv < PRV_S ||
+>                            (env->priv == PRV_S && hs_mstatus_sie);
+
+Isn't hs_sie only ever accessed if riscv_cpu_virt_enabled(env)?
+Doesn't this just set hs_sie to always be 1?
+
+>
+>      if (riscv_cpu_virt_enabled(env)) {
+> -        target_ulong pending_hs_irq = pending & -hs_sie;
+> +        target_ulong pending_hs_irq = pending & ~env->hideleg & -hs_sie;
+
+This change looks good.
+
+Alistair
+
+>
+>          if (pending_hs_irq) {
+>              riscv_cpu_set_force_hs_excep(env, FORCE_HS_EXCEP);
+> --
+> 2.17.1
+>
 
