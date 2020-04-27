@@ -2,70 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21E931BA684
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 16:35:11 +0200 (CEST)
-Received: from localhost ([::1]:48272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A7D91BA6BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 16:43:55 +0200 (CEST)
+Received: from localhost ([::1]:48790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jT4qk-0004Vh-5a
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 10:35:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55468)
+	id 1jT4zC-0006lM-Bm
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 10:43:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56838)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1jT4nr-0000bm-Pl
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 10:32:13 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jT4v4-00089G-7j
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 10:39:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1jT4nr-00018M-AD
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 10:32:11 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37328
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jT4np-000182-Rb
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 10:32:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587997929;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6DSoist89sLde+5SYreI/3BC1hTgpbC4HndD/VV2RXg=;
- b=g/4AdATjFIPEgs1rMT4oYYcCnRRjhPCz9X1JprJXd6Qd7VQWFmLvGKujdhxFVmRLPdwg0Z
- jSNjgFaxXjMUwHwy49O/8iqEj4jgVekP3KbVC0D+3Naa9xaL7tbMv/Au7mGUAyJ9RRjjPo
- cGOPp2Qeiumbc5LVMDTYfIXJ7yj2pTE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221-oQocEFixNfCA6zbhkX8ufw-1; Mon, 27 Apr 2020 10:32:06 -0400
-X-MC-Unique: oQocEFixNfCA6zbhkX8ufw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A72551B18BC2;
- Mon, 27 Apr 2020 14:32:05 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-115-95.ams2.redhat.com [10.36.115.95])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BDE0A6062C;
- Mon, 27 Apr 2020 14:32:01 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, stefanb@linux.ibm.com,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org,
- cohuck@redhat.com
-Subject: [PATCH 2/2] hw/arm/virt: Remove the compat forcing tpm-tis-device PPI
- to off
-Date: Mon, 27 Apr 2020 16:31:45 +0200
-Message-Id: <20200427143145.16251-3-eric.auger@redhat.com>
-In-Reply-To: <20200427143145.16251-1-eric.auger@redhat.com>
-References: <20200427143145.16251-1-eric.auger@redhat.com>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jT4v2-0007jP-By
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 10:39:37 -0400
+Received: from mail-am6eur05on2133.outbound.protection.outlook.com
+ ([40.107.22.133]:24288 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jT4v0-0007iF-1Y; Mon, 27 Apr 2020 10:39:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VVjOresH1nByt0ZjbEjd3eeaRKFMc9+pSm3aAPkXtlSCSdTY/twe59aGJBmh1B86jBoajoYON4aP8geYLuNqcPC1gJY9LDohHv6MVRlIjtGBjwk0cvALFcFnkKzF3En1JaZbT7/iRmI8zdocWYpjPkPQfQJaXJunU3S2BPTTbLrS06YBWqiQs3feR32kabZ7PN68ZnN+UNyHO5B1AETEvTA3Ob6rRNHd0xVYOjENtrBPv1G0tQjfOWdUAucXrkskHZ/4YSvyNdvsSD0rqQc9lVOgzgWfJXtIFdB2N6Hrjq7/Dc2Z3TQc3+UZ0ZxPF3Ep5IZcJt7LEvHqYEPabK+goA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/B+s2HYvJ2kuiftw/j118dSIIl0vtnCFLm2+n0rT3Bc=;
+ b=KMVWyvMWImHJWbSELd4qKwY/dOohg7m+ZkL3756EA3cD+mBRWnDUNDKKRCSpPFZlbjq49/d876wJGlajKyNXCPqP6TnyZ92/wVR00n3Jl+PfHLG1VqeLZA6y7eLqUfHd4xZguf5R2JYNxCDgKJJWnIn8ogEyyqEOYjf85cPBOyYhkol5rAKKNv50CBmVY4dfU+AzrcQoRikloPFQ6NHxSmymNX3ecNt8BfwwDJFy3EFQMrYlQyPu4KvO0wVmjt6wCFwVIz72B7dlGRbwWctRBnPgPKpqppaDACgsTrx1bqIneeAI6LqIoeDQKuw9yZftCAOMVGifzB6fFGiuNLcMNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/B+s2HYvJ2kuiftw/j118dSIIl0vtnCFLm2+n0rT3Bc=;
+ b=sWmWSgiF/hA/8rFdpXdp6RyBE6cbHy9ibKT1mnC8tnCTRqdh58sbvR73zAR+tvPE15fN9FQMkan7xuanCRX+0FNBI6vjv5g3ieegaxDQ7U4Od5Gh3uRtuWoHXCfwrs7ZJfvsSHPF0m6E+pjlXeZsmHaqlwuCZMlcsSNFlbsS3Ng=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5527.eurprd08.prod.outlook.com (2603:10a6:20b:de::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.22; Mon, 27 Apr
+ 2020 14:39:30 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.020; Mon, 27 Apr 2020
+ 14:39:30 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2 0/9] block/io: safer inc/dec in_flight sections
+Date: Mon, 27 Apr 2020 17:38:58 +0300
+Message-Id: <20200427143907.5710-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: FRYP281CA0010.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::20)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 02:05:28
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (185.215.60.182) by
+ FRYP281CA0010.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2937.13 via Frontend Transport; Mon, 27 Apr 2020 14:39:30 +0000
+X-Mailer: git-send-email 2.21.0
+X-Originating-IP: [185.215.60.182]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b9a3d6fd-cafb-435a-4269-08d7eab8cb83
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5527:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5527AB8F83B0F3FEDB4A782AC1AF0@AM7PR08MB5527.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:374;
+X-Forefront-PRVS: 0386B406AA
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39840400004)(376002)(396003)(366004)(136003)(346002)(5660300002)(107886003)(316002)(2906002)(6512007)(478600001)(6486002)(66946007)(66476007)(66556008)(69590400007)(1076003)(2616005)(956004)(81156014)(16526019)(86362001)(6506007)(52116002)(186003)(36756003)(8676002)(8936002)(6666004)(26005)(6916009)(4326008);
+ DIR:OUT; SFP:1102; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: OVMAC8lDkFXEF1Tkx6G2RgMNYYs0HZ+76ZH7lG/4saDKDegDuqwRugRG+ndZfreFlzRA0yJDEqjoeFvcGpZDD2SXYZ3HL1lv5TL7i908S8i/T2vV0+YSxRr5oQGJ8ZLNWYWPCL3+9v/iGmXtktQX9KLVMEaNUWvsOX26y/zK5ShMOy2RnKhFGA/4XwdvdH2OrXl/5a9+vk4ijXQ29CruA4wl6Nx79mkYrl79j5jRZV1YBwsN/aNUxdF/JhOlMm6daJ+63GlEWZe/ApKMLmpNDbc9H5C9ZqfQw1QCwB7wPhYGvFBMtre56N0StkX2O5g15vWwgx5Fl5IeA2FjBUdGisAkVWn1bsiGe72J0A8x3wFkzO+woSZaEleDJqaNLdx/UiOOI7JbJOcco6WRB7PZ2NYkvGJcAUwYfhE73pL9EgRx/7+3RUCdhqve1xJpWb4N/RpTpYt2MqT5Yfen5QpJeLV1ifD8iInsM/XVaGj6/LD2ITgv48N0u0YDTq7vDvSE
+X-MS-Exchange-AntiSpam-MessageData: HVQF799ev/8gbrc+ugJIAuPWsiSRwOgTnWl2xdOC9EiU7DHZLdIUIUyE7p9Q3gknWTaSnhmpdaC9otsdEZynPOmBTnTxtPnNihXGO3MskBuzNMhv/1scfC3ES8pqvMK31TQipdM6P9oGjKJkt2YDJ8LahGje3kTk0oLrjg9gVx60TjTv1vOlB20unlFYVDTU+sSES3tAxOYT4X7vT6AW0TAq8FeWggFUWfSdaS8e+b6+N6w6DiutLn1hJBWpKNF/BeGxN9PyD0mn73Yhqc8eho1ROjsSthcP0PjAaMSAJOatz+L1ixBkJVrY/eVMHhv2qof5ub8465NPlOT0EPOTRC9cO3ecwg+DUSrNYgl2aYCidYiW2vyQVwjKlbHYCIpdO1FMBfpw/Cp1YA76fMRNjGTNQbNOaeKTe2eBNrpXoPhkShqPYC51jPFvktlcToGW5c2uKVT16zJYGpMnjxmYpeUjhQNrbA6X5KXl6O9UZe4ovRNO9aMRqnpgZsA/SafJ8zuoYGahW18h/CQE4ATJW1tWc3Bl3XqFVnhEUG1Eezqt7aqZ+zp0YaV/iRh76ES8TEgvg5VWECvhZcAddX3wngRum/m8hNVP85UyyonVL87ngYdk9qRSD/lGgNqpZCSPi629cr5jJxT+BASbtVnWjFPYT9kcizY9WhqYMSJG4+1WjdrkRzfC19fdIEoGgPM0eyk6jul7w2YUaeeBIkyditgY752PcpmQYSwFhaUSKY/rY5lWPtAFdhdbSeRHCgC5hDyQeaDhzZ3+IhWJLt2/WRXuqzZlwLqLfhYK+1jbkWA=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b9a3d6fd-cafb-435a-4269-08d7eab8cb83
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2020 14:39:30.7156 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: q5enwV2oY5EyJ6W0CfPoDn5rLDy8j71KRJULjBNhRH14Xjuh5W5k41J79Vw6vjZidZUmiGDw3KpEWcGg9u4ASZRkLUxvZotEQVwdlXy8dj8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5527
+Received-SPF: pass client-ip=40.107.22.133;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 10:39:31
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Received-From: 40.107.22.133
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,35 +109,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: drjones@redhat.com
+Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the tpm-tis-device device PPI property is off by default,
-we can remove the compat used for the same goal.
+Hi all!
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
----
- hw/arm/virt.c | 5 -----
- 1 file changed, 5 deletions(-)
+This is inspired by Kevin's
+"block: Fix blk->in_flight during blk_wait_while_drained()" series.
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 7dc96abf72..2a68306f28 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2311,11 +2311,6 @@ type_init(machvirt_machine_init);
-=20
- static void virt_machine_5_0_options(MachineClass *mc)
- {
--    static GlobalProperty compat[] =3D {
--        { TYPE_TPM_TIS_SYSBUS, "ppi", "false" },
--    };
--
--    compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
- }
- DEFINE_VIRT_MACHINE_AS_LATEST(5, 0)
-=20
---=20
-2.20.1
+So, like it's now done for block-backends, let's expand
+in_flight-protected sections for bdrv_ interfaces, including
+coroutine_enter and BDRV_POLL_WHILE loop into these sections.
+
+v2:
+01: drop coroutine_fn from bdrv_is_allocated_above declaration
+02-04: add Stefan's r-b
+05: improve commit message
+    fix typo in bdrv_do_pdiscard name
+    add more "To be called between exactly one pair of bdrv_inc/dec_in_flight()" comments
+    drop unused bs variable
+    fix bdrv_pdiscard_co_entry to use bdrv_do_pdiscard
+06: similarly to 05, add additional comment to bdrv_is_allocated_above_co_entry
+07-08: add Stefan's r-b
+09: add "To be called between exactly one pair of bdrv_inc/dec_in_flight()" for bdrv_make_zero_co_entry
+
+Vladimir Sementsov-Ogievskiy (9):
+  block/io: refactor bdrv_is_allocated_above to run only one coroutine
+  block/io: refactor bdrv_co_ioctl: move aio stuff to corresponding
+    block
+  block/io: move flush and pdiscard stuff down
+  block/io: move bdrv_rw_co_entry and friends down
+  block/io: expand in_flight inc/dec section: simple cases
+  block/io: expand in_flight inc/dec section: block-status
+  block/io: add bdrv_do_pwrite_zeroes
+  block/io: move bdrv_make_zero under block-status
+  block/io: expand in_flight inc/dec section: bdrv_make_zero
+
+ block/io.c | 789 +++++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 525 insertions(+), 264 deletions(-)
+
+-- 
+2.21.0
 
 
