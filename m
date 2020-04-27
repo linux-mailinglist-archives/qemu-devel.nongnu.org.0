@@ -2,89 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29921B9FD6
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 11:27:46 +0200 (CEST)
-Received: from localhost ([::1]:33728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 336E91B9FDF
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 11:28:42 +0200 (CEST)
+Received: from localhost ([::1]:33840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jT03F-0005k0-SY
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 05:27:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60320)
+	id 1jT049-00076g-9K
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 05:28:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60796)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jT01k-0004Ad-CA
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:26:12 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jT032-0005zf-Kc
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:27:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jT01j-0000BG-Qr
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:26:12 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36612
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jT01j-0000Ah-Di
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:26:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1587979570;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=epUTa2MIRGdX/uvZ0IaFVVPsfxco/ySJO/z0SKYTNgs=;
- b=RGgE9pRkeDBDKl3P6OEirha2m+9Q6DYguOOfnMyStInAq2PJahlp43MEQJ3EMtj1NMkN1t
- b3Zx/CAlZk5uHtnn0rshYg06s3sBtp8CmfuryuM0d+NWjIo+oiV77j+nT6nq4eOpUV991S
- gfiWfDTwbs7FhSHj9DggDKpcAh8mfF8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-203-oSekIaODMn-zEGOl3OiUtg-1; Mon, 27 Apr 2020 05:26:08 -0400
-X-MC-Unique: oSekIaODMn-zEGOl3OiUtg-1
-Received: by mail-wr1-f71.google.com with SMTP id t8so10160801wrq.22
- for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 02:26:08 -0700 (PDT)
+ (envelope-from <peter.maydell@linaro.org>) id 1jT032-00012b-0C
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:27:32 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:34488)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jT031-000110-Ga
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:27:31 -0400
+Received: by mail-ot1-x341.google.com with SMTP id 72so25059781otu.1
+ for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 02:27:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jUW7ujg8+1frTiwl+Vw+rEehy9pjVQUkbwS6EcBELuA=;
+ b=P3PrNN8JuxA/zfmxELudhpK6rfjeMiYhEnbIJEG/WVsu9zUvFHcEaHvcw0cAbiCDml
+ WSBF8AOU2MdZIJf6AC9Fcx8MA5TmhH96ooHsa+er/MyNJOgxcMUue1AVLRB7ZjP3kEHh
+ NKPBl1VEE7HRL8BXEBCBRMmFkGfWwNdHNHt3CDxtrV8sT0imZQAEf5ZwuYCsUwgcSFJh
+ fVLtIYpvCvS1b7dQ+rDpIkAehz1Spvit22p1vIkbM4yT6Xl6xwT9XaAtpwGRfEte4Pi8
+ heXm8oQimewBWU2PX1/efIdaznISR1ceYQDsrT7SIZHEJlhOLeRon/qiIY1Lqe1BkhtB
+ zj3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=07A1UyANoB0u87LLRsgkeyZU3XBlx4tklbutM7v/vm8=;
- b=Wqbq3g1OruZB0GBTxFKvPwwYEDK2b/5Exb8iajglhu4nGnJBk3u963D61nG7bd7lWj
- t85IAL0Gv50BhWe/7udvSPVaG+StBmlX14S8sWWS6+zEknBtpDOrqlwWbJl168W+bwRp
- WVkrX12C0e8mvDNz0tZf5ziSQ7xR3v42Gexxq6QbWxDHQ35AJTXYUK7T5oHLrz3s18wQ
- fllxg9lil2BLp8AMlWXi9Ma6/8NOVZU/3rQ38+mXbhZddozIiJ5kZs3NJEHdJqzubNBv
- YRM9o+orjgoNXAnfIlXN1qtngnEFvugvoIfPW5j6aQCxTOUmECPNDdksh32SDvjk+v0u
- o8gA==
-X-Gm-Message-State: AGi0PuYf7z5SE2iQeBpEulXTnjg/3uAJ+rkDtvNl5tq0Tw4zhRtwGXmM
- sOv8havONgXoBu3CigMPInsbbbonB84Oqo2RVFNvLO1sRWmsowtR+YL90p6iB3cZo5oLxpwYKsE
- T3OZT2vf0eoo5awc=
-X-Received: by 2002:adf:94a6:: with SMTP id 35mr25788594wrr.420.1587979567078; 
- Mon, 27 Apr 2020 02:26:07 -0700 (PDT)
-X-Google-Smtp-Source: APiQypI+xgqfXlEZQNDSrLUp/2xs3Ij7GTD3DLivz5zrMDhiFOzPG2wOJMyFT/1tY+OxJAudZkm2zA==
-X-Received: by 2002:adf:94a6:: with SMTP id 35mr25788574wrr.420.1587979566871; 
- Mon, 27 Apr 2020 02:26:06 -0700 (PDT)
-Received: from [192.168.1.39] (137.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.137])
- by smtp.gmail.com with ESMTPSA id n25sm9855897wmk.9.2020.04.27.02.26.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Apr 2020 02:26:06 -0700 (PDT)
-Subject: Re: [PATCH 06/11] error: Use error_reportf_err() where appropriate
-To: Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>
-References: <20200424192027.11404-1-armbru@redhat.com>
- <20200424192027.11404-7-armbru@redhat.com>
- <44cf6721-88fa-acd3-b051-43e81b37506a@redhat.com>
- <87o8rdia2o.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <3b9745bf-56df-7e83-3ecb-13eeef56306f@redhat.com>
-Date: Mon, 27 Apr 2020 11:26:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jUW7ujg8+1frTiwl+Vw+rEehy9pjVQUkbwS6EcBELuA=;
+ b=sgwA6bLxtbI8Siff2WRPsZj4KNanuZY9JySeJzVIt1xXcb2P+wQIrPCHfRo5EEEekS
+ 2fc/GVW6c7+K/uXJa3fZY60zNG37e2/ho+Oa+bbYmAKzuAJnefFKZlqRrcp7vTmk3QAr
+ 63tzJPulVVmDDe5iczdsNv/qFFmditEOYfDf7GVnb5x8CsO1BE7v2YlkQ6Zu61jKwE2h
+ wJNuFWil1Y/cW5vlUnrVbeuQiaDNg3hZMkdV84KvBXleXAeofMW5sblYceCQ1loh/t4z
+ DD9W3xFuFVc7zrZYtNShQhkZbLj7eAKSckui09V1qTx0QTvn6R8mz+/CmFiJX57M+4Z4
+ y4dw==
+X-Gm-Message-State: AGi0PuZJ7EBbSlrsX93g0VBmdR9cvxRV9PyvfAvilJXY7jozrcmFfJcl
+ CCoNK4jmdulUSpYLP+3KnvRRbql4Xvm7vEhMpvnZQg==
+X-Google-Smtp-Source: APiQypJcXUQdPqkXBPM5iUbfMoM1ikQEozKPmHP1/ylRbPsGDrtIMAP33bs0mHSlt5jyE4TeFfI0DJpgagUdgF+U+SY=
+X-Received: by 2002:aca:c751:: with SMTP id x78mr15234690oif.163.1587979649842; 
+ Mon, 27 Apr 2020 02:27:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87o8rdia2o.fsf@dusky.pond.sub.org>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 23:33:12
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+References: <20200422043309.18430-1-richard.henderson@linaro.org>
+ <20200422043309.18430-2-richard.henderson@linaro.org>
+In-Reply-To: <20200422043309.18430-2-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 27 Apr 2020 10:27:18 +0100
+Message-ID: <CAFEAcA-hLN349aQYList5f7oBzoKp9CrCOu1+zMXmfKVU_G_cQ@mail.gmail.com>
+Subject: Re: [PATCH v3 01/18] exec: Add block comments for watchpoint routines
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,56 +75,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/20 10:53 AM, Markus Armbruster wrote:
-> Eric Blake <eblake@redhat.com> writes:
->=20
->> On 4/24/20 2:20 PM, Markus Armbruster wrote:
->>> Replace
->>>
->>>       error_report("...: %s", ..., error_get_pretty(err));
->>>
->>> by
->>>
->>>       error_reportf_err(err, "...: ", ...);
->>
->> Reviewed-by: Eric Blake <eblake@redhat.com>
->>
->>>
->>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->>> ---
->>>    chardev/char-socket.c | 5 +++--
->>>    hw/sd/pxa2xx_mmci.c   | 4 ++--
->>>    hw/sd/sd.c            | 4 ++--
->>>    hw/usb/dev-mtp.c      | 9 +++++----
->>>    qemu-nbd.c            | 7 +++----
->>>    scsi/qemu-pr-helper.c | 4 ++--
->>>    6 files changed, 17 insertions(+), 16 deletions(-)
->>
->> Although it touches NBD, I'm happy for this to go through your tree
->> with the larger series.
->>
->>> +++ b/qemu-nbd.c
->>> @@ -856,8 +856,7 @@ int main(int argc, char **argv)
->>>            }
->>>            tlscreds =3D nbd_get_tls_creds(tlscredsid, list, &local_err)=
-;
->>>            if (local_err) {
->>> -            error_report("Failed to get TLS creds %s",
->>> -                         error_get_pretty(local_err));
->>> +            error_reportf_err(local_err, "Failed to get TLS creds ");
->>
->> Odd one out for not using ':' in the message, but that's independent
->> of this patch.
->=20
-> The patch is short enough to deviate from "purely mechanical" and stick
-> in ':' here.  Your choice.
+On Wed, 22 Apr 2020 at 05:33, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  include/hw/core/cpu.h | 23 +++++++++++++++++++++++
 
-Let's deviate, else we might forget about it.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
+thanks
+-- PMM
 
