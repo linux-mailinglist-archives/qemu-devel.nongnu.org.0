@@ -2,113 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A57751BA316
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 14:01:31 +0200 (CEST)
-Received: from localhost ([::1]:41872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 566641BA371
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 14:17:28 +0200 (CEST)
+Received: from localhost ([::1]:42703 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jT2S1-0004of-8A
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 08:01:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60250)
+	id 1jT2hT-0004b7-BV
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 08:17:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34954)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jT2Pw-00048Y-W0
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 07:59:21 -0400
+ (envelope-from <bounces@canonical.com>) id 1jT2g2-0002xE-Ob
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 08:15:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jT2Pw-0001Ma-L6
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 07:59:20 -0400
-Received: from mail-db8eur05on2121.outbound.protection.outlook.com
- ([40.107.20.121]:58336 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jT2Pu-00016O-6d; Mon, 27 Apr 2020 07:59:18 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a8EWhP792/yhsn+P64vBgvbjxGq8FXZdFYe0lahLsUq+CF9q53hWU/7hd4rBPF4h2xRZagYS7EVDDZlRStI+WPRup93w8iyeI0KzOf6N9jxDuA0tKS7VDlsz4j5D3CjJIj1N+PNJtHAdGQGY264Vfe3Wpy7d6vY/C5cYiDQ7wZkMAI2Bafbn159TQU7E7JFi37ypF1eVLcHyE2UxE4P8PoqFEEXegfD0Pypky6wUIwhz2Vgyi1vX5dyEoMs/0BFFM1OJl6ynkDHVUiHpNht0ciHbSF8iBQvQE5KbQfv595nTxHgm6EOIXbgd4VoOvxRqHy9cCZS9e6FcalvID9lg3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sBQ7g1vB72BMzlu/60HpTVNTPOWcJYQ5WPZf19D8jfo=;
- b=HZ8+v6BHgeYNVENU0fG9DsnCM2j4GeMOG4Cisytj8xhoDZbmPRdBMAwl3d326Gq90FkQx5TsJqDf9Nyw6Yqf3TvelERQw0/9ffIGvaCHMkag7tS+ukT0kWhF6wjQrgaCh5+dILWYOlSDN+gr+ItAF2bEAMN3o/rbdB26Pm+8ZNQX7cxDnU9i6Rnbpp9snAkZrGst7CKP7xraV0IwHALa9GLaAIETa6xtlq/9ipj6jJgHIQ1JtBKaZoBGAV6v17GHFwdc/vwR2z0qvMwgSPfei3jVrNal14bp/A2FbQsSL+jxnOr/tt2swtNaM74T06ug/4gQv09yskytpe4rW+ldQg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sBQ7g1vB72BMzlu/60HpTVNTPOWcJYQ5WPZf19D8jfo=;
- b=omh8va0lOa14DzVyShHAat9UVplrGkSvybFsTfOk2q/szEaFy+0PAztKj7jNfSjIrqB+Rran0hrS+TF2N3VRwRBegqnT2W6R8GBcruBh0ZloDaO77I7dgC1/L4Z5YE4oqV6PMUb1UrfWqDitUhnocyyGUvSPdwjYQvlLPlUEyKE=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5462.eurprd08.prod.outlook.com (2603:10a6:20b:10b::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Mon, 27 Apr
- 2020 11:59:14 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.020; Mon, 27 Apr 2020
- 11:59:14 +0000
-Subject: Re: [PATCH v4 26/30] qcow2: Restrict qcow2_co_pwrite_zeroes() to full
- clusters only
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-References: <cover.1584468723.git.berto@igalia.com>
- <1415552fc60acc658e3f80751d9ecd63da2b863d.1584468723.git.berto@igalia.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200427145912983
-Message-ID: <116672dc-2d38-adf3-0580-ecd0ec390b65@virtuozzo.com>
-Date: Mon, 27 Apr 2020 14:59:13 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <1415552fc60acc658e3f80751d9ecd63da2b863d.1584468723.git.berto@igalia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR02CA0085.eurprd02.prod.outlook.com
- (2603:10a6:208:154::26) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (envelope-from <bounces@canonical.com>) id 1jT2fx-0001vM-M8
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 08:15:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47188)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jT2fx-0001p2-5E
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 08:15:53 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jT2fu-0004H4-Ig
+ for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 12:15:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8B70F2E8109
+ for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 12:15:50 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.182) by
- AM0PR02CA0085.eurprd02.prod.outlook.com (2603:10a6:208:154::26) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13 via Frontend
- Transport; Mon, 27 Apr 2020 11:59:13 +0000
-X-Tagtoolbar-Keys: D20200427145912983
-X-Originating-IP: [185.215.60.182]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 43dea503-c463-414d-4126-08d7eaa267dc
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5462:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB54622AEBD07D0488F3EC7955C1AF0@AM7PR08MB5462.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2000;
-X-Forefront-PRVS: 0386B406AA
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(346002)(396003)(136003)(376002)(39840400004)(366004)(107886003)(36756003)(956004)(2616005)(31686004)(2906002)(6486002)(16576012)(4326008)(26005)(5660300002)(81156014)(186003)(4744005)(54906003)(316002)(66946007)(8676002)(16526019)(52116002)(31696002)(8936002)(66476007)(86362001)(66556008)(478600001);
- DIR:OUT; SFP:1102; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Tw2UJvmp9XTkZvtr7XlngWVd8HJI0NjgvkYgE+cm6t68JGOnAr12dbJ1tMK0AAoVhHd/fPc9j8p8N02KrmhPOrqzvoTmOdW928SEephJaBSKHFTCRbrkv3/dU4aLZ+GXlTtUpoa7IsP6sGasf8ATEIHOlKjgnZP7LfSOwGiWlx5MgGx2tiLU/UIY9pWdQVeu7DuRXCDc6rxwCJ8ssDms7sNSVBtgpUaAkhKU+wt1MWnofH/GFz04e/JVxzEw3OCyeQSHOoUre3nyba1M3AXWnMuiuSsijo9kmmdToc1fdpeROAX8PGdQaP3UQZ8aowrubIfe/XH7YH4TlqMmof7SbCqRyeIvstjOOTTcpC0TJYq/xedwFtLJkL/bCnoTQvtUjJaCry8wnU6M4xDZDGmh4hGtxScp3zVtleSwUYap1A7rP9JNAXFLo/QUu+MCR1mC
-X-MS-Exchange-AntiSpam-MessageData: nn8vn1VNNK1FYhTLNLj7YGOBeJ14HtI5zMZd/v48ReFV/u1KYtWZJ+IfDFzvVAUxdO6/qz4cMFDHl8qXEAAde/LL+PqbNtp4gGrQTH65qwWtoIfAce4beur4PAjLOJ2gh3lywqaZEmVsAPtyJBdzjiaRmsD5seBsbaJPeGP0fMVRLN5dCo2mdkHZb1nBLdMEbk+OqscVqDn3jYfb1T3rIZbAfCWp5UrIb1/MqOWIy1oDLhgQzdoPKSm65JUW5dqPJfpUrHlvngFaI+pqwIOZde0T0hMQMXHm72qggyJ3RvpP73FKFXJk7K0IjIX07mC7NLN6HA16PgR+R6sAx3rAZ/egBD6FZOJRc6ngaPkJZ0p89fKJDn7kSpe166e2jUg1ldiq+TsBVxR+6hmVO7LSz07kpM54gQuNzR1F3iZaYjHTQhx89H14v+zI6lkEXMBLg2yH9THaaL0T2sNiN3qsAT2yiO4gEkCwdPjdPK4jxJySeDvTOfx0eMcm2hhZBR2cDbX8zkwU7m7yQAVFQXQFy9MZOUPbhWTW9nCn6FMIvUtA3IaL4HShLDt6eNZtvMw4f6tsuOFOy3J5o0QjGGnRhk/0e4S5Em/IVq5ebSo7LUKMnaY8D3ABrp+NkXlAF/nY+6iXwugHMw9jcAAbstCIQVlIEWy7WmBM3ZKDkhBGW/SiLEyrAEMEy2k/aSXQWlLr9QutWZ7Fw1VLqqCjLt9ap82xFwsj7fF9EviyCQuzrKSdao0zHAvpE54gOT+Dfy1nq0R4UAR+zrGhFCpe/ZwGzMGE2cZFWXTZpx9JKoVf3LU=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43dea503-c463-414d-4126-08d7eaa267dc
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2020 11:59:14.6026 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b4r8QSmsf2elNG1Uk9YAZ0Zeco36u0IErUTDwyVsw7j/Oi7EXF1KqmGY0TeqIg+IksgVjEW+7Vl3LVg61w9y8GI7VBTqe2D0HXpum5rjdRY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5462
-Received-SPF: pass client-ip=40.107.20.121;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 07:59:15
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Received-From: 40.107.20.121
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 27 Apr 2020 12:09:37 -0000
+From: A van Schie <1875139@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: avschie berrange
+X-Launchpad-Bug-Reporter: A van Schie (avschie)
+X-Launchpad-Bug-Modifier: A van Schie (avschie)
+References: <158788589324.18152.6333525201430073299.malonedeb@wampee.canonical.com>
+Message-Id: <158798937750.18021.12217668708037565402.malone@wampee.canonical.com>
+Subject: [Bug 1875139] Re: Domain fails to start when 'readonly' device not
+ writable
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="486bbbd6cb608f8eb468ed0d08689a349dfabe49";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: c69ac51b265e06283e33a6a84cdfcfbde247871b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 08:15:51
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -117,22 +68,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- "Denis V . Lunev" <den@openvz.org>
+Reply-To: Bug 1875139 <1875139@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-17.03.2020 21:16, Alberto Garcia wrote:
-> Ideally it should be possible to zero individual subclusters using
-> this function, but this is currently not implemented.
-> 
-> Signed-off-by: Alberto Garcia<berto@igalia.com>
-> Reviewed-by: Max Reitz<mreitz@redhat.com>
+The domain.xml:
+<domain type=3D'kvm'>
+  <name>rotest</name>
+  <uuid>b4aa0288-8886-42df-abfd-4c8f729e1330</uuid>
+  <memory unit=3D'KiB'>2048000</memory>
+  <currentMemory unit=3D'KiB'>2048000</currentMemory>
+  <vcpu placement=3D'static'>2</vcpu>
+  <os>
+    <type arch=3D'x86_64' machine=3D'pc-i440fx-2.7'>hvm</type>
+    <kernel>/var/lib/libvirt/pink/kernel</kernel>
+    <cmdline>root=3D/dev/sda ro panic=3D300 systemd.show_status=3D1 systemd=
+.unit=3Dgraphical.target quiet</cmdline>
+    <boot dev=3D'hd'/>
+  </os>
+  <features>
+    <acpi/>
+  </features>
+  <cpu mode=3D'custom' match=3D'exact' check=3D'none'>
+    <model fallback=3D'forbid'>qemu64</model>
+  </cpu>
+  <clock offset=3D'utc'>
+    <timer name=3D'rtc' tickpolicy=3D'catchup'/>
+    <timer name=3D'pit' tickpolicy=3D'delay'/>
+    <timer name=3D'hpet' present=3D'no'/>
+  </clock>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>destroy</on_crash>
+  <devices>
+    <emulator>/usr/bin/qemu-system-x86_64</emulator>
+    <disk type=3D'block' device=3D'disk'>
+      <driver name=3D'qemu' type=3D'raw'/>
+      <source dev=3D'/dev/nvmvg/rotest'/>
+      <target dev=3D'sda' bus=3D'scsi'/>
+      <readonly/>
+      <shareable/>
+      <address type=3D'drive' controller=3D'0' bus=3D'0' target=3D'0' unit=
+=3D'0'/>
+    </disk>
+    <disk type=3D'block' device=3D'disk'>
+      <driver name=3D'qemu' type=3D'raw' cache=3D'none'/>
+      <source dev=3D'/dev/nvmvg/rotest-var'/>
+      <target dev=3D'sdb' bus=3D'scsi'/>
+      <address type=3D'drive' controller=3D'0' bus=3D'0' target=3D'0' unit=
+=3D'1'/>
+    </disk>
+    <controller type=3D'pci' index=3D'0' model=3D'pci-root'/>
+    <controller type=3D'scsi' index=3D'0' model=3D'virtio-scsi'>
+      <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x05' fu=
+nction=3D'0x0'/>
+    </controller>
+    <controller type=3D'usb' index=3D'0' model=3D'piix3-uhci'>
+      <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x01' fu=
+nction=3D'0x2'/>
+    </controller>
+    <input type=3D'mouse' bus=3D'ps2'/>
+    <input type=3D'keyboard' bus=3D'ps2'/>
+    <graphics type=3D'spice' autoport=3D'yes'>
+      <listen type=3D'address'/>
+      <gl enable=3D'no' rendernode=3D'/dev/dri/by-path/pci-0000:00:02.0-ren=
+der'/>
+    </graphics>
+    <video>
+      <model type=3D'virtio' heads=3D'1' primary=3D'yes'/>
+      <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x02' fu=
+nction=3D'0x0'/>
+    </video>
+    <memballoon model=3D'virtio'>
+      <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x07' fu=
+nction=3D'0x0'/>
+    </memballoon>
+  </devices>
+</domain>
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---------------------------------------------------------------------------=
+-----
 
--- 
-Best regards,
-Vladimir
+The qemu command:
+2020-04-27 11:57:11.720+0000: starting up libvirt version: 6.0.0, qemu vers=
+ion: 4.2.0, kernel: 5.4.28-gentoo, hostname: gentoo
+LC_ALL=3DC \
+PATH=3D/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+HOME=3D/var/lib/libvirt/qemu/domain-10-rotest \
+XDG_DATA_HOME=3D/var/lib/libvirt/qemu/domain-10-rotest/.local/share \
+XDG_CACHE_HOME=3D/var/lib/libvirt/qemu/domain-10-rotest/.cache \
+XDG_CONFIG_HOME=3D/var/lib/libvirt/qemu/domain-10-rotest/.config \
+QEMU_AUDIO_DRV=3Dspice \
+/usr/bin/qemu-system-x86_64 \
+-name guest=3Drotest,debug-threads=3Don \
+-S \
+-object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/do=
+main-10-rotest/master-key.aes \
+-machine pc-i440fx-2.7,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff \
+-cpu qemu64 \
+-m 2000 \
+-overcommit mem-lock=3Doff \
+-smp 2,sockets=3D2,cores=3D1,threads=3D1 \
+-uuid b4aa0288-8886-42df-abfd-4c8f729e1330 \
+-no-user-config \
+-nodefaults \
+-chardev socket,id=3Dcharmonitor,fd=3D32,server,nowait \
+-mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
+-rtc base=3Dutc,driftfix=3Dslew \
+-global kvm-pit.lost_tick_policy=3Ddelay \
+-no-hpet \
+-no-shutdown \
+-boot strict=3Don \
+-kernel /var/lib/libvirt/pink/kernel \
+-append 'root=3D/dev/sda ro panic=3D300 systemd.show_status=3D1 systemd.uni=
+t=3Dgraphical.target quiet' \
+-device piix3-usb-uhci,id=3Dusb,bus=3Dpci.0,addr=3D0x1.0x2 \
+-device virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.0,addr=3D0x5 \
+-blockdev '{"driver":"host_device","filename":"/dev/nvmvg/rotest","node-nam=
+e":"libvirt-2-storage","auto-read-only":true,"discard":"unmap"}' \
+-blockdev '{"node-name":"libvirt-2-format","read-only":true,"driver":"raw",=
+"file":"libvirt-2-storage"}' \
+-device scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,device_id=3Dd=
+rive-scsi0-0-0-0,share-rw=3Don,drive=3Dlibvirt-2-format,id=3Dscsi0-0-0-0,bo=
+otindex=3D1 \
+-blockdev '{"driver":"host_device","filename":"/dev/nvmvg/rotest-var","node=
+-name":"libvirt-1-storage","cache":{"direct":true,"no-flush":false},"auto-r=
+ead-only":true,"discard":"unmap"}' \
+-blockdev '{"node-name":"libvirt-1-format","read-only":false,"cache":{"dire=
+ct":true,"no-flush":false},"driver":"raw","file":"libvirt-1-storage"}' \
+-device scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D1,device_id=3Dd=
+rive-scsi0-0-0-1,drive=3Dlibvirt-1-format,id=3Dscsi0-0-0-1,write-cache=3Don=
+ \
+-spice port=3D5900,addr=3D192.168.1.9,disable-ticketing,seamless-migration=
+=3Don \
+-device virtio-vga,id=3Dvideo0,max_outputs=3D1,bus=3Dpci.0,addr=3D0x2 \
+-device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x7 \
+-sandbox on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcec=
+ontrol=3Ddeny \
+-msg timestamp=3Don
+2020-04-27T11:57:11.804028Z qemu-system-x86_64: -blockdev {"driver":"host_d=
+evice","filename":"/dev/nvmvg/rotest","node-name":"libvirt-2-storage","auto=
+-read-only":true,"discard":"unmap"}: The device is not writable: Permission=
+ denied
+2020-04-27 11:57:11.805+0000: shutting down, reason=3Dfailed
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1875139
+
+Title:
+  Domain fails to start when 'readonly' device not writable
+
+Status in QEMU:
+  New
+
+Bug description:
+  This issue is introduced in QEMU 4.2.0 (4.1.0 is working fine)
+
+  My root disk is a LVM2 volume thin snapshot that is marked as read-only
+  But when I try to start the domain (using virt-manager) I get the followi=
+ng error:
+
+  Error starting domain: internal error: process exited while connecting
+  to monitor: 2020-04-26T06:55:06.342700Z qemu-system-x86_64: -blockdev
+  {"driver":"host_device","filename":"/dev/vg/vmroot-20200425","aio":"native
+  ","node-name":"libvirt-3-storage","cache":{"direct":true,"no-
+  flush":false},"auto-read-only":true,"discard":"unmap"} The device is
+  not writable: Permission denied
+
+  Changing the lvm snapshot to writeable allows me to start the domain.
+  (Making it changes possible during domain is running)
+
+  I don't think QEMU should fail when it can't open a (block) device when t=
+he read-only option is set.
+  (why is write access needed?)
+
+  Reproduce steps:
+  * Create LVM read-only volume (I don't think any data is needed)
+  * Create domain with read-only volume as block device
+  * Try to start the domain
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1875139/+subscriptions
 
