@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0BDE1BAC2D
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 20:19:09 +0200 (CEST)
-Received: from localhost ([::1]:57334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 960D91BAC94
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 20:26:49 +0200 (CEST)
+Received: from localhost ([::1]:57984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jT8LU-0002hq-Vc
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 14:19:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34874)
+	id 1jT8Su-0007Q3-KT
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 14:26:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34892)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jT8JP-0000C9-7z
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 14:17:00 -0400
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jT8JQ-0000CS-5L
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 14:17:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jT8JO-0005H5-RU
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jT8JP-0005Hj-BO
  for qemu-devel@nongnu.org; Mon, 27 Apr 2020 14:16:59 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:34730)
+Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:41585)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jT8JK-0005Fh-Dv; Mon, 27 Apr 2020 14:16:58 -0400
-Received: by mail-lf1-x141.google.com with SMTP id x23so14676725lfq.1;
- Mon, 27 Apr 2020 11:16:53 -0700 (PDT)
+ id 1jT8JO-0005GM-T3; Mon, 27 Apr 2020 14:16:58 -0400
+Received: by mail-lf1-x142.google.com with SMTP id u10so14659234lfo.8;
+ Mon, 27 Apr 2020 11:16:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=imA9fwmW65enK4C7DtcxVyFgyC1JiD9jIZy37bLdKzA=;
- b=LutW+6cjsy6R/z4S3MClvUV8bdb2VRamskbo6Hes6LNk/KIyForn6+rjV2pRtxcApS
- pd3g9OwqyZNCQ5FXEXSsiaTSZEUQqUon3uFhMpbI9TEZHrM9egG2HG949b8dmXBXElfH
- 1a8NJVg47hIIkosXelXNJDh9EhVAlaMu5ZWdacM1V1ZDMYSuRzjh15Q/Y38U0ebn/XRm
- WXGjHFgD9kzxFMeL+B3XNP9uq9XOXi4V5hr93Y6trVaiLAZNDo/qSaCNBsTiORZDpXlo
- z6D0qn5VV46dn/rL99S3g1sqmv/uC1Db/f6RAl37dmv74hDnxmb8TEdPQhH0P6H44Q58
- h1fQ==
+ bh=UNhPRqE1nqM4y1sMRPefC6bxgbHFZMPLnBTiv+uklco=;
+ b=uHlTD92VaQz/k/B6CD1gSoDVYGcZbaZ7ZkIYbOznXMIfBOoBcTExAYuLxKpdHFd3VY
+ UCzyOxZf7Np5Mugl1jCDxRc98f6Yd4zdewOeKFnogXQl4cm42eG36YcWQdmnSeVfC00q
+ R3oYq4ELvPGOQ08QLMulygkRXSjRSviYK+jnhLtGPVY+4YPYhS7jyN7trWH1U3QHhQkz
+ DxAEEv0vrSNOA5C8K2R8UsgYr34R/3UTzDRIYKgrKMQLMobFJXPNIuJkP+CpvzbWhK03
+ VU1GI9n0iHq/LUJ1vdi+L6zsoq7wHNRcDTVH4Y717gLMd5yyZCSN/0dai+1ksXnbY1Mi
+ iXWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=imA9fwmW65enK4C7DtcxVyFgyC1JiD9jIZy37bLdKzA=;
- b=OXpj1l+QkyVgf2rmu0G9UwyutaeF37ZYDTYV1apOYDshfAcc1oujbSiBgllbUBFEfI
- Lz56AWRbKSDv2m5+SekUdwhcGspawgcVzNI9doBGbWlFSGQuCtUlTwWEsYC2KwcR7OMp
- nJ0M3ZU5PFjZXlb8I5mZAMCkv1m4dYwGfoggFjHjckXAwbybSVyQrCjsTaeekjTJPXkj
- ijeh12Opt5rfHKpJnxuH8zhaIGXbFiitEKnBEsUhLp2Nj8UPwB/Xk3ErKb3CrT0lMWCG
- RfcOyyatmtFzl3i3plSEc1J6KoauQS02zMvTIgrSw2nY0KI7AGcEMd9x2bkapRS2Sf83
- 1/DQ==
-X-Gm-Message-State: AGi0PuYBcLLVlxh/hzf43ItJ+Aqfd+9w8j5iBFiACE4H9cU8barpjp7d
- IxO70DhkDJh5ftGo444IRDkDQ6unoxg=
-X-Google-Smtp-Source: APiQypLMdEwcbNNh6kOJYj25BVHGII+cml2QmruJl1gDAVWQ+0cWoBXctL2K4j1YtcsSv3GKvBjh6w==
-X-Received: by 2002:ac2:4463:: with SMTP id y3mr99292lfl.62.1588011412001;
- Mon, 27 Apr 2020 11:16:52 -0700 (PDT)
+ bh=UNhPRqE1nqM4y1sMRPefC6bxgbHFZMPLnBTiv+uklco=;
+ b=lajyGt1a5hOsyNJ29Lz3b4kKvrPZaxiQVNwB9Fa5NpsLo4HAjrFuVCadtg/na+avL3
+ oXpXjI+914i7GN87Fk4sbLe8i89YB9Cm0VOJC88eBqzc8wxMmeUYTVapR6sFw+gWgT0S
+ mPlzIOcayjGcnZt3KX1JDsjsT3M+n2fLHgxPLI1541dDFi3HzJ3IF7OpAfE+OaJMDJlE
+ KZtfmCIdvnhst6m/kCpOTmjBC3Hp2kn7SXvr3lS+7hSKH7TvXncTvSav9gBHD/V4CnpA
+ 6FbMduI8H2Ww8Zw9U0XBozLfq8dxxySZe6ezcLYoK7c8FkWtHmKa+L4ZUFW1ODFGshfj
+ GEOw==
+X-Gm-Message-State: AGi0PuZTZ5MiKP5YQ+iBtS6Y/hO94Ct6TFVwIrr0xZsjxdU8//yoTZck
+ ClxI4Hl2zZrG7YD2azrKuaVDHwBF/Bg=
+X-Google-Smtp-Source: APiQypKKsct6xjcjElAwdNZ20duT+s+lAXq/i1V1O0u/M8IsDiJW/J98YsbjG2kdukLoUPsdCvTnhA==
+X-Received: by 2002:a19:48c3:: with SMTP id
+ v186mr15971977lfa.194.1588011413208; 
+ Mon, 27 Apr 2020 11:16:53 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id s7sm12072296lfb.40.2020.04.27.11.16.51
+ by smtp.gmail.com with ESMTPSA id m13sm11905209lfk.12.2020.04.27.11.16.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Apr 2020 11:16:51 -0700 (PDT)
+ Mon, 27 Apr 2020 11:16:52 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 01/11] hw/arm: versal: Remove inclusion of
- arm_gicv3_common.h
-Date: Mon, 27 Apr 2020 20:16:39 +0200
-Message-Id: <20200427181649.26851-2-edgar.iglesias@gmail.com>
+Subject: [PATCH v1 02/11] hw/arm: versal: Move misplaced comment
+Date: Mon, 27 Apr 2020 20:16:40 +0200
+Message-Id: <20200427181649.26851-3-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200427181649.26851-1-edgar.iglesias@gmail.com>
 References: <20200427181649.26851-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::141;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x141.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::142;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x142.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::141
+X-Received-From: 2a00:1450:4864:20::142
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,26 +90,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Remove inclusion of arm_gicv3_common.h, this already gets
-included via xlnx-versal.h.
+Move misplaced comment.
 
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- hw/arm/xlnx-versal.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/arm/xlnx-versal.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-index 94460f2343..c73b2fe755 100644
+index c73b2fe755..cc696e44c0 100644
 --- a/hw/arm/xlnx-versal.c
 +++ b/hw/arm/xlnx-versal.c
-@@ -20,7 +20,6 @@
- #include "hw/arm/boot.h"
- #include "kvm_arm.h"
- #include "hw/misc/unimp.h"
--#include "hw/intc/arm_gicv3_common.h"
- #include "hw/arm/xlnx-versal.h"
- #include "hw/char/pl011.h"
+@@ -36,7 +36,6 @@ static void versal_create_apu_cpus(Versal *s)
  
+         obj = object_new(XLNX_VERSAL_ACPU_TYPE);
+         if (!obj) {
+-            /* Secondary CPUs start in PSCI powered-down state */
+             error_report("Unable to create apu.cpu[%d] of type %s",
+                          i, XLNX_VERSAL_ACPU_TYPE);
+             exit(EXIT_FAILURE);
+@@ -49,6 +48,7 @@ static void versal_create_apu_cpus(Versal *s)
+         object_property_set_int(obj, s->cfg.psci_conduit,
+                                 "psci-conduit", &error_abort);
+         if (i) {
++            /* Secondary CPUs start in PSCI powered-down state */
+             object_property_set_bool(obj, true,
+                                      "start-powered-off", &error_abort);
+         }
 -- 
 2.20.1
 
