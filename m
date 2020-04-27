@@ -2,64 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F1A01BA050
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 11:48:28 +0200 (CEST)
-Received: from localhost ([::1]:35256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 179DF1B9FFE
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 11:35:06 +0200 (CEST)
+Received: from localhost ([::1]:34374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jT0NH-0006eJ-7t
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 05:48:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36108)
+	id 1jT0AL-0007ap-2U
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 05:35:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33894)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jT0LA-0005LH-KP
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:46:17 -0400
+ (envelope-from <zltjiangshi@gmail.com>) id 1jT08k-0005f6-V2
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:33:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jT0L9-0000XX-CP
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:46:16 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56838)
+ (envelope-from <zltjiangshi@gmail.com>) id 1jT08j-0004xe-Q4
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:33:26 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:44830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jT0L8-0000XG-UA
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:46:15 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jT0L5-0004Lk-Nl
- for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 09:46:11 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B2D4B2E8029
- for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 09:46:11 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 27 Apr 2020 09:32:17 -0000
-From: Daniel Berrange <1875139@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: avschie berrange
-X-Launchpad-Bug-Reporter: A van Schie (avschie)
-X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
-References: <158788589324.18152.6333525201430073299.malonedeb@wampee.canonical.com>
-Message-Id: <158797993725.17831.13213290853647082757.malone@wampee.canonical.com>
-Subject: [Bug 1875139] Re: Domain fails to start when 'readonly' device not
- writable
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="486bbbd6cb608f8eb468ed0d08689a349dfabe49";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 36ec1156d397decc58b20bcc941db8c18f5304a7
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 05:15:42
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Received-From: 91.189.90.7
+ (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
+ id 1jT08j-0004xQ-Al
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 05:33:25 -0400
+Received: by mail-pl1-x641.google.com with SMTP id h11so6783215plr.11
+ for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 02:33:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=u4m6+vzCc96Nl5shiNMOZfZokMTmk6NsaXZkY+++sic=;
+ b=rPBabW1ftrQUWf3qfHV2hIxDlUsctijINgX5iu+kZaT6tVzFuP6Nw82DNAHwzpTiCx
+ FrAjnagFmn0lff7Y+6vaR99kKNI71t3cA2AE/i264sAoTwqw/BUeWEJklq0dphvnftiL
+ fJGuL+h8jP7IqwjCgW1v7KB8eoF9Lt4bi6sOSmouSS3iRpglrXvzN0qeE0h0xye5Xx4C
+ F6upK2Qd/cM+/Qb41Nuncm9SEjVF8tj3DJJZfX6U3OIdfF3P1FddX35Prlfa9Q4t1sy2
+ 2rZpSrWLDSmPm07zikcOj5Vhf7dQvFuXxVXsHCSlQvv9jSPdJgedDxb/LXjLHjvN5zXT
+ Kv4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=u4m6+vzCc96Nl5shiNMOZfZokMTmk6NsaXZkY+++sic=;
+ b=C+LifyUAqA3Lb0T6MyOk5rTvOuKVXdQYgGcAOE3oT5q3ARYCjvnSYZQPJa0IFJZe6D
+ EhSR6LBfCSV2wJ/iA+i24XbtnU4whq6RSHXGG1+qASfSPuBkt6VP0H2FYK1iU4vLfRWG
+ RlNVyZIw9pqlV9o0F2RDnK6s6/QcPyNPaG+k0/wNvZ2oDmEEPY3shcMCRZz4+qkuzhNn
+ ymiDe4fJ2ut0Zim7tAcC/eHuJY+p+Hz/5EVDrFqvLMvEcIwvwX//EqqBWRF1am5rJGkM
+ gV2wb9Msp81kBRUCx4kc25mxw2sHCWZjm8nYMfUyEslW9sLNX0pIuRcZz9eETikDz9pL
+ AWMw==
+X-Gm-Message-State: AGi0Pua5ewhGiAtftbiPvIGpg0+R+qgV0xLuwJj4WvKIvTbcbD2PUZok
+ aaz0iq2z9nGC6SASPpttl98=
+X-Google-Smtp-Source: APiQypIivvHCFxMAYkisTIGAPvozCTq7JEX2v0veG01jZqGgIAKK/me3PIokxqggnZfa/UM42J18Dg==
+X-Received: by 2002:a17:90a:f689:: with SMTP id
+ cl9mr23517308pjb.43.1587980003481; 
+ Mon, 27 Apr 2020 02:33:23 -0700 (PDT)
+Received: from software.domain.org (28.144.92.34.bc.googleusercontent.com.
+ [34.92.144.28])
+ by smtp.gmail.com with ESMTPSA id u9sm11333073pfn.197.2020.04.27.02.33.20
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 27 Apr 2020 02:33:22 -0700 (PDT)
+From: Huacai Chen <zltjiangshi@gmail.com>
+X-Google-Original-From: Huacai Chen <chenhc@lemote.com>
+To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Subject: [PATCH for-5.1 1/7] configure: Add KVM target support for MIPS64
+Date: Mon, 27 Apr 2020 17:33:09 +0800
+Message-Id: <1587979995-17717-1-git-send-email-chenhc@lemote.com>
+X-Mailer: git-send-email 2.7.0
+Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
+ envelope-from=zltjiangshi@gmail.com; helo=mail-pl1-x641.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,56 +78,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1875139 <1875139@bugs.launchpad.net>
+Cc: Huacai Chen <chenhuacai@gmail.com>, Huacai Chen <chenhc@lemote.com>,
+ qemu-devel@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> This issue is introduced in QEMU 4.2.0 (4.1.0 is working fine)
+Preparing for Loongson-3 virtualization, add KVM target support for
+MIPS64 in configure script.
 
-That's not neccessarily the case - with QEMU 4.2.0, libvirt switched
-over to using the new -blockdev command line syntax. When you were
-testing with 4.1.0, it would have been using the legacy -drive syntax.
-So the change in behaviour is more likely related to the usage of
--blockdev, than any bug introduced in QEMU.
+Signed-off-by: Huacai Chen <chenhc@lemote.com>
+Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--- =
+diff --git a/configure b/configure
+index 23b5e93..7581e65 100755
+--- a/configure
++++ b/configure
+@@ -198,7 +198,7 @@ supported_kvm_target() {
+         arm:arm | aarch64:aarch64 | \
+         i386:i386 | i386:x86_64 | i386:x32 | \
+         x86_64:i386 | x86_64:x86_64 | x86_64:x32 | \
+-        mips:mips | mipsel:mips | \
++        mips:mips | mipsel:mips | mips64:mips | mips64el:mips | \
+         ppc:ppc | ppc64:ppc | ppc:ppc64 | ppc64:ppc64 | ppc64:ppc64le | \
+         s390x:s390x)
+             return 0
+-- 
+2.7.0
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1875139
-
-Title:
-  Domain fails to start when 'readonly' device not writable
-
-Status in QEMU:
-  New
-
-Bug description:
-  This issue is introduced in QEMU 4.2.0 (4.1.0 is working fine)
-
-  My root disk is a LVM2 volume thin snapshot that is marked as read-only
-  But when I try to start the domain (using virt-manager) I get the followi=
-ng error:
-
-  Error starting domain: internal error: process exited while connecting
-  to monitor: 2020-04-26T06:55:06.342700Z qemu-system-x86_64: -blockdev
-  {"driver":"host_device","filename":"/dev/vg/vmroot-20200425","aio":"native
-  ","node-name":"libvirt-3-storage","cache":{"direct":true,"no-
-  flush":false},"auto-read-only":true,"discard":"unmap"} The device is
-  not writable: Permission denied
-
-  Changing the lvm snapshot to writeable allows me to start the domain.
-  (Making it changes possible during domain is running)
-
-  I don't think QEMU should fail when it can't open a (block) device when t=
-he read-only option is set.
-  (why is write access needed?)
-
-  Reproduce steps:
-  * Create LVM read-only volume (I don't think any data is needed)
-  * Create domain with read-only volume as block device
-  * Try to start the domain
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1875139/+subscriptions
 
