@@ -2,108 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8FB61B9A0A
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 10:24:29 +0200 (CEST)
-Received: from localhost ([::1]:57986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E19E1B9A15
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 10:26:03 +0200 (CEST)
+Received: from localhost ([::1]:58254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSz40-0001y5-Gn
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 04:24:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48106)
+	id 1jSz5W-0005Lm-CO
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 04:26:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48776)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jSz1f-0008EU-Ho
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 04:22:04 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jSz3W-000299-Ao
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 04:23:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jSz1d-0003zM-CS
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 04:22:02 -0400
-Received: from mail-eopbgr40125.outbound.protection.outlook.com
- ([40.107.4.125]:56959 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jSz3V-0007Y5-QW
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 04:23:58 -0400
+Received: from mail-eopbgr70114.outbound.protection.outlook.com
+ ([40.107.7.114]:29366 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jSz1c-0003yl-E5
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 04:22:01 -0400
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jSz3T-0007Ta-Be; Mon, 27 Apr 2020 04:23:55 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OHspCFaIib2zZBnn+TX2w+9RmRgsW2UP5atPxtiee4mBOKyf9pBQuvE27/vJs+emvj+BQiL0cDuoaD6Co4FUQUksDyz1TZQ5Aslnwo8BvJm1/JaBlKe0ZEoo93PP1J3PXZB+tUtUzhf9uyjBpsmTqUVlNdfbQbypphMevYaSd8VGw56cKhgqPN1D1UlF9tgcafDlobiTcCnltTYA+re6mQrwU7bZfNOHqm5zmp1ip8WYkR/A0Em9GtigQNtSX0NhzZbco9cgfF6DmDLRJPhy/UvQzhypB+jrfVKNqoaXU7TzUtDb3MkrJsszprTWCQQ/sWNqH4U1dttKjzgeayGdmg==
+ b=M5BzBO08wmwr0A5vu6lk9tw8P7xNPWDufNiKJDK6bZeW3Oqj0W+rqcD64ThHtdSN1gesNiC2CzKZabjxH8AAeMvCXlEAw3orl6jsPHI1v+RiAc63b5TGSbGVVRa444kkOwbvhhpF3cyiSyO55dxBSCYOm5zDIuBjbUkpjb0mqa23y1srjv++RFp8moPGlYyal1YfP8OrHogLUJpinvoY+Ls9g61cK5j/JJQ6UqkFsN+eTgw/tFVHjOFdXYhCxjpBzf+m7IHPTO/HRO76M6MbO8FHtUgQeIJmJqPiMsC7ixOltcj+vc5L0rvC7oVIrAsTfJj4P9BHY3EYXGfEmG54tQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dWkvXudNUpRRNfMH1RynLxHX8P9GraOP6zi7VaNj6PY=;
- b=ArwsXe9DpjHRDIGg98t7RfPcHHhtMvDbF5oeUQrblwrVaXnB/ofAY/1RJMe1B4mSt32XIyHq8EfmOlkUzwjGA5TM1c65dA5httBrDOYMpzGoPSS9sw/tKdpEspD9mDWejwZ1ExG3ny8Yd/wJH2CQs25TVlkkIR5PCy6y8WdIdYamBiaXYQwvB5wzirp+dPnq/2Br0+nrHzdYK3E03ucosGx69Jhd4ZS3/IUC/ayXqmYduQvuAT+d5ehnh7fDkzJ9G9sfJrjdRuRclde6dPBQ+aMgwJ67OpPsRSrOYekcQvaiXybiwxwh28IeYWZR2xuy7NTJ8sW38XkINV8LFFOrDw==
+ bh=/3A7BjRO6BWghj+MQI84aNzoy1mPP8DugbbqSODxbGM=;
+ b=P1vlVxrloGkHn5D0arRZ+b3RTfIZ14hauDBkzvKkSMWWZKBiExZVpvjro1R8pfKWUMmORwXVqLw9vlcowPVEYswPlnOpsV33gi1V3bNPdF+ROP5gpEajU26Eh7elx08pz1T5bimwAZjYDR8e7L92horKEtpQ3O1+AzxO86LLiulFuLnp5dkdhT/JKFrfsCv0DdmP8A6l4O0D8ZXnN4uS+A26Np/HZ8h998GI1DNWY+p5MeYPw/ukzVxsmloaTLicolWtKPGmub+A7M3NaNBTecBF2ZZn1CaDEr/R3iSzsipVbTsKts9p+Zrj5sQwMNIi22oCD4l4KvcPjx8Zxb8qbA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dWkvXudNUpRRNfMH1RynLxHX8P9GraOP6zi7VaNj6PY=;
- b=rmxux5BTpg+c62Bn7dlyWGLPJdR3EY7JMLutl7yKGjxvspXUUptcE2lEhza7mbtVB0FIfwn1J3LE2hWr+68zNdGcHkiKU6sg7zxRJQX2cPpQWc4cp8tHy9fQ16DocPyN2u+GtMoxeKbi5LQs/0WBwosJy8BWrJAIcuoGwNPulWs=
+ bh=/3A7BjRO6BWghj+MQI84aNzoy1mPP8DugbbqSODxbGM=;
+ b=cSLW657ckOM7YUcfXj3O57B689cN495QJzTe5n+HhJXhvF7WVCbWYgC26sCDNztNFwgZ1QB3BBXTbIohsRHaaPtolpIT4Wc8m0ih2HlqOaYp2rlgPwOHp+TYuYYtda/+DeQsM+42u1M57zjK0lpLnDWikcRsHyRwIh1eQUjD54g=
 Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=dplotnikov@virtuozzo.com; 
-Received: from AM0PR08MB3745.eurprd08.prod.outlook.com (2603:10a6:208:ff::27)
- by AM0PR08MB5090.eurprd08.prod.outlook.com (2603:10a6:208:15c::30)
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5463.eurprd08.prod.outlook.com (2603:10a6:20b:106::7)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Mon, 27 Apr
- 2020 08:21:57 +0000
-Received: from AM0PR08MB3745.eurprd08.prod.outlook.com
- ([fe80::95e6:1da8:1244:d16f]) by AM0PR08MB3745.eurprd08.prod.outlook.com
- ([fe80::95e6:1da8:1244:d16f%4]) with mapi id 15.20.2937.023; Mon, 27 Apr 2020
- 08:21:57 +0000
-Subject: Re: [RFC patch v1 2/3] qemu-file: add buffered mode
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <1586776334-641239-1-git-send-email-dplotnikov@virtuozzo.com>
- <1586776334-641239-3-git-send-email-dplotnikov@virtuozzo.com>
- <9bb27377-49e5-75de-fc7e-4846f05478e2@redhat.com>
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Message-ID: <f7a43ea1-1db8-a047-8b35-863dc1b903c4@virtuozzo.com>
-Date: Mon, 27 Apr 2020 11:21:54 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-In-Reply-To: <9bb27377-49e5-75de-fc7e-4846f05478e2@redhat.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.22; Mon, 27 Apr
+ 2020 08:23:51 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.020; Mon, 27 Apr 2020
+ 08:23:51 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2 00/17] 64bit block-layer
+Date: Mon, 27 Apr 2020 11:23:08 +0300
+Message-Id: <20200427082325.10414-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: FR2P281CA0017.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::27) To AM0PR08MB3745.eurprd08.prod.outlook.com
- (2603:10a6:208:ff::27)
+Content-Type: text/plain
+X-ClientProxiedBy: FR2P281CA0004.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a::14) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.64] (94.233.240.57) by
- FR2P281CA0017.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:a::27) with Microsoft
+Received: from localhost.localdomain (185.215.60.182) by
+ FR2P281CA0004.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:a::14) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2937.13 via Frontend Transport; Mon, 27 Apr 2020 08:21:56 +0000
-X-Originating-IP: [94.233.240.57]
+ 15.20.2937.13 via Frontend Transport; Mon, 27 Apr 2020 08:23:50 +0000
+X-Mailer: git-send-email 2.21.0
+X-Originating-IP: [185.215.60.182]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ab8a9b37-feb3-4728-03b1-08d7ea840d14
-X-MS-TrafficTypeDiagnostic: AM0PR08MB5090:
+X-MS-Office365-Filtering-Correlation-Id: 28c2d692-3cd7-4d8f-2fa2-08d7ea84512a
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5463:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM0PR08MB5090185A8B6623883A0AB8D1CFAF0@AM0PR08MB5090.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5463F8DEFF15459598797CDAC1AF0@AM7PR08MB5463.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-Forefront-PRVS: 0386B406AA
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM0PR08MB3745.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(366004)(136003)(346002)(376002)(39840400004)(396003)(4326008)(31696002)(186003)(8676002)(86362001)(5660300002)(53546011)(52116002)(31686004)(6486002)(16526019)(956004)(2616005)(66476007)(66946007)(316002)(478600001)(36756003)(16576012)(66556008)(8936002)(26005)(2906002)(81156014);
+ SFS:(4636009)(366004)(136003)(396003)(376002)(346002)(39840400004)(2906002)(81156014)(6486002)(26005)(8676002)(8936002)(4326008)(6916009)(478600001)(66556008)(7416002)(66946007)(66476007)(6666004)(16526019)(316002)(2616005)(1076003)(186003)(5660300002)(52116002)(6506007)(956004)(36756003)(107886003)(6512007)(69590400007)(86362001)(966005);
  DIR:OUT; SFP:1102; 
 Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: udGJEozZFEYDbjcRMDAtJwU0EAUGRXriVTtodimDlIL/3MhpBfdZT0JPZakpcKDxEkQJKgTpxgQtoWLerra1dFJtThEGXzvJ1Uq4b5MyYd5Ff65leH6ByT6K9BijjQ3RRGvf5prCBm30kGpP/llKojLvsYB9S7kJLIsfUCxFbwE7NWafOWPHlDm0b1RcJTsE3fFnSl8Qk5Wn3o9EF1EO6fnc752VjRjObbbDg4+Imj+Bn+Vh1i7VoXuoUnmKqIlpBtQpXKVxaPQLlSqewUHiWp+CT1lYsJVIzfnB8ee+9cj6Cl9rISTD92ctG1uIsml0AgibwF28B/L/TGd3CULz2X8yjhAX4ShpJ7qxsT5MPMF793VxUU8YzDPCBtmAH9/iR8TPGItQH0UW7kwSkXIsruWiCIYgFzRj9xKFTo+nO4Y+sSxtuR1HUJa1zevtsFiQ
-X-MS-Exchange-AntiSpam-MessageData: +K0XcQdECDw9OIhj6nbQGzCzRMGDd19Q6G6Y+3glAM5zLStfrmyoxSjVUlvBfnUZWvB7gYbK4KpMHSPbPhw8paHx+NOTAQTSXwugGSK7F9NzJatEu7aVyZ0YudA7HT8w/jDkAYZaIVyzrCY6usPsYv+i1pRy13pg6bQIQn0YBNSFUYHXmEO1dWmMMT0cDs8MX2XvwUeDitVRfoCzq9WHIdonaHaM0+Eg0g7AYfu5f21qt4KLMigtJdCus3rWEF+go4gtiIVopHXyYJ3JNpbnkX3aI0MzLJEGvN0o4meExqe6zeRCoNzorDUmv05ktlLAejNlERRA8iHzTvQoANOg7x8XIrGnaMIiRSTL+uuHDLyIp+y07OMc4fMVJNRWP0mn1GtP4eRLN4/06HzjStQTPB+19YbxZojDA/HlxiWXSXlmYLYga0H/ETGs+nFjKYXcIZ5708c4/9mpEJt4+8EW6G06NztawocLvCIHYM2A8Jf+6dPDpFbg+fbztUn5MS7XY+EFL2VlGi1MH0Pz7WQMAnmVwmM4Ftl6ZjZT3dd4vrbCInj4qLln8/drrRZ8LpP6u+xhEdinX4me6l+LI1PcKhE+bTjXL+Wd2+VOV7lrKvXZScKaNZRMO+AJ77htKCOK8Ktj6EGQtSETQaUGthxC0hO+SlcTjzNTtBx8XfeZ80fk57gs6uMVNGt79B7T0kgoqhlKdWDlxntRFl/BA0x1EoHd3IZQLLGBIcS9S12oZAkDBRupyfOKwCfJJ7YvYbuOnZAQRdVZSM5qLw6u31w3mLDNm0gD/dJh4SK7hvJmJIE=
+X-Microsoft-Antispam-Message-Info: pmeb99FtudFiLlxWkHPMYARwOMmxyzQmIiUvb2hDP5lPJlUHPDfHAMaUyGUzD9mZo77//gsENXuSdWxpyR6GEnnLXZKpIj763KC3JC1WLgUO/Iz6XasL6/MZwMREYTFnzw/Jl9FjvNCn22ROXMQz31SGu6sveOcTrRKzSzLajCAJQF7JIotIOayjfsDHGQ5lyTHW2dc4srtmOeEFd9ZRB6hR0i6Jr9I28mV9lMayMHOX4UwzNbQ9qHEyHrOGRwKJNpeViJnE/ce4mM8xzwa5CELs7SPHGN2GJz7bWqFDMxFdoMp8jQmuxBcVVd/ft6vKRC6uCCzecFG5Xb9QZC0d3UMKNE1Bm2mJq7vyuwF2G/tDqHSCStgjIT+a4CP3dmNx2UjyNKIvN6Zxo69jX1cknUGtFiGgc1hf1FArMBlgrx8ggEHOfDbBiQ4CycNOxLQXmQKwoB7szvj2BhYpPJ+uGaCrcRgzXP/2k+ROrnfOzvKWuUO4Jkp1/kYhtHZYI4YX76J0CJRIi+MhQ27pvhmoP4d68cvOKz2avbMwS4lqrCPNs8/pkqkMfw254RIOBU3HNqylMD4V95usteVPqXpZSA==
+X-MS-Exchange-AntiSpam-MessageData: qze0kS/vGuCJHNXmXogGj+LDYN3KQnPwKgckSLSCiMAEfwccxxYx1DqM085y1U4GfAIv2Jy3KN7sXrIIckBYVqAH6TUyQxAUD63GBSv8/ohtiUkj5mwrnsAWP10uj6Rg4KsHE/aCh8PCAjy5Cr9c+oKzwQbECAtQaHxDrZALJWBMCgXWsf5tgpgYxKlH6pRjs49vPhOjJxB7tA0bF06Vxk1P5x5gHBUuwQtrXMjV6Hj95nm5v5D0Oj5sTa1X6njpDawOiooymY2MkX9zC2J+ps3U1ZvfxP/Uu1WLnFXciRpjr9ySx+sAOaa9AP+z7z2xl3LPY/6yvVt882iXnPZUi1PSmCQJwNRFKbzp6pEOPX7XtE2fWUOqAUBbAm6ijnTyztsAy8s3Rs1/iZlLbqwPzL+n73w9JwVBRoekKfk5rOr9uSFP925LMasNmcEsLa6vpNpcXP28ZlXB9o6N4OcnL5V/N8jslzd1NmJ4iX+KR6zaF3QXwi+ownUiMTL3rb0um8lJvQpFWqSMWz79Mh2/+Eb8IbdbJKJbCMa7pzxOwC/Yca8mkp4Pywr2uy3uHd8mcji5LbErbZYIt3xECqcycp44iTmGoxYxzk4hhagAPqXoA9+eyClDQBslO3mZsDXk5AOw5bjS0Or57lc2pC5g9fMSqeMueDTSOSmJqaV+SgE+xdlZ471FFgHBBSIFAEnN56B46K6XpdRz04b6xFvgWR1ZDLz355mApqR9RL6rE2omhV1/XaAvNiAyoRfnWMg7zd0JxHWlOkWinhCW9tORJSNAYo2D+ZRB83udJdwRqfo=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab8a9b37-feb3-4728-03b1-08d7ea840d14
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2020 08:21:57.4141 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28c2d692-3cd7-4d8f-2fa2-08d7ea84512a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2020 08:23:51.6308 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ETY1g6M5tkQ9ul/nfy71zsReMqMpqhJdqAoB9BWpubiMhk2Fa5k29SBg0ub9R7yrjeCqrEzAoJJlhy1Ffdb558RUwfms3OBBO5JkW5A/FxY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB5090
-Received-SPF: pass client-ip=40.107.4.125;
- envelope-from=dplotnikov@virtuozzo.com;
- helo=EUR03-DB5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 04:21:58
+X-MS-Exchange-CrossTenant-UserPrincipalName: LtGkWoWVAhCkM4bP/4XQq2c7HE6Ahb+I/mcTCIDH447hdkl8ZykwZybH/nOSFvmDX4FPfoQJaW2agcZu9PHeCXFInkPZZaCMQbi9+UraZiw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5463
+Received-SPF: pass client-ip=40.107.7.114;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 04:23:52
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Received-From: 40.107.4.125
+X-Received-From: 40.107.7.114
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -115,217 +109,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: den@openvz.org, dgilbert@redhat.com, quintela@redhat.com
+Cc: kwolf@redhat.com, fam@euphon.net, integration@gluster.org, berto@igalia.com,
+ pavel.dovgaluk@ispras.ru, dillaman@redhat.com, qemu-devel@nongnu.org,
+ pl@kamp.de, ronniesahlberg@gmail.com, mreitz@redhat.com, den@openvz.org,
+ sheepdog@lists.wpkg.org, vsementsov@virtuozzo.com, stefanha@redhat.com,
+ namei.unix@gmail.com, pbonzini@redhat.com, sw@weilnetz.de, jsnow@redhat.com,
+ ari@tuxera.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi all!
 
+v1 was "[RFC 0/3] 64bit block-layer part I", please refer to initial
+cover-letter 
+ https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg08723.html
+for motivation.
 
-On 25.04.2020 00:25, Eric Blake wrote:
-> On 4/13/20 6:12 AM, Denis Plotnikov wrote:
->> The patch adds ability to qemu-file to write the data
->> asynchronously to improve the performance on writing.
->> Before, only synchronous writing was supported.
->>
->> Enabling of the asyncronous mode is managed by new
->
-> asynchronous
->
->> "enabled_buffered" callback.
->
-> The term "enabled_buffered" does not appear in the patch.  Did you 
-> mean...
->
->>
->> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
->> ---
->>   include/qemu/typedefs.h |   1 +
->>   migration/qemu-file.c   | 351 
->> +++++++++++++++++++++++++++++++++++++++++++++---
->>   migration/qemu-file.h   |   9 ++
->>   3 files changed, 339 insertions(+), 22 deletions(-)
->>
->
->> @@ -60,6 +66,22 @@ struct QEMUFile {
->>       bool shutdown;
->>       /* currently used buffer */
->>       QEMUFileBuffer *current_buf;
->> +    /*
->> +     * with buffered_mode enabled all the data copied to 512 byte
->> +     * aligned buffer, including iov data. Then the buffer is passed
->> +     * to writev_buffer callback.
->> +     */
->> +    bool buffered_mode;
->
-> ..."Asynchronous mode is managed by setting the new buffered_mode 
-> flag"?  ...
->
->
->> +    /* for async buffer writing */
->> +    AioTaskPool *pool;
->> +    /* the list of free buffers, currently used on is NOT there */
->
-> s/on/one/
->
->> +    QLIST_HEAD(, QEMUFileBuffer) free_buffers;
->> +};
->> +
->> +struct QEMUFileAioTask {
->> +    AioTask task;
->> +    QEMUFile *f;
->> +    QEMUFileBuffer *fb;
->>   };
->>     /*
->> @@ -115,10 +137,42 @@ QEMUFile *qemu_fopen_ops(void *opaque, const 
->> QEMUFileOps *ops)
->>       f->opaque = opaque;
->>       f->ops = ops;
->>   -    f->current_buf = g_new0(QEMUFileBuffer, 1);
->> -    f->current_buf->buf = g_malloc(IO_BUF_SIZE);
->> -    f->current_buf->iov = g_new0(struct iovec, MAX_IOV_SIZE);
->> -    f->current_buf->may_free = bitmap_new(MAX_IOV_SIZE);
->> +    if (f->ops->enable_buffered) {
->> +        f->buffered_mode = f->ops->enable_buffered(f->opaque);
->
-> ...ah, you meant 'enable_buffered'.  But still, why do we need a 
-> callback function?  Is it not sufficient to just have a bool flag?
->
->
->> +static size_t get_buf_free_size(QEMUFile *f)
->> +{
->> +    QEMUFileBuffer *fb = f->current_buf;
->> +    /* buf_index can't be greated than buf_size */
->
-> greater
->
->> +    assert(fb->buf_size >= fb->buf_index);
->> +    return fb->buf_size - fb->buf_index;
->> +}
->> +
->
->> +static int write_task_fn(AioTask *task)
->> +{
->
->> +    /*
->> +     * Increment file position.
->> +     * This needs to be here before calling writev_buffer, because
->> +     * writev_buffer is asynchronous and there could be more than one
->> +     * writev_buffer started simultaniously. Each writev_buffer should
->
-> simultaneously
->
->> +     * use its own file pos to write to. writev_buffer may write less
->> +     * than buf_index bytes but we treat this situation as an error.
->> +     * If error appeared, further file using is meaningless.
->
-> s/using/use/
->
->> +     * We expect that, the most of the time the full buffer is written,
->> +     * (when buf_size == buf_index). The only case when the non-full
->> +     * buffer is written (buf_size != buf_index) is file close,
->> +     * when we need to flush the rest of the buffer content.
->
-> We expect that most of the time, the full buffer will be written 
-> (buf_size == buf_index), with the exception at file close where we 
-> need to flush the final partial buffer.
->
->> +     */
->> +    f->pos += fb->buf_index;
->> +
->> +    ret = f->ops->writev_buffer(f->opaque, &v, 1, pos, &local_error);
->> +
->> +    /* return the just written buffer to the free list */
->> +    QLIST_INSERT_HEAD(&f->free_buffers, fb, link);
->> +
->> +    /* check that we have written everything */
->> +    if (ret != fb->buf_index) {
->> +        qemu_file_set_error_obj(f, ret < 0 ? ret : -EIO, local_error);
->> +    }
->> +
->> +    /*
->> +     * always return 0 - don't use task error handling, relay on
->
-> rely
->
->> +     * qemu file error handling
->> +     */
->> +    return 0;
->> +}
->> +
->> +static void qemu_file_switch_current_buf(QEMUFile *f)
->> +{
->> +    /*
->> +     * if the list is empty, wait until some task returns a buffer
->> +     * to the list of free buffers.
->> +     */
->> +    if (QLIST_EMPTY(&f->free_buffers)) {
->> +        aio_task_pool_wait_slot(f->pool);
->> +    }
->> +
->> +    /*
->> +     * sanity check that the list isn't empty
->> +     * if the free list was empty, we waited for a task complition,
->
-> completion
->
->> +     * and the pompleted task must return a buffer to a list of free 
->> buffers
->
-> completed
->
->> +     */
->> +    assert(!QLIST_EMPTY(&f->free_buffers));
->> +
->> +    /* set the current buffer for using from the free list */
->> +    f->current_buf = QLIST_FIRST(&f->free_buffers);
->> +    reset_buf(f);
->> +
->> +    QLIST_REMOVE(f->current_buf, link);
->> +}
->> +
->
->>     /*
->> + * Copy an external buffer to the intenal current buffer.
->
-> internal
->
->> + */
->> +static void copy_buf(QEMUFile *f, const uint8_t *buf, size_t size,
->> +                     bool may_free)
->> +{
->
->> +++ b/migration/qemu-file.h
->> @@ -103,6 +103,14 @@ typedef QEMUFile *(QEMURetPathFunc)(void *opaque);
->>   typedef int (QEMUFileShutdownFunc)(void *opaque, bool rd, bool wr,
->>                                      Error **errp);
->>   +/*
->> + * Enables or disables the buffered mode
->> + * Existing blocking reads/writes must be woken
->> + * Returns true if the buffered mode has to be enabled,
->> + * false if it has to be disabled.
->> + */
->> +typedef bool (QEMUFileEnableBufferedFunc)(void *opaque);
->
-> If this never gets called outside of initial creation of the QemuFile 
-> (that is, it is not dynamic), then making it a straight flag instead 
-> of a callback function is simpler.
-Yes, I agree.
+v2:
+patch 02 is unchanged, add Stefan's r-b. Everything other is changed a
+lot. What's new:
 
-Thanks for reviewing and lots of grammar fixing!
->
->
->> +
->>   typedef struct QEMUFileOps {
->>       QEMUFileGetBufferFunc *get_buffer;
->>       QEMUFileCloseFunc *close;
->> @@ -110,6 +118,7 @@ typedef struct QEMUFileOps {
->>       QEMUFileWritevBufferFunc *writev_buffer;
->>       QEMURetPathFunc *get_return_path;
->>       QEMUFileShutdownFunc *shut_down;
->> +    QEMUFileEnableBufferedFunc *enable_buffered;
->>   } QEMUFileOps;
->>     typedef struct QEMUFileHooks {
->>
->
+- conversion of block/io.c is now done step-by-step, to make careful
+  review possible as well as future bisecting
+
+- converting of driver handlers split by io type
+
+- convert write_zeroes and discard (so the series is not called "part I"
+  any more). I decided to convert most of things alltogether, leaving
+  simple wrappers only in unobvious places. Still, if you consider it
+  risky, I can refactor it to use only wrappers as a first patch and
+  then update driver-by-driver, but it would be lot more patches, I'm
+  not sure it worth doing.
+
+Vladimir Sementsov-Ogievskiy (17):
+  block/throttle-groups: throttle_group_co_io_limits_intercept(): 64bit
+    bytes
+  block: use int64_t as bytes type in tracked requests
+  block/io: use int64_t bytes parameter in bdrv_check_byte_request()
+  block/io: use int64_t bytes in driver wrappers
+  block/io: support int64_t bytes in bdrv_co_do_pwrite_zeroes()
+  block/io: support int64_t bytes in bdrv_aligned_pwritev()
+  block/io: support int64_t bytes in bdrv_co_do_copy_on_readv()
+  block/io: support int64_t bytes in bdrv_aligned_preadv()
+  block/io: support int64_t bytes in bdrv_co_p{read,write}v_part()
+  block/io: support int64_t bytes in read/write wrappers
+  block/io: use int64_t bytes in copy_range
+  block/block-backend: convert blk io path to use int64_t parameters
+  block: use int64_t instead of uint64_t in driver read handlers
+  block: use int64_t instead of uint64_t in driver write handlers
+  block: use int64_t instead of uint64_t in copy_range driver handlers
+  block: use int64_t instead of int in driver write_zeroes handlers
+  block: use int64_t instead of int in driver discard handlers
+
+ include/block/block.h           |  16 ++---
+ include/block/block_int.h       |  56 ++++++++--------
+ include/block/throttle-groups.h |   2 +-
+ include/sysemu/block-backend.h  |  26 ++++----
+ block/backup-top.c              |   9 ++-
+ block/blkdebug.c                |   8 +--
+ block/blklogwrites.c            |  12 ++--
+ block/blkreplay.c               |   8 +--
+ block/blkverify.c               |   6 +-
+ block/block-backend.c           |  60 +++++++++---------
+ block/bochs.c                   |   2 +-
+ block/cloop.c                   |   2 +-
+ block/commit.c                  |   2 +-
+ block/copy-on-read.c            |   8 +--
+ block/crypto.c                  |   4 +-
+ block/curl.c                    |   2 +-
+ block/dmg.c                     |   2 +-
+ block/file-posix.c              |  42 ++++++++----
+ block/filter-compress.c         |  10 +--
+ block/gluster.c                 |  14 ++--
+ block/io.c                      | 109 +++++++++++++++++---------------
+ block/iscsi.c                   |  34 +++++++---
+ block/mirror.c                  |   8 +--
+ block/nbd.c                     |  16 +++--
+ block/nfs.c                     |   8 +--
+ block/null.c                    |   8 +--
+ block/nvme.c                    |  33 +++++++---
+ block/qcow.c                    |  12 ++--
+ block/qcow2.c                   |  29 +++++----
+ block/qed.c                     |  17 +++--
+ block/quorum.c                  |   8 +--
+ block/raw-format.c              |  32 +++++-----
+ block/rbd.c                     |   4 +-
+ block/sheepdog.c                |  11 +++-
+ block/throttle-groups.c         |   2 +-
+ block/throttle.c                |   8 +--
+ block/vdi.c                     |   4 +-
+ block/vmdk.c                    |  10 +--
+ block/vpc.c                     |   4 +-
+ block/vvfat.c                   |   6 +-
+ tests/test-bdrv-drain.c         |   8 +--
+ block/trace-events              |  14 ++--
+ 42 files changed, 379 insertions(+), 297 deletions(-)
+
+-- 
+2.21.0
 
 
