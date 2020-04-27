@@ -2,75 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E00261B945C
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Apr 2020 23:57:21 +0200 (CEST)
-Received: from localhost ([::1]:46994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA3C1B94CF
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 02:58:33 +0200 (CEST)
+Received: from localhost ([::1]:49660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSpH5-00025w-Qo
-	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 17:57:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33880)
+	id 1jSs6S-0007TQ-Dj
+	for lists+qemu-devel@lfdr.de; Sun, 26 Apr 2020 20:58:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53500)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lukasstraub2@web.de>) id 1jSogY-0004OC-78
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 17:19:36 -0400
+ (envelope-from <masahiroy@kernel.org>) id 1jSs5U-0006Yp-3H
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 20:57:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <lukasstraub2@web.de>) id 1jSogI-0006Tj-Rb
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 17:19:34 -0400
-Received: from mout.web.de ([212.227.17.11]:49365)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jSogI-0006R1-9k
- for qemu-devel@nongnu.org; Sun, 26 Apr 2020 17:19:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1587935947;
- bh=OKrJYPQYFYSKUAa7NoCdFf6KnsK6PjCuDGPnWMhKDbI=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=K7gTE+N0eYE/937499J09aZUvMxMfdMVgR7+HGSHNAY7xYR8LGXJ2tuxF5y1f0IfI
- ao5BF4SVDwje+tccA+uCAXWHkRR7vipnFIMAbBbm0xVbriePPzNQzY/ZE1nkCdlPWD
- VYrf50KQyzFUjPyoYL7Xh4Q1b4cbwuIBLTJg7aNs=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([94.134.180.69]) by smtp.web.de (mrweb101
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0MWjAd-1jiMOu151n-00Xp7P; Sun, 26
- Apr 2020 23:19:07 +0200
-Date: Sun, 26 Apr 2020 23:19:06 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v3 6/6] net/colo-compare.c: Correct ordering in complete and
- finalize
-Message-ID: <c68c18861cc47a0e600f01aa2cfef8a27a5bbe8d.1587935686.git.lukasstraub2@web.de>
-In-Reply-To: <cover.1587935686.git.lukasstraub2@web.de>
-References: <cover.1587935686.git.lukasstraub2@web.de>
+ (envelope-from <masahiroy@kernel.org>) id 1jSs5S-0008D5-Ms
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 20:57:31 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:35450)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <masahiroy@kernel.org>)
+ id 1jSs5R-0008Ck-CW
+ for qemu-devel@nongnu.org; Sun, 26 Apr 2020 20:57:30 -0400
+Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net
+ [126.90.202.47]) (authenticated)
+ by conuserg-10.nifty.com with ESMTP id 03R0v6Ni032306;
+ Mon, 27 Apr 2020 09:57:07 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 03R0v6Ni032306
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+ s=dec2015msa; t=1587949027;
+ bh=BKsLxU/QJkgECr5tRUCCS/nKrrSsN52dKdzZeqHsdko=;
+ h=From:To:Cc:Subject:Date:From;
+ b=pr0BJzp5ASc0+QCNkNSiId54VMoUsY1BDZUJ6L8xPbs4UdAwNkC5lIx0VJsdssuch
+ S7yOashRYu4C6Dzlfj0Yz5NpI8OsofHCLfWu3ENEdsoEJmRqhLD7QJXIugarfNzNRK
+ 8ej2gIVGK8Cryw9kelsEyslYXDCLuxrnaOVJVUU0ZvOXnq4zR01Wnr1whpyQIbmO9s
+ s1ApnCU6cfbrrJzAbwvaNUr/MtMVyvNsRHZdsgwtqwmnSdTy2S93vqoxgWihU1hak5
+ UW5DZeqW8UT/5ZnvQ/x3YEfKCBH/foY6F5d0yqbz/S9jRYKXiiAbCqhYklY2SwI1ku
+ px8SYsfsMcX1g==
+X-Nifty-SrcIP: [126.90.202.47]
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH] qemu-option: pass NULL rather than 0 to the id of
+ qemu_opts_set()
+Date: Mon, 27 Apr 2020 09:57:04 +0900
+Message-Id: <20200427005704.2475782-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/t=mktcj3KfGac3S5g_ptJtj";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:e97cc28SczBHZR8grl3MOyvXZzNnq2oWlTt0IbCvnTy8wj5F3ib
- p/83W/QzgWr14jkbMe42CIo4uidzQp7e6jvtHUYz0Xwo28+mV5T8CYcKTLRXzNqbEwwCqWf
- LTPxvRbvJFNm8Zk+jX/7r9KjfLzmS1ptF84gw6YahggojXoVWXF57gjTRMYpJZEhdIQtOjP
- 7G8YEDAZRSXuKdrUPOoKA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ynnV0hqCJ+s=:EOtlW70vzoGDSPOMfPABUg
- KZLNwkx1M6T1FA8kQlV7asRqZ5hI4D55D4pcgHpphw4JbHC13xrHbjIm64PUM4EQwYJTl5f0T
- 8c0uk44yuuzkTwABstTc54IeS3IO/eL1WDuqYNLI/Qt2MA8Q4+tn4d2DGx6ZMOxgBU3JaaRac
- jYe0p7Nzr+0iYLNSZ4DUMipQoPNTT4oM/ZgHijaKCjOUUvbvG083aDQSmd+k9yki1/BbsYhhw
- c57q7MDn4+vNJP3p6dGOKNA2x6lClMdZtecK5Wpqt34gUSyX5txBAspgkwJt3dzNbLcTpLb4K
- etsKpg7FxI5hT9r6MbW+DFaojLr06fbCxYEnY86ZOORJhddDBB14vj/DqPE9pQ50jqdNEwUeX
- sqBd8uqBO+fJbdCRNxJMEoEiJtzoxqPos0M9OcvP8hVfqhAFUJGa0kPwFMGe84rT61kSI4Jdu
- iyLcxDV9dBq0sDjBx84axqROCTXpxHCVl82jmUpHmhU4C6yxPu3Xt3lQZIjYH2z1aMsBwl+Qw
- oQoj4ozmPdoTyEc875uB1vqBMdt9AZoPhGPKX+HJZh6Qy4kvSIh4hsLc8XdhLITa2UlaAA2aa
- oRKzIJZAiM0sAfgsEwWZYXyDXA2DNEAsLOhIOp8albdcoAAx1L5PL5+juRMjFn9GscvnPJjil
- bVGn5UiSSjtguVdYf7BxalG2huv3J2d1AITyfU5akiGgaCrDRFY/r1azf8eTtzQNKq0A/TF+Q
- uAaCSFdFVrtbWuBoOTpglyYdyUHxshuz2Gp749+Ujcrm6A/YlIQXCjDuVvVWsnFI17Hg+/Xnb
- mt3aq7zE2oed8LsEEYgskr45NXDXWoWT13u9KvCdiH/ZY8zEUBRQ9rqSlgvdiTA5QerXeuhZx
- A6HHkyydstK+ByhZJwBfAb/iEYHHY7FI7r9NoWpKIAFWOLQkTJu9GZqEqBm8UihaNRTT6iSEj
- lBQMrVEPA7st/fWCpuCYz/RvrdDd+RC7dvSTbtif1c7wKcLZRU27ZtN5ATKPbaCdlb6zYyFVP
- A0/nzEVxo87ToeppxgdpNE0fJ8Q4mLDUll696HDL0bEF12MjRH4Aup6zw00VdVa5o1Jw6GH5Q
- fZdDqdRq6rNka1kVsbNmCg2Lkm65TGS0MoCJbTSp6Yab3F23IhLSGHF86lrCSNl8auGxMSqkf
- aIvStvoqQmcLFVL756eIF8P0DbjUE5aqcZUDuNmBrIz72c0TrBRgj7TpKRtU292e3qCYMZ7GD
- V+0ZC6TJBkV+L8zNX
-Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 17:18:55
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.11
+Content-Transfer-Encoding: 8bit
+Received-SPF: softfail client-ip=210.131.2.77;
+ envelope-from=masahiroy@kernel.org; helo=conuserg-10.nifty.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 20:57:24
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Received-From: 210.131.2.77
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,130 +62,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Li Zhijian <lizhijian@cn.fujitsu.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/t=mktcj3KfGac3S5g_ptJtj
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+The second argument 'id' is a pointer. Pass NULL rather than 0.
 
-In colo_compare_complete, insert CompareState into net_compares
-only after everything has been initialized.
-In colo_compare_finalize, remove CompareState from net_compares
-before anything is deinitialized.
-
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
- net/colo-compare.c | 47 +++++++++++++++++++++++-----------------------
- 1 file changed, 24 insertions(+), 23 deletions(-)
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index f3074ee3ff..e86dd72f02 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -1287,15 +1287,6 @@ static void colo_compare_complete(UserCreatable *uc,=
- Error **errp)
-                            s->vnet_hdr);
-     }
-=20
--    qemu_mutex_lock(&colo_compare_mutex);
--    if (!colo_compare_active) {
--        qemu_mutex_init(&event_mtx);
--        qemu_cond_init(&event_complete_cond);
--        colo_compare_active =3D true;
--    }
--    QTAILQ_INSERT_TAIL(&net_compares, s, next);
--    qemu_mutex_unlock(&colo_compare_mutex);
--
-     s->sendco.done =3D true;
-     g_queue_init(&s->sendco.send_list);
-=20
-@@ -1307,6 +1298,16 @@ static void colo_compare_complete(UserCreatable *uc,=
- Error **errp)
-                                                       connection_destroy);
-=20
-     colo_compare_iothread(s);
-+
-+    qemu_mutex_lock(&colo_compare_mutex);
-+    if (!colo_compare_active) {
-+        qemu_mutex_init(&event_mtx);
-+        qemu_cond_init(&event_complete_cond);
-+        colo_compare_active =3D true;
-+    }
-+    QTAILQ_INSERT_TAIL(&net_compares, s, next);
-+    qemu_mutex_unlock(&colo_compare_mutex);
-+
-     return;
- }
-=20
-@@ -1377,6 +1378,20 @@ static void colo_compare_finalize(Object *obj)
-     CompareState *s =3D COLO_COMPARE(obj);
-     CompareState *tmp =3D NULL;
-=20
-+    qemu_mutex_lock(&colo_compare_mutex);
-+    QTAILQ_FOREACH(tmp, &net_compares, next) {
-+        if (tmp =3D=3D s) {
-+            QTAILQ_REMOVE(&net_compares, s, next);
-+            break;
-+        }
-+    }
-+    if (QTAILQ_EMPTY(&net_compares)) {
-+        colo_compare_active =3D false;
-+        qemu_mutex_destroy(&event_mtx);
-+        qemu_cond_destroy(&event_complete_cond);
-+    }
-+    qemu_mutex_unlock(&colo_compare_mutex);
-+
-     AioContext *ctx =3D iothread_get_aio_context(s->iothread);
-     aio_context_acquire(ctx);
-     AIO_WAIT_WHILE(ctx, !s->sendco.done);
-@@ -1395,20 +1410,6 @@ static void colo_compare_finalize(Object *obj)
-=20
-     qemu_bh_delete(s->event_bh);
-=20
--    qemu_mutex_lock(&colo_compare_mutex);
--    QTAILQ_FOREACH(tmp, &net_compares, next) {
--        if (tmp =3D=3D s) {
--            QTAILQ_REMOVE(&net_compares, s, next);
--            break;
--        }
--    }
--    if (QTAILQ_EMPTY(&net_compares)) {
--        colo_compare_active =3D false;
--        qemu_mutex_destroy(&event_mtx);
--        qemu_cond_destroy(&event_complete_cond);
--    }
--    qemu_mutex_unlock(&colo_compare_mutex);
--
-     /* Release all unhandled packets after compare thead exited */
-     g_queue_foreach(&s->conn_list, colo_flush_packets, s);
-=20
---=20
-2.20.1
+ softmmu/vl.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
---Sig_/t=mktcj3KfGac3S5g_ptJtj
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 32c0047889..afd2615fb3 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3059,19 +3059,19 @@ void qemu_init(int argc, char **argv, char **envp)
+                 }
+                 break;
+             case QEMU_OPTION_kernel:
+-                qemu_opts_set(qemu_find_opts("machine"), 0, "kernel", optarg,
++                qemu_opts_set(qemu_find_opts("machine"), NULL, "kernel", optarg,
+                               &error_abort);
+                 break;
+             case QEMU_OPTION_initrd:
+-                qemu_opts_set(qemu_find_opts("machine"), 0, "initrd", optarg,
++                qemu_opts_set(qemu_find_opts("machine"), NULL, "initrd", optarg,
+                               &error_abort);
+                 break;
+             case QEMU_OPTION_append:
+-                qemu_opts_set(qemu_find_opts("machine"), 0, "append", optarg,
++                qemu_opts_set(qemu_find_opts("machine"), NULL, "append", optarg,
+                               &error_abort);
+                 break;
+             case QEMU_OPTION_dtb:
+-                qemu_opts_set(qemu_find_opts("machine"), 0, "dtb", optarg,
++                qemu_opts_set(qemu_find_opts("machine"), NULL, "dtb", optarg,
+                               &error_abort);
+                 break;
+             case QEMU_OPTION_cdrom:
+@@ -3182,7 +3182,7 @@ void qemu_init(int argc, char **argv, char **envp)
+                 }
+                 break;
+             case QEMU_OPTION_bios:
+-                qemu_opts_set(qemu_find_opts("machine"), 0, "firmware", optarg,
++                qemu_opts_set(qemu_find_opts("machine"), NULL, "firmware", optarg,
+                               &error_abort);
+                 break;
+             case QEMU_OPTION_singlestep:
+-- 
+2.25.1
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl6l+soACgkQNasLKJxd
-sliopw//ZnQwYYWfWHW6USHk55rFBVO/9ooPl6G8pL4rtUt9opeUeo4SPT8lodT2
-ezBSFwLHYGvybZq6oTQ3q2PnpKu2UsJfTdzyG5dA2e78S48zplGcvgfMGVfNGs4f
-S6Xc0CWfwrM+NY4GFn0T+ztATY/jSPC8gjpmS1kc7aEqK3C6hggCzebgMjQQShcI
-VhhB/v4zm5kog9BYMu5yroB7jiqmtv6+cShrFbEDaitGDtckvf/SSWf5v+H4ByEF
-fGiwZePM/ZtpUUJ0hpbyKZA2PEJzq4YHrq10odBI9kXSQjZImfnBVYWywteZKmSF
-s95sDKxtj92XqJAPSI5JUMT/7vms3KFqI+5VjpxhfMmeXuYzmpgmAWJ9HV8O52GP
-f7Ps2Jz7zQeHqsALJnBxnIE9V8EXE/XIz3npJ0on09BBKOTmGkCuYwVt8sNbsDNx
-b6PIao2BRyc/edvv+P1C2fbn4kc9lBjLWUJJuEpaPaZXPow/1P8sjwK39vTBIejl
-cqqVXfgvs43aSV4Hs2wZcr5V2c7SIp7xteSb3MsdK+xyfh2oWI+Te7r75iHsyc/6
-JBcxr/PGnQaZrKahiQovrHjqoxMj/8FtgoRD2OeDoKP5wmnQMsuwfu3/BHMwt9lc
-lL0357lDi6t3tO2I0BtkzIfWZMsZ8MqrOxfF8phy+SHCPrPPVZQ=
-=EryD
------END PGP SIGNATURE-----
-
---Sig_/t=mktcj3KfGac3S5g_ptJtj--
 
