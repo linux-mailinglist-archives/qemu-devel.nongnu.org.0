@@ -2,128 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 329A81B9972
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 10:10:51 +0200 (CEST)
-Received: from localhost ([::1]:56288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3158E1B9991
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Apr 2020 10:16:58 +0200 (CEST)
+Received: from localhost ([::1]:56544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jSyqn-0006dn-13
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 04:10:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43360)
+	id 1jSywi-00032V-Lw
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 04:16:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44310)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prvs=379c65f89=Anup.Patel@wdc.com>)
- id 1jSyo1-0003Gs-75
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 04:07:58 -0400
+ (envelope-from <david@redhat.com>) id 1jSyvC-0002Go-BA
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 04:15:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <prvs=379c65f89=Anup.Patel@wdc.com>)
- id 1jSynp-0001or-8W
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 04:07:57 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:65296)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=379c65f89=Anup.Patel@wdc.com>)
- id 1jSynl-0001db-S8; Mon, 27 Apr 2020 04:07:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1587974861; x=1619510861;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=CkPbWQt5m8Kp0IXCkN2oowW79G2q3mQ0lgq4R2jFUTg=;
- b=k18NtNQcb5fiGPAZfjONUvRL5R7p5R26eNd3C8/6BatloFod/S1PEJSu
- s5yncsjfCgfQLWW7qPFCZ0yJaDWNiAyCfoDYOe6nDKuJtBfp0bTXG9fRO
- CF/I3TavwJgkf29MTym6noKeeyw3plRuzxD2nV/cR6Nh/TcljHLBZBQlT
- 5IKLp/QGK8+kkHVARO1/NXeJ62h38qjY/JyQbaIBf43ur2rj+M5eTL5M5
- 83ejshLbVE8PpAQUB2rSg/qbo/Dp024T3xHAyv8fWOGp/UdJEpisiNGCJ
- T1XTJUaVvDqCwq285zwPZNQLRKaeCJVTcva6ZWF9we7Ao3TOQ0HXEwDTK w==;
-IronPort-SDR: 534lwcazxS9mN5v13DILJeVF1ocuFmir5IFvApl61ysQ9iIkGRB8xXnoMFZKjdYTBGq0irkv4c
- kdMw7g1UWATXpYBEuhazH6H3I3yVKjbY21ZnyZxbm3vSRFx0jL8w8HTDtZfA6q7so46Yec7lRV
- EW8bN6SOPdR7LmLMLD6D+A/EeDM9oZI+9mhCFKNsgghcu6aX+KihVcUPEBkggONsCW5ufk1XbH
- WlpZzIu0pTkI+akggRr4c59zHkVkQpY+LhhlbMgNb+Rq/G7yF66S54ARVAiA1XRi+IDkobgGNi
- yjc=
-X-IronPort-AV: E=Sophos;i="5.73,323,1583164800"; d="scan'208";a="245003193"
-Received: from mail-mw2nam12lp2045.outbound.protection.outlook.com (HELO
- NAM12-MW2-obe.outbound.protection.outlook.com) ([104.47.66.45])
- by ob1.hgst.iphmx.com with ESMTP; 27 Apr 2020 16:07:37 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YutnkAJeJltzFCsUl5jfLqAWwJDjGX2RELoC7noHWmlF3k273lceVMq5JI/vvXb2UKhI77M+b06/gq/QHsIFhQ3C+VV0A4Aizjr52JmLUCQQUZO6K2J3LCd0DyQ3eBXVinFjLPf5aDQnC/0Ojj6PNkFpxFUkrV3rqVpLpzsy+ChLL8QoyW1nFlnaDCCXo1A4NK/jrPpafu6/NB3U3mOZyso+OP42m7Bz3dJD+C70FOlC2G21NvHETtJGwGcFHoB8kej2Q0Vr34aWr7HSo9abZtbOLK9IDqoS7R82+DkKOSDUvXuxo4tTUydFwM3gm2igimzZzvjmLFvCLqHKSsVT3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NUAk/xq7dVqtv2rmjbGHykFpmVSVedXFCrMjaY+su+g=;
- b=cuAA6OVurW9vbf8DTkHV312lpLpD2f/OmSLTgt9PNyTZm9gZKYg4kvYzYEJfpsH9npSIarB/QAsPK4iVYmyeytqWAAxYwIxMHhcH53QgY1js1IJKnCu4D7MczMfXv3B5himIcE0q82lmSgRRrkQxm2mFYFftRNbu+JiO5alo1ErnsnIdF5zVuqMSGSZTiE5z3CGMzH0JbIlbBpLiPOrvv0AHop90UCXcyVGw7m+daBqABIQBqgd0YQ4hA22DLiPtsfdrGYUqUapYySN/nqF9G3sPV401m2cQnfmiCWmIlXlHc6k+EYwJN1BA4WkbNLU54/P2jPdx5m1E8HThT0+9fA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NUAk/xq7dVqtv2rmjbGHykFpmVSVedXFCrMjaY+su+g=;
- b=JdHjtJD/hO4Z/tZRH113B3MGYClv+GN0MeTXPRm2zjgDN3I5qXihth8nk5pYgNal1shDVryVL+bMPPKn1AqCmoMuTPHIfi5ez9ZnBErQHu00dK8F+FdJvarftZJ3d2V4L1qj3AT8f29XlIL+wcQcV7yI+DJyoGmdc3eLePjNSCQ=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Anup.Patel@wdc.com; 
-Received: from DM6PR04MB6201.namprd04.prod.outlook.com (20.178.225.224) by
- DM6PR04MB5241.namprd04.prod.outlook.com (20.178.27.155) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2937.22; Mon, 27 Apr 2020 08:07:36 +0000
-Received: from DM6PR04MB6201.namprd04.prod.outlook.com
- ([fe80::f8b3:c124:482b:52e0]) by DM6PR04MB6201.namprd04.prod.outlook.com
- ([fe80::f8b3:c124:482b:52e0%5]) with mapi id 15.20.2937.023; Mon, 27 Apr 2020
- 08:07:36 +0000
-From: Anup Patel <anup.patel@wdc.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
-Subject: [PATCH v3 3/3] hw/riscv/spike: Allow more than one CPUs
-Date: Mon, 27 Apr 2020 13:36:44 +0530
-Message-Id: <20200427080644.168461-4-anup.patel@wdc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200427080644.168461-1-anup.patel@wdc.com>
-References: <20200427080644.168461-1-anup.patel@wdc.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MAXPR0101CA0062.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a00:e::24) To DM6PR04MB6201.namprd04.prod.outlook.com
- (2603:10b6:5:127::32)
+ (envelope-from <david@redhat.com>) id 1jSyvA-0006Ua-OZ
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 04:15:21 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:49689
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jSyvA-0006S2-6K
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 04:15:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1587975318;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=8j0AEj4P75hr1qWy+FWzuE39iQkuJZyUcjiYEPXKXr0=;
+ b=Oi2bprBbU7w7+lnqbCsuUBHabb3XkOFLwFSo6Yei7O4O9ptzVgP7M59UTxaW0uzVjtfHyK
+ UtV8I/Jh6zf+E81adBu7WbIzuvghkYvghl2lLGSUmzRuqhRyTsaXBDxUdvpVH+Mz6ozNbw
+ XtNocXqtGgtFaUvc8zvQEVtGSfysF+A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-382-SKNuAOm0NMOnCnSFNqmJYg-1; Mon, 27 Apr 2020 04:15:15 -0400
+X-MC-Unique: SKNuAOm0NMOnCnSFNqmJYg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EC76872FE1;
+ Mon, 27 Apr 2020 08:15:14 +0000 (UTC)
+Received: from [10.36.114.127] (ovpn-114-127.ams2.redhat.com [10.36.114.127])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3BE0319C4F;
+ Mon, 27 Apr 2020 08:15:09 +0000 (UTC)
+Subject: Re: [PATCH v22 QEMU 3/5] virtio-balloon: Replace free page hinting
+ references to 'report' with 'hint'
+To: Alexander Duyck <alexander.duyck@gmail.com>, mst@redhat.com
+References: <20200424164239.10723.58352.stgit@localhost.localdomain>
+ <20200424165021.10723.14111.stgit@localhost.localdomain>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <7ce2bcde-7466-2764-7248-36f67bb9b573@redhat.com>
+Date: Mon, 27 Apr 2020 10:15:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from wdc.com (106.51.31.156) by
- MAXPR0101CA0062.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:e::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13 via Frontend
- Transport; Mon, 27 Apr 2020 08:07:32 +0000
-X-Mailer: git-send-email 2.25.1
-X-Originating-IP: [106.51.31.156]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 4a23e00c-8562-4140-a706-08d7ea820ba7
-X-MS-TrafficTypeDiagnostic: DM6PR04MB5241:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR04MB5241E5C238DABA6D92BAF7C58DAF0@DM6PR04MB5241.namprd04.prod.outlook.com>
-WDCIPOUTBOUND: EOP-TRUE
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-Forefront-PRVS: 0386B406AA
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR04MB6201.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(376002)(396003)(136003)(39860400002)(366004)(346002)(55236004)(16526019)(6666004)(8676002)(1006002)(54906003)(1076003)(8936002)(81156014)(186003)(478600001)(316002)(110136005)(44832011)(86362001)(5660300002)(8886007)(4326008)(26005)(2906002)(55016002)(7696005)(52116002)(66476007)(66556008)(2616005)(4744005)(36756003)(956004)(66946007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5QopnMi8HTeRHRTK3plCGYCaiphIfIDLPaneAyZqsEV5f0o5T/ccApGagLI+9/MnxsSh1Volcm/aoITr/FkyAiro48o3EkNyMmSLhrf97ZabRrjAGNkhJArHvupHkiqR9wEnsHhDk8Q5l7eZjFTwFd6TFI5+tmfHUVBgayFBmVMWIoB3mpzWECJuk1/B9xbduF0GnNYxgtDBMmyIHwVTeKhG51qJ8HvmREJyJH4y/6YPqz3cPdSMq0emhLRHtd2WW+EAYxUF1UbgtbmusuGU+uCZGgSthOso97yO7IfeTPUHEVyzsaAJjVqtpL2on5C09sfbWpSw7KLGOscDBTI18Hy074Uf+U7V2oyEBtQps2SACGtUtym6rxclAQEofa9N0KHA8oCvU6+2kJd05b3KNC96Wmqq5OjACrc00RzBtzFlwFC9yrvwbK4nosEN0xnS
-X-MS-Exchange-AntiSpam-MessageData: N8+Y7GIg4RnwxxgwrY+zZnzv2l26Hlg9TWQdb+GEE5b6QuNTI3aSDsrCCH28z8VAIUbjQhyYlcQMHqLiwxJSbyVBKKZ+HbYz+2DPeSJlfO/lgrL+CdoRoSMt3+JCFEIsiWpoJsZAkD1Gr/m0RBzrwsBYamoHEi56ZgjTQjIEpcvvCuJtg0umeiDBiEx21KpVT1o4P8CNkY5fFuW/MPft73NnYoZ0Q63eeShesgKek5HZtzkZ37lgYZLd4T/r3vOu72xZ+PjzWg6t7ZOyGTFv1+JuE24ZNrmLgr+3n0q59iKcLnGx9Ag4xVCBLVPG2VgIMtB6vHJRVgM4cC5PMtLK25ji1IOlZHK2a7vDp5ZLM7XG5FjuHsqmce+6ZkHmr/DLb+w8jAgMZYBrfYtOtS4BTATw+CIErFAG/8m5vVMnP3CTCXgppFyY+iFBrblThVF5rHAExNdmU22OCktOcoyRq3C8MDvkF3qa1Y4V9qfoO8LZ0tg4yt8Fp31o6Z38dVG0vPekFV9ng6u0RzO9AfTvIM5qX3PfCNhfQMtPTx4L4C2a9n86PXyhf7QsEObreF+BkRNj5hCroDOVkAY+s4ZD5uj8JD+6P0WTU5SkJkPyyC5IvfdYEzWfSp3VKnn6O15H/Z8/r+qU5iZbVfnz2biPXZ46mD08cXOvY0fmwZKKZuRw3c6Sz9sQYc4ExDF2reyI37Pa5u8EuvmB2/Ao3Gmki92Nj/QHjozxotrq4UA+zDr+RW0w0c/btR1MIYp5G1f4U08GsGffC3i2Bc7HuK74cku5+FnKpURAeUUXVwfgCZE=
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a23e00c-8562-4140-a706-08d7ea820ba7
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2020 08:07:36.3445 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vtsSSUlT8ah+G27a0AnKVC0+IZzTGVj0O8MWLfpQTGUloLZQQtRmCfgcKOa+N2sIA6/35YgVXh8AW8Kp/COYuA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB5241
-Received-SPF: pass client-ip=68.232.141.245;
- envelope-from=prvs=379c65f89=Anup.Patel@wdc.com; helo=esa1.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/27 04:07:37
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Received-From: 68.232.141.245
+In-Reply-To: <20200424165021.10723.14111.stgit@localhost.localdomain>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/26 23:32:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -135,37 +122,303 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Atish Patra <atish.patra@wdc.com>, Anup Patel <anup.patel@wdc.com>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org, Anup Patel <anup@brainfault.org>
+Cc: virtio-dev@lists.oasis-open.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, the upstream Spike ISA simulator allows more than
-one CPUs so we update QEMU Spike machine on similar lines to
-allow more than one CPUs.
+On 24.04.20 18:50, Alexander Duyck wrote:
+> From: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+> 
+> In an upcoming patch a feature named Free Page Reporting is about to be
+> added. In order to avoid any confusion we should drop the use of the word
+> 'report' when referring to Free Page Hinting. So what this patch does is go
+> through and replace all instances of 'report' with 'hint" when we are
+> referring to free page hinting.
+> 
+> Acked-by: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+> ---
+>  hw/virtio/virtio-balloon.c         |   74 ++++++++++++++++++------------------
+>  include/hw/virtio/virtio-balloon.h |   20 +++++-----
+>  2 files changed, 47 insertions(+), 47 deletions(-)
+> 
+> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+> index a4729f7fc930..a1d6fb52c876 100644
+> --- a/hw/virtio/virtio-balloon.c
+> +++ b/hw/virtio/virtio-balloon.c
+> @@ -466,21 +466,21 @@ static bool get_free_page_hints(VirtIOBalloon *dev)
+>              ret = false;
+>              goto out;
+>          }
+> -        if (id == dev->free_page_report_cmd_id) {
+> -            dev->free_page_report_status = FREE_PAGE_REPORT_S_START;
+> +        if (id == dev->free_page_hint_cmd_id) {
+> +            dev->free_page_hint_status = FREE_PAGE_HINT_S_START;
+>          } else {
+>              /*
+>               * Stop the optimization only when it has started. This
+>               * avoids a stale stop sign for the previous command.
+>               */
+> -            if (dev->free_page_report_status == FREE_PAGE_REPORT_S_START) {
+> -                dev->free_page_report_status = FREE_PAGE_REPORT_S_STOP;
+> +            if (dev->free_page_hint_status == FREE_PAGE_HINT_S_START) {
+> +                dev->free_page_hint_status = FREE_PAGE_HINT_S_STOP;
+>              }
+>          }
+>      }
+>  
+>      if (elem->in_num) {
+> -        if (dev->free_page_report_status == FREE_PAGE_REPORT_S_START) {
+> +        if (dev->free_page_hint_status == FREE_PAGE_HINT_S_START) {
+>              qemu_guest_free_page_hint(elem->in_sg[0].iov_base,
+>                                        elem->in_sg[0].iov_len);
+>          }
+> @@ -506,11 +506,11 @@ static void virtio_ballloon_get_free_page_hints(void *opaque)
+>          qemu_mutex_unlock(&dev->free_page_lock);
+>          virtio_notify(vdev, vq);
+>        /*
+> -       * Start to poll the vq once the reporting started. Otherwise, continue
+> +       * Start to poll the vq once the hinting started. Otherwise, continue
+>         * only when there are entries on the vq, which need to be given back.
+>         */
+>      } while (continue_to_get_hints ||
+> -             dev->free_page_report_status == FREE_PAGE_REPORT_S_START);
+> +             dev->free_page_hint_status == FREE_PAGE_HINT_S_START);
+>      virtio_queue_set_notification(vq, 1);
+>  }
+>  
+> @@ -531,14 +531,14 @@ static void virtio_balloon_free_page_start(VirtIOBalloon *s)
+>          return;
+>      }
+>  
+> -    if (s->free_page_report_cmd_id == UINT_MAX) {
+> -        s->free_page_report_cmd_id =
+> -                       VIRTIO_BALLOON_FREE_PAGE_REPORT_CMD_ID_MIN;
+> +    if (s->free_page_hint_cmd_id == UINT_MAX) {
+> +        s->free_page_hint_cmd_id =
+> +                       VIRTIO_BALLOON_FREE_PAGE_HINT_CMD_ID_MIN;
+>      } else {
+> -        s->free_page_report_cmd_id++;
+> +        s->free_page_hint_cmd_id++;
+>      }
+>  
+> -    s->free_page_report_status = FREE_PAGE_REPORT_S_REQUESTED;
+> +    s->free_page_hint_status = FREE_PAGE_HINT_S_REQUESTED;
+>      virtio_notify_config(vdev);
+>  }
+>  
+> @@ -546,18 +546,18 @@ static void virtio_balloon_free_page_stop(VirtIOBalloon *s)
+>  {
+>      VirtIODevice *vdev = VIRTIO_DEVICE(s);
+>  
+> -    if (s->free_page_report_status != FREE_PAGE_REPORT_S_STOP) {
+> +    if (s->free_page_hint_status != FREE_PAGE_HINT_S_STOP) {
+>          /*
+>           * The lock also guarantees us that the
+>           * virtio_ballloon_get_free_page_hints exits after the
+> -         * free_page_report_status is set to S_STOP.
+> +         * free_page_hint_status is set to S_STOP.
+>           */
+>          qemu_mutex_lock(&s->free_page_lock);
+>          /*
+>           * The guest hasn't done the reporting, so host sends a notification
+>           * to the guest to actively stop the reporting.
+>           */
+> -        s->free_page_report_status = FREE_PAGE_REPORT_S_STOP;
+> +        s->free_page_hint_status = FREE_PAGE_HINT_S_STOP;
+>          qemu_mutex_unlock(&s->free_page_lock);
+>          virtio_notify_config(vdev);
+>      }
+> @@ -567,15 +567,15 @@ static void virtio_balloon_free_page_done(VirtIOBalloon *s)
+>  {
+>      VirtIODevice *vdev = VIRTIO_DEVICE(s);
+>  
+> -    s->free_page_report_status = FREE_PAGE_REPORT_S_DONE;
+> +    s->free_page_hint_status = FREE_PAGE_HINT_S_DONE;
+>      virtio_notify_config(vdev);
+>  }
+>  
+>  static int
+> -virtio_balloon_free_page_report_notify(NotifierWithReturn *n, void *data)
+> +virtio_balloon_free_page_hint_notify(NotifierWithReturn *n, void *data)
+>  {
+>      VirtIOBalloon *dev = container_of(n, VirtIOBalloon,
+> -                                      free_page_report_notify);
+> +                                      free_page_hint_notify);
+>      VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+>      PrecopyNotifyData *pnd = data;
+>  
+> @@ -624,7 +624,7 @@ static size_t virtio_balloon_config_size(VirtIOBalloon *s)
+>      if (virtio_has_feature(features, VIRTIO_BALLOON_F_FREE_PAGE_HINT)) {
+>          return offsetof(struct virtio_balloon_config, poison_val);
+>      }
+> -    return offsetof(struct virtio_balloon_config, free_page_report_cmd_id);
+> +    return offsetof(struct virtio_balloon_config, free_page_hint_cmd_id);
+>  }
+>  
+>  static void virtio_balloon_get_config(VirtIODevice *vdev, uint8_t *config_data)
+> @@ -635,14 +635,14 @@ static void virtio_balloon_get_config(VirtIODevice *vdev, uint8_t *config_data)
+>      config.num_pages = cpu_to_le32(dev->num_pages);
+>      config.actual = cpu_to_le32(dev->actual);
+>  
+> -    if (dev->free_page_report_status == FREE_PAGE_REPORT_S_REQUESTED) {
+> -        config.free_page_report_cmd_id =
+> -                       cpu_to_le32(dev->free_page_report_cmd_id);
+> -    } else if (dev->free_page_report_status == FREE_PAGE_REPORT_S_STOP) {
+> -        config.free_page_report_cmd_id =
+> +    if (dev->free_page_hint_status == FREE_PAGE_HINT_S_REQUESTED) {
+> +        config.free_page_hint_cmd_id =
+> +                       cpu_to_le32(dev->free_page_hint_cmd_id);
+> +    } else if (dev->free_page_hint_status == FREE_PAGE_HINT_S_STOP) {
+> +        config.free_page_hint_cmd_id =
+>                         cpu_to_le32(VIRTIO_BALLOON_CMD_ID_STOP);
+> -    } else if (dev->free_page_report_status == FREE_PAGE_REPORT_S_DONE) {
+> -        config.free_page_report_cmd_id =
+> +    } else if (dev->free_page_hint_status == FREE_PAGE_HINT_S_DONE) {
+> +        config.free_page_hint_cmd_id =
+>                         cpu_to_le32(VIRTIO_BALLOON_CMD_ID_DONE);
+>      }
+>  
+> @@ -743,14 +743,14 @@ static int virtio_balloon_post_load_device(void *opaque, int version_id)
+>      return 0;
+>  }
+>  
+> -static const VMStateDescription vmstate_virtio_balloon_free_page_report = {
+> +static const VMStateDescription vmstate_virtio_balloon_free_page_hint = {
+>      .name = "virtio-balloon-device/free-page-report",
+>      .version_id = 1,
+>      .minimum_version_id = 1,
+>      .needed = virtio_balloon_free_page_support,
+>      .fields = (VMStateField[]) {
+> -        VMSTATE_UINT32(free_page_report_cmd_id, VirtIOBalloon),
+> -        VMSTATE_UINT32(free_page_report_status, VirtIOBalloon),
+> +        VMSTATE_UINT32(free_page_hint_cmd_id, VirtIOBalloon),
+> +        VMSTATE_UINT32(free_page_hint_status, VirtIOBalloon),
+>          VMSTATE_END_OF_LIST()
+>      }
+>  };
+> @@ -766,7 +766,7 @@ static const VMStateDescription vmstate_virtio_balloon_device = {
+>          VMSTATE_END_OF_LIST()
+>      },
+>      .subsections = (const VMStateDescription * []) {
+> -        &vmstate_virtio_balloon_free_page_report,
+> +        &vmstate_virtio_balloon_free_page_hint,
+>          NULL
+>      }
+>  };
+> @@ -797,12 +797,12 @@ static void virtio_balloon_device_realize(DeviceState *dev, Error **errp)
+>                             VIRTIO_BALLOON_F_FREE_PAGE_HINT)) {
+>          s->free_page_vq = virtio_add_queue(vdev, VIRTQUEUE_MAX_SIZE,
+>                                             virtio_balloon_handle_free_page_vq);
+> -        s->free_page_report_status = FREE_PAGE_REPORT_S_STOP;
+> -        s->free_page_report_cmd_id =
+> -                           VIRTIO_BALLOON_FREE_PAGE_REPORT_CMD_ID_MIN;
+> -        s->free_page_report_notify.notify =
+> -                                       virtio_balloon_free_page_report_notify;
+> -        precopy_add_notifier(&s->free_page_report_notify);
+> +        s->free_page_hint_status = FREE_PAGE_HINT_S_STOP;
+> +        s->free_page_hint_cmd_id =
+> +                           VIRTIO_BALLOON_FREE_PAGE_HINT_CMD_ID_MIN;
+> +        s->free_page_hint_notify.notify =
+> +                                       virtio_balloon_free_page_hint_notify;
+> +        precopy_add_notifier(&s->free_page_hint_notify);
+>          if (s->iothread) {
+>              object_ref(OBJECT(s->iothread));
+>              s->free_page_bh = aio_bh_new(iothread_get_aio_context(s->iothread),
+> @@ -827,7 +827,7 @@ static void virtio_balloon_device_unrealize(DeviceState *dev, Error **errp)
+>      if (virtio_balloon_free_page_support(s)) {
+>          qemu_bh_delete(s->free_page_bh);
+>          virtio_balloon_free_page_stop(s);
+> -        precopy_remove_notifier(&s->free_page_report_notify);
+> +        precopy_remove_notifier(&s->free_page_hint_notify);
+>      }
+>      balloon_stats_destroy_timer(s);
+>      qemu_remove_balloon_handler(s);
+> diff --git a/include/hw/virtio/virtio-balloon.h b/include/hw/virtio/virtio-balloon.h
+> index d1c968d2376e..108cff97e71a 100644
+> --- a/include/hw/virtio/virtio-balloon.h
+> +++ b/include/hw/virtio/virtio-balloon.h
+> @@ -23,7 +23,7 @@
+>  #define VIRTIO_BALLOON(obj) \
+>          OBJECT_CHECK(VirtIOBalloon, (obj), TYPE_VIRTIO_BALLOON)
+>  
+> -#define VIRTIO_BALLOON_FREE_PAGE_REPORT_CMD_ID_MIN 0x80000000
+> +#define VIRTIO_BALLOON_FREE_PAGE_HINT_CMD_ID_MIN 0x80000000
+>  
+>  typedef struct virtio_balloon_stat VirtIOBalloonStat;
+>  
+> @@ -33,20 +33,20 @@ typedef struct virtio_balloon_stat_modern {
+>         uint64_t val;
+>  } VirtIOBalloonStatModern;
+>  
+> -enum virtio_balloon_free_page_report_status {
+> -    FREE_PAGE_REPORT_S_STOP = 0,
+> -    FREE_PAGE_REPORT_S_REQUESTED = 1,
+> -    FREE_PAGE_REPORT_S_START = 2,
+> -    FREE_PAGE_REPORT_S_DONE = 3,
+> +enum virtio_balloon_free_page_hint_status {
+> +    FREE_PAGE_HINT_S_STOP = 0,
+> +    FREE_PAGE_HINT_S_REQUESTED = 1,
+> +    FREE_PAGE_HINT_S_START = 2,
+> +    FREE_PAGE_HINT_S_DONE = 3,
+>  };
+>  
+>  typedef struct VirtIOBalloon {
+>      VirtIODevice parent_obj;
+>      VirtQueue *ivq, *dvq, *svq, *free_page_vq;
+> -    uint32_t free_page_report_status;
+> +    uint32_t free_page_hint_status;
+>      uint32_t num_pages;
+>      uint32_t actual;
+> -    uint32_t free_page_report_cmd_id;
+> +    uint32_t free_page_hint_cmd_id;
+>      uint64_t stats[VIRTIO_BALLOON_S_NR];
+>      VirtQueueElement *stats_vq_elem;
+>      size_t stats_vq_offset;
+> @@ -55,7 +55,7 @@ typedef struct VirtIOBalloon {
+>      QEMUBH *free_page_bh;
+>      /*
+>       * Lock to synchronize threads to access the free page reporting related
+> -     * fields (e.g. free_page_report_status).
+> +     * fields (e.g. free_page_hint_status).
+>       */
+>      QemuMutex free_page_lock;
+>      QemuCond  free_page_cond;
+> @@ -64,7 +64,7 @@ typedef struct VirtIOBalloon {
+>       * stopped.
+>       */
+>      bool block_iothread;
+> -    NotifierWithReturn free_page_report_notify;
+> +    NotifierWithReturn free_page_hint_notify;
+>      int64_t stats_last_update;
+>      int64_t stats_poll_interval;
+>      uint32_t host_features;
+> 
 
-The maximum number of CPUs for QEMU Spike machine is kept
-same as QEMU Virt machine.
+There is only one wrong comment remaining I think. Something like
 
-Signed-off-by: Anup Patel <anup.patel@wdc.com>
----
- hw/riscv/spike.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+index a1d6fb52c8..1b2127c04c 100644
+--- a/hw/virtio/virtio-balloon.c
++++ b/hw/virtio/virtio-balloon.c
+@@ -554,8 +554,8 @@ static void virtio_balloon_free_page_stop(VirtIOBalloon *s)
+          */
+         qemu_mutex_lock(&s->free_page_lock);
+         /*
+-         * The guest hasn't done the reporting, so host sends a notification
+-         * to the guest to actively stop the reporting.
++         * The guest isn't done with hinting, so the host sends a notification
++         * to the guest to actively stop the hinting.
+          */
+         s->free_page_hint_status = FREE_PAGE_HINT_S_STOP;
+         qemu_mutex_unlock(&s->free_page_lock);
 
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index b0395e227c..1799b9291c 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -472,7 +472,7 @@ static void spike_machine_init(MachineClass *mc)
- {
-     mc->desc = "RISC-V Spike Board";
-     mc->init = spike_board_init;
--    mc->max_cpus = 1;
-+    mc->max_cpus = 8;
-     mc->is_default = true;
-     mc->default_cpu_type = SPIKE_V1_10_0_CPU;
- }
+
+
+
 -- 
-2.25.1
+Thanks,
+
+David / dhildenb
 
 
