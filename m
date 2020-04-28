@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65A491BC550
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 18:35:35 +0200 (CEST)
-Received: from localhost ([::1]:38150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A6941BC558
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 18:37:43 +0200 (CEST)
+Received: from localhost ([::1]:38366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTTCo-0000lh-A5
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 12:35:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33356)
+	id 1jTTEs-00053n-F1
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 12:37:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33462)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTT9d-0006Jm-6h
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:32:57 -0400
+ (envelope-from <stefanha@redhat.com>) id 1jTT9v-0006UV-Dl
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:33:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTT6P-00058T-LC
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:32:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51371
+ (envelope-from <stefanha@redhat.com>) id 1jTT85-0005lx-4m
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:32:35 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47791
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jTT6P-00057v-5B
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:28:57 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jTT84-0005ln-Nf
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:30:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588091336;
+ s=mimecast20190719; t=1588091438;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zt4n0XAc276GsySEUF1yfPUh1Fu8/ozRc5Qtt7YlGlU=;
- b=ABSbWZjo4PdKr178EVrNB5YSt0trpVwJBmzoLWeF7VSkmQXf95LLc/M11aibsBNg2SQ/3+
- dUpGunbdRxKFDCSmhPi9cd0PsO0hvCN0VWTXkFj915cCZbKWOz+2RMO//t+39sSgIsjU4i
- vhHxCqzyLhPx9wRvpXjLY6XF4CMSYtA=
+ bh=kAS6FxUWwaPbBIIulpdTfLEjfQ4/VTpmjP/FyRYSkT8=;
+ b=hPEbD8a1t9n9VR3/k616QJ5JG229XD6ekQcyFWQBvI7pMeHsYNrCNLFvbycT0qXLiFoeRU
+ TLGrIpN2EXWMfmVWuehWZSRXwDxV5+8yqpqRE6I2U480rilTRR33fYGO7vI2F4sRRuBdQk
+ F7GpqRmuyIk3yjGGxYNU0FFnWdL4oq0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-FxGAIbJBP9OFYYpyTmz6Gw-1; Tue, 28 Apr 2020 12:28:50 -0400
-X-MC-Unique: FxGAIbJBP9OFYYpyTmz6Gw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-7-SxipNdLMOqyoJ-6nO20MKw-1; Tue, 28 Apr 2020 12:29:28 -0400
+X-MC-Unique: SxipNdLMOqyoJ-6nO20MKw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C11D835B51;
- Tue, 28 Apr 2020 16:28:48 +0000 (UTC)
-Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 444931002398;
- Tue, 28 Apr 2020 16:28:47 +0000 (UTC)
-Subject: Re: [PATCH v7 04/10] qcow2: Support BDRV_REQ_ZERO_WRITE for truncate
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20200424125448.63318-1-kwolf@redhat.com>
- <20200424125448.63318-5-kwolf@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <6e1df4f4-366f-2612-fd18-ba916fd1a622@redhat.com>
-Date: Tue, 28 Apr 2020 11:28:46 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB918107B28B;
+ Tue, 28 Apr 2020 16:29:24 +0000 (UTC)
+Received: from localhost (ovpn-115-22.ams2.redhat.com [10.36.115.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D4004282CA;
+ Tue, 28 Apr 2020 16:29:17 +0000 (UTC)
+Date: Tue, 28 Apr 2020 17:29:16 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jag Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH RESEND v6 08/36] multi-process: Add stub functions to
+ facilitate build of multi-process
+Message-ID: <20200428162916.GC109767@stefanha-x1.localdomain>
+References: <cover.1587614626.git.elena.ufimtseva@oracle.com>
+ <647fa5bf70dbea7d2b4e47d2084dea3a66385433.1587614626.git.elena.ufimtseva@oracle.com>
+ <20200424131230.GA190507@stefanha-x1.localdomain>
+ <A0E83A03-3B01-4863-949A-F5DDC328A387@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20200424125448.63318-5-kwolf@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <A0E83A03-3B01-4863-949A-F5DDC328A387@oracle.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="/Uq4LBwYP4y1W6pO"
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 04:15:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 02:16:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,53 +78,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- vsementsov@virtuozzo.com, berto@igalia.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, fam@euphon.net,
+ swapnil.ingle@nutanix.com, John G Johnson <john.g.johnson@oracle.com>,
+ qemu-devel@nongnu.org, kraxel@redhat.com, quintela@redhat.com, mst@redhat.com,
+ armbru@redhat.com, kanth.ghatraju@oracle.com, felipe@nutanix.com,
+ thuth@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
+ dgilbert@redhat.com, liran.alon@oracle.com, pbonzini@redhat.com,
+ rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
+ thanos.makatos@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/24/20 7:54 AM, Kevin Wolf wrote:
-> If BDRV_REQ_ZERO_WRITE is set and we're extending the image, calling
-> qcow2_cluster_zeroize() with flags=0 does the right thing: It doesn't
-> undo any previous preallocation, but just adds the zero flag to all
-> relevant L2 entries. If an external data file is in use, a write_zeroes
-> request to the data file is made instead.
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->   block/qcow2-cluster.c |  2 +-
->   block/qcow2.c         | 34 ++++++++++++++++++++++++++++++++++
->   2 files changed, 35 insertions(+), 1 deletion(-)
-> 
+--/Uq4LBwYP4y1W6pO
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> +++ b/block/qcow2.c
-> @@ -1726,6 +1726,7 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
->   
->       bs->supported_zero_flags = header.version >= 3 ?
->                                  BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK : 0;
-> +    bs->supported_truncate_flags = BDRV_REQ_ZERO_WRITE;
+On Fri, Apr 24, 2020 at 09:47:56AM -0400, Jag Raman wrote:
+> > On Apr 24, 2020, at 9:12 AM, Stefan Hajnoczi <stefanha@redhat.com> wrot=
+e:
+> > On Wed, Apr 22, 2020 at 09:13:43PM -0700, elena.ufimtseva@oracle.com wr=
+ote:
+> >> diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
+> >> index f884bb6180..f74c7e927b 100644
+> >> --- a/stubs/Makefile.objs
+> >> +++ b/stubs/Makefile.objs
+> >> @@ -20,6 +20,7 @@ stub-obj-y +=3D migr-blocker.o
+> >> stub-obj-y +=3D change-state-handler.o
+> >> stub-obj-y +=3D monitor.o
+> >> stub-obj-y +=3D monitor-core.o
+> >> +stub-obj-y +=3D get-fd.o
+> >> stub-obj-y +=3D notify-event.o
+> >> stub-obj-y +=3D qtest.o
+> >> stub-obj-y +=3D replay.o
+> >=20
+> > audio.c, vl-stub.c, and xen-mapcache.c are added by this patch but not
+> > added to Makefile.objs?  Can they be removed?
+>=20
+> Hey Stefan,
+>=20
+> Sorry it=E2=80=99s not clear. but these files are referenced in Makefile.=
+target.
 
-Is this really what we want for encrypted files, or would it be better as:
+Why is the Makefile.target change not in this patch?
 
-     if (bs->encrypted) {
-         bs->supported_truncate_flags = 0;
-     } else {
-         bs->supported_truncate_flags = BDRV_REQ_ZERO_WRITE;
-     }
+Please structure patch series as logical changes that can be reviewed
+sequentially.  Not only is it hard for reviewers to understand what is
+going on but it probably also breaks bisectability if patches contain
+incomplete changes.
 
-At the qcow2 level, we can guarantee a read of 0 even for an encrypted 
-image, but is that really what we want?  Is setting the qcow2 zero flag 
-on the cluster done at the decrypted level (at which point we may be 
-leaking information about guest contents via anyone that can read the 
-qcow2 metadata) or at the encrypted level (at which point it's useless 
-information, because knowing the underlying file reads as zero still 
-decrypts into garbage)?
+> >=20
+> > This entire patch requires justification.  Stubs exist so that common
+> > code can be linked without optional features.
+> >=20
+> > For example, common code may call into kvm but that callback isn't
+> > relevant when building with kvm accelerator support (e.g. say qemu-nbd)=
+.
+> > That's where the stub function comes in.  It fulfills the dependency
+> > without dragging in the actual kvm accelerator code.
+> >=20
+> > Adding lots of stubs suggests you are building QEMU in a new way that
+> > wasn't done before (this is true and expected for this patch series).  =
+I
+> > would like to understand the reason for these stubs though.  For
+> > example, why do you need to stub audio?
+>=20
+> These stub functions are only used by the remote process, and not by
+> QEMU itself.
+>=20
+> Our goal is to ensure that the remote process is building the smallest
+> set of files necessary and these stub functions are necessary to meet
+> that goal.
+>=20
+> For example, the remote process needs to build some of the functions
+> defined in =E2=80=9Chw/core/qdev-properties-system.c=E2=80=9D. However, t=
+his file
+> depends on audio.c (references audio_state_by_name()), which is not
+> needed for the remote process. The alternative to stub functions would
+> be to compile audio.c into the remote process, but that was not necessary
+> in our judgement. When the project started out, we spent a lot of time
+> figuring out which functions/files are necessary for the remote process, =
+and
+> we stubbed out the ones which are needed to resolve dependency during
+> compilation, but not needed for functionality.
+>=20
+> audio.c is just an example of tens of other places where we needed to
+> make similar judgements.
+>=20
+> Would you prefer if we moved these stub functions into a separate
+> library (instead of stub-obj-y) which is only linked by the remote proces=
+s?
 
+It's too bad that none of these judgements were documented.  As a
+reviewer I have no idea what the justification for each individual stub
+was.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Some stubs are unavoidable but they also indicate that the code is
+tightly coupled where maybe it can be split up.  The
+qdev-properties-system.c example you mentioned sounds like something
+that should be broken up into multiple files.  Then stubs wouldn't be
+necessary.
+
+That said, adding stubs doesn't place a great burden on anyone and I
+think they can be merged.
+
+--/Uq4LBwYP4y1W6pO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6oWdwACgkQnKSrs4Gr
+c8hy0wgAwfb/db1YJ3Wh8uan2ZBvvBW3J82bOvP9LeYtVtQ2N+T8QTnRlsIzX9Cc
+x9rLoFEIUxoveQXwhDyw6qI52/1lxdBp+8ASY2MedpaDLESEwOZJey4yYoL/15Zz
+RTU7sCk45qmubB2EXgHzMu5WWuAxkyfZHq0MpCFnF3hADn5wJqHrZdYB5QhW6KNK
+oz2XyjWqdJthHUJgl2ou/3QNspQXWNWwJuzgl7Z9AvN10Rbxg+RQ+qlbpqqTQh4B
+1QHU7umUZKLu9Gh9ll1RaQBVXfRfvv5QJx2q2YPzeeYHnyO48Kmkk4ZdTRRcpFxO
+Fi7+Dt0lk+8i9lQKK9wBD//sqmjnqQ==
+=zbF/
+-----END PGP SIGNATURE-----
+
+--/Uq4LBwYP4y1W6pO--
 
 
