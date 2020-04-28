@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 976C61BBF7F
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 15:28:21 +0200 (CEST)
-Received: from localhost ([::1]:57582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52CCD1BBF85
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 15:29:35 +0200 (CEST)
+Received: from localhost ([::1]:57714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTQHc-0005OA-Ht
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 09:28:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35176)
+	id 1jTQIo-0008I3-9q
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 09:29:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35180)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jTQG1-0003BV-6e
+ (envelope-from <mreitz@redhat.com>) id 1jTQG2-0003BY-KA
  for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:26:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jTQFz-0001nI-1t
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:26:40 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27022
+ (envelope-from <mreitz@redhat.com>) id 1jTQG0-0001o1-W1
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:26:42 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39298
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jTQFy-0001mt-LY
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:26:38 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jTQG0-0001nc-Gj
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:26:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588080397;
+ s=mimecast20190719; t=1588080399;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cZLAHpoF0nFbu2Hs47YYpAqe/b62f83BB8uxlXC1y4A=;
- b=XTyj37/alB5vXrPuIlgx7/drnr5+OVT0joBuv2wEDwCk+fC4Soi3QIaeW/6z8kfFsX5yUh
- kcoUwU5rp/qxHDLJnEm80d19KqLrvRz4ymnRgUWbmEi3pOeMs6RbCOPpbluM/pBPtkxBG2
- qeB/spnBFr2aD5leagrKyYQlKcG5QaQ=
+ bh=SsHLhS49WH24+Z/XU/jsCtHVgNxsldj+VAx19rqxs08=;
+ b=flW1/jtyMtm4H1zdExx/w0/H9Hc/CZm6dzAwmrp5YRxQEk7J31qKEuRc8qluY+wNpizGPY
+ j8WCpOdkgV1ifhl0WOiLZ1At5R/d26gfRtkUsS39QM9tefbKgqpwtbusxzISWalC+iIJ2b
+ tsnh7HiL7d4G2nDMcsj2PSVhLuqJb+0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-wSI-PD4IOpuqWo5doSgm0w-1; Tue, 28 Apr 2020 09:26:36 -0400
-X-MC-Unique: wSI-PD4IOpuqWo5doSgm0w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-92-IbfqFWYWPL2-TG5DHqLKog-1; Tue, 28 Apr 2020 09:26:38 -0400
+X-MC-Unique: IbfqFWYWPL2-TG5DHqLKog-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D352835B41;
- Tue, 28 Apr 2020 13:26:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55DDD107ACF8;
+ Tue, 28 Apr 2020 13:26:37 +0000 (UTC)
 Received: from localhost (ovpn-112-143.ams2.redhat.com [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D0BA9579A9;
- Tue, 28 Apr 2020 13:26:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ECCDB60CD3;
+ Tue, 28 Apr 2020 13:26:36 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 2/4] block: Use bdrv_make_empty() where possible
-Date: Tue, 28 Apr 2020 15:26:27 +0200
-Message-Id: <20200428132629.796753-3-mreitz@redhat.com>
+Subject: [PATCH 3/4] block: Add blk_make_empty()
+Date: Tue, 28 Apr 2020 15:26:28 +0200
+Message-Id: <20200428132629.796753-4-mreitz@redhat.com>
 In-Reply-To: <20200428132629.796753-1-mreitz@redhat.com>
 References: <20200428132629.796753-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -78,55 +78,42 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Two callers of BlockDriver.bdrv_make_empty() remain that should not call
+this method directly.  Both do not have access to a BdrvChild, but they
+can use a BlockBackend, so we add this function that lets them use it.
+
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/replication.c | 6 ++----
- block/vvfat.c       | 4 +---
- 2 files changed, 3 insertions(+), 7 deletions(-)
+ include/sysemu/block-backend.h | 2 ++
+ block/block-backend.c          | 5 +++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/block/replication.c b/block/replication.c
-index da013c2041..cc6a40d577 100644
---- a/block/replication.c
-+++ b/block/replication.c
-@@ -331,9 +331,8 @@ static void secondary_do_checkpoint(BDRVReplicationStat=
-e *s, Error **errp)
-         return;
-     }
+diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.=
+h
+index d37c1244dd..14338b76dc 100644
+--- a/include/sysemu/block-backend.h
++++ b/include/sysemu/block-backend.h
+@@ -266,4 +266,6 @@ int coroutine_fn blk_co_copy_range(BlockBackend *blk_in=
+, int64_t off_in,
 =20
--    ret =3D s->active_disk->bs->drv->bdrv_make_empty(s->active_disk->bs);
-+    ret =3D bdrv_make_empty(s->active_disk, errp);
-     if (ret < 0) {
--        error_setg(errp, "Cannot make active disk empty");
-         return;
-     }
+ const BdrvChild *blk_root(BlockBackend *blk);
 =20
-@@ -343,9 +342,8 @@ static void secondary_do_checkpoint(BDRVReplicationStat=
-e *s, Error **errp)
-         return;
-     }
-=20
--    ret =3D s->hidden_disk->bs->drv->bdrv_make_empty(s->hidden_disk->bs);
-+    ret =3D bdrv_make_empty(s->hidden_disk, errp);
-     if (ret < 0) {
--        error_setg(errp, "Cannot make hidden disk empty");
-         return;
-     }
++int blk_make_empty(BlockBackend *blk, Error **errp);
++
+ #endif
+diff --git a/block/block-backend.c b/block/block-backend.c
+index 3592066b42..5d36efd32f 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -2402,3 +2402,8 @@ const BdrvChild *blk_root(BlockBackend *blk)
+ {
+     return blk->root;
  }
-diff --git a/block/vvfat.c b/block/vvfat.c
-index ab800c4887..e3020b65c8 100644
---- a/block/vvfat.c
-+++ b/block/vvfat.c
-@@ -2960,9 +2960,7 @@ static int do_commit(BDRVVVFATState* s)
-         return ret;
-     }
-=20
--    if (s->qcow->bs->drv && s->qcow->bs->drv->bdrv_make_empty) {
--        s->qcow->bs->drv->bdrv_make_empty(s->qcow->bs);
--    }
-+    bdrv_make_empty(s->qcow, NULL);
-=20
-     memset(s->used_clusters, 0, sector2cluster(s, s->sector_count));
-=20
++
++int blk_make_empty(BlockBackend *blk, Error **errp)
++{
++    return bdrv_make_empty(blk->root, errp);
++}
 --=20
 2.25.4
 
