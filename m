@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A6051BB753
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 09:19:52 +0200 (CEST)
-Received: from localhost ([::1]:44292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F9371BB761
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 09:21:29 +0200 (CEST)
+Received: from localhost ([::1]:44406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTKX0-0004mo-Mk
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 03:19:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41284)
+	id 1jTKYa-00073m-3i
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 03:21:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41312)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jTKUl-0002WT-A8
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:18:24 -0400
+ id 1jTKUt-0002Wg-4d
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:18:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jTKLN-0005wN-Vf
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:12:30 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46136)
+ id 1jTKLy-0006B5-SL
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:12:38 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:39968)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jTKLN-0005w6-J6
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:07:49 -0400
-Received: by mail-wr1-x441.google.com with SMTP id f13so23254681wrm.13
- for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 00:07:49 -0700 (PDT)
+ id 1jTKLy-0006Ab-G9
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:08:26 -0400
+Received: by mail-wm1-x341.google.com with SMTP id u16so1551948wmc.5
+ for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 00:08:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:autocrypt:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=3qKXpRO89vcsZbrKPdm5MDIoPq8CyVIGMiVlLeEIR1o=;
- b=fI1mLPFesA/F80Wic9Og3UJkSgfT3JISUxPO+J45Vwvk6G3SR+zm2AyAyRrp/3K9U6
- 0jBoPtK/RA4+r936a2iMqhCjOm72gHFDD+MYJjXM5C5MR5zFxyAiiWQueOMYkVy1NYnK
- 7knrlGFDuPaq3gyB/rip3caSmXlPW6KZWdmibf7RdOcr4skIj13AwUm6qWMmIPvK+wv6
- WjlYaL8jPZvJO21TwToSq6Ykr8ysZcj+wVnQ00woqeHIvnf1MgraEnsez5jF4o7uBv9V
- l7vrZ3skhwkjdUkzu/u+EvFQadTirc8YzgLbDooT9/L0W2cS3dSXXCMwLDcDzloqPf/T
- dtzQ==
+ bh=5oP4mmikIghGlgfWO0z7U4Amo+eBw2P2Uqr4MvxQdRg=;
+ b=jjN4GTQa9RsqJPPqOLl17St2hAwfWpT+UVDun2OkmqhsHckHKpaIJtKgjTMvrwrNQm
+ 1fQlriemo1B+zY5XUo63aJypcO4FgKAjZ7UBxQPWibAdqhz0JBjtvNgzhyjQem4A6it/
+ iApkUAo5McVa16uMfygBYux54/SfvzQG2PwuERaR2NmCWXG9PfEgagPuoJRmoMvfhlcb
+ EaGfcKpquyJAxC5P4MHGXi0M3/q/tZ/qW9UhlISLnvjd0t3CoppnQ//XU6WGmRDWiiWn
+ f1MDF9CA2cJ8xbi8KxtTM9itzbTjs38InUHVHG49eKRoGJfmp4STz+Iz2xJsRpwXI2ne
+ l2uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=3qKXpRO89vcsZbrKPdm5MDIoPq8CyVIGMiVlLeEIR1o=;
- b=Igseqt/T6sPPImW6yokt18gXlOJJACluj9OKH/52njgx32KuAsKqkVUG4EbdnUD8j/
- hID1XjZ5M2tMJwA7S/RuYNUkOSh4krWjGw3VcqTW4qUVHlcE6we6uYBzhFsaCOsQ9sRO
- jl/QGBDybHznzYzFGM3PlMxqNPR4yVgCo1ZNEZlhRdk6walyyY0IMRHJmvH9bWZNDYyH
- Zf5LTHopzxrgAt5WoFnlLYEUsE0ZXR/fNA2VyhHnU/op7ohslVW6ouELkn//UibF/i6D
- adTq1qSgZnvsteLYeM8MRT6MIW2lKnJeOv5T6vVEuSJWxlpiAXrQVPCo6fTddH/lU90Q
- 4Tnw==
-X-Gm-Message-State: AGi0PuZXTaJkbZx72GnbBalfYLjTnnOck98airDXDcxNMxnfRWkHNwgd
- y4J4aosIkMXlY81lt+wqK1jOTwj/MII=
-X-Google-Smtp-Source: APiQypJxG0J+22eg+lJHcO9lYhZtFJUe6ldJzU6OFJbW9Rj/YXtUlteuKCTCk922TJgzGsAt1Rzswg==
-X-Received: by 2002:a5d:6091:: with SMTP id w17mr30363997wrt.382.1588057667736; 
- Tue, 28 Apr 2020 00:07:47 -0700 (PDT)
+ bh=5oP4mmikIghGlgfWO0z7U4Amo+eBw2P2Uqr4MvxQdRg=;
+ b=prk/VQFl+ELCg5d6ssvK7YU5/rZGs9RftYy7pSZd3vtuHPKAxtEfMvYeLLtkRoKEWx
+ yP6cdLj9/evAnVBQ3KF244n9eMzao6nM1JgjfP7FehhDv6vIACsl6lefiQKr6kl++UUH
+ 05OAeeLIN9GuM3reyPyTFZBuBCJNDcTgKyXdmvUi29OKvM1STBPc0GWQT0+b7xobeldg
+ Y0vIt6zub8NczLm7RsSY+F22kzZfAqwikYp9RKrXOvuSIk0VUN4fgD4bEXNdRyh7ndl+
+ Ah2TukoF5/ks8p75ldC2984dOqtX0SHpNgvkvoTJWBMY+JFYkvspDpbx700kQIf/Yd+H
+ 9Kew==
+X-Gm-Message-State: AGi0PuYDMcNqKGiLFJMix5jiVbVl9hrBq3NJzyu+hDha9cpaDwg7vy4x
+ kXhGKP3LiVsQyJ9aWEEUVSCv4RIDNR4=
+X-Google-Smtp-Source: APiQypLSyqBd5yWG+WwxzuDCqnsLauhjQxG6A59iPU9NX2T/nAUEn7BE1RAhfOlkzzTZHPSFS3VNdg==
+X-Received: by 2002:a05:600c:4102:: with SMTP id
+ j2mr3068313wmi.159.1588057704649; 
+ Tue, 28 Apr 2020 00:08:24 -0700 (PDT)
 Received: from [192.168.1.39] (137.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.137])
- by smtp.gmail.com with ESMTPSA id f2sm25439113wro.59.2020.04.28.00.07.46
+ by smtp.gmail.com with ESMTPSA id j10sm2123483wmi.18.2020.04.28.00.08.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Apr 2020 00:07:46 -0700 (PDT)
-Subject: Re: [PATCH v4 6/7] wire in the dwc-hsotg (dwc2) USB host controller
- emulation
+ Tue, 28 Apr 2020 00:08:24 -0700 (PDT)
+Subject: Re: [PATCH v4 7/7] raspi2 acceptance test: add test for dwc-hsotg
+ (dwc2) USB host
 To: Paul Zimmerman <pauldzim@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
 References: <20200428022232.18875-1-pauldzim@gmail.com>
- <20200428022232.18875-7-pauldzim@gmail.com>
+ <20200428022232.18875-8-pauldzim@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Autocrypt: addr=f4bug@amsat.org; keydata=
  mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
@@ -87,21 +88,21 @@ Autocrypt: addr=f4bug@amsat.org; keydata=
  K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
  n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
  CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
-Message-ID: <17715aac-dbb0-f1dd-abe9-2f2b4524935d@amsat.org>
-Date: Tue, 28 Apr 2020 09:07:45 +0200
+Message-ID: <e7447043-0a82-fb47-5c3c-7d323a5f4421@amsat.org>
+Date: Tue, 28 Apr 2020 09:08:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200428022232.18875-7-pauldzim@gmail.com>
+In-Reply-To: <20200428022232.18875-8-pauldzim@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -119,82 +120,43 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/28/20 4:22 AM, Paul Zimmerman wrote:
-> Wire the dwc-hsotg (dwc2) emulation into Qemu
+> Add a check for functional dwc-hsotg (dwc2) USB host emulation to
+> the Raspi 2 acceptance test
 > 
 > Signed-off-by: Paul Zimmerman <pauldzim@gmail.com>
 > ---
->  hw/arm/bcm2835_peripherals.c         | 21 ++++++++++++++++++++-
->  include/hw/arm/bcm2835_peripherals.h |  3 ++-
->  2 files changed, 22 insertions(+), 2 deletions(-)
+>  tests/acceptance/boot_linux_console.py | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
 > 
-> diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-> index 5e2c832d95..3b554cfac0 100644
-> --- a/hw/arm/bcm2835_peripherals.c
-> +++ b/hw/arm/bcm2835_peripherals.c
-> @@ -128,6 +128,13 @@ static void bcm2835_peripherals_init(Object *obj)
->      sysbus_init_child_obj(obj, "mphi", &s->mphi, sizeof(s->mphi),
->                            TYPE_BCM2835_MPHI);
+> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+> index f825cd9ef5..efa4803642 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -373,13 +373,18 @@ class BootLinuxConsole(Test):
 >  
-> +    /* DWC2 */
-> +    sysbus_init_child_obj(obj, "dwc2", &s->dwc2, sizeof(s->dwc2),
-> +                          TYPE_DWC2_USB);
-> +
-> +    object_property_add_const_link(OBJECT(&s->dwc2), "dma-mr",
-> +                                   OBJECT(&s->gpu_bus_mr), &error_abort);
-> +
->      object_property_add_const_link(OBJECT(&s->gpio), "sdbus-sdhci",
->                                     OBJECT(&s->sdhci.sdbus), &error_abort);
->      object_property_add_const_link(OBJECT(&s->gpio), "sdbus-sdhost",
-> @@ -385,6 +392,19 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
->          qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
->                                 INTERRUPT_HOSTPORT));
->  
-> +    /* DWC2 */
-> +    object_property_set_bool(OBJECT(&s->dwc2), true, "realized", &err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    }
-> +
-> +    memory_region_add_subregion(&s->peri_mr, USB_OTG_OFFSET,
-> +                sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->dwc2), 0));
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->dwc2), 0,
-> +        qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
-> +                               INTERRUPT_USB));
-> +
->      create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET, 0x40);
->      create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x1000);
->      create_unimp(s, &s->a2w, "bcm2835-a2w", A2W_OFFSET, 0x1000);
-> @@ -398,7 +418,6 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
->      create_unimp(s, &s->otp, "bcm2835-otp", OTP_OFFSET, 0x80);
->      create_unimp(s, &s->dbus, "bcm2835-dbus", DBUS_OFFSET, 0x8000);
->      create_unimp(s, &s->ave0, "bcm2835-ave0", AVE0_OFFSET, 0x8000);
-> -    create_unimp(s, &s->dwc2, "dwc-usb2", USB_OTG_OFFSET, 0x1000);
->      create_unimp(s, &s->sdramc, "bcm2835-sdramc", SDRAMC_OFFSET, 0x100);
->  }
->  
-> diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
-> index 7a7a8f6141..48a0ad1633 100644
-> --- a/include/hw/arm/bcm2835_peripherals.h
-> +++ b/include/hw/arm/bcm2835_peripherals.h
-> @@ -27,6 +27,7 @@
->  #include "hw/sd/bcm2835_sdhost.h"
->  #include "hw/gpio/bcm2835_gpio.h"
->  #include "hw/timer/bcm2835_systmr.h"
-> +#include "hw/usb/hcd-dwc2.h"
->  #include "hw/misc/unimp.h"
->  
->  #define TYPE_BCM2835_PERIPHERALS "bcm2835-peripherals"
-> @@ -67,7 +68,7 @@ typedef struct BCM2835PeripheralState {
->      UnimplementedDeviceState ave0;
->      UnimplementedDeviceState bscsl;
->      UnimplementedDeviceState smi;
-> -    UnimplementedDeviceState dwc2;
-> +    DWC2State dwc2;
->      UnimplementedDeviceState sdramc;
->  } BCM2835PeripheralState;
->  
-> 
+>          self.vm.set_console()
+>          kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
+> -                               serial_kernel_cmdline[uart_id])
+> +                               serial_kernel_cmdline[uart_id] +
+> +                               ' root=/dev/mmcblk0p2 rootwait ' +
+> +                               'dwc_otg.fiq_fsm_enable=0')
+>          self.vm.add_args('-kernel', kernel_path,
+>                           '-dtb', dtb_path,
+> -                         '-append', kernel_command_line)
+> +                         '-append', kernel_command_line,
+> +                         '-device', 'usb-kbd')
+>          self.vm.launch()
+>          console_pattern = 'Kernel command line: %s' % kernel_command_line
+>          self.wait_for_console_pattern(console_pattern)
+> +        console_pattern = 'Product: QEMU USB Keyboard'
+> +        self.wait_for_console_pattern(console_pattern)
+
+Awesome, thanks for this patch!
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+>  
+>      def test_arm_raspi2_uart0(self):
+>          """
+> 
 
