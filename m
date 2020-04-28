@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5466C1BC683
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 19:22:43 +0200 (CEST)
-Received: from localhost ([::1]:41046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE001BC67A
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 19:20:51 +0200 (CEST)
+Received: from localhost ([::1]:40918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTTwQ-0008MO-AZ
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 13:22:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40292)
+	id 1jTTuc-0005lo-46
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 13:20:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40288)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frederic.konrad@adacore.com>) id 1jTTt4-00043T-4H
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 13:19:15 -0400
+ (envelope-from <frederic.konrad@adacore.com>) id 1jTTt3-000430-JF
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 13:19:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <frederic.konrad@adacore.com>) id 1jTTt2-0003ae-Lf
+ (envelope-from <frederic.konrad@adacore.com>) id 1jTTt2-0003aY-JM
  for qemu-devel@nongnu.org; Tue, 28 Apr 2020 13:19:13 -0400
-Received: from mel.act-europe.fr ([2a02:2ab8:224:1::a0a:d2]:45742
+Received: from mel.act-europe.fr ([194.98.77.210]:37241
  helo=smtp.eu.adacore.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frederic.konrad@adacore.com>)
- id 1jTTt2-0003a8-5h
+ id 1jTTt2-0003aB-18
  for qemu-devel@nongnu.org; Tue, 28 Apr 2020 13:19:12 -0400
 Received: from localhost (localhost [127.0.0.1])
- by filtered-smtp.eu.adacore.com (Postfix) with ESMTP id 4797581343;
+ by filtered-smtp.eu.adacore.com (Postfix) with ESMTP id 870218137A;
  Tue, 28 Apr 2020 19:19:10 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at eu.adacore.com
 Received: from smtp.eu.adacore.com ([127.0.0.1])
  by localhost (smtp.eu.adacore.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7n_DhTv0SgVL; Tue, 28 Apr 2020 19:19:10 +0200 (CEST)
+ with ESMTP id bN-fJuC4b0b8; Tue, 28 Apr 2020 19:19:10 +0200 (CEST)
 Received: from localhost.localdomain.localdomain
  (lfbn-tou-1-1471-22.w90-89.abo.wanadoo.fr [90.89.4.22])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp.eu.adacore.com (Postfix) with ESMTPSA id 0107B8137A;
- Tue, 28 Apr 2020 19:19:09 +0200 (CEST)
+ by smtp.eu.adacore.com (Postfix) with ESMTPSA id 525EF81353;
+ Tue, 28 Apr 2020 19:19:10 +0200 (CEST)
 From: KONRAD Frederic <frederic.konrad@adacore.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] softfloat: m68k: infinity is a valid encoding
-Date: Tue, 28 Apr 2020 19:17:57 +0200
-Message-Id: <1588094279-17913-2-git-send-email-frederic.konrad@adacore.com>
+Subject: [PATCH 2/2] target/m68k: fix gdb for m68xxx
+Date: Tue, 28 Apr 2020 19:17:58 +0200
+Message-Id: <1588094279-17913-3-git-send-email-frederic.konrad@adacore.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1588094279-17913-1-git-send-email-frederic.konrad@adacore.com>
 References: <1588094279-17913-1-git-send-email-frederic.konrad@adacore.com>
-Received-SPF: pass client-ip=2a02:2ab8:224:1::a0a:d2;
+Received-SPF: pass client-ip=194.98.77.210;
  envelope-from=frederic.konrad@adacore.com; helo=smtp.eu.adacore.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a02:2ab8:224:1::a0a:d2
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 12:46:33
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Received-From: 194.98.77.210
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,99 +59,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, alex.bennee@linaro.org,
- laurent@vivier.eu, frederic.konrad@adacore.com, philmd@redhat.com,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: philmd@redhat.com, frederic.konrad@adacore.com, alex.bennee@linaro.org,
+ laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MC68881 say about infinities (3.2.4):
+Currently "cf-core.xml" is sent to GDB when using any m68k flavor.  Thing is
+it uses the "org.gnu.gdb.coldfire.core" feature name and gdb 8.3 then expects
+a coldfire FPU instead of the default m68881 FPU.
 
-"*For the extended precision format, the most significant bit of the
-mantissa (the integer bit) is a don't care."
+This is not OK because the m68881 floats registers are 96 bits wide so it
+crashes GDB with the following error message:
 
-https://www.nxp.com/docs/en/reference-manual/MC68881UM.pdf
+(gdb) target remote localhost:7960
+Remote debugging using localhost:7960
+warning: Register "fp0" has an unsupported size (96 bits)
+warning: Register "fp1" has an unsupported size (96 bits)
+...
+Remote 'g' packet reply is too long (expected 148 bytes, got 180 bytes):    \
+  00000000000[...]0000
 
-The m68k extended format is implemented with the floatx80 and
-floatx80_invalid_encoding currently treats 0x7fff00000000000000000000 as
-an invalid encoding.  This patch fixes floatx80_invalid_encoding so it
-accepts that the most significant bit of the mantissa can be 0.
-
-This bug can be revealed with the following code which pushes extended
-infinity on the stack as a double and then reloads it as a double.  It
-should normally be converted and read back as infinity and is currently
-read back as nan:
-
-        .global _start
-        .text
-_start:
-        lea val, %a0
-        lea fp, %fp
-        fmovex (%a0), %fp0
-        fmoved %fp0, %fp@(-8)
-        fmoved %fp@(-8), %fp0
-end:
-        bra end
-
-.align 0x4
-val:
-        .fill 1, 4, 0x7fff0000
-        .fill 1, 4, 0x00000000
-        .fill 1, 4, 0x00000000
-.align 0x4
-        .fill 0x100, 1, 0
-fp:
-
--------------
+With this patch: qemu-system-m68k -M none -cpu m68020 -s -S
 
 (gdb) tar rem :1234
 Remote debugging using :1234
-_start () at main.S:5
-5              lea val, %a0
-(gdb) display $fp0
-1: $fp0 = nan(0xffffffffffffffff)
-(gdb) si
-6             lea fp, %fp
-1: $fp0 = nan(0xffffffffffffffff)
-(gdb) si
-_start () at main.S:7
-7              fmovex (%a0), %fp0
-1: $fp0 = nan(0xffffffffffffffff)
-(gdb) si
-8             fmoved %fp0, %fp@(-8)
-1: $fp0 = inf
-(gdb) si
-9             fmoved %fp@(-8), %fp0
-1: $fp0 = inf
-(gdb) si
-end () at main.S:12
-12          bra end
-1: $fp0 = nan(0xfffffffffffff800)
-(gdb) x/1xg $fp-8
-0x40000120 <val+260>:   0x7fffffffffffffff
+warning: No executable has been specified and target does not support
+determining executable automatically.  Try using the "file" command.
+0x00000000 in ?? ()
+(gdb) p $fp0
+$1 = nan(0xffffffffffffffff)
 
 Signed-off-by: KONRAD Frederic <frederic.konrad@adacore.com>
 ---
- include/fpu/softfloat.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ configure             |  2 +-
+ gdb-xml/m68k-core.xml | 29 ++++++++++++++++++++++++++++
+ target/m68k/cpu.c     | 52 ++++++++++++++++++++++++++++++++++++---------------
+ 3 files changed, 67 insertions(+), 16 deletions(-)
+ create mode 100644 gdb-xml/m68k-core.xml
 
-diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-index ecb8ba0..dc80298 100644
---- a/include/fpu/softfloat.h
-+++ b/include/fpu/softfloat.h
-@@ -688,7 +688,12 @@ static inline int floatx80_is_any_nan(floatx80 a)
- *----------------------------------------------------------------------------*/
- static inline bool floatx80_invalid_encoding(floatx80 a)
- {
-+#if defined(TARGET_M68K)
-+    return (a.low & (1ULL << 63)) == 0 && (((a.high & 0x7FFF) != 0)
-+                                           && (a.high != 0x7FFF));
-+#else
-     return (a.low & (1ULL << 63)) == 0 && (a.high & 0x7FFF) != 0;
-+#endif
+diff --git a/configure b/configure
+index 23b5e93..2b07b85 100755
+--- a/configure
++++ b/configure
+@@ -7825,7 +7825,7 @@ case "$target_name" in
+   ;;
+   m68k)
+     bflt="yes"
+-    gdb_xml_files="cf-core.xml cf-fp.xml m68k-fp.xml"
++    gdb_xml_files="cf-core.xml cf-fp.xml m68k-core.xml m68k-fp.xml"
+     TARGET_SYSTBL_ABI=common
+   ;;
+   microblaze|microblazeel)
+diff --git a/gdb-xml/m68k-core.xml b/gdb-xml/m68k-core.xml
+new file mode 100644
+index 0000000..5b092d2
+--- /dev/null
++++ b/gdb-xml/m68k-core.xml
+@@ -0,0 +1,29 @@
++<?xml version="1.0"?>
++<!-- Copyright (C) 2008 Free Software Foundation, Inc.
++
++     Copying and distribution of this file, with or without modification,
++     are permitted in any medium without royalty provided the copyright
++     notice and this notice are preserved.  -->
++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
++<feature name="org.gnu.gdb.m68k.core">
++  <reg name="d0" bitsize="32"/>
++  <reg name="d1" bitsize="32"/>
++  <reg name="d2" bitsize="32"/>
++  <reg name="d3" bitsize="32"/>
++  <reg name="d4" bitsize="32"/>
++  <reg name="d5" bitsize="32"/>
++  <reg name="d6" bitsize="32"/>
++  <reg name="d7" bitsize="32"/>
++  <reg name="a0" bitsize="32" type="data_ptr"/>
++  <reg name="a1" bitsize="32" type="data_ptr"/>
++  <reg name="a2" bitsize="32" type="data_ptr"/>
++  <reg name="a3" bitsize="32" type="data_ptr"/>
++  <reg name="a4" bitsize="32" type="data_ptr"/>
++  <reg name="a5" bitsize="32" type="data_ptr"/>
++  <reg name="fp" bitsize="32" type="data_ptr"/>
++  <reg name="sp" bitsize="32" type="data_ptr"/>
++
++  <reg name="ps" bitsize="32"/>
++  <reg name="pc" bitsize="32" type="code_ptr"/>
++
++</feature>
+diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
+index 9445fcd..72c5451 100644
+--- a/target/m68k/cpu.c
++++ b/target/m68k/cpu.c
+@@ -292,16 +292,38 @@ static void m68k_cpu_class_init(ObjectClass *c, void *data)
+     cc->tcg_initialize = m68k_tcg_init;
+ 
+     cc->gdb_num_core_regs = 18;
+-    cc->gdb_core_xml_file = "cf-core.xml";
+ 
+     dc->vmsd = &vmstate_m68k_cpu;
  }
  
- #define floatx80_zero make_floatx80(0x0000, 0x0000000000000000LL)
+-#define DEFINE_M68K_CPU_TYPE(cpu_model, initfn) \
+-    {                                           \
+-        .name = M68K_CPU_TYPE_NAME(cpu_model),  \
+-        .instance_init = initfn,                \
+-        .parent = TYPE_M68K_CPU,                \
++static void m68k_cpu_class_init_cf_core(ObjectClass *c, void *data)
++{
++    CPUClass *cc = CPU_CLASS(c);
++
++    cc->gdb_core_xml_file = "cf-core.xml";
++}
++
++#define DEFINE_M68K_CPU_TYPE_CF(model)               \
++    {                                                \
++        .name = M68K_CPU_TYPE_NAME(#model),          \
++        .instance_init = model##_cpu_initfn,         \
++        .parent = TYPE_M68K_CPU,                     \
++        .class_init = m68k_cpu_class_init_cf_core    \
++    }
++
++static void m68k_cpu_class_init_m68k_core(ObjectClass *c, void *data)
++{
++    CPUClass *cc = CPU_CLASS(c);
++
++    cc->gdb_core_xml_file = "m68k-core.xml";
++}
++
++#define DEFINE_M68K_CPU_TYPE_M68K(model)             \
++    {                                                \
++        .name = M68K_CPU_TYPE_NAME(#model),          \
++        .instance_init = model##_cpu_initfn,         \
++        .parent = TYPE_M68K_CPU,                     \
++        .class_init = m68k_cpu_class_init_m68k_core  \
+     }
+ 
+ static const TypeInfo m68k_cpus_type_infos[] = {
+@@ -314,15 +336,15 @@ static const TypeInfo m68k_cpus_type_infos[] = {
+         .class_size = sizeof(M68kCPUClass),
+         .class_init = m68k_cpu_class_init,
+     },
+-    DEFINE_M68K_CPU_TYPE("m68000", m68000_cpu_initfn),
+-    DEFINE_M68K_CPU_TYPE("m68020", m68020_cpu_initfn),
+-    DEFINE_M68K_CPU_TYPE("m68030", m68030_cpu_initfn),
+-    DEFINE_M68K_CPU_TYPE("m68040", m68040_cpu_initfn),
+-    DEFINE_M68K_CPU_TYPE("m68060", m68060_cpu_initfn),
+-    DEFINE_M68K_CPU_TYPE("m5206", m5206_cpu_initfn),
+-    DEFINE_M68K_CPU_TYPE("m5208", m5208_cpu_initfn),
+-    DEFINE_M68K_CPU_TYPE("cfv4e", cfv4e_cpu_initfn),
+-    DEFINE_M68K_CPU_TYPE("any", any_cpu_initfn),
++    DEFINE_M68K_CPU_TYPE_M68K(m68000),
++    DEFINE_M68K_CPU_TYPE_M68K(m68020),
++    DEFINE_M68K_CPU_TYPE_M68K(m68030),
++    DEFINE_M68K_CPU_TYPE_M68K(m68040),
++    DEFINE_M68K_CPU_TYPE_M68K(m68060),
++    DEFINE_M68K_CPU_TYPE_CF(m5206),
++    DEFINE_M68K_CPU_TYPE_CF(m5208),
++    DEFINE_M68K_CPU_TYPE_CF(cfv4e),
++    DEFINE_M68K_CPU_TYPE_CF(any),
+ };
+ 
+ DEFINE_TYPES(m68k_cpus_type_infos)
 -- 
 1.8.3.1
 
