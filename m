@@ -2,41 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FDF31BBFAB
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 15:36:19 +0200 (CEST)
-Received: from localhost ([::1]:58004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E03621BBFB1
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 15:37:58 +0200 (CEST)
+Received: from localhost ([::1]:58182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTQPK-0006Yc-Ig
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 09:36:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36248)
+	id 1jTQQv-0002Gw-T4
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 09:37:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36370)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jTQNc-0004eZ-Pe
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:34:39 -0400
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1jTQO6-0005af-D0
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:35:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jTQNZ-0007F4-6N
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:34:32 -0400
-Received: from relay.sw.ru ([185.231.240.75]:53528)
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1jTQO5-0007Ki-7t
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:35:02 -0400
+Received: from mail-eopbgr140123.outbound.protection.outlook.com
+ ([40.107.14.123]:55975 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jTQNY-0007Db-2Y; Tue, 28 Apr 2020 09:34:28 -0400
-Received: from dptest2.qa.sw.ru ([10.94.4.71])
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jTQNO-0005fy-8q; Tue, 28 Apr 2020 16:34:18 +0300
+ id 1jTQNy-0007Id-Fl; Tue, 28 Apr 2020 09:34:54 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kFNDDb/ybPliNVDjjiixcJigYYkkkwgicDm3g6BR5AufbJ8G0BPKepNmmMhlsLEW6BVQj9g41ZsoL2vQLR2fW3iTs9+ih6wggMwg6YhCvPP5OigArzOAyGb7Jqo/iQ3HBLyxQU3vQJv6nRQSu3lmv5BRZXo+Lxmx8jYbwDqHvFMoPlU06fI3L4nBXalWO/Nwb3nlee0qhF6XDsSS5aPQQs1lXjenorPNh00p9YfA0vYLRXdWQBXZvN6bnapenh8oUzvuXfv2doy/Wq8jUTpvNYo7jTwsEgqfDmyN9UnIgeqeAuM3vgNJwxEl3TOhrBU4Tq25a+pXSOSyw6zUP7aXOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=J7IEGIQMUhEfSfEOitrtYLbFGW7gkyhYrHtBkMl7oU4=;
+ b=AUtLlGcHpzq03yyph4BoPi5yu1iV4IYuhFZodaxAMdEgdatupWBRET5Rp1R55OnSMAluroRzDtgvai4D4iAJIuocJbgyOUmBgDyOFa0NICxLSRxG2ryYgNSzEZVZOrd1DEsqjrkMUvhE4kwS57Q0mTVj7VWZbpQUBN9mwlyNz+ob6QzCD4XOfxkLgu2mZzoG4QoDbO7SQ8/LPNqsqpj2i/KlpXbS4XzYJsVjQL9xH1k74WkvsRx+lvbfBF5V8LarCAXGxRWKxcUHMWW0mN1940u90Rq2Tn2phHiNTaLdyFKIoT07/b1o4WpSgKWHyz+R7H7MpkQS2uWctZba8rBa7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=J7IEGIQMUhEfSfEOitrtYLbFGW7gkyhYrHtBkMl7oU4=;
+ b=UrPLIhvVX1RCB0PVC9vkU4HV+R0rUsm+1f7LCKjlf0kWATYcPIQoUoobRSMZ2O8jGc4RQlFtsXtWn1nSolfWBfK85ysQ00y5V3aimBlpT2oXTdpI75cPDo6xly4Arr2D7HhX3Ab+ykDrVjjDwH8HepmZEhj7WmkS1+G3xPrOeoE=
+Authentication-Results: igalia.com; dkim=none (message not signed)
+ header.d=none;igalia.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM0PR08MB3745.eurprd08.prod.outlook.com (2603:10a6:208:ff::27)
+ by AM0PR08MB4227.eurprd08.prod.outlook.com (2603:10a6:208:13d::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.19; Tue, 28 Apr
+ 2020 13:34:51 +0000
+Received: from AM0PR08MB3745.eurprd08.prod.outlook.com
+ ([fe80::95e6:1da8:1244:d16f]) by AM0PR08MB3745.eurprd08.prod.outlook.com
+ ([fe80::95e6:1da8:1244:d16f%4]) with mapi id 15.20.2937.023; Tue, 28 Apr 2020
+ 13:34:50 +0000
+Subject: Re: [PATCH v20 4/4] iotests: 287: add qcow2 compression type test
+To: Eric Blake <eblake@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200421081117.7595-1-dplotnikov@virtuozzo.com>
+ <20200421081117.7595-5-dplotnikov@virtuozzo.com>
+ <c0fdc097-dabd-4661-fce9-a63a24a8d792@redhat.com>
+ <64471c60-6bdd-fc7a-2dec-ff480137fec8@virtuozzo.com>
+ <f96f8020-2c39-3676-3bff-d35038f6e3df@redhat.com>
+ <639fc953-3e01-6ff8-460e-5f571ffca48f@redhat.com>
 From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v21 4/4] iotests: 287: add qcow2 compression type test
-Date: Tue, 28 Apr 2020 16:34:07 +0300
-Message-Id: <20200428133407.10657-5-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20200428133407.10657-1-dplotnikov@virtuozzo.com>
-References: <20200428133407.10657-1-dplotnikov@virtuozzo.com>
-Received-SPF: pass client-ip=185.231.240.75;
- envelope-from=dplotnikov@virtuozzo.com; helo=relay.sw.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 09:34:25
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Received-From: 185.231.240.75
+Message-ID: <ddd2c369-af24-e6c4-14a1-4d7beb294c82@virtuozzo.com>
+Date: Tue, 28 Apr 2020 16:34:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+In-Reply-To: <639fc953-3e01-6ff8-460e-5f571ffca48f@redhat.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: AM3PR05CA0117.eurprd05.prod.outlook.com
+ (2603:10a6:207:2::19) To AM0PR08MB3745.eurprd08.prod.outlook.com
+ (2603:10a6:208:ff::27)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.64] (178.34.151.204) by
+ AM3PR05CA0117.eurprd05.prod.outlook.com (2603:10a6:207:2::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2937.13 via Frontend Transport; Tue, 28 Apr 2020 13:34:49 +0000
+X-Originating-IP: [178.34.151.204]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d6df4b13-8e77-47b9-90b8-08d7eb78ed46
+X-MS-TrafficTypeDiagnostic: AM0PR08MB4227:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM0PR08MB4227C47A98D2BB71DA8653DDCFAC0@AM0PR08MB4227.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
+X-Forefront-PRVS: 0387D64A71
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM0PR08MB3745.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(376002)(346002)(366004)(39840400004)(396003)(136003)(5660300002)(16576012)(110136005)(66946007)(66556008)(4744005)(31686004)(316002)(66476007)(2616005)(956004)(2906002)(31696002)(6486002)(52116002)(26005)(36756003)(8676002)(186003)(8936002)(16526019)(4326008)(81156014)(86362001)(53546011)(478600001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 47/EDQQqk8BdyHo4ZZIn6Xd9lDtaDg9HRRsKtSZGF1kFBKiwp5Mg2+l1VUN0DrE06+0BxJiiSPFj4JzKlNknV04OWOCD5hlBgi2PP3DW1FQJjxHMXZRnHl0tnG9uBJPQHPNQXKdZAcLhPCsc4RFJ8G1OO2fdc5umiGM7TnLVRxPlYDY34Hw8ilUw8CrFjDk9F5f3Objh8XdZ2J+Pvpe4z7RygmRxekmEPbVjHNhBqnvxD2XGLaRW2evbRM/25TO2WI+R53HgAZa0SFfHwbNb2qK4s3CXbctNrVgzCv0NBTPVb4JXfDc9FgtZLoB6EZYKX6wWD/YEz0iEAqmInThRS4DMkIJILUaNV0xSnR816FtoRVjuxWOiDBpzhDtsiRf/v2ob4vpCmnrJmUxNT6Yq4g+8Q5RU/7pwcabhQVezxEbpdtCCH3CBFGeh2ASdTRev
+X-MS-Exchange-AntiSpam-MessageData: 0s4bsxvWVLM5Bdm5LvtqMyu4yWSfo6LslFr28+52SGz6IE3sb82bOkRZQXNVvh9yuRGAGO2Ar4Dwf1nBJ8toWGFtbpzx5BHQeQmFn52uhcbevMvvzC9V57CV41ncLu3Ix/Q1USUrMacoN0aOBtlqkH7fkauYQTo4ueCPEkV3Dmsmn+I0ZXDCESicIKbuWMxo/DHeFxJV//Q/Me/6M2GxSIj7qlbUC9Tn3OHUJiVgS4vcJQFix2MZHdsNv+00Z6ypFImV3lHir8fJoPRixMWtascZhWsDVUl2TeB7W2N15wJIueRiEF5UJ3zT1gAWR/mO6nly0ChRe5b+QLF/doAybsm/1sejdw/s02OWgoLrEkJ4BncFz96cY8OCObCL4ah4ipyCeCcqF+pS7XA+TgjF9wM2X3ePTaWWKyZwVnkDT59/VWFAEVHQ87ZUHVBDPSkwiA0Q8vNITmiUgxEY1/dBBWSGcmQj6N7PzCNhcyCZ3SAZwTAPF+vjMe4TEWBbmUompUxd3cJ56uCyjQRnPAFqQ3n9oZr3dGdRuBj1dyJsVhMyvjwh6UmEORBrXY7aD2uyQ+550y6Qc1REps7Rtxt8o+Ox4rNHDGg4iI1wQ/qEJdC4sdq6V9m6tVzKOkN0UOzKHPWL2kCcb3hGsiZf/gygQ6pPsMsBS3DHlSXkZ4/5UY+vuwVqgPygl+UTbSupfdBKzfn6kn8iCE2dBLyEuXSE+zaU6RbtcHJwaIZNFbSNl4Ff3GmOZ2k1IzQdrac9kxFWku0COgeva6xIZRV9UZbBKljHwcLOrmCOcEHJ9Oo+lUs=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d6df4b13-8e77-47b9-90b8-08d7eb78ed46
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2020 13:34:50.7740 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: J5G5DrYBHYgYbK9f9bGZCj3npxr+LibLpqByQOKdUN+LID2UJqPt/4cgyELkjmEUZw2Z/+XRUz/ErtZ+3/fL2MfWpTS5tHkYaTf1+WYZIew=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4227
+Received-SPF: pass client-ip=40.107.14.123;
+ envelope-from=dplotnikov@virtuozzo.com;
+ helo=EUR01-VE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 09:34:52
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Received-From: 40.107.14.123
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,276 +117,39 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
- qemu-block@nongnu.org, armbru@redhat.com, mreitz@redhat.com, den@openvz.org
+ qemu-block@nongnu.org, armbru@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test checks fulfilling qcow2 requirements for the compression
-type feature and zstd compression type operability.
 
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Tested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- slirp                      |   2 +-
- tests/qemu-iotests/287     | 152 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/287.out |  67 ++++++++++++++++
- tests/qemu-iotests/group   |   1 +
- 4 files changed, 221 insertions(+), 1 deletion(-)
- create mode 100755 tests/qemu-iotests/287
- create mode 100644 tests/qemu-iotests/287.out
 
-diff --git a/slirp b/slirp
-index 2faae0f778..55ab21c9a3 160000
---- a/slirp
-+++ b/slirp
-@@ -1 +1 @@
--Subproject commit 2faae0f778f818fadc873308f983289df697eb93
-+Subproject commit 55ab21c9a36852915b81f1b41ebaf3b6509dd8ba
-diff --git a/tests/qemu-iotests/287 b/tests/qemu-iotests/287
-new file mode 100755
-index 0000000000..21fe1f19f5
---- /dev/null
-+++ b/tests/qemu-iotests/287
-@@ -0,0 +1,152 @@
-+#!/usr/bin/env bash
-+#
-+# Test case for an image using zstd compression
-+#
-+# Copyright (c) 2020 Virtuozzo International GmbH
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=dplotnikov@virtuozzo.com
-+
-+seq="$(basename $0)"
-+echo "QA output created by $seq"
-+
-+status=1	# failure is the default!
-+
-+# standard environment
-+. ./common.rc
-+. ./common.filter
-+
-+# This tests qocw2-specific low-level functionality
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+_unsupported_imgopts 'compat=0.10' data_file
-+
-+COMPR_IMG="$TEST_IMG.compressed"
-+RAND_FILE="$TEST_DIR/rand_data"
-+
-+_cleanup()
-+{
-+	_rm_test_img
-+	rm -f "$COMPR_IMG"
-+	rm -f "$RAND_FILE"
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# for all the cases
-+CLUSTER_SIZE=65536
-+
-+# Check if we can run this test.
-+if IMGOPTS='compression_type=zstd' _make_test_img 64M |
-+    grep "Invalid parameter 'zstd'"; then
-+    _notrun "ZSTD is disabled"
-+fi
-+
-+echo
-+echo "=== Testing compression type incompatible bit setting for zlib ==="
-+echo
-+_make_test_img -o compression_type=zlib 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+echo
-+echo "=== Testing compression type incompatible bit setting for zstd ==="
-+echo
-+_make_test_img -o compression_type=zstd 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+echo
-+echo "=== Testing zlib with incompatible bit set ==="
-+echo
-+_make_test_img -o compression_type=zlib 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-feature-bit incompatible 3
-+# to make sure the bit was actually set
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+if $QEMU_IMG info "$TEST_IMG" >/dev/null 2>&1 ; then
-+    echo "Error: The image opened successfully. The image must not be opened."
-+fi
-+
-+echo
-+echo "=== Testing zstd with incompatible bit unset ==="
-+echo
-+_make_test_img -o compression_type=zstd 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-header incompatible_features 0
-+# to make sure the bit was actually unset
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+if $QEMU_IMG info "$TEST_IMG" >/dev/null 2>&1 ; then
-+    echo "Error: The image opened successfully. The image must not be opened."
-+fi
-+
-+echo
-+echo "=== Testing compression type values ==="
-+echo
-+# zlib=0
-+_make_test_img -o compression_type=zlib 64M
-+peek_file_be "$TEST_IMG" 104 1
-+echo
-+
-+# zstd=1
-+_make_test_img -o compression_type=zstd 64M
-+peek_file_be "$TEST_IMG" 104 1
-+echo
-+
-+echo
-+echo "=== Testing simple reading and writing with zstd ==="
-+echo
-+_make_test_img -o compression_type=zstd 64M
-+$QEMU_IO -c "write -c -P 0xAC 64K 64K " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAC 64K 64K " "$TEST_IMG" | _filter_qemu_io
-+# read on the cluster boundaries
-+$QEMU_IO -c "read -v 131070 8 " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -v 65534 8" "$TEST_IMG" | _filter_qemu_io
-+
-+echo
-+echo "=== Testing adjacent clusters reading and writing with zstd ==="
-+echo
-+_make_test_img -o compression_type=zstd 64M
-+$QEMU_IO -c "write -c -P 0xAB 0 64K " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "write -c -P 0xAC 64K 64K " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "write -c -P 0xAD 128K 64K " "$TEST_IMG" | _filter_qemu_io
-+
-+$QEMU_IO -c "read -P 0xAB 0 64k " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAC 64K 64k " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAD 128K 64k " "$TEST_IMG" | _filter_qemu_io
-+
-+echo
-+echo "=== Testing incompressible cluster processing with zstd ==="
-+echo
-+# create a 2M image and fill it with 1M likely incompressible data
-+# and 1M compressible data
-+dd if=/dev/urandom of="$RAND_FILE" bs=1M count=1 seek=1
-+QEMU_IO_OPTIONS="$QEMU_IO_OPTIONS_NO_FMT" \
-+$QEMU_IO -f raw -c "write -P 0xFA 0 1M" "$RAND_FILE" | _filter_qemu_io
-+
-+$QEMU_IMG convert -f raw -O $IMGFMT -c \
-+-o "$(_optstr_add "$IMGOPTS" "compression_type=zlib")" "$RAND_FILE" \
-+"$TEST_IMG" | _filter_qemu_io
-+
-+$QEMU_IMG convert -O $IMGFMT -c \
-+-o "$(_optstr_add "$IMGOPTS" "compression_type=zstd")" "$TEST_IMG" \
-+"$COMPR_IMG" | _filter_qemu_io
-+
-+$QEMU_IMG compare "$TEST_IMG" "$COMPR_IMG"
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/287.out b/tests/qemu-iotests/287.out
-new file mode 100644
-index 0000000000..6b9dfb4af0
---- /dev/null
-+++ b/tests/qemu-iotests/287.out
-@@ -0,0 +1,67 @@
-+QA output created by 287
-+
-+=== Testing compression type incompatible bit setting for zlib ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type incompatible bit setting for zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zlib with incompatible bit set  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zstd with incompatible bit unset  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type values  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   0
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   1
-+
-+=== Testing simple reading and writing with zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+wrote 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0001fffe:  ac ac 00 00 00 00 00 00  ........
-+read 8/8 bytes at offset 131070
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0000fffe:  00 00 ac ac ac ac ac ac  ........
-+read 8/8 bytes at offset 65534
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=== Testing adjacent clusters reading and writing with zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+wrote 65536/65536 bytes at offset 0
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 65536/65536 bytes at offset 131072
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 0
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 131072
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=== Testing incompressible cluster processing with zstd ===
-+
-+1+0 records in
-+1+0 records out
-+wrote 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+Images are identical.
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 435dccd5af..3bbe02c88d 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -294,6 +294,7 @@
- 283 auto quick
- 284 rw
- 286 rw quick
-+287 auto quick
- 288 quick
- 289 rw quick
- 290 rw auto quick
--- 
-2.17.0
+On 28.04.2020 16:01, Eric Blake wrote:
+> On 4/28/20 7:55 AM, Max Reitz wrote:
+>
+>>>>> +# This tests qocw2-specific low-level functionality
+>>>>> +_supported_fmt qcow2
+>>>>> +_supported_proto file
+>>>>> +_supported_os Linux
+>>>> This test doesn’t work with compat=0.10 (because we can’t store a
+>>>> non-default compression type there) or data_file (because those don’t
+>>>> support compression), so those options should be marked as 
+>>>> unsupported.
+>>>>
+>>>> (It does seem to work with any refcount_bits, though.)
+>>>
+>>> Could I ask how to achieve that?
+>>> I can't find any _supported_* related.
+>>
+>>
+>> It’s _unsupported_imgopts.
+>
+> Test 036 is an example of this.
+Max, Eric
+
+Thanks!
+
+Denis
+>
+>
 
 
