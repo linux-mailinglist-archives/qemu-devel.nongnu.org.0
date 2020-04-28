@@ -2,75 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F25141BCB7D
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 20:58:05 +0200 (CEST)
-Received: from localhost ([::1]:45386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC6D1BCBB2
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 20:59:55 +0200 (CEST)
+Received: from localhost ([::1]:45518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTVQi-0000Lu-FD
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 14:58:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54356)
+	id 1jTVSU-0003ay-7u
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 14:59:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54646)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frasse.iglesias@gmail.com>) id 1jTVPT-0007vJ-Or
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 14:56:56 -0400
+ (envelope-from <jag.raman@oracle.com>) id 1jTVRJ-0002Op-K9
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 14:58:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <frasse.iglesias@gmail.com>) id 1jTVP0-0007iY-46
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 14:56:47 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:35968)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1jTVOz-0007h2-Mr; Tue, 28 Apr 2020 14:56:17 -0400
-Received: by mail-lj1-x244.google.com with SMTP id u15so22642382ljd.3;
- Tue, 28 Apr 2020 11:56:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=3WQb39qb3qFPRCFp9//hGfhfcbKualdj6DWguugT4sM=;
- b=PS5mzIT9W6+NMGb46exgifnv5s6PWmaslFSwUXObkx7oNYuse7FIovkhjf7woJ4PxV
- wKog6MpJfvaVFuJqbf/wdqtmJs8SY9j73H2qsGikzPMEVlpNRJEuSrzHpGxKvAXCa1fb
- UTLD8GHgiJUeBFA14sEOPHN+F9ph1iDZoCKAN8K0sGrRUe2JmC9FVYhatwgU2BReMr21
- ouz5VSEL2WGEYCrGCMj3PFYzFHPzmpeBsf5Fnu1bJAdi+XVQGRlSVrhAbfmnV0SE7XiJ
- nbGNIeaO0Z7O5IM8CtHbq5vWhnw++kovMRR36dR507RnF1Fu0BwG4dihpG2a693wUltg
- B3zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=3WQb39qb3qFPRCFp9//hGfhfcbKualdj6DWguugT4sM=;
- b=mLX2EJWV96DbHMsbbVvp6GDR+LeiQWngpEW9uuTV+uIDrwFpMlgitxhnWshPAwrd9N
- 5EXWGURh5NPymcgal3FIZwlZmnCUU5zt56bYY0rBo0p9tKn3+gQHdPUgikW93MEFCmjt
- 2Tq+eFJs3VDaNPtNEjAObTGkx6wyjlQ7HRTnRbe3OCWs12SQY1NXnZpnFmPI4XsQQsb+
- 2kRyx2/pYQJ2JEFuL6RUcg4rPofPzmT/oUB788dzTQA89AmFQZyvmww5PPulqZrWSJuE
- HVu0j03QqrpS7Ns7dyHwrax5v8IFaghmrwryS13wPOLhn/C+rlvFZcAhaODVPKyW7plr
- UvNg==
-X-Gm-Message-State: AGi0PuZEq6PFK7PTcY/OyaX/Y2zBh9lJykiUCX1h+q5fl4wa9UHWQWIp
- oB56hUGgM84JMJvvgSPGGV0=
-X-Google-Smtp-Source: APiQypLjU9FWBw0yIoL+8MYsOiEH/p3XvOwKJeJL4GGlAnVPlh3DSR5WB4PTc06IczbFzaFh6VhgQw==
-X-Received: by 2002:a2e:90c9:: with SMTP id o9mr16614941ljg.187.1588100175013; 
- Tue, 28 Apr 2020 11:56:15 -0700 (PDT)
-Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
- by smtp.gmail.com with ESMTPSA id
- j22sm77869lfg.96.2020.04.28.11.56.13
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 28 Apr 2020 11:56:14 -0700 (PDT)
-Date: Tue, 28 Apr 2020 20:56:12 +0200
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-To: Vikram Garhwal <fnu.vikram@xilinx.com>
-Subject: Re: [PATCH v3 2/4] xlnx-zynqmp: Connect Xilinx ZynqMP CAN controller
-Message-ID: <20200428185611.qn4nolfq2zklahxm@fralle-msi>
-References: <1587603369-14644-1-git-send-email-fnu.vikram@xilinx.com>
- <1587603369-14644-3-git-send-email-fnu.vikram@xilinx.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1587603369-14644-3-git-send-email-fnu.vikram@xilinx.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-Received-SPF: pass client-ip=2a00:1450:4864:20::244;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x244.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::244
+ (envelope-from <jag.raman@oracle.com>) id 1jTVRH-0008Rm-HG
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 14:58:41 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:48882)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1jTVRG-0008RN-UX
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 14:58:39 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03SItQZY087917;
+ Tue, 28 Apr 2020 18:58:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2020-01-29; bh=Np6cJns2fxd64mDpT7hXl77uKHuZ04a3jiK7qrjMnWw=;
+ b=uOaQIMEoPKmhOZFAZRnTHU9o8RcXC8cupV5Q+LGt/ZDo1GtUCD3wyqM4zAt/xP6PS5YY
+ bS5UqO3TI/QjbIK30jdx+BKBf8GHAH1FpJu3Vs6MlJMvuPOZEgtav4RiEjxMwqiZGiy8
+ c+i8SJOXw03CCT+D/17cBOceCquIumsQV4b8rusDf3qlHYjgPKuAOchW4hz3uQyck8Dq
+ R+RY4kD68AXInOR1zM+onWfdfPFtNEJfXrZyCIT4QIvbWtS7Us3s82knhO/JqaxhpzwC
+ +NFM2k8KPVlSL+BontasCC9CpwFB1dftBnaOYz6Wp7My7O+KyRV3HQowjWajPdayZA6Q JQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2120.oracle.com with ESMTP id 30p2p077d5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 28 Apr 2020 18:58:27 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03SIuft5157866;
+ Tue, 28 Apr 2020 18:58:27 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 30mxpgqq61-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 28 Apr 2020 18:58:27 +0000
+Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 03SIwOvf030456;
+ Tue, 28 Apr 2020 18:58:24 GMT
+Received: from dhcp-10-39-193-143.vpn.oracle.com (/10.39.193.143)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 28 Apr 2020 11:58:23 -0700
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.1\))
+Subject: Re: [PATCH RESEND v6 08/36] multi-process: Add stub functions to
+ facilitate build of multi-process
+From: Jag Raman <jag.raman@oracle.com>
+In-Reply-To: <20200428162916.GC109767@stefanha-x1.localdomain>
+Date: Tue, 28 Apr 2020 14:58:21 -0400
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <DDBFBA4D-9922-4D60-B761-A8199F09CC90@oracle.com>
+References: <cover.1587614626.git.elena.ufimtseva@oracle.com>
+ <647fa5bf70dbea7d2b4e47d2084dea3a66385433.1587614626.git.elena.ufimtseva@oracle.com>
+ <20200424131230.GA190507@stefanha-x1.localdomain>
+ <A0E83A03-3B01-4863-949A-F5DDC328A387@oracle.com>
+ <20200428162916.GC109767@stefanha-x1.localdomain>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+X-Mailer: Apple Mail (2.3445.9.1)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9605
+ signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ malwarescore=0
+ mlxscore=0 bulkscore=0 adultscore=0 phishscore=0 suspectscore=4
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004280150
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9605
+ signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ phishscore=0 clxscore=1015
+ bulkscore=0 adultscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0
+ mlxscore=0 suspectscore=4 mlxlogscore=999 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004280149
+Received-SPF: pass client-ip=156.151.31.85; envelope-from=jag.raman@oracle.com;
+ helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 12:23:09
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Received-From: 156.151.31.85
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,119 +99,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- "open list:Xilinx ZynqMP" <qemu-arm@nongnu.org>, qemu-devel@nongnu.org,
- Alistair Francis <alistair@alistair23.me>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, fam@euphon.net,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ John G Johnson <john.g.johnson@oracle.com>, qemu-devel@nongnu.org,
+ kraxel@redhat.com, quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ liran.alon@oracle.com, thanos.makatos@nutanix.com, rth@twiddle.net,
+ kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Vikram,
 
-A couple of more comments:
 
-On the git summary:
-s/controller/controllers/
+> On Apr 28, 2020, at 12:29 PM, Stefan Hajnoczi <stefanha@redhat.com> =
+wrote:
+>=20
+> On Fri, Apr 24, 2020 at 09:47:56AM -0400, Jag Raman wrote:
+>>> On Apr 24, 2020, at 9:12 AM, Stefan Hajnoczi <stefanha@redhat.com> =
+wrote:
+>>> On Wed, Apr 22, 2020 at 09:13:43PM -0700, elena.ufimtseva@oracle.com =
+wrote:
+>>>> diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
+>>>> index f884bb6180..f74c7e927b 100644
+>>>> --- a/stubs/Makefile.objs
+>>>> +++ b/stubs/Makefile.objs
+>>>> @@ -20,6 +20,7 @@ stub-obj-y +=3D migr-blocker.o
+>>>> stub-obj-y +=3D change-state-handler.o
+>>>> stub-obj-y +=3D monitor.o
+>>>> stub-obj-y +=3D monitor-core.o
+>>>> +stub-obj-y +=3D get-fd.o
+>>>> stub-obj-y +=3D notify-event.o
+>>>> stub-obj-y +=3D qtest.o
+>>>> stub-obj-y +=3D replay.o
+>>>=20
+>>> audio.c, vl-stub.c, and xen-mapcache.c are added by this patch but =
+not
+>>> added to Makefile.objs?  Can they be removed?
+>>=20
+>> Hey Stefan,
+>>=20
+>> Sorry it=E2=80=99s not clear. but these files are referenced in =
+Makefile.target.
+>=20
+> Why is the Makefile.target change not in this patch?
+>=20
+> Please structure patch series as logical changes that can be reviewed
+> sequentially.  Not only is it hard for reviewers to understand what is
+> going on but it probably also breaks bisectability if patches contain
+> incomplete changes.
 
-On [2020 Apr 22] Wed 17:56:07, Vikram Garhwal wrote:
-> Connect CAN0 and CAN1 to ZCU102 board.
+Hi Stefan,
 
-Perhaps also:
-s/to ZCU102 board/on the ZynqMP/
+We grouped all the stubs into a separate patch for ease of review. If =
+you=E2=80=99re finding
+it hard to review this way, we=E2=80=99ll modify to ensure that the =
+Makefile changes go along
+with the stubs.
 
-(even though zcu102 is the only board using it at the moment).
+--
+Jag
 
-Best regards,
-Francisco
+>=20
+>>>=20
+>>> This entire patch requires justification.  Stubs exist so that =
+common
+>>> code can be linked without optional features.
+>>>=20
+>>> For example, common code may call into kvm but that callback isn't
+>>> relevant when building with kvm accelerator support (e.g. say =
+qemu-nbd).
+>>> That's where the stub function comes in.  It fulfills the dependency
+>>> without dragging in the actual kvm accelerator code.
+>>>=20
+>>> Adding lots of stubs suggests you are building QEMU in a new way =
+that
+>>> wasn't done before (this is true and expected for this patch =
+series).  I
+>>> would like to understand the reason for these stubs though.  For
+>>> example, why do you need to stub audio?
+>>=20
+>> These stub functions are only used by the remote process, and not by
+>> QEMU itself.
+>>=20
+>> Our goal is to ensure that the remote process is building the =
+smallest
+>> set of files necessary and these stub functions are necessary to meet
+>> that goal.
+>>=20
+>> For example, the remote process needs to build some of the functions
+>> defined in =E2=80=9Chw/core/qdev-properties-system.c=E2=80=9D. =
+However, this file
+>> depends on audio.c (references audio_state_by_name()), which is not
+>> needed for the remote process. The alternative to stub functions =
+would
+>> be to compile audio.c into the remote process, but that was not =
+necessary
+>> in our judgement. When the project started out, we spent a lot of =
+time
+>> figuring out which functions/files are necessary for the remote =
+process, and
+>> we stubbed out the ones which are needed to resolve dependency during
+>> compilation, but not needed for functionality.
+>>=20
+>> audio.c is just an example of tens of other places where we needed to
+>> make similar judgements.
+>>=20
+>> Would you prefer if we moved these stub functions into a separate
+>> library (instead of stub-obj-y) which is only linked by the remote =
+process?
+>=20
+> It's too bad that none of these judgements were documented.  As a
+> reviewer I have no idea what the justification for each individual =
+stub
+> was.
+>=20
+> Some stubs are unavoidable but they also indicate that the code is
+> tightly coupled where maybe it can be split up.  The
+> qdev-properties-system.c example you mentioned sounds like something
+> that should be broken up into multiple files.  Then stubs wouldn't be
+> necessary.
+>=20
+> That said, adding stubs doesn't place a great burden on anyone and I
+> think they can be merged.
 
-> 
-> Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
-> ---
->  hw/arm/xlnx-zynqmp.c         | 26 ++++++++++++++++++++++++++
->  include/hw/arm/xlnx-zynqmp.h |  3 +++
->  2 files changed, 29 insertions(+)
-> 
-> diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-> index b84d153..e5f0d9f 100644
-> --- a/hw/arm/xlnx-zynqmp.c
-> +++ b/hw/arm/xlnx-zynqmp.c
-> @@ -81,6 +81,14 @@ static const int uart_intr[XLNX_ZYNQMP_NUM_UARTS] = {
->      21, 22,
->  };
->  
-> +static const uint64_t can_addr[XLNX_ZYNQMP_NUM_CAN] = {
-> +    0xFF060000, 0xFF070000,
-> +};
-> +
-> +static const int can_intr[XLNX_ZYNQMP_NUM_CAN] = {
-> +    23, 24,
-> +};
-> +
->  static const uint64_t sdhci_addr[XLNX_ZYNQMP_NUM_SDHCI] = {
->      0xFF160000, 0xFF170000,
->  };
-> @@ -254,6 +262,11 @@ static void xlnx_zynqmp_init(Object *obj)
->                                TYPE_CADENCE_UART);
->      }
->  
-> +    for (i = 0; i < XLNX_ZYNQMP_NUM_CAN; i++) {
-> +        sysbus_init_child_obj(obj, "can[*]", &s->can[i], sizeof(s->can[i]),
-> +                              TYPE_XLNX_ZYNQMP_CAN);
-> +    }
-> +
->      sysbus_init_child_obj(obj, "sata", &s->sata, sizeof(s->sata),
->                            TYPE_SYSBUS_AHCI);
->  
-> @@ -508,6 +521,19 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
->                             gic_spi[uart_intr[i]]);
->      }
->  
-> +    for (i = 0; i < XLNX_ZYNQMP_NUM_CAN; i++) {
-> +        object_property_set_int(OBJECT(&s->can[i]), i, "ctrl-idx",
-> +                                &error_abort);
-> +        object_property_set_bool(OBJECT(&s->can[i]), true, "realized", &err);
-> +        if (err) {
-> +            error_propagate(errp, err);
-> +            return;
-> +        }
-> +        sysbus_mmio_map(SYS_BUS_DEVICE(&s->can[i]), 0, can_addr[i]);
-> +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->can[i]), 0,
-> +                           gic_spi[can_intr[i]]);
-> +    }
-> +
->      object_property_set_int(OBJECT(&s->sata), SATA_NUM_PORTS, "num-ports",
->                              &error_abort);
->      object_property_set_bool(OBJECT(&s->sata), true, "realized", &err);
-> diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
-> index 53076fa..2be0ff9 100644
-> --- a/include/hw/arm/xlnx-zynqmp.h
-> +++ b/include/hw/arm/xlnx-zynqmp.h
-> @@ -22,6 +22,7 @@
->  #include "hw/intc/arm_gic.h"
->  #include "hw/net/cadence_gem.h"
->  #include "hw/char/cadence_uart.h"
-> +#include "hw/net/xlnx-zynqmp-can.h"
->  #include "hw/ide/ahci.h"
->  #include "hw/sd/sdhci.h"
->  #include "hw/ssi/xilinx_spips.h"
-> @@ -41,6 +42,7 @@
->  #define XLNX_ZYNQMP_NUM_RPU_CPUS 2
->  #define XLNX_ZYNQMP_NUM_GEMS 4
->  #define XLNX_ZYNQMP_NUM_UARTS 2
-> +#define XLNX_ZYNQMP_NUM_CAN 2
->  #define XLNX_ZYNQMP_NUM_SDHCI 2
->  #define XLNX_ZYNQMP_NUM_SPIS 2
->  #define XLNX_ZYNQMP_NUM_GDMA_CH 8
-> @@ -92,6 +94,7 @@ typedef struct XlnxZynqMPState {
->  
->      CadenceGEMState gem[XLNX_ZYNQMP_NUM_GEMS];
->      CadenceUARTState uart[XLNX_ZYNQMP_NUM_UARTS];
-> +    XlnxZynqMPCANState    can[XLNX_ZYNQMP_NUM_CAN];
->      SysbusAHCIState sata;
->      SDHCIState sdhci[XLNX_ZYNQMP_NUM_SDHCI];
->      XilinxSPIPS spi[XLNX_ZYNQMP_NUM_SPIS];
-> -- 
-> 2.7.4
-> 
-> 
 
