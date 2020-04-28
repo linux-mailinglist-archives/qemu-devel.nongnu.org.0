@@ -2,75 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EE9D1BC414
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 17:50:10 +0200 (CEST)
-Received: from localhost ([::1]:35364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A35BF1BC42C
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 17:55:12 +0200 (CEST)
+Received: from localhost ([::1]:35552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTSUq-0005gf-IL
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 11:50:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55122)
+	id 1jTSZj-0001OM-GE
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 11:55:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55412)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jTSTO-0004SR-L9
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 11:48:49 -0400
+ (envelope-from <no-reply@patchew.org>) id 1jTSUe-0005zI-JT
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 11:54:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jTSRl-0003dP-3M
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 11:48:38 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35242)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jTSRk-0003dE-N2; Tue, 28 Apr 2020 11:46:56 -0400
-Received: by mail-wm1-x341.google.com with SMTP id r26so3440949wmh.0;
- Tue, 28 Apr 2020 08:46:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WekwITYydgUniyXF2jacUDLRb2z7FsHSDmau6DFbuNI=;
- b=ArA3p1NNIcKpe2Ppg66K5N3H6H8M6FQbh170ipLfbW+PFfLvxdIgr21zr3DoWVuYxC
- GyHhuhn1ECyvONSwIUDNs+U7CVVGbOYQdKpnnGHBR/WMRW8qCQhVIJj7weiLKP0mNjQK
- Upu7e7PdG+LSq+Q+MKHSITiPL9OwNHxLIzbt9u3DJcDhq0e2wR+k+HgB6e8lEaug3Mlb
- 3n3mu/0xLdEoDOiFVBvhdiB+WJ44hQ4ld0e4+UIzbR72FOsuWAMsWuJUrLMSgmTNeCUv
- Cn1mMxJXTserHMzisV+PhKa3H+4QN6Yl7iLkGxMB/FPP2bF59iKKtzyB0GftYNsa5dtU
- 6bEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=WekwITYydgUniyXF2jacUDLRb2z7FsHSDmau6DFbuNI=;
- b=EhfIviKSxtBFjepT42DhWIczCF/KVA2AE1XnC9wqh1i9HUu4ZaklGWQ8PKLq/AYlPn
- Y9jxMMMg+UNPttN+6b4h/dpagS0kLZI7MrnCqnuoL4wqcUNqhBHdEYUuOgk0Hg4Y6s3N
- DLFg9tem2FWQbTM6gLjk5cYohakTDSzYOkOEuEI8U9CwrmOldRFl1auWIffJcLZC69bt
- jcTopITrTV4xtQbRQKusnbJmEvG/FSBsdHDzRDL/9f9BI8fEY72wpTYPqcOSXl2fyWE+
- FwhDXjtPDz2zof2HjAB4c4RXH90yNYzYLXAvvzpKfSM9d6bE5hg2r0lT6Yg1wN9fseYm
- eHMA==
-X-Gm-Message-State: AGi0PuYUCAqN0COooBEfZRB9I7mXnOpVqSFzFSo0YCHwqJ95GH2Kiwts
- rsVPIYPIuvxfAXjHta0L3lCTT08Y8WM=
-X-Google-Smtp-Source: APiQypKLLJbSzMVCYslY+5PJNT0OaoLaHVxNsbPfzHyyQFW054lR26lIpyw7OweH3ZtoZFe72oHpFA==
-X-Received: by 2002:a1c:a5c8:: with SMTP id o191mr5448147wme.77.1588088812969; 
- Tue, 28 Apr 2020 08:46:52 -0700 (PDT)
-Received: from x1w.redhat.com (137.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.137])
- by smtp.gmail.com with ESMTPSA id p7sm27339428wrf.31.2020.04.28.08.46.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Apr 2020 08:46:51 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/arm/mps2-tz: Use TYPE_IOTKIT instead of hardcoded string
-Date: Tue, 28 Apr 2020 17:46:50 +0200
-Message-Id: <20200428154650.21991-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.1
+ (envelope-from <no-reply@patchew.org>) id 1jTSUG-0006nr-Em
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 11:49:56 -0400
+Resent-Date: Tue, 28 Apr 2020 11:49:56 -0400
+Resent-Message-Id: <E1jTSUG-0006nr-Em@eggs.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21720)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jTSUF-0006nP-TP; Tue, 28 Apr 2020 11:49:32 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1588088931; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=bka41M9lq5woRZIcSv9DcH8+kSw8RsZpHNhh83XD0/PJfdTAl28HWU91nhwGER8sQGKr86A12ni1vbX4LdVf0pAZ6UTNCIE1pmY8Vq8SEGLe1HSP86ydvxZgrVqJVh4BYCyRDVGKlNCPpn3s09uqrIGkFW2Mo4voGFbdycNNNMs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1588088931;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=RVtKDHUqay8BxrPWIu7r8vn65MqSI4hTp+cIGkVNk5E=; 
+ b=YgITlu/VI+Rn/mhHsXAyKpCaZ3rye3gt/2I8jWa6OuJGESHQ4mXJ0IEezaDS+q5CPn9Dxm3JTi+h4j9lxHtAfWwdHmEAm79t94e1fOmXoBqCNcI9wFuSgne93mN2Vj/1XOimrwVbiv6CDD1lQUNew2k8LVJjeVv+JOBhYwrXWCQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1588088929952728.5077625829002;
+ Tue, 28 Apr 2020 08:48:49 -0700 (PDT)
+In-Reply-To: <20200428133407.10657-1-dplotnikov@virtuozzo.com>
+Subject: Re: [PATCH v21 0/4] implement zstd cluster compression method
+Message-ID: <158808892834.30407.8647999371199630661@39012742ff91>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::341
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: dplotnikov@virtuozzo.com
+Date: Tue, 28 Apr 2020 08:48:49 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 09:39:01
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Received-From: 136.143.188.57
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,35 +64,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com,
+ den@openvz.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By using the TYPE_* definitions for devices, we can:
- - quickly find where devices are used with 'git-grep'
- - easily rename a device (one-line change).
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/arm/mps2-tz.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index a8dea7dde1..2c43041564 100644
---- a/hw/arm/mps2-tz.c
-+++ b/hw/arm/mps2-tz.c
-@@ -395,7 +395,7 @@ static void mps2tz_common_init(MachineState *machine)
-         exit(EXIT_FAILURE);
-     }
- 
--    sysbus_init_child_obj(OBJECT(machine), "iotkit", &mms->iotkit,
-+    sysbus_init_child_obj(OBJECT(machine), TYPE_IOTKIT, &mms->iotkit,
-                           sizeof(mms->iotkit), mmc->armsse_type);
-     iotkitdev = DEVICE(&mms->iotkit);
-     object_property_set_link(OBJECT(&mms->iotkit), OBJECT(system_memory),
--- 
-2.21.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDQyODEzMzQwNy4xMDY1
+Ny0xLWRwbG90bmlrb3ZAdmlydHVvenpvLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0
+byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgpt
+b3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1BBVENIIHYyMSAwLzRdIGltcGxlbWVudCB6c3Rk
+IGNsdXN0ZXIgY29tcHJlc3Npb24gbWV0aG9kCk1lc3NhZ2UtaWQ6IDIwMjAwNDI4MTMzNDA3LjEw
+NjU3LTEtZHBsb3RuaWtvdkB2aXJ0dW96em8uY29tClR5cGU6IHNlcmllcwoKPT09IFRFU1QgU0NS
+SVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwg
+fHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZp
+ZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29y
+aXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4K
+PT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFk
+ZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0
+L3FlbXUKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIwMDQyODEzMjYyOS43OTY3NTMt
+MS1tcmVpdHpAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjAwNDI4MTMyNjI5Ljc5Njc1My0xLW1y
+ZWl0ekByZWRoYXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKNzIwMWM3ZSBp
+b3Rlc3RzOiAyODc6IGFkZCBxY293MiBjb21wcmVzc2lvbiB0eXBlIHRlc3QKN2Y0NGNlNyBxY293
+MjogYWRkIHpzdGQgY2x1c3RlciBjb21wcmVzc2lvbgowNTA0MzEwIHFjb3cyOiByZXdvcmsgdGhl
+IGNsdXN0ZXIgY29tcHJlc3Npb24gcm91dGluZQowMTA0OWI3IHFjb3cyOiBpbnRyb2R1Y2UgY29t
+cHJlc3Npb24gdHlwZSBmZWF0dXJlCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzQgQ2hlY2tpbmcg
+Y29tbWl0IDAxMDQ5YjdlMjhlOSAocWNvdzI6IGludHJvZHVjZSBjb21wcmVzc2lvbiB0eXBlIGZl
+YXR1cmUpCjIvNCBDaGVja2luZyBjb21taXQgMDUwNDMxMDYxMWJjIChxY293MjogcmV3b3JrIHRo
+ZSBjbHVzdGVyIGNvbXByZXNzaW9uIHJvdXRpbmUpCjMvNCBDaGVja2luZyBjb21taXQgN2Y0NGNl
+N2Q3MzJiIChxY293MjogYWRkIHpzdGQgY2x1c3RlciBjb21wcmVzc2lvbikKRVJST1I6IGRvIG5v
+dCB1c2UgYXNzaWdubWVudCBpbiBpZiBjb25kaXRpb24KIzExNTogRklMRTogYmxvY2svcWNvdzIt
+dGhyZWFkcy5jOjIyNToKKyAgICBpZiAoKHpzdGRfcmV0ID0gWlNURF9jb21wcmVzc1N0cmVhbTIo
+Y2N0eCwgJm91dHB1dCwgJmlucHV0LCBaU1REX2VfZW5kKSkpIHsKCnRvdGFsOiAxIGVycm9ycywg
+MCB3YXJuaW5ncywgMjM4IGxpbmVzIGNoZWNrZWQKClBhdGNoIDMvNCBoYXMgc3R5bGUgcHJvYmxl
+bXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3Np
+dGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1B
+SU5UQUlORVJTLgoKNC80IENoZWNraW5nIGNvbW1pdCA3MjAxYzdlNzNjZTQgKGlvdGVzdHM6IDI4
+NzogYWRkIHFjb3cyIGNvbXByZXNzaW9uIHR5cGUgdGVzdCkKV0FSTklORzogYWRkZWQsIG1vdmVk
+IG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjM6
+IApuZXcgZmlsZSBtb2RlIDEwMDc1NQoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAyMjgg
+bGluZXMgY2hlY2tlZAoKUGF0Y2ggNC80IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmll
+dy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhl
+bSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09PSBP
+VVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVs
+bCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwNDI4MTMz
+NDA3LjEwNjU3LTEtZHBsb3RuaWtvdkB2aXJ0dW96em8uY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/
+dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hl
+dyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBh
+dGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
