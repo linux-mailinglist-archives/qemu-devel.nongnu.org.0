@@ -2,109 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC6851BB5F7
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 07:43:12 +0200 (CEST)
-Received: from localhost ([::1]:42490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94FE01BB6D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 08:36:22 +0200 (CEST)
+Received: from localhost ([::1]:43244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTJ1T-0005Uz-GC
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 01:43:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59528)
+	id 1jTJqv-0000sV-Cp
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 02:36:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35670)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jTIxE-0002pd-CC
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 01:41:58 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jTJlq-0007kB-Tt
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 02:34:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jTIfB-000066-19
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 01:23:35 -0400
-Received: from mail-eopbgr70138.outbound.protection.outlook.com
- ([40.107.7.138]:56526 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jTIfA-00005n-9G
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 01:20:08 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PNUtAQ60Hcer2wBnZBdmG/I4/BP8lgSPBiRoKlsV0cw2GugKeP1WDbBcgU/ujf8LiYz6hkN0OhF3CY5t/q4www3Kl3DONuIFHs2USWaegT6+zOWmJKRTUrOs/yviN1hi8C6PgYSKW+fswUMd6yC/I3GztYoz4zO2I+/k3tD5GtrlR9mK300/cs0mVcY0jukJ9vHxQ1uhe3KDWIJ/Z1YVYvp6cIjnZo8E5bJFC7J13UwS64XnUKc5XVi+oT/QNs0HFzZoDx0bS0Vu1tJOM537p1giJc+quzP5UfN/Gr1NN2E/zu0EJbLyoU5uvx6EwpxCYbmz/ZELIuygOLrpAEAwow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6Z+mitY1eBx3nzvo3oqkbyUsMnOqZ79y23GIN/dACpU=;
- b=OBzZvB3+zlkTrNLIyWe/3VO48RMyMnvNJrAtozDP4oHuyA1Ikdu5rLyy5kkyVt+WGSErtsor4CssEB2CZay0mcKc6uLeG2vhfZijbOxmJd4gdm8LvsYVlfConFcV9KkrIZdjUMJKGgstk0WhippNLV3aakJWF0Cq4jKa1cEhEkJJq8Akz1qiCftLR6c3YTGy1iSUh9F+G5ThdzmxvJIgbF+TdswwCdn5modtd3FU/+oUD8ImQ5HeGKa7CRQDqFpPCEQ0ZoRQxYgeS/lZbREt/qJNVS/iHKCvJLgv2NQRBsFTksfwmcUjK8ZF5RpKEFCVXfgP4JVFoMnDH2ypXpZEQg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6Z+mitY1eBx3nzvo3oqkbyUsMnOqZ79y23GIN/dACpU=;
- b=QcQY51Y99A5zVCw0DgRPvSb1rEUkLLBQtTv/k3J1xI5BgqxJeILu9jlpJ05dbC2EnD3yXJCMVUTIZWfqAooSqRZE6WUd3WRX+BYGS8Mn5SZxj5BC7k1OemfgOLKaq5179S1yZ5BsuEwF74lKJ4N6vcenEH0wtaZ6ywRYToVxcV4=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5479.eurprd08.prod.outlook.com (2603:10a6:20b:104::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Tue, 28 Apr
- 2020 05:20:04 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.023; Tue, 28 Apr 2020
- 05:20:04 +0000
-Subject: Re: Questionable aspects of QEMU Error's design
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <87o8sblgto.fsf@dusky.pond.sub.org>
- <87blo7heag.fsf@dusky.pond.sub.org> <87blndey9c.fsf@dusky.pond.sub.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200428082002459
-Message-ID: <3b9d53fd-bdd0-c15b-292c-c4952fa24dfd@virtuozzo.com>
-Date: Tue, 28 Apr 2020 08:20:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <87blndey9c.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM4PR0202CA0003.eurprd02.prod.outlook.com
- (2603:10a6:200:89::13) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (envelope-from <mreitz@redhat.com>) id 1jTJi8-00079R-LE
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 02:31:06 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46000
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jTJOF-00007v-T8
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 02:06:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588054002;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=JiDOZcsecwENikfXxKGF+X9kdjdbvrkflma8hf8iZpQ=;
+ b=LBM1JEaHOnS2NuCK4BuMFPHZD2leWFnlauVsqaHkfOnSX09hJy256ZwusNDLIkX4iZ9D6b
+ DvI+67V0vlyv47Icpi8SSsRNooUZhj2ZUYp2SUQC/5Aa4WdzamP5EssMRxus8PfnPwNuxt
+ W2Jv+cbsiQNzMnhGTFUkSpg7WnFNBbQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-390-CWijeySgM3G0frGkl3KUcg-1; Tue, 28 Apr 2020 02:06:39 -0400
+X-MC-Unique: CWijeySgM3G0frGkl3KUcg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5932800D24
+ for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 06:06:38 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 32BB319C4F;
+ Tue, 28 Apr 2020 06:06:32 +0000 (UTC)
+Subject: Re: [PATCH] virtiofsd: Show submounts
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20200424133516.73077-1-mreitz@redhat.com>
+ <20200427175902.GM2923@work-vm>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <8aa9aea2-cc5d-f9b5-5cdb-b5e596ef89aa@redhat.com>
+Date: Tue, 28 Apr 2020 08:06:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.155) by
- AM4PR0202CA0003.eurprd02.prod.outlook.com (2603:10a6:200:89::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13 via Frontend
- Transport; Tue, 28 Apr 2020 05:20:03 +0000
-X-Tagtoolbar-Keys: D20200428082002459
-X-Originating-IP: [185.215.60.155]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 641643dc-5219-418a-9923-08d7eb33ceb6
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5479:
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5479C42EB3DDAE3BC185C996C1AC0@AM7PR08MB5479.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 0387D64A71
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(346002)(396003)(366004)(136003)(39850400004)(376002)(16526019)(54906003)(316002)(4326008)(36756003)(16576012)(8936002)(26005)(81156014)(52116002)(5660300002)(6486002)(478600001)(2906002)(31686004)(86362001)(186003)(8676002)(66946007)(956004)(31696002)(2616005)(66556008)(66476007);
- DIR:OUT; SFP:1102; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1IWmI3+rj3wJBcEtak90pdUOtzDmP69FyKWB3XX6UKdC/DZydlSuJHZon3vYITbegBX4n/gAvc+9bBDglkGctl3HXwYnLlOsNHpj2OYKFYFZ295GhVHG36/2qzguVGcgjF8AKD4o4fzDGOuwTvHxiWkOHvgPK5s9BcMRWiTm1EVOQLHyT1Zc0HWFHeCQgSmUG8rszGvWVi1mhSjE7j83MJRhSh6d/IGtu8iZ2O4Oc++fKPeXkAz5TuY1IWw58FOhIyLx3SsPFAMzI5+cF51y+EYPwwvgk7McyeINjcbuO+xPWNYTcOxy7owlT0wcB2SIthnUamP/E/34Y99KGLG89tz5TDhSXc28YZ5Pq3Ot9oaq1dUBKtmazYmF1uiLd2DHnlkknCewh2PKr+lBbCZJprDL4Vp5s6wBFtUg1pjrp59jFFb4dy8Bc6gpo5guRqQO
-X-MS-Exchange-AntiSpam-MessageData: hNtDaZS1knA51x+5IqKAHYff0lbt4O+YhJsk89W/ahJGrmapW7O6ymYoW032pWA65csFmy6S2XWrutZAKGKLzOwm1wL/6KFAeti6hp8x/rgzg45vDfGddTarfNHIrRiR2xmzga6yHOoDXu3USu3wetnbTXzhqnZGZ9Gc3eJGcYUaRJVNU9+2WcKvpcplJUjvwSbekWhoZCRKtBVmyOrEh6tJddaPwrOTFsCmN4chnx2dfALyethGk4croTIAi9bKnHs9eawtC1AEL803YO4gx6JTj5qnn0SR6E5IjhxiZcNvoKrI41dKS8GwBuk/OiWefzjLZXKwl82AZIMuZe59+VZs/ZgOsoAdRNONXnD0bD810wZ++G53Q8ALhXOIuZZueKOmq44KU9qag5Y1SdCH+dDRXegYBlE4tEoiAgUHEJK/0iq8lv+cwDN0hg6qGeFh67MqHLpTxJ+q5HLwcRQjuXAXzhLOqp0JMmnk35HF9CybvvkPG2wm2CAEqGygn3T3yWMmhjYm6XGrsjdxQQokVEQTMUnqoTmvmht13V5dvU//mz2kMvEr5teqNi7kWYg/triddF+mshA3UFt5bLNy12ht4ErQJzSpqrGNmWRB6Us4TR84XiBDItvFCppr3Fuh0ZJLwrspgQKiHMHGTHJo69pNne21jQ5gh6HI2eDmw6SKul0MAVYUBnXWQR6gQqwNgasQBjt0CPekyL0lrVzREUlfw8PZu2uQKFcZ0S3EIpAhjlBDUcaWt9PxwJ8itY5zrmOrWP7+EqTkEG8TqEhWkU+DHoHD6HWj664b7rzWDIk=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 641643dc-5219-418a-9923-08d7eb33ceb6
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2020 05:20:04.4358 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: s6EenoCbnioaA5p1UM4SuqISm7vvfj4jSRFYyLcWsosDMaMPgHpg+rE5Z5DMYLtts/URKDEsQCA5SR071AAeNksej3Oj7pz9BxdziEfPRXA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5479
-Received-SPF: pass client-ip=40.107.7.138;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 01:20:05
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Received-From: 40.107.7.138
+In-Reply-To: <20200427175902.GM2923@work-vm>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="zOPKgSvGA9aD5ncr3lfdc5QsGlK365KXv"
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 02:06:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -116,116 +101,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-27.04.2020 18:36, Markus Armbruster wrote:
-> Markus Armbruster <armbru@redhat.com> writes:
-> 
->> Markus Armbruster <armbru@redhat.com> writes:
->>
->>> QEMU's Error was patterned after GLib's GError.  Differences include:
->> [...]
->>> * Return value conventions
->>>
->>>    Common: non-void functions return a distinct error value on failure
->>>    when such a value can be defined.  Patterns:
->>>
->>>    - Functions returning non-null pointers on success return null pointer
->>>      on failure.
->>>
->>>    - Functions returning non-negative integers on success return a
->>>      negative error code on failure.
->>>
->>>    Different: GLib discourages void functions, because these lead to
->>>    awkward error checking code.  We have tons of them, and tons of
->>>    awkward error checking code:
->>>
->>>      Error *err = NULL;
->>>      frobnicate(arg, &err);
->>>      if (err) {
->>>          ... recover ...
->>>          error_propagate(errp, err);
->>>      }
->>>
->>>    instead of
->>>
->>>      if (!frobnicate(arg, errp))
->>>          ... recover ...
->>>      }
->>>
->>>    Can also lead to pointless creation of Error objects.
->>>
->>>    I consider this a design mistake.  Can we still fix it?  We have more
->>>    than 2000 void functions taking an Error ** parameter...
->>>
->>>    Transforming code that receives and checks for errors with Coccinelle
->>>    shouldn't be hard.  Transforming code that returns errors seems more
->>>    difficult.  We need to transform explicit and implicit return to
->>>    either return true or return false, depending on what we did to the
->>>    @errp parameter on the way to the return.  Hmm.
->> [...]
->>
->> To figure out what functions with an Error ** parameter return, I used
->> Coccinelle to find such function definitions and print the return types.
->> Summary of results:
->>
->>     2155 void
->>      873 signed integer
->>      494 pointer
->>      153 bool
->>       33 unsigned integer
->>        6 enum
->>     ---------------------
->>     3714 total
->>
->> I then used Coccinelle to find checked calls of void functions (passing
->> &error_fatal or &error_abort is not considered "checking" here).  These
->> calls become simpler if we make the functions return a useful value.  I
->> found a bit under 600 direct calls, and some 50 indirect calls.
->>
->> Most frequent direct calls:
->>
->>      127 object_property_set_bool
->>       27 qemu_opts_absorb_qdict
->>       16 visit_type_str
->>       14 visit_type_int
->>       10 visit_type_uint32
->>
->> Let's have a closer look at object_property_set() & friends.  Out of
->> almost 1000 calls, some 150 are checked.  While I'm sure many of the
->> unchecked calls can't actually fail, I am concerned some unchecked calls
->> can.
->>
->> If we adopt the convention to return a value that indicates success /
->> failure, we should consider converting object.h to it sooner rather than
->> later.
->>
->> Please understand these are rough numbers from quick & dirty scripts.
-> 
-> FYI, I'm working on converting QemuOpts, QAPI visitors and QOM.  I keep
-> running into bugs.  So far:
-> 
->      [PATCH v2 for-5.1 0/9] qemu-option: Fix corner cases and clean up
->      [PATCH for-5.1 0/5] qobject: Minor spring cleaning
->      [PATCH v2 00/14] Miscellaneous error handling fixes
->      [PATCH 0/4] Subject: [PATCH 0/4] smbus: SPD fixes
->      [PATCH 0/3] fuzz: Probably there is a better way to do this
->      [PATCH v2 00/15] qapi: Spring cleaning
->      [PATCH 00/11] More miscellaneous error handling fixes
-> 
-> I got another one coming for QOM and qdev before I can post the
-> conversion.
-> 
-> Vladimir, since the conversion will mess with error_propagate(), I'd
-> like to get it in before your auto-propagation work.
-> 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--zOPKgSvGA9aD5ncr3lfdc5QsGlK365KXv
+Content-Type: multipart/mixed; boundary="jx7TNYgfYlBaxII1dZA4uAvXh65J08ksL"
 
-OK, just let me know when to regenerate the series, it's not hard.
+--jx7TNYgfYlBaxII1dZA4uAvXh65J08ksL
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Best regards,
-Vladimir
+On 27.04.20 19:59, Dr. David Alan Gilbert wrote:
+> * Max Reitz (mreitz@redhat.com) wrote:
+>> Currently, setup_mounts() bind-mounts the shared directory without
+>> MS_REC.  This makes all submounts disappear.
+>>
+>> Pass MS_REC so that the guest can see submounts again.
+>=20
+> Thanks!
+>=20
+>> Fixes: 3ca8a2b1c83eb185c232a4e87abbb65495263756
+>=20
+> Should this actually be 5baa3b8e95064c2434bd9e2f312edd5e9ae275dc ?
+
+Well, I bisected it and landed at 3ca8a2b1.  So while the problematic
+line may have been introduced by 5baa3b8e, it wasn=E2=80=99t used until 3ca=
+8a2b1.
+
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>>  tools/virtiofsd/passthrough_ll.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthro=
+ugh_ll.c
+>> index 4c35c95b25..9d7f863e66 100644
+>> --- a/tools/virtiofsd/passthrough_ll.c
+>> +++ b/tools/virtiofsd/passthrough_ll.c
+>> @@ -2643,7 +2643,7 @@ static void setup_mounts(const char *source)
+>>      int oldroot;
+>>      int newroot;
+>> =20
+>> -    if (mount(source, source, NULL, MS_BIND, NULL) < 0) {
+>> +    if (mount(source, source, NULL, MS_BIND | MS_REC, NULL) < 0) {
+>>          fuse_log(FUSE_LOG_ERR, "mount(%s, %s, MS_BIND): %m\n", source, =
+source);
+>>          exit(1);
+>>      }
+>=20
+> Do we want MS_SLAVE to pick up future mounts that might happenf rom the
+> host?
+
+Hm.  So first it looks to me from the man page like one shouldn=E2=80=99t g=
+ive
+MS_SLAVE on the first mount() call but kind of only use it for remounts
+(in the list at the start, =E2=80=9CCreate a bind mount=E2=80=9D is separat=
+e from
+=E2=80=9CChange the propagation type of an existing mount=E2=80=9D, and the=
+ man page
+later says =E2=80=9CThe only other flags that can be specified while changi=
+ng
+the propagation type are MS_REC (described below) and MS_SILENT (which
+is ignored).=E2=80=9D).
+
+Second, even if I do change the propagation type to MS_SLAVE in a second
+call, mounts done after qemu has been started don=E2=80=99t show up in the =
+guest
+(for me).
+
+So while it sounds correct, I can=E2=80=99t see it having an effect, actual=
+ly.
+
+> What's the interaction between this and the MS_REC|MS_SLAVE that we have
+> a few lines above for / ?
+
+Good question.  It would seem to me that there isn=E2=80=99t any.  That pre=
+vious
+mount call just sets MS_REC | MS_SLAVE for the whole mount namespace,
+and then we do a new mount here (by default from / to /) that needs its
+own flags.
+
+(More interesting is perhaps why we have that other mount() call below,
+which again sets MS_REC | MS_SLAVE for the old (not-yet-bind-mounted) /.
+ I can=E2=80=99t imagine that to have any effect.)
+
+Max
+
+
+--jx7TNYgfYlBaxII1dZA4uAvXh65J08ksL--
+
+--zOPKgSvGA9aD5ncr3lfdc5QsGlK365KXv
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6nx+YACgkQ9AfbAGHV
+z0BVWwf+O8Uh7ZUmSnV29FWnmLRugDDUamw5nwW1PD7NS/gyI4eZhFgmqqweFeDY
+pDo1/O1QZgWQix94UR4oSz1YWkKs5RTnT7oK6TTVXCoXzv7E+KSxipbeZWYmAXGE
+pPLHBJA6f7iozo4NjPMce4+EPAIEC/gl8DOhw6rzFJuioyghYBYE7F7ZfhkxGpJY
+q+gs20BDRymK0BzYt5TuZQ5q0LzQvVbBsgtnJ6dFUEPCB0FrCC3hDVmTnLPm5Pdm
+aitOlNptlgyj+TTA2Msz3w7QIK2VGO0x3/EMlS7kkNV1vm8Nkq065/PT2/k0ur6R
+coGxfV2GruNEVjsf59vEMzLrRmnMaQ==
+=Mzh7
+-----END PGP SIGNATURE-----
+
+--zOPKgSvGA9aD5ncr3lfdc5QsGlK365KXv--
+
 
