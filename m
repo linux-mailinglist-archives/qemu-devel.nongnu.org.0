@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E9F61BC091
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 16:06:32 +0200 (CEST)
-Received: from localhost ([::1]:59184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1264A1BC08E
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 16:06:03 +0200 (CEST)
+Received: from localhost ([::1]:59106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTQsZ-0005U1-1h
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 10:06:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39556)
+	id 1jTQs5-0003xB-Ee
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 10:06:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39564)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTQqd-0000OD-5D
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:04:37 -0400
+ (envelope-from <eblake@redhat.com>) id 1jTQlq-0000Pn-V1
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:04:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTQgC-000436-Rr
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:57:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56618
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1jTQhU-0007OF-Br
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:59:34 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56968
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jTQgC-000413-AU
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:53:44 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jTQhT-0007Nf-Ub
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:55:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588082023;
+ s=mimecast20190719; t=1588082102;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6IBOWTSfE2+c9pEle/3h+SsKG5DZLt2mJjibil2jVek=;
- b=ekxTSuPssY3jUFQGHZcCeJxIDuwi71T3bFLbYPx0Fpbqwo7F5PHRaMc1dHg/n2c0BbsgsV
- bBDW4KZ1YaMS8soStK8Nvn0RAStN+q2B7WWWc7ld2lbSrXQY32mY35kubI42pSIpWOXAvx
- FlgqKEoANpzgkEFb7/K2MTYvaAuqW9A=
+ bh=Z2upbfP9Ve2G2UQfFO+T8BEfrvhjb0lpgrZuUXSgi24=;
+ b=C5WXnMu1Tvha4Ss6l7beGU6fTeck3rK7s8JV6rukYGMCS/Ztzyy/ZGClz300SS2kCwuzdB
+ 2N6WKzSJCzJoTu22prcKyt/f34oF/k22KTNbet4g64N/hnwmhidwOlGjNUOWeGhBFRX/uY
+ B2zQY3VMTESODRRj5cVsxOHb6NJn7S4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-369-wrnewQmwPNCA-jIZvb3uqw-1; Tue, 28 Apr 2020 09:53:41 -0400
-X-MC-Unique: wrnewQmwPNCA-jIZvb3uqw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-500-f0xVDtgYPXufnCBFdJX49g-1; Tue, 28 Apr 2020 09:55:00 -0400
+X-MC-Unique: f0xVDtgYPXufnCBFdJX49g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A1B3800D24;
- Tue, 28 Apr 2020 13:53:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3352835B42;
+ Tue, 28 Apr 2020 13:54:59 +0000 (UTC)
 Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DC4E8605CD;
- Tue, 28 Apr 2020 13:53:39 +0000 (UTC)
-Subject: Re: [PATCH 1/4] block: Add bdrv_make_empty()
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 499E260D3D;
+ Tue, 28 Apr 2020 13:54:59 +0000 (UTC)
+Subject: Re: [PATCH 2/4] block: Use bdrv_make_empty() where possible
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20200428132629.796753-1-mreitz@redhat.com>
- <20200428132629.796753-2-mreitz@redhat.com>
+ <20200428132629.796753-3-mreitz@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <bd4bb486-559a-58ff-dafb-f1e63908be4e@redhat.com>
-Date: Tue, 28 Apr 2020 08:53:38 -0500
+Message-ID: <6d94e65e-b65b-4583-c66e-86cc390a3ec9@redhat.com>
+Date: Tue, 28 Apr 2020 08:54:58 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200428132629.796753-2-mreitz@redhat.com>
+In-Reply-To: <20200428132629.796753-3-mreitz@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 04:15:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 02:06:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,68 +83,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/28/20 8:26 AM, Max Reitz wrote:
-> Right now, all users of bdrv_make_empty() call the BlockDriver method
-> directly.  That is not only bad style, it is also wrong, unless the
-> caller has a BdrvChild with a WRITE permission.
-> 
-> Introduce bdrv_make_empty() that verifies that it does.
-> 
 > Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
->   include/block/block.h |  1 +
->   block.c               | 23 +++++++++++++++++++++++
->   2 files changed, 24 insertions(+)
-> 
-> diff --git a/include/block/block.h b/include/block/block.h
-> index b05995fe9c..d947fb4080 100644
-> --- a/include/block/block.h
-> +++ b/include/block/block.h
-> @@ -351,6 +351,7 @@ BlockMeasureInfo *bdrv_measure(BlockDriver *drv, QemuOpts *opts,
->   void bdrv_get_geometry(BlockDriverState *bs, uint64_t *nb_sectors_ptr);
->   void bdrv_refresh_limits(BlockDriverState *bs, Error **errp);
->   int bdrv_commit(BlockDriverState *bs);
-> +int bdrv_make_empty(BdrvChild *c, Error **errp);
-
-Can we please fix this to take a flags parameter?  I want to make it 
-easier for callers to request BDRV_REQ_NO_FALLBACK for distinguishing 
-between callers where the image must be made empty (read as all zeroes) 
-regardless of time spent, vs. made empty quickly (including if it is 
-already all zero) but where the caller is prepared for the operation to 
-fail and will write zeroes itself if fast bulk zeroing was not possible.
-
-
-> +int bdrv_make_empty(BdrvChild *c, Error **errp)
-> +{
-> +    BlockDriver *drv = c->bs->drv;
-> +    int ret;
-> +
-> +    assert(c->perm & BLK_PERM_WRITE);
-> +
-> +    if (!drv->bdrv_make_empty) {
-> +        error_setg(errp, "%s does not support emptying nodes",
-> +                   drv->format_name);
-> +        return -ENOTSUP;
-> +    }
-
-And here's where we can add some automatic fallbacks, such as 
-recognizing if the image already reads as all zeroes.  But those 
-optimizations can come in separate patches; for YOUR patch, just getting 
-the proper API in place is fine.
-
-> +
-> +    ret = drv->bdrv_make_empty(c->bs);
-> +    if (ret < 0) {
-> +        error_setg_errno(errp, -ret, "Failed to empty %s",
-> +                         c->bs->filename);
-> +        return ret;
-> +    }
-> +
-> +    return 0;
-> +}
+>   block/replication.c | 6 ++----
+>   block/vvfat.c       | 4 +---
+>   2 files changed, 3 insertions(+), 7 deletions(-)
 > 
 
-Other than a missing flag parameter, this looks fine.
+Yes, definitely nicer :)  May have some obvious fallout to add a 0 flag 
+parameter, per my request on 1/4, but that doesn't stop me from giving:
 
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
 -- 
 Eric Blake, Principal Software Engineer
