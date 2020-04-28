@@ -2,106 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314B31BB818
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 09:52:40 +0200 (CEST)
-Received: from localhost ([::1]:45322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8CFE1BB7D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 09:40:56 +0200 (CEST)
+Received: from localhost ([::1]:44630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTL2l-0003P8-6q
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 03:52:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44828)
+	id 1jTKrP-0005co-AY
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 03:40:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42590)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jTKzv-0006KZ-AB
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:51:22 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jTKlc-0003Oy-Vx
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:39:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jTKwK-0007Tq-7h
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:49:43 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:41474)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jTKdJ-0000VV-Oc
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:26:21 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id g13so23355672wrb.8
- for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 00:26:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2zE8Gg68lKF991RYFUbZipQC4tJOEoIkn4Qz0Wt2qNA=;
- b=kufyVSWh02MZfiED0OHRXISt/3lur/31mKzhfUU7X/oTLyDq/UxTL4lX49rd0u2cpQ
- FVjnguKiYgoBwadADq0n9RvpuPptY5qHYMSx9eChHl9MvZZ7io6bBDqaT+JpnkuWT4r6
- FcI7DiZxX9iaVejKUVwpHrkSgUc5X8NfO1DKZho4s4mLnanG8AqAOUWolne9AETkmxFS
- eR1fTFiQmL9yZgvDWWY/xpp2OxzxnhAFzciMUJig4BO6J7RHKbhsuZa+pa1lGuNbLXls
- +QBgjvFFHf2JsQMPnD6hLLPxOeB49QnRy2EqCxqHUZhXHq67wIkqPyMNIGkFHrBcq6CV
- LeFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=2zE8Gg68lKF991RYFUbZipQC4tJOEoIkn4Qz0Wt2qNA=;
- b=EpR2FFoEfFTu/C236xPhovqU3lcxtfZL/5Bl40FOcBd1bKJLQc9DY8Hs/sf/Gxyd0t
- LdmBm0wsn+ob3GJUVqHYdrPULehP64NNfVBZY6ZCx/3gWsEmh6q/SX7fOXSwkRf0J8F7
- k9JpBDcYMHLyXut0rnYIZvhRT4oiEwykC1jbPzrVbNJH9zrj85HMRqZHjRFeNFSOk8r2
- gfFZysSYViJDlIdw9AtMC0DyN4/mXD0ZIKTmByxdpM8tOvstYkSLrN3YPGLpISICDAE0
- X6YqiGn3r4Ej1n84gZCLGmAGZEWPEq3PF2z2RKKbn5GMAB1jewt9vT21yrdDcfNqWRO2
- Cx7Q==
-X-Gm-Message-State: AGi0PubmDogD5lVdDNoMKML/H35w5eEmezv4UrIFPzqr3uiv6EuY4Sab
- 03Vb1ctqIqXvAnuzAbqMMDKhm37eHI0=
-X-Google-Smtp-Source: APiQypLn5YFlOyzFZoiOfszLhaZkmeO/qR2hIM5M93rcYz187daocYO3JBA0hyn2YGImsDAeG9/QXQ==
-X-Received: by 2002:adf:9793:: with SMTP id s19mr29528487wrb.147.1588058779522; 
- Tue, 28 Apr 2020 00:26:19 -0700 (PDT)
-Received: from [192.168.1.39] (137.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.137])
- by smtp.gmail.com with ESMTPSA id i74sm6518089wri.49.2020.04.28.00.26.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Apr 2020 00:26:18 -0700 (PDT)
-Subject: Re: [Bug 1874674] Re: [Feature request] acceptance test class to run
- user-mode binaries
-To: Bug 1874674 <1874674@bugs.launchpad.net>, qemu-devel@nongnu.org
-References: <158772186217.18152.387783445327371928.malonedeb@wampee.canonical.com>
- <158775567923.17926.10729887989020372018.malone@wampee.canonical.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Autocrypt: addr=f4bug@amsat.org; keydata=
- mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
- u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
- HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
- YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
- ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
- dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
- ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
- Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
- HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
- Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
- CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
- klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
- jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
- 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
- loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
- sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
- JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
- 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
- K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
- n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
- CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
-Message-ID: <8c80473f-d4fe-a699-fdf5-170aed4d879a@amsat.org>
-Date: Tue, 28 Apr 2020 09:26:17 +0200
+ (envelope-from <mreitz@redhat.com>) id 1jTKha-0004OB-Pr
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:34:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33705
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jTKha-0004Nn-8U
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:30:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588059045;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=XfM6g16L8gMWViHoNiVe35HWW/Pk+9G5jdXSN69RKsI=;
+ b=DWAvHQq72c+2ps8I5iG5Rnh9WO26dZMRYpEuhCzkhn8pFeXhsTdji9hmf8jOfF0+kum/qg
+ Q6hM0F80ZP8Hnfrj8Aw+whIlGR2+6qtIm7hMQEelg9WoFjvdYtqeBcD7caf9QLl5Fkpeth
+ oDRy9DgdU9IseGHHJyvyYFtQ1QOuoCg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-480-DS3KRv-KOSWb192tJsPjyg-1; Tue, 28 Apr 2020 03:30:42 -0400
+X-MC-Unique: DS3KRv-KOSWb192tJsPjyg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F6598018A7;
+ Tue, 28 Apr 2020 07:30:41 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B918F6FEF1;
+ Tue, 28 Apr 2020 07:30:39 +0000 (UTC)
+Subject: Re: [PATCH v2 1/6] block/block-copy: rename in-flight requests to
+ tasks
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200325134639.16337-1-vsementsov@virtuozzo.com>
+ <20200325134639.16337-2-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <da290ef0-c8dc-7cf0-fcf6-71e28aa323d5@redhat.com>
+Date: Tue, 28 Apr 2020 09:30:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <158775567923.17926.10729887989020372018.malone@wampee.canonical.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::42d
+In-Reply-To: <20200325134639.16337-2-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="ESkIqomp3G2e5afHvkUShoWELcZDpie3f"
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 02:16:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,44 +103,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/24/20 9:14 PM, Richard Henderson wrote:
-> What user-mode testing do you think might be improved by using avocado?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--ESkIqomp3G2e5afHvkUShoWELcZDpie3f
+Content-Type: multipart/mixed; boundary="foOsIrQRwQBrmJ2nvc4G4wRGi3WxISIcL"
 
-Test unmodified real-world binaries, know to work in the field.
+--foOsIrQRwQBrmJ2nvc4G4wRGi3WxISIcL
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Test can be added by users without having to be a TCG developer, see
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg626608.html:
+On 25.03.20 14:46, Vladimir Sementsov-Ogievskiy wrote:
+> We are going to use aio-task-pool API and extend in-flight request
+> structure to be a successor of AioTask, so rename things appropriately.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  block/block-copy.c | 99 +++++++++++++++++++++++-----------------------
+>  1 file changed, 49 insertions(+), 50 deletions(-)
+>=20
+> diff --git a/block/block-copy.c b/block/block-copy.c
+> index 05227e18bf..61d1d26991 100644
+> --- a/block/block-copy.c
+> +++ b/block/block-copy.c
 
-  class LoadBFLT(LinuxUserTest):
-      def test_stm32(self):
-          rootfs_url = ('https://elinux.org/images/5/51/'
-                        'Stm32_mini_rootfs.cpio.bz2')
-          rootfs_path_bz2 = self.fetch_asset(rootfs_url, ...)
-          busybox_path = self.workdir + "/bin/busybox"
+[...]
 
-          res = self.run("%s %s" % (busybox_path, cmd))
-          ver = 'BusyBox v1.24.0.git (2015-02-03 22:17:13 CET) ...'
-          self.assertIn(ver, res.stdout_text)
+> -static void coroutine_fn block_copy_inflight_req_shrink(BlockCopyState *=
+s,
+> -        BlockCopyInFlightReq *req, int64_t new_bytes)
+> +static void coroutine_fn block_copy_task_shrink(BlockCopyState *s,
+> +                                                BlockCopyTask *task,
+> +                                                int64_t new_bytes)
+>  {
+> -    if (new_bytes =3D=3D req->bytes) {
+> +    if (new_bytes =3D=3D task->bytes) {
+>          return;
+>      }
+> =20
+> -    assert(new_bytes > 0 && new_bytes < req->bytes);
+> +    assert(new_bytes > 0 && new_bytes < task->bytes);
+> =20
+> -    s->in_flight_bytes -=3D req->bytes - new_bytes;
+> +    s->in_flight_bytes -=3D task->bytes - new_bytes;
+>      bdrv_set_dirty_bitmap(s->copy_bitmap,
+> -                          req->offset + new_bytes, req->bytes - new_byte=
+s);
+> +                          task->offset + new_bytes, task->bytes - new_by=
+tes);
+> +    s->in_flight_bytes -=3D task->bytes - new_bytes;
 
-          cmd = 'uname -a'
-          res = self.run("%s %s" % (busybox_path, cmd))
-          unm = 'armv7l GNU/Linux'
-          self.assertIn(unm, res.stdout_text)
+This line doesn=92t seem right.
 
-This is a fairly trivial test, cheap (no need to cross-build), yet it
-still covers quite some QEMU code.
+(The rest does.)
 
-> IMO at present we have a fairly comprehensive testing infrastructure for
-> user-mode that is simply underused.  With docker, we have a set of
-> cross-compilers for most guest architectures, and we are able to build
-> statically linked binaries that are copied out of the container for
-> testing by the just-built qemu binaries on the host.  This
-> infrastructure is used by check-tcg.  It's fairly easy to add new test
-> cases to be run on one or all guests.
+Max
 
-What you describe is a different and complementary test set. Craft tests
-and build them with QEMU.
+
+--foOsIrQRwQBrmJ2nvc4G4wRGi3WxISIcL--
+
+--ESkIqomp3G2e5afHvkUShoWELcZDpie3f
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6n254ACgkQ9AfbAGHV
+z0DdqQf+OkQEQtO0VAquDeNPZJfq8LdsKaU1+wxLZ3UjrBtMNwZ4iem7QLoVxGrl
+zCp+WFCsh38dfP4SB7eK0HrSRS3zL735OvbBBtwKXgmPPXi76WRL3zAhJ2tfGvJx
+mp+dQ8rkrLKg5OvT587k1YuyAV9FUkC3ul6WHuu6t2xD+h7kK8vetHtmPPIcbZPm
+K5ycgqRq5PcapIv00+Vd/AR7v7MNSI1gK2xpB7jTF3RROMElWATlktY08FnmCpVW
+JqTCEJj0l20lv5wnzEeKXGVsydu0bEhYCioVoseV/tGIeF2WyEWVMVLsHWOeYtaL
+Idj61orvz+FNBw8ajLtPh5OerwILeA==
+=KClO
+-----END PGP SIGNATURE-----
+
+--ESkIqomp3G2e5afHvkUShoWELcZDpie3f--
+
 
