@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 990511BB91E
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 10:48:43 +0200 (CEST)
-Received: from localhost ([::1]:46570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 085421BB9C4
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 11:23:09 +0200 (CEST)
+Received: from localhost ([::1]:48376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTLv0-0007X6-Fj
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 04:48:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50808)
+	id 1jTMSJ-0003z2-G7
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 05:23:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59662)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1jTLrb-0003ZV-ED
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 04:46:10 -0400
+ (envelope-from <zltjiangshi@gmail.com>) id 1jTMOP-0001sW-D8
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:21:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1jTLmm-0006wi-DQ
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 04:41:07 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58672
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jTLSh-0004Pt-Ci
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 04:19:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588061966;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XZ/UUK5klKoP5DtXCXxRf3rW2Fvmtl16Iwp5ocV285A=;
- b=KBKI91N06mo2IV3pn0EsyasaFFg98II1+o0RAz6nQABKmpxflDimNxVL6MGLcqNWAnhoGU
- lrqSx5XA6c+7GgmFN4nb2Zb1xGR3H2ByAbM5dB0Sz4NzkepYusab1QOeNavTY8qsO6GCpx
- xUG9TAgMLd06dSahevFbAIpkmMxrvFM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-gsolQS5HNcSigW0KQZiEIA-1; Tue, 28 Apr 2020 04:19:22 -0400
-X-MC-Unique: gsolQS5HNcSigW0KQZiEIA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FB5F1005510;
- Tue, 28 Apr 2020 08:19:21 +0000 (UTC)
-Received: from [10.72.13.181] (ovpn-13-181.pek2.redhat.com [10.72.13.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2A3561001DC2;
- Tue, 28 Apr 2020 08:19:16 +0000 (UTC)
-Subject: Re: [PATCH 3/3] virtio-net: remove VIRTIO_NET_HDR_F_RSC_INFO compat
- handling
-To: Cornelia Huck <cohuck@redhat.com>, "Michael S . Tsirkin"
- <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20200427102415.10915-1-cohuck@redhat.com>
- <20200427102415.10915-4-cohuck@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <7f703bea-2cae-dcdc-71bd-9623c7db33ac@redhat.com>
-Date: Tue, 28 Apr 2020 16:19:15 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (envelope-from <zltjiangshi@gmail.com>) id 1jTMFN-0004Hx-5m
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:14:15 -0400
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:38411)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
+ id 1jTLUR-0007D8-JD
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 04:21:15 -0400
+Received: by mail-lf1-x144.google.com with SMTP id l11so16152401lfc.5
+ for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 01:21:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ZUx/xjE9NXEeS9tDsU3YesOkwefV2k0p1VjLEozlvD0=;
+ b=rAKWe/PkEV7kmXbb8o6TqKcCKfEN1pZUuJq9dIEETODWLjwuckIpdh/U+v8Rvlf56v
+ OIncM1Dl37/gXLV/wMpYjQzRZ94r4IVmSEFbavlK4GWp3v8RFN6RpFYiR7YrI03T6/f8
+ R4qH4yWci8M2o9npo1StbwzgPZoZPTTxVtfezQTuDeaK4VQSJe/ykkQwxQIKlOFDlWxU
+ JeYB15hud6H+/Drhj2/WWw8EYv+4ntXNofzXQF+2m8zXd85j8IdAAdUF29Sckp37xMrY
+ G+qES5k6he0KWf6jzflJEFS9q3ZAun+uGd55xS7oxMNDCTmeOxuXOfvP0AE+qH9h6RTj
+ uRfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ZUx/xjE9NXEeS9tDsU3YesOkwefV2k0p1VjLEozlvD0=;
+ b=MKEY7YIT25XR7gfJ2Al3ht8reAtFsNrl73fbFIg89MA/OSKJt1TBefwW2GoVaeuj1B
+ CQFX96yezGrjnjY3ePFadm1/Y+DGpCuCtL71bq2XSNx+y4Y0qnLQmy1t+bUNtDYSyhLL
+ qwiTTaC3qfrtfTtTdS0LGkQGWq8v6/acGsunb6CduuGNBDpZSMpEKycDUJ9v7V1MCm3g
+ 9OM5bXJx+cwFOGjgWKZIuc1dHm80eHA+5ycjvw1dO9QxOgNaLZEsXHVOxfr+3s5/g18V
+ I1+vVVnXSm5y959jecGxxyEgzO8j7MTJs9VynNB0A2GRmFzE+Mgxn0mIdmz1+hnhLKnq
+ VA4A==
+X-Gm-Message-State: AGi0PubDcuDA79PRdloZLvTOhbEJNEnWU/SHKss8PwAsaPsagZmiqUhI
+ zerg/KwovKUXs4vWhkiSkxxeRjwRGGjj3jF3biE=
+X-Google-Smtp-Source: APiQypLmBSJK6PqR4ie5yIz1/22BhDfb5dafA3aOV3JRLLNrruBcolHfWp7lJNw9qwsrn8yIsBzndFBuqHC2WOBKhn8=
+X-Received: by 2002:ac2:5559:: with SMTP id l25mr18202886lfk.55.1588062073611; 
+ Tue, 28 Apr 2020 01:21:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200427102415.10915-4-cohuck@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+References: <1587979995-17717-1-git-send-email-chenhc@lemote.com>
+ <1587979995-17717-3-git-send-email-chenhc@lemote.com>
+ <5a4cc457-971c-de9b-7380-c5e81d1b378b@amsat.org>
+In-Reply-To: <5a4cc457-971c-de9b-7380-c5e81d1b378b@amsat.org>
+From: chen huacai <zltjiangshi@gmail.com>
+Date: Tue, 28 Apr 2020 16:28:42 +0800
+Message-ID: <CABDp7Voe_WJwa6J9W-rQdSRHMx+u=46tfd9ufEdAkE36e59_FQ@mail.gmail.com>
+Subject: Re: [PATCH for-5.1 3/7] hw/mips: Add CPU IRQ3 delivery for KVM
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 02:06:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Received-SPF: pass client-ip=2a00:1450:4864:20::144;
+ envelope-from=zltjiangshi@gmail.com; helo=mail-lf1-x144.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,42 +78,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yuri Benditovich <yuri.benditovich@daynix.com>, qemu-devel@nongnu.org
+Cc: Huacai Chen <chenhuacai@gmail.com>, Huacai Chen <chenhc@lemote.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ qemu-level <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi, Philippe,
 
-On 2020/4/27 =E4=B8=8B=E5=8D=886:24, Cornelia Huck wrote:
-> VIRTIO_NET_HDR_F_RSC_INFO is available in the headers now.
+On Mon, Apr 27, 2020 at 5:57 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
 >
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> ---
->   hw/net/virtio-net.c | 8 --------
->   1 file changed, 8 deletions(-)
+> On 4/27/20 11:33 AM, Huacai Chen wrote:
+> > Currently, KVM/MIPS only deliver I/O interrupt via IP2, this patch add
+> > IP2 delivery as well, because Loongson-3 based machine use both IRQ2
+> > (CPU's IP2) and IRQ3 (CPU's IP3).
+> >
+> > Signed-off-by: Huacai Chen <chenhc@lemote.com>
+> > Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> > ---
+> >  hw/mips/mips_int.c | 6 ++----
+> >  1 file changed, 2 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/hw/mips/mips_int.c b/hw/mips/mips_int.c
+> > index 796730b..5526219 100644
+> > --- a/hw/mips/mips_int.c
+> > +++ b/hw/mips/mips_int.c
+> > @@ -48,16 +48,14 @@ static void cpu_mips_irq_request(void *opaque, int =
+irq, int level)
+> >      if (level) {
+> >          env->CP0_Cause |=3D 1 << (irq + CP0Ca_IP);
+> >
+> > -        if (kvm_enabled() && irq =3D=3D 2) {
+> > +        if (kvm_enabled() && (irq =3D=3D 2 || irq =3D=3D 3))
 >
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index e85d902588b3..7449570c7123 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -77,14 +77,6 @@
->      tso/gso/gro 'off'. */
->   #define VIRTIO_NET_RSC_DEFAULT_INTERVAL 300000
->  =20
-> -/* temporary until standard header include it */
-> -#if !defined(VIRTIO_NET_HDR_F_RSC_INFO)
-> -
-> -#define VIRTIO_NET_HDR_F_RSC_INFO  4 /* rsc_ext data in csum_ fields */
-> -#define VIRTIO_NET_F_RSC_EXT       61
-> -
-> -#endif
-> -
->   static inline __virtio16 *virtio_net_rsc_ext_num_packets(
->       struct virtio_net_hdr *hdr)
->   {
+> Shouldn't we check env->CP0_Config6 (or Config7) has the required
+> feature first?
+I'm sorry that I can't understand IRQ delivery has something to do
+with Config6/Config7, to identify Loongson-3?
+
+>
+> >              kvm_mips_set_interrupt(cpu, irq, level);
+> > -        }
+> >
+> >      } else {
+> >          env->CP0_Cause &=3D ~(1 << (irq + CP0Ca_IP));
+> >
+> > -        if (kvm_enabled() && irq =3D=3D 2) {
+> > +        if (kvm_enabled() && (irq =3D=3D 2 || irq =3D=3D 3))
+> >              kvm_mips_set_interrupt(cpu, irq, level);
+> > -        }
+> >      }
+> >
+> >      if (env->CP0_Cause & CP0Ca_IP_mask) {
+> >
 
 
-I think we should not keep the those tricky num_packets/dup_acks.
 
-Thanks
-
+--=20
+Huacai Chen
 
