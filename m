@@ -2,96 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BDD11BB6F2
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 08:42:28 +0200 (CEST)
-Received: from localhost ([::1]:43548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B9C01BB82D
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 09:55:26 +0200 (CEST)
+Received: from localhost ([::1]:45422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTJwp-0007Jw-Cn
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 02:42:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36648)
+	id 1jTL5R-0005Xv-Dk
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 03:55:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45290)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jTJrS-0002C4-5e
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 02:40:23 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jTL1V-0001QD-L8
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:54:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jTJpl-0001qb-Mm
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 02:36:53 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22240
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jTJpl-0001pW-0x
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 02:35:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588055706;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=+nSQbbskV7DNFupQmBuY2FhjMyAlKMppJSzD23Xl+1Q=;
- b=ObusQYDSSqhryvDBmNNK/7eo3Ge9hXGycIKi/yVGQnd3Qu3zKHFi4Dt1fmP4MVQtshKmg4
- X34nHJswwwqnue0VMZwcmAWGdg9/WvPLc3ThqJ2HxWh8My0cw2fTKpr3fl54ZgHwUI5JMZ
- 9xUjoLkHDKevTOK6+rQ/9xs/vB6Cm74=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-nn2KIq0NMpWN600KKwgwMA-1; Tue, 28 Apr 2020 02:35:02 -0400
-X-MC-Unique: nn2KIq0NMpWN600KKwgwMA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD6F11009442;
- Tue, 28 Apr 2020 06:35:00 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 910EB5F7FD;
- Tue, 28 Apr 2020 06:34:52 +0000 (UTC)
-Subject: Re: [PATCH v3 1/3] block: Add blk_new_with_bs() helper
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20200424190903.522087-1-eblake@redhat.com>
- <20200424190903.522087-2-eblake@redhat.com>
- <ba31b83c-538a-0f3f-9bab-7aadb2f99ea9@redhat.com>
- <5d70074f-ef06-31f6-f694-ef4c4517472c@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <59352c54-2d9c-5bde-9f5b-541f2ae5cccc@redhat.com>
-Date: Tue, 28 Apr 2020 08:34:51 +0200
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jTKzu-00008Q-Fu
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:51:21 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36804)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jTKKL-0004Xb-HM
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:06:45 -0400
+Received: by mail-wr1-x444.google.com with SMTP id d15so21681673wrx.3
+ for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 00:06:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:autocrypt:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=X388wrm3JW6uJ8dysZxxz4pfx+azpLrcjf4AmQ77Enw=;
+ b=g/2Yt90lHAHQC5IVT5fUrSW8Xh1gAq0Htn3mc/g6VhHT91xTeSA2b/2HSZ6pkhvfLk
+ sl84qh4uq9j36jXLYjCFKYljElSh/MfzSbVPls3bM9kawTtEAwDMP4MkMfHi8tYfHo1y
+ n4j7Pbzd7PtHwgHs9ygUxF5fLGHOvv7LWYFSksdLcI9MDVT2WH73oaS8HQzryvzvL+t+
+ 4HbVzvkR29yyYBDOIaP0g0A+kWcTjuljTQa6flHFZv//uAu/8gc0z66YXwRMPwK+qIlN
+ dfhPO5K+cGSBituzwm4/AGFAdGDPzXjIiZ1exh6MYX1xWmBmhGWvHG2lhIWmOam4Lnga
+ ufSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=X388wrm3JW6uJ8dysZxxz4pfx+azpLrcjf4AmQ77Enw=;
+ b=XI2inb5TFtOpITRTSB4rQd4QT4Mo1Z/oD25BJ6/1Yu2dEgQnmObQrJPqCY8bRrTMJw
+ vGIXrjmU8li4QbzAB0Wylv83r10299RYCb1Kq2SIgca4bCXufz9++tyJPt/huc63rcqx
+ 1orG5GexVN0OytitmOmw1Q1/7ezKyVoRFDF260Asw8uVo81o8C1K9NDhmqfv2fm5p26r
+ vvLskFNZqQQ2kuUOKpZlmvLBz/6yyOJjg1V9+E6qwFWlJdznl0KYSi+STHQTHAygVbRY
+ dF6/sOZ62hRifGC2vd6QAuiXPvEE9mSMKDGYXJiDOF71JkxVr07hO8PMJoIcPIn8j9KM
+ tYdw==
+X-Gm-Message-State: AGi0PuZGfB4jfd6QCg3IqpdO+O3NdZymILA9elEIf/ViFrm8u979HF32
+ 0rQv+oIcHNgj1mwNy3qxypw7WwMER/w=
+X-Google-Smtp-Source: APiQypKyGhsppdcChpY3flmUTXLn9fBo1MpGeuUrAvFdEFVujo5q74NpIjemA4gz/N0kBGwAN+SR0Q==
+X-Received: by 2002:adf:a309:: with SMTP id c9mr29629470wrb.97.1588057602876; 
+ Tue, 28 Apr 2020 00:06:42 -0700 (PDT)
+Received: from [192.168.1.39] (137.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.137])
+ by smtp.gmail.com with ESMTPSA id b66sm2099904wmh.12.2020.04.28.00.06.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Apr 2020 00:06:42 -0700 (PDT)
+Subject: Re: [PATCH v4 1/7] raspi: add BCM2835 SOC MPHI emulation
+To: Paul Zimmerman <pauldzim@gmail.com>
+References: <20200428022232.18875-1-pauldzim@gmail.com>
+ <20200428022232.18875-2-pauldzim@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Autocrypt: addr=f4bug@amsat.org; keydata=
+ mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
+ u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
+ HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
+ YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
+ ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
+ dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
+ ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
+ Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
+ HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
+ Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
+ CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
+ klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
+ jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
+ 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
+ loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
+ sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
+ JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
+ 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
+ K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
+ n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
+ CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
+Message-ID: <b7d780c2-d79b-dc72-b277-60aab1cb9c7a@amsat.org>
+Date: Tue, 28 Apr 2020 09:06:41 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <5d70074f-ef06-31f6-f694-ef4c4517472c@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="iGMFusVHO0deybt4uKnqZqHEZ19EDMb1z"
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 02:06:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+In-Reply-To: <20200428022232.18875-2-pauldzim@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -103,195 +112,420 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- "open list:Sheepdog" <sheepdog@lists.wpkg.org>, qemu-block@nongnu.org,
- Jeff Cody <codyprime@gmail.com>, Stefan Weil <sw@weilnetz.de>,
- Markus Armbruster <armbru@redhat.com>, stefanha@redhat.com,
- Liu Yuan <namei.unix@gmail.com>, "Denis V. Lunev" <den@openvz.org>,
- John Snow <jsnow@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---iGMFusVHO0deybt4uKnqZqHEZ19EDMb1z
-Content-Type: multipart/mixed; boundary="XnA8rzA95pnCFTs5Dp7Tiuw0EEyTFfSCg"
+Hi Paul,
 
---XnA8rzA95pnCFTs5Dp7Tiuw0EEyTFfSCg
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+On 4/28/20 4:22 AM, Paul Zimmerman wrote:
+> Add BCM2835 SOC MPHI (Message-based Parallel Host Interface)
+> emulation. It is very basic, only providing the FIQ interrupt
+> needed to allow the dwc-otg USB host controller driver in the
+> Raspbian kernel to function.
+> 
+> Signed-off-by: Paul Zimmerman <pauldzim@gmail.com>
+> ---
+>  hw/arm/bcm2835_peripherals.c         |  17 +++
+>  hw/misc/Makefile.objs                |   1 +
+>  hw/misc/bcm2835_mphi.c               | 190 +++++++++++++++++++++++++++
+>  include/hw/arm/bcm2835_peripherals.h |   2 +
+>  include/hw/misc/bcm2835_mphi.h       |  48 +++++++
+>  5 files changed, 258 insertions(+)
+>  create mode 100644 hw/misc/bcm2835_mphi.c
+>  create mode 100644 include/hw/misc/bcm2835_mphi.h
+> 
+> diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+> index edcaa4916d..5e2c832d95 100644
+> --- a/hw/arm/bcm2835_peripherals.c
+> +++ b/hw/arm/bcm2835_peripherals.c
+> @@ -124,6 +124,10 @@ static void bcm2835_peripherals_init(Object *obj)
+>      sysbus_init_child_obj(obj, "gpio", &s->gpio, sizeof(s->gpio),
+>                            TYPE_BCM2835_GPIO);
+>  
+> +    /* Mphi */
+> +    sysbus_init_child_obj(obj, "mphi", &s->mphi, sizeof(s->mphi),
+> +                          TYPE_BCM2835_MPHI);
+> +
+>      object_property_add_const_link(OBJECT(&s->gpio), "sdbus-sdhci",
+>                                     OBJECT(&s->sdhci.sdbus), &error_abort);
+>      object_property_add_const_link(OBJECT(&s->gpio), "sdbus-sdhost",
+> @@ -368,6 +372,19 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+>          return;
+>      }
+>  
+> +    /* Mphi */
+> +    object_property_set_bool(OBJECT(&s->mphi), true, "realized", &err);
+> +    if (err) {
+> +        error_propagate(errp, err);
+> +        return;
+> +    }
+> +
+> +    memory_region_add_subregion(&s->peri_mr, MPHI_OFFSET,
+> +                sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->mphi), 0));
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->mphi), 0,
+> +        qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
+> +                               INTERRUPT_HOSTPORT));
+> +
+>      create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET, 0x40);
+>      create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x1000);
+>      create_unimp(s, &s->a2w, "bcm2835-a2w", A2W_OFFSET, 0x1000);
+> diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
+> index 68aae2eabb..91085cc21b 100644
+> --- a/hw/misc/Makefile.objs
+> +++ b/hw/misc/Makefile.objs
+> @@ -57,6 +57,7 @@ common-obj-$(CONFIG_OMAP) += omap_l4.o
+>  common-obj-$(CONFIG_OMAP) += omap_sdrc.o
+>  common-obj-$(CONFIG_OMAP) += omap_tap.o
+>  common-obj-$(CONFIG_RASPI) += bcm2835_mbox.o
+> +common-obj-$(CONFIG_RASPI) += bcm2835_mphi.o
+>  common-obj-$(CONFIG_RASPI) += bcm2835_property.o
+>  common-obj-$(CONFIG_RASPI) += bcm2835_rng.o
+>  common-obj-$(CONFIG_RASPI) += bcm2835_thermal.o
+> diff --git a/hw/misc/bcm2835_mphi.c b/hw/misc/bcm2835_mphi.c
+> new file mode 100644
+> index 0000000000..66fc4a9cd3
+> --- /dev/null
+> +++ b/hw/misc/bcm2835_mphi.c
+> @@ -0,0 +1,190 @@
+> +/*
+> + * BCM2835 SOC MPHI emulation
+> + *
+> + * Very basic emulation, only providing the FIQ interrupt needed to
+> + * allow the dwc-otg USB host controller driver in the Raspbian kernel
+> + * to function.
+> + *
+> + * Copyright (c) 2020 Paul Zimmerman <pauldzim@gmail.com>
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License as published by
+> + * the Free Software Foundation; either version 2 of the License, or
+> + * (at your option) any later version.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+> + * GNU General Public License for more details.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "hw/misc/bcm2835_mphi.h"
+> +#include "migration/vmstate.h"
+> +#include "qemu/error-report.h"
+> +#include "qemu/main-loop.h"
+> +
+> +static inline void mphi_raise_irq(BCM2835MphiState *s)
+> +{
+> +    qemu_set_irq(s->irq, 1);
+> +}
+> +
+> +static inline void mphi_lower_irq(BCM2835MphiState *s)
+> +{
+> +    qemu_set_irq(s->irq, 0);
+> +}
+> +
+> +static uint64_t mphi_reg_read(void *ptr, hwaddr addr, unsigned size)
+> +{
+> +    BCM2835MphiState *s = ptr;
+> +    uint32_t reg = s->regbase + addr;
+> +    uint32_t val = 0;
+> +
+> +    switch (reg) {
+> +    case 0x28:  /* outdda */
+> +        val = s->outdda;
+> +        break;
+> +    case 0x2c:  /* outddb */
+> +        val = s->outddb;
+> +        break;
+> +    case 0x4c:  /* ctrl */
+> +        val = s->ctrl;
+> +        val |= 1 << 17;
+> +        break;
+> +    case 0x50:  /* intstat */
+> +        val = s->intstat;
+> +        break;
+> +    case 0x1f0: /* swirq_set */
+> +        val = s->swirq_set;
+> +        break;
+> +    case 0x1f4: /* swirq_clr */
+> +        val = s->swirq_clr;
+> +        break;
 
-On 27.04.20 16:03, Eric Blake wrote:
-> On 4/27/20 5:00 AM, Max Reitz wrote:
->> On 24.04.20 21:09, Eric Blake wrote:
->>> There are several callers that need to create a new block backend from
->>> an existing BDS; make the task slightly easier with a common helper
->>> routine.
->>>
->>> Suggested-by: Max Reitz <mreitz@redhat.com>
->>> Signed-off-by: Eric Blake <eblake@redhat.com>
->>> ---
->=20
->>> +++ b/block/crypto.c
->>> @@ -256,16 +256,14 @@ static int
->>> block_crypto_co_create_generic(BlockDriverState *bs,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PreallocMode prealloc,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Error **errp)
->>> =C2=A0 {
->>> -=C2=A0=C2=A0=C2=A0 int ret;
->>> +=C2=A0=C2=A0=C2=A0 int ret =3D -EPERM;
->>
->> I=E2=80=99m not sure I=E2=80=99m a fan of this, because I feel like it m=
-akes the code
->> harder to read, due to having to look in three places (here, around the
->> blk_new_with_bs() call, and under the cleanup label) instead of in two
->> (not here) to verify that the error handling code is correct.
->>
->> There=E2=80=99s also the fact that this is not really a default return v=
-alue,
->> but one very specific error code for if one very specific function call
->> fails.
->>
->> I suppose it comes down to whether one considers LoC a complexity
->> problem.=C2=A0 (I don=E2=80=99t, necessarily.)
->>
->> (Also I realize it seems rather common in the kernel to set error return
->> variables before the function call, but I think the more common pattern
->> in qemu is to set it in the error path.)
->=20
-> I'm fine with either style.=C2=A0 Setting it up front is handy if that
-> particular error makes a good default, but in many of the functions I
-> touched, we were returning a variety of errors (-EIO, -EINVAL, -EPERM,
-> etc) such that there was no good default, and thus no reason to set a
-> default up front.=C2=A0 Is this something that would go through your tree=
-,
-> and if so, are you okay making that tweak, or do I need to send v4?
+I'm surprised this register is read.
 
-I suppose I can do that, this is what I=E2=80=99d squash in, OK?
+> +    default:
+> +        break;
+> +    }
+> +
+> +    return val;
+> +}
+> +
+> +static void mphi_reg_write(void *ptr, hwaddr addr, uint64_t val, unsigned size)
+> +{
+> +    BCM2835MphiState *s = ptr;
+> +    uint32_t reg = s->regbase + addr;
+> +    int do_irq = 0;
+> +
+> +    val &= 0xffffffff;
 
-Max
+Using '.impl.max_access_size = 4' (see below) this line is not necessary.
 
-diff --git a/block/crypto.c b/block/crypto.c
-index a4d77f07fe..d09b364134 100644
---- a/block/crypto.c
-+++ b/block/crypto.c
-@@ -256,7 +256,7 @@ static int
-block_crypto_co_create_generic(BlockDriverState *bs,
-                                           PreallocMode prealloc,
-                                           Error **errp)
- {
--    int ret =3D -EPERM;
-+    int ret;
-     BlockBackend *blk;
-     QCryptoBlock *crypto =3D NULL;
-     struct BlockCryptoCreateData data;
-@@ -264,6 +264,7 @@ static int
-block_crypto_co_create_generic(BlockDriverState *bs,
-     blk =3D blk_new_with_bs(bs, BLK_PERM_WRITE | BLK_PERM_RESIZE,
-BLK_PERM_ALL,
-                           errp);
-     if (!blk) {
-+        ret =3D -EPERM;
-         goto cleanup;
-     }
+> +
+> +    switch (reg) {
+> +    case 0x28:  /* outdda */
+> +        s->outdda = val;
+> +        break;
+> +    case 0x2c:  /* outddb */
+> +        s->outddb = val;
+> +        if (val & (1 << 29)) {
+> +            do_irq = 1;
+> +        }
 
-diff --git a/block/qed.c b/block/qed.c
-index 7a31495d29..671742511e 100644
---- a/block/qed.c
-+++ b/block/qed.c
-@@ -610,7 +610,7 @@ static int coroutine_fn
-bdrv_qed_co_create(BlockdevCreateOptions *opts,
-     QEDHeader le_header;
-     uint8_t *l1_table =3D NULL;
-     size_t l1_size;
--    int ret =3D -EPERM;
-+    int ret =3D 0;
+Any idea what outdda/b means?
 
-     assert(opts->driver =3D=3D BLOCKDEV_DRIVER_QED);
-     qed_opts =3D &opts->u.qed;
-@@ -654,6 +654,7 @@ static int coroutine_fn
-bdrv_qed_co_create(BlockdevCreateOptions *opts,
-     blk =3D blk_new_with_bs(bs, BLK_PERM_WRITE | BLK_PERM_RESIZE,
-BLK_PERM_ALL,
-                           errp);
-     if (!blk) {
-+        ret =3D -EPERM;
-         goto out;
-     }
-     blk_set_allow_write_beyond_eof(blk, true);
-diff --git a/block/sheepdog.c b/block/sheepdog.c
-index 2b53cd950d..8baf9e66bb 100644
---- a/block/sheepdog.c
-+++ b/block/sheepdog.c
-@@ -1801,13 +1801,14 @@ static int sd_prealloc(BlockDriverState *bs,
-int64_t old_size, int64_t new_size,
-     uint32_t idx, max_idx;
-     uint32_t object_size;
-     void *buf =3D NULL;
--    int ret =3D -EPERM;
-+    int ret;
+> +        break;
+> +    case 0x4c:  /* ctrl */
+> +        s->ctrl = val;
+> +        if (val & (1 << 16)) {
 
-     blk =3D blk_new_with_bs(bs,
-                           BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE |
-BLK_PERM_RESIZE,
-                           BLK_PERM_ALL, errp);
+Any idea what are bits 16/17 for?
 
-     if (!blk) {
-+        ret =3D -EPERM;
-         goto out_with_err_set;
-     }
+> +            do_irq = -1;
+> +        }
 
-diff --git a/block/vhdx.c b/block/vhdx.c
-index bdf5d05cc0..8ca6976b59 100644
---- a/block/vhdx.c
-+++ b/block/vhdx.c
-@@ -1891,7 +1891,7 @@ static int coroutine_fn
-vhdx_co_create(BlockdevCreateOptions *opts,
-     BlockBackend *blk =3D NULL;
-     BlockDriverState *bs =3D NULL;
+I suppose this register is INT_ENA (inverted?)
 
--    int ret =3D -EPERM;
-+    int ret =3D 0;
-     uint64_t image_size;
-     uint32_t log_size;
-     uint32_t block_size;
-@@ -1987,6 +1987,7 @@ static int coroutine_fn
-vhdx_co_create(BlockdevCreateOptions *opts,
-     blk =3D blk_new_with_bs(bs, BLK_PERM_WRITE | BLK_PERM_RESIZE,
-BLK_PERM_ALL,
-                           errp);
-     if (!blk) {
-+        ret =3D -EPERM;
-         goto delete_and_exit;
-     }
-     blk_set_allow_write_beyond_eof(blk, true);
+> +        break;
+> +    case 0x50:  /* intstat */
+> +        s->intstat = val;
+> +        if (val & ((1 << 16) | (1 << 29))) {
+> +            do_irq = -1;
 
+I suppose writting INT_STAT acknowledges interrupts.
 
---XnA8rzA95pnCFTs5Dp7Tiuw0EEyTFfSCg--
+> +        }
+> +        break;
 
---iGMFusVHO0deybt4uKnqZqHEZ19EDMb1z
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Here ...
 
------BEGIN PGP SIGNATURE-----
+> +    case 0x1f0: /* swirq_set */
+> +        s->swirq_set = val;
+> +        do_irq = 1;
+> +        break;
+> +    case 0x1f4: /* swirq_clr */
+> +        s->swirq_clr = val;
+> +        do_irq = -1;
+> +        break;
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6nzosACgkQ9AfbAGHV
-z0B4Swf9H3jAThDKf044xz+rand/xkJ6VUavMi4ACTRtBD4EzhFfMlQT+1a6I0j1
-j1+ieNOoro2Q4V9yGqH/9kOF3Lh7e6XrMxzh2EjT5ZdDJBIFohrqm7pu6BoReEPX
-hm6xt8BaPiHjBt/AT0T3yTAAp6lPr/mCssHzgo+sc0nMPRJYWWHsnuV0HLb+zRkq
-Z066sGQpXYQIpA1lFFEbN6oXqIOyRQnm842ojv479wgrFNvns7X4IBpwKEaIYiNO
-+9ZFG0GlTI9IM4XjcEvVqH4lJOqH5e5ibRTkHGNqLvPud4Qterz/1I4IT+oWMQ91
-Zv/2ZZSJKf9Sn3ZxtKOC3qQXgMpxbQ==
-=04l/
------END PGP SIGNATURE-----
+... we access the same register, 's->swirq'.
 
---iGMFusVHO0deybt4uKnqZqHEZ19EDMb1z--
+0x1f0 sets the bits:
 
+  s->swirq = val;
+
+0x1f4 clears the bits:
+
+  s->swirq &= ~val;
+
+Then you could simplify with qemu_set_irq(s->irq, ... && s->swirq);
+
+> +    default:
+
+Please log unimplemented accesses:
+
+       qemu_log_mask(LOG_UNIMP, ...);
+
+> +        break;
+
+           return?
+
+> +    }
+> +
+> +    if (do_irq > 0) {
+> +        mphi_raise_irq(s);
+> +    } else if (do_irq < 0) {
+> +        mphi_lower_irq(s);
+> +    }
+> +}
+> +
+> +static const MemoryRegionOps mphi_mmio_ops = {
+> +    .read = mphi_reg_read,
+> +    .write = mphi_reg_write,
+> +    .valid.min_access_size = 4,
+> +    .valid.max_access_size = 4,
+
+I don't know what are the valid bus access sizes, but per your
+implementation you want:
+
+       .impl.min_access_size = 4,
+       .impl.max_access_size = 4,
+
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +};
+> +
+> +static void mphi_reset(DeviceState *dev)
+> +{
+> +}
+> +
+> +static void mphi_realize(DeviceState *dev, Error **errp)
+> +{
+> +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+> +    BCM2835MphiState *s = BCM2835_MPHI(dev);
+> +
+> +    sysbus_init_irq(sbd, &s->irq);
+> +}
+> +
+> +static void mphi_init(Object *obj)
+> +{
+> +    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+> +    BCM2835MphiState *s = BCM2835_MPHI(obj);
+> +
+> +    s->regbase = 0;
+> +    memory_region_init(&s->mem, obj, "mphi", MPHI_MMIO_SIZE);
+> +    memory_region_init_io(&s->mem_reg, obj, &mphi_mmio_ops, s, "global", 0x200);
+> +    memory_region_add_subregion(&s->mem, s->regbase, &s->mem_reg);
+
+I'm not sure why you use a container. You can simplify using a single:
+
+       memory_region_init_io(&s->iomem, obj, &mphi_mmio_ops, s, "mphi",
+MPHI_MMIO_SIZE);
+
+> +    sysbus_init_mmio(sbd, &s->mem);
+> +}
+> +
+> +const VMStateDescription vmstate_mphi_state = {
+> +    .name = "mphi",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT16(regbase, BCM2835MphiState),
+> +        VMSTATE_UINT32(outdda, BCM2835MphiState),
+> +        VMSTATE_UINT32(outddb, BCM2835MphiState),
+> +        VMSTATE_UINT32(ctrl, BCM2835MphiState),
+> +        VMSTATE_UINT32(intstat, BCM2835MphiState),
+> +        VMSTATE_UINT32(swirq_set, BCM2835MphiState),
+> +        VMSTATE_UINT32(swirq_clr, BCM2835MphiState),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+> +static void mphi_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +
+> +    dc->realize = mphi_realize;
+> +    dc->reset = mphi_reset;
+> +    dc->vmsd = &vmstate_mphi_state;
+> +}
+> +
+> +static const TypeInfo bcm2835_mphi_type_info = {
+> +    .name          = TYPE_BCM2835_MPHI,
+> +    .parent        = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size = sizeof(BCM2835MphiState),
+> +    .instance_init = mphi_init,
+> +    .class_init    = mphi_class_init,
+> +};
+> +
+> +static void bcm2835_mphi_register_types(void)
+> +{
+> +    type_register_static(&bcm2835_mphi_type_info);
+> +}
+> +
+> +type_init(bcm2835_mphi_register_types)
+> diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
+> index 2e8655a7c2..7a7a8f6141 100644
+> --- a/include/hw/arm/bcm2835_peripherals.h
+> +++ b/include/hw/arm/bcm2835_peripherals.h
+> @@ -21,6 +21,7 @@
+>  #include "hw/misc/bcm2835_property.h"
+>  #include "hw/misc/bcm2835_rng.h"
+>  #include "hw/misc/bcm2835_mbox.h"
+> +#include "hw/misc/bcm2835_mphi.h"
+>  #include "hw/misc/bcm2835_thermal.h"
+>  #include "hw/sd/sdhci.h"
+>  #include "hw/sd/bcm2835_sdhost.h"
+> @@ -42,6 +43,7 @@ typedef struct BCM2835PeripheralState {
+>      qemu_irq irq, fiq;
+>  
+>      BCM2835SystemTimerState systmr;
+> +    BCM2835MphiState mphi;
+>      UnimplementedDeviceState armtmr;
+>      UnimplementedDeviceState cprman;
+>      UnimplementedDeviceState a2w;
+> diff --git a/include/hw/misc/bcm2835_mphi.h b/include/hw/misc/bcm2835_mphi.h
+> new file mode 100644
+> index 0000000000..6d070b04a5
+> --- /dev/null
+> +++ b/include/hw/misc/bcm2835_mphi.h
+> @@ -0,0 +1,48 @@
+> +/*
+> + * BCM2835 SOC MPHI state definitions
+> + *
+> + * Copyright (c) 2020 Paul Zimmerman <pauldzim@gmail.com>
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License as published by
+> + * the Free Software Foundation; either version 2 of the License, or
+> + * (at your option) any later version.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+> + * GNU General Public License for more details.
+> + */
+> +
+> +#ifndef HW_MISC_BCM2835_MPHI_H
+> +#define HW_MISC_BCM2835_MPHI_H
+> +
+> +#include "hw/irq.h"
+> +#include "hw/sysbus.h"
+> +#include "sysemu/dma.h"
+
+sysemu/dma.h not used.
+
+> +
+> +#define MPHI_MMIO_SIZE      0x1000
+> +
+> +typedef struct BCM2835MphiState BCM2835MphiState;
+> +
+> +struct BCM2835MphiState {
+> +    SysBusDevice parent_obj;
+> +    qemu_irq irq;
+> +    MemoryRegion mem;
+> +    MemoryRegion mem_reg;
+> +    uint16_t regbase;
+
+You can remove regbase.
+
+> +
+> +    uint32_t outdda;
+> +    uint32_t outddb;
+> +    uint32_t ctrl;
+> +    uint32_t intstat;
+> +    uint32_t swirq_set;
+> +    uint32_t swirq_clr;
+
+As suggested previously, you can use a single 'swirq' register.
+
+> +};
+> +
+> +#define TYPE_BCM2835_MPHI   "bcm2835-mphi"
+> +
+> +#define BCM2835_MPHI(obj) \
+> +    OBJECT_CHECK(BCM2835MphiState, (obj), TYPE_BCM2835_MPHI)
+> +
+> +#endif
+> 
+
+I made a lot of picky comments, mostly to simplify, but this patch is in
+good shape otherwise (being aware we have no documentation on this
+device). Maybe Peter/Gerd are OK to accept it as it (as it is your first
+contribution).
+
+Regards,
+
+Phil.
 
