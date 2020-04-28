@@ -2,95 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F521BB9E7
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 11:33:32 +0200 (CEST)
-Received: from localhost ([::1]:49360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FC7E1BB9C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 11:25:37 +0200 (CEST)
+Received: from localhost ([::1]:48692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTMcN-00016l-Ok
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 05:33:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32838)
+	id 1jTMUi-0000LI-3L
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 05:25:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59924)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jTMTm-0000MA-Es
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:25:04 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTMPq-0002AJ-G9
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:22:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jTMTI-0003na-Vt
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:24:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39039
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jTMCi-0005cQ-88
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:07:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588064818;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=6tiDdVRKH85uOm8ShKqqJkNAD9gcVbkq0/g3+DfvKhQ=;
- b=a734JcJt9JBqxPQP3+wpXY07GGVkfQi3S+QrBYdiqXBh6+kxPjWQg4uHOuvrNRTFdGoJ/a
- BiessaIl6mHdjLxx7ptxWwCrUsz87+Sxgtc+6a/yhYNACV59Kfks2fnB0eLUamm017s2iS
- xpusGSV/5RhbVJe/cf+1w+tsOGJdKOk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-tXwpmKEONLSIqsjlxKwk8Q-1; Tue, 28 Apr 2020 05:06:56 -0400
-X-MC-Unique: tXwpmKEONLSIqsjlxKwk8Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BBFC100A614;
- Tue, 28 Apr 2020 09:06:55 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F88C1002394;
- Tue, 28 Apr 2020 09:06:54 +0000 (UTC)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTMMf-0000su-MK
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:20:33 -0400
+Received: from mail-eopbgr140098.outbound.protection.outlook.com
+ ([40.107.14.98]:22631 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jTMMe-0000sY-RY; Tue, 28 Apr 2020 05:17:17 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LC12H12A5G55UnlzHgrncPlM6bagFyWwya5EyO+p46tl5OI/SB9LkYZxV3fCVxh0NfhlEm6L+XNIinEujAxvrWqQ+jpvKq62CVUdfAL/HWqgMrhFLX14GYevV6EsHyiRCS6Lfk9CvLCb06sUUSfZQaWQGk8Pp+I4lK75IpBZOuyC2yXFxVR3Roy2MvX3Cn/xblcFgqWd4/iuhKyngnYQZLbpwmOfqzFwgrxyjjBLIBo9Dn+nOyEttIl+r2OmKdvKeI69LZTRdG9DHkRJ3D5NuBfPmPyDl9B2IPhDocRSE5qc06ndeNViK9Mr9ptFXciCSOO67SHPeT5R3wexzEpgqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RfUNAOL9NY2v1Bdc94tU+oCTjE5Bdziivmy39UMaI+E=;
+ b=TJ0HYwf+U2sfV5wHzgzdAdairJmRBcA853cPUW9LQsr5bfpnoJhDJNQxwvuz2/LkfBcLOyGqhwmKdxooTFk4fhX7J/5/9RyHKIk2fcwIX8pXuAkSPRSX/ynIiJa/Ga/Do7ndxAxEPr2rhTcHhh67B36JnUefIXlUNMw2CzaC8BJM37vF0GLVrcCu50YJrux+MKAsixYRSo0LJdflT+zeZ25pp574QwX14gHREWOMcSbXw8bRGG/ChDQupOwb6gh5hjftIZeLons+/6WXcY8uU3IPHFXMP1pSOS2aPVgt/EmQqYqDV040fLTz6bfCAYpreT+puDOZwVrpVSAlq6S2fg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RfUNAOL9NY2v1Bdc94tU+oCTjE5Bdziivmy39UMaI+E=;
+ b=pi/UiPgrHKbZvzp8JQIZEKme8bR7AhI24bQgtrB3PMrDIBu11f2EiQTuwT/rDShHPeh5l19sZu2Y3aWkPUZwLDI8LAoKQ9pFkLcMMkJhFgRycJUUDoaLvLAi1c7uo3JF+LeiY2prFfwxPdUW9OcYSqdAAnKr1epAVG4bBJ4GooQ=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5381.eurprd08.prod.outlook.com (2603:10a6:20b:105::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Tue, 28 Apr
+ 2020 09:17:11 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.023; Tue, 28 Apr 2020
+ 09:17:11 +0000
 Subject: Re: [PATCH v2 5/6] block/block-copy: move block_copy_task_create down
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20200325134639.16337-1-vsementsov@virtuozzo.com>
  <20200325134639.16337-6-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <ae040bc6-7c0e-4b55-0723-c5e892570fb9@redhat.com>
-Date: Tue, 28 Apr 2020 11:06:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ <ae040bc6-7c0e-4b55-0723-c5e892570fb9@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200428121709825
+Message-ID: <9fd7f07e-d297-15a5-1bd1-355e8c8b013e@virtuozzo.com>
+Date: Tue, 28 Apr 2020 12:17:09 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <ae040bc6-7c0e-4b55-0723-c5e892570fb9@redhat.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: ZR0P278CA0017.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:16::27) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <20200325134639.16337-6-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="PaMMtZs7K5syVX8Y6O2mDEBLCoARGOHAw"
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 02:16:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.155) by
+ ZR0P278CA0017.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:16::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2937.13 via Frontend Transport; Tue, 28 Apr 2020 09:17:11 +0000
+X-Tagtoolbar-Keys: D20200428121709825
+X-Originating-IP: [185.215.60.155]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1c425c00-30fc-4210-87da-08d7eb54ef1d
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5381:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB53814FC05594BF3CFB30DE68C1AC0@AM7PR08MB5381.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-Forefront-PRVS: 0387D64A71
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(366004)(396003)(136003)(346002)(376002)(39840400004)(2906002)(4326008)(5660300002)(107886003)(6486002)(36756003)(478600001)(16576012)(66476007)(66556008)(956004)(31686004)(2616005)(186003)(316002)(4744005)(26005)(81156014)(16526019)(31696002)(8676002)(8936002)(52116002)(86362001)(66946007)(53546011);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BmSDVW0nEGqSlJaNS/yEs5yPtoOLIEunNWLvi8IliCOwYmmFfe61yhkWfk2y7lkgFD/esuNuLtLPtrM22kobg1nnpXI7NYw2cTvmB0h2e5lSOYakypLfr+tFNikVroR6PMEuO3MiBcS7FHdHgon56OifG+magESMdRNjhn73rnSJjbLkaqvN7y2SKPw3OjugruBAtAAgjvipfKti8LZNhEBT+/B7OeEYp91hTuDX7m7WRBmQsVUG4vj6PxXFJjt1RnbySfmCeMf0G9oYQlizZL7xOQhHeEeRCqEeT0wgvKDVs+KI/t43Tadw820hRPb4NkVUbSsJALbUh7VpZFmi69AzGvsnWjdw7sc0Gfm69W2uhz2R/uknQlvMbmRolBU3TmthrwUopEGKM6sS1/+LsGB0WkjHrDxcU+M+DVCJqfucclFGMD+1nnXby0tMvNkE
+X-MS-Exchange-AntiSpam-MessageData: GHX8BdzSKkxqtRt35EPXWDzivSmob5OpgDFVbax15SNZNrPCLQ3kAM4OG03ESjm4SomsIvdxZtLv1I6oAYBhU6C7f3CLDDihdksN8hEO9R9YecbxUfT4noUpvEswGccPDuT2bnmMgI7LMMBXihx9d9C7Xx1aiNDgntdHGJG/MnWhFPJhyg5RJ8x7G6nEy7/E6/3fGN39QWMht4NaKVEo+aYIjDba9xcYlZzp1rLtNJaI7L7xJTG+FjrXNwtxysESZL4JjuzOF9QnwVCns074XATQXogkT9k4qPz/p5Eh5a5nn+C56mzZP3toQQSnSniKOYLtSic00czyMoqQ7X9WK4xYfdrirDCLaFcQsGPdXQmqYz6ejhsLqAwQBLsBebytuh1JzWAKAejot2J3vc/93Z0bg3PXyfUJIfF6BKIrbbsWc730b3TMfYkFwkvK5vO5fKxuT+O2J9uQgk2+2t+FRLt1sf1p256LHzamf+iETgDDxGvk3HoYaSTfhVkggCduUrrQ0wpmXE9GpDWLSJJYIkVEoeh+WwgVdgxx1E2oDVdJcyGRJBnGndTZ/lwVUDMJyglkwhOoRe8fJ3fSx5RPCEAURhXrsvXiqA7CzySCVBe7IQGXFto38BY/Dt7Eglw3rht9934Ghzbdww6AMn3CMvyYMzYpJcTQkNG+yLYZ3N1gRPIolVVXb3eBjNAzNFEzdiSQcg/9VGdnWO/PKjmyxqQiqDl6UVK7EtEHatRN97TRy91Wv8XV7EbzpUU63CTdSj+42WrHLglnflkoppxFJ3a2wMkfqq1KO7d40OktDVU=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1c425c00-30fc-4210-87da-08d7eb54ef1d
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2020 09:17:11.8481 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wLS4h0FPO+nVwUCdqhqkTvnI1jzVdfqnbWs5880LH5aZrUM7IcabufHCRQCNTMuba2ogvzIWVDq0Y4e3BTVykyYtG+yGecoDELejLSA0FMc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5381
+Received-SPF: pass client-ip=40.107.14.98;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR01-VE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 05:17:12
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Received-From: 40.107.14.98
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,52 +118,29 @@ Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---PaMMtZs7K5syVX8Y6O2mDEBLCoARGOHAw
-Content-Type: multipart/mixed; boundary="MxQgZSDZNKW49PNOoXT9n1Pto4fbc9tBw"
+28.04.2020 12:06, Max Reitz wrote:
+> On 25.03.20 14:46, Vladimir Sementsov-Ogievskiy wrote:
+>> Simple movement without any change. It's needed for the following
+>> patch, as this function will need to use some staff which is currently
+> 
+> *stuff
+> 
+>> below it.
+> 
+> Wouldn’t it be simpler to just declare block_copy_task_entry()?
+> 
 
---MxQgZSDZNKW49PNOoXT9n1Pto4fbc9tBw
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+I just think, that it's good to keep native order of functions and avoid extra declarations. Still, may be I care too much. No actual difference, if you prefer declaration, I can drop this patch.
 
-On 25.03.20 14:46, Vladimir Sementsov-Ogievskiy wrote:
-> Simple movement without any change. It's needed for the following
-> patch, as this function will need to use some staff which is currently
-
-*stuff
-
-> below it.
-
-Wouldn=92t it be simpler to just declare block_copy_task_entry()?
-
-Max
-
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  block/block-copy.c | 66 +++++++++++++++++++++++-----------------------
->  1 file changed, 33 insertions(+), 33 deletions(-)
+> 
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   block/block-copy.c | 66 +++++++++++++++++++++++-----------------------
+>>   1 file changed, 33 insertions(+), 33 deletions(-)
+> 
 
 
---MxQgZSDZNKW49PNOoXT9n1Pto4fbc9tBw--
-
---PaMMtZs7K5syVX8Y6O2mDEBLCoARGOHAw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6n8iwACgkQ9AfbAGHV
-z0Ad2Qf/Uc85kdezoqPlba36BEM6iw25SgDeh20dYnAlYspDQqGObZm0HH+hR3Xc
-TMRGE9SCp0oixMEJj3LtVvAh6W+gcLv40jwqvaY8DAUfFkSKNTXEmx1nJISy4XYj
-TBsRpa9WEsYzOZxcq+IIvw4jHWCPsYidJemyt0oshDKnQz4ioR5t7fh+NJAa0mbP
-gxgBdgtrVn59tyXCOREfqCaerRsPL/zejiz8DErN+fanqGTVtJw+On8t2sVPUqOO
-RgCaXJcwP/QYMOT2YIQs2q+/ZxCj77Jgq5E7bojirA1llnMwSfLDv5cMF5IJPMkq
-xsqLSMmrLAiA2MSYJRg0yoRpwUSBtQ==
-=oyh9
------END PGP SIGNATURE-----
-
---PaMMtZs7K5syVX8Y6O2mDEBLCoARGOHAw--
-
+-- 
+Best regards,
+Vladimir
 
