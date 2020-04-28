@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFDA31BC066
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 15:59:34 +0200 (CEST)
-Received: from localhost ([::1]:58844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E9F61BC091
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 16:06:32 +0200 (CEST)
+Received: from localhost ([::1]:59184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTQlp-0008JU-Gb
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 09:59:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38792)
+	id 1jTQsZ-0005U1-1h
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 10:06:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39556)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTQgh-0006Ke-Nl
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:58:38 -0400
+ (envelope-from <eblake@redhat.com>) id 1jTQqd-0000OD-5D
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:04:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTQch-0000Sb-Vs
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:54:15 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58460
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1jTQgC-000436-Rr
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:57:55 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56618
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jTQch-0000SJ-IW
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:50:07 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jTQgC-000413-AU
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:53:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588081806;
+ s=mimecast20190719; t=1588082023;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0HERtMhpYr7NF+S7e4pmK6DIPXXMjl1K1GtnqrJdzG0=;
- b=XLB4rr1c/IAJ+lF0iOo7xMhSMwXsQlvokn1w0J6W1FGMY5qbRsLnIw8cbX3d1W59uzv4FI
- NGYEl38Bw/nEW3ut5Fx92qLkff++31dKjxvabwHDTEuAI9eNAQPn0pB5ODoOmj/mBE08xz
- ZV7WOGX1pvq68F9Go3MmqpwRF/6C3Rw=
+ bh=6IBOWTSfE2+c9pEle/3h+SsKG5DZLt2mJjibil2jVek=;
+ b=ekxTSuPssY3jUFQGHZcCeJxIDuwi71T3bFLbYPx0Fpbqwo7F5PHRaMc1dHg/n2c0BbsgsV
+ bBDW4KZ1YaMS8soStK8Nvn0RAStN+q2B7WWWc7ld2lbSrXQY32mY35kubI42pSIpWOXAvx
+ FlgqKEoANpzgkEFb7/K2MTYvaAuqW9A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-131--zPPIK3kPCOIGIxDlqZ21A-1; Tue, 28 Apr 2020 09:50:02 -0400
-X-MC-Unique: -zPPIK3kPCOIGIxDlqZ21A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-369-wrnewQmwPNCA-jIZvb3uqw-1; Tue, 28 Apr 2020 09:53:41 -0400
+X-MC-Unique: wrnewQmwPNCA-jIZvb3uqw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CE42A0BDC;
- Tue, 28 Apr 2020 13:50:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A1B3800D24;
+ Tue, 28 Apr 2020 13:53:40 +0000 (UTC)
 Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 37F715D9E5;
- Tue, 28 Apr 2020 13:49:59 +0000 (UTC)
-Subject: Re: [PATCH 0/4] block: Do not call BlockDriver.bdrv_make_empty()
- directly
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DC4E8605CD;
+ Tue, 28 Apr 2020 13:53:39 +0000 (UTC)
+Subject: Re: [PATCH 1/4] block: Add bdrv_make_empty()
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20200428132629.796753-1-mreitz@redhat.com>
+ <20200428132629.796753-2-mreitz@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <c8235407-a2cf-abe3-e5d9-f16170f9b4b4@redhat.com>
-Date: Tue, 28 Apr 2020 08:49:58 -0500
+Message-ID: <bd4bb486-559a-58ff-dafb-f1e63908be4e@redhat.com>
+Date: Tue, 28 Apr 2020 08:53:38 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200428132629.796753-1-mreitz@redhat.com>
+In-Reply-To: <20200428132629.796753-2-mreitz@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 04:11:46
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 04:15:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,37 +83,70 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/28/20 8:26 AM, Max Reitz wrote:
-> Branch: https://github.com/XanClic/qemu.git fix-bdrv_make_empty-v1
-> Branch: https://git.xanclic.moe/XanClic/qemu.git fix-bdrv_make_empty-v1
->=20
-> Hi,
->=20
-> Right now, there is no centralized bdrv_make_empty() function.  Not only
-> is it bad style to call BlockDriver methods directly, it is also wrong,
-> unless the caller has a BdrvChild with BLK_PERM_WRITE taken.
+> Right now, all users of bdrv_make_empty() call the BlockDriver method
+> directly.  That is not only bad style, it is also wrong, unless the
+> caller has a BdrvChild with a WRITE permission.
+> 
+> Introduce bdrv_make_empty() that verifies that it does.
+> 
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>   include/block/block.h |  1 +
+>   block.c               | 23 +++++++++++++++++++++++
+>   2 files changed, 24 insertions(+)
+> 
+> diff --git a/include/block/block.h b/include/block/block.h
+> index b05995fe9c..d947fb4080 100644
+> --- a/include/block/block.h
+> +++ b/include/block/block.h
+> @@ -351,6 +351,7 @@ BlockMeasureInfo *bdrv_measure(BlockDriver *drv, QemuOpts *opts,
+>   void bdrv_get_geometry(BlockDriverState *bs, uint64_t *nb_sectors_ptr);
+>   void bdrv_refresh_limits(BlockDriverState *bs, Error **errp);
+>   int bdrv_commit(BlockDriverState *bs);
+> +int bdrv_make_empty(BdrvChild *c, Error **errp);
 
-I'm also in the middle of writing a patch series that adds a=20
-corresponding .bdrv_make_empty driver callback.  I'll rebase that work=20
-on top of this, as part of my efforts at fixing more code to rely on=20
-bdrv_make_empty rather than directly querying bdrv_has_zero_init[_truncate]=
-.
+Can we please fix this to take a flags parameter?  I want to make it 
+easier for callers to request BDRV_REQ_NO_FALLBACK for distinguishing 
+between callers where the image must be made empty (read as all zeroes) 
+regardless of time spent, vs. made empty quickly (including if it is 
+already all zero) but where the caller is prepared for the operation to 
+fail and will write zeroes itself if fast bulk zeroing was not possible.
 
->=20
-> This series fixes that.
->=20
-> Note that as far as I=E2=80=99m aware this series shouldn=E2=80=99t visib=
-ly fix anything
-> at this point; but =E2=80=9Cblock: Introduce real BdrvChildRole=E2=80=9D
-> (https://lists.nongnu.org/archive/html/qemu-block/2020-02/msg00737.html)
-> makes the iotest break when run with -o data_file=3D$SOMETHING, without
-> this series applied beforehand.  (That is because without that series,
-> external data files are treated much like metadata children, so the
-> format driver always takes the WRITE permission if the file is writable;
-> but after that series, it only does so when it itself has a parent
-> requestion the WRITE permission.)
->=20
 
---=20
+> +int bdrv_make_empty(BdrvChild *c, Error **errp)
+> +{
+> +    BlockDriver *drv = c->bs->drv;
+> +    int ret;
+> +
+> +    assert(c->perm & BLK_PERM_WRITE);
+> +
+> +    if (!drv->bdrv_make_empty) {
+> +        error_setg(errp, "%s does not support emptying nodes",
+> +                   drv->format_name);
+> +        return -ENOTSUP;
+> +    }
+
+And here's where we can add some automatic fallbacks, such as 
+recognizing if the image already reads as all zeroes.  But those 
+optimizations can come in separate patches; for YOUR patch, just getting 
+the proper API in place is fine.
+
+> +
+> +    ret = drv->bdrv_make_empty(c->bs);
+> +    if (ret < 0) {
+> +        error_setg_errno(errp, -ret, "Failed to empty %s",
+> +                         c->bs->filename);
+> +        return ret;
+> +    }
+> +
+> +    return 0;
+> +}
+> 
+
+Other than a missing flag parameter, this looks fine.
+
+
+-- 
 Eric Blake, Principal Software Engineer
 Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
