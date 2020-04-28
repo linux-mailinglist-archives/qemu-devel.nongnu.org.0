@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA0651BC56C
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 18:40:39 +0200 (CEST)
-Received: from localhost ([::1]:38656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62C431BC594
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 18:45:38 +0200 (CEST)
+Received: from localhost ([::1]:39080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTTHi-0001TO-SM
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 12:40:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34294)
+	id 1jTTMX-0002Ns-64
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 12:45:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34310)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTTF5-0006Pk-Ip
+ (envelope-from <armbru@redhat.com>) id 1jTTF7-0006Sw-6C
  for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:38:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTTBi-0000rD-MN
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:37:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45888
+ (envelope-from <armbru@redhat.com>) id 1jTTBj-0000rW-FL
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:37:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41874
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTTBi-0000qT-2Y
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:34:26 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTTBi-0000r5-Ta
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:34:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588091664;
+ s=mimecast20190719; t=1588091666;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=u8v/o1yD6EIYmtZ00uyBlyRQQYey3kdtwTftHMyddgE=;
- b=ddvYl9mAz0zxX7gObfg+j8mgtALiQmFuh8ecysIrFr2ZnCwcUxVLP+l92OE4fEByQv5kuD
- FpWukDKSvcd5O2MepaT0hTfIoB8zw1CnaA01DLu1BQQYYXdT57eV6l6sjM5IM05El4V/Ho
- dDRR3oGRhyuZcjm3cXFh7DVFJhqNs1A=
+ bh=nKzEcWFq8QhyR/rUJfvEYK3BbmyAuhDmcQ2botSl80Y=;
+ b=HtiTbFTO3ZRZD+q4g5pxIQVfLRYhuxcKGaimBiADPXvnZT6SnrwH1w67MT+moe8zEIw5BA
+ 44tm9DPkT9JEcFGH/nStfAJuCEpM/RWlzo0/aZmLbUKCtMXmuMQCcl1RxiHHRmoRPnIzd8
+ uCC71oElG5wgGWpvFAq4fhkwL8Zk8+I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-0TDf-qJENZK8f8LBdWB-YQ-1; Tue, 28 Apr 2020 12:34:23 -0400
-X-MC-Unique: 0TDf-qJENZK8f8LBdWB-YQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-262-HRwvfoEhOGmfNQ6s8OzTlA-1; Tue, 28 Apr 2020 12:34:24 -0400
+X-MC-Unique: HRwvfoEhOGmfNQ6s8OzTlA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55A41107ACCD
- for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 16:34:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70CD1800D24
+ for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 16:34:23 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8FE675D98F;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8FFF228563;
  Tue, 28 Apr 2020 16:34:21 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id F414311358BD; Tue, 28 Apr 2020 18:34:19 +0200 (CEST)
+ id 03DE311358BE; Tue, 28 Apr 2020 18:34:20 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/17] qom: Clearer reference counting in
- object_initialize_childv()
-Date: Tue, 28 Apr 2020 18:34:03 +0200
-Message-Id: <20200428163419.4483-2-armbru@redhat.com>
+Subject: [PATCH 02/17] qom: Clean up inconsistent use of gchar * vs. char *
+Date: Tue, 28 Apr 2020 18:34:04 +0200
+Message-Id: <20200428163419.4483-3-armbru@redhat.com>
 In-Reply-To: <20200428163419.4483-1-armbru@redhat.com>
 References: <20200428163419.4483-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -80,45 +79,386 @@ Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Uses of gchar * in qom/object.h:
+
+* ObjectProperty member @name
+
+  Functions that take a property name argument all use char *.  Change
+  the member to match.
+
+* ObjectProperty member @type
+
+  Functions that take a property type argument or return it all use
+  char *.  Change the member to match.
+
+* ObjectProperty member @description
+
+  Functions that take a property description argument all use char *.
+  Change the member to match.
+
+* object_resolve_path_component() parameter @part
+
+  Path components are property names.  Most callers pass char *
+  arguments.  Change the parameter to match.  Adjust the few callers
+  that pass gchar * to pass char *.
+
+* Return value of object_get_canonical_path_component(),
+  object_get_canonical_path()
+
+  Most callers convert their return values right back to char *.
+  Change the return value to match.  Adjust the few callers where that
+  would add a conversion to gchar * to use char * instead.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qom/object.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ include/qom/object.h       | 12 +++++-----
+ monitor/monitor-internal.h |  2 +-
+ hw/dma/xlnx-zdma.c         |  4 ++--
+ hw/net/virtio-net.c        |  2 +-
+ hw/ppc/spapr_drc.c         |  2 +-
+ memory.c                   |  4 ++--
+ qom/container.c            |  2 +-
+ qom/object.c               | 46 ++++++++++++++++++++------------------
+ 8 files changed, 38 insertions(+), 36 deletions(-)
 
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 784c97c0e1..ccfa82e33d 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -369,9 +369,9 @@ typedef void (ObjectPropertyInit)(Object *obj, ObjectPr=
+operty *prop);
+=20
+ struct ObjectProperty
+ {
+-    gchar *name;
+-    gchar *type;
+-    gchar *description;
++    char *name;
++    char *type;
++    char *description;
+     ObjectPropertyAccessor *get;
+     ObjectPropertyAccessor *set;
+     ObjectPropertyResolve *resolve;
+@@ -1421,7 +1421,7 @@ Object *object_get_internal_root(void);
+  * path is the path within the composition tree starting from the root.
+  * %NULL if the object doesn't have a parent (and thus a canonical path).
+  */
+-gchar *object_get_canonical_path_component(Object *obj);
++char *object_get_canonical_path_component(Object *obj);
+=20
+ /**
+  * object_get_canonical_path:
+@@ -1429,7 +1429,7 @@ gchar *object_get_canonical_path_component(Object *ob=
+j);
+  * Returns: The canonical path for a object.  This is the path within the
+  * composition tree starting from the root.
+  */
+-gchar *object_get_canonical_path(Object *obj);
++char *object_get_canonical_path(Object *obj);
+=20
+ /**
+  * object_resolve_path:
+@@ -1487,7 +1487,7 @@ Object *object_resolve_path_type(const char *path, co=
+nst char *typename,
+  *
+  * Returns: The resolved object or NULL on path lookup failure.
+  */
+-Object *object_resolve_path_component(Object *parent, const gchar *part);
++Object *object_resolve_path_component(Object *parent, const char *part);
+=20
+ /**
+  * object_property_add_child:
+diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
+index 8f60ccc70a..b39e03b744 100644
+--- a/monitor/monitor-internal.h
++++ b/monitor/monitor-internal.h
+@@ -91,7 +91,7 @@ struct Monitor {
+     bool skip_flush;
+     bool use_io_thread;
+=20
+-    gchar *mon_cpu_path;
++    char *mon_cpu_path;
+     QTAILQ_ENTRY(Monitor) entry;
+=20
+     /*
+diff --git a/hw/dma/xlnx-zdma.c b/hw/dma/xlnx-zdma.c
+index 1c45367f3c..880630a0b0 100644
+--- a/hw/dma/xlnx-zdma.c
++++ b/hw/dma/xlnx-zdma.c
+@@ -710,7 +710,7 @@ static uint64_t zdma_read(void *opaque, hwaddr addr, un=
+signed size)
+     RegisterInfo *r =3D &s->regs_info[addr / 4];
+=20
+     if (!r->data) {
+-        gchar *path =3D object_get_canonical_path(OBJECT(s));
++        char *path =3D object_get_canonical_path(OBJECT(s));
+         qemu_log("%s: Decode error: read from %" HWADDR_PRIx "\n",
+                  path,
+                  addr);
+@@ -729,7 +729,7 @@ static void zdma_write(void *opaque, hwaddr addr, uint6=
+4_t value,
+     RegisterInfo *r =3D &s->regs_info[addr / 4];
+=20
+     if (!r->data) {
+-        gchar *path =3D object_get_canonical_path(OBJECT(s));
++        char *path =3D object_get_canonical_path(OBJECT(s));
+         qemu_log("%s: Decode error: write to %" HWADDR_PRIx "=3D%" PRIx64 =
+"\n",
+                  path,
+                  addr, value);
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index a46e3b37a7..836be2787e 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -399,7 +399,7 @@ static void rxfilter_notify(NetClientState *nc)
+     VirtIONet *n =3D qemu_get_nic_opaque(nc);
+=20
+     if (nc->rxfilter_notify_enabled) {
+-        gchar *path =3D object_get_canonical_path(OBJECT(n->qdev));
++        char *path =3D object_get_canonical_path(OBJECT(n->qdev));
+         qapi_event_send_nic_rx_filter_changed(!!n->netclient_name,
+                                               n->netclient_name, path);
+         g_free(path);
+diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+index 47e6bb12f9..0b66d59867 100644
+--- a/hw/ppc/spapr_drc.c
++++ b/hw/ppc/spapr_drc.c
+@@ -518,7 +518,7 @@ static void realize(DeviceState *d, Error **errp)
+     SpaprDrc *drc =3D SPAPR_DR_CONNECTOR(d);
+     Object *root_container;
+     gchar *link_name;
+-    gchar *child_name;
++    char *child_name;
+     Error *err =3D NULL;
+=20
+     trace_spapr_drc_realize(spapr_drc_index(drc));
+diff --git a/memory.c b/memory.c
+index 601b749906..936c1b23d4 100644
+--- a/memory.c
++++ b/memory.c
+@@ -1175,7 +1175,7 @@ static void memory_region_get_container(Object *obj, =
+Visitor *v,
+                                         Error **errp)
+ {
+     MemoryRegion *mr =3D MEMORY_REGION(obj);
+-    gchar *path =3D (gchar *)"";
++    char *path =3D (char *)"";
+=20
+     if (mr->container) {
+         path =3D object_get_canonical_path(OBJECT(mr->container));
+@@ -2845,7 +2845,7 @@ static void mtree_expand_owner(const char *label, Obj=
+ect *obj)
+     if (dev && dev->id) {
+         qemu_printf(" id=3D%s", dev->id);
+     } else {
+-        gchar *canonical_path =3D object_get_canonical_path(obj);
++        char *canonical_path =3D object_get_canonical_path(obj);
+         if (canonical_path) {
+             qemu_printf(" path=3D%s", canonical_path);
+             g_free(canonical_path);
+diff --git a/qom/container.c b/qom/container.c
+index f6ccaf7ea7..e635e8ee76 100644
+--- a/qom/container.c
++++ b/qom/container.c
+@@ -28,7 +28,7 @@ static void container_register_types(void)
+ Object *container_get(Object *root, const char *path)
+ {
+     Object *obj, *child;
+-    gchar **parts;
++    char **parts;
+     int i;
+=20
+     parts =3D g_strsplit(path, "/", 0);
 diff --git a/qom/object.c b/qom/object.c
-index 1812f79224..e06c78f9a5 100644
+index e06c78f9a5..0c9e2052fa 100644
 --- a/qom/object.c
 +++ b/qom/object.c
-@@ -571,18 +571,18 @@ void object_initialize_childv(Object *parentobj, cons=
-t char *propname,
-         }
-     }
+@@ -1357,7 +1357,7 @@ void object_property_set_link(Object *obj, Object *va=
+lue,
+                               const char *name, Error **errp)
+ {
+     if (value) {
+-        gchar *path =3D object_get_canonical_path(value);
++        char *path =3D object_get_canonical_path(value);
+         object_property_set_str(obj, path, name, errp);
+         g_free(path);
+     } else {
+@@ -1653,14 +1653,15 @@ static void object_get_child_property(Object *obj, =
+Visitor *v,
+                                       Error **errp)
+ {
+     Object *child =3D opaque;
+-    gchar *path;
++    char *path;
 =20
-+out:
-     /*
--     * Since object_property_add_child added a reference to the child obje=
-ct,
--     * we can drop the reference added by object_initialize(), so the chil=
-d
--     * property will own the only reference to the object.
-+     * We want @obj's reference to be 1 on success, 0 on failure.
-+     * On success, it's 2: one taken by object_initialize(), and one
-+     * by object_property_add_child().
-+     * On failure in object_initialize() or earlier, it's 1.
-+     * On failure afterwards, it's also 1: object_unparent() releases
-+     * the reference taken by object_property_add_child().
-      */
-     object_unref(obj);
-=20
--out:
--    if (local_err) {
--        error_propagate(errp, local_err);
--        object_unref(obj);
--    }
-+    error_propagate(errp, local_err);
+     path =3D object_get_canonical_path(child);
+     visit_type_str(v, name, &path, errp);
+     g_free(path);
  }
 =20
- static inline bool object_property_is_child(ObjectProperty *prop)
+-static Object *object_resolve_child_property(Object *parent, void *opaque,=
+ const gchar *part)
++static Object *object_resolve_child_property(Object *parent, void *opaque,
++                                             const char *part)
+ {
+     return opaque;
+ }
+@@ -1681,7 +1682,7 @@ void object_property_add_child(Object *obj, const cha=
+r *name,
+                                Object *child, Error **errp)
+ {
+     Error *local_err =3D NULL;
+-    gchar *type;
++    char *type;
+     ObjectProperty *op;
+=20
+     if (child->parent !=3D NULL) {
+@@ -1740,14 +1741,14 @@ static void object_get_link_property(Object *obj, V=
+isitor *v,
+ {
+     LinkProperty *lprop =3D opaque;
+     Object **targetp =3D object_link_get_targetp(obj, lprop);
+-    gchar *path;
++    char *path;
+=20
+     if (*targetp) {
+         path =3D object_get_canonical_path(*targetp);
+         visit_type_str(v, name, &path, errp);
+         g_free(path);
+     } else {
+-        path =3D (gchar *)"";
++        path =3D (char *)"";
+         visit_type_str(v, name, &path, errp);
+     }
+ }
+@@ -1765,7 +1766,7 @@ static Object *object_resolve_link(Object *obj, const=
+ char *name,
+                                    const char *path, Error **errp)
+ {
+     const char *type;
+-    gchar *target_type;
++    char *target_type;
+     bool ambiguous =3D false;
+     Object *target;
+=20
+@@ -1828,7 +1829,8 @@ static void object_set_link_property(Object *obj, Vis=
+itor *v,
+     }
+ }
+=20
+-static Object *object_resolve_link_property(Object *parent, void *opaque, =
+const gchar *part)
++static Object *object_resolve_link_property(Object *parent, void *opaque,
++                                            const char *part)
+ {
+     LinkProperty *lprop =3D opaque;
+=20
+@@ -1858,7 +1860,7 @@ static void object_add_link_prop(Object *obj, const c=
+har *name,
+ {
+     Error *local_err =3D NULL;
+     LinkProperty *prop =3D g_malloc(sizeof(*prop));
+-    gchar *full_type;
++    char *full_type;
+     ObjectProperty *op;
+=20
+     if (flags & OBJ_PROP_LINK_DIRECT) {
+@@ -1910,7 +1912,7 @@ object_class_property_add_link(ObjectClass *oc,
+ {
+     Error *local_err =3D NULL;
+     LinkProperty *prop =3D g_new0(LinkProperty, 1);
+-    gchar *full_type;
++    char *full_type;
+     ObjectProperty *op;
+=20
+     prop->offset =3D offset;
+@@ -1945,7 +1947,7 @@ void object_property_add_const_link(Object *obj, cons=
+t char *name,
+                          NULL, OBJ_PROP_LINK_DIRECT, errp);
+ }
+=20
+-gchar *object_get_canonical_path_component(Object *obj)
++char *object_get_canonical_path_component(Object *obj)
+ {
+     ObjectProperty *prop =3D NULL;
+     GHashTableIter iter;
+@@ -1970,7 +1972,7 @@ gchar *object_get_canonical_path_component(Object *ob=
+j)
+     return NULL;
+ }
+=20
+-gchar *object_get_canonical_path(Object *obj)
++char *object_get_canonical_path(Object *obj)
+ {
+     Object *root =3D object_get_root();
+     char *newpath, *path =3D NULL;
+@@ -2000,7 +2002,7 @@ gchar *object_get_canonical_path(Object *obj)
+     return path;
+ }
+=20
+-Object *object_resolve_path_component(Object *parent, const gchar *part)
++Object *object_resolve_path_component(Object *parent, const char *part)
+ {
+     ObjectProperty *prop =3D object_property_find(parent, part, NULL);
+     if (prop =3D=3D NULL) {
+@@ -2015,9 +2017,9 @@ Object *object_resolve_path_component(Object *parent,=
+ const gchar *part)
+ }
+=20
+ static Object *object_resolve_abs_path(Object *parent,
+-                                          gchar **parts,
+-                                          const char *typename,
+-                                          int index)
++                                       char **parts,
++                                       const char *typename,
++                                       int index)
+ {
+     Object *child;
+=20
+@@ -2038,9 +2040,9 @@ static Object *object_resolve_abs_path(Object *parent=
+,
+ }
+=20
+ static Object *object_resolve_partial_path(Object *parent,
+-                                              gchar **parts,
+-                                              const char *typename,
+-                                              bool *ambiguous)
++                                           char **parts,
++                                           const char *typename,
++                                           bool *ambiguous)
+ {
+     Object *obj;
+     GHashTableIter iter;
+@@ -2078,7 +2080,7 @@ Object *object_resolve_path_type(const char *path, co=
+nst char *typename,
+                                  bool *ambiguousp)
+ {
+     Object *obj;
+-    gchar **parts;
++    char **parts;
+=20
+     parts =3D g_strsplit(path, "/", 0);
+     assert(parts);
+@@ -2769,7 +2771,7 @@ static void property_set_alias(Object *obj, Visitor *=
+v, const char *name,
+ }
+=20
+ static Object *property_resolve_alias(Object *obj, void *opaque,
+-                                      const gchar *part)
++                                      const char *part)
+ {
+     AliasProperty *prop =3D opaque;
+=20
+@@ -2791,7 +2793,7 @@ void object_property_add_alias(Object *obj, const cha=
+r *name,
+     AliasProperty *prop;
+     ObjectProperty *op;
+     ObjectProperty *target_prop;
+-    gchar *prop_type;
++    char *prop_type;
+     Error *local_err =3D NULL;
+=20
+     target_prop =3D object_property_find(target_obj, target_name, errp);
 --=20
 2.21.1
 
