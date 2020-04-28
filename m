@@ -2,82 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 554CA1BB9C6
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 11:24:36 +0200 (CEST)
-Received: from localhost ([::1]:48540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 440051BB919
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 10:47:42 +0200 (CEST)
+Received: from localhost ([::1]:46492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTMTi-0006va-1T
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 05:24:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59762)
+	id 1jTLu0-0005gC-NV
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 04:47:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50892)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <xadimgnik@gmail.com>) id 1jTMOf-0001tO-Ra
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:21:53 -0400
+ (envelope-from <philmd@redhat.com>) id 1jTLqM-0003bO-Hv
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 04:45:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <xadimgnik@gmail.com>) id 1jTMLa-00070b-PD
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:19:21 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:54903)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1jTLJe-0006q0-QA
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 04:10:07 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id h4so1651724wmb.4
- for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 01:10:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:reply-to:to:cc:references:in-reply-to:subject:date:message-id
- :mime-version:content-transfer-encoding:content-language
- :thread-index; bh=tqa9n9EoSDAPwWeVvhR+Uj2qxGKno9fvpdj73k0ySF0=;
- b=gYDoaOI16qKm0ihSWCygBBdWCDnhE++szBYSLccatExDMbjbQ+PXEHfibgnsbzjFCb
- inUlb2LhfwjDteWTkbizCmhwEyo0A3czN2uPx0BjLsHLY5684Lz4ALiyPiVofW7yiMz6
- L3uBJkZnS3/O5gngb/WkEp3XYAET1+dSevY9G2Ozd7QdcD62nk4HCMiGRYYdv1Q7OlTA
- SwZ3LVlGvgUBXIktcyICxsN8tphHOac9MKQvpBsPgh34a59oVCU3fnH0CAJaAyIR/S7T
- 0jA3CYcxKdl2SbMeBeZ2mzuaE4BRpEfnWZJpLWwKTom67tpY0GkFucaRewvCU6W66Hjs
- 3hYQ==
+ (envelope-from <philmd@redhat.com>) id 1jTLm1-0005bC-Ug
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 04:40:21 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:38317
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jTLLH-0007Ki-KC
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 04:11:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588061506;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=V2WSghkShCxIWYjkzOczpfaiRkm/PcShyED4aIyEyoY=;
+ b=Fs6rfIvTzfnk5ZQz6Jc+tVlt4DVCApgXm3L6y8nIh6ymAAvm+VH7XFnPsT7grvN75yP8Vi
+ T9sD1Z2HqvMQLY1Pf8NHFAz/s2Y2VZA4Ldfk6dkmQqMBugbZ8CZuYNsd79qwJdNZqGlJuW
+ SW0T55IbmWKCO4mNUALUHovx6vrTpSk=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-505-cksdQLPiMqWNQzCABarZGQ-1; Tue, 28 Apr 2020 04:11:42 -0400
+X-MC-Unique: cksdQLPiMqWNQzCABarZGQ-1
+Received: by mail-ej1-f72.google.com with SMTP id q25so12531058ejz.21
+ for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 01:11:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:reply-to:to:cc:references:in-reply-to
- :subject:date:message-id:mime-version:content-transfer-encoding
- :content-language:thread-index;
- bh=tqa9n9EoSDAPwWeVvhR+Uj2qxGKno9fvpdj73k0ySF0=;
- b=QC7VD6onWBktOe2Mdpkdo2GIqFQT3QkX69l456St9z7XyZotzDRmA1RS12TZDN9Na6
- lUOh3IGjdO26ii/J9xV0TBbsOFZ7W5VRpQYQMSsDczaoTzINdifrR8FMmZ1hWLg8jZZV
- b2QnVjx+Z8scH3hbe8XazQPfL258iKQ2EqJKw6Ob/9uyD3L1RI3GE++KTxeIWW2CSOCz
- SttYYEFhMDraILaFvp7J0h8euvPg0s3g9TTdZ+UgG8skN0/X5zwtGusnPKfBrLNO4IvO
- 0FFuIhUlhLW3lz9/xLerbj7fhJGbUixqxWGeQcHGXbxqK0kGRua72fOy5eBN6LMHYceh
- WUiQ==
-X-Gm-Message-State: AGi0PuaS+O+dPT6sn2iwa+vDXugGbX0bzm5sq8CwgCl+lqd1bs+wMB1s
- Qcr8aC9+4lIWD9KyRBwJ1gM=
-X-Google-Smtp-Source: APiQypI7ne91jSGdPfgFLjPDbWwiOo2xKnOh99cblKMQobaj588UxOZv1r75AYV27BnAwN7EilS/wg==
-X-Received: by 2002:a05:600c:1008:: with SMTP id
- c8mr3067783wmc.14.1588061404689; 
- Tue, 28 Apr 2020 01:10:04 -0700 (PDT)
-Received: from CBGR90WXYV0 ([54.239.6.185])
- by smtp.gmail.com with ESMTPSA id h13sm23315817wrs.22.2020.04.28.01.10.03
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 28 Apr 2020 01:10:04 -0700 (PDT)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: "Paul Durrant" <paul@xen.org>
-To: "'Grzegorz Uriasz'" <gorbak25@gmail.com>,
-	<qemu-devel@nongnu.org>
-References: <20200428062847.7764-1-gorbak25@gmail.com>
- <20200428062847.7764-2-gorbak25@gmail.com>
-In-Reply-To: <20200428062847.7764-2-gorbak25@gmail.com>
-Subject: RE: [PATCH 1/2] Fix undefined behaviour
-Date: Tue, 28 Apr 2020 09:10:02 +0100
-Message-ID: <000001d61d34$6c0218f0$44064ad0$@xen.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QvoQ9kzrgNjLHac1nVVG5bQDC/ypENCAVc25EKXxS04=;
+ b=Kom3q1cOpD7BCKFrv8ywMdBsbBt6x/ZnGBRrp7+iYiwqVyku8vJR4WufSFgp7fHvXy
+ pJLjeJD+UDHEV7KjYT5R4Y69H+mxa5zGjcr/8Y/dsYEHGVRBaX6YzFPAsaSkxDvhpaV6
+ MP2gKJBD3OXBmU/EZpwhuoDi7D6fEiQG3exGj3jXo//UX73+8c9X0VP/IsLzhHrIk1ve
+ XY+dsCQSRQQP+Z5ow0R+Kmt+EkGJD0q7b4dPrduMGSGPaHPthUchqPfU82acjd026i6D
+ u2Q+6/Sli/qgDfQ3P8DFiLAoH8zxClOL27DQm6K15feDfwKIMiYg9ww63388L0HjQq3q
+ xx7g==
+X-Gm-Message-State: AGi0PuZKUc1nAGNr7aTGGnioW66KCGQz/gxekZYl/a43syCXMaRTiS9q
+ tJ7oSsW4LQagisZcZHySOAZp4eLJct7o4TrgsYrm/ZYeKhoRlxkLTI2bjoX06d6QLZbOIYS/K0j
+ MhQKN+zijmvS0I+4=
+X-Received: by 2002:a17:906:7e5a:: with SMTP id
+ z26mr24334169ejr.168.1588061501285; 
+ Tue, 28 Apr 2020 01:11:41 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLUt9EByc1fI8snnCHvWmtDHt5d+/cXGv7+S+RsBIweKmNhlnLPNl/DMpBzmIOUhM9YN78hVQ==
+X-Received: by 2002:a17:906:7e5a:: with SMTP id
+ z26mr24334148ejr.168.1588061500994; 
+ Tue, 28 Apr 2020 01:11:40 -0700 (PDT)
+Received: from [192.168.1.39] (137.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.137])
+ by smtp.gmail.com with ESMTPSA id e16sm390193eja.58.2020.04.28.01.11.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Apr 2020 01:11:40 -0700 (PDT)
+Subject: Re: [PATCH v2] [Qemu-devel] target/i386: HAX: Enable ROM/ROM device
+ memory region support
+To: Colin Xu <colin.xu@intel.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <1585538712-28300-1-git-send-email-hang.yuan@linux.intel.com>
+ <54b6f6c0-6419-2bc2-c915-9c7a83ab8dea@intel.com>
+ <alpine.LNX.2.22.419.2004281043520.5289@coxu-arch-shz>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <74454205-5a9b-29af-5b7f-44a3d22fc4e9@redhat.com>
+Date: Tue, 28 Apr 2020 10:11:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-gb
-Thread-Index: AQJZJJhe4DhOB0QFT+Ee5i7aNCDcTgF4qWDWp3xZsEA=
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32c.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::32c
+In-Reply-To: <alpine.LNX.2.22.419.2004281043520.5289@coxu-arch-shz>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 04:11:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,27 +98,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
-Cc: artur@puzio.waw.pl, 'Stefano Stabellini' <sstabellini@kernel.org>,
- jakub@bartmin.ski, marmarek@invisiblethingslab.com,
- 'Anthony Perard' <anthony.perard@citrix.com>, j.nowak26@student.uw.edu.pl,
- xen-devel@lists.xenproject.org
+Cc: "hang.yuan@linux.intel.com" <hang.yuan@linux.intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Wang,
+ Wenchao" <wenchao.wang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> -----Original Message-----
-> From: Grzegorz Uriasz <gorbak25@gmail.com>
-> Sent: 28 April 2020 07:29
-> To: qemu-devel@nongnu.org
-> Cc: Grzegorz Uriasz <gorbak25@gmail.com>; marmarek@invisiblethingslab.com; artur@puzio.waw.pl;
-> jakub@bartmin.ski; j.nowak26@student.uw.edu.pl; Stefano Stabellini <sstabellini@kernel.org>; Anthony
-> Perard <anthony.perard@citrix.com>; Paul Durrant <paul@xen.org>; xen-devel@lists.xenproject.org
-> Subject: [PATCH 1/2] Fix undefined behaviour
-> 
-> Signed-off-by: Grzegorz Uriasz <gorbak25@gmail.com>
+On 4/28/20 4:45 AM, Colin Xu wrote:
+>=20
+> Hi Paolo,
+>=20
+> Would you please queue this one?
+> --=20
+> Best Regards,
+> Colin Xu
+>=20
+> On Mon, 30 Mar 2020, Colin Xu wrote:
+>=20
+>> Looks good to me.
+>>
+>> Reviewed-by: Colin Xu <colin.xu@intel.com>
+>>
+>> On 2020-03-30 11:25, hang.yuan@linux.intel.com wrote:
+>>> From: Hang Yuan <hang.yuan@linux.intel.com>
+>>>
+>>> Add ROM and ROM device memory region support in HAX. Their memory=20
+>>> region is
+>>> read only and write access will generate EPT violation. The violation=
+=20
+>>> will be
+>>> handled in the HAX kernel with the following patch.
 
-I think we need more of a commit comment for both this and patch #2 to explain why you are making the changes.
+"will be"? This patch is 10 months old.
 
-  Paul 
+>>>
+>>> https://github.com/intel/haxm/commit/33ceea09a1655fca12c47f1e112b1d2693=
+57ff28=20
+>>>
+>>>
+>>> v2: fix coding style problems
+
+^ This line goes ...
+
+>>>
+>>> Signed-off-by: Hang Yuan <hang.yuan@linux.intel.com>
+>>> ---
+
+... here after the '---'.
+
+>>> =A0 target/i386/hax-mem.c | 11 ++++-------
+>>> =A0 1 file changed, 4 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/target/i386/hax-mem.c b/target/i386/hax-mem.c
+>>> index 6bb5a24917..a8bfd37977 100644
+>>> --- a/target/i386/hax-mem.c
+>>> +++ b/target/i386/hax-mem.c
+>>> @@ -175,13 +175,10 @@ static void=20
+>>> hax_process_section(MemoryRegionSection *section, uint8_t flags)
+>>> =A0=A0=A0=A0=A0 uint64_t host_va;
+>>> =A0=A0=A0=A0=A0 uint32_t max_mapping_size;
+>>>
+>>> -=A0=A0=A0 /* We only care about RAM and ROM regions */
+>>> -=A0=A0=A0 if (!memory_region_is_ram(mr)) {
+>>> -=A0=A0=A0=A0=A0=A0=A0 if (memory_region_is_romd(mr)) {
+>>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 /* HAXM kernel module does not suppo=
+rt ROMD yet=A0 */
+>>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 warn_report("Ignoring ROMD region 0x=
+%016" PRIx64=20
+>>> "->0x%016" PRIx64,
+>>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 =
+start_pa, start_pa + size);
+
+Don't you need to check for some kmod version before removing this check?
+
+>>> -=A0=A0=A0=A0=A0=A0=A0 }
+>>> +=A0=A0=A0 /* We only care about RAM/ROM regions and ROM device */
+>>> +=A0=A0=A0 if (memory_region_is_rom(mr) || (memory_region_is_romd(mr)))=
+ {
+
+Redundant parenthesis.
+
+>>> +=A0=A0=A0=A0=A0=A0=A0 flags |=3D HAX_RAM_INFO_ROM;
+>>> +=A0=A0=A0 } else if (!memory_region_is_ram(mr)) {
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 return;
+>>> =A0=A0=A0=A0=A0 }
+
+If you move the 'if (RAM) return' first, the code becomes easier to review.
+
+>>>
+>>
+>> --=20
+>> Best Regards,
+>> Colin Xu
+>>
+>>
+>>
+>=20
 
 
