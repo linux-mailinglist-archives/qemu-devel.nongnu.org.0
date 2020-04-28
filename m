@@ -2,69 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65E081BC1EF
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 16:53:07 +0200 (CEST)
-Received: from localhost ([::1]:33702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF211BC1F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 16:53:44 +0200 (CEST)
+Received: from localhost ([::1]:33734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTRbe-0000uw-Ar
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 10:53:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47970)
+	id 1jTRcF-000241-J0
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 10:53:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47976)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jTRa0-00079h-PG
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:51:25 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTRa4-0007En-8b
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:51:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jTRZy-00016H-JU
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:51:24 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29424
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jTRZy-000165-1c
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:51:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588085481;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Lg6lAOErP4QSSA6uYwKwgDRdTxOjWEN+nfQoA0cTDGU=;
- b=F0g29qFBMeHpKHqA7gDskeBylJ2Wza8bU7e1VGlKhKyPKBUXNjhQmYkZvN3kJl2EREz/Pu
- dxPudGs5DyB045yPhWuVd4aDXrGnMmD2eBSXm3390qXdi8aB0U1kP3f4+IdEEAV7UPk6F8
- zvs8gLGvhAgd/HzsZKVFx+wIuoG7cqQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-456-8yA2oU1-OfK2DZs72puukw-1; Tue, 28 Apr 2020 10:51:19 -0400
-X-MC-Unique: 8yA2oU1-OfK2DZs72puukw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F76D835B45;
- Tue, 28 Apr 2020 14:51:18 +0000 (UTC)
-Received: from work-vm (ovpn-113-77.ams2.redhat.com [10.36.113.77])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B1B1B5D710;
- Tue, 28 Apr 2020 14:51:12 +0000 (UTC)
-Date: Tue, 28 Apr 2020 15:51:10 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Wei Wang <wei.w.wang@intel.com>
-Subject: Re: [PATCH v2] migration/xbzrle: add encoding rate
-Message-ID: <20200428145110.GH2794@work-vm>
-References: <1587974511-14953-1-git-send-email-wei.w.wang@intel.com>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTRa2-00017f-1X
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:51:27 -0400
+Received: from mail-eopbgr30096.outbound.protection.outlook.com
+ ([40.107.3.96]:26631 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jTRa1-00016C-77; Tue, 28 Apr 2020 10:51:25 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MWxgeXsL6VIMQs/fEsXNCQn4d+2DkKQCEvPpeh1ywsWyk/WhRdCXCv7UIkrr+pqEhVV3PF9yZxcYyphBaSi8yCHMejeE3gYuwevp6cmNS7UP/eoB/j5uh6MvD97vd0O4x60Zt86r9y7/0rmsd50yoEgKaFOqcB5t3u7Q0mw9jgePPisqWyP1ubLVQiy5BqlP6E4LTDkM0Kszmwn1Xa0WZH7xEr31PUf2KsJXZrvt3FMHkiKKlwCK3JSqpJyQo4pc58QQx88fLT6g/Aj1Nbsyu61J60nvkXX84ztuZzrj3+3z0PzGGNSqa0g38hI1L9sHLvsBROGgrKcJKspGUPWUUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KAEaREOld14dmATmwJkGGQmtZ5w6zTdxJ4SLVrTOnj0=;
+ b=Iv/9XRW1JjJSf1nvB2fX0PGDrt2yAObZLXj0thbTBSMtpWN8iwVwkOLdwrmtjxqIvu7skMI2dUhv8F37p3vFPp3kP4sdYSIOjHg7V34DgAHSZONtT6WYH7e2/xT1focQskiPKr0TARAmchrJ6Hh61ENemqS9vHgqZ06FKLqzXrA7Gqq89/yb9mKPAA2OGgQvSzl/kRdWA1YTtm485Su9hdWv2et0XJm4oU8THEWyHyNTSPGqAaz1xRx+REHcwYcUjYOuHUTdYly+gaarwxJ0NFV3HDpX9WBvgHpZHvlB/lLACpeG/5Gqvrk9JPIfLc1j64n7f9oZIXnVsV3ftQeHTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KAEaREOld14dmATmwJkGGQmtZ5w6zTdxJ4SLVrTOnj0=;
+ b=iLMcSJ2RSOBD/84MIeTnmMOQQOLsTq/WIu0Q9PCc4icXgss6xNdvNyGLVVYs3sRVxVjwAsS9n79YbbHbJFHoHGnafexMQNLts8Ri6DhKjS9dgNHWyS3aRcV0jVA4dJ8e4yv86urhFYft9uSbeidq/a5k0/GBGQRHhnxoNYy+wLw=
+Authentication-Results: virtuozzo.com; dkim=none (message not signed)
+ header.d=none;virtuozzo.com; dmarc=none action=none
+ header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Tue, 28 Apr
+ 2020 14:51:21 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.023; Tue, 28 Apr 2020
+ 14:51:21 +0000
+Subject: Re: backing chain & block status & filters
+To: Max Reitz <mreitz@redhat.com>, qemu block <qemu-block@nongnu.org>
+References: <a1c1b734-34dc-f8d3-b6a0-43b136e237e2@virtuozzo.com>
+ <20e6c43f-c1a7-57db-58b9-3cb70f0e637f@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200428175119362
+Message-ID: <c00f089e-44f6-32ee-97ea-0414b552bdae@virtuozzo.com>
+Date: Tue, 28 Apr 2020 17:51:19 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <20e6c43f-c1a7-57db-58b9-3cb70f0e637f@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM0P190CA0027.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:208:190::37) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <1587974511-14953-1-git-send-email-wei.w.wang@intel.com>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 02:06:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.155) by
+ AM0P190CA0027.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::37) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2958.19 via Frontend Transport; Tue, 28 Apr 2020 14:51:20 +0000
+X-Tagtoolbar-Keys: D20200428175119362
+X-Originating-IP: [185.215.60.155]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 67cf331c-1d5e-4f5d-d6eb-08d7eb839d31
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5494:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB54945413651CF109344136F1C1AC0@AM7PR08MB5494.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Forefront-PRVS: 0387D64A71
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(346002)(39840400004)(136003)(366004)(376002)(2906002)(5660300002)(4326008)(31696002)(6486002)(478600001)(107886003)(86362001)(8936002)(8676002)(2616005)(81156014)(186003)(16526019)(66946007)(956004)(66476007)(66556008)(36756003)(54906003)(52116002)(316002)(110136005)(53546011)(26005)(31686004)(16576012);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 30wIQe5F1z92Y1DgyAvEeGO5MPJ+H4IzIFEUkMfo9fKvINON6y37agEUDnLh5/dT5A2VqKIiBBXRVEjCdBk1jZE7pRz9nDNWRsWyYPu5TfgNHisUNAq4L+m0viZt6Wpl7PYYIptWE2dajO5hb01BYiBzyjdbcoGpCSRj3Rf8Bl4NmL7BEpzeNc3SVderDEOXpsIiW5/kM+lxJE+x4aSPjhuBgyKflPTMHgfSttXzpZdurxupG0y7Y3gm6TerGvD+7Md3EGynsT99n8t2Q7eZM0E4b4hn/smmrZlkDnL3zWwwDNQIHN1/UXMSauhvcLyLIps2qLLl90CkFVq50CS8XeqXlOWZQT92ID7l2k2ml914YXKAwEKf4FyhXwuIX/8ZsOHG5Cqpat2kJodqqMfVOg08JwTa7hbtMddbfs/Ypm5iAhdrSXnAVRMF/TPAstzp
+X-MS-Exchange-AntiSpam-MessageData: 4SV/TY9KNKdbbz06Y1cqOm8N17h4K3Ya/pFJr5OJ8dMlPYQ5JYCnfsusmq/9PxJ0EQk5GGBE9rD6n1pBHccAsz9JMpkB48BvC0i+0UGLX/irriG1JBwWto3c7aPphhCBU6cvipUE8FClE3KJ93aM0saxCVXrMBJAHqYm1U+jyqLFCD1+wGfvvOPyeY+aagNfAcPHdQCRPuzBUDBMZ4mEuiHysSbKx+FwZW2jTAI3Sh8pBmQqfRvRL9aohaeV+umyu9Je5tyUPqz6nWvBNnhfB04W/ysPWBOLPRPOHHUY16YDhgIP5nFtgNfGebHp4txYnk7TvFp4tLYCEsM1za1d7SpOo9aehDUYFQw084QrZQ5IKJLd9D5XEMgMhTbeC+vy5ipSBJrCwITPofcbW1/+r8g+DqnnXYCSyyktIV1/RlagOOCwmpYgaGyJ2i1tzOCMisE9n9ogteCTgbRjU49YK1w7iEGDl6/ZIqSYbF1hwiFQ9eZPWkUlKY4obg48OtEJZubkjUnhpRy+g2qgPsZ29b+/L+P1qpdjTUa/WMksxJlJeNZvaFz8MfBbu7xHX7ghP1nlLw/WjTuzs3urFvH2DKVffY/Sq/Uy3pmvNyO8gakpvEEvZQt8Wzu0AYmaGBayFx7CIfOXKKrSbI+vnH/0HPhjK12e4zuzcI95e57QNVsmsMI+/rMWAwvL0Q4OKN2LZUkYZlxgytMpBrPQuOKN2PyVpIlZ/FL/MX4H3z5VlrwjY+nY6y5dFlGFguYOaKuVJ9ZG8DwDlW35nUd8/9K4cfBX25I7PCVQMQ3N2/CGgKs=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67cf331c-1d5e-4f5d-d6eb-08d7eb839d31
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2020 14:51:20.8996 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +Vb0WmCyJawC56JU5XRpf0po0nod/72pzK97SBCDDlMoaeQZ2/4iLyZiaGKHuVGkogqK8TNDdN8jvohAPz7eP8feOIygmX+htdbimb2tAt0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5494
+Received-SPF: pass client-ip=40.107.3.96;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR03-AM5-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 10:51:21
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Received-From: 40.107.3.96
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,189 +114,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevin.tian@intel.com, berrange@redhat.com, quintela@redhat.com,
- qemu-devel@nongnu.org, peterx@redhat.com, gloryxiao@tencent.com,
- yi.y.sun@intel.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Wei Wang (wei.w.wang@intel.com) wrote:
-> Users may need to check the xbzrle encoding rate to know if the guest
-> memory is xbzrle encoding-friendly, and dynamically turn off the
-> encoding if the encoding rate is low.
->=20
-> Signed-off-by: Yi Sun <yi.y.sun@intel.com>
-> Signed-off-by: Wei Wang <wei.w.wang@intel.com>
-> ---
->  migration/migration.c |  1 +
->  migration/ram.c       | 38 ++++++++++++++++++++++++++++++++++++--
->  monitor/hmp-cmds.c    |  2 ++
->  qapi/migration.json   |  5 ++++-
->  4 files changed, 43 insertions(+), 3 deletions(-)
->=20
-> ChangeLog:
-> - include the 3 bytes (ENCODING_FLAG_XBZRLE flag and encoded_len) when
->   calculating the encoding rate. Similar to the compress rate
->   calculation, the 8 byte RAM_SAVE_FLAG_CONTINUE flag isn't included in
->   the calculation.
->=20
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 187ac04..e404213 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -930,6 +930,7 @@ static void populate_ram_info(MigrationInfo *info, Mi=
-grationState *s)
->          info->xbzrle_cache->pages =3D xbzrle_counters.pages;
->          info->xbzrle_cache->cache_miss =3D xbzrle_counters.cache_miss;
->          info->xbzrle_cache->cache_miss_rate =3D xbzrle_counters.cache_mi=
-ss_rate;
-> +        info->xbzrle_cache->encoding_rate =3D xbzrle_counters.encoding_r=
-ate;
->          info->xbzrle_cache->overflow =3D xbzrle_counters.overflow;
->      }
-> =20
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 04f13fe..f46ab96 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -327,6 +327,10 @@ struct RAMState {
->      uint64_t num_dirty_pages_period;
->      /* xbzrle misses since the beginning of the period */
->      uint64_t xbzrle_cache_miss_prev;
-> +    /* Amount of xbzrle pages since the beginning of the period */
-> +    uint64_t xbzrle_pages_prev;
-> +    /* Amount of xbzrle encoded bytes since the beginning of the period =
-*/
-> +    uint64_t xbzrle_bytes_prev;
-> =20
->      /* compression statistics since the beginning of the period */
->      /* amount of count that no free thread to compress data */
-> @@ -696,6 +700,18 @@ static int save_xbzrle_page(RAMState *rs, uint8_t **=
-current_data,
->          return -1;
->      }
-> =20
-> +    /*
-> +     * Reaching here means the page has hit the xbzrle cache, no matter =
-what
-> +     * encoding result it is (normal encoding, overflow or skipping the =
-page),
-> +     * count the page as encoded. This is used to caculate the encoding =
-rate.
-> +     *
-> +     * Example: 2 pages (8KB) being encoded, first page encoding generat=
-es 2KB,
-> +     * 2nd page turns out to be skipped (i.e. no new bytes written to th=
-e
-> +     * page), the overall encoding rate will be 8KB / 2KB =3D 4, which h=
-as the
-> +     * skipped page included. In this way, the encoding rate can tell if=
- the
-> +     * guest page is good for xbzrle encoding.
-> +     */
-> +    xbzrle_counters.pages++;
+28.04.2020 14:08, Max Reitz wrote:
+> On 28.04.20 10:55, Vladimir Sementsov-Ogievskiy wrote:
+>> Hi!
+>>
+>> I wanted to resend my "[PATCH 0/4] fix & merge block_status_above and
+>> is_allocated_above", and returned to all the inconsistencies about
+>> block-status. I keep in mind Max's series about child-access functions,
+>> and Andrey's work about using COR filter in block-stream, which depends
+>> on Max's series (because, without them COR fitler with file child breaks
+>> backing chains).. And, it seems that it's better to discuss some
+>> questions before resending.
+>>
+>> First, problems about block-status:
+>>
+>> 1. We consider ALLOCATED = ZERO | DATA, and documented as follows:
+>>
+>>     * BDRV_BLOCK_DATA: allocation for data at offset is tied to this layer
+>>     * BDRV_BLOCK_ZERO: offset reads as zero
+>>     * BDRV_BLOCK_OFFSET_VALID: an associated offset exists for accessing
+>> raw data
+>>     * BDRV_BLOCK_ALLOCATED: the content of the block is determined by this
+>>     *                       layer rather than any backing, set by block
+>> layer
+>>
+>> This actually means, that we should always have BDRV_BLOCK_ALLOCATED for
+>> formats which doesn't support backing. So, all such format drivers must
+>> return ZERO or DATA (or both?), yes?. Seems file-posix does so, but, for
+>> example, iscsi - doesn't.
+> 
+> Hm.  I could imagine that there are formats that have non-zero holes
+> (e.g. 0xff or just garbage).  It would be a bit wrong for them to return
+> ZERO or DATA then.
+> 
+> But OTOH we don’t care about such cases, do we?  We need to know whether
+> ranges are zero, data, or unallocated.  If they aren’t zero, we only
+> care about whether reading from it will return data from this layer or not.
+> 
+> So I suppose that anything that doesn’t support backing files (or
+> filtered children) should always return ZERO and/or DATA.
+> 
+>> 2. ZERO. The meaning differs a bit for generic block_status and for
+>> drivers.. I think, we at least should document it like this:
+>>
+>> BDRV_BLOCK_DATA: allocation for data at offset is tied to this layer
+>> BDRV_BLOCK_ZERO: if driver return ZERO, than the region is allocated at
+>> this layer and read as ZERO. If generic block_status returns ZERO, it
+>> only mean that it reads as zero, but the region may be allocated on
+>> underlying level.
+> 
+> Hm.  What does that mean?
+> 
+> One of the problems is that “allocated” has two meanings:
+> (1) reading data returns data defined at this backing layer,
+> (2) actually allocated, i.e. takes up space on the file represented by
+> this BDS.
+> 
+> As far as I understand, we actually don’t care about (2) in the context
+> of block_status, but just about (1).
+> 
+> So if a layer returns ZERO, it is by definition (1)-allocated.  (It
+> isn’t necessarily (2)-allocated.)
+> 
+>> 3. bdi.unallocated_blocks_are_zero
+>>
+>> I think it's very bad, that we have formats, that supports backing, but
+>> doesn't report bdi.unallocated_blocks_are_zero as true. It means that
+>> UNALLOCATED region reads as zero if we have short backing file, and not
+>> as zero if we remove this short backing file.
+> 
+> What do you mean by “remove this short backing file”?  Because generally
+> one can’t just drop a backing file.
+> 
+> So maybe a case like block-stream?  Wouldn’t that be a bug in
+> block-stream them, i.e. shouldn’t it stream zeros after the end of the
+> backing file?
+> 
+>> I can live with it but
+>> this is weird logic. These bad drivers are qcow (not qcow2), parallels
+>> and vmdk. I hope, they actually just forget to set
+>> unallocated_blocks_are_zero to true.
+> 
+> qcow definitely sounds like it.
+> 
+>> Next. But what about drivers which doesn't support backing? As we
+>> considered above, they should always return ZERO or DATA, as everything
+>> is allocated in this backing-chain level (last level, of course).. So
+>> again unallocated_blocks_are_zero is meaningless. So, I think, that
+>> driver which doesn't support backings, should be fixed to return always
+>> ZERO or DATA, than we don't need this unallocated_blocks_are_zero at all.
+> 
+> Agreed.
+> 
+>> 3.
+> 
+> The second 3.? :)
+> 
+>> Short backing files in allocated_above: we must consider space after
+>> EOF as ALLOCATED, if short backing file is inside requested
+>> backing-chain part, as it produced exactly because of this short file
+>> (and we never go to backing).
+> 
+> Sounds correct.
+> 
+>> (current realization of allocated_above is
+>> buggy, see my outdated series "[PATCH 0/4] fix & merge
+>> block_status_above and is_allocated_above")
+>>
+>> 4. Long ago we've discussed problems about BDRV_BLOCK_RAW, when we have
+>> a backing chain of non-backing child.. I just remember that we didn't
+>> reach the consensus.
+> 
+> Possible? :)
+> 
+>> 5. Filters.. OK we have two functions for them:
+>> bdrv_co_block_status_from_file and bdrv_co_block_status_from_backing. I
+>> think both are wrong:
+>>
+>> bdrv_co_block_status_from_file leads to problem [4], when we can report
+>> UNALLOCATED, which refers not to the current backing chain, but to sub
+>> backing chain of file child, which is inconsistent with
+>> block_status_above and is_allocated_above iteration.
+>>
+>> bdrv_co_block_status_from_backing is also is not consistent with
+>> block_status_above iteration.. At least at leads to querying the same
+>> node twice.
+> 
+> Well, yes.
+> 
+>> So, about filters and backing chains. Keeping (OK, just, trying to keep)
+>> all these things in mind, I think that it's better to keep backing
+>> chains exactly *backing* chains, so that "backing" child is the only
+>> "not own" child of the node. So, its close to current behavior and we
+>> don't need child-access functions. Then how filters should work:
+>>
+>> Filter with backing child, should always return UNALLOCATED (i.e. no
+>> DATA, no ZERO), it is honest: everything is on the other level of
+>> backing chain.
+> 
+> I disagree, because filters with or without backing children should work
+> exactly the same way and just not appear in the backing chain.
 
-Can you explain how that works with overflow?  Doesn't overflow return
--1 here, not increment the bytes, so it looks like you've xbzrle'd a
-page, but the encoding rate hasn't incremented.
+They work the same way in my variant too. The only difference is that if you use file-child-based filters, you can't do stream/commit around them. I just think, that binding the concept to the "backing" link of the node is simpler and more generic. In blockdev era, when all nodes will be named and libvirt will take care of all nodes including filters, we will not need any filter-skipping magic, libvirt will directly point to exact nodes it means. And we can deprecate "file" children of existing filters, to finally reach simple architecture with simple backing chain of nodes (any nodes). And after deprecating old filename-based interfaces, we'll drop all filter-skipping magic..
 
-Dave
+> 
+>> Filter with file child should always return BDRV_BLOCK_DATA |
+>> BDRV_BLOCK_RECURSE, to show that:
+>> 1. everything is allocated in *this* level of backing chain
+>> 2. filter is too lazy to dig in it's file child (and, maybe the whole
+>> sub-tree of it) and asks generic layer to do it by itself, if it wants
+>> zeroes.
+>>
+>> Then, of course, if we want some filter to be inside backing chain, it
+>> should have not "file" child but "backing". For this, we may support in
+>> current public filter both variants: backing or file, as user prefer.
+>> I.e., filter is opened either with file option or with backing and
+>> operate correspondingly. And newer filters (like backup-top) may support
+>> only backing variants.
+> 
+> I disagree again for the same reason.
+> 
+> Max
+> 
 
->      prev_cached_page =3D get_cached_data(XBZRLE.cache, current_addr);
-> =20
->      /* save current buffer into memory */
-> @@ -736,8 +752,12 @@ static int save_xbzrle_page(RAMState *rs, uint8_t **=
-current_data,
->      qemu_put_be16(rs->f, encoded_len);
->      qemu_put_buffer(rs->f, XBZRLE.encoded_buf, encoded_len);
->      bytes_xbzrle +=3D encoded_len + 1 + 2;
-> -    xbzrle_counters.pages++;
-> -    xbzrle_counters.bytes +=3D bytes_xbzrle;
-> +    /*
-> +     * Like compressed_size (please see update_compress_thread_counts),
-> +     * the xbzrle encoded bytes don't count the 8 byte header with
-> +     * RAM_SAVE_FLAG_CONTINUE.
-> +     */
-> +    xbzrle_counters.bytes +=3D bytes_xbzrle - 8;
->      ram_counters.transferred +=3D bytes_xbzrle;
-> =20
->      return 1;
-> @@ -870,9 +890,23 @@ static void migration_update_rates(RAMState *rs, int=
-64_t end_time)
->      }
-> =20
->      if (migrate_use_xbzrle()) {
-> +        double encoded_size, unencoded_size;
-> +
->          xbzrle_counters.cache_miss_rate =3D (double)(xbzrle_counters.cac=
-he_miss -
->              rs->xbzrle_cache_miss_prev) / page_count;
->          rs->xbzrle_cache_miss_prev =3D xbzrle_counters.cache_miss;
-> +        unencoded_size =3D (xbzrle_counters.pages - rs->xbzrle_pages_pre=
-v) *
-> +                         TARGET_PAGE_SIZE;
-> +        encoded_size =3D xbzrle_counters.bytes - rs->xbzrle_bytes_prev;
-> +        if (xbzrle_counters.pages =3D=3D rs->xbzrle_pages_prev) {
-> +            xbzrle_counters.encoding_rate =3D 0;
-> +        } else if (!encoded_size) {
-> +            xbzrle_counters.encoding_rate =3D UINT64_MAX;
-> +        } else {
-> +            xbzrle_counters.encoding_rate =3D unencoded_size / encoded_s=
-ize;
-> +        }
-> +        rs->xbzrle_pages_prev =3D xbzrle_counters.pages;
-> +        rs->xbzrle_bytes_prev =3D xbzrle_counters.bytes;
->      }
-> =20
->      if (migrate_use_compression()) {
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index 9b94e67..c2a3a66 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -303,6 +303,8 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdic=
-t)
->                         info->xbzrle_cache->cache_miss);
->          monitor_printf(mon, "xbzrle cache miss rate: %0.2f\n",
->                         info->xbzrle_cache->cache_miss_rate);
-> +        monitor_printf(mon, "xbzrle encoding rate: %0.2f\n",
-> +                       info->xbzrle_cache->encoding_rate);
->          monitor_printf(mon, "xbzrle overflow: %" PRIu64 "\n",
->                         info->xbzrle_cache->overflow);
->      }
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index eca2981..358e402 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -70,6 +70,8 @@
->  #
->  # @cache-miss-rate: rate of cache miss (since 2.1)
->  #
-> +# @encoding-rate: rate of encoded bytes (since 5.1)
-> +#
->  # @overflow: number of overflows
->  #
->  # Since: 1.2
-> @@ -77,7 +79,7 @@
->  { 'struct': 'XBZRLECacheStats',
->    'data': {'cache-size': 'int', 'bytes': 'int', 'pages': 'int',
->             'cache-miss': 'int', 'cache-miss-rate': 'number',
-> -           'overflow': 'int' } }
-> +           'encoding-rate': 'number', 'overflow': 'int' } }
-> =20
->  ##
->  # @CompressionStats:
-> @@ -337,6 +339,7 @@
->  #             "pages":2444343,
->  #             "cache-miss":2244,
->  #             "cache-miss-rate":0.123,
-> +#             "encoding-rate":80.1,
->  #             "overflow":34434
->  #          }
->  #       }
-> --=20
-> 1.8.3.1
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
+-- 
+Best regards,
+Vladimir
 
