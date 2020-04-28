@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AFE41BC580
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 18:42:27 +0200 (CEST)
-Received: from localhost ([::1]:38776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 514391BC5C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 18:51:21 +0200 (CEST)
+Received: from localhost ([::1]:39498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTTJS-0004FB-BS
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 12:42:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34436)
+	id 1jTTS4-00035D-8K
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 12:51:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34484)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTTFQ-00070B-MU
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:38:48 -0400
+ (envelope-from <armbru@redhat.com>) id 1jTTFZ-000720-Uc
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:38:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTTBz-0000vB-JO
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:38:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32544
+ (envelope-from <armbru@redhat.com>) id 1jTTCM-0001f5-Ml
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:38:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21997
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTTBz-0000uj-4l
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:34:43 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTTCM-0001bx-81
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:35:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588091682;
+ s=mimecast20190719; t=1588091705;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nzP+uw+2XuwrGiqU22XaFcepv5QrViywKvtT5n9Opwo=;
- b=W9BZ+iieodkVnXwEghI577iEpsKSeyTJ40W5gjw70wQ1JWOoHVaSSHkFRSgbs3JqN93aJY
- 7tLwW2eRpdVTHcImBlJdoyg1bMx2eNl+LB7ZmEhclYwzbwtdN0mb0Wih6dsf60iZOBHTEC
- VbcI7Z7AFOHBzIIbWjWf7Vk1LaxWwnA=
+ bh=uHjrqz2G9ueePYqq06GAHGY7j2GZpwWbWNeq/6jT1xk=;
+ b=F94eJnQ22wb0J+mI03b30Se73ztmf0gR3LgxnuqdajLB15sofdNatrQ1OIdYb3SWWj5FG5
+ bDmDNTFfnfatEVMu8yvXLaQt1HgdaRYphxRPKlCTOqcgc4nOmcNAfFKtVLrVzf/oK6MZNL
+ I+paBZVabHrFNGr99hqgdC7lSreymNg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483-wpsAwwXYNcmcjr10Xs1pog-1; Tue, 28 Apr 2020 12:34:40 -0400
-X-MC-Unique: wpsAwwXYNcmcjr10Xs1pog-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-98-2-hKnsMfOv21e-q0c9hPkQ-1; Tue, 28 Apr 2020 12:34:34 -0400
+X-MC-Unique: 2-hKnsMfOv21e-q0c9hPkQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60C2E18A0738;
- Tue, 28 Apr 2020 16:34:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2481D800D24
+ for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 16:34:34 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D3375DA66;
- Tue, 28 Apr 2020 16:34:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B8C102B4D9;
+ Tue, 28 Apr 2020 16:34:24 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 188E611358C4; Tue, 28 Apr 2020 18:34:20 +0200 (CEST)
+ id 1BC7F11358C5; Tue, 28 Apr 2020 18:34:20 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/17] s390x/cpumodel: Fix UI to CPU features pcc-cmac-{aes,
- eaes}-256
-Date: Tue, 28 Apr 2020 18:34:10 +0200
-Message-Id: <20200428163419.4483-9-armbru@redhat.com>
+Subject: [PATCH 09/17] hw/isa/superio: Make the components QOM children
+Date: Tue, 28 Apr 2020 18:34:11 +0200
+Message-Id: <20200428163419.4483-10-armbru@redhat.com>
 In-Reply-To: <20200428163419.4483-1-armbru@redhat.com>
 References: <20200428163419.4483-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -76,77 +75,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- pbonzini@redhat.com, Richard Henderson <rth@twiddle.net>
+Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both s390_features[S390_FEAT_PCC_CMAC_AES_256].name and
-s390_features[S390_FEAT_PCC_CMAC_EAES_256].name is
-"pcc-cmac-eaes-256".  The former is obviously a pasto.
+isa_superio_realize() attempts to make isa-parallel and isa-serial QOM
+children, but this does not work, because it calls
+object_property_add_child() after realizing with qdev_init_nofail().
+Realizing a device without a parent gives it one: it gets put into the
+"/machine/unattached/" orphanage.  The extra
+object_property_add_child() fails, and isa_superio_realize() ignores
+the error.
 
-Impact:
+Move the object_property_add_child() before qdev_init_nofail(), and
+pass &error_abort.
 
-* s390_feat_bitmap_to_ascii() misidentifies S390_FEAT_PCC_CMAC_AES_256
-  as "pcc-cmac-eaes-256".  Affects QMP commands query-cpu-definitions,
-  query-cpu-model-expansion, query-cpu-model-baseline,
-  query-cpu-model-comparison, and the error message when
-  s390_realize_cpu_model() fails in check_compatibility().
+For the other components, isa_superio_realize() doesn't even try.  Add
+object_property_add_child() there.
 
-* s390_realize_cpu_model() misidentifies it in check_consistency()
-  warnings.
+This affects machines 40p, clipper and fulong2e.
 
-* s390_cpu_list() likewise.  Affects -cpu help.
+For instance, fulong2e has its vt82c686b-superio (which is an
+isa-superio) at /machine/unattached/device[9].  Before the patch, its
+components are at /machine/unattached/device[10] .. [14].  Afterwards,
+they are at
+/machine/unattached/device[9]/{parallel0,serial0,serial1,isa-fdc,i8042}.
 
-* s390_cpu_model_register_props() creates CPU property
-  "pcc-cmac-eaes-256" twice.  The second one fails, but the error is
-  ignored (a later commit will change that).  Results in a single
-  property "pcc-cmac-eaes-256" with the description for
-  S390_FEAT_PCC_CMAC_AES_256, and no property for
-  S390_FEAT_PCC_CMAC_EAES_256.  CPU properties are visible in CLI -cpu
-  and -device, QMP & HMP device_add, QMP device-list-properties, and
-  QOM introspection.
-
-Fix by deleting the wayward 'e'.
-
-Fixes: 782417446279717aa85320191a519b51f6d5dd31
-Cc: Halil Pasic <pasic@linux.ibm.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: qemu-s390x@nongnu.org
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- target/s390x/cpu_features_def.inc.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/isa/isa-superio.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/target/s390x/cpu_features_def.inc.h b/target/s390x/cpu_feature=
-s_def.inc.h
-index 31dff0d84e..a8d562d688 100644
---- a/target/s390x/cpu_features_def.inc.h
-+++ b/target/s390x/cpu_features_def.inc.h
-@@ -310,7 +310,7 @@ DEF_FEAT(PCC_CMAC_ETDEA_192, "pcc-cmac-etdea-128", PCC,=
- 10, "PCC Compute-Last-Bl
- DEF_FEAT(PCC_CMAC_TDEA, "pcc-cmac-etdea-192", PCC, 11, "PCC Compute-Last-B=
-lock-CMAC-Using-EncryptedTDEA-192")
- DEF_FEAT(PCC_CMAC_AES_128, "pcc-cmac-aes-128", PCC, 18, "PCC Compute-Last-=
-Block-CMAC-Using-AES-128")
- DEF_FEAT(PCC_CMAC_AES_192, "pcc-cmac-aes-192", PCC, 19, "PCC Compute-Last-=
-Block-CMAC-Using-AES-192")
--DEF_FEAT(PCC_CMAC_AES_256, "pcc-cmac-eaes-256", PCC, 20, "PCC Compute-Last=
--Block-CMAC-Using-AES-256")
-+DEF_FEAT(PCC_CMAC_AES_256, "pcc-cmac-aes-256", PCC, 20, "PCC Compute-Last-=
-Block-CMAC-Using-AES-256")
- DEF_FEAT(PCC_CMAC_EAES_128, "pcc-cmac-eaes-128", PCC, 26, "PCC Compute-Las=
-t-Block-CMAC-Using-Encrypted-AES-128")
- DEF_FEAT(PCC_CMAC_EAES_192, "pcc-cmac-eaes-192", PCC, 27, "PCC Compute-Las=
-t-Block-CMAC-Using-Encrypted-AES-192")
- DEF_FEAT(PCC_CMAC_EAES_256, "pcc-cmac-eaes-256", PCC, 28, "PCC Compute-Las=
-t-Block-CMAC-Using-Encrypted-AES-256")
+diff --git a/hw/isa/isa-superio.c b/hw/isa/isa-superio.c
+index 180a8b9625..0d9d848280 100644
+--- a/hw/isa/isa-superio.c
++++ b/hw/isa/isa-superio.c
+@@ -62,6 +62,8 @@ static void isa_superio_realize(DeviceState *dev, Error *=
+*errp)
+                 qdev_prop_set_uint32(d, "irq", k->parallel.get_irq(sio, i)=
+);
+             }
+             qdev_prop_set_chr(d, "chardev", chr);
++            object_property_add_child(OBJECT(sio), name, OBJECT(isa),
++                                      &error_abort);
+             qdev_init_nofail(d);
+             sio->parallel[i] =3D isa;
+             trace_superio_create_parallel(i,
+@@ -69,8 +71,6 @@ static void isa_superio_realize(DeviceState *dev, Error *=
+*errp)
+                                           k->parallel.get_iobase(sio, i) :=
+ -1,
+                                           k->parallel.get_irq ?
+                                           k->parallel.get_irq(sio, i) : -1=
+);
+-            object_property_add_child(OBJECT(dev), name,
+-                                      OBJECT(sio->parallel[i]), NULL);
+             g_free(name);
+         }
+     }
+@@ -102,6 +102,8 @@ static void isa_superio_realize(DeviceState *dev, Error=
+ **errp)
+                 qdev_prop_set_uint32(d, "irq", k->serial.get_irq(sio, i));
+             }
+             qdev_prop_set_chr(d, "chardev", chr);
++            object_property_add_child(OBJECT(sio), name, OBJECT(isa),
++                                      &error_abort);
+             qdev_init_nofail(d);
+             sio->serial[i] =3D isa;
+             trace_superio_create_serial(i,
+@@ -109,8 +111,6 @@ static void isa_superio_realize(DeviceState *dev, Error=
+ **errp)
+                                         k->serial.get_iobase(sio, i) : -1,
+                                         k->serial.get_irq ?
+                                         k->serial.get_irq(sio, i) : -1);
+-            object_property_add_child(OBJECT(dev), name,
+-                                      OBJECT(sio->serial[0]), NULL);
+             g_free(name);
+         }
+     }
+@@ -137,6 +137,8 @@ static void isa_superio_realize(DeviceState *dev, Error=
+ **errp)
+             qdev_prop_set_drive(d, "driveB", blk_by_legacy_dinfo(drive),
+                                 &error_fatal);
+         }
++        object_property_add_child(OBJECT(sio), "isa-fdc", OBJECT(isa),
++                                  &error_abort);
+         qdev_init_nofail(d);
+         sio->floppy =3D isa;
+         trace_superio_create_floppy(0,
+@@ -147,7 +149,11 @@ static void isa_superio_realize(DeviceState *dev, Erro=
+r **errp)
+     }
+=20
+     /* Keyboard, mouse */
+-    sio->kbc =3D isa_create_simple(bus, TYPE_I8042);
++    isa =3D isa_create(bus, TYPE_I8042);
++    object_property_add_child(OBJECT(sio), TYPE_I8042, OBJECT(isa),
++                              &error_abort);
++    qdev_init_nofail(DEVICE(isa));
++    sio->kbc =3D isa;
+=20
+     /* IDE */
+     if (k->ide.count && (!k->ide.is_enabled || k->ide.is_enabled(sio, 0)))=
+ {
+@@ -163,6 +169,8 @@ static void isa_superio_realize(DeviceState *dev, Error=
+ **errp)
+             qdev_prop_set_uint32(d, "irq", k->ide.get_irq(sio, 0));
+         }
+         qdev_init_nofail(d);
++        object_property_add_child(OBJECT(sio), "isa-ide", OBJECT(isa),
++                                  &error_abort);
+         sio->ide =3D isa;
+         trace_superio_create_ide(0,
+                                  k->ide.get_iobase ?
 --=20
 2.21.1
 
