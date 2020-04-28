@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3068E1BC76A
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 20:04:03 +0200 (CEST)
-Received: from localhost ([::1]:43350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 872281BC79A
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 20:12:55 +0200 (CEST)
+Received: from localhost ([::1]:43824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTUaP-0001wl-Px
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 14:04:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47208)
+	id 1jTUj0-0003O2-3W
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 14:12:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48602)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTUYd-0000GX-As
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 14:02:30 -0400
+ (envelope-from <jsuvorov@redhat.com>) id 1jTUhW-0002Al-LG
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 14:11:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTUWw-0004XX-2P
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 14:02:10 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23889
+ (envelope-from <jsuvorov@redhat.com>) id 1jTUhV-0005z6-0a
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 14:11:21 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51173
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jTUWv-0004W6-Ed
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 14:00:25 -0400
+ (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
+ id 1jTUhU-0005yY-F2
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 14:11:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588096823;
+ s=mimecast20190719; t=1588097478;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tCHpTYho1y90eeihUyaCPBbBHEOT2C7lgN3ElyEhsKE=;
- b=Ulcsg7tD3RtXogKiEMBvTtgZuChFUgaswgrWFOvf5NTuh2vBumx3CNJ9fK2u/KGCt+8M3h
- 5EzSRiK8nZ9DMXcX0FumfkpoM7oTxGnQhFQ1DK+Z8at+1mMo/AIN0dFySsbc+Ic2lELVh+
- +HagmJMsXInJ3+WjbwtI0GrrpABK+o4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-vRd64YMONJWFD9cUrjRl-Q-1; Tue, 28 Apr 2020 14:00:15 -0400
-X-MC-Unique: vRd64YMONJWFD9cUrjRl-Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB051100CD03
- for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 18:00:14 +0000 (UTC)
-Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A801A579A9;
- Tue, 28 Apr 2020 18:00:13 +0000 (UTC)
-Subject: Re: [PATCH 06/17] qom: Drop object_property_set_description()
- parameter @errp
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200428163419.4483-1-armbru@redhat.com>
- <20200428163419.4483-7-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <828c31a6-f1d7-1629-cded-ef7097dd02b5@redhat.com>
-Date: Tue, 28 Apr 2020 13:00:12 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ bh=t36IJX7Y87U5sq8z29bfgchMRQmNzy9N4kwsu2Xg57I=;
+ b=e7qIrTvcA/v2W7UHv+mJje/7RNKs/HkzREGyQAbcruGu2L95S79TMgHWqhzzBxVgRVTopb
+ qbwj4rQa33lGbZWDp0eJbNSrmRdM/Hk4vHPgKYRNQfson2oXnQfU5ZOVwg4TGM6yUgJn2A
+ rJCIi1v93+XFM1nb7jHK+lruzWEU5wA=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-97-Jr-D2iMcOcmC1gei3BLGrA-1; Tue, 28 Apr 2020 14:11:11 -0400
+X-MC-Unique: Jr-D2iMcOcmC1gei3BLGrA-1
+Received: by mail-lj1-f197.google.com with SMTP id z1so3767935ljk.9
+ for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 11:11:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=t36IJX7Y87U5sq8z29bfgchMRQmNzy9N4kwsu2Xg57I=;
+ b=fsNE2gDOM9JmYo8GWWWvpPgmxYUT2izfhh8gd/KNdPW91xrJNoN6cnUjdQN6Pcm2Ka
+ WIw016LepF2NUL2HXdZExCmBH9VA8ktF6C1VregAuNLyWDt5N9VRLFMQTZ+Orzd4jKoC
+ 53Y5y5oLQMvboOOUg4vow4M1tteLr4K39ebfvd2pkAyecFoogJYSDeU3hCCu2ZixzUFv
+ 8tC63unVw1Cdb9cHAdfhdcE95P/Y2wfG/cBRZ9ZXfPgZ1/u9OINioAFKF05Gc0CSmury
+ JGKYpYRXKOMfIXkvmXuzrYm1bflfByqmNP8XpQh+Vzg8DS3x6pkQCx94ltzvBSZnmU+n
+ KAqQ==
+X-Gm-Message-State: AGi0PuYO4I56nPWF1G6Q6TAER6ugneKvRLrnDpG4XooBt6fIT8YppMRz
+ JigtxjOLsdZkFGGNbbsQNvZM6YjF0iwI8HpSONu1d9338iWnAHrWZfEzd6GA+eq/GP4+gMwS+lU
+ S7OV8eNqAYm754rpPrlUlEKkA65ot6lg=
+X-Received: by 2002:a05:651c:1131:: with SMTP id
+ e17mr19521636ljo.79.1588097470169; 
+ Tue, 28 Apr 2020 11:11:10 -0700 (PDT)
+X-Google-Smtp-Source: APiQypK5t4m9zawMLyqBE8FUSGtezmeVgCRalWhGlWGLr6mo4RZ0JNoqnOwNf/NNKIkw8ArucihLonXtraWWwB9W7N4=
+X-Received: by 2002:a05:651c:1131:: with SMTP id
+ e17mr19521620ljo.79.1588097469908; 
+ Tue, 28 Apr 2020 11:11:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200428163419.4483-7-armbru@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+References: <20200427182440.92433-1-jusual@redhat.com>
+ <158801823561.15667.6932995854888702598@39012742ff91>
+In-Reply-To: <158801823561.15667.6932995854888702598@39012742ff91>
+From: Julia Suvorova <jusual@redhat.com>
+Date: Tue, 28 Apr 2020 20:10:58 +0200
+Message-ID: <CAMDeoFXHNch7YoVXR4T1EFtxopsvDZ_YY7cc=r9=cX2FY-pPmQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] hw/pci/pcie: Forbid hot-plug if it's disabled on
+ the slot
+To: QEMU Developers <qemu-devel@nongnu.org>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsuvorov@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 04:11:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -79,99 +89,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com
+Cc: Igor Mammedov <imammedo@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ Michael Tsirkin <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/28/20 11:34 AM, Markus Armbruster wrote:
-> object_property_set_description() and
-> object_class_property_set_description() fail only when property @name
-> is not found.
-> 
-> There are 85 calls of object_property_set_description() and
-> object_class_property_set_description().  None of them can fail:
-> 
-> * 84 immediately follow the creation of the property.
-> 
-> * The one in spapr_rng_instance_init() refers to a property created in
->    spapr_rng_class_init(), from spapr_rng_properties[].
-> 
-
-I don't envy how you counted those.  But on sheer numbers, this patch 
-has to be at least 85 changed lines in length...
-
-> Every one of them still gets to decide what to pass for @errp.
-> 
-> 51 calls pass &error_abort, 32 calls pass NULL, one receives the error
-> and propagates it to &error_abort, and one propagates it to
-> &error_fatal.  I'm actually surprised none of them violates the Error
-> API.
-> 
-> What are we gaining by letting callers handle the "property not found"
-> error?  Use when the property is not known to exist is simpler: you
-> don't have to guard the call with a check.  We haven't found such a
-> use in 5+ years.  Until we do, let's make life a bit simpler and drop
-> the @errp parameter.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+On Mon, Apr 27, 2020 at 10:11 PM <no-reply@patchew.org> wrote:
+>
+> Patchew URL: https://patchew.org/QEMU/20200427182440.92433-1-jusual@redha=
+t.com/
+>
+>
+>
+> Hi,
+>
+> This series failed the docker-quick@centos7 build test. Please find the t=
+esting commands and
+> their output below. If you have Docker installed, you can probably reprod=
+uce it
+> locally.
+>
+> =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
+> #!/bin/bash
+> make docker-image-centos7 V=3D1 NETWORK=3D1
+> time make docker-test-quick@centos7 SHOW_ENV=3D1 J=3D14 NETWORK=3D1
+> =3D=3D=3D TEST SCRIPT END =3D=3D=3D
+>
+>   TEST    check-unit: tests/test-qht
+> socket_accept failed: Resource temporarily unavailable
+> **
+> ERROR:/tmp/qemu-test/src/tests/qtest/libqtest.c:301:qtest_init_without_qm=
+p_handshake: assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
+> /tmp/qemu-test/src/tests/qtest/libqtest.c:166: kill_qemu() tried to termi=
+nate QEMU process but encountered exit status 1 (expected 0)
+> ERROR - Bail out! ERROR:/tmp/qemu-test/src/tests/qtest/libqtest.c:301:qte=
+st_init_without_qmp_handshake: assertion failed: (s->fd >=3D 0 && s->qmp_fd=
+ >=3D 0)
+> make: *** [check-qtest-aarch64] Error 1
+> make: *** Waiting for unfinished jobs....
+>   TEST    iotest-qcow2: 022
+>   TEST    check-unit: tests/test-qht-par
 > ---
+>   TEST    iotest-qcow2: 039
+> socket_accept failed: Resource temporarily unavailable
+> **
+> ERROR:/tmp/qemu-test/src/tests/qtest/libqtest.c:301:qtest_init_without_qm=
+p_handshake: assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
+> /tmp/qemu-test/src/tests/qtest/libqtest.c:166: kill_qemu() tried to termi=
+nate QEMU process but encountered exit status 1 (expected 0)
+> ERROR - Bail out! ERROR:/tmp/qemu-test/src/tests/qtest/libqtest.c:301:qte=
+st_init_without_qmp_handshake: assertion failed: (s->fd >=3D 0 && s->qmp_fd=
+ >=3D 0)
+> make: *** [check-qtest-x86_64] Error 1
+>   TEST    iotest-qcow2: 040
+>   TEST    iotest-qcow2: 041
+>   TEST    iotest-qcow2: 042
+> ---
+>     raise CalledProcessError(retcode, cmd)
+> subprocess.CalledProcessError: Command '['sudo', '-n', 'docker', 'run', '=
+--label', 'com.qemu.instance.uuid=3Dc66f60264261441e87b973b137ab56d7', '-u'=
+, '1003', '--security-opt', 'seccomp=3Dunconfined', '--rm', '-e', 'TARGET_L=
+IST=3D', '-e', 'EXTRA_CONFIGURE_OPTS=3D', '-e', 'V=3D', '-e', 'J=3D14', '-e=
+', 'DEBUG=3D', '-e', 'SHOW_ENV=3D1', '-e', 'CCACHE_DIR=3D/var/tmp/ccache', =
+'-v', '/home/patchew2/.cache/qemu-docker-ccache:/var/tmp/ccache:z', '-v', '=
+/var/tmp/patchew-tester-tmp-ksshgsdx/src/docker-src.2020-04-27-15.54.25.261=
+90:/var/tmp/qemu:z,ro', 'qemu:centos7', '/var/tmp/qemu/run', 'test-quick']'=
+ returned non-zero exit status 2.
+> filter=3D--filter=3Dlabel=3Dcom.qemu.instance.uuid=3Dc66f60264261441e87b9=
+73b137ab56d7
+> make[1]: *** [docker-run] Error 1
+> make[1]: Leaving directory `/var/tmp/patchew-tester-tmp-ksshgsdx/src'
+> make: *** [docker-run-test-quick@centos7] Error 2
+>
+> real    16m11.272s
+> user    0m9.880s
+>
+>
+> The full log is available at
+> http://patchew.org/logs/20200427182440.92433-1-jusual@redhat.com/testing.=
+docker-quick@centos7/?type=3Dmessage.
+> ---
+> Email generated automatically by Patchew [https://patchew.org/].
+> Please send your feedback to patchew-devel@redhat.com
 
->   30 files changed, 91 insertions(+), 143 deletions(-)
-
-...which it is. And the compiler would choke if you missed anything. 
-The bulk of this is mechanical, with no way to split it smaller.
-
-After hunting, I found the core of the patch:
-
-> +++ b/qom/object.c
-> @@ -2835,38 +2835,27 @@ object_property_add_alias(Object *obj, const char *name,
->       }
->   
->       object_property_set_description(obj, op->name,
-> -                                    target_prop->description,
-> -                                    &error_abort);
-> +                                    target_prop->description);
->       return op;
->   }
->   
->   void object_property_set_description(Object *obj, const char *name,
-> -                                     const char *description, Error **errp)
-> +                                     const char *description)
->   {
->       ObjectProperty *op;
->   
-> -    op = object_property_find(obj, name, errp);
-> -    if (!op) {
-> -        return;
-> -    }
-> -
-> +    op = object_property_find(obj, name, &error_abort);
->       g_free(op->description);
->       op->description = g_strdup(description);
->   }
->   
->   void object_class_property_set_description(ObjectClass *klass,
->                                              const char *name,
-> -                                           const char *description,
-> -                                           Error **errp)
-> +                                           const char *description)
->   {
->       ObjectProperty *op;
->   
->       op = g_hash_table_lookup(klass->properties, name);
-> -    if (!op) {
-> -        error_setg(errp, "Property '.%s' not found", name);
-> -        return;
-> -    }
-> -
-
-and it is sensible.
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Looks like false positive.
 
 
