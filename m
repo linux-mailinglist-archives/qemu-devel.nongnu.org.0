@@ -2,108 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C45A1BB9C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 11:24:08 +0200 (CEST)
-Received: from localhost ([::1]:48492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3A3D1BB9F6
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 11:37:37 +0200 (CEST)
+Received: from localhost ([::1]:49710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTMTH-00062r-A7
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 05:24:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59982)
+	id 1jTMgK-0007Dp-UF
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 05:37:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34256)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jTMQ2-0002C6-VM
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:22:10 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTMZf-0008AS-SW
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:35:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jTMNX-0000x1-Pw
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:20:46 -0400
-Received: from mail-eopbgr30122.outbound.protection.outlook.com
- ([40.107.3.122]:41966 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTMXi-0001IB-WD
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:30:43 -0400
+Received: from mail-eopbgr40113.outbound.protection.outlook.com
+ ([40.107.4.113]:43844 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jTMNX-0000wf-D8; Tue, 28 Apr 2020 05:18:11 -0400
+ id 1jTMXi-0001D5-Im; Tue, 28 Apr 2020 05:28:42 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ddEa3RuUeRxEgP89onZILoJ6E1LIQopCzqY73XJl+ZqGN7nLVMXLlFjepkz+JhzTzQ6inF/kgKMlhiNA2F/lUBint81D0jC0+DIxOdK9lxzg8pkM0jTfSfLNEtZZ7/bqsZQzVKOjArUU8RiiB3n9QAOYeXaf/g8lbpkhE0+O0JpcPE5u/Tr1EF/JKe0sqOilwsayHD+vq2HQPlwqJzdigfcNPf0BgCU8QgbCT7SpLKS9JTs7GcP5QPKHOhgO15g6S7kDWb0RR028FS957vQKH7Ua+drjtSKiZb++aUZkpDbP9RhAe31yoO00EP5ThKO1KTwNe7Iweh93nYkk3XgQHw==
+ b=d5LIpR83FKA9dvvzGJdhhmPFukAFdfHVdO2K28TtY0N0rzfbTek/4I2vJEV321m/4KI07nN3VblmG3m32nBWmeOGsMveCTbkTtdKAxgLgpA5PnfL5XQuLLfZ8xb14Qp1FIeMDXsiLpFytQjpPn5ZE3kGF+Fiy8ZwSH7wcfIL8gLn38XtdXflQyF8g1tDYzkyRKEI14esbh4lzl0Eg2oj2QmYHHq1FMlJsLEqgVKIpqhSnJKY9BUjN2Qq6s+DvkKUuzqaV8x8EdVThQnUAF3vXc85Bw7BGi1cXDtWMvqk8b0VceWOQRbpdXOFWcfBW9FNJp35JQpvy6tz88vHoGABwA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ks/+RSMBv4GNar4lRd1zaRMbsakoqnAvZTHOYCB+QIs=;
- b=i/9k1H1PEWM+7YZKHk9BhawsG7cG23mVlV/ows3ajKZTyjv8vz21SEPvRDakIO/B9eON/LrVQBRAqbAFt0PlrHBPLVjopU5dR8WUuvu84u02kP1L00pliDnd8h90jamWL6sEwtoSSesyHakG2Bjt+At3cms7l6FZThTuPP471CTN9ccKgKWOYDQyZtVZcKHfBenYr1FTdowDuoqxeDIutIPUx3EP41vbMRxW6ylI4JFAhDx+l8V3ZD1pVga0zJdgv7R7VV8SzWPqDQ1/POS/PGzudrmjT52qqcH/yfg5AHIV6FQsZ80pw/2NAM0RPCQSWHWGBeEX5XFTjTv/wtTC+A==
+ bh=aEk0MZTvTWdcvXY0jZJGxP06NvDQevghge76DAu7D+U=;
+ b=kf6BmWmqFzTKhF7Dx0AKRbo1Mgk9Uv7LunT1Pkr89ntZfB8Q5DX0O9yjB6xlV5UicQg6fi9Tzm0+Zxeoaf0UWI4pbk73acUnww6gzKXXHF6hoBKA4Tiua7GjhU9SZstKbxSLGi+izec8K1bW+HaucuKNX+61nvggaxS0GpR7+ec9PLKlUORx7zV0spEVrfH2Wmwoa2lYXqv0/QtjslH0NljA1U84nNXWcTraSWV0f3OSCqC0FjCTu1mlspD1Aa29wmT9yxGMVySqu4nxdMdjCEgB9zm1LKDHnngvoVx22ejEWD3TMp1Z/MR0745dwaHEkDF9P0zklQ4fG11VuSCi7w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ks/+RSMBv4GNar4lRd1zaRMbsakoqnAvZTHOYCB+QIs=;
- b=HgJR0lRMrb85nkCIiVZuMSZKJlVWh/FZtylIML8rjL3/lpyJ9k3VINEOtr62tXu3C2racM42Nr/6mRAqX5bx92GkGFxA0WWA2OCXrTpsPtXeZAsFozhTUjyxwHpVcyrI6mz7awkSq9kkuQAz8qrwdUgyqMhB3SrsRJdWkM/3XSI=
+ bh=aEk0MZTvTWdcvXY0jZJGxP06NvDQevghge76DAu7D+U=;
+ b=ueVXKmMICK5F3qDzzxgqe2TucRisfdeRibJZpEUQHikzOl/lLGaAFPD1wStWhXnPeIC77pNINn21bf0qdK+l2pMeNv1nndIfR9wtkPxV4QWS400vQlwuSKa2bJ5VdOYv5i6Fxw9ObIfkNUjAfIMotE3ckTjI6XG2fy+j6cg1ZXA=
 Authentication-Results: openvz.org; dkim=none (message not signed)
  header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5398.eurprd08.prod.outlook.com (2603:10a6:20b:103::16)
+ by AM7PR08MB5429.eurprd08.prod.outlook.com (2603:10a6:20b:107::12)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Tue, 28 Apr
- 2020 09:18:08 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.22; Tue, 28 Apr
+ 2020 09:28:36 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.023; Tue, 28 Apr 2020
- 09:18:08 +0000
-Subject: Re: [PATCH v2 1/6] block/block-copy: rename in-flight requests to
- tasks
+ 09:28:36 +0000
+Subject: Re: [PATCH v2 4/6] block/block-copy: move task size initial
+ calculation to _task_create
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20200325134639.16337-1-vsementsov@virtuozzo.com>
- <20200325134639.16337-2-vsementsov@virtuozzo.com>
- <da290ef0-c8dc-7cf0-fcf6-71e28aa323d5@redhat.com>
+ <20200325134639.16337-5-vsementsov@virtuozzo.com>
+ <630a5655-7b00-3ee4-943d-e4b5ad52db57@redhat.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200428121806863
-Message-ID: <a5bfaf7c-6516-aa07-c8b9-028b894aff15@virtuozzo.com>
-Date: Tue, 28 Apr 2020 12:18:06 +0300
+X-Tagtoolbar-Keys: D20200428122833623
+Message-ID: <9c03916d-cee7-6543-aeed-9e11cabe54ae@virtuozzo.com>
+Date: Tue, 28 Apr 2020 12:28:33 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.2.1
-In-Reply-To: <da290ef0-c8dc-7cf0-fcf6-71e28aa323d5@redhat.com>
+In-Reply-To: <630a5655-7b00-3ee4-943d-e4b5ad52db57@redhat.com>
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: ZR0P278CA0007.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:16::17) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: FRYP281CA0012.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::22)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.100.2] (185.215.60.155) by
- ZR0P278CA0007.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:16::17) with Microsoft
+ FRYP281CA0012.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::22) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2937.13 via Frontend Transport; Tue, 28 Apr 2020 09:18:08 +0000
-X-Tagtoolbar-Keys: D20200428121806863
+ 15.20.2937.13 via Frontend Transport; Tue, 28 Apr 2020 09:28:35 +0000
+X-Tagtoolbar-Keys: D20200428122833623
 X-Originating-IP: [185.215.60.155]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 07643d21-0b5f-4558-ddcd-08d7eb551107
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5398:
+X-MS-Office365-Filtering-Correlation-Id: 77b055c8-7fae-403e-3f80-08d7eb568709
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5429:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB53988F2B4D17BD0E511CC961C1AC0@AM7PR08MB5398.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:57;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB542900A257BE5010F434AF15C1AC0@AM7PR08MB5429.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
 X-Forefront-PRVS: 0387D64A71
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(136003)(39840400004)(346002)(396003)(366004)(376002)(52116002)(66556008)(2906002)(66946007)(53546011)(31686004)(66476007)(478600001)(5660300002)(8676002)(26005)(81156014)(8936002)(186003)(36756003)(16576012)(107886003)(956004)(2616005)(16526019)(6486002)(31696002)(316002)(4326008)(86362001);
+ SFS:(4636009)(396003)(39840400004)(346002)(376002)(366004)(136003)(66476007)(66556008)(16576012)(186003)(5660300002)(66946007)(316002)(6486002)(478600001)(16526019)(81156014)(4326008)(956004)(2616005)(36756003)(52116002)(31696002)(86362001)(107886003)(8676002)(31686004)(8936002)(26005)(2906002)(53546011);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rwxdgjpVi6eLobzyzvvn1dvoxvdkYArn/1gQYJJxD6vLF47H1SbmVB+E/PZAHYOKQ+ie22lNm/IZGljrxcDrZdO/2w7NFxVIAK88XoLmxh+HXwgKHOZJlxiA0ebOkRrROvc13kNCIXHAkEzJMqstjPc8Gjt6oItVZFImPitkO8EK+f6VzVPyj3t53OTx/H7DPfqxIfU3UouxOLZ0YjS9gXsE9ltTyRkWe/1BXFtLaM/qC0nRb3Uch0PAxkVzKQvCFEH/rQE2qQtE1bLQWIXeo9x8iKNd3uM1W/RBwJEw81WThpqUXg75syjs3EVNout6V7oReOFscF44DtogcaJD9uCFOW7vV9Kc1Mzg7OC997WvGrDKybnD6FpNjBAOD84STtlnUgvZTUc4ddzpdyUzZ3aZI20rTYrIlL5yugpt5weELEIGDPPQ/Io/+VTpo6C3
-X-MS-Exchange-AntiSpam-MessageData: Zxty1RZqH9MOflFipZLe6+U79OJNmtBsdyLo5veCy4wDI+N99fls1Rwtd83TmQtxHwJKw/ALfAffoabP4sjyXI7TrPCwtds7vTkVx8TlmYDY0rxcUqUUefIhmI72raTDqlWfIQuv9emv6XX9l1tWw6PX+IeCavtNtJllWUWOIDNwTfkcOU2vCHTp/e9f5IjyO9OyLzDIpY3bZFVlgpo5ovQRYEDlhknLnO9B/NUHegYAp/7mw6T5OKEV0+9XnmMtQJ3INfhm8gG0DNwIEICJzY66qkdgJtqA5duwDJWF00yrML6sV3i0Hj82FDZcDskRRoNxHqkGtn2MB+TFCd60KTbqGPChs+7M0dGhozOIzIQ0NVKOsflJfSTULp3G3kbUjjSB/M95/0Ii/rIV3aQmfooBjC2il2Su4UvS4FI29sYHyUe+MbVNE8kCb601xPYHTL9xz+K1lgcW6D9/DteuEflHPuHaxSguMml67aDjp9cvxpI/qTB5tKPpS4th3D9a+NRbndP5j9ApniOVVaMF/STohSYpV7N/SZsastBKosk+Ycegk5aHfm/98GMzOy3piPqtgxtfL+ivvA6mnltJZrfDEhVqUUdptNQB/MPmse/PJzg+fjeLv8IA/tNvBXkwNCXJfLYRDvMGoyjVHGL+Xkq6pv6nbjmZoyMxkt2z+m1jziWbI9I0GZ0aqO3ObwuiaWPGEkutlVApYl/afvtJObyT1asXF/lg0RD33tiFz1bNrauzt1u3ipiZkIbfvJPkvH6j52W6SVaZV3JRaHC9EIzUfMGj/jE5t2BxSgm3LSU=
+X-Microsoft-Antispam-Message-Info: 35YspV0WpqdB5LtQiPowy5MoIJXXEeIZ75OWtSRo2Gkjxi/SNnwI32VLbCIrvPf+5FMvUqPvfy6rdocQ8v/aoVB7vIwT5jfx70GGxPZPkiI2w9VWGD9W1WeQ2S57GUq18oxlZuFErt1OIEJ1gcYSmbCXGWCQ4uvygmxcEstUvWC18Ys0nlOaCUk/Jxe2MC+HqgvcWY/JLRB8CHBA6IHuZwVtw2I4FdZ7YUW+wxiA/O5823JfPvKfpoPBdfo40DdYIvu5bHswc2tci79D5GhU46t3IWvupGgv1nezqsqRsCkRwrHqLr2MJrCbiC5oqy61kNj8Ldtck5LGHPDuu0jQu+ZRWpJ+Hqz2+iSLTErFMTUA+L7HiAeef2oqDYKTu6l9owL/yuRBLmm7FBCG73U4eaO3mBCfqfVig/nGYYspa9O3w9MkBRwvr0Tv3mZRn0Eg
+X-MS-Exchange-AntiSpam-MessageData: +Gz1d08wBvbJqqEhT0VQwvI0ksvUq7FUU9+KfMcip6DgZePcGTFM1M52RnrD75F1Z2QtfuJoQeiW0eoG1kJ2lG9pEOWse2QmDjRANNe+5c0rK6phSDnObX6CqbeMwWW4TsnF3NwAfCfbFgWduWQFBrx9OfsHAPNdUJ09PFaeuERQ5cfWACs17sZue9x5CI9GdccWsEZDuwFGVn6vWl24v4PIFJsBhmSKMjmakGjw6fLSDoam9S7bC5N4Zn5T+AVoapW7Mv34MZFWkHcDmdToM964QRe3bIGQjIxyRtR9YrQ3I0eaBdGducRh7MHw9wG2F6eRWGKpeDb2UzXDtHi2CyBQgHZt0ZLDc2iaZDAhHJtDArdlwOVdkxpj4LXA+WQhzaaz5df5vvpi4G9btlT8GRGN95WoJD8SdFzxNwkCrCrlrUkDPsyisT3UxUasgpcVIgh/Fm06J5Rxb6Bm4WEt//pslB2se+1/IfLY8yjzbhletUyljoWjJNRC1AVG7/Ej3/hg/JrGhdT4pj2pPwPH5/7bGLW5zHm96uRGFr+LNhZ/K5FxiA26e9LnSMSDGi4i8jBrH8f86ScPWADfUMzIiLgbVtArb2WZzHs9bKAEHoT4Oq2SICWuY0vHau0Uo17JRqN/0dEg7Ev66p97FVGRDS1/juEt8cK56pBJ6/ZYCzPllepIE4duv5/tD2jtxs1n+55mJ6uG0yL0qNKXvMFQcnqJcU1xu2Ywbwg72zZqlhFCnjAtbrspYBb1Vmix7YvrsMvfGXmGdFj2ujLyc3FVqZs0BfCyMmybdWFYGmr6qiE=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 07643d21-0b5f-4558-ddcd-08d7eb551107
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2020 09:18:08.8333 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77b055c8-7fae-403e-3f80-08d7eb568709
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2020 09:28:36.2196 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WiEoKuNNogJkJyf0mBUeTa6bTM0cMk0o684eTgwj6JYOM4aXEGyf/Ax37it6qS/G1xtXcx8id6GAVYaE2H7R+y5+Dfz06UJg7pg81BhYHQ4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5398
-Received-SPF: pass client-ip=40.107.3.122;
+X-MS-Exchange-CrossTenant-UserPrincipalName: 56LvxCXFnuLLpRDBoDdS62r5QfNmul327SBFpvRi9t9ybZ5gLhULKM3Y0JeDBI14pCzC3LPsod+Bhf5t2a1v/RVwcpUyFFZvKcodgFPdCik=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5429
+Received-SPF: pass client-ip=40.107.4.113;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-AM5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 05:18:09
+ helo=EUR03-DB5-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 05:28:36
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Received-From: 40.107.3.122
+X-Received-From: 40.107.4.113
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -119,49 +119,65 @@ Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-28.04.2020 10:30, Max Reitz wrote:
+28.04.2020 11:52, Max Reitz wrote:
 > On 25.03.20 14:46, Vladimir Sementsov-Ogievskiy wrote:
->> We are going to use aio-task-pool API and extend in-flight request
->> structure to be a successor of AioTask, so rename things appropriately.
+>> Comment "Called only on full-dirty region" without corresponding
+>> assertion is a very unsafe thing.
+> 
+> Not sure whether it’s that unsafe for a static function with a single
+> caller, but, well.
+> 
+>> Adding assertion means call
+>> bdrv_dirty_bitmap_next_zero twice. Instead, let's move
+>> bdrv_dirty_bitmap_next_zero call to block_copy_task_create. It also
+>> allows to drop cur_bytes variable which partly duplicate task->bytes.
 >>
 >> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 >> ---
->>   block/block-copy.c | 99 +++++++++++++++++++++++-----------------------
->>   1 file changed, 49 insertions(+), 50 deletions(-)
+>>   block/block-copy.c | 47 ++++++++++++++++++++++++----------------------
+>>   1 file changed, 25 insertions(+), 22 deletions(-)
 >>
 >> diff --git a/block/block-copy.c b/block/block-copy.c
->> index 05227e18bf..61d1d26991 100644
+>> index 63d8468b27..dd406eb4bb 100644
 >> --- a/block/block-copy.c
 >> +++ b/block/block-copy.c
-> 
-> [...]
-> 
->> -static void coroutine_fn block_copy_inflight_req_shrink(BlockCopyState *s,
->> -        BlockCopyInFlightReq *req, int64_t new_bytes)
->> +static void coroutine_fn block_copy_task_shrink(BlockCopyState *s,
->> +                                                BlockCopyTask *task,
->> +                                                int64_t new_bytes)
->>   {
->> -    if (new_bytes == req->bytes) {
->> +    if (new_bytes == task->bytes) {
->>           return;
->>       }
+>> @@ -106,12 +106,23 @@ static bool coroutine_fn block_copy_wait_one(BlockCopyState *s, int64_t offset,
+>>       return true;
+>>   }
 >>   
->> -    assert(new_bytes > 0 && new_bytes < req->bytes);
->> +    assert(new_bytes > 0 && new_bytes < task->bytes);
->>   
->> -    s->in_flight_bytes -= req->bytes - new_bytes;
->> +    s->in_flight_bytes -= task->bytes - new_bytes;
->>       bdrv_set_dirty_bitmap(s->copy_bitmap,
->> -                          req->offset + new_bytes, req->bytes - new_bytes);
->> +                          task->offset + new_bytes, task->bytes - new_bytes);
->> +    s->in_flight_bytes -= task->bytes - new_bytes;
+>> -/* Called only on full-dirty region */
+>>   static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
+>>                                                int64_t offset, int64_t bytes)
 > 
-> This line doesn’t seem right.
+> A bit of documentation on the new interface might be nice.  For one
+> thing, that @offset must be dirty, although there is an assertion that,
+> well, checks it.  (An assertion doesn’t really check anything, it rather
+> verifies a contract.  And violation is fatal.)
+
+Still, good to document that.
+
 > 
+> For another, what the range [offset, offset + bytes) is; namely
+> basically the whole range of data that we might potentially copy, only
+> that the head must be dirty, but the tail may be clean.
 
-Hmm yes.. A kind of copy-paste or rebase artifact.
+Right
 
+> 
+> Which makes me think that the interface is maybe less than intuitive.
+> It would make more sense if we could just call this function on the
+> whole region and it would figure out whether @offset is dirty by itself
+> (and return NULL if it isn’t).
+
+Hmm. Actually, I didn't touch the very inefficient "if (!bdrv_dirty_bitmap_get(s->copy_bitmap, offset)) { continue }" construct, because I was waiting for my series about refactoring bdrv_dirty_bitmap_next_dirty_area to merge in. But now it is merged, and I should refactor this thing. And may be you are right, that it may be done inside block_copy_task_create.
+
+> 
+> OTOH I suppose the interface how it is here is more useful for
+> task-ification.  But maybe that should be documented.
+
+On the first glance, it should not really matter.
+
+OK, I'll try to improve it somehow for v3
 
 -- 
 Best regards,
