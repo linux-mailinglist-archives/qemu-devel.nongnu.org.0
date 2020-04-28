@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6FE61BB3DA
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 04:18:05 +0200 (CEST)
-Received: from localhost ([::1]:38906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 459611BB3EB
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 04:24:44 +0200 (CEST)
+Received: from localhost ([::1]:39118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTFoy-0007mM-9j
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 22:18:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40030)
+	id 1jTFvP-0004La-3q
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 22:24:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40930)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stevensd@chromium.org>) id 1jTFmr-000742-Ng
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 22:15:54 -0400
+ (envelope-from <pauldzim@gmail.com>) id 1jTFtn-0002Iv-Uh
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 22:23:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <stevensd@chromium.org>) id 1jTFmj-0006fb-Jh
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 22:15:53 -0400
-Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:40683)
+ (envelope-from <pauldzim@gmail.com>) id 1jTFtj-0003JN-Nj
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 22:23:03 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:40558)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stevensd@chromium.org>)
- id 1jTFmj-0006d2-4a
- for qemu-devel@nongnu.org; Mon, 27 Apr 2020 22:15:45 -0400
-Received: by mail-qv1-xf36.google.com with SMTP id fb4so9684074qvb.7
- for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 19:15:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5qjpfbRytZyeo0NEeT7L64ywSvRr9/JiXyn8JtkVE5g=;
- b=U4Peu2w3y+2zYOTOoHw3XWC+B1oefKr0deto2utH575i/QwhRJLZ4YHWI6JRy2LBVA
- Ws6cyeuIcFw46pmzdkFfrvM8ErCQVa8TcFrp54foK4AqdagD1YGfZzp2bQ7GbXtG+05e
- CKUca7uEm2uKXsl+UxDfa3/hkbYPWPLd6dVb8=
+ (Exim 4.90_1) (envelope-from <pauldzim@gmail.com>)
+ id 1jTFtj-0003Az-BJ
+ for qemu-devel@nongnu.org; Mon, 27 Apr 2020 22:22:59 -0400
+Received: by mail-pl1-x642.google.com with SMTP id t16so7733591plo.7
+ for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 19:22:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GAZXAPUw9CMmVwPwZSKhW/EFKtfHa6UqXDRMtlKuEVg=;
+ b=gLEdVGPWuiPpzaXAEVeFHMitja6f5bLBRppXQmmHsqoDkh+AxUiY6VXuVecuyEiogA
+ kqT0Y9UMHqOBDEmaGsp6jpBlnkaAUX/N6EiBmDo4HGQ3SI4IDRYDC8i3mT+530sZKGsS
+ vKYTTQFJYdeVRqRrJw01x803bNaVNCO2doQdUtPa83/5xBwGLqEdvIUzgEL1ROHT4Ed4
+ 5GXhTg30vJEYIH1wK2/QI36K5pbl0udw2ZVyoZyyNTAu3kBLFVlKy4aeeVf3+YhFMruF
+ ECz39VrGAUceFLRAgLKotE0gfYRfYvgYrAiKjMpddC+8f8k/IaswDcywxGBd+f3c3H9Q
+ rgpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5qjpfbRytZyeo0NEeT7L64ywSvRr9/JiXyn8JtkVE5g=;
- b=Vk18m3Ww1Z0+dHnf7/K7oczg0lj+KiCHJjPYOAV0C5hlth/kZLy9j1h9geb878TpIG
- B3BvXlMDJo/MY1ukOXOFnLLSz3SZ7PPefv7I0NY7ugJ24563VAz9y9OR6gkeZ0Oj1U2M
- 3CI8JZpOhHsA7mf0T+kyVTYJT5gYwudC0P4f84zrOQj6OJae/oXePwScMmFuIhcT5nPs
- DXH0yN0x+JGMz0t57f4Dx+wwt26+hm92dZcoYQRwL1dMpvy9jYn5vFAKtf6lMoCBdJKd
- d8iintjIB3xZvP4FgYEWIGEMKf3ED33Ftyzc7jgv7oogPoA5qYLBQv1sE8r2FLuk4QoQ
- GbLw==
-X-Gm-Message-State: AGi0PuYuQt6ukMbo/7fpgkuNJzWLbf3neBALK69jpa6ZLwDXmI4ajNP/
- g8DnsrwQeuoU77UNTenoyOLWw78ty5grKQhKCX90+A==
-X-Google-Smtp-Source: APiQypI11PrfSdZV+AHi0vP5wMOtWWuPtxdnUDT7N+gy4iwKkfuUSHYvgLSde6jmWMAR3cyhI5lOBrMJqr8uUs4lYTw=
-X-Received: by 2002:ad4:45ae:: with SMTP id y14mr26110317qvu.145.1588040141593; 
- Mon, 27 Apr 2020 19:15:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200319021823.57219-1-stevensd@chromium.org>
- <20200320064143.4b2kyskr5clxsczs@sirius.home.kraxel.org>
-In-Reply-To: <20200320064143.4b2kyskr5clxsczs@sirius.home.kraxel.org>
-From: David Stevens <stevensd@chromium.org>
-Date: Tue, 28 Apr 2020 11:15:30 +0900
-Message-ID: <CAD=HUj4xUzNw67R233XM3ruaG2cqxF9nWv0xDgML27-CxwuHoQ@mail.gmail.com>
-Subject: [virtio-comment] Request vote for the patch: Cross-device resource
- sharing
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GAZXAPUw9CMmVwPwZSKhW/EFKtfHa6UqXDRMtlKuEVg=;
+ b=Yp5IWcQNNhAgJKPizboWeBs9NgJwpjz3gPPvCBwSN/p+d9u4Fn/gkOTkTpjJJE+e3h
+ CT5FUrdonOVLHSSQiqtQCxeoK068i/QJI2VlZPpcLq3cBTOhyFFZ+26UmDqABJ7rlG3J
+ Ot7Ub3x23cGK7OAMZgNsq43R6M+3qkNDNpmaBf/0I631ISA+hkLSgX24hxS9LjDVk8UH
+ tpB0XDhg+vM2H+BBDPNll66VWaB4Ue6YdqVNW8qTc4L2E/u7wVwH4IGJhOX+OTHMWk6L
+ P6UUytZeYECl+hxnC8xQbIwVJgJ2OM72gmHw3F2KJsT7BW42eXncQIZlJrlGkmmBCbdk
+ zjtg==
+X-Gm-Message-State: AGi0PuYTGYvP82tim1SOeSaQJyDZfmJHLwclGm1oAjqsz2O5zTIsoB6Y
+ W731k6J1wpG0VOsi5qVCjQo=
+X-Google-Smtp-Source: APiQypLAqINSxmgJgFGOxuvslMnJl9emWWVUqzpOpThGRUVKb3RfLiTs/dI5/6aMPMYVXYEWv/BiTA==
+X-Received: by 2002:a17:902:8688:: with SMTP id
+ g8mr27322224plo.268.1588040576725; 
+ Mon, 27 Apr 2020 19:22:56 -0700 (PDT)
+Received: from localhost.localdomain ([75.167.104.59])
+ by smtp.gmail.com with ESMTPSA id z190sm11695649pgz.73.2020.04.27.19.22.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Apr 2020 19:22:56 -0700 (PDT)
+From: Paul Zimmerman <pauldzim@gmail.com>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
- envelope-from=stevensd@chromium.org; helo=mail-qv1-xf36.google.com
+Subject: [PATCH v4 0/7] dwc-hsotg (aka dwc2) USB host controller emulation
+Date: Mon, 27 Apr 2020 19:22:25 -0700
+Message-Id: <20200428022232.18875-1-pauldzim@gmail.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=pauldzim@gmail.com; helo=mail-pl1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::f36
+X-Received-From: 2607:f8b0:4864:20::642
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,44 +80,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zach Reizner <zachr@chromium.org>,
- Alexandre Courbot <acourbot@chromium.org>, qemu-devel <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@gmail.com>, Alex Lau <alexlau@chromium.org>,
- Tomasz Figa <tfiga@chromium.org>, Keiichi Watanabe <keiichiw@chromium.org>,
- virtio-comment@lists.oasis-open.org,
- =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
- Dylan Reid <dgreid@chromium.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Pawel Osciak <posciak@chromium.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Paul Zimmerman <pauldzim@gmail.com>, John Snow <jsnow@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Request for a vote.
+This patch series adds emulation for the dwc-hsotg USB controller,
+which is used on the Raspberry Pi 3 and earlier, as well as a number
+of other development boards. The main benefit for Raspberry Pi is that
+this enables networking on these boards, since the network adapter is
+attached via USB.
 
-Fixes: https://github.com/oasis-tcs/virtio-spec/issues/76
+The emulation is working quite well, I have tested with USB network,
+mass storage, mouse, keyboard, and tablet. I have tested with the dwc2
+driver in the upstream Linux kernel, and with the dwc-otg driver in the
+Raspbian kernel.
 
-Thanks,
-David
+One remaining issue is that USB host passthrough does not work. I tried
+connecting to a USB stick on the host, but the device generates babble
+errors and does not work. This is because the dwc-hsotg controller only
+has one root port, so a full-speed dev-hub device is always connected
+to it, and high-speed USB devices on the host do not work at full-speed
+on the guest. (I have WIP code to add high-speed support to dev-hub to
+fix this.)
 
-On Fri, Mar 20, 2020 at 3:41 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> On Thu, Mar 19, 2020 at 11:18:21AM +0900, David Stevens wrote:
-> > Hi all,
-> >
-> > This is the next iteration of patches for adding support for sharing
-> > resources between different virtio devices. The corresponding Linux
-> > implementation is [1].
-> >
-> > In addition to these patches, the most recent virtio-video patchset
-> > includes a patch for importing objects into that device [2].
->
-> Looks good to me.
->
-> So, open a github issue to kick the TC vote process and get this merged?
-> (see virtio-spec/.github/PULL_REQUEST_TEMPLATE.md).
->
-> cheers,
->   Gerd
->
+The patch series also includes a very basic emulation of the MPHI
+device on the Raspberry Pi SOC, which provides the FIQ interrupt that
+is used by the dwc-otg driver in the Raspbian kernel. But that driver
+still does not work in full FIQ mode, so it is necessary to add a
+parameter to the kernel command line ("dwc_otg.fiq_fsm_enable=0") to
+make it work.
+
+I have used some online sources of information while developing this
+emulation, including:
+
+http://www.capital-micro.com/PDF/CME-M7_Family_User_Guide_EN.pdf
+which has a pretty complete description of the controller starting
+on page 370.
+
+https://sourceforge.net/p/wive-ng/wive-ng-mt/ci/master/tree/docs/DataSheets/RT3050_5x_V2.0_081408_0902.pdf
+which has a description of the controller registers starting on
+page 130.
+
+Changes v3-v4:
+  - Reworked the memory region / register access code according to
+    an example patch from Felippe Mathieu-Daudé.
+  - Moved the Makefile/Kconfig changes for this file into this
+    patch, per Felipe.
+  - Fixed a missing DEFINE_PROP_END_OF_LIST() in dwc2_usb_properties.
+
+Changes v2-v3:
+  - Fixed the high-speed frame time emulation so that high-speed
+    mouse/tablet will work correctly once we have high-speed hub
+    support.
+  - Added a "usb_version" property to the dwc-hsotg controller, to
+    allow choosing whether the controller emulates a USB 1 full-speed
+    host or a USB 2 high-speed host.
+  - Added a test for a working dwc-hsotg controller to the raspi2
+    acceptance test, requested by Philippe M.
+  - Added #defines for the register array sizes, instead of hard-
+    coding them in multiple places.
+  - Removed the NB_PORTS #define and the associated iteration code,
+    since the controller only supports a single root port.
+  - Removed some unused fields from the controller state struct.
+  - Added pointers to some online documentation to the top of
+    hcd-dwc2.c, requested by Peter M.
+  - Reworked the init/realize code to remove some confusing function
+    names, requested by Peter M.
+  - Added VMStateDescription structs for the controller and MPHI
+    state, requested by Peter M (untested).
+
+Changes v1-v2:
+  - Fixed checkpatch errors/warnings, except for dwc2-regs.h since
+    that is a direct import from the Linux kernel.
+  - Switched from debug printfs to tracepoints in hcd-dwc2.c, on the
+    advice of Gerd. I just dropped the debug prints in bcm2835_mphi.c,
+    since I didn't consider them very useful.
+  - Updated a couple of the commit messages with more info.
+
+Thanks for your time,
+Paul
+
+---
+
+Paul Zimmerman (7):
+  raspi: add BCM2835 SOC MPHI emulation
+  dwc-hsotg (dwc2) USB host controller register definitions
+  dwc-hsotg (dwc2) USB host controller state definitions
+  dwc-hsotg (dwc2) USB host controller emulation
+  usb: add short-packet handling to usb-storage driver
+  wire in the dwc-hsotg (dwc2) USB host controller emulation
+  raspi2 acceptance test: add test for dwc-hsotg (dwc2) USB host
+
+ hw/arm/bcm2835_peripherals.c           |   38 +-
+ hw/misc/Makefile.objs                  |    1 +
+ hw/misc/bcm2835_mphi.c                 |  190 ++++
+ hw/usb/Kconfig                         |    5 +
+ hw/usb/Makefile.objs                   |    1 +
+ hw/usb/dev-storage.c                   |   15 +-
+ hw/usb/hcd-dwc2.c                      | 1378 ++++++++++++++++++++++++
+ hw/usb/hcd-dwc2.h                      |  173 +++
+ hw/usb/trace-events                    |   47 +
+ include/hw/arm/bcm2835_peripherals.h   |    5 +-
+ include/hw/misc/bcm2835_mphi.h         |   48 +
+ include/hw/usb/dwc2-regs.h             |  895 +++++++++++++++
+ tests/acceptance/boot_linux_console.py |    9 +-
+ 13 files changed, 2800 insertions(+), 5 deletions(-)
+ create mode 100644 hw/misc/bcm2835_mphi.c
+ create mode 100644 hw/usb/hcd-dwc2.c
+ create mode 100644 hw/usb/hcd-dwc2.h
+ create mode 100644 include/hw/misc/bcm2835_mphi.h
+ create mode 100644 include/hw/usb/dwc2-regs.h
+
+-- 
+2.17.1
+
 
