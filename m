@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14CE31BC5E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 18:57:32 +0200 (CEST)
-Received: from localhost ([::1]:40026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3E091BC5D3
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 18:54:36 +0200 (CEST)
+Received: from localhost ([::1]:39778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTTY3-0005pa-4E
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 12:57:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34532)
+	id 1jTTVD-0000eO-Lj
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 12:54:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34714)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTTFd-00074p-8g
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:38:56 -0400
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jTTFz-0007hL-FT
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:39:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTTDI-0002bk-Iw
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:38:28 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50710
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTTDI-0002bW-3h
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:36:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588091763;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=geLYC3lNN4C+LXNUVW83AAFmHLmqi1bfvQCyEEm7w/4=;
- b=enoMN3V7RFAlBb0ijAb5yQKabCon8n56AVESi02CkC73EKELz+h4eg1+ywatuHwDRWyC7b
- iscMxjKEdkc6DOAwFmehm6Jx64LiPsM4QAQ6Z//+bypQyEY90A+pw1Ng0DgCih3pTwMl0o
- dIQCt9/a5P5Q88jQPl08cuLAjd9anmk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-TJZgCtyHOJqpWaNxXlp6NA-1; Tue, 28 Apr 2020 12:34:30 -0400
-X-MC-Unique: TJZgCtyHOJqpWaNxXlp6NA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A87D4464
- for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 16:34:29 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B644363F7A;
- Tue, 28 Apr 2020 16:34:27 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3B0F311358CE; Tue, 28 Apr 2020 18:34:20 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 17/17] qom: Drop @errp parameter of object_property_del()
-Date: Tue, 28 Apr 2020 18:34:19 +0200
-Message-Id: <20200428163419.4483-18-armbru@redhat.com>
-In-Reply-To: <20200428163419.4483-1-armbru@redhat.com>
-References: <20200428163419.4483-1-armbru@redhat.com>
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jTTFX-0003dQ-Pg
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:38:51 -0400
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:39648)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1jTTFX-0003YQ-Cn
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:38:23 -0400
+Received: by mail-lf1-x144.google.com with SMTP id m2so17435456lfo.6
+ for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 09:38:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=GX1Tskvtx7fhjdqrNdiWEbAn06c1WEohfeYI98p8pNs=;
+ b=PGGn2gmaf7SvJwSJ+hnKhyk9bypRS84Q4wBVdVSjBiS9D15EVXCH47XKJ8o07gcWJn
+ RWIlrXsnUy232liotV7rklr2x8pA4gsOhx9Y1nUmkRGgLhqCPz2nfj6SdNiZO3mrt8mR
+ mlI8ipk3BY4jORjU/GzJiQ0XxSq5gxGhJFiLgld/crGPGgFQ630EJcmEDWmL4XLveyQ0
+ sp5NM4j0zmsvJzRbVjRNs92Shz4qxkRVaIp61cvHtwfxg1DjXn0bR8EMRnU9345wI5an
+ KhjqZcnKKR5t3boeCMvdV9b4SxOQ6DikgpOtVg+pfdRqbreLddTc9MJf0tcYb2SE4Ti0
+ Iuqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=GX1Tskvtx7fhjdqrNdiWEbAn06c1WEohfeYI98p8pNs=;
+ b=Zb4APPmR5unKh6PZqQfomx6Hqi09bqvnnnia7o+u5D4AUxtPGXlM2P/9DiTvIzJlYS
+ jOeTIRHsJW0ei+hDmfmeQ7mcRWZAVKJcWCiX7UtbuTouRqC6SZmc9BuzLjcnEvg5Ph0a
+ Uia2bJgEQu69dMQXM2hmQ2w0vMvlZFVr2iyl7YBdVZiLBW6DxXtg56RP9/TNt8DKZ2AJ
+ rXnlAKjHp0ozD5bP+IifJk571Yt9wlc8bQ8AD4SL1vmWEZWgK0tHA4JKkrXoQi/NKs42
+ uuRkUxcVJSH8AreA7uFwFuuPxnpOMcfl6Q0y2ZbLHS5+6edLKbiRmHiercGHLATJUqZ8
+ u0jQ==
+X-Gm-Message-State: AGi0PubzkhWVzi7OzKgKTp9S9WMBWZHSTvRojOppDoM+rnUtpoPZcRHs
+ tg00TPltF0AS024RKtOGImw=
+X-Google-Smtp-Source: APiQypIWUsCqgshC0C+B/FMSYWzje2LyYiNtGas3o/GjpaDC5mR8/T8Or9JO0sH+evC35oH8Dw8IJg==
+X-Received: by 2002:ac2:46ea:: with SMTP id q10mr20399566lfo.128.1588091900398; 
+ Tue, 28 Apr 2020 09:38:20 -0700 (PDT)
+Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id u7sm11899707ljk.32.2020.04.28.09.38.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Apr 2020 09:38:19 -0700 (PDT)
+Date: Tue, 28 Apr 2020 18:37:47 +0200
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: Vikram Garhwal <fnu.vikram@xilinx.com>
+Subject: Re: [PATCH v3 4/4] MAINTAINERS: Add maintainer entry for Xilinx
+ ZynqMP CAN
+Message-ID: <20200428163747.GN2669@toto>
+References: <1587603369-14644-1-git-send-email-fnu.vikram@xilinx.com>
+ <1587603369-14644-5-git-send-email-fnu.vikram@xilinx.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 04:11:46
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1587603369-14644-5-git-send-email-fnu.vikram@xilinx.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::144;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x144.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,149 +83,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Same story as for object_property_add(): the only way
-object_property_del() can fail is when the property with this name
-does not exist.  Since our property names are all hardcoded, failure
-is a programming error, and the appropriate way to handle it is
-passing &error_abort.  Most callers do that, the commit before
-previous fixed one that didn't (and got the error handling wrong), and
-the two remaining exceptions ignore errors.
+On Wed, Apr 22, 2020 at 05:56:09PM -0700, Vikram Garhwal wrote:
+> Add myself as Xilinx CAN maintainer.
 
-Drop the @errp parameter and assert the precondition instead.
+Hi Vikram,
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- include/qom/object.h       | 2 +-
- hw/core/qdev.c             | 2 +-
- hw/i386/pc_sysfw.c         | 2 +-
- hw/ppc/spapr_drc.c         | 4 ++--
- qom/object.c               | 7 +------
- qom/object_interfaces.c    | 3 +--
- tests/check-qom-proplist.c | 2 +-
- 7 files changed, 8 insertions(+), 14 deletions(-)
+I think it would be good to add Francisco Iglesias <francisco.iglesias@xilinx.com>
+as co-maintainer since he's been involved with this too.
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index 7458fefc7b..15af9dbbc8 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -1047,7 +1047,7 @@ ObjectProperty *object_property_add(Object *obj, cons=
-t char *name,
-                                     ObjectPropertyRelease *release,
-                                     void *opaque);
-=20
--void object_property_del(Object *obj, const char *name, Error **errp);
-+void object_property_del(Object *obj, const char *name);
-=20
- ObjectProperty *object_class_property_add(ObjectClass *klass, const char *=
-name,
-                                           const char *type,
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 64ac9829bd..e26e5a75c9 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -64,7 +64,7 @@ static void bus_remove_child(BusState *bus, DeviceState *=
-child)
-             bus->num_children--;
-=20
-             /* This gives back ownership of kid->child back to us.  */
--            object_property_del(OBJECT(bus), name, NULL);
-+            object_property_del(OBJECT(bus), name);
-             object_unref(OBJECT(kid->child));
-             g_free(kid);
-             return;
-diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
-index 002133a2d8..2abab3a27c 100644
---- a/hw/i386/pc_sysfw.c
-+++ b/hw/i386/pc_sysfw.c
-@@ -120,7 +120,7 @@ static void pc_system_flash_cleanup_unused(PCMachineSta=
-te *pcms)
-         dev_obj =3D OBJECT(pcms->flash[i]);
-         if (!object_property_get_bool(dev_obj, "realized", &error_abort)) =
-{
-             prop_name =3D g_strdup_printf("pflash%d", i);
--            object_property_del(OBJECT(pcms), prop_name, &error_abort);
-+            object_property_del(OBJECT(pcms), prop_name);
-             g_free(prop_name);
-             object_unparent(dev_obj);
-             pcms->flash[i] =3D NULL;
-diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-index 8b2171f698..b958f8acb5 100644
---- a/hw/ppc/spapr_drc.c
-+++ b/hw/ppc/spapr_drc.c
-@@ -405,7 +405,7 @@ static void spapr_drc_release(SpaprDrc *drc)
-     g_free(drc->fdt);
-     drc->fdt =3D NULL;
-     drc->fdt_start_offset =3D 0;
--    object_property_del(OBJECT(drc), "device", &error_abort);
-+    object_property_del(OBJECT(drc), "device");
-     drc->dev =3D NULL;
- }
-=20
-@@ -551,7 +551,7 @@ static void unrealize(DeviceState *d)
-     vmstate_unregister(VMSTATE_IF(drc), &vmstate_spapr_drc, drc);
-     root_container =3D container_get(object_get_root(), DRC_CONTAINER_PATH=
-);
-     name =3D g_strdup_printf("%x", spapr_drc_index(drc));
--    object_property_del(root_container, name, &error_abort);
-+    object_property_del(root_container, name);
-     g_free(name);
- }
-=20
-diff --git a/qom/object.c b/qom/object.c
-index 14c7efe127..424cc20987 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -1280,15 +1280,10 @@ ObjectProperty *object_class_property_find(ObjectCl=
-ass *klass, const char *name,
-     return prop;
- }
-=20
--void object_property_del(Object *obj, const char *name, Error **errp)
-+void object_property_del(Object *obj, const char *name)
- {
-     ObjectProperty *prop =3D g_hash_table_lookup(obj->properties, name);
-=20
--    if (!prop) {
--        error_setg(errp, "Property '.%s' not found", name);
--        return;
--    }
--
-     if (prop->release) {
-         prop->release(obj, name, prop->opaque);
-     }
-diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
-index 54e14a3a14..5684ed0483 100644
---- a/qom/object_interfaces.c
-+++ b/qom/object_interfaces.c
-@@ -88,8 +88,7 @@ Object *user_creatable_add_type(const char *type, const c=
-har *id,
-     user_creatable_complete(USER_CREATABLE(obj), &local_err);
-     if (local_err) {
-         if (id !=3D NULL) {
--            object_property_del(object_get_objects_root(),
--                                id, &error_abort);
-+            object_property_del(object_get_objects_root(), id);
-         }
-         goto out;
-     }
-diff --git a/tests/check-qom-proplist.c b/tests/check-qom-proplist.c
-index 84f48fe592..13a824cfae 100644
---- a/tests/check-qom-proplist.c
-+++ b/tests/check-qom-proplist.c
-@@ -280,7 +280,7 @@ static void dummy_bus_init(Object *obj)
- static void dummy_bus_unparent(Object *obj)
- {
-     DummyBus *bus =3D DUMMY_BUS(obj);
--    object_property_del(obj->parent, "backend", NULL);
-+    object_property_del(obj->parent, "backend");
-     object_unparent(OBJECT(bus->backend));
- }
-=20
---=20
-2.21.1
+Anyway:
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
+
+
+> 
+> Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
+> ---
+>  MAINTAINERS | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 8cbc1fa..6223573 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1433,6 +1433,13 @@ F: hw/net/opencores_eth.c
+>  
+>  Devices
+>  -------
+> +Xilinx CAN
+> +M: Vikram Garhwal <fnu.vikram@xilinx.com>
+> +S: Maintained
+> +F: hw/net/can/xlnx-*
+> +F: include/hw/net/xlnx-*
+> +F: tests/qtest/xlnx-can-test*
+> +
+>  EDU
+>  M: Jiri Slaby <jslaby@suse.cz>
+>  S: Maintained
+> -- 
+> 2.7.4
+> 
+> 
 
