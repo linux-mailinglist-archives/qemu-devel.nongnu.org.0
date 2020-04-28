@@ -2,85 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A5E1BC236
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 17:06:43 +0200 (CEST)
-Received: from localhost ([::1]:34310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 646F61BC399
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 17:27:47 +0200 (CEST)
+Received: from localhost ([::1]:34828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTRon-0006lf-FJ
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 11:06:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49458)
+	id 1jTS9B-0001pH-Rs
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 11:27:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52434)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jTRmP-0005l9-Sn
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 11:05:12 -0400
+ (envelope-from <no-reply@patchew.org>) id 1jTS7y-00009h-5f
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 11:26:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jTRkN-0007D1-52
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 11:04:13 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:39967)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jTRkM-0007Bg-LP
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 11:02:06 -0400
-Received: by mail-pl1-x643.google.com with SMTP id t16so8465301plo.7
- for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 08:02:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=51pRypiGFKSGI4pYYYy/oWUaBflFIbs/RrLf++hBG20=;
- b=SNGb0VyuRnRh3WVgHha7whyhblwGUKS5Ilsatd6ThWGikhGmviLo1J0B6KbcRSfvXs
- caT2RF2ykTsjZS0CMMnwpYNONjvAIlouYmJkwuWNfg9THyPDPyC9JlzmDFiMLSTkIfBG
- loIhFtwnuxK8CRfkxYfRvzZfFPCCARAAQzvxW05Efhv/FK6q4g3klXI1JVMhTIwO7uSC
- bllBRnCQQCOm2kmP5ql6svaV1njZbjaAm+D91fvxOIC8FeSF1YyQ0vwVHwaerLKip3DB
- cEqAs290R1eNKStR05RQYO4gTo6BsUKDLioazCXtlcCksr0/kbsbp97P3fhyKbkS/mFl
- lovw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=51pRypiGFKSGI4pYYYy/oWUaBflFIbs/RrLf++hBG20=;
- b=b7CupncQ2sj0bFjutewS9oKhl2QnDKQ0o36OrQwjIKiWiFaaJ4TzahumsrvYjggB8q
- KN5u7gblkjuR6xsgsRS9sC6Csr2mWfKnalWMRJ01lLRFKz8FrYCjOSjh5iD2j6jsmpCS
- t9l01jTn9Vftxjwt/ASy44To+HiRdjWPpdB5BZnqjCyAZOz98EgJqa2/b9FzzDw1hWRw
- xZH8/Bd/FAMXOOkNxWgpAJnEVQnYKZNwhq2uDKBClcoQWPc8SUUmsePX9ia9jROM01l1
- JzvH2OGHQKdEr88swoChQ/dRR8EpXFNaV5sxsFQr4tA0QiDrtwQBnZ8bK6VxdPf647fJ
- rKDg==
-X-Gm-Message-State: AGi0PuZ/uDMFHjA5qPzfQ1q7bhlP+7M5AYeB+o77AHFKO2B6Lse9WPeO
- led96pG+ZSHfWMekf/pohl44Lw==
-X-Google-Smtp-Source: APiQypIEdxLMy5vPcIjOv6L4SuwKYa+3vtDteaMNS3VEpC2eRbNDzxlV5lVDpBTNWZ4FeNsF2OiHQA==
-X-Received: by 2002:a17:902:5a03:: with SMTP id
- q3mr11264040pli.45.1588086124325; 
- Tue, 28 Apr 2020 08:02:04 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id w66sm15307675pfw.50.2020.04.28.08.02.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Apr 2020 08:02:03 -0700 (PDT)
-Subject: Re: [PATCH v3 13/18] target/arm: Update contiguous first-fault and
- no-fault loads
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200422043309.18430-1-richard.henderson@linaro.org>
- <20200422043309.18430-14-richard.henderson@linaro.org>
- <CAFEAcA8oWP9XGzD+pb_VhDth8zx8j1Gz4vwiK+dArpw8x1BmqA@mail.gmail.com>
- <22c1fd55-7cd3-6320-1f90-40d1bd2cc883@linaro.org>
- <CAFEAcA-iqrEi_wQ+mBN1NtrEKq3uDYPoDunqW5e9KV6ivz3-SQ@mail.gmail.com>
- <d148806b-c7f1-fefc-bfb4-fcefb81ab509@linaro.org>
- <CAFEAcA-iJWqPQ-SwukaBcxgNFppAmeZNUR2doz6sgV6RduC32A@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <df19b271-55ad-9071-2790-d0d4991fe831@linaro.org>
-Date: Tue, 28 Apr 2020 08:02:01 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (envelope-from <no-reply@patchew.org>) id 1jTRnp-0001nv-7q
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 11:09:27 -0400
+Resent-Date: Tue, 28 Apr 2020 11:09:27 -0400
+Resent-Message-Id: <E1jTRnp-0001nv-7q@eggs.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21750)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jTRko-0007W5-3q; Tue, 28 Apr 2020 11:02:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1588086141; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=kLOFX3fdE37LaB2SF1wYZ9ifwF0WbThRjAQY6y3sz5K6T1Uv3p/7blRw+o1CAJOxySPJ18YIgLrBmOEQcvC9T2f3vJhN+nZqUL0zNFVIjyvJW7m5NDsmQLmOxNByyMk4vjf7lr4W/dSh6N76KcgBtnw8sVlAekImepXnaTziJZw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1588086141;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=TwUm04n6uNyWAofRMvgjOv0IUyqBvEBctwzIihSI8A8=; 
+ b=HSJwVpdvexn2DYlJtmp2uYNdYCWpRsc6drwISu3wPCMoKkSC+lJehtlPuLn58JL/8qaSKNoVDKFeYVF4vaxdFg3QtFR+EQYtDEOnwi2sioeyYMrSr3j3GP0ToaN+i23DZ0phPwkU50r9TLyIOOvKR15m+X9Pm3hAE2g7G9WZzu0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1588086137912483.5973250650337;
+ Tue, 28 Apr 2020 08:02:17 -0700 (PDT)
+In-Reply-To: <20200428132629.796753-1-mreitz@redhat.com>
+Subject: Re: [PATCH 0/4] block: Do not call BlockDriver.bdrv_make_empty()
+ directly
+Message-ID: <158808613667.30407.3704417958092475390@39012742ff91>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-iJWqPQ-SwukaBcxgNFppAmeZNUR2doz6sgV6RduC32A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::643
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: mreitz@redhat.com
+Date: Tue, 28 Apr 2020 08:02:17 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 09:39:01
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Received-From: 136.143.188.57
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,37 +65,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/20 11:38 AM, Peter Maydell wrote:
-> I would suggest something like:
-> 
-> +     * From this point on, all memory operations are MemSingleNF.
-> +     *
-> +     * Per the MemSingleNF pseudocode, a no-fault load from Device memory
-> +     * must not actually hit the bus -- it returns (UNKNOWN, FAULT) instead.
-> +     *
-> +     * Unfortuately we do not have access to the memory attributes from the PTE
-> +     * to tell Device memory from Normal memory. So we make a mostly
-> +     * correct check, and indicate (UNKNOWN, FAULT) for any MMIO.
-> +     * This gives the right answer for the common cases of "Normal memory,
-> +     * backed by host RAM" and "Device memory, backed by MMIO".
-> +     * The architecture allows us to suppress an NF load and return
-> +     * (UNKNOWN, FAULT) for any reason), so our behaviour (indicate
-> +     * fault) for the corner case of "Normal memory, backed by MMIO" is
-> +     * permitted. The case we get wrong is "Device memory, backed by
-> +     * host RAM", which we should return (UNKNOWN, FAULT) for but do not.
-> +     *
-> +     * Similarly, CPU_BP breakpoints would raise exceptions, and so
-> +     * return (UNKNOWN, FAULT).  For simplicity, we consider gdb and
-> +     * architectural breakpoints the same.
-> 
-> assuming my understanding is correct...
-
-Yep, thanks.  I'll merge this text.
-
-
-r~
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDQyODEzMjYyOS43OTY3
+NTMtMS1tcmVpdHpAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRv
+Y2tlci1taW5nd0BmZWRvcmEgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29t
+bWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxl
+ZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQ
+VCBCRUdJTiA9PT0KIyEgL2Jpbi9iYXNoCmV4cG9ydCBBUkNIPXg4Nl82NAptYWtlIGRvY2tlci1p
+bWFnZS1mZWRvcmEgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtbWluZ3dAZmVk
+b3JhIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIFNJR04gICAgcGMt
+Ymlvcy9vcHRpb25yb20vbGludXhib290LmJpbgogIFNJR04gICAgcGMtYmlvcy9vcHRpb25yb20v
+a3ZtdmFwaWMuYmluCi90bXAvcWVtdS10ZXN0L3NyYy9xZW11LWltZy5jOiBJbiBmdW5jdGlvbiAn
+aW1nX2NvbW1pdCc6Ci90bXAvcWVtdS10ZXN0L3NyYy9xZW11LWltZy5jOjEwNzE6Mjc6IGVycm9y
+OiBpbXBsaWNpdCBkZWNsYXJhdGlvbiBvZiBmdW5jdGlvbiAnYmxrX25ld193aXRoX2JzJzsgZGlk
+IHlvdSBtZWFuICdibGtfZ2V0X3N0YXRzJz8gWy1XZXJyb3I9aW1wbGljaXQtZnVuY3Rpb24tZGVj
+bGFyYXRpb25dCiAgICAgICAgIG9sZF9iYWNraW5nX2JsayA9IGJsa19uZXdfd2l0aF9icyhicywg
+QkxLX1BFUk1fV1JJVEUsIEJMS19QRVJNX0FMTCwKICAgICAgICAgICAgICAgICAgICAgICAgICAg
+Xn5+fn5+fn5+fn5+fn5+CiAgICAgICAgICAgICAgICAgICAgICAgICAgIGJsa19nZXRfc3RhdHMK
+L3RtcC9xZW11LXRlc3Qvc3JjL3FlbXUtaW1nLmM6MTA3MToyNzogZXJyb3I6IG5lc3RlZCBleHRl
+cm4gZGVjbGFyYXRpb24gb2YgJ2Jsa19uZXdfd2l0aF9icycgWy1XZXJyb3I9bmVzdGVkLWV4dGVy
+bnNdCi90bXAvcWVtdS10ZXN0L3NyYy9xZW11LWltZy5jOjEwNzE6MjU6IGVycm9yOiBhc3NpZ25t
+ZW50IHRvICdCbG9ja0JhY2tlbmQgKicge2FrYSAnc3RydWN0IEJsb2NrQmFja2VuZCAqJ30gZnJv
+bSAnaW50JyBtYWtlcyBwb2ludGVyIGZyb20gaW50ZWdlciB3aXRob3V0IGEgY2FzdCBbLVdlcnJv
+cj1pbnQtY29udmVyc2lvbl0KICAgICAgICAgb2xkX2JhY2tpbmdfYmxrID0gYmxrX25ld193aXRo
+X2JzKGJzLCBCTEtfUEVSTV9XUklURSwgQkxLX1BFUk1fQUxMLAogICAgICAgICAgICAgICAgICAg
+ICAgICAgXgpjYzE6IGFsbCB3YXJuaW5ncyBiZWluZyB0cmVhdGVkIGFzIGVycm9ycwptYWtlOiAq
+KiogWy90bXAvcWVtdS10ZXN0L3NyYy9ydWxlcy5tYWs6Njk6IHFlbXUtaW1nLm9dIEVycm9yIDEK
+bWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4KVHJhY2ViYWNrIChtb3N0
+IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIi4vdGVzdHMvZG9ja2VyL2RvY2tlci5weSIsIGxp
+bmUgNjY0LCBpbiA8bW9kdWxlPgotLS0KICAgIHJhaXNlIENhbGxlZFByb2Nlc3NFcnJvcihyZXRj
+b2RlLCBjbWQpCnN1YnByb2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21tYW5kICdbJ3N1ZG8n
+LCAnLW4nLCAnZG9ja2VyJywgJ3J1bicsICctLWxhYmVsJywgJ2NvbS5xZW11Lmluc3RhbmNlLnV1
+aWQ9Y2U4MzA1ZTIyZDljNDVlZDkwZWMyZGM0M2Q3ZjFjYzMnLCAnLXUnLCAnMTAwMScsICctLXNl
+Y3VyaXR5LW9wdCcsICdzZWNjb21wPXVuY29uZmluZWQnLCAnLS1ybScsICctZScsICdUQVJHRVRf
+TElTVD0nLCAnLWUnLCAnRVhUUkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9JywgJy1lJywg
+J0o9MTQnLCAnLWUnLCAnREVCVUc9JywgJy1lJywgJ1NIT1dfRU5WPScsICctZScsICdDQ0FDSEVf
+RElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11LWRv
+Y2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10
+ZXN0ZXItdG1wLWt6bzAxNndqL3NyYy9kb2NrZXItc3JjLjIwMjAtMDQtMjgtMTAuNTguNDUuMjcz
+ODU6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3FlbXU6ZmVkb3JhJywgJy92YXIvdG1wL3FlbXUvcnVu
+JywgJ3Rlc3QtbWluZ3cnXScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVy
+PS0tZmlsdGVyPWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9Y2U4MzA1ZTIyZDljNDVlZDkw
+ZWMyZGM0M2Q3ZjFjYzMKbWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2VbMV06
+IExlYXZpbmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAta3pvMDE2d2ov
+c3JjJwptYWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1taW5nd0BmZWRvcmFdIEVycm9yIDIKCnJl
+YWwgICAgM20zMS40NTBzCnVzZXIgICAgMG04Ljk3OHMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxh
+YmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwNDI4MTMyNjI5Ljc5Njc1My0xLW1y
+ZWl0ekByZWRoYXQuY29tL3Rlc3RpbmcuZG9ja2VyLW1pbmd3QGZlZG9yYS8/dHlwZT1tZXNzYWdl
+LgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9w
+YXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxA
+cmVkaGF0LmNvbQ==
 
