@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B3571BCD7C
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 22:32:47 +0200 (CEST)
-Received: from localhost ([::1]:50330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B441A1BCD83
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 22:36:06 +0200 (CEST)
+Received: from localhost ([::1]:50626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTWuL-00059j-UU
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 16:32:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40210)
+	id 1jTWxZ-0003PT-MH
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 16:36:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40198)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTWrA-0000aB-14
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:29:28 -0400
+ (envelope-from <eblake@redhat.com>) id 1jTWr8-0000Wq-Jr
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:29:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTWr9-00067o-G9
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:29:27 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:37555
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1jTWr8-00063K-2V
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:29:26 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:56352)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jTWr9-000640-1v
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:29:27 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jTWr7-0005yN-GZ
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:29:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588105766;
+ s=mimecast20190719; t=1588105764;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oR44ko9tgAkAbcKyKiOtRNeKfJpiYH4oHkf4nr0f+PY=;
- b=RkAw5+iCcq50/ThPyW/GoeOeAzteEnFSlR9X88FcUxwMGu0fh6Vqsj3drdmxO0gTlWLuKn
- p5twJHNLNaINh4dYMs+dkPOTrHdSa04SAVaTvpyulJ3T6hBiBCfY3hN3pLKU5oFAtn6jKc
- nqzFfO4MzAHPPMk/GPx6HQKhjlfmHZ8=
+ bh=+XNg1Xg4+teq3LwNiBE9+0apmplXS9okGrsNbNOPayE=;
+ b=gT5VyyS1+Yc3hH2UxCjL/abgWBOH0+kT+RKRp4fP+JaQ1UIJWBGp2UcirLyspRsFTQvJ5x
+ gfg13j3HblU9w43hNloj6R03QHRIbr9iFwZptVcroNpSybwqZf8YVAkzlpGipv8LP/NlPn
+ fu7bCJjp1PeccqlioQT0zyystocRJWQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-272-N4SFO4rLOcOTLoB2ZF3zfg-1; Tue, 28 Apr 2020 16:29:21 -0400
-X-MC-Unique: N4SFO4rLOcOTLoB2ZF3zfg-1
+ us-mta-2-qE-LnctuPp-RQqCNVdMWbw-1; Tue, 28 Apr 2020 16:29:22 -0400
+X-MC-Unique: qE-LnctuPp-RQqCNVdMWbw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFAB9107ACF3;
- Tue, 28 Apr 2020 20:29:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC6A6800C78;
+ Tue, 28 Apr 2020 20:29:21 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC7C55C1D4;
- Tue, 28 Apr 2020 20:29:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 11C1A5C1D4;
+ Tue, 28 Apr 2020 20:29:20 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/9] sheepdog: Support BDRV_REQ_ZERO_WRITE for truncate
-Date: Tue, 28 Apr 2020 15:29:01 -0500
-Message-Id: <20200428202905.770727-6-eblake@redhat.com>
+Subject: [PATCH 6/9] ssh: Support BDRV_REQ_ZERO_WRITE for truncate
+Date: Tue, 28 Apr 2020 15:29:02 -0500
+Message-Id: <20200428202905.770727-7-eblake@redhat.com>
 In-Reply-To: <20200428202905.770727-1-eblake@redhat.com>
 References: <20200428202905.770727-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +57,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 02:06:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.61
@@ -73,34 +72,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Liu Yuan <namei.unix@gmail.com>,
- "open list:Sheepdog" <sheepdog@lists.wpkg.org>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: kwolf@redhat.com, "Richard W.M. Jones" <rjones@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Our .bdrv_has_zero_init_truncate always returns 1 because sheepdog
-always 0-fills; we can use that same knowledge to implement
-BDRV_REQ_ZERO_WRITE by ignoring it.
+Our .bdrv_has_zero_init_truncate can detect when the remote side
+always zero fills; we can reuse that same knowledge to implement
+BDRV_REQ_ZERO_WRITE by ignoring it when the server gives it to us for
+free.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- block/sheepdog.c | 1 +
- 1 file changed, 1 insertion(+)
+ block/ssh.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/block/sheepdog.c b/block/sheepdog.c
-index ef0a6e743e27..26fd22c7f07d 100644
---- a/block/sheepdog.c
-+++ b/block/sheepdog.c
-@@ -1654,6 +1654,7 @@ static int sd_open(BlockDriverState *bs, QDict *optio=
-ns, int flags,
-     memcpy(&s->inode, buf, sizeof(s->inode));
+diff --git a/block/ssh.c b/block/ssh.c
+index 9eb33df8598c..f9e08a490069 100644
+--- a/block/ssh.c
++++ b/block/ssh.c
+@@ -883,6 +883,10 @@ static int ssh_file_open(BlockDriverState *bs, QDict *=
+options, int bdrv_flags,
+     /* Go non-blocking. */
+     ssh_set_blocking(s->session, 0);
 
-     bs->total_sectors =3D s->inode.vdi_size / BDRV_SECTOR_SIZE;
-+    bs->supported_truncate_flags =3D BDRV_REQ_ZERO_WRITE;
-     pstrcpy(s->name, sizeof(s->name), vdi);
-     qemu_co_mutex_init(&s->lock);
-     qemu_co_mutex_init(&s->queue_lock);
++    if (s->attrs->type =3D=3D SSH_FILEXFER_TYPE_REGULAR) {
++        bs->supported_truncate_flags =3D BDRV_REQ_ZERO_WRITE;
++    }
++
+     qapi_free_BlockdevOptionsSsh(opts);
+
+     return 0;
 --=20
 2.26.2
 
