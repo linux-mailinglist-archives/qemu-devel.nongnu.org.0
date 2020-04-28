@@ -2,41 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0023F1BCCFB
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 22:06:48 +0200 (CEST)
-Received: from localhost ([::1]:48708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D391BCD24
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 22:12:52 +0200 (CEST)
+Received: from localhost ([::1]:48936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTWVD-0004Uj-QL
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 16:06:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35952)
+	id 1jTWb4-0001Zn-Nl
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 16:12:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36898)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jTWPY-0006XH-VM
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:01:18 -0400
+ (envelope-from <peterx@redhat.com>) id 1jTWXO-0007yM-Jj
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:11:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jTWPC-00028A-3o
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:00:56 -0400
-Received: from relay.sw.ru ([185.231.240.75]:39184)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jTWPB-00022K-7o; Tue, 28 Apr 2020 16:00:33 -0400
-Received: from dptest2.qa.sw.ru ([10.94.4.71])
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jTWOy-0000u3-Tb; Tue, 28 Apr 2020 23:00:20 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+ (envelope-from <peterx@redhat.com>) id 1jTWTl-0003UG-0T
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:09:02 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34248
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jTWTk-0003Kb-Be
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:05:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588104314;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6Eo4r6u5SYM1WZ9PfvYPN2Ms1+i0Op+LVgOGKasP7MU=;
+ b=GBZ6hjpBBd6mh/LuFmv9/RuAVLh/2lDsva762lVhKFJIeoNj3JuvZ3UgrPwxO4fT9BznAy
+ 2uhscJV8T3QlNVG+aUGFzL0fEfbhfPHi/hoEaFRSAOM8AM5xUDiI956t86b/dJzvnHVVoz
+ UuXsj8SfpGCyPlfYjvXQaVwO/prcX5Q=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-402-1cQA5VYKOqKgQwAqQnA9sg-1; Tue, 28 Apr 2020 16:05:13 -0400
+X-MC-Unique: 1cQA5VYKOqKgQwAqQnA9sg-1
+Received: by mail-qv1-f69.google.com with SMTP id c89so23127772qva.2
+ for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 13:05:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=wCJFXyhmyRTeYnNgNSFP3nGZV6uKvSfUmf8nDeG988w=;
+ b=Gzx6LwGXe+UN8EBmfIzTPCGkALrS5ZkKOmJ+EApmu9HFN8PGGhPjb3/IUSZD429Eh4
+ xB7hNubkm13iQvpUIf858MQjoQKHkgtfSJ+iKLwrHAmHI6HHlRs7JgBDY3ePor+tUf7k
+ 0kr7MHyG4Cf3OL6CIW0Vx77fvXbmTOPcMe/gAkEYKTnFq9EwpBH90hcTKKtaFIgjKTS1
+ ob/Hi8ImxRuczXHVNbVeuI7WOmtzAyDtK3Qpamm/QoI7y0bZn29JZAo/lM+OzYscnl7g
+ f9Su7UApdxqVWvgFjikeialgfs9JfduorYeDISwajs1hcG9PodG9IN0kv4O71kj4kjCe
+ Btpg==
+X-Gm-Message-State: AGi0PuYa7g1gtAXu+rs0A/dTnh6D1Q3xLPBsZL5jl7Oi+6o7HFMTRWsO
+ rf52SHjkWemWrFccJ0DjKyhXO2ePr8q1cn27/fOruhB2x5BBPJXkhgxK5bEOsJ+deHr3R5tedid
+ SMMdWBL2L5xjYKgM=
+X-Received: by 2002:ac8:3844:: with SMTP id r4mr29502507qtb.32.1588104312201; 
+ Tue, 28 Apr 2020 13:05:12 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKIM2aZOSVuI2kcKN1DseMpwgNmpU391VOAikAbuGAb5n1d6rmkgC6htMuARMNPfMcrEult0g==
+X-Received: by 2002:ac8:3844:: with SMTP id r4mr29502436qtb.32.1588104311486; 
+ Tue, 28 Apr 2020 13:05:11 -0700 (PDT)
+Received: from xz-x1.redhat.com ([2607:9880:19c0:32::2])
+ by smtp.gmail.com with ESMTPSA id k127sm14106585qkb.35.2020.04.28.13.05.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Apr 2020 13:05:10 -0700 (PDT)
+From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v22 4/4] iotests: 287: add qcow2 compression type test
-Date: Tue, 28 Apr 2020 23:00:13 +0300
-Message-Id: <20200428200013.24474-5-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20200428200013.24474-1-dplotnikov@virtuozzo.com>
-References: <20200428200013.24474-1-dplotnikov@virtuozzo.com>
-Received-SPF: pass client-ip=185.231.240.75;
- envelope-from=dplotnikov@virtuozzo.com; helo=relay.sw.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 16:00:30
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Received-From: 185.231.240.75
+Subject: [PATCH RFC v2 3/9] memory: Introduce log_sync_global() to memory
+ listener
+Date: Tue, 28 Apr 2020 16:05:03 -0400
+Message-Id: <20200428200509.13150-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200428195707.11980-1-peterx@redhat.com>
+References: <20200428195707.11980-1-peterx@redhat.com>
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=peterx@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 02:16:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,269 +90,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
- qemu-block@nongnu.org, armbru@redhat.com, mreitz@redhat.com, den@openvz.org
+Cc: pbonzini@redhat.com, dgilbert@redhat.com, Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test checks fulfilling qcow2 requirements for the compression
-type feature and zstd compression type operability.
+Some of the memory listener may want to do log synchronization without
+being able to specify a range of memory to sync but always globally.
+Such a memory listener should provide this new method instead of the
+log_sync() method.
 
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Tested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Obviously we can also achieve similar thing when we put the global
+sync logic into a log_sync() handler. However that's not efficient
+enough because otherwise memory_global_dirty_log_sync() may do the
+global sync N times, where N is the number of flat ranges in the
+address space.
+
+Make this new method be exclusive to log_sync().
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- tests/qemu-iotests/287     | 152 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/287.out |  67 ++++++++++++++++
- tests/qemu-iotests/group   |   1 +
- 3 files changed, 220 insertions(+)
- create mode 100755 tests/qemu-iotests/287
- create mode 100644 tests/qemu-iotests/287.out
+ include/exec/memory.h | 12 ++++++++++++
+ memory.c              | 33 +++++++++++++++++++++++----------
+ 2 files changed, 35 insertions(+), 10 deletions(-)
 
-diff --git a/tests/qemu-iotests/287 b/tests/qemu-iotests/287
-new file mode 100755
-index 0000000000..21fe1f19f5
---- /dev/null
-+++ b/tests/qemu-iotests/287
-@@ -0,0 +1,152 @@
-+#!/usr/bin/env bash
-+#
-+# Test case for an image using zstd compression
-+#
-+# Copyright (c) 2020 Virtuozzo International GmbH
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index e000bd2f97..c0c6155ca0 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -533,6 +533,18 @@ struct MemoryListener {
+      */
+     void (*log_sync)(MemoryListener *listener, MemoryRegionSection *sectio=
+n);
+=20
++    /**
++     * @log_sync_global:
++     *
++     * This is the global version of @log_sync when the listener does
++     * not have a way to synchronize the log with finer granularity.
++     * When the listener registers with @log_sync_global defined, then
++     * its @log_sync must be NULL.  Vice versa.
++     *
++     * @listener: The #MemoryListener.
++     */
++    void (*log_sync_global)(MemoryListener *listener);
 +
-+# creator
-+owner=dplotnikov@virtuozzo.com
+     /**
+      * @log_clear:
+      *
+diff --git a/memory.c b/memory.c
+index 357f7276ee..2a704996c2 100644
+--- a/memory.c
++++ b/memory.c
+@@ -2047,6 +2047,10 @@ void memory_region_set_dirty(MemoryRegion *mr, hwadd=
+r addr,
+                                         memory_region_get_dirty_log_mask(m=
+r));
+ }
+=20
++/*
++ * If memory region `mr' is NULL, do global sync.  Otherwise, sync
++ * dirty bitmap for the specified memory region.
++ */
+ static void memory_region_sync_dirty_bitmap(MemoryRegion *mr)
+ {
+     MemoryListener *listener;
+@@ -2060,18 +2064,24 @@ static void memory_region_sync_dirty_bitmap(MemoryR=
+egion *mr)
+      * address space once.
+      */
+     QTAILQ_FOREACH(listener, &memory_listeners, link) {
+-        if (!listener->log_sync) {
+-            continue;
+-        }
+-        as =3D listener->address_space;
+-        view =3D address_space_get_flatview(as);
+-        FOR_EACH_FLAT_RANGE(fr, view) {
+-            if (fr->dirty_log_mask && (!mr || fr->mr =3D=3D mr)) {
+-                MemoryRegionSection mrs =3D section_from_flat_range(fr, vi=
+ew);
+-                listener->log_sync(listener, &mrs);
++        if (listener->log_sync) {
++            as =3D listener->address_space;
++            view =3D address_space_get_flatview(as);
++            FOR_EACH_FLAT_RANGE(fr, view) {
++                if (fr->dirty_log_mask && (!mr || fr->mr =3D=3D mr)) {
++                    MemoryRegionSection mrs =3D section_from_flat_range(fr=
+, view);
++                    listener->log_sync(listener, &mrs);
++                }
+             }
++            flatview_unref(view);
++        } else if (listener->log_sync_global) {
++            /*
++             * No matter whether MR is specified, what we can do here
++             * is to do a global sync, because we are not capable to
++             * sync in a finer granularity.
++             */
++            listener->log_sync_global(listener);
+         }
+-        flatview_unref(view);
+     }
+ }
+=20
+@@ -2758,6 +2768,9 @@ void memory_listener_register(MemoryListener *listene=
+r, AddressSpace *as)
+ {
+     MemoryListener *other =3D NULL;
+=20
++    /* Only one of them can be defined for a listener */
++    assert(!(listener->log_sync && listener->log_sync_global));
 +
-+seq="$(basename $0)"
-+echo "QA output created by $seq"
-+
-+status=1	# failure is the default!
-+
-+# standard environment
-+. ./common.rc
-+. ./common.filter
-+
-+# This tests qocw2-specific low-level functionality
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+_unsupported_imgopts 'compat=0.10' data_file
-+
-+COMPR_IMG="$TEST_IMG.compressed"
-+RAND_FILE="$TEST_DIR/rand_data"
-+
-+_cleanup()
-+{
-+	_rm_test_img
-+	rm -f "$COMPR_IMG"
-+	rm -f "$RAND_FILE"
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# for all the cases
-+CLUSTER_SIZE=65536
-+
-+# Check if we can run this test.
-+if IMGOPTS='compression_type=zstd' _make_test_img 64M |
-+    grep "Invalid parameter 'zstd'"; then
-+    _notrun "ZSTD is disabled"
-+fi
-+
-+echo
-+echo "=== Testing compression type incompatible bit setting for zlib ==="
-+echo
-+_make_test_img -o compression_type=zlib 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+echo
-+echo "=== Testing compression type incompatible bit setting for zstd ==="
-+echo
-+_make_test_img -o compression_type=zstd 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+echo
-+echo "=== Testing zlib with incompatible bit set ==="
-+echo
-+_make_test_img -o compression_type=zlib 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-feature-bit incompatible 3
-+# to make sure the bit was actually set
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+if $QEMU_IMG info "$TEST_IMG" >/dev/null 2>&1 ; then
-+    echo "Error: The image opened successfully. The image must not be opened."
-+fi
-+
-+echo
-+echo "=== Testing zstd with incompatible bit unset ==="
-+echo
-+_make_test_img -o compression_type=zstd 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-header incompatible_features 0
-+# to make sure the bit was actually unset
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+if $QEMU_IMG info "$TEST_IMG" >/dev/null 2>&1 ; then
-+    echo "Error: The image opened successfully. The image must not be opened."
-+fi
-+
-+echo
-+echo "=== Testing compression type values ==="
-+echo
-+# zlib=0
-+_make_test_img -o compression_type=zlib 64M
-+peek_file_be "$TEST_IMG" 104 1
-+echo
-+
-+# zstd=1
-+_make_test_img -o compression_type=zstd 64M
-+peek_file_be "$TEST_IMG" 104 1
-+echo
-+
-+echo
-+echo "=== Testing simple reading and writing with zstd ==="
-+echo
-+_make_test_img -o compression_type=zstd 64M
-+$QEMU_IO -c "write -c -P 0xAC 64K 64K " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAC 64K 64K " "$TEST_IMG" | _filter_qemu_io
-+# read on the cluster boundaries
-+$QEMU_IO -c "read -v 131070 8 " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -v 65534 8" "$TEST_IMG" | _filter_qemu_io
-+
-+echo
-+echo "=== Testing adjacent clusters reading and writing with zstd ==="
-+echo
-+_make_test_img -o compression_type=zstd 64M
-+$QEMU_IO -c "write -c -P 0xAB 0 64K " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "write -c -P 0xAC 64K 64K " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "write -c -P 0xAD 128K 64K " "$TEST_IMG" | _filter_qemu_io
-+
-+$QEMU_IO -c "read -P 0xAB 0 64k " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAC 64K 64k " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAD 128K 64k " "$TEST_IMG" | _filter_qemu_io
-+
-+echo
-+echo "=== Testing incompressible cluster processing with zstd ==="
-+echo
-+# create a 2M image and fill it with 1M likely incompressible data
-+# and 1M compressible data
-+dd if=/dev/urandom of="$RAND_FILE" bs=1M count=1 seek=1
-+QEMU_IO_OPTIONS="$QEMU_IO_OPTIONS_NO_FMT" \
-+$QEMU_IO -f raw -c "write -P 0xFA 0 1M" "$RAND_FILE" | _filter_qemu_io
-+
-+$QEMU_IMG convert -f raw -O $IMGFMT -c \
-+-o "$(_optstr_add "$IMGOPTS" "compression_type=zlib")" "$RAND_FILE" \
-+"$TEST_IMG" | _filter_qemu_io
-+
-+$QEMU_IMG convert -O $IMGFMT -c \
-+-o "$(_optstr_add "$IMGOPTS" "compression_type=zstd")" "$TEST_IMG" \
-+"$COMPR_IMG" | _filter_qemu_io
-+
-+$QEMU_IMG compare "$TEST_IMG" "$COMPR_IMG"
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/287.out b/tests/qemu-iotests/287.out
-new file mode 100644
-index 0000000000..6b9dfb4af0
---- /dev/null
-+++ b/tests/qemu-iotests/287.out
-@@ -0,0 +1,67 @@
-+QA output created by 287
-+
-+=== Testing compression type incompatible bit setting for zlib ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type incompatible bit setting for zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zlib with incompatible bit set  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zstd with incompatible bit unset  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type values  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   0
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   1
-+
-+=== Testing simple reading and writing with zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+wrote 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0001fffe:  ac ac 00 00 00 00 00 00  ........
-+read 8/8 bytes at offset 131070
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0000fffe:  00 00 ac ac ac ac ac ac  ........
-+read 8/8 bytes at offset 65534
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=== Testing adjacent clusters reading and writing with zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+wrote 65536/65536 bytes at offset 0
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 65536/65536 bytes at offset 131072
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 0
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 131072
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=== Testing incompressible cluster processing with zstd ===
-+
-+1+0 records in
-+1+0 records out
-+wrote 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+Images are identical.
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 435dccd5af..3bbe02c88d 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -294,6 +294,7 @@
- 283 auto quick
- 284 rw
- 286 rw quick
-+287 auto quick
- 288 quick
- 289 rw quick
- 290 rw auto quick
--- 
-2.17.0
+     listener->address_space =3D as;
+     if (QTAILQ_EMPTY(&memory_listeners)
+         || listener->priority >=3D QTAILQ_LAST(&memory_listeners)->priorit=
+y) {
+--=20
+2.24.1
 
 
