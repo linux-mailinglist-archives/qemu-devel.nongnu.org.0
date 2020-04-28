@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C5C1BC781
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 20:07:45 +0200 (CEST)
-Received: from localhost ([::1]:43610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3068E1BC76A
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 20:04:03 +0200 (CEST)
+Received: from localhost ([::1]:43350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTUe0-0007M0-Ou
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 14:07:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47668)
+	id 1jTUaP-0001wl-Px
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 14:04:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47208)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jTUbZ-0004D0-R2
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 14:05:22 -0400
+ (envelope-from <eblake@redhat.com>) id 1jTUYd-0000GX-As
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 14:02:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jTUag-0006M5-BK
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 14:05:13 -0400
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:41813)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jTUaf-0006LZ-UA; Tue, 28 Apr 2020 14:04:17 -0400
-Received: by mail-io1-xd41.google.com with SMTP id b12so24109247ion.8;
- Tue, 28 Apr 2020 11:04:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vfqjyfMLPu2fLhRRdJWjSHwzBP2xtMJA7Y0d7X/cFsY=;
- b=J9RZ9ZeQ5GBIbEVGICBQYhraZw0GmO4Qg0VpL2Uwy66ejVbKVWpfUw4+gT1BQkUXTj
- ZMD0XUJ8m3ySfByNr7MSGmYjenGq62oVALfrGQnLUkS4qPjGM3otjgqlyFp8p/pnIeQF
- oBflqxfcSYc5ogph6i4TJ6b+s9U3dmzt7Ss6/0335bdgfqlLVSAQEwgXvObEqPnrNaK0
- 7RfbyyHILJddqItNjkLV7N437A/piJeIfLYor93dSNdyB13zuRqkXawpipUDyAZo8b7C
- 73Yi3sGAQupKDFBMMocCtPKe1kbqQRMyEfPjYuPccLJaolVGpS8hn1V+acTFvUJqFnCu
- MRsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vfqjyfMLPu2fLhRRdJWjSHwzBP2xtMJA7Y0d7X/cFsY=;
- b=IRB5MsZgPtbOUIZNvWQRaEbWTTOrlJDJtcTiT2SMU1N23liguNTaVOgjYqK+FX6Xay
- mUY0ZYoXJ56R2ftm21YDzp73ZbjdDStHsn6oHGw50XVH+nbO/VO15mXUtbyf6AooJyze
- UEBWm/iMLFAEtzk3axQyrq/IAeQgM58I59tP8icLj/5n4zex02UcWmxwJs9DbfcFZPwi
- Uzhv2I5HT/k7rdseuIXS/Mii2AsIE+BkSBPEHMPkGZtpwsY5a3GH1YfAb6PyeiCGbPbH
- LakRxI1SaIo9z4lmrv3nkuBtJQfGIyTpu+nhhpdR5GPhLoClH1f3bHgvTxINzK0rG9RG
- DOpA==
-X-Gm-Message-State: AGi0PubhnXpPdkcbEr9tLRD1LRxtUwfTwts+mISqOtK3SKiGLaLufDmI
- nc7/2QZreucWSZA0Fvo0kOogRnh9GNAdMJWWKg8=
-X-Google-Smtp-Source: APiQypIVUvt5NubYFaQAy/GyOmVF6/AYoicTWZP8bnZqC7n5ch5s0MpwCV7+LEfW5UDBzpFgFM5uX3TZddk4mrV1tJs=
-X-Received: by 2002:a02:1a01:: with SMTP id 1mr27039300jai.26.1588097051969;
- Tue, 28 Apr 2020 11:04:11 -0700 (PDT)
+ (envelope-from <eblake@redhat.com>) id 1jTUWw-0004XX-2P
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 14:02:10 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23889
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jTUWv-0004W6-Ed
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 14:00:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588096823;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tCHpTYho1y90eeihUyaCPBbBHEOT2C7lgN3ElyEhsKE=;
+ b=Ulcsg7tD3RtXogKiEMBvTtgZuChFUgaswgrWFOvf5NTuh2vBumx3CNJ9fK2u/KGCt+8M3h
+ 5EzSRiK8nZ9DMXcX0FumfkpoM7oTxGnQhFQ1DK+Z8at+1mMo/AIN0dFySsbc+Ic2lELVh+
+ +HagmJMsXInJ3+WjbwtI0GrrpABK+o4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-321-vRd64YMONJWFD9cUrjRl-Q-1; Tue, 28 Apr 2020 14:00:15 -0400
+X-MC-Unique: vRd64YMONJWFD9cUrjRl-Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB051100CD03
+ for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 18:00:14 +0000 (UTC)
+Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A801A579A9;
+ Tue, 28 Apr 2020 18:00:13 +0000 (UTC)
+Subject: Re: [PATCH 06/17] qom: Drop object_property_set_description()
+ parameter @errp
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200428163419.4483-1-armbru@redhat.com>
+ <20200428163419.4483-7-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <828c31a6-f1d7-1629-cded-ef7097dd02b5@redhat.com>
+Date: Tue, 28 Apr 2020 13:00:12 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200427181649.26851-1-edgar.iglesias@gmail.com>
- <20200427181649.26851-12-edgar.iglesias@gmail.com>
-In-Reply-To: <20200427181649.26851-12-edgar.iglesias@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 28 Apr 2020 10:55:32 -0700
-Message-ID: <CAKmqyKNtAqE4u_aLmoYvLGJoUOiDOr-sBrs8vG+OkOP8zvHjsw@mail.gmail.com>
-Subject: Re: [PATCH v1 11/11] hw/arm: versal-virt: Add support for the RTC
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::d41
+In-Reply-To: <20200428163419.4483-7-armbru@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 04:11:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,79 +79,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: figlesia@xilinx.com, Peter Maydell <peter.maydell@linaro.org>,
- Edgar Iglesias <edgar.iglesias@xilinx.com>,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
- Francisco Iglesias <frasse.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Stefano Stabellini <sstabellini@kernel.org>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Luc Michel <luc.michel@greensocs.com>
+Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 27, 2020 at 11:28 AM Edgar E. Iglesias
-<edgar.iglesias@gmail.com> wrote:
->
-> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
->
-> Add support for the RTC.
->
-> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+On 4/28/20 11:34 AM, Markus Armbruster wrote:
+> object_property_set_description() and
+> object_class_property_set_description() fail only when property @name
+> is not found.
+> 
+> There are 85 calls of object_property_set_description() and
+> object_class_property_set_description().  None of them can fail:
+> 
+> * 84 immediately follow the creation of the property.
+> 
+> * The one in spapr_rng_instance_init() refers to a property created in
+>    spapr_rng_class_init(), from spapr_rng_properties[].
+> 
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+I don't envy how you counted those.  But on sheer numbers, this patch 
+has to be at least 85 changed lines in length...
 
-Alistair
-
+> Every one of them still gets to decide what to pass for @errp.
+> 
+> 51 calls pass &error_abort, 32 calls pass NULL, one receives the error
+> and propagates it to &error_abort, and one propagates it to
+> &error_fatal.  I'm actually surprised none of them violates the Error
+> API.
+> 
+> What are we gaining by letting callers handle the "property not found"
+> error?  Use when the property is not known to exist is simpler: you
+> don't have to guard the call with a check.  We haven't found such a
+> use in 5+ years.  Until we do, let's make life a bit simpler and drop
+> the @errp parameter.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  hw/arm/xlnx-versal-virt.c | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
->
-> diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
-> index 0afee48672..7e749e1926 100644
-> --- a/hw/arm/xlnx-versal-virt.c
-> +++ b/hw/arm/xlnx-versal-virt.c
-> @@ -283,6 +283,27 @@ static void fdt_add_sd_nodes(VersalVirt *s)
->      }
->  }
->
-> +static void fdt_add_rtc_node(VersalVirt *s)
-> +{
-> +    const char compat[] = "xlnx,zynqmp-rtc";
-> +    const char interrupt_names[] = "alarm\0sec";
-> +    char *name = g_strdup_printf("/rtc@%x", MM_PMC_RTC);
-> +
-> +    qemu_fdt_add_subnode(s->fdt, name);
-> +
-> +    qemu_fdt_setprop_cells(s->fdt, name, "interrupts",
-> +                           GIC_FDT_IRQ_TYPE_SPI, VERSAL_RTC_ALARM_IRQ,
-> +                           GIC_FDT_IRQ_FLAGS_LEVEL_HI,
-> +                           GIC_FDT_IRQ_TYPE_SPI, VERSAL_RTC_SECONDS_IRQ,
-> +                           GIC_FDT_IRQ_FLAGS_LEVEL_HI);
-> +    qemu_fdt_setprop(s->fdt, name, "interrupt-names",
-> +                     interrupt_names, sizeof(interrupt_names));
-> +    qemu_fdt_setprop_sized_cells(s->fdt, name, "reg",
-> +                                 2, MM_PMC_RTC, 2, MM_PMC_RTC_SIZE);
-> +    qemu_fdt_setprop(s->fdt, name, "compatible", compat, sizeof(compat));
-> +    g_free(name);
-> +}
-> +
->  static void fdt_nop_memory_nodes(void *fdt, Error **errp)
->  {
->      Error *err = NULL;
-> @@ -496,6 +517,7 @@ static void versal_virt_init(MachineState *machine)
->      fdt_add_timer_nodes(s);
->      fdt_add_zdma_nodes(s);
->      fdt_add_sd_nodes(s);
-> +    fdt_add_rtc_node(s);
->      fdt_add_cpu_nodes(s, psci_conduit);
->      fdt_add_clk_node(s, "/clk125", 125000000, s->phandle.clk_125Mhz);
->      fdt_add_clk_node(s, "/clk25", 25000000, s->phandle.clk_25Mhz);
-> --
-> 2.20.1
->
->
+
+>   30 files changed, 91 insertions(+), 143 deletions(-)
+
+...which it is. And the compiler would choke if you missed anything. 
+The bulk of this is mechanical, with no way to split it smaller.
+
+After hunting, I found the core of the patch:
+
+> +++ b/qom/object.c
+> @@ -2835,38 +2835,27 @@ object_property_add_alias(Object *obj, const char *name,
+>       }
+>   
+>       object_property_set_description(obj, op->name,
+> -                                    target_prop->description,
+> -                                    &error_abort);
+> +                                    target_prop->description);
+>       return op;
+>   }
+>   
+>   void object_property_set_description(Object *obj, const char *name,
+> -                                     const char *description, Error **errp)
+> +                                     const char *description)
+>   {
+>       ObjectProperty *op;
+>   
+> -    op = object_property_find(obj, name, errp);
+> -    if (!op) {
+> -        return;
+> -    }
+> -
+> +    op = object_property_find(obj, name, &error_abort);
+>       g_free(op->description);
+>       op->description = g_strdup(description);
+>   }
+>   
+>   void object_class_property_set_description(ObjectClass *klass,
+>                                              const char *name,
+> -                                           const char *description,
+> -                                           Error **errp)
+> +                                           const char *description)
+>   {
+>       ObjectProperty *op;
+>   
+>       op = g_hash_table_lookup(klass->properties, name);
+> -    if (!op) {
+> -        error_setg(errp, "Property '.%s' not found", name);
+> -        return;
+> -    }
+> -
+
+and it is sensible.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
