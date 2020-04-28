@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 085421BB9C4
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 11:23:09 +0200 (CEST)
-Received: from localhost ([::1]:48376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C271BB92C
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 10:51:08 +0200 (CEST)
+Received: from localhost ([::1]:46868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTMSJ-0003z2-G7
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 05:23:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59662)
+	id 1jTLxK-0004JF-PG
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 04:51:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51014)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zltjiangshi@gmail.com>) id 1jTMOP-0001sW-D8
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:21:29 -0400
+ (envelope-from <zltjiangshi@gmail.com>) id 1jTLsD-0003cd-AS
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 04:46:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <zltjiangshi@gmail.com>) id 1jTMFN-0004Hx-5m
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:14:15 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:38411)
+ (envelope-from <zltjiangshi@gmail.com>) id 1jTLlQ-0004ri-PJ
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 04:39:28 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:43876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1jTLUR-0007D8-JD
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 04:21:15 -0400
-Received: by mail-lf1-x144.google.com with SMTP id l11so16152401lfc.5
- for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 01:21:15 -0700 (PDT)
+ id 1jTLXa-0000Ie-Dp
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 04:24:30 -0400
+Received: by mail-lj1-x243.google.com with SMTP id l19so20505426lje.10
+ for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 01:24:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=ZUx/xjE9NXEeS9tDsU3YesOkwefV2k0p1VjLEozlvD0=;
- b=rAKWe/PkEV7kmXbb8o6TqKcCKfEN1pZUuJq9dIEETODWLjwuckIpdh/U+v8Rvlf56v
- OIncM1Dl37/gXLV/wMpYjQzRZ94r4IVmSEFbavlK4GWp3v8RFN6RpFYiR7YrI03T6/f8
- R4qH4yWci8M2o9npo1StbwzgPZoZPTTxVtfezQTuDeaK4VQSJe/ykkQwxQIKlOFDlWxU
- JeYB15hud6H+/Drhj2/WWw8EYv+4ntXNofzXQF+2m8zXd85j8IdAAdUF29Sckp37xMrY
- G+qES5k6he0KWf6jzflJEFS9q3ZAun+uGd55xS7oxMNDCTmeOxuXOfvP0AE+qH9h6RTj
- uRfA==
+ bh=J+vKbsSCHWeD3wg2/Qaw44d6Yuct6qNUHIzJpYXFgCU=;
+ b=k6msafjkIgWvI/J++46jdibUWvssVqESBLjs8EuYsKgMmmSL+3t3gbwuWoefdo64AK
+ q1OOzV97W1tjocLCMdMmP5qO3cUV52oJJY3gnsDbHEVrJL62KpBVkK7jJ8/v25U0zhUt
+ lAQkBLtSC8J5xKzK6i3IUiczSkbmJISI0HPt5kOLSENlkvZtxpWJ1/MQMUbVSoMvIzjy
+ 2zcmSvfkBEc/6Ytf6GHwZWXfvTnGP5zTr43tmTJpAwWNIiL+jIprzYpMFqtSHvVgVtgD
+ sPMM5xiYET6pF/A8ARlsCEb3I9sjl8JCIhIeolYhoePASSxLj00k/xmXgaBQsHivbS9s
+ 8PDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=ZUx/xjE9NXEeS9tDsU3YesOkwefV2k0p1VjLEozlvD0=;
- b=MKEY7YIT25XR7gfJ2Al3ht8reAtFsNrl73fbFIg89MA/OSKJt1TBefwW2GoVaeuj1B
- CQFX96yezGrjnjY3ePFadm1/Y+DGpCuCtL71bq2XSNx+y4Y0qnLQmy1t+bUNtDYSyhLL
- qwiTTaC3qfrtfTtTdS0LGkQGWq8v6/acGsunb6CduuGNBDpZSMpEKycDUJ9v7V1MCm3g
- 9OM5bXJx+cwFOGjgWKZIuc1dHm80eHA+5ycjvw1dO9QxOgNaLZEsXHVOxfr+3s5/g18V
- I1+vVVnXSm5y959jecGxxyEgzO8j7MTJs9VynNB0A2GRmFzE+Mgxn0mIdmz1+hnhLKnq
- VA4A==
-X-Gm-Message-State: AGi0PubDcuDA79PRdloZLvTOhbEJNEnWU/SHKss8PwAsaPsagZmiqUhI
- zerg/KwovKUXs4vWhkiSkxxeRjwRGGjj3jF3biE=
-X-Google-Smtp-Source: APiQypLmBSJK6PqR4ie5yIz1/22BhDfb5dafA3aOV3JRLLNrruBcolHfWp7lJNw9qwsrn8yIsBzndFBuqHC2WOBKhn8=
-X-Received: by 2002:ac2:5559:: with SMTP id l25mr18202886lfk.55.1588062073611; 
- Tue, 28 Apr 2020 01:21:13 -0700 (PDT)
+ bh=J+vKbsSCHWeD3wg2/Qaw44d6Yuct6qNUHIzJpYXFgCU=;
+ b=QaoDWYxhFqhDcC5Ri1waMW8H3Kn4ZJuK0fB3GQ5G2/V4zkIFJS7jUPJbFTHdjpWMto
+ cwUkrrCA0tsFk49Brj7IE2DmDiDJVoWg+mLoIlGWtf+D0PEAmS6fn081GLkkRKQqkaNP
+ 2IMqWjYmzy3LWOvWPdEh5rOgDCiZPisYDT/HjtFPOTXPBrlaZ1WMjLB0ANfRaXdkyMyj
+ jdcBu3qrBn0UD65WK3sW8mL2AU9+bRdGqkgHSBBdS6o4vL3ehlZe6jLzwWHmR/g9L9qH
+ Y6SZwSuNRHAO9qrBQM7pHJX/g0+m4Z6tPTu0iTsYZbcz0r8+xOJAi8TVIhiVyXJT6jEu
+ vReg==
+X-Gm-Message-State: AGi0PuYjMo0IwcSYHAfd1+/L+5i/2EvHj7OgnxUey0wDKmsc+N1N4aoi
+ fwV8zxw5ancwHjKoXU0CNyEmVUsS7fXE1+eLBsU=
+X-Google-Smtp-Source: APiQypKGFaXP7NscPNl6/tnf9pQf+kjHxeLBuzHfzUUwM/OLk3f55ZNjhWgIerIBNWwDFPgLH2uqcok6FNcVqVOWxzk=
+X-Received: by 2002:a2e:b4e7:: with SMTP id s7mr16466243ljm.103.1588062268631; 
+ Tue, 28 Apr 2020 01:24:28 -0700 (PDT)
 MIME-Version: 1.0
 References: <1587979995-17717-1-git-send-email-chenhc@lemote.com>
- <1587979995-17717-3-git-send-email-chenhc@lemote.com>
- <5a4cc457-971c-de9b-7380-c5e81d1b378b@amsat.org>
-In-Reply-To: <5a4cc457-971c-de9b-7380-c5e81d1b378b@amsat.org>
+ <1587979995-17717-7-git-send-email-chenhc@lemote.com>
+ <38fe3267-3d1b-26eb-13e5-dd3ed7039e61@amsat.org>
+In-Reply-To: <38fe3267-3d1b-26eb-13e5-dd3ed7039e61@amsat.org>
 From: chen huacai <zltjiangshi@gmail.com>
-Date: Tue, 28 Apr 2020 16:28:42 +0800
-Message-ID: <CABDp7Voe_WJwa6J9W-rQdSRHMx+u=46tfd9ufEdAkE36e59_FQ@mail.gmail.com>
-Subject: Re: [PATCH for-5.1 3/7] hw/mips: Add CPU IRQ3 delivery for KVM
+Date: Tue, 28 Apr 2020 16:31:56 +0800
+Message-ID: <CABDp7VrYJx0L7tsOh6vJ5SOAz-63YZY-UkC5zjGkUHN8a+0YwQ@mail.gmail.com>
+Subject: Re: [PATCH for-5.1 7/7] MAINTAINERS: Add myself as Loongson-3
+ maintainer
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::144;
- envelope-from=zltjiangshi@gmail.com; helo=mail-lf1-x144.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::243;
+ envelope-from=zltjiangshi@gmail.com; helo=mail-lj1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::144
+X-Received-From: 2a00:1450:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,51 +87,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Hi, Philippe,
 
-On Mon, Apr 27, 2020 at 5:57 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+On Tue, Apr 28, 2020 at 2:18 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
 g> wrote:
 >
+> Hi Huacai,
+>
 > On 4/27/20 11:33 AM, Huacai Chen wrote:
-> > Currently, KVM/MIPS only deliver I/O interrupt via IP2, this patch add
-> > IP2 delivery as well, because Loongson-3 based machine use both IRQ2
-> > (CPU's IP2) and IRQ3 (CPU's IP3).
-> >
 > > Signed-off-by: Huacai Chen <chenhc@lemote.com>
 > > Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 > > ---
-> >  hw/mips/mips_int.c | 6 ++----
-> >  1 file changed, 2 insertions(+), 4 deletions(-)
+> >  MAINTAINERS | 6 ++++++
+> >  1 file changed, 6 insertions(+)
 > >
-> > diff --git a/hw/mips/mips_int.c b/hw/mips/mips_int.c
-> > index 796730b..5526219 100644
-> > --- a/hw/mips/mips_int.c
-> > +++ b/hw/mips/mips_int.c
-> > @@ -48,16 +48,14 @@ static void cpu_mips_irq_request(void *opaque, int =
-irq, int level)
-> >      if (level) {
-> >          env->CP0_Cause |=3D 1 << (irq + CP0Ca_IP);
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index aa9a057..efe840b 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -1080,6 +1080,12 @@ F: hw/isa/vt82c686.c
+> >  F: hw/pci-host/bonito.c
+> >  F: include/hw/isa/vt82c686.h
 > >
-> > -        if (kvm_enabled() && irq =3D=3D 2) {
-> > +        if (kvm_enabled() && (irq =3D=3D 2 || irq =3D=3D 3))
+> > +Loongson-3
+> > +M: Huacai Chen <chenhc@lemote.com>
+> > +S: Maintained
+> > +F: hw/mips/mips_loongson3.c
+> > +F: hw/pci-host/ls7a.c
 >
-> Shouldn't we check env->CP0_Config6 (or Config7) has the required
-> feature first?
-I'm sorry that I can't understand IRQ delivery has something to do
-with Config6/Config7, to identify Loongson-3?
+> I still haven't received the series cover, so I'm not sure if you
+> intended to include the LS7A bridge chip here, but if so it seems you
+> forgot to include it.
+I'm sorry that I've rework the qemu patchset together with Jiaxun
+Yang. Now we have dropped LS7A bridge and use GPEX instead. This patch
+should also be updated but I forgot.
 
 >
-> >              kvm_mips_set_interrupt(cpu, irq, level);
-> > -        }
-> >
-> >      } else {
-> >          env->CP0_Cause &=3D ~(1 << (irq + CP0Ca_IP));
-> >
-> > -        if (kvm_enabled() && irq =3D=3D 2) {
-> > +        if (kvm_enabled() && (irq =3D=3D 2 || irq =3D=3D 3))
-> >              kvm_mips_set_interrupt(cpu, irq, level);
-> > -        }
-> >      }
-> >
-> >      if (env->CP0_Cause & CP0Ca_IP_mask) {
+> > +
+> >  Boston
+> >  M: Paul Burton <pburton@wavecomp.com>
+> >  R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
 > >
 
 
