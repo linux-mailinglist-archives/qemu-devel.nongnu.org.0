@@ -2,64 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB2F1BC11B
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 16:24:38 +0200 (CEST)
-Received: from localhost ([::1]:60562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0B0E1BC14E
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 16:30:59 +0200 (CEST)
+Received: from localhost ([::1]:60906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTRA5-0006gD-Fp
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 10:24:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43836)
+	id 1jTRGE-0004om-Do
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 10:30:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44908)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jTR8U-0005AU-B3
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:23:17 -0400
+ (envelope-from <eblake@redhat.com>) id 1jTREP-000337-Ln
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:29:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jTR6l-0003Lz-P9
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:22:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53070
+ (envelope-from <eblake@redhat.com>) id 1jTRBA-0003XQ-G2
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:29:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49673
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jTR6l-0003Ky-9U
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:21:11 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jTRB9-0003X5-TM
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:25:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588083669;
+ s=mimecast20190719; t=1588083942;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vXsfaqbKzbmyGzjd0hH35dirKJa0G/EnTg+YaT6oY1c=;
- b=UdamLnl0VaepkE+EO9cSt9Vv8LkgS0txUTFf9eNDIUTDwta+QOWBgxbUffQZuoUU3d/M4I
- PCRHSoiRbtz9EaXuGk3c+iRKYzJSaXKr29wpBgcG0k5RbEhpEUesBXf5zYz8MQKWpuM17g
- gr4oSHwx92kbA8ekMVtNzySP3P+HZJs=
+ bh=3sXYdwn3zxNdlMN3DkYHwlX93bwWqrgCPpWXcqDBqRM=;
+ b=F+JlJ+vIX9BIBdsJk94HEgj5B7YTHH1VIN07XwNdPUAWbDspZDoCKMSABZSfxrDbxvYYBE
+ V0pN/G2r/3bO4Y/1V9KIFcU8VHBOG+uVb5GmxANhJCwbgU/dMfNoG9RMPtmXvBXmtS6p/p
+ 5xru7MVqD9QMT+wHTIwQOD6WmTnA0R8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-M7iZ_cMeOA-yEmvPODHu3A-1; Tue, 28 Apr 2020 10:21:07 -0400
-X-MC-Unique: M7iZ_cMeOA-yEmvPODHu3A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-308-HOctJouIORu50O0_RkzVJw-1; Tue, 28 Apr 2020 10:25:38 -0400
+X-MC-Unique: HOctJouIORu50O0_RkzVJw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D69C462;
- Tue, 28 Apr 2020 14:21:06 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-37.ams2.redhat.com [10.36.114.37])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 703B2272A7;
- Tue, 28 Apr 2020 14:21:05 +0000 (UTC)
-Date: Tue, 28 Apr 2020 16:21:04 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41FE610B2EC3;
+ Tue, 28 Apr 2020 14:25:23 +0000 (UTC)
+Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 67B9B60D3D;
+ Tue, 28 Apr 2020 14:25:22 +0000 (UTC)
 Subject: Re: [PATCH 1/4] block: Add bdrv_make_empty()
-Message-ID: <20200428142104.GI5789@linux.fritz.box>
+To: Kevin Wolf <kwolf@redhat.com>
 References: <20200428132629.796753-1-mreitz@redhat.com>
  <20200428132629.796753-2-mreitz@redhat.com>
+ <bd4bb486-559a-58ff-dafb-f1e63908be4e@redhat.com>
+ <20200428140132.GF5789@linux.fritz.box>
+ <f9b2b26a-eacd-93db-f5c1-2682ae597e24@redhat.com>
+ <20200428141641.GH5789@linux.fritz.box>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <2c52cdc0-ba9b-081e-b593-fd3cf49dca12@redhat.com>
+Date: Tue, 28 Apr 2020 09:25:20 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200428132629.796753-2-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200428141641.GH5789@linux.fritz.box>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 02:16:38
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
@@ -75,60 +82,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 28.04.2020 um 15:26 hat Max Reitz geschrieben:
-> Right now, all users of bdrv_make_empty() call the BlockDriver method
-> directly.  That is not only bad style, it is also wrong, unless the
-> caller has a BdrvChild with a WRITE permission.
->=20
-> Introduce bdrv_make_empty() that verifies that it does.
->=20
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  include/block/block.h |  1 +
->  block.c               | 23 +++++++++++++++++++++++
->  2 files changed, 24 insertions(+)
->=20
-> diff --git a/include/block/block.h b/include/block/block.h
-> index b05995fe9c..d947fb4080 100644
-> --- a/include/block/block.h
-> +++ b/include/block/block.h
-> @@ -351,6 +351,7 @@ BlockMeasureInfo *bdrv_measure(BlockDriver *drv, Qemu=
-Opts *opts,
->  void bdrv_get_geometry(BlockDriverState *bs, uint64_t *nb_sectors_ptr);
->  void bdrv_refresh_limits(BlockDriverState *bs, Error **errp);
->  int bdrv_commit(BlockDriverState *bs);
-> +int bdrv_make_empty(BdrvChild *c, Error **errp);
->  int bdrv_change_backing_file(BlockDriverState *bs,
->      const char *backing_file, const char *backing_fmt);
->  void bdrv_register(BlockDriver *bdrv);
-> diff --git a/block.c b/block.c
-> index 2e3905c99e..b0d5b98617 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -6791,3 +6791,26 @@ void bdrv_del_child(BlockDriverState *parent_bs, B=
-drvChild *child, Error **errp)
-> =20
->      parent_bs->drv->bdrv_del_child(parent_bs, child, errp);
->  }
-> +
-> +int bdrv_make_empty(BdrvChild *c, Error **errp)
-> +{
-> +    BlockDriver *drv =3D c->bs->drv;
-> +    int ret;
-> +
-> +    assert(c->perm & BLK_PERM_WRITE);
+On 4/28/20 9:16 AM, Kevin Wolf wrote:
 
-If I understand correctly, bdrv_make_empty() is called to drop an
-overlay whose content is identical to what it would read from its
-backing file (in particular after a commit operation). This means that
-the caller promises that the visible content doesn't change.
+>>
+>> Yes.  Although now I'm wondering if the two should remain separate or should
+>> just be a single driver callback where flags can include BDRV_REQ_ZERO_WRITE
+>> to distinguish whether exposing the backing file vs. reading as all zeroes
+>> is intended, or if that is merging too much.
+> 
+> I don't think the implementations for both things are too similar, so
+> you might just end up having two if branches and then two separate
+> implementations in the block drivers.
+> 
 
-So should we check BLK_PERM_WRITE_UNCHANGED instead?
+Yeah, the more I think about it, the more two callbacks still make 
+sense.  .bdrv_make_empty may or may not need a flag, but .bdrv_make_zero 
+definitely does (because that's where we want a difference between 
+making the entire image zero no matter the delay, vs. only making it all 
+zero if it is is fast).
 
-Kevin
+> If anything, bdrv_make_empty() is more related to discard than
+> write_zeroes. But we use the discard code for it in qcow2 only as a
+> fallback because in the most common cases, making an image completely
+> empty means effectively just creating an entirely new L1 and refcount
+> table, which is much faster than individually discarding all clusters.
+> 
+> For bdrv_make_zero() I don't see an opportunity for such optimisations,
+> so I don't really see a reason to have a separate callback. Unless you
+> do know one?
+
+The optimization I have in mind is adding a qcow2 autoclear bit to track 
+when an image is known to read as all zero - at which point 
+.bdrv_make_zero instantly returns success.  For raw files, a possible 
+optimization is to truncate to size 0 and then back to the full size, 
+when it is known that truncation forces read-as-zero.  For NBD, I'm 
+still playing with whether adding new 64-bit transactions for a bulk 
+zero will be useful, and even if not, maybe special-casing 
+NBD_CMD_WRITE_ZEROES with a size of 0 to do a bulk zero, if both server 
+and client negotiated that particular meaning.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
