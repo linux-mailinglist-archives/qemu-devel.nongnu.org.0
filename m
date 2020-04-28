@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5E9A1BCD85
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 22:36:25 +0200 (CEST)
-Received: from localhost ([::1]:50640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F1401BCD82
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 22:34:55 +0200 (CEST)
+Received: from localhost ([::1]:50548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTWxs-0003e4-LI
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 16:36:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40246)
+	id 1jTWwQ-0001I6-2K
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 16:34:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40250)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTWrG-0000rk-3x
+ (envelope-from <eblake@redhat.com>) id 1jTWrG-0000tZ-OC
  for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:29:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTWrD-0006Ey-Lb
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:29:33 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35608
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1jTWrF-0006FK-B5
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:29:34 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26349
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jTWrD-0006Ei-77
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:29:31 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jTWrE-0006F6-RH
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:29:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588105770;
+ s=mimecast20190719; t=1588105772;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wiJtkm4BOPlkfyJYqkgh9TApAzazKeM4pdRoyO6Os24=;
- b=GSiYuDPY/bvckoAE7m0zUE/m3kA3aYoSArmsY8UDmlF7nfpTk+ent+rdCTwsYqtt6AE5me
- 7Ht4vlPIG9niYkdvLeukRDQ49i/EMXkHgEvHlsRzSErx/pCyhGuDybhB+uti5vXwZHb341
- G2HNcv+uA/L6HzGCvhX8EeQ7ocwbLqs=
+ bh=jA4LUUOrccYXDFuL7sYE/Al5qd+NSv/o7L7uj2ovfWs=;
+ b=YaB/BJAmZJTEK69P+/deH6If9EjklXj2eVJBac/B+3uOn8f778J5/CE2k3EAin0fwV0ShR
+ lGYsC2OLRbgW3Y02KppFCBT7xKIWJA02JmXW2FrkoIm/2IQap6XfgcprqQMIO/drul7MK+
+ wUAlu0/2DqLlpNo4Zm5vLMpQAW9KJW8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-EOKi1xUdOG63Q-8u6Atjhw-1; Tue, 28 Apr 2020 16:29:27 -0400
-X-MC-Unique: EOKi1xUdOG63Q-8u6Atjhw-1
+ us-mta-437-eYl3Wl9aOfC3QrxM7raFmg-1; Tue, 28 Apr 2020 16:29:28 -0400
+X-MC-Unique: eYl3Wl9aOfC3QrxM7raFmg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F29DD835B44;
- Tue, 28 Apr 2020 20:29:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 262E4107ACF3;
+ Tue, 28 Apr 2020 20:29:27 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3E63D5C1D4;
- Tue, 28 Apr 2020 20:29:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4673D5C1D4;
+ Tue, 28 Apr 2020 20:29:26 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 7/9] parallels: Rework truncation logic
-Date: Tue, 28 Apr 2020 15:29:03 -0500
-Message-Id: <20200428202905.770727-8-eblake@redhat.com>
+Subject: [PATCH 8/9] vhdx: Rework truncation logic
+Date: Tue, 28 Apr 2020 15:29:04 -0500
+Message-Id: <20200428202905.770727-9-eblake@redhat.com>
 In-Reply-To: <20200428202905.770727-1-eblake@redhat.com>
 References: <20200428202905.770727-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -57,11 +57,11 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 02:16:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 04:11:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,80 +73,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, "Denis V. Lunev" <den@openvz.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+Cc: kwolf@redhat.com, Jeff Cody <codyprime@gmail.com>, qemu-block@nongnu.org,
  Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The parallels driver tries to use truncation for image growth, but can
-only do so when reads are guaranteed as zero.  Now that we have a way
-to request zero contents from truncation, we can defer the decision to
-actual allocation attempts rather than up front, reducing the number
-of places that still use bdrv_has_zero_init_truncate.
+The vhdx driver uses truncation for image growth, with a special case
+for blocks that already read as zero but which are only being
+partially written.  But with a bit of rearranging, it's just as easy
+to defer the decision on whether truncation resulted in zeroes to the
+actual allocation attempt, reducing the number of places that still
+use bdrv_has_zero_init_truncate.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- block/parallels.c | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+ block/vhdx.c | 89 ++++++++++++++++++++++++++++++----------------------
+ 1 file changed, 51 insertions(+), 38 deletions(-)
 
-diff --git a/block/parallels.c b/block/parallels.c
-index 2be92cf41708..9dadaa3217b9 100644
---- a/block/parallels.c
-+++ b/block/parallels.c
-@@ -196,14 +196,24 @@ static int64_t allocate_clusters(BlockDriverState *bs=
-, int64_t sector_num,
+diff --git a/block/vhdx.c b/block/vhdx.c
+index 21497f731878..fe544abaf52a 100644
+--- a/block/vhdx.c
++++ b/block/vhdx.c
+@@ -1241,12 +1241,16 @@ exit:
+ /*
+  * Allocate a new payload block at the end of the file.
+  *
+- * Allocation will happen at 1MB alignment inside the file
++ * Allocation will happen at 1MB alignment inside the file.
++ *
++ * If @need_zero is set on entry but not cleared on return, then truncatio=
+n
++ * could not guarantee that the new portion reads as zero, and the caller
++ * will take care of it instead.
+  *
+  * Returns the file offset start of the new payload block
+  */
+ static int vhdx_allocate_block(BlockDriverState *bs, BDRVVHDXState *s,
+-                                    uint64_t *new_offset)
++                               uint64_t *new_offset, bool *need_zero)
+ {
+     int64_t current_len;
+
+@@ -1263,6 +1267,17 @@ static int vhdx_allocate_block(BlockDriverState *bs,=
+ BDRVVHDXState *s,
+         return -EINVAL;
      }
-     if (s->data_end + space > (len >> BDRV_SECTOR_BITS)) {
-         space +=3D s->prealloc_size;
-+        /*
-+         * We require the expanded size to read back as zero. If the
-+         * user permitted truncation, we try that; but if it fails, we
-+         * force the safer-but-slower fallocate.
-+         */
-+        if (s->prealloc_mode =3D=3D PRL_PREALLOC_MODE_TRUNCATE) {
-+            ret =3D bdrv_truncate(bs->file,
-+                                (s->data_end + space) << BDRV_SECTOR_BITS,
-+                                false, PREALLOC_MODE_OFF, BDRV_REQ_ZERO_WR=
-ITE,
-+                                NULL);
-+            if (ret =3D=3D -ENOTSUP) {
-+                s->prealloc_mode =3D PRL_PREALLOC_MODE_FALLOCATE;
-+            }
+
++    if (*need_zero) {
++        int ret;
++
++        ret =3D bdrv_truncate(bs->file, *new_offset + s->block_size, false=
+,
++                            PREALLOC_MODE_OFF, BDRV_REQ_ZERO_WRITE, NULL);
++        if (ret !=3D -ENOTSUP) {
++            *need_zero =3D false;
++            return ret;
 +        }
-         if (s->prealloc_mode =3D=3D PRL_PREALLOC_MODE_FALLOCATE) {
-             ret =3D bdrv_pwrite_zeroes(bs->file,
-                                      s->data_end << BDRV_SECTOR_BITS,
-                                      space << BDRV_SECTOR_BITS, 0);
--        } else {
--            ret =3D bdrv_truncate(bs->file,
--                                (s->data_end + space) << BDRV_SECTOR_BITS,
--                                false, PREALLOC_MODE_OFF, 0, NULL);
-         }
-         if (ret < 0) {
-             return ret;
-@@ -828,6 +838,7 @@ static int parallels_open(BlockDriverState *bs, QDict *=
-options, int flags,
-         qemu_opt_get_size_del(opts, PARALLELS_OPT_PREALLOC_SIZE, 0);
-     s->prealloc_size =3D MAX(s->tracks, s->prealloc_size >> BDRV_SECTOR_BI=
-TS);
-     buf =3D qemu_opt_get_del(opts, PARALLELS_OPT_PREALLOC_MODE);
-+    /* prealloc_mode can be downgraded later during allocate_clusters */
-     s->prealloc_mode =3D qapi_enum_parse(&prealloc_mode_lookup, buf,
-                                        PRL_PREALLOC_MODE_FALLOCATE,
-                                        &local_err);
-@@ -836,10 +847,6 @@ static int parallels_open(BlockDriverState *bs, QDict =
-*options, int flags,
-         goto fail_options;
-     }
-
--    if (!bdrv_has_zero_init_truncate(bs->file->bs)) {
--        s->prealloc_mode =3D PRL_PREALLOC_MODE_FALLOCATE;
--    }
++    }
++
+     return bdrv_truncate(bs->file, *new_offset + s->block_size, false,
+                          PREALLOC_MODE_OFF, 0, NULL);
+ }
+@@ -1356,18 +1371,38 @@ static coroutine_fn int vhdx_co_writev(BlockDriverS=
+tate *bs, int64_t sector_num,
+                 /* in this case, we need to preserve zero writes for
+                  * data that is not part of this write, so we must pad
+                  * the rest of the buffer to zeroes */
 -
-     if ((flags & BDRV_O_RDWR) && !(flags & BDRV_O_INACTIVE)) {
-         s->header->inuse =3D cpu_to_le32(HEADER_INUSE_MAGIC);
-         ret =3D parallels_update_header(bs);
+-                /* if we are on a posix system with ftruncate() that exten=
+ds
+-                 * a file, then it is zero-filled for us.  On Win32, the r=
+aw
+-                 * layer uses SetFilePointer and SetFileEnd, which does no=
+t
+-                 * zero fill AFAIK */
+-
+-                /* Queue another write of zero buffers if the underlying f=
+ile
+-                 * does not zero-fill on file extension */
+-
+-                if (bdrv_has_zero_init_truncate(bs->file->bs) =3D=3D 0) {
+-                    use_zero_buffers =3D true;
+-
++                use_zero_buffers =3D true;
++                /* fall through */
++            case PAYLOAD_BLOCK_NOT_PRESENT: /* fall through */
++            case PAYLOAD_BLOCK_UNMAPPED:
++            case PAYLOAD_BLOCK_UNMAPPED_v095:
++            case PAYLOAD_BLOCK_UNDEFINED:
++                bat_prior_offset =3D sinfo.file_offset;
++                ret =3D vhdx_allocate_block(bs, s, &sinfo.file_offset,
++                                          &use_zero_buffers);
++                if (ret < 0) {
++                    goto exit;
++                }
++                /*
++                 * once we support differencing files, this may also be
++                 * partially present
++                 */
++                /* update block state to the newly specified state */
++                vhdx_update_bat_table_entry(bs, s, &sinfo, &bat_entry,
++                                            &bat_entry_offset,
++                                            PAYLOAD_BLOCK_FULLY_PRESENT);
++                bat_update =3D true;
++                /*
++                 * Since we just allocated a block, file_offset is the
++                 * beginning of the payload block. It needs to be the
++                 * write address, which includes the offset into the
++                 * block, unless the entire block needs to read as
++                 * zeroes but truncation was not able to provide them,
++                 * in which case we need to fill in the rest.
++                 */
++                if (!use_zero_buffers) {
++                    sinfo.file_offset +=3D sinfo.block_offset;
++                } else {
+                     /* zero fill the front, if any */
+                     if (sinfo.block_offset) {
+                         iov1.iov_len =3D sinfo.block_offset;
+@@ -1379,7 +1414,7 @@ static coroutine_fn int vhdx_co_writev(BlockDriverSta=
+te *bs, int64_t sector_num,
+                     }
+
+                     /* our actual data */
+-                    qemu_iovec_concat(&hd_qiov, qiov,  bytes_done,
++                    qemu_iovec_concat(&hd_qiov, qiov, bytes_done,
+                                       sinfo.bytes_avail);
+
+                     /* zero fill the back, if any */
+@@ -1394,29 +1429,7 @@ static coroutine_fn int vhdx_co_writev(BlockDriverSt=
+ate *bs, int64_t sector_num,
+                         sectors_to_write +=3D iov2.iov_len >> BDRV_SECTOR_=
+BITS;
+                     }
+                 }
+-                /* fall through */
+-            case PAYLOAD_BLOCK_NOT_PRESENT: /* fall through */
+-            case PAYLOAD_BLOCK_UNMAPPED:
+-            case PAYLOAD_BLOCK_UNMAPPED_v095:
+-            case PAYLOAD_BLOCK_UNDEFINED:
+-                bat_prior_offset =3D sinfo.file_offset;
+-                ret =3D vhdx_allocate_block(bs, s, &sinfo.file_offset);
+-                if (ret < 0) {
+-                    goto exit;
+-                }
+-                /* once we support differencing files, this may also be
+-                 * partially present */
+-                /* update block state to the newly specified state */
+-                vhdx_update_bat_table_entry(bs, s, &sinfo, &bat_entry,
+-                                            &bat_entry_offset,
+-                                            PAYLOAD_BLOCK_FULLY_PRESENT);
+-                bat_update =3D true;
+-                /* since we just allocated a block, file_offset is the
+-                 * beginning of the payload block. It needs to be the
+-                 * write address, which includes the offset into the block=
+ */
+-                if (!use_zero_buffers) {
+-                    sinfo.file_offset +=3D sinfo.block_offset;
+-                }
++
+                 /* fall through */
+             case PAYLOAD_BLOCK_FULLY_PRESENT:
+                 /* if the file offset address is in the header zone,
 --=20
 2.26.2
 
