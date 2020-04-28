@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8CFE1BB7D9
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 09:40:56 +0200 (CEST)
-Received: from localhost ([::1]:44630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D7AA1BB815
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 09:52:10 +0200 (CEST)
+Received: from localhost ([::1]:45240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTKrP-0005co-AY
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 03:40:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42590)
+	id 1jTL2H-0001b5-7N
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 03:52:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44394)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jTKlc-0003Oy-Vx
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:39:39 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jTKx6-0002wO-5g
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:50:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jTKha-0004OB-Pr
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:34:56 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33705
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1jTKvQ-0006g1-Qj
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:46:47 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36372
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jTKha-0004Nn-8U
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:30:46 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jTKvQ-0006fn-E5
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:45:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588059045;
+ s=mimecast20190719; t=1588059902;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=XfM6g16L8gMWViHoNiVe35HWW/Pk+9G5jdXSN69RKsI=;
- b=DWAvHQq72c+2ps8I5iG5Rnh9WO26dZMRYpEuhCzkhn8pFeXhsTdji9hmf8jOfF0+kum/qg
- Q6hM0F80ZP8Hnfrj8Aw+whIlGR2+6qtIm7hMQEelg9WoFjvdYtqeBcD7caf9QLl5Fkpeth
- oDRy9DgdU9IseGHHJyvyYFtQ1QOuoCg=
+ bh=WrB3QrPatswRMjn/X1rm7oWpfp567+VjIJVs1RtSgGA=;
+ b=emK1Z+mZbRPAVbsEdimHOUXMREPXP/9siFd9TEvum/ocDK0MA/Hc6IUs+HCSOYDxJAyGh6
+ +0uQ0yqP+IFJWZ/qze4q9l4Mt66ite2QF37eTDNrwPPf7bHjVm89M5hvEvhTU+z1gYQSD4
+ W4OSsThpcgAFuzmnWhC5NX9ghUboU9o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-DS3KRv-KOSWb192tJsPjyg-1; Tue, 28 Apr 2020 03:30:42 -0400
-X-MC-Unique: DS3KRv-KOSWb192tJsPjyg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-462-ROARzGIxO2Spo2el1u_BPg-1; Tue, 28 Apr 2020 03:45:00 -0400
+X-MC-Unique: ROARzGIxO2Spo2el1u_BPg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F6598018A7;
- Tue, 28 Apr 2020 07:30:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CB60100CCC8;
+ Tue, 28 Apr 2020 07:44:59 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B918F6FEF1;
- Tue, 28 Apr 2020 07:30:39 +0000 (UTC)
-Subject: Re: [PATCH v2 1/6] block/block-copy: rename in-flight requests to
- tasks
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 11B805C1D4;
+ Tue, 28 Apr 2020 07:44:57 +0000 (UTC)
+Subject: Re: [PATCH v2 2/6] block/block-copy: alloc task on each iteration
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20200325134639.16337-1-vsementsov@virtuozzo.com>
- <20200325134639.16337-2-vsementsov@virtuozzo.com>
+ <20200325134639.16337-3-vsementsov@virtuozzo.com>
 From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -75,23 +74,23 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <da290ef0-c8dc-7cf0-fcf6-71e28aa323d5@redhat.com>
-Date: Tue, 28 Apr 2020 09:30:38 +0200
+Message-ID: <b5572d89-941a-e0d4-ea79-26828459eb6f@redhat.com>
+Date: Tue, 28 Apr 2020 09:44:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200325134639.16337-2-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200325134639.16337-3-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="ESkIqomp3G2e5afHvkUShoWELcZDpie3f"
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 02:16:38
+ boundary="MRKmxYMrlkxNQdSMsljytt7gHUwp5A0ZS"
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 02:06:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,80 +107,46 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ESkIqomp3G2e5afHvkUShoWELcZDpie3f
-Content-Type: multipart/mixed; boundary="foOsIrQRwQBrmJ2nvc4G4wRGi3WxISIcL"
+--MRKmxYMrlkxNQdSMsljytt7gHUwp5A0ZS
+Content-Type: multipart/mixed; boundary="i2KvQlq6xMjChkmLPmyVUWRURC8ShrmBo"
 
---foOsIrQRwQBrmJ2nvc4G4wRGi3WxISIcL
+--i2KvQlq6xMjChkmLPmyVUWRURC8ShrmBo
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 25.03.20 14:46, Vladimir Sementsov-Ogievskiy wrote:
-> We are going to use aio-task-pool API and extend in-flight request
-> structure to be a successor of AioTask, so rename things appropriately.
+> We are going to use aio-task-pool API, so tasks will be handled in
+> parallel. We need therefore separate allocated task on each iteration.
+> Introduce this logic now.
 >=20
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  block/block-copy.c | 99 +++++++++++++++++++++++-----------------------
->  1 file changed, 49 insertions(+), 50 deletions(-)
->=20
-> diff --git a/block/block-copy.c b/block/block-copy.c
-> index 05227e18bf..61d1d26991 100644
-> --- a/block/block-copy.c
-> +++ b/block/block-copy.c
+>  block/block-copy.c | 18 +++++++++++-------
+>  1 file changed, 11 insertions(+), 7 deletions(-)
 
-[...]
-
-> -static void coroutine_fn block_copy_inflight_req_shrink(BlockCopyState *=
-s,
-> -        BlockCopyInFlightReq *req, int64_t new_bytes)
-> +static void coroutine_fn block_copy_task_shrink(BlockCopyState *s,
-> +                                                BlockCopyTask *task,
-> +                                                int64_t new_bytes)
->  {
-> -    if (new_bytes =3D=3D req->bytes) {
-> +    if (new_bytes =3D=3D task->bytes) {
->          return;
->      }
-> =20
-> -    assert(new_bytes > 0 && new_bytes < req->bytes);
-> +    assert(new_bytes > 0 && new_bytes < task->bytes);
-> =20
-> -    s->in_flight_bytes -=3D req->bytes - new_bytes;
-> +    s->in_flight_bytes -=3D task->bytes - new_bytes;
->      bdrv_set_dirty_bitmap(s->copy_bitmap,
-> -                          req->offset + new_bytes, req->bytes - new_byte=
-s);
-> +                          task->offset + new_bytes, task->bytes - new_by=
-tes);
-> +    s->in_flight_bytes -=3D task->bytes - new_bytes;
-
-This line doesn=92t seem right.
-
-(The rest does.)
-
-Max
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
 
---foOsIrQRwQBrmJ2nvc4G4wRGi3WxISIcL--
+--i2KvQlq6xMjChkmLPmyVUWRURC8ShrmBo--
 
---ESkIqomp3G2e5afHvkUShoWELcZDpie3f
+--MRKmxYMrlkxNQdSMsljytt7gHUwp5A0ZS
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6n254ACgkQ9AfbAGHV
-z0DdqQf+OkQEQtO0VAquDeNPZJfq8LdsKaU1+wxLZ3UjrBtMNwZ4iem7QLoVxGrl
-zCp+WFCsh38dfP4SB7eK0HrSRS3zL735OvbBBtwKXgmPPXi76WRL3zAhJ2tfGvJx
-mp+dQ8rkrLKg5OvT587k1YuyAV9FUkC3ul6WHuu6t2xD+h7kK8vetHtmPPIcbZPm
-K5ycgqRq5PcapIv00+Vd/AR7v7MNSI1gK2xpB7jTF3RROMElWATlktY08FnmCpVW
-JqTCEJj0l20lv5wnzEeKXGVsydu0bEhYCioVoseV/tGIeF2WyEWVMVLsHWOeYtaL
-Idj61orvz+FNBw8ajLtPh5OerwILeA==
-=KClO
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6n3vgACgkQ9AfbAGHV
+z0C42wf+Kyd7wuV2JrloHeh12PJy4ChzUx+m0UEyqV2DIeswYvakp5Q3NIxmOStr
+t89X4ZBIax0v9HxuRYfzPD2Xk4uBM/Jrc9AupAhsTy9ON2TsVkp4F7IXLNRCUXsV
+dhajw8T66THTlYTu3IqIoRvsKqOv4pj4AuM4hJIxGKLe0i3jRcZryxL/31sz1EfV
+O7LfQ8yEnuE/jj8xtXWWlKw7P2F7AVhU8JjPhqF2ZmC0ENw5126WBVyuBVz0Ba2b
+Rlxh9l98vzaGKO7g11HQpyo9Suq1fUGxKODTuB1HFVOEOYWCaKVuC5+xQcRlAwUR
+DVmqPgL0XX2SUv8qqm6MlukFkW61eg==
+=ikBF
 -----END PGP SIGNATURE-----
 
---ESkIqomp3G2e5afHvkUShoWELcZDpie3f--
+--MRKmxYMrlkxNQdSMsljytt7gHUwp5A0ZS--
 
 
