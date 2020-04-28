@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A88E41BCCAF
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 21:47:40 +0200 (CEST)
-Received: from localhost ([::1]:47904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E411BCC94
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 21:44:45 +0200 (CEST)
+Received: from localhost ([::1]:47682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTWCh-0005F0-Mm
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 15:47:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33538)
+	id 1jTW9s-00083e-CR
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 15:44:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33548)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jTW8j-0006oQ-Ru
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 15:43:34 -0400
+ (envelope-from <peterx@redhat.com>) id 1jTW8n-0006to-U2
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 15:43:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jTW8j-0007Az-B5
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 15:43:33 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60502
+ (envelope-from <peterx@redhat.com>) id 1jTW8m-0007Do-H1
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 15:43:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29549
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jTW8i-0007As-U6
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 15:43:32 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jTW8m-0007BJ-36
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 15:43:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588103012;
+ s=mimecast20190719; t=1588103015;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KWiKFx7T2RcB/8ceBskFUXxef1SdqAE1qyzvy2ePBgA=;
- b=ENWQ1YNj7MKl5cZEgDr/nWcvcNvYC2Irz/cJo/cnGh48/dzvz/6PNRpkFX2fq3l36fsKCd
- gR+ASMUxPgGGtE9sITGmgBP4Ea0zWAVJ+Ilv0iaDB+3O1XJFnLwVZ0wejFAydhcvaaoKMJ
- 0HiN087C7n+7H/yhxI+LGSqbvrlhZkk=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-JJO1Meg_PVamgTTddoM4Jw-1; Tue, 28 Apr 2020 15:43:30 -0400
-X-MC-Unique: JJO1Meg_PVamgTTddoM4Jw-1
-Received: by mail-qk1-f199.google.com with SMTP id x7so24473666qkb.17
- for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 12:43:30 -0700 (PDT)
+ bh=8Lnbg1QoqysmcI1QpHi4Ugfwik3iNp8wG0u4WHFvFYc=;
+ b=NVX1LhUcqPOlq3T5g9w68K2eu8pav1V0jMy/ROS9aGHR7W2FhgYheG/N5Gp7HMLt2VyC72
+ 5lloSIo+z2zV3D+BjaBLznxPecl2m+mKmDGc+V+8ksPDyNsTo85U0g8Rdy7RRC62UWMicv
+ Bbbbjhooad62oleIvaGEdJlmbLiFLHs=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-435-mBaXvpenPy-Dquclno1caQ-1; Tue, 28 Apr 2020 15:43:33 -0400
+X-MC-Unique: mBaXvpenPy-Dquclno1caQ-1
+Received: by mail-qv1-f72.google.com with SMTP id 65so23744198qva.17
+ for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 12:43:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l9EJm6lx5UW6V7ifVpZVbM1fIyRcFIsgTY1TmlPa2ZA=;
- b=ctzr3aAYnaHspEN9egXmCb0OnnMEDNulfetynhWa2+qwuAj0MlJBoqZfZKrRSULDtc
- 7fr3CPBA/73aMqMhuvTlxWygPxASTHW+vqS/tZ3qi5mD8evZi9G/U91+v4pBiLBhwr8y
- qEpoYN5iG4WUCDjhw3V/mHQp70+jAZkWn4OZHJSs70MGOSRY4+hV8aFpLOAhCO4Z9gI0
- rBFIA2UNqEMTkVwvvz7U6cWi51w3ti9WLhCHfQBqfafpWRnnhI8i3pZCPIE0egFvyjo5
- 4qddADPy7ACTHyWa2B0YqN/T34RadRTpH3xn8iML+1fMcenTQ/cYYhFg+CL4dyxEYFee
- tG/w==
-X-Gm-Message-State: AGi0PuYpn1ceUozznh/yItp4clEGVY2N6Dbds8xkRQfA2fGyuRShLYiB
- bzci/eeOvSyYHaqwA9N2EocJg1lxjruL1euG824e1XE/GHJu+uXMz6DaauRI//+egzGy//xeTYp
- UJspzN8FpLHNNYvk=
-X-Received: by 2002:a37:a090:: with SMTP id
- j138mr29953692qke.168.1588103009498; 
- Tue, 28 Apr 2020 12:43:29 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLpD/bS2J5EyCoFE9zrsM73H3G52b3w5H7U4t7mnMuvlwvlpzdkMhqq9+flZsofYaZSH6H5qQ==
-X-Received: by 2002:a37:a090:: with SMTP id
- j138mr29953508qke.168.1588103006960; 
- Tue, 28 Apr 2020 12:43:26 -0700 (PDT)
+ bh=IbXTrIQrGmJBwtzshAWiRUJozp+LdTeq7bHKm90eFnE=;
+ b=NPF6RTAA+QQMOndGttS08SojAbC92WkwN1H5gtiB5eBa7AcI0j1WaLpz1NVdF+qoS6
+ sdbj33DJhWa15IFrdcrqT/WR3aIgSNrZ7HTmMBB4t01sbiwly6DwTdLhQ1jFX3hSkF4b
+ qE7Now3j7eO1Pj+4WN+Ft4gzubM8jiB22kdPa5YDtVdNmMSQxu547TbaDTIyOxBqMdY3
+ eQopIrRe/dX8d1BBhCQFfXYNE/JVKf+ozKc8NcVkgIPKPPCjSsB90ZJu6zeOPoD8qQ3G
+ r/M/jayqdcwNQ+TidzyfMENNHXf3UJIJeNxU7gZJ6X9gedX4ozauRHqTkhgfweDhyT1u
+ ns9w==
+X-Gm-Message-State: AGi0Puabe6ezmjm4ayP7mfs5OD/7oJqqvW1ejMR5rSHCJ88T6ZaW34V7
+ rSxDQngjZfmb5Pr9kNhM3uq9wPuN7VavX83Gz8xhzHliAuFDhsYVAh4uE7cJLNvyYoLQ+3wEzZc
+ gA63kGyHaTg9v6gM=
+X-Received: by 2002:ac8:f23:: with SMTP id e32mr30727050qtk.368.1588103012182; 
+ Tue, 28 Apr 2020 12:43:32 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKJICGBvNYz1WYnmC8J1Reoa6vGgFHzA2cmnkiX4vno/3BqnrCHcZ2g9Iwr/u81OvrzkA63sQ==
+X-Received: by 2002:ac8:f23:: with SMTP id e32mr30726982qtk.368.1588103011459; 
+ Tue, 28 Apr 2020 12:43:31 -0700 (PDT)
 Received: from xz-x1.hitronhub.home ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id j92sm14277695qtd.58.2020.04.28.12.43.25
+ by smtp.gmail.com with ESMTPSA id l24sm14239691qtp.8.2020.04.28.12.43.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Apr 2020 12:43:26 -0700 (PDT)
+ Tue, 28 Apr 2020 12:43:30 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 3/4] vl: Sync dirty bits for system resets during precopy
-Date: Tue, 28 Apr 2020 15:42:18 -0400
-Message-Id: <20200428194219.10963-4-peterx@redhat.com>
+Subject: [PATCH RFC 4/4] kvm: No need to sync dirty bitmap before memslot
+ removal any more
+Date: Tue, 28 Apr 2020 15:42:19 -0400
+Message-Id: <20200428194219.10963-5-peterx@redhat.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200428194219.10963-1-peterx@redhat.com>
 References: <20200428194219.10963-1-peterx@redhat.com>
@@ -75,11 +74,11 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=peterx@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 02:16:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 04:15:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,59 +96,33 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Tian Kevin <kevin.tian@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-System resets will also reset system memory layout.  Although the memory la=
-yout
-after the reset should probably the same as before the reset, we still need=
- to
-do frequent memory section removals and additions during the reset process.
-Those operations could accidentally lose per-mem-section information like K=
-VM
-memslot dirty bitmaps.
-
-Previously we keep those dirty bitmaps by sync it during memory removal.
-However that's hard to make it right after all [1].  Instead, we sync dirty
-pages before system reset if we know we're during a precopy migration.  Thi=
-s
-should solve the same problem explicitly.
+With the system reset dirty sync in qemu_system_reset(), we should be able =
+to
+drop this operation now.  After all it doesn't really fix the problem clean=
+ly
+because logically we could still have a race [1].
 
 [1] https://lore.kernel.org/qemu-devel/20200327150425.GJ422390@xz-x1/
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- softmmu/vl.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ accel/kvm/kvm-all.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 32c0047889..8f864fee43 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -1387,6 +1387,22 @@ void qemu_system_reset(ShutdownCause reason)
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 439a4efe52..e1c87fa4e1 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -1061,9 +1061,6 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
+             if (!mem) {
+                 goto out;
+             }
+-            if (mem->flags & KVM_MEM_LOG_DIRTY_PAGES) {
+-                kvm_physical_sync_dirty_bitmap(kml, section);
+-            }
 =20
-     cpu_synchronize_all_states();
-=20
-+    /*
-+     * System reboot could reset memory layout.  Although the final status=
- of
-+     * the memory layout should be the same as before the reset, the memor=
-y
-+     * sections can still be removed and added back frequently due to the =
-reset
-+     * process.  This could potentially drop dirty bits in track for those
-+     * memory sections before the reset.
-+     *
-+     * Do a global dirty sync before the reset happens if we are during a
-+     * precopy, so we don't lose the dirty bits during the memory shuffles=
-.
-+     */
-+    if (migration_is_precopy()) {
-+        WITH_RCU_READ_LOCK_GUARD() {
-+            migration_bitmap_sync_precopy();
-+        }
-+    }
-+
-     if (mc && mc->reset) {
-         mc->reset(current_machine);
-     } else {
+             /* unregister the slot */
+             g_free(mem->dirty_bmap);
 --=20
 2.24.1
 
