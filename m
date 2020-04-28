@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B69141BBF84
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 15:29:33 +0200 (CEST)
-Received: from localhost ([::1]:57710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2F2B1BBF7E
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 15:28:18 +0200 (CEST)
+Received: from localhost ([::1]:57574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTQIm-0008Fl-N7
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 09:29:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35212)
+	id 1jTQHZ-0005GQ-NZ
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 09:28:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35160)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jTQG9-0003Sf-0J
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:26:49 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jTQFz-0003A6-BF
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:26:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jTQG8-0001pw-BL
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:26:48 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35817
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1jTQFy-0001n0-0A
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:26:39 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30219
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jTQG7-0001pY-Sd
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:26:47 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jTQFx-0001mZ-Fm
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:26:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588080407;
+ s=mimecast20190719; t=1588080395;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=UUkZADRWSLy/0kXuXCZYF8emAsm5jHqCUvgzgPa1DUY=;
- b=VlMEVJAPhFU2VnhDYVSvdd1kSZkibAkro0JoE/3HTw4ahF4vEVggb0j0cXyGFALuJkPP8+
- cSxVhRvD1l8krfFRm1jTVnhJOYRjvG2FXKPGdz9E3EFdO0RM0XVwI0djIRPmiAr7JtIUcv
- +am7IN/xXa3d6mePnK4WNuuD4/WtXx4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3OWL5LjDCx7y5IeGJUkDregA90v3xX3dRAsB1yU3tXA=;
+ b=fD8dYbEUCyktAWsQhlNc7zKaJPS8PlXo2XY6GmSXJp3S7r9f5DyuheIHRvbEM5vwX1B9ro
+ lLuGlrPmAVTUwtjAKD1NYe4FuX5rPVL8DqpPsDtkgWVeEYPz/byEMRbfM+k11YInZOdLsh
+ 4NFAbO+HAmFJjWR8/VfVIXrwX1adoQk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-mo8_qeMBOvSz9OPQAo3b0w-1; Tue, 28 Apr 2020 09:26:32 -0400
-X-MC-Unique: mo8_qeMBOvSz9OPQAo3b0w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-11-MlxHMeRQOlO4P4rBVSfP8Q-1; Tue, 28 Apr 2020 09:26:34 -0400
+X-MC-Unique: MlxHMeRQOlO4P4rBVSfP8Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBF17107ACF2;
- Tue, 28 Apr 2020 13:26:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D410462;
+ Tue, 28 Apr 2020 13:26:33 +0000 (UTC)
 Received: from localhost (ovpn-112-143.ams2.redhat.com [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8AF2A99E1;
- Tue, 28 Apr 2020 13:26:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AC6E460C81;
+ Tue, 28 Apr 2020 13:26:32 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 0/4] block: Do not call BlockDriver.bdrv_make_empty() directly
-Date: Tue, 28 Apr 2020 15:26:25 +0200
-Message-Id: <20200428132629.796753-1-mreitz@redhat.com>
+Subject: [PATCH 1/4] block: Add bdrv_make_empty()
+Date: Tue, 28 Apr 2020 15:26:26 +0200
+Message-Id: <20200428132629.796753-2-mreitz@redhat.com>
+In-Reply-To: <20200428132629.796753-1-mreitz@redhat.com>
+References: <20200428132629.796753-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 04:11:46
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 04:15:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,45 +78,63 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Branch: https://github.com/XanClic/qemu.git fix-bdrv_make_empty-v1
-Branch: https://git.xanclic.moe/XanClic/qemu.git fix-bdrv_make_empty-v1
+Right now, all users of bdrv_make_empty() call the BlockDriver method
+directly.  That is not only bad style, it is also wrong, unless the
+caller has a BdrvChild with a WRITE permission.
 
-Hi,
+Introduce bdrv_make_empty() that verifies that it does.
 
-Right now, there is no centralized bdrv_make_empty() function.  Not only
-is it bad style to call BlockDriver methods directly, it is also wrong,
-unless the caller has a BdrvChild with BLK_PERM_WRITE taken.
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ include/block/block.h |  1 +
+ block.c               | 23 +++++++++++++++++++++++
+ 2 files changed, 24 insertions(+)
 
-This series fixes that.
-
-Note that as far as I=E2=80=99m aware this series shouldn=E2=80=99t visibly=
- fix anything
-at this point; but =E2=80=9Cblock: Introduce real BdrvChildRole=E2=80=9D
-(https://lists.nongnu.org/archive/html/qemu-block/2020-02/msg00737.html)
-makes the iotest break when run with -o data_file=3D$SOMETHING, without
-this series applied beforehand.  (That is because without that series,
-external data files are treated much like metadata children, so the
-format driver always takes the WRITE permission if the file is writable;
-but after that series, it only does so when it itself has a parent
-requestion the WRITE permission.)
-
-
-Max Reitz (4):
-  block: Add bdrv_make_empty()
-  block: Use bdrv_make_empty() where possible
-  block: Add blk_make_empty()
-  block: Use blk_make_empty() after commits
-
- include/block/block.h          |  1 +
- include/sysemu/block-backend.h |  2 ++
- block.c                        | 23 +++++++++++++++++++++++
- block/block-backend.c          |  5 +++++
- block/commit.c                 |  8 +++++++-
- block/replication.c            |  6 ++----
- block/vvfat.c                  |  4 +---
- qemu-img.c                     | 19 ++++++++++++++-----
- 8 files changed, 55 insertions(+), 13 deletions(-)
-
+diff --git a/include/block/block.h b/include/block/block.h
+index b05995fe9c..d947fb4080 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -351,6 +351,7 @@ BlockMeasureInfo *bdrv_measure(BlockDriver *drv, QemuOp=
+ts *opts,
+ void bdrv_get_geometry(BlockDriverState *bs, uint64_t *nb_sectors_ptr);
+ void bdrv_refresh_limits(BlockDriverState *bs, Error **errp);
+ int bdrv_commit(BlockDriverState *bs);
++int bdrv_make_empty(BdrvChild *c, Error **errp);
+ int bdrv_change_backing_file(BlockDriverState *bs,
+     const char *backing_file, const char *backing_fmt);
+ void bdrv_register(BlockDriver *bdrv);
+diff --git a/block.c b/block.c
+index 2e3905c99e..b0d5b98617 100644
+--- a/block.c
++++ b/block.c
+@@ -6791,3 +6791,26 @@ void bdrv_del_child(BlockDriverState *parent_bs, Bdr=
+vChild *child, Error **errp)
+=20
+     parent_bs->drv->bdrv_del_child(parent_bs, child, errp);
+ }
++
++int bdrv_make_empty(BdrvChild *c, Error **errp)
++{
++    BlockDriver *drv =3D c->bs->drv;
++    int ret;
++
++    assert(c->perm & BLK_PERM_WRITE);
++
++    if (!drv->bdrv_make_empty) {
++        error_setg(errp, "%s does not support emptying nodes",
++                   drv->format_name);
++        return -ENOTSUP;
++    }
++
++    ret =3D drv->bdrv_make_empty(c->bs);
++    if (ret < 0) {
++        error_setg_errno(errp, -ret, "Failed to empty %s",
++                         c->bs->filename);
++        return ret;
++    }
++
++    return 0;
++}
 --=20
 2.25.4
 
