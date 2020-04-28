@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B067C1BB36F
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 03:29:55 +0200 (CEST)
-Received: from localhost ([::1]:38338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 574691BB370
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 03:29:57 +0200 (CEST)
+Received: from localhost ([::1]:38332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTF4M-0000dk-AV
-	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 21:29:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34608)
+	id 1jTF4O-0000Yt-A3
+	for lists+qemu-devel@lfdr.de; Mon, 27 Apr 2020 21:29:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34606)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vishal.l.verma@intel.com>) id 1jTF3A-0007Rc-CL
+ (envelope-from <vishal.l.verma@intel.com>) id 1jTF3A-0007Rb-CD
  for qemu-devel@nongnu.org; Mon, 27 Apr 2020 21:28:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vishal.l.verma@intel.com>) id 1jTF39-0005V9-6Q
+ (envelope-from <vishal.l.verma@intel.com>) id 1jTF39-0005V1-4C
  for qemu-devel@nongnu.org; Mon, 27 Apr 2020 21:28:39 -0400
-Received: from mga12.intel.com ([192.55.52.136]:49886)
+Received: from mga12.intel.com ([192.55.52.136]:49890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vishal.l.verma@intel.com>)
- id 1jTF38-0005Tt-J2
+ id 1jTF38-0005U4-Ia
  for qemu-devel@nongnu.org; Mon, 27 Apr 2020 21:28:38 -0400
-IronPort-SDR: 4JZ5K4SPPeZLgmhbnQFXriuRoReV2fbXSTuRjEu+vvMRALZ72/SFiAS4CaKpi6kHjnGLiC4jV/
- C7Sw9zCqDHEQ==
+IronPort-SDR: OmUSBQRCNdqXcq85Crqvb8nWFm3z7Du3Rp54vdJ9c1ltxPjkkDI4DMYelvhwId/o2HLon78Xf2
+ WqyQU2EcTwmQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2020 18:28:27 -0700
-IronPort-SDR: Thr4S/4uKIuWuMY90jDxh4rJaxPOq5zlaeyg7TcSBjMYh+esz5lVLGGV5Emv9ersoQWH1MiwOf
- /H7+lcp0O8+w==
+ 27 Apr 2020 18:28:29 -0700
+IronPort-SDR: FXLZHDG85QGnDOr7PKBZ8Bn1nxqG3GafoBbEOIWpr0E52Oy7Jqrjtb3x3R571qpgLGbFMNUN2C
+ o2NLF4qXht5A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,325,1583222400"; d="scan'208";a="249040056"
+X-IronPort-AV: E=Sophos;i="5.73,325,1583222400"; d="scan'208";a="249040061"
 Received: from vverma7-mobl4.lm.intel.com ([10.254.191.96])
- by fmsmga008.fm.intel.com with ESMTP; 27 Apr 2020 18:28:27 -0700
+ by fmsmga008.fm.intel.com with ESMTP; 27 Apr 2020 18:28:28 -0700
 From: Vishal Verma <vishal.l.verma@intel.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH 0/3] account for NVDIMM nodes during SRAT generation
-Date: Mon, 27 Apr 2020 19:28:07 -0600
-Message-Id: <20200428012810.10877-1-vishal.l.verma@intel.com>
+Subject: [PATCH 1/3] diffs-allowed: add the SRAT AML to diffs-allowed
+Date: Mon, 27 Apr 2020 19:28:08 -0600
+Message-Id: <20200428012810.10877-2-vishal.l.verma@intel.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200428012810.10877-1-vishal.l.verma@intel.com>
+References: <20200428012810.10877-1-vishal.l.verma@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=192.55.52.136;
@@ -64,33 +66,21 @@ Cc: jingqi.liu@intel.com, Dan Williams <dan.j.williams@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On the command line, one can specify a NUMA node for NVDIMM devices. If
-we set up the topology to give NVDIMMs their own nodes, i.e. not
-containing any CPUs or regular memory, qemu doesn't populate SRAT memory
-affinity structures for these nodes. However the NFIT does reference
-those proximity domains.
+In anticipation of a change to the SRAT generation in qemu, add the AML
+file to diffs-allowed.
 
-As a result, Linux, while parsing the SRAT, fails to initialize node
-related structures for these nodes, and they never end up in the
-nodes_possible map. When these are onlined at a later point (via
-hotplug), this causes problems.
+Signed-off-by: Vishal Verma <vishal.l.verma@intel.com>
+---
+ tests/qtest/bios-tables-test-allowed-diff.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-I've followed the instructions in bios-tables-test.c to update the
-expected SRAT binary, and the tests (make check) pass. Patches 1 and 3
-are the relevant ones for the binary update.
-
-Patch 2 is the main patch which changes SRAT generation.
-
-Vishal Verma (3):
-  diffs-allowed: add the SRAT AML to diffs-allowed
-  hw/acpi-build: account for NVDIMM numa nodes in SRAT
-  tests/acpi: update expected SRAT files
-
- hw/i386/acpi-build.c             |  20 ++++++++++++++++++++
- tests/data/acpi/pc/SRAT.dimmpxm  | Bin 392 -> 392 bytes
- tests/data/acpi/q35/SRAT.dimmpxm | Bin 392 -> 392 bytes
- 3 files changed, 20 insertions(+)
-
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..83d3ea5032 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,2 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/pc/SRAT.dimmpxm",
 -- 
 2.25.4
 
