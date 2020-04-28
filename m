@@ -2,59 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A687D1BBF21
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 15:21:57 +0200 (CEST)
-Received: from localhost ([::1]:57246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B69141BBF84
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 15:29:33 +0200 (CEST)
+Received: from localhost ([::1]:57710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTQBQ-0007Pz-MR
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 09:21:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34090)
+	id 1jTQIm-0008Fl-N7
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 09:29:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35212)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frederic.konrad@adacore.com>) id 1jTQ9Y-0003wJ-Mn
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:20:39 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jTQG9-0003Sf-0J
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:26:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <frederic.konrad@adacore.com>) id 1jTQ94-0006gS-Hc
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:20:00 -0400
-Received: from mel.act-europe.fr ([2a02:2ab8:224:1::a0a:d2]:54403
- helo=smtp.eu.adacore.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frederic.konrad@adacore.com>)
- id 1jTQ93-0006fr-UC
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:19:30 -0400
-Received: from localhost (localhost [127.0.0.1])
- by filtered-smtp.eu.adacore.com (Postfix) with ESMTP id 1ED6781343;
- Tue, 28 Apr 2020 15:19:26 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at eu.adacore.com
-Received: from smtp.eu.adacore.com ([127.0.0.1])
- by localhost (smtp.eu.adacore.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tMA8I0k2P5h0; Tue, 28 Apr 2020 15:19:26 +0200 (CEST)
-Received: from localhost.localdomain (lfbn-tou-1-1471-22.w90-89.abo.wanadoo.fr
- [90.89.4.22])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (envelope-from <mreitz@redhat.com>) id 1jTQG8-0001pw-BL
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:26:48 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35817
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jTQG7-0001pY-Sd
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:26:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588080407;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=UUkZADRWSLy/0kXuXCZYF8emAsm5jHqCUvgzgPa1DUY=;
+ b=VlMEVJAPhFU2VnhDYVSvdd1kSZkibAkro0JoE/3HTw4ahF4vEVggb0j0cXyGFALuJkPP8+
+ cSxVhRvD1l8krfFRm1jTVnhJOYRjvG2FXKPGdz9E3EFdO0RM0XVwI0djIRPmiAr7JtIUcv
+ +am7IN/xXa3d6mePnK4WNuuD4/WtXx4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-287-mo8_qeMBOvSz9OPQAo3b0w-1; Tue, 28 Apr 2020 09:26:32 -0400
+X-MC-Unique: mo8_qeMBOvSz9OPQAo3b0w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp.eu.adacore.com (Postfix) with ESMTPSA id A269281339;
- Tue, 28 Apr 2020 15:19:25 +0200 (CEST)
-Subject: Re: [PATCH v1] target/m68k: fix gdb for m68xxx
-To: Laurent Vivier <laurent@vivier.eu>
-References: <1587391275-12748-1-git-send-email-frederic.konrad@adacore.com>
- <41ff1564-36ee-1028-b377-9bf9a82de689@vivier.eu>
-From: KONRAD Frederic <frederic.konrad@adacore.com>
-Message-ID: <99b80245-4109-03c4-4c7c-e562477ec76b@adacore.com>
-Date: Tue, 28 Apr 2020 15:19:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBF17107ACF2;
+ Tue, 28 Apr 2020 13:26:30 +0000 (UTC)
+Received: from localhost (ovpn-112-143.ams2.redhat.com [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8AF2A99E1;
+ Tue, 28 Apr 2020 13:26:30 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/4] block: Do not call BlockDriver.bdrv_make_empty() directly
+Date: Tue, 28 Apr 2020 15:26:25 +0200
+Message-Id: <20200428132629.796753-1-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <41ff1564-36ee-1028-b377-9bf9a82de689@vivier.eu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:2ab8:224:1::a0a:d2;
- envelope-from=frederic.konrad@adacore.com; helo=smtp.eu.adacore.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a02:2ab8:224:1::a0a:d2
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 04:11:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,182 +70,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: huth@tuxfamily.org, alex.bennee@linaro.org, f4bug@amsat.org,
- qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- pierre@freepascal.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Branch: https://github.com/XanClic/qemu.git fix-bdrv_make_empty-v1
+Branch: https://git.xanclic.moe/XanClic/qemu.git fix-bdrv_make_empty-v1
+
+Hi,
+
+Right now, there is no centralized bdrv_make_empty() function.  Not only
+is it bad style to call BlockDriver methods directly, it is also wrong,
+unless the caller has a BdrvChild with BLK_PERM_WRITE taken.
+
+This series fixes that.
+
+Note that as far as I=E2=80=99m aware this series shouldn=E2=80=99t visibly=
+ fix anything
+at this point; but =E2=80=9Cblock: Introduce real BdrvChildRole=E2=80=9D
+(https://lists.nongnu.org/archive/html/qemu-block/2020-02/msg00737.html)
+makes the iotest break when run with -o data_file=3D$SOMETHING, without
+this series applied beforehand.  (That is because without that series,
+external data files are treated much like metadata children, so the
+format driver always takes the WRITE permission if the file is writable;
+but after that series, it only does so when it itself has a parent
+requestion the WRITE permission.)
 
 
-Le 4/27/20 à 9:53 AM, Laurent Vivier a écrit :
-> Le 20/04/2020 à 16:01, frederic.konrad@adacore.com a écrit :
->> From: KONRAD Frederic <frederic.konrad@adacore.com>
->>
->> Currently "cf-core.xml" is sent to GDB when using any m68k flavor.  Thing is
->> it uses the "org.gnu.gdb.coldfire.core" feature name and gdb 8.3 then expects
->> a coldfire FPU instead of the default m68881 FPU.
->>
->> This is not OK because the m68881 floats registers are 96 bits wide so it
->> crashes GDB with the following error message:
->>
->> (gdb) target remote localhost:7960
->> Remote debugging using localhost:7960
->> warning: Register "fp0" has an unsupported size (96 bits)
->> warning: Register "fp1" has an unsupported size (96 bits)
->> ...
->> Remote 'g' packet reply is too long (expected 148 bytes, got 180 bytes):    \
->>    00000000000[...]0000
->>
->> With this patch: qemu-system-m68k -M none -cpu m68020 -s -S
->>
->> (gdb) tar rem :1234
->> Remote debugging using :1234
->> warning: No executable has been specified and target does not support
->> determining executable automatically.  Try using the "file" command.
->> 0x00000000 in ?? ()
->> (gdb) p $fp0
->> $1 = nan(0xffffffffffffffff)
->>
->> Signed-off-by: KONRAD Frederic <frederic.konrad@adacore.com>
->> ---
->>   configure             |  2 +-
->>   gdb-xml/m68k-core.xml | 29 +++++++++++++++++++++++++++++
->>   target/m68k/cpu.c     | 30 +++++++++++++++++++++++++-----
->>   3 files changed, 55 insertions(+), 6 deletions(-)
->>   create mode 100644 gdb-xml/m68k-core.xml
->>
->> diff --git a/configure b/configure
->> index 23b5e93..2b07b85 100755
->> --- a/configure
->> +++ b/configure
->> @@ -7825,7 +7825,7 @@ case "$target_name" in
->>     ;;
->>     m68k)
->>       bflt="yes"
->> -    gdb_xml_files="cf-core.xml cf-fp.xml m68k-fp.xml"
->> +    gdb_xml_files="cf-core.xml cf-fp.xml m68k-core.xml m68k-fp.xml"
->>       TARGET_SYSTBL_ABI=common
->>     ;;
->>     microblaze|microblazeel)
->> diff --git a/gdb-xml/m68k-core.xml b/gdb-xml/m68k-core.xml
->> new file mode 100644
->> index 0000000..5b092d2
->> --- /dev/null
->> +++ b/gdb-xml/m68k-core.xml
->> @@ -0,0 +1,29 @@
->> +<?xml version="1.0"?>
->> +<!-- Copyright (C) 2008 Free Software Foundation, Inc.
->> +
->> +     Copying and distribution of this file, with or without modification,
->> +     are permitted in any medium without royalty provided the copyright
->> +     notice and this notice are preserved.  -->
->> +<!DOCTYPE feature SYSTEM "gdb-target.dtd">
->> +<feature name="org.gnu.gdb.m68k.core">
->> +  <reg name="d0" bitsize="32"/>
->> +  <reg name="d1" bitsize="32"/>
->> +  <reg name="d2" bitsize="32"/>
->> +  <reg name="d3" bitsize="32"/>
->> +  <reg name="d4" bitsize="32"/>
->> +  <reg name="d5" bitsize="32"/>
->> +  <reg name="d6" bitsize="32"/>
->> +  <reg name="d7" bitsize="32"/>
->> +  <reg name="a0" bitsize="32" type="data_ptr"/>
->> +  <reg name="a1" bitsize="32" type="data_ptr"/>
->> +  <reg name="a2" bitsize="32" type="data_ptr"/>
->> +  <reg name="a3" bitsize="32" type="data_ptr"/>
->> +  <reg name="a4" bitsize="32" type="data_ptr"/>
->> +  <reg name="a5" bitsize="32" type="data_ptr"/>
->> +  <reg name="fp" bitsize="32" type="data_ptr"/>
->> +  <reg name="sp" bitsize="32" type="data_ptr"/>
->> +
->> +  <reg name="ps" bitsize="32"/>
->> +  <reg name="pc" bitsize="32" type="code_ptr"/>
->> +
->> +</feature>
->> diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
->> index 9445fcd..976e624 100644
->> --- a/target/m68k/cpu.c
->> +++ b/target/m68k/cpu.c
->> @@ -297,6 +297,21 @@ static void m68k_cpu_class_init(ObjectClass *c, void *data)
->>       dc->vmsd = &vmstate_m68k_cpu;
->>   }
->>   
->> +static void m68k_cpu_class_init_m68k_core(ObjectClass *c, void *data)
->> +{
->> +    CPUClass *cc = CPU_CLASS(c);
->> +
->> +    cc->gdb_core_xml_file = "m68k-core.xml";
->> +}
-> 
-> Could you also add a m68k_cpu_class_init_cf_core() and move the
-> cf-core.xml into it?
+Max Reitz (4):
+  block: Add bdrv_make_empty()
+  block: Use bdrv_make_empty() where possible
+  block: Add blk_make_empty()
+  block: Use blk_make_empty() after commits
 
-Yes I can do that:
-   - DEFINE_M68K_CPU_TYPE_M68K will use m68k_cpu_class_init_m68k_core.
-   - DEFINE_M68K_CPU_TYPE_CF will use m68k_cpu_class_init_cf_core.
-   - drop xxx_WITH_CLASS behind.
+ include/block/block.h          |  1 +
+ include/sysemu/block-backend.h |  2 ++
+ block.c                        | 23 +++++++++++++++++++++++
+ block/block-backend.c          |  5 +++++
+ block/commit.c                 |  8 +++++++-
+ block/replication.c            |  6 ++----
+ block/vvfat.c                  |  4 +---
+ qemu-img.c                     | 19 ++++++++++++++-----
+ 8 files changed, 55 insertions(+), 13 deletions(-)
 
-> 
->> +
->> +#define DEFINE_M68K_CPU_TYPE_WITH_CLASS(cpu_model, initfn, classinit)      \
->> +    {                                                                      \
->> +        .name = M68K_CPU_TYPE_NAME(cpu_model),                             \
->> +        .instance_init = initfn,                                           \
->> +        .parent = TYPE_M68K_CPU,                                           \
->> +        .class_init = classinit,                                           \
->> +    }
->> +
-> 
-> I would prefer to have two macros with no class parameter, something
-> like DEFINE_M68K_CPU_TYPE_M68K() and DEFINE_M68K_CPU_TYPE_CF().
-> 
->>   #define DEFINE_M68K_CPU_TYPE(cpu_model, initfn) \
->>       {                                           \
->>           .name = M68K_CPU_TYPE_NAME(cpu_model),  \
->> @@ -314,11 +329,16 @@ static const TypeInfo m68k_cpus_type_infos[] = {
->>           .class_size = sizeof(M68kCPUClass),
->>           .class_init = m68k_cpu_class_init,
->>       },
->> -    DEFINE_M68K_CPU_TYPE("m68000", m68000_cpu_initfn),
->> -    DEFINE_M68K_CPU_TYPE("m68020", m68020_cpu_initfn),
->> -    DEFINE_M68K_CPU_TYPE("m68030", m68030_cpu_initfn),
->> -    DEFINE_M68K_CPU_TYPE("m68040", m68040_cpu_initfn),
->> -    DEFINE_M68K_CPU_TYPE("m68060", m68060_cpu_initfn),
->> +    DEFINE_M68K_CPU_TYPE_WITH_CLASS("m68000", m68000_cpu_initfn,
->> +                                    m68k_cpu_class_init_m68k_core),
->> +    DEFINE_M68K_CPU_TYPE_WITH_CLASS("m68020", m68020_cpu_initfn,
->> +                                    m68k_cpu_class_init_m68k_core),
->> +    DEFINE_M68K_CPU_TYPE_WITH_CLASS("m68030", m68030_cpu_initfn,
->> +                                    m68k_cpu_class_init_m68k_core),
->> +    DEFINE_M68K_CPU_TYPE_WITH_CLASS("m68040", m68040_cpu_initfn,
->> +                                    m68k_cpu_class_init_m68k_core),
->> +    DEFINE_M68K_CPU_TYPE_WITH_CLASS("m68060", m68060_cpu_initfn,
->> +                                    m68k_cpu_class_init_m68k_core),
->>       DEFINE_M68K_CPU_TYPE("m5206", m5206_cpu_initfn),
->>       DEFINE_M68K_CPU_TYPE("m5208", m5208_cpu_initfn),
->>       DEFINE_M68K_CPU_TYPE("cfv4e", cfv4e_cpu_initfn),
+--=20
+2.25.4
 
-But what about the "any" which is out of context here?
-
-     DEFINE_M68K_CPU_TYPE("any", any_cpu_initfn),
-
-Should it be TYPE_M68K or TYPE_CF in which case which xml will it take?  I guess
-we can take TYPE_CF so it doesn't change from what is done today.
-
->>
-> 
-> I think we can also have something like
-> DEFINE_M68K_CPU_TYPE_M68K(m68000) or DEFINE_M68K_CPU_TYPE_CF(m5206) and
-> deduce initfn function name from the macro parameter.
-> 
-
-Why not.
-
-Fred
-
-> Thanks,
-> Laurent
-> 
 
