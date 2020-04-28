@@ -2,72 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 898B61BC6E2
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 19:37:06 +0200 (CEST)
-Received: from localhost ([::1]:41785 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C98D1BC64E
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 19:19:17 +0200 (CEST)
+Received: from localhost ([::1]:40808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTUAL-0005w1-GC
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 13:37:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34992)
+	id 1jTTt6-0003Mz-HB
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 13:19:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40132)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ani@anisinha.ca>) id 1jTTHd-0002yw-B9
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:40:34 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTTrq-0002Me-AU
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 13:17:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <ani@anisinha.ca>) id 1jTTHb-0005Qz-QA
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:40:32 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34844)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1jTTHb-0005Qm-6J
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 12:40:31 -0400
-Received: by mail-wr1-x442.google.com with SMTP id x18so25433661wrq.2
- for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 09:40:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jVxJi0CluGBRGq+VUWBUIrOApF26166T8t0yZujFMRQ=;
- b=ZVkoXl6GQL0GWm//kzBQU5OnX6FR29K+IVCwTzFSHirfemkI1EYR6CkWkIxzB3FuYI
- o9yH4mhGYpwEgH5esqQa8+noMV5VsjXdawMRCqtz+MgjzhRU8jS1dCVbxq9+gGRy92FM
- Tcb5NL6fncipcFK7Cfy0hIYAXQNMgbEVpHmkqbtm5IniMRN1ydlsCMzCilHPrqGwV3lB
- RM1Qy7zTyzsEJGKLhBgSHozL7gpIuzM76QctM7BU2uu9ksSSMqM052oIub32Va5QQgUn
- A8AtRN1/I5L2H0AatR30gq7h3UgVoYZBQM1jpDPO6NCXRY85GHeGdrFcESwWDZuQ1h00
- dGrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jVxJi0CluGBRGq+VUWBUIrOApF26166T8t0yZujFMRQ=;
- b=kxIYoHVMTSX3Z0aBGJNPrerEKjzAotfXRZgOmjTAuhXSbp/xVjSJUhE8cLcnFaiT0v
- 5J7Q9UlNtgkCembVD1SXIJP/q5W6Y62+vT11POI3oQyUK4/0zxty8I8SPPUS6Ubh09QW
- i8aIBX3yPgiU+apFHCLsa6uC7tN0frjNhan/8A47kp9cMxHEeOfXfwlXtfYO59UPjtQ2
- OIQW4lqzTV6akkbJBFrDoa+kqmqesq/p1S4vyS04xFTPjhDHyBkWir3Rvdf91CHRMmrN
- 3IExqGztatrZpZ96pNMvozaHTKLpUawwA3M+4tt2YwYTKGFfoiW4U3v2WXubeFJjilRS
- 75mQ==
-X-Gm-Message-State: AGi0PubRtXHiXl2ZaCD892tWjYuhPNM/Y4qBtFq7Gow3Vnf941UePYdp
- 8Vv+YRfVIYTwXviYV3dNdjoLXppDVIH5vRVbOx8kqw==
-X-Google-Smtp-Source: APiQypLrupyNKD3OLIlSK0JkxOR+NcrFsaX6dYOe98NKLWo+VD6qTQIKgsqXXfvUMmgrLVsuAWRXxRII9LRmGFLh8RE=
-X-Received: by 2002:a5d:6946:: with SMTP id r6mr31647659wrw.291.1588092029462; 
- Tue, 28 Apr 2020 09:40:29 -0700 (PDT)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTTrn-0003Mi-Jf
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 13:17:56 -0400
+Received: from mail-eopbgr70109.outbound.protection.outlook.com
+ ([40.107.7.109]:13807 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jTTN4-00031U-Jh; Tue, 28 Apr 2020 12:46:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=A9D184HSghhT/UjAhQOxN7miNY6gcTK87d7RZcQuly1BJVvsyxrN6DS8pBfXspqzGABtYR6gnEcFeBXrkzPZtscBmFlAANhS8oY1NVUmtKdujTn3z2h7MsqtHCjaJVE9bykBUxNjdA79OYiWEc0Ht/yg9xdRw3hCXRLpIdii5+vlvwWZaMSNyNodY/LMBvZ5DOcmF2JXsbXpIZ7TlCJ98/PsQ745S2TCHBGrCiB4O26Crer231wxK40mAVS1rD83dxq0E39fCoX3misHTBCcqUaOjM/zhAJEmV+pV7krubRMeijk5Z9M2Sv+jWWTU8COk+8uHVLmQBrxy7Y+kRWgng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d0437gjj3ZmbaZKKyc4oEvhLvIkPKZKiJp50E4EFuiw=;
+ b=PBxupc/wrPZGzV7wNnyDVvYoUTolCwO2jcg/8Vnk6+/hgtlem3anYosr62d7i+ot8Ec57l+VnO56EW4uJJu07z2XaRJdOQFnlDHsbHwi2o5z/3FJKcVJK+fGO8Ckp0T8GfsA2m+QqE1C3q3o2Il3oXwKaup5wlNzjF1E9tsMWWs2R38ltB4lN8KK1127hM3D9r1uG6YV+bqkNYWBS2izrY0YvyOENCfzHJo6W/q0cIpZ89+06WdS9R/r0M3vgBF/msWkYJGDJ8ES0IhNXEpPsdjMNxKP0DbSVwN3qzzWlicRw38/DhDWTYbRQgr5aS+wVFW/IN/2zvXCcnVQGylOJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d0437gjj3ZmbaZKKyc4oEvhLvIkPKZKiJp50E4EFuiw=;
+ b=Kv+FvW93oYE/7TdI+/3xRyx2CL/7+chzz74F+HXKo8pYXSd5Ga/I3otnRgxyYtZnWr+AsQiQdy03CITwQUYQIar0s1m+FAKn4CfNYfP63wAcUdV26M/IC0TTeNjMO9kvk3DC1KK9jw9nLwSyoVFzBs4ylZGDw0F3hU5+6zAjpZI=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5462.eurprd08.prod.outlook.com (2603:10a6:20b:10b::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Tue, 28 Apr
+ 2020 16:46:06 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.023; Tue, 28 Apr 2020
+ 16:46:06 +0000
+Subject: Re: backing chain & block status & filters
+To: Eric Blake <eblake@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
+References: <a1c1b734-34dc-f8d3-b6a0-43b136e237e2@virtuozzo.com>
+ <20e6c43f-c1a7-57db-58b9-3cb70f0e637f@redhat.com>
+ <20200428112853.GC5789@linux.fritz.box>
+ <2e3eab55-4a1d-f1a9-ab28-3f9399c57bfe@virtuozzo.com>
+ <25f6278c-466d-c663-73e0-ef2d256b326d@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200428194603777
+Message-ID: <04dd8365-7077-766a-6d42-1aac26abbdeb@virtuozzo.com>
+Date: Tue, 28 Apr 2020 19:46:03 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <25f6278c-466d-c663-73e0-ef2d256b326d@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM0P190CA0019.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:208:190::29) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <1588069012-211196-1-git-send-email-ani.sinha@nutanix.com>
- <20200428120426-mutt-send-email-mst@kernel.org>
- <67e481a5-de04-4e01-b9ec-70932194d69f@Spark>
- <20200428121837-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200428121837-mutt-send-email-mst@kernel.org>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 28 Apr 2020 22:10:18 +0530
-Message-ID: <CAARzgwwTo+r9xFge_XL_eu8-nsRFBFXEaQmTOhT1YHJifzfCJA@mail.gmail.com>
-Subject: Re: [PATCH V2] Add a new PIIX option to control PCI hot unplugging of
- devices on non-root buses
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000049821905a45c7d71"
-Received-SPF: none client-ip=2a00:1450:4864:20::442;
- envelope-from=ani@anisinha.ca; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::442
-X-Mailman-Approved-At: Tue, 28 Apr 2020 13:34:12 -0400
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.155) by
+ AM0P190CA0019.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::29) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2937.13 via Frontend Transport; Tue, 28 Apr 2020 16:46:06 +0000
+X-Tagtoolbar-Keys: D20200428194603777
+X-Originating-IP: [185.215.60.155]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3030ce00-4cae-4e77-0efb-08d7eb93a594
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5462:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5462031B5BF16F920CB2A077C1AC0@AM7PR08MB5462.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Forefront-PRVS: 0387D64A71
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(366004)(136003)(39840400004)(346002)(376002)(66946007)(66556008)(36756003)(66476007)(5660300002)(31686004)(6666004)(31696002)(966005)(86362001)(4326008)(16576012)(8676002)(2906002)(8936002)(478600001)(16526019)(2616005)(53546011)(186003)(26005)(6486002)(956004)(54906003)(316002)(110136005)(52116002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ilu8bYkeFeYmvoHYXrSMSlEonUpKV8TWGapcjNxyeWF1WC/AZ1c/S6hNY+3HtsUuXSPAyLenh6aCo0WsHsO1JCNN4ZguR2fAHNSEyobSQLU5NEb8sYXF8q9/sXnSpkrPIUhmuILHXdGuMQXFW4RD1waGeuUMjlTOVuLCXyfzqA18xw1yXSV0iQH4LExCeq61V02O8PXlhWqLcWRlCu7E0Yt0N8H3S9eepY6zusV6b+lOLygAPf6oJdqOCrz8ys5HUAsl0OeYvqLisNx3oXMe1tfhaGWvZAXLg4767gyDxu/shvSmOxQVy+YIirMtOpnyopqIcWiwr21IV6sEwXjDeQUHkreKNBlHdbMJ85XZMcBZAnIvRt8E4kDWvxx3boY4mi7e1LlX0LMZAPbHatn++UH3GB8GPCBn8yD11gnfaikXgW8QUm4aDMCTK/cNt1c3mExQYfRObJ3fLZFrwtEcbvxMIQu+3Xjg3dg/5+NJT/BsLejuIIXoq9Ag7bxUvUheCplRp6+eWKyPc8AY4GMdYg==
+X-MS-Exchange-AntiSpam-MessageData: zNKxs7rEfJ5rigWZl3XHq+n3J3SoYlIq7qtZx7XaICMi5arATYmM3WREXuFQmK3GUJDebJk4V7Yf6sf/SeQNuz9PWwh/nnREqI27RJGTCCg9XOzquvSQJWSpbEatElqNIW7ndRmKqLh6JK/iMAiOik5qHNS9ZEJIDE9CNhBj2Lj7IkySMmicy/0GJ/S9w3xo4QJC3clU44O/khALA90oa/bPOD/luMH+XgzCkpXMOhKPhMikcz1ybJnTLEKBf4LQPtUbEL0MyISSTVm0bhZN1wxpmr3qd7AJ0CHO/yeOhYi9u6gQHebKluRKHO6/OmqnMg8yuSzzR8qRPjjMxVOskKBpW+ZA45M2EaaMQGVG+HWm7MPNDJBfsHhpDNQJ/mHwIq9mi145AVILWU9dPzi3UxK/oYFAZnAC1WaOFbsi3k67shgnzdjlHbXCy3ktBhUwF5h5AcOFIsS3RLsQZTrhX6pPGP72o6UlSPQyTMOpZqFAopYR8aXRCw2avCq6MghgD7UdCM7Y7WjL2L/9pIpINxM8g0yd9fcnmjcYaM/N5Xs1brI11hhoJ25LVnIZukXxf+kq99MMCwJcZPEYSZdaNzSPa9W672MOG6cnYLZUnAHdCmTssElvFkJk48vKCLMVWEPXFII9n9MMuqtotWnqT1DwfR7EEc1Zij0MsJsFemMw+Gg4BBHyv5CQ09jhAxfbPtKr4VkN08oIgeYhL+jl8yU7F7wAEpN6UhNAm5jGcRY1WcnOoaEgTKpnXEMgOCnrFHWhPI3LMU/CjaNoY3t1DzwtlRuIQfYTezLQxkcRY9M=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3030ce00-4cae-4e77-0efb-08d7eb93a594
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2020 16:46:06.7933 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3//8EC8BUCPkmjAf1MWvjTPkHOWGiDniGa5ibLNzbImdFdA5po4kMuwJkjfR0eyH03mppZ/N7gcU5x8Nrkj93VLS7mc3xQTfhQjyi+pAUFo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5462
+Received-SPF: pass client-ip=40.107.7.109;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 12:46:07
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Received-From: 40.107.7.109
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,451 +117,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani.sinha@nutanix.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-devel@nongnu.org, Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000049821905a45c7d71
-Content-Type: text/plain; charset="UTF-8"
+28.04.2020 19:18, Eric Blake wrote:
+> On 4/28/20 10:13 AM, Vladimir Sementsov-Ogievskiy wrote:
+> 
+>>>> Hm.  I could imagine that there are formats that have non-zero holes
+>>>> (e.g. 0xff or just garbage).  It would be a bit wrong for them to return
+>>>> ZERO or DATA then.
+>>>>
+>>>> But OTOH we don’t care about such cases, do we?  We need to know whether
+>>>> ranges are zero, data, or unallocated.  If they aren’t zero, we only
+>>>> care about whether reading from it will return data from this layer or not.
+>>>>
+>>>> So I suppose that anything that doesn’t support backing files (or
+>>>> filtered children) should always return ZERO and/or DATA.
+>>>
+>>> I'm not sure I agree with the notion that everything should be
+>>> BDRV_BLOCK_ALLOCATED at the lowest layer. It's not what it means today
+>>> at least. If we want to change this, we will have to check all callers
+>>> of bdrv_is_allocated() and friends who might use this to find holes in
+>>> the file.
+>>
+>> Yes. Because they are doing incorrect (or at least undocumented and unreliable) thing.
+> 
+> Here's some previous mails discussing the same question about what block_status should actually mean.  At the time, I was so scared of the prospect of something breaking if I changed things that I ended up keeping status quo, so here we are revisiting the topic several years later, still asking the same questions.
+> 
+> https://lists.gnu.org/archive/html/qemu-devel/2017-12/msg00069.html
+> https://lists.gnu.org/archive/html/qemu-devel/2018-02/msg03757.html
+> 
+>>
+>>>
+>>> Basically, the way bdrv_is_allocated() works today is that we assume an
+>>> implicit zeroed backing layer even for block drivers that don't support
+>>> backing files.
+>>
+>> But read doesn't work so: it will read data from the bottom layer, not from
+>> this implicit zeroed backing layer. And it is inconsistent. On read data
+>> comes exactly from this layer, not from its implicit backing. So it should
+>> return BDRV_BLOCK_ALLOCATED, accordingly to its definition..
+>>
+>> Or, we should at least document current behavior:
+>>
+>>    BDRV_BLOCK_ALLOCATED: the content of the block is determined by this
+>>    layer rather than any backing, set by block. Attention: it may not be set
+>>    for drivers without backing support, still data is of course read from
+>>    this layer. Note, that for such drivers BDRV_BLOCK_ALLOCATED may mean
+>>    allocation on fs level, which occupies real space on disk.. So, for such drivers
+>>
+>>    ZERO | ALLOCATED means that, read as zero, data may be allocated on fs, or
+>>    (most probably) not,
+>>    don't look at ALLOCATED flag, as it is added by generic layer for another logic,
+>>    not related to fs-allocation.
+>>
+>>    0 means that, most probably, data doesn't occupy space on fs, zero-status is
+>>    unknown (most probably non-zero)
+>>
+> 
+> That may be right in describing the current situation, but again, needs a GOOD audit of what we are actually using it for, and whether it is what we really WANT to be using it for.  If we're going to audit/refactor the code, we might as well get semantics that are actually useful, rather than painfully contorted to documentation that happens to match our current contorted code.
+> 
 
-On Tue, Apr 28, 2020 at 9:51 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+Honest enough:) I'll try to make a table.
 
-> On Tue, Apr 28, 2020 at 09:39:16PM +0530, Ani Sinha wrote:
-> >
-> > Ani
-> > On Apr 28, 2020, 21:35 +0530, Michael S. Tsirkin <mst@redhat.com>,
-> wrote:
-> >
-> >     On Tue, Apr 28, 2020 at 10:16:52AM +0000, Ani Sinha wrote:
-> >
-> >         A new option "use_acpi_unplug" is introduced for PIIX which will
-> >         selectively only disable hot unplugging of both hot plugged and
-> >         cold plugged PCI devices on non-root PCI buses. This will prevent
-> >         hot unplugging of devices from Windows based guests from system
-> >         tray but will not prevent devices from being hot plugged into the
-> >         guest.
-> >
-> >         It has been tested on Windows guests.
-> >
-> >         Signed-off-by: Ani Sinha <ani.sinha@nutanix.com>
-> >
-> >
-> >     It's still a non starter until we find something similar for PCIE and
-> >     SHPC. Do guests check command status? Can some unplug commands fail?
-> >
-> >
-> > Ok I  give up! I thought we debated this on the other thread.
->
-> Sorry to hear that.
-> I'd rather you didn't, and worked on a solution that works for everyone.
+I don't think that reporting fs-allocation status is a bad thing. But I'm sure that it should be separated from backing-chain-allocated concept.
 
-
-That is extremely hard for one person to do, without inputs and ideas from
-the community. Satisfying the entire world requires lot of time and energy
-investment, not to mention a broad expertise in multiple technologies.
-
-
-> Pushing back on merging code is unfortunately the only mechanism
-> maintainers have to make sure features are complete and
-> orthogonal to each other, so I'm not sure I can help otherwise.
->
-> >
-> >
-> >
-> >
-> >         ---
-> >         hw/acpi/piix4.c | 3 +++
-> >         hw/i386/acpi-build.c | 40
-> ++++++++++++++++++++++++++--------------
-> >         2 files changed, 29 insertions(+), 14 deletions(-)
-> >
-> >         diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> >         index 964d6f5..59fa707 100644
-> >         --- a/hw/acpi/piix4.c
-> >         +++ b/hw/acpi/piix4.c
-> >         @@ -78,6 +78,7 @@ typedef struct PIIX4PMState {
-> >
-> >         AcpiPciHpState acpi_pci_hotplug;
-> >         bool use_acpi_pci_hotplug;
-> >         + bool use_acpi_unplug;
-> >
-> >         uint8_t disable_s3;
-> >         uint8_t disable_s4;
-> >         @@ -633,6 +634,8 @@ static Property piix4_pm_properties[] = {
-> >         DEFINE_PROP_UINT8(ACPI_PM_PROP_S4_VAL, PIIX4PMState, s4_val, 2),
-> >         DEFINE_PROP_BOOL("acpi-pci-hotplug-with-bridge-support",
-> PIIX4PMState,
-> >         use_acpi_pci_hotplug, true),
-> >         + DEFINE_PROP_BOOL("acpi-pci-hotunplug-enable-bridge",
-> PIIX4PMState,
-> >         + use_acpi_unplug, true),
-> >         DEFINE_PROP_BOOL("memory-hotplug-support", PIIX4PMState,
-> >         acpi_memory_hotplug.is_enabled, true),
-> >         DEFINE_PROP_END_OF_LIST(),
-> >         diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> >         index 23c77ee..71b3ac3 100644
-> >         --- a/hw/i386/acpi-build.c
-> >         +++ b/hw/i386/acpi-build.c
-> >         @@ -96,6 +96,7 @@ typedef struct AcpiPmInfo {
-> >         bool s3_disabled;
-> >         bool s4_disabled;
-> >         bool pcihp_bridge_en;
-> >         + bool pcihup_bridge_en;
-> >         uint8_t s4_val;
-> >         AcpiFadtData fadt;
-> >         uint16_t cpu_hp_io_base;
-> >         @@ -240,6 +241,9 @@ static void acpi_get_pm_info(MachineState
-> *machine,
-> >         AcpiPmInfo *pm)
-> >         pm->pcihp_bridge_en =
-> >         object_property_get_bool(obj,
-> "acpi-pci-hotplug-with-bridge-support",
-> >         NULL);
-> >         + pm->pcihup_bridge_en =
-> >         + object_property_get_bool(obj,
-> "acpi-pci-hotunplug-enable-bridge",
-> >         + NULL);
-> >         }
-> >
-> >         static void acpi_get_misc_info(AcpiMiscInfo *info)
-> >         @@ -451,7 +455,8 @@ static void
-> build_append_pcihp_notify_entry(Aml
-> >         *method, int slot)
-> >         }
-> >
-> >         static void build_append_pci_bus_devices(Aml *parent_scope,
-> PCIBus
-> >         *bus,
-> >         - bool pcihp_bridge_en)
-> >         + bool pcihp_bridge_en,
-> >         + bool pcihup_bridge_en)
-> >         {
-> >         Aml *dev, *notify_method = NULL, *method;
-> >         QObject *bsel;
-> >         @@ -479,11 +484,14 @@ static void
-> build_append_pci_bus_devices(Aml
-> >         *parent_scope, PCIBus *bus,
-> >         dev = aml_device("S%.02X", PCI_DEVFN(slot, 0));
-> >         aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
-> >         aml_append(dev, aml_name_decl("_ADR", aml_int(slot << 16)));
-> >         - method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
-> >         - aml_append(method,
-> >         - aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
-> >         - );
-> >         - aml_append(dev, method);
-> >         + if (pcihup_bridge_en || pci_bus_is_root(bus)) {
-> >         + method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
-> >         + aml_append(method,
-> >         + aml_call2("PCEJ", aml_name("BSEL"),
-> >         + aml_name("_SUN"))
-> >         + );
-> >         + aml_append(dev, method);
-> >         + }
-> >         aml_append(parent_scope, dev);
-> >
-> >         build_append_pcihp_notify_entry(notify_method, slot);
-> >         @@ -537,12 +545,14 @@ static void
-> build_append_pci_bus_devices(Aml
-> >         *parent_scope, PCIBus *bus,
-> >         /* add _SUN/_EJ0 to make slot hotpluggable */
-> >         aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
-> >
-> >         - method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
-> >         - aml_append(method,
-> >         - aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
-> >         - );
-> >         - aml_append(dev, method);
-> >         -
-> >         + if (pcihup_bridge_en || pci_bus_is_root(bus)) {
-> >         + method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
-> >         + aml_append(method,
-> >         + aml_call2("PCEJ", aml_name("BSEL"),
-> >         + aml_name("_SUN"))
-> >         + );
-> >         + aml_append(dev, method);
-> >         + }
-> >         if (bsel) {
-> >         build_append_pcihp_notify_entry(notify_method, slot);
-> >         }
-> >         @@ -553,7 +563,8 @@ static void build_append_pci_bus_devices(Aml
-> >         *parent_scope, PCIBus *bus,
-> >         */
-> >         PCIBus *sec_bus = pci_bridge_get_sec_bus(PCI_BRIDGE(pdev));
-> >
-> >         - build_append_pci_bus_devices(dev, sec_bus, pcihp_bridge_en);
-> >         + build_append_pci_bus_devices(dev, sec_bus, pcihp_bridge_en,
-> >         + pcihup_bridge_en);
-> >         }
-> >         /* slot descriptor has been composed, add it into parent context
-> */
-> >         aml_append(parent_scope, dev);
-> >         @@ -2196,7 +2207,8 @@ build_dsdt(GArray *table_data, BIOSLinker
-> >         *linker,
-> >         if (bus) {
-> >         Aml *scope = aml_scope("PCI0");
-> >         /* Scan all PCI buses. Generate tables to support hotplug. */
-> >         - build_append_pci_bus_devices(scope, bus, pm->pcihp_bridge_en);
-> >         + build_append_pci_bus_devices(scope, bus, pm->pcihp_bridge_en,
-> >         + pm->pcihup_bridge_en);
-> >
-> >         if (TPM_IS_TIS_ISA(tpm)) {
-> >         if (misc->tpm_version == TPM_VERSION_2_0) {
-> >         --
-> >         1.9.4
-> >
-> >
-> >
->
->
-
---00000000000049821905a45c7d71
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Tue, Apr 28, 2020 at 9:51 PM Michael S. Tsirkin &lt;<a h=
-ref=3D"mailto:mst@redhat.com">mst@redhat.com</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
- solid;padding-left:1ex">On Tue, Apr 28, 2020 at 09:39:16PM +0530, Ani Sinh=
-a wrote:<br>
-&gt; <br>
-&gt; Ani<br>
-&gt; On Apr 28, 2020, 21:35 +0530, Michael S. Tsirkin &lt;<a href=3D"mailto=
-:mst@redhat.com" target=3D"_blank">mst@redhat.com</a>&gt;, wrote:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0On Tue, Apr 28, 2020 at 10:16:52AM +0000, Ani Sinha=
- wrote:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0A new option &quot;use_acpi_unplug&qu=
-ot; is introduced for PIIX which will<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0selectively only disable hot unpluggi=
-ng of both hot plugged and<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cold plugged PCI devices on non-root =
-PCI buses. This will prevent<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0hot unplugging of devices from Window=
-s based guests from system<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tray but will not prevent devices fro=
-m being hot plugged into the<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0guest.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0It has been tested on Windows guests.=
-<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Signed-off-by: Ani Sinha &lt;<a href=
-=3D"mailto:ani.sinha@nutanix.com" target=3D"_blank">ani.sinha@nutanix.com</=
-a>&gt;<br>
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0It&#39;s still a non starter until we find somethin=
-g similar for PCIE and<br>
-&gt;=C2=A0 =C2=A0 =C2=A0SHPC. Do guests check command status? Can some unpl=
-ug commands fail? <br>
-&gt; <br>
-&gt; <br>
-&gt; Ok I=C2=A0 give up! I thought we debated this on the other thread.<br>
-<br>
-Sorry to hear that.<br>
-I&#39;d rather you didn&#39;t, and worked on a solution that works for ever=
-yone.</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">That is ext=
-remely hard for one person to do, without inputs and ideas from the communi=
-ty. Satisfying the entire world requires lot of time and energy investment,=
- not to mention a broad expertise in multiple technologies.=C2=A0</div><div=
- dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-Pushing back on merging code is unfortunately the only mechanism<br>
-maintainers have to make sure features are complete and<br>
-orthogonal to each other, so I&#39;m not sure I can help otherwise.<br>
-<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0---<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0hw/acpi/piix4.c | 3 +++<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0hw/i386/acpi-build.c | 40 +++++++++++=
-+++++++++++++++--------------<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A02 files changed, 29 insertions(+), 14=
- deletions(-)<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0diff --git a/hw/acpi/piix4.c b/hw/acp=
-i/piix4.c<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0index 964d6f5..59fa707 100644<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--- a/hw/acpi/piix4.c<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+++ b/hw/acpi/piix4.c<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0@@ -78,6 +78,7 @@ typedef struct PIIX=
-4PMState {<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AcpiPciHpState acpi_pci_hotplug;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bool use_acpi_pci_hotplug;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ bool use_acpi_unplug;<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint8_t disable_s3;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint8_t disable_s4;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0@@ -633,6 +634,8 @@ static Property p=
-iix4_pm_properties[] =3D {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_UINT8(ACPI_PM_PROP_S4_VAL=
-, PIIX4PMState, s4_val, 2),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;acpi-pci-hotpl=
-ug-with-bridge-support&quot;, PIIX4PMState,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0use_acpi_pci_hotplug, true),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ DEFINE_PROP_BOOL(&quot;acpi-pci-hot=
-unplug-enable-bridge&quot;, PIIX4PMState,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ use_acpi_unplug, true),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;memory-hotplug=
--support&quot;, PIIX4PMState,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0acpi_memory_hotplug.is_enabled, true)=
-,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_END_OF_LIST(),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0diff --git a/hw/i386/acpi-build.c b/h=
-w/i386/acpi-build.c<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0index 23c77ee..71b3ac3 100644<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--- a/hw/i386/acpi-build.c<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+++ b/hw/i386/acpi-build.c<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0@@ -96,6 +96,7 @@ typedef struct Acpi=
-PmInfo {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bool s3_disabled;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bool s4_disabled;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bool pcihp_bridge_en;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ bool pcihup_bridge_en;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint8_t s4_val;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AcpiFadtData fadt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint16_t cpu_hp_io_base;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0@@ -240,6 +241,9 @@ static void acpi_=
-get_pm_info(MachineState *machine,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AcpiPmInfo *pm)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pm-&gt;pcihp_bridge_en =3D<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0object_property_get_bool(obj, &quot;a=
-cpi-pci-hotplug-with-bridge-support&quot;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ pm-&gt;pcihup_bridge_en =3D<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ object_property_get_bool(obj, &quot=
-;acpi-pci-hotunplug-enable-bridge&quot;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ NULL);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0static void acpi_get_misc_info(AcpiMi=
-scInfo *info)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0@@ -451,7 +455,8 @@ static void build=
-_append_pcihp_notify_entry(Aml<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*method, int slot)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0static void build_append_pci_bus_devi=
-ces(Aml *parent_scope, PCIBus<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*bus,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- bool pcihp_bridge_en)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ bool pcihp_bridge_en,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ bool pcihup_bridge_en)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Aml *dev, *notify_method =3D NULL, *m=
-ethod;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0QObject *bsel;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0@@ -479,11 +484,14 @@ static void bui=
-ld_append_pci_bus_devices(Aml<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*parent_scope, PCIBus *bus,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev =3D aml_device(&quot;S%.02X&quot;=
-, PCI_DEVFN(slot, 0));<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0aml_append(dev, aml_name_decl(&quot;_=
-SUN&quot;, aml_int(slot)));<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0aml_append(dev, aml_name_decl(&quot;_=
-ADR&quot;, aml_int(slot &lt;&lt; 16)));<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- method =3D aml_method(&quot;_EJ0&qu=
-ot;, 1, AML_NOTSERIALIZED);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- aml_append(method,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- aml_call2(&quot;PCEJ&quot;, aml_nam=
-e(&quot;BSEL&quot;), aml_name(&quot;_SUN&quot;))<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- );<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- aml_append(dev, method);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ if (pcihup_bridge_en || pci_bus_is_=
-root(bus)) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ method =3D aml_method(&quot;_EJ0&qu=
-ot;, 1, AML_NOTSERIALIZED);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ aml_append(method,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ aml_call2(&quot;PCEJ&quot;, aml_nam=
-e(&quot;BSEL&quot;),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ aml_name(&quot;_SUN&quot;))<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ );<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ aml_append(dev, method);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0aml_append(parent_scope, dev);<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0build_append_pcihp_notify_entry(notif=
-y_method, slot);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0@@ -537,12 +545,14 @@ static void bui=
-ld_append_pci_bus_devices(Aml<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*parent_scope, PCIBus *bus,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* add _SUN/_EJ0 to make slot hotplug=
-gable */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0aml_append(dev, aml_name_decl(&quot;_=
-SUN&quot;, aml_int(slot)));<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- method =3D aml_method(&quot;_EJ0&qu=
-ot;, 1, AML_NOTSERIALIZED);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- aml_append(method,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- aml_call2(&quot;PCEJ&quot;, aml_nam=
-e(&quot;BSEL&quot;), aml_name(&quot;_SUN&quot;))<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- );<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- aml_append(dev, method);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ if (pcihup_bridge_en || pci_bus_is_=
-root(bus)) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ method =3D aml_method(&quot;_EJ0&qu=
-ot;, 1, AML_NOTSERIALIZED);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ aml_append(method,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ aml_call2(&quot;PCEJ&quot;, aml_nam=
-e(&quot;BSEL&quot;),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ aml_name(&quot;_SUN&quot;))<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ );<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ aml_append(dev, method);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (bsel) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0build_append_pcihp_notify_entry(notif=
-y_method, slot);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0@@ -553,7 +563,8 @@ static void build=
-_append_pci_bus_devices(Aml<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*parent_scope, PCIBus *bus,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0PCIBus *sec_bus =3D pci_bridge_get_se=
-c_bus(PCI_BRIDGE(pdev));<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- build_append_pci_bus_devices(dev, s=
-ec_bus, pcihp_bridge_en);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ build_append_pci_bus_devices(dev, s=
-ec_bus, pcihp_bridge_en,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ pcihup_bridge_en);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* slot descriptor has been composed,=
- add it into parent context */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0aml_append(parent_scope, dev);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0@@ -2196,7 +2207,8 @@ build_dsdt(GArr=
-ay *table_data, BIOSLinker<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*linker,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (bus) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Aml *scope =3D aml_scope(&quot;PCI0&q=
-uot;);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Scan all PCI buses. Generate table=
-s to support hotplug. */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- build_append_pci_bus_devices(scope,=
- bus, pm-&gt;pcihp_bridge_en);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ build_append_pci_bus_devices(scope,=
- bus, pm-&gt;pcihp_bridge_en,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ pm-&gt;pcihup_bridge_en);<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (TPM_IS_TIS_ISA(tpm)) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (misc-&gt;tpm_version =3D=3D TPM_V=
-ERSION_2_0) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A01.9.4<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-<br>
-</blockquote></div></div>
-
---00000000000049821905a45c7d71--
+-- 
+Best regards,
+Vladimir
 
