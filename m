@@ -2,67 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 301BB1BC174
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 16:37:04 +0200 (CEST)
-Received: from localhost ([::1]:33037 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 719D91BC1A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 16:44:41 +0200 (CEST)
+Received: from localhost ([::1]:33180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTRM5-0003KZ-D4
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 10:37:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45908)
+	id 1jTRTU-0007ll-0c
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 10:44:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46448)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <raphael.s.norwitz@gmail.com>) id 1jTRK7-00011I-HP
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:35:19 -0400
+ (envelope-from <no-reply@patchew.org>) id 1jTROc-0005Q4-Rv
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:43:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <raphael.s.norwitz@gmail.com>) id 1jTRJM-0002Gn-0y
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:34:59 -0400
-Received: from mail-il1-x129.google.com ([2607:f8b0:4864:20::129]:36584)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <raphael.s.norwitz@gmail.com>)
- id 1jTRJL-0002GI-Jh
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:34:11 -0400
-Received: by mail-il1-x129.google.com with SMTP id c16so20469975ilr.3
- for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 07:34:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=A5QpfsIfnDUpV4BKNNiW5exwok1jnhZN19ZVuCSbuEk=;
- b=lCbArhM7OLB5cGVo4frI21erOVOyjCd20/9jzouoA8CSp43qovBFQQtHP7jlsRe2eO
- z/OlMV4d78VTi6CvHFJP7MRfUYUqQb1IG6C80CYG+byyA2Zk/2wMHGrxxCJ4IyLpq99z
- Yw+Rt7W6oLP3S+IVQ+GnM9wWzyO3ukmrXmmEpiTcHB/sjC3XODu+1nVYH56D6SYI5FnS
- fJcbRK01F60iNKGYP/pual+Urwe9KXR6nE6RFx0NRRIiMfgQ4k6sihFtgc8vSDFo4ddJ
- yS5ilc8CJlFlUtGb3TrM3sb47KJQNcazPKx+k0HBFAFQbakaspAifLpHtrl8Ah7+QQaJ
- wuxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=A5QpfsIfnDUpV4BKNNiW5exwok1jnhZN19ZVuCSbuEk=;
- b=JwV2sH8H6uPx8v8xv6SDQhacbaL47Mmh8WXAouck6pne76GlOvTlUWTZSMjDpDhapn
- kKX8jOgUaYc2kYboSmWxini2PCX+dzxP4SEOnuJwKZgUPx5DkevRNceQrftzMUocSdMX
- 2SzTcR2F5gnwnwE6dWJzgoZIZfhCsJSfgyddojR71rAegLfmv4ADynt83O+fvMvdUbZz
- sTweHWS8sygk9JNQEiaY+QEAdaDDoYFwHSQlxps/GY5dSuEzPpykS0mXg1wZi0QnDbO+
- pR2H11h8NwdcdkRryzG9qIgj40ztAsikHc8I1kS7ZZT3D7YPYIVIYwP8qcMaQKufjr9s
- rUbw==
-X-Gm-Message-State: AGi0PubIqn57WcUf5kUBm2Y65e37zcmVNCRvuHAWfG4XEEu8lrCk6V+1
- iEMm0vO84/gJHpbHZwur48reFF3a2OUpMqMi7dU=
-X-Google-Smtp-Source: APiQypLOkxWMLT3bVsQVaanY3v0zOsLPZoL+fnYbnNo4gBvX5ATeglFExt+lNxcdueynKR04BCmwcmTk6oV5DAlA7kI=
-X-Received: by 2002:a92:d7c6:: with SMTP id g6mr26728094ilq.51.1588084449197; 
- Tue, 28 Apr 2020 07:34:09 -0700 (PDT)
+ (envelope-from <no-reply@patchew.org>) id 1jTRKf-0000Kr-0e
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:39:38 -0400
+Resent-Date: Tue, 28 Apr 2020 10:39:38 -0400
+Resent-Message-Id: <E1jTRKf-0000Kr-0e@eggs.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21782)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jTRKe-0008WN-86; Tue, 28 Apr 2020 10:35:32 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1588084493; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=lojSe8YMbdqCaqkvcGY1y511kuX7n6n6WnbIS5/0PYxSMPqtpmr3jyVy2JmxNLH5tpWmXs7AI0qRNSggZR3fnWqTuHnxngPfndej78baDR4ZcEORFuczM1rQd+2EV+PiSQ5sZGFdBZchcWiLwV9XOFLV41puh44EnBc3HbB0Mak=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1588084493;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=vnLqFN1UM+NnULpysaYDE7c4KKj/o4Wylu4C0io3U68=; 
+ b=G481YwwOss7M5R/ZPLoqDTrsYKi4W1DJqWuoBWm6EP2eNhiS88dTByoKITM5dmdhNV+A+8JtVB/0PbL/l+6ijeM4ghXo0izpuICZPcgmsuzcKwlBRjZz1qYNqS1n5Nk8M0N38a928wf+X/cDFSt86o5LrSRU/BT67gxAaCvTWmQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1588084488913399.7635687250114;
+ Tue, 28 Apr 2020 07:34:48 -0700 (PDT)
+In-Reply-To: <20200428133407.10657-1-dplotnikov@virtuozzo.com>
+Subject: Re: [PATCH v21 0/4] implement zstd cluster compression method
+Message-ID: <158808448742.30407.15546256250575826186@39012742ff91>
 MIME-Version: 1.0
-From: Raphael Norwitz <raphael.s.norwitz@gmail.com>
-Date: Tue, 28 Apr 2020 10:33:58 -0400
-Message-ID: <CAFubqFuvE9oz-N2c7Tw70sdvVDsfO7LmHD3bbRabLUpw6z5KWg@mail.gmail.com>
-Subject: Re: [Qemu-devel] Should memory hotplug work with vhost-user backends?
-To: stefanha@redhat.com, dgilbert@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::129;
- envelope-from=raphael.s.norwitz@gmail.com; helo=mail-il1-x129.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::129
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: dplotnikov@virtuozzo.com
+Date: Tue, 28 Apr 2020 07:34:48 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 09:39:01
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Received-From: 136.143.188.57
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,46 +64,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com,
+ den@openvz.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> > I've briefly looked through the libvhost-user code and the hot-add path
-> > looks safe enough to me (or at least no more broken than the regular
-> > vhost-user memory hot-add path).
-> >
-> > Can you elaborate a little more about why memory hot-add is unsafe with
-> > vhost-user device backends built with libvhost-user, as opposed to thos=
-e
-> > using the raw vhost-user protocol semantics?
->
-> The libvhost-user problem is that the library is mostly designed for a
-> single-threaded event loop that handles all virtqueue and vhost-user
-> protocol activity.
->
-> As soon as virtqueues are handled by dedicated threads there are race
-> conditions between the virtqueue threads and the vhost-user protocol
-> thread.
->
-> A virtqueue thread may or may not have an up-to-date view of memory
-> translation.  This can result in it missing memory that is currently
-> being hotplugged and continuing to access memory that has been removed.
->
-
-I agree - this is definitely seems like a problem if memory is being remove=
-d,
-but I don=E2=80=99t see how a virtqueue thread may have an outdated view of=
- memory
-in the hot-add case.
-
-libvhost-user now supports the REPLY_ACK feature, so that on hot-add qemu
-will wait for a response from the backend, confirming the new memory was
-successfully mapped in, before returning from vhost_user_set_mem_table(). I=
-f
-the new memory is mapped in by the backend before the ram is exposed to the
-guest, how could a virtqueue thread receive operations on missing memory?
-
-> Dave might have additional comments.
->
-> Stefan
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDQyODEzMzQwNy4xMDY1
+Ny0xLWRwbG90bmlrb3ZAdmlydHVvenpvLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0
+byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgpt
+b3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1BBVENIIHYyMSAwLzRdIGltcGxlbWVudCB6c3Rk
+IGNsdXN0ZXIgY29tcHJlc3Npb24gbWV0aG9kCk1lc3NhZ2UtaWQ6IDIwMjAwNDI4MTMzNDA3LjEw
+NjU3LTEtZHBsb3RuaWtvdkB2aXJ0dW96em8uY29tClR5cGU6IHNlcmllcwoKPT09IFRFU1QgU0NS
+SVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwg
+fHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZp
+ZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29y
+aXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4K
+PT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcK
+MTQ2ZmYyYSBpb3Rlc3RzOiAyODc6IGFkZCBxY293MiBjb21wcmVzc2lvbiB0eXBlIHRlc3QKNjk0
+YmJjNyBxY293MjogYWRkIHpzdGQgY2x1c3RlciBjb21wcmVzc2lvbgo5NTRhYzBkIHFjb3cyOiBy
+ZXdvcmsgdGhlIGNsdXN0ZXIgY29tcHJlc3Npb24gcm91dGluZQozMjk0YzIxIHFjb3cyOiBpbnRy
+b2R1Y2UgY29tcHJlc3Npb24gdHlwZSBmZWF0dXJlCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzQg
+Q2hlY2tpbmcgY29tbWl0IDMyOTRjMjFmOGE2NiAocWNvdzI6IGludHJvZHVjZSBjb21wcmVzc2lv
+biB0eXBlIGZlYXR1cmUpCjIvNCBDaGVja2luZyBjb21taXQgOTU0YWMwZDBhNTQxIChxY293Mjog
+cmV3b3JrIHRoZSBjbHVzdGVyIGNvbXByZXNzaW9uIHJvdXRpbmUpCjMvNCBDaGVja2luZyBjb21t
+aXQgNjk0YmJjN2JmMDBmIChxY293MjogYWRkIHpzdGQgY2x1c3RlciBjb21wcmVzc2lvbikKRVJS
+T1I6IGRvIG5vdCB1c2UgYXNzaWdubWVudCBpbiBpZiBjb25kaXRpb24KIzExNTogRklMRTogYmxv
+Y2svcWNvdzItdGhyZWFkcy5jOjIyNToKKyAgICBpZiAoKHpzdGRfcmV0ID0gWlNURF9jb21wcmVz
+c1N0cmVhbTIoY2N0eCwgJm91dHB1dCwgJmlucHV0LCBaU1REX2VfZW5kKSkpIHsKCnRvdGFsOiAx
+IGVycm9ycywgMCB3YXJuaW5ncywgMjM4IGxpbmVzIGNoZWNrZWQKClBhdGNoIDMvNCBoYXMgc3R5
+bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
+YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
+VENIIGluIE1BSU5UQUlORVJTLgoKNC80IENoZWNraW5nIGNvbW1pdCAxNDZmZjJhMDc4YTkgKGlv
+dGVzdHM6IDI4NzogYWRkIHFjb3cyIGNvbXByZXNzaW9uIHR5cGUgdGVzdCkKV0FSTklORzogYWRk
+ZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0
+aW5nPwojMjM6IApuZXcgZmlsZSBtb2RlIDEwMDc1NQoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5p
+bmdzLCAyMjggbGluZXMgY2hlY2tlZAoKUGF0Y2ggNC80IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
+YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
+ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
+UlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEK
+CgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIw
+MjAwNDI4MTMzNDA3LjEwNjU3LTEtZHBsb3RuaWtvdkB2aXJ0dW96em8uY29tL3Rlc3RpbmcuY2hl
+Y2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkg
+YnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRi
+YWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
