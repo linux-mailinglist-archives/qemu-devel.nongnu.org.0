@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B27071BCD76
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 22:31:04 +0200 (CEST)
-Received: from localhost ([::1]:50186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A6B01BCD7B
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 22:32:46 +0200 (CEST)
+Received: from localhost ([::1]:50328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTWsh-0002T1-Do
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 16:31:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40120)
+	id 1jTWuL-00058K-Bb
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 16:32:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40166)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTWr1-0000ES-3L
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:29:19 -0400
+ (envelope-from <eblake@redhat.com>) id 1jTWr5-0000Mt-4H
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:29:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTWr0-0005jy-1R
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:29:18 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28683
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1jTWr2-0005ow-QU
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:29:22 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45248
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jTWqz-0005cw-Km
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:29:17 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jTWr2-0005kl-CX
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 16:29:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588105756;
+ s=mimecast20190719; t=1588105758;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=niUh6pDjnt/ZhUFv5SnT005XAMcd72M7x1f4y+VuyHY=;
- b=jEMzc5eUXHwaXParlovmIIqqsovq2zkxjZzW9UL/vD/JNXaEeiyhoje2TwRl4djMTREYWg
- XGrHZ5Jh8MVIYpGGG/3t4vf9TqvW3vOVtqaqjoCr9U9IfaVi+L4wd81wYErxjPAEET0GXN
- uMsUtUaw+QZBWA4QUHP7CNO0mOavTIE=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=o2JUTzEydDfOORdLh9vv53eEmG1/bHkJajTUdAvdkC8=;
+ b=ZWE1SEj4ahMcpjoQxkv8CkEvWHBFccQfObWqEpCzboN6ZFwexERq7VhnWac0yISpEg0mdF
+ XCu4T71ZF8+K/4lxxD6yxC5kns8Wk0yzPEwB6GId5ux/YKHxj/slgkL7xmR3RVYRpofS7P
+ JhBFKco0ZE9/O/LOd1xBVMkasYk/yyY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-115-lth9VeOEMvGfosIjjxvv-g-1; Tue, 28 Apr 2020 16:29:07 -0400
-X-MC-Unique: lth9VeOEMvGfosIjjxvv-g-1
+ us-mta-152-KHbDp6KWMxOLg7eVKY20QQ-1; Tue, 28 Apr 2020 16:29:15 -0400
+X-MC-Unique: KHbDp6KWMxOLg7eVKY20QQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE7EC53;
- Tue, 28 Apr 2020 20:29:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DD4E801504;
+ Tue, 28 Apr 2020 20:29:13 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1BEE65C1D4;
- Tue, 28 Apr 2020 20:29:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 083EC5C1D4;
+ Tue, 28 Apr 2020 20:29:10 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/9] More truncate improvements
-Date: Tue, 28 Apr 2020 15:28:56 -0500
-Message-Id: <20200428202905.770727-1-eblake@redhat.com>
+Subject: [PATCH 1/9] gluster: Drop useless has_zero_init callback
+Date: Tue, 28 Apr 2020 15:28:57 -0500
+Message-Id: <20200428202905.770727-2-eblake@redhat.com>
+In-Reply-To: <20200428202905.770727-1-eblake@redhat.com>
+References: <20200428202905.770727-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 04:15:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 02:06:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,53 +73,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org
+Cc: kwolf@redhat.com, "open list:GLUSTER" <integration@gluster.org>,
+ Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based-on: <20200424125448.63318-1-kwolf@redhat.com>
-[PATCH v7 00/10] block: Fix resize (extending) of short overlays
+block.c already defaults to 0 if we don't provide a callback; there's
+no need to write a callback that always fails.
 
-After reviewing Kevin's work, I questioned if we had a redundancy with
-bdrv_has_zero_init_truncate.  It turns out we do, and this is the result.
+Signed-off-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
+---
+ block/gluster.c | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-Patch 1 has been previously posted [1] and reviewed, the rest is new.
-I did not address Neils' comment that modern gluster also always
-0-initializes [2], as I am not set up to verify it (my changes to the
-other drivers are semantic no-ops, so I don't feel as bad about
-posting them with less rigourous testing).
+diff --git a/block/gluster.c b/block/gluster.c
+index d06df900f692..31233cac696a 100644
+--- a/block/gluster.c
++++ b/block/gluster.c
+@@ -1359,12 +1359,6 @@ static int64_t qemu_gluster_allocated_file_size(Bloc=
+kDriverState *bs)
+     }
+ }
 
-[1] https://lists.gnu.org/archive/html/qemu-devel/2020-01/msg08070.html
-[2] https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg04266.html
-
-Eric Blake (9):
-  gluster: Drop useless has_zero_init callback
-  file-win32: Support BDRV_REQ_ZERO_WRITE for truncate
-  nfs: Support BDRV_REQ_ZERO_WRITE for truncate
-  rbd: Support BDRV_REQ_ZERO_WRITE for truncate
-  sheepdog: Support BDRV_REQ_ZERO_WRITE for truncate
-  ssh: Support BDRV_REQ_ZERO_WRITE for truncate
-  parallels: Rework truncation logic
-  vhdx: Rework truncation logic
-  block: Drop unused .bdrv_has_zero_init_truncate
-
- include/block/block.h     |  1 -
- include/block/block_int.h |  7 ---
- block.c                   | 21 ---------
- block/file-posix.c        |  1 -
- block/file-win32.c        |  4 +-
- block/gluster.c           | 14 ------
- block/nfs.c               |  4 +-
- block/parallels.c         | 23 ++++++----
- block/qcow2.c             |  1 -
- block/qed.c               |  1 -
- block/raw-format.c        |  6 ---
- block/rbd.c               |  4 +-
- block/sheepdog.c          |  4 +-
- block/ssh.c               |  5 ++-
- block/vhdx.c              | 89 ++++++++++++++++++++++-----------------
- 15 files changed, 80 insertions(+), 105 deletions(-)
-
+-static int qemu_gluster_has_zero_init(BlockDriverState *bs)
+-{
+-    /* GlusterFS volume could be backed by a block device */
+-    return 0;
+-}
+-
+ /*
+  * Find allocation range in @bs around offset @start.
+  * May change underlying file descriptor's file offset.
+@@ -1569,8 +1563,6 @@ static BlockDriver bdrv_gluster =3D {
+     .bdrv_co_readv                =3D qemu_gluster_co_readv,
+     .bdrv_co_writev               =3D qemu_gluster_co_writev,
+     .bdrv_co_flush_to_disk        =3D qemu_gluster_co_flush_to_disk,
+-    .bdrv_has_zero_init           =3D qemu_gluster_has_zero_init,
+-    .bdrv_has_zero_init_truncate  =3D qemu_gluster_has_zero_init,
+ #ifdef CONFIG_GLUSTERFS_DISCARD
+     .bdrv_co_pdiscard             =3D qemu_gluster_co_pdiscard,
+ #endif
+@@ -1601,8 +1593,6 @@ static BlockDriver bdrv_gluster_tcp =3D {
+     .bdrv_co_readv                =3D qemu_gluster_co_readv,
+     .bdrv_co_writev               =3D qemu_gluster_co_writev,
+     .bdrv_co_flush_to_disk        =3D qemu_gluster_co_flush_to_disk,
+-    .bdrv_has_zero_init           =3D qemu_gluster_has_zero_init,
+-    .bdrv_has_zero_init_truncate  =3D qemu_gluster_has_zero_init,
+ #ifdef CONFIG_GLUSTERFS_DISCARD
+     .bdrv_co_pdiscard             =3D qemu_gluster_co_pdiscard,
+ #endif
+@@ -1633,8 +1623,6 @@ static BlockDriver bdrv_gluster_unix =3D {
+     .bdrv_co_readv                =3D qemu_gluster_co_readv,
+     .bdrv_co_writev               =3D qemu_gluster_co_writev,
+     .bdrv_co_flush_to_disk        =3D qemu_gluster_co_flush_to_disk,
+-    .bdrv_has_zero_init           =3D qemu_gluster_has_zero_init,
+-    .bdrv_has_zero_init_truncate  =3D qemu_gluster_has_zero_init,
+ #ifdef CONFIG_GLUSTERFS_DISCARD
+     .bdrv_co_pdiscard             =3D qemu_gluster_co_pdiscard,
+ #endif
+@@ -1671,8 +1659,6 @@ static BlockDriver bdrv_gluster_rdma =3D {
+     .bdrv_co_readv                =3D qemu_gluster_co_readv,
+     .bdrv_co_writev               =3D qemu_gluster_co_writev,
+     .bdrv_co_flush_to_disk        =3D qemu_gluster_co_flush_to_disk,
+-    .bdrv_has_zero_init           =3D qemu_gluster_has_zero_init,
+-    .bdrv_has_zero_init_truncate  =3D qemu_gluster_has_zero_init,
+ #ifdef CONFIG_GLUSTERFS_DISCARD
+     .bdrv_co_pdiscard             =3D qemu_gluster_co_pdiscard,
+ #endif
 --=20
 2.26.2
 
