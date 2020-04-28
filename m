@@ -2,104 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A1EF1BBA2F
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 11:45:44 +0200 (CEST)
-Received: from localhost ([::1]:50368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B331BB9DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 11:29:49 +0200 (CEST)
+Received: from localhost ([::1]:49082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTMoB-0007oT-2K
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 05:45:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33554)
+	id 1jTMYm-0005zf-F5
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 05:29:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60792)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jTMXG-0005DO-LP
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:30:04 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jTMSt-0006xg-IK
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:24:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jTMU6-0005wO-WC
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:28:13 -0400
-Received: from mail-vi1eur05on2133.outbound.protection.outlook.com
- ([40.107.21.133]:40320 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jTM1o-0008Vv-02; Tue, 28 Apr 2020 04:55:44 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bWIDCSDFj2RAjtHtv2B8vXC81IE+vwYb52kI6Q9+TVngDZRg/amndpApsGJKhQYybwXhuWhoF+SdAyTPIwuWOcAuj34sAbU5NXhjDY6C7DQtI7MYJLTi+LG3yrD0IohCoazmpf+/sKeTv5SPZI6CVj7DYh9cDq+EDjcgVYE3oZOVGK0F3ZB4uhnjsuv7fMAtaz5KCjJ7PbIacFFqjamudv0KCHn3sEtgnYx4j2TcMNdef2SIQDkunDoQyC095IWTUyL7fjOpLZMAxdf5iYuPnw+QV/5j/ZEONNGFYKXAGkN8AfVoOhbSUyT1IJGXu6os4WPxjvICnhRY/gSMgROChg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RXROdLAE+ybEt/RjCV1QzqpD37vS3gYZWuvhowhXe5s=;
- b=Zo6PbU4VAiu7xB0LZ0iFFJ6YEiKqFNt9nfprGyBPdIJuIAF5e8CsDQJEPJNiXMdobF0Rk27FnnxniMSC+8EYMyfCDMSa6Ip83AMg6g1cdEiuEAzkM8ulTG8FZmzeymxpgM8TfbUDoeeKkPCgaC0qCfObvEuKwH9CIRtjpsE/A/bthugntEOxLoHrWRfuzLJz65GjoO+IY8DTwIdi8hPrBCy98DC6EPmNjXdz390reglxOMU742OPFkFSyYhCQsnGwY1FKzphUK+Y4CzWd2MEgTg7VYAdn4TNSVdGoG/OErg05WYHh2u0NNWMYMLvGD5Es+copMdojDCAzUZT/i1lyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RXROdLAE+ybEt/RjCV1QzqpD37vS3gYZWuvhowhXe5s=;
- b=FUYOdJ/7s1UKDNqQG87NINNUCpF7pleg5cpzD9ebRxM3fsEQKr4erjw4EvuOvPxyeWYFDYaKATeDGLpq3MJtZqOpsqWQ3JjaqJbZXHh1jgQCap9M7Bj/P4EgOeokSIfLAeeaNp0IyWq//M1lAVuCTGnW1fCrOGmBmMnKbm5gIkQ=
-Authentication-Results: virtuozzo.com; dkim=none (message not signed)
- header.d=none;virtuozzo.com; dmarc=none action=none
- header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5304.eurprd08.prod.outlook.com (2603:10a6:20b:10e::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Tue, 28 Apr
- 2020 08:55:37 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.023; Tue, 28 Apr 2020
- 08:55:37 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: backing chain & block status & filters
-To: qemu block <qemu-block@nongnu.org>
-X-Tagtoolbar-Keys: D20200428115535240
-Message-ID: <a1c1b734-34dc-f8d3-b6a0-43b136e237e2@virtuozzo.com>
-Date: Tue, 28 Apr 2020 11:55:35 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM3PR04CA0128.eurprd04.prod.outlook.com (2603:10a6:207::12)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (envelope-from <peter.maydell@linaro.org>) id 1jTMS9-0003Eg-8V
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:23:43 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:44775)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jTM4d-0003ir-OH
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 04:58:39 -0400
+Received: by mail-ot1-x343.google.com with SMTP id j4so31405335otr.11
+ for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 01:58:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=l2hpbDrVJDciMglrrU6QNbB6BSWSRP9sNw8h+DZwl/E=;
+ b=EDLQaW9E3CXg8He4UmN+mR0fEW7PkVCjsogjpBqyWB2YHXKapUzAqLVnU7d2Qr1vAt
+ ljhC6vEWo4GcdS2pKiRUyJRmhXk7m9zGQ3C15wRycRhjNFTwmSi0bnJnhFSZKHVNxtKG
+ EAMFrmSiAQkxGOjWqIlzA3Yu7v82FM9lhKKu4EszxgsQtM+kG8dLouG9omH0EKjBOv5m
+ fSuA8ARjSnuClyTLewRIms/YsPHpwEpos2XkBYZFM4j5v1gjObMC7cQGsAzVATsFLM6E
+ nr5A0jn5r8ZO63XZPhxrZtPZYCufHrqMDV+7Qc7agQIq0B0ySdpebP1Va8M0/t7vvpog
+ 7ngg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=l2hpbDrVJDciMglrrU6QNbB6BSWSRP9sNw8h+DZwl/E=;
+ b=j8GpzCEhd3kbsKjphNvNHyttuioXmg0LEXmMCDnCIyy5dlA9erVHc2EcTAc6ovQSpG
+ XafUuo7igsW7k/O/JwiG5cjJvH9MsOeiqHg6+AE0mZR956/2u8I7Bp8kolh+GsbTmfFE
+ X9Ou1/JAqwOqqopQ3V/cWyFkCCQI5AdpBGobO1l8WLMdao0oLIB7Vca4ypIkMeAx6iUt
+ 9zaDQUjDq9HyWtHaOSGEskqVemEH5+DqcLYcf0JxrYEOgQNJTfYSwFiPMDOxKhhcfS9f
+ U+/uyh+f4jPQIiu4eMd3ez8uxKHaGB3+Epju4fBv8z+TnVhqTf2OMEWXPev+o5hSyrqm
+ B2cA==
+X-Gm-Message-State: AGi0Pub2ksy651zMHNAk+a9yMdRemhDu4KhLHZvc8JpaO7CKFnv4WWIk
+ Phgnkp7dsWJEKNRVIKV/GXRd2tV9YbamhnIHGccPlg==
+X-Google-Smtp-Source: APiQypIrD3QflSxSxLsW4iAYUu9Iyq5O44bhWnqv0s1vyoi6VmbguW78rAQZAx4jY7BePqINbh4ZmrXF2AJEaNtw3Rs=
+X-Received: by 2002:aca:897:: with SMTP id 145mr209020oii.48.1588064317665;
+ Tue, 28 Apr 2020 01:58:37 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.155) by
- AM3PR04CA0128.eurprd04.prod.outlook.com (2603:10a6:207::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2937.13 via Frontend Transport; Tue, 28 Apr 2020 08:55:36 +0000
-X-Tagtoolbar-Keys: D20200428115535240
-X-Originating-IP: [185.215.60.155]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 71d2267b-cb63-4394-b2c8-08d7eb51eb1b
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5304:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5304916873197B4D41F2BE0EC1AC0@AM7PR08MB5304.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-Forefront-PRVS: 0387D64A71
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(376002)(346002)(136003)(366004)(396003)(39850400004)(66946007)(5660300002)(66476007)(66556008)(31686004)(36756003)(86362001)(31696002)(52116002)(478600001)(16526019)(4326008)(81156014)(2906002)(6916009)(8936002)(8676002)(107886003)(26005)(54906003)(956004)(2616005)(186003)(6486002)(316002)(16576012);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cCxlCjSOdHdUpfo3+FmLVhQpyf53t2MTE8Qe6rIFXK4yUSvY0bAcvAwYQKMLB0UySFJrWLRKfrb2B/6/kIVw4efUTh/kbvE0B1LzIjMnIpBa0t4u9gS1/6YczPVzEwshKX1ErEV9A9iXbHZbBIca5vB2VaclWC45xVJpE9SsNuKx9WzIxK6GBtDh9AFzr5vzlIKgsaXXWgixigFSrv3fQZMuRtDFE9CvC5HFPzhMu1G9wiewcaUEX6imbCb5eSaiLLQwYqRT9fWdbWOx1vJRsRT9HKqpbNh8JetsPtfRWC9CYzFuRckNzDgX5U8BBlTVWR7EEBTYjA6H4uURbB7ZZPog7ckg6vhnVGQImbQJWz1HazQkkDOQk6Bd5vq2IHXKsdE+ZPMfA/KQ2GpV9nX7Kj77LMl3nUsR36jECa8q31sMc6p4S1MOMvhkikz8QDJh
-X-MS-Exchange-AntiSpam-MessageData: Ko3ga3dAM+nxVcBVnPS1puY96CWPZYNW9/omOtbUoq7mXpuWhTuOW5dF6O9mS9Goa4CRiH74qutnndeh8gjC3Gf80d0UctMpLKcGBmwGBdoIf1sr/KltilQOeBPTT6BzsWNurYK3otYfhMMrGGg11QqYXveupNPdQHPNOL8MqqlK4bRwJdzgsSij9SMCyMiZJlTnIRbs5YQFHgCImNsT17+9ZvO5ZfMUIMmJmrBA6BgaMxYCw91/ghyKDDQ6IoxBiWPscJQdML+UtiGZsQLt9q8sNBqawocpsIeIqp+gHA6oGVRzMVdj9z9B4uI20V4Ln5qsHx7srL+NvGnzUrGDZHV/tXMPhnVJvsR1sPB1qTpJtPfUoOXY0g+3BmEvz6/36MVmb0lLJSftj/7+51hlzGzSyz5OOVEwz2fkLQbtrvwtSiCnUf7l7XxWNUIb9VqKq1+j1WEoeU+oHdOUgHUgOQvIyRJgfaxdqCyWM3Udcdr+4nmSsk3uNn9tZz8HYYYIrUPhgjCVqN4Qpf2V2Ot91CrIw1tKkqS/Yqr348191wRSX5Fmc2zzjJiZegGpvtdUbsUF9Nk4a7M4K8+xdigo7YvdJbK0IRul+HVh1EtQuG1alrIukH3qU+d5j6Fiai6544yKU5hvDq5O4mcF7mN0z41dwLc3ciOGveanw4U7RT/auDdu2K/Aqw567zInWZyi8GByDt21zZrY4GKvsplauhYEOadhi8a+cZQR5RiURn0y9U27xpyXIw1dRgTgSmFy/BWtfRa3psPZZQMqNLFcXG1eZinouaASiJfx4PGRNkY=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 71d2267b-cb63-4394-b2c8-08d7eb51eb1b
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2020 08:55:37.4554 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: olZ5GpFW/ltvwvAQMwCcriGCy2hFf9N0Fa4TgjcVRKIdriuZizN7VfA85MH4q9EpxdJTpB6DdXrsg1fUhijQ3ZYL9gsk0wgNmJmQAGgGO8A=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5304
-Received-SPF: pass client-ip=40.107.21.133;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 04:55:40
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Received-From: 40.107.21.133
+References: <20200428062847.7764-1-gorbak25@gmail.com>
+ <20200428062847.7764-2-gorbak25@gmail.com>
+In-Reply-To: <20200428062847.7764-2-gorbak25@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 28 Apr 2020 09:58:26 +0100
+Message-ID: <CAFEAcA-Ze1phEVK7DoFEtHY_qzyDd1tnakYRqwURD0YWMEGvEQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] Fix undefined behaviour
+To: Grzegorz Uriasz <gorbak25@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,70 +75,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: artur@puzio.waw.pl, Stefano Stabellini <sstabellini@kernel.org>,
+ Paul Durrant <paul@xen.org>, jakub@bartmin.ski,
+ marmarek@invisiblethingslab.com, QEMU Developers <qemu-devel@nongnu.org>,
+ j.nowak26@student.uw.edu.pl, Anthony Perard <anthony.perard@citrix.com>,
+ "open list:X86" <xen-devel@lists.xenproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi!
+On Tue, 28 Apr 2020 at 08:50, Grzegorz Uriasz <gorbak25@gmail.com> wrote:
+>
+> Signed-off-by: Grzegorz Uriasz <gorbak25@gmail.com>
+> ---
+>  hw/xen/xen_pt_load_rom.c | 11 +++++------
+>  1 file changed, 5 insertions(+), 6 deletions(-)
 
-I wanted to resend my "[PATCH 0/4] fix & merge block_status_above and is_allocated_above", and returned to all the inconsistencies about block-status. I keep in mind Max's series about child-access functions, and Andrey's work about using COR filter in block-stream, which depends on Max's series (because, without them COR fitler with file child breaks backing chains).. And, it seems that it's better to discuss some questions before resending.
+The subject doesn't match the patch contents and there is
+no long-form part of the commit message explaining why...
 
-First, problems about block-status:
-
-1. We consider ALLOCATED = ZERO | DATA, and documented as follows:
-
-    * BDRV_BLOCK_DATA: allocation for data at offset is tied to this layer
-    * BDRV_BLOCK_ZERO: offset reads as zero
-    * BDRV_BLOCK_OFFSET_VALID: an associated offset exists for accessing raw data
-    * BDRV_BLOCK_ALLOCATED: the content of the block is determined by this
-    *                       layer rather than any backing, set by block layer
-
-This actually means, that we should always have BDRV_BLOCK_ALLOCATED for formats which doesn't support backing. So, all such format drivers must return ZERO or DATA (or both?), yes?. Seems file-posix does so, but, for example, iscsi - doesn't.
-
-2. ZERO. The meaning differs a bit for generic block_status and for drivers.. I think, we at least should document it like this:
-
-BDRV_BLOCK_DATA: allocation for data at offset is tied to this layer
-BDRV_BLOCK_ZERO: if driver return ZERO, than the region is allocated at this layer and read as ZERO. If generic block_status returns ZERO, it only mean that it reads as zero, but the region may be allocated on underlying level.
-
-3. bdi.unallocated_blocks_are_zero
-
-I think it's very bad, that we have formats, that supports backing, but doesn't report bdi.unallocated_blocks_are_zero as true. It means that UNALLOCATED region reads as zero if we have short backing file, and not as zero if we remove this short backing file. I can live with it but this is weird logic. These bad drivers are qcow (not qcow2), parallels and vmdk. I hope, they actually just forget to set unallocated_blocks_are_zero to true.
-
-Next. But what about drivers which doesn't support backing? As we considered above, they should always return ZERO or DATA, as everything is allocated in this backing-chain level (last level, of course).. So again unallocated_blocks_are_zero is meaningless. So, I think, that driver which doesn't support backings, should be fixed to return always ZERO or DATA, than we don't need this unallocated_blocks_are_zero at all.
-
-3. Short backing files in allocated_above: we must consider space after EOF as ALLOCATED, if short backing file is inside requested backing-chain part, as it produced exactly because of this short file (and we never go to backing). (current realization of allocated_above is buggy, see my outdated series "[PATCH 0/4] fix & merge block_status_above and is_allocated_above")
-
-4. Long ago we've discussed problems about BDRV_BLOCK_RAW, when we have a backing chain of non-backing child.. I just remember that we didn't reach the consensus.
-
-5. Filters.. OK we have two functions for them: bdrv_co_block_status_from_file and bdrv_co_block_status_from_backing. I think both are wrong:
-
-bdrv_co_block_status_from_file leads to problem [4], when we can report UNALLOCATED, which refers not to the current backing chain, but to sub backing chain of file child, which is inconsistent with block_status_above and is_allocated_above iteration.
-
-bdrv_co_block_status_from_backing is also is not consistent with block_status_above iteration.. At least at leads to querying the same node twice.
-
-=================
-
-So, about filters and backing chains. Keeping (OK, just, trying to keep) all these things in mind, I think that it's better to keep backing chains exactly *backing* chains, so that "backing" child is the only "not own" child of the node. So, its close to current behavior and we don't need child-access functions. Then how filters should work:
-
-Filter with backing child, should always return UNALLOCATED (i.e. no DATA, no ZERO), it is honest: everything is on the other level of backing chain.
-
-Filter with file child should always return BDRV_BLOCK_DATA | BDRV_BLOCK_RECURSE, to show that:
-1. everything is allocated in *this* level of backing chain
-2. filter is too lazy to dig in it's file child (and, maybe the whole sub-tree of it) and asks generic layer to do it by itself, if it wants zeroes.
-
-Then, of course, if we want some filter to be inside backing chain, it should have not "file" child but "backing". For this, we may support in current public filter both variants: backing or file, as user prefer. I.e., filter is opened either with file option or with backing and operate correspondingly. And newer filters (like backup-top) may support only backing variants.
-
-=================
-
-So, I propose to complicate a bit code of old file-based filters, to support backing child (which may be done on demand, when needed. For example, Virtuozzo now need only COR filter (and only to satisfy iotests, actually)), and keep generic code about block-status and handling backing-chains simpler (and simpler to document).
-
-Another benefit is that block-graph is already visible through QAPI, and it would be good to keep backing link meaning, not adding the thing that for filters "file" link behaves as "backing".
-
-So again, I'm for limiting backing-behavior to bs->backing child only (as it currently behaves). What do you think?
-
--- 
-Best regards,
-Vladimir
+thanks
+-- PMM
 
