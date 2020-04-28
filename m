@@ -2,108 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91BA81BB885
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 10:11:20 +0200 (CEST)
-Received: from localhost ([::1]:45870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5897A1BB80A
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 09:50:32 +0200 (CEST)
+Received: from localhost ([::1]:45060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTLKp-0007Zz-FU
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 04:11:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46380)
+	id 1jTL0g-0006LN-Cn
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 03:50:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35856)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jTLEs-0001fY-AP
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 04:08:26 -0400
+ (envelope-from <gorbak25@gmail.com>) id 1jTJpG-000062-Fz
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 02:36:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jTL4a-0003Ul-11
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 03:57:38 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51742)
+ (envelope-from <gorbak25@gmail.com>) id 1jTJkc-000808-PZ
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 02:34:38 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40216)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jTJa2-0000kc-Vh
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 02:18:55 -0400
-Received: by mail-wm1-x344.google.com with SMTP id x4so1350224wmj.1
- for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 23:18:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <gorbak25@gmail.com>)
+ id 1jTJkc-0007zt-9X
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 02:29:50 -0400
+Received: by mail-wr1-x443.google.com with SMTP id k13so23235276wrw.7
+ for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 23:29:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=X20AhwnLzUb4+o6kwSMODjI+L6Tyhic8AwN1+VsLtIk=;
- b=rY55x3p5gmP9frgp5Y9KCGrTCRMszyoDtxs9EwzXe07b90Q4Z99T9uG3cCVCaF68rH
- N4yDzogcttRNQH6rw+GRzQMwUTmAlIwwPClufvxqdAxsh/qlwtQ6lcGc/k95ZVMz+Puv
- w3BwxqqEo4L7EIgmCsOOhWtvTCk4vYck3VXPjmLZhf8UtELkv94K9EYkAq7Hrq2+ExKl
- vRoF3l3Tgv3ghphvAY0wdvNRhRq0Thp25UA3hxFzmVK9gG641PklkGoEtbefMeirzd3t
- dFHvvNETUVI9xV96YVN9svzQcjaJ4NUX4f2D5e+cx2OTcNZQit3qLrpoaq2GllVjqqBj
- STGg==
+ bh=6BE++WsHDYO/WOBqJLui7tOCRnqB8ihSSf6W8ZHJC58=;
+ b=nM9hl7S7+RQTxl+m0wJsf+Uu39xU2juocV+4M9QJrHIoCFJvGsuda+dbtbNNNC/9/9
+ mVR8wmkJ/tJRrYnmlLK4j1TcQwphdLKdugvkCOYO6oZXIfwLH4JGEAQUC0zUS633O5bH
+ rLVNnETO10FU58TlVyXSCb4qyjobuNqSUn3sRZ5/M+6BLkAmigKTu/9rErt+DYJgO+x1
+ UeiUS5fGO5n2RRKGY0yR8Ubx+h7aTmb3FbV4osINY5RLLa9a371bXCr7MChrtwdPuqoJ
+ 6utk6llcKNACK+u1/711wpRJJRLljc1j1q5eS+Ai0alnoDUWafB2vpccVKZtKav+Ws+I
+ ziIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=X20AhwnLzUb4+o6kwSMODjI+L6Tyhic8AwN1+VsLtIk=;
- b=CTvOM5HIulpfGWa91JhYh8dlr5H/0X4gEKQn5AivSXRYiIl+tGhLDTBLJUtvXgS7lc
- rlB+XgW7RoknGFrfaXIOanq1hR0RgZhU7SynLHMqMgD/G34qRA0da0E0DHk0bsjUl9wS
- UGrPTieVocz4P2I0doUnjMsALNYs2V1w18+Ta6sJIvIaP77G/xwuXSmxB3C9RD8s31W3
- BeNAwFRT90ImlA68RkJZBMb0qoJIO5xdozuFaPqNgQcRVjxjIjPXadS9bPM2TGV4s+2W
- kggSVy7/UfQaJRZa7DnkgV3h8EHVFXIr1Gb2BSI6Etf2r+AqFeXph+o7Pzs5OoDWh3AO
- Ajlg==
-X-Gm-Message-State: AGi0PubrBAnrYVH8NxsuQv0Kha3KuKFaWbxLtLX/hq35kxjcxfPwuetr
- lySMx5e4cLMyQO79UC95KmE=
-X-Google-Smtp-Source: APiQypL+vgwcFtgnvoGs4vVgrtluQ8/L8JaTsPzvlyCvgK4yUTvi3EyWCpYekHxZTbynqV0z9dkRiQ==
-X-Received: by 2002:a05:600c:2941:: with SMTP id
- n1mr2775369wmd.25.1588054733489; 
- Mon, 27 Apr 2020 23:18:53 -0700 (PDT)
-Received: from [192.168.1.39] (137.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.137])
- by smtp.gmail.com with ESMTPSA id v19sm24803070wra.57.2020.04.27.23.18.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Apr 2020 23:18:52 -0700 (PDT)
-Subject: Re: [PATCH for-5.1 7/7] MAINTAINERS: Add myself as Loongson-3
- maintainer
-To: Huacai Chen <zltjiangshi@gmail.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-References: <1587979995-17717-1-git-send-email-chenhc@lemote.com>
- <1587979995-17717-7-git-send-email-chenhc@lemote.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Autocrypt: addr=f4bug@amsat.org; keydata=
- mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
- u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
- HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
- YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
- ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
- dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
- ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
- Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
- HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
- Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
- CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
- klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
- jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
- 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
- loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
- sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
- JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
- 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
- K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
- n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
- CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
-Message-ID: <38fe3267-3d1b-26eb-13e5-dd3ed7039e61@amsat.org>
-Date: Tue, 28 Apr 2020 08:18:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6BE++WsHDYO/WOBqJLui7tOCRnqB8ihSSf6W8ZHJC58=;
+ b=aUKocfLdAaMTSIZRYUXWmTopsXt6MObVOwy0K3wT58woIUKKtw2wrcFiqO0E3aBheH
+ rjuOLbuITFrjeY07cMeIwR+WuRzisaAxtkbE5+oxBiFEhElVaYVHkHdFqWVaz25ELjzO
+ Otm/Za6SoWqMMpKIW9qBqLqnPHgOkoYHv9YHIg/wkfNOXsc3sxWhqliO0nOLaCJF8GZ6
+ syulOEQh6JF72qluMMjIKCbI++Bz4l2twYHfajHX6vVnuSbUusgjnyh8pL/xoaM8qWnA
+ EFtJMpoIIkyXD9pQaFNRZ4YwJWqKuueGnaS1AAYzUdQEeHar4hhSXUE7D9PPxZqD0zoF
+ fb3g==
+X-Gm-Message-State: AGi0PuZrJwizdatk+UGu9q4/XOLlgzQkD2Yu/ZgDgf4QOGb0okz7eRbE
+ KTTQV6cwUbffNarKminPhnhQKCLZnCbFEg==
+X-Google-Smtp-Source: APiQypKMJeOYX3PcohWzIS41hAKPeyC3HjuX1SjsDhBdVcAyjumoMDzsHpT/1m0Gnu0C1B4RG+D8jw==
+X-Received: by 2002:adf:dd8a:: with SMTP id x10mr31936913wrl.308.1588055387873; 
+ Mon, 27 Apr 2020 23:29:47 -0700 (PDT)
+Received: from localhost.localdomain (public-gprs351065.centertel.pl.
+ [37.47.2.154])
+ by smtp.gmail.com with ESMTPSA id a205sm2030564wmh.29.2020.04.27.23.29.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Apr 2020 23:29:47 -0700 (PDT)
+From: Grzegorz Uriasz <gorbak25@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] Fix QEMU crashes when passing IGD to a guest VM under XEN
+Date: Tue, 28 Apr 2020 06:28:45 +0000
+Message-Id: <20200428062847.7764-1-gorbak25@gmail.com>
+X-Mailer: git-send-email 2.26.1
 MIME-Version: 1.0
-In-Reply-To: <1587979995-17717-7-git-send-email-chenhc@lemote.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=gorbak25@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::443
+X-Mailman-Approved-At: Tue, 28 Apr 2020 03:48:46 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -115,41 +80,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@gmail.com>, Huacai Chen <chenhc@lemote.com>,
- qemu-devel@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>
+Cc: artur@puzio.waw.pl, Stefano Stabellini <sstabellini@kernel.org>,
+ Paul Durrant <paul@xen.org>, jakub@bartmin.ski,
+ marmarek@invisiblethingslab.com, Grzegorz Uriasz <gorbak25@gmail.com>,
+ Anthony Perard <anthony.perard@citrix.com>, j.nowak26@student.uw.edu.pl,
+ xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Huacai,
 
-On 4/27/20 11:33 AM, Huacai Chen wrote:
-> Signed-off-by: Huacai Chen <chenhc@lemote.com>
-> Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> ---
->  MAINTAINERS | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index aa9a057..efe840b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1080,6 +1080,12 @@ F: hw/isa/vt82c686.c
->  F: hw/pci-host/bonito.c
->  F: include/hw/isa/vt82c686.h
->  
-> +Loongson-3
-> +M: Huacai Chen <chenhc@lemote.com>
-> +S: Maintained
-> +F: hw/mips/mips_loongson3.c
-> +F: hw/pci-host/ls7a.c
+Hi,
 
-I still haven't received the series cover, so I'm not sure if you
-intended to include the LS7A bridge chip here, but if so it seems you
-forgot to include it.
+This patch series is a small subset of a bigger patch set spanning few projects aiming to isolate the GPU
+in QUBES OS to a dedicated security domain. I'm doing this together with 3 colleagues as part of our Bachelors thesis.
 
-> +
->  Boston
->  M: Paul Burton <pburton@wavecomp.com>
->  R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-> 
+When passing an Intel Graphic Device to a HVM guest under XEN, QEMU sometimes crashes
+when starting the VM. It turns out that the code responsible for setting up
+the legacy VBIOS for the IGD contains a bug which results in a memcpy of an undefined size
+between the QEMU heap and the physical memory of the guest.
+
+If the size of the memcpy is small enough qemu does not crash - this means that this
+bug is actually a small security issue - a hostile guest kernel might determine the memory layout of
+QEMU simply by looking at physical memory beyond 0xdffff - this defeats ASLR and might make exploitation
+easier if other issues were to be found.
+
+The problem is the current mechanism for obtaining a copy of the ROM of the IGD.
+We first allocate a buffer which holds the vbios - the size of which is obtained from sysfs.
+We then try to read the rom from sysfs, if we fail then we just return without setting the size of the buffer.
+This would be ok if the size of the ROM reported by sysfs would be 0, but the size is always 32 pages as this corresponds
+to legacy memory ranges. It turns out that reading the ROM fails on every single device I've tested(spanning few
+generations of IGD), which means qemu never sets the size of the buffer and returns a valid pointer to code which
+basically does a memcpy of an undefined size.
+
+I'm including two patches.
+The first one fixes the security issue by making failing to read the ROM from sysfs fatal.
+The second patch introduces a better method for obtaining the VBIOS. I've haven't yet seen a single device on which
+the old code was working, the new code basically creates a shadow copy directly by reading from /dev/mem - this
+should be fine as a quick grep of the codebase shows that this approach is already being used to handle MSI.
+I've tested the new code on few different laptops and it works fine and the guest VMS finally stopped complaining that
+the VBIOS tables are missing.
+
+Grzegorz Uriasz (2):
+  Fix undefined behaviour
+  Improve legacy vbios handling
+
+ hw/xen/xen_pt.c          |  8 +++++--
+ hw/xen/xen_pt_graphics.c | 48 +++++++++++++++++++++++++++++++++++++---
+ hw/xen/xen_pt_load_rom.c | 13 +++++------
+ 3 files changed, 57 insertions(+), 12 deletions(-)
+
+-- 
+2.26.1
+
 
