@@ -2,74 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 715341BB9EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 11:34:50 +0200 (CEST)
-Received: from localhost ([::1]:49454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A1EF1BBA2F
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 11:45:44 +0200 (CEST)
+Received: from localhost ([::1]:50368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTMdd-00032t-F4
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 05:34:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60600)
+	id 1jTMoB-0007oT-2K
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 05:45:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33554)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fengli@smartx.com>) id 1jTMT0-0005hc-C7
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:24:32 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTMXG-0005DO-LP
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:30:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <fengli@smartx.com>) id 1jTLzp-0007fq-Ax
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 04:58:12 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:35729)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1jTLzo-0007fd-Sy
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 04:53:40 -0400
-Received: by mail-pf1-x443.google.com with SMTP id r14so10363487pfg.2
- for <qemu-devel@nongnu.org>; Tue, 28 Apr 2020 01:53:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=smartx-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=YVaXGPGd8Q2+faJKdiZOSxUYLEVCJh2RPvbe2ldUqVs=;
- b=ON6ygoG+QiqUyX2FbBcaxYcqv2+amzCEKVbqAqg4OyXUDaXe3mxhhpkiyBNwgCeCdJ
- 47NAgqOD3C3Hj+0ahQXattqFpC/wKLTMCx8PiBxnFwCyRjB/pqCtGUjf7Vm9Z9jDnFzZ
- ivlrRBqe1gjZHYuiYtwKusixebKn5SXAf0q6Dbv8tRpR1jJ1UqfD0Css/RoAGbJeqcIg
- 90+zKyJBuqIYlpZnNr71EG7fgORn7eG5NcsOCdUQjuFaz6bvdABkbTXsrn7O6um8ML89
- mhEaGzYP28aBrUsXxK19h3//qP3ippHWmpaiBxjYUZz1z3vfOQL6FNfVAL3h1VIScUUG
- jtRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=YVaXGPGd8Q2+faJKdiZOSxUYLEVCJh2RPvbe2ldUqVs=;
- b=qMSD6LffYTtc/eDqt61SqvePjyGvS+knIpx+DN9H/otcvwU6ElaTNxzRJS9DxmWdJ2
- W/yna7gBkW0VUFYMrqMYPnh/SNdC/froG2FolQMwkjhTPDapgpAJa0QbreNe8e5oW2LK
- oZtW4XyFWuno4mEB0yO4qX7WOmgIlkHAoJfFwzj4eCa2IprwoC+9iIcW9nSOEvQr72AU
- eDdpg9DiRRQEETGkoQOsq5wfsifLVg0zFqitBofrZek/UW6g1J8LhWo0jq6BBEfT0dCM
- JME0K13xlZNQXcxzcXL3Qe7iALybw7Zi0OK2wZH1suBOTDGTrou4wqdx8KeZN1j5dE5R
- 3thw==
-X-Gm-Message-State: AGi0Pub2Nln32tOCIOGgjparvJTUUm4e2GND4Bj/24xRWoEXErgm9bbX
- g2GM4m5pQZVYMbdZ9dLqlJtwhw==
-X-Google-Smtp-Source: APiQypL5ZpDTBgQc4PWFKrZzQE1LJhG5ncFx/+rkuvLw91Pv2TL3LgnKihPyisSMOfBegXdIH4ip4g==
-X-Received: by 2002:a63:2e03:: with SMTP id u3mr11290050pgu.121.1588064019320; 
- Tue, 28 Apr 2020 01:53:39 -0700 (PDT)
-Received: from 31_216.localdomain ([47.75.194.237])
- by smtp.gmail.com with ESMTPSA id k12sm14393523pfp.158.2020.04.28.01.53.37
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 28 Apr 2020 01:53:38 -0700 (PDT)
-From: Li Feng <fengli@smartx.com>
-To: kyle@smartx.com, lifeng1519@gmail.com, dimastep@yandex-team.ru,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org (open list:All patches CC here)
-Subject: [PATCH v2] char-socket: initialize reconnect timer only when the
- timer doesn't start
-Date: Tue, 28 Apr 2020 16:54:08 +0800
-Message-Id: <20200428085409.2414-1-fengli@smartx.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20200415032826.16701-4-fengli@smartx.com>
-References: <20200415032826.16701-4-fengli@smartx.com>
-Received-SPF: none client-ip=2607:f8b0:4864:20::443;
- envelope-from=fengli@smartx.com; helo=mail-pf1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::443
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTMU6-0005wO-WC
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:28:13 -0400
+Received: from mail-vi1eur05on2133.outbound.protection.outlook.com
+ ([40.107.21.133]:40320 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jTM1o-0008Vv-02; Tue, 28 Apr 2020 04:55:44 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bWIDCSDFj2RAjtHtv2B8vXC81IE+vwYb52kI6Q9+TVngDZRg/amndpApsGJKhQYybwXhuWhoF+SdAyTPIwuWOcAuj34sAbU5NXhjDY6C7DQtI7MYJLTi+LG3yrD0IohCoazmpf+/sKeTv5SPZI6CVj7DYh9cDq+EDjcgVYE3oZOVGK0F3ZB4uhnjsuv7fMAtaz5KCjJ7PbIacFFqjamudv0KCHn3sEtgnYx4j2TcMNdef2SIQDkunDoQyC095IWTUyL7fjOpLZMAxdf5iYuPnw+QV/5j/ZEONNGFYKXAGkN8AfVoOhbSUyT1IJGXu6os4WPxjvICnhRY/gSMgROChg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RXROdLAE+ybEt/RjCV1QzqpD37vS3gYZWuvhowhXe5s=;
+ b=Zo6PbU4VAiu7xB0LZ0iFFJ6YEiKqFNt9nfprGyBPdIJuIAF5e8CsDQJEPJNiXMdobF0Rk27FnnxniMSC+8EYMyfCDMSa6Ip83AMg6g1cdEiuEAzkM8ulTG8FZmzeymxpgM8TfbUDoeeKkPCgaC0qCfObvEuKwH9CIRtjpsE/A/bthugntEOxLoHrWRfuzLJz65GjoO+IY8DTwIdi8hPrBCy98DC6EPmNjXdz390reglxOMU742OPFkFSyYhCQsnGwY1FKzphUK+Y4CzWd2MEgTg7VYAdn4TNSVdGoG/OErg05WYHh2u0NNWMYMLvGD5Es+copMdojDCAzUZT/i1lyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RXROdLAE+ybEt/RjCV1QzqpD37vS3gYZWuvhowhXe5s=;
+ b=FUYOdJ/7s1UKDNqQG87NINNUCpF7pleg5cpzD9ebRxM3fsEQKr4erjw4EvuOvPxyeWYFDYaKATeDGLpq3MJtZqOpsqWQ3JjaqJbZXHh1jgQCap9M7Bj/P4EgOeokSIfLAeeaNp0IyWq//M1lAVuCTGnW1fCrOGmBmMnKbm5gIkQ=
+Authentication-Results: virtuozzo.com; dkim=none (message not signed)
+ header.d=none;virtuozzo.com; dmarc=none action=none
+ header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5304.eurprd08.prod.outlook.com (2603:10a6:20b:10e::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Tue, 28 Apr
+ 2020 08:55:37 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.023; Tue, 28 Apr 2020
+ 08:55:37 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: backing chain & block status & filters
+To: qemu block <qemu-block@nongnu.org>
+X-Tagtoolbar-Keys: D20200428115535240
+Message-ID: <a1c1b734-34dc-f8d3-b6a0-43b136e237e2@virtuozzo.com>
+Date: Tue, 28 Apr 2020 11:55:35 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM3PR04CA0128.eurprd04.prod.outlook.com (2603:10a6:207::12)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.155) by
+ AM3PR04CA0128.eurprd04.prod.outlook.com (2603:10a6:207::12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2937.13 via Frontend Transport; Tue, 28 Apr 2020 08:55:36 +0000
+X-Tagtoolbar-Keys: D20200428115535240
+X-Originating-IP: [185.215.60.155]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 71d2267b-cb63-4394-b2c8-08d7eb51eb1b
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5304:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5304916873197B4D41F2BE0EC1AC0@AM7PR08MB5304.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Forefront-PRVS: 0387D64A71
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(376002)(346002)(136003)(366004)(396003)(39850400004)(66946007)(5660300002)(66476007)(66556008)(31686004)(36756003)(86362001)(31696002)(52116002)(478600001)(16526019)(4326008)(81156014)(2906002)(6916009)(8936002)(8676002)(107886003)(26005)(54906003)(956004)(2616005)(186003)(6486002)(316002)(16576012);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cCxlCjSOdHdUpfo3+FmLVhQpyf53t2MTE8Qe6rIFXK4yUSvY0bAcvAwYQKMLB0UySFJrWLRKfrb2B/6/kIVw4efUTh/kbvE0B1LzIjMnIpBa0t4u9gS1/6YczPVzEwshKX1ErEV9A9iXbHZbBIca5vB2VaclWC45xVJpE9SsNuKx9WzIxK6GBtDh9AFzr5vzlIKgsaXXWgixigFSrv3fQZMuRtDFE9CvC5HFPzhMu1G9wiewcaUEX6imbCb5eSaiLLQwYqRT9fWdbWOx1vJRsRT9HKqpbNh8JetsPtfRWC9CYzFuRckNzDgX5U8BBlTVWR7EEBTYjA6H4uURbB7ZZPog7ckg6vhnVGQImbQJWz1HazQkkDOQk6Bd5vq2IHXKsdE+ZPMfA/KQ2GpV9nX7Kj77LMl3nUsR36jECa8q31sMc6p4S1MOMvhkikz8QDJh
+X-MS-Exchange-AntiSpam-MessageData: Ko3ga3dAM+nxVcBVnPS1puY96CWPZYNW9/omOtbUoq7mXpuWhTuOW5dF6O9mS9Goa4CRiH74qutnndeh8gjC3Gf80d0UctMpLKcGBmwGBdoIf1sr/KltilQOeBPTT6BzsWNurYK3otYfhMMrGGg11QqYXveupNPdQHPNOL8MqqlK4bRwJdzgsSij9SMCyMiZJlTnIRbs5YQFHgCImNsT17+9ZvO5ZfMUIMmJmrBA6BgaMxYCw91/ghyKDDQ6IoxBiWPscJQdML+UtiGZsQLt9q8sNBqawocpsIeIqp+gHA6oGVRzMVdj9z9B4uI20V4Ln5qsHx7srL+NvGnzUrGDZHV/tXMPhnVJvsR1sPB1qTpJtPfUoOXY0g+3BmEvz6/36MVmb0lLJSftj/7+51hlzGzSyz5OOVEwz2fkLQbtrvwtSiCnUf7l7XxWNUIb9VqKq1+j1WEoeU+oHdOUgHUgOQvIyRJgfaxdqCyWM3Udcdr+4nmSsk3uNn9tZz8HYYYIrUPhgjCVqN4Qpf2V2Ot91CrIw1tKkqS/Yqr348191wRSX5Fmc2zzjJiZegGpvtdUbsUF9Nk4a7M4K8+xdigo7YvdJbK0IRul+HVh1EtQuG1alrIukH3qU+d5j6Fiai6544yKU5hvDq5O4mcF7mN0z41dwLc3ciOGveanw4U7RT/auDdu2K/Aqw567zInWZyi8GByDt21zZrY4GKvsplauhYEOadhi8a+cZQR5RiURn0y9U27xpyXIw1dRgTgSmFy/BWtfRa3psPZZQMqNLFcXG1eZinouaASiJfx4PGRNkY=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 71d2267b-cb63-4394-b2c8-08d7eb51eb1b
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2020 08:55:37.4554 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: olZ5GpFW/ltvwvAQMwCcriGCy2hFf9N0Fa4TgjcVRKIdriuZizN7VfA85MH4q9EpxdJTpB6DdXrsg1fUhijQ3ZYL9gsk0wgNmJmQAGgGO8A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5304
+Received-SPF: pass client-ip=40.107.21.133;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 04:55:40
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Received-From: 40.107.21.133
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,193 +111,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Feng <fengli@smartx.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the disconnect event is triggered in the connecting stage,
-the tcp_chr_disconnect_locked may be called twice.
+Hi!
 
-The first call:
-    #0  qemu_chr_socket_restart_timer (chr=0x55555582ee90) at chardev/char-socket.c:120
-    #1  0x000055555558e38c in tcp_chr_disconnect_locked (chr=<optimized out>) at chardev/char-socket.c:490
-    #2  0x000055555558e3cd in tcp_chr_disconnect (chr=0x55555582ee90) at chardev/char-socket.c:497
-    #3  0x000055555558ea32 in tcp_chr_new_client (chr=chr@entry=0x55555582ee90, sioc=sioc@entry=0x55555582f0b0) at chardev/char-socket.c:892
-    #4  0x000055555558eeb8 in qemu_chr_socket_connected (task=0x55555582f300, opaque=<optimized out>) at chardev/char-socket.c:1090
-    #5  0x0000555555574352 in qio_task_complete (task=task@entry=0x55555582f300) at io/task.c:196
-    #6  0x00005555555745f4 in qio_task_thread_result (opaque=0x55555582f300) at io/task.c:111
-    #7  qio_task_wait_thread (task=0x55555582f300) at io/task.c:190
-    #8  0x000055555558f17e in tcp_chr_wait_connected (chr=0x55555582ee90, errp=0x555555802a08 <error_abort>) at chardev/char-socket.c:1013
-    #9  0x0000555555567cbd in char_socket_client_reconnect_test (opaque=0x5555557fe020 <client8unix>) at tests/test-char.c:1152
-The second call:
-    #0  0x00007ffff5ac3277 in raise () from /lib64/libc.so.6
-    #1  0x00007ffff5ac4968 in abort () from /lib64/libc.so.6
-    #2  0x00007ffff5abc096 in __assert_fail_base () from /lib64/libc.so.6
-    #3  0x00007ffff5abc142 in __assert_fail () from /lib64/libc.so.6
-    #4  0x000055555558d10a in qemu_chr_socket_restart_timer (chr=0x55555582ee90) at chardev/char-socket.c:125
-    #5  0x000055555558df0c in tcp_chr_disconnect_locked (chr=<optimized out>) at chardev/char-socket.c:490
-    #6  0x000055555558df4d in tcp_chr_disconnect (chr=0x55555582ee90) at chardev/char-socket.c:497
-    #7  0x000055555558e5b2 in tcp_chr_new_client (chr=chr@entry=0x55555582ee90, sioc=sioc@entry=0x55555582f0b0) at chardev/char-socket.c:892
-    #8  0x000055555558e93a in tcp_chr_connect_client_sync (chr=chr@entry=0x55555582ee90, errp=errp@entry=0x7fffffffd178) at chardev/char-socket.c:944
-    #9  0x000055555558ec78 in tcp_chr_wait_connected (chr=0x55555582ee90, errp=0x555555802a08 <error_abort>) at chardev/char-socket.c:1035
-    #10 0x000055555556804b in char_socket_client_test (opaque=0x5555557fe020 <client8unix>) at tests/test-char.c:1023
+I wanted to resend my "[PATCH 0/4] fix & merge block_status_above and is_allocated_above", and returned to all the inconsistencies about block-status. I keep in mind Max's series about child-access functions, and Andrey's work about using COR filter in block-stream, which depends on Max's series (because, without them COR fitler with file child breaks backing chains).. And, it seems that it's better to discuss some questions before resending.
 
-Run test/test-char to reproduce this issue.
+First, problems about block-status:
 
-test-char: chardev/char-socket.c:125: qemu_chr_socket_restart_timer: Assertion `!s->reconnect_timer' failed.
+1. We consider ALLOCATED = ZERO | DATA, and documented as follows:
 
-Signed-off-by: Li Feng <fengli@smartx.com>
----
-v2:
-- Rewrite the solution.
-- Add test to reproduce this issue.
+    * BDRV_BLOCK_DATA: allocation for data at offset is tied to this layer
+    * BDRV_BLOCK_ZERO: offset reads as zero
+    * BDRV_BLOCK_OFFSET_VALID: an associated offset exists for accessing raw data
+    * BDRV_BLOCK_ALLOCATED: the content of the block is determined by this
+    *                       layer rather than any backing, set by block layer
 
- chardev/char-socket.c |  2 +-
- tests/test-char.c     | 48 ++++++++++++++++++++++++++++++++++++++----------
- 2 files changed, 39 insertions(+), 11 deletions(-)
+This actually means, that we should always have BDRV_BLOCK_ALLOCATED for formats which doesn't support backing. So, all such format drivers must return ZERO or DATA (or both?), yes?. Seems file-posix does so, but, for example, iscsi - doesn't.
 
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index 1f14c2c7c8..d84330b3c9 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -486,7 +486,7 @@ static void tcp_chr_disconnect_locked(Chardev *chr)
-     if (emit_close) {
-         qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
-     }
--    if (s->reconnect_time) {
-+    if (s->reconnect_time && !s->reconnect_timer) {
-         qemu_chr_socket_restart_timer(chr);
-     }
- }
-diff --git a/tests/test-char.c b/tests/test-char.c
-index 8d39bdc9fa..13dbbfe2a3 100644
---- a/tests/test-char.c
-+++ b/tests/test-char.c
-@@ -625,12 +625,14 @@ static void char_udp_test(void)
- typedef struct {
-     int event;
-     bool got_pong;
-+    CharBackend *be;
- } CharSocketTestData;
- 
- 
- #define SOCKET_PING "Hello"
- #define SOCKET_PONG "World"
- 
-+typedef void (*char_socket_cb)(void *opaque, QEMUChrEvent event);
- 
- static void
- char_socket_event(void *opaque, QEMUChrEvent event)
-@@ -639,6 +641,23 @@ char_socket_event(void *opaque, QEMUChrEvent event)
-     data->event = event;
- }
- 
-+static void
-+char_socket_event_with_error(void *opaque, QEMUChrEvent event)
-+{
-+    CharSocketTestData *data = opaque;
-+    CharBackend *be = data->be;
-+    data->event = event;
-+    switch (event) {
-+    case CHR_EVENT_OPENED:
-+        qemu_chr_fe_disconnect(be);
-+        return;
-+    case CHR_EVENT_CLOSED:
-+        return;
-+    default:
-+        return;
-+    }
-+}
-+
- 
- static void
- char_socket_read(void *opaque, const uint8_t *buf, int size)
-@@ -783,6 +802,7 @@ static void char_socket_server_test(gconstpointer opaque)
- 
-  reconnect:
-     data.event = -1;
-+    data.be = &be;
-     qemu_chr_fe_set_handlers(&be, NULL, NULL,
-                              char_socket_event, NULL,
-                              &data, NULL, true);
-@@ -869,6 +889,7 @@ typedef struct {
-     const char *reconnect;
-     bool wait_connected;
-     bool fd_pass;
-+    char_socket_cb event_cb;
- } CharSocketClientTestConfig;
- 
- static void char_socket_client_dupid_test(gconstpointer opaque)
-@@ -920,6 +941,7 @@ static void char_socket_client_dupid_test(gconstpointer opaque)
- static void char_socket_client_test(gconstpointer opaque)
- {
-     const CharSocketClientTestConfig *config = opaque;
-+    const char_socket_cb event_cb = config->event_cb;
-     QIOChannelSocket *ioc;
-     char *optstr;
-     Chardev *chr;
-@@ -983,8 +1005,9 @@ static void char_socket_client_test(gconstpointer opaque)
- 
-  reconnect:
-     data.event = -1;
-+    data.be = &be;
-     qemu_chr_fe_set_handlers(&be, NULL, NULL,
--                             char_socket_event, NULL,
-+                             event_cb, NULL,
-                              &data, NULL, true);
-     if (config->reconnect) {
-         g_assert(data.event == -1);
-@@ -1022,7 +1045,7 @@ static void char_socket_client_test(gconstpointer opaque)
-     /* Setup a callback to receive the reply to our greeting */
-     qemu_chr_fe_set_handlers(&be, char_socket_can_read,
-                              char_socket_read,
--                             char_socket_event, NULL,
-+                             event_cb, NULL,
-                              &data, NULL, true);
-     g_assert(data.event == CHR_EVENT_OPENED);
-     data.event = -1;
-@@ -1467,19 +1490,22 @@ int main(int argc, char **argv)
- 
- #define SOCKET_CLIENT_TEST(name, addr)                                  \
-     static CharSocketClientTestConfig client1 ## name =                 \
--        { addr, NULL, false, false };                                   \
-+        { addr, NULL, false, false, char_socket_event};                 \
-     static CharSocketClientTestConfig client2 ## name =                 \
--        { addr, NULL, true, false };                                    \
-+        { addr, NULL, true, false, char_socket_event };                 \
-     static CharSocketClientTestConfig client3 ## name =                 \
--        { addr, ",reconnect=1", false };                                \
-+        { addr, ",reconnect=1", false, false, char_socket_event };      \
-     static CharSocketClientTestConfig client4 ## name =                 \
--        { addr, ",reconnect=1", true };                                 \
-+        { addr, ",reconnect=1", true, false, char_socket_event };       \
-     static CharSocketClientTestConfig client5 ## name =                 \
--        { addr, NULL, false, true };                                    \
-+        { addr, NULL, false, true, char_socket_event };                 \
-     static CharSocketClientTestConfig client6 ## name =                 \
--        { addr, NULL, true, true };                                     \
-+        { addr, NULL, true, true, char_socket_event };                  \
-     static CharSocketClientTestConfig client7 ## name =                 \
--        { addr, ",reconnect=1", false, false };                         \
-+        { addr, ",reconnect=1", false, false, char_socket_event };      \
-+    static CharSocketClientTestConfig client8 ## name =                 \
-+        { addr, ",reconnect=1", true, false,                            \
-+            char_socket_event_with_error };                             \
-     g_test_add_data_func("/char/socket/client/mainloop/" # name,        \
-                          &client1 ##name, char_socket_client_test);     \
-     g_test_add_data_func("/char/socket/client/wait-conn/" # name,       \
-@@ -1493,7 +1519,9 @@ int main(int argc, char **argv)
-     g_test_add_data_func("/char/socket/client/wait-conn-fdpass/" # name, \
-                          &client6 ##name, char_socket_client_test);     \
-     g_test_add_data_func("/char/socket/client/dupid-reconnect/" # name, \
--                         &client7 ##name, char_socket_client_dupid_test)
-+                         &client7 ##name, char_socket_client_dupid_test);\
-+    g_test_add_data_func("/char/socket/client/reconnect-error/" # name, \
-+                         &client8 ##name, char_socket_client_test)
- 
-     if (has_ipv4) {
-         SOCKET_SERVER_TEST(tcp, &tcpaddr);
+2. ZERO. The meaning differs a bit for generic block_status and for drivers.. I think, we at least should document it like this:
+
+BDRV_BLOCK_DATA: allocation for data at offset is tied to this layer
+BDRV_BLOCK_ZERO: if driver return ZERO, than the region is allocated at this layer and read as ZERO. If generic block_status returns ZERO, it only mean that it reads as zero, but the region may be allocated on underlying level.
+
+3. bdi.unallocated_blocks_are_zero
+
+I think it's very bad, that we have formats, that supports backing, but doesn't report bdi.unallocated_blocks_are_zero as true. It means that UNALLOCATED region reads as zero if we have short backing file, and not as zero if we remove this short backing file. I can live with it but this is weird logic. These bad drivers are qcow (not qcow2), parallels and vmdk. I hope, they actually just forget to set unallocated_blocks_are_zero to true.
+
+Next. But what about drivers which doesn't support backing? As we considered above, they should always return ZERO or DATA, as everything is allocated in this backing-chain level (last level, of course).. So again unallocated_blocks_are_zero is meaningless. So, I think, that driver which doesn't support backings, should be fixed to return always ZERO or DATA, than we don't need this unallocated_blocks_are_zero at all.
+
+3. Short backing files in allocated_above: we must consider space after EOF as ALLOCATED, if short backing file is inside requested backing-chain part, as it produced exactly because of this short file (and we never go to backing). (current realization of allocated_above is buggy, see my outdated series "[PATCH 0/4] fix & merge block_status_above and is_allocated_above")
+
+4. Long ago we've discussed problems about BDRV_BLOCK_RAW, when we have a backing chain of non-backing child.. I just remember that we didn't reach the consensus.
+
+5. Filters.. OK we have two functions for them: bdrv_co_block_status_from_file and bdrv_co_block_status_from_backing. I think both are wrong:
+
+bdrv_co_block_status_from_file leads to problem [4], when we can report UNALLOCATED, which refers not to the current backing chain, but to sub backing chain of file child, which is inconsistent with block_status_above and is_allocated_above iteration.
+
+bdrv_co_block_status_from_backing is also is not consistent with block_status_above iteration.. At least at leads to querying the same node twice.
+
+=================
+
+So, about filters and backing chains. Keeping (OK, just, trying to keep) all these things in mind, I think that it's better to keep backing chains exactly *backing* chains, so that "backing" child is the only "not own" child of the node. So, its close to current behavior and we don't need child-access functions. Then how filters should work:
+
+Filter with backing child, should always return UNALLOCATED (i.e. no DATA, no ZERO), it is honest: everything is on the other level of backing chain.
+
+Filter with file child should always return BDRV_BLOCK_DATA | BDRV_BLOCK_RECURSE, to show that:
+1. everything is allocated in *this* level of backing chain
+2. filter is too lazy to dig in it's file child (and, maybe the whole sub-tree of it) and asks generic layer to do it by itself, if it wants zeroes.
+
+Then, of course, if we want some filter to be inside backing chain, it should have not "file" child but "backing". For this, we may support in current public filter both variants: backing or file, as user prefer. I.e., filter is opened either with file option or with backing and operate correspondingly. And newer filters (like backup-top) may support only backing variants.
+
+=================
+
+So, I propose to complicate a bit code of old file-based filters, to support backing child (which may be done on demand, when needed. For example, Virtuozzo now need only COR filter (and only to satisfy iotests, actually)), and keep generic code about block-status and handling backing-chains simpler (and simpler to document).
+
+Another benefit is that block-graph is already visible through QAPI, and it would be good to keep backing link meaning, not adding the thing that for filters "file" link behaves as "backing".
+
+So again, I'm for limiting backing-behavior to bs->backing child only (as it currently behaves). What do you think?
+
 -- 
-2.11.0
-
+Best regards,
+Vladimir
 
