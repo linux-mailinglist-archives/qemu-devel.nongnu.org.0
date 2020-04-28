@@ -2,106 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C2651BC0F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 16:15:42 +0200 (CEST)
-Received: from localhost ([::1]:59970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 086421BC104
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 16:19:01 +0200 (CEST)
+Received: from localhost ([::1]:60288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTR1R-0003yX-Fh
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 10:15:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42298)
+	id 1jTR4d-0001Ip-FB
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 10:18:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42416)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jTR00-0002Ub-Tp
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:14:13 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1jTR0v-00046g-OD
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:15:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jTQzz-0004zn-Ub
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:14:12 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:57281)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jTQzz-0004yH-8m
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:14:11 -0400
-Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MBDrM-1jK2nL1Zi2-00ChrK; Tue, 28 Apr 2020 16:13:57 +0200
-To: KONRAD Frederic <frederic.konrad@adacore.com>
-References: <1587391275-12748-1-git-send-email-frederic.konrad@adacore.com>
- <41ff1564-36ee-1028-b377-9bf9a82de689@vivier.eu>
- <99b80245-4109-03c4-4c7c-e562477ec76b@adacore.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Subject: Re: [PATCH v1] target/m68k: fix gdb for m68xxx
-Message-ID: <e506659a-6d0b-dc62-2ba4-00a55579b084@vivier.eu>
-Date: Tue, 28 Apr 2020 16:13:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <dgilbert@redhat.com>) id 1jTR0u-0005aw-3i
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:15:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28337
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jTR0t-0005aS-Hv
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:15:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588083306;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7V56u7jxFyOxfsaEoa7tkfIZ6iDbz4a8/3Jm3jguz00=;
+ b=Q7Goau3p0VWGFac8mvw+fNLKO8rmaTI8NmkO+x3BxfOeupeQZLqhTbMjgaXv5fz1UUBzqs
+ MotA3fke4vd2xknTLHzhaBjvDHDPNGA3vfX8673xUQe03YdTNKP4/Nc3ToZEn92bjMg2fQ
+ PMbSqzCa/fU/mdsCW/McCQhpG/Fl9es=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-496-7k3qKm7tORSS5oxCTBCozQ-1; Tue, 28 Apr 2020 10:14:59 -0400
+X-MC-Unique: 7k3qKm7tORSS5oxCTBCozQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16388107ACF3;
+ Tue, 28 Apr 2020 14:14:55 +0000 (UTC)
+Received: from work-vm (ovpn-113-77.ams2.redhat.com [10.36.113.77])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A3FE1614C0;
+ Tue, 28 Apr 2020 14:14:39 +0000 (UTC)
+Date: Tue, 28 Apr 2020 15:14:37 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Yan Zhao <yan.y.zhao@intel.com>
+Subject: Re: [PATCH v5 0/4] introduction of migration_version attribute for
+ VFIO live migration
+Message-ID: <20200428141437.GG2794@work-vm>
+References: <20200417132457.45d91fe3.cohuck@redhat.com>
+ <20200420012457.GE16688@joy-OptiPlex-7040>
+ <20200420165600.4951ae82@w520.home>
+ <20200421023718.GA12111@joy-OptiPlex-7040>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D86DF06@SHSMSX104.ccr.corp.intel.com>
+ <20200422073628.GA12879@joy-OptiPlex-7040>
+ <20200424191049.GU3106@work-vm>
+ <20200426013628.GC12879@joy-OptiPlex-7040>
+ <20200427153743.GK2923@work-vm>
+ <20200428005429.GJ12879@joy-OptiPlex-7040>
 MIME-Version: 1.0
-In-Reply-To: <99b80245-4109-03c4-4c7c-e562477ec76b@adacore.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Pnr8K/5BJ7HjeR4eelKIjN+mHQBWu3WEVIJSKXdjFOieXBfEUHr
- baSsLh9cmG/yXW4lyaIiVKB6fYSFfQBVQ5J7nC5GhNPcXr93mbqGpQ/9J5jkN6MLSKZf7as
- fDHO4RgsLJImAOCjqpPXuEd5AAUzdt62Rm6goNwW/BYcZNjFg461YVCyAR4GpUZke1FRfdv
- Fwr12ySZ5dBRLTZO3n9SA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ZhzjoJpzZTs=:mFtsRFE9sWo/RE1CaGWzSr
- tODlgmwkM76P0kqxiI8EV5OnCYd6YybJ2U4qKSJaTdXewwnUOtuK2LwhBS6sMsU5NlNx7pWD7
- 1rF4pkqBdwOiHIDXmeiibtEQcVe3Run2K4sBDskwAGlPEPNfVKUkyf/3NZbt1772S4t7PoQ7m
- jlyAALiykGBFuPjNqC+ztNCwKq057WAPq95sbvNRvve767qI+WHqSIxxsk7neTbPxpVNDhD1z
- ix50k1G8C9/uosgZDBOyqzr6VN31lQQjif4yhcvNfGKfZDoFSfWAo+MVBPoo87/1qGjew79lE
- ve1r8klqIxWp0v/SMnb/S2h/kr5klPtDVq4MZNNmDj57puJtx+by3dC/mTgTj31Kkg/1pNlTN
- E1ChA5Cb6oPI+NMWv3KEgi6v+RPxHMqsjcBcwkxZucBmkCTSH3rGijJAZREFnXKvTExI/FeI/
- qEn2eWsYbmJKE/XyqS5NDH12ZmWEV+w+R74rfLtSKysKdmWzTjmF5wI/trp3/1CmtAHZF9YxJ
- 9yOz/bWgrbzgmft88kV8romJ1ZHvPD2KFppXIuRK9JrXg+2oc7g/6caYUHYSpsHf6x8zu+Vn7
- wsF5ZFSvvHMnCXsxWOni0NxDkCaHVv3FWuXMAUF+H+vrJdZtTVYoOkSQExdacwKHp5jn0XSQZ
- M0xGke2ZIQnaNsoAHZQ7rbeaX8q+qOIy2nwa9768jKEuSpG1QQYhHsEEA+QMXz8GbV4J/v3Ha
- iBE9BCkVj+4XZetNuSezIwnXn8/L628stApfvy8y34DjhjWik6g04uXSsELjh1ozLcayOweDo
- AqPyKmREhmibsVlQPJiVNna7BPoNt1c8ipY5OWiTN8nb+C5UwFiBsn142zAYhgMGLx6BKVa
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 10:14:07
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200428005429.GJ12879@joy-OptiPlex-7040>
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 02:16:38
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.13
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,61 +82,334 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: huth@tuxfamily.org, alex.bennee@linaro.org, f4bug@amsat.org,
- qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- pierre@freepascal.org
+Cc: Cornelia Huck <cohuck@redhat.com>, "cjia@nvidia.com" <cjia@nvidia.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ "Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
+ "eauger@redhat.com" <eauger@redhat.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "corbet@lwn.net" <corbet@lwn.net>, "Yang, Ziye" <ziye.yang@intel.com>,
+ "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ "felipe@nutanix.com" <felipe@nutanix.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
+ "Tian, Kevin" <kevin.tian@intel.com>, "Zeng, Xin" <xin.zeng@intel.com>,
+ "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ "Liu, Changpeng" <changpeng.liu@intel.com>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "eskultet@redhat.com" <eskultet@redhat.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>, "dinechin@redhat.com" <dinechin@redhat.com>,
+ "He, Shaopeng" <shaopeng.he@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 28/04/2020 à 15:19, KONRAD Frederic a écrit :
-> 
-> 
-> Le 4/27/20 à 9:53 AM, Laurent Vivier a écrit :
->> Le 20/04/2020 à 16:01, frederic.konrad@adacore.com a écrit :
->>> From: KONRAD Frederic <frederic.konrad@adacore.com>
-...
->> I would prefer to have two macros with no class parameter, something
->> like DEFINE_M68K_CPU_TYPE_M68K() and DEFINE_M68K_CPU_TYPE_CF().
->>
->>>   #define DEFINE_M68K_CPU_TYPE(cpu_model, initfn) \
->>>       {                                           \
->>>           .name = M68K_CPU_TYPE_NAME(cpu_model),  \
->>> @@ -314,11 +329,16 @@ static const TypeInfo m68k_cpus_type_infos[] = {
->>>           .class_size = sizeof(M68kCPUClass),
->>>           .class_init = m68k_cpu_class_init,
->>>       },
->>> -    DEFINE_M68K_CPU_TYPE("m68000", m68000_cpu_initfn),
->>> -    DEFINE_M68K_CPU_TYPE("m68020", m68020_cpu_initfn),
->>> -    DEFINE_M68K_CPU_TYPE("m68030", m68030_cpu_initfn),
->>> -    DEFINE_M68K_CPU_TYPE("m68040", m68040_cpu_initfn),
->>> -    DEFINE_M68K_CPU_TYPE("m68060", m68060_cpu_initfn),
->>> +    DEFINE_M68K_CPU_TYPE_WITH_CLASS("m68000", m68000_cpu_initfn,
->>> +                                    m68k_cpu_class_init_m68k_core),
->>> +    DEFINE_M68K_CPU_TYPE_WITH_CLASS("m68020", m68020_cpu_initfn,
->>> +                                    m68k_cpu_class_init_m68k_core),
->>> +    DEFINE_M68K_CPU_TYPE_WITH_CLASS("m68030", m68030_cpu_initfn,
->>> +                                    m68k_cpu_class_init_m68k_core),
->>> +    DEFINE_M68K_CPU_TYPE_WITH_CLASS("m68040", m68040_cpu_initfn,
->>> +                                    m68k_cpu_class_init_m68k_core),
->>> +    DEFINE_M68K_CPU_TYPE_WITH_CLASS("m68060", m68060_cpu_initfn,
->>> +                                    m68k_cpu_class_init_m68k_core),
->>>       DEFINE_M68K_CPU_TYPE("m5206", m5206_cpu_initfn),
->>>       DEFINE_M68K_CPU_TYPE("m5208", m5208_cpu_initfn),
->>>       DEFINE_M68K_CPU_TYPE("cfv4e", cfv4e_cpu_initfn),
-> 
-> But what about the "any" which is out of context here?
-> 
->     DEFINE_M68K_CPU_TYPE("any", any_cpu_initfn),
-> 
-> Should it be TYPE_M68K or TYPE_CF in which case which xml will it take? 
-> I guess
-> we can take TYPE_CF so it doesn't change from what is done today.
-> 
+* Yan Zhao (yan.y.zhao@intel.com) wrote:
+> On Mon, Apr 27, 2020 at 11:37:43PM +0800, Dr. David Alan Gilbert wrote:
+> > * Yan Zhao (yan.y.zhao@intel.com) wrote:
+> > > On Sat, Apr 25, 2020 at 03:10:49AM +0800, Dr. David Alan Gilbert wrote:
+> > > > * Yan Zhao (yan.y.zhao@intel.com) wrote:
+> > > > > On Tue, Apr 21, 2020 at 08:08:49PM +0800, Tian, Kevin wrote:
+> > > > > > > From: Yan Zhao
+> > > > > > > Sent: Tuesday, April 21, 2020 10:37 AM
+> > > > > > > 
+> > > > > > > On Tue, Apr 21, 2020 at 06:56:00AM +0800, Alex Williamson wrote:
+> > > > > > > > On Sun, 19 Apr 2020 21:24:57 -0400
+> > > > > > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
+> > > > > > > >
+> > > > > > > > > On Fri, Apr 17, 2020 at 07:24:57PM +0800, Cornelia Huck wrote:
+> > > > > > > > > > On Fri, 17 Apr 2020 05:52:02 -0400
+> > > > > > > > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
+> > > > > > > > > >
+> > > > > > > > > > > On Fri, Apr 17, 2020 at 04:44:50PM +0800, Cornelia Huck wrote:
+> > > > > > > > > > > > On Mon, 13 Apr 2020 01:52:01 -0400
+> > > > > > > > > > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
+> > > > > > > > > > > >
+> > > > > > > > > > > > > This patchset introduces a migration_version attribute under sysfs
+> > > > > > > of VFIO
+> > > > > > > > > > > > > Mediated devices.
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > This migration_version attribute is used to check migration
+> > > > > > > compatibility
+> > > > > > > > > > > > > between two mdev devices.
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > Currently, it has two locations:
+> > > > > > > > > > > > > (1) under mdev_type node,
+> > > > > > > > > > > > >     which can be used even before device creation, but only for
+> > > > > > > mdev
+> > > > > > > > > > > > >     devices of the same mdev type.
+> > > > > > > > > > > > > (2) under mdev device node,
+> > > > > > > > > > > > >     which can only be used after the mdev devices are created, but
+> > > > > > > the src
+> > > > > > > > > > > > >     and target mdev devices are not necessarily be of the same
+> > > > > > > mdev type
+> > > > > > > > > > > > > (The second location is newly added in v5, in order to keep
+> > > > > > > consistent
+> > > > > > > > > > > > > with the migration_version node for migratable pass-though
+> > > > > > > devices)
+> > > > > > > > > > > >
+> > > > > > > > > > > > What is the relationship between those two attributes?
+> > > > > > > > > > > >
+> > > > > > > > > > > (1) is for mdev devices specifically, and (2) is provided to keep the
+> > > > > > > same
+> > > > > > > > > > > sysfs interface as with non-mdev cases. so (2) is for both mdev
+> > > > > > > devices and
+> > > > > > > > > > > non-mdev devices.
+> > > > > > > > > > >
+> > > > > > > > > > > in future, if we enable vfio-pci vendor ops, (i.e. a non-mdev device
+> > > > > > > > > > > is binding to vfio-pci, but is able to register migration region and do
+> > > > > > > > > > > migration transactions from a vendor provided affiliate driver),
+> > > > > > > > > > > the vendor driver would export (2) directly, under device node.
+> > > > > > > > > > > It is not able to provide (1) as there're no mdev devices involved.
+> > > > > > > > > >
+> > > > > > > > > > Ok, creating an alternate attribute for non-mdev devices makes sense.
+> > > > > > > > > > However, wouldn't that rather be a case (3)? The change here only
+> > > > > > > > > > refers to mdev devices.
+> > > > > > > > > >
+> > > > > > > > > as you pointed below, (3) and (2) serve the same purpose.
+> > > > > > > > > and I think a possible usage is to migrate between a non-mdev device and
+> > > > > > > > > an mdev device. so I think it's better for them both to use (2) rather
+> > > > > > > > > than creating (3).
+> > > > > > > >
+> > > > > > > > An mdev type is meant to define a software compatible interface, so in
+> > > > > > > > the case of mdev->mdev migration, doesn't migrating to a different type
+> > > > > > > > fail the most basic of compatibility tests that we expect userspace to
+> > > > > > > > perform?  IOW, if two mdev types are migration compatible, it seems a
+> > > > > > > > prerequisite to that is that they provide the same software interface,
+> > > > > > > > which means they should be the same mdev type.
+> > > > > > > >
+> > > > > > > > In the hybrid cases of mdev->phys or phys->mdev, how does a
+> > > > > > > management
+> > > > > > > > tool begin to even guess what might be compatible?  Are we expecting
+> > > > > > > > libvirt to probe ever device with this attribute in the system?  Is
+> > > > > > > > there going to be a new class hierarchy created to enumerate all
+> > > > > > > > possible migrate-able devices?
+> > > > > > > >
+> > > > > > > yes, management tool needs to guess and test migration compatible
+> > > > > > > between two devices. But I think it's not the problem only for
+> > > > > > > mdev->phys or phys->mdev. even for mdev->mdev, management tool needs
+> > > > > > > to
+> > > > > > > first assume that the two mdevs have the same type of parent devices
+> > > > > > > (e.g.their pciids are equal). otherwise, it's still enumerating
+> > > > > > > possibilities.
+> > > > > > > 
+> > > > > > > on the other hand, for two mdevs,
+> > > > > > > mdev1 from pdev1, its mdev_type is 1/2 of pdev1;
+> > > > > > > mdev2 from pdev2, its mdev_type is 1/4 of pdev2;
+> > > > > > > if pdev2 is exactly 2 times of pdev1, why not allow migration between
+> > > > > > > mdev1 <-> mdev2.
+> > > > > > 
+> > > > > > How could the manage tool figure out that 1/2 of pdev1 is equivalent 
+> > > > > > to 1/4 of pdev2? If we really want to allow such thing happen, the best
+> > > > > > choice is to report the same mdev type on both pdev1 and pdev2.
+> > > > > I think that's exactly the value of this migration_version interface.
+> > > > > the management tool can take advantage of this interface to know if two
+> > > > > devices are migration compatible, no matter they are mdevs, non-mdevs,
+> > > > > or mix.
+> > > > > 
+> > > > > as I know, (please correct me if not right), current libvirt still
+> > > > > requires manually generating mdev devices, and it just duplicates src vm
+> > > > > configuration to the target vm.
+> > > > > for libvirt, currently it's always phys->phys and mdev->mdev (and of the
+> > > > > same mdev type).
+> > > > > But it does not justify that hybrid cases should not be allowed. otherwise,
+> > > > > why do we need to introduce this migration_version interface and leave
+> > > > > the judgement of migration compatibility to vendor driver? why not simply
+> > > > > set the criteria to something like "pciids of parent devices are equal,
+> > > > > and mdev types are equal" ?
+> > > > > 
+> > > > > 
+> > > > > > btw mdev<->phys just brings trouble to upper stack as Alex pointed out. 
+> > > > > could you help me understand why it will bring trouble to upper stack?
+> > > > > 
+> > > > > I think it just needs to read src migration_version under src dev node,
+> > > > > and test it in target migration version under target dev node. 
+> > > > > 
+> > > > > after all, through this interface we just help the upper layer
+> > > > > knowing available options through reading and testing, and they decide
+> > > > > to use it or not.
+> > > > > 
+> > > > > > Can we simplify the requirement by allowing only mdev<->mdev and 
+> > > > > > phys<->phys migration? If an customer does want to migrate between a 
+> > > > > > mdev and phys, he could wrap physical device into a wrapped mdev 
+> > > > > > instance (with the same type as the source mdev) instead of using vendor 
+> > > > > > ops. Doing so does add some burden but if mdev<->phys is not dominant 
+> > > > > > usage then such tradeoff might be worthywhile...
+> > > > > >
+> > > > > If the interfaces for phys<->phys and mdev<->mdev are consistent, it makes no
+> > > > > difference to phys<->mdev, right?
+> > > > > I think the vendor string for a mdev device is something like:
+> > > > > "Parent PCIID + mdev type + software version", and
+> > > > > that for a phys device is something like:
+> > > > > "PCIID + software version".
+> > > > > as long as we don't migrate between devices from different vendors, it's
+> > > > > easy for vendor driver to tell if a phys device is migration compatible
+> > > > > to a mdev device according it supports it or not.
+> > > > 
+> > > > It surprises me that the PCIID matching is a requirement; I'd assumed
+> > > > with this clever mdev name setup that you could migrate between two
+> > > > different models in a series, or to a newer model, as long as they
+> > > > both supported the same mdev view.
+> > > > 
+> > > hi Dave
+> > > the migration_version string is transparent to userspace, and is
+> > > completely defined by vendor driver.
+> > > I put it there just as an example of how vendor driver may implement it.
+> > > e.g.
+> > > the src migration_version string is "src PCIID + src software version", 
+> > > then when this string is write to target migration_version node,
+> > > the vendor driver in the target device will compare it with its own
+> > > device info and software version.
+> > > If different models are allowed, the write just succeeds even
+> > > PCIIDs in src and target are different.
+> > > 
+> > > so, it is the vendor driver to define whether two devices are able to
+> > > migrate, no matter their PCIIDs, mdev types, software versions..., which
+> > > provides vendor driver full flexibility.
+> > > 
+> > > do you think it's good?
+> > 
+> > Yeh that's OK; I guess it's going to need to have a big table in their
+> > with all the PCIIDs in.
+> > The alternative would be to abstract it a little; e.g. to say it's
+> > an Intel-gpu-core-v4  and then it would be less worried about the exact
+> > clock speed etc - but yes you might be right htat PCIIDs might be best
+> > for checking for quirks.
+> >
+> glad that you are agreed with it:)
+> I think the vendor driver still can choose a way to abstract a little
+> (e.g. Intel-gpu-core-v4...) if they think it's better. In that case, the
+> migration_string would be something like "Intel-gpu-core-v4 + instance
+> number + software version".
+> IOW, they can choose anything they think appropriate to identify migration
+> compatibility of a device.
+> But Alex is right, we have to prevent namespace overlapping. So I think
+> we need to ensure src and target devices are from the same vendors.
+> or, any other ideas?
 
-Yes, "any" has been introduced with coldfire CPUs and defines CF_FPU, so
-it uses 64bit float registers.
+That's why I kept the 'Intel' in that example; or PCI vendor ID; I was
+only really trying to say that within one vendors range there are often
+a lot of PCI-IDs that have really minor variations.
 
-Thanks,
-Laurent
+Dave
+
+> Thanks
+> Yan
+> 
+> 
+> > > > > > > 
+> > > > > > > 
+> > > > > > > > I agree that there was a gap in the previous proposal for non-mdev
+> > > > > > > > devices, but I think this bring a lot of questions that we need to
+> > > > > > > > puzzle through and libvirt will need to re-evaluate how they might
+> > > > > > > > decide to pick a migration target device.  For example, I'm sure
+> > > > > > > > libvirt would reject any policy decisions regarding picking a physical
+> > > > > > > > device versus an mdev device.  Had we previously left it that only a
+> > > > > > > > layer above libvirt would select a target device and libvirt only tests
+> > > > > > > > compatibility to that target device?
+> > > > > > > I'm not sure if there's a layer above libvirt would select a target
+> > > > > > > device. but if there is such a layer (even it's human), we need to
+> > > > > > > provide an interface for them to know whether their decision is suitable
+> > > > > > > for migration. The migration_version interface provides a potential to
+> > > > > > > allow mdev->phys migration, even libvirt may currently reject it.
+> > > > > > > 
+> > > > > > > 
+> > > > > > > > We also need to consider that this expands the namespace.  If we no
+> > > > > > > > longer require matching types as the first level of comparison, then
+> > > > > > > > vendor migration strings can theoretically collide.  How do we
+> > > > > > > > coordinate that can't happen?  Thanks,
+> > > > > > > yes, it's indeed a problem.
+> > > > > > > could only allowing migration beteen devices from the same vendor be a
+> > > > > > > good
+> > > > > > > prerequisite?
+> > > > > > > 
+> > > > > > > Thanks
+> > > > > > > Yan
+> > > > > > > >
+> > > > > > > > > > > > Is existence (and compatibility) of (1) a pre-req for possible
+> > > > > > > > > > > > existence (and compatibility) of (2)?
+> > > > > > > > > > > >
+> > > > > > > > > > > no. (2) does not reply on (1).
+> > > > > > > > > >
+> > > > > > > > > > Hm. Non-existence of (1) seems to imply "this type does not support
+> > > > > > > > > > migration". If an mdev created for such a type suddenly does support
+> > > > > > > > > > migration, it feels a bit odd.
+> > > > > > > > > >
+> > > > > > > > > yes. but I think if the condition happens, it should be reported a bug
+> > > > > > > > > to vendor driver.
+> > > > > > > > > should I add a line in the doc like "vendor driver should ensure that the
+> > > > > > > > > migration compatibility from migration_version under mdev_type should
+> > > > > > > be
+> > > > > > > > > consistent with that from migration_version under device node" ?
+> > > > > > > > >
+> > > > > > > > > > (It obviously cannot be a prereq for what I called (3) above.)
+> > > > > > > > > >
+> > > > > > > > > > >
+> > > > > > > > > > > > Does userspace need to check (1) or can it completely rely on (2), if
+> > > > > > > > > > > > it so chooses?
+> > > > > > > > > > > >
+> > > > > > > > > > > I think it can completely reply on (2) if compatibility check before
+> > > > > > > > > > > mdev creation is not required.
+> > > > > > > > > > >
+> > > > > > > > > > > > If devices with a different mdev type are indeed compatible, it
+> > > > > > > seems
+> > > > > > > > > > > > userspace can only find out after the devices have actually been
+> > > > > > > > > > > > created, as (1) does not apply?
+> > > > > > > > > > > yes, I think so.
+> > > > > > > > > >
+> > > > > > > > > > How useful would it be for userspace to even look at (1) in that case?
+> > > > > > > > > > It only knows if things have a chance of working if it actually goes
+> > > > > > > > > > ahead and creates devices.
+> > > > > > > > > >
+> > > > > > > > > hmm, is it useful for userspace to test the migration_version under mdev
+> > > > > > > > > type before it knows what mdev device to generate ?
+> > > > > > > > > like when the userspace wants to migrate an mdev device in src vm,
+> > > > > > > > > but it has not created target vm and the target mdev device.
+> > > > > > > > >
+> > > > > > > > > > >
+> > > > > > > > > > > > One of my worries is that the existence of an attribute with the
+> > > > > > > same
+> > > > > > > > > > > > name in two similar locations might lead to confusion. But maybe it
+> > > > > > > > > > > > isn't a problem.
+> > > > > > > > > > > >
+> > > > > > > > > > > Yes, I have the same feeling. but as (2) is for sysfs interface
+> > > > > > > > > > > consistency, to make it transparent to userspace tools like libvirt,
+> > > > > > > > > > > I guess the same name is necessary?
+> > > > > > > > > >
+> > > > > > > > > > What do we actually need here, I wonder? (1) and (2) seem to serve
+> > > > > > > > > > slightly different purposes, while (2) and what I called (3) have the
+> > > > > > > > > > same purpose. Is it important to userspace that (1) and (2) have the
+> > > > > > > > > > same name?
+> > > > > > > > > so change (1) to migration_type_version and (2) to
+> > > > > > > > > migration_instance_version?
+> > > > > > > > > But as they are under different locations, could that location imply
+> > > > > > > > > enough information?
+> > > > > > > > >
+> > > > > > > > >
+> > > > > > > > > Thanks
+> > > > > > > > > Yan
+> > > > > > > > >
+> > > > > > > > >
+> > > > > > > >
+> > > > > > > _______________________________________________
+> > > > > > > intel-gvt-dev mailing list
+> > > > > > > intel-gvt-dev@lists.freedesktop.org
+> > > > > > > https://lists.freedesktop.org/mailman/listinfo/intel-gvt-dev
+> > > > > 
+> > > > --
+> > > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> > > > 
+> > > 
+> > --
+> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> > 
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
