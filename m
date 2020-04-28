@@ -2,58 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8B701BC0A7
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 16:07:31 +0200 (CEST)
-Received: from localhost ([::1]:59304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFDA31BC066
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 15:59:34 +0200 (CEST)
+Received: from localhost ([::1]:58844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTQtW-0008AM-OA
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 10:07:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39534)
+	id 1jTQlp-0008JU-Gb
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 09:59:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38792)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jTQqW-0000Hl-UF
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:04:28 -0400
+ (envelope-from <eblake@redhat.com>) id 1jTQgh-0006Ke-Nl
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:58:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jTQoH-00047P-MB
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 10:04:18 -0400
-Resent-Date: Tue, 28 Apr 2020 10:04:18 -0400
-Resent-Message-Id: <E1jTQoH-00047P-MB@eggs.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21785)
+ (envelope-from <eblake@redhat.com>) id 1jTQch-0000Sb-Vs
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:54:15 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58460
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jTQb7-0007GR-5D; Tue, 28 Apr 2020 09:48:29 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1588081703; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=n6unSk1Iy2AODttM59bjdQYfGzGf5JP7pjGF0PCouqKbXSoY96e9JpF2FYwVEJvVppSLxsgV0wDePu4mMCK1eYyK5eLCU2yTX/qC1jWQ1oLQsXgL+QjujGmcwYUZySa/6ABrNH2U44gBHURwFRVrHY7Rlv8zOtyzf6ec9V9JFOY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1588081703;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=c6w4VT+f2qrvrKmAHszv5Z4PFscts1lcgZAjKo8qY4s=; 
- b=bSl8KDlkYpWFLY5oba19Jo5WQcZAZS2wT89jKBNZxbrO6kJd5TBJ2kLbX9HKBS1/vXTiB7Iif6NG3wAfVhHneDdAyfiClTQ2tbU9bLu7byYaVHU3FCHz5iUqkIaa9vVMITCmkLgdHzunQTMaT4gBBZtdQMqbYl9jO9Ly3m57Irc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1588081702503111.85697174591508;
- Tue, 28 Apr 2020 06:48:22 -0700 (PDT)
-In-Reply-To: <20200428132629.796753-1-mreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jTQch-0000SJ-IW
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 09:50:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588081806;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0HERtMhpYr7NF+S7e4pmK6DIPXXMjl1K1GtnqrJdzG0=;
+ b=XLB4rr1c/IAJ+lF0iOo7xMhSMwXsQlvokn1w0J6W1FGMY5qbRsLnIw8cbX3d1W59uzv4FI
+ NGYEl38Bw/nEW3ut5Fx92qLkff++31dKjxvabwHDTEuAI9eNAQPn0pB5ODoOmj/mBE08xz
+ ZV7WOGX1pvq68F9Go3MmqpwRF/6C3Rw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-131--zPPIK3kPCOIGIxDlqZ21A-1; Tue, 28 Apr 2020 09:50:02 -0400
+X-MC-Unique: -zPPIK3kPCOIGIxDlqZ21A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CE42A0BDC;
+ Tue, 28 Apr 2020 13:50:01 +0000 (UTC)
+Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 37F715D9E5;
+ Tue, 28 Apr 2020 13:49:59 +0000 (UTC)
 Subject: Re: [PATCH 0/4] block: Do not call BlockDriver.bdrv_make_empty()
  directly
-Message-ID: <158808170135.30407.7002209344321514508@39012742ff91>
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200428132629.796753-1-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <c8235407-a2cf-abe3-e5d9-f16170f9b4b4@redhat.com>
+Date: Tue, 28 Apr 2020 08:49:58 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: mreitz@redhat.com
-Date: Tue, 28 Apr 2020 06:48:22 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 09:39:01
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Received-From: 136.143.188.57
+In-Reply-To: <20200428132629.796753-1-mreitz@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 04:11:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,58 +78,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDQyODEzMjYyOS43OTY3
-NTMtMS1tcmVpdHpAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRv
-Y2tlci1taW5nd0BmZWRvcmEgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29t
-bWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxl
-ZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQ
-VCBCRUdJTiA9PT0KIyEgL2Jpbi9iYXNoCmV4cG9ydCBBUkNIPXg4Nl82NAptYWtlIGRvY2tlci1p
-bWFnZS1mZWRvcmEgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtbWluZ3dAZmVk
-b3JhIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIENDICAgICAgYWFy
-Y2g2NC1zb2Z0bW11L2V4ZWMtdmFyeS5vCiAgQ0MgICAgICBhYXJjaDY0LXNvZnRtbXUvdGNnL3Rj
-Zy5vCi90bXAvcWVtdS10ZXN0L3NyYy9xZW11LWltZy5jOiBJbiBmdW5jdGlvbiAnaW1nX2NvbW1p
-dCc6Ci90bXAvcWVtdS10ZXN0L3NyYy9xZW11LWltZy5jOjEwNzE6Mjc6IGVycm9yOiBpbXBsaWNp
-dCBkZWNsYXJhdGlvbiBvZiBmdW5jdGlvbiAnYmxrX25ld193aXRoX2JzJzsgZGlkIHlvdSBtZWFu
-ICdibGtfZ2V0X3N0YXRzJz8gWy1XZXJyb3I9aW1wbGljaXQtZnVuY3Rpb24tZGVjbGFyYXRpb25d
-CiAgICAgICAgIG9sZF9iYWNraW5nX2JsayA9IGJsa19uZXdfd2l0aF9icyhicywgQkxLX1BFUk1f
-V1JJVEUsIEJMS19QRVJNX0FMTCwKICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+
-fn5+fn5+CiAgICAgICAgICAgICAgICAgICAgICAgICAgIGJsa19nZXRfc3RhdHMKL3RtcC9xZW11
-LXRlc3Qvc3JjL3FlbXUtaW1nLmM6MTA3MToyNzogZXJyb3I6IG5lc3RlZCBleHRlcm4gZGVjbGFy
-YXRpb24gb2YgJ2Jsa19uZXdfd2l0aF9icycgWy1XZXJyb3I9bmVzdGVkLWV4dGVybnNdCi90bXAv
-cWVtdS10ZXN0L3NyYy9xZW11LWltZy5jOjEwNzE6MjU6IGVycm9yOiBhc3NpZ25tZW50IHRvICdC
-bG9ja0JhY2tlbmQgKicge2FrYSAnc3RydWN0IEJsb2NrQmFja2VuZCAqJ30gZnJvbSAnaW50JyBt
-YWtlcyBwb2ludGVyIGZyb20gaW50ZWdlciB3aXRob3V0IGEgY2FzdCBbLVdlcnJvcj1pbnQtY29u
-dmVyc2lvbl0KICAgICAgICAgb2xkX2JhY2tpbmdfYmxrID0gYmxrX25ld193aXRoX2JzKGJzLCBC
-TEtfUEVSTV9XUklURSwgQkxLX1BFUk1fQUxMLAogICAgICAgICAgICAgICAgICAgICAgICAgXgpj
-YzE6IGFsbCB3YXJuaW5ncyBiZWluZyB0cmVhdGVkIGFzIGVycm9ycwptYWtlOiAqKiogWy90bXAv
-cWVtdS10ZXN0L3NyYy9ydWxlcy5tYWs6Njk6IHFlbXUtaW1nLm9dIEVycm9yIDEKbWFrZTogKioq
-IFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4KICBDQyAgICAgIGFhcmNoNjQtc29mdG1t
-dS90Y2cvdGNnLW9wLm8KICBDQyAgICAgIGFhcmNoNjQtc29mdG1tdS90Y2cvdGNnLW9wLXZlYy5v
-Ci0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vz
-cy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3VkbycsICctbicsICdkb2NrZXInLCAn
-cnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVpZD03ZTMzNzk3ZTI4NTE0YzQ4
-YTFjY2U3MDIxZDhiMDRmZCcsICctdScsICcxMDAzJywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2Nv
-bXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9MSVNUPScsICctZScsICdFWFRS
-QV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAnSj0xNCcsICctZScsICdERUJV
-Rz0nLCAnLWUnLCAnU0hPV19FTlY9JywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAvY2NhY2hl
-JywgJy12JywgJy9ob21lL3BhdGNoZXcyLy5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90
-bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLWRoOGlrMzc3
-L3NyYy9kb2NrZXItc3JjLjIwMjAtMDQtMjgtMDkuNDQuMTcuMjI1ODE6L3Zhci90bXAvcWVtdTp6
-LHJvJywgJ3FlbXU6ZmVkb3JhJywgJy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3QtbWluZ3cnXScg
-cmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVyPWxhYmVsPWNv
-bS5xZW11Lmluc3RhbmNlLnV1aWQ9N2UzMzc5N2UyODUxNGM0OGExY2NlNzAyMWQ4YjA0ZmQKbWFr
-ZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcgZGlyZWN0b3J5
-IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtZGg4aWszNzcvc3JjJwptYWtlOiAqKiogW2Rv
-Y2tlci1ydW4tdGVzdC1taW5nd0BmZWRvcmFdIEVycm9yIDIKCnJlYWwgICAgNG00Ljk2N3MKdXNl
-ciAgICAwbTguMzQ5cwoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNo
-ZXcub3JnL2xvZ3MvMjAyMDA0MjgxMzI2MjkuNzk2NzUzLTEtbXJlaXR6QHJlZGhhdC5jb20vdGVz
-dGluZy5kb2NrZXItbWluZ3dAZmVkb3JhLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0
-ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFz
-ZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On 4/28/20 8:26 AM, Max Reitz wrote:
+> Branch: https://github.com/XanClic/qemu.git fix-bdrv_make_empty-v1
+> Branch: https://git.xanclic.moe/XanClic/qemu.git fix-bdrv_make_empty-v1
+>=20
+> Hi,
+>=20
+> Right now, there is no centralized bdrv_make_empty() function.  Not only
+> is it bad style to call BlockDriver methods directly, it is also wrong,
+> unless the caller has a BdrvChild with BLK_PERM_WRITE taken.
+
+I'm also in the middle of writing a patch series that adds a=20
+corresponding .bdrv_make_empty driver callback.  I'll rebase that work=20
+on top of this, as part of my efforts at fixing more code to rely on=20
+bdrv_make_empty rather than directly querying bdrv_has_zero_init[_truncate]=
+.
+
+>=20
+> This series fixes that.
+>=20
+> Note that as far as I=E2=80=99m aware this series shouldn=E2=80=99t visib=
+ly fix anything
+> at this point; but =E2=80=9Cblock: Introduce real BdrvChildRole=E2=80=9D
+> (https://lists.nongnu.org/archive/html/qemu-block/2020-02/msg00737.html)
+> makes the iotest break when run with -o data_file=3D$SOMETHING, without
+> this series applied beforehand.  (That is because without that series,
+> external data files are treated much like metadata children, so the
+> format driver always takes the WRITE permission if the file is writable;
+> but after that series, it only does so when it itself has a parent
+> requestion the WRITE permission.)
+>=20
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
