@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5897A1BB80A
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 09:50:32 +0200 (CEST)
-Received: from localhost ([::1]:45060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB9DE1BB80E
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 09:50:37 +0200 (CEST)
+Received: from localhost ([::1]:45068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTL0g-0006LN-Cn
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 03:50:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35856)
+	id 1jTL0m-0006Qj-JJ
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 03:50:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35862)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gorbak25@gmail.com>) id 1jTJpG-000062-Fz
+ (envelope-from <gorbak25@gmail.com>) id 1jTJpH-000068-MH
  for qemu-devel@nongnu.org; Tue, 28 Apr 2020 02:36:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <gorbak25@gmail.com>) id 1jTJkc-000808-PZ
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 02:34:38 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40216)
+ (envelope-from <gorbak25@gmail.com>) id 1jTJkm-00080U-RR
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 02:34:39 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:50872)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <gorbak25@gmail.com>)
- id 1jTJkc-0007zt-9X
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 02:29:50 -0400
-Received: by mail-wr1-x443.google.com with SMTP id k13so23235276wrw.7
- for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 23:29:49 -0700 (PDT)
+ id 1jTJkm-00080L-Cd
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 02:30:00 -0400
+Received: by mail-wm1-x342.google.com with SMTP id x25so1379256wmc.0
+ for <qemu-devel@nongnu.org>; Mon, 27 Apr 2020 23:30:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6BE++WsHDYO/WOBqJLui7tOCRnqB8ihSSf6W8ZHJC58=;
- b=nM9hl7S7+RQTxl+m0wJsf+Uu39xU2juocV+4M9QJrHIoCFJvGsuda+dbtbNNNC/9/9
- mVR8wmkJ/tJRrYnmlLK4j1TcQwphdLKdugvkCOYO6oZXIfwLH4JGEAQUC0zUS633O5bH
- rLVNnETO10FU58TlVyXSCb4qyjobuNqSUn3sRZ5/M+6BLkAmigKTu/9rErt+DYJgO+x1
- UeiUS5fGO5n2RRKGY0yR8Ubx+h7aTmb3FbV4osINY5RLLa9a371bXCr7MChrtwdPuqoJ
- 6utk6llcKNACK+u1/711wpRJJRLljc1j1q5eS+Ai0alnoDUWafB2vpccVKZtKav+Ws+I
- ziIw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=/xdW9TlF14cno7Dox1YULYIivWRvz4pvd3kbVi7j+L4=;
+ b=LFE04p88MpHoPldLuBL/ef/Ua1bNp9e+y/AioN8MiM9U5SHhMHb2oaOuIHdrgUrfvp
+ OwWz5i3q1Tu4LjPp1sZH+uewJSXti8ttRSe8d4o4Yu9774I62ekPt4PWwGGhSWeKwURe
+ Ujhqmqn4J7uo8NwSOeHNm7zB07nEI89ZLHKzkvQ6aAibNYyiRGvStPM8fWwvmlIgeLf0
+ kL5lPAGouNRIDqC54gdYhcUeIT8+TvQlmoaylTU7gdf5GOflOAULoHvyg0STXeW1JqD2
+ b3Wb8+3KZ0w1uJGCNf8Yoy4RhiJJW0ZhIBUJTUGabjsPKXlvUQHvXTzw9rBHXagIZJky
+ 8iiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6BE++WsHDYO/WOBqJLui7tOCRnqB8ihSSf6W8ZHJC58=;
- b=aUKocfLdAaMTSIZRYUXWmTopsXt6MObVOwy0K3wT58woIUKKtw2wrcFiqO0E3aBheH
- rjuOLbuITFrjeY07cMeIwR+WuRzisaAxtkbE5+oxBiFEhElVaYVHkHdFqWVaz25ELjzO
- Otm/Za6SoWqMMpKIW9qBqLqnPHgOkoYHv9YHIg/wkfNOXsc3sxWhqliO0nOLaCJF8GZ6
- syulOEQh6JF72qluMMjIKCbI++Bz4l2twYHfajHX6vVnuSbUusgjnyh8pL/xoaM8qWnA
- EFtJMpoIIkyXD9pQaFNRZ4YwJWqKuueGnaS1AAYzUdQEeHar4hhSXUE7D9PPxZqD0zoF
- fb3g==
-X-Gm-Message-State: AGi0PuZrJwizdatk+UGu9q4/XOLlgzQkD2Yu/ZgDgf4QOGb0okz7eRbE
- KTTQV6cwUbffNarKminPhnhQKCLZnCbFEg==
-X-Google-Smtp-Source: APiQypKMJeOYX3PcohWzIS41hAKPeyC3HjuX1SjsDhBdVcAyjumoMDzsHpT/1m0Gnu0C1B4RG+D8jw==
-X-Received: by 2002:adf:dd8a:: with SMTP id x10mr31936913wrl.308.1588055387873; 
- Mon, 27 Apr 2020 23:29:47 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=/xdW9TlF14cno7Dox1YULYIivWRvz4pvd3kbVi7j+L4=;
+ b=T0NIEnU58BPuCNyTwlByHJz0mKHNIGghHtrkcLt9KwA0dkQQ2XPX1cxqR8PQYl+rkp
+ 8F6FH06TDqauLZwMlQoErevsnash0HNfVtQgPyo6gK19uD+BpNqI7Tny2zqs8UaEJtP+
+ sJy+3ngu0pJyizWdlUI0zm5UsuASowdnk9QDu03liy+ehfOtqTy7xPpeey7QIM8Ff6Jb
+ AElxlWGrmh0LcWQKZsVUjPmxqS0Rb9rKnQmskDh6Ge58Z/iipz2FATAPKL9pRTRaLADr
+ arVylC+QPQkDYZCpJBg7qJ/b8/2//6EMRdik8CU1kuio2TrCCV0KKobCQdtwnsR1Q8cB
+ ltXA==
+X-Gm-Message-State: AGi0PuYu2jTFNzAxEizlTdUI6nL/WrxPKIPfacLlVV7YmQeK2t8N/qoV
+ Yx065TfC2+JwjxZfh6mwG8CtQRwdbcJ2PA==
+X-Google-Smtp-Source: APiQypJjAWImZKi6yyETe7bMvdVFmRMyX+Q/xhJCHdWzOGMOtz5pIllYGMr6MRFpzeCK7ibGxixnWw==
+X-Received: by 2002:a1c:8106:: with SMTP id c6mr2746244wmd.88.1588055398259;
+ Mon, 27 Apr 2020 23:29:58 -0700 (PDT)
 Received: from localhost.localdomain (public-gprs351065.centertel.pl.
  [37.47.2.154])
- by smtp.gmail.com with ESMTPSA id a205sm2030564wmh.29.2020.04.27.23.29.46
+ by smtp.gmail.com with ESMTPSA id a205sm2030564wmh.29.2020.04.27.23.29.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Apr 2020 23:29:47 -0700 (PDT)
+ Mon, 27 Apr 2020 23:29:57 -0700 (PDT)
 From: Grzegorz Uriasz <gorbak25@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] Fix QEMU crashes when passing IGD to a guest VM under XEN
-Date: Tue, 28 Apr 2020 06:28:45 +0000
-Message-Id: <20200428062847.7764-1-gorbak25@gmail.com>
+Subject: [PATCH 1/2] Fix undefined behaviour
+Date: Tue, 28 Apr 2020 06:28:46 +0000
+Message-Id: <20200428062847.7764-2-gorbak25@gmail.com>
 X-Mailer: git-send-email 2.26.1
+In-Reply-To: <20200428062847.7764-1-gorbak25@gmail.com>
+References: <20200428062847.7764-1-gorbak25@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=gorbak25@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=gorbak25@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::443
-X-Mailman-Approved-At: Tue, 28 Apr 2020 03:48:46 -0400
+X-Received-From: 2a00:1450:4864:20::342
+X-Mailman-Approved-At: Tue, 28 Apr 2020 03:48:48 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,47 +90,44 @@ Cc: artur@puzio.waw.pl, Stefano Stabellini <sstabellini@kernel.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Signed-off-by: Grzegorz Uriasz <gorbak25@gmail.com>
+---
+ hw/xen/xen_pt_load_rom.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-Hi,
-
-This patch series is a small subset of a bigger patch set spanning few projects aiming to isolate the GPU
-in QUBES OS to a dedicated security domain. I'm doing this together with 3 colleagues as part of our Bachelors thesis.
-
-When passing an Intel Graphic Device to a HVM guest under XEN, QEMU sometimes crashes
-when starting the VM. It turns out that the code responsible for setting up
-the legacy VBIOS for the IGD contains a bug which results in a memcpy of an undefined size
-between the QEMU heap and the physical memory of the guest.
-
-If the size of the memcpy is small enough qemu does not crash - this means that this
-bug is actually a small security issue - a hostile guest kernel might determine the memory layout of
-QEMU simply by looking at physical memory beyond 0xdffff - this defeats ASLR and might make exploitation
-easier if other issues were to be found.
-
-The problem is the current mechanism for obtaining a copy of the ROM of the IGD.
-We first allocate a buffer which holds the vbios - the size of which is obtained from sysfs.
-We then try to read the rom from sysfs, if we fail then we just return without setting the size of the buffer.
-This would be ok if the size of the ROM reported by sysfs would be 0, but the size is always 32 pages as this corresponds
-to legacy memory ranges. It turns out that reading the ROM fails on every single device I've tested(spanning few
-generations of IGD), which means qemu never sets the size of the buffer and returns a valid pointer to code which
-basically does a memcpy of an undefined size.
-
-I'm including two patches.
-The first one fixes the security issue by making failing to read the ROM from sysfs fatal.
-The second patch introduces a better method for obtaining the VBIOS. I've haven't yet seen a single device on which
-the old code was working, the new code basically creates a shadow copy directly by reading from /dev/mem - this
-should be fine as a quick grep of the codebase shows that this approach is already being used to handle MSI.
-I've tested the new code on few different laptops and it works fine and the guest VMS finally stopped complaining that
-the VBIOS tables are missing.
-
-Grzegorz Uriasz (2):
-  Fix undefined behaviour
-  Improve legacy vbios handling
-
- hw/xen/xen_pt.c          |  8 +++++--
- hw/xen/xen_pt_graphics.c | 48 +++++++++++++++++++++++++++++++++++++---
- hw/xen/xen_pt_load_rom.c | 13 +++++------
- 3 files changed, 57 insertions(+), 12 deletions(-)
-
+diff --git a/hw/xen/xen_pt_load_rom.c b/hw/xen/xen_pt_load_rom.c
+index a50a80837e..9f100dc159 100644
+--- a/hw/xen/xen_pt_load_rom.c
++++ b/hw/xen/xen_pt_load_rom.c
+@@ -38,12 +38,12 @@ void *pci_assign_dev_load_option_rom(PCIDevice *dev,
+     fp = fopen(rom_file, "r+");
+     if (fp == NULL) {
+         if (errno != ENOENT) {
+-            error_report("pci-assign: Cannot open %s: %s", rom_file, strerror(errno));
++            warn_report("pci-assign: Cannot open %s: %s", rom_file, strerror(errno));
+         }
+         return NULL;
+     }
+     if (fstat(fileno(fp), &st) == -1) {
+-        error_report("pci-assign: Cannot stat %s: %s", rom_file, strerror(errno));
++        warn_report("pci-assign: Cannot stat %s: %s", rom_file, strerror(errno));
+         goto close_rom;
+     }
+ 
+@@ -59,10 +59,9 @@ void *pci_assign_dev_load_option_rom(PCIDevice *dev,
+     memset(ptr, 0xff, st.st_size);
+ 
+     if (!fread(ptr, 1, st.st_size, fp)) {
+-        error_report("pci-assign: Cannot read from host %s", rom_file);
+-        error_printf("Device option ROM contents are probably invalid "
+-                     "(check dmesg).\nSkip option ROM probe with rombar=0, "
+-                     "or load from file with romfile=\n");
++        warn_report("pci-assign: Cannot read from host %s", rom_file);
++        memory_region_unref(&dev->rom);
++        ptr = NULL;
+         goto close_rom;
+     }
+ 
 -- 
 2.26.1
 
