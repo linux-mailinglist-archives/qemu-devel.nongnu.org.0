@@ -2,72 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B83E1BB9D2
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 11:28:15 +0200 (CEST)
-Received: from localhost ([::1]:48978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C45A1BB9C5
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Apr 2020 11:24:08 +0200 (CEST)
+Received: from localhost ([::1]:48492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTMXG-00044X-Bq
-	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 05:28:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59988)
+	id 1jTMTH-00062r-A7
+	for lists+qemu-devel@lfdr.de; Tue, 28 Apr 2020 05:24:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59982)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jTMQ4-0002C8-FS
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:22:11 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTMQ2-0002C6-VM
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:22:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jTMNY-0000xN-R0
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:20:47 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55467
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jTMNY-0000ww-DC
- for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:18:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588065491;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=skT+eEQ8GSD2a4gia8wU7vGSyJ6xvinMLrKAReaBG4I=;
- b=XSeA+nccs3a19dht6rjpacS6+3qr41c57daARw0rl6Zyh+bsRuIdTwfCs+6nsIPbGEgMsW
- p+LI9PPhmbd4K7hWYXnQmLB4rX3ydnknAgb0sO9bVmd7FcSvC7yNPOPxaXevIsENLzojdC
- fj784u8FvzdmBiUNKHcHAivsU7qsLcU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-_HLvFpv9PnC-GvNHmrzl7w-1; Tue, 28 Apr 2020 05:18:09 -0400
-X-MC-Unique: _HLvFpv9PnC-GvNHmrzl7w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A42A6107B271;
- Tue, 28 Apr 2020 09:18:08 +0000 (UTC)
-Received: from gondolin (ovpn-112-178.ams2.redhat.com [10.36.112.178])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7876160D37;
- Tue, 28 Apr 2020 09:18:04 +0000 (UTC)
-Date: Tue, 28 Apr 2020 11:18:01 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH 3/3] virtio-net: remove VIRTIO_NET_HDR_F_RSC_INFO compat
- handling
-Message-ID: <20200428111801.7422d95a.cohuck@redhat.com>
-In-Reply-To: <85367d20-e4f5-6869-319e-2f60d2510130@redhat.com>
-References: <20200427102415.10915-1-cohuck@redhat.com>
- <20200427102415.10915-4-cohuck@redhat.com>
- <7f703bea-2cae-dcdc-71bd-9623c7db33ac@redhat.com>
- <20200428103407.12612838.cohuck@redhat.com>
- <85367d20-e4f5-6869-319e-2f60d2510130@redhat.com>
-Organization: Red Hat GmbH
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTMNX-0000x1-Pw
+ for qemu-devel@nongnu.org; Tue, 28 Apr 2020 05:20:46 -0400
+Received: from mail-eopbgr30122.outbound.protection.outlook.com
+ ([40.107.3.122]:41966 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jTMNX-0000wf-D8; Tue, 28 Apr 2020 05:18:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ddEa3RuUeRxEgP89onZILoJ6E1LIQopCzqY73XJl+ZqGN7nLVMXLlFjepkz+JhzTzQ6inF/kgKMlhiNA2F/lUBint81D0jC0+DIxOdK9lxzg8pkM0jTfSfLNEtZZ7/bqsZQzVKOjArUU8RiiB3n9QAOYeXaf/g8lbpkhE0+O0JpcPE5u/Tr1EF/JKe0sqOilwsayHD+vq2HQPlwqJzdigfcNPf0BgCU8QgbCT7SpLKS9JTs7GcP5QPKHOhgO15g6S7kDWb0RR028FS957vQKH7Ua+drjtSKiZb++aUZkpDbP9RhAe31yoO00EP5ThKO1KTwNe7Iweh93nYkk3XgQHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ks/+RSMBv4GNar4lRd1zaRMbsakoqnAvZTHOYCB+QIs=;
+ b=i/9k1H1PEWM+7YZKHk9BhawsG7cG23mVlV/ows3ajKZTyjv8vz21SEPvRDakIO/B9eON/LrVQBRAqbAFt0PlrHBPLVjopU5dR8WUuvu84u02kP1L00pliDnd8h90jamWL6sEwtoSSesyHakG2Bjt+At3cms7l6FZThTuPP471CTN9ccKgKWOYDQyZtVZcKHfBenYr1FTdowDuoqxeDIutIPUx3EP41vbMRxW6ylI4JFAhDx+l8V3ZD1pVga0zJdgv7R7VV8SzWPqDQ1/POS/PGzudrmjT52qqcH/yfg5AHIV6FQsZ80pw/2NAM0RPCQSWHWGBeEX5XFTjTv/wtTC+A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ks/+RSMBv4GNar4lRd1zaRMbsakoqnAvZTHOYCB+QIs=;
+ b=HgJR0lRMrb85nkCIiVZuMSZKJlVWh/FZtylIML8rjL3/lpyJ9k3VINEOtr62tXu3C2racM42Nr/6mRAqX5bx92GkGFxA0WWA2OCXrTpsPtXeZAsFozhTUjyxwHpVcyrI6mz7awkSq9kkuQAz8qrwdUgyqMhB3SrsRJdWkM/3XSI=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5398.eurprd08.prod.outlook.com (2603:10a6:20b:103::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Tue, 28 Apr
+ 2020 09:18:08 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.023; Tue, 28 Apr 2020
+ 09:18:08 +0000
+Subject: Re: [PATCH v2 1/6] block/block-copy: rename in-flight requests to
+ tasks
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200325134639.16337-1-vsementsov@virtuozzo.com>
+ <20200325134639.16337-2-vsementsov@virtuozzo.com>
+ <da290ef0-c8dc-7cf0-fcf6-71e28aa323d5@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200428121806863
+Message-ID: <a5bfaf7c-6516-aa07-c8b9-028b894aff15@virtuozzo.com>
+Date: Tue, 28 Apr 2020 12:18:06 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <da290ef0-c8dc-7cf0-fcf6-71e28aa323d5@redhat.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: ZR0P278CA0007.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:16::17) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 02:06:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.155) by
+ ZR0P278CA0007.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:16::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2937.13 via Frontend Transport; Tue, 28 Apr 2020 09:18:08 +0000
+X-Tagtoolbar-Keys: D20200428121806863
+X-Originating-IP: [185.215.60.155]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 07643d21-0b5f-4558-ddcd-08d7eb551107
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5398:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB53988F2B4D17BD0E511CC961C1AC0@AM7PR08MB5398.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:57;
+X-Forefront-PRVS: 0387D64A71
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(39840400004)(346002)(396003)(366004)(376002)(52116002)(66556008)(2906002)(66946007)(53546011)(31686004)(66476007)(478600001)(5660300002)(8676002)(26005)(81156014)(8936002)(186003)(36756003)(16576012)(107886003)(956004)(2616005)(16526019)(6486002)(31696002)(316002)(4326008)(86362001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rwxdgjpVi6eLobzyzvvn1dvoxvdkYArn/1gQYJJxD6vLF47H1SbmVB+E/PZAHYOKQ+ie22lNm/IZGljrxcDrZdO/2w7NFxVIAK88XoLmxh+HXwgKHOZJlxiA0ebOkRrROvc13kNCIXHAkEzJMqstjPc8Gjt6oItVZFImPitkO8EK+f6VzVPyj3t53OTx/H7DPfqxIfU3UouxOLZ0YjS9gXsE9ltTyRkWe/1BXFtLaM/qC0nRb3Uch0PAxkVzKQvCFEH/rQE2qQtE1bLQWIXeo9x8iKNd3uM1W/RBwJEw81WThpqUXg75syjs3EVNout6V7oReOFscF44DtogcaJD9uCFOW7vV9Kc1Mzg7OC997WvGrDKybnD6FpNjBAOD84STtlnUgvZTUc4ddzpdyUzZ3aZI20rTYrIlL5yugpt5weELEIGDPPQ/Io/+VTpo6C3
+X-MS-Exchange-AntiSpam-MessageData: Zxty1RZqH9MOflFipZLe6+U79OJNmtBsdyLo5veCy4wDI+N99fls1Rwtd83TmQtxHwJKw/ALfAffoabP4sjyXI7TrPCwtds7vTkVx8TlmYDY0rxcUqUUefIhmI72raTDqlWfIQuv9emv6XX9l1tWw6PX+IeCavtNtJllWUWOIDNwTfkcOU2vCHTp/e9f5IjyO9OyLzDIpY3bZFVlgpo5ovQRYEDlhknLnO9B/NUHegYAp/7mw6T5OKEV0+9XnmMtQJ3INfhm8gG0DNwIEICJzY66qkdgJtqA5duwDJWF00yrML6sV3i0Hj82FDZcDskRRoNxHqkGtn2MB+TFCd60KTbqGPChs+7M0dGhozOIzIQ0NVKOsflJfSTULp3G3kbUjjSB/M95/0Ii/rIV3aQmfooBjC2il2Su4UvS4FI29sYHyUe+MbVNE8kCb601xPYHTL9xz+K1lgcW6D9/DteuEflHPuHaxSguMml67aDjp9cvxpI/qTB5tKPpS4th3D9a+NRbndP5j9ApniOVVaMF/STohSYpV7N/SZsastBKosk+Ycegk5aHfm/98GMzOy3piPqtgxtfL+ivvA6mnltJZrfDEhVqUUdptNQB/MPmse/PJzg+fjeLv8IA/tNvBXkwNCXJfLYRDvMGoyjVHGL+Xkq6pv6nbjmZoyMxkt2z+m1jziWbI9I0GZ0aqO3ObwuiaWPGEkutlVApYl/afvtJObyT1asXF/lg0RD33tiFz1bNrauzt1u3ipiZkIbfvJPkvH6j52W6SVaZV3JRaHC9EIzUfMGj/jE5t2BxSgm3LSU=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07643d21-0b5f-4558-ddcd-08d7eb551107
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2020 09:18:08.8333 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WiEoKuNNogJkJyf0mBUeTa6bTM0cMk0o684eTgwj6JYOM4aXEGyf/Ax37it6qS/G1xtXcx8id6GAVYaE2H7R+y5+Dfz06UJg7pg81BhYHQ4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5398
+Received-SPF: pass client-ip=40.107.3.122;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR03-AM5-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/28 05:18:09
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Received-From: 40.107.3.122
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,62 +115,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Yuri Benditovich <yuri.benditovich@daynix.com>
+Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 Apr 2020 16:58:44 +0800
-Jason Wang <jasowang@redhat.com> wrote:
+28.04.2020 10:30, Max Reitz wrote:
+> On 25.03.20 14:46, Vladimir Sementsov-Ogievskiy wrote:
+>> We are going to use aio-task-pool API and extend in-flight request
+>> structure to be a successor of AioTask, so rename things appropriately.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   block/block-copy.c | 99 +++++++++++++++++++++++-----------------------
+>>   1 file changed, 49 insertions(+), 50 deletions(-)
+>>
+>> diff --git a/block/block-copy.c b/block/block-copy.c
+>> index 05227e18bf..61d1d26991 100644
+>> --- a/block/block-copy.c
+>> +++ b/block/block-copy.c
+> 
+> [...]
+> 
+>> -static void coroutine_fn block_copy_inflight_req_shrink(BlockCopyState *s,
+>> -        BlockCopyInFlightReq *req, int64_t new_bytes)
+>> +static void coroutine_fn block_copy_task_shrink(BlockCopyState *s,
+>> +                                                BlockCopyTask *task,
+>> +                                                int64_t new_bytes)
+>>   {
+>> -    if (new_bytes == req->bytes) {
+>> +    if (new_bytes == task->bytes) {
+>>           return;
+>>       }
+>>   
+>> -    assert(new_bytes > 0 && new_bytes < req->bytes);
+>> +    assert(new_bytes > 0 && new_bytes < task->bytes);
+>>   
+>> -    s->in_flight_bytes -= req->bytes - new_bytes;
+>> +    s->in_flight_bytes -= task->bytes - new_bytes;
+>>       bdrv_set_dirty_bitmap(s->copy_bitmap,
+>> -                          req->offset + new_bytes, req->bytes - new_bytes);
+>> +                          task->offset + new_bytes, task->bytes - new_bytes);
+>> +    s->in_flight_bytes -= task->bytes - new_bytes;
+> 
+> This line doesn’t seem right.
+> 
 
-> On 2020/4/28 =E4=B8=8B=E5=8D=884:34, Cornelia Huck wrote:
-> > On Tue, 28 Apr 2020 16:19:15 +0800
-> > Jason Wang <jasowang@redhat.com> wrote:
-> > =20
-> >> On 2020/4/27 =E4=B8=8B=E5=8D=886:24, Cornelia Huck wrote: =20
-> >>> VIRTIO_NET_HDR_F_RSC_INFO is available in the headers now.
-> >>>
-> >>> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> >>> ---
-> >>>    hw/net/virtio-net.c | 8 --------
-> >>>    1 file changed, 8 deletions(-)
-> >>>
-> >>> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> >>> index e85d902588b3..7449570c7123 100644
-> >>> --- a/hw/net/virtio-net.c
-> >>> +++ b/hw/net/virtio-net.c
-> >>> @@ -77,14 +77,6 @@
-> >>>       tso/gso/gro 'off'. */
-> >>>    #define VIRTIO_NET_RSC_DEFAULT_INTERVAL 300000
-> >>>   =20
-> >>> -/* temporary until standard header include it */
-> >>> -#if !defined(VIRTIO_NET_HDR_F_RSC_INFO)
-> >>> -
-> >>> -#define VIRTIO_NET_HDR_F_RSC_INFO  4 /* rsc_ext data in csum_ fields=
- */
-> >>> -#define VIRTIO_NET_F_RSC_EXT       61
-> >>> -
-> >>> -#endif
-> >>> -
-> >>>    static inline __virtio16 *virtio_net_rsc_ext_num_packets(
-> >>>        struct virtio_net_hdr *hdr)
-> >>>    { =20
-> >>
-> >> I think we should not keep the those tricky num_packets/dup_acks. =20
-> > No real opinion here, patch 3 is only a cleanup.
-> >
-> > The important one is patch 1, because without it I cannot do a headers
-> > update. =20
->=20
->=20
-> Yes, at least we should dereference segments/dup_acks instead of=20
-> csum_start/csum_offsets since the header has been synced.
+Hmm yes.. A kind of copy-paste or rebase artifact.
 
-So what about:
 
-- I merge patch 1 and the header sync now (because I have a bunch of
-  patches that depend on it...)
-- We change virtio-net to handle that properly on top (probably best
-  done by someone familiar with the code base ;)
-
+-- 
+Best regards,
+Vladimir
 
