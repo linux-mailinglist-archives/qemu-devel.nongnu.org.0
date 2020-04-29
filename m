@@ -2,53 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3ADE1BDB33
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 13:56:58 +0200 (CEST)
-Received: from localhost ([::1]:58776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91A641BDB43
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 14:00:48 +0200 (CEST)
+Received: from localhost ([::1]:42394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTlKj-0004fn-TM
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 07:56:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51374)
+	id 1jTlOR-00015t-Ja
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 08:00:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51480)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jTlJl-0003V1-4y
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:55:57 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jTlKh-0005HB-CQ
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:56:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jTlJk-0003sZ-3o
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:55:56 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22917
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1jTlKg-0004FK-NB
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:56:55 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33451
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jTlJj-0003sA-LI
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:55:55 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jTlKg-0004FD-9E
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:56:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588161354;
+ s=mimecast20190719; t=1588161413;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UQz370grafddptGtLkewNdd9s8rkpUvcsD8gZ5x3pxo=;
- b=SJ0rqpaWZmEWFNwnWkSInBM+DHQPnKF6vgkp9SLJ1G9BuarxipnIgrMVaFyi4ER0I8NJKn
- A6FblKjlJkXJExfO5L8p0U5+hGCvnz2Zb9XeKqX0vIG5nSOLLx0SI3a3UWhV3hdwBW1/vj
- lctIPhmYWEKgF7PLgncF0Wbn4icTRgE=
+ bh=il7bRSL0ZmjCLl39OJc1FAVf8D8/TFCXIYTbJI3H3HU=;
+ b=NXq/7ZIDLDp+TNpqG9GEHeO8FZyWbQwhSnMfEdJiJCZnaahj6Xee2uj3C2YUblEQCKCgkz
+ PThXpLvh8AT/NpZBujqE71a1LFg/C3ZkdGbVcT1YFq8l6zrjLvVnYUAm3YRE+BCpa6kmqI
+ Sdx4xlWN49tUoY/lMZmT9DH8pMt3djE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-fyHpPMGaMxqIK8Af3SgMcw-1; Wed, 29 Apr 2020 07:55:52 -0400
-X-MC-Unique: fyHpPMGaMxqIK8Af3SgMcw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-351-LS8Z3fboPOGq65eAu1ZrAA-1; Wed, 29 Apr 2020 07:56:51 -0400
+X-MC-Unique: LS8Z3fboPOGq65eAu1ZrAA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8954108BD1E;
- Wed, 29 Apr 2020 11:55:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15FDC18957EA;
+ Wed, 29 Apr 2020 11:56:50 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-113-19.ams2.redhat.com
  [10.36.113.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 686795C465;
- Wed, 29 Apr 2020 11:55:50 +0000 (UTC)
-Subject: Re: [PATCH v3 5/5] block/block-copy: use aio-task-pool API
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CEA3F5D9C9;
+ Wed, 29 Apr 2020 11:56:48 +0000 (UTC)
+Subject: Re: [PATCH v3 4/5] block/block-copy: refactor task creation
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20200429061039.12687-1-vsementsov@virtuozzo.com>
- <20200429061039.12687-6-vsementsov@virtuozzo.com>
+ <20200429061039.12687-5-vsementsov@virtuozzo.com>
+ <affc8770-2b70-c3e4-af1b-ca620119c2d5@redhat.com>
+ <92dd552d-b181-5b39-c796-e228c4d33379@virtuozzo.com>
 From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -74,23 +76,23 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <1abe2617-4cc6-85c5-8c81-e2fa1fe4b5dc@redhat.com>
-Date: Wed, 29 Apr 2020 13:55:43 +0200
+Message-ID: <0f14b02d-884a-9581-f1c7-7133e6d36557@redhat.com>
+Date: Wed, 29 Apr 2020 13:56:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200429061039.12687-6-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <92dd552d-b181-5b39-c796-e228c4d33379@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="n4OpOIvQ3d0Nu44LxdAdxAgWclW2F8rbu"
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:18:10
+ boundary="ppfvitIFueypwC7zjHFrG9q2WiSCMP3Az"
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:28:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -107,122 +109,123 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---n4OpOIvQ3d0Nu44LxdAdxAgWclW2F8rbu
-Content-Type: multipart/mixed; boundary="RDM2R2pTHdPqfBkwBIX3GI7l4KB5v9kOc"
+--ppfvitIFueypwC7zjHFrG9q2WiSCMP3Az
+Content-Type: multipart/mixed; boundary="lmiUEGV7HGegee5zpI1GHaB4U3ZOs4ErJ"
 
---RDM2R2pTHdPqfBkwBIX3GI7l4KB5v9kOc
+--lmiUEGV7HGegee5zpI1GHaB4U3ZOs4ErJ
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 29.04.20 08:10, Vladimir Sementsov-Ogievskiy wrote:
-> Run block_copy iterations in parallel in aio tasks.
+On 29.04.20 13:54, Vladimir Sementsov-Ogievskiy wrote:
+> 29.04.2020 14:38, Max Reitz wrote:
+>> On 29.04.20 08:10, Vladimir Sementsov-Ogievskiy wrote:
+>>> Instead of just relying on the comment "Called only on full-dirty
+>>> region" in block_copy_task_create() let's move initial dirty area
+>>> search directly to block_copy_task_create(). Let's also use effective
+>>> bdrv_dirty_bitmap_next_dirty_area instead of looping through all
+>>> non-dirty clusters.
+>>>
+>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>> ---
+>>> =A0 block/block-copy.c | 78 ++++++++++++++++++++++++++-----------------=
+---
+>>> =A0 1 file changed, 44 insertions(+), 34 deletions(-)
+>>>
+>>> diff --git a/block/block-copy.c b/block/block-copy.c
+>>> index 35ff9cc3ef..5cf032c4d8 100644
+>>> --- a/block/block-copy.c
+>>> +++ b/block/block-copy.c
+>>
+>> [...]
+>>
+>>> @@ -106,17 +111,27 @@ static bool coroutine_fn
+>>> block_copy_wait_one(BlockCopyState *s, int64_t offset,
+>>> =A0=A0=A0=A0=A0 return true;
+>>> =A0 }
+>>> =A0 -/* Called only on full-dirty region */
+>>> +/*
+>>> + * Search for the first dirty area in offset/bytes range and create
+>>> task at
+>>> + * the beginning of it.
+>>
+>> Oh, that=92s even better.
+>>
+>>> + */
+>>> =A0 static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 int64=
+_t offset,
+>>> int64_t bytes)
+>>> =A0 {
+>>> -=A0=A0=A0 BlockCopyTask *task =3D g_new(BlockCopyTask, 1);
+>>> +=A0=A0=A0 if (!bdrv_dirty_bitmap_next_dirty_area(s->copy_bitmap,
+>>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 offset, offset + =
+bytes,
+>>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 s->copy_size, &of=
+fset,
+>>> &bytes))
+>>> +=A0=A0=A0 {
+>>> +=A0=A0=A0=A0=A0=A0=A0 return NULL;
+>>> +=A0=A0=A0 }
+>>> =A0 +=A0=A0=A0 /* region is dirty, so no existent tasks possible in it =
+*/
+>>> =A0=A0=A0=A0=A0 assert(!find_conflicting_task(s, offset, bytes));
+>>> =A0 =A0=A0=A0=A0=A0 bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, byt=
+es);
+>>> =A0=A0=A0=A0=A0 s->in_flight_bytes +=3D bytes;
+>>> =A0 +=A0=A0=A0 BlockCopyTask *task =3D g_new(BlockCopyTask, 1);
+>>
+>> This should be declared at the top of the function.
+>>
 >=20
-> Changes:
->   - BlockCopyTask becomes aio task structure. Add zeroes field to pass
->     it to block_copy_do_copy
->   - add call state - it's a state of one call of block_copy(), shared
->     between parallel tasks. For now used only to keep information about
->     first error: is it read or not.
->   - convert block_copy_dirty_clusters to aio-task loop.
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  block/block-copy.c | 104 +++++++++++++++++++++++++++++++++++++++------
->  1 file changed, 91 insertions(+), 13 deletions(-)
->=20
-> diff --git a/block/block-copy.c b/block/block-copy.c
-> index 5cf032c4d8..f5ef91f292 100644
-> --- a/block/block-copy.c
-> +++ b/block/block-copy.c
+> I just thought, why not to try another style? Are you against?
+> Requirement to declare variables at start of block is obsolete, isn't it?
 
-[...]
+Oh, it absolutely is and personally I=92m absolutely not against it, but
+CODING_STYLE says:
 
-> @@ -261,6 +278,30 @@ void block_copy_set_progress_meter(BlockCopyState *s=
-, ProgressMeter *pm)
->      s->progress =3D pm;
->  }
-> =20
-> +/* Takes ownership on @task */
-
-Still *of
-
-> +static coroutine_fn int block_copy_task_run(AioTaskPool *pool,
-> +                                            BlockCopyTask *task)
-> +{
-> +    if (!pool) {
-> +        int ret =3D task->task.func(&task->task);
-> +
-> +        g_free(task);
-> +        return ret;
-> +    }
-> +
-> +    aio_task_pool_wait_slot(pool);
-> +    if (aio_task_pool_status(pool) < 0) {
-> +        co_put_to_shres(task->s->mem, task->bytes);
-> +        block_copy_task_end(task, -EAGAIN);
-
-It looks like you may have missed my nit picks on v2 regarding this
-patch, so I=92m going to ask again whether -ECANCELED might be better here
-(even though it still doesn=92t really matter).
-
-> +        g_free(task);
-> +        return aio_task_pool_status(pool);
-
-And whether it may be better to return a constant like -ECANCELED here,
-because how a previous task failed shouldn=92t really concern this task
-(or its error code).
-
-> +    }
-> +
-> +    aio_task_pool_start_task(pool, &task->task);
-> +
-> +    return 0;
-> +}
-> +
->  /*
->   * block_copy_do_copy
->   *
-
-[...]
-
-> @@ -525,25 +590,38 @@ static int coroutine_fn block_copy_dirty_clusters(B=
-lockCopyState *s,
-
-[...]
-
-> +out:
-> +    if (aio) {
-> +        aio_task_pool_wait_all(aio);
-> +        if (ret =3D=3D 0) {
-> +            ret =3D aio_task_pool_status(aio);
-> +        }
-> +        g_free(aio);
-
-I=92d still prefer aio_task_pool_free().
+> Mixed declarations (interleaving statements and declarations within
+> blocks) are generally not allowed; declarations should be at the beginnin=
+g                                                                          =
+                                                                           =
+             =20
+> of blocks.
 
 Max
 
+>> Reviewed-by: Max Reitz <mreitz@redhat.com>
+>>
+>>> =A0=A0=A0=A0=A0 *task =3D (BlockCopyTask) {
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 .s =3D s,
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 .offset =3D offset,
+>>
+>=20
+>=20
 
---RDM2R2pTHdPqfBkwBIX3GI7l4KB5v9kOc--
 
---n4OpOIvQ3d0Nu44LxdAdxAgWclW2F8rbu
+
+--lmiUEGV7HGegee5zpI1GHaB4U3ZOs4ErJ--
+
+--ppfvitIFueypwC7zjHFrG9q2WiSCMP3Az
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6paz8ACgkQ9AfbAGHV
-z0CwJQf/cZHBp42QxXkEjs6S0wQIlPMZkivWsZqadXiBQrWqu/zOmPpE071BsJ8i
-juggvwVm4nXf1cme4+tnM+FxHcL7kJeWhPfHQ7Uv9bdv9HqtuXOVC2HfwXXbEUMH
-A/m+hxJCdkHWjNSxR15SavDbEMvHfj8oeTyC3Or56EFEFSfPTG9EV7xl1Mo7bUoV
-41t3Dof3g/VsEKuVxIZPFEWJaf3wiWVYuBGJzO2wbw5i/58d6LmHH39Q8c2FfEEL
-IIKngWkAkEkE/42YbNAf/FDzcEAuwRIqeesou25NFj38jME+DHUWOTSFjtbUJaVn
-AQcyhO03DV6ddrNPgOL2ji2eOVd6EQ==
-=MJ/I
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6pa38ACgkQ9AfbAGHV
+z0BSaAf+LeR893RGiZRPy1fJ6kKDf1jMHnZLwfqfWUtrcWAt7DULq7li4XzC2f7q
+chEVcR+QglrF3ra3UwDufIIb5I/5LfWsownK2qYwxwd1FPhsO/Ngm210QoX4HBEX
+gE3UK3KtbpLv2+NdXnUXXRZ/m5OyYIF/zTYO5JD/PSgBuD2mtLNipvy1Ev93WtBM
+aj4A7eAgJFCygdESrUSKFrPdWfSl+cpPlkb2C65KFrz8TBGWvUIemsIyNDB4Hx3h
+dHsOwCRomA0DepmBgxoFR+2I9wgKZRC4/iZpr5L5zvvhSadaSXsHmQicxmsIFaJj
+KewvABE9km+xJb3rgj2q1omkETVhZw==
+=RwEF
 -----END PGP SIGNATURE-----
 
---n4OpOIvQ3d0Nu44LxdAdxAgWclW2F8rbu--
+--ppfvitIFueypwC7zjHFrG9q2WiSCMP3Az--
 
 
