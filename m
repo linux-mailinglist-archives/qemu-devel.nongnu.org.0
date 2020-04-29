@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35DC71BD615
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:31:08 +0200 (CEST)
-Received: from localhost ([::1]:56522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15EBD1BD603
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:29:02 +0200 (CEST)
+Received: from localhost ([::1]:48608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jThBS-00072T-Tz
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:31:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46178)
+	id 1jTh9Q-0003hS-Vf
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:29:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46164)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTh1x-0007tp-R0
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:22:15 -0400
+ (envelope-from <armbru@redhat.com>) id 1jTh1v-0007ti-Vk
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:22:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTh1i-0003xd-C9
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:21:17 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49785
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1jTh1g-0003wW-Iu
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:21:15 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38445
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTh1g-0003ur-7P
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:21:00 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTh1f-0003u4-Ps
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:20:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588144857;
+ s=mimecast20190719; t=1588144856;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LuKMz2cunkuyvgsHrtA6mHRQurhlf+Q6ZpdMc5OyeVA=;
- b=YPBuMTW12EnWYveR326vcqxkUUOw4frNJbAtyhAipiuA0hgFz5JL6whaTMw2e4O+Mnfxbt
- 9gurWbor2RBwrMN0b2Sq0sbQH2yv2DuyF1tAnNRAHqhKp6IUTJyzEvcYv19xLPoYOp81kT
- 0wqxC3oboz2YgAv5ig0GfGr4fNLkklE=
+ bh=PhhhUudLUbRStHxYbTEaO9gPqZJVt40K2eleSR+HyVE=;
+ b=MgQPxevOY2zlrL6xKxk3njT7KuJ0ZL2nQBndXvsbpEqs6pW67RkBJ0Wvv0Mg46k61jWzAj
+ GtdrVKC33vW9ocnb2mmTlf7xB5N34Ra4WG7ccvUzWNscKG71s69lhGvv9YX0RJIFUpfoCl
+ CpFyrj2oQTcGm7rFLbIfAFZ0HLyV1Bc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-PhhyA91fOTm_1kO8hKGi9g-1; Wed, 29 Apr 2020 03:20:55 -0400
-X-MC-Unique: PhhyA91fOTm_1kO8hKGi9g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-506-UV-j63ukPdaHtcS_9EJg1g-1; Wed, 29 Apr 2020 03:20:54 -0400
+X-MC-Unique: UV-j63ukPdaHtcS_9EJg1g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB9DFBFC5;
- Wed, 29 Apr 2020 07:20:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9FED801504
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 07:20:53 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 75ED25D779;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 794EA648DF;
  Wed, 29 Apr 2020 07:20:53 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3BA1911358D0; Wed, 29 Apr 2020 09:20:49 +0200 (CEST)
+ id 41F8411358D1; Wed, 29 Apr 2020 09:20:49 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/32] xen/pt: Fix flawed conversion to realize()
-Date: Wed, 29 Apr 2020 09:20:35 +0200
-Message-Id: <20200429072048.29963-20-armbru@redhat.com>
+Subject: [PULL 20/32] io: Fix qio_channel_socket_close() error handling
+Date: Wed, 29 Apr 2020 09:20:36 +0200
+Message-Id: <20200429072048.29963-21-armbru@redhat.com>
 In-Reply-To: <20200429072048.29963-1-armbru@redhat.com>
 References: <20200429072048.29963-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 00:53:13
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:42:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,71 +75,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The conversion of xen_pt_initfn() to xen_pt_realize() blindly replaced
-XEN_PT_ERR() by error_setg().  Several error conditions that did not
-fail xen_pt_initfn() now fail xen_pt_realize().  Unsurprisingly, the
-cleanup on these errors looks highly suspicious.
+The Error ** argument must be NULL, &error_abort, &error_fatal, or a
+pointer to a variable containing NULL.  Passing an argument of the
+latter kind twice without clearing it in between is wrong: if the
+first call sets an error, it no longer points to NULL for the second
+call.
 
-Revert the inappropriate replacements.
+qio_channel_socket_close() passes @errp first to
+socket_listen_cleanup(), and then, if closesocket() fails, to
+error_setg_errno().  If socket_listen_cleanup() failed, this will trip
+the assertion in error_setv().
 
-Fixes: 5a11d0f7549e24a10e178a9dc8ff5e698031d9a6
-Cc: Stefano Stabellini <sstabellini@kernel.org>
-Cc: Anthony Perard <anthony.perard@citrix.com>
-Cc: Paul Durrant <paul@xen.org>
-Cc: xen-devel@lists.xenproject.org
+Fix by ignoring a second error.
+
+Fixes: 73564c407caedf992a1c688b5fea776a8b56ba2a
+Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Paul Durrant <paul@xen.org>
-Message-Id: <20200422130719.28225-10-armbru@redhat.com>
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Message-Id: <20200422130719.28225-11-armbru@redhat.com>
 ---
- hw/xen/xen_pt.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ io/channel-socket.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
-index b91082cb8b..81d5ad8da7 100644
---- a/hw/xen/xen_pt.c
-+++ b/hw/xen/xen_pt.c
-@@ -858,8 +858,8 @@ static void xen_pt_realize(PCIDevice *d, Error **errp)
-=20
-     rc =3D xc_physdev_map_pirq(xen_xc, xen_domid, machine_irq, &pirq);
-     if (rc < 0) {
--        error_setg_errno(errp, errno, "Mapping machine irq %u to"
--                         " pirq %i failed", machine_irq, pirq);
-+        XEN_PT_ERR(d, "Mapping machine irq %u to pirq %i failed, (err: %d)=
-\n",
-+                   machine_irq, pirq, errno);
-=20
-         /* Disable PCI intx assertion (turn on bit10 of devctl) */
-         cmd |=3D PCI_COMMAND_INTX_DISABLE;
-@@ -880,8 +880,8 @@ static void xen_pt_realize(PCIDevice *d, Error **errp)
-                                        PCI_SLOT(d->devfn),
-                                        e_intx);
-         if (rc < 0) {
--            error_setg_errno(errp, errno, "Binding of interrupt %u failed"=
-,
--                             e_intx);
-+            XEN_PT_ERR(d, "Binding of interrupt %i failed! (err: %d)\n",
-+                       e_intx, errno);
-=20
-             /* Disable PCI intx assertion (turn on bit10 of devctl) */
-             cmd |=3D PCI_COMMAND_INTX_DISABLE;
-@@ -889,8 +889,8 @@ static void xen_pt_realize(PCIDevice *d, Error **errp)
-=20
-             if (xen_pt_mapped_machine_irq[machine_irq] =3D=3D 0) {
-                 if (xc_physdev_unmap_pirq(xen_xc, xen_domid, machine_irq))=
+diff --git a/io/channel-socket.c b/io/channel-socket.c
+index b74f5b92a0..e1b4667087 100644
+--- a/io/channel-socket.c
++++ b/io/channel-socket.c
+@@ -704,6 +704,7 @@ qio_channel_socket_close(QIOChannel *ioc,
  {
--                    error_setg_errno(errp, errno, "Unmapping of machine"
--                            " interrupt %u failed", machine_irq);
-+                    XEN_PT_ERR(d, "Unmapping of machine interrupt %i faile=
-d!"
-+                               " (err: %d)\n", machine_irq, errno);
-                 }
-             }
-             s->machine_irq =3D 0;
+     QIOChannelSocket *sioc =3D QIO_CHANNEL_SOCKET(ioc);
+     int rc =3D 0;
++    Error *err =3D NULL;
+=20
+     if (sioc->fd !=3D -1) {
+ #ifdef WIN32
+@@ -715,8 +716,8 @@ qio_channel_socket_close(QIOChannel *ioc,
+=20
+         if (closesocket(sioc->fd) < 0) {
+             sioc->fd =3D -1;
+-            error_setg_errno(errp, errno,
+-                             "Unable to close socket");
++            error_setg_errno(&err, errno, "Unable to close socket");
++            error_propagate(errp, err);
+             return -1;
+         }
+         sioc->fd =3D -1;
 --=20
 2.21.1
 
