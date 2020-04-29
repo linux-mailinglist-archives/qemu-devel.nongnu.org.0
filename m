@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BA831BD6C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 10:03:23 +0200 (CEST)
-Received: from localhost ([::1]:59376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 038BD1BE30D
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 17:47:36 +0200 (CEST)
+Received: from localhost ([::1]:39296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jThgg-0004Wt-Dc
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 04:03:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47496)
+	id 1jTovv-0006SR-0m
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 11:47:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34550)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geoff@hostfission.com>) id 1jThEA-0003sM-Qf
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:36:07 -0400
+ (envelope-from <geoff@hostfission.com>) id 1jTot3-0003yK-OE
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 11:44:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <geoff@hostfission.com>) id 1jThCD-0005JT-As
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:33:54 -0400
-Received: from mail1.hostfission.com ([139.99.139.48]:49332)
+ (envelope-from <geoff@hostfission.com>) id 1jTosz-00022P-VO
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 11:44:37 -0400
+Received: from mail1.hostfission.com ([139.99.139.48]:53116)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geoff@hostfission.com>) id 1jThCC-0005JI-F7
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:31:52 -0400
+ (envelope-from <geoff@hostfission.com>) id 1jToXY-0001eT-Rv
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 11:22:25 -0400
 Received: from aeryn.lan.ktmba (office.hostfission.com [220.233.29.71])
- by mail1.hostfission.com (Postfix) with ESMTP id 7E72B4F462
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 17:31:49 +1000 (AEST)
+ by mail1.hostfission.com (Postfix) with ESMTP id D4B554F065;
+ Thu, 30 Apr 2020 01:22:22 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
- s=mail; t=1588145509;
- bh=ObO1QxlQR+9VLLfSR5W8BE1AJJviobrwLR7mRFbxz3k=;
+ s=mail; t=1588173742;
+ bh=IsZ51maj3WE2v75EqDamsNq9V/AQu8FiiL46BBh+RYY=;
  h=From:Date:Subject:To:From;
- b=SyLfb1W/bb+Q+5c3R+VQ2ThJObCJoTtJjyPq2g6uOfgCYoNdyakijy3jjxfvMYtDv
- /XXu/TpiuJ2lLTJWHvMLY3B9tRlVOYy0h8XbuPBJNnEwhEzzgGXOwO+BKPoVIa5XRY
- rJLtWLPUWsFpjV3jnRoZfh+1pCKvZ5YM7Dh7yQUo=
+ b=CsQqYulySSpT6B5YGHej71jOd2f8bx8anteUWHVPnZiBtDHenWKWU1MJpk255G5DI
+ O/tbdgD50c1dHY8LMXC1C2gyOy1DuXb9cL0/6I4tXS/NxT/n/vBYqm8dv6qdNP0hya
+ wYIVWt2c8yD2Rz9E3xT+PjM3IppwE1kq5PhaTqEk=
 Received: by aeryn.lan.ktmba (Postfix, from userid 1000)
- id 6A1953C0D11; Wed, 29 Apr 2020 17:31:49 +1000 (AEST)
+ id BB4023C1190; Thu, 30 Apr 2020 01:22:22 +1000 (AEST)
 From: Geoffrey McRae <geoff@hostfission.com>
 Date: Wed, 29 Apr 2020 15:53:58 +1000
-Subject: [PATCH v3] audio/jack: add JACK client audiodev
+Subject: [PATCH v4] audio/jack: add JACK client audiodev
 To: <qemu-devel@nongnu.org>
 X-Mailer: mail (GNU Mailutils 3.5)
-Message-Id: <20200429073149.6A1953C0D11@aeryn.lan.ktmba>
+Message-Id: <20200429152222.BB4023C1190@aeryn.lan.ktmba>
 Received-SPF: pass client-ip=139.99.139.48; envelope-from=geoff@hostfission.com;
  helo=mail1.hostfission.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 02:10:55
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 11:13:45
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Received-From: 139.99.139.48
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,8 +67,8 @@ Signed-off-by: Geoffrey McRae <geoff@hostfission.com>
  audio/audio_template.h |   2 +
  audio/jackaudio.c      | 615 +++++++++++++++++++++++++++++++++++++++++
  configure              |  17 ++
- qapi/audio.json        |  50 +++-
- 6 files changed, 688 insertions(+), 2 deletions(-)
+ qapi/audio.json        |  52 +++-
+ 6 files changed, 690 insertions(+), 2 deletions(-)
  create mode 100644 audio/jackaudio.c
 
 diff --git a/audio/Makefile.objs b/audio/Makefile.objs
@@ -766,7 +766,7 @@ index 23b5e93752..004502c775 100755
    echo "CONFIG_AUDIO_WIN_INT=y" >> $config_host_mak
  fi
 diff --git a/qapi/audio.json b/qapi/audio.json
-index c31251f45b..c4bd1f65fc 100644
+index c31251f45b..8134dc681b 100644
 --- a/qapi/audio.json
 +++ b/qapi/audio.json
 @@ -152,6 +152,51 @@
@@ -779,28 +779,28 @@ index c31251f45b..c4bd1f65fc 100644
 +# Options of the JACK backend that are used for both playback and
 +# recording.
 +#
-+# @server_name: select from among several possible concurrent server instances.
++# @server-name: select from among several possible concurrent server instances.
 +# If unspecified, use "default" unless $JACK_DEFAULT_SERVER is defined in the
 +# process environment.
 +#
-+# @client_name: the client name to use. The server will modify this name to
++# @client-name: the client name to use. The server will modify this name to
 +# create a unique variant, if needed unless @exact_name is true.
 +#
-+# @start_server: set to true to start a jack server instance if one is not
++# @start-server: set to true to start a jack server instance if one is not
 +# present.
 +#
-+# @exact_name: use the exact name requested otherwise JACK automatically
++# @exact-name: use the exact name requested otherwise JACK automatically
 +# generates a unique one, if needed.
 +#
-+# Since: 4.0
++# Since: 5.1
 +##
 +{ 'struct': 'AudiodevJackPerDirectionOptions',
 +  'base': 'AudiodevPerDirectionOptions',
 +  'data': {
-+    '*server_name':  'str',
-+    '*client_name':  'str',
-+    '*start_server': 'bool',
-+    '*exact_name':   'bool' } }
++    '*server-name':  'str',
++    '*client-name':  'str',
++    '*start-server': 'bool',
++    '*exact-name':   'bool' } }
 +
 +##
 +# @AudiodevJackOptions:
@@ -811,7 +811,7 @@ index c31251f45b..c4bd1f65fc 100644
 +#
 +# @out: options of the playback stream
 +#
-+# Since: 4.0
++# Since: 5.1
 +##
 +{ 'struct': 'AudiodevJackOptions',
 +  'data': {
@@ -821,7 +821,12 @@ index c31251f45b..c4bd1f65fc 100644
  ##
  # @AudiodevOssPerDirectionOptions:
  #
-@@ -300,8 +345,8 @@
+@@ -297,11 +342,13 @@
+ #
+ # An enumeration of possible audio backend drivers.
+ #
++# @jack: JACK audio backend (since 5.1)
++#
  # Since: 4.0
  ##
  { 'enum': 'AudiodevDriver',
@@ -832,7 +837,7 @@ index c31251f45b..c4bd1f65fc 100644
  
  ##
  # @Audiodev:
-@@ -327,6 +372,7 @@
+@@ -327,6 +374,7 @@
      'alsa':      'AudiodevAlsaOptions',
      'coreaudio': 'AudiodevCoreaudioOptions',
      'dsound':    'AudiodevDsoundOptions',
