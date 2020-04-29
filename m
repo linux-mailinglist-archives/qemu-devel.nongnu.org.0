@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA5071BD5FE
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:27:07 +0200 (CEST)
-Received: from localhost ([::1]:40322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B9C21BD617
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:31:13 +0200 (CEST)
+Received: from localhost ([::1]:56910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTh7a-0000It-Qa
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:27:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46160)
+	id 1jThBY-0007C7-GY
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:31:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46174)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTh1v-0007tg-FK
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:22:14 -0400
+ (envelope-from <armbru@redhat.com>) id 1jTh1x-0007tn-7i
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:22:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTh1g-0003wR-If
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:21:15 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43714
+ (envelope-from <armbru@redhat.com>) id 1jTh1g-0003wp-T3
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:21:17 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26506
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTh1f-0003vB-Pz
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:20:59 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTh1f-0003vR-TS
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:21:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588144857;
+ s=mimecast20190719; t=1588144858;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XTNLZDAPrsEg/QHVKC3akB2bs2mhWsm2Z3bgdrOIoXw=;
- b=ivXfOpYfvhb6gcrvrAkxCwaRkRLhs/x9W1mQy8/mpwewVtcnJ2XauVku8fBK1dMl/n3Vly
- dx1hgxqLDB9zPf4t2BZDlLBXPHbUCcEe85hqe7GiRpaLNyXlWGuE024WbmOTY61M6cPEY3
- AHi9V/raE/c3WoCdqLtU8ft71CR4U7Y=
+ bh=8Nr3g64N1ZbytavTEHUIn3pBRY3200wKKl65xH32qj8=;
+ b=bChIX4gSpg57Nax+9+Uaie5KVxTnJF8qjT4vkkDnfUz4cs/oJFxjNVlmdCLuGfurVXugWF
+ 6mHe3rBDrQ5SbmPzizcn7FZ8nr+CHF6cMVTQYpn7LXbteMOSqf3AIzu1dFIHhx7qcqKBYn
+ YcRmP3B1QIlMw3c2yzeJFq/KkTLk1UA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-06XNxqNMNnGwtSlOFCtcGA-1; Wed, 29 Apr 2020 03:20:56 -0400
-X-MC-Unique: 06XNxqNMNnGwtSlOFCtcGA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-161-njkdIEKSNHuXjEG2PHpVDQ-1; Wed, 29 Apr 2020 03:20:56 -0400
+X-MC-Unique: njkdIEKSNHuXjEG2PHpVDQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E8F4107AFB1
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 07:20:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 203771009445;
+ Wed, 29 Apr 2020 07:20:55 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E02B327CC4;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E40AD60BF4;
  Wed, 29 Apr 2020 07:20:54 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8875111358DC; Wed, 29 Apr 2020 09:20:49 +0200 (CEST)
+ id 8E4F711358DD; Wed, 29 Apr 2020 09:20:49 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/32] libqos: Give get_machine_allocator() internal linkage
-Date: Wed, 29 Apr 2020 09:20:47 +0200
-Message-Id: <20200429072048.29963-32-armbru@redhat.com>
+Subject: [PULL 32/32] qemu-option: pass NULL rather than 0 to the id of
+ qemu_opts_set()
+Date: Wed, 29 Apr 2020 09:20:48 +0200
+Message-Id: <20200429072048.29963-33-armbru@redhat.com>
 In-Reply-To: <20200429072048.29963-1-armbru@redhat.com>
 References: <20200429072048.29963-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 00:53:13
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:28:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,54 +76,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200424071142.3525-4-armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- tests/qtest/libqos/qos_external.h | 2 --
- tests/qtest/libqos/qos_external.c | 2 +-
- 2 files changed, 1 insertion(+), 3 deletions(-)
+From: Masahiro Yamada <masahiroy@kernel.org>
 
-diff --git a/tests/qtest/libqos/qos_external.h b/tests/qtest/libqos/qos_ext=
-ernal.h
-index f63388cb30..72d7f91707 100644
---- a/tests/qtest/libqos/qos_external.h
-+++ b/tests/qtest/libqos/qos_external.h
-@@ -18,7 +18,6 @@
-=20
- #ifndef QOS_EXTERNAL_H
- #define QOS_EXTERNAL_H
--#include "libqos/qgraph.h"
-=20
- #include "libqos/malloc.h"
- #include "qapi/qapi-types-machine.h"
-@@ -26,7 +25,6 @@
-=20
- void machines_apply_to_node(MachineInfoList *mach_info);
- void types_apply_to_node(ObjectTypeInfoList *type_info);
--QGuestAllocator *get_machine_allocator(QOSGraphObject *obj);
- void *allocate_objects(QTestState *qts, char **path, QGuestAllocator **p_a=
-lloc);
-=20
- #endif
-diff --git a/tests/qtest/libqos/qos_external.c b/tests/qtest/libqos/qos_ext=
-ernal.c
-index c707dac3b9..9f5180e18d 100644
---- a/tests/qtest/libqos/qos_external.c
-+++ b/tests/qtest/libqos/qos_external.c
-@@ -66,7 +66,7 @@ void types_apply_to_node(ObjectTypeInfoList *type_info)
-     }
- }
-=20
--QGuestAllocator *get_machine_allocator(QOSGraphObject *obj)
-+static QGuestAllocator *get_machine_allocator(QOSGraphObject *obj)
- {
-     return obj->get_driver(obj, "memory");
- }
+The second argument 'id' is a pointer. Pass NULL rather than 0.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Message-Id: <20200427005704.2475782-1-masahiroy@kernel.org>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ softmmu/vl.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 32c0047889..afd2615fb3 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3059,19 +3059,19 @@ void qemu_init(int argc, char **argv, char **envp)
+                 }
+                 break;
+             case QEMU_OPTION_kernel:
+-                qemu_opts_set(qemu_find_opts("machine"), 0, "kernel", opta=
+rg,
++                qemu_opts_set(qemu_find_opts("machine"), NULL, "kernel", o=
+ptarg,
+                               &error_abort);
+                 break;
+             case QEMU_OPTION_initrd:
+-                qemu_opts_set(qemu_find_opts("machine"), 0, "initrd", opta=
+rg,
++                qemu_opts_set(qemu_find_opts("machine"), NULL, "initrd", o=
+ptarg,
+                               &error_abort);
+                 break;
+             case QEMU_OPTION_append:
+-                qemu_opts_set(qemu_find_opts("machine"), 0, "append", opta=
+rg,
++                qemu_opts_set(qemu_find_opts("machine"), NULL, "append", o=
+ptarg,
+                               &error_abort);
+                 break;
+             case QEMU_OPTION_dtb:
+-                qemu_opts_set(qemu_find_opts("machine"), 0, "dtb", optarg,
++                qemu_opts_set(qemu_find_opts("machine"), NULL, "dtb", opta=
+rg,
+                               &error_abort);
+                 break;
+             case QEMU_OPTION_cdrom:
+@@ -3182,7 +3182,7 @@ void qemu_init(int argc, char **argv, char **envp)
+                 }
+                 break;
+             case QEMU_OPTION_bios:
+-                qemu_opts_set(qemu_find_opts("machine"), 0, "firmware", op=
+targ,
++                qemu_opts_set(qemu_find_opts("machine"), NULL, "firmware",=
+ optarg,
+                               &error_abort);
+                 break;
+             case QEMU_OPTION_singlestep:
 --=20
 2.21.1
 
