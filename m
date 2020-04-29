@@ -2,58 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E087D1BE700
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 21:11:43 +0200 (CEST)
-Received: from localhost ([::1]:37412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C4DE1BE936
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 22:54:56 +0200 (CEST)
+Received: from localhost ([::1]:58338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTs7S-0000FD-7Z
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 15:11:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41828)
+	id 1jTtjL-0007Ec-Eu
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 16:54:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41836)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jTs5j-00070v-Ku
+ (envelope-from <mhohmann@physnet.uni-hamburg.de>) id 1jTs5k-00071r-D7
  for qemu-devel@nongnu.org; Wed, 29 Apr 2020 15:09:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jTs5e-0004yi-T8
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 15:09:55 -0400
-Resent-Date: Wed, 29 Apr 2020 15:09:55 -0400
-Resent-Message-Id: <E1jTs5e-0004yi-T8@eggs.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21333)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jTs37-00031c-12; Wed, 29 Apr 2020 15:07:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1588187225; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=niyYrqC3aUJtiisnMbgjI9hMLS8iI4fY3wCFYTukrklThtFyrDqShVAqQav6QTmQwOf6hHwC7wHntilCxZfIFNdGgGD3eN+7tS6Aq8PE+jSjcXoQje2A/IkiS00o38RvhSdImkjdE521DMu+22bI7g59r8a90CNO1sGA250PRU8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1588187225;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=mXRdBE3G0HWtLopkKKEw8PgBvzf0YzSvKFMcE/33P50=; 
- b=As2ZsbKS/QfXOpl7/Tt9GzFIYBkBN8HOyLul5ZfHoOfUJf3vqSBKKaAT3psPV3gLfD4iyLLwdHuqi+hVggASb3TAT5F3SSYU4TaggQ0K8yPjO/0cNECHpi4tFEToLH0lS7RrL0VMNwSOURN/hdex8AIVsWQLD5M2cWrBdjIDYLU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 15881872229730.2970267795152495;
- Wed, 29 Apr 2020 12:07:02 -0700 (PDT)
-Message-ID: <158818722162.4471.10347903151740616896@45ef0f9c86ae>
-In-Reply-To: <20200429141126.85159-1-mreitz@redhat.com>
-Subject: Re: [PATCH v2 0/4] block: Do not call BlockDriver.bdrv_make_empty()
- directly
+ (envelope-from <mhohmann@physnet.uni-hamburg.de>) id 1jTs55-00045Q-FX
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 15:09:56 -0400
+Received: from mail.physnet.uni-hamburg.de ([134.100.106.230]:46056)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mhohmann@physnet.uni-hamburg.de>)
+ id 1jTs54-00044m-Q5
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 15:09:15 -0400
+Received: from 227-98-191-90.dyn.estpak.ee ([90.191.98.227]
+ helo=[192.168.1.129]) by mail.physnet.uni-hamburg.de with esmtpsa
+ (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16) (Exim 4.72)
+ (envelope-from <mhohmann@physnet.uni-hamburg.de>)
+ id 1jTs4t-0002rh-Ib; Wed, 29 Apr 2020 21:09:04 +0200
+To: qemu-devel@nongnu.org
+From: Manuel Hohmann <mhohmann@physnet.uni-hamburg.de>
+Subject: Error "cannot bind memory to host NUMA nodes: Operation not
+ permitted" running inside docker
+Autocrypt: addr=mhohmann@physnet.uni-hamburg.de; prefer-encrypt=mutual;
+ keydata=
+ mQENBEzzkJ0BCACoFEyKwRypWgc6Bbl/t5CRmCq+wnrLqGTji2iB9gHhP/dFisO3bdPjX2bT
+ bZSG48rR7Q999M5NjCX7juQbAKQm5vv3NDBNqq35Q7nSALsEEazy1awbx56EBXPn/5VbH4JT
+ c3sZiQR/MZY81WcWANPxZr3XWOl71netiVNzO5OBZSTxRV7dnB2meYBlhgD7dDzZTfJ8tpqu
+ XlzlaZ+H2QDDt2TH0LYm6rhK2OXDqTCs09BiZi48Ev6YI/DC/RpLNGlVtACV1RB1i+GAKIZJ
+ /E+E1A5wQTG+/wHblFq9PcFJKTJOQvMh3kV/4S4GuQbXoAMVn+6FGIF7mat4Oo+mNjchABEB
+ AAG0ME1hbnVlbCBIb2htYW5uIDxtaG9obWFubkBwaHlzbmV0LnVuaS1oYW1idXJnLmRlPokB
+ OAQTAQIAIgUCTPOQnQIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQ+9/1Gux6RLIN
+ fgf+MHuA2VcJxo/xAvTjfrvmDFgTsepHFlWPKkEdEQY2FSG1dqhAHtEIlEJ0M/6Y0r5cSn+L
+ E8yqW8OWP0aCsd0BTcp+h1t8lIZhx33ZGmOFDxLVcnIq/zyEloRbVZPG05yvKgmc3N3opaw4
+ 8WrdnQ7Q6+iQhY9v+S+BcRyJNDL6cWXZF2uLOvXDAq2Y1lihZSwBXvcQOgQ7nfgJYAveA140
+ fqRmg5e7usL2xq1kaWDvRrxBk/D6kWqLBkvYQrxxflTfsbM4IJP4lmCIfyr0BxY0VOzjZ8Wu
+ SYl9ETJcHSc4zR+s94PnDAlFsZbZHGoXK6YxD6SlyaisT00bqvZXmY8gHbkBDQRM85CdAQgA
+ l90YtA7ak5BUEHw4WPY9AIpfP0IWSI3lQbudSdTcJ2GPx5fE01dd/W1V+7K7VBiDw7m1CjT7
+ qnv5ZPFWIhGCBzxGhi/81NXhnEsHoElJEzea0XY64/7hf+CeM4rrx7CaXjByHDbVfFPQqUEZ
+ yhZhxYChmpCi/5CAvs5sJKFNqTqF6AXFCNdam0iWu1pT2MVhl2RqYQq0rUNVDhlh/v/fPKsM
+ tUqyfXbiXVaG9zcozC7AS6U+0jly9oMsGrz9eCE6uDc3YceTnhUqRvuBzj3wB6hFNXj82T/+
+ 4r60s9zAc2VMi3F0jKBr0+7b+5JOjeraPlvNB0ftCfnFNDGeC0pZAQARAQABiQEfBBgBAgAJ
+ BQJM85CdAhsMAAoJEPvf9RrsekSyMAMH/2gVwokA0EEeF00AO6K9uTukidAflrXYFS+KLKC2
+ oa8uAb2Or6y2OOZeaLmYhbOdRapFCElqjGSMYlBHPFmu10KDUYzNuaVmSULw84e0KzNPCeJG
+ zOF4bGvLY9bv4cp2tMeUNDIvQHsmZ0PE+O9i9cVtuITEjsXxa/62SE1TSnLg3QUUZEvTIIKN
+ ZEoxKIHrxiLVsa5Rd21YDVyShLjK4sa4Tc0PUPpe5yWkET6hVBIw2g15hAO8+qkShbRYg9CH
+ pZQlUIv2wMJqzXV4UaHYzRJcgZZ0YEvNHE/Vstl7GLHk/QtaCxqva6novYYXWK/rMGrK19gw
+ 3dYtCkCgf6rLwTE=
+Organization: University of Tartu
+Message-ID: <187fffac-d7b9-5a1c-11c2-72dba9c21347@physnet.uni-hamburg.de>
+Date: Wed, 29 Apr 2020 22:09:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: mreitz@redhat.com
-Date: Wed, 29 Apr 2020 12:07:02 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 02:03:04
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Received-From: 136.143.188.53
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature";
+ boundary="upfXptObL2Kf69Mj6B3uUxQWG7a2yp2uz"
+Received-SPF: none client-ip=134.100.106.230;
+ envelope-from=mhohmann@physnet.uni-hamburg.de;
+ helo=mail.physnet.uni-hamburg.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 15:09:05
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Received-From: 134.100.106.230
+X-Mailman-Approved-At: Wed, 29 Apr 2020 16:49:14 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,54 +82,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDQyOTE0MTEyNi44NTE1
-OS0xLW1yZWl0ekByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9j
-a2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29t
-bWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxl
-ZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQ
-VCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEgTkVU
-V09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEgSj0x
-NCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgTElOSyAgICBxZW11LXN0b3Jh
-Z2UtZGFlbW9uCiAgTElOSyAgICBxZW11LWlvCi90bXAvcWVtdS10ZXN0L3NyYy9xZW11LWltZy5j
-OiBJbiBmdW5jdGlvbiAnaW1nX2NvbW1pdCc6Ci90bXAvcWVtdS10ZXN0L3NyYy9xZW11LWltZy5j
-OjEwNzE6OTogZXJyb3I6IGltcGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1bmN0aW9uICdibGtfbmV3
-X3dpdGhfYnMnIFstV2Vycm9yPWltcGxpY2l0LWZ1bmN0aW9uLWRlY2xhcmF0aW9uXQogICAgICAg
-ICBvbGRfYmFja2luZ19ibGsgPSBibGtfbmV3X3dpdGhfYnMoYnMsIEJMS19QRVJNX1dSSVRFLCBC
-TEtfUEVSTV9BTEwsCiAgICAgICAgIF4KL3RtcC9xZW11LXRlc3Qvc3JjL3FlbXUtaW1nLmM6MTA3
-MTo5OiBlcnJvcjogbmVzdGVkIGV4dGVybiBkZWNsYXJhdGlvbiBvZiAnYmxrX25ld193aXRoX2Jz
-JyBbLVdlcnJvcj1uZXN0ZWQtZXh0ZXJuc10KL3RtcC9xZW11LXRlc3Qvc3JjL3FlbXUtaW1nLmM6
-MTA3MToyNTogZXJyb3I6IGFzc2lnbm1lbnQgbWFrZXMgcG9pbnRlciBmcm9tIGludGVnZXIgd2l0
-aG91dCBhIGNhc3QgWy1XZXJyb3JdCiAgICAgICAgIG9sZF9iYWNraW5nX2JsayA9IGJsa19uZXdf
-d2l0aF9icyhicywgQkxLX1BFUk1fV1JJVEUsIEJMS19QRVJNX0FMTCwKICAgICAgICAgICAgICAg
-ICAgICAgICAgIF4KY2MxOiBhbGwgd2FybmluZ3MgYmVpbmcgdHJlYXRlZCBhcyBlcnJvcnMKbWFr
-ZTogKioqIFtxZW11LWltZy5vXSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlz
-aGVkIGpvYnMuLi4uCm1ha2U6ICoqKiB3YWl0OiBObyBjaGlsZCBwcm9jZXNzZXMuICBTdG9wLgpU
-cmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6Ci0tLQogICAgcmFpc2UgQ2FsbGVkUHJv
-Y2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENv
-bW1hbmQgJ1snc3VkbycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFl
-bXUuaW5zdGFuY2UudXVpZD01NGMxZThkN2YzOGQ0OTFjODc5YTlmN2ZkNzBiOTNmZCcsICctdScs
-ICcxMDAzJywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywg
-Jy1lJywgJ1RBUkdFVF9MSVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUn
-LCAnVj0nLCAnLWUnLCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScs
-ICctZScsICdDQ0FDSEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3
-Mi8uY2FjaGUvcWVtdS1kb2NrZXItY2NhY2hlOi92YXIvdG1wL2NjYWNoZTp6JywgJy12JywgJy92
-YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC1qOThscGVlNi9zcmMvZG9ja2VyLXNyYy4yMDIwLTA0
-LTI5LTE1LjA0LjIxLjE2NTQ3Oi92YXIvdG1wL3FlbXU6eixybycsICdxZW11OmNlbnRvczcnLCAn
-L3Zhci90bXAvcWVtdS9ydW4nLCAndGVzdC1xdWljayddJyByZXR1cm5lZCBub24temVybyBleGl0
-IHN0YXR1cyAyLgpmaWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUuaW5zdGFuY2UudXVpZD01
-NGMxZThkN2YzOGQ0OTFjODc5YTlmN2ZkNzBiOTNmZAptYWtlWzFdOiAqKiogW2RvY2tlci1ydW5d
-IEVycm9yIDEKbWFrZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92YXIvdG1wL3BhdGNoZXctdGVz
-dGVyLXRtcC1qOThscGVlNi9zcmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1bi10ZXN0LXF1aWNrQGNl
-bnRvczddIEVycm9yIDIKCnJlYWwgICAgMm00MS4xOTJzCnVzZXIgICAgMG04LjA5NXMKCgpUaGUg
-ZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwNDI5
-MTQxMTI2Ljg1MTU5LTEtbXJlaXR6QHJlZGhhdC5jb20vdGVzdGluZy5kb2NrZXItcXVpY2tAY2Vu
-dG9zNy8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkg
-UGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNr
-IHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--upfXptObL2Kf69Mj6B3uUxQWG7a2yp2uz
+Content-Type: multipart/mixed; boundary="b7KHyhShTlMP1BgB9gZa2kyrKusnhv8uK"
+
+--b7KHyhShTlMP1BgB9gZa2kyrKusnhv8uK
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+I encountered the following error on the QEMU 5.0.0 release, compiled and=
+ run inside a docker image:
+
+"cannot bind memory to host NUMA nodes: Operation not permitted"
+
+The QEMU command line to reproduce this behavior:
+
+qemu-system-i386 -m 64 -M pc -smp 1 -display none -monitor stdio -drive f=
+ile=3Dmp-acpi/NOS.iso,media=3Dcdrom,id=3Dd -boot order=3Dd -d cpu_reset
+
+The docker image which shows the error is available here:
+
+https://hub.docker.com/repository/docker/xenos1984/test-qemu
+
+Built on Ubuntu 20.04, and including NUMA support with libnuma-dev packag=
+e installed, from the following sources:
+
+https://github.com/xenos1984/cross-toolchain/tree/master/tools-qemu
+https://github.com/xenos1984/cross-toolchain/tree/master/test-qemu
+
+The iso image used can be obtained here, but should not be relevant:
+
+https://github.com/xenos1984/NOS/releases/download/latest/nos-i686.iso.bz=
+2
+
+The command fails when the image is used in a CI environment:
+
+https://circleci.com/gh/xenos1984/NOS/953
+
+On recommendation by @imammedo I tried the following:
+
+--- a/backends/hostmem.c
++++ b/backends/hostmem.c
+@@ -384,3 +384,3 @@
+          if (mbind(ptr, sz, backend->policy,
+-                  maxnode ? backend->host_nodes : NULL, maxnode + 1, fla=
+gs)) {
++                  maxnode ? backend->host_nodes : NULL, 0, flags)) {
+              if (backend->policy !=3D MPOL_DEFAULT || errno !=3D ENOSYS)=
+ {
+
+But no success, the same error occurs.
+
+Best regards,
+xenos1984 / Manuel Hohmann
+
+
+--b7KHyhShTlMP1BgB9gZa2kyrKusnhv8uK--
+
+--upfXptObL2Kf69Mj6B3uUxQWG7a2yp2uz
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEGQ1wnDd/ca3CjRdj+9/1Gux6RLIFAl6p0M0ACgkQ+9/1Gux6
+RLIkzwgAoixoo70Q2P611ID0BqvmfFjwGFcMuL5HDvxmPCpZlKQ5niwPoMVfz3P/
+EhKqs/TPzWD7tPZ1R0oipKNQcpuFwqGDuoxkLB66SMPCMMVC6eeoccK4oY2qAyNQ
+SkQUhu0NmD+QQlo/4Hw32Jj1Xk/JHEf4UJ+bj9FZuNuORKmvj92aVjvsLpS49pwf
+p+V0qITTTQgm8dXHAyrmk8y46qSORVjVjnqfJqqVIzE8H97HR8a9TOs+PTGcz85B
+WzUS9Fis7uYCTkdSgjkLg+jZdRFyNB8abQ0kCLe/IDQr9lu5rUCeuas0AxUUh8pw
+yPy/xE2cpchPXpLoklnMdoXjdgjSVQ==
+=lpVD
+-----END PGP SIGNATURE-----
+
+--upfXptObL2Kf69Mj6B3uUxQWG7a2yp2uz--
 
