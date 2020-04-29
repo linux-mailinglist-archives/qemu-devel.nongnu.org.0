@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B042F1BE7A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 21:49:21 +0200 (CEST)
-Received: from localhost ([::1]:53870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D4AF1BE7C2
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 21:52:27 +0200 (CEST)
+Received: from localhost ([::1]:34074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTshs-0000ki-Jx
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 15:49:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48148)
+	id 1jTsks-0004Z2-2p
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 15:52:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48176)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dbuono@linux.vnet.ibm.com>) id 1jTsfq-0006om-Oj
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 15:47:25 -0400
+ (envelope-from <dbuono@linux.vnet.ibm.com>) id 1jTsfs-0006p0-PJ
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 15:47:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <dbuono@linux.vnet.ibm.com>) id 1jTsdb-0000lB-Ok
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 15:47:14 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38502)
+ (envelope-from <dbuono@linux.vnet.ibm.com>) id 1jTsdd-0000lW-KP
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 15:47:16 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53278)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1jTsdb-0000kv-8W
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 15:44:55 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ id 1jTsdd-0000lM-3F
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 15:44:57 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 03TJW7rv025519
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 15:44:53 -0400
+ 03TJVeE0138381
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 15:44:55 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 30mggw3786-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30mfhfu57t-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 15:44:53 -0400
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 03TJW9vG025848
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 15:44:53 -0400
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 30mggw377u-1
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 15:44:55 -0400
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 03TJVeTI138368
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 15:44:55 -0400
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30mfhfu57g-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Apr 2020 15:44:53 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 03TJUWIg004962;
- Wed, 29 Apr 2020 19:44:52 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma02dal.us.ibm.com with ESMTP id 30mcu71914-1
+ Wed, 29 Apr 2020 15:44:55 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 03TJXu0W021922;
+ Wed, 29 Apr 2020 19:44:54 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma02wdc.us.ibm.com with ESMTP id 30mcu6qebx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Apr 2020 19:44:52 +0000
+ Wed, 29 Apr 2020 19:44:54 +0000
 Received: from b03ledav003.gho.boulder.ibm.com
  (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 03TJioGN52363542
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 03TJirAx21561692
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 29 Apr 2020 19:44:50 GMT
+ Wed, 29 Apr 2020 19:44:53 GMT
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A744E6A04D;
- Wed, 29 Apr 2020 19:44:50 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 449486A04F;
+ Wed, 29 Apr 2020 19:44:53 +0000 (GMT)
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E40C36A047;
- Wed, 29 Apr 2020 19:44:49 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 772956A047;
+ Wed, 29 Apr 2020 19:44:52 +0000 (GMT)
 Received: from Buonos-Thinkpad-X1.ibm.com (unknown [9.160.84.167])
  by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 29 Apr 2020 19:44:49 +0000 (GMT)
+ Wed, 29 Apr 2020 19:44:52 +0000 (GMT)
 From: Daniele Buono <dbuono@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] coroutine: support SafeStack in ucontext backend
-Date: Wed, 29 Apr 2020 15:44:17 -0400
-Message-Id: <20200429194420.21147-2-dbuono@linux.vnet.ibm.com>
+Subject: [PATCH 2/4] coroutine: Add check for SafeStack in sigalstack
+Date: Wed, 29 Apr 2020 15:44:18 -0400
+Message-Id: <20200429194420.21147-3-dbuono@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200429194420.21147-1-dbuono@linux.vnet.ibm.com>
 References: <20200429194420.21147-1-dbuono@linux.vnet.ibm.com>
@@ -75,10 +75,10 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
  definitions=2020-04-29_09:2020-04-29,
  2020-04-29 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0
- suspectscore=3 mlxscore=0 lowpriorityscore=0 adultscore=0 phishscore=0
- bulkscore=0 priorityscore=1501 malwarescore=0 clxscore=1015
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxscore=0 suspectscore=1
+ phishscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0 mlxlogscore=999
+ malwarescore=0 impostorscore=0 clxscore=1015 priorityscore=1501
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2003020000 definitions=main-2004290143
 Received-SPF: none client-ip=148.163.156.1;
  envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
@@ -103,99 +103,36 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-LLVM's SafeStack instrumentation does not yet support programs that make
-use of the APIs in ucontext.h
-With the current implementation of coroutine-ucontext, the resulting
-binary is incorrect, with different coroutines sharing the same unsafe
-stack and producing undefined behavior at runtime.
-This fix allocates an additional unsafe stack area for each coroutine,
-and sets the new unsafe stack pointer before calling swapcontext() in
-qemu_coroutine_new.
-This is the only place where the pointer needs to be manually updated,
-since sigsetjmp/siglongjmp are already instrumented by LLVM to properly
-support SafeStack.
-The additional stack is then freed in qemu_coroutine_delete.
+LLVM's SafeStack instrumentation cannot be used inside signal handlers
+that make use of sigaltstack().
+Since coroutine-sigaltstack relies on sigaltstack(), it is not
+compatible with SafeStack. The resulting binary is incorrect, with
+different coroutines sharing the same unsafe stack and producing
+undefined behavior at runtime.
+To avoid this, we add a check in coroutine-sigaltstack that throws a
+preprocessor #error and interrupt the compilation if SafeStack is
+enabled.
 
 Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
 ---
- include/qemu/coroutine_int.h |  6 ++++++
- util/coroutine-ucontext.c    | 25 +++++++++++++++++++++++++
- 2 files changed, 31 insertions(+)
+ util/coroutine-sigaltstack.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/include/qemu/coroutine_int.h b/include/qemu/coroutine_int.h
-index bd6b0468e1..2ffd75ddbe 100644
---- a/include/qemu/coroutine_int.h
-+++ b/include/qemu/coroutine_int.h
-@@ -28,6 +28,12 @@
- #include "qemu/queue.h"
- #include "qemu/coroutine.h"
+diff --git a/util/coroutine-sigaltstack.c b/util/coroutine-sigaltstack.c
+index f6fc49a0e5..b7cdc959f8 100644
+--- a/util/coroutine-sigaltstack.c
++++ b/util/coroutine-sigaltstack.c
+@@ -30,6 +30,10 @@
+ #include "qemu-common.h"
+ #include "qemu/coroutine_int.h"
  
-+#if defined(__has_feature) && __has_feature(safe_stack)
-+#define CONFIG_SAFESTACK 1
-+/* Pointer to the unsafe stack, defined by the compiler */
-+extern __thread void *__safestack_unsafe_stack_ptr;
++#ifdef CONFIG_SAFESTACK
++#error "SafeStack does not work with sigaltstack's implementation"
 +#endif
 +
- #define COROUTINE_STACK_SIZE (1 << 20)
- 
- typedef enum {
-diff --git a/util/coroutine-ucontext.c b/util/coroutine-ucontext.c
-index bd593e61bc..b79e9df9eb 100644
---- a/util/coroutine-ucontext.c
-+++ b/util/coroutine-ucontext.c
-@@ -41,6 +41,11 @@ typedef struct {
+ typedef struct {
      Coroutine base;
      void *stack;
-     size_t stack_size;
-+#ifdef CONFIG_SAFESTACK
-+    /* Need an unsafe stack for each coroutine */
-+    void *unsafe_stack;
-+    size_t unsafe_stack_size;
-+#endif
-     sigjmp_buf env;
- 
- #ifdef CONFIG_VALGRIND_H
-@@ -140,6 +145,10 @@ Coroutine *qemu_coroutine_new(void)
-     co = g_malloc0(sizeof(*co));
-     co->stack_size = COROUTINE_STACK_SIZE;
-     co->stack = qemu_alloc_stack(&co->stack_size);
-+#ifdef CONFIG_SAFESTACK
-+    co->unsafe_stack_size = COROUTINE_STACK_SIZE;
-+    co->unsafe_stack = qemu_alloc_stack(&co->unsafe_stack_size);
-+#endif
-     co->base.entry_arg = &old_env; /* stash away our jmp_buf */
- 
-     uc.uc_link = &old_uc;
-@@ -160,6 +169,19 @@ Coroutine *qemu_coroutine_new(void)
-     /* swapcontext() in, siglongjmp() back out */
-     if (!sigsetjmp(old_env, 0)) {
-         start_switch_fiber(&fake_stack_save, co->stack, co->stack_size);
-+#ifdef CONFIG_SAFESTACK
-+        /*
-+         * Before we swap the context, set the new unsafe stack
-+         * The unsafe stack grows just like the normal stack, so start from
-+         * the last usable location of the memory area.
-+         * NOTE: we don't have to re-set it afterwards because sigsetjmp was
-+         * called with the original usp. Since we are not coming back with a
-+         * swapcontext, but with a siglongjmp, when we are back here we
-+         * already have usp restored to the valid one for this function
-+         */
-+        void *usp = co->unsafe_stack + co->unsafe_stack_size;
-+        __safestack_unsafe_stack_ptr = usp;
-+#endif
-         swapcontext(&old_uc, &uc);
-     }
- 
-@@ -192,6 +214,9 @@ void qemu_coroutine_delete(Coroutine *co_)
- #endif
- 
-     qemu_free_stack(co->stack, co->stack_size);
-+#ifdef CONFIG_SAFESTACK
-+    qemu_free_stack(co->unsafe_stack, co->unsafe_stack_size);
-+#endif
-     g_free(co);
- }
- 
 -- 
 2.26.2
 
