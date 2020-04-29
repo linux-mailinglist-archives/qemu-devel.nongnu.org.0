@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 020BB1BE68C
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 20:47:15 +0200 (CEST)
-Received: from localhost ([::1]:56058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA1901BE6AC
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 20:54:39 +0200 (CEST)
+Received: from localhost ([::1]:52204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTrjl-0005xh-Uy
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 14:47:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38582)
+	id 1jTrqw-0000QE-Uo
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 14:54:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39542)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jTrh4-00040w-OB
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:44:39 -0400
+ (envelope-from <alistair23@gmail.com>) id 1jTroQ-0005XP-Mi
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:52:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jTrg3-0006qs-6e
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:44:26 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:40781)
+ (envelope-from <alistair23@gmail.com>) id 1jTroQ-0002i2-6f
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:52:02 -0400
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:44664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jTrg2-0006mR-N4
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:43:22 -0400
-Received: by mail-pl1-x642.google.com with SMTP id t16so1156705plo.7
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 11:43:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=kp0zvv03JXhADP/c8bAM6urg6EvCkhydXj2S8B/j2zQ=;
- b=y+QfwR4JmWzYZM+dhE3iBO7ZUquBE/X5ujlH6U0MytpBhhKyPf/W1r3ZcFlp5Yy5DJ
- JTm3/MlmRMbN3aINedEHhqCett2HPh95III6zbI/FwYHwhEQFZL2E8uSZU+S6r2IuxBA
- eQR0c7VkB40QPqjiNdEzvgpbf7aF5eG4sNDxpz/MPu3L+B3wDxdyJcHw25/OW/ivcajW
- QO8ANItSLLDX1Z7TJuWEDhlo1FaCR7xy0/H6zR3oQaZVynSv2rv/1wZxjD3QEjUVLsny
- +y1C65qWxfjXplmVNINX1tFwqEvgZe4wrL17pXlgPusSMG3ssSsiXpWp0m8CoN+oJ8w6
- gRzw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jTroO-0002h2-9N; Wed, 29 Apr 2020 14:52:00 -0400
+Received: by mail-il1-x141.google.com with SMTP id s10so3449023iln.11;
+ Wed, 29 Apr 2020 11:51:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IsBLFWc6fdYBfIh5gE4fLMG8y9tfNXkYmnIVynU01FY=;
+ b=DdhS+6WtTnftHsy/F/mhAimFsoq9r8rSmgxkxwm7MxIDA31MvCmVVe3u5DfOQRs36y
+ UbdWuRkYyeeep72DlFT8sREMmjCjs//4aRt/g9e9Fs35zPYRlCr6YNJ+e9orafiOwm/3
+ lwVZWzgA4Yjkm6ZvU4MAI5L8NFi1Ish7iWFdfwI5DwDq4w4hyrOXMNLV1sYkV77LyWdu
+ qa2XcDfgTMkPcIUwRy8NG0mmHILG95FPsn+vJVfOzr2MCc2PTY6jLrlm5TFeiiriJq/Z
+ HfJ02adxftXwvyoV9W3QjIonU1g4IKDrJSa9cZs+NJXTwd6al7DEhhUoihDS00bdYU5/
+ GdZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kp0zvv03JXhADP/c8bAM6urg6EvCkhydXj2S8B/j2zQ=;
- b=FdjKCOZPgPpCSTBW8SQtNieJ9zyBiGYyIt2DoQSHmvUflPlc5PueXaG/K+qXpWlxnh
- dKkiEFv1PmzfXMWdtWzLcmswxEyZN4RHOpPJWb5Neds4LPbErnaApZ+yP+frzNHQnBxS
- S3WTWm4arFJE208QzTYLcP3trjufZrtgKLbVSIPSrV73Ox5oP9HTPJ7ac2f4VVo8URWc
- d3GeFaIC5rS1W2Y9/t4FTblkzXwphmsj4sDG0ejKn7MtGuOFHBOlssAKI/A0v745SCEt
- mQk6gp5PvBaNtwfHo4lE90HbEeUuaSIpdnedYLfs/D59URZZQRsymjXsiioAVyTpQQM1
- h7Pg==
-X-Gm-Message-State: AGi0PuYx4lQERN81DF9aSM3zAR+9IGtBcMeL9GM1JFMEAE5ZM5/LDKIR
- YKZuepJOrNsOJrL7BMjup8QTTPN4Tcs=
-X-Google-Smtp-Source: APiQypIlgFfNxUlm3w1KuxHoF7PeseLXS6LhNjC6WhvwzgRCFFsvD/LWUCvnCfz4wBVZp9WPJk6K6Q==
-X-Received: by 2002:a17:90a:5a:: with SMTP id 26mr4904684pjb.74.1588185801035; 
- Wed, 29 Apr 2020 11:43:21 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id b1sm1588632pfi.140.2020.04.29.11.43.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Apr 2020 11:43:20 -0700 (PDT)
-Subject: Re: [PATCH 4/4] target/arm: Implement ARMv8.2-TTS2UXN
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20200330210400.11724-1-peter.maydell@linaro.org>
- <20200330210400.11724-5-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <98a9cb27-0a9c-b9c7-f683-968e01202343@linaro.org>
-Date: Wed, 29 Apr 2020 11:43:18 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IsBLFWc6fdYBfIh5gE4fLMG8y9tfNXkYmnIVynU01FY=;
+ b=hpfYACv3AsXPsoUt53e/lkf0ZoQF7Xd8fI61EKKGqVhqJfL6LxG42+igcxO7DOiwY9
+ 5uE+V6/YRT0qrCKpDAb4nG5QU4OU7QE96RjKmkF7APhfiltMxLBFe74Fms9N3el+/kX3
+ oXGzO1ajzYGunzLe1WonwKzvhZEnpfKjHRMdonFWAEPUAu/vq8472if/+aeJE4Swjidw
+ bl4Kuyjtix1QjpF+tZxpIConw+UFPTwXeeVVrSkAKaSNPNq8sv1dKrfuGbqBcWUvgcbp
+ B8Oy+As9/pOIBkM3KBAh7LsUcZ0ihGO2x+dyerAmBdgGHDXRUoOO91+4qaBOBOwkjbZe
+ cJIw==
+X-Gm-Message-State: AGi0Puadn4c+lFWpsNKrbA2M28lImVrLxYZusXWw4zvjUpHJ3LkPqL71
+ 0OYEGzUbFfuaW+q2YWQKtXtlU2s1wFSUMWI2OpQ=
+X-Google-Smtp-Source: APiQypLwVrvR+WvgigohLXSLZNiIxNYJGw7lK7o4zFozQ+AT0n5X1mi+ooyWlTfN3FoWyH8JMk6/6W/gGRFm4l1w0iU=
+X-Received: by 2002:a92:d0c6:: with SMTP id y6mr34619061ila.227.1588186317519; 
+ Wed, 29 Apr 2020 11:51:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200330210400.11724-5-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
+References: <CAC41xo2O1k+cn7EO3Zu3U70qefFwGa5B1iNRNgRwLk7SGX=-Aw@mail.gmail.com>
+ <CAKmqyKPDzusVqzCFwCJ+2gY0qchguhR57zHNkE-0MTeffKs_OA@mail.gmail.com>
+ <CAC41xo3qeQZ+i8XoQq3j80_JDEoL2yMA__arpmE+GXyjX4c1sg@mail.gmail.com>
+In-Reply-To: <CAC41xo3qeQZ+i8XoQq3j80_JDEoL2yMA__arpmE+GXyjX4c1sg@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 29 Apr 2020 11:43:18 -0700
+Message-ID: <CAKmqyKPJ6QqUULrDj9NX_bLdnjsjzPOGcCBH5q23fG=ScT_NzA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] target/riscv: fix VS interrupts forwarding to HS
+To: Jose Martins <josemartins90@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::642
+X-Received-From: 2607:f8b0:4864:20::141
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,25 +75,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/30/20 2:04 PM, Peter Maydell wrote:
-> The ARMv8.2-TTS2UXN feature extends the XN field in stage 2
-> translation table descriptors from just bit [54] to bits [54:53],
-> allowing stage 2 to control execution permissions separately for EL0
-> and EL1. Implement the new semantics of the XN field and enable
-> the feature for our 'max' CPU.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+ On Wed, Apr 29, 2020 at 9:07 AM Jose Martins <josemartins90@gmail.com> wrote:
+>
+> > If the Hypervisor sets the V* interrupts why does it then want to
+> > receive the interrupt itself?
+>
+> I don't think this is a question of whether there is a use case for it
+> or not (I agree with you, of the top of my head I don't see why would
+> you forward v* interrupts to the hypervisor). However,  from what I
+> can understand,  the spec allows for it. If you don't set the
+> corresponding bits in hideleg, v* interrupts should be forwarded to HS
+> (as I said, they are guaranteed not to be forwarded to m mode because
+> these bits must be hardwired in mideleg). Otherwise, there would be no
+> purpose for the hideleg register, as v* interrupts bits are the only
+> ones that can be written in it (am I missing something?).
+
+I think you are right.
+
+"Among bits 15:0 of hideleg, only bits 10, 6, and 2 (corresponding to
+the standard VS-level interrupts) shall be writable, and the others
+shall be hardwired to zero."
+
+Which means that it only controls the V* interrupts.
+
+>
+> > Isn't hs_sie only ever accessed if riscv_cpu_virt_enabled(env)?
+> > Doesn't this just set hs_sie to always be 1?
+>
+> I don't understand if you don't agree that hs_sie should be always set
+> when riscv_cpu_virt_enabled(env), or if you agree with it and don't
+> see the need for the hs_sie variable at all. If it is the latter, I
+> agree with you. So the patch would become:
+
+Currently hs_sie is set:
+ - When we are in U-Mode
+ - If we are in S-Mode and hs_mstatus_sie is true
+
+Then hs_sie is only accessed if virtulisation is enabled.
+
+Your change just made it true for whenever virtulisation is enabled
+(in which case we don't need it).
+
+>
+> Signed-off-by: Jose Martins <josemartins90@gmail.com>
 > ---
->  target/arm/cpu.h    | 15 +++++++++++++++
->  target/arm/cpu.c    |  1 +
->  target/arm/cpu64.c  |  2 ++
->  target/arm/helper.c | 37 +++++++++++++++++++++++++++++++------
->  4 files changed, 49 insertions(+), 6 deletions(-)
+>  target/riscv/cpu_helper.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+>
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index d3ba9efb02..a85eadb4fb 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -41,10 +41,8 @@ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
+>
+>      target_ulong mstatus_mie = get_field(env->mstatus, MSTATUS_MIE);
+>      target_ulong mstatus_sie = get_field(env->mstatus, MSTATUS_SIE);
+> -    target_ulong hs_mstatus_sie = get_field(env->mstatus_hs, MSTATUS_SIE);
+>
+> -    target_ulong pending = env->mip & env->mie &
+> -                               ~(MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
+> +    target_ulong pending = env->mip & env->mie;
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+This looks good
 
-r~
+>      target_ulong vspending = (env->mip & env->mie &
+>                                (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP));
+>
+> @@ -52,11 +50,9 @@ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
+>                            (env->priv == PRV_M && mstatus_mie);
+>      target_ulong sie    = env->priv < PRV_S ||
+>                            (env->priv == PRV_S && mstatus_sie);
+> -    target_ulong hs_sie = env->priv < PRV_S ||
+> -                          (env->priv == PRV_S && hs_mstatus_sie);
+>
+>      if (riscv_cpu_virt_enabled(env)) {
+> -        target_ulong pending_hs_irq = pending & -hs_sie;
+> +        target_ulong pending_hs_irq = pending & ~env->hideleg;
+
+I don't see why we don't need to check the HS version of MSTATUS_SIE.
+I think hs_sie should stay shouldn't it?
+
+Alistair
+
+>
+>          if (pending_hs_irq) {
+>              riscv_cpu_set_force_hs_excep(env, FORCE_HS_EXCEP);
+> --
+> 2.17.1
+>
+> Jose
 
