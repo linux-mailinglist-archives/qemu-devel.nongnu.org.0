@@ -2,93 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10EC31BD6C2
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 10:02:49 +0200 (CEST)
-Received: from localhost ([::1]:57790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E05CE1BD690
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:51:23 +0200 (CEST)
+Received: from localhost ([::1]:35134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jThg8-0003sL-1Q
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 04:02:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48038)
+	id 1jThV4-0001uH-Ma
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:51:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48108)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jThJE-0003Jx-SO
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:39:18 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jThJs-0004ja-Rn
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:39:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jThIS-0003t4-O3
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:39:08 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46830
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1jThJr-0005Ea-Jk
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:39:48 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55626
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jThIS-0003nt-7L
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:38:20 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jThJr-0005EH-4Z
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:39:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588145899;
+ s=mimecast20190719; t=1588145986;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+eYhJiXO1Uw+QM6xXWdLaxW5Wfl1IHnN586DWPqybsE=;
- b=MpsG/Cp4d/ZFyxIVbMLKbiTvl92N+en5Gb1yWnDQ+zt54DA8o/L+iTBjdBYTripaJrP3J/
- dFF586OJnh33tsfVOTkwlTFrHnKQZJn2ABoaCFVnMhuKqjHo52nlo0Bfwe29vW7JMDjyN9
- 37ipxVSJwJ3Aqs7hFIp2q7RHf+YKD/Y=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-479-GTnmhMvOPJy7SEbYr_WKFg-1; Wed, 29 Apr 2020 03:38:17 -0400
-X-MC-Unique: GTnmhMvOPJy7SEbYr_WKFg-1
-Received: by mail-wm1-f70.google.com with SMTP id h22so853044wml.1
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 00:38:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=A9WBZG+WcWFWtcJ5nYZQXh6zP8peCmAbg0zAbNtGJaQ=;
- b=UTGCFgBcdJ9xqPCOPio2WcoHXKOWZ1ERSxTEeMmuGiI5QqVPWmUxeAE225RGIFwymH
- bYKmqhjxQQKiZEREpbef26dn5TpRTTchhI60nZSoD/rlycMs2vIEn6M29gg3H3uyplfz
- ng783B1BThdAZPDKJCJA+I7flEPcHTWN29oxpz1Z5xz6wrnyhup3Ku3R8e8jN0ANUlzE
- z8WGKfOfJAw/L1Pk7PIHZQ9y1420RK54b3FiwKjCxrE2/czUiAeWo2gylH5MHkHNZ3Qp
- fl/VbH4G10Jr6pFrmvtQDltBscRhFdBMbvsrmZxJKgHHnmWgKvZDDIWiz38hLj+1CVNY
- tATA==
-X-Gm-Message-State: AGi0PuacGQLX5Cz4OB1nlecqQdLbc/55Uc7cTq2SSAOP1lauURuXuN83
- SrQRQbciBINIIsGpccFtMhExqkZjeMB8/t+Ouh/jX4+7f6ibg6Ah7P6vLnyPtFJlR1jpKTZ0Kkj
- QyZcCAEchdQ+ZijQ=
-X-Received: by 2002:a7b:c1c4:: with SMTP id a4mr1720715wmj.86.1588145896728;
- Wed, 29 Apr 2020 00:38:16 -0700 (PDT)
-X-Google-Smtp-Source: APiQypI2J07c1aXmt+4cOfJiTBVl3sIUKxe31zerHqdYr30/gzhXtPoe+JyyGLxIVTMfE3a98VZzoQ==
-X-Received: by 2002:a7b:c1c4:: with SMTP id a4mr1720688wmj.86.1588145896500;
- Wed, 29 Apr 2020 00:38:16 -0700 (PDT)
-Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
- by smtp.gmail.com with ESMTPSA id
- n6sm30959889wrs.81.2020.04.29.00.38.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Apr 2020 00:38:15 -0700 (PDT)
-Date: Wed, 29 Apr 2020 03:38:13 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Ani Sinha <ani.sinha@nutanix.com>
-Subject: Re: [PATCH V2] Add a new PIIX option to control PCI hot unplugging
- of devices on non-root buses
-Message-ID: <20200429033657-mutt-send-email-mst@kernel.org>
-References: <20200428121837-mutt-send-email-mst@kernel.org>
- <CAARzgwwTo+r9xFge_XL_eu8-nsRFBFXEaQmTOhT1YHJifzfCJA@mail.gmail.com>
- <20200428164428-mutt-send-email-mst@kernel.org>
- <CAARzgwznhCPhGmwOxUBf_6bnFX7-Za7TxFMd999CARM+hDm8bA@mail.gmail.com>
- <20200429011228-mutt-send-email-mst@kernel.org>
- <544B4749-9A1C-44BB-BD89-C37A7E8D86F4@nutanix.com>
- <20200429025200-mutt-send-email-mst@kernel.org>
- <A69272ED-DDFF-4CC7-B12C-2994B004C013@nutanix.com>
- <20200429025535-mutt-send-email-mst@kernel.org>
- <B5DF1405-B261-4CE4-8484-F3738BE83E14@nutanix.com>
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=j8rSc3GxOznaNlzTU3yZnFsa1fJOX3HQTZ2C/iBYQFw=;
+ b=Ju2iB54J/2KvAoaZmo8jC1FejwTTHtPEm/LFrJdeTSAW2ArmWdwQ2biAgYfwqqzwwP1+DX
+ 374tVP7OUQQIoL/EhMtb9+G22KWw7oCnrDiVvHFSpWw8r8sgwLn+WulMxKXvs5wTQ2VQ5U
+ z/JByaEClaFqUGM42tn8qUi5tWPwy0o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-38--DmRtkI2Nbu9kAG0n9I-vg-1; Wed, 29 Apr 2020 03:39:43 -0400
+X-MC-Unique: -DmRtkI2Nbu9kAG0n9I-vg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1A398014D9;
+ Wed, 29 Apr 2020 07:39:42 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-19.ams2.redhat.com
+ [10.36.113.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BEF195D9E5;
+ Wed, 29 Apr 2020 07:39:41 +0000 (UTC)
+Subject: Re: [PATCH 1/4] block: Add bdrv_make_empty()
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20200428132629.796753-1-mreitz@redhat.com>
+ <20200428132629.796753-2-mreitz@redhat.com>
+ <20200428142104.GI5789@linux.fritz.box>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <a638f036-dd2e-cda2-11b4-c3b15ea8eff0@redhat.com>
+Date: Wed, 29 Apr 2020 09:39:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <B5DF1405-B261-4CE4-8484-F3738BE83E14@nutanix.com>
+In-Reply-To: <20200428142104.GI5789@linux.fritz.box>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:18:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="JELVLaOGRUFLtAwhRmeBpjGTYFhvsltma"
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 00:53:13
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,75 +102,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 29, 2020 at 07:02:56AM +0000, Ani Sinha wrote:
->=20
->=20
-> > On Apr 29, 2020, at 12:27 PM, Michael S. Tsirkin <mst@redhat.com> wrote=
-:
-> >=20
-> > On Wed, Apr 29, 2020 at 06:54:52AM +0000, Ani Sinha wrote:
-> >>=20
-> >>=20
-> >>> On Apr 29, 2020, at 12:22 PM, Michael S. Tsirkin <mst@redhat.com> wro=
-te:
-> >>>=20
-> >>> On Wed, Apr 29, 2020 at 06:11:20AM +0000, Ani Sinha wrote:
-> >>>>=20
-> >>>>=20
-> >>>>> On Apr 29, 2020, at 10:58 AM, Michael S. Tsirkin <mst@redhat.com> w=
-rote:
-> >>>>>=20
-> >>>>> o if there's a need to disable
-> >>>>> just one of these, commit log needs to do a better job documenting =
-the
-> >>>>> usecase.
-> >>>>=20
-> >>>> The use case is simple. With this feature admins will be able to do =
-what they were forced to do from Windows driver level but now at the bus le=
-vel. Hence,=20
-> >>>> (a) They need not have access to the guest VM to change or update wi=
-ndows driver registry settings. They can enable the same setting from admin=
- management console without any access to VM.
-> >>>> (b) It is more robust. No need to mess with driver settings. Incorre=
-ct settings can brick guest OS. Also no guest specific knowhow required.
-> >>>> (c) It is more scalable since a single cluster wide setting can be u=
-sed for all VM power ons and the management plane can take care of the rest=
- automatically. No need to access individual VMs to enforce this.
-> >>>> (d) I am told that the driver level solution does not persist across=
- a reboot.=20
-> >>>>=20
-> >>>> Ani
-> >>>=20
-> >>> Looks like disabling both plug and unplug would also address these ne=
-eds.
-> >>=20
-> >> No the driver level solution does not prevent hot plugging of devices =
-but blocks just hot unplugging. The solution I am proposing tries to do the=
- same but from the bus/hypervisor level.
-> >=20
-> > Why does the driver level solution need to prevent just hot unplugging?
->=20
-> Because it not fair to prevent end users from hot plugging new devices wh=
-en it is the (accidental?) hot unplugging of existing devices which causes =
-issues.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--JELVLaOGRUFLtAwhRmeBpjGTYFhvsltma
+Content-Type: multipart/mixed; boundary="KuoTs7hNC8rCu5jabmJajhuoq1Qemz58b"
 
-Accidental? So maybe what you need is actually something else then -
-avoid *removing* the device when it's powered down.
+--KuoTs7hNC8rCu5jabmJajhuoq1Qemz58b
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> >=20
-> >=20
-> >>=20
-> >>> --=20
-> >>> MST
+On 28.04.20 16:21, Kevin Wolf wrote:
+> Am 28.04.2020 um 15:26 hat Max Reitz geschrieben:
+>> Right now, all users of bdrv_make_empty() call the BlockDriver method
+>> directly.  That is not only bad style, it is also wrong, unless the
+>> caller has a BdrvChild with a WRITE permission.
+>>
+>> Introduce bdrv_make_empty() that verifies that it does.
+>>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>>  include/block/block.h |  1 +
+>>  block.c               | 23 +++++++++++++++++++++++
+>>  2 files changed, 24 insertions(+)
+>>
+>> diff --git a/include/block/block.h b/include/block/block.h
+>> index b05995fe9c..d947fb4080 100644
+>> --- a/include/block/block.h
+>> +++ b/include/block/block.h
+>> @@ -351,6 +351,7 @@ BlockMeasureInfo *bdrv_measure(BlockDriver *drv, Qem=
+uOpts *opts,
+>>  void bdrv_get_geometry(BlockDriverState *bs, uint64_t *nb_sectors_ptr);
+>>  void bdrv_refresh_limits(BlockDriverState *bs, Error **errp);
+>>  int bdrv_commit(BlockDriverState *bs);
+>> +int bdrv_make_empty(BdrvChild *c, Error **errp);
+>>  int bdrv_change_backing_file(BlockDriverState *bs,
+>>      const char *backing_file, const char *backing_fmt);
+>>  void bdrv_register(BlockDriver *bdrv);
+>> diff --git a/block.c b/block.c
+>> index 2e3905c99e..b0d5b98617 100644
+>> --- a/block.c
+>> +++ b/block.c
+>> @@ -6791,3 +6791,26 @@ void bdrv_del_child(BlockDriverState *parent_bs, =
+BdrvChild *child, Error **errp)
+>> =20
+>>      parent_bs->drv->bdrv_del_child(parent_bs, child, errp);
+>>  }
+>> +
+>> +int bdrv_make_empty(BdrvChild *c, Error **errp)
+>> +{
+>> +    BlockDriver *drv =3D c->bs->drv;
+>> +    int ret;
+>> +
+>> +    assert(c->perm & BLK_PERM_WRITE);
+>=20
+> If I understand correctly, bdrv_make_empty() is called to drop an
+> overlay whose content is identical to what it would read from its
+> backing file (in particular after a commit operation). This means that
+> the caller promises that the visible content doesn't change.
+>=20
+> So should we check BLK_PERM_WRITE_UNCHANGED instead?
+
+Ah, right.  Yes, that would be better.  (Or to check both, whether any
+of them has been taken.)
+
+Max
+
+
+--KuoTs7hNC8rCu5jabmJajhuoq1Qemz58b--
+
+--JELVLaOGRUFLtAwhRmeBpjGTYFhvsltma
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6pLzsACgkQ9AfbAGHV
+z0D/bAf7BceJHRlYifeCSsI/PoUyGXfv5/gXVSIf4TjHaef5dnxNtxrBz56ZjOOc
+0pMGOQkAbfHn9CKejuZaQYIJG9OxbH8EuIPO1gq6yhzqQSNsxu1Q9H6WgVLTZZ8b
+drxjaAoo2YtxxN1BifzIL7O7mz7uLBgpaN6lxXXw3+ANvlYt5b3zqIGbeodKS7cG
+0GkOjJBKtA02HPbUmtLdbeKxhEtbdNIBE/3DS/fad02qoQA8wxjkRiMdv48R+TrE
+VW5IuAqwV9tJ2lzdaacgB8OlH5w8V1l2tWFUY6Ro3p0WvO4gb3XxaTvOGcSVu2cT
+rVORXdvNNdDpQjKgq9Yft3hxrP2VWw==
+=G1I7
+-----END PGP SIGNATURE-----
+
+--JELVLaOGRUFLtAwhRmeBpjGTYFhvsltma--
 
 
