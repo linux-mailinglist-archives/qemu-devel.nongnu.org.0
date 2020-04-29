@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2511A1BE2F7
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 17:41:14 +0200 (CEST)
-Received: from localhost ([::1]:58096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 207B11BE322
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 17:52:12 +0200 (CEST)
+Received: from localhost ([::1]:44544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTopl-0000Zx-6J
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 11:41:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33650)
+	id 1jTp0M-0001nS-I5
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 11:52:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36376)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jToo4-0007f0-PF
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 11:39:29 -0400
+ (envelope-from <eblake@redhat.com>) id 1jTozB-00010P-VL
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 11:50:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jToo4-0006vr-3S
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 11:39:28 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38093
+ (envelope-from <eblake@redhat.com>) id 1jTozA-0005u6-As
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 11:50:57 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24469
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jToo3-0006vi-M7
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 11:39:27 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jToz9-0005sr-Sj
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 11:50:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588174765;
+ s=mimecast20190719; t=1588175454;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bdNU1HSe6gmZze/vGMsSwBb3ja6kDM7tqgXxzbXisBQ=;
- b=DSjZuWhazxGz8Cb9GFOGFdaLql/HoNLDjcALLOsryxZWmfDBsoSK3Qov6JzlQeDxKQzFo7
- XaxSuTgeecG6ofyV+Y6a6VhH1W5jhIN1tUuB8okxmhq4/lLEQ214UsZMDLKKLyJp10kwLg
- DBZ3DBrH+A+suIqN1PYn/oWcgvYjigQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-162-wki47MXhMgumLoIWM_vAUQ-1; Wed, 29 Apr 2020 11:39:23 -0400
-X-MC-Unique: wki47MXhMgumLoIWM_vAUQ-1
-Received: by mail-wm1-f70.google.com with SMTP id h22so1393408wml.1
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 08:39:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bdNU1HSe6gmZze/vGMsSwBb3ja6kDM7tqgXxzbXisBQ=;
- b=OR9pBHEDLotAk1hmOvYueHNBQ6k24lKj311QYsCNtZMFmo3BvrDdUXd2vJaFGtM2Rh
- tPde6Gagz1m/CKObFcHUrNrSiZ/zJlYahedyyKGiNWGwYSHrOcoJ+BCzotoaLdrxm7Bq
- yWw7hX5K1sxyACmk4bLLXrcMebjvW49g+tsC3WWr4j4hMrim2/jmtPldJwspq/Ne5TZ8
- vvZ8uymJUgY8FwA0viuKvA/7N84+HSsqKoxzjuDqcMfIH64B/BBPeBLC4th1vm0OITha
- sq4irWwM/Oifo/PfDng0MjCB6bNIQTqO73pnAcfrYDl3pmp8qK8MqEDdTjYuTJf0VHcY
- nOTA==
-X-Gm-Message-State: AGi0PuYRB3Za0h4bN8ZTOWJM1xl9kwtcuUJeFzPhb0jb7jayctbFQFcv
- IxzuM+s5/NKSlR/117aQf7v/ElblajD/LrjCz83oyYCikMI7ZGTgOMlZ4zRPHC9h5fSXMzYlwIq
- a9iqSMSN7dlW90xQ=
-X-Received: by 2002:adf:b1c9:: with SMTP id r9mr43065866wra.271.1588174762231; 
- Wed, 29 Apr 2020 08:39:22 -0700 (PDT)
-X-Google-Smtp-Source: APiQypICrdunLv4iR8G7Pkh4MdBV0pU63tPG7vORXjU5gW90zRMrbzvU0HgpOG8keHObsKLq3LcHMg==
-X-Received: by 2002:adf:b1c9:: with SMTP id r9mr43065833wra.271.1588174761836; 
- Wed, 29 Apr 2020 08:39:21 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:ac19:d1fb:3f5f:d54f?
- ([2001:b07:6468:f312:ac19:d1fb:3f5f:d54f])
- by smtp.gmail.com with ESMTPSA id g15sm31523930wrp.96.2020.04.29.08.39.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Apr 2020 08:39:21 -0700 (PDT)
-Subject: Re: Failing property setters + hardwired devices + -global = a bad day
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <87mu6uia5i.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <1915d102-9528-9c31-8a8c-a84f7842fbe9@redhat.com>
-Date: Wed, 29 Apr 2020 17:39:20 +0200
+ bh=42NVZz1V2jRkN9cRCDLHNCYAQyVzPIYzwRSkPZ7C5Ls=;
+ b=NyTewN8wdyD72R/177qBD6cFq+HudDNBIZWlh6p4mj8IMCldaLe+gfPxdyVD7p0bmZkbjJ
+ HJPTY2JC71gOCJo8LD4xWN+f8YoWOFL4OWAH3btwbF1aDsGelwo62bs2tWjfJO2t9l8CWu
+ T9E8Xpz6bKFG6bnRHN32RK/4p7wb5VE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-178-vl8dHog5OVGV-Rqh5xj9Uw-1; Wed, 29 Apr 2020 11:50:46 -0400
+X-MC-Unique: vl8dHog5OVGV-Rqh5xj9Uw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E209A1005510;
+ Wed, 29 Apr 2020 15:50:43 +0000 (UTC)
+Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D00C1001920;
+ Wed, 29 Apr 2020 15:50:33 +0000 (UTC)
+Subject: Re: [PATCH v2 02/17] block: use int64_t as bytes type in tracked
+ requests
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200427082325.10414-1-vsementsov@virtuozzo.com>
+ <20200427082325.10414-3-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <5450c309-feec-753d-6eb6-4411e913dfae@redhat.com>
+Date: Wed, 29 Apr 2020 10:50:32 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <87mu6uia5i.fsf@dusky.pond.sub.org>
+In-Reply-To: <20200427082325.10414-3-vsementsov@virtuozzo.com>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 00:53:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
@@ -94,42 +80,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Cc: kwolf@redhat.com, fam@euphon.net, integration@gluster.org, berto@igalia.com,
+ pavel.dovgaluk@ispras.ru, qemu-devel@nongnu.org, dillaman@redhat.com,
+ pl@kamp.de, ronniesahlberg@gmail.com, mreitz@redhat.com, den@openvz.org,
+ sheepdog@lists.wpkg.org, stefanha@redhat.com, namei.unix@gmail.com,
+ pbonzini@redhat.com, sw@weilnetz.de, jsnow@redhat.com, ari@tuxera.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/04/20 17:28, Markus Armbruster wrote:
-> When an object gets created, its memory is zeroed, and then any class
-> properties with an ->init() are initialized with
-> 
->     obj->init(obj, prop);
-> 
-> We have just one ->init():
-> 
->     void object_property_init_defval(Object *obj, ObjectProperty *prop)
-> 
-> It initializes from ->defval using ->set().
-> 
-> Aside: feels overengineered, but let's move on.
-> 
-> For TYPE_DEVICE objects, "static" properties get initialized the same.
-> 
-> Aside: if I know what "static" means, I'll be hanged.
+On 4/27/20 3:23 AM, Vladimir Sementsov-Ogievskiy wrote:
+> We are generally moving to int64_t for both offset and bytes parameters
+> on all io paths. Convert tracked requests now.
 
-Originally these were the only properties that were part of the class
-rather than the object (so, not dynamic --> static).
+As mentioned elsewhere in the thread, this states 'what' but not 'why'; 
+adding a bit more of the 'why' can be useful when revisiting this commit 
+in the future.
 
-> I'd love to deprecate -global wholesale, but we can't as long as we
-> don't have better means to configure onboard devices.  Can we deprecate
-> its use with backend properties at least?
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>   include/block/block_int.h |  4 ++--
+>   block/io.c                | 11 ++++++-----
+>   2 files changed, 8 insertions(+), 7 deletions(-)
+> 
+> diff --git a/include/block/block_int.h b/include/block/block_int.h
+> index 4c3587ea19..c8daba608b 100644
+> --- a/include/block/block_int.h
+> +++ b/include/block/block_int.h
+> @@ -70,12 +70,12 @@ enum BdrvTrackedRequestType {
+>   typedef struct BdrvTrackedRequest {
+>       BlockDriverState *bs;
+>       int64_t offset;
+> -    uint64_t bytes;
+> +    int64_t bytes;
+>       enum BdrvTrackedRequestType type;
+>   
+>       bool serialising;
+>       int64_t overlap_offset;
+> -    uint64_t overlap_bytes;
+> +    int64_t overlap_bytes;
 
-I wouldn't mind deprecating -global wholesale, leaving the global/compat
-props code only for internal usage.
+unsigned values have defined wraparound semantics, signed values have a 
+lower maximum and require careful handling to avoid undefined overflow. 
+So we have to check all clients for any surprises.
 
-Paolo
+block/file-posix.c:raw_do_pwrite_zeroes() -
+         assert(req->offset + req->bytes >= offset + bytes);
+pre-patch: assert(int64_t + uint64_t >= int64_t + int)
+            assert(uint64_t >= int64_t) - unsigned compare
+post-patch: assert(int64_t >= int64_t) - signed compare
+Risky if adding req->bytes could ever overflow 63 bits but still fit in 
+64 bits, but I couldn't find any way to trigger that.  I think we're 
+safe because the block layer never calls a driver's .pwrite_zeroes with 
+a bytes that would overflow 63 bits.
+
+block/write-threshold.c:bdrv_write_threshold_exceeded() -
+         if ((req->offset + req->bytes) > bs->write_threshold_offset) {
+pre-patch: ((int64_t + uint64_t) > uint64_t) - unsigned compare
+post-patch: (int64_t > uint64_t) - still unsigned compare
+
+Perhaps that function should be changed to return int64_t, but probably 
+as a different patch in the series (I didn't read ahead yet to see if 
+you already did).
+
+>   
+>       QLIST_ENTRY(BdrvTrackedRequest) list;
+>       Coroutine *co; /* owner, used for deadlock detection */
+> diff --git a/block/io.c b/block/io.c
+> index aba67f66b9..7cbb80bd24 100644
+> --- a/block/io.c
+> +++ b/block/io.c
+> @@ -692,10 +692,11 @@ static void tracked_request_end(BdrvTrackedRequest *req)
+>   static void tracked_request_begin(BdrvTrackedRequest *req,
+>                                     BlockDriverState *bs,
+>                                     int64_t offset,
+> -                                  uint64_t bytes,
+> +                                  int64_t bytes,
+>                                     enum BdrvTrackedRequestType type)
+>   {
+> -    assert(bytes <= INT64_MAX && offset <= INT64_MAX - bytes);
+> +    assert(offset >= 0 && bytes >= 0 &&
+> +           bytes <= INT64_MAX && offset <= INT64_MAX - bytes);
+
+This part is nice - it makes it very easy to prove all other uses of 
+BdrvTrackedRequest.bytes were already in range (both pre- and post-patch).
+
+>   
+>       *req = (BdrvTrackedRequest){
+>           .bs = bs,
+> @@ -716,7 +717,7 @@ static void tracked_request_begin(BdrvTrackedRequest *req,
+>   }
+>   
+>   static bool tracked_request_overlaps(BdrvTrackedRequest *req,
+> -                                     int64_t offset, uint64_t bytes)
+> +                                     int64_t offset, int64_t bytes)
+>   {
+>       /*        aaaa   bbbb */
+>       if (offset >= req->overlap_offset + req->overlap_bytes) {
+> @@ -773,8 +774,8 @@ bool bdrv_mark_request_serialising(BdrvTrackedRequest *req, uint64_t align)
+>   {
+>       BlockDriverState *bs = req->bs;
+>       int64_t overlap_offset = req->offset & ~(align - 1);
+
+While here, should we use QEMU_ALIGN_DOWN instead of open-coding?
+
+> -    uint64_t overlap_bytes = ROUND_UP(req->offset + req->bytes, align)
+> -                               - overlap_offset;
+> +    int64_t overlap_bytes =
+> +            ROUND_UP(req->offset + req->bytes, align) - overlap_offset;
+>       bool waited;
+>   
+>       qemu_co_mutex_lock(&bs->reqs_lock);
+> 
+
+Looking through uses of BdrvTrackedRequest in io.c, I couldn't find any 
+other surprises (it seems everything starts with tracked_request_begin, 
+and while you did switch between unsigned and signed, you did not switch 
+width, so it's easier to reason about once we know things don't overflow).
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
